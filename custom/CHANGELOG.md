@@ -9,16 +9,21 @@ All notable changes to the A11yFirst project will be documented in this file.
 * Rename `Heading` menu items to be more descriptive of how each should be applied
   and omit the use of `Level`, which seemed to confuse some users
 
-  * H1 - Document title
-  * H2 - Section title
-  * H3 - Subsection title
-  * H4 - Subsection title
-  * P - Revert to paragraph
+  * `H1 - Document title`
+  * `H2 - Section title`
+  * `H3 - Subsection title`
+  * `H4 - Subsection title`
+  * `P - Revert to paragraph`
 
 * Move `Link` buttons (set of 3) from first to second row of toolbar near the end
 
 * Rename `Block Format` menu button to `Paragraph Format` and move to position just
   after List buttons
+
+* Rename `Paragraph Format` menu items to eliminate redundancy
+
+  * `Normal` (was `Normal text`)
+  * `Preformatted` (was `Preformatted text`)
 
 * Move `Show Blocks` button to position just before `A11yFirst Help`
 
