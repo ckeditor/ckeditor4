@@ -565,7 +565,7 @@
 				cssLoaded = true;
 			}
 
-			// enable context api in plugin.init()
+			// Initialize 'contextManager' so it is available in 'plugin.init' method for other plugins (#1346).
 			editor.balloonToolbars = new CKEDITOR.plugins.balloontoolbar.contextManager( editor );
 		},
 

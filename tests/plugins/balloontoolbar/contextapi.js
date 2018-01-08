@@ -1,11 +1,9 @@
-/* bender-tags: balloontoolbar, 1346, context */
+/* bender-tags: editor, balloontoolbar, 1346 */
 /* bender-include: _helpers/default.js */
 /* global ignoreUnsupportedEnvironment */
 
 ( function() {
 	'use strict';
-
-	bender.editor = {};
 
 	var tests = {
 		'test context api is available in plugin.init()': function() {
@@ -16,8 +14,7 @@
 				}
 			} );
 
-			bender.editorBot.create(
-			{ name: 'editor2', config: { extraPlugins: 'testplugin' } }, function noop(  ) {} );
+			bender.editorBot.create( { name: 'editor2', config: { extraPlugins: 'testplugin' } }, function() {} );
 		}
 	};
 
