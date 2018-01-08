@@ -11,7 +11,7 @@ module.exports = function( config ) {
 
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: [ 'ckeditor4-yui-to-chai', 'mocha', 'ckeditor4-bender-iframes' ],
+		frameworks: [ 'ckeditor4-yui-to-chai', 'mocha', 'ckeditor4-bender-iframes', 'sinon' ],
 
 		files: [
 			// Serve CKEditor files.
@@ -26,7 +26,7 @@ module.exports = function( config ) {
 
 			// Serve helpers - 'tests/**/_helpers/*.js'. Do not load helpers for manual tests.
 			{ pattern: 'tests/**/manual/**/_helpers/*.js', included: false, served: false, watched: false, nocache: false },
-			{ pattern: 'tests/**/_helpers/*.js', included: false, served: true, watched: false, nocache: false },
+			{ pattern: 'tests/**/core/**/_helpers/*.js', included: false, served: true, watched: false, nocache: false },
 
 			// Serve assets - 'tests/**/_assets/**/*.js'.
 			{ pattern: 'tests/**/_assets/**/*', included: false, served: true, watched: false, nocache: false },
@@ -37,10 +37,8 @@ module.exports = function( config ) {
 			'tests/core/**/*.html',
 
 			// Load tests.
-			'tests/core/editor/editor.js'
-
 			// 'tests/adapters/**/*.js',
-			// 'tests/core/**/*.js'
+			'tests/core/**/*.js'
 			// 'tests/tickets/**/*.js',
 			// 'tests/utils/**/*.js'
 
@@ -84,6 +82,7 @@ module.exports = function( config ) {
 		plugins: [
 			'karma-mocha',
 			'karma-chai',
+			'karma-sinon', // bender-sinon uses `"sinon": "^1.17.0"`
 			'karma-chrome-launcher',
 			'karma-ckeditor4-yui-to-chai',
 			'karma-ckeditor4-preprocessor',
