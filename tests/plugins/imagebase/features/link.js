@@ -420,11 +420,6 @@
 				html: '<figure><a href="http://foo"><img src="%BASE_PATH%_assets/logo.png"></a></figure>',
 
 				callback: function( evt, widget ) {
-					assertUnlinkWidget( {
-						widget: widget,
-						editor: editor
-					} );
-
 					widget.once( 'data', function( evt ) {
 						resume( function() {
 							assert.isUndefined( evt.data.link, 'link data type' );
