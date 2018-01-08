@@ -175,6 +175,9 @@
 				if ( link === null ) {
 					this.parts.link.remove( true );
 					this.parts.link = null;
+
+					// Reset link state (#tp3298).
+					delete evt.data.link;
 				} else {
 					this.parts.link = createLink( editor, img, link );
 				}
