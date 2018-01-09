@@ -78,7 +78,7 @@
 
 				view.show();
 				assert.isTrue( view.rect.visible, 'Toolbar should be shown after show method' );
-				assert.areEqual( 3, view._listeners.length, 'Listeners should be attached after show method' );
+				assert.areEqual( 4, view._listeners.length, 'Listeners should be attached after show method' );
 
 				view.hide();
 				assert.isFalse( view.rect.visible, 'Toolbar should not be shown after hide method' );

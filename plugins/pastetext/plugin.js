@@ -72,8 +72,9 @@
 				editor.on( 'beforePaste', function( evt ) {
 					// Do NOT overwrite if HTML format is explicitly requested.
 					// This allows pastefromword dominates over pastetext.
-					if ( evt.data.type != 'html' )
+					if ( evt.data.type != 'html' ) {
 						evt.data.type = 'text';
+					}
 				} );
 			}
 
@@ -90,10 +91,13 @@
  * editor, loosing any formatting information possibly available in the source
  * text.
  *
- * **Note:** paste from word (dialog) is not affected by this configuration.
- *
  *		config.forcePasteAsPlainText = true;
  *
- * @cfg {Boolean} [forcePasteAsPlainText=false]
+ * This setting accepts also third value - `allow-word`. In such case content pasted from Word
+ * will keep its formatting while any other content will be pasted as plain text.
+ *
+ * 		config.forcePasteAsPlainText = 'allow-word';
+ *
+ * @cfg {Boolean/String} [forcePasteAsPlainText=false]
  * @member CKEDITOR.config
  */

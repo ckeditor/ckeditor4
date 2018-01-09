@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		invalidValue: 'Ongeldige waarde.',
 		invalidHeight: 'De hoogte moet een getal zijn.',
 		invalidWidth: 'De breedte moet een getal zijn.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Waarde in veld "%1" moet een positief nummer zijn, met of zonder een geldige CSS meeteenheid (px, %, in, cm, mm, em, ex, pt of pc).',
 		invalidHtmlLength: 'Waarde in veld "%1" moet een positief nummer zijn, met of zonder een geldige HTML meeteenheid (px of %).',
 		invalidInlineStyle: 'Waarde voor de online stijl moet bestaan uit een of meerdere tupels met het formaat "naam : waarde", gescheiden door puntkomma\'s.',

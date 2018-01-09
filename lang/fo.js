@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'fo' ] = {
 		invalidValue: 'Invalid value.', // MISSING
 		invalidHeight: 'Hædd má vera eitt tal.',
 		invalidWidth: 'Breidd má vera eitt tal.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Virðið sett í "%1" feltið má vera eitt positivt tal, við ella uttan gyldugum CSS mátieind (px, %, in, cm, mm, em, ex, pt, ella pc).',
 		invalidHtmlLength: 'Virðið sett í "%1" feltiðield má vera eitt positivt tal, við ella uttan gyldugum CSS mátieind (px ella %).',
 		invalidInlineStyle: 'Virði specifiserað fyri inline style má hava eitt ella fleiri pør (tuples) skrivað sum "name : value", hvørt parið sundurskilt við semi-colon.',

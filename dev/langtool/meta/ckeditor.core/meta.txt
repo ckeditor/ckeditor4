@@ -65,6 +65,7 @@ common.alignNone = No alignment option text.
 common.invalidValue = Error message displayed to the user when a dialog window field contains an invalid value.
 common.invalidHeight = Error message displayed to the user when the specified height value is invalid.
 common.invalidWidth = Error message displayed to the user when the specified width value is invalid.
+common.invalidLength = Error message displayed to the user when the specified length value is not a valid measurement unit.
 common.invalidCssLength = Error message displayed to the user when the specified length value is not a valid CSS measurement unit.
 common.invalidHtmlLength = Error message displayed to the user when the specified length value is not a valid HTML measurement unit.
 common.invalidInlineStyle = Error message displayed to the user when the specified style value is not a valid CSS declaration.

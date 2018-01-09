@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'ro' ] = {
 		invalidValue: 'Valoare invalidă',
 		invalidHeight: 'Înălțimea trebuie să fie un număr.',
 		invalidWidth: 'Lățimea trebuie să fie un număr.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Valoarea specificată pentru câmpul "%1" trebuie să fie un număr pozitiv cu sau fără o unitate de măsură validă CSS (px, %, in, cm, mm, em, ex, pt, sau pc).',
 		invalidHtmlLength: 'Valoarea specificată pentru câmpul "%1" trebuie să fie un număr pozitiv cu sau fără o unitate de măsură validă HTML (px sau %).',
 		invalidInlineStyle: 'Valoarea specificată pentru stil trebuie să conțină una sau mai multe construcții de tipul "name : value", separate prin punct și virgulă.',

@@ -10,7 +10,7 @@
 			name: 'editor1',
 			creator: 'replace',
 			config: {
-				extraAllowedContent: 'span[id];p{height}',
+				extraAllowedContent: 'span[id];p{height};img[src]{margin-left}',
 				height: 200
 			}
 		},
@@ -19,7 +19,7 @@
 			creator: 'replace',
 			config: {
 				extraPlugins: 'divarea',
-				extraAllowedContent: 'span[id];p{height}',
+				extraAllowedContent: 'span[id];p{height};img[src]{margin-left}',
 				height: 200
 			}
 		}
@@ -37,10 +37,6 @@
 
 	var tests = {
 		setUp: function() {
-			// In IE8 tests are run in very small window which breaks positioning assertions and tests fails (#1076).
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				assert.ignore();
-			}
 			if ( parentFrame ) {
 				parentFrame.style.height = '900px';
 			}
@@ -135,6 +131,35 @@
 				res = balloonToolbar._getAlignments( editor.editable().getFirst().getClientRect(), 10, 10 );
 
 			arrayAssert.itemsAreEqual( [ 'bottom hcenter', 'top hcenter' ], CKEDITOR.tools.objectKeys( res ) );
+		},
+
+		// #1342
+		'test panel refresh position': function( editor, bot ) {
+
+			bot.setData( '<img src="' + bender.basePath + '/_assets/lena.jpg">', function() {
+				var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+						width: 100,
+						height: 200
+					} ),
+					markerElement = editor.editable().findOne( 'img' ),
+					initialPosition,
+					currentPosition;
+
+				balloonToolbar.attach( markerElement );
+				initialPosition = balloonToolbar.parts.panel.getClientRect();
+
+				editor.once( 'change', function() {
+					resume( function() {
+						currentPosition = balloonToolbar.parts.panel.getClientRect();
+						assert.areNotSame( initialPosition.left, currentPosition.left, 'position of toolbar' );
+					} );
+				} );
+
+				markerElement.setStyle( 'margin-left', '200px' );
+				editor.fire( 'change' );
+
+				wait();
+			} );
 		}
 	};
 

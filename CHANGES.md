@@ -5,6 +5,21 @@
 
 ## CKEditor 4.8.1
 
+New Features:
+
+* [#933](https://github.com/ckeditor/ckeditor-dev/issues/933): [File Browser](https://ckeditor.com/cke4/addon/filetools) plugin can now upload files using XHR requests. This allows for setting custom HTTP headers using [`config.fileTools_requestHeaders`](http://docs.ckeditor.test/#!/api/CKEDITOR.config-cfg-fileTools_requestHeaders) configuration option.
+
+Fixed Issues:
+
+* [#1274](https://github.com/ckeditor/ckeditor-dev/issues/1274): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) does not match a single selected image using [`contextDefinition.cssSelector`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.balloontoolbar.contextDefinition-property-cssSelector) matcher.
+* [#1232](https://github.com/ckeditor/ckeditor-dev/issues/1232): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) buttons should be registered as focusable elements.
+* [#1342](https://github.com/ckeditor/ckeditor-dev/issues/1342): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) should be re-positioned after a [change](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.editor-event-change) event.
+* [#1048](https://github.com/ckeditor/ckeditor-dev/issues/1048): Fixed: [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) is not properly positioned when margin added to its non-static parent.
+* [#889](https://github.com/ckeditor/ckeditor-dev/issues/889): Fixed: Unclear error message for width and height fields in [Image](https://ckeditor.com/cke4/addon/image) and [Enhanced Image](https://ckeditor.com/cke4/addon/image2) plugins.
+* [#859](https://github.com/ckeditor/ckeditor-dev/issues/859): Fixed: Can't edit link after double click on text in link.
+* [#1013](https://github.com/ckeditor/ckeditor-dev/issues/1013): Fixed: [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) does not work correctly with [`config.forcePasteAsPlainText`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-forcePasteAsPlainText) property.
+* [#1356](https://github.com/ckeditor/ckeditor-dev/issues/1356): Fixed: [Border parse function](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.tools.style.parse-method-border) should allow spaces in the color value.
+
 ## CKEditor 4.8
 
 **Important Notes:**

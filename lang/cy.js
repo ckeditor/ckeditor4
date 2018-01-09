@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'cy' ] = {
 		invalidValue: 'Gwerth annilys.',
 		invalidHeight: 'Mae\'n rhaid i\'r uchder fod yn rhif.',
 		invalidWidth: 'Mae\'n rhaid i\'r lled fod yn rhif.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Mae\'n rhaid i\'r gwerth ar gyfer maes "%1" fod yn rhif positif gyda neu heb uned fesuriad CSS dilys (px, %, in, cm, mm, em, ex, pt, neu pc).',
 		invalidHtmlLength: 'Mae\'n rhaid i\'r gwerth ar gyfer maes "%1" fod yn rhif positif gyda neu heb uned fesuriad HTML dilys (px neu %).',
 		invalidInlineStyle: 'Mae\'n rhaid i\'r gwerth ar gyfer arddull mewn-llinell gynnwys un set neu fwy ar y fformat "enw : gwerth", wedi\'u gwahanu gyda hanner colon.',

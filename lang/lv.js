@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'lv' ] = {
 		invalidValue: 'Nekorekta vērtība',
 		invalidHeight: 'Augstumam jābūt skaitlim.',
 		invalidWidth: 'Platumam jābūt skaitlim',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Laukam "%1" norādītajai vērtībai jābūt pozitīvam skaitlim ar vai bez korektām CSS mērvienībām (px, %, in, cm, mm, em, ex, pt, vai pc).',
 		invalidHtmlLength: 'Laukam "%1" norādītajai vērtībai jābūt pozitīvam skaitlim ar vai bez korektām HTML mērvienībām (px vai %).',
 		invalidInlineStyle: 'Iekļautajā stilā norādītajai vērtībai jāsastāv no viena vai vairākiem pāriem pēc forma\'ta "nosaukums: vērtība", atdalītiem ar semikolu.',
