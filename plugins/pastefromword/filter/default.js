@@ -49,8 +49,7 @@
 	 *
 	 */
 	CKEDITOR.cleanWord = function( pfwEvtData, editor ) {
-		var mswordHtml = pfwEvtData.dataValue,
-			msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
+		var msoListsDetected = /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/.test( pfwEvtData.dataValue ),
 			imgTagsToReplace = [],
 			imagesInRtf,
 			shapesIds = [],
@@ -59,7 +58,7 @@
 
 
 		function shapeTagging( element ) {
-			// Check if regular or canvas shape (#1088).
+			// Check if it is a regular or a canvas shape (#1088).
 			if ( element.attributes[ 'o:gfxdata' ] || element.parent.name === 'v:group' ) {
 				shapesIds.push( element.attributes.id );
 			}
@@ -68,13 +67,13 @@
 		// Before filtering inline all the styles to allow because some of them are available only in style
 		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (https://dev.ckeditor.com/ticket/16847)
 		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
-			mswordHtml = CKEDITOR.plugins.pastefromword.styles.inliner.inline( mswordHtml ).getBody().getHtml();
+			pfwEvtData.dataValue = CKEDITOR.plugins.pastefromword.styles.inliner.inline( pfwEvtData.dataValue ).getBody().getHtml();
 		}
 
 		// Sometimes Word malforms the comments.
-		mswordHtml = mswordHtml.replace( /<!\[/g, '<!--[' ).replace( /\]>/g, ']-->' );
+		pfwEvtData.dataValue = pfwEvtData.dataValue.replace( /<!\[/g, '<!--[' ).replace( /\]>/g, ']-->' );
 
-		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( mswordHtml );
+		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( pfwEvtData.dataValue );
 
 		var filterDefinition = {
 			root: function( element ) {
@@ -2445,9 +2444,7 @@
 		return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
 	}
 
-	/*
-		dataTransfer object is used to not copy-paste long RTF strings
-	*/
+	//	dataTransfer object is used to not copy-paste long RTF strings
 	function getImagesFromRtf( dataTransfer ) {
 		var ret = [];
 		var pfw = CKEDITOR.plugins.pastefromword && CKEDITOR.plugins.pastefromword.images,
@@ -2461,15 +2458,8 @@
 		return ret;
 	}
 
-
-	// function imageProcessor( html, rtf, editor ) {
-	// 	var pfw = CKEDITOR.plugins.pastefromword && CKEDITOR.plugins.pastefromword.images,
-	// 		imgTags,
-	// 		hexImages,
-	// 		newSrcValues = [],
-	// 		i;
-
 	// ----> End of Help Methods <----
+
 	/**
 	 * Numbering helper.
 	 *
