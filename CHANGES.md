@@ -1382,6 +1382,7 @@ Fixed Issues:
 Fixed Issues:
 
 * Security update: Added protection against XSS attack and possible path disclosure in the PHP sample.
+* [#1399](https://github.com/ckeditor/ckeditor-dev/issues/1399): Added possibility to set [`CKEDITOR.config.startupFocus`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-startupFocus) as `start` or `end` to specify where editor should be focused after initialization.
 
 ## CKEditor 4.0.1
 
