@@ -172,11 +172,11 @@
 		this.on( 'instanceReady', function() {
 			if ( this.config.startupFocus ) {
 				if ( this.config.startupFocus === 'end' ) {
-					var range =  this.createRange();
+					var range = this.createRange();
 					range.selectNodeContents( this.editable() );
-					range.shrink( CKEDITOR.SHRINK_TEXT , true );
+					range.shrink( CKEDITOR.SHRINK_ELEMENT , true );
 					range.collapse();
-					this.getSelection().selectRanges( [range] );
+					this.getSelection().selectRanges( [ range ] );
 				}
 				this.focus();
 			}
