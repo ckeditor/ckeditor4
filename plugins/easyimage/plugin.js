@@ -360,7 +360,10 @@
 
 						if ( progressBar && loader.uploadTotal ) {
 							percentage = ( loader.uploaded / loader.uploadTotal ) * 100;
+
+							editor.fire( 'lockSnapshot' );
 							progressBar.setStyle( 'width', percentage + '%' );
+							editor.fire( 'unlockSnapshot' );
 						}
 					}, this );
 
