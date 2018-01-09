@@ -5,6 +5,7 @@
 
 New Features:
 
+* [#1043](https://github.com/ckeditor/ckeditor-dev/issues/1043): Introduced [CKEDITOR.config.uploadImage_supportedTypes](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-uploadImage_supportedTypes) configuration, allowing to choose types supported by the [Upload Image](https://ckeditor.com/cke4/addon/uploadimage) plugin.
 * [#933](https://github.com/ckeditor/ckeditor-dev/issues/933): [File Browser](https://ckeditor.com/cke4/addon/filetools) plugin can now upload files using XHR requests. This allows for setting custom HTTP headers using [`config.fileTools_requestHeaders`](http://docs.ckeditor.test/#!/api/CKEDITOR.config-cfg-fileTools_requestHeaders) configuration option.
 
 Fixed Issues:
