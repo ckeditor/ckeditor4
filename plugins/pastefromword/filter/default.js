@@ -29,20 +29,7 @@
 			'v:group'
 		],
 		links = {},
-		state = {
-			inComment: false,
-			inVml: false,
-			allEnd: function() {
-				this.inComment = false;
-				this.inVml = false;
-			},
-			commentStart: function() {
-				this.inComment = true;
-			},
-			vmlStart: function() {
-				this.inVml = true;
-			}
-		};
+		inComment = 0;
 
 	/**
 	 * Set of Paste from Word plugin helpers.
@@ -64,8 +51,12 @@
 	CKEDITOR.cleanWord = function( pfwEvtData, editor ) {
 		var mswordHtml = pfwEvtData.dataValue,
 			msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
+			imgTagsToReplace = [],
+			imagesInRtf,
 			shapesIds = [],
 			configInlineImages = editor.config.pasteFromWord_inlineImages === undefined ? true : editor.config.pasteFromWord_inlineImages;
+
+
 
 		function shapeTagging( element ) {
 			// Check if regular or canvas shape (#1088).
@@ -161,6 +152,10 @@
 					if ( imgShapesIds.length && isShapeFromList ) {
 						// As we don't know how to process shapes we can remove them.
 						return false;
+					}
+					// Prevent of inserting duplicated images.
+					if ( CKEDITOR.tools.array.indexOf( imgTagsToReplace, element ) === -1 ) {
+						imgTagsToReplace.push( element );
 					}
 
 				},
@@ -422,7 +417,6 @@
 					// 3. There is a complicated situation where we cannot find proper `img` tag after `v:shape` or there is some canvas element.
 					// 		a) If shape is a child of v:group, then most probably it belongs to canvas, so we need to treat it as in path 1.
 					// 		b) In other cases, most probably there is no related `img` tag. We need to transform `v:shape` into `img` tag (IE8 integration).
-
 					var duplicate = false,
 						child = element.getFirst( 'v:imagedata' );
 
@@ -503,18 +497,15 @@
 			},
 			comment: function( element ) {
 				if ( element.match( /\[if.* supportFields.*\]/ ) ) {
-					state.commentStart();
-				}
-				if ( element.match( /\[if gte vml \d\]/ ) ) {
-					state.vmlStart();
+					inComment++;
 				}
 				if ( element == '[endif]' ) {
-					state.allEnd();
+					inComment = inComment > 0 ? inComment - 1 : 0;
 				}
 				return false;
 			},
 			text: function( content, node ) {
-				if ( state.inComment ) {
+				if ( inComment ) {
 					return '';
 				}
 
@@ -539,15 +530,21 @@
 
 		filter.applyTo( fragment );
 
-		fragment.writeHtml( writer );
-
-		var ret = writer.getHtml();
-
-		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && configInlineImages ) {
-			ret = imageProcessor( ret, pfwEvtData.dataTransfer, editor );
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && imgTagsToReplace.length && pfwEvtData.dataTransfer && configInlineImages ) {
+			imagesInRtf = getImagesFromRtf( pfwEvtData.dataTransfer );
+			if ( imagesInRtf.length === imgTagsToReplace.length ) {
+				for ( var i = 0; i < imgTagsToReplace.length; i++ ) {
+					// Replace only `file` urls of images ( shapes get newSrcValue with null ).
+					if ( imgTagsToReplace[ i ].attributes.src.indexOf( 'file://' ) === 0 ) {
+						imgTagsToReplace[ i ].attributes.src = imagesInRtf[ i ];
+					}
+				}
+			}
 		}
 
-		return ret;
+		fragment.writeHtml( writer );
+
+		return writer.getHtml();
 	};
 
 	/**
@@ -2444,48 +2441,33 @@
 
 	// ----> Help Methods <----
 
-	function imageProcessor( html, rtf, editor ) {
+	function createSrcWithBase64( img ) {
+		return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
+	}
+
+	/*
+		dataTransfer object is used to not copy-paste long RTF strings
+	*/
+	function getImagesFromRtf( dataTransfer ) {
+		var ret = [];
 		var pfw = CKEDITOR.plugins.pastefromword && CKEDITOR.plugins.pastefromword.images,
-			imgTags,
-			hexImages,
-			newSrcValues = [],
-			i;
+			hexImages;
 
-		// If pfw images namespace is unavailable or img tags are not allowed we simply skip adding images.
-		if ( !pfw || !editor.filter.check( 'img[src]' ) ) {
-			return html;
-		}
-
-		function createSrcWithBase64( img ) {
-			return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
-		}
-
-		imgTags = pfw.extractTagsFromHtml( html );
-		if ( imgTags.length === 0 ) {
-			return html;
-		}
-
-		hexImages = pfw.extractFromRtf( rtf[ 'text/rtf' ] );
-		if ( hexImages.length === 0 ) {
-			return html;
-		}
-
+		hexImages = pfw.extractFromRtf( dataTransfer[ 'text/rtf' ] );
 		CKEDITOR.tools.array.forEach( hexImages, function( img ) {
-			newSrcValues.push( createSrcWithBase64( img ) );
+			ret.push( createSrcWithBase64( img ) );
 		}, this );
 
-		// Assuming there is equal amount of Images in RTF and HTML source, so we can match them accordingly to the existing order.
-		if ( imgTags.length === newSrcValues.length ) {
-			for ( i = 0; i < imgTags.length; i++ ) {
-				// Replace only `file` urls of images ( shapes get newSrcValue with null ).
-				if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
-					html = html.replace( imgTags[ i ], newSrcValues[ i ] );
-				}
-			}
-		}
-
-		return html;
+		return ret;
 	}
+
+
+	// function imageProcessor( html, rtf, editor ) {
+	// 	var pfw = CKEDITOR.plugins.pastefromword && CKEDITOR.plugins.pastefromword.images,
+	// 		imgTags,
+	// 		hexImages,
+	// 		newSrcValues = [],
+	// 		i;
 
 	// ----> End of Help Methods <----
 	/**
