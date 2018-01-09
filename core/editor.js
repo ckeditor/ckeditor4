@@ -174,7 +174,7 @@
 				if ( this.config.startupFocus === 'end' ) {
 					var range = this.createRange();
 					range.selectNodeContents( this.editable() );
-					range.shrink( CKEDITOR.SHRINK_ELEMENT , true );
+					range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
 					range.collapse();
 					this.getSelection().selectRanges( [ range ] );
 				}
