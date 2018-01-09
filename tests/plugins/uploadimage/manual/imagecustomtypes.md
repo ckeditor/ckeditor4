@@ -1,7 +1,7 @@
-@bender-tags: clipboard, widget, filetools
+@bender-tags: clipboard, widget, filetools, 4.8.1, 1043, feature
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, uploadwidget, basicstyles, image, uploadimage, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify, link
-@bender-include: _helpers/xhr.js
+@bender-include: ../../uploadwidget/manual/_helpers/xhr.js
 
 Test if photo uploading works properly:
 

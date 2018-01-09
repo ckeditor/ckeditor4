@@ -354,7 +354,10 @@
 
 				pasteFiles( editor, [
 					{ name: 'test.tif', type: 'image/tif' },
-					{ name: 'test.png', type: 'image/png' }
+					{ name: 'test.png', type: 'image/png' },
+					{ name: 'test.jpg', type: 'image/jpeg' },
+					{ name: 'test.gif', type: 'image/gif' },
+					{ name: 'test.bmp', type: 'image/bmp' }
 				] );
 
 				wait();
@@ -373,7 +376,10 @@
 				pasteFiles( editor, [
 					{ name: 'test.gif', type: 'image/gif' },
 					{ name: 'test.png', type: 'image/png' },
-					{ name: 'test.jpg', type: 'image/jpg' }
+					{ name: 'test.jpg', type: 'image/jpg' },
+					{ name: 'test.pdf', type: 'application/pdf' },
+					{ name: 'test.txt', type: 'text/plain' },
+					{ name: 'test.xgz', type: 'xgl/drawing' }
 				] );
 
 				wait();
