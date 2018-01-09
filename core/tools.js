@@ -1877,11 +1877,11 @@
 				 */
 				border: function( value ) {
 					var ret = {},
-						input = value.split( /\s+/g );
+						input = value.split( /\s+/g ),
+						parseColor = CKEDITOR.tools.style.parse._findColor( value );
 
-					var parseColor = CKEDITOR.tools.style.parse._findColor( value );
 					if ( parseColor.length ) {
-						ret.color = parseColor[0];
+						ret.color = parseColor[ 0 ];
 					}
 
 					CKEDITOR.tools.array.forEach( input, function( val ) {
