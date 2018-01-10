@@ -19,6 +19,10 @@ Fixed Issues:
 * [#1356](https://github.com/ckeditor/ckeditor-dev/issues/1356): Fixed: [Border parse function](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.tools.style.parse-method-border) should allow spaces in the color value.
 * [#1426](https://github.com/ckeditor/ckeditor-dev/issues/1426): [IE8-9] Fixed: Missing balloon toolbar background in Kama skin. Thanks to [Christian Elmer](https://github.com/keinkurt)!
 
+API Changes:
+
+* [#1346](https://github.com/ckeditor/ckeditor-dev/issues/1346): [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) [context manager API](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.balloontoolbar.contextManager) is now available in [pluginDefinition.init](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.pluginDefinition-method-init) method of a [requiring](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.pluginDefinition-property-requires) plugin.
+
 ## CKEditor 4.8
 
 **Important Notes:**
