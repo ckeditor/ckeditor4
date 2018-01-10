@@ -20,7 +20,11 @@
 				[ CKEDITOR.ALT + CKEDITOR.SHIFT + 70 /*F*/, 'Alt+Shift+F', '⌥+⇧+F', 'Alt+Shift+F', 'Alt+Shift+F' ],
 				[ CKEDITOR.CTRL + CKEDITOR.ALT + CKEDITOR.SHIFT + 71 /*G*/, 'Ctrl+Alt+Shift+G', '⌘+⌥+⇧+G', 'Ctrl+Alt+Shift+G', 'Command+Alt+Shift+G' ],
 				[ CKEDITOR.CTRL + 32 /*SPACE*/, 'Ctrl+Space', '⌘+Space', 'Ctrl+Space', 'Command+Space' ],
-				[ CKEDITOR.ALT + 13 /*ENTER*/, 'Alt+Enter', '⌥+Enter', 'Alt+Enter', 'Alt+Enter' ]
+				[ CKEDITOR.ALT + 13 /*ENTER*/, 'Alt+Enter', '⌥+Enter', 'Alt+Enter', 'Alt+Enter' ],
+				[ CKEDITOR.CTRL + 117 /*F6*/, 'Ctrl+F6', '⌘+F6', 'Ctrl+F6', 'Command+F6' ],
+				[ CKEDITOR.ALT + 112 /*F1*/, 'Alt+F1', '⌥+F1', 'Alt+F1', 'Alt+F1' ],
+				[ CKEDITOR.SHIFT + 124 /*F13*/, 'Shift+F13', '⇧+F13', 'Shift+F13', 'Shift+F13' ],
+				[ CKEDITOR.CTRL + 135 /*F24*/, 'Ctrl+F24', '⌘+F24', 'Ctrl+F24', 'Command+F24' ]
 			];
 
 			this._assertKeyboardMatrix( 'keystrokeToString', tests );
