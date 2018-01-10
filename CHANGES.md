@@ -5,6 +5,7 @@
 
 New Features:
 
+* [#1434](https://github.com/ckeditor/ckeditor-dev/issues/1433): [CKEDITOR.env](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.env) received new property [`CKEDITOR.env.win`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.env-property-win) allowing to check if running client OS is Windows.
 * [#933](https://github.com/ckeditor/ckeditor-dev/issues/933): [File Browser](https://ckeditor.com/cke4/addon/filetools) plugin can now upload files using XHR requests. This allows for setting custom HTTP headers using [`config.fileTools_requestHeaders`](http://docs.ckeditor.test/#!/api/CKEDITOR.config-cfg-fileTools_requestHeaders) configuration option.
 
 Fixed Issues:
