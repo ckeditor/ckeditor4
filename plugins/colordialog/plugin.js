@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.colordialog = {
@@ -25,16 +25,24 @@ CKEDITOR.plugins.colordialog = {
 		 * @member CKEDITOR.editor
 		 */
 		editor.getColorFromDialog = function( callback, scope ) {
-			var onClose = function( evt ) {
+			var onClose,
+				releaseHandlers,
+				bindToDialog;
+
+			onClose = function( evt ) {
 				releaseHandlers( this );
 				var color = evt.name == 'ok' ? this.getValueOf( 'picker', 'selectedColor' ) : null;
+				// Adding `#` character to hexadecimal 3 or 6 digit numbers to have proper color value (#565).
+				if ( /^[0-9a-f]{3}([0-9a-f]{3})?$/i.test( color ) ) {
+					color = '#' + color;
+				}
 				callback.call( scope, color );
 			};
-			var releaseHandlers = function( dialog ) {
+			releaseHandlers = function( dialog ) {
 				dialog.removeListener( 'ok', onClose );
 				dialog.removeListener( 'cancel', onClose );
 			};
-			var bindToDialog = function( dialog ) {
+			bindToDialog = function( dialog ) {
 				dialog.on( 'ok', onClose );
 				dialog.on( 'cancel', onClose );
 			};

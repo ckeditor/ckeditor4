@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -88,6 +88,7 @@ CKEDITOR.lang[ 'sq' ] = {
 		invalidValue: 'Vlerë e pavlefshme',
 		invalidHeight: 'Lartësia duhet të jetë një numër',
 		invalidWidth: 'Gjerësia duhet të jetë një numër',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Vlera e fushës "%1" duhet të jetë një numër pozitiv me apo pa njësi matëse të vlefshme CSS (px, %, in, cm, mm, em, ex, pt ose pc).',
 		invalidHtmlLength: 'Vlera e fushës "%1" duhet të jetë një numër pozitiv me apo pa njësi matëse të vlefshme HTML (px ose %)',
 		invalidInlineStyle: 'Stili inline duhet të jetë një apo disa vlera të formatit "emër: vlerë", ndarë nga pikëpresje.',
@@ -111,6 +112,8 @@ CKEDITOR.lang[ 'sq' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Keyboard shortcut', // MISSING
+
+		optionDefault: 'Default' // MISSING
 	}
 };

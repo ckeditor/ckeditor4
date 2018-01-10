@@ -20,7 +20,14 @@ bender.editors = {
 };
 
 bender.test( {
-	// http://dev.ckeditor.com/ticket/3448.
+	_should: {
+		ignore: {
+			// #895
+			'test scroll editable and focus': CKEDITOR.env.chrome
+		}
+	},
+
+	// https://dev.ckeditor.com/ticket/3448.
 	'test click on image selects it': function() {
 		// This is Gecko/Webkit/Blink fix.
 		if ( CKEDITOR.env.ie )
@@ -44,7 +51,7 @@ bender.test( {
 		} );
 	},
 
-	// http://dev.ckeditor.com/ticket/3448. This is a different case than image, because we make input readonly by setting
+	// https://dev.ckeditor.com/ticket/3448. This is a different case than image, because we make input readonly by setting
 	// contenteditable=false in the data processor.
 	'test click on a input selects it': function() {
 		// This is Gecko/Webkit/Blink fix.
@@ -69,7 +76,7 @@ bender.test( {
 		} );
 	},
 
-	// http://dev.ckeditor.com/ticket/11727.
+	// https://dev.ckeditor.com/ticket/11727.
 	'test click on a non-editable image does not select it': function() {
 		var bot = this.editorBots.editor;
 
@@ -87,7 +94,7 @@ bender.test( {
 		} );
 	},
 
-	// http://dev.ckeditor.com/ticket/11727.
+	// https://dev.ckeditor.com/ticket/11727.
 	'test click on deeply nested non-editable image does not select it': function() {
 		var bot = this.editorBots.editor;
 

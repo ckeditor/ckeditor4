@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'fi' ] = {
 		invalidValue: 'Virheellinen arvo.',
 		invalidHeight: 'Korkeuden täytyy olla numero.',
 		invalidWidth: 'Leveyden täytyy olla numero.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Kentän "%1" arvon täytyy olla positiivinen luku CSS mittayksikön (px, %, in, cm, mm, em, ex, pt tai pc) kanssa tai ilman.',
 		invalidHtmlLength: 'Kentän "%1" arvon täytyy olla positiivinen luku HTML mittayksikön (px tai %) kanssa tai ilman.',
 		invalidInlineStyle: 'Tyylille annetun arvon täytyy koostua yhdestä tai useammasta "nimi : arvo" parista, jotka ovat eroteltuna toisistaan puolipisteillä.',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'fi' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Keyboard shortcut', // MISSING
+
+		optionDefault: 'Default' // MISSING
 	}
 };

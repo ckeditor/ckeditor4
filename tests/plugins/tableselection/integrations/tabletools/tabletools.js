@@ -41,6 +41,9 @@
 			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-4', cells: [ 1 ] } );
 			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-multi', cells: [ 0, 1 ] } );
 			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-multi2', cells: [ 1 ] } );
+
+			// (#591)
+			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-vertical-split', cells: [ 3 ] } );
 		},
 
 		'test insert col after': function( editor, bot ) {
@@ -93,8 +96,8 @@
 			doCommandTest( bot, 'cellDelete', { 'case': 'delete-nested-cells-3', cells: [ 1, 2, 3, 4 ], skipCheckingSelection: true } );
 		},
 
-		// (http://dev.ckeditor.com/ticket/10308, http://dev.ckeditor.com/ticket/11058)
-		// To reproduce http://dev.ckeditor.com/ticket/11058 we need 4 rows in the table.
+		// To reproduce https://dev.ckeditor.com/ticket/11058 we need 4 rows
+		// in the table (https://dev.ckeditor.com/ticket/10308, https://dev.ckeditor.com/ticket/11058).
 		'test remove row from middle row': function( editor, bot ) {
 			doCommandTest( bot, 'rowDelete', { 'case': 'delete-row-from-middle', cells: [ 1 ], skipCheckingSelection: true } );
 		},
@@ -107,12 +110,12 @@
 			doCommandTest( bot, 'rowDelete', { 'case': 'delete-all-cells', cells: [ 0, 2 ], skipCheckingSelection: true } );
 		},
 
-		// (http://dev.ckeditor.com/ticket/10308)
+		// (https://dev.ckeditor.com/ticket/10308)
 		'test remove trailing column': function( editor, bot ) {
 			doCommandTest( bot, 'columnDelete', { 'case': 'delete-column-trailing', cells: [ 3 ], skipCheckingSelection: true } );
 		},
 
-		// (http://dev.ckeditor.com/ticket/10308)
+		// (https://dev.ckeditor.com/ticket/10308)
 		'test remove trailing cell': function( editor, bot ) {
 			doCommandTest( bot, 'cellDelete', { 'case': 'delete-cell-trailing', cells: [ 3 ], skipCheckingSelection: true } );
 		},
@@ -139,7 +142,7 @@
 			assert.isTrue( expectedCells.getItem( 1 ).equals( selectedCells[ 1 ] ) );
 		},
 
-		// #tp-2217
+		// (#tp-2217)
 		'test getSelectedCells for nested table header cell': function( editor, bot ) {
 			var editable = editor.editable(),
 				table,

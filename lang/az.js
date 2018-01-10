@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'az' ] = {
 		invalidValue: 'Yanlışdır.',
 		invalidHeight: 'Hündürlük rəqəm olmalıdır.',
 		invalidWidth: 'En rəqəm olmalıdır.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: '"%1" xanasında göstərilən məzmun tam və müsbət olmalıdır, CSS-də olan ölçü vahidlərin (px, %, in, cm, mm, em, ex, pt, or pc) istifadısinə icazə verilir.',
 		invalidHtmlLength: '"%1" xanasında göstərilən məzmun tam və müsbət olmalıdır HTML-də olan ölçü vahidlərin (px və ya %) istifadısinə icazə verilir.',
 		invalidInlineStyle: 'Teq içində olan üslub "ad :  məzmun" şəklidə, nöqtə-verqül işarəsi ilə bitməlidir',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'az' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Qısayol düymələri'
+		keyboardShortcut: 'Qısayol düymələri',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

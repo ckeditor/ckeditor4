@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'sl' ] = {
 		invalidValue: 'Neveljavna vrednost.',
 		invalidHeight: 'Višina mora biti število.',
 		invalidWidth: 'Širina mora biti število.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Vrednost, določena za polje »%1«, mora biti pozitivno število z ali brez veljavne CSS-enote za merjenje (px, %, in, cm, mm, em, ex, pt ali pc).',
 		invalidHtmlLength: 'Vrednost, določena za polje »%1«, mora biti pozitivno število z ali brez veljavne HTML-enote za merjenje (px ali %).',
 		invalidInlineStyle: 'Vrednost, določena za slog v vrstici, mora biti sestavljena iz ene ali več dvojic oblike »ime : vrednost«, ločenih s podpičji.',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'sl' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Keyboard shortcut', // MISSING
+
+		optionDefault: 'Default' // MISSING
 	}
 };

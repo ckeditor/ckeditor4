@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -47,7 +47,7 @@
 						// Get the type (which will be used to assign style to one of 3 groups) from assignedTo if it's defined.
 						style._.type = styleType = style.assignedTo || style.type;
 
-						// Weight is used to sort styles (http://dev.ckeditor.com/ticket/9029).
+						// Weight is used to sort styles (https://dev.ckeditor.com/ticket/9029).
 						style._.weight = i + ( styleType == CKEDITOR.STYLE_OBJECT ? 1 : styleType == CKEDITOR.STYLE_BLOCK ? 2 : 3 ) * 1000;
 
 						styles[ styleName ] = style;
@@ -56,7 +56,7 @@
 					}
 				}
 
-				// Sorts the Array, so the styles get grouped by type in proper order (http://dev.ckeditor.com/ticket/9029).
+				// Sorts the Array, so the styles get grouped by type in proper order (https://dev.ckeditor.com/ticket/9029).
 				stylesList.sort( function( styleA, styleB ) {
 					return styleA._.weight - styleB._.weight;
 				} );
@@ -141,8 +141,9 @@
 
 				onOpen: function() {
 					var selection = editor.getSelection(),
-						// When editor is focused but is returned `null` as selected element, then return editable (#646);
-						element = selection.getSelectedElement() || editor.editable(),
+						// When editor is focused but is returned `null` as selected element, then return editable (#646).
+						// In case when selection dosen't cover whole element, we try to return element where selection starts (#862).
+						element = selection.getSelectedElement() || selection.getStartElement() || editor.editable(),
 						elementPath = editor.elementPath( element ),
 						counter = [ 0, 0, 0, 0 ];
 

@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'eo' ] = {
 		invalidValue: 'Nevalida Valoro',
 		invalidHeight: 'Alto devas esti nombro.',
 		invalidWidth: 'Larĝo devas esti nombro.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'La valoro indikita por la "%1" kampo devas esti pozitiva nombro kun aŭ sen valida CSSmezurunuo (px, %, in, cm, mm, em, ex, pt, or pc).',
 		invalidHtmlLength: 'La valoro indikita por la "%1" kampo devas esti pozitiva nombro kun aŭ sen valida HTMLmezurunuo (px or %).',
 		invalidInlineStyle: 'La valoro indikita por la enlinia stilo devas konsisti el unu aŭ pluraj elementoj kun la formato de "nomo : valoro", apartigitaj per punktokomoj.',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'eo' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Fulmoklavo'
+		keyboardShortcut: 'Fulmoklavo',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

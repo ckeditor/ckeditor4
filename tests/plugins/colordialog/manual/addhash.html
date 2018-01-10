@@ -1,0 +1,15 @@
+<textarea id="editor1">
+	<table border="1" cellspacing="1" cellpadding="1">
+		<tr>
+			<td>Cell 1</td><td>Cell 2</td>
+		</tr>
+	</table>
+</textarea>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	} else {
+		CKEDITOR.replace( 'editor1' );
+	}
+</script>

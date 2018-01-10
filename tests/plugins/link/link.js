@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: link,toolbar */
+/* bender-ckeditor-plugins: link,toolbar,image */
 
 ( function() {
 	'use strict';
@@ -12,7 +12,7 @@
 	};
 
 	bender.test( {
-		// http://dev.ckeditor.com/ticket/8275
+		// https://dev.ckeditor.com/ticket/8275
 		'test create link (without editor focus)': function() {
 			var bot = this.editorBot;
 
@@ -20,7 +20,7 @@
 			CKEDITOR.document.getById( 'blurTarget' ).focus();
 
 			bot.dialog( 'link', function( dialog ) {
-				// Should auto trim leading spaces. (http://dev.ckeditor.com/ticket/6845)
+				// Should auto trim leading spaces. (https://dev.ckeditor.com/ticket/6845)
 				dialog.setValueOf( 'info', 'url', ' ckeditor.com' );
 				dialog.getButton( 'ok' ).click();
 
@@ -93,7 +93,7 @@
 			assert.isTrue( unlink.state == CKEDITOR.TRISTATE_OFF, 'fake selection on non-editable element in link' );
 		},
 
-		// http://dev.ckeditor.com/ticket/9212
+		// https://dev.ckeditor.com/ticket/9212
 		'test getSelectedLink for selection inside read-only node': function() {
 			var bot = this.editorBot,
 				editor = this.editor;
@@ -279,7 +279,7 @@
 		'test link with a nested anchors without text change': function() {
 
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
-				// http://dev.ckeditor.com/ticket/14848
+				// https://dev.ckeditor.com/ticket/14848
 				assert.ignore();
 			}
 
@@ -378,7 +378,7 @@
 			);
 		},
 
-		// http://dev.ckeditor.com/ticket/11822
+		// https://dev.ckeditor.com/ticket/11822
 		'test select link on double-click': function() {
 			var bot = this.editorBot,
 				editor = bot.editor;
@@ -399,7 +399,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/11822
+		// https://dev.ckeditor.com/ticket/11822
 		'test select anchor on double-click': function() {
 			var bot = this.editorBot,
 				editor = bot.editor;
@@ -420,7 +420,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/11956
+		// https://dev.ckeditor.com/ticket/11956
 		'test select link with descendants on double-click': function() {
 			var bot = this.editorBot,
 				editor = bot.editor;
@@ -443,7 +443,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/13887
+		// https://dev.ckeditor.com/ticket/13887
 		'test link target special chars': function() {
 			var bot = this.editorBot;
 
@@ -476,7 +476,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/5278
+		// https://dev.ckeditor.com/ticket/5278
 		'test link target with space': function() {
 			var bot = this.editorBot;
 
@@ -503,7 +503,7 @@
 			assert.isTrue( showDisplayTextForElement( null, this.editor ), 'Null value' );
 		},
 
-		// http://dev.ckeditor.com/ticket/13062
+		// https://dev.ckeditor.com/ticket/13062
 		'test unlink when cursor is right before the link': function() {
 			var editor = this.editor,
 				bot = this.editorBot;
@@ -515,7 +515,7 @@
 			assert.areSame( '<p>^Link</p>', bot.htmlWithSelection() );
 		},
 
-		// http://dev.ckeditor.com/ticket/13062
+		// https://dev.ckeditor.com/ticket/13062
 		'test unlink when cursor is right after the link': function() {
 			// IE8 fails this test for unknown reason; however it does well
 			// in the manual one.
@@ -536,7 +536,7 @@
 			wait( 100 );
 		},
 
-		// http://dev.ckeditor.com/ticket/13062
+		// https://dev.ckeditor.com/ticket/13062
 		'test unlink when cursor is right before the link and there are more than one link in paragraph': function() {
 			var editor = this.editor,
 				bot = this.editorBot;
@@ -546,6 +546,22 @@
 			editor.ui.get( 'Unlink' ).click( editor );
 
 			assert.areSame( '<p>I am<a href="http://foo"> an </a>in<a href="http://bar">sta</a>nce of ^<s>CKEditor</s>.</p>', bot.htmlWithSelection() );
+		},
+
+		// 859
+		'test edit link with selection': function() {
+			var bot = this.editorBot;
+
+			bot.setData( '<p><a class="linkClass" href="linkUrl"><img src="someUrl"/>some button text</a>some text</p>', function() {
+				var editable = bot.editor.editable();
+
+				bot.editor.getSelection().selectElement( editable.findOne( 'a' ) );
+
+				bot.dialog( 'link', function( dialog ) {
+					assert.areSame( dialog.getValueOf( 'info', 'url' ), 'linkUrl' );
+					dialog.hide();
+				} );
+			} );
 		}
 	} );
 } )();

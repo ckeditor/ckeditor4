@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -21,7 +21,7 @@ CKEDITOR.plugins.add( 'newpage', {
 				var command = this;
 				editor.setData( editor.config.newpage_html || '', function() {
 					editor.focus();
-					// Save the undo snapshot after all document changes are affected. (http://dev.ckeditor.com/ticket/4889)
+					// Save the undo snapshot after all document changes are affected. (https://dev.ckeditor.com/ticket/4889)
 					setTimeout( function() {
 						editor.fire( 'afterCommandExec', {
 							name: 'newpage',

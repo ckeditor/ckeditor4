@@ -4,34 +4,6 @@
 
 'use strict';
 
-// Based on http://yuilibrary.com/yui/docs/api/files/test_js_ObjectAssert.js.html#l12.
-YUITest.ObjectAssert.areDeepEqual = function( expected, actual, message ) {
-	var expectedKeys = YUITest.Object.keys( expected ),
-		actualKeys = YUITest.Object.keys( actual ),
-		areEqual = YUITest.ObjectAssert.areEqual;
-
-	YUITest.Assert._increment();
-
-	// First check keys array length.
-	if ( expectedKeys.length != actualKeys.length ) {
-		YUITest.Assert.fail( YUITest.Assert._formatMessage( message,
-			'Object should have ' + expectedKeys.length + ' keys but has ' + actualKeys.length ) );
-	}
-
-	// Then check values.
-	for ( var name in expected ) {
-		if ( expected.hasOwnProperty( name ) ) {
-			if ( typeof expected[ name ] === 'object' ) {
-				areEqual( expected[ name ], actual[ name ] );
-			}
-			else if ( expected[ name ] !== actual[ name ] ) {
-				throw new YUITest.ComparisonFailure( YUITest.Assert._formatMessage( message,
-					'Values should be equal for property ' + name ), expected[ name ], actual[ name ] );
-			}
-		}
-	}
-};
-
 // Safari and IE8 use text selection and all other browsers use element selection. Therefore we must normalize it.
 function fixHtml( html ) {
 	if ( ( CKEDITOR.env.webkit && !CKEDITOR.env.chrome ) || ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) ) {

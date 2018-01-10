@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -17,7 +17,7 @@
 	CKEDITOR.plugins.add( 'balloonpanel', {
 		init: function() {
 			if ( !stylesLoaded ) {
-				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/balloonpanel.css' );
+				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/balloonpanel.css' );
 				stylesLoaded = true;
 			}
 		}
@@ -320,10 +320,14 @@
 		 *
 		 * @method attach
 		 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
-		 * @param {CKEDITOR.dom.element/Boolean} [focusElement] The element to be focused after the panel
+		 * @param {Object/CKEDITOR.dom.element/Boolean} [options] **Since 4.8.0** this parameter works as an `options` object.
+		 *
+		 * If a `{@link CKEDITOR.dom.element}/Boolean` instance is given, this parameter acts as an `options.focusElement`.
+		 * @param {CKEDITOR.dom.element/Boolean} [options.focusElement] The element to be focused after the panel
 		 * is attached. By default the `panel` property of {@link #parts} will be focused. You might specify the element
 		 * to be focused by passing any {@link CKEDITOR.dom.element} instance.
 		 * You can also prevent changing focus at all by setting it to `false`.
+		 * @param {Boolean} [options.show=true] Defines if the balloon panel should be shown after being attached.
 		 */
 		attach: ( function() {
 			var winGlobal, frame, editable, isInline;
@@ -347,31 +351,6 @@
 				return newRect;
 			}
 
-			// Returns element rect absolute to the top-most document, e.g. it considers
-			// outer window scroll position, inner window scroll position (framed editor) and
-			// frame position (framed editor) in the top-most document.
-			function getAbsoluteRect( element ) {
-				var elementRect = element.getClientRect(),
-					winGlobalScroll = winGlobal.getScrollPosition(),
-					frameRect;
-
-				if ( isInline || element.equals( frame ) ) {
-					elementRect.top = elementRect.top + winGlobalScroll.y;
-					elementRect.left = elementRect.left + winGlobalScroll.x;
-					elementRect.right = elementRect.left + elementRect.width;
-					elementRect.bottom = elementRect.top + elementRect.height;
-				} else {
-					frameRect = frame.getClientRect();
-
-					elementRect.top = frameRect.top + elementRect.top + winGlobalScroll.y;
-					elementRect.left = frameRect.left + elementRect.left + winGlobalScroll.x;
-					elementRect.right = elementRect.left + elementRect.width;
-					elementRect.bottom = elementRect.top + elementRect.height;
-				}
-
-				return elementRect;
-			}
-
 			var triangleRelativePosition = {
 				right: 'left',
 				top: 'bottom',
@@ -383,8 +362,18 @@
 				left: 'right'
 			};
 
-			return function( element, focusElement ) {
-				this.show();
+			return function( element, options ) {
+				if ( options instanceof CKEDITOR.dom.element || !options ) {
+					options = { focusElement: options };
+				}
+
+				options = CKEDITOR.tools.extend( options, {
+					show: true
+				} );
+
+				if ( options.show === true ) {
+					this.show();
+				}
 
 				this.fire( 'attach' );
 
@@ -396,8 +385,8 @@
 				var panelWidth = this.getWidth(),
 					panelHeight = this.getHeight(),
 
-					elementRect = getAbsoluteRect( element ),
-					editorRect = getAbsoluteRect( isInline ? editable : frame ),
+					elementRect = this._getAbsoluteRect( element ),
+					editorRect = this._getAbsoluteRect( isInline ? editable : frame ),
 
 					viewPaneSize = winGlobal.getViewPaneSize(),
 					winGlobalScroll = winGlobal.getScrollPosition();
@@ -423,7 +412,8 @@
 					bottom: Math.min( editorRect.bottom, viewPaneSize.height + winGlobalScroll.y )
 				};
 
-				if ( isInline ) {
+				// Position balloon on entire view port only when it's real inline mode (#1048).
+				if ( isInline && this.editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ) {
 					// In inline we want to limit position within the window.
 					allowedRect = this._getViewPaneRect( winGlobal );
 
@@ -468,14 +458,23 @@
 					}
 				}
 
-				this.move( alignments[ minDifferenceAlignment ].top, alignments[ minDifferenceAlignment ].left );
+				// For non-static parent elements we need to remove its margin offset from balloon panel (#1048).
+				var parent = this.parts.panel.getAscendant( function( el ) {
+						return el instanceof CKEDITOR.dom.document ? false : el.getComputedStyle( 'position' ) !== 'static';
+					} ),
+					parentMargin = {
+						left: parent ? parseInt( parent.getComputedStyle( 'margin-left' ), 10 ) : 0,
+						top: parent ? parseInt( parent.getComputedStyle( 'margin-top' ), 10 ) : 0
+					};
+
+				this.move( alignments[ minDifferenceAlignment ].top - parentMargin.top , alignments[ minDifferenceAlignment ].left - parentMargin.left );
 
 				minDifferenceAlignment = minDifferenceAlignment.split( ' ' );
 				this.setTriangle( triangleRelativePosition[ minDifferenceAlignment[ 0 ] ], minDifferenceAlignment[ 1 ] );
 
 				// Set focus to proper element.
-				if ( focusElement !== false ) {
-					( focusElement || this.parts.panel ).focus();
+				if ( options.focusElement !== false ) {
+					( options.focusElement || this.parts.panel ).focus();
 				}
 			};
 		} )(),
@@ -785,6 +784,41 @@
 				left: pos.x,
 				right: pos.x + viewSize.width
 			};
+		},
+
+		/**
+		 * Returns element position on screen.
+		 *
+		 * @since 4.8.1
+		 * @private
+		 * @param {CKEDITOR.dom.element} element Element which position is calculated.
+		 * @returns {Object} Element position (scroll position included).
+		 * @returns {Number} return.top Top offset.
+		 * @returns {Number} return.bottom Bottom offset.
+		 * @returns {Number} return.left Left offset.
+		 * @returns {Number} return.right Right offset.
+		 */
+		_getAbsoluteRect: function( element ) {
+			var elementRect = element.getClientRect(),
+				winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition(),
+				frame = this.editor.window.getFrame(),
+				frameRect;
+
+			if ( this.editor.editable().isInline() || element.equals( frame ) ) {
+				elementRect.top = elementRect.top + winGlobalScroll.y;
+				elementRect.left = elementRect.left + winGlobalScroll.x;
+				elementRect.right = elementRect.left + elementRect.width;
+				elementRect.bottom = elementRect.top + elementRect.height;
+			} else {
+				frameRect = frame.getClientRect();
+
+				elementRect.top = frameRect.top + elementRect.top + winGlobalScroll.y;
+				elementRect.left = frameRect.left + elementRect.left + winGlobalScroll.x;
+				elementRect.right = elementRect.left + elementRect.width;
+				elementRect.bottom = elementRect.top + elementRect.height;
+			}
+
+			return elementRect;
 		}
 	};
 

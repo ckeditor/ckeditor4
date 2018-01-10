@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -88,6 +88,7 @@ CKEDITOR.lang[ 'ug' ] = {
 		invalidValue: 'ئىناۋەتسىز قىممەت.',
 		invalidHeight: 'ئېگىزلىك چوقۇم رەقەم پىچىمىدا بولۇشى زۆرۈر',
 		invalidWidth: 'كەڭلىك چوقۇم رەقەم پىچىمىدا بولۇشى زۆرۈر',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'بۇ سۆز بۆلىكى چوقۇم مۇۋاپىق بولغان CSS ئۇزۇنلۇق قىممىتى بولۇشى زۆرۈر، بىرلىكى (px, %, in, cm, mm, em, ex, pt ياكى pc)',
 		invalidHtmlLength: 'بۇ سۆز بۆلىكى چوقۇم بىرىكمە HTML ئۇزۇنلۇق قىممىتى بولۇشى كېرەك. ئۆز ئىچىگە ئالىدىغان بىرلىك (px ياكى %)',
 		invalidInlineStyle: 'ئىچكى باغلانما ئۇسلۇبى چوقۇم چېكىتلىك پەش بىلەن ئايرىلغان بىر ياكى كۆپ «خاسلىق ئاتى:خاسلىق قىممىتى» پىچىمىدا بولۇشى لازىم',
@@ -111,6 +112,8 @@ CKEDITOR.lang[ 'ug' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Keyboard shortcut', // MISSING
+
+		optionDefault: 'Default' // MISSING
 	}
 };

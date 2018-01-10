@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -88,6 +88,7 @@ CKEDITOR.lang[ 'ku' ] = {
 		invalidValue: 'نرخێکی نادرووست.',
 		invalidHeight: 'درێژی دەبێت ژمارە بێت.',
 		invalidWidth: 'پانی دەبێت ژمارە بێت.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'ئەم نرخەی دراوە بۆ خانەی "%1" دەبێت ژمارەکی درووست بێت یان بێ ناونیشانی ئامرازی (px, %, in, cm, mm, em, ex, pt, یان pc).',
 		invalidHtmlLength: 'ئەم نرخەی دراوە بۆ خانەی "%1" دەبێت ژمارەکی درووست بێت یان بێ ناونیشانی ئامرازی HTML (px یان %).',
 		invalidInlineStyle: 'دانەی نرخی شێوازی ناوهێڵ دەبێت پێکهاتبێت لەیەك یان زیاتری داڕشتە "ناو : نرخ", جیاکردنەوەی بە فاریزە و خاڵ',
@@ -111,6 +112,8 @@ CKEDITOR.lang[ 'ku' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'کورتبڕی تەختەکلیل'
+		keyboardShortcut: 'کورتبڕی تەختەکلیل',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

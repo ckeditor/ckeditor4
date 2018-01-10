@@ -652,7 +652,7 @@
 			} );
 		},
 
-		'test cancelling cancel widget dialog does not destroy widget (http://dev.ckeditor.com/ticket/13158).': function() {
+		'test cancelling cancel widget dialog does not destroy widget (https://dev.ckeditor.com/ticket/13158).': function() {
 			var editor = this.editor,
 				originalConfirm = window.confirm;
 

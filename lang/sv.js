@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -88,6 +88,7 @@ CKEDITOR.lang[ 'sv' ] = {
 		invalidValue: 'Felaktigt värde.',
 		invalidHeight: 'Höjd måste vara ett nummer.',
 		invalidWidth: 'Bredd måste vara ett nummer.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Värdet för fältet "%1" måste vara ett positivt nummer med eller utan CSS-mätenheter (px, %, in, cm, mm, em, ex, pt, eller pc).',
 		invalidHtmlLength: 'Värdet för fältet "%1" måste vara ett positivt nummer med eller utan godkända HTML-mätenheter (px eller %).',
 		invalidInlineStyle: 'Det angivna värdet för style måste innehålla en eller flera tupler separerade med semikolon i följande format: "name : value"',
@@ -111,6 +112,8 @@ CKEDITOR.lang[ 'sv' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Kortkommando'
+		keyboardShortcut: 'Kortkommando',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

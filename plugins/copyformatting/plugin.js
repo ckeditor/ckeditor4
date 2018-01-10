@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -1110,7 +1110,7 @@
 	 *		config.copyFormatting_outerCursor = false;
 	 *
 	 * Read more in the [documentation](#!/guide/dev_copyformatting)
-	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_outerCursor=true]
@@ -1123,14 +1123,14 @@
 	 * filtering.
 	 *
 	 * This property is using Advanced Content Filter syntax. You can learn more about it in the
-	 * [Content Filtering (ACF)](http://docs.ckeditor.com/#!/guide/dev_acf) documentation.
+	 * [Content Filtering (ACF)](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_acf) documentation.
 	 *
 	 *		config.copyFormatting_allowRules = 'span(*)[*]{*}'; // Allows only spans.
 	 *		config.copyFormatting_allowRules = true; // Disables filtering.
 	 *
 	 *
 	 * Read more in the [documentation](#!/guide/dev_copyformatting)
-	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_allowRules='b; s; u; strong; span; p; div; table; thead; tbody; ' +
@@ -1143,13 +1143,13 @@
 	 * Defines rules for the elements from which fetching styles is explicitly forbidden (eg. widgets).
 	 *
 	 * This property is using Advanced Content Filter syntax. You can learn more about it in the
-	 * [Content Filtering (ACF)](http://docs.ckeditor.com/#!/guide/dev_acf) documentation.
+	 * [Content Filtering (ACF)](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_acf) documentation.
 	 *
 	 *		config.copyFormatting_disallowRules = 'span(important)'; // Disallows spans with "important" class.
 	 *
 	 *
 	 * Read more in the [documentation](#!/guide/dev_copyformatting)
-	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_disallowRules='*[data-cke-widget*,data-widget*,data-cke-realelement](cke_widget*)']
@@ -1173,7 +1173,7 @@
 	 *		config.copyFormatting_allowedContexts = true;
 	 *
 	 * Read more in the [documentation](#!/guide/dev_copyformatting)
-	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg {Boolean/String[]} [copyFormatting_allowedContexts=true]
@@ -1191,7 +1191,7 @@
 	 *		config.copyFormatting_keystrokeCopy = false;
 	 *
 	 * Read more in the [documentation](#!/guide/dev_copyformatting)
-	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg {Number} [copyFormatting_keystrokeCopy=CKEDITOR.CTRL + CKEDITOR.SHIFT + 67]
@@ -1209,7 +1209,7 @@
 	 *		config.copyFormatting_keystrokePaste = false;
 	 *
 	 * Read more in the [documentation](#!/guide/dev_copyformatting)
-	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg {Number} [copyFormatting_keystrokePaste=CKEDITOR.CTRL + CKEDITOR.SHIFT + 86]

@@ -362,7 +362,8 @@
 		},
 
 		'test d&d block widget': function() {
-			var editor = this.editor;
+			var editor = this.editor,
+				isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
 			// Override Finder's getRange to force a place for the
 			// widget to be dropped.
@@ -403,7 +404,11 @@
 				wait( function() {
 					try {
 						// Simulate widget drag.
-						img.fire( 'mousedown' );
+						img.fire( 'mousedown', {
+							$: {
+								button: isIe8 ? 1 : 0
+							}
+						} );
 
 						// Create dummy line and pretend it's visible to cheat drop listener
 						// making if feel that there's a place for the widget to be dropped.

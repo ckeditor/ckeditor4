@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -34,7 +34,7 @@ if ( !window.CKEDITOR ) {
 			 * upgrading.
 			 *
 			 * **Note:** There is [a known issue where "icons.png" does not include
-			 * timestamp](http://dev.ckeditor.com/ticket/10685) and might get cached.
+			 * timestamp](https://dev.ckeditor.com/ticket/10685) and might get cached.
 			 * We are working on having it fixed.
 			 *
 			 *		alert( CKEDITOR.timestamp ); // e.g. '87dm'
@@ -311,7 +311,7 @@ if ( !window.CKEDITOR ) {
  * @param {CKEDITOR.config} config A configuration object containing the
  * settings defined for a {@link CKEDITOR.editor} instance up to this
  * function call. Note that not all settings may still be available. See
- * [Configuration Loading Order](http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Setting_Configurations#Configuration_Loading_Order)
+ * [Configuration Loading Order](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_configuration)
  * for details.
  */
 

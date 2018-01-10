@@ -1,10 +1,10 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
- * @fileOverview A plugin created to handle ticket http://dev.ckeditor.com/ticket/11064. While the issue is caused by native WebKit/Blink behaviour,
+ * @fileOverview A plugin created to handle ticket https://dev.ckeditor.com/ticket/11064. While the issue is caused by native WebKit/Blink behaviour,
  * this plugin can be easily detached or modified when the issue is fixed in the browsers without changing the core.
  * When Ctrl/Cmd + A is pressed to select all content it does not work due to a bug in
  * Webkit/Blink if a non-editable element is at the beginning or the end of the content.
@@ -339,7 +339,7 @@
 		},
 
 		/**
-		 * Adds an integration for the [Select All](http://ckeditor.com/addon/selectall) plugin to the given `editor`.
+		 * Adds an integration for the [Select All](https://ckeditor.com/cke4/addon/selectall) plugin to the given `editor`.
 		 *
 		 * @private
 		 * @param {CKEDITOR.editor} editor

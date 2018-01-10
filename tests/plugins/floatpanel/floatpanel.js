@@ -136,7 +136,7 @@
 			assert.isTrue( showBlockSpy.secondCall.calledWith( args[0], args[1], args[2] ), 'Second showBlock() call should use same arguments as first call.' );
 		},
 
-		// http://dev.ckeditor.com/ticket/9800. Scenario:
+		// https://dev.ckeditor.com/ticket/9800. Scenario:
 		// 1. open first panel,
 		// 2. close first panel,
 		// 3. open second panel,

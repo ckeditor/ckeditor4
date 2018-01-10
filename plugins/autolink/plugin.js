@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -26,7 +26,7 @@
 					return;
 				}
 
-				// http://dev.ckeditor.com/ticket/13419
+				// https://dev.ckeditor.com/ticket/13419
 				data = data.replace( validUrlRegex , '<a href="' + data.replace( doubleQuoteRegex, '%22' ) + '">$&</a>' );
 
 				// If link was discovered, change the type to 'html'. This is important e.g. when pasting plain text in Chrome

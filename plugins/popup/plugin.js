@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.add( 'popup' );
@@ -48,7 +48,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 			return false;
 
 		try {
-			// Chrome is problematic with moveTo/resizeTo, but it's not really needed here (http://dev.ckeditor.com/ticket/8855).
+			// Chrome is problematic with moveTo/resizeTo, but it's not really needed here (https://dev.ckeditor.com/ticket/8855).
 			var ua = navigator.userAgent.toLowerCase();
 			if ( ua.indexOf( ' chrome/' ) == -1 ) {
 				popupWindow.moveTo( left, top );

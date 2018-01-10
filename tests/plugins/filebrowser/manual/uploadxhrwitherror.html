@@ -1,0 +1,19 @@
+<textarea id="classic">
+</textarea>
+
+<div id="output" style="background-color:lightgreen;"></div>
+
+<script>
+	CKEDITOR.replace( 'classic', {
+		filebrowserUploadUrl: 'fake-url',
+		filebrowserUploadMethod: 'xhr',
+		on: {
+			instanceReady: function() {
+				if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
+					bender.ignore();
+				}
+			}
+		}
+	} );
+
+</script>

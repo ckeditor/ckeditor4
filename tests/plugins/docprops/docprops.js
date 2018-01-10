@@ -41,7 +41,7 @@ bender.test( {
 		tc.wait();
 	},
 
-	// http://dev.ckeditor.com/ticket/12546
+	// https://dev.ckeditor.com/ticket/12546
 	'test preview tab is available': function() {
 		var bot = this.editorBot;
 

@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'ca' ] = {
 		invalidValue: 'Valor no vàlid.',
 		invalidHeight: 'L\'alçada ha de ser un número.',
 		invalidWidth: 'L\'amplada ha de ser un número.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'El valor especificat per als "%1" camps ha de ser un número positiu amb o sense unitat de mesura vàlida de CSS (px, %, in, cm, mm, em, ex, pt o pc).',
 		invalidHtmlLength: 'El valor especificat per als "%1" camps ha de ser un número positiu amb o sense unitat de mesura vàlida d\'HTML (px o %).',
 		invalidInlineStyle: 'El valor especificat per l\'estil en línia ha de constar d\'una o més tuples amb el format "name: value", separats per punt i coma.',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'ca' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Keyboard shortcut', // MISSING
+
+		optionDefault: 'Default' // MISSING
 	}
 };

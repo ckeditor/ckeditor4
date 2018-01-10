@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'ku', {
 	copy: 'لەبەرگرتنەوە',
@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ku', {
 	cut: 'بڕین',
 	cutError: 'پارێزی وێبگەڕەکەت ڕێگەنادات بە سەرنووسەکە لەبڕینی خۆکارانە. تکایە لەبری ئەمە ئەم فەرمانە بەکاربهێنە بەداگرتنی کلیلی (Ctrl/Cmd+X).',
 	paste: 'لکاندن',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'وێبگەڕەکەت ڕێگەت پێنادات بۆ لکاندنی تێکست بە ڕێگایە. کلیکی %1 بۆ لکاندن.'
 } );

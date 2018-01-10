@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -88,6 +88,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		invalidValue: 'Geçersiz değer.',
 		invalidHeight: 'Yükseklik değeri bir sayı olmalıdır.',
 		invalidWidth: 'Genişlik değeri bir sayı olmalıdır.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: '"%1" alanı için verilen değer, geçerli bir CSS ölçü birimi (px, %, in, cm, mm, em, ex, pt, veya pc) içeren veya içermeyen pozitif bir sayı olmalıdır.',
 		invalidHtmlLength: 'Belirttiğiniz sayı "%1" alanı için pozitif bir sayı HTML birim değeri olmalıdır (px veya %).',
 		invalidInlineStyle: 'Satıriçi biçem için verilen değer, "isim : değer" biçiminde birbirinden noktalı virgüllerle ayrılan bir veya daha fazla değişkenler grubundan oluşmalıdır.',
@@ -111,6 +112,8 @@ CKEDITOR.lang[ 'tr' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Klavye Kısayolu'
+		keyboardShortcut: 'Klavye Kısayolu',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

@@ -100,7 +100,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/12690
+		// https://dev.ckeditor.com/ticket/12690
 		'test setSelection - in empty inline element': function() {
 			var editor = this.editor;
 

@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -230,14 +230,17 @@
 		return null;
 	}
 
-	function getCellColIndex( cell, isStart ) {
+	function getCellColIndex( cell ) {
 		var row = cell.getParent(),
 			rowCells = row.$.cells;
 
 		var colIndex = 0;
 		for ( var i = 0; i < rowCells.length; i++ ) {
 			var mapCell = rowCells[ i ];
-			colIndex += isStart ? 1 : mapCell.colSpan;
+
+			// Not always adding colSpan results in wrong position
+			// of newly inserted column. (#591) (https://dev.ckeditor.com/ticket/13729)
+			colIndex += mapCell.colSpan;
 			if ( mapCell == cell.$ )
 				break;
 		}
@@ -248,7 +251,7 @@
 	function getColumnsIndices( cells, isStart ) {
 		var retval = isStart ? Infinity : 0;
 		for ( var i = 0; i < cells.length; i++ ) {
-			var colIndex = getCellColIndex( cells[ i ], isStart );
+			var colIndex = getCellColIndex( cells[ i ] );
 			if ( isStart ? colIndex < retval : colIndex > retval )
 				retval = colIndex;
 		}
@@ -491,9 +494,9 @@
 			docOuter = CKEDITOR.document;
 
 		// Fixing "Unspecified error" thrown in IE10 by resetting
-		// selection the dirty and shameful way (http://dev.ckeditor.com/ticket/10308).
+		// selection the dirty and shameful way (https://dev.ckeditor.com/ticket/10308).
 		// We can not apply this hack to IE8 because
-		// it causes error (http://dev.ckeditor.com/ticket/11058).
+		// it causes error (https://dev.ckeditor.com/ticket/11058).
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 10 ) {
 			docOuter.focus();
 			docInner.focus();
@@ -805,7 +808,7 @@
 					}
 					], [
 						{
-							// (http://dev.ckeditor.com/ticket/16818)
+							// (https://dev.ckeditor.com/ticket/16818)
 							element: 'tr',
 							check: 'td{height}',
 							left: function( element ) {
@@ -823,7 +826,7 @@
 						}
 					], [
 						{
-							// (http://dev.ckeditor.com/ticket/16818)
+							// (https://dev.ckeditor.com/ticket/16818)
 							element: 'td',
 							check: 'td{height}',
 							left: function( element ) {

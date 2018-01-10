@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
  /**
@@ -14,7 +14,7 @@
 
 	CKEDITOR.plugins.add( 'codesnippet', {
 		requires: 'widget,dialog',
-		lang: 'ar,az,bg,ca,cs,da,de,de-ch,el,en,en-gb,eo,es,es-mx,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'ar,az,bg,ca,cs,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'codesnippet', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
@@ -357,7 +357,7 @@
 				if ( childrenArray.length != 1 || ( code = childrenArray[ 0 ] ).name != 'code' )
 					return;
 
-				// Upcast <code> with text only: http://dev.ckeditor.com/ticket/11926#comment:4
+				// Upcast <code> with text only: https://dev.ckeditor.com/ticket/11926#comment:4
 				if ( code.children.length != 1 || code.children[ 0 ].type != CKEDITOR.NODE_TEXT )
 					return;
 
@@ -367,7 +367,7 @@
 				if ( matchResult )
 					data.lang = matchResult[ 1 ];
 
-				// Use textarea to decode HTML entities (http://dev.ckeditor.com/ticket/11926).
+				// Use textarea to decode HTML entities (https://dev.ckeditor.com/ticket/11926).
 				textarea.setHtml( code.getHtml() );
 				data.code = textarea.getValue();
 
@@ -431,7 +431,7 @@
  * See {@link CKEDITOR.plugins.codesnippet.highlighter} to read more.
  *
  * Read more in the [documentation](#!/guide/dev_codesnippet)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/codesnippet.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/codesnippet.html).
  *
  * @since 4.4
  * @cfg {String} [codeSnippet_codeClass='hljs']
@@ -447,7 +447,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * you may need to refer to external documentation to set `config.codeSnippet_languages` properly.
  *
  * Read more in the [documentation](#!/guide/dev_codesnippet-section-changing-supported-languages)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/codesnippet.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/codesnippet.html).
  *
  *		// Restricts languages to JavaScript and PHP.
  *		config.codeSnippet_languages = {
@@ -467,7 +467,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * ([highlight.js](http://highlightjs.org/static/test.html)).
  *
  * Read more in the [documentation](#!/guide/dev_codesnippet-section-changing-highlighter-theme)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/codesnippet.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/codesnippet.html).
  *
  *		// Changes the theme to "pojoaque".
  *		config.codeSnippet_theme = 'pojoaque';

@@ -28,7 +28,7 @@
 				dialog.hide();
 
 				wait( function() {
-					// http://dev.ckeditor.com/ticket/8337: check cursor position after hand.
+					// https://dev.ckeditor.com/ticket/8337: check cursor position after hand.
 					var output = bender.tools.getHtmlWithSelection( bot.editor );
 					output = bender.tools.fixHtml( bender.tools.compatHtml( output ) );
 					var expected = bender.tools.compatHtml( bender.tools.getValueAsHtml( 'create-table' ) );
@@ -93,7 +93,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/12110.
+		// https://dev.ckeditor.com/ticket/12110.
 		'test delete table directly in inline editor': function() {
 			var bot = this.editorBots.inline,
 				editable = bot.editor.editable();

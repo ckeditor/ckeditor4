@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'af' ] = {
 		invalidValue: 'Ongeldige waarde',
 		invalidHeight: 'Hoogte moet \'n getal wees',
 		invalidWidth: 'Breedte moet \'n getal wees.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Die waarde vir die "%1" veld moet \'n posetiewe getal wees met of sonder \'n geldige CSS eenheid (px, %, in, cm, mm, em, ex, pt, of pc).',
 		invalidHtmlLength: 'Die waarde vir die  "%1" veld moet \'n posetiewe getal wees met of sonder \'n geldige HTML eenheid (px of %).',
 		invalidInlineStyle: 'Ongeldige CSS. Formaat is een of meer sleutel-wert paare, "naam : wert" met kommapunte gesky.',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'af' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Sleutel kombenasie'
+		keyboardShortcut: 'Sleutel kombenasie',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

@@ -11,7 +11,7 @@ bender.editor = {
 var BACKSPACE = 8,
 	DEL = 46;
 
-// http://dev.ckeditor.com/ticket/8248
+// https://dev.ckeditor.com/ticket/8248
 bender.test( {
 	assertBackspace: function( name, key ) {
 		var bot = this.editorBot;

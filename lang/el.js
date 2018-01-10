@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'el' ] = {
 		invalidValue: 'Μη έγκυρη τιμή.',
 		invalidHeight: 'Το ύψος πρέπει να είναι ένας αριθμός.',
 		invalidWidth: 'Το πλάτος πρέπει να είναι ένας αριθμός.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Η τιμή που ορίζεται για το πεδίο "%1" πρέπει να είναι ένας θετικός αριθμός με ή χωρίς μια έγκυρη μονάδα μέτρησης CSS (px, %, in, cm, mm, em, ex, pt, ή pc).',
 		invalidHtmlLength: 'Η τιμή που ορίζεται για το πεδίο "%1" πρέπει να είναι ένας θετικός αριθμός με ή χωρίς μια έγκυρη μονάδα μέτρησης HTML (px ή %).',
 		invalidInlineStyle: 'Η τιμή για το εν σειρά στυλ πρέπει να περιέχει ένα ή περισσότερα ζεύγη με την μορφή "όνομα: τιμή" διαχωρισμένα με Ελληνικό ερωτηματικό.',
@@ -104,14 +105,16 @@ CKEDITOR.lang[ 'el' ] = {
 			16: 'Shift',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Κενό',
 			35: 'End',
 			36: 'Home',
 			46: 'Delete',
-			224: 'Command' // MISSING
+			224: 'Εντολή'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Συντόμευση πληκτρολογίου'
+		keyboardShortcut: 'Συντόμευση πληκτρολογίου',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

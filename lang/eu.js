@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'eu' ] = {
 		invalidValue: 'Balio desegokia.',
 		invalidHeight: 'Altuera zenbaki bat izan behar da.',
 		invalidWidth: 'Zabalera zenbaki bat izan behar da.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: '"%1" eremurako zehaztutako balioak zenbaki positibo bat izan behar du, CSS neurri unitate batekin edo gabe (px, %, in, cm, mm, em, ex, pt edo pc).',
 		invalidHtmlLength: '"%1" eremurako zehaztutako balioak zenbaki positibo bat izan behar du, HTML neurri unitate batekin edo gabe (px edo %).',
 		invalidInlineStyle: 'Lineako estiloan zehaztutako balioak "izen : balio" formatuko tupla bat edo gehiago izan behar dira, komaz bereiztuak.',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'eu' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Keyboard shortcut', // MISSING
+
+		optionDefault: 'Default' // MISSING
 	}
 };

@@ -5,9 +5,9 @@
 ## Does your PR contain necessary tests?
 
 All patches which change the editor code must include tests. You can always read more
-on [PR testing](http://docs.ckeditor.com/#!/guide/dev_contributing_code-section-tests),
-[how to set the testing environment](http://docs.ckeditor.com/#!/guide/dev_tests) and
-[how to create tests](http://docs.ckeditor.com/#!/guide/dev_tests-section-creating-your-own-test)
+on [PR testing](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_contributing_code-section-tests),
+[how to set the testing environment](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_tests) and
+[how to create tests](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_tests-section-creating-your-own-test)
 in the official CKEditor documentation.
 
 ### This PR contains

@@ -119,7 +119,7 @@
 			assert.areSame( fixHtml( expectedContent ), fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
-		// http://dev.ckeditor.com/ticket/16675
+		// https://dev.ckeditor.com/ticket/16675
 		'test applying styles from one cell to another': function( editor ) {
 			var inputContent = CKEDITOR.document.findOne( '#t-16675 .input' ).getHtml(),
 				rng,

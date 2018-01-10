@@ -1,9 +1,6 @@
 # Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.md or http://ckeditor.com/license
+# For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 copy = CKEditor copyright note.
-dlgTitle = Label for the About CKEditor dialog window displayed to Internet Explorer users.
-help = Information about where to find CKEditor documentation.
+dlgTitle = Label for the About CKEditor dialog window.
 moreInfo = Caption for licensing information.
-title = Label for the About CKEditor dialog window.
-userGuide = CKEditor User's Guide title.

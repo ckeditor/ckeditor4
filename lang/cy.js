@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'cy' ] = {
 		invalidValue: 'Gwerth annilys.',
 		invalidHeight: 'Mae\'n rhaid i\'r uchder fod yn rhif.',
 		invalidWidth: 'Mae\'n rhaid i\'r lled fod yn rhif.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Mae\'n rhaid i\'r gwerth ar gyfer maes "%1" fod yn rhif positif gyda neu heb uned fesuriad CSS dilys (px, %, in, cm, mm, em, ex, pt, neu pc).',
 		invalidHtmlLength: 'Mae\'n rhaid i\'r gwerth ar gyfer maes "%1" fod yn rhif positif gyda neu heb uned fesuriad HTML dilys (px neu %).',
 		invalidInlineStyle: 'Mae\'n rhaid i\'r gwerth ar gyfer arddull mewn-llinell gynnwys un set neu fwy ar y fformat "enw : gwerth", wedi\'u gwahanu gyda hanner colon.',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'cy' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Keyboard shortcut', // MISSING
+
+		optionDefault: 'Default' // MISSING
 	}
 };

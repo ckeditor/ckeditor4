@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'oc' ] = {
 		invalidValue: 'Valor invalida.',
 		invalidHeight: 'La nautor deu èsser un nombre.',
 		invalidWidth: 'La largor deu èsser un nombre.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'La valor especificada pel camp « %1 » deu èsser un nombre positiu amb o sens unitat de mesura CSS valid (px, %, in, cm, mm, em, ex, pt, o pc).',
 		invalidHtmlLength: 'La valor especificada pel camp « %1 » deu èsser un nombre positiu amb o sens unitat de mesura HTML valid (px o %).',
 		invalidInlineStyle: 'La valor especificada per l\'estil en linha deu èsser compausada d\'un o mantun parelh al format « nom : valor », separats per de punts-virgulas.',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'oc' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Acorchi de clavièr'
+		keyboardShortcut: 'Acorchi de clavièr',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

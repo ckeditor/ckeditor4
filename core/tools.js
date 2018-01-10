@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -383,17 +383,17 @@
 		 *
 		 *		alert( CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;' ) ); // '<a & b >'
 		 *
-		 * Read more about chosen entities in the [research](http://dev.ckeditor.com/ticket/13105#comment:8).
+		 * Read more about chosen entities in the [research](https://dev.ckeditor.com/ticket/13105#comment:8).
 		 *
 		 * @param {String} The string to be decoded.
 		 * @returns {String} The decoded string.
 		 */
 		htmlDecode: function( text ) {
 			// See:
-			// * http://dev.ckeditor.com/ticket/13105#comment:8 and comment:9,
+			// * https://dev.ckeditor.com/ticket/13105#comment:8 and comment:9,
 			// * http://jsperf.com/wth-is-going-on-with-jsperf JSPerf has some serious problems, but you can observe
 			// that combined regexp tends to be quicker (except on V8). It will also not be prone to fail on '&amp;lt;'
-			// (see http://dev.ckeditor.com/ticket/13105#DXWTF:CKEDITOR.tools.htmlEnDecodeAttr).
+			// (see https://dev.ckeditor.com/ticket/13105#DXWTF:CKEDITOR.tools.htmlEnDecodeAttr).
 			return text.replace( allEscRegex, allEscDecode );
 		},
 
@@ -1021,7 +1021,7 @@
 				styleText = CKEDITOR.tools.normalizeHex( CKEDITOR.tools.convertRgbToHex( styleText ) );
 			}
 
-			// IE will leave a single semicolon when failed to parse the style text. (http://dev.ckeditor.com/ticket/3891)
+			// IE will leave a single semicolon when failed to parse the style text. (https://dev.ckeditor.com/ticket/3891)
 			if ( !styleText || styleText == ';' )
 				return retval;
 
@@ -1313,24 +1313,49 @@
 		},
 
 		/**
-		 * Converts a keystroke to its string representation. Returns an object with two fields:
-		 *
-		 * * `display` &ndash; A string that should be used for visible labels.
-		 * For Mac devices it uses `⌥` for `ALT`, `⇧` for `SHIFT` and `⌘` for `COMMAND`.
-		 * * `aria` &ndash; A string that should be used for ARIA descriptions.
-		 * It does not use special characters such as `⌥`, `⇧` or `⌘`.
+		 * Converts a keystroke to its string representation. Returns exactly the same
+		 * members as {@link #keystrokeToArray}, but the returned object contains strings of
+		 * keys joined with "+" rather than an array of keystrokes.
 		 *
 		 * 		var lang = editor.lang.common.keyboard;
 		 * 		var shortcut = CKEDITOR.tools.keystrokeToString( lang, CKEDITOR.CTRL + 88 );
-		 * 		console.log( shortcut.display ); // 'CTRL + X', on Mac '⌘ + X'.
-		 * 		console.log( shortcut.aria ); // 'CTRL + X', on Mac 'COMMAND + X'.
+		 * 		console.log( shortcut.display ); // 'Ctrl + X', on Mac '⌘ + X'.
+		 * 		console.log( shortcut.aria ); // 'Ctrl + X', on Mac 'Cmd + X'.
 		 *
 		 * @since 4.6.0
 		 * @param {Object} lang A language object with the key name translation.
 		 * @param {Number} keystroke The keystroke to convert.
-		 * @returns {{display: String, aria: String}}
+		 * @returns {{display: String, aria: String}} See {@link #keystrokeToArray}.
 		 */
 		keystrokeToString: function( lang, keystroke ) {
+			var ret = this.keystrokeToArray( lang, keystroke );
+
+			ret.display = ret.display.join( '+' );
+			ret.aria = ret.aria.join( '+' );
+
+			return ret;
+		},
+
+		/**
+		 * Converts a keystroke to its string representation. Returns an object with two fields:
+		 *
+		 * * `display` &ndash; An array of strings that should be used for visible labels.
+		 * For Mac devices it uses `⌥` for <kbd>Alt</kbd>, `⇧` for <kbd>Shift</kbd> and
+		 * `⌘` for <kbd>Command</kbd>.
+		 * * `aria` &ndash; An array of strings that should be used for ARIA descriptions.
+		 * It does not use special characters such as `⌥`, `⇧` or `⌘`.
+		 *
+		 * 		var lang = editor.lang.common.keyboard;
+		 * 		var shortcut = CKEDITOR.tools.keystrokeToArray( lang, CKEDITOR.CTRL + 88 );
+		 * 		console.log( shortcut.display ); // [ 'CTRL', 'X' ], on Mac [ '⌘', 'X' ].
+		 * 		console.log( shortcut.aria ); // [ 'CTRL', 'X' ], on Mac [ 'COMMAND', 'X' ].
+		 *
+		 * @since 4.8.0
+		 * @param {Object} lang A language object with the key name translation.
+		 * @param {Number} keystroke The keystroke to convert.
+		 * @returns {{display: String[], aria: String[]}}
+		 */
+		keystrokeToArray: function( lang, keystroke ) {
 			var special = keystroke & 0xFF0000,
 				key = keystroke & 0x00FFFF,
 				isMac = CKEDITOR.env.mac,
@@ -1368,8 +1393,8 @@
 			}
 
 			return {
-				display: display.join( '+' ),
-				aria: aria.join( '+' )
+				display: display,
+				aria: aria
 			};
 		},
 
@@ -1491,6 +1516,84 @@
 			}
 
 			return domEvent.button;
+		},
+
+		/**
+		 * Convert hex string to array containing 1 byte in each cell. Bytes are represented as Integer numbers.
+		 *
+		 * @since 4.8.0
+		 * @param {String} hexString Contains input string which represent bytes, e.g. `"08A11D8ADA2B"`.
+		 * @returns {Number[]} Bytes stored in a form of Integer numbers, e.g. `[ 8, 161, 29, 138, 218, 43 ]`.
+		 */
+		convertHexStringToBytes: function( hexString ) {
+			var bytesArray = [],
+				bytesArrayLength = hexString.length / 2,
+				i;
+
+			for ( i = 0; i < bytesArrayLength; i++ ) {
+				bytesArray.push( parseInt( hexString.substr( i * 2, 2 ), 16 ) );
+			}
+			return bytesArray;
+		},
+
+		/**
+		 * Convert bytes array into a base64 encoded string.
+		 *
+		 * @since 4.8.0
+		 * @param {Number[]} bytesArray An array which stores 1 byte in each cell as an Integer number.
+		 * @returns {String} Base64 string which represents input bytes.
+		 */
+		convertBytesToBase64: function( bytesArray ) {
+			// Bytes are `8bit` numbers, where base64 use `6bit` to store data. That's why we process 3 Bytes into 4 characters representing base64.
+			//
+			// Algorithm:
+			// 1. Take `3 * 8bit`.
+			// 2. If there is less than 3 bytes, fill empty bits with zeros.
+			// 3. Transform `3 * 8bit` into `4 * 6bit` numbers.
+			// 4. Translate those numbers to proper characters related to base64.
+			// 5. If extra zero bytes were added fill them with `=` sign.
+			//
+			// Example:
+			// 1. Bytes Array: [ 8, 161, 29, 138, 218, 43 ] -> binary: `0000 1000 1010 0001 0001 1101 1000 1010 1101 1010 0010 1011`.
+			// 2. Binary: `0000 10|00 1010| 0001 00|01 1101| 1000 10|10 1101| 1010 00|10 1011` ← `|` (pipe) shows where base64 will cut bits during transformation.
+			// 3. Now we have 6bit numbers (written in decimal values), which are translated to indexes in `base64characters` array.
+			//    Decimal: `2 10 4 29 34 45 40 43` → base64: `CKEditor`.
+			var base64characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
+				base64string = '',
+				bytesArrayLength = bytesArray.length,
+				i;
+
+			for ( i = 0; i < bytesArrayLength; i += 3 ) {
+				var array3 = bytesArray.slice( i, i + 3 ),
+					array3length = array3.length,
+					array4 = [],
+					j;
+
+				if ( array3length < 3 ) {
+					for ( j = array3length; j < 3; j++ ) {
+						array3[ j ] = 0;
+					}
+				}
+
+				// 0xFC -> 11111100 || 0x03 -> 00000011 || 0x0F -> 00001111 || 0xC0 -> 11000000 || 0x3F -> 00111111
+				array4[ 0 ] = ( array3[ 0 ] & 0xFC ) >> 2;
+				array4[ 1 ] = ( ( array3[ 0 ] & 0x03 ) << 4 ) | ( array3[ 1 ] >> 4 );
+				array4[ 2 ] = ( ( array3[ 1 ] & 0x0F ) << 2 ) | ( ( array3[ 2 ] & 0xC0 ) >> 6 );
+				array4[ 3 ] = array3[ 2 ] & 0x3F;
+
+				for ( j = 0; j < 4; j++ ) {
+					// Example: if array3length == 1, then we need to add 2 equal signs at the end of base64.
+					// array3[ 0 ] is used to calculate array4[ 0 ] and array4[ 1 ], so there will be regular values,
+					// next two ones have to be replaced with `=`, because array3[ 1 ] and array3[ 2 ] wasn't present in the input string.
+					if ( j <= array3length ) {
+						base64string += base64characters.charAt( array4[ j ] );
+					} else {
+						base64string += '=';
+					}
+				}
+
+			}
+			return base64string;
 		},
 
 		/**
@@ -1774,17 +1877,14 @@
 				 */
 				border: function( value ) {
 					var ret = {},
-						input = value.split( /\s+/ );
+						input = value.split( /\s+/g ),
+						parseColor = CKEDITOR.tools.style.parse._findColor( value );
+
+					if ( parseColor.length ) {
+						ret.color = parseColor[ 0 ];
+					}
 
 					CKEDITOR.tools.array.forEach( input, function( val ) {
-						if ( !ret.color ) {
-							var parseColor = CKEDITOR.tools.style.parse._findColor( val );
-							if ( parseColor.length ) {
-								ret.color = parseColor[ 0 ];
-								return;
-							}
-						}
-
 						if ( !ret.style ) {
 							if ( CKEDITOR.tools.indexOf( CKEDITOR.tools.style.parse._borderStyle, val ) !== -1 ) {
 								ret.style = val;
@@ -1934,6 +2034,37 @@
 					acc = fn.call( thisArg, acc, array[ i ], i, array );
 				}
 				return acc;
+			},
+
+			/**
+			 * Tests whether all elements in an array pass the test implemented by the provided function.
+			 * Returns `true` if the provided array is empty.
+			 *
+			 *		var every = this.array.every( [ 11, 22, 33, 44 ], function( value ) {
+			 *			return value > 10;
+			 *		} );
+			 *		console.log( every );
+			 *		// Logs: true
+			 *
+			 * @param {Array} array
+			 * @param {Function} fn A function that gets called with each `array` item.
+			 * @param {Mixed} fn.value The currently iterated array value.
+			 * @param {Number} fn.index The index of the currently iterated value in an array.
+			 * @param {Array} fn.array The original array passed as the `array` variable.
+			 * @param {Mixed} [thisArg=undefined] A context object for `fn`.
+			 * @returns {Boolean} Information whether all elements pass the test.
+			 * @member CKEDITOR.tools.array
+			 * @since 4.8.0
+			 */
+			every: function( array, fn, thisArg ) {
+				// Empty arrays always return true.
+				if ( !array.length ) {
+					return true;
+				}
+
+				var ret = this.filter( array, fn, thisArg );
+
+				return array.length === ret.length;
 			}
 		},
 
@@ -1967,6 +2098,59 @@
 				}
 
 				return null;
+			},
+
+			/**
+			 * Merges two objects and returns the new one.
+			 *
+			 *		var obj1 = {
+			 *				a: 1,
+			 *				conflicted: 10,
+			 *				obj: {
+			 *					c: 1
+			 *				}
+			 *			},
+			 *			obj2 = {
+			 *				b: 2,
+			 *				conflicted: 20,
+			 *				obj: {
+			 *					d: 2
+			 *				}
+			 *			};
+			 *
+			 *		CKEDITOR.tools.object.merge( obj1, obj2 );
+			 *
+			 * This code produces the following object:
+			 *
+			 *		{
+			 *			a: 1,
+			 *			b: 2,
+			 *			conflicted: 20,
+			 *			obj: {
+			 *				c: 1,
+			 *				d: 2
+			 *			}
+			 *		}
+			 *
+			 * @param {Object} obj1 The source object which will be used to create a new base object.
+			 * @param {Object} obj2 An object whose properties will be merged into the base one.
+			 * @returns {Object} The merged object.
+			 * @member CKEDITOR.tools.object
+			 */
+			merge: function( obj1, obj2 ) {
+				var tools = CKEDITOR.tools,
+					copy1 = tools.clone( obj1 ),
+					copy2 = tools.clone( obj2 );
+
+				tools.array.forEach( tools.objectKeys( copy2 ), function( key ) {
+					if ( typeof copy2[ key ] === 'object' && typeof copy1[ key ] === 'object' ) {
+						copy1[ key ] = tools.object.merge( copy1[ key ], copy2[ key ] );
+					} else {
+						copy1[ key ] = copy2[ key ];
+					}
+				} );
+
+				return copy1;
 			}
 		}
 	};

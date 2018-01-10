@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -77,7 +77,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			isValid = !!( match && parseInt( match[ 1 ], 10 ) !== 0 );
 
 		if ( !isValid )
-			alert( commonLang[ 'invalid' + CKEDITOR.tools.capitalize( this.id ) ] ); // jshint ignore:line
+			alert( commonLang[ 'invalidLength' ].replace( '%1', commonLang[ this.id ] ).replace( '%2', 'px' ) ); // jshint ignore:line
 
 		return isValid;
 	}
@@ -108,7 +108,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		// @param {Function} callback.
 		return function( src, callback, scope ) {
 			addListener( 'load', function() {
-				// Don't use image.$.(width|height) since it's buggy in IE9-10 (http://dev.ckeditor.com/ticket/11159)
+				// Don't use image.$.(width|height) since it's buggy in IE9-10 (https://dev.ckeditor.com/ticket/11159)
 				var dimensions = getNatural( image );
 
 				callback.call( scope, image, dimensions.width, dimensions.height );

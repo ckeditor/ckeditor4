@@ -229,7 +229,7 @@ bender.test( {
 			'the selection was located after the strong element' );
 	},
 
-	// http://dev.ckeditor.com/ticket/12690
+	// https://dev.ckeditor.com/ticket/12690
 	'test selectRanges - inside empty inline element': function() {
 		var editor = this.editor,
 			range = editor.createRange();
@@ -252,7 +252,7 @@ bender.test( {
 		testSelectedElement( '[<b><i><img /></i>]</b>', 'img' );
 	},
 
-	// Issue noticed during works on http://dev.ckeditor.com/ticket/9764.
+	// Issue noticed during works on https://dev.ckeditor.com/ticket/9764.
 	'test getSelectedElement does not modify ranges': function() {
 		var editor = this.editor;
 
@@ -286,7 +286,7 @@ bender.test( {
 		} );
 	},
 
-	// http://dev.ckeditor.com/ticket/11493
+	// https://dev.ckeditor.com/ticket/11493
 	'test getRanges(true) does not modify cached ranges': function() {
 		var editor = this.editor;
 
@@ -301,7 +301,7 @@ bender.test( {
 		assert.areSame( 1, allRanges.length, 'only 1 range returned by getRanges()' );
 	},
 
-	// http://dev.ckeditor.com/ticket/11493
+	// https://dev.ckeditor.com/ticket/11493
 	'test getRanges(true) called after getRanges() does not modify cached ranges': function() {
 		var editor = this.editor;
 
@@ -475,7 +475,7 @@ bender.test( {
 		}
 	},
 
-	// http://dev.ckeditor.com/ticket/11500
+	// https://dev.ckeditor.com/ticket/11500
 	'test removeAllRanges is limited to its root': function() {
 		var editable1 = doc.getById( 'sandbox' ),
 			editable2 = doc.getById( 'sandbox2' );
@@ -699,13 +699,13 @@ bender.test( {
 		assert.isFalse( preventSpy.called, 'preventDefault() on keydown was called' );
 	},
 
-	// (http://dev.ckeditor.com/ticket/14714)
+	// (https://dev.ckeditor.com/ticket/14714)
 	'test remove filling char sequence on keydown blur': function() {
 		if ( !CKEDITOR.env.webkit ) {
 			assert.ignore();
 		}
 
-		// If editor has no focus, filling character should not be removed in WebKits. (http://dev.ckeditor.com/ticket/14714)
+		// If editor has no focus, filling character should not be removed in WebKits. (https://dev.ckeditor.com/ticket/14714)
 		var editable = this.editor.editable();
 		var fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 );
 

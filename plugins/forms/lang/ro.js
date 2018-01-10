@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ro', {
 	button: {
@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ro', {
 		radioTitle: 'Proprietăţi buton radio (Radio Button)',
 		value: 'Valoare',
 		selected: 'Selectat',
-		required: 'Required' // MISSING
+		required: 'Obligatoriu'
 	},
 	form: {
 		title: 'Proprietăţi formular (Form)',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ro', {
 		size: 'Mărime',
 		lines: 'linii',
 		chkMulti: 'Permite selecţii multiple',
-		required: 'Required', // MISSING
+		required: 'Selecție necesară',
 		opText: 'Text',
 		opValue: 'Valoare',
 		btnAdd: 'Adaugă',
@@ -58,14 +58,14 @@ CKEDITOR.plugins.setLang( 'forms', 'ro', {
 		name: 'Nume',
 		value: 'Valoare',
 		charWidth: 'Lărgimea caracterului',
-		maxChars: 'Caractere maxime',
-		required: 'Required', // MISSING
+		maxChars: 'Număr maxim de caractere',
+		required: 'Necesar',
 		type: 'Tip',
 		typeText: 'Text',
 		typePass: 'Parolă',
 		typeEmail: 'Email',
 		typeSearch: 'Cauta',
-		typeTel: 'Numar de telefon',
+		typeTel: 'Numar telefon',
 		typeUrl: 'URL'
 	}
 } );

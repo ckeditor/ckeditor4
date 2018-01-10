@@ -1,10 +1,10 @@
 /*
 Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'mathjax', 'de', {
-	title: 'Mathematik in Tex',
-	button: 'Rechnung',
+	title: 'TeX-Formel einfügen',
+	button: 'TeX-Formel einfügen',
 	dialogInput: 'Schreiben Sie hier in Tex',
 	docUrl: 'http://en.wikibooks.org/wiki/LaTeX/Mathematics',
 	docLabel: 'TeX-Dokumentation',

@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -15,6 +15,10 @@
 		getCellColIndex,
 		insertRow,
 		insertColumn;
+
+	function isWidget( element ) {
+		return CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( element );
+	}
 
 	function getCellsBetween( first, last ) {
 		var firstTable = first.getAscendant( 'table' ),
@@ -201,14 +205,15 @@
 			return;
 		}
 
-		// We should check if the newly selected cell is still inside the same table (http://dev.ckeditor.com/ticket/17052, #493).
+		// We should check if the newly selected cell is still inside the same table (https://dev.ckeditor.com/ticket/17052, #493).
 		if ( cell && fakeSelection.first.getAscendant( 'table' ).equals( cell.getAscendant( 'table' ) ) ) {
 			cells = getCellsBetween( fakeSelection.first, cell );
 
 			// The selection is inside one cell, so we should allow native selection,
 			// but only in case if no other cell between mousedown and mouseup
 			// was selected.
-			if ( !fakeSelection.dirty && cells.length === 1 ) {
+			// We don't want to clear selection if widget is event target (#1027).
+			if ( !fakeSelection.dirty && cells.length === 1 && !( isWidget( evt.data.getTarget() ) ) ) {
 				return clearFakeCellSelection( editor, evt.name === 'mouseup' );
 			}
 
@@ -269,6 +274,11 @@
 		if ( !evt.data.getTarget().getName ) {
 			return;
 		}
+		// Prevent applying table selection when widget is selected.
+		// Mouseup remains a possibility to finish table selection when user release mouse button above widget in table.
+		if ( evt.name !== 'mouseup' && isWidget( evt.data.getTarget() ) ) {
+			return;
+		}
 
 		var editor = evt.editor || evt.listenerData.editor,
 			selection = editor.getSelection( 1 ),
@@ -276,8 +286,7 @@
 			target = evt.data.getTarget(),
 			cell = target && target.getAscendant( { td: 1, th: 1 }, true ),
 			table = target && target.getAscendant( 'table', true ),
-			tableElements = { table: 1, thead: 1, tbody: 1, tfoot: 1, tr: 1, td: 1, th: 1 },
-			canClear;
+			tableElements = { table: 1, thead: 1, tbody: 1, tfoot: 1, tr: 1, td: 1, th: 1 };
 
 		// Nested tables should be treated as the same one (e.g. user starts dragging from outer table
 		// and ends in inner one).
@@ -310,7 +319,7 @@
 			return false;
 		}
 
-		if ( canClear = canClearSelection( evt, selection, selectedTable, table ) ) {
+		if ( canClearSelection( evt, selection, selectedTable, table ) ) {
 			clearFakeCellSelection( editor, true );
 		}
 
@@ -517,7 +526,7 @@
 			}
 		}
 
-		var startIndex = getCellColIndex( this.cells.first, true ),
+		var startIndex = getCellColIndex( this.cells.first ),
 			endIndex = getRealCellPosition( this.cells.last );
 
 		return CKEDITOR.tools.buildTableMap( this._getTable(), getRowIndex( this.rows.first ), startIndex,
@@ -657,7 +666,7 @@
 			var cellToReplace,
 				// Index of first selected cell, it needs to be reused later, to calculate the
 				// proper position of newly pasted cells.
-				startIndex = getCellColIndex( tableSel.cells.first, true ),
+				startIndex = getCellColIndex( tableSel.cells.first ),
 				selectedTable = tableSel._getTable(),
 				markers = {},
 				currentRow,
@@ -851,7 +860,7 @@
 
 	/**
 	 * Namespace providing a set of helper functions for working with tables, exposed by
-	 * [Table Selection](http://ckeditor.com/addon/tableselection) plugin.
+	 * [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
 	 *
 	 * @since 4.7.0
 	 * @singleton
@@ -916,7 +925,7 @@
 							selectBeginning = false,
 							matchingElement = function( elem ) {
 								// We're interested in matching only td/th but not contained by the startNode since it will be removed.
-								// Technically none of startNode children should be visited but it will due to http://dev.ckeditor.com/ticket/12191.
+								// Technically none of startNode children should be visited but it will due to https://dev.ckeditor.com/ticket/12191.
 								return !startNode.contains( elem ) && elem.is && elem.is( 'td', 'th' );
 							};
 
@@ -953,7 +962,7 @@
 
 				return function( evt ) {
 					// Use getKey directly in order to ignore modifiers.
-					// Justification: http://dev.ckeditor.com/ticket/11861#comment:13
+					// Justification: https://dev.ckeditor.com/ticket/11861#comment:13
 					var keystroke = evt.data.getKey(),
 						selection,
 						toStart = keystroke === 37 || keystroke == 38,

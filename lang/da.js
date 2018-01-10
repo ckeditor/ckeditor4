@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'da' ] = {
 		invalidValue: 'Ugyldig værdi.',
 		invalidHeight: 'Højde skal være et tal.',
 		invalidWidth: 'Bredde skal være et tal.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Værdien specificeret for "%1" feltet skal være et positivt nummer med eller uden en CSS måleenhed  (px, %, in, cm, mm, em, ex, pt, eller pc).',
 		invalidHtmlLength: 'Værdien specificeret for "%1" feltet skal være et positivt nummer med eller uden en CSS måleenhed  (px eller %).',
 		invalidInlineStyle: 'Værdien specificeret for inline style skal indeholde en eller flere elementer med et format som "name:value", separeret af semikoloner',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'da' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Tastatur genvej'
+		keyboardShortcut: 'Tastatur genvej',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

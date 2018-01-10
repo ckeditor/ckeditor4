@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		invalidValue: '不正な値です。',
 		invalidHeight: '高さは数値で入力してください。',
 		invalidWidth: '幅は数値で入力してください。',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: '入力された "%1" 項目の値は、CSSの大きさ(px, %, in, cm, mm, em, ex, pt, または pc)が正しいものである/ないに関わらず、正の値である必要があります。',
 		invalidHtmlLength: '入力された "%1" 項目の値は、HTMLの大きさ(px または %)が正しいものである/ないに関わらず、正の値である必要があります。',
 		invalidInlineStyle: '入力されたインラインスタイルの値は、"名前 : 値" のフォーマットのセットで、複数の場合はセミコロンで区切られている形式である必要があります。',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'ja' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'キーボードショートカット'
+		keyboardShortcut: 'キーボードショートカット',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

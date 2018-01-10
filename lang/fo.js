@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'fo' ] = {
 		invalidValue: 'Invalid value.', // MISSING
 		invalidHeight: 'Hædd má vera eitt tal.',
 		invalidWidth: 'Breidd má vera eitt tal.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Virðið sett í "%1" feltið má vera eitt positivt tal, við ella uttan gyldugum CSS mátieind (px, %, in, cm, mm, em, ex, pt, ella pc).',
 		invalidHtmlLength: 'Virðið sett í "%1" feltiðield má vera eitt positivt tal, við ella uttan gyldugum CSS mátieind (px ella %).',
 		invalidInlineStyle: 'Virði specifiserað fyri inline style má hava eitt ella fleiri pør (tuples) skrivað sum "name : value", hvørt parið sundurskilt við semi-colon.',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'fo' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Keyboard shortcut', // MISSING
+
+		optionDefault: 'Default' // MISSING
 	}
 };

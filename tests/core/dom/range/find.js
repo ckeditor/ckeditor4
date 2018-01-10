@@ -30,7 +30,7 @@
 			assert.areSame( 'strong2', results[ 1 ].getId(), 'Id of a second matched element' );
 		},
 
-		// (http://dev.ckeditor.com/ticket/17022)
+		// (https://dev.ckeditor.com/ticket/17022)
 		'test matching a contained node': function() {
 			var range = new CKEDITOR.dom.range( doc ),
 				strongsWrapper = doc.getById( 'strongs' ),

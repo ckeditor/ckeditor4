@@ -749,7 +749,7 @@
 			}
 		} )
 
-		/* See http://dev.ckeditor.com/ticket/12474
+		/* See https://dev.ckeditor.com/ticket/12474
 
 		// --- ACF in nested ------------------------------------------------------------------------------------
 

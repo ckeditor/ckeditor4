@@ -62,6 +62,68 @@
 
 			returned = this.object.findKey( inputObject, innerObject );
 			assert.areSame( returned, 'c' );
+		},
+
+		// (#1053)
+		'test object.merge': function() {
+			var obj1 = {
+					one: 1,
+					conflicted: 10,
+					falsy: false,
+					nully: null,
+					obj: {
+						nested1: 1,
+						nestedObj: {
+							a: 3
+						}
+					},
+					array: [ 1, 2 ]
+				},
+				obj2 = {
+					two: 2,
+					conflicted: 20,
+					truthy: true,
+					undef: undefined,
+					obj: {
+						nested2: 2,
+						nestedObj: {
+							b: 4
+						}
+					},
+					array: [ 3, 4 ]
+				},
+				expected = {
+					one: 1,
+					two: 2,
+					conflicted: 20,
+					falsy: false,
+					truthy: true,
+					nully: null,
+					undef: undefined,
+					obj: {
+						nested1: 1,
+						nested2: 2,
+						nestedObj: {
+							a: 3,
+							b: 4
+						}
+					},
+					array: [ 3, 4 ]
+				},
+				actual = this.object.merge( obj1, obj2 );
+
+			assert.areNotSame( obj1, actual, 'Merging does not modify obj1' );
+			assert.areNotSame( obj2, actual, 'Merging does not modify obj2' );
+			objectAssert.areDeepEqual( expected, actual, 'Merging produces correct object' );
+
+			// Reversed merge should produce same object, but with different conflicted and array properties.
+			expected.conflicted = 10;
+			expected.array = [ 1, 2 ];
+			actual = this.object.merge( obj2, obj1 );
+
+			assert.areNotSame( obj1, actual, 'Merging does not modify obj1' );
+			assert.areNotSame( obj2, actual, 'Merging does not modify obj2' );
+			objectAssert.areDeepEqual( expected, actual, 'Merging produces correct object' );
 		}
 	} );
 } )();

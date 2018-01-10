@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -15,7 +15,7 @@
  * using the <kbd>Enter</kbd> key.
  *
  * Read more in the [documentation](#!/guide/dev_enterkey) and see the
- * [SDK sample](http://sdk.ckeditor.com/samples/enterkey.html).
+ * [SDK sample](https://sdk.ckeditor.com/samples/enterkey.html).
  *
  * @readonly
  * @property {Number} [=1]
@@ -30,7 +30,7 @@ CKEDITOR.ENTER_P = 1;
  * using the <kbd>Enter</kbd> key.
  *
  * Read more in the [documentation](#!/guide/dev_enterkey) and see the
- * [SDK sample](http://sdk.ckeditor.com/samples/enterkey.html).
+ * [SDK sample](https://sdk.ckeditor.com/samples/enterkey.html).
  *
  * @readonly
  * @property {Number} [=2]
@@ -45,7 +45,7 @@ CKEDITOR.ENTER_BR = 2;
  * using the <kbd>Enter</kbd> key.
  *
  * Read more in the [documentation](#!/guide/dev_enterkey) and see the
- * [SDK sample](http://sdk.ckeditor.com/samples/enterkey.html).
+ * [SDK sample](https://sdk.ckeditor.com/samples/enterkey.html).
  *
  * @readonly
  * @property {Number} [=3]
@@ -101,7 +101,7 @@ CKEDITOR.config = {
 	 * configuration setting is used.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_uilanguage) and see the
-	 * [SDK sample](http://sdk.ckeditor.com/samples/uilanguages.html).
+	 * [SDK sample](https://sdk.ckeditor.com/samples/uilanguages.html).
 	 *
 	 *		// Load the German interface.
 	 *		config.language = 'de';
@@ -115,7 +115,7 @@ CKEDITOR.config = {
 	 * setting is left empty and it is not possible to localize the editor to the user language.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_uilanguage) and see the
-	 * [SDK sample](http://sdk.ckeditor.com/samples/uilanguages.html).
+	 * [SDK sample](https://sdk.ckeditor.com/samples/uilanguages.html).
 	 *
 	 *		config.defaultLanguage = 'it';
 	 *
@@ -134,7 +134,7 @@ CKEDITOR.config = {
 	 * * `'ltr'` &ndash; Indicates a Left-To-Right text direction (like in English).
 	 * * `'rtl'` &ndash; Indicates a Right-To-Left text direction (like in Arabic).
 	 *
-	 * See the [SDK sample](http://sdk.ckeditor.com/samples/language.html).
+	 * See the [SDK sample](https://sdk.ckeditor.com/samples/language.html).
 	 *
 	 * Example:
 	 *
@@ -158,7 +158,7 @@ CKEDITOR.config = {
 	 * its semantic value and correctness. The editor is optimized for this setting.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_enterkey) and see the
-	 * [SDK sample](http://sdk.ckeditor.com/samples/enterkey.html).
+	 * [SDK sample](https://sdk.ckeditor.com/samples/enterkey.html).
 	 *
 	 *		// Not recommended.
 	 *		config.enterMode = CKEDITOR.ENTER_BR;
@@ -175,7 +175,7 @@ CKEDITOR.config = {
 	 * instead of a `<div>`.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_enterkey) and see the
-	 * [SDK sample](http://sdk.ckeditor.com/samples/enterkey.html).
+	 * [SDK sample](https://sdk.ckeditor.com/samples/enterkey.html).
 	 *
 	 *		// Not recommended.
 	 *		config.forceEnterMode = true;
@@ -196,7 +196,7 @@ CKEDITOR.config = {
 	 * * {@link CKEDITOR#ENTER_DIV} (3) &ndash; New `<div>` blocks are created.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_enterkey) and see the
-	 * [SDK sample](http://sdk.ckeditor.com/samples/enterkey.html).
+	 * [SDK sample](https://sdk.ckeditor.com/samples/enterkey.html).
 	 *
 	 * Example:
 	 *
@@ -257,7 +257,7 @@ CKEDITOR.config = {
 	 * `<body>` content only if this setting is disabled.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_fullpage) and see the
-	 * [SDK sample](http://sdk.ckeditor.com/samples/fullpage.html).
+	 * [SDK sample](https://sdk.ckeditor.com/samples/fullpage.html).
 	 *
 	 *		config.fullPage = true;
 	 *
@@ -274,7 +274,7 @@ CKEDITOR.config = {
 	 * **Note:** This configuration option is ignored by [inline editor](#!/guide/dev_inline).
 	 *
 	 * Read more in the [documentation](#!/guide/dev_size) and see the
-	 * [SDK sample](http://sdk.ckeditor.com/samples/size.html).
+	 * [SDK sample](https://sdk.ckeditor.com/samples/size.html).
 	 *
 	 *		config.height = 500;		// 500 pixels.
 	 *		config.height = '25em';		// CSS length.
@@ -295,7 +295,7 @@ CKEDITOR.config = {
 	 * which the developer has full control over the page HTML code.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_styles) and see the
-	 * [SDK sample](http://sdk.ckeditor.com/samples/styles.html).
+	 * [SDK sample](https://sdk.ckeditor.com/samples/styles.html).
 	 *
 	 *		config.contentsCss = '/css/mysitestyles.css';
 	 *		config.contentsCss = [ '/css/mysitestyles.css', '/css/anotherfile.css' ];
@@ -318,8 +318,8 @@ CKEDITOR.config = {
 	 * to add new plugins without having to touch the {@link CKEDITOR.config#plugins} setting.
 	 *
 	 * **Note:** The most recommended way to
-	 * [add CKEditor plugins](http://docs.ckeditor.com/#!/guide/dev_plugins) is through
-	 * [CKEditor Builder](http://ckeditor.com/builder). Read more in the
+	 * [add CKEditor plugins](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_plugins) is through
+	 * [CKEditor Builder](https://ckeditor.com/cke4/builder). Read more in the
 	 * [documentation](#!/guide/dev_plugins).
 	 *
 	 *		config.extraPlugins = 'myplugin,anotherplugin';
@@ -360,7 +360,7 @@ CKEDITOR.config = {
 	 * The editor `tabindex` value.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_tabindex) and see the
-	 * [SDK sample](http://sdk.ckeditor.com/samples/tabindex.html).
+	 * [SDK sample](https://sdk.ckeditor.com/samples/tabindex.html).
 	 *
 	 *		config.tabIndex = 1;
 	 *
@@ -379,7 +379,7 @@ CKEDITOR.config = {
 	 * **Note:** This configuration option is ignored by [inline editor](#!/guide/dev_inline).
 	 *
 	 * Read more in the [documentation](#!/guide/dev_size) and see the
-	 * [SDK sample](http://sdk.ckeditor.com/samples/size.html).
+	 * [SDK sample](https://sdk.ckeditor.com/samples/size.html).
 	 *
 	 *		config.width = 850;		// 850 pixels wide.
 	 *		config.width = '75%';	// CSS unit.
@@ -437,7 +437,7 @@ CKEDITOR.config = {
  * [compatible with this setting](#!/guide/skin_sdk_chameleon).
  *
  * Read more in the [documentation](#!/guide/dev_uicolor) and see the
- * [SDK sample](http://sdk.ckeditor.com/samples/uicolor.html).
+ * [SDK sample](https://sdk.ckeditor.com/samples/uicolor.html).
  *
  *		// Using a color code.
  *		config.uiColor = '#AADC6E';

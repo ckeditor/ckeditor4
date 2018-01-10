@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		invalidValue: '无效的值。',
 		invalidHeight: '高度必须为数字格式',
 		invalidWidth: '宽度必须为数字格式',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: '此“%1”字段的值必须为正数，可以包含或不包含一个有效的 CSS 长度单位(px, %, in, cm, mm, em, ex, pt 或 pc)',
 		invalidHtmlLength: '此“%1”字段的值必须为正数，可以包含或不包含一个有效的 HTML 长度单位(px 或 %)',
 		invalidInlineStyle: '内联样式必须为格式是以分号分隔的一个或多个“属性名 : 属性值”。',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: '快捷键'
+		keyboardShortcut: '快捷键',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

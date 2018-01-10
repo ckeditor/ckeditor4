@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.add( 'about', {
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'about', {
 		command.readOnly = 1;
 
 		editor.ui.addButton && editor.ui.addButton( 'About', {
-			label: editor.lang.about.title,
+			label: editor.lang.about.dlgTitle,
 			command: 'about',
 			toolbar: 'about'
 		} );

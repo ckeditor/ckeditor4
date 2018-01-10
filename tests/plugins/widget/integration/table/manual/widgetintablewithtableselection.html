@@ -1,0 +1,82 @@
+<textarea id="classic" >
+	<table border="1" cellspacing="1" cellpadding="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td><strong style="background-color:#C0392B; padding:5px" class="inline-widget">Very strong text.</strong></td>
+				<td>Some text</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<table border="1" cellspacing="1" cellpadding="1" style="width:200px">
+						<tbody>
+							<tr>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><div style="background-color:#F4D03F;padding:5px;" class="block-widget">Some text in div.</div><p> </p></td>
+								<td>Nested Table</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+				<td>Some text</td>
+			</tr>
+		</tbody>
+	</table>
+	<p> </p>
+</textarea>
+
+<div id="divarea">
+	<table border="1" cellspacing="1" cellpadding="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><div style="background-color:#F4D03F;padding:5px;" class="block-widget">Some text in div.</div><p> </p></td>
+				<td>Some text</td>
+			</tr>
+			<tr>
+				<td>
+					<table border="1" cellspacing="1" cellpadding="1" style="width:200px">
+						<tbody>
+							<tr>
+								<td><strong style="background-color:#C0392B; padding:5px" class="inline-widget">Very strong text.</strong></td>
+								<td>Nested Table</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+				<td>Some text</td>
+			</tr>
+		</tbody>
+	</table>
+	<p> </p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'classic', {
+		extraPlugins: 'inlineWidget,blockWidget',
+		on: {
+			pluginsLoaded: function() {
+				if ( !CKEDITOR.plugins.tableselection.isSupportedEnvironment ) {
+					bender.ignore();
+				}
+			}
+		}
+	} );
+
+	CKEDITOR.replace( 'divarea', {
+		extraPlugins: 'divarea,inlineWidget,blockWidget'
+	} );
+</script>

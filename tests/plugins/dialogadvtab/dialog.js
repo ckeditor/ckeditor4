@@ -19,7 +19,7 @@
 			ed.focus();
 		},
 
-		// http://dev.ckeditor.com/ticket/9553
+		// https://dev.ckeditor.com/ticket/9553
 		'test getStyle': function() {
 			var bot = this.editorBot;
 
@@ -37,7 +37,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/9281
+		// https://dev.ckeditor.com/ticket/9281
 		'test dialog field updateStyle': function() {
 			var bot = this.editorBot;
 			bot.dialog( 'testAdvTab', function( dialog ) {

@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		invalidValue: 'Giá trị không hợp lệ.',
 		invalidHeight: 'Chiều cao phải là số nguyên.',
 		invalidWidth: 'Chiều rộng phải là số nguyên.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'Giá trị quy định cho trường "%1" phải là một số dương có hoặc không có một đơn vị đo CSS hợp lệ (px, %, in, cm, mm, em, ex, pt, hoặc pc).',
 		invalidHtmlLength: 'Giá trị quy định cho trường "%1" phải là một số dương có hoặc không có một đơn vị đo HTML hợp lệ (px hoặc %).',
 		invalidInlineStyle: 'Giá trị quy định cho kiểu nội tuyến phải bao gồm một hoặc nhiều dữ liệu với định dạng "tên:giá trị", cách nhau bằng dấu chấm phẩy.',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'vi' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Keyboard shortcut', // MISSING
+
+		optionDefault: 'Default' // MISSING
 	}
 };

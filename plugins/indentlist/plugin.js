@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -172,9 +172,19 @@
 
 			for ( i = startItem.getCustomData( 'listarray_index' ); i <= lastItem.getCustomData( 'listarray_index' ); i++ ) {
 				listArray[ i ].indent += indentOffset;
-				// Make sure the newly created sublist get a brand-new element of the same type. (http://dev.ckeditor.com/ticket/5372)
+				// Make sure the newly created sublist get a brand-new element of the same type. (https://dev.ckeditor.com/ticket/5372)
 				if ( indentOffset > 0 ) {
 					var listRoot = listArray[ i ].parent;
+
+					// Find previous list item which has the same indention offset as the new indention offset
+					// of current item to copy its root tag (so the proper list-style-type is used) (#842).
+					for ( var j = i - 1; j >= 0; j-- ) {
+						if ( listArray[ j ].indent === indentOffset ) {
+							listRoot = listArray[ j ].parent;
+							break;
+						}
+					}
+
 					listArray[ i ].parent = new CKEDITOR.dom.element( listRoot.getName(), listRoot.getDocument() );
 				}
 			}
@@ -187,7 +197,7 @@
 			var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode, listNode.getDirection() );
 
 			// Avoid nested <li> after outdent even they're visually same,
-			// recording them for later refactoring.(http://dev.ckeditor.com/ticket/3982)
+			// recording them for later refactoring.(https://dev.ckeditor.com/ticket/3982)
 			if ( !that.isIndent ) {
 				var parentLiElement;
 				if ( ( parentLiElement = listNode.getParent() ) && parentLiElement.is( 'li' ) ) {
@@ -215,7 +225,7 @@
 					// Nest preceding <ul>/<ol> inside current <li> if any.
 					while ( ( followingList = followingList.getNext() ) && followingList.is && followingList.getName() in context ) {
 						// IE requires a filler NBSP for nested list inside empty list item,
-						// otherwise the list item will be inaccessiable. (http://dev.ckeditor.com/ticket/4476)
+						// otherwise the list item will be inaccessiable. (https://dev.ckeditor.com/ticket/4476)
 						if ( CKEDITOR.env.needsNbspFiller && !li.getFirst( neitherWhitespacesNorBookmark ) )
 							li.append( range.document.createText( '\u00a0' ) );
 
@@ -240,7 +250,7 @@
 			var nearestListBlock = range.getCommonAncestor();
 
 			while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && context[ nearestListBlock.getName() ] ) ) {
-				// Avoid having plugin propagate to parent of editor in inline mode by canceling the indentation. (http://dev.ckeditor.com/ticket/12796)
+				// Avoid having plugin propagate to parent of editor in inline mode by canceling the indentation. (https://dev.ckeditor.com/ticket/12796)
 				if ( editor.editable().equals( nearestListBlock ) ) {
 					nearestListBlock = false;
 					break;
@@ -255,7 +265,7 @@
 					range.setEndAt( nearestListBlock, CKEDITOR.POSITION_BEFORE_END );
 			}
 
-			// Avoid having selection enclose the entire list. (http://dev.ckeditor.com/ticket/6138)
+			// Avoid having selection enclose the entire list. (https://dev.ckeditor.com/ticket/6138)
 			// [<ul><li>...</li></ul>] =><ul><li>[...]</li></ul>
 			if ( !nearestListBlock ) {
 				var selectedNode = range.getEnclosedNode();

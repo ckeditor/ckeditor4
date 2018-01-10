@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		invalidValue: 'Valeur invalide.',
 		invalidHeight: 'La hauteur doit être un nombre.',
 		invalidWidth: 'La largeur doit être un nombre.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'La valeur spécifiée pour le champ "%1" doit être un nombre positif avec ou sans unité de mesure CSS valide (px, %, in, cm, mm, em, ex, pt, ou pc).',
 		invalidHtmlLength: 'La valeur spécifiée pour le champ "%1" doit être un nombre positif avec ou sans unité de mesure HTML valide (px ou %).',
 		invalidInlineStyle: 'La valeur spécifiée pour le style intégré doit être composée d\'un ou plusieurs couples de valeur au format "nom : valeur", separés par des points-virgules.',
@@ -112,6 +113,8 @@ CKEDITOR.lang[ 'fr-ca' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Keyboard shortcut', // MISSING
+
+		optionDefault: 'Default' // MISSING
 	}
 };

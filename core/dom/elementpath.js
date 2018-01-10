@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 'use strict';
@@ -89,7 +89,7 @@
 						block = e;
 
 					if ( pathBlockLimitElements[ elementName ] ) {
-						// End level DIV is considered as the block, if no block is available. (http://dev.ckeditor.com/ticket/525)
+						// End level DIV is considered as the block, if no block is available. (https://dev.ckeditor.com/ticket/525)
 						// But it must NOT be the root element (checked above).
 						if ( !block && elementName == 'div' && !checkHasBlock( e ) )
 							block = e;

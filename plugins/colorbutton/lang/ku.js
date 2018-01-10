@@ -1,6 +1,6 @@
 ﻿/*
 Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'ku', {
 	auto: 'خۆکار',
@@ -46,27 +46,27 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ku', {
 		F0F8FF: 'شینێکی ئاسمانی زۆر ناتۆخ',
 		E6E6FA: 'شیری',
 		FFF: 'سپی',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
+		'1ABC9C': 'شینی ئاسمانی بەهیز',
+		'2ECC71': 'زەمروتی سەوز',
 		'3498DB': 'شینی ناتۆخ',
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
+		'9B59B6': 'ئەرخەوانی، وەنەوشەیی',
+		'4E5F70': 'شینی ڕه‌ساسی',
+		'F1C40F': 'زەردی زیندوو',
+		'16A085': 'شینی ئاسمانی تاریک',
+		'27AE60': 'زەمروتی سەوزی تاریک',
 		'2980B9': 'شینی تۆخ',
 		'8E44AD': 'پەمەیی تاریک',
-		'2C3E50': 'Desaturated Blue', // MISSING
+		'2C3E50': 'شینی ڕەشوسپی',
 		'F39C12': 'نارنجی',
 		'E67E22': 'گێزەر',
-		'E74C3C': 'Pale Red', // MISSING
+		'E74C3C': 'سوری زەرد هەڵگەڕاو',
 		'ECF0F1': 'زیوی ڕووناک',
-		'95A5A6': 'Light Grayish Cyan', // MISSING
+		'95A5A6': 'شینی ئاسمانی ڕه‌ساسی بریسکه‌دار',
 		'DDD': 'ڕەساسی بریسکەدار',
 		'D35400': 'کولەکەی شیرین',
 		'C0392B': 'سوری بەهێز',
 		'BDC3C7': 'زیوی',
-		'7F8C8D': 'Grayish Cyan', // MISSING
+		'7F8C8D': 'شینی ئاسمانی ڕه‌ساسی',
 		'999': 'ڕەساسی تۆخ'
 	},
 	more: 'ڕەنگی زیاتر...',
