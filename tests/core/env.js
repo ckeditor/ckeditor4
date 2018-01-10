@@ -39,5 +39,12 @@ bender.test( {
 
 	'test isCompatible': function() {
 		assert.isTrue( CKEDITOR.env.isCompatible );
+	},
+
+	'test OS is Windows': function() {
+		if ( !window.navigator.userAgent.match( /windows/i ) ) {
+			assert.ignore();
+		}
+		assert.isTrue( CKEDITOR.env.win );
 	}
 } );

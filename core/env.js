@@ -80,6 +80,16 @@ if ( !CKEDITOR.env ) {
 			mac: ( agent.indexOf( 'macintosh' ) > -1 ),
 
 			/**
+			 * Indicates that CKEditor is running on Windows.
+			 *
+			 *		if ( CKEDITOR.env.win )
+			 *			alert( 'I\'m not afraid of BSOD! );
+			 *
+			 * @property {Boolean}
+			 */
+			win: ( agent.indexOf( 'windows' ) > -1 ),
+
+			/**
 			 * Indicates that CKEditor is running in a Quirks Mode environment.
 			 *
 			 *		if ( CKEDITOR.env.quirks )
