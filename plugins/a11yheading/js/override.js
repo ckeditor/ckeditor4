@@ -1,3 +1,7 @@
+/**
+* Copyright (c) 2018 University of Illinois - Jon Gunderson and Nicholas Hoyt. All rights reserved.
+* For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
 CKEDITOR.ui.button.prototype.setState = function ( state ) {
   if ( this._.state == state )
     return false;
