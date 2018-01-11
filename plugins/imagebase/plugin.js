@@ -525,7 +525,7 @@
 
 				listener = editor.on( 'selectionChange', function( evt ) {
 					var widgets = editor.widgets,
-						focused = widgets.focused,
+						focused = getFocusedWidget( editor ),
 						previous = widgets.getByElement( editor.editable().findOne( 'figcaption[data-cke-active]' ) );
 
 					if ( !editor.filter.check( 'figcaption' ) ) {
