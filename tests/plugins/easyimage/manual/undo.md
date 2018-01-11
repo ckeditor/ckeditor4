@@ -7,7 +7,7 @@
 Upload some images:
 
 1. Execute one of the following steps:
-	1. Make a screenshot, copy a graphic to the clipboard and paste using `ctrl/cmd+v`.
+	1. Make a screenshot, copy a graphic to the clipboard and paste using `ctrl/cmd+v`. This method does not work in Safari at the moment.
 	1. Drag and drop an jpg/png/bmp/gif image from your OS explorer to the editable.
 	1. Firefox only: Copy an image file (from your OS explorer) into the clipboard, and paste into the editable.
 2. Click "Undo" button
