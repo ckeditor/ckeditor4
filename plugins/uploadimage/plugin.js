@@ -61,7 +61,7 @@
 
 			// Handle images which are available in the dataTransfer.
 			fileTools.addUploadWidget( editor, 'uploadimage', {
-				supportedTypes: getSupportedTypes( editor.config.uploadImage_supportedTypes ),
+				supportedTypes: getSupportedTypes( editor.config.uploadimage_supportedTypes ),
 
 				uploadUrl: uploadUrl,
 
@@ -159,9 +159,9 @@
 	 * Warning: some browsers does not support all custom types eg. Google Chrome and Firefox cannot display `TIF` images.
 	 *
 	 * @since 4.8.1
-	 * @cfg {String[]} [uploadImage_supportedTypes=['jpeg', 'png', 'gif', 'bmp'] (empty array = disabled)]
+	 * @cfg {String[]} [uploadimage_supportedTypes=['jpeg', 'png', 'gif', 'bmp'] (empty array = disabled)]
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.uploadImage_supportedTypes = [ 'jpeg', 'png', 'gif', 'bmp' ];
+	CKEDITOR.config.uploadimage_supportedTypes = [ 'jpeg', 'png', 'gif', 'bmp' ];
 
 } )();

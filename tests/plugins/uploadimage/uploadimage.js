@@ -22,7 +22,7 @@
 				imageUploadUrl: 'http://foo/upload',
 				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
 				pasteFilter: null,
-				uploadImage_supportedTypes: [ 'png', 'tif' ]
+				uploadimage_supportedTypes: [ 'png', 'tif' ]
 			}
 		},
 		customDisabled: {
@@ -34,7 +34,7 @@
 				imageUploadUrl: 'http://foo/upload',
 				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
 				pasteFilter: null,
-				uploadImage_supportedTypes: []
+				uploadimage_supportedTypes: []
 			}
 		},
 		classic: {
@@ -343,7 +343,7 @@
 			} );
 		},
 
-		'test custom uploadImage_supportedTypes': function() {
+		'test custom uploadimage_supportedTypes': function() {
 			var bot = this.editorBots.custom,
 				editor = this.editors.custom;
 
@@ -364,7 +364,7 @@
 			} );
 		},
 
-		'test disabled uploadImage_supportedTypes': function() {
+		'test disabled uploadimage_supportedTypes': function() {
 			var bot = this.editorBots.customDisabled,
 				editor = this.editors.customDisabled;
 
