@@ -4,14 +4,14 @@
 
 ----
 
-Test should be performed on a Windows operating system with polish keyboard layout. You can't validate this test case on UNIX based systems. 
+Test should be performed on a Windows operating system with Polish keyboard layout. You can't validate this test case on UNIX based systems. 
 
-1. Set system settings to use polish keyboard layout.
+1. Set system settings to use Polish keyboard layout.
 2. Focus editor instance.
 3. Press `Alt + a` to insert `ą` letter.
 
-**Expected:**
+## Expected
 `ą` letter has been inserted at the caret position. Editor content has not been selected.
 
-**Unexpected:** 
+## Expected
 `ą` letter has not been inserted and/or editor content has been selected.
