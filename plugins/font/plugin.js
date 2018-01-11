@@ -39,7 +39,7 @@
 			defaultValue: 'cke-default',
 			allowedContent: style,
 			requiredContent: style,
-			contentTransformations: [
+			contentTransformations: styleDefinition.element === 'span' ? [
 				[
 					{
 						element: 'font',
@@ -80,7 +80,7 @@
 						}
 					}
 				]
-			],
+			] : null,
 			panel: {
 				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
 				multiSelect: false,
