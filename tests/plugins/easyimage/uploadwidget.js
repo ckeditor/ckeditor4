@@ -1,5 +1,5 @@
 /* bender-tags: editor,clipboard,widget */
-/* bender-ckeditor-plugins: easyimage,toolbar, */
+/* bender-ckeditor-plugins: easyimage,toolbar,undo */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js */
 /* bender-include: %BASE_PATH%/plugins/uploadfile/_helpers/waitForImage.js */
 /* global pasteFiles, waitForImage */
@@ -155,6 +155,47 @@
 				assert.areSame( 0, loadAndUploadCount );
 				assert.areSame( 1, uploadCount );
 			} );
+		},
+
+		// #tp3183
+		'test undo steps (integration test)': function( editor ) {
+			editor.resetUndo();
+
+			var file = bender.tools.srcToFile( DATA_IMG );
+			file.name = 'foo.gif';
+			pasteFiles( editor, [ file ] );
+
+			var loader = editor.uploadRepository.loaders[ 0 ];
+
+			loader.data = DATA_IMG;
+			loader.uploaded = 0;
+			loader.uploadTotal = 10;
+			loader.changeStatus( 'uploading' );
+
+			// We need timeout to omit progressbar throttling to force refresh of progressbar.
+			setTimeout( function() {
+				resume( function() {
+					loader.uploaded += 7;
+					loader.update();
+
+					var image = editor.editable().find( 'img[data-widget="uploadeasyimage"]' ).getItem( 0 );
+
+					loader.url = IMG_URL;
+					loader.changeStatus( 'uploaded' );
+
+					waitForImage( image, function() {
+						editor.once( 'afterCommandExec', function() {
+							resume( function() {
+								assert.isFalse( editor.undoManager.undoable(), 'undo state' );
+							} );
+						} );
+
+						editor.execCommand( 'undo' );
+						wait();
+					} );
+				} );
+			}, 150 );
+			wait();
 		},
 
 		'test paste img as html (integration test)': function( editor, bot ) {
