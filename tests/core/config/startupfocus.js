@@ -17,13 +17,18 @@
 			}, setup.extraConfig )
 		}, function( bot ) {
 			resume( function() {
+				var options = {
+					normalizeSelection: true,
+					compareSelection: true,
+					fixStyles: true
+				};
 				if ( setup.startupFocus ) {
 					assert.isTrue( bot.editor.focusManager.hasFocus, 'editor is focused' );
 				} else {
 					assert.isFalse( bot.editor.focusManager.hasFocus, 'editor is not focused' );
 				}
 				if ( setup.startupFocus === 'end' ) {
-					assert.beautified.html( setup.expected , bender.tools.selection.getWithHtml( bot.editor ) );
+					assert.isInnerHtmlMatching( setup.expected , bender.tools.selection.getWithHtml( bot.editor ), options );
 				}
 			} );
 			wait();
@@ -46,21 +51,21 @@
 			assertStartupFocus( {
 				name: 'editor_end',
 				startupFocus: 'end',
-				expected: '<p>foo</p><p>foo[]</p>'
+				expected: '<p>foo@</p><p>foo^@</p>'
 			} );
 		},
 		'test startup focus "end" table': function() {
 			assertStartupFocus( {
 				name: 'editor_table',
 				startupFocus: 'end',
-				expected: '<p>foo</p><table><tbody><tr><td>cell[]</td></tr></tbody></table>'
+				expected: '<p>foo@</p><table><tbody><tr><td>cell^@</td></tr></tbody></table>'
 			} );
 		},
 		'test startup focus "end" tailing bold': function() {
 			assertStartupFocus( {
 				name: 'editor_tailing_bold',
 				startupFocus: 'end',
-				expected: '<p>foo</p><p><strong>baz[]</strong></p>'
+				expected: '<p>foo@</p><p><strong>baz^</strong>@</p>'
 			} );
 		},
 		'test startup focus default': function() {
@@ -73,14 +78,14 @@
 			assertStartupFocus( {
 				name: 'editor_start',
 				startupFocus: 'start',
-				expected: '<p>[]foo</p>'
+				expected: '<p>^foo</p>'
 			} );
 		},
 		'test startup focus "end" img': function() {
 			assertStartupFocus( {
 				name: 'editor_img',
 				startupFocus: 'end',
-				expected: '<p>foo</p><p><img alt="Saturn V"  data-cke-saved-src="/tests/_assets/logo.png" src="%BASE_PATH%_assets/logo.png" style="width:200px" />[]</p>',
+				expected: '<p>foo@</p><p><img alt="Saturn V" data-cke-saved-src="/tests/_assets/logo.png" src="%BASE_PATH%_assets/logo.png" style="width:200px" />^@</p>',
 				extraConfig: {
 					extraPlugins: 'image'
 				}
