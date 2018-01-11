@@ -54,7 +54,11 @@
 					options.onInit( widget );
 				}
 
-				widget.focus();
+				if ( options.customFocus ) {
+					options.customFocus( widget );
+				} else {
+					widget.focus();
+				}
 
 				assertVisibility( caption, options.focus, 'caption visibility (focus)' );
 
@@ -205,6 +209,22 @@
 			initial: true,
 			focus: true,
 			blur: false,
+
+			onFocus: function( widget ) {
+				assertPlaceholder( widget, false );
+				fillInCaption( widget, '' );
+			}
+		} ),
+
+		'test toggling caption (one widget with non-empty caption that gets emptied; focus in caption)': createToggleTest( {
+			fixture: 'toggleOne',
+			initial: true,
+			focus: true,
+			blur: false,
+
+			customFocus: function( widget ) {
+				widget.editables.caption.focus();
+			},
 
 			onFocus: function( widget ) {
 				assertPlaceholder( widget, false );
