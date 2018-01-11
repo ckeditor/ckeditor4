@@ -20,4 +20,4 @@ Upload some images:
 ### Unexpected
 
 * Widget still exists after pressing "Undo".
-* There are more than one undo steps.
+* There are more than one undo step.
