@@ -89,7 +89,7 @@
 				extraConfig: {
 					extraPlugins: 'image'
 				}
-			} )
+			} );
 		}
 	} );
 } )();
