@@ -8,7 +8,7 @@
 
 	bender.editor = {
 		config: {
-			extraAllowedContent: 'span font(*){*}[*];strong em u;',
+			extraAllowedContent: 'span font(*){*}[*];strong em;',
 			font_style: {
 				element: 'font',
 				attributes: { 'face': '#(family)' },
