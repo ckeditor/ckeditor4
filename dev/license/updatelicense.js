@@ -15,7 +15,9 @@ var fs = require( 'fs' ),
 recursivelyUpdateLicenseDate( destination );
 
 function recursivelyUpdateLicenseDate( filepath ) {
-	if ( EXCLUDED_DIRS.indexOf( path.basename( filepath ) ) != -1 ) return;
+	if ( EXCLUDED_DIRS.indexOf( path.basename( filepath ) ) != -1 ) {
+		return;
+	}
 
 	var stats = fs.statSync( filepath );
 
@@ -41,5 +43,7 @@ function updateLicenseDate( filepath ) {
 		match = regexp.exec( data );
 	}
 
-	if ( updated ) fs.writeFileSync( filepath, data );
+	if ( updated ) {
+		fs.writeFileSync( filepath, data );
+	}
 }
