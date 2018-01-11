@@ -8,31 +8,52 @@
 * Note: When filebrowser, format and stylescombo are removed, their
 * dependencies (popup, listblock and richcombo) are also removed.
 *
-* 1. Add a11ychecker, find, justify, language, liststyle, showblocks
+* 1. Add the following plugins:
 *
-* 2. Remove filebrowser, floatingspace, format, horizontalrule, htmlwriter,
-*    maximize, scayt (spellchecker), stylescombo and wsc (spellchecker)
+*    Accessibility Checker  (a11ychecker)
+*    Find / Replace         (find)
+*    Justify                (justify)
+*    Language               (language)
+*    List Style             (liststyle)
+*    Show Blocks            (showblocks)
 *
-* 3. Add listblock, richcombo (a11yfirst dependencies)
+* 2. Remove the following plugins:
+*
+*    File Browser           (filebrowser)
+*    Floating Space         (floatingspace)
+*    Format                 (format)
+*    Horizontal Rule        (horizontalrule)
+*    HTML Output Writer     (htmlwriter)
+*    Maximize               (maximize)
+*    SpellCheckAsYouType    (scayt)
+*    Styles Combo           (stylescombo)
+*    Upload Image           (uploadimage)
+*    WebSpellChecker        (wsc)
+*
+* 3. Add the a11yfirst plugin dependencies that were removed when the
+*    Standard preset plugins format and stylescombo were removed:
+*
+*    List Block             (listblock)
+*    Rich Combo             (richcombo)
 *
 * Note: To determine which plugins to include in our distribution, an analysis
 * of the differences between the Basic and Standard presets was performed. The
 * following are the additional plugins provided by Standard over Basic, with
 * comments specifying whether to include each:
 *
-*   elementspath     // yes
-*   filebrowser      // no
-*   horizontalrule   // no
-*   htmlwriter       // no
-*   magicline        // yes
-*   maximize         // no
-*   popup            // no
-*   resize           // yes
-*   showborders      // yes
-*   sourcearea       // yes
-*   tab              // yes
-*   tableselection   // yes
-*   tabletools       // yes
+*    elementspath     // yes
+*    filebrowser      // no
+*    horizontalrule   // no
+*    htmlwriter       // no
+*    magicline        // yes
+*    maximize         // no
+*    popup            // no
+*    resize           // yes
+*    showborders      // yes
+*    sourcearea       // yes
+*    tab              // yes
+*    tableselection   // yes
+*    tabletools       // yes
 */
 
 CKEDITOR.editorConfig = function ( config ) {
