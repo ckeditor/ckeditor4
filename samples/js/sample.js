@@ -14,14 +14,11 @@ CKEDITOR.config.height = 150;
 CKEDITOR.config.width = 'auto';
 
 var initSample = ( function() {
-	var wysiwygareaAvailable = isWysiwygareaAvailable(),
-		isBBCodeBuiltIn = !!CKEDITOR.plugins.get( 'bbcode' );
-
 	return function() {
 		var editorElement = CKEDITOR.document.getById( 'editor' );
 
-		// :(((
-		if ( isBBCodeBuiltIn ) {
+		// Sample content for bbcode.
+		if ( hasPlugin( 'bbcode' ) ) {
 			editorElement.setHtml(
 				'Hello world!\n\n' +
 				'I\'m an instance of [url=https://ckeditor.com]CKEditor[/url].'
@@ -29,25 +26,36 @@ var initSample = ( function() {
 		}
 
 		// Depending on the wysiwygare plugin availability initialize classic or inline editor.
-		if ( wysiwygareaAvailable ) {
+		if ( hasPlugin( 'wysiwygarea' ) ) {
 			CKEDITOR.replace( 'editor' );
 		} else {
 			editorElement.setAttribute( 'contenteditable', 'true' );
-			CKEDITOR.inline( 'editor' );
+
+			var editor = CKEDITOR.inline( 'editor', {
+				on: {
+					instanceReady: function() {
+						// Without focus inline editor will not be seen by the users.
+						editor.focus();
+					}
+				}
+			} );
 
 			// TODO we can consider displaying some info box that
 			// without wysiwygarea the classic editor may not work.
 		}
 	};
 
-	function isWysiwygareaAvailable() {
+	function hasPlugin( name ) {
 		// If in development mode, then the wysiwygarea must be available.
 		// Split REV into two strings so builder does not replace it :D.
 		if ( CKEDITOR.revision == ( '%RE' + 'V%' ) ) {
-			return true;
+			var config = {};
+			CKEDITOR.editorConfig( config );
+
+			return config.plugins.split( ',' ).indexOf( name ) > -1;
 		}
 
-		return !!CKEDITOR.plugins.get( 'wysiwygarea' );
+		return Boolean( CKEDITOR.plugins.get( name ) );
 	}
 } )();
 
