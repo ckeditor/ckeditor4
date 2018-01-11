@@ -37,8 +37,29 @@
 
 	bender.resetCKEditorSettings = function() {
 		CKEDITOR.config.customConfig = '';
-		CKEDITOR.replaceClass = false;
-		CKEDITOR.disableAutoInline = true;
+	};
+
+	bender.getAbsolutePath = function( path ) {
+		var suffixIndex, suffix, temp;
+
+		// If this is not a full or absolute path.
+		if ( path.indexOf( '://' ) == -1 && path.indexOf( '/' ) !== 0 ) {
+			// Webkit bug: Avoid requesting with original file name (MIME type)
+			// which will stop browser from interpreting resources from same URL.
+			suffixIndex = path.lastIndexOf( '.' );
+			suffix = suffixIndex == -1 ? '' : path.substring( suffixIndex, path.length );
+
+			if ( suffix ) {
+				path = path.substring( 0, suffixIndex );
+			}
+
+			temp = window.document.createElement( 'img' );
+			temp.src = path;
+
+			return temp.src + suffix;
+		} else {
+			return path;
+		}
 	};
 
 	bender.configurePlugins = function( config, callback ) {
@@ -100,6 +121,7 @@
 				bender.editorBot.create( bender.editor, function( bot ) {
 					// bender.editor = bender.testCase.editor = bot.editor;
 					bot.testCase.editor = bot.editor;
+					bender.editor = bot.editor;
 					// bender.testCase.editorBot = bot;
 					bot.testCase.editorBot = bot;
 					setUpEditors();
@@ -132,8 +154,10 @@
 					if ( !name ) {
 						// bender.editors = bender.testCase.editors = editors;
 						testCase.editors = editors;
+						bender.editors = editors;
 						// bender.editorBots = bender.testCase.editorBots = bots;
 						testCase.editorBots = bots;
+						bender.editorBots = bots;
 						startTestsCallback();
 						return;
 					}

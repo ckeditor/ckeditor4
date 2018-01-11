@@ -23,18 +23,6 @@
 		this._waitTimeoutId = null;
 	}
 
-	MochaAdapter.appendFixtures = function( testTags ) {
-		if ( testTags.fixture ) {
-			var fixturePath = testTags.fixture.path;
-
-			if ( window.__html__ && window.__html__[ fixturePath ] ) {
-				// All fixtures are placed directly in the end of the `body`. Fixtures needs to be placed directly in the body as
-				// in some tests elements paths are checked (so the wrapper container will be additional element in this path, breaking the assertions).
-				window.document.body.insertAdjacentHTML( 'beforeend', window.__html__[ fixturePath ] );
-			}
-		}
-	};
-
 	MochaAdapter.prototype.getBenderTestCase = function() {
 		return this._benderTestSuite;
 	};

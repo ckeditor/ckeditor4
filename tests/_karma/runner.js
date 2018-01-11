@@ -28,9 +28,6 @@
 			}
 		};
 
-		// Fixtures should ba appended here as some test access them in the global scope, e.g. `/tests/core/dom/range/blockindication.js`.
-		MochaAdapter.appendFixtures( testSuite.tags.test );
-
 		// Run original test file. This will trigger bender.test function defined above.
 		testSuite.tests();
 	};
