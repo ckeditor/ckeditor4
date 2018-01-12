@@ -103,7 +103,7 @@
 			}, 10 );
 		},
 
-		'test objectURL management during canceled image upload': function( editor, bot ) {
+		'test objectURL management during errored image upload': function( editor, bot ) {
 			resetEditor( editor );
 
 			pasteFiles( editor, [ bender.tools.getTestPngFile( 'test3.png' ) ] );
@@ -121,7 +121,7 @@
 
 			assert.areSame( 1, tc.createSpy.callCount );
 
-			uploadWidget.onCancel( loader );
+			uploadWidget.onError( loader );
 
 			wait( function() {
 				assert.areSame( 1, tc.createSpy.callCount );
@@ -184,7 +184,7 @@
 			assert.isTrue( tc.createSpy.calledWith( file3 ) );
 
 			mockResponse( loader2 );
-			uploadWidget.onCancel( loader1 );
+			uploadWidget.onError( loader1 );
 			uploadWidget.onUploaded( loader2 );
 			uploadWidget.onAbort( loader3 );
 

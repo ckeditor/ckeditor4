@@ -294,7 +294,7 @@
 				revokeFileObjectURL( upload.file );
 			},
 
-			onCancel: function( upload ) {
+			onError: function( upload ) {
 				revokeFileObjectURL( upload.file );
 			}
 		};
