@@ -36,14 +36,32 @@
 		}
 	}
 
-	var widgetHtml = '<figure class="image easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
+	var originalGetClientRect = CKEDITOR.dom.element.prototype.getClientRect,
+		widgetHtml = '<figure class="image easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		sideWidgetHtml = '<figure class="image easyimage easyimage-side"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		tests = {
+			setUp: function() {
+				if ( CKEDITOR.env.ie ) {
+					CKEDITOR.dom.element.prototype.getClientRect = function() {
+						return {
+							width: 0,
+							height: 0,
+							left: 0,
+							top: 0
+						};
+					};
+				}
+			},
+
 			tearDown: function() {
 				var currentDialog = CKEDITOR.dialog.getCurrent();
 
 				if ( currentDialog ) {
 					currentDialog.hide();
+				}
+
+				if ( CKEDITOR.env.ie ) {
+					CKEDITOR.dom.element.prototype.getClientRect = originalGetClientRect;
 				}
 			},
 
