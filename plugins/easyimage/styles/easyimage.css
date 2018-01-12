@@ -18,6 +18,7 @@ The outline is not a part of the element's dimensions, we have to use a border a
 	outline: none;
 	border: 1px solid #0782C1;
 	box-sizing: border-box;
+	padding: 1px;
 }
 
 .easyimage img, .cke_widget_uploadeasyimage img {
