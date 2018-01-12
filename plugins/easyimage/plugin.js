@@ -202,6 +202,9 @@
 	}
 
 	function registerUploadWidget( editor ) {
+		var objectUrlCache = {},
+			uploadWidgetDefinition;
+
 		// Natural width of the image can be fetched only after image is loaded.
 		// However cached images won't fire `load` event, but just mark themselves
 		// as complete.
@@ -217,7 +220,33 @@
 			} );
 		}
 
-		var uploadWidgetDefinition = {
+		// Return id for a given file object instance.
+		function getFileId( file ) {
+			return file ? [ file.name, file.size, file.lastModified ].join( '_' ) : null;
+		}
+
+		// Creates, caches and returns object url for a given file.
+		function getFileObjectURL( file ) {
+			var fileId = getFileId( file );
+			if ( fileId && !objectUrlCache[ fileId ] ) {
+				objectUrlCache[ fileId ] = URL.createObjectURL( file );
+			}
+			return objectUrlCache[ fileId ];
+		}
+
+		// Revokes/releases object url for a given file.
+		function revokeFileObjectURL( file ) {
+			var fileId = getFileId( file );
+			if ( fileId && objectUrlCache[ fileId ] ) {
+				// Deffer the revoke call.
+				CKEDITOR.tools.setTimeout( function() {
+					URL.revokeObjectURL( objectUrlCache[ fileId ] );
+					delete objectUrlCache[ fileId ];
+				}, 0 );
+			}
+		}
+
+		uploadWidgetDefinition = {
 			supportedTypes: /image\/(jpeg|png|gif|bmp)/,
 
 			// Easy image uses only upload method, as is manually handled in onUploading function.
@@ -239,8 +268,11 @@
 			},
 
 			onUploading: function( upload ) {
-				// Show the image during the upload.
-				this.parts.img.setAttribute( 'src', URL.createObjectURL( upload.file ) );
+				var objectUrl = getFileObjectURL( upload.file );
+				if ( objectUrl && this.parts.img.getAttribute( 'src' ) !== objectUrl ) {
+					// Show the image during the upload.
+					this.parts.img.setAttribute( 'src', objectUrl );
+				}
 			},
 
 			onUploaded: function( upload ) {
@@ -254,6 +286,16 @@
 							'<figcaption></figcaption>' +
 						'</figure>' );
 				} );
+
+				revokeFileObjectURL( upload.file );
+			},
+
+			onAbort: function( upload ) {
+				revokeFileObjectURL( upload.file );
+			},
+
+			onCancel: function( upload ) {
+				revokeFileObjectURL( upload.file );
 			}
 		};
 
