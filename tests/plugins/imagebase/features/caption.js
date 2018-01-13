@@ -66,9 +66,13 @@
 					options.onFocus( widget );
 				}
 
-				range.setStart( focusTrap, 1 );
-				range.collapse();
-				range.select();
+				if ( options.customBlur ) {
+					options.customBlur.call( this, widget );
+				} else  {
+					range.setStart( focusTrap, 1 );
+					range.collapse();
+					range.select();
+				}
 
 				assertVisibility( caption, options.blur, 'caption visibility (blur)' );
 
@@ -296,6 +300,89 @@
 
 			onBlur: function( widget ) {
 				assertPlaceholder( widget, false );
+			}
+		} ),
+
+		'test blurring editor hides visible, empty caption (widget focused)': createToggleTest( {
+			fixture: 'toggleOneEmpty',
+			initial: false,
+			focus: true,
+			blur: false,
+
+			customBlur: function( widget ) {
+				var focusHost = CKEDITOR.document.getById( 'focusHost' ),
+					editor = widget.editor;
+
+				widget.focus();
+
+				// Normally we'd listen to focusHost#focus event, but it happens **before** blur, which might handle
+				// this case.
+				widget.once( 'blur', function() {
+					resume( function() {
+						assertVisibility( widget.parts.caption, false, 'Caption visibility' );
+					} );
+				}, null, null, 9999 );
+
+				// Enforce focus event to be called asynchronously on all browsers.
+				setTimeout( function() {
+					focusHost.focus();
+				}, 0 );
+
+				wait();
+			}
+		} ),
+
+		'test blurring editor hides visible, empty caption (caption focused)': createToggleTest( {
+			fixture: 'toggleOneEmpty',
+			initial: false,
+			focus: true,
+			blur: false,
+
+			customBlur: function( widget ) {
+				var focusHost = CKEDITOR.document.getById( 'focusHost' ),
+					editor = widget.editor;
+
+				widget.parts.caption.focus();
+
+				// Normally we'd listen to focusHost#focus event, but it happens **before** blur, which might handle
+				// this case.
+				widget.parts.caption.once( 'blur', function() {
+					resume( function() {
+						assertVisibility( widget.parts.caption, false, 'Caption visibility' );
+					} );
+				}, null, null, 9999 );
+
+				// Enforce focus event to be called asynchronously on all browsers.
+				setTimeout( function() {
+					focusHost.focus();
+				}, 0 );
+
+				wait();
+			}
+		} ),
+
+		'test blurring editor does not hide the caption': createToggleTest( {
+			fixture: 'toggleOne',
+			initial: true,
+			focus: true,
+			blur: true,
+
+			customBlur: function( widget ) {
+				var focusHost = CKEDITOR.document.getById( 'focusHost' ),
+					editor = widget.editor;
+
+				focusHost.once( 'focus', function() {
+					resume( function() {
+						assertVisibility( widget.parts.caption, true, 'Caption visibility' );
+					} );
+				} );
+
+				// Enforce focus event to be called asynchronously on all browsers.
+				setTimeout( function() {
+					focusHost.focus();
+				}, 0 );
+
+				wait();
 			}
 		} ),
 
