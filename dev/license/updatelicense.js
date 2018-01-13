@@ -7,12 +7,16 @@
 
 var fs = require( 'fs' ),
 	path = require( 'path' ),
-	destination = process.argv[ 2 ] || '../../',
 	YEAR = new Date().getFullYear(),
 	ACCEPTED_FORMATS = [ '.html', '.txt', '.js', '.md', '.sh', '.css', '.py', '.less', '.php', '.rb' ],
 	EXCLUDED_DIRS = [ '.git', 'node_modules', 'release', 'coverage' ];
 
-recursivelyUpdateLicenseDate( destination );
+recursivelyUpdateLicenseDate( getExecutionPath() );
+
+function getExecutionPath() {
+	var dirname = path.dirname( process.argv[ 1 ] );
+	return process.argv[ 2 ] || path.join( dirname, '../..' );
+}
 
 function recursivelyUpdateLicenseDate( filepath ) {
 	if ( EXCLUDED_DIRS.indexOf( path.basename( filepath ) ) != -1 ) {
