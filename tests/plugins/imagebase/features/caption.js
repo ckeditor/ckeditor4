@@ -68,7 +68,7 @@
 
 				if ( options.customBlur ) {
 					options.customBlur.call( this, widget );
-				} else  {
+				} else {
 					range.setStart( focusTrap, 1 );
 					range.collapse();
 					range.select();
@@ -155,6 +155,29 @@
 		if ( isVisible ) {
 			assert.areSame( widget.editor.lang.imagebase.captionPlaceholder, placeholder, 'Placeholder value' );
 		}
+	}
+
+	// Blurs the editor, by putting focus in an element outside of the editor.
+	// Resumes asserting, when the options.blurHost is blurred.
+	// Note that it calls wait(), so no code after this function is executed.
+	function blurEditor( options ) {
+		var focusHost = CKEDITOR.document.getById( 'focusHost' ),
+			blurHost = options.blurHost;
+
+		// Normally we'd listen to focusHost#focus event, but it happens **before** blur, which might handle
+		// this case.
+		blurHost.once( 'blur', function() {
+			resume( function() {
+				options.assert();
+			} );
+		}, null, null, 9999 );
+
+		// Enforce focus event to be called asynchronously on all browsers.
+		setTimeout( function() {
+			focusHost.focus();
+		}, 0 );
+
+		wait();
 	}
 
 	var tests = {
@@ -310,25 +333,14 @@
 			blur: false,
 
 			customBlur: function( widget ) {
-				var focusHost = CKEDITOR.document.getById( 'focusHost' ),
-					editor = widget.editor;
-
 				widget.focus();
 
-				// Normally we'd listen to focusHost#focus event, but it happens **before** blur, which might handle
-				// this case.
-				widget.once( 'blur', function() {
-					resume( function() {
+				blurEditor( {
+					assert: function() {
 						assertVisibility( widget.parts.caption, false, 'Caption visibility' );
-					} );
-				}, null, null, 9999 );
-
-				// Enforce focus event to be called asynchronously on all browsers.
-				setTimeout( function() {
-					focusHost.focus();
-				}, 0 );
-
-				wait();
+					},
+					blurHost: widget
+				} );
 			}
 		} ),
 
@@ -339,25 +351,14 @@
 			blur: false,
 
 			customBlur: function( widget ) {
-				var focusHost = CKEDITOR.document.getById( 'focusHost' ),
-					editor = widget.editor;
-
 				widget.parts.caption.focus();
 
-				// Normally we'd listen to focusHost#focus event, but it happens **before** blur, which might handle
-				// this case.
-				widget.parts.caption.once( 'blur', function() {
-					resume( function() {
+				blurEditor( {
+					assert: function() {
 						assertVisibility( widget.parts.caption, false, 'Caption visibility' );
-					} );
-				}, null, null, 9999 );
-
-				// Enforce focus event to be called asynchronously on all browsers.
-				setTimeout( function() {
-					focusHost.focus();
-				}, 0 );
-
-				wait();
+					},
+					blurHost: widget.parts.caption
+				} );
 			}
 		} ),
 
@@ -368,21 +369,14 @@
 			blur: true,
 
 			customBlur: function( widget ) {
-				var focusHost = CKEDITOR.document.getById( 'focusHost' ),
-					editor = widget.editor;
+				widget.focus();
 
-				focusHost.once( 'focus', function() {
-					resume( function() {
+				blurEditor( {
+					assert: function() {
 						assertVisibility( widget.parts.caption, true, 'Caption visibility' );
-					} );
+					},
+					blurHost: widget
 				} );
-
-				// Enforce focus event to be called asynchronously on all browsers.
-				setTimeout( function() {
-					focusHost.focus();
-				}, 0 );
-
-				wait();
 			}
 		} ),
 
