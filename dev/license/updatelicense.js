@@ -14,8 +14,7 @@ var fs = require( 'fs' ),
 recursivelyUpdateLicenseDate( getExecutionPath() );
 
 function getExecutionPath() {
-	var dirname = path.dirname( process.argv[ 1 ] );
-	return process.argv[ 2 ] || path.join( dirname, '../..' );
+	return process.argv[ 2 ] || path.join( __dirname, '../..' );
 }
 
 function recursivelyUpdateLicenseDate( filepath ) {
