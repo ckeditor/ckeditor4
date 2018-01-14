@@ -41,14 +41,12 @@
 	}
 
 	var testSuiteIframe = CKEDITOR.document.getWindow().getFrame(),
-		initialFrameHeight = null,
+		initialFrameHeight = testSuiteIframe && testSuiteIframe.getStyle( 'height' ),
 		tests = {
 			setUp: function() {
 				// This test checks real balloon panel positioning. To avoid affecting position with scroll offset, set the parent iframe height
-				// enough to contain entire content. Note that some browsers like IE/Edge do not use the iframe but display results in a new
-				// window, so this is not needed there.
+				// enough to contain entire content. Note that iframe is not present if the test suite is open in a separate window, or ran on IEs.
 				if ( testSuiteIframe ) {
-					initialFrameHeight = testSuiteIframe.getStyle( 'height' );
 					testSuiteIframe.setStyle( 'height', '3000px' );
 				}
 			},
