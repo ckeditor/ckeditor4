@@ -1,7 +1,7 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: easyimage,toolbar,contextmenu,undo */
 /* bender-include: _helpers/tools.js */
-/* globals easyImageTools */
+/* global easyImageTools */
 
 ( function() {
 	'use strict';
