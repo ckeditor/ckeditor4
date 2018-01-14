@@ -301,8 +301,8 @@
 		/**
 		 * Moves the **upper-left** balloon panel corner to the specified absolute position.
 		 *
-		 * @param {Number} left
 		 * @param {Number} top
+		 * @param {Number} left
 		 */
 		move: function( top, left ) {
 			this.rect.left = left;
