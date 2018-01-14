@@ -66,5 +66,27 @@ bender.test( {
 				assert.areSame( 1, toDataFormat, 'toDataFormat was fired once' );
 			} );
 		} );
+	},
+
+	'test toDataFormat - preserves space after br': function() {
+		bender.editorBot.create( {
+			name: 'test_data_space_after_newline',
+			creator: 'inline',
+			config: {
+				enterMode: CKEDITOR.ENTER_BR
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			// Insert text in multiple steps so that selectionchange is triggered in between,
+			// which causes CKEDITOR to insert fillingCharSequence.
+			bot.htmlWithSelection( 'first line<br />^' );
+			editor.insertText( ' ' );
+			editor.insertText( 'second line' );
+
+			// Removal of fillingCharSequence during `toDataFormat` may be performed incorrectly,
+			// causing the space to be removed.
+			assert.areSame( 'first line<br />&nbsp;second line', editor.getData(), 'getData preserved space' );
+		} );
 	}
 } );

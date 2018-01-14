@@ -1132,7 +1132,7 @@
 			// Note: Used low priority to filter when dataProcessor works on strings,
 			// not pseudo–DOM.
 			editor.on( 'toDataFormat', function( evt ) {
-				evt.data.dataValue = removeFillingCharSequenceString( evt.data.dataValue );
+				evt.data.dataValue = removeFillingCharSequenceString( evt.data.dataValue, 1 );
 			}, null, null, 0 );
 		} );
 	}
