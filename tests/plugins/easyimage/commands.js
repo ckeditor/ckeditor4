@@ -36,6 +36,10 @@
 		}
 	}
 
+	function getEasyImageBalloonContext( editor ) {
+		return editor.balloonToolbars._contexts[ 0 ];
+	}
+
 	var widgetHtml = '<figure class="image easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		sideWidgetHtml = '<figure class="image easyimage easyimage-side"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		tests = {
@@ -134,36 +138,6 @@
 					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
 
 					assert.areSame( 'side', widget.data.type, 'Widget has correct type data' );
-				} );
-			},
-
-			'test balloontoolbar integration': function( editor, bot ) {
-				bot.setData( widgetHtml, function() {
-					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) ),
-						toolbar = editor.balloonToolbars._contexts[ 0 ].toolbar;
-
-					toolbar._view.once( 'show', function() {
-						assertCommandsState( editor, {
-							easyimageFull: CKEDITOR.TRISTATE_ON,
-							easyimageSide: CKEDITOR.TRISTATE_OFF,
-							easyimageAlt: CKEDITOR.TRISTATE_OFF
-						} );
-
-						editor.once( 'afterCommandExec', function() {
-							resume( function() {
-								assertCommandsState( editor, {
-									easyimageFull: CKEDITOR.TRISTATE_OFF,
-									easyimageSide: CKEDITOR.TRISTATE_ON,
-									easyimageAlt: CKEDITOR.TRISTATE_OFF
-								} );
-							} );
-						} );
-
-						editor.execCommand( 'easyimageSide' );
-					} );
-
-					widget.focus();
-					wait();
 				} );
 			}
 		};
