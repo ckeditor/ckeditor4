@@ -118,7 +118,7 @@
 					if ( previous && hasWidgetFeature( previous, 'caption' ) ) {
 						previous._refreshCaption( evt.data.path.lastElement );
 					}
-				} );
+				}, null, null, 9 );
 			},
 
 			init: function() {
