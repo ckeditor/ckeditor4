@@ -1,5 +1,7 @@
 /* bender-tags: editor,widget */
-/* bender-ckeditor-plugins: easyimage,toolbar,contextmenu,undo */
+/* bender-ckeditor-plugins: easyimage,toolbar,undo */
+/* bender-include: _helpers/tools.js */
+/* global easyImageTools */
 
 ( function() {
 	'use strict';
@@ -18,48 +20,56 @@
 		}
 	};
 
-	function assertCommandsState( editor, asserts ) {
-		var command;
-
-		for ( command in asserts ) {
-			assert.areSame( asserts[ command ], editor.getCommand( command ).state,
-				'Command ' + command + ' has appropriate state' );
-		}
-	}
-
 	function getEasyImageBalloonContext( editor ) {
 		return editor.balloonToolbars._contexts[ 0 ];
 	}
 
-	var widgetHtml = '<figure class="image easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
-		testSuiteIframe = CKEDITOR.document.getWindow().getFrame(),
-		initialFrameHeight = null,
+	/*
+	 * Returns an expected balloon Y position for a given widget.
+	 *
+	 * @param {CKEDITOR.plugins.widget} widget
+	 * @returns {Number}
+	 */
+	function getExpectedYOffset( widget ) {
+		var editor = widget.editor,
+			wrapperRect = widget.element.getClientRect(),
+			toolbar = getEasyImageBalloonContext( editor ).toolbar,
+			ret = wrapperRect.bottom + toolbar._view.triangleHeight;
+
+		if ( !editor.editable().isInline() ) {
+			// In case of classic editor we also need to include position of the editor iframe too.
+			ret += editor.window.getFrame().getClientRect().top;
+		}
+
+		return ret;
+	}
+
+	var testSuiteIframe = CKEDITOR.document.getWindow().getFrame(),
+		initialFrameHeight = testSuiteIframe && testSuiteIframe.getStyle( 'height' ),
 		tests = {
 			setUp: function() {
 				// This test checks real balloon panel positioning. To avoid affecting position with scroll offset, set the parent iframe height
-				// enough to contain entire content. Note that some browsers like IE/Edge do not use the iframe but display results in a new
-				// window, so this is not needed there.
+				// enough to contain entire content. Note that iframe is not present if the test suite is open in a separate window, or ran on IEs.
 				if ( testSuiteIframe ) {
-					initialFrameHeight = testSuiteIframe.getStyle( 'height' );
 					testSuiteIframe.setStyle( 'height', '3000px' );
 				}
 			},
 
 			tearDown: function() {
-				// testSuiteIframe = CKEDITOR.document.getWindow().getFrame();
-
 				if ( testSuiteIframe ) {
 					testSuiteIframe.setStyle( 'height', initialFrameHeight );
 				}
 			},
 
 			'test balloontoolbar integration': function( editor, bot ) {
+				var widgetHtml = '<figure class="image easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>';
+
 				bot.setData( widgetHtml, function() {
 					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) ),
 						toolbar = getEasyImageBalloonContext( editor ).toolbar;
 
 					toolbar._view.once( 'show', function() {
-						assertCommandsState( editor, {
+						easyImageTools.assertCommandsState( editor, {
 							easyimageFull: CKEDITOR.TRISTATE_ON,
 							easyimageSide: CKEDITOR.TRISTATE_OFF,
 							easyimageAlt: CKEDITOR.TRISTATE_OFF
@@ -67,7 +77,7 @@
 
 						editor.once( 'afterCommandExec', function() {
 							resume( function() {
-								assertCommandsState( editor, {
+								easyImageTools.assertCommandsState( editor, {
 									easyimageFull: CKEDITOR.TRISTATE_OFF,
 									easyimageSide: CKEDITOR.TRISTATE_ON,
 									easyimageAlt: CKEDITOR.TRISTATE_OFF
@@ -92,14 +102,8 @@
 
 					widget.once( 'focus', function() {
 						setTimeout( function() {
-							var wrapperRect = widget.element.getClientRect(),
-								expectedY = wrapperRect.bottom + toolbar._view.triangleHeight,
+							var expectedY = getExpectedYOffset( widget ),
 								moveSpy = sinon.spy( toolbar._view, 'move' );
-
-							if ( !editor.editable().isInline() ) {
-								// In case of classic editor we also need to include position of the editor iframe too.
-								expectedY += editor.window.getFrame().getClientRect().top;
-							}
 
 							widget.parts.caption.focus();
 
@@ -108,15 +112,15 @@
 							setTimeout( function() {
 								resume( function() {
 									moveSpy.restore();
-
-									// debugger;
-
 									// We care only about y axis.
-									// sinon.assert.calledWith( moveSpy, 120, sinon.match.any );
-									// sinon.assert.calledWith( moveSpy, 161.5999984741211, sinon.match.any );
-									sinon.assert.calledWith( moveSpy, expectedY, sinon.match.any );
+									var actual = moveSpy.args[ 0 ][ 0 ];
 
-									assert.isTrue( true );
+									if ( CKEDITOR.env.ie && CKEDITOR.env.ie <= 11 ) {
+										// IE11 tends to be off by a fraction of a pixel on high DPI displays.
+										assert.isNumberInRange( actual, expectedY - 1, expectedY + 1, 'Balloon y position' );
+									} else {
+										assert.areSame( expectedY, actual, 'Balloon y position' );
+									}
 								} );
 							}, 0 );
 						}, 0 );
