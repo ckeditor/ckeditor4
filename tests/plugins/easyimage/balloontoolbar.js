@@ -32,14 +32,10 @@
 	 */
 	function getExpectedYOffset( widget ) {
 		var editor = widget.editor,
+			wrapperPosition = widget.element.getDocumentPosition( CKEDITOR.document ),
 			wrapperRect = widget.element.getClientRect(),
 			toolbar = getEasyImageBalloonContext( editor ).toolbar,
-			ret = wrapperRect.bottom + toolbar._view.triangleHeight;
-
-		if ( !editor.editable().isInline() ) {
-			// In case of classic editor we also need to include position of the editor iframe too.
-			ret += editor.window.getFrame().getClientRect().top;
-		}
+			ret = wrapperPosition.y + wrapperRect.height + toolbar._view.triangleHeight;
 
 		return ret;
 	}
@@ -52,6 +48,8 @@
 				// enough to contain entire content. Note that iframe is not present if the test suite is open in a separate window, or ran on IEs.
 				if ( testSuiteIframe ) {
 					testSuiteIframe.setStyle( 'height', '3000px' );
+				} else {
+					CKEDITOR.document.getDocumentElement().setStyle( 'height', '3000px' );
 				}
 			},
 
@@ -94,6 +92,9 @@
 			},
 
 			'test balloontoolbar positioning': function( editor, bot ) {
+				// Force toolbar to always appear under the widget.
+				editor.container.getWindow().$.scroll( 0, editor.container.getDocumentPosition().y );
+
 				var source = '<figure class="image easyimage"><img src="../image2/_assets/bar.png" alt="foo"><figcaption></figcaption></figure>';
 
 				bot.setData( source, function() {
