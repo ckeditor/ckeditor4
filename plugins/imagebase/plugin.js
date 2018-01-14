@@ -23,6 +23,10 @@
 		var widgets = editor.widgets,
 			currentActive = editor.focusManager.currentActive;
 
+		if ( !editor.focusManager.hasFocus ) {
+			return;
+		}
+
 		if ( widgets.focused ) {
 			return widgets.focused;
 		}
@@ -520,25 +524,31 @@
 
 		return {
 			setUp: function( editor ) {
-				var listener;
+				var listeners = [];
 
-				listener = editor.on( 'selectionChange', function( evt ) {
-					var widgets = editor.widgets,
+				function listener( evt ) {
+					var sender = evt.name === 'blur' ? editor.elementPath().lastElement : evt.data.path.lastElement,
+						widgets = editor.widgets,
 						focused = getFocusedWidget( editor ),
 						previous = widgets.getByElement( editor.editable().findOne( 'figcaption[data-cke-active]' ) );
 
 					if ( !editor.filter.check( 'figcaption' ) ) {
-						return listener.removeListener();
+						return CKEDITOR.tools.array.forEach( listeners, function( listener ) {
+							listener.removeListener();
+						} );
 					}
 
 					if ( focused && hasWidgetFeature( focused, 'caption' ) ) {
-						focused._refreshCaption( evt.data.path.lastElement );
+						focused._refreshCaption( sender );
 					}
 
 					if ( previous && hasWidgetFeature( previous, 'caption' ) ) {
-						previous._refreshCaption( evt.data.path.lastElement );
+						previous._refreshCaption( sender );
 					}
-				}, null, null, 9 );
+				}
+
+				listeners.push( editor.on( 'selectionChange', listener , null, null, 9 ) );
+				listeners.push( editor.on( 'blur', listener ) );
 			},
 
 			init: function() {
