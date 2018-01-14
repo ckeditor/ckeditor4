@@ -1,5 +1,7 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: easyimage,toolbar,contextmenu,undo */
+/* bender-include: _helpers/tools.js */
+/* global easyImageTools */
 
 ( function() {
 	'use strict';
@@ -27,19 +29,6 @@
 		} );
 	}
 
-	function assertCommandsState( editor, asserts ) {
-		var command;
-
-		for ( command in asserts ) {
-			assert.areSame( asserts[ command ], editor.getCommand( command ).state,
-				'Command ' + command + ' has appropriate state' );
-		}
-	}
-
-	function getEasyImageBalloonContext( editor ) {
-		return editor.balloonToolbars._contexts[ 0 ];
-	}
-
 	var widgetHtml = '<figure class="image easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		sideWidgetHtml = '<figure class="image easyimage easyimage-side"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		tests = {
@@ -55,7 +44,7 @@
 				bot.setData( widgetHtml, function() {
 					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
 
-					assertCommandsState( editor, {
+					easyImageTools.assertCommandsState( editor, {
 						easyimageFull: CKEDITOR.TRISTATE_DISABLED,
 						easyimageSide: CKEDITOR.TRISTATE_DISABLED,
 						easyimageAlt: CKEDITOR.TRISTATE_DISABLED
@@ -63,7 +52,7 @@
 
 					widget.focus();
 
-					assertCommandsState( editor, {
+					easyImageTools.assertCommandsState( editor, {
 						easyimageFull: CKEDITOR.TRISTATE_ON,
 						easyimageSide: CKEDITOR.TRISTATE_OFF,
 						easyimageAlt: CKEDITOR.TRISTATE_OFF
