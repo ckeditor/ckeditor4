@@ -92,17 +92,6 @@
 
 			addTestWidget( editor );
 
-			function getWidgets( editor, amount ) {
-				var i,
-					widgets = [];
-
-				for ( i = 0; i < amount; i++ ) {
-					widgets.push( widgetTestsTools.getWidgetByDOMOffset( editor, i ) );
-				}
-
-				return widgets;
-			}
-
 			function assertMultipleVisibility( widgets, expected, msg ) {
 				forEach( widgets, function( widget, i ) {
 					assertVisibility( widget.parts.caption, expected[ i ],
@@ -124,7 +113,7 @@
 			}
 
 			bot.setData( getFixture( options.fixture ), function() {
-				var widgets = getWidgets( editor, options.widgetsCount );
+				var widgets = widgetTestsTools.obj2Array( editor.widgets.instances ).slice( 0, options.widgetsCount );
 
 				assertMultipleVisibility( widgets, options.initial, 'initial' );
 				assertOnFocus( widgets, options.focus );
