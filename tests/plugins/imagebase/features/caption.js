@@ -34,8 +34,12 @@
 		return CKEDITOR.document.getById( name ).getHtml();
 	}
 
-	function assertVisibility( caption, isVisible, msg ) {
+	function assertVisibility( caption, isVisible, msg, callback ) {
 		assert[ 'is' + ( isVisible ? 'False' : 'True' ) ]( !!caption.data( 'cke-hidden' ), msg );
+
+		if ( callback ) {
+			callback();
+		}
 	}
 
 	/* Simulate focusing and blurring image widget with caption, asserting caption visibility
@@ -112,28 +116,48 @@
 	 */
 	function createMultipleToggleTest( options ) {
 		return function( editor, bot ) {
-			var forEach = CKEDITOR.tools.array.forEach;
-
 			addTestWidget( editor );
 
-			function assertMultipleVisibility( widgets, expected, msg ) {
-				forEach( widgets, function( widget, i ) {
-					assertVisibility( widget.parts.caption, expected[ i ],
-						'caption#' + i + ' visibility (' + msg + ')' );
-				} );
+			function assertMultipleVisibility( widgets, expected, msg, callback, i ) {
+				var widget;
+
+				i = i || 0;
+
+				widget = widgets[ i ];
+				assertVisibility( widget.parts.caption, expected[ i ], 'caption#' + i + ' visibility (' + msg + ')',
+					function() {
+						if ( i === widgets.length - 1 ) {
+							if ( callback ) {
+								callback();
+							}
+
+							return;
+						}
+
+						assertMultipleVisibility( widgets, expected, msg, callback, ++i );
+					} );
 			}
 
-			function assertOnFocus( widgets, expected ) {
-				forEach( widgets, function( widget, i ) {
-					setTimeout( function() {
-						resume( function() {
-							assertMultipleVisibility( widgets, expected[ i ], 'focus widget#' + i );
-						} );
-					}, 50 );
+			function assertOnFocus( widgets, expected, i ) {
+				var widget;
 
-					widget.focus();
-					wait();
-				} );
+				i = i || 0;
+
+				widget = widgets[ i ];
+
+				setTimeout( function() {
+					resume( function() {
+						assertMultipleVisibility( widgets, expected[ i ], 'focus widget#' + i, function() {
+							if ( i === widgets.length - 1 ) {
+								return;
+							}
+							assertOnFocus( widgets, expected, ++i );
+						} );
+					} );
+				}, 50 );
+
+				widget.focus();
+				wait();
 			}
 
 			bot.setData( getFixture( options.fixture ), function() {
