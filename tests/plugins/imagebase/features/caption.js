@@ -35,7 +35,7 @@
 	}
 
 	function assertVisibility( caption, isVisible, msg, callback ) {
-		assert[ 'is' + ( isVisible ? 'False' : 'True' ) ]( !!caption.data( 'cke-hidden' ), msg );
+		assert[ 'is' + ( isVisible ? 'False' : 'True' ) ]( !!caption.data( 'cke-caption-hidden' ), msg );
 
 		if ( callback ) {
 			callback();
@@ -188,7 +188,7 @@
 	}
 
 	function assertPlaceholder( widget, isVisible ) {
-		var placeholder = widget.parts.caption.data( 'cke-placeholder' );
+		var placeholder = widget.parts.caption.data( 'cke-caption-placeholder' );
 
 		assert[ 'is' + ( isVisible ? 'True' : 'False' ) ]( !!placeholder, 'Placeholder visibility' );
 

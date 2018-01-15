@@ -505,21 +505,20 @@
 		}
 
 		function isEmptyOrHasPlaceholder( widget ) {
-			return !widget.editables.caption.getData() || !!widget.parts.caption.data( 'cke-placeholder' );
+			return !widget.editables.caption.getData() || !!widget.parts.caption.data( 'cke-caption-placeholder' );
 		}
 
 		function addPlaceholder( widget ) {
-			widget.parts.caption.data( 'cke-placeholder', widget.editor.lang.imagebase.captionPlaceholder );
+			widget.parts.caption.data( 'cke-caption-placeholder', widget.editor.lang.imagebase.captionPlaceholder );
 		}
 
 		function removePlaceholder( widget ) {
-			widget.parts.caption.data( 'cke-placeholder', false );
-			widget.editables.caption.setData( '' );
+			widget.parts.caption.data( 'cke-caption-placeholder', false );
 		}
 
 		function setVisibility( caption, isVisible ) {
-			caption.data( 'cke-active', isVisible );
-			caption.data( 'cke-hidden', !isVisible );
+			caption.data( 'cke-caption-active', isVisible );
+			caption.data( 'cke-caption-hidden', !isVisible );
 		}
 
 		return {
@@ -531,7 +530,7 @@
 						sender = path ? path.lastElement : null,
 						widgets = editor.widgets,
 						focused = getFocusedWidget( editor ),
-						previous = widgets.getByElement( editor.editable().findOne( 'figcaption[data-cke-active]' ) );
+						previous = widgets.getByElement( editor.editable().findOne( 'figcaption[data-cke-caption-active]' ) );
 
 					if ( !editor.filter.check( 'figcaption' ) ) {
 						return CKEDITOR.tools.array.forEach( listeners, function( listener ) {
@@ -580,7 +579,7 @@
 				if ( isFocused ) {
 					if ( !editable.getData() && !sender.equals( caption ) ) {
 						addPlaceholder( this );
-					} else if ( !sender || ( sender.equals( caption ) && sender.data( 'cke-placeholder' ) ) ) {
+					} else if ( !sender || ( sender.equals( caption ) && sender.data( 'cke-caption-placeholder' ) ) ) {
 						removePlaceholder( this );
 					}
 
