@@ -527,7 +527,8 @@
 				var listeners = [];
 
 				function listener( evt ) {
-					var sender = evt.name === 'blur' ? editor.elementPath().lastElement : evt.data.path.lastElement,
+					var path = evt.name === 'blur' ? editor.elementPath() : evt.data.path,
+						sender = path ? path.lastElement : null,
 						widgets = editor.widgets,
 						focused = getFocusedWidget( editor ),
 						previous = widgets.getByElement( editor.editable().findOne( 'figcaption[data-cke-active]' ) );
@@ -579,7 +580,7 @@
 				if ( isFocused ) {
 					if ( !editable.getData() && !sender.equals( caption ) ) {
 						addPlaceholder( this );
-					} else if ( sender.equals( caption ) && sender.data( 'cke-placeholder' ) ) {
+					} else if ( !sender || ( sender.equals( caption ) && sender.data( 'cke-placeholder' ) ) ) {
 						removePlaceholder( this );
 					}
 
