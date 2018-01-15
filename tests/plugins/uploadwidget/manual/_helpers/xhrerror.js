@@ -11,8 +11,10 @@ window.FormData = function() {
 	var total, filename;
 	return {
 		append: function( name, file, filename ) {
-			total = file.size;
-			filename = filename;
+			if ( name !== 'ckCsrfToken' ) {
+				total = file.size;
+				filename = filename;
+			}
 		},
 		getTotal: function() {
 			return total;
@@ -28,6 +30,8 @@ window.XMLHttpRequest = function() {
 		open: function() {},
 
 		upload: {},
+
+		setRequestHeader: function() {},
 
 		send: function( formData ) {
 			// Total file size.
