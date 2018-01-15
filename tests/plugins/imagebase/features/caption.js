@@ -38,6 +38,20 @@
 		assert[ 'is' + ( isVisible ? 'False' : 'True' ) ]( !!caption.data( 'cke-hidden' ), msg );
 	}
 
+	/* Simulate focusing and blurring image widget with caption, asserting caption visibility
+	 * during each step.
+	 *
+	 * @param {Object} options
+	 * @param {String} options.fixture Fixture's name.
+	 * @param {Boolean} options.initial Caption visibility at the start of the test.
+	 * @param {Boolean} options.focus Caption visibility after calling focus function.
+	 * @param {Boolean} options.blur Caption visibility after calling blur function.
+	 * @param {Boolean} options.onInit Callback to run at the beginning of the test.
+	 * @param {Function} options.onFocus Callback to run after focus function.
+	 * @param {Function} options.onBlur Callback to run after blur function.
+	 * @param {Function} options.customFocus Function to be called instead of default focus function.
+	 * @param {Function} options.customBlur Function to be called instead of default blur function.
+	 */
 	function createToggleTest( options ) {
 		return function( editor, bot ) {
 			addTestWidget( editor );
@@ -86,6 +100,16 @@
 		};
 	}
 
+	/* Simulate focusing and blurring group of image widgets with captions, asserting caption visibility
+	 * during each step. Assertions are made for every widget in the group.
+	 *
+	 * @param {Object} options
+	 * @param {String} options.fixture Fixture's name.
+	 * @param {Number} options.widgetsCount Number of widgets to test.
+	 * @param {Boolean} options.initial Caption visibility at the start of the test.
+	 * @param {Boolean} options.focus Caption visibility after calling focus function.
+	 * @param {Boolean} options.blur Caption visibility after calling blur function.
+	 */
 	function createMultipleToggleTest( options ) {
 		return function( editor, bot ) {
 			var forEach = CKEDITOR.tools.array.forEach;
