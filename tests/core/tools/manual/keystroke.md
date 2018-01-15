@@ -2,11 +2,10 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: toolbar, wysiwygarea, basicstyles
 
-# TEST
+1. Hover on each button until tooltip appears.
+1. Check the tooltip content:
 
-Hover on each of following until tooltip appears: strike, subscript, superscript.
-
-**Expected**
+## Expected
 
 Tooltip should show hotkeys for each button:
 * Strike - Ctrl (⌘) + F5
