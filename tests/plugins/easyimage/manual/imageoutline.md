@@ -1,8 +1,8 @@
-@bender-tags: 4.9.0, bug, 3302
+@bender-tags: 4.9.0, bug, 932, tp3302
 @bender-ui: collapsed
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, easyimage, link
 
-Add a link to the selected image.
+Check if linked images have correct outlines.
 
 ## Expected
 

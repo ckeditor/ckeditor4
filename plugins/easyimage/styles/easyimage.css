@@ -14,7 +14,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 /* 
 The outline is not a part of the element's dimensions, we have to use a border as an outline to align linked image with a caption.
 */
-.easyimage a > img{
+.easyimage a > img {
 	outline: none;
 	border: 1px solid #0782C1;
 	box-sizing: border-box;
