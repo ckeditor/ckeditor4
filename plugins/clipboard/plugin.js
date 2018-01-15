@@ -510,7 +510,7 @@
 
 			if ( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				var initOnCopyCut = function( evt ) {
-					// There shouldn't be anythong to copy/cut when selection is collapsed (#869).
+					// There shouldn't be anything to copy/cut when selection is collapsed (#869).
 					if ( editor.getSelection().isCollapsed() ) {
 						return;
 					}
