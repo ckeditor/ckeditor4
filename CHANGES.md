@@ -7,6 +7,10 @@ New Features:
 
 * [#1338](https://github.com/ckeditor/ckeditor-dev/issues/1338): Keystroke labels are displayed for function keys (like F7, F8).
 
+Fixed Issues:
+
+* [#869](https://github.com/ckeditor/ckeditor-dev/issues/869): Fixed: Empty selection clears cached clipboard data in editor.
+
 ## CKEditor 4.8.1
 
 New Features:
