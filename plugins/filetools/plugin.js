@@ -655,7 +655,7 @@
 			};
 
 			function onError() {
-				// Prevent changing status twice, when HHR.error and XHR.upload.onerror could be called together.
+				// Prevent changing status twice, when XHR.error and XHR.upload.onerror could be called together.
 				if ( loader.status == 'error' ) {
 					return;
 				}
@@ -665,7 +665,7 @@
 			}
 
 			function onAbort() {
-				// Prevent changing status twice, when HHR.onabort and XHR.upload.onabort could be called together.
+				// Prevent changing status twice, when XHR.onabort and XHR.upload.onabort could be called together.
 				if ( loader.status == 'abort' ) {
 					return;
 				}
