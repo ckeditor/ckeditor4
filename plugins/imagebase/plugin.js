@@ -148,13 +148,13 @@
 
 
 				// Overwrite default behaviour of unlink command.
-				addUnlinkListener( editor, 'exec', function( _this, widget, editor ) {
+				addUnlinkListener( editor, 'exec', function( command, widget, editor ) {
 					widget.setData( 'link' , null );
-					_this.refresh( editor, editor.elementPath() );
+					command.refresh( editor, editor.elementPath() );
 				} );
-				// Overwrite default refresh of unlink command.
-				addUnlinkListener( editor, 'refresh', function( _this, widget ) {
-					_this.setState( widget.parts.link ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+
+				addUnlinkListener( editor, 'refresh', function( command, widget ) {
+					command.setState( widget.parts.link ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 				} );
 			},
 
