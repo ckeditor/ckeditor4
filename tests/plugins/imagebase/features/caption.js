@@ -349,7 +349,9 @@
 					assert: function() {
 						assertVisibility( widget.parts.caption, false, 'Caption visibility' );
 					},
-					blurHost: widget.parts.caption
+					// In case of blurring from caption, the host must be editor as blur for caption
+					// itself is fired before blurring listener.
+					blurHost: widget.editor
 				} );
 			}
 		} ),
