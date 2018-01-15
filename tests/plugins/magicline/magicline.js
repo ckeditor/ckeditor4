@@ -475,7 +475,7 @@
 				} );
 		},
 
-		'line has data-cke-magicline-line attribute': function() {
+		'line has data-cke-magic-line attribute': function() {
 				testEditor( this, {},
 					'',
 					function( editor, editable, backdoor ) {
@@ -490,7 +490,7 @@
 						backdoor.that.line.attach().place();
 
 						var line = editable.getChild( [ 0, 0 ] );
-						assert.areEqual( '1', line.getAttribute( 'data-cke-magicline-line' ) );
+						assert.areEqual( '1', line.getAttribute( 'data-cke-magic-line' ) );
 					} );
 			},
 
