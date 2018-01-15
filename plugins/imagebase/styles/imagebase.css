@@ -1,12 +1,12 @@
-[data-cke-hidden] {
+[data-cke-caption-hidden] {
 	display: none;
 }
 
-[data-cke-placeholder] {
+[data-cke-caption-placeholder] {
 	color: rgba( 0, 0, 0, .4 );
 }
 
-[data-cke-placeholder]::before {
+[data-cke-caption-placeholder]::before {
 	display: inline;
-	content: attr( data-cke-placeholder );
+	content: attr( data-cke-caption-placeholder );
 }
