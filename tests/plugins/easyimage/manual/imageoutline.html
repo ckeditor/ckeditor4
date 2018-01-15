@@ -2,13 +2,13 @@
 <div id="classic">
 	<figure class="image easyimage">
 		<a href="https://docs.ckeditor.com/ckeditor4">
-			<img src="../_assets/big.png" alt="foo">
+			<img src="../../image2/_assets/bar.png" alt="foo">
 		</a>
 		<figcaption>Test image</figcaption>
 	</figure>
 	<figure class="image easyimage easyimage-side">
 		<a href="https://docs.ckeditor.com/ckeditor4">
-			<img src="../_assets/big.png" alt="foo">
+			<img src="../../image2/_assets/bar.png" alt="foo">
 		</a>
 		<figcaption>Test image</figcaption>
 	</figure>
@@ -18,13 +18,13 @@
 <div id="divarea">
 	<figure class="image easyimage">
 		<a href="https://docs.ckeditor.com/ckeditor4">
-			<img src="../_assets/big.png" alt="foo">
+			<img src="../../image2/_assets/bar.png" alt="foo">
 		</a>
 		<figcaption>Test image</figcaption>
 	</figure>
 	<figure class="image easyimage easyimage-side">
 		<a href="https://docs.ckeditor.com/ckeditor4">
-			<img src="../_assets/big.png" alt="foo">
+			<img src="../../image2/_assets/bar.png" alt="foo">
 		</a>
 		<figcaption>Test image</figcaption>
 	</figure>
@@ -34,22 +34,25 @@
 <div id="inline" contenteditable="true">
 	<figure class="image easyimage">
 		<a href="https://docs.ckeditor.com/ckeditor4">
-			<img src="../_assets/big.png" alt="foo">
+			<img src="../../image2/_assets/bar.png" alt="foo">
 		</a>
 		<figcaption>Test image</figcaption>
 	</figure>
 	<figure class="image easyimage easyimage-side">
 		<a href="https://docs.ckeditor.com/ckeditor4">
-			<img src="../_assets/big.png" alt="foo">
+			<img src="../../image2/_assets/bar.png" alt="foo">
 		</a>
 		<figcaption>Test image</figcaption>
 	</figure>
 </div>
 
 <script>
-	CKEDITOR.replace( 'classic' );
+	CKEDITOR.replace( 'classic', {
+		height: 270
+	} );
 	CKEDITOR.replace( 'divarea', {
-		extraPlugins: 'divarea'
+		extraPlugins: 'divarea',
+		height: 270
 	} );
 	CKEDITOR.inline( 'inline' );
 </script>
