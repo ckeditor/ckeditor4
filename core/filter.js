@@ -2160,7 +2160,7 @@
 				return;
 			}
 
-			var borderSplittedStyles = CKEDITOR.tools.style.parse.border( element.styles.border ) ;
+			var borderSplittedStyles = CKEDITOR.tools.style.parse.border( element.styles.border );
 
 			if ( borderSplittedStyles.color ) {
 				element.styles[ 'border-color' ] = borderSplittedStyles.color;
