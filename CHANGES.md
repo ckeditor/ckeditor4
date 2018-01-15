@@ -5,7 +5,7 @@
 
 New Features:
 
-* [#1338](https://github.com/ckeditor/ckeditor-dev/issues/1338): Added function key mappings (F1, F2, etc.). It allows to set keystrokes with function keys. e.g. `editor.setKeystroke(CKEDITOR.CTRL + 117, "Function that triggers on 'Ctrl+F6'");`.
+* [#1338](https://github.com/ckeditor/ckeditor-dev/issues/1338): Keystroke labels are displayed for function keys (like F7, F8).
 
 ## CKEditor 4.8.1
 
