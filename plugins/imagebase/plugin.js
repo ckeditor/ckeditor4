@@ -10,42 +10,87 @@
 		return editor.widgets.focused;
 	}
 
-	function isLinkable( widget ) {
-		return widget && widget.features && CKEDITOR.tools.array.indexOf( widget.features, 'link' ) !== -1;
-	}
-
-	function addLinkAttributes( editor, linkElement, linkData ) {
-		// Set and remove all attributes associated with this state.
-		var attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, linkData );
-
-		if ( !CKEDITOR.tools.isEmpty( attributes.set ) ) {
-			linkElement.setAttributes( attributes.set );
+	function getLinkFeature() {
+		function isLinkable( widget ) {
+			return widget && widget.features && CKEDITOR.tools.array.indexOf( widget.features, 'link' ) !== -1;
 		}
 
-		if ( attributes.removed.length ) {
-			linkElement.removeAttributes( attributes.removed );
-		}
-	}
+		function addLinkAttributes( editor, linkElement, linkData ) {
+			// Set and remove all attributes associated with this state.
+			var attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, linkData );
 
-	function createLink( editor, img, linkData ) {
-		var link = img.getAscendant( 'a' ) || editor.document.createElement( 'a' );
+			if ( !CKEDITOR.tools.isEmpty( attributes.set ) ) {
+				linkElement.setAttributes( attributes.set );
+			}
 
-		addLinkAttributes( editor, link, linkData );
-
-		if ( !link.contains( img ) ) {
-			link.replace( img );
-			img.move( link );
+			if ( attributes.removed.length ) {
+				linkElement.removeAttributes( attributes.removed );
+			}
 		}
 
-		return link;
-	}
+		function createLink( editor, img, linkData ) {
+			var link = img.getAscendant( 'a' ) || editor.document.createElement( 'a' );
 
-	function getLinkData( widget ) {
-		return CKEDITOR.plugins.link.parseLinkAttributes( widget.editor, widget.parts.link );
-	}
+			addLinkAttributes( editor, link, linkData );
 
-	var featuresDefinitions = {
-		link: {
+			if ( !link.contains( img ) ) {
+				link.replace( img );
+				img.move( link );
+			}
+
+			return link;
+		}
+
+		function getLinkData( widget ) {
+			return CKEDITOR.plugins.link.parseLinkAttributes( widget.editor, widget.parts.link );
+		}
+
+		function appendMenuItems( editor ) {
+			editor.addMenuGroup( 'imagebase', 10 );
+
+			editor.addMenuItem( 'imagebase', {
+				label: editor.lang.link.menu,
+				command: 'link',
+				group: 'imagebase'
+			} );
+		}
+
+		function createOkListener( evt, dialog, widget ) {
+			return function() {
+				if ( !isLinkable( widget ) ) {
+					return;
+				}
+
+				evt.stop();
+
+				var data = {};
+
+				dialog.commitContent( data );
+				widget.setData( 'link', data );
+			};
+		}
+
+		function addUnlinkListener( editor, evtType, callback ) {
+			editor.getCommand( 'unlink' ).on( evtType, function( evt ) {
+				var widget = getFocusedWidget( editor );
+
+				// Override unlink only when link truly belongs to the widget.
+				// If wrapped inline widget in a link, let default unlink work (http://dev.ckeditor.com/ticket/11814).
+				if ( !isLinkable( widget ) ) {
+					return;
+				}
+
+				evt.stop();
+
+				if ( callback && typeof callback === 'function' ) {
+					callback( this, widget, editor );
+				}
+
+				evt.cancel();
+			} );
+		}
+
+		return {
 			allowedContent: {
 				a: {
 					attributes: '!href'
@@ -71,13 +116,7 @@
 				}
 
 				if ( editor.contextMenu ) {
-					editor.addMenuGroup( 'imagebase', 10 );
-
-					editor.addMenuItem( 'imagebase', {
-						label: editor.lang.link.menu,
-						command: 'link',
-						group: 'imagebase'
-					} );
+					appendMenuItems( editor );
 				}
 
 				editor.on( 'dialogShow', function( evt ) {
@@ -99,18 +138,7 @@
 					// It gets the user input and set appropriate data in the widget.
 					// `evt.stop` and higher priority are necessary to prevent adding unwanted link to
 					// widget's caption.
-					okListener = dialog.once( 'ok', function( evt ) {
-						if ( !isLinkable( widget ) ) {
-							return;
-						}
-
-						evt.stop();
-
-						var data = {};
-
-						dialog.commitContent( data );
-						widget.setData( 'link', data );
-					}, null, null, 9 );
+					okListener = dialog.once( 'ok',	createOkListener( evt, dialog, widget ), null, null, 9 );
 
 					dialog.once( 'hide', function() {
 						okListener.removeListener();
@@ -118,42 +146,15 @@
 					} );
 				} );
 
+
 				// Overwrite default behaviour of unlink command.
-				editor.getCommand( 'unlink' ).on( 'exec', function( evt ) {
-					var widget = getFocusedWidget( editor );
-
-					// Override unlink only when link truly belongs to the widget.
-					// If wrapped inline widget in a link, let default unlink work (http://dev.ckeditor.com/ticket/11814).
-					if ( !isLinkable( widget ) ) {
-						return;
-					}
-
-					evt.stop();
-
-					widget.setData( 'link', null );
-
-					// Selection (which is fake) may not change if unlinked image in focused widget,
-					// i.e. if captioned image. Let's refresh command state manually here.
-					this.refresh( editor, editor.elementPath() );
-
-					evt.cancel();
+				addUnlinkListener( editor, 'exec', function( command, widget, editor ) {
+					widget.setData( 'link' , null );
+					command.refresh( editor, editor.elementPath() );
 				} );
 
-				// Overwrite default refresh of unlink command.
-				editor.getCommand( 'unlink' ).on( 'refresh', function( evt ) {
-					var widget = getFocusedWidget( editor );
-
-					if ( !isLinkable( widget ) ) {
-						return;
-					}
-
-					evt.stop();
-
-					// Note that widget may be wrapped in a link, which
-					// does not belong to that widget (http://dev.ckeditor.com/ticket/11814).
-					this.setState( widget.parts.link ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
-
-					evt.cancel();
+				addUnlinkListener( editor, 'refresh', function( command, widget ) {
+					command.setState( widget.parts.link ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 				} );
 			},
 
@@ -182,7 +183,11 @@
 					this.parts.link = createLink( editor, img, link );
 				}
 			}
-		}
+		};
+	}
+
+	var featuresDefinitions = {
+		link: getLinkFeature()
 	};
 
 	function createWidgetDefinition( editor, definition ) {
