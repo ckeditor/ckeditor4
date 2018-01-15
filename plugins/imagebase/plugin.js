@@ -517,7 +517,7 @@
 			widget.editables.caption.setData( '' );
 		}
 
-		function toggleVisibility( caption, isVisible ) {
+		function setVisibility( caption, isVisible ) {
 			caption.data( 'cke-active', isVisible );
 			caption.data( 'cke-hidden', !isVisible );
 		}
@@ -584,10 +584,10 @@
 						removePlaceholder( this );
 					}
 
-					toggleVisibility( caption, true );
+					setVisibility( caption, true );
 				} else if ( isEmptyOrHasPlaceholder( this ) ) {
 					removePlaceholder( this );
-					toggleVisibility( caption, false );
+					setVisibility( caption, false );
 				}
 			}
 		};
