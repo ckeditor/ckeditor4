@@ -9,7 +9,7 @@ New Features:
 
 Fixed Issues:
 
-* [#869](https://github.com/ckeditor/ckeditor-dev/issues/869): Fixed: Empty selection won't clear cached clipboard data in editor.
+* [#869](https://github.com/ckeditor/ckeditor-dev/issues/869): Fixed: Empty selection clears cached clipboard data in editor.
 
 ## CKEditor 4.8.1
 
