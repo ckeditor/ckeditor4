@@ -10,58 +10,53 @@
 		return editor.widgets.focused;
 	}
 
-	function isLinkable( widget ) {
-		return widget && widget.features && CKEDITOR.tools.array.indexOf( widget.features, 'link' ) !== -1;
-	}
-
-	function addLinkAttributes( editor, linkElement, linkData ) {
-		// Set and remove all attributes associated with this state.
-		var attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, linkData );
-
-		if ( !CKEDITOR.tools.isEmpty( attributes.set ) ) {
-			linkElement.setAttributes( attributes.set );
-		}
-
-		if ( attributes.removed.length ) {
-			linkElement.removeAttributes( attributes.removed );
-		}
-	}
-
-	function appendMenuItems( editor ) {
-		editor.addMenuGroup( 'imagebase', 10 );
-
-		editor.addMenuItem( 'imagebase', {
-			label: editor.lang.link.menu,
-			command: 'link',
-			group: 'imagebase'
-		} );
-	}
-
-	function createLink( editor, img, linkData ) {
-		var link = img.getAscendant( 'a' ) || editor.document.createElement( 'a' );
-
-		addLinkAttributes( editor, link, linkData );
-
-		if ( !link.contains( img ) ) {
-			link.replace( img );
-			img.move( link );
-		}
-
-		return link;
-	}
-
-	function getLinkData( widget ) {
-		return CKEDITOR.plugins.link.parseLinkAttributes( widget.editor, widget.parts.link );
-	}
-
 	function getLinkFeature() {
-		function isNotLinkableOrIsLink( widget, dialog ) {
-			return !isLinkable( widget ) || dialog._.name !== 'link';
+		function isLinkable( widget ) {
+			return widget && widget.features && CKEDITOR.tools.array.indexOf( widget.features, 'link' ) !== -1;
 		}
 
-		function registerOkListener( dialog, widget ) {
-			return (
-				dialog.once( 'ok', function( evt ) {
+		function addLinkAttributes( editor, linkElement, linkData ) {
+			// Set and remove all attributes associated with this state.
+			var attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, linkData );
+
+			if ( !CKEDITOR.tools.isEmpty( attributes.set ) ) {
+				linkElement.setAttributes( attributes.set );
+			}
+
+			if ( attributes.removed.length ) {
+				linkElement.removeAttributes( attributes.removed );
+			}
+		}
+
+		function createLink( editor, img, linkData ) {
+			var link = img.getAscendant( 'a' ) || editor.document.createElement( 'a' );
+
+			addLinkAttributes( editor, link, linkData );
+
+			if ( !link.contains( img ) ) {
+				link.replace( img );
+				img.move( link );
+			}
+
+			return link;
+		}
+
+		function getLinkData( widget ) {
+			return CKEDITOR.plugins.link.parseLinkAttributes( widget.editor, widget.parts.link );
+		}
+
+		function appendMenuItems( editor ) {
+			editor.addMenuGroup( 'imagebase', 10 );
+
+			editor.addMenuItem( 'imagebase', {
+				label: editor.lang.link.menu,
+				command: 'link',
+				group: 'imagebase'
+			} );
+		}
+
+		function createOkListener( evt, dialog, widget ) {
+			return function() {
 				if ( !isLinkable( widget ) ) {
 					return;
 				}
@@ -72,10 +67,10 @@
 
 				dialog.commitContent( data );
 				widget.setData( 'link', data );
-			}, null, null, 9 ) );
+			};
 		}
 
-		function unlinkChangeDefault( editor, evtType ) {
+		function addUnlinkListener( editor, evtType, callback ) {
 			editor.getCommand( 'unlink' ).on( evtType, function( evt ) {
 				var widget = getFocusedWidget( editor );
 
@@ -87,16 +82,8 @@
 
 				evt.stop();
 
-				switch ( evtType ) {
-					case 'exec':
-						widget.setData( 'link' , null );
-						// Selection (which is fake) may not change if unlinked image in focused widget,
-						// i.e. if captioned image. Let's refresh command state manually here.
-						this.refresh( editor, editor.elementPath() );
-						break;
-					case 'refresh':
-						this.setState( widget.parts.link ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
-						break;
+				if ( callback && typeof callback === 'function' ) {
+					callback( this, widget, editor );
 				}
 
 				evt.cancel();
@@ -138,7 +125,7 @@
 						displayTextField,
 						okListener;
 
-					if ( isNotLinkableOrIsLink( widget, dialog ) ) {
+					if ( !isLinkable( widget ) || dialog._.name !== 'link' ) {
 						return;
 					}
 
@@ -151,7 +138,7 @@
 					// It gets the user input and set appropriate data in the widget.
 					// `evt.stop` and higher priority are necessary to prevent adding unwanted link to
 					// widget's caption.
-					okListener = registerOkListener( dialog, widget );
+					okListener = dialog.once( 'ok',	createOkListener( evt, dialog, widget ), null, null, 9 );
 
 					dialog.once( 'hide', function() {
 						okListener.removeListener();
@@ -159,10 +146,16 @@
 					} );
 				} );
 
+
 				// Overwrite default behaviour of unlink command.
-				unlinkChangeDefault( editor, 'exec' );
+				addUnlinkListener( editor, 'exec', function( _this, widget, editor ) {
+					widget.setData( 'link' , null );
+					_this.refresh( editor, editor.elementPath() );
+				} );
 				// Overwrite default refresh of unlink command.
-				unlinkChangeDefault( editor, 'refresh' );
+				addUnlinkListener( editor, 'refresh', function( _this, widget ) {
+					_this.setState( widget.parts.link ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+				} );
 			},
 
 			data: function( evt ) {
