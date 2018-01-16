@@ -186,17 +186,83 @@
 		};
 	}
 
+	function getUploadFeature() {
+		var ret = {
+			setUp: function( editor, definition ) {
+				console.log( 'added' );
+				editor.on( 'paste', function( evt ) {
+					if ( evt.data.method === 'drop' ) {
+						console.log( 'dropped' );
+
+						var dataTransfer = evt.data.dataTransfer,
+							filesCount = dataTransfer.getFilesCount(),
+							blobUrls = [],
+							files = [],
+							curFile;
+
+						console.log( definition );
+
+						for ( var i = 0; i < filesCount; i++ ) {
+							curFile = dataTransfer.getFile( i );
+
+							if ( CKEDITOR.fileTools.isTypeSupported( curFile, definition.supportedTypes ) ) {
+								files.push( curFile );
+								blobUrls.push( URL.createObjectURL( curFile ) );
+							}
+						}
+
+						// Refetch the definition... original definition looks like an outdated copy, it doesn't things inherited form imagebase.
+						definition = editor.widgets.registered.easyimage;
+
+						if ( files.length ) {
+							evt.cancel();
+							// This should not be required, let's leave it for development time to make sure
+							// that nothing else affects the listeners:
+							evt.stop();
+
+							console.log( 'inserting the widget' );
+							ret._insertWidget( editor, definition, files[ 0 ], blobUrls[ 0 ] );
+
+							// @todo: make sure balloon toolbar is repositioned once img[src="blob:*"] is loaded or at least its height is available.
+						}
+
+					} else {
+						console.log( 'unsupported ' + evt.data.method + ' method.' );
+					}
+				} );
+			},
+			_insertWidget: function( editor, widgetDef, file, blobUrl ) {
+				var defaults = ( typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults ) || {
+						src: blobUrl,
+						alt: '',
+						caption: ''
+					},
+					element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
+					wrapper = editor.widgets.wrapElement( element, widgetDef.name ),
+					temp = new CKEDITOR.dom.documentFragment( wrapper.getDocument() ),
+					instance;
+
+				// Append wrapper to a temporary document. This will unify the environment
+				// in which #data listeners work when creating and editing widget.
+				temp.append( wrapper );
+				instance = editor.widgets.initOn( element, widgetDef );
+
+				editor.widgets.finalizeCreation( temp );
+
+				console.log( 'done' );
+			}
+		};
+
+		return ret;
+	}
+
 	var featuresDefinitions = {
+		upload: getUploadFeature(),
 		link: getLinkFeature()
 	};
 
 	function createWidgetDefinition( editor, definition ) {
-		var defaultTemplate = new CKEDITOR.template(
-			'<figure>' +
-				'<img alt="" src="" />' +
-				'<figcaption>{captionPlaceholder}</figcaption>' +
-			'</figure>' ),
-			baseDefinition;
+		var baseDefinition;
 
 		/**
 		 * This is an abstract class that describes a definition of a basic image widget
@@ -215,7 +281,10 @@
 		baseDefinition = {
 			pathName: editor.lang.imagebase.pathName,
 
-			template: defaultTemplate,
+			template: '<figure>' +
+					'<img alt="{alt}" src="{src}" />' +
+					'<figcaption>{captionPlaceholder}</figcaption>' +
+				'</figure>',
 
 			allowedContent: {
 				img: {

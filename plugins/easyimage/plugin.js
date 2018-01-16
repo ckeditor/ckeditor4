@@ -148,10 +148,12 @@
 
 					img: {
 						attributes: '!src,srcset,alt,width,sizes'
-					}
+					},
 				},
 
 				requiredContent: 'figure; img[!src]',
+
+				supportedTypes: /image\/(jpeg|png|gif|bmp)/,
 
 				upcasts: {
 					figure: function( element ) {
@@ -197,6 +199,8 @@
 		if ( editor.plugins.link ) {
 			widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'link', widgetDefinition );
 		}
+
+		widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'upload', widgetDefinition );
 
 		CKEDITOR.plugins.imagebase.addImageWidget( editor, 'easyimage', widgetDefinition );
 	}
