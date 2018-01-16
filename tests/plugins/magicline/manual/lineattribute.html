@@ -60,7 +60,7 @@
 	} );
 
 	CKEDITOR.addCss( 'span[data-cke-magic-line="1"] { border-top: solid 1px red !important; } ' +
-		'span[data-cke-magic-line="1"] span:nth-child(1) { border-right-color: red !important; } ' +
-		'span[data-cke-magic-line="1"] span:nth-child(2) { border-left-color: red !important; } ' +
-		'span[data-cke-magic-line="1"] span:nth-child(3) { background-color: red !important; }' );
+		'span[data-cke-magic-line="1"] span:first-child { border-right-color: red !important; } ' +
+		'span[data-cke-magic-line="1"] span:first-child + span { border-left-color: red !important; } ' +
+		'span[data-cke-magic-line="1"] span:first-child + span + span { background-color: red !important; }' );
 </script>
