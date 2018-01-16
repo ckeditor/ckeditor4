@@ -11,5 +11,5 @@
 ## Expected
 `ą` letter has been inserted at the caret position. Editor content has not been selected.
 
-## Expected
+## Unexpected
 `ą` letter has not been inserted and/or editor content has been selected.
