@@ -1,6 +1,6 @@
 @bender-tags: 4.9.0, feature, 932, tp3131
 @bender-ui: collapsed
-@bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, easyimage
+@bender-ckeditor-plugins: sourcearea, wysiwygarea, toolbar, easyimage
 @bender-include: %BASE_PATH%plugins/uploadwidget/manual/_helpers/xhrerror.js
 
 ## Easy Image Upload Error
