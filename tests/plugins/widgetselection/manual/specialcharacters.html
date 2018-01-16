@@ -5,5 +5,7 @@
 </div>
 
 <script>
-	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor1', {
+		extraAllowedContent: 'p[contenteditable]'
+	} );
 </script>
