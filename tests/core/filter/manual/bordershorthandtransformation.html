@@ -1,0 +1,17 @@
+<textarea cols="60" rows="8" readonly><table style="width:500px">
+	<tbody>
+		<tr>
+			<td style="border:2pt solid red;">&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table></textarea>
+
+<textarea id="editor1">
+<p>Replace this text in source mode.</p>
+</textarea>
+<script>
+	var editor = CKEDITOR.replace( 'editor1', {
+		extraAllowedContent: 'td{border,border-*}'
+	} );
+</script>
