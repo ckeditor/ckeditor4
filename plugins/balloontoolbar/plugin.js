@@ -177,6 +177,16 @@
 	};
 
 	/**
+	 * Refreshes all commands state so buttons state on balloonToolbar are up to date.
+	 */
+	CKEDITOR.ui.balloonToolbar.prototype.refresh = function() {
+		for ( var itemName in this._items ) {
+			var command = this._view.editor.getCommand( this._items[ itemName ].command );
+			command.refresh( this._view.editor, this._view.editor.elementPath() );
+		}
+	};
+
+	/**
 	 * Class representing a single Balloon Toolbar context in the editor.
 	 *
 	 * It can be configured with a various of conditions for showing up the toolbar using `options` parameter.
@@ -246,6 +256,13 @@
 		 */
 		hide: function() {
 			this.toolbar.hide();
+		},
+
+		/**
+		 * Refresh toolbar state attached to this context.
+		 */
+		refresh: function() {
+			this.toolbar.refresh();
 		},
 
 		/**
@@ -529,6 +546,17 @@
 		},
 
 		/**
+		 * Refreshes all contexts from {@link #_contexts}.
+		 *
+		 * @private
+		 */
+		_refresh: function() {
+			CKEDITOR.tools.array.forEach( this._contexts, function( curContext ) {
+				curContext.refresh();
+			} );
+		},
+
+		/**
 		 * Adds a set of listeners integrating manager with the {@link #editor}, like {@link CKEDITOR.editor#event-selectionChange} listener.
 		 *
 		 * @private
@@ -546,6 +574,14 @@
 				}, this, null, 9999 ),
 				this.editor.on( 'blur', function() {
 					this.hide();
+				}, this, null, 9999 ),
+				this.editor.on( 'afterInsertHtml', function() {
+					// Listening to `afterInsertHtml` is a workaround for drag/drop of widgets when `selectionChange`
+					// is fired before dropped widget is marked as focused (editor.widgets.focused).
+					// Also all `balloontoolbar` commands needs to be refreshed as `selectionChange` after widget drop
+					// causes them to be refreshed with invalid selection (#1462).
+					this.check();
+					this._refresh();
 				}, this, null, 9999 )
 			);
 		}
