@@ -3,6 +3,10 @@
 
 ## CKEditor 4.11.4
 
+Fixed Issues:
+
+* [#1397](https://github.com/ckeditor/ckeditor-dev/issues/1397): Fixed: Using dialog to remove headers from [table](https://ckeditor.com/cke4/addon/table) with one row causes JavaScript Error.
+
 ## CKEditor 4.11.3
 
 Fixed Issues:
