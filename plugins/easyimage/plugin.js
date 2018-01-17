@@ -155,6 +155,8 @@
 
 				supportedTypes: /image\/(jpeg|png|gif|bmp)/,
 
+				loaderType: CKEDITOR.plugins.cloudservices.cloudServicesLoader,
+
 				upcasts: {
 					figure: function( element ) {
 						if ( ( !figureClass || element.hasClass( figureClass ) ) &&

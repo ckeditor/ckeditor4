@@ -187,6 +187,21 @@
 	}
 
 	function getUploadFeature() {
+		// Natural width of the image can be fetched only after image is loaded.
+		// However cached images won't fire `load` event, but just mark themselves
+		// as complete.
+		function getNaturalWidth( image, callback ) {
+			var $image = image.$;
+
+			if ( $image.complete && $image.naturalWidth ) {
+				return callback( $image.naturalWidth );
+			}
+
+			image.once( 'load', function() {
+				callback( $image.naturalWidth );
+			} );
+		}
+
 		var ret = {
 			setUp: function( editor, definition ) {
 				console.log( 'added' );
@@ -221,9 +236,12 @@
 							evt.stop();
 
 							console.log( 'inserting the widget' );
-							ret._insertWidget( editor, definition, files[ 0 ], blobUrls[ 0 ] );
+							var widgetInstance = ret._insertWidget( editor, definition, files[ 0 ], blobUrls[ 0 ] );
+
+							ret._loadWidget( editor, widgetInstance, definition, files[ 0 ] );
 
 							// @todo: make sure balloon toolbar is repositioned once img[src="blob:*"] is loaded or at least its height is available.
+							// @todo: handle more than one dropped image
 						}
 
 					} else {
@@ -231,13 +249,87 @@
 					}
 				} );
 			},
+
+			init: function() {
+				// @todo: this code should be actually moved to easyimage (core) widget init function, as it's a EI plugin responsibility
+				// to tell exactly how the image should be loaded.
+				function setImageWidth( widget, height ) {
+					if ( !widget.parts.image.hasAttribute( 'width' ) ) {
+						widget.editor.fire( 'lockSnapshot' );
+
+						widget.parts.image.setAttribute( 'width', height );
+
+						widget.editor.fire( 'unlockSnapshot' );
+					}
+				}
+
+				this.on( 'uploadDone', function( evt ) {
+					var loader = evt.data.sender,
+						resp = loader.responseData.response;
+
+					var srcset = CKEDITOR.plugins.easyimage._parseSrcSet( resp ),
+						widget = this;
+
+					widget.parts.image.setAttributes( {
+						src: resp[ 'default' ],
+						srcset: srcset,
+						sizes: '100vw',
+						// @todo: currently there's a race condition, if the with has not been fetched for `img[blob:*]` it will not be set.
+						width: widget.parts.image.getAttribute( 'width' )
+					} );
+
+					console.log( 'updated the image' );
+				} );
+
+				this.on( 'uploadBegan', function() {
+					var widget = this;
+					// Attempt to pick width from the img[src="blob:*"].
+					getNaturalWidth( widget.parts.image, function( width ) {
+						setImageWidth( widget, width );
+					} );
+				} );
+			},
+
+			_loadWidget: function( editor, widget, def, file ) {
+				var uploads = editor.uploadRepository,
+					loadMethod = def.loadMethod || 'loadAndUpload',
+					loader = uploads.create( file, undefined, def.loaderType );
+
+				function failHandling( evt ) {
+					console.warn( 'Could not load Easy Image widget', evt );
+					if ( widget.fire( 'uploadError', evt ) !== false ) {
+						widget.destroy( true );
+					}
+				}
+
+				function uploadComplete( evt ) {
+					console.log( 'all good, image uploaded' );
+
+					widget.fire( 'uploadDone', evt );
+				}
+
+				loader.on( 'abort', failHandling );
+				loader.on( 'error', failHandling );
+				loader.on( 'uploaded', uploadComplete );
+
+				loader[ loadMethod ]( def.uploadUrl, def.additionalRequestParameters );
+
+				widget.fire( 'uploadBegan', loader );
+
+				// @todo: It make sense to mark the widget at this point as incomplete. Similarly as fileTools.markElement does.
+
+				if ( ( loadMethod == 'loadAndUpload' || loadMethod == 'upload' ) && !def.skipNotifications ) {
+					// Todo: bind notifications.
+					// CKEDITOR.fileTools.bindNotifications( editor, loader );
+				}
+			},
+
 			_insertWidget: function( editor, widgetDef, file, blobUrl ) {
-				var defaults = ( typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults ) || {
-						src: blobUrl,
-						alt: '',
-						caption: ''
-					},
-					element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
+				var tplParams = ( typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults ) || {};
+
+				tplParams.src = blobUrl;
+
+				var element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( tplParams ) ),
 					wrapper = editor.widgets.wrapElement( element, widgetDef.name ),
 					temp = new CKEDITOR.dom.documentFragment( wrapper.getDocument() ),
 					instance;
@@ -247,9 +339,7 @@
 				temp.append( wrapper );
 				instance = editor.widgets.initOn( element, widgetDef );
 
-				editor.widgets.finalizeCreation( temp );
-
-				console.log( 'done' );
+				return editor.widgets.finalizeCreation( temp );
 			}
 		};
 
@@ -281,9 +371,16 @@
 		baseDefinition = {
 			pathName: editor.lang.imagebase.pathName,
 
-			template: '<figure>' +
+			defaults: {
+				imageClass: ( editor.config.easyimage_class || '' ),
+				alt: '',
+				src: '',
+				caption: ''
+			},
+
+			template: '<figure class="{imageClass}">' +
 					'<img alt="{alt}" src="{src}" />' +
-					'<figcaption>{captionPlaceholder}</figcaption>' +
+					'<figcaption>{caption}</figcaption>' +
 				'</figure>',
 
 			allowedContent: {
