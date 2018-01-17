@@ -176,6 +176,22 @@
 					if ( editor.config.easyimage_class ) {
 						this.addClass( editor.config.easyimage_class );
 					}
+
+					if ( !this.definition._createProgressBar ) {
+						// Do it only once.
+						mixinProgressBarToWidgetDef( this.definition );
+					}
+
+					this.on( 'uploadBegan', function( evt ) {
+						attachProgressBarToLoader( evt.data, this );
+					} );
+
+					this.once( 'uploadDone', function( evt ) {
+						if ( this.parts.progressBar ) {
+							this.parts.progressBar.remove();
+							this.parts.progressBar = null;
+						}
+					} );
 				},
 
 				data: function( evt ) {
@@ -315,6 +331,74 @@
 		} );
 	}
 
+	function mixinProgressBarToWidgetDef( definition ) {
+		definition.parts.loader = '.cke_loader';
+
+		/*
+		* Creates a progress bar in a given widget.
+		*
+		* Also puts it in it's {@link CKEDITOR.plugins.widget#parts} structure as `progressBar`
+		*
+		* @private
+		* @param {CKEDITOR.plugins.widget} widget
+		*/
+		definition._createProgressBar = function( widget, progressBarWrapper ) {
+			progressBarWrapper = progressBarWrapper || widget.element;
+
+			widget.parts.progressBar = CKEDITOR.dom.element.createFromHtml( '<div class="cke_loader">' +
+					'<div class="cke_bar" styles="transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's"></div>' +
+				'</div>' );
+
+			progressBarWrapper.append( widget.parts.progressBar, true );
+		};
+	}
+
+	/*
+	 * Attaches a progress bar to a given loader.
+	 *
+	 * @param {CKEDITOR.fileTools.fileLoader} loader
+	 * @param {CKEDITOR.plugins.widget} widget
+	 */
+	function attachProgressBarToLoader( loader, widget ) {
+		var progressListeners = [];
+
+		// Add a progress bar.
+		widget.definition._createProgressBar( widget );
+
+		function removeProgressListeners() {
+			if ( progressListeners ) {
+				CKEDITOR.tools.array.forEach( progressListeners, function( listener ) {
+					listener.removeListener();
+				} );
+
+				progressListeners = null;
+			}
+		}
+
+		var updateListener = CKEDITOR.tools.eventsBuffer( UPLOAD_PROGRESS_THROTTLING, function() {
+			if ( !widget.parts.progressBar ) {
+				return;
+			}
+
+			var progressBar = widget.parts.progressBar.findOne( '.cke_bar' ),
+				percentage;
+
+			if ( progressBar && loader.uploadTotal ) {
+				percentage = ( loader.uploaded / loader.uploadTotal ) * 100;
+
+				widget.editor.fire( 'lockSnapshot' );
+				progressBar.setStyle( 'width', percentage + '%' );
+				widget.editor.fire( 'unlockSnapshot' );
+			}
+		}, widget );
+
+		progressListeners.push( loader.on( 'update', updateListener.input ) );
+
+		progressListeners.push( loader.once( 'abort', removeProgressListeners ) );
+		progressListeners.push( loader.once( 'error', removeProgressListeners ) );
+		progressListeners.push( loader.once( 'uploaded', removeProgressListeners ) );
+	}
+
 	// Extends given uploadWidget `definition` with an upload progress bar, added within wrapper.
 	function addUploadProgressBar( editor, definition ) {
 		definition.skipNotifications = true;
@@ -330,7 +414,7 @@
 		 */
 		definition._createProgressBar = function( widget ) {
 			widget.parts.progressBar = CKEDITOR.dom.element.createFromHtml( '<div class="cke_loader">' +
-					'<div class="cke_bar" styles="transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's"></div>' +
+				'<div class="cke_bar" styles="transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's"></div>' +
 				'</div>' );
 			widget.wrapper.append( widget.parts.progressBar, true );
 		};
@@ -344,40 +428,9 @@
 				baseInit =  definition.init;
 
 				definition.init = function() {
-					var loader = this._getLoader( this ),
-						progressListeners = [];
+					var loader = this._getLoader( this );
 
-					function removeProgressListeners() {
-						if ( progressListeners ) {
-							CKEDITOR.tools.array.forEach( progressListeners, function( listener ) {
-								listener.removeListener();
-							} );
-
-							progressListeners = null;
-						}
-					}
-
-					// Add a progress bar.
-					this.definition._createProgressBar( this );
-
-					var updateListener = CKEDITOR.tools.eventsBuffer( UPLOAD_PROGRESS_THROTTLING, function() {
-						var progressBar = this.parts.progressBar.findOne( '.cke_bar' ),
-							percentage;
-
-						if ( progressBar && loader.uploadTotal ) {
-							percentage = ( loader.uploaded / loader.uploadTotal ) * 100;
-
-							editor.fire( 'lockSnapshot' );
-							progressBar.setStyle( 'width', percentage + '%' );
-							editor.fire( 'unlockSnapshot' );
-						}
-					}, this );
-
-					progressListeners.push( loader.on( 'update', updateListener.input ) );
-
-					progressListeners.push( loader.once( 'abort', removeProgressListeners ) );
-					progressListeners.push( loader.once( 'error', removeProgressListeners ) );
-					progressListeners.push( loader.once( 'uploaded', removeProgressListeners ) );
+					attachProgressBarToLoader( this, loader );
 
 					// Call base init implementation.
 					baseInit.call( this );

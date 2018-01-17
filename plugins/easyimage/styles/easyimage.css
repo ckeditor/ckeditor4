@@ -57,6 +57,10 @@ The outline is not a part of the element's dimensions, we have to use a border a
 
 /* Loaders */
 
+.cke_widget_element.easyimage {
+	position: relative;
+}
+
 .cke_loader {
 	position: absolute;
 	left: 0px;
