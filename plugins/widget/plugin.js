@@ -438,6 +438,8 @@
 				widget.ready = true;
 				widget.fire( 'ready' );
 				widget.focus();
+
+				return widget;
 			}
 		},
 
