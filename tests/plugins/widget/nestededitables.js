@@ -1421,6 +1421,52 @@
 			} );
 		},
 
+		// #1469
+		'test pasting widget into widget nested editable with selectionChange callback': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			editor.widgets.add( 'widget-pastenested', {
+				parts: {
+					label: 'p'
+				},
+
+				editables: {
+					nested: {
+						selector: '.widget-nested'
+					}
+				}
+			} );
+
+			bot.setData( '<div id="w1" data-widget="widget-pastenested"><p>Widget</p><div class="widget-nested">xx</div></div>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					nested = widget.editables.nested,
+					range = editor.createRange();
+
+				range.setStart( nested.getFirst(), 1 );
+				range.collapse( 1 );
+				range.select();
+				nested.focus();
+
+				editor.once( 'selectionChange', function() {
+					resume( function() {
+						try {
+							nested.getData();
+						} catch ( e ) {
+							assert.fail( 'Error was thrown' );
+						}
+
+						assert.pass( 'Everything worked' );
+					} );
+				} );
+
+				// Simulate pasted copied, upcasted widget
+				bender.tools.emulatePaste( editor, '<div data-cke-widget-wrapper="1"><div data-widget="widget-pastenested"><div data-cke-widget-editable="nested"></div></div></div>' );
+
+				wait();
+			} );
+		},
+
 		// Behaviour has been changed in 4.5 (https://dev.ckeditor.com/ticket/12112), so we're leaving this
 		// test as a validation of this change.
 		'test widgets\' commands are enabled in nested editable': function() {
