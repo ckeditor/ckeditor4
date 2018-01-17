@@ -1,0 +1,16 @@
+<div id="editor">
+	<figure class="image">
+		<img src="%BASE_PATH%_assets/logo.png" alt="CKSource">
+		<figcaption>Paste here</figcaption>
+	</figure>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		on: {
+			selectionChange: function( evt ) {
+				evt.editor.widgets.instances[ 0 ].editables.caption.getData();
+			}
+		}
+	} );
+</script>
