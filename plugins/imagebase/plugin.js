@@ -440,6 +440,9 @@
 	var UPLOAD_PROGRESS_THROTTLING = 100;
 
 	/**
+	 *
+	 * @TODO: rename type to ProgressIndicator. Bar implies, well... bar.
+	 *
 	 * This is a base class for progress bars.
 	 *
 	 * Progress bars could be updated:
@@ -474,9 +477,6 @@
 	};
 
 	ProgressBar.prototype = {
-		bindToLoader: function( loader ) {
-			// pass
-		},
 		/**
 		 * Marks a progress on the progress bar.
 		 *
@@ -512,7 +512,48 @@
 		 */
 		failed: function() {
 			this.wrapper.remove();
-		}
+		},
+
+		/**
+		 * Binds progress indicator to a given loader.
+		 *
+		 * It will automatically remove its listeners when the `loader` has triggered one of following events:
+		 *
+		 * * {@link CKEDITOR.fileTools.fileLoader#abort}
+		 * * {@link CKEDITOR.fileTools.fileLoader#error}
+		 * * {@link CKEDITOR.fileTools.fileLoader#uploaded}
+		 *
+		 * @param {CKEDITOR.fileTools.fileLoader} loader Loader that should be observed.
+		 */
+		bindToLoader: function( loader ) {
+			var progressListeners = [];
+
+			function removeProgressListeners() {
+				if ( progressListeners ) {
+					CKEDITOR.tools.array.forEach( progressListeners, function( listener ) {
+						listener.removeListener();
+					} );
+
+					progressListeners = null;
+				}
+			}
+
+			var updateListener = CKEDITOR.tools.eventsBuffer( UPLOAD_PROGRESS_THROTTLING, function() {
+				if ( loader.uploadTotal ) {
+					this.updated( loader.uploaded / loader.uploadTotal );
+				}
+			}, this );
+
+			progressListeners.push( loader.on( 'uploading', updateListener.input, this ) );
+			progressListeners.push( loader.once( 'abort', this.aborted, this ) );
+			progressListeners.push( loader.once( 'uploaded', this.done, this ) );
+			progressListeners.push( loader.once( 'error', this.failed, this ) );
+
+			// Some events should cause all listeners to be removed.
+			progressListeners.push( loader.once( 'abort', removeProgressListeners ) );
+			progressListeners.push( loader.once( 'uploaded', removeProgressListeners ) );
+			progressListeners.push( loader.once( 'error', removeProgressListeners ) );
+		},
 	};
 
 	CKEDITOR.plugins.add( 'imagebase', {
