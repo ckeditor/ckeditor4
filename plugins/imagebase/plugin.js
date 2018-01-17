@@ -437,6 +437,84 @@
 		return definition;
 	}
 
+	var UPLOAD_PROGRESS_THROTTLING = 100;
+
+	/**
+	 * This is a base class for progress bars.
+	 *
+	 * Progress bars could be updated:
+	 *
+	 * * Automatically, by binding it to a existing {@link CKEDITOR.fileTools.fileLoader} instance.
+	 * * Manually, using {@link #updated}, {@link #done}, {@link #failed} and {@link #aborted} methods.
+	 *
+	 * @class CKEDITOR.plugins.imagebase.progressBar
+	 * @constructor
+	 */
+	function ProgressBar() {
+		/**
+		 * @property {CKEDITOR.dom.element} wrapper An element created for wrapping the progress bar.
+		 */
+		this.wrapper = CKEDITOR.dom.element.createFromHtml( '<div class="cke_loader">' +
+			'<div class="cke_bar" styles="transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's"></div>' +
+			'</div>' );
+
+		this.bar = this.wrapper.getFirst();
+	}
+
+	/**
+	 * @param {CKEDITOR.dom.element} wrapper Element where the progress bar will be **prepended**.
+	 * @returns {CKEDITOR.plugins.imagebase.progressBar}
+	 */
+	ProgressBar.createForElement = function( wrapper ) {
+		var ret = new ProgressBar();
+
+		wrapper.append( ret.wrapper, true );
+
+		return ret;
+	};
+
+	ProgressBar.prototype = {
+		bindToLoader: function( loader ) {
+			// pass
+		},
+		/**
+		 * Marks a progress on the progress bar.
+		 *
+		 * @param {Number} progress Progress representation where `1.0` is a complete and `0` means no progress.
+		 */
+		updated: function( progress ) {
+			var percentage = Math.round( progress * 100 );
+
+			percentage = Math.max( percentage, 0 );
+			percentage = Math.min( percentage, 100 );
+
+			// widget.editor.fire( 'lockSnapshot' );
+			this.bar.setStyle( 'width', percentage + '%' );
+			// widget.editor.fire( 'unlockSnapshot' );
+		},
+
+		/**
+		 * To be called when the progress should be marked as complete.
+		 */
+		done: function() {
+			this.wrapper.remove();
+		},
+
+		/**
+		 * To be called when the progress should be marked as aborted.
+		 */
+		aborted: function() {
+			this.failed();
+		},
+
+		/**
+		 * To be called when the progress should be marked as failed.
+		 */
+		failed: function() {
+			this.wrapper.remove();
+		}
+	};
+
 	CKEDITOR.plugins.add( 'imagebase', {
 		requires: 'widget',
 		lang: 'en'
@@ -516,6 +594,8 @@
 			ret.features.push( name );
 
 			return ret;
-		}
+		},
+
+		progressBar: ProgressBar
 	};
 }() );
