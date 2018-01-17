@@ -193,7 +193,11 @@
 									newCell.removeAttribute( 'scope' );
 								}
 							}
-							theRow.insertBefore( previousFirstRow );
+							if ( previousFirstRow ) {
+								theRow.insertBefore( previousFirstRow );
+							} else {
+								tbody.append( theRow );
+							}
 						}
 						thead.remove();
 					}
