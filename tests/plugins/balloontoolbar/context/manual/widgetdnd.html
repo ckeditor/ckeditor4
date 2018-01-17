@@ -1,5 +1,5 @@
 <textarea id="editor1" cols="10" rows="10">
-	<p>This is a sample [[image]] widdget:</p>
+	<p>This is a sample [[image]] widget:</p>
 
 	<figure class="image">
 		<img alt="Saturn V" src="%BASE_PATH%_assets/lena.jpg" width="120" />
@@ -10,7 +10,7 @@
 </textarea>
 
 <div id="editor2" contenteditable="true">
-	<p>This is a sample [[image]] widdget:</p>
+	<p>This is a sample [[image]] widget:</p>
 
 	<figure class="image">
 		<img alt="Saturn V" src="%BASE_PATH%_assets/lena.jpg" width="120" />
@@ -27,15 +27,38 @@
 
 	CKEDITOR.disableAutoInline = true;
 
+	CKEDITOR.skin.addIcon( 'testcommandButton', '%BASE_PATH%_assets/test_icon.png' );
+
+	CKEDITOR.plugins.add( 'testplugin', {
+		init: function( editor ) {
+			editor.addCommand( 'testcommand', {
+				startDisabled: true,
+				contextSensitive: true,
+				exec: function() { },
+				refresh: function( editor ) {
+					var widget = editor.widgets.focused;
+					widget && ( widget.name === 'image'  || widget.name === 'placeholder' ) ?
+						this.setState( CKEDITOR.TRISTATE_ON ) : this.setState( CKEDITOR.TRISTATE_DISABLED );
+				}
+			} );
+
+			editor.ui.addButton( 'testcommandButton', {
+				label: 'Label: testcommand',
+				command: 'testcommand'
+			} );
+		}
+	} );
+
 	var config = {
 			height: 320,
 			width: 500,
 			allowedContent: true,
+			extraPlugins: 'testplugin',
 			on: {
 				instanceReady: function( evt ) {
 					// Register the toolbar for inline elements.
 					evt.editor.balloonToolbars.create( {
-						buttons: 'Link,Unlink',
+						buttons: 'testcommandButton,Link,Unlink',
 						widgets: [ 'image', 'placeholder' ]
 					} );
 				}
