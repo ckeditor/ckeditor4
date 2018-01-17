@@ -45,6 +45,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 /* Loaders */
 
+.cke_widget_element.easyimage {
+	position: relative;
+}
+
 .cke_loader {
 	position: absolute;
 	left: 0px;
