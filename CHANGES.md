@@ -1,15 +1,17 @@
 ﻿CKEditor 4 Changelog
 ====================
 
-## CKEditor 4.8.1
+## CKEditor 4.9
 
 New Features:
 
+* [#1338](https://github.com/ckeditor/ckeditor-dev/issues/1338): Keystroke labels are displayed for function keys (like F7, F8).
 * [#933](https://github.com/ckeditor/ckeditor-dev/issues/933): [File Browser](https://ckeditor.com/cke4/addon/filetools) plugin can now upload files using XHR requests. This allows for setting custom HTTP headers using [`config.fileTools_requestHeaders`](http://docs.ckeditor.test/#!/api/CKEDITOR.config-cfg-fileTools_requestHeaders) configuration option.
 * [#1399](https://github.com/ckeditor/ckeditor-dev/issues/1399): Added possibility to set [`CKEDITOR.config.startupFocus`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-startupFocus) as `start` or `end` to specify where editor focus should be after initialization.
 
 Fixed Issues:
 
+* [#869](https://github.com/ckeditor/ckeditor-dev/issues/869): Fixed: Empty selection clears cached clipboard data in editor.
 * [#1419](https://github.com/ckeditor/ckeditor-dev/issues/1419): Fixed: [Widged Selection](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widgetselection) selects editor content with `alt + a` key combination on Windows.
 * [#1274](https://github.com/ckeditor/ckeditor-dev/issues/1274): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) does not match a single selected image using [`contextDefinition.cssSelector`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.balloontoolbar.contextDefinition-property-cssSelector) matcher.
 * [#1232](https://github.com/ckeditor/ckeditor-dev/issues/1232): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) buttons should be registered as focusable elements.
