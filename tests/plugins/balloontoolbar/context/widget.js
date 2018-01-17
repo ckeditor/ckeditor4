@@ -6,6 +6,8 @@
 ( function() {
 	'use strict';
 
+	var getContextStub = contextTools._getContextStub;
+
 	bender.editor = {
 		config: {
 			extraAllowedContent: 'div[*];strong'
@@ -25,7 +27,7 @@
 
 		'test simple positive matching with one item': function() {
 			var editor = this.editor,
-				context = this._getContextStub( [ 'positive' ] );
+				context = getContextStub( [ 'positive' ], editor );
 
 			editor.widgets.add( 'positive' );
 
@@ -42,7 +44,7 @@
 
 		'test simple positive matching with multiple items': function() {
 			var editor = this.editor,
-				context = this._getContextStub( [ 'foo', 'bar', 'baz' ] );
+				context = getContextStub( [ 'foo', 'bar', 'baz' ], editor );
 
 			editor.widgets.add( 'bar' );
 
@@ -59,7 +61,7 @@
 
 		'test simple mismatching with few items': function() {
 			var editor = this.editor,
-				context = this._getContextStub( [ 'foo', 'bar', 'baz', 'nega', 'negative-postfix' ] );
+				context = getContextStub( [ 'foo', 'bar', 'baz', 'nega', 'negative-postfix' ], editor );
 
 			editor.widgets.add( 'negative' );
 
@@ -76,7 +78,7 @@
 
 		'test matching with options.widgets as a string': function() {
 			var editor = this.editor,
-				context = this._getContextStub( 'foo,bar,baz' );
+				context = getContextStub( 'foo,bar,baz', editor );
 
 			editor.widgets.add( 'bar' );
 
@@ -93,7 +95,7 @@
 
 		'test negation with options.widgets as a string': function() {
 			var editor = this.editor,
-				context = this._getContextStub( 'foo,zbarz,baz' );
+				context = getContextStub( 'foo,zbarz,baz', editor );
 
 			editor.widgets.add( 'bar' );
 
@@ -110,7 +112,7 @@
 
 		'test widget selector does not trigger in nested editable': function() {
 			var editor = this.editor,
-				context = this._getContextStub( 'widgetWithEditable' );
+				context = getContextStub( 'widgetWithEditable', editor );
 
 			editor.widgets.add( 'widgetWithEditable', {
 				editables: {
@@ -130,7 +132,7 @@
 		'test widget toolbar points to a proper element': function() {
 			// Toolbar matched to a widget, should point to a widget element.
 			var editor = this.editor,
-				context = this._getContextStub( [ 'pointing' ] );
+				context = getContextStub( [ 'pointing' ], editor );
 
 			editor.widgets.add( 'pointing' );
 
@@ -146,18 +148,6 @@
 					sinon.assert.calledWithExactly( context.show, widget.element );
 					assert.isTrue( true );
 				} );
-		},
-
-		/*
-		 * Returns a Context instance with toolbar show/hide methods stubbed.
-		 *
-		 * @param {String[]} widgetNames List of widget names to be set as `options.widgets`.
-		 * @returns {CKEDITOR.plugins.balloontoolbar.context}
-		 */
-		_getContextStub: function( widgetNames ) {
-			return this.editor.balloonToolbars.create( {
-				widgets: widgetNames
-			} );
 		}
 	} );
 } )();
