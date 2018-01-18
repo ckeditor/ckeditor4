@@ -140,27 +140,27 @@
 				assert.areSame( 1, this.dummyProgress.done.callCount, 'Done call count' );
 			},
 
-			'test bindToLoader() uploading event is throttled': function() {
+			'test bindToLoader() update event is throttled': function() {
 				this.dummyProgress.bindToLoader( loaderMock );
-				// Make sure that if file loader spams uploading events, progress does not go crazy.
+				// Make sure that if file loader spams update events, progress does not go crazy.
 
-				loaderMock.fire( 'uploading' );
-				loaderMock.fire( 'uploading' );
-				loaderMock.fire( 'uploading' );
-				loaderMock.fire( 'uploading' );
+				loaderMock.fire( 'update' );
+				loaderMock.fire( 'update' );
+				loaderMock.fire( 'update' );
+				loaderMock.fire( 'update' );
 
 				assert.areSame( 1, this.dummyProgress.updated.callCount, 'Updated call count' );
 			},
 
-			'test bindToLoader() uploading event is throttled': function() {
+			'test bindToLoader() update event is throttled': function() {
 				this.dummyProgress.bindToLoader( loaderMock );
-				// Make sure that if file loader spams uploading events, progress does not go crazy.
+				// Make sure that if file loader spams update events, progress does not go crazy.
 
 				loaderMock.uploadTotal = 5;
 
-				loaderMock.fire( 'uploading' );
-				loaderMock.fire( 'uploading' );
-				loaderMock.fire( 'uploading' );
+				loaderMock.fire( 'update' );
+				loaderMock.fire( 'update' );
+				loaderMock.fire( 'update' );
 
 				delete loaderMock.uploadTotal;
 
@@ -173,7 +173,7 @@
 				loaderMock.uploaded = 3;
 				loaderMock.uploadTotal = 5;
 
-				loaderMock.fire( 'uploading' );
+				loaderMock.fire( 'update' );
 
 				delete loaderMock.uploaded;
 				delete loaderMock.uploadTotal;
