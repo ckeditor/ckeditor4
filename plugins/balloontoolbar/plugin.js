@@ -730,7 +730,7 @@
 			/**
 			 * Updates status of passed element.
 			 *
-			 * @param {CKEDITOR.ui.richCombo} item which is instace of richCombo.
+			 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} item which is instace of richCombo.
 			 * @since 4.9.0
 			 * @private
 			 * @member CKEDITOR.ui.balloonToolbarView
