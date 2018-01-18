@@ -157,6 +157,8 @@
 
 				loaderType: CKEDITOR.plugins.cloudservices.cloudServicesLoader,
 
+				progressIndicatorType: CKEDITOR.plugins.imagebase.progressBar,
+
 				upcasts: {
 					figure: function( element ) {
 						if ( ( !figureClass || element.hasClass( figureClass ) ) &&
@@ -177,20 +179,9 @@
 						this.addClass( editor.config.easyimage_class );
 					}
 
-					if ( !this.definition._createProgressBar ) {
-						// Do it only once.
-						mixinProgressBarToWidgetDef( this.definition );
-					}
-
 					this.on( 'uploadBegan', function( evt ) {
-						attachProgressBarToLoader( evt.data, this );
-					} );
-
-					this.once( 'uploadDone', function( evt ) {
-						if ( this.parts.progressBar ) {
-							this.parts.progressBar.remove();
-							this.parts.progressBar = null;
-						}
+						var progress = this.progressIndicatorType.createForElement( this.element );
+						progress.bindToLoader( evt.data );
 					} );
 				},
 
