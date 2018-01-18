@@ -18,6 +18,39 @@
 		}
 	};
 
+	// Force Edge to run every test in new CKEditor's instance.
+	function createTestsForEditors( editors, tests ) {
+		var generatedTests = {},
+			test,
+			i = 0;
+
+		function generateTest( name ) {
+			CKEDITOR.tools.array.forEach( editors, function( editor ) {
+				var options = CKEDITOR.tools.object.merge( bender.editors[ editor ], {
+					name: editor + i++
+				} );
+
+				generatedTests[ name + ' (' + editor + ')' ] = function() {
+					bender.editorBot.create( options, function( bot ) {
+						tests[ name ]( bot.editor, bot );
+					} );
+				};
+			} );
+		}
+
+		if ( !CKEDITOR.env.edge ) {
+			return bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+		}
+
+		for ( test in tests ) {
+			if ( test.indexOf( 'test' ) === 0 ) {
+				generateTest( test );
+			}
+		}
+
+		return generatedTests;
+	}
+
 	function assertMenuItemsState( items, asserts ) {
 		CKEDITOR.tools.array.forEach( items, function( item ) {
 			if ( asserts[ item.command ] ) {
@@ -36,14 +69,32 @@
 		}
 	}
 
-	var widgetHtml = '<figure class="image easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
+	var originalGetClientRect = CKEDITOR.dom.element.prototype.getClientRect,
+		widgetHtml = '<figure class="image easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		sideWidgetHtml = '<figure class="image easyimage easyimage-side"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		tests = {
+			setUp: function() {
+				if ( CKEDITOR.env.ie ) {
+					CKEDITOR.dom.element.prototype.getClientRect = function() {
+						return {
+							width: 0,
+							height: 0,
+							left: 0,
+							top: 0
+						};
+					};
+				}
+			},
+
 			tearDown: function() {
 				var currentDialog = CKEDITOR.dialog.getCurrent();
 
 				if ( currentDialog ) {
 					currentDialog.hide();
+				}
+
+				if ( CKEDITOR.env.ie ) {
+					CKEDITOR.dom.element.prototype.getClientRect = originalGetClientRect;
 				}
 			},
 
@@ -168,6 +219,6 @@
 			}
 		};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	tests = createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
 	bender.test( tests );
 } )();
