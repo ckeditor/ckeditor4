@@ -1,0 +1,89 @@
+<div id="classic">
+	<div style="outline: 2px solid green; position: relative">
+		<p>line</p>
+		<p>line</p>
+		<p>line</p>
+	</div>
+	<p>Above div will gain your progress indicator.</p>
+</div>
+
+<style>
+	#controls.hidden {
+		display: none;
+	}
+
+	#progress-range {
+		width: 100%;
+	}
+
+</style>
+
+<div id="controls" class="hidden">
+	<p>
+		<label for="progress-range">Change progress:</label>
+	</p>
+	<p>
+		<input id="progress-range" type="range" step="0.01" min="0" max="1" onchange="gLoader.updated( this.value );">
+	</p>
+	<p>
+		Action Buttons:
+	</p>
+	<p>
+		<input type="button" value="done" onclick="gLoader.done();">
+		<input type="button" value="abort" onclick="gLoader.aborted();">
+		<input type="button" value="error" onclick="gLoader.failed();">
+	</p>
+
+	<input type="button" value="recreate progress indicator" onclick="window.recreateProgress();">
+</div>
+
+<script>
+	function runSampleCode( editor, ProgressBar ) {
+		function ProgressOverlap() {
+			ProgressBar.call( this );
+
+			this.wrapper.addClass( 'cke_progress_overlap' );
+		}
+
+		ProgressOverlap.prototype = new ProgressBar();
+
+		ProgressOverlap.createForElement = function( wrapper ) {
+			var ret = new ProgressOverlap();
+
+			wrapper.append( ret.wrapper, true );
+
+			return ret;
+		};
+
+		window.recreateProgress = function() {
+			var loader = window.gLoader;
+
+			if ( loader ) {
+				loader.remove();
+			}
+
+			// loader = ProgressBar.createForElement( editor.editable().findOne( 'div' ) );
+			loader = ProgressOverlap.createForElement( editor.editable().findOne( 'div' ) );
+			loader.updated( CKEDITOR.document.getById( 'progress-range' ).getValue() );
+
+			window.gLoader = loader;
+		}
+	}
+
+	CKEDITOR.addCss( '.cke_progress_overlap{ outline: 2px solid red; }' );
+
+	CKEDITOR.replace( 'classic', {
+		extraAllowedContent: 'div{outline,position}',
+		contentsCss: '/apps/ckeditor/plugins/easyimage/styles/easyimage.css',
+		on: {
+			instanceReady: function( evt ) {
+				CKEDITOR.document.getById( 'controls' ).removeClass( 'hidden' );
+
+				runSampleCode( this, CKEDITOR.plugins.imagebase.progressBar );
+
+				window.recreateProgress();
+			}
+		}
+	} );
+
+</script>
