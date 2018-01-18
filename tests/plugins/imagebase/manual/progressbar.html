@@ -1,5 +1,6 @@
 <div id="classic">
-	<div style="outline: 2px solid green; position: relative">
+	<div class="progress-wrapper">
+		<p>line</p>
 		<p>line</p>
 		<p>line</p>
 		<p>line</p>
@@ -16,6 +17,20 @@
 		width: 100%;
 	}
 
+	.progress-range-legend {
+		position: relative;
+		height: 1em;
+	}
+
+	.progress-range-legend span {
+		position: absolute;
+		top: 0px;
+	}
+
+	.progress-range-legend .done {
+		right: 0px;
+	}
+
 </style>
 
 <div id="controls" class="hidden">
@@ -25,6 +40,10 @@
 	<p>
 		<input id="progress-range" type="range" step="0.01" min="0" max="1" onchange="gLoader.updated( this.value );">
 	</p>
+	<div class="progress-range-legend">
+		<span>Start</span>
+		<span class="done">Done</span>
+	</div>
 	<p>
 		Action Buttons:
 	</p>
@@ -33,22 +52,38 @@
 		<input type="button" value="abort" onclick="gLoader.aborted();">
 		<input type="button" value="error" onclick="gLoader.failed();">
 	</p>
-
-	<input type="button" value="recreate progress indicator" onclick="window.recreateProgress();">
+	<p>
+		<input type="button" value="recreate progress indicator" onclick="window.recreateProgress();">
+	</p>
+	<p>
+		<label for="progress-type">Change indicator type:</label>
+	</p>
+	<p>
+		<select name="progress-type" id="progress-type" onchange="window.recreateProgress();">
+			<option value="default">Progress Bar</option>
+			<option value="progress-overlap">Lighten overlap</option>
+		</select>
+	</p>
 </div>
 
 <script>
 	function runSampleCode( editor, ProgressBar ) {
-		function ProgressOverlap() {
+		function ProgressOverlap( totalHeight ) {
 			ProgressBar.call( this );
 
 			this.wrapper.addClass( 'cke_progress_overlap' );
+
+			this.totalHeight = totalHeight;
 		}
 
 		ProgressOverlap.prototype = new ProgressBar();
 
+		ProgressOverlap.prototype.updated = function( progress ) {
+			this.wrapper.setStyle( 'bottom', Math.round( this.totalHeight * progress ) + 'px' );
+		};
+
 		ProgressOverlap.createForElement = function( wrapper ) {
-			var ret = new ProgressOverlap();
+			var ret = new ProgressOverlap( wrapper.getClientRect().height );
 
 			wrapper.append( ret.wrapper, true );
 
@@ -56,24 +91,30 @@
 		};
 
 		window.recreateProgress = function() {
-			var loader = window.gLoader;
+			var loader = window.gLoader,
+				types = {
+					'progress-overlap': ProgressOverlap,
+					'default': ProgressBar
+				},
+				Constructor = types[ CKEDITOR.document.getById( 'progress-type' ).getValue() || 'default' ];
 
 			if ( loader ) {
 				loader.remove();
 			}
 
-			// loader = ProgressBar.createForElement( editor.editable().findOne( 'div' ) );
-			loader = ProgressOverlap.createForElement( editor.editable().findOne( 'div' ) );
+			loader = Constructor.createForElement( editor.editable().findOne( 'div' ) );
 			loader.updated( CKEDITOR.document.getById( 'progress-range' ).getValue() );
 
 			window.gLoader = loader;
 		}
 	}
 
-	CKEDITOR.addCss( '.cke_progress_overlap{ outline: 2px solid red; }' );
+	CKEDITOR.addCss( '.progress-wrapper{ outline: 2px solid green; position: relative; background: #000; color: #fff; }' );
+	CKEDITOR.addCss(
+		'.cke_progress_overlap{ position: absolute; top: 0px; bottom: 0px; background: rgba( 255, 255, 255, 0.8); }' );
 
 	CKEDITOR.replace( 'classic', {
-		extraAllowedContent: 'div{outline,position}',
+		extraAllowedContent: 'div(progress-wrapper)',
 		contentsCss: '/apps/ckeditor/plugins/easyimage/styles/easyimage.css',
 		on: {
 			instanceReady: function( evt ) {
