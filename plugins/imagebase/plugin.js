@@ -504,13 +504,20 @@
 		 * To be called when the progress should be marked as aborted.
 		 */
 		aborted: function() {
-			this.failed();
+			this.remove();
 		},
 
 		/**
 		 * To be called when the progress should be marked as failed.
 		 */
 		failed: function() {
+			this.wrapper.remove();
+		},
+
+		/**
+		 * Removes the progress indicator from DOM.
+		 */
+		remove: function() {
 			this.wrapper.remove();
 		},
 

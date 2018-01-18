@@ -51,6 +51,14 @@
 				assert.beautified.html( doc.getById( 'expected-create-from-element-prepend' ).getHtml(), this.nestedSandbox.getHtml() );
 			},
 
+			'test remove()': function() {
+				var ret = ProgressBar.createForElement( this.nestedSandbox );
+
+				ret.remove();
+
+				assert.isNull( ret.wrapper.getParent(), 'Parent node' );
+			},
+
 			'test update()': function() {
 				var values = [
 						[ 0.0, '0%' ],
