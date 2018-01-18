@@ -441,7 +441,7 @@
 
 	/**
 	 *
-	 * @TODO: rename type to ProgressIndicator. Bar implies, well... bar.
+	 * @TODO: rename type to ProgressReporter or ProgressIndicator. Bar implies, well... bar.
 	 *
 	 * This is a base class for progress bars.
 	 *
@@ -551,7 +551,7 @@
 				}
 			}, this );
 
-			progressListeners.push( loader.on( 'uploading', updateListener.input, this ) );
+			progressListeners.push( loader.on( 'update', updateListener.input, this ) );
 			progressListeners.push( loader.once( 'abort', this.aborted, this ) );
 			progressListeners.push( loader.once( 'uploaded', this.done, this ) );
 			progressListeners.push( loader.once( 'error', this.failed, this ) );
