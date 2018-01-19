@@ -131,6 +131,7 @@
 	 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} element An instance of the UI element.
 	 */
 	CKEDITOR.ui.balloonToolbar.prototype.addItem = function( name, element ) {
+		// console.log( this._items[ name ] );
 		this._items[ name ] = element;
 	};
 
@@ -170,9 +171,24 @@
 	};
 
 	/**
-	 * Hides the toolbar and removes it from the DOM.
+	 * Cleares Balloon Toolbar from each menu items.
+	 *
+	 * @since 4.9.0
+	 */
+	CKEDITOR.ui.balloonToolbar.prototype.clearItems = function() {
+		for ( var key in this._items ) {
+			if ( this._items[ key ].destroy ) {
+				this._items[ key ].destroy();
+			}
+			this.deleteItem( key );
+		}
+	};
+
+	/**
+	 * Hides the toolbar, removes it from the DOM, and clears all its items.
 	 */
 	CKEDITOR.ui.balloonToolbar.prototype.destroy = function() {
+		this.clearItems();
 		this._pointedElement = null;
 		this._view.destroy();
 	};
