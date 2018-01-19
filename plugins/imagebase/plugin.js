@@ -204,18 +204,13 @@
 
 		var ret = {
 			setUp: function( editor, definition ) {
-				console.log( 'added' );
 				editor.on( 'paste', function( evt ) {
 					if ( evt.data.method === 'drop' ) {
-						console.log( 'dropped' );
-
 						var dataTransfer = evt.data.dataTransfer,
 							filesCount = dataTransfer.getFilesCount(),
 							blobUrls = [],
 							files = [],
 							curFile;
-
-						console.log( definition );
 
 						for ( var i = 0; i < filesCount; i++ ) {
 							curFile = dataTransfer.getFile( i );
@@ -235,7 +230,6 @@
 							// that nothing else affects the listeners:
 							evt.stop();
 
-							console.log( 'inserting the widget' );
 							var widgetInstance = ret._insertWidget( editor, definition, files[ 0 ], blobUrls[ 0 ] );
 
 							ret._loadWidget( editor, widgetInstance, definition, files[ 0 ] );
@@ -243,9 +237,6 @@
 							// @todo: make sure balloon toolbar is repositioned once img[src="blob:*"] is loaded or at least its height is available.
 							// @todo: handle more than one dropped image
 						}
-
-					} else {
-						console.log( 'unsupported ' + evt.data.method + ' method.' );
 					}
 				} );
 			},
@@ -277,8 +268,6 @@
 						// @todo: currently there's a race condition, if the with has not been fetched for `img[blob:*]` it will not be set.
 						width: widget.parts.image.getAttribute( 'width' )
 					} );
-
-					console.log( 'updated the image' );
 				} );
 
 				this.on( 'uploadBegan', function() {
@@ -296,15 +285,12 @@
 					loader = uploads.create( file, undefined, def.loaderType );
 
 				function failHandling( evt ) {
-					console.warn( 'Could not load Easy Image widget', evt );
 					if ( widget.fire( 'uploadError', evt ) !== false ) {
 						widget.destroy( true );
 					}
 				}
 
 				function uploadComplete( evt ) {
-					console.log( 'all good, image uploaded' );
-
 					widget.fire( 'uploadDone', evt );
 				}
 
@@ -497,7 +483,7 @@
 		 * To be called when the progress should be marked as complete.
 		 */
 		done: function() {
-			this.wrapper.remove();
+			this.remove();
 		},
 
 		/**
@@ -511,7 +497,7 @@
 		 * To be called when the progress should be marked as failed.
 		 */
 		failed: function() {
-			this.wrapper.remove();
+			this.remove();
 		},
 
 		/**
@@ -522,7 +508,7 @@
 		},
 
 		/**
-		 * Binds progress indicator to a given loader.
+		 * Binds this progress indicator to a given `loader`.
 		 *
 		 * It will automatically remove its listeners when the `loader` has triggered one of following events:
 		 *
@@ -532,7 +518,7 @@
 		 *
 		 * @param {CKEDITOR.fileTools.fileLoader} loader Loader that should be observed.
 		 */
-		bindToLoader: function( loader ) {
+		bindLoader: function( loader ) {
 			var progressListeners = [];
 
 			function removeProgressListeners() {
@@ -560,7 +546,7 @@
 			progressListeners.push( loader.once( 'abort', removeProgressListeners ) );
 			progressListeners.push( loader.once( 'uploaded', removeProgressListeners ) );
 			progressListeners.push( loader.once( 'error', removeProgressListeners ) );
-		},
+		}
 	};
 
 	CKEDITOR.plugins.add( 'imagebase', {

@@ -75,7 +75,7 @@
 				CKEDITOR.tools.array.forEach( values, function( assertSet ) {
 					ret.updated( assertSet[ 0 ] );
 					assert.areSame( assertSet[ 1 ], ret.bar.getStyle( 'width', assertSet[ 0 ] ), 'Width for ' + assertSet[ 0 ] );
-				} )
+				} );
 			},
 
 			// 'test update() locks the snapshot': function() {
@@ -106,8 +106,8 @@
 				assert.isNull( ret.wrapper.getParent(), 'Parent element' );
 			},
 
-			'test bindToLoader() abort event removes listeners': function() {
-				this.dummyProgress.bindToLoader( loaderMock );
+			'test bindLoader() abort event removes listeners': function() {
+				this.dummyProgress.bindLoader( loaderMock );
 
 				loaderMock.fire( 'abort' );
 
@@ -125,8 +125,8 @@
 				assert.areSame( 0, this.dummyProgress.done.callCount, 'Done call count' );
 			},
 
-			'test bindToLoader() uploaded event removes listeners': function() {
-				this.dummyProgress.bindToLoader( loaderMock );
+			'test bindLoader() uploaded event removes listeners': function() {
+				this.dummyProgress.bindLoader( loaderMock );
 
 				loaderMock.fire( 'uploaded' );
 
@@ -140,22 +140,10 @@
 				assert.areSame( 1, this.dummyProgress.done.callCount, 'Done call count' );
 			},
 
-			'test bindToLoader() update event is throttled': function() {
-				this.dummyProgress.bindToLoader( loaderMock );
+			'test bindLoader() update event is throttled': function() {
+				this.dummyProgress.bindLoader( loaderMock );
+
 				// Make sure that if file loader spams update events, progress does not go crazy.
-
-				loaderMock.fire( 'update' );
-				loaderMock.fire( 'update' );
-				loaderMock.fire( 'update' );
-				loaderMock.fire( 'update' );
-
-				assert.areSame( 1, this.dummyProgress.updated.callCount, 'Updated call count' );
-			},
-
-			'test bindToLoader() update event is throttled': function() {
-				this.dummyProgress.bindToLoader( loaderMock );
-				// Make sure that if file loader spams update events, progress does not go crazy.
-
 				loaderMock.uploadTotal = 5;
 
 				loaderMock.fire( 'update' );
@@ -167,8 +155,8 @@
 				assert.areSame( 1, this.dummyProgress.updated.callCount, 'Updated call count' );
 			},
 
-			'test bindToLoader() uploading argument translation': function() {
-				this.dummyProgress.bindToLoader( loaderMock );
+			'test bindLoader() uploading argument translation': function() {
+				this.dummyProgress.bindLoader( loaderMock );
 
 				loaderMock.uploaded = 3;
 				loaderMock.uploadTotal = 5;
@@ -182,8 +170,8 @@
 				assert.areSame( 1, this.dummyProgress.updated.callCount, 'Call count' );
 			},
 
-			'test bindToLoader() error event removes listeners': function() {
-				this.dummyProgress.bindToLoader( loaderMock );
+			'test bindLoader() error event removes listeners': function() {
+				this.dummyProgress.bindLoader( loaderMock );
 
 				loaderMock.fire( 'error' );
 
