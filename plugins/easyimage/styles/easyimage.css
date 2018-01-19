@@ -11,7 +11,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	clear: both;
 }
 
-/* 
+/*
 The outline is not a part of the element's dimensions, we have to use a border as an outline to align linked image with a caption.
 */
 .easyimage a > img {
@@ -39,6 +39,8 @@ The outline is not a part of the element's dimensions, we have to use a border a
 
 .easyimage .cke_widget_editable {
 	background-color: #f7f7f7;
+	/* Add border so when caption is focused, blue border does not cause flickering. */
+	border: 1px solid #f7f7f7;
 	color: #333;
     padding: .8em;
 }
@@ -49,7 +51,7 @@ The outline is not a part of the element's dimensions, we have to use a border a
 
 .cke_widget_wrapper .easyimage .cke_widget_editable.cke_widget_editable_focused {
 	background-color: #fff;
-	border: 1px solid #48a3f5;
+	border-color: #48a3f5;
 	outline: none;
 }
 
