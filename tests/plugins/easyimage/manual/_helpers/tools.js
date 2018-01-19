@@ -108,8 +108,12 @@ var easyImageTools = {
 					offset = CIRCLE_THICKNESS + CIRCLE_PROGRESS_SIZE,
 					htmlTemplate = new CKEDITOR.template( '<div class="cont" data-pct="0">' +
 						'	<svg id="svg" width="{svgSize}" height="{svgSize}" viewPort="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
-						'		<circle r="{CIRCLE_PROGRESS_SIZE}" cx="{offset}" cy="{offset}" fill="transparent" stroke-dasharray="{DASH_ARRAY}" stroke-dashoffset="0"></circle>' +
-						'		<circle r="{CIRCLE_PROGRESS_SIZE}" cx="{offset}" cy="{offset}" fill="transparent" stroke-dasharray="{DASH_ARRAY}" stroke-dashoffset="{DASH_ARRAY}" class="bar"></circle>' +
+						'		<circle r="{CIRCLE_PROGRESS_SIZE}" cx="{offset}" cy="{offset}" fill="transparent"' +
+						'			stroke-dasharray="{DASH_ARRAY}" stroke-dashoffset="0"' +
+						'			style="stroke-width: {CIRCLE_THICKNESS}px"></circle>' +
+						'		<circle r="{CIRCLE_PROGRESS_SIZE}" cx="{offset}" cy="{offset}" fill="transparent"' +
+						'			stroke-dasharray="{DASH_ARRAY}" stroke-dashoffset="{DASH_ARRAY}"' +
+						'			style="stroke-width: {CIRCLE_THICKNESS}px" class="bar"></circle>' +
 						'	</svg>' +
 						'</div>' );
 
@@ -121,6 +125,7 @@ var easyImageTools = {
 					htmlTemplate.output( {
 						svgSize: svgSize,
 						CIRCLE_PROGRESS_SIZE: CIRCLE_PROGRESS_SIZE,
+						CIRCLE_THICKNESS: CIRCLE_THICKNESS,
 						DASH_ARRAY: DASH_ARRAY,
 						offset: offset
 					} )
