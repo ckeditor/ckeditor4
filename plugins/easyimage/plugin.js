@@ -192,7 +192,7 @@
 
 					this.on( 'uploadBegan', function( evt ) {
 						var progress = this.progressIndicatorType.createForElement( this.element );
-						progress.bindToLoader( evt.data );
+						progress.bindLoader( evt.data );
 					} );
 				},
 
