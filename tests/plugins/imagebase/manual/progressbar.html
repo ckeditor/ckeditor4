@@ -62,38 +62,19 @@
 		<select name="progress-type" id="progress-type" onchange="window.recreateProgress();">
 			<option value="default">Progress Bar</option>
 			<option value="progress-overlap">Lighten overlap</option>
+			<option value="progress-circle">Circle</option>
 		</select>
 	</p>
 </div>
 
+<script src="../../easyimage/manual/_helpers/tools.js"></script>
 <script>
 	function runSampleCode( editor, ProgressBar ) {
-		function ProgressOverlap( totalHeight ) {
-			ProgressBar.call( this );
-
-			this.wrapper.addClass( 'cke_progress_overlap' );
-
-			this.totalHeight = totalHeight;
-		}
-
-		ProgressOverlap.prototype = new ProgressBar();
-
-		ProgressOverlap.prototype.updated = function( progress ) {
-			this.wrapper.setStyle( 'bottom', Math.round( this.totalHeight * progress ) + 'px' );
-		};
-
-		ProgressOverlap.createForElement = function( wrapper ) {
-			var ret = new ProgressOverlap( wrapper.getClientRect().height );
-
-			wrapper.append( ret.wrapper, true );
-
-			return ret;
-		};
-
 		window.recreateProgress = function() {
 			var loader = window.gLoader,
 				types = {
-					'progress-overlap': ProgressOverlap,
+					'progress-overlap': easyImageTools.progress.getProgressOverlapType( editor, ProgressBar ),
+					'progress-circle': easyImageTools.progress.getProgressCircleType( editor, ProgressBar ),
 					'default': ProgressBar
 				},
 				Constructor = types[ CKEDITOR.document.getById( 'progress-type' ).getValue() || 'default' ];
@@ -110,12 +91,14 @@
 	}
 
 	CKEDITOR.addCss( '.progress-wrapper{ outline: 2px solid green; position: relative; background: #000; color: #fff; }' );
-	CKEDITOR.addCss(
-		'.cke_progress_overlap{ position: absolute; top: 0px; bottom: 0px; background: rgba( 255, 255, 255, 0.8); }' );
 
 	CKEDITOR.replace( 'classic', {
 		extraAllowedContent: 'div(progress-wrapper)',
-		contentsCss: '/apps/ckeditor/plugins/easyimage/styles/easyimage.css',
+		contentsCss: [
+			'/apps/ckeditor/plugins/easyimage/styles/easyimage.css',
+			// Styles for non-standard progress indicators.
+			'%TEST_DIR%/../../../easyimage/manual/_assets/progress.css'
+		],
 		on: {
 			instanceReady: function( evt ) {
 				CKEDITOR.document.getById( 'controls' ).removeClass( 'hidden' );
