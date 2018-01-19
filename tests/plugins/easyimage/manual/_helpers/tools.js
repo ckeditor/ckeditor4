@@ -109,7 +109,7 @@ var easyImageTools = {
 					htmlTemplate = new CKEDITOR.template( '<div class="cont" data-pct="0">' +
 						'	<svg id="svg" width="{svgSize}" height="{svgSize}" viewPort="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
 						'		<circle r="{CIRCLE_PROGRESS_SIZE}" cx="{offset}" cy="{offset}" fill="transparent" stroke-dasharray="{DASH_ARRAY}" stroke-dashoffset="0"></circle>' +
-						'		<circle r="{CIRCLE_PROGRESS_SIZE}" cx="{offset}" cy="{offset}" fill="transparent" stroke-dasharray="{DASH_ARRAY}" stroke-dashoffset="0" class="bar"></circle>' +
+						'		<circle r="{CIRCLE_PROGRESS_SIZE}" cx="{offset}" cy="{offset}" fill="transparent" stroke-dasharray="{DASH_ARRAY}" stroke-dashoffset="{DASH_ARRAY}" class="bar"></circle>' +
 						'	</svg>' +
 						'</div>' );
 
