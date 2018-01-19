@@ -208,34 +208,43 @@
 					if ( evt.data.method === 'drop' ) {
 						var dataTransfer = evt.data.dataTransfer,
 							filesCount = dataTransfer.getFilesCount(),
-							blobUrls = [],
-							files = [],
+							matchedFiles = [],
 							curFile;
 
 						for ( var i = 0; i < filesCount; i++ ) {
 							curFile = dataTransfer.getFile( i );
 
 							if ( CKEDITOR.fileTools.isTypeSupported( curFile, definition.supportedTypes ) ) {
-								files.push( curFile );
-								blobUrls.push( URL.createObjectURL( curFile ) );
+								matchedFiles.push( curFile );
 							}
 						}
 
 						// Refetch the definition... original definition looks like an outdated copy, it doesn't things inherited form imagebase.
 						definition = editor.widgets.registered.easyimage;
 
-						if ( files.length ) {
+						if ( matchedFiles.length ) {
 							evt.cancel();
 							// This should not be required, let's leave it for development time to make sure
 							// that nothing else affects the listeners:
 							evt.stop();
 
-							var widgetInstance = ret._insertWidget( editor, definition, files[ 0 ], blobUrls[ 0 ] );
+							CKEDITOR.tools.array.forEach( matchedFiles, function( curFile, index ) {
+								var widgetInstance = ret._insertWidget( editor, definition, URL.createObjectURL( curFile ) );
 
-							ret._loadWidget( editor, widgetInstance, definition, files[ 0 ] );
+								ret._loadWidget( editor, widgetInstance, definition, curFile );
 
+								// Now modify the selection so that the next widget won't replace the current one.
+								// This selection workaround is required to store multiple files.
+								if ( index !== matchedFiles.length - 1 ) {
+									// We don't want to modify selection for the last element, so that the last widget remains selected.
+									var sel = editor.getSelection(),
+										ranges = sel.getRanges();
+
+									ranges[ 0 ].enlarge( CKEDITOR.ENLARGE_ELEMENT );
+									ranges[ 0 ].collapse( false );
+								}
+							} );
 							// @todo: make sure balloon toolbar is repositioned once img[src="blob:*"] is loaded or at least its height is available.
-							// @todo: handle more than one dropped image
 						}
 					}
 				} );
@@ -256,20 +265,19 @@
 
 				this.on( 'uploadDone', function( evt ) {
 					var loader = evt.data.sender,
-						resp = loader.responseData.response;
+						resp = loader.responseData.response,
+						srcset = CKEDITOR.plugins.easyimage._parseSrcSet( resp );
 
-					var srcset = CKEDITOR.plugins.easyimage._parseSrcSet( resp ),
-						widget = this;
-
-					widget.parts.image.setAttributes( {
+					this.parts.image.setAttributes( {
 						src: resp[ 'default' ],
 						srcset: srcset,
 						sizes: '100vw',
 						// @todo: currently there's a race condition, if the with has not been fetched for `img[blob:*]` it will not be set.
-						width: widget.parts.image.getAttribute( 'width' )
+						width: this.parts.image.getAttribute( 'width' )
 					} );
 				} );
 
+				// @todo: this is image-specific, needs to be extracted.
 				this.on( 'uploadBegan', function() {
 					var widget = this;
 					// Attempt to pick width from the img[src="blob:*"].
@@ -303,27 +311,29 @@
 				widget.fire( 'uploadBegan', loader );
 
 				// @todo: It make sense to mark the widget at this point as incomplete. Similarly as fileTools.markElement does.
-
-				if ( ( loadMethod == 'loadAndUpload' || loadMethod == 'upload' ) && !def.skipNotifications ) {
-					// Todo: bind notifications.
-					// CKEDITOR.fileTools.bindNotifications( editor, loader );
-				}
 			},
 
-			_insertWidget: function( editor, widgetDef, file, blobUrl ) {
+			/**
+			 *
+			 * @private
+			 * @param {CKEDITOR.editor} editor
+			 * @param {CKEDITOR.plugins.widget.definition} widgetDef
+			 * @param {String} blobUrl Blob URL of an image.
+			 * @returns {CKEDITOR.plugins.widget/undefined} The widget instance or `undefined` if not successful.
+			 */
+			_insertWidget: function( editor, widgetDef, blobUrl ) {
 				var tplParams = ( typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults ) || {};
 
 				tplParams.src = blobUrl;
 
 				var element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( tplParams ) ),
 					wrapper = editor.widgets.wrapElement( element, widgetDef.name ),
-					temp = new CKEDITOR.dom.documentFragment( wrapper.getDocument() ),
-					instance;
+					temp = new CKEDITOR.dom.documentFragment( wrapper.getDocument() );
 
 				// Append wrapper to a temporary document. This will unify the environment
 				// in which #data listeners work when creating and editing widget.
 				temp.append( wrapper );
-				instance = editor.widgets.initOn( element, widgetDef );
+				editor.widgets.initOn( element, widgetDef );
 
 				return editor.widgets.finalizeCreation( temp );
 			}
