@@ -1,0 +1,48 @@
+/* Overlapping progress indicator */
+
+.cke_progress_overlap {
+	position: absolute;
+	top: 0px;
+	height: 100%;
+	background: rgba( 255, 255, 255, 0.8);
+	transition: height 0.1s;
+}
+
+.cke_progress_circle {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	background: rgba( 255, 255, 255, 0.8);
+	text-align: center;
+}
+
+.cke_progress_circle>.cke_circle {
+	height: 20px;
+	width: 20px;
+	margin: 0px auto;
+	background: red;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	clip: rect( 5px, 5px, 5px, 5px);
+}
+
+/* Circle prgoress indicator */
+
+.cke_progress_circle svg circle {
+	stroke-dashoffset: 0;
+	transition: stroke-dashoffset 0.1s linear;
+	stroke: #EEE;
+	stroke-width: 10px;
+}
+
+.cke_progress_circle .bar {
+	stroke: #6a9ed1;
+}
+
+.cke_progress_circle .cont {
+	display: block;
+	margin: 1em auto;
+	border-radius: 100%;
+	position: relative;
+}

@@ -1,0 +1,60 @@
+<p>Note, this test uses a real Cloud Service connection, so you might want to be on-line 😉.</p>
+
+<h2>Default progress bar</h2>
+
+<div id="editor1">
+	<p>Drop an image below:</p>
+	<p></p>
+</div>
+
+<h2>Cricular progress indicator</h2>
+
+<div id="editor2">
+	<p>Drop an image below:</p>
+	<p></p>
+</div>
+
+<h2>Overlapping progress indicator</h2>
+
+<div id="editor3">
+	<p>Drop an image below:</p>
+	<p></p>
+</div>
+
+<script src="_helpers/tools.js"></script>
+<script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
+
+	var commonConfig = {
+		cloudServices_url: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+		contentsCss: [ '%TEST_DIR%/_assets/progress.css' ],
+		on: {
+			widgetDefinition: function( evt ) {
+				var widgetDef = evt.data,
+					progressHelper = easyImageTools.progress,
+					ProgressBar = CKEDITOR.plugins.imagebase.progressBar,
+					// Each editor uses a different progress indicator.
+					mapping = {
+						editor1: ProgressBar,
+						editor2: progressHelper.getProgressCircleType( this, ProgressBar ),
+						editor3: progressHelper.getProgressOverlapType( this, ProgressBar )
+					};
+
+				if ( widgetDef.name === 'easyimage' ) {
+					widgetDef.progressIndicatorType = mapping[ this.name ];
+				}
+			}
+		}
+	};
+
+	getToken( function( token ) {
+		commonConfig.cloudServices_token = token;
+
+		CKEDITOR.replace( 'editor1', commonConfig );
+		CKEDITOR.replace( 'editor2', commonConfig );
+		CKEDITOR.replace( 'editor3', commonConfig );
+	} );
+
+</script>
