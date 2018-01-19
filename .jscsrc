@@ -54,5 +54,6 @@
 	"validateIndentation": {
 		"value": "\t",
 		"allExcept": [ "comments", "emptyLines" ]
-	}
+	},
+	"requireLineFeedAtFileEnd": true
 }
