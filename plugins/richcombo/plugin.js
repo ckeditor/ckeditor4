@@ -96,6 +96,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 				panelDefinition: panelDefinition,
 				items: {}
 			};
+
+			this._listeners = [];
 		},
 
 		proto: {
@@ -178,11 +180,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 				}
 
 				// Update status when activeFilter, mode, selection or readOnly changes.
-				editor.on( 'activeFilterChange', updateState, this );
-				editor.on( 'mode', updateState, this );
-				editor.on( 'selectionChange', updateState, this );
+				this._listeners.push( editor.on( 'activeFilterChange', updateState, this ) );
+				this._listeners.push( editor.on( 'mode', updateState, this ) );
+				this._listeners.push( editor.on( 'selectionChange', updateState, this ) );
 				// If this combo is sensitive to readOnly state, update it accordingly.
-				!this.readOnly && editor.on( 'readOnly', updateState, this );
+				!this.readOnly && this._listeners.push( editor.on( 'readOnly', updateState, this ) );
 
 				var keyDownFn = CKEDITOR.tools.addFunction( function( ev, element ) {
 					ev = new CKEDITOR.dom.event( ev );
@@ -380,6 +382,15 @@ CKEDITOR.plugins.add( 'richcombo', {
 				if ( this._.state != CKEDITOR.TRISTATE_DISABLED ) {
 					this._.lastState = this._.state;
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
+				}
+			},
+
+			destroy: function() {
+				if ( this._listeners.length ) {
+					CKEDITOR.tools.array.forEach( this._listeners, function( listener ) {
+						listener.removeListener();
+					} );
+					this._listeners = [];
 				}
 			}
 		},
