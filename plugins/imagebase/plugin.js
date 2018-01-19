@@ -205,10 +205,15 @@
 		var ret = {
 			setUp: function( editor, definition ) {
 				editor.on( 'paste', function( evt ) {
-					if ( evt.data.method === 'drop' ) {
-						var dataTransfer = evt.data.dataTransfer,
-							filesCount = dataTransfer.getFilesCount(),
-							matchedFiles = [],
+					var method = evt.data.method,
+						dataTransfer = evt.data.dataTransfer,
+						filesCount = dataTransfer && dataTransfer.getFilesCount();
+
+					if ( method === 'drop' || ( method === 'paste' && filesCount ) ) {
+						// @todo: this function does not yet support IE11, as it doesnt put images into data transfer, so the images (if any)
+						// needs to be extracted from the pasted HTML.
+						// See https://github.com/ckeditor/ckeditor-dev/blob/e68fca3fc67a0a0af55ccb467e4b1b617663e10c/plugins/uploadimage/plugin.js#L92-L136
+						var matchedFiles = [],
 							curFile;
 
 						for ( var i = 0; i < filesCount; i++ ) {
