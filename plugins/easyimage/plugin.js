@@ -165,21 +165,6 @@
 				},
 
 				init: function() {
-					// Natural width of the image can be fetched only after image is loaded.
-					// However cached images won't fire `load` event, but just mark themselves
-					// as complete.
-					// function getNaturalWidth( image, callback ) {
-					// 	var $image = image.$;
-
-					// 	if ( $image.complete && $image.naturalWidth ) {
-					// 		return callback( $image.naturalWidth );
-					// 	}
-
-					// 	image.once( 'load', function() {
-					// 		callback( $image.naturalWidth );
-					// 	} );
-					// }
-
 					this.on( 'contextMenu', function( evt ) {
 						evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
 						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
