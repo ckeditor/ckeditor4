@@ -30,7 +30,6 @@
 /* Circle prgoress indicator */
 
 .cke_progress_circle svg circle {
-	stroke-dashoffset: 0;
 	transition: stroke-dashoffset 0.1s linear;
 	stroke: #EEE;
 	stroke-width: 10px;
