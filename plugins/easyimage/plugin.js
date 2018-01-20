@@ -6,7 +6,8 @@
 ( function() {
 	'use strict';
 
-	var stylesLoaded = false;
+	var stylesLoaded = false,
+		WIDGET_NAME = 'easyimage';
 
 	function addCommands( editor ) {
 		function isSideImage( widget ) {
@@ -21,7 +22,7 @@
 			return function( editor ) {
 				var widget = editor.widgets.focused;
 
-				if ( widget && widget.name === 'easyimage' ) {
+				if ( widget && widget.name === WIDGET_NAME ) {
 					this.setState( ( enableCheck && enableCheck( widget ) ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 				} else {
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
@@ -91,7 +92,7 @@
 
 		editor._.easyImageToolbarContext = editor.balloonToolbars.create( {
 			buttons: 'EasyimageFull,EasyimageSide,EasyimageAlt',
-			widgets: [ 'easyimage' ]
+			widgets: [ WIDGET_NAME ]
 		} );
 	}
 
@@ -137,6 +138,8 @@
 		var config = editor.config,
 			figureClass = config.easyimage_class,
 			widgetDefinition = {
+				name: WIDGET_NAME,
+
 				allowedContent: {
 					figure: {
 						classes: config.easyimage_sideClass
@@ -270,7 +273,7 @@
 
 		widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'upload', widgetDefinition );
 
-		CKEDITOR.plugins.imagebase.addImageWidget( editor, 'easyimage', widgetDefinition );
+		CKEDITOR.plugins.imagebase.addImageWidget( editor, WIDGET_NAME, widgetDefinition );
 	}
 
 	function loadStyles( editor, plugin ) {
