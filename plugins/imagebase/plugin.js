@@ -234,7 +234,6 @@
 									ranges[ 0 ].collapse( false );
 								}
 							} );
-							// @todo: make sure balloon toolbar is repositioned once img[src="blob:*"] is loaded or at least its height is available.
 						}
 					}
 				} );
