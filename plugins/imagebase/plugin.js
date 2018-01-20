@@ -196,6 +196,10 @@
 						dataTransfer = evt.data.dataTransfer,
 						filesCount = dataTransfer && dataTransfer.getFilesCount();
 
+					if ( editor.readOnly ) {
+						return;
+					}
+
 					if ( method === 'drop' || ( method === 'paste' && filesCount ) ) {
 						// @todo: this function does not yet support IE11, as it doesn't put images into data transfer, so the images (if any)
 						// needs to be extracted from the pasted HTML.

@@ -86,7 +86,6 @@
 		},
 
 		// To test - test mixed dropped files types (e.g. 1 image, 1 text, 1 unsupported).
-		// To test - edge case: dropping into readonly editor.
 
 		'test dropping supported file type creates a widget': function() {
 			var editor = this.editor;
@@ -315,6 +314,21 @@
 					widgetDefinition.progressIndicatorType = originalProgress;
 
 					assert.areSame( 0, createForElementSpy.callCount, 'ProgressBar.createForElement call count' );
+				}
+			} );
+		},
+
+		'test dropping file into a readonly does not create a widget': function() {
+			var editor = this.editor;
+
+			editor.setReadOnly( true );
+
+			this._assertPasteFiles( editor, {
+				files: [ bender.tools.getTestPngFile() ],
+				callback: function( widgets ) {
+					editor.setReadOnly( false );
+
+					assert.areSame( 0, widgets.length, 'Widgets count' );
 				}
 			} );
 		},
