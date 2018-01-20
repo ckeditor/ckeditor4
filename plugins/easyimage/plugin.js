@@ -89,7 +89,7 @@
 			toolbar: 'easyimage,3'
 		} );
 
-		editor.balloonToolbars.create( {
+		editor._.easyImageToolbarContext = editor.balloonToolbars.create( {
 			buttons: 'EasyimageFull,EasyimageSide,EasyimageAlt',
 			widgets: [ 'easyimage' ]
 		} );
@@ -190,6 +190,21 @@
 						}
 					}
 
+					var imagePart = this.parts.image;
+
+					if ( imagePart && !imagePart.$.complete ) {
+						// If widget begins with incomplete image, make sure to refresh balloon toolbar (if present)
+						// once the image size is available.
+						getNaturalWidth( imagePart, function() {
+							var contextView = editor._.easyImageToolbarContext.toolbar._view;
+
+							// @todo: it's still a bit hacky way to reposition the toolbar. Context should have a method like .reposition().
+							if ( contextView.rect.visible ) {
+								contextView.attach( contextView._pointedElement );
+							}
+						} );
+					}
+
 					this.on( 'contextMenu', function( evt ) {
 						evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
 						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
@@ -223,12 +238,6 @@
 							// @todo: currently there's a race condition, if the with has not been fetched for `img[blob:*]` it will not be set.
 							width: this.parts.image.getAttribute( 'width' )
 						} );
-					} );
-
-					this.on( 'uploadFailed', function() {
-						// @todo use localized text, and use more fancy way of error msg.
-						alert( 'Your image could not be downloaded due to network error.' ); // jshint ignore:line
-						this.editor.widgets.del( this );
 					} );
 				},
 
