@@ -187,21 +187,6 @@
 	}
 
 	function getUploadFeature() {
-		// Natural width of the image can be fetched only after image is loaded.
-		// However cached images won't fire `load` event, but just mark themselves
-		// as complete.
-		function getNaturalWidth( image, callback ) {
-			var $image = image.$;
-
-			if ( $image.complete && $image.naturalWidth ) {
-				return callback( $image.naturalWidth );
-			}
-
-			image.once( 'load', function() {
-				callback( $image.naturalWidth );
-			} );
-		}
-
 		var ret = {
 			setUp: function( editor, definition ) {
 				editor.on( 'paste', function( evt ) {
@@ -210,7 +195,7 @@
 						filesCount = dataTransfer && dataTransfer.getFilesCount();
 
 					if ( method === 'drop' || ( method === 'paste' && filesCount ) ) {
-						// @todo: this function does not yet support IE11, as it doesnt put images into data transfer, so the images (if any)
+						// @todo: this function does not yet support IE11, as it doesn't put images into data transfer, so the images (if any)
 						// needs to be extracted from the pasted HTML.
 						// See https://github.com/ckeditor/ckeditor-dev/blob/e68fca3fc67a0a0af55ccb467e4b1b617663e10c/plugins/uploadimage/plugin.js#L92-L136
 						var matchedFiles = [],
@@ -229,7 +214,7 @@
 
 						if ( matchedFiles.length ) {
 							evt.cancel();
-							// This should not be required, let's leave it for development time to make sure
+							// @todo: This should not be required, let's leave it for development time to make sure
 							// that nothing else affects the listeners:
 							evt.stop();
 
@@ -255,50 +240,13 @@
 				} );
 			},
 
-			init: function() {
-				// @todo: this code should be actually moved to easyimage (core) widget init function, as it's a EI plugin responsibility
-				// to tell exactly how the image should be loaded.
-				function setImageWidth( widget, height ) {
-					if ( !widget.parts.image.hasAttribute( 'width' ) ) {
-						widget.editor.fire( 'lockSnapshot' );
-
-						widget.parts.image.setAttribute( 'width', height );
-
-						widget.editor.fire( 'unlockSnapshot' );
-					}
-				}
-
-				this.on( 'uploadDone', function( evt ) {
-					var loader = evt.data.sender,
-						resp = loader.responseData.response,
-						srcset = CKEDITOR.plugins.easyimage._parseSrcSet( resp );
-
-					this.parts.image.setAttributes( {
-						src: resp[ 'default' ],
-						srcset: srcset,
-						sizes: '100vw',
-						// @todo: currently there's a race condition, if the with has not been fetched for `img[blob:*]` it will not be set.
-						width: this.parts.image.getAttribute( 'width' )
-					} );
-				} );
-
-				// @todo: this is image-specific, needs to be extracted.
-				this.on( 'uploadBegan', function() {
-					var widget = this;
-					// Attempt to pick width from the img[src="blob:*"].
-					getNaturalWidth( widget.parts.image, function( width ) {
-						setImageWidth( widget, width );
-					} );
-				} );
-			},
-
 			_loadWidget: function( editor, widget, def, file ) {
 				var uploads = editor.uploadRepository,
 					loadMethod = def.loadMethod || 'loadAndUpload',
 					loader = uploads.create( file, undefined, def.loaderType );
 
 				function failHandling( evt ) {
-					if ( widget.fire( 'uploadError', evt ) !== false ) {
+					if ( widget.fire( 'uploadFailed', evt ) !== false ) {
 						widget.destroy( true );
 					}
 				}
