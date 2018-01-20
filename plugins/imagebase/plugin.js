@@ -110,7 +110,7 @@
 
 				function failHandling( evt ) {
 					if ( widget.fire( 'uploadFailed', evt ) !== false ) {
-						widget.destroy( true );
+						widget.editor.widgets.del( widget );
 					}
 				}
 
@@ -167,6 +167,8 @@
 			 *		progress.once( 'uploadFailed', function( evt ) {
 			 *			console.log( 'Loader: ' + evt.data.sender + ' failed to upload data.' );
 			 *		} );
+			 *
+			 * This event is cancelable, if not canceled it will remove the widget.
 			 *
 			 * @event uploadFailed
 			 */

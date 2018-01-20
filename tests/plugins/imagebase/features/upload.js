@@ -198,7 +198,7 @@
 
 			this._assertPasteFiles( editor, {
 				files: [ bender.tools.getTestPngFile() ],
-				callback: function() {
+				callback: function( widgets ) {
 					// Restore original loader.
 					editor.widgets.registered.testImageWidget.loaderType = originalLoader;
 
@@ -211,6 +211,32 @@
 
 					assert.areSame( 1, stubs.uploadFailed.callCount, 'uploadFailed event count' );
 					assert.areSame( loaderInstance, stubs.uploadFailed.args[ 0 ][ 0 ].data.sender, 'Event data.sender' );
+
+					assert.areSame( 0, widgets.length, 'Widget count' );
+				}
+			} );
+		},
+
+		'test upload error event is cancelable': function() {
+			var editor = this.editor,
+				that = this,
+				originalLoader = editor.widgets.registered.testImageWidget.loaderType;
+
+			// Force a loader that will fail.
+			editor.widgets.registered.testImageWidget.loaderType = FailFileLoader;
+
+			this.listeners.push( editor.widgets.on( 'instanceCreated', function( evt ) {
+				that.listeners.push( evt.data.on( 'uploadFailed', function( evt ) {
+					evt.cancel();
+				} ) );
+			} ) );
+
+			this._assertPasteFiles( editor, {
+				files: [ bender.tools.getTestPngFile() ],
+				callback: function( widgets ) {
+					editor.widgets.registered.testImageWidget.loaderType = originalLoader;
+
+					assert.areSame( 1, widgets.length, 'Widget was not removed' );
 				}
 			} );
 		},
