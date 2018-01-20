@@ -158,7 +158,7 @@
 				that = this;
 
 			this.listeners.push( editor.widgets.on( 'instanceCreated', function( evt ) {
-				// add spies to the widget
+				// Add spies to the widget.
 				for ( var i in stubs ) {
 					that.listeners.push( evt.data.on( i, stubs[ i ] ) );
 				}
@@ -191,8 +191,7 @@
 			editor.widgets.registered.testImageWidget.loaderType = FailFileLoader;
 
 			this.listeners.push( editor.widgets.on( 'instanceCreated', function( evt ) {
-
-				// add spies to the widget
+				// Add spies to the widget.
 				for ( var i in stubs ) {
 					that.listeners.push( evt.data.on( i, stubs[ i ] ) );
 				}
@@ -217,7 +216,7 @@
 			} );
 		},
 
-		'test widgets can exist side by side': function() {
+		'test widgets can coexist side by side': function() {
 			// In other tests we're using image widget, if text widget works it means they work side
 			// by side just fine.
 			var editor = this.editor;
