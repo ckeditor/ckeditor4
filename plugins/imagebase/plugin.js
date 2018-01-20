@@ -59,6 +59,9 @@
 						var matchedFiles = [],
 							curFile;
 
+						// Refetch the definition... original definition looks like an outdated copy, it doesn't things inherited form imagebase.
+						definition = editor.widgets.registered[ definition.name ];
+
 						for ( var i = 0; i < filesCount; i++ ) {
 							curFile = dataTransfer.getFile( i );
 
@@ -66,9 +69,6 @@
 								matchedFiles.push( curFile );
 							}
 						}
-
-						// Refetch the definition... original definition looks like an outdated copy, it doesn't things inherited form imagebase.
-						definition = editor.widgets.registered[ definition.name ];
 
 						if ( matchedFiles.length ) {
 							evt.cancel();
