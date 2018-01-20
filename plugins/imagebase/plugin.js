@@ -288,6 +288,21 @@
 
 				return editor.widgets.finalizeCreation( temp );
 			}
+
+			/*
+			 * Fired when upload process failed or was aborted.
+			 *
+			 * `data` is set to {@link CKEDITOR.fileTools.fileLoader} event that has caused this problem, so it could be:
+			 *
+			 * * {@link CKEDITOR.fileTools.fileLoader#event-error}
+			 * * {@link CKEDITOR.fileTools.fileLoader#event-abort}
+			 *
+			 *		progress.once( 'uploadFailed', function( evt ) {
+			 *			console.log( 'Loader: ' + evt.data.sender + ' failed to upload data.' );
+			 *		} );
+			 *
+			 * @event uploadFailed
+			 */
 		};
 
 		return ret;
