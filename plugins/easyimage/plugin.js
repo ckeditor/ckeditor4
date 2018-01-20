@@ -239,6 +239,11 @@
 							width: this.parts.image.getAttribute( 'width' )
 						} );
 					} );
+
+					this.on( 'uploadFailed', function() {
+						alert( this.editor.lang.easyimage.uploadFailed ); // jshint ignore:line
+						this.editor.widgets.del( this );
+					} );
 				},
 
 				data: function( evt ) {

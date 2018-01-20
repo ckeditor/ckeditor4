@@ -8,5 +8,6 @@ CKEDITOR.plugins.setLang( 'easyimage', 'en', {
 		fullImage: 'Full Size Image',
 		sideImage: 'Side Image',
 		altText: 'Change image alternative text'
-	}
+	},
+	uploadFailed: 'Your image could not be downloaded due to network error.'
 } );
