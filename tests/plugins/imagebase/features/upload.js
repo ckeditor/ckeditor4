@@ -22,41 +22,67 @@
 		return file;
 	}
 
+	// A mocked Loader type that synchronously notifies that the file has been uploaded.
+	function SuccessFileLoader( editor, fileOrData, fileName ) {
+		CKEDITOR.fileTools.fileLoader.call( this, editor, fileOrData, fileName );
+	}
+
+	// A mocked Loader type that synchronously notifies that the file has been failed.
+	function FailFileLoader( editor, fileOrData, fileName ) {
+		CKEDITOR.fileTools.fileLoader.call( this, editor, fileOrData, fileName );
+	}
+
 	var tests = {
 		init: function() {
-			// ProgressBar = CKEDITOR.plugins.imagebase.progressBar;
-
-			// CKEDITOR.event.implementOn( loaderMock );
-
-			// // Store the content of #nested-sandbox - it will be used to restore original HTML
-			// // before each test case.
-			// this.nestedSandbox = doc.getById( 'nested-sandbox' );
-			// this._nestedSandboxContent = this.nestedSandbox.getHtml();
 			var plugin = CKEDITOR.plugins.imagebase,
 				editor = this.editor,
 				imageWidgetDef = {
 					name: 'testImageWidget',
-					supportedTypes: /image\/(jpeg|png)/
+					supportedTypes: /image\/(jpeg|png)/,
+					loaderType: SuccessFileLoader
 				},
 				textWidgetDef = {
 					name: 'testTextWidget',
-					supportedTypes: /text\/plain/
+					supportedTypes: /text\/plain/,
+					loaderType: SuccessFileLoader
 				};
+
+			// Array of listeners to be cleared after each TC.
+			this.listeners = [];
 
 			plugin.addImageWidget( editor, imageWidgetDef.name, plugin.addFeature( editor, 'upload', imageWidgetDef ) );
 
 			plugin.addImageWidget( editor, textWidgetDef.name, plugin.addFeature( editor, 'upload', textWidgetDef ) );
+
+			SuccessFileLoader.prototype = CKEDITOR.tools.extend( {
+				upload: function() {
+					this.changeStatus( 'uploaded' );
+				}
+			}, CKEDITOR.fileTools.fileLoader.prototype );
+
+			FailFileLoader.prototype = CKEDITOR.tools.extend( {
+				upload: function() {
+					this.changeStatus( 'error' );
+				}
+			}, CKEDITOR.fileTools.fileLoader.prototype );
+		},
+
+		tearDown: function() {
+			// Clean up the listeners so it doesn't affect subsequent tests.
+			CKEDITOR.tools.array.forEach( this.listeners, function( listener ) {
+				listener.removeListener();
+			} );
+
+			this.listeners = [];
+			this.editor.uploadRepository.loaders = [];
+			this.editor.widgets.destroyAll( true );
 		},
 
 		setUp: function() {
-			this.editor.widgets.destroyAll( true );
 			this.editorBot.setHtmlWithSelection( '<p>^</p>' );
 		},
 
-		// To test - dropped file type (matching) - possible enhancement: function.
-		// To test - multiple dropped files type (matching).
-		// To test - event firing.
-		// To test - loader customization.
+		// To test - test mixed dropped files types (e.g. 1 image, 1 text, 1 unsupported).
 		// To test - progress bar customization.
 		// To test - multiple widgets can use the feature side by side.
 		// To test - edge case: changing mode during upload.
@@ -99,6 +125,94 @@
 					assert.areSame( widgets[ 0 ].name, 'testImageWidget', 'Widget 0 name' );
 					assert.areSame( widgets[ 1 ].name, 'testImageWidget', 'Widget 1 name' );
 					assert.areSame( widgets[ 2 ].name, 'testImageWidget', 'Widget 2 name' );
+				}
+			} );
+		},
+
+		'test loader can be customized': function() {
+			var editor = this.editor,
+				originalLoader = editor.widgets.registered.testImageWidget.loaderType,
+				CustomDummyType = sinon.spy( SuccessFileLoader );
+
+			// Force a dummy loader.
+			editor.widgets.registered.testImageWidget.loaderType = CustomDummyType;
+
+			this._assertPasteFiles( editor, {
+				files: [ bender.tools.getTestPngFile() ],
+				callback: function() {
+					// Restore original loader.
+					editor.widgets.registered.testImageWidget.loaderType = originalLoader;
+
+					assert.areSame( 1, CustomDummyType.callCount, 'CustomDummyType constructor calls' );
+				}
+			} );
+		},
+
+		'test events': function() {
+			var editor = this.editor,
+				stubs = {
+					uploadBegan: sinon.stub(),
+					uploadDone: sinon.stub(),
+					uploadFailed: sinon.stub()
+				},
+				that = this;
+
+			this.listeners.push( editor.widgets.on( 'instanceCreated', function( evt ) {
+				// add spies to the widget
+				for ( var i in stubs ) {
+					that.listeners.push( evt.data.on( i, stubs[ i ] ) );
+				}
+			} ) );
+
+			this._assertPasteFiles( editor, {
+				files: [ bender.tools.getTestPngFile() ],
+				callback: function() {
+					assert.areSame( 1, stubs.uploadBegan.callCount, 'uploadBegan event count' );
+					sinon.assert.calledWithExactly( stubs.uploadBegan, sinon.match.has( 'data', editor.uploadRepository.loaders[ 0 ] ) );
+
+					assert.areSame( 1, stubs.uploadDone.callCount, 'uploadDone event count' );
+
+					assert.areSame( 0, stubs.uploadFailed.callCount, 'uploadFailed event count' );
+				}
+			} );
+		},
+
+		'test upload error': function() {
+			var editor = this.editor,
+				stubs = {
+					uploadBegan: sinon.stub(),
+					uploadDone: sinon.stub(),
+					uploadFailed: sinon.stub()
+				},
+				that = this,
+				originalLoader = editor.widgets.registered.testImageWidget.loaderType;
+
+			// Force a loader that will fail.
+			editor.widgets.registered.testImageWidget.loaderType = FailFileLoader;
+
+			this.listeners.push( editor.widgets.on( 'instanceCreated', function( evt ) {
+
+				// add spies to the widget
+				for ( var i in stubs ) {
+					that.listeners.push( evt.data.on( i, stubs[ i ] ) );
+				}
+			} ) );
+
+			this._assertPasteFiles( editor, {
+				files: [ bender.tools.getTestPngFile() ],
+				callback: function() {
+					// Restore original loader.
+					editor.widgets.registered.testImageWidget.loaderType = originalLoader;
+
+					var loaderInstance = editor.uploadRepository.loaders[ 0 ];
+
+					assert.areSame( 1, stubs.uploadBegan.callCount, 'uploadBegan event count' );
+					sinon.assert.calledWithExactly( stubs.uploadBegan, sinon.match.has( 'data', loaderInstance ) );
+
+					assert.areSame( 0, stubs.uploadDone.callCount, 'uploadDone event count' );
+
+					assert.areSame( 1, stubs.uploadFailed.callCount, 'uploadFailed event count' );
+					assert.areSame( loaderInstance, stubs.uploadFailed.args[ 0 ][ 0 ].data.sender, 'Event data.sender' );
 				}
 			} );
 		},
