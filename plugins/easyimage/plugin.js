@@ -234,9 +234,7 @@
 						this.parts.image.setAttributes( {
 							src: resp[ 'default' ],
 							srcset: srcset,
-							sizes: '100vw',
-							// @todo: currently there's a race condition, if the with has not been fetched for `img[blob:*]` it will not be set.
-							width: this.parts.image.getAttribute( 'width' )
+							sizes: '100vw'
 						} );
 					} );
 
