@@ -69,13 +69,13 @@
 
 <script src="../../easyimage/manual/_helpers/tools.js"></script>
 <script>
-	function runSampleCode( editor, ProgressBar ) {
+	function runSampleCode( editor, easyImagePlugin ) {
 		window.recreateProgress = function() {
 			var loader = window.gLoader,
 				types = {
-					'progress-overlap': easyImageTools.progress.getProgressOverlapType( editor, ProgressBar ),
-					'progress-circle': easyImageTools.progress.getProgressCircleType( editor, ProgressBar ),
-					'default': ProgressBar
+					'progress-overlap': easyImageTools.progress.getProgressOverlapType( editor, easyImagePlugin.progressReporter ),
+					'progress-circle': easyImageTools.progress.getProgressCircleType( editor, easyImagePlugin.progressReporter ),
+					'default': easyImagePlugin.progressBar
 				},
 				Constructor = types[ CKEDITOR.document.getById( 'progress-type' ).getValue() || 'default' ];
 
@@ -103,7 +103,7 @@
 			instanceReady: function( evt ) {
 				CKEDITOR.document.getById( 'controls' ).removeClass( 'hidden' );
 
-				runSampleCode( this, CKEDITOR.plugins.imagebase.progressBar );
+				runSampleCode( this, CKEDITOR.plugins.imagebase );
 
 				window.recreateProgress();
 			}
