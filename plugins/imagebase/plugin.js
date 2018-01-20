@@ -68,7 +68,7 @@
 						}
 
 						// Refetch the definition... original definition looks like an outdated copy, it doesn't things inherited form imagebase.
-						definition = editor.widgets.registered.easyimage;
+						definition = editor.widgets.registered[ definition.name ];
 
 						if ( matchedFiles.length ) {
 							evt.cancel();
@@ -523,7 +523,7 @@
 	};
 
 	CKEDITOR.plugins.add( 'imagebase', {
-		requires: 'widget',
+		requires: 'widget,filetools',
 		lang: 'en'
 	} );
 
