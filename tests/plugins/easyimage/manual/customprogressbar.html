@@ -34,12 +34,12 @@
 			widgetDefinition: function( evt ) {
 				var widgetDef = evt.data,
 					progressHelper = easyImageTools.progress,
-					ProgressBar = CKEDITOR.plugins.imagebase.progressBar,
+					imageBasePlugin = CKEDITOR.plugins.imagebase,
 					// Each editor uses a different progress indicator.
 					mapping = {
-						editor1: ProgressBar,
-						editor2: progressHelper.getProgressCircleType( this, ProgressBar ),
-						editor3: progressHelper.getProgressOverlapType( this, ProgressBar )
+						editor1: imageBasePlugin.progressBar,
+						editor2: progressHelper.getProgressCircleType( this, imageBasePlugin.progressReporter ),
+						editor3: progressHelper.getProgressOverlapType( this, imageBasePlugin.progressReporter )
 					};
 
 				if ( widgetDef.name === 'easyimage' ) {
