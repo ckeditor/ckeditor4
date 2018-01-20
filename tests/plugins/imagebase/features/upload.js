@@ -86,7 +86,6 @@
 		},
 
 		// To test - test mixed dropped files types (e.g. 1 image, 1 text, 1 unsupported).
-		// To test - edge case: changing mode during upload.
 		// To test - edge case: dropping into readonly editor.
 
 		'test dropping supported file type creates a widget': function() {
