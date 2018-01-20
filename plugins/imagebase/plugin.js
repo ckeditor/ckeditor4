@@ -188,6 +188,8 @@
 
 	function getUploadFeature() {
 		var ret = {
+			progressIndicatorType: ProgressBar,
+
 			setUp: function( editor, definition ) {
 				editor.on( 'paste', function( evt ) {
 					var method = evt.data.method,
@@ -260,7 +262,10 @@
 
 				loader[ loadMethod ]( def.uploadUrl, def.additionalRequestParameters );
 
-				widget.fire( 'uploadBegan', loader );
+				if ( widget.fire( 'uploadBegan', loader ) !== false && widget.progressIndicatorType ) {
+					var progress = widget.progressIndicatorType.createForElement( widget.element );
+					progress.bindLoader( loader );
+				}
 
 				// @todo: It make sense to mark the widget at this point as incomplete. Similarly as fileTools.markElement does.
 			},
