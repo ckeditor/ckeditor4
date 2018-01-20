@@ -218,11 +218,8 @@
 						this.addClass( editor.config.easyimage_class );
 					}
 
-					this.on( 'uploadBegan', function( evt ) {
+					this.on( 'uploadBegan', function() {
 						var widget = this;
-
-						var progress = widget.progressIndicatorType.createForElement( widget.element );
-						progress.bindLoader( evt.data );
 
 						getNaturalWidth( widget.parts.image, function( width ) {
 							setImageWidth( widget, width );
