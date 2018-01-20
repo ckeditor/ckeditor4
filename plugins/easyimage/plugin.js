@@ -165,6 +165,31 @@
 				},
 
 				init: function() {
+					// Natural width of the image can be fetched only after image is loaded.
+					// However cached images won't fire `load` event, but just mark themselves
+					// as complete.
+					function getNaturalWidth( image, callback ) {
+						var $image = image.$;
+
+						if ( $image.complete && $image.naturalWidth ) {
+							return callback( $image.naturalWidth );
+						}
+
+						image.once( 'load', function() {
+							callback( $image.naturalWidth );
+						} );
+					}
+
+					function setImageWidth( widget, height ) {
+						if ( !widget.parts.image.hasAttribute( 'width' ) ) {
+							widget.editor.fire( 'lockSnapshot' );
+
+							widget.parts.image.setAttribute( 'width', height );
+
+							widget.editor.fire( 'unlockSnapshot' );
+						}
+					}
+
 					this.on( 'contextMenu', function( evt ) {
 						evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
 						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
@@ -176,8 +201,34 @@
 					}
 
 					this.on( 'uploadBegan', function( evt ) {
-						var progress = this.progressIndicatorType.createForElement( this.element );
+						var widget = this;
+
+						var progress = widget.progressIndicatorType.createForElement( widget.element );
 						progress.bindLoader( evt.data );
+
+						getNaturalWidth( widget.parts.image, function( width ) {
+							setImageWidth( widget, width );
+						} );
+					} );
+
+					this.on( 'uploadDone', function( evt ) {
+						var loader = evt.data.sender,
+							resp = loader.responseData.response,
+							srcset = CKEDITOR.plugins.easyimage._parseSrcSet( resp );
+
+						this.parts.image.setAttributes( {
+							src: resp[ 'default' ],
+							srcset: srcset,
+							sizes: '100vw',
+							// @todo: currently there's a race condition, if the with has not been fetched for `img[blob:*]` it will not be set.
+							width: this.parts.image.getAttribute( 'width' )
+						} );
+					} );
+
+					this.on( 'uploadFailed', function() {
+						// @todo use localized text, and use more fancy way of error msg.
+						alert( 'Your image could not be downloaded due to network error.' ); // jshint ignore:line
+						this.editor.widgets.del( this );
 					} );
 				},
 
