@@ -17,7 +17,7 @@
 			name: 'classic',
 			creator: 'replace',
 			config: {
-				extraPlugins: 'uploadimage,image',
+				extraPlugins: 'uploadimage,image,link',
 				removePlugins: 'image2',
 				imageUploadUrl: 'http://foo/upload',
 				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
@@ -119,6 +119,113 @@
 				assert.areSame( 1, loadAndUploadCount );
 				assert.areSame( 0, uploadCount );
 				assert.areSame( 'http://foo/upload', lastUploadUrl );
+			} );
+		},
+
+		'test images after replace are selected': function() {
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In, ut.</p>' );
+
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+				var image = editor.editable().findOne( 'img[data-widget="uploadimage"]' );
+
+				waitForImage( image, function() {
+					var loader = editor.uploadRepository.loaders[ 0 ];
+
+					loader.data = bender.tools.pngBase64;
+					loader.url = IMG_URL;
+					loader.changeStatus( 'uploaded' );
+
+					assert.isInnerHtmlMatching( '<p>[<img src="/tests/_assets/logo.png" style="height:14px; width:14px" />]</p>', bender.tools.getHtmlWithSelection( editor ) );
+				} );
+			} );
+		},
+
+		'test images after paste are selected': function() {
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
+
+			bot.setData( '<p>xxx</p>', function() {
+
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+				var image = editor.editable().findOne( 'img[data-widget="uploadimage"]' );
+
+				waitForImage( image, function() {
+					var loader = editor.uploadRepository.loaders[ 0 ];
+
+					loader.data = bender.tools.pngBase64;
+					loader.url = IMG_URL;
+					loader.changeStatus( 'uploaded' );
+
+					assert.isInnerHtmlMatching( '<p>[<img src="/tests/_assets/logo.png" style="height:14px; width:14px" />]xxx</p>', bender.tools.getHtmlWithSelection( editor ) );
+				} );
+			} );
+		},
+
+		'test custom insert after paste is preserved': function() {
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
+
+			bot.setData( '', function() {
+
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+				var image = editor.editable().findOne( 'img[data-widget="uploadimage"]' );
+
+				waitForImage( image, function() {
+					var loader = editor.uploadRepository.loaders[ 0 ],
+						wrapper = editor.editable().findOne( 'span.cke_widget_uploadimage' ),
+						range = editor.createRange();
+
+					range.setStartAfter( wrapper );
+					range.setEndAfter( wrapper );
+
+					editor.insertHtml( '<p>xxx</p>', 'html', range );
+
+					loader.data = bender.tools.pngBase64;
+					loader.url = IMG_URL;
+					loader.changeStatus( 'uploaded' );
+
+					assert.isInnerHtmlMatching( '<p><img src="/tests/_assets/logo.png" style="height:14px; width:14px" />xxx^</p>', bender.tools.getHtmlWithSelection( editor ) );
+				} );
+			} );
+		},
+
+		'test custom selection after paste is preserved': function() {
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
+
+			bot.setData( '', function() {
+
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+				var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
+				waitForImage( image, function() {
+					var loader = editor.uploadRepository.loaders[ 0 ],
+						wrapper = editor.editable().find( 'span.cke_widget_uploadimage' ).getItem( 0 ),
+						range = editor.createRange();
+
+					range.setStartAfter( wrapper );
+					range.setEndAfter( wrapper );
+
+					editor.insertHtml( '<a href="foo">xxx</a>', 'html', range );
+
+					var link = editor.editable().find( 'a' ).getItem( 0 );
+
+					editor.getSelection().selectElement( link );
+
+					loader.data = bender.tools.pngBase64;
+					loader.url = IMG_URL;
+					loader.changeStatus( 'uploaded' );
+
+					assert.isInnerHtmlMatching( '<p><img src="/tests/_assets/logo.png" style="height:14px; width:14px" />[<a href="foo">xxx</a>]</p>', bender.tools.getHtmlWithSelection( editor ) );
+				} );
 			} );
 		},
 
