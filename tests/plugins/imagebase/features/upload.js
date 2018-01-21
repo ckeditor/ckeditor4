@@ -44,6 +44,8 @@
 				this.listeners = [];
 				this.sandbox = sinon.sandbox.create();
 
+				this.ProgressBarSpy = sinon.spy( plugin, 'progressBar' );
+
 				plugin.addImageWidget( editor, imageWidgetDef.name, plugin.addFeature( editor, 'upload', imageWidgetDef ) );
 
 				plugin.addImageWidget( editor, textWidgetDef.name, plugin.addFeature( editor, 'upload', textWidgetDef ) );
@@ -68,6 +70,7 @@
 				} );
 
 				this.sandbox.restore();
+				this.ProgressBarSpy.reset();
 				this.editor.widgets.destroyAll( true );
 
 				this.listeners = [];
@@ -250,16 +253,14 @@
 
 			'test default progress reporter': function() {
 				var imageBase = CKEDITOR.plugins.imagebase,
-					createForElementSpy = this.sandbox.spy( imageBase.progressBar, 'createForElement' ),
+					ProgressBarSpy = this.sandbox.spy( this.editor.widgets.registered.testImageWidget, 'progressIndicatorType' ),
 					bindLoaderSpy = this.sandbox.spy( imageBase.progressBar.prototype, 'bindLoader' ),
 					editor = this.editor;
 
 				assertPasteFiles( this.editor, {
 					files: [ bender.tools.getTestPngFile() ],
-					callback: function( widgets ) {
-						assert.areSame( 1, createForElementSpy.callCount, 'ProgressBar.createForElement call count' );
-
-						sinon.assert.calledWithExactly( createForElementSpy, widgets[ 0 ].element );
+					callback: function() {
+						assert.areSame( 1, ProgressBarSpy.callCount, 'ProgressBar constructor call count' );
 
 						sinon.assert.calledWithExactly( bindLoaderSpy, editor.uploadRepository.loaders[ 0 ] );
 					}
@@ -267,23 +268,20 @@
 			},
 
 			'test progress reporter customization': function() {
-				var CustomProgress = this.sandbox.spy( CKEDITOR.plugins.imagebase, 'progressBar' ),
+				var CustomProgress = sinon.spy( CKEDITOR.plugins.imagebase.progressBar ),
 					widgetDefinition = this.editor.widgets.registered.testImageWidget,
 					originalProgress = widgetDefinition.progressIndicatorType;
 
-				CustomProgress.createForElement = sinon.spy( function() {
-					return new CustomProgress();
-				} );
+				CustomProgress.prototype = new CKEDITOR.plugins.imagebase.progressBar();
 
 				widgetDefinition.progressIndicatorType = CustomProgress;
-
 
 				assertPasteFiles( this.editor, {
 					files: [ bender.tools.getTestPngFile() ],
 					callback: function() {
 						widgetDefinition.progressIndicatorType = originalProgress;
 
-						assert.areSame( 1, CustomProgress.callCount, 'ProgressBar.createForElement call count' );
+						assert.areSame( 1, CustomProgress.callCount, 'CustomProgress constructor call count' );
 					}
 				} );
 			},
@@ -292,7 +290,7 @@
 				// This test is a bit tricky, we need to add a new widget so that we can hook to widget.init method because
 				// widget#instanceCreated event is fired too late for this assertion.
 				var imageBase = CKEDITOR.plugins.imagebase,
-					createForElementSpy = this.sandbox.spy( imageBase.progressBar, 'createForElement' ),
+					ProgressBarSpy = this.ProgressBarSpy,
 					editor = this.editor,
 					disposableListeners = this.listeners,
 					def = {
@@ -307,6 +305,8 @@
 
 				imageBase.addImageWidget( editor, def.name, imageBase.addFeature( editor, 'upload', def ) );
 
+				editor.widgets.registered.progressPrevent.progressIndicatorType = ProgressBarSpy;
+
 				assertPasteFiles( editor, {
 					files: [ getTestHtmlFile() ],
 					callback: function() {
@@ -314,13 +314,13 @@
 						editor.widgets.destroyAll( true );
 						delete editor.widgets.registered.progressPrevent;
 
-						assert.areSame( 0, createForElementSpy.callCount, 'ProgressBar.createForElement call count' );
+						assert.areSame( 0, ProgressBarSpy.callCount, 'ProgressBar constructor call count' );
 					}
 				} );
 			},
 
 			'test preventing default progress reporter with widgetDefinition.progressIndicatorType': function() {
-				var createForElementSpy = this.sandbox.spy( CKEDITOR.plugins.imagebase.progressBar, 'createForElement' ),
+				var ProgressBarSpy = this.ProgressBarSpy,
 					widgetDefinition = this.editor.widgets.registered.testImageWidget,
 					originalProgress = widgetDefinition.progressIndicatorType;
 
@@ -332,7 +332,7 @@
 					callback: function() {
 						widgetDefinition.progressIndicatorType = originalProgress;
 
-						assert.areSame( 0, createForElementSpy.callCount, 'ProgressBar.createForElement call count' );
+						assert.areSame( 0, ProgressBarSpy.callCount, 'ProgressBar constructor call count' );
 					}
 				} );
 			},
