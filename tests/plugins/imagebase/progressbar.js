@@ -17,6 +17,10 @@
 			},
 
 			setUp: function() {
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+					assert.ignore();
+				}
+
 				this.sandbox.setHtml( '' );
 
 				this.dummyProgress = new ProgressBar();
