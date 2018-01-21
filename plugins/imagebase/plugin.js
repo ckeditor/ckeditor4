@@ -46,7 +46,7 @@
 
 	function getUploadFeature() {
 		var ret = {
-			progressIndicatorType: ProgressBar,
+			progressReporterType: ProgressBar,
 
 			setUp: function( editor, definition ) {
 				editor.on( 'paste', function( evt ) {
@@ -124,8 +124,8 @@
 
 				loader[ loadMethod ]( def.uploadUrl, def.additionalRequestParameters );
 
-				if ( widget.fire( 'uploadBegan', loader ) !== false && widget.progressIndicatorType ) {
-					var progress = new widget.progressIndicatorType();
+				if ( widget.fire( 'uploadBegan', loader ) !== false && widget.progressReporterType ) {
+					var progress = new widget.progressReporterType();
 					widget.wrapper.append( progress.wrapper );
 					progress.bindLoader( loader );
 				}
@@ -457,14 +457,14 @@
 		},
 
 		/**
-		 * Removes the progress indicator from DOM.
+		 * Removes the progress reporter from DOM.
 		 */
 		remove: function() {
 			this.wrapper.remove();
 		},
 
 		/**
-		 * Binds this progress indicator to a given `loader`.
+		 * Binds this progress reporter to a given `loader`.
 		 *
 		 * It will automatically remove its listeners when the `loader` has triggered one of following events:
 		 *
