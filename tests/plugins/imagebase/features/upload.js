@@ -253,7 +253,7 @@
 
 			'test default progress reporter': function() {
 				var imageBase = CKEDITOR.plugins.imagebase,
-					ProgressBarSpy = this.sandbox.spy( this.editor.widgets.registered.testImageWidget, 'progressIndicatorType' ),
+					ProgressBarSpy = this.sandbox.spy( this.editor.widgets.registered.testImageWidget, 'progressReporterType' ),
 					bindLoaderSpy = this.sandbox.spy( imageBase.progressBar.prototype, 'bindLoader' ),
 					editor = this.editor;
 
@@ -270,16 +270,16 @@
 			'test progress reporter customization': function() {
 				var CustomProgress = sinon.spy( CKEDITOR.plugins.imagebase.progressBar ),
 					widgetDefinition = this.editor.widgets.registered.testImageWidget,
-					originalProgress = widgetDefinition.progressIndicatorType;
+					originalProgress = widgetDefinition.progressReporterType;
 
 				CustomProgress.prototype = new CKEDITOR.plugins.imagebase.progressBar();
 
-				widgetDefinition.progressIndicatorType = CustomProgress;
+				widgetDefinition.progressReporterType = CustomProgress;
 
 				assertPasteFiles( this.editor, {
 					files: [ bender.tools.getTestPngFile() ],
 					callback: function() {
-						widgetDefinition.progressIndicatorType = originalProgress;
+						widgetDefinition.progressReporterType = originalProgress;
 
 						assert.areSame( 1, CustomProgress.callCount, 'CustomProgress constructor call count' );
 					}
@@ -305,7 +305,7 @@
 
 				imageBase.addImageWidget( editor, def.name, imageBase.addFeature( editor, 'upload', def ) );
 
-				editor.widgets.registered.progressPrevent.progressIndicatorType = ProgressBarSpy;
+				editor.widgets.registered.progressPrevent.progressReporterType = ProgressBarSpy;
 
 				assertPasteFiles( editor, {
 					files: [ getTestHtmlFile() ],
@@ -319,18 +319,18 @@
 				} );
 			},
 
-			'test preventing default progress reporter with widgetDefinition.progressIndicatorType': function() {
+			'test preventing default progress reporter with widgetDefinition.progressReporterType': function() {
 				var ProgressBarSpy = this.ProgressBarSpy,
 					widgetDefinition = this.editor.widgets.registered.testImageWidget,
-					originalProgress = widgetDefinition.progressIndicatorType;
+					originalProgress = widgetDefinition.progressReporterType;
 
 				// Setting to null will disable loading bar.
-				widgetDefinition.progressIndicatorType = null;
+				widgetDefinition.progressReporterType = null;
 
 				assertPasteFiles( this.editor, {
 					files: [ bender.tools.getTestPngFile() ],
 					callback: function() {
-						widgetDefinition.progressIndicatorType = originalProgress;
+						widgetDefinition.progressReporterType = originalProgress;
 
 						assert.areSame( 0, ProgressBarSpy.callCount, 'ProgressBar constructor call count' );
 					}
