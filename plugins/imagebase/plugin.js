@@ -125,7 +125,8 @@
 				loader[ loadMethod ]( def.uploadUrl, def.additionalRequestParameters );
 
 				if ( widget.fire( 'uploadBegan', loader ) !== false && widget.progressIndicatorType ) {
-					var progress = widget.progressIndicatorType.createForElement( widget.element );
+					var progress = new widget.progressIndicatorType();
+					widget.wrapper.append( progress.wrapper );
 					progress.bindLoader( loader );
 				}
 
@@ -521,19 +522,6 @@
 		 */
 		this.bar = this.wrapper.getFirst();
 	}
-
-	/**
-	 * @static
-	 * @param {CKEDITOR.dom.element} wrapper Element where the progress bar will be **prepended**.
-	 * @returns {CKEDITOR.plugins.imagebase.progressBar}
-	 */
-	ProgressBar.createForElement = function( wrapper ) {
-		var ret = new ProgressBar();
-
-		wrapper.append( ret.wrapper, true );
-
-		return ret;
-	};
 
 	ProgressBar.prototype = new ProgressReporter();
 

@@ -11,6 +11,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	clear: both;
 }
 
+.cke_widget_wrapper_easyimage figure {
+	margin-top: 0px;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+
 .easyimage img, .cke_widget_uploadeasyimage img {
 	display: block;
 	height: auto;
@@ -51,6 +57,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .cke_loader {
 	position: absolute;
+	top: 0px;
 	left: 0px;
 	right: 0px;
 }
@@ -59,4 +66,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	height: 10px;
 	background: #6a9ed1;
 	width: 0;
+}
+
+/* It's important to have top, left, right in sync with figure margins, to algin the loader nicely. */
+.cke_widget_wrapper_easyimage .cke_loader {
+	left: 40px;
+	right: 40px;
 }
