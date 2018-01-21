@@ -156,7 +156,7 @@
 
 				loaderType: CKEDITOR.plugins.cloudservices.cloudServicesLoader,
 
-				progressIndicatorType: CKEDITOR.plugins.imagebase.progressBar,
+				progressReporterType: CKEDITOR.plugins.imagebase.progressBar,
 
 				upcasts: {
 					figure: function( element ) {
