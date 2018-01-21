@@ -61,6 +61,10 @@
 		initialFrameHeight = testSuiteIframe && testSuiteIframe.getStyle( 'height' ),
 		tests = {
 			setUp: function() {
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+					assert.ignore();
+				}
+
 				// This test checks real balloon panel positioning. To avoid affecting position with scroll offset, set the parent iframe height
 				// enough to contain entire content. Note that iframe is not present if the test suite is open in a separate window, or ran on IEs.
 				if ( testSuiteIframe ) {
