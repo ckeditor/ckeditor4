@@ -511,7 +511,11 @@
 	};
 
 	/**
-	 * Vertical progress bar.
+	 * Type adding a vertical progress bar.
+	 *
+	 *		var progress = new CKEDITOR.plugins.imagebase.progressBar();
+	 *		myWrapper.append( progress.wrapper, true );
+	 *		progress.bindLoader( myFileLoader );
 	 *
 	 * @class CKEDITOR.plugins.imagebase.progressBar
 	 * @extends CKEDITOR.plugins.imagebase.progressReporter
