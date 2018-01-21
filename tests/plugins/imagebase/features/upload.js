@@ -78,6 +78,10 @@
 			},
 
 			setUp: function() {
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+					assert.ignore();
+				}
+
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
 			},
 
