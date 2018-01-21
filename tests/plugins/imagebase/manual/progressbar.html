@@ -69,6 +69,10 @@
 
 <script src="../../easyimage/manual/_helpers/tools.js"></script>
 <script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
+
 	function runSampleCode( editor, easyImagePlugin ) {
 		window.recreateProgress = function() {
 			var loader = window.gLoader,
@@ -91,7 +95,7 @@
 		}
 	}
 
-	CKEDITOR.addCss( '.progress-wrapper{ outline: 2px solid green; position: relative; background: #000; color: #fff; }' );
+	CKEDITOR.addCss( '.progress-wrapper { outline: 2px solid green; position: relative; background: #000; color: #fff; }' );
 
 	CKEDITOR.replace( 'classic', {
 		extraAllowedContent: 'div(progress-wrapper)',
