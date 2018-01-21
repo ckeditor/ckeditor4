@@ -7,14 +7,14 @@
 	<p></p>
 </div>
 
-<h2>Cricular progress indicator</h2>
+<h2>Cricular progress reporter</h2>
 
 <div id="editor2">
 	<p>Drop an image below:</p>
 	<p></p>
 </div>
 
-<h2>Overlapping progress indicator</h2>
+<h2>Overlapping progress reporter</h2>
 
 <div id="editor3">
 	<p>Drop an image below:</p>
@@ -35,7 +35,7 @@
 				var widgetDef = evt.data,
 					progressHelper = easyImageTools.progress,
 					imageBasePlugin = CKEDITOR.plugins.imagebase,
-					// Each editor uses a different progress indicator.
+					// Each editor uses a different progress reporter.
 					mapping = {
 						editor1: imageBasePlugin.progressBar,
 						editor2: progressHelper.getProgressCircleType( this, imageBasePlugin.progressReporter ),
@@ -43,7 +43,7 @@
 					};
 
 				if ( widgetDef.name === 'easyimage' ) {
-					widgetDef.progressIndicatorType = mapping[ this.name ];
+					widgetDef.progressReporterType = mapping[ this.name ];
 				}
 			}
 		}
