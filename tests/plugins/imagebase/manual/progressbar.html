@@ -83,7 +83,8 @@
 				loader.remove();
 			}
 
-			loader = Constructor.createForElement( editor.editable().findOne( 'div' ) );
+			loader = new Constructor();
+			editor.editable().findOne( 'div' ).append( loader.wrapper, true );
 			loader.updated( CKEDITOR.document.getById( 'progress-range' ).getValue() );
 
 			window.gLoader = loader;

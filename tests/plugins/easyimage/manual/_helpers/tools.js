@@ -50,35 +50,25 @@ var easyImageTools = {
 		 * on a image, and removes it indicating the progress.
 		 *
 		 * @param {CKEDITOR.editor} editor
-		 * @param {Function} ProgressBar Base type for progress indicator
-		 * {@link CKEDITOR.plugins.imageBase.progressBar}.
+		 * @param {Function} ProgressReporter Base type for progress indicator
+		 * {@link CKEDITOR.plugins.imageBase.progressReporter}.
 		 * @returns {Function}
 		 */
-		getProgressOverlapType: function( editor, ProgressBar ) {
+		getProgressOverlapType: function( editor, ProgressReporter ) {
 			if ( this._cache.ProgressOverlap ) {
 				return this._cache.ProgressOverlap;
 			}
 
-			function ProgressOverlap( totalHeight ) {
-				ProgressBar.call( this );
+			function ProgressOverlap() {
+				ProgressReporter.call( this );
 
 				this.wrapper.addClass( 'cke_progress_overlap' );
-
-				this.totalHeight = totalHeight;
 			}
 
-			ProgressOverlap.prototype = new ProgressBar();
+			ProgressOverlap.prototype = new ProgressReporter();
 
 			ProgressOverlap.prototype.updated = function( progress ) {
 				this.wrapper.setStyle( 'height', 100 - Math.round( progress * 100 ) + '%' );
-			};
-
-			ProgressOverlap.createForElement = function( wrapper ) {
-				var ret = new ProgressOverlap( wrapper.getClientRect().height );
-
-				wrapper.append( ret.wrapper, true );
-
-				return ret;
 			};
 
 			this._cache.ProgressOverlap = ProgressOverlap;
@@ -92,7 +82,7 @@ var easyImageTools = {
 		 *
 		 * @returns {Function}
 		 */
-		getProgressCircleType: function( editor, ProgressBar ) {
+		getProgressCircleType: function( editor, ProgressReporter ) {
 			if ( this._cache.ProgressCircle ) {
 				return this._cache.ProgressCircle;
 			}
@@ -117,7 +107,7 @@ var easyImageTools = {
 						'	</svg>' +
 						'</div>' );
 
-				ProgressBar.call( this );
+				ProgressReporter.call( this );
 
 				this.wrapper.addClass( 'cke_progress_circle' );
 
@@ -134,7 +124,7 @@ var easyImageTools = {
 				this.wrapper.append( this.circle );
 			}
 
-			ProgressCircle.prototype = new ProgressBar();
+			ProgressCircle.prototype = new ProgressReporter();
 
 			ProgressCircle.prototype.updated = function( progress ) {
 				var percentage = Math.round( progress * 100 ),
@@ -144,14 +134,6 @@ var easyImageTools = {
 
 				bar.setStyle( 'stroke-dashoffset', ( ( 100 - percentage ) / 100 ) * c );
 				this.circle.data( 'pct', percentage );
-			};
-
-			ProgressCircle.createForElement = function( wrapper ) {
-				var ret = new ProgressCircle();
-
-				wrapper.append( ret.wrapper, true );
-
-				return ret;
 			};
 
 			this._cache.ProgressCircle = ProgressCircle;
