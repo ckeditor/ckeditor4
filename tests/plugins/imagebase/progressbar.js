@@ -13,14 +13,11 @@
 
 				CKEDITOR.event.implementOn( loaderMock );
 
-				// Store the content of #nested-sandbox - it will be used to restore original HTML
-				// before each test case.
-				this.nestedSandbox = doc.getById( 'nested-sandbox' );
-				this._nestedSandboxContent = this.nestedSandbox.getHtml();
+				this.sandbox = doc.getById( 'sandbox' );
 			},
 
 			setUp: function() {
-				this.nestedSandbox.setHtml( this._nestedSandboxContent );
+				this.sandbox.setHtml( '' );
 
 				this.dummyProgress = new ProgressBar();
 
@@ -30,29 +27,20 @@
 				sinon.stub( this.dummyProgress, 'updated' );
 			},
 
-			'test createForElement()': function() {
-				var ret = ProgressBar.createForElement( this.nestedSandbox.findOne( '.nested2' ) );
+			'test constructor creates proper elements': function() {
+				var ret = new ProgressBar();
+				this.sandbox.append( ret.wrapper, true );
 
-				assert.isInstanceOf( ProgressBar, ret, 'Returned type' );
+				assert.areSame( this.sandbox.findOne( '.cke_loader' ), ret.wrapper, 'ret.wrapper' );
+				assert.areSame( this.sandbox.findOne( '.cke_bar' ), ret.bar, 'ret.bar' );
 
-				assert.beautified.html( doc.getById( 'expected-create-from-element' ).getHtml(), this.nestedSandbox.getHtml() );
-			},
-
-			'test createForElement() creates proper elements': function() {
-				var ret = ProgressBar.createForElement( this.nestedSandbox.findOne( '.nested2' ) );
-
-				assert.areSame( this.nestedSandbox.findOne( '.cke_loader' ), ret.wrapper, 'ret.wrapper' );
-				assert.areSame( this.nestedSandbox.findOne( '.cke_bar' ), ret.bar, 'ret.bar' );
-			},
-
-			'test createForElement() prepends the element': function() {
-				ProgressBar.createForElement( this.nestedSandbox );
-
-				assert.beautified.html( doc.getById( 'expected-create-from-element-prepend' ).getHtml(), this.nestedSandbox.getHtml() );
+				assert.beautified.html( doc.getById( 'expected-create-from-element' ).getHtml(), this.sandbox.getHtml() );
 			},
 
 			'test remove()': function() {
-				var ret = ProgressBar.createForElement( this.nestedSandbox );
+				var ret = new ProgressBar( this.sandbox );
+
+				this.sandbox.append( ret.wrapper );
 
 				ret.remove();
 
@@ -70,7 +58,7 @@
 						[ -1.0, '0%' ],
 						[ 1.1, '100%' ]
 					],
-					ret = ProgressBar.createForElement( this.nestedSandbox );
+					ret = new ProgressBar( this.sandbox );
 
 				CKEDITOR.tools.array.forEach( values, function( assertSet ) {
 					ret.updated( assertSet[ 0 ] );
@@ -79,11 +67,11 @@
 			},
 
 			// 'test update() locks the snapshot': function() {
-			// 	// todo
+			// 	@todo: add coverage.
 			// },
 
 			'test failed()': function() {
-				var ret = ProgressBar.createForElement( this.nestedSandbox );
+				var ret = this._createProgressBar();
 
 				ret.failed();
 
@@ -91,7 +79,7 @@
 			},
 
 			'test aborted()': function() {
-				var ret = ProgressBar.createForElement( this.nestedSandbox );
+				var ret = this._createProgressBar();
 
 				ret.aborted();
 
@@ -99,7 +87,7 @@
 			},
 
 			'test done()': function() {
-				var ret = ProgressBar.createForElement( this.nestedSandbox );
+				var ret = this._createProgressBar();
 
 				ret.done();
 
@@ -183,6 +171,13 @@
 				loaderMock.fire( 'error' );
 
 				assert.areSame( 1, this.dummyProgress.failed.callCount, 'Failed call count' );
+			},
+
+			// Adds the progress bar straight into DOM and returns ProgressBar instance.
+			_createProgressBar: function() {
+				var ret = new ProgressBar();
+				this.sandbox.append( ret.wrapper );
+				return ret;
 			}
 		};
 

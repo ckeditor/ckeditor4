@@ -6,7 +6,12 @@
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			// Disable ACF, we want to catch any uncontrolled junk.
+			allwoedContent: true
+		}
+	};
 
 	// Loader mock that successes asynchronously.
 	function AsyncSuccessFileLoader( editor, fileOrData, fileName ) {
@@ -32,6 +37,7 @@
 
 				// Array of listeners to be cleared after each TC.
 				this.listeners = [];
+				this.sandbox = sinon.sandbox.create();
 
 				this.editor.widgets.registered.easyimage.loaderType = AsyncSuccessFileLoader;
 
@@ -79,6 +85,7 @@
 					listener.removeListener();
 				} );
 
+				this.sandbox.restore();
 				this.editor.widgets.destroyAll( true );
 
 				this.listeners = [];
@@ -87,6 +94,19 @@
 
 			setUp: function() {
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
+			},
+
+			'test downcast does not include progress bar': function() {
+				var editor = this.editor;
+
+				this.sandbox.stub( URL, 'createObjectURL' ).returns( '%BASE_PATH%_assets/logo.png' );
+
+				assertPasteFiles( editor, {
+					files: [ bender.tools.getTestPngFile() ],
+					callback: function() {
+						assert.beautified.html( CKEDITOR.document.getById( 'expected-progress-bar-downcast' ).getHtml(), editor.getData() );
+					}
+				} );
 			},
 
 			// To test - edge case: changing mode during upload.
@@ -109,8 +129,10 @@
 								assert.isFalse( doneSpy.called, 'Race condition didn\'t occur' );
 
 								disposableListeners.push( widgets[ 0 ].once( 'uploadDone', function() {
-									resume( function() {
-										assert.isTrue( true );
+									editor.setMode( 'wysiwyg', function() {
+										resume( function() {
+											assert.isTrue( true );
+										} );
 									} );
 								} ) );
 

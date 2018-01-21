@@ -21,6 +21,12 @@ The outline is not a part of the element's dimensions, we have to use a border a
 	padding: 1px;
 }
 
+.cke_widget_wrapper_easyimage figure {
+	margin-top: 0px;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+
 .easyimage img, .cke_widget_uploadeasyimage img {
 	display: block;
 	height: auto;
@@ -63,6 +69,7 @@ The outline is not a part of the element's dimensions, we have to use a border a
 
 .cke_loader {
 	position: absolute;
+	top: 0px;
 	left: 0px;
 	right: 0px;
 }
@@ -71,4 +78,10 @@ The outline is not a part of the element's dimensions, we have to use a border a
 	height: 10px;
 	background: #6a9ed1;
 	width: 0;
+}
+
+/* It's important to have top, left, right in sync with figure margins, to algin the loader nicely. */
+.cke_widget_wrapper_easyimage .cke_loader {
+	left: 40px;
+	right: 40px;
 }
