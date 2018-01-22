@@ -1,0 +1,41 @@
+<textarea id="editor1" cols="10" rows="10">
+	<p>Some text</p>
+	<p><strong>Click on me</strong></p>
+</textarea>
+
+<script>
+	// Currently balloon toolbar is not integrated with old IE browsers.
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+		bender.ignore();
+	}
+
+	function instanceReadyListener( evt ) {
+		var strong = this.editable().findOne( 'strong' ),
+			panel = new CKEDITOR.ui.balloonToolbar( this, {
+				width: 'auto',
+				height: 40
+			} );
+
+		strong.on( 'click', function() {
+			panel.addItems( {
+				bold: new CKEDITOR.ui.button( {
+					label: 'test',
+					command: 'bold'
+				} ),
+				language: evt.editor.ui.create( 'Language' ),
+				Styles: evt.editor.ui.create( 'Styles' )
+			} );
+			panel.attach( this );
+		} );
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'balloonpanel,language,stylescombo',
+		height: 300,
+		width: 600,
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+
+</script>
