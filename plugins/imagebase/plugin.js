@@ -201,9 +201,6 @@
 					}
 
 					if ( method === 'drop' || ( method === 'paste' && filesCount ) ) {
-						// @todo: this function does not yet support IE11, as it doesn't put images into data transfer, so the images (if any)
-						// needs to be extracted from the pasted HTML.
-						// See https://github.com/ckeditor/ckeditor-dev/blob/e68fca3fc67a0a0af55ccb467e4b1b617663e10c/plugins/uploadimage/plugin.js#L92-L136
 						var matchedFiles = [],
 							curFile;
 
@@ -220,8 +217,7 @@
 
 						if ( matchedFiles.length ) {
 							evt.cancel();
-							// @todo: This should not be required, let's leave it for development time to make sure
-							// that nothing else affects the listeners:
+							// At the time being we expect no other actions to happen after the widget was inserted.
 							evt.stop();
 
 							CKEDITOR.tools.array.forEach( matchedFiles, function( curFile, index ) {
@@ -271,8 +267,6 @@
 					widget.wrapper.append( progress.wrapper );
 					progress.bindLoader( loader );
 				}
-
-				// @todo: It make sense to mark the widget at this point as incomplete. Similarly as fileTools.markElement does.
 			},
 
 			/*
