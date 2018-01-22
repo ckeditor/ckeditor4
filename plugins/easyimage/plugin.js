@@ -316,7 +316,7 @@
 	};
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'imagebase,uploadwidget,balloontoolbar,button,dialog,cloudservices',
+		requires: 'imagebase,balloontoolbar,button,dialog,cloudservices',
 		lang: 'en',
 		icons: 'easyimagefull,easyimageside,easyimagealt', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
