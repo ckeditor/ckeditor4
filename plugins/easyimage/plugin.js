@@ -201,7 +201,6 @@
 						getNaturalWidth( imagePart, function() {
 							var contextView = editor._.easyImageToolbarContext.toolbar._view;
 
-							// @todo: it's still a bit hacky way to reposition the toolbar. Context should have a method like .reposition().
 							if ( contextView.rect.visible ) {
 								contextView.attach( contextView._pointedElement );
 							}
