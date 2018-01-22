@@ -91,13 +91,15 @@ var easyImageTools = {
 			var CIRCLE_PROGRESS_SIZE = 20,
 				// Circle width in pixels.
 				CIRCLE_THICKNESS = 10,
-				DASH_ARRAY = Math.PI * ( CIRCLE_PROGRESS_SIZE * 2 );
+				DASH_ARRAY = Math.PI * ( CIRCLE_PROGRESS_SIZE * 2 ),
+				// Scale factor, so that the enlarge animation will not be clipped.
+				scaleFactor = 2;
 
 			function ProgressCircle() {
-				var svgSize = CIRCLE_PROGRESS_SIZE * 4,
-					offset = CIRCLE_THICKNESS + CIRCLE_PROGRESS_SIZE,
+				var svgSize = ( CIRCLE_PROGRESS_SIZE * 2 ) + CIRCLE_THICKNESS,
+					offset = CIRCLE_THICKNESS * 0.5 + CIRCLE_PROGRESS_SIZE,
 					htmlTemplate = new CKEDITOR.template( '<div class="cont" data-pct="0">' +
-						'	<svg id="svg" width="{svgSize}" height="{svgSize}" viewPort="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
+						'	<svg id="svg" style="height: {svgSize}px; width: {svgSize}px;" viewPort="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
 						'		<circle r="{CIRCLE_PROGRESS_SIZE}" cx="{offset}" cy="{offset}" fill="transparent"' +
 						'			stroke-dasharray="{DASH_ARRAY}" stroke-dashoffset="0"' +
 						'			style="stroke-width: {CIRCLE_THICKNESS}px"></circle>' +
@@ -113,15 +115,18 @@ var easyImageTools = {
 
 				this.circle = CKEDITOR.dom.element.createFromHtml(
 					htmlTemplate.output( {
-						svgSize: svgSize,
+						svgSize: svgSize * scaleFactor,
 						CIRCLE_PROGRESS_SIZE: CIRCLE_PROGRESS_SIZE,
 						CIRCLE_THICKNESS: CIRCLE_THICKNESS,
 						DASH_ARRAY: DASH_ARRAY,
-						offset: offset
+						offset: Math.round( offset ) * scaleFactor
 					} )
 				);
 
 				this.wrapper.append( this.circle );
+
+				this.bar = this.wrapper.findOne( '.bar' );
+				this.background = this.wrapper.findOne( 'circle' );
 			}
 
 			ProgressCircle.prototype = new ProgressReporter();
@@ -134,6 +139,31 @@ var easyImageTools = {
 
 				bar.setStyle( 'stroke-dashoffset', ( ( 100 - percentage ) / 100 ) * c );
 				this.circle.data( 'pct', percentage );
+			};
+
+			ProgressCircle.prototype.done = function() {
+				// Make sure full circle is colored.
+				this.updated( 1 );
+				this.background.hide();
+
+				this._fadeOut( 'done' );
+			};
+
+			ProgressCircle.prototype.failed = function() {
+				this._fadeOut( 'failed' );
+			};
+
+			ProgressCircle.prototype.aborted = function() {
+				this._fadeOut( 'aborted' );
+			};
+
+			ProgressCircle.prototype._fadeOut = function( additionalClass ) {
+				this.wrapper.once( 'animationend', function() {
+					this.remove();
+				}, null, null, this );
+
+				this.wrapper.addClass( additionalClass );
+				this.wrapper.addClass( 'cke_fade_out' );
 			};
 
 			this._cache.ProgressCircle = ProgressCircle;
