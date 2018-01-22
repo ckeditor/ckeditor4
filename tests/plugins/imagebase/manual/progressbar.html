@@ -67,7 +67,7 @@
 	</p>
 </div>
 
-<script src="../../easyimage/manual/_helpers/tools.js"></script>
+<script src="../features/_helpers/tools.js"></script>
 <script>
 	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 		bender.ignore();
@@ -77,8 +77,8 @@
 		window.recreateProgress = function() {
 			var loader = window.gLoader,
 				types = {
-					'progress-overlap': easyImageTools.progress.getProgressOverlapType( editor, easyImagePlugin.progressReporter ),
-					'progress-circle': easyImageTools.progress.getProgressCircleType( editor, easyImagePlugin.progressReporter ),
+					'progress-overlap': imageBaseFeaturesTools.progress.getProgressOverlapType( editor, easyImagePlugin.progressReporter ),
+					'progress-circle': imageBaseFeaturesTools.progress.getProgressCircleType( editor, easyImagePlugin.progressReporter ),
 					'default': easyImagePlugin.progressBar
 				},
 				Constructor = types[ CKEDITOR.document.getById( 'progress-type' ).getValue() || 'default' ];
