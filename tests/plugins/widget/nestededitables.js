@@ -1460,7 +1460,7 @@
 					} );
 				} );
 
-				// Simulate pasted copied, upcasted widget
+				// Simulate pasting copied, upcasted widget.
 				bender.tools.emulatePaste( editor, '<div data-cke-widget-wrapper="1"><div data-cke-widget-upcasted="1" data-widget="pastenested"><div data-cke-widget-editable="nested">Test</div></div></div>' );
 
 				wait();
