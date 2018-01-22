@@ -384,7 +384,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				}
 			},
-
+			/**
+			 * Removes all listeners from richCombo element.
+			 *
+			 * @since 4.9.0
+			 */
 			destroy: function() {
 				if ( this._listeners.length ) {
 					CKEDITOR.tools.array.forEach( this._listeners, function( listener ) {
