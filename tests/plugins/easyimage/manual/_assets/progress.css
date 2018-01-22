@@ -31,7 +31,41 @@
 
 .cke_progress_circle .cont {
 	display: block;
-	margin: 1em auto;
 	border-radius: 100%;
 	position: relative;
+}
+
+@keyframes circle-fadeout-animation {
+	from {
+		transform: scale(1);
+		opacity: 1;
+	}
+	to {
+		transform: scale(2);
+		opacity: 0;
+	}
+}
+
+.cke_progress_circle.cke_fade_out {
+	transition: opacity 2s;
+	opacity: 0;
+}
+
+.cke_progress_circle.cke_fade_out circle {
+	animation-duration: 2s;
+	animation-iteration-count: 1;
+	animation-name: circle-fadeout-animation;
+	transform-origin: center center;
+}
+
+.cke_progress_circle.done .bar {
+	stroke: green;
+}
+
+.cke_progress_circle.failed .bar {
+	stroke: darkred;
+}
+
+.cke_progress_circle.aborted .bar {
+	stroke: yellow;
 }
