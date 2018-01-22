@@ -1,0 +1,56 @@
+<textarea id="editor1" cols="10" rows="10">
+	<ul>
+		<li>List item 1</li>
+		<li>List item 2</li>
+		<li>List item 3</li>
+		<li>List item 4</li>
+		<li>List item 5</li>
+	</ul>
+</textarea>
+<script>
+	// Currently balloon toolbar is not integrated with old IE browsers.
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.disableAutoInline = true;
+
+	function instanceReadyListener( evt ) {
+		var lis = this.editable().find( 'li' ),
+			panel = {},
+			i = 0,
+			li,
+			_this = this;
+
+
+		while ( ( li = lis.getItem( i++ ) ) ) {
+			li.on( 'click', function() {
+				if ( !CKEDITOR.tools.isEmpty( panel ) ) {
+					panel.destroy()
+				}
+				panel = new CKEDITOR.ui.balloonToolbar( _this, {
+					width: 'auto',
+					height: 40
+				} );
+				panel.addItems( {
+					bold: new CKEDITOR.ui.button( {
+						label: 'test',
+						command: 'bold'
+					} ),
+					language: evt.editor.ui.create('Language'),
+					Styles: evt.editor.ui.create( 'Styles' )
+				} );
+				panel.attach( this );
+			} );
+		}
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'balloonpanel,language,stylescombo',
+		height: 300,
+		width: 600,
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+</script>
