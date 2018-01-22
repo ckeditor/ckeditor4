@@ -730,14 +730,15 @@
 			/**
 			 * Updates status of passed element.
 			 *
-			 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} item which is instace of richCombo.
 			 * @since 4.9.0
 			 * @private
+			 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo}
 			 * @member CKEDITOR.ui.balloonToolbarView
 			 */
 			CKEDITOR.ui.balloonToolbarView.prototype._updateStatus = function( item ) {
-				if ( item.getState() == CKEDITOR.TRISTATE_ON )
+				if ( item.getState() == CKEDITOR.TRISTATE_ON ) {
 					return;
+				}
 
 				var state = item.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 
@@ -761,8 +762,7 @@
 			CKEDITOR.ui.balloonToolbarView.prototype.renderItems = function( items ) {
 				var output = [],
 					keys = CKEDITOR.tools.objectKeys( items ),
-					groupStarted = false,
-					_this = this;
+					groupStarted = false;
 
 				// When we rerender toolbar we want to clear focusable in case of removing some items.
 				this._deregisterItemFocusables();
@@ -798,9 +798,9 @@
 				// We need to initially set status of richCombo items.
 				CKEDITOR.tools.array.forEach( keys, function( itemKey ) {
 						if ( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo ) {
-							_this._updateStatus( items[ itemKey ] );
+							this._updateStatus( items[ itemKey ] );
 						}
-					} );
+					}, this );
 			};
 
 			/**
