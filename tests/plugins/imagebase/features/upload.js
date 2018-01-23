@@ -14,6 +14,12 @@
 		return file;
 	}
 
+	function getTestRtfFile( fileName ) {
+		var file = bender.tools.srcToFile( 'data:text/rtf;base64,Zm9v' );
+		file.name = fileName ? fileName : 'name.rtf';
+		return file;
+	}
+
 	// A mocked Loader type that synchronously notifies that the file has been uploaded.
 	function SuccessFileLoader( editor, fileOrData, fileName ) {
 		CKEDITOR.fileTools.fileLoader.call( this, editor, fileOrData, fileName );
@@ -21,6 +27,11 @@
 
 	// A mocked Loader type that synchronously notifies that the file has been failed.
 	function FailFileLoader( editor, fileOrData, fileName ) {
+		CKEDITOR.fileTools.fileLoader.call( this, editor, fileOrData, fileName );
+	}
+
+	// A mocked Loader type that asynchronously notifies that the file has been uploaded.
+	function AsyncSuccessFileLoader( editor, fileOrData, fileName ) {
 		CKEDITOR.fileTools.fileLoader.call( this, editor, fileOrData, fileName );
 	}
 
@@ -38,6 +49,11 @@
 						name: 'testTextWidget',
 						supportedTypes: /text\/plain/,
 						loaderType: SuccessFileLoader
+					},
+					asyncSuccessWidgetDef = {
+						name: 'testAsyncSuccess',
+						supportedTypes: /text\/rtf/,
+						loaderType: AsyncSuccessFileLoader
 					};
 
 				// Array of listeners to be cleared after each TC.
@@ -50,6 +66,9 @@
 
 				plugin.addImageWidget( editor, textWidgetDef.name, plugin.addFeature( editor, 'upload', textWidgetDef ) );
 
+				plugin.addImageWidget( editor, asyncSuccessWidgetDef.name,
+					plugin.addFeature( editor, 'upload', asyncSuccessWidgetDef ) );
+
 				SuccessFileLoader.prototype = CKEDITOR.tools.extend( {
 					upload: function() {
 						this.changeStatus( 'uploaded' );
@@ -59,6 +78,15 @@
 				FailFileLoader.prototype = CKEDITOR.tools.extend( {
 					upload: function() {
 						this.changeStatus( 'error' );
+					}
+				}, CKEDITOR.fileTools.fileLoader.prototype );
+
+				AsyncSuccessFileLoader.prototype = CKEDITOR.tools.extend( {
+					upload: function() {
+						var that = this;
+						setTimeout( function() {
+							that.changeStatus( 'uploaded' );
+						}, 100 );
 					}
 				}, CKEDITOR.fileTools.fileLoader.prototype );
 			},
@@ -352,6 +380,54 @@
 						editor.setReadOnly( false );
 
 						assert.areSame( 0, widgets.length, 'Widgets count' );
+					}
+				} );
+			},
+
+			'test copy and paste file during upload': function() {
+				// This test will ensure that if the "in progress" widget is copied and pasted
+				// it will also subscribe to a proper loader, and will have uploadDone event fired
+				// properly.
+				var editor = this.editor,
+					doneEventSpy = sinon.spy();
+
+				this.listeners.push( this.editor.widgets.on( 'instanceCreated', function( evt ) {
+					var widget = evt.data;
+					if ( widget.name == 'testAsyncSuccess' ) {
+						// Both widgets will share the same spy.
+						widget.on( 'uploadDone', doneEventSpy );
+					}
+				} ) );
+
+				assertPasteFiles( editor, {
+					files: [ getTestRtfFile() ],
+					fullLoad: false,
+					callback: function( initialWidgets ) {
+						var rng = editor.createRange(),
+							editable = editor.editable();
+
+						rng.setStart( editable, CKEDITOR.POSITION_BEFORE_END );
+						rng.setEnd( editable, CKEDITOR.POSITION_BEFORE_END );
+
+						editor.getSelection().selectRanges( [ rng ] );
+
+						assertPasteFiles( editor, {
+							dataValue: initialWidgets[ 0 ].wrapper.getOuterHtml(),
+							files: [],
+							fullLoad: true,
+							callback: function( widgets ) {
+								setTimeout( function() {
+									resume( function() {
+										assert.areSame( 2, widgets.length, 'Widgets count' );
+										assert.areSame( 2, doneEventSpy.callCount, 'uploadDone events count' );
+										sinon.assert.calledOn( doneEventSpy, widgets[ 0 ] );
+										sinon.assert.calledOn( doneEventSpy, widgets[ 1 ] );
+									} );
+								}, 0 );
+
+								wait();
+							}
+						} );
 					}
 				} );
 			}
