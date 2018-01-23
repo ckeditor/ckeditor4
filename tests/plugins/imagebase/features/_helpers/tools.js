@@ -26,6 +26,7 @@
 		 * * `CKEDITOR.eventInfo` evt - Paste event.
 		 * * `CKEDITOR.eventInfo/undefined` uploadEvt - Upload event, available ony if `options.fullLoad` was set
 		 *	to `true` and at least one widget was found.
+		 * @param {String} [options.dataValue=null] HTML data to be put into the clipboard if any.
 		 * @param {Boolean} [options.fullLoad=false] If `true` assertion will wait for `uploadDone` of `uploadFailed`
 		 * event of the first widget.
 		 */
@@ -55,8 +56,8 @@
 				}, 0 );
 			}, null, null, -1 );
 
-			// pasteFiles is defined in filetools plugin helper.
-			pasteFiles( editor, files );
+			// pasteFiles is defined in clipboard plugin helper.
+			pasteFiles( editor, files, options.dataValue );
 
 			wait();
 		},
