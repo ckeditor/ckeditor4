@@ -9,7 +9,8 @@
 <div id="expected-image-base64">
 	<p>foo</p>
 	<figure class="easyimage">
-		<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==" width="1" />
+		<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg=="
+		    width="1" />
 		<figcaption></figcaption>
 	</figure>
 	<p>baz</p>
@@ -18,12 +19,37 @@
 <div id="expected-multiple-image-base64">
 	<p>foo</p>
 	<figure class="easyimage">
-		<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==" width="1" />
+		<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg=="
+		    width="1" />
 		<figcaption></figcaption>
 	</figure>
 	<figure class="easyimage">
-		<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==" width="1" />
+		<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg=="
+		    width="1" />
 		<figcaption></figcaption>
 	</figure>
 	<p>baz</p>
+</div>
+
+<div id="expected-mixed-content">
+	<p>first</p>
+	<figure class="easyimage">
+		<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg=="
+		    width="1" />
+		<figcaption></figcaption>
+	</figure>
+	<p>last</p>
+	<p>&nbsp;</p>
+</div>
+
+<div id="expected-mixed-content-inline-img">
+	<p>Imagine its a cool </p>
+	<figure class="easyimage">
+		<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg=="
+		    width="1" />
+		<figcaption></figcaption>
+	</figure>
+	<p> emoji!</p>
+	<p>&nbsp;</p>
+	<p>It should work.</p>
 </div>
