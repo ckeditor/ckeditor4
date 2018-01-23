@@ -142,7 +142,8 @@
 
 				allowedContent: {
 					figure: {
-						classes: config.easyimage_sideClass
+						classes: config.easyimage_sideClass,
+						attributes: 'data-easy-image-upload-pending'
 					},
 
 					img: {
@@ -231,6 +232,7 @@
 							srcset = CKEDITOR.plugins.easyimage._parseSrcSet( resp );
 
 						this.parts.image.setAttributes( {
+							'data-cke-saved-src': resp[ 'default' ],
 							src: resp[ 'default' ],
 							srcset: srcset,
 							sizes: '100vw'
@@ -277,26 +279,6 @@
 		// * IE11 when pasting images from the clipboard.
 		// * FF when pasting a single image **file** from the clipboard.
 		// In both cases image gets inlined as img[src="data:"] element.
-		var uniqueNameCounter = 0;
-
-		// Returns number as a string. If a number has 1 digit only it returns it prefixed with an extra 0.
-		function padNumber( input ) {
-			if ( input <= 9 ) {
-				input = '0' + input;
-			}
-
-			return String( input );
-		}
-
-		// Returns a unique image file name.
-		function getUniqueImageFileName( type ) {
-			var date = new Date(),
-				dateParts = [ date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds() ];
-
-			uniqueNameCounter += 1;
-
-			return 'image-' + CKEDITOR.tools.array.map( dateParts, padNumber ).join( '' ) + '-' + uniqueNameCounter + '.' + type;
-		}
 
 		editor.on( 'paste', function( evt ) {
 			if ( editor.isReadOnly ) {
@@ -353,14 +335,25 @@
 
 					imgFormat = ( imgFormat && imgFormat[ 1 ] ) || 'jpg';
 
-					widgetInstance = easyImageDef._insertWidget( editor, easyImageDef, imgSrc, getUniqueImageFileName( imgFormat ) );
+					widgetInstance = easyImageDef._insertWidget( editor, easyImageDef, imgSrc, false );
 
-					easyImageDef._loadWidget( editor, widgetInstance, easyImageDef, imgSrc );
+					widgetInstance.data( 'easy-image-upload-pending', true );
+
+					widgetInstance.replace( img );
 				}
 			}
 
-			if ( widgetsFound ) {
-				evt.cancel();
+			data.dataValue = temp.getHtml();
+		} );
+
+		editor.widgets.on( 'instanceCreated', function( evt ) {
+			var widget = evt.data;
+
+			if ( widget.name == 'easyimage' && widget.element.data( 'easy-image-upload-pending' ) ) {
+				widget.once( 'ready', function() {
+					widget.element.data( 'easy-image-upload-pending', false );
+					widget._loadWidget( widget.editor, widget, widget.definition, widget.parts.image.getAttribute( 'src' ) );
+				} );
 			}
 		} );
 	}
