@@ -1,7 +1,8 @@
 /* bender-tags: editor, clipboard, upload */
 /* bender-ckeditor-plugins: sourcearea, wysiwygarea, easyimage */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, %BASE_PATH%/plugins/imagebase/features/_helpers/tools.js */
-/* global imageBaseFeaturesTools */
+/* bender-include: %BASE_PATH%/plugins/widget/_helpers/tools.js */
+/* global imageBaseFeaturesTools, pasteFiles, widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -98,6 +99,44 @@
 				}
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
+			},
+
+			// tp3390
+			'test paste img as HTML': function() {
+				var editor = this.editor,
+					widgets;
+
+				this.editorBot.setHtmlWithSelection( '<p>foo [bar] baz</p>' );
+
+				pasteFiles( editor, [], '<img src="' + bender.tools.pngBase64 + '">' );
+				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
+
+				assert.areSame( 1, widgets.length, 'Widget count' );
+				assert.areSame( 'easyimage', widgets[ 0 ].name, 'Widget type' );
+				assert.areSame( bender.tools.pngBase64, widgets[ 0 ].parts.image.getAttribute( 'src' ), 'Image src attribute' );
+
+				assert.beautified.html( CKEDITOR.document.getById( 'expected-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
+			},
+
+			// tp3390
+			'test paste multiple imgs as HTML': function() {
+				var editor = this.editor,
+					widgets;
+
+				this.editorBot.setHtmlWithSelection( '<p>foo [bar] baz</p>' );
+
+				pasteFiles( editor, [], '<img src="' + bender.tools.pngBase64 + '"><img src="' + bender.tools.pngBase64 + '">' );
+				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
+
+				assert.areSame( 2, widgets.length, 'Widget count' );
+
+				assert.areSame( 'easyimage', widgets[ 0 ].name, 'Widget 0 type' );
+				assert.areSame( bender.tools.pngBase64, widgets[ 0 ].parts.image.getAttribute( 'src' ), 'Image 0 src attribute' );
+
+				assert.areSame( 'easyimage', widgets[ 1 ].name, 'Widget 1 type' );
+				assert.areSame( bender.tools.pngBase64, widgets[ 1 ].parts.image.getAttribute( 'src' ), 'Image 1 src attribute' );
+
+				assert.beautified.html( CKEDITOR.document.getById( 'expected-multiple-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
 			},
 
 			'test downcast does not include progress bar': function() {
