@@ -139,6 +139,34 @@
 				assert.beautified.html( CKEDITOR.document.getById( 'expected-multiple-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
 			},
 
+			'test pasting mixed HTML content': function() {
+				var editor = this.editor,
+					widgets;
+
+				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
+
+				pasteFiles( editor, [], '<p>first<img src="' + bender.tools.pngBase64 + '">last</p>' );
+				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
+
+				assert.areSame( 1, widgets.length, 'Widget count' );
+
+				assert.beautified.html( CKEDITOR.document.getById( 'expected-mixed-content' ).getHtml(), editor.getData(), 'Editor data' );
+			},
+
+			'test pasting mixed HTML content image inline': function() {
+				var editor = this.editor,
+					widgets;
+
+				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
+
+				pasteFiles( editor, [], '<p>Imagine its a cool <img src="' + bender.tools.pngBase64 + '"> emoji!</p><p>It should work.</p>' );
+				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
+
+				assert.areSame( 1, widgets.length, 'Widget count' );
+
+				assert.beautified.html( CKEDITOR.document.getById( 'expected-mixed-content-inline-img' ).getHtml(), editor.getData(), 'Editor data' );
+			},
+
 			'test downcast does not include progress bar': function() {
 				var editor = this.editor;
 
