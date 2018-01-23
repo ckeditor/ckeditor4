@@ -24,6 +24,10 @@
 		 *
 		 * * `CKEDITOR.plugins.widget[]` widgets - Array of widgets in a given editor.
 		 * * `CKEDITOR.eventInfo` evt - Paste event.
+		 * * `CKEDITOR.eventInfo/undefined` uploadEvt - Upload event, available ony if `options.fullLoad` was set
+		 *	to `true` and at least one widget was found.
+		 * @param {Boolean} [options.fullLoad=false] If `true` assertion will wait for `uploadDone` of `uploadFailed`
+		 * event of the first widget.
 		 */
 		assertPasteFiles: function( editor, options ) {
 			var files = options.files || [],
@@ -33,9 +37,21 @@
 				// Unfortunately at the time being we need to do additional timeout here, as
 				// the paste event gets cancelled.
 				setTimeout( function() {
-					resume( function() {
-						callback( objToArray( editor.widgets.instances ), evt );
-					} );
+					var widgets = objToArray( editor.widgets.instances );
+
+					function wrappedCallback( uploadEvt ) {
+						resume( function() {
+							callback( objToArray( editor.widgets.instances ), evt, uploadEvt );
+						} );
+					}
+
+					if ( options.fullLoad && widgets.length ) {
+						widgets[ 0 ].once( 'uploadDone', wrappedCallback, null, null, 999 );
+
+						widgets[ 0 ].once( 'uploadFailed', wrappedCallback, null, null, 999 );
+					} else {
+						wrappedCallback();
+					}
 				}, 0 );
 			}, null, null, -1 );
 
