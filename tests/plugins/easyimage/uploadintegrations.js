@@ -19,22 +19,31 @@
 		CKEDITOR.fileTools.fileLoader.call( this, editor, fileOrData, fileName );
 	}
 
+	function AsyncFailFileLoader( editor, fileOrData, fileName ) {
+		CKEDITOR.fileTools.fileLoader.call( this, editor, fileOrData, fileName );
+	}
+
 	var assertPasteFiles = imageBaseFeaturesTools.assertPasteFiles,
 		tests = {
 			init: function() {
 				var sampleCloudServicesResponse = {
-					210: '%BASE_PATH%/_assets/logo.png?w=210',
-					420: '%BASE_PATH%/_assets/logo.png?w=420',
-					630: '%BASE_PATH%/_assets/logo.png?w=630',
-					840: '%BASE_PATH%/_assets/logo.png?w=840',
-					1050: '%BASE_PATH%/_assets/logo.png?w=1050',
-					1260: '%BASE_PATH%/_assets/logo.png?w=1260',
-					1470: '%BASE_PATH%/_assets/logo.png?w=1470',
-					1680: '%BASE_PATH%/_assets/logo.png?w=1680',
-					1890: '%BASE_PATH%/_assets/logo.png?w=1890',
-					2048: '%BASE_PATH%/_assets/logo.png?w=2048',
-					'default': '%BASE_PATH%/_assets/logo.png'
-				};
+						210: '%BASE_PATH%/_assets/logo.png?w=210',
+						420: '%BASE_PATH%/_assets/logo.png?w=420',
+						630: '%BASE_PATH%/_assets/logo.png?w=630',
+						840: '%BASE_PATH%/_assets/logo.png?w=840',
+						1050: '%BASE_PATH%/_assets/logo.png?w=1050',
+						1260: '%BASE_PATH%/_assets/logo.png?w=1260',
+						1470: '%BASE_PATH%/_assets/logo.png?w=1470',
+						1680: '%BASE_PATH%/_assets/logo.png?w=1680',
+						1890: '%BASE_PATH%/_assets/logo.png?w=1890',
+						2048: '%BASE_PATH%/_assets/logo.png?w=2048',
+						'default': '%BASE_PATH%/_assets/logo.png'
+					},
+					failCloudServicesResponse = {
+						statusCode: 400,
+						error: 'Bad Request',
+						message: 'Input buffer contains unsupported image format'
+					};
 
 				// Array of listeners to be cleared after each TC.
 				this.listeners = [];
@@ -69,15 +78,29 @@
 								sender: that
 							};
 
-							that.responseData = {
-								response: sampleCloudServicesResponse
-							};
-
-							that.editor.fire( 'fileUploadResponse', evtData );
-							that.changeStatus( 'uploaded' );
+							that._lastTimeout( evtData );
 						}, 1000 );
+					},
+					_lastTimeout: function( evtData ) {
+						this.responseData = {
+							response: sampleCloudServicesResponse
+						};
+
+						this.editor.fire( 'fileUploadResponse', evtData );
+						this.changeStatus( 'uploaded' );
 					}
 				}, CKEDITOR.fileTools.fileLoader.prototype );
+
+				AsyncFailFileLoader.prototype = CKEDITOR.tools.extend( {
+					_lastTimeout: function( evtData ) {
+						this.responseData = {
+							response: failCloudServicesResponse
+						};
+
+						this.editor.fire( 'fileUploadResponse', evtData );
+						this.changeStatus( 'error' );
+					}
+				}, AsyncSuccessFileLoader.prototype );
 			},
 
 			tearDown: function() {
@@ -97,6 +120,8 @@
 				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 					assert.ignore();
 				}
+
+				this.sandbox.stub( window, 'alert' );
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
 			},
@@ -176,6 +201,27 @@
 					files: [ bender.tools.getTestPngFile() ],
 					callback: function() {
 						assert.beautified.html( CKEDITOR.document.getById( 'expected-progress-bar-downcast' ).getHtml(), editor.getData() );
+					}
+				} );
+			},
+
+			'test handling failed uploads': function() {
+				var easyImageDef = this.editor.widgets.registered.easyimage,
+					originalLoader = easyImageDef.loaderType;
+
+				easyImageDef.loaderType = AsyncFailFileLoader;
+
+				assertPasteFiles( this.editor, {
+					files: [ bender.tools.getTestPngFile() ],
+					fullLoad: true,
+					callback: function( widgets ) {
+						easyImageDef.loaderType = originalLoader;
+
+						assert.areSame( 1, window.alert.callCount, 'Alert call count' );
+						sinon.assert.alwaysCalledWith( window.alert, 'Your image could not be downloaded due to network error.' );
+
+						// Widget should be removed.
+						assert.areSame( 0, widgets.length, 'Widgets count' );
 					}
 				} );
 			},
