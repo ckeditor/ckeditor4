@@ -348,7 +348,20 @@
 					}
 				}, this );
 			}
+		},
+
+
+		openDialog: function( dialogName ) {
+			var dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
+			if ( typeof dialogDefinitions === 'function' ) {
+				var dialog = new CKEDITOR.dialog( this.editor, dialogName );
+				this.dialogToolbar = new CKEDITOR.ui.balloonToolbar( this.editor );
+				this.toolbar.hide();
+				this.dialogToolbar.addItem( dialogName, dialog );
+				this.dialogToolbar.attach( this.toolbar._view._pointedElement );
+			}
 		}
+
 	};
 
 
@@ -734,32 +747,43 @@
 				// When we rerender toolbar we want to clear focusable in case of removing some items.
 				this._deregisterItemFocusables();
 
-				CKEDITOR.tools.array.forEach( keys, function( itemKey ) {
+				if ( keys.length === 1 && items[ keys[ 0 ] ] instanceof CKEDITOR.dialog ) {
+					var dialog = items[ keys[ 0 ] ];
+					this.parts.content.setHtml = '';
+					dialog.show( true );
+					dialog._.element.move( this.parts.content );
 
-					// If next element to render is richCombo and we have already opened group we have to close it.
-					if ( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo && groupStarted ) {
-						groupStarted = false;
+					CKEDITOR.skin.loadPart( 'dialog' );
+					dialog._.element.getChild( 0 ).removeStyle( 'position' );
+
+				} else {
+					CKEDITOR.tools.array.forEach( keys, function( itemKey ) {
+
+						// If next element to render is richCombo and we have already opened group we have to close it.
+						if ( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo && groupStarted ) {
+							groupStarted = false;
+							output.push( '</span>' );
+						} else if ( !( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo ) && !groupStarted ) {
+							// If we have closed group and element that is not richBox we have to open group.
+							groupStarted = true;
+							output.push( '<span class="cke_toolgroup">' );
+						}
+						// Now we can render element.
+						items[ itemKey ].render( this.editor, output );
+					}, this );
+
+					// We have to check if last group is closed.
+					if ( groupStarted ) {
 						output.push( '</span>' );
-					} else if ( !( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo ) && !groupStarted ) {
-						// If we have closed group and element that is not richBox we have to open group.
-						groupStarted = true;
-						output.push( '<span class="cke_toolgroup">' );
 					}
-					// Now we can render element.
-					items[ itemKey ].render( this.editor, output );
-				}, this );
 
-				// We have to check if last group is closed.
-				if ( groupStarted ) {
-					output.push( '</span>' );
+					this.parts.content.setHtml( output.join( '' ) );
+					this.parts.content.unselectable();
+					CKEDITOR.tools.array.forEach( this.parts.content.find( 'a' ).toArray(), function( element ) {
+						element.setAttribute( 'draggable', 'false' );
+						this.registerFocusable( element );
+					}, this );
 				}
-
-				this.parts.content.setHtml( output.join( '' ) );
-				this.parts.content.unselectable();
-				CKEDITOR.tools.array.forEach( this.parts.content.find( 'a' ).toArray(), function( element ) {
-					element.setAttribute( 'draggable', 'false' );
-					this.registerFocusable( element );
-				}, this );
 			};
 
 			/**

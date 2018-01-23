@@ -844,7 +844,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 *
 		 *		dialogObj.show();
 		 */
-		show: function() {
+		show: function( noCover,  ) {
 			// Insert the dialog's element to the root document.
 			var element = this._.element;
 			var definition = this.definition;
@@ -876,8 +876,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			if ( CKEDITOR.dialog._.currentTop === null ) {
 				CKEDITOR.dialog._.currentTop = this;
 				this._.parentDialog = null;
-				showCover( this._.editor );
-
+				if ( !noCover ) {
+					showCover( this._.editor );
+				}
 			} else {
 				this._.parentDialog = CKEDITOR.dialog._.currentTop;
 				var parentElement = this._.parentDialog.getElement().getFirst();
@@ -924,7 +925,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 
 			CKEDITOR.tools.setTimeout( function() {
-				this.layout();
+				if ( !noCover ) {
+					this.layout();
+				}
 				resizeWithWindow( this );
 
 				this.parts.dialog.setStyle( 'visibility', '' );

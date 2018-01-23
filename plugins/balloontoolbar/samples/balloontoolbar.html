@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CKEditor Easy Image Sample</title>
+	<script src="../../../ckeditor.js"></script>
+	<link rel="stylesheet" href="../../../samples/css/samples.css">
+	<link rel="stylesheet" href="../../../samples/toolbarconfigurator/lib/codemirror/neo.css">
+</head>
+<body id="main">
+
+<nav class="navigation-a">
+	<div class="grid-container">
+		<ul class="navigation-a-left grid-width-70">
+			<li><a href="http://ckeditor.com">Project Homepage</a></li>
+			<li><a href="https://github.com/ckeditor/ckeditor-dev/issues">I found a bug</a></li>
+			<li><a href="http://github.com/ckeditor/ckeditor-dev" class="icon-pos-right icon-navigation-a-github">Fork CKEditor on GitHub</a></li>
+		</ul>
+		<ul class="navigation-a-right grid-width-30">
+			<li><a href="http://ckeditor.com/blog-list">CKEditor Blog</a></li>
+		</ul>
+	</div>
+</nav>
+
+<header class="header-a">
+	<div class="grid-container">
+		<h1 class="header-a-logo grid-width-30">
+			<a href="index.html"><img src="../../../samples/img/logo.png" alt="CKEditor Sample"></a>
+		</h1>
+	</div>
+</header>
+
+<main>
+	<div class="adjoined-top">
+		<div class="grid-container">
+			<div class="content grid-width-100">
+				<h1>Balloontoolbar Demo</h1>
+				<p>It shows how dialogs might be displayed in balloontoolbar.</p>
+			</div>
+		</div>
+	</div>
+	<div class="adjoined-bottom">
+		<div class="grid-container">
+			<div class="grid-width-100">
+				<div id="editor">
+					<h1>Apollo 11</h1>
+					<ul>
+						<li>One</li>
+						<li>Two</li>
+						<li>Three</li>
+					</ul>
+					<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+<footer class="footer-a grid-container">
+	<div class="grid-container">
+		<p class="grid-width-100">
+			CKEditor &ndash; The text editor for the Internet &ndash; <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p class="grid-width-100" id="copy">
+			Copyright &copy; 2003-2017, <a class="samples" href="http://cksource.com/">CKSource</a> &ndash; Frederico Knabben. All rights reserved.
+		</p>
+	</div>
+</footer>
+<script>
+		CKEDITOR.plugins.add( 'test', {
+			init: function( editor ) {
+				editor.addCommand( 'testCommand', {
+					exec: function( editor ) {
+						editor.balloonToolbars._contexts[ 0 ].openDialog( 'testDialog' );
+					}
+				 } );
+
+				if ( editor.ui.addButton ) {
+					editor.ui.addButton( 'testButton', {
+						label: 'Test Label',
+						command: 'testCommand'
+					} );
+				}
+
+				CKEDITOR.dialog.add( 'testDialog', function( editor ) {
+					var dialogDefinition = {
+						title: 'Test dialog',
+						contents: [
+							{
+								id: 'tab1',
+								label: 'Test Label',
+								title: 'Test Title',
+								elements: [
+									{
+										type: 'html',
+										html: '<p>Hello World</p>'
+									}
+								]
+							}
+						],
+						onOk: function() {
+							console.log( 'OK OK OK!!!' );
+						},
+						buttons: [
+							CKEDITOR.dialog.okButton
+						]
+					}
+
+					return dialogDefinition;
+				} );
+
+			}
+		} )
+
+
+
+
+		var editor = CKEDITOR.replace( 'editor', {
+			extraPlugins: 'balloontoolbar,test',
+		} );
+		editor.on( 'instanceReady', function( evt ) {
+			var editor = evt.editor;
+			editor.balloonToolbars.create( {
+				buttons: 'testButton',
+				cssSelector: 'li'
+			} );
+
+
+		} );
+</script>
+
+</body>
+</html>
