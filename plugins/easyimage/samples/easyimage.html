@@ -108,11 +108,11 @@ function getToken( callback ) {
 
 getToken( function( token ) {
 	CKEDITOR.replace( 'editor', {
-		plugins: 'sourcearea,toolbar,undo,wysiwygarea,list,liststyle,format,link,basicstyles',
+		plugins: 'sourcearea,toolbar,undo,wysiwygarea,list,liststyle,format,link,basicstyles,tabletools',
 		toolbar: [
 			{ name: 'document', items: [ 'Source', 'Undo', 'Redo' ] },
 			{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ] },
-			{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList' ] },
+			{ name: 'other', items: [ 'NumberedList', 'BulletedList', 'Table' ] },
 			{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
 			{ name: 'styles', items: [ 'Format' ] }
 		],
