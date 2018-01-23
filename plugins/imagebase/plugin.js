@@ -241,10 +241,20 @@
 				} );
 			},
 
-			_loadWidget: function( editor, widget, def, file ) {
+			/*
+			 * Initiates an upload process on a given widget. It does that by firing a {@link CKEDITOR.fileTools#fileLoader} request.
+			 *
+			 * @private
+			 * @param {CKEDITOR.editor} editor Editor instance.
+			 * @param {CKEDITOR.plugins.widget} widget Widget to be loaded.
+			 * @param {CKEDITOR.plugins.widget.definition} def Loaded widget definition.
+			 * @param {File/String} file File or base64-encoded file string to be uploaded.
+			 * @param {String} [fileName] If `file` is passed as a base64-encoded string, this field should contain a name.
+			 */
+			_loadWidget: function( editor, widget, def, file, fileName ) {
 				var uploads = editor.uploadRepository,
 					loadMethod = def.loadMethod || 'loadAndUpload',
-					loader = uploads.create( file, undefined, def.loaderType );
+					loader = uploads.create( file, fileName, def.loaderType );
 
 				function failHandling( evt ) {
 					if ( widget.fire( 'uploadFailed', evt ) !== false ) {
@@ -274,7 +284,9 @@
 			 * @param {CKEDITOR.editor} editor
 			 * @param {CKEDITOR.plugins.widget.definition} widgetDef
 			 * @param {String} blobUrl Blob URL of an image.
-			 * @returns {CKEDITOR.plugins.widget/undefined} The widget instance or `undefined` if not successful.
+			 * @param {Boolean} [finalize=true] If `false` widget will not be automatically finalized (added to {@link CKEDITOR.plugins.widget.repository})
+			 * but returned as a {@link CKEDITOR.dom.element} instance.
+			 * @returns {CKEDITOR.plugins.widget/CKEDITOR.dom.element} The widget instance or {@link CKEDITOR.dom.element} of a widget wrapper if `finalize` was set to `false`.
 			 */
 			_insertWidget: function( editor, widgetDef, blobUrl ) {
 				var tplParams = ( typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults ) || {};
