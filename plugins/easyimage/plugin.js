@@ -272,6 +272,99 @@
 		CKEDITOR.plugins.imagebase.addImageWidget( editor, WIDGET_NAME, widgetDefinition );
 	}
 
+	function addPasteListener( editor ) {
+		// Easy Image requires a img-specific paste listener for inlined images. This case happens in:
+		// * IE11 when pasting images from the clipboard.
+		// * FF when pasting a single image **file** from the clipboard.
+		// In both cases image gets inlined as img[src="data:"] element.
+		var uniqueNameCounter = 0;
+
+		// Returns number as a string. If a number has 1 digit only it returns it prefixed with an extra 0.
+		function padNumber( input ) {
+			if ( input <= 9 ) {
+				input = '0' + input;
+			}
+
+			return String( input );
+		}
+
+		// Returns a unique image file name.
+		function getUniqueImageFileName( type ) {
+			var date = new Date(),
+				dateParts = [ date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds() ];
+
+			uniqueNameCounter += 1;
+
+			return 'image-' + CKEDITOR.tools.array.map( dateParts, padNumber ).join( '' ) + '-' + uniqueNameCounter + '.' + type;
+		}
+
+		editor.on( 'paste', function( evt ) {
+			if ( editor.isReadOnly ) {
+				return;
+			}
+
+			// For performance reason do not parse data if it does not contain img tag and data attribute.
+			if ( !evt.data.dataValue.match( /<img[\s\S]+data:/i ) ) {
+				return;
+			}
+
+			var data = evt.data,
+				// Prevent XSS attacks.
+				tempDoc = document.implementation.createHTMLDocument( '' ),
+				temp = new CKEDITOR.dom.element( tempDoc.body ),
+				easyImageDef = editor.widgets.registered.easyimage,
+				widgetsFound = 0,
+				widgetInstance,
+				imgFormat,
+				imgs,
+				img,
+				i;
+
+			// Without this isReadOnly will not works properly.
+			temp.data( 'cke-editable', 1 );
+
+			temp.appendHtml( data.dataValue );
+
+			imgs = temp.find( 'img' );
+
+			for ( i = 0; i < imgs.count(); i++ ) {
+				img = imgs.getItem( i );
+
+				// Assign src once, as it might be a big string, so there's no point in duplicating it all over the place.
+				var imgSrc = img.getAttribute( 'src' ),
+					// Image have to contain src=data:...
+					isDataInSrc = imgSrc && imgSrc.substring( 0, 5 ) == 'data:',
+					isRealObject = img.data( 'cke-realelement' ) === null;
+
+				// We are not uploading images in non-editable blocs and fake objects (https://dev.ckeditor.com/ticket/13003).
+				if ( isDataInSrc && isRealObject && !img.isReadOnly( 1 ) ) {
+					widgetsFound++;
+
+					if ( widgetsFound > 1 ) {
+						// Change the selection to avoid overwriting last widget (as it will be focused).
+						var sel = editor.getSelection(),
+							ranges = sel.getRanges();
+
+						ranges[ 0 ].enlarge( CKEDITOR.ENLARGE_ELEMENT );
+						ranges[ 0 ].collapse( false );
+					}
+
+					imgFormat = imgSrc.match( /image\/([a-z]+?);/i );
+
+					imgFormat = ( imgFormat && imgFormat[ 1 ] ) || 'jpg';
+
+					widgetInstance = easyImageDef._insertWidget( editor, easyImageDef, imgSrc, getUniqueImageFileName( imgFormat ) );
+
+					easyImageDef._loadWidget( editor, widgetInstance, easyImageDef, imgSrc );
+				}
+			}
+
+			if ( widgetsFound ) {
+				evt.cancel();
+			}
+		} );
+	}
+
 	function loadStyles( editor, plugin ) {
 		if ( !stylesLoaded ) {
 			CKEDITOR.document.appendStyleSheet( plugin.path + 'styles/easyimage.css' );
@@ -335,6 +428,7 @@
 		// `config.extraPlugins`.
 		afterInit: function( editor ) {
 			registerWidget( editor );
+			addPasteListener( editor );
 			addToolbar( editor );
 		}
 	} );
