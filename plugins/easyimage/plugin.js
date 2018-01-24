@@ -38,6 +38,20 @@
 			} );
 		}
 
+		function extractButtonInfo( style ) {
+			var info = {
+				label: style.label,
+				icon: style.icon,
+				iconHiDpi: style.iconHiDpi
+			};
+
+			delete style.label;
+			delete style.icon;
+			delete style.iconHiDpi;
+
+			return info;
+		}
+
 		function createCommand( options ) {
 			if ( options.button ) {
 				createButton( options.button );
@@ -62,6 +76,39 @@
 
 				refresh: createCommandRefresh( options.refreshCheck )
 			};
+		}
+
+		function createStyleCommand( name, styleDefinition ) {
+			var button = extractButtonInfo( styleDefinition ),
+				style;
+
+			styleDefinition.type = 'widget';
+			styleDefinition.widget = 'easyimage';
+			style = new CKEDITOR.style( styleDefinition );
+
+			return createCommand( {
+				exec: function( widget ) {
+					var editor = widget.editor;
+
+					if ( !style.checkActive( editor.elementPath(), editor ) ) {
+						style.apply( editor );
+					} else {
+						style.remove( editor );
+					}
+				},
+				refreshCheck: function( widget ) {
+					var editor = widget.editor;
+
+					return style.checkActive( editor.elementPath(), editor );
+				},
+				forceSelectionCheck: true,
+				button: {
+					name: 'EasyimageStyle' + name,
+					label: button.label,
+					command: 'easyimageStyle' + name,
+					order: 99
+				}
+			} );
 		}
 
 		function addDefaultCommands() {
@@ -110,7 +157,16 @@
 			} );
 		}
 
+		function addStylesCommands( styles ) {
+			var style;
+
+			for ( style in styles ) {
+				editor.addCommand( 'easyimageStyle' + style, createStyleCommand( style, styles[ style ] ) );
+			}
+		}
+
 		addDefaultCommands();
+		addStylesCommands( editor.config.easyimage_styles );
 	}
 
 	function addToolbar( editor ) {
