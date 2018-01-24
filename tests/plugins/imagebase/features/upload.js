@@ -385,6 +385,25 @@
 				} );
 			},
 
+			'test data.uploadId behavior': function() {
+				var editor = this.editor;
+
+				assertPasteFiles( editor, {
+					files: [ getTestRtfFile() ],
+					callback: function( widgets ) {
+						var widget = widgets[ 0 ];
+						assert.areSame( 0, widget.data.uploadId, 'Value immediately after creating a widget' );
+						widget.once( 'uploadDone', function() {
+							resume( function() {
+								assert.isUndefined( widget.data.uploadId, 'Value after upload is complete' );
+							} );
+						} );
+
+						wait();
+					}
+				} );
+			},
+
 			'test copy and paste file during upload': function() {
 				// This test will ensure that if the "in progress" widget is copied and pasted
 				// it will also subscribe to a proper loader, and will have uploadDone event fired
