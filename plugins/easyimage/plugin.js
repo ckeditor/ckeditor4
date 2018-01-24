@@ -454,4 +454,29 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.easyimage_sideClass = 'easyimage-side';
+
+	/**
+	 * Custom styles that could be applied to Easy Image widget. All styles must be instances of
+	 * {@link CKEDITOR.style}. There are three additional properties for every style:
+	 *
+	 * * `label` - string used as a button label in a balloon toolbar for the widget,
+	 * * `icon` - path to the icon used in the balloon toolbar,
+	 * * `iconHiDpi` - path to the high DPI version of the icon.
+	 *
+	 *		config.easyimage_styles = {
+	 *			left: {
+	 *				attributes: {
+	 *					'class': 'left'
+	 *				},
+	 *				label: 'Align left',
+	 *				icon: '/foo/bar/icons/baz.png',
+	 *				iconHidpi: '/foo/bar/icons/hidpi/baz.png'
+	 *			}
+	 *		};
+	 *
+	 * @since 4.9.0
+	 * @cfg {Object} easyimage_styles
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.easyimage_styles = {};
 }() );
