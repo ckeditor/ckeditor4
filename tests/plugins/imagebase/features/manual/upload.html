@@ -16,7 +16,7 @@
 				height: 500,
 				contentsCss: '/apps/ckeditor/plugins/easyimage/styles/easyimage.css'
 			} ),
-			FAIL_TEMPLATE = new CKEDITOR.template( 'Uploading "{name}" (code {status}) 😢' ),
+			FAIL_TEMPLATE = new CKEDITOR.template( 'Uploading "{name}" failed (code {status}) 😢' ),
 			LOADED_TEMPLATE = new CKEDITOR.template( 'File "{name}" uploaded!' );
 
 		editor.on( 'widgetDefinition', function( evt ) {
