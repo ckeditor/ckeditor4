@@ -342,7 +342,7 @@
 					imgFormat = imgSrc.match( /image\/([a-z]+?);/i );
 					imgFormat = ( imgFormat && imgFormat[ 1 ] ) || 'jpg';
 
-					var loader = easyImageDef._spawnLoader( editor, imgSrc, undefined, easyImageDef );
+					var loader = easyImageDef._spawnLoader( editor, imgSrc, easyImageDef );
 
 					widgetElement = easyImageDef._insertWidget( editor, easyImageDef, imgSrc, false, {
 						uploadId: loader.id
