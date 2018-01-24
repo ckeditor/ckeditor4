@@ -292,14 +292,18 @@
 			},
 
 			_beginUpload: function( widget, loader ) {
-				function failHandling( evt ) {
-					if ( widget.fire( 'uploadFailed', evt ) !== false ) {
+				function failHandling() {
+					if ( widget.fire( 'uploadFailed', {
+						loader: loader
+					} ) !== false ) {
 						widget.editor.widgets.del( widget );
 					}
 				}
 
-				function uploadComplete( evt ) {
-					widget.fire( 'uploadDone', evt );
+				function uploadComplete() {
+					widget.fire( 'uploadDone', {
+						loader: loader
+					} );
 				}
 
 				var loaderEventMapping = {
@@ -361,20 +365,49 @@
 			}
 
 			/*
-			 * Fired when upload process failed or was aborted.
+			 * Fired when upload was initiated and before response is fetched.
 			 *
-			 * `data` is set to {@link CKEDITOR.fileTools.fileLoader} event that has caused this problem, so it could be:
+			 *		progress.once( 'uploadBegan', function( evt ) {
+			 *			evt.cancel();
+			 *			// Implement a custom progress bar.
+			 *		} );
 			 *
-			 * * {@link CKEDITOR.fileTools.fileLoader#event-error}
-			 * * {@link CKEDITOR.fileTools.fileLoader#event-abort}
+			 * This event is cancelable, if canceled it will add a progress bar to the widget.
+			 *
+			 * Note that the event will be fired even if the widget was created for a loader that
+			 * is already resolved.
+			 *
+			 * @evt uploadBegan
+			 * @param {CKEDITOR.fileTools.fileLoader} data Lader that is used for this widget.
+			 */
+
+			/*
+			 * Fired when upload process succeeded. This is the event where you want apply data
+			 * from your response into a widget.
+			 *
+			 *		progress.once( 'uploadDone', function( evt ) {
+			 *			var response = evt.data.loader.responseData.response;
+			 *			this.setData( 'backendUrl', response.url );
+			 *		} );
+			 *
+			 * @evt uploadDone
+			 * @param data
+			 * @param {CKEDITOR.fileTools.fileLoader} data.loader Loader that caused this event.
+			 */
+
+			/*
+			 * Fired when upload process {@link CKEDITOR.fileTools.fileLoader#event-error failed} or was
+			 * {@link CKEDITOR.fileTools.fileLoader#event-abort aborted}.
 			 *
 			 *		progress.once( 'uploadFailed', function( evt ) {
-			 *			console.log( 'Loader: ' + evt.data.sender + ' failed to upload data.' );
+			 *			console.log( 'Loader: ' + evt.data.loader + ' failed to upload data.' );
 			 *		} );
 			 *
 			 * This event is cancelable, if not canceled it will remove the widget.
 			 *
-			 * @event uploadFailed
+			 * @evt uploadFailed
+			 * @param data
+			 * @param {CKEDITOR.fileTools.fileLoader} data.loader Loader that caused this event.
 			 */
 		};
 

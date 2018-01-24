@@ -239,7 +239,7 @@
 						assert.areSame( 0, stubs.uploadDone.callCount, 'uploadDone event count' );
 
 						assert.areSame( 1, stubs.uploadFailed.callCount, 'uploadFailed event count' );
-						assert.areSame( loaderInstance, stubs.uploadFailed.args[ 0 ][ 0 ].data.sender, 'Event data.sender' );
+						assert.areSame( loaderInstance, stubs.uploadFailed.args[ 0 ][ 0 ].data.loader, 'Event data.loader' );
 
 						assert.areSame( 0, widgets.length, 'Widget count' );
 					}
