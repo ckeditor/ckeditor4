@@ -227,7 +227,7 @@
 					} );
 
 					this.on( 'uploadDone', function( evt ) {
-						var loader = evt.data.sender,
+						var loader = evt.data.loader,
 							resp = loader.responseData.response,
 							srcset = CKEDITOR.plugins.easyimage._parseSrcSet( resp );
 
