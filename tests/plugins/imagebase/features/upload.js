@@ -1,7 +1,7 @@
 /* bender-tags: editor, clipboard, upload */
 /* bender-ckeditor-plugins: imagebase */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, _helpers/tools.js */
-/* global imageBaseFeaturesTools */
+/* global imageBaseFeaturesTools, assertPasteEvent */
 
 ( function() {
 	'use strict';
@@ -85,6 +85,9 @@
 					upload: function() {
 						var that = this;
 						setTimeout( function() {
+							that.xhr = {
+								readyState: 4
+							};
 							that.changeStatus( 'uploaded' );
 						}, 100 );
 					}
@@ -112,8 +115,6 @@
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
 			},
-
-			// To test - test mixed dropped files types (e.g. 1 image, 1 text, 1 unsupported).
 
 			'test dropping supported file type creates a widget': function() {
 				var editor = this.editor;
@@ -428,6 +429,57 @@
 								wait();
 							}
 						} );
+					}
+				} );
+			},
+
+			'test copy and paste in progress widget while original was loaded': function() {
+				// Yet another tricky variation.
+				// 1. In This case user starts to upload file that takes say 1 sec.
+				// 2. Copies the file curing the upload.
+				// 3. Wait for the file upload to complete.
+				// 4. Then paste what he has in clipboard (incomplete) widget as a new widget.
+				var editor = this.editor,
+					doneEventSpy = sinon.spy(),
+					firstWidgetHtml;
+
+				this.listeners.push( this.editor.widgets.on( 'instanceCreated', function( evt ) {
+					var widget = evt.data;
+					if ( widget.name == 'testAsyncSuccess' ) {
+						// Both widgets will share the same spy.
+						widget.on( 'uploadDone', doneEventSpy );
+
+						if ( !firstWidgetHtml ) {
+							widget.once( 'ready', function() {
+								firstWidgetHtml = widget.wrapper.getOuterHtml();
+							} );
+						}
+					}
+				} ) );
+
+				assertPasteFiles( editor, {
+					files: [ getTestRtfFile() ],
+					fullLoad: true,
+					callback: function() {
+						var rng = editor.createRange(),
+							editable = editor.editable();
+
+						rng.setStart( editable, CKEDITOR.POSITION_BEFORE_END );
+						rng.setEnd( editable, CKEDITOR.POSITION_BEFORE_END );
+
+						editor.getSelection().selectRanges( [ rng ] );
+
+						// This time we need to use assertPasteEventas assertPasteFiles applies uploadDone
+						// listeners **after** the DOM is inserted, which is too late.
+						assertPasteEvent( editor, { dataValue: firstWidgetHtml }, function() {
+							var widgets = editor.widgets.instances,
+								keys = CKEDITOR.tools.objectKeys( widgets );
+
+							assert.areSame( 2, keys.length, 'Widgets count' );
+							assert.areSame( 2, doneEventSpy.callCount, 'uploadDone events count' );
+							sinon.assert.calledOn( doneEventSpy, widgets[ keys[ 0 ] ] );
+							sinon.assert.calledOn( doneEventSpy, widgets[ keys[ 1 ] ] );
+						}, null, true, true );
 					}
 				} );
 			}

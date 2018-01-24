@@ -138,7 +138,7 @@
 					// It gets the user input and set appropriate data in the widget.
 					// `evt.stop` and higher priority are necessary to prevent adding unwanted link to
 					// widget's caption.
-					okListener = dialog.once( 'ok',	createOkListener( evt, dialog, widget ), null, null, 9 );
+					okListener = dialog.once( 'ok', createOkListener( evt, dialog, widget ), null, null, 9 );
 
 					dialog.once( 'hide', function() {
 						okListener.removeListener();
@@ -149,7 +149,7 @@
 
 				// Overwrite default behaviour of unlink command.
 				addUnlinkListener( editor, 'exec', function( command, widget, editor ) {
-					widget.setData( 'link' , null );
+					widget.setData( 'link', null );
 					command.refresh( editor, editor.elementPath() );
 				} );
 
@@ -221,9 +221,9 @@
 							evt.stop();
 
 							CKEDITOR.tools.array.forEach( matchedFiles, function( curFile, index ) {
-								var widgetInstance = ret._insertWidget( editor, definition, URL.createObjectURL( curFile ) );
+								var loader = ret._spawnLoader( editor, curFile, curFile.name, definition );
 
-								ret._loadWidget( editor, widgetInstance, definition, curFile );
+								ret._insertWidget( editor, definition, URL.createObjectURL( curFile ), true, { uploadId: loader.id } );
 
 								// Now modify the selection so that the next widget won't replace the current one.
 								// This selection workaround is required to store multiple files.
@@ -237,6 +237,21 @@
 								}
 							} );
 						}
+					}
+				} );
+			},
+
+			init: function() {
+				this.once( 'ready', function() {
+					var uploadId = this.data.uploadId;
+					if ( typeof uploadId !== 'undefined' ) {
+						var loader = this.editor.uploadRepository.loaders[ uploadId ];
+
+						// if ( !loader ) {
+						// 	loader this._spawnLoader( widget, )
+						// }
+
+						this._beginUpload( this, loader );
 					}
 				} );
 			},
@@ -256,6 +271,27 @@
 					loadMethod = def.loadMethod || 'loadAndUpload',
 					loader = uploads.create( file, fileName, def.loaderType );
 
+				loader[ loadMethod ]( def.uploadUrl, def.additionalRequestParameters );
+
+				this._beginUpload( widget, loader );
+			},
+
+			_isLoaderDone: function( loader ) {
+				var xhr = loader.xhr;
+
+				return xhr && loader.xhr.readyState === 4;
+			},
+
+			_spawnLoader: function( editor, file, fileName, widgetDef ) {
+				var loadMethod = widgetDef.loadMethod || 'loadAndUpload',
+					loader = editor.uploadRepository.create( file, fileName, widgetDef.loaderType );
+
+				loader[ loadMethod ]( widgetDef.uploadUrl, widgetDef.additionalRequestParameters );
+
+				return loader;
+			},
+
+			_beginUpload: function( widget, loader ) {
 				function failHandling( evt ) {
 					if ( widget.fire( 'uploadFailed', evt ) !== false ) {
 						widget.editor.widgets.del( widget );
@@ -266,16 +302,29 @@
 					widget.fire( 'uploadDone', evt );
 				}
 
-				loader.on( 'abort', failHandling );
-				loader.on( 'error', failHandling );
-				loader.on( 'uploaded', uploadComplete );
+				var loaderEventMapping = {
+					uploaded: uploadComplete,
+					abort: failHandling,
+					error: failHandling
+				};
 
-				loader[ loadMethod ]( def.uploadUrl, def.additionalRequestParameters );
+				loader.on( 'abort', loaderEventMapping.abort );
+				loader.on( 'error', loaderEventMapping.error );
+				loader.on( 'uploaded', loaderEventMapping.uploaded );
 
 				if ( widget.fire( 'uploadBegan', loader ) !== false && widget.progressReporterType ) {
-					var progress = new widget.progressReporterType();
-					widget.wrapper.append( progress.wrapper );
-					progress.bindLoader( loader );
+					widget.setData( 'uploadId', loader.id );
+
+					if ( !widget._isLoaderDone( loader ) ) {
+						// Progress reporter has only sense if widget is in progress.
+						var progress = new widget.progressReporterType();
+						widget.wrapper.append( progress.wrapper );
+						progress.bindLoader( loader );
+					} else {
+						if ( loaderEventMapping[ loader.status ] ) {
+							loaderEventMapping[ loader.status ]();
+						}
+					}
 				}
 			},
 
@@ -288,9 +337,11 @@
 			 * but returned as a {@link CKEDITOR.dom.element} instance.
 			 * @returns {CKEDITOR.plugins.widget/CKEDITOR.dom.element} The widget instance or {@link CKEDITOR.dom.element} of a widget wrapper if `finalize` was set to `false`.
 			 */
-			_insertWidget: function( editor, widgetDef, blobUrl, finalize ) {
+			_insertWidget: function( editor, widgetDef, blobUrl, finalize, data ) {
 				var tplParams = ( typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults ) || {};
 
+				// Make sure to work on a new object, otherwise definition.defaults might get modified with instance-specific value.
+				tplParams = CKEDITOR.tools.extend( {}, tplParams );
 				tplParams.src = blobUrl;
 
 				var element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( tplParams ) ),
@@ -302,7 +353,7 @@
 				temp.append( wrapper );
 
 				if ( finalize !== false ) {
-					editor.widgets.initOn( element, widgetDef );
+					editor.widgets.initOn( element, widgetDef, data );
 					return editor.widgets.finalizeCreation( temp );
 				} else {
 					return element;

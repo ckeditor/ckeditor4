@@ -38,18 +38,29 @@
 				// Unfortunately at the time being we need to do additional timeout here, as
 				// the paste event gets cancelled.
 				setTimeout( function() {
-					var widgets = objToArray( editor.widgets.instances );
+					var widgets = objToArray( editor.widgets.instances ),
+						listeners = [];
 
 					function wrappedCallback( uploadEvt ) {
+						// In case we listen for `upload*` events only first event should be handled (to not cause multiple)
+						// resume calls.
+						if ( listeners.length ) {
+							listeners = CKEDITOR.tools.array.filter( listeners, function( curListener ) {
+								curListener.removeListener();
+								return false;
+							} );
+						}
+
 						resume( function() {
 							callback( objToArray( editor.widgets.instances ), evt, uploadEvt );
 						} );
 					}
 
 					if ( options.fullLoad && widgets.length ) {
-						widgets[ 0 ].once( 'uploadDone', wrappedCallback, null, null, 999 );
-
-						widgets[ 0 ].once( 'uploadFailed', wrappedCallback, null, null, 999 );
+						for ( var i = widgets.length - 1; i >= 0; i-- ) {
+							listeners.push( widgets[ i ].once( 'uploadDone', wrappedCallback, null, null, 999 ) );
+							listeners.push( widgets[ i ].once( 'uploadFailed', wrappedCallback, null, null, 999 ) );
+						}
 					} else {
 						wrappedCallback();
 					}
