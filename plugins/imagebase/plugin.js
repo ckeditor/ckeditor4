@@ -547,7 +547,7 @@
 
 	ProgressReporter.prototype = {
 		/**
-		 * Marks a progress on the progress bar.
+		 * Method to be called in order to refresh the progress.
 		 *
 		 * @param {Number} progress Progress representation where `1.0` is a complete and `0` means no progress.
 		 */
