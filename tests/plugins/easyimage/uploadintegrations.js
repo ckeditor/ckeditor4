@@ -145,6 +145,14 @@
 				assert.areSame( bender.tools.pngBase64, widgets[ 0 ].parts.image.getAttribute( 'src' ), 'Image src attribute' );
 
 				assert.beautified.html( CKEDITOR.document.getById( 'expected-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
+
+				this.listeners.push( widgets[ 0 ].once( 'uploadDone', function() {
+					resume( function() {
+						assert.areSame( '%BASE_PATH%/_assets/logo.png', widgets[ 0 ].parts.image.getAttribute( 'src' ), 'Image src after load' );
+					} );
+				} ) );
+
+				wait();
 			},
 
 			// tp3390
@@ -296,7 +304,9 @@
 
 						// This time we need to use assertPasteEventas assertPasteFiles applies uploadDone
 						// listeners **after** the DOM is inserted, which is too late.
-						assertPasteEvent( editor, { dataValue: firstWidgetHtml }, function() {
+						assertPasteEvent( editor, {
+							dataValue: firstWidgetHtml
+						}, function() {
 							assert.isTrue( true );
 							var widgets = editor.widgets.instances,
 								keys = CKEDITOR.tools.objectKeys( widgets );

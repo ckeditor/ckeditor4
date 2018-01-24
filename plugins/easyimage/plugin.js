@@ -142,8 +142,7 @@
 
 				allowedContent: {
 					figure: {
-						classes: config.easyimage_sideClass,
-						attributes: 'data-easy-image-upload-pending'
+						classes: config.easyimage_sideClass
 					},
 
 					img: {
@@ -206,6 +205,15 @@
 								contextView.attach( contextView._pointedElement );
 							}
 						} );
+					}
+
+					// There is a special handling in paste listener, where the element (figure) would gain upload id temporarily.
+					// This value should be removed afterwards.
+					var loaderId = this.element.data( 'cke-upload-id' );
+
+					if ( typeof loaderId !== 'undefined' ) {
+						this.setData( 'uploadId', loaderId );
+						this.element.data( 'cke-upload-id', false );
 					}
 
 					this.on( 'contextMenu', function( evt ) {
@@ -278,7 +286,6 @@
 		// * IE11 when pasting images from the clipboard.
 		// * FF when pasting a single image **file** from the clipboard.
 		// In both cases image gets inlined as img[src="data:"] element.
-
 		editor.on( 'paste', function( evt ) {
 			if ( editor.isReadOnly ) {
 				return;
@@ -295,7 +302,7 @@
 				temp = new CKEDITOR.dom.element( tempDoc.body ),
 				easyImageDef = editor.widgets.registered.easyimage,
 				widgetsFound = 0,
-				widgetInstance,
+				widgetElement,
 				imgFormat,
 				imgs,
 				img,
@@ -331,29 +338,22 @@
 					}
 
 					imgFormat = imgSrc.match( /image\/([a-z]+?);/i );
-
 					imgFormat = ( imgFormat && imgFormat[ 1 ] ) || 'jpg';
 
-					widgetInstance = easyImageDef._insertWidget( editor, easyImageDef, imgSrc, false );
+					var loader = easyImageDef._spawnLoader( editor, imgSrc, undefined, easyImageDef );
 
-					widgetInstance.data( 'easy-image-upload-pending', true );
+					widgetElement = easyImageDef._insertWidget( editor, easyImageDef, imgSrc, false, {
+						uploadId: loader.id
+					} );
 
-					widgetInstance.replace( img );
+					// This id will be converted into widget data by widget#init method. Once that's done the core widget
+					// upload feature will take care of keeping track of the loader.
+					widgetElement.data( 'cke-upload-id', loader.id );
+					widgetElement.replace( img );
 				}
 			}
 
 			data.dataValue = temp.getHtml();
-		} );
-
-		editor.widgets.on( 'instanceCreated', function( evt ) {
-			var widget = evt.data;
-
-			if ( widget.name == 'easyimage' && widget.element.data( 'easy-image-upload-pending' ) ) {
-				widget.once( 'ready', function() {
-					widget.element.data( 'easy-image-upload-pending', false );
-					widget._loadWidget( widget.editor, widget, widget.definition, widget.parts.image.getAttribute( 'src' ) );
-				} );
-			}
 		} );
 	}
 
