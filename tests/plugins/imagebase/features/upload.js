@@ -179,7 +179,7 @@
 			'test events': function() {
 				var editor = this.editor,
 					stubs = {
-						uploadBegan: sinon.stub(),
+						uploadStarted: sinon.stub(),
 						uploadDone: sinon.stub(),
 						uploadFailed: sinon.stub()
 					},
@@ -195,8 +195,8 @@
 				assertPasteFiles( editor, {
 					files: [ bender.tools.getTestPngFile() ],
 					callback: function() {
-						assert.areSame( 1, stubs.uploadBegan.callCount, 'uploadBegan event count' );
-						sinon.assert.calledWithExactly( stubs.uploadBegan, sinon.match.has( 'data', editor.uploadRepository.loaders[ 0 ] ) );
+						assert.areSame( 1, stubs.uploadStarted.callCount, 'uploadStarted event count' );
+						sinon.assert.calledWithExactly( stubs.uploadStarted, sinon.match.has( 'data', editor.uploadRepository.loaders[ 0 ] ) );
 
 						assert.areSame( 1, stubs.uploadDone.callCount, 'uploadDone event count' );
 
@@ -208,7 +208,7 @@
 			'test upload error': function() {
 				var editor = this.editor,
 					stubs = {
-						uploadBegan: sinon.stub(),
+						uploadStarted: sinon.stub(),
 						uploadDone: sinon.stub(),
 						uploadFailed: sinon.stub()
 					},
@@ -233,8 +233,8 @@
 
 						var loaderInstance = editor.uploadRepository.loaders[ 0 ];
 
-						assert.areSame( 1, stubs.uploadBegan.callCount, 'uploadBegan event count' );
-						sinon.assert.calledWithExactly( stubs.uploadBegan, sinon.match.has( 'data', loaderInstance ) );
+						assert.areSame( 1, stubs.uploadStarted.callCount, 'uploadStarted event count' );
+						sinon.assert.calledWithExactly( stubs.uploadStarted, sinon.match.has( 'data', loaderInstance ) );
 
 						assert.areSame( 0, stubs.uploadDone.callCount, 'uploadDone event count' );
 
@@ -330,7 +330,7 @@
 						name: 'progressPrevent',
 						supportedTypes: /text\/html/,
 						init: function() {
-							disposableListeners.push( this.on( 'uploadBegan', function( evt ) {
+							disposableListeners.push( this.on( 'uploadStarted', function( evt ) {
 								evt.cancel();
 							} ) );
 						}

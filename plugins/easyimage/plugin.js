@@ -228,7 +228,7 @@
 						this.addClass( editor.config.easyimage_class );
 					}
 
-					this.on( 'uploadBegan', function() {
+					this.on( 'uploadStarted', function() {
 						var widget = this;
 
 						getNaturalWidth( widget.parts.image, function( width ) {
