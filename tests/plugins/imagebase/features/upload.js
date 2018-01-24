@@ -462,7 +462,10 @@
 					fullLoad: true,
 					callback: function() {
 						var rng = editor.createRange(),
-							editable = editor.editable();
+							editable = editor.editable(),
+							evt = {
+								dataValue: firstWidgetHtml
+							};
 
 						rng.setStart( editable, CKEDITOR.POSITION_BEFORE_END );
 						rng.setEnd( editable, CKEDITOR.POSITION_BEFORE_END );
@@ -471,7 +474,7 @@
 
 						// This time we need to use assertPasteEventas assertPasteFiles applies uploadDone
 						// listeners **after** the DOM is inserted, which is too late.
-						assertPasteEvent( editor, { dataValue: firstWidgetHtml }, function() {
+						assertPasteEvent( editor, evt, function() {
 							var widgets = editor.widgets.instances,
 								keys = CKEDITOR.tools.objectKeys( widgets );
 
@@ -481,6 +484,37 @@
 							sinon.assert.calledOn( doneEventSpy, widgets[ keys[ 1 ] ] );
 						}, null, true, true );
 					}
+				} );
+			},
+
+			'test copy in-progress widget into a different editor': function() {
+				// This test will ensure that if the "in progress" widget is copied and pasted
+				// it will also subscribe to a proper loader, and will have uploadDone event fired
+				// properly.
+				var sourceEditor = this.editor;
+				bender.editorBot.create( {
+					name: 'test_editor_acf2'
+				}, function( bot ) {
+					var destinationEditor = bot.editor;
+
+					bot.editor.widgets.add( 'testAsyncSuccess', sourceEditor.widgets.registered.testAsyncSuccess );
+
+					assertPasteFiles( sourceEditor, {
+						files: [ getTestRtfFile() ],
+						fullLoad: false,
+						callback: function( initialWidgets ) {
+							// Paste into second editor.
+							assertPasteFiles( destinationEditor, {
+								dataValue: initialWidgets[ 0 ].wrapper.getOuterHtml(),
+								files: [],
+								fullLoad: false,
+								callback: function( widgets ) {
+									assert.areSame( 1, widgets.length, 'Widgets count' );
+									assert.areNotSame( sourceEditor.uploadRepository.loaders[ 0 ], destinationEditor.uploadRepository.loaders[ 0 ], 'Loaders are different' );
+								}
+							} );
+						}
+					} );
 				} );
 			}
 		};
