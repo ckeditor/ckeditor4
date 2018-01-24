@@ -204,7 +204,8 @@
 						var matchedFiles = [],
 							curFile;
 
-						// Refetch the definition... original definition looks like an outdated copy, it doesn't things inherited form imagebase.
+						// Refetch the definition... original definition looks like an outdated copy and it doesn't
+						// include members inherited form imagebase.
 						definition = editor.widgets.registered[ definition.name ];
 
 						for ( var i = 0; i < filesCount; i++ ) {
