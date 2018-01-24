@@ -2,7 +2,7 @@
 /* bender-ckeditor-plugins: sourcearea, wysiwygarea, easyimage */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, %BASE_PATH%/plugins/imagebase/features/_helpers/tools.js */
 /* bender-include: %BASE_PATH%/plugins/widget/_helpers/tools.js */
-/* global imageBaseFeaturesTools, pasteFiles, widgetTestsTools */
+/* global imageBaseFeaturesTools, pasteFiles, widgetTestsTools, assertPasteEvent */
 
 ( function() {
 	'use strict';
@@ -76,6 +76,10 @@
 						setTimeout( function() {
 							var evtData = {
 								sender: that
+							};
+
+							that.xhr = {
+								readyState: 4
 							};
 
 							that._lastTimeout( evtData );
@@ -258,6 +262,56 @@
 						} );
 
 						wait();
+					}
+				} );
+			},
+
+			'test copy and paste in progress widget while original was loaded': function() {
+				// Yet another tricky variation.
+				// 1. In This case user starts to upload file that takes say 1 sec.
+				// 2. Copies the file curing the upload.
+				// 3. Wait for the file upload to complete.
+				// 4. Then paste what he has in clipboard (incomplete) widget as a new widget.
+				var editor = this.editor,
+					doneEventSpy = sinon.spy(),
+					firstWidgetHtml;
+
+				this.listeners.push( this.editor.widgets.on( 'instanceCreated', function( evt ) {
+					var widget = evt.data;
+					if ( widget.name == 'easyimage' ) {
+						// Both widgets will share the same spy.
+						widget.on( 'uploadDone', doneEventSpy );
+
+						if ( !firstWidgetHtml ) {
+							widget.once( 'ready', function() {
+								firstWidgetHtml = widget.wrapper.getOuterHtml();
+							} );
+						}
+					}
+				} ) );
+
+				assertPasteFiles( editor, {
+					files: [ bender.tools.getTestPngFile() ],
+					fullLoad: true,
+					callback: function() {
+						var rng = editor.createRange(),
+							editable = editor.editable();
+
+						rng.setStart( editable, CKEDITOR.POSITION_BEFORE_END );
+						rng.setEnd( editable, CKEDITOR.POSITION_BEFORE_END );
+
+						editor.getSelection().selectRanges( [ rng ] );
+
+						// This time we need to use assertPasteEventas assertPasteFiles applies uploadDone
+						// listeners **after** the DOM is inserted, which is too late.
+						assertPasteEvent( editor, { dataValue: firstWidgetHtml }, function() {
+							assert.isTrue( true );
+							var widgets = editor.widgets.instances,
+								keys = CKEDITOR.tools.objectKeys( widgets );
+
+							assert.areSame( '%BASE_PATH%/_assets/logo.png', widgets[ keys[ 0 ] ].parts.image.getAttribute( 'src' ), 'Widget#0 src' );
+							assert.areSame( '%BASE_PATH%/_assets/logo.png', widgets[ keys[ 1 ] ].parts.image.getAttribute( 'src' ), 'Widget#1 src' );
+						}, null, true, true );
 					}
 				} );
 			}
