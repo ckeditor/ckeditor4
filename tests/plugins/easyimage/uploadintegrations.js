@@ -230,8 +230,8 @@
 				} );
 			},
 
-			// To test - edge case: changing mode during upload.
 			'test nothing explodes when upload finishes in a different mode': function() {
+				// Test edge case: changing editor mode during upload.
 				var editor = this.editor,
 					disposableListeners = this.listeners;
 
@@ -240,25 +240,17 @@
 					callback: function( widgets ) {
 						assert.areSame( 1, widgets.length, 'Widgets count' );
 
-						var doneSpy = sinon.spy();
-						disposableListeners.push( widgets[ 0 ].on( 'uploadDone', doneSpy ) );
-
+						// Switch to source mode, this is where the XHR request will complete.
 						editor.setMode( 'source', function() {
-							resume( function() {
-								// It's unlikely, but theoretically possible that upload will complete before
-								// the mode is changed. Inform about this case.
-								assert.isFalse( doneSpy.called, 'Race condition didn\'t occur' );
-
-								disposableListeners.push( widgets[ 0 ].once( 'uploadDone', function() {
-									editor.setMode( 'wysiwyg', function() {
-										resume( function() {
-											assert.isTrue( true );
-										} );
+							// And now listen for fileLoader#uploaded (in source mode).
+							disposableListeners.push( editor.uploadRepository.loaders[ 0 ].on( 'uploaded', function() {
+								// Switch back to wysiwyg to not affect other tests.
+								editor.setMode( 'wysiwyg', function() {
+									resume( function() {
+										assert.isTrue( true );
 									} );
-								} ) );
-
-								wait();
-							} );
+								} );
+							}, null, null, 999 ) );
 						} );
 
 						wait();
