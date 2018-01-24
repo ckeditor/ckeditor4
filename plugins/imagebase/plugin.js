@@ -187,6 +187,15 @@
 	}
 
 	function getUploadFeature() {
+		/**
+		 * Widget feature dedicated for handling seamless file uploads.
+		 *
+		 * This type serves solely as a mixing, and should be added using
+		 * {@link CKEDITOR.plugins.imagebase#addFeature} method.
+		 *
+		 * @class CKEDITOR.plugins.imagebase.featuresDefinitions.upload
+		 * @abstract
+		 */
 		var ret = {
 			progressReporterType: ProgressBar,
 
@@ -256,7 +265,7 @@
 				} );
 			},
 
-			/*
+			/**
 			 * Initiates an upload process on a given widget. It does that by firing a {@link CKEDITOR.fileTools#fileLoader} request.
 			 *
 			 * @private
@@ -276,12 +285,28 @@
 				this._beginUpload( widget, loader );
 			},
 
+			/**
+			 * Tells whether the loader is complete.
+			 *
+			 * @private
+			 * @param {CKEDITOR.fileTools.fileLoader} loader
+			 * @returns {Boolean}
+			 */
 			_isLoaderDone: function( loader ) {
 				var xhr = loader.xhr;
 
 				return xhr && loader.xhr.readyState === 4;
 			},
 
+			/**
+			 *
+			 * @private
+			 * @param {CKEDITOR.editor} editor
+			 * @param {Blob/String} fileOrData See {@link CKEDITOR.fileTools.fileLoader}.
+			 * @param {String} [fileName] Preferred file name to be passed to the upload process.
+			 * @param {CKEDITOR.plugins.widget.definition} widgetDef Widget definition that the loader is spawned for.
+			 * @returns {CKEDITOR.fileTools.fileLoader}
+			 */
 			_spawnLoader: function( editor, file, fileName, widgetDef ) {
 				var loadMethod = widgetDef.loadMethod || 'loadAndUpload',
 					loader = editor.uploadRepository.create( file, fileName, widgetDef.loaderType );
@@ -291,6 +316,13 @@
 				return loader;
 			},
 
+			/**
+			 * Initializes the upload process for given `widget` using `loader`.
+			 *
+			 * @private
+			 * @param {CKEDITOR.plugins.widget} widget
+			 * @param {CKEDITOR.fileTools.fileLoader} loader
+			 */
 			_beginUpload: function( widget, loader ) {
 				function widgetCleanup() {
 					// Remove upload id so that it's not being re-requested when e.g. some1 copies and pastes
