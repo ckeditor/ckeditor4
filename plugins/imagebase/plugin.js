@@ -294,7 +294,9 @@
 				function widgetCleanup() {
 					// Remove upload id so that it's not being re-requested when e.g. some1 copies and pastes
 					// the widget in other place.
-					widget.setData( 'uploadId', undefined );
+					if ( widget.isInited() ) {
+						widget.setData( 'uploadId', undefined );
+					}
 				}
 
 				function failHandling() {
@@ -316,14 +318,22 @@
 				}
 
 				var loaderEventMapping = {
-					uploaded: uploadComplete,
-					abort: failHandling,
-					error: failHandling
-				};
+						uploaded: uploadComplete,
+						abort: failHandling,
+						error: failHandling
+					},
+					listeners = [];
 
-				loader.on( 'abort', loaderEventMapping.abort );
-				loader.on( 'error', loaderEventMapping.error );
-				loader.on( 'uploaded', loaderEventMapping.uploaded );
+				listeners.push( loader.on( 'abort', loaderEventMapping.abort ) );
+				listeners.push( loader.on( 'error', loaderEventMapping.error ) );
+				listeners.push( loader.on( 'uploaded', loaderEventMapping.uploaded ) );
+
+				this.on( 'destroy', function() {
+					CKEDITOR.tools.array.filter( listeners, function( curListener ) {
+						curListener.removeListener();
+						return false;
+					} );
+				} );
 
 				if ( widget.fire( 'uploadBegan', loader ) !== false && widget.progressReporterType ) {
 					widget.setData( 'uploadId', loader.id );
