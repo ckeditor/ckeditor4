@@ -72,6 +72,8 @@
 	}
 
 	function addToolbar( editor ) {
+		var buttons = editor.config.easyimage_toolbar;
+
 		editor.ui.addButton( 'EasyimageFull', {
 			label: editor.lang.easyimage.commands.fullImage,
 			command: 'easyimageFull',
@@ -91,7 +93,7 @@
 		} );
 
 		editor._.easyImageToolbarContext = editor.balloonToolbars.create( {
-			buttons: 'EasyimageFull,EasyimageSide,EasyimageAlt',
+			buttons: buttons.join ? buttons.join( ',' ) : buttons,
 			widgets: [ WIDGET_NAME ]
 		} );
 	}
@@ -479,4 +481,13 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.easyimage_styles = {};
+
+	/**
+	 * List of buttons to be displayed in a balloon toolbar for Easy Image widget.
+	 *
+	 * @since 4.9.0
+	 * @cfg {Array|String} [easyimage_toolbar=[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ]]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.easyimage_toolbar = [ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ];
 }() );
