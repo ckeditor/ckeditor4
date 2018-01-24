@@ -247,11 +247,10 @@
 					if ( typeof uploadId !== 'undefined' ) {
 						var loader = this.editor.uploadRepository.loaders[ uploadId ];
 
-						// if ( !loader ) {
-						// 	loader this._spawnLoader( widget, )
-						// }
-
-						this._beginUpload( this, loader );
+						if ( loader ) {
+							// There is a possibility that loader will not be found, e.g. pasting into a completely different editor.
+							this._beginUpload( this, loader );
+						}
 					}
 				} );
 			},
