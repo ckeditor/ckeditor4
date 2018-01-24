@@ -70,10 +70,6 @@
 				} );
 			},
 
-			// 'test update() locks the snapshot': function() {
-			// 	@todo: add coverage.
-			// },
-
 			'test failed()': function() {
 				var ret = this._createProgressBar();
 
