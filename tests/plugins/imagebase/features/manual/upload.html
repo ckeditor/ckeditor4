@@ -45,7 +45,7 @@
 				var widget = evt.data;
 
 				if ( widget.name === 'placeholder' ) {
-					widget.once( 'uploadBegan', function( uploadEvent ) {
+					widget.once( 'uploadStarted', function( uploadEvent ) {
 						widget.setData( 'name', 'Uploading...' );
 					} );
 

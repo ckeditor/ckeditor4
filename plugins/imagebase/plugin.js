@@ -351,7 +351,7 @@
 					} );
 				} );
 
-				if ( widget.fire( 'uploadBegan', loader ) !== false && widget.progressReporterType ) {
+				if ( widget.fire( 'uploadStarted', loader ) !== false && widget.progressReporterType ) {
 					widget.setData( 'uploadId', loader.id );
 
 					if ( !widget._isLoaderDone( loader ) ) {
@@ -402,7 +402,7 @@
 			/*
 			 * Fired when upload was initiated and before response is fetched.
 			 *
-			 *		progress.once( 'uploadBegan', function( evt ) {
+			 *		progress.once( 'uploadStarted', function( evt ) {
 			 *			evt.cancel();
 			 *			// Implement a custom progress bar.
 			 *		} );
@@ -412,7 +412,7 @@
 			 * Note that the event will be fired even if the widget was created for a loader that
 			 * is already resolved.
 			 *
-			 * @evt uploadBegan
+			 * @evt uploadStarted
 			 * @param {CKEDITOR.fileTools.fileLoader} data Lader that is used for this widget.
 			 */
 
