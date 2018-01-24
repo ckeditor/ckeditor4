@@ -68,6 +68,10 @@
 			this.editor.ui.addButton( 'testcommandButton', {
 				command: 'testcommand'
 			} );
+
+			this.editor.ui.addButton( 'buttonWithoutCommand', {
+				name: 'buttonWithoutCommand'
+			} );
 		},
 
 		setUp: function() {
@@ -86,7 +90,7 @@
 
 		'test balloontoolbar visibility and command state after drop - inline widget': function() {
 			var editor = this.editor,
-				context = getContextStub( [ 'testwidget' ], editor, 'testcommandButton' );
+				context = getContextStub( [ 'testwidget' ], editor, 'testcommandButton,buttonWithoutCommand' );
 
 			assert.areSame( CKEDITOR.TRISTATE_DISABLED, editor.getCommand( 'testcommand' ).state, 'command is disabled' );
 
@@ -123,7 +127,7 @@
 
 		'test balloontoolbar visibility and command state after drop - block widget': function() {
 			var editor = this.editor,
-				context = getContextStub( [ 'testwidget' ], editor, 'testcommandButton' ),
+				context = getContextStub( [ 'testwidget' ], editor, 'testcommandButton,buttonWithoutCommand' ),
 				revert;
 
 			assert.areSame( CKEDITOR.TRISTATE_DISABLED, editor.getCommand( 'testcommand' ).state, 'command is disabled' );

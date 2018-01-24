@@ -182,7 +182,9 @@
 	CKEDITOR.ui.balloonToolbar.prototype.refresh = function() {
 		for ( var itemName in this._items ) {
 			var command = this._view.editor.getCommand( this._items[ itemName ].command );
-			command.refresh( this._view.editor, this._view.editor.elementPath() );
+			if ( command ) {
+				command.refresh( this._view.editor, this._view.editor.elementPath() );
+			}
 		}
 	};
 
