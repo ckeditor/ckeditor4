@@ -30,7 +30,19 @@
 			};
 		}
 
-		function createCommand( exec, refreshCheck, forceSelectionCheck ) {
+		function createButton( button ) {
+			editor.ui.addButton( button.name, {
+				label: button.label,
+				command: button.command,
+				toolbar: 'easyimage,' + ( button.order || 99 )
+			} );
+		}
+
+		function createCommand( options ) {
+			if ( options.button ) {
+				createButton( options.button );
+			}
+
 			return {
 				startDisabled: true,
 				contextSensitive: true,
@@ -38,9 +50,9 @@
 				exec: function( editor ) {
 					var widget = editor.widgets.focused;
 
-					exec( widget );
+					options.exec( widget );
 
-					if ( forceSelectionCheck ) {
+					if ( options.forceSelectionCheck ) {
 						// We have to manually force refresh commands as refresh seems to be executed prior to exec.
 						// Without this command states would be outdated.
 						editor.forceNextSelectionCheck();
@@ -48,49 +60,61 @@
 					}
 				},
 
-				refresh: createCommandRefresh( refreshCheck )
+				refresh: createCommandRefresh( options.refreshCheck )
 			};
 		}
 
-		editor.addCommand( 'easyimageFull', createCommand( function( widget ) {
-			widget.setData( 'type', 'full' );
-		}, function( widget ) {
-			return isFullImage( widget );
-		}, true ) );
+		function addDefaultCommands() {
+			editor.addCommand( 'easyimageFull', createCommand( {
+				exec: function( widget ) {
+					widget.setData( 'type', 'full' );
+				},
+				refreshCheck: function( widget ) {
+					return isFullImage( widget );
+				},
+				forceSelectionCheck: true,
+				button: {
+					name: 'EasyimageFull',
+					label: editor.lang.easyimage.commands.fullImage,
+					command: 'easyimageFull',
+					order: 1
+				}
+			} ) );
 
-		editor.addCommand( 'easyimageSide', createCommand( function( widget ) {
-			widget.setData( 'type', 'side' );
-		}, function( widget ) {
-			return isSideImage( widget );
-		}, true ) );
+			editor.addCommand( 'easyimageSide', createCommand( {
+				exec: function( widget ) {
+					widget.setData( 'type', 'side' );
+				},
+				refreshCheck: function( widget ) {
+					return isSideImage( widget );
+				},
+				forceSelectionCheck: true,
+				button: {
+					name: 'EasyimageSide',
+					label: editor.lang.easyimage.commands.sideImage,
+					command: 'easyimageSide',
+					order: 2
+				}
+			} ) );
 
-		editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'easyimageAlt', {
-			startDisabled: true,
-			contextSensitive: true,
-			refresh: createCommandRefresh()
-		} ) );
+			editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'easyimageAlt', {
+				startDisabled: true,
+				contextSensitive: true,
+				refresh: createCommandRefresh()
+			} ) );
+			createButton( {
+				name: 'EasyimageAlt',
+				label: editor.lang.easyimage.commands.altText,
+				command: 'easyimageAlt',
+				order: 3
+			} );
+		}
+
+		addDefaultCommands();
 	}
 
 	function addToolbar( editor ) {
 		var buttons = editor.config.easyimage_toolbar;
-
-		editor.ui.addButton( 'EasyimageFull', {
-			label: editor.lang.easyimage.commands.fullImage,
-			command: 'easyimageFull',
-			toolbar: 'easyimage,1'
-		} );
-
-		editor.ui.addButton( 'EasyimageSide', {
-			label: editor.lang.easyimage.commands.sideImage,
-			command: 'easyimageSide',
-			toolbar: 'easyimage,2'
-		} );
-
-		editor.ui.addButton( 'EasyimageAlt', {
-			label: editor.lang.easyimage.commands.altText,
-			command: 'easyimageAlt',
-			toolbar: 'easyimage,3'
-		} );
 
 		editor._.easyImageToolbarContext = editor.balloonToolbars.create( {
 			buttons: buttons.join ? buttons.join( ',' ) : buttons,
