@@ -50,7 +50,7 @@
 					} );
 
 					widget.once( 'uploadDone', function( uploadEvent ) {
-						var loader = uploadEvent.data.sender,
+						var loader = uploadEvent.data.loader,
 							file = loader.file;
 
 						widget.setData( 'name', LOADED_TEMPLATE.output( {
@@ -61,8 +61,8 @@
 					} );
 
 					widget.once( 'uploadFailed', function( uploadEvent ) {
-						var xhr = uploadEvent.data.sender.xhr,
-							file = uploadEvent.data.sender.file;
+						var xhr = uploadEvent.data.loader.xhr,
+							file = uploadEvent.data.loader.file;
 
 						widget.setData( 'name', FAIL_TEMPLATE.output( {
 							name: file.name,
