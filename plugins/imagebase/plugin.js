@@ -193,6 +193,9 @@
 		 * This type serves solely as a mixing, and should be added using
 		 * {@link CKEDITOR.plugins.imagebase#addFeature} method.
 		 *
+		 * This API is not yet in a final shape, thus marked as a private. It can be changed at any point.
+		 *
+		 * @private
 		 * @class CKEDITOR.plugins.imagebase.featuresDefinitions.upload
 		 * @abstract
 		 */
@@ -266,7 +269,7 @@
 			},
 
 			/**
-			 * Initiates an upload process on a given widget. It does that by firing a {@link CKEDITOR.fileTools#fileLoader} request.
+			 * Initiates an upload process on a given widget. It does that by firing a {@link CKEDITOR.fileTools.fileLoader} request.
 			 *
 			 * @private
 			 * @param {CKEDITOR.editor} editor Editor instance.
