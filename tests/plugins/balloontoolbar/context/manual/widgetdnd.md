@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.8.0, feature, balloontoolbar, 933
+@bender-tags: 4.9.0, bug, balloontoolbar, 1470
 @bender-ckeditor-plugins: wysiwygarea, basicstyles, floatingspace, balloontoolbar, sourcearea, link, elementspath, image2, placeholder, codesnippet
 
 ## Balloon Toolbar on Widgets drop
