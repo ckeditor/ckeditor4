@@ -199,6 +199,8 @@
 						// If widget begins with incomplete image, make sure to refresh balloon toolbar (if present)
 						// once the image size is available.
 						getNaturalWidth( imagePart, function() {
+							// Currently we're breaking encapsulation, once #1496 is fixed, we could use a proper method to
+							// update the position.
 							var contextView = editor._.easyImageToolbarContext.toolbar._view;
 
 							if ( contextView.rect.visible ) {
