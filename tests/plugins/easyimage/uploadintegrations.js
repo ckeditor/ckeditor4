@@ -67,11 +67,11 @@
 
 						setTimeout( function() {
 							that.update();
-						}, 200 );
+						}, 40 );
 
 						setTimeout( function() {
 							that.update();
-						}, 400 );
+						}, 120 );
 
 						setTimeout( function() {
 							var evtData = {
@@ -83,7 +83,7 @@
 							};
 
 							that._lastTimeout( evtData );
-						}, 1000 );
+						}, 350 );
 					},
 					_lastTimeout: function( evtData ) {
 						this.responseData = {
