@@ -234,7 +234,7 @@
 							evt.stop();
 
 							CKEDITOR.tools.array.forEach( matchedFiles, function( curFile, index ) {
-								var loader = ret._spawnLoader( editor, curFile, curFile.name, definition );
+								var loader = ret._spawnLoader( editor, curFile, definition, curFile.name );
 
 								ret._insertWidget( editor, definition, URL.createObjectURL( curFile ), true, { uploadId: loader.id } );
 
@@ -306,11 +306,11 @@
 			 * @private
 			 * @param {CKEDITOR.editor} editor
 			 * @param {Blob/String} fileOrData See {@link CKEDITOR.fileTools.fileLoader}.
-			 * @param {String} [fileName] Preferred file name to be passed to the upload process.
 			 * @param {CKEDITOR.plugins.widget.definition} widgetDef Widget definition that the loader is spawned for.
+			 * @param {String} [fileName] Preferred file name to be passed to the upload process.
 			 * @returns {CKEDITOR.fileTools.fileLoader}
 			 */
-			_spawnLoader: function( editor, file, fileName, widgetDef ) {
+			_spawnLoader: function( editor, file, widgetDef, fileName ) {
 				var loadMethod = widgetDef.loadMethod || 'loadAndUpload',
 					loader = editor.uploadRepository.create( file, fileName, widgetDef.loaderType );
 
