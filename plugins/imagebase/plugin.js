@@ -291,7 +291,15 @@
 			},
 
 			_beginUpload: function( widget, loader ) {
+				function widgetCleanup() {
+					// Remove upload id so that it's not being re-requested when e.g. some1 copies and pastes
+					// the widget in other place.
+					widget.setData( 'uploadId', undefined );
+				}
+
 				function failHandling() {
+					widgetCleanup();
+
 					if ( widget.fire( 'uploadFailed', {
 						loader: loader
 					} ) !== false ) {
@@ -300,6 +308,8 @@
 				}
 
 				function uploadComplete() {
+					widgetCleanup();
+
 					widget.fire( 'uploadDone', {
 						loader: loader
 					} );
