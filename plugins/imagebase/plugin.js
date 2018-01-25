@@ -200,6 +200,13 @@
 		 * @abstract
 		 */
 		var ret = {
+			/**
+			 * Type used for for progress reporting, it has to be a subclass of {@link CKEDITOR.plugins.imagebase.progressReporter}.
+			 *
+			 * Could be set to `false` so that there is no reporter created at all.
+			 *
+			 * @property {Function/Boolean} [progressReporterType=CKEDITOR.plugins.imagebase.progressBar]
+			 */
 			progressReporterType: ProgressBar,
 
 			setUp: function( editor, definition ) {
@@ -276,6 +283,7 @@
 			 * @returns {Boolean}
 			 */
 			_isLoaderDone: function( loader ) {
+				// This method should be removed once #1497 is done.
 				var xhr = loader.xhr;
 
 				return xhr && loader.xhr.readyState === 4;
@@ -398,6 +406,12 @@
 					return element;
 				}
 			}
+
+			/**
+			 * Preferred file loader type used for requests.
+			 *
+			 * @property {Function} [loaderType=CKEDITOR.fileTools.fileLoader]
+			 */
 
 			/*
 			 * Fired when upload was initiated and before response is fetched.
