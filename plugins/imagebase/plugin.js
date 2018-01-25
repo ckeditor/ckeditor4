@@ -224,7 +224,7 @@
 							curFile;
 
 						// Refetch the definition... original definition looks like an outdated copy and it doesn't
-						// include members inherited form imagebase.
+						// include members inherited from imagebase.
 						definition = editor.widgets.registered[ definition.name ];
 
 						for ( var i = 0; i < filesCount; i++ ) {
@@ -316,7 +316,7 @@
 			 */
 			_beginUpload: function( widget, loader ) {
 				function widgetCleanup() {
-					// Remove upload id so that it's not being re-requested when e.g. some1 copies and pastes
+					// Remove upload id so that it's not being re-requested when e.g. someone copies and pastes
 					// the widget in other place.
 					if ( widget.isInited() ) {
 						widget.setData( 'uploadId', undefined );
@@ -380,7 +380,7 @@
 			 * @param {CKEDITOR.editor} editor
 			 * @param {CKEDITOR.plugins.widget.definition} widgetDef
 			 * @param {String} blobUrl Blob URL of an image.
-			 * @param {Boolean} [finalize=true] If `false` widget will not be automatically finalized (added to {@link CKEDITOR.plugins.widget.repository})
+			 * @param {Boolean} [finalize=true] If `false` widget will not be automatically finalized (added to {@link CKEDITOR.plugins.widget.repository}),
 			 * but returned as a {@link CKEDITOR.dom.element} instance.
 			 * @returns {CKEDITOR.plugins.widget/CKEDITOR.dom.element} The widget instance or {@link CKEDITOR.dom.element} of a widget wrapper if `finalize` was set to `false`.
 			 */
