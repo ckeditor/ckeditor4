@@ -78,13 +78,15 @@
 			};
 		}
 
-		function createStyleCommand( name, styleDefinition ) {
+		function createStyleCommand( editor, name, styleDefinition ) {
 			var button = extractButtonInfo( styleDefinition ),
 				style;
 
 			styleDefinition.type = 'widget';
 			styleDefinition.widget = 'easyimage';
 			style = new CKEDITOR.style( styleDefinition );
+
+			editor.filter.allow( style );
 
 			return createCommand( {
 				exec: function( widget ) {
@@ -161,7 +163,7 @@
 			var style;
 
 			for ( style in styles ) {
-				editor.addCommand( 'easyimageStyle' + style, createStyleCommand( style, styles[ style ] ) );
+				editor.addCommand( 'easyimageStyle' + style, createStyleCommand( editor, style, styles[ style ] ) );
 			}
 		}
 
@@ -233,6 +235,7 @@
 				},
 
 				requiredContent: 'figure; img[!src]',
+				styleableElements: 'figure',
 
 				supportedTypes: /image\/(jpeg|png|gif|bmp)/,
 
@@ -497,8 +500,6 @@
 
 		init: function( editor ) {
 			loadStyles( editor, this );
-			addCommands( editor );
-			addMenuItems( editor );
 		},
 
 		// Widget must be registered after init in case that link plugin is dynamically loaded e.g. via
@@ -506,6 +507,8 @@
 		afterInit: function( editor ) {
 			registerWidget( editor );
 			addPasteListener( editor );
+			addCommands( editor );
+			addMenuItems( editor );
 			addToolbar( editor );
 		}
 	} );
