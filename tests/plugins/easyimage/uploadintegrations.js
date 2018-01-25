@@ -269,7 +269,7 @@
 			'test copy and paste in progress widget while original was loaded': function() {
 				// Yet another tricky variation.
 				// 1. In This case user starts to upload file that takes say 1 sec.
-				// 2. Copies the file curing the upload.
+				// 2. Copies the file during the upload.
 				// 3. Wait for the file upload to complete.
 				// 4. Then paste what he has in clipboard (incomplete) widget as a new widget.
 				var editor = this.editor,

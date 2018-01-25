@@ -42,8 +42,8 @@
 						listeners = [];
 
 					function wrappedCallback( uploadEvt ) {
-						// In case we listen for `upload*` events only first event should be handled (to not cause multiple)
-						// resume calls.
+						// In case we listen for `upload*` events only first event should be handled (to not cause multiple
+						// resume calls).
 						if ( listeners.length ) {
 							listeners = CKEDITOR.tools.array.filter( listeners, function( curListener ) {
 								curListener.removeListener();
@@ -201,7 +201,7 @@
 			},
 
 			/*
-			 * Cache for tye returned types.
+			 * Cache for the returned types.
 			 */
 			_cache: {}
 		}
