@@ -47,6 +47,17 @@ Comments in this file will give more details about each of the above blocks.
 	visibility: visible;
 }
 
+/* Outer container class represent dialog position */
+.cke_dialog_position_fixed
+{
+	position: fixed;
+}
+
+.cke_dialog_position_absolute
+{
+	position: absolute;
+}
+
 /* The inner boundary container. */
 .cke_dialog_body
 {

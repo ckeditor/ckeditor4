@@ -63,6 +63,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 ( function() {
 	var cssLength = CKEDITOR.tools.cssLength;
+	var dialogPositionClass = CKEDITOR.env.ie6Compat ? 'cke_dialog_position_absolute' : 'cke_dialog_position_fixed';
 
 	function isTabVisible( tabId ) {
 		return !!this._.tabs[ tabId ][ 0 ].$.offsetHeight;
@@ -281,14 +282,13 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		// Set the startup styles for the dialog, avoiding it enlarging the
 		// page size on the dialog creation.
 		var startStyles = {
-			position: CKEDITOR.env.ie6Compat ? 'absolute' : 'fixed',
 			top: 0,
 			visibility: 'hidden'
 		};
 
 		startStyles[ dir == 'rtl' ? 'right' : 'left' ] = 0;
 		this.parts.dialog.setStyles( startStyles );
-
+		this.parts.dialog.addClass( dialogPositionClass );
 
 		// Call the CKEDITOR.event constructor to initialize this instance.
 		CKEDITOR.event.call( this );
@@ -844,7 +844,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 *
 		 *		dialogObj.show();
 		 */
-		show: function( noCover,  ) {
+		show: function( noCover ) {
 			// Insert the dialog's element to the root document.
 			var element = this._.element;
 			var definition = this.definition;
@@ -925,9 +925,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 
 			CKEDITOR.tools.setTimeout( function() {
-				if ( !noCover ) {
-					this.layout();
-				}
+				this.layout();
+
 				resizeWithWindow( this );
 
 				this.parts.dialog.setStyle( 'visibility', '' );
@@ -967,9 +966,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			// Switch to absolute position when viewport is smaller than dialog size.
 			if ( !CKEDITOR.env.ie6Compat ) {
 				if ( dialogSize.height + ( posY > 0 ? posY : 0 ) > viewSize.height || dialogSize.width + ( posX > 0 ? posX : 0 ) > viewSize.width ) {
-					el.setStyle( 'position', 'absolute' );
+					el.removeClass( 'cke_dialog_position_fixed' );
+					el.addClass( 'cke_dialog_position_absolute' );
 				} else {
-					el.setStyle( 'position', 'fixed' );
+					el.removeClass( 'cke_dialog_position_absolute' );
+					el.addClass( 'cke_dialog_position_fixed' );
 				}
 			}
 
