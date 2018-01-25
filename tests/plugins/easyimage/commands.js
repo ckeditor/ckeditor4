@@ -20,48 +20,6 @@
 		}
 	};
 
-	// Force Edge to run every test in new CKEditor's instance.
-	function createTestsForEditors( editors, tests ) {
-		var generatedTests = {},
-			test,
-			i = 0;
-
-		function generateTest( name ) {
-			CKEDITOR.tools.array.forEach( editors, function( editor ) {
-				var options = CKEDITOR.tools.object.merge( bender.editors[ editor ], {
-					name: editor + i++
-				} );
-
-				generatedTests[ name + ' (' + editor + ')' ] = function() {
-					bender.editorBot.create( options, function( bot ) {
-						tests[ name ]( bot.editor, bot );
-					} );
-				};
-			} );
-		}
-
-		if ( !CKEDITOR.env.edge ) {
-			return bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
-		}
-
-		for ( test in tests ) {
-			if ( test.indexOf( 'test' ) === 0 ) {
-				generateTest( test );
-			}
-		}
-
-		return generatedTests;
-	}
-
-	function assertMenuItemsState( items, asserts ) {
-		CKEDITOR.tools.array.forEach( items, function( item ) {
-			if ( asserts[ item.command ] ) {
-				assert.areSame( asserts[ item.command ], item.state,
-					'Menu item ' + item.command + ' has appropriate state' );
-			}
-		} );
-	}
-
 	var originalGetClientRect = CKEDITOR.dom.element.prototype.getClientRect,
 		widgetHtml = '<figure class="image easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		sideWidgetHtml = '<figure class="image easyimage easyimage-side"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
@@ -149,7 +107,7 @@
 					assert.areSame( 'full', widget.data.type, 'Widget has correct type data' );
 
 					bot.contextmenu( function( menu ) {
-						assertMenuItemsState( menu.items, {
+						easyImageTools.assertMenuItemsState( menu.items, {
 							easyimageFull: CKEDITOR.TRISTATE_ON,
 							easyimageSide: CKEDITOR.TRISTATE_OFF
 						} );
@@ -162,7 +120,7 @@
 						assert.areSame( 'side', widget.data.type, 'Widget has correct type data' );
 
 						bot.contextmenu( function( menu ) {
-							assertMenuItemsState( menu.items, {
+							easyImageTools.assertMenuItemsState( menu.items, {
 								easyimageFull: CKEDITOR.TRISTATE_OFF,
 								easyimageSide: CKEDITOR.TRISTATE_ON
 							} );
@@ -179,9 +137,40 @@
 
 					assert.areSame( 'side', widget.data.type, 'Widget has correct type data' );
 				} );
+			},
+
+			'test balloontoolbar integration': function( editor, bot ) {
+				bot.setData( widgetHtml, function() {
+					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) ),
+						toolbar = editor.balloonToolbars._contexts[ 0 ].toolbar;
+
+					toolbar._view.once( 'show', function() {
+
+						easyImageTools.assertCommandsState( editor, {
+							easyimageFull: CKEDITOR.TRISTATE_ON,
+							easyimageSide: CKEDITOR.TRISTATE_OFF,
+							easyimageAlt: CKEDITOR.TRISTATE_OFF
+						} );
+
+						editor.once( 'afterCommandExec', function() {
+							resume( function() {
+								easyImageTools.assertCommandsState( editor, {
+									easyimageFull: CKEDITOR.TRISTATE_OFF,
+									easyimageSide: CKEDITOR.TRISTATE_ON,
+									easyimageAlt: CKEDITOR.TRISTATE_OFF
+								} );
+							} );
+						} );
+
+						editor.execCommand( 'easyimageSide' );
+					} );
+
+					widget.focus();
+					wait();
+				} );
 			}
 		};
 
-	tests = createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	tests = easyImageTools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
 	bender.test( tests );
 } )();
