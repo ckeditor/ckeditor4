@@ -60,7 +60,7 @@
 		return function( editor, bot ) {
 			addTestWidget( editor );
 
-			// Make sure the editor is focused, othrwise Edge/IE11 will throw Permission Denied error.
+			// Make sure the editor is focused, otherwise Edge/IE11 will throw Permission Denied error.
 			editor.focus();
 
 			bot.setData( getFixture( options.fixture ), function() {
