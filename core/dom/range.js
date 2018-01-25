@@ -2819,6 +2819,69 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
+		 * Returns Array of rects from dom elements contained within current ranges.
+		 *
+		 * @since 4.9.0
+		 * @private
+		 */
+		getClientRects: function() {
+			// Extending empty object wth rect, to prevent inheriting from DOMRect, same approach as in CKEDITOR.dom.element.getClientRect().
+			function convertRect( rect ) {
+				var newRect = CKEDITOR.tools.extend( {}, rect );
+				// Some browsers might not return width and height.
+				!newRect.width && ( newRect.width = newRect.right - newRect.left );
+				!newRect.height && ( newRect.height = newRect.bottom - newRect.top );
+				return newRect;
+			}
+
+			// Fallback helper for browsers that don't support native getClientRects()
+			function getRect( context ) {
+				var bookmark = context.createBookmark(),
+					start = bookmark.startNode,
+					end = bookmark.endNode,
+					rects,
+					rect = {};
+
+				start.setText = '';
+				start.removeStyle( 'display' );
+
+				if ( end ) {
+					end.setText = '';
+					end.removeStyle( 'display' );
+					rects = [ start.getClientRect(), end.getClientRect() ];
+					start.remove();
+					end.remove();
+				} else {
+					rects = [ start.getClientRect(), start.getClientRect() ];
+					start.remove();
+				}
+				rect.right = Math.max( rects[ 0].right, rects[ 1 ].right );
+				rect.bottom = Math.max( rects[ 0].bottom, rects[ 1 ].bottom );
+				rect.left = Math.min( rects[ 0 ].left, rects[ 1 ].left );
+				rect.top = Math.min( rects[ 0 ].top, rects[ 1 ].top );
+				rect.width = Math.abs( rects[ 0 ].left - rects[ 1 ].left );
+				rect.height = rect.bottom - rect.top;
+
+				return rect;
+			}
+
+			if ( this.document.$.getSelection !== undefined ) {
+				var sel = this.document.$.getSelection(),
+					range = sel.getRangeAt( 0 ),
+					rectList = range.getClientRects(),
+					rectArray = [];
+
+				for ( var i = 0; i < rectList.length; i++ ) {
+					rectArray.push( convertRect( rectList[ i ] ) );
+				}
+				return rectArray;
+
+			} else {
+				return [ getRect( this ) ];
+			}
+		},
+
+		/**
 		 * Setter for the {@link #startContainer}.
 		 *
 		 * @since 4.4.6
