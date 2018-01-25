@@ -326,7 +326,7 @@
 					isDataInSrc = imgSrc && imgSrc.substring( 0, 5 ) == 'data:',
 					isRealObject = img.data( 'cke-realelement' ) === null;
 
-				// We are not uploading images in non-editable blocs and fake objects (https://dev.ckeditor.com/ticket/13003).
+				// We are not uploading images in non-editable blocks and fake objects (https://dev.ckeditor.com/ticket/13003).
 				if ( isDataInSrc && isRealObject && !img.isReadOnly( 1 ) ) {
 					widgetsFound++;
 
