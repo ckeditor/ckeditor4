@@ -10,6 +10,10 @@
 		WIDGET_NAME = 'easyimage';
 
 	function addCommands( editor ) {
+		function capitalize( str ) {
+			return CKEDITOR.tools.capitalize( str, true );
+		}
+
 		function isSideImage( widget ) {
 			return widget.data.type === 'side';
 		}
@@ -105,9 +109,9 @@
 				},
 				forceSelectionCheck: true,
 				button: {
-					name: 'EasyimageStyle' + name,
+					name: 'Easyimage' + name,
 					label: button.label,
-					command: 'easyimageStyle' + name,
+					command: 'easyimage' + name,
 					order: 99
 				}
 			} );
@@ -163,7 +167,8 @@
 			var style;
 
 			for ( style in styles ) {
-				editor.addCommand( 'easyimageStyle' + style, createStyleCommand( editor, style, styles[ style ] ) );
+				editor.addCommand( 'easyimage' + capitalize( style ),
+					createStyleCommand( editor, capitalize( style ), styles[ style ] ) );
 			}
 		}
 
