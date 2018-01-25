@@ -6,7 +6,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>CKEditor Easy Image Sample</title>
+	<title>CKEditor BalloonToolbar sample</title>
 	<script src="../../../ckeditor.js"></script>
 	<link rel="stylesheet" href="../../../samples/css/samples.css">
 	<link rel="stylesheet" href="../../../samples/toolbarconfigurator/lib/codemirror/neo.css">
@@ -100,13 +100,43 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 										html: '<p>Hello World</p>'
 									}
 								]
+							},
+							{
+								id: 'tab2',
+								label: 'Test Label 2',
+								title: 'Test Title 2',
+								elements: [
+									{
+										type: 'vbox',
+										align: 'right',
+										width: '200px',
+										children: [
+											{
+												type: 'text',
+												id: 'age',
+												label: 'Age'
+											},
+											{
+												type: 'text',
+												id: 'sex',
+												label: 'Sex'
+											},
+											{
+												type: 'text',
+												id: 'nationality',
+												label: 'Nationality'
+											}
+										]
+									}
+								]
 							}
 						],
 						onOk: function() {
 							console.log( 'OK OK OK!!!' );
 						},
 						buttons: [
-							CKEDITOR.dialog.okButton
+							CKEDITOR.dialog.okButton,
+							CKEDITOR.dialog.cancelButton
 						]
 					}
 
@@ -128,9 +158,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				buttons: 'testButton',
 				cssSelector: 'li'
 			} );
-
-
 		} );
+
 </script>
 
 </body>

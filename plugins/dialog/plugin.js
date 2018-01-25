@@ -938,7 +938,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				this.fire( 'show', {} );
 				this._.editor.fire( 'dialogShow', this );
 
-				if ( !this._.parentDialog )
+				if ( !this._.parentDialog && !noCover )
 					this._.editor.focusManager.lock();
 
 				// Save the initial values of the dialog.

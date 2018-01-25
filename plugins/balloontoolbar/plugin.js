@@ -229,6 +229,8 @@
 		}
 
 		this._loadButtons();
+
+		this._lifoQueue = [ this.toolbar ];
 	}
 
 	Context.prototype = {
@@ -355,11 +357,39 @@
 			var dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
 			if ( typeof dialogDefinitions === 'function' ) {
 				var dialog = new CKEDITOR.dialog( this.editor, dialogName );
-				this.dialogToolbar = new CKEDITOR.ui.balloonToolbar( this.editor );
+
+				dialog.once( 'cancel', this.closeDialog.bind( this, dialogName ) );
+				dialog.once( 'ok', this.closeDialog.bind( this, dialogName ) );
+
+				var dialogToolbar = new CKEDITOR.ui.balloonToolbar( this.editor );
+				var pointedElement = this.toolbar._view._pointedElement;
 				this.toolbar.hide();
-				this.dialogToolbar.addItem( dialogName, dialog );
-				this.dialogToolbar.attach( this.toolbar._view._pointedElement );
+				this._lifoPush( dialogToolbar );
+				this.toolbar.show();
+				this.toolbar.addItem( dialogName, dialog );
+				this.toolbar.attach( pointedElement );
 			}
+		},
+
+		closeDialog: function( dialogName ) {
+			var dialog = this.toolbar._items[ dialogName ];
+			dialog.destroy();
+			this._lifoPop();
+		},
+
+		_lifoPop: function() {
+			var toolbar;
+			if ( this._lifoQueue.length ) {
+				toolbar = this._lifoQueue.pop();
+				toolbar.destroy();
+				this.toolbar = this._lifoQueue[ this._lifoQueue.length - 1 ];
+			}
+		},
+
+		_lifoPush: function( toolbar ) {
+			this.toolbar.hide();
+			this._lifoQueue.push( toolbar );
+			this.toolbar = toolbar;
 		}
 
 	};
@@ -747,7 +777,7 @@
 				// When we rerender toolbar we want to clear focusable in case of removing some items.
 				this._deregisterItemFocusables();
 
-				if ( keys.length === 1 && items[ keys[ 0 ] ] instanceof CKEDITOR.dialog ) {
+				if ( keys.length === 1 && CKEDITOR.dialog && items[ keys[ 0 ] ] instanceof CKEDITOR.dialog ) {
 					var dialog = items[ keys[ 0 ] ];
 					this.parts.content.setHtml = '';
 					dialog.show( true );
