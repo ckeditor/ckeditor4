@@ -1,4 +1,4 @@
-@bender-tags: bug, 4.8.1, copyformatting, 1458
+@bender-tags: bug, 4.9.0, copyformatting, 1458
 @bender-ui: collapsed
 @bender-ckeditor-plugins: copyformatting,toolbar,wysiwygarea,floatingspace,elementspath,image2,widget,justify,div
 
