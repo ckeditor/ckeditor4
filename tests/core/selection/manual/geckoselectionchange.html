@@ -1,0 +1,24 @@
+<div id="square" style="width: 50px; height: 50px; background-color: yellow; margin: 10px 50% 10px 50%;"></div>
+
+<div id="editor2" contenteditable="true">
+	<p>You can type here <strong contenteditable="false">This is uneditable part <em contenteditable="true">and you can type again inside this editable part<u> and some underline inside</u></em></strong>.</p>
+</div>
+
+<script>
+	var square = document.getElementById( 'square' );
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'divarea',
+		allowedContent: true,
+		on: {
+			selectionChange: function () {
+				var backgroundColor = square.style.backgroundColor;
+				square.style.backgroundColor = backgroundColor === 'blue' ? 'red' : 'blue';
+			}
+		}
+	} );
+
+	if( !CKEDITOR.env.gecko ) {
+		bender.ignore();
+	}
+
+</script>

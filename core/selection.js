@@ -944,7 +944,11 @@
 			// On Webkit do this on DOMFocusIn, because the selection is unlocked on it too and
 			// we need synchronization between those listeners to not lost cached editor._.previousActive property
 			// (which is updated on selectionCheck).
-			editable.attachListener( editable, CKEDITOR.env.webkit ? 'DOMFocusIn' : 'focus', function() {
+			// On Gecko with inline editor use focusin insted focus because the last one is not bubbling and
+			// event will not be fired with nested contenteditable (https://github.com/ckeditor/ckeditor-dev/issues/1113).
+			// For IE we already are replacing focus with focusin.
+			var focusEvent = ( CKEDITOR.env.webkit && 'DOMFocusIn' ) || ( isInline && CKEDITOR.env.gecko && 'focusin' ) || 'focus';
+			editable.attachListener( editable, focusEvent, function() {
 				editor.forceNextSelectionCheck();
 				editor.selectionChange( 1 );
 			} );
