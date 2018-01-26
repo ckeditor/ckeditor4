@@ -18,7 +18,6 @@
 		 *
 		 * @param {CKEDITOR.editor} editor
 		 * @param {Object} options
-		 * @param {File[]} [options.files=[]] Files to be dropped.
 		 * @param {Function} options.callback Function to be called after the paste event.
 		 * Params:
 		 *
@@ -26,6 +25,7 @@
 		 * * `CKEDITOR.eventInfo` evt - Paste event.
 		 * * `CKEDITOR.eventInfo/undefined` uploadEvt - Upload event, available ony if `options.fullLoad` was set
 		 *	to `true` and at least one widget was found.
+		 * @param {File[]} [options.files=[]] Files to be dropped.
 		 * @param {String} [options.dataValue=null] HTML data to be put into the clipboard if any.
 		 * @param {Boolean} [options.fullLoad=false] If `true` assertion will wait for `uploadDone` of `uploadFailed`
 		 * event of the first widget.
@@ -79,8 +79,7 @@
 			 * on a image, and removes it indicating the progress.
 			 *
 			 * @param {CKEDITOR.editor} editor
-			 * @param {Function} ProgressReporter Base type for progress indicator
-			 * {@link CKEDITOR.plugins.imageBase.progressReporter}.
+			 * @param {Function} ProgressReporter Base type for progress indicator {@link CKEDITOR.plugins.imageBase.progressReporter}.
 			 * @returns {Function}
 			 */
 			getProgressOverlapType: function( editor, ProgressReporter ) {
@@ -109,6 +108,8 @@
 			 * Returns a type that implements a progress indicator that puts a
 			 * circle-shaped progress bar.
 			 *
+			 * @param {CKEDITOR.editor} editor
+			 * @param {Function} ProgressReporter Base type for progress indicator {@link CKEDITOR.plugins.imageBase.progressReporter}.
 			 * @returns {Function}
 			 */
 			getProgressCircleType: function( editor, ProgressReporter ) {
