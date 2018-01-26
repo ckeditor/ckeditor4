@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'easyimage', 'en', {
 		sideImage: 'Side Image',
 		altText: 'Change image alternative text'
 	},
-	uploadFailed: 'Your image could not be downloaded due to network error.'
+	uploadFailed: 'Your image could not be uploaded due to a network error.'
 } );
