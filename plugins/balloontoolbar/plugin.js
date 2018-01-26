@@ -352,11 +352,12 @@
 			}
 		},
 
-
-		openDialog: function( dialogName ) {
+		openDialog: function( dialogName, callback ) {
+			var dialog;
 			var dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
 			if ( typeof dialogDefinitions === 'function' ) {
-				var dialog = new CKEDITOR.dialog( this.editor, dialogName );
+				dialog = new CKEDITOR.dialog( this.editor, dialogName );
+				callback && callback.call( dialog, dialog );
 
 				dialog.once( 'cancel', this.closeDialog.bind( this, dialogName ) );
 				dialog.once( 'ok', this.closeDialog.bind( this, dialogName ) );
@@ -368,13 +369,28 @@
 				this.toolbar.show();
 				this.toolbar.addItem( dialogName, dialog );
 				this.toolbar.attach( pointedElement );
+
+			} else if ( dialogDefinitions === 'failed' ) {
+				throw new Error( '[CKEDITOR.dialog.openDialog] Dialog "' + dialogName + '" failed when loading definition.' );
+			} else if ( typeof dialogDefinitions == 'string' ) {
+				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( dialogDefinitions ),
+					function() {
+						var dialogDefinition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
+						// In case of plugin error, mark it as loading failed.
+						if ( typeof dialogDefinition != 'function' ) {
+							CKEDITOR.dialog._.dialogDefinitions[ dialogName ] = 'failed';
+						}
+
+						this.openDialog( dialogName, callback );
+					}, this, 0, 1 );
 			}
+
 		},
 
 		closeDialog: function( dialogName ) {
 			var dialog = this.toolbar._items[ dialogName ];
-			dialog.destroy();
 			this._lifoPop();
+			dialog.destroy();
 		},
 
 		_lifoPop: function() {
