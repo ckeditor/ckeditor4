@@ -190,7 +190,7 @@
 		/**
 		 * Widget feature dedicated for handling seamless file uploads.
 		 *
-		 * This type serves solely as a mixing, and should be added using
+		 * This type serves solely as a mixin, and should be added using
 		 * {@link CKEDITOR.plugins.imagebase#addFeature} method.
 		 *
 		 * This API is not yet in a final shape, thus marked as a private. It can be changed at any point.
@@ -293,7 +293,7 @@
 			 *
 			 * @private
 			 * @param {CKEDITOR.editor} editor
-			 * @param {Blob/String} fileOrData See {@link CKEDITOR.fileTools.fileLoader}.
+			 * @param {Blob/String} file See {@link CKEDITOR.fileTools.fileLoader}.
 			 * @param {CKEDITOR.plugins.widget.definition} widgetDef Widget definition that the loader is spawned for.
 			 * @param {String} [fileName] Preferred file name to be passed to the upload process.
 			 * @returns {CKEDITOR.fileTools.fileLoader}
