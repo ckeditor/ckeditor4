@@ -359,9 +359,9 @@
 					} );
 				} );
 
-				if ( widget.fire( 'uploadStarted', loader ) !== false && widget.progressReporterType ) {
-					widget.setData( 'uploadId', loader.id );
+				widget.setData( 'uploadId', loader.id );
 
+				if ( widget.fire( 'uploadStarted', loader ) !== false && widget.progressReporterType ) {
 					if ( !widget._isLoaderDone( loader ) ) {
 						// Progress reporter has only sense if widget is in progress.
 						var progress = new widget.progressReporterType();
@@ -421,7 +421,7 @@
 			 *			// Implement a custom progress bar.
 			 *		} );
 			 *
-			 * This event is cancelable, if canceled it will add a progress bar to the widget.
+			 * This event is cancelable, if canceled, the default progress bar will not be created.
 			 *
 			 * Note that the event will be fired even if the widget was created for a loader that
 			 * is already resolved.
@@ -584,21 +584,21 @@
 		updated: function() {},
 
 		/**
-		 * To be called when the progress should be marked as complete.
+		 * Marks the progress reporter as complete.
 		 */
 		done: function() {
 			this.remove();
 		},
 
 		/**
-		 * To be called when the progress should be marked as aborted.
+		 * Marks the progress reporter as aborted.
 		 */
 		aborted: function() {
 			this.remove();
 		},
 
 		/**
-		 * To be called when the progress should be marked as failed.
+		 * Marks the progress reporter as failed.
 		 */
 		failed: function() {
 			this.remove();
