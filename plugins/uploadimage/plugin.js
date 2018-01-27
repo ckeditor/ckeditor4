@@ -82,20 +82,18 @@
 					var $img = this.parts.img.$,
 						width = upload.responseData.width || $img.naturalWidth,
 						height = upload.responseData.height || $img.naturalHeight,
-						shouldFix = isSelectionFixRequired( this );
+						selectionFixRequired = isSelectionFixRequired( this );
 
+					// Preserving selection range will fire only for the first uploaded element.
 					preserveWidgetSelection( this );
 
 					// Set width and height to prevent blinking.
+					// If selection fix is required we will omit selecting replacement and fix it later.
 					this.replaceWith( '<img src="' + upload.url + '" ' +
 						'width="' + width + '" ' +
-						'height="' + height + '">', null, shouldFix );
+						'height="' + height + '">', null, selectionFixRequired );
 
-					if ( shouldFix ) {
-						fixWidgetSelection( this );
-					} else {
-						clearUnusedBookmarks( this );
-					}
+					selectionFixRequired && fixWidgetSelection( this ) || clearUnusedBookmarks( this );
 				},
 
 				onAbort: function() {
@@ -117,7 +115,10 @@
 					temp = new CKEDITOR.dom.element( tempDoc.body ),
 					imgs, img, i;
 
-				adjustBodySelection( editor.getSelection() );
+				// With Firefox `ctrl/cmd + a` gives body to body selection range,
+				// we have to change selection range to the first and the last element of the body.
+				adjustBodySelection( editor );
+				// Preserve selection on paste to resolve it after images upload.
 				createPasteRange( editor );
 
 				// Without this isReadOnly will not works properly.
@@ -159,8 +160,9 @@
 		}
 	} );
 
-	function adjustBodySelection( selection ) {
-		var ranges = selection.getRanges(),
+	function adjustBodySelection( editor ) {
+		var selection = editor.getSelection(),
+			ranges = selection.getRanges(),
 			range = ranges[ 0 ];
 
 		if ( !range ) {
@@ -185,7 +187,6 @@
 			return;
 		}
 
-		// Preserve selection on paste to resolve it after images upload.
 		pasteRange = editor.createRange();
 		pasteRange.setStartBefore( range.startContainer );
 		pasteRange.setEndAfter( range.endContainer );
@@ -248,12 +249,12 @@
 		}
 	}
 
-	function removeBookmark( pasteBookmark ) {
-		if ( !pasteBookmark ) {
+	function removeBookmark( bookmark ) {
+		if ( !bookmark ) {
 			return;
 		}
-		pasteBookmark.startNode.remove();
-		pasteBookmark.endNode.remove();
+		bookmark.startNode.remove();
+		bookmark.endNode.remove();
 	}
 
 	function createUploadImageWalker() {
@@ -275,6 +276,7 @@
 			widgets[ id ].name === 'uploadimage' && uploadImageWidgetsCount++;
 		}
 
+		// Remove unused bookmarks only if there is no more upload image widgets.
 		if ( uploadImageWidgetsCount == 0 ) {
 			removeBookmark( pasteBookmark );
 			removeBookmark( selectionBookmark );
