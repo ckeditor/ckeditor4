@@ -1,8 +1,8 @@
 # Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
-altText = Label for button converting image to assign an alternative text.
-fullImage = Label for button converting image to a full width.
-sideImage = Label for button converting image to be a side image.
+commands.fullImage = Label for button converting image to a full width.
+commands.sideImage = Label for button converting image to be a side image.
+commands.altText = Label for button converting image to assign an alternative text.
 uploadFailed = Contents of alert displayed when Easy Image widget could not be uploaded due to network error.
 captionPlaceholder = Contents of placeholder shown inside empty caption of Easy Image widget.
