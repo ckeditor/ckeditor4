@@ -613,17 +613,23 @@
 	 *			}
 	 *		};
 	 *
+	 * Every style added by this config variable will result in adding `Easyimage<name>` button
+	 * and `easyimage<name>` command, where `<name>` is name of style in pascal case, e.g. `left`
+	 * style would produce `EasyimageLeft` button and `easyimageLeft` command.
+	 *
 	 * @since 4.9.0
-	 * @cfg {Object} easyimage_styles
+	 * @cfg {Object<string,Object>} easyimage_styles
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.easyimage_styles = {};
 
 	/**
-	 * List of buttons to be displayed in a balloon toolbar and context menu for Easy Image widget.
+	 * List of buttons to be displayed in a balloon toolbar for Easy Image widget.
+	 * If Context Menu plugin is enabled, this config variable will be used also to add
+	 * items to the context menu for Easy Image widget.
 	 *
 	 * @since 4.9.0
-	 * @cfg {Array|String} [easyimage_toolbar=[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ]]
+	 * @cfg {Array/String} [easyimage_toolbar=[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ]]
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.easyimage_toolbar = [ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ];
