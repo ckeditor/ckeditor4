@@ -350,6 +350,8 @@
 
 					if ( !data.style ) {
 						data.style = getActiveStyle( this );
+
+						return this.applyStyle( this._styles[ data.style ] );
 					}
 				}
 			};
