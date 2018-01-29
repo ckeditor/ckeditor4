@@ -10,7 +10,7 @@
 	bender.editor = {
 		config: {
 			// Disable ACF, we want to catch any uncontrolled junk.
-			allwoedContent: true
+			allowedContent: true
 		}
 	};
 
