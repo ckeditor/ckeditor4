@@ -1,4 +1,9 @@
 
+<script>
+	if ( isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
+</script>
 <h2>Classic editor</h2>
 
 <div id="classic">
@@ -24,10 +29,6 @@
 </div>
 
 <script>
-	if ( isUnsupportedEnvironment() ) {
-		bender.ignore();
-	}
-
 	var IMG_URL = '%BASE_PATH%_assets/logo.png',
 		commonConfig = {
 			cloudServices_url: 'https://files.cke-cs.com/upload/',
