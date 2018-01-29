@@ -1578,7 +1578,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *		// Focus at the beginning of editable.
  *		config.startupFocus = true;
  *
- * Since CKEditor 4.8.1, `startupFocus` can be explicitly set as `String` :
+ * Since CKEditor 4.9.0, `startupFocus` can be explicitly set as `String` :
  *
  *		// Focus at the beginning of editable.
  *		config.startupFocus = 'start';

@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.8.1, bug, 1274, balloontoolbar
+@bender-tags: 4.9.0, bug, 1274, balloontoolbar
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, floatingspace, balloontoolbar, sourcearea, link, elementspath, image
 
 # Image Selection
