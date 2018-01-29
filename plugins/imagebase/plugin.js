@@ -521,6 +521,18 @@
 			caption.data( 'cke-caption-hidden', !isVisible );
 		}
 
+		/**
+		 * Widget feature dedicated for displaying caption under the widget.
+		 *
+		 * This type serves solely as a mixin, and should be added using
+		 * {@link CKEDITOR.plugins.imagebase#addFeature} method.
+		 *
+		 * This API is not yet in a final shape, thus marked as a private. It can be changed at any point.
+		 *
+		 * @private
+		 * @class CKEDITOR.plugins.imagebase.featuresDefinitions.caption
+		 * @abstract
+		 */
 		return {
 			setUp: function( editor ) {
 				var listeners = [];
@@ -564,12 +576,12 @@
 			},
 
 			/**
-			 * Method used inside {@link CKEDITOR.editor#event-selectionChange} event to decide if caption for given widget
-			 * should be displayed and should contain placeholder text.
+			 * Method used to decide if caption for focused widget should be displayed and should contain
+			 * placeholder text.
 			 *
 			 * @private
 			 * @member CKEDITOR.plugins.imagebase.featuresDefinitions.caption
-			 * @param {CKEDITOR.dom.element} sender Element, which triggered `selectionChange` event
+			 * @param {CKEDITOR.dom.element} sender Element, on which this function should be called.
 			 */
 			_refreshCaption: function( sender ) {
 				var isFocused = getFocusedWidget( this.editor ) === this,
