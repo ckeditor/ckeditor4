@@ -24,6 +24,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/license
 /* The .cke_balloon_content container height will be stretched to children height, so padding is properly applied. */
 .cke_balloon.cke_balloontoolbar .cke_balloon_content {
 	float: left;
+	min-height: 10px;
+	padding: 4px;
 }
 
 /* Removes bottom margins from buttons/combos so only '.cke_balloon_content' padding decides about balloon toolbar padding. */
