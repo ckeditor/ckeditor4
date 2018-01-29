@@ -108,8 +108,8 @@
 
 					bot.contextmenu( function( menu ) {
 						easyImageTools.assertMenuItemsState( menu.items, {
-							easyimageFull: CKEDITOR.TRISTATE_ON,
-							easyimageSide: CKEDITOR.TRISTATE_OFF
+							easyimagefull: CKEDITOR.TRISTATE_ON,
+							easyimageside: CKEDITOR.TRISTATE_OFF
 						} );
 
 						editor.execCommand( 'easyimageSide' );
@@ -121,8 +121,8 @@
 
 						bot.contextmenu( function( menu ) {
 							easyImageTools.assertMenuItemsState( menu.items, {
-								easyimageFull: CKEDITOR.TRISTATE_OFF,
-								easyimageSide: CKEDITOR.TRISTATE_ON
+								easyimagefFull: CKEDITOR.TRISTATE_OFF,
+								easyimageside: CKEDITOR.TRISTATE_ON
 							} );
 
 							menu.hide();
