@@ -1,4 +1,4 @@
-/* exported getToken */
+/* exported getToken, easyImageTools */
 /* global console */
 
 // WARNING: The URL below should not be used for any other purpose than Easy Image plugin development.
@@ -40,3 +40,7 @@ function getToken( callback ) {
 
 	xhr.send( null );
 }
+
+var easyImageTools = {
+	CLOUD_SERVICES_UPLOAD_GATEWAY: 'https://files.cke-cs.com/upload/'
+};

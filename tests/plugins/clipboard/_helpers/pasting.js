@@ -70,6 +70,8 @@ function pasteFiles( editor, files, dataValue ) {
 	var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 	editor.fire( 'paste', {
+		type: 'auto',
+		method: 'paste',
 		dataTransfer: dataTransfer,
 		dataValue: dataValue ? dataValue : ''
 	} );

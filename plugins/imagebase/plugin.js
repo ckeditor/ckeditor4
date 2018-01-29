@@ -138,7 +138,7 @@
 					// It gets the user input and set appropriate data in the widget.
 					// `evt.stop` and higher priority are necessary to prevent adding unwanted link to
 					// widget's caption.
-					okListener = dialog.once( 'ok',	createOkListener( evt, dialog, widget ), null, null, 9 );
+					okListener = dialog.once( 'ok', createOkListener( evt, dialog, widget ), null, null, 9 );
 
 					dialog.once( 'hide', function() {
 						okListener.removeListener();
@@ -149,7 +149,7 @@
 
 				// Overwrite default behaviour of unlink command.
 				addUnlinkListener( editor, 'exec', function( command, widget, editor ) {
-					widget.setData( 'link' , null );
+					widget.setData( 'link', null );
 					command.refresh( editor, editor.elementPath() );
 				} );
 
@@ -186,17 +186,290 @@
 		};
 	}
 
+	function getUploadFeature() {
+		/**
+		 * Widget feature dedicated for handling seamless file uploads.
+		 *
+		 * This type serves solely as a mixin, and should be added using
+		 * {@link CKEDITOR.plugins.imagebase#addFeature} method.
+		 *
+		 * This API is not yet in a final shape, thus marked as a private. It can be changed at any point.
+		 *
+		 * @private
+		 * @class CKEDITOR.plugins.imagebase.featuresDefinitions.upload
+		 * @abstract
+		 */
+		var ret = {
+			/**
+			 * Type used for for progress reporting, it has to be a subclass of {@link CKEDITOR.plugins.imagebase.progressReporter}.
+			 *
+			 * Could be set to `false` so that there is no reporter created at all.
+			 *
+			 * @property {Function/Boolean} [progressReporterType=CKEDITOR.plugins.imagebase.progressBar]
+			 */
+			progressReporterType: ProgressBar,
+
+			setUp: function( editor, definition ) {
+				editor.on( 'paste', function( evt ) {
+					var method = evt.data.method,
+						dataTransfer = evt.data.dataTransfer,
+						filesCount = dataTransfer && dataTransfer.getFilesCount();
+
+					if ( editor.readOnly ) {
+						return;
+					}
+
+					if ( method === 'drop' || ( method === 'paste' && filesCount ) ) {
+						var matchedFiles = [],
+							curFile;
+
+						// Refetch the definition... original definition looks like an outdated copy and it doesn't
+						// include members inherited from imagebase.
+						definition = editor.widgets.registered[ definition.name ];
+
+						for ( var i = 0; i < filesCount; i++ ) {
+							curFile = dataTransfer.getFile( i );
+
+							if ( CKEDITOR.fileTools.isTypeSupported( curFile, definition.supportedTypes ) ) {
+								matchedFiles.push( curFile );
+							}
+						}
+
+						if ( matchedFiles.length ) {
+							evt.cancel();
+							// At the time being we expect no other actions to happen after the widget was inserted.
+							evt.stop();
+
+							CKEDITOR.tools.array.forEach( matchedFiles, function( curFile, index ) {
+								var loader = ret._spawnLoader( editor, curFile, definition, curFile.name );
+
+								ret._insertWidget( editor, definition, URL.createObjectURL( curFile ), true, { uploadId: loader.id } );
+
+								// Now modify the selection so that the next widget won't replace the current one.
+								// This selection workaround is required to store multiple files.
+								if ( index !== matchedFiles.length - 1 ) {
+									// We don't want to modify selection for the last element, so that the last widget remains selected.
+									var sel = editor.getSelection(),
+										ranges = sel.getRanges();
+
+									ranges[ 0 ].enlarge( CKEDITOR.ENLARGE_ELEMENT );
+									ranges[ 0 ].collapse( false );
+								}
+							} );
+						}
+					}
+				} );
+			},
+
+			init: function() {
+				this.once( 'ready', function() {
+					var uploadId = this.data.uploadId;
+					if ( typeof uploadId !== 'undefined' ) {
+						var loader = this.editor.uploadRepository.loaders[ uploadId ];
+
+						if ( loader ) {
+							// There is a possibility that loader will not be found, e.g. pasting into a completely different editor.
+							this._beginUpload( this, loader );
+						}
+					}
+				} );
+			},
+
+			/**
+			 * Tells whether the loader is complete.
+			 *
+			 * @private
+			 * @param {CKEDITOR.fileTools.fileLoader} loader
+			 * @returns {Boolean}
+			 */
+			_isLoaderDone: function( loader ) {
+				// This method should be removed once #1497 is done.
+				var xhr = loader.xhr;
+
+				return xhr && loader.xhr.readyState === 4;
+			},
+
+			/**
+			 *
+			 * @private
+			 * @param {CKEDITOR.editor} editor
+			 * @param {Blob/String} file See {@link CKEDITOR.fileTools.fileLoader}.
+			 * @param {CKEDITOR.plugins.widget.definition} widgetDef Widget definition that the loader is spawned for.
+			 * @param {String} [fileName] Preferred file name to be passed to the upload process.
+			 * @returns {CKEDITOR.fileTools.fileLoader}
+			 */
+			_spawnLoader: function( editor, file, widgetDef, fileName ) {
+				var loadMethod = widgetDef.loadMethod || 'loadAndUpload',
+					loader = editor.uploadRepository.create( file, fileName, widgetDef.loaderType );
+
+				loader[ loadMethod ]( widgetDef.uploadUrl, widgetDef.additionalRequestParameters );
+
+				return loader;
+			},
+
+			/**
+			 * Initializes the upload process for given `widget` using `loader`.
+			 *
+			 * @private
+			 * @param {CKEDITOR.plugins.widget} widget
+			 * @param {CKEDITOR.fileTools.fileLoader} loader
+			 */
+			_beginUpload: function( widget, loader ) {
+				function widgetCleanup() {
+					// Remove upload id so that it's not being re-requested when e.g. someone copies and pastes
+					// the widget in other place.
+					if ( widget.isInited() ) {
+						widget.setData( 'uploadId', undefined );
+					}
+				}
+
+				function failHandling() {
+					widgetCleanup();
+
+					if ( widget.fire( 'uploadFailed', {
+						loader: loader
+					} ) !== false ) {
+						widget.editor.widgets.del( widget );
+					}
+				}
+
+				function uploadComplete() {
+					widgetCleanup();
+
+					widget.fire( 'uploadDone', {
+						loader: loader
+					} );
+				}
+
+				var loaderEventMapping = {
+						uploaded: uploadComplete,
+						abort: failHandling,
+						error: failHandling
+					},
+					listeners = [];
+
+				listeners.push( loader.on( 'abort', loaderEventMapping.abort ) );
+				listeners.push( loader.on( 'error', loaderEventMapping.error ) );
+				listeners.push( loader.on( 'uploaded', loaderEventMapping.uploaded ) );
+
+				this.on( 'destroy', function() {
+					CKEDITOR.tools.array.filter( listeners, function( curListener ) {
+						curListener.removeListener();
+						return false;
+					} );
+				} );
+
+				widget.setData( 'uploadId', loader.id );
+
+				if ( widget.fire( 'uploadStarted', loader ) !== false && widget.progressReporterType ) {
+					if ( !widget._isLoaderDone( loader ) ) {
+						// Progress reporter has only sense if widget is in progress.
+						var progress = new widget.progressReporterType();
+						widget.wrapper.append( progress.wrapper );
+						progress.bindLoader( loader );
+					} else {
+						if ( loaderEventMapping[ loader.status ] ) {
+							loaderEventMapping[ loader.status ]();
+						}
+					}
+				}
+			},
+
+			/**
+			 * @private
+			 * @param {CKEDITOR.editor} editor
+			 * @param {CKEDITOR.plugins.widget.definition} widgetDef
+			 * @param {String} blobUrl Blob URL of an image.
+			 * @param {Boolean} [finalize=true] If `false` widget will not be automatically finalized (added to {@link CKEDITOR.plugins.widget.repository}),
+			 * but returned as a {@link CKEDITOR.dom.element} instance.
+			 * @returns {CKEDITOR.plugins.widget/CKEDITOR.dom.element} The widget instance or {@link CKEDITOR.dom.element} of a widget wrapper if `finalize` was set to `false`.
+			 */
+			_insertWidget: function( editor, widgetDef, blobUrl, finalize, data ) {
+				var tplParams = ( typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults ) || {};
+
+				// Make sure to work on a new object, otherwise definition.defaults might get modified with instance-specific value.
+				tplParams = CKEDITOR.tools.extend( {}, tplParams );
+				tplParams.src = blobUrl;
+
+				var element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( tplParams ) ),
+					wrapper = editor.widgets.wrapElement( element, widgetDef.name ),
+					temp = new CKEDITOR.dom.documentFragment( wrapper.getDocument() );
+
+				// Append wrapper to a temporary document. This will unify the environment
+				// in which #data listeners work when creating and editing widget.
+				temp.append( wrapper );
+
+				if ( finalize !== false ) {
+					editor.widgets.initOn( element, widgetDef, data );
+					return editor.widgets.finalizeCreation( temp );
+				} else {
+					return element;
+				}
+			}
+
+			/**
+			 * Preferred file loader type used for requests.
+			 *
+			 * @property {Function} [loaderType=CKEDITOR.fileTools.fileLoader]
+			 */
+
+			/**
+			 * Fired when upload was initiated and before response is fetched.
+			 *
+			 *		progress.once( 'uploadStarted', function( evt ) {
+			 *			evt.cancel();
+			 *			// Implement a custom progress bar.
+			 *		} );
+			 *
+			 * This event is cancelable, if canceled, the default progress bar will not be created.
+			 *
+			 * Note that the event will be fired even if the widget was created for a loader that
+			 * is already resolved.
+			 *
+			 * @evt uploadStarted
+			 * @param {CKEDITOR.fileTools.fileLoader} data Lader that is used for this widget.
+			 */
+
+			/**
+			 * Fired when upload process succeeded. This is the event where you want apply data
+			 * from your response into a widget.
+			 *
+			 *		progress.once( 'uploadDone', function( evt ) {
+			 *			var response = evt.data.loader.responseData.response;
+			 *			this.setData( 'backendUrl', response.url );
+			 *		} );
+			 *
+			 * @evt uploadDone
+			 * @param data
+			 * @param {CKEDITOR.fileTools.fileLoader} data.loader Loader that caused this event.
+			 */
+
+			/**
+			 * Fired when upload process {@link CKEDITOR.fileTools.fileLoader#event-error failed} or was
+			 * {@link CKEDITOR.fileTools.fileLoader#event-abort aborted}.
+			 *
+			 *		progress.once( 'uploadFailed', function( evt ) {
+			 *			console.log( 'Loader: ' + evt.data.loader + ' failed to upload data.' );
+			 *		} );
+			 *
+			 * This event is cancelable, if not canceled it will remove the widget.
+			 *
+			 * @evt uploadFailed
+			 * @param data
+			 * @param {CKEDITOR.fileTools.fileLoader} data.loader Loader that caused this event.
+			 */
+		};
+
+		return ret;
+	}
+
 	var featuresDefinitions = {
+		upload: getUploadFeature(),
 		link: getLinkFeature()
 	};
 
 	function createWidgetDefinition( editor, definition ) {
-		var defaultTemplate = new CKEDITOR.template(
-			'<figure>' +
-				'<img alt="" src="" />' +
-				'<figcaption>{captionPlaceholder}</figcaption>' +
-			'</figure>' ),
-			baseDefinition;
+		var baseDefinition;
 
 		/**
 		 * This is an abstract class that describes a definition of a basic image widget
@@ -215,7 +488,17 @@
 		baseDefinition = {
 			pathName: editor.lang.imagebase.pathName,
 
-			template: defaultTemplate,
+			defaults: {
+				imageClass: ( editor.config.easyimage_class || '' ),
+				alt: '',
+				src: '',
+				caption: ''
+			},
+
+			template: '<figure class="{imageClass}">' +
+				'<img alt="{alt}" src="{src}" />' +
+				'<figcaption>{caption}</figcaption>' +
+				'</figure>',
 
 			allowedContent: {
 				img: {
@@ -271,8 +554,142 @@
 		return definition;
 	}
 
+	var UPLOAD_PROGRESS_THROTTLING = 100;
+
+	/**
+	 * This is a base type for progress reporters.
+	 *
+	 * Progress reporters could be updated:
+	 *
+	 * * Automatically, by binding it to a existing {@link CKEDITOR.fileTools.fileLoader} instance.
+	 * * Manually, using {@link #updated}, {@link #done}, {@link #failed} and {@link #aborted} methods.
+	 *
+	 * @class CKEDITOR.plugins.imagebase.progressReporter
+	 * @constructor
+	 * @param {String} [wrapperHtml='<div class="cke_loader"></div>']
+	 */
+	function ProgressReporter( wrapperHtml ) {
+		/**
+		 * @property {CKEDITOR.dom.element} wrapper An element created for wrapping the progress bar.
+		 */
+		this.wrapper = CKEDITOR.dom.element.createFromHtml( wrapperHtml || '<div class="cke_loader"></div>' );
+	}
+
+	ProgressReporter.prototype = {
+		/**
+		 * Method to be called in order to refresh the progress.
+		 *
+		 * @param {Number} progress Progress representation where `1.0` is a complete and `0` means no progress.
+		 */
+		updated: function() {},
+
+		/**
+		 * Marks the progress reporter as complete.
+		 */
+		done: function() {
+			this.remove();
+		},
+
+		/**
+		 * Marks the progress reporter as aborted.
+		 */
+		aborted: function() {
+			this.remove();
+		},
+
+		/**
+		 * Marks the progress reporter as failed.
+		 */
+		failed: function() {
+			this.remove();
+		},
+
+		/**
+		 * Removes the progress reporter from DOM.
+		 */
+		remove: function() {
+			this.wrapper.remove();
+		},
+
+		/**
+		 * Binds this progress reporter to a given `loader`.
+		 *
+		 * It will automatically remove its listeners when the `loader` has triggered one of following events:
+		 *
+		 * * {@link CKEDITOR.fileTools.fileLoader#event-abort}
+		 * * {@link CKEDITOR.fileTools.fileLoader#event-error}
+		 * * {@link CKEDITOR.fileTools.fileLoader#event-uploaded}
+		 *
+		 * @param {CKEDITOR.fileTools.fileLoader} loader Loader that should be observed.
+		 */
+		bindLoader: function( loader ) {
+			var progressListeners = [];
+
+			function removeProgressListeners() {
+				if ( progressListeners ) {
+					CKEDITOR.tools.array.forEach( progressListeners, function( listener ) {
+						listener.removeListener();
+					} );
+
+					progressListeners = null;
+				}
+			}
+
+			var updateListener = CKEDITOR.tools.eventsBuffer( UPLOAD_PROGRESS_THROTTLING, function() {
+				if ( loader.uploadTotal ) {
+					this.updated( loader.uploaded / loader.uploadTotal );
+				}
+			}, this );
+
+			progressListeners.push( loader.on( 'update', updateListener.input, this ) );
+			progressListeners.push( loader.once( 'abort', this.aborted, this ) );
+			progressListeners.push( loader.once( 'uploaded', this.done, this ) );
+			progressListeners.push( loader.once( 'error', this.failed, this ) );
+
+			// Some events should cause all listeners to be removed.
+			progressListeners.push( loader.once( 'abort', removeProgressListeners ) );
+			progressListeners.push( loader.once( 'uploaded', removeProgressListeners ) );
+			progressListeners.push( loader.once( 'error', removeProgressListeners ) );
+		}
+	};
+
+	/**
+	 * Type adding a vertical progress bar.
+	 *
+	 *		var progress = new CKEDITOR.plugins.imagebase.progressBar();
+	 *		myWrapper.append( progress.wrapper, true );
+	 *		progress.bindLoader( myFileLoader );
+	 *
+	 * @class CKEDITOR.plugins.imagebase.progressBar
+	 * @extends CKEDITOR.plugins.imagebase.progressReporter
+	 * @constructor
+	 */
+	function ProgressBar() {
+		ProgressReporter.call( this, '<div class="cke_loader">' +
+			'<div class="cke_bar" styles="transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's"></div>' +
+			'</div>' );
+
+		/**
+		 * @property {CKEDITOR.dom.element} bar Bar element whose width represents the progress.
+		 */
+		this.bar = this.wrapper.getFirst();
+	}
+
+	ProgressBar.prototype = new ProgressReporter();
+
+	ProgressReporter.prototype.updated = function( progress ) {
+		var percentage = Math.round( progress * 100 );
+
+		percentage = Math.max( percentage, 0 );
+		percentage = Math.min( percentage, 100 );
+
+		// widget.editor.fire( 'lockSnapshot' );
+		this.bar.setStyle( 'width', percentage + '%' );
+		// widget.editor.fire( 'unlockSnapshot' );
+	};
+
 	CKEDITOR.plugins.add( 'imagebase', {
-		requires: 'widget',
+		requires: 'widget,filetools',
 		lang: 'en'
 	} );
 
@@ -350,6 +767,10 @@
 			ret.features.push( name );
 
 			return ret;
-		}
+		},
+
+		progressBar: ProgressBar,
+
+		progressReporter: ProgressReporter
 	};
 }() );

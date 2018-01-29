@@ -4,3 +4,4 @@
 altText = Label for button converting image to assign an alternative text.
 fullImage = Label for button converting image to a full width.
 sideImage = Label for button converting image to be a side image.
+uploadFailed = Contents of alert displayed when Easy Image widget could not be uploaded due to network error.

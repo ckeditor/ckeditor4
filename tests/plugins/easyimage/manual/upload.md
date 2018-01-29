@@ -14,5 +14,4 @@ Upload some images:
 ### Expected
 
 * Image gets inserted into the editable.
-* "File successfully uploaded." notification is displayed.
 * Image gets a `src` starting with `https://cdn.cke-cs.com/` (You can check that using source mode).

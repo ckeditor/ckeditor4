@@ -7,10 +7,7 @@
 	'use strict';
 
 	var stylesLoaded = false,
-		// Black rectangle which is shown before image is loaded.
-		loadingImage = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=',
-		// Throttling of progress update in ms.
-		UPLOAD_PROGRESS_THROTTLING = 100;
+		WIDGET_NAME = 'easyimage';
 
 	function addCommands( editor ) {
 		function isSideImage( widget ) {
@@ -25,7 +22,7 @@
 			return function( editor ) {
 				var widget = editor.widgets.focused;
 
-				if ( widget && widget.name === 'easyimage' ) {
+				if ( widget && widget.name === WIDGET_NAME ) {
 					this.setState( ( enableCheck && enableCheck( widget ) ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 				} else {
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
@@ -93,9 +90,9 @@
 			toolbar: 'easyimage,3'
 		} );
 
-		editor.balloonToolbars.create( {
+		editor._.easyImageToolbarContext = editor.balloonToolbars.create( {
 			buttons: 'EasyimageFull,EasyimageSide,EasyimageAlt',
-			widgets: [ 'easyimage' ]
+			widgets: [ WIDGET_NAME ]
 		} );
 	}
 
@@ -141,6 +138,8 @@
 		var config = editor.config,
 			figureClass = config.easyimage_class,
 			widgetDefinition = {
+				name: WIDGET_NAME,
+
 				allowedContent: {
 					figure: {
 						classes: config.easyimage_sideClass
@@ -153,6 +152,12 @@
 
 				requiredContent: 'figure; img[!src]',
 
+				supportedTypes: /image\/(jpeg|png|gif|bmp)/,
+
+				loaderType: CKEDITOR.plugins.cloudservices.cloudServicesLoader,
+
+				progressReporterType: CKEDITOR.plugins.imagebase.progressBar,
+
 				upcasts: {
 					figure: function( element ) {
 						if ( ( !figureClass || element.hasClass( figureClass ) ) &&
@@ -163,6 +168,56 @@
 				},
 
 				init: function() {
+					// Natural width of the image can be fetched only after image is loaded.
+					// However cached images won't fire `load` event, but just mark themselves
+					// as complete.
+					function getNaturalWidth( image, callback ) {
+						var $image = image.$;
+
+						if ( $image.complete && $image.naturalWidth ) {
+							return callback( $image.naturalWidth );
+						}
+
+						image.once( 'load', function() {
+							callback( $image.naturalWidth );
+						} );
+					}
+
+					function setImageWidth( widget, height ) {
+						if ( !widget.parts.image.hasAttribute( 'width' ) ) {
+							widget.editor.fire( 'lockSnapshot' );
+
+							widget.parts.image.setAttribute( 'width', height );
+
+							widget.editor.fire( 'unlockSnapshot' );
+						}
+					}
+
+					var imagePart = this.parts.image;
+
+					if ( imagePart && !imagePart.$.complete ) {
+						// If widget begins with incomplete image, make sure to refresh balloon toolbar (if present)
+						// once the image size is available.
+						getNaturalWidth( imagePart, function() {
+							// Currently we're breaking encapsulation, once #1496 is fixed, we could use a proper method to
+							// update the position.
+							var contextView = editor._.easyImageToolbarContext.toolbar._view;
+
+							if ( contextView.rect.visible ) {
+								contextView.attach( contextView._pointedElement );
+							}
+						} );
+					}
+
+					// There is a special handling in paste listener, where the element (figure) would gain upload id temporarily.
+					// This value should be removed afterwards.
+					var loaderId = this.element.data( 'cke-upload-id' );
+
+					if ( typeof loaderId !== 'undefined' ) {
+						this.setData( 'uploadId', loaderId );
+						this.element.data( 'cke-upload-id', false );
+					}
+
 					this.on( 'contextMenu', function( evt ) {
 						evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
 						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
@@ -172,6 +227,31 @@
 					if ( editor.config.easyimage_class ) {
 						this.addClass( editor.config.easyimage_class );
 					}
+
+					this.on( 'uploadStarted', function() {
+						var widget = this;
+
+						getNaturalWidth( widget.parts.image, function( width ) {
+							setImageWidth( widget, width );
+						} );
+					} );
+
+					this.on( 'uploadDone', function( evt ) {
+						var loader = evt.data.loader,
+							resp = loader.responseData.response,
+							srcset = CKEDITOR.plugins.easyimage._parseSrcSet( resp );
+
+						this.parts.image.setAttributes( {
+							'data-cke-saved-src': resp[ 'default' ],
+							src: resp[ 'default' ],
+							srcset: srcset,
+							sizes: '100vw'
+						} );
+					} );
+
+					this.on( 'uploadFailed', function() {
+						alert( this.editor.lang.easyimage.uploadFailed ); // jshint ignore:line
+					} );
 				},
 
 				data: function( evt ) {
@@ -198,77 +278,20 @@
 			widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'link', widgetDefinition );
 		}
 
-		CKEDITOR.plugins.imagebase.addImageWidget( editor, 'easyimage', widgetDefinition );
+		widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'upload', widgetDefinition );
+
+		CKEDITOR.plugins.imagebase.addImageWidget( editor, WIDGET_NAME, widgetDefinition );
 	}
 
-	function registerUploadWidget( editor ) {
-		// Natural width of the image can be fetched only after image is loaded.
-		// However cached images won't fire `load` event, but just mark themselves
-		// as complete.
-		function getNaturalWidth( image, callback ) {
-			var $image = image.$;
-
-			if ( $image.complete && $image.naturalWidth ) {
-				return callback( $image.naturalWidth );
-			}
-
-			image.once( 'load', function() {
-				callback( $image.naturalWidth );
-			} );
-		}
-
-		var uploadWidgetDefinition = {
-			supportedTypes: /image\/(jpeg|png|gif|bmp)/,
-
-			// Easy image uses only upload method, as is manually handled in onUploading function.
-			loadMethod: 'upload',
-
-			inline: false,
-
-			loaderType: CKEDITOR.plugins.cloudservices.cloudServicesLoader,
-
-			fileToElement: function() {
-				var img = new CKEDITOR.dom.element( 'img' );
-				img.setAttribute( 'src', loadingImage );
-				return img;
-			},
-
-			parts: {
-				img: 'img',
-				loader: '.cke_loader'
-			},
-
-			onUploading: function( upload ) {
-				// Show the image during the upload.
-				this.parts.img.setAttribute( 'src', URL.createObjectURL( upload.file ) );
-			},
-
-			onUploaded: function( upload ) {
-				var srcset = CKEDITOR.plugins.easyimage._parseSrcSet( upload.responseData.response ),
-					widget = this;
-
-				getNaturalWidth( widget.parts.img, function( width ) {
-					editor.fire( 'lockSnapshot' );
-
-					widget.replaceWith( '<figure class="' + ( editor.config.easyimage_class || '' ) + '">' +
-							'<img src="' + upload.responseData.response[ 'default' ] + '" srcset="' + srcset +
-								'" sizes="100vw" width="' + width + '">' +
-							'<figcaption></figcaption>' +
-						'</figure>' );
-
-					editor.fire( 'unlockSnapshot' );
-				} );
-			}
-		};
-
-		addUploadProgressBar( editor, uploadWidgetDefinition );
-
-		CKEDITOR.fileTools.addUploadWidget( editor, 'uploadeasyimage', uploadWidgetDefinition );
-
-		// Handle images which are not available in the dataTransfer.
-		// This means that we need to read them from the <img src="data:..."> elements.
+	function addPasteListener( editor ) {
+		// Easy Image requires a img-specific paste listener for inlined images. This case happens in:
+		// * IE11 when pasting images from the clipboard.
+		// * FF when pasting a single image **file** from the clipboard.
+		// In both cases image gets inlined as img[src="data:"] element.
 		editor.on( 'paste', function( evt ) {
-			var fileTools = CKEDITOR.fileTools;
+			if ( editor.isReadOnly ) {
+				return;
+			}
 
 			// For performance reason do not parse data if it does not contain img tag and data attribute.
 			if ( !evt.data.dataValue.match( /<img[\s\S]+data:/i ) ) {
@@ -278,9 +301,14 @@
 			var data = evt.data,
 				// Prevent XSS attacks.
 				tempDoc = document.implementation.createHTMLDocument( '' ),
-				widgetDef = editor.widgets.registered.uploadeasyimage,
 				temp = new CKEDITOR.dom.element( tempDoc.body ),
-				imgs, img, i;
+				easyImageDef = editor.widgets.registered.easyimage,
+				widgetsFound = 0,
+				widgetElement,
+				imgFormat,
+				imgs,
+				img,
+				i;
 
 			// Without this isReadOnly will not works properly.
 			temp.data( 'cke-editable', 1 );
@@ -292,91 +320,42 @@
 			for ( i = 0; i < imgs.count(); i++ ) {
 				img = imgs.getItem( i );
 
-				// Image have to contain src=data:...
-				var isDataInSrc = img.getAttribute( 'src' ) && img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:',
+				// Assign src once, as it might be a big string, so there's no point in duplicating it all over the place.
+				var imgSrc = img.getAttribute( 'src' ),
+					// Image have to contain src=data:...
+					isDataInSrc = imgSrc && imgSrc.substring( 0, 5 ) == 'data:',
 					isRealObject = img.data( 'cke-realelement' ) === null;
 
-				// We are not uploading images in non-editable blocs and fake objects (http://dev.ckeditor.com/ticket/13003).
-				if ( isDataInSrc && isRealObject && !img.data( 'cke-upload-id' ) && !img.isReadOnly( 1 ) ) {
-					var loader = editor.uploadRepository.create( img.getAttribute( 'src' ), undefined, widgetDef.loaderType );
-					loader.upload( widgetDef.uploadUrl, widgetDef.additionalRequestParameters );
+				// We are not uploading images in non-editable blocks and fake objects (https://dev.ckeditor.com/ticket/13003).
+				if ( isDataInSrc && isRealObject && !img.isReadOnly( 1 ) ) {
+					widgetsFound++;
 
-					fileTools.markElement( img, 'uploadeasyimage', loader.id );
+					if ( widgetsFound > 1 ) {
+						// Change the selection to avoid overwriting last widget (as it will be focused).
+						var sel = editor.getSelection(),
+							ranges = sel.getRanges();
+
+						ranges[ 0 ].enlarge( CKEDITOR.ENLARGE_ELEMENT );
+						ranges[ 0 ].collapse( false );
+					}
+
+					imgFormat = imgSrc.match( /image\/([a-z]+?);/i );
+					imgFormat = ( imgFormat && imgFormat[ 1 ] ) || 'jpg';
+
+					var loader = easyImageDef._spawnLoader( editor, imgSrc, easyImageDef );
+
+					widgetElement = easyImageDef._insertWidget( editor, easyImageDef, imgSrc, false, {
+						uploadId: loader.id
+					} );
+
+					// This id will be converted into widget data by widget#init method. Once that's done the core widget
+					// upload feature will take care of keeping track of the loader.
+					widgetElement.data( 'cke-upload-id', loader.id );
+					widgetElement.replace( img );
 				}
 			}
 
 			data.dataValue = temp.getHtml();
-		} );
-	}
-
-	// Extends given uploadWidget `definition` with an upload progress bar, added within wrapper.
-	function addUploadProgressBar( editor, definition ) {
-		definition.skipNotifications = true;
-		definition.parts.loader = '.cke_loader';
-
-		/*
-		 * Creates a progress bar in a given widget.
-		 *
-		 * Also puts it in it's {@link CKEDITOR.plugins.widget#parts} structure as `progressBar`
-		 *
-		 * @private
-		 * @param {CKEDITOR.plugins.widget} widget
-		 */
-		definition._createProgressBar = function( widget ) {
-			widget.parts.progressBar = CKEDITOR.dom.element.createFromHtml( '<div class="cke_loader">' +
-					'<div class="cke_bar" styles="transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's"></div>' +
-				'</div>' );
-			widget.wrapper.append( widget.parts.progressBar, true );
-		};
-
-		editor.on( 'widgetDefinition', function( evt ) {
-			var definition = evt.data,
-				baseInit;
-
-			if ( definition.name === 'uploadeasyimage' ) {
-				// Extend init method, that was initially defined by the uploadwidget plugin.
-				baseInit =  definition.init;
-
-				definition.init = function() {
-					var loader = this._getLoader( this ),
-						progressListeners = [];
-
-					function removeProgressListeners() {
-						if ( progressListeners ) {
-							CKEDITOR.tools.array.forEach( progressListeners, function( listener ) {
-								listener.removeListener();
-							} );
-
-							progressListeners = null;
-						}
-					}
-
-					// Add a progress bar.
-					this.definition._createProgressBar( this );
-
-					var updateListener = CKEDITOR.tools.eventsBuffer( UPLOAD_PROGRESS_THROTTLING, function() {
-						var progressBar = this.parts.progressBar.findOne( '.cke_bar' ),
-							percentage;
-
-						if ( progressBar && loader.uploadTotal ) {
-							percentage = ( loader.uploaded / loader.uploadTotal ) * 100;
-
-							editor.fire( 'lockSnapshot' );
-							progressBar.setStyle( 'width', percentage + '%' );
-							editor.fire( 'unlockSnapshot' );
-						}
-					}, this );
-
-					progressListeners.push( loader.on( 'update', updateListener.input ) );
-
-					progressListeners.push( loader.once( 'abort', removeProgressListeners ) );
-					progressListeners.push( loader.once( 'error', removeProgressListeners ) );
-					progressListeners.push( loader.once( 'uploaded', removeProgressListeners ) );
-
-					// Call base init implementation.
-					baseInit.call( this );
-				};
-			}
 		} );
 	}
 
@@ -424,7 +403,7 @@
 	};
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'imagebase,uploadwidget,balloontoolbar,button,dialog,cloudservices',
+		requires: 'imagebase,balloontoolbar,button,dialog,cloudservices',
 		lang: 'en',
 		icons: 'easyimagefull,easyimageside,easyimagealt', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -443,7 +422,7 @@
 		// `config.extraPlugins`.
 		afterInit: function( editor ) {
 			registerWidget( editor );
-			registerUploadWidget( editor );
+			addPasteListener( editor );
 			addToolbar( editor );
 		}
 	} );
