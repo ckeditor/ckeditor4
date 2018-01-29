@@ -10,16 +10,45 @@
 		WIDGET_NAME = 'easyimage';
 
 	function addCommands( editor ) {
+		var defaultStyles = {
+			full: {
+				attributes: {
+					'class': editor.config.easyimage_fullClass
+				},
+				label: editor.lang.easyimage.commands.fullImage
+			},
+
+			side: {
+				attributes: {
+					'class': editor.config.easyimage_sideClass
+				},
+				label: editor.lang.easyimage.commands.sideImage
+			},
+
+			alignLeft: {
+				attributes: {
+					'class': editor.config.easyimage_alignLeftClass
+				},
+				label: editor.lang.easyimage.commands.alignLeft
+			},
+
+			alignCenter: {
+				attributes: {
+					'class': editor.config.easyimage_alignCenterClass
+				},
+				label: editor.lang.easyimage.commands.alignCenter
+			},
+
+			alignRight: {
+				attributes: {
+					'class': editor.config.easyimage_alignRightClass
+				},
+				label: editor.lang.easyimage.commands.alignRight
+			}
+		};
+
 		function capitalize( str ) {
 			return CKEDITOR.tools.capitalize( str, true );
-		}
-
-		function isSideImage( widget ) {
-			return widget.data.type === 'side';
-		}
-
-		function isFullImage( widget ) {
-			return !isSideImage( widget );
 		}
 
 		function createCommandRefresh( enableCheck ) {
@@ -88,68 +117,31 @@
 
 			styleDefinition.type = 'widget';
 			styleDefinition.widget = 'easyimage';
+			styleDefinition.group = 'easyimage';
 			style = new CKEDITOR.style( styleDefinition );
 
 			editor.filter.allow( style );
+			editor.widgets.registered.easyimage._styles[ name ] = style;
 
 			return createCommand( {
 				exec: function( widget ) {
-					var editor = widget.editor;
-
-					if ( !style.checkActive( editor.elementPath(), editor ) ) {
-						style.apply( editor );
-					} else {
-						style.remove( editor );
-					}
+					style.apply( widget.editor );
+					widget.setData( 'style', name );
 				},
 				refreshCheck: function( widget ) {
-					var editor = widget.editor;
-
-					return style.checkActive( editor.elementPath(), editor );
+					return widget.data.style === name;
 				},
 				forceSelectionCheck: true,
 				button: {
-					name: 'Easyimage' + name,
+					name: 'Easyimage' + capitalize( name ),
 					label: button.label,
-					command: 'easyimage' + name,
+					command: 'easyimage' + capitalize( name ),
 					order: 99
 				}
 			} );
 		}
 
 		function addDefaultCommands() {
-			editor.addCommand( 'easyimageFull', createCommand( {
-				exec: function( widget ) {
-					widget.setData( 'type', 'full' );
-				},
-				refreshCheck: function( widget ) {
-					return isFullImage( widget );
-				},
-				forceSelectionCheck: true,
-				button: {
-					name: 'EasyimageFull',
-					label: editor.lang.easyimage.commands.fullImage,
-					command: 'easyimageFull',
-					order: 1
-				}
-			} ) );
-
-			editor.addCommand( 'easyimageSide', createCommand( {
-				exec: function( widget ) {
-					widget.setData( 'type', 'side' );
-				},
-				refreshCheck: function( widget ) {
-					return isSideImage( widget );
-				},
-				forceSelectionCheck: true,
-				button: {
-					name: 'EasyimageSide',
-					label: editor.lang.easyimage.commands.sideImage,
-					command: 'easyimageSide',
-					order: 2
-				}
-			} ) );
-
 			editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'easyimageAlt', {
 				startDisabled: true,
 				contextSensitive: true,
@@ -166,14 +158,18 @@
 		function addStylesCommands( styles ) {
 			var style;
 
+			if ( !editor.widgets.registered.easyimage._styles ) {
+				editor.widgets.registered.easyimage._styles = {};
+			}
+
 			for ( style in styles ) {
 				editor.addCommand( 'easyimage' + capitalize( style ),
-					createStyleCommand( editor, capitalize( style ), styles[ style ] ) );
+					createStyleCommand( editor, style, styles[ style ] ) );
 			}
 		}
 
 		addDefaultCommands();
-		addStylesCommands( editor.config.easyimage_styles );
+		addStylesCommands( CKEDITOR.tools.object.merge( defaultStyles, editor.config.easyimage_styles ) );
 	}
 
 	function addToolbar( editor ) {
@@ -215,9 +211,14 @@
 		} );
 	}
 
-	function getInitialImageType( widget ) {
-		if ( widget.element.hasClass( widget.editor.config.easyimage_sideClass ) ) {
-			return 'side';
+	function getActiveStyle( widget ) {
+		var styles = widget.definition._styles,
+			style;
+
+		for ( style in styles ) {
+			if ( widget.checkStyleActive( styles[ style ] ) ) {
+				return style;
+			}
 		}
 
 		return 'full';
@@ -347,14 +348,8 @@
 				data: function( evt ) {
 					var data = evt.data;
 
-					if ( !data.type ) {
-						data.type = getInitialImageType( this );
-					}
-
-					if ( data.type === 'side' ) {
-						this.addClass( editor.config.easyimage_sideClass );
-					} else {
-						this.removeClass( editor.config.easyimage_sideClass );
+					if ( !data.style ) {
+						data.style = getActiveStyle( this );
 					}
 				}
 			};
@@ -496,7 +491,7 @@
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'imagebase,balloontoolbar,button,dialog,cloudservices',
 		lang: 'en',
-		icons: 'easyimagefull,easyimageside,easyimagealt', // %REMOVE_LINE_CORE%
+		icons: 'easyimagefull,easyimageside,easyimagealt,easyimagealignleft,easyimagealigncenter,easyimagealignright', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		onLoad: function() {
@@ -534,6 +529,18 @@
 	CKEDITOR.config.easyimage_class = 'easyimage';
 
 	/**
+	 * A CSS class representing full width image.
+	 *
+	 *		// Changes the class to "my-full-width-image".
+	 *		config.easyimage_sideClass = 'my-full-width-image';
+	 *
+	 * @since 4.9.0
+	 * @cfg {String} [easyimage_fullClass='easyimage-full']
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.easyimage_fullClass = 'easyimage-full';
+
+	/**
 	 * A CSS class representing side image.
 	 *
 	 *		// Changes the class to "my-side-image".
@@ -544,6 +551,42 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.easyimage_sideClass = 'easyimage-side';
+
+	/**
+	 * A CSS class representing image aligned to left.
+	 *
+	 *		// Changes the class to "my-left-image".
+	 *		config.easyimage_alignLeftClass = 'my-left-image';
+	 *
+	 * @since 4.9.0
+	 * @cfg {String} [easyimage_alignLeftClass='easyimage-alignLeft']
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.easyimage_alignLeftClass = 'easyimage-alignLeft';
+
+	/**
+	 * A CSS class representing image aligned to center.
+	 *
+	 *		// Changes the class to "my-center-image".
+	 *		config.easyimage_alignCenterClass = 'my-center-image';
+	 *
+	 * @since 4.9.0
+	 * @cfg {String} [easyimage_alignCenterClass='easyimage-alignCenter']
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.easyimage_alignCenterClass = 'easyimage-alignCenter';
+
+	/**
+	 * A CSS class representing image aligned to right.
+	 *
+	 *		// Changes the class to "my-right-image".
+	 *		config.easyimage_alignLeftClass = 'my-right-image';
+	 *
+	 * @since 4.9.0
+	 * @cfg {String} [easyimage_alignRightClass='easyimage-alignRight']
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.easyimage_alignRightClass = 'easyimage-alignRight';
 
 	/**
 	 * Custom styles that could be applied to Easy Image widget. All styles must be instances of
