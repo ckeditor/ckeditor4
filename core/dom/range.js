@@ -2819,10 +2819,10 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Returns Array of rects from dom elements contained within current ranges.
+		 * Returns array with rectangles of areas covered by ranges. For each DOM element within range there is one rectangle, but it represents only part of element which is within range, not whole element.
 		 *
 		 * @since 4.9.0
-		 * @private
+		 * @returns {Array}
 		 */
 		getClientRects: function() {
 			// Extending empty object wth rect, to prevent inheriting from DOMRect, same approach as in CKEDITOR.dom.element.getClientRect().
@@ -2855,8 +2855,8 @@ CKEDITOR.dom.range = function( root ) {
 					rects = [ start.getClientRect(), start.getClientRect() ];
 					start.remove();
 				}
-				rect.right = Math.max( rects[ 0].right, rects[ 1 ].right );
-				rect.bottom = Math.max( rects[ 0].bottom, rects[ 1 ].bottom );
+				rect.right = Math.max( rects[ 0 ].right, rects[ 1 ].right );
+				rect.bottom = Math.max( rects[ 0 ].bottom, rects[ 1 ].bottom );
 				rect.left = Math.min( rects[ 0 ].left, rects[ 1 ].left );
 				rect.top = Math.min( rects[ 0 ].top, rects[ 1 ].top );
 				rect.width = Math.abs( rects[ 0 ].left - rects[ 1 ].left );
@@ -2866,16 +2866,20 @@ CKEDITOR.dom.range = function( root ) {
 			}
 
 			if ( this.document.$.getSelection !== undefined ) {
-				var sel = this.document.$.getSelection(),
-					range = sel.getRangeAt( 0 ),
-					rectList = range.getClientRects(),
+				var range = document.createRange(),
+					rectList,
 					rectArray = [];
+				range.setStart( this.startContainer.$, this.startOffset );
+				range.setEnd( this.endContainer.$, this.endOffset );
+
+				rectList = range.getClientRects();
+				range.detach();
 
 				for ( var i = 0; i < rectList.length; i++ ) {
 					rectArray.push( convertRect( rectList[ i ] ) );
 				}
-				return rectArray;
 
+				return rectArray;
 			} else {
 				return [ getRect( this ) ];
 			}
