@@ -230,7 +230,7 @@
 						easyImageDef.loaderType = originalLoader;
 
 						assert.areSame( 1, window.alert.callCount, 'Alert call count' );
-						sinon.assert.alwaysCalledWith( window.alert, 'Your image could not be downloaded due to network error.' );
+						sinon.assert.alwaysCalledWith( window.alert, 'Your image could not be uploaded due to a network error.' );
 
 						// Widget should be removed.
 						assert.areSame( 0, widgets.length, 'Widgets count' );
