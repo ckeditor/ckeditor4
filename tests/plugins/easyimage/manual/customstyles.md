@@ -3,12 +3,13 @@
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, easyimage
 
 1. Click on image widget.
-2. Click on button without the icon inside the balloon toolbar.
+2. Click on one of button in balloon toolbar. **Note:** first style is a totally custom one, therefore it does not have any icon.
 
 ## Expected:
 
-* Widget gets red background.
+* Widget styles are changed.
 * Button state is changed to "on".
+* Other buttons states are changed to "off".
 
 
 1. Click "Source" button.
@@ -16,13 +17,19 @@
 
 ## Expected:
 
-* Widget still has red background.
+* Widget still has the same styles.
 
 
 1. Click on widget.
-1. Click on the button in balloon toolbar.
+1. Click on the same button in balloon toolbar.
 
 ## Expected
 
-* Widget returns to default appearance.
-* Button state is changed to "off".
+* Nothing happens.
+
+
+1. Click on some other button in balloon toolbar.
+
+## Expected
+
+* Widget style changes.

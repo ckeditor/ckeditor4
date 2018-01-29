@@ -76,7 +76,35 @@
 			} );
 		},
 
-		'test adding and removing style': function( editor, bot ) {
+		'test command only applies style': function( editor, bot ) {
+			bot.setData( CKEDITOR.document.getById( 'standard' ).getHtml(), function() {
+				var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
+
+				editor.once( 'afterCommandExec', function() {
+					editor.once( 'afterCommandExec', function() {
+						resume( function() {
+							easyimageTestsTools.assertCommandsState( editor, {
+								easyimageTest: CKEDITOR.TRISTATE_ON
+							} );
+							assert.areSame( 'test', widget.data.style, 'Widget has correct style data' );
+						} );
+					} );
+
+					easyimageTestsTools.assertCommandsState( editor, {
+						easyimageTest: CKEDITOR.TRISTATE_ON
+					} );
+					assert.areSame( 'test', widget.data.style, 'Widget has correct style data' );
+
+					editor.execCommand( 'easyimageTest' );
+				} );
+
+				widget.focus();
+				editor.execCommand( 'easyimageTest' );
+				wait();
+			} );
+		},
+
+		'test styles being exclusive': function( editor, bot ) {
 			bot.setData( CKEDITOR.document.getById( 'standard' ).getHtml(), function() {
 				var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
 
@@ -85,22 +113,39 @@
 						resume( function() {
 							assert.isFalse( widget.hasClass( 'test' ), 'Style removed' );
 							easyimageTestsTools.assertCommandsState( editor, {
-								easyimageTest: CKEDITOR.TRISTATE_OFF
+								easyimageTest: CKEDITOR.TRISTATE_OFF,
+								easyimageAlignLeft: CKEDITOR.TRISTATE_ON
 							} );
 						} );
 					} );
 
 					assert.isTrue( widget.hasClass( 'test' ), 'Style applied' );
 					easyimageTestsTools.assertCommandsState( editor, {
+						easyimageFull: CKEDITOR.TRISTATE_OFF,
 						easyimageTest: CKEDITOR.TRISTATE_ON
 					} );
 
-					editor.execCommand( 'easyimageTest' );
+					editor.execCommand( 'easyimageAlignLeft' );
 				} );
 
 				widget.focus();
+
+				easyimageTestsTools.assertCommandsState( editor, {
+					easyimageFull: CKEDITOR.TRISTATE_ON,
+					easyimageTest: CKEDITOR.TRISTATE_OFF
+				} );
+
 				editor.execCommand( 'easyimageTest' );
 				wait();
+			} );
+		},
+
+		'test widget fallback to full style': function( editor, bot ) {
+			bot.setData( CKEDITOR.document.getById( 'standard' ).getHtml(), function() {
+				var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
+
+				assert.areSame( 'full', widget.data.style, 'Widget has correct style data' );
+				assert.isTrue( widget.hasClass( 'easyimage-full' ), 'Widget has correct style' );
 			} );
 		}
 	};
