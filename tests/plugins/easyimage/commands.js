@@ -1,7 +1,7 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: easyimage,toolbar,contextmenu,undo */
-/* bender-include: _helpers/tools.js */
-/* global easyImageTools */
+/* bender-include: _helpers/tools.js,manual/_helpers/tools.js */
+/* global easyImageTools, isUnsupportedEnvironment */
 
 ( function() {
 	'use strict';
@@ -24,6 +24,10 @@
 		widgetHtml = '<figure class="easyimage easyimage-full"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		tests = {
 			setUp: function() {
+				if ( isUnsupportedEnvironment() ) {
+					assert.ignore();
+				}
+
 				if ( CKEDITOR.env.ie ) {
 					CKEDITOR.dom.element.prototype.getClientRect = function() {
 						return {

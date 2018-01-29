@@ -1,4 +1,4 @@
-/* exported getToken, easyImageTools */
+/* exported getToken, easyImageTools, isUnsupportedEnvironment */
 /* global console */
 
 // WARNING: The URL below should not be used for any other purpose than Easy Image plugin development.
@@ -44,3 +44,7 @@ function getToken( callback ) {
 var easyImageTools = {
 	CLOUD_SERVICES_UPLOAD_GATEWAY: 'https://files.cke-cs.com/upload/'
 };
+
+function isUnsupportedEnvironment() {
+	return CKEDITOR.env.ie && CKEDITOR.env.version < 11;
+}

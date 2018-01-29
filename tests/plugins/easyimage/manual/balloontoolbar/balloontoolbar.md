@@ -1,6 +1,7 @@
 @bender-tags: 4.9.0, feature, 932
 @bender-ui: collapsed
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, undo, easyimage
+@bender-include: ./_helpers/tools.js
 
 Check integration between balloon toolbar and easy image:
 
