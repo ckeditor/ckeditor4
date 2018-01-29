@@ -375,7 +375,7 @@
 				}
 			},
 
-			/*
+			/**
 			 * @private
 			 * @param {CKEDITOR.editor} editor
 			 * @param {CKEDITOR.plugins.widget.definition} widgetDef
@@ -413,7 +413,7 @@
 			 * @property {Function} [loaderType=CKEDITOR.fileTools.fileLoader]
 			 */
 
-			/*
+			/**
 			 * Fired when upload was initiated and before response is fetched.
 			 *
 			 *		progress.once( 'uploadStarted', function( evt ) {
@@ -430,7 +430,7 @@
 			 * @param {CKEDITOR.fileTools.fileLoader} data Lader that is used for this widget.
 			 */
 
-			/*
+			/**
 			 * Fired when upload process succeeded. This is the event where you want apply data
 			 * from your response into a widget.
 			 *
@@ -444,7 +444,7 @@
 			 * @param {CKEDITOR.fileTools.fileLoader} data.loader Loader that caused this event.
 			 */
 
-			/*
+			/**
 			 * Fired when upload process {@link CKEDITOR.fileTools.fileLoader#event-error failed} or was
 			 * {@link CKEDITOR.fileTools.fileLoader#event-abort aborted}.
 			 *
