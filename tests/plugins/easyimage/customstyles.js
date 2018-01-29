@@ -151,5 +151,40 @@
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+
+	tests[ 'test override default styles' ] = function() {
+		return bender.editorBot.create( {
+			name: 'test_override',
+			config: {
+				easyimage_styles: {
+					alignLeft: {
+						attributes: {
+							'class': 'customClass'
+						}
+					}
+				}
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			bot.setData( CKEDITOR.document.getById( 'standard' ).getHtml(), function() {
+				var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
+
+				editor.once( 'afterCommandExec', function() {
+					resume( function() {
+						easyimageTestsTools.assertCommandsState( editor, {
+							easyimageAlignLeft: CKEDITOR.TRISTATE_ON
+						} );
+						assert.areSame( 'alignLeft', widget.data.style, 'Widget has correct style data' );
+						assert.isTrue( widget.hasClass( 'customClass' ), 'Widget has appropriate class' );
+					} );
+				} );
+
+				widget.focus();
+				editor.execCommand( 'easyimageAlignLeft' );
+				wait();
+			} );
+		} );
+	};
 	bender.test( tests );
 } )();
