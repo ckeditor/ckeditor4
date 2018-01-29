@@ -311,7 +311,7 @@
 
 						if ( uploadFile.call( sender, evt ) ) {
 							// Use one of two upload strategies, either form or XHR based (#643).
-							if ( editor.config.filebrowserUploadMethod !== 'xhr' || !isFileUploadApiSupported ) {
+							if ( editor.config.filebrowserUploadMethod === 'form' || !isFileUploadApiSupported ) {
 								// Append token preventing CSRF attacks.
 								appendToken( fileInput );
 								return true;
@@ -604,9 +604,9 @@
  *
  * Available values:
  *
- *	* `'xhr'` - XMLHttpRequest is used to upload file. Using this option allows to set up with Additional XHR headers with
+ *	* `'xhr'` - (default) XMLHttpRequest is used to upload file. Using this option allows to set up with additional XHR headers with
  * {@link CKEDITOR.config#fileTools_requestHeaders} option.
- *	* `'form'` - (default) File is uploaded by submitting a traditional `<form>` element.
+ *	* `'form'` - File is uploaded by submitting a traditional `<form>` element.
  *	* `null` - The default method is used.
  *
  * Note: please be aware that `'xhr'` requires the [File Tools](https://ckeditor.com/cke4/addon/filetools) plugin to work
@@ -614,9 +614,8 @@
  * {@link CKEDITOR.fileTools#isFileUploadSupported file uploading}, will fallback to the `'form'` method despite configuration
  * option.
  *
- *		// Modern browsers will use XMLHttpRequest to upload files.
- *		// IE8 and IE9 will use form submit even though the config option is set to 'xhr'.
- *		config.filebrowserUploadMethod = 'xhr';
+ *		// All browsers will use form element with submit method to upload a file.
+ *		config.filebrowserUploadMethod = 'form';
  *
  * @since 4.9.0
  * @cfg {String/null} [filebrowserUploadMethod=null]
