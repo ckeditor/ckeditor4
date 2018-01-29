@@ -11,3 +11,7 @@ Check if caption is working correctly:
 * If caption is empty, it contains placeholder text.
 
 Repeat these checks for all editors.
+
+## Note
+
+On Edge you could be affected by [#1458](https://github.com/ckeditor/ckeditor-dev/issues/1458) and have to double click widget to focus it.

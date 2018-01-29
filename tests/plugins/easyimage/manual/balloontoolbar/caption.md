@@ -24,3 +24,7 @@
 ---
 
 Repeat above steps for all other editors.
+
+## Note
+
+On Edge you could be affected by [#1458](https://github.com/ckeditor/ckeditor-dev/issues/1458) and have to double click widget to focus it.
