@@ -5,7 +5,7 @@
 </div>
 
 <script>
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+	if ( isUnsupportedEnvironment() ) {
 		bender.ignore();
 	}
 	var mockBase64 = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=';
@@ -18,7 +18,6 @@
 		var instance = new CKEDITOR.plugins.cloudservices.cloudServicesLoader( CKEDITOR.instances.classic, mockBase64 );
 		CKEDITOR.instances.classic.config.cloudServices_url = undefined;
 		CKEDITOR.instances.classic.config.cloudServices_token = 'cs_token';
-		
 		instance.upload();
 	} );
 	document.getElementById( 'token' ).addEventListener( 'click', function( event ) {
