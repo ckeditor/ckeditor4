@@ -104,7 +104,7 @@
 					assert.isTrue( widget.hasClass( 'easyimage' ), 'Widget wrapper has main class' );
 					assert.isFalse( widget.hasClass( 'easyimage-side' ),
 						'Widget wrapper does not have side class' );
-					assert.areSame( 'full', widget.data.type, 'Widget has correct type data' );
+					assert.areSame( 'full', widget.data.style, 'Widget has correct style data' );
 
 					bot.contextmenu( function( menu ) {
 						easyImageTools.assertMenuItemsState( menu.items, {
@@ -117,7 +117,7 @@
 						assert.isTrue( widget.element.hasClass( 'easyimage-side' ), 'Image has side class' );
 						assert.isTrue( widget.hasClass( 'easyimage' ), 'Widget wrapper has main class' );
 						assert.isTrue( widget.hasClass( 'easyimage-side' ), 'Widget wrapper has side class' );
-						assert.areSame( 'side', widget.data.type, 'Widget has correct type data' );
+						assert.areSame( 'side', widget.data.style, 'Widget has correct style data' );
 
 						bot.contextmenu( function( menu ) {
 							easyImageTools.assertMenuItemsState( menu.items, {
@@ -135,7 +135,7 @@
 				bot.setData( sideWidgetHtml, function() {
 					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
 
-					assert.areSame( 'side', widget.data.type, 'Widget has correct type data' );
+					assert.areSame( 'side', widget.data.style, 'Widget has correct style data' );
 				} );
 			},
 
