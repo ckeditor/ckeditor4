@@ -156,6 +156,26 @@
 			} );
 		},
 
+		'test destroy editor during upload': function() {
+
+			bender.editorBot.create( { name: 'destroy_test', config: { extraPlugins: 'uploadwidget' } }, function( bot ) {
+				var editor = bot.editor;
+
+				addTestUploadWidget( editor, 'testuploadwidget' );
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+				var loader = editor.uploadRepository.loaders[ 0 ];
+
+				try {
+					editor.destroy();
+					loader.changeStatus( 'uploading' );
+					assert.pass();
+				} catch ( err ) {
+					assert.fail( 'Exception thrown during file upload.' );
+				}
+			} );
+		},
+
 		'test markElement': function() {
 			var element = new CKEDITOR.dom.element( 'p' );
 			CKEDITOR.fileTools.markElement( element, 'widgetName', 1 );

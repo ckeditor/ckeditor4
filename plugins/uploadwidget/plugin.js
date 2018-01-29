@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -252,6 +252,11 @@
 					oldStyle, newStyle;
 
 				loader.on( 'update', function( evt ) {
+					// Abort if the editor has been destroyed.
+					if ( widget.editor.status === 'destroyed' ) {
+						return;
+					}
+
 					// Abort if widget was removed.
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
 						if ( !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
