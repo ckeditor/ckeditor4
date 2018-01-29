@@ -1,7 +1,7 @@
 ﻿/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: floatingspace,easyimage,toolbar */
 /* bender-include: ../widget/_helpers/tools.js, _helpers/tools.js */
-/* global easyimageTestsTools */
+/* global easyImageTools */
 
 ( function() {
 	'use strict';
@@ -39,7 +39,7 @@
 		},
 
 		'test default styles are always defined': function( editor ) {
-			easyimageTestsTools.assertCommandsState( editor, {
+			easyImageTools.assertCommandsState( editor, {
 				easyimageFull: CKEDITOR.TRISTATE_DISABLED,
 				easyimageSide: CKEDITOR.TRISTATE_DISABLED,
 				easyimageAlignLeft: CKEDITOR.TRISTATE_DISABLED,
@@ -52,13 +52,13 @@
 			bot.setData( CKEDITOR.document.getById( 'standard' ).getHtml(), function() {
 				var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
 
-				easyimageTestsTools.assertCommandsState( editor, {
+				easyImageTools.assertCommandsState( editor, {
 					easyimageTest: CKEDITOR.TRISTATE_DISABLED
 				} );
 
 				widget.focus();
 
-				easyimageTestsTools.assertCommandsState( editor, {
+				easyImageTools.assertCommandsState( editor, {
 					easyimageTest: CKEDITOR.TRISTATE_OFF
 				} );
 			} );
@@ -70,7 +70,7 @@
 
 				widget.focus();
 
-				easyimageTestsTools.assertCommandsState( editor, {
+				easyImageTools.assertCommandsState( editor, {
 					easyimageTest: CKEDITOR.TRISTATE_ON
 				} );
 			} );
@@ -83,14 +83,14 @@
 				editor.once( 'afterCommandExec', function() {
 					editor.once( 'afterCommandExec', function() {
 						resume( function() {
-							easyimageTestsTools.assertCommandsState( editor, {
+							easyImageTools.assertCommandsState( editor, {
 								easyimageTest: CKEDITOR.TRISTATE_ON
 							} );
 							assert.areSame( 'test', widget.data.style, 'Widget has correct style data' );
 						} );
 					} );
 
-					easyimageTestsTools.assertCommandsState( editor, {
+					easyImageTools.assertCommandsState( editor, {
 						easyimageTest: CKEDITOR.TRISTATE_ON
 					} );
 					assert.areSame( 'test', widget.data.style, 'Widget has correct style data' );
@@ -112,7 +112,7 @@
 					editor.once( 'afterCommandExec', function() {
 						resume( function() {
 							assert.isFalse( widget.hasClass( 'test' ), 'Style removed' );
-							easyimageTestsTools.assertCommandsState( editor, {
+							easyImageTools.assertCommandsState( editor, {
 								easyimageTest: CKEDITOR.TRISTATE_OFF,
 								easyimageAlignLeft: CKEDITOR.TRISTATE_ON
 							} );
@@ -120,7 +120,7 @@
 					} );
 
 					assert.isTrue( widget.hasClass( 'test' ), 'Style applied' );
-					easyimageTestsTools.assertCommandsState( editor, {
+					easyImageTools.assertCommandsState( editor, {
 						easyimageFull: CKEDITOR.TRISTATE_OFF,
 						easyimageTest: CKEDITOR.TRISTATE_ON
 					} );
@@ -130,7 +130,7 @@
 
 				widget.focus();
 
-				easyimageTestsTools.assertCommandsState( editor, {
+				easyImageTools.assertCommandsState( editor, {
 					easyimageFull: CKEDITOR.TRISTATE_ON,
 					easyimageTest: CKEDITOR.TRISTATE_OFF
 				} );
@@ -172,7 +172,7 @@
 
 				editor.once( 'afterCommandExec', function() {
 					resume( function() {
-						easyimageTestsTools.assertCommandsState( editor, {
+						easyImageTools.assertCommandsState( editor, {
 							easyimageAlignLeft: CKEDITOR.TRISTATE_ON
 						} );
 						assert.areSame( 'alignLeft', widget.data.style, 'Widget has correct style data' );
