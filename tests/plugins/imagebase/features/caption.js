@@ -220,6 +220,12 @@
 	}
 
 	var tests = {
+		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				assert.ignore();
+			}
+		},
+
 		'test upcasting widget without figcaption element': function( editor, bot ) {
 			addTestWidget( editor );
 
