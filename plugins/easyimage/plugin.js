@@ -182,32 +182,40 @@
 	}
 
 	function addMenuItems( editor ) {
+		var buttons = editor.config.easyimage_toolbar;
+
 		if ( !editor.plugins.contextmenu ) {
 			return;
 		}
 
+		if ( buttons.split ) {
+			buttons = buttons.split( ',' );
+		}
+
 		editor.addMenuGroup( 'easyimage' );
-		editor.addMenuItems( {
-			easyimageFull: {
-				label: editor.lang.easyimage.commands.fullImage,
-				command: 'easyimageFull',
-				group: 'easyimage',
-				order: 1
-			},
+		CKEDITOR.tools.array.forEach( buttons, function( button ) {
+			button = editor.ui.items[ button ];
 
-			easyimageSide: {
-				label: editor.lang.easyimage.commands.sideImage,
-				command: 'easyimageSide',
-				group: 'easyimage',
-				order: 2
-			},
+			editor.addMenuItem( button.name, {
+				label: button.label,
+				command: button.command,
+				group: 'easyimage'
+			} );
+		} );
+	}
 
-			easyimageAlt: {
-				label: editor.lang.easyimage.commands.altText,
-				command: 'easyimageAlt',
-				group: 'easyimage',
-				order: 3
-			}
+	function updateMenuItemsStates( evt ) {
+		var editor = evt.sender.editor,
+			buttons = editor.config.easyimage_toolbar;
+
+		if ( buttons.split ) {
+			buttons = buttons.split( ',' );
+		}
+
+		CKEDITOR.tools.array.forEach( buttons, function( button ) {
+			button = editor.ui.items[ button ];
+
+			evt.data[ button.name ] = editor.getCommand( button.command ).state;
 		} );
 	}
 
@@ -309,11 +317,7 @@
 						this.element.data( 'cke-upload-id', false );
 					}
 
-					this.on( 'contextMenu', function( evt ) {
-						evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
-						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
-						evt.data.easyimageAlt = editor.getCommand( 'easyimageAlt' ).state;
-					} );
+					this.on( 'contextMenu', updateMenuItemsStates );
 
 					if ( editor.config.easyimage_class ) {
 						this.addClass( editor.config.easyimage_class );
@@ -616,7 +620,7 @@
 	CKEDITOR.config.easyimage_styles = {};
 
 	/**
-	 * List of buttons to be displayed in a balloon toolbar for Easy Image widget.
+	 * List of buttons to be displayed in a balloon toolbar and context menu for Easy Image widget.
 	 *
 	 * @since 4.9.0
 	 * @cfg {Array|String} [easyimage_toolbar=[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ]]
