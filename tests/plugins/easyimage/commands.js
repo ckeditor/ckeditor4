@@ -1,7 +1,7 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: easyimage,toolbar,contextmenu,undo */
 /* bender-include: _helpers/tools.js */
-/* globals easyImageTools */
+/* global easyImageTools */
 
 ( function() {
 	'use strict';
@@ -178,36 +178,6 @@
 					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
 
 					assert.areSame( 'side', widget.data.type, 'Widget has correct type data' );
-				} );
-			},
-
-			'test balloontoolbar integration': function( editor, bot ) {
-				bot.setData( widgetHtml, function() {
-					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) ),
-						toolbar = editor.balloonToolbars._contexts[ 0 ].toolbar;
-
-					toolbar._view.once( 'show', function() {
-						easyImageTools.assertCommandsState( editor, {
-							easyimageFull: CKEDITOR.TRISTATE_ON,
-							easyimageSide: CKEDITOR.TRISTATE_OFF,
-							easyimageAlt: CKEDITOR.TRISTATE_OFF
-						} );
-
-						editor.once( 'afterCommandExec', function() {
-							resume( function() {
-								easyImageTools.assertCommandsState( editor, {
-									easyimageFull: CKEDITOR.TRISTATE_OFF,
-									easyimageSide: CKEDITOR.TRISTATE_ON,
-									easyimageAlt: CKEDITOR.TRISTATE_OFF
-								} );
-							} );
-						} );
-
-						editor.execCommand( 'easyimageSide' );
-					} );
-
-					widget.focus();
-					wait();
 				} );
 			}
 		};

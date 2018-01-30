@@ -4,5 +4,5 @@
  */
 
 CKEDITOR.plugins.setLang( 'imagebase', 'en', {
-	captionPlaceholder: 'Caption'
+	captionPlaceholder: 'Enter image caption'
 } );
