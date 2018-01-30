@@ -41,10 +41,6 @@ function getToken( callback ) {
 	xhr.send( null );
 }
 
-var easyImageTools = {
-	CLOUD_SERVICES_UPLOAD_GATEWAY: 'https://files.cke-cs.com/upload/'
-};
-
 function isUnsupportedEnvironment() {
 	return CKEDITOR.env.ie && CKEDITOR.env.version < 11;
 }

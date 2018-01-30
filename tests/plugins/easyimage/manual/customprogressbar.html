@@ -21,10 +21,9 @@
 	<p></p>
 </div>
 
-<script src="_helpers/tools.js"></script>
 <script src="../../imagebase/features/_helpers/tools.js"></script>
 <script>
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+	if ( isUnsupportedEnvironment() ) {
 		bender.ignore();
 	}
 

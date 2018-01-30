@@ -1,7 +1,7 @@
 @bender-tags: 4.9.0, feature, 932
 @bender-ui: collapsed
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, easyimage, undo, pastefromword
-
+@bender-include: ./_helpers/tools.js,../_helpers/tools.js
 ## Easy Image PFW Integration
 
 Upload some images:

@@ -1,7 +1,7 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: easyimage,toolbar,contextmenu,undo */
-/* bender-include: _helpers/tools.js */
-/* global easyImageTools */
+/* bender-include: ./_helpers/tools.js,./manual/_helpers/tools.js */
+/* global easyImageTools, isUnsupportedEnvironment */
 
 ( function() {
 	'use strict';
@@ -44,6 +44,9 @@
 		initialFrameHeight = testSuiteIframe && testSuiteIframe.getStyle( 'height' ),
 		tests = {
 			setUp: function() {
+				if ( isUnsupportedEnvironment() ) {
+					assert.ignore();
+				}
 				// This test checks real balloon panel positioning. To avoid affecting position with scroll offset, set the parent iframe height
 				// enough to contain entire content. Note that iframe is not present if the test suite is open in a separate window, or ran on IEs.
 				if ( testSuiteIframe ) {

@@ -55,6 +55,7 @@ var easyImageTools = ( function() {
 	}
 
 	return {
+		CLOUD_SERVICES_UPLOAD_GATEWAY: 'https://files.cke-cs.com/upload/',
 		createTestsForEditors: createTestsForEditors,
 		assertCommandsState: assertCommandsState,
 		assertMenuItemsState: assertMenuItemsState
