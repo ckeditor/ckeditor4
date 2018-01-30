@@ -268,7 +268,7 @@
 				this.icon = null;
 
 			} else {
-				// Register and use custom icon for button (#).
+				// Register and use custom icon for button (#1530).
 				var iconPath = null;
 				if ( this.icon ) {
 					iconPath = this.icon;
