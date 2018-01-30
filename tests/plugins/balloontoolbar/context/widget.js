@@ -27,7 +27,7 @@
 
 		'test simple positive matching with one item': function() {
 			var editor = this.editor,
-				context = getContextStub( [ 'positive' ], editor );
+				context = getContextStub( editor, [ 'positive' ] );
 
 			editor.widgets.add( 'positive' );
 
@@ -44,7 +44,7 @@
 
 		'test simple positive matching with multiple items': function() {
 			var editor = this.editor,
-				context = getContextStub( [ 'foo', 'bar', 'baz' ], editor );
+				context = getContextStub( editor, [ 'foo', 'bar', 'baz' ] );
 
 			editor.widgets.add( 'bar' );
 
@@ -61,7 +61,7 @@
 
 		'test simple mismatching with few items': function() {
 			var editor = this.editor,
-				context = getContextStub( [ 'foo', 'bar', 'baz', 'nega', 'negative-postfix' ], editor );
+				context = getContextStub( editor, [ 'foo', 'bar', 'baz', 'nega', 'negative-postfix' ] );
 
 			editor.widgets.add( 'negative' );
 
@@ -78,7 +78,7 @@
 
 		'test matching with options.widgets as a string': function() {
 			var editor = this.editor,
-				context = getContextStub( 'foo,bar,baz', editor );
+				context = getContextStub( editor, 'foo,bar,baz' );
 
 			editor.widgets.add( 'bar' );
 
@@ -95,7 +95,7 @@
 
 		'test negation with options.widgets as a string': function() {
 			var editor = this.editor,
-				context = getContextStub( 'foo,zbarz,baz', editor );
+				context = getContextStub( editor, 'foo,zbarz,baz' );
 
 			editor.widgets.add( 'bar' );
 
@@ -112,7 +112,7 @@
 
 		'test widget selector does not trigger in nested editable': function() {
 			var editor = this.editor,
-				context = getContextStub( 'widgetWithEditable', editor );
+				context = getContextStub( editor, 'widgetWithEditable' );
 
 			editor.widgets.add( 'widgetWithEditable', {
 				editables: {
@@ -132,7 +132,7 @@
 		'test widget toolbar points to a proper element': function() {
 			// Toolbar matched to a widget, should point to a widget element.
 			var editor = this.editor,
-				context = getContextStub( [ 'pointing' ], editor );
+				context = getContextStub( editor, [ 'pointing' ] );
 
 			editor.widgets.add( 'pointing' );
 
