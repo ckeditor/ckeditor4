@@ -1,4 +1,4 @@
-@bender-tags: 4.8.1, bug, 1419, widgetselection
+@bender-tags: 4.9.0, bug, 1419, widgetselection
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,toolbar,link,format,sourcearea,widgetselection,elementspath
 

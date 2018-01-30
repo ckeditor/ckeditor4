@@ -618,7 +618,7 @@
  *		// IE8 and IE9 will use form submit even though the config option is set to 'xhr'.
  *		config.filebrowserUploadMethod = 'xhr';
  *
- * @since 4.8.1
+ * @since 4.9.0
  * @cfg {String/null} [filebrowserUploadMethod=null]
  * @member CKEDITOR.config
  */

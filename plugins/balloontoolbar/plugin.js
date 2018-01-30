@@ -743,7 +743,7 @@
 			 * Method deregisters {@link #focusables} registered by UI items, like buttons.
 			 *
 			 * @private
-			 * @since 4.8.1
+			 * @since 4.9.0
 			 * @member CKEDITOR.ui.balloonToolbarView
 			 */
 			CKEDITOR.ui.balloonToolbarView.prototype._deregisterItemFocusables = function() {
