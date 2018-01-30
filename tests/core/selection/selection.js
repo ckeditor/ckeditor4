@@ -788,7 +788,7 @@ bender.test( {
 		assert.isFalse( editor.getSelection().isCollapsed() );
 	},
 
-	'test delete/backspace keys are not removing readonly widgets': function() {
+	'test delete/backspace keys are not removing readonly selection': function() {
 		var editor = this.editor, bot = this.editorBot;
 
 		editor.setReadOnly( true );
@@ -799,7 +799,7 @@ bender.test( {
 			widget.focus();
 
 			editor.fire( 'key', { keyCode: 8 } ); // backspace
-			editor.fire( 'keydown', { keyCode: 46 } ); // delete
+			editor.fire( 'key', { keyCode: 46 } ); // delete
 
 			assert.areEqual( '<p>[[placeholder]]</p>', editor.getData() );
 		} );
