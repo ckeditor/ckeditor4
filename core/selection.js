@@ -526,6 +526,10 @@
 					range = editor.createRange(),
 					found;
 
+				if ( editor.readOnly ) {
+					return;
+				}
+
 				// If haven't found place for caret on the default side,
 				// try to find it on the other side.
 				if ( !( found = range.moveToClosestEditablePosition( evt.selected, right ) ) )
@@ -1085,8 +1089,9 @@
 		}, null, null, 100 );
 
 		editor.on( 'key', function( evt ) {
-			if ( editor.mode != 'wysiwyg' )
+			if ( editor.mode != 'wysiwyg' ) {
 				return;
+			}
 
 			var sel = editor.getSelection();
 			if ( !sel.isFake )
