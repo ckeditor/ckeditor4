@@ -456,7 +456,7 @@
 			 * Note that the event will be fired even if the widget was created for a loader that
 			 * is already resolved.
 			 *
-			 * @evt uploadStarted
+			 * @event uploadStarted
 			 * @param {CKEDITOR.fileTools.fileLoader} data Lader that is used for this widget.
 			 */
 
@@ -469,7 +469,7 @@
 			 *			this.setData( 'backendUrl', response.url );
 			 *		} );
 			 *
-			 * @evt uploadDone
+			 * @event uploadDone
 			 * @param data
 			 * @param {CKEDITOR.fileTools.fileLoader} data.loader Loader that caused this event.
 			 */
@@ -484,7 +484,7 @@
 			 *
 			 * This event is cancelable, if not canceled it will remove the widget.
 			 *
-			 * @evt uploadFailed
+			 * @event uploadFailed
 			 * @param data
 			 * @param {CKEDITOR.fileTools.fileLoader} data.loader Loader that caused this event.
 			 */
