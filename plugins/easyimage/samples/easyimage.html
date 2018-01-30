@@ -111,7 +111,7 @@ function getToken( callback ) {
 
 getToken( function( token ) {
 	CKEDITOR.replace( 'editor', {
-		plugins: 'sourcearea,toolbar,undo,wysiwygarea,list,liststyle,format,link,basicstyles',
+		plugins: 'easyimage,autogrow,sourcearea,toolbar,undo,wysiwygarea,list,liststyle,format,link,basicstyles',
 		toolbar: [
 			{ name: 'document', items: [ 'Source', 'Undo', 'Redo' ] },
 			{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ] },
@@ -119,7 +119,6 @@ getToken( function( token ) {
 			{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
 			{ name: 'styles', items: [ 'Format' ] }
 		],
-		extraPlugins: 'easyimage',
 		cloudServices_url: 'https://files.cke-cs.com/upload/',
 		cloudServices_token: token,
 		height: 500
