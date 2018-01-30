@@ -190,6 +190,9 @@
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 8 } ) ); // backspace
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) ); // delete
 
+			editable.fire( 'keypress', new CKEDITOR.dom.event( { keyCode: 65, charCode: 65 } ) ); // `a`
+			editable.fire( 'keypress', new CKEDITOR.dom.event( { keyCode: 93, charCode: 93 } ) ); // `t`
+
 			assert.areSame( bender.tools.compatHtml( table ), editor.getData(), 'Editor data' );
 		}
 	};
