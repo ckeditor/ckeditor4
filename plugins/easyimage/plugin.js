@@ -279,6 +279,7 @@
 		}
 
 		widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'upload', widgetDefinition );
+		widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'caption', widgetDefinition );
 
 		CKEDITOR.plugins.imagebase.addImageWidget( editor, WIDGET_NAME, widgetDefinition );
 	}

@@ -6,13 +6,43 @@
 ( function() {
 	'use strict';
 
+	var stylesLoaded = false;
+
+	function loadStyles( editor, plugin ) {
+		if ( !stylesLoaded ) {
+			CKEDITOR.document.appendStyleSheet( plugin.path + 'styles/imagebase.css' );
+			stylesLoaded = true;
+		}
+
+		if ( editor.addContentsCss ) {
+			editor.addContentsCss( plugin.path + 'styles/imagebase.css' );
+		}
+	}
+
 	function getFocusedWidget( editor ) {
-		return editor.widgets.focused;
+		var widgets = editor.widgets,
+			currentActive = editor.focusManager.currentActive;
+
+		if ( !editor.focusManager.hasFocus ) {
+			return;
+		}
+
+		if ( widgets.focused ) {
+			return widgets.focused;
+		}
+
+		if ( currentActive instanceof CKEDITOR.plugins.widget.nestedEditable ) {
+			return widgets.getByElement( currentActive );
+		}
+	}
+
+	function hasWidgetFeature( widget, feature ) {
+		return widget.features && CKEDITOR.tools.array.indexOf( widget.features, feature ) !== -1;
 	}
 
 	function getLinkFeature() {
 		function isLinkable( widget ) {
-			return widget && widget.features && CKEDITOR.tools.array.indexOf( widget.features, 'link' ) !== -1;
+			return widget && hasWidgetFeature( widget, 'link' );
 		}
 
 		function addLinkAttributes( editor, linkElement, linkData ) {
@@ -463,7 +493,119 @@
 		return ret;
 	}
 
+	function getCaptionFeature() {
+		function createCaption( widget ) {
+			var element = widget.element,
+				caption = element.getDocument().createElement( 'figcaption' );
+
+			element.append( caption );
+			widget.initEditable( 'caption', widget.definition.editables.caption );
+
+			return caption;
+		}
+
+		function isEmptyOrHasPlaceholder( widget ) {
+			return !widget.editables.caption.getData() || !!widget.parts.caption.data( 'cke-caption-placeholder' );
+		}
+
+		function addPlaceholder( widget ) {
+			widget.parts.caption.data( 'cke-caption-placeholder', widget.editor.lang.imagebase.captionPlaceholder );
+		}
+
+		function removePlaceholder( widget ) {
+			widget.parts.caption.data( 'cke-caption-placeholder', false );
+		}
+
+		function setVisibility( caption, isVisible ) {
+			caption.data( 'cke-caption-active', isVisible );
+			caption.data( 'cke-caption-hidden', !isVisible );
+		}
+
+		/**
+		 * Widget feature dedicated for displaying caption under the widget.
+		 *
+		 * This type serves solely as a mixin, and should be added using
+		 * {@link CKEDITOR.plugins.imagebase#addFeature} method.
+		 *
+		 * This API is not yet in a final shape, thus marked as a private. It can be changed at any point.
+		 *
+		 * @private
+		 * @class CKEDITOR.plugins.imagebase.featuresDefinitions.caption
+		 * @abstract
+		 */
+		return {
+			setUp: function( editor ) {
+				var listeners = [];
+
+				function listener( evt ) {
+					var path = evt.name === 'blur' ? editor.elementPath() : evt.data.path,
+						sender = path ? path.lastElement : null,
+						focused = getFocusedWidget( editor ),
+						previous = editor.widgets.getByElement(
+							editor.editable().findOne( 'figcaption[data-cke-caption-active]' ) );
+
+					if ( !editor.filter.check( 'figcaption' ) ) {
+						return CKEDITOR.tools.array.forEach( listeners, function( listener ) {
+							listener.removeListener();
+						} );
+					}
+
+					if ( focused && hasWidgetFeature( focused, 'caption' ) ) {
+						focused._refreshCaption( sender );
+					}
+
+					if ( previous && hasWidgetFeature( previous, 'caption' ) ) {
+						previous._refreshCaption( sender );
+					}
+				}
+
+				listeners.push( editor.on( 'selectionChange', listener , null, null, 9 ) );
+				listeners.push( editor.on( 'blur', listener ) );
+			},
+
+			init: function() {
+				if ( !this.editor.filter.check( 'figcaption' ) ) {
+					return;
+				}
+
+				if ( !this.parts.caption ) {
+					this.parts.caption = createCaption( this );
+				}
+
+				this._refreshCaption();
+			},
+
+			/**
+			 * Method used to decide if caption for focused widget should be displayed and should contain
+			 * placeholder text.
+			 *
+			 * @private
+			 * @member CKEDITOR.plugins.imagebase.featuresDefinitions.caption
+			 * @param {CKEDITOR.dom.element} sender Element, on which this function should be called.
+			 */
+			_refreshCaption: function( sender ) {
+				var isFocused = getFocusedWidget( this.editor ) === this,
+					caption = this.parts.caption,
+					editable = this.editables.caption;
+
+				if ( isFocused ) {
+					if ( !editable.getData() && !sender.equals( caption ) ) {
+						addPlaceholder( this );
+					} else if ( !sender || ( sender.equals( caption ) && sender.data( 'cke-caption-placeholder' ) ) ) {
+						removePlaceholder( this );
+					}
+
+					setVisibility( caption, true );
+				} else if ( isEmptyOrHasPlaceholder( this ) ) {
+					removePlaceholder( this );
+					setVisibility( caption, false );
+				}
+			}
+		};
+	}
+
 	var featuresDefinitions = {
+		caption: getCaptionFeature(),
 		upload: getUploadFeature(),
 		link: getLinkFeature()
 	};
@@ -690,7 +832,11 @@
 
 	CKEDITOR.plugins.add( 'imagebase', {
 		requires: 'widget,filetools',
-		lang: 'en'
+		lang: 'en',
+
+		init: function( editor ) {
+			loadStyles( editor, this );
+		}
 	} );
 
 	/**
