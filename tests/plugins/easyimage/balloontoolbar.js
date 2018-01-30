@@ -1,5 +1,5 @@
 /* bender-tags: editor,widget */
-/* bender-ckeditor-plugins: easyimage,toolbar,undo */
+/* bender-ckeditor-plugins: easyimage,toolbar,contextmenu,undo */
 /* bender-include: _helpers/tools.js */
 /* global easyImageTools */
 
@@ -24,19 +24,6 @@
 		return editor.balloonToolbars._contexts[ 0 ];
 	}
 
-	// Forces the Balloon Toolbar to be always drawn below the target.
-	function patchBalloonPositioning( toolbar ) {
-		var original = toolbar._view._getAlignments;
-
-		toolbar._view._getAlignments = function() {
-			var ret = original.apply( this, arguments );
-
-			return {
-				'bottom hcenter': ret[ 'bottom hcenter' ]
-			};
-		};
-	}
-
 	/*
 	 * Returns an expected balloon Y position for a given widget.
 	 *
@@ -45,14 +32,10 @@
 	 */
 	function getExpectedYOffset( widget ) {
 		var editor = widget.editor,
+			wrapperPosition = widget.element.getDocumentPosition( CKEDITOR.document ),
 			wrapperRect = widget.element.getClientRect(),
 			toolbar = getEasyImageBalloonContext( editor ).toolbar,
-			ret = wrapperRect.bottom + toolbar._view.triangleHeight;
-
-		if ( !editor.editable().isInline() ) {
-			// In case of classic editor we also need to include position of the editor iframe too.
-			ret += editor.window.getFrame().getClientRect().top;
-		}
+			ret = wrapperPosition.y + wrapperRect.height + toolbar._view.triangleHeight;
 
 		return ret;
 	}
@@ -61,14 +44,12 @@
 		initialFrameHeight = testSuiteIframe && testSuiteIframe.getStyle( 'height' ),
 		tests = {
 			setUp: function() {
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
-					assert.ignore();
-				}
-
 				// This test checks real balloon panel positioning. To avoid affecting position with scroll offset, set the parent iframe height
 				// enough to contain entire content. Note that iframe is not present if the test suite is open in a separate window, or ran on IEs.
 				if ( testSuiteIframe ) {
 					testSuiteIframe.setStyle( 'height', '3000px' );
+				} else {
+					CKEDITOR.document.getDocumentElement().setStyle( 'height', '3000px' );
 				}
 			},
 
@@ -111,13 +92,14 @@
 			},
 
 			'test balloontoolbar positioning': function( editor, bot ) {
+				// Force toolbar to always appear under the widget.
+				editor.container.getWindow().$.scroll( 0, editor.container.getDocumentPosition().y );
+
 				var source = '<figure class="image easyimage"><img src="../image2/_assets/bar.png" alt="foo"><figcaption></figcaption></figure>';
 
 				bot.setData( source, function() {
 					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) ),
 						toolbar = getEasyImageBalloonContext( editor ).toolbar;
-
-					patchBalloonPositioning( toolbar );
 
 					widget.once( 'focus', function() {
 						setTimeout( function() {
