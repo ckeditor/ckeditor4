@@ -3,6 +3,7 @@
 
 var editorCounter = 0,
 	originalBasePath = null,
+	isDev = CKEDITOR.version === '%VERSION%',
 	isHidpi;
 
 function resolutionStandard() {
@@ -21,7 +22,7 @@ function assertIcon( editorConfig, btnName, iconPath ) {
 	}, function( bot ) {
 		var btn = bot.editor.ui.get( btnName ),
 			btnEl = CKEDITOR.document.getById( btn._.id ),
-			btnCss = CKEDITOR.tools.parseCssText( btnEl.findOne( '.cke_button_icon' ).getAttribute( 'style' ) );
+			btnCss = CKEDITOR.tools.parseCssText( btnEl.findOne( '.cke_button_icon' ).getAttribute( 'style' ), true );
 
 		assert.isMatching( iconPath, btnCss[ 'background-image' ] );
 	} );
@@ -46,7 +47,7 @@ bender.test( {
 		assertIcon(
 			{ extraPlugins: 'link' },
 			'Link',
-			/plugins\/link\/icons\/link\.png/gi
+			isDev ? /plugins\/link\/icons\/link\.png/gi : /plugins\/icons\.png/gi
 		);
 	},
 
@@ -55,7 +56,7 @@ bender.test( {
 		assertIcon(
 			{ extraPlugins: 'find' },
 			'Find',
-			/plugins\/find\/icons\/hidpi\/find\.png/gi
+			isDev ? /plugins\/find\/icons\/hidpi\/find\.png/gi : /plugins\/icons\.png/gi
 		);
 	},
 
@@ -73,7 +74,7 @@ bender.test( {
 				}
 			},
 			'custom_btn1',
-			/plugins\/about\/icons\/about\.png/gi
+			isDev ? /plugins\/about\/icons\/about\.png/gi : /plugins\/icons\.png/gi
 		);
 	},
 
@@ -91,7 +92,7 @@ bender.test( {
 				}
 			},
 			'custom_btn2',
-			/plugins\/blockquote\/icons\/hidpi\/blockquote\.png/gi
+			isDev ? /plugins\/blockquote\/icons\/hidpi\/blockquote\.png/gi : /plugins\/icons\.png/gi
 		);
 	},
 
@@ -102,13 +103,13 @@ bender.test( {
 				on: {
 					pluginsLoaded: function( evt ) {
 						evt.editor.ui.addButton( 'custom_btn3', {
-							icon: '/assets/icons.sample.png'
+							icon: 'tests/_assets/sample_icon.png'
 						} );
 					}
 				}
 			},
 			'custom_btn3',
-			/assets\/icons\.sample\.png/gi
+			/tests\/_assets\/sample_icon\.png/gi
 		);
 	},
 
@@ -119,13 +120,13 @@ bender.test( {
 				on: {
 					pluginsLoaded: function( evt ) {
 						evt.editor.ui.addButton( 'custom_btn4', {
-							iconHidpi: '/assets/hidpi/icons.sample.png'
+							iconHidpi: 'tests/_assets/sample_icon.hidpi.png'
 						} );
 					}
 				}
 			},
 			'custom_btn4',
-			/assets\/hidpi\/icons\.sample\.png/gi
+			/tests\/_assets\/sample_icon\.hidpi\.png/gi
 		);
 	},
 
@@ -136,13 +137,13 @@ bender.test( {
 				on: {
 					pluginsLoaded: function( evt ) {
 						evt.editor.ui.addButton( 'custom_btn5', {
-							icon: '/assets/icons.sample.png'
+							icon: 'tests/_assets/sample_icon.png'
 						} );
 					}
 				}
 			},
 			'custom_btn5',
-			/assets\/icons\.sample\.png/gi
+			/tests\/_assets\/sample_icon\.png/gi
 		);
 	},
 
@@ -187,38 +188,38 @@ bender.test( {
 	'test custom button icon with different basepath trailing slash': function() {
 		resolutionStandard();
 		assertIcon( {
-				toolbar: [ [ 'custom_btn6' ] ],
+				toolbar: [ [ 'custom_btn8' ] ],
 				on: {
 					pluginsLoaded: function( evt ) {
 						originalBasePath = CKEDITOR.basePath;
 						CKEDITOR.basePath = '/different/basepath/';
-						evt.editor.ui.addButton( 'custom_btn6', {
+						evt.editor.ui.addButton( 'custom_btn8', {
 							icon: '/assets/icons.sample.png'
 						} );
 					}
 				}
 			},
-			'custom_btn6',
-			/assets\/icons\.sample\.png/gi
+			'custom_btn8',
+			/['|(]\/assets\/icons\.sample\.png/gi
 		);
 	},
 
 	'test custom button icon with different basepath trailing slash (hidpi)': function() {
 		resolutionHidpi();
 		assertIcon( {
-				toolbar: [ [ 'custom_btn7' ] ],
+				toolbar: [ [ 'custom_btn9' ] ],
 				on: {
 					pluginsLoaded: function( evt ) {
 						originalBasePath = CKEDITOR.basePath;
 						CKEDITOR.basePath = '/different/basepath/';
-						evt.editor.ui.addButton( 'custom_btn7', {
+						evt.editor.ui.addButton( 'custom_btn9', {
 							icon: '/assets/hidpi/icons.sample.png'
 						} );
 					}
 				}
 			},
-			'custom_btn7',
-			/assets\/hidpi\/icons\.sample\.png/gi
+			'custom_btn9',
+			/['|(]\/assets\/hidpi\/icons\.sample\.png/gi
 		);
 	}
 } );
