@@ -3,24 +3,25 @@
 	"version": "4.9.0",
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
-		"benderjs-coverage": "^0.2.1",
 		"benderjs": "^0.4.2",
+		"benderjs-coverage": "^0.2.1",
 		"benderjs-jquery": "^0.3.0",
 		"benderjs-sinon": "^0.3.1",
 		"benderjs-yui": "^0.3.2",
-    	"benderjs-yui-beautified": "0.0.6",
+		"benderjs-yui-beautified": "0.0.6",
+		"cksource-samples-framework": "^1.0.1",
 		"grunt": "^1.0.1",
+		"grunt-contrib-concat": "^1.0.0",
 		"grunt-contrib-imagemin": "^1.0.0",
-		"grunt-jscs": "^3.0.1",
 		"grunt-contrib-jshint": "^1.0.0",
 		"grunt-contrib-less": "^1.0.0",
 		"grunt-contrib-watch": "^1.0.0",
-		"grunt-contrib-concat": "^1.0.0",
-		"grunt-jsduck": "^1.0.1",
 		"grunt-githooks": "^0.6.0",
+		"grunt-jscs": "^3.0.1",
+		"grunt-jsduck": "^1.0.1",
 		"less": "^2.5.0",
-		"shelljs": "^0.7.6",
-		"cksource-samples-framework": "^1.0.1"
+		"lesshat": "^4.1.0",
+		"shelljs": "^0.7.6"
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"

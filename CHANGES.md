@@ -28,14 +28,13 @@ Fixed Issues:
 * [#1470](https://github.com/ckeditor/ckeditor-dev/issues/1470): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) is not visible after drag and drop of a widget it is attached to.
 * [#1535](https://github.com/ckeditor/ckeditor-dev/issues/1535): Fixed: Improve [Widget](https://ckeditor.com/cke4/addon/widget) mouse over border contrast.
 
-
 API Changes:
 
 * [#1346](https://github.com/ckeditor/ckeditor-dev/issues/1346): [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) [context manager API](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.balloontoolbar.contextManager) is now available in [pluginDefinition.init](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.pluginDefinition-method-init) method of a [requiring](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.pluginDefinition-property-requires) plugin.
 
 Other Changes:
 
-* [#1337](https://github.com/ckeditor/ckeditor-dev/issues/1337): Update `samples` layout with actuall CKEditor logo and coherent color scheme.
+* [#1337](https://github.com/ckeditor/ckeditor-dev/issues/1337): Update `samples` layout with actual CKEditor logo and coherent color scheme.
 
 ## CKEditor 4.8
 
