@@ -556,12 +556,19 @@
 						} );
 					}
 
+					// In Firefox and Edge applying styles inside caption results
+					// in firing this listener without focused widget.
+					// However it could be obtained from element, on which the event took place.
+					if ( editor.focusManager.hasFocus && sender && !focused ) {
+						focused = editor.widgets.getByElement( sender );
+					}
+
 					if ( focused && hasWidgetFeature( focused, 'caption' ) ) {
-						focused._refreshCaption( sender );
+						focused._refreshCaption( sender, true );
 					}
 
 					// Testing if widget has wrapper. If doesn't then it was removed from DOM no need to refresh.
-					if ( previous && previous.wrapper && hasWidgetFeature( previous, 'caption' ) ) {
+					if ( previous && previous.wrapper  && hasWidgetFeature( previous, 'caption' ) && previous !== focused ) {
 						previous._refreshCaption( sender );
 					}
 					previous = focused;
@@ -589,12 +596,22 @@
 			 *
 			 * @private
 			 * @member CKEDITOR.plugins.imagebase.featuresDefinitions.caption
-			 * @param {CKEDITOR.dom.element} sender The element that this function should be called on.
+			 * @param {CKEDITOR.dom.element} sender Element, on which this function should be called.
+			 * @param {Boolean} [isFocused] Indicates if current widget should be treated as a focused one.
+			 * If this parameter is omitted, its value is determined by checking
+			 * {@link CKEDITOR.plugins.widget.repository#focused} value.
 			 */
-			_refreshCaption: function( sender ) {
-				var isFocused = getFocusedWidget( this.editor ) === this,
-					caption = this.parts.caption,
+			_refreshCaption: function( sender, isFocused ) {
+				var caption = this.parts.caption,
 					editable = this.editables.caption;
+
+				if ( typeof isFocused !== 'boolean' ) {
+					isFocused = getFocusedWidget( this.editor ) === this;
+				}
+
+				function isInCaption( element ) {
+					return element.equals( caption ) || caption.contains( element );
+				}
 
 				if ( isFocused ) {
 					if ( !editable.getData() && !sender.equals( caption ) ) {
