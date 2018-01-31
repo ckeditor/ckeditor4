@@ -10,4 +10,4 @@
 
 Balloon toolbar with one button with custom icon (blue Bold icon) appears.
 
-**Important**: When in HiDpi environment make sure the visible icon is HiDpi version (its path should contain `hidpi` part somewhere).
+**Important**: When in HiDPI environment make sure the visible icon is HiDPI version (its path should contain `hidpi` part somewhere).

@@ -29,21 +29,23 @@
 </div>
 
 <script>
-	( function() {
-		var commonConfig = {
-			easyimage_styles: {
-				test: {
-					icon: 'tests/_assets/sample_icon.png',
-					iconHiDpi: 'tests/_assets/sample_icon.hidpi.png'
-				}
-			},
-			easyimage_toolbar: [ 'EasyimageTest' ]
-		};
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
 
-		CKEDITOR.replace( 'classic', commonConfig );
-		CKEDITOR.replace( 'divarea', CKEDITOR.tools.object.merge( {
-			extraPlugins: 'divarea'
-		}, commonConfig ) );
-		CKEDITOR.inline( 'inline', commonConfig );
-	}() );
+	var commonConfig = {
+		easyimage_styles: {
+			test: {
+				icon: 'tests/_assets/sample_icon.png',
+				iconHiDpi: 'tests/_assets/sample_icon.hidpi.png'
+			}
+		},
+		easyimage_toolbar: [ 'EasyimageTest' ]
+	};
+
+	CKEDITOR.replace( 'classic', commonConfig );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.object.merge( {
+		extraPlugins: 'divarea'
+	}, commonConfig ) );
+	CKEDITOR.inline( 'inline', commonConfig );
 </script>

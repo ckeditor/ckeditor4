@@ -17,6 +17,10 @@
 
 	bender.test( {
 		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				assert.ignore();
+			}
+
 			this.addButtonStub = sinon.stub( CKEDITOR.ui.prototype, 'addButton', function( name, definition ) {
 				if ( definition.command === 'easyimageTest' ) {
 					buttonCreated = true;
