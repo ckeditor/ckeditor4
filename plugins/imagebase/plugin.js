@@ -614,9 +614,9 @@
 				}
 
 				if ( isFocused ) {
-					if ( !editable.getData() && !sender.equals( caption ) ) {
+					if ( !editable.getData() && !isInCaption( sender ) ) {
 						addPlaceholder( this );
-					} else if ( !sender || ( sender.equals( caption ) && sender.data( 'cke-caption-placeholder' ) ) ) {
+					} else if ( !sender || ( isInCaption( sender ) && caption.data( 'cke-caption-placeholder' ) ) ) {
 						removePlaceholder( this );
 					}
 
