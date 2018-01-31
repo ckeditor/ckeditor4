@@ -1,7 +1,7 @@
 /* bender-tags: editor,widget */
-/* bender-ckeditor-plugins: imagebase,toolbar,easyimage */
-/* bender-include: ../../widget/_helpers/tools.js */
-/* global widgetTestsTools */
+/* bender-ckeditor-plugins: imagebase,basicstyles,toolbar,easyimage */
+/* bender-include: ../../widget/_helpers/tools.js, %BASE_PATH%/plugins/easyimage/_helpers/tools.js */
+/* global widgetTestsTools, easyImageTools */
 
 ( function() {
 	'use strict';
@@ -443,6 +443,7 @@
 			}
 		} ),
 
+
 		// (#1776)
 		'test empty caption placeholder is hidden when blurred': function( editor, bot ) {
 			addTestWidget( editor );
@@ -465,7 +466,25 @@
 					blurHost: emptyCaptionWidget
 				} );
 			} );
-		}
+		},
+
+		// #tp3384
+		'test caption placeholder integration with basicstyles': createToggleTest( {
+			fixture: 'toggleOneEmpty',
+			initial: false,
+			focus: true,
+			blur: false,
+
+			customFocus: function( widget ) {
+				widget.focus();
+				widget.parts.caption.focus();
+				widget.editor.execCommand( 'bold' );
+			},
+
+			onFocus: function( widget ) {
+				assertPlaceholder( widget, false );
+			}
+		} )
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
