@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2018 University of Illinois - Jon Gunderson and Nicholas Hoyt. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+-->
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>A11yFirst Test Drive</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+  <style>
+    body {
+      padding: 0 12px;
+      font-family: sans-serif;
+    }
+    h1, h2 {
+      font-weight: normal;
+    }
+    details {
+      line-height: 1.4;
+      margin: 18px 0;
+      width: 67%;
+    }
+    summary h2 {
+      font-size: 130%;
+      display: inline;
+    }
+    details li {
+      padding-top: 12px;
+    }
+    details li:first-child {
+      padding-top: 0;
+    }
+  </style>
+</head>
+
+<body id="main">
+
+  <main>
+  <h1>A11yFirst Test Drive</h1>
+
+  <div class="adjoined-bottom">
+    <div class="grid-container">
+      <div class="grid-width-100">
+        <div id="editor"></div>
+      </div>
+    </div>
+  </div>
+  </main>
+
+  <footer class="footer-a grid-container">
+    <div class="grid-container">
+      <details>
+        <summary>
+          <h2>Getting Started with A11yFirst</h2>
+        </summary>
+
+        <h3>What is A11yFirst?</h3>
+
+        <p>Before you begin using the A11yFirst editor, it is important to know what makes it different from other editors. The name <em>A11yFirst</em> hints at some of these differences.</p>
+
+        <p><em>A11y</em> is shorthand for <em>accessibility</em> (<em>a</em> + 11 letters + <em>y</em>), and accessibility in the context of document authoring is about making the information that documents contain perceivable and understandable by everyone, including people with disabilities.</p>
+
+        <h4>Commitment to accessibility</h4>
+
+        <p>Your organization, by hosting the A11yFirst editor within its content management system, has made a commitment to accessibility because (1) it is the right thing to do and (2) it is required by law.</p>
+
+        <p>By following accessibility guidelines when creating public-facing documents, you are fulfilling your role in this commitment.</p>
+
+        <h3>Document accessibility</h3>
+
+        <p>Some of the main components within a document that are important for accessibility are:</p>
+
+        <ul>
+          <li>Headings — These provide titles for the sections and subsections of content within your document, as well as a title for the document itself.</li>
+
+          <li>Lists — By using the list feature, the items in a list are grouped together and information about the grouping can be conveyed to users of assistive technologies.</li>
+
+          <li>Links — The text component of a link should describe its target, i.e., where you will end up if you follow the link.</li>
+
+          <li>Images — When an image is included within a document, a text alternative (also known as ‘alt text’) allows screen reader users to obtain a concise description of the image.</li>
+
+          <li>Tables — By using the table feature to organize tabular data and provide row and column headers, users of assistive technologies gain the ability to easily navigate and understand structural relationships within the data.</li>
+        </ul>
+
+        <h3>A different way of thinking</h3>
+
+        <p>The way you think about the process or workflow of creating and editing documents can make a significant difference in whether the end result, your finished document, is accessible.</p>
+
+        <p>For example, rather than thinking about stylistic considerations such as font sizes and colors first, if you make the structure of your document a primary consideration, by breaking it down into sections and subsections and giving each of these a meaningful title, you will end up with a document that will be easier for all users to navigate and understand, including people with disabilities.</p>
+      </details>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+  <script src="../ckeditor.js"></script>
+  <script src="ui-library.js"></script>
+</body>
+</html>
