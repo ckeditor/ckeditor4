@@ -91,28 +91,28 @@
 
 	var editorBots,
 		tests = {
-		init: function() {
-			editorBots = this.editorBots;
-		},
+			init: function() {
+				editorBots = this.editorBots;
+			},
 
-		setUp: function() {
-			this.editors.classic._.forcePasteDialog = false;
-			this.editors.divarea._.forcePasteDialog = false;
-			this.editors.inline._.forcePasteDialog = false;
-		},
+			setUp: function() {
+				this.editors.classic._.forcePasteDialog = false;
+				this.editors.divarea._.forcePasteDialog = false;
+				this.editors.inline._.forcePasteDialog = false;
+			},
 
-		'test force dialog when button is touched': function( editor ) {
-			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-				// Ignore `touchend` tests for IE as there is not paste dialog due to different flow.
-				assert.ignore();
+			'test force dialog when button is touched': function( editor ) {
+				if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+					// Ignore `touchend` tests for IE as there is no paste dialog due to different flow.
+					assert.ignore();
+				}
+				assertTouchEnd( editorBots[ editor.name ], editor );
+			},
+
+			'test does not force dialog when button is clicked': function( editor ) {
+				assertClick( editorBots[ editor.name ], editor );
 			}
-			assertTouchEnd( editorBots[ editor.name ], editor );
-		},
-
-		'test does not force dialog when button is clicked': function( editor ) {
-			assertClick( editorBots[ editor.name ], editor );
-		}
-	};
+		};
 
 	bender.test(
 		bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );

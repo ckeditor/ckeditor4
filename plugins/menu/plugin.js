@@ -447,8 +447,9 @@ CKEDITOR.plugins.add( 'menu', {
 			 * may not work. Also executing this method when menu is not visible may result in unexpected results as the
 			 * items may not be rendered.
 			 *
+			 * @since 4.9.0
 			 * @param {String} commandName
-			 * @returns {Object|null} return Object containing given item. If item was not found, null is returned.
+			 * @returns {Object/null} return Object containing given item. If item was not found, `null` is returned.
 			 * @returns {CKEDITOR.menuItem} return.item Item definition.
 			 * @returns {CKEDITOR.dom.element} return.element Rendered element representing item in the menu.
 			 */

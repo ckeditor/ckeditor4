@@ -13,7 +13,7 @@
 
 		'test getItemByCommandName - opened menu': function() {
 			bender.editorBot.create( {
-				name: 'editor_cm1'
+				name: 'editor1'
 			}, function( bot ) {
 				var editor = bot.editor;
 
@@ -36,7 +36,7 @@
 
 		'test getItemByCommandName - closed menu': function() {
 			bender.editorBot.create( {
-				name: 'editor_cm2'
+				name: 'editor2'
 			}, function( bot ) {
 				var editor = bot.editor;
 
@@ -63,7 +63,7 @@
 
 		'test getItemByCommandName - reopened menu': function() {
 			bender.editorBot.create( {
-				name: 'editor_cm3'
+				name: 'editor3'
 			}, function( bot ) {
 				var editor = bot.editor,
 					item1,
@@ -95,7 +95,7 @@
 
 		'test "menuShow" event params': function() {
 			bender.editorBot.create( {
-				name: 'editor_cm4'
+				name: 'editor4'
 			}, function( bot ) {
 				bot.editor.on( 'menuShow', function( evt ) {
 					resume( function() {
