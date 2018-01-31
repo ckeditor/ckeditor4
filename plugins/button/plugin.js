@@ -273,8 +273,8 @@
 				if ( this.icon ) {
 					iconPath = this.icon;
 				}
-				if ( CKEDITOR.env.hidpi && this.iconHidpi ) {
-					iconPath = this.iconHidpi;
+				if ( CKEDITOR.env.hidpi && this.iconHiDpi ) {
+					iconPath = this.iconHiDpi;
 				}
 				if ( iconPath ) {
 					CKEDITOR.skin.addIcon( name, iconPath );
@@ -410,7 +410,7 @@
 	 * 			icon: 'Link' // Uses link icon from Link plugin.
 	 * 		} );
 	 *
-	 * If the plugin provides Hidpi version of an icon it will be used for Hidpi displays (so defining `iconHidpi` is not needed
+	 * If the plugin provides HiDPI version of an icon it will be used for HiDPI displays (so defining `iconHiDpi` is not needed
 	 * in this case).
 	 *
 	 * To use custom icon, path to icon should be provided like:
@@ -419,13 +419,13 @@
 	 * 			icon: 'assets/icons/my_button.png'
 	 * 		} )
 	 *
-	 * This icon will be used for both standard and Hidpi displays unless `iconHidpi` is explicitly defined.
+	 * This icon will be used for both standard and HiDPI displays unless `iconHiDpi` is explicitly defined.
 	 * **Important**: CKEditor will resolve relative paths based on {@link CKEDITOR#basePath}.
-	 * @param {String} definition.iconHidpi Path to custom Hidpi icon version. Supported since **4.9.0** version.
-	 * It will be used only in Hidpi environments. Usage is similar to `icon` parameter:
+	 * @param {String} definition.iconHiDpi Path to custom HiDPI icon version. Supported since **4.9.0** version.
+	 * It will be used only in HiDPI environments. Usage is similar to `icon` parameter:
 	 *
 	 * 		editor.ui.addButton( 'my_button', {
-	 * 			iconHidpi: 'assets/icons/my_button.hidpi.png'
+	 * 			iconHiDpi: 'assets/icons/my_button.hidpi.png'
 	 * 		} )
 	 */
 	CKEDITOR.ui.prototype.addButton = function( name, definition ) {

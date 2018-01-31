@@ -10,5 +10,5 @@ Editor with 3 buttons should be visible. The buttons have following icons:
 * Bold icon (blue)
 * Bold icon (blue)
 
-**Important**: When in Hidpi environment make sure the visible icons are
-Hidpi versions (icons path should contain `hidpi` part somewhere).
+**Important**: When in HiDPI environment make sure the visible icons are
+HiDPI versions (icons path should contain `hidpi` part somewhere).

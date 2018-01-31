@@ -120,7 +120,7 @@ bender.test( {
 				on: {
 					pluginsLoaded: function( evt ) {
 						evt.editor.ui.addButton( 'custom_btn4', {
-							iconHidpi: 'tests/_assets/sample_icon.hidpi.png'
+							iconHiDpi: 'tests/_assets/sample_icon.hidpi.png'
 						} );
 					}
 				}
