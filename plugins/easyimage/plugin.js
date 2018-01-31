@@ -296,7 +296,7 @@
 							var contextView = editor._.easyImageToolbarContext.toolbar._view;
 
 							if ( contextView.rect.visible ) {
-								// We have to disable focusing balloon toolbar to prevent loosing focus by an image (https://github.com/ckeditor/ckeditor-dev/issues/1529).
+								// We have to disable focusing balloon toolbar to prevent loosing focus by an image (#1529).
 								contextView.attach( contextView._pointedElement, { focusElement: false } );
 							}
 						} );
