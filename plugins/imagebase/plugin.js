@@ -545,8 +545,14 @@
 					var path = evt.name === 'blur' ? editor.elementPath() : evt.data.path,
 						sender = path ? path.lastElement : null,
 						focused = getFocusedWidget( editor ),
-						previous = editor.widgets.getByElement(
-							editor.editable().findOne( 'figcaption[data-cke-caption-active]' ) );
+						activeWidgets = [];
+
+					// When there are many active widgets we need to find them find them all and update status of each one.
+					editor.editable().find( 'figcaption[data-cke-caption-active]' ).toArray().forEach( function( item ) {
+						activeWidgets.push( editor.widgets.getByElement( item ) );
+					} );
+
+
 
 					if ( !editor.filter.check( 'figcaption' ) ) {
 						return CKEDITOR.tools.array.forEach( listeners, function( listener ) {
@@ -558,9 +564,11 @@
 						focused._refreshCaption( sender );
 					}
 
-					if ( previous && hasWidgetFeature( previous, 'caption' ) ) {
-						previous._refreshCaption( sender );
-					}
+					activeWidgets.forEach( function( item ) {
+						if ( item && hasWidgetFeature( item, 'caption' ) ) {
+							item._refreshCaption( sender );
+						}
+					} );
 				}
 
 				listeners.push( editor.on( 'selectionChange', listener , null, null, 9 ) );
