@@ -26,6 +26,7 @@ Fixed Issues:
 * [#1426](https://github.com/ckeditor/ckeditor-dev/issues/1426): [IE8-9] Fixed: Missing balloon toolbar background in Kama skin. Thanks to [Christian Elmer](https://github.com/keinkurt)!
 * [#1010](https://github.com/ckeditor/ckeditor-dev/issues/1010): Fixed: CSS `border` shorthand property was incorrectly expanded ignoring `border-color` style.
 * [#1470](https://github.com/ckeditor/ckeditor-dev/issues/1470): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) is not visible after drag and drop of a widget it is attached to.
+* [#1535](https://github.com/ckeditor/ckeditor-dev/issues/1535): Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) border color has low contrast.
 
 API Changes:
 
