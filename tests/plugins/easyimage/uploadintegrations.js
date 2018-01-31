@@ -176,6 +176,26 @@
 				assert.beautified.html( CKEDITOR.document.getById( 'expected-multiple-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
 			},
 
+			'test delete key removes pasted image': function() {
+				var editor = this.editor;
+
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) ); // delete
+
+				assert.areEqual( '', editor.getData() );
+			},
+
+			'test backspace key removes pasted image': function() {
+				var editor = this.editor;
+
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 8 } ) ); // backspace
+
+				assert.areEqual( '', editor.getData() );
+			},
+
 			'test pasting mixed HTML content': function() {
 				var editor = this.editor,
 					widgets;
