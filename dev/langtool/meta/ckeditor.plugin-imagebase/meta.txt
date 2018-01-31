@@ -1,4 +1,4 @@
 # Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
-captionPlaceholder = Caption displayed below images, which describes it.
+captionPlaceholder = Contents of placeholder shown inside empty caption of an image.
