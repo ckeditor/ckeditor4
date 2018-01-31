@@ -1,8 +1,6 @@
 <p>Note, this test uses a real Cloud Service connection, so you might want to be on-line 😉.</p>
 
-<div id="classic">
-	<h1>Sample editor</h1>
-	<p>Go on, put some content here.</p>
+<div id="editor1">
 </div>
 
 <script src="_helpers/tools.js"></script>
@@ -12,10 +10,9 @@
 	}
 
 	getToken( function( token ) {
-		CKEDITOR.replace( 'classic', {
+		CKEDITOR.replace( 'editor1', {
 				cloudServices_url: 'https://files.cke-cs.com/upload/',
-				cloudServices_token: token,
-				height: '30em'
+				cloudServices_token: token
 			});
 	} );
 </script>
