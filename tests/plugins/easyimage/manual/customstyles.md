@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, easyimage
 
 1. Click on image widget.
-2. Click on one of button in balloon toolbar. **Note:** first style is a totally custom one, therefore it does not have any icon.
+2. Click on one of buttons in balloon toolbar. **Note:** first style is a totally custom one, therefore it does not have any icon.
 
 ## Expected:
 
