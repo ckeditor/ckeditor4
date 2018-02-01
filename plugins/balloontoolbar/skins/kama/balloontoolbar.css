@@ -11,6 +11,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	padding: 0px;
 }
 
+.cke_balloon.cke_balloontoolbar .cke_balloon_content
+{
+	padding: 4px;
+}
+
 /* side: [ bottom, top ] */
 .cke_balloon.cke_balloontoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_bottom,
 .cke_balloon.cke_balloontoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_top,

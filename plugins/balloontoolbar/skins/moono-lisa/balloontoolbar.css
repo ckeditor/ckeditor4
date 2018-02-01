@@ -3,11 +3,6 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
-.cke_balloon.cke_balloontoolbar .cke_balloon_content
-{
-	padding: 3px;
-}
-
 .cke_balloon.cke_balloontoolbar span:last-child a:last-child::after,
 .cke_balloon.cke_balloontoolbar span:last-child a:last-child:hover::after,
 .cke_balloon.cke_balloontoolbar span:last-child::after
