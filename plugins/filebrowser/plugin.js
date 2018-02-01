@@ -604,10 +604,9 @@
  *
  * Available values:
  *
- *	* `'xhr'` - (default) XMLHttpRequest is used to upload file. Using this option allows to set up with additional XHR headers with
+ *	* `'xhr'` - XMLHttpRequest is used to upload file. Using this option allows to set up with additional XHR headers with
  * {@link CKEDITOR.config#fileTools_requestHeaders} option.
- *	* `'form'` - File is uploaded by submitting a traditional `<form>` element.
- *	* `null` - The default method is used. _Note: Below version 4.9.0 only available upload option was submitting a form._
+ *	* `'form'` - File is uploaded by submitting a traditional `<form>` element. _Note: That was the only option available until CKEditor 4.9.0._
  *
  * Note: please be aware that `'xhr'` requires the [File Tools](https://ckeditor.com/cke4/addon/filetools) plugin to work
  * properly. Without the plugin or using a browser that does not support
@@ -618,6 +617,6 @@
  *		config.filebrowserUploadMethod = 'form';
  *
  * @since 4.9.0
- * @cfg {String/null} [filebrowserUploadMethod=null]
+ * @cfg {String} [filebrowserUploadMethod='xhr']
  * @member CKEDITOR.config
  */
