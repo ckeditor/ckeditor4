@@ -844,7 +844,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 *
 		 *		dialogObj.show();
 		 */
-		show: function( noCover ) {
+		show: function( openInToolbar ) {
 			// Insert the dialog's element to the root document.
 			var element = this._.element;
 			var definition = this.definition;
@@ -876,7 +876,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			if ( CKEDITOR.dialog._.currentTop === null ) {
 				CKEDITOR.dialog._.currentTop = this;
 				this._.parentDialog = null;
-				if ( !noCover ) {
+				if ( !openInToolbar ) {
 					showCover( this._.editor );
 				}
 			} else {
@@ -938,8 +938,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				this.fire( 'show', {} );
 				this._.editor.fire( 'dialogShow', this );
 
-				if ( !this._.parentDialog && !noCover )
+				if ( !this._.parentDialog && !openInToolbar ) {
 					this._.editor.focusManager.lock();
+				}
 
 				// Save the initial values of the dialog.
 				this.foreach( function( contentObj ) {
