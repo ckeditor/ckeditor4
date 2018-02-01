@@ -567,7 +567,7 @@
 
 				// Adds 'touchend' integration with context menu paste item (#1347).
 				var pasteListener = null;
-				editor.on( 'menuShow', function( evt ) {
+				editor.on( 'menuShow', function() {
 					// Remove previous listener.
 					if ( pasteListener ) {
 						pasteListener.removeListener();
@@ -575,7 +575,7 @@
 					}
 
 					// Attach new 'touchend' listeners to context menu paste items.
-					var item = evt.data.menu.findItemByCommandName( 'paste' );
+					var item = editor.contextMenu.findItemByCommandName( 'paste' );
 					if ( item && item.element ) {
 						pasteListener = item.element.on( 'touchend', function() {
 							editor._.forcePasteDialog = true;

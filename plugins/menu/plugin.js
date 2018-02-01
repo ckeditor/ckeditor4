@@ -412,7 +412,6 @@ CKEDITOR.plugins.add( 'menu', {
 				}
 
 				var data = [ panel ];
-				data.menu = this;
 				editor.fire( 'menuShow', data );
 			},
 
@@ -586,7 +585,6 @@ CKEDITOR.plugins.add( 'menu', {
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param {CKEDITOR.ui.panel[]} data
- * @param {CKEDITOR.menu} data.menu
  */
 
 /**
