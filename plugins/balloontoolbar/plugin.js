@@ -265,10 +265,19 @@
 		},
 
 		/**
-		 * Hides the toolbar controlled by this context.
+		 * Hides the toolbar controlled by this context. If dialog is currently open, method tries to close it.
 		 */
 		hide: function() {
-			this.toolbar.hide();
+			var keys = CKEDITOR.tools.objectKeys( this.toolbar._items );
+			// We don't want to hide toolbar if confirmed was canceled.
+			if ( keys.length === 1 && CKEDITOR.dialog && this.toolbar._items[ keys[ 0 ] ] instanceof CKEDITOR.dialog ) {
+				if ( confirm( this.editor.lang.balloontoolbar.dialogBlurConfirmation ) ) { // jshint ignore:line
+					this.closeDialog();
+					this.toolbar.hide();
+				}
+			} else {
+				this.toolbar.hide();
+			}
 		},
 
 		/**
@@ -381,7 +390,6 @@
 				var pointedElement = this.toolbar._view._pointedElement;
 				this.toolbar.hide();
 				this._lifoPush( dialogToolbar );
-				this.toolbar.show();
 				this.toolbar.addItem( dialogName, dialog );
 				this.toolbar.attach( pointedElement );
 
@@ -692,7 +700,9 @@
 
 	CKEDITOR.plugins.add( 'balloontoolbar', {
 		requires: 'balloonpanel',
-
+		// jscs:disable maximumLineLength
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		beforeInit: function( editor ) {
 			if ( !cssLoaded ) {
 				// Load fallback styles.
