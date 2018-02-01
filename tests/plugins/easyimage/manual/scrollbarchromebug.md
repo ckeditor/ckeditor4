@@ -1,14 +1,15 @@
-@bender-tags: 4.9.0, bug, 932
+@bender-tags: 4.9.0, bug, 1550, easyimage
 @bender-ui: collapsed
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, toolbar, easyimage, link
 
 ----
-Note: Problem exists only in **Chrome** browsers. All other browsers should work fine and flickering scrollbar shouldn't be present.
 
 1. Move cursor over image in both editors.
 
-**Expected:** Nothing unusal happen in 1st editor. Unfortunatelly bug is not fixed in divarea editor, so flickering should be observable in bottom editor, what is expected behaviour here.
+**Expected:** Nothing unusual happens, scrollbar is not flickering.
 
 **Unexpected:**
-  * Empty scrollbar shows up.
-  * Scrollbar flicker when cursor is moved over the images.
+* Empty scrollbar shows up.
+* Scrollbar flicker when cursor is moved over the images.
+
+_**Note:** In **Chrome** browser in second editor, scrollbars flickers as the issue is not fixed for `divarea editor` (https://bugs.chromium.org/p/chromium/issues/detail?id=803045)._
