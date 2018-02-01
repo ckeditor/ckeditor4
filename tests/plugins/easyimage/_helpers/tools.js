@@ -1,6 +1,8 @@
 /* exported easyImageTools */
 
 var easyImageTools = ( function() {
+	'use strict';
+
 	// Force Edge to run every test in new CKEditor's instance.
 	function createTestsForEditors( editors, tests ) {
 		var generatedTests = {},
@@ -57,4 +59,4 @@ var easyImageTools = ( function() {
 		assertCommandsState: assertCommandsState,
 		assertMenuItemsState: assertMenuItemsState
 	};
-}() );
+} )();
