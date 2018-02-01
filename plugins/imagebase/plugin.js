@@ -351,6 +351,7 @@
 					if ( widget.isInited() ) {
 						widget.setData( 'uploadId', undefined );
 					}
+					widget.removeClass( 'uploading' );
 				}
 
 				function failHandling() {
@@ -397,6 +398,7 @@
 						var progress = new widget.progressReporterType();
 						widget.wrapper.append( progress.wrapper );
 						progress.bindLoader( loader );
+						widget.addClass( 'uploading' );
 					} else {
 						if ( loaderEventMapping[ loader.status ] ) {
 							loaderEventMapping[ loader.status ]();
@@ -451,7 +453,8 @@
 			 *			// Implement a custom progress bar.
 			 *		} );
 			 *
-			 * This event is cancelable, if canceled, the default progress bar will not be created.
+			 * This event is cancelable, if canceled, the default progress bar will not be created
+			 * and widget element and wrapper won't be marked with `cke_widget_(wrapper_)uploading` class.
 			 *
 			 * Note that the event will be fired even if the widget was created for a loader that
 			 * is already resolved.
