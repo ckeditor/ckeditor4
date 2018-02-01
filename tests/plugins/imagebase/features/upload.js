@@ -385,6 +385,54 @@
 				} );
 			},
 
+			// (#1533)
+			'test widget gets class during the upload': function() {
+				var editor = this.editor;
+
+				assertPasteFiles( editor, {
+					files: [ getTestRtfFile() ],
+					callback: function( widgets ) {
+						var widget = widgets[ 0 ];
+						assert.isTrue( widget.hasClass( 'uploading' ), 'Class is present during the upload' );
+
+						widget.once( 'uploadDone', function() {
+							resume( function() {
+								assert.isFalse( widget.hasClass( 'uploading' ), 'Class is removed after upload' );
+							} );
+						} );
+
+						wait();
+					}
+				} );
+			},
+
+			'test widget upload class is removed after fail': function() {
+				var editor = this.editor,
+					listeners = this.listeners,
+					originalLoader = editor.widgets.registered.testImageWidget.loaderType;
+
+				// Force a loader that will fail.
+				editor.widgets.registered.testImageWidget.loaderType = FailFileLoader;
+
+				// Make sure to prevent default handling, otherwise widget is removed.
+				this.listeners.push( editor.widgets.on( 'instanceCreated', function( evt ) {
+					listeners.push( evt.data.on( 'uploadFailed', function( evt ) {
+						evt.cancel();
+					} ) );
+				} ) );
+
+				assertPasteFiles( editor, {
+					files: [ bender.tools.getTestPngFile() ],
+					callback: function( widgets ) {
+						// Note FailFileLoader is synchronous, so there's no need to wait for uploadFailed.
+						editor.widgets.registered.testImageWidget.loaderType = originalLoader;
+
+						var widget = widgets[ 0 ];
+						assert.isTrue( widget.hasClass( 'uploading' ), 'Class is present during the upload' );
+					}
+				} );
+			},
+
 			'test data.uploadId behavior': function() {
 				var editor = this.editor;
 

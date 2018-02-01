@@ -351,7 +351,7 @@
 					if ( widget.isInited() ) {
 						widget.setData( 'uploadId', undefined );
 					}
-					widget.removeClass( 'uploading' );
+					// widget.wrapper.removeClass( 'cke_widget_wrapper_uploading' );
 				}
 
 				function failHandling() {
@@ -366,6 +366,7 @@
 
 				function uploadComplete() {
 					widgetCleanup();
+					widget.wrapper.removeClass( 'cke_widget_wrapper_uploading' );
 
 					widget.fire( 'uploadDone', {
 						loader: loader
@@ -394,11 +395,12 @@
 
 				if ( widget.fire( 'uploadStarted', loader ) !== false && widget.progressReporterType ) {
 					if ( !widget._isLoaderDone( loader ) ) {
+						// Deliberately add class to wrapper, it does not make sense for widget element.
+						widget.wrapper.addClass( 'cke_widget_wrapper_uploading' );
 						// Progress reporter has only sense if widget is in progress.
 						var progress = new widget.progressReporterType();
 						widget.wrapper.append( progress.wrapper );
 						progress.bindLoader( loader );
-						widget.addClass( 'uploading' );
 					} else {
 						if ( loaderEventMapping[ loader.status ] ) {
 							loaderEventMapping[ loader.status ]();
@@ -454,7 +456,7 @@
 			 *		} );
 			 *
 			 * This event is cancelable, if canceled, the default progress bar will not be created
-			 * and widget element and wrapper won't be marked with `cke_widget_(wrapper_)uploading` class.
+			 * and the widget wrapper won't be marked with `cke_widget_wrapper_uploading` class.
 			 *
 			 * Note that the event will be fired even if the widget was created for a loader that
 			 * is already resolved.
