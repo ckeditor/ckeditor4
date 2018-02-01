@@ -7,11 +7,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 .cke_balloon.cke_balloontoolbar span:last-child a:last-child:hover::after,
 .cke_balloon.cke_balloontoolbar span:last-child::after
 {
-	border-right: 0px;
+	border-right: 0;
 }
 
 .cke_balloon.cke_balloontoolbar .cke_combo
 {
-	margin-bottom: 0px;
+	margin-bottom: 0;
 	margin-right: 2px;
 }
