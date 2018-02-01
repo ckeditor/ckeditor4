@@ -1,4 +1,4 @@
-@bender-tags: 4.9.0, feature, 932
+@bender-tags: 4.9.0, feature, 932, 1533
 @bender-ui: collapsed
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, easyimage
 @bender-include: ../../uploadwidget/manual/_helpers/xhr.js
@@ -14,6 +14,14 @@ Remarks:
 
 1. Drop an image into the editor.
 
-### Expected
+	### Expected
 
-* Upload progress is shown.
+	* Upload progress is shown.
+	* The image is a little opaque.
+
+1. Wait till the image load completes.
+
+	### Expected
+
+	* Progress indicator disappear.
+	* Image is no longer opaque.
