@@ -230,6 +230,14 @@
 
 		this._loadButtons();
 
+		/**
+		 * Queue of {@link CKEDITOR.ui.balloonToolbar} in current {@link CKEDITOR.plugins.balloontoolbar.context}. Last item in the queue
+		 * is the active toolbar assigne to {@link CKEDITOR.plugins.balloontoolbar.context#toolbar}.
+		 *
+		 * @private
+		 * @since 4.10.0
+		 * @property {CKEDITOR.ui.balloonToolbar}[]
+		 */
 		this._lifoQueue = [ this.toolbar ];
 	}
 
@@ -352,6 +360,13 @@
 			}
 		},
 
+		/**
+		 * Method opens dialog in current {@link CKEDITOR.plugins.balloontoolbar.context}.
+		 *
+		 * @since 4.10.0
+		 * @param {String} dialogName Name of dialog which is going to be open inside {@link CKEDITOR.plugins.balloontoolbar.context}.
+		 * @param {Function} callback Function which will be execute on dialog in dialog context.
+		 */
 		openDialog: function( dialogName, callback ) {
 			var dialog;
 			var dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
@@ -387,12 +402,27 @@
 
 		},
 
-		closeDialog: function( dialogName ) {
-			var dialog = this.toolbar._items[ dialogName ];
+		/**
+		 * Method close active dialog in current {@link CKEDITOR.plugins.balloontoolbar.context}.
+		 *
+		 * @since 4.10.0
+		 */
+		closeDialog: function() {
+			var name = CKEDITOR.tools.objectKeys( this.toolbar._items );
+			if ( name.length === 1 && this.toolbar._items[ name[ 0 ] ] instanceof CKEDITOR.dialog ) {
+				var dialog = this.toolbar._items[ name[ 0 ] ];
+			}
 			this._lifoPop();
 			dialog.destroy();
 		},
 
+		/**
+		 * Removes last added {@link CKEDITOR.ui.balloonToolbar} to current {@link CKEDITOR.plugins.balloontoolbar.context}. Previosly hidden
+		 * toolbar is restored from {@link CKEDITOR.plugins.balloontoolbar.context#_lifoQueue}.
+		 *
+		 * @private
+		 * @since 4.10.0
+		 */
 		_lifoPop: function() {
 			var toolbar;
 			if ( this._lifoQueue.length ) {
@@ -402,6 +432,13 @@
 			}
 		},
 
+		/**
+		 * Add new {@link CKEDITOR.ui.balloonToolbar} to current {@link CKEDITOR.plugins.balloontoolbar.context}. Current toolbar is hidden
+		 * and stored in {@link CKEDITOR.plugins.balloontoolbar.context#_lifoQueue}.
+		 *
+		 * @private
+		 * @since 4.10.0
+		 */
 		_lifoPush: function( toolbar ) {
 			this.toolbar.hide();
 			this._lifoQueue.push( toolbar );
