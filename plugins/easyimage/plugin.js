@@ -602,6 +602,10 @@
 	 * * `icon` - path to the icon used in the balloon toolbar,
 	 * * `iconHiDpi` - path to the high DPI version of the icon.
 	 *
+	 * Every style added by this config variable will result in adding `Easyimage<name>` button
+	 * and `easyimage<name>` command, where `<name>` is name of style in pascal case, e.g. `left`
+	 * style would produce `EasyimageLeft` button and `easyimageLeft` command.
+	 *
 	 *		config.easyimage_styles = {
 	 *			left: {
 	 *				attributes: {
@@ -613,12 +617,8 @@
 	 *			}
 	 *		};
 	 *
-	 * Every style added by this config variable will result in adding `Easyimage<name>` button
-	 * and `easyimage<name>` command, where `<name>` is name of style in pascal case, e.g. `left`
-	 * style would produce `EasyimageLeft` button and `easyimageLeft` command.
-	 *
 	 * @since 4.9.0
-	 * @cfg {Object<string,Object>} easyimage_styles
+	 * @cfg {Object.<String, Object>} easyimage_styles
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.easyimage_styles = {};
@@ -629,7 +629,7 @@
 	 * items to the context menu for Easy Image widget.
 	 *
 	 * @since 4.9.0
-	 * @cfg {Array/String} [easyimage_toolbar=[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ]]
+	 * @cfg {String[]/String} [easyimage_toolbar=[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ]]
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.easyimage_toolbar = [ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ];
