@@ -393,11 +393,11 @@
 					files: [ getTestRtfFile() ],
 					callback: function( widgets ) {
 						var widget = widgets[ 0 ];
-						assert.isTrue( widget.hasClass( 'uploading' ), 'Class is present during the upload' );
+						assert.isTrue( widget.wrapper.hasClass( 'cke_widget_wrapper_uploading' ), 'Class is present during the upload' );
 
 						widget.once( 'uploadDone', function() {
 							resume( function() {
-								assert.isFalse( widget.hasClass( 'uploading' ), 'Class is removed after upload' );
+								assert.isFalse( widget.wrapper.hasClass( 'cke_widget_wrapper_uploading' ), 'Class is removed after upload' );
 							} );
 						} );
 
@@ -428,7 +428,7 @@
 						editor.widgets.registered.testImageWidget.loaderType = originalLoader;
 
 						var widget = widgets[ 0 ];
-						assert.isTrue( widget.hasClass( 'uploading' ), 'Class is present during the upload' );
+						assert.isTrue( widget.wrapper.hasClass( 'cke_widget_wrapper_uploading' ), 'Class is present during the upload' );
 					}
 				} );
 			},
