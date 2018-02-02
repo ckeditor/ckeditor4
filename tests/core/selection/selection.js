@@ -803,5 +803,8 @@ bender.test( {
 
 			assert.areEqual( '<p>[[placeholder]]</p>', editor.getData() );
 		} );
+
+		// Teardown
+		editor.setReadOnly( false );
 	}
 } );
