@@ -12,6 +12,13 @@
 				attributes: {
 					'class': 'test'
 				}
+			},
+
+			divTest: {
+				element: 'div',
+				attributes: {
+					'class': 'test'
+				}
 			}
 		}
 	};
@@ -136,6 +143,23 @@
 				} );
 
 				editor.execCommand( 'easyimageTest' );
+				wait();
+			} );
+		},
+
+		'test style command does not change element': function( editor, bot ) {
+			bot.setData( CKEDITOR.document.getById( 'standard' ).getHtml(), function() {
+				var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
+
+				editor.once( 'afterCommandExec', function() {
+					resume( function() {
+						assert.areSame( 'figure', widget.element.getName(), 'Widget element type' );
+					} );
+				} );
+
+				widget.focus();
+
+				editor.execCommand( 'easyimageDivTest' );
 				wait();
 			} );
 		},
