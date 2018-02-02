@@ -268,10 +268,11 @@
 		 * Hides the toolbar controlled by this context. If dialog is currently open, method tries to close it.
 		 */
 		hide: function() {
+			var ignoreConfirm = this.editor.config.balloontoolbarIgnoreConfirm === undefined ? true : ignoreConfirm;
 			var keys = CKEDITOR.tools.objectKeys( this.toolbar._items );
 			// We don't want to hide toolbar if confirmed was canceled.
 			if ( keys.length === 1 && CKEDITOR.dialog && this.toolbar._items[ keys[ 0 ] ] instanceof CKEDITOR.dialog ) {
-				if ( confirm( this.editor.lang.balloontoolbar.dialogBlurConfirmation ) ) { // jshint ignore:line
+				if ( ignoreConfirm || confirm( this.editor.lang.balloontoolbar.dialogBlurConfirmation ) ) { // jshint ignore:line
 					this.closeDialog();
 					this.toolbar.hide();
 				}
@@ -380,7 +381,7 @@
 			var dialog;
 			var dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
 			if ( typeof dialogDefinitions === 'function' ) {
-				dialog = new CKEDITOR.dialog( this.editor, dialogName );
+				dialog = new CKEDITOR.dialog( this.editor, dialogName, { preventResizeHandle: true } );
 				callback && callback.call( dialog, dialog );
 
 				dialog.once( 'cancel', this.closeDialog.bind( this, dialogName ) );
@@ -452,6 +453,17 @@
 			this._lifoQueue.push( toolbar );
 			this.toolbar = toolbar;
 		}
+
+		/**
+		 * Whether confirmation for closing dialogs inside balloontollbars should be ignored or not.
+		 *
+		 * 		// Confirmation monit will be display on bluring dialog inside balloontoolbar
+		 * 		// editor.config.balloontoolbarIgnoreConfirm = false;
+		 *
+		 * @since 4.10.0
+		 * @cfg {Boolean} [balloontoolbarIgnoreConfirm=true]
+		 * @member CKEDITOR.config
+		 */
 
 	};
 

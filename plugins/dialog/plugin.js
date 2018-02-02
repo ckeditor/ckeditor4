@@ -220,8 +220,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	 * @constructor Creates a dialog class instance.
 	 * @param {Object} editor The editor which created the dialog.
 	 * @param {String} dialogName The dialog's registered name.
+	 * @param {Object} [options] Configuration options which allows on better dialog customization.
 	 */
-	CKEDITOR.dialog = function( editor, dialogName ) {
+	CKEDITOR.dialog = function( editor, dialogName, options ) {
 		// Load the dialog definition.
 		var definition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ],
 			defaultDefinition = CKEDITOR.tools.clone( defaultDialogDefinition ),
@@ -624,7 +625,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}
 
 		initDragAndDrop( this );
-		initResizeHandles( this );
+		if ( !options.preventResizeHandle ) {
+			initResizeHandles( this );
+		}
 
 		// Insert the title.
 		( new CKEDITOR.dom.text( definition.title, CKEDITOR.document ) ).appendTo( this.parts.title );
