@@ -42,8 +42,10 @@
 
 				widgetInstance.focus();
 
-				// IE11 for some reasons needs to have the command state force refreshed, after focusing the widget with API only.
-				editor.commands[ 'easyimage' + command ].refresh( editor, editor.elementPath() );
+				if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+					// IE11 for some reasons needs to have the command state force refreshed, after focusing the widget with API only.
+					editor.commands[ 'easyimage' + command ].refresh( editor, editor.elementPath() );
+				}
 
 				editor.execCommand( 'easyimage' + command );
 
