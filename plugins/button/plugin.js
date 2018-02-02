@@ -277,7 +277,10 @@
 					iconPath = this.iconHiDpi;
 				}
 				if ( iconPath ) {
-					CKEDITOR.skin.addIcon( name, iconPath );
+					// Icon name should be based on iconPath so it is possible to use it for buttons with default
+					// icons (as under `name` default icon is already registered so custom one will not overwrite it) (#1530).
+					iconName = iconPath;
+					CKEDITOR.skin.addIcon( iconName, iconPath );
 					this.icon = null;
 				}
 			}
