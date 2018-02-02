@@ -1,4 +1,4 @@
-[data-cke-caption-hidden] {
+.cke_widget_caption_hidden figcaption {
 	display: none;
 }
 

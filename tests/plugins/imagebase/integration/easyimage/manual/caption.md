@@ -2,8 +2,9 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, easyimage
 
+## Steps for both editors:
 
-1. Focus first image's caption.
+1. Focus first image caption.
 1. Press Tab.
 1. Select caption of second image with Ctrl + A.
 1. Press Delete.
@@ -11,7 +12,7 @@
 
 ### Expected
 
-Caption on second widget should disappear.
+Caption on second widget should be hidden.
 
 ### Unexpected
 

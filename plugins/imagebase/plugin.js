@@ -520,9 +520,12 @@
 			widget.parts.caption.data( 'cke-caption-placeholder', false );
 		}
 
-		function setVisibility( caption, isVisible ) {
-			caption.data( 'cke-caption-active', isVisible );
-			caption.data( 'cke-caption-hidden', !isVisible );
+		function setVisibility( widget, isVisible ) {
+			if ( isVisible ) {
+				widget.wrapper.removeClass( 'cke_widget_caption_hidden' );
+			} else {
+				widget.wrapper.addClass( 'cke_widget_caption_hidden' );
+			}
 		}
 
 		/**
@@ -539,20 +542,14 @@
 		 */
 		return {
 			setUp: function( editor ) {
-				var listeners = [];
+				var listeners = [],
+					// Changing the scope of previous so it actually stores previously focused element (#1543).
+					previous;
 
 				function listener( evt ) {
 					var path = evt.name === 'blur' ? editor.elementPath() : evt.data.path,
 						sender = path ? path.lastElement : null,
-						focused = getFocusedWidget( editor ),
-						activeWidgets = [];
-
-					// When there are many active widgets we need to find them find them all and update status of each one.
-					editor.editable().find( 'figcaption[data-cke-caption-active]' ).toArray().forEach( function( item ) {
-						activeWidgets.push( editor.widgets.getByElement( item ) );
-					} );
-
-
+						focused = getFocusedWidget( editor );
 
 					if ( !editor.filter.check( 'figcaption' ) ) {
 						return CKEDITOR.tools.array.forEach( listeners, function( listener ) {
@@ -564,14 +561,13 @@
 						focused._refreshCaption( sender );
 					}
 
-					activeWidgets.forEach( function( item ) {
-						if ( item && hasWidgetFeature( item, 'caption' ) ) {
-							item._refreshCaption( sender );
-						}
-					} );
+					if ( previous && hasWidgetFeature( previous, 'caption' ) ) {
+						previous._refreshCaption( sender );
+					}
+					previous = focused;
 				}
 
-				listeners.push( editor.on( 'selectionChange', listener , null, null, 9 ) );
+				listeners.push( editor.on( 'selectionChange', listener, null, null, 9 ) );
 				listeners.push( editor.on( 'blur', listener ) );
 			},
 
@@ -607,10 +603,10 @@
 						removePlaceholder( this );
 					}
 
-					setVisibility( caption, true );
+					setVisibility( this, true );
 				} else if ( isEmptyOrHasPlaceholder( this ) ) {
 					removePlaceholder( this );
-					setVisibility( caption, false );
+					setVisibility( this, false );
 				}
 			}
 		};
