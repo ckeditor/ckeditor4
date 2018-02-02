@@ -99,3 +99,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 {
 	position: static;
 }
+
+.cke_balloontoolbar .cke_dialog_title {
+	cursor: auto;
+}
