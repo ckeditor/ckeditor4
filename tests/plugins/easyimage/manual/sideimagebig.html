@@ -91,7 +91,8 @@
 		height: 300
 	};
 
-	CKEDITOR.addCss( '.cke_editable { font-size: 20px !important }' );
+	CKEDITOR.addCss( '.cke_editable { font-size: 20px !important }\n' +
+		'.cke_editable td { vertical-align: top; }' );
 
 	CKEDITOR.replace( 'classic', config );
 	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( {}, config, {
