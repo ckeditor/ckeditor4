@@ -48,6 +48,14 @@ The outline is not a part of the element's dimensions, we have to use a border a
 	min-width: 10em;
 }
 
+/*
+Overwrite 'max-width: 25%' with 'max-width: 25vw' to prevent native Chrome bug
+https://bugs.chromium.org/p/chromium/issues/detail?id=803045 (#1550).
+*/
+body.cke_editable > .cke_widget_wrapper_easyimage-side {
+	max-width: 25vw;
+}
+
 .easyimage .cke_widget_editable {
 	background-color: #f7f7f7;
 	/* Add border so when caption is focused, blue border does not cause flickering. */
