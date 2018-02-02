@@ -9,7 +9,11 @@
 	var stylesLoaded = false,
 		WIDGET_NAME = 'easyimage';
 
-	function addCommands( editor ) {
+	function capitalize( str ) {
+		return CKEDITOR.tools.capitalize( str, true );
+	}
+
+	function getStylesForEditor( editor ) {
 		var defaultStyles = {
 			full: {
 				attributes: {
@@ -47,10 +51,10 @@
 			}
 		};
 
-		function capitalize( str ) {
-			return CKEDITOR.tools.capitalize( str, true );
-		}
+		return CKEDITOR.tools.object.merge( defaultStyles, editor.config.easyimage_styles );
+	}
 
+	function addCommands( editor, styles ) {
 		function createCommandRefresh( enableCheck ) {
 			return function( editor ) {
 				var widget = editor.widgets.focused;
@@ -63,33 +67,7 @@
 			};
 		}
 
-		function createButton( button ) {
-			editor.ui.addButton( button.name, {
-				label: button.label,
-				command: button.command,
-				toolbar: 'easyimage,' + ( button.order || 99 )
-			} );
-		}
-
-		function extractButtonInfo( style ) {
-			var info = {
-				label: style.label,
-				icon: style.icon,
-				iconHiDpi: style.iconHiDpi
-			};
-
-			delete style.label;
-			delete style.icon;
-			delete style.iconHiDpi;
-
-			return info;
-		}
-
 		function createCommand( options ) {
-			if ( options.button ) {
-				createButton( options.button );
-			}
-
 			return {
 				startDisabled: true,
 				contextSensitive: true,
@@ -112,8 +90,7 @@
 		}
 
 		function createStyleCommand( editor, name, styleDefinition ) {
-			var button = extractButtonInfo( styleDefinition ),
-				style;
+			var style;
 
 			styleDefinition.type = 'widget';
 			styleDefinition.widget = 'easyimage';
@@ -131,13 +108,7 @@
 				refreshCheck: function( widget ) {
 					return widget.data.style === name;
 				},
-				forceSelectionCheck: true,
-				button: {
-					name: 'Easyimage' + capitalize( name ),
-					label: button.label,
-					command: 'easyimage' + capitalize( name ),
-					order: 99
-				}
+				forceSelectionCheck: true
 			} );
 		}
 
@@ -147,12 +118,6 @@
 				contextSensitive: true,
 				refresh: createCommandRefresh()
 			} ) );
-			createButton( {
-				name: 'EasyimageAlt',
-				label: editor.lang.easyimage.commands.altText,
-				command: 'easyimageAlt',
-				order: 3
-			} );
 		}
 
 		function addStylesCommands( styles ) {
@@ -169,7 +134,42 @@
 		}
 
 		addDefaultCommands();
-		addStylesCommands( CKEDITOR.tools.object.merge( defaultStyles, editor.config.easyimage_styles ) );
+		addStylesCommands( styles );
+	}
+
+	function addButtons( editor, styles ) {
+		function createButton( button ) {
+			editor.ui.addButton( button.name, {
+				label: button.label,
+				command: button.command,
+				toolbar: 'easyimage,' + ( button.order || 99 )
+			} );
+		}
+
+		function addDefaultButtons() {
+			createButton( {
+				name: 'EasyimageAlt',
+				label: editor.lang.easyimage.commands.altText,
+				command: 'easyimageAlt',
+				order: 3
+			} );
+		}
+
+		function addStylesButtons( styles ) {
+			var style;
+
+			for ( style in styles ) {
+				createButton( {
+					name: 'Easyimage' + capitalize( style ),
+					label: styles[ style ].label,
+					command: 'easyimage' + capitalize( style ),
+					order: 99
+				} );
+			}
+		}
+
+		addDefaultButtons();
+		addStylesButtons( styles );
 	}
 
 	function addToolbar( editor ) {
@@ -511,9 +511,12 @@
 		// Widget must be registered after init in case that link plugin is dynamically loaded e.g. via
 		// `config.extraPlugins`.
 		afterInit: function( editor ) {
+			var styles = getStylesForEditor( editor );
+
 			registerWidget( editor );
 			addPasteListener( editor );
-			addCommands( editor );
+			addCommands( editor, styles );
+			addButtons( editor, styles );
 			addMenuItems( editor );
 			addToolbar( editor );
 		}
