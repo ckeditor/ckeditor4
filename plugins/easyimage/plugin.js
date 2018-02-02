@@ -181,7 +181,7 @@
 		} );
 	}
 
-	function addMenuItems( editor ) {
+	function addContextMenuItems( editor ) {
 		var buttons = editor.config.easyimage_toolbar;
 
 		if ( !editor.plugins.contextmenu ) {
@@ -517,7 +517,7 @@
 			addPasteListener( editor );
 			addCommands( editor, styles );
 			addButtons( editor, styles );
-			addMenuItems( editor );
+			addContextMenuItems( editor );
 			addToolbar( editor );
 		}
 	} );
