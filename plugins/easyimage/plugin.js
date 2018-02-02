@@ -538,8 +538,9 @@
 	CKEDITOR.config.easyimage_class = 'easyimage';
 
 	/**
-	 * Custom styles that could be applied to Easy Image widget. All styles must be instances of
-	 * {@link CKEDITOR.style}. There are three additional properties for every style:
+	 * Custom styles that could be applied to Easy Image widget.
+	 * All styles must be [valid style definitions](#!/guide/dev_howtos_styles-section-how-do-i-customize-the-styles-drop-down-list%3F).
+	 * There are three additional properties for every style definition:
 	 *
 	 * * `label` - string used as a button label in a balloon toolbar for the widget,
 	 * * `icon` - path to the icon used in the balloon toolbar,
