@@ -13,12 +13,7 @@
 			config: {
 				// Widget is identified by id.
 				extraAllowedContent: 'figure[id]',
-				easyimage_class: 'customClass',
-				easyimage_fullClass: 'customFullClass',
-				easyimage_sideClass: 'customSideClass',
-				easyimage_alignLeftClass: 'customAlignLeftClass',
-				easyimage_alignCenterClass: 'customAlignCenterClass',
-				easyimage_alignRightClass: 'customAlignRightClass'
+				easyimage_class: 'customClass'
 			}
 		},
 
@@ -36,26 +31,6 @@
 			}
 		}
 	};
-
-	function createCustomClassTest( command ) {
-		return function() {
-			var bot = this.editorBots.classCustomized;
-
-			bot.setData( CKEDITOR.document.getById( 'changedClass' ).getHtml(), function() {
-				var editor = bot.editor,
-					widgetInstance = widgetTestsTools.getWidgetById( editor, 'customSideId', true );
-
-				widgetInstance.focus();
-
-				// IE11 for some reasons needs to have the command state force refreshed, after focusing the widget with API only.
-				editor.commands[ 'easyimage' + command ].refresh( editor, editor.elementPath() );
-
-				editor.execCommand( 'easyimage' + command );
-
-				assert.beautified.html( CKEDITOR.document.getById( 'expectedCustom' + command + 'Class' ).getHtml(), editor.getData() );
-			} );
-		};
-	}
 
 	function createToolbarTest( editorName, expectedItems ) {
 		return function() {
@@ -110,12 +85,6 @@
 				bot: this.editorBots.classCustomized
 			} );
 		},
-
-		'test easyimage_fullClass - changed': createCustomClassTest( 'Full' ),
-		'test easyimage_sideClass - changed': createCustomClassTest( 'Side' ),
-		'test easyimage_alignLeftClass - changed': createCustomClassTest( 'AlignLeft' ),
-		'test easyimage_alignCenterClass - changed': createCustomClassTest( 'AlignCenter' ),
-		'test easyimage_alignRightClass - changed': createCustomClassTest( 'AlignRight' ),
 
 		'test balloon toolbar buttons (default settings)': createToolbarTest( 'standard',
 			[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ] ),
