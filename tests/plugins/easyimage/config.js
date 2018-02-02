@@ -32,6 +32,26 @@
 		}
 	};
 
+	function createCustomClassTest( command ) {
+		return function() {
+			var bot = this.editorBots.classCustomized;
+
+			bot.setData( CKEDITOR.document.getById( 'changedClass' ).getHtml(), function() {
+				var editor = bot.editor,
+					widgetInstance = widgetTestsTools.getWidgetById( editor, 'customSideId', true );
+
+				widgetInstance.focus();
+
+				// IE11 for some reasons needs to have the command state force refreshed, after focusing the widget with API only.
+				editor.commands[ 'easyimage' + command ].refresh( editor, editor.elementPath() );
+
+				editor.execCommand( 'easyimage' + command );
+
+				assert.beautified.html( CKEDITOR.document.getById( 'expectedCustom' + command + 'Class' ).getHtml(), editor.getData() );
+			} );
+		};
+	}
+
 	function createToolbarTest( editorName, expectedItems ) {
 		return function() {
 			var editor = bender.editors[ editorName ],
@@ -85,6 +105,10 @@
 				bot: this.editorBots.classCustomized
 			} );
 		},
+
+		'test default styles for alignLeft': createCustomClassTest( 'AlignLeft' ),
+		'test default styles for alignCenter': createCustomClassTest( 'AlignCenter' ),
+		'test default styles for alignRight': createCustomClassTest( 'AlignRight' ),
 
 		'test balloon toolbar buttons (default settings)': createToolbarTest( 'standard',
 			[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ] ),
