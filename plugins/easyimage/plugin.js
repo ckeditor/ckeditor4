@@ -17,35 +17,35 @@
 		var defaultStyles = {
 			full: {
 				attributes: {
-					'class': editor.config.easyimage_fullClass
+					'class': 'easyimage-full'
 				},
 				label: editor.lang.easyimage.commands.fullImage
 			},
 
 			side: {
 				attributes: {
-					'class': editor.config.easyimage_sideClass
+					'class': 'easyimage-side'
 				},
 				label: editor.lang.easyimage.commands.sideImage
 			},
 
 			alignLeft: {
 				attributes: {
-					'class': editor.config.easyimage_alignLeftClass
+					'class': 'easyimage-alignLeft'
 				},
 				label: editor.lang.easyimage.commands.alignLeft
 			},
 
 			alignCenter: {
 				attributes: {
-					'class': editor.config.easyimage_alignCenterClass
+					'class': 'easyimage-alignCenter'
 				},
 				label: editor.lang.easyimage.commands.alignCenter
 			},
 
 			alignRight: {
 				attributes: {
-					'class': editor.config.easyimage_alignRightClass
+					'class': 'easyimage-alignRight'
 				},
 				label: editor.lang.easyimage.commands.alignRight
 			}
@@ -536,66 +536,6 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.easyimage_class = 'easyimage';
-
-	/**
-	 * A CSS class representing full width image.
-	 *
-	 *		// Changes the class to "my-full-width-image".
-	 *		config.easyimage_sideClass = 'my-full-width-image';
-	 *
-	 * @since 4.9.0
-	 * @cfg {String} [easyimage_fullClass='easyimage-full']
-	 * @member CKEDITOR.config
-	 */
-	CKEDITOR.config.easyimage_fullClass = 'easyimage-full';
-
-	/**
-	 * A CSS class representing side image.
-	 *
-	 *		// Changes the class to "my-side-image".
-	 *		config.easyimage_sideClass = 'my-side-image';
-	 *
-	 * @since 4.8.0
-	 * @cfg {String} [easyimage_sideClass='easyimage-side']
-	 * @member CKEDITOR.config
-	 */
-	CKEDITOR.config.easyimage_sideClass = 'easyimage-side';
-
-	/**
-	 * A CSS class representing image aligned to left.
-	 *
-	 *		// Changes the class to "my-left-image".
-	 *		config.easyimage_alignLeftClass = 'my-left-image';
-	 *
-	 * @since 4.9.0
-	 * @cfg {String} [easyimage_alignLeftClass='easyimage-alignLeft']
-	 * @member CKEDITOR.config
-	 */
-	CKEDITOR.config.easyimage_alignLeftClass = 'easyimage-alignLeft';
-
-	/**
-	 * A CSS class representing image aligned to center.
-	 *
-	 *		// Changes the class to "my-center-image".
-	 *		config.easyimage_alignCenterClass = 'my-center-image';
-	 *
-	 * @since 4.9.0
-	 * @cfg {String} [easyimage_alignCenterClass='easyimage-alignCenter']
-	 * @member CKEDITOR.config
-	 */
-	CKEDITOR.config.easyimage_alignCenterClass = 'easyimage-alignCenter';
-
-	/**
-	 * A CSS class representing image aligned to right.
-	 *
-	 *		// Changes the class to "my-right-image".
-	 *		config.easyimage_alignLeftClass = 'my-right-image';
-	 *
-	 * @since 4.9.0
-	 * @cfg {String} [easyimage_alignRightClass='easyimage-alignRight']
-	 * @member CKEDITOR.config
-	 */
-	CKEDITOR.config.easyimage_alignRightClass = 'easyimage-alignRight';
 
 	/**
 	 * Custom styles that could be applied to Easy Image widget. All styles must be instances of
