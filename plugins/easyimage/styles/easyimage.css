@@ -41,6 +41,11 @@ The outline is not a part of the element's dimensions, we have to use a border a
 	*/
 	float: right;
 	max-width: 25%;
+	/*
+	In case of placement inside parent container like table cell, 'min-width' is needed to prevent widget to have
+	tiny sizes. The `em` unit is used so it works well and have proper proportions to text content around (#1553).
+	*/
+	min-width: 10em;
 }
 
 .easyimage .cke_widget_editable {
