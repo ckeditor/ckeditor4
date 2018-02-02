@@ -4,8 +4,7 @@
 
 bender.editor = {
 	config: {
-		allowedContent: true,
-		extraPlugins: 'placeholder'
+		allowedContent: true
 	}
 };
 
@@ -786,25 +785,5 @@ bender.test( {
 		bender.tools.setHtmlWithSelection( editor, '<p>T^es^t</p>' );
 
 		assert.isFalse( editor.getSelection().isCollapsed() );
-	},
-
-	'test delete/backspace keys are not removing readonly selection': function() {
-		var editor = this.editor, bot = this.editorBot;
-
-		editor.setReadOnly( true );
-
-		bot.setData( '<p>[[placeholder]]</p>', function() {
-			var widget = editor.widgets.instances[ 0 ];
-
-			widget.focus();
-
-			editor.fire( 'key', { keyCode: 8 } ); // backspace
-			editor.fire( 'key', { keyCode: 46 } ); // delete
-
-			assert.areEqual( '<p>[[placeholder]]</p>', editor.getData() );
-		} );
-
-		// Teardown
-		editor.setReadOnly( false );
 	}
 } );

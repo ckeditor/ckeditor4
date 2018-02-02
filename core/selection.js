@@ -526,6 +526,7 @@
 					range = editor.createRange(),
 					found;
 
+				// We have to skip deletion for read only editor (#1516).
 				if ( editor.readOnly ) {
 					return;
 				}

@@ -27,7 +27,7 @@ Fixed Issues:
 * [#1010](https://github.com/ckeditor/ckeditor-dev/issues/1010): Fixed: CSS `border` shorthand property was incorrectly expanded ignoring `border-color` style.
 * [#1470](https://github.com/ckeditor/ckeditor-dev/issues/1470): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) is not visible after drag and drop of a widget it is attached to.
 * [#1535](https://github.com/ckeditor/ckeditor-dev/issues/1535): Fixed: Improve [Widget](https://ckeditor.com/cke4/addon/widget) mouse over border contrast.
-* [#1516](https://github.com/ckeditor/ckeditor-dev/issues/1516): Fixed: Selection allows removing in a readonly mode using `Backspace`/`Delete` keys.
+* [#1516](https://github.com/ckeditor/ckeditor-dev/issues/1516): Fixed: Fake selection allows removing in a readonly mode using `Backspace`/`Delete` keys.
 
 API Changes:
 
