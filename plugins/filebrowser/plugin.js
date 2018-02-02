@@ -414,7 +414,7 @@
 	}
 
 	CKEDITOR.plugins.add( 'filebrowser', {
-		requires: 'popup',
+		requires: 'popup,filetools',
 		init: function( editor ) {
 			editor._.filebrowserFn = CKEDITOR.tools.addFunction( setUrl, editor );
 			editor.on( 'destroy', function() {
@@ -608,12 +608,10 @@
  * {@link CKEDITOR.config#fileTools_requestHeaders} option.
  *	* `'form'` - File is uploaded by submitting a traditional `<form>` element. _Note: That was the only option available until CKEditor 4.9.0._
  *
- * Note: please be aware that `'xhr'` requires the [File Tools](https://ckeditor.com/cke4/addon/filetools) plugin to work
- * properly. Without the plugin or using a browser that does not support
- * {@link CKEDITOR.fileTools#isFileUploadSupported file uploading}, will fallback to the `'form'` method despite configuration
- * option.
+ * Example:
  *
- *		// All browsers will use form element with submit method to upload a file.
+ *		// All browsers will use form element with submit method
+ *		// to upload a file through filebrowser plugin.
  *		config.filebrowserUploadMethod = 'form';
  *
  * @since 4.9.0
