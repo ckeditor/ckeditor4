@@ -8,4 +8,6 @@
 
 ## Expected
 
-Easy image widget should not be resized or get smaller/bigger.
+Image inside easy image widget should not be resized or get smaller/bigger.
+
+The widget itself in some edge cases (resized to big/tiny viewport) might slightly change its size, but it should not be a significant change.
