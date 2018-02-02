@@ -153,10 +153,10 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 				heightField.setValue( editor.config.image2_prefillDimensions === false ? 0 : height );
 
 				// Cache the new width.
-				preLoadedWidth = width;
+				preLoadedWidth = domWidth = width;
 
 				// Cache the new height.
-				preLoadedHeight = height;
+				preLoadedHeight = domHeight = height;
 
 				// Check for new lock value if image exist.
 				toggleLockRatio( helpers.checkHasNaturalRatio( image ) );
