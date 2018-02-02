@@ -556,7 +556,7 @@
 	 *				},
 	 *				label: 'Align left',
 	 *				icon: '/foo/bar/icons/baz.png',
-	 *				iconHidpi: '/foo/bar/icons/hidpi/baz.png'
+	 *				iconHiDpi: '/foo/bar/icons/hidpi/baz.png'
 	 *			}
 	 *		};
 	 *
@@ -570,6 +570,9 @@
 	 * List of buttons to be displayed in a balloon toolbar for Easy Image widget.
 	 * If Context Menu plugin is enabled, this config variable will be used also to add
 	 * items to the context menu for Easy Image widget.
+	 *
+	 *		// Change toolbar to alignment commands.
+	 *		config.easyimage_toolbar = [ 'EasyimageAlignLeft', 'EasyimageAlignCenter', 'EasyimageAlignRight' ];
 	 *
 	 * @since 4.9.0
 	 * @cfg {String[]/String} [easyimage_toolbar=[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ]]
