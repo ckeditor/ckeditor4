@@ -1,3 +1,9 @@
+<script>
+	if ( isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
+</script>
+
 <div id="classic">
 	<p>Go on, drop some files below:</p>
 	<p></p>
@@ -5,10 +11,6 @@
 
 <script src="../../../easyimage/manual/_helpers/tools.js"></script>
 <script>
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
-		bender.ignore();
-	}
-
 	getToken( function( token ) {
 		var editor = CKEDITOR.replace( 'classic', {
 				cloudServices_url: 'https://files.cke-cs.com/upload/',

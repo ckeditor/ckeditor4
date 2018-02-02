@@ -15,6 +15,9 @@
 </div>
 
 <script>
+	if ( isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
 	CKEDITOR.replace( 'classic', {
 		on: {
 			pluginsLoaded: function( evt ) {

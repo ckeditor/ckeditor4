@@ -72,6 +72,9 @@
 	</div>
 
 	<script>
+		if ( isUnsupportedEnvironment() ) {
+			bender.ignore();
+		}
 		( function() {
 			'use strict';
 

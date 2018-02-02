@@ -1,7 +1,7 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: imagebase,toolbar */
-/* bender-include: ../widget/_helpers/tools.js */
-/* global widgetTestsTools */
+/* bender-include: ../widget/_helpers/tools.js,../easyimage/manual/_helpers/tools.js */
+/* global widgetTestsTools, isUnsupportedEnvironment */
 
 ( function() {
 	'use strict';
@@ -21,6 +21,12 @@
 	};
 
 	var tests = {
+		setUp: function() {
+			if ( isUnsupportedEnvironment() ) {
+				assert.ignore();
+			}
+		},
+
 		'test adding image widget': function( editor ) {
 			var expectedParts = {
 				caption: 'figcaption',

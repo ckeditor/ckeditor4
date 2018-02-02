@@ -23,6 +23,9 @@
 </div>
 
 <script>
+	if ( isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
 	var cfg = {
 		on: {
 			pluginsLoaded: function( evt ) {

@@ -1,6 +1,7 @@
 @bender-tags: 4.9.0, feature, 932
 @bender-ui: collapsed
 @bender-ckeditor-plugins: sourcedialog, wysiwygarea, floatingspace, toolbar, imagebase, link, htmlwriter, elementspath
+@bender-include: %BASE_PATH%/plugins/easyimage/manual/_helpers/tools.js
 
 Check if caption is working correctly:
 
