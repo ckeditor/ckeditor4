@@ -52,7 +52,14 @@
 						}
 
 						resume( function() {
-							callback( objToArray( editor.widgets.instances ), evt, uploadEvt );
+							// Some tests occasionally fail in Firefox. After making them asynchronous tests passes.
+							if ( CKEDITOR.env.gecko ) {
+								wait( function() {
+									callback( objToArray( editor.widgets.instances ), evt, uploadEvt );
+								}, 0 );
+							} else {
+								callback( objToArray( editor.widgets.instances ), evt, uploadEvt );
+							}
 						} );
 					}
 
