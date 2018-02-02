@@ -147,7 +147,7 @@
 			} );
 		},
 
-		'test style command does not change element': function( editor, bot ) {
+		'test style command does not change element tag name': function( editor, bot ) {
 			bot.setData( CKEDITOR.document.getById( 'standard' ).getHtml(), function() {
 				var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
 
