@@ -34,7 +34,8 @@ The outline is not a part of the element's dimensions, we have to use a border a
 	max-width: 100%;
 }
 
-.cke_widget_wrapper_easyimage-side, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-side) > .easyimage-side {
+.cke_widget_wrapper_easyimage-side, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-side) > .easyimage-side,
+.cke_widget_wrapper_easyimage-alignRight, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-alignRight) > .easyimage-alignRight {
 	/*
 	:not() selector will be used for Easy Image content ouside of the editor. E.g. when the editor was destoryed.
 	See https://github.com/ckeditor/ckeditor-dev/pull/1150#discussion_r150415261 for more details.
@@ -64,11 +65,6 @@ body.cke_editable > .cke_widget_wrapper_easyimage-side {
 .cke_widget_wrapper_easyimage-alignCenter, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-alignCenter) > .easyimage-alignCenter {
 	margin: 0 auto;
 	max-width: 90%;
-}
-
-.cke_widget_wrapper_easyimage-alignRight, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-alignRight) > .easyimage-alignRight {
-	float: right;
-	max-width: 25%;
 }
 
 .easyimage .cke_widget_editable {
