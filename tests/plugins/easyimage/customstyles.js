@@ -95,14 +95,12 @@
 				easyImageTools.assertCommandsState( editor, {
 					easyimageTest: CKEDITOR.TRISTATE_ON
 				} );
-				// assert.areSame( 'test', widget.data.style, 'Widget has correct style data' );
 
 				editor.execCommand( 'easyimageTest' );
 
 				easyImageTools.assertCommandsState( editor, {
 					easyimageTest: CKEDITOR.TRISTATE_ON
 				} );
-				// assert.areSame( 'test', widget.data.style, 'Widget has correct style data' );
 			} );
 		},
 
@@ -114,18 +112,18 @@
 					editor.once( 'afterCommandExec', function() {
 						resume( function() {
 							assert.isFalse( widget.hasClass( 'test' ), 'Style removed' );
-							// easyImageTools.assertCommandsState( editor, {
-							// 	easyimageTest: CKEDITOR.TRISTATE_OFF,
-							// 	easyimageAlignLeft: CKEDITOR.TRISTATE_ON
-							// } );
+							easyImageTools.assertCommandsState( editor, {
+								easyimageTest: CKEDITOR.TRISTATE_OFF,
+								easyimageAlignLeft: CKEDITOR.TRISTATE_ON
+							} );
 						} );
 					} );
 
 					assert.isTrue( widget.hasClass( 'test' ), 'Style applied' );
-					// easyImageTools.assertCommandsState( editor, {
-					// 	easyimageFull: CKEDITOR.TRISTATE_OFF,
-					// 	easyimageTest: CKEDITOR.TRISTATE_ON
-					// } );
+					easyImageTools.assertCommandsState( editor, {
+						easyimageFull: CKEDITOR.TRISTATE_OFF,
+						easyimageTest: CKEDITOR.TRISTATE_ON
+					} );
 
 					editor.execCommand( 'easyimageAlignLeft' );
 				} );
@@ -163,7 +161,6 @@
 			bot.setData( CKEDITOR.document.getById( 'standard' ).getHtml(), function() {
 				var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
 
-				assert.areSame( 'full', widget.data.style, 'Widget has correct style data' );
 				assert.isTrue( widget.hasClass( 'easyimage-full' ), 'Widget has correct style' );
 			} );
 		}
@@ -194,7 +191,6 @@
 						easyImageTools.assertCommandsState( editor, {
 							easyimageAlignLeft: CKEDITOR.TRISTATE_ON
 						} );
-						// assert.areSame( 'alignLeft', widget.data.style, 'Widget has correct style data' );
 						assert.isTrue( widget.hasClass( 'customClass' ), 'Widget has appropriate class' );
 					} );
 				} );

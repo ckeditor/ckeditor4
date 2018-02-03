@@ -75,16 +75,12 @@
 		}
 
 		function createStyleCommand( editor, name, styleDefinition, commandName ) {
-			var style;
-
 			styleDefinition.type = 'widget';
 			styleDefinition.widget = 'easyimage';
 			styleDefinition.group = styleDefinition.group || 'easyimage';
 			styleDefinition.element = 'figure';
-			style = new CKEDITOR.style( styleDefinition );
-
+			var style = new CKEDITOR.style( styleDefinition );
 			editor.filter.allow( style );
-			editor.widgets.registered.easyimage._styles[ name ] = style;
 
 			var cmd = new CKEDITOR.styleCommand( style, {
 				contextSensitive: true
@@ -142,10 +138,6 @@
 
 		function addStylesCommands( styles ) {
 			var style;
-
-			if ( !editor.widgets.registered.easyimage._styles ) {
-				editor.widgets.registered.easyimage._styles = {};
-			}
 
 			for ( style in styles ) {
 				createStyleCommand( editor, style, styles[ style ], 'easyimage' + capitalize( style ) );
@@ -236,19 +228,6 @@
 
 			evt.data[ button.name ] = editor.getCommand( button.command ).state;
 		} );
-	}
-
-	function getActiveStyle( widget ) {
-		var styles = widget.definition._styles,
-			style;
-
-		for ( style in styles ) {
-			if ( widget.checkStyleActive( styles[ style ] ) ) {
-				return style;
-			}
-		}
-
-		return 'full';
 	}
 
 	function registerWidget( editor ) {
@@ -366,16 +345,6 @@
 					this.on( 'uploadFailed', function() {
 						alert( this.editor.lang.easyimage.uploadFailed ); // jshint ignore:line
 					} );
-				},
-
-				data: function( evt ) {
-					var data = evt.data;
-
-					if ( !data.style ) {
-						data.style = getActiveStyle( this );
-
-						return this.applyStyle( this._styles[ data.style ] );
-					}
 				}
 			};
 
