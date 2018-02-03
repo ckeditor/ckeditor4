@@ -120,7 +120,7 @@
 
 				// Drag and drop probably destroyed old widget, so we should fetch it once more.
 				widget = editor.widgets.focused;
-				assert.areSame( 'side', widget.data.style, 'Widget has correct data style' );
+				assert.isTrue( widget.element.hasClass( 'easyimage-side' ), 'Widget preserved the class' );
 			} );
 		}
 	};

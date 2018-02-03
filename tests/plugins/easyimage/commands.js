@@ -21,7 +21,7 @@
 	};
 
 	var originalGetClientRect = CKEDITOR.dom.element.prototype.getClientRect,
-		widgetHtml = '<figure class="image easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
+		widgetHtml = '<figure class="easyimage easyimage-full"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		tests = {
 			setUp: function() {
 				if ( CKEDITOR.env.ie ) {
