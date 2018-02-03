@@ -56,60 +56,80 @@
 
 	function addCommands( editor, styles ) {
 		function createCommandRefresh( enableCheck ) {
-			return function( editor ) {
+			return function( editor, path ) {
 				var widget = editor.widgets.focused;
 
 				if ( widget && widget.name === WIDGET_NAME ) {
-					this.setState( ( enableCheck && enableCheck( widget ) ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+					var callbackResolution = enableCheck && enableCheck.call( this, widget, editor, path ),
+						state = enableCheck ? callbackResolution : CKEDITOR.TRISTATE_OFF;
+
+					if ( typeof callbackResolution !== 'number' ) {
+						state = callbackResolution ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+					}
+
+					this.setState( state );
 				} else {
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				}
 			};
 		}
 
-		function createCommand( options ) {
-			return {
-				startDisabled: true,
-				contextSensitive: true,
-
-				exec: function( editor ) {
-					var widget = editor.widgets.focused;
-
-					options.exec( widget );
-
-					if ( options.forceSelectionCheck ) {
-						// We have to manually force refresh commands as refresh seems to be executed prior to exec.
-						// Without this command states would be outdated.
-						editor.forceNextSelectionCheck();
-						editor.selectionChange( true );
-					}
-				},
-
-				refresh: createCommandRefresh( options.refreshCheck )
-			};
-		}
-
-		function createStyleCommand( editor, name, styleDefinition ) {
+		function createStyleCommand( editor, name, styleDefinition, commandName ) {
 			var style;
 
 			styleDefinition.type = 'widget';
 			styleDefinition.widget = 'easyimage';
-			styleDefinition.group = 'easyimage';
+			styleDefinition.group = styleDefinition.group || 'easyimage';
+			styleDefinition.element = 'figure';
 			style = new CKEDITOR.style( styleDefinition );
 
 			editor.filter.allow( style );
 			editor.widgets.registered.easyimage._styles[ name ] = style;
 
-			return createCommand( {
-				exec: function( widget ) {
-					style.apply( widget.editor );
-					widget.setData( 'style', name );
-				},
-				refreshCheck: function( widget ) {
-					return widget.data.style === name;
-				},
-				forceSelectionCheck: true
+			var cmd = new CKEDITOR.styleCommand( style, {
+				contextSensitive: true
 			} );
+
+			editor.addCommand( commandName, cmd );
+
+			// Command needs to be refretched. Calling addCommand will… create a new command.
+			cmd = editor.getCommand( commandName );
+
+			// These commands must trigger refresh.
+			editor.on( 'afterCommandExec', function( evt ) {
+				if ( evt.data.command.name === cmd.name ) {
+					editor.forceNextSelectionCheck();
+					editor.selectionChange( true );
+				}
+			} );
+
+			editor.on( 'beforeCommandExec', function( evt ) {
+				// Same style command can not be toggled.
+				var executedCommand = evt.data.command;
+				if ( executedCommand.name === cmd.name ) {
+					if ( executedCommand.style.checkActive( evt.editor.elementPath(), editor ) ) {
+						evt.cancel();
+						evt.stop();
+					}
+				}
+			} );
+
+			editor.on( 'mode', function() {
+				cmd.refresh( editor, editor.elementPath() );
+			}, null, null, 100 );
+
+			cmd.refresh = createCommandRefresh( function( widget, editor, path ) {
+				return this.style.checkActive( path, editor );
+			} );
+
+			// Enable is called at multiple occasions, especially in ediotr#mode event listeners.
+			// Unfortunately it's even called with a timeout there.
+			cmd.enable = function() {};
+
+			// Without this the command is inited in a wrong state.
+			cmd.refresh( editor, editor.elementPath() );
+
+			return cmd;
 		}
 
 		function addDefaultCommands() {
@@ -128,8 +148,7 @@
 			}
 
 			for ( style in styles ) {
-				editor.addCommand( 'easyimage' + capitalize( style ),
-					createStyleCommand( editor, style, styles[ style ] ) );
+				createStyleCommand( editor, style, styles[ style ], 'easyimage' + capitalize( style ) );
 			}
 		}
 
