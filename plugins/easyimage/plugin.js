@@ -114,11 +114,11 @@
 				return this.style.checkActive( path, editor );
 			} );
 
-			// Enable is called at multiple occasions, especially in ediotr#mode event listeners.
+			// Enable is called at multiple occasions, especially in editor#mode event listeners.
 			// Unfortunately it's even called with a timeout there.
 			cmd.enable = function() {};
 
-			// Without this the command is inited in a wrong state.
+			// Without this the command is inited with a wrong state.
 			cmd.refresh( editor, editor.elementPath() );
 
 			return cmd;
@@ -145,20 +145,11 @@
 	}
 
 	function addButtons( editor, styles ) {
-		function createButton( button ) {
-			editor.ui.addButton( button.name, {
-				label: button.label,
-				command: button.command,
-				toolbar: 'easyimage,' + ( button.order || 99 )
-			} );
-		}
-
 		function addDefaultButtons() {
-			createButton( {
-				name: 'EasyimageAlt',
+			editor.ui.addButton( 'EasyimageAlt', {
 				label: editor.lang.easyimage.commands.altText,
 				command: 'easyimageAlt',
-				order: 3
+				toolbar: 'easyimage,3'
 			} );
 		}
 
@@ -166,11 +157,10 @@
 			var style;
 
 			for ( style in styles ) {
-				createButton( {
-					name: 'Easyimage' + capitalize( style ),
+				editor.ui.addButton( 'Easyimage' + capitalize( style ), {
 					label: styles[ style ].label,
 					command: 'easyimage' + capitalize( style ),
-					order: 99
+					toolbar: 'easyimage,99'
 				} );
 			}
 		}
