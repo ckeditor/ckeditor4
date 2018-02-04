@@ -169,6 +169,14 @@
 
 				assert.isTrue( widget.hasClass( 'easyimage-full' ), 'Widget has correct style' );
 			} );
+		},
+
+		'test custom style widget does not get the default style': function( editor, bot ) {
+			bot.setData( CKEDITOR.document.getById( 'predefined' ).getHtml(), function() {
+				var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
+
+				assert.isFalse( widget.hasClass( 'easyimage-full' ), 'Default class is not added' );
+			} );
 		}
 	};
 
