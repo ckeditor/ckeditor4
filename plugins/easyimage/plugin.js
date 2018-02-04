@@ -230,7 +230,7 @@
 		} );
 	}
 
-	function registerWidget( editor ) {
+	function registerWidget( editor, styles ) {
 		var config = editor.config,
 			figureClass = config.easyimage_class,
 			widgetDefinition = {
@@ -247,6 +247,7 @@
 				},
 
 				requiredContent: 'figure; img[!src]',
+
 				styleableElements: 'figure',
 
 				supportedTypes: /image\/(jpeg|png|gif|bmp)/,
@@ -345,6 +346,26 @@
 					this.on( 'uploadFailed', function() {
 						alert( this.editor.lang.easyimage.uploadFailed ); // jshint ignore:line
 					} );
+
+					this._loadDefaultStyle();
+				},
+
+				_loadDefaultStyle: function() {
+					// Ensures that Easy Image widget uses a default Easy Image style if none other is applied.
+					var styleMatched = false,
+						defaultStyleName = editor.config.easyimage_defaultStyle;
+
+					for ( var styleName in styles ) {
+						var cmd = editor.getCommand( 'easyimage' + capitalize( styleName ) );
+
+						if ( !styleMatched && cmd && cmd.style && cmd.style.group === 'easyimage' && this.checkStyleActive( cmd.style ) ) {
+							styleMatched = true;
+						}
+					}
+
+					if ( !styleMatched && defaultStyleName && editor.getCommand( 'easyimage' + capitalize( defaultStyleName ) ) ) {
+						this.applyStyle( editor.getCommand( 'easyimage' + capitalize( defaultStyleName ) ).style );
+					}
 				}
 			};
 
@@ -501,7 +522,7 @@
 		afterInit: function( editor ) {
 			var styles = getStylesForEditor( editor );
 
-			registerWidget( editor );
+			registerWidget( editor, styles );
 			addPasteListener( editor );
 			addCommands( editor, styles );
 			addButtons( editor, styles );
@@ -528,7 +549,7 @@
 	/**
 	 * Custom styles that could be applied to Easy Image widget.
 	 * All styles must be [valid style definitions](#!/guide/dev_howtos_styles-section-how-do-i-customize-the-styles-drop-down-list%3F).
-	 * There are three additional properties for every style definition:
+	 * There are three additional properties for each style definition:
 	 *
 	 * * `label` - string used as a button label in a balloon toolbar for the widget,
 	 * * `icon` - path to the icon used in the balloon toolbar,
@@ -554,6 +575,21 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.easyimage_styles = {};
+
+
+	/**
+	 * the default style to be applied to Easy Image widgets, based on keys in {@link #easyimage_styles}.
+	 *
+	 * If set to `null` no default style is applied.
+	 *
+	 *		// Make side image a default style.
+	 *		config.easyimage_defaultStyle = 'side';
+	 *
+	 * @since 4.9.0
+	 * @cfg {String/null} easyimage_defaultStyle
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.easyimage_defaultStyle = 'full';
 
 	/**
 	 * List of buttons to be displayed in a balloon toolbar for Easy Image widget.

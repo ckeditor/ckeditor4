@@ -68,7 +68,7 @@
 
 					toolbar._view.once( 'show', function() {
 						easyImageTools.assertCommandsState( editor, {
-							easyimageFull: CKEDITOR.TRISTATE_OFF,
+							easyimageFull: CKEDITOR.TRISTATE_ON,
 							easyimageSide: CKEDITOR.TRISTATE_OFF,
 							easyimageAlt: CKEDITOR.TRISTATE_OFF
 						} );
