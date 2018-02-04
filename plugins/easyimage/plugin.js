@@ -75,40 +75,16 @@
 			styleDefinition.widget = 'easyimage';
 			styleDefinition.group = styleDefinition.group || 'easyimage';
 			styleDefinition.element = 'figure';
-			var style = new CKEDITOR.style( styleDefinition ),
-				cmd = new CKEDITOR.styleCommand( style, {
-					contextSensitive: true
-				} );
+			var style = new CKEDITOR.style( styleDefinition );
 
 			editor.filter.allow( style );
 
-			editor.addCommand( commandName, cmd );
+			editor.addCommand( commandName, new CKEDITOR.styleCommand( style, {
+				contextSensitive: true
+			} ) );
 
-			// Command needs to be refretched. Calling addCommand will… create a new command.
-			cmd = editor.getCommand( commandName );
-
-			// These commands must trigger refresh.
-			editor.on( 'afterCommandExec', function( evt ) {
-				if ( evt.data.command.name === cmd.name ) {
-					editor.forceNextSelectionCheck();
-					editor.selectionChange( true );
-				}
-			} );
-
-			editor.on( 'beforeCommandExec', function( evt ) {
-				// Same style command can not be toggled.
-				var executedCommand = evt.data.command;
-				if ( executedCommand.name === cmd.name ) {
-					if ( executedCommand.style.checkActive( evt.editor.elementPath(), editor ) ) {
-						evt.cancel();
-						evt.stop();
-					}
-				}
-			} );
-
-			editor.on( 'mode', function() {
-				cmd.refresh( editor, editor.elementPath() );
-			}, null, null, 100 );
+			// Command needs to be refetched. Calling addCommand will… create a new command.
+			var cmd = editor.getCommand( commandName );
 
 			cmd.refresh = createCommandRefresh( function( widget, editor, path ) {
 				return this.style.checkActive( path, editor );
@@ -133,9 +109,38 @@
 		}
 
 		function addStylesCommands( styles ) {
-			var style;
+			// Returns key of style associated with a given command or null if none.
+			function getStyleNameFromCommand( commandName, styles ) {
+				var match = commandName.match( /^easyimage(.+)$/ );
 
-			for ( style in styles ) {
+				if ( match ) {
+					var lowered = ( match[ 1 ][ 0 ] || '' ).toLowerCase() + match[ 1 ].substr( 1 );
+					if ( match[ 1 ] in styles ) {
+						return match[ 1 ];
+					} else if ( lowered in styles ) {
+						return lowered;
+					}
+				}
+
+				return null;
+			}
+
+			// These commands must trigger refresh.
+			editor.on( 'afterCommandExec', function( evt ) {
+				if ( getStyleNameFromCommand( evt.data.name, styles ) ) {
+					editor.forceNextSelectionCheck();
+					editor.selectionChange( true );
+				}
+			} );
+
+			editor.on( 'beforeCommandExec', function( evt ) {
+				// Style commands should not be toggled.
+				if ( getStyleNameFromCommand( evt.data.name, styles ) && evt.data.command.style.checkActive( evt.editor.elementPath(), editor ) ) {
+					evt.cancel();
+				}
+			} );
+
+			for ( var style in styles ) {
 				createStyleCommand( editor, style, styles[ style ], 'easyimage' + capitalize( style ) );
 			}
 		}
