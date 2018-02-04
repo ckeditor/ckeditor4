@@ -349,7 +349,7 @@
 					for ( var styleName in styles ) {
 						var cmd = editor.getCommand( 'easyimage' + capitalize( styleName ) );
 
-						if ( !styleMatched && cmd && cmd.style && cmd.style.group === 'easyimage' && this.checkStyleActive( cmd.style ) ) {
+						if ( !styleMatched && cmd && cmd.style && CKEDITOR.tools.array.indexOf( cmd.style.group, 'easyimage' ) !== -1 && this.checkStyleActive( cmd.style ) ) {
 							styleMatched = true;
 						}
 					}
