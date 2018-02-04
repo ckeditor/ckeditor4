@@ -42,6 +42,12 @@
 	};
 
 	var tests = {
+		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				assert.ignore();
+			}
+		},
+
 		'test style is integrated with ACF': function( editor ) {
 			assert.isTrue( editor.filter.check( 'figure(test)' ) );
 		},
