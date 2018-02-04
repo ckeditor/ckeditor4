@@ -57,20 +57,16 @@
 	function addCommands( editor, styles ) {
 		function createCommandRefresh( enableCheck ) {
 			return function( editor, path ) {
-				var widget = editor.widgets.focused;
+				var widget = editor.widgets.focused,
+					newState = CKEDITOR.TRISTATE_DISABLED;
 
 				if ( widget && widget.name === WIDGET_NAME ) {
-					var callbackResolution = enableCheck && enableCheck.call( this, widget, editor, path ),
-						state = enableCheck ? callbackResolution : CKEDITOR.TRISTATE_OFF;
+					var callbackResolution = enableCheck && enableCheck.call( this, widget, editor, path );
 
-					if ( typeof callbackResolution !== 'number' ) {
-						state = callbackResolution ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
-					}
-
-					this.setState( state );
-				} else {
-					this.setState( CKEDITOR.TRISTATE_DISABLED );
+					newState = callbackResolution ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
 				}
+
+				this.setState( newState );
 			};
 		}
 
@@ -79,12 +75,12 @@
 			styleDefinition.widget = 'easyimage';
 			styleDefinition.group = styleDefinition.group || 'easyimage';
 			styleDefinition.element = 'figure';
-			var style = new CKEDITOR.style( styleDefinition );
-			editor.filter.allow( style );
+			var style = new CKEDITOR.style( styleDefinition ),
+				cmd = new CKEDITOR.styleCommand( style, {
+					contextSensitive: true
+				} );
 
-			var cmd = new CKEDITOR.styleCommand( style, {
-				contextSensitive: true
-			} );
+			editor.filter.allow( style );
 
 			editor.addCommand( commandName, cmd );
 
