@@ -29,6 +29,20 @@
 				extraPlugins: 'basicstyles',
 				easyimage_toolbar: [ 'Bold', 'Italic' ]
 			}
+		},
+
+		customDefaultStyle: {
+			config: {
+				easyimage_class: null,
+				easyimage_defaultStyle: 'side'
+			}
+		},
+
+		unsetDefaultStyle: {
+			config: {
+				easyimage_class: null,
+				easyimage_defaultStyle: null
+			}
 		}
 	};
 
@@ -104,7 +118,34 @@
 				widgetOffset: 0,
 				nameCreated: 'easyimage',
 				html: CKEDITOR.document.getById( 'changedClass' ).getHtml(),
-				bot: this.editorBots.classCustomized
+				bot: this.editorBots.classCustomized,
+				assertNewData: function( widget ) {
+					assert.isTrue( widget.element.hasClass( 'easyimage-full' ), 'Widget has a proper class by default' );
+				}
+			} );
+		},
+
+		'test easyimage_defaultStyle - changed': function() {
+			widgetTestsTools.assertWidget( {
+				widgetOffset: 0,
+				nameCreated: 'easyimage',
+				html: CKEDITOR.document.getById( 'standardWidget' ).getHtml(),
+				bot: this.editorBots.customDefaultStyle,
+				assertNewData: function( widget ) {
+					assert.isTrue( widget.element.hasClass( 'easyimage-side' ), 'Widget element has a proper class' );
+				}
+			} );
+		},
+
+		'test easyimage_defaultStyle - unset': function() {
+			widgetTestsTools.assertWidget( {
+				widgetOffset: 0,
+				nameCreated: 'easyimage',
+				html: CKEDITOR.document.getById( 'standardWidget' ).getHtml(),
+				bot: this.editorBots.unsetDefaultStyle,
+				assertNewData: function( widget ) {
+					assert.areSame( 'cke_widget_element', widget.element.getAttribute( 'class' ), 'Widget element classes' );
+				}
 			} );
 		},
 
