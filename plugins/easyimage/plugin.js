@@ -137,6 +137,8 @@
 				// Style commands should not be toggled.
 				if ( getStyleNameFromCommand( evt.data.name, styles ) && evt.data.command.style.checkActive( evt.editor.elementPath(), editor ) ) {
 					evt.cancel();
+					// Editor needs to be focused, otherwise balloon toolbar will hide.
+					editor.focus();
 				}
 			} );
 
