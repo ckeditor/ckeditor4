@@ -17,11 +17,11 @@ Remarks:
 	### Expected
 
 	* Upload progress is shown.
-	* The image is a little opaque.
+	* The image is a little transparent.
 
 1. Wait till the image load completes.
 
 	### Expected
 
 	* Progress indicator disappear.
-	* Image is no longer opaque.
+	* Image has its regular color.
