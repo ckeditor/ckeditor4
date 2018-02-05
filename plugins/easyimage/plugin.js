@@ -551,11 +551,11 @@
 	 *
 	 * There are few styles available by default:
 	 *
-	 * * `full` - adding a `easyimage-full` class to the `figure` element.
-	 * * `side` - adding a `easyimage-side` class to the `figure` element.
-	 * * `alignLeft` - adding a `easyimage-align-left` class to the `figure` element.
-	 * * `alignCenter` - adding a `easyimage-align-center` class to the `figure` element.
-	 * * `alignRight` - adding a `easyimage-align-right` class to the `figure` element.
+	 * * `full` - adding an `easyimage-full` class to the `figure` element.
+	 * * `side` - adding an `easyimage-side` class to the `figure` element.
+	 * * `alignLeft` - adding an `easyimage-align-left` class to the `figure` element.
+	 * * `alignCenter` - adding an `easyimage-align-center` class to the `figure` element.
+	 * * `alignRight` - adding an `easyimage-align-right` class to the `figure` element.
 	 *
 	 * Every style added by this config variable will result in adding `Easyimage<name>` button
 	 * and `easyimage<name>` command, where `<name>` is name of style in pascal case, e.g. `left`
@@ -580,7 +580,7 @@
 
 
 	/**
-	 * the default style to be applied to Easy Image widgets, based on keys in {@link #easyimage_styles}.
+	 * The default style to be applied to Easy Image widgets, based on keys in {@link #easyimage_styles}.
 	 *
 	 * If set to `null` no default style is applied.
 	 *
