@@ -6,14 +6,22 @@
 
 	var editorCounter = 0,
 		originalBasePath = null,
+		isDev = CKEDITOR.version === '%VERSION%',
 		isHidpi,
 		tests;
 
 	function createIconTests( testsObj, tests ) {
 		CKEDITOR.tools.array.forEach( tests, function( test ) {
 			testsObj[ test.name ] = function() {
-				CKEDITOR.env.hidpi = test.name.indexOf( 'hidpi' ) !== -1;
-				assertIcon( test.config, test.button, test.iconPath, test.iconName );
+				if ( test.ignore ) {
+					// On a build version icons sprite image is loaded before any test code is execute so we are not able
+					// to emulate `CKEDITOR.env.hidpi` to force different icons loading. Due to this behaviour some tests
+					// needs to be ignored in build version.
+					assert.ignore();
+				} else {
+					CKEDITOR.env.hidpi = test.name.indexOf( 'hidpi' ) !== -1;
+					assertIcon( test.config, test.button, test.iconPath, test.iconName );
+				}
 			};
 		} );
 	}
@@ -30,7 +38,7 @@
 
 			if ( iconPath === undefined ) {
 				// Standard icon should be checked.
-				if ( CKEDITOR.version === '%VERSION%' ) {
+				if ( isDev ) {
 					var iconFileName = ( iconName || btnName ).toLowerCase(),
 						hidpi = CKEDITOR.env.hidpi ? 'hidpi\\/' : '';
 
@@ -66,13 +74,15 @@
 			button: 'Link',
 			config: {
 				extraPlugins: 'link'
-			}
+			},
+			ignore: !isDev && CKEDITOR.env.hidpi
 		}, {
 			name: 'test default button icon (hidpi)',
 			button: 'Find',
 			config: {
 				extraPlugins: 'find'
-			}
+			},
+			ignore: !isDev && !CKEDITOR.env.hidpi
 		}, {
 			name: 'test overwriting default button icon',
 			button: 'Replace',
@@ -123,7 +133,8 @@
 						} );
 					}
 				}
-			}
+			},
+			ignore: !isDev && CKEDITOR.env.hidpi
 		}, {
 			name: 'test button icon from different plugin (hidpi)',
 			button: 'custom_btn2',
@@ -138,7 +149,8 @@
 						} );
 					}
 				}
-			}
+			},
+			ignore: !isDev && !CKEDITOR.env.hidpi
 		}, {
 			name: 'test custom button icon',
 			button: 'custom_btn3',
