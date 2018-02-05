@@ -7,8 +7,8 @@
 Editor with 3 buttons should be visible. The buttons have following icons:
 
 * Link icon
-* Bold icon (blue)
-* Bold icon (blue)
+* Bold icon (red)
+* Bold icon (red)
 
 **Important**: When in HiDPI environment make sure the visible icons are
 HiDPI versions (icons path should contain `hidpi` part somewhere).
