@@ -610,8 +610,7 @@
  *
  * Example:
  *
- *		// All browsers will use form element with submit method
- *		// to upload a file through filebrowser plugin.
+ *		// All browsers will use plain form element to upload a file.
  *		config.filebrowserUploadMethod = 'form';
  *
  * @since 4.9.0
