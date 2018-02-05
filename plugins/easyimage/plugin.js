@@ -31,21 +31,21 @@
 
 			alignLeft: {
 				attributes: {
-					'class': 'easyimage-alignLeft'
+					'class': 'easyimage-align-left'
 				},
 				label: editor.lang.easyimage.commands.alignLeft
 			},
 
 			alignCenter: {
 				attributes: {
-					'class': 'easyimage-alignCenter'
+					'class': 'easyimage-align-center'
 				},
 				label: editor.lang.easyimage.commands.alignCenter
 			},
 
 			alignRight: {
 				attributes: {
-					'class': 'easyimage-alignRight'
+					'class': 'easyimage-align-right'
 				},
 				label: editor.lang.easyimage.commands.alignRight
 			}
@@ -79,16 +79,17 @@
 
 			editor.filter.allow( style );
 
-			editor.addCommand( commandName, new CKEDITOR.styleCommand( style, {
-				contextSensitive: true
-			} ) );
-
-			// Command needs to be refetched. Calling addCommand will… create a new command.
-			var cmd = editor.getCommand( commandName );
-
+			// At this point cmd should be treated more as a definition due to #1582.
+			var cmd = new CKEDITOR.styleCommand( style );
+			cmd.contextSensitive = true;
 			cmd.refresh = createCommandRefresh( function( widget, editor, path ) {
 				return this.style.checkActive( path, editor );
 			} );
+
+			editor.addCommand( commandName, cmd );
+
+			// Command needs to be refetched. Calling addCommand will… create a new command.
+			cmd = editor.getCommand( commandName );
 
 			// Enable is called at multiple occasions, especially in editor#mode event listeners.
 			// Unfortunately it's even called with a timeout there.
