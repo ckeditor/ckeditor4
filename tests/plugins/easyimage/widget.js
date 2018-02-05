@@ -98,7 +98,7 @@
 		},
 
 		// tp3163
-		'test drag and drop retains data type': function( editor, bot ) {
+		'test drag and drop retains data style': function( editor, bot ) {
 			if ( CKEDITOR.env.webkit && editor.editable().isInline() ) {
 				assert.ignore();
 			}
@@ -120,7 +120,7 @@
 
 				// Drag and drop probably destroyed old widget, so we should fetch it once more.
 				widget = editor.widgets.focused;
-				assert.areSame( 'side', widget.data.type, 'Widget has correct data type' );
+				assert.isTrue( widget.element.hasClass( 'easyimage-side' ), 'Widget preserved the class' );
 			} );
 		}
 	};

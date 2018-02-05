@@ -9,132 +9,222 @@
 	var stylesLoaded = false,
 		WIDGET_NAME = 'easyimage';
 
-	function addCommands( editor ) {
-		function isSideImage( widget ) {
-			return widget.data.type === 'side';
-		}
+	function capitalize( str ) {
+		return CKEDITOR.tools.capitalize( str, true );
+	}
 
-		function isFullImage( widget ) {
-			return !isSideImage( widget );
-		}
+	function getStylesForEditor( editor ) {
+		var defaultStyles = {
+			full: {
+				attributes: {
+					'class': 'easyimage-full'
+				},
+				label: editor.lang.easyimage.commands.fullImage
+			},
 
+			side: {
+				attributes: {
+					'class': 'easyimage-side'
+				},
+				label: editor.lang.easyimage.commands.sideImage
+			},
+
+			alignLeft: {
+				attributes: {
+					'class': 'easyimage-align-left'
+				},
+				label: editor.lang.easyimage.commands.alignLeft
+			},
+
+			alignCenter: {
+				attributes: {
+					'class': 'easyimage-align-center'
+				},
+				label: editor.lang.easyimage.commands.alignCenter
+			},
+
+			alignRight: {
+				attributes: {
+					'class': 'easyimage-align-right'
+				},
+				label: editor.lang.easyimage.commands.alignRight
+			}
+		};
+
+		return CKEDITOR.tools.object.merge( defaultStyles, editor.config.easyimage_styles );
+	}
+
+	function addCommands( editor, styles ) {
 		function createCommandRefresh( enableCheck ) {
-			return function( editor ) {
-				var widget = editor.widgets.focused;
+			return function( editor, path ) {
+				var widget = editor.widgets.focused,
+					newState = CKEDITOR.TRISTATE_DISABLED;
 
 				if ( widget && widget.name === WIDGET_NAME ) {
-					this.setState( ( enableCheck && enableCheck( widget ) ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
-				} else {
-					this.setState( CKEDITOR.TRISTATE_DISABLED );
+					var callbackResolution = enableCheck && enableCheck.call( this, widget, editor, path );
+
+					newState = callbackResolution ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
 				}
+
+				this.setState( newState );
 			};
 		}
 
-		function createCommand( exec, refreshCheck, forceSelectionCheck ) {
-			return {
+		function createStyleCommand( editor, name, styleDefinition, commandName ) {
+			styleDefinition.type = 'widget';
+			styleDefinition.widget = 'easyimage';
+			styleDefinition.group = styleDefinition.group || 'easyimage';
+			styleDefinition.element = 'figure';
+			var style = new CKEDITOR.style( styleDefinition );
+
+			editor.filter.allow( style );
+
+			// At this point cmd should be treated more as a definition due to #1582.
+			var cmd = new CKEDITOR.styleCommand( style );
+			cmd.contextSensitive = true;
+			cmd.refresh = createCommandRefresh( function( widget, editor, path ) {
+				return this.style.checkActive( path, editor );
+			} );
+
+			editor.addCommand( commandName, cmd );
+
+			// Command needs to be refetched. Calling addCommand will… create a new command.
+			cmd = editor.getCommand( commandName );
+
+			// Enable is called at multiple occasions, especially in editor#mode event listeners.
+			// Unfortunately it's even called with a timeout there.
+			cmd.enable = function() {};
+
+			// Without this the command is inited with a wrong state.
+			cmd.refresh( editor, editor.elementPath() );
+
+			return cmd;
+		}
+
+		function addDefaultCommands() {
+			editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'easyimageAlt', {
 				startDisabled: true,
 				contextSensitive: true,
-
-				exec: function( editor ) {
-					var widget = editor.widgets.focused;
-
-					exec( widget );
-
-					if ( forceSelectionCheck ) {
-						// We have to manually force refresh commands as refresh seems to be executed prior to exec.
-						// Without this command states would be outdated.
-						editor.forceNextSelectionCheck();
-						editor.selectionChange( true );
-					}
-				},
-
-				refresh: createCommandRefresh( refreshCheck )
-			};
+				refresh: createCommandRefresh()
+			} ) );
 		}
 
-		editor.addCommand( 'easyimageFull', createCommand( function( widget ) {
-			widget.setData( 'type', 'full' );
-		}, function( widget ) {
-			return isFullImage( widget );
-		}, true ) );
+		function addStylesCommands( styles ) {
+			// Returns key of style associated with a given command or null if none.
+			function getStyleNameFromCommand( commandName, styles ) {
+				var match = commandName.match( /^easyimage(.+)$/ );
 
-		editor.addCommand( 'easyimageSide', createCommand( function( widget ) {
-			widget.setData( 'type', 'side' );
-		}, function( widget ) {
-			return isSideImage( widget );
-		}, true ) );
+				if ( match ) {
+					var lowered = ( match[ 1 ][ 0 ] || '' ).toLowerCase() + match[ 1 ].substr( 1 );
+					if ( match[ 1 ] in styles ) {
+						return match[ 1 ];
+					} else if ( lowered in styles ) {
+						return lowered;
+					}
+				}
 
-		editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'easyimageAlt', {
-			startDisabled: true,
-			contextSensitive: true,
-			refresh: createCommandRefresh()
-		} ) );
+				return null;
+			}
+
+			// These commands must trigger refresh.
+			editor.on( 'afterCommandExec', function( evt ) {
+				if ( getStyleNameFromCommand( evt.data.name, styles ) ) {
+					editor.forceNextSelectionCheck();
+					editor.selectionChange( true );
+				}
+			} );
+
+			editor.on( 'beforeCommandExec', function( evt ) {
+				// Style commands should not be toggled.
+				if ( getStyleNameFromCommand( evt.data.name, styles ) && evt.data.command.style.checkActive( evt.editor.elementPath(), editor ) ) {
+					evt.cancel();
+					// Editor needs to be focused, otherwise balloon toolbar will hide.
+					editor.focus();
+				}
+			} );
+
+			for ( var style in styles ) {
+				createStyleCommand( editor, style, styles[ style ], 'easyimage' + capitalize( style ) );
+			}
+		}
+
+		addDefaultCommands();
+		addStylesCommands( styles );
+	}
+
+	function addButtons( editor, styles ) {
+		function addDefaultButtons() {
+			editor.ui.addButton( 'EasyimageAlt', {
+				label: editor.lang.easyimage.commands.altText,
+				command: 'easyimageAlt',
+				toolbar: 'easyimage,3'
+			} );
+		}
+
+		function addStylesButtons( styles ) {
+			var style;
+
+			for ( style in styles ) {
+				editor.ui.addButton( 'Easyimage' + capitalize( style ), {
+					label: styles[ style ].label,
+					command: 'easyimage' + capitalize( style ),
+					toolbar: 'easyimage,99'
+				} );
+			}
+		}
+
+		addDefaultButtons();
+		addStylesButtons( styles );
 	}
 
 	function addToolbar( editor ) {
-		editor.ui.addButton( 'EasyimageFull', {
-			label: editor.lang.easyimage.commands.fullImage,
-			command: 'easyimageFull',
-			toolbar: 'easyimage,1'
-		} );
-
-		editor.ui.addButton( 'EasyimageSide', {
-			label: editor.lang.easyimage.commands.sideImage,
-			command: 'easyimageSide',
-			toolbar: 'easyimage,2'
-		} );
-
-		editor.ui.addButton( 'EasyimageAlt', {
-			label: editor.lang.easyimage.commands.altText,
-			command: 'easyimageAlt',
-			toolbar: 'easyimage,3'
-		} );
+		var buttons = editor.config.easyimage_toolbar;
 
 		editor._.easyImageToolbarContext = editor.balloonToolbars.create( {
-			buttons: 'EasyimageFull,EasyimageSide,EasyimageAlt',
+			buttons: buttons.join ? buttons.join( ',' ) : buttons,
 			widgets: [ WIDGET_NAME ]
 		} );
 	}
 
-	function addMenuItems( editor ) {
+	function addContextMenuItems( editor ) {
+		var buttons = editor.config.easyimage_toolbar;
+
 		if ( !editor.plugins.contextmenu ) {
 			return;
 		}
 
+		if ( buttons.split ) {
+			buttons = buttons.split( ',' );
+		}
+
 		editor.addMenuGroup( 'easyimage' );
-		editor.addMenuItems( {
-			easyimageFull: {
-				label: editor.lang.easyimage.commands.fullImage,
-				command: 'easyimageFull',
-				group: 'easyimage',
-				order: 1
-			},
+		CKEDITOR.tools.array.forEach( buttons, function( button ) {
+			button = editor.ui.items[ button ];
 
-			easyimageSide: {
-				label: editor.lang.easyimage.commands.sideImage,
-				command: 'easyimageSide',
-				group: 'easyimage',
-				order: 2
-			},
-
-			easyimageAlt: {
-				label: editor.lang.easyimage.commands.altText,
-				command: 'easyimageAlt',
-				group: 'easyimage',
-				order: 3
-			}
+			editor.addMenuItem( button.name, {
+				label: button.label,
+				command: button.command,
+				group: 'easyimage'
+			} );
 		} );
 	}
 
-	function getInitialImageType( widget ) {
-		if ( widget.element.hasClass( widget.editor.config.easyimage_sideClass ) ) {
-			return 'side';
+	function updateMenuItemsStates( evt ) {
+		var editor = evt.sender.editor,
+			buttons = editor.config.easyimage_toolbar;
+
+		if ( buttons.split ) {
+			buttons = buttons.split( ',' );
 		}
 
-		return 'full';
+		CKEDITOR.tools.array.forEach( buttons, function( button ) {
+			button = editor.ui.items[ button ];
+
+			evt.data[ button.name ] = editor.getCommand( button.command ).state;
+		} );
 	}
 
-	function registerWidget( editor ) {
+	function registerWidget( editor, styles ) {
 		var config = editor.config,
 			figureClass = config.easyimage_class,
 			widgetDefinition = {
@@ -151,6 +241,8 @@
 				},
 
 				requiredContent: 'figure; img[!src]',
+
+				styleableElements: 'figure',
 
 				supportedTypes: /image\/(jpeg|png|gif|bmp)/,
 
@@ -218,11 +310,7 @@
 						this.element.data( 'cke-upload-id', false );
 					}
 
-					this.on( 'contextMenu', function( evt ) {
-						evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
-						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
-						evt.data.easyimageAlt = editor.getCommand( 'easyimageAlt' ).state;
-					} );
+					this.on( 'contextMenu', updateMenuItemsStates );
 
 					if ( editor.config.easyimage_class ) {
 						this.addClass( editor.config.easyimage_class );
@@ -252,19 +340,25 @@
 					this.on( 'uploadFailed', function() {
 						alert( this.editor.lang.easyimage.uploadFailed ); // jshint ignore:line
 					} );
+
+					this._loadDefaultStyle();
 				},
 
-				data: function( evt ) {
-					var data = evt.data;
+				_loadDefaultStyle: function() {
+					// Ensures that Easy Image widget uses a default Easy Image style if none other is applied.
+					var styleMatched = false,
+						defaultStyleName = editor.config.easyimage_defaultStyle;
 
-					if ( !data.type ) {
-						data.type = getInitialImageType( this );
+					for ( var styleName in styles ) {
+						var cmd = editor.getCommand( 'easyimage' + capitalize( styleName ) );
+
+						if ( !styleMatched && cmd && cmd.style && CKEDITOR.tools.array.indexOf( cmd.style.group, 'easyimage' ) !== -1 && this.checkStyleActive( cmd.style ) ) {
+							styleMatched = true;
+						}
 					}
 
-					if ( data.type === 'side' ) {
-						this.addClass( editor.config.easyimage_sideClass );
-					} else {
-						this.removeClass( editor.config.easyimage_sideClass );
+					if ( !styleMatched && defaultStyleName && editor.getCommand( 'easyimage' + capitalize( defaultStyleName ) ) ) {
+						this.applyStyle( editor.getCommand( 'easyimage' + capitalize( defaultStyleName ) ).style );
 					}
 				}
 			};
@@ -406,7 +500,7 @@
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'imagebase,balloontoolbar,button,dialog,cloudservices',
 		lang: 'en',
-		icons: 'easyimagefull,easyimageside,easyimagealt', // %REMOVE_LINE_CORE%
+		icons: 'easyimagefull,easyimageside,easyimagealt,easyimagealignleft,easyimagealigncenter,easyimagealignright', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		onLoad: function() {
@@ -415,15 +509,18 @@
 
 		init: function( editor ) {
 			loadStyles( editor, this );
-			addCommands( editor );
-			addMenuItems( editor );
 		},
 
 		// Widget must be registered after init in case that link plugin is dynamically loaded e.g. via
 		// `config.extraPlugins`.
 		afterInit: function( editor ) {
-			registerWidget( editor );
+			var styles = getStylesForEditor( editor );
+
+			registerWidget( editor, styles );
 			addPasteListener( editor );
+			addCommands( editor, styles );
+			addButtons( editor, styles );
+			addContextMenuItems( editor );
 			addToolbar( editor );
 		}
 	} );
@@ -444,14 +541,98 @@
 	CKEDITOR.config.easyimage_class = 'easyimage';
 
 	/**
-	 * A CSS class representing side image.
+	 * Custom styles that could be applied to Easy Image widget.
+	 * All styles must be [valid style definitions](#!/guide/dev_howtos_styles-section-how-do-i-customize-the-styles-drop-down-list%3F).
+	 * There are three additional properties for each style definition:
 	 *
-	 *		// Changes the class to "my-side-image".
-	 *		config.easyimage_sideClass = 'my-side-image';
+	 * * `label` - string used as a button label in a balloon toolbar for the widget,
+	 * * `icon` - path to the icon used in the balloon toolbar,
+	 * * `iconHiDpi` - path to the high DPI version of the icon.
 	 *
-	 * @since 4.8.0
-	 * @cfg {String} [easyimage_sideClass='easyimage-side']
+	 * There are few styles available by default:
+	 *
+	 * * `full` - adding an `easyimage-full` class to the `figure` element.
+	 * * `side` - adding an `easyimage-side` class to the `figure` element.
+	 * * `alignLeft` - adding an `easyimage-align-left` class to the `figure` element.
+	 * * `alignCenter` - adding an `easyimage-align-center` class to the `figure` element.
+	 * * `alignRight` - adding an `easyimage-align-right` class to the `figure` element.
+	 *
+	 * Every style added by this config variable will result in adding `Easyimage<name>` button
+	 * and `easyimage<name>` command, where `<name>` is name of style in pascal case, e.g. `left`
+	 * style would produce `EasyimageLeft` button and `easyimageLeft` command.
+	 *
+	 *		// Adds a custom alignment style.
+	 *		config.easyimage_styles = {
+	 *			left: {
+	 *				attributes: {
+	 *					'class': 'left'
+	 *				},
+	 *				label: 'Align left',
+	 *				icon: '/my/example/icons/left.png',
+	 *				iconHiDpi: '/my/example/icons/hidpi/left.png'
+	 *			}
+	 *		};
+	 *
+	 * Following example changes the class added by full style and adds another border styles:
+	 *
+	 *		config.easyimage_styles = {
+	 *			full: {
+	 *				// Changes just the class name, label icon remains unchanged.
+	 *				attributes: {
+	 *					'class': 'my-custom-full-class'
+	 *				}
+	 *			},
+	 *			skipBorder: {
+	 *				attributes: {
+	 *					'class': 'skip-border'
+	 *				},
+	 *				group: 'borders',
+	 *				label: 'Skip border'
+	 *			},
+	 *			thickBorder: {
+	 *				attributes: {
+	 *					'class': 'thick-border'
+	 *				},
+	 *				group: 'borders',
+	 *				label: 'Thick border'
+	 *			}
+	 *		};
+	 *
+	 * @since 4.9.0
+	 * @cfg {Object.<String, Object>} easyimage_styles
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.easyimage_sideClass = 'easyimage-side';
+	CKEDITOR.config.easyimage_styles = {};
+
+
+	/**
+	 * The default style to be applied to Easy Image widgets, based on keys in {@link #easyimage_styles}.
+	 *
+	 * If set to `null` no default style is applied.
+	 *
+	 *		// Make side image a default style.
+	 *		config.easyimage_defaultStyle = 'side';
+	 *
+	 * @since 4.9.0
+	 * @cfg {String/null} easyimage_defaultStyle
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.easyimage_defaultStyle = 'full';
+
+	/**
+	 * List of buttons to be displayed in a balloon toolbar for Easy Image widget.
+	 *
+	 * If Context Menu plugin is enabled, this config variable will be used also to add
+	 * items to the context menu for Easy Image widget.
+	 *
+	 * You can find list of available styles in {@link #easyimage_styles}.
+	 *
+	 *		// Change toolbar to alignment commands.
+	 *		config.easyimage_toolbar = [ 'EasyimageAlignLeft', 'EasyimageAlignCenter', 'EasyimageAlignRight' ];
+	 *
+	 * @since 4.9.0
+	 * @cfg {String[]/String} [easyimage_toolbar=[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ]]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.easyimage_toolbar = [ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ];
 }() );

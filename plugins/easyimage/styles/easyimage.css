@@ -34,7 +34,8 @@ The outline is not a part of the element's dimensions, we have to use a border a
 	max-width: 100%;
 }
 
-.cke_widget_wrapper_easyimage-side, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-side) > .easyimage-side {
+.cke_widget_wrapper_easyimage-side, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-side) > .easyimage-side,
+.cke_widget_wrapper_easyimage-align-right, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-align-right) > .easyimage-align-right {
 	/*
 	:not() selector will be used for Easy Image content ouside of the editor. E.g. when the editor was destoryed.
 	See https://github.com/ckeditor/ckeditor-dev/pull/1150#discussion_r150415261 for more details.
@@ -54,6 +55,16 @@ https://bugs.chromium.org/p/chromium/issues/detail?id=803045 (#1550).
 */
 body.cke_editable > .cke_widget_wrapper_easyimage-side {
 	max-width: 25vw;
+}
+
+.cke_widget_wrapper_easyimage-align-left, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-align-left) > .easyimage-align-left {
+	float: left;
+	max-width: 25%;
+}
+
+.cke_widget_wrapper_easyimage-align-center, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-align-center) > .easyimage-align-center {
+	margin: 0 auto;
+	max-width: 90%;
 }
 
 .easyimage .cke_widget_editable {
