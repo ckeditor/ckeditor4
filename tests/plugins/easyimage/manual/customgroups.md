@@ -4,7 +4,7 @@
 
 ## Styles Group
 
-This manual test shows how one could
+This manual test shows how one could add style groups unrelated to positioning.
 
 1. Click on image widget.
 1. Click "Side Image" button.
