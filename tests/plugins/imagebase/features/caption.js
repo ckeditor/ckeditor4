@@ -34,8 +34,8 @@
 		return CKEDITOR.document.getById( name ).getHtml();
 	}
 
-	function assertVisibility( caption, isVisible, msg, callback ) {
-		assert[ 'is' + ( isVisible ? 'False' : 'True' ) ]( !!caption.data( 'cke-caption-hidden' ), msg );
+	function assertVisibility( widget, isVisible, msg, callback ) {
+		assert[ 'is' + ( isVisible ? 'False' : 'True' ) ]( widget.wrapper.hasClass( 'cke_widget_caption_hidden' ), msg );
 
 		if ( callback ) {
 			callback();
@@ -69,7 +69,7 @@
 					focusTrap = editor.editable().findOne( 'p' ).getChild( 0 ),
 					range = editor.createRange();
 
-				assertVisibility( caption, options.initial, 'caption visibility (initial)' );
+				assertVisibility( widget, options.initial, 'caption visibility (initial)' );
 
 				if ( options.onInit ) {
 					options.onInit( widget );
@@ -81,7 +81,7 @@
 					widget.focus();
 				}
 
-				assertVisibility( caption, options.focus, 'caption visibility (focus)' );
+				assertVisibility( widget, options.focus, 'caption visibility (focus)' );
 
 				if ( options.onFocus ) {
 					options.onFocus( widget );
@@ -95,7 +95,7 @@
 					range.select();
 				}
 
-				assertVisibility( caption, options.blur, 'caption visibility (blur)' );
+				assertVisibility( widget, options.blur, 'caption visibility (blur)' );
 
 				if ( options.onBlur ) {
 					options.onBlur( widget );
@@ -123,7 +123,7 @@
 				i = i || 0;
 
 				widget = widgets[ i ];
-				assertVisibility( widget.parts.caption, expected[ i ], 'caption#' + i + ' visibility (' + msg + ')',
+				assertVisibility( widget, expected[ i ], 'caption#' + i + ' visibility (' + msg + ')',
 					function() {
 						if ( i === widgets.length - 1 ) {
 							if ( callback ) {
@@ -383,7 +383,7 @@
 
 				blurEditor( {
 					assert: function() {
-						assertVisibility( widget.parts.caption, false, 'Caption visibility' );
+						assertVisibility( widget, false, 'Caption visibility' );
 					},
 					blurHost: widget
 				} );
@@ -401,7 +401,7 @@
 
 				blurEditor( {
 					assert: function() {
-						assertVisibility( widget.parts.caption, false, 'Caption visibility' );
+						assertVisibility( widget, false, 'Caption visibility' );
 					},
 					// In case of blurring from caption, the host must be editor as blur for caption
 					// itself is fired before blurring listener.
@@ -421,7 +421,7 @@
 
 				blurEditor( {
 					assert: function() {
-						assertVisibility( widget.parts.caption, true, 'Caption visibility' );
+						assertVisibility( widget, true, 'Caption visibility' );
 					},
 					blurHost: widget
 				} );

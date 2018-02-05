@@ -543,7 +543,6 @@
 		return {
 			setUp: function( editor ) {
 				var listeners = [],
-					// Changing the scope of previous so it actually stores previously focused element (#1543).
 					previous;
 
 				function listener( evt ) {
@@ -561,7 +560,8 @@
 						focused._refreshCaption( sender );
 					}
 
-					if ( previous && hasWidgetFeature( previous, 'caption' ) ) {
+					// Testing if widget has wrapper. If doesn't then it was removed from DOM no need to refresh.
+					if ( previous && previous.wrapper && hasWidgetFeature( previous, 'caption' ) ) {
 						previous._refreshCaption( sender );
 					}
 					previous = focused;
