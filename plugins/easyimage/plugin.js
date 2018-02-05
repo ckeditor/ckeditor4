@@ -561,14 +561,40 @@
 	 * and `easyimage<name>` command, where `<name>` is name of style in pascal case, e.g. `left`
 	 * style would produce `EasyimageLeft` button and `easyimageLeft` command.
 	 *
+	 *		// Adds a custom alignment style.
 	 *		config.easyimage_styles = {
 	 *			left: {
 	 *				attributes: {
 	 *					'class': 'left'
 	 *				},
 	 *				label: 'Align left',
-	 *				icon: '/foo/bar/icons/baz.png',
-	 *				iconHiDpi: '/foo/bar/icons/hidpi/baz.png'
+	 *				icon: '/my/example/icons/left.png',
+	 *				iconHiDpi: '/my/example/icons/hidpi/left.png'
+	 *			}
+	 *		};
+	 *
+	 * Following example changes the class added by full style and adds another border styles:
+	 *
+	 *		config.easyimage_styles = {
+	 *			full: {
+	 *				// Changes just the class name, label icon remains unchanged.
+	 *				attributes: {
+	 *					'class': 'my-custom-full-class'
+	 *				}
+	 *			},
+	 *			skipBorder: {
+	 *				attributes: {
+	 *					'class': 'skip-border'
+	 *				},
+	 *				group: 'borders',
+	 *				label: 'Skip border'
+	 *			},
+	 *			thickBorder: {
+	 *				attributes: {
+	 *					'class': 'thick-border'
+	 *				},
+	 *				group: 'borders',
+	 *				label: 'Thick border'
 	 *			}
 	 *		};
 	 *
