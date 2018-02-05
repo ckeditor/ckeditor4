@@ -180,20 +180,15 @@
 			'test uploaded image has correct focus': function() {
 				var editor = this.editor;
 
-				function assertFocus() {
-					try {
-						assert.isTrue( document.activeElement === document.querySelector( 'iframe' ), 'Balloon Toolbar should not be focused' );
-						assert.isTrue( editor.widgets.focused.name === 'easyimage' );
-					} finally {
-						// Assert throws error on failure so we have to resume with try - finally block statement to stop timeout.
-						resume();
-					}
-				}
-
 				this.listeners.push( this.editor.widgets.on( 'instanceCreated', function( evt ) {
 					var widget = evt.data;
 					if ( widget.name == 'easyimage' ) {
-						widget.on( 'uploadDone',  assertFocus );
+						widget.once( 'uploadDone', function() {
+							resume( function() {
+								assert.areSame( editor.window.getFrame(), CKEDITOR.document.getActive(), 'Focus should remain on editor frame' );
+								assert.areSame( 'easyimage', editor.widgets.focused.name );
+							} );
+						} );
 					}
 				} ) );
 
