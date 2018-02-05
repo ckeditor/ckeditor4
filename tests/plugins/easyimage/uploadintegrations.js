@@ -176,24 +176,30 @@
 				assert.beautified.html( CKEDITOR.document.getById( 'expected-multiple-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
 			},
 
-			'test delete key removes pasted image': function() {
+			// #1529
+			'test uploaded image has correct focus': function() {
 				var editor = this.editor;
+
+				function assertFocus() {
+					try {
+						assert.isTrue( document.activeElement === document.querySelector( 'iframe' ), 'Balloon Toolbar should not be focused' );
+						assert.isTrue( editor.widgets.focused.name === 'easyimage' );
+					} finally {
+						// Assert throws error on failure so we have to resume with try - finally block statement to stop timeout.
+						resume();
+					}
+				}
+
+				this.listeners.push( this.editor.widgets.on( 'instanceCreated', function( evt ) {
+					var widget = evt.data;
+					if ( widget.name == 'easyimage' ) {
+						widget.on( 'uploadDone',  assertFocus );
+					}
+				} ) );
 
 				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) ); // delete
-
-				assert.areEqual( '', editor.getData() );
-			},
-
-			'test backspace key removes pasted image': function() {
-				var editor = this.editor;
-
-				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
-
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 8 } ) ); // backspace
-
-				assert.areEqual( '', editor.getData() );
+				wait();
 			},
 
 			'test pasting mixed HTML content': function() {
