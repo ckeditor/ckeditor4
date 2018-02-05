@@ -34,7 +34,7 @@ API Changes:
 
 Other Changes:
 
-* [#1337](https://github.com/ckeditor/ckeditor-dev/issues/1337): Update `samples` layout with actual CKEditor logo and coherent color scheme.
+* [#1337](https://github.com/ckeditor/ckeditor-dev/issues/1337): Update `samples` layout with new CKEditor 4 logo and color scheme.
 
 ## CKEditor 4.8
 
