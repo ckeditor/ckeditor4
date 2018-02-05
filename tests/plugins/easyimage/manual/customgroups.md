@@ -7,7 +7,7 @@
 This manual test shows how one could
 
 1. Click on image widget.
-1. Click side image button.
+1. Click "Side Image" button.
 1. Click "Border1" button.
 	## Expected
 
