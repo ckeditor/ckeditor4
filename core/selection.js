@@ -589,9 +589,14 @@
 			var next = range[ keystroke < 38 ? 'getPreviousEditableNode' : 'getNextEditableNode' ]();
 
 			if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.getAttribute( 'contenteditable' ) == 'false' ) {
-				editor.getSelection().fake( next );
-				evt.data.preventDefault();
-				evt.cancel();
+				/* $custom: added if case to allow removal of empty paragraphs, see incident https://github.com/ckeditor/ckeditor-dev/issues/1572 */
+				if(sel._ && sel._.cache && sel._.cache.nativeSel && sel._.cache.nativeSel.baseNode && sel._.cache.nativeSel.baseNode.nodeName === 'P'){
+					range.endContainer.$.remove();
+				} else {
+					editor.getSelection().fake( next );
+					evt.data.preventDefault();
+					evt.cancel();
+				}
 			}
 		};
 	}
