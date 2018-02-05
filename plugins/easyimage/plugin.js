@@ -549,6 +549,14 @@
 	 * * `icon` - path to the icon used in the balloon toolbar,
 	 * * `iconHiDpi` - path to the high DPI version of the icon.
 	 *
+	 * There are few styles available by default:
+	 *
+	 * * `full` - adding a `easyimage-full` class to the `figure` element.
+	 * * `side` - adding a `easyimage-side` class to the `figure` element.
+	 * * `alignLeft` - adding a `easyimage-align-left` class to the `figure` element.
+	 * * `alignCenter` - adding a `easyimage-align-center` class to the `figure` element.
+	 * * `alignRight` - adding a `easyimage-align-right` class to the `figure` element.
+	 *
 	 * Every style added by this config variable will result in adding `Easyimage<name>` button
 	 * and `easyimage<name>` command, where `<name>` is name of style in pascal case, e.g. `left`
 	 * style would produce `EasyimageLeft` button and `easyimageLeft` command.
@@ -587,8 +595,11 @@
 
 	/**
 	 * List of buttons to be displayed in a balloon toolbar for Easy Image widget.
+	 *
 	 * If Context Menu plugin is enabled, this config variable will be used also to add
 	 * items to the context menu for Easy Image widget.
+	 *
+	 * You can find list of available styles in {@link #easyimage_styles}.
 	 *
 	 *		// Change toolbar to alignment commands.
 	 *		config.easyimage_toolbar = [ 'EasyimageAlignLeft', 'EasyimageAlignCenter', 'EasyimageAlignRight' ];
