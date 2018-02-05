@@ -351,7 +351,7 @@
 					if ( widget.isInited() ) {
 						widget.setData( 'uploadId', undefined );
 					}
-					// widget.wrapper.removeClass( 'cke_widget_wrapper_uploading' );
+					widget.wrapper.removeClass( 'cke_widget_wrapper_uploading' );
 				}
 
 				function failHandling() {
@@ -366,7 +366,6 @@
 
 				function uploadComplete() {
 					widgetCleanup();
-					widget.wrapper.removeClass( 'cke_widget_wrapper_uploading' );
 
 					widget.fire( 'uploadDone', {
 						loader: loader
