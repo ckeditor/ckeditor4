@@ -1,0 +1,18 @@
+<p>Note, this test uses a real Cloud Service connection, so you might want to be on-line 😉.</p>
+
+<div id="editor1">
+</div>
+
+<script src="_helpers/tools.js"></script>
+<script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
+
+	getToken( function( token ) {
+		CKEDITOR.replace( 'editor1', {
+				cloudServices_url: 'https://files.cke-cs.com/upload/',
+				cloudServices_token: token
+			});
+	} );
+</script>

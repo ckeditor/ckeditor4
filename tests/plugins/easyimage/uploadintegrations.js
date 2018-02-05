@@ -176,6 +176,27 @@
 				assert.beautified.html( CKEDITOR.document.getById( 'expected-multiple-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
 			},
 
+			// #1529
+			'test uploaded image has correct focus': function() {
+				var editor = this.editor;
+
+				this.listeners.push( this.editor.widgets.on( 'instanceCreated', function( evt ) {
+					var widget = evt.data;
+					if ( widget.name == 'easyimage' ) {
+						widget.once( 'uploadDone', function() {
+							resume( function() {
+								assert.areSame( editor.window.getFrame(), CKEDITOR.document.getActive(), 'Focus should remain on editor frame' );
+								assert.areSame( 'easyimage', editor.widgets.focused.name );
+							} );
+						} );
+					}
+				} ) );
+
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+				wait();
+			},
+
 			'test pasting mixed HTML content': function() {
 				var editor = this.editor,
 					widgets;

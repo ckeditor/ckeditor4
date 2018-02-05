@@ -296,7 +296,8 @@
 							var contextView = editor._.easyImageToolbarContext.toolbar._view;
 
 							if ( contextView.rect.visible ) {
-								contextView.attach( contextView._pointedElement );
+								// We have to disable focusing balloon toolbar to prevent loosing focus by an image (#1529).
+								contextView.attach( contextView._pointedElement, { focusElement: false } );
 							}
 						} );
 					}
