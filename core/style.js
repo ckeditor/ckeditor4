@@ -2119,11 +2119,12 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  */
 
 /**
- * This is an abstract class that describes the definition of a style.
- * It is a type of {@link CKEDITOR.style#constructor}'s argument.
+ * Abstract class describing definition of a style.
+ * It is used as one of {@link CKEDITOR.style#constructor}'s arguments.
  *
- * Use style definition object to pass information about style representation as a set of properties
- * describing CSS style rules which can be applied to and removed from a selection through {@link CKEDITOR.style} methods.
+ * Style definition object represents a style as a set of properties describing CSS style rules and HTML attributes.
+ * The {@link CKEDITOR.style} based on such definition can be applied to and removed from selection
+ * through various {@link CKEDITOR.style} methods.
  *
  *  	{
  *			name: 'Special Title',
@@ -2132,26 +2133,29 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  *			styles: { color: 'red', 'font-size': '16px', 'font-width': 'bold' }
  *		}
  *
- *	You can read more about how we are handling the editor content styles in the [Styles](#!/guide/dev_howtos_styles) article.
+ *	More on how editor content styles are handled can be found in the [Styles guide](#!/guide/dev_howtos_styles).
  *
  * @class CKEDITOR.style.definition
  * @abstract
  */
 
 /**
- * There are three standard style types, each one related to the element used in the style rule.
- * To set a style type for an element use one of the {@link CKEDITOR#STYLE_INLINE}, {@link CKEDITOR#STYLE_BLOCK} or {@link CKEDITOR#STYLE_OBJECT} enum properties.
+ * Defines style type.
  *
- * Plugins may define special style handlers which can be applied in certain situations. One of such custom handlers is defined for widgets {@link CKEDITOR.style.customHandlers#widget}.
- * To use special style handler you should set `type` property as a name of the style handler, e.g. `widget`.
+ * There are three standard style types - {@link CKEDITOR#STYLE_INLINE}, {@link CKEDITOR#STYLE_BLOCK}
+ * or {@link CKEDITOR#STYLE_OBJECT}, each one related to the element used in the style rule andq types of
+ * elements to which specific style can be applied.
  *
- * You can read more about style types in the [Style Types section of the Styles guide](#!/guide/dev_styles-section-style-types).
+ * Plugins may define {@link CKEDITOR.style.customHandlers special style handlers} which can be applied in certain situations.
+ * To use special style handler, `type` property should be set as a name of the style handler, e.g. `widget`.
  *
- * @property {String/Integer} [type=CKEDITOR.STYLE_INLINE]
+ * More on style types can be found in the [Style Types section of the Styles guide](#!/guide/dev_styles-section-style-types).
+ *
+ * @property {String/Number} type=CKEDITOR.STYLE_INLINE
  */
 
 /**
- * A unique name assigned to a style definition.
+ * An unique name assigned to a style definition.
  *
  *		{ name: 'Special title' }
  *
@@ -2159,17 +2163,21 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  */
 
 /**
- * A set of properties identifying attributes of the HTML element.
- * If set, it will be added to the selection using one of the {@link CKEDITOR.style} apply methods.
- * If given, the `style` attribute will be merged with the {@link CKEDITOR.style.definition#styles} property by the {@link CKEDITOR.style#constructor}.
+ * A set of properties specifying attributes of the HTML style element.
+ * If `style` attribute is present it will be merged with existing {@link CKEDITOR.style.definition#styles} property.
  *
- *		{ attributes: { style: 'color: red', class: 'link'} }
+ *		{
+ *			attributes: {
+ *				style: 'color: red',
+ *				class: 'link'
+ *			}
+ *		}
  *
  * @property {Object} attributes
  */
 
 /**
- * If set, the given element will be applied to a selection. It should be a proper HTML element, for example `span`.
+ * Element type which will be applied to a selection when applying a style. It should be a valid HTML element, for example `span`.
  *
  *		{ element: 'h1' }
  *
@@ -2177,10 +2185,13 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  */
 
 /**
- * A set of properties identifying CSS style rules. The given rules will be applied to the selection
- * by the {@link CKEDITOR.style} apply methods.
+ * A set of properties specifying CSS style rules.
  *
- *		{ color: 'red', 'font-size': '12px', 'font-weight': 'bold' }
+ *		{
+ *			color: 'red',
+ *			'font-size': '12px',
+ *			'font-weight': 'bold'
+ *		}
  *
  * @property {Object} styles
  */
