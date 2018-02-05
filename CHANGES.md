@@ -32,6 +32,10 @@ API Changes:
 
 * [#1346](https://github.com/ckeditor/ckeditor-dev/issues/1346): [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) [context manager API](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.balloontoolbar.contextManager) is now available in [pluginDefinition.init](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.pluginDefinition-method-init) method of a [requiring](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.pluginDefinition-property-requires) plugin.
 
+Other Changes:
+
+* [#1337](https://github.com/ckeditor/ckeditor-dev/issues/1337): Update `samples` layout with new CKEditor 4 logo and color scheme.
+
 ## CKEditor 4.8
 
 **Important Notes:**
