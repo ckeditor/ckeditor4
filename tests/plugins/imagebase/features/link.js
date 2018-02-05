@@ -167,6 +167,13 @@
 	}
 
 	var tests = {
+		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) {
+				// Tests fails quite randomly on IE11. Ignore for now (#1552).
+				assert.ignore();
+			}
+		},
+
 		'test adding image widget with link feature': function( editor ) {
 			var expectedParts = {
 				caption: 'figcaption',
