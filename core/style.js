@@ -2120,9 +2120,12 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 
 /**
  * Abstract class describing definition of a style.
- * It is used as one of {@link CKEDITOR.style#constructor}'s arguments.
+ *
+ * This virtual class illustrates the properties that developers can use to define and create
+ * style definitions.
  *
  * Style definition object represents a style as a set of properties describing CSS style rules and HTML attributes.
+ * It also store element type which can be used to provide valid HTML element as a wrapper or replacement for a selection's HTML.
  * The {@link CKEDITOR.style} based on such definition can be applied to and removed from selection
  * through various {@link CKEDITOR.style} methods.
  *
@@ -2143,10 +2146,10 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * Defines style type.
  *
  * There are three standard style types - {@link CKEDITOR#STYLE_INLINE}, {@link CKEDITOR#STYLE_BLOCK}
- * or {@link CKEDITOR#STYLE_OBJECT}, each one related to the element used in the style rule andq types of
+ * or {@link CKEDITOR#STYLE_OBJECT}, each one related to the element used in the style rule and types of
  * elements to which specific style can be applied.
  *
- * Plugins may define {@link CKEDITOR.style.customHandlers special style handlers} which can be applied in certain situations.
+ * Plugins may define {@link CKEDITOR.style.customHandlers special style handlers} to customize style operations.
  * To use special style handler, `type` property should be set as a name of the style handler, e.g. `widget`.
  *
  * More on style types can be found in the [Style Types section of the Styles guide](#!/guide/dev_styles-section-style-types).
@@ -2155,7 +2158,8 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  */
 
 /**
- * An unique name assigned to a style definition.
+ * An unique name assigned to a style definition. An name is used to differentiate style definitions e.g.
+ * it's used as an label in style combo dropdown when using [Styles Combo](https://ckeditor.com/cke4/addon/stylescombo) plugin.
  *
  *		{ name: 'Special title' }
  *
@@ -2173,7 +2177,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  *			}
  *		}
  *
- * @property {Object} attributes
+ * @property {Object.<String, String>} attributes
  */
 
 /**
@@ -2187,11 +2191,13 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 /**
  * A set of properties specifying CSS style rules.
  *
- *		{
- *			color: 'red',
- *			'font-size': '12px',
- *			'font-weight': 'bold'
- *		}
+ * 		{
+ * 			styles: {
+ * 				color: 'red',
+ * 				'font-size': '12px'
+ * 				'font-weight': 'bold'
+ * 			}
+ * 		}
  *
- * @property {Object} styles
+ * @property {Object.<String, String>} styles
  */
