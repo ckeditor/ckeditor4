@@ -789,17 +789,16 @@
 
 				this.parts.content.setHtml( output.join( '' ) );
 				this.parts.content.unselectable();
-
 				CKEDITOR.tools.array.forEach( this.parts.content.find( 'a' ).toArray(), function( element ) {
 					element.setAttribute( 'draggable', 'false' );
 					this.registerFocusable( element );
 				}, this );
 				// We need to initially set status of richCombo items.
 				CKEDITOR.tools.array.forEach( keys, function( itemKey ) {
-						if ( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo ) {
-							( items[ itemKey ] ).updateState( editor );
-						}
-					}, this );
+					if ( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo ) {
+						( items[ itemKey ] ).updateState( editor );
+					}
+				}, this );
 			};
 
 			/**
