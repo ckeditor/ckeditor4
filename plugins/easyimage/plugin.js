@@ -168,7 +168,9 @@
 				editor.ui.addButton( 'Easyimage' + capitalize( style ), {
 					label: styles[ style ].label,
 					command: 'easyimage' + capitalize( style ),
-					toolbar: 'easyimage,99'
+					toolbar: 'easyimage,99',
+					icon: styles[ style ].icon,
+					iconHiDpi: styles[ style ].iconHiDpi
 				} );
 			}
 		}
