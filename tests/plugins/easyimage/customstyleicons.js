@@ -21,12 +21,14 @@
 				assert.ignore();
 			}
 
+			var addButton = CKEDITOR.ui.prototype.addButton;
 			this.addButtonStub = sinon.stub( CKEDITOR.ui.prototype, 'addButton', function( name, definition ) {
 				if ( definition.command === 'easyimageTest' ) {
 					buttonCreated = true;
 					assert.areSame( 'tests/_assets/sample_icon.png', definition.icon, 'button definition.icon has proper value' );
 					assert.areSame( 'tests/_assets/sample_icon.hidpi.png', definition.iconHiDpi, 'button definition.iconHiDpi has proper value' );
 				}
+				addButton.call( this, name, definition );
 			} );
 		},
 
