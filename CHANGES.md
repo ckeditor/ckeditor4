@@ -36,6 +36,7 @@ API Changes:
 Other Changes:
 
 * [#1337](https://github.com/ckeditor/ckeditor-dev/issues/1337): Update `samples` layout with new CKEditor 4 logo and color scheme.
+* [#1591](https://github.com/ckeditor/ckeditor-dev/issues/1591): CKBuilder and lang tools are now downloaded over HTTPS. Thanks to [August Detlefsen](https://github.com/augustd)!
 
 ## CKEditor 4.8
 
