@@ -1,4 +1,4 @@
-@bender-tags: 4.9.0, feature, editor, button
+@bender-tags: 4.9.0, 1530, feature, editor, button
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, blockquote, link, basicstyles
 
