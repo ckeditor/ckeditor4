@@ -8,6 +8,6 @@
 
 ## Expected:
 
-Balloon toolbar with one button with custom icon (blue Bold icon) appears.
+Balloon toolbar with one button with custom icon (red Bold icon) appears.
 
 **Important**: When in HiDPI environment make sure the visible icon is HiDPI version (its path should contain `hidpi` part somewhere).
