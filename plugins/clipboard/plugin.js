@@ -1653,8 +1653,11 @@
 		mainPasteEvent: ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'beforepaste' : 'paste',
 
 		/**
-		 * Adds new paste button to the editor. In order for the button
-		 * to displayPaste Dialog on mobile devices it should be added via this method.
+		 * Adds a new paste button to the editor.
+		 *
+		 * This method should be called for buttons that should display the Paste Dialog fallback in mobile environments.
+		 * See {@link https://github.com/ckeditor/ckeditor-dev/issues/595#issuecomment-345971174 the rationale} for more
+		 * details.
 		 *
 		 * @since 4.9.0
 		 * @param {CKEDITOR.editor} editor The editor instance.
