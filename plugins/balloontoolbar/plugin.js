@@ -268,7 +268,7 @@
 		 * Hides the toolbar controlled by this context. If dialog is currently open, method tries to close it.
 		 */
 		hide: function() {
-			var ignoreConfirm = this.editor.config.balloontoolbarIgnoreConfirm === undefined ? true : ignoreConfirm;
+			var ignoreConfirm = this.editor.config.balloontoolbarIgnoreConfirm === undefined ? true : this.editor.config.balloontoolbarIgnoreConfirm;
 			var keys = CKEDITOR.tools.objectKeys( this.toolbar._items );
 			// We don't want to hide toolbar if confirmed was canceled.
 			if ( keys.length === 1 && CKEDITOR.dialog && this.toolbar._items[ keys[ 0 ] ] instanceof CKEDITOR.dialog ) {

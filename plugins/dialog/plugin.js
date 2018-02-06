@@ -625,7 +625,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}
 
 		initDragAndDrop( this );
-		if ( !options.preventResizeHandle ) {
+		if ( !( options && options.preventResizeHandle ) ) {
 			initResizeHandles( this );
 		}
 
