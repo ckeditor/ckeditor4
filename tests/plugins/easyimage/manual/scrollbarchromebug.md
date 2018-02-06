@@ -1,6 +1,7 @@
 @bender-tags: 4.9.0, bug, 1550, easyimage
 @bender-ui: collapsed
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, toolbar, easyimage, link
+@bender-include: ./_helpers/tools.js
 
 ----
 

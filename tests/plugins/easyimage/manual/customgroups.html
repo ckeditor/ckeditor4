@@ -18,7 +18,7 @@
 
 <script>
 	( function() {
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		if ( isUnsupportedEnvironment() ) {
 			bender.ignore();
 		}
 
