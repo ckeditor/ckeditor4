@@ -1656,7 +1656,7 @@
 		 * Adds new paste button to the editor. In order for the button
 		 * to displayPaste Dialog on mobile devices it should be added via this method.
 		 *
-		 * @since 4.8.0
+		 * @since 4.9.0
 		 * @param {CKEDITOR.editor} editor The editor instance.
 		 * @param {String} name Name of the button.
 		 * @param {Object} definition Definition of the button.
