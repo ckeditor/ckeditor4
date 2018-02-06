@@ -2,4 +2,9 @@
 
 <script>
 	CKEDITOR.replace( 'editor1', { readOnly: true } );
+
+	// Test has been ignored for IE due to #1575 issue. Remove this ignore statement after the issue fix.
+	if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+		bender.ignore();
+	}
 </script>
