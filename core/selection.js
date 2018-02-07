@@ -586,6 +586,10 @@
 			var editor = evt.editor,
 				selectedWidgets = editor.widgets.selected;
 
+			if ( editor.readOnly ) {
+				return;
+			}
+
 			for ( var i = 0; i < selectedWidgets.length; i++ ) {
 				selectedWidgets[ i ].destroy( true );
 			}

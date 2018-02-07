@@ -23,35 +23,15 @@ function getFirstWidgetInstance( editor ) {
 	}
 }
 
-function testSelectedWidgetDestroyOnKeyEvent( editorName, keyCode) {
-	return function() {
-		bender.editorBot.create( { name: editorName, config: { extraPlugins: 'placeholder' } }, function( bot ) {
-			var editor = bot.editor;
-
-			bot.setData( '<p>x</p><p>[[placeholder]]</p><p>y</p>', function() {
-				var widget = getFirstWidgetInstance( editor ),
-					spy = sinon.spy( widget, 'destroy' );
-
-				var paragraphs = editor.editable().find( 'p' ),
-					first = paragraphs.getItem( 0 ), last = paragraphs.getItem( 2 ), range = editor.createRange();
-
-				range.setStartBefore( first );
-				range.setEndAfter( last );
-				range.select();
-
-				editor.fire( 'key', {
-					keyCode: keyCode,
-					domEvent: {
-						getKey: function() {
-							return keyCode;
-						}
-					}
-				} );
-
-				assert.isTrue( spy.calledOnce, 'Widget has not been destroyed' );
-			} );
-		} );
-	}
+function fireKeyEvent( editor, key ) {
+	editor.fire( 'key', {
+		keyCode: key,
+		domEvent: {
+			getKey: function() {
+				return key;
+			}
+		}
+	} );
 }
 
 bender.test( {
@@ -827,7 +807,74 @@ bender.test( {
 	},
 
 	// #1452
-	'Test backspace key is destroying widgets': testSelectedWidgetDestroyOnKeyEvent( 'editor_selection_backspace', 8 ),
+	'Test backspace key is destroying widgets': function() {
+		bender.editorBot.create( { name: 'editor_selection_backspace', config: { extraPlugins: 'placeholder' } }, function( bot ) {
+			var editor = bot.editor;
+
+			bot.setData( '<p>x</p><p>[[placeholder]]</p><p>y</p>', function() {
+				var widget = getFirstWidgetInstance( editor ),
+					spy = sinon.spy( widget, 'destroy' );
+
+				var paragraphs = editor.editable().find( 'p' ),
+					first = paragraphs.getItem( 0 ), last = paragraphs.getItem( 2 ), range = editor.createRange();
+
+				range.setStartBefore( first );
+				range.setEndAfter( last );
+				range.select();
+
+				fireKeyEvent( editor, 8 );
+
+				assert.isTrue( spy.calledOnce, 'Widget has not been destroyed' );
+			} );
+		} );
+	},
+
 	// #1452
-	'Test delete key is destroying widgets': testSelectedWidgetDestroyOnKeyEvent( 'editor_selection_delete', 46 )
+	'Test delete key is destroying widgets': function() {
+		bender.editorBot.create( { name: 'editor_selection_delete', config: { extraPlugins: 'placeholder' } }, function( bot ) {
+			var editor = bot.editor;
+
+			bot.setData( '<p>x</p><p>[[placeholder]]</p><p>y</p>', function() {
+				var widget = getFirstWidgetInstance( editor ),
+					spy = sinon.spy( widget, 'destroy' );
+
+				var paragraphs = editor.editable().find( 'p' ),
+					first = paragraphs.getItem( 0 ), last = paragraphs.getItem( 2 ), range = editor.createRange();
+
+				range.setStartBefore( first );
+				range.setEndAfter( last );
+				range.select();
+
+				fireKeyEvent( editor, 46 );
+
+				assert.isTrue( spy.calledOnce, 'Widget has not been destroyed' );
+			} );
+		} );
+	},
+
+	// #1452
+	'Test delete/backspace key is not destroying read only widgets': function() {
+		bender.editorBot.create( { name: 'editor_selection_readonly', config: { extraPlugins: 'placeholder' } }, function( bot ) {
+			var editor = bot.editor;
+
+			editor.setReadOnly( true );
+
+			bot.setData( '<p>x</p><p>[[placeholder]]</p><p>y</p>', function() {
+				var widget = getFirstWidgetInstance( editor ),
+					spy = sinon.spy( widget, 'destroy' );
+
+				var paragraphs = editor.editable().find( 'p' ),
+					first = paragraphs.getItem( 0 ), last = paragraphs.getItem( 2 ), range = editor.createRange();
+
+				range.setStartBefore( first );
+				range.setEndAfter( last );
+				range.select();
+
+				fireKeyEvent( editor, 8 );
+				fireKeyEvent( editor, 46 );
+
+				assert.isFalse( spy.called, 'Widget has been destroyed' );
+			} );
+		} );
+	}
 } );
