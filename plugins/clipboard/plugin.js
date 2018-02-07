@@ -3124,6 +3124,9 @@
 /**
  * Internal event to open the Paste dialog window.
  *
+ *
+ * This event was not available in 4.7.0-4.8.0 versions.
+ *
  * @private
  * @event pasteDialog
  * @member CKEDITOR.editor
