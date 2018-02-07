@@ -515,7 +515,7 @@
 		},
 
 		init: function( editor ) {
-			if ( isSupportedBrowser() ) {
+			if ( !isSupportedBrowser() ) {
 				return;
 			}
 			loadStyles( editor, this );
@@ -524,7 +524,7 @@
 		// Widget must be registered after init in case that link plugin is dynamically loaded e.g. via
 		// `config.extraPlugins`.
 		afterInit: function( editor ) {
-			if ( isSupportedBrowser() ) {
+			if ( !isSupportedBrowser() ) {
 				return;
 			}
 			var styles = getStylesForEditor( editor );
