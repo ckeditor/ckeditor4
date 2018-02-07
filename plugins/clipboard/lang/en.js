@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'en', {
 	paste: 'Paste',
 	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.',
 	pasteArea: 'Paste Area',
-	pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl/Cmd+V</strong>) and hit OK',
+	pasteMsg: 'Please paste inside the following box and hit OK',
 	title: 'Paste'
 } );
