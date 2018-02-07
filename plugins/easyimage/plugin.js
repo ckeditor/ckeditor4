@@ -500,8 +500,8 @@
 		}
 	};
 
-	function ieCheck() {
-		return !!( CKEDITOR.env.ie && CKEDITOR.env.version < 11 );
+	function isSupportedBrowser() {
+		return !CKEDITOR.env.ie || CKEDITOR.env.version >= 11;
 	}
 
 	CKEDITOR.plugins.add( 'easyimage', {
@@ -515,8 +515,8 @@
 		},
 
 		init: function( editor ) {
-			if ( ieCheck() ) {
-				return false;
+			if ( isSupportedBrowser() ) {
+				return;
 			}
 			loadStyles( editor, this );
 		},
@@ -524,8 +524,8 @@
 		// Widget must be registered after init in case that link plugin is dynamically loaded e.g. via
 		// `config.extraPlugins`.
 		afterInit: function( editor ) {
-			if ( ieCheck() ) {
-				return false;
+			if ( isSupportedBrowser() ) {
+				return;
 			}
 			var styles = getStylesForEditor( editor );
 
