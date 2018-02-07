@@ -409,6 +409,7 @@
 						// Progress reporter has only sense if widget is in progress.
 						var progress = new widget.progressReporterType();
 						widget.wrapper.append( progress.wrapper );
+						progress.bindEditor( loader.editor );
 						progress.bindLoader( loader );
 					} else {
 						if ( loaderEventMapping[ loader.status ] ) {
@@ -803,7 +804,16 @@
 			progressListeners.push( loader.once( 'abort', removeProgressListeners ) );
 			progressListeners.push( loader.once( 'uploaded', removeProgressListeners ) );
 			progressListeners.push( loader.once( 'error', removeProgressListeners ) );
-		}
+		},
+
+		/**
+		 * Binds this progress reporter to a given {CKEIDTOR.editor} instance. The base implementation is empty,
+		 * however it could be used via child classes to apply some more advanced behaviour, like listening to various
+		 * editor events.
+		 *
+		 * @param {CKEDITOR.editor} editor
+		 */
+		bindEditor: function() {}
 	};
 
 	/**
@@ -837,6 +847,44 @@
 		percentage = Math.min( percentage, 100 );
 
 		this.bar.setStyle( 'width', percentage + '%' );
+	};
+
+	ProgressBar.prototype.bindEditor = function( editor ) {
+		var undoListeners = [],
+			parent = this.wrapper.getParent();
+
+		// Hide progressbar during snapshot creation so it does not trigger saving new snapshot
+		// (as content will be changed due to progressbar progress).
+		undoListeners.push(
+			editor.on( 'beforeUndoImage', function() {
+				if ( this.wrapper.getParent() ) {
+					if ( !parent ) {
+						parent = this.wrapper.getParent();
+					}
+					// Detach wrapper only if it is attached.
+					this.wrapper.remove();
+				}
+			}, this )
+		);
+
+		undoListeners.push(
+			editor.on( 'afterUndoImage', function() {
+				if ( !this.wrapper.getParent() && parent ) {
+					// Attach wrapper only if it is detached.
+					parent.append( this.wrapper );
+				}
+			}, this )
+		);
+
+		var remove = this.remove;
+		this.remove = function() {
+			// Remove undo listeners when progress bar is removed.
+			CKEDITOR.tools.array.filter( undoListeners, function( listener ) {
+				listener.removeListener();
+				return false;
+			} );
+			remove.call( this );
+		};
 	};
 
 	CKEDITOR.plugins.add( 'imagebase', {
