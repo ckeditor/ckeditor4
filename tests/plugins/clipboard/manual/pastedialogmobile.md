@@ -1,4 +1,4 @@
-@bender-tags: bug, 4.8.0, 595
+@bender-tags: bug, 4.9.0, 595
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, clipboard, floatingspace, htmlwriter,
 
@@ -6,7 +6,7 @@
 
 Click paste button on the toolbar.
 
-### Expected result:
+### Expected
 
 Notification about unability to paste in such way is displayed.
 
@@ -14,7 +14,7 @@ Notification about unability to paste in such way is displayed.
 
 Touch paste button on the toolbar.
 
-### Expected result:
+### Expected
 
 * Paste dialog is shown.
 * Dismissing paste dialog does not trigger any notification.
@@ -27,7 +27,7 @@ Touch paste button on the toolbar.
 4. Disable touch emulation.
 5. Click paste button on the toolbar.
 
-### Expected result:
+### Expected
 
 * Touching button should display paste dialog.
 * Clicking button should display notification.
