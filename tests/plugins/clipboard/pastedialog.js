@@ -167,6 +167,44 @@
 			wait();
 		},
 
+		'test paste event count': function() {
+			var editor = this.editor,
+				spy = sinon.spy(),
+				listener;
+
+			listener = editor.on( 'paste', spy );
+
+			editor.once( 'afterPaste', function() {
+				setTimeout( function() {
+					resume( function() {
+						listener.removeListener();
+
+						assert.areSame( 1, spy.callCount, 'Paste count' );
+					} );
+				}, 100 );
+			} );
+
+			editor.once( 'dialogShow', function() {
+				resume( function() {
+					var dialog = editor._.storedDialogs.paste;
+
+					var frameDoc = dialog.getContentElement( 'general', 'editing_area' )
+						.getInputElement().getFrameDocument();
+
+					frameDoc.getBody().setHtml( 'foo' );
+
+					dialog.fire( 'ok' );
+					dialog.hide();
+					wait();
+				} );
+			} );
+
+			setTimeout( function() {
+				editor.execCommand( 'paste' );
+			} );
+			wait();
+		},
+
 		'test paste dialog with some paste buttons removed': function() {
 			bender.editorBot.create( {
 				name: 'some_paste_buttons',
