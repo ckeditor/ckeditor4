@@ -161,7 +161,7 @@
 					removeButtons: 'Paste,PasteText'
 				}
 			}, function( bot ) {
-				assert.isUndefined( bot.editor._.pasteButtons );
+				arrayAssert.containsItems( [ 'Paste', 'PasteText', 'PasteFromWord' ], bot.editor._.pasteButtons );
 			} );
 		},
 
@@ -174,7 +174,7 @@
 					removeButtons: 'Paste,PasteText'
 				}
 			}, function( bot ) {
-				assert.isUndefined( bot.editor._.pasteButtons );
+				arrayAssert.containsItems( [ 'Paste', 'PasteText' ], bot.editor._.pasteButtons );
 			} );
 		}
 	} );

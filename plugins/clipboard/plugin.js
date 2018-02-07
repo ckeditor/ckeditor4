@@ -591,8 +591,6 @@
 							} );
 						}
 					} );
-
-					delete editor._.pasteButtons;
 				} );
 			}
 		}
