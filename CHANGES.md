@@ -28,6 +28,7 @@ Fixed Issues:
 * [#1470](https://github.com/ckeditor/ckeditor-dev/issues/1470): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) is not visible after drag and drop of a widget it is attached to.
 * [#1535](https://github.com/ckeditor/ckeditor-dev/issues/1535): Fixed: Improve [Widget](https://ckeditor.com/cke4/addon/widget) mouse over border contrast.
 * [#1516](https://github.com/ckeditor/ckeditor-dev/issues/1516): Fixed: Fake selection allows removing in a readonly mode using `Backspace`/`Delete` keys.
+* [#1452](https://github.com/ckeditor/ckeditor-dev/issues/1452): Fixed: [Widget destroy](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#destroy) event is not fired directly after removing widget.
 
 API Changes:
 
