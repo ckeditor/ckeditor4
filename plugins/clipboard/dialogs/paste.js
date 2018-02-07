@@ -99,8 +99,8 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 			this.parts.title.setHtml( this.customTitle || lang.title );
 			this.customTitle = null;
 
-			// Reset commited indicator.
-			this._.commited = false;
+			// Reset committed indicator.
+			this._.committed = false;
 		},
 
 		onLoad: function() {
@@ -228,7 +228,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 						// Saving the contents so changes until paste is complete will not take place (#7500)
 						html = body.getHtml();
 
-						this.getDialog()._.commited = true;
+						this.getDialog()._.committed = true;
 
 						editor.fire( 'pasteDialogCommit', {
 							dataValue: html,

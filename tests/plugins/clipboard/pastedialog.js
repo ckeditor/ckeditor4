@@ -78,7 +78,7 @@
 					notificationListener.removeListener();
 
 					assert.areSame( 0, notificationSpy.callCount, 'notifications count' );
-					assert.isTrue( editor._.storedDialogs.paste._.commited, 'Dialog commited state (after)' );
+					assert.isTrue( editor._.storedDialogs.paste._.committed, 'Dialog committed state (after)' );
 					assert.isFalse( editor._.forcePasteDialog, 'Force paste dialog' );
 				} );
 			} );
@@ -89,7 +89,7 @@
 				tc.resume( function() {
 					var dialog = editor._.storedDialogs.paste;
 					assert.isTrue( !!dialog );
-					assert.isFalse( dialog._.commited, 'Dialog commited state (before)' );
+					assert.isFalse( dialog._.committed, 'Dialog committed state (before)' );
 
 					var frameDoc = dialog.getContentElement( 'general', 'editing_area' )
 						.getInputElement().getFrameDocument();

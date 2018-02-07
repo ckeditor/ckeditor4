@@ -475,7 +475,7 @@
 						evt.data.removeListener( 'pasteDialogCommit', onDialogCommit );
 
 						// Notify even if user canceled dialog (clicked 'cancel', ESC, etc).
-						if ( !evt.data._.commited ) {
+						if ( !evt.data._.committed ) {
 							callback( null );
 						}
 					} );
