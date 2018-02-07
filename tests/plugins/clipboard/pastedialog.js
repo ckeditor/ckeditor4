@@ -170,13 +170,21 @@
 		'test paste event count': function() {
 			var editor = this.editor,
 				spy = sinon.spy(),
+				// Stub execCommand so that IE does not put the paste permission popup. Normally we'd use sinon here
+				// unfortunately IE8 will cry that document.execCommand is an object, not a function.
+				originalDocumentExec = editor.document.$.execCommand,
 				listener;
+
+			editor.document.$.execCommand = function() {
+				return true;
+			};
 
 			listener = editor.on( 'paste', spy );
 
 			editor.once( 'afterPaste', function() {
 				setTimeout( function() {
 					resume( function() {
+						editor.document.$.execCommand = originalDocumentExec;
 						listener.removeListener();
 
 						assert.areSame( 1, spy.callCount, 'Paste count' );
