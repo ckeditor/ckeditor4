@@ -381,7 +381,15 @@
 			var dialog;
 			var dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
 			if ( typeof dialogDefinitions === 'function' ) {
-				dialog = new CKEDITOR.dialog( this.editor, dialogName, { preventResizeHandle: true } );
+				dialog = new CKEDITOR.dialog( this.editor, dialogName, {
+					// preventResizeHandle: true,
+					defaultDialogDefinition: {
+						resizable: CKEDITOR.DIALOG_RESIZE_NONE,
+						minWidth: 600,
+						minHeight: 100,
+						buttons: [ CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton ]
+					}
+				} );
 				callback && callback.call( dialog, dialog );
 
 				dialog.once( 'cancel', this.closeDialog.bind( this, dialogName ) );
@@ -390,6 +398,7 @@
 				var dialogToolbar = new CKEDITOR.ui.balloonToolbar( this.editor );
 				var pointedElement = this.toolbar._view._pointedElement;
 				this.toolbar.hide();
+
 				this._lifoPush( dialogToolbar );
 				this.toolbar.addItem( dialogName, dialog );
 				this.toolbar.attach( pointedElement );

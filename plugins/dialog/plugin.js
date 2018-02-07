@@ -221,11 +221,12 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	 * @param {Object} editor The editor which created the dialog.
 	 * @param {String} dialogName The dialog's registered name.
 	 * @param {Object} [options] Configuration options which allows on better dialog customization.
+	 * @param {Object} [options.defaultDialogDefinition] Object which overwrites default dialog definition. Dialog itself will overwrite those settings.
 	 */
 	CKEDITOR.dialog = function( editor, dialogName, options ) {
 		// Load the dialog definition.
 		var definition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ],
-			defaultDefinition = CKEDITOR.tools.clone( defaultDialogDefinition ),
+			defaultDefinition = options && options.defaultDialogDefinition ? CKEDITOR.tools.clone( options.defaultDialogDefinition ) : CKEDITOR.tools.clone( defaultDialogDefinition ),
 			buttonsOrder = editor.config.dialog_buttonsOrder || 'OS',
 			dir = editor.lang.dir,
 			tabsToRemove = {},
@@ -625,9 +626,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}
 
 		initDragAndDrop( this );
-		if ( !( options && options.preventResizeHandle ) ) {
-			initResizeHandles( this );
-		}
+		initResizeHandles( this );
 
 		// Insert the title.
 		( new CKEDITOR.dom.text( definition.title, CKEDITOR.document ) ).appendTo( this.parts.title );
