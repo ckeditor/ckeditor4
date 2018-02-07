@@ -466,7 +466,7 @@
 
 				// If beforePaste was canceled do not open dialog.
 				// Add listeners only if dialog really opened. 'pasteDialog' can be canceled.
-				if ( editor._.forcePasteDialog && beforePasteNotCanceled && editor.fire( 'pasteDialog', onDialogOpen ) ) {
+				if ( editor._.forcePasteDialog && beforePasteNotCanceled && editor.fire( 'pasteDialog' ) ) {
 					editor.on( 'pasteDialogCommit', onDialogCommit );
 
 					// 'dialogHide' will be fired after 'pasteDialogCommit'.
@@ -508,10 +508,6 @@
 					dataTransfer: evt.data.dataTransfer,
 					method: 'paste'
 				} );
-			}
-
-			function onDialogOpen() {
-				this.customTitle = ( callbackOrOptions && typeof callbackOrOptions === 'object' && callbackOrOptions.title );
 			}
 		};
 

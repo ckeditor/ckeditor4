@@ -94,11 +94,6 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 			this.setupContent();
 
-			// Set dialog title to the custom value (set e.g. in editor.openDialog callback) and reset this value.
-			// If custom title not set, use default one.
-			this.parts.title.setHtml( this.customTitle || lang.title );
-			this.customTitle = null;
-
 			// Reset committed indicator.
 			this._.committed = false;
 		},
