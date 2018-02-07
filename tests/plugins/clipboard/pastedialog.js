@@ -18,7 +18,7 @@
 			this.editor.focus();
 		},
 
-		'pasteDialog event': function() {
+		'test pasteDialog event': function() {
 			var tc = this,
 				editor = this.editor;
 
@@ -38,7 +38,7 @@
 			tc.wait();
 		},
 
-		'paste html': function() {
+		'test paste html': function() {
 			if ( CKEDITOR.env.ie ) {
 				assert.ignore();
 			}
