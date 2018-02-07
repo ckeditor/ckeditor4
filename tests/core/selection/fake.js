@@ -74,6 +74,13 @@ function getKeyEvent( keyCode, preventDefaultCallback ) {
 	return evt;
 }
 
+function getFirstWidgetInstance( editor ) {
+	var instances = editor.widgets.instances;
+	for ( var id in instances ) {
+		return instances[ id ];
+	}
+}
+
 bender.test( {
 	tearDown: function() {
 		this.editor.setReadOnly( false );
@@ -1074,7 +1081,7 @@ bender.test( {
 		editor.setReadOnly( true );
 
 		bot.setData( '<p>[[placeholder]]</p>', function() {
-			var widget = editor.widgets.instances[ 0 ];
+			var widget = getFirstWidgetInstance( editor );
 
 			widget.focus();
 
@@ -1083,5 +1090,39 @@ bender.test( {
 
 			assert.areEqual( '<p>[[placeholder]]</p>', editor.getData() );
 		} );
+	},
+
+	// #1452
+	'Test delete key is destroying widgets': function() {
+		var editor = this.editor, bot = this.editorBot;
+
+		bot.setData( '<p>[[placeholder]]</p>', function() {
+			var widget = getFirstWidgetInstance( editor ),
+				spy = sinon.spy( widget, 'destroy' );
+
+			widget.focus();
+
+			editor.fire( 'key', { keyCode: 46 } ); // delete
+
+			assert.areEqual( '', editor.getData(), 'Widget has not been removed' );
+			assert.isTrue( spy.calledOnce, 'Widget has not been destroyed' );
+		} );
+	},
+
+	// #1452
+	'Test backspace key is destroying widgets': function() {
+		var editor = this.editor, bot = this.editorBot;
+
+		bot.setData( '<p>[[placeholder]]</p>', function() {
+			var widget = getFirstWidgetInstance( editor ),
+				spy = sinon.spy( widget, 'destroy' );
+
+			widget.focus();
+
+			editor.fire( 'key', { keyCode: 8 } ); // backspace
+
+			assert.isTrue( spy.calledOnce, 'Widget has not been destroyed' );
+		} );
 	}
+
 } );

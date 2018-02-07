@@ -531,6 +531,9 @@
 					return;
 				}
 
+				// Cache selected widgets.
+				var selectedWidgets = editor.widgets.selected.slice();
+
 				// If haven't found place for caret on the default side,
 				// try to find it on the other side.
 				if ( !( found = range.moveToClosestEditablePosition( evt.selected, right ) ) )
@@ -543,6 +546,11 @@
 				editor.fire( 'saveSnapshot' );
 
 				evt.selected.remove();
+
+				// Destroy widgets on delete (#1452).
+				for ( var i = 0; i < selectedWidgets.length; i++ ) {
+					selectedWidgets[ i ].destroy( true );
+				}
 
 				// Haven't found any editable space before removing element,
 				// try to place the caret anywhere (most likely, in empty editable).
@@ -568,6 +576,26 @@
 			40: leaveRight,		// DOWN
 			8: del(),			// BACKSPACE
 			46: del( 1 )		// DELETE
+		};
+	} )();
+
+	var nativeSelectionDefaultKeystrokeHandlers = ( function() {
+
+		// Destroy widgets on delete (#1452).
+		function del( evt ) {
+			var editor = evt.editor,
+				selectedWidgets = editor.widgets.selected;
+
+			for ( var i = 0; i < selectedWidgets.length; i++ ) {
+				selectedWidgets[ i ].destroy( true );
+			}
+			// Enable default behavior for native selection.
+			return true;
+		}
+
+		return {
+			8: del, // BACKSPACE
+			46: del // DELETE
 		};
 	} )();
 
@@ -1094,11 +1122,10 @@
 				return;
 			}
 
-			var sel = editor.getSelection();
-			if ( !sel.isFake )
-				return;
+			var sel = editor.getSelection(),
+				keyCode = evt.data.keyCode,
+				handler = sel.isFake ? fakeSelectionDefaultKeystrokeHandlers[ keyCode ] : nativeSelectionDefaultKeystrokeHandlers[ keyCode ];
 
-			var handler = fakeSelectionDefaultKeystrokeHandlers[ evt.data.keyCode ];
 			if ( handler )
 				return handler( { editor: editor, selected: sel.getSelectedElement(), selection: sel, keyEvent: evt } );
 		} );

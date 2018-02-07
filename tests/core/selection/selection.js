@@ -4,7 +4,8 @@
 
 bender.editor = {
 	config: {
-		allowedContent: true
+		allowedContent: true,
+		extraPlugins: 'placeholder'
 	}
 };
 
@@ -14,6 +15,44 @@ var htmlComparisonOpts = {
 };
 
 var isElement = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT );
+
+function getFirstWidgetInstance( editor ) {
+	var instances = editor.widgets.instances;
+	for ( var id in instances ) {
+		return instances[ id ];
+	}
+}
+
+function testSelectedWidgetDestroyOnKeyEvent( editorName, keyCode) {
+	return function() {
+		bender.editorBot.create( { name: editorName, config: { extraPlugins: 'placeholder' } }, function( bot ) {
+			var editor = bot.editor;
+
+			bot.setData( '<p>x</p><p>[[placeholder]]</p><p>y</p>', function() {
+				var widget = getFirstWidgetInstance( editor ),
+					spy = sinon.spy( widget, 'destroy' );
+
+				var paragraphs = editor.editable().find( 'p' ),
+					first = paragraphs.getItem( 0 ), last = paragraphs.getItem( 2 ), range = editor.createRange();
+
+				range.setStartBefore( first );
+				range.setEndAfter( last );
+				range.select();
+
+				editor.fire( 'key', {
+					keyCode: keyCode,
+					domEvent: {
+						getKey: function() {
+							return keyCode;
+						}
+					}
+				} );
+
+				assert.isTrue( spy.calledOnce, 'Widget has not been destroyed' );
+			} );
+		} );
+	}
+}
 
 bender.test( {
 	'test contructor': function() {
@@ -785,5 +824,10 @@ bender.test( {
 		bender.tools.setHtmlWithSelection( editor, '<p>T^es^t</p>' );
 
 		assert.isFalse( editor.getSelection().isCollapsed() );
-	}
+	},
+
+	// #1452
+	'Test backspace key is destroying widgets': testSelectedWidgetDestroyOnKeyEvent( 'editor_selection_backspace', 8 ),
+	// #1452
+	'Test delete key is destroying widgets': testSelectedWidgetDestroyOnKeyEvent( 'editor_selection_delete', 46 )
 } );

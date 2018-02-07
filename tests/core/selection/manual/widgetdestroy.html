@@ -1,0 +1,14 @@
+<textarea id="editor1" cols="10" rows="10"><p>[[placeholder]] foo bar</p></textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		on: {
+			instanceReady: function( evt ) {
+				var editor = evt.editor, widget = editor.widgets.instances[ 0 ];
+				widget.on( 'destroy', function() {
+					editor.showNotification( 'Yarr! The test passed!' );
+				} );
+			}
+		}
+	} );
+</script>
