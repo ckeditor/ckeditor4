@@ -1,0 +1,10 @@
+# Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+
+commands.fullImage = Label for button converting image to a full width.
+commands.sideImage = Label for button converting image to be a side image.
+commands.altText = Label for button converting image to assign an alternative text.
+commands.alignLeft = Label for button adding align left styles to the image.
+commands.alignCenter = Label for button adding align center styles to the image.
+commands.alignRight = Label for button adding align right styles to the image.
+uploadFailed = Contents of alert displayed when Easy Image widget could not be uploaded due to network error.

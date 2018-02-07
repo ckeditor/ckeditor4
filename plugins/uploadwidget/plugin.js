@@ -190,7 +190,7 @@
 					// No def.supportedTypes means all types are supported.
 					if ( !def.supportedTypes || fileTools.isTypeSupported( file, def.supportedTypes ) ) {
 						var el = def.fileToElement( file ),
-							loader = uploads.create( file );
+							loader = uploads.create( file, undefined, def.loaderType );
 
 						if ( el ) {
 							loader[ loadMethod ]( def.uploadUrl, def.additionalRequestParameters );
@@ -337,7 +337,15 @@
 				} else {
 					editor.getSelection().selectBookmarks( bookmarks );
 				}
+			},
 
+			/**
+			 * @private
+			 * @returns {CKEDITOR.fileTools.fileLoader/null} Loader associated with this widget instance or `null` if not found.
+			 */
+			_getLoader: function() {
+				var marker = this.wrapper.findOne( '[data-cke-upload-id]' );
+				return marker ? this.editor.uploadRepository.loaders[ marker.data( 'cke-upload-id' ) ] : null;
 			}
 
 			/**
@@ -363,6 +371,12 @@
 			 * {@link CKEDITOR.fileTools#getUploadUrl}.
 			 *
 			 * @property {String} [uploadUrl]
+			 */
+
+			/**
+			 * Loader type that should be used for creating fileTools requests.
+			 *
+			 * @property {Function} [loaderType]
 			 */
 
 			/**

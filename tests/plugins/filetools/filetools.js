@@ -133,6 +133,15 @@
 			assert.isUndefined( repository.loaders[ 2 ] );
 		},
 
+		'test UploadRepository.create allows changing fileLoader type': function() {
+			function CustomType() {
+			}
+
+			var repository = this.editor.uploadRepository,
+				loader = repository.create( { name: 'name' }, undefined, CustomType );
+
+			assert.isInstanceOf( CustomType, loader, 'Returned loader type' );
+		},
 
 		'test UploadRepository instanceCreated event': function() {
 			var repository = this.editor.uploadRepository,

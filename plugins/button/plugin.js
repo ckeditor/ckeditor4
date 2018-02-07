@@ -260,14 +260,15 @@
 			}
 
 			var name = this.name || this.command,
-				iconPath = null;
+				iconPath = null,
+				overridePath = this.icon;
 
 			iconName = name;
 
 			// Check if we're pointing to an icon defined by another command. (https://dev.ckeditor.com/ticket/9555)
 			if ( this.icon && !( /\./ ).test( this.icon ) ) {
 				iconName = this.icon;
-				this.icon = null;
+				overridePath = null;
 
 			} else {
 				// Register and use custom icon for button (#1530).
@@ -281,7 +282,7 @@
 
 			if ( iconPath ) {
 				CKEDITOR.skin.addIcon( iconPath, iconPath );
-				this.icon = null;
+				overridePath = null;
 			} else {
 				iconPath = iconName;
 			}
@@ -301,7 +302,7 @@
 				keydownFn: keydownFn,
 				focusFn: focusFn,
 				clickFn: clickFn,
-				style: CKEDITOR.skin.getIconStyle( iconPath, ( editor.lang.dir == 'rtl' ), this.icon, this.iconOffset ),
+				style: CKEDITOR.skin.getIconStyle( iconPath, ( editor.lang.dir == 'rtl' ), overridePath, this.iconOffset ),
 				arrowHtml: this.hasArrow ? btnArrowTpl.output() : ''
 			};
 

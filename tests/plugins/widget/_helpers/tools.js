@@ -198,7 +198,7 @@ var widgetTestsTools = ( function() {
 	// @param {Number} offset 0-based widget offset.
 	// @returns {CKEDITOR.plugins.widget/null} Returns null if widget was not found.
 	function getWidgetByDOMOffset( editor, offset ) {
-		var wrapper = editor.document.find( '.cke_widget_wrapper' ).getItem( offset ),
+		var wrapper = editor.editable().find( '.cke_widget_wrapper' ).getItem( offset ),
 			ret = null;
 
 		if ( wrapper )
