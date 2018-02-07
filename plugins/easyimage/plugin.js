@@ -500,6 +500,10 @@
 		}
 	};
 
+	function ieCheck() {
+		return !!( CKEDITOR.env.ie && CKEDITOR.env.version < 11 );
+	}
+
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'imagebase,balloontoolbar,button,dialog,cloudservices',
 		lang: 'en',
@@ -511,12 +515,18 @@
 		},
 
 		init: function( editor ) {
+			if ( ieCheck() ) {
+				return false;
+			}
 			loadStyles( editor, this );
 		},
 
 		// Widget must be registered after init in case that link plugin is dynamically loaded e.g. via
 		// `config.extraPlugins`.
 		afterInit: function( editor ) {
+			if ( ieCheck() ) {
+				return false;
+			}
 			var styles = getStylesForEditor( editor );
 
 			registerWidget( editor, styles );
