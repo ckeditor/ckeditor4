@@ -3191,7 +3191,7 @@
 
 			editor.fire( 'unlockSnapshot' );
 
-			// Prevent cutting read only (#1570).
+			// Prevent cutting in read-only editor (#1570).
 			if ( isCut && !editor.readOnly ) {
 				widget.repository.del( widget );
 				editor.fire( 'saveSnapshot' );
