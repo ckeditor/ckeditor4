@@ -30,6 +30,7 @@ Fixed Issues:
 * [#1535](https://github.com/ckeditor/ckeditor-dev/issues/1535): Fixed: Improve [Widget](https://ckeditor.com/cke4/addon/widget) mouse over border contrast.
 * [#1516](https://github.com/ckeditor/ckeditor-dev/issues/1516): Fixed: Fake selection allows removing in a readonly mode using `Backspace`/`Delete` keys.
 * [#1570](https://github.com/ckeditor/ckeditor-dev/issues/1570): Fixed: Fake selection allows cutting in a readonly mode using `Ctrl`/`Cmd` + `X` keys.
+* [#1363](https://github.com/ckeditor/ckeditor-dev/issues/1363): Fixed: Paste notification isn't very straightforward and it might confuse users.
 
 API Changes:
 
