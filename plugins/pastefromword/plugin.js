@@ -47,7 +47,7 @@
 			} );
 
 			// Register the toolbar button.
-			editor.ui.addButton && editor.ui.addButton( 'PasteFromWord', {
+			CKEDITOR.plugins.clipboard.addPasteButton( editor, 'PasteFromWord', {
 				label: editor.lang.pastefromword.toolbar,
 				command: 'pastefromword',
 				toolbar: 'clipboard,50'

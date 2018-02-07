@@ -62,7 +62,7 @@
 
 			editor.setKeystroke( pasteKeystroke, commandName );
 
-			editor.ui.addButton && editor.ui.addButton( 'PasteText', {
+			CKEDITOR.plugins.clipboard.addPasteButton( editor, 'PasteText', {
 				label: editor.lang.pastetext.button,
 				command: commandName,
 				toolbar: 'clipboard,40'

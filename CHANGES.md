@@ -13,6 +13,7 @@ New Features:
 
 Fixed Issues:
 
+* [#595](https://github.com/ckeditor/ckeditor-dev/issues/595): Fixed: Pasting does not work on mobile devices.
 * [#869](https://github.com/ckeditor/ckeditor-dev/issues/869): Fixed: Empty selection clears cached clipboard data in editor.
 * [#1419](https://github.com/ckeditor/ckeditor-dev/issues/1419): Fixed: [Widged Selection](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widgetselection) selects editor content with `alt + a` key combination on Windows.
 * [#1274](https://github.com/ckeditor/ckeditor-dev/issues/1274): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) does not match a single selected image using [`contextDefinition.cssSelector`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.balloontoolbar.contextDefinition-property-cssSelector) matcher.

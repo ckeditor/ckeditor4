@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'cy', {
 	button: 'Gludo fel testun plaen',
-	pasteNotification: 'Your browser does not allow you to paste plain text this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser does not allow you to paste plain text this way. Press %1 to paste.', // MISSING
+	title: 'Gludo fel Testun Plaen'
 } );

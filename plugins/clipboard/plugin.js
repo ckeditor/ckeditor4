@@ -118,7 +118,7 @@
 
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {
-		requires: 'notification,toolbar',
+		requires: 'dialog,notification,toolbar',
 		// jscs:disable maximumLineLength
 		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
@@ -143,6 +143,8 @@
 
 			initPasteClipboard( editor );
 			initDragDrop( editor );
+
+			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
 			// Convert image file (if present) to base64 string for Firefox. Do it as the first
 			// step as the conversion is asynchronous and should hold all further paste processing.
@@ -320,7 +322,7 @@
 				}
 
 				// Strip presentational markup & unify text markup.
-				// Forced plain text.
+				// Forced plain text (dialog or forcePAPT).
 				// Note: we do not check dontFilter option in this case, because forcePAPT was implemented
 				// before pasteFilter and pasteFilter is automatically used on Webkit&Blink since 4.5, so
 				// forcePAPT should have priority as it had before 4.5.
@@ -364,6 +366,17 @@
 					}, 0 );
 				}
 			}, null, null, 1000 );
+
+			editor.on( 'pasteDialog', function( evt ) {
+				// TODO it's possible that this setTimeout is not needed any more,
+				// because of changes introduced in the same commit as this comment.
+				// Editor.getClipboardData adds listener to the dialog's events which are
+				// fired after a while (not like 'showDialog').
+				setTimeout( function() {
+					// Open default paste dialog.
+					editor.openDialog( 'paste', evt.data );
+				}, 0 );
+			} );
 		}
 	} );
 
@@ -412,7 +425,7 @@
 		addButtonsCommands();
 
 		/**
-		 * Gets clipboard data by directly accessing the clipboard (IE only).
+		 * Gets clipboard data by directly accessing the clipboard (IE only) or opening the paste dialog window.
 		 *
 		 *		editor.getClipboardData( function( data ) {
 		 *			if ( data )
@@ -427,11 +440,18 @@
 		 * an upcoming major release.
 		 */
 		editor.getClipboardData = function( callbackOrOptions, callback ) {
+			var beforePasteNotCanceled = false,
+				dataType = 'auto';
+
 			// Options are optional - args shift.
 			if ( !callback ) {
 				callback = callbackOrOptions;
 				callbackOrOptions = null;
 			}
+
+			// Listen at the end of listeners chain to see if event wasn't canceled
+			// and to retrieve modified data.type.
+			editor.on( 'beforePaste', onBeforePaste, null, null, 1000 );
 
 			// Listen with maximum priority to handle content before everyone else.
 			// This callback will handle paste event that will be fired if direct
@@ -444,7 +464,24 @@
 				// Direct access to the clipboard wasn't successful so remove listener.
 				editor.removeListener( 'paste', onPaste );
 
-				callback( null );
+				// If beforePaste was canceled do not open dialog.
+				// Add listeners only if dialog really opened. 'pasteDialog' can be canceled.
+				if ( editor._.forcePasteDialog && beforePasteNotCanceled && editor.fire( 'pasteDialog' ) ) {
+					editor.on( 'pasteDialogCommit', onDialogCommit );
+
+					// 'dialogHide' will be fired after 'pasteDialogCommit'.
+					editor.on( 'dialogHide', function( evt ) {
+						evt.removeListener();
+						evt.data.removeListener( 'pasteDialogCommit', onDialogCommit );
+
+						// Notify even if user canceled dialog (clicked 'cancel', ESC, etc).
+						if ( !evt.data._.committed ) {
+							callback( null );
+						}
+					} );
+				} else {
+					callback( null );
+				}
 			}
 
 			function onPaste( evt ) {
@@ -452,12 +489,38 @@
 				evt.cancel();
 				callback( evt.data );
 			}
+
+			function onBeforePaste( evt ) {
+				evt.removeListener();
+				beforePasteNotCanceled = true;
+				dataType = evt.data.type;
+			}
+
+			function onDialogCommit( evt ) {
+				evt.removeListener();
+				// Cancel pasteDialogCommit so paste dialog won't automatically fire
+				// 'paste' evt by itself.
+				evt.cancel();
+
+				callback( {
+					type: dataType,
+					dataValue: evt.data.dataValue,
+					dataTransfer: evt.data.dataTransfer,
+					method: 'paste'
+				} );
+			}
 		};
 
 		function addButtonsCommands() {
 			addButtonCommand( 'Cut', 'cut', createCutCopyCmd( 'cut' ), 10, 1 );
 			addButtonCommand( 'Copy', 'copy', createCutCopyCmd( 'copy' ), 20, 4 );
 			addButtonCommand( 'Paste', 'paste', createPasteCmd(), 30, 8 );
+
+			// Force adding touchend handler to paste button (#595).
+			if ( !editor._.pasteButtons ) {
+				editor._.pasteButtons = [];
+			}
+			editor._.pasteButtons.push( 'Paste' );
 
 			function addButtonCommand( buttonName, commandName, command, toolbarOrder, ctxMenuOrder ) {
 				var lang = editor.lang.clipboard[ commandName ];
@@ -500,6 +563,48 @@
 						copy: stateFromNamedCommand( 'copy' ),
 						paste: stateFromNamedCommand( 'paste' )
 					};
+				} );
+
+				// Adds 'touchend' integration with context menu paste item (#1347).
+				var pasteListener = null;
+				editor.on( 'menuShow', function() {
+					// Remove previous listener.
+					if ( pasteListener ) {
+						pasteListener.removeListener();
+						pasteListener = null;
+					}
+
+					// Attach new 'touchend' listeners to context menu paste items.
+					var item = editor.contextMenu.findItemByCommandName( 'paste' );
+					if ( item && item.element ) {
+						pasteListener = item.element.on( 'touchend', function() {
+							editor._.forcePasteDialog = true;
+						} );
+					}
+				} );
+			}
+
+			// Detect if any of paste buttons was touched. In such case we assume that user is using
+			// touch device and force displaying paste dialog (#595).
+			if ( editor.ui.addButton ) {
+				// Waiting for editor instance to be ready seems to be the most reliable way to
+				// be sure that paste buttons are already created.
+				editor.once( 'instanceReady', function() {
+					if ( !editor._.pasteButtons ) {
+						return;
+					}
+
+					CKEDITOR.tools.array.forEach( editor._.pasteButtons, function( name ) {
+						var pasteButton = editor.ui.get( name );
+						// Check if button was not removed by `removeButtons` config.
+						if ( pasteButton ) {
+							var buttonElement = CKEDITOR.document.getById( pasteButton._.id );
+
+							buttonElement.on( 'touchend', function() {
+								editor._.forcePasteDialog = true;
+							} );
+						}
+					} );
 				} );
 			}
 		}
@@ -727,9 +832,12 @@
 							}
 
 							firePasteEvents( editor, data, withBeforePaste );
-						} else if ( notification ) {
+						} else if ( notification && !editor._.forcePasteDialog ) {
 							editor.showNotification( msg, 'info', editor.config.clipboard_notificationDuration );
 						}
+
+						// Reset dialog mode (#595).
+						editor._.forcePasteDialog = false;
 
 						editor.fire( 'afterCommandExec', {
 							name: 'paste',
@@ -1555,6 +1663,31 @@
 		 * @property {String}
 		 */
 		mainPasteEvent: ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'beforepaste' : 'paste',
+
+		/**
+		 * Adds a new paste button to the editor.
+		 *
+		 * This method should be called for buttons that should display the Paste Dialog fallback in mobile environments.
+		 * See {@link https://github.com/ckeditor/ckeditor-dev/issues/595#issuecomment-345971174 the rationale} for more
+		 * details.
+		 *
+		 * @since 4.9.0
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {String} name Name of the button.
+		 * @param {Object} definition Definition of the button.
+		 */
+		addPasteButton: function( editor, name, definition ) {
+			if ( !editor.ui.addButton ) {
+				return;
+			}
+
+			editor.ui.addButton( name, definition );
+
+			if ( !editor._.pasteButtons ) {
+				editor._.pasteButtons = [];
+			}
+			editor._.pasteButtons.push( name );
+		},
 
 		/**
 		 * Returns `true` if it is expected that a browser provides HTML data through the Clipboard API.
@@ -3000,6 +3133,19 @@
  *
  * @event afterPaste
  * @member CKEDITOR.editor
+ */
+
+/**
+ * Internal event to open the Paste dialog window.
+ *
+ *
+ * This event was not available in 4.7.0-4.8.0 versions.
+ *
+ * @private
+ * @event pasteDialog
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {Function} [data] Callback that will be passed to {@link CKEDITOR.editor#openDialog}.
  */
 
 /**
