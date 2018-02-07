@@ -13,6 +13,8 @@
 
 	bender.test( {
 		setUp: function() {
+			//Force dialog.
+			this.editor._.forcePasteDialog = true;
 			// Force result data un-formatted.
 			this.editor.dataProcessor.writer._.rules = {};
 			this.editor.focus();
@@ -73,7 +75,9 @@
 				} );
 			} );
 
-			editor.on( 'afterPaste', function() {
+			editor.on( 'afterPaste', function( evt ) {
+				evt.removeListener();
+
 				tc.resume( function() {
 					notificationListener.removeListener();
 
@@ -104,8 +108,6 @@
 			} );
 
 			setTimeout( function() {
-				//Force dialog.
-				editor._.forcePasteDialog = true;
 				editor.execCommand( 'paste' );
 			} );
 			tc.wait();
@@ -142,14 +144,27 @@
 				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer();
 
 			editor.once( 'paste', function( evt ) {
-				evt.cancel();
+				resume( function() {
+					evt.cancel();
 
-				assert.areSame( 'foo', evt.data.dataValue, 'dataValue' );
-				assert.areSame( 'paste', evt.data.method, 'method' );
-				assert.areSame( dataTransfer, evt.data.dataTransfer, 'dataTransfer' );
+					assert.areSame( 'foo', evt.data.dataValue, 'dataValue' );
+					assert.areSame( 'paste', evt.data.method, 'method' );
+					assert.areSame( dataTransfer, evt.data.dataTransfer, 'dataTransfer' );
+				} );
 			} );
 
-			editor.fire( 'pasteDialogCommit', { dataValue: 'foo', dataTransfer: dataTransfer } );
+			editor.once( 'dialogShow', function() {
+				resume( function() {
+					var dialog = editor._.storedDialogs.paste;
+
+					editor.fire( 'pasteDialogCommit', { dataValue: 'foo', dataTransfer: dataTransfer } );
+					dialog.hide();
+					wait();
+				} );
+			} );
+
+			editor.fire( 'pasteDialog' );
+			wait();
 		},
 
 		'test paste dialog with some paste buttons removed': function() {
