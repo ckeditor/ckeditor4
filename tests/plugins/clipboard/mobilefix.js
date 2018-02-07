@@ -62,6 +62,11 @@
 
 		buttonElement.fire( 'touchend' );
 		buttonElement.$.click();
+		if ( CKEDITOR.env.edge ) {
+			// Trigger Paste command directly as button click does not trigger it on Edge.
+			editor.execCommand( 'paste' );
+		}
+
 		wait();
 	}
 
@@ -87,6 +92,10 @@
 		},
 
 		'test force dialog when button is touched': function( editor ) {
+			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+				// Ignore `touchend` tests for IE as there is not paste dialog due to different flow.
+				assert.ignore();
+			}
 			assertTouchEnd( editor, 'Paste' );
 		},
 
@@ -98,6 +107,11 @@
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
 
 	tests[ 'test add custom paste button' ] = function() {
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+			// Ignore for IE as there is not paste dialog due to different flow.
+			assert.ignore();
+		}
+
 		bender.editorBot.create( {
 			name: 'custom_button',
 			config: {

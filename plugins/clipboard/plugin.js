@@ -564,6 +564,24 @@
 						paste: stateFromNamedCommand( 'paste' )
 					};
 				} );
+
+				// Adds 'touchend' integration with context menu paste item (#1347).
+				var pasteListener = null;
+				editor.on( 'menuShow', function() {
+					// Remove previous listener.
+					if ( pasteListener ) {
+						pasteListener.removeListener();
+						pasteListener = null;
+					}
+
+					// Attach new 'touchend' listeners to context menu paste items.
+					var item = editor.contextMenu.findItemByCommandName( 'paste' );
+					if ( item && item.element ) {
+						pasteListener = item.element.on( 'touchend', function() {
+							editor._.forcePasteDialog = true;
+						} );
+					}
+				} );
 			}
 
 			// Detect if any of paste buttons was touched. In such case we assume that user is using
