@@ -1,0 +1,58 @@
+<p>Note, this test uses a real Cloud Service connection, so you might want to be on-line 😉.</p>
+
+<h2>Classic editor</h2>
+
+<p><strong>Saved undo steps: <em id="classic-us">0</em></strong></p>
+
+<div id="classic">
+	<h1>Sample editor</h1>
+	<p>Go on, put some content here.</p>
+</div>
+
+<h2>Divarea editor</h2>
+
+<p><strong>Saved undo steps: <em id="divarea-us">0</em></strong></p>
+
+<div id="divarea">
+	<h1>Sample editor</h1>
+	<p>Go on, put some content here.</p>
+</div>
+
+<h2>Inline editor</h2>
+
+<p><strong>Saved undo steps: <em id="inline-us">0</em></strong></p>
+
+<div id="inline" contenteditable="true">
+	<h1>Sample editor</h1>
+	<p>Go on, put some content here.</p>
+</div>
+
+<script src="_helpers/tools.js"></script>
+<script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
+
+	getToken( function( token ) {
+		var commonConfig = {
+			cloudServices_url: 'https://files.cke-cs.com/upload/',
+			cloudServices_token: token,
+			on: {
+				instanceReady: function( evt ) {
+					var editor = evt.editor,
+						counterElement = document.querySelector( '#' + editor.name + '-us' );
+
+					setInterval( function() {
+						counterElement.innerHTML = editor.undoManager.snapshots.length;
+					}, 100 );
+				}
+			}
+		};
+
+		CKEDITOR.replace( 'classic', commonConfig );
+		CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( {
+			extraPlugins: 'divarea'
+		}, commonConfig ) );
+		CKEDITOR.inline( 'inline', commonConfig );
+	} );
+</script>
