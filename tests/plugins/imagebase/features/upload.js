@@ -25,13 +25,18 @@
 		CKEDITOR.fileTools.fileLoader.call( this, editor, fileOrData, fileName );
 	}
 
-	// A mocked Loader type that synchronously notifies that the file has been failed.
+	// A mocked Loader type that synchronously notifies that the file failed to upload.
 	function FailFileLoader( editor, fileOrData, fileName ) {
 		CKEDITOR.fileTools.fileLoader.call( this, editor, fileOrData, fileName );
 	}
 
 	// A mocked Loader type that asynchronously notifies that the file has been uploaded.
 	function AsyncSuccessFileLoader( editor, fileOrData, fileName ) {
+		CKEDITOR.fileTools.fileLoader.call( this, editor, fileOrData, fileName );
+	}
+
+	// A mocked Loader type that asynchronously notifies that the file failed to upload.
+	function AsyncFailFileLoader( editor, fileOrData, fileName ) {
 		CKEDITOR.fileTools.fileLoader.call( this, editor, fileOrData, fileName );
 	}
 
@@ -89,6 +94,18 @@
 								readyState: 4
 							};
 							that.changeStatus( 'uploaded' );
+						}, 100 );
+					}
+				}, CKEDITOR.fileTools.fileLoader.prototype );
+
+				AsyncFailFileLoader.prototype = CKEDITOR.tools.extend( {
+					upload: function() {
+						var that = this;
+						setTimeout( function() {
+							that.xhr = {
+								readyState: 4
+							};
+							that.changeStatus( 'error' );
 						}, 100 );
 					}
 				}, CKEDITOR.fileTools.fileLoader.prototype );
@@ -381,6 +398,62 @@
 						editor.setReadOnly( false );
 
 						assert.areSame( 0, widgets.length, 'Widgets count' );
+					}
+				} );
+			},
+
+			// (#1533)
+			'test widget gets class during the upload': function() {
+				var editor = this.editor;
+
+				assertPasteFiles( editor, {
+					files: [ getTestRtfFile() ],
+					callback: function( widgets ) {
+						var widget = widgets[ 0 ];
+						assert.isTrue( widget.wrapper.hasClass( 'cke_widget_wrapper_uploading' ), 'Class is present during the upload' );
+
+						widget.once( 'uploadDone', function() {
+							resume( function() {
+								assert.isFalse( widget.wrapper.hasClass( 'cke_widget_wrapper_uploading' ), 'Class is removed after upload' );
+							} );
+						} );
+
+						wait();
+					}
+				} );
+			},
+
+			'test widget upload class is removed after fail': function() {
+				var editor = this.editor,
+					listeners = this.listeners,
+					originalLoader = editor.widgets.registered.testImageWidget.loaderType;
+
+				// Force a loader that will fail.
+				editor.widgets.registered.testImageWidget.loaderType = AsyncFailFileLoader;
+
+				// Make sure to prevent default handling, otherwise widget is removed.
+				this.listeners.push( editor.widgets.on( 'instanceCreated', function( evt ) {
+					listeners.push( evt.data.on( 'uploadFailed', function( evt ) {
+						var widget = this;
+
+						// Prevent image from being removed.
+						evt.cancel();
+
+						resume( function() {
+							assert.isFalse( widget.wrapper.hasClass( 'cke_widget_wrapper_uploading' ),
+								'Class is removed after fail' );
+						} );
+					} ) );
+				} ) );
+
+				assertPasteFiles( editor, {
+					files: [ bender.tools.getTestPngFile() ],
+					callback: function( widgets ) {
+						editor.widgets.registered.testImageWidget.loaderType = originalLoader;
+
+						var widget = widgets[ 0 ];
+						assert.isTrue( widget.wrapper.hasClass( 'cke_widget_wrapper_uploading' ), 'Class is present during the upload' );
+						wait();
 					}
 				} );
 			},

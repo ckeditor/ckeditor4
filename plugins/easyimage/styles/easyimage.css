@@ -110,3 +110,14 @@ body.cke_editable > .cke_widget_wrapper_easyimage-side {
 	left: 40px;
 	right: 40px;
 }
+
+/* Fancy opacity effect discussed in #1533. Transition assigned in this awkward way so that it **does not** happen for
+the initial render, otherwise it would start transitioning from opacity 1 to 0.x upon first render. */
+
+.cke_widget_wrapper_easyimage:not(.cke_widget_wrapper_uploading) figure img {
+	transition: opacity 0.3s ease-in-out;
+}
+
+.cke_widget_wrapper_easyimage.cke_widget_wrapper_uploading figure img {
+	opacity: 0.75;
+}
