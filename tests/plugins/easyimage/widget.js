@@ -7,22 +7,31 @@
 	'use strict';
 
 	bender.editors = {
-		classic: {},
+		classic: {
+			config: {
+				removePlugins: 'link'
+			}
+		},
 
 		divarea: {
 			config: {
-				extraPlugins: 'divarea'
+				extraPlugins: 'divarea',
+				removePlugins: 'link'
 			}
 		},
 
 		inline: {
-			creator: 'inline'
+			creator: 'inline',
+			config: {
+				removePlugins: 'link'
+			}
 		},
 
 		// This instance upcasts all figures, despite figure[class] value.
 		classicAllFigures: {
 			config: {
-				easyimage_class: null
+				easyimage_class: null,
+				removePlugins: 'link'
 			}
 		},
 
