@@ -6,6 +6,8 @@
 ( function() {
 	'use strict';
 
+	bender.editor = true;
+
 	var ProgressBar,
 		doc = CKEDITOR.document,
 		loaderMock = {},
@@ -173,6 +175,97 @@
 				loaderMock.fire( 'error' );
 
 				assert.areSame( 1, this.dummyProgress.failed.callCount, 'Failed call count' );
+			},
+
+			'test progressbar is detached on beforeUndoImage': function() {
+				var context = this;
+
+				bender.editorBot.create( {
+					name: 'editor1',
+					config: {
+						extraPlugins: 'undo'
+					}
+				}, function( bot ) {
+					var editor = bot.editor,
+						ret = context._createProgressBar();
+
+					ret.bindEditor( editor );
+
+					assert.isNotNull( ret.wrapper.getParent(), 'Attached' );
+
+					editor.fire( 'beforeUndoImage' );
+
+					assert.isNull( ret.wrapper.getParent(), 'Detached' );
+				} );
+			},
+
+			'test progressbar is attached on afterUndoImage': function() {
+				var context = this;
+
+				bender.editorBot.create( {
+					name: 'editor2',
+					config: {
+						extraPlugins: 'undo'
+					}
+				}, function( bot ) {
+					var editor = bot.editor,
+						ret = context._createProgressBar();
+
+					ret.bindEditor( editor );
+
+					assert.isNotNull( ret.wrapper.getParent(), 'Attached' );
+
+					// Remove element manually so it can be reattached.
+					ret.wrapper.remove();
+
+					assert.isNull( ret.wrapper.getParent(), 'Detached' );
+
+					editor.fire( 'afterUndoImage' );
+
+					assert.isNotNull( ret.wrapper.getParent(), 'Attached' );
+				} );
+			},
+
+			'test progressbar undo listeners are removed on success': function() {
+				var editor = this.editor,
+					ret = this._createProgressBar();
+
+				ret.bindEditor( editor );
+
+				ret.done();
+
+				// If listeners are not removed, firing 'afterUndoImage' would reattach the progress bar.
+				editor.fire( 'afterUndoImage' );
+
+				assert.isNull( ret.wrapper.getParent(), 'Attached' );
+			},
+
+			'test progressbar undo listeners are removed on abort': function() {
+				var editor = this.editor,
+					ret = this._createProgressBar();
+
+				ret.bindEditor( editor );
+
+				ret.aborted();
+
+				// If listeners are not removed, firing 'afterUndoImage' would reattach the progress bar.
+				editor.fire( 'afterUndoImage' );
+
+				assert.isNull( ret.wrapper.getParent(), 'Attached' );
+			},
+
+			'test progressbar undo listeners are removed on fail': function() {
+				var editor = this.editor,
+					ret = this._createProgressBar();
+
+				ret.bindEditor( editor );
+
+				ret.failed();
+
+				// If listeners are not removed, firing 'afterUndoImage' would reattach the progress bar.
+				editor.fire( 'afterUndoImage' );
+
+				assert.isNull( ret.wrapper.getParent(), 'Attached' );
 			},
 
 			// Adds the progress bar straight into DOM and returns ProgressBar instance.

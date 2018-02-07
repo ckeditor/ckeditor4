@@ -1,5 +1,5 @@
 /* bender-tags: editor, clipboard, upload */
-/* bender-ckeditor-plugins: imagebase */
+/* bender-ckeditor-plugins: imagebase, undo */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, _helpers/tools.js, %BASE_PATH%/plugins/easyimage/_helpers/tools.js */
 /* global imageBaseFeaturesTools, assertPasteEvent, easyImageTools */
 
@@ -16,6 +16,12 @@
 
 	function getTestRtfFile( fileName ) {
 		var file = bender.tools.srcToFile( 'data:text/rtf;base64,Zm9v' );
+		file.name = fileName ? fileName : 'name.rtf';
+		return file;
+	}
+
+	function getTestBmpFile( fileName ) {
+		var file = bender.tools.srcToFile( 'data:image/bmp;base64,Zm9v' );
 		file.name = fileName ? fileName : 'name.rtf';
 		return file;
 	}
@@ -40,6 +46,24 @@
 		CKEDITOR.fileTools.fileLoader.call( this, editor, fileOrData, fileName );
 	}
 
+	// A mocked Loader type that stays in 'uploading' state so can be manually manipulated.
+	function InProgressFileLoader( editor, fileOrData, fileName ) {
+		CKEDITOR.fileTools.fileLoader.call( this, editor, fileOrData, fileName );
+	}
+
+	// Updates given loader and executes callback after given amount of time (so all related listeners can be executed).
+	function updateLoader( loader, uploaded, callback ) {
+		loader.uploaded = uploaded;
+		loader.fire( 'update' );
+
+		CKEDITOR.tools.setTimeout( function() {
+			resume( function() {
+				callback();
+			} );
+		}, 100 );
+
+		wait();
+	}
 	var assertPasteFiles = imageBaseFeaturesTools.assertPasteFiles,
 		tests = {
 			init: function() {
@@ -59,6 +83,11 @@
 						name: 'testAsyncSuccess',
 						supportedTypes: /text\/rtf/,
 						loaderType: AsyncSuccessFileLoader
+					},
+					inProgressWidgetDef = {
+						name: 'testInProgress',
+						supportedTypes: /image\/bmp/,
+						loaderType: InProgressFileLoader
 					};
 
 				// Array of listeners to be cleared after each TC.
@@ -73,6 +102,9 @@
 
 				plugin.addImageWidget( editor, asyncSuccessWidgetDef.name,
 					plugin.addFeature( editor, 'upload', asyncSuccessWidgetDef ) );
+
+				plugin.addImageWidget( editor, inProgressWidgetDef.name,
+					plugin.addFeature( editor, 'upload', inProgressWidgetDef ) );
 
 				SuccessFileLoader.prototype = CKEDITOR.tools.extend( {
 					upload: function() {
@@ -107,6 +139,12 @@
 							};
 							that.changeStatus( 'error' );
 						}, 100 );
+					}
+				}, CKEDITOR.fileTools.fileLoader.prototype );
+
+				InProgressFileLoader.prototype = CKEDITOR.tools.extend( {
+					upload: function() {
+						this.changeStatus( 'uploading' );
 					}
 				}, CKEDITOR.fileTools.fileLoader.prototype );
 			},
@@ -607,6 +645,56 @@
 							} );
 						}
 					} );
+				} );
+			},
+
+			'test progressbar does not create snapshots during upload': function() {
+				var editor = this.editor;
+
+				editor.undoManager.reset();
+
+				assertPasteFiles( editor, {
+					files: [ getTestBmpFile() ],
+					fullLoad: false,
+					callback: function( widgets ) {
+						var initialSnapshots = editor.undoManager.snapshots.length,
+							loader = editor.uploadRepository.loaders[ 0 ];
+
+						assert.areSame( 1, widgets.length, 'Widgets count' );
+
+						loader.uploadTotal = 10;
+
+						updateLoader( loader, 2, function() {
+
+							assert.isTrue( editor.undoManager.snapshots[ editor.undoManager.snapshots.length - 1 ].contents.indexOf( 'cke_loader' ) === -1,
+								'Progressbar HTML not in snapshot' );
+							assert.areSame( initialSnapshots, editor.undoManager.snapshots.length, 'Snapshots count 1' );
+							editor.fire( 'saveSnapshot' );
+
+							updateLoader( loader, 5, function() {
+
+								assert.isTrue( editor.undoManager.snapshots[ editor.undoManager.snapshots.length - 1 ].contents.indexOf( 'cke_loader' ) === -1,
+									'Progressbar HTML not in snapshot' );
+								assert.areSame( initialSnapshots, editor.undoManager.snapshots.length, 'Snapshots count 2' );
+								editor.fire( 'saveSnapshot' );
+
+								updateLoader( loader, 8, function() {
+
+									assert.isTrue( editor.undoManager.snapshots[ editor.undoManager.snapshots.length - 1 ].contents.indexOf( 'cke_loader' ) === -1,
+										'Progressbar HTML not in snapshot' );
+									assert.areSame( initialSnapshots, editor.undoManager.snapshots.length, 'Snapshots count 3' );
+									editor.fire( 'saveSnapshot' );
+
+									updateLoader( loader, 10, function() {
+
+										assert.isTrue( editor.undoManager.snapshots[ editor.undoManager.snapshots.length - 1 ].contents.indexOf( 'cke_loader' ) === -1,
+											'Progressbar HTML not in snapshot' );
+										assert.areSame( initialSnapshots, editor.undoManager.snapshots.length, 'Snapshots count 4' );
+									} );
+								} );
+							} );
+						} );
+					}
 				} );
 			}
 		};
