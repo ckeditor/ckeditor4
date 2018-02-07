@@ -38,7 +38,7 @@
 			dialogSpy = sinon.spy(),
 			dialogListener;
 
-		//Reset forcePasteDialog just to be sure
+		// Reset forcePasteDialog just to be sure
 		editor._.forcePasteDialog = false;
 
 		dialogListener = editor.on( 'pasteDialog', dialogSpy );
@@ -68,7 +68,7 @@
 	function assertClick( editor, buttonName ) {
 		var buttonElement = getButtonElement( editor, buttonName );
 
-		//Reset forcePasteDialog just to be sure
+		// Reset forcePasteDialog just to be sure
 		editor._.forcePasteDialog = false;
 
 		buttonElement.once( 'click', function() {
@@ -79,6 +79,13 @@
 	}
 
 	var tests = {
+		setUp: function() {
+			if ( CKEDITOR.env.ie ) {
+				// IE and Edge are not supported on mobile.
+				assert.ignore();
+			}
+		},
+
 		'test force dialog when button is touched': function( editor ) {
 			assertTouchEnd( editor, 'Paste' );
 		},
