@@ -7,8 +7,8 @@
 
 #### Expected result:
 * For each button the notification is shown:
-	* Press `keystroke` to paste. Your browser doesn't support pasting with the toolbar button or context menu option.
-* For "Paste" and "Paste from Word" the notification keystroke is "Cmd/Ctrl+V".
+	> Press `keystroke` to paste. Your browser doesn't support pasting with the toolbar button or context menu option.
+* For "Paste" and "Paste from Word" the notification keystroke is `Cmd/Ctrl+V`.
 * For "Paste as plain text" the notification is shown mentioning:
 	* `Cmd+Alt+Shift+V` keystroke in Safari;
 	* `Ctrl+V` keystroke in Edge and IE;
