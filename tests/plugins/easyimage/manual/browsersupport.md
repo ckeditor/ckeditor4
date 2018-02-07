@@ -1,11 +1,13 @@
 @bender-tags: 4.9.0, bug, 1596
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, floatingspace, toolbar, easyimage
+@bender-ckeditor-plugins: wysiwygarea, toolbar, easyimage
 
-## EasyImage support for different browsers
+## Easy Image browser support
 
-Do this test on Internet Explorer 10 and lower.
+1. Check the editor contents.
 
 ## Expected
 
-There shouldn't be no EasyImage instances visible in editor.
+**IE8-10**: There is no Easy Image instance visible in editor.
+
+**Other browsers**: Easy Image widget is visible.
