@@ -823,15 +823,13 @@
 
 	ProgressBar.prototype = new ProgressReporter();
 
-	ProgressReporter.prototype.updated = function( progress ) {
+	ProgressBar.prototype.updated = function( progress ) {
 		var percentage = Math.round( progress * 100 );
 
 		percentage = Math.max( percentage, 0 );
 		percentage = Math.min( percentage, 100 );
 
-		// widget.editor.fire( 'lockSnapshot' );
 		this.bar.setStyle( 'width', percentage + '%' );
-		// widget.editor.fire( 'unlockSnapshot' );
 	};
 
 	CKEDITOR.plugins.add( 'imagebase', {
