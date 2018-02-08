@@ -1074,12 +1074,16 @@ bender.test( {
 		editor.setReadOnly( true );
 
 		bot.setData( '<p>[[placeholder]]</p>', function() {
-			var widget = editor.widgets.instances[ 0 ];
-
+			var widget = editor.widgets.instances[ 0 ],
+				domEvent = {
+					getKey: function() {
+						return false;
+					}
+				};
 			widget.focus();
 
-			editor.fire( 'key', { keyCode: 8 } ); // backspace
-			editor.fire( 'key', { keyCode: 46 } ); // delete
+			editor.fire( 'key', { keyCode: 8, domEvent: domEvent } ); // backspace
+			editor.fire( 'key', { keyCode: 46, domEvent: domEvent } ); // delete
 
 			assert.areEqual( '<p>[[placeholder]]</p>', editor.getData() );
 		} );
