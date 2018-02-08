@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'si', {
 	cut: 'කපාගන්න',
 	cutError: 'Your browser security settings don\'t permit the editor to automatically execute cutting operations. Please use the keyboard for that (Ctrl/Cmd+X).', // MISSING
 	paste: 'අලවන්න',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.', // MISSING
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'අලවන ප්‍රදේශ',
 	pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl/Cmd+V</strong>) and hit OK', // MISSING
 	title: 'අලවන්න'

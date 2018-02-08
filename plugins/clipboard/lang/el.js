@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'el', {
 	cut: 'Αποκοπή',
 	cutError: 'Οι ρυθμίσεις ασφαλείας του περιηγητή σας δεν επιτρέπουν την επιλεγμένη εργασία αποκοπής. Παρακαλώ χρησιμοποιείστε το πληκτρολόγιο (Ctrl/Cmd+X).',
 	paste: 'Επικόλληση',
-	pasteNotification: 'Ο περιηγητής σας δεν σας επιτρέπει να επικολλήσετε με αυτόν τον τρόπο. Πατήστε %1 για επικόλληση.',
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Περιοχή Επικόλλησης',
 	pasteMsg: 'Παρακαλώ επικολλήστε στο ακόλουθο κουτί χρησιμοποιώντας το πληκτρολόγιο (<strong>Ctrl/Cmd+V</strong>) και πατήστε OK.',
 	title: 'Επικόλληση'

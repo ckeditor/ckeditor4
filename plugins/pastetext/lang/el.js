@@ -4,6 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'el', {
 	button: 'Επικόλληση ως απλό κείμενο',
-	pasteNotification: 'Ο φυλλομετρητής σας δεν επιτρέπει την επικόλληση απλού κειμένου με αυτόν τον τρόπο. Πατήστε 1% για να επικολλήστε.',
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	title: 'Επικόλληση ως απλό κείμενο'
 } );
