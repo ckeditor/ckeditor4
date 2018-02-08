@@ -26,6 +26,11 @@
 	var assertPasteFiles = imageBaseFeaturesTools.assertPasteFiles,
 		tests = {
 			init: function() {
+				// We need to ignore entire test suit to prevent of fireing init, which breaks test suit on IE8-IE10.
+				if ( isUnsupportedEnvironment() ) {
+					bender.ignore();
+				}
+
 				var sampleCloudServicesResponse = {
 						210: '%BASE_PATH%/_assets/logo.png?w=210',
 						420: '%BASE_PATH%/_assets/logo.png?w=420',
@@ -121,10 +126,6 @@
 			},
 
 			setUp: function() {
-				if ( isUnsupportedEnvironment() ) {
-					assert.ignore();
-				}
-
 				this.sandbox.stub( window, 'alert' );
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );

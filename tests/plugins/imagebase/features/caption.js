@@ -220,9 +220,10 @@
 	}
 
 	var tests = {
-		setUp: function() {
+		init: function() {
+			// Test suit is unstable on IE8-IE10. That's why entire suit is ignored.
 			if ( isUnsupportedEnvironment() ) {
-				assert.ignore();
+				bender.ignore();
 			}
 		},
 
