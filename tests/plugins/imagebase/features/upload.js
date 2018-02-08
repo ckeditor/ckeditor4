@@ -1,7 +1,7 @@
 /* bender-tags: editor, clipboard, upload */
 /* bender-ckeditor-plugins: imagebase */
-/* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, _helpers/tools.js, %BASE_PATH%/plugins/easyimage/manual/_helpers/tools.js */
-/* global imageBaseFeaturesTools, assertPasteEvent, isUnsupportedEnvironment */
+/* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, _helpers/tools.js, %BASE_PATH%/plugins/easyimage/_helpers/tools.js */
+/* global imageBaseFeaturesTools, assertPasteEvent, easyImageTools */
 
 ( function() {
 	'use strict';
@@ -126,7 +126,7 @@
 			},
 
 			setUp: function() {
-				if ( isUnsupportedEnvironment() ) {
+				if ( easyImageTools.isUnsupportedEnvironment() ) {
 					assert.ignore();
 				}
 

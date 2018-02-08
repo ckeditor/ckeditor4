@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, easyimage
 @bender-include: ../../uploadwidget/manual/_helpers/xhr.js
-@bender-include: ./_helpers/tools.js
+@bender-include: ../_helpers/tools.js
 
 ## Upload Progress
 

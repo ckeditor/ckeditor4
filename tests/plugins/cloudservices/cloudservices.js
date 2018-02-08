@@ -1,6 +1,6 @@
 /* bender-ckeditor-plugins: cloudservices */
-/* bender-include: %BASE_PATH%/plugins/easyimage/manual/_helpers/tools.js*/
-/* global isUnsupportedEnvironment */
+/* bender-include: %BASE_PATH%/plugins/easyimage/_helpers/tools.js*/
+/* global easyImageTools */
 
 ( function() {
 	bender.editor = {
@@ -14,7 +14,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( isUnsupportedEnvironment() ) {
+			if ( easyImageTools.isUnsupportedEnvironment() ) {
 				assert.ignore();
 			}
 			this.cloudservices = CKEDITOR.plugins.cloudservices;

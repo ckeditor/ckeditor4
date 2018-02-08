@@ -1,9 +1,3 @@
-
-<script>
-	if ( isUnsupportedEnvironment() ) {
-		bender.ignore();
-	}
-</script>
 <h2>Classic editor</h2>
 
 <div id="classic">
@@ -29,6 +23,9 @@
 </div>
 
 <script>
+	if ( easyImageTools.isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
 	var IMG_URL = '%BASE_PATH%_assets/logo.png',
 		commonConfig = {
 			cloudServices_url: 'https://files.cke-cs.com/upload/',
@@ -38,7 +35,7 @@
 	window.XMLHttpRequest.responseData = {
 		100: IMG_URL,
 		200: IMG_URL,
-		default: IMG_URL,
+		'default': IMG_URL,
 		// Unset properties set by the generic XHR mock implementation.
 		fileName: undefined,
 		uploaded: undefined,

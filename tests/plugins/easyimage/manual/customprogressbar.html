@@ -23,7 +23,7 @@
 
 <script src="../../imagebase/features/_helpers/tools.js"></script>
 <script>
-	if ( isUnsupportedEnvironment() ) {
+	if ( easyImageTools.isUnsupportedEnvironment() ) {
 		bender.ignore();
 	}
 
@@ -62,7 +62,7 @@
 		}
 	};
 
-	getToken( function( token ) {
+	easyImageTools.getToken( function( token ) {
 		commonConfig.cloudServices_token = token;
 
 		CKEDITOR.replace( 'editor1', commonConfig );

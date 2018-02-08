@@ -15,11 +15,11 @@
 </div>
 
 <script>
-	if ( isUnsupportedEnvironment() || CKEDITOR.env.safari ) {
+	if ( easyImageTools.isUnsupportedEnvironment() || CKEDITOR.env.safari ) {
 		bender.ignore();
 	}
 
-	getToken( function( token ) {
+	easyImageTools.getToken( function( token ) {
 		var commonConfig = {
 				cloudServices_url: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
 				cloudServices_token: token

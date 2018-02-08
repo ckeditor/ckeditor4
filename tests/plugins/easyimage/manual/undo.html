@@ -22,11 +22,11 @@
 </div>
 
 <script>
-	if ( isUnsupportedEnvironment() ) {
+	if ( easyImageTools.isUnsupportedEnvironment() ) {
 		bender.ignore();
 	}
 
-	getToken( function( token ) {
+	easyImageTools.getToken( function( token ) {
 		var commonConfig = {
 				cloudServices_url: 'https://files.cke-cs.com/upload/',
 				cloudServices_token: token
