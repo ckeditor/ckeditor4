@@ -228,7 +228,7 @@
 		}, {
 			name: 'test custom button icon with different basepath trailing slash',
 			button: 'custom_btn8',
-			iconPath: /['|(]\/assets\/icons\.sample\.png/gi,
+			iconPath: /['|"|(]\/assets\/icons\.sample\.png/gi,
 			config: {
 				toolbar: [ [ 'custom_btn8' ] ],
 				on: {
@@ -244,7 +244,7 @@
 		}, {
 			name: 'test custom button icon with different basepath trailing slash (hidpi)',
 			button: 'custom_btn9',
-			iconPath: /['|(]\/assets\/hidpi\/icons\.sample\.png/gi,
+			iconPath: /['|"|(]\/assets\/hidpi\/icons\.sample\.png/gi,
 			config: {
 				toolbar: [ [ 'custom_btn9' ] ],
 				on: {
