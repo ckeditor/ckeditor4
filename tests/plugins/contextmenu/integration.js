@@ -100,7 +100,6 @@
 				bot.editor.on( 'menuShow', function( evt ) {
 					resume( function() {
 						assert.isTrue( evt.data[ 0 ] instanceof CKEDITOR.ui.floatPanel, 'CKEDITOR.ui.panel available' );
-						assert.isTrue( evt.data.menu instanceof CKEDITOR.menu, 'CKEDITOR.menu available' );
 					} );
 				} );
 
