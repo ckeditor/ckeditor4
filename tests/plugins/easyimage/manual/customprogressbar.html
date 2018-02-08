@@ -28,6 +28,8 @@
 		bender.ignore();
 	}
 
+	CKEDITOR.addCss( '.cke_widget_wrapper_easyimage.cke_widget_wrapper_uploading.cke_skip_uploading figure img { opacity: 1; }' );
+
 	var commonConfig = {
 		cloudServices_url: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
 		contentsCss: [ '%TEST_DIR%/_assets/progress.css' ],
@@ -46,6 +48,19 @@
 				if ( widgetDef.name === 'easyimage' ) {
 					widgetDef.progressReporterType = mapping[ this.name ];
 				}
+			},
+
+			instanceReady: function() {
+				if ( this.name !== 'editor3' ) {
+					return;
+				}
+
+				// After #1533 this is this is needed for editor with overlapping loader to look nicer.
+				this.widgets.on( 'instanceCreated', function( evt ) {
+					evt.data.on( 'ready', function() {
+						this.wrapper.addClass( 'cke_skip_uploading' );
+					} );
+				} );
 			}
 		}
 	};
