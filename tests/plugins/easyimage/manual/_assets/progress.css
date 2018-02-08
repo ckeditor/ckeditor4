@@ -13,6 +13,10 @@
 	transition: height 0.1s;
 }
 
+.cke_widget_wrapper_easyimage.cke_widget_wrapper_uploading.cke_skip_uploading figure img {
+	opacity: 1;
+}
+
 /* Circle prgoress indicator */
 
 .cke_progress_circle {
