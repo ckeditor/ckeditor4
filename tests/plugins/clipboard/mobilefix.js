@@ -116,6 +116,7 @@
 			name: 'custom_button',
 			config: {
 				language: 'en',
+				removePlugins: 'pastetext,pastefromword',
 				on: {
 					pluginsLoaded: function( evt ) {
 						var editor = evt.editor;
@@ -125,12 +126,11 @@
 							command: 'paste',
 							toolbar: 'clipboard,40'
 						} );
-
-						arrayAssert.itemsAreEqual( [ 'Paste', 'CustomPaste' ], editor._.pasteButtons );
 					}
 				}
 			}
 		}, function( bot ) {
+			arrayAssert.itemsAreEqual( [ 'Paste', 'CustomPaste' ], bot.editor._.pasteButtons );
 			assertTouchEnd( bot.editor, 'CustomPaste' );
 		} );
 	};
