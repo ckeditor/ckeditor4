@@ -166,6 +166,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				var editable = this._.editor.editable();
 				this._.returnFocus = editable.hasFocus ? editable : new CKEDITOR.dom.element( CKEDITOR.document.$.activeElement );
 				this._.hideTimeout = 0;
+
 				var element = this.element,
 					iframe = this._.iframe,
 					// Edge prefers iframe's window to the iframe, just like the rest of the browsers (https://dev.ckeditor.com/ticket/13143).
@@ -442,6 +443,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					}, 0, this );
 				}, CKEDITOR.env.air ? 200 : 0, this );
 				this.visible = 1;
+
+				if ( this.onShow )
+					this.onShow.call( this );
 			},
 
 			/**
