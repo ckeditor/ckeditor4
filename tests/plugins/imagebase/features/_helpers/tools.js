@@ -51,16 +51,13 @@
 							} );
 						}
 
-						resume( function() {
-							// Some tests occasionally fail in Firefox. After making them asynchronous tests passes.
-							if ( CKEDITOR.env.gecko ) {
-								wait( function() {
-									callback( objToArray( editor.widgets.instances ), evt, uploadEvt );
-								}, 0 );
-							} else {
+						// Some tests occasionally fail in Firefox. After making them asynchronous tests passes (#1571).
+						// Unfortunately we weren't able to figure out a better way than adding a timeout.
+						setTimeout( function() {
+							resume( function() {
 								callback( objToArray( editor.widgets.instances ), evt, uploadEvt );
-							}
-						} );
+							} );
+						}, 0 );
 					}
 
 					if ( options.fullLoad && widgets.length ) {
