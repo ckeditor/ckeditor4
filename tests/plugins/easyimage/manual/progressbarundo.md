@@ -1,14 +1,20 @@
 @bender-tags: 4.9.0, feature, 932
 @bender-ui: collapsed
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, easyimage, undo, resize
+@bender-include: ../../uploadwidget/manual/_helpers/xhr.js
 
-## Easy Image Progressbar Undo
+## Progressbar with Undo
 
-1. Upload some images (using drag and drop, copy/paste, etc).
+_Proceed for all editor instances._
+
+1. Upload some image or images (using drag and drop, copy/paste, etc).
 2. During image upload manipulate selection (click somewhere, select some editor content, etc).
 
 ### Expected
 
-**Saved undo steps** counter should not increment on selection manipulation.
+**Snapshot contains progressbar** should always be _false_.
 
-**Important**: Selecting or deselecting widget will create an undo step.
+### Remarks
+
+* In the end your image will be replaced with old CKEditor 4 logo.
+* Upload progress is intentionally slowed down.

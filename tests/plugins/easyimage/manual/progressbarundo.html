@@ -1,8 +1,6 @@
-<p>Note, this test uses a real Cloud Service connection, so you might want to be on-line 😉.</p>
-
 <h2>Classic editor</h2>
 
-<p><strong>Saved undo steps: <em id="classic-us">0</em></strong></p>
+<p><strong>Snapshot contains progressbar: <em id="classic-pb">-</em></strong></p>
 
 <div id="classic">
 	<h1>Sample editor</h1>
@@ -11,7 +9,7 @@
 
 <h2>Divarea editor</h2>
 
-<p><strong>Saved undo steps: <em id="divarea-us">0</em></strong></p>
+<p><strong>Snapshot contains progressbar: <em id="divarea-pb">-</em></strong></p>
 
 <div id="divarea">
 	<h1>Sample editor</h1>
@@ -20,7 +18,7 @@
 
 <h2>Inline editor</h2>
 
-<p><strong>Saved undo steps: <em id="inline-us">0</em></strong></p>
+<p><strong>Snapshot contains progressbar: <em id="inline-pb">-</em></strong></p>
 
 <div id="inline" contenteditable="true">
 	<h1>Sample editor</h1>
@@ -33,26 +31,41 @@
 		bender.ignore();
 	}
 
-	getToken( function( token ) {
-		var commonConfig = {
+	var IMG_URL = '%BASE_PATH%_assets/logo.png',
+		commonConfig = {
 			cloudServices_url: 'https://files.cke-cs.com/upload/',
-			cloudServices_token: token,
+			cloudServices_token: 'dummy-token',
 			on: {
 				instanceReady: function( evt ) {
 					var editor = evt.editor,
-						counterElement = document.querySelector( '#' + editor.name + '-us' );
+						progressbarElement = document.querySelector( '#' + editor.name + '-pb' ),
+						latestSnapshot = null;
 
 					setInterval( function() {
-						counterElement.innerHTML = editor.undoManager.snapshots.length;
+						latestSnapshot = editor.undoManager.snapshots[ editor.undoManager.snapshots.length - 1 ];
+						progressbarElement.innerHTML = latestSnapshot.contents.indexOf( 'cke_loader' ) !== -1 ? 'true' : 'false';
 					}, 100 );
 				}
 			}
 		};
 
-		CKEDITOR.replace( 'classic', commonConfig );
-		CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( {
-			extraPlugins: 'divarea'
-		}, commonConfig ) );
-		CKEDITOR.inline( 'inline', commonConfig );
-	} );
+	window.XMLHttpRequestInterval = 1000;
+
+	window.XMLHttpRequest.responseData = {
+		100: IMG_URL,
+		200: IMG_URL,
+		default: IMG_URL,
+		// Unset properties set by the generic XHR mock implementation.
+		fileName: undefined,
+		uploaded: undefined,
+		url: undefined,
+		error: undefined
+	};
+
+	CKEDITOR.replace( 'classic', commonConfig );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( {
+		extraPlugins: 'divarea'
+	}, commonConfig ) );
+	CKEDITOR.inline( 'inline', commonConfig );
+
 </script>
