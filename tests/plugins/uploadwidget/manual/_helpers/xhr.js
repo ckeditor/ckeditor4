@@ -6,6 +6,7 @@
 'use strict';
 
 // Mock the real XMLHttpRequest so the upload test may work locally.
+// Upload interval is by default set to 400ms. It can be redefined by setting 'window.XMLHttpRequestInterval'.
 
 window.FormData = function() {
 	var total, uploadedFilename;
@@ -74,7 +75,7 @@ window.XMLHttpRequest = function() {
 					xhr.responseText = JSON.stringify( responseData );
 					onload();
 				}
-			}, 400 );
+			}, window.XMLHttpRequestInterval || 400 );
 		},
 
 		// Abort should call onabort.
