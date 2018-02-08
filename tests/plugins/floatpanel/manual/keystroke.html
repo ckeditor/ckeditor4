@@ -1,0 +1,37 @@
+<H1> Left to right editors:</H1>
+<textarea id="editor1">
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag</p>
+	<p>na aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons</p>
+</textarea>
+
+<div>
+	<div id="editor2" contenteditable="true">
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag</p>
+		<p>na aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons</p>
+	</div>
+</div>
+<H1> Right to left editors:</H1>
+<textarea id="editor3">
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag</p>
+	<p>na aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons</p>
+</textarea>
+
+<div>
+	<div id="editor4" contenteditable="true">
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag</p>
+		<p>na aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons</p>
+	</div>
+</div>
+<script>
+	CKEDITOR.replace( 'editor1', {
+		height: 100
+	} );
+	CKEDITOR.inline( 'editor2' );
+	CKEDITOR.replace( 'editor3', {
+		height: 100,
+		language: 'he'
+	} );
+	CKEDITOR.inline( 'editor4', {
+		language: 'he'
+	} );
+</script>

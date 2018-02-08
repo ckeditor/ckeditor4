@@ -143,7 +143,21 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			 */
 			showBlock: function( name, offsetParent, corner, offsetX, offsetY, callback ) {
 				var panel = this._.panel,
-					block = panel.showBlock( name );
+					block = panel.showBlock( name ),
+					rectList,
+					rect,
+					rtl = this._.dir == 'rtl';
+				if ( offsetX === undefined || offsetY === undefined ) {
+					rectList = this._.editor.getSelection().getRanges()[ 0 ].getClientRects(  );
+					rect = rectList[ rectList.length - 1 ];
+					offsetX = rect.left;
+					offsetX = rtl ? rect.left : rect.right;
+					offsetY = rect.bottom;
+				}
+				// When this method is invoked by keystroke (SHIFT + F10) offsetParent is body instead of html, we need to get html, because body styling like margin might influence position of panel
+				if ( offsetParent.$.tagName === 'BODY' ) {
+					offsetParent = offsetParent.getParent();
+				}
 
 				this._.showBlockParams = [].slice.call( arguments );
 				this.allowBlur( false );
@@ -152,7 +166,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				var editable = this._.editor.editable();
 				this._.returnFocus = editable.hasFocus ? editable : new CKEDITOR.dom.element( CKEDITOR.document.$.activeElement );
 				this._.hideTimeout = 0;
-
 				var element = this.element,
 					iframe = this._.iframe,
 					// Edge prefers iframe's window to the iframe, just like the rest of the browsers (https://dev.ckeditor.com/ticket/13143).
@@ -161,7 +174,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					positionedAncestor = this._.parentElement.getPositionedAncestor(),
 					position = offsetParent.getDocumentPosition( doc ),
 					positionedAncestorPosition = positionedAncestor ? positionedAncestor.getDocumentPosition( doc ) : { x: 0, y: 0 },
-					rtl = this._.dir == 'rtl',
 					left = position.x + ( offsetX || 0 ) - positionedAncestorPosition.x,
 					top = position.y + ( offsetY || 0 ) - positionedAncestorPosition.y;
 
@@ -430,9 +442,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					}, 0, this );
 				}, CKEDITOR.env.air ? 200 : 0, this );
 				this.visible = 1;
-
-				if ( this.onShow )
-					this.onShow.call( this );
 			},
 
 			/**
