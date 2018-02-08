@@ -627,7 +627,7 @@
 		 * {@link CKEDITOR.plugins.widget.definition#upcast} callback.
 		 *
 		 * @abstract
-		 * @since 4.8.0
+		 * @since 4.9.0
 		 * @class CKEDITOR.plugins.imagebase.imageWidgetDefinition
 		 * @mixins CKEDITOR.plugins.widget.definition
 		 */
@@ -844,7 +844,7 @@
 	/**
 	 * Namespace providing a set of helper functions for working with image widgets.
 	 *
-	 * @since 4.8.0
+	 * @since 4.9.0
 	 * @singleton
 	 * @class CKEDITOR.plugins.imagebase
 	 */

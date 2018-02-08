@@ -471,7 +471,7 @@
 	/**
 	 * Namespace providing a set of helper functions for Easy Image plugin.
 	 *
-	 * @since 4.8.0
+	 * @since 4.9.0
 	 * @singleton
 	 * @class CKEDITOR.plugins.easyimage
 	 */
@@ -479,7 +479,7 @@
 		/**
 		 * Converts response from the server into proper `[srcset]` attribute.
 		 *
-		 * @since 4.8.0
+		 * @since 4.9.0
 		 * @private
 		 * @param {Object} srcs Sources list to be parsed.
 		 * @returns {String} `img[srcset]` attribute.
@@ -547,7 +547,7 @@
 	 *		// This will cause plugin to convert any figure into a widget.
 	 *		config.easyimage_class = null;
 	 *
-	 * @since 4.8.0
+	 * @since 4.9.0
 	 * @cfg {String/null} [easyimage_class='easyimage']
 	 * @member CKEDITOR.config
 	 */
