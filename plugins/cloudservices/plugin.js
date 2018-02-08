@@ -18,7 +18,7 @@
 			 * guaranteed to be available in dependent plugin's {@link CKEDITOR.pluginDefinition#beforeInit beforeInit},
 			 * {@link CKEDITOR.pluginDefinition#init init} and {@link CKEDITOR.pluginDefinition#afterInit} methods.
 			 *
-			 * @since 4.8.0
+			 * @since 4.9.0
 			 * @class CKEDITOR.plugins.cloudservices.cloudServicesLoader
 			 * @extends CKEDITOR.fileTools.fileLoader
 			 * @constructor
@@ -122,7 +122,7 @@
 	/**
 	 * Endpoint URL for [Cloud Services](https://ckeditor.com/ckeditor-cloud-services) uploads.
 	 *
-	 * @since 4.8.0
+	 * @since 4.9.0
 	 * @cfg {String} [cloudServices_url='']
 	 * @member CKEDITOR.config
 	 */
@@ -130,7 +130,7 @@
 	/**
 	 * Token used for [Cloud Services](https://ckeditor.com/ckeditor-cloud-services) authentication.
 	 *
-	 * @since 4.8.0
+	 * @since 4.9.0
 	 * @cfg {String} [cloudServices_token='']
 	 * @member CKEDITOR.config
 	 */
