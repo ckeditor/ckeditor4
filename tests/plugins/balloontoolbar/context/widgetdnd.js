@@ -148,9 +148,6 @@
 				editor.focus();
 
 				try {
-					// Testing if widget is selected is meaningful only if it is not selected at the beginning. (https://dev.ckeditor.com/ticket/13129)
-					// assert.isNull( editor.widgets.focused, 'widget not focused before mousedown' );
-
 					img.fire( 'mousedown', {
 						$: {
 							button: 0
@@ -161,7 +158,9 @@
 					// making if feel that there's a place for the widget to be dropped.
 					editor.widgets.liner.showLine( editor.widgets.liner.addLine() );
 
-					editor.document.fire( 'mouseup' );
+					// Mouseup needs target so tableselection `evt.data.getTarget().getName` check inside
+					// its `fakeSelectionMouseHandler` method does not throw an error (#1614).
+					editor.document.fire( 'mouseup', new CKEDITOR.dom.event( { target: img } ) );
 
 					assert.areSame( widget, editor.widgets.focused, 'widget focused after mouseup' );
 
