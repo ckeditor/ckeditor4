@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'en', {
 	cut: 'Cut',
 	cutError: 'Your browser security settings don\'t permit the editor to automatically execute cutting operations. Please use the keyboard for that (Ctrl/Cmd+X).',
 	paste: 'Paste',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.',
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.',
 	pasteArea: 'Paste Area',
 	pasteMsg: 'Please paste inside the following box and hit OK',
 	title: 'Paste'

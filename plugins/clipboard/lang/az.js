@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'az', {
 	cut: 'Kəs',
 	cutError: 'Avtomatik kəsmə mümkün deyil. Ctrl+X basın.',
 	paste: 'Əlavə et',
-	pasteNotification: 'Sizin İnternet bələdçisi bu cür mətnin köçürməsi dəstəklənmir. Əlavə etmək üçün %1 basın.',
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Paste Area', // MISSING
 	pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl/Cmd+V</strong>) and hit OK', // MISSING
 	title: 'Paste' // MISSING

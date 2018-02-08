@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'nb', {
 	cut: 'Klipp ut',
 	cutError: 'Din nettlesers sikkerhetsinstillinger tillater ikke automatisk utklipping av tekst. Vennligst bruk tastatursnarveien (Ctrl/Cmd+X).',
 	paste: 'Lim inn',
-	pasteNotification: 'Nettleseren din lar deg ikke lime inn på denne måten. Trykk %1 for å lime inn.',
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Innlimingsområde',
 	pasteMsg: 'Vennligst lim inn i følgende boks med tastaturet (<strong>Ctrl/Cmd+V</strong>) og trykk <strong>OK</strong>.',
 	title: 'Lim inn'

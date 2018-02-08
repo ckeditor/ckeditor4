@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ku', {
 	cut: 'بڕین',
 	cutError: 'پارێزی وێبگەڕەکەت ڕێگەنادات بە سەرنووسەکە لەبڕینی خۆکارانە. تکایە لەبری ئەمە ئەم فەرمانە بەکاربهێنە بەداگرتنی کلیلی (Ctrl/Cmd+X).',
 	paste: 'لکاندن',
-	pasteNotification: 'وێبگەڕەکەت ڕێگەت پێنادات بۆ لکاندنی تێکست بە ڕێگایە. کلیکی %1 بۆ لکاندن.',
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'ناوچەی لکاندن',
 	pasteMsg: 'تکایە بیلکێنە لەناوەوەی ئەم سنوقە لەڕێی تەختەکلیلەکەت بە بەکارهێنانی کلیلی (<STRONG>Ctrl/Cmd+V</STRONG>) دووای کلیکی باشە بکە.',
 	title: 'لکاندن'

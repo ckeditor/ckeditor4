@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ro', {
 	cut: 'Decupează',
 	cutError: 'Setările de securitate ale navigatorului (browser) pe care îl folosiţi nu permit editorului să execute automat operaţiunea de tăiere. Vă rugăm folosiţi tastatura (Ctrl/Cmd+X).',
 	paste: 'Adaugă din clipboard',
-	pasteNotification: 'Permiteți accesul la clipboard pentru a adăuga conținut?',
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Suprafața de adăugare',
 	pasteMsg: 'Vă rugăm adăugaţi în căsuţa următoare folosind tastatura (<strong>Ctrl/Cmd+V</strong>) şi apăsaţi OK',
 	title: 'Adaugă'
