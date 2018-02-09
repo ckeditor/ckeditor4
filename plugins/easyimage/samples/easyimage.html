@@ -139,39 +139,26 @@ getToken( function( token ) {
 					widgetDef.progressReporterType = mapping[ this.name ];
 				}
 			}
+		},
+		cfg = {
+			plugins: 'easyimage,autogrow,sourcearea,toolbar,undo,wysiwygarea,list,liststyle,format,link,basicstyles,pastefromword',
+			toolbar: [
+				{ name: 'document', items: [ 'Source', 'Undo', 'Redo' ] },
+				{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ] },
+				{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList' ] },
+				{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+				{ name: 'styles', items: [ 'Format' ] }
+			],
+			cloudServices_url: 'https://files.cke-cs.com/upload/',
+			cloudServices_token: token,
+			contentsCss: [ '../../../contents.css', '../../../tests/plugins/easyimage/manual/_assets/progress.css' ],
+			height: 400,
+			on: listeners
 		};
 
-	CKEDITOR.replace( 'circle', {
-		plugins: 'easyimage,autogrow,sourcearea,toolbar,undo,wysiwygarea,list,liststyle,format,link,basicstyles,pastefromword',
-		toolbar: [
-			{ name: 'document', items: [ 'Source', 'Undo', 'Redo' ] },
-			{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ] },
-			{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList' ] },
-			{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-			{ name: 'styles', items: [ 'Format' ] }
-		],
-		cloudServices_url: 'https://files.cke-cs.com/upload/',
-		cloudServices_token: token,
-		contentsCss: [ '../../../contents.css', '../../../tests/plugins/easyimage/manual/_assets/progress.css' ],
-		height: 500,
-		on: listeners
-	} );
+	CKEDITOR.replace( 'circle', cfg );
 
-	CKEDITOR.replace( 'overlay', {
-		plugins: 'easyimage,autogrow,sourcearea,toolbar,undo,wysiwygarea,list,liststyle,format,link,basicstyles,pastefromword',
-		toolbar: [
-			{ name: 'document', items: [ 'Source', 'Undo', 'Redo' ] },
-			{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ] },
-			{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList' ] },
-			{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-			{ name: 'styles', items: [ 'Format' ] }
-		],
-		cloudServices_url: 'https://files.cke-cs.com/upload/',
-		cloudServices_token: token,
-		contentsCss: [ '../../../contents.css', '../../../tests/plugins/easyimage/manual/_assets/progress.css' ],
-		height: 500,
-		on: listeners
-	} );
+	CKEDITOR.replace( 'overlay', cfg );
 } );
 </script>
 
