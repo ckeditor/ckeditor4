@@ -13,6 +13,9 @@
 </div>
 
 <script>
+	if ( easyImageTools.isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
 	CKEDITOR.replace( 'classic', {
 		easyimage_class: null,
 		height: 500,

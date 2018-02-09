@@ -1,5 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: floatingspace,easyimage,toolbar */
+/* bender-include: ./_helpers/tools.js */
+/* global easyImageTools */
 
 ( function() {
 	'use strict';
@@ -17,7 +19,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+			if ( easyImageTools.isUnsupportedEnvironment() ) {
 				assert.ignore();
 			}
 

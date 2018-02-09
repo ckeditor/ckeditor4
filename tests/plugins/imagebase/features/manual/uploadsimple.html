@@ -3,13 +3,12 @@
 	<p></p>
 </div>
 
-<script src="../../../easyimage/manual/_helpers/tools.js"></script>
 <script>
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+	if ( easyImageTools.isUnsupportedEnvironment() ) {
 		bender.ignore();
 	}
 
-	getToken( function( token ) {
+	easyImageTools.getToken( function( token ) {
 		var FAIL_TEMPLATE = new CKEDITOR.template( 'Uploading "{name}" (code {status}) 😢' ),
 			LOADED_TEMPLATE = new CKEDITOR.template( 'File "{name}" uploaded!' ),
 			editor = CKEDITOR.replace( 'classic', {

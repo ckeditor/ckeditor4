@@ -1,6 +1,7 @@
 /* bender-tags: editor,imagebase */
 /* bender-ckeditor-plugins: imagebase,link */
-
+/* bender-include: %BASE_PATH%/plugins/easyimage/_helpers/tools.js */
+/* global easyImageTools */
 
 ( function() {
 	'use strict';
@@ -8,6 +9,12 @@
 	bender.editor = true;
 
 	bender.test( {
+		setUp: function() {
+			if ( easyImageTools.isUnsupportedEnvironment() ) {
+				assert.ignore();
+			}
+		},
+
 		'test adding new feature': function() {
 			var plugin = CKEDITOR.plugins.imagebase,
 				editor = this.editor,

@@ -29,6 +29,10 @@
 </div>
 
 <script>
+	if ( easyImageTools.isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'classic' );
 	CKEDITOR.replace( 'divarea', {
 		extraPlugins: 'divarea'

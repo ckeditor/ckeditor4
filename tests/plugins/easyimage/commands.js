@@ -24,6 +24,10 @@
 		widgetHtml = '<figure class="easyimage easyimage-full"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		tests = {
 			setUp: function() {
+				if ( easyImageTools.isUnsupportedEnvironment() ) {
+					assert.ignore();
+				}
+
 				if ( CKEDITOR.env.ie ) {
 					CKEDITOR.dom.element.prototype.getClientRect = function() {
 						return {

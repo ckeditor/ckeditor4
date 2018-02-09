@@ -72,6 +72,9 @@
 	</div>
 
 	<script>
+		if ( easyImageTools.isUnsupportedEnvironment() ) {
+			bender.ignore();
+		}
 		( function() {
 			'use strict';
 

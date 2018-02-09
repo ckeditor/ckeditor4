@@ -1,7 +1,7 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: imagebase,toolbar */
-/* bender-include: ../../widget/_helpers/tools.js */
-/* global widgetTestsTools */
+/* bender-include: ../../widget/_helpers/tools.js, %BASE_PATH%/plugins/easyimage/_helpers/tools.js */
+/* global widgetTestsTools, easyImageTools */
 
 ( function() {
 	'use strict';
@@ -220,9 +220,10 @@
 	}
 
 	var tests = {
-		setUp: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
-				assert.ignore();
+		init: function() {
+			// Test suit is unstable on IE8-IE10. That's why entire suit is ignored.
+			if ( easyImageTools.isUnsupportedEnvironment() ) {
+				bender.ignore();
 			}
 		},
 
