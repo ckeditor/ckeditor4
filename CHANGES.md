@@ -40,6 +40,16 @@ API Changes:
 
 Other Changes:
 
+* Updated [SCAYT](https://ckeditor.com/cke4/addon/scayt) (Spell Check As You Type) and [WebSpellChecker](https://ckeditor.com/cke4/addon/wsc) plugins:
+	* SCAYT [`scayt_minWordLength`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#scayt_minWordLength) configuration option now defaults to 3 instead of 4.
+	* SCAYT default number of suggested words on context menu changed to 3.
+	* [#90](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/90): Fixed: Selection is lost on link creation if SCAYT highlights the word.
+	* Fixed: SCAYT crashes when browser `localStorage` is disabled.
+	* [IE11] Fixed: `Unable to get property type of undefined or null reference` error in the browser console when SCAYT is disabled/enabled.
+	* [#46](https://github.com/WebSpellChecker/ckeditor-plugin-wsc/issues/46): Fixed: Editing is blocked when remote spell checker server is offline.
+	* Fixed: User Dictionary can't be created in WSC due to `You already have the dictionary` error.
+	* Fixed: Words with apostrophe `'` on the replacement make the WSC dialog inaccessible.
+	* Fixed: SCAYT/WSC causes `Uncaught TypeError` error in the browser console.
 * [#1337](https://github.com/ckeditor/ckeditor-dev/issues/1337): Update `samples` layout with new CKEditor 4 logo and color scheme.
 * [#1591](https://github.com/ckeditor/ckeditor-dev/issues/1591): CKBuilder and lang tools are now downloaded over HTTPS. Thanks to [August Detlefsen](https://github.com/augustd)!
 
