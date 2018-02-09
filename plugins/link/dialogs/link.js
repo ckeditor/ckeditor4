@@ -224,6 +224,7 @@
 					type: 'text',
 					id: 'linkDisplayText',
 					label: linkLang.displayText,
+					title: 'Good display text is like a title for the content of the web page the link will take you ',
 					setup: function() {
 						this.enable();
 
@@ -245,12 +246,17 @@
 
 						editor.a11yfirst.linkDisplayText = this;
 						editor.a11yfirst.linkDisplayUrl = this.getDialog().getContentElement( 'info', 'url' ).getValue();
+						editor.a11yfirst.linkDisplayUrlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' ).getValue();
+
+
+
 						editor.a11yfirst.linkDialog = this.getDialog();
 
-						console.log('Display Text: ' + displayText);
-						console.log('         URL: ' + editor.a11yfirst.linkDisplayUrl);
+						console.log('    Display Text: ' + displayText);
+						console.log('             URL: ' + editor.a11yfirst.linkDisplayUrl);
+						console.log('UrlIsDisplayText: ' + editor.a11yfirst.linkDisplayUrlIsDisplayText);
 
-						if (!displayText.length) {
+						if (!displayText.length && !editor.a11yfirst.linkDisplayUrlIsDisplayText) {
 							if (editor.a11yfirst.lastEmptyLinkDisplayTextValue !== 'useUrlAsDisplayText'){
 								var msg = 'Empty display text results in the URL being used to describe the link is not useful to screen reader users to idenitfy the target of the link.  Use the title of the target web page or for internal links the section heading as the link text.'
 								alert(msg);
@@ -284,6 +290,12 @@
 						data.linkText = this.isEnabled() ? this.getValue() : '';
 					}
 				},
+						{
+						type: 'checkbox',
+							id: 'urlIsDisplayText',
+							label: 'Use URL as Display Text',
+							title: 'Using the URL as the Display Text technique is not accessible to screen readers'
+						},
 				{
 					id: 'linkType',
 					type: 'select',
