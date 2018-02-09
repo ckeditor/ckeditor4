@@ -138,7 +138,7 @@
 
 				this.editorBot.setHtmlWithSelection( '<p>foo [bar] baz</p>' );
 
-				pasteFiles( editor, [], '<img src="' + bender.tools.pngBase64 + '">' );
+				pasteFiles( editor, [], '<img src="' + bender.tools.pngBase64 + '">', { type: 'auto', method: 'paste' } );
 				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
 
 				assert.areSame( 1, widgets.length, 'Widget count' );
@@ -163,7 +163,7 @@
 
 				this.editorBot.setHtmlWithSelection( '<p>foo [bar] baz</p>' );
 
-				pasteFiles( editor, [], '<img src="' + bender.tools.pngBase64 + '"><img src="' + bender.tools.pngBase64 + '">' );
+				pasteFiles( editor, [], '<img src="' + bender.tools.pngBase64 + '"><img src="' + bender.tools.pngBase64 + '">', { type: 'auto', method: 'paste' } );
 				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
 
 				assert.areSame( 2, widgets.length, 'Widget count' );
@@ -193,7 +193,7 @@
 					}
 				} ) );
 
-				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ], null, { type: 'auto', method: 'paste' } );
 
 				wait();
 			},
@@ -204,7 +204,7 @@
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
 
-				pasteFiles( editor, [], '<p>first<img src="' + bender.tools.pngBase64 + '">last</p>' );
+				pasteFiles( editor, [], '<p>first<img src="' + bender.tools.pngBase64 + '">last</p>', { type: 'auto', method: 'paste' } );
 				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
 
 				assert.areSame( 1, widgets.length, 'Widget count' );
@@ -218,7 +218,7 @@
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
 
-				pasteFiles( editor, [], '<p>Imagine its a cool <img src="' + bender.tools.pngBase64 + '"> emoji!</p><p>It should work.</p>' );
+				pasteFiles( editor, [], '<p>Imagine its a cool <img src="' + bender.tools.pngBase64 + '"> emoji!</p><p>It should work.</p>', { type: 'auto', method: 'paste' } );
 				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
 
 				assert.areSame( 1, widgets.length, 'Widget count' );
