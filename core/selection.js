@@ -925,13 +925,14 @@
 			editable.attachListener( editable, 'keyup', checkSelectionChangeTimeout, editor );
 			// https://dev.ckeditor.com/ticket/14407 - Don't even let anything happen if the selection is in a non-editable element.
 			editable.attachListener( editable, 'keydown', function( evt ) {
-				// Prevent changing selection for readonly mode where entire editable is non editable (#1632).
-				if ( this.readOnly ) {
-					return;
-				}
-				var sel = this.getSelection( 1 );
-				if ( nonEditableAscendant( sel ) ) {
-					sel.selectElement( nonEditableAscendant( sel ) );
+				var sel = this.getSelection( 1 ),
+					ascendant = nonEditableAscendant( sel );
+
+				if ( ascendant ) {
+					if ( !ascendant.equals( editable ) ) {
+						sel.selectElement( ascendant );
+					}
+
 					evt.data.preventDefault();
 				}
 			}, editor );

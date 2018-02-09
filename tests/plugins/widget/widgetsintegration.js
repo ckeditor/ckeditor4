@@ -53,10 +53,6 @@
 	}
 
 	bender.test( {
-		tearDown: function() {
-			this.editor.setReadOnly( false );
-		},
-
 		'test initializing widgets': function() {
 			var editor = this.editor;
 
@@ -641,11 +637,6 @@
 
 		// #1570
 		'test cutting single focused widget with readonly mode': function() {
-			// Test has been ignored for IE due to #1575 issue. Remove this ignore statement after the issue fix.
-			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-				assert.ignore();
-			}
-
 			var editor = this.editor;
 
 			this.editorBot.setData( '<p>X</p><p id="w1" data-widget="test2">A</p><p>X</p>', function() {
@@ -673,6 +664,8 @@
 					assert.isTrue( !!getWidgetById( editor, 'w1' ), 'widget has not been deleted' );
 					assert.isFalse( !!editor.getSelection().isFake, 'selection is not faked' );
 					assert.isFalse( !!editor.document.getById( 'cke_copybin' ), 'copybin was removed' );
+
+					this.editor.setReadOnly( false );
 				}, 150 );
 			} );
 		},
