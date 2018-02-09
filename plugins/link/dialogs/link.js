@@ -233,6 +233,53 @@
 						// we get value stripped from new line chars which is important when comparing the value later on.
 						initialLinkText = this.getValue();
 					},
+					validate: function() {
+
+						var displayText = this.getValue().toLowerCase();
+
+						displayText = displayText.replace(/^\s+|\s+$/g, "");
+
+						this.setValue(displayText);
+
+						editor.a11yfirst = editor.a11yfirst || {};
+
+						editor.a11yfirst.linkDisplayText = this;
+						editor.a11yfirst.linkDisplayUrl = this.getDialog().getContentElement( 'info', 'url' ).getValue();
+						editor.a11yfirst.linkDialog = this.getDialog();
+
+						console.log('Display Text: ' + displayText);
+						console.log('         URL: ' + editor.a11yfirst.linkDisplayUrl);
+
+						if (!displayText.length) {
+							if (editor.a11yfirst.lastEmptyLinkDisplayTextValue !== 'useUrlAsDisplayText'){
+								var msg = 'Empty display text results in the URL being used to describe the link is not useful to screen reader users to idenitfy the target of the link.  Use the title of the target web page or for internal links the section heading as the link text.'
+								alert(msg);
+								return false;
+							}
+							else {
+								editor.a11yfirst.lastEmptyLinkDisplayTextValue = undefined;
+							}
+						}
+
+						var badDisplayText =  ['link to', 'link', 'go to', 'click here', 'link', 'click', 'more', 'click here', 'click', 'more', 'here', 'read more', 'download', 'add', 'delete', 'clone', 'order', 'view', 'read', 'clic aqu&iacute;', 'clic', 'haga clic', 'm&aacute;s', 'aqu&iacute;', 'image'];
+
+						if (editor.a11yfirst.lastBadLinkDisplayTextValue !== 'useCurrentDisplayText'){
+
+							for (var i = 0; i < badDisplayText.length; i++) {
+
+								if (displayText === badDisplayText[i]) {
+									var msg = '"' + displayText + '" does not provide a very good description to screen reader users of the target of the link.  Use the title of the target web page or for internal links the section heading as the link text.'
+									alert(msg);
+									return false;
+								}
+							}
+						}
+						else {
+							editor.a11yfirst.lastBadLinkDisplayTextValue = undefined;
+						}
+
+						return true;
+					},
 					commit: function( data ) {
 						data.linkText = this.isEnabled() ? this.getValue() : '';
 					}
