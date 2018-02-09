@@ -72,7 +72,10 @@
 			}, null, null, -1 );
 
 			// pasteFiles is defined in clipboard plugin helper.
-			pasteFiles( editor, files, options.dataValue );
+			pasteFiles( editor, files, options.dataValue, {
+				type: 'auto',
+				method: 'paste'
+			} );
 
 			wait();
 		},
