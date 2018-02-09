@@ -2124,8 +2124,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * This virtual class illustrates the properties that developers can use to define and create
  * style definitions.
  *
- * Style definition object represents a style as a set of properties describing CSS style rules and HTML attributes.
- * It also store element type which can be used to provide valid HTML element as a wrapper or replacement for a selection's HTML.
+ * Style definition object represents a style as a set of properties defining element structure, its attributes and CSS styles.
  * The {@link CKEDITOR.style} based on such definition can be applied to and removed from selection
  * through various {@link CKEDITOR.style} methods.
  *
@@ -2158,8 +2157,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  */
 
 /**
- * An unique name assigned to a style definition. An name is used to differentiate style definitions e.g.
- * it's used as an label in style combo dropdown when using [Styles Combo](https://ckeditor.com/cke4/addon/stylescombo) plugin.
+ * An unique style definition name. It could be used to differentiate definitions, like in [Styles Combo](https://ckeditor.com/cke4/addon/stylescombo) plugin dropdown where it represents item labels.
  *
  *		{ name: 'Special title' }
  *
@@ -2181,7 +2179,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  */
 
 /**
- * Element type which will be applied to a selection when applying a style. It should be a valid HTML element, for example `span`.
+ * Element type which will be applied to selection when applying a style. It should be a valid HTML element, for example `span`.
  *
  *		{ element: 'h1' }
  *
@@ -2189,7 +2187,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  */
 
 /**
- * A set of properties specifying CSS style rules.
+ * A set of properties specifying CSS style rules of the HTML style element.
  *
  * 		{
  * 			styles: {
