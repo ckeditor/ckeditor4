@@ -224,7 +224,7 @@
 					type: 'text',
 					id: 'linkDisplayText',
 					label: linkLang.displayText,
-					title: 'Good display text is like a title for the content of the web page the link will take you ',
+					title: linkLang.displayTextHelp,
 					setup: function() {
 						this.enable();
 
@@ -236,52 +236,40 @@
 					},
 					validate: function() {
 
-						var displayText = this.getValue().toLowerCase();
+						var displayText           = this.getValue();
+						var normalizedDisplayText = displayText.trim().toLowerCase();
 
-						displayText = displayText.replace(/^\s+|\s+$/g, "");
+						normalizedDisplayText = normalizedDisplayText.replace(/^\s*|\s(?=\s)|\s*$/g, "")
 
-						this.setValue(displayText);
+//						console.log('         displayText: ' + displayText           + ' (' + displayText.length +')');
+//						console.log('normalizeDisplayText: ' + normalizedDisplayText + ' (' + normalizedDisplayText.length +')');
 
-						editor.a11yfirst = editor.a11yfirst || {};
+						var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' ).getValue();
 
-						editor.a11yfirst.linkDisplayText = this;
-						editor.a11yfirst.linkDisplayUrl = this.getDialog().getContentElement( 'info', 'url' ).getValue();
-						editor.a11yfirst.linkDisplayUrlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' ).getValue();
-
-
-
-						editor.a11yfirst.linkDialog = this.getDialog();
-
-						console.log('    Display Text: ' + displayText);
-						console.log('             URL: ' + editor.a11yfirst.linkDisplayUrl);
-						console.log('UrlIsDisplayText: ' + editor.a11yfirst.linkDisplayUrlIsDisplayText);
-
-						if (!displayText.length && !editor.a11yfirst.linkDisplayUrlIsDisplayText) {
+						// Testing for using the URL as the link text
+						if (!normalizedDisplayText.length && !urlIsDisplayText) {
 							if (editor.a11yfirst.lastEmptyLinkDisplayTextValue !== 'useUrlAsDisplayText'){
-								var msg = 'Empty display text results in the URL being used to describe the link is not useful to screen reader users to idenitfy the target of the link.  Use the title of the target web page or for internal links the section heading as the link text.'
+								alert(linkLang.msgEmptyDisplayText + '\n\n' + linkLang.displayTextHelp);
+								return false;
+							}
+						}
+
+						// Testing for common cases of poor link text
+						for (var i = 0; i < linkLang.a11yFirstPoorDisplayText.length; i++) {
+							if (normalizedDisplayText === linkLang.a11yFirstPoorDisplayText[i]) {
+								var msg = linkLang.msgPoorDisplayText.replace('%s', displayText)  + '\n\n' + linkLang.displayTextHelp;
 								alert(msg);
 								return false;
 							}
-							else {
-								editor.a11yfirst.lastEmptyLinkDisplayTextValue = undefined;
-							}
 						}
 
-						var badDisplayText =  ['link to', 'link', 'go to', 'click here', 'link', 'click', 'more', 'click here', 'click', 'more', 'here', 'read more', 'download', 'add', 'delete', 'clone', 'order', 'view', 'read', 'clic aqu&iacute;', 'clic', 'haga clic', 'm&aacute;s', 'aqu&iacute;', 'image'];
-
-						if (editor.a11yfirst.lastBadLinkDisplayTextValue !== 'useCurrentDisplayText'){
-
-							for (var i = 0; i < badDisplayText.length; i++) {
-
-								if (displayText === badDisplayText[i]) {
-									var msg = '"' + displayText + '" does not provide a very good description to screen reader users of the target of the link.  Use the title of the target web page or for internal links the section heading as the link text.'
-									alert(msg);
-									return false;
-								}
+						// Testing for link text starting with "Link" or "Link to"
+						for (var i = 0; i < linkLang.a11yFirstPoorStartText.length; i++) {
+							if (normalizedDisplayText.indexOf(linkLang.a11yFirstPoorStartText[i]) === 0) {
+								var msg = linkLang.msgPoorStartText.replace('%s', linkLang.a11yFirstPoorStartText[i])  + '\n\n' + linkLang.displayTextHelp;
+								alert(msg);
+								return false;
 							}
-						}
-						else {
-							editor.a11yfirst.lastBadLinkDisplayTextValue = undefined;
 						}
 
 						return true;
@@ -290,12 +278,6 @@
 						data.linkText = this.isEnabled() ? this.getValue() : '';
 					}
 				},
-						{
-						type: 'checkbox',
-							id: 'urlIsDisplayText',
-							label: 'Use URL as Display Text',
-							title: 'Using the URL as the Display Text technique is not accessible to screen readers'
-						},
 				{
 					id: 'linkType',
 					type: 'select',
@@ -392,8 +374,11 @@
 							},
 							setup: function( data ) {
 								this.allowOnChange = false;
-								if ( data.url )
+								if ( data.url ) {
 									this.setValue( data.url.url );
+//									console.log('[setup]: ' + data.url.url);
+								}
+
 								this.allowOnChange = true;
 
 							},
@@ -412,6 +397,25 @@
 						setup: function() {
 							if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 								this.getElement().show();
+						}
+					},
+					{
+					type: 'checkbox',
+						id: 'urlIsDisplayText',
+						label: linkLang.urlIsDisplayText,
+						title: linkLang.urlIsDisplayTextHelp,
+						setup: function(data) {
+							if ( data.url ) {
+								var displayText = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
+								var url = data.url.url;
+
+								console.log('displayText: ' + displayText + ' (' + displayText.length +')');
+								console.log('        url: ' + url         + ' (' + url.length +')');
+
+								if (displayText.indexOf(url) > 0) {
+									this.setValue('checked');
+								}
+						  }
 						}
 					},
 					{
