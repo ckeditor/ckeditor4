@@ -73,6 +73,6 @@ CKEDITOR.plugins.setLang( 'link', 'en', {
 	urlIsDisplayTextHelp: 'WARNING!\n\nUsing the URL as the \'Display Text\' is not accessible to screen reader users.\n\nIf you choose to use this technique, make sure you describe the target of the link in the content preceeding the URL.\n\nFor example, the name of a GitHub repository on the line before the link to the repository.\nNOTE: In this example it is better to use the name of the GitHub repository as the \'Display Test\' for the link.',
 	msgPoorStartText: 'ERROR!\n\nThe Display Text should not start with "%s" since it is redundent information with that screen readers will already be providing.',
 	msgPoorDisplayText: 'ERROR!\n\nThe Display Text "%s" does not provide a very good description to the target of the link to users, especially screen reader users.',
-	msgEmptyDisplayText: 'WARNING!\n\nEmpty Display Text results in the URL being used to describe the link.\n\nA URL is not useful to screen reader users to identify the target of the link.\n\nIf your page MUST use the URL as the display text, check the checkbox labled use "Allow URL to be used as Display Text".'
+	msgEmptyDisplayText: 'WARNING!\n\nEmpty Display Text results in the URL being used to describe the link.\n\nA URL is not useful to screen reader users to identify the target of the link.\n\nIf your page MUST use the URL as the display text, check the checkbox labeled "Allow URL to be used as Display Text".'
 
 } );

@@ -249,7 +249,7 @@
 						// Testing for using the URL as the link text
 						if (!normalizedDisplayText.length && !urlIsDisplayText) {
 							if (editor.a11yfirst.lastEmptyLinkDisplayTextValue !== 'useUrlAsDisplayText'){
-								alert(linkLang.msgEmptyDisplayText + '\n\n' + linkLang.displayTextHelp);
+								alert(linkLang.msgEmptyDisplayText + '\n\nNOTE: ' + linkLang.displayTextHelp);
 								return false;
 							}
 						}
@@ -409,8 +409,8 @@
 								var displayText = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
 								var url = data.url.url;
 
-								console.log('displayText: ' + displayText + ' (' + displayText.length +')');
-								console.log('        url: ' + url         + ' (' + url.length +')');
+//								console.log('displayText: ' + displayText + ' (' + displayText.length +')');
+//								console.log('        url: ' + url         + ' (' + url.length +')');
 
 								if (displayText.indexOf(url) > 0) {
 									this.setValue('checked');
