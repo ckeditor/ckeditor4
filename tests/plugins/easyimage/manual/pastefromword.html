@@ -15,7 +15,8 @@
 </div>
 
 <script>
-	if ( easyImageTools.isUnsupportedEnvironment() || CKEDITOR.env.safari ) {
+	// Ignore on mobiles due to lack of support for Paste from Word.
+	if ( easyImageTools.isUnsupportedEnvironment() || CKEDITOR.env.safari || bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 

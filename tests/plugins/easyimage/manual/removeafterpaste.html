@@ -5,7 +5,8 @@
 
 <script src="_helpers/tools.js"></script>
 <script>
-	if ( easyImageTools.isUnsupportedEnvironment() ) {
+	// Ignore on mobiles due to lack of support for files drag and drop.
+	if ( easyImageTools.isUnsupportedEnvironment() || bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 
