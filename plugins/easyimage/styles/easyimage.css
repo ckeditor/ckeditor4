@@ -13,7 +13,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 }
 
 /*
-The outline is not a part of the element's dimensions, we have to use a border as an outline to align linked image with a caption.
+The outline is not a part of the element's dimensions. A border needs to be used as an outline to align the linked image with a caption.
 */
 .easyimage a > img {
 	outline: none;
@@ -38,20 +38,20 @@ The outline is not a part of the element's dimensions, we have to use a border a
 .cke_widget_wrapper_easyimage-side, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-side) > .easyimage-side,
 .cke_widget_wrapper_easyimage-align-right, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-align-right) > .easyimage-align-right {
 	/*
-	:not() selector will be used for Easy Image content ouside of the editor. E.g. when the editor was destoryed.
+	The :not() selector will be used for Easy Image content ouside of the editor, for example: when the editor was destroyed.
 	See https://github.com/ckeditor/ckeditor-dev/pull/1150#discussion_r150415261 for more details.
 	*/
 	float: right;
 	max-width: 25%;
 	/*
-	In case of placement inside parent container like table cell, 'min-width' is needed to prevent widget to have
-	tiny sizes. The `em` unit is used so it works well and have proper proportions to text content around (#1553).
+	In case of placement inside the parent container like a table cell, 'min-width' is needed to prevent the widget from having
+	tiny sizes. The `em` unit is used so it works well and has proper proportions to the textual content around (#1553).
 	*/
 	min-width: 10em;
 }
 
 /*
-Overwrite 'max-width: 25%' with 'max-width: 25vw' to prevent native Chrome bug
+Overwrite 'max-width: 25%' with 'max-width: 25vw' to prevent the native Chrome bug:
 https://bugs.chromium.org/p/chromium/issues/detail?id=803045 (#1550).
 */
 body.cke_editable > .cke_widget_wrapper_easyimage-side {
@@ -105,14 +105,14 @@ body.cke_editable > .cke_widget_wrapper_easyimage-side {
 	width: 0;
 }
 
-/* It's important to have top, left, right in sync with figure margins, to algin the loader nicely. */
+/* It is important to have top, left, right in sync with figure margins, to algin the loader nicely. */
 .cke_widget_wrapper_easyimage .cke_loader {
 	left: 40px;
 	right: 40px;
 }
 
-/* Fancy opacity effect discussed in #1533. Transition assigned in this awkward way so that it **does not** happen for
-the initial render, otherwise it would start transitioning from opacity 1 to 0.x upon first render. */
+/* Fancy opacity effect discussed in #1533. Transition is assigned in this awkward way so that it **does not** happen for
+the initial render, otherwise it would start transitioning from opacity 1 to 0.x upon the first render. */
 
 .cke_widget_wrapper_easyimage:not(.cke_widget_wrapper_uploading) figure img {
 	transition: opacity 0.3s ease-in-out;

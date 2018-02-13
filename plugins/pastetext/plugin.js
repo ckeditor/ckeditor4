@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Paste as plain text plugin.
+ * @fileOverview The Paste as plain text plugin.
  */
 
 ( function() {
@@ -87,15 +87,22 @@
 
 
 /**
- * Whether to force all pasting operations to insert on plain text into the
- * editor, loosing any formatting information possibly available in the source
- * text.
+ * Whether to force all pasting operations to insert plain text into the
+ * editor, losing any formatting information possibly available in the source text.
  *
+ * This option accepts the following settings:
+ *
+ * *  `true` &ndash; Pastes all content as plain text.
+ * *  `false` &ndash; Preserves content formatting.
+ * *  `allow-word` &ndash; Content pasted from Microsoft Word will keep its formatting
+ *     while any other content will be pasted as plain text.
+ *
+ * Example:
+ *
+ *		// All content will be pasted as plain text.
  *		config.forcePasteAsPlainText = true;
  *
- * This setting accepts also third value - `allow-word`. In such case content pasted from Word
- * will keep its formatting while any other content will be pasted as plain text.
- *
+ *		// Only Microsoft Word content formatting will be preserved.
  * 		config.forcePasteAsPlainText = 'allow-word';
  *
  * @cfg {Boolean/String} [forcePasteAsPlainText=false]

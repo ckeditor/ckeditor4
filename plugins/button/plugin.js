@@ -97,7 +97,7 @@
 	 */
 	CKEDITOR.ui.button.handler = {
 		/**
-		 * Transforms a button definition in a {@link CKEDITOR.ui.button} instance.
+		 * Transforms a button definition into a {@link CKEDITOR.ui.button} instance.
 		 *
 		 * @member CKEDITOR.ui.button.handler
 		 * @param {Object} definition
@@ -406,8 +406,8 @@
 	 * @param {String} definition.command The command to be executed once the button is activated.
 	 * @param {String} definition.toolbar The {@link CKEDITOR.config#toolbarGroups toolbar group} into which
 	 * the button will be added. An optional index value (separated by a comma) determines the button position within the group.
-	 * @param {String} definition.icon Path to custom icon or icon name registered by another plugin. Custom icon paths
-	 * are supported since **4.9.0** version.
+	 * @param {String} definition.icon The path to a custom icon or icon name registered by another plugin. Custom icon paths
+	 * are supported since the **4.9.0** version.
 	 *
 	 * To use icon registered by another plugin, icon parameter should be used like:
 	 *
@@ -415,10 +415,10 @@
 	 * 			icon: 'Link' // Uses link icon from Link plugin.
 	 * 		} );
 	 *
-	 * If the plugin provides HiDPI version of an icon it will be used for HiDPI displays (so defining `iconHiDpi` is not needed
+	 * If the plugin provides a HiDPI version of an icon, it will be used for HiDPI displays (so defining `iconHiDpi` is not needed
 	 * in this case).
 	 *
-	 * To use custom icon, path to icon should be provided like:
+	 * To use a custom icon, the path to the icon should be provided:
 	 *
 	 * 		editor.ui.addButton( 'my_button', {
 	 * 			icon: 'assets/icons/my_button.png'
@@ -426,8 +426,8 @@
 	 *
 	 * This icon will be used for both standard and HiDPI displays unless `iconHiDpi` is explicitly defined.
 	 * **Important**: CKEditor will resolve relative paths based on {@link CKEDITOR#basePath}.
-	 * @param {String} definition.iconHiDpi Path to custom HiDPI icon version. Supported since **4.9.0** version.
-	 * It will be used only in HiDPI environments. Usage is similar to `icon` parameter:
+	 * @param {String} definition.iconHiDpi The path to the custom HiDPI icon version. Supported since **4.9.0** version.
+	 * It will be used only in HiDPI environments. The usage is similar to the `icon` parameter:
 	 *
 	 * 		editor.ui.addButton( 'my_button', {
 	 * 			iconHiDpi: 'assets/icons/my_button.hidpi.png'

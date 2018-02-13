@@ -1575,15 +1575,16 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 /**
  * Whether an editable element should have focus when the editor is loading for the first time.
  *
- *		// Focus at the beginning of editable.
+ *		// Focus at the beginning of the editable.
  *		config.startupFocus = true;
  *
- * Since CKEditor 4.9.0, `startupFocus` can be explicitly set as `String` :
+ * Since CKEditor 4.9.0, `startupFocus` can be explicitly set to either the `start` or the `end`
+ * of the editable:
  *
- *		// Focus at the beginning of editable.
+ *		// Focus at the beginning of the editable.
  *		config.startupFocus = 'start';
  *
- *		// Focus at the end of editable.
+ *		// Focus at the end of the editable.
  *		config.startupFocus = 'end';
  *
  * @cfg {String/Boolean} [startupFocus=false]

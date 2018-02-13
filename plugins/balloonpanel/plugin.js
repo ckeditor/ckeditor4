@@ -787,12 +787,12 @@
 		},
 
 		/**
-		 * Returns element position on screen.
+		 * Returns the position of the element on the screen.
 		 *
 		 * @since 4.9.0
 		 * @private
-		 * @param {CKEDITOR.dom.element} element Element which position is calculated.
-		 * @returns {Object} Element position (scroll position included).
+		 * @param {CKEDITOR.dom.element} element The element whose position is calculated.
+		 * @returns {Object} The element position (scroll position included).
 		 * @returns {Number} return.top Top offset.
 		 * @returns {Number} return.bottom Bottom offset.
 		 * @returns {Number} return.left Left offset.

@@ -440,17 +440,17 @@ CKEDITOR.plugins.add( 'menu', {
 			},
 
 			/**
-			 * Finds menu item corresponding to a given command.
+			 * Finds the menu item corresponding to a given command.
 			 *
-			 * **Notice**: keep in mind that menu is rerendered on each open so caching items (especially DOM elements)
-			 * may not work. Also executing this method when menu is not visible may result in unexpected results as the
+			 * **Notice**: Keep in mind that the menu is re-rendered on each opening, so caching items (especially DOM elements)
+			 * may not work. Also executing this method when the menu is not visible may give unexpected results as the
 			 * items may not be rendered.
 			 *
 			 * @since 4.9.0
 			 * @param {String} commandName
-			 * @returns {Object/null} return Object containing given item. If item was not found, `null` is returned.
-			 * @returns {CKEDITOR.menuItem} return.item Item definition.
-			 * @returns {CKEDITOR.dom.element} return.element Rendered element representing item in the menu.
+			 * @returns {Object/null} return An object containing a given item. If the item was not found, `null` is returned.
+			 * @returns {CKEDITOR.menuItem} return.item The item definition.
+			 * @returns {CKEDITOR.dom.element} return.element The rendered element representing the item in the menu.
 			 */
 			findItemByCommandName: function( commandName ) {
 				var commands = CKEDITOR.tools.array.filter( this.items, function( item ) {

@@ -871,7 +871,7 @@
 		},
 
 		/**
-		 * Feature detection indicating whether current browser supports methods essential to send files over XHR request.
+		 * Feature detection indicating whether the current browser supports methods essential to send files over an XHR request.
 		 *
 		 * @since 4.9.0
 		 * @property {Boolean} isFileUploadSupported
@@ -898,7 +898,7 @@
  */
 
 /**
- * Default file name (without extension) that will be used for files created from a Base64 data string
+ * The default file name (without extension) that will be used for files created from a Base64 data string
  * (for example for files pasted into the editor).
  * This name will be combined with the MIME type to create the full file name with the extension.
  *
@@ -914,7 +914,7 @@
  */
 
 /**
- * Allows to add extra headers for every request made using {@link CKEDITOR.fileTools} API.
+ * Allows to add extra headers for every request made using the {@link CKEDITOR.fileTools} API.
  *
  * Note that headers can still be customized per a single request, using the
  * [`fileUploadRequest`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.editor-event-fileUploadRequest)

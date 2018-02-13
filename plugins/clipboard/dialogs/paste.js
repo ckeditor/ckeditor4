@@ -238,9 +238,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 } );
 
 /**
- * Internal event to pass paste dialog's data to the listeners.
+ * Internal event to pass the paste dialog data to the listeners.
  *
- * This event was not available in 4.7.0-4.8.0 versions.
+ * This event was not available in versions 4.7.0-4.8.0.
  *
  * @private
  * @event pasteDialogCommit
