@@ -150,8 +150,8 @@ CKEDITOR.editorConfig = function ( config ) {
 
   config.toolbar = [
     { name: 'heading',        items: [ 'Heading' ] },
+//    { name: 'blockformat',    items: [ 'BlockFormat' ] },
     { name: 'list',           items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ] },
-    { name: 'blockformat',    items: [ 'BlockFormat' ] },
     { name: 'blockquote',     items: [ 'Blockquote' ] },
     { name: 'justify',        items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
     { name: 'misc1',          items: [ 'Image', 'Table' ] },

@@ -3,7 +3,7 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'a11yheading', 'en', {
-  label:        'Heading',
+  label:        'Heading / Paragraph',
   panelTitle:   'Select heading level',
   level_h1:     'H1 – Document title',
   level_h2:     'H2 – Section title',
@@ -11,6 +11,6 @@ CKEDITOR.plugins.setLang( 'a11yheading', 'en', {
   level_h4:     'H4 – Subsection title',
   level_h5:     'H5 – Subsection title',
   level_h6:     'H6 – Subsection title',
-  remove:       'P – Revert to paragraph',
+  remove:       'P - Normal',
   helpLabel:    'Help'
 } );
