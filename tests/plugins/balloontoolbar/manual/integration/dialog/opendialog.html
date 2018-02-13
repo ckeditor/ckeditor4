@@ -13,6 +13,7 @@
 		<li>Three</li>
 	</ol>
 </textarea>
+<button onclick="toggleConfirm( this );">Turn on confirmation.</button>
 <script>
 	CKEDITOR.plugins.add( 'test', {
 		init: function( editor ) {
@@ -113,6 +114,7 @@
 
 	var editor = CKEDITOR.replace( 'editor', {
 		extraPlugins: 'balloontoolbar,test,test2',
+		balloontoolbarIgnoreConfirm: true
 	} );
 	editor.on( 'instanceReady', function( evt ) {
 		var editor = evt.editor;
@@ -122,4 +124,12 @@
 		} );
 	} );
 
+	function toggleConfirm( btn ) {
+		editor.config.balloontoolbarIgnoreConfirm = !editor.config.balloontoolbarIgnoreConfirm;
+		if ( editor.config.balloontoolbarIgnoreConfirm ) {
+			btn.innerText = 'Turn on confirmation.';
+		} else {
+			btn.innerText = 'Turn off confirmation.';
+		}
+	}
 </script>
