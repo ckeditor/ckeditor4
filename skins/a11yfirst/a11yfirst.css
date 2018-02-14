@@ -125,3 +125,7 @@ a.cke_dialog_ui_button.a11yfirsthelp:hover
 .cke_dialog_ui_hbox .a11yfirsthelpcontent em {
   font-style: italic;
 }
+
+.cke_dialog_ui_vbox table[align=bottom] td.cke_dialog_ui_hbox_last {
+  vertical-align: bottom;
+}
