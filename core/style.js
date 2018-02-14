@@ -2128,12 +2128,14 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * The {@link CKEDITOR.style} based on such definition can be applied to and removed from selection
  * through various {@link CKEDITOR.style} methods.
  *
- *  	{
- *			name: 'Special Title',
- *			element: 'h1',
- *			attributes: { class: 'my_class' },
- *			styles: { color: 'red', 'font-size': '16px', 'font-width': 'bold' }
- *		}
+ * ```javascript
+ * {
+ *		name: 'Special Title',
+ *		element: 'h1',
+ *		attributes: { class: 'my_class' },
+ *		styles: { color: 'red', 'font-size': '16px', 'font-width': 'bold' }
+ * }
+ * ```
  *
  *	More on how editor content styles are handled can be found in the [Styles guide](#!/guide/dev_howtos_styles).
  *
@@ -2153,13 +2155,19 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  *
  * More on style types can be found in the [Style Types section of the Styles guide](#!/guide/dev_styles-section-style-types).
  *
+ * ```javascript
+ * { type: CKEDITOR.STYLE_INLINE }
+ * ```
+ *
  * @property {String/Number} type=CKEDITOR.STYLE_INLINE
  */
 
 /**
- * An unique style definition name. It could be used to differentiate definitions, like in [Styles Combo](https://ckeditor.com/cke4/addon/stylescombo) plugin dropdown where it represents item labels.
+ * An unique style definition name. It could be used to differentiate definitions, like in [Styles Combo](#!/guide/dev_styles) plugin dropdown where it represents item labels.
  *
- *		{ name: 'Special title' }
+ * ```javascript
+ * { name: 'Special title' }
+ * ```
  *
  * @property {String} name
  */
@@ -2168,12 +2176,14 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * A set of properties specifying attributes of the HTML style element.
  * If `style` attribute is present it will be merged with existing {@link CKEDITOR.style.definition#styles} property.
  *
- *		{
- *			attributes: {
- *				style: 'color: red',
- *				class: 'link'
- *			}
+ * ```javascript
+ * {
+ *		attributes: {
+ *			style: 'color: red',
+ *			class: 'link'
  *		}
+ * }
+ * ```
  *
  * @property {Object.<String, String>} attributes
  */
@@ -2181,7 +2191,9 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 /**
  * Element type which will be applied to selection when applying a style. It should be a valid HTML element, for example `span`.
  *
- *		{ element: 'h1' }
+ * ```javascript
+ * { element: 'h1' }
+ * ```
  *
  * @property {String} element
  */
@@ -2189,13 +2201,15 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 /**
  * A set of properties specifying CSS style rules of the HTML style element.
  *
- * 		{
- * 			styles: {
- * 				color: 'red',
- * 				'font-size': '12px'
- * 				'font-weight': 'bold'
- * 			}
- * 		}
+ * ```javascript
+ * {
+ *		styles: {
+ *			color: 'red',
+ *			'font-size': '12px'
+ *			'font-weight': 'bold'
+ *		}
+ * }
+ * ```
  *
  * @property {Object.<String, String>} styles
  */
