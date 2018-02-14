@@ -103,35 +103,56 @@ GitHub Repository: <a href="https://github.com/a11yfirst/plugins-dev" target="_r
   },
 
   headingHelp: {
-    'menu':  'Heading',
-    'label': 'Heading',
-    'title': 'Heading Help',
+    'menu':  'Heading / Paragraph',
+    'label': 'Heading / Paragraph',
+    'title': 'Heading / Paragraph Help',
     'content': '\
-## Heading\n\
+## Heading / Paragraph\n\
 \n\
-### How it works\n\
-* The Heading menu only enables the **allowed** heading levels.\n\
+### Menu items\n\
+* **H1 – Document title** — Typically should be the first heading in the\n\
+  document and used only once.\n\
+* **H2 – Section title** — Describes a main or top-level section in the\n\
+  document.\n\
+* **H3 to H6 – Subsection title** — Describes a subsection within a top-level\n\
+  section or other subsection of the document.\n\
+* **Normal** — The default paragraph format, typically with significant top\n\
+  and bottom margins.\n\
+* **Preformatted** — Use this for computer code blocks to maintain spacing\n\
+  and indentation.\n\
+* **Address** — Omits the top and bottom margins of normal paragraph, and\n\
+  formats the text in italics.\n\
+\n\
+### About headings\n\
+* The Heading / Paragraph menu only enables the **allowed** heading levels.\n\
 \n\
 * The cursor position relative to other headings in the document determines\n\
 which heading levels are allowed.\n\
 \n\
-* To create a new heading, move the cursor to a text block and select an\n\
-allowed heading level.\n\
+### About paragraph formats\n\
+* Visual styling for paragraph formats is predetermined by your organization,\n\
+thus freeing up your time and energy for concentrating on the structure and\n\
+meaning of the content within your document.\n\
 \n\
-* To convert a heading to normal text, move the cursor to a heading and select\n\
-the *Normal text* option.\n\
-\n\
-### Why it\'s important\n\
+### Why headings and paragraph formats are important\n\
 * The purpose of a heading is to label the content that follows it.\n\
 \n\
 * The proper nesting of heading levels improves the ability of all users to\n\
-find and read information on a page.\n\
+find and comprehend information on a page.\n\
 \n\
 * Headings used consistently and in meaningful ways improve Search Engine\n\
 Optimization (SEO).\n\
 \n\
 * Properly nested headings enable people using assistive technologies to easily\n\
 navigate to each section of a document.\n\
+\n\
+* When paragraph formats are used properly (e.g. *Preformatted* or *Address*),\n\
+they help users of assistive technologies understand the intended role of the\n\
+content.\n\
+\n\
+* Thinking in terms of blocks such as headings and paragraph formats within\n\
+your document is a higher-level approach to providing structure and semantics\n\
+that are important for all users.\n\
 \n\
 ### More information\n\
 * Documents are easier to read and understand when headings identify the topics\n\
@@ -157,51 +178,6 @@ level to label each subsection.\n\
 * Heading levels should **never** be used for inline visual styling of content\n\
 (e.g. larger or smaller font size, bold or italic). Instead, use the `Inline\n\
 Style` options.\n\
-'
-  },
-
-  blockFormatHelp: {
-    'menu':  'Paragraph Format',
-    'label': 'Paragraph Format',
-    'title': 'Paragraph Format Help',
-    'content': '\
-## Paragraph Format\n\
-\n\
-### How it works\n\
-\n\
-* A paragraph format can be applied by placing your cursor within a text\n\
-block and selecting an item from the *Paragraph Format* menu.\n\
-\n\
-* The baseline format is *Normal*, which is a simple paragraph. When a\n\
-paragraph has no other active format applied, its format is Normal.\n\
-\n\
-* To remove one of the other paragraph formats such as *Preformatted* or\n\
-*Address*, either toggle it off by selecting it in the menu, or select the\n\
-*Normal* option from the menu.\n\
-\n\
-* Headings are a specialized type of paragraph format used to label logical\n\
-sections of a document, or to specify the document title, and are selected\n\
-using the *Heading* menu.\n\
-\n\
-### Why it\'s important\n\
-\n\
-* Thinking in terms of blocks such as paragraphs and section headings within\n\
-your document is a higher-level approach to providing structure and semantics\n\
-that are important for all users.\n\
-\n\
-* When paragraph formats are used properly (e.g. *Preformatted text* or\n\
-*Address*), they help users of assistive technologies understand the intended\n\
-role of the content.\n\
-\n\
-* Visual styling for paragraph formats is predetermined by your organization,\n\
-thus freeing up your time and energy for concentrating on the structure and\n\
-meaning of the content within your document.\n\
-\n\
-### More information\n\
-\n\
-* <a href="https://en.wikiversity.org/wiki/Technical_writing" target="_resource">Wikiversity: Technical writing</a>\n\
-\n\
-* <a href="https://en.wikipedia.org/wiki/Chunking_&lpar;writing&rpar;" target="_resource">Chunking (writing)</a>\n\
 '
   },
 
