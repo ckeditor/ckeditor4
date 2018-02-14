@@ -325,7 +325,7 @@
 								children: [ {
 									id: 'a11yfirstHelpLink',
 										type: 'button',
-										label: 'Display Text Help',
+										label: 'Help',
 										onClick: function() {
 						          editor.a11yfirst.helpOption = 'LinkHelp';
 						          editor.execCommand('a11yFirstHelpDialog');
