@@ -1,28 +1,49 @@
-## Heading
+## Heading / Paragraph
 
-### How it works
-* The Heading menu only enables the **allowed** heading levels.
+### Menu items
+* **H1 – Document title** — Typically should be the first heading in the
+  document and used only once.
+* **H2 – Section title** — Describes a main or top-level section in the
+  document.
+* **H3 to H6 – Subsection title** — Describes a subsection within a top-level
+  section or other subsection of the document.
+* **Normal** — The default paragraph format, typically with significant top
+  and bottom margins.
+* **Preformatted** — Use this for computer code blocks to maintain spacing
+  and indentation.
+* **Address** — Omits the top and bottom margins of normal paragraph, and
+  formats the text in italics.
+
+### About headings
+* The Heading / Paragraph menu only enables the **allowed** heading levels.
 
 * The cursor position relative to other headings in the document determines
 which heading levels are allowed.
 
-* To create a new heading, move the cursor to a text block and select an
-allowed heading level.
+### About paragraph formats
+* Visual styling for paragraph formats is predetermined by your organization,
+thus freeing up your time and energy for concentrating on the structure and
+meaning of the content within your document.
 
-* To convert a heading to normal text, move the cursor to a heading and select
-the *Normal text* option.
-
-### Why it's important
+### Why headings and paragraph formats are important
 * The purpose of a heading is to label the content that follows it.
 
 * The proper nesting of heading levels improves the ability of all users to
-find and read information on a page.
+find and comprehend information on a page.
 
 * Headings used consistently and in meaningful ways improve Search Engine
 Optimization (SEO).
 
 * Properly nested headings enable people using assistive technologies to easily
 navigate to each section of a document.
+
+* When paragraph formats are used properly (e.g. *Preformatted* or *Address*),
+they help users of assistive technologies understand the intended role of the
+content.
+
+* Thinking in terms of blocks such as headings and paragraph formats within
+your document is a higher-level approach to providing structure and semantics
+that are important for all users.
 
 ### More information
 * Documents are easier to read and understand when headings identify the topics
