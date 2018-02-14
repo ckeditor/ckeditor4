@@ -371,7 +371,7 @@
 						if ( element.equals( elementPath.block ) || element.equals( elementPath.blockLimit ) )
 							break;
 
-						if ( CKEDITOR.dtd.$removeEmpty[ element.getName() ] ) {
+						if ( CKEDITOR.dtd.$removeEmpty[ element.getName() ] || element.getName() === 'span' ) {
 							element = element.clone();
 							newBlock.moveChildren( element );
 							newBlock.append( element );
