@@ -47,30 +47,14 @@
       editor.addCommand( 'heading', {
         allowedContent: allowedContent,
         contextSensitive: true,
-        exec: function( editor, headingId ) {
-          var item = items[ headingId ];
+        exec: function( editor, itemId ) {
+          var item = items[ itemId ];
           if ( item ) {
             editor[ item.style.checkActive( editor.elementPath(), editor ) ? 'removeStyle' : 'applyStyle' ]( item.style );
           }
         },
         refresh: function( editor ) {
-          this.setState( plugin.getCurrentHeadingElement( editor ) ?
-            CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
-        }
-      } );
-
-      // Register blockFormat command
-      editor.addCommand( 'blockFormat', {
-        allowedContent: allowedContent,
-        contextSensitive: true,
-        exec: function( editor, formatId ) {
-          var item = items[ formatId ];
-          if ( item ) {
-            editor[ item.style.checkActive( editor.elementPath(), editor ) ? 'removeStyle' : 'applyStyle' ]( item.style );
-          }
-        },
-        refresh: function( editor ) {
-          this.setState( plugin.getCurrentFormatElement( editor ) ?
+          this.setState( plugin.getCurrentHeadingOrFormatElement( editor ) ?
             CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
         }
       } );
@@ -104,7 +88,7 @@
           style: new CKEDITOR.style( { element: formatTag } ),
           order: headings.length + i,
           onClick: function() {
-            editor.execCommand( 'blockFormat', this.formatId );
+            editor.execCommand( 'heading', this.formatId );
           },
           role: 'menuitemcheckbox'
         };
@@ -161,23 +145,6 @@
 
     isFormatElement: function ( name ) {
       return ( formatTags.indexOf( name ) >= 0 );
-    },
-
-    getCurrentFormatElement: function ( editor ) {
-      var elementPath = editor.elementPath(),
-          activePath = elementPath && elementPath.elements,
-          pathMember, element;
-
-      // IE8: Upon initialization if there is no path, elementPath() returns null.
-      if ( elementPath ) {
-        for ( var i = 0; i < activePath.length; i++ ) {
-          pathMember = activePath[ i ];
-          if ( !element && this.isFormatElement( pathMember.getName() ) )
-            element = pathMember;
-        }
-      }
-
-      return element;
     },
 
     isHeadingOrFormatElement: function ( name ) {
@@ -337,4 +304,4 @@
   } )
 } )();
 
-CKEDITOR.config.format_tags = 'p;pre;address;div';
+CKEDITOR.config.format_tags = 'p;pre;address';
