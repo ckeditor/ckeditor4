@@ -65,14 +65,14 @@ CKEDITOR.plugins.setLang( 'link', 'en', {
 	unlink: 'Unlink',
 	upload: 'Upload',
 	// Added for a11yLink modifications
-	a11yFirstPoorStartText: ['link to', 'link'],
-	a11yFirstPoorDisplayText: ['link to', 'link', 'go to', 'click here', 'link', 'click', 'more', 'here', 'read more', 'download', 'add', 'delete', 'clone', 'order', 'view', 'read', 'clic aqu&iacute;', 'clic', 'haga clic', 'm&aacute;s', 'aqu&iacute;', 'image'],
+	a11yFirstInvalidStartText: ['link to', 'link'],
+	a11yFirstInvalidDisplayText: ['add', 'click', 'click here', 'clone', 'delete', 'download', 'go to', 'here', 'image', 'link to', 'link', 'more', 'order', 'read', 'read more', 'view', 'clic aqu&iacute;', 'clic', 'haga clic', 'm&aacute;s', 'aqu&iacute;'],
 	displayText: 'Display Text  ⓘ',
-	displayTextHelp: 'Good Display Text serves as a title that describes the target web page or for internal links the section of the document.',
-	urlIsDisplayText: 'Allow URL to be used as Display Text ⓘ',
-	urlIsDisplayTextHelp: 'WARNING!\n\nUsing the URL as the \'Display Text\' is not accessible to screen reader users.\n\nIf you choose to use this technique, make sure you describe the target of the link in the content preceeding the URL.\n\nFor example, the name of a GitHub repository on the line before the link to the repository.\nNOTE: In this example it is better to use the name of the GitHub repository as the \'Display Test\' for the link.',
-	msgPoorStartText: 'ERROR!\n\nThe Display Text should not start with "%s" since it is redundent information with that screen readers will already be providing.',
-	msgPoorDisplayText: 'ERROR!\n\nThe Display Text "%s" does not provide a very good description to the target of the link to users, especially screen reader users.',
-	msgEmptyDisplayText: 'WARNING!\n\nEmpty Display Text results in the URL being used to describe the link.\n\nA URL is not useful to screen reader users to identify the target of the link.\n\nIf your page MUST use the URL as the display text, check the checkbox labeled "Allow URL to be used as Display Text".'
+	displayTextHelp: 'Learn more at A11yFirst Help -> Link',
+	urlIsDisplayText: 'Use URL as Display Text ⓘ',
+	urlIsDisplayTextHelp: 'Learn more at A11yFirst Help -> Link',
+	msgInvalidStartText: 'Please remove "%s" from the Display Text',
+	msgInvalidDisplayText: 'Please replace "%s" with text that describes the target of the link',
+	msgEmptyDisplayText: 'Please type the Display Text for the link'
 
 } );

@@ -248,34 +248,80 @@
 
 						// Testing for using the URL as the link text
 						if (!normalizedDisplayText.length && !urlIsDisplayText) {
-							if (editor.a11yfirst.lastEmptyLinkDisplayTextValue !== 'useUrlAsDisplayText'){
-								alert(linkLang.msgEmptyDisplayText + '\n\nNOTE: ' + linkLang.displayTextHelp);
-								return false;
-							}
+							alert(linkLang.msgEmptyDisplayText);
+							return false;
 						}
 
-						// Testing for common cases of poor link text
-						for (var i = 0; i < linkLang.a11yFirstPoorDisplayText.length; i++) {
-							if (normalizedDisplayText === linkLang.a11yFirstPoorDisplayText[i]) {
-								var msg = linkLang.msgPoorDisplayText.replace('%s', displayText)  + '\n\n' + linkLang.displayTextHelp;
-								alert(msg);
+						// Testing for common cases of invalid link text
+						for (var i = 0; i < linkLang.a11yFirstInvalidDisplayText.length; i++) {
+							if (normalizedDisplayText === linkLang.a11yFirstInvalidDisplayText[i]) {
+								alert(linkLang.msgInvalidDisplayText.replace('%s', displayText));
 								return false;
 							}
 						}
 
 						// Testing for link text starting with "Link" or "Link to"
-						for (var i = 0; i < linkLang.a11yFirstPoorStartText.length; i++) {
-							if (normalizedDisplayText.indexOf(linkLang.a11yFirstPoorStartText[i]) === 0) {
-								var msg = linkLang.msgPoorStartText.replace('%s', linkLang.a11yFirstPoorStartText[i])  + '\n\n' + linkLang.displayTextHelp;
-								alert(msg);
+						for (var i = 0; i < linkLang.a11yFirstInvalidStartText.length; i++) {
+							if (normalizedDisplayText.indexOf(linkLang.a11yFirstInvalidStartText[i]) === 0) {
+								alert(linkLang.msgInvalidStartText.replace('%s', linkLang.a11yFirstInvalidStartText[i]));
 								return false;
 							}
 						}
 
 						return true;
 					},
+					onChange: function () {
+						var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' );
+						var linkDisplayText  = this.getDialog().getContentElement( 'info', 'linkDisplayText' );
+						var url              = this.getDialog().getContentElement( 'info', 'url' );
+
+						console.log('[onChnage]urlIsDisplayText: ' + urlIsDisplayText.getValue());
+						console.log('[onChnage] linkDisplayText: ' + linkDisplayText.getValue());
+						console.log('[onChnage]             url: ' + url.getValue());
+
+						if (linkDisplayText.getValue().length > 0 ) {
+							if (linkDisplayText.getValue().indexOf(url.getValue()) > 0) {
+								urlIsDisplayText.enable();
+							}
+							else {
+								urlIsDisplayText.setValue('');
+								urlIsDisplayText.disable();
+							}
+						}
+						else {
+							urlIsDisplayText.enable();
+						}
+					},
 					commit: function( data ) {
 						data.linkText = this.isEnabled() ? this.getValue() : '';
+					}
+				},
+				{
+				type: 'checkbox',
+					id: 'urlIsDisplayText',
+					label: linkLang.urlIsDisplayText,
+					title: linkLang.urlIsDisplayTextHelp,
+					setup: function(data) {
+						var displayText = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
+						console.log('[setup]displayText: ' + displayText + ' (' + displayText.length +')');
+						if (displayText.length > 0 ) {
+							if ( data.url ) {
+								var url = data.url.url;
+								console.log('[setup]        url: ' + url         + ' (' + url.length +')');
+
+								if (displayText.indexOf(url) > 0) {
+									this.setValue('checked');
+									this.enable();
+								}
+								else {
+									this.setValue('');
+									this.disable();
+								}
+							}
+						}
+						else {
+							this.enable();
+						}
 					}
 				},
 				{
@@ -397,25 +443,6 @@
 						setup: function() {
 							if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 								this.getElement().show();
-						}
-					},
-					{
-					type: 'checkbox',
-						id: 'urlIsDisplayText',
-						label: linkLang.urlIsDisplayText,
-						title: linkLang.urlIsDisplayTextHelp,
-						setup: function(data) {
-							if ( data.url ) {
-								var displayText = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
-								var url = data.url.url;
-
-//								console.log('displayText: ' + displayText + ' (' + displayText.length +')');
-//								console.log('        url: ' + url         + ' (' + url.length +')');
-
-								if (displayText.indexOf(url) > 0) {
-									this.setValue('checked');
-								}
-						  }
 						}
 					},
 					{
@@ -1034,14 +1061,14 @@
 				if ( !editor.config.linkShowTargetTab )
 					this.hidePage( 'target' ); //Hide Target tab.
 			},
-			// Inital focus on 'url' field if link is of type URL.
+			// Inital focus on 'linkDisplayText' field if link is of type URL.
 			onFocus: function() {
 				var linkType = this.getContentElement( 'info', 'linkType' ),
-					urlField;
+					linkDisplayTextField;
 
 				if ( linkType && linkType.getValue() == 'url' ) {
-					urlField = this.getContentElement( 'info', 'url' );
-					urlField.select();
+					linkDisplayTextField = this.getContentElement( 'info', 'linkDisplayText' );
+					linkDisplayTextField.select();
 				}
 			}
 		};
