@@ -234,7 +234,7 @@
 									type: 'text',
 									id: 'linkDisplayText',
 									label: linkLang.displayText,
-									title: linkLang.displayTextHelp,
+									title: linkLang.displayTextTitle,
 									setup: function() {
 										this.enable();
 
@@ -309,7 +309,8 @@
 							  {
 							 	  id: 'a11yfirstHelpLink',
 									type: 'button',
-									label: 'Help',
+									label: linkLang.a11yfirstHelp,
+									title: linkLang.a11yfirstHelpTitle,
 									onClick: function() {
 					          editor.a11yfirst.helpOption = 'LinkHelp';
 					          editor.execCommand('a11yFirstHelpDialog');
@@ -323,7 +324,7 @@
 				type: 'checkbox',
 					id: 'urlIsDisplayText',
 					label: linkLang.urlIsDisplayText,
-					title: linkLang.urlIsDisplayTextHelp,
+					title: linkLang.urlIsDisplayTextTitle,
 					setup: function(data) {
 						var displayText = editor.getSelection().getSelectedText();
 
