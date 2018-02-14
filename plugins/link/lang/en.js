@@ -67,10 +67,10 @@ CKEDITOR.plugins.setLang( 'link', 'en', {
 	// Added for a11yLink modifications
 	a11yFirstInvalidStartText: ['link to', 'link'],
 	a11yFirstInvalidDisplayText: ['add', 'click', 'click here', 'clone', 'delete', 'download', 'go to', 'here', 'image', 'link to', 'link', 'more', 'order', 'read', 'read more', 'view', 'clic aqu&iacute;', 'clic', 'haga clic', 'm&aacute;s', 'aqu&iacute;'],
-	displayText: 'Display Text  ⓘ',
-	displayTextHelp: 'Learn more at A11yFirst Help -> Link',
+	displayText: 'Display Text',
+	displayTextHelp: 'Use \'Help\' to learn more about accessible links',
 	urlIsDisplayText: 'Use URL as Display Text ⓘ',
-	urlIsDisplayTextHelp: 'Learn more at A11yFirst Help -> Link',
+	urlIsDisplayTextHelp: 'This option is enabled when Display Text is empty or contains the URL',
 	msgInvalidStartText: 'Please remove "%s" from the Display Text',
 	msgInvalidDisplayText: 'Please replace "%s" with text that describes the target of the link',
 	msgEmptyDisplayText: 'Please type the Display Text for the link'

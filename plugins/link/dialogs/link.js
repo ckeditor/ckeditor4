@@ -241,9 +241,6 @@
 
 						normalizedDisplayText = normalizedDisplayText.replace(/^\s*|\s(?=\s)|\s*$/g, "")
 
-//						console.log('         displayText: ' + displayText           + ' (' + displayText.length +')');
-//						console.log('normalizeDisplayText: ' + normalizedDisplayText + ' (' + normalizedDisplayText.length +')');
-
 						var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' ).getValue();
 
 						// Testing for using the URL as the link text
@@ -274,23 +271,6 @@
 						var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' );
 						var linkDisplayText  = this.getDialog().getContentElement( 'info', 'linkDisplayText' );
 						var url              = this.getDialog().getContentElement( 'info', 'url' );
-
-						console.log('[onChnage]urlIsDisplayText: ' + urlIsDisplayText.getValue());
-						console.log('[onChnage] linkDisplayText: ' + linkDisplayText.getValue());
-						console.log('[onChnage]             url: ' + url.getValue());
-
-						if (linkDisplayText.getValue().length > 0 ) {
-							if (linkDisplayText.getValue().indexOf(url.getValue()) > 0) {
-								urlIsDisplayText.enable();
-							}
-							else {
-								urlIsDisplayText.setValue('');
-								urlIsDisplayText.disable();
-							}
-						}
-						else {
-							urlIsDisplayText.enable();
-						}
 					},
 					commit: function( data ) {
 						data.linkText = this.isEnabled() ? this.getValue() : '';
@@ -303,11 +283,9 @@
 					title: linkLang.urlIsDisplayTextHelp,
 					setup: function(data) {
 						var displayText = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
-						console.log('[setup]displayText: ' + displayText + ' (' + displayText.length +')');
 						if (displayText.length > 0 ) {
 							if ( data.url ) {
 								var url = data.url.url;
-								console.log('[setup]        url: ' + url         + ' (' + url.length +')');
 
 								if (displayText.indexOf(url) > 0) {
 									this.setValue('checked');
@@ -321,6 +299,19 @@
 						}
 						else {
 							this.enable();
+						}
+					},
+					onClick: function (data) {
+						var displayText = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
+						if (displayText.length > 0 ) {
+							if ( data.url ) {
+								var url = data.url.url;
+
+								if (displayText.indexOf(url) <= 0) {
+									this.setValue('');
+									this.disable();
+								}
+							}
 						}
 					}
 				},
@@ -444,6 +435,27 @@
 							if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 								this.getElement().show();
 						}
+					},
+					{
+						type: 'vbox',
+						align: right,
+						id: 'urlOptions',
+						children: [
+							{
+								type: 'hbox',
+								widths: [ '100%' ],
+								children: [ {
+									id: 'a11yfirstHelpLink',
+										type: 'button',
+										label: 'Help',
+										onClick: function() {
+						          editor.a11yfirst.helpOption = 'LinkHelp';
+						          editor.execCommand('a11yFirstHelpDialog');
+										}
+									}
+								]
+							}
+						]
 					},
 					{
 						type: 'button',
