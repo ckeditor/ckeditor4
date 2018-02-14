@@ -337,9 +337,4 @@
   } )
 } )();
 
-// CKEDITOR.config.format_tags = 'p;pre;address;div';
-CKEDITOR.config.format_tags = 'p;pre;address';
-CKEDITOR.config.format_p       = { element: 'p' };
-CKEDITOR.config.format_pre     = { element: 'pre' };
-CKEDITOR.config.format_address = { element: 'address' };
-// CKEDITOR.config.format_div     = { element: 'div' };
+CKEDITOR.config.format_tags = 'p;pre;address;div';
