@@ -438,7 +438,6 @@
 					},
 					{
 						type: 'vbox',
-						align: right,
 						id: 'urlOptions',
 						children: [
 							{
