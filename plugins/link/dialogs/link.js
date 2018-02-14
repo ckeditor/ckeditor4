@@ -315,6 +315,26 @@
 						}
 					}
 				},
+					{
+						type: 'vbox',
+						id: 'urlOptions',
+						children: [
+							{
+								type: 'hbox',
+								widths: [ '100%' ],
+								children: [ {
+									id: 'a11yfirstHelpLink',
+										type: 'button',
+										label: 'Display Text Help',
+										onClick: function() {
+						          editor.a11yfirst.helpOption = 'LinkHelp';
+						          editor.execCommand('a11yFirstHelpDialog');
+										}
+									}
+								]
+							}
+						]
+					},
 				{
 					id: 'linkType',
 					type: 'select',
@@ -435,26 +455,6 @@
 							if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 								this.getElement().show();
 						}
-					},
-					{
-						type: 'vbox',
-						id: 'urlOptions',
-						children: [
-							{
-								type: 'hbox',
-								widths: [ '100%' ],
-								children: [ {
-									id: 'a11yfirstHelpLink',
-										type: 'button',
-										label: 'Help',
-										onClick: function() {
-						          editor.a11yfirst.helpOption = 'LinkHelp';
-						          editor.execCommand('a11yFirstHelpDialog');
-										}
-									}
-								]
-							}
-						]
 					},
 					{
 						type: 'button',
