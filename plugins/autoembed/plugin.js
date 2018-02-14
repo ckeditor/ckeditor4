@@ -181,8 +181,8 @@
 
 	/**
 	 * Specifies the widget to use to automatically embed a link. The default value
-	 * of this option defines that either the [Media Embed](ckeditor.com/addon/embed) or
-	 * [Semantic Media Embed](ckeditor.com/addon/embedsemantic) widgets will be used, depending on which is enabled.
+	 * of this option defines that either the [Media Embed](https://ckeditor.com/cke4/addon/embed) or
+	 * [Semantic Media Embed](https://ckeditor.com/cke4/addon/embedsemantic) widgets will be used, depending on which is enabled.
 	 *
 	 * The general behavior:
 	 *
@@ -194,12 +194,16 @@
 	 *
 	 * Example:
 	 *
-	 *		// Defines that embedSemantic should be used (regardless of whether embed is defined).
-	 *		config.autoEmbed_widget = 'embedSemantic';
+	 * ```js
+	 * // Defines that embedSemantic should be used (regardless of whether embed is defined).
+	 * config.autoEmbed_widget = 'embedSemantic';
+	 * ```
 	 *
 	 * Using with custom embed widgets:
 	 *
-	 *		config.autoEmbed_widget = 'customEmbed';
+	 * ```js
+	 * config.autoEmbed_widget = 'customEmbed';
+	 * ```
 	 *
 	 * **Note:** Plugin names are always lower case, while widget names are not, so widget names do not have to equal plugin names.
 	 * For example, there is the `embedsemantic` plugin and the `embedSemantic` widget.
