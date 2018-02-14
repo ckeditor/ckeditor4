@@ -728,32 +728,6 @@
 			};
 
 			/**
-			 * Updates status of passed element.
-			 *
-			 * @since 4.9.0
-			 * @private
-			 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo}
-			 * @member CKEDITOR.ui.balloonToolbarView
-			 */
-			CKEDITOR.ui.balloonToolbarView.prototype._updateStatus = function( item ) {
-				if ( item.getState() == CKEDITOR.TRISTATE_ON ) {
-					return;
-				}
-
-				var state = item.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
-
-				if ( editor.readOnly && !item.readOnly )
-					state = CKEDITOR.TRISTATE_DISABLED;
-
-				item.setState( state );
-				item.setValue( '' );
-
-				// Let plugin to disable button.
-				if ( state != CKEDITOR.TRISTATE_DISABLED && item.refresh )
-					item.refresh();
-			};
-
-			/**
 			 * Renders provided UI elements inside the view.
 			 *
 			 * @param {CKEDITOR.ui.button[]/CKEDITOR.ui.richCombo[]} items An array of UI element objects.
