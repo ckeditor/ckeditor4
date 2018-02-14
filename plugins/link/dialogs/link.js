@@ -325,13 +325,11 @@
 					label: linkLang.urlIsDisplayText,
 					title: linkLang.urlIsDisplayTextHelp,
 					setup: function(data) {
-						var displayText = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
+						var displayText = editor.getSelection().getSelectedText();
+
 						if (displayText.length > 0 ) {
 							if ( data.url ) {
 								var url = data.url.url;
-
-								console.log('DT: ' + displayText + ' (' + displayText.length + ')')
-								console.log('DT: ' + url + ' (' + url.length + ')')
 
 								if (displayText.indexOf(url) >= 0) {
 									this.setValue('checked');
