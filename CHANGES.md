@@ -10,6 +10,7 @@
 New Features:
 
 * [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin supports email links.
+* [#1558](https://github.com/ckeditor/ckeditor-dev/issues/1558): Added possibility to open dialogs inside [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar).
 
 Fixed Issues:
 
