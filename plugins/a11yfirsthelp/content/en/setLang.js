@@ -47,20 +47,11 @@ ABOUTA11YFIRST\
   },
 
   headingHelp: {
-    'menu':  'Heading',
-    'label': 'Heading',
-    'title': 'Heading Help',
+    'menu':  'Heading / Paragraph',
+    'label': 'Heading / Paragraph',
+    'title': 'Heading / Paragraph Help',
     'content': '\
 HEADINGHELP\
-'
-  },
-
-  blockFormatHelp: {
-    'menu':  'Paragraph Format',
-    'label': 'Paragraph Format',
-    'title': 'Paragraph Format Help',
-    'content': '\
-BLOCKFORMATHELP\
 '
   },
 
