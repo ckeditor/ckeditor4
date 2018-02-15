@@ -2,17 +2,15 @@
 
 ### How it works
 
-* When the *Link* button is activated, the *Link* dialog is displayed with
-the focus set to the *URL* field. If a text selection was previously made,
-the *Display Text* field is populated with the selected text.
+* *Display Text* is the text that appears on your web page identifying and describing the link.
 
-* However, if you activate the *Link* button with an empty selection, the
-default behavior is to use the *URL* text as the *Display Text*. This is
-problematic because URLs are often not very descriptive.
+* *Protocol* and *URL* specifies the target web page of the link.
+
+* *Use URL as Display Text* is option that allows the URL to be used as display text and must only be used in special circumstances.
 
 ### About display text
 
-* The *Display Text* for a link should be descriptive, unique and start with
+* Usable and accessible *Display Text* should be descriptive, unique and start with
 keywords (NNG).
 
 * The *Display Text* must **not** be empty, since it results in the URL being
@@ -20,6 +18,9 @@ used as the display text for the link.
 
 * The *Display Text* must **not** use ambiguous text, for example "Click Here"
 or "More".
+
+* The *Display Text* must **not** start with redunent text, including "Link" and
+or "Link to".
 
 * The *Display Text* for links is like a sign post. It should tell you what
 you’ll find when you follow it (NOMENSA).

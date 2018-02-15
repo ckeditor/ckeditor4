@@ -84,7 +84,7 @@ CKEDITOR.editorConfig = function ( config ) {
     'indentlist,' +
     'justify,' +
     'language,' +
-    'link,' +
+//    'list,' +
     'list,' +
     'listblock,' +
     'liststyle,' +
@@ -114,6 +114,7 @@ CKEDITOR.editorConfig = function ( config ) {
     'a11yfirsthelp,' +
     'a11yformat,' +
     'a11yheading,' +
+    'a11ylink,' +
     'a11ystylescombo';
 
   config.language_list = [
