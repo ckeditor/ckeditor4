@@ -3078,28 +3078,46 @@
 		var changed = 0,
 			classes = getStyleClasses( style ),
 			updatedClasses = widget.data.classes || {},
-			cl;
+			cl,
+			styles = style.getDefinition().styles,
+			attributes = style.getDefinition().attributes;
 
 		// Ee... Something is wrong with this style.
-		if ( !classes )
+		if ( !classes && !styles && !attributes )
 			return;
 
-		// Clone, because we need to break reference.
-		updatedClasses = CKEDITOR.tools.clone( updatedClasses );
+		if ( classes ) {
+			// Clone, because we need to break reference.
+			updatedClasses = CKEDITOR.tools.clone( updatedClasses );
 
-		while ( ( cl = classes.pop() ) ) {
-			if ( apply ) {
-				if ( !updatedClasses[ cl ] )
-					changed = updatedClasses[ cl ] = 1;
-			} else {
-				if ( updatedClasses[ cl ] ) {
-					delete updatedClasses[ cl ];
-					changed = 1;
+			while ( ( cl = classes.pop() ) ) {
+				if ( apply ) {
+					if ( !updatedClasses[ cl ] )
+						changed = updatedClasses[ cl ] = 1;
+				} else {
+					if ( updatedClasses[ cl ] ) {
+						delete updatedClasses[ cl ];
+						changed = 1;
+					}
+				}
+			}
+			if ( changed )
+				widget.setData( 'classes', updatedClasses );
+		}
+
+		function toggleStyleAttribute ( element, property, StyleOrAttr, apply ) {
+			apply = apply ? 'set' : 'remove';
+			StyleOrAttr = StyleOrAttr ? 'Style' : 'Attribute';
+			StyleOrAttr = apply + StyleOrAttr;
+
+			for ( var key in property ) {
+				if ( key !== 'class' ) {
+					element[ StyleOrAttr ]( key, property[ key ] );
 				}
 			}
 		}
-		if ( changed )
-			widget.setData( 'classes', updatedClasses );
+		toggleStyleAttribute( widget.element, styles, 1, apply );
+		toggleStyleAttribute( widget.element, attributes, 0, apply );
 	}
 
 	function cancel( evt ) {
