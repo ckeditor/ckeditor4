@@ -341,7 +341,7 @@
 
 			/**
 			 * @private
-			 * @returns {CKEDITOR.fileTools.fileLoader/null} Loader associated with this widget instance or `null` if not found.
+			 * @returns {CKEDITOR.fileTools.fileLoader/null} The loader associated with this widget instance or `null` if not found.
 			 */
 			_getLoader: function() {
 				var marker = this.wrapper.findOne( '[data-cke-upload-id]' );
@@ -374,7 +374,7 @@
 			 */
 
 			/**
-			 * Loader type that should be used for creating fileTools requests.
+			 * Loader type that should be used for creating file tools requests.
 			 *
 			 * @property {Function} [loaderType]
 			 */

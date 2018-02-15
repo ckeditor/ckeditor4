@@ -154,7 +154,7 @@
 		 *
 		 * @param {Blob/String} fileOrData See {@link CKEDITOR.fileTools.fileLoader}.
 		 * @param {String} fileName See {@link CKEDITOR.fileTools.fileLoader}.
-		 * @param {Function} [loaderType] Loader type to be created. If skipped the default {@link CKEDITOR.fileTools.fileLoader}
+		 * @param {Function} [loaderType] Loader type to be created. If skipped, the default {@link CKEDITOR.fileTools.fileLoader}
 		 * type will be used.
 		 * @returns {CKEDITOR.fileTools.fileLoader} The created file loader instance.
 		 */

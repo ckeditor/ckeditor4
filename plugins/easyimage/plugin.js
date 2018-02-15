@@ -382,7 +382,7 @@
 	}
 
 	function addPasteListener( editor ) {
-		// Easy Image requires a img-specific paste listener for inlined images. This case happens in:
+		// Easy Image requires an img-specific paste listener for inlined images. This case happens in:
 		// * IE11 when pasting images from the clipboard.
 		// * FF when pasting a single image **file** from the clipboard.
 		// In both cases image gets inlined as img[src="data:"] element.
@@ -469,7 +469,7 @@
 	}
 
 	/**
-	 * Namespace providing a set of helper functions for Easy Image plugin.
+	 * Namespace providing a set of helper functions for the Easy Image plugin.
 	 *
 	 * @since 4.9.0
 	 * @singleton
@@ -477,12 +477,12 @@
 	 */
 	CKEDITOR.plugins.easyimage = {
 		/**
-		 * Converts response from the server into proper `[srcset]` attribute.
+		 * Converts the response from the server into a proper `[srcset]` attribute.
 		 *
 		 * @since 4.9.0
 		 * @private
 		 * @param {Object} srcs Sources list to be parsed.
-		 * @returns {String} `img[srcset]` attribute.
+		 * @returns {String} The `img[srcset]` attribute.
 		 */
 		_parseSrcSet: function( srcs ) {
 			var srcset = [],
@@ -539,13 +539,15 @@
 	} );
 
 	/**
-	 * A CSS class applied to all Easy Image widgets. If set to `null` all `<figure>` elements are converted into widgets.
+	 * A CSS class applied to all Easy Image widgets. If set to `null`, all `<figure>` elements are converted into widgets.
 	 *
-	 *		// Changes the class to "my-image".
-	 *		config.easyimage_class = 'my-image';
+	 * ```js
+	 * // Changes the class to "my-image".
+	 * config.easyimage_class = 'my-image';
 	 *
-	 *		// This will cause plugin to convert any figure into a widget.
-	 *		config.easyimage_class = null;
+	 * // This will cause the plugin to convert any figure into a widget.
+	 * config.easyimage_class = null;
+	 * ```
 	 *
 	 * @since 4.9.0
 	 * @cfg {String/null} [easyimage_class='easyimage']
@@ -554,25 +556,25 @@
 	CKEDITOR.config.easyimage_class = 'easyimage';
 
 	/**
-	 * Custom styles that could be applied to Easy Image widget.
+	 * Custom styles that could be applied to the Easy Image widget.
 	 * All styles must be [valid style definitions](#!/guide/dev_howtos_styles-section-how-do-i-customize-the-styles-drop-down-list%3F).
 	 * There are three additional properties for each style definition:
 	 *
-	 * * `label` - string used as a button label in a balloon toolbar for the widget,
-	 * * `icon` - path to the icon used in the balloon toolbar,
-	 * * `iconHiDpi` - path to the high DPI version of the icon.
+	 * * `label` &ndash; A string used as a button label in the balloon toolbar for the widget.
+	 * * `icon` &ndash; The path to the icon used in the balloon toolbar.
+	 * * `iconHiDpi` &ndash; The path to the high DPI version of the icon.
 	 *
-	 * There are few styles available by default:
+	 * A few styles are available by default:
 	 *
-	 * * `full` - adding an `easyimage-full` class to the `figure` element.
-	 * * `side` - adding an `easyimage-side` class to the `figure` element.
-	 * * `alignLeft` - adding an `easyimage-align-left` class to the `figure` element.
-	 * * `alignCenter` - adding an `easyimage-align-center` class to the `figure` element.
-	 * * `alignRight` - adding an `easyimage-align-right` class to the `figure` element.
+	 * * `full` &ndash; Adding an `easyimage-full` class to the `figure` element.
+	 * * `side` &ndash; Adding an `easyimage-side` class to the `figure` element.
+	 * * `alignLeft` &ndash; Adding an `easyimage-align-left` class to the `figure` element.
+	 * * `alignCenter` &ndash; Adding an `easyimage-align-center` class to the `figure` element.
+	 * * `alignRight` &ndash; Adding an `easyimage-align-right` class to the `figure` element.
 	 *
-	 * Every style added by this config variable will result in adding `Easyimage<name>` button
-	 * and `easyimage<name>` command, where `<name>` is name of style in pascal case, e.g. `left`
-	 * style would produce `EasyimageLeft` button and `easyimageLeft` command.
+	 * Every style added by this configuration variable will result in adding the `Easyimage<name>` button
+	 * and the `easyimage<name>` command, where `<name>` is the name of the style in Pascal case. For example, the
+	 * `left` style would produce a `EasyimageLeft` button and an `easyimageLeft` command.
 	 *
 	 *		// Adds a custom alignment style.
 	 *		config.easyimage_styles = {
@@ -586,11 +588,11 @@
 	 *			}
 	 *		};
 	 *
-	 * Following example changes the class added by full style and adds another border styles:
+	 * The following example changes the class added by the `full` style and adds more border styles:
 	 *
 	 *		config.easyimage_styles = {
 	 *			full: {
-	 *				// Changes just the class name, label icon remains unchanged.
+	 *				// Changes just the class name, icon label remains unchanged.
 	 *				attributes: {
 	 *					'class': 'my-custom-full-class'
 	 *				}
@@ -623,8 +625,10 @@
 	 *
 	 * If set to `null` no default style is applied.
 	 *
-	 *		// Make side image a default style.
-	 *		config.easyimage_defaultStyle = 'side';
+	 * ```js
+	 * // Make side image a default style.
+	 * config.easyimage_defaultStyle = 'side';
+	 * ```
 	 *
 	 * @since 4.9.0
 	 * @cfg {String/null} easyimage_defaultStyle
@@ -633,15 +637,17 @@
 	CKEDITOR.config.easyimage_defaultStyle = 'full';
 
 	/**
-	 * List of buttons to be displayed in a balloon toolbar for Easy Image widget.
+	 * A list of buttons to be displayed in the balloon toolbar for the Easy Image widget.
 	 *
-	 * If Context Menu plugin is enabled, this config variable will be used also to add
-	 * items to the context menu for Easy Image widget.
+	 * If the [Context Menu](https://ckeditor.com/cke4/addon/contextmenu) plugin is enabled, this
+	 * configuration option will also be used to add items to the context menu for the Easy Image widget.
 	 *
-	 * You can find list of available styles in {@link #easyimage_styles}.
+	 * You can find the list of available styles in {@link #easyimage_styles}.
 	 *
-	 *		// Change toolbar to alignment commands.
-	 *		config.easyimage_toolbar = [ 'EasyimageAlignLeft', 'EasyimageAlignCenter', 'EasyimageAlignRight' ];
+	 * ```js
+	 * // Change toolbar to alignment commands.
+	 * config.easyimage_toolbar = [ 'EasyimageAlignLeft', 'EasyimageAlignCenter', 'EasyimageAlignRight' ];
+	 * ```
 	 *
 	 * @since 4.9.0
 	 * @cfg {String[]/String} [easyimage_toolbar=[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ]]

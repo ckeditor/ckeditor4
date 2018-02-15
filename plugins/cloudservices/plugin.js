@@ -12,9 +12,9 @@
 			var FileLoader = CKEDITOR.fileTools.fileLoader;
 
 			/**
-			 * Dedicated uploader type for [Cloud Services](https://ckeditor.com/ckeditor-cloud-services/).
+			 * A dedicated uploader type for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services/).
 			 *
-			 * Note that this type is defined in {@link CKEDITOR.pluginDefinition#onLoad plugin.onLoad} method, thus is
+			 * Note that this type is defined in the {@link CKEDITOR.pluginDefinition#onLoad plugin.onLoad} method, thus is
 			 * guaranteed to be available in dependent plugin's {@link CKEDITOR.pluginDefinition#beforeInit beforeInit},
 			 * {@link CKEDITOR.pluginDefinition#init init} and {@link CKEDITOR.pluginDefinition#afterInit} methods.
 			 *
@@ -23,20 +23,20 @@
 			 * @extends CKEDITOR.fileTools.fileLoader
 			 * @constructor
 			 * @inheritdoc
-			 * @param {CKEDITOR.editor} editor The editor instance. Used only to get language data.
+			 * @param {CKEDITOR.editor} editor The editor instance. Used only to get the language data.
 			 * @param {Blob/String} fileOrData A [blob object](https://developer.mozilla.org/en/docs/Web/API/Blob) or a data
 			 * string encoded with Base64.
 			 * @param {String} [fileName] The file name. If not set and the second parameter is a file, then its name will be used.
 			 * If not set and the second parameter is a Base64 data string, then the file name will be created based on
 			 * the {@link CKEDITOR.config#fileTools_defaultFileName} option.
-			 * @param {String} [token] A token used for [Cloud Service](https://ckeditor.com/ckeditor-cloud-services/) request. If
-			 * skipped {@link CKEDITOR.config#cloudServices_token} will be used.
+			 * @param {String} [token] A token used for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services/) request.
+			 * If skipped, {@link CKEDITOR.config#cloudServices_token} will be used.
 			 */
 			function CloudServicesLoader( editor, fileOrData, fileName, token ) {
 				FileLoader.call( this, editor, fileOrData, fileName );
 
 				/**
-				 * Custom [Cloud Service](https://ckeditor.com/ckeditor-cloud-services/) token.
+				 * Custom [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services/) token.
 				 *
 				 * @property {String} customToken
 				 * @member CKEDITOR.plugins.cloudservices.cloudServicesLoader
@@ -48,7 +48,7 @@
 
 			/**
 			 * @inheritdoc
-			 * @param {String} [url] The upload URL. If not provided {@link CKEDITOR.config#cloudServices_url} will be used.
+			 * @param {String} [url] The upload URL. If not provided, {@link CKEDITOR.config#cloudServices_url} will be used.
 			 * @param {Object} [additionalRequestParameters] Additional data that would be passed to the
 			 * {@link CKEDITOR.editor#fileUploadRequest} event.
 			 */
@@ -66,7 +66,7 @@
 			/**
 			 * @method loadAndUpload
 			 * @inheritdoc
-			 * @param {String} [url] The upload URL. If not provided {@link CKEDITOR.config#cloudServices_url} will be used.
+			 * @param {String} [url] The upload URL. If not provided, {@link CKEDITOR.config#cloudServices_url} will be used.
 			 * @param {Object} [additionalRequestParameters] Additional parameters that would be passed to
 			 * the {@link CKEDITOR.editor#fileUploadRequest} event.
 			*/
@@ -120,7 +120,7 @@
 	};
 
 	/**
-	 * Endpoint URL for [Cloud Services](https://ckeditor.com/ckeditor-cloud-services) uploads.
+	 * The endpoint URL for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services) uploads.
 	 *
 	 * @since 4.9.0
 	 * @cfg {String} [cloudServices_url='']
@@ -128,7 +128,7 @@
 	 */
 
 	/**
-	 * Token used for [Cloud Services](https://ckeditor.com/ckeditor-cloud-services) authentication.
+	 * The token used for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services) authentication.
 	 *
 	 * @since 4.9.0
 	 * @cfg {String} [cloudServices_token='']

@@ -218,12 +218,12 @@
 
 	function getUploadFeature() {
 		/**
-		 * Widget feature dedicated for handling seamless file uploads.
+		 * Widget feature dedicated to handling seamless file uploads.
 		 *
 		 * This type serves solely as a mixin, and should be added using
-		 * {@link CKEDITOR.plugins.imagebase#addFeature} method.
+		 * the {@link CKEDITOR.plugins.imagebase#addFeature} method.
 		 *
-		 * This API is not yet in a final shape, thus marked as a private. It can be changed at any point.
+		 * This API is not yet in a final shape, thus it is marked as private. It can change at any point in the future.
 		 *
 		 * @private
 		 * @class CKEDITOR.plugins.imagebase.featuresDefinitions.upload
@@ -231,9 +231,9 @@
 		 */
 		var ret = {
 			/**
-			 * Type used for for progress reporting, it has to be a subclass of {@link CKEDITOR.plugins.imagebase.progressReporter}.
+			 * The type used for progress reporting. It has to be a subclass of {@link CKEDITOR.plugins.imagebase.progressReporter}.
 			 *
-			 * Could be set to `false` so that there is no reporter created at all.
+			 * It can be set to `false` so that there is no progress reporter created at all.
 			 *
 			 * @property {Function/Boolean} [progressReporterType=CKEDITOR.plugins.imagebase.progressBar]
 			 */
@@ -306,7 +306,7 @@
 			},
 
 			/**
-			 * Tells whether the loader is complete.
+			 * Informs whether the loader is complete.
 			 *
 			 * @private
 			 * @param {CKEDITOR.fileTools.fileLoader} loader
@@ -324,7 +324,7 @@
 			 * @private
 			 * @param {CKEDITOR.editor} editor
 			 * @param {Blob/String} file See {@link CKEDITOR.fileTools.fileLoader}.
-			 * @param {CKEDITOR.plugins.widget.definition} widgetDef Widget definition that the loader is spawned for.
+			 * @param {CKEDITOR.plugins.widget.definition} widgetDef The widget definition that the loader is spawned for.
 			 * @param {String} [fileName] Preferred file name to be passed to the upload process.
 			 * @returns {CKEDITOR.fileTools.fileLoader}
 			 */
@@ -338,7 +338,7 @@
 			},
 
 			/**
-			 * Initializes the upload process for given `widget` using `loader`.
+			 * Initializes the upload process for a given `widget` using `loader`.
 			 *
 			 * @private
 			 * @param {CKEDITOR.plugins.widget} widget
@@ -413,8 +413,8 @@
 			 * @param {CKEDITOR.editor} editor
 			 * @param {CKEDITOR.plugins.widget.definition} widgetDef
 			 * @param {String} blobUrl Blob URL of an image.
-			 * @param {Boolean} [finalize=true] If `false` widget will not be automatically finalized (added to {@link CKEDITOR.plugins.widget.repository}),
-			 * but returned as a {@link CKEDITOR.dom.element} instance.
+			 * @param {Boolean} [finalize=true] If `false`, the widget will not be automatically finalized (added to {@link CKEDITOR.plugins.widget.repository}),
+			 * but will be returned as a {@link CKEDITOR.dom.element} instance.
 			 * @returns {CKEDITOR.plugins.widget/CKEDITOR.dom.element} The widget instance or {@link CKEDITOR.dom.element} of a widget wrapper if `finalize` was set to `false`.
 			 */
 			_insertWidget: function( editor, widgetDef, blobUrl, finalize, data ) {
@@ -447,25 +447,25 @@
 			 */
 
 			/**
-			 * Fired when upload was initiated and before response is fetched.
+			 * Fired when upload was initiated and before the response is fetched.
 			 *
 			 *		progress.once( 'uploadStarted', function( evt ) {
 			 *			evt.cancel();
 			 *			// Implement a custom progress bar.
 			 *		} );
 			 *
-			 * This event is cancelable, if canceled, the default progress bar will not be created
-			 * and the widget wrapper won't be marked with `cke_widget_wrapper_uploading` class.
+			 * This event is cancelable. If canceled, the default progress bar will not be created
+			 * and the widget wrapper will not be marked with the `cke_widget_wrapper_uploading` class.
 			 *
 			 * Note that the event will be fired even if the widget was created for a loader that
 			 * is already resolved.
 			 *
 			 * @event uploadStarted
-			 * @param {CKEDITOR.fileTools.fileLoader} data Lader that is used for this widget.
+			 * @param {CKEDITOR.fileTools.fileLoader} data The loader that is used for this widget.
 			 */
 
 			/**
-			 * Fired when upload process succeeded. This is the event where you want apply data
+			 * Fired when the upload process succeeded. This is the event where you want apply the data
 			 * from your response into a widget.
 			 *
 			 *		progress.once( 'uploadDone', function( evt ) {
@@ -475,22 +475,22 @@
 			 *
 			 * @event uploadDone
 			 * @param data
-			 * @param {CKEDITOR.fileTools.fileLoader} data.loader Loader that caused this event.
+			 * @param {CKEDITOR.fileTools.fileLoader} data.loader The loader that caused this event.
 			 */
 
 			/**
-			 * Fired when upload process {@link CKEDITOR.fileTools.fileLoader#event-error failed} or was
+			 * Fired when the upload process {@link CKEDITOR.fileTools.fileLoader#event-error failed} or was
 			 * {@link CKEDITOR.fileTools.fileLoader#event-abort aborted}.
 			 *
 			 *		progress.once( 'uploadFailed', function( evt ) {
 			 *			console.log( 'Loader: ' + evt.data.loader + ' failed to upload data.' );
 			 *		} );
 			 *
-			 * This event is cancelable, if not canceled it will remove the widget.
+			 * This event is cancelable. If it is not canceled, it will remove the widget.
 			 *
 			 * @event uploadFailed
 			 * @param data
-			 * @param {CKEDITOR.fileTools.fileLoader} data.loader Loader that caused this event.
+			 * @param {CKEDITOR.fileTools.fileLoader} data.loader The loader that caused this event.
 			 */
 		};
 
@@ -526,12 +526,12 @@
 		}
 
 		/**
-		 * Widget feature dedicated for displaying caption under the widget.
+		 * The widget feature dedicated for displaying a caption under the widget.
 		 *
 		 * This type serves solely as a mixin, and should be added using
-		 * {@link CKEDITOR.plugins.imagebase#addFeature} method.
+		 * the {@link CKEDITOR.plugins.imagebase#addFeature} method.
 		 *
-		 * This API is not yet in a final shape, thus marked as a private. It can be changed at any point.
+		 * This API is not yet in the final shape, thus it is marked as private. It can change at any point in the future.
 		 *
 		 * @private
 		 * @class CKEDITOR.plugins.imagebase.featuresDefinitions.caption
@@ -580,12 +580,12 @@
 			},
 
 			/**
-			 * Method used to decide if caption for focused widget should be displayed and should contain
-			 * placeholder text.
+			 * Method used to decide if the caption should be displayed for the focused widget and whether it
+			 * should contain the placeholder text.
 			 *
 			 * @private
 			 * @member CKEDITOR.plugins.imagebase.featuresDefinitions.caption
-			 * @param {CKEDITOR.dom.element} sender Element, on which this function should be called.
+			 * @param {CKEDITOR.dom.element} sender The element that this function should be called on.
 			 */
 			_refreshCaption: function( sender ) {
 				var isFocused = getFocusedWidget( this.editor ) === this,
@@ -618,13 +618,13 @@
 		var baseDefinition;
 
 		/**
-		 * This is an abstract class that describes a definition of a basic image widget
-		 * created by {@link CKEDITOR.plugins.imagebase#addImageWidget} method.
+		 * This is an abstract class that describes the definition of a basic image widget
+		 * created by the {@link CKEDITOR.plugins.imagebase#addImageWidget} method.
 		 *
 		 * Note that because the image widget is a type of a widget, this definition extends
 		 * {@link CKEDITOR.plugins.widget.definition}.
-		 * It adds several parts of image and implements the basic version of
-		 * {@link CKEDITOR.plugins.widget.definition#upcast} callback.
+		 * It adds several parts of the image and implements the basic version of
+		 * the {@link CKEDITOR.plugins.widget.definition#upcast} callback.
 		 *
 		 * @abstract
 		 * @since 4.9.0
@@ -657,7 +657,7 @@
 			requiredContent: 'figure; img[!src]',
 
 			/**
-			 * The array containing names of features added to this widget's definition.
+			 * An array containing the names of features added to this widget's definition.
 			 *
 			 * @property {String[]} features
 			 */
@@ -688,9 +688,9 @@
 		definition = CKEDITOR.tools.object.merge( baseDefinition, definition );
 
 		/**
-		 * Image widget definition overrides {@link CKEDITOR.plugins.widget.definition#upcast} property.
-		 * It's automatically set to enumerate keys of {@link #upcasts}.
-		 * Avoid changes, unless you know what you're doing.
+		 * Image widget definition overrides the {@link CKEDITOR.plugins.widget.definition#upcast} property.
+		 * It is automatically set to enumerate the keys of {@link #upcasts}.
+		 * Avoid changes unless you know what you're doing!
 		 *
 		 * @member CKEDITOR.plugins.imagebase.imageWidgetDefinition
 		 * @property {String}
@@ -703,12 +703,12 @@
 	var UPLOAD_PROGRESS_THROTTLING = 100;
 
 	/**
-	 * This is a base type for progress reporters.
+	 * This is the base type for progress reporters.
 	 *
-	 * Progress reporters could be updated:
+	 * A progress reporter can be updated:
 	 *
-	 * * Automatically, by binding it to a existing {@link CKEDITOR.fileTools.fileLoader} instance.
-	 * * Manually, using {@link #updated}, {@link #done}, {@link #failed} and {@link #aborted} methods.
+	 * * Automatically, by binding it to an existing {@link CKEDITOR.fileTools.fileLoader} instance.
+	 * * Manually, using the {@link #updated}, {@link #done}, {@link #failed} and {@link #aborted} methods.
 	 *
 	 * @class CKEDITOR.plugins.imagebase.progressReporter
 	 * @constructor
@@ -725,7 +725,7 @@
 		/**
 		 * Method to be called in order to refresh the progress.
 		 *
-		 * @param {Number} progress Progress representation where `1.0` is a complete and `0` means no progress.
+		 * @param {Number} progress Progress representation where `1.0` means "complete" and `0` means "no progress".
 		 */
 		updated: function() {},
 
@@ -751,7 +751,7 @@
 		},
 
 		/**
-		 * Removes the progress reporter from DOM.
+		 * Removes the progress reporter from the DOM.
 		 */
 		remove: function() {
 			this.wrapper.remove();
@@ -760,13 +760,13 @@
 		/**
 		 * Binds this progress reporter to a given `loader`.
 		 *
-		 * It will automatically remove its listeners when the `loader` has triggered one of following events:
+		 * It will automatically remove its listeners when the `loader` has triggered one of the following events:
 		 *
 		 * * {@link CKEDITOR.fileTools.fileLoader#event-abort}
 		 * * {@link CKEDITOR.fileTools.fileLoader#event-error}
 		 * * {@link CKEDITOR.fileTools.fileLoader#event-uploaded}
 		 *
-		 * @param {CKEDITOR.fileTools.fileLoader} loader Loader that should be observed.
+		 * @param {CKEDITOR.fileTools.fileLoader} loader The loader that should be observed.
 		 */
 		bindLoader: function( loader ) {
 			var progressListeners = [];
@@ -800,7 +800,7 @@
 	};
 
 	/**
-	 * Type adding a vertical progress bar.
+	 * The type that adds a vertical progress bar.
 	 *
 	 *		var progress = new CKEDITOR.plugins.imagebase.progressBar();
 	 *		myWrapper.append( progress.wrapper, true );
@@ -816,7 +816,7 @@
 			'</div>' );
 
 		/**
-		 * @property {CKEDITOR.dom.element} bar Bar element whose width represents the progress.
+		 * @property {CKEDITOR.dom.element} bar The bar element whose width represents the progress.
 		 */
 		this.bar = this.wrapper.getFirst();
 	}
@@ -850,17 +850,17 @@
 	 */
 	CKEDITOR.plugins.imagebase = {
 		/**
-		 * Object containing all available features definitions.
+		 * An object that contains all available feature definitions.
 		 * @property {Object}
 		 */
 		featuresDefinitions: featuresDefinitions,
 
 		/**
-		 * Registers a new widget based on passed definition.
+		 * Registers a new widget based on the passed definition.
 		 *
-		 * @param {CKEDITOR.editor} editor Editor that will get the widget registered.
-		 * @param {String} name Widget name.
-		 * @param {CKEDITOR.plugins.imagebase.imageWidgetDefinition} definition Widget's definition.
+		 * @param {CKEDITOR.editor} editor The editor that will get the widget registered.
+		 * @param {String} name The widget name.
+		 * @param {CKEDITOR.plugins.imagebase.imageWidgetDefinition} definition The widget's definition.
 		 */
 		addImageWidget: function( editor, name, definition ) {
 			var widget = editor.widgets.add( name, createWidgetDefinition( editor, definition ) );
@@ -869,18 +869,18 @@
 		},
 
 		/**
-		 * Adds new feature to the passed widget's definition by invoking initial setup once for the editor
-		 * and extending widget's definition to include all fields needed by this feature.
+		 * Adds a new feature to the passed widget's definition by invoking the initial setup once for the editor
+		 * and extending the widget's definition to include all fields needed by this feature.
 		 *
 		 *		var widgetDefinition = {};
 		 *		widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'link', widgetDefinition );
 		 *		CKEDITOR.plugins.imagebase.addImageWidget( editor, 'myWidget', widgetDefinition );
 		 *
-		 * @param {CKEDITOR.editor} editor Editor that will get the widget registered.
-		 * @param {String} name Feature name.
-		 * @param {CKEDITOR.plugins.imagebase.imageWidgetDefinition} definition Widget's definition.
-		 * @returns {CKEDITOR.plugins.imagebase.imageWidgetDefinition} Widget's definition extended
-		 * with fields needed by feature.
+		 * @param {CKEDITOR.editor} editor The editor that will get the widget registered.
+		 * @param {String} name The feature name.
+		 * @param {CKEDITOR.plugins.imagebase.imageWidgetDefinition} definition The widget's definition.
+		 * @returns {CKEDITOR.plugins.imagebase.imageWidgetDefinition} The widget's definition extended
+		 * with fields needed by the feature.
 		 */
 		addFeature: function( editor, name, definition ) {
 			var featureDefinition = CKEDITOR.tools.clone( this.featuresDefinitions[ name ] ),
