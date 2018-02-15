@@ -5,7 +5,10 @@
 
 New Features:
 
-* [#932](https://github.com/ckeditor/ckeditor-dev/issues/932): Introduced the [Easy Image](https://ckeditor.com/cke4/addon/easyimage), [Cloud Services](https://ckeditor.com/cke4/addon/cloudservices) and [Image Base](https://ckeditor.com/cke4/addon/imagebase) plugins.
+* [#932](https://github.com/ckeditor/ckeditor-dev/issues/932): Introduced Easy Image feature for inserting images that are automatically rescaled, optimized, responsive and delivered through a blazing-fast CDN. Three new plugins were added to support it:
+    * [Easy Image](https://ckeditor.com/cke4/addon/easyimage),
+    * [Cloud Services](https://ckeditor.com/cke4/addon/cloudservices)
+    * [Image Base](https://ckeditor.com/cke4/addon/imagebase)
 * [#1338](https://github.com/ckeditor/ckeditor-dev/issues/1338): Keystroke labels are displayed for function keys (like F7, F8).
 * [#933](https://github.com/ckeditor/ckeditor-dev/issues/933): The [File Browser](https://ckeditor.com/cke4/addon/filebrowser) plugin can now upload files using XHR requests. This allows for setting custom HTTP headers using the [`config.fileTools_requestHeaders`](http://docs.ckeditor.test/#!/api/CKEDITOR.config-cfg-fileTools_requestHeaders) configuration option.
 * [#1365](https://github.com/ckeditor/ckeditor-dev/issues/1365): The [File Browser](https://ckeditor.com/cke4/addon/filebrowser) plugin uses XHR requests by default.
