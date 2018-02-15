@@ -7,6 +7,7 @@
 ( function () {
 
   var allowedContent = [],
+    formatTags = [],
     allHeadings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
     headings = [],
     startIndex,
@@ -28,12 +29,16 @@
         oneLevel1 = typeof config.oneLevel1 === 'undefined' ? true : config.oneLevel1,
         plugin = this,
         items = {},
-        headingTag;
+        headingTag,
+        formatTag;
 
       // Initialize headings array and indices used by getAllowedHeadings
       headings = this.getHeadingConfig( config );
       startIndex = oneLevel1 && headings[0] === 'h1' ? 1 : 0;
       endIndex = headings.length - 1;
+
+      // Initialize formatTags array
+      formatTags = config.format_tags.split( ';' );
 
       // Load the override script to change behavior of menubutton with text label
       CKEDITOR.scriptLoader.load( this.path + 'js/override.js' );
@@ -42,31 +47,17 @@
       editor.addCommand( 'heading', {
         allowedContent: allowedContent,
         contextSensitive: true,
-        exec: function( editor, headingId ) {
-          var item = items[ headingId ];
+        exec: function( editor, itemId ) {
+          var item = items[ itemId ];
           if ( item ) {
             editor[ item.style.checkActive( editor.elementPath(), editor ) ? 'removeStyle' : 'applyStyle' ]( item.style );
           }
         },
         refresh: function( editor ) {
-          this.setState( plugin.getCurrentHeadingElement( editor ) ?
+          this.setState( plugin.getCurrentHeadingOrFormatElement( editor ) ?
             CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
         }
       } );
-
-      // Register normalText command
-      editor.addCommand( 'normalText', {
-        allowedContent: allowedContent,
-        contextSensitive: true,
-        exec: function( editor ) {
-          var currentHeadingElement = plugin.getCurrentHeadingElement( editor );
-          var normalTextStyle = new CKEDITOR.style( { element: 'p' } );
-          if ( currentHeadingElement ) {
-            editor[ 'applyStyle' ]( normalTextStyle );
-            editor.focus();
-          }
-        }
-      } )
 
       // Create item entry for each heading element in config
       for ( var i = 0; i < headings.length; i++ ) {
@@ -87,23 +78,30 @@
         allowedContent.push( items[ headingTag ].style );
       }
 
-      // Add Remove heading format item
-      items.removeHeadingFormat = {
-        label: lang.remove,
-        group: 'heading_actions',
-        style: new CKEDITOR.style( { element: 'p' } ),
-        state: CKEDITOR.TRISTATE_DISABLED,
-        order: headings.length,
-        onClick: function() {
-          editor.execCommand( 'normalText' );
-        }
-      };
+      // Create item entry for each format element in config
+      for ( var i = 0; i < formatTags.length; i++ ) {
+        formatTag = formatTags[ i ];
+        items[ formatTag ] = {
+          label: lang['format_' + formatTag],
+          formatId: formatTag,
+          group: 'block_formats',
+          style: new CKEDITOR.style( { element: formatTag } ),
+          order: headings.length + i,
+          onClick: function() {
+            editor.execCommand( 'heading', this.formatId );
+          },
+          role: 'menuitemcheckbox'
+        };
+
+        // Populate allowedContent array
+        allowedContent.push( items[ formatTag ].style );
+      }
 
       // Add Help item using command from a11yfirsthelp plugin
       items.headingHelp = {
         label: lang.helpLabel,
-        group: 'heading_actions',
-        order: headings.length + 2,
+        group: 'help_items',
+        order: headings.length + formatTags.length + 1,
         onClick: function() {
           editor.a11yfirst.helpOption = 'HeadingHelp';
           editor.execCommand('a11yFirstHelpDialog');
@@ -112,7 +110,8 @@
 
       // Initialize menu groups
       editor.addMenuGroup( 'heading_levels', 1 );
-      editor.addMenuGroup( 'heading_actions' );
+      editor.addMenuGroup( 'block_formats', 2 );
+      editor.addMenuGroup( 'help_items' );
       editor.addMenuItems( items );
 
       editor.ui.add( 'Heading', CKEDITOR.UI_MENUBUTTON, {
@@ -123,7 +122,7 @@
         onMenu: function() {
           var activeItems = {},
             allowedHeadings = plugin.getAllowedHeadings( editor ),
-            currentHeadingElement = plugin.getCurrentHeadingElement( editor );
+            currentHeadingOrFormatElement = plugin.getCurrentHeadingOrFormatElement( editor );
 
           for ( var prop in items ) {
             if ( plugin.isHeadingElement( prop ) ) {
@@ -134,15 +133,39 @@
             }
           }
 
-          activeItems.removeHeadingFormat = currentHeadingElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
           activeItems.headingHelp = CKEDITOR.TRISTATE_OFF;
 
-          if ( currentHeadingElement )
-            activeItems[ currentHeadingElement.getName() ] = CKEDITOR.TRISTATE_ON;
+          if ( currentHeadingOrFormatElement )
+            activeItems[ currentHeadingOrFormatElement.getName() ] = CKEDITOR.TRISTATE_ON;
 
           return activeItems;
         }
       } );
+    },
+
+    isFormatElement: function ( name ) {
+      return ( formatTags.indexOf( name ) >= 0 );
+    },
+
+    isHeadingOrFormatElement: function ( name ) {
+      return this.isHeadingElement( name ) || this.isFormatElement( name );
+    },
+
+    getCurrentHeadingOrFormatElement: function ( editor ) {
+      var elementPath = editor.elementPath(),
+          activePath = elementPath && elementPath.elements,
+          pathMember, element;
+
+      // IE8: Upon initialization if there is no path, elementPath() returns null.
+      if ( elementPath ) {
+        for ( var i = 0; i < activePath.length; i++ ) {
+          pathMember = activePath[ i ];
+          if ( !element && this.isHeadingOrFormatElement( pathMember.getName() ) )
+            element = pathMember;
+        }
+      }
+
+      return element;
     },
 
     getHeadingConfig: function ( config ) {
@@ -280,3 +303,5 @@
 
   } )
 } )();
+
+CKEDITOR.config.format_tags = 'p;pre;address';

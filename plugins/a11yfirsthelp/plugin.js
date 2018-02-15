@@ -99,9 +99,6 @@ CKEDITOR.config.a11yFirstHelpTopics = {
   'headingHelp': {
     option:  'HeadingHelp'
   },
-  'blockFormatHelp': {
-    option:  'BlockFormatHelp'
-  },
   'inlineStyleHelp': {
     option:  'InlineStyleHelp'
   },

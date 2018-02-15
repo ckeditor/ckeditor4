@@ -112,7 +112,6 @@ CKEDITOR.editorConfig = function ( config ) {
 
   config.extraPlugins =
     'a11yfirsthelp,' +
-    'a11yformat,' +
     'a11yheading,' +
     'a11ylink,' +
     'a11ystylescombo';
@@ -152,7 +151,6 @@ CKEDITOR.editorConfig = function ( config ) {
   config.toolbar = [
     { name: 'heading',        items: [ 'Heading' ] },
     { name: 'list',           items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ] },
-    { name: 'blockformat',    items: [ 'BlockFormat' ] },
     { name: 'blockquote',     items: [ 'Blockquote' ] },
     { name: 'justify',        items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
     { name: 'misc1',          items: [ 'Image', 'Table' ] },
