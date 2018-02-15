@@ -1,0 +1,64 @@
+<textarea id="editor">
+	<div class="widget" style="width: 200px">Test</div>
+</textarea>
+
+<script>
+	CKEDITOR.addCss( '.widget { background: #ccc; border-radius: 3px;padding: 30px;min-height: 70px;}' +
+		'.test { background: red;}' +
+		'#test { text-align: right;}' );
+
+	CKEDITOR.replace( 'editor', {
+		extraPlugins: 'widget,elementspath',
+		toolbar: [ [ 'widgetStyle', 'widgetRmStyle', 'Source' ] ],
+		allowedContent: true,
+		on: {
+			pluginsLoaded: function( evt ) {
+				var editor = evt.editor;
+
+				editor.widgets.add( 'testWidget', {
+					allowedContent: true,
+					styleableElements: 'div',
+					upcast: function( element ) {
+						return element.name === 'div';
+					}
+				} );
+
+				var style = new CKEDITOR.style( {
+					type: 'widget',
+					widget: 'testWidget',
+					attributes: {
+						'class': 'test',
+						'id': 'test'
+					},
+					styles: {
+						'font-size': '48px',
+						'float': 'right'
+					}
+				} );
+
+				editor.addCommand( 'widgetStyle', {
+					exec: function() {
+						editor.applyStyle( style );
+					}
+				} );
+
+				editor.addCommand( 'widgetRmStyle', {
+					exec: function() {
+						editor.removeStyle( style );
+					}
+				} );
+
+				editor.ui.addButton( 'widgetStyle', {
+					command: 'widgetStyle',
+					label: 'Apply style'
+				} );
+
+				editor.ui.addButton( 'widgetRmStyle', {
+					command: 'widgetRmStyle',
+					label: 'Remove style'
+				} );
+			}
+		}
+	}, 1);
+</script>
+
