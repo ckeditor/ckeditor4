@@ -220,151 +220,21 @@
 				id: 'info',
 				label: linkLang.info,
 				title: linkLang.info,
-				elements: [
-				{
-					type: 'vbox',
-					align: 'bottom',
-					id: 'linkDisplayTextOptions',
-					children: [
-						{
-							type: 'hbox',
-							widths: [ '85%', '15%' ],
-							children: [
-								{
-									type: 'text',
-									id: 'linkDisplayText',
-									label: linkLang.displayText,
-									title: linkLang.displayTextTitle,
-									setup: function() {
-										this.enable();
+				elements: [ {
+					type: 'text',
+					id: 'linkDisplayText',
+					label: linkLang.displayText,
+					setup: function() {
+						this.enable();
 
-										this.setValue( editor.getSelection().getSelectedText() );
+						this.setValue( editor.getSelection().getSelectedText() );
 
-										// Keep inner text so that it can be compared in commit function. By obtaining value from getData()
-										// we get value stripped from new line chars which is important when comparing the value later on.
-										initialLinkText = this.getValue();
-									},
-									validate: function() {
-
-										var displayText           = this.getValue();
-										var normalizedDisplayText = displayText.trim().toLowerCase();
-
-										normalizedDisplayText = normalizedDisplayText.replace(/^\s*|\s(?=\s)|\s*$/g, "")
-
-										var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' ).getValue();
-
-										// Testing for using the URL as the link text
-										if (!normalizedDisplayText.length && !urlIsDisplayText) {
-											alert(linkLang.msgEmptyDisplayText);
-											return false;
-										}
-
-										// Testing for common cases of invalid link text
-										for (var i = 0; i < linkLang.a11yFirstInvalidDisplayText.length; i++) {
-											if (normalizedDisplayText === linkLang.a11yFirstInvalidDisplayText[i]) {
-												alert(linkLang.msgInvalidDisplayText.replace('%s', displayText));
-												return false;
-											}
-										}
-
-										// Testing for link text starting with "Link" or "Link to"
-										for (var i = 0; i < linkLang.a11yFirstInvalidStartText.length; i++) {
-											if (normalizedDisplayText.indexOf(linkLang.a11yFirstInvalidStartText[i]) === 0) {
-												alert(linkLang.msgInvalidStartText.replace('%s', linkLang.a11yFirstInvalidStartText[i]));
-												return false;
-											}
-										}
-
-										return true;
-									},
-									onChange: function () {
-										var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' );
-
-										var displayText  = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
-										var url          = this.getDialog().getContentElement( 'info', 'url' ).getValue();
-
-										if (url.length > 0) {
-											if (displayText.length > 0) {
-
-												if (displayText.indexOf(url) >= 0) {
-													urlIsDisplayText.enable();
-												}
-												else {
-													urlIsDisplayText.setValue('');
-													urlIsDisplayText.disable();
-												}
-											}
-											else {
-												urlIsDisplayText.enable();
-											}
-										}
-										else {
-											urlIsDisplayText.disable();
-										}
-									},
-									commit: function( data ) {
-										data.linkText = this.isEnabled() ? this.getValue() : '';
-									}
-								},
-							  {
-							 	  id: 'a11yfirstHelpLink',
-									type: 'button',
-									label: linkLang.a11yfirstHelp,
-									title: linkLang.a11yfirstHelpTitle,
-									onClick: function() {
-					          editor.a11yfirst.helpOption = 'LinkHelp';
-					          editor.execCommand('a11yFirstHelpDialog');
-									}
-								}
-							]
-						}
-					]
-				},
-				{
-				type: 'checkbox',
-					id: 'urlIsDisplayText',
-					label: linkLang.urlIsDisplayText,
-					title: linkLang.urlIsDisplayTextTitle,
-					setup: function(data) {
-						var displayText = editor.getSelection().getSelectedText();
-
-						if (displayText.length > 0 ) {
-							if ( data.url ) {
-								var url = data.url.url;
-
-								if (displayText.indexOf(url) >= 0) {
-									this.setValue('checked');
-									this.enable();
-								}
-								else {
-									this.setValue('');
-									this.disable();
-								}
-							}
-							else {
-								this.disable();
-							}
-						}
-						else {
-							this.enable();
-						}
+						// Keep inner text so that it can be compared in commit function. By obtaining value from getData()
+						// we get value stripped from new line chars which is important when comparing the value later on.
+						initialLinkText = this.getValue();
 					},
-					onClick: function () {
-						var displayText = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
-						var url         = this.getDialog().getContentElement( 'info', 'url' ).getValue();
-
-						if (url.length > 0 ) {
-							if (displayText.length > 0 ) {
-									if (displayText.indexOf(url) < 0) {
-										this.setValue('');
-										this.disable();
-									}
-								}
-						}
-						else {
-							this.setValue('');
-							this.disable()
-						}
+					commit: function( data ) {
+						data.linkText = this.isEnabled() ? this.getValue() : '';
 					}
 				},
 				{
@@ -443,30 +313,6 @@
 							onChange: function() {
 								if ( this.allowOnChange ) // Dont't call on dialog load.
 								this.onKeyUp();
-
-								var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' );
-
-								var displayText  = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
-								var url          = this.getDialog().getContentElement( 'info', 'url' ).getValue();
-
-								if (url.length > 0) {
-									if (displayText.length > 0) {
-
-										if (displayText.indexOf(url) >= 0) {
-											urlIsDisplayText.enable();
-										}
-										else {
-											urlIsDisplayText.setValue('');
-											urlIsDisplayText.disable();
-										}
-									}
-									else {
-										urlIsDisplayText.enable();
-									}
-								}
-								else {
-									urlIsDisplayText.disable();
-								}
 							},
 							validate: function() {
 								var dialog = this.getDialog();
@@ -487,11 +333,8 @@
 							},
 							setup: function( data ) {
 								this.allowOnChange = false;
-								if ( data.url ) {
+								if ( data.url )
 									this.setValue( data.url.url );
-//									console.log('[setup]: ' + data.url.url);
-								}
-
 								this.allowOnChange = true;
 
 							},
@@ -1128,14 +971,14 @@
 				if ( !editor.config.linkShowTargetTab )
 					this.hidePage( 'target' ); //Hide Target tab.
 			},
-			// Inital focus on 'linkDisplayText' field if link is of type URL.
+			// Inital focus on 'url' field if link is of type URL.
 			onFocus: function() {
 				var linkType = this.getContentElement( 'info', 'linkType' ),
-					linkDisplayTextField;
+					urlField;
 
 				if ( linkType && linkType.getValue() == 'url' ) {
-					linkDisplayTextField = this.getContentElement( 'info', 'linkDisplayText' );
-					linkDisplayTextField.select();
+					urlField = this.getContentElement( 'info', 'url' );
+					urlField.select();
 				}
 			}
 		};
