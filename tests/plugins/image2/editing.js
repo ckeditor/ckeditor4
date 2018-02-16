@@ -74,7 +74,7 @@
 			wait();
 		},
 
-		// #1348
+		// (#1348)
 		'test image dialog has correct aspect ratio after src change': function() {
 			var bot = this.editorBot,
 				editor = bot.editor;
