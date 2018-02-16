@@ -243,9 +243,9 @@ Providing accessible *Display Text* is straightforward if you keep the following
 \n\
 1. The *Display Text* for a link should describe the target of the link.\n\
 \n\
-1. Do not use ambiguous text, such as "Click Here" or "More".\n\
+1. Do not use ambiguous text, such as “Click Here” or “More”.\n\
 \n\
-1. Do not begin the *Display Text* with redundant words or phrases such as "Link" or "Link to".\n\
+1. Do not begin the *Display Text* with redundant words or phrases such as “Link” or “Link to”.\n\
 \n\
 1. Be consistent: Links to the same URL should have the same *Display Text*.\n\
 \n\
@@ -254,6 +254,10 @@ Providing accessible *Display Text* is straightforward if you keep the following
 1. The *Use URL as Display Text* checkbox will override the previous guideline and must **only** be used in special circumstances.\n\
 \n\
 ### About links\n\
+\n\
+* Screen reader users often use the “List of Links” feature to identify and navigate to links on a page. When links are presented as a list,  using descriptive *Display Text* becomes even more important since understanding the target of each link no longer benefits from its original context within the document.\n\
+\n\
+* Screen reader users often use the “Search” feature to find links on a page based on keywords they would expect to find in the *Display Text* of the links. Thus the more descriptive the link *Display Text*, the more effective the search feature will be in finding relevant links.\n\
 \n\
 * Usable and accessible *Display Text* should be descriptive, unique and start with\n\
 keywords (NNG).\n\
