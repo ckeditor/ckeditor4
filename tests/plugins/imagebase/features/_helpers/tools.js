@@ -29,6 +29,7 @@
 			editor.once( 'paste', function( evt ) {
 				// Unfortunately at the time being we need to do additional timeout here, as
 				// the paste event gets cancelled.
+				// We have to add additional ms to wait for Firefox to finish asynchronous events (#1619).
 				setTimeout( function() {
 					var widgets = bender.tools.objToArray( editor.widgets.instances ),
 						listeners = [];
@@ -43,13 +44,9 @@
 							} );
 						}
 
-						// Some tests occasionally fail in Firefox. After making them asynchronous tests passes (#1571).
-						// Unfortunately we weren't able to figure out a better way than adding a timeout.
-						setTimeout( function() {
-							resume( function() {
-								callback( bender.tools.objToArray( editor.widgets.instances ), evt, uploadEvt );
-							} );
-						}, 0 );
+						resume( function() {
+							callback( bender.tools.objToArray( editor.widgets.instances ), evt, uploadEvt );
+						} );
 					}
 
 					if ( options.fullLoad && widgets.length ) {
@@ -60,7 +57,7 @@
 					} else {
 						wrappedCallback();
 					}
-				}, 0 );
+				}, 30 );
 			}, null, null, -1 );
 
 			// pasteFiles is defined in clipboard plugin helper.
