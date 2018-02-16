@@ -565,7 +565,7 @@
 
 					// In Firefox and Edge applying styles inside caption results
 					// in firing this listener without focused widget.
-					// However it could be obtained from element, on which the event took place.
+					// However it could be obtained from element, on which the event took place (#1646).
 					if ( editor.focusManager.hasFocus && sender && !focused ) {
 						focused = editor.widgets.getByElement( sender );
 					}
@@ -604,7 +604,7 @@
 			 * @param {CKEDITOR.dom.element} sender The element that this function should be called on.
 			 * @param {Boolean} [isFocused] Indicates if current widget should be treated as a focused one.
 			 * If this parameter is omitted, its value is determined by checking
-			 * {@link CKEDITOR.plugins.widget.repository#focused} value.
+			 * {@link CKEDITOR.plugins.widget.repository#focused} value. This parameter was added in 4.9.1.
 			 */
 			_refreshCaption: function( sender, isFocused ) {
 				var caption = this.parts.caption,
