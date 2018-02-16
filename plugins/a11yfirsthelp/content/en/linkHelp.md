@@ -1,22 +1,20 @@
 ## Link
 
-### How it works
+### Display Text
 
-* *Display Text* is the text that appears on your web page for the link.
+Providing accessible *Display Text* is straightforward if you keep the following guidelines in mind:
 
-* The *Display Text* must **not** be empty, since it results in the URL being
-used as the display text for the link.
+1. The *Display Text* for a link should describe the target of the link.
 
-* The *Display Text* must **not** use ambiguous text, for example "Click Here"
-or "More".
+1. Do not use ambiguous text, such as "Click Here" or "More".
 
-* The *Display Text* must **not** start with redunent text, including "Link" and
-or "Link to".
+1. Do not begin the *Display Text* with redundant words or phrases such as "Link" or "Link to".
 
-* The *Display Text* should **not** be the URL of the link.
+1. Be consistent: Links to the same URL should have the same *Display Text*.
 
-* The *Use URL as Display Text* checkbox allows the URL to be used as display
-text and must **only** be used in special circumstances.
+1. In most cases, it is best not to use the link URL as the *Display Text*.
+
+1. The *Use URL as Display Text* checkbox will override the previous guideline and must **only** be used in special circumstances.
 
 ### About links
 
@@ -25,8 +23,6 @@ keywords (NNG).
 
 * The *Display Text* for links is like a sign post. It should tell you what
 you’ll find when you follow it (NOMENSA).
-
-* Be consistent: Links to the same URL should have the same *Display Text*.
 
 ### Why it's important
 

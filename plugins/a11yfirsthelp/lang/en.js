@@ -237,23 +237,21 @@ make it easier for you to maintain stylistic consistency.\n\
     'content' : '\
 ## Link\n\
 \n\
-### How it works\n\
+### Display Text\n\
 \n\
-* *Display Text* is the text that appears on your web page for the link.\n\
+Providing accessible *Display Text* is straightforward if you keep the following guidelines in mind:\n\
 \n\
-* The *Display Text* must **not** be empty, since it results in the URL being\n\
-used as the display text for the link.\n\
+1. The *Display Text* for a link should describe the target of the link.\n\
 \n\
-* The *Display Text* must **not** use ambiguous text, for example "Click Here"\n\
-or "More".\n\
+1. Do not use ambiguous text, such as "Click Here" or "More".\n\
 \n\
-* The *Display Text* must **not** start with redunent text, including "Link" and\n\
-or "Link to".\n\
+1. Do not begin the *Display Text* with redundant words or phrases such as "Link" or "Link to".\n\
 \n\
-* The *Display Text* should **not** be the URL of the link.\n\
+1. Be consistent: Links to the same URL should have the same *Display Text*.\n\
 \n\
-* The *Use URL as Display Text* checkbox allows the URL to be used as display\n\
-text and must **only** be used in special circumstances.\n\
+1. In most cases, it is best not to use the link URL as the *Display Text*.\n\
+\n\
+1. The *Use URL as Display Text* checkbox will override the previous guideline and must **only** be used in special circumstances.\n\
 \n\
 ### About links\n\
 \n\
@@ -262,8 +260,6 @@ keywords (NNG).\n\
 \n\
 * The *Display Text* for links is like a sign post. It should tell you what\n\
 you’ll find when you follow it (NOMENSA).\n\
-\n\
-* Be consistent: Links to the same URL should have the same *Display Text*.\n\
 \n\
 ### Why it\'s important\n\
 \n\
