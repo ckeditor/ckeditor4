@@ -443,7 +443,6 @@
 			}
 		} ),
 
-
 		// (#1776)
 		'test empty caption placeholder is hidden when blurred': function( editor, bot ) {
 			addTestWidget( editor );
@@ -468,7 +467,7 @@
 			} );
 		},
 
-		// #tp3384
+		// #1646
 		'test caption placeholder integration with basicstyles': createToggleTest( {
 			fixture: 'toggleOneEmpty',
 			initial: false,
@@ -476,8 +475,17 @@
 			blur: false,
 
 			customFocus: function( widget ) {
+				var range = widget.editor.createRange(),
+					caption = widget.parts.caption;
+
 				widget.focus();
-				widget.parts.caption.focus();
+				caption.focus();
+
+				// In Safari and IE11 focus is not enough to move selection.
+				range.setStart( caption.getChild( 0 ), 0 );
+				range.collapse();
+				range.select();
+
 				widget.editor.execCommand( 'bold' );
 			},
 
