@@ -1,6 +1,6 @@
-@bender-tags: 4.9.0, feature, 932, tp3384
+@bender-tags: 4.9.1, feature, 932, tp3384, 1646
 @bender-ui: collapsed
-@bender-ckeditor-plugins: sourcearea, wysiwygarea, toolbar, imagebase, link, htmlwriter, elementspath, basicstyles
+@bender-ckeditor-plugins: wysiwygarea, toolbar, imagebase, basicstyles
 
 # Integration of caption and basicstyles
 
@@ -12,7 +12,7 @@
 
 * Bold is applied.
 * There is no visible placeholder.
-* Firefox/Edge: Selection remains inside the caption.
+* Selection remains inside the caption.
 
 ## Unexpected
 
