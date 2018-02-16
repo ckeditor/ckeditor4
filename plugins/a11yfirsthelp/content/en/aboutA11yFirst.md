@@ -22,14 +22,17 @@ text or understand images.
 
 ### A11yFirst Toolbar Features
 
-* **Heading**: Assists you in choosing the proper heading levels to make the
-heading structure in your document more meaningful to readers.
-
-* **Paragraph Format**: Provides special formatting for blocks of text (e.g.
-paragraphs) within your document.
+* **Heading/Paragaph**: Assists you in choosing the proper heading levels to make the
+heading structure in your document more meaningful to readers and provides special
+formatting for blocks of text (e.g. paragraphs) within your document.
 
 * **Character Style**: Provides styling to highlight or emphasize a word or group
 of words (i.e. characters) within a block of text.
+
+* **Link**: Checks the accessibility of *Display Text* when adding or editing links.
+
+* **A11yFirst Help**: Provides information on the important features of accessible
+documents.
 
 ### Project Information
 

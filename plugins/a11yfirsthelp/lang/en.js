@@ -66,14 +66,17 @@ text or understand images.\n\
 \n\
 ### A11yFirst Toolbar Features\n\
 \n\
-* **Heading**: Assists you in choosing the proper heading levels to make the\n\
-heading structure in your document more meaningful to readers.\n\
-\n\
-* **Paragraph Format**: Provides special formatting for blocks of text (e.g.\n\
-paragraphs) within your document.\n\
+* **Heading/Paragaph**: Assists you in choosing the proper heading levels to make the\n\
+heading structure in your document more meaningful to readers and provides special\n\
+formatting for blocks of text (e.g. paragraphs) within your document.\n\
 \n\
 * **Character Style**: Provides styling to highlight or emphasize a word or group\n\
 of words (i.e. characters) within a block of text.\n\
+\n\
+* **Link**: Checks the accessibility of *Display Text* when adding or editing links.\n\
+\n\
+* **A11yFirst Help**: Provides information on the important features of accessible\n\
+documents.\n\
 \n\
 ### Project Information\n\
 \n\
@@ -236,24 +239,26 @@ make it easier for you to maintain stylistic consistency.\n\
 \n\
 ### How it works\n\
 \n\
-* When the *Link* button is activated, the *Link* dialog is displayed with\n\
-the focus set to the *URL* field. If a text selection was previously made,\n\
-the *Display Text* field is populated with the selected text.\n\
-\n\
-* However, if you activate the *Link* button with an empty selection, the\n\
-default behavior is to use the *URL* text as the *Display Text*. This is\n\
-problematic because URLs are often not very descriptive.\n\
-\n\
-### About display text\n\
-\n\
-* The *Display Text* for a link should be descriptive, unique and start with\n\
-keywords (NNG).\n\
+* *Display Text* is the text that appears on your web page for the link.\n\
 \n\
 * The *Display Text* must **not** be empty, since it results in the URL being\n\
 used as the display text for the link.\n\
 \n\
 * The *Display Text* must **not** use ambiguous text, for example "Click Here"\n\
 or "More".\n\
+\n\
+* The *Display Text* must **not** start with redunent text, including "Link" and\n\
+or "Link to".\n\
+\n\
+* The *Display Text* should **not** be the URL of the link.\n\
+\n\
+* The *Use URL as Display Text* checkbox allows the URL to be used as display\n\
+text and must **only** be used in special circumstances.\n\
+\n\
+### About links\n\
+\n\
+* Usable and accessible *Display Text* should be descriptive, unique and start with\n\
+keywords (NNG).\n\
 \n\
 * The *Display Text* for links is like a sign post. It should tell you what\n\
 you’ll find when you follow it (NOMENSA).\n\

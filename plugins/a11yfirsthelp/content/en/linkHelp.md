@@ -2,16 +2,7 @@
 
 ### How it works
 
-* *Display Text* is the text that appears on your web page identifying and describing the link.
-
-* *Protocol* and *URL* specifies the target web page of the link.
-
-* *Use URL as Display Text* is option that allows the URL to be used as display text and must only be used in special circumstances.
-
-### About display text
-
-* Usable and accessible *Display Text* should be descriptive, unique and start with
-keywords (NNG).
+* *Display Text* is the text that appears on your web page for the link.
 
 * The *Display Text* must **not** be empty, since it results in the URL being
 used as the display text for the link.
@@ -21,6 +12,16 @@ or "More".
 
 * The *Display Text* must **not** start with redunent text, including "Link" and
 or "Link to".
+
+* The *Display Text* should **not** be the URL of the link.
+
+* The *Use URL as Display Text* checkbox allows the URL to be used as display
+text and must **only** be used in special circumstances.
+
+### About links
+
+* Usable and accessible *Display Text* should be descriptive, unique and start with
+keywords (NNG).
 
 * The *Display Text* for links is like a sign post. It should tell you what
 you’ll find when you follow it (NOMENSA).

@@ -208,6 +208,34 @@
 				return commitParams.call( this, 'advanced', data );
 			};
 
+		var updateUrlIsDisplayText = function(urlIsDisplayText, displayText, url, setChecked) {
+				if (typeof setChecked !== 'boolean') {
+					setChecked = false;
+				}
+
+				if (url.length > 0) {
+					if (displayText.length > 0) {
+
+						if (displayText.indexOf(url) >= 0) {
+							if (setChecked) {
+								urlIsDisplayText.setValue('checked');
+							}
+							urlIsDisplayText.enable();
+						}
+						else {
+							urlIsDisplayText.setValue('');
+							urlIsDisplayText.disable();
+						}
+					}
+					else {
+						urlIsDisplayText.enable();
+					}
+				}
+				else {
+					urlIsDisplayText.disable();
+				}
+			};
+
 		var commonLang = editor.lang.common,
 			linkLang = editor.lang.a11ylink,
 			anchors;
@@ -248,14 +276,23 @@
 
 										var displayText           = this.getValue();
 										var normalizedDisplayText = displayText.trim().toLowerCase();
-
 										normalizedDisplayText = normalizedDisplayText.replace(/^\s*|\s(?=\s)|\s*$/g, "")
+
+										var normalizedUrl = this.getDialog().getContentElement( 'info', 'url' ).getValue();
+										normalizedUrl     = normalizedUrl.trim().toLowerCase();
 
 										var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' ).getValue();
 
 										// Testing for using the URL as the link text
 										if (!normalizedDisplayText.length && !urlIsDisplayText) {
 											alert(linkLang.msgEmptyDisplayText);
+											return false;
+										}
+
+										if(((normalizedDisplayText.indexOf(normalizedUrl) >= 0) ||
+										   (normalizedDisplayText.indexOf('http') === 0))
+											  && !urlIsDisplayText) {
+											alert(linkLang.msgUrlDisplayText);
 											return false;
 										}
 
@@ -277,30 +314,10 @@
 
 										return true;
 									},
-									onChange: function () {
+									onBlur: function () {
 										var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' );
-
-										var displayText  = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
-										var url          = this.getDialog().getContentElement( 'info', 'url' ).getValue();
-
-										if (url.length > 0) {
-											if (displayText.length > 0) {
-
-												if (displayText.indexOf(url) >= 0) {
-													urlIsDisplayText.enable();
-												}
-												else {
-													urlIsDisplayText.setValue('');
-													urlIsDisplayText.disable();
-												}
-											}
-											else {
-												urlIsDisplayText.enable();
-											}
-										}
-										else {
-											urlIsDisplayText.disable();
-										}
+										var url         = this.getDialog().getContentElement( 'info', 'url' ).getValue();
+										updateUrlIsDisplayText(urlIsDisplayText, this.getValue(), url);
 									},
 									commit: function( data ) {
 										data.linkText = this.isEnabled() ? this.getValue() : '';
@@ -327,27 +344,11 @@
 					title: linkLang.urlIsDisplayTextTitle,
 					setup: function(data) {
 						var displayText = editor.getSelection().getSelectedText();
-
-						if (displayText.length > 0 ) {
-							if ( data.url ) {
-								var url = data.url.url;
-
-								if (displayText.indexOf(url) >= 0) {
-									this.setValue('checked');
-									this.enable();
-								}
-								else {
-									this.setValue('');
-									this.disable();
-								}
-							}
-							else {
-								this.disable();
-							}
+						var url = '';
+						if (data.url) {
+							url = data.url.url;
 						}
-						else {
-							this.enable();
-						}
+						updateUrlIsDisplayText(this, displayText, url, true);
 					},
 					onClick: function () {
 						var displayText = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
@@ -440,33 +441,14 @@
 
 								this.allowOnChange = true;
 							},
+							onBlur: function() {
+								var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' );
+								var displayText      = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
+								updateUrlIsDisplayText(urlIsDisplayText, displayText, this.getValue());
+							},
 							onChange: function() {
 								if ( this.allowOnChange ) // Dont't call on dialog load.
 								this.onKeyUp();
-
-								var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' );
-
-								var displayText  = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
-								var url          = this.getDialog().getContentElement( 'info', 'url' ).getValue();
-
-								if (url.length > 0) {
-									if (displayText.length > 0) {
-
-										if (displayText.indexOf(url) >= 0) {
-											urlIsDisplayText.enable();
-										}
-										else {
-											urlIsDisplayText.setValue('');
-											urlIsDisplayText.disable();
-										}
-									}
-									else {
-										urlIsDisplayText.enable();
-									}
-								}
-								else {
-									urlIsDisplayText.disable();
-								}
 							},
 							validate: function() {
 								var dialog = this.getDialog();

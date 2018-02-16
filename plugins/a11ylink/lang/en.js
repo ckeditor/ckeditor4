@@ -74,6 +74,6 @@ CKEDITOR.plugins.setLang( 'a11ylink', 'en', {
 	urlIsDisplayTextTitle: 'This option is enabled when Display Text is empty or contains the URL',
 	msgInvalidStartText: 'Please remove "%s" from the Display Text',
 	msgInvalidDisplayText: 'Please replace "%s" with text that describes the target of the link',
+	msgUrlDisplayText: 'Please replace the URL with text that describes the target of the link',
 	msgEmptyDisplayText: 'Please type the Display Text for the link'
-
 } );
