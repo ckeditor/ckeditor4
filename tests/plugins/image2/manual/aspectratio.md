@@ -14,4 +14,4 @@ The inserted image has preserved aspect ratio.
 
 ## Unexpected
 
-The inserted image has is streched, aspect ratio is not preserved.
+The inserted image is stretched, aspect ratio is not preserved.
