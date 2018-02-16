@@ -1,3 +1,3 @@
-﻿/* exported testVar */
+/* exported testVar */
 
 var testVar = 'Test!';
