@@ -43,7 +43,7 @@ screen reader users to find and follow links of interest to them.
 
 ### More information
 
-* <a href="https://www.nomensa.com/blog/2011/writing-good-link-text" target="_resource">NNG: Writing Hyperlinks: Salient, Descriptive, Start with Keyword</a>
+* <a href="https://www.nngroup.com/articles/writing-links/" target="_resource">NNG: Writing Hyperlinks: Salient, Descriptive, Start with Keyword</a>
 
 * <a href="https://www.nomensa.com/blog/2011/writing-good-link-text" target="_resource">NOMENSA: Writing good link text</a>
 

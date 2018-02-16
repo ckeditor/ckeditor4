@@ -280,7 +280,7 @@ screen reader users to find and follow links of interest to them.\n\
 \n\
 ### More information\n\
 \n\
-* <a href="https://www.nomensa.com/blog/2011/writing-good-link-text" target="_resource">NNG: Writing Hyperlinks: Salient, Descriptive, Start with Keyword</a>\n\
+* <a href="https://www.nngroup.com/articles/writing-links/" target="_resource">NNG: Writing Hyperlinks: Salient, Descriptive, Start with Keyword</a>\n\
 \n\
 * <a href="https://www.nomensa.com/blog/2011/writing-good-link-text" target="_resource">NOMENSA: Writing good link text</a>\n\
 \n\
