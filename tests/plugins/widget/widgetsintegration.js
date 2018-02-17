@@ -641,8 +641,8 @@
 
 		// #1570
 		'test cutting single focused widget with readonly mode': function() {
-			// Test has been ignored for IE due to #1632 issue. Remove this ignore statement after the issue fix.
-			if ( CKEDITOR.env.ie ) {
+			// Test has been ignored for IE due to #1575 issue. Remove this ignore statement after the issue fix.
+			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 				assert.ignore();
 			}
 
