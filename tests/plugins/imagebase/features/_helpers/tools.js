@@ -4,14 +4,6 @@
 ( function() {
 	'use strict';
 
-	function objToArray( obj ) {
-		var tools = CKEDITOR.tools;
-
-		return tools.array.map( tools.objectKeys( obj ), function( key ) {
-			return obj[ key ];
-		} );
-	}
-
 	window.imageBaseFeaturesTools = {
 		/*
 		 * Main assertion for pasting files.
@@ -38,7 +30,7 @@
 				// Unfortunately at the time being we need to do additional timeout here, as
 				// the paste event gets cancelled.
 				setTimeout( function() {
-					var widgets = objToArray( editor.widgets.instances ),
+					var widgets = bender.tools.objToArray( editor.widgets.instances ),
 						listeners = [];
 
 					function wrappedCallback( uploadEvt ) {
@@ -55,7 +47,7 @@
 						// Unfortunately we weren't able to figure out a better way than adding a timeout.
 						setTimeout( function() {
 							resume( function() {
-								callback( objToArray( editor.widgets.instances ), evt, uploadEvt );
+								callback( bender.tools.objToArray( editor.widgets.instances ), evt, uploadEvt );
 							} );
 						}, 0 );
 					}
