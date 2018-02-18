@@ -1096,5 +1096,28 @@ bender.test( {
 
 			assert.areEqual( '<p>[[placeholder]]</p>', editor.getData() );
 		} );
+	},
+
+	// (#1632)
+	'Test selection is not faked on keydown with readonly mode': function() {
+
+		// Test has been ignored for IE due to #1575 issue. Remove this ignore statement after the issue fix.
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor, bot = this.editorBot;
+
+		editor.setReadOnly( true );
+
+		bot.setData( '<p>[[placeholder]]</p>', function() {
+			var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ];
+
+			widget.focus();
+
+			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + 88 } ) );
+
+			assert.isFalse( !!editor.getSelection().isFake, 'selection is faked' );
+		} );
 	}
 } );
