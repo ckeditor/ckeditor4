@@ -929,6 +929,7 @@
 					ascendant = nonEditableAscendant( sel );
 
 				if ( ascendant ) {
+					// Prevent changing selection when an ascendant is an entire editable (#1632).
 					if ( !ascendant.equals( editable ) ) {
 						sel.selectElement( ascendant );
 					}
