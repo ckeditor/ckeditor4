@@ -5,8 +5,8 @@
 * To use the CKEditor Builder tool, start by selecting the Standard preset.
 * Then add and remove plugins as specified in the three steps listed below.
 *
-* Note: When filebrowser, format and stylescombo are removed, their
-* dependencies (popup, listblock and richcombo) are also removed.
+* Note: When filebrowser, format, link and stylescombo are removed, their
+* dependencies (popup, listblock, fakeobjects and richcombo) are also removed.
 *
 * 1. Add the following plugins:
 *
@@ -24,6 +24,7 @@
 *    Format                 (format)
 *    Horizontal Rule        (horizontalrule)
 *    HTML Output Writer     (htmlwriter)
+*    Link                   (link)
 *    Maximize               (maximize)
 *    SpellCheckAsYouType    (scayt)
 *    Styles Combo           (stylescombo)
@@ -31,8 +32,9 @@
 *    WebSpellChecker        (wsc)
 *
 * 3. Add the a11yfirst plugin dependencies that were removed when the
-*    Standard preset plugins format and stylescombo were removed:
+*    Standard preset plugins format, link and stylescombo were removed:
 *
+*    Fake Objects           (fakeobjects)
 *    List Block             (listblock)
 *    Rich Combo             (richcombo)
 *
@@ -84,7 +86,6 @@ CKEDITOR.editorConfig = function ( config ) {
     'indentlist,' +
     'justify,' +
     'language,' +
-//    'list,' +
     'list,' +
     'listblock,' +
     'liststyle,' +
