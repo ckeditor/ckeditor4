@@ -160,7 +160,7 @@
 			}
 
 			bot.setData( getFixture( options.fixture ), function() {
-				var widgets = widgetTestsTools.obj2Array( editor.widgets.instances ).slice( 0, options.widgetsCount );
+				var widgets = bender.tools.objToArray( editor.widgets.instances ).slice( 0, options.widgetsCount );
 
 				assertMultipleVisibility( widgets, options.initial, 'initial' );
 				assertOnFocus( widgets, options.focus );
