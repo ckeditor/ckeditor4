@@ -109,9 +109,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 			/**
 			 * Updates state of the combo.
 			 *
-			 * @since 4.9.0
-			 * @param {CKEDITOR.editor} editor The editor instance which this button is
-			 * to be used by.
+			 * @since 4.9.1
+			 * @param {CKEDITOR.editor} editor The editor instance which this rich combo instance.
 			 */
 			updateState: function( editor ) {
 				// Don't change state while richcombo is active (https://dev.ckeditor.com/ticket/11793).
