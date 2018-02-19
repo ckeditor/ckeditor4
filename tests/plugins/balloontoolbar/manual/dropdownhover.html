@@ -18,11 +18,11 @@
 
 		strong.on( 'click', function() {
 			panel.addItems( {
-				bold: new CKEDITOR.ui.button( {
-					label: 'test',
-					command: 'bold'
-				} ),
-				language: evt.editor.ui.create( 'Language' ),
+				// bold: new CKEDITOR.ui.button( {
+				// 	label: 'test',
+				// 	command: 'bold'
+				// } ),
+				// language: evt.editor.ui.create( 'Language' ),
 				Styles: evt.editor.ui.create( 'Styles' )
 			} );
 			panel.attach( this );
@@ -30,7 +30,7 @@
 	}
 
 	CKEDITOR.replace( 'editor1', {
-		extraPlugins: 'balloonpanel,language,stylescombo',
+		// extraPlugins: 'balloonpanel,language,stylescombo',
 		height: 300,
 		width: 600,
 		on: {
