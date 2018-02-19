@@ -2,6 +2,24 @@
 
 All notable changes to the A11yFirst project will be documented in this file.
 
+## v0.7.0 – 19 Feb 2018
+
+### Updates
+
+* Combine the `Heading` menu with what was most recently called `Paragraph Format`
+  and relabel the new menu `Heading / Paragraph`
+
+* Updates to “Getting Started with A11yFirst” in testdrive.html
+
+* Add new plugin named `a11ylink` with warning dialogs for link `Display Text`
+  field
+
+## v0.6.1 – 31 Jan 2018
+
+### Updates
+
+* Add testdrive.html, which includes text entitled “Getting Started with A11yFirst”
+
 ## v0.6.0 — 5 Jan 2018
 
 ### Updates
