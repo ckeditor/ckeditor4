@@ -20,8 +20,8 @@
 
 # 1. custom
 # 2. plugins/a11yfirsthelp
-# 3. plugins/a11yformat
-# 4. plugins/a11yheading
+# 3. plugins/a11yheading
+# 4. plugins/a11ylink
 # 5. plugins/a11ystylescombo
 # 6. plugins/balloonpanel/skins/a11yfirst
 # 7. skins/a11yfirst
@@ -42,8 +42,8 @@ fi
 
 PLUGINS=(
   a11yfirsthelp
-  a11yformat
   a11yheading
+  a11ylink
   a11ystylescombo
 )
 
