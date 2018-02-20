@@ -1069,9 +1069,10 @@
 		 *
 		 * @param {Object} editorsDefinitions editors definitions.
 		 * @param {Object} inputTests Tests to apply on every editor.
+		 * @param {Boolean} isolateTests creates new editor instance for each test case.
 		 * @returns {Object} Created tests for every editor.
 		 */
-		createTestsForEditors: function( editorsNames, inputTests ) {
+		createTestsForEditors: function( editorsNames, inputTests, isolateTests ) {
 			var outputTests = {},
 				specificTestName,
 				specialMethods = {
@@ -1080,7 +1081,7 @@
 					'setUp': 1,
 					'tearDown': 1
 				},
-				i, editorName;
+				i, editorName, postfix = 1;
 
 			for ( var method in specialMethods ) {
 				if ( inputTests[ method ] ) {
@@ -1103,11 +1104,26 @@
 						throw new Error( 'Test named "' + specificTestName + '" already exists' );
 					}
 
-					outputTests[ specificTestName ] = ( function( testName, editorName ) {
-						return function() {
-							inputTests[ testName ]( bender.editors[ editorName ], bender.editorBots [ editorName ] );
-						};
-					} )( testName, editorName );
+					// We are creating new editor instance to isolate each test case (#1696).
+					if ( isolateTests ) {
+						outputTests[ specificTestName ] = ( function( testName, editorName, editorNamePostfix ) {
+							var options = CKEDITOR.tools.object.merge( bender.editors[ editorName ], {
+								name: editorName + editorNamePostfix
+							} );
+
+							return function() {
+								bender.editorBot.create( options, function( bot ) {
+									inputTests[ testName ]( bot.editor, bot );
+								} );
+							};
+						} )( testName, editorName, postfix++ );
+					} else {
+						outputTests[ specificTestName ] = ( function( testName, editorName ) {
+							return function() {
+								inputTests[ testName ]( bender.editors[ editorName ], bender.editorBots [ editorName ] );
+							};
+						} )( testName, editorName );
+					}
 				}
 			}
 
