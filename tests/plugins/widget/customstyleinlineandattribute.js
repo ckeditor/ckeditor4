@@ -39,23 +39,65 @@
 
 	function assertTestStyles( element, sourceObject, styleOrAttribute ) {
 		styleOrAttribute = styleOrAttribute ? 'Style' : 'Attribute';
+
 		for ( var key in sourceObject ) {
 			var elementProp = element[ 'get' + styleOrAttribute ]( key ),
 				sourceProp = sourceObject[ key ];
+
 			// Some browsers might return elements width and height without 'px', following code should prevent comparing e.g. '200' == '200px'
 			if ( !( /\s/.test( sourceProp ) ) && parseInt( sourceProp, 10 ) ) {
 				sourceProp = parseInt( sourceProp, 10 );
 				elementProp = parseInt( elementProp, 10 );
 			}
-			assert.areSame( elementProp, sourceProp );
+
+			assert.areSame( elementProp, sourceProp, styleOrAttribute + ' doesn\'t match' );
 		}
 	}
 
 	function assertTestRemovedStyles( element, sourceObject, styleOrAttribute ) {
 		styleOrAttribute = styleOrAttribute ? 'Style' : 'Attribute';
+
 		for ( var key in sourceObject ) {
 			assert.isFalse( !!element[ 'get' + styleOrAttribute ]( key ) );
 		}
+	}
+
+	function setTest( bot, testStyles, testAttributes ) {
+		var style = createStyle( {
+				type: 'widget',
+				widget: 'testWidget',
+				styles: testStyles ? styles : undefined,
+				attributes: testAttributes ? attributes : undefined
+			} );
+
+		style.element = 'img';
+		bot.setData( testHtml, function() {
+			var editor = bot.editor;
+			var widget = getWidgetById( editor, 'test-widget' );
+
+			// Apply initial styles and/or attributes to widget
+			testStyles && setFromObject( widget.element, initialStyles, 1 );
+			testAttributes && setFromObject( widget.element, initialAttributes, 0 );
+
+			// Apply styles and/or attributes from `style` object to widget, widget needs to be focused for that
+			widget.focus();
+			style.apply( editor );
+
+			// Test if styles and/or attributes from `style` are applied to widget
+			testStyles && assertTestStyles( widget.element, style.getDefinition().styles, 1 );
+			testAttributes && assertTestStyles( widget.element, style.getDefinition().attributes, 0 );
+			assert.isTrue( widget.checkStyleActive( style ), 'Style should be active' );
+
+			style.remove( editor );
+			// Test if styles and/or attributes from `styles` are removed from widget
+			testStyles && assertTestRemovedStyles( widget.element, style.getDefinition().styles, 1 );
+			testAttributes && assertTestRemovedStyles( widget.element, style.getDefinition().attributes, 0 );
+			assert.isFalse( widget.checkStyleActive( style ), 'Style should\' be active' );
+
+			// Test if initial styles and/or attributes are preserved
+			testStyles && assertTestStyles( widget.element, initialStyles, 1 );
+			testAttributes && assertTestStyles( widget.element, initialAttributes, 0 );
+		} );
 	}
 
 	CKEDITOR.plugins.add( 'testWidget', {
@@ -77,97 +119,13 @@
 
 	bender.test( {
 		'test apply remove inline style': function() {
-			var editor = this.editors.editor,
-				style = createStyle( {
-					type: 'widget',
-					widget: 'testWidget',
-					styles: styles
-				} );
-
-			this.editorBots.editor.setData( testHtml, function() {
-				var widget = getWidgetById( editor, 'test-widget' );
-
-				// Apply initial styles to widget
-				setFromObject( widget.element, initialStyles, 1 );
-
-				// Apply styles from `style` object to widget, widget needs to be focused for that
-				widget.focus();
-				style.apply( editor );
-
-				// Test if styles from `style` are applied to widget
-				assertTestStyles( widget.element, style.getDefinition().styles, 1 );
-
-				style.remove( editor );
-
-				// Test if styles from `styles` are removed from widget
-				assertTestRemovedStyles( widget.element, style.getDefinition().styles, 1 );
-
-				// Test if initial styles are preserved
-				assertTestStyles( widget.element, initialStyles, 1 );
-			} );
+			setTest( this.editorBots.editor, 1 );
 		},
 		'test apply remove attribute': function() {
-			var editor = this.editors.editor,
-				style = createStyle( {
-					type: 'widget',
-					widget: 'testWidget',
-					attributes: attributes
-				} );
-
-			this.editorBots.editor.setData( testHtml, function() {
-				var widget = getWidgetById( editor, 'test-widget' );
-
-				// Apply initial attributes to widget
-				setFromObject( widget.element, initialAttributes, 0 );
-
-				// Apply attributes from `style` object to widget, widget needs to be focused for that
-				widget.focus();
-				style.apply( editor );
-
-				// Test if styles from `style` are applied to widget
-				assertTestStyles( widget.element, style.getDefinition().attributes, 0 );
-
-				style.remove( editor );
-				// Test if styles from `styles` are removed from widget
-				assertTestRemovedStyles( widget.element, style.getDefinition().attributes, 0 );
-
-				// Test if initial styles are preserved
-				assertTestStyles( widget.element, initialAttributes, 0 );
-			} );
+			setTest( this.editorBots.editor, 0, 1 );
 		},
 		'test apply remove inline style and attribute': function() {
-			var editor = this.editors.editor,
-				style = createStyle( {
-					type: 'widget',
-					widget: 'testWidget',
-					styles: styles,
-					attributes: attributes
-				} );
-
-			this.editorBots.editor.setData( testHtml, function() {
-				var widget = getWidgetById( editor, 'test-widget' );
-
-				// Apply initial styles and attributes to widget
-				setFromObject( widget.element, initialAttributes, 0 );
-				setFromObject( widget.element, initialStyles, 1 );
-
-				// Apply styles and attributes from `style` object to widget, widget needs to be focused for that
-				widget.focus();
-				style.apply( editor );
-
-				// Test if styles and attributes from `style` are applied to widget
-				assertTestStyles( widget.element, style.getDefinition().styles, 1 );
-				assertTestStyles( widget.element, style.getDefinition().attributes, 0 );
-
-				style.remove( editor );
-				// Test if styles and attributes from `styles` are removed from widget
-				assertTestRemovedStyles( widget.element, style.getDefinition().styles, 1 );
-				assertTestRemovedStyles( widget.element, style.getDefinition().attributes, 0 );
-
-				// Test if initial styles and attributes are preserved
-				assertTestStyles( widget.element, initialStyles, 1 );
-				assertTestStyles( widget.element, initialAttributes, 0 );
-			} );
+			setTest( this.editorBots.editor, 1, 1 );
 		}
 	} );
 } )();
