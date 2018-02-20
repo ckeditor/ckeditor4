@@ -1,6 +1,7 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: imagebase,link,toolbar,contextmenu */
 /* bender-include: ../../widget/_helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -166,12 +167,6 @@
 	}
 
 	var tests = {
-		setUp: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) {
-				// Tests fails quite randomly on IE11. Ignore for now (#1552).
-				assert.ignore();
-			}
-		},
 
 		'test adding image widget with link feature': function( editor ) {
 			var expectedParts = {
@@ -461,6 +456,7 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	// We have to run tests in isolation when using IE browsers (#1552).
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests, CKEDITOR.env.ie && !CKEDITOR.env.edge );
 	bender.test( tests );
 } )();
