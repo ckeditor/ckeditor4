@@ -1026,20 +1026,19 @@
 		},
 
 		/**
-		 * Applies the specified style to the widget. It is highly recommended to use the
-		 * {@link CKEDITOR.editor#applyStyle} or {@link CKEDITOR.style#apply} methods instead of
-		 * using this method directly, because unlike editor's and style's methods, this one
-		 * does not perform any checks.
+		 * Applies the specified style to the widget.
 		 *
-		 * By default this method handles only classes defined in the style. It clones existing
-		 * classes which are stored in the {@link #property-data widget data}'s `classes` property,
+		 * Since 4.10 this method applies all attributes styles and classes from {@link CKEDITOR.style}.
+		 *
+		 * Previously this method handled only classes defined in the style.
+		 *
+		 * This method adds classes by cloning existing ones which are stored in the {@link #property-data widget data}'s `classes` property,
 		 * adds new classes, and calls the {@link #setData} method if at least one new class was added.
 		 * Then, using the {@link #event-data} event listener widget applies modifications passing
 		 * new classes to the {@link #addClass} method.
 		 *
 		 * If you need to handle classes differently than in the default way, you can override the
-		 * {@link #addClass} and related methods. You can also handle other style properties than `classes`
-		 * by overriding this method.
+		 * {@link #addClass} and related methods.
 		 *
 		 * See also: {@link #checkStyleActive}, {@link #removeStyle}.
 		 *
@@ -1051,13 +1050,12 @@
 		},
 
 		/**
-		 * Checks if the specified style is applied to this widget. It is highly recommended to use the
-		 * {@link CKEDITOR.style#checkActive} method instead of using this method directly,
-		 * because unlike style's method, this one does not perform any checks.
+		 * Checks if the specified style is applied to this widget.
 		 *
-		 * By default this method handles only classes defined in the style and passes
-		 * them to the {@link #hasClass} method. You can override these methods to handle classes
-		 * differently or to handle more of the style properties.
+		 * Since 4.10 this method tests all attributes, styles and classes from {@link CKEDITOR.style}.
+		 *
+		 * Previously this method handled only classes defined in the style and passed
+		 * them to the {@link #hasClass} method.
 		 *
 		 * See also: {@link #applyStyle}, {@link #removeStyle}.
 		 *
@@ -1066,17 +1064,11 @@
 		 * @returns {Boolean} Whether the style is applied to this widget.
 		 */
 		checkStyleActive: function( style ) {
-			var classes = getStyleClasses( style ),
-				cl;
+			style = CKEDITOR.tools.copy( style );
+			style.element = this.element.getName();
+			style._.definition.ignoreReadonly = true;
 
-			if ( !classes )
-				return false;
-
-			while ( ( cl = classes.pop() ) ) {
-				if ( !this.hasClass( cl ) )
-					return false;
-			}
-			return true;
+			return CKEDITOR.style.prototype.checkElementMatch.call( style, this.element );
 		},
 
 		/**
@@ -1367,10 +1359,11 @@
 		},
 
 		/**
-		 * Removes the specified style from the widget. It is highly recommended to use the
-		 * {@link CKEDITOR.editor#removeStyle} or {@link CKEDITOR.style#remove} methods instead of
-		 * using this method directly, because unlike editor's and style's methods, this one
-		 * does not perform any checks.
+		 * Removes the specified style from the widget.
+		 *
+		 * Since 4.10 this method removes all attributes, styles and classes defined in {@link CKEDITOR.style}.
+		 *
+		 * Previously this method removed only classes.
 		 *
 		 * Read more about how applying/removing styles works in the {@link #applyStyle} method documentation.
 		 *
@@ -3083,8 +3076,9 @@
 			attributes = style.getDefinition().attributes;
 
 		// Ee... Something is wrong with this style.
-		if ( !classes && !styles && !attributes )
+		if ( !classes && !styles && !attributes ) {
 			return;
+		}
 
 		if ( classes ) {
 			// Clone, because we need to break reference.
@@ -3094,30 +3088,29 @@
 				if ( apply ) {
 					if ( !updatedClasses[ cl ] )
 						changed = updatedClasses[ cl ] = 1;
-				} else {
-					if ( updatedClasses[ cl ] ) {
-						delete updatedClasses[ cl ];
-						changed = 1;
-					}
+				} else if ( updatedClasses[ cl ] ) {
+					delete updatedClasses[ cl ];
+					changed = 1;
 				}
 			}
-			if ( changed )
+			if ( changed ) {
 				widget.setData( 'classes', updatedClasses );
-		}
-
-		function toggleStyleAttribute ( element, property, StyleOrAttr, apply ) {
-			apply = apply ? 'set' : 'remove';
-			StyleOrAttr = StyleOrAttr ? 'Style' : 'Attribute';
-			StyleOrAttr = apply + StyleOrAttr;
-
-			for ( var key in property ) {
-				if ( key !== 'class' ) {
-					element[ StyleOrAttr ]( key, property[ key ] );
-				}
 			}
 		}
+
 		toggleStyleAttribute( widget.element, styles, 1, apply );
 		toggleStyleAttribute( widget.element, attributes, 0, apply );
+	}
+
+	function toggleStyleAttribute ( element, property, styleOrAttr, apply ) {
+		apply = apply ? 'set' : 'remove';
+		styleOrAttr = apply + ( styleOrAttr ? 'Style' : 'Attribute' );
+
+		for ( var key in property ) {
+			if ( key !== 'class' ) {
+				element[ styleOrAttr ]( key, property[ key ] );
+			}
+		}
 	}
 
 	function cancel( evt ) {
