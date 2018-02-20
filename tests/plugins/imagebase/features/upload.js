@@ -64,6 +64,13 @@
 
 		wait();
 	}
+
+	function assertProgressbarAndSnapshots( editor, expectedSnapshots ) {
+		assert.isTrue( editor.undoManager.snapshots[ editor.undoManager.snapshots.length - 1 ].contents.indexOf( 'cke_loader' ) === -1,
+			'Progressbar HTML not in snapshot' );
+		assert.areSame( expectedSnapshots, editor.undoManager.snapshots.length, 'Snapshots count 1' );
+	}
+
 	var assertPasteFiles = imageBaseFeaturesTools.assertPasteFiles,
 		tests = {
 			init: function() {
@@ -665,31 +672,19 @@
 						loader.uploadTotal = 10;
 
 						updateLoader( loader, 2, function() {
-
-							assert.isTrue( editor.undoManager.snapshots[ editor.undoManager.snapshots.length - 1 ].contents.indexOf( 'cke_loader' ) === -1,
-								'Progressbar HTML not in snapshot' );
-							assert.areSame( initialSnapshots, editor.undoManager.snapshots.length, 'Snapshots count 1' );
+							assertProgressbarAndSnapshots( editor, initialSnapshots );
 							editor.fire( 'saveSnapshot' );
 
 							updateLoader( loader, 5, function() {
-
-								assert.isTrue( editor.undoManager.snapshots[ editor.undoManager.snapshots.length - 1 ].contents.indexOf( 'cke_loader' ) === -1,
-									'Progressbar HTML not in snapshot' );
-								assert.areSame( initialSnapshots, editor.undoManager.snapshots.length, 'Snapshots count 2' );
+								assertProgressbarAndSnapshots( editor, initialSnapshots );
 								editor.fire( 'saveSnapshot' );
 
 								updateLoader( loader, 8, function() {
-
-									assert.isTrue( editor.undoManager.snapshots[ editor.undoManager.snapshots.length - 1 ].contents.indexOf( 'cke_loader' ) === -1,
-										'Progressbar HTML not in snapshot' );
-									assert.areSame( initialSnapshots, editor.undoManager.snapshots.length, 'Snapshots count 3' );
+									assertProgressbarAndSnapshots( editor, initialSnapshots );
 									editor.fire( 'saveSnapshot' );
 
 									updateLoader( loader, 10, function() {
-
-										assert.isTrue( editor.undoManager.snapshots[ editor.undoManager.snapshots.length - 1 ].contents.indexOf( 'cke_loader' ) === -1,
-											'Progressbar HTML not in snapshot' );
-										assert.areSame( initialSnapshots, editor.undoManager.snapshots.length, 'Snapshots count 4' );
+										assertProgressbarAndSnapshots( editor, initialSnapshots );
 									} );
 								} );
 							} );

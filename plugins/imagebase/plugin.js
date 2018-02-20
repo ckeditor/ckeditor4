@@ -857,13 +857,12 @@
 		// (as content will be changed due to progressbar progress).
 		undoListeners.push(
 			editor.on( 'beforeUndoImage', function() {
-				if ( this.wrapper.getParent() ) {
-					if ( !parent ) {
-						parent = this.wrapper.getParent();
-					}
-					// Detach wrapper only if it is attached.
-					this.wrapper.remove();
+				if ( !this.wrapper.getParent() ) {
+					// If wrapper is not attached do not try to detach it.
+					return;
 				}
+				parent = parent || this.wrapper.getParent();
+				this.wrapper.remove();
 			}, this )
 		);
 
@@ -879,10 +878,10 @@
 		var remove = this.remove;
 		this.remove = function() {
 			// Remove undo listeners when progress bar is removed.
-			CKEDITOR.tools.array.filter( undoListeners, function( listener ) {
+			CKEDITOR.tools.array.forEach( undoListeners, function( listener ) {
 				listener.removeListener();
-				return false;
 			} );
+			undoListeners.length = 0;
 			remove.call( this );
 		};
 	};
