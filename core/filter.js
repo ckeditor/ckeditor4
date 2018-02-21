@@ -2373,7 +2373,7 @@
  * Disallowed content rules. They have precedence over {@link #allowedContent allowed content rules}.
  * Read more in the [Disallowed Content guide](#!/guide/dev_disallowed_content).
  *
- * Read more in the [documentation](#!/guide/dev_acf-section-automatic-mode-but-disallow-certain-tags%2Fproperties)
+ * Read more in the [documentation](#!/guide/dev_acf-section-automatic-mode-but-disallow-certain-tagsproperties)
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/acf.html).
  * See also {@link CKEDITOR.config#allowedContent} and {@link CKEDITOR.config#extraAllowedContent}.
  *
@@ -2403,8 +2403,8 @@
  *
  * Possible formats are:
  *
- *	* the [string format](#!/guide/dev_allowed_content_rules-section-2),
- *	* the [object format](#!/guide/dev_allowed_content_rules-section-3),
+ *	* the [string format](#!/guide/dev_allowed_content_rules-section-string-format),
+ *	* the [object format](#!/guide/dev_allowed_content_rules-section-object-format),
  *	* a {@link CKEDITOR.style} instance &ndash; used mainly for integrating plugins with Advanced Content Filter,
  *	* an array of the above formats.
  *
