@@ -149,6 +149,8 @@
 				onContentDom.call( this );
 			}
 
+			return this;
+
 			function onContentDom() {
 				var editable = editor.editable();
 
