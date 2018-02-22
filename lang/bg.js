@@ -19,7 +19,7 @@
  */
 CKEDITOR.lang[ 'bg' ] = {
 	// ARIA description.
-	editor: 'Текстов редактор за форматиран текст',
+	editor: 'Редактор за форматиран текст',
 	editorPanel: 'Панел на текстовия редактор',
 
 	// Common messages and labels.
@@ -48,8 +48,8 @@ CKEDITOR.lang[ 'bg' ] = {
 		id: 'ID',
 		name: 'Име',
 		langDir: 'Посока на езика',
-		langDirLtr: 'Ляво на дясно (ЛнД)',
-		langDirRtl: 'Дясно на ляво (ДнЛ)',
+		langDirLtr: 'Отляво надясно (LTR)',
+		langDirRtl: 'Отдясно наляво (RTL)',
 		langCode: 'Код на езика',
 		longDescr: 'Уеб адрес за дълго описание',
 		cssClass: 'Класове за CSS',
@@ -62,17 +62,17 @@ CKEDITOR.lang[ 'bg' ] = {
 		resize: 'Влачете за да оразмерите',
 		generalTab: 'Общи',
 		advancedTab: 'Разширено',
-		validateNumberFailed: 'Тази стойност не е число',
+		validateNumberFailed: 'Тази стойност не е число.',
 		confirmNewPage: 'Всички незапазени промени ще бъдат изгубени. Сигурни ли сте, че желаете да заредите нова страница?',
 		confirmCancel: 'Някои от опциите са променени. Сигурни ли сте, че желаете да затворите прозореца?',
 		options: 'Опции',
 		target: 'Цел',
 		targetNew: 'Нов прозорец (_blank)',
-		targetTop: 'Горна позиция (_top)',
-		targetSelf: 'Текущия прозорец (_self)',
-		targetParent: 'Основен прозорец (_parent)',
-		langDirLTR: 'Ляво на дясно (ЛнД)',
-		langDirRTL: 'Дясно на ляво (ДнЛ)',
+		targetTop: 'Най-горният прозорец (_top)',
+		targetSelf: 'Текущият прозорец (_self)',
+		targetParent: 'Горният прозорец (_parent)',
+		langDirLTR: 'Отляво надясно (LTR)',
+		langDirRTL: 'Отдясно наляво (RTL)',
 		styles: 'Стил',
 		cssClasses: 'Класове за CSS',
 		width: 'Ширина',
@@ -81,15 +81,15 @@ CKEDITOR.lang[ 'bg' ] = {
 		alignLeft: 'Ляво',
 		alignRight: 'Дясно',
 		alignCenter: 'Център',
-		alignJustify: 'Двустранно подравняване',
+		alignJustify: 'Двустранно',
 		alignTop: 'Горе',
 		alignMiddle: 'По средата',
 		alignBottom: 'Долу',
 		alignNone: 'Без подравняване',
 		invalidValue: 'Невалидна стойност.',
 		invalidHeight: 'Височината трябва да е число.',
-		invalidWidth: 'Ширина требе да е число.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
+		invalidWidth: 'Ширината трябва да е число.',
+		invalidLength: 'Стойността на полето "%1", трябва да бъде положително число с или без валидна единица за измерване (%2).',
 		invalidCssLength: 'Стойността на полето "%1" трябва да бъде положително число с или без валидна CSS измервателна единица (px, %, in, cm, mm, em, ex, pt, или pc).',
 		invalidHtmlLength: 'Стойността на полето "%1" трябва да бъде положително число с или без валидна HTML измервателна единица (px или %).',
 		invalidInlineStyle: 'Стойността на стилa трябва да съдържат една или повече двойки във формат "name : value", разделени с двоеточие.',
@@ -100,45 +100,45 @@ CKEDITOR.lang[ 'bg' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
-			13: 'Enter', // MISSING
-			16: 'Shift', // MISSING
-			17: 'Ctrl', // MISSING
-			18: 'Alt', // MISSING
-			32: 'Space', // MISSING
-			35: 'End', // MISSING
-			36: 'Home', // MISSING
-			46: 'Delete', // MISSING
-			112: 'F1', // MISSING
-			113: 'F2', // MISSING
-			114: 'F3', // MISSING
-			115: 'F4', // MISSING
-			116: 'F5', // MISSING
-			117: 'F6', // MISSING
-			118: 'F7', // MISSING
-			119: 'F8', // MISSING
-			120: 'F9', // MISSING
-			121: 'F10', // MISSING
-			122: 'F11', // MISSING
-			123: 'F12', // MISSING
-			124: 'F13', // MISSING
-			125: 'F14', // MISSING
-			126: 'F15', // MISSING
-			127: 'F16', // MISSING
-			128: 'F17', // MISSING
-			129: 'F18', // MISSING
-			130: 'F19', // MISSING
-			131: 'F20', // MISSING
-			132: 'F21', // MISSING
-			133: 'F22', // MISSING
-			134: 'F23', // MISSING
-			135: 'F24', // MISSING
-			224: 'Command' // MISSING
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Space',
+			35: 'End',
+			36: 'Home',
+			46: 'Delete',
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
+			224: 'Command'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut', // MISSING
+		keyboardShortcut: 'Клавишна комбинация',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'По подразбиране'
 	}
 };

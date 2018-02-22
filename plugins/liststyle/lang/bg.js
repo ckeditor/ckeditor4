@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'bg', {
 	armenian: 'Арменско номериране',
-	bulletedTitle: 'Bulleted List Properties',
+	bulletedTitle: 'Свойства на точков списък',
 	circle: 'Кръг',
 	decimal: 'Числа (1, 2, 3 и др.)',
 	decimalLeadingZero: 'Числа с водеща нула (01, 02, 03 и т.н.)',
@@ -15,11 +15,11 @@ CKEDITOR.plugins.setLang( 'liststyle', 'bg', {
 	lowerRoman: 'Малки римски числа (i, ii, iii, iv, v и т.н.)',
 	none: 'Няма',
 	notset: '<не е указано>',
-	numberedTitle: 'Numbered List Properties',
+	numberedTitle: 'Свойства на номериран списък',
 	square: 'Квадрат',
-	start: 'Старт',
+	start: 'Начало',
 	type: 'Тип',
 	upperAlpha: 'Големи букви (А, Б, В, Г, Д и т.н.)',
 	upperRoman: 'Големи римски числа (I, II, III, IV, V и т.н.)',
-	validateStartNumber: 'List start number must be a whole number.'
+	validateStartNumber: 'Началният номер на списъка трябва да е цяло число.'
 } );
