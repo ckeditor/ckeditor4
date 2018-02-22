@@ -10,7 +10,7 @@ New Features:
     * [Cloud Services](https://ckeditor.com/cke4/addon/cloudservices)
     * [Image Base](https://ckeditor.com/cke4/addon/imagebase)
 * [#1338](https://github.com/ckeditor/ckeditor-dev/issues/1338): Keystroke labels are displayed for function keys (like F7, F8).
-* [#933](https://github.com/ckeditor/ckeditor-dev/issues/933): The [File Browser](https://ckeditor.com/cke4/addon/filebrowser) plugin can now upload files using XHR requests. This allows for setting custom HTTP headers using the [`config.fileTools_requestHeaders`](http://docs.ckeditor.test/#!/api/CKEDITOR.config-cfg-fileTools_requestHeaders) configuration option.
+* [#643](https://github.com/ckeditor/ckeditor-dev/issues/643): The [File Browser](https://ckeditor.com/cke4/addon/filebrowser) plugin can now upload files using XHR requests. This allows for setting custom HTTP headers using the [`config.fileTools_requestHeaders`](http://docs.ckeditor.test/#!/api/CKEDITOR.config-cfg-fileTools_requestHeaders) configuration option.
 * [#1365](https://github.com/ckeditor/ckeditor-dev/issues/1365): The [File Browser](https://ckeditor.com/cke4/addon/filebrowser) plugin uses XHR requests by default.
 * [#1399](https://github.com/ckeditor/ckeditor-dev/issues/1399): Added the possibility to set [`CKEDITOR.config.startupFocus`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-startupFocus) as `start` or `end` to specify where the editor focus should be after the initialization.
 * [#1441](https://github.com/ckeditor/ckeditor-dev/issues/1441): The [Magic Line](https://ckeditor.com/cke4/addon/magicline) plugin line element can now be identified by the `data-cke-magic-line="1"` attribute.
