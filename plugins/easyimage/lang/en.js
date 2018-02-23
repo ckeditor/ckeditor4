@@ -7,9 +7,6 @@ CKEDITOR.plugins.setLang( 'easyimage', 'en', {
 	commands: {
 		fullImage: 'Full Size Image',
 		sideImage: 'Side Image',
-		alignLeft: 'Align Left',
-		alignCenter: 'Align Center',
-		alignRight: 'Align Right',
 		altText: 'Change image alternative text'
 	},
 	uploadFailed: 'Your image could not be uploaded due to a network error.'

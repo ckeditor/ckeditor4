@@ -129,8 +129,8 @@
 						'default': '',
 						items: [
 							[ commonLang.notSet, '' ],
-							[ commonLang.alignLeft, 'left' ],
-							[ commonLang.alignRight, 'right' ],
+							[ commonLang.left, 'left' ],
+							[ commonLang.right, 'right' ],
 							[ commonLang.alignTop, 'top' ],
 							[ commonLang.alignMiddle, 'middle' ],
 							[ commonLang.alignBottom, 'bottom' ]

@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'en-ca' ] = {
 		width: 'Width', // MISSING
 		height: 'Height', // MISSING
 		align: 'Align',
-		alignLeft: 'Left', // MISSING
-		alignRight: 'Right', // MISSING
-		alignCenter: 'Centre',
-		alignJustify: 'Justify',
+		left: 'Left', // MISSING
+		right: 'Right', // MISSING
+		center: 'Centre',
+		justify: 'Justify',
+		alignLeft: 'Align Left',
+		alignRight: 'Align Right',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Top', // MISSING
 		alignMiddle: 'Middle', // MISSING
 		alignBottom: 'Bottom', // MISSING

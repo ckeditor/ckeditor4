@@ -499,9 +499,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 								type: 'radio',
 								items: [
 									[ commonLang.alignNone, 'none' ],
-									[ commonLang.alignLeft, 'left' ],
-									[ commonLang.alignCenter, 'center' ],
-									[ commonLang.alignRight, 'right' ]
+									[ commonLang.left, 'left' ],
+									[ commonLang.center, 'center' ],
+									[ commonLang.right, 'right' ]
 								],
 								label: commonLang.align,
 								setup: function( widget ) {

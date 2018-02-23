@@ -77,10 +77,13 @@ CKEDITOR.lang[ 'id' ] = {
 		width: 'Lebar',
 		height: 'Tinggi',
 		align: 'Penjajaran',
-		alignLeft: 'Kiri',
-		alignRight: 'Kanan',
-		alignCenter: 'Tengah',
-		alignJustify: 'Rata kiri-kanan',
+		left: 'Kiri',
+		right: 'Kanan',
+		center: 'Tengah',
+		justify: 'Rata kiri-kanan',
+		alignLeft: 'Align Left', // MISSING
+		alignRight: 'Align Right', // MISSING
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Atas',
 		alignMiddle: 'Tengah',
 		alignBottom: 'Bawah',

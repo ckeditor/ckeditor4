@@ -231,22 +231,22 @@
 
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'JustifyLeft', {
-					label: editor.lang.justify.left,
+					label: editor.lang.common.alignLeft,
 					command: 'justifyleft',
 					toolbar: 'align,10'
 				} );
 				editor.ui.addButton( 'JustifyCenter', {
-					label: editor.lang.justify.center,
+					label: editor.lang.common.center,
 					command: 'justifycenter',
 					toolbar: 'align,20'
 				} );
 				editor.ui.addButton( 'JustifyRight', {
-					label: editor.lang.justify.right,
+					label: editor.lang.common.alignRight,
 					command: 'justifyright',
 					toolbar: 'align,30'
 				} );
 				editor.ui.addButton( 'JustifyBlock', {
-					label: editor.lang.justify.block,
+					label: editor.lang.common.justify,
 					command: 'justifyblock',
 					toolbar: 'align,40'
 				} );

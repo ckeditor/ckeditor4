@@ -350,9 +350,9 @@
 							label: editor.lang.common.align,
 							items: [
 								[ editor.lang.common.notSet, '' ],
-								[ editor.lang.common.alignLeft, 'left' ],
-								[ editor.lang.common.alignCenter, 'center' ],
-								[ editor.lang.common.alignRight, 'right' ]
+								[ editor.lang.common.left, 'left' ],
+								[ editor.lang.common.center, 'center' ],
+								[ editor.lang.common.right, 'right' ]
 							],
 							setup: function( selectedTable ) {
 								this.setValue( selectedTable.getAttribute( 'align' ) || '' );

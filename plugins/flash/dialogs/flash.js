@@ -536,15 +536,15 @@
 						style: 'width : 100%;',
 						items: [
 							[ editor.lang.common.notSet, '' ],
-							[ editor.lang.common.alignLeft, 'left' ],
+							[ editor.lang.common.left, 'left' ],
 							[ editor.lang.flash.alignAbsBottom, 'absBottom' ],
 							[ editor.lang.flash.alignAbsMiddle, 'absMiddle' ],
 							[ editor.lang.flash.alignBaseline, 'baseline' ],
-							[ editor.lang.common.alignBottom, 'bottom' ],
-							[ editor.lang.common.alignMiddle, 'middle' ],
-							[ editor.lang.common.alignRight, 'right' ],
+							[ editor.lang.common.bottom, 'bottom' ],
+							[ editor.lang.common.middle, 'middle' ],
+							[ editor.lang.common.right, 'right' ],
 							[ editor.lang.flash.alignTextTop, 'textTop' ],
-							[ editor.lang.common.alignTop, 'top' ]
+							[ editor.lang.common.top, 'top' ]
 						],
 						setup: loadValue,
 						commit: function( objectNode, embedNode, paramMap, extraStyles, extraAttributes ) {

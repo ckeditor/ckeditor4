@@ -902,8 +902,8 @@
 									'default': '',
 									items: [
 										[ editor.lang.common.notSet, '' ],
-										[ editor.lang.common.alignLeft, 'left' ],
-										[ editor.lang.common.alignRight, 'right' ]
+										[ editor.lang.common.left, 'left' ],
+										[ editor.lang.common.right, 'right' ]
 										// Backward compatible with v2 on setup when specified as attribute value,
 										// while these values are no more available as select options.
 										//	[ editor.lang.image.alignAbsBottom , 'absBottom'],
