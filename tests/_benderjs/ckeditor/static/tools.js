@@ -1081,7 +1081,7 @@
 					'setUp': 1,
 					'tearDown': 1
 				},
-				i, editorName, postfix = 1;
+				i, editorName, editorCounter;
 
 			for ( var method in specialMethods ) {
 				if ( inputTests[ method ] ) {
@@ -1089,7 +1089,7 @@
 				}
 			}
 
-			for ( i = 0; i < editorsNames.length; i++ ) {
+			for ( i = 0, editorCounter = 0; i < editorsNames.length; i++, editorCounter = 0 ) {
 				editorName = editorsNames[ i ];
 
 				for ( var testName in inputTests ) {
@@ -1105,10 +1105,10 @@
 					}
 
 					// We are creating new editor instance to isolate each test case (#1696).
-					if ( isolateTests ) {
-						outputTests[ specificTestName ] = ( function( testName, editorName, editorNamePostfix ) {
+					if ( isolateTests && editorCounter++ ) {
+						outputTests[ specificTestName ] = ( function( testName, editorName, editorNum ) {
 							var options = CKEDITOR.tools.object.merge( bender.editors[ editorName ], {
-								name: editorName + editorNamePostfix
+								name: editorName + editorNum
 							} );
 
 							return function() {
@@ -1116,7 +1116,7 @@
 									inputTests[ testName ]( bot.editor, bot );
 								} );
 							};
-						} )( testName, editorName, postfix++ );
+						} )( testName, editorName, editorCounter++ );
 					} else {
 						outputTests[ specificTestName ] = ( function( testName, editorName ) {
 							return function() {

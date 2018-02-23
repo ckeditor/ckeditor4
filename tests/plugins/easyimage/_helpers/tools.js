@@ -3,11 +3,6 @@
 var easyImageTools = ( function() {
 	'use strict';
 
-	// Force Edge to run every test in new CKEditor's instance.
-	function createTestsForEditors( editors, tests ) {
-		return bender.tools.createTestsForEditors( editors, tests, CKEDITOR.env.edge );
-	}
-
 	function assertCommandsState( editor, asserts ) {
 		var command;
 
