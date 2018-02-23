@@ -616,7 +616,7 @@
 		 */
 		isItemElement: function( node ) {
 			return node.type == CKEDITOR.NODE_ELEMENT &&
-				node.data( 'id' );
+				Boolean( node.data( 'id' ) );
 		},
 
 		/**
@@ -851,7 +851,8 @@
 		 * @returns {CKEDITOR.plugins.autocomplete.model.item}
 		 */
 		getItemById: function( itemId ) {
-			return this.data[ this.getIndexById( itemId ) ] || null;
+			var index = this.getIndexById( itemId );
+			return ~index && this.data[ index ] || null;
 		},
 
 		/**
@@ -860,7 +861,7 @@
 		 * @returns {Boolean}
 		 */
 		hasData: function() {
-			return this.data && this.data.length;
+			return Boolean( this.data && this.data.length );
 		},
 
 		/**
@@ -871,9 +872,7 @@
 		 */
 		select: function( itemId ) {
 			if ( this.getIndexById( itemId ) < 0 ) {
-				throw new Error( 'Item with given id does not exist' ); // %REMOVE_LINE
-				// Reachable in prod mode.
-				return; // jshint ignore:line
+				throw new Error( 'Item with given id does not exist' );
 			}
 
 			this.selectedItemId = itemId;
