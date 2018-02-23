@@ -1067,9 +1067,9 @@
 		/**
 		 * Multiplies inputTests for every editor.
 		 *
-		 * @param {Object} editorsDefinitions editors definitions.
+		 * @param {Object} editorsNames editors definitions.
 		 * @param {Object} inputTests Tests to apply on every editor.
-		 * @param {Boolean} isolateTests creates new editor instance for each test case.
+		 * @param {Boolean} isolateTests If set to `true` each test is run on new editor instance.
 		 * @returns {Object} Created tests for every editor.
 		 */
 		createTestsForEditors: function( editorsNames, inputTests, isolateTests ) {
