@@ -12,7 +12,7 @@
 						editor.destroy();
 					} );
 
-					if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
+					if ( !CKEDITOR.fileTools.isFileUploadSupported || bender.tools.env.mobile ) {
 						bender.ignore();
 					}
 				}

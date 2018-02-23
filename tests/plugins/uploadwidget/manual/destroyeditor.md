@@ -1,4 +1,4 @@
-@bender-tags: 4.9.0, 966, bug
+@bender-tags: 4.9.1, 966, bug
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, image2, uploadimage, toolbar
 @bender-include: _helpers/xhr.js
