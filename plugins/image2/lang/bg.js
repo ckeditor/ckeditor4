@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'bg', {
 	alt: 'Алтернативен текст',
-	btnUpload: 'Изпрати я на сървъра',
+	btnUpload: 'Изпрати на сървъра',
 	captioned: 'Надписано изображение',
 	captionPlaceholder: 'Надпис',
 	infoTab: 'Детайли за изображението',
@@ -13,9 +13,9 @@ CKEDITOR.plugins.setLang( 'image2', 'bg', {
 	pathName: 'изображение',
 	pathNameCaption: 'надпис',
 	resetSize: 'Нулиране на размер',
-	resizer: 'Кликни и влачи, за да преоразмериш',
+	resizer: 'Кликни и влачи за преоразмеряване',
 	title: 'Настройки на изображението',
 	uploadTab: 'Качване',
-	urlMissing: 'URL адреса на изображението липсва.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	urlMissing: 'Липсва URL адреса на изображението.',
+	altMissing: 'Алтернативният текст липсва.'
 } );
