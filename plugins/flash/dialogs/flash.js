@@ -540,11 +540,11 @@
 							[ editor.lang.flash.alignAbsBottom, 'absBottom' ],
 							[ editor.lang.flash.alignAbsMiddle, 'absMiddle' ],
 							[ editor.lang.flash.alignBaseline, 'baseline' ],
-							[ editor.lang.common.bottom, 'bottom' ],
-							[ editor.lang.common.middle, 'middle' ],
+							[ editor.lang.common.alignBottom, 'bottom' ],
+							[ editor.lang.common.alignMiddle, 'middle' ],
 							[ editor.lang.common.right, 'right' ],
 							[ editor.lang.flash.alignTextTop, 'textTop' ],
-							[ editor.lang.common.top, 'top' ]
+							[ editor.lang.common.alignTop, 'top' ]
 						],
 						setup: loadValue,
 						commit: function( objectNode, embedNode, paramMap, extraStyles, extraAttributes ) {
