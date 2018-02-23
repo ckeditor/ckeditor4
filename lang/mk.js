@@ -77,10 +77,13 @@ CKEDITOR.lang[ 'mk' ] = {
 		width: 'Широчина',
 		height: 'Височина',
 		align: 'Alignment', // MISSING
-		alignLeft: 'Лево',
-		alignRight: 'Десно',
-		alignCenter: 'Во средина',
-		alignJustify: 'Justify', // MISSING
+		left: 'Лево',
+		right: 'Десно',
+		center: 'Во средина',
+		justify: 'Justify', // MISSING
+		alignLeft: 'Align Left', // MISSING
+		alignRight: 'Align Right', // MISSING
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Горе',
 		alignMiddle: 'Средина',
 		alignBottom: 'Доле',

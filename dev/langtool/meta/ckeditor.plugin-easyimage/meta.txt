@@ -4,7 +4,4 @@
 commands.fullImage = Label for the button converting an image to a full width image.
 commands.sideImage = Label for the button converting an image to a side image.
 commands.altText = Label for the button assigning the image an alternative text.
-commands.alignLeft = Label for the button adding the align left style to the image.
-commands.alignCenter = Label for the button adding the align center style to the image.
-commands.alignRight = Label for the button adding the align right style to the image.
 uploadFailed = Alert message displayed when the image could not be uploaded due to a network error.

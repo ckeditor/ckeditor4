@@ -77,10 +77,13 @@ CKEDITOR.lang[ 'si' ] = {
 		width: 'පළල',
 		height: 'උස',
 		align: 'ගැලපුම',
-		alignLeft: 'වම',
-		alignRight: 'දකුණ',
-		alignCenter: 'මධ්‍ය',
-		alignJustify: 'Justify', // MISSING
+		left: 'වම',
+		right: 'දකුණ',
+		center: 'මධ්‍ය',
+		justify: 'Justify', // MISSING
+		alignLeft: 'Align Left', // MISSING
+		alignRight: 'Align Right', // MISSING
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'ඉ',
 		alignMiddle: 'මැද',
 		alignBottom: 'පහල',
