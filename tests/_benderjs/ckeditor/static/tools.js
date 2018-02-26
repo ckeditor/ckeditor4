@@ -1116,7 +1116,7 @@
 									inputTests[ testName ]( bot.editor, bot );
 								} );
 							};
-						} )( testName, editorName, editorCounter++ );
+						} )( testName, editorName, editorCounter );
 					} else {
 						outputTests[ specificTestName ] = ( function( testName, editorName ) {
 							return function() {
