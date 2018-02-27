@@ -6,8 +6,8 @@ All notable changes to the A11yFirst project will be documented in this file.
 
 ### Updates
 
-* Combine the `Heading` menu with what was most recently called `Paragraph Format`
-  and relabel the new menu `Heading / Paragraph`
+* Combine the `Heading` and `Paragraph Format` menus into a new menu called
+  `Heading / Paragraph`, which is the updated `a11yheading` plugin.
 
 * Updates to “Getting Started with A11yFirst” in testdrive.html
 
