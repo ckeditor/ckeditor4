@@ -114,6 +114,8 @@
 			91: 1 // Cmd
 		};
 
+		this._eventListeners = [];
+
 		/**
 		 * Event fired when the text starts matching and then on every change.
 		 *
@@ -137,12 +139,12 @@
 		attach: function() {
 			var editor = this.editor;
 
-			editor.on( 'contentDom', onContentDom, this );
-			editor.on( 'focus', check, this );
-			editor.on( 'blur', unmatch, this );
-			editor.on( 'beforeModeUnload', unmatch, this );
-			editor.on( 'setData', unmatch, this );
-			editor.on( 'afterCommandExec', check, this );
+			this._eventListeners.push( editor.on( 'contentDom', onContentDom, this ) );
+			this._eventListeners.push( editor.on( 'focus', check, this ) );
+			this._eventListeners.push( editor.on( 'blur', unmatch, this ) );
+			this._eventListeners.push( editor.on( 'beforeModeUnload', unmatch, this ) );
+			this._eventListeners.push( editor.on( 'setData', unmatch, this ) );
+			this._eventListeners.push( editor.on( 'afterCommandExec', check, this ) );
 
 			// Attach if editor is already initialized.
 			if ( editor.editable() ) {
@@ -154,8 +156,8 @@
 			function onContentDom() {
 				var editable = editor.editable();
 
-				editable.attachListener( editable, 'keyup', check, this );
-				editable.attachListener( editable, 'mouseup', check, this );
+				this._eventListeners.push( editable.attachListener( editable, 'keyup', check, this ) );
+				this._eventListeners.push( editable.attachListener( editable, 'mouseup', check, this ) );
 			}
 
 			// CKEditor's event system has a limitation that one function (in this case this.check)
@@ -230,6 +232,15 @@
 			this.lastMatched = null;
 			this.fire( 'unmatched' );
 			return this;
+		},
+
+		/**
+		 * Destroys the text watcher instance. The DOM event listeners will be cleaned up.
+		 */
+		destroy: function() {
+			CKEDITOR.tools.array.forEach( this._eventListeners, function( obj ) {
+				obj.removeListener();
+			} );
 		}
 	};
 
