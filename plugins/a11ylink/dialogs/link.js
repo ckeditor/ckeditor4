@@ -360,6 +360,16 @@
 
 										}
 
+										if (isLinkTypeAnchor) {
+											var anchors = plugin.getEditorAnchors( editor );
+
+											if (!anchors || anchors.length === 0) {
+												alert(linkLang.msgNoAnchors);
+												return false;
+											}
+
+										}
+
 										if (isLinkTypeEmail) {
 
 											if (!isEmailIsDisplayTextChecked) {
