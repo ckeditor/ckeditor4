@@ -25,19 +25,9 @@
 			assert.isTrue( spy.calledOnce );
 		},
 
-		'test checks text on mouseup': function() {
+		'test unmatch text on afterCommandExec': function() {
 			var editor = this.editor,
-				editable = editor.editable(),
-				spy = sinon.spy( attachTextWatcher( editor ), 'check' );
-
-			editable.fire( 'mouseup', new CKEDITOR.dom.event( { target: editable.$ } ) );
-
-			assert.isTrue( spy.calledOnce );
-		},
-
-		'test checks text on afterCommandExec': function() {
-			var editor = this.editor,
-				spy = sinon.spy( attachTextWatcher( editor ), 'check' );
+				spy = sinon.spy( attachTextWatcher( editor ), 'unmatch' );
 
 			editor.fire( 'afterCommandExec' );
 
