@@ -72,8 +72,11 @@ CKEDITOR.plugins.setLang( 'a11ylink', 'en', {
 	a11yfirstHelpTitle: 'Learn about accessible links',
 	urlIsDisplayText: 'Use URL as Display Text ⓘ',
 	urlIsDisplayTextTitle: 'This option is enabled when Display Text is empty or contains the URL',
+	emailIsDisplayText: 'Use E-mail Address as Display Text ⓘ',
+	emailIsDisplayTextTitle: 'This option is enabled when Display Text is empty or contains the E-mail Address',
 	msgInvalidStartText: 'Please remove "%s" from the Display Text',
 	msgInvalidDisplayText: 'Please replace "%s" with text that describes the target of the link',
 	msgUrlDisplayText: 'For accessibility reasons the URL is considered a poor choice as the Display Text for the link.\n\nYou can override this warning by selecting \'Use URL as Display Text\'.',
+	msgEmailDisplayText: 'For accessibility reasons the E-mail Address is considered a poor choice as the Display Text for the link.\n\nYou can override this warning by selecting \'Use E-mail Address as Display Text\'.',
 	msgEmptyDisplayText: 'Please type the Display Text for the link'
 } );
