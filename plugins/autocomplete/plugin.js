@@ -182,7 +182,12 @@
 		 */
 		this.textWatcher = this.getTextWatcher( textTestCallback );
 
-		this._eventListeners = [];
+		/**
+		 * Listeners registered by this autocomplete instance.
+		 *
+		 * @private
+		 */
+		this._listeners = [];
 
 		this.attach();
 	}
@@ -203,16 +208,16 @@
 			this.view.attach();
 			this.textWatcher.attach();
 
-			this._eventListeners.push( this.textWatcher.on( 'matched', this.onTextMatched, this ) );
-			this._eventListeners.push( this.textWatcher.on( 'unmatched', this.onTextUnmatched, this ) );
-			this._eventListeners.push( this.model.on( 'change-data', this.onData, this ) );
-			this._eventListeners.push( this.model.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
-			this._eventListeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
+			this._listeners.push( this.textWatcher.on( 'matched', this.onTextMatched, this ) );
+			this._listeners.push( this.textWatcher.on( 'unmatched', this.onTextUnmatched, this ) );
+			this._listeners.push( this.model.on( 'change-data', this.onData, this ) );
+			this._listeners.push( this.model.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
+			this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
 
-			this._eventListeners.push( editor.on( 'contentDom', onContentDom, this ) );
+			this._listeners.push( editor.on( 'contentDom', onContentDom, this ) );
 			// CKEditor's event system has a limitation that one function (in this case this.check)
 			// cannot be used as listener for the same event more than once. Hence, wrapper function.
-			this._eventListeners.push( editor.on( 'change', function() {
+			this._listeners.push( editor.on( 'change', function() {
 				this.onChange();
 			}, this ) );
 
@@ -225,7 +230,7 @@
 				// Priority 5 to get before the enterkey.
 				// Note: CKEditor's event system has a limitation that one function (in this case this.onKeyDown)
 				// cannot be used as listener for the same event more than once. Hence, wrapper function.
-				this._eventListeners.push( editor.editable().on( 'keydown', function( evt ) {
+				this._listeners.push( editor.editable().on( 'keydown', function( evt ) {
 					this.onKeyDown( evt );
 				}, this, null, 5 ) );
 			}
@@ -278,7 +283,7 @@
 		 * View element and event listeners will be removed from the DOM.
 		 */
 		destroy: function() {
-			CKEDITOR.tools.array.forEach( this._eventListeners, function( obj ) {
+			CKEDITOR.tools.array.forEach( this._listeners, function( obj ) {
 				obj.removeListener();
 			} );
 
