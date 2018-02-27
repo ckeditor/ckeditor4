@@ -2870,6 +2870,8 @@
 			while ( ( toBe = toBeDowncasted.shift() ) ) {
 				widget = toBe.widget;
 				widgetElement = toBe.element;
+				handleStylesOnDowncast( widget, widgetElement );
+
 				retElement = widget._.downcastFn && widget._.downcastFn.call( widget, widgetElement );
 
 				// Replace nested editables' content with their output data.
@@ -2894,6 +2896,88 @@
 		} );
 	}
 
+	function handleStylesOnDowncast( widget, widgetElement ) {
+		var attributes = widget.styleDefinition && widget.styleDefinition.attributes,
+			styledElement;
+
+		if ( widgetElement ) {
+			if ( widget.styleDefinition && widgetElement.name !== widget.styleDefinition.element ) {
+				styledElement = widgetElement.getFirst( widget.styleDefinition.element );
+			}
+			if ( !styledElement ) {
+				styledElement = widgetElement;
+			}
+
+			styledElement.attributes = styledElement.attributes || {};
+			if ( attributes && attributes.style ) {
+				styledElement.attributes.style = attributes.style;
+			}
+		}
+	}
+
+	function handleStylesOnUpcast( element, name, wrapper, widgetsRepo ) {
+		var style = element.attributes.style,
+			lockedStyle,
+			outputStyle = {},
+			key,
+			widgetDefinition;
+
+		// If widget name is not defined find it.
+		if ( !name ) {
+			if ( element instanceof CKEDITOR.htmlParser.element ) {
+				name = element.attributes[ 'data-widget' ];
+			} else if ( element instanceof CKEDITOR.dom.element ) {
+				name = element.data.widget;
+			}
+		}
+
+		widgetDefinition = widgetsRepo.registered[ name ];
+		widgetDefinition.styleDefinition = widgetDefinition.styleDefinition || { attributes: {}, lockedStyle: {} };
+		widgetDefinition.styleDefinition.attributes = widgetDefinition.styleDefinition.attributes || {};
+		widgetDefinition.styleDefinition.element = element.name;
+
+		lockedStyle = widgetDefinition.styleDefinition.lockedStyle;
+
+		for ( key in element.attributes ) {
+			if ( key !== 'style' && key.substring( 0, 4 ).toLowerCase() !== 'data' ) {
+				widgetDefinition.styleDefinition.attributes[ key ] = element.attributes[ key ];
+			}
+		}
+
+		// If element is <a> we want to keep styles so it can be changed via link dialog.
+		if ( widgetDefinition.styleDefinition.element === 'a' ) {
+			style = CKEDITOR.tools.parseCssText( style );
+			for ( key in style ) {
+				lockedStyle[ key ] = style[ key ];
+			}
+			style = CKEDITOR.tools.writeCssText( style );
+		}
+
+		// Preserve styles that are set as 'locked', it is important so other plugins extending widget can prevent moving some styles to wrapper.
+		if ( CKEDITOR.tools.objectKeys( lockedStyle ).length && CKEDITOR.tools.objectKeys( style ).length ) {
+			style = CKEDITOR.tools.parseCssText( style );
+			for ( key in style ) {
+				if ( !( key in widgetDefinition.styleDefinition.lockedStyle ) ) {
+					outputStyle[ key ] = style[ key ];
+					delete style[ key ];
+				}
+			}
+			style = CKEDITOR.tools.writeCssText( style );
+			element.attributes.style = style;
+			style = CKEDITOR.tools.writeCssText( outputStyle );
+		} else {
+			// When we don't preserve any styles we can delete them on widget.element
+			delete element.attributes.style;
+		}
+		if ( style ) {
+			wrapper.attributes.style = style;
+			widgetDefinition.styleDefinition.attributes.style = style;
+		} else {
+			// If there are no styles remove it to make sure we don't have `styles=''` in our output.
+			delete widgetDefinition.styleDefinition.attributes.style;
+		}
+	}
+
 	function setupWidgetsLifecycleStart( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
 			processedWidgetOnly,
@@ -2910,9 +2994,9 @@
 			// Clean up and wrap all queued elements.
 			while ( ( toBeWrapped = upcastIterator.toBeWrapped.pop() ) ) {
 				cleanUpWidgetElement( toBeWrapped[ 0 ] );
-				widgetsRepo.wrapElement( toBeWrapped[ 0 ], toBeWrapped[ 1 ] );
+				var wrapper = widgetsRepo.wrapElement( toBeWrapped[ 0 ], toBeWrapped[ 1 ] );
+				handleStylesOnUpcast( toBeWrapped[ 0 ], toBeWrapped [ 1 ], wrapper, widgetsRepo );
 			}
-
 			// Used to determine whether only widget was pasted.
 			if ( evt.data.protectedWhitespaces ) {
 				// Whitespaces are protected by wrapping content with spans. Take the middle node only.
