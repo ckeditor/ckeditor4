@@ -144,7 +144,7 @@
 			this._eventListeners.push( editor.on( 'blur', unmatch, this ) );
 			this._eventListeners.push( editor.on( 'beforeModeUnload', unmatch, this ) );
 			this._eventListeners.push( editor.on( 'setData', unmatch, this ) );
-			this._eventListeners.push( editor.on( 'afterCommandExec', check, this ) );
+			this._eventListeners.push( editor.on( 'afterCommandExec', unmatch, this ) );
 
 			// Attach if editor is already initialized.
 			if ( editor.editable() ) {
@@ -157,7 +157,6 @@
 				var editable = editor.editable();
 
 				this._eventListeners.push( editable.attachListener( editable, 'keyup', check, this ) );
-				this._eventListeners.push( editable.attachListener( editable, 'mouseup', check, this ) );
 			}
 
 			// CKEditor's event system has a limitation that one function (in this case this.check)
