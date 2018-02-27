@@ -760,12 +760,14 @@
 					label: linkLang.emailIsDisplayText,
 					title: linkLang.emailIsDisplayTextTitle,
 					setup: function(data) {
-						var displayText = editor.getSelection().getSelectedText();
-						var url = '';
-						if (data.url) {
-							url = data.url.url;
+						var displayTextValue = editor.getSelection().getSelectedText();
+						var emailValue = '';
+						if (data.email) {
+							emailValue = data.email.address;
 						}
-						updateEmailIsDisplayText(this, displayText, url, true);
+						console.log('[      emailValue]: ' + emailValue);
+						console.log('[displayTextValue]: ' + displayTextValue);
+						updateEmailIsDisplayText(this, displayTextValue, emailValue, true);
 					},
 					onClick: function () {
 							var displayText           = this.getDialog().getContentElement( 'info', 'linkDisplayText' );
