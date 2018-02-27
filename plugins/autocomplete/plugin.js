@@ -2,8 +2,17 @@
 
 ( function() {
 
+	// This flag prevents appending stylesheet more than once.
+	var stylesLoaded = false;
+
 	CKEDITOR.plugins.add( 'autocomplete', {
-		requires: 'textwatcher,caretposition'
+		requires: 'textwatcher,caretposition',
+		init: function() {
+			if ( !stylesLoaded ) {
+				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/autocomplete.css' );
+				stylesLoaded = true;
+			}
+		}
 	} );
 
 	/**
