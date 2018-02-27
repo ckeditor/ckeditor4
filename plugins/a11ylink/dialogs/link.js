@@ -208,15 +208,29 @@
 				return commitParams.call( this, 'advanced', data );
 			};
 
-		var updateUrlIsDisplayText = function(urlIsDisplayText, displayText, url, setChecked) {
+		var normalizeDisplayText = function(displayTextValue) {
+			return displayTextValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "").replace(/^https?\:\/\//i, "");
+		};
+
+		var normalizeText = function(textValue) {
+			return textValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "");
+		};
+
+		var updateUrlIsDisplayText = function(urlIsDisplayText, displayTextValue, urlValue, setChecked) {
 				if (typeof setChecked !== 'boolean') {
 					setChecked = false;
 				}
 
-				if (url.length > 0) {
-					if (displayText.length > 0) {
+				var displayTextNormalized = normalizeDisplayText(displayTextValue);
+				var isDisplayTextEmpty    = displayTextNormalized.length === 0;
 
-						if (displayText.indexOf(url) >= 0) {
+				var urlNormalized = normalizeText(urlValue);
+				var isUrlEmpty    = urlNormalized.length === 0;
+
+				if (!isUrlEmpty) {
+					if (!isDisplayTextEmpty) {
+
+						if (displayTextNormalized == urlNormalized) {
 							if (setChecked) {
 								urlIsDisplayText.setValue('checked');
 							}
@@ -236,31 +250,37 @@
 				}
 			};
 
-		var updateEmailIsDisplayText = function(emailAddressIsDisplayText, displayText, emailAddress, setChecked) {
+		var updateEmailIsDisplayText = function(emailIsDisplayText, displayTextValue, emailValue, setChecked) {
 				if (typeof setChecked !== 'boolean') {
 					setChecked = false;
 				}
 
-				if (emailAddress.length > 0) {
-					if (displayText.length > 0) {
+				var displayTextNormalized = normalizeDisplayText(displayTextValue);
+				var isDisplayTextEmpty    = displayTextNormalized.length === 0;
 
-						if (displayText.indexOf(emailAddress) >= 0) {
+				var emailNormalized = normalizeText(emailValue);
+				var isEmailEmpty    = emailNormalized.length === 0;
+
+				if (!isEmailEmpty) {
+					if (!isDisplayTextEmpty) {
+
+						if (displayTextNormalized == emailNormalized) {
 							if (setChecked) {
-								emailAddressIsDisplayText.setValue('checked');
+								emailIsDisplayText.setValue('checked');
 							}
-							emailAddressIsDisplayText.enable();
+							emailIsDisplayText.enable();
 						}
 						else {
-							emailAddressIsDisplayText.setValue('');
-							emailAddressIsDisplayText.disable();
+							emailIsDisplayText.setValue('');
+							emailIsDisplayText.disable();
 						}
 					}
 					else {
-						emailAddressIsDisplayText.enable();
+						emailIsDisplayText.enable();
 					}
 				}
 				else {
-					emailAddressIsDisplayText.disable();
+					emailIsDisplayText.disable();
 				}
 			};
 		var commonLang = editor.lang.common,
@@ -308,15 +328,15 @@
 										var isLinkTypeAnchor = linkTypeValue === 'anchor';
 
 										var displayTextValue      = this.getValue();
-										var displayTextNormalized = displayTextValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "").replace(/^https?\:\/\//i, "");
+										var displayTextNormalized = normalizeDisplayText(displayTextValue);
 										var isDisplayTextEmpty    = displayTextNormalized.length === 0;
 
 										var urlValue       = this.getDialog().getContentElement( 'info', 'url' ).getValue();
-										var urlNormalized  = urlValue.trim().toLowerCase();
+										var urlNormalized  = normalizeText(urlValue);
 										var isUrlEmpty     = urlNormalized.length === 0;
 
 										var emailValue       = this.getDialog().getContentElement( 'info', 'emailAddress' ).getValue();
-										var emailNormalized  = emailValue.trim().toLowerCase();
+										var emailNormalized  = normalizeText(emailValue);
 										var isEmailEmpty     = emailNormalized.length === 0;
 
 										var isUrlIsDisplayTextChecked   = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' ).getValue();
@@ -536,22 +556,22 @@
 						label: linkLang.urlIsDisplayText,
 						title: linkLang.urlIsDisplayTextTitle,
 						setup: function(data) {
-							var displayText = editor.getSelection().getSelectedText();
+							var displayTextValue = editor.getSelection().getSelectedText();
 							var url = '';
 							if (data.url) {
 								url = data.url.url;
 							}
-							updateUrlIsDisplayText(this, displayText, url, true);
+							updateUrlIsDisplayText(this, displayTextValue, url, true);
 						},
 						onClick: function () {
 
 							var displayText           = this.getDialog().getContentElement( 'info', 'linkDisplayText' );
 							var displayTextValue      = displayText.getValue();
-							var displayTextNormalized = displayTextValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "").replace(/^https?\:\/\//i, "");
+							var displayTextNormalized = normalizeDisplayText(displayTextValue);
 							var isDisplayTextEmpty    = displayTextNormalized.length === 0;
 
 							var urlValue       = this.getDialog().getContentElement( 'info', 'url' ).getValue();
-							var urlNormalized  = urlValue.trim().toLowerCase();
+							var urlNormalized  = normalizeText(urlValue);
 							var isUrlEmpty     = urlNormalized.length === 0;
 
 							if (urlValue.length > 0 ) {
@@ -765,18 +785,16 @@
 						if (data.email) {
 							emailValue = data.email.address;
 						}
-						console.log('[      emailValue]: ' + emailValue);
-						console.log('[displayTextValue]: ' + displayTextValue);
 						updateEmailIsDisplayText(this, displayTextValue, emailValue, true);
 					},
 					onClick: function () {
 							var displayText           = this.getDialog().getContentElement( 'info', 'linkDisplayText' );
 							var displayTextValue      = displayText.getValue();
-							var displayTextNormalized = displayTextValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "").replace(/^https?\:\/\//i, "");
+							var displayTextNormalized = normalizeDisplayText(displayTextValue);
 							var isDisplayTextEmpty    = displayTextNormalized.length === 0;
 
 							var emailValue       = this.getDialog().getContentElement( 'info', 'emailAddress' ).getValue();
-							var emailNormalized  = emailValue.trim().toLowerCase();
+							var emailNormalized  = normalizeText(emailValue);
 							var isEmailEmpty     = emailNormalized.length === 0;
 
 							if (emailValue.length > 0 ) {
