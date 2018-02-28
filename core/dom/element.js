@@ -477,6 +477,52 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		},
 
 		/**
+		 * Retrieve the absolute bounding rectangle of the current element, in pixels,
+		 * relative to the upper-left corner of the browser's client area
+		 * including browser's and editor's scroll.
+		 *
+		 * This function gives absolute element position which can be used for positioning elements
+		 * inside scrollable areas.
+		 *
+		 * As an example you could use this function with {@link CKEDITOR.dom.window#getFrame editor's window frame} to
+		 * calculate the bounding rectangle of the visible area of the editor and the viewport.
+		 * The retrieved bounding rectangle could be used to position elements like toolbars or notifications (elements outside editor)
+		 * to always keep them inside editor viewport independantly from the scroll position.
+		 *
+		 * ```javascript
+		 * var frame = editor.window.getFrame();
+		 * frame.getAbsoluteClientRect( editor );
+		 * ```
+		 *
+		 * @since 4.10.0
+		 * @param {CKEDITOR.editor} editor The editor used to calculate scroll position.
+		 * @returns {Object} The dimensions of the DOM element (scroll position included) including
+		 * `left`, `top`, `right`, `bottom`, `width` and `height`.
+		 */
+		getAbsoluteClientRect: function( editor ) {
+			var elementRect = this.getClientRect(),
+				winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition(),
+				frame = editor.window.getFrame(),
+				frameRect;
+
+			if ( editor.editable().isInline() || this.equals( frame ) ) {
+				elementRect.top = elementRect.top + winGlobalScroll.y;
+				elementRect.left = elementRect.left + winGlobalScroll.x;
+				elementRect.right = elementRect.left + elementRect.width;
+				elementRect.bottom = elementRect.top + elementRect.height;
+			} else {
+				frameRect = frame.getClientRect();
+
+				elementRect.top = frameRect.top + elementRect.top + winGlobalScroll.y;
+				elementRect.left = frameRect.left + elementRect.left + winGlobalScroll.x;
+				elementRect.right = elementRect.left + elementRect.width;
+				elementRect.bottom = elementRect.top + elementRect.height;
+			}
+
+			return elementRect;
+		},
+
+		/**
 		 * Retrieve the bounding rectangle of the current element, in pixels,
 		 * relative to the upper-left corner of the browser's client area.
 		 *
