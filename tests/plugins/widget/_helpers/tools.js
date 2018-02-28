@@ -31,7 +31,6 @@ var widgetTestsTools = ( function() {
 				on: {
 					loaded: function( evt ) {
 						editor = evt.editor;
-
 						initialData = fixHtml( editor.getData(), config.ignoreStyle );
 
 						editor.dataProcessor.writer.sortAttributes = true;
@@ -92,7 +91,6 @@ var widgetTestsTools = ( function() {
 						assertWidgets( 'after paste' );
 					} );
 				} );
-
 				wait( function() {
 					editor.execCommand( 'paste', html );
 				} );
@@ -390,6 +388,7 @@ var widgetTestsTools = ( function() {
 			'(?:data-cke-expando="[0-9]+" )?' +
 			'data-cke-filter="off" ' +
 			'data-cke-widget-wrapper="1" ' +
+			'(?:data-style-definition="(.*?)" )?' +
 			'tabindex="-1"',
 		widgetDragHanlder:
 			'<span class="cke_reset cke_widget_drag_handler_container" style="[^"]+">' +

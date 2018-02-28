@@ -388,9 +388,8 @@
 					var alignElement = data.hasCaption ? this.element : image,
 						style,
 						align;
-					if ( this.styleDefinition && this.styleDefinition.attributes && this.styleDefinition.attributes.style ) {
-						style = CKEDITOR.tools.parseCssText( this.styleDefinition.attributes.style );
-						align = style[ 'float' ];
+					if ( this.styleDefinition && this.styleDefinition.styles ) {
+						align = this.styleDefinition.styles.float;
 					}
 					// Read the initial left/right alignment from the class set on element.
 					if ( alignClasses ) {
@@ -939,10 +938,10 @@
 
 				// Image can be wrapped in link <a><img/></a>.
 				image = el.getFirst( 'img' ) || el.getFirst( 'a' ).getFirst( 'img' );
-				this.styleDefinition = this.styleDefinition || {};
-				this.styleDefinition.lockedStyle = this.styleDefinition.lockedStyle || {};
-				this.styleDefinition.lockedStyle.display = 'inline-block';
-				this.styleDefinition.lockedStyle[ 'text-align' ] = 'center';
+
+				el.lockedStyle = el.lockedStyle || {};
+				el.lockedStyle.display = 'inline-block';
+				el.lockedStyle[ 'text-align' ] = 'center';
 			}
 
 			// No center wrapper has been found.

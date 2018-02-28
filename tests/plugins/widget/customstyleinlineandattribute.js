@@ -6,100 +6,6 @@
 ( function() {
 	'use strict';
 
-	function createStyle( styleDefinition ) {
-		return new CKEDITOR.style( styleDefinition );
-	}
-
-	var getWidgetById = widgetTestsTools.getWidgetById,
-		styles = {
-			'background-color': 'black',
-			'width': '100px',
-			'height': '200px'
-		},
-		attributes = {
-			'src': './some/fake/src',
-			'width': '100px'
-		},
-		initialStyles = {
-			'border': '1px solid black',
-			'border-radius': '3px'
-		},
-		initialAttributes = {
-			'alt': 'alternative text',
-			'height': '200px'
-		},
-		testHtml = '<img data-widget="testWidget" id="test-widget">test</img>';
-
-	function setFromObject( targetElement, sourceObject, styleOrAttr ) {
-		styleOrAttr = styleOrAttr ? 'Style' : 'Attribute';
-		for ( var key in sourceObject ) {
-			targetElement[ 'set' + styleOrAttr ]( key, sourceObject[ key ] );
-		}
-	}
-
-	function assertTestStyles( element, sourceObject, styleOrAttribute ) {
-		styleOrAttribute = styleOrAttribute ? 'Style' : 'Attribute';
-
-		for ( var key in sourceObject ) {
-			var elementProp = element[ 'get' + styleOrAttribute ]( key ),
-				sourceProp = sourceObject[ key ];
-
-			// Some browsers might return elements width and height without 'px', following code should prevent comparing e.g. '200' == '200px'
-			if ( !( /\s/.test( sourceProp ) ) && parseInt( sourceProp, 10 ) ) {
-				sourceProp = parseInt( sourceProp, 10 );
-				elementProp = parseInt( elementProp, 10 );
-			}
-
-			assert.areSame( elementProp, sourceProp, styleOrAttribute + ' doesn\'t match' );
-		}
-	}
-
-	function assertTestRemovedStyles( element, sourceObject, styleOrAttribute ) {
-		styleOrAttribute = styleOrAttribute ? 'Style' : 'Attribute';
-
-		for ( var key in sourceObject ) {
-			assert.isFalse( !!element[ 'get' + styleOrAttribute ]( key ) );
-		}
-	}
-
-	function setTest( bot, testStyles, testAttributes ) {
-		var style = createStyle( {
-				type: 'widget',
-				widget: 'testWidget',
-				styles: testStyles ? styles : undefined,
-				attributes: testAttributes ? attributes : undefined
-			} );
-
-		style.element = 'img';
-		bot.setData( testHtml, function() {
-			var editor = bot.editor;
-			var widget = getWidgetById( editor, 'test-widget' );
-
-			// Apply initial styles and/or attributes to widget
-			testStyles && setFromObject( widget.element, initialStyles, 1 );
-			testAttributes && setFromObject( widget.element, initialAttributes, 0 );
-
-			// Apply styles and/or attributes from `style` object to widget, widget needs to be focused for that
-			widget.focus();
-			style.apply( editor );
-
-			// Test if styles and/or attributes from `style` are applied to widget
-			testStyles && assertTestStyles( widget.element, style.getDefinition().styles, 1 );
-			testAttributes && assertTestStyles( widget.element, style.getDefinition().attributes, 0 );
-			assert.isTrue( widget.checkStyleActive( style ), 'Style should be active' );
-
-			style.remove( editor );
-			// Test if styles and/or attributes from `styles` are removed from widget
-			testStyles && assertTestRemovedStyles( widget.element, style.getDefinition().styles, 1 );
-			testAttributes && assertTestRemovedStyles( widget.element, style.getDefinition().attributes, 0 );
-			assert.isFalse( widget.checkStyleActive( style ), 'Style should\' be active' );
-
-			// Test if initial styles and/or attributes are preserved
-			testStyles && assertTestStyles( widget.element, initialStyles, 1 );
-			testAttributes && assertTestStyles( widget.element, initialAttributes, 0 );
-		} );
-	}
-
 	CKEDITOR.plugins.add( 'testWidget', {
 		init: function( editor ) {
 			editor.widgets.add( 'testWidget', {} );
@@ -117,15 +23,206 @@
 		}
 	};
 
+	function createStyle( styleDefinition ) {
+		styleDefinition.type = 'widget';
+		styleDefinition.widget = 'testWidget';
+		styleDefinition.element = 'img';
+		return new CKEDITOR.style( styleDefinition );
+	}
+
+	var getWidgetById = widgetTestsTools.getWidgetById,
+		initialStyles = {
+			'border': '1px solid black',
+			'border-radius': '3px'
+		},
+		initialAttributes = {
+			'alt': 'alternative text',
+			'height': '200px'
+		};
+
+	function getHtmlForTest( styles, attributes ) {
+		styles = styles ? ' style=\"' + CKEDITOR.tools.writeCssText( styles ) + '\"' : undefined;
+		attributes = attributes ? ' ' + CKEDITOR.tools.writeCssText( attributes ).replace( /:/g, '=\"' ).replace( /;/g, '\"' ) + '\"' : undefined;
+
+		return '<img data-widget="testWidget" id="test-widget"' + styles + attributes + '>test</img>';
+	}
+
+	function assertTestStyles( element, sourceObject, attribute, assertFalse ) {
+		attribute = attribute ? 'Style' : 'Attribute';
+
+		for ( var key in sourceObject ) {
+			var elementProp = element[ 'get' + attribute ]( key ),
+				sourceProp = sourceObject[ key ];
+
+			// Some browsers might return elements width and height without 'px', following code should prevent comparing e.g. `'200' == '200px'`
+			if ( !( /\s/.test( sourceProp ) ) && parseInt( sourceProp, 10 ) ) {
+				sourceProp = parseInt( sourceProp, 10 );
+				elementProp = parseInt( elementProp, 10 );
+			}
+
+			if ( assertFalse ) {
+				assert.isFalse( elementProp, sourceProp, attribute + 'should be removed' );
+			} else {
+				assert.areSame( elementProp, sourceProp, attribute + ' doesn\'t match' );
+			}
+		}
+	}
+
+	function assertTestRemovedStyles( element, sourceObject, styleOrAttribute ) {
+		styleOrAttribute = styleOrAttribute ? 'Style' : 'Attribute';
+
+		for ( var key in sourceObject ) {
+			assert.isFalse( !!element[ 'get' + styleOrAttribute ]( key ) );
+		}
+	}
+
+	// function setTest( bot, testStyles, testAttributes, config ) {
+	function setTest( bot, config ) {
+		bot.setData( getHtmlForTest( initialStyles, initialAttributes ), function() {
+			var editor = bot.editor,
+				widget = getWidgetById( editor, 'test-widget' ),
+				index = 0,
+				style;
+
+			// Apply styles and/or attributes from `style` object to widget, widget needs to be focused for that
+			widget.focus();
+			while ( index < config.length ) {
+				var conf = config[ index ];
+				if ( 'apply' in config[ index ] ) {
+					style = conf.apply;
+					style.apply( editor );
+
+					// Test if styles and/or attributes from `style` are applied to widget
+					assertTestStyles( widget.wrapper, style.getDefinition().styles, 1 );
+					assertTestStyles( widget.element, style.getDefinition().attributes, 0 );
+					assert.isTrue( widget.checkStyleActive( style ), 'Style should be active' );
+				} else if ( 'remove' in conf ) {
+					style = conf.remove;
+					style.remove( editor );
+
+					// Test if styles and/or attributes from `styles` are removed from widget
+					assertTestRemovedStyles( widget.wrapper, style.getDefinition().styles, 1 );
+					assertTestRemovedStyles( widget.element, style.getDefinition().attributes, 0 );
+					assert.isFalse( widget.checkStyleActive( style ), 'Style shouldn\'t be active' );
+				} else if ( 'test' in conf ) {
+					style = conf.test;
+					// Test without adding styles
+					assertTestStyles( widget.wrapper, style.getDefinition().styles, 1 );
+					assertTestStyles( widget.element, style.getDefinition().attributes, 0 );
+				} else if ( 'checkActive' in conf ) {
+					style = conf.checkActive;
+					assert.isTrue( widget.checkStyleActive( style ) );
+				} else if ( 'checkInactive' in conf ) {
+					style = conf.checkInactive;
+					assert.isFalse( widget.checkStyleActive( style ) );
+				}
+				// Test if initial styles and/or attributes are preserved
+				assertTestStyles( widget.wrapper, initialStyles, 1 );
+				assertTestStyles( widget.element, initialAttributes, 0 );
+				index++;
+			}
+		} );
+	}
+
+	var styles = {
+			'background-color': 'black',
+			'width': '100px',
+			'height': '200px'
+		},
+		attributes = {
+			'data-foo': 'some data',
+			'width': '100px'
+		},
+		styleStyles = {
+			styles: styles
+		},
+		styleAttributes = {
+			attributes: attributes
+		},
+		styleStylesAndAttributes = {
+			styles: styles,
+			attributes: attributes
+		},
+		styleFooBar = {
+			styles: {
+				'float': 'left',
+				'clear': 'both'
+			},
+			attributes: {
+				'foo': 'foo',
+				'bar': 'bar'
+			}
+		};
+
 	bender.test( {
-		'test apply remove inline style': function() {
-			setTest( this.editorBots.editor, 1 );
+		'test apply remove style with inline styles': function() {
+			var style = createStyle( styleStyles );
+			setTest( this.editorBots.editor, [
+				{ apply: style },
+				{ remove: style }
+			] );
 		},
-		'test apply remove attribute': function() {
-			setTest( this.editorBots.editor, 0, 1 );
+		'test apply remove style with attributes': function() {
+			var style = createStyle( styleAttributes );
+			setTest( this.editorBots.editor, [
+				{ apply: style },
+				{ remove: style }
+			] );
 		},
-		'test apply remove inline style and attribute': function() {
-			setTest( this.editorBots.editor, 1, 1 );
+		'test apply remove style with inline styles and attributes': function() {
+			var style = createStyle( styleStylesAndAttributes );
+			setTest( this.editorBots.editor, [
+				{ apply: style },
+				{ remove: style }
+			] );
+		},
+		'test apply style and remove part of it': function() {
+			var style1 = createStyle( styleStylesAndAttributes ),
+				style2 = createStyle( styleAttributes );
+			setTest( this.editorBots.editor, [
+				{ apply: style1 },
+				{ remove: style2 },
+				{ checkInactive: style1 }
+			] );
+		},
+		'test apply style and overwrite it with another style': function() {
+			var style1 = createStyle( styleStylesAndAttributes ),
+				style2 = createStyle( { styles: { 'background-color': 'yellow' } } );
+			setTest( this.editorBots.editor, [
+				{ apply: style1 },
+				{ apply: style2 },
+				{ checkInactive: style1 }
+			] );
+		},
+		'test apply two styles remove first': function() {
+			var style1 = createStyle( styleStylesAndAttributes ),
+				style2 = createStyle( styleFooBar );
+			setTest( this.editorBots.editor, [
+				{ apply: style1 },
+				{ apply: style2 },
+				{ remove: style1 },
+				{ test: style2 }
+			] );
+		},
+		'test apply two styles remove second': function() {
+			var style1 = createStyle( styleStylesAndAttributes ),
+				style2 = createStyle( styleFooBar );
+			setTest( this.editorBots.editor, [
+				{ apply: style1 },
+				{ apply: style1 },
+				{ remove: style2 },
+				{ test: style1 }
+			] );
+		},
+		'test apply remove two styles': function() {
+			var style1 = createStyle( styleStylesAndAttributes ),
+				style2 = createStyle( styleFooBar );
+			setTest( this.editorBots.editor, [
+				{ apply: style1 },
+				{ apply: style2 },
+				{ remove: style1 },
+				{ remove: style2 }
+			] );
 		}
 	} );
 } )();
