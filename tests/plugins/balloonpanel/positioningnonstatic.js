@@ -52,7 +52,7 @@
 		panel.attach( element );
 
 		return {
-			elementRect: panel._getAbsoluteRect( element ),
+			elementRect: element.getAbsoluteClientRect( editor ),
 			triangleTip: balloonTestsTools.getTriangleTipPosition( panel ),
 			panel: panel
 		};
