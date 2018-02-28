@@ -292,53 +292,15 @@
 		}
 	};
 
-	function changeListType( editor, groupObj, database, listsCreated ) {
-		// This case is easy...
-		// 1. Convert the whole list into a one-dimensional array.
-		// 2. Change the list type by modifying the array.
-		// 3. Recreate the whole list by converting the array to a list.
-		// 4. Replace the original list with the recreated list.
-		var listArray = CKEDITOR.plugins.list.listToArray( groupObj.root, database ),
-			selectedListItems = [];
+	function changeListType( editor, groupObj ) {
+		var contents = groupObj.contents;
 
-		for ( var i = 0; i < groupObj.contents.length; i++ ) {
-			var itemNode = groupObj.contents[ i ];
-			itemNode = itemNode.getAscendant( 'li', true );
-			if ( !itemNode || itemNode.getCustomData( 'list_item_processed' ) )
-				continue;
-			selectedListItems.push( itemNode );
-			CKEDITOR.dom.element.setMarker( database, itemNode, 'list_item_processed', true );
+		// Simply change parent node (ul/ol) to desired type
+		if ( contents.length > 0 ) {
+			contents[ 0 ].getParent().renameNode( this.type );
+
+			editor.fire( 'contentDomInvalidated' );
 		}
-
-		var root = groupObj.root,
-			doc = root.getDocument(),
-			listNode, newListNode;
-
-		for ( i = 0; i < selectedListItems.length; i++ ) {
-			var listIndex = selectedListItems[ i ].getCustomData( 'listarray_index' );
-			listNode = listArray[ listIndex ].parent;
-
-			// Switch to new list node for this particular item.
-			if ( !listNode.is( this.type ) ) {
-				newListNode = doc.createElement( this.type );
-				// Copy all attributes, except from 'start' and 'type'.
-				listNode.copyAttributes( newListNode, { start: 1, type: 1 } );
-				// The list-style-type property should be ignored.
-				newListNode.removeStyle( 'list-style-type' );
-				listArray[ listIndex ].parent = newListNode;
-			}
-		}
-
-		var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode );
-		var child,
-			length = newList.listNode.getChildCount();
-		for ( i = 0; i < length && ( child = newList.listNode.getChild( i ) ); i++ ) {
-			if ( child.getName() == this.type )
-				listsCreated.push( child );
-		}
-		newList.listNode.replace( groupObj.root );
-
-		editor.fire( 'contentDomInvalidated' );
 	}
 
 	function createList( editor, groupObj, listsCreated ) {
@@ -651,7 +613,7 @@
 				groupObj = listGroups.shift();
 				if ( this.state == CKEDITOR.TRISTATE_OFF ) {
 					if ( listNodeNames[ groupObj.root.getName() ] )
-						changeListType.call( this, editor, groupObj, database, listsCreated );
+						changeListType.call( this, editor, groupObj );
 					else
 						createList.call( this, editor, groupObj, listsCreated );
 				} else if ( this.state == CKEDITOR.TRISTATE_ON && listNodeNames[ groupObj.root.getName() ] ) {
