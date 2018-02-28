@@ -48,18 +48,35 @@
 <dl>
 	<dt>text1</dt>
 	<dd>
-		<ul>
-			<li>text2</li>
-		</ul>
 		<ol>
 			<li>text2</li>
+			<li>text2</li>
+			<li>text2</li>
+			<li>text2</li>
+			<li>text2</li>
+			<li>text2</li>
 		</ol>
-		<ul>
-			<li>text2</li>
-			<li>text2</li>
-			<li>text2</li>
-			<li>text2</li>
-		</ul>
 	</dd>
 </dl>
+</textarea>
+<textarea id='switch_list_inside'>
+<ul>
+	<li>foo
+		<ul>
+			<li>bar^</li>
+			<li>bar2</li>
+		</ul>
+	</li>
+	<li>foo2</li>
+</ul>
+=>
+<ul>
+	<li>foo
+		<ol>
+			<li>bar</li>
+			<li>bar2</li>
+		</ol>
+	</li>
+	<li>foo2</li>
+</ul>
 </textarea>

@@ -162,7 +162,17 @@ bender.test( {
 		}
 		bot.setHtmlWithSelection( '[<ul style="font-size:16px;"><li>foo<ul style="font-size:22px;"><li>bar</li></ul></li></ul>]' );
 		bot.execCommand( 'numberedlist' );
-		assert.areSame( '<ol style="font-size:16px;"><li>foo<ol style="font-size:22px;"><li>bar</li></ol></li></ol>', bot.getData( true ) );
+		assert.areSame( '<ol style="font-size:16px;"><li>foo<ul style="font-size:22px;"><li>bar</li></ul></li></ol>', bot.getData( true ) );
+	},
+
+	'test change sublist type but not parent list type': function() {
+		var bot = this.editorBots.editor2;
+		bender.tools.testInputOut( 'switch_list_inside', function( source, expected ) {
+			bot.setHtmlWithSelection( source );
+			bot.execCommand( 'numberedlist' );
+			assert.areSame( bender.tools.compatHtml( expected ), bot.getData( false, true ) );
+
+		} );
 	},
 
 	'test create list with merge below (with direction)': function() {
