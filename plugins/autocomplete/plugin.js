@@ -202,7 +202,9 @@
 		 * * The listeners on the DOM events are added.
 		 */
 		attach: function() {
-			var editor = this.editor;
+			var editor = this.editor,
+				win = CKEDITOR.document.getWindow(),
+				editorDocument = editor.editable().getDocument();
 
 			this.view.append();
 			this.view.attach();
@@ -213,6 +215,14 @@
 			this._listeners.push( this.model.on( 'change-data', this.onData, this ) );
 			this._listeners.push( this.model.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
 			this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
+
+			// Update view position on viewport change.
+			this._listeners.push( win.on( 'scroll', function() {
+				this.onChange();
+			}, this ) );
+			this._listeners.push( editorDocument.on( 'scroll', function() {
+				this.onChange();
+			}, this ) );
 
 			this._listeners.push( editor.on( 'contentDom', onContentDom, this ) );
 			// CKEditor's event system has a limitation that one function (in this case this.check)
@@ -701,21 +711,32 @@
 				viewBottom = viewScroll.x + viewPane.height,
 				// How much space is there for the panel above and below the specified rect.
 				spaceAbove = rect.top - viewTop,
-				spaceBelow = viewBottom - rect.bottom;
+				spaceBelow = viewBottom - rect.bottom,
+
+				frame = this.editor.window.getFrame(),
+				editable = this.editor.editable(),
+				// Bounding rect where toolbar should fit (visible editor viewport).
+				absoluteRect = editable.isInline() ? editable.getAbsoluteClientRect( this.editor ) : frame.getAbsoluteClientRect( this.editor ),
+				top;
 
 			// If panel does not fit below the rect and fits above, set it there.
 			// This means that position below the rect is preferred.
-			if ( panelHeight > spaceBelow && panelHeight < spaceAbove ) {
-				this.element.setStyles( {
-					left: rect.left + 'px',
-					top: ( rect.top - panelHeight ) + 'px'
-				} );
+			// Skip changing position above if caret position is not visible in editor viewport.
+			if (
+				panelHeight > spaceBelow &&
+				panelHeight < spaceAbove &&
+				absoluteRect.top < rect.top &&
+				absoluteRect.bottom > rect.bottom
+				) {
+				top = rect.top - panelHeight;
 			} else {
-				this.element.setStyles( {
-					left: rect.left + 'px',
-					top: rect.bottom + 'px'
-				} );
+				top = rect.top < absoluteRect.top ? absoluteRect.top : Math.min( absoluteRect.bottom, rect.bottom );
 			}
+
+			this.element.setStyles( {
+				left: rect.left + 'px',
+				top: top + 'px'
+			} );
 		},
 
 		/**
