@@ -145,7 +145,6 @@
 			var editor = this.editor;
 
 			this._listeners.push( editor.on( 'contentDom', onContentDom, this ) );
-			this._listeners.push( editor.on( 'focus', check, this ) );
 			this._listeners.push( editor.on( 'blur', unmatch, this ) );
 			this._listeners.push( editor.on( 'beforeModeUnload', unmatch, this ) );
 			this._listeners.push( editor.on( 'setData', unmatch, this ) );

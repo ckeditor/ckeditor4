@@ -20,7 +20,7 @@
 
 			bot.setHtmlWithSelection( '' );
 
-			editor.fire( 'focus' );
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 			assertViewOpened( ac, true );
 
@@ -37,7 +37,7 @@
 
 			bot.setHtmlWithSelection( '' );
 
-			editor.fire( 'focus' );
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 			assertViewOpened( ac, true );
 
@@ -62,7 +62,7 @@
 
 			bot.setHtmlWithSelection( '' );
 
-			editor.fire( 'focus' );
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 			assertViewOpened( ac, true );
 
@@ -87,7 +87,7 @@
 
 			bot.setHtmlWithSelection( '' );
 
-			editor.fire( 'focus' );
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) );
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) );
@@ -103,14 +103,14 @@
 
 			bot.setHtmlWithSelection( '' );
 
-			editor.fire( 'focus' );
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 			ac.view.getItemById( 1 ).$.click();
 
 			assert.areEqual( '<p>item1</p>', editor.getData() );
 
 			ac.destroy();
-		}
+		},
 	} );
 
 	function assertViewOpened( ac, isOpened ) {
