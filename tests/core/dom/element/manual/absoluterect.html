@@ -1,0 +1,51 @@
+<style>
+	body{ height:1000em; width: 100em; }
+	#output{
+		width: 100vh;
+		position: fixed;
+	}
+</style>
+
+<textarea id="editor1">
+	<p style="height: 100em; width: 200em"></p>
+</textarea>
+
+<div id="output">
+</div>
+
+<script>
+	var output = document.getElementById( 'output' ),
+		editableRect, frameRect, editor;
+
+	CKEDITOR.replace( 'editor1', {
+		extraAllowedContent: 'p{height,width}',
+		on: {
+			instanceReady: function( evt ) {
+				editor = evt.editor;
+
+				updatePosition();
+
+				CKEDITOR.document.getWindow().on( 'scroll', function() {
+					updatePosition();
+				} );
+
+				editor.window.on( 'scroll', function() {
+					updatePosition();
+				} );
+			}
+		}
+	} );
+
+	function updatePosition() {
+		var editable = editor.editable(), frame = editor.window.getFrame();
+
+		editableRect = editable.getAbsoluteClientRect( editor ),
+		frameRect = frame.getAbsoluteClientRect( editor );
+		output.innerHTML = '<strong>editor scroll:</strong> ' + getRectHtml( editableRect ) + '</br><strong>browser scroll:</strong> ' + getRectHtml( frameRect );
+	}
+
+	function getRectHtml( rect ) {
+		return 'height: ' + rect.height + ', top: ' + rect.top + ', bottom: ' + rect.bottom + ', width: ' +
+			rect.width + ', left: ' + rect.left + ', right: ' + rect.right + ', x: ' + rect.x + ', y: ' + rect.y;
+	}
+</script>
