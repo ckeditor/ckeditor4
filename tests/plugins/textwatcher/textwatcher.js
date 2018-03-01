@@ -7,15 +7,6 @@
 
 	bender.test( {
 
-		'test checks text on editor focus': function() {
-			var editor = this.editor,
-				spy = sinon.spy( attachTextWatcher( editor ), 'check' );
-
-			editor.focus();
-
-			assert.isTrue( spy.calledOnce );
-		},
-
 		'test checks text on keyup': function() {
 			var editor = this.editor,
 				spy = sinon.spy( attachTextWatcher( editor ), 'check' );
