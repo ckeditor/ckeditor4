@@ -715,7 +715,7 @@
 
 				frame = this.editor.window.getFrame(),
 				editable = this.editor.editable(),
-				// Bounding rect where toolbar should fit (visible editor viewport).
+				// Bounding rect where view should fit (visible editor viewport).
 				absoluteRect = editable.isInline() ? editable.getAbsoluteClientRect( this.editor ) : frame.getAbsoluteClientRect( this.editor ),
 				top;
 
