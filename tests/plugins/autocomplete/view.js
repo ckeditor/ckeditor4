@@ -151,10 +151,7 @@
 			assertPanePosition( this.editors.classic, {
 				rect: { top: 400, bottom: 410, left: 100 },
 				absoluteRect: { top: 0, bottom: 500 },
-				viewPaneHeight: 500,
-				scrollPosition: 0,
 				elementHeight: 100,
-				scrollX: 0
 			}, function( element ) {
 				assert.areEqual( '300px', element.getStyle( 'top' ) );
 				assert.areEqual( '100px', element.getStyle( 'left' ) );
@@ -166,10 +163,7 @@
 			assertPanePosition( this.editors.classic, {
 				rect: { top: 100, bottom: 110, left: 50 },
 				absoluteRect: { top: 0, bottom: 500 },
-				viewPaneHeight: 500,
-				scrollPosition: 0,
 				elementHeight: 100,
-				scrollX: 0
 			}, function( element ) {
 				assert.areEqual( '110px', element.getStyle( 'top' ) );
 				assert.areEqual( '50px', element.getStyle( 'left' ) );
@@ -181,10 +175,7 @@
 			assertPanePosition( this.editors.classic, {
 				rect: { top: 400, bottom: 410, left: 100 },
 				absoluteRect: { top: 0, bottom: 300 },
-				viewPaneHeight: 500,
-				scrollPosition: 0,
 				elementHeight: 100,
-				scrollX: 0
 			}, function( element ) {
 				assert.areEqual( '300px', element.getStyle( 'top' ) );
 				assert.areEqual( '100px', element.getStyle( 'left' ) );
@@ -196,10 +187,7 @@
 			assertPanePosition( this.editors.classic, {
 				rect: { top: 100, bottom: 110, left: 50 },
 				absoluteRect: { top: 200, bottom: 500 },
-				viewPaneHeight: 500,
-				scrollPosition: 0,
 				elementHeight: 100,
-				scrollX: 0
 			}, function( element ) {
 				assert.areEqual( '200px', element.getStyle( 'top' ) );
 				assert.areEqual( '50px', element.getStyle( 'left' ) );
@@ -226,15 +214,7 @@
 
 	function assertPanePosition( editor, config, callback ) {
 		var view = new CKEDITOR.plugins.autocomplete.view( editor ),
-			windowStub = sinon.stub( CKEDITOR.document, 'getWindow' ).returns( {
-				getViewPaneSize: function() {
-					return { height: config.viewPaneHeight };
-				},
-				getScrollPosition: function() {
-					return { x: config.scrollX };
-				}
-			} ),
-			elementStub = sinon.stub( CKEDITOR.dom.element.prototype, 'getClientRect' ).returns( config.absoluteRect );
+			elementStub = sinon.stub( CKEDITOR.dom.element.prototype, 'getAbsoluteClientRect' ).returns( config.absoluteRect );
 
 		view.append();
 
@@ -245,7 +225,6 @@
 		callback( view.element );
 
 		// Test fixture down
-		windowStub.restore();
 		elementStub.restore();
 	}
 

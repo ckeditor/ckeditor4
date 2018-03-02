@@ -729,20 +729,13 @@
 		setPosition: function( rect ) {
 			var window = this.document.getWindow(),
 				panelHeight = this.element.getSize( 'height' ),
-				viewPane = window.getViewPaneSize(),
-				viewScroll = window.getScrollPosition(),
-				// Position of the top and bottom boundaries of the view
-				// relative to the body.
-				viewTop = viewScroll.x,
-				viewBottom = viewScroll.x + viewPane.height,
-				// How much space is there for the panel above and below the specified rect.
-				spaceAbove = rect.top - viewTop,
-				spaceBelow = viewBottom - rect.bottom,
-
 				frame = this.editor.window.getFrame(),
 				editable = this.editor.editable(),
 				// Bounding rect where view should fit (visible editor viewport).
-				absoluteRect = editable.isInline() ? editable.getClientRect( true ) : frame.getClientRect( true ),
+				absoluteRect = editable.isInline() ? editable.getAbsoluteClientRect( this.editor ) : frame.getAbsoluteClientRect( this.editor ),
+				// How much space is there for the panel above and below the specified rect.
+				spaceAbove = rect.top - absoluteRect.top,
+				spaceBelow = rect.bottom - absoluteRect.bottom,
 				top;
 
 			// If panel does not fit below the rect and fits above, set it there.
