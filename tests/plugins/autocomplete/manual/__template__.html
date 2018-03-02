@@ -1,0 +1,69 @@
+<style>
+	body {
+		margin: 0px;
+		position: static;
+	}
+</style>
+
+<div style="padding: 1500px">
+	<textarea id="editor1" >
+		<h1>Lorem ipsum dolor sit amet, consectetur.</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum veniam in eligendi, aliquid dicta odio, atque consequatur suscipit quas porro veritatis rerum libero deleniti vero aliquam animi unde voluptatibus dolores deserunt! Explicabo repellat sint pariatur. Sint tempora ea illo, harum quidem iste adipisci libero aliquid, incidunt ullam ex at maiores enim, quia animi quo porro fugiat nihil et. Id in ullam voluptatem a officia corporis consequuntur voluptatum error neque sequi, vitae magnam reprehenderit ipsa reiciendis hic. Totam atque explicabo adipisci debitis, id sit vel error laudantium animi, voluptas voluptate ipsam saepe, molestiae quidem reprehenderit excepturi odio. Eaque, hic quisquam amet.</p>
+		<h1>Lorem ipsum dolor sit amet, consectetur.</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut et rerum autem illo, necessitatibus maiores hic quia vitae fugit quasi ducimus eveniet veritatis amet modi error inventore similique beatae molestiae magnam reiciendis voluptatem quo fuga rem fugiat! Quas suscipit error labore id sit aliquid quia porro, sint quod modi harum laboriosam! Explicabo rerum, autem. Odio laborum quam quidem explicabo nobis, corporis quia maiores ad, sequi possimus consequuntur alias ipsa dolorem distinctio blanditiis saepe, veritatis iure praesentium dicta repudiandae, quos quasi doloribus tempore. Perferendis magni, cum voluptatibus accusantium totam mollitia. Quibusdam accusantium labore voluptates et pariatur animi, nam temporibus magnam vitae.</p>
+		<h1>Lorem ipsum dolor sit amet, consectetur.</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum asperiores reprehenderit delectus tempore ullam repellat, eius voluptate iste, minus deserunt architecto amet velit harum. Natus praesentium atque exercitationem, eum porro magnam molestiae tenetur consequatur delectus sapiente provident inventore unde pariatur voluptates aliquid nulla quidem. Nobis vitae est neque non quis aspernatur quasi culpa, omnis dolorem veniam, veritatis, atque quam nisi sed odit necessitatibus modi deleniti a! Explicabo inventore dolor veritatis, a placeat nobis accusamus! Illum autem a quia perspiciatis, provident eum consectetur quae aliquam recusandae reiciendis nesciunt ratione, fuga quam laborum natus laudantium nostrum, distinctio obcaecati? In officia quod, doloremque.</p>
+	</textarea>
+</div>
+
+<script>
+	var editor;
+
+	CKEDITOR.replace( 'editor1', {
+		width: 600,
+		on: {
+			instanceReady: function( evt ) {
+				editor = evt.editor;
+
+				new CKEDITOR.plugins.autocomplete( editor, getTextTestCallback(), dataCallback );
+			}
+		}
+	} );
+
+	window.scrollTo( 1500, 1500 );
+
+	function getTextTestCallback() {
+		return function( range ) {
+			return CKEDITOR.plugins.textMatch.match( range, matchCallback );
+		};
+	}
+
+	function matchCallback( text, offset ) {
+		var left = text.slice( 0, offset ),
+			right = text.slice( offset ),
+			match = left.match( new RegExp( '@\\w*$' ) );
+
+		if ( !match ) {
+			return null;
+		}
+
+		return { start: match.index, end: offset };
+	}
+
+	function dataCallback( query, range, callback ) {
+		var data = [
+			{ id: 1, name: '@john' },
+			{ id: 2, name: '@thomas' },
+			{ id: 3, name: '@anna' },
+			{ id: 4, name: '@cris' },
+			{ id: 5, name: '@julia' }
+		];
+
+		callback(
+			data.filter( function( item ) {
+				return item.name.indexOf( query ) === 0;
+			} )
+		);
+	}
+
+</script>
