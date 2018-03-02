@@ -8,8 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'it', {
 	cut: 'Taglia',
 	cutError: 'Le impostazioni di sicurezza del browser non permettono di tagliare automaticamente il testo. Usa la tastiera (Ctrl/Cmd+X).',
 	paste: 'Incolla',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
-	pasteArea: 'Incolla',
-	pasteMsg: 'Incolla il testo all\'interno dell\'area sottostante usando la scorciatoia di tastiere (<STRONG>Ctrl/Cmd+V</STRONG>) e premi <STRONG>OK</STRONG>.',
+	pasteNotification: 'Premere %1 per incollare. Il tuo browser non permette di incollare tramite il pulsante della barra degli strumenti o tramite la voce del menu contestuale.',
+	pasteArea: 'Area dove incollare',
+	pasteMsg: 'Incollare il proprio contenuto all\'interno dell\'area sottostante e premere OK.',
 	title: 'Incolla'
 } );

@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ar', {
 	paste: 'لصق',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'منطقة اللصق',
-	pasteMsg: 'الصق داخل الصندوق بإستخدام زرائر (<STRONG>Ctrl/Cmd+V</STRONG>) في لوحة المفاتيح، ثم اضغط زر  <STRONG>موافق</STRONG>.',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: 'لصق'
 } );

@@ -6,8 +6,8 @@
 CKEDITOR.plugins.setLang( 'codesnippet', 'sq', {
 	button: 'Shto kod copëze',
 	codeContents: 'Përmbajtja e kodit',
-	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
+	emptySnippetError: 'Copëza e kodit nuk mund të jetë e zbrazët.',
 	language: 'Gjuha',
-	title: 'Code snippet', // MISSING
-	pathName: 'code snippet' // MISSING
+	title: 'Copëza e kodit',
+	pathName: 'copëza e kodit'
 } );

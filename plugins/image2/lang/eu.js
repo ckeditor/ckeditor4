@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'eu', {
 	title: 'Irudiaren propietateak',
 	uploadTab: 'Kargatu',
 	urlMissing: 'Irudiaren iturburuaren URLa falta da.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'Ordezko testua falta da.'
 } );

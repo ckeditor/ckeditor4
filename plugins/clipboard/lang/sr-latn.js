@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sr-latn', {
 	paste: 'Zalepi',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Prostor za lepljenje',
-	pasteMsg: 'Molimo Vas da zalepite unutar donje povrine koristeći tastaturnu prečicu (<STRONG>Ctrl/Cmd+V</STRONG>) i da pritisnete <STRONG>OK</STRONG>.',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: 'Zalepi'
 } );

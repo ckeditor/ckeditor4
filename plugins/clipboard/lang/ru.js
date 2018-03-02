@@ -8,8 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ru', {
 	cut: 'Вырезать',
 	cutError: 'Настройки безопасности вашего браузера не разрешают редактору выполнять операции по вырезке текста. Пожалуйста, используйте для этого клавиатуру (Ctrl/Cmd+X).',
 	paste: 'Вставить',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
-	pasteArea: 'Зона для вставки',
-	pasteMsg: 'Пожалуйста, вставьте текст в зону ниже, используя клавиатуру (<strong>Ctrl/Cmd+V</strong>) и нажмите кнопку "OK".',
+	pasteNotification: 'Для вставки нажмите %1. Ваш браузер не поддерживает возможность вставки через панель инструментов или контекстное меню',
+	pasteArea: 'Область вставки',
+	pasteMsg: 'Вставьте контент в эту область и нажмите OK',
 	title: 'Вставить'
 } );

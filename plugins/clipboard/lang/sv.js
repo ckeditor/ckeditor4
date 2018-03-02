@@ -8,8 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sv', {
 	cut: 'Klipp ut',
 	cutError: 'Säkerhetsinställningar i din webbläsare tillåter inte åtgärden klipp ut. Använd (Ctrl/Cmd+X) istället.',
 	paste: 'Klistra in',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
-	pasteArea: 'Paste Area',
-	pasteMsg: 'Var god och klistra in Er text i rutan nedan genom att använda (<strong>Ctrl/Cmd+V</strong>) klicka sen på OK.',
+	pasteNotification: 'Tryck på %1 för att klistra in. Din webbläsare stödjer inte inklistring via verktygsfältet eller snabbmenyn.',
+	pasteArea: 'Inklistringsområde',
+	pasteMsg: 'Klistra in ditt innehåll i området nedan och tryck på OK.',
 	title: 'Klistra in'
 } );

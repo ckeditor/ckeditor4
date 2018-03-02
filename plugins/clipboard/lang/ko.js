@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ko', {
 	paste: '붙여넣기',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: '붙여넣기 범위',
-	pasteMsg: '키보드(<strong>Ctrl/Cmd+V</strong>)를 이용해서 상자안에 붙여넣고 <strong>확인</strong> 를 누르세요.',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: '붙여넣기'
 } );

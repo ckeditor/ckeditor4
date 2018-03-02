@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'eo', {
 	paste: 'Interglui',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Intergluoareo',
-	pasteMsg: 'Bonvolu glui la tekston en la jenan areon per uzado de la klavaro (<strong>Ctrl/Cmd+V</strong>) kaj premu OK',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: 'Interglui'
 } );

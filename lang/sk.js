@@ -57,7 +57,7 @@ CKEDITOR.lang[ 'sk' ] = {
 		cssStyle: 'Štýl',
 		ok: 'OK',
 		cancel: 'Zrušiť',
-		close: 'Zatvorit',
+		close: 'Zatvoriť',
 		preview: 'Náhľad',
 		resize: 'Zmeniť veľkosť',
 		generalTab: 'Hlavné',
@@ -81,10 +81,10 @@ CKEDITOR.lang[ 'sk' ] = {
 		left: 'Vľavo',
 		right: 'Vpravo',
 		center: 'Na stred',
-		justify: 'Zarovnať do bloku',
+		justify: 'Do bloku',
 		alignLeft: 'Zarovnať vľavo',
 		alignRight: 'Zarovnať vpravo',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'Zarovnať na stred',
 		alignTop: 'Nahor',
 		alignMiddle: 'Na stred',
 		alignBottom: 'Dole',
@@ -92,7 +92,7 @@ CKEDITOR.lang[ 'sk' ] = {
 		invalidValue: 'Neplatná hodnota.',
 		invalidHeight: 'Výška musí byť číslo.',
 		invalidWidth: 'Šírka musí byť číslo.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
+		invalidLength: 'Hodnota uvedená v poli "%1" musí byť kladné číslo a s platnou mernou jednotkou (%2), alebo bez nej.',
 		invalidCssLength: 'Špecifikovaná hodnota pre pole "%1" musí byť kladné číslo s alebo bez platnej CSS mernej jednotky (px, %, in, cm, mm, em, ex, pt alebo pc).',
 		invalidHtmlLength: 'Špecifikovaná hodnota pre pole "%1" musí byť kladné číslo s alebo bez platnej HTML mernej jednotky (px alebo %).',
 		invalidInlineStyle: 'Zadaná hodnota pre inline štýl musí pozostávať s jedného, alebo viac dvojíc formátu "názov: hodnota", oddelených bodkočiarkou.',
@@ -112,36 +112,36 @@ CKEDITOR.lang[ 'sk' ] = {
 			35: 'End',
 			36: 'Home',
 			46: 'Delete',
-			112: 'F1', // MISSING
-			113: 'F2', // MISSING
-			114: 'F3', // MISSING
-			115: 'F4', // MISSING
-			116: 'F5', // MISSING
-			117: 'F6', // MISSING
-			118: 'F7', // MISSING
-			119: 'F8', // MISSING
-			120: 'F9', // MISSING
-			121: 'F10', // MISSING
-			122: 'F11', // MISSING
-			123: 'F12', // MISSING
-			124: 'F13', // MISSING
-			125: 'F14', // MISSING
-			126: 'F15', // MISSING
-			127: 'F16', // MISSING
-			128: 'F17', // MISSING
-			129: 'F18', // MISSING
-			130: 'F19', // MISSING
-			131: 'F20', // MISSING
-			132: 'F21', // MISSING
-			133: 'F22', // MISSING
-			134: 'F23', // MISSING
-			135: 'F24', // MISSING
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
 			224: 'Command'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
 		keyboardShortcut: 'Klávesová skratka',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'Predvolený'
 	}
 };

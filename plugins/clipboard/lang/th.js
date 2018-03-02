@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'th', {
 	paste: 'วาง',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Paste Area', // MISSING
-	pasteMsg: 'กรุณาใช้คีย์บอร์ดเท่านั้น โดยกดปุ๋ม (<strong>Ctrl/Cmd และ V</strong>)พร้อมๆกัน และกด <strong>OK</strong>.',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: 'วาง'
 } );

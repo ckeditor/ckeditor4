@@ -81,9 +81,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eo', {
 			legend: 'Premu ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'Algluu kiel platan tekston',
+			legend: 'Presu ${pastetext}',
+			legendEdge: 'Presu ${pastetext}, sekvatan de ${paste}'
 		}
 		]
 	}

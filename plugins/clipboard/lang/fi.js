@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fi', {
 	paste: 'Liitä',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Leikealue',
-	pasteMsg: 'Liitä painamalla (<STRONG>Ctrl+V</STRONG>) ja painamalla <STRONG>OK</STRONG>.',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: 'Liitä'
 } );

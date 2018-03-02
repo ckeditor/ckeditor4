@@ -80,11 +80,11 @@ CKEDITOR.lang[ 'ko' ] = {
 		align: '정렬',
 		left: '왼쪽',
 		right: '오른쪽',
-		center: '가운데',
-		justify: '양쪽 맞춤',
+		center: '중앙',
+		justify: '양쪽 정렬',
 		alignLeft: '왼쪽 정렬',
 		alignRight: '오른쪽 정렬',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: '중앙 정렬',
 		alignTop: '위',
 		alignMiddle: '중간',
 		alignBottom: '아래',
@@ -92,7 +92,7 @@ CKEDITOR.lang[ 'ko' ] = {
 		invalidValue: '잘못된 값.',
 		invalidHeight: '높이는 숫자여야 합니다.',
 		invalidWidth: '넓이는 숫자여야 합니다.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
+		invalidLength: '"%1" 값은 유효한 측정단위(%2)를 포함하거나 포함하지 않은 양수여야 합니다.',
 		invalidCssLength: '"%1" 값은 유효한 CSS 측정 단위(px, %, in, cm, mm, em, ex, pt, or pc)를 포함하거나 포함하지 않은 양수 여야 합니다.',
 		invalidHtmlLength: '"%1" 값은 유효한 HTML 측정 단위(px or %)를 포함하거나 포함하지 않은 양수여야 합니다.',
 		invalidInlineStyle: '인라인 스타일에 설정된 값은 "name : value" 형식을 가진 하나 이상의 투플(tuples)이 세미콜론(;)으로 구분되어 구성되어야 합니다.',
@@ -142,6 +142,6 @@ CKEDITOR.lang[ 'ko' ] = {
 		// Prepended to ARIA labels with shortcuts.
 		keyboardShortcut: '키보드 단축키',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: '기본값'
 	}
 };

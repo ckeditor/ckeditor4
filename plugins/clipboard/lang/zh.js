@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'zh', {
 	paste: '貼上',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: '貼上區',
-	pasteMsg: '請使用鍵盤快捷鍵 (<strong>Ctrl/Cmd+V</strong>) 貼到下方區域中並按下「確定」。',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: '貼上'
 } );

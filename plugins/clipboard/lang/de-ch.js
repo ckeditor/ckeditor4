@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'de-ch', {
 	paste: 'Einfügen',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Einfügebereich',
-	pasteMsg: 'Bitte fügen Sie den Text in der folgenden Box über die Tastatur (mit <STRONG>Strg+V</STRONG>) ein und bestätigen Sie mit <STRONG>OK</STRONG>.',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: 'Einfügen'
 } );

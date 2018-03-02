@@ -81,9 +81,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh', {
 			legend: '請按下「${a11yHelp}」'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: '以純文字貼上',
+			legend: '按 ${pastetext}',
+			legendEdge: '按 ${pastetext}，再來是 ${paste}'
 		}
 		]
 	}

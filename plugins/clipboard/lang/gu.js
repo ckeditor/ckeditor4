@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'gu', {
 	paste: 'પેસ્ટ',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'પેસ્ટ કરવાની જગ્યા',
-	pasteMsg: 'Ctrl/Cmd+V નો પ્રયોગ કરી પેસ્ટ કરો',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: 'પેસ્ટ'
 } );

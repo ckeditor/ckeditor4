@@ -92,7 +92,7 @@ CKEDITOR.lang[ 'ru' ] = {
 		invalidValue: 'Недопустимое значение.',
 		invalidHeight: 'Высота задается числом.',
 		invalidWidth: 'Ширина задается числом.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
+		invalidLength: 'Указанное значение для поля "%1" должно быть положительным числом без или с корректным символом единицы измерения (%2)',
 		invalidCssLength: 'Значение, указанное в поле "%1", должно быть положительным целым числом. Допускается указание единиц меры CSS (px, %, in, cm, mm, em, ex, pt или pc).',
 		invalidHtmlLength: 'Значение, указанное в поле "%1", должно быть положительным целым числом. Допускается указание единиц меры HTML (px или %).',
 		invalidInlineStyle: 'Значение, указанное для стиля элемента, должно состоять из одной или нескольких пар данных в формате "параметр : значение", разделённых точкой с запятой.',
@@ -103,15 +103,15 @@ CKEDITOR.lang[ 'ru' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
-			13: 'Enter', // MISSING
-			16: 'Shift', // MISSING
-			17: 'Ctrl', // MISSING
-			18: 'Alt', // MISSING
+			8: 'Backspace',
+			13: 'Ввод',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
 			32: 'Пробел',
-			35: 'End', // MISSING
-			36: 'Home', // MISSING
-			46: 'Delete', // MISSING
+			35: 'End',
+			36: 'Home',
+			46: 'Delete',
 			112: 'F1', // MISSING
 			113: 'F2', // MISSING
 			114: 'F3', // MISSING
@@ -136,12 +136,12 @@ CKEDITOR.lang[ 'ru' ] = {
 			133: 'F22', // MISSING
 			134: 'F23', // MISSING
 			135: 'F24', // MISSING
-			224: 'Command' // MISSING
+			224: 'Command'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
 		keyboardShortcut: 'Комбинация клавиш',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'По умолчанию'
 	}
 };

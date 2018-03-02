@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'eu', {
 	paste: 'Itsatsi',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Itsasteko area',
-	pasteMsg: 'Mesedez teklatua erabiliz (<strong>Ctrl/Cmd+V</strong>) ondorengo eremuan testua itsatsi eta sakatu <strong>Ados</strong>.',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: 'Itsatsi'
 } );

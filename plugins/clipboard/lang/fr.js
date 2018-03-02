@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fr', {
 	paste: 'Coller',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Coller la zone',
-	pasteMsg: 'Veuillez coller le texte dans la zone suivante en utilisant le raccourci clavier (<strong>Ctrl/Cmd+V</strong>) et cliquez sur OK.',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: 'Coller'
 } );

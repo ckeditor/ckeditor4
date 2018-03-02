@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'et', {
 		radioTitle: 'Raadionupu omadused',
 		value: 'Väärtus',
 		selected: 'Märgitud',
-		required: 'Required' // MISSING
+		required: 'Nõutud'
 	},
 	form: {
 		title: 'Vormi omadused',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'et', {
 		value: 'Väärtus',
 		charWidth: 'Laius (tähemärkides)',
 		maxChars: 'Maksimaalselt tähemärke',
-		required: 'Required', // MISSING
+		required: 'õutud',
 		type: 'Liik',
 		typeText: 'Tekst',
 		typePass: 'Parool',

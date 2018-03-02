@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'tr', {
 	paste: 'Yapıştır',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Yapıştırma Alanı',
-	pasteMsg: 'Lütfen aşağıdaki kutunun içine yapıştırın. (<STRONG>Ctrl/Cmd+V</STRONG>) ve <STRONG>Tamam</STRONG> butonunu tıklayın.',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: 'Yapıştır'
 } );

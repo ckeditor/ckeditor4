@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'et', {
 	button: 'Koodilõigu sisestamine',
-	codeContents: 'Code content', // MISSING
+	codeContents: 'Koodi sisu',
 	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
-	language: 'Language', // MISSING
+	language: 'Keel',
 	title: 'Code snippet', // MISSING
 	pathName: 'code snippet' // MISSING
 } );

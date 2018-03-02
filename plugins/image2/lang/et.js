@@ -5,13 +5,13 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 CKEDITOR.plugins.setLang( 'image2', 'et', {
 	alt: 'Alternatiivne tekst',
 	btnUpload: 'Saada serverisse',
-	captioned: 'Captioned image', // MISSING
-	captionPlaceholder: 'Caption', // MISSING
+	captioned: 'Pealkirjaga pilt',
+	captionPlaceholder: 'Pealkiri',
 	infoTab: 'Pildi info',
 	lockRatio: 'Lukusta kuvasuhe',
 	menu: 'Pildi omadused',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	pathName: 'pilt',
+	pathNameCaption: 'pealkiri',
 	resetSize: 'Lähtesta suurus',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Pildi omadused',

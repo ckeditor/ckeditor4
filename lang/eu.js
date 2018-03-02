@@ -103,12 +103,12 @@ CKEDITOR.lang[ 'eu' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
+			8: 'Atzera tekla',
 			13: 'Sartu',
 			16: 'Maius',
 			17: 'Ktrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Zuriunea',
 			35: 'Buka',
 			36: 'Etxea',
 			46: 'Ezabatu',
@@ -136,12 +136,12 @@ CKEDITOR.lang[ 'eu' ] = {
 			133: 'F22', // MISSING
 			134: 'F23', // MISSING
 			135: 'F24', // MISSING
-			224: 'Command' // MISSING
+			224: 'Komandoa'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut', // MISSING
+		keyboardShortcut: 'Laster-tekla',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'Lehenetsia'
 	}
 };

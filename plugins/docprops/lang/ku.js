@@ -33,7 +33,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'ku', {
 	metaAuthor: 'نووسەر',
 	metaCopyright: 'مافی بڵاوکردنەوەی',
 	metaDescription: 'پێناسەی لاپەڕه',
-	metaKeywords: 'بەڵگەنامەی وشەی کاریگەر(به کۆما لێکیان جیابکەوه)',
+	metaKeywords: 'ئیندێکسی پیتەکانی دۆکیومێنت(به کۆما جیاکراوەتەوه)',
 	other: 'هیتر...',
 	previewHtml: '<p>ئەمە وەك نموونەی <strong>دەقه</strong>. تۆ بەکاردەهێنیت <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'خاسییەتی پەڕه',

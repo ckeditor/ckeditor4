@@ -8,8 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'da', {
 	cut: 'Klip',
 	cutError: 'Din browsers sikkerhedsindstillinger tillader ikke editoren at få automatisk adgang til udklipsholderen.<br><br>Brug i stedet tastaturet til at klippe teksten (Ctrl/Cmd+X).',
 	paste: 'Indsæt',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
-	pasteArea: 'Indsæt område',
-	pasteMsg: 'Indsæt i feltet herunder (<STRONG>Ctrl/Cmd+V</STRONG>) og klik på <STRONG>OK</STRONG>.',
+	pasteNotification: 'Tryk %1 for at sætte ind. Din browser understøtter ikke indsættelse med værktøjslinje knappen eller kontekst menuen.',
+	pasteArea: 'Indsættelses område',
+	pasteMsg: 'Indsæt dit indhold i området nedenfor og tryk OK.',
 	title: 'Indsæt'
 } );

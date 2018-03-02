@@ -81,7 +81,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ug', {
 			legend: '${a11yHelp} نى بېسىڭ'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
+			name: 'ساپ تېكىست چاپلاش',
 			legend: 'Press ${pastetext}', // MISSING
 			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}

@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sq', {
 		radioTitle: 'Rekuizitat e Pullës',
 		value: 'Vlera',
 		selected: 'Përzgjedhur',
-		required: 'Required' // MISSING
+		required: 'Kërkohet'
 	},
 	form: {
 		title: 'Rekuizitat e Formës',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sq', {
 		size: 'Madhësia',
 		lines: 'rreshtat',
 		chkMulti: 'Lejo përzgjidhje të shumëfishta',
-		required: 'Required', // MISSING
+		required: 'Kërkohet',
 		opText: 'Teksti',
 		opValue: 'Vlera',
 		btnAdd: 'Vendos',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sq', {
 		value: 'Vlera',
 		charWidth: 'Gjerësia e Karakterit',
 		maxChars: 'Numri maksimal i karaktereve',
-		required: 'Required', // MISSING
+		required: 'Kërkohet',
 		type: 'LLoji',
 		typeText: 'Teksti',
 		typePass: 'Fjalëkalimi',

@@ -78,12 +78,12 @@ CKEDITOR.lang[ 'ca' ] = {
 		width: 'Amplada',
 		height: 'Alçada',
 		align: 'Alineació',
-		left: 'Ajusta a l\'esquerra',
-		right: 'Ajusta a la dreta',
-		center: 'Centre',
-		justify: 'Justificat',
-		alignLeft: 'Alinea a l\'esquerra',
-		alignRight: 'Alinea a la dreta',
+		left: 'Left', // MISSING
+		right: 'Right', // MISSING
+		center: 'Center', // MISSING
+		justify: 'Justify', // MISSING
+		alignLeft: 'Align Left', // MISSING
+		alignRight: 'Align Right', // MISSING
 		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Superior',
 		alignMiddle: 'Centre',

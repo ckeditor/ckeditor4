@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fa', {
 	paste: 'چسباندن',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'محل چسباندن',
-	pasteMsg: 'لطفا متن را با کلیدهای (<STRONG>Ctrl/Cmd+V</STRONG>) در این جعبهٴ متنی بچسبانید و <STRONG>پذیرش</STRONG> را بزنید.',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: 'چسباندن'
 } );

@@ -67,7 +67,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'eu', {
 		'C0392B': 'Strong Red', // MISSING
 		'BDC3C7': 'Silver', // MISSING
 		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'999': 'Gris iluna'
 	},
 	more: 'Kolore gehiago...',
 	panelTitle: 'Koloreak',

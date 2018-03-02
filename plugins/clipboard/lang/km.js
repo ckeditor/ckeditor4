@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'km', {
 	paste: 'បិទ​ភ្ជាប់',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'តំបន់​បិទ​ភ្ជាប់',
-	pasteMsg: 'សូមចំលងអត្ថបទទៅដាក់ក្នុងប្រអប់ដូចខាងក្រោមដោយប្រើប្រាស់ ឃី ​(<STRONG>Ctrl/Cmd+V</STRONG>) ហើយចុច <STRONG>OK</STRONG> ។',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: 'បិទ​ភ្ជាប់'
 } );

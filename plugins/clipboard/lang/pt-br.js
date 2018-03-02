@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pt-br', {
 	paste: 'Colar',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Área para Colar',
-	pasteMsg: 'Transfira o link usado na caixa usando o teclado com (<STRONG>Ctrl/Cmd+V</STRONG>) e <STRONG>OK</STRONG>.',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
 	title: 'Colar'
 } );

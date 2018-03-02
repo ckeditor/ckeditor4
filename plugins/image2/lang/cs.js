@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'cs', {
 	title: 'Vlastnosti obrázku',
 	uploadTab: 'Odeslat',
 	urlMissing: 'Zadané URL zdroje obrázku nebylo nalezeno.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'Alternativní text chybí.'
 } );
