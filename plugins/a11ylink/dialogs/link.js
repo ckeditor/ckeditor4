@@ -216,73 +216,6 @@
 			return textValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "");
 		};
 
-		var updateUrlIsDisplayText = function(urlIsDisplayText, displayTextValue, urlValue, setChecked) {
-				if (typeof setChecked !== 'boolean') {
-					setChecked = false;
-				}
-
-				var displayTextNormalized = normalizeDisplayText(displayTextValue);
-				var isDisplayTextEmpty    = displayTextNormalized.length === 0;
-
-				var urlNormalized = normalizeText(urlValue);
-				var isUrlEmpty    = urlNormalized.length === 0;
-
-				if (!isUrlEmpty) {
-					if (!isDisplayTextEmpty) {
-
-						if (displayTextNormalized == urlNormalized) {
-							if (setChecked) {
-								urlIsDisplayText.setValue('checked');
-							}
-							urlIsDisplayText.enable();
-						}
-						else {
-							urlIsDisplayText.setValue('');
-							urlIsDisplayText.disable();
-						}
-					}
-					else {
-						urlIsDisplayText.enable();
-					}
-				}
-				else {
-					urlIsDisplayText.disable();
-				}
-			};
-
-		var updateEmailIsDisplayText = function(emailIsDisplayText, displayTextValue, emailValue, setChecked) {
-				if (typeof setChecked !== 'boolean') {
-					setChecked = false;
-				}
-
-				var displayTextNormalized = normalizeDisplayText(displayTextValue);
-				var isDisplayTextEmpty    = displayTextNormalized.length === 0;
-
-				var emailNormalized = normalizeText(emailValue);
-				var isEmailEmpty    = emailNormalized.length === 0;
-
-				if (!isEmailEmpty) {
-					if (!isDisplayTextEmpty) {
-
-						if (displayTextNormalized == emailNormalized) {
-							if (setChecked) {
-								emailIsDisplayText.setValue('checked');
-							}
-							emailIsDisplayText.enable();
-						}
-						else {
-							emailIsDisplayText.setValue('');
-							emailIsDisplayText.disable();
-						}
-					}
-					else {
-						emailIsDisplayText.enable();
-					}
-				}
-				else {
-					emailIsDisplayText.disable();
-				}
-			};
 		var commonLang = editor.lang.common,
 			linkLang = editor.lang.a11ylink,
 			anchors;
@@ -339,12 +272,7 @@
 										var emailNormalized  = normalizeText(emailValue);
 										var isEmailEmpty     = emailNormalized.length === 0;
 
-										var isUrlIsDisplayTextChecked   = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' ).getValue();
-										var isEmailIsDisplayTextChecked = this.getDialog().getContentElement( 'info', 'emailIsDisplayText' ).getValue();
-
 										if (isLinkTypeUrl) {
-
-											if (!isUrlIsDisplayTextChecked) {
 												// Test for empty Display Text
 												if (isDisplayTextEmpty) {
 													alert(linkLang.msgEmptyDisplayText);
@@ -353,11 +281,8 @@
 
 												// Testing for using the URL as the link text
 												if(displayTextNormalized === urlNormalized) {
-													alert(linkLang.msgUrlDisplayText);
-													return false;
+													return confirm(linkLang.msgUrlDisplayText);
 												}
-											}
-
 										}
 
 										if (isLinkTypeAnchor) {
@@ -372,7 +297,6 @@
 
 										if (isLinkTypeEmail) {
 
-											if (!isEmailIsDisplayTextChecked) {
 												// Test for empty Display Text
 												if (isDisplayTextEmpty) {
 													alert(linkLang.msgEmptyDisplayText);
@@ -381,10 +305,8 @@
 
 												// Testing for using the URL as the link text
 												if(emailNormalized === displayTextNormalized) {
-													alert(linkLang.msgEmailDisplayText);
-													return false;
+													return confirm(linkLang.msgEmailDisplayText);
 												}
-											}
 
 										}
 
@@ -405,16 +327,6 @@
 										}
 
 										return true;
-									},
-									onKeyUp: function () {
-										var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' );
-										var urlValue         = this.getDialog().getContentElement( 'info', 'url' ).getValue();
-										updateUrlIsDisplayText(urlIsDisplayText, this.getValue(), urlValue);
-
-										var emailIsDisplayText = this.getDialog().getContentElement( 'info', 'emailIsDisplayText' );
-										var emailValue         = this.getDialog().getContentElement( 'info', 'emailAddress' ).getValue();
-										updateEmailIsDisplayText(emailIsDisplayText, this.getValue(), emailValue);
-
 									},
 									commit: function( data ) {
 										data.linkText = this.isEnabled() ? this.getValue() : '';
@@ -506,11 +418,6 @@
 								}
 
 								this.allowOnChange = true;
-
-								var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' );
-								var displayText      = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
-								updateUrlIsDisplayText(urlIsDisplayText, displayText, this.getValue());
-
 							},
 							onChange: function() {
 								if ( this.allowOnChange ) // Dont't call on dialog load.
@@ -558,49 +465,6 @@
 						setup: function() {
 							if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 								this.getElement().show();
-						}
-					},
-					{
-					type: 'checkbox',
-						id: 'urlIsDisplayText',
-						label: linkLang.urlIsDisplayText,
-						title: linkLang.urlIsDisplayTextTitle,
-						setup: function(data) {
-							var displayTextValue = editor.getSelection().getSelectedText();
-							var url = '';
-							if (data.url) {
-								url = data.url.url;
-							}
-							updateUrlIsDisplayText(this, displayTextValue, url, true);
-						},
-						onClick: function () {
-
-							var displayText           = this.getDialog().getContentElement( 'info', 'linkDisplayText' );
-							var displayTextValue      = displayText.getValue();
-							var displayTextNormalized = normalizeDisplayText(displayTextValue);
-							var isDisplayTextEmpty    = displayTextNormalized.length === 0;
-
-							var urlValue       = this.getDialog().getContentElement( 'info', 'url' ).getValue();
-							var urlNormalized  = normalizeText(urlValue);
-							var isUrlEmpty     = urlNormalized.length === 0;
-
-							if (urlValue.length > 0 ) {
-								if (!isDisplayTextEmpty) {
-									if (displayTextNormalized != urlNormalized) {
-										this.setValue('');
-										this.disable();
-									}
-								}
-								else {
-									if (this.getValue() && !isUrlEmpty) {
-										displayText.setValue(urlValue);
-									}
-								}
-							}
-							else {
-								this.setValue('');
-								this.disable()
-							}
 						}
 					},
 					{
@@ -783,49 +647,8 @@
 
 							data.email.body = this.getValue();
 						}
-					},
-				{
-				type: 'checkbox',
-					id: 'emailIsDisplayText',
-					label: linkLang.emailIsDisplayText,
-					title: linkLang.emailIsDisplayTextTitle,
-					setup: function(data) {
-						var displayTextValue = editor.getSelection().getSelectedText();
-						var emailValue = '';
-						if (data.email) {
-							emailValue = data.email.address;
-						}
-						updateEmailIsDisplayText(this, displayTextValue, emailValue, true);
-					},
-					onClick: function () {
-							var displayText           = this.getDialog().getContentElement( 'info', 'linkDisplayText' );
-							var displayTextValue      = displayText.getValue();
-							var displayTextNormalized = normalizeDisplayText(displayTextValue);
-							var isDisplayTextEmpty    = displayTextNormalized.length === 0;
-
-							var emailValue       = this.getDialog().getContentElement( 'info', 'emailAddress' ).getValue();
-							var emailNormalized  = normalizeText(emailValue);
-							var isEmailEmpty     = emailNormalized.length === 0;
-
-							if (emailValue.length > 0 ) {
-								if (!isDisplayTextEmpty) {
-									if (displayTextNormalized != emailNormalized) {
-										this.setValue('');
-										this.disable();
-									}
-								}
-								else {
-									if (this.getValue() && !isEmailEmpty) {
-										displayText.setValue(emailValue);
-									}
-								}
-							}
-							else {
-								this.setValue('');
-								this.disable()
-							}
 					}
-				} ],
+				 ],
 					setup: function() {
 						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 							this.getElement().hide();
