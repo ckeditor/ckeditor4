@@ -78,12 +78,12 @@ CKEDITOR.lang[ 'cs' ] = {
 		width: 'Šířka',
 		height: 'Výška',
 		align: 'Zarovnání',
-		left: 'Left', // MISSING
-		right: 'Right', // MISSING
-		center: 'Center', // MISSING
-		justify: 'Justify', // MISSING
-		alignLeft: 'Align Left', // MISSING
-		alignRight: 'Align Right', // MISSING
+		left: 'Vlevo',
+		right: 'Vpravo',
+		center: 'Na střed',
+		justify: 'Zarovnat do bloku',
+		alignLeft: 'Zarovnat vlevo',
+		alignRight: 'Zarovnat vpravo',
 		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Nahoru',
 		alignMiddle: 'Na střed',
