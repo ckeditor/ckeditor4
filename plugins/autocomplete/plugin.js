@@ -359,6 +359,7 @@
 			if ( this.model.hasData() ) {
 				this.model.setPanelActive( true );
 				this.view.open();
+				this.model.selectFirst();
 				this.view.updatePosition();
 			}
 		},
