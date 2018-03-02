@@ -153,7 +153,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		} );
 
 		var editor = CKEDITOR.replace( 'editor', {
-			extraPlugins: 'smileyautocomplete'
+			height: 600,
+			extraPlugins: 'smileyautocomplete,autocomplete,textmatch,easyimage,sourcearea,toolbar,undo,wysiwygarea,basicstyles',
+			toolbar: [
+				{ name: 'document', items: [ 'Source', 'Undo', 'Redo' ] },
+				{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike' ] },
+			]
 		} );
 
 		editor.on( 'instanceReady', function() {

@@ -10,7 +10,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<script src="../../../ckeditor.js"></script>
 	<script src="utils.js"></script>
 	<link rel="stylesheet" href="../../../samples/css/samples.css">
-	<link href="../skins/moono/autocomplete.css" rel="stylesheet">
 </head>
 <body>
 
@@ -86,7 +85,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 	( function() {
 		var editor = CKEDITOR.replace( 'editor', {
-			extraPlugins: 'autocomplete,textmatch,easyimage'
+			height: 600,
+			extraPlugins: 'autocomplete,textmatch,easyimage,sourcearea,toolbar,undo,wysiwygarea,basicstyles',
+			toolbar: [
+				{ name: 'document', items: [ 'Source', 'Undo', 'Redo' ] },
+				{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike' ] },
+			]
 		} );
 
 		// Create autocompletion for CKEDITOR.dom.element methods with '@' prefix.
