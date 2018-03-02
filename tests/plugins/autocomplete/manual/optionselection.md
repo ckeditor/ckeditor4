@@ -1,0 +1,15 @@
+@bender-tags: 4.10.0, feature, tp3558
+@bender-ui: collapsed
+@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, autocomplete, textmatch
+
+1. Focus the editor.
+2. Type `@`
+
+## Expected
+
+First autocomplete option is selected.
+
+## Unexpected
+
+No option is selected.
+
