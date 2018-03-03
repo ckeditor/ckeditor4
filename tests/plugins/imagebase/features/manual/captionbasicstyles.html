@@ -33,6 +33,10 @@
 	</div>
 
 	<script>
+		if ( easyImageTools.isUnsupportedEnvironment() ) {
+			bender.ignore();
+		}
+
 		var cfg = {
 			on: {
 				pluginsLoaded: function( evt ) {

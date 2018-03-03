@@ -1,6 +1,7 @@
 @bender-tags: 4.9.1, feature, 932, tp3384, 1646
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, imagebase, basicstyles
+@bender-include: %BASE_PATH%/plugins/easyimage/_helpers/tools.js
 
 # Integration of caption and basicstyles
 
