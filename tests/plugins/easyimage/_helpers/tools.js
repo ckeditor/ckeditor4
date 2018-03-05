@@ -56,12 +56,9 @@ var easyImageTools = ( function() {
 	}
 
 	function getToken( callback ) {
-		// WARNING: The URL below should not be used for any other purpose than Easy Image plugin development.
-		// Images uploaded using the testing token service may be deleted automatically at any moment.
-		// If you would like to try the Easy Image service, please wait until the official launch of Easy Image and sign up for a free trial.
-		// Images uploaded during the free trial will not be deleted for the whole trial period and additionally the trial service can be converted
-		// into a subscription at any moment, allowing you to preserve all uploaded images.
-		var CLOUD_SERVICES_TOKEN_URL = 'https://j2sns7jmy0.execute-api.eu-central-1.amazonaws.com/prod/token';
+		// Note: this is a token endpoint to be used for CKEditor 4 samples / developer tests only. Images uploaded using the testing token service may be deleted automatically at any moment.
+		// To create your own token URL please visit https://ckeditor.com/ckeditor-cloud-services/.
+		var CLOUD_SERVICES_TOKEN_URL = 'https://33333.cke-cs.com/token/dev/ijrDsqFix838Gh3wGO3F77FSW94BwcLXprJ4APSp3XQ26xsUHTi0jcb1hoBt';
 
 		function uid() {
 			var uuid = 'e'; // Make sure that id does not start with number.
@@ -80,9 +77,7 @@ var easyImageTools = ( function() {
 
 		xhr.onload = function() {
 			if ( xhr.status >= 200 && xhr.status < 300 ) {
-				var response = JSON.parse( xhr.responseText );
-
-				callback( response.token );
+				callback( xhr.responseText );
 			} else {
 				console.error( xhr.status );
 			}
@@ -101,7 +96,7 @@ var easyImageTools = ( function() {
 
 
 	return {
-		CLOUD_SERVICES_UPLOAD_GATEWAY: 'https://files.cke-cs.com/upload/',
+		CLOUD_SERVICES_UPLOAD_GATEWAY: 'https://33333.cke-cs.com/easyimage/upload/',
 		createTestsForEditors: createTestsForEditors,
 		assertCommandsState: assertCommandsState,
 		assertMenuItemsState: assertMenuItemsState,
