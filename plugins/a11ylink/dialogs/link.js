@@ -293,6 +293,10 @@
 												return false;
 											}
 
+											if (isDisplayTextEmpty) {
+													alert(linkLang.msgEmptyDisplayText);
+													return false;
+											}
 										}
 
 										if (isLinkTypeEmail) {
@@ -595,8 +599,11 @@
 						validate: function() {
 							var dialog = this.getDialog();
 
-							if ( !dialog.getContentElement( 'info', 'linkType' ) || dialog.getValueOf( 'info', 'linkType' ) != 'email' )
+							if ( !dialog.getContentElement( 'info', 'linkType' ) ||
+								 ( dialog.getValueOf( 'info', 'linkType' ) != 'email' ) ||
+								 ( dialog.getValueOf( 'info', 'linkDisplayText' ) === '' )) {  // added by Jon Gunderson to allow display text to vaildate message to appear first
 								return true;
+							}
 
 							var func = CKEDITOR.dialog.validate.notEmpty( linkLang.noEmail );
 							return func.apply( this );
