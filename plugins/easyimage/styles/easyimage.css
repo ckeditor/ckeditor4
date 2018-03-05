@@ -105,12 +105,6 @@ body.cke_editable > .cke_widget_wrapper_easyimage-side {
 	width: 0;
 }
 
-/* It is important to have top, left, right in sync with figure margins, to algin the loader nicely. */
-.cke_widget_wrapper_easyimage .cke_loader {
-	left: 0;
-	right: 0;
-}
-
 /* Fancy opacity effect discussed in #1533. Transition is assigned in this awkward way so that it **does not** happen for
 the initial render, otherwise it would start transitioning from opacity 1 to 0.x upon the first render. */
 
