@@ -188,6 +188,15 @@
 		this.textWatcher = this.getTextWatcher( textTestCallback );
 
 		/**
+		 * The autocomplete key codes used to finish autocompletion with selected view item.
+		 * The property is using {@link CKEDITOR.config#autocomplete_completingKeyCodes} configuration option as default key codes.
+		 * You can change this property to set individual key codes for plugin instance.
+		 *
+		 * @property {Number[]}
+		 */
+		this.completingKeyCodes = CKEDITOR.config.autocomplete_completingKeyCodes.slice(); // Remove reference to configuration property.
+
+		/**
 		 * Listeners registered by this autocomplete instance.
 		 *
 		 * @private
@@ -427,8 +436,8 @@
 			} else if ( keyCode == 38 ) {
 				this.model.selectPrevious();
 				handled = true;
-			// Enter key.
-			} else if ( keyCode == 13 ) {
+			// Completition keys.
+			} else if ( ~this.completingKeyCodes.indexOf( keyCode ) ) {
 				this.commit();
 				this.textWatcher.unmatch();
 				handled = true;
@@ -1076,4 +1085,14 @@
 	CKEDITOR.plugins.autocomplete = Autocomplete;
 	Autocomplete.view = View;
 	Autocomplete.model = Model;
+
+	/**
+	 * The autocomplete key codes used to finish autocompletion with selected view item.
+	 * This setting will set completing key codes for each autocomplete plugin respectively.
+	 * To change completing key codes individually use {@link CKEDITOR.plugins.autocomplete#completingKeyCodes} plugin property.
+	 *
+	 * @cfg {Number[]} [autocomplete_completingKeyCodes=[9, 13] (9 = tab, 13 = enter, empty array = disabled)]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.autocomplete_completingKeyCodes = [ 9, 13 ];
 } )();
