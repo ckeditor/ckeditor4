@@ -23,9 +23,7 @@ The outline is not a part of the element's dimensions. A border needs to be used
 }
 
 .cke_widget_wrapper_easyimage figure {
-	margin-top: 0px;
-	margin-left: 40px;
-	margin-right: 40px;
+	margin: 0;
 }
 
 .easyimage img, .cke_widget_uploadeasyimage img {
@@ -48,6 +46,7 @@ The outline is not a part of the element's dimensions. A border needs to be used
 	tiny sizes. The `em` unit is used so it works well and has proper proportions to the textual content around (#1553).
 	*/
 	min-width: 10em;
+	margin-left: 1.5em;
 }
 
 /*
@@ -61,6 +60,7 @@ body.cke_editable > .cke_widget_wrapper_easyimage-side {
 .cke_widget_wrapper_easyimage-align-left, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-align-left) > .easyimage-align-left {
 	float: left;
 	max-width: 25%;
+	margin-right: 1.5em;
 }
 
 .cke_widget_wrapper_easyimage-align-center, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-align-center) > .easyimage-align-center {
