@@ -1,5 +1,5 @@
-/* bender-tags: balloontoolbar */
-/* bender-ckeditor-plugins: balloontoolbar, richcombo, toolbar, button, stylescombo */
+/* bender-tags: balloontoolbar, 1268 */
+/* bender-ckeditor-plugins: balloontoolbar, toolbar, stylescombo */
 
 
 ( function() {
