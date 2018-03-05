@@ -117,6 +117,62 @@
 			ac.destroy();
 		},
 
+		'test tab inserts match': function() {
+			var editor = this.editor, bot = this.editorBot, editable = editor.editable(),
+				ac = new CKEDITOR.plugins.autocomplete( this.editor, matchTestCallback, dataCallback );
+
+			bot.setHtmlWithSelection( '' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 9 } ) );
+
+			assert.areEqual( '<p>item1</p>', editor.getData() );
+
+			ac.destroy();
+		},
+
+		'test custom key inserts match': function() {
+			var editor = this.editor, bot = this.editorBot, editable = editor.editable(),
+				ac = new CKEDITOR.plugins.autocomplete( this.editor, matchTestCallback, dataCallback );
+
+			bot.setHtmlWithSelection( '' );
+
+			ac.completingKeyCodes.push( 16 );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 16 } ) );
+
+			assert.areEqual( '<p>item1</p>', editor.getData() );
+
+			ac.destroy();
+		},
+
+		'test custom key inserts match (global configuration)': function() {
+			var editor = this.editor, bot = this.editorBot, editable = editor.editable(),
+				configKeyCodes = CKEDITOR.config.autocomplete_completingKeyCodes.slice();
+
+			bot.setHtmlWithSelection( '' );
+
+			CKEDITOR.config.autocomplete_completingKeyCodes.push( 16 );
+
+			var ac = new CKEDITOR.plugins.autocomplete( this.editor, matchTestCallback, dataCallback );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 16 } ) );
+
+			assert.areEqual( '<p>item1</p>', editor.getData() );
+
+			ac.destroy();
+
+			CKEDITOR.config.autocomplete_completingKeyCodes = configKeyCodes;
+		},
+
 		'test click inserts match': function() {
 			var editor = this.editor, bot = this.editorBot,
 				ac = new CKEDITOR.plugins.autocomplete( this.editor, matchTestCallback, dataCallback );
