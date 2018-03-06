@@ -1,6 +1,6 @@
 {
 	"name": "ckeditor-dev",
-	"version": "4.9.0",
+	"version": "4.9.1",
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
 		"@ckeditor/ckeditor-cloudservices-core": "^0.1.0",
