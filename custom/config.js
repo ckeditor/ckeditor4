@@ -112,6 +112,7 @@ CKEDITOR.editorConfig = function ( config ) {
     'wysiwygarea';
 
   config.extraPlugins =
+    'htmlwriter,' +
     'sourcedialog,' +
     'a11yfirsthelp,' +
     'a11yheading,' +
