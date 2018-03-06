@@ -3,24 +3,23 @@
 
 ( function() {
 
-	bender.editor = {
-		config: {
-			extraAllowedContent: 'span[id]'
-		}
-	}
+	bender.editor = true;
+
+	var feedData = [ 'Anna', 'Annabelle', 'John', 'Thomas' ],
+		expectedFeedData = [ 'Anna', 'Annabelle' ];
 
 	bender.test( {
 		'test array feed with match': function() {
 			var editor = this.editor, bot = this.editorBot,
 				config = {
-					feed: [ 'Anna', 'Annabelle', 'John', 'Thomas' ]
+					feed: feedData
 				},
 				mentions = new CKEDITOR.plugins.mentions( editor, config );
 
 			bot.setHtmlWithSelection( '<p>@An^</p>' );
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, [ 'Anna', 'Annabelle' ] );
+			assertView( mentions, expectedFeedData );
 
 			mentions.destroy();
 		},
@@ -28,7 +27,7 @@
 		'test array feed without match': function() {
 			var editor = this.editor, bot = this.editorBot,
 				config = {
-					feed: [ 'Anna', 'Annabelle', 'John', 'Thomas' ]
+					feed: feedData
 				},
 				mentions = new CKEDITOR.plugins.mentions( editor, config );
 
@@ -43,7 +42,7 @@
 		'test array feed with custom minChars': function() {
 			var editor = this.editor, bot = this.editorBot,
 				config = {
-					feed: [ 'Anna', 'Annabelle', 'John', 'Thomas' ],
+					feed: feedData,
 					minChars: 0
 				},
 				mentions = new CKEDITOR.plugins.mentions( editor, config );
@@ -51,7 +50,7 @@
 			bot.setHtmlWithSelection( '<p>@A^</p>' );
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, [ 'Anna', 'Annabelle' ] );
+			assertView( mentions, expectedFeedData );
 
 			mentions.destroy();
 		},
@@ -59,7 +58,7 @@
 		'test array feed with custom marker': function() {
 			var editor = this.editor, bot = this.editorBot,
 				config = {
-					feed: [ 'Anna', 'Annabelle', 'John', 'Thomas' ],
+					feed: feedData,
 					marker: '$'
 				},
 				mentions = new CKEDITOR.plugins.mentions( editor, config );
@@ -67,7 +66,7 @@
 			bot.setHtmlWithSelection( '<p>$An^</p>' );
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, [ 'Anna', 'Annabelle' ] );
+			assertView( mentions, expectedFeedData );
 
 			mentions.destroy();
 		},
@@ -85,7 +84,7 @@
 			bot.setHtmlWithSelection( '<p>@Ann^</p>' );
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, [ 'Anna', 'Annabelle' ] );
+			assertView( mentions, expectedFeedData );
 
 			mentions.destroy();
 		},
@@ -122,7 +121,7 @@
 			bot.setHtmlWithSelection( '<p>#Ann^</p>' );
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, [ 'Anna', 'Annabelle' ] );
+			assertView( mentions, expectedFeedData );
 
 			mentions.destroy();
 		},
@@ -142,7 +141,7 @@
 			bot.setHtmlWithSelection( '<p>@Ann^</p>' );
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, [ 'Anna', 'Annabelle' ] );
+			assertView( mentions, expectedFeedData );
 
 			mentions.destroy();
 
@@ -173,7 +172,7 @@
 		'test feed with custom template': function() {
 			var editor = this.editor, bot = this.editorBot,
 				config = {
-					feed: [ 'Anna', 'Annabelle', 'John', 'Thomas' ],
+					feed: feedData,
 					template: '<li data-id="{id}">{name} is the best!</li>'
 				},
 				mentions = new CKEDITOR.plugins.mentions( editor, config );
