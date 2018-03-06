@@ -53,6 +53,10 @@
 	}
 
 	bender.test( {
+		tearDown: function() {
+			this.editor.setReadOnly( false );
+		},
+
 		'test initializing widgets': function() {
 			var editor = this.editor;
 
@@ -629,6 +633,44 @@
 				wait( function() {
 					assert.isTrue( selectionChanged > 0, 'selection has been changed' );
 					assert.isFalse( !!getWidgetById( editor, 'w1' ), 'widget was deleted' );
+					assert.isFalse( !!editor.getSelection().isFake, 'selection is not faked' );
+					assert.isFalse( !!editor.document.getById( 'cke_copybin' ), 'copybin was removed' );
+				}, 150 );
+			} );
+		},
+
+		// #1570
+		'test cutting single focused widget with readonly mode': function() {
+			// Test has been ignored for IE due to #1632 issue. Remove this ignore statement after the issue fix.
+			if ( CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p>X</p><p id="w1" data-widget="test2">A</p><p>X</p>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					selectionChanged = 0;
+
+				widget.focus();
+
+				editor.on( 'selectionChange', function() {
+					selectionChanged += 1;
+				} );
+
+				editor.setReadOnly( true );
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + 88 } ) );
+
+				var copybin = editor.document.getById( 'cke_copybin' ),
+					selContainer = editor.getSelection().getCommonAncestor();
+
+				assert.isTrue( !!copybin, 'copybin was created' );
+				assert.isTrue( copybin.contains( selContainer ) || copybin.equals( selContainer ), 'selection was moved to the copybin' );
+
+				wait( function() {
+					assert.isTrue( selectionChanged == 0, 'selection has not been changed' );
+					assert.isTrue( !!getWidgetById( editor, 'w1' ), 'widget has not been deleted' );
 					assert.isFalse( !!editor.getSelection().isFake, 'selection is not faked' );
 					assert.isFalse( !!editor.document.getById( 'cke_copybin' ), 'copybin was removed' );
 				}, 150 );

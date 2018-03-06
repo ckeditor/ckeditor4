@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'fa' ] = {
 		width: 'عرض',
 		height: 'طول',
 		align: 'چینش',
-		alignLeft: 'چپ',
-		alignRight: 'راست',
-		alignCenter: 'وسط',
-		alignJustify: 'بلوک چین',
+		left: 'چپ',
+		right: 'راست',
+		center: 'وسط',
+		justify: 'بلوک چین',
+		alignLeft: 'چپ چین',
+		alignRight: 'راست چین',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'بالا',
 		alignMiddle: 'میانه',
 		alignBottom: 'پائین',

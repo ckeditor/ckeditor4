@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'hi' ] = {
 		width: 'चौड़ाई',
 		height: 'ऊँचाई',
 		align: 'ऍलाइन',
-		alignLeft: 'दायें',
-		alignRight: 'दायें',
-		alignCenter: 'बीच में',
-		alignJustify: 'ब्लॉक जस्टीफ़ाई',
+		left: 'दायें',
+		right: 'दायें',
+		center: 'बीच में',
+		justify: 'ब्लॉक जस्टीफ़ाई',
+		alignLeft: 'बायीं तरफ',
+		alignRight: 'दायीं तरफ',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'ऊपर',
 		alignMiddle: 'मध्य',
 		alignBottom: 'नीचे',

@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'cy' ] = {
 		width: 'Lled',
 		height: 'Uchder',
 		align: 'Alinio',
-		alignLeft: 'Chwith',
-		alignRight: 'Dde',
-		alignCenter: 'Canol',
-		alignJustify: 'Unioni',
+		left: 'Chwith',
+		right: 'Dde',
+		center: 'Canol',
+		justify: 'Unioni',
+		alignLeft: 'Alinio i\'r Chwith',
+		alignRight: 'Alinio i\'r Dde',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Brig',
 		alignMiddle: 'Canol',
 		alignBottom: 'Gwaelod',

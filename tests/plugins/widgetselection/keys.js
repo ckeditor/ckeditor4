@@ -23,6 +23,12 @@
 	}
 
 	bender.test( {
+		setUp: function() {
+			if ( !CKEDITOR.env.webkit ) {
+				assert.ignore();
+			}
+		},
+
 		'test `ctrl + a` key combination': function() {
 			var editor = this.editor;
 			this.editorBot.setHtmlWithSelection( '<p contenteditable="false">Non-editable</p><p>This ^is text</p>' );

@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -20,8 +20,8 @@ CKEDITOR.plugins.setLang( 'specialchar', 'sq', {
 	sect: 'Shenja e pjesës',
 	uml: 'Diaeresis',
 	copy: 'Shenja e të drejtave të kopjimit',
-	ordf: 'Feminine ordinal indicator', // MISSING
-	laquo: 'Left-pointing double angle quotation mark', // MISSING
+	ordf: 'Tregues rendor femror',
+	laquo: 'Thonjëz me dy kënde e kthyer majtas',
 	not: 'Nuk ka shenjë',
 	reg: 'Shenja e të regjistruarit',
 	macr: 'Macron',
@@ -30,12 +30,12 @@ CKEDITOR.plugins.setLang( 'specialchar', 'sq', {
 	sup3: 'Super-skripta tre',
 	acute: 'Theks i mprehtë',
 	micro: 'Shjenja e Mikros',
-	para: 'Pilcrow sign', // MISSING
+	para: 'Shenja Pilkrou',
 	middot: 'Pika e Mesme',
 	cedil: 'Hark nën shkronja',
 	sup1: 'Super-skripta një',
-	ordm: 'Masculine ordinal indicator', // MISSING
-	raquo: 'Right-pointing double angle quotation mark', // MISSING
+	ordm: 'Tregues rendor mashkullor',
+	raquo: 'Thonjëz me dy kënde e kthyer djathtas',
 	frac14: 'Thyesa një të katrat',
 	frac12: 'Thyesa një të dytat',
 	frac34: 'Thyesa tre të katrat',
@@ -110,16 +110,16 @@ CKEDITOR.plugins.setLang( 'specialchar', 'sq', {
 	'374': 'Shkronja e madhe latine Y me theks lakor',
 	'373': 'Shkronja e vogël latine w me theks lakor',
 	'375': 'Shkronja e vogël latine y me theks lakor',
-	sbquo: 'Single low-9 quotation mark', // MISSING
-	'8219': 'Single high-reversed-9 quotation mark', // MISSING
-	bdquo: 'Double low-9 quotation mark', // MISSING
-	hellip: 'Horizontal ellipsis', // MISSING
+	sbquo: 'Thonjëz-9 e vetme poshtë',
+	'8219': 'Thonjëz-9 lartë e vetme e kthyer në të kundërtën',
+	bdquo: 'Thonjëza-9 poshtë',
+	hellip: 'Tri pika horizontale',
 	trade: 'Shenja e Simbolit Tregtarë',
-	'9658': 'Black right-pointing pointer', // MISSING
+	'9658': 'Shenjë tregues kthyer djathtas-prapa',
 	bull: 'Pulla',
 	rarr: 'Shigjeta djathtas',
 	rArr: 'Shenja të dyfishta djathtas',
 	hArr: 'Shigjeta e dyfishë majtas-djathtas',
-	diams: 'Black diamond suit', // MISSING
+	diams: 'Karo me ngjyrë të zezë',
 	asymp: 'Gati e barabar me'
 } );

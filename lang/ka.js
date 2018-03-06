@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'ka' ] = {
 		width: 'სიგანე',
 		height: 'სიმაღლე',
 		align: 'სწორება',
-		alignLeft: 'მარცხენა',
-		alignRight: 'მარჯვენა',
-		alignCenter: 'შუა',
-		alignJustify: '両端揃え',
+		left: 'მარცხენა',
+		right: 'მარჯვენა',
+		center: 'შუა',
+		justify: '両端揃え',
+		alignLeft: 'მარცხნივ სწორება',
+		alignRight: 'მარჯვნივ სწორება',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'ზემოთა',
 		alignMiddle: 'შუა',
 		alignBottom: 'ქვემოთა',

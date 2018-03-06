@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'he' ] = {
 		width: 'רוחב',
 		height: 'גובה',
 		align: 'יישור',
-		alignLeft: 'לשמאל',
-		alignRight: 'לימין',
-		alignCenter: 'מרכז',
-		alignJustify: 'יישור לשוליים',
+		left: 'לשמאל',
+		right: 'לימין',
+		center: 'מרכז',
+		justify: 'יישור לשוליים',
+		alignLeft: 'יישור לשמאל',
+		alignRight: 'יישור לימין',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'למעלה',
 		alignMiddle: 'לאמצע',
 		alignBottom: 'לתחתית',

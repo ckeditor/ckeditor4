@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -77,10 +77,13 @@ CKEDITOR.lang[ 'id' ] = {
 		width: 'Lebar',
 		height: 'Tinggi',
 		align: 'Penjajaran',
-		alignLeft: 'Kiri',
-		alignRight: 'Kanan',
-		alignCenter: 'Tengah',
-		alignJustify: 'Rata kiri-kanan',
+		left: 'Kiri',
+		right: 'Kanan',
+		center: 'Tengah',
+		justify: 'Rata kiri-kanan',
+		alignLeft: 'Align Left', // MISSING
+		alignRight: 'Align Right', // MISSING
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Atas',
 		alignMiddle: 'Tengah',
 		alignBottom: 'Bawah',

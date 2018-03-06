@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'ku', {
@@ -29,7 +29,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ku', {
 		'0FF': 'شینی ئاسمانی',
 		'00F': 'شین',
 		EE82EE: 'پەمەیی',
-		A9A9A9: 'ڕەساسی ناتۆخ',
+		A9A9A9: 'ڕەساسی تاریک',
 		FFA07A: 'نارەنجی ناتۆخ',
 		FFA500: 'نارەنجی',
 		FFFF00: 'زەرد',

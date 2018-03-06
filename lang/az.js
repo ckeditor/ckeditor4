@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'az' ] = {
 		width: 'En',
 		height: 'Uzunluq',
 		align: 'Yerləşmə',
-		alignLeft: 'Sol',
-		alignRight: 'Sağ',
-		alignCenter: 'Mərkəz',
-		alignJustify: 'Eninə görə',
+		left: 'Sol',
+		right: 'Sağ',
+		center: 'Mərkəz',
+		justify: 'Eninə görə',
+		alignLeft: 'Soldan düzləndir',
+		alignRight: 'Sağdan düzləndir',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Yuxarı',
 		alignMiddle: 'Orta',
 		alignBottom: 'Aşağı',

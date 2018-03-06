@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'bg' ] = {
 		width: 'Ширина',
 		height: 'Височина',
 		align: 'Подравняване',
-		alignLeft: 'Ляво',
-		alignRight: 'Дясно',
-		alignCenter: 'Център',
-		alignJustify: 'Двустранно подравняване',
+		left: 'Ляво',
+		right: 'Дясно',
+		center: 'Център',
+		justify: 'Двустранно подравняване',
+		alignLeft: 'Подравни в ляво',
+		alignRight: 'Подравни в дясно',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Горе',
 		alignMiddle: 'По средата',
 		alignBottom: 'Долу',

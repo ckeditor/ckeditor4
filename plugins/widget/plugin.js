@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -31,16 +31,16 @@
 					'display:inline-block' +
 				'}' +
 				'.cke_widget_wrapper:hover>.cke_widget_element{' +
-					'outline:2px solid yellow;' +
+					'outline:2px solid #ffd25c;' +
 					'cursor:default' +
 				'}' +
 				'.cke_widget_wrapper:hover .cke_widget_editable{' +
-					'outline:2px solid yellow' +
+					'outline:2px solid #ffd25c' +
 				'}' +
 				'.cke_widget_wrapper.cke_widget_focused>.cke_widget_element,' +
 				// We need higher specificity than hover style.
 				'.cke_widget_wrapper .cke_widget_editable.cke_widget_editable_focused{' +
-					'outline:2px solid #ace' +
+					'outline:2px solid #47a4f5' +
 				'}' +
 				'.cke_widget_editable{' +
 					'cursor:text' +
@@ -3191,7 +3191,8 @@
 
 			editor.fire( 'unlockSnapshot' );
 
-			if ( isCut ) {
+			// Prevent cutting in read-only editor (#1570).
+			if ( isCut && !editor.readOnly ) {
 				widget.repository.del( widget );
 				editor.fire( 'saveSnapshot' );
 			}

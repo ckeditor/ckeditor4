@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'gu' ] = {
 		width: 'પહોળાઈ',
 		height: 'ઊંચાઈ',
 		align: 'લાઇનદોરીમાં ગોઠવવું',
-		alignLeft: 'ડાબી બાજુ ગોઠવવું',
-		alignRight: 'જમણી',
-		alignCenter: 'મધ્ય સેન્ટર',
-		alignJustify: 'બ્લૉક, અંતરાય જસ્ટિફાઇ',
+		left: 'ડાબી બાજુ ગોઠવવું',
+		right: 'જમણી',
+		center: 'મધ્ય સેન્ટર',
+		justify: 'બ્લૉક, અંતરાય જસ્ટિફાઇ',
+		alignLeft: 'ડાબી બાજુએ/બાજુ તરફ',
+		alignRight: 'જમણી બાજુએ/બાજુ તરફ',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'ઉપર',
 		alignMiddle: 'વચ્ચે',
 		alignBottom: 'નીચે',

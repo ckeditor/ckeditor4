@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'uk' ] = {
 		width: 'Ширина',
 		height: 'Висота',
 		align: 'Вирівнювання',
+		left: 'По лівому краю',
+		right: 'По правому краю',
+		center: 'По центру',
+		justify: 'По ширині',
 		alignLeft: 'По лівому краю',
 		alignRight: 'По правому краю',
-		alignCenter: 'По центру',
-		alignJustify: 'По ширині',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'По верхньому краю',
 		alignMiddle: 'По середині',
 		alignBottom: 'По нижньому краю',

@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'el' ] = {
 		width: 'Πλάτος',
 		height: 'Ύψος',
 		align: 'Στοίχιση',
-		alignLeft: 'Αριστερά',
-		alignRight: 'Δεξιά',
-		alignCenter: 'Κέντρο',
-		alignJustify: 'Πλήρης Στοίχιση',
+		left: 'Αριστερά',
+		right: 'Δεξιά',
+		center: 'Κέντρο',
+		justify: 'Πλήρης Στοίχιση',
+		alignLeft: 'Στοίχιση Αριστερά',
+		alignRight: 'Στοίχιση Δεξιά',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Πάνω',
 		alignMiddle: 'Μέση',
 		alignBottom: 'Κάτω',

@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'ms' ] = {
 		width: 'Lebar',
 		height: 'Tinggi',
 		align: 'Jajaran',
-		alignLeft: 'Kiri',
-		alignRight: 'Kanan',
-		alignCenter: 'Tengah',
-		alignJustify: 'Jajaran Blok',
+		left: 'Kiri',
+		right: 'Kanan',
+		center: 'Tengah',
+		justify: 'Jajaran Blok',
+		alignLeft: 'Jajaran Kiri',
+		alignRight: 'Jajaran Kanan',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Atas',
 		alignMiddle: 'Pertengahan',
 		alignBottom: 'Bawah',

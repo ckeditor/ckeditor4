@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'fr' ] = {
 		width: 'Largeur',
 		height: 'Hauteur',
 		align: 'Alignement',
-		alignLeft: 'Gauche',
-		alignRight: 'Droite',
-		alignCenter: 'Centrer',
-		alignJustify: 'Justifier',
+		left: 'Gauche',
+		right: 'Droite',
+		center: 'Centrer',
+		justify: 'Justifier',
+		alignLeft: 'Aligner à gauche',
+		alignRight: 'Aligner à droite',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Haut',
 		alignMiddle: 'Milieu',
 		alignBottom: 'Bas',
@@ -139,6 +142,6 @@ CKEDITOR.lang[ 'fr' ] = {
 		// Prepended to ARIA labels with shortcuts.
 		keyboardShortcut: 'Raccourci clavier',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'Par défaut'
 	}
 };

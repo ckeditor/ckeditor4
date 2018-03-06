@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'eo' ] = {
 		width: 'Larĝo',
 		height: 'Alto',
 		align: 'Ĝisrandigo',
-		alignLeft: 'Maldekstre',
-		alignRight: 'Dekstre',
-		alignCenter: 'Centre',
-		alignJustify: 'Ĝisrandigi Ambaŭflanke',
+		left: 'Maldekstre',
+		right: 'Dekstre',
+		center: 'Centre',
+		justify: 'Ĝisrandigi Ambaŭflanke',
+		alignLeft: 'Ĝisrandigi maldekstren',
+		alignRight: 'Ĝisrandigi dekstren',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Supre',
 		alignMiddle: 'Centre',
 		alignBottom: 'Malsupre',
@@ -139,6 +142,6 @@ CKEDITOR.lang[ 'eo' ] = {
 		// Prepended to ARIA labels with shortcuts.
 		keyboardShortcut: 'Fulmoklavo',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'Defaŭlta'
 	}
 };

@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'vi' ] = {
 		width: 'Chiều rộng',
 		height: 'Chiều cao',
 		align: 'Vị trí',
-		alignLeft: 'Trái',
-		alignRight: 'Phải',
-		alignCenter: 'Giữa',
-		alignJustify: 'Sắp chữ',
+		left: 'Trái',
+		right: 'Phải',
+		center: 'Giữa',
+		justify: 'Sắp chữ',
+		alignLeft: 'Canh trái',
+		alignRight: 'Canh phải',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Trên',
 		alignMiddle: 'Giữa',
 		alignBottom: 'Dưới',

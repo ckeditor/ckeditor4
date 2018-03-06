@@ -1,4 +1,4 @@
-@bender-tags: 4.8.1, feature, 1399, config
+@bender-tags: 4.9.0, feature, 1399, config
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, elementspath, resize, list, image
 

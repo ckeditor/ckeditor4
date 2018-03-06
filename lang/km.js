@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'km' ] = {
 		width: 'ទទឹង',
 		height: 'កំពស់',
 		align: 'កំណត់​ទីតាំង',
-		alignLeft: 'ខាងឆ្វង',
-		alignRight: 'ខាងស្តាំ',
-		alignCenter: 'កណ្តាល',
-		alignJustify: 'តំរឹមសងខាង',
+		left: 'ខាងឆ្វង',
+		right: 'ខាងស្តាំ',
+		center: 'កណ្តាល',
+		justify: 'តំរឹមសងខាង',
+		alignLeft: 'តម្រឹម​ឆ្វេង',
+		alignRight: 'តម្រឹម​ស្ដាំ',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'ខាងលើ',
 		alignMiddle: 'កណ្តាល',
 		alignBottom: 'ខាងក្រោម',

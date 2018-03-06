@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -1604,8 +1604,8 @@
 /**
  * A CSS class applied to the `<figure>` element of a captioned image.
  *
- * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
- * [SDK sample](https://sdk.ckeditor.com/samples/captionedimage.html).
+ * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * [SDK sample](https://sdk.ckeditor.com/samples/image2.html).
  *
  *		// Changes the class to "captionedImage".
  *		config.image2_captionedClass = 'captionedImage';
@@ -1619,8 +1619,8 @@ CKEDITOR.config.image2_captionedClass = 'image';
  * Determines whether dimension inputs should be automatically filled when the image URL changes in the Enhanced Image
  * plugin dialog window.
  *
- * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
- * [SDK sample](https://sdk.ckeditor.com/samples/captionedimage.html).
+ * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * [SDK sample](https://sdk.ckeditor.com/samples/image2.html).
  *
  *		config.image2_prefillDimensions = false;
  *
@@ -1632,8 +1632,8 @@ CKEDITOR.config.image2_captionedClass = 'image';
 /**
  * Disables the image resizer. By default the resizer is enabled.
  *
- * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
- * [SDK sample](https://sdk.ckeditor.com/samples/captionedimage.html).
+ * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * [SDK sample](https://sdk.ckeditor.com/samples/image2.html).
  *
  *		config.image2_disableResizer = true;
  *
@@ -1692,8 +1692,8 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *			display: inline-block;
  *		}
  *
- * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
- * [SDK sample](https://sdk.ckeditor.com/samples/captionedimage.html).
+ * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * [SDK sample](https://sdk.ckeditor.com/samples/image2.html).
  *
  * @since 4.4
  * @cfg {String[]} [image2_alignClasses=null]
@@ -1705,8 +1705,8 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *
  *		config.image2_altRequired = true;
  *
- * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
- * [SDK sample](https://sdk.ckeditor.com/samples/captionedimage.html).
+ * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * [SDK sample](https://sdk.ckeditor.com/samples/image2.html).
  *
  * @since 4.6.0
  * @cfg {Boolean} [image2_altRequired=false]

@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'da' ] = {
 		width: 'Bredde',
 		height: 'Højde',
 		align: 'Justering',
-		alignLeft: 'Venstre',
-		alignRight: 'Højre',
+		left: 'Venstre',
+		right: 'Højre',
+		center: 'Center',
+		justify: 'Lige margener',
+		alignLeft: 'Venstrestillet',
+		alignRight: 'Højrestillet',
 		alignCenter: 'Centreret',
-		alignJustify: 'Lige margener',
 		alignTop: 'Øverst',
 		alignMiddle: 'Centreret',
 		alignBottom: 'Nederst',
@@ -89,7 +92,7 @@ CKEDITOR.lang[ 'da' ] = {
 		invalidValue: 'Ugyldig værdi.',
 		invalidHeight: 'Højde skal være et tal.',
 		invalidWidth: 'Bredde skal være et tal.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
+		invalidLength: 'Værdien angivet for feltet "%1" skal være et positivt heltal med eller uden en gyldig måleenhed (%2).',
 		invalidCssLength: 'Værdien specificeret for "%1" feltet skal være et positivt nummer med eller uden en CSS måleenhed  (px, %, in, cm, mm, em, ex, pt, eller pc).',
 		invalidHtmlLength: 'Værdien specificeret for "%1" feltet skal være et positivt nummer med eller uden en CSS måleenhed  (px eller %).',
 		invalidInlineStyle: 'Værdien specificeret for inline style skal indeholde en eller flere elementer med et format som "name:value", separeret af semikoloner',
@@ -133,7 +136,7 @@ CKEDITOR.lang[ 'da' ] = {
 			133: 'F22', // MISSING
 			134: 'F23', // MISSING
 			135: 'F24', // MISSING
-			224: 'Command'
+			224: 'Kommando'
 		},
 
 		// Prepended to ARIA labels with shortcuts.

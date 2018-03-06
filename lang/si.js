@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -77,10 +77,13 @@ CKEDITOR.lang[ 'si' ] = {
 		width: 'පළල',
 		height: 'උස',
 		align: 'ගැලපුම',
-		alignLeft: 'වම',
-		alignRight: 'දකුණ',
-		alignCenter: 'මධ්‍ය',
-		alignJustify: 'Justify', // MISSING
+		left: 'වම',
+		right: 'දකුණ',
+		center: 'මධ්‍ය',
+		justify: 'Justify', // MISSING
+		alignLeft: 'Align Left', // MISSING
+		alignRight: 'Align Right', // MISSING
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'ඉ',
 		alignMiddle: 'මැද',
 		alignBottom: 'පහල',

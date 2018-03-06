@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -11,7 +11,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'et', {
 		name: 'Üldine',
 		items: [
 			{
-			name: 'Editor Toolbar', // MISSING
+			name: 'Redaktori tööriistariba',
 			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT+TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
 		},
 
@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'et', {
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
+			name: 'Redaktori kontekstimenüü',
 			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
 		},
 
@@ -81,7 +81,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'et', {
 			legend: 'Press ${a11yHelp}' // MISSING
 		},
 			{
-			name: ' Paste as plain text', // MISSING
+			name: 'Asetamine tavalise tekstina',
 			legend: 'Press ${pastetext}', // MISSING
 			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}
@@ -89,15 +89,15 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'et', {
 	}
 	],
 	tab: 'Tab', // MISSING
-	pause: 'Pause', // MISSING
-	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
+	pause: 'Paus',
+	capslock: 'Caps Lock',
+	escape: 'Escape',
+	pageUp: 'Page Up',
+	pageDown: 'Page Down',
+	leftArrow: 'Nool vasakule',
+	upArrow: 'Nool üles',
+	rightArrow: 'Nool paremale',
+	downArrow: 'Nool alla',
 	insert: 'Insert', // MISSING
 	leftWindowKey: 'Left Windows key', // MISSING
 	rightWindowKey: 'Right Windows key', // MISSING
@@ -113,29 +113,29 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'et', {
 	numpad8: 'Numpad 8', // MISSING
 	numpad9: 'Numpad 9', // MISSING
 	multiply: 'Multiply', // MISSING
-	add: 'Add', // MISSING
+	add: 'Lisa',
 	subtract: 'Subtract', // MISSING
 	decimalPoint: 'Decimal Point', // MISSING
 	divide: 'Divide', // MISSING
-	f1: 'F1', // MISSING
-	f2: 'F2', // MISSING
-	f3: 'F3', // MISSING
-	f4: 'F4', // MISSING
-	f5: 'F5', // MISSING
-	f6: 'F6', // MISSING
-	f7: 'F7', // MISSING
-	f8: 'F8', // MISSING
-	f9: 'F9', // MISSING
-	f10: 'F10', // MISSING
-	f11: 'F11', // MISSING
-	f12: 'F12', // MISSING
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
 	numLock: 'Num Lock', // MISSING
 	scrollLock: 'Scroll Lock', // MISSING
 	semiColon: 'Semicolon', // MISSING
 	equalSign: 'Equal Sign', // MISSING
-	comma: 'Comma', // MISSING
-	dash: 'Dash', // MISSING
-	period: 'Period', // MISSING
+	comma: 'Koma',
+	dash: 'Sidekriips',
+	period: 'Punkt',
 	forwardSlash: 'Forward Slash', // MISSING
 	graveAccent: 'Grave Accent', // MISSING
 	openBracket: 'Open Bracket', // MISSING

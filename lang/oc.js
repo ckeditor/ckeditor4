@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'oc' ] = {
 		width: 'Largor',
 		height: 'Nautor',
 		align: 'Alinhament',
-		alignLeft: 'Esquèrra',
-		alignRight: 'Dreita',
-		alignCenter: 'Centrar',
-		alignJustify: 'Justificar',
+		left: 'Esquèrra',
+		right: 'Dreita',
+		center: 'Centrar',
+		justify: 'Justificar',
+		alignLeft: 'Alinhar a esquèrra',
+		alignRight: 'Alinhar a dreita',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Naut',
 		alignMiddle: 'Mitan',
 		alignBottom: 'Bas',

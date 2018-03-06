@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'mn' ] = {
 		width: 'Өргөн',
 		height: 'Өндөр',
 		align: 'Эгнээ',
-		alignLeft: 'Зүүн',
-		alignRight: 'Баруун',
-		alignCenter: 'Төвд',
-		alignJustify: 'Тэгшлэх',
+		left: 'Зүүн',
+		right: 'Баруун',
+		center: 'Төвд',
+		justify: 'Тэгшлэх',
+		alignLeft: 'Зүүн талд тулгах',
+		alignRight: 'Баруун талд тулгах',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Дээд талд',
 		alignMiddle: 'Дунд',
 		alignBottom: 'Доод талд',

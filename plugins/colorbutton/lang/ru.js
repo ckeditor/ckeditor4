@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'ru', {
@@ -48,9 +48,9 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ru', {
 		FFF: 'Белый',
 		'1ABC9C': 'Strong Cyan', // MISSING
 		'2ECC71': 'Изумрудный',
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
+		'3498DB': 'Светло-синий',
+		'9B59B6': 'Аметист',
+		'4E5F70': 'Сине-серый',
 		'F1C40F': 'Ярко-желтый',
 		'16A085': 'Dark Cyan', // MISSING
 		'27AE60': 'Тёмно-изумрудный',
@@ -63,9 +63,9 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ru', {
 		'ECF0F1': 'Bright Silver', // MISSING
 		'95A5A6': 'Light Grayish Cyan', // MISSING
 		'DDD': 'Светло-серый',
-		'D35400': 'Pumpkin', // MISSING
+		'D35400': 'Цвет тыквы',
 		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
+		'BDC3C7': 'Серебристый',
 		'7F8C8D': 'Grayish Cyan', // MISSING
 		'999': 'Тёмно-серый'
 	},

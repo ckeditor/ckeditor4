@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'is' ] = {
 		width: 'Breidd',
 		height: 'Hæð',
 		align: 'Jöfnun',
-		alignLeft: 'Vinstri',
-		alignRight: 'Hægri',
-		alignCenter: 'Miðjað',
-		alignJustify: 'Jafna báðum megin',
+		left: 'Vinstri',
+		right: 'Hægri',
+		center: 'Miðjað',
+		justify: 'Jafna báðum megin',
+		alignLeft: 'Vinstrijöfnun',
+		alignRight: 'Hægrijöfnun',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Efst',
 		alignMiddle: 'Miðjuð',
 		alignBottom: 'Neðst',

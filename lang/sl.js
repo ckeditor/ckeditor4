@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'sl' ] = {
 		width: 'Širina',
 		height: 'Višina',
 		align: 'Poravnava',
-		alignLeft: 'Levo',
-		alignRight: 'Desno',
-		alignCenter: 'Sredinsko',
-		alignJustify: 'Obojestranska poravnava',
+		left: 'Levo',
+		right: 'Desno',
+		center: 'Sredinsko',
+		justify: 'Obojestranska poravnava',
+		alignLeft: 'Leva poravnava',
+		alignRight: 'Desna poravnava',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Na vrh',
 		alignMiddle: 'V sredino',
 		alignBottom: 'Na dno',

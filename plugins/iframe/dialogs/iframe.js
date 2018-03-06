@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -129,8 +129,8 @@
 						'default': '',
 						items: [
 							[ commonLang.notSet, '' ],
-							[ commonLang.alignLeft, 'left' ],
-							[ commonLang.alignRight, 'right' ],
+							[ commonLang.left, 'left' ],
+							[ commonLang.right, 'right' ],
 							[ commonLang.alignTop, 'top' ],
 							[ commonLang.alignMiddle, 'middle' ],
 							[ commonLang.alignBottom, 'bottom' ]

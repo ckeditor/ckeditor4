@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'pt' ] = {
 		width: 'Largura',
 		height: 'Altura',
 		align: 'Alinhamento',
-		alignLeft: 'Esquerda',
-		alignRight: 'Direita',
-		alignCenter: 'Centrado',
-		alignJustify: 'Justificado',
+		left: 'Esquerda',
+		right: 'Direita',
+		center: 'Centrado',
+		justify: 'Justificado',
+		alignLeft: 'Alinhar à esquerda',
+		alignRight: 'Alinhar à direita',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Topo',
 		alignMiddle: 'Centro',
 		alignBottom: 'Base',

@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'fo' ] = {
 		width: 'Breidd',
 		height: 'Hædd',
 		align: 'Justering',
-		alignLeft: 'Vinstra',
-		alignRight: 'Høgra',
-		alignCenter: 'Miðsett',
-		alignJustify: 'Javnir tekstkantar',
+		left: 'Vinstra',
+		right: 'Høgra',
+		center: 'Miðsett',
+		justify: 'Javnir tekstkantar',
+		alignLeft: 'Vinstrasett',
+		alignRight: 'Høgrasett',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Ovast',
 		alignMiddle: 'Miðja',
 		alignBottom: 'Botnur',

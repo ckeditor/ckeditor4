@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'fi' ] = {
 		width: 'Leveys',
 		height: 'Korkeus',
 		align: 'Kohdistus',
-		alignLeft: 'Vasemmalle',
-		alignRight: 'Oikealle',
-		alignCenter: 'Keskelle',
-		alignJustify: 'Tasaa molemmat reunat',
+		left: 'Vasemmalle',
+		right: 'Oikealle',
+		center: 'Keskelle',
+		justify: 'Tasaa molemmat reunat',
+		alignLeft: 'Tasaa vasemmat reunat',
+		alignRight: 'Tasaa oikeat reunat',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Ylös',
 		alignMiddle: 'Keskelle',
 		alignBottom: 'Alas',

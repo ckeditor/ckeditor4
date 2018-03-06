@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'ja' ] = {
 		width: '幅',
 		height: '高さ',
 		align: '行揃え',
-		alignLeft: '左',
-		alignRight: '右',
-		alignCenter: '中央',
-		alignJustify: '両端揃え',
+		left: '左',
+		right: '右',
+		center: '中央',
+		justify: '両端揃え',
+		alignLeft: '左揃え',
+		alignRight: '右揃え',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: '上',
 		alignMiddle: '中央',
 		alignBottom: '下',

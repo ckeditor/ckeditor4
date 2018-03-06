@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'eu' ] = {
 		width: 'Zabalera',
 		height: 'Altuera',
 		align: 'Lerrokatzea',
-		alignLeft: 'Ezkerrean',
-		alignRight: 'Eskuinean',
-		alignCenter: 'Erdian',
-		alignJustify: 'Justifikatu',
+		left: 'Ezkerrean',
+		right: 'Eskuinean',
+		center: 'Erdian',
+		justify: 'Justifikatu',
+		alignLeft: 'Lerrokatu ezkerrean',
+		alignRight: 'Lerrokatu eskuinean',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Goian',
 		alignMiddle: 'Erdian',
 		alignBottom: 'Behean',
@@ -100,12 +103,12 @@ CKEDITOR.lang[ 'eu' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
+			8: 'Atzera tekla',
 			13: 'Sartu',
 			16: 'Maius',
 			17: 'Ktrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Zuriunea',
 			35: 'Buka',
 			36: 'Etxea',
 			46: 'Ezabatu',
@@ -133,12 +136,12 @@ CKEDITOR.lang[ 'eu' ] = {
 			133: 'F22', // MISSING
 			134: 'F23', // MISSING
 			135: 'F24', // MISSING
-			224: 'Command' // MISSING
+			224: 'Komandoa'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut', // MISSING
+		keyboardShortcut: 'Laster-tekla',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'Lehenetsia'
 	}
 };
