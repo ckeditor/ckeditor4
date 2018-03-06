@@ -504,10 +504,51 @@
 		return !CKEDITOR.env.ie || CKEDITOR.env.version >= 11;
 	}
 
+	function addUploadFileButtonToToolbar( editor ) {
+		var hiddenUploadElement;
+		if ( !editor._.easyImageHiddenUploadElement ) {
+			hiddenUploadElement = CKEDITOR.dom.element.createFromHtml( '<input data-cke-easyimage-hidden-upload="1" style="display:none;" type="file" accept="image/*" tabindex="-1" multiple="true">' );
+			CKEDITOR.document.getBody().append( hiddenUploadElement );
+
+			hiddenUploadElement.$.addEventListener( 'change', function( evt ) {
+				if ( evt.target.files.length ) {
+					// Simulate paste event, to support all nice stuff from imagebase (e.g. loaders) (#1730).
+					editor.fire( 'paste', {
+						method: 'paste',
+						dataValue: '',
+						dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer( { files: evt.target.files } )
+					} );
+				}
+			} );
+
+			editor.on( 'destroy', function() {
+				hiddenUploadElement.removeAllListeners();
+				hiddenUploadElement.remove();
+			} );
+
+			editor._.easyImageHiddenUploadElement = hiddenUploadElement;
+		} else {
+			hiddenUploadElement = editor._.easyImageHiddenUploadElement;
+		}
+
+		editor.ui.addToolbarGroup( 'easyimagetoolbar', 'links' );
+		editor.ui.addButton( 'EasyimageUploadFile', {
+			label: editor.lang.common.upload,
+			command: 'easyimageUploadFile',
+			toolbar: 'easyimagetoolbar,1'
+		} );
+
+		editor.addCommand( 'easyimageUploadFile', {
+			exec: function() {
+				hiddenUploadElement.$.click();
+			}
+		} );
+	}
+
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'imagebase,balloontoolbar,button,dialog,cloudservices',
 		lang: 'en',
-		icons: 'easyimagefull,easyimageside,easyimagealt,easyimagealignleft,easyimagealigncenter,easyimagealignright', // %REMOVE_LINE_CORE%
+		icons: 'easyimagefull,easyimageside,easyimagealt,easyimagealignleft,easyimagealigncenter,easyimagealignright,easyimageuploadfile', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		onLoad: function() {
@@ -519,6 +560,8 @@
 				return;
 			}
 			loadStyles( editor, this );
+
+			addUploadFileButtonToToolbar( editor );
 		},
 
 		// Widget must be registered after init in case that link plugin is dynamically loaded e.g. via
