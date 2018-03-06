@@ -1668,7 +1668,7 @@
 		 * Adds a new paste button to the editor.
 		 *
 		 * This method should be called for buttons that should display the Paste Dialog fallback in mobile environments.
-		 * See {@link https://github.com/ckeditor/ckeditor-dev/issues/595#issuecomment-345971174 the rationale} for more
+		 * See [the rationale](https://github.com/ckeditor/ckeditor-dev/issues/595#issuecomment-345971174) for more
 		 * details.
 		 *
 		 * @since 4.9.0
