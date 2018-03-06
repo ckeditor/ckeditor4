@@ -1,6 +1,6 @@
-@bender-tags: bug, 4.7.0, trac16845, copyformatting
+@bender-tags: bug, 4.7.0, 4.10.0, trac16845, copyformatting, 1458
 @bender-ui: collapsed
-@bender-ckeditor-plugins: copyformatting,toolbar,wysiwygarea,floatingspace,elementspath,image2,widget,justify,div
+@bender-ckeditor-plugins: copyformatting,toolbar,wysiwygarea,image2,justify,div
 
 ## Test Scenario
 

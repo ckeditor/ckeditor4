@@ -3,6 +3,10 @@
 
 ## CKEditor 4.10.0
 
+Fixed Issues:
+
+* [#1458](https://github.com/ckeditor/ckeditor-dev/issues/1458): [Edge] Fixed: After blurring editor it takes 2 clicks to focus a widget.
+
 ## CKEditor 4.9.1
 
 ## CKEditor 4.9
