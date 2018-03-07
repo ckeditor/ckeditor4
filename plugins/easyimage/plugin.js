@@ -531,11 +531,10 @@
 			hiddenUploadElement = editor._.easyImageHiddenUploadElement;
 		}
 
-		editor.ui.addToolbarGroup( 'easyimagetoolbar', 'links' );
 		editor.ui.addButton( 'EasyimageUploadFile', {
 			label: editor.lang.common.upload,
 			command: 'easyimageUploadFile',
-			toolbar: 'easyimagetoolbar,1'
+			toolbar: 'insert,1'
 		} );
 
 		editor.addCommand( 'easyimageUploadFile', {
