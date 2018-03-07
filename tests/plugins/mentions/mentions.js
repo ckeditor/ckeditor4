@@ -184,6 +184,24 @@
 
 			mentions.destroy();
 		},
+
+		'test attach mentions from configuration': function() {
+			var config = {
+					mentions: [ { feed: feedData } ]
+				};
+
+			bender.editorBot.create( { name: 'editor_config_attach', config: config }, function( bot ) {
+				var editor = bot.editor,
+					mentions = editor.plugins.mentions.instances[ 0 ];
+
+				bot.setHtmlWithSelection( '<p>@An^</p>' );
+
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+				assertView( mentions, expectedFeedData );
+
+				mentions.destroy();
+			} );
+		}
 	} );
 
 	function assertView( mentions, matches ) {
