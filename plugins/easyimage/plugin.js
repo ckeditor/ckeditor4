@@ -505,32 +505,6 @@
 	}
 
 	function addUploadButtonToToolbar( editor ) {
-		var hiddenUploadElement;
-		if ( !editor._.easyImageHiddenUploadElement ) {
-			// Element is not attached to DOM, but still it might be `virtually` clicked.
-			hiddenUploadElement = CKEDITOR.dom.element.createFromHtml( '<input data-cke-easyimage-hidden-upload="1" style="display:none;" type="file" accept="image/*" tabindex="-1" multiple="true">' );
-
-			hiddenUploadElement.$.addEventListener( 'change', function( evt ) {
-				if ( evt.target.files.length ) {
-					// Simulate paste event, to support all nice stuff from imagebase (e.g. loaders) (#1730).
-					editor.fire( 'paste', {
-						method: 'paste',
-						dataValue: '',
-						dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer( { files: evt.target.files } )
-					} );
-				}
-			} );
-
-			editor.on( 'destroy', function() {
-				hiddenUploadElement.removeAllListeners();
-				hiddenUploadElement.remove();
-			} );
-
-			editor._.easyImageHiddenUploadElement = hiddenUploadElement;
-		} else {
-			hiddenUploadElement = editor._.easyImageHiddenUploadElement;
-		}
-
 		editor.ui.addButton( 'EasyimageUpload', {
 			label: editor.lang.common.upload,
 			command: 'easyimageUpload',
@@ -539,6 +513,19 @@
 
 		editor.addCommand( 'easyimageUpload', {
 			exec: function() {
+				// hiddenUploadElement is not attached to DOM, but it is still possible to `virtually` click into it.
+				var hiddenUploadElement = CKEDITOR.dom.element.createFromHtml( '<input type="file" accept="image/*" multiple="multiple">' );
+				hiddenUploadElement.once( 'change', function( evt ) {
+					var targetElement = evt.data.getTarget();
+					if ( targetElement.$.files.length ) {
+						// Simulate paste event, to support all nice stuff from imagebase (e.g. loaders) (#1730).
+						editor.fire( 'paste', {
+							method: 'paste',
+							dataValue: '',
+							dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer( { files: targetElement.$.files } )
+						} );
+					}
+				} );
 				hiddenUploadElement.$.click();
 			}
 		} );
