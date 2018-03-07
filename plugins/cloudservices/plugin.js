@@ -158,8 +158,8 @@
 	 * ```js
 	 *	CKEDITOR.replace( 'editor', {
 	 *		extraPlugins: 'easyimage',
-	 *		cloudServices_tokenUrl: TOKEN_URL,
-	 *		cloudServices_uploadUrl: UPLOAD_URL
+	 *		cloudServices_tokenUrl: 'https://example.com/cs-token-endpoint',
+	 *		cloudServices_uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/'
 	 *	} );
 	 *  ```
 	 *
@@ -175,8 +175,8 @@
 	 * ```js
 	 *	CKEDITOR.replace( 'editor', {
 	 *		extraPlugins: 'easyimage',
-	 *		cloudServices_tokenUrl: TOKEN_URL,
-	 *		cloudServices_uploadUrl: UPLOAD_URL
+	 *		cloudServices_tokenUrl: 'https://example.com/cs-token-endpoint',
+	 *		cloudServices_uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/'
 	 *	} );
 	 *  ```
 	 *
