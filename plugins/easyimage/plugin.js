@@ -504,7 +504,7 @@
 		return !CKEDITOR.env.ie || CKEDITOR.env.version >= 11;
 	}
 
-	function addUploadFileButtonToToolbar( editor ) {
+	function addUploadButtonToToolbar( editor ) {
 		var hiddenUploadElement;
 		if ( !editor._.easyImageHiddenUploadElement ) {
 			// Element is not attached to DOM, but still it might be `virtually` clicked.
@@ -531,13 +531,13 @@
 			hiddenUploadElement = editor._.easyImageHiddenUploadElement;
 		}
 
-		editor.ui.addButton( 'EasyimageUploadFile', {
+		editor.ui.addButton( 'EasyimageUpload', {
 			label: editor.lang.common.upload,
-			command: 'easyimageUploadFile',
+			command: 'easyimageUpload',
 			toolbar: 'insert,1'
 		} );
 
-		editor.addCommand( 'easyimageUploadFile', {
+		editor.addCommand( 'easyimageUpload', {
 			exec: function() {
 				hiddenUploadElement.$.click();
 			}
@@ -547,7 +547,7 @@
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'imagebase,balloontoolbar,button,dialog,cloudservices',
 		lang: 'en',
-		icons: 'easyimagefull,easyimageside,easyimagealt,easyimagealignleft,easyimagealigncenter,easyimagealignright,easyimageuploadfile', // %REMOVE_LINE_CORE%
+		icons: 'easyimagefull,easyimageside,easyimagealt,easyimagealignleft,easyimagealigncenter,easyimagealignright,easyimageupload', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		onLoad: function() {
@@ -575,7 +575,7 @@
 			addButtons( editor, styles );
 			addContextMenuItems( editor );
 			addToolbar( editor );
-			addUploadFileButtonToToolbar( editor );
+			addUploadButtonToToolbar( editor );
 		}
 	} );
 
