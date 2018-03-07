@@ -338,7 +338,14 @@
 						}, null, true, true );
 					}
 				} );
+			},
+
+			// #1730
+			'test required element for easyimageUploadFile present in document': function() {
+				assert.isNotNull( CKEDITOR.document.getBody().findOne( 'input[data-cke-easyimage-hidden-upload]' ), 'Input element is present in document' );
+				assert.isNotUndefined( this.editor.getCommand( 'easyimageUploadFile' ), 'Upload command present in editor' );
 			}
+
 		};
 
 	bender.test( tests );
