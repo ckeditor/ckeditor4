@@ -4,10 +4,19 @@
 @bender-include: ../../easyimage/_helpers/tools.js
 
 1. Open browser console.
+
+	## Expected
+
+	In console we should have information about error with code `cloudservices-no-url`.
+
 1. Click `Test undefinded URL` button.
 
-In console we should have information about error with code `cloudservices-no-url`.
+	## Expected
+
+	In console we should have information about error with code `cloudservices-no-url`.
 
 1. Click `Test undefinded TOKEN` button.
 
-In console we should have information about error with code `cloudservices-no-token`.
+	## Expected
+
+	In console we should have information about error with code `cloudservices-no-token`.
