@@ -10,7 +10,7 @@
 
 	easyImageTools.getToken( function( token ) {
 		var editor = CKEDITOR.replace( 'classic', {
-				cloudServices_url: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+				cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
 				cloudServices_token: token,
 				height: 500,
 				contentsCss: '/apps/ckeditor/plugins/easyimage/styles/easyimage.css'

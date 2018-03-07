@@ -9,7 +9,7 @@
 
 	bender.editor = {
 		config: {
-			cloudServices_url: 'cs_url',
+			cloudServices_uploadUrl: 'cs_url',
 			cloudServices_tokenUrl: TOKEN_URL
 		}
 	};
@@ -32,7 +32,7 @@
 			xhrServer.respond();
 
 			this.editor.config.cloudServices_token = 'cs_token';
-			this.editor.config.cloudServices_url = 'cs_url';
+			this.editor.config.cloudServices_uploadUrl = 'cs_url';
 		},
 
 		'test plugin exposes loader': function() {
@@ -105,7 +105,7 @@
 		'test no URL error': function() {
 			var instance = new this.cloudservices.cloudServicesLoader( this.editor, bender.tools.pngBase64, null, 'different_token' ),
 				listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
-			this.editor.config.cloudServices_url = undefined;
+			this.editor.config.cloudServices_uploadUrl = undefined;
 			CKEDITOR.once( 'log', function( evt ) {
 				evt.cancel();
 				assert.areEqual( 'cloudservices-no-url', evt.data.errorCode, 'There should be URL error log.' );

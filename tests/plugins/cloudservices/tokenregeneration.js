@@ -11,7 +11,7 @@
 
 	bender.editor = {
 		config: {
-			cloudServices_url: MOCK_UPLOAD_URL,
+			cloudServices_uploadUrl: MOCK_UPLOAD_URL,
 			cloudServices_tokenUrl: TOKEN_URL
 		}
 	};

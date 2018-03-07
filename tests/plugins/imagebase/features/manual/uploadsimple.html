@@ -12,7 +12,7 @@
 		LOADED_TEMPLATE = new CKEDITOR.template( 'File "{name}" uploaded!' ),
 		editor = CKEDITOR.replace( 'classic', {
 			contentsCss: '/apps/ckeditor/plugins/easyimage/styles/easyimage.css',
-			cloudServices_url: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+			cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
 			cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL,
 			on: {
 				instanceReady: function() {

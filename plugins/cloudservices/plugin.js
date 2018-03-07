@@ -48,12 +48,12 @@
 
 			/**
 			 * @inheritdoc
-			 * @param {String} [url] The upload URL. If not provided, {@link CKEDITOR.config#cloudServices_url} will be used.
+			 * @param {String} [url] The upload URL. If not provided, {@link CKEDITOR.config#cloudServices_uploadUrl} will be used.
 			 * @param {Object} [additionalRequestParameters] Additional data that would be passed to the
 			 * {@link CKEDITOR.editor#fileUploadRequest} event.
 			 */
 			CloudServicesLoader.prototype.upload = function( url, additionalRequestParameters ) {
-				url = url || this.editor.config.cloudServices_url;
+				url = url || this.editor.config.cloudServices_uploadUrl;
 
 				if ( !url ) {
 					CKEDITOR.error( 'cloudservices-no-url' );
@@ -66,7 +66,7 @@
 			/**
 			 * @method loadAndUpload
 			 * @inheritdoc
-			 * @param {String} [url] The upload URL. If not provided, {@link CKEDITOR.config#cloudServices_url} will be used.
+			 * @param {String} [url] The upload URL. If not provided, {@link CKEDITOR.config#cloudServices_uploadUrl} will be used.
 			 * @param {Object} [additionalRequestParameters] Additional parameters that would be passed to
 			 * the {@link CKEDITOR.editor#fileUploadRequest} event.
 			*/
@@ -155,8 +155,16 @@
 	/**
 	 * The endpoint URL for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services) uploads.
 	 *
+	 * ```js
+	 *	CKEDITOR.replace( 'editor', {
+	 *		extraPlugins: 'easyimage',
+	 *		cloudServices_tokenUrl: TOKEN_URL,
+	 *		cloudServices_uploadUrl: UPLOAD_URL
+	 *	} );
+	 *  ```
+	 *
 	 * @since 4.9.0
-	 * @cfg {String} [cloudServices_url='']
+	 * @cfg {String} [cloudServices_uploadUrl='']
 	 * @member CKEDITOR.config
 	 */
 
@@ -164,11 +172,13 @@
 	 * The authentication token URL for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services). The token is used to authenticate
 	 * all plugins using Cloud Services, for instance Easy Image. The token URL has to point to the service where the token is generated.
 	 *
-	 *		CKEDITOR.replace( 'editor', {
-	 *			extraPlugins: 'easyimage',
-	 *			cloudServices_tokenUrl: TOKEN_URL,
-	 *			cloudServices_url: UPLOAD_URL
-	 *		} );
+	 * ```js
+	 *	CKEDITOR.replace( 'editor', {
+	 *		extraPlugins: 'easyimage',
+	 *		cloudServices_tokenUrl: TOKEN_URL,
+	 *		cloudServices_uploadUrl: UPLOAD_URL
+	 *	} );
+	 *  ```
 	 *
 	 * @since 4.9.0
 	 * @cfg {String} [cloudServices_tokenUrl='']
