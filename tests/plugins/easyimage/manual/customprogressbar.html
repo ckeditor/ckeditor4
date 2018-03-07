@@ -29,6 +29,7 @@
 
 	var commonConfig = {
 		cloudServices_url: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+		cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL,
 		contentsCss: [ '%TEST_DIR%/_assets/progress.css' ],
 		on: {
 			widgetDefinition: function( evt ) {
@@ -62,12 +63,7 @@
 		}
 	};
 
-	easyImageTools.getToken( function( token ) {
-		commonConfig.cloudServices_token = token;
-
-		CKEDITOR.replace( 'editor1', commonConfig );
-		CKEDITOR.replace( 'editor2', commonConfig );
-		CKEDITOR.replace( 'editor3', commonConfig );
-	} );
-
+	CKEDITOR.replace( 'editor1', commonConfig );
+	CKEDITOR.replace( 'editor2', commonConfig );
+	CKEDITOR.replace( 'editor3', commonConfig );
 </script>
