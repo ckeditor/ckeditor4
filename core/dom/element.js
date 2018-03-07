@@ -487,7 +487,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * As an example you could use this function with {@link CKEDITOR.dom.window#getFrame editor's window frame} to
 		 * calculate the bounding rectangle of the visible area of the editor and the viewport.
 		 * The retrieved bounding rectangle could be used to position elements like toolbars or notifications (elements outside editor)
-		 * to always keep them inside editor viewport independantly from the scroll position.
+		 * to always keep them inside editor viewport independently from the scroll position.
 		 *
 		 * ```javascript
 		 * var frame = editor.window.getFrame();
@@ -496,8 +496,13 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *
 		 * @since 4.10.0
 		 * @param {CKEDITOR.editor} editor The editor used to calculate scroll position.
-		 * @returns {Object} The dimensions of the DOM element (scroll position included) including
-		 * `left`, `top`, `right`, `bottom`, `width` and `height`.
+		 * @returns {Object.<String, Number>} The dimensions of the DOM element (scroll position included).
+		 * @returns {Number} return.top Top offset.
+		 * @returns {Number} return.bottom Bottom offset.
+		 * @returns {Number} return.left Left offset.
+		 * @returns {Number} return.right Right offset.
+		 * @returns {Number} return.height Element height.
+		 * @returns {Number} return.width Element width.
 		 */
 		getAbsoluteClientRect: function( editor ) {
 			var elementRect = this.getClientRect(),
