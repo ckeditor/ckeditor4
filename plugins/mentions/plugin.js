@@ -6,6 +6,7 @@
 'use strict';
 
 ( function() {
+	var MARKER = '@', MIN_CHARS = 2, ENCODED_QUERY = '{encodedQuery}'
 
 	CKEDITOR.plugins.add( 'mentions', {
 		requires: 'autocomplete,textmatch,ajax',
@@ -27,8 +28,8 @@
 		var feed = config.feed,
 			template = config.template;
 
-		this.marker = config.marker || '@';
-		this.minChars = isNotDefined( config.minChars ) ? 2 : config.minChars;
+		this.marker = config.marker || MARKER;
+		this.minChars = config.minChars !== null && config.minChars !== undefined ? config.minChars : MIN_CHARS;
 
 		this.autocomplete = new CKEDITOR.plugins.autocomplete( editor, getTextTestCallback( this.marker, this.minChars ), getDataCallback( feed, this.marker ) );
 
@@ -99,14 +100,20 @@
 			}
 			// Feed is a URL to be requested for a JSON of matches e.g. `/user-controller/get-list/{encodedQuery}`.
 			else if ( typeof feed === 'string' ) {
-				var encodedQueryRegex = new RegExp( '{encodedQuery}', 'g' ),
+				var encodedQueryRegex = new RegExp( ENCODED_QUERY, 'g' ),
 					encodedUrl = feed.replace( encodedQueryRegex, query );
 
 				CKEDITOR.ajax.load( encodedUrl, function( data ) {
 					callback( JSON.parse( data ) );
 				} );
 			}
-			// Feed is a function using callback to pass data to through autocomplete plugin e.g. callback( [ { id: 1, name: 'anna81', firstName: 'Anna', lastName: 'Doe' } ] ).
+			// Feed is a function using callback to pass data through autocomplete plugin e.g.
+			//
+			// function dataSource( { query: query, marker: marker }, callback ) {
+			// 		callMyBackend( query, function( results ) {
+			// 			callback( results )
+			// 		} );
+			// }
 			else {
 				feed( { query: query, marker: marker }, callback );
 			}
@@ -135,10 +142,6 @@
 			current.push( { name: name, id: index++ } );
 			return current;
 		}, [] );
-	}
-
-	function isNotDefined( prop ) {
-		return prop == null || prop == undefined;
 	}
 
 	CKEDITOR.plugins.mentions = Mentions;
