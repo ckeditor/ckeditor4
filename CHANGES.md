@@ -3,6 +3,7 @@
 
 ## CKEditor 4.10
 
+<<<<<<< HEAD
 New Features:
 
 * [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin supports email links.
@@ -26,6 +27,11 @@ API Changes:
 Fixed Issues:
 
 * [#1835](https://github.com/ckeditor/ckeditor-dev/issues/1835): Fixed: Integration between [CKFinder](https://ckeditor.com/ckeditor-4/ckfinder/) and the [File Browser](https://ckeditor.com/cke4/addon/filebrowser) plugin does not work.
+=======
+API Changes:
+
+* [#1742](https://github.com/ckeditor/ckeditor-dev/issues/1724): Added [`getAbsoluteClientRect`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_dom_element.html#method-getAbsoluteClientRect) function allowing to calculate an element absolute bounding rectangle includes browser's and editor's scroll position.
+>>>>>>> 314c529ba... Moved changelog entry.
 
 ## CKEditor 4.9
 
