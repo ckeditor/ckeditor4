@@ -79,7 +79,8 @@
 				tokenFetcher = {
 					token: null,
 
-					REFRESH_INTERVAL: 3600000,
+					// Allow external code (tests) to affect token refresh interval if needed.
+					REFRESH_INTERVAL: editor.CLOUD_SERVICES_TOKEN_INTERVAL || 3600000,
 
 					refreshToken: function() {
 						CKEDITOR.ajax.load( tokenUrl, function( token ) {
@@ -94,7 +95,7 @@
 
 						var that = this;
 
-						window.setTimeout( function() {
+						window.setInterval( function() {
 							that.refreshToken();
 						}, that.REFRESH_INTERVAL );
 					}

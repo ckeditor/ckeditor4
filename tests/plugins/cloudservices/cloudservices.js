@@ -3,14 +3,24 @@
 /* global easyImageTools */
 
 ( function() {
+	var TOKEN_VALUE = 'sample-token-value',
+		TOKEN_URL = '/mock_token_url',
+		xhrServer = sinon.fakeServer.create();
+
 	bender.editor = {
 		config: {
 			cloudServices_url: 'cs_url',
-			cloudServices_token: 'cs_token'
+			cloudServices_tokenUrl: TOKEN_URL
 		}
 	};
 
-	var mockBase64 = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=';
+	xhrServer.respondWith( function( req ) {
+		if ( req.url === TOKEN_URL ) {
+			req.respond( 200, {}, TOKEN_VALUE );
+		} else {
+			req.respond( 200, {}, 'dummy-response' );
+		}
+	} );
 
 	bender.test( {
 		setUp: function() {
@@ -18,6 +28,9 @@
 				assert.ignore();
 			}
 			this.cloudservices = CKEDITOR.plugins.cloudservices;
+
+			xhrServer.respond();
+
 			this.editor.config.cloudServices_token = 'cs_token';
 			this.editor.config.cloudServices_url = 'cs_url';
 		},
@@ -27,7 +40,7 @@
 		},
 
 		'test loader uses config url/token': function() {
-			var instance = new this.cloudservices.cloudServicesLoader( this.editor, mockBase64 ),
+			var instance = new this.cloudservices.cloudServicesLoader( this.editor, bender.tools.pngBase64 ),
 				// Stub loader.xhr methods before it's actually called.
 				listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
 
@@ -38,7 +51,7 @@
 				sinon.assert.calledWithExactly( instance.xhr.open, 'POST', 'cs_url', true );
 
 				// Make sure that proper header has been added.
-				sinon.assert.calledWithExactly( instance.xhr.setRequestHeader, 'Authorization', 'cs_token' );
+				sinon.assert.calledWithExactly( instance.xhr.setRequestHeader, 'Authorization', TOKEN_VALUE );
 
 				assert.areSame( 1, instance.xhr.send.callCount, 'Call count' );
 			} catch ( e ) {
@@ -51,7 +64,7 @@
 		},
 
 		'test loader allows url overriding': function() {
-			var instance = new this.cloudservices.cloudServicesLoader( this.editor, mockBase64 ),
+			var instance = new this.cloudservices.cloudServicesLoader( this.editor, bender.tools.pngBase64 ),
 				// Stub loader.xhr methods before it's actually called.
 				listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
 
@@ -71,7 +84,7 @@
 		},
 
 		'test loader allows token overriding': function() {
-			var instance = new this.cloudservices.cloudServicesLoader( this.editor, mockBase64, null, 'different_token' ),
+			var instance = new this.cloudservices.cloudServicesLoader( this.editor, bender.tools.pngBase64, null, 'different_token' ),
 				// Stub loader.xhr methods before it's actually called.
 				listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
 
@@ -90,24 +103,12 @@
 			}
 		},
 		'test no URL error': function() {
-			var instance = new this.cloudservices.cloudServicesLoader( this.editor, mockBase64, null, 'different_token' ),
+			var instance = new this.cloudservices.cloudServicesLoader( this.editor, bender.tools.pngBase64, null, 'different_token' ),
 				listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
 			this.editor.config.cloudServices_url = undefined;
 			CKEDITOR.once( 'log', function( evt ) {
 				evt.cancel();
 				assert.areEqual( 'cloudservices-no-url', evt.data.errorCode, 'There should be URL error log.' );
-			} );
-			instance.upload();
-			listener.removeListener();
-		},
-
-		'test no TOKEN error': function() {
-			var instance = new this.cloudservices.cloudServicesLoader( this.editor, mockBase64 ),
-				listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
-			this.editor.config.cloudServices_token = undefined;
-			CKEDITOR.once( 'log', function( evt ) {
-				evt.cancel();
-				assert.areEqual( 'cloudservices-no-token', evt.data.errorCode, 'There should be TOKEN error log.' );
 			} );
 			instance.upload();
 			listener.removeListener();
