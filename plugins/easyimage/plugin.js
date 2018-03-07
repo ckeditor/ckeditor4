@@ -507,8 +507,8 @@
 	function addUploadFileButtonToToolbar( editor ) {
 		var hiddenUploadElement;
 		if ( !editor._.easyImageHiddenUploadElement ) {
+			// Element is not attached to DOM, but still it might be `virtually` clicked.
 			hiddenUploadElement = CKEDITOR.dom.element.createFromHtml( '<input data-cke-easyimage-hidden-upload="1" style="display:none;" type="file" accept="image/*" tabindex="-1" multiple="true">' );
-			CKEDITOR.document.getBody().append( hiddenUploadElement );
 
 			hiddenUploadElement.$.addEventListener( 'change', function( evt ) {
 				if ( evt.target.files.length ) {
@@ -559,8 +559,6 @@
 				return;
 			}
 			loadStyles( editor, this );
-
-			addUploadFileButtonToToolbar( editor );
 		},
 
 		// Widget must be registered after init in case that link plugin is dynamically loaded e.g. via
@@ -577,6 +575,7 @@
 			addButtons( editor, styles );
 			addContextMenuItems( editor );
 			addToolbar( editor );
+			addUploadFileButtonToToolbar( editor );
 		}
 	} );
 
