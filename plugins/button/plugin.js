@@ -11,6 +11,7 @@
 		' tabindex="-1"' +
 		' hidefocus="true"' +
 		' role="button"' +
+		'{style}' +
 		' aria-labelledby="{id}_label"' +
 		' aria-describedby="{id}_description"' +
 		' aria-haspopup="{hasArrow}"' +
@@ -31,10 +32,10 @@
 		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
 		( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // https://dev.ckeditor.com/ticket/188
 			'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
-		'<span class="cke_button_icon cke_button__{iconName}_icon" style="{style}"';
+		'{icon}';
 
 
-	template += '>&nbsp;</span>' +
+	template +=
 		'<span id="{id}_label" class="cke_button_label cke_button__{name}_label" aria-hidden="false">{label}</span>' +
 		'<span id="{id}_description" class="cke_button_label" aria-hidden="false">{ariaShortcut}</span>' +
 		'{arrowHtml}' +
@@ -286,7 +287,7 @@
 			} else {
 				iconPath = iconName;
 			}
-
+			var style = CKEDITOR.skin.getIconStyle( iconPath, ( editor.lang.dir == 'rtl' ), overridePath, this.iconOffset );
 			var params = {
 				id: id,
 				name: name,
@@ -294,6 +295,7 @@
 				label: this.label,
 				cls: this.className || '',
 				state: stateName,
+				style: this.style ? ( ' style="' + this.style + '"' ) : '',
 				ariaDisabled: stateName == 'disabled' ? 'true' : 'false',
 				title: this.title + ( shortcut ? ' (' + shortcut.display + ')' : '' ),
 				ariaShortcut: shortcut ? editor.lang.common.keyboardShortcut + ' ' + shortcut.aria : '',
@@ -302,7 +304,8 @@
 				keydownFn: keydownFn,
 				focusFn: focusFn,
 				clickFn: clickFn,
-				style: CKEDITOR.skin.getIconStyle( iconPath, ( editor.lang.dir == 'rtl' ), overridePath, this.iconOffset ),
+				// style: style,
+				icon: ( this.noicon ? '' : '<span class="cke_button_icon cke_button__' + iconName + '_icon" style="' + style + '">&nbsp;</span>' ),
 				arrowHtml: this.hasArrow ? btnArrowTpl.output() : ''
 			};
 
