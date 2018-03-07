@@ -81,7 +81,7 @@ CKEDITOR.editorConfig = function ( config ) {
     'fakeobjects,' +
     'find,' +
     'floatpanel,' +
-    'image,' +
+//    'image,' +
     'indent,' +
     'indentlist,' +
     'justify,' +
@@ -112,8 +112,11 @@ CKEDITOR.editorConfig = function ( config ) {
     'wysiwygarea';
 
   config.extraPlugins =
+    'htmlwriter,' +
+    'sourcedialog,' +
     'a11yfirsthelp,' +
     'a11yheading,' +
+    'a11yimage2,' +
     'a11ylink,' +
     'a11ystylescombo';
 
@@ -166,7 +169,7 @@ CKEDITOR.editorConfig = function ( config ) {
     { name: 'removeformat',   items: [ 'RemoveFormat' ] },
     { name: 'link',           items: [ 'Link', 'Unlink', 'Anchor' ] },
     { name: 'misc2',          items: [ 'Language', 'SpecialChar' ] },
-    { name: 'a11ychecker',    items: [ 'A11ychecker' ] }
+    { name: 'a11ychecker',    items: [ 'A11ychecker', 'Sourcedialog' ] }
   ];
 
 };

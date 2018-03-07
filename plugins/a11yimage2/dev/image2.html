@@ -287,7 +287,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		CKEDITOR.disableAutoInline = true;
 
 		CKEDITOR.replace( 'editor1', {
-			extraPlugins: 'image2',
+			extraPlugins: 'a11yimage2',
 			height: 600,
 			contentsCss: [ '../../../contents.css', 'contents.css' ],
 			extraAllowedContent: 'img[data-foo,data-bar]',
@@ -299,16 +299,16 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		} );
 
 		CKEDITOR.inline( 'editor2', {
-			extraPlugins: 'image2,sourcedialog'
+			extraPlugins: 'a11yimage2,sourcedialog'
 		} );
 
 		CKEDITOR.replace( 'editor3', {
-			extraPlugins: 'image2,divarea',
+			extraPlugins: 'a11yimage2,divarea',
 			height: 600
 		} );
 
 		CKEDITOR.replace( 'editor4', {
-			extraPlugins: 'image2',
+			extraPlugins: 'a11yimage2',
 			image2_alignClasses: [ 'align-left', 'align-center', 'align-right' ],
 			contentsCss: [ '../../../contents.css', 'contents.css' ],
 			height: 600

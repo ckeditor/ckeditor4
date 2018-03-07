@@ -106,7 +106,7 @@
 				} );
 			}
 
-			CKEDITOR.dialog.add( 'image2', this.path + 'dialogs/image2.js' );
+			CKEDITOR.dialog.add( 'a11yimage2', this.path + 'dialogs/image2.js' );
 		},
 
 		afterInit: function( editor ) {
@@ -297,7 +297,7 @@
 			},
 
 			// The name of this widget's dialog.
-			dialog: 'image2',
+			dialog: 'a11yimage2',
 
 			// Template of the widget: plain image.
 			template: template,
@@ -359,7 +359,7 @@
 			},
 
 			init: function() {
-				var helpers = CKEDITOR.plugins.image2,
+				var helpers = CKEDITOR.plugins.a11yimage2,
 					image = this.parts.image,
 					data = {
 						hasCaption: !!this.parts.caption,
@@ -506,7 +506,7 @@
 	 * @class
 	 * @singleton
 	 */
-	CKEDITOR.plugins.image2 = {
+	CKEDITOR.plugins.a11yimage2 = {
 		stateShifter: function( editor ) {
 			// Tag name used for centering non-captioned widgets.
 			var doc = editor.document,
@@ -576,7 +576,7 @@
 						// Create new <figure> from widget template.
 						var figure = CKEDITOR.dom.element.createFromHtml( templateBlock.output( {
 							captionedClass: captionedClass,
-							captionPlaceholder: editor.lang.image2.captionPlaceholder
+							captionPlaceholder: editor.lang.a11yimage2.captionPlaceholder
 						} ), doc );
 
 						// Replace element with <figure>.
@@ -626,7 +626,7 @@
 								newEl = wrapInLink( img, shift.newData.link );
 
 							// Set and remove all attributes associated with this state.
-							var attributes = CKEDITOR.plugins.image2.getLinkAttributesGetter()( editor, newValue );
+							var attributes = CKEDITOR.plugins.a11yimage2.getLinkAttributesGetter()( editor, newValue );
 
 							if ( !CKEDITOR.tools.isEmpty( attributes.set ) )
 								( newEl || link ).setAttributes( attributes.set );
