@@ -75,5 +75,6 @@ CKEDITOR.plugins.setLang( 'a11ylink', 'en', {
 	msgUrlDisplayText: 'For accessibility reasons the URL is considered a poor choice as the Display Text for the link.\n\nAre you sure you want to continue?',
 	msgEmailDisplayText: 'For accessibility reasons the E-Mail Address is considered a poor choice as the Display Text for the link.\n\nAre you sure you want to continue?',
 	msgEmptyDisplayText: 'Please type the Display Text for the link',
-	msgNoAnchors: 'No anchors available in the document'
+	msgNoAnchors: 'No anchors available in the document',
+	msgNoAnchorSelected: 'Please select an anchor for the link'
 } );

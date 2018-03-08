@@ -272,6 +272,9 @@
 										var emailNormalized  = normalizeText(emailValue);
 										var isEmailEmpty     = emailNormalized.length === 0;
 
+										var anchorNameValue = this.getDialog().getContentElement( 'info', 'anchorName' ).getValue();
+										var anchorIdValue	  = this.getDialog().getContentElement( 'info', 'anchorId' ).getValue();
+
 										if (isLinkTypeUrl) {
 												// Test for empty Display Text
 												if (isDisplayTextEmpty) {
@@ -290,6 +293,11 @@
 
 											if (!anchors || anchors.length === 0) {
 												alert(linkLang.msgNoAnchors);
+												return false;
+											}
+
+											if (anchorNameValue === '' && anchorIdValue === '') {
+												alert(linkLang.msgNoAnchorSelected);
 												return false;
 											}
 
