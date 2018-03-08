@@ -7,7 +7,7 @@
 
 	## Expected
 
-	In console we should have information about error with code `cloudservices-no-url`.
+	In console we should have information about error with code `cloudservices-no-token-url`.
 
 1. Click `Test undefinded URL` button.
 
