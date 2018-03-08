@@ -6,7 +6,8 @@
 	var TOKEN_VALUE = 'sample-token-value',
 		TOKEN_URL = '/mock_token_url',
 		UPLOAD_URL = 'cs_url',
-		xhrServer = sinon.fakeServer.create();
+		xhrServer = sinon.fakeServer.create(),
+		incrementalTokenCount = 0;
 
 	bender.editor = {
 		config: {
@@ -24,6 +25,9 @@
 
 		if ( req.url in respMapping ) {
 			req.respond( 200, {}, respMapping[ req.url ] );
+		} else if ( req.url === '/incremental_token' ) {
+			req.respond( 200, {}, TOKEN_VALUE + incrementalTokenCount );
+			incrementalTokenCount += 1;
 		} else {
 			req.respond( 200, {}, 'dummy-response' );
 		}
@@ -35,6 +39,8 @@
 				assert.ignore();
 			}
 			this.cloudservices = CKEDITOR.plugins.cloudservices;
+
+			incrementalTokenCount = 0;
 
 			xhrServer.respond();
 
@@ -67,6 +73,49 @@
 				// Always remove listener.
 				listener.removeListener();
 			}
+		},
+
+		'test the token is fetched from cloudServices_tokenUrl': function() {
+			var botDefinition = {
+					startupData: '<p>foo</p>',
+					name: 'incremental_token',
+					config: {
+						extraPlugins: 'cloudservices',
+						cloudServices_tokenUrl: '/incremental_token',
+						cloudServices_uploadUrl: UPLOAD_URL
+					}
+				};
+
+			CKEDITOR.once( 'instanceCreated', function( evt ) {
+				// Lower the polling rate.
+				evt.editor.CLOUD_SERVICES_TOKEN_INTERVAL = 100;
+			} );
+
+			bender.editorBot.create( botDefinition, function( bot ) {
+				xhrServer.respond();
+				setTimeout( function() {
+					resume( function() {
+						xhrServer.respond();
+
+						var instance = new this.cloudservices.cloudServicesLoader( bot.editor, bender.tools.pngBase64 );
+
+						instance.upload();
+
+						for ( var i = xhrServer.requests.length - 1; i >= 0; i-- ) {
+							var curReq = xhrServer.requests[ i ];
+
+							if ( curReq.method === 'POST' && curReq.url === UPLOAD_URL ) {
+								objectAssert.hasKey( 'Authorization', curReq.requestHeaders, 'Token is included as a header' );
+								assert.isMatching( /sample\-token\-value\d+/, curReq.requestHeaders.Authorization, 'Authorization header' );
+								assert.areNotSame( TOKEN_VALUE + '0', curReq.requestHeaders.Authorization, 'Authorization header value' );
+								break;
+							}
+						}
+					} );
+				}, 250 );
+
+				wait();
+			} );
 		},
 
 		'test loader allows url overriding': function() {
@@ -122,15 +171,14 @@
 		},
 
 		'test no token error': function() {
-			var config = {
-					extraPlugins: 'cloudservices',
-					cloudServices_tokenUrl: '/empty_token',
-					cloudServices_uploadUrl: UPLOAD_URL
-				},
-				botDefinition = {
+			var botDefinition = {
 					startupData: '<p>foo</p>',
 					name: 'empty_token',
-					config: config
+					config: {
+						extraPlugins: 'cloudservices',
+						cloudServices_tokenUrl: '/empty_token',
+						cloudServices_uploadUrl: UPLOAD_URL
+					}
 				},
 				plugin = this.cloudservices;
 
