@@ -5,18 +5,25 @@
 ( function() {
 	var TOKEN_VALUE = 'sample-token-value',
 		TOKEN_URL = '/mock_token_url',
+		UPLOAD_URL = 'cs_url',
 		xhrServer = sinon.fakeServer.create();
 
 	bender.editor = {
 		config: {
-			cloudServices_uploadUrl: 'cs_url',
+			cloudServices_uploadUrl: UPLOAD_URL,
 			cloudServices_tokenUrl: TOKEN_URL
 		}
 	};
 
 	xhrServer.respondWith( function( req ) {
-		if ( req.url === TOKEN_URL ) {
-			req.respond( 200, {}, TOKEN_VALUE );
+		var respMapping = {
+			'/empty_token': ''
+		};
+
+		respMapping[ TOKEN_URL ] = TOKEN_VALUE;
+
+		if ( req.url in respMapping ) {
+			req.respond( 200, {}, respMapping[ req.url ] );
 		} else {
 			req.respond( 200, {}, 'dummy-response' );
 		}
@@ -31,8 +38,7 @@
 
 			xhrServer.respond();
 
-			this.editor.config.cloudServices_token = 'cs_token';
-			this.editor.config.cloudServices_uploadUrl = 'cs_url';
+			this.editor.config.cloudServices_uploadUrl = UPLOAD_URL;
 		},
 
 		'test plugin exposes loader': function() {
@@ -48,7 +54,7 @@
 				instance.upload();
 
 				// Make sure that configured URL has been requested.
-				sinon.assert.calledWithExactly( instance.xhr.open, 'POST', 'cs_url', true );
+				sinon.assert.calledWithExactly( instance.xhr.open, 'POST', UPLOAD_URL, true );
 
 				// Make sure that proper header has been added.
 				sinon.assert.calledWithExactly( instance.xhr.setRequestHeader, 'Authorization', TOKEN_VALUE );
@@ -102,6 +108,7 @@
 				listener.removeListener();
 			}
 		},
+
 		'test no URL error': function() {
 			var instance = new this.cloudservices.cloudServicesLoader( this.editor, bender.tools.pngBase64, null, 'different_token' ),
 				listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
@@ -112,6 +119,34 @@
 			} );
 			instance.upload();
 			listener.removeListener();
+		},
+
+		'test no TOKEN error': function() {
+			var config = {
+					extraPlugins: 'cloudservices',
+					cloudServices_tokenUrl: '/empty_token',
+					cloudServices_uploadUrl: UPLOAD_URL
+				},
+				botDefinition = {
+					startupData: '<p>foo</p>',
+					name: 'empty_token',
+					config: config
+				},
+				plugin = this.cloudservices;
+
+			bender.editorBot.create( botDefinition, function( bot ) {
+				xhrServer.respond();
+
+				var instance = new plugin.cloudServicesLoader( bot.editor, bender.tools.pngBase64 ),
+					listener = CKEDITOR.once( 'log', function( evt ) {
+						evt.cancel();
+						assert.areEqual( 'cloudservices-no-token', evt.data.errorCode, 'There should be TOKEN error log.' );
+					} );
+
+				instance.upload();
+
+				listener.removeListener();
+			} );
 		},
 
 		// Common fileUploadRequest listener reused by tests.
