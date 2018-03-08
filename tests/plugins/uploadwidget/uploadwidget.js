@@ -156,6 +156,7 @@
 			} );
 		},
 
+		// (#1454)
 		'test abort': function() {
 			var bot = this.editorBot,
 				editor = bot.editor;
@@ -170,12 +171,18 @@
 				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
 				var loader = editor.uploadRepository.loaders[ 0 ];
+
+				// Remove widget from the DOM.
+				editor.widgets.destroyAll();
+				editor.editable().findOne( '[data-cke-upload-id="' + loader.id + '"]' ).remove();
+
 				loader.changeStatus( 'abort' );
 
 				assert.isTrue( stub.calledOnce );
 			} );
 		},
 
+		// (#1454)
 		'test abort can be called only once': function() {
 			var bot = this.editorBot,
 				editor = bot.editor;
@@ -190,6 +197,10 @@
 				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
 				var loader = editor.uploadRepository.loaders[ 0 ];
+
+				// Remove widget from the DOM.
+				editor.widgets.destroyAll();
+				editor.editable().findOne( '[data-cke-upload-id="' + loader.id + '"]' ).remove();
 
 				loader.changeStatus( 'abort' );
 				loader.changeStatus( 'abort' );
