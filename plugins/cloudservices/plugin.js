@@ -91,13 +91,13 @@
 					},
 
 					init: function() {
-						tokenFetcher.refreshToken();
+						this.refreshToken();
 
-						var that = this;
+						var intervalId = window.setInterval( this.refreshToken, this.REFRESH_INTERVAL );
 
-						window.setInterval( function() {
-							that.refreshToken();
-						}, that.REFRESH_INTERVAL );
+						editor.once( 'destroy', function() {
+							window.clearInterval( intervalId );
+						} );
 					}
 				};
 

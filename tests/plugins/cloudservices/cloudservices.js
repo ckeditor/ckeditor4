@@ -118,6 +118,49 @@
 			} );
 		},
 
+		'test destroying the editor stops CS token querying': function() {
+			var customizedTokenUrl = TOKEN_URL + '/editor_to_be_removed',
+				botDefinition = {
+					startupData: '<p>foo</p>',
+					name: 'editor_to_be_removed',
+					config: {
+						extraPlugins: 'cloudservices',
+						cloudServices_tokenUrl: customizedTokenUrl,
+						cloudServices_uploadUrl: UPLOAD_URL
+					}
+				};
+
+			function getActiveTokenUrlCount() {
+				return CKEDITOR.tools.array.filter( xhrServer.requests, function( req ) {
+					return req.url === customizedTokenUrl;
+				} ).length;
+			}
+
+			CKEDITOR.once( 'instanceCreated', function( evt ) {
+				// Lower the polling rate.
+				evt.editor.CLOUD_SERVICES_TOKEN_INTERVAL = 100;
+			} );
+
+			bender.editorBot.create( botDefinition, function( bot ) {
+				xhrServer.respond();
+
+				// Store initial count of token calls.
+				var initialCount = getActiveTokenUrlCount();
+
+				bot.editor.destroy();
+
+				// Wait a bit after the editor was destroyed.
+				setTimeout( function() {
+					resume( function() {
+						xhrServer.respond();
+						assert.areSame( initialCount, getActiveTokenUrlCount(), 'Token requests count does not increase' );
+					} );
+				}, 250 );
+
+				wait();
+			} );
+		},
+
 		'test loader allows url overriding': function() {
 			var instance = new this.cloudservices.cloudServicesLoader( this.editor, bender.tools.pngBase64 ),
 				// Stub loader.xhr methods before it's actually called.
