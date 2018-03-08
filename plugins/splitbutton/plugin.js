@@ -70,28 +70,22 @@ CKEDITOR.plugins.add( 'splitbutton', {
 						editor.execCommand( this.command );
 					};
 
-					editor.getCommand( item.command ).on( 'state',
-						// (
-						// 	function() {
-						// return
-								function() {
-							var activeButton = getLastActiveCommands( allItems, item ),
-								previousId = previousButton && buttons[ previousButton.id ]._.id;
+					editor.getCommand( item.command ).on( 'state', function() {
+						var activeButton = getLastActiveCommands( allItems, item ),
+							previousId = previousButton && buttons[ previousButton.id ]._.id;
 
-							if ( previousId ) {
-								CKEDITOR.document.getById( previousId ).setStyle( 'display', 'none' );
-							}
-
-							if ( activeButton ) {
-								CKEDITOR.document.getById( buttons[ activeButton.id ]._.id ).removeStyle( 'display' );
-								previousButton = activeButton;
-							} else {
-								CKEDITOR.document.getById( buttons[ defaultButton.id ]._.id ).removeStyle( 'display' );
-								previousButton = defaultButton;
-							}
+						if ( previousId ) {
+							CKEDITOR.document.getById( previousId ).setStyle( 'display', 'none' );
 						}
-					// } )()
-					);
+
+						if ( activeButton ) {
+							CKEDITOR.document.getById( buttons[ activeButton.id ]._.id ).removeStyle( 'display' );
+							previousButton = activeButton;
+						} else {
+							CKEDITOR.document.getById( buttons[ defaultButton.id ]._.id ).removeStyle( 'display' );
+							previousButton = defaultButton;
+						}
+					} );
 
 					items[ item.id ] = item;
 					buttons[ item.id ] = new CKEDITOR.ui.button( item );
@@ -109,26 +103,12 @@ CKEDITOR.plugins.add( 'splitbutton', {
 					}
 				}
 
-				// TODO add allowedContent and requiredContent from each command to ACF manually.
-				// TODO there might be problem with refresh so split button should manually refresh commands.
-				// TODO See #678.
-				// // Registers command.
-				// editor.addCommand( 'justifysplit', {
-				// 	contextSensitive: true,
-				// 	refresh: function( editor, path ) {
-				// 		for ( var prop in items ) {
-				// 			editor.getCommand( 'justifyright' ).refresh( editor, path );
-				// 		}
-				// 	}
-				// } );
-
 				if ( !definition.onMenu ) {
 					definition.onMenu = function() {
 						var activeItems = {};
 						for ( var i in items ) {
 							activeItems[ i ] = ( editor.getCommand( items[ i ].command ).state === CKEDITOR.TRISTATE_ON ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
 						}
-
 						return activeItems;
 					};
 				}
