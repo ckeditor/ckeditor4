@@ -6,6 +6,7 @@
 2. Check if plugins loaded correctly with an editor.
 
 ## Expected
+
 Toolbar and basicstyles plugins has been loaded. There are no console errors.
 
 ## Unexpected
