@@ -60,8 +60,6 @@ CKEDITOR.plugins.add( 'splitbutton', {
 					}
 					item.order = groups[ item.group ];
 
-
-
 					if ( !item.id ) {
 						item.id = item.command + item.order;
 					}
@@ -72,37 +70,42 @@ CKEDITOR.plugins.add( 'splitbutton', {
 						editor.execCommand( this.command );
 					};
 
-					editor.getCommand( item.command ).on( 'state', ( function() {
-						var currentItem = item;
-						return function() {
-							var activeItem = getLastActiveCommands( allItems, currentItem ),
+					editor.getCommand( item.command ).on( 'state',
+						// (
+						// 	function() {
+						// return
+								function() {
+							var activeButton = getLastActiveCommands( allItems, item ),
 								previousId = previousButton && buttons[ previousButton.id ]._.id;
 
 							if ( previousId ) {
 								CKEDITOR.document.getById( previousId ).setStyle( 'display', 'none' );
 							}
 
-							if ( activeItem ) {
-								CKEDITOR.document.getById( buttons[ activeItem.id ]._.id ).removeStyle( 'display' );
-								previousButton = activeItem;
+							if ( activeButton ) {
+								CKEDITOR.document.getById( buttons[ activeButton.id ]._.id ).removeStyle( 'display' );
+								previousButton = activeButton;
 							} else {
 								CKEDITOR.document.getById( buttons[ defaultButton.id ]._.id ).removeStyle( 'display' );
 								previousButton = defaultButton;
 							}
-						};
-					} )() );
+						}
+					// } )()
+					);
 
 					items[ item.id ] = item;
 					buttons[ item.id ] = new CKEDITOR.ui.button( item );
-					// First button becames default one unless it will be overwritten by real default button.
+
+					// First button as default. It might be overwritten by actual default button.
 					if ( !defaultButton ) {
-						defaultButton = buttons[ item.id ];
-					}
-					if ( item[ 'default' ] ) {
 						previousButton = buttons[ item.id ];
 						defaultButton = buttons[ item.id ];
 					} else {
-						buttons[ item.id ].style = 'display: none;';
+						if ( item[ 'default' ] ) {
+							defaultButton = buttons[ item.id ];
+						} else {
+							buttons[ item.id ].style = 'display: none;';
+						}
 					}
 				}
 
