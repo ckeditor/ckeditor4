@@ -17,6 +17,16 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     h1 {
       font-weight: normal;
     }
+
+    button {
+      border-color: rgb(188,188,188);
+      border-radius: 2px;
+      background-color: rgb(248,248,248);
+      color: rgb(72,72,72);
+      font-size: 105%;
+      padding: 0.125em 0.75em;
+      margin-bottom: 0.5em;
+    }
   </style>
 
 
@@ -26,34 +36,23 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
       var contentNode = document.getElementById('content');
       var editorNode  = document.getElementById('editor');
+      var buttonNode  = document.getElementById('editor-button');
 
-      CKEDITOR.instances.editor.setData(contentNode.innerHTML);
-
-      document.getElementById('editor-save').removeAttribute('hidden');
-      document.getElementById('editor-edit').setAttribute('hidden', '');
-
-      editorNode.parentNode.parentNode.parentNode.removeAttribute('hidden');
-      contentNode.setAttribute('hidden', '');
-
-
-    }
-
-    function save() {
-
-      var contentNode = document.getElementById('content');
-      var editorNode  = document.getElementById('editor');
-
-      var data = CKEDITOR.instances.editor.getData();
-
-      contentNode.innerHTML = data;
-
-      document.getElementById('editor-save').setAttribute('hidden', '');
-      document.getElementById('editor-edit').removeAttribute('hidden');
-
-      editorNode.parentNode.parentNode.parentNode.setAttribute('hidden', '');
-      contentNode.removeAttribute('hidden');
+      if (buttonNode.textContent === 'Edit') {
+        buttonNode.textContent = 'Save';
+        CKEDITOR.instances.editor.setData(contentNode.innerHTML);
+        editorNode.parentNode.parentNode.parentNode.removeAttribute('hidden');
+        contentNode.setAttribute('hidden', '');
+      }
+      else {
+        buttonNode.textContent = 'Edit';
+        contentNode.innerHTML = CKEDITOR.instances.editor.getData();
+        editorNode.parentNode.parentNode.parentNode.setAttribute('hidden', '');
+        contentNode.removeAttribute('hidden');
+      }
 
     }
+
 
   </script>
 </head>
@@ -65,8 +64,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   <main>
   <h1>A11yFirst Plugins Demo</h1>
 
-    <button id="editor-edit" onclick="edit('content', 'editor')">Edit</button>
-    <button id="editor-save" onclick="save('content', 'editor')" hidden>Save</button>
+    <button id="editor-button" onclick="edit()" class="cke_dialog_ui_button">Edit</button>
 
     <div id="content">
             <h1>Document Title</h1>
@@ -110,7 +108,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
             <p>Varius consectetuer, convallis turpis vitae. Pede dui, morbi non, praesent ipsum. Turpis dolor malesuada. Metus.</p>
     </div>
 
-    <div class="adjoined-bottom" hidden>
+    <div class="adjoined-bottom" hidden style="margin-top: 1em">
       <div class="grid-container">
         <div class="grid-width-100">
           <div id="editor">
