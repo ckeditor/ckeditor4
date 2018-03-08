@@ -1,0 +1,69 @@
+<textarea id="editor1" cols="30" rows="10">
+<p>Lorem <strong>ipsum</strong> dolor sit amet, <em>consectetur</em> adipiscing elit, <u>sed</u> do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo <u><strong>consequat</strong></u>. Duis aute irure dolor in <strong>reprehenderit</strong> in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit <sub>amet</sub>, consectetur adipiscing elit, sed do eiusmod tempor <sub><s>incididunt</s></sub> ut labore et dolore <strong>magna</strong> aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+</textarea>
+<script>
+	// Currently balloon toolbar is not integrated with old IE browsers.
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+		bender.ignore();
+	}
+	CKEDITOR.plugins.add( 'teststylesplit', {
+		init: function( editor ) {
+
+			var lang = editor.lang.basicstyles;
+			editor.ui.add( 'teststylesplit', CKEDITOR.UI_SPLITBUTTON, {
+				label: 'Basic Styles',
+				items: [ {
+					label: lang.bold,
+					command: 'bold',
+					icon: 'bold',
+					'default': true
+				}, {
+					label: lang.italic,
+					command: 'italic',
+					icon: 'italic'
+				}, {
+					label: lang.underline,
+					command: 'underline',
+					icon: 'underline'
+				}, {
+					label: lang.strike,
+					command: 'strike',
+					icon: 'strike'
+				}, {
+					label: lang.subscript,
+					command: 'subscript',
+					icon: 'subscript'
+				}, {
+					label: lang.superscript,
+					command: 'superscript',
+					icon: 'superscript'
+				} ]
+			} );
+		}
+	} );
+
+	function instanceReadyListener( evt ) {
+		var panel = new CKEDITOR.ui.balloonToolbar( this, {
+				width: 'auto',
+				height: 40
+			} );
+
+		panel.addItems( {
+			basicStyles: evt.editor.ui.create( 'teststylesplit' )
+		} );
+
+		panel.attach( this.editable() );
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'balloonpanel,language,stylescombo,teststylesplit',
+		height: 300,
+		width: 600,
+		// Lets focus on balloontoolbar only.
+		toolbarCanCollapse: true,
+		toolbarStartupExpanded: false,
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+</script>
