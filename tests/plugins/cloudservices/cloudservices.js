@@ -23,6 +23,13 @@
 
 		respMapping[ TOKEN_URL ] = TOKEN_VALUE;
 
+		respMapping[ UPLOAD_URL ] = JSON.stringify( {
+			200: 'https://foo/bar.jpg/w_200',
+			400: 'https://foo/bar.jpg/w_400',
+			600: 'https://foo/bar.jpg/w_600',
+			'default': 'https://foo/bar.jpg'
+		} );
+
 		if ( req.url in respMapping ) {
 			req.respond( 200, {}, respMapping[ req.url ] );
 		} else if ( req.url === '/incremental_token' ) {
@@ -254,6 +261,8 @@
 					if ( evt.data.errorCode === 'cloudservices-no-token-url' ) {
 						tokenUrlErrors += 1;
 					}
+
+					evt.cancel();
 				} );
 
 			bender.editorBot.create( botDefinition, function() {
