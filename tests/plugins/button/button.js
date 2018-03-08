@@ -22,7 +22,7 @@ bender.editor = {
 
 				ed.ui.addButton( 'custom_style_btn', {
 					label: 'button with custom style',
-					style: 'background: red'
+					style: 'background-color: red'
 				} );
 
 				ed.ui.addButton( 'iconless_btn', {
@@ -58,7 +58,7 @@ bender.test( {
 	'test button inline style': function() {
 		var btn = this.editor.ui.get( 'custom_style_btn' ),
 			btnEl = CKEDITOR.document.getById( btn._.id );
-		assert.isTrue( btnEl.getStyle( 'background' ) === 'red' );
+		assert.isTrue( btnEl.getStyle( 'background-color' ) === 'red' );
 	},
 
 	// (#1679)
