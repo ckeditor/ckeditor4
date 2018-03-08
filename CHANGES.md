@@ -1,6 +1,12 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEDITOR 4.10
+
+New Features:
+
+* [#1703](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduced Mentions plugin providing autocompletition feature for usernames.
+
 ## CKEditor 4.9
 
 New Features:
