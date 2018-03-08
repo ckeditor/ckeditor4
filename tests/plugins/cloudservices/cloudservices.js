@@ -121,7 +121,7 @@
 			listener.removeListener();
 		},
 
-		'test no TOKEN error': function() {
+		'test no token error': function() {
 			var config = {
 					extraPlugins: 'cloudservices',
 					cloudServices_tokenUrl: '/empty_token',
@@ -146,6 +146,29 @@
 				instance.upload();
 
 				listener.removeListener();
+			} );
+		},
+
+		'test no token URL error': function() {
+			var botDefinition = {
+					startupData: '<p>foo</p>',
+					name: 'no_token_url',
+					config: {
+						extraPlugins: 'cloudservices',
+						cloudServices_uploadUrl: UPLOAD_URL
+					}
+				},
+				tokenUrlErrors = 0,
+				listener = CKEDITOR.on( 'log', function( evt ) {
+					if ( evt.data.errorCode === 'cloudservices-no-token-url' ) {
+						tokenUrlErrors += 1;
+					}
+				} );
+
+			bender.editorBot.create( botDefinition, function() {
+				listener.removeListener();
+
+				assert.areSame( 1, tokenUrlErrors, 'URL errors logged' );
 			} );
 		},
 
