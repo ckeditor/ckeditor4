@@ -5,10 +5,11 @@ var customCls = 'my_btn';
 
 bender.editor = {
 	config: {
-		toolbar: [ [ 'custom_btn', 'expandable_btn' ] ],
+		toolbar: [ [ 'custom_btn', 'expandable_btn', 'custom_style_btn', 'iconless_btn' ] ],
 		on: {
 			pluginsLoaded: function( evt ) {
 				var ed = evt.editor;
+
 				ed.ui.addButton( 'custom_btn', {
 					label: 'button with custom class',
 					className: customCls
@@ -17,6 +18,16 @@ bender.editor = {
 				ed.ui.addButton( 'expandable_btn', {
 					label: 'expandable button',
 					hasArrow: true
+				} );
+
+				ed.ui.addButton( 'custom_style_btn', {
+					label: 'button with custom style',
+					style: 'background: red'
+				} );
+
+				ed.ui.addButton( 'iconless_btn', {
+					label: 'button without icon',
+					noicon: true
 				} );
 			}
 		}
@@ -41,5 +52,19 @@ bender.test( {
 		btnEl = CKEDITOR.document.getById( btn._.id );
 
 		assert.isTrue( btnEl.hasClass( 'cke_button_expandable' ), 'check ui item expandable class name' );
+	},
+
+	// (#1679)
+	'test button inline style': function() {
+		var btn = this.editor.ui.get( 'custom_style_btn' ),
+			btnEl = CKEDITOR.document.getById( btn._.id );
+		assert.isTrue( btnEl.getStyle( 'background' ) === 'red' );
+	},
+
+	// (#1679)
+	'test button iconless': function() {
+		var btn = this.editor.ui.get( 'iconless_btn' ),
+			btnEl = CKEDITOR.document.getById( btn._.id );
+		assert.isNull( btnEl.findOne( '.cke_button_icon' ) );
 	}
 } );
