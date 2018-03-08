@@ -56,7 +56,7 @@
 				url = url || this.editor.config.cloudServices_uploadUrl;
 
 				if ( !url ) {
-					CKEDITOR.error( 'cloudservices-no-url' );
+					CKEDITOR.error( 'cloudservices-no-upload-url' );
 					return;
 				}
 

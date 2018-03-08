@@ -214,7 +214,7 @@
 			this.editor.config.cloudServices_uploadUrl = undefined;
 			CKEDITOR.once( 'log', function( evt ) {
 				evt.cancel();
-				assert.areEqual( 'cloudservices-no-url', evt.data.errorCode, 'There should be URL error log.' );
+				assert.areEqual( 'cloudservices-no-upload-url', evt.data.errorCode, 'There should be URL error log.' );
 			} );
 			instance.upload();
 			listener.removeListener();

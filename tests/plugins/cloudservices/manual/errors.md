@@ -13,7 +13,7 @@
 
 	## Expected
 
-	In console we should have information about error with code `cloudservices-no-url`.
+	In console we should have information about error with code `cloudservices-no-upload-url`.
 
 1. Click `Test undefinded TOKEN` button.
 
