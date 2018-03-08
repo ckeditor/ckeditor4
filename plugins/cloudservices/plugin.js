@@ -7,7 +7,7 @@
 	'use strict';
 
 	CKEDITOR.plugins.add( 'cloudservices', {
-		requires: 'filetools',
+		requires: 'filetools,ajax',
 		onLoad: function() {
 			var FileLoader = CKEDITOR.fileTools.fileLoader;
 
@@ -30,7 +30,7 @@
 			 * If not set and the second parameter is a Base64 data string, then the file name will be created based on
 			 * the {@link CKEDITOR.config#fileTools_defaultFileName} option.
 			 * @param {String} [token] A token used for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services/) request.
-			 * If skipped, {@link CKEDITOR.config#cloudServices_token} will be used.
+			 * If skipped, {@link CKEDITOR.config#cloudServices_tokenUrl} will be used to request a token.
 			 */
 			function CloudServicesLoader( editor, fileOrData, fileName, token ) {
 				FileLoader.call( this, editor, fileOrData, fileName );
@@ -48,15 +48,15 @@
 
 			/**
 			 * @inheritdoc
-			 * @param {String} [url] The upload URL. If not provided, {@link CKEDITOR.config#cloudServices_url} will be used.
+			 * @param {String} [url] The upload URL. If not provided, {@link CKEDITOR.config#cloudServices_uploadUrl} will be used.
 			 * @param {Object} [additionalRequestParameters] Additional data that would be passed to the
 			 * {@link CKEDITOR.editor#fileUploadRequest} event.
 			 */
 			CloudServicesLoader.prototype.upload = function( url, additionalRequestParameters ) {
-				url = url || this.editor.config.cloudServices_url;
+				url = url || this.editor.config.cloudServices_uploadUrl;
 
 				if ( !url ) {
-					CKEDITOR.error( 'cloudservices-no-url' );
+					CKEDITOR.error( 'cloudservices-no-upload-url' );
 					return;
 				}
 
@@ -66,7 +66,7 @@
 			/**
 			 * @method loadAndUpload
 			 * @inheritdoc
-			 * @param {String} [url] The upload URL. If not provided, {@link CKEDITOR.config#cloudServices_url} will be used.
+			 * @param {String} [url] The upload URL. If not provided, {@link CKEDITOR.config#cloudServices_uploadUrl} will be used.
 			 * @param {Object} [additionalRequestParameters] Additional parameters that would be passed to
 			 * the {@link CKEDITOR.editor#fileUploadRequest} event.
 			*/
@@ -75,22 +75,55 @@
 		},
 
 		beforeInit: function( editor ) {
+			var tokenUrl = editor.config.cloudServices_tokenUrl,
+				tokenFetcher = {
+					token: null,
+
+					// Allow external code (tests) to affect token refresh interval if needed.
+					REFRESH_INTERVAL: editor.CLOUD_SERVICES_TOKEN_INTERVAL || 3600000,
+
+					refreshToken: function() {
+						CKEDITOR.ajax.load( tokenUrl, function( token ) {
+							if ( token ) {
+								tokenFetcher.token = token;
+							}
+						} );
+					},
+
+					init: function() {
+						this.refreshToken();
+
+						var intervalId = window.setInterval( this.refreshToken, this.REFRESH_INTERVAL );
+
+						editor.once( 'destroy', function() {
+							window.clearInterval( intervalId );
+						} );
+					}
+				};
+
+			if ( !tokenUrl ) {
+				CKEDITOR.error( 'cloudservices-no-token-url' );
+			} else {
+				tokenFetcher.init();
+			}
+
 			editor.on( 'fileUploadRequest', function( evt ) {
 				var fileLoader = evt.data.fileLoader,
-					reqData = evt.data.requestData;
+					reqData = evt.data.requestData,
+					token = fileLoader.customToken || tokenFetcher.token;
 
 				if ( fileLoader instanceof CKEDITOR.plugins.cloudservices.cloudServicesLoader ) {
 					// Cloud Services expect file to be put as a "file" property.
 					reqData.file = reqData.upload;
 					delete reqData.upload;
 
-					if ( !( fileLoader.customToken || editor.config.cloudServices_token ) ) {
+					if ( !token ) {
 						CKEDITOR.error( 'cloudservices-no-token' );
 						evt.cancel();
 						return;
 					}
 					// Add authorization token.
-					evt.data.fileLoader.xhr.setRequestHeader( 'Authorization', fileLoader.customToken || editor.config.cloudServices_token );
+					evt.data.fileLoader.xhr.setRequestHeader( 'Authorization', token );
 				}
 			}, null, null, 6 );
 
@@ -122,16 +155,33 @@
 	/**
 	 * The endpoint URL for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services) uploads.
 	 *
+	 * ```js
+	 *	CKEDITOR.replace( 'editor', {
+	 *		extraPlugins: 'easyimage',
+	 *		cloudServices_tokenUrl: 'https://example.com/cs-token-endpoint',
+	 *		cloudServices_uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/'
+	 *	} );
+	 *  ```
+	 *
 	 * @since 4.9.0
-	 * @cfg {String} [cloudServices_url='']
+	 * @cfg {String} [cloudServices_uploadUrl='']
 	 * @member CKEDITOR.config
 	 */
 
 	/**
-	 * The token used for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services) authentication.
+	 * The authentication token URL for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services). The token is used to authenticate
+	 * all plugins using Cloud Services, for instance Easy Image. The token URL has to point to the service where the token is generated.
+	 *
+	 * ```js
+	 *	CKEDITOR.replace( 'editor', {
+	 *		extraPlugins: 'easyimage',
+	 *		cloudServices_tokenUrl: 'https://example.com/cs-token-endpoint',
+	 *		cloudServices_uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/'
+	 *	} );
+	 *  ```
 	 *
 	 * @since 4.9.0
-	 * @cfg {String} [cloudServices_token='']
+	 * @cfg {String} [cloudServices_tokenUrl='']
 	 * @member CKEDITOR.config
 	 */
 } )();

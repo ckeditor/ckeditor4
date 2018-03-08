@@ -1,3 +1,5 @@
+<p>Note, this test uses a real Cloud Service connection, so you might want to be on-line 😉.</p>
+
 <h2>Classic editor</h2>
 
 <div id="classic">
@@ -28,20 +30,9 @@
 	}
 	var IMG_URL = '%BASE_PATH%_assets/logo.png',
 		commonConfig = {
-			cloudServices_url: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
-			cloudServices_token: 'dummy-token'
+			cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+			cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL
 		};
-
-	window.XMLHttpRequest.responseData = {
-		100: IMG_URL,
-		200: IMG_URL,
-		'default': IMG_URL,
-		// Unset properties set by the generic XHR mock implementation.
-		fileName: undefined,
-		uploaded: undefined,
-		url: undefined,
-		error: undefined
-	};
 
 	CKEDITOR.replace( 'classic', commonConfig );
 	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( {
