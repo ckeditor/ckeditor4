@@ -208,7 +208,7 @@
 			}
 		},
 
-		'test no URL error': function() {
+		'test no upload URL error': function() {
 			var instance = new this.cloudservices.cloudServicesLoader( this.editor, bender.tools.pngBase64, null, 'different_token' ),
 				listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
 			this.editor.config.cloudServices_uploadUrl = undefined;
