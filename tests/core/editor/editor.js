@@ -377,5 +377,31 @@ bender.test( {
 		assert.areSame( 'foo', insertHtml.firstCall.args[ 0 ], 'insertHtml dataValue' );
 		assert.areSame( 'html', insertHtml.firstCall.args[ 1 ], 'insertHtml mode' );
 		assert.areSame( range, insertHtml.firstCall.args[ 2 ], 'insertHtml range' );
+	},
+
+	'test extraPlugins allows whitespaces': function() {
+		bender.editorBot.create( { name: 'editor_extraplugins', config: { extraPlugins: 'basicstyles, image2, toolbar ' } }, function( bot ) {
+			var editor = bot.editor,
+				plugins = CKEDITOR.tools.objectKeys( editor.plugins );
+
+			assert.isTrue( contains( plugins, 'basicstyles' ) );
+			assert.isTrue( contains( plugins, 'image2' ) );
+			assert.isTrue( contains( plugins, 'toolbar' ) );
+		} );
+	},
+
+	'test removePlugins allows whitespaces': function() {
+		bender.editorBot.create( { name: 'editor_removePlugins', config: { extraPlugins: 'basicstyles,image2,toolbar', removePlugins: 'basicstyles, image2, toolbar ' } }, function( bot ) {
+			var editor = bot.editor,
+				plugins = CKEDITOR.tools.objectKeys( editor.plugins );
+
+			assert.isFalse( contains( plugins, 'basicstyles' ) );
+			assert.isFalse( contains( plugins, 'image2' ) );
+			assert.isFalse( contains( plugins, 'toolbar' ) );
+		} );
 	}
 } );
+
+function contains( array, value ) {
+	return Boolean( ~array.indexOf( value ) );
+}
