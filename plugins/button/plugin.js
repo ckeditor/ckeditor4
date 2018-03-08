@@ -304,7 +304,6 @@
 				keydownFn: keydownFn,
 				focusFn: focusFn,
 				clickFn: clickFn,
-				// style: style,
 				icon: ( this.noicon ? '' : '<span class="cke_button_icon cke_button__' + iconName + '_icon" style="' + style + '">&nbsp;</span>' ),
 				arrowHtml: this.hasArrow ? btnArrowTpl.output() : ''
 			};
