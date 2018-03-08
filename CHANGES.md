@@ -19,6 +19,7 @@ Fixed Issues:
 API Changes:
 
 * [#1582](https://github.com/ckeditor/ckeditor-dev/issues/1582): The [`CKEDITOR.editor.addCommand`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#method-addCommand) can accept [`CKEDITOR.command`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_command.html) instance as parameter.
+* [#1712](https://github.com/ckeditor/ckeditor-dev/issues/1712): [extraPlugins](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-extraPlugins) and [removePlugins](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removePlugins) configuration options allows for whitespaces.
 
 ## CKEditor 4.9.1
 
