@@ -121,6 +121,10 @@
 		 */
 		addFillers: function( editable ) {
 			var editor = editable.editor;
+			
+			if (!editor.focusManager.hasFocus) {
+    			return false;
+			}
 
 			// Whole content should be selected, if not fix the selection manually.
 			if ( !this.isWholeContentSelected( editable ) && editable.getChildCount() > 0 ) {
