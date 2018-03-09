@@ -125,52 +125,89 @@
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) );
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 9 } ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) ); // ARROW DOWN
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 9 } ) ); // TAB
 
 			assert.areEqual( '<p>item1</p>', editor.getData() );
 
 			ac.destroy();
 		},
 
-		'test custom key inserts match': function() {
+		'test custom single key inserts match': function() {
 			var editor = this.editor, bot = this.editorBot, editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( this.editor, matchTestCallback, dataCallback );
 
 			bot.setHtmlWithSelection( '' );
 
-			ac.completingKeyCodes.push( 16 );
+			ac.commitKeystroke = 16; // SHIFT
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) );
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 16 } ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) ); // ARROW DOWN
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 16 } ) ); // SHIFT
 
 			assert.areEqual( '<p>item1</p>', editor.getData() );
 
 			ac.destroy();
 		},
 
-		'test custom key inserts match (global configuration)': function() {
+		'test custom keys inserts match': function() {
 			var editor = this.editor, bot = this.editorBot, editable = editor.editable(),
-				configKeyCodes = CKEDITOR.config.autocomplete_completingKeyCodes.slice();
+				ac = new CKEDITOR.plugins.autocomplete( this.editor, matchTestCallback, dataCallback );
 
 			bot.setHtmlWithSelection( '' );
 
-			CKEDITOR.config.autocomplete_completingKeyCodes.push( 16 );
+			ac.commitKeystroke.push( 16 ); // SHIFT
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) ); // ARROW DOWN
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 16 } ) ); // SHIFT
+
+			assert.areEqual( '<p>item1</p>', editor.getData() );
+
+			ac.destroy();
+		},
+
+		'test custom keys inserts match (global configuration)': function() {
+			var editor = this.editor, bot = this.editorBot, editable = editor.editable(),
+				configKeyCodes = CKEDITOR.config.autocomplete_commitKeystroke.slice();
+
+			bot.setHtmlWithSelection( '' );
+
+			CKEDITOR.config.autocomplete_commitKeystroke.push( 16 ); // SHIFT
 
 			var ac = new CKEDITOR.plugins.autocomplete( this.editor, matchTestCallback, dataCallback );
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) );
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 16 } ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) ); // ARROW DOWN
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 16 } ) ); // SHIFT
 
 			assert.areEqual( '<p>item1</p>', editor.getData() );
 
 			ac.destroy();
 
-			CKEDITOR.config.autocomplete_completingKeyCodes = configKeyCodes;
+			CKEDITOR.config.autocomplete_commitKeystroke = configKeyCodes;
+		},
+
+		'test custom single key inserts match (global configuration)': function() {
+			var editor = this.editor, bot = this.editorBot, editable = editor.editable();
+
+			bot.setHtmlWithSelection( '' );
+
+			CKEDITOR.config.autocomplete_commitKeystroke = 16; // SHIFT
+
+			var ac = new CKEDITOR.plugins.autocomplete( this.editor, matchTestCallback, dataCallback );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) ); // ARROW DOWN
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 16 } ) ); // SHIFT
+
+			assert.areEqual( '<p>item1</p>', editor.getData() );
+
+			ac.destroy();
 		},
 
 		'test click inserts match': function() {
