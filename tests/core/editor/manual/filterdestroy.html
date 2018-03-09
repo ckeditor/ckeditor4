@@ -1,0 +1,29 @@
+
+
+<button id="rebuild">Rebuild editor</button>
+<span id="counter"></span>
+<textarea id="editor">
+</textarea>
+<script>
+	var counter = document.getElementById( 'counter' );
+	document.getElementById( 'rebuild' ).addEventListener( 'click', rebuildEditor );
+
+	// Global filter.
+	new CKEDITOR.filter( 'b' );
+
+	rebuildEditor();
+
+	function rebuildEditor() {
+		var currentEditor = CKEDITOR.instances.editor;
+
+		if( currentEditor ) {
+			currentEditor.destroy();
+		}
+
+		var editor = CKEDITOR.replace( 'editor' );
+		new CKEDITOR.filter( 'b', editor );
+		new CKEDITOR.filter( editor );
+
+		counter.innerText = 'Filters count: ' + bender.tools.objToArray( CKEDITOR.filter.instances ).length;
+	}
+</script>
