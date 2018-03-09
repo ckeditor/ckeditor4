@@ -7,7 +7,7 @@
 
 ( function() {
 
-	var template = '<img alt="" src="" />',
+	var template = '<img alt="" src="" title=""/>',
 		templateBlock = new CKEDITOR.template(
 			'<figure class="{captionedClass}">' +
 				template +
@@ -339,7 +339,8 @@
 					// This internal is required by the editor.
 					'data-cke-saved-src': this.data.src,
 
-					alt: this.data.alt
+					alt: this.data.alt,
+					title: this.data.title
 				} );
 
 				// If shifting non-captioned -> captioned, remove classes
@@ -363,9 +364,10 @@
 					image = this.parts.image,
 					data = {
 						hasCaption: !!this.parts.caption,
-						src: image.getAttribute( 'src' ),
-						alt: image.getAttribute( 'alt' ) || '',
-						width: image.getAttribute( 'width' ) || '',
+						src:    image.getAttribute( 'src' ),
+						alt:    image.getAttribute( 'alt' ) || '',
+						title:  image.getAttribute( 'title' ) || '',
+						width:  image.getAttribute( 'width' ) || '',
 						height: image.getAttribute( 'height' ) || '',
 
 						// Lock ratio is on by default (https://dev.ckeditor.com/ticket/10833).
@@ -1537,7 +1539,7 @@
 					match: centerWrapperChecker( editor )
 				},
 				img: {
-					attributes: '!src,alt,width,height'
+					attributes: '!src,alt,title,width,height'
 				},
 				figure: {
 					classes: '!' + editor.config.image2_captionedClass

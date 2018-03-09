@@ -428,7 +428,6 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 									[ lang.typeComplex, 'complex' ]
 								],
 								onChange: function() {
-									console.log('[imageType][onChange]');
 
 									var value = this.getValue();
 
