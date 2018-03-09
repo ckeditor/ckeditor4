@@ -727,29 +727,30 @@
 		 * For example: the position of the bottom end of the caret.
 		 */
 		setPosition: function( rect ) {
-			var window = this.document.getWindow(),
-				panelHeight = this.element.getSize( 'height' ),
-				frame = this.editor.window.getFrame(),
-				editable = this.editor.editable(),
+			var editor = this.editor,
+				viewPanelHeight = this.element.getSize( 'height' ),
+				windowFrame = editor.window.getFrame(),
+				editable = editor.editable(),
 				// Bounding rect where view should fit (visible editor viewport).
-				absoluteRect = editable.isInline() ? editable.getAbsoluteClientRect( this.editor ) : frame.getAbsoluteClientRect( this.editor ),
+				editorViewportRect = editable.isInline() ? editable.getAbsoluteClientRect( editor ) : windowFrame.getAbsoluteClientRect( editor ),
 				// How much space is there for the panel above and below the specified rect.
-				spaceAbove = rect.top - absoluteRect.top,
-				spaceBelow = rect.bottom - absoluteRect.bottom,
+				spaceAbove = rect.top - editorViewportRect.top,
+				spaceBelow = rect.bottom - editorViewportRect.bottom,
 				top;
 
 			// If panel does not fit below the rect and fits above, set it there.
 			// This means that position below the rect is preferred.
-			// Skip changing position above if caret position is not visible in editor viewport.
+			// Skip changing position above if a caret position is not visible an editor viewport.
 			if (
-				panelHeight > spaceBelow &&
-				panelHeight < spaceAbove &&
-				absoluteRect.top < rect.top &&
-				absoluteRect.bottom > rect.bottom
+				viewPanelHeight > spaceBelow &&
+				viewPanelHeight < spaceAbove &&
+				editorViewportRect.top < rect.top &&
+				editorViewportRect.bottom > rect.bottom
 				) {
-				top = rect.top - panelHeight;
+				top = rect.top - viewPanelHeight;
 			} else {
-				top = rect.top < absoluteRect.top ? absoluteRect.top : Math.min( absoluteRect.bottom, rect.bottom );
+				// Keep panel inside editor viewport.
+				top = rect.top < editorViewportRect.top ? editorViewportRect.top : Math.min( editorViewportRect.bottom, rect.bottom );
 			}
 
 			this.element.setStyles( {
