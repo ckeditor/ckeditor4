@@ -10,11 +10,10 @@
 
 When changing scroll position of the editor the view should be placed differently:
 
-- if there is enough space above a caret position and too little space below, the view should be placed above a caret
-- if there is not enough space above a caret position and enough space below, the view should be placed below a caret
-- if there is not enough space above and below a caret, the view should be placed below a caret
+- If there is enough space above a caret position and too little space below, the view should be placed above a caret.
+- If there is enough space below a caret position, the view should be placed below a caret.
+- If there is not enough space above and below a caret, the view should be placed below a caret.
 
 ## Unexpected
 
 The view is not changing its position depending on space below and above a caret.
-

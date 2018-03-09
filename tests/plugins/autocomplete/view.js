@@ -20,7 +20,6 @@
 			var editor = this.editors.classic, view = new CKEDITOR.plugins.autocomplete.view( editor );
 
 			assertViewElement( editor, view.createElement() );
-
 		},
 
 		'test append': function() {
@@ -149,9 +148,9 @@
 		'test set position above inside absolute rect': function() {
 
 			assertPanePosition( this.editors.classic, {
-				rect: { top: 400, bottom: 410, left: 100 },
-				absoluteRect: { top: 0, bottom: 500 },
-				elementHeight: 100,
+				caretRect: { top: 400, bottom: 410, left: 100 },
+				editorViewportRect: { top: 0, bottom: 500 },
+				viewPanelHeight: 100
 			}, function( element ) {
 				assert.areEqual( '300px', element.getStyle( 'top' ) );
 				assert.areEqual( '100px', element.getStyle( 'left' ) );
@@ -161,9 +160,9 @@
 		'test set position below inside absolute rect': function() {
 
 			assertPanePosition( this.editors.classic, {
-				rect: { top: 100, bottom: 110, left: 50 },
-				absoluteRect: { top: 0, bottom: 500 },
-				elementHeight: 100,
+				caretRect: { top: 100, bottom: 110, left: 50 },
+				editorViewportRect: { top: 0, bottom: 500 },
+				viewPanelHeight: 100
 			}, function( element ) {
 				assert.areEqual( '110px', element.getStyle( 'top' ) );
 				assert.areEqual( '50px', element.getStyle( 'left' ) );
@@ -173,9 +172,9 @@
 		'test set position above outside absolute rect': function() {
 
 			assertPanePosition( this.editors.classic, {
-				rect: { top: 400, bottom: 410, left: 100 },
-				absoluteRect: { top: 0, bottom: 300 },
-				elementHeight: 100,
+				caretRect: { top: 400, bottom: 410, left: 100 },
+				editorViewportRect: { top: 0, bottom: 300 },
+				viewPanelHeight: 100
 			}, function( element ) {
 				assert.areEqual( '300px', element.getStyle( 'top' ) );
 				assert.areEqual( '100px', element.getStyle( 'left' ) );
@@ -185,9 +184,9 @@
 		'test set position below outside absolute rect': function() {
 
 			assertPanePosition( this.editors.classic, {
-				rect: { top: 100, bottom: 110, left: 50 },
-				absoluteRect: { top: 200, bottom: 500 },
-				elementHeight: 100,
+				caretRect: { top: 100, bottom: 110, left: 50 },
+				editorViewportRect: { top: 200, bottom: 500 },
+				viewPanelHeight: 100
 			}, function( element ) {
 				assert.areEqual( '200px', element.getStyle( 'top' ) );
 				assert.areEqual( '50px', element.getStyle( 'left' ) );
@@ -214,13 +213,13 @@
 
 	function assertPanePosition( editor, config, callback ) {
 		var view = new CKEDITOR.plugins.autocomplete.view( editor ),
-			elementStub = sinon.stub( CKEDITOR.dom.element.prototype, 'getAbsoluteClientRect' ).returns( config.absoluteRect );
+			elementStub = sinon.stub( CKEDITOR.dom.element.prototype, 'getAbsoluteClientRect' ).returns( config.editorViewportRect );
 
 		view.append();
 
-		sinon.stub( view.element, 'getSize' ).returns( config.elementHeight );
+		sinon.stub( view.element, 'getSize' ).returns( config.viewPanelHeight );
 
-		view.setPosition( config.rect );
+		view.setPosition( config.caretRect );
 
 		callback( view.element );
 
