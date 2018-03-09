@@ -35,5 +35,7 @@
 	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( {
 		extraPlugins: 'divarea'
 	}, commonConfig ) );
-	CKEDITOR.inline( 'inline', commonConfig );
+	CKEDITOR.inline( 'inline', CKEDITOR.tools.extend( {
+		extraPlugins: 'sourcedialog'
+	}, commonConfig ) );
 </script>
