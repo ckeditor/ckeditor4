@@ -160,7 +160,7 @@
 		'test default styles for alignRight': createCustomClassTest( 'AlignRight' ),
 
 		'test balloon toolbar buttons (default settings)': createToolbarTest( 'standard',
-			[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ] ),
+			[ 'EasyImageFull', 'EasyImageSide', 'EasyImageAlt' ] ),
 		'test balloon toolbar buttons (string syntax)': createToolbarTest( 'toolbarString', [ 'Bold', 'Italic' ] ),
 		'test balloon toolbar buttons (array syntax)': createToolbarTest( 'toolbarArray', [ 'Bold', 'Italic' ] ),
 

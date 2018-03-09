@@ -7,7 +7,8 @@
 	'use strict';
 
 	var stylesLoaded = false,
-		WIDGET_NAME = 'easyimage';
+		WIDGET_NAME = 'easyimage',
+		BUTTON_PREFIX = 'EasyImage';
 
 	function capitalize( str ) {
 		return CKEDITOR.tools.capitalize( str, true );
@@ -154,7 +155,7 @@
 
 	function addButtons( editor, styles ) {
 		function addDefaultButtons() {
-			editor.ui.addButton( 'EasyimageAlt', {
+			editor.ui.addButton( BUTTON_PREFIX + 'Alt', {
 				label: editor.lang.easyimage.commands.altText,
 				command: 'easyimageAlt',
 				toolbar: 'easyimage,3'
@@ -165,7 +166,7 @@
 			var style;
 
 			for ( style in styles ) {
-				editor.ui.addButton( 'Easyimage' + capitalize( style ), {
+				editor.ui.addButton( BUTTON_PREFIX + capitalize( style ), {
 					label: styles[ style ].label,
 					command: 'easyimage' + capitalize( style ),
 					toolbar: 'easyimage,99',
@@ -505,7 +506,7 @@
 	}
 
 	function addUploadButtonToToolbar( editor ) {
-		editor.ui.addButton( 'EasyimageUpload', {
+		editor.ui.addButton( BUTTON_PREFIX + 'Upload', {
 			label: editor.lang.common.upload,
 			command: 'easyimageUpload',
 			toolbar: 'insert,1'
@@ -600,9 +601,9 @@
 	 * * `alignCenter` &ndash; Adding an `easyimage-align-center` class to the `figure` element.
 	 * * `alignRight` &ndash; Adding an `easyimage-align-right` class to the `figure` element.
 	 *
-	 * Every style added by this configuration variable will result in adding the `Easyimage<name>` button
+	 * Every style added by this configuration variable will result in adding the `EasyImage<name>` button
 	 * and the `easyimage<name>` command, where `<name>` is the name of the style in Pascal case. For example, the
-	 * `left` style would produce a `EasyimageLeft` button and an `easyimageLeft` command.
+	 * `left` style would produce a `EasyImageLeft` button and an `easyimageLeft` command.
 	 *
 	 *		// Adds a custom alignment style.
 	 *		config.easyimage_styles = {
@@ -674,12 +675,12 @@
 	 *
 	 * ```js
 	 * // Change toolbar to alignment commands.
-	 * config.easyimage_toolbar = [ 'EasyimageAlignLeft', 'EasyimageAlignCenter', 'EasyimageAlignRight' ];
+	 * config.easyimage_toolbar = [ 'EasyImageAlignLeft', 'EasyImageAlignCenter', 'EasyImageAlignRight' ];
 	 * ```
 	 *
 	 * @since 4.9.0
-	 * @cfg {String[]/String} [easyimage_toolbar=[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ]]
+	 * @cfg {String[]/String} [easyimage_toolbar=[ 'EasyImageFull', 'EasyImageSide', 'EasyImageAlt' ]]
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.easyimage_toolbar = [ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ];
+	CKEDITOR.config.easyimage_toolbar = [ BUTTON_PREFIX + 'Full', BUTTON_PREFIX + 'Side', BUTTON_PREFIX + 'Alt' ];
 }() );
