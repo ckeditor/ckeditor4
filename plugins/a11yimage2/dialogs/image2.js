@@ -472,16 +472,32 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 						}
 					},
 					{
-						id: 'alt',
-						type: 'text',
-						label: lang.alt,
-						setup: function( widget ) {
-							this.setValue( widget.data.alt );
-						},
-						commit: function( widget ) {
-							widget.setData( 'alt', this.getValue() );
-						},
-						validate: editor.config.a11yimage2_altRequired === true ? CKEDITOR.dialog.validate.notEmpty( lang.altMissing ) : null
+						type: 'hbox',
+						widths: [ '80%', '20%' ],
+						children: [
+							{
+								id: 'alt',
+								type: 'text',
+								label: lang.alt,
+								setup: function( widget ) {
+									this.setValue( widget.data.alt );
+								},
+								commit: function( widget ) {
+									widget.setData( 'alt', this.getValue() );
+								},
+								validate: editor.config.a11yimage2_altRequired === true ? CKEDITOR.dialog.validate.notEmpty( lang.altMissing ) : null
+							},
+						  {
+						 	  id: 'a11yfirstHelpImage',
+								type: 'button',
+								label: lang.a11yfirstHelp,
+								title: lang.a11yfirstHelpTitle,
+								onClick: function() {
+				          editor.a11yfirst.helpOption = 'ImageHelp';
+				          editor.execCommand('a11yFirstHelpDialog');
+								}
+							}
+						]
 					},
 					{
 						id: 'desc',
