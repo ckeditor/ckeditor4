@@ -504,10 +504,37 @@
 		return !CKEDITOR.env.ie || CKEDITOR.env.version >= 11;
 	}
 
+	function addUploadButtonToToolbar( editor ) {
+		editor.ui.addButton( 'EasyimageUpload', {
+			label: editor.lang.common.upload,
+			command: 'easyimageUpload',
+			toolbar: 'insert,1'
+		} );
+
+		editor.addCommand( 'easyimageUpload', {
+			exec: function() {
+				// hiddenUploadElement is not attached to DOM, but it is still possible to `virtually` click into it.
+				var hiddenUploadElement = CKEDITOR.dom.element.createFromHtml( '<input type="file" accept="image/*" multiple="multiple">' );
+				hiddenUploadElement.once( 'change', function( evt ) {
+					var targetElement = evt.data.getTarget();
+					if ( targetElement.$.files.length ) {
+						// Simulate paste event, to support all nice stuff from imagebase (e.g. loaders) (#1730).
+						editor.fire( 'paste', {
+							method: 'paste',
+							dataValue: '',
+							dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer( { files: targetElement.$.files } )
+						} );
+					}
+				} );
+				hiddenUploadElement.$.click();
+			}
+		} );
+	}
+
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'imagebase,balloontoolbar,button,dialog,cloudservices',
 		lang: 'en',
-		icons: 'easyimagefull,easyimageside,easyimagealt,easyimagealignleft,easyimagealigncenter,easyimagealignright', // %REMOVE_LINE_CORE%
+		icons: 'easyimagefull,easyimageside,easyimagealt,easyimagealignleft,easyimagealigncenter,easyimagealignright,easyimageupload', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		onLoad: function() {
@@ -535,6 +562,7 @@
 			addButtons( editor, styles );
 			addContextMenuItems( editor );
 			addToolbar( editor );
+			addUploadButtonToToolbar( editor );
 		}
 	} );
 
