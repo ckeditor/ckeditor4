@@ -740,12 +740,14 @@
 		 * 			}
 		 * 		} );
 		 *
+		 * Since 4.10.0 this method accepts `CKEDITOR.command` instance as param.
+		 *
 		 * @param {String} commandName The indentifier name of the command.
-		 * @param {CKEDITOR.commandDefinition} commandDefinition The command definition.
+		 * @param {CKEDITOR.commandDefinition/CKEDITOR.command} commandDefinition The command definition or the command instance.
 		 */
 		addCommand: function( commandName, commandDefinition ) {
 			commandDefinition.name = commandName.toLowerCase();
-			var cmd = new CKEDITOR.command( this, commandDefinition );
+			var cmd = commandDefinition instanceof CKEDITOR.command ? commandDefinition : new CKEDITOR.command( this, commandDefinition );
 
 			// Update command when mode is set.
 			// This guarantees that commands added before first editor#mode

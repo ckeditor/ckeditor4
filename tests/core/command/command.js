@@ -302,5 +302,30 @@ bender.test( {
 		editor._.elementsPath.onClick( 0 );
 
 		wait();
+	},
+
+	'test addCommand from command instance': function() {
+		var editor = this.editor,
+			styleDefinition = {
+				element: 'span',
+				attributes: {
+					bar: 'foo'
+				}
+			},
+			style = new CKEDITOR.style( styleDefinition ),
+			commandDefinition = new CKEDITOR.styleCommand( style ),
+			cmd1 = new CKEDITOR.command( editor, commandDefinition );
+
+		// Register command from command instance.
+		editor.addCommand( 'cmd1', cmd1 );
+
+		// Register command from command definition.
+		editor.addCommand( 'cmd2', commandDefinition );
+
+		// Registered command should be same as the command that was passed as definition.
+		assert.areSame( editor.getCommand( 'cmd1' ), cmd1 );
+
+		// Registered command should't be same to another command with same definition.
+		assert.areNotSame( editor.getCommand( 'cmd2' ), cmd1 );
 	}
 } );
