@@ -14,7 +14,7 @@
 					iconHiDpi: 'tests/_assets/sample_icon.hidpi.png'
 				}
 			},
-			easyimage_toolbar: [ 'EasyimageTest' ]
+			easyimage_toolbar: [ 'EasyImageTest' ]
 		};
 
 	bender.test( {
