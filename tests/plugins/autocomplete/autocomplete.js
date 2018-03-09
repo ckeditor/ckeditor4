@@ -24,9 +24,23 @@
 
 			assertViewOpened( ac, true );
 
-			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 27 } ) );
+			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 27 } ) ); // ESC
 
 			assertViewOpened( ac, false );
+
+			ac.destroy();
+		},
+
+		'test autocomplete starts with the first item selected': function() {
+			var editor = this.editor, bot = this.editorBot,
+				ac = new CKEDITOR.plugins.autocomplete( this.editor, matchTestCallback, dataCallback );
+
+			bot.setHtmlWithSelection( '' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			assertViewOpened( ac, true );
+			assert.isTrue( ac.view.getItemById( 1 ).hasClass( 'cke_autocomplete_selected' ) );
 
 			ac.destroy();
 		},
@@ -39,19 +53,20 @@
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			assertViewOpened( ac, true );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) ); // ARROW DOWN
 
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) );
+			assertViewOpened( ac, true );
+			assert.isTrue( ac.view.getItemById( 2 ).hasClass( 'cke_autocomplete_selected' ) );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) ); // ARROW DOWN
+
+			assertViewOpened( ac, true );
+			assert.isTrue( ac.view.getItemById( 3 ).hasClass( 'cke_autocomplete_selected' ) );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) ); // ARROW DOWN
 
 			assertViewOpened( ac, true );
 			assert.isTrue( ac.view.getItemById( 1 ).hasClass( 'cke_autocomplete_selected' ) );
-
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) );
-
-			assertViewOpened( ac, true );
-
-			assert.isFalse( ac.view.getItemById( 1 ).hasClass( 'cke_autocomplete_selected' ) );
-			assert.isTrue( ac.view.getItemById( 2 ).hasClass( 'cke_autocomplete_selected' ) );
 
 			ac.destroy();
 		},
@@ -64,19 +79,25 @@
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			assertViewOpened( ac, true );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 38 } ) ); // ARROW UP
 
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 38 } ) );
+			assertViewOpened( ac, true );
+			assert.isTrue( ac.view.getItemById( 3 ).hasClass( 'cke_autocomplete_selected' ) );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 38 } ) ); // ARROW UP
 
 			assertViewOpened( ac, true );
 			assert.isTrue( ac.view.getItemById( 2 ).hasClass( 'cke_autocomplete_selected' ) );
 
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 38 } ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 38 } ) ); // ARROW UP
 
 			assertViewOpened( ac, true );
-
-			assert.isFalse( ac.view.getItemById( 2 ).hasClass( 'cke_autocomplete_selected' ) );
 			assert.isTrue( ac.view.getItemById( 1 ).hasClass( 'cke_autocomplete_selected' ) );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 38 } ) ); // ARROW UP
+
+			assertViewOpened( ac, true );
+			assert.isTrue( ac.view.getItemById( 3 ).hasClass( 'cke_autocomplete_selected' ) );
 
 			ac.destroy();
 		},
@@ -89,8 +110,7 @@
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) );
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
 
 			assert.areEqual( '<p>item1</p>', editor.getData() );
 
@@ -98,7 +118,7 @@
 		},
 
 		'test click inserts match': function() {
-			var editor = this.editor, bot = this.editorBot, editable = editor.editable(),
+			var editor = this.editor, bot = this.editorBot,
 				ac = new CKEDITOR.plugins.autocomplete( this.editor, matchTestCallback, dataCallback );
 
 			bot.setHtmlWithSelection( '' );
@@ -110,13 +130,13 @@
 			assert.areEqual( '<p>item1</p>', editor.getData() );
 
 			ac.destroy();
-		},
+		}
 	} );
 
 	function assertViewOpened( ac, isOpened ) {
 		var opened = ac.view.element.hasClass( 'cke_autocomplete_opened' );
 		if ( isOpened ) {
-			assert.isTrue( opened )
+			assert.isTrue( opened );
 		} else {
 			assert.isFalse( opened );
 		}
@@ -126,9 +146,8 @@
 		return { text: 'text', range: selectionRange };
 	}
 
-	function textTestCallback() {}
 	function dataCallback( query, range, callback ) {
-		return callback( [ { id: 1, name: 'item1' }, { id: 2, name: 'item2' } ] );
+		return callback( [ { id: 1, name: 'item1' }, { id: 2, name: 'item2' }, { id: 3, name: 'item3' } ] );
 	}
 
 } )();
