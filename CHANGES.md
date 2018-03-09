@@ -32,6 +32,7 @@ Fixed Issues:
 * [#421](https://github.com/ckeditor/ckeditor-dev/issues/421) Fixed: Expandable [Button](https://ckeditor.com/cke4/addon/button) puts `(Selected)` text at the end of the label when clicked.
 * [#1454](https://github.com/ckeditor/ckeditor-dev/issues/1454): Fixed: [Upload Widget](https://ckeditor.com/cke4/addon/uploadwidget) [`onAbort`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-onAbort) method is not called when loader is aborted.
 * [#1451](https://github.com/ckeditor/ckeditor-dev/issues/1451): Fixed: Context menu is incorrectly positioned when opened with `Shift-F10`.
+* [#1722](https://github.com/ckeditor/ckeditor-dev/issues/1722): [`CKEDITOR.filter.instances`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_filter.html#static-property-instances) is causing memory leaks.
 
 API Changes:
 
