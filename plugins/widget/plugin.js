@@ -2213,7 +2213,7 @@
 		var filter = editables[ editableName ];
 
 		if ( !filter ) {
-			filter = editableDefinition.allowedContent ? new CKEDITOR.filter( editableDefinition.allowedContent ) : this.editor.filter.clone();
+			filter = editableDefinition.allowedContent ? new CKEDITOR.filter( editableDefinition.allowedContent, this.editor ) : this.editor.filter.clone();
 
 			editables[ editableName ] = filter;
 

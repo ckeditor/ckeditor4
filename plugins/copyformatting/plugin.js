@@ -260,7 +260,7 @@
 		 * @member CKEDITOR.plugins.copyformatting.state
 		 * @property {CKEDITOR.filter}
 		 */
-		this.filter = new CKEDITOR.filter( editor.config.copyFormatting_allowRules );
+		this.filter = new CKEDITOR.filter( editor.config.copyFormatting_allowRules, editor );
 
 		if ( editor.config.copyFormatting_allowRules === true ) {
 			this.filter.disabled = true;

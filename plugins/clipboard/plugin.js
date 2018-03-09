@@ -126,7 +126,7 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var filterType,
-				filtersFactory = filtersFactoryFactory();
+				filtersFactory = filtersFactoryFactory( editor );
 
 			if ( editor.config.forcePasteAsPlainText ) {
 				filterType = 'plain-text';
@@ -1330,7 +1330,7 @@
 		return switchEnterMode( config, data );
 	}
 
-	function filtersFactoryFactory() {
+	function filtersFactoryFactory( editor ) {
 		var filters = {};
 
 		function setUpTags() {
@@ -1346,7 +1346,7 @@
 		}
 
 		function createSemanticContentFilter() {
-			var filter = new CKEDITOR.filter();
+			var filter = new CKEDITOR.filter( null, editor );
 
 			filter.allow( {
 				$1: {
@@ -1374,12 +1374,12 @@
 					// so it tries to replace it with an element created based on the active enter mode, eventually doing nothing.
 					//
 					// Now you can sleep well.
-					return filters.plainText || ( filters.plainText = new CKEDITOR.filter( 'br' ) );
+					return filters.plainText || ( filters.plainText = new CKEDITOR.filter( 'br', editor ) );
 				} else if ( type == 'semantic-content' ) {
 					return filters.semanticContent || ( filters.semanticContent = createSemanticContentFilter() );
 				} else if ( type ) {
 					// Create filter based on rules (string or object).
-					return new CKEDITOR.filter( type );
+					return new CKEDITOR.filter( type, editor );
 				}
 
 				return null;
