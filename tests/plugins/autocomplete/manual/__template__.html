@@ -1,15 +1,14 @@
 <style>
+	/* Swap margin with padding to prevent moving autocomplete panel outside editor. */
 	body {
-		margin: 0px;
-		position: static;
+		margin-left: 0px;
+		padding-left: 350px;
 	}
 </style>
 
-<div style="padding: 1500px">
-	<textarea id="editor1" >
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae perferendis architecto sapiente veniam eius eos enim mollitia, sint accusamus sed voluptatum, consectetur illum nam, ab quod id amet, dignissimos quasi possimus excepturi natus maxime ea. Nihil ea voluptatibus tempora, corporis reiciendis vitae quo tenetur sint distinctio perspiciatis error fugit incidunt eaque at asperiores numquam, similique dolorum.</p>
-	</textarea>
-</div>
+<textarea id="editor1" >
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae perferendis architecto sapiente veniam eius eos enim mollitia, sint accusamus sed voluptatum, consectetur illum nam, ab quod id amet, dignissimos quasi possimus excepturi natus maxime ea. Nihil ea voluptatibus tempora, corporis reiciendis vitae quo tenetur sint distinctio perspiciatis error fugit incidunt eaque at asperiores numquam, similique dolorum.</p>
+</textarea>
 
 <script>
 	var editor;
@@ -25,12 +24,6 @@
 			}
 		}
 	} );
-
-	// The body of the root html element has additional margin-left to display bender manual-sidebar which has fixed position.
-	// Our autcomplete view lives inside root html so with its margin it has invalid position relative to the editor.
-	// We have to change position of our editor relative to the root html by setting position:static ( see style tag ) and move it to the center of the page
-	// so it won't be hidden below sidebar.
-	window.scrollTo( 1500, 1500 );
 
 	function getTextTestCallback() {
 		return function( range ) {
