@@ -71,5 +71,14 @@ INLINESTYLEHELP\
     'content' : '\
 LINKHELP\
 '
+  },
+
+  imageHelp: {
+    'menu':  'Image',
+    'label': 'Image',
+    'title': 'Image Help',
+    'content' : '\
+IMAGEHELP\
+'
   }
 } );

@@ -105,6 +105,9 @@ CKEDITOR.config.a11yFirstHelpTopics = {
   'linkHelp': {
     option:  'LinkHelp'
   },
+  'imageHelp': {
+    option:  'ImageHelp'
+  },
   'aboutA11yFirst': {
     option:  'AboutA11yFirst'
   }

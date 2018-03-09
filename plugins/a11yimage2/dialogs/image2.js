@@ -424,6 +424,54 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 						]
 					},
 					{
+						id: 'imageType',
+						type: 'select',
+						label: lang.typeOfImage,
+						title: lang.typeOfImageTitle,
+						'default': 'simple',
+						items: [
+							[ lang.typeDecorative, 'decorative' ],
+							[ lang.typeSimple, 'simple' ],
+							[ lang.typeComplex, 'complex' ]
+						],
+						onChange: function() {
+							console.log('[imageType][onChange]');
+
+							var value = this.getValue();
+
+							var desc = this.getDialog().getContentElement( 'info', 'desc' );
+							var alt  = this.getDialog().getContentElement( 'info', 'alt' );
+
+							switch(value) {
+								case 'decorative':
+									alt.disable();
+									desc.disable();
+									break;
+
+								case 'complex':
+									alt.enable();
+									desc.enable();
+									break;
+
+								default:
+									alt.enable();
+									desc.disable();
+									break;
+							}
+						},
+						setup: function( data ) {
+							console.log('[imageType][setup]');
+							// setup does not seem to execute
+						},
+						commit: function( data ) {
+							console.log('[imageType][commit]');
+//							if ( !data.url )
+//								data.url = {};
+
+//							data.url.protocol = this.getValue();
+						}
+					},
+					{
 						id: 'alt',
 						type: 'text',
 						label: lang.alt,
@@ -434,6 +482,26 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 							widget.setData( 'alt', this.getValue() );
 						},
 						validate: editor.config.a11yimage2_altRequired === true ? CKEDITOR.dialog.validate.notEmpty( lang.altMissing ) : null
+					},
+					{
+						id: 'desc',
+						type: 'select',
+						label: lang.descriptionLocation,
+						title: lang.descriptionLocationTitle,
+						default: 'before',
+						items: [
+							[ lang.locationBefore, 'before' ],
+							[ lang.locationAfter,  'after' ],
+							[ lang.locationBoth,   'both' ]
+						],
+						onChange: function(data) {
+							var value = this.getValue();
+						},
+						setup: function( data ) {
+							console.log('[descriptionLocation][setup]' + data);
+						},
+						commit: function( data ) {
+						}
 					},
 					{
 						type: 'hbox',

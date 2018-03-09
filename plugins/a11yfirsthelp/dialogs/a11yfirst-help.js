@@ -99,6 +99,10 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       node = document.getElementById( 'contentLinkHelp' );
       node.innerHTML = converter.makeHtml( lang.linkHelp.content );
 
+      node = document.getElementById( 'contentImageHelp' );
+      node.innerHTML = converter.makeHtml( lang.imageHelp.content );
+
+
       if ( editor.a11yfirst.helpOption ) {
         showHelpTopic( editor.a11yfirst.helpOption );
       }
@@ -153,6 +157,16 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                   },
                   {
                     type: 'button',
+                    id: 'buttonImageHelp',
+                    style: buttonStyle,
+                    label: lang.imageHelp.label,
+                    title: lang.imageHelpTitle,
+                    onClick: function() {
+                        showHelpTopic( 'ImageHelp' );
+                    },
+                  },
+                  {
+                    type: 'button',
                     id: 'buttonAboutA11yFirst',
                     style: buttonStyle,
                     label: lang.aboutA11yFirst.label,
@@ -178,6 +192,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                     <div id="contentHeadingHelp"></div>\
                     <div id="contentInlineStyleHelp"></div>\
                     <div id="contentLinkHelp"></div>\
+                    <div id="contentImageHelp"></div>\
                   </div>'
               }
             ]
