@@ -272,9 +272,6 @@
 										var emailNormalized  = normalizeText(emailValue);
 										var isEmailEmpty     = emailNormalized.length === 0;
 
-										var anchorNameValue = this.getDialog().getContentElement( 'info', 'anchorName' ).getValue();
-										var anchorIdValue	  = this.getDialog().getContentElement( 'info', 'anchorId' ).getValue();
-
 										if (isLinkTypeUrl) {
 												// Test for empty Display Text
 												if (isDisplayTextEmpty) {
@@ -293,11 +290,6 @@
 
 											if (!anchors || anchors.length === 0) {
 												alert(linkLang.msgNoAnchors);
-												return false;
-											}
-
-											if (anchorNameValue === '' && anchorIdValue === '') {
-												alert(linkLang.msgNoAnchorSelected);
 												return false;
 											}
 
@@ -537,6 +529,15 @@
 										data.anchor = {};
 
 									data.anchor.name = this.getValue();
+								},
+								validate: function() {
+									var anchorNameValue = this.getValue();
+									var anchorIdValue	  = this.getDialog().getContentElement( 'info', 'anchorId' ).getValue();
+
+									if (anchorNameValue === '' && anchorIdValue === '') {
+										alert(linkLang.msgNoAnchorSelected);
+										return false;
+									}
 								}
 							},
 							{
@@ -567,6 +568,15 @@
 										data.anchor = {};
 
 									data.anchor.id = this.getValue();
+								},
+								validate: function() {
+									var anchorNameValue = this.getDialog().getContentElement( 'info', 'anchorName' ).getValue();
+									var anchorIdValue	  = this.getValue();
+
+									if (anchorNameValue === '' && anchorIdValue === '') {
+										alert(linkLang.msgNoAnchorSelected);
+										return false;
+									}
 								}
 							} ],
 							setup: function() {
