@@ -7,12 +7,7 @@
 
 <div style="padding: 1500px">
 	<textarea id="editor1" >
-		<h1>Lorem ipsum dolor sit amet, consectetur.</h1>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum veniam in eligendi, aliquid dicta odio, atque consequatur suscipit quas porro veritatis rerum libero deleniti vero aliquam animi unde voluptatibus dolores deserunt! Explicabo repellat sint pariatur. Sint tempora ea illo, harum quidem iste adipisci libero aliquid, incidunt ullam ex at maiores enim, quia animi quo porro fugiat nihil et. Id in ullam voluptatem a officia corporis consequuntur voluptatum error neque sequi, vitae magnam reprehenderit ipsa reiciendis hic. Totam atque explicabo adipisci debitis, id sit vel error laudantium animi, voluptas voluptate ipsam saepe, molestiae quidem reprehenderit excepturi odio. Eaque, hic quisquam amet.</p>
-		<h1>Lorem ipsum dolor sit amet, consectetur.</h1>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut et rerum autem illo, necessitatibus maiores hic quia vitae fugit quasi ducimus eveniet veritatis amet modi error inventore similique beatae molestiae magnam reiciendis voluptatem quo fuga rem fugiat! Quas suscipit error labore id sit aliquid quia porro, sint quod modi harum laboriosam! Explicabo rerum, autem. Odio laborum quam quidem explicabo nobis, corporis quia maiores ad, sequi possimus consequuntur alias ipsa dolorem distinctio blanditiis saepe, veritatis iure praesentium dicta repudiandae, quos quasi doloribus tempore. Perferendis magni, cum voluptatibus accusantium totam mollitia. Quibusdam accusantium labore voluptates et pariatur animi, nam temporibus magnam vitae.</p>
-		<h1>Lorem ipsum dolor sit amet, consectetur.</h1>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum asperiores reprehenderit delectus tempore ullam repellat, eius voluptate iste, minus deserunt architecto amet velit harum. Natus praesentium atque exercitationem, eum porro magnam molestiae tenetur consequatur delectus sapiente provident inventore unde pariatur voluptates aliquid nulla quidem. Nobis vitae est neque non quis aspernatur quasi culpa, omnis dolorem veniam, veritatis, atque quam nisi sed odit necessitatibus modi deleniti a! Explicabo inventore dolor veritatis, a placeat nobis accusamus! Illum autem a quia perspiciatis, provident eum consectetur quae aliquam recusandae reiciendis nesciunt ratione, fuga quam laborum natus laudantium nostrum, distinctio obcaecati? In officia quod, doloremque.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae perferendis architecto sapiente veniam eius eos enim mollitia, sint accusamus sed voluptatum, consectetur illum nam, ab quod id amet, dignissimos quasi possimus excepturi natus maxime ea. Nihil ea voluptatibus tempora, corporis reiciendis vitae quo tenetur sint distinctio perspiciatis error fugit incidunt eaque at asperiores numquam, similique dolorum.</p>
 	</textarea>
 </div>
 
@@ -21,6 +16,7 @@
 
 	CKEDITOR.replace( 'editor1', {
 		width: 600,
+		extraPlugins: 'textmatch',
 		on: {
 			instanceReady: function( evt ) {
 				editor = evt.editor;
@@ -30,6 +26,10 @@
 		}
 	} );
 
+	// The body of the root html element has additional margin-left to display bender manual-sidebar which has fixed position.
+	// Our autcomplete view lives inside root html so with its margin it has invalid position relative to the editor.
+	// We have to change position of our editor relative to the root html by setting position:static ( see style tag ) and move it to the center of the page
+	// so it won't be hidden below sidebar.
 	window.scrollTo( 1500, 1500 );
 
 	function getTextTestCallback() {
