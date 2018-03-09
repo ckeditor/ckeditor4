@@ -155,6 +155,9 @@
 	 * {@link CKEDITOR.plugins.autocomplete.model.item} interface.
 	 */
 	function Autocomplete( editor, textTestCallback, dataCallback ) {
+		var commitKeystroke = CKEDITOR.config.autocomplete_commitKeystroke;
+		commitKeystroke = CKEDITOR.tools.array.isArray( commitKeystroke ) ? commitKeystroke.slice() : commitKeystroke;
+
 		/**
 		 * The editor instance to which this autocomplete is attached (meaning &mdash; on which it listens).
 		 *
@@ -188,13 +191,13 @@
 		this.textWatcher = this.getTextWatcher( textTestCallback );
 
 		/**
-		 * The autocomplete key codes used to finish autocompletion with selected view item.
-		 * The property is using {@link CKEDITOR.config#autocomplete_completingKeyCodes} configuration option as default key codes.
-		 * You can change this property to set individual key codes for plugin instance.
+		 * The autocomplete keystrokes used to finish autocompletion with selected view item.
+		 * The property is using {@link CKEDITOR.config#autocomplete_commitKeystroke} configuration option as default keystrokes.
+		 * You can change this property to set individual keystrokes for plugin instance.
 		 *
-		 * @property {Number[]}
+		 * @property {Number/Number[]}
 		 */
-		this.completingKeyCodes = CKEDITOR.config.autocomplete_completingKeyCodes.slice(); // Remove reference to configuration property.
+		this.commitKeystroke = commitKeystroke;
 
 		/**
 		 * Listeners registered by this autocomplete instance.
@@ -437,7 +440,7 @@
 				this.model.selectPrevious();
 				handled = true;
 			// Completition keys.
-			} else if ( ~this.completingKeyCodes.indexOf( keyCode ) ) {
+			} else if ( this.commitKeystroke == keyCode || ~CKEDITOR.tools.indexOf( this.commitKeystroke, keyCode ) ) {
 				this.commit();
 				this.textWatcher.unmatch();
 				handled = true;
@@ -1087,12 +1090,13 @@
 	Autocomplete.model = Model;
 
 	/**
-	 * The autocomplete key codes used to finish autocompletion with selected view item.
-	 * This setting will set completing key codes for each autocomplete plugin respectively.
-	 * To change completing key codes individually use {@link CKEDITOR.plugins.autocomplete#completingKeyCodes} plugin property.
+	 * The autocomplete keystrokes used to finish autocompletion with selected view item.
+	 * This setting will set completing keystrokes for each autocomplete plugin respectively.
+	 * To change completing keystrokes individually use {@link CKEDITOR.plugins.autocomplete#commitKeystroke} plugin property.
 	 *
-	 * @cfg {Number[]} [autocomplete_completingKeyCodes=[9, 13] (9 = tab, 13 = enter, empty array = disabled)]
+	 * @since 4.10.0
+	 * @cfg {Number/Number[]} [autocomplete_commitKeystroke=[9, 13] (9 = tab, 13 = enter, empty array = disabled)]
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.autocomplete_completingKeyCodes = [ 9, 13 ];
+	CKEDITOR.config.autocomplete_commitKeystroke = [ 9, 13 ];
 } )();
