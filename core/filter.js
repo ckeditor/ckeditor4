@@ -59,19 +59,29 @@
 	 * {@link CKEDITOR.filter.allowedContentRules} instead of {@link CKEDITOR.editor}
 	 * to the constructor:
 	 *
-	 *		var filter = new CKEDITOR.filter( 'b' );
+	 * ```javascript
+	 * var filter = new CKEDITOR.filter( 'b' );
 	 *
-	 *		filter.check( 'b' ); // -> true
-	 *		filter.check( 'i' ); // -> false
-	 *		filter.allow( 'i' );
-	 *		filter.check( 'i' ); // -> true
+	 * filter.check( 'b' ); // -> true
+	 * filter.check( 'i' ); // -> false
+	 * filter.allow( 'i' );
+	 * filter.check( 'i' ); // -> true
+	 * ```
+	 *
+	 * If filter is only used by a single editor instance, you should pass additional owner editor instance
+	 * so the filter could be removed with {@link CKEDITOR.editor#destroy} method.
+	 *
+	 * ```javascript
+	 * var filter = new CKEDITOR.filter( 'b', editor );
+	 * ```
 	 *
 	 * @since 4.1
 	 * @class
 	 * @constructor Creates a filter class instance.
 	 * @param {CKEDITOR.editor/CKEDITOR.filter.allowedContentRules} editorOrRules
+	 * @param {CKEDITOR.editor} owner Editor owning the filter instance.
 	 */
-	CKEDITOR.filter = function( editorOrRules ) {
+	CKEDITOR.filter = function( editorOrRules, owner ) {
 		/**
 		 * Whether custom {@link CKEDITOR.config#allowedContent} was set.
 		 *
@@ -191,6 +201,7 @@
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
 			this.customConfig = false;
+			this.editor = owner;
 			this.allow( editorOrRules, 'default', 1 );
 		}
 	};
