@@ -15,4 +15,4 @@ Upload some images:
 ### Expected
 
 * Image gets inserted into the editable.
-* Image gets a `src` starting with `https://cdn.cke-cs.com/` (You can check that using source mode).
+* Image gets a `src` starting with `https://<something>.cdn.cke-cs.com/` (You can check that using source mode).

@@ -7,7 +7,7 @@
 	'use strict';
 
 	var commonConfig = {
-		toolbar: [ [ 'Paste', 'EasyimageFull', 'EasyimageSide' ] ],
+		toolbar: [ [ 'Paste', 'EasyImageFull', 'EasyImageSide' ] ],
 		easyimage_styles: {
 			test: {
 				attributes: {
