@@ -3,6 +3,10 @@
 
 ## CKEditor 4.10.0
 
+New Features:
+
+* [#1763](https://github.com/ckeditor/ckeditor-dev/issues/1763): Easy Image includes backend service error message (if available) on upload failure.
+
 Fixed Issues:
 
 * [#1458](https://github.com/ckeditor/ckeditor-dev/issues/1458): [Edge] Fixed: After blurring editor it takes 2 clicks to focus a widget.
