@@ -2824,7 +2824,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * @since 4.9.0
 		 * @returns {Array}
 		 */
-		getClientRects: function() {
+		getClientRects: ( function() {
 			// Extending empty object wth rect, to prevent inheriting from DOMRect, same approach as in CKEDITOR.dom.element.getClientRect().
 			function convertRect( rect ) {
 				var newRect = CKEDITOR.tools.extend( {}, rect );
@@ -2839,22 +2839,27 @@ CKEDITOR.dom.range = function( root ) {
 				var bookmark = context.createBookmark(),
 					start = bookmark.startNode,
 					end = bookmark.endNode,
-					rects,
-					rect = {};
+					rect = {},
+					rects;
 
-				start.setText = '';
+				// Inserting zero width space, to prevent some strange rects returned by IE.
+				start.setText( '\u200b' );
 				start.removeStyle( 'display' );
 
 				if ( end ) {
-					end.setText = '';
+					end.setText( '\u200b' );
 					end.removeStyle( 'display' );
+
 					rects = [ start.getClientRect(), end.getClientRect() ];
+
 					start.remove();
 					end.remove();
 				} else {
 					rects = [ start.getClientRect(), start.getClientRect() ];
+
 					start.remove();
 				}
+
 				rect.right = Math.max( rects[ 0 ].right, rects[ 1 ].right );
 				rect.bottom = Math.max( rects[ 0 ].bottom, rects[ 1 ].bottom );
 				rect.left = Math.min( rects[ 0 ].left, rects[ 1 ].left );
@@ -2865,25 +2870,30 @@ CKEDITOR.dom.range = function( root ) {
 				return rect;
 			}
 
-			if ( this.document.$.getSelection !== undefined ) {
-				var range = document.createRange(),
-					rectList,
-					rectArray = [];
-				range.setStart( this.startContainer.$, this.startOffset );
-				range.setEnd( this.endContainer.$, this.endOffset );
+			if ( this.document.getSelection !== undefined ) {
+				return function() {
+					var range = document.createRange(),
+						rectArray = [],
+						rectList;
 
-				rectList = range.getClientRects();
-				range.detach();
+					range.setStart( this.startContainer.$, this.startOffset );
+					range.setEnd( this.endContainer.$, this.endOffset );
 
-				for ( var i = 0; i < rectList.length; i++ ) {
-					rectArray.push( convertRect( rectList[ i ] ) );
-				}
+					rectList = range.getClientRects();
+					range.detach();
 
-				return rectArray;
+					for ( var i = 0; i < rectList.length; i++ ) {
+						rectArray.push( convertRect( rectList[ i ] ) );
+					}
+
+					return rectArray;
+				};
 			} else {
-				return [ getRect( this ) ];
+				return function() {
+					return [ getRect( this ) ];
+				};
 			}
-		},
+		} )(),
 
 		/**
 		 * Setter for the {@link #startContainer}.
