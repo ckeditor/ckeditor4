@@ -378,7 +378,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 	return {
 		title: lang.title,
-		minWidth: 250,
+		minWidth: 350,
 		minHeight: 100,
 		onLoad: function() {
 			// Create a "global" reference to the document for this dialog instance.
@@ -411,6 +411,18 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 				id: 'info',
 				label: lang.infoTab,
 				elements: [
+					{
+						type: 'vbox',
+						padding: 0,
+						children: [
+							{
+								type: 'hbox',
+								widths: [ '100%' ],
+								className: 'cke_dialog_image_url',
+								children: srcBoxChildren
+							}
+						]
+					},
 					{
 						type: 'hbox',
 						widths: [ '80%', '20%' ],
@@ -472,18 +484,6 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 				          editor.a11yfirst.helpOption = 'ImageHelp';
 				          editor.execCommand('a11yFirstHelpDialog');
 								}
-							}
-						]
-					},
-					{
-						type: 'vbox',
-						padding: 0,
-						children: [
-							{
-								type: 'hbox',
-								widths: [ '100%' ],
-								className: 'cke_dialog_image_url',
-								children: srcBoxChildren
 							}
 						]
 					},

@@ -271,7 +271,7 @@
 		return {
 			allowedContent: getWidgetAllowedContent( editor ),
 
-			requiredContent: 'img[src,alt]',
+			requiredContent: 'img[src,alt,title]',
 
 			features: getWidgetFeatures( editor ),
 
