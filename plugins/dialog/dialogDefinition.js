@@ -129,7 +129,7 @@
  */
 
 /**
- * The function to execute when the dialog is hidden (executed every time the dialog is closed).
+ * The function executed every time the dialog is closed.
  *
  * @property {Function} onHide
  */
