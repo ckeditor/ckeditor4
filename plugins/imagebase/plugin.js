@@ -604,7 +604,7 @@
 			 * @param {CKEDITOR.dom.element} sender The element that this function should be called on.
 			 * @param {Boolean} [isFocused] Indicates if current widget should be treated as a focused one.
 			 * If this parameter is omitted, its value is determined by checking
-			 * {@link CKEDITOR.plugins.widget.repository#focused} value. This parameter was added in 4.9.1.
+			 * {@link CKEDITOR.plugins.widget.repository#focused} value. This parameter was added in 4.10.
 			 */
 			_refreshCaption: function( sender, isFocused ) {
 				var caption = this.parts.caption,
