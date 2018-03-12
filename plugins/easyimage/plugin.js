@@ -7,7 +7,8 @@
 	'use strict';
 
 	var stylesLoaded = false,
-		WIDGET_NAME = 'easyimage';
+		WIDGET_NAME = 'easyimage',
+		BUTTON_PREFIX = 'EasyImage';
 
 	function capitalize( str ) {
 		return CKEDITOR.tools.capitalize( str, true );
@@ -154,7 +155,7 @@
 
 	function addButtons( editor, styles ) {
 		function addDefaultButtons() {
-			editor.ui.addButton( 'EasyimageAlt', {
+			editor.ui.addButton( BUTTON_PREFIX + 'Alt', {
 				label: editor.lang.easyimage.commands.altText,
 				command: 'easyimageAlt',
 				toolbar: 'easyimage,3'
@@ -165,7 +166,7 @@
 			var style;
 
 			for ( style in styles ) {
-				editor.ui.addButton( 'Easyimage' + capitalize( style ), {
+				editor.ui.addButton( BUTTON_PREFIX + capitalize( style ), {
 					label: styles[ style ].label,
 					command: 'easyimage' + capitalize( style ),
 					toolbar: 'easyimage,99',
@@ -504,10 +505,37 @@
 		return !CKEDITOR.env.ie || CKEDITOR.env.version >= 11;
 	}
 
+	function addUploadButtonToToolbar( editor ) {
+		editor.ui.addButton( BUTTON_PREFIX + 'Upload', {
+			label: editor.lang.common.upload,
+			command: 'easyimageUpload',
+			toolbar: 'insert,1'
+		} );
+
+		editor.addCommand( 'easyimageUpload', {
+			exec: function() {
+				// hiddenUploadElement is not attached to DOM, but it is still possible to `virtually` click into it.
+				var hiddenUploadElement = CKEDITOR.dom.element.createFromHtml( '<input type="file" accept="image/*" multiple="multiple">' );
+				hiddenUploadElement.once( 'change', function( evt ) {
+					var targetElement = evt.data.getTarget();
+					if ( targetElement.$.files.length ) {
+						// Simulate paste event, to support all nice stuff from imagebase (e.g. loaders) (#1730).
+						editor.fire( 'paste', {
+							method: 'paste',
+							dataValue: '',
+							dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer( { files: targetElement.$.files } )
+						} );
+					}
+				} );
+				hiddenUploadElement.$.click();
+			}
+		} );
+	}
+
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'imagebase,balloontoolbar,button,dialog,cloudservices',
 		lang: 'en',
-		icons: 'easyimagefull,easyimageside,easyimagealt,easyimagealignleft,easyimagealigncenter,easyimagealignright', // %REMOVE_LINE_CORE%
+		icons: 'easyimagefull,easyimageside,easyimagealt,easyimagealignleft,easyimagealigncenter,easyimagealignright,easyimageupload', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		onLoad: function() {
@@ -535,6 +563,7 @@
 			addButtons( editor, styles );
 			addContextMenuItems( editor );
 			addToolbar( editor );
+			addUploadButtonToToolbar( editor );
 		}
 	} );
 
@@ -572,9 +601,9 @@
 	 * * `alignCenter` &ndash; Adding an `easyimage-align-center` class to the `figure` element.
 	 * * `alignRight` &ndash; Adding an `easyimage-align-right` class to the `figure` element.
 	 *
-	 * Every style added by this configuration variable will result in adding the `Easyimage<name>` button
+	 * Every style added by this configuration variable will result in adding the `EasyImage<name>` button
 	 * and the `easyimage<name>` command, where `<name>` is the name of the style in Pascal case. For example, the
-	 * `left` style would produce a `EasyimageLeft` button and an `easyimageLeft` command.
+	 * `left` style would produce a `EasyImageLeft` button and an `easyimageLeft` command.
 	 *
 	 *		// Adds a custom alignment style.
 	 *		config.easyimage_styles = {
@@ -646,12 +675,12 @@
 	 *
 	 * ```js
 	 * // Change toolbar to alignment commands.
-	 * config.easyimage_toolbar = [ 'EasyimageAlignLeft', 'EasyimageAlignCenter', 'EasyimageAlignRight' ];
+	 * config.easyimage_toolbar = [ 'EasyImageAlignLeft', 'EasyImageAlignCenter', 'EasyImageAlignRight' ];
 	 * ```
 	 *
 	 * @since 4.9.0
-	 * @cfg {String[]/String} [easyimage_toolbar=[ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ]]
+	 * @cfg {String[]/String} [easyimage_toolbar=[ 'EasyImageFull', 'EasyImageSide', 'EasyImageAlt' ]]
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.easyimage_toolbar = [ 'EasyimageFull', 'EasyimageSide', 'EasyimageAlt' ];
+	CKEDITOR.config.easyimage_toolbar = [ BUTTON_PREFIX + 'Full', BUTTON_PREFIX + 'Side', BUTTON_PREFIX + 'Alt' ];
 }() );

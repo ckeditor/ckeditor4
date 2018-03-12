@@ -1,5 +1,4 @@
 /* exported easyImageTools */
-/* global console */
 
 var easyImageTools = ( function() {
 	'use strict';
@@ -55,41 +54,6 @@ var easyImageTools = ( function() {
 		} );
 	}
 
-	function getToken( callback ) {
-		// Note: this is a token endpoint to be used for CKEditor 4 samples / developer tests only. Images uploaded using the testing token service may be deleted automatically at any moment.
-		// To create your own token URL please visit https://ckeditor.com/ckeditor-cloud-services/.
-		var CLOUD_SERVICES_TOKEN_URL = 'https://33333.cke-cs.com/token/dev/ijrDsqFix838Gh3wGO3F77FSW94BwcLXprJ4APSp3XQ26xsUHTi0jcb1hoBt';
-
-		function uid() {
-			var uuid = 'e'; // Make sure that id does not start with number.
-
-			for ( var i = 0; i < 8; i++ ) {
-				uuid += Math.floor( ( 1 + Math.random() ) * 0x10000 ).toString( 16 ).substring( 1 );
-			}
-
-			return uuid;
-		}
-
-		var xhr = new XMLHttpRequest(),
-			userId = uid();
-
-		xhr.open( 'GET', CLOUD_SERVICES_TOKEN_URL + '?user.id=' + userId );
-
-		xhr.onload = function() {
-			if ( xhr.status >= 200 && xhr.status < 300 ) {
-				callback( xhr.responseText );
-			} else {
-				console.error( xhr.status );
-			}
-		};
-
-		xhr.onerror = function( error ) {
-			console.error( error );
-		};
-
-		xhr.send( null );
-	}
-
 	function isUnsupportedEnvironment() {
 		return CKEDITOR.env.ie && CKEDITOR.env.version < 11;
 	}
@@ -97,10 +61,10 @@ var easyImageTools = ( function() {
 
 	return {
 		CLOUD_SERVICES_UPLOAD_GATEWAY: 'https://33333.cke-cs.com/easyimage/upload/',
+		CLOUD_SERVICES_TOKEN_URL: 'https://33333.cke-cs.com/token/dev/ijrDsqFix838Gh3wGO3F77FSW94BwcLXprJ4APSp3XQ26xsUHTi0jcb1hoBt',
 		createTestsForEditors: createTestsForEditors,
 		assertCommandsState: assertCommandsState,
 		assertMenuItemsState: assertMenuItemsState,
-		isUnsupportedEnvironment: isUnsupportedEnvironment,
-		getToken: getToken
+		isUnsupportedEnvironment: isUnsupportedEnvironment
 	};
 } )();

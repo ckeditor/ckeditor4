@@ -338,7 +338,13 @@
 						}, null, true, true );
 					}
 				} );
+			},
+
+			// #1730
+			'test required upload command': function() {
+				assert.isNotUndefined( this.editor.getCommand( 'easyimageUpload' ), 'Upload command is present in editor' );
 			}
+
 		};
 
 	bender.test( tests );

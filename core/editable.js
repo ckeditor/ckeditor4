@@ -206,7 +206,7 @@
 			},
 
 			/**
-			 * Restore all attribution changes made by {@link #changeAttr }.
+			 * Restore all attribution changes made by {@link #changeAttr}.
 			 */
 			restoreAttrs: function() {
 				var changes = this._.attrChanges, orgVal;
