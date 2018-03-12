@@ -23,7 +23,6 @@
 *    Floating Space         (floatingspace)
 *    Format                 (format)
 *    Horizontal Rule        (horizontalrule)
-*    HTML Output Writer     (htmlwriter)
 *    Link                   (link)
 *    Maximize               (maximize)
 *    SpellCheckAsYouType    (scayt)
@@ -46,7 +45,7 @@
 *    elementspath     // yes
 *    filebrowser      // no
 *    horizontalrule   // no
-*    htmlwriter       // no
+*    htmlwriter       // yes
 *    magicline        // yes
 *    maximize         // no
 *    popup            // no
@@ -81,6 +80,7 @@ CKEDITOR.editorConfig = function ( config ) {
     'fakeobjects,' +
     'find,' +
     'floatpanel,' +
+    'htmlwriter,' +
     'image,' +
     'indent,' +
     'indentlist,' +
@@ -112,8 +112,6 @@ CKEDITOR.editorConfig = function ( config ) {
     'wysiwygarea';
 
   config.extraPlugins =
-    'htmlwriter,' +
-    'sourcedialog,' +
     'a11yfirsthelp,' +
     'a11yheading,' +
     'a11ylink,' +
@@ -159,6 +157,7 @@ CKEDITOR.editorConfig = function ( config ) {
     { name: 'misc1',          items: [ 'Image', 'Table' ] },
     { name: 'showblocks',     items: [ 'ShowBlocks' ] },
     { name: 'a11yfirsthelp',  items: [ 'A11yFirstHelp' ] },
+//  { name: 'source',         items: [ 'Source' ] },
     '/',
     { name: 'undoredo',       items: [ 'Undo', 'Redo' ] },
     { name: 'clipboard',      items: [ 'Cut', 'Copy', 'Paste', 'PasteFromWord' ] },
@@ -168,7 +167,7 @@ CKEDITOR.editorConfig = function ( config ) {
     { name: 'removeformat',   items: [ 'RemoveFormat' ] },
     { name: 'link',           items: [ 'Link', 'Unlink', 'Anchor' ] },
     { name: 'misc2',          items: [ 'Language', 'SpecialChar' ] },
-    { name: 'a11ychecker',    items: [ 'A11ychecker', 'Sourcedialog' ] }
+    { name: 'a11ychecker',    items: [ 'A11ychecker' ] }
   ];
 
 };
