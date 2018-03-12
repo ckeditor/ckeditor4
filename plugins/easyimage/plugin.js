@@ -341,8 +341,9 @@
 						} );
 					} );
 
-					this.on( 'uploadFailed', function() {
-						alert( this.editor.lang.easyimage.uploadFailed ); // jshint ignore:line
+					this.on( 'uploadFailed', function( evt ) {
+						var response = evt.data.loader.responseData.response;
+						alert( response && response.message || this.editor.lang.easyimage.uploadFailed ); // jshint ignore:line
 					} );
 
 					this._loadDefaultStyle();

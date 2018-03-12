@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -104,14 +104,10 @@
 						data.message = response.error.message;
 					}
 
-					// But !uploaded means error.
-					if ( !response.uploaded ) {
-						evt.cancel();
-					} else {
-						for ( var i in response ) {
-							data[ i ] = response[ i ];
-						}
+					for ( var i in response ) {
+						data[ i ] = response[ i ];
 					}
+
 				} catch ( err ) {
 					// Response parsing error.
 					data.message = fileLoader.lang.filetools.responseError;
@@ -624,6 +620,8 @@
 
 				loader.uploaded = loader.uploadTotal;
 
+				var responseData = fireAndCopyFileUploadResponse();
+
 				if ( xhr.status < 200 || xhr.status > 299 ) {
 					loader.message = loader.lang.filetools[ 'httpError' + xhr.status ];
 					if ( !loader.message ) {
@@ -631,32 +629,34 @@
 					}
 					loader.changeStatus( 'error' );
 				} else {
-					var data = {
-							fileLoader: loader
-						},
-						// Values to copy from event to FileLoader.
-						valuesToCopy = [ 'message', 'fileName', 'url' ],
-						success = loader.editor.fire( 'fileUploadResponse', data );
-
-					for ( var i = 0; i < valuesToCopy.length; i++ ) {
-						var key = valuesToCopy[ i ];
-						if ( typeof data[ key ] === 'string' ) {
-							loader[ key ] = data[ key ];
-						}
-					}
-
-					// The whole response is also hold for use by uploadwidgets (https://dev.ckeditor.com/ticket/13519).
-					loader.responseData = data;
-					// But without reference to the loader itself.
-					delete loader.responseData.fileLoader;
-
-					if ( success === false ) {
-						loader.changeStatus( 'error' );
-					} else {
+					if ( responseData.uploaded ) {
 						loader.changeStatus( 'uploaded' );
+					} else {
+						loader.changeStatus( 'error' );
 					}
 				}
 			};
+
+			function fireAndCopyFileUploadResponse() {
+				var data = {
+						fileLoader: loader
+					},
+					valuesToCopy = [ 'message', 'fileName', 'url' ],
+					responseData = loader.editor.fire( 'fileUploadResponse', data );
+
+				for ( var i = 0; i < valuesToCopy.length; i++ ) {
+					var key = valuesToCopy[ i ];
+					if ( typeof data[ key ] === 'string' ) {
+						loader[ key ] = data[ key ];
+					}
+				}
+				// The whole response is also hold for use by uploadwidgets (https://dev.ckeditor.com/ticket/13519).
+				loader.responseData = data;
+				// But without reference to the loader itself.
+				delete loader.responseData.fileLoader;
+
+				return responseData;
+			}
 
 			function onError() {
 				// Prevent changing status twice, when XHR.error and XHR.upload.onerror could be called together.
