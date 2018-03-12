@@ -24,6 +24,7 @@
 	}
 
 	var assertPasteFiles = imageBaseFeaturesTools.assertPasteFiles,
+		failCloudServicesResponse,
 		tests = {
 			init: function() {
 				// We need to ignore entire test suit to prevent of fireing init, which breaks test suit on IE8-IE10.
@@ -43,11 +44,6 @@
 						1890: '%BASE_PATH%/_assets/logo.png?w=1890',
 						2048: '%BASE_PATH%/_assets/logo.png?w=2048',
 						'default': '%BASE_PATH%/_assets/logo.png'
-					},
-					failCloudServicesResponse = {
-						statusCode: 400,
-						error: 'Bad Request',
-						message: 'Input buffer contains unsupported image format'
 					};
 
 				// Array of listeners to be cleared after each TC.
@@ -126,6 +122,12 @@
 			},
 
 			setUp: function() {
+				failCloudServicesResponse = {
+					statusCode: 400,
+					error: 'Bad Request',
+					message: 'Input buffer contains unsupported image format.'
+				};
+
 				this.sandbox.stub( window, 'alert' );
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
@@ -242,6 +244,29 @@
 			'test handling failed uploads': function() {
 				var easyImageDef = this.editor.widgets.registered.easyimage,
 					originalLoader = easyImageDef.loaderType;
+
+				easyImageDef.loaderType = AsyncFailFileLoader;
+
+				assertPasteFiles( this.editor, {
+					files: [ bender.tools.getTestPngFile() ],
+					fullLoad: true,
+					callback: function( widgets ) {
+						easyImageDef.loaderType = originalLoader;
+
+						assert.areSame( 1, window.alert.callCount, 'Alert call count' );
+						sinon.assert.alwaysCalledWith( window.alert, 'Input buffer contains unsupported image format.' );
+
+						// Widget should be removed.
+						assert.areSame( 0, widgets.length, 'Widgets count' );
+					}
+				} );
+			},
+
+			'test handling failed uploads with default alert message': function() {
+				var easyImageDef = this.editor.widgets.registered.easyimage,
+					originalLoader = easyImageDef.loaderType;
+
+				failCloudServicesResponse = null;
 
 				easyImageDef.loaderType = AsyncFailFileLoader;
 

@@ -395,6 +395,33 @@
 			wait();
 		},
 
+		'test upload with error fires fileUploadResponse': function() {
+			var responseText = 'Unauthorized';
+			editorMock.lang = { filetools: { 'httpError401': responseText } };
+
+			var loader = new FileLoader( editorMock, pngBase64, 'name.png' );
+
+			editorMock.once( 'fileUploadResponse', function( evt ) {
+				var fileLoader = evt.data.fileLoader,
+					xhr = fileLoader.xhr;
+
+				resume( function() {
+					assert.areSame( loader, fileLoader );
+					assert.areEqual( 401, xhr.status );
+					assert.areEqual( responseText, xhr.responseText );
+					assert.areEqual( responseText, fileLoader.message );
+				} );
+			} );
+
+			createXMLHttpRequestMock( [ 'load' ], { responseStatus: 401, responseText: responseText } );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			assert.areSame( 'http:\/\/url\/', loader.uploadUrl );
+
+			wait();
+		},
+
 		'test upload with custom field name (https://dev.ckeditor.com/ticket/13518)': function() {
 			var loader = new FileLoader( editorMock, pngBase64, 'name.png' );
 
@@ -830,8 +857,8 @@
 					'update[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
-					'error[error,name.png,100/0/82/100,errorFromServer,-,-]',
-					'update[error,name.png,100/0/82/100,errorFromServer,-,-]' ] );
+					'error[error,name2.png,100/0/82/100,errorFromServer,-,http://url/name2.png]',
+					'update[error,name2.png,100/0/82/100,errorFromServer,-,http://url/name2.png]' ] );
 			} );
 
 			loader.upload( 'http:\/\/url\/' );
@@ -876,7 +903,7 @@
 			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
-			createXMLHttpRequestMock( [ 'progress', 'load' ], { responseStatus: 404 } );
+			createXMLHttpRequestMock( [ 'progress', 'load' ], { responseStatus: 404, responseText: '{"fileName":"name.png","uploaded":0,"url":"http:\/\/url\/name.png"}' } );
 
 			resumeAfter( loader, 'error', function() {
 				observer.assert( [
@@ -884,8 +911,8 @@
 					'update[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
-					'error[error,name.png,100/0/82/100,httpError404,-,-]',
-					'update[error,name.png,100/0/82/100,httpError404,-,-]' ] );
+					'error[error,name.png,100/0/82/100,httpError404,-,http://url/name.png]',
+					'update[error,name.png,100/0/82/100,httpError404,-,http://url/name.png]' ] );
 			} );
 
 			loader.upload( 'http:\/\/url\/' );
@@ -899,7 +926,7 @@
 			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
-			createXMLHttpRequestMock( [ 'progress', 'load' ], { responseStatus: 404 } );
+			createXMLHttpRequestMock( [ 'progress', 'load' ], { responseStatus: 404, responseText: '{"fileName":"name.png","uploaded":0,"url":"http:\/\/url\/name.png"}' } );
 
 			resumeAfter( loader, 'error', function() {
 				observer.assert( [
@@ -907,8 +934,8 @@
 					'update[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
-					'error[error,name.png,100/0/82/100,httpError 404,-,-]',
-					'update[error,name.png,100/0/82/100,httpError 404,-,-]' ] );
+					'error[error,name.png,100/0/82/100,httpError 404,-,http://url/name.png]',
+					'update[error,name.png,100/0/82/100,httpError 404,-,http://url/name.png]' ] );
 			} );
 
 			loader.upload( 'http:\/\/url\/' );
@@ -1039,6 +1066,7 @@
 				evt.data.fileName = response[ 0 ];
 				evt.data.url = response[ 1 ];
 				evt.data.message = response[ 2 ];
+				evt.data.uploaded = 1;
 				evt.stop();
 			} );
 
