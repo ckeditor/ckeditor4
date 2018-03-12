@@ -6,6 +6,7 @@
 Fixed Issues:
 
 * [#1458](https://github.com/ckeditor/ckeditor-dev/issues/1458): [Edge] Fixed: After blurring editor it takes 2 clicks to focus a widget.
+* [#1034](https://github.com/ckeditor/ckeditor-dev/issues/1034): Fixed: JAWS leaves forms mode after pressing <kbd>enter</kbd> key in an inline CKEditor instance.
 
 ## CKEditor 4.9.1
 
