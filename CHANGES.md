@@ -54,6 +54,10 @@ New Features:
 * [#1746](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduced the [Emoji](https://ckeditor.com/cke4/addon/emoji) plugin providing completion feature for emoji ideograms.
 * [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): The [Auto Link](https://ckeditor.com/cke4/addon/autolink) plugin now supports email links.
 
+New Features:
+
+* [#1763](https://github.com/ckeditor/ckeditor-dev/issues/1763): Easy Image includes backend service error message (if available) on upload failure.
+
 Fixed Issues:
 
 * [#1458](https://github.com/ckeditor/ckeditor-dev/issues/1458): [Edge] Fixed: After blurring the editor it takes 2 clicks to focus a widget.
