@@ -1330,6 +1330,7 @@
 				var ariaLabel = editor.title;
 
 				editable.changeAttr( 'role', 'textbox' );
+				editable.changeAttr( 'aria-multiline', 'true' ); // (#1034)
 				editable.changeAttr( 'aria-label', ariaLabel );
 
 				if ( ariaLabel )
