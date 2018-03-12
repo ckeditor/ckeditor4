@@ -247,11 +247,9 @@ Providing accessible *Display Text* is straightforward if you keep the following
 \n\
 1. Do not begin the *Display Text* with redundant words or phrases such as “Link” or “Link to”.\n\
 \n\
-1. Be consistent: Links to the same URL should have the same *Display Text*.\n\
+1. Be consistent: Links to the same URL or e-mail address should have the same *Display Text*.\n\
 \n\
-1. In most cases, it is best not to use the link URL as the *Display Text*.\n\
-\n\
-1. The *Use URL as Display Text* checkbox will override the previous guideline and must **only** be used in special circumstances.\n\
+1. In most cases, it is best not to use the link URL or e-mail address as the *Display Text*.\n\
 \n\
 ### About links\n\
 \n\
@@ -274,8 +272,7 @@ on a page that are of interest to them.\n\
 readers, who typically only hear the display text spoken to them through speech\n\
 synthesis and do not "see" the link in the context of other content on the page.\n\
 \n\
-* When URLs or ambiguous text are used as the display text for a link, it is\n\
-impossible in many cases, and much more difficult in the remaining cases, for\n\
+* When URLs, e-mail addresses or other ambiguous text are used as the display text for a link, it is impossible in many cases, and much more difficult in the remaining cases, for\n\
 screen reader users to find and follow links of interest to them.\n\
 \n\
 ### More information\n\
