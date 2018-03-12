@@ -295,9 +295,7 @@
 
 											if (!anchors || anchors.length === 0) {
 												alert(linkLang.msgNoAnchors);
-												return true;
 											}
-
 
 										}
 
