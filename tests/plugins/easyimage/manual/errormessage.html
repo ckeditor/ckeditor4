@@ -1,0 +1,18 @@
+<p>Note, this test uses a real Cloud Service connection, so you might want to be on-line 😉.</p>
+
+<div id="editor1">
+</div>
+
+<script src="_helpers/tools.js"></script>
+<script>
+	if ( easyImageTools.isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
+
+	easyImageTools.getToken( function( token ) {
+		CKEDITOR.replace( 'editor1', {
+				cloudServices_url: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+				cloudServices_token: token + 'invalid' // Pass invalid token to fire uploadFailed event.
+			} );
+	} );
+</script>
