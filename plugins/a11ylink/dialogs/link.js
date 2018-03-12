@@ -288,15 +288,17 @@
 										if (isLinkTypeAnchor) {
 											var anchors = plugin.getEditorAnchors( editor );
 
-											if (!anchors || anchors.length === 0) {
-												alert(linkLang.msgNoAnchors);
-												return false;
-											}
-
 											if (isDisplayTextEmpty) {
 													alert(linkLang.msgEmptyDisplayText);
 													return false;
 											}
+
+											if (!anchors || anchors.length === 0) {
+												alert(linkLang.msgNoAnchors);
+												return true;
+											}
+
+
 										}
 
 										if (isLinkTypeEmail) {
@@ -534,9 +536,8 @@
 									var anchorNameValue = this.getValue();
 									var anchorIdValue	  = this.getDialog().getContentElement( 'info', 'anchorId' ).getValue();
 
-									if (anchorNameValue === '' && anchorIdValue === '') {
-										alert(linkLang.msgNoAnchorSelected);
-										return false;
+									if (anchors.length && (anchorNameValue === '' && anchorIdValue === '')) {
+										return confirm(linkLang.msgNoAnchorSelected);
 									}
 								}
 							},
@@ -568,15 +569,6 @@
 										data.anchor = {};
 
 									data.anchor.id = this.getValue();
-								},
-								validate: function() {
-									var anchorNameValue = this.getDialog().getContentElement( 'info', 'anchorName' ).getValue();
-									var anchorIdValue	  = this.getValue();
-
-									if (anchorNameValue === '' && anchorIdValue === '') {
-										alert(linkLang.msgNoAnchorSelected);
-										return false;
-									}
 								}
 							} ],
 							setup: function() {
