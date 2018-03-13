@@ -20,6 +20,7 @@ if ( !window.CKEDITOR ) {
 	/**
 	 * This is the API entry point. The entire CKEditor code runs under this object.
 	 * @class CKEDITOR
+	 * @mixins CKEDITOR.event
 	 * @singleton
 	 */
 	window.CKEDITOR = ( function() {
