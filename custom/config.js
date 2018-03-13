@@ -81,7 +81,7 @@ CKEDITOR.editorConfig = function ( config ) {
     'find,' +
     'floatpanel,' +
     'htmlwriter,' +
-    'image,' +
+//    'image,' +
     'indent,' +
     'indentlist,' +
     'justify,' +
@@ -115,6 +115,7 @@ CKEDITOR.editorConfig = function ( config ) {
     'a11yfirsthelp,' +
     'a11yheading,' +
     'a11ylink,' +
+    'a11yimage2,' +
     'a11ystylescombo';
 
   config.language_list = [
@@ -157,7 +158,7 @@ CKEDITOR.editorConfig = function ( config ) {
     { name: 'misc1',          items: [ 'Image', 'Table' ] },
     { name: 'showblocks',     items: [ 'ShowBlocks' ] },
     { name: 'a11yfirsthelp',  items: [ 'A11yFirstHelp' ] },
-//  { name: 'source',         items: [ 'Source' ] },
+    { name: 'source',         items: [ 'Source' ] },
     '/',
     { name: 'undoredo',       items: [ 'Undo', 'Redo' ] },
     { name: 'clipboard',      items: [ 'Cut', 'Copy', 'Paste', 'PasteFromWord' ] },
