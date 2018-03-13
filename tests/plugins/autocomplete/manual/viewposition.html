@@ -1,0 +1,69 @@
+<style>
+	/* Swap margin with padding to prevent moving autocomplete panel outside editor. */
+	body {
+		margin-left: 0px;
+		padding-left: 350px;
+	}
+</style>
+
+<textarea id="editor1" >
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+</textarea>
+
+<script>
+	var editor;
+
+	CKEDITOR.replace( 'editor1', {
+		width: 600,
+		extraPlugins: 'textmatch',
+		on: {
+			instanceReady: function( evt ) {
+				editor = evt.editor;
+
+				new CKEDITOR.plugins.autocomplete( editor, getTextTestCallback(), dataCallback );
+			}
+		}
+	} );
+
+	function getTextTestCallback() {
+		return function( range ) {
+			return CKEDITOR.plugins.textMatch.match( range, matchCallback );
+		};
+	}
+
+	function matchCallback( text, offset ) {
+		var left = text.slice( 0, offset ),
+			match = left.match( new RegExp( '@\\w*$' ) );
+
+		if ( !match ) {
+			return null;
+		}
+
+		return { start: match.index, end: offset };
+	}
+
+	function dataCallback( query, range, callback ) {
+		var data = [
+			{ id: 1, name: '@john' },
+			{ id: 2, name: '@thomas' },
+			{ id: 3, name: '@anna' },
+			{ id: 4, name: '@cris' },
+			{ id: 5, name: '@julia' }
+		];
+
+		callback(
+			data.filter( function( item ) {
+				return item.name.indexOf( query ) === 0;
+			} )
+		);
+	}
+
+</script>
