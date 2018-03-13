@@ -5,6 +5,81 @@
 ( function() {
 	'use strict';
 
+	function getLastActiveCommands( editor, allItems ) {
+		var activeItem = null;
+		for ( var i in allItems ) {
+			if ( editor.getCommand( allItems[ i ].command ).state === CKEDITOR.TRISTATE_ON ) {
+				activeItem = allItems[ i ];
+			}
+		}
+		return activeItem;
+	}
+
+	function createButtons( editor, definition, items, buttons, groups ) {
+		var allItems = definition.items,
+			i,
+			item,
+			previousButton,
+			defaultButton;
+
+		for ( i in allItems ) {
+			item = allItems[ i ];
+
+			if ( !item.group ) {
+				item.group = definition.label + '_default';
+			}
+
+			if ( groups[ item.group ] === undefined ) {
+				groups[ item.group ] = 0;
+			} else {
+				groups[ item.group ]++;
+			}
+			item.order = groups[ item.group ];
+
+			if ( !item.id ) {
+				item.id = item.command + item.order;
+			}
+
+			item.role = 'menuitemcheckbox';
+
+			item.onClick = function() {
+				editor.execCommand( this.command );
+			};
+
+			editor.getCommand( item.command ).on( 'state', function() {
+				var activeButton = getLastActiveCommands( editor, allItems ),
+					previousId = previousButton && buttons[ previousButton.id ]._.id;
+
+				if ( previousId ) {
+					CKEDITOR.document.getById( previousId ).setStyle( 'display', 'none' );
+				}
+
+				if ( activeButton ) {
+					CKEDITOR.document.getById( buttons[ activeButton.id ]._.id ).removeStyle( 'display' );
+					previousButton = activeButton;
+				} else {
+					CKEDITOR.document.getById( buttons[ defaultButton.id ]._.id ).removeStyle( 'display' );
+					previousButton = defaultButton;
+				}
+			} );
+
+			items[ item.id ] = item;
+			buttons[ item.id ] = new CKEDITOR.ui.button( item );
+
+			// First button as default. It might be overwritten by actual default button.
+			if ( !defaultButton ) {
+				previousButton = buttons[ item.id ];
+				defaultButton = buttons[ item.id ];
+			} else {
+				if ( item[ 'default' ] ) {
+					defaultButton = buttons[ item.id ];
+				} else {
+					buttons[ item.id ].style = 'display: none;';
+				}
+			}
+		}
+	}
+
 	CKEDITOR.plugins.add( 'splitbutton', {
 		requires: 'menubutton',
 
@@ -25,86 +100,10 @@
 				 */
 				$: function( definition ) {
 					var groups = {},
-						previousButton,
-						defaultButton,
-						allItems = definition.items,
 						items = {},
-						buttons = {},
-						item;
+						buttons = {};
 
-					function getLastActiveCommands( allItems ) {
-						var activeItem = null;
-						for ( var i in allItems ) {
-							if ( editor.getCommand( allItems[ i ].command ).state === CKEDITOR.TRISTATE_ON ) {
-								activeItem = allItems[ i ];
-							}
-						}
-						return activeItem;
-					}
-					// Items are required to only have label and command.
-					// Group is optional. If not assigned 'default' group is added.
-					// If item has `default=true` property, its icon is used as default splitbutton icon.
-					// Item id is generated automatically for internal purposes.
-					// Item role is automatically set to 'menuitemcheckbox'.
-					// Item onClick method is automatically added, it calls item.command on click.
-					// On 'state' listener is automatically added, so splitbutton icon is updated when command is called
-					// or selection changes (which causes commands to refresh so they fire state event).
-					for ( var i in allItems ) {
-						item = allItems[ i ];
-
-						if ( !item.group ) {
-							item.group = definition.label + '_default';
-						}
-
-						if ( groups[ item.group ] === undefined ) {
-							groups[ item.group ] = 0;
-						} else {
-							groups[ item.group ]++;
-						}
-						item.order = groups[ item.group ];
-
-						if ( !item.id ) {
-							item.id = item.command + item.order;
-						}
-
-						item.role = 'menuitemcheckbox';
-
-						item.onClick = function() {
-							editor.execCommand( this.command );
-						};
-
-						editor.getCommand( item.command ).on( 'state', function() {
-							var activeButton = getLastActiveCommands( allItems, item ),
-								previousId = previousButton && buttons[ previousButton.id ]._.id;
-
-							if ( previousId ) {
-								CKEDITOR.document.getById( previousId ).setStyle( 'display', 'none' );
-							}
-
-							if ( activeButton ) {
-								CKEDITOR.document.getById( buttons[ activeButton.id ]._.id ).removeStyle( 'display' );
-								previousButton = activeButton;
-							} else {
-								CKEDITOR.document.getById( buttons[ defaultButton.id ]._.id ).removeStyle( 'display' );
-								previousButton = defaultButton;
-							}
-						} );
-
-						items[ item.id ] = item;
-						buttons[ item.id ] = new CKEDITOR.ui.button( item );
-
-						// First button as default. It might be overwritten by actual default button.
-						if ( !defaultButton ) {
-							previousButton = buttons[ item.id ];
-							defaultButton = buttons[ item.id ];
-						} else {
-							if ( item[ 'default' ] ) {
-								defaultButton = buttons[ item.id ];
-							} else {
-								buttons[ item.id ].style = 'display: none;';
-							}
-						}
-					}
+					createButtons( editor, definition, items, buttons, groups );
 
 					if ( !definition.onMenu ) {
 						definition.onMenu = function() {
@@ -119,7 +118,7 @@
 					this.base( definition );
 					this.items = items;
 					this.buttons = buttons;
-					this.noicon = true;
+					this.icon = false;
 
 					definition.toolbar += 1;
 					var counter = 0;
