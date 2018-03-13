@@ -35,7 +35,6 @@
 
 	function matchCallback( text, offset ) {
 		var left = text.slice( 0, offset ),
-			right = text.slice( offset ),
 			match = left.match( new RegExp( '@\\w*$' ) );
 
 		if ( !match ) {
