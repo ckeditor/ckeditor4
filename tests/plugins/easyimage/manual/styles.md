@@ -7,5 +7,5 @@
 Check if styles are working correctly:
 
 * There is visible difference between full size image and side image.
-* Side image is occupating at most 25% of space.
+* Side image is occupying at most 50% of space.
 * Multiple side images can not be placed in the same horizontal line.
