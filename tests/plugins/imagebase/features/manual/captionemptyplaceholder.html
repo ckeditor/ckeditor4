@@ -1,0 +1,31 @@
+<div id="editor1">
+	<p>Widget without caption:</p>
+	<figure>
+		<img src="../../../image2/_assets/foo.png" alt="foo">
+	</figure>
+	<p>Widget with caption:</p>
+	<figure>
+		<a href="https://cksource.com">
+			<img src="../../../image2/_assets/foo.png" alt="foo">
+		</a>
+		<figcaption>Test caption</figcaption>
+	</figure>
+</div>
+
+<script>
+	if ( easyImageTools.isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		on: {
+			pluginsLoaded: function( evt ) {
+				var editor = evt.editor,
+					plugin = CKEDITOR.plugins.imagebase;
+
+				plugin.addImageWidget( editor, 'testWidget', plugin.addFeature( editor, 'caption', {} ) );
+			}
+		},
+		height: 500
+	} );
+</script>
