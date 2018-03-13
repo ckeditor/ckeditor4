@@ -29,7 +29,7 @@
 			 * @param {String} [fileName] The file name. If not set and the second parameter is a file, then its name will be used.
 			 * If not set and the second parameter is a Base64 data string, then the file name will be created based on
 			 * the {@link CKEDITOR.config#fileTools_defaultFileName} option.
-			 * @param {String} [token] A token used for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services/) request.
+			 * @param {String} [token] A token used for the [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services/) request.
 			 * If skipped, {@link CKEDITOR.config#cloudServices_tokenUrl} will be used to request a token.
 			 */
 			function CloudServicesLoader( editor, fileOrData, fileName, token ) {

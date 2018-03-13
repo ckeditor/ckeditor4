@@ -39,11 +39,11 @@ Fixed Issues:
 API Changes:
 
 * [#1346](https://github.com/ckeditor/ckeditor-dev/issues/1346): [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) [context manager API](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.balloontoolbar.contextManager) is now available in the [`pluginDefinition.init`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.pluginDefinition-method-init) method of the [requiring](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.pluginDefinition-property-requires) plugin.
-* [#1530](https://github.com/ckeditor/ckeditor-dev/issues/1530): Added the possibility to use custom icons for [buttons](CKEDITOR.ui.button).
+* [#1530](https://github.com/ckeditor/ckeditor-dev/issues/1530): Added the possibility to use custom icons for [buttons](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR_ui_button.html).
 
 Other Changes:
 
-* Updated [SCAYT](https://ckeditor.com/cke4/addon/scayt) (Spell Check As You Type) and [WebSpellChecker](https://ckeditor.com/cke4/addon/wsc) plugins:
+* Updated [SCAYT](https://ckeditor.com/cke4/addon/scayt) (Spell Check As You Type) and [WebSpellChecker](https://ckeditor.com/cke4/addon/wsc) (WSC) plugins:
 	* SCAYT [`scayt_minWordLength`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#scayt_minWordLength) configuration option now defaults to 3 instead of 4.
 	* SCAYT default number of suggested words in the context menu changed to 3.
 	* [#90](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/90): Fixed: Selection is lost on link creation if SCAYT highlights the word.

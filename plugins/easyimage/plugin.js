@@ -603,7 +603,7 @@
 	 *
 	 * Every style added by this configuration variable will result in adding the `EasyImage<name>` button
 	 * and the `easyimage<name>` command, where `<name>` is the name of the style in Pascal case. For example, the
-	 * `left` style would produce a `EasyImageLeft` button and an `easyimageLeft` command.
+	 * `left` style would produce an `EasyImageLeft` button and an `easyimageLeft` command.
 	 *
 	 *		// Adds a custom alignment style.
 	 *		config.easyimage_styles = {
@@ -652,7 +652,7 @@
 	/**
 	 * The default style to be applied to Easy Image widgets, based on keys in {@link #easyimage_styles}.
 	 *
-	 * If set to `null` no default style is applied.
+	 * If set to `null`, no default style is applied.
 	 *
 	 * ```js
 	 * // Make side image a default style.
