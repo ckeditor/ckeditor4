@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+-->
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>A11yFirst Plugins Demo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+  <style>
+    body {
+      padding: 0 12px;
+      font-family: sans-serif;
+    }
+    h1 {
+      font-weight: normal;
+    }
+
+    button {
+      border-color: rgb(188,188,188);
+      border-radius: 2px;
+      background-color: rgb(248,248,248);
+      color: rgb(72,72,72);
+      font-size: 105%;
+      padding: 0.125em 0.75em;
+      margin-bottom: 0.5em;
+    }
+  </style>
+
+
+  <script>
+
+    function edit() {
+
+      var contentNode = document.getElementById('content');
+      var editorNode  = document.getElementById('editor');
+      var buttonNode  = document.getElementById('editor-button');
+
+      if (buttonNode.textContent === 'Edit') {
+        buttonNode.textContent = 'Save';
+        CKEDITOR.instances.editor.setData(contentNode.innerHTML);
+        editorNode.parentNode.parentNode.parentNode.removeAttribute('hidden');
+        contentNode.setAttribute('hidden', '');
+      }
+      else {
+        buttonNode.textContent = 'Edit';
+        contentNode.innerHTML = CKEDITOR.instances.editor.getData();
+        editorNode.parentNode.parentNode.parentNode.setAttribute('hidden', '');
+        contentNode.removeAttribute('hidden');
+      }
+
+    }
+
+  </script>
+</head>
+
+
+
+<body id="main">
+
+  <main>
+  <h1>A11yFirst Plugins Demo</h1>
+
+    <button id="editor-button" onclick="edit()" class="cke_dialog_ui_button">Edit</button>
+
+    <div id="content">
+            <h1>Document Title</h1>
+            <p>Lorem ipsum dolor sit amet, sollicitudin sit vestibulum, varius consectetuer, convallis turpis vitae. Pede dui, morbi non, praesent ipsum. Turpis dolor malesuada. Metus ornare nulla, sit mi. Lorem nisl, possimus risus. Sagittis fermentum.</p>
+
+            <h2>Section 1</h2>
+            <p>Lorem ipsum dolor sit amet, risus vivamus consequat, at magna hac. Quam etiam diam, habitant nunc proin. Nec egestas mollis, risus in, integer neque modi. Vulputate adipisicing, in enim, rhoncus ipsum ipsum. Blandit nulla duis. Consectetuer felis, cursus massa maecenas, justo rutrum metus.</p>
+
+            <p>Dui convallis ligula, adipiscing nisl vivamus, scelerisque scelerisque wisi. Ipsum sapien sed, dictum turpis pellentesque, suspendisse pulvinar. Rhoncus tempus viverra, dolor amet tincidunt, massa a aliquam. Velit ultrices malesuada, unde aliquam, diam tortor. Sem integer ut. Accusantium neque mauris, purus a purus.</p>
+
+            <h3>Subsection 1A</h3>
+            <p>Bibendum nam libero, per sem, aliquam phasellus omnis. Adipiscing tristique mauris. Pretium nunc, luctus magna, ridiculus wisi in. Cum quam, qui sit. Inceptos sodales elit.</p>
+
+            <h4>Subsection 1A.1</h4>
+            <p>Suscipit dolor hendrerit, sapiente venenatis lacus. Hymenaeos porttitor, at nibh. Ornare in, neque libero. Rhoncus amet. Neque tempor, nulla natoque, nec eiusmod sit.</p>
+
+            <h3>Subsection 1B</h3>
+            <p>Potenti cras in, id dapibus proin, tellus tellus potenti. Nibh et varius. Nullam aenean. Metus nulla neque, vitae quam neque. Orci quis pellentesque.</p>
+
+            <h4>Subsection 1B.1</h4>
+            <p>Potenti cras in, id dapibus proin, tellus tellus potenti. Nibh et varius. Nullam aenean. Metus nulla neque, vitae quam neque. Orci quis pellentesque.</p>
+
+            <h4>Subsection 1B.2</h4>
+            <p>Adipiscing nisl vivamus, scelerisque scelerisque wisi. Ipsum sapien sed, dictum turpis pellentesque, suspendisse pulvinar.</p>
+
+            <h4>Subsection 1B.3</h4>
+            <p>Lorem ipsum dolor sit amet, sollicitudin sit vestibulum, varius consectetuer, convallis turpis vitae. Pede dui, morbi non, praesent ipsum. Turpis dolor malesuada. Metus ornare nulla, sit mi. Lorem nisl, possimus risus. Sagittis fermentum.</p>
+
+            <h2>Section 2</h2>
+
+            <h3>Subsection 2A</h3>
+            <p>Suscipit dolor hendrerit, sapiente venenatis lacus. Hymenaeos porttitor, at nibh. Ornare in, neque libero. Rhoncus amet. Neque tempor, nulla natoque, nec eiusmod sit.</p>
+
+            <h3>Subsection 2B</h3>
+            <p>Sem eleifend nulla, duis nulla sollicitudin. Dui sit non. Proin placerat convallis, sociosqu turpis vel, interdum erat. Mollis risus, litora neque nec, sit pretium turpis. Suscipit ut, magnis nec, mi vestibulum nulla.</p>
+
+            <h4>Subsection 2B.1</h4>
+            <p>Tempus diam. At tortor aenean. Maecenas eu, quis cum, integer dapibus. Id consequat suscipit. Distinctio in, donec urna. Vel iaculis convallis.</p>
+
+            <h3>Subsection 2C</h3>
+            <p>Varius consectetuer, convallis turpis vitae. Pede dui, morbi non, praesent ipsum. Turpis dolor malesuada. Metus.</p>
+    </div>
+
+    <div class="adjoined-bottom" hidden style="margin-top: 1em">
+      <div class="grid-container">
+        <div class="grid-width-100">
+          <div id="editor">
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-a grid-container">
+    <div class="grid-container">
+   </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+  <script src="../ckeditor.js"></script>
+  <script src="ui-library.js"></script>
+</body>
+</html>

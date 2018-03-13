@@ -12,7 +12,7 @@ CKEDITOR.plugins.setLang( 'a11yheading', 'en', {
   level_h5:       'H5 – Subsection title',
   level_h6:       'H6 – Subsection title',
   format_p:       'Normal',
-  format_pre:     'Preformatted',
+  format_pre:     'Computer code',
   format_address: 'Address',
   format_div:     'Normal (DIV)',
   helpLabel:      'Help'

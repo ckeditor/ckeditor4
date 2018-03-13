@@ -70,10 +70,11 @@ CKEDITOR.plugins.setLang( 'a11ylink', 'en', {
 	displayTextTitle: 'Use \'Help\' to learn more about accessible links',
 	a11yfirstHelp: 'Help',
 	a11yfirstHelpTitle: 'Learn about accessible links',
-	urlIsDisplayText: 'Use URL as Display Text ⓘ',
-	urlIsDisplayTextTitle: 'This option is enabled when Display Text is empty or contains the URL',
-	msgInvalidStartText: 'Please remove "%s" from the Display Text',
+	msgInvalidStartText: 'Please remove "%s" from the display text',
 	msgInvalidDisplayText: 'Please replace "%s" with text that describes the target of the link',
-	msgUrlDisplayText: 'For accessibility reasons the URL is considered a poor choice as the Display Text for the link.\n\nYou can override this warning by selecting \'Use URL as Display Text\'.',
-	msgEmptyDisplayText: 'Please type the Display Text for the link'
+	msgUrlDisplayText: 'For accessibility reasons the URL is considered a poor choice as the display text for the link.\n\nAre you sure you want to continue?',
+	msgEmailDisplayText: 'For accessibility reasons the e-mail address is considered a poor choice as the display text for the link.\n\nAre you sure you want to continue?',
+	msgEmptyDisplayText: 'Please type the display text for the link',
+	msgNoAnchors: 'No anchors available in the document. The link will be inserted, but will not link to an anchor.',
+	msgNoAnchorSelected: 'The link is not associated with an anchor. Do you want to continue?'
 } );

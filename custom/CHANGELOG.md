@@ -2,6 +2,18 @@
 
 All notable changes to the A11yFirst project will be documented in this file.
 
+## v0.7.1 – 12 Mar 2018
+
+### Updates
+
+* Update logic in the Link plugin, including new messaging
+
+* Update Link content in A11yFirst Help
+
+* Rename item in `Heading / Paragraph` from `Preformatted` to `Computer code`
+
+* Add `DISTRIBUTION.md` file with instructions for creating new distribution
+
 ## v0.7.0 – 19 Feb 2018
 
 ### Updates

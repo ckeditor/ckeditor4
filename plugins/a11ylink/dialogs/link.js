@@ -208,33 +208,13 @@
 				return commitParams.call( this, 'advanced', data );
 			};
 
-		var updateUrlIsDisplayText = function(urlIsDisplayText, displayText, url, setChecked) {
-				if (typeof setChecked !== 'boolean') {
-					setChecked = false;
-				}
+		var normalizeDisplayText = function(displayTextValue) {
+			return displayTextValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "").replace(/^https?\:\/\//i, "");
+		};
 
-				if (url.length > 0) {
-					if (displayText.length > 0) {
-
-						if (displayText.indexOf(url) >= 0) {
-							if (setChecked) {
-								urlIsDisplayText.setValue('checked');
-							}
-							urlIsDisplayText.enable();
-						}
-						else {
-							urlIsDisplayText.setValue('');
-							urlIsDisplayText.disable();
-						}
-					}
-					else {
-						urlIsDisplayText.enable();
-					}
-				}
-				else {
-					urlIsDisplayText.disable();
-				}
-			};
+		var normalizeText = function(textValue) {
+			return textValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "");
+		};
 
 		var commonLang = editor.lang.common,
 			linkLang = editor.lang.a11ylink,
@@ -274,50 +254,83 @@
 									},
 									validate: function() {
 
-										var displayText           = this.getValue();
-										var normalizedDisplayText = displayText.trim().toLowerCase();
-										normalizedDisplayText = normalizedDisplayText.replace(/^\s*|\s(?=\s)|\s*$/g, "")
+										var linkTypeValue = this.getDialog().getContentElement( 'info', 'linkType' ).getValue();
 
-										var normalizedUrl = this.getDialog().getContentElement( 'info', 'url' ).getValue();
-										normalizedUrl     = normalizedUrl.trim().toLowerCase();
+										var isLinkTypeUrl    = linkTypeValue === 'url';
+										var isLinkTypeEmail  = linkTypeValue === 'email';
+										var isLinkTypeAnchor = linkTypeValue === 'anchor';
 
-										var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' ).getValue();
+										var displayTextValue      = this.getValue();
+										var displayTextNormalized = normalizeDisplayText(displayTextValue);
+										var isDisplayTextEmpty    = displayTextNormalized.length === 0;
 
-										// Testing for using the URL as the link text
-										if (!normalizedDisplayText.length && !urlIsDisplayText) {
-											alert(linkLang.msgEmptyDisplayText);
-											return false;
+										var urlValue       = this.getDialog().getContentElement( 'info', 'url' ).getValue();
+										var urlNormalized  = normalizeText(urlValue);
+										var isUrlEmpty     = urlNormalized.length === 0;
+
+										var emailValue       = this.getDialog().getContentElement( 'info', 'emailAddress' ).getValue();
+										var emailNormalized  = normalizeText(emailValue);
+										var isEmailEmpty     = emailNormalized.length === 0;
+
+										if (isLinkTypeUrl) {
+												// Test for empty Display Text
+												if (isDisplayTextEmpty) {
+													alert(linkLang.msgEmptyDisplayText);
+													return false;
+												}
+
+												// Testing for using the URL as the link text
+												if(displayTextNormalized === urlNormalized) {
+													return confirm(linkLang.msgUrlDisplayText);
+												}
 										}
 
-										if(((normalizedDisplayText.indexOf(normalizedUrl) >= 0) ||
-										   (normalizedDisplayText.indexOf('http') === 0))
-											  && !urlIsDisplayText) {
-											alert(linkLang.msgUrlDisplayText);
-											return false;
+										if (isLinkTypeAnchor) {
+											var anchors = plugin.getEditorAnchors( editor );
+
+											if (isDisplayTextEmpty) {
+													alert(linkLang.msgEmptyDisplayText);
+													return false;
+											}
+
+											if (!anchors || anchors.length === 0) {
+												alert(linkLang.msgNoAnchors);
+											}
+
+										}
+
+										if (isLinkTypeEmail) {
+
+												// Test for empty Display Text
+												if (isDisplayTextEmpty) {
+													alert(linkLang.msgEmptyDisplayText);
+													return false;
+												}
+
+												// Testing for using the URL as the link text
+												if(emailNormalized === displayTextNormalized) {
+													return confirm(linkLang.msgEmailDisplayText);
+												}
+
 										}
 
 										// Testing for common cases of invalid link text
 										for (var i = 0; i < linkLang.a11yFirstInvalidDisplayText.length; i++) {
-											if (normalizedDisplayText === linkLang.a11yFirstInvalidDisplayText[i]) {
-												alert(linkLang.msgInvalidDisplayText.replace('%s', displayText));
+											if (displayTextNormalized === linkLang.a11yFirstInvalidDisplayText[i]) {
+												alert(linkLang.msgInvalidDisplayText.replace('%s', displayTextValue));
 												return false;
 											}
 										}
 
 										// Testing for link text starting with "Link" or "Link to"
 										for (var i = 0; i < linkLang.a11yFirstInvalidStartText.length; i++) {
-											if (normalizedDisplayText.indexOf(linkLang.a11yFirstInvalidStartText[i]) === 0) {
+											if (displayTextNormalized.indexOf(linkLang.a11yFirstInvalidStartText[i]) === 0) {
 												alert(linkLang.msgInvalidStartText.replace('%s', linkLang.a11yFirstInvalidStartText[i]));
 												return false;
 											}
 										}
 
 										return true;
-									},
-									onBlur: function () {
-										var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' );
-										var url         = this.getDialog().getContentElement( 'info', 'url' ).getValue();
-										updateUrlIsDisplayText(urlIsDisplayText, this.getValue(), url);
 									},
 									commit: function( data ) {
 										data.linkText = this.isEnabled() ? this.getValue() : '';
@@ -336,37 +349,6 @@
 							]
 						}
 					]
-				},
-				{
-				type: 'checkbox',
-					id: 'urlIsDisplayText',
-					label: linkLang.urlIsDisplayText,
-					title: linkLang.urlIsDisplayTextTitle,
-					setup: function(data) {
-						var displayText = editor.getSelection().getSelectedText();
-						var url = '';
-						if (data.url) {
-							url = data.url.url;
-						}
-						updateUrlIsDisplayText(this, displayText, url, true);
-					},
-					onClick: function () {
-						var displayText = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
-						var url         = this.getDialog().getContentElement( 'info', 'url' ).getValue();
-
-						if (url.length > 0 ) {
-							if (displayText.length > 0 ) {
-									if (displayText.indexOf(url) < 0) {
-										this.setValue('');
-										this.disable();
-									}
-								}
-						}
-						else {
-							this.setValue('');
-							this.disable()
-						}
-					}
 				},
 				{
 					id: 'linkType',
@@ -440,11 +422,6 @@
 								}
 
 								this.allowOnChange = true;
-							},
-							onBlur: function() {
-								var urlIsDisplayText = this.getDialog().getContentElement( 'info', 'urlIsDisplayText' );
-								var displayText      = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
-								updateUrlIsDisplayText(urlIsDisplayText, displayText, this.getValue());
 							},
 							onChange: function() {
 								if ( this.allowOnChange ) // Dont't call on dialog load.
@@ -552,6 +529,14 @@
 										data.anchor = {};
 
 									data.anchor.name = this.getValue();
+								},
+								validate: function() {
+									var anchorNameValue = this.getValue();
+									var anchorIdValue	  = this.getDialog().getContentElement( 'info', 'anchorId' ).getValue();
+
+									if (anchors.length && (anchorNameValue === '' && anchorIdValue === '')) {
+										return confirm(linkLang.msgNoAnchorSelected);
+									}
 								}
 							},
 							{
@@ -614,11 +599,19 @@
 						id: 'emailAddress',
 						label: linkLang.emailAddress,
 						required: true,
+						onKeyUp: function() {
+							var emailIsDisplayText = this.getDialog().getContentElement( 'info', 'emailIsDisplayText' );
+							var displayText        = this.getDialog().getContentElement( 'info', 'linkDisplayText' ).getValue();
+							updateEmailIsDisplayText(emailIsDisplayText, displayText, this.getValue());
+						},
 						validate: function() {
 							var dialog = this.getDialog();
 
-							if ( !dialog.getContentElement( 'info', 'linkType' ) || dialog.getValueOf( 'info', 'linkType' ) != 'email' )
+							if ( !dialog.getContentElement( 'info', 'linkType' ) ||
+								 ( dialog.getValueOf( 'info', 'linkType' ) != 'email' ) ||
+								 ( dialog.getValueOf( 'info', 'linkDisplayText' ) === '' )) {  // added by Jon Gunderson to allow display text to vaildate message to appear first
 								return true;
+							}
 
 							var func = CKEDITOR.dialog.validate.notEmpty( linkLang.noEmail );
 							return func.apply( this );
@@ -669,7 +662,8 @@
 
 							data.email.body = this.getValue();
 						}
-					} ],
+					}
+				 ],
 					setup: function() {
 						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 							this.getElement().hide();
