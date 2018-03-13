@@ -348,3 +348,17 @@
  * @param {String} editor The editor instance that the color changes apply to.
  * @param {String} part The name of the skin part where the color changes take place.
  */
+
+
+/**
+ * Property keep information about available browser "hacks" in given skin.
+ *
+ *		CKEDITOR.skin.ua_editor = 'ie,iequirks,ie8,gecko';
+ *
+ * **Note:** To help implementing browser specific "hacks" to the skin files and have it easy to maintain,
+ * it is possible to have dedicated files for such browsers. The browser files must be named after the main file names,
+ * appended by an underscore and the browser name (e.g. editor_ie.css, dialog_ie8.css). The accepted browser names
+ * must match the {@link CKEDITOR.env} properties. The most common names are: ie, webkit and gecko.
+ *
+ * @property {String} ua_editor
+ */
