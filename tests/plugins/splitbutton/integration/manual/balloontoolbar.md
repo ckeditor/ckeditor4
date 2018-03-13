@@ -10,3 +10,7 @@
 1. Style button changes itself to match current selection active style.
 1. When selected text has no style style button will change to default which is `Bold`.
 1. Menu list active items are matching selected text style.
+
+
+### Note:
+Toolbar will be attached to clicked DOM element and it might look inconvenient when clicking on some wrapping elements.

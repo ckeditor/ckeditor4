@@ -1,5 +1,9 @@
 <textarea id="editor1" cols="30" rows="10">
-<p>Lorem <strong>ipsum</strong> dolor sit amet, <em>consectetur</em> adipiscing elit, <u>sed</u> do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo <u><strong>consequat</strong></u>. Duis aute irure dolor in <strong>reprehenderit</strong> in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit <sub>amet</sub>, consectetur adipiscing elit, sed do eiusmod tempor <sub><s>incididunt</s></sub> ut labore et dolore <strong>magna</strong> aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	<p>Lorem <strong>ipsum</strong> dolor sit amet, <em>consectetur</em> adipiscing elit, <u>sed</u> do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+	<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo <u><strong>consequat</strong></u>.</p>
+	<p>Duis aute irure dolor in <strong>reprehenderit</strong> in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
+	<p> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+	<p> Lorem ipsum dolor sit <sub>amet</sub>, consectetur adipiscing elit, sed do eiusmod tempor <sub><s>incididunt</s></sub> ut labore et dolore <strong>magna</strong> aliqua</p>
 </textarea>
 <script>
 	// Currently balloon toolbar is not integrated with old IE browsers.
@@ -51,15 +55,17 @@
 		panel.addItems( {
 			basicStyles: evt.editor.ui.create( 'teststylesplit' )
 		} );
-
-		panel.attach( this.editable() );
+		this.editable().on( 'click', function( evt ) {
+			var element = new CKEDITOR.dom.element( evt.data.$.target );
+			panel.attach( element );
+		} );
 	}
 
 	CKEDITOR.replace( 'editor1', {
 		extraPlugins: 'balloonpanel,language,stylescombo,teststylesplit',
 		height: 300,
 		width: 600,
-		// Lets focus on balloontoolbar only.
+		// Lets focus on Balloon Toolbar only.
 		toolbarCanCollapse: true,
 		toolbarStartupExpanded: false,
 		on: {
