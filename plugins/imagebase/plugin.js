@@ -544,9 +544,7 @@
 				function listener( evt ) {
 					var path = evt.name === 'blur' ? editor.elementPath() : evt.data.path,
 						sender = path ? path.lastElement : null,
-						focused = getFocusedWidget( editor ),
-						previous = editor.widgets.getByElement(
-							editor.editable().findOne( 'figcaption[data-cke-caption-active]' ) );
+						widgets = getWidgetsWithFeature( editor.widgets.instances, 'caption' );
 
 					if ( !editor.filter.check( 'figcaption' ) ) {
 						return CKEDITOR.tools.array.forEach( listeners, function( listener ) {
@@ -554,13 +552,9 @@
 						} );
 					}
 
-					if ( focused && hasWidgetFeature( focused, 'caption' ) ) {
-						focused._refreshCaption( sender );
-					}
-
-					if ( previous && hasWidgetFeature( previous, 'caption' ) ) {
-						previous._refreshCaption( sender );
-					}
+					CKEDITOR.tools.array.forEach( widgets, function( widget ) {
+						widget._refreshCaption( sender );
+					} );
 				}
 
 				listeners.push( editor.on( 'selectionChange', listener , null, null, 9 ) );
@@ -613,6 +607,16 @@
 		upload: getUploadFeature(),
 		link: getLinkFeature()
 	};
+
+	function getWidgetsWithFeature( widgets, feature ) {
+		return CKEDITOR.tools.array.reduce( CKEDITOR.tools.objectKeys( widgets ), function( featuredWidgets, id ) {
+			var widget = widgets[ id ];
+			if ( hasWidgetFeature( widget, feature ) ) {
+				featuredWidgets.push( widget );
+			}
+			return featuredWidgets;
+		}, [] );
+	}
 
 	function createWidgetDefinition( editor, definition ) {
 		var baseDefinition;
