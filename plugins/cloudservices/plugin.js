@@ -156,10 +156,11 @@
 	 * The endpoint URL for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services) uploads.
 	 * This option must be set for Easy Image to work correctly.
 	 *
-	 * The upload URL is unique for each customer and can be found in the [CKEditor Ecosystem dashboard](https://dashboard.ckeditor.com) after subscribing to Easy Image service.
-	 * To learn how to start using Easy Image check [Cloud Services - Quick Start](https://docs.ckeditor.com/cs/latest/guides/quick-start.html) documentation.
+	 * The upload URL is unique for each customer and can be found in the [CKEditor Ecosystem dashboard](https://dashboard.ckeditor.com)
+	 * after subscribing to the Easy Image service.
+	 * To learn how to start using Easy Image, refer to the [Cloud Services - Quick Start](https://docs.ckeditor.com/cs/latest/guides/quick-start.html) documentation.
 	 *
-	 * Note: make sure to set also the {@link CKEDITOR.config#cloudServices_tokenUrl} configuration option.
+	 * Note: Make sure to also set the {@link CKEDITOR.config#cloudServices_tokenUrl} configuration option.
 	 *
 	 * ```js
 	 *	CKEDITOR.replace( 'editor', {
@@ -175,14 +176,14 @@
 	 */
 
 	/**
-	 * The URL to a security token endpoint in your application. The role of this endpoint is to securely authorise
-	 * end users of your application to use [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services), only
+	 * The URL to the security token endpoint in your application. The role of this endpoint is to securely authorize
+	 * the end users of your application to use [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services), only
 	 * if they should have access e.g. to upload files with Easy Image.
 	 *
-	 * You can find more information about token endpoints in [Cloud Services - Quick Start](https://docs.ckeditor.com/cs/latest/guides/quick-start.html#create-token-endpoint)
+	 * You can find more information about token endpoints in the [Cloud Services - Quick Start](https://docs.ckeditor.com/cs/latest/guides/quick-start.html#create-token-endpoint)
 	 * and [Cloud Services - Creating token endpoint](https://docs.ckeditor.com/cs/latest/guides/token-endpoints/tokenendpoint.html) documentation.
 	 *
-	 * Without properly working token endpoint (token URL) CKEditor plugins will not be able to connect to CKEditor Cloud Services.
+	 * Without a properly working token endpoint (token URL) CKEditor plugins will not be able to connect to CKEditor Cloud Services.
 	 *
 	 * ```js
 	 *	CKEDITOR.replace( 'editor', {
