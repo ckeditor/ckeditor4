@@ -155,8 +155,7 @@
 	 * {@link CKEDITOR.plugins.autocomplete.model.item} interface.
 	 */
 	function Autocomplete( editor, textTestCallback, dataCallback ) {
-		var commitKeystroke = CKEDITOR.config.autocomplete_commitKeystroke;
-		commitKeystroke = CKEDITOR.tools.array.isArray( commitKeystroke ) ? commitKeystroke.slice() : commitKeystroke;
+		var configKeystroke = editor.config.autocomplete_commitKeystroke || CKEDITOR.config.autocomplete_commitKeystroke;
 
 		/**
 		 * The editor instance to which this autocomplete is attached (meaning &mdash; on which it listens).
@@ -195,9 +194,9 @@
 		 * The property is using {@link CKEDITOR.config#autocomplete_commitKeystroke} configuration option as default keystrokes.
 		 * You can change this property to set individual keystrokes for plugin instance.
 		 *
-		 * @property {Number/Number[]}
+		 * @property {Number[]}
 		 */
-		this.commitKeystroke = commitKeystroke;
+		this.commitKeystroke = CKEDITOR.tools.array.isArray( configKeystroke ) ? configKeystroke.slice() : [ configKeystroke ];
 
 		/**
 		 * Listeners registered by this autocomplete instance.
@@ -440,7 +439,7 @@
 				this.model.selectPrevious();
 				handled = true;
 			// Completition keys.
-			} else if ( this.commitKeystroke == keyCode || ~CKEDITOR.tools.indexOf( this.commitKeystroke, keyCode ) ) {
+			} else if ( CKEDITOR.tools.indexOf( this.commitKeystroke, keyCode ) != -1 ) {
 				this.commit();
 				this.textWatcher.unmatch();
 				handled = true;
