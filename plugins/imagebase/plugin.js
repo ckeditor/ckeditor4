@@ -522,10 +522,6 @@
 			return !widget.editables.caption.getData() || !!widget.parts.caption.data( 'cke-caption-placeholder' );
 		}
 
-		function isEmptyAndNotActive( widget ) {
-			return !widget.editables.caption.getData() && !widget.parts.caption.data( 'cke-caption-active' );
-		}
-
 		function addPlaceholder( widget ) {
 			widget.parts.caption.data( 'cke-caption-placeholder', widget.editor.lang.imagebase.captionPlaceholder );
 		}
