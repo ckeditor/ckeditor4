@@ -17,13 +17,15 @@
 	bender.test( {
 
 		'test create element': function() {
-			var editor = this.editors.classic, view = new CKEDITOR.plugins.autocomplete.view( editor );
+			var editor = this.editors.classic,
+				view = new CKEDITOR.plugins.autocomplete.view( editor );
 
 			assertViewElement( editor, view.createElement() );
 		},
 
 		'test append': function() {
-			var editor = this.editors.classic, view = new CKEDITOR.plugins.autocomplete.view( editor );
+			var editor = this.editors.classic,
+				view = new CKEDITOR.plugins.autocomplete.view( editor );
 
 			view.append();
 
@@ -32,7 +34,8 @@
 		},
 
 		'test open': function() {
-			var editor = this.editors.classic, view = new CKEDITOR.plugins.autocomplete.view( editor );
+			var editor = this.editors.classic,
+				view = new CKEDITOR.plugins.autocomplete.view( editor );
 
 			view.append();
 			view.open();
@@ -41,7 +44,8 @@
 		},
 
 		'test close': function() {
-			var editor = this.editors.classic, view = new CKEDITOR.plugins.autocomplete.view( editor );
+			var editor = this.editors.classic,
+				view = new CKEDITOR.plugins.autocomplete.view( editor );
 
 			view.append();
 			view.open();
@@ -51,14 +55,16 @@
 		},
 
 		'test create item': function() {
-			var editor = this.editors.classic, view = new CKEDITOR.plugins.autocomplete.view( editor ),
+			var editor = this.editors.classic,
+				view = new CKEDITOR.plugins.autocomplete.view( editor ),
 				item = { id: 1, name: 'item' };
 
 			assertItemElement( item, view.createItem( item ) );
 		},
 
 		'test get caret rect (classic)': function() {
-			var editor = this.editors.classic, view = new CKEDITOR.plugins.autocomplete.view( editor ),
+			var editor = this.editors.classic,
+				view = new CKEDITOR.plugins.autocomplete.view( editor ),
 				position = { top: 2, height: 3, left: 4 },
 
 				caretPositionStub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getCaretPosition' ).returns( position ),
@@ -83,7 +89,8 @@
 		},
 
 		'test get caret rect (inline)': function() {
-			var editor = this.editors.inline, view = new CKEDITOR.plugins.autocomplete.view( editor ),
+			var editor = this.editors.inline,
+				view = new CKEDITOR.plugins.autocomplete.view( editor ),
 				position = { top: 2, height: 3, left: 4 },
 
 				caretPositionStub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getCaretPosition' ).returns( position ),
@@ -108,7 +115,8 @@
 		},
 
 		'test is item element': function() {
-			var editor = this.editors.classic, view = new CKEDITOR.plugins.autocomplete.view( editor ),
+			var editor = this.editors.classic,
+				view = new CKEDITOR.plugins.autocomplete.view( editor ),
 				item = { id: 1, name: 'item' },
 				itemElement = view.createItem( item );
 
@@ -117,7 +125,8 @@
 		},
 
 		'test update items': function() {
-			var editor = this.editors.classic, view = new CKEDITOR.plugins.autocomplete.view( editor ),
+			var editor = this.editors.classic,
+				view = new CKEDITOR.plugins.autocomplete.view( editor ),
 				items = [ { id: 1, name: 'item1' }, { id: 2, name: 'item2' } ];
 
 			view.append();
@@ -128,7 +137,8 @@
 		},
 
 		'test select item': function() {
-			var editor = this.editors.classic, view = new CKEDITOR.plugins.autocomplete.view( editor ),
+			var editor = this.editors.classic,
+				view = new CKEDITOR.plugins.autocomplete.view( editor ),
 				spy = sinon.spy( view, 'scrollElementTo' ),
 				item1 = { id: 1, name: 'item1' },
 				item2 = { id: 2, name: 'item2' },
@@ -194,7 +204,8 @@
 		},
 
 		'test attach': function() {
-			var editor = this.editors.classic, view = new CKEDITOR.plugins.autocomplete.view( editor ),
+			var editor = this.editors.classic,
+				view = new CKEDITOR.plugins.autocomplete.view( editor ),
 				spy = sinon.spy( view, 'fire' ),
 				item1 = { id: 1, name: 'item1' },
 				item2 = { id: 2, name: 'item2' },

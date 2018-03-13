@@ -1,6 +1,6 @@
 @bender-tags: 4.10.0, bug, tp3559
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, autocomplete, textmatch
+@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, autocomplete
 
 1. Scroll the editor content to the middle.
 2. Focus the editor and type `@`.
