@@ -158,7 +158,7 @@
 	 *
 	 * The upload URL is unique for each customer and can be found in the [CKEditor Ecosystem dashboard](https://dashboard.ckeditor.com)
 	 * after subscribing to the Easy Image service.
-	 * To learn how to start using Easy Image, refer to the [Cloud Services - Quick Start](https://docs.ckeditor.com/cs/latest/guides/quick-start.html) documentation.
+	 * To learn how to start using Easy Image, refer to the [Easy Image Integration](#!/guide/dev_easyimage_integration) documentation.
 	 *
 	 * Note: Make sure to also set the {@link CKEDITOR.config#cloudServices_tokenUrl} configuration option.
 	 *
