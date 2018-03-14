@@ -507,7 +507,7 @@
 
 	function addUploadButtonToToolbar( editor ) {
 		editor.ui.addButton( BUTTON_PREFIX + 'Upload', {
-			label: editor.lang.common.upload,
+			label: editor.lang.easyimage.commands.upload,
 			command: 'easyimageUpload',
 			toolbar: 'insert,1'
 		} );
