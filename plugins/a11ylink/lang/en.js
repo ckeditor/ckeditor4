@@ -76,5 +76,6 @@ CKEDITOR.plugins.setLang( 'a11ylink', 'en', {
 	msgEmailDisplayText: 'For accessibility reasons the e-mail address is considered a poor choice as the display text for the link.\n\nAre you sure you want to continue?',
 	msgEmptyDisplayText: 'Please type the display text for the link',
 	msgNoAnchors: 'No anchors available in the document. The link will be inserted, but will not link to an anchor.',
-	msgNoAnchorSelected: 'The link is not associated with an anchor. Do you want to continue?'
+	msgNoAnchorSelected: 'The link is not associated with an anchor. Do you want to continue?',
+	msgNameEqualToDisplayText: 'For accessibility reasons, in many cases the anchor name or ID may not be a good choice as the display text for the link. Are you sure you want to continue?'
 } );

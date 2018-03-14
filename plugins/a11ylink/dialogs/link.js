@@ -272,6 +272,14 @@
 										var emailNormalized  = normalizeText(emailValue);
 										var isEmailEmpty     = emailNormalized.length === 0;
 
+										var nameValue       = this.getDialog().getContentElement( 'info', 'anchorName' ).getValue();
+										var nameNormalized  = normalizeText(nameValue);
+										var isNameEqualToDisplayText = nameNormalized === displayTextNormalized;
+
+										var idValue       = this.getDialog().getContentElement( 'info', 'anchorId' ).getValue();
+										var idNormalized  = normalizeText(idValue);
+										var isIdEqualToDisplayText = idNormalized === displayTextNormalized;
+
 										if (isLinkTypeUrl) {
 												// Test for empty Display Text
 												if (isDisplayTextEmpty) {
@@ -291,6 +299,10 @@
 											if (isDisplayTextEmpty) {
 													alert(linkLang.msgEmptyDisplayText);
 													return false;
+											}
+
+											if (isNameEqualToDisplayText || isNameEqualToDisplayText) {
+												return confirm(linkLang.msgNameEqualToDisplayText);
 											}
 
 											if (!anchors || anchors.length === 0) {
