@@ -485,3 +485,39 @@ a.cke_toolbox_collapser
 	border: 0;
 	margin-top: 0;
 }
+
+.cke_splitbutton {
+	display: inline-block;
+	cursor: default;
+	float: left;
+	border: 0;
+	position: relative;
+}
+
+.cke_splitbutton a:last-child {
+	margin-left: -1px;
+}
+
+.cke_splitbutton:hover {
+	background: #e5e5e5;
+}
+
+.cke_splitbutton a:last-child {
+	padding: 4px 4px;
+}
+
+.cke_splitbutton a:last-child .cke_button_arrow {
+	margin-left: 0;
+}
+
+.cke_splitbutton a:last-child.cke_button_on,
+.cke_splitbutton a:last-child:hover,
+.cke_splitbutton a:last-child:focus,
+.cke_splitbutton a:last-child:active
+{
+	padding: 3px 3px;
+}
+
+.cke_splitbutton:hover a:last-child:before {
+	border-left: none;
+}
