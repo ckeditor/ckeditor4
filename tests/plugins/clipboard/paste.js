@@ -808,6 +808,27 @@
 			} );
 		},
 
+		// (#1321)
+		'htmlified text unification 7 - IDEOGRAPHIC space': function() {
+			if ( CKEDITOR.env.gecko )
+				assertPasteEvent( this.editor,
+					{ dataValue: 'a\u3000a\u3000\u3000' },
+					{ type: 'text', dataValue: 'a\u3000a\u3000\u3000' },
+					'htmlified text - fx' );
+			else if ( CKEDITOR.env.ie )
+				assertPasteEvent( this.editor,
+					{ dataValue: '<p>a\u3000a\u3000\u3000</p>' },
+					{ type: 'text', dataValue: '<p>a\u3000a\u3000\u3000</p>' },
+					'htmlified text - ie' );
+			else if ( CKEDITOR.env.webkit )
+				assertPasteEvent( this.editor,
+					{ dataValue: '<div>a\u3000a\u3000\u3000</div>' },
+					{ type: 'text', dataValue: 'a\u3000a\u3000\u3000' },
+					'htmlified text - webkit' );
+			else
+				assert.isTrue( true );
+		},
+
 		'html textification <p class="test" style="color:red">a<br style="display:none">b</p>': function() {
 			assertPasteEvent( this.editor, {
 					type: 'text',
