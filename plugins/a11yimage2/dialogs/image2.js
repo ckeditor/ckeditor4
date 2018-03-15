@@ -412,6 +412,218 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 				label: lang.infoTab,
 				elements: [
 					{
+						id: 'imageType',
+						type: 'radio',
+						label: lang.typeOfImage,
+						title: lang.typeOfImageTitle,
+						'default': 'simple',
+						items: [
+							[ lang.typeSimple, 'simple' ],
+							[ lang.typeComplex, 'complex' ],
+							[ lang.typeDecorative, 'decorative' ]
+						],
+						onChange: function() {
+
+							var value = this.getValue();
+
+							var desc       = this.getDialog().getContentElement( 'info', 'desc' ).getElement();
+							var alt        = this.getDialog().getContentElement( 'info', 'alt' ).getElement();
+							var help       = this.getDialog().getContentElement( 'info', 'a11yfirstHelpImage').getElement();
+							var caption    = this.getDialog().getContentElement( 'info', 'hasCaption').getElement();
+							var decorative = this.getDialog().getContentElement( 'info', 'isDecorative').getElement();
+							var verify     = this.getDialog().getContentElement( 'info', 'verifyDecorative').getElement();
+
+							switch(value) {
+								case 'decorative':
+									alt.hide();
+									help.hide();
+									desc.hide();
+									caption.hide();
+									decorative.show();
+									verify.show();
+									break;
+
+								case 'complex':
+									alt.show();
+									help.show();
+									desc.show();
+									caption.show();
+									decorative.hide();
+									verify.hide();
+									break;
+
+								default:
+									alt.show();
+									help.show();
+									caption.show();
+									desc.hide();
+									decorative.hide();
+									verify.hide();
+									break;
+							}
+						},
+						setup: function( data ) {
+							console.log('[imageType][setup]');
+							// setup does not seem to execute
+						},
+						commit: function( data ) {
+							console.log('[imageType][commit]');
+//							if ( !data.url )
+//								data.url = {};
+
+//							data.url.protocol = this.getValue();
+						}
+					},
+					{
+						type: 'fieldset',
+						label: 'Image Description',
+						children: [
+							{
+								type: 'hbox',
+								widths: [ '80%', '20%' ],
+								align: 'bottom',
+								children: [
+									{
+										id: 'alt',
+										type: 'text',
+										label: lang.alt,
+										setup: function( widget ) {
+											this.setValue( widget.data.alt );
+										},
+										commit: function( widget ) {
+											widget.setData( 'alt', this.getValue() );
+										},
+										validate: function( widget) {
+
+											var i, s, imageTypeValue = this.getDialog().getContentElement( 'info', 'imageType' ).getValue();
+
+
+											if (imageTypeValue !== 'decorative') {
+												var alt = this.getValue();
+												var altNormalized = alt.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "");
+												var altLength = altNormalized.length;
+
+												// Testing for empty alt
+												if (altNormalized.length === 0) {
+													alert(lang.msgAltEmpty);
+													return false;
+												}
+
+												// Testing for empty alternative text
+												if (alt.trim().length > lang.alternativeTextMaxLength) {
+													alert(lang.msgAltToLong.replace('%s1', alt.trim().length).replace('%s2', lang.alternativeTextMaxLength));
+													return false;
+												}
+
+												// Testing for file names in alternative text
+												for (i = 0; i < lang.altContainsFilename.length; i++) {
+													s = lang.altContainsFilename[i];
+													if (altNormalized.indexOf(s) >= 0) {
+														alert(lang.msgAltContainsFilename.replace('%s', s));
+														return false;
+													}
+												}
+
+												// Testing for common cases of invalid alternative text
+												for (i = 0; i < lang.altIsInvalid.length; i++) {
+													if (altNormalized === lang.altIsInvalid[i]) {
+														alert(lang.msgAltIsInvalid.replace('%s', alt));
+														return false;
+													}
+												}
+
+												// Testing for alternative text starting with "image",...
+												for (i = 0; i < lang.altStartsWithInvalid.length; i++) {
+													if (altNormalized.indexOf(lang.altStartsWithInvalid[i]) === 0) {
+														alert(lang.msgAltStartsWithInvalid.replace('%s', alt.substring(0,lang.altStartsWithInvalid[i].length)));
+														return false;
+													}
+												}
+
+												// Testing for alternative text ending with with "bytes",...
+												for (i = 0; i < lang.altEndsWithInvalid.length; i++) {
+													var s = lang.altEndsWithInvalid[i];
+													if (altNormalized.substring((altLength-s.length),altLength) === s) {
+														alert(lang.msgAltEndsWithInvalid);
+														return false;
+													}
+												}
+											}
+
+											return true;
+
+										}
+									},
+									{
+								 	  id: 'a11yfirstHelpImage',
+										type: 'button',
+										label: lang.a11yfirstHelp,
+										title: lang.a11yfirstHelpTitle,
+										onClick: function() {
+						          editor.a11yfirst.helpOption = 'ImageHelp';
+						          editor.execCommand('a11yFirstHelpDialog');
+										}
+									}
+								]
+							},
+							{
+								type: 'hbox',
+								children: [
+									{
+										id: 'desc',
+										type: 'radio',
+										label: lang.descriptionLocation,
+										title: lang.descriptionLocationTitle,
+										items: [
+//											[ lang.locationNone,   'none' ],
+											[ lang.locationBefore, 'before' ],
+											[ lang.locationAfter,  'after' ],
+											[ lang.locationBoth,   'both' ]
+										],
+										setup: function( widget ) {
+											var value = this.setValue( widget.data.title );
+											if (!value) {
+												this.setValue('none');
+												this.getElement().hide();
+											}
+										},
+										commit: function( widget ) {
+											widget.setData( 'title', this.getValue() );
+										}
+									}
+								]
+							},
+							{
+								id: 'hasCaption',
+								type: 'checkbox',
+								label: 'Caption is alternative text',
+								requiredContent: features.caption.requiredContent,
+								setup: function( widget ) {
+									this.setValue( widget.data.hasCaption );
+								},
+								commit: function( widget ) {
+									widget.setData( 'hasCaption', this.getValue() );
+								}
+							},
+							{
+								id: 'isDecorative',
+								type: 'html',
+								html: '<p>Purely decorative images have no alternative text or other description.</p>',
+								setup: function( widget ) {
+									this.getElement().hide();
+								}
+							},
+							{
+								id: 'verifyDecorative',
+								type: 'checkbox',
+								label: 'Verify this image is purely decorative',
+								setup: function( widget ) {
+									this.getElement().hide();
+								}
+							}
+						]
+					},
+					{
 						type: 'vbox',
 						padding: 0,
 						children: [
@@ -420,170 +632,6 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								widths: [ '100%' ],
 								className: 'cke_dialog_image_url',
 								children: srcBoxChildren
-							}
-						]
-					},
-					{
-						type: 'hbox',
-						widths: [ '80%', '20%' ],
-						align: 'bottom',
-						children: [
-							{
-								id: 'imageType',
-								type: 'select',
-								label: lang.typeOfImage,
-								title: lang.typeOfImageTitle,
-								'default': 'simple',
-								items: [
-									[ lang.typeDecorative, 'decorative' ],
-									[ lang.typeSimple, 'simple' ],
-									[ lang.typeComplex, 'complex' ]
-								],
-								onChange: function() {
-
-									var value = this.getValue();
-
-									var desc = this.getDialog().getContentElement( 'info', 'desc' );
-									var alt  = this.getDialog().getContentElement( 'info', 'alt' );
-
-									switch(value) {
-										case 'decorative':
-											alt.disable();
-											desc.disable();
-											break;
-
-										case 'complex':
-											alt.enable();
-											desc.enable();
-											break;
-
-										default:
-											alt.enable();
-											desc.disable();
-											break;
-									}
-								},
-								setup: function( data ) {
-									console.log('[imageType][setup]');
-									// setup does not seem to execute
-								},
-								commit: function( data ) {
-									console.log('[imageType][commit]');
-		//							if ( !data.url )
-		//								data.url = {};
-
-		//							data.url.protocol = this.getValue();
-								}
-							},
-						  {
-						 	  id: 'a11yfirstHelpImage',
-								type: 'button',
-								label: lang.a11yfirstHelp,
-								title: lang.a11yfirstHelpTitle,
-								onClick: function() {
-				          editor.a11yfirst.helpOption = 'ImageHelp';
-				          editor.execCommand('a11yFirstHelpDialog');
-								}
-							}
-						]
-					},
-					{
-						id: 'alt',
-						type: 'text',
-						label: lang.alt,
-						setup: function( widget ) {
-							this.setValue( widget.data.alt );
-						},
-						commit: function( widget ) {
-							widget.setData( 'alt', this.getValue() );
-						},
-						validate: function( widget) {
-
-							var i, s, imageTypeValue = this.getDialog().getContentElement( 'info', 'imageType' ).getValue();
-
-
-							if (imageTypeValue !== 'decorative') {
-								var alt = this.getValue();
-								var altNormalized = alt.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "");
-								var altLength = altNormalized.length;
-
-								// Testing for empty alt
-								if (altNormalized.length === 0) {
-									alert(lang.msgAltEmpty);
-									return false;
-								}
-
-								// Testing for empty alternative text
-								if (alt.trim().length > lang.alternativeTextMaxLength) {
-									alert(lang.msgAltToLong.replace('%s1', alt.trim().length).replace('%s2', lang.alternativeTextMaxLength));
-									return false;
-								}
-
-								// Testing for file names in alternative text
-								for (i = 0; i < lang.altContainsFilename.length; i++) {
-									s = lang.altContainsFilename[i];
-									if (altNormalized.indexOf(s) >= 0) {
-										alert(lang.msgAltContainsFilename.replace('%s', s));
-										return false;
-									}
-								}
-
-								// Testing for common cases of invalid alternative text
-								for (i = 0; i < lang.altIsInvalid.length; i++) {
-									if (altNormalized === lang.altIsInvalid[i]) {
-										alert(lang.msgAltIsInvalid.replace('%s', alt));
-										return false;
-									}
-								}
-
-								// Testing for alternative text starting with "image",...
-								for (i = 0; i < lang.altStartsWithInvalid.length; i++) {
-									if (altNormalized.indexOf(lang.altStartsWithInvalid[i]) === 0) {
-										alert(lang.msgAltStartsWithInvalid.replace('%s', alt.substring(0,lang.altStartsWithInvalid[i].length)));
-										return false;
-									}
-								}
-
-								// Testing for alternative text ending with with "bytes",...
-								for (i = 0; i < lang.altEndsWithInvalid.length; i++) {
-									var s = lang.altEndsWithInvalid[i];
-									if (altNormalized.substring((altLength-s.length),altLength) === s) {
-										alert(lang.msgAltEndsWithInvalid);
-										return false;
-									}
-								}
-							}
-
-							return true;
-
-						}
-					},
-					{
-						type: 'hbox',
-						id: 'alignment',
-						requiredContent: features.align.requiredContent,
-						children: [
-							{
-								id: 'desc',
-								type: 'radio',
-								items: [
-									[ lang.locationNone,   'none' ],
-									[ lang.locationBefore, 'before' ],
-									[ lang.locationAfter,  'after' ],
-									[ lang.locationBoth,   'both' ]
-								],
-								label: lang.descriptionLocation,
-								title: lang.descriptionLocationTitle,
-								setup: function( widget ) {
-									var value = this.setValue( widget.data.title );
-									if (!value) {
-										this.setValue('none');
-									}
-
-								},
-								commit: function( widget ) {
-									widget.setData( 'title', this.getValue() );
-								}
 							}
 						]
 					},
@@ -664,18 +712,6 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								}
 							}
 						]
-					},
-					{
-						id: 'hasCaption',
-						type: 'checkbox',
-						label: lang.captioned,
-						requiredContent: features.caption.requiredContent,
-						setup: function( widget ) {
-							this.setValue( widget.data.hasCaption );
-						},
-						commit: function( widget ) {
-							widget.setData( 'hasCaption', this.getValue() );
-						}
 					}
 				]
 			},

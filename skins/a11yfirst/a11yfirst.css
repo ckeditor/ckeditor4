@@ -129,3 +129,15 @@ a.cke_dialog_ui_button.a11yfirsthelp:hover
 .cke_dialog_ui_vbox table[align=bottom] td.cke_dialog_ui_hbox_last {
   vertical-align: bottom;
 }
+
+.cke_dialog_ui_vbox table[align=bottom] td.cke_dialog_ui_hbox_last {
+  vertical-align: bottom;
+}
+
+.cke_dialog_ui_fieldset .cke_dialog_ui_radio {
+  margin-top: 1em;
+}
+
+.cke_dialog_ui_fieldset .cke_dialog_ui_checkbox {
+  margin-top: 1em;
+}
