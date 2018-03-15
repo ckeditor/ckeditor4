@@ -40,6 +40,16 @@
 		return widget.features && CKEDITOR.tools.array.indexOf( widget.features, feature ) !== -1;
 	}
 
+	function getWidgetsWithFeature( widgets, feature ) {
+		return CKEDITOR.tools.array.reduce( CKEDITOR.tools.objectKeys( widgets ), function( featuredWidgets, id ) {
+			var widget = widgets[ id ];
+			if ( hasWidgetFeature( widget, feature ) ) {
+				featuredWidgets.push( widget );
+			}
+			return featuredWidgets;
+		}, [] );
+	}
+
 	function getLinkFeature() {
 		function isLinkable( widget ) {
 			return widget && hasWidgetFeature( widget, 'link' );
@@ -607,16 +617,6 @@
 		upload: getUploadFeature(),
 		link: getLinkFeature()
 	};
-
-	function getWidgetsWithFeature( widgets, feature ) {
-		return CKEDITOR.tools.array.reduce( CKEDITOR.tools.objectKeys( widgets ), function( featuredWidgets, id ) {
-			var widget = widgets[ id ];
-			if ( hasWidgetFeature( widget, feature ) ) {
-				featuredWidgets.push( widget );
-			}
-			return featuredWidgets;
-		}, [] );
-	}
 
 	function createWidgetDefinition( editor, definition ) {
 		var baseDefinition;

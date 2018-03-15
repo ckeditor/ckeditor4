@@ -1,4 +1,4 @@
-@bender-tags: 4.9.1, bug, 1776
+@bender-tags: 4.10.0, bug, 1776
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, imagebase
 @bender-include: %BASE_PATH%/plugins/easyimage/_helpers/tools.js
