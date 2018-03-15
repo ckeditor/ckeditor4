@@ -82,7 +82,7 @@
 								// Look for the first item that accepts focus.
 								if ( toolbar.items.length ) {
 									item = toolbar.items[ endFlag ? ( toolbar.items.length - 1 ) : 0 ];
-									while ( item && !item.focus ) {
+									while ( item && !item.focus || item.button.hidden ) {
 										item = endFlag ? item.previous : item.next;
 
 										if ( !item )
@@ -101,7 +101,9 @@
 							do {
 								// Look for the next item in the toolbar.
 								next = next.next;
-
+								while ( next && next.button && next.button.hidden ) {
+									next = next.next;
+								}
 								// If it's the last item, cycle to the first one.
 								if ( !next && toolbarGroupCycling ) next = item.toolbar.items[ 0 ];
 							}
@@ -130,6 +132,10 @@
 							do {
 								// Look for the previous item in the toolbar.
 								next = next.previous;
+
+								while ( next && next.button && next.button.hidden ) {
+									next = next.previous;
+								}
 
 								// If it's the first item, cycle to the last one.
 								if ( !next && toolbarGroupCycling ) next = item.toolbar.items[ item.toolbar.items.length - 1 ];
@@ -271,15 +277,12 @@
 								groupStarted = 0;
 							}
 
-							function addItem( item ) { // jshint ignore:line
-								var itemObj = item.render( editor, output );
+							function bindPreviousNext( index, toolbarObj, itemObj ) { // jshint ignore:line
 								index = toolbarObj.items.push( itemObj ) - 1;
-
 								if ( index > 0 ) {
 									itemObj.previous = toolbarObj.items[ index - 1 ];
 									itemObj.previous.next = itemObj;
 								}
-
 								itemObj.toolbar = toolbarObj;
 								itemObj.onkey = itemKeystroke;
 
@@ -289,6 +292,23 @@
 									if ( !editor.toolbox.focusCommandExecuted )
 										editor.focus();
 								};
+							}
+
+							function addItem( item ) { // jshint ignore:line
+								var itemObj = item.render( editor, output ),
+									i,
+									rendered;
+
+								// When dealing with splitbutton we need to add all its extra buttons to toolbar, and bound them with .previous and .next to other toolbar elements.
+								if ( CKEDITOR.ui.splitButton && itemObj.button instanceof CKEDITOR.ui.splitButton ) {
+									rendered = itemObj.button.rendered;
+
+									for ( i = 0; i < rendered.length; i++ ) {
+										bindPreviousNext( index, toolbarObj, rendered [ i ] );
+									}
+								}
+
+								bindPreviousNext( index, toolbarObj, itemObj );
 							}
 
 							if ( pendingSeparator ) {
