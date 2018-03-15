@@ -12,23 +12,19 @@ CKEDITOR.plugins.add( 'justifysplit', {
 			label: 'Justify',
 			items: [ {
 				label: lang.alignLeft,
-				button: 'JustifyLeft',
 				command: 'justifyleft',
 				icon: 'justifyleft',
 				'default': true
 			}, {
 				label: lang.center,
-				button: 'JustifyCenter',
 				command: 'justifycenter',
 				icon: 'justifycenter'
 			}, {
 				label: lang.alignRight,
-				button: 'JustifyRight',
 				command: 'justifyright',
 				icon: 'justifyright'
 			}, {
 				label: lang.justify,
-				button: 'JustifyBlock',
 				command: 'justifyblock',
 				icon: 'justifyblock'
 			} ]
