@@ -52,13 +52,16 @@
 
 				if ( previousId ) {
 					CKEDITOR.document.getById( previousId ).setStyle( 'display', 'none' );
+					buttons[ previousButton.id ].hidden = true;
 				}
 
 				if ( activeButton ) {
 					CKEDITOR.document.getById( buttons[ activeButton.id ]._.id ).removeStyle( 'display' );
+					buttons[ activeButton.id ].hidden = false;
 					previousButton = activeButton;
 				} else {
 					CKEDITOR.document.getById( buttons[ defaultButton.id ]._.id ).removeStyle( 'display' );
+					buttons[ defaultButton.id ].hidden = false;
 					previousButton = defaultButton;
 				}
 			} );
@@ -75,6 +78,7 @@
 					defaultButton = buttons[ item.id ];
 				} else {
 					buttons[ item.id ].style = 'display: none;';
+					buttons[ item.id ].hidden = true;
 				}
 			}
 		}
@@ -149,7 +153,10 @@
 			CKEDITOR.ui.splitButton.prototype.render = function( editor, output ) {
 				output.push( '<span class="cke_splitbutton">' );
 				for ( var key in this.buttons ) {
-					this.buttons[ key ].render( editor, output );
+					if ( !this.rendered ) {
+						this.rendered = [];
+					}
+					this.rendered.push( this.buttons[ key ].render( editor, output ) );
 				}
 				var splitButton = CKEDITOR.ui.button.prototype.render.call( this, editor, output );
 				output.push( '</span>' );
