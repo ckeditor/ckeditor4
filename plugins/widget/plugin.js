@@ -509,10 +509,10 @@
 				// Check if widget wrapper is new (widget hasn't been initialized on it yet).
 				// This class will be removed by widget constructor to avoid locking snapshot twice.
 				if ( wrapper.hasClass( 'cke_widget_new' ) ) {
-					var styleDefinition = JSON.parse( wrapper.$.getAttribute( 'data-style-definition' ) );
-					delete wrapper.$.attributes[ 'data-style-definition' ];
+					var styleDefinition = JSON.parse( wrapper.$.getAttribute( 'data-cke-style-definition' ) );
+					delete wrapper.$.attributes[ 'data-cke-style-definition' ];
 
-					wrapper.removeAttribute( 'data-style-definition' );
+					wrapper.removeAttribute( 'data-cke-style-definition' );
 					var widget = new Widget( this, this._.nextId++, element, widgetDef, startupData, styleDefinition );
 
 					// Widget could be destroyed when initializing it.
@@ -3018,7 +3018,7 @@
 			// If there are no styles remove it to make sure we don't have `styles=''` in our output.
 			delete styleDefinition.styles;
 		}
-		wrapper.attributes[ 'data-style-definition' ] = JSON.stringify( styleDefinition );
+		wrapper.attributes[ 'data-cke-style-definition' ] = JSON.stringify( styleDefinition );
 	}
 
 	function setupWidgetsLifecycleStart( widgetsRepo ) {
