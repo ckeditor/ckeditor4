@@ -348,5 +348,4 @@ bender.test( {
 
 		assertCommand( editor, cmd, commandDefinition );
 	}
-
 } );
