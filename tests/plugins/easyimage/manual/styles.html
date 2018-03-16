@@ -68,9 +68,15 @@
 	if ( easyImageTools.isUnsupportedEnvironment() ) {
 		bender.ignore();
 	}
-	CKEDITOR.replace( 'classic' );
-	CKEDITOR.replace( 'divarea', {
+
+	var config = {
+		cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+		cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL
+	};
+
+	CKEDITOR.replace( 'classic', config );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( {}, config, {
 		extraPlugins: 'divarea'
-	} );
-	CKEDITOR.inline( 'inline' );
+	} ) );
+	CKEDITOR.inline( 'inline', config );
 </script>

@@ -40,7 +40,7 @@ The outline is not a part of the element's dimensions. A border needs to be used
 	See https://github.com/ckeditor/ckeditor-dev/pull/1150#discussion_r150415261 for more details.
 	*/
 	float: right;
-	max-width: 25%;
+	max-width: 50%;
 	/*
 	In case of placement inside the parent container like a table cell, 'min-width' is needed to prevent the widget from having
 	tiny sizes. The `em` unit is used so it works well and has proper proportions to the textual content around (#1553).
@@ -50,16 +50,16 @@ The outline is not a part of the element's dimensions. A border needs to be used
 }
 
 /*
-Overwrite 'max-width: 25%' with 'max-width: 25vw' to prevent the native Chrome bug:
+Overwrite 'max-width: 50%' with 'max-width: 50vw' to prevent the native Chrome bug:
 https://bugs.chromium.org/p/chromium/issues/detail?id=803045 (#1550).
 */
 body.cke_editable > .cke_widget_wrapper_easyimage-side {
-	max-width: 25vw;
+	max-width: 50vw;
 }
 
 .cke_widget_wrapper_easyimage-align-left, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-align-left) > .easyimage-align-left {
 	float: left;
-	max-width: 25%;
+	max-width: 50%;
 	min-width: 10em;
 	margin-right: 1.5em;
 }
