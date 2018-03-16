@@ -431,7 +431,6 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 							var help       = this.getDialog().getContentElement( 'info', 'a11yfirstHelpImage').getElement();
 							var caption    = this.getDialog().getContentElement( 'info', 'hasCaption').getElement();
 							var decorative = this.getDialog().getContentElement( 'info', 'isDecorative').getElement();
-							var verify     = this.getDialog().getContentElement( 'info', 'verifyDecorative').getElement();
 
 							switch(value) {
 								case 'decorative':
@@ -440,7 +439,6 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 									desc.hide();
 									caption.hide();
 									decorative.show();
-									verify.show();
 									break;
 
 								case 'complex':
@@ -449,7 +447,6 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 									desc.show();
 									caption.show();
 									decorative.hide();
-									verify.hide();
 									break;
 
 								default:
@@ -458,7 +455,6 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 									caption.show();
 									desc.hide();
 									decorative.hide();
-									verify.hide();
 									break;
 							}
 						},
@@ -596,7 +592,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 							{
 								id: 'hasCaption',
 								type: 'checkbox',
-								label: 'Caption is alternative text',
+								label: lang.captioned,
 								requiredContent: features.caption.requiredContent,
 								setup: function( widget ) {
 									this.setValue( widget.data.hasCaption );
@@ -608,15 +604,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 							{
 								id: 'isDecorative',
 								type: 'html',
-								html: '<p>Purely decorative images have no alternative text or other description.</p>',
-								setup: function( widget ) {
-									this.getElement().hide();
-								}
-							},
-							{
-								id: 'verifyDecorative',
-								type: 'checkbox',
-								label: 'Verify this image is purely decorative',
+								html: '<p>' + lang.isDecorative + '</p>',
 								setup: function( widget ) {
 									this.getElement().hide();
 								}
