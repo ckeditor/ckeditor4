@@ -209,7 +209,8 @@
 			};
 
 		var normalizeDisplayText = function(displayTextValue) {
-			return displayTextValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "").replace(/^https?\:\/\//i, "");
+			var str = displayTextValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "").replace(/^https?\:\/\//i, "");
+			return str;
 		};
 
 		var normalizeText = function(textValue) {
