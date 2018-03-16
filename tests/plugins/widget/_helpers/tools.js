@@ -387,8 +387,8 @@ var widgetTestsTools = ( function() {
 			'(?:data-cke-display-name="[a-z0-9]+" )?' +
 			'(?:data-cke-expando="[0-9]+" )?' +
 			'data-cke-filter="off" ' +
-			'data-cke-widget-wrapper="1" ' +
 			'(?:data-cke-style-definition="(.*?)" )?' +
+			'data-cke-widget-wrapper="1" ' +
 			'tabindex="-1"',
 		widgetDragHanlder:
 			'<span class="cke_reset cke_widget_drag_handler_container" style="[^"]+">' +
