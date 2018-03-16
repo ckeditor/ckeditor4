@@ -29,7 +29,7 @@
 			 * @param {String} [fileName] The file name. If not set and the second parameter is a file, then its name will be used.
 			 * If not set and the second parameter is a Base64 data string, then the file name will be created based on
 			 * the {@link CKEDITOR.config#fileTools_defaultFileName} option.
-			 * @param {String} [token] A token used for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services/) request.
+			 * @param {String} [token] A token used for the [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services/) request.
 			 * If skipped, {@link CKEDITOR.config#cloudServices_tokenUrl} will be used to request a token.
 			 */
 			function CloudServicesLoader( editor, fileOrData, fileName, token ) {
@@ -154,6 +154,13 @@
 
 	/**
 	 * The endpoint URL for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services) uploads.
+	 * This option must be set for Easy Image to work correctly.
+	 *
+	 * The upload URL is unique for each customer and can be found in the [CKEditor Ecosystem dashboard](https://dashboard.ckeditor.com)
+	 * after subscribing to the Easy Image service.
+	 * To learn how to start using Easy Image, refer to the [Easy Image Integration](#!/guide/dev_easyimage_integration) documentation.
+	 *
+	 * Note: Make sure to also set the {@link CKEDITOR.config#cloudServices_tokenUrl} configuration option.
 	 *
 	 * ```js
 	 *	CKEDITOR.replace( 'editor', {
@@ -169,8 +176,14 @@
 	 */
 
 	/**
-	 * The authentication token URL for [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services). The token is used to authenticate
-	 * all plugins using Cloud Services, for instance Easy Image. The token URL has to point to the service where the token is generated.
+	 * The URL to the security token endpoint in your application. The role of this endpoint is to securely authorize
+	 * the end users of your application to use [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services), only
+	 * if they should have access e.g. to upload files with Easy Image.
+	 *
+	 * You can find more information about token endpoints in the [Cloud Services - Quick Start](https://docs.ckeditor.com/cs/latest/guides/quick-start.html#create-token-endpoint)
+	 * and [Cloud Services - Creating token endpoint](https://docs.ckeditor.com/cs/latest/guides/token-endpoints/tokenendpoint.html) documentation.
+	 *
+	 * Without a properly working token endpoint (token URL) CKEditor plugins will not be able to connect to CKEditor Cloud Services.
 	 *
 	 * ```js
 	 *	CKEDITOR.replace( 'editor', {
