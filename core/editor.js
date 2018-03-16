@@ -740,7 +740,7 @@
 		 * 			}
 		 * 		} );
 		 *
-		 * Since 4.10.0 this method accepts `CKEDITOR.command` instance as param.
+		 * Since 4.10.0 this method also accepts `CKEDITOR.command` instance as param.
 		 *
 		 * @param {String} commandName The indentifier name of the command.
 		 * @param {CKEDITOR.commandDefinition/CKEDITOR.command} commandDefinition The command definition or the command instance.
