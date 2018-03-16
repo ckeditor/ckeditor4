@@ -167,7 +167,7 @@
 	} );
 
 	/**
-	 * Button UI element.
+	 * Split Button UI element.
 	 *
 	 * @readonly
 	 * @property {String} [='splitbutton']
