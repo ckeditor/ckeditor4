@@ -210,6 +210,7 @@
 
 		var normalizeDisplayText = function(displayTextValue) {
 			var str = displayTextValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "").replace(/^https?\:\/\//i, "");
+			var str = str.replace(/[.,!?]+$/, ''); // remove common sentence endings ".,!?"
 			return str;
 		};
 
@@ -264,6 +265,7 @@
 										var displayTextValue      = this.getValue();
 										var displayTextNormalized = normalizeDisplayText(displayTextValue);
 										var isDisplayTextEmpty    = displayTextNormalized.length === 0;
+										var isDisplayTextAURL     =  displayTextValue.toLowerCase().indexOf('http') === 0;
 
 										var urlValue       = this.getDialog().getContentElement( 'info', 'url' ).getValue();
 										var urlNormalized  = normalizeText(urlValue);
@@ -289,7 +291,7 @@
 												}
 
 												// Testing for using the URL as the link text
-												if(displayTextNormalized === urlNormalized) {
+												if(displayTextNormalized === urlNormalized || isDisplayTextAURL) {
 													return confirm(linkLang.msgUrlDisplayText);
 												}
 										}
