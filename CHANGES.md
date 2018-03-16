@@ -8,6 +8,7 @@ Fixed Issues:
 * [#1458](https://github.com/ckeditor/ckeditor-dev/issues/1458): [Edge] Fixed: After blurring editor it takes 2 clicks to focus a widget.
 * [#1034](https://github.com/ckeditor/ckeditor-dev/issues/1034): Fixed: JAWS leaves forms mode after pressing <kbd>Enter</kbd> key in an inline CKEditor instance.
 * [#1748](https://github.com/ckeditor/ckeditor-dev/pull/1748): Fixed: Added missing [`CKEDITOR.dialog.definition.onHide`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_dialog_definition.html#property-onHide) API documentation. Thanks to [sunnyone](https://github.com/sunnyone)!
+* [#1321](https://github.com/ckeditor/ckeditor-dev/issues/1321): Ideographic space character `\u3000` is lost when pasting text.
 
 ## CKEditor 4.9
 
