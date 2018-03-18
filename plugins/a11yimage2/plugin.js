@@ -360,10 +360,14 @@
 			},
 
 			init: function() {
+
+				console.log('[plugin][caption]:' + this.parts.caption);
+
 				var helpers = CKEDITOR.plugins.a11yimage2,
 					image = this.parts.image,
 					data = {
 						hasCaption: !!this.parts.caption,
+						caption: this.parts.caption,
 						src:    image.getAttribute( 'src' ),
 						alt:    image.getAttribute( 'alt' ) || '',
 						title:  image.getAttribute( 'title' ) || '',
@@ -573,12 +577,18 @@
 					// Switching hasCaption always destroys the widget.
 					shift.deflate();
 
+					console.log('[hasCaption][newValue]: ' + newValue)
+
 					// There was no caption, but the caption is to be added.
 					if ( newValue ) {
+						var figCaptionValue = editor.a11yfirst.figCaptionValue;
+						if (!figCaptionValue) {
+							figCaptionValue = editor.lang.a11yimage2.captionPlaceholder;
+						}
 						// Create new <figure> from widget template.
 						var figure = CKEDITOR.dom.element.createFromHtml( templateBlock.output( {
 							captionedClass: captionedClass,
-							captionPlaceholder: editor.lang.a11yimage2.captionPlaceholder
+							captionPlaceholder: figCaptionValue
 						} ), doc );
 
 						// Replace element with <figure>.

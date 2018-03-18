@@ -429,14 +429,18 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 							var desc       = this.getDialog().getContentElement( 'info', 'desc' ).getElement();
 							var alt        = this.getDialog().getContentElement( 'info', 'alt' ).getElement();
 							var help       = this.getDialog().getContentElement( 'info', 'a11yfirstHelpImage').getElement();
-							var caption    = this.getDialog().getContentElement( 'info', 'hasCaption').getElement();
+							var hasCaption = this.getDialog().getContentElement( 'info', 'hasCaption').getElement();
+							var caption    = this.getDialog().getContentElement( 'info', 'caption').getElement();
 							var decorative = this.getDialog().getContentElement( 'info', 'isDecorative').getElement();
+
+							var hasCaptionValue = this.getDialog().getContentElement( 'info', 'hasCaption').getValue();
 
 							switch(value) {
 								case 'decorative':
 									alt.hide();
 									help.hide();
 									desc.hide();
+									hasCaption.hide();
 									caption.hide();
 									decorative.show();
 									break;
@@ -445,25 +449,29 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 									alt.show();
 									help.show();
 									desc.show();
-									caption.show();
+									hasCaption.show();
+									if (hasCaptionValue) {
+										caption.show();
+									}
 									decorative.hide();
 									break;
 
 								default:
 									alt.show();
 									help.show();
-									caption.show();
+									hasCaption.show();
+									if (hasCaptionValue) {
+										caption.show();
+									}
 									desc.hide();
 									decorative.hide();
 									break;
 							}
 						},
 						setup: function( data ) {
-							console.log('[imageType][setup]');
 							// setup does not seem to execute
 						},
 						commit: function( data ) {
-							console.log('[imageType][commit]');
 //							if ( !data.url )
 //								data.url = {};
 
@@ -597,8 +605,44 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								setup: function( widget ) {
 									this.setValue( widget.data.hasCaption );
 								},
+								onClick: function() {
+									var caption    = this.getDialog().getContentElement( 'info', 'caption').getElement();
+
+									if (this.getValue()) {
+										caption.show();
+									}
+									else {
+										caption.hide();
+									}
+								},
 								commit: function( widget ) {
 									widget.setData( 'hasCaption', this.getValue() );
+								}
+							},
+							{
+								id: 'caption',
+								type: 'text',
+								label: lang.caption,
+								requiredContent: features.caption.requiredContent,
+								setup: function( widget ) {
+									if (widget.data.hasCaption ) {
+//										console.log('[caption][getText]: ' + widget.data.caption.getText());
+										this.setValue( widget.data.caption.getText() );
+									}
+									else {
+										this.getElement().hide();
+									}
+								},
+								commit: function( widget ) {
+									if (widget.data.hasCaption ) {
+										if (widget.data.caption && typeof widget.data.caption.setText === 'function') {
+											widget.data.caption.setText(this.getValue());
+										}
+										else {
+											editor.a11yfirst.figCaptionValue = this.getValue();
+											console.log('[commit][figCaptionValue]: ' + editor.a11yfirst.figCaptionValue);
+										}
+									}
 								}
 							},
 							{

@@ -23,6 +23,7 @@ CKEDITOR.plugins.setLang( 'a11yimage2', 'en', {
 	typeSimple: 'Simple',
 	typeComplex:'Complex',
 	typeOfImage: 'Type of Image',
+	caption: 'Caption Text',
 	typeOfImageTitle: 'The type of image identifies the description(s) needed for accessibility',
 	isDecorative: 'Decorative images have no alternative description or caption',
 	a11yfirstHelp: 'Help',
