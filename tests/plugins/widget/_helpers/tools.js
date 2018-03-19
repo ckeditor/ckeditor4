@@ -31,6 +31,7 @@ var widgetTestsTools = ( function() {
 				on: {
 					loaded: function( evt ) {
 						editor = evt.editor;
+
 						initialData = fixHtml( editor.getData(), config.ignoreStyle );
 
 						editor.dataProcessor.writer.sortAttributes = true;
@@ -91,6 +92,7 @@ var widgetTestsTools = ( function() {
 						assertWidgets( 'after paste' );
 					} );
 				} );
+
 				wait( function() {
 					editor.execCommand( 'paste', html );
 				} );
