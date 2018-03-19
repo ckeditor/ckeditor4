@@ -674,7 +674,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								requiredContent: features.caption.requiredContent,
 								setup: function( widget ) {
 									if (widget.data.hasCaption ) {
-										this.setValue( widget.data.caption.getText() );
+										this.setValue( widget.data.caption.getHtml() );
 									}
 									else {
 										this.getElement().hide();
@@ -683,11 +683,10 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								commit: function( widget ) {
 									if (widget.data.hasCaption ) {
 										if (widget.data.caption && typeof widget.data.caption.setText === 'function') {
-											widget.data.caption.setText(this.getValue());
+											widget.data.caption.setHtml(this.getValue());
 										}
 										else {
 											editor.a11yfirst.figCaptionValue = this.getValue();
-											console.log('[commit][figCaptionValue]: ' + editor.a11yfirst.figCaptionValue);
 										}
 									}
 								}
