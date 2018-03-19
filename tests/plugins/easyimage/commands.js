@@ -51,22 +51,22 @@
 					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
 
 					assertCommandsState( editor, {
-						easyimageFull: CKEDITOR.TRISTATE_DISABLED,
-						easyimageSide: CKEDITOR.TRISTATE_DISABLED,
-						easyimageAlt: CKEDITOR.TRISTATE_DISABLED
+						easyImageFull: CKEDITOR.TRISTATE_DISABLED,
+						easyImageSide: CKEDITOR.TRISTATE_DISABLED,
+						easyImageAlt: CKEDITOR.TRISTATE_DISABLED
 					} );
 
 					widget.focus();
 
 					assertCommandsState( editor, {
-						easyimageFull: CKEDITOR.TRISTATE_ON,
-						easyimageSide: CKEDITOR.TRISTATE_OFF,
-						easyimageAlt: CKEDITOR.TRISTATE_OFF
+						easyImageFull: CKEDITOR.TRISTATE_ON,
+						easyImageSide: CKEDITOR.TRISTATE_OFF,
+						easyImageAlt: CKEDITOR.TRISTATE_OFF
 					} );
 				} );
 			},
 
-			'test easyimageAlt command': function( editor, bot ) {
+			'test easyImageAlt command': function( editor, bot ) {
 				bot.setData( widgetHtml, function() {
 					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
 
@@ -101,8 +101,8 @@
 
 					bot.contextmenu( function( menu ) {
 						assertMenuItemsState( menu.items, {
-							easyimageFull: CKEDITOR.TRISTATE_ON,
-							easyimageSide: CKEDITOR.TRISTATE_OFF
+							easyImageFull: CKEDITOR.TRISTATE_ON,
+							easyImageSide: CKEDITOR.TRISTATE_OFF
 						} );
 
 						editor.execCommand( 'easyimageSide' );
@@ -111,8 +111,8 @@
 
 						bot.contextmenu( function( menu ) {
 							assertMenuItemsState( menu.items, {
-								easyimageFull: CKEDITOR.TRISTATE_OFF,
-								easyimageSide: CKEDITOR.TRISTATE_ON
+								easyImageFull: CKEDITOR.TRISTATE_OFF,
+								easyImageSide: CKEDITOR.TRISTATE_ON
 							} );
 
 							menu.hide();

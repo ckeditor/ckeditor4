@@ -61,7 +61,7 @@
 			return isSideImage( widget );
 		} ) );
 
-		editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'easyimageAlt', {
+		editor.addCommand( 'easyImageAlt', new CKEDITOR.dialogCommand( 'easyImageAlt', {
 			startDisabled: true,
 			contextSensitive: true,
 			refresh: createCommandRefresh()
@@ -85,9 +85,9 @@
 				order: 2
 			},
 
-			easyimageAlt: {
+			easyImageAlt: {
 				label: editor.lang.easyimage.commands.altText,
-				command: 'easyimageAlt',
+				command: 'easyImageAlt',
 				group: 'easyimage',
 				order: 3
 			}
