@@ -148,7 +148,7 @@
 			ac.destroy();
 		},
 
-		'test custom keys inserts match': function() {
+		'test custom autocomplete.commitKeystroke value': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
@@ -169,7 +169,7 @@
 			ac.destroy();
 		},
 
-		'test custom keys inserts match (global configuration)': function() {
+		'test custom config.autocomplete_commitKeystroke (array format)': function() {
 			var editor = this.editors.arrayKeystrokes,
 				editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
@@ -188,7 +188,7 @@
 			ac.destroy();
 		},
 
-		'test custom single key inserts match (global configuration)': function() {
+		'test custom config.autocomplete_commitKeystroke (primitive number)': function() {
 			var editor = this.editors.singleKeystroke,
 				editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
