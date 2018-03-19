@@ -262,8 +262,8 @@
 		if ( !currentPath.compare( this._.selectionPreviousPath ) ) {
 			// Handle case when dialog inserts new element but parent block and path (so also focus context) does not change. (https://dev.ckeditor.com/ticket/13362)
 			var sameBlockParent = this._.selectionPreviousPath && this._.selectionPreviousPath.blockLimit.equals( currentPath.blockLimit );
-			// Cache the active element, which we'll eventually lose on Webkit.
-			if ( CKEDITOR.env.webkit && !sameBlockParent )
+			// Cache the active element, which we'll eventually lose on Webkit and Gecko (#1113).
+			if ( ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) && !sameBlockParent )
 				this._.previousActive = this.document.getActive();
 
 			this._.selectionPreviousPath = currentPath;
@@ -763,17 +763,22 @@
 			}
 
 			// Plays the magic here to restore/save dom selection on editable focus/blur.
-			editable.attachListener( editable, CKEDITOR.env.webkit ? 'DOMFocusIn' : 'focus', function() {
-				// On Webkit we use DOMFocusIn which is fired more often than focus - e.g. when moving from main editable
+			editable.attachListener( editable, CKEDITOR.env.webkit || CKEDITOR.env.gecko ? 'focusin' : 'focus' , function() {
+				// On Webkit&Gecko we use focusin which is fired more often than focus - e.g. when moving from main editable
 				// to nested editable (or the opposite). Unlock selection all, but restore only when it was locked
 				// for the same active element, what will e.g. mean restoring after displaying dialog.
-				if ( restoreSel && CKEDITOR.env.webkit ) {
+				if ( restoreSel && ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) ) {
 					restoreSel = editor._.previousActive && editor._.previousActive.equals( doc.getActive() );
 
 					// On Webkit when editor uses divarea, native focus causes editable viewport to scroll
 					// to the top (when there is no active selection inside while focusing) so the scroll
 					// position should be restored after focusing back editable area. (https://dev.ckeditor.com/ticket/14659)
-					if ( restoreSel && editor._.previousScrollTop != null && editor._.previousScrollTop != editable.$.scrollTop ) {
+					if (
+						CKEDITOR.env.webkit &&
+						restoreSel &&
+						editor._.previousScrollTop != null &&
+						editor._.previousScrollTop != editable.$.scrollTop
+						) {
 						editable.$.scrollTop = editor._.previousScrollTop;
 					}
 				}
@@ -805,9 +810,9 @@
 					editable.attachListener( editor, 'selectionCheck', saveSel, null, null, -1 );
 
 				// Lock the selection and mark it to be restored.
-				// On Webkit we use DOMFocusOut which is fired more often than blur. I.e. it will also be
+				// On Webkit&Gecko we use focusout which is fired more often than blur. I.e. it will also be
 				// fired when nested editable is blurred.
-				editable.attachListener( editable, CKEDITOR.env.webkit ? 'DOMFocusOut' : 'blur', function() {
+				editable.attachListener( editable, CKEDITOR.env.webkit || CKEDITOR.env.gecko ? 'focusout' : 'blur', function() {
 					editor.lockSelection( lastSel );
 					restoreSel = 1;
 				}, null, null, -1 );
@@ -941,14 +946,10 @@
 			}
 
 			// Always fire the selection change on focus gain.
-			// On Webkit do this on DOMFocusIn, because the selection is unlocked on it too and
+			// On Webkit&Gecko do this on focusin, because the selection is unlocked on it too and
 			// we need synchronization between those listeners to not lost cached editor._.previousActive property
 			// (which is updated on selectionCheck).
-			// On Gecko with inline editor use focusin insted focus because the last one is not bubbling and
-			// event will not be fired with nested contenteditable (https://github.com/ckeditor/ckeditor-dev/issues/1113).
-			// For IE we already are replacing focus with focusin.
-			var focusEvent = ( CKEDITOR.env.webkit && 'DOMFocusIn' ) || ( isInline && CKEDITOR.env.gecko && 'focusin' ) || 'focus';
-			editable.attachListener( editable, focusEvent, function() {
+			editable.attachListener( editable, CKEDITOR.env.webkit || CKEDITOR.env.gecko ? 'focusin' : 'focus', function() {
 				editor.forceNextSelectionCheck();
 				editor.selectionChange( 1 );
 			} );
