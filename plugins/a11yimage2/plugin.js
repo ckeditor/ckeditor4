@@ -361,7 +361,7 @@
 
 			init: function() {
 
-				console.log('[plugin][caption]:' + this.parts.caption);
+//				console.log('[plugin][caption]:' + this.parts.caption);
 
 				var helpers = CKEDITOR.plugins.a11yimage2,
 					image = this.parts.image,

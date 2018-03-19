@@ -601,8 +601,9 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 												var title = widget.data.title.toLowerCase();
 												var hasBefore = title.indexOf(lang.locationBefore.toLowerCase()) >= 0;
 												var hasAfter  = title.indexOf(lang.locationAfter.toLowerCase()) >= 0;
+												var hasBoth   = title.indexOf(lang.locationBoth.toLowerCase()) >= 0;
 
-												if (hasBefore && hasAfter) {
+												if (hasBoth || (hasBefore && hasAfter)) {
 													this.setValue( 'both' );
 													imageType.setValue('complex');
 												}
@@ -673,7 +674,6 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								requiredContent: features.caption.requiredContent,
 								setup: function( widget ) {
 									if (widget.data.hasCaption ) {
-//										console.log('[caption][getText]: ' + widget.data.caption.getText());
 										this.setValue( widget.data.caption.getText() );
 									}
 									else {
