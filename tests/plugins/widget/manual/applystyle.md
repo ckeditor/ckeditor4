@@ -7,7 +7,7 @@ Testing adding classes, styles and attributes to widget
 1. Focus widget
 1. Press first button without icon on toolbar
 	### Expected
-	- Widget changes its backgroud color to red
+	- Widget changes its background color to red
 	- Widget floats to right
 	- Text size changes to 48
 	- Text aligns to right
