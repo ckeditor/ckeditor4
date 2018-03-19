@@ -751,6 +751,18 @@ bender.test( {
 		editable.fire( event, new CKEDITOR.dom.event( { target: editable.findOne( '#nested' ) } ) );
 
 		assert.isTrue( stub.called );
+	},
+
+	'test focused nested editable changes elementPath': function() {
+		var editor = this.editors.editorInline;
+
+		bender.tools.setHtmlWithSelection( editor, '<div contenteditable=true>^xxx<div contenteditable=false><em contenteditable=true id="nested">xxx</em></div></div>' );
+
+		assert.areEqual( 'div', editor.elementPath().blockLimit.getName() );
+
+		editor.editable().findOne( '#nested' ).focus();
+
+		assert.areEqual( 'em', editor.elementPath().blockLimit.getName() );
 	}
 
 } );
