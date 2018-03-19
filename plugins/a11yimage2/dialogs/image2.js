@@ -468,7 +468,17 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 									break;
 							}
 						},
-						setup: function( data ) {
+						setup: function( widget ) {
+
+							console.log('[widget]: ' + widget);
+							if (!!widget) {
+								console.log('[widget][data]: ' + widget.data);
+								if (widget.data.alt) {
+									console.log('[widget][data][  alt]: ' + widget.data.alt);
+									console.log('[widget][data][title]: ' + widget.data.title);
+								}
+							}
+
 							// setup does not seem to execute
 						},
 						commit: function( data ) {

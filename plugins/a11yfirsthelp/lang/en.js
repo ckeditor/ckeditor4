@@ -313,15 +313,27 @@ Providing accessible *Display Text* is straightforward if you keep the following
 * The alternative text is added to the `alt` attribute of the `img` element.\n\
 \n\
 \n\
-### Description Location\n\
+### Location of Description\n\
 \n\
-* The *Description Location* provides information to screen reader users of where thy can find a more detailed description of the content of the imageon the current page.\n\
+* The *Location of Description* provides information to screen reader users of where thy can find a more detailed description of the content of the imageon the current page.\n\
 \n\
 * Images of charts can be described by adding a table of the data used to generate the chart in the page.\n\
 \n\
 * This option is only enabled when the image type "Complex" is selected.\n\
 \n\
 * The location information is added to the `title` attribute of the `img` element.\n\
+\n\
+### Caption\n\
+\n\
+* A *Caption* is an optional visual label supprted by CKEditor for an image and provides an additional way to describe an image.\n\
+\n\
+* From an accessibility perspective the *Caption* and *Alternative Text* should not be the same, but complement each other.\n\
+\n\
+* In some cases the *Caption* may sufficiently describe the purpose of the image, so *Alternative Text* is not needed, or should be used to provide a more detailed description that the *caption*.\n\
+\n\
+* In some cases the *Caption* maybe providing detailed information about an image (e.g. the names and rows of people in a group picture), and in this case the *Alternative Text* should provide shorter text describing the purpose of the image (e.g. group picture of..).\n\
+\n\
+* Using the caption creates a `figcaption` element contained in a `figure` element.  The `figure` element also contains the `img` element.\n\
 \n\
 ### Why it\'s important\n\
 \n\
