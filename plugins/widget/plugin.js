@@ -2216,7 +2216,7 @@
 	// @param {CKEDITOR.dom.element} container
 	function cleanUpAllWidgetElements( widgetsRepo, container ) {
 		var wrappers = container.find( '.cke_widget_wrapper' ),
-			wrapper, element,
+			wrapper, element, key, styles, styleDefinition, attributes, classes,
 			i = 0,
 			l = wrappers.count();
 
@@ -2225,8 +2225,32 @@
 			element = wrapper.getFirst( Widget.isDomWidgetElement );
 			// If wrapper contains widget element - unwrap it and wrap again.
 			if ( element.type == CKEDITOR.NODE_ELEMENT && element.data( 'widget' ) ) {
+				styleDefinition = { attributes: {}, element: element.getName() };
+
+				styles = CKEDITOR.tools.parseCssText( wrapper.getAttribute( 'style' ) );
+				if ( styles ) {
+					styleDefinition.styles = styles;
+				}
+
+				attributes = element.getAttributes();
+				for ( key in attributes ) {
+					if ( key !== 'style' && key !== 'class' && key.substring( 0, 4 ).toLowerCase() !== 'data' ) {
+						styleDefinition.attributes[ key ] = attributes[ key ];
+					} else if ( key === 'class' ) {
+						classes = attributes[ key ].split( ' ' );
+						classes = CKEDITOR.tools.array.filter( classes, function( item ) {
+							return item.substring( 0, 3 ) !== 'cke';
+						} );
+						styleDefinition.attributes[ 'class' ] = classes.join( ' ' );
+					}
+				}
+
 				element.replace( wrapper );
-				widgetsRepo.wrapElement( element );
+				wrapper = widgetsRepo.wrapElement( element );
+				if ( styles ) {
+					wrapper.setStyles( styleDefinition.styles );
+				}
+				wrapper.setAttribute( 'data-cke-style-definition', JSON.stringify( styleDefinition ) );
 			} else {
 				// Otherwise - something is wrong... clean this up.
 				wrapper.remove();
