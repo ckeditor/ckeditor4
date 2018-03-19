@@ -510,7 +510,6 @@
 				// This class will be removed by widget constructor to avoid locking snapshot twice.
 				if ( wrapper.hasClass( 'cke_widget_new' ) ) {
 					var styleDefinition = JSON.parse( wrapper.$.getAttribute( 'data-cke-style-definition' ) );
-					delete wrapper.$.attributes[ 'data-cke-style-definition' ];
 
 					wrapper.removeAttribute( 'data-cke-style-definition' );
 					var widget = new Widget( this, this._.nextId++, element, widgetDef, startupData, styleDefinition );
