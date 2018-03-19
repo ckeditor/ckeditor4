@@ -6,7 +6,7 @@
 'use strict';
 
 ( function() {
-	var MARKER = '@', MIN_CHARS = 2, ENCODED_QUERY = '{encodedQuery}'
+	var MARKER = '@', MIN_CHARS = 2, ENCODED_QUERY = '{encodedQuery}';
 
 	CKEDITOR.plugins.add( 'mentions', {
 		requires: 'autocomplete,textmatch,ajax',
@@ -21,7 +21,7 @@
 					self.instances.push( new Mentions( editor, config ) );
 				} );
 			} );
-		},
+		}
 	} );
 
 	/**
@@ -158,9 +158,9 @@
 		 * @param {String} template
 		 */
 		changeViewTemplate: function( template ) {
-			this.autocomplete.view.itemTemplate = new CKEDITOR.template( template )
+			this.autocomplete.view.itemTemplate = new CKEDITOR.template( template );
 		}
-	}
+	};
 
 	function getTextTestCallback( marker, minChars ) {
 		var matchPattern = createPattern();
@@ -234,7 +234,7 @@
 			else {
 				feed( { query: query, marker: marker }, callback );
 			}
-		}
+		};
 	}
 
 	function getDataCallbackWithMarkedItems( marker, callback ) {
@@ -250,7 +250,7 @@
 			} );
 
 			callback( newData );
-		}
+		};
 	}
 
 	function indexFeed( feed ) {
