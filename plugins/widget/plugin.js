@@ -833,6 +833,7 @@
 	 * @param {CKEDITOR.plugins.widget.definition} widgetDef Widget's registered definition.
 	 * @param [startupData] Initial widget data. This data object will overwrite the default data and
 	 * the data loaded from the DOM.
+	 * @param {Object} styleDefinition Optional widget style definition.
 	 */
 	function Widget( widgetsRepo, id, element, widgetDef, startupData, styleDefinition ) {
 		var editor = widgetsRepo.editor;
@@ -957,7 +958,7 @@
 			 *
 			 * @readonly
 			 * @since: 4.10.0
-			 * @property {CKEDITOR.plugins.widget.styleDefinition}
+			 * @property {Object}
 			 */
 			styleDefinition: styleDefinition,
 
@@ -1101,12 +1102,11 @@
 						return false;
 				}
 			}
+
 			if ( attributes ) {
 				for ( item in attributes ) {
-					if ( item !== 'class' && item !== 'style' ) {
-						if ( !( item in styleDefinition.attributes ) ) {
-							return false;
-						}
+					if ( isNotInAttributes( item, styleDefinition.attributes ) ) {
+						return false;
 					}
 				}
 			}
@@ -1914,6 +1914,10 @@
 	//
 	// REPOSITORY helpers -----------------------------------------------------
 	//
+
+	function isNotInAttributes ( item, attributes ) {
+		return item !== 'class' && item !== 'style' && !( item in attributes );
+	}
 
 	function addWidgetButtons( editor ) {
 		var widgets = editor.widgets.registered,
@@ -3214,7 +3218,7 @@
 
 	// Applies or removes style's attributes from widget.
 	// @param {CKEDITOR.style} style Custom widget style.
-	// @param {Boolean} whenever to apply or remove style.
+	// @param {Boolean} apply Whenever to apply or remove style.
 	function applyRemoveStyle( widget, style, apply ) {
 		var changed = 0,
 			classes = getStyleClasses( style ),
