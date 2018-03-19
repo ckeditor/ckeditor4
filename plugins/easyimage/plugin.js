@@ -103,7 +103,7 @@
 		}
 
 		function addDefaultCommands() {
-			editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'easyimageAlt', {
+			editor.addCommand( 'easyImageAlt', new CKEDITOR.dialogCommand( 'easyImageAlt', {
 				startDisabled: true,
 				contextSensitive: true,
 				refresh: createCommandRefresh()
