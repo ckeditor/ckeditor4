@@ -579,20 +579,57 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 										label: lang.descriptionLocation,
 										title: lang.descriptionLocationTitle,
 										items: [
-//											[ lang.locationNone,   'none' ],
 											[ lang.locationBefore, 'before' ],
 											[ lang.locationAfter,  'after' ],
 											[ lang.locationBoth,   'both' ]
 										],
 										setup: function( widget ) {
-											var value = this.setValue( widget.data.title );
-											if (!value) {
-												this.setValue('none');
+											if (widget.data.title && widget.data.title.length) {
+
+												var imageType = this.getDialog().getContentElement( 'info', 'imageType' );
+
+												var title = widget.data.title.toLowerCase();
+												var hasBefore = title.indexOf(lang.locationBefore.toLowerCase()) >= 0;
+												var hasAfter  = title.indexOf(lang.locationAfter.toLowerCase()) >= 0;
+
+												if (hasBefore && hasAfter) {
+													this.setValue( 'both' );
+													imageType.setValue('complex');
+												}
+												else {
+													if (hasBefore) {
+														this.setValue( 'before' );
+														imageType.setValue('complex');
+													}
+													else {
+														if (hasAfter) {
+															this.setValue( 'after' );
+															imageType.setValue('complex');
+														}
+														else {
+															this.getElement().hide();
+														}
+													}
+												}
+											}
+											else {
 												this.getElement().hide();
 											}
 										},
 										commit: function( widget ) {
-											widget.setData( 'title', this.getValue() );
+											var value = this.getValue();
+
+											if (value === 'before') {
+												widget.setData( 'title', lang.locationBeforeTitle );
+											}
+
+											if (value === 'after') {
+												widget.setData( 'title', lang.locationAfterTitle );
+											}
+
+											if (value === 'both') {
+												widget.setData( 'title', lang.locationBothTitle );
+											}
 										}
 									}
 								]

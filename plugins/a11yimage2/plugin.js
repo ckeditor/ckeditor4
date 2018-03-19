@@ -7,7 +7,7 @@
 
 ( function() {
 
-	var template = '<img alt="" src="" title=""/>',
+	var template = '<img alt="" src="" rel="" title=""/>',
 		templateBlock = new CKEDITOR.template(
 			'<figure class="{captionedClass}">' +
 				template +
@@ -582,7 +582,7 @@
 					// There was no caption, but the caption is to be added.
 					if ( newValue ) {
 						var figCaptionValue = editor.a11yfirst.figCaptionValue;
-						if (!figCaptionValue) {
+						if (!figCaptionValue || figCaptionValue.length === 0) {
 							figCaptionValue = editor.lang.a11yimage2.captionPlaceholder;
 						}
 						// Create new <figure> from widget template.
