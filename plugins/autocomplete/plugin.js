@@ -1091,10 +1091,23 @@
 	/**
 	 * The autocomplete keystrokes used to finish autocompletion with selected view item.
 	 * This setting will set completing keystrokes for each autocomplete plugin respectively.
+	 *
 	 * To change completing keystrokes individually use {@link CKEDITOR.plugins.autocomplete#commitKeystroke} plugin property.
 	 *
+	 * ```js
+	 * // Default config (9 = tab, 13 = enter).
+	 * config.autocomplete_commitKeystroke = [ 9, 13 ];
+	 * ```
+	 *
+	 * Commit keystroke can be also disabled by setting it to an empty array.
+	 *
+	 * ```js
+	 * // Disable autocomplete commit keystroke.
+	 * config.autocomplete_commitKeystroke = [];
+	 * ```
+	 *
 	 * @since 4.10.0
-	 * @cfg {Number/Number[]} [autocomplete_commitKeystroke=[9, 13] (9 = tab, 13 = enter, empty array = disabled)]
+	 * @cfg {Number/Number[]} [autocomplete_commitKeystroke=[9, 13]]
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.autocomplete_commitKeystroke = [ 9, 13 ];
