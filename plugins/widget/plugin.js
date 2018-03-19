@@ -2241,15 +2241,22 @@
 						classes = CKEDITOR.tools.array.filter( classes, function( item ) {
 							return item.substring( 0, 3 ) !== 'cke';
 						} );
-						styleDefinition.attributes[ 'class' ] = classes.join( ' ' );
+						classes = classes.join( ' ' );
+						if ( classes ) {
+							styleDefinition.attributes[ 'class' ] = classes;
+						}
 					}
 				}
 
 				element.replace( wrapper );
 				wrapper = widgetsRepo.wrapElement( element );
-				if ( styles ) {
+
+				if ( CKEDITOR.tools.objectKeys( styles ).length ) {
 					wrapper.setStyles( styleDefinition.styles );
+				} else {
+					delete styleDefinition.styles
 				}
+
 				wrapper.setAttribute( 'data-cke-style-definition', JSON.stringify( styleDefinition ) );
 			} else {
 				// Otherwise - something is wrong... clean this up.
@@ -2997,7 +3004,7 @@
 			key,
 			styleDefinition = {};
 
-		styleDefinition = styleDefinition || { attributes: {}, lockedStyle: {} };
+		styleDefinition = styleDefinition || { attributes: {} };
 		styleDefinition.attributes = styleDefinition.attributes || {};
 		styleDefinition.element = element.name;
 		if ( element.lockedStyle ) {
