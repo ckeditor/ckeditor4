@@ -81,45 +81,52 @@
 		bot.setData( getHtmlForTest( initialStyles, initialAttributes ), function() {
 			var editor = bot.editor,
 				widget = getWidgetById( editor, 'test-widget' ),
-				index = 0,
-				style;
+				item,
+				style,
+				action;
 
-			// Apply styles and/or attributes from `style` object to widget, widget needs to be focused for that
-			widget.focus();
-			while ( index < config.length ) {
-				var conf = config[ index ];
-				if ( 'apply' in config[ index ] ) {
-					style = conf.apply;
+			var tests = {
+				apply: function() {
+					style = item.apply;
 					style.apply( editor );
 
 					// Test if styles and/or attributes from `style` are applied to widget
 					assertTestStyles( widget.wrapper, style.getDefinition().styles, 1 );
 					assertTestStyles( widget.element, style.getDefinition().attributes, 0 );
 					assert.isTrue( widget.checkStyleActive( style ), 'Style should be active' );
-				} else if ( 'remove' in conf ) {
-					style = conf.remove;
+				},
+				remove: function() {
+					style = item.remove;
 					style.remove( editor );
 
 					// Test if styles and/or attributes from `styles` are removed from widget
 					assertTestRemovedStyles( widget.wrapper, style.getDefinition().styles, 1 );
 					assertTestRemovedStyles( widget.element, style.getDefinition().attributes, 0 );
 					assert.isFalse( widget.checkStyleActive( style ), 'Style shouldn\'t be active' );
-				} else if ( 'test' in conf ) {
-					style = conf.test;
+				},
+				test: function() {
+					style = item.test;
+
 					// Test without adding styles
 					assertTestStyles( widget.wrapper, style.getDefinition().styles, 1 );
 					assertTestStyles( widget.element, style.getDefinition().attributes, 0 );
-				} else if ( 'checkActive' in conf ) {
-					style = conf.checkActive;
-					assert.isTrue( widget.checkStyleActive( style ) );
-				} else if ( 'checkInactive' in conf ) {
-					style = conf.checkInactive;
+				},
+				checkInactive: function() {
+					style = item.checkInactive;
 					assert.isFalse( widget.checkStyleActive( style ) );
 				}
+			};
+
+			// Apply styles and/or attributes from `style` object to widget, widget needs to be focused for that
+			widget.focus();
+			while ( item = config.shift() ) {
+				action = CKEDITOR.tools.objectKeys( item )[ 0 ];
+
+				tests[ action ]( item[ action ] );
+
 				// Test if initial styles and/or attributes are preserved
 				assertTestStyles( widget.wrapper, initialStyles, 1 );
 				assertTestStyles( widget.element, initialAttributes, 0 );
-				index++;
 			}
 		} );
 	}
