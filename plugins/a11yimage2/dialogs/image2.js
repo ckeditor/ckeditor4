@@ -51,7 +51,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 		getNatural = helpers.getNatural,
 
 		// Global variables referring to the dialog's context.
-		doc, widget, image,
+		doc, widget, image, caption,
 
 		// Global variable referring to this dialog's image pre-loader.
 		preLoader,
@@ -394,6 +394,9 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 			// Create a "global" reference to widget's image.
 			image = widget.parts.image;
 
+			// Create a "global" reference to widget's caption (if it exists, else undefined).
+			caption = widget.parts.caption;
+
 			// Reset global variables.
 			srcChanged = userDefinedLock = lockRatio = false;
 
@@ -673,17 +676,9 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								label: lang.caption,
 								requiredContent: features.caption.requiredContent,
 								setup: function( widget ) {
-									if (widget.data.hasCaption) {
-										if ( widget.data.caption ) {
-											this.setValue( widget.data.caption.getHtml() );
-										}
-										else {
-											if (widget.parts.caption) {
-												this.setValue( widget.parts.caption.getHtml() );
-											}
-											else {
-												console.log('Error getting caption');
-											}
+									if ( widget.data.hasCaption ) {
+										if ( caption ) {
+											this.setValue( caption.getHtml() );
 										}
 									}
 									else {
@@ -691,22 +686,10 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 									}
 								},
 								commit: function( widget ) {
-									if (widget.data.hasCaption ) {
-										if (widget.data.caption) {
-											widget.data.caption.setHtml(this.getValue());
-										}
-										else {
-											if (widget.parts.caption) {
-												widget.parts.caption.setHtml(this.getValue());
-											}
-											else {
-												editor.lang.a11yimage2.figCaptionValue = this.getValue();
-											}
-										}
+									if ( caption ) {
+										caption.setHtml(this.getValue());
 									}
-									else {
-										editor.lang.a11yimage2.figCaptionValue = this.getValue();
-									}
+									editor.lang.a11yimage2.figCaptionValue = this.getValue();
 								}
 							},
 							{
