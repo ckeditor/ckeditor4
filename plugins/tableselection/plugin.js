@@ -891,7 +891,8 @@
 						39: 1, // Right Arrow,
 						40: 1, // Down Arrow
 						8: 1, // Backspace
-						46: 1 // Delete
+						46: 1, // Delete
+						13: 1 // Enter
 					},
 					tags = CKEDITOR.tools.extend( { table: 1 }, CKEDITOR.dtd.$tableContent );
 
@@ -989,7 +990,7 @@
 					evt.data.preventDefault();
 					evt.cancel();
 
-					if ( keystroke > 8 && keystroke < 46 ) {
+					if ( keystroke > 36 && keystroke < 41 ) {
 						// Arrows.
 						ranges[ 0 ].moveToElementEditablePosition( toStart ? firstCell : lastCell, !toStart );
 						selection.selectRanges( [ ranges[ 0 ] ] );
