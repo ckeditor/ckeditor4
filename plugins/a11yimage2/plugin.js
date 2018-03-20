@@ -7,7 +7,7 @@
 
 ( function() {
 
-	var template = '<img alt="" src="" rel="" title=""/>',
+	var template = '<img alt="" src="" title=""/>',
 		templateBlock = new CKEDITOR.template(
 			'<figure class="{captionedClass}">' +
 				template +
@@ -20,7 +20,7 @@
 		// jscs:disable maximumLineLength
 		lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
-		requires: 'widget,dialog',
+		requires: 'widget,dialog,a11yfirsthelp',
 		icons: 'image',
 		hidpi: true,
 
@@ -577,11 +577,9 @@
 					// Switching hasCaption always destroys the widget.
 					shift.deflate();
 
-					console.log('[hasCaption][newValue]: ' + newValue)
-
 					// There was no caption, but the caption is to be added.
 					if ( newValue ) {
-						var figCaptionValue = editor.a11yfirst.figCaptionValue;
+						var figCaptionValue = editor.lang.a11yimage2.figCaptionValue;
 						if (!figCaptionValue || figCaptionValue.length === 0) {
 							figCaptionValue = editor.lang.a11yimage2.captionPlaceholder;
 						}

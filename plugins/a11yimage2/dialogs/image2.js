@@ -673,8 +673,18 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								label: lang.caption,
 								requiredContent: features.caption.requiredContent,
 								setup: function( widget ) {
-									if (widget.data.hasCaption ) {
-										this.setValue( widget.data.caption.getHtml() );
+									if (widget.data.hasCaption) {
+										if ( widget.data.caption ) {
+											this.setValue( widget.data.caption.getHtml() );
+										}
+										else {
+											if (widget.parts.caption) {
+												this.setValue( widget.parts.caption.getHtml() );
+											}
+											else {
+												console.log('Error getting caption');
+											}
+										}
 									}
 									else {
 										this.getElement().hide();
@@ -682,12 +692,20 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								},
 								commit: function( widget ) {
 									if (widget.data.hasCaption ) {
-										if (widget.data.caption && typeof widget.data.caption.setText === 'function') {
+										if (widget.data.caption) {
 											widget.data.caption.setHtml(this.getValue());
 										}
 										else {
-											editor.a11yfirst.figCaptionValue = this.getValue();
+											if (widget.parts.caption) {
+												widget.parts.caption.setHtml(this.getValue());
+											}
+											else {
+												editor.lang.a11yimage2.figCaptionValue = this.getValue();
+											}
 										}
+									}
+									else {
+										editor.lang.a11yimage2.figCaptionValue = this.getValue();
 									}
 								}
 							},
