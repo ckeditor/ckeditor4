@@ -492,10 +492,10 @@
 
 	function loadPlugins( editor ) {
 		var config = editor.config,
-			// We have to trim plugins so they will be correctly processed by our regex.
-			plugins = CKEDITOR.tools.trim( config.plugins ),
-			extraPlugins = CKEDITOR.tools.trim( config.extraPlugins ),
-			removePlugins = CKEDITOR.tools.trim( config.removePlugins );
+			// We have to remove whitespaces (#1712).
+			plugins = config.plugins.replace( /\s/g, '' ),
+			extraPlugins = config.extraPlugins.replace( /\s/g, '' ),
+			removePlugins = config.removePlugins.replace( /\s/g, '' );
 
 		if ( extraPlugins ) {
 			// Remove them first to avoid duplications.
@@ -513,12 +513,8 @@
 		// Load the Adobe AIR plugin conditionally.
 		CKEDITOR.env.air && ( plugins += ',adobeair' );
 
-		// Remove whitespaces (#1712).
-		plugins = plugins.replace( /\s/g, '' )
-			.split( ',' );
-
 		// Load all plugins defined in the "plugins" setting.
-		CKEDITOR.plugins.load( plugins, function( plugins ) {
+		CKEDITOR.plugins.load( plugins.split( ',' ), function( plugins ) {
 			// The list of plugins.
 			var pluginsArray = [];
 
