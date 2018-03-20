@@ -1267,7 +1267,8 @@
 		}
 
 			// Replace adjacent white-spaces (EOLs too - Fx sometimes keeps them) with one space.
-		data = data.replace( /\s+/g, ' ' )
+			// We have to skip \u3000 (IDEOGRAPHIC SPACE) character - it's special space character correctly rendered by the browsers (#1321).
+		data = data.replace( /(?!\u3000)\s+/g, ' ' )
 			// Remove spaces from between tags.
 			.replace( /> +</g, '><' )
 			// Normalize XHTML syntax and upper cased <br> tags.
