@@ -431,7 +431,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 							var desc       = this.getDialog().getContentElement( 'info', 'desc' ).getElement();
 							var alt        = this.getDialog().getContentElement( 'info', 'alt' ).getElement();
-							var help       = this.getDialog().getContentElement( 'info', 'a11yfirstHelpImage').getElement();
+							var info       = this.getDialog().getContentElement( 'info', 'a11yfirstInfoImage').getElement();
 							var hasCaption = this.getDialog().getContentElement( 'info', 'hasCaption').getElement();
 							var caption    = this.getDialog().getContentElement( 'info', 'caption').getElement();
 							var decorative = this.getDialog().getContentElement( 'info', 'isDecorative').getElement();
@@ -441,7 +441,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 							switch(value) {
 								case 'decorative':
 									alt.hide();
-									help.hide();
+									info.hide();
 									desc.hide();
 									hasCaption.hide();
 									caption.hide();
@@ -450,7 +450,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 								case 'complex':
 									alt.show();
-									help.show();
+									info.show();
 									desc.show();
 									hasCaption.show();
 									if (hasCaptionValue) {
@@ -461,7 +461,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 								default:
 									alt.show();
-									help.show();
+									info.show();
 									hasCaption.show();
 									if (hasCaptionValue) {
 										caption.show();
@@ -497,7 +497,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 						children: [
 							{
 								type: 'hbox',
-								widths: [ '80%', '20%' ],
+								widths: [ '90%', '10%' ],
 								align: 'bottom',
 								children: [
 									{
@@ -572,10 +572,10 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 										}
 									},
 									{
-								 	  id: 'a11yfirstHelpImage',
+								 	  id: 'a11yfirstInfoImage',
 										type: 'button',
-										label: lang.a11yfirstHelp,
-										title: lang.a11yfirstHelpTitle,
+										label: lang.a11yfirstInfo,
+										title: lang.a11yfirstInfoTitle,
 										onClick: function() {
 						          editor.a11yfirst.helpOption = 'ImageHelp';
 						          editor.execCommand('a11yFirstHelpDialog');
