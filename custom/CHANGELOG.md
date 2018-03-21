@@ -10,7 +10,7 @@ All notable changes to the A11yFirst project will be documented in this file.
 
 * Change `Link type` widget from `select` to `radio` and change order of items
 
-* Update `Heading / Paragraph` menu item labels, e.g., `PRE - Preformatted`
+* Update `Heading / Paragraph` menu item labels for paragraph formats
 
 * Add `codesnippet` plugin and toolbar button
 
