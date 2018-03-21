@@ -1,0 +1,31 @@
+<textarea id="basicTable">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>AA</td>
+				[<td>BB</td>]
+				<td>CC</td>
+			</tr>
+			<tr>
+				<td>XX</td>
+				[<td>YY</td>]
+				<td>ZZ</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>AA</td>
+				<td>&nbsp;</td>
+				<td>CC</td>
+			</tr>
+			<tr>
+				<td>XX</td>
+				<td>&nbsp;</td>
+				<td>ZZ</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
