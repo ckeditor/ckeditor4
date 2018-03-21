@@ -601,17 +601,14 @@
 			 * @private
 			 * @member CKEDITOR.plugins.imagebase.featuresDefinitions.caption
 			 * @param {CKEDITOR.dom.element} sender The element that this function should be called on.
-			 * @param {Boolean} [isFocused] Indicates if current widget should be treated as a focused one.
-			 * If this parameter is omitted, its value is determined by checking
+			 * @param {Boolean} [forceFocus] Indicates if current widget should be treated as a focused one.
+			 * If this parameter is omitted or set to false, the focused widget is determined by checking
 			 * {@link CKEDITOR.plugins.widget.repository#focused} value. This parameter was added in 4.10.
 			 */
-			_refreshCaption: function( sender, isFocused ) {
+			_refreshCaption: function( sender, forceFocus ) {
 				var caption = this.parts.caption,
-					editable = this.editables.caption;
-
-				if ( typeof isFocused !== 'boolean' ) {
-					isFocused = getFocusedWidget( this.editor ) === this;
-				}
+					editable = this.editables.caption,
+					isFocused = forceFocus || ( getFocusedWidget( this.editor ) === this );
 
 				function isInCaption( element ) {
 					return element.equals( caption ) || caption.contains( element );
