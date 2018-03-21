@@ -367,13 +367,13 @@
 				},
 				{
 					id: 'linkType',
-					type: 'select',
+					type: 'radio',
 					label: linkLang.type,
 					'default': 'url',
 					items: [
 						[ linkLang.toUrl, 'url' ],
-						[ linkLang.toAnchor, 'anchor' ],
-						[ linkLang.toEmail, 'email' ]
+						[ linkLang.toEmail, 'email' ],
+						[ linkLang.toAnchor, 'anchor' ]
 					],
 					onChange: linkTypeChanged,
 					setup: function( data ) {
