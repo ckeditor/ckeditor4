@@ -11,6 +11,7 @@
 * 1. Add the following plugins:
 *
 *    Accessibility Checker  (a11ychecker)
+*    Code Snippet           (codesnippet)
 *    Find / Replace         (find)
 *    Justify                (justify)
 *    Language               (language)
@@ -71,6 +72,7 @@ CKEDITOR.editorConfig = function ( config ) {
     'blockquote,' +
     'button,' +
     'clipboard,' +
+    'codesnippet,' +
     'contextmenu,' +
     'dialog,' +
     'dialogui,' +
@@ -153,7 +155,7 @@ CKEDITOR.editorConfig = function ( config ) {
   config.toolbar = [
     { name: 'heading',        items: [ 'Heading' ] },
     { name: 'list',           items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ] },
-    { name: 'blockquote',     items: [ 'Blockquote' ] },
+    { name: 'otherblocks',    items: [ 'Blockquote', 'CodeSnippet' ] },
     { name: 'justify',        items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
     { name: 'misc1',          items: [ 'Image', 'Table' ] },
     { name: 'showblocks',     items: [ 'ShowBlocks' ] },

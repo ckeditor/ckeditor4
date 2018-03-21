@@ -121,10 +121,11 @@ GitHub Repository: <a href="https://github.com/a11yfirst/plugins-dev" target="_r
   section or other subsection of the document.\n\
 * **Normal** — The default paragraph format, typically with significant top\n\
   and bottom margins.\n\
-* **Preformatted** — Use this for computer code blocks to maintain spacing\n\
+* **Preformatted text** — Use this for computer code blocks to maintain spacing\n\
   and indentation.\n\
-* **Address** — Omits the top and bottom margins of normal paragraph, and\n\
-  formats the text in italics.\n\
+* **Address line** — Use this to type a series of address lines styled in\n\
+  italics and with minimal top and bottom margins. When you press enter at the\n\
+  end of a line, the next line is also an address line.\n\
 \n\
 ### About headings\n\
 * The Heading / Paragraph menu only enables the **allowed** heading levels.\n\

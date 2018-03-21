@@ -209,7 +209,9 @@
 			};
 
 		var normalizeDisplayText = function(displayTextValue) {
-			return displayTextValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "").replace(/^https?\:\/\//i, "");
+			var str = displayTextValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "").replace(/^https?\:\/\//i, "");
+			var str = str.replace(/[.,!?]+$/, ''); // remove common sentence endings ".,!?"
+			return str;
 		};
 
 		var normalizeText = function(textValue) {
@@ -263,6 +265,7 @@
 										var displayTextValue      = this.getValue();
 										var displayTextNormalized = normalizeDisplayText(displayTextValue);
 										var isDisplayTextEmpty    = displayTextNormalized.length === 0;
+										var isDisplayTextAURL     =  displayTextValue.toLowerCase().indexOf('http') === 0;
 
 										var urlValue       = this.getDialog().getContentElement( 'info', 'url' ).getValue();
 										var urlNormalized  = normalizeText(urlValue);
@@ -272,6 +275,14 @@
 										var emailNormalized  = normalizeText(emailValue);
 										var isEmailEmpty     = emailNormalized.length === 0;
 
+										var nameValue       = this.getDialog().getContentElement( 'info', 'anchorName' ).getValue();
+										var nameNormalized  = normalizeText(nameValue);
+										var isNameEqualToDisplayText = nameNormalized === displayTextNormalized;
+
+										var idValue       = this.getDialog().getContentElement( 'info', 'anchorId' ).getValue();
+										var idNormalized  = normalizeText(idValue);
+										var isIdEqualToDisplayText = idNormalized === displayTextNormalized;
+
 										if (isLinkTypeUrl) {
 												// Test for empty Display Text
 												if (isDisplayTextEmpty) {
@@ -280,7 +291,7 @@
 												}
 
 												// Testing for using the URL as the link text
-												if(displayTextNormalized === urlNormalized) {
+												if(displayTextNormalized === urlNormalized || isDisplayTextAURL) {
 													return confirm(linkLang.msgUrlDisplayText);
 												}
 										}
@@ -291,6 +302,10 @@
 											if (isDisplayTextEmpty) {
 													alert(linkLang.msgEmptyDisplayText);
 													return false;
+											}
+
+											if (isNameEqualToDisplayText || isNameEqualToDisplayText) {
+												return confirm(linkLang.msgNameEqualToDisplayText);
 											}
 
 											if (!anchors || anchors.length === 0) {
@@ -352,13 +367,13 @@
 				},
 				{
 					id: 'linkType',
-					type: 'select',
+					type: 'radio',
 					label: linkLang.type,
 					'default': 'url',
 					items: [
 						[ linkLang.toUrl, 'url' ],
-						[ linkLang.toAnchor, 'anchor' ],
-						[ linkLang.toEmail, 'email' ]
+						[ linkLang.toEmail, 'email' ],
+						[ linkLang.toAnchor, 'anchor' ]
 					],
 					onChange: linkTypeChanged,
 					setup: function( data ) {

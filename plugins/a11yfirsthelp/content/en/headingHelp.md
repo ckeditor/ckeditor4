@@ -9,10 +9,11 @@
   section or other subsection of the document.
 * **Normal** — The default paragraph format, typically with significant top
   and bottom margins.
-* **Preformatted** — Use this for computer code blocks to maintain spacing
+* **Preformatted text** — Use this for computer code blocks to maintain spacing
   and indentation.
-* **Address** — Omits the top and bottom margins of normal paragraph, and
-  formats the text in italics.
+* **Address line** — Use this to type a series of address lines styled in
+  italics and with minimal top and bottom margins. When you press enter at the
+  end of a line, the next line is also an address line.
 
 ### About headings
 * The Heading / Paragraph menu only enables the **allowed** heading levels.
