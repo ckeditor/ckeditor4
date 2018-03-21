@@ -305,7 +305,9 @@
 					trueType,
 					// Default is 'html'.
 					defaultType = editor.config.clipboard_defaultContentType || 'html',
-					transferType = dataObj.dataTransfer.getTransferType( editor );
+					transferType = dataObj.dataTransfer.getTransferType( editor ),
+					isExternalPaste = transferType == CKEDITOR.DATA_TRANSFER_EXTERNAL,
+					isActiveForcePAPT = editor.config.forcePasteAsPlainText === true;
 
 				// If forced type is 'html' we don't need to know true data type.
 				if ( type == 'html' || dataObj.preSniffing == 'html' ) {
@@ -330,7 +332,8 @@
 					data = filterContent( editor, data, filtersFactory.get( 'plain-text' ) );
 				}
 				// External paste and pasteFilter exists and filtering isn't disabled.
-				else if ( transferType == CKEDITOR.DATA_TRANSFER_EXTERNAL && editor.pasteFilter && !dataObj.dontFilter ) {
+				// Or force filtering even for internal and cross-editor paste, when forcePAPT is active (#620).
+				else if ( isExternalPaste && editor.pasteFilter && !dataObj.dontFilter || isActiveForcePAPT ) {
 					data = filterContent( editor, data, editor.pasteFilter );
 				}
 
