@@ -355,3 +355,27 @@ a.cke_toolbox_collapser
 	margin-top: 0;
 	margin-right: 2px;
 }
+
+.cke_splitbutton {
+	display: inline-block;
+	cursor: default;
+	float: left;
+	border: 0;
+	position: relative;
+}
+
+.cke_splitbutton:hover {
+	background: #e5e5e5;
+}
+
+.cke_splitbutton a:not(last-child) {
+	border-radius: 3px 0 0 3px;
+}
+
+.cke_splitbutton a:last-child {
+	border-radius: 0 3px 3px 0;
+}
+
+.cke_splitbutton:hover a:last-child:before {
+	border-left: none;
+}

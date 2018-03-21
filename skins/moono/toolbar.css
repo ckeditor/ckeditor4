@@ -385,3 +385,33 @@ a.cke_toolbox_collapser
 	margin-top: 0;
 	margin-right: 2px;
 }
+
+.cke_splitbutton {
+	display: inline-block;
+	cursor: default;
+	float: left;
+	border: 0;
+	position: relative;
+}
+
+.cke_splitbutton a:last-child {
+	/* Little css trick to squash two inside borders of split button.
+	 Two normal buttons looks like this (square brackets = borders)
+	 [ y ][ x ]
+	 Whilge with following split button will have single border inside
+	 [ y ] x ]
+	 */
+	margin-left: -1px;
+}
+
+.cke_splitbutton:hover {
+	background: #e5e5e5;
+}
+
+.cke_splitbutton a:last-child .cke_button_arrow {
+	margin-left: 0;
+}
+
+.cke_splitbutton:hover a:last-child:before {
+	border-left: none;
+}
