@@ -6,11 +6,17 @@ All notable changes to the A11yFirst project will be documented in this file.
 
 ### Updates
 
-* Add display text checking for `Link type` option `Link to anchor in the text`
+* Add `Display Text` validation for `Link type` option `Link to anchor in the text`
 
-* Change `Link type` widget from `select` to `radio` and change order of items
+* Change `Link type` widget in Link dialog from `select` to `radio` to make the
+  three options always visible; change order of the type options
 
-* Update `Heading / Paragraph` menu item labels for paragraph formats
+* Update `Heading / Paragraph` menu item labels for paragraph formats:
+  * `Computer code` to `Preformatted text`
+  * `Address` to `Address line`
+
+* Update Heading / Paragraph content in A11yFirst Help with new labels and expanded
+  description of `Address line`
 
 * Add `codesnippet` plugin and toolbar button
 
