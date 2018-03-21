@@ -939,9 +939,9 @@
 				// Image can be wrapped in link <a><img/></a>.
 				image = el.getFirst( 'img' ) || el.getFirst( 'a' ).getFirst( 'img' );
 
-				el.lockedStyle = el.lockedStyle || {};
-				el.lockedStyle.display = 'inline-block';
-				el.lockedStyle[ 'text-align' ] = 'center';
+				data.lockedStyle = data.lockedStyle || {};
+				data.lockedStyle.display = 'inline-block';
+				data.lockedStyle[ 'text-align' ] = 'center';
 			}
 
 			// No center wrapper has been found.

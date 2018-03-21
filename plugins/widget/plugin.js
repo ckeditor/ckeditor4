@@ -2254,7 +2254,7 @@
 				if ( CKEDITOR.tools.objectKeys( styles ).length ) {
 					wrapper.setStyles( styleDefinition.styles );
 				} else {
-					delete styleDefinition.styles
+					delete styleDefinition.styles;
 				}
 
 				wrapper.setAttribute( 'data-cke-style-definition', JSON.stringify( styleDefinition ) );
@@ -2999,20 +2999,18 @@
 
 	function handleStylesOnUpcast( element, wrapper ) {
 		var style = element.attributes.style,
-			lockedStyle,
+			lockedStyle = {},
 			outputStyle = {},
-			key,
-			styleDefinition = {};
+			styleDefinition = {},
+			key;
+
+		if ( element.attributes[ 'data-cke-widget-data' ] ) {
+			lockedStyle = JSON.parse( decodeURIComponent( element.attributes[ 'data-cke-widget-data' ] ) ).lockedStyle || {};
+		}
 
 		styleDefinition = styleDefinition || { attributes: {} };
 		styleDefinition.attributes = styleDefinition.attributes || {};
 		styleDefinition.element = element.name;
-		if ( element.lockedStyle ) {
-			lockedStyle = element.lockedStyle;
-			delete element.lockedStyle;
-		} else {
-			lockedStyle = {};
-		}
 
 		for ( key in element.attributes ) {
 			if ( key !== 'style' && key.substring( 0, 4 ).toLowerCase() !== 'data' ) {
@@ -3232,8 +3230,8 @@
 	// @param {Boolean} whenever to remove or add class.
 	function addRemoveClassToStyleDef( widget, className, remove ) {
 		var classes = widget.styleDefinition ? widget.styleDefinition.attributes[ 'class' ] : undefined;
-			classes = classes && classes.split( /\s+/ ) ;
 		if ( classes ) {
+			classes = classes && classes.split( /\s+/ ) ;
 			if ( !!remove ) {
 				if ( CKEDITOR.tools.indexOf( classes, className ) !== -1 ) {
 					classes.push( className );
