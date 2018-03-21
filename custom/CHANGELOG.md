@@ -2,6 +2,18 @@
 
 All notable changes to the A11yFirst project will be documented in this file.
 
+## Upcoming Release
+
+### Updates
+
+* Add display text checking for `Link type` option `Link to anchor in the text`
+
+* Change `Link type` widget from `select` to `radio` and change order of items
+
+* Update `Heading / Paragraph` menu item labels, e.g., `PRE - Preformatted`
+
+* Add `codesnippet` plugin and toolbar button
+
 ## v0.7.1 – 12 Mar 2018
 
 ### Updates
