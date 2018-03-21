@@ -570,7 +570,6 @@
 						focused = editor.widgets.getByElement( sender );
 					}
 
-
 					CKEDITOR.tools.array.forEach( widgets, function( widget ) {
 						widget._refreshCaption( sender, widget === focused );
 					} );
