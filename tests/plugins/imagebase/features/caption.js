@@ -410,6 +410,7 @@
 			}
 		} ),
 
+		// (#1592)
 		'test toggling active caption': createToggleTest( {
 			fixture: 'toggleActive',
 			initial: true,
