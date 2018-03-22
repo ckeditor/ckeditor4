@@ -57,6 +57,9 @@
 				}
 
 				if ( activeButton ) {
+					CKEDITOR.document.getById( properties.buttons[ defaultButton.id ]._.id ).setStyle( 'display', 'none' );
+					properties.buttons[ defaultButton.id ].hidden = true;
+
 					CKEDITOR.document.getById( properties.buttons[ activeButton.id ]._.id ).removeStyle( 'display' );
 					properties.buttons[ activeButton.id ].hidden = false;
 					previousButton = activeButton;
