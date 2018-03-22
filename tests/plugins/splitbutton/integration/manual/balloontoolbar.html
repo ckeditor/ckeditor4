@@ -63,9 +63,10 @@
 	}
 
 	CKEDITOR.replace( 'editor1', {
-		allowedContent: true,
 		extraPlugins: 'teststylesplit',
-		toolbar: [],
+		toolbar: [
+				{ name: 'basicstyles', items: [ 'teststylesplit' ] }
+			],
 		on: {
 			instanceReady: instanceReadyListener
 		}
