@@ -8,7 +8,8 @@ CKEDITOR.plugins.add( 'menubutton', {
 	onLoad: function() {
 		var clickFn = function( editor ) {
 				var _ = this._,
-					menu = _.menu;
+					menu = _.menu,
+					offsetParent;
 
 				// Do nothing if this button is disabled.
 				if ( _.state === CKEDITOR.TRISTATE_DISABLED )
@@ -44,10 +45,12 @@ CKEDITOR.plugins.add( 'menubutton', {
 				this.setState( CKEDITOR.TRISTATE_ON );
 				_.on = 1;
 
+				offsetParent = this.offsetParent || CKEDITOR.document.getById( _.id );
+
 				// This timeout is needed to give time for the panel get focus
 				// when JAWS is running. (https://dev.ckeditor.com/ticket/9842)
 				setTimeout( function() {
-					menu.show( CKEDITOR.document.getById( _.id ), 4 );
+					menu.show( offsetParent, 4 );
 				}, 0 );
 			};
 
