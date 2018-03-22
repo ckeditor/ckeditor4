@@ -113,20 +113,19 @@
 		return pillars;
 	}
 
-	function checkWithinDimensions( coordinates, element ) {
-		return coordinates.x >= element.x && coordinates.x <= ( element.x + element.width ) &&
-			coordinates.y >= element.y && coordinates.y <= ( element.y + element.height );
+	function checkWithinDimensions( posX, posY, element ) {
+		return posX >= element.x && posX <= ( element.x + element.width ) &&
+			posY >= element.y && posY <= ( element.y + element.height );
 	}
 
 	function getPillarAtPosition( pillars, position ) {
 		for ( var i = 0, len = pillars.length; i < len; i++ ) {
 			var pillar = pillars[ i ];
 
-			if ( checkWithinDimensions( position, pillar ) ) {
+			if ( checkWithinDimensions( position.x, position.y, pillar ) ) {
 				return pillar;
 			}
 		}
-
 		return null;
 	}
 
@@ -328,16 +327,15 @@
 			resizer.show();
 		};
 
-		move = this.move = function( pos ) {
+		move = this.move = function( posX, posY ) {
 				if ( !pillar )
 					return 0;
 
-				if ( !isResizing && !checkWithinDimensions( pos, pillar ) ) {
+				if ( !isResizing && !checkWithinDimensions( posX, posY, pillar ) ) {
 					detach();
 					return 0;
 				}
-
-				var resizerNewPosition = pos.x - Math.round( resizer.$.offsetWidth / 2 );
+				var resizerNewPosition = posX - Math.round( resizer.$.offsetWidth / 2 );
 
 				if ( isResizing ) {
 					if ( resizerNewPosition == leftShiftBoundary || resizerNewPosition == rightShiftBoundary )
@@ -401,7 +399,7 @@
 
 					// If we're already attached to a pillar, simply move the
 					// resizer.
-					if ( resizer && resizer.move( page ) ) {
+					if ( resizer && resizer.move( page.x, page.y ) ) {
 						cancel( evt );
 						return;
 					}
