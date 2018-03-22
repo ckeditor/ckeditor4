@@ -580,7 +580,10 @@
 					this.parts.caption = createCaption( this );
 				}
 
-				this._refreshCaption();
+				// Refresh caption only if it's empty and doesn't have a placeholder to prevent hiding caption on paste (#1592).
+				if ( !this.editables.caption.getData() && !this.parts.caption.data( 'cke-caption-placeholder' ) ) {
+					this._refreshCaption();
+				}
 			},
 
 			/**

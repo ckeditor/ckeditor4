@@ -410,6 +410,14 @@
 			}
 		} ),
 
+		// (#1592)
+		'test toggling active caption': createToggleTest( {
+			fixture: 'toggleActive',
+			initial: true,
+			focus: true,
+			blur: false
+		} ),
+
 		'test blurring editor does not hide the caption': createToggleTest( {
 			fixture: 'toggleOne',
 			initial: true,
