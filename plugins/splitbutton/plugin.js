@@ -15,7 +15,7 @@
 		return activeItem;
 	}
 
-	function createButtons( editor, definition, context ) {
+	function createButtons( editor, definition ) {
 		var allItems = definition.items,
 			properties = { items: {}, buttons: {}, groups: {} },
 			i,
@@ -50,8 +50,6 @@
 			editor.getCommand( item.command ).on( 'state', function() {
 				var activeButton = getLastActiveCommands( editor, allItems ),
 					previousId = previousButton && properties.buttons[ previousButton.id ]._.id;
-
-				context.offsetParent = context.offsetParent || CKEDITOR.document.getById( previousId ).getParent();
 
 				if ( previousId ) {
 					CKEDITOR.document.getById( previousId ).setStyle( 'display', 'none' );
@@ -125,6 +123,10 @@
 					this.items = properties.items;
 					this.buttons = properties.buttons;
 
+					this.offsetParent = function() {
+						return this.rendered && this.rendered[ 0 ] && CKEDITOR.document.getById( this.rendered[ 0 ].id ).getParent();
+					};
+
 					definition.toolbar += 1;
 					var counter = 0;
 					for ( var j in properties.groups ) {
@@ -153,12 +155,11 @@
 			 */
 			CKEDITOR.ui.splitButton.prototype.render = function( editor, output ) {
 				output.push( '<span class="cke_splitbutton">' );
+				this.rendered = [];
 				for ( var key in this.buttons ) {
-					if ( !this.rendered ) {
-						this.rendered = [];
-					}
 					this.rendered.push( this.buttons[ key ].render( editor, output ) );
 				}
+
 				var splitButton = CKEDITOR.ui.button.prototype.render.call( this, editor, output );
 				output.push( '</span>' );
 				return splitButton;
