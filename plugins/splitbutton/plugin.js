@@ -70,6 +70,8 @@
 			properties.items[ item.id ] = item;
 			properties.buttons[ item.id ] = new CKEDITOR.ui.button( item );
 
+			editor.addFeature( properties.buttons[ item.id ] );
+
 			// First button as default. It might be overwritten by actual default button.
 			if ( !defaultButton ) {
 				previousButton = properties.buttons[ item.id ];
