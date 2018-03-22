@@ -263,13 +263,19 @@ bender.test( {
 			expected = '<a href="javascript:void(location.href=\'mailto:\'+String.fromCharCode(97,64,97))"' +
 				' data-cke-saved-href="javascript:void(location.href=\'mailto:\'+String.fromCharCode(97,64,97))">a@a</a>';
 
-		assertPasteEvent( this.editors.encodedDefault, { dataValue: pastedText, type: 'text' }, { dataValue: expected, type: 'html' } );
+		assertPasteEvent( this.editors.encodedDefault, { dataValue: pastedText, type: 'text' }, function( data ) {
+			assert.areEqual( 'html', data.type );
+			assert.areEqual( expected, bender.tools.compatHtml( data.dataValue ) );
+		} );
 	},
 
 	'test created protected mail link (string)': function() {
 		var pastedText = 'a@a',
 			expected = '<a href="javascript:mt(\'a\',\'a\',\'\',\'\')" data-cke-saved-href="javascript:mt(\'a\',\'a\',\'\',\'\')">a@a</a>';
 
-		assertPasteEvent( this.editors.encodedCustom, { dataValue: pastedText, type: 'text' }, { dataValue: expected, type: 'html' } );
+		assertPasteEvent( this.editors.encodedCustom, { dataValue: pastedText, type: 'text' }, function( data ) {
+			assert.areEqual( 'html', data.type );
+			assert.areEqual( expected, bender.tools.compatHtml( data.dataValue ) );
+		} );
 	}
 } );
