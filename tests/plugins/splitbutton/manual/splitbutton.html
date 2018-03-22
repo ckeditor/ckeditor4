@@ -3,6 +3,7 @@
 </textarea>
 <script>
 	CKEDITOR.plugins.add( 'teststylesplit', {
+		requires: 'splitbutton,basicstyles',
 		init: function( editor ) {
 
 			var lang = editor.lang.basicstyles;
@@ -39,16 +40,10 @@
 	} );
 
 	CKEDITOR.replace( 'editor', {
-		extraPlugins: 'teststylesplit'
+		allowedContent: true,
+		extraPlugins: 'teststylesplit',
+		toolbar: [
+			{ name: 'basicstyles', items: [ 'teststylesplit' ] }
+		]
 	} );
-
-	// Just hiding buttons that are irrelevant to test.
-	CKEDITOR.instances.editor.on( 'contentDom', function() {
-		for ( var i = 8; i <= 13; i++ ) {
-		 	var button = CKEDITOR.document.findOne( '#cke_' + i );
-		 	if ( button ) {
-				button.setStyle( 'display', 'none' );
-			}
-		}
-	} )
 </script>

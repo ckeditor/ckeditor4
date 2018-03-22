@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: feature, 4.10.0, 1679
-@bender-ckeditor-plugins: wysiwygarea, toolbar, splitbutton, basicstyles
+@bender-ckeditor-plugins: wysiwygarea, toolbar
 
 # Play around with splitbutton plugin
 ## Expected behaviour to test:

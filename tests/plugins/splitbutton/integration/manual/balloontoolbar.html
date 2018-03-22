@@ -11,6 +11,7 @@
 		bender.ignore();
 	}
 	CKEDITOR.plugins.add( 'teststylesplit', {
+		requires: 'splitbutton,basicstyles',
 		init: function( editor ) {
 
 			var lang = editor.lang.basicstyles;
@@ -62,12 +63,9 @@
 	}
 
 	CKEDITOR.replace( 'editor1', {
-		extraPlugins: 'balloonpanel,language,stylescombo,teststylesplit',
-		height: 300,
-		width: 600,
-		// Lets focus on Balloon Toolbar only.
-		toolbarCanCollapse: true,
-		toolbarStartupExpanded: false,
+		allowedContent: true,
+		extraPlugins: 'teststylesplit',
+		toolbar: [],
 		on: {
 			instanceReady: instanceReadyListener
 		}
