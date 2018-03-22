@@ -45,7 +45,11 @@ CKEDITOR.plugins.add( 'menubutton', {
 				this.setState( CKEDITOR.TRISTATE_ON );
 				_.on = 1;
 
-				offsetParent = this.offsetParent || CKEDITOR.document.getById( _.id );
+				if ( this.offsetParent ) {
+					offsetParent = typeof this.offsetParent === 'function' ? this.offsetParent() : this.offsetParent;
+				} else {
+					offsetParent = CKEDITOR.document.getById( _.id );
+				}
 
 				// This timeout is needed to give time for the panel get focus
 				// when JAWS is running. (https://dev.ckeditor.com/ticket/9842)
