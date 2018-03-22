@@ -39,8 +39,8 @@
 	function updatePosition() {
 		var editable = editor.editable(), frame = editor.window.getFrame();
 
-		editableRect = editable.getAbsoluteClientRect( editor ),
-		frameRect = frame.getAbsoluteClientRect( editor );
+		editableRect = editable.getClientRect( true ),
+		frameRect = frame.getClientRect( true );
 		output.innerHTML = '<strong>editor scroll:</strong> ' + getRectHtml( editableRect ) + '</br><strong>browser scroll:</strong> ' + getRectHtml( frameRect );
 	}
 

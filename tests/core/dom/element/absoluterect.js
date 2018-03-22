@@ -7,9 +7,8 @@
 	bender.test( {
 		// (#1724)
 		'test element has correct absolute rect (rect1)': function() {
-			var editor = this.editor,
-				el = CKEDITOR.document.getById( 'rect1' ),
-				absoluteRect = el.getAbsoluteClientRect( editor );
+			var el = CKEDITOR.document.getById( 'rect1' ),
+				absoluteRect = el.getClientRect( true );
 
 			assert.isNumberInRange( absoluteRect.top, 5, 7, 'top' );
 			assert.isNumberInRange( absoluteRect.bottom, 15, 17, 'bottom' );
@@ -20,9 +19,8 @@
 
 		// (#1724)
 		'test element has correct absolute rect (rect2)': function() {
-			var editor = this.editor,
-				el = CKEDITOR.document.getById( 'rect2' ),
-				absoluteRect = el.getAbsoluteClientRect( editor );
+			var el = CKEDITOR.document.getById( 'rect2' ),
+				absoluteRect = el.getClientRect( true );
 
 			assert.isNumberInRange( absoluteRect.top, 10, 12, 'top' );
 			assert.isNumberInRange( absoluteRect.bottom, 30, 32, 'bottom' );
