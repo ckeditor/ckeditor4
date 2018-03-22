@@ -15,8 +15,9 @@
 		return activeItem;
 	}
 
-	function createButtons( editor, definition, items, buttons, groups ) {
+	function createButtons( editor, definition, context ) {
 		var allItems = definition.items,
+			properties = { items: {}, buttons: {}, groups: {} },
 			i,
 			item,
 			previousButton,
@@ -29,12 +30,12 @@
 				item.group = definition.label + '_default';
 			}
 
-			if ( groups[ item.group ] === undefined ) {
-				groups[ item.group ] = 0;
+			if ( properties.groups[ item.group ] === undefined ) {
+				properties.groups[ item.group ] = 0;
 			} else {
-				groups[ item.group ]++;
+				properties.groups[ item.group ]++;
 			}
-			item.order = groups[ item.group ];
+			item.order = properties.groups[ item.group ];
 
 			if ( !item.id ) {
 				item.id = item.command + item.order;
@@ -48,40 +49,43 @@
 
 			editor.getCommand( item.command ).on( 'state', function() {
 				var activeButton = getLastActiveCommands( editor, allItems ),
-					previousId = previousButton && buttons[ previousButton.id ]._.id;
+					previousId = previousButton && properties.buttons[ previousButton.id ]._.id;
+
+				context.offsetParent = context.offsetParent || CKEDITOR.document.getById( previousId ).getParent();
 
 				if ( previousId ) {
 					CKEDITOR.document.getById( previousId ).setStyle( 'display', 'none' );
-					buttons[ previousButton.id ].hidden = true;
+					properties.buttons[ previousButton.id ].hidden = true;
 				}
 
 				if ( activeButton ) {
-					CKEDITOR.document.getById( buttons[ activeButton.id ]._.id ).removeStyle( 'display' );
-					buttons[ activeButton.id ].hidden = false;
+					CKEDITOR.document.getById( properties.buttons[ activeButton.id ]._.id ).removeStyle( 'display' );
+					properties.buttons[ activeButton.id ].hidden = false;
 					previousButton = activeButton;
 				} else {
-					CKEDITOR.document.getById( buttons[ defaultButton.id ]._.id ).removeStyle( 'display' );
-					buttons[ defaultButton.id ].hidden = false;
+					CKEDITOR.document.getById( properties.buttons[ defaultButton.id ]._.id ).removeStyle( 'display' );
+					properties.buttons[ defaultButton.id ].hidden = false;
 					previousButton = defaultButton;
 				}
 			} );
 
-			items[ item.id ] = item;
-			buttons[ item.id ] = new CKEDITOR.ui.button( item );
+			properties.items[ item.id ] = item;
+			properties.buttons[ item.id ] = new CKEDITOR.ui.button( item );
 
 			// First button as default. It might be overwritten by actual default button.
 			if ( !defaultButton ) {
-				previousButton = buttons[ item.id ];
-				defaultButton = buttons[ item.id ];
+				previousButton = properties.buttons[ item.id ];
+				defaultButton = properties.buttons[ item.id ];
 			} else {
 				if ( item[ 'default' ] ) {
-					defaultButton = buttons[ item.id ];
+					defaultButton = properties.buttons[ item.id ];
 				} else {
-					buttons[ item.id ].style = 'display: none;';
-					buttons[ item.id ].hidden = true;
+					properties.buttons[ item.id ].style = 'display: none;';
+					properties.buttons[ item.id ].hidden = true;
 				}
 			}
 		}
+		return properties;
 	}
 
 	CKEDITOR.plugins.add( 'splitbutton', {
@@ -103,34 +107,31 @@
 				 * @param {Object} definition The splitButton definition.
 				 */
 				$: function( definition ) {
-					var groups = {},
-						items = {},
-						buttons = {};
-
-					createButtons( editor, definition, items, buttons, groups );
+					var properties = createButtons( editor, definition, this );
 
 					if ( !definition.onMenu ) {
 						definition.onMenu = function() {
 							var activeItems = {};
-							for ( var i in items ) {
-								activeItems[ i ] = ( editor.getCommand( items[ i ].command ).state === CKEDITOR.TRISTATE_ON ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+							for ( var i in properties.items ) {
+								activeItems[ i ] = ( editor.getCommand( properties.items[ i ].command ).state === CKEDITOR.TRISTATE_ON ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
 							}
 							return activeItems;
 						};
 					}
 
 					this.base( definition );
-					this.items = items;
-					this.buttons = buttons;
 					this.icon = false;
+
+					this.items = properties.items;
+					this.buttons = properties.buttons;
 
 					definition.toolbar += 1;
 					var counter = 0;
-					for ( var j in groups ) {
+					for ( var j in properties.groups ) {
 						editor.addMenuGroup( j, counter++ );
 					}
 
-					editor.addMenuItems( items );
+					editor.addMenuItems( this.items );
 				},
 
 				statics: {
