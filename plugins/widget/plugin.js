@@ -1091,7 +1091,7 @@
 				return false;
 			}
 
-			if ( element && element !== styleDefinition.element ){
+			if ( element && element !== styleDefinition.element ) {
 				return false;
 			}
 
@@ -1914,7 +1914,7 @@
 	// REPOSITORY helpers -----------------------------------------------------
 	//
 
-	function isNotInAttributes ( item, attributes ) {
+	function isNotInAttributes( item, attributes ) {
 		return item !== 'class' && item !== 'style' && !( item in attributes );
 	}
 
@@ -3229,19 +3229,24 @@
 	// @param {String} CSS class.
 	// @param {Boolean} whenever to remove or add class.
 	function addRemoveClassToStyleDef( widget, className, remove ) {
-		var classes = widget.styleDefinition ? widget.styleDefinition.attributes[ 'class' ] : undefined;
-		if ( classes ) {
-			classes = classes && classes.split( /\s+/ ) ;
-			if ( !!remove ) {
-				if ( CKEDITOR.tools.indexOf( classes, className ) !== -1 ) {
-					classes.push( className );
-				}
-			} else {
-				CKEDITOR.tools.array.filter( classes, function( item ) {
-					return item !== className;
-				} );
+		var classes;
+		if ( widget.styleDefinition && widget.styleDefinition.attributes.attributes[ 'class' ] ) {
+			classes = widget.styleDefinition.attributes[ 'class' ].split( /\s+/ );
+		} else {
+			classes = [];
+		}
+
+		if ( remove ) {
+			classes = CKEDITOR.tools.array.filter( classes, function( item ) {
+				return item !== className;
+			} );
+		} else {
+			if ( CKEDITOR.tools.indexOf( classes, className ) == -1 ) {
+				classes.push( className );
 			}
 		}
+		widget.styleDefinition = widget.styleDefinition || { attributes: { 'class': '' } };
+		widget.styleDefinition.attributes[ 'class' ] = classes.join( ' ' );
 	}
 
 	// Applies or removes style's attributes from widget.
@@ -3285,7 +3290,7 @@
 	// @param {CKEDITOR.plugins.widget} Widget instance.
 	// @param {Object} Pairs of inline styles or attributes.
 	// @param {Boolean} whenever to apply or remove style.
-	function toggleStyleAttribute ( widget, properties, attribute, apply ) {
+	function toggleStyleAttribute( widget, properties, attribute, apply ) {
 		var method = ( apply ? 'set' : 'remove' ) + ( attribute ? 'Attribute' : 'Style' ),
 			element = attribute ? widget.element : widget.wrapper;
 		for ( var key in properties ) {
