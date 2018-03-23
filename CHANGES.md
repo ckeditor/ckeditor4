@@ -16,6 +16,7 @@ Fixed Issues:
 * [#1776](https://github.com/ckeditor/ckeditor-dev/issues/1776): [Image Base](https://ckeditor.com/cke4/addon/imagebase) empty caption placeholder is not hidden when blurred.
 * [#1592](https://github.com/ckeditor/ckeditor-dev/issues/1592): [Image Base](https://ckeditor.com/cke4/addon/imagebase) caption is not visible after paste.
 * [#620](https://github.com/ckeditor/ckeditor-dev/issues/620): Fixed: [`forcePasteAsPlainText`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-forcePasteAsPlainText) will be respected when internal and cross-editor pasting happens.
+* [#1467](https://github.com/ckeditor/ckeditor-dev/issues/1467): Fixed: [Table Resize](https://ckeditor.com/cke4/addon/tableresize) resizing coursor appearing in middle of merged cell.
 
 API Changes:
 
