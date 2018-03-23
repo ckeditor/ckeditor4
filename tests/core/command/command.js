@@ -318,6 +318,7 @@ bender.test( {
 		wait();
 	},
 
+	// (#1582)
 	'test addCommand from command instance': function() {
 		var editor = this.editor,
 			styleDefinition = {
@@ -333,6 +334,7 @@ bender.test( {
 		assertCommand( editor, cmd, commandDefinition );
 	},
 
+	// (#1582)
 	'test addCommand from command subclass': function() {
 		var editor = this.editor,
 			styleDefinition = {
