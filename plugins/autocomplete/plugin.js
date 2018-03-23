@@ -732,7 +732,7 @@
 				windowFrame = editor.window.getFrame(),
 				editable = editor.editable(),
 				// Bounding rect where view should fit (visible editor viewport).
-				editorViewportRect = editable.isInline() ? editable.getAbsoluteClientRect( editor ) : windowFrame.getAbsoluteClientRect( editor ),
+				editorViewportRect = editable.isInline() ? editable.getClientRect( true ) : windowFrame.getClientRect( true ),
 				// How much space is there for the panel above and below the specified rect.
 				spaceAbove = rect.top - editorViewportRect.top,
 				spaceBelow = rect.bottom - editorViewportRect.bottom,
