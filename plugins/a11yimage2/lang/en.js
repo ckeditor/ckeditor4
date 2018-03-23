@@ -47,5 +47,6 @@ CKEDITOR.plugins.setLang( 'a11yimage2', 'en', {
 	msgAltContainsFilename: 'Please remove the filename with the extension "%s" from the alternative text',
 	msgAltIsInvalid: 'Please replace "%s" with text that describes the purpose of the image',
 	msgAltStartsWithInvalid: 'Please don\'t start the with "%s"',
-	msgAltEndsWithInvalid: 'Please don\'t include the size of the image in the alternative text'
+	msgAltEndsWithInvalid: 'Please don\'t include the size of the image in the alternative text',
+	msgUseCaption: 'Use caption as the alternative text?'
 } );

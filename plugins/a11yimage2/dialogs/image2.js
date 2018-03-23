@@ -514,6 +514,9 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 											var i, s, imageTypeValue = this.getDialog().getContentElement( 'info', 'imageType' ).getValue();
 
+											var hasCaptionValue   = this.getDialog().getContentElement( 'info', 'hasCaption').getValue();
+											var captionValue      = this.getDialog().getContentElement( 'info', 'caption').getValue();
+											var captionNormalized = captionValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "");
 
 											if (imageTypeValue !== 'decorative') {
 												var alt = this.getValue();
@@ -522,7 +525,17 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 												// Testing for empty alt
 												if (altNormalized.length === 0) {
-													alert(lang.msgAltEmpty);
+													if (hasCaptionValue) {
+															if (captionNormalized.length === 0) {
+																alert(lang.msgAltEmpty);
+															}
+															else {
+																return confirm(lang.msgUseCaption);
+															}
+													}
+													else {
+														alert(lang.msgAltEmpty);
+													}
 													return false;
 												}
 
