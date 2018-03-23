@@ -3230,7 +3230,7 @@
 	// @param {Boolean} whenever to remove or add class.
 	function addRemoveClassToStyleDef( widget, className, remove ) {
 		var classes;
-		if ( widget.styleDefinition && widget.styleDefinition.attributes.attributes[ 'class' ] ) {
+		if ( widget.styleDefinition && widget.styleDefinition.attributes[ 'class' ] ) {
 			classes = widget.styleDefinition.attributes[ 'class' ].split( /\s+/ );
 		} else {
 			classes = [];
