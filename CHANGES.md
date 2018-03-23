@@ -12,6 +12,10 @@ Fixed Issues:
 * [#1776](https://github.com/ckeditor/ckeditor-dev/issues/1776): [Image Base](https://ckeditor.com/cke4/addon/imagebase) empty caption placeholder is not hidden when blurred.
 * [#1592](https://github.com/ckeditor/ckeditor-dev/issues/1592): [Image Base](https://ckeditor.com/cke4/addon/imagebase) caption is not visible after paste.
 
+API Changes:
+
+* [#1582](https://github.com/ckeditor/ckeditor-dev/issues/1582): The [`CKEDITOR.editor.addCommand`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#method-addCommand) can accept [`CKEDITOR.command`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_command.html) instance as parameter.
+
 ## CKEditor 4.9
 
 New Features:
