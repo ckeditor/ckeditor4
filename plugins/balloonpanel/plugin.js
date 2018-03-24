@@ -385,8 +385,8 @@
 				var panelWidth = this.getWidth(),
 					panelHeight = this.getHeight(),
 
-					elementRect = element.getAbsoluteClientRect( this.editor ),
-					editorRect = isInline ? editable.getAbsoluteClientRect( this.editor ) : frame.getAbsoluteClientRect( this.editor ),
+					elementRect = element.getClientRect( true ),
+					editorRect = isInline ? editable.getClientRect( true ) : frame.getClientRect( true ),
 
 					viewPaneSize = winGlobal.getViewPaneSize(),
 					winGlobalScroll = winGlobal.getScrollPosition();
