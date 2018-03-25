@@ -5,7 +5,7 @@
 
 New Features:
 
-* [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): [Autolink](https://ckeditor.com/cke4/addon/autolink) feature supports email links.
+* [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin supports email links.
 
 Fixed Issues:
 
