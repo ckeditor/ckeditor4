@@ -156,51 +156,47 @@
 		},
 
 		'test set position above inside absolute rect': function() {
-
-			assertPanePosition( this.editors.classic, {
+			var view = createPositionedView( this.editors.classic, {
 				caretRect: { top: 400, bottom: 410, left: 100 },
 				editorViewportRect: { top: 0, bottom: 500 },
 				viewPanelHeight: 100
-			}, function( element ) {
-				assert.areEqual( '300px', element.getStyle( 'top' ) );
-				assert.areEqual( '100px', element.getStyle( 'left' ) );
 			} );
+
+			assert.areEqual( '300px', view.element.getStyle( 'top' ) );
+			assert.areEqual( '100px', view.element.getStyle( 'left' ) );
 		},
 
 		'test set position below inside absolute rect': function() {
-
-			assertPanePosition( this.editors.classic, {
+			var view = createPositionedView( this.editors.classic, {
 				caretRect: { top: 100, bottom: 110, left: 50 },
 				editorViewportRect: { top: 0, bottom: 500 },
 				viewPanelHeight: 100
-			}, function( element ) {
-				assert.areEqual( '110px', element.getStyle( 'top' ) );
-				assert.areEqual( '50px', element.getStyle( 'left' ) );
 			} );
+
+			assert.areEqual( '110px', view.element.getStyle( 'top' ) );
+			assert.areEqual( '50px', view.element.getStyle( 'left' ) );
 		},
 
 		'test set position above outside absolute rect': function() {
-
-			assertPanePosition( this.editors.classic, {
+			var view = createPositionedView( this.editors.classic, {
 				caretRect: { top: 400, bottom: 410, left: 100 },
 				editorViewportRect: { top: 0, bottom: 300 },
 				viewPanelHeight: 100
-			}, function( element ) {
-				assert.areEqual( '300px', element.getStyle( 'top' ) );
-				assert.areEqual( '100px', element.getStyle( 'left' ) );
 			} );
+
+			assert.areEqual( '300px', view.element.getStyle( 'top' ) );
+			assert.areEqual( '100px', view.element.getStyle( 'left' ) );
 		},
 
 		'test set position below outside absolute rect': function() {
-
-			assertPanePosition( this.editors.classic, {
+			var view = createPositionedView( this.editors.classic, {
 				caretRect: { top: 100, bottom: 110, left: 50 },
 				editorViewportRect: { top: 200, bottom: 500 },
 				viewPanelHeight: 100
-			}, function( element ) {
-				assert.areEqual( '200px', element.getStyle( 'top' ) );
-				assert.areEqual( '50px', element.getStyle( 'left' ) );
 			} );
+
+			assert.areEqual( '200px', view.element.getStyle( 'top' ) );
+			assert.areEqual( '50px', view.element.getStyle( 'left' ) );
 		},
 
 		'test attach': function() {
@@ -222,9 +218,9 @@
 
 	} );
 
-	function assertPanePosition( editor, config, callback ) {
+	function createPositionedView( editor, config ) {
 		var view = new CKEDITOR.plugins.autocomplete.view( editor ),
-			elementStub = sinon.stub( CKEDITOR.dom.element.prototype, 'getAbsoluteClientRect' ).returns( config.editorViewportRect );
+			getClientRectStub = sinon.stub( CKEDITOR.dom.element.prototype, 'getClientRect' ).returns( config.editorViewportRect );
 
 		view.append();
 
@@ -232,10 +228,9 @@
 
 		view.setPosition( config.caretRect );
 
-		callback( view.element );
+		getClientRectStub.restore();
 
-		// Test fixture down
-		elementStub.restore();
+		return view;
 	}
 
 	function assertViewElement( editor, element ) {
