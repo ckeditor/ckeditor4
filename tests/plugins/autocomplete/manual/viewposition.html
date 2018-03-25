@@ -6,7 +6,8 @@
 	}
 </style>
 
-<textarea id="editor1" >
+<h2>Classic editor</h2>
+<div id="editor1" >
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
@@ -16,14 +17,44 @@
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
-</textarea>
+</div>
+
+<h2>Divarea editor</h2>
+<div id="editor2" >
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+</div>
+
+<h2>Inline editor</h2>
+<div id="editor3" contenteditable=true >
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque animi, iusto laudantium nobis itaque optio vitae asperiores, placeat magnam quo distinctio. Eaque fugiat quia maxime modi, quibusdam nostrum repellendus in?</p>
+</div>
 
 <script>
-	var editor;
 
-	CKEDITOR.replace( 'editor1', {
+initEditor( 'replace', 'editor1' );
+initEditor( 'replace', 'editor2', 'divarea' );
+initEditor( 'inline', 'editor3' );
+
+function initEditor( creator, name, extraPlugins ) {
+	var editor = CKEDITOR[ creator ]( name, {
 		width: 600,
-		extraPlugins: 'textmatch',
+		extraPlugins: extraPlugins && extraPlugins + ',textmatch' || 'textmatch',
 		on: {
 			instanceReady: function( evt ) {
 				editor = evt.editor;
@@ -32,6 +63,7 @@
 			}
 		}
 	} );
+}
 
 	function getTextTestCallback() {
 		return function( range ) {
