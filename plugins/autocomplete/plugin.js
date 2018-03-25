@@ -729,13 +729,12 @@
 		setPosition: function( rect ) {
 			var editor = this.editor,
 				viewPanelHeight = this.element.getSize( 'height' ),
-				windowFrame = editor.window.getFrame(),
 				editable = editor.editable(),
 				// Bounding rect where view should fit (visible editor viewport).
-				editorViewportRect = editable.isInline() ? editable.getClientRect( true ) : windowFrame.getClientRect( true ),
+				editorViewportRect = editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true ),
 				// How much space is there for the panel above and below the specified rect.
 				spaceAbove = rect.top - editorViewportRect.top,
-				spaceBelow = rect.bottom - editorViewportRect.bottom,
+				spaceBelow = editorViewportRect.bottom - rect.bottom,
 				top;
 
 			// If panel does not fit below the rect and fits above, set it there.
