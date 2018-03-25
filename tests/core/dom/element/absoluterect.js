@@ -27,6 +27,18 @@
 			assert.isNumberInRange( absoluteRect.left, 0, 2, 'left' );
 			assert.isNumberInRange( absoluteRect.right, 15, 17, 'right' );
 			assert.isNumberInRange( absoluteRect.height, 19, 21, 'height' );
+		},
+
+		// (#1724)
+		'test nested iframe element has correct absolute rect': function() {
+			var el = CKEDITOR.document.getById( 'nested' ).getFrameDocument().getById( 'rect' ),
+				absoluteRect = el.getClientRect( true );
+
+			assert.isNumberInRange( absoluteRect.top, 14, 16, 'top' );
+			assert.isNumberInRange( absoluteRect.bottom, 24, 26, 'bottom' );
+			assert.isNumberInRange( absoluteRect.left, 14, 16, 'left' );
+			assert.isNumberInRange( absoluteRect.right, 24, 26, 'right' );
+			assert.isNumberInRange( absoluteRect.height, 9, 11, 'height' );
 		}
 	} );
 
