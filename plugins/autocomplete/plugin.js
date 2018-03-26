@@ -222,7 +222,8 @@
 		attach: function() {
 			var editor = this.editor,
 				win = CKEDITOR.document.getWindow(),
-				editorDocument = editor.editable().getDocument();
+				editable = editor.editable(),
+				editorScrollableElement = editable.isInline() ? editable : editable.getDocument();
 
 			this.view.append();
 			this.view.attach();
@@ -238,7 +239,7 @@
 			this._listeners.push( win.on( 'scroll', function() {
 				this.onChange();
 			}, this ) );
-			this._listeners.push( editorDocument.on( 'scroll', function() {
+			this._listeners.push( editorScrollableElement.on( 'scroll', function() {
 				this.onChange();
 			}, this ) );
 
@@ -250,7 +251,7 @@
 			}, this ) );
 
 			// Attach if editor is already initialized.
-			if ( editor.editable() ) {
+			if ( editable ) {
 				onContentDom.call( this );
 			}
 
@@ -258,7 +259,7 @@
 				// Priority 5 to get before the enterkey.
 				// Note: CKEditor's event system has a limitation that one function (in this case this.onKeyDown)
 				// cannot be used as listener for the same event more than once. Hence, wrapper function.
-				this._listeners.push( editor.editable().on( 'keydown', function( evt ) {
+				this._listeners.push( editable.on( 'keydown', function( evt ) {
 					this.onKeyDown( evt );
 				}, this, null, 5 ) );
 			}
@@ -743,8 +744,8 @@
 			if (
 				viewPanelHeight > spaceBelow &&
 				viewPanelHeight < spaceAbove &&
-				editorViewportRect.top < rect.top &&
-				editorViewportRect.bottom > rect.bottom
+				editorViewportRect.top <= rect.top &&
+				editorViewportRect.bottom >= rect.bottom
 				) {
 				top = rect.top - viewPanelHeight;
 			} else {
