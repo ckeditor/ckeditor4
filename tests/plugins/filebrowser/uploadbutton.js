@@ -51,7 +51,7 @@
 			}
 		},
 
-		xhrCkf2: {
+		xhrCkfJson: {
 			config: {
 				filebrowserUploadUrl: 'upload/?command=QuickUpload&responseType=json'
 			}
@@ -181,8 +181,8 @@
 				assert.ignore();
 			}
 
-			var editor = this.editors.xhrCkf2,
-				bot = this.editorBots.xhrCkf2;
+			var editor = this.editors.xhrCkfJson,
+				bot = this.editorBots.xhrCkfJson;
 
 			editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog' ) );
 			bot.dialog( 'testDialog', function( dialog ) {
