@@ -44,6 +44,26 @@
 				language: 'en'
 			}
 		},
+
+		xhrCkf: {
+			config: {
+				filebrowserUploadUrl: 'upload/?command=QuickUpload'
+			}
+		},
+
+		xhrCkf2: {
+			config: {
+				filebrowserUploadUrl: 'upload/?command=QuickUpload&responseType=json'
+			}
+		},
+
+		submitCkf: {
+			config: {
+				filebrowserUploadUrl: 'upload/?command=QuickUpload',
+				filebrowserUploadMethod: 'form'
+			}
+		},
+
 		submit: {
 			config: {
 				filebrowserUploadUrl: 'foo',
@@ -126,6 +146,93 @@
 			} );
 		},
 
+		// (#1835)
+		'test for XHR request to CKFinder (no responseType parameter)': function() {
+			if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
+				assert.ignore();
+			}
+
+			var editor = this.editors.xhrCkf,
+				bot = this.editorBots.xhrCkf;
+
+			editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog' ) );
+			bot.dialog( 'testDialog', function( dialog ) {
+				var sendButton = dialog.getContentElement( 'Upload', 'uploadButton' ),
+					inputStub = mockInput( dialog );
+
+				// Execute just after XHR request is generated;
+				editor.once( 'fileUploadRequest', function() {
+					resume( function() {
+						assert.isNotNull( this.requests[ 0 ].url.match( /&responseType=json$/ ),
+							'responseType parameter' );
+						dialog.hide();
+						inputStub.restore();
+					} );
+				}, null, null, 1000 );
+
+				sendButton.click();
+				wait();
+			} );
+		},
+
+		// (#1835)
+		'test for XHR request to CKFinder (responseType parameter present)': function() {
+			if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
+				assert.ignore();
+			}
+
+			var editor = this.editors.xhrCkf2,
+				bot = this.editorBots.xhrCkf2;
+
+			editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog' ) );
+			bot.dialog( 'testDialog', function( dialog ) {
+				var sendButton = dialog.getContentElement( 'Upload', 'uploadButton' ),
+					inputStub = mockInput( dialog );
+
+				// Execute just after XHR request is generated;
+				editor.once( 'fileUploadRequest', function() {
+					resume( function() {
+						assert.areSame( 1, this.requests[ 0 ].url.match( /responseType=json/g ).length,
+							'responseType parameter count' );
+						dialog.hide();
+						inputStub.restore();
+					} );
+				}, null, null, 1000 );
+
+				sendButton.click();
+				wait();
+			} );
+		},
+
+		// (#1835)
+		'test for XHR request not to CKFinder (responseType parameter)': function() {
+			if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
+				assert.ignore();
+			}
+
+			var editor = this.editors.xhr,
+				bot = this.editorBots.xhr;
+
+			editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog' ) );
+			bot.dialog( 'testDialog', function( dialog ) {
+				var sendButton = dialog.getContentElement( 'Upload', 'uploadButton' ),
+					inputStub = mockInput( dialog );
+
+				// Execute just after XHR request is generated;
+				editor.once( 'fileUploadRequest', function() {
+					resume( function() {
+						assert.isNull( this.requests[ 0 ].url.match( /&responseType=json$/ ),
+							'responseType parameter' );
+						dialog.hide();
+						inputStub.restore();
+					} );
+				}, null, null, 1000 );
+
+				sendButton.click();
+				wait();
+			} );
+		},
+
 		'test for submit form': function() {
 			var editor = this.editors.submit,
 				bot = this.editorBots.submit;
@@ -139,6 +246,21 @@
 				sendButton.click();
 				assert.isTrue( mockSubmit.called, 'Submit method should be used.' );
 				inputStub.restore();
+				dialog.hide();
+			} );
+		},
+
+		// (#1835)
+		'test form action with CKFinder': function() {
+			var editor = this.editors.submitCkf,
+				bot = this.editorBots.submitCkf;
+
+			editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog' ) );
+			bot.dialog( 'testDialog', function( dialog ) {
+				var input = dialog.getContentElement( 'Upload', 'upload' );
+
+				assert.isNull( input.action.match( /responseType=json/ ),
+					'responseType parameter' );
 				dialog.hide();
 			} );
 		},
