@@ -192,8 +192,7 @@
 				// Execute just after XHR request is generated;
 				editor.once( 'fileUploadRequest', function() {
 					resume( function() {
-						assert.areSame( 1, this.requests[ 0 ].url.match( /responseType=json/g ).length,
-							'responseType parameter count' );
+						assert.isMatching( /responseType=json/g, this.requests[ 0 ].url, 'responseType parameter was added' );
 						dialog.hide();
 						inputStub.restore();
 					} );
@@ -221,8 +220,7 @@
 				// Execute just after XHR request is generated;
 				editor.once( 'fileUploadRequest', function() {
 					resume( function() {
-						assert.isNull( this.requests[ 0 ].url.match( /responseType=json/ ),
-							'responseType parameter' );
+						assert.isNotMatching( /responseType=json/g, this.requests[ 0 ].url, 'responseType parameter is not added' );
 						dialog.hide();
 						inputStub.restore();
 					} );
@@ -259,8 +257,7 @@
 			bot.dialog( 'testDialog', function( dialog ) {
 				var input = dialog.getContentElement( 'Upload', 'upload' );
 
-				assert.isNull( input.action.match( /responseType=json/ ),
-					'responseType parameter' );
+				assert.isNotMatching( /responseType=json/g, input.action, 'responseType parameter is not added' );
 				dialog.hide();
 			} );
 		},
