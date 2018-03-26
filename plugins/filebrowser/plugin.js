@@ -142,7 +142,7 @@
 	// @since 4.9.1
 	// @param {String} url CKFinder's url.
 	function addMissingParams( url ) {
-		if ( !url.match( /command=QuickUpload/ ) ) {
+		if ( !url.match( /command=QuickUpload/ ) || url.match( /(\?|&)responseType=json/ ) ) {
 			return url;
 		}
 
