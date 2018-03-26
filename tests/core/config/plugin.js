@@ -3,6 +3,8 @@
 ( function() {
 
 bender.test( {
+
+	// (#1712)
 	'test extraPlugins allows whitespaces': function() {
 		bender.editorBot.create( { name: 'editor_extraplugins', config: { extraPlugins: 'basicstyles, image2, toolbar ' } }, function( bot ) {
 			var editor = bot.editor,
@@ -14,6 +16,7 @@ bender.test( {
 		} );
 	},
 
+	// (#1712)
 	'test plugins allows whitespaces': function() {
 		bender.editorBot.create( { name: 'editor_plugins', config: { plugins: 'basicstyles, image2, toolbar ' } }, function( bot ) {
 			var editor = bot.editor,
@@ -25,6 +28,7 @@ bender.test( {
 		} );
 	},
 
+	// (#1712)
 	'test removePlugins allows whitespaces': function() {
 		bender.editorBot.create( { name: 'editor_removePlugins', config: { extraPlugins: 'basicstyles,image2,toolbar', removePlugins: 'basicstyles, image2, toolbar ' } }, function( bot ) {
 			var editor = bot.editor,
