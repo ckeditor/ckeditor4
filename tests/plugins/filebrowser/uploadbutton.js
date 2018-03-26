@@ -163,8 +163,7 @@
 				// Execute just after XHR request is generated;
 				editor.once( 'fileUploadRequest', function() {
 					resume( function() {
-						assert.isNotNull( this.requests[ 0 ].url.match( /&responseType=json$/ ),
-							'responseType parameter' );
+						assert.isMatching( /responseType=json/g, this.requests[ 0 ].url, 'responseType parameter was added' );
 						dialog.hide();
 						inputStub.restore();
 					} );
