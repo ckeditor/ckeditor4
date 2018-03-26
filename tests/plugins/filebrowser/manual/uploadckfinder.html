@@ -17,6 +17,7 @@
 				instanceReady: function() {
 					if ( !CKEDITOR.fileTools.isFileUploadSupported && !ignored ) {
 						bender.ignore();
+						ignored = true;
 					}
 				}
 			}
