@@ -51,7 +51,7 @@
 			}
 		},
 
-		xhrCkf2: {
+		xhrCkfJson: {
 			config: {
 				filebrowserUploadUrl: 'upload/?command=QuickUpload&responseType=json'
 			}
@@ -163,8 +163,7 @@
 				// Execute just after XHR request is generated;
 				editor.once( 'fileUploadRequest', function() {
 					resume( function() {
-						assert.isNotNull( this.requests[ 0 ].url.match( /&responseType=json$/ ),
-							'responseType parameter' );
+						assert.isMatching( /responseType=json/g, this.requests[ 0 ].url, 'responseType parameter was added' );
 						dialog.hide();
 						inputStub.restore();
 					} );
@@ -181,8 +180,8 @@
 				assert.ignore();
 			}
 
-			var editor = this.editors.xhrCkf2,
-				bot = this.editorBots.xhrCkf2;
+			var editor = this.editors.xhrCkfJson,
+				bot = this.editorBots.xhrCkfJson;
 
 			editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog' ) );
 			bot.dialog( 'testDialog', function( dialog ) {
@@ -221,8 +220,7 @@
 				// Execute just after XHR request is generated;
 				editor.once( 'fileUploadRequest', function() {
 					resume( function() {
-						assert.isNull( this.requests[ 0 ].url.match( /responseType=json/ ),
-							'responseType parameter' );
+						assert.isNotMatching( /responseType=json/g, this.requests[ 0 ].url, 'responseType parameter is not added' );
 						dialog.hide();
 						inputStub.restore();
 					} );
@@ -259,8 +257,7 @@
 			bot.dialog( 'testDialog', function( dialog ) {
 				var input = dialog.getContentElement( 'Upload', 'upload' );
 
-				assert.isNull( input.action.match( /responseType=json/ ),
-					'responseType parameter' );
+				assert.isNotMatching( /responseType=json/g, input.action, 'responseType parameter is not added' );
 				dialog.hide();
 			} );
 		},

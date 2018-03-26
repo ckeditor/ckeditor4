@@ -137,10 +137,11 @@
 		return url + ( ( url.indexOf( '?' ) != -1 ) ? '&' : '?' ) + queryString.join( '&' );
 	}
 
-	// Adds missing required parameters to CKFinder's url (#1835).
+	// Function sniffs for CKFinder URLs, and adds required parameters if needed (#1835).
 	//
 	// @since 4.9.1
-	// @param {String} url CKFinder's url.
+	// @param {String} url CKFinder's URL.
+	// @returns {String} Decorated URL.
 	function addMissingParams( url ) {
 		if ( !url.match( /command=QuickUpload/ ) || url.match( /(\?|&)responseType=json/ ) ) {
 			return url;
