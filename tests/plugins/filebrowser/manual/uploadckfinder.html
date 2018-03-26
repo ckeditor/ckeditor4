@@ -9,15 +9,20 @@
 </div>
 
 <script>
-	if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
-		bender.ignore();
-	}
-
-	var config = {
-		filebrowserBrowseUrl: '//ckeditor.test/ckfinder/ckfinder.html',
-		filebrowserUploadUrl: '//ckeditor.test/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
-	};
+	var ignored = false,
+		config = {
+			filebrowserBrowseUrl: '//ckeditor.test/ckfinder/ckfinder.html',
+			filebrowserUploadUrl: '//ckeditor.test/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+			on: {
+				instanceReady: function() {
+					if ( !CKEDITOR.fileTools.isFileUploadSupported && !ignored ) {
+						bender.ignore();
+					}
+				}
+			}
+		};
 
 	CKEDITOR.replace( 'classic', config );
 	CKEDITOR.inline( 'inline', config );
+
 </script>
