@@ -361,7 +361,7 @@
 		var response = {};
 
 		try {
-			response = JSON.parse( evt.sender.xhr.response );
+			response = JSON.parse( evt.sender.xhr.response ) || {};
 		} catch ( e ) {}
 
 		// `this` is a reference to ui.dialog.fileButton.
