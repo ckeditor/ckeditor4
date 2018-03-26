@@ -3,6 +3,10 @@
 
 ## CKEditor 4.9.1
 
+Fixed Issues:
+
+* [#1835](https://github.com/ckeditor/ckeditor-dev/issues/1835): Fixed: Integration between [CKFinder](https://ckeditor.com/ckeditor-4/ckfinder/) and [File Browser](https://ckeditor.com/cke4/addon/filebrowser) plugin does not work.
+
 ## CKEditor 4.9
 
 New Features:
