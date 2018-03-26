@@ -288,7 +288,8 @@
 			document.getDocumentElement().append( resizer );
 
 		this.attachTo = function( targetPillar ) {
-			var aligned,
+			var firstAligned,
+				lastAligned,
 				resizerHeight,
 				resizerY;
 			// Accept only one pillar at a time.
@@ -302,9 +303,10 @@
 			}
 
 			pillar = targetPillar;
-			aligned = pillar.alignedPillars;
-			resizerY = aligned[ 0 ].y;
-			resizerHeight = aligned[ 0 ].height + aligned[ aligned.length - 1 ].y - resizerY;
+			firstAligned = pillar.alignedPillars[ 0 ];
+			lastAligned = pillar.alignedPillars[ pillar.alignedPillars.length - 1 ];
+			resizerY = firstAligned.y;
+			resizerHeight = lastAligned.height + lastAligned.y - firstAligned.y;
 
 			resizer.setStyles( {
 				width: pxUnit( targetPillar.width ),
