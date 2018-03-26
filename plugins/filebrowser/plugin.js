@@ -137,6 +137,18 @@
 		return url + ( ( url.indexOf( '?' ) != -1 ) ? '&' : '?' ) + queryString.join( '&' );
 	}
 
+	// Adds missing required parameters to CKFinder's url (#1835).
+	//
+	// @since 4.9.1
+	// @param {String} url CKFinder's url.
+	function addMissingParams( url ) {
+		if ( !url.match( /command=QuickUpload/ ) ) {
+			return url;
+		}
+
+		return addQueryString( url, { responseType: 'json' } );
+	}
+
 	// Make a string's first character uppercase.
 	//
 	// @param {String}
@@ -328,7 +340,7 @@
 								loader.on( 'error', xhrUploadErrorHandler.bind( this ) );
 								loader.on( 'abort', xhrUploadErrorHandler.bind( this ) );
 
-								loader.loadAndUpload( url );
+								loader.loadAndUpload( addMissingParams( url ) );
 
 								return 'xhr';
 							}
