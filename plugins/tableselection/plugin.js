@@ -883,7 +883,7 @@
 		 * @private
 		 */
 		keyboardIntegration: function( editor ) {
-			// Handle left, up, right, down, delete and backspace keystrokes inside table fake selection.
+			// Handle left, up, right, down, delete, backspace and enter keystrokes inside table fake selection.
 			function getTableOnKeyDownListener( editor ) {
 				var keystrokes = {
 						37: 1, // Left Arrow
@@ -1009,10 +1009,34 @@
 							ranges[ 0 ].moveToElementEditablePosition( firstCell );
 						}
 
+						// Insert new line if enter was pressed.
+						if ( keystroke === 13 ) {
+							insertNewLineInsideFirstRange( editor, evt.data, ranges );
+						}
+
 						selection.selectRanges( ranges );
 						editor.fire( 'saveSnapshot' );
 					}
 				};
+			}
+
+			function insertNewLineInsideFirstRange( editor, data, ranges ) {
+				var modeToCheck = data.$.shiftKey ? editor.shiftEnterMode : editor.enterMode,
+					blockTag;
+
+				switch ( modeToCheck ) {
+					case CKEDITOR.ENTER_BR:
+						// BR are added by default and there is no need to add extra one.
+						return;
+					case CKEDITOR.ENTER_P:
+						blockTag = 'p';
+						break;
+					case CKEDITOR.ENTER_DIV:
+						blockTag = 'div';
+						break;
+				}
+
+				ranges[ 0 ].fixBlock( true, blockTag );
 			}
 
 			function tableKeyPressListener( evt ) {
