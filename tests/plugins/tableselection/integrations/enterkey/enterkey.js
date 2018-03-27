@@ -6,6 +6,22 @@
 ( function() {
 	'use strict';
 
+	var TABLE_WITH_SELECTION = '<table border="1">' +
+		'<tbody>' +
+			'<tr>' +
+				'<td>AA</td>' +
+				'[<td>BB</td>]' +
+				'<td>CC</td>' +
+			'</tr>' +
+			'<tr>' +
+				'<td>XX</td>' +
+				'[<td>YY</td>]' +
+				'<td>ZZ</td>' +
+			'</tr>' +
+		'</tbody>' +
+	'</table>';
+
+
 	bender.editors = {
 		editor1: {
 			name: 'editor1',
@@ -39,15 +55,44 @@
 		}
 	};
 
+	function getNewLineHtml( editor, isShiftEnterMode ) {
+		var modeToCheck = isShiftEnterMode ? editor.shiftEnterMode : editor.enterMode;
+		switch ( modeToCheck ) {
+			case CKEDITOR.ENTER_P:
+				return '<p>&nbsp;</p>';
+			case CKEDITOR.ENTER_DIV:
+				return '<div>&nbsp;</div>';
+			case CKEDITOR.ENTER_BR:
+				return '&nbsp;';
+			default:
+				return;
+		}
+	}
+
+	function prepareEditorAndGetExpectedResult( editor, bot, isShiftEnterMode ) {
+		var newLine = getNewLineHtml( editor, isShiftEnterMode );
+
+		bot.setHtmlWithSelection( TABLE_WITH_SELECTION );
+
+		return TABLE_WITH_SELECTION.replace( /(\[|\])/g, '' ).replace( 'YY', '&nbsp;' ).replace( 'BB', newLine );
+	}
+
 	var tests = {
-		'test enter key in selected table': function( editor, bot ) {
-			bender.tools.testInputOut( 'basicTable', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
+		'test press enter key in selected table': function( editor, bot ) {
+			var expectedResult = prepareEditorAndGetExpectedResult( editor, bot );
 
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) );
+			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) );
 
-				bender.assert.beautified.html( expected, bot.getData() );
-			} );
+			assert.beautified.html( expectedResult, editor.getData() );
+
+		},
+		'test press shift + enter key in selected table': function( editor, bot ) {
+			var expectedResult = prepareEditorAndGetExpectedResult( editor, bot, true );
+
+			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13, shiftKey: true } ) );
+
+			assert.beautified.html( expectedResult, editor.getData() );
+
 		}
 	};
 
