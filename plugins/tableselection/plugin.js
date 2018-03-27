@@ -1009,7 +1009,6 @@
 							ranges[ 0 ].moveToElementEditablePosition( firstCell );
 						}
 
-						// Insert new line if enter was pressed.
 						if ( keystroke === 13 ) {
 							insertNewLineInsideFirstRange( editor, evt.data, ranges );
 						}
