@@ -137,6 +137,19 @@
 		return url + ( ( url.indexOf( '?' ) != -1 ) ? '&' : '?' ) + queryString.join( '&' );
 	}
 
+	// Function sniffs for CKFinder URLs, and adds required parameters if needed (#1835).
+	//
+	// @since 4.9.1
+	// @param {String} url CKFinder's URL.
+	// @returns {String} Decorated URL.
+	function addMissingParams( url ) {
+		if ( !url.match( /command=QuickUpload/ ) || url.match( /(\?|&)responseType=json/ ) ) {
+			return url;
+		}
+
+		return addQueryString( url, { responseType: 'json' } );
+	}
+
 	// Make a string's first character uppercase.
 	//
 	// @param {String}
@@ -328,7 +341,7 @@
 								loader.on( 'error', xhrUploadErrorHandler.bind( this ) );
 								loader.on( 'abort', xhrUploadErrorHandler.bind( this ) );
 
-								loader.loadAndUpload( url );
+								loader.loadAndUpload( addMissingParams( url ) );
 
 								return 'xhr';
 							}
@@ -345,9 +358,15 @@
 	}
 
 	function xhrUploadErrorHandler( evt ) {
+		var response = {};
+
+		try {
+			response = JSON.parse( evt.sender.xhr.response ) || {};
+		} catch ( e ) {}
+
 		// `this` is a reference to ui.dialog.fileButton.
 		this.enable();
-		alert( evt.sender.message ); // jshint ignore:line
+		alert( response.error ? response.error.message : evt.sender.message ); // jshint ignore:line
 	}
 
 	// Updates the target element with the url of uploaded/selected file.

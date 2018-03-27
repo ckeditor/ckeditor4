@@ -20,6 +20,10 @@ API Changes:
 
 * [#1582](https://github.com/ckeditor/ckeditor-dev/issues/1582): The [`CKEDITOR.editor.addCommand`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#method-addCommand) can accept [`CKEDITOR.command`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_command.html) instance as parameter.
 
+Fixed Issues:
+
+* [#1835](https://github.com/ckeditor/ckeditor-dev/issues/1835): Fixed: Integration between [CKFinder](https://ckeditor.com/ckeditor-4/ckfinder/) and [File Browser](https://ckeditor.com/cke4/addon/filebrowser) plugin does not work.
+
 ## CKEditor 4.9
 
 New Features:
