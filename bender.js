@@ -100,6 +100,15 @@ var config = {
 				'utils/**',
 				'!**/_*/**'
 			]
+		},
+
+		'Security': {
+			applications: [ 'ckeditor' ],
+			basePath: 'tests/',
+			paths: [
+				'security/**',
+				'!**/_*/**'
+			]
 		}
 	},
 
