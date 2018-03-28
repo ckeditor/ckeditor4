@@ -1,4 +1,4 @@
-/* bender-tags: clipboard, 13468, 13015, 13140, 12806, 13011, 13453 */
+/* bender-tags: clipboard, 13468, 13015, 13140, 12806, 13011, 13453, 1832 */
 /* bender-ckeditor-plugins: toolbar,clipboard,undo */
 /* bender-include: _helpers/pasting.js */
 
@@ -1179,6 +1179,7 @@ var testsForMultipleEditor = {
 			assert.areEqual( 'none', data.$.dataTransfer.dropEffect, 'dropEffect reset to \'none\'' );
 		},
 
+		// #1832 https://github.com/ckeditor/ckeditor-dev/issues/1832
 		'test dragOver Edge': function() {
 			if ( !CKEDITOR.env.edge ) {
 				assert.ignore();
@@ -1195,7 +1196,7 @@ var testsForMultipleEditor = {
 
 			editor.editable().fire( 'dragover', data );
 
-			assert.isTrue( spy.called, 'preventDefault called.' );
+			assert.isFalse( spy.called, 'preventDefault not called.' );
 		}
 	};
 
