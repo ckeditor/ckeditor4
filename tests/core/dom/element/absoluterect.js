@@ -30,7 +30,7 @@
 		},
 
 		// (#1724)
-		'test nested iframe element has correct absolute rect': function() {
+		'test nested iframe (1lvl) element has correct absolute rect': function() {
 			var el = CKEDITOR.document.getById( 'nested' ).getFrameDocument().getById( 'rect' ),
 				absoluteRect = el.getClientRect( true );
 
@@ -38,6 +38,20 @@
 			assert.isNumberInRange( absoluteRect.bottom, 24, 26, 'bottom' );
 			assert.isNumberInRange( absoluteRect.left, 14, 16, 'left' );
 			assert.isNumberInRange( absoluteRect.right, 24, 26, 'right' );
+			assert.isNumberInRange( absoluteRect.height, 9, 11, 'height' );
+		},
+
+		// (#1724)
+		'test nested iframe (2lvls) element has correct absolute rect': function() {
+			var el = CKEDITOR.document.getById( 'deepnested' )
+				.getFrameDocument().getById( 'frame' )
+				.getFrameDocument().getById( 'rect' ),
+				absoluteRect = el.getClientRect( true );
+
+			assert.isNumberInRange( absoluteRect.top, 24, 26, 'top' );
+			assert.isNumberInRange( absoluteRect.bottom, 34, 36, 'bottom' );
+			assert.isNumberInRange( absoluteRect.left, 24, 26, 'left' );
+			assert.isNumberInRange( absoluteRect.right, 34, 36, 'right' );
 			assert.isNumberInRange( absoluteRect.height, 9, 11, 'height' );
 		}
 	} );

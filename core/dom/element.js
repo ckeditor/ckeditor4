@@ -493,6 +493,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * frame.getClientRect( true );
 		 * ```
 		 *
+		 * @since 4.10.0
 		 * @param {Boolean} [isAbsolute=false] The function will retrieve absolute rectangle of the currect element i.e. including scroll position.
 		 * @returns {Object.<String, Number>} The dimensions of the DOM element.
 		 * @returns {Number} return.top Top offset.
