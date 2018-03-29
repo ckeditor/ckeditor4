@@ -1,8 +1,6 @@
 <style>
-	body{ height:200vh; width: 200vh; }
 	#output{
 		width: 100vh;
-		position: fixed;
 	}
 </style>
 
@@ -15,7 +13,7 @@
 
 <script>
 	var output = document.getElementById( 'output' ),
-		editableRect, frameRect, editor;
+		editableRect, editor;
 
 	CKEDITOR.replace( 'editor1', {
 		extraAllowedContent: 'p{height,width}',
@@ -37,11 +35,10 @@
 	} );
 
 	function updatePosition() {
-		var editable = editor.editable(), frame = editor.window.getFrame();
+		var editable = editor.editable();
 
 		editableRect = editable.getClientRect( true ),
-		frameRect = frame.getClientRect( true );
-		output.innerHTML = '<strong>editor scroll:</strong> ' + getRectHtml( editableRect ) + '</br><strong>browser scroll:</strong> ' + getRectHtml( frameRect );
+		output.innerHTML = '<strong>editor scroll:</strong> ' + getRectHtml( editableRect );
 	}
 
 	function getRectHtml( rect ) {

@@ -502,6 +502,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @returns {Number} return.right Right offset.
 		 * @returns {Number} return.height Element height.
 		 * @returns {Number} return.width Element width.
+		 * @returns {Number} return.x X coordinate value. This property is not available in Internet Explorer or Edge browsers.
+		 * @returns {Number} return.y Y coordinate value. This property is not available in Internet Explorer or Edge browsers.
 		 */
 		getClientRect: function( isAbsolute ) {
 			// http://help.dottoro.com/ljvmcrrn.php
@@ -521,6 +523,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			elementRect.top += winGlobalScroll.y;
 			elementRect.left += winGlobalScroll.x;
 
+			elementRect.y += winGlobalScroll.y;
+			elementRect.x += winGlobalScroll.x;
+
 			elementRect.right = elementRect.left + elementRect.width;
 			elementRect.bottom = elementRect.top + elementRect.height;
 
@@ -535,6 +540,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 
 				elementRect.top += frameRect.top;
 				elementRect.left += frameRect.left;
+
+				elementRect.x += frameRect.x;
+				elementRect.y += frameRect.y;
 
 				appendParentFramePosition( frame.getWindow().getFrame() );
 			}

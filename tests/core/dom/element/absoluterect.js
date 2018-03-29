@@ -15,6 +15,8 @@
 			assert.isNumberInRange( absoluteRect.left, 5, 7, 'left' );
 			assert.isNumberInRange( absoluteRect.right, 15, 17, 'right' );
 			assert.isNumberInRange( absoluteRect.height, 9, 11, 'height' );
+			!CKEDITOR.env.ie && assert.isNumberInRange( absoluteRect.x, 15, 17, 'x' );
+			!CKEDITOR.env.ie && assert.isNumberInRange( absoluteRect.y, 9, 11, 'y' );
 		},
 
 		// (#1724)
@@ -27,6 +29,8 @@
 			assert.isNumberInRange( absoluteRect.left, 0, 2, 'left' );
 			assert.isNumberInRange( absoluteRect.right, 15, 17, 'right' );
 			assert.isNumberInRange( absoluteRect.height, 19, 21, 'height' );
+			!CKEDITOR.env.ie && assert.isNumberInRange( absoluteRect.x, 15, 17, 'x' );
+			!CKEDITOR.env.ie && assert.isNumberInRange( absoluteRect.y, 9, 11, 'y' );
 		},
 
 		// (#1724)
@@ -39,6 +43,8 @@
 			assert.isNumberInRange( absoluteRect.left, 14, 16, 'left' );
 			assert.isNumberInRange( absoluteRect.right, 24, 26, 'right' );
 			assert.isNumberInRange( absoluteRect.height, 9, 11, 'height' );
+			!CKEDITOR.env.ie && assert.isNumberInRange( absoluteRect.x, 15, 17, 'x' );
+			!CKEDITOR.env.ie && assert.isNumberInRange( absoluteRect.y, 9, 11, 'y' );
 		},
 
 		// (#1724)
@@ -53,6 +59,8 @@
 			assert.isNumberInRange( absoluteRect.left, 24, 26, 'left' );
 			assert.isNumberInRange( absoluteRect.right, 34, 36, 'right' );
 			assert.isNumberInRange( absoluteRect.height, 9, 11, 'height' );
+			!CKEDITOR.env.ie && assert.isNumberInRange( absoluteRect.x, 15, 17, 'x' );
+			!CKEDITOR.env.ie && assert.isNumberInRange( absoluteRect.y, 9, 11, 'y' );
 		}
 	} );
 
