@@ -493,9 +493,9 @@
 	function loadPlugins( editor ) {
 		var config = editor.config,
 			// We have to remove whitespaces (#1712).
-			plugins = config.plugins.replace( /\s/g, '' ),
-			extraPlugins = config.extraPlugins.replace( /\s/g, '' ),
-			removePlugins = config.removePlugins.replace( /\s/g, '' );
+			plugins = config.plugins && config.plugins.replace( /\s/g, '' ) || '',
+			extraPlugins = config.extraPlugins && config.extraPlugins.replace( /\s/g, '' ),
+			removePlugins = config.removePlugins && config.removePlugins.replace( /\s/g, '' );
 
 		if ( extraPlugins ) {
 			// Remove them first to avoid duplications.
