@@ -429,6 +429,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 							var value = this.getValue();
 
+							var imageDesc  = this.getDialog().getContentElement( 'info', 'imageDesc' ).getElement();
 							var desc       = this.getDialog().getContentElement( 'info', 'desc' ).getElement();
 							var alt        = this.getDialog().getContentElement( 'info', 'alt' ).getElement();
 							var info       = this.getDialog().getContentElement( 'info', 'a11yfirstInfoImage').getElement();
@@ -440,15 +441,12 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 							switch(value) {
 								case 'decorative':
-									alt.hide();
-									info.hide();
-									desc.hide();
-									hasCaption.hide();
-									caption.hide();
+								  imageDesc.hide()
 									decorative.show();
 									break;
 
 								case 'complex':
+								  imageDesc.show()
 									alt.show();
 									info.show();
 									desc.show();
@@ -460,6 +458,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 									break;
 
 								default:
+								  imageDesc.show()
 									alt.show();
 									info.show();
 									hasCaption.show();
@@ -492,6 +491,15 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 						}
 					},
 					{
+						id: 'isDecorative',
+						type: 'html',
+						html: '<p style="color: gray; font-style: italic;">' + lang.isDecorative + '</p>',
+						setup: function( widget ) {
+							this.getElement().hide();
+						}
+					},
+					{
+						id: 'imageDesc',
 						type: 'fieldset',
 						label: 'Image Description',
 						children: [
@@ -703,14 +711,6 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 										caption.setHtml(this.getValue());
 									}
 									editor.lang.a11yimage2.figCaptionValue = this.getValue();
-								}
-							},
-							{
-								id: 'isDecorative',
-								type: 'html',
-								html: '<p>' + lang.isDecorative + '</p>',
-								setup: function( widget ) {
-									this.getElement().hide();
 								}
 							}
 						]

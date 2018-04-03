@@ -25,7 +25,7 @@ CKEDITOR.plugins.setLang( 'a11yimage2', 'en', {
 	typeOfImage: 'Type of Image',
 	caption: 'Caption Text',
 	typeOfImageTitle: 'The type of image identifies the description(s) needed for accessibility',
-	isDecorative: 'Decorative images have no alternative description or caption',
+	isDecorative: 'Note: Decorative images have no description',
 	a11yfirstInfo: 'Info',
 	a11yfirstInfoTitle: 'Learn about accessible images',
 	descriptionLocation: 'Location of Description',
