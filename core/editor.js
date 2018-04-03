@@ -492,20 +492,21 @@
 
 	function loadPlugins( editor ) {
 		var config = editor.config,
-			plugins = config.plugins,
-			extraPlugins = config.extraPlugins,
-			removePlugins = config.removePlugins;
+			// We have to remove whitespaces (#1712).
+			plugins = config.plugins && config.plugins.replace( /\s/g, '' ) || '',
+			extraPlugins = config.extraPlugins && config.extraPlugins.replace( /\s/g, '' ),
+			removePlugins = config.removePlugins && config.removePlugins.replace( /\s/g, '' );
 
 		if ( extraPlugins ) {
 			// Remove them first to avoid duplications.
-			var extraRegex = new RegExp( '(?:^|,)(?:' + extraPlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
+			var extraRegex = new RegExp( '(?:^|,)(?:' + extraPlugins.replace( /,/g, '|' ) + ')(?=,|$)', 'g' );
 			plugins = plugins.replace( extraRegex, '' );
 
 			plugins += ',' + extraPlugins;
 		}
 
 		if ( removePlugins ) {
-			var removeRegex = new RegExp( '(?:^|,)(?:' + removePlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
+			var removeRegex = new RegExp( '(?:^|,)(?:' + removePlugins.replace( /,/g, '|' ) + ')(?=,|$)', 'g' );
 			plugins = plugins.replace( removeRegex, '' );
 		}
 
