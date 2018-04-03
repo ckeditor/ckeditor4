@@ -21,6 +21,10 @@ API Changes:
 * [#1582](https://github.com/ckeditor/ckeditor-dev/issues/1582): The [`CKEDITOR.editor.addCommand`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#method-addCommand) can accept [`CKEDITOR.command`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_command.html) instance as parameter.
 * [#1712](https://github.com/ckeditor/ckeditor-dev/issues/1712): [`extraPlugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-extraPlugins), [`removePlugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removePlugins) and [`plugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-plugins) configuration options allow whitespace.
 
+Fixed Issues:
+
+* [#498](https://github.com/ckeditor/ckeditor-dev/issues/498): Typing scrolls editor content on iOS.
+
 ## CKEditor 4.9.1
 
 Fixed Issues:
