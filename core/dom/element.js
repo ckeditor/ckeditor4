@@ -480,7 +480,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * Retrieve the bounding rectangle of the current element, in pixels,
 		 * relative to the upper-left corner of the browser's client area.
 		 *
-		 * You can pass additional parameter if the function should give absolute element position which can be used for positioning elements
+		 * Since 4.10.0 you can pass additional parameter if the function should give absolute element position which can be used for positioning elements
 		 * inside scrollable areas.
 		 *
 		 * E.g. you could use this function with {@link CKEDITOR.dom.window#getFrame editor's window frame} to
@@ -493,8 +493,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * frame.getClientRect( true );
 		 * ```
 		 *
-		 * @since 4.10.0
-		 * @param {Boolean} [isAbsolute=false] The function will retrieve absolute rectangle of the currect element i.e. including scroll position.
+		 * @param {Boolean} [isAbsolute=false] The function will retrieve an absolute rectangle of the element i.e. position relative to the upper-left corner of the topmost viewport. This option is available since 4.10.0.
 		 * @returns {Object.<String, Number>} The dimensions of the DOM element.
 		 * @returns {Number} return.top Top offset.
 		 * @returns {Number} return.bottom Bottom offset.
