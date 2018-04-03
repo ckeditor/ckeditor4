@@ -1211,6 +1211,38 @@
 						return false;
 					}, this, null, 100 ); // Later is better – do not override existing listeners.
 				}
+
+				// Scroll to current ranges due to bug on iOS #498
+				if ( !this.isInline() && CKEDITOR.env.iOS && CKEDITOR.env.safari ) {
+					var touchListenerStatus, scrollListenerStatus;
+
+					this.on( 'textInput', scrollToRangesOnScroll, this, null, 10000 );
+					this.on( 'keydown', scrollToRangesOnScroll, this, null, 10000 );
+				}
+
+				function scrollToRangesOnScroll() {
+					var contentsWrapper = CKEDITOR.document.findOne( '#' + CKEDITOR.instances.editor.id + '_contents' );
+
+					function scrollListener() {
+						this.editor.getSelection().getRanges()[ 0 ].scrollIntoView();
+					}
+
+					// Don't register same listener many times.
+					if ( !scrollListenerStatus ) {
+						contentsWrapper.on( 'scroll', scrollListener, this );
+						scrollListenerStatus = true;
+					}
+
+					if ( !touchListenerStatus ) {
+						// Restore scrolling on editable, when user touches it.
+						this.once( 'touchstart', function() {
+							scrollListenerStatus = false;
+							contentsWrapper.removeListener( 'scroll', scrollListener );
+							touchListenerStatus = false;
+						} );
+						touchListenerStatus = true;
+					}
+				}
 			}
 		},
 
