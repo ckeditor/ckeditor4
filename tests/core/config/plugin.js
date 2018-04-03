@@ -38,6 +38,21 @@ bender.test( {
 			assert.isFalse( contains( plugins, 'image2' ) );
 			assert.isFalse( contains( plugins, 'toolbar' ) );
 		} );
+	},
+
+	// (#1712)
+	"test plugins doesn't throw with undefined": function() {
+		bender.editorBot.create( { name: 'editor_plugins_undefined', config: { plugins: undefined } }, function() {
+			assert.pass();
+		} );
+
+		bender.editorBot.create( { name: 'editor_removePlugins_undefined', config: { removePlugins: undefined } }, function() {
+			assert.pass();
+		} );
+
+		bender.editorBot.create( { name: 'editor_extraPlugins_undefined', config: { extraPlugins: undefined } }, function() {
+			assert.pass();
+		} );
 	}
 } );
 
