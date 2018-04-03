@@ -34,6 +34,10 @@ API Changes:
 
 We would like to thank the [Drupal security team](https://www.drupal.org/drupal-security-team) for bringing this matter to our attention and coordinating the fix and release process!
 
+Fixed Issues:
+
+* [#498](https://github.com/ckeditor/ckeditor-dev/issues/498): Typing scrolls editor content on iOS.
+
 ## CKEditor 4.9.1
 
 Fixed Issues:
