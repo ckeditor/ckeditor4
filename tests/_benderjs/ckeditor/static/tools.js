@@ -1067,11 +1067,12 @@
 		/**
 		 * Multiplies inputTests for every editor.
 		 *
-		 * @param {Object} editorsDefinitions editors definitions.
+		 * @param {Object} editorsNames editors definitions.
 		 * @param {Object} inputTests Tests to apply on every editor.
+		 * @param {Boolean} isolateTests If set to `true` each test is run on new editor instance.
 		 * @returns {Object} Created tests for every editor.
 		 */
-		createTestsForEditors: function( editorsNames, inputTests ) {
+		createTestsForEditors: function( editorsNames, inputTests, isolateTests ) {
 			var outputTests = {},
 				specificTestName,
 				specialMethods = {
@@ -1080,7 +1081,7 @@
 					'setUp': 1,
 					'tearDown': 1
 				},
-				i, editorName;
+				i, editorName, editorCounter;
 
 			for ( var method in specialMethods ) {
 				if ( inputTests[ method ] ) {
@@ -1088,7 +1089,7 @@
 				}
 			}
 
-			for ( i = 0; i < editorsNames.length; i++ ) {
+			for ( i = 0, editorCounter = 0; i < editorsNames.length; i++, editorCounter = 0 ) {
 				editorName = editorsNames[ i ];
 
 				for ( var testName in inputTests ) {
@@ -1103,11 +1104,26 @@
 						throw new Error( 'Test named "' + specificTestName + '" already exists' );
 					}
 
-					outputTests[ specificTestName ] = ( function( testName, editorName ) {
-						return function() {
-							inputTests[ testName ]( bender.editors[ editorName ], bender.editorBots [ editorName ] );
-						};
-					} )( testName, editorName );
+					// We are creating new editor instance to isolate each test case (#1696).
+					if ( isolateTests && editorCounter++ ) {
+						outputTests[ specificTestName ] = ( function( testName, editorName, editorNum ) {
+							var options = CKEDITOR.tools.object.merge( bender.editors[ editorName ], {
+								name: editorName + editorNum
+							} );
+
+							return function() {
+								bender.editorBot.create( options, function( bot ) {
+									inputTests[ testName ]( bot.editor, bot );
+								} );
+							};
+						} )( testName, editorName, editorCounter );
+					} else {
+						outputTests[ specificTestName ] = ( function( testName, editorName ) {
+							return function() {
+								inputTests[ testName ]( bender.editors[ editorName ], bender.editorBots [ editorName ] );
+							};
+						} )( testName, editorName );
+					}
 				}
 			}
 
