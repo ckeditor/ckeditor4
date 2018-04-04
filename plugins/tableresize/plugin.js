@@ -30,31 +30,31 @@
 		return parseInt( computed, 10 );
 	}
 
+	// Sets pillar height and position based on given table element (head, body, footer).
+	function setPillarDimensions( nativeTableElement ) {
+		if ( nativeTableElement ) {
+			var tableElement = new CKEDITOR.dom.element( nativeTableElement );
+			return { height: tableElement.$.offsetHeight, position: tableElement.getDocumentPosition() };
+		}
+	}
+
 	function buildTableColumnPillars( table ) {
 		var pillars = [],
-			pillarIndex,
-			pillarRow,
-			pillarHeight = 0,
-			pillarPosition = null,
 			pillarIndexMap = {},
-			rtl = ( table.getComputedStyle( 'direction' ) == 'rtl' ),
-			$tr;
+			rtl = ( table.getComputedStyle( 'direction' ) == 'rtl' );
 
 		var rows = table.$.rows;
 
-		// Sets pillar height and position based on given table element (head, body, footer).
-		function setPillarDimensions( nativeTableElement ) {
-			if ( nativeTableElement ) {
-				var tableElement = new CKEDITOR.dom.element( nativeTableElement );
-				pillarHeight = tableElement.$.offsetHeight;
-				pillarPosition = tableElement.getDocumentPosition();
-			}
-		}
-
 		CKEDITOR.tools.array.forEach( rows, function( item, index ) {
-			$tr = item;
-			pillarIndex = -1;
-			setPillarDimensions( $tr );
+			var $tr = item,
+				pillarIndex = -1,
+				pillarRow,
+				pillarHeight = 0,
+				pillarPosition = null,
+				pillarDimensions = setPillarDimensions( $tr );
+
+			pillarHeight = pillarDimensions.height;
+			pillarPosition = pillarDimensions.position;
 
 			// Loop thorugh all cells, building pillars after each one of them.
 			for ( var i = 0, len = $tr.cells.length; i < len; i++ ) {
