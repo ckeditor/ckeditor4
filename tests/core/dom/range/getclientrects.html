@@ -7,4 +7,28 @@
 		vertical-align: center;
 		line-height: 1;
 	}
+
+	#playground {
+		position: absolute;
+		top: 100px;
+		left: 100px;
+	}
+
+	.monospace-container {
+		line-height: 20px;
+		font-family: monospace;
+		font-size: 10px;
+	}
+
+	.monospace-container span {
+		display: inline-block;
+	}
+
+	body {
+		padding-top:300px;
+	}
 </style>
+
+<div id="playground" class="monospace-container" contenteditable="true"></div>
+
+<div id="simple-selection" class="monospace-container"><span style="width: 20px">a1</span><span style="width: 30px">{b1</span><span style="width: 30px">}c1</span></div>
