@@ -115,22 +115,22 @@
 		'test inline element': function() {
 			setupTest( getHtmlForTest( 'span', 'test' ), true );
 		},
-		'test multi-line inline element': function() {
+		'test multiline inline element': function() {
 			setupTest( getHtmlForTest( 'span', 'test&#13;test' ), true );
 		},
 		'test block element': function() {
 			setupTest( getHtmlForTest( 'span', 'test' ), true );
 		},
-		'test multi-line block element': function() {
+		'test multiline block element': function() {
 			setupTest( getHtmlForTest( 'span', 'test&#13;test' ), true );
 		},
 		'test partial selection': function() {
 			setupTest( getHtmlForTest( 'span', 'test' ), false, { startOffset: 1, endOffset: 2 } );
 		},
-		'test multi-line one line selected': function() {
+		'test multiline one line selected': function() {
 			setupTest( getHtmlForTest( 'span', 'test&#13;test&#13;test' ), false, { startOffset: 5, endOffset: 9 } );
 		},
-		'test multi-line all lines partially selected': function() {
+		'test multiline all lines partially selected': function() {
 			setupTest( getHtmlForTest( 'span', 'test&#13;test&#13;test' ), false, { startOffset: 2, endOffset: 12 } );
 		},
 		'test multiple elements partial selection': function() {

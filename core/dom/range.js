@@ -2819,13 +2819,26 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Returns array with rectangles of areas covered by ranges. For each DOM element within range there is one rectangle, but it represents only part of element which is within range, not whole element.
+		 * Returns array with rectangles of areas covered by ranges. For each DOM element within range there is one rectangle,
+		 * but it represents only part of element which is within range, not whole element.
 		 *
-		 * @since 4.9.0
+		 * Lets consider example:
+		 *
+		 * <p><span>first { span</span><span>second span</span></p>
+		 * <p><span>third } span</span><p>
+		 *
+		 * {	represents beginning of selection.
+		 * }	represents end of selection.
+		 *
+		 * Calling `getClientRects` on such ranges would return an array of rects which would contain rect representing area of word 'span' from first span,
+		 * another rect representing area of text 'second span', and last rect representing area of word 'third' from third span.
+		 *
+		 *
+		 * @since 4.10.0
 		 * @returns {Array}
 		 */
 		getClientRects: ( function() {
-			// Extending empty object wth rect, to prevent inheriting from DOMRect, same approach as in CKEDITOR.dom.element.getClientRect().
+			// Extending empty object with rect, to prevent inheriting from DOMRect, same approach as in CKEDITOR.dom.element.getClientRect().
 			function convertRect( rect ) {
 				var newRect = CKEDITOR.tools.extend( {}, rect );
 				// Some browsers might not return width and height.
@@ -2839,7 +2852,6 @@ CKEDITOR.dom.range = function( root ) {
 				var bookmark = context.createBookmark(),
 					start = bookmark.startNode,
 					end = bookmark.endNode,
-					rect = {},
 					rects;
 
 				// Inserting zero width space, to prevent some strange rects returned by IE.
@@ -2860,31 +2872,29 @@ CKEDITOR.dom.range = function( root ) {
 					start.remove();
 				}
 
-				rect.right = Math.max( rects[ 0 ].right, rects[ 1 ].right );
-				rect.bottom = Math.max( rects[ 0 ].bottom, rects[ 1 ].bottom );
-				rect.left = Math.min( rects[ 0 ].left, rects[ 1 ].left );
-				rect.top = Math.min( rects[ 0 ].top, rects[ 1 ].top );
-				rect.width = Math.abs( rects[ 0 ].left - rects[ 1 ].left );
-				rect.height = rect.bottom - rect.top;
-
-				return rect;
+				return {
+					right: Math.max( rects[ 0 ].right, rects[ 1 ].right ),
+					bottom: Math.max( rects[ 0 ].bottom, rects[ 1 ].bottom ),
+					left: Math.min( rects[ 0 ].left, rects[ 1 ].left ),
+					top: Math.min( rects[ 0 ].top, rects[ 1 ].top ),
+					width: Math.abs( rects[ 0 ].left - rects[ 1 ].left ),
+					height: this.bottom - this.top
+				};
 			}
 
 			if ( this.document.getSelection !== undefined ) {
 				return function() {
+					// We need to create native range so we can call native getClientRects
 					var range = document.createRange(),
-						rectArray = [],
-						rectList;
+						rectArray;
 
 					range.setStart( this.startContainer.$, this.startOffset );
 					range.setEnd( this.endContainer.$, this.endOffset );
 
-					rectList = range.getClientRects();
+					rectArray = CKEDITOR.tools.array.map( range.getClientRects(), function( item ) {
+						return ( convertRect( item ) );
+					} );
 					range.detach();
-
-					for ( var i = 0; i < rectList.length; i++ ) {
-						rectArray.push( convertRect( rectList[ i ] ) );
-					}
 
 					return rectArray;
 				};
