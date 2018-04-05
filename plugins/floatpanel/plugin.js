@@ -366,19 +366,22 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						// position and horizontal scrolls. Here we have a
 						// series of hacks to workaround it. (https://dev.ckeditor.com/ticket/6146)
 						if ( CKEDITOR.env.ie ) {
-							var offsetParent = new CKEDITOR.dom.element( element.$.offsetParent ),
+							var offsetParent = element.$.offsetParent && new CKEDITOR.dom.element( element.$.offsetParent ),
 								scrollParent = offsetParent;
 
-							// Quirks returns <body>, but standards returns <html>.
-							if ( scrollParent.getName() == 'html' )
-								scrollParent = scrollParent.getDocument().getBody();
+							// #1686 preventing typeError within tests on Edge.
+							if ( scrollParent ) {
+								// Quirks returns <body>, but standards returns <html>.
+								if ( scrollParent.getName() == 'html' )
+									scrollParent = scrollParent.getDocument().getBody();
 
-							if ( scrollParent.getComputedStyle( 'direction' ) == 'rtl' ) {
-								// For IE8, there is not much logic on this, but it works.
-								if ( CKEDITOR.env.ie8Compat )
-									left -= element.getDocument().getDocumentElement().$.scrollLeft * 2;
-								else
-									left -= ( offsetParent.$.scrollWidth - offsetParent.$.clientWidth );
+								if ( scrollParent.getComputedStyle( 'direction' ) == 'rtl' ) {
+									// For IE8, there is not much logic on this, but it works.
+									if ( CKEDITOR.env.ie8Compat )
+										left -= element.getDocument().getDocumentElement().$.scrollLeft * 2;
+									else
+										left -= ( offsetParent.$.scrollWidth - offsetParent.$.clientWidth );
+								}
 							}
 						}
 

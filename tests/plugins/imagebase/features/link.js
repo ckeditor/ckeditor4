@@ -1,7 +1,12 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: imagebase,link,toolbar,contextmenu */
+<<<<<<< HEAD
 /* bender-include: ../../widget/_helpers/tools.js, ../../easyimage/_helpers/tools.js */
 /* global widgetTestsTools, easyImageTools */
+=======
+/* bender-include: ../../widget/_helpers/tools.js */
+/* global widgetTestsTools */
+>>>>>>> Fixed failing tests on Edge
 
 ( function() {
 	'use strict';
@@ -462,7 +467,7 @@
 		}
 	};
 
-	// We have to run tests in isolation when using IE browsers (#1552).
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests, CKEDITOR.env.ie && !CKEDITOR.env.edge );
+	// We have to run tests in isolation when using IE browsers (#1552) and EDGE (#1686).
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests, CKEDITOR.env.ie );
 	bender.test( tests );
 } )();
