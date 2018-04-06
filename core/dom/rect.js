@@ -15,29 +15,32 @@
  *
  * @class CKEDITOR.dom.rect
  * @abstract
- * @since 4.10.0
  */
 
 /**
- * Element's offset from the top.
+ * Element's offset from the viewport's top edge.
  *
  * @property {Number} top
  */
 
 /**
- * Element's offset from the bottom.
+ * Element's bottom edge's offset from the viewport's top edge.
+ *
+ * The value is the same as {@link CKEDITOR.dom.rect#top} value plus {@link CKEDITOR.dom.rect#height} value.
  *
  * @property {Number} bottom
  */
 
 /**
- * Element's offset from the left.
+ * Element's offset from the viewport's left edge.
  *
  * @property {Number} left
  */
 
 /**
- * Element's offset from the right.
+ * Element's right edge's offset from the viewport's left edge.
+ *
+ * The value is the same as {@link CKEDITOR.dom.rect#left} value plus {@link CKEDITOR.dom.rect#width} value.
  *
  * @property {Number} right
  */
@@ -56,6 +59,7 @@
 
 /**
  * Element's offset from the viewport's left edge.
+ *
  * This property is not available in Internet Explorer or Edge.
  *
  * @property {Number} x
@@ -63,6 +67,7 @@
 
 /**
  * Element's offset from the viewport's top edge.
+ *
  * This property is not available in Internet Explorer or Edge.
  *
  * @property {Number} y
