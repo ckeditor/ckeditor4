@@ -480,8 +480,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * Retrieve the bounding rectangle of the current element, in pixels,
 		 * relative to the upper-left corner of the browser's client area.
 		 *
-		 * @returns {Object} The dimensions of the DOM element including
-		 * `left`, `top`, `right`, `bottom`, `width` and `height`.
+		 * @returns {CKEDITOR.dom.rect} The element's DOM rectangle.
 		 */
 		getClientRect: function() {
 			// http://help.dottoro.com/ljvmcrrn.php
