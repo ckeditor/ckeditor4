@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
- /** @class CKEDITOR */
+/** @class CKEDITOR */
 
 /**
  * The class name used to identify `<textarea>` elements to be replaced
@@ -541,13 +541,13 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  */
 
 /**
- * Fired when UI space is created. Event provides possibility to modify top bar or bottom bar with additional html.
- * For example:
- * `uiSpace` event provides possibility for [resize plugin](https://ckeditor.com/cke4/addon/resize)
- * to add HTML element which will be responsible for resizing editor.
+ * Fired when UI space is created. Event allows to modify top bar or bottom bar with additional html.
+ *
+ * For example it's used in the [Editor Resize plugin](https://ckeditor.com/cke4/addon/resize)
+ * to add HTML element used to resize the editor.
  *
  * @event uiSpace
  * @param {Object} data
- * @param {String} data.space Name of {@link CKEDITOR.ui#space space} for which event is fired. Available options are `top` and `bottom`.
+ * @param {String} data.space Name of {@link CKEDITOR.ui#space space} for which the event is fired.
  * @param {String} data.html HTML string which will be included to given space.
  */
