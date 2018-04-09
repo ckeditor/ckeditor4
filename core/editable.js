@@ -2525,18 +2525,25 @@
 
 	function mergeBlocksNonCollapsedSelection( editor, range, startPath ) {
 		var startBlock = startPath.block,
-			endBlock = range.endPath().block;
+			endPath = range.endPath(),
+			endBlock = endPath.block;
 
-		// Selection must be anchored in two different blocks.
-		if ( !startBlock || !endBlock || startBlock.equals( endBlock ) )
+		var selectionInTwoDifferentBlocks = !startBlock || !endBlock || startBlock.equals( endBlock );
+		var hasBoundariesInTable = range.startContainer.getAscendant( 'table', true ) || range.endContainer.getAscendant( 'table', true );
+
+		// Selection must be anchored in two different blocks
+		// Boundary block is not in table (block elements are empty there).
+		if ( selectionInTwoDifferentBlocks && !hasBoundariesInTable ) {
 			return false;
+		}
 
 		editor.fire( 'saveSnapshot' );
 
 		// Remove bogus to avoid duplicated boguses.
 		var bogus;
-		if ( ( bogus = startBlock.getBogus() ) )
+		if ( ( bogus = startBlock && startBlock.getBogus() ) )
 			bogus.remove();
+
 
 		// Remove selected content. Handle cases when list, tables, etc. are partially selected (#541).
 		editor.extractSelectedHtml();
