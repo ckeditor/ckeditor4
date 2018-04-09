@@ -80,8 +80,8 @@
 		'test backspace and delete #13':				bd( '<ul><li>xx<ul><li>n[n</li><li>mm</li></ul></li></ul><p>y]y</p>',					'<ul><li>xx<ul><li>n^y</li></ul></li></ul>' ),
 		'test backspace and delete #14':				bd( '<ul><li>xx<ul><li>n[n</li><li>mm</li></ul></li><li>ww</li></ul><p>y]y</p>',		'<ul><li>xx<ul><li>n^y</li></ul></li></ul>' ),
 
-		'test backspace and delete #15':				bd( '<div>x<p>x[x</p></div><div><p>y]y</p>y</div>',										'<div>x<p>x^y</p></div><div>y</div>' ),
-		'test backspace and delete #16':				bd( '<div>x<p>x[x</p></div><div><div><div><p>y]y</p>y</div></div></div>',				'<div>x<p>x^y</p></div><div><div><div>y</div></div></div>' ),
+		'test backspace and delete #15':				bd( '<div>x<p>x[x</p></div><div><p>y]y</p>y</div>',										'<div>x<p>x^y</p>y</div>' ),
+		'test backspace and delete #16':				bd( '<div>x<p>x[x</p></div><div><div><div><p>y]y</p>y</div></div></div>',				'<div>x<p>x^y</p><div><div>y</div></div></div>' ),
 		'test backspace and delete #17':				bd( '<div><div>x<div><p>x[x</p></div></div></div><div>y<p>y]y</p></div>',				'<div><div>x<div><p>x^y</p></div></div></div>' ),
 
 		// Merge inline elements after keystroke.
