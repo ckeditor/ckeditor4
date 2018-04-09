@@ -2878,7 +2878,7 @@ CKEDITOR.dom.range = function( root ) {
 					left: Math.min( rects[ 0 ].left, rects[ 1 ].left ),
 					top: Math.min( rects[ 0 ].top, rects[ 1 ].top ),
 					width: Math.abs( rects[ 0 ].left - rects[ 1 ].left ),
-					height: this.bottom - this.top
+					height: Math.max( rects[ 0 ].bottom, rects[ 1 ].bottom ) - Math.min( rects[ 0 ].top, rects[ 1 ].top )
 				};
 			}
 
@@ -2894,6 +2894,11 @@ CKEDITOR.dom.range = function( root ) {
 					rectArray = CKEDITOR.tools.array.map( range.getClientRects(), function( item ) {
 						return ( convertRect( item ) );
 					} );
+
+					if ( !range.collapsed && !rectArray.length ) {
+						rectArray = [ getRect( this ) ];
+					}
+
 					range.detach();
 
 					return rectArray;
