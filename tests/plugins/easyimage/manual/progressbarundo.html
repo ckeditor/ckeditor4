@@ -25,7 +25,6 @@
 	<p>Go on, put some content here.</p>
 </div>
 
-<script src="_helpers/tools.js"></script>
 <script>
 	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 		bender.ignore();
@@ -33,8 +32,8 @@
 
 	var IMG_URL = '%BASE_PATH%_assets/logo.png',
 		commonConfig = {
-			cloudServices_url: 'https://files.cke-cs.com/upload/',
-			cloudServices_token: 'dummy-token',
+			cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+			cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL,
 			on: {
 				instanceReady: function( evt ) {
 					var editor = evt.editor,

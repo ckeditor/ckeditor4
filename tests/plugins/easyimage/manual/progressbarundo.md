@@ -1,7 +1,7 @@
-@bender-tags: 4.9.0, feature, 932
+@bender-tags: 4.10.0, bug, 1532
 @bender-ui: collapsed
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, easyimage, undo, resize
-@bender-include: ../../uploadwidget/manual/_helpers/xhr.js
+@bender-include: ../../uploadwidget/manual/_helpers/xhr.js, ../_helpers/tools.js
 
 ## Progressbar with Undo
 

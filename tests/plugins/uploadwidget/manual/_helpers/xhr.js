@@ -38,12 +38,21 @@ window.XMLHttpRequest = function() {
 		upload: {},
 
 		send: function( formData ) {
-			var total = formData.getTotal(),
+			var total = formData && formData.getTotal(),
 				loaded = 0,
 				step = Math.round( total / 10 ),
 				xhr = this,
 				onprogress = this.upload.onprogress,
+				onreadystatechange = this.onreadystatechange,
 				onload = this.onload;
+
+			// Request without any data is sent by Easy Image token fetcher.
+			if ( !formData ) {
+				xhr.status = 200;
+				xhr.readyState = 4;
+				xhr.responseText = 'dummy_response';
+				return onreadystatechange ? onreadystatechange() : onload();
+			}
 
 			// Wait 400 ms for every step.
 			interval = setInterval( function() {
