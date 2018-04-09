@@ -2525,8 +2525,7 @@
 
 	function mergeBlocksNonCollapsedSelection( editor, range, startPath ) {
 		var startBlock = startPath.block,
-			endPath = range.endPath(),
-			endBlock = endPath.block;
+			endBlock = range.endPath().block;
 
 		// Selection must be anchored in two different blocks.
 		if ( !startBlock || !endBlock || startBlock.equals( endBlock ) )
@@ -2539,36 +2538,8 @@
 		if ( ( bogus = startBlock.getBogus() ) )
 			bogus.remove();
 
-		// Changing end container to element from text node (https://dev.ckeditor.com/ticket/12503).
-		range.enlarge( CKEDITOR.ENLARGE_INLINE );
-
-		// Delete range contents. Do NOT merge. Merging is weird.
-		range.deleteContents();
-
-		// If something has left of the block to be merged, clean it up.
-		// It may happen when merging with list items.
-		if ( endBlock.getParent() ) {
-			// Move children to the first block.
-			endBlock.moveChildren( startBlock, false );
-
-			// ...and merge them if that's possible.
-			startPath.lastElement.mergeSiblings();
-
-			// If expanded selection, things are always merged like with BACKSPACE.
-			pruneEmptyDisjointAncestors( startBlock, endBlock, true );
-		}
-
-		// Make sure the result selection is collapsed.
-		range = editor.getSelection().getRanges()[ 0 ];
-		range.collapse( 1 );
-
-		// Optimizing range containers from text nodes to elements (https://dev.ckeditor.com/ticket/12503).
-		range.optimize();
-		if ( range.startContainer.getHtml() === '' ) {
-			range.startContainer.appendBogus();
-		}
-
-		range.select();
+		// Remove selected content. Handle cases when list, tables, etc. are partially selected (#541).
+		editor.extractSelectedHtml();
 
 		return true;
 	}
