@@ -811,6 +811,7 @@
 		 * however it could be used via child classes to apply some more advanced behaviour, like listening to various
 		 * editor events.
 		 *
+		 * @since 4.10.0
 		 * @param {CKEDITOR.editor} editor
 		 */
 		bindEditor: function() {}
@@ -854,7 +855,7 @@
 			parent = this.wrapper.getParent();
 
 		// Hide progressbar during snapshot creation so it does not trigger saving new snapshot
-		// (as content will be changed due to progressbar progress).
+		// (as content will be changed due to progressbar progress) (#1532).
 		undoListeners.push(
 			editor.on( 'beforeUndoImage', function() {
 				if ( !this.wrapper.getParent() ) {
