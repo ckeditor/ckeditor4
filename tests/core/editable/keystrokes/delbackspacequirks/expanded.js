@@ -98,11 +98,19 @@
 		'test backspace and delete, bogus #5':			bd( '<h1>{Foo</h1><p>bar</p><p><small>baz}</small></p>', '<h1>^@!</h1>' ),
 
 		// Merge inline elements after keystroke.
-		'test backspace and delete, no action #1':		bdf( '<table><tbody><tr><td>x[x</td></tr></tbody></table><p>y]y</p>' ),
-		'test backspace and delete, no action #2':		bdf( '<table><tbody><tr><td>x[x</td><td>zz</td></tr></tbody></table><p>y]y</p>' ),
-		'test backspace and delete, no action #3':		bdf( '<span>xx[x</span><p>y]yy</p>' ),
-		'test backspace and delete, no action #4':		bdf( '<p>xx[x</p><span>y]yy</span>' ),
-		'test backspace and delete, no action #5':		bdf( '<p>x[xy]y</p>' ),
-		'test backspace and delete, no action #6':		bdf( '<table><tbody><tr><td>x[x</td></tr></tbody></table><table><tbody><tr><td>y]y</td></tr></tbody></table>' )
+		'test backspace and delete, no action #1':		bdf( '<span>xx[x</span><p>y]yy</p>' ),
+		'test backspace and delete, no action #2':		bdf( '<p>xx[x</p><span>y]yy</span>' ),
+		'test backspace and delete, no action #3':		bdf( '<p>x[xy]y</p>' ),
+
+		// Tables #541
+		'test backspace and delete, tables #1':		bd( '<table><tbody><tr><td>x[x</td></tr></tbody></table><p>y]y</p>', '<table><tbody><tr><td>x^</td></tr></tbody></table><p>y</p>' ),
+		'test backspace and delete, tables #2':		bd( '<table><tbody><tr><td>x[x</td><td>zz</td></tr></tbody></table><p>y]y</p>', '<table><tbody><tr><td>x^</td><td>@</td></tr></tbody></table><p>y</p>' ),
+		'test backspace and delete, tables #3':		bd( '<table><tbody><tr><td>x[x</td></tr></tbody></table><table><tbody><tr><td>y]y</td></tr></tbody></table>',
+														'<table><tbody><tr><td>x^</td></tr></tbody></table><table><tbody><tr><td>y</td></tr></tbody></table>' ),
+		'test backspace and delete, tables #4':		bd( '<p>x[x</p><table><tbody><tr><td>aa</td><td>b]b</td></tr><tr><td>cc</td><td>dd</td></tr></tbody></table><p>zz</p>',
+														'<p>x^</p><table><tbody><tr><td>@</td><td>b</td></tr><tr><td>cc</td><td>dd</td></tr></tbody></table><p>zz</p>' ),
+		'test backspace and delete, tables #5':		bd( '<p>xx</p><table><tbody><tr><td>aa</td><td>bb</td></tr><tr><td>c[c</td><td>dd</td></tr></tbody></table><p>z]z</p>',
+														'<p>xx</p><table><tbody><tr><td>aa</td><td>bb</td></tr><tr><td>c^</td><td>@</td></tr></tbody></table><p>z</p>' )
+
 	} );
 } )( quirksTools.bd, quirksTools.bdf, quirksTools.b, quirksTools.df );
