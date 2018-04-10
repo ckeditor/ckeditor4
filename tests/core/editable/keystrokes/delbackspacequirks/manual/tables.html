@@ -1,0 +1,91 @@
+<textarea id="classic">
+	<p>Table without paragraphs.</p>
+	<p>Fo&rarr;o</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>AA</td>
+				<td>B&larr;B</td>
+				<td>CC</td>
+			</tr>
+			<tr>
+				<td>DD</td>
+				<td>E&rarr;E</td>
+				<td>FF</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>Ba&larr;r</p>
+	<p>&nbsp;</p>
+	<p>Table with paragraphs.</p>
+	<p>Fo&rarr;o</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td><p>A&larr;A</p></td>
+				<td><p>BB</p></td>
+				<td><p>CC</p></td>
+			</tr>
+			<tr>
+				<td><p>DD</p></td>
+				<td><p>EE</p></td>
+				<td><p>F&rarr;F</p></td>
+			</tr>
+		</tbody>
+	</table>
+	<p>Ba&larr;r</p>
+</textarea>
+
+<div contenteditable="true" id="divarea">
+	<p>Table without paragraphs.</p>
+	<p>Fo&rarr;o</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>AA</td>
+				<td>B&larr;B</td>
+				<td>CC</td>
+			</tr>
+			<tr>
+				<td>DD</td>
+				<td>E&rarr;E</td>
+				<td>FF</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>Ba&larr;r</p>
+	<p>&nbsp;</p>
+	<p>Table with paragraphs.</p>
+	<p>Fo&rarr;o</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td><p>A&larr;A</p></td>
+				<td><p>BB</p></td>
+				<td><p>CC</p></td>
+			</tr>
+			<tr>
+				<td><p>DD</p></td>
+				<td><p>EE</p></td>
+				<td><p>F&rarr;F</p></td>
+			</tr>
+		</tbody>
+	</table>
+	<p>Ba&larr;r</p>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.webkit ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'classic', {
+		height: 600,
+		removePlugins: 'tableselection'
+	} );
+	CKEDITOR.replace( 'divarea', {
+		height: 600,
+		extraPlugins: 'divarea',
+		removePlugins: 'tableselection'
+	} );
+</script>
