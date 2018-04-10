@@ -494,15 +494,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * ```
 		 *
 		 * @param {Boolean} [isAbsolute=false] The function will retrieve an absolute rectangle of the element i.e. position relative to the upper-left corner of the topmost viewport. This option is available since 4.10.0.
-		 * @returns {Object.<String, Number>} The dimensions of the DOM element.
-		 * @returns {Number} return.top Top offset.
-		 * @returns {Number} return.bottom Bottom offset.
-		 * @returns {Number} return.left Left offset.
-		 * @returns {Number} return.right Right offset.
-		 * @returns {Number} return.height Element height.
-		 * @returns {Number} return.width Element width.
-		 * @returns {Number} return.x X coordinate value. This property is not available in Internet Explorer or Edge browsers.
-		 * @returns {Number} return.y Y coordinate value. This property is not available in Internet Explorer or Edge browsers.
+		 * @returns {CKEDITOR.dom.rect} The dimensions of the DOM element.
 		 */
 		getClientRect: function( isAbsolute ) {
 			// http://help.dottoro.com/ljvmcrrn.php
