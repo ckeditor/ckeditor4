@@ -6,6 +6,7 @@
 New Features:
 
 * [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin supports email links.
+* [#1674](https://github.com/ckeditor/ckeditor-dev/issues/1674): The [Widget](https://ckeditor.com/cke4/addon/widget) plugin now fully supports [`CKEDITOR.style`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_style.html) `attributes` and `styles` via `applyStyle` or `removeStyle` and `checkStyleActive` methods.
 
 Fixed Issues:
 
