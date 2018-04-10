@@ -103,14 +103,18 @@
 		'test backspace and delete, no action #3':		bdf( '<p>x[xy]y</p>' ),
 
 		// Tables #541
-		'test backspace and delete, tables #1':		bd( '<table><tbody><tr><td>x[x</td></tr></tbody></table><p>y]y</p>', '<table><tbody><tr><td>x^</td></tr></tbody></table><p>y</p>' ),
-		'test backspace and delete, tables #2':		bd( '<table><tbody><tr><td>x[x</td><td>zz</td></tr></tbody></table><p>y]y</p>', '<table><tbody><tr><td>x^</td><td>@</td></tr></tbody></table><p>y</p>' ),
-		'test backspace and delete, tables #3':		bd( '<table><tbody><tr><td>x[x</td></tr></tbody></table><table><tbody><tr><td>y]y</td></tr></tbody></table>',
-														'<table><tbody><tr><td>x^</td></tr></tbody></table><table><tbody><tr><td>y</td></tr></tbody></table>' ),
-		'test backspace and delete, tables #4':		bd( '<p>x[x</p><table><tbody><tr><td>aa</td><td>b]b</td></tr><tr><td>cc</td><td>dd</td></tr></tbody></table><p>zz</p>',
-														'<p>x^</p><table><tbody><tr><td>@</td><td>b</td></tr><tr><td>cc</td><td>dd</td></tr></tbody></table><p>zz</p>' ),
-		'test backspace and delete, tables #5':		bd( '<p>xx</p><table><tbody><tr><td>aa</td><td>bb</td></tr><tr><td>c[c</td><td>dd</td></tr></tbody></table><p>z]z</p>',
-														'<p>xx</p><table><tbody><tr><td>aa</td><td>bb</td></tr><tr><td>c^</td><td>@</td></tr></tbody></table><p>z</p>' )
+		// jscs:disable maximumLineLength
+		'test backspace and delete, tables no action #1':	bd( '<table><tbody><tr><td>x[x</td></tr></tbody></table><p>y]y</p>', '<table><tbody><tr><td>x^</td></tr></tbody></table><p>y</p>' ),
+		'test backspace and delete, tables no action #2':	bd( '<table><tbody><tr><td>x[x</td><td>zz</td></tr></tbody></table><p>y]y</p>', '<table><tbody><tr><td>x^</td><td>@</td></tr></tbody></table><p>y</p>' ),
+		'test backspace and delete, tables no action #3':	bd( '<table><tbody><tr><td>x[x</td></tr></tbody></table><table><tbody><tr><td>y]y</td></tr></tbody></table>', '<table><tbody><tr><td>x^</td></tr></tbody></table><table><tbody><tr><td>y</td></tr></tbody></table>' ),
+		'test backspace and delete, tables no action #4':	bd( '<p>x[x</p><table><tbody><tr><td>aa</td><td>b]b</td></tr><tr><td>cc</td><td>dd</td></tr></tbody></table><p>zz</p>', '<p>x^</p><table><tbody><tr><td>@</td><td>b</td></tr><tr><td>cc</td><td>dd</td></tr></tbody></table><p>zz</p>' ),
+		'test backspace and delete, tables no action #5':	bd( '<p>xx</p><table><tbody><tr><td>aa</td><td>bb</td></tr><tr><td>c[c</td><td>dd</td></tr></tbody></table><p>z]z</p>', '<p>xx</p><table><tbody><tr><td>aa</td><td>bb</td></tr><tr><td>c^</td><td>@</td></tr></tbody></table><p>z</p>' ),
+		'test backspace and delete, tables + paragraphs #1':	bd( '<table><tbody><tr><td><p>x[x</p></td></tr></tbody></table><p>y]y</p>', '<table><tbody><tr><td><p>x^</p></td></tr></tbody></table><p>y</p>' ),
+		'test backspace and delete, tables + paragraphs #2':	bd( '<table><tbody><tr><td><p>x[x</p></td><td>zz</td></tr></tbody></table><p>y]y</p>', '<table><tbody><tr><td><p>x^</p></td><td>@</td></tr></tbody></table><p>y</p>' ),
+		'test backspace and delete, tables + paragraphs #3':	bd( '<table><tbody><tr><td><p>x[x</p></td></tr></tbody></table><table><tbody><tr><td><p>y]y</p></td></tr></tbody></table>' , '<table><tbody><tr><td><p>x^</p></td></tr></tbody></table><table><tbody><tr><td><p>y</p></td></tr></tbody></table>' ),
+		'test backspace and delete, tables + paragraphs #4':	bd( '<p>x[x</p><table><tbody><tr><td><p>aa</p></td><td><p>b]b</p></td></tr><tr><td><p>cc</p></td><td><p>dd</p></td></tr></tbody></table><p>zz</p>' , '<p>x^</p><table><tbody><tr><td>@</td><td><p>b</p></td></tr><tr><td><p>cc</p></td><td><p>dd</p></td></tr></tbody></table><p>zz</p>' ),
+		'test backspace and delete, tables + paragraphs #5':	bd( '<p>xx</p><table><tbody><tr><td><p>aa</p></td><td><p>bb</p></td></tr><tr><td><p>c[c</p></td><td><p>dd</p></td></tr></tbody></table><p>z]z</p>' , '<p>xx</p><table><tbody><tr><td><p>aa</p></td><td><p>bb</p></td></tr><tr><td><p>c^</p></td><td>@</td></tr></tbody></table><p>z</p>' )
+		// jscs:enable maximumLineLength
 
 	} );
 } )( quirksTools.bd, quirksTools.bdf, quirksTools.b, quirksTools.df );
