@@ -480,16 +480,63 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * Retrieve the bounding rectangle of the current element, in pixels,
 		 * relative to the upper-left corner of the browser's client area.
 		 *
-		 * @returns {CKEDITOR.dom.rect} The element's DOM rectangle.
+		 * Since 4.10.0 you can pass additional parameter if the function should give absolute element position which can be used for positioning elements
+		 * inside scrollable areas.
+		 *
+		 * E.g. you could use this function with {@link CKEDITOR.dom.window#getFrame editor's window frame} to
+		 * calculate the absolute rectangle of the visible area of the editor's viewport.
+		 * The retrieved absolute rectangle could be used to position elements like toolbars or notifications (elements outside an editor)
+		 * to always keep them inside an editor viewport independently from the scroll position.
+		 *
+		 * ```javascript
+		 * var frame = editor.window.getFrame();
+		 * frame.getClientRect( true );
+		 * ```
+		 *
+		 * @param {Boolean} [isAbsolute=false] The function will retrieve an absolute rectangle of the element i.e. position relative to the upper-left corner of the topmost viewport. This option is available since 4.10.0.
+		 * @returns {CKEDITOR.dom.rect} The dimensions of the DOM element.
 		 */
-		getClientRect: function() {
+		getClientRect: function( isAbsolute ) {
 			// http://help.dottoro.com/ljvmcrrn.php
-			var rect = CKEDITOR.tools.extend( {}, this.$.getBoundingClientRect() );
+			var elementRect = CKEDITOR.tools.extend( {}, this.$.getBoundingClientRect() );
 
-			!rect.width && ( rect.width = rect.right - rect.left );
-			!rect.height && ( rect.height = rect.bottom - rect.top );
+			!elementRect.width && ( elementRect.width = elementRect.right - elementRect.left );
+			!elementRect.height && ( elementRect.height = elementRect.bottom - elementRect.top );
 
-			return rect;
+			if ( !isAbsolute ) {
+				return elementRect;
+			}
+
+			appendParentFramePosition( this.getWindow().getFrame() );
+
+			var winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition();
+
+			elementRect.top += winGlobalScroll.y;
+			elementRect.left += winGlobalScroll.x;
+
+			elementRect.y += winGlobalScroll.y;
+			elementRect.x += winGlobalScroll.x;
+
+			elementRect.right = elementRect.left + elementRect.width;
+			elementRect.bottom = elementRect.top + elementRect.height;
+
+			return elementRect;
+
+			function appendParentFramePosition( frame ) {
+				if ( !frame ) {
+					return;
+				}
+
+				var frameRect = frame.getClientRect();
+
+				elementRect.top += frameRect.top;
+				elementRect.left += frameRect.left;
+
+				elementRect.x += frameRect.x;
+				elementRect.y += frameRect.y;
+
+				appendParentFramePosition( frame.getWindow().getFrame() );
+			}
 		},
 
 		/**

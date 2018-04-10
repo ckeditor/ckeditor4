@@ -20,6 +20,7 @@ API Changes:
 
 * [#1582](https://github.com/ckeditor/ckeditor-dev/issues/1582): The [`CKEDITOR.editor.addCommand`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#method-addCommand) can accept [`CKEDITOR.command`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_command.html) instance as parameter.
 * [#1712](https://github.com/ckeditor/ckeditor-dev/issues/1712): [`extraPlugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-extraPlugins), [`removePlugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removePlugins) and [`plugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-plugins) configuration options allow whitespace.
+* [#1724](https://github.com/ckeditor/ckeditor-dev/issues/1724): Added option to [`getClientRect`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_dom_element.html#method-getClientRect) function allowing to retrieve an absolute bounding rectangle of the element i.e. position relative to the upper-left corner of the topmost viewport.
 
 ## CKEditor 4.9.1
 
