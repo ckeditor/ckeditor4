@@ -2825,26 +2825,33 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * In the following example:
 		 *
-		 *        <p><span>first { span</span><span> second text</span></p>
-		 *        <p><span>very long } span</span></p>
+		 * ```html
+		 *  <p><span>first { span</span><span>second span</span></p>
+		 *  <p><span>very long } span</span></p>
+		 * ```
 		 *
 		 * Brackets represent the beginning and the end of the selection.
 		 *
 		 * Returned rectangles would be represented by areas like below:
-		 *         text [ text ] [ text text ]
-		 *        [ text text ] text
+		 *
+		 * ```
+		 * first [ span ] [ second span ]
+		 * [ very long ] span
+		 * ```
 		 *
 		 * Where each pair of brackets represents one rectangle.
 		 *
 		 * In Internet Explorer 8 this method will return an array containing only one rectangle which would start in the top left hand corner of the selection and end in the bottom right hand corner.
 		 * The returned output represented by the scheme would be:
-		 *             ┌   ┐
-		 *        first span second span
-		 *        very long span
-		 *             └   ┘
 		 *
+		 * ```
+		 *      ┌   ┐
+		 * first span second span
+		 * very long span
+		 *      └   ┘
+		 * ```
 		 * @since 4.10.0
-		 * @returns {Array} Returns an array of {@link CKEDITOR.dom.rect}
+		 * @returns {CKEDITOR.dom.rect[]} Returns an array of {@link CKEDITOR.dom.rect}
 		 */
 		getClientRects: ( function() {
 			// Extending empty object with rect, to prevent inheriting from DOMRect, same approach as in CKEDITOR.dom.element.getClientRect().
