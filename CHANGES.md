@@ -28,10 +28,6 @@ Fixed Issues:
 
 * [#1835](https://github.com/ckeditor/ckeditor-dev/issues/1835): Fixed: Integration between [CKFinder](https://ckeditor.com/ckeditor-4/ckfinder/) and the [File Browser](https://ckeditor.com/cke4/addon/filebrowser) plugin does not work.
 
-API Changes:
-
-* [#1742](https://github.com/ckeditor/ckeditor-dev/issues/1724): Added option to [`getClientRect`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_dom_element.html#method-getClientRect) function allowing to calculate an element absolute bounding rectangle including browser's and editor's scroll position.
-
 ## CKEditor 4.9
 
 New Features:
