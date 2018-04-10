@@ -30,7 +30,7 @@
 						if ( key === 'height' || key === 'top' ) {
 							continue;
 						}
-						// IE returns width and right bigger by small very small value.
+						// IE returns width and right bigger by small value.
 						else if ( key === 'width' || key === 'right' ) {
 							actual = Math.floor( actual * 10 ) / 10;
 						}

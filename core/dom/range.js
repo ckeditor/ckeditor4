@@ -2819,23 +2819,32 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Returns array with rectangles of areas covered by ranges. For each DOM element within range there is one rectangle,
-		 * but it represents only part of element which is within range, not whole element.
+		 * Returns an array of {@link CKEDITOR.dom.rect} elements that are represented as rectangles which are covered by ranges.
+		 * For each DOM element within the selection range there is only one rectangle.
+		 * Rectangles represent the area of the screen occupied by the elements contained within the range.
 		 *
-		 * Lets consider example:
+		 * In the following example:
 		 *
-		 * <p><span>first { span</span><span>second span</span></p>
-		 * <p><span>third } span</span><p>
+		 *        <p><span>first { span</span><span> second text</span></p>
+		 *        <p><span>very long } span</span></p>
 		 *
-		 * {	represents beginning of selection.
-		 * }	represents end of selection.
+		 * Brackets represent the beginning and the end of the selection.
 		 *
-		 * Calling `getClientRects` on such ranges would return an array of rects which would contain rect representing area of word 'span' from first span,
-		 * another rect representing area of text 'second span', and last rect representing area of word 'third' from third span.
+		 * Returned rectangles would be represented by areas like below:
+		 *         text [ text ] [ text text ]
+		 *        [ text text ] text
 		 *
+		 * Where each pair of brackets represents one rectangle.
+		 *
+		 * In Internet Explorer 8 this method will return an array containing only one rectangle which would start in the top left hand corner of the selection and end in the bottom right hand corner.
+		 * The returned output represented by the scheme would be:
+		 *             ┌   ┐
+		 *        first span second span
+		 *        very long span
+		 *             └   ┘
 		 *
 		 * @since 4.10.0
-		 * @returns {Array}
+		 * @returns {Array} Returns an array of {@link CKEDITOR.dom.rect}
 		 */
 		getClientRects: ( function() {
 			// Extending empty object with rect, to prevent inheriting from DOMRect, same approach as in CKEDITOR.dom.element.getClientRect().
