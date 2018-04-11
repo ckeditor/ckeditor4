@@ -1,7 +1,7 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: imagebase,link,toolbar,contextmenu */
-/* bender-include: ../../widget/_helpers/tools.js */
-/* global widgetTestsTools */
+/* bender-include: ../../widget/_helpers/tools.js, ../../easyimage/_helpers/tools.js */
+/* global widgetTestsTools, easyImageTools */
 
 ( function() {
 	'use strict';
@@ -167,6 +167,12 @@
 	}
 
 	var tests = {
+
+		setUp: function() {
+			if ( easyImageTools.isUnsupportedEnvironment() ) {
+				assert.ignore();
+			}
+		},
 
 		'test adding image widget with link feature': function( editor ) {
 			var expectedParts = {
