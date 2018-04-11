@@ -25,9 +25,11 @@
 </div>
 
 <script>
-	if ( easyImageTools.isUnsupportedEnvironment() ) {
+	// Ignore on mobiles due to lack of support for files drag and drop.
+	if ( easyImageTools.isUnsupportedEnvironment() || bender.tools.env.mobile ) {
 		bender.ignore();
 	}
+
 	var IMG_URL = '%BASE_PATH%_assets/logo.png',
 		commonConfig = {
 			cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,

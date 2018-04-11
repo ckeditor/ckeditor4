@@ -80,7 +80,8 @@
 </div>
 
 <script>
-	if ( easyImageTools.isUnsupportedEnvironment() ) {
+	// Ignore on mobiles due to very poor support for editor / table cells resizing.
+	if ( easyImageTools.isUnsupportedEnvironment() || bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 

@@ -22,7 +22,8 @@
 </div>
 
 <script>
-	if ( easyImageTools.isUnsupportedEnvironment() ) {
+	// Ignore on Android mobiles due to lack of support for pasting images from clipboard.
+	if ( easyImageTools.isUnsupportedEnvironment() || ( bender.tools.env.mobile && !CKEDITOR.env.iOS ) ) {
 		bender.ignore();
 	}
 

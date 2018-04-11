@@ -39,7 +39,8 @@
 </div>
 
 <script>
-	if ( easyImageTools.isUnsupportedEnvironment() ) {
+	// Ignore on mobiles due to lack of support for our custom table selection.
+	if ( easyImageTools.isUnsupportedEnvironment() || bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 
