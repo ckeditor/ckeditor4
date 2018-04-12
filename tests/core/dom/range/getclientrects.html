@@ -11,6 +11,7 @@
 		position: absolute;
 		top: 100px;
 		left: 100px;
+		width: 500px;
 	}
 
 	#playground img {
@@ -18,10 +19,29 @@
 	}
 
 	body {
-		padding-top:300px;
+		padding-top:500px;
 	}
 </style>
 
 <div id="playground" contenteditable="true"></div>
 
-<div id="simple-selection">[<img src="../../../_assets/logo.png" alt="img">]</div>
+<div id="only-element-selection">
+	[<img src="../../../_assets/logo.png" alt="img">]
+</div>
+
+<div id="last-element-selection">
+	<img src="../../../_assets/logo.png" alt="img"><img src="../../../_assets/logo.png" alt="img">[<img src="../../../_assets/logo.png" alt="img">]
+</div>
+
+<div id="two-line-selection">
+	<img src="../../../_assets/logo.png" alt="img"><img src="../../../_assets/logo.png" alt="img">[<img src="../../../_assets/logo.png" alt="img">
+	<img src="../../../_assets/logo.png" alt="img"><img src="../../../_assets/logo.png" alt="img">]<img src="../../../_assets/logo.png" alt="img">
+</div>
+
+
+<div id="three-line-selection">
+	<img src="../../../_assets/logo.png" alt="img"><img src="../../../_assets/logo.png" alt="img">[<img src="../../../_assets/logo.png" alt="img">
+	<img src="../../../_assets/logo.png" alt="img"><img src="../../../_assets/logo.png" alt="img"><img src="../../../_assets/logo.png" alt="img">
+	<img src="../../../_assets/logo.png" alt="img">]<img src="../../../_assets/logo.png" alt="img"><img src="../../../_assets/logo.png" alt="img">
+</div>
+
