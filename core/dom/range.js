@@ -2820,14 +2820,13 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Returns an array of {@link CKEDITOR.dom.rect} elements that are represented as rectangles which are covered by ranges.
-		 * For each DOM element within the selection range there is only one rectangle.
 		 * Rectangles represent the area of the screen occupied by the elements contained within the range.
 		 *
 		 * In the following example:
 		 *
 		 * ```html
-		 *  <p><span>first { span</span><span>second span</span></p>
-		 *  <p><span>very long } span</span></p>
+		 *  <p><span>first {span</span><span> second span</span></p>
+		 *  <p><span>very long }span</span></p>
 		 * ```
 		 *
 		 * Brackets represent the beginning and the end of the selection.
@@ -2835,23 +2834,20 @@ CKEDITOR.dom.range = function( root ) {
 		 * Returned rectangles would be represented by areas like below:
 		 *
 		 * ```
-		 * first [ span ] [ second span ]
-		 * [ very long ] span
+		 * first [span][ second span]
+		 * [very long ]span
 		 * ```
 		 *
 		 * Where each pair of brackets represents one rectangle.
 		 *
-		 * In Internet Explorer 8 this method will return an array containing only one rectangle which would start in the top left hand corner of the selection and end in the bottom right hand corner.
-		 * The returned output represented by the scheme would be:
+		 * Note: Various browsers might return different list of rectangles.
 		 *
-		 * ```
-		 *      ┌   ┐
-		 * first span second span
-		 * very long span
-		 *      └   ┘
-		 * ```
+		 * Internet Explorer 8 doesn't have implemented native `range.getClientRects()` which is base for this method.
+		 * As a workaround it will return an array containing only one rectangle which would start in the top left hand corner of the selection and end in the bottom right hand corner.
+		 * Possible cases when returned rectangle doesn't fully cover ranges are presented below:
+		 * <img src="https://33333.cdn.cke-cs.com/rc1DFuFpHqcR3Mah6y0e/images/90893fcc6c323c10023e73ebfc1fbaa622b48b29c066f7af_ie-rects.png">
 		 * @since 4.10.0
-		 * @returns {CKEDITOR.dom.rect[]} Returns an array of {@link CKEDITOR.dom.rect}
+		 * @returns {CKEDITOR.dom.rect[]}
 		 */
 		getClientRects: ( function() {
 			// Extending empty object with rect, to prevent inheriting from DOMRect, same approach as in CKEDITOR.dom.element.getClientRect().
