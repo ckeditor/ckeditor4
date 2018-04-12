@@ -2625,6 +2625,10 @@
 
 				// Widget was clicked, but not editable nested in it.
 				if ( widget ) {
+                     // Ignore mousedown if the widget is not draggable.
+                     if ( !widget.draggable ) {
+                        return;
+                    }
 					// Ignore mousedown on drag and drop handler if the widget is inline.
 					// Block widgets are handled by Lineutils.
 					if ( widget.inline && target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-cke-widget-drag-handler' ) ) {
