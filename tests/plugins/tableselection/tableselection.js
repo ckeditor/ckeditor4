@@ -147,6 +147,7 @@
 			} );
 		},
 
+<<<<<<< HEAD
 		// (#2003)
 		'test right-click in cell with empty paragraph': function( editor, bot ) {
 			if ( !CKEDITOR.env.gecko ) {
@@ -176,6 +177,10 @@
 
 		// (#1489)
 		'test delete/backspace keys are not removing readonly selection': function( editor ) {
+=======
+		// (#1489)
+		'test random keys are not removing readonly selection': function( editor ) {
+>>>>>>> Refactoring.
 			var selection = editor.getSelection(),
 				editable = editor.editable(),
 				table = CKEDITOR.document.getById( 'simpleTable' ).getHtml();
@@ -192,6 +197,8 @@
 
 			editable.fire( 'keypress', new CKEDITOR.dom.event( { keyCode: 65, charCode: 65 } ) ); // `a`
 			editable.fire( 'keypress', new CKEDITOR.dom.event( { keyCode: 93, charCode: 93 } ) ); // `t`
+
+			editor.setReadOnly( false );
 
 			assert.areSame( bender.tools.compatHtml( table ), editor.getData(), 'Editor data' );
 		}
