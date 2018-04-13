@@ -974,6 +974,7 @@
 						i;
 
 					// Handle only left/right/del/bspace keys.
+					// Disable editing cells in readonly mode (#1489).
 					if ( !keystrokes[ key ] || editor.readOnly ) {
 						return;
 					}
@@ -1043,6 +1044,7 @@
 					firstCell,
 					i;
 
+				// Disable editing cells in readonly mode (#1489).
 				if ( editor.readOnly ) {
 					return;
 				}
