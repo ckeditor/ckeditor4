@@ -2850,6 +2850,34 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {CKEDITOR.dom.rect[]}
 		 */
 		getClientRects: ( function() {
+			if ( this.document.getSelection !== undefined ) {
+				return function() {
+					// We need to create native range so we can call native getClientRects.
+					var range = document.createRange(),
+						rectArray;
+
+					range.setStart( this.startContainer.$, this.startOffset );
+					range.setEnd( this.endContainer.$, this.endOffset );
+
+					rectArray = CKEDITOR.tools.array.map( range.getClientRects(), function( item ) {
+						return convertRect( item );
+					} );
+
+					// In some cases ( eg. ranges contain only image ) IE will return empty rectList.
+					if ( !range.collapsed && !rectArray.length ) {
+						rectArray = [ getRect( this.createBookmark() ) ];
+					}
+
+					range.detach();
+
+					return rectArray;
+				};
+			} else {
+				return function() {
+					return [ getRect( this.createBookmark() ) ];
+				};
+			}
+
 			// Extending empty object with rect, to prevent inheriting from DOMRect, same approach as in CKEDITOR.dom.element.getClientRect().
 			function convertRect( rect ) {
 				var newRect = CKEDITOR.tools.extend( {}, rect );
@@ -2859,10 +2887,9 @@ CKEDITOR.dom.range = function( root ) {
 				return newRect;
 			}
 
-			// Fallback helper for browsers that don't support native getClientRects()
-			function getRect( context ) {
-				var bookmark = context.createBookmark(),
-					start = bookmark.startNode,
+			// Fallback helper for browsers that don't support native getClientRects().
+			function getRect( bookmark ) {
+				var start = bookmark.startNode,
 					end = bookmark.endNode,
 					rects;
 
@@ -2876,13 +2903,11 @@ CKEDITOR.dom.range = function( root ) {
 
 					rects = [ start.getClientRect(), end.getClientRect() ];
 
-					start.remove();
 					end.remove();
 				} else {
 					rects = [ start.getClientRect(), start.getClientRect() ];
-
-					start.remove();
 				}
+				start.remove();
 
 				return {
 					right: Math.max( rects[ 0 ].right, rects[ 1 ].right ),
@@ -2891,33 +2916,6 @@ CKEDITOR.dom.range = function( root ) {
 					top: Math.min( rects[ 0 ].top, rects[ 1 ].top ),
 					width: Math.abs( rects[ 0 ].left - rects[ 1 ].left ),
 					height: Math.max( rects[ 0 ].bottom, rects[ 1 ].bottom ) - Math.min( rects[ 0 ].top, rects[ 1 ].top )
-				};
-			}
-
-			if ( this.document.getSelection !== undefined ) {
-				return function() {
-					// We need to create native range so we can call native getClientRects
-					var range = document.createRange(),
-						rectArray;
-
-					range.setStart( this.startContainer.$, this.startOffset );
-					range.setEnd( this.endContainer.$, this.endOffset );
-
-					rectArray = CKEDITOR.tools.array.map( range.getClientRects(), function( item ) {
-						return ( convertRect( item ) );
-					} );
-
-					if ( !range.collapsed && !rectArray.length ) {
-						rectArray = [ getRect( this ) ];
-					}
-
-					range.detach();
-
-					return rectArray;
-				};
-			} else {
-				return function() {
-					return [ getRect( this ) ];
 				};
 			}
 		} )(),
