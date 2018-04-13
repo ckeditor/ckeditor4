@@ -1039,7 +1039,10 @@
 		},
 
 		/**
-		 * Applies the specified style to the widget.
+		 * Applies the specified style to the widget. It is highly recommended to use the
+		 * {@link CKEDITOR.editor#applyStyle} or {@link CKEDITOR.style#apply} methods instead of
+		 * using this method directly, because unlike editor's and style's methods, this one
+		 * does not perform any checks.
 		 *
 		 * Since 4.10 this method applies all attributes and styles defined in {@link CKEDITOR.style}.
 		 *
@@ -1084,7 +1087,6 @@
 				attributes = def.attributes,
 				element = def.element,
 				styles = def.styles,
-				item,
 				styleDefinition = this.styleDefinition;
 
 			if ( !styleDefinition ) {
@@ -1095,27 +1097,18 @@
 				return false;
 			}
 
-			if ( classes ) {
-				while ( ( item = classes.pop() ) ) {
-					if ( !this.hasClass( item ) )
-						return false;
-				}
+			if ( classes && !checkClasses( classes, this ) ) {
+				return false;
 			}
 
-			if ( attributes ) {
-				for ( item in attributes ) {
-					if ( isNotInAttributes( item, styleDefinition.attributes ) ) {
-						return false;
-					}
-				}
+			if ( attributes && !checkAttributes( attributes, styleDefinition ) ) {
+				return false;
 			}
-			if ( styles ) {
-				for ( item in styles ) {
-					if ( !( item in styleDefinition.styles ) || styles[ item ] !== styleDefinition.styles[ item ] ) {
-						return false;
-					}
-				}
+
+			if ( styles && !checkStyles( styles, styleDefinition ) ) {
+				return false;
 			}
+
 			return true;
 		},
 
@@ -1407,7 +1400,10 @@
 		},
 
 		/**
-		 * Removes the specified style from the widget.
+		 * Removes the specified style from the widget. It is highly recommended to use the
+		 * {@link CKEDITOR.editor#removeStyle} or {@link CKEDITOR.style#remove} methods instead of
+		 * using this method directly, because unlike editor's and style's methods, this one
+		 * does not perform any checks.
 		 *
 		 * Since 4.10 this method removes all attributes and styles defined in {@link CKEDITOR.style}.
 		 *
@@ -1913,9 +1909,38 @@
 	//
 	// REPOSITORY helpers -----------------------------------------------------
 	//
+	function checkStyles( styles, styleDefinition ) {
+		for ( var item in styles ) {
+			if ( ( item in styleDefinition.styles ) && styles[ item ] == styleDefinition.styles[ item ] ) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
 
-	function isNotInAttributes( item, attributes ) {
-		return item !== 'class' && item !== 'style' && !( item in attributes );
+	function checkAttributes( attributes, styleDefinition ) {
+		for ( var item in attributes ) {
+			if ( item === 'class' || item === 'style' || ( item in styleDefinition.attributes ) ) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	function checkClasses( classes, context ) {
+		var item;
+		while ( ( item = classes.pop() ) ) {
+			if ( context.hasClass( item ) ) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	function addWidgetButtons( editor ) {
@@ -3282,24 +3307,25 @@
 			}
 		}
 
-		toggleStyleAttribute( widget, styles, 0, apply );
-		toggleStyleAttribute( widget, attributes, 1, apply );
+		applyRemoveStylesOrAttributes( widget, styles, 0, apply );
+		applyRemoveStylesOrAttributes( widget, attributes, 1, apply );
 	}
 
-	// Togles styles or attributes on widget.
+	// Applies or removes widgets styles/attributes.
 	// @param {CKEDITOR.plugins.widget} Widget instance.
 	// @param {Object} Pairs of inline styles or attributes.
 	// @param {Boolean} whenever to apply or remove style.
-	function toggleStyleAttribute( widget, properties, attribute, apply ) {
-		var method = ( apply ? 'set' : 'remove' ) + ( attribute ? 'Attribute' : 'Style' ),
-			element = attribute ? widget.element : widget.wrapper;
-		for ( var key in properties ) {
+	function applyRemoveStylesOrAttributes( widget, toBeAddedOrRemoved, useAttributes, apply ) {
+		var method = ( apply ? 'set' : 'remove' ) + ( useAttributes ? 'Attribute' : 'Style' ),
+			element = useAttributes ? widget.element : widget.wrapper;
+
+		for ( var key in toBeAddedOrRemoved ) {
 			if ( key !== 'class' ) {
-				element[ method ]( key, properties[ key ] );
+				element[ method ]( key, toBeAddedOrRemoved[ key ] );
 				if ( apply ) {
-					widget.styleDefinition[ attribute ? 'attributes' : 'styles' ][ key ] = properties[ key ];
+					widget.styleDefinition[ useAttributes ? 'attributes' : 'styles' ][ key ] = toBeAddedOrRemoved[ key ];
 				} else {
-					delete widget.styleDefinition[ attribute ? 'attributes' : 'styles' ][ key ];
+					delete widget.styleDefinition[ useAttributes ? 'attributes' : 'styles' ][ key ];
 				}
 			}
 		}
