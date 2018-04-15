@@ -180,7 +180,7 @@
 	 * the end users of your application to use [CKEditor Cloud Services](https://ckeditor.com/ckeditor-cloud-services), only
 	 * if they should have access e.g. to upload files with Easy Image.
 	 *
-	 * You can find more information about token endpoints in the [Cloud Services - Quick Start](https://docs.ckeditor.com/cs/latest/guides/quick-start.html#create-token-endpoint)
+	 * You can find more information about token endpoints in the [Easy Image - Quick Start](https://docs.ckeditor.com/cs/latest/guides/easy-image/quick-start.html#create-token-endpoint)
 	 * and [Cloud Services - Creating token endpoint](https://docs.ckeditor.com/cs/latest/guides/token-endpoints/tokenendpoint.html) documentation.
 	 *
 	 * Without a properly working token endpoint (token URL) CKEditor plugins will not be able to connect to CKEditor Cloud Services.
