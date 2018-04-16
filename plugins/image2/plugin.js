@@ -386,10 +386,9 @@
 				// are checked below.
 				if ( !data.align ) {
 					var alignElement = data.hasCaption ? this.element : image,
-						style,
 						align;
 					if ( this.styleDefinition && this.styleDefinition.styles ) {
-						align = this.styleDefinition.styles.float;
+						align = this.styleDefinition.styles[ 'float' ];
 					}
 					// Read the initial left/right alignment from the class set on element.
 					if ( alignClasses ) {
@@ -903,7 +902,8 @@
 		return function( el, data ) {
 			var dimensions = { width: 1, height: 1 },
 				name = el.name,
-				image;
+				image,
+				styleDefinition;
 
 			// https://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
 			if ( el.attributes[ 'data-cke-realelement' ] )
@@ -939,9 +939,12 @@
 				// Image can be wrapped in link <a><img/></a>.
 				image = el.getFirst( 'img' ) || el.getFirst( 'a' ).getFirst( 'img' );
 
-				data.lockedStyle = data.lockedStyle || {};
-				data.lockedStyle.display = 'inline-block';
-				data.lockedStyle[ 'text-align' ] = 'center';
+				styleDefinition = el.attributes[ 'data-cke-style-definition' ] || {};
+				styleDefinition.lockedStyle = styleDefinition.lockedStyle || {};
+				styleDefinition.lockedStyle.display = 'inline-block';
+				styleDefinition.lockedStyle[ 'text-align' ] = 'center';
+
+				el.attributes[ 'data-cke-style-definition' ] = JSON.stringify( styleDefinition );
 			}
 
 			// No center wrapper has been found.

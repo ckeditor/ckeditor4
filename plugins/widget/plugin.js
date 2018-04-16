@@ -832,7 +832,7 @@
 	 * @param {CKEDITOR.plugins.widget.definition} widgetDef Widget's registered definition.
 	 * @param [startupData] Initial widget data. This data object will overwrite the default data and
 	 * the data loaded from the DOM.
-	 * @param {Object} styleDefinition Optional widget style definition.
+	 * @param {Object} [styleDefinition] Optional widget style definition.
 	 */
 	function Widget( widgetsRepo, id, element, widgetDef, startupData, styleDefinition ) {
 		var editor = widgetsRepo.editor;
@@ -1036,6 +1036,7 @@
 		addClass: function( className ) {
 			this.element.addClass( className );
 			this.wrapper.addClass( Widget.WRAPPER_CLASS_PREFIX + className );
+			addRemoveClassToStyleDef( this, className );
 		},
 
 		/**
@@ -1397,6 +1398,7 @@
 		removeClass: function( className ) {
 			this.element.removeClass( className );
 			this.wrapper.removeClass( Widget.WRAPPER_CLASS_PREFIX + className );
+			addRemoveClassToStyleDef( this, className, 1 );
 		},
 
 		/**
@@ -1911,9 +1913,7 @@
 	//
 	function checkStyles( styles, styleDefinition ) {
 		for ( var item in styles ) {
-			if ( ( item in styleDefinition.styles ) && styles[ item ] == styleDefinition.styles[ item ] ) {
-				continue;
-			} else {
+			if ( !( item in styleDefinition.styles ) || styles[ item ] !== styleDefinition.styles [ item ] ) {
 				return false;
 			}
 		}
@@ -1922,9 +1922,7 @@
 
 	function checkAttributes( attributes, styleDefinition ) {
 		for ( var item in attributes ) {
-			if ( item === 'class' || item === 'style' || ( item in styleDefinition.attributes ) ) {
-				continue;
-			} else {
+			if ( item !== 'class' && item !== 'style' && !( item in styleDefinition.attributes && attributes[ item ] === styleDefinition.attributes[ item ] ) ) {
 				return false;
 			}
 		}
@@ -1934,9 +1932,7 @@
 	function checkClasses( classes, context ) {
 		var item;
 		while ( ( item = classes.pop() ) ) {
-			if ( context.hasClass( item ) ) {
-				continue;
-			} else {
+			if ( !context.hasClass( item ) ) {
 				return false;
 			}
 		}
@@ -2259,7 +2255,7 @@
 
 				attributes = element.getAttributes();
 				for ( key in attributes ) {
-					if ( key !== 'style' && key !== 'class' && key.substring( 0, 4 ).toLowerCase() !== 'data' ) {
+					if ( key !== 'style' && key !== 'class' && key !== 'data-widget' && key.substring( 0, 8 ).toLowerCase() !== 'data-cke' ) {
 						styleDefinition.attributes[ key ] = attributes[ key ];
 					} else if ( key === 'class' ) {
 						classes = attributes[ key ].split( ' ' );
@@ -3007,38 +3003,33 @@
 	function handleStylesOnDowncast( widget, widgetElement ) {
 		var styledElement;
 
-		if ( widgetElement ) {
-			if ( widget.styleDefinition && widgetElement.name !== widget.styleDefinition.element ) {
-				styledElement = widgetElement.getFirst( widget.styleDefinition.element );
-			}
-			if ( !styledElement ) {
-				styledElement = widgetElement;
-			}
+		if ( !widgetElement ) {
+			return;
+		}
+		if ( widget.styleDefinition && widgetElement.name !== widget.styleDefinition.element ) {
+			styledElement = widgetElement.getFirst( widget.styleDefinition.element );
+		}
+		if ( !styledElement ) {
+			styledElement = widgetElement;
+		}
 
-			styledElement.attributes = styledElement.attributes || {};
-			if ( widget.styleDefinition && widget.styleDefinition.styles ) {
-				styledElement.attributes.style = CKEDITOR.tools.writeCssText( widget.styleDefinition.styles );
-			}
+		if ( widget.styleDefinition && widget.styleDefinition.styles ) {
+			styledElement.attributes.style = CKEDITOR.tools.writeCssText( widget.styleDefinition.styles );
 		}
 	}
 
 	function handleStylesOnUpcast( element, wrapper ) {
 		var style = element.attributes.style,
-			lockedStyle = {},
+			styleDefinition = element.attributes[ 'data-cke-style-definition' ] && JSON.parse( element.attributes[ 'data-cke-style-definition' ] ) || {},
+			lockedStyle = styleDefinition.lockedStyle || {},
 			outputStyle = {},
-			styleDefinition = {},
 			key;
 
-		if ( element.attributes[ 'data-cke-widget-data' ] ) {
-			lockedStyle = JSON.parse( decodeURIComponent( element.attributes[ 'data-cke-widget-data' ] ) ).lockedStyle || {};
-		}
-
-		styleDefinition = styleDefinition || { attributes: {} };
 		styleDefinition.attributes = styleDefinition.attributes || {};
 		styleDefinition.element = element.name;
 
 		for ( key in element.attributes ) {
-			if ( key !== 'style' && key.substring( 0, 4 ).toLowerCase() !== 'data' ) {
+			if ( key !== 'style' && key !== 'data-widget' && key.substring( 0, 8 ).toLowerCase() !== 'data-cke' ) {
 				styleDefinition.attributes[ key ] = element.attributes[ key ];
 			}
 		}
@@ -3061,6 +3052,7 @@
 					delete style[ key ];
 				}
 			}
+
 			style = CKEDITOR.tools.writeCssText( style );
 			element.attributes.style = style;
 			style = CKEDITOR.tools.writeCssText( outputStyle );
@@ -3068,6 +3060,11 @@
 			// When we don't preserve any styles we can delete them on widget.element
 			delete element.attributes.style;
 		}
+
+		// From now style definition will be only on wrapper.
+		delete element.attributes[ 'data-cke-style-definition' ];
+		delete styleDefinition.lockedStyle;
+
 		if ( style ) {
 			wrapper.attributes.style = style;
 			styleDefinition.styles = CKEDITOR.tools.parseCssText( style );
@@ -3314,7 +3311,8 @@
 	// Applies or removes widgets styles/attributes.
 	// @param {CKEDITOR.plugins.widget} Widget instance.
 	// @param {Object} Pairs of inline styles or attributes.
-	// @param {Boolean} whenever to apply or remove style.
+	// @param {Boolean} When it's set to true this function adds attributes, if not styles are added.
+	// @param {Boolean} Whenever to apply or remove style.
 	function applyRemoveStylesOrAttributes( widget, toBeAddedOrRemoved, useAttributes, apply ) {
 		var method = ( apply ? 'set' : 'remove' ) + ( useAttributes ? 'Attribute' : 'Style' ),
 			element = useAttributes ? widget.element : widget.wrapper;
@@ -3487,12 +3485,10 @@
 				// Avoid removing and adding classes again.
 				if ( !( newClasses && newClasses[ cl ] ) ) {
 					this.removeClass( cl );
-					addRemoveClassToStyleDef( this, cl, 1 );
 				}
 			}
 			for ( cl in newClasses ) {
 				this.addClass( cl );
-				addRemoveClassToStyleDef( this, cl );
 			}
 
 			previousClasses = newClasses;
