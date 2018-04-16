@@ -131,8 +131,21 @@
 			editor.on( 'afterCommandExec', function( evt ) {
 				if ( getStyleNameFromCommand( evt.data.name, styles ) ) {
 					editor.forceNextSelectionCheck();
-					editor.selectionChange( true );
+					runSelectionChange();
 				}
+
+				function runSelectionChange() {
+					// In div-type editors Edge removes selection from hidden element when balloon toolbar is clicked.
+					// That's why we preserve this selection after command's execution (#1580).
+					if ( CKEDITOR.env.edge && editor.editable().isInline() ) {
+						var range = editor.getSelection().getRanges()[ 0 ];
+						editor.selectionChange( true );
+						range.select();
+					} else {
+						editor.selectionChange( true );
+					}
+				}
+
 			} );
 
 			editor.on( 'beforeCommandExec', function( evt ) {
