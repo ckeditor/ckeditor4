@@ -4,6 +4,7 @@
 
 ( function() {
 	'use strict';
+	var fixHtml = image2TestsTools.fixHtml;
 
 	function assertWidgetDom( config ) {
 		assert.isMatching( config.dom, fixHtml( config.bot.editor.editable().getHtml().replace( /title="[^"]+"/g, '' ) ) );
@@ -53,8 +54,7 @@
 		widgetTestsTools.assertWidget( config );
 	}
 
-	var fixHtml = image2TestsTools.fixHtml,
-		htmls = {
+	var htmls = {
 			image: '<img src="_assets/foo.png" id="x" />',
 
 			imageAlignedLeft:
@@ -126,7 +126,7 @@
 					'</span>' +
 				'</p>' ),
 			captioned: new RegExp(
-				'<figure class="image"( data-cke-widget-upcasted="1")?>' +
+				'<figure class="image"( data-cke-style-definition="(.*?)")?( data-cke-widget-upcasted="1")?>' +
 					'<span class="cke_image_resizer_wrapper">' +
 						'<img alt="" data-cke-saved-src="_assets/foo.png"( data-cke-widget-upcasted="1")? id="x" src="_assets/foo.png" />' +
 						'<span class="cke_image_resizer( cke_image_resizer_left)?"></span>' +
