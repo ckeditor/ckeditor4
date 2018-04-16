@@ -43,5 +43,55 @@ bender.test( {
 
 			assert.areSame( '<input type="checkbox" />', bot.getData( false, true ) );
 		} );
+	},
+
+	'test read collapsed required attribute': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '[<input type="checkbox" required />]' );
+
+		bot.dialog( 'checkbox', function( dialog ) {
+			assert.isTrue( dialog.getValueOf( 'info', 'required' ) );
+		} );
+	},
+
+	'test read empty required attribute': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '[<input type="checkbox" required="" />]' );
+
+		bot.dialog( 'checkbox', function( dialog ) {
+			assert.isTrue( dialog.getValueOf( 'info', 'required' ) );
+		} );
+	},
+
+	'test read required attribute with value `required`': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '[<input type="checkbox" required="required" />]' );
+
+		bot.dialog( 'checkbox', function( dialog ) {
+			assert.isTrue( dialog.getValueOf( 'info', 'required' ) );
+		} );
+	},
+
+	'test required attribute absent': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '[<input type="checkbox" />]' );
+
+		bot.dialog( 'checkbox', function( dialog ) {
+			assert.isFalse( dialog.getValueOf( 'info', 'required' ) );
+		} );
+	},
+
+	'test read required attribute with invalid value': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '[<input type="checkbox" required="any value other than empty string or required" />]' );
+
+		bot.dialog( 'checkbox', function( dialog ) {
+			assert.isFalse( dialog.getValueOf( 'info', 'required' ) );
+		} );
 	}
 } );
