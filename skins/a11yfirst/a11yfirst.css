@@ -142,3 +142,25 @@ a.cke_dialog_ui_button.a11yfirsthelp:hover
   margin-top: 1em;
   margin-bottom: 0.5em;
 }
+
+.cke_dialog_ui_fieldset .a11yfirst_no_label {
+  height: 4px;
+}
+
+.cke_dialog_ui_fieldset .a11yfirst_no_label .cke_dialog_ui_labeled_label {
+  display: none;
+}
+
+.cke_dialog_ui_fieldset .a11yfirst_no_label .cke_dialog_ui_labeled_content {
+  position: relative;
+  top: -1em;
+}
+
+.cke_reset_all fieldset.a11yfirst_fieldset {
+  padding: 8px;
+}
+
+.cke_dialog_ui_fieldset .cke_disabled label {
+  color: gray;
+}
+
