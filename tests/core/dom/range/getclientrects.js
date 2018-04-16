@@ -23,27 +23,6 @@
 						bottom: 161,
 						left: 100
 					}
-				},
-				// Due to #1852 IE and Edge won't return 'x' and 'y', so we are not testing it. Same for other TCs.
-				ie: {
-					0: {
-						width: 163,
-						height: 61,
-						top: 100,
-						right: 263,
-						bottom: 161,
-						left: 100
-					}
-				},
-				polyfill: {
-					0: {
-						width: 163,
-						height: 61,
-						top: 100,
-						right: 263,
-						bottom: 161,
-						left: 100
-					}
 				}
 			} );
 		},
@@ -54,26 +33,6 @@
 					0: {
 						x: 426,
 						y: 100,
-						width: 163,
-						height: 61,
-						top: 100,
-						right: 589,
-						bottom: 161,
-						left: 426
-					}
-				},
-				ie: {
-					0: {
-						width: 163,
-						height: 61,
-						top: 100,
-						right: 589,
-						bottom: 161,
-						left: 426
-					}
-				},
-				polyfill: {
-					0: {
 						width: 163,
 						height: 61,
 						top: 100,
@@ -107,43 +66,15 @@
 						right: 263,
 						bottom: 222,
 						left: 100
-					},
-					2: {
-						x: 263,
-						y: 161,
-						width: 163,
-						height: 61,
-						top: 161,
-						right: 426,
-						bottom: 222,
-						left: 263
-					}
-				},
-				ie: {
-					0: {
-						width: 163,
-						height: 61,
-						top: 100,
-						right: 589,
-						bottom: 161,
-						left: 426
-					},
-					1: {
-						width: 326,
-						height: 61,
-						top: 161,
-						right: 426,
-						bottom: 222,
-						left: 100
 					}
 				},
 				polyfill: {
 					0: {
 						right: 426,
 						bottom: 222,
-						left: 426,
+						left: 263,
 						top: 142,
-						width: 0,
+						width: 163,
 						height: 80
 					}
 				}
@@ -252,28 +183,48 @@
 			return range;
 		},
 
-		_assertRectList: function( fixture, config ) {
-			var range = this._selectFixture( fixture ),
+		_assertRectList: function( fixtureId, expectedMap ) {
+			var range = this._selectFixture( fixtureId ),
 				rects = range.getClientRects(),
-				expectedRects = CKEDITOR.env.ie ? ( CKEDITOR.env.version === 8 ? config.polyfill : config.ie ) : config.defaultExpected,
-				actual;
+				expectedKey = 'defaultExpected',
+				expectedRects,
+				curExpectedRect;
+
+			if ( typeof document.getSelection !== 'function' ) {
+				expectedKey = 'polyfill';
+			} else if ( CKEDITOR.env.ie ) {
+				expectedKey = 'ie';
+			}
+
+			expectedRects = expectedMap[ expectedKey ] || expectedMap.defaultExpected;
 
 			for ( var index in expectedRects ) {
+				if ( CKEDITOR.env.ie ) {
+					// IE and Edge doesn't return x and y properties, emulate that. (#1852)
+					if ( typeof expectedRects[ index ].x !== 'undefined' ) {
+						delete expectedRects[ index ].x;
+					}
+
+					if ( typeof expectedRects[ index ].y !== 'undefined' ) {
+						delete expectedRects[ index ].y;
+					}
+				}
+
 				for ( var key in expectedRects[ index ] ) {
-					actual = rects[ index ][ key ];
+					curExpectedRect = rects[ index ][ key ];
 
 					if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-						// Selecting only image on IE will return empty rect. Using fallback for that case will return wrong height and top.
 						if ( rects.length === 1 && key === 'height' || key === 'top' ) {
+							// Selecting image alone on IE will return an empty rect. Using fallback for that case will return wrong height and top.
 							continue;
-						}
-						// IE returns width and right bigger by small value.
-						else if ( key === 'width' || key === 'right' ) {
-							actual = Math.floor( actual * 10 ) / 10;
+						} else if ( key === 'width' || key === 'right' ) {
+							// IE returns width and right bigger by small value.
+							curExpectedRect = Math.floor( curExpectedRect * 10 ) / 10;
 						}
 					}
+
 					if ( key === 'right' )
-					assert.areEqual( expectedRects[ index ][ key ], actual, 'rect[ ' + index + ' ].' + key );
+					assert.areEqual( expectedRects[ index ][ key ], curExpectedRect, 'rect[ ' + index + ' ].' + key );
 				}
 			}
 		}
@@ -281,3 +232,5 @@
 
 	bender.test( tests );
 } )();
+
+
