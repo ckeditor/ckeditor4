@@ -223,9 +223,7 @@
 						}
 					}
 
-					if ( key === 'right' ) {
-						assert.areEqual( expectedRects[ index ][ key ], curExpectedRect, 'rect[ ' + index + ' ].' + key );
-					}
+					assert.areEqual( expectedRects[ index ][ key ], curExpectedRect, 'rect[ ' + index + ' ].' + key );
 				}
 			}
 		}
