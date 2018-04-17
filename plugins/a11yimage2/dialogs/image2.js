@@ -607,30 +607,37 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								]
 							},
 							{
-								id: 'hasDescription',
-								type: 'checkbox',
-								label: lang.hasDescription,
-								onClick: function() {
-									var descLocFS = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset');
+								type: 'vbox',
+								padding: 0,
+								style: 'margin-top: 3px',
+								children: [
+									{
+										id: 'hasDescription',
+										type: 'checkbox',
+										label: lang.hasDescription,
+										onClick: function() {
+											var descLocFS = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset');
 
-									if (this.getValue()) {
-										descLocFS.enable();
-									}
-									else {
-										descLocFS.disable();
-									}
-								},
-								validate: function( widget ) {
-									var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
-									var hasDescValue      = this.getValue();
+											if (this.getValue()) {
+												descLocFS.enable();
+											}
+											else {
+												descLocFS.disable();
+											}
+										},
+										validate: function( widget ) {
+											var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
+											var hasDescValue      = this.getValue();
 
-									// Testing for empty caption
-									if (imageTypeValue === 'complex' && !hasDescValue ) {
-											return confirm(lang.msgAddDescription);
+											// Testing for empty caption
+											if (imageTypeValue === 'complex' && !hasDescValue ) {
+													return confirm(lang.msgAddDescription);
+											}
+										},
+										commit: function( widget ) {
+										}
 									}
-								},
-								commit: function( widget ) {
-								}
+								]
 							},
 							{
 								id: 'descriptionLocationFieldset',
