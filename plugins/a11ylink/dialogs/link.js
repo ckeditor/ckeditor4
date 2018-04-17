@@ -366,22 +366,30 @@
 					]
 				},
 				{
-					id: 'linkType',
-					type: 'radio',
+					id: 'linkTypeFieldset',
+					type: 'fieldset',
 					label: linkLang.type,
-					'default': 'url',
-					items: [
-						[ linkLang.toUrl, 'url' ],
-						[ linkLang.toEmail, 'email' ],
-						[ linkLang.toAnchor, 'anchor' ]
-					],
-					onChange: linkTypeChanged,
-					setup: function( data ) {
-						this.setValue( data.type || 'url' );
-					},
-					commit: function( data ) {
-						data.type = this.getValue();
-					}
+					children: [
+						{
+							id: 'linkType',
+							type: 'radio',
+							'default': 'url',
+							items: [
+								[ linkLang.toUrl, 'url' ],
+								[ linkLang.toEmail, 'email' ],
+								[ linkLang.toAnchor, 'anchor' ]
+							],
+							onChange: linkTypeChanged,
+							setup: function( data ) {
+								this.getElement().addClass('a11yfirst_no_label');
+
+								this.setValue( data.type || 'url' );
+							},
+							commit: function( data ) {
+								data.type = this.getValue();
+							}
+						}
+					]
 				},
 				{
 					type: 'vbox',
