@@ -510,7 +510,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 						id: 'isDecorativeMsg',
 						type: 'html',
 						class: 'a11yfirst_html',
-						html: '<p style="color: gray; font-style: italic;">' + lang.isDecorative + '</p>',
+						html: '<p style="color: gray; font-style: italic; position: relative; top: 10px;">' + lang.isDecorative + '</p>',
 						setup: function( widget ) {
 							this.getElement().hide();
 						}
@@ -552,7 +552,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 													return false;
 												}
 
-												// Testing for empty alternative text
+												// Testing for long text alternative
 												if (alt.trim().length > lang.alternativeTextMaxLength) {
 													return confirm(lang.msgAltToLong.replace('%s1', alt.trim().length).replace('%s2', lang.alternativeTextMaxLength));
 												}
@@ -746,11 +746,9 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 													// Testing for empty caption
 													if (imageTypeValue === 'complex' && hasDescValue && !locDescValue) {
-														var response = confirm(lang.msgChooseLocation);
-														if( !response ) {
-															this.getElement().focusNext();
-														}
-														return response;
+														alert(lang.msgChooseLocation);
+														this.getElement().focusNext();
+														return false;
 													}
 												},
 												commit: function( widget ) {
@@ -793,6 +791,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								id: 'hasCaption',
 								type: 'checkbox',
 								label: lang.captioned,
+								title: lang.captionedHelp,
 								requiredContent: features.caption.requiredContent,
 								setup: function( widget ) {
 									this.setValue( widget.data.hasCaption );
@@ -874,6 +873,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 					{
 						id: 'imageAlignFieldset',
 						type: 'fieldset',
+						style: 'margin-top: 5px',
     				label: commonLang.align,
 						children: [
 							{
