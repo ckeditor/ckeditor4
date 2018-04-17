@@ -600,8 +600,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 									// Testing for empty caption
 									if (imageTypeValue === 'complex' && !hasDescValue ) {
-											alert(lang.msgAddDescription);
-											return false;
+											return confirm(lang.msgAddDescription);
 									}
 								},
 								commit: function( widget ) {

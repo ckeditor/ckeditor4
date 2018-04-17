@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'a11yimage2', 'en', {
 	msgAltIsInvalid: 'Please replace "%s" with text that describes the purpose of the image',
 	msgAltStartsWithInvalid: 'Please don\'t start the with "%s"',
 	msgAltEndsWithInvalid: 'Please don\'t include the size of the image in the text alternative',
-	msgAddDescription: 'Complex images require a longer description on the page',
-	msgChooseLocation: 'Choose the location of the description relative to the image',
+	msgAddDescription: 'For accessibility reasons, a complex image must be accompanied by content within the document that provides a detailed description of the image. Are you sure you want to continue?',
+	msgChooseLocation: 'For accessibility reasons, a complex image must be accompanied by information on the location of the long description within the document that provides a detailed description of the image. Are you sure you want to continue?',
 	msgCaptionEmpty: 'Caption text is missing'
 } );
