@@ -695,18 +695,25 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 													}
 												},
 												commit: function( widget ) {
-													var value = this.getValue();
+													var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
 
-													if (value === 'before') {
-														widget.setData( 'title', lang.locationBeforeTitle );
+													if (imageTypeValue === 'complex' && hasDescValue) {
+														var value = this.getValue();
+
+														if (value === 'before') {
+															widget.setData( 'title', lang.locationBeforeTitle );
+														}
+
+														if (value === 'after') {
+															widget.setData( 'title', lang.locationAfterTitle );
+														}
+
+														if (value === 'both') {
+															widget.setData( 'title', lang.locationBothTitle );
+														}
 													}
-
-													if (value === 'after') {
-														widget.setData( 'title', lang.locationAfterTitle );
-													}
-
-													if (value === 'both') {
-														widget.setData( 'title', lang.locationBothTitle );
+													else {
+														widget.setData( 'title', '' );
 													}
 												}
 											}

@@ -3,7 +3,7 @@ Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'a11yimage2', 'en', {
-	alt: 'Alternative Text (short description)',
+	alt: 'Text Alternative (short description)',
 	btnUpload: 'Send it to the Server',
 	captioned: 'Captioned image',
 	captionPlaceholder: 'Caption',
@@ -30,7 +30,7 @@ CKEDITOR.plugins.setLang( 'a11yimage2', 'en', {
 	isDecorative: 'Note: Decorative images have no description',
 	a11yfirstInfo: 'Info',
 	a11yfirstInfoTitle: 'Learn about accessible images',
-	descriptionLocation: 'Location of Description',
+	descriptionLocation: 'Location of long description',
 	descriptionLocationTitle: 'Identifies the location within the document of a longer more detailed description of the image',
 	locationNone:   'None',
 	locationBefore: 'Before',
