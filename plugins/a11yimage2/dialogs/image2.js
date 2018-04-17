@@ -695,8 +695,10 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 												},
 												commit: function( widget ) {
 													var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
+													var hasDescValue      = this.getDialog().getContentElement( 'info', 'hasDescription').getValue();
+													var locDescValue      = this.getValue();
 
-													if (imageTypeValue === 'complex' && hasDescValue) {
+													if (imageTypeValue === 'complex' && hasDescValue && locDescValue) {
 														var value = this.getValue();
 
 														if (value === 'before') {
