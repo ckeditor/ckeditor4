@@ -214,7 +214,7 @@
 					curExpectedRect = rects[ index ][ key ];
 
 					if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-						if ( rects.length === 1 && key === 'height' || key === 'top' ) {
+						if ( rects.length === 1 && ( key === 'height' || key === 'top' ) ) {
 							// Selecting image alone on IE will return an empty rect. Using fallback for that case will return wrong height and top.
 							continue;
 						} else if ( key === 'width' || key === 'right' ) {
@@ -223,8 +223,9 @@
 						}
 					}
 
-					if ( key === 'right' )
-					assert.areEqual( expectedRects[ index ][ key ], curExpectedRect, 'rect[ ' + index + ' ].' + key );
+					if ( key === 'right' ) {
+						assert.areEqual( expectedRects[ index ][ key ], curExpectedRect, 'rect[ ' + index + ' ].' + key );
+					}
 				}
 			}
 		}
@@ -232,5 +233,3 @@
 
 	bender.test( tests );
 } )();
-
-
