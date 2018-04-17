@@ -17,7 +17,7 @@ CKEDITOR.plugins.setLang( 'a11yimage2', 'en', {
 	title: 'Image Properties',
 	uploadTab: 'Upload',
 	urlMissing: 'Image source URL is missing.',
-	altMissing: 'Alternative text is missing.',
+	altMissing: 'Text alternative is missing.',
 	// Additional properties used in a11yimag
 	typeDecorative: 'Decorative',
 	typeSimple: 'Simple',
@@ -44,12 +44,13 @@ CKEDITOR.plugins.setLang( 'a11yimage2', 'en', {
 	altIsInvalid: ['photo', 'spacer', 'separator', 'nbsp', 'image'],
 	altStartsWithInvalid: ['image of', 'graphic of'],
 	altEndsWithInvalid: ['bytes'],
-	msgAltEmpty: 'Simple and complex images need alternative text',
-	msgAltToLong: 'Alternative text is %s1 characters (e.g. typically less than %s2), use the current text?',
-	msgAltContainsFilename: 'Please remove the filename with the extension "%s" from the alternative text',
+	msgAltEmpty: 'Please type the text alternative for the image',
+	msgAltToLong: 'Text alternative is %s1 characters (e.g. typically less than %s2), use the current text?',
+	msgAltContainsFilename: 'Please remove the filename with the extension "%s" from the text alternative',
 	msgAltIsInvalid: 'Please replace "%s" with text that describes the purpose of the image',
 	msgAltStartsWithInvalid: 'Please don\'t start the with "%s"',
-	msgAltEndsWithInvalid: 'Please don\'t include the size of the image in the alternative text',
+	msgAltEndsWithInvalid: 'Please don\'t include the size of the image in the text alternative',
 	msgAddDescription: 'Complex images require a longer description on the page',
-	msgChooseLocation: 'Choose the location of the description relative to the image'
+	msgChooseLocation: 'Choose the location of the description relative to the image',
+	msgCaptionEmpty: 'Caption text is missing'
 } );
