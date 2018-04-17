@@ -688,9 +688,11 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 													// Testing for empty caption
 													if (imageTypeValue === 'complex' && hasDescValue && !locDescValue) {
-														alert(lang.msgChooseLocation);
-														this.getElement().focusNext();
-														return false;
+														var response = confirm(lang.msgChooseLocation);
+														if( !response ) {
+															this.getElement().focusNext();
+														}
+														return response;
 													}
 												},
 												commit: function( widget ) {
