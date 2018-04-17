@@ -470,6 +470,32 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								},
 								setup: function( widget ) {
 									this.getElement().addClass('a11yfirst_no_label');
+
+									var elems = this.getElement().find('input');
+
+									elems.$.forEach( function(item) {
+										var title = 'no title';
+										switch (item.value) {
+
+											case 'simple':
+												title = lang.typeSimpleHelp;
+												break;
+
+											case 'complex':
+												title = lang.typeComplexHelp;
+												break;
+
+											case 'decorative':
+												title = lang.typeDecorativeHelp;
+												break;
+
+										}
+										item.title = title
+										if (item.nextElementSibling) {
+											item.nextElementSibling.title = title;
+										}
+									});
+
 									if (!!widget) {
 										if (widget.data.alt) {
 										}
@@ -572,7 +598,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								 	  id: 'infoButton',
 										type: 'button',
 										label: lang.a11yfirstInfo,
-										title: lang.a11yfirstInfoTitle,
+										title: lang.a11yfirstInfoHelp,
 										onClick: function() {
 						          editor.a11yfirst.helpOption = 'ImageHelp';
 						          editor.execCommand('a11yFirstHelpDialog');
@@ -610,7 +636,6 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								id: 'descriptionLocationFieldset',
 								type: 'fieldset',
 								label: lang.descriptionLocation,
-								title: lang.descriptionLocationTitle,
 								children: [
 									{
 										type: 'hbox',
@@ -625,6 +650,32 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 												],
 												setup: function( widget ) {
 													this.getElement().addClass('a11yfirst_no_label');
+
+													var elems = this.getElement().find('input');
+
+													elems.$.forEach( function(item) {
+														var title = 'no title';
+														switch (item.value) {
+
+															case 'before':
+																title = lang.locationBeforeHelp;
+																break;
+
+															case 'after':
+																title = lang.locationAfterHelp;
+																break;
+
+															case 'both':
+																title = lang.locationBothHelp;
+																break;
+
+														}
+														item.title = title
+														if (item.nextElementSibling) {
+															item.nextElementSibling.title = title;
+														}
+													});
+
 
 													var descLocFS      = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset');
 													var descLocFSElem  = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset').getElement();
@@ -727,64 +778,28 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 						]
 					},
 					{
-						id: 'hasCaption',
-						type: 'checkbox',
-						label: lang.captioned,
-						requiredContent: features.caption.requiredContent,
-						setup: function( widget ) {
-							this.setValue( widget.data.hasCaption );
-							this.onClick();
-						},
-						onClick: function() {
-							var captionContentElem  = this.getDialog().getContentElement( 'info', 'captionContent').getElement();
-
-							if (this.getValue()) {
-								captionContentElem.show();
-							}
-							else {
-								captionContentElem.hide();
-							}
-						},
-						commit: function( widget ) {
-							widget.setData( 'hasCaption', this.getValue() );
-						}
-					},
-					{
-						id: 'captionContent',
-						type: 'text',
-						label: lang.captionContent,
-						requiredContent: features.caption.requiredContent,
-						setup: function( widget ) {
-							if ( widget.data.hasCaption ) {
-								if ( caption ) {
-									this.setValue( caption.getHtml() );
+						type: 'vbox',
+						padding: 0,
+						style: 'margin-top: 10px',
+						children: [
+							{
+								id: 'hasCaption',
+								type: 'checkbox',
+								label: lang.captioned,
+								requiredContent: features.caption.requiredContent,
+								setup: function( widget ) {
+									this.setValue( widget.data.hasCaption );
+								},
+								commit: function( widget ) {
+									widget.setData( 'hasCaption', this.getValue() );
 								}
 							}
-							else {
-								this.getElement().hide();
-							}
-						},
-						validation: function( widget ) {
-							var hasCaptionValue   = this.getDialog().getContentElement( 'info', 'hasCaption').getValue();
-							var captionValue      = this.getDialog().getContentElement( 'info', 'captionContent').getValue();
-							var captionNormalized = captionValue.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "");
-
-							// Testing for empty caption
-							if (hasCaptionValue && captionNormalized.length === 0) {
-								alert(lang.msgCaptionEmpty);
-								return false;
-							}
-						},
-						commit: function( widget ) {
-							if ( caption ) {
-								caption.setHtml(this.getValue());
-							}
-							editor.lang.a11yimage2.figCaptionValue = this.getValue();
-						}
+						]
 					},
 					{
 						type: 'vbox',
 						padding: 0,
+						style: 'margin-top: 5px',
 						children: [
 							{
 								type: 'hbox',
@@ -796,6 +811,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 					},
 					{
 						type: 'hbox',
+						style: 'margin-top: 5px',
 						widths: [ '25%', '25%', '50%' ],
 						requiredContent: features.dimension.requiredContent,
 						children: [
