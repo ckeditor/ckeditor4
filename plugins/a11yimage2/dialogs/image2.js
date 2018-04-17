@@ -433,41 +433,38 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 									var value = this.getValue();
 
-									var imageDesc  = this.getDialog().getContentElement( 'info', 'imageDesc' ).getElement();
-									var desc       = this.getDialog().getContentElement( 'info', 'desc' ).getElement();
-									var alt        = this.getDialog().getContentElement( 'info', 'alt' ).getElement();
-									var info       = this.getDialog().getContentElement( 'info', 'a11yfirstInfoImage').getElement();
-									var decorative = this.getDialog().getContentElement( 'info', 'isDecorative').getElement();
+									var isDecMsgElem   = this.getDialog().getContentElement( 'info', 'isDecorativeMsg').getElement();
 
-									var hasDesc    = this.getDialog().getContentElement( 'info', 'hasDescription').getElement();
-									var descLoc    = this.getDialog().getContentElement( 'info', 'descriptionLocation').getElement();
+									var imageDescFSElem  = this.getDialog().getContentElement( 'info', 'imageDescFieldset' ).getElement();
+									var altTextElem      = this.getDialog().getContentElement( 'info', 'altText' ).getElement();
+									var infoButtonElem   = this.getDialog().getContentElement( 'info', 'infoButton').getElement();
+									var hasDescElem      = this.getDialog().getContentElement( 'info', 'hasDescription').getElement();
+									var descLocFSElem    = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset').getElement();
 
 									switch(value) {
 										case 'decorative':
-										  imageDesc.hide()
-										  hasDesc.hide()
-										  descLoc.hide()
-											decorative.show();
+										  imageDescFSElem.hide()
+										  hasDescElem.hide()
+										  descLocFSElem.hide()
+											isDecMsgElem.show();
 											break;
 
 										case 'complex':
-											decorative.hide();
-										  imageDesc.show()
-											alt.show();
-											info.show();
-											desc.show();
-										  hasDesc.show()
-										  descLoc.show()
+										  imageDescFSElem.show()
+											altTextElem.show();
+											infoButtonElem.show();
+										  hasDescElem.show()
+										  descLocFSElem.show()
+											isDecMsgElem.hide();
 											break;
 
 										default:
-											decorative.hide();
-										  hasDesc.hide()
-										  descLoc.hide()
-										  imageDesc.show()
-											alt.show();
-											info.show();
-											desc.hide();
+											isDecMsgElem.hide();
+										  imageDescFSElem.show()
+											altTextElem.show();
+											infoButtonElem.show();
+										  hasDescElem.hide()
+										  descLocFSElem.hide()
 											break;
 									}
 								},
@@ -484,15 +481,16 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 						]
 					},
 					{
-						id: 'isDecorative',
+						id: 'isDecorativeMsg',
 						type: 'html',
+						class: 'a11yfirst_html',
 						html: '<p style="color: gray; font-style: italic;">' + lang.isDecorative + '</p>',
 						setup: function( widget ) {
 							this.getElement().hide();
 						}
 					},
 					{
-						id: 'imageDesc',
+						id: 'imageDescFieldset',
 						type: 'fieldset',
 						label: lang.imageDesc,
 						children: [
@@ -502,12 +500,12 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								align: 'bottom',
 								children: [
 									{
-										id: 'alt',
+										id: 'altText',
 										type: 'text',
 										label: lang.alt,
 										setup: function( widget ) {
 											this.setValue( widget.data.alt );
-											this.getDialog().getContentElement( 'info', 'imageDesc').getElement().addClass('a11yfirst_fieldset');
+											this.getDialog().getContentElement( 'info', 'imageDescFieldset').getElement().addClass('a11yfirst_fieldset');
 
 										},
 										commit: function( widget ) {
@@ -571,7 +569,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 										}
 									},
 									{
-								 	  id: 'a11yfirstInfoImage',
+								 	  id: 'infoButton',
 										type: 'button',
 										label: lang.a11yfirstInfo,
 										title: lang.a11yfirstInfoTitle,
@@ -587,20 +585,30 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								type: 'checkbox',
 								label: lang.hasDescription,
 								onClick: function() {
-									var descLoc = this.getDialog().getContentElement( 'info', 'descriptionLocation');
+									var descLocFS = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset');
 
 									if (this.getValue()) {
-										descLoc.enable();
+										descLocFS.enable();
 									}
 									else {
-										descLoc.disable();
+										descLocFS.disable();
+									}
+								},
+								validate: function( widget ) {
+									var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
+									var hasDescValue      = this.getValue();
+
+									// Testing for empty caption
+									if (imageTypeValue === 'complex' && !hasDescValue ) {
+											alert(lang.msgAddDescription);
+											return false;
 									}
 								},
 								commit: function( widget ) {
 								}
 							},
 							{
-								id: 'descriptionLocation',
+								id: 'descriptionLocationFieldset',
 								type: 'fieldset',
 								label: lang.descriptionLocation,
 								title: lang.descriptionLocationTitle,
@@ -609,7 +617,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 										type: 'hbox',
 										children: [
 											{
-												id: 'desc',
+												id: 'descriptionLocationRadioGroup',
 												type: 'radio',
 												items: [
 													[ lang.locationBefore, 'before' ],
@@ -618,14 +626,15 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 												],
 												setup: function( widget ) {
 													this.getElement().addClass('a11yfirst_no_label');
-													var descLoc = this.getDialog().getContentElement( 'info', 'descriptionLocation');
-													descLoc.getElement().addClass('a11yfirst_fieldset');
+
+													var descLocFS      = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset');
+													var descLocFSElem  = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset').getElement();
+
+													descLocFS.disable();
+													descLocFSElem.addClass('a11yfirst_fieldset');
 
 													var hasDesc      = this.getDialog().getContentElement( 'info', 'hasDescription');
 													var hasDescElem  = this.getDialog().getContentElement( 'info', 'hasDescription').getElement();
-													var descLocElem  = this.getDialog().getContentElement( 'info', 'descriptionLocation').getElement();
-
-													descLoc.disable();
 
 													if (widget.data.title && widget.data.title.length) {
 
@@ -641,7 +650,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 															this.setValue( 'both' );
 															imageType.setValue('complex');
 															hasDesc.setValue(true);
-															descLoc.enable();
+															descLocFS.enable();
 														}
 														else {
 															if (hasBefore) {
@@ -649,7 +658,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 																this.setValue( 'before' );
 																imageType.setValue('complex');
 																hasDesc.setValue(true);
-																descLoc.enable();
+																descLocFS.enable();
 															}
 															else {
 																if (hasAfter) {
@@ -657,12 +666,12 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 																	this.setValue( 'after' );
 																	imageType.setValue('complex');
 																	hasDesc.setValue(true);
-																	descLoc.enable();
+																	descLocFS.enable();
 																}
 																else {
 																	hasDesc.setValue(false);
 																	hasDescElem.hide();
-																	descLocElem.hide();
+																	descLocFS.hide();
 																}
 															}
 														}
@@ -670,7 +679,19 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 													else {
 														hasDesc.setValue(false);
 														hasDescElem.hide();
-														descLocElem.hide();
+														descLocFSElem.hide();
+													}
+												},
+												validate: function( widget ) {
+													var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
+													var hasDescValue      = this.getDialog().getContentElement( 'info', 'hasDescription').getValue();
+													var locDescValue      = this.getValue();
+
+													// Testing for empty caption
+													if (imageTypeValue === 'complex' && hasDescValue && !locDescValue) {
+														alert(lang.msgChooseLocation);
+														this.getElement().focusNext();
+														return false;
 													}
 												},
 												commit: function( widget ) {
@@ -818,7 +839,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 						]
 					},
 					{
-						id: 'descriptionLocation',
+						id: 'imageAlignFieldset',
 						type: 'fieldset',
     				label: commonLang.align,
 						children: [
@@ -839,7 +860,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 										setup: function( widget ) {
 											this.setValue( widget.data.align );
 											this.getElement().addClass('a11yfirst_no_label');
-											this.getDialog().getContentElement( 'info', 'descriptionLocation').getElement().addClass('a11yfirst_fieldset');
+											this.getDialog().getContentElement( 'info', 'imageAlignFieldset').getElement().addClass('a11yfirst_fieldset');
 										},
 										commit: function( widget ) {
 											widget.setData( 'align', this.getValue() );

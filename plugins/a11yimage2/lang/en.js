@@ -50,5 +50,6 @@ CKEDITOR.plugins.setLang( 'a11yimage2', 'en', {
 	msgAltIsInvalid: 'Please replace "%s" with text that describes the purpose of the image',
 	msgAltStartsWithInvalid: 'Please don\'t start the with "%s"',
 	msgAltEndsWithInvalid: 'Please don\'t include the size of the image in the alternative text',
-	msgUseCaption: 'Use caption as the alternative text?'
+	msgAddDescription: 'Complex images require a longer description on the page',
+	msgChooseLocation: 'Choose the location of the description relative to the image'
 } );
