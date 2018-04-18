@@ -11,7 +11,7 @@
 			name: 'editor2',
 			creator: 'inline'
 		}
-	}
+	};
 
 	bender.test( {
 
@@ -67,11 +67,11 @@
 						return {
 							y: 2,
 							x: 4
-						}
+						};
 					}
-				} )
+				} );
 
-			rect = view.getCaretRect();
+			var rect = view.getCaretRect();
 
 			assert.areEqual( 7, rect.bottom );
 			assert.areEqual( 8, rect.left );
@@ -92,11 +92,11 @@
 						return {
 							y: 2,
 							x: 4
-						}
+						};
 					}
-				} )
+				} );
 
-			rect = view.getCaretRect();
+			var rect = view.getCaretRect();
 
 			assert.areEqual( 7, rect.bottom );
 			assert.areEqual( 8, rect.left );
@@ -233,7 +233,7 @@
 					return { x: config.scrollX };
 				}
 			} ),
-			elementStub = sinon.stub( CKEDITOR.dom.element.prototype, 'getAbsoluteClientRect' ).returns( config.absoluteRect );
+			elementStub = sinon.stub( CKEDITOR.dom.element.prototype, 'getClientRect' ).returns( config.absoluteRect );
 
 		view.append();
 
