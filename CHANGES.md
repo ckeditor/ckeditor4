@@ -1,12 +1,12 @@
-﻿CKEditor 4 Changelog
+CKEditor 4 Changelog
 ====================
 
-<<<<<<< HEAD
 ## CKEditor 4.10
 
 New Features:
 
 * [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin supports email links.
+* [#1703](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduced Mentions plugin providing autocompletition feature for usernames.
 
 Fixed Issues:
 
