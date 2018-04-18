@@ -210,6 +210,15 @@ bender.test( {
 		assert.isFalse( !!countHiddenContainers( editor.document ), 'There sould be no hidden selection container' );
 	},
 
+	'Hiding selection encodes label': function() {
+		var editor = this.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>[<span id="bar">bar</span>]</p>' );
+
+		editor.getSelection().fake( editor.document.getById( 'bar' ), '<i>foo</i>' );
+		assert.areEqual( '&lt;i&gt;foo&lt;/i&gt;', editor.editable().findOne( 'div[data-cke-hidden-sel]' ).getHtml() );
+	},
+
 	'Clean up on setData in framed editor': function() {
 		var editor = this.editor;
 
