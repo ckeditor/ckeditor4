@@ -9,13 +9,13 @@
 .cke_table-faked-selection a {
 	color: black;
 }
-.cke_editable:focus .cke_table-faked-selection {
+.cke_editable:focus .cke_table-faked-selection, .cke_table-faked-selection-focused-editor .cke_table-faked-selection {
 	/* We have to use !important here, as td might specify it's own background, thus table selection
 	would not be visible. */
 	background: #0076cb !important;
 	color: white;
 }
-.cke_editable:focus .cke_table-faked-selection a {
+.cke_editable:focus .cke_table-faked-selection a, .cke_table-faked-selection-focused-editor .cke_table-faked-selection a {
 	color: white;
 }
 .cke_table-faked-selection::-moz-selection, .cke_table-faked-selection ::-moz-selection {
