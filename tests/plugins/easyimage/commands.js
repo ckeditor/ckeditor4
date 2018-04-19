@@ -165,7 +165,7 @@
 
 			// #1580
 			'test edge refresh button state': function( editor, bot ) {
-				if ( !CKEDITOR.env.edge || !editor.editable().isInline() ) {
+				if ( !CKEDITOR.env.edge ) {
 					assert.ignore();
 				}
 				bot.setData( widgetHtml, function() {

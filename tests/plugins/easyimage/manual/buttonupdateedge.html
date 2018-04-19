@@ -27,6 +27,9 @@
 
 <script>
 ( function() {
+	if ( !CKEDITOR.env.edge ) {
+		bender.ignore();
+	}
 	CKEDITOR.replace( 'editor1' );
 	CKEDITOR.replace( 'editor2', {
 		extraPlugins: 'divarea'
