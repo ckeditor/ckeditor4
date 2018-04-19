@@ -145,6 +145,29 @@
 			mockMouseSelection( editor, [ cells.getItem( 1 ), cells.getItem( 3 ), cells.getItem( 8 ) ], function() {
 				assert.pass();
 			} );
+		},
+
+		// (#1887)
+		'test toggling class while focusing/bluring editor': function( editor ) {
+			var editable = editor.editable(),
+				assertion = editable.isInline() ? 'isFalse' : 'isTrue',
+				className = 'cke_table-faked-selection-focused-editor';
+
+			// We move focus to the iframe to force blur of the editor.
+			CKEDITOR.document.findOne( '#focusIframe' ).getWindow().focus();
+			editable.$.focus();
+
+			// setTimeout is needed for IE.
+			setTimeout( function() {
+				resume( function() {
+					assert.isFalse( editable.hasClass( className ) );
+				} );
+			}, 100 );
+
+			assert[ assertion ]( editable.hasClass( className ) );
+
+			CKEDITOR.document.findOne( '#focusIframe' ).getWindow().focus();
+			wait();
 		}
 	};
 
