@@ -987,8 +987,11 @@
 					firstCell = ranges[ 0 ]._getTableElement();
 					lastCell = ranges[ ranges.length - 1 ]._getTableElement();
 
-					evt.data.preventDefault();
-					evt.cancel();
+					// Pass enter event to be handled by enterkey.
+					if ( keystroke !== 13 ) {
+						evt.data.preventDefault();
+						evt.cancel();
+					}
 
 					if ( keystroke > 36 && keystroke < 41 ) {
 						// Arrows.
@@ -1009,33 +1012,10 @@
 							ranges[ 0 ].moveToElementEditablePosition( firstCell );
 						}
 
-						if ( keystroke === 13 ) {
-							insertNewLineInsideFirstRange( editor, evt.data, ranges );
-						}
-
 						selection.selectRanges( ranges );
 						editor.fire( 'saveSnapshot' );
 					}
 				};
-			}
-
-			function insertNewLineInsideFirstRange( editor, data, ranges ) {
-				var modeToCheck = data.$.shiftKey ? editor.shiftEnterMode : editor.enterMode,
-					blockTag;
-
-				switch ( modeToCheck ) {
-					case CKEDITOR.ENTER_BR:
-						// BR are added by default and there is no need to add extra one.
-						return;
-					case CKEDITOR.ENTER_P:
-						blockTag = 'p';
-						break;
-					case CKEDITOR.ENTER_DIV:
-						blockTag = 'div';
-						break;
-				}
-
-				ranges[ 0 ].fixBlock( true, blockTag );
 			}
 
 			function tableKeyPressListener( evt ) {

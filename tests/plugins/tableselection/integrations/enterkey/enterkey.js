@@ -63,7 +63,7 @@
 			case CKEDITOR.ENTER_DIV:
 				return '<div>&nbsp;</div>';
 			case CKEDITOR.ENTER_BR:
-				return '&nbsp;';
+				return '<br />&nbsp;';
 			default:
 				return;
 		}
