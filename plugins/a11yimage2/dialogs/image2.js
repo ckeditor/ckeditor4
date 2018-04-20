@@ -437,7 +437,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 									var isComplexMsgElem    = this.getDialog().getContentElement( 'info', 'isComplexMsg').getElement();
 									var isDecorativeMsgElem = this.getDialog().getContentElement( 'info', 'isDecorativeMsg').getElement();
 
-									var imageDescFSElem  = this.getDialog().getContentElement( 'info', 'imageDescFieldset' ).getElement();
+									var imageDescFSElem  = this.getDialog().getContentElement( 'info', 'imageDescFieldset' ).getElement().getParent();
 									var altTextElem      = this.getDialog().getContentElement( 'info', 'altText' ).getElement();
 									var infoButtonElem   = this.getDialog().getContentElement( 'info', 'infoButton').getElement();
 									var hasDescElem      = this.getDialog().getContentElement( 'info', 'hasDescription').getElement();
@@ -445,10 +445,9 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 									var hasCaptionElem    = this.getDialog().getContentElement( 'info', 'hasCaptionMsg').getElement();
 
-
 									switch(value) {
 										case 'decorative':
-										  imageDescFSElem.hide()
+										  imageDescFSElem.hide();
 										  hasDescElem.hide()
 										  descLocFSElem.hide()
 
@@ -456,14 +455,10 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 											isComplexMsgElem.hide();
 											isDecorativeMsgElem.show();
 
-											hasCaptionElem.setStyles( {
-											    position:   'margin-top',
-											    float:      '0px'
-											} );
 											break;
 
 										case 'complex':
-										  imageDescFSElem.show()
+										  imageDescFSElem.show();
 											altTextElem.show();
 											infoButtonElem.show();
 										  hasDescElem.show()
@@ -473,15 +468,10 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 											isComplexMsgElem.show();
 											isDecorativeMsgElem.hide();
 
-											hasCaptionElem.setStyles( {
-											    position:   'margin-top',
-											    float:      '10px'
-											} );
-
 											break;
 
 										default:
-										  imageDescFSElem.show()
+										  imageDescFSElem.getParent().show();
 											altTextElem.show();
 											infoButtonElem.show();
 										  hasDescElem.hide()
@@ -491,11 +481,6 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 											isDecorativeMsgElem.hide();
 
 										  descLocFSElem.hide()
-
-											hasCaptionElem.setStyles( {
-											    position:   'margin-top',
-											    float:      '10px'
-											} );
 
 											break;
 									}
@@ -540,7 +525,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								id: 'isSimpleMsg',
 								type: 'html',
 								class: 'a11yfirst_html',
-								html: '<p style="margin-top: 10px; font-style: italic">' + lang.isSimple + '</p>',
+								html: '<p style="margin-top: 3px; font-style: italic">' + lang.typeSimpleHelp + '</p>',
 								setup: function( widget ) {
 									this.getElement().show();
 								}
@@ -549,7 +534,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								id: 'isComplexMsg',
 								type: 'html',
 								class: 'a11yfirst_html',
-								html: '<p style="margin-top: 10px; font-style: italic">' + lang.isComplex + '</p>',
+								html: '<p style="margin-top: 3px; font-style: italic">' + lang.typeComplexHelp + '</p>',
 								setup: function( widget ) {
 									this.getElement().hide();
 								}
@@ -558,7 +543,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								id: 'isDecorativeMsg',
 								type: 'html',
 								class: 'a11yfirst_html',
-								html: '<p style="margin-top: 10px; font-style: italic">' + lang.isDecorative + '</p>',
+								html: '<p style="margin-top: 3px; font-style: italic">' + lang.typeDecorativeHelp + '</p>',
 								setup: function( widget ) {
 									this.getElement().hide();
 								}
