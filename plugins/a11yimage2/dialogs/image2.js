@@ -443,6 +443,9 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 									var hasDescElem      = this.getDialog().getContentElement( 'info', 'hasDescription').getElement();
 									var descLocFSElem    = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset').getElement();
 
+									var hasCaptionElem    = this.getDialog().getContentElement( 'info', 'hasCaptionMsg').getElement();
+
+
 									switch(value) {
 										case 'decorative':
 										  imageDescFSElem.hide()
@@ -452,6 +455,11 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 											isSimpleMsgElem.hide();
 											isComplexMsgElem.hide();
 											isDecorativeMsgElem.show();
+
+											hasCaptionElem.setStyles( {
+											    position:   'margin-top',
+											    float:      '0px'
+											} );
 											break;
 
 										case 'complex':
@@ -464,6 +472,12 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 											isSimpleMsgElem.hide();
 											isComplexMsgElem.show();
 											isDecorativeMsgElem.hide();
+
+											hasCaptionElem.setStyles( {
+											    position:   'margin-top',
+											    float:      '10px'
+											} );
+
 											break;
 
 										default:
@@ -477,6 +491,12 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 											isDecorativeMsgElem.hide();
 
 										  descLocFSElem.hide()
+
+											hasCaptionElem.setStyles( {
+											    position:   'margin-top',
+											    float:      '10px'
+											} );
+
 											break;
 									}
 								},
@@ -825,9 +845,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								requiredContent: features.caption.requiredContent,
 								setup: function( widget ) {
 									this.setValue( widget.data.hasCaption );
-
 									this.onClick();
-
 								},
 								onClick: function () {
 									var hasCaptionElem  = this.getDialog().getContentElement( 'info', 'hasCaptionMsg').getElement();
@@ -842,17 +860,14 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								commit: function( widget ) {
 									widget.setData( 'hasCaption', this.getValue() );
 								}
+							},
+							{
+								id: 'hasCaptionMsg',
+								type: 'html',
+								class: 'a11yfirst_html',
+								html: '<p style="margin-top: 5px; font-style: italic">' + lang.msgCaption + '</p>'
 							}
 						]
-					},
-					{
-						id: 'hasCaptionMsg',
-						type: 'html',
-						class: 'a11yfirst_html',
-						html: '<p style="font-style: italic">' + lang.msgCaption + '</p>',
-						setup: function( widget ) {
-//							this.getElement().hide();
-						}
 					},
 					{
 						type: 'vbox',
