@@ -3098,9 +3098,6 @@
 		if ( style ) {
 			wrapper.attributes.style = style;
 			styleDefinition.styles = CKEDITOR.tools.parseCssText( style );
-		} else {
-			// If there are no styles remove it to make sure we don't have `styles=''` in our output.
-			// delete styleDefinition.styles;
 		}
 		wrapper.attributes[ 'data-cke-style-definition' ] = JSON.stringify( styleDefinition );
 	}

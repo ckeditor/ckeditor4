@@ -125,12 +125,12 @@
 
 					// Remove style display:inline-block.
 					var attrs = el.attributes;
-					if ( attrs.style )
+					if ( attrs.style ) {
 						attrs.style = attrs.style.replace( /display:\s?inline-block;?\s?/, '' );
+					}
 					if ( attrs.style === '' ) {
 						delete attrs.style;
 					}
-
 					return el;
 				}
 			} );

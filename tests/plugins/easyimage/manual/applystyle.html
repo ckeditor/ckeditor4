@@ -1,0 +1,121 @@
+<textarea id="editor">
+	<figure class="easyimage easyimage-side">
+		<img alt="foo" src="../../image2/_assets/bar.png"/>
+		<figcaption>Caption text</figcaption>
+	</figure>
+	<p>Some text and text and text.</p>
+	<p>Some text and text and text.</p>
+	<p>Some text and text and text.</p>
+	<p>Some text and text and text.</p>
+	<figure class="easyimage easyimage-full">
+		<img alt="foo" src="../../image2/_assets/foo.png"/>
+		<figcaption>Caption text</figcaption>
+	</figure>
+</textarea>
+
+<div id="test_border_buttons">
+	<p>Test inline styles with:</p>
+</div>
+<div id="test_font_buttons">
+	<p>Test class styles with:</p>
+</div>
+
+<script>
+	CKEDITOR.addCss(
+		'.cke_widget_wrapper { border: solid 1px black }' +
+		'.font_big { font-size: 24px }' +
+		'.font_italic { font-style: italic }'
+	);
+
+	editor = CKEDITOR.replace( 'editor', {
+		extraPlugins: 'widget,elementspath',
+		allowedContent: true,
+		height: 500,
+		on: {
+			pluginsLoaded: function( evt ) {
+				var editor = evt.editor,
+					borderStyles = {
+						name: 'Border',
+						style: {
+							thin: createStyle( { styles: { 'border-width': '1px' } } ),
+							fat: createStyle( { styles: { 'border-width': '5px' } } ),
+							solid: createStyle( { styles: { 'border-style': 'solid' } } ),
+							dotted: createStyle( { styles: { 'border-style': 'dotted' } } )
+						}
+					},
+					fontStyles = {
+						name: 'Font',
+						style: {
+							big: createStyle( { attributes: { 'class': 'font_big' } } ),
+							italic: createStyle( { attributes: { 'class': 'font_italic' } } )
+						}
+					};
+
+				editor.widgets.add( 'testWidget', {
+					allowedContent: true,
+					styleableElements: 'div',
+					upcast: function( element ) {
+						return element.name === 'div';
+					}
+				} );
+
+				addCommandsAndButtons( borderStyles, '#test_border_buttons' );
+				addCommandsAndButtons( fontStyles, '#test_font_buttons' );
+
+				function createStyle( config ) {
+					return new CKEDITOR.style( {
+						type: 'widget',
+						widget: 'easyimage',
+						styles: config.styles,
+						attributes: config.attributes
+					} );
+				}
+
+				function addCommandsAndButtons( styleObj, appendTo ) {
+					var key, button, removeButton;
+
+					for ( key in styleObj.style ) {
+						button = new CKEDITOR.dom.element( 'button' );
+						button.setText( styleObj.name + ' ' + key );
+
+						// No let variable in ES5 so I need to create separate scope for listeners :'(
+						( function() {
+							var command = styleObj.name + key,
+								thisKey = key;
+
+							editor.addCommand( command, {
+								exec: function() {
+									editor.applyStyle( styleObj.style[ thisKey ] );
+								}
+							} );
+
+							button.on( 'click', function() {
+								editor.execCommand( command );
+							} );
+
+							CKEDITOR.document.findOne( appendTo ).append( button );
+
+							if ( styleObj.name === 'Font' ) {
+								removeButton = new CKEDITOR.dom.element( 'button' );
+								removeButton.setText( 'Remove font ' + key );
+
+								editor.addCommand( 'remove' + command, {
+									exec: function() {
+										editor.removeStyle( styleObj.style[ thisKey ] );
+									}
+								} );
+
+								removeButton.on( 'click', function() {
+									editor.execCommand( 'remove' + command );
+								} );
+
+								CKEDITOR.document.findOne( appendTo ).append( removeButton );
+							}
+						} )();
+					}
+				}
+			}
+		}
+	}, 1 );
+
+</script>
