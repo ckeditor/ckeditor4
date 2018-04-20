@@ -1,11 +1,11 @@
 @bender-tags: 4.10.0, bug, tp3559
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, autocomplete
+@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, autocomplete, textmatch
 
 # Classic and divarea editors
 
 1. Scroll the editor content to the middle.
-1. Focus the editor and type `@`.
+1. Focus the editor at the middle line and type `@`.
 1. Scroll the editor up and down.
 
 ## Expected
@@ -22,14 +22,14 @@ The view is not changing its position depending on space below and above a caret
 
 # Inline editor
 
-1. Focus the editor at the beggining of the text and type `@`.
+1. Focus the editor at the first line and type `@`.
 1. Close the view using `esc` key.
-1. Focus the editor at the end of the text and type `@`
+1. Focus the editor at the last line and type `@`
 
 ## Expected
 
-- View at the beggining of the text should be placed below a cursor.
-- View at the end of the text should be placed above a cursor.
+- View at the first line should be placed below a cursor.
+- View at the last line should be placed above a cursor.
 
 ## Unexpected
 
