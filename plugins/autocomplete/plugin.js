@@ -736,6 +736,8 @@
 				// How much space is there for the panel above and below the specified rect.
 				spaceAbove = rect.top - editorViewportRect.top,
 				spaceBelow = editorViewportRect.bottom - rect.bottom,
+				left = rect.left,
+				offsetParent = this.element.$.offsetParent,
 				top;
 
 			// If panel does not fit below the rect and fits above, set it there.
@@ -753,8 +755,17 @@
 				top = rect.top < editorViewportRect.top ? editorViewportRect.top : Math.min( editorViewportRect.bottom, rect.bottom );
 			}
 
+			if ( offsetParent ) {
+				// Consider that offset host might be repositioned on its own.
+				// Similar to #1048. See https://github.com/ckeditor/ckeditor-dev/pull/1732#discussion_r182790235.
+				var offsetCorrection = new CKEDITOR.dom.element( offsetParent ).getDocumentPosition();
+
+				left -= offsetCorrection.x;
+				top -= offsetCorrection.y;
+			}
+
 			this.element.setStyles( {
-				left: rect.left + 'px',
+				left: left + 'px',
 				top: top + 'px'
 			} );
 		},
