@@ -4,11 +4,6 @@
 		margin-left: 0px;
 		padding-left: 350px;
 	}
-
-	p.filler{
-		height: 900px;
-		border: 1px solid red;
-	}
 </style>
 
 <h2>Classic editor</h2>
@@ -40,24 +35,22 @@
 
 <script>
 
-initEditor( 'replace', 'editor1' );
-initEditor( 'replace', 'editor2', 'divarea' );
-initEditor( 'inline', 'editor3' );
-
-function initEditor( creator, name, extraPlugins ) {
-	var editor = CKEDITOR[ creator ]( name, {
+	var config = {
 		width: 600,
 		extraAllowedContent: 'p(filler)',
-		extraPlugins: extraPlugins && extraPlugins + ',textmatch' || 'textmatch',
 		on: {
 			instanceReady: function( evt ) {
-				editor = evt.editor;
-
-				new CKEDITOR.plugins.autocomplete( editor, getTextTestCallback(), dataCallback );
+				new CKEDITOR.plugins.autocomplete( evt.editor, getTextTestCallback(), dataCallback );
 			}
 		}
-	} );
-}
+	};
+
+	// Add CSS here so it will be available inside iframe (classic) editor.
+	CKEDITOR.addCss( 'p.filler { height: 900px; border: 1px solid red; }' );
+
+	CKEDITOR.replace( 'editor1', config );
+	CKEDITOR.replace( 'editor2', CKEDITOR.tools.extend( config, { extraPlugins: 'divarea' } ) );
+	CKEDITOR.inline( 'editor3', config );
 
 	function getTextTestCallback() {
 		return function( range ) {
