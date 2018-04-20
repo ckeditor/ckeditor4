@@ -33,114 +33,116 @@
 	 * * A data callback &ndash; a function which should return (through its callback) a suggestion data for the current
 	 * query string.
 	 *
-	 * ### Creating an autocomplete instance
+	 * ## Creating an autocomplete instance
 	 *
 	 * Depending on your use case, put this code in the {@link CKEDITOR.pluginDefinition#init} callback of your
 	 * plugin or for example in the {@link CKEDITOR.editor#instanceReady} event listener.
 	 *
-	 *		// Called when the user types in the editor or moves the caret.
-	 *		// The range represents the caret position.
-	 *		function textTestCallback( range ) {
-	 *			// We don't want to autocomplete a non-empty selection.
-	 *			if ( !range.collapsed ) {
-	 *				return null;
-	 *			}
-	 *
-	 *			// Use the textmatch plugin which does the tricky job of doing
-	 *			// a text search in the DOM. The matchCallback function should return
-	 *			// a matching fragment of the text.
-	 *			return CKEDITOR.plugins.textMatch.match( range, matchCallback );
+	 * ```javascript
+	 *	// Called when the user types in the editor or moves the caret.
+	 *	// The range represents the caret position.
+	 *	function textTestCallback( range ) {
+	 *		// We don't want to autocomplete a non-empty selection.
+	 *		if ( !range.collapsed ) {
+	 *			return null;
 	 *		}
 	 *
-	 *		// Returns a position of the matching text.
-	 *		// It matches with text starting from the '@' character
-	 *		// followed by spaces, up to the caret position.
-	 *		// Text in the editor (^ means the caret):            Hello, @cke^, this is me.
-	 *		// Matching:                                                [     ]
-	 *		function matchCallback( text, offset ) {
-	 *				// Get the text before the caret.
-	 *			var left = text.slice( 0, offset ),
-	 *				// Will look for an '@' character followed by word characters.
-	 *				match = left.match( /@\w*$/ );
+	 *		// Use the textmatch plugin which does the tricky job of doing
+	 *		// a text search in the DOM. The matchCallback function should return
+	 *		// a matching fragment of the text.
+	 *		return CKEDITOR.plugins.textMatch.match( range, matchCallback );
+	 *	}
 	 *
-	 *			if ( !match ) {
-	 *				return null;
-	 *			}
-	 *			return { start: match.index, end: offset };
+	 *	// Returns a position of the matching text.
+	 *	// It matches with text starting from the '@' character
+	 *	// followed by spaces, up to the caret position.
+	 *	function matchCallback( text, offset ) {
+	 *			// Get the text before the caret.
+	 *		var left = text.slice( 0, offset ),
+	 *			// Will look for an '@' character followed by word characters.
+	 *			match = left.match( /@\w*$/ );
+	 *
+	 *		if ( !match ) {
+	 *			return null;
 	 *		}
+	 *		return { start: match.index, end: offset };
+	 *	}
 	 *
-	 *		// Returns (through its callback) the suggestions for the current query.
-	 *		// Note: the itemsArray variable is our example "database".
-	 *		function dataCallback( query, range, callback ) {
-	 *			// Simple search.
-	 *			// Filter the entire items array so only the items that start
-	 *			// with the query remain.
-	 *			var suggestions = itemsArray.filter( function( item ) {
-	 *				return item.name.indexOf( query ) === 0;
-	 *			} );
+	 *	// Returns (through its callback) the suggestions for the current query.
+	 *	// Note: the itemsArray variable is our example "database".
+	 *	function dataCallback( query, range, callback ) {
+	 *		// Simple search.
+	 *		// Filter the entire items array so only the items that start
+	 *		// with the query remain.
+	 *		var suggestions = itemsArray.filter( function( item ) {
+	 *			return item.name.indexOf( query ) === 0;
+	 *		} );
 	 *
-	 *			// Note - the callback function can also be executed asynchronously
-	 *			// so dataCallback can do an XHR requests or use any other asynchronous API.
-	 *			callback( suggestions );
-	 *		}
+	 *		// Note - the callback function can also be executed asynchronously
+	 *		// so dataCallback can do an XHR requests or use any other asynchronous API.
+	 *		callback( suggestions );
+	 *	}
 	 *
-	 *		// Finally, instantiate the autocomplete class.
-	 *		new CKEDITOR.plugins.autocomplete( editor, textTestCallback, dataCallback );
+	 *	// Finally, instantiate the autocomplete class.
+	 *	new CKEDITOR.plugins.autocomplete( editor, textTestCallback, dataCallback );
+	 * ```
 	 *
-	 *
-	 * ### Changing the behavior of the autocomplete class by subclassing it
+	 * ## Changing the behavior of the autocomplete class by subclassing it
 	 *
 	 * This plugin will expose a `CKEDITOR.plugins.customAutocomplete` class which uses
 	 * a custom view that positions the panel relative to the {@link CKEDITOR.editor#container}.
 	 *
-	 *		CKEDITOR.plugins.add( 'customautocomplete', {
-	 *			requires: 'autocomplete',
+	 * ```javascript
+	 *	CKEDITOR.plugins.add( 'customautocomplete', {
+	 *		requires: 'autocomplete',
 	 *
-	 *			onLoad: function() {
-	 *				var View = CKEDITOR.plugins.autocomplete.view,
-	 *					Autocomplete = CKEDITOR.plugins.autocomplete;
+	 *		onLoad: function() {
+	 *			var View = CKEDITOR.plugins.autocomplete.view,
+	 *				Autocomplete = CKEDITOR.plugins.autocomplete;
 	 *
-	 *				function CustomView( editor ) {
-	 *					// Call the parent class constructor.
-	 *					View.call( this, editor );
-	 *				}
-	 *				// Inherit the view methods.
-	 *				CustomView.prototype = CKEDITOR.tools.prototypedCopy( View.prototype );
-	 *
-	 *				// Change the positioning of the panel, so it is stretched
-	 *				// to 100% of the editor container width and is positioned
-	 *				// relative to the editor container.
-	 *				CustomView.prototype.updatePosition = function() {
-	 *					var caretRect = this.getCaretRect(),
-	 *						container = this.editor.container;
-	 *
-	 *					this.setPosition( {
-	 *						// Position the panel relative to the editor container.
-	 *						left: container.$.offsetLeft,
-	 *						top: caretRect.top,
-	 *						bottom: caretRect.bottom
-	 *					} );
-	 *					// Stretch the panel to 100% of the editor container width.
-	 *					this.element.setStyle( 'width', container.getSize( 'width' ) + 'px' );
-	 *				};
-	 *
-	 *				function CustomAutocomplete( editor, textTestCallback, dataCallback ) {
-	 *					// Call the parent class constructor.
-	 *					Autocomplete.call( this, editor, textTestCallback, dataCallback );
-	 *				}
-	 *				// Inherit the autocomplete methods.
-	 *				CustomAutocomplete.prototype = CKEDITOR.tools.prototypedCopy( Autocomplete.prototype );
-	 *
-	 *				CustomAutocomplete.prototype.getView = function() {
-	 *					return new CustomView( this.editor );
-	 *				}
-	 *
-	 *				// Expose the custom autocomplete so it can be used later.
-	 *				CKEDITOR.plugins.customAutocomplete = CustomAutocomplete;
+	 *			function CustomView( editor ) {
+	 *				// Call the parent class constructor.
+	 *				View.call( this, editor );
 	 *			}
-	 *		} );
+	 *			// Inherit the view methods.
+	 *			CustomView.prototype = CKEDITOR.tools.prototypedCopy( View.prototype );
+	 *
+	 *			// Change the positioning of the panel, so it is stretched
+	 *			// to 100% of the editor container width and is positioned
+	 *			// relative to the editor container.
+	 *			CustomView.prototype.updatePosition = function() {
+	 *				var caretRect = this.getCaretRect(),
+	 *					container = this.editor.container;
+	 *
+	 *				this.setPosition( {
+	 *					// Position the panel relative to the editor container.
+	 *					left: container.$.offsetLeft,
+	 *					top: caretRect.top,
+	 *					bottom: caretRect.bottom
+	 *				} );
+	 *				// Stretch the panel to 100% of the editor container width.
+	 *				this.element.setStyle( 'width', container.getSize( 'width' ) + 'px' );
+	 *			};
+	 *
+	 *			function CustomAutocomplete( editor, textTestCallback, dataCallback ) {
+	 *				// Call the parent class constructor.
+	 *				Autocomplete.call( this, editor, textTestCallback, dataCallback );
+	 *			}
+	 *			// Inherit the autocomplete methods.
+	 *			CustomAutocomplete.prototype = CKEDITOR.tools.prototypedCopy( Autocomplete.prototype );
+	 *
+	 *			CustomAutocomplete.prototype.getView = function() {
+	 *				return new CustomView( this.editor );
+	 *			}
+	 *
+	 *			// Expose the custom autocomplete so it can be used later.
+	 *			CKEDITOR.plugins.customAutocomplete = CustomAutocomplete;
+	 *		}
+	 *	} );
+	 * ```
 	 *
 	 * @class CKEDITOR.plugins.autocomplete
+	 * @since 4.10.0
 	 * @constructor Creates the new instance of autocomplete and attaches it to the editor.
 	 * @param {CKEDITOR.editor} editor The editor to watch.
 	 * @param {Function} textTestCallback Callback executed to check if a text next to the selection should open
@@ -490,23 +492,28 @@
 	 * In order to use a different view, implement a new view class and override
 	 * the {@link CKEDITOR.plugins.autocomplete#getView} method.
 	 *
-	 *		myAutocomplete.prototype.getView = function() {
-	 *			return new myView( this.editor );
-	 *		};
+	 * ```javascript
+	 *	myAutocomplete.prototype.getView = function() {
+	 *		return new myView( this.editor );
+	 *	};
+	 * ```
 	 *
 	 * You can also modify this class on the fly.
 	 *
-	 *		myAutocomplete.prototype.getView = function() {
-	 *			// Call the original getView method.
-	 *			var view = CKEDITOR.plugins.autocomplete.prototype.getView.call( this );
+	 * ```javascript
+	 *	myAutocomplete.prototype.getView = function() {
+	 *		// Call the original getView method.
+	 *		var view = CKEDITOR.plugins.autocomplete.prototype.getView.call( this );
 	 *
-	 *			// Override one property.
-	 *			view.itemTemplate = new CKEDITOR.template( '<li data-id={id}><img src="{iconSrc}" alt="..."> {name}</li>' );
+	 *		// Override one property.
+	 *		view.itemTemplate = new CKEDITOR.template( '<li data-id={id}><img src="{iconSrc}" alt="..."> {name}</li>' );
 	 *
-	 *			return view;
-	 *		};
+	 *		return view;
+	 *	};
+	 * ```
 	 *
 	 * @class CKEDITOR.plugins.autocomplete.view
+	 * @since 4.10.0
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates the autocomplete view instance.
 	 * @param {CKEDITOR.editor} editor The editor instance.
@@ -806,6 +813,7 @@
 	 * Model instance is created by the {@link CKEDITOR.plugins.autocomplete#getModel} method.
 	 *
 	 * @class CKEDITOR.plugins.autocomplete.model
+	 * @since 4.10.0
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates the autocomplete model instance.
 	 * @param {Function} dataCallback See {@link CKEDITOR.plugins.autocomplete} arguments.
@@ -1061,11 +1069,14 @@
 	 *
 	 * Example items:
 	 *
-	 *		{ id: 345, name: '@ckeditor' }
-	 *		{ id: 'smile1', alt: 'smile', emojiSrc: 'emojis/smile.png' }
+	 * ```javascript
+	 *	{ id: 345, name: '@ckeditor' }
+	 *	{ id: 'smile1', alt: 'smile', emojiSrc: 'emojis/smile.png' }
+	 * ```
 	 *
 	 * @abstract
 	 * @class CKEDITOR.plugins.autocomplete.model.item
+	 * @since 4.10.0
 	 */
 
 	/**
@@ -1094,14 +1105,14 @@
 	 *
 	 * To change completing keystrokes individually use {@link CKEDITOR.plugins.autocomplete#commitKeystroke} plugin property.
 	 *
-	 * ```js
+	 * ```javascript
 	 * // Default config (9 = tab, 13 = enter).
 	 * config.autocomplete_commitKeystroke = [ 9, 13 ];
 	 * ```
 	 *
 	 * Commit keystroke can be also disabled by setting it to an empty array.
 	 *
-	 * ```js
+	 * ```javascript
 	 * // Disable autocomplete commit keystroke.
 	 * config.autocomplete_commitKeystroke = [];
 	 * ```
