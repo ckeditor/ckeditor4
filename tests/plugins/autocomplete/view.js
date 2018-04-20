@@ -16,6 +16,12 @@
 
 	bender.test( {
 
+		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+				assert.ignore();
+			}
+		},
+
 		'test create element': function() {
 			var editor = this.editors.classic,
 				view = new CKEDITOR.plugins.autocomplete.view( editor );
