@@ -433,7 +433,9 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 									var value = this.getValue();
 
-									var isDecMsgElem   = this.getDialog().getContentElement( 'info', 'isDecorativeMsg').getElement();
+									var isSimpleMsgElem     = this.getDialog().getContentElement( 'info', 'isSimpleMsg').getElement();
+									var isComplexMsgElem    = this.getDialog().getContentElement( 'info', 'isComplexMsg').getElement();
+									var isDecorativeMsgElem = this.getDialog().getContentElement( 'info', 'isDecorativeMsg').getElement();
 
 									var imageDescFSElem  = this.getDialog().getContentElement( 'info', 'imageDescFieldset' ).getElement();
 									var altTextElem      = this.getDialog().getContentElement( 'info', 'altText' ).getElement();
@@ -446,7 +448,10 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 										  imageDescFSElem.hide()
 										  hasDescElem.hide()
 										  descLocFSElem.hide()
-											isDecMsgElem.show();
+
+											isSimpleMsgElem.hide();
+											isComplexMsgElem.hide();
+											isDecorativeMsgElem.show();
 											break;
 
 										case 'complex':
@@ -455,15 +460,22 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 											infoButtonElem.show();
 										  hasDescElem.show()
 										  descLocFSElem.show()
-											isDecMsgElem.hide();
+
+											isSimpleMsgElem.hide();
+											isComplexMsgElem.show();
+											isDecorativeMsgElem.hide();
 											break;
 
 										default:
-											isDecMsgElem.hide();
 										  imageDescFSElem.show()
 											altTextElem.show();
 											infoButtonElem.show();
 										  hasDescElem.hide()
+
+											isSimpleMsgElem.show();
+											isComplexMsgElem.hide();
+											isDecorativeMsgElem.hide();
+
 										  descLocFSElem.hide()
 											break;
 									}
@@ -503,17 +515,35 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								},
 								commit: function( data ) {
 								}
+							},
+							{
+								id: 'isSimpleMsg',
+								type: 'html',
+								class: 'a11yfirst_html',
+								html: '<p style="margin-top: 10px; font-style: italic">' + lang.isSimple + '</p>',
+								setup: function( widget ) {
+									this.getElement().show();
+								}
+							},
+							{
+								id: 'isComplexMsg',
+								type: 'html',
+								class: 'a11yfirst_html',
+								html: '<p style="margin-top: 10px; font-style: italic">' + lang.isComplex + '</p>',
+								setup: function( widget ) {
+									this.getElement().hide();
+								}
+							},
+							{
+								id: 'isDecorativeMsg',
+								type: 'html',
+								class: 'a11yfirst_html',
+								html: '<p style="margin-top: 10px; font-style: italic">' + lang.isDecorative + '</p>',
+								setup: function( widget ) {
+									this.getElement().hide();
+								}
 							}
 						]
-					},
-					{
-						id: 'isDecorativeMsg',
-						type: 'html',
-						class: 'a11yfirst_html',
-						html: '<p style="color: gray; font-style: italic; position: relative; top: 10px;">' + lang.isDecorative + '</p>',
-						setup: function( widget ) {
-							this.getElement().hide();
-						}
 					},
 					{
 						id: 'imageDescFieldset',
@@ -795,12 +825,34 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								requiredContent: features.caption.requiredContent,
 								setup: function( widget ) {
 									this.setValue( widget.data.hasCaption );
+
+									this.onClick();
+
+								},
+								onClick: function () {
+									var hasCaptionElem  = this.getDialog().getContentElement( 'info', 'hasCaptionMsg').getElement();
+
+									if (this.getValue()) {
+										hasCaptionElem.show();
+									}
+									else {
+										hasCaptionElem.hide();
+									}
 								},
 								commit: function( widget ) {
 									widget.setData( 'hasCaption', this.getValue() );
 								}
 							}
 						]
+					},
+					{
+						id: 'hasCaptionMsg',
+						type: 'html',
+						class: 'a11yfirst_html',
+						html: '<p style="font-style: italic">' + lang.msgCaption + '</p>',
+						setup: function( widget ) {
+//							this.getElement().hide();
+						}
 					},
 					{
 						type: 'vbox',
