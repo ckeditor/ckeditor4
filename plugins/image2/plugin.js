@@ -939,6 +939,7 @@
 				// Image can be wrapped in link <a><img/></a>.
 				image = el.getFirst( 'img' ) || el.getFirst( 'a' ).getFirst( 'img' );
 
+				// Add this style to lockedStyle so it is preserved on this element.
 				styleDefinition = el.attributes[ 'data-cke-style-definition' ] || {};
 				styleDefinition.lockedStyle = styleDefinition.lockedStyle || {};
 				styleDefinition.lockedStyle.display = 'inline-block';
@@ -985,7 +986,8 @@
 			// inline styles or classes (image2_alignClasses).
 			var attrsHolder = el.name == 'a' ? el.getFirst() : el,
 				attrs = attrsHolder.attributes,
-				align = this.data.align;
+				align = this.data.align,
+				elementStyle = CKEDITOR.tools.parseCssText( el.attributes.style );
 
 			// De-wrap the image from resize handle wrapper.
 			// Only block widgets have one.
@@ -1012,21 +1014,33 @@
 				// 	</div>
 				//
 				if ( align == 'center' && el.name == 'figure' ) {
+					if ( !alignClasses ) {
+						delete elementStyle[ 'text-align' ];
+						elementStyle.display = 'inline-block';
+						el.attributes.style = CKEDITOR.tools.writeCssText( elementStyle ) || undefined;
+					}
 					el = el.wrapWith( new CKEDITOR.htmlParser.element( 'div',
 						alignClasses ? { 'class': alignClasses[ 1 ] } : { style: 'text-align:center' } ) );
 				}
 
 				// If left/right, add float style to the downcasted element.
 				else if ( align in { left: 1, right: 1 } ) {
-					if ( alignClasses )
+					if ( alignClasses ) {
 						attrsHolder.addClass( alignClasses[ alignmentsObj[ align ] ] );
-					else
+					}
+					else {
 						styles[ 'float' ] = align;
-				}
+						// Don't duplicate float on linked image.
+						if ( attrsHolder !== el ) {
+							delete elementStyle[ 'float' ];
+							el.attributes.style = CKEDITOR.tools.writeCssText( elementStyle ) || undefined;
+						}
+					}
 
-				// Update element styles.
-				if ( !alignClasses && !CKEDITOR.tools.isEmpty( styles ) )
-					attrs.style = CKEDITOR.tools.writeCssText( styles );
+					// Update element styles.
+					if ( !alignClasses && !CKEDITOR.tools.isEmpty( styles ) )
+						attrs.style = CKEDITOR.tools.writeCssText( styles );
+				}
 			}
 
 			return el;
@@ -1353,9 +1367,18 @@
 			}
 		} );
 
-		// Change the position of the widget resizer when data changes.
-		widget.on( 'data', function() {
-			resizer[ widget.data.align == 'right' ? 'addClass' : 'removeClass' ]( 'cke_image_resizer_left' );
+		widget.on( 'data', function( evt ) {
+			var alignElement = evt.data.hasCaption ? this.element : this.parts.image,
+				align = evt.data.align;
+			// Change the position of the widget resizer when data changes.
+			resizer[ align == 'right' ? 'addClass' : 'removeClass' ]( 'cke_image_resizer_left' );
+
+			if ( ( align == 'right' || align == 'left' ) && alignElement.getStyle( 'float' ) === align ) {
+				this.styleDefinition.styles = this.styleDefinition.styles || {};
+				this.styleDefinition.styles[ 'float' ] = align;
+			} else if ( align && this.styleDefinition.styles && this.styleDefinition.styles[ 'float' ] ) {
+				delete this.styleDefinition.styles[ 'float' ];
+			}
 		} );
 	}
 

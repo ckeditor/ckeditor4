@@ -11,7 +11,9 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'mathjax', {
+		/* jscs:disable maximumLineLength*/
 		lang: 'af,ar,az,bg,ca,cs,cy,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,eu,fa,fi,fr,gl,he,hr,hu,id,it,ja,km,ko,ku,lt,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		/* jscs:enable maximumLineLength*/
 		requires: 'widget,dialog',
 		icons: 'mathjax',
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -95,12 +97,20 @@
 					data.math = CKEDITOR.tools.htmlDecode( el.children[ 0 ].value );
 
 					// Add style display:inline-block to have proper height of widget wrapper and mask.
-					var attrs = el.attributes;
+					var attrs = el.attributes,
+						styleDefinition;
 
-					if ( attrs.style )
+					if ( attrs.style ) {
 						attrs.style += ';display:inline-block';
-					else
+					} else {
 						attrs.style = 'display:inline-block';
+					}
+
+					// Add this style to locked style so it is preserved on that element.
+					styleDefinition = attrs[ 'data-cke-styleDefinition' ] || {};
+					styleDefinition.lockedStyle = styleDefinition.lockedStyle || {};
+					styleDefinition.lockedStyle.display = 'inline-block';
+					el.attributes[ 'data-cke-style-definition' ] = JSON.stringify( styleDefinition );
 
 					// Add attribute to prevent deleting empty span in data processing.
 					attrs[ 'data-cke-survive' ] = 1;
@@ -115,9 +125,11 @@
 
 					// Remove style display:inline-block.
 					var attrs = el.attributes;
-					attrs.style = attrs.style.replace( /display:\s?inline-block;?\s?/, '' );
-					if ( attrs.style === '' )
+					if ( attrs.style )
+						attrs.style = attrs.style.replace( /display:\s?inline-block;?\s?/, '' );
+					if ( attrs.style === '' ) {
 						delete attrs.style;
+					}
 
 					return el;
 				}

@@ -511,6 +511,10 @@
 				if ( wrapper.hasClass( 'cke_widget_new' ) ) {
 					var styleDefinition = JSON.parse( wrapper.$.getAttribute( 'data-cke-style-definition' ) );
 
+					if ( !styleDefinition ) {
+						styleDefinition = fixStyleDefiniton( element );
+					}
+
 					wrapper.removeAttribute( 'data-cke-style-definition' );
 					var widget = new Widget( this, this._.nextId++, element, widgetDef, startupData, styleDefinition );
 
@@ -2168,9 +2172,20 @@
 	//
 	// @param {CKEDITOR.htmlParser.element} el
 	function cleanUpWidgetElement( el ) {
-		var parent = el.parent;
+		var parent = el.parent,
+			style,
+			lockedStyle;
 
 		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-cke-widget-wrapper' ] ) {
+			// If there are any styles on wrapped element, keep them on element, bind wrapper styles back to element before unwrapping, to restore them after wrapping again.
+			style = CKEDITOR.tools.parseCssText( parent.attributes.style );
+			if ( style ) {
+				lockedStyle = CKEDITOR.tools.parseCssText( el.attributes.style );
+				if ( lockedStyle ) {
+					el.attributes[ 'data-cke-style-definition' ] = JSON.stringify( { lockedStyle: lockedStyle } );
+				}
+				el.attributes.style = CKEDITOR.tools.writeCssText( CKEDITOR.tools.object.merge(  style, lockedStyle ) );
+			}
 			parent.replaceWith( el );
 		}
 	}
@@ -2987,8 +3002,9 @@
 				}
 
 				// Returned element always defaults to widgetElement.
-				if ( !retElement )
+				if ( !retElement ) {
 					retElement = widgetElement;
+				}
 
 				toBe.wrapper.replaceWith( retElement );
 			}
@@ -3000,21 +3016,32 @@
 		} );
 	}
 
-	function handleStylesOnDowncast( widget, widgetElement ) {
-		var styledElement;
+	function fixStyleDefiniton( element ) {
+		var attributes = element.getAttributes(),
+			styleDefinition = {
+				attributes: {},
+				styles: {},
+				element: element.getName()
+			},
+			key;
 
-		if ( !widgetElement ) {
+		if ( attributes.style ) {
+			styleDefinition.styles = CKEDITOR.tools.parseCssText( attributes.style );
+		}
+		for ( key in attributes ) {
+			if ( key !== 'style' && key !== 'data-widget' && key !== 'class' && key.substring( 0, 8 ).toLowerCase() !== 'data-cke' ) {
+				styleDefinition.attributes[ key ] = attributes[ key ];
+			}
+		}
+		return styleDefinition;
+	}
+
+	function handleStylesOnDowncast( widget, element ) {
+		if ( !element ) {
 			return;
 		}
-		if ( widget.styleDefinition && widgetElement.name !== widget.styleDefinition.element ) {
-			styledElement = widgetElement.getFirst( widget.styleDefinition.element );
-		}
-		if ( !styledElement ) {
-			styledElement = widgetElement;
-		}
-
-		if ( widget.styleDefinition && widget.styleDefinition.styles ) {
-			styledElement.attributes.style = CKEDITOR.tools.writeCssText( widget.styleDefinition.styles );
+		if ( widget.styleDefinition && widget.styleDefinition.styles && CKEDITOR.tools.objectKeys( widget.styleDefinition.styles ).length ) {
+			element.attributes.style = CKEDITOR.tools.writeCssText( widget.styleDefinition.styles );
 		}
 	}
 
@@ -3027,9 +3054,10 @@
 
 		styleDefinition.attributes = styleDefinition.attributes || {};
 		styleDefinition.element = element.name;
+		styleDefinition.styles = {};
 
 		for ( key in element.attributes ) {
-			if ( key !== 'style' && key !== 'data-widget' && key.substring( 0, 8 ).toLowerCase() !== 'data-cke' ) {
+			if ( key !== 'style' && key !== 'data-widget' && key !== 'class' && key.substring( 0, 8 ).toLowerCase() !== 'data-cke' ) {
 				styleDefinition.attributes[ key ] = element.attributes[ key ];
 			}
 		}
@@ -3044,18 +3072,20 @@
 		}
 
 		// Preserve styles that are set as 'locked', it is important so other plugins extending widget can prevent moving some styles to wrapper.
-		if ( CKEDITOR.tools.objectKeys( lockedStyle ).length && CKEDITOR.tools.objectKeys( style ).length ) {
-			style = CKEDITOR.tools.parseCssText( style );
-			for ( key in style ) {
-				if ( !( key in lockedStyle ) ) {
-					outputStyle[ key ] = style[ key ];
-					delete style[ key ];
+		if ( CKEDITOR.tools.objectKeys( lockedStyle ).length ) {
+			if ( CKEDITOR.tools.objectKeys( style ).length ) {
+				style = CKEDITOR.tools.parseCssText( style );
+				for ( key in style ) {
+					if ( !( key in lockedStyle ) ) {
+						outputStyle[ key ] = style[ key ];
+						delete style[ key ];
+					}
 				}
-			}
 
-			style = CKEDITOR.tools.writeCssText( style );
-			element.attributes.style = style;
-			style = CKEDITOR.tools.writeCssText( outputStyle );
+				style = CKEDITOR.tools.writeCssText( style );
+				element.attributes.style = style;
+				style = CKEDITOR.tools.writeCssText( outputStyle );
+			}
 		} else {
 			// When we don't preserve any styles we can delete them on widget.element
 			delete element.attributes.style;
@@ -3070,7 +3100,7 @@
 			styleDefinition.styles = CKEDITOR.tools.parseCssText( style );
 		} else {
 			// If there are no styles remove it to make sure we don't have `styles=''` in our output.
-			delete styleDefinition.styles;
+			// delete styleDefinition.styles;
 		}
 		wrapper.attributes[ 'data-cke-style-definition' ] = JSON.stringify( styleDefinition );
 	}
@@ -3252,7 +3282,11 @@
 	// @param {Boolean} whenever to remove or add class.
 	function addRemoveClassToStyleDef( widget, className, remove ) {
 		var classes;
-		if ( widget.styleDefinition && widget.styleDefinition.attributes[ 'class' ] ) {
+
+		widget.styleDefinition = widget.styleDefinition || { attributes: { 'class': '' } };
+		widget.styleDefinition.attributes = widget.styleDefinition.attributes || {};
+
+		if ( widget.styleDefinition.attributes[ 'class' ] ) {
 			classes = widget.styleDefinition.attributes[ 'class' ].split( /\s+/ );
 		} else {
 			classes = [];
@@ -3267,7 +3301,7 @@
 				classes.push( className );
 			}
 		}
-		widget.styleDefinition = widget.styleDefinition || { attributes: { 'class': '' } };
+
 		widget.styleDefinition.attributes[ 'class' ] = classes.join( ' ' );
 	}
 
