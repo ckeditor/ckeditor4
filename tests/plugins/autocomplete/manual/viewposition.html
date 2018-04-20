@@ -35,6 +35,10 @@
 
 <script>
 
+	if( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+		bender.ignore();
+	}
+
 	var config = {
 		width: 600,
 		extraAllowedContent: 'p(filler)',
