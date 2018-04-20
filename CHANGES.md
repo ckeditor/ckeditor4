@@ -1,4 +1,4 @@
-CKEditor 4 Changelog
+﻿CKEditor 4 Changelog
 ====================
 
 ## CKEditor 4.10
