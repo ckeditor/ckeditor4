@@ -636,7 +636,7 @@
 		},
 
 		/**
-		 * Returns the caret position relative to the panel's offset parent (the `body` element of the host document).
+		 * Returns the caret position relative to the panel's offset parent (the non-static element of the host document).
 		 * The value returned by this function is passed to the {@link #setPosition} method
 		 * by the {@link #updatePosition} method.
 		 *
@@ -654,6 +654,19 @@
 				offset = CKEDITOR.document.getWindow().getScrollPosition();
 			} else {
 				offset = editable.getParent().getDocumentPosition( CKEDITOR.document );
+			}
+
+			var offsetParent = this.element.getAscendant( function( el ) {
+				return el instanceof CKEDITOR.dom.element && el.getComputedStyle( 'position' ) !== 'static';
+			} ) || this.element.getParents()[ 0 ];
+
+			if ( offsetParent ) {
+				// Consider that offset host might be repositioned on its own.
+				// Similar to #1048. See https://github.com/ckeditor/ckeditor-dev/pull/1732#discussion_r182790235.
+				var offsetCorrection = offsetParent.getDocumentPosition();
+
+				offset.x -= offsetCorrection.x;
+				offset.y -= offsetCorrection.y;
 			}
 
 			return {
@@ -736,8 +749,6 @@
 				// How much space is there for the panel above and below the specified rect.
 				spaceAbove = rect.top - editorViewportRect.top,
 				spaceBelow = editorViewportRect.bottom - rect.bottom,
-				left = rect.left,
-				offsetParent = this.element.$.offsetParent,
 				top;
 
 			// If panel does not fit below the rect and fits above, set it there.
@@ -755,17 +766,8 @@
 				top = rect.top < editorViewportRect.top ? editorViewportRect.top : Math.min( editorViewportRect.bottom, rect.bottom );
 			}
 
-			if ( offsetParent ) {
-				// Consider that offset host might be repositioned on its own.
-				// Similar to #1048. See https://github.com/ckeditor/ckeditor-dev/pull/1732#discussion_r182790235.
-				var offsetCorrection = new CKEDITOR.dom.element( offsetParent ).getDocumentPosition();
-
-				left -= offsetCorrection.x;
-				top -= offsetCorrection.y;
-			}
-
 			this.element.setStyles( {
-				left: left + 'px',
+				left: rect.left + 'px',
 				top: top + 'px'
 			} );
 		},
