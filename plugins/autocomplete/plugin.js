@@ -636,7 +636,7 @@
 		},
 
 		/**
-		 * Returns the caret position relative to the panel's offset parent (the non-static element of the host document).
+		 * Returns the caret position relative to the panel's offset parent.
 		 * The value returned by this function is passed to the {@link #setPosition} method
 		 * by the {@link #updatePosition} method.
 		 *
@@ -656,18 +656,17 @@
 				offset = editable.getParent().getDocumentPosition( CKEDITOR.document );
 			}
 
-			var offsetParent = this.element.getAscendant( function( el ) {
-				return el instanceof CKEDITOR.dom.element && el.getComputedStyle( 'position' ) !== 'static';
-			} ) || this.element.getParents()[ 0 ];
-
-			if ( offsetParent ) {
-				// Consider that offset host might be repositioned on its own.
-				// Similar to #1048. See https://github.com/ckeditor/ckeditor-dev/pull/1732#discussion_r182790235.
-				var offsetCorrection = offsetParent.getDocumentPosition();
-
-				offset.x -= offsetCorrection.x;
-				offset.y -= offsetCorrection.y;
+			// Consider that offset host might be repositioned on its own.
+			// Similar to #1048. See https://github.com/ckeditor/ckeditor-dev/pull/1732#discussion_r182790235.
+			var hostElement = CKEDITOR.document.getBody();
+			if ( hostElement.getComputedStyle( 'position' ) === 'static' ) {
+				hostElement = hostElement.getParent();
 			}
+
+			var offsetCorrection = hostElement.getDocumentPosition();
+
+			offset.x -= offsetCorrection.x;
+			offset.y -= offsetCorrection.y;
 
 			return {
 				top: ( caretClientRect.top + offset.y ),

@@ -20,6 +20,11 @@
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
 				assert.ignore();
 			}
+
+			CKEDITOR.document.getBody().setStyles( {
+				position: 'static',
+				margin: '0'
+			} );
 		},
 
 		'test create element': function() {
@@ -69,87 +74,47 @@
 		},
 
 		'test get caret rect (classic)': function() {
-			var editor = this.editors.classic,
-				view = new CKEDITOR.plugins.autocomplete.view( editor ),
-				position = { top: 2, height: 3, left: 4 },
-
-				caretPositionStub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getCaretPosition' ).returns( position ),
-				editableStub = sinon.stub( CKEDITOR.editable.prototype, 'getParent' ).returns( {
-					getDocumentPosition: function() {
-						return {
-							y: 2,
-							x: 4
-						};
-					}
-				} );
-
-			view.append();
-
-			var rect = view.getCaretRect();
+			var rect = getCaretRect( this.editors.classic, { top: 2, height: 3, left: 4 }, { y: 2, x: 4 } );
 
 			assert.areEqual( 7, rect.bottom );
 			assert.areEqual( 8, rect.left );
 			assert.areEqual( 4, rect.top );
-
-			// Test fixture down
-			caretPositionStub.restore();
-			editableStub.restore();
 		},
 
 		'test get caret rect (inline)': function() {
-			var editor = this.editors.inline,
-				view = new CKEDITOR.plugins.autocomplete.view( editor ),
-				position = { top: 2, height: 3, left: 4 },
-
-				caretPositionStub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getCaretPosition' ).returns( position ),
-				windowStub = sinon.stub( CKEDITOR.document, 'getWindow' ).returns( {
-					getScrollPosition: function() {
-						return {
-							y: 2,
-							x: 4
-						};
-					}
-				} );
-
-			view.append();
-
-			var rect = view.getCaretRect();
+			var rect = getCaretRect( this.editors.inline, { top: 2, height: 3, left: 4 }, { y: 2, x: 4 } );
 
 			assert.areEqual( 7, rect.bottom );
 			assert.areEqual( 8, rect.left );
 			assert.areEqual( 4, rect.top );
-
-			// Test fixture down
-			caretPositionStub.restore();
-			windowStub.restore();
 		},
 
-		'test get caret rect with moved parent': function() {
-			var editor = this.editors.classic,
-				view = new CKEDITOR.plugins.autocomplete.view( editor ),
-				position = { top: 2, height: 3, left: 4 },
+		'test get caret rect with repositioned offset host (classic)': function() {
+			CKEDITOR.document.getBody().setStyles( {
+				position: 'relative',
+				'margin-left': '10px',
+				'margin-top': '10px'
+			} );
 
-				caretPositionStub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getCaretPosition' ).returns( position ),
-				editableStub = sinon.stub( CKEDITOR.editable.prototype, 'getParent' ).returns( {
-					getDocumentPosition: function() {
-						return {
-							y: 2,
-							x: 4
-						};
-					}
-				} );
-
-			view.append();
-
-			var rect = view.getCaretRect();
+			var rect = getCaretRect( this.editors.classic, { top: 10, height: 5, left: 10 }, { y: 2, x: 4 } );
 
 			assert.areEqual( 7, rect.bottom );
-			assert.areEqual( 8, rect.left );
-			assert.areEqual( 4, rect.top );
+			assert.areEqual( 4, rect.left );
+			assert.areEqual( 2, rect.top );
+		},
 
-			// Test fixture down
-			caretPositionStub.restore();
-			editableStub.restore();
+		'test get caret rect with repositioned offset host (inline)': function() {
+			CKEDITOR.document.getBody().setStyles( {
+				position: 'relative',
+				'margin-left': '10px',
+				'margin-top': '10px'
+			} );
+
+			var rect = getCaretRect( this.editors.inline, { top: 10, height: 5, left: 10 }, { y: 2, x: 4 } );
+
+			assert.areEqual( 7, rect.bottom );
+			assert.areEqual( 4, rect.left );
+			assert.areEqual( 2, rect.top );
 		},
 
 		'test is item element': function() {
@@ -301,6 +266,35 @@
 
 	function assertItemElement( item, itemElement ) {
 		assert.areEqual( '<li data-id="' + item.id + '">' + item.name + '</li>', itemElement.$.outerHTML );
+	}
+
+	function getCaretRect( editor, caretPosition, offset ) {
+		var view = new CKEDITOR.plugins.autocomplete.view( editor ),
+			caretPositionStub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getCaretPosition' ).returns( caretPosition ),
+			offsetStub;
+
+		if ( editor.editable().isInline() ) {
+			offsetStub = sinon.stub( CKEDITOR.document, 'getWindow' ).returns( {
+				getScrollPosition: function() {
+					return offset;
+				}
+			} );
+		} else {
+			offsetStub = sinon.stub( CKEDITOR.editable.prototype, 'getParent' ).returns( {
+				getDocumentPosition: function() {
+					return offset;
+				}
+			} );
+		}
+
+		view.append();
+
+		var caretRect = view.getCaretRect();
+
+		caretPositionStub.restore();
+		offsetStub.restore();
+
+		return caretRect;
 	}
 
 } )();
