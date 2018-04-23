@@ -161,25 +161,48 @@
 			assert.isTrue( spy.calledOnce );
 		},
 
-		'test set position above inside absolute rect': function() {
+		'test position not enough space between the caret and bottom viewport': function() {
+			// +---------------------------------------------+
+			// |                                             |
+			// |       editor viewport                       |
+			// |     +--------------+                        |
+			// |     |              |                        |
+			// |     |     view     |                        |
+			// |     |              |                        |
+			// |     +--------------+                        |
+			// |     █ - caret position                      |
+			// |                                             |
+			// +---------------------------------------------+
 			var view = createPositionedView( this.editors.classic, {
 				caretRect: { top: 400, bottom: 410, left: 100 },
 				editorViewportRect: { top: 0, bottom: 500 },
 				viewPanelHeight: 100
 			} );
 
-			assert.areEqual( '300px', view.element.getStyle( 'top' ) );
+			assert.areEqual( '300px', view.element.getStyle( 'top' ), 'View is displayed above the caret' );
 			assert.areEqual( '100px', view.element.getStyle( 'left' ) );
 		},
 
-		'test set position below inside absolute rect': function() {
+		'test enough space under and above the caret': function() {
+			// +---------------------------------------------+
+			// |       editor viewport                       |
+			// |                                             |
+			// |     █ - caret position                      |
+			// |     +--------------+                        |
+			// |     |              |                        |
+			// |     |     view     |                        |
+			// |     |              |                        |
+			// |     +--------------+                        |
+			// |                                             |
+			// |                                             |
+			// +---------------------------------------------+
 			var view = createPositionedView( this.editors.classic, {
 				caretRect: { top: 100, bottom: 110, left: 50 },
 				editorViewportRect: { top: 0, bottom: 500 },
 				viewPanelHeight: 100
 			} );
 
-			assert.areEqual( '110px', view.element.getStyle( 'top' ) );
+			assert.areEqual( '110px', view.element.getStyle( 'top' ), 'View is displayed below the caret' );
 			assert.areEqual( '50px', view.element.getStyle( 'left' ) );
 		},
 
