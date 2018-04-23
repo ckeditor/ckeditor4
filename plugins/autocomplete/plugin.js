@@ -752,7 +752,7 @@
 
 			// If panel does not fit below the rect and fits above, set it there.
 			// This means that position below the rect is preferred.
-			// Skip changing position above if a caret position is not visible an editor viewport.
+			// Skip changing position above if a caret position is not visible in an editor viewport.
 			if (
 				viewPanelHeight > spaceBelow &&
 				viewPanelHeight < spaceAbove &&
