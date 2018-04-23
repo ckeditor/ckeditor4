@@ -83,6 +83,8 @@
 					}
 				} );
 
+			view.append();
+
 			var rect = view.getCaretRect();
 
 			assert.areEqual( 7, rect.bottom );
@@ -109,6 +111,8 @@
 					}
 				} );
 
+			view.append();
+
 			var rect = view.getCaretRect();
 
 			assert.areEqual( 7, rect.bottom );
@@ -118,6 +122,34 @@
 			// Test fixture down
 			caretPositionStub.restore();
 			windowStub.restore();
+		},
+
+		'test get caret rect with moved parent': function() {
+			var editor = this.editors.classic,
+				view = new CKEDITOR.plugins.autocomplete.view( editor ),
+				position = { top: 2, height: 3, left: 4 },
+
+				caretPositionStub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getCaretPosition' ).returns( position ),
+				editableStub = sinon.stub( CKEDITOR.editable.prototype, 'getParent' ).returns( {
+					getDocumentPosition: function() {
+						return {
+							y: 2,
+							x: 4
+						};
+					}
+				} );
+
+			view.append();
+
+			var rect = view.getCaretRect();
+
+			assert.areEqual( 7, rect.bottom );
+			assert.areEqual( 8, rect.left );
+			assert.areEqual( 4, rect.top );
+
+			// Test fixture down
+			caretPositionStub.restore();
+			editableStub.restore();
 		},
 
 		'test is item element': function() {
