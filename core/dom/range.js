@@ -2849,11 +2849,12 @@ CKEDITOR.dom.range = function( root ) {
 		 * <img src="https://33333.cdn.cke-cs.com/rc1DFuFpHqcR3Mah6y0e/images/90893fcc6c323c10023e73ebfc1fbaa622b48b29c066f7af_ie-rects.png">
 		 *
 		 * @since 4.10.0
+		 * @param {Boolean} [isAbsolute=false] The function will retrieve an absolute rectangle of the element i.e. position relative to the upper-left corner of the topmost viewport.
 		 * @returns {CKEDITOR.dom.rect[]}
 		 */
 		getClientRects: ( function() {
 			if ( this.document.getSelection !== undefined ) {
-				return function() {
+				return function( isAbsolute ) {
 					// We need to create native range so we can call native getClientRects.
 					var range = document.createRange(),
 						rectArray;
@@ -2862,8 +2863,8 @@ CKEDITOR.dom.range = function( root ) {
 					range.setEnd( this.endContainer.$, this.endOffset );
 
 					rectArray = CKEDITOR.tools.array.map( range.getClientRects(), function( item ) {
-						return convertRect( item );
-					} );
+						return convertRect( item, isAbsolute, this );
+					}, this );
 
 					// In some cases ( eg. ranges contain only image ) IE will return empty rectList.
 					if ( !range.collapsed && !rectArray.length ) {
@@ -2875,18 +2876,50 @@ CKEDITOR.dom.range = function( root ) {
 					return rectArray;
 				};
 			} else {
-				return function() {
-					return [ getRect( this.createBookmark() ) ];
+				return function( isAbsolute ) {
+					return [ convertRect( getRect( this.createBookmark() ), isAbsolute, this ) ];
 				};
 			}
 
 			// Extending empty object with rect, to prevent inheriting from DOMRect, same approach as in CKEDITOR.dom.element.getClientRect().
-			function convertRect( rect ) {
+			function convertRect( rect, isAbsolute, context ) {
 				var newRect = CKEDITOR.tools.extend( {}, rect );
+
+				if ( isAbsolute ) {
+					appendParentFramePosition( context.document.getWindow().getFrame() );
+
+					var winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition();
+
+					newRect.top += winGlobalScroll.y;
+					newRect.left += winGlobalScroll.x;
+
+					newRect.y += winGlobalScroll.y;
+					newRect.x += winGlobalScroll.x;
+
+					newRect.right = newRect.left + newRect.width;
+					newRect.bottom = newRect.top + newRect.height;
+				}
+
 				// Some browsers might not return width and height.
 				!newRect.width && ( newRect.width = newRect.right - newRect.left );
 				!newRect.height && ( newRect.height = newRect.bottom - newRect.top );
 				return newRect;
+
+				function appendParentFramePosition( frame ) {
+					if ( !frame ) {
+						return;
+					}
+
+					var frameRect = frame.getClientRect();
+
+					newRect.top += frameRect.top;
+					newRect.left += frameRect.left;
+
+					newRect.x += frameRect.x;
+					newRect.y += frameRect.y;
+
+					appendParentFramePosition( frame.getWindow().getFrame() );
+				}
 			}
 
 			// Fallback helper for browsers that don't support native getClientRects().
