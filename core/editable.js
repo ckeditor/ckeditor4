@@ -799,10 +799,12 @@
 			},
 
 			/**
-			 * Returns scroll position of editable.
+			 * Returns scroll position of the editable.
 			 *
-			* @since 4.8.1
-			* @returns {Object} Object with keys: `scrollTop` and `scrollLeft`
+			 * @since 4.10.0
+			 * @returns {Object} Object representing vertical and horizontal scroll position of the editable.
+			 * @returns {Number} return.scrollTop vertical scroll position.
+			 * @returns {Number} return.scrollLeft horizontal scroll position.
 			*/
 			getEditableScrollPosition: function() {
 				return this.isInline() ? this.getScrollPosition() : this.getDocumentScrollPosition();
@@ -811,7 +813,7 @@
 			/**
 			 * Set scroll position of editable.
 			 *
-			 * @since 4.8.1
+			 * @since 4.10.0
 			 * @param {Number} scrollTop number of pixels that an element's document is scrolled vertically.
 			 * @param {Number} [scrollLeft] number of pixels that an element's document is scrolled horizontally.
 			 */

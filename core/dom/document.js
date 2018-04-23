@@ -250,13 +250,43 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	/**
 	 * Gets the DOM scrolling element for this document. Scrolling element allows for using `scrollTop` and `scrollLeft` on entire document.
 	 *
-	 * @since 4.8.1
+	 * @since 4.10.0
 	 * @returns {CKEDITOR.dom.element} Scrolling element.
 	 */
 	getScrollingElement: function() {
 		var scrollingElement = this.$.scrollingElement || this.$.documentElement || this.$.body;
 		return new CKEDITOR.dom.element( scrollingElement );
 	},
+	/**
+	 * Returns scroll position of the document.
+	 *
+	 * @since 4.10.0
+	 * @returns {Object} Object representing vertical and horizontal scroll position of the document.
+	 * @returns {Number} return.scrollTop vertical scroll position.
+	 * @returns {Number} return.scrollLeft horizontal scroll position.
+	 */
+	getScrollPosition: function() {
+		var	scrollingElement = this.getScrollingElement();
+
+		return { scrollTop: scrollingElement.$.scrollTop, scrollLeft: scrollingElement.$.scrollLeft };
+	},
+
+	/**
+	 * Set scroll position of document.
+	 *
+	 * @since 4.10.0
+	 * @param {Number} scrollTop number of pixels that document is scrolled vertically.
+	 * @param {Number} [scrollLeft] number of pixels that document is scrolled horizontally.
+	 */
+	setScrollPosition: function( scrollTop, scrollLeft ) {
+		var scrollingElement = this.getScrollingElement();
+
+		if ( scrollLeft !== undefined ) {
+			scrollingElement.$.scrollLeft = scrollLeft;
+		}
+		scrollingElement.$.scrollTop = scrollTop;
+	},
+
 	/**
 	 * Defines the document content through `document.write`. Note that the
 	 * previous document content will be lost (cleaned).

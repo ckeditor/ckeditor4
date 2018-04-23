@@ -493,7 +493,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * frame.getClientRect( true );
 		 * ```
 		 *
-		 * @param {Boolean} [isAbsolute=false] The function will retrieve an absolute rectangle of the element i.e. position relative to the upper-left corner of the topmost viewport. This option is available since 4.10.0.
+		 * @param {Boolean} [isAbsolute=false] The function will retrieve an absolute rectangle of the element
+		 * i.e. position relative to the upper-left corner of the topmost viewport. This option is available since 4.10.0.
 		 * @returns {CKEDITOR.dom.rect} The dimensions of the DOM element.
 		 */
 		getClientRect: function( isAbsolute ) {
@@ -2105,47 +2106,44 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		/**
 		 * Returns scroll position of the element's document.
 		 *
-		 * @since 4.8.1
-		 * @returns {Object/Number} Object with keys: `scrollTop` and `scrollLeft`, or Number represent scrollTop
+		 * @since 4.10.0
+		 * @returns {Object} Object representing vertical and horizontal scroll position of the document.
+		 * @returns {Number} return.scrollTop vertical scroll position.
+		 * @returns {Number} return.scrollLeft horizontal scroll position.
 		 */
 		getDocumentScrollPosition: function() {
-			var	scrollingElement = this.getDocument().getScrollingElement();
-
-			return { 'scrollTop': scrollingElement.$.scrollTop, 'scrollLeft': scrollingElement.$.scrollLeft };
+			return this.getDocument().getScrollPosition();
 		},
 
 		/**
 		 * Set scroll position of element's document.
 		 *
-		 * @since 4.8.1
+		 * @since 4.10.0
 		 * @param {Number} scrollTop number of pixels that an element's document is scrolled vertically.
 		 * @param {Number} [scrollLeft] number of pixels that an element's document is scrolled horizontally.
 		 */
 		setDocumentScrollPosition: function( scrollTop, scrollLeft ) {
-			var scrollingElement = this.getDocument().getScrollingElement();
-
-			if ( scrollLeft !== undefined ) {
-				scrollingElement.$.scrollLeft = scrollLeft;
-			}
-			scrollingElement.$.scrollTop = scrollTop;
+			return this.getDocument().setScrollPosition( scrollTop, scrollLeft );
 		},
 
 		/**
 		 * Returns scroll position of the element itself.
 		 *
-		 * @since 4.8.1
-		 * @returns {Object} Object with keys: `scrollTop` and `scrollLeft`
+		 * @since 4.10.0
+		 * @returns {Object} Object representing vertical and horizontal scroll position of the element itself.
+		 * @returns {Number} return.scrollTop vertical scroll position.
+		 * @returns {Number} return.scrollLeft horizontal scroll position.
 		 */
 		getScrollPosition: function() {
-			return { 'scrollTop': this.$.scrollTop, 'scrollLeft': this.$.scrollLeft };
+			return { scrollTop: this.$.scrollTop, scrollLeft: this.$.scrollLeft };
 		},
 
 		/**
 		 * Set scroll position of element itself.
 		 *
-		 * @since 4.8.1
-		 * @param {Number} scrollTop number of pixels that an element's contentt is scrolled vertically.
-		 * @param {Number} [scrollLeft] number of pixels that an element's contentt is scrolled horizontally.
+		 * @since 4.10.0
+		 * @param {Number} scrollTop number of pixels that an element's content is scrolled vertically.
+		 * @param {Number} [scrollLeft] number of pixels that an element's content is scrolled horizontally.
 		 */
 		setScrollPosition: function( scrollTop, scrollLeft ) {
 			if ( scrollLeft !== undefined ) {

@@ -4,10 +4,18 @@
 	<div style="width:1000px;height:1000px;background-color:grey;" ></div>
 	<p>Some <strong>content with <em id="nested">nested elements</em></strong></p>
 </textarea>
-<button id="id1">Scroll left-down</button>
-<button id="id2">Scroll right-down</button>
-<button id="id3">Scroll left-up</button>
-<button id="id4">Scroll right-up</button>
+<div style="display: inline-block; border: 1px solid black; padding: 3px;"><p>Button based on element</p>
+	<button id="id1">Scroll left-down</button>
+	<button id="id2">Scroll right-down</button>
+	<button id="id3">Scroll left-up</button>
+	<button id="id4">Scroll right-up</button>
+</div>
+<div style="display: inline-block; border: 1px solid black;padding: 3px;"><p>Buttons based on document</p>
+	<button id="id5">Scroll left-down</button>
+	<button id="id6">Scroll right-down</button>
+	<button id="id7">Scroll left-up</button>
+	<button id="id8">Scroll right-up</button>
+</div>
 <script>
 	var editor = CKEDITOR.replace( 'editor', {
 		width: 300,
@@ -19,13 +27,25 @@
 	var id2 = document.getElementById( 'id2' );
 	var id3 = document.getElementById( 'id3' );
 	var id4 = document.getElementById( 'id4' );
+	var id5 = document.getElementById( 'id5' );
+	var id6 = document.getElementById( 'id6' );
+	var id7 = document.getElementById( 'id7' );
+	var id8 = document.getElementById( 'id8' );
 	var val = document.getElementById( 'values' );
 
-	var scrl = function( top, left ) {
+	var scrl = function( top, left, isDoc ) {
 		return function() {
-			var element = editor.editable().findOne( '#nested' );
-			element.setDocumentScrollPosition( top, left );
-			var scroll = element.getDocumentScrollPosition();
+			var scroll,
+				element = editor.editable().findOne( '#nested' ),
+				doc = element.getDocument();
+
+			if ( !isDoc ) {
+				element.setDocumentScrollPosition( top, left );
+				scroll = element.getDocumentScrollPosition();
+			} else {
+				doc.setScrollPosition( top, left );
+				scroll = doc.getScrollPosition();
+			}
 			val.innerHTML = '<p>Scroll Top: ' + scroll.scrollTop + '</p>' +
 				'<p>Scroll Left: ' + scroll.scrollLeft + '</p>';
 		}
@@ -35,4 +55,8 @@
 	id2.onclick = scrl( 1000, 1000 );
 	id3.onclick = scrl( 0, 0 );
 	id4.onclick = scrl( 0, 1000 );
+	id5.onclick = scrl( 1000, 0, true );
+	id6.onclick = scrl( 1000, 1000, true );
+	id7.onclick = scrl( 0, 0, true );
+	id8.onclick = scrl( 0, 1000, true );
 </script>

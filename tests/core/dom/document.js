@@ -141,12 +141,7 @@ bender.test( appendDomObjectTests(
 			var scrollingElement = CKEDITOR.document.getScrollingElement(),
 				nativeEl = document.scrollingElement || document.documentElement || document.body;
 
-			if ( !( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ) {
-				// IE8 doesn't support isEqualNode
-				assert.isTrue( scrollingElement.$.isEqualNode( nativeEl ) );
-			}
-
-			assert.isTrue( scrollingElement.equals( new CKEDITOR.dom.element( nativeEl ) ) );
+			assert.isTrue( scrollingElement.$ === nativeEl );
 		}
 
 	}

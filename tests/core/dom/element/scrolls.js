@@ -2,116 +2,125 @@
 
 ( function() {
 	'use strict';
+
+	var helpers = {
+		resetScrolls: function( obj ) {
+			this.setNativeScroll( obj, 0, 0 );
+		},
+		setNativeScroll: function( obj, top, left ) {
+			obj.scrollLeft = left;
+			obj.scrollTop = top;
+		},
+		assertBothScrolls: function( expected, actual, message ) {
+			assert.areSame( expected.left, actual.scrollLeft, message + ' (Scroll Left)' );
+			assert.areSame( expected.top, actual.scrollTop, message + ' (Scroll Top)' );
+		},
+		/**
+		 * @param element {CKEDTOR.dom.element}
+		 * @param doc {CKEDTOR.dom.document}
+		 * @param expected {Array} meaning of 4 values in array -> [ elementTop, elementLeft, documentTop, documentLeft ]
+		 */
+		assertAllScrolls: function( element, doc, expected ) {
+			this.assertBothScrolls( { left: expected[ 1 ], top: expected[ 0 ] }, element.getScrollPosition(), '`element.getScrollPosition` should return equal values' );
+			this.assertBothScrolls( { left: expected[ 3 ], top: expected[ 2 ] }, doc.getScrollPosition(), '`document.getScrollPosition` should return equal values' );
+			this.assertBothScrolls( { left: expected[ 3 ], top: expected[ 2 ] }, element.getDocumentScrollPosition(), '`element.getDocumentScrollPosition` should return equal values' );
+		}
+	};
+
 	bender.editor = true;
 	bender.test( {
-		_assertBothScrolls: function( expected, actual ) {
-			assert.areSame( expected.x, actual.scrollLeft );
-			assert.areSame( expected.y, actual.scrollTop );
-		},
+		'test getScroll and getDocumentScroll for element and document': function() {
+			var element = new CKEDITOR.dom.element( document.getElementById( 'small' ) ),
+				doc = element.getDocument(),
+				docScrollElement = doc.$.scrollingElement || doc.$.documentElement || doc.$.body;
 
-		'test getDocumentScrollPosition': function() {
-			var element = document.getElementById( 'small' ),
-				ckEl = new CKEDITOR.dom.element( element ),
-				doc,
-				docEl;
-			// Reset position with native methods
-			doc = ckEl.getDocument();
-			docEl = doc.$.scrollingElement || doc.$.documentElement || doc.$.body;
-			docEl.scrollTop = 0;
-			docEl.scrollLeft = 0;
-			ckEl.$.scrollTop = 0;
-			ckEl.$.scrollLeft = 0;
-
-			// document no-scroll, element no-scroll
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getDocumentScrollPosition() );
+			helpers.resetScrolls( element.$ );
+			helpers.resetScrolls( docScrollElement );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 0 ] );
 
 			// document no-scroll, element scroll
-			ckEl.$.scrollTop = 123;
-			ckEl.$.scrollLeft = 123;
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getDocumentScrollPosition() );
+			helpers.setNativeScroll( element.$, 100, 100 );
+			helpers.assertAllScrolls( element, doc, [ 100, 100, 0, 0 ] );
 
 			// document scroll, element scroll
-			docEl.scrollTop = 20;
-			docEl.scrollLeft = 20;
-			this._assertBothScrolls( { x: 20, y: 20 }, ckEl.getDocumentScrollPosition() );
+			helpers.setNativeScroll( docScrollElement, 50, 50 );
+			helpers.assertAllScrolls( element, doc, [ 100, 100, 50, 50 ] );
 
 			// document scroll, element no-scroll
-			ckEl.$.scrollTop = 0;
-			ckEl.$.scrollLeft = 0;
-			this._assertBothScrolls( { x: 20, y: 20 }, ckEl.getDocumentScrollPosition() );
-		},
-
-		'test getScrollPosition': function() {
-			var element = document.getElementById( 'small' ),
-				ckEl = new CKEDITOR.dom.element( element ),
-				doc,
-				docEl;
-
-			// Reset position with native methods
-			doc = ckEl.getDocument();
-			docEl = doc.$.scrollingElement || doc.$.documentElement || doc.$.body;
-			docEl.scrollTop = 0;
-			docEl.scrollLeft = 0;
-			ckEl.$.scrollTop = 0;
-			ckEl.$.scrollLeft = 0;
-
-			// document no-scroll, element no-scroll
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getScrollPosition() );
-
-			// document no-scroll, element scroll
-			ckEl.$.scrollTop = 321;
-			ckEl.$.scrollLeft = 321;
-			this._assertBothScrolls( { x: 321, y: 321 }, ckEl.getScrollPosition() );
-
-			// document scroll, element scroll
-			docEl.scrollTop = 20;
-			docEl.scrollLeft = 20;
-			this._assertBothScrolls( { x: 321, y: 321 }, ckEl.getScrollPosition() );
+			helpers.setNativeScroll( element.$, 0, 0 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 50, 50 ] );
 
 			// document scroll, element no-scroll
-			ckEl.$.scrollTop = 0;
-			ckEl.$.scrollLeft = 0;
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getScrollPosition() );
+			helpers.setNativeScroll( docScrollElement, 0, 0 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 0 ] );
+
 		},
 
-		'test setDocumentScrollPosition': function() {
-			var element = document.getElementById( 'small' ),
-				ckEl = new CKEDITOR.dom.element( element );
+		'test setScrollPosition for element': function() {
+			var element = new CKEDITOR.dom.element( document.getElementById( 'small' ) ),
+				doc = element.getDocument();
 
-			ckEl.setDocumentScrollPosition( 0, 0 );
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getDocumentScrollPosition() );
+			helpers.resetScrolls( doc.$.scrollingElement || doc.$.documentElement || doc.$.body );
 
-			ckEl.setDocumentScrollPosition( 100 );
-			this._assertBothScrolls( { x: 0, y: 100 }, ckEl.getDocumentScrollPosition() );
+			element.setScrollPosition( 0, 0 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 0 ] );
 
-			ckEl.setDocumentScrollPosition( 123, 23 );
-			this._assertBothScrolls( { x: 23, y: 123 }, ckEl.getDocumentScrollPosition() );
+			element.setScrollPosition( 111, 222 );
+			helpers.assertAllScrolls( element, doc, [ 111, 222, 0, 0 ] );
 
-			ckEl.setDocumentScrollPosition( 0 );
-			this._assertBothScrolls( { x: 23, y: 0 }, ckEl.getDocumentScrollPosition() );
+			element.setScrollPosition( 0 );
+			helpers.assertAllScrolls( element, doc, [ 0, 222, 0, 0 ] );
 
-			ckEl.setDocumentScrollPosition( 0, 0 );
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getDocumentScrollPosition() );
+			element.setScrollPosition( 123 );
+			helpers.assertAllScrolls( element, doc, [ 123, 222, 0, 0 ] );
+
+			element.setScrollPosition( 0, 0 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 0 ] );
 		},
 
-		'test setScrollPosition': function() {
-			var element = document.getElementById( 'small' ),
-				ckEl = new CKEDITOR.dom.element( element );
+		'test setScrollPosition for document': function() {
+			var element = new CKEDITOR.dom.element( document.getElementById( 'small' ) ),
+				doc = element.getDocument();
 
-			ckEl.setScrollPosition( 0, 0 );
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getScrollPosition() );
+			helpers.resetScrolls( element.$ );
 
-			ckEl.setScrollPosition( 100 );
-			this._assertBothScrolls( { x: 0, y: 100 }, ckEl.getScrollPosition() );
+			doc.setScrollPosition( 0, 0 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 0 ] );
 
-			ckEl.setScrollPosition( 123, 23 );
-			this._assertBothScrolls( { x: 23, y: 123 }, ckEl.getScrollPosition() );
+			doc.setScrollPosition( 55, 77 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 55, 77 ] );
 
-			ckEl.setScrollPosition( 0 );
-			this._assertBothScrolls( { x: 23, y: 0 }, ckEl.getScrollPosition() );
+			doc.setScrollPosition( 0 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 77 ] );
 
-			ckEl.setScrollPosition( 0, 0 );
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getScrollPosition() );
+			doc.setScrollPosition( 33 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 33, 77 ] );
+
+			doc.setScrollPosition( 0, 0 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 0 ] );
+
+		},
+
+		'test setDocumentScrollPosition for element': function() {
+			var element = new CKEDITOR.dom.element( document.getElementById( 'small' ) ),
+				doc = element.getDocument();
+
+			helpers.resetScrolls( element.$ );
+
+			element.setDocumentScrollPosition( 0, 0 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 0 ] );
+
+			element.setDocumentScrollPosition( 87, 65 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 87, 65 ] );
+
+			element.setDocumentScrollPosition( 0 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 65 ] );
+
+			element.setDocumentScrollPosition( 43 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 43, 65 ] );
+
+			element.setDocumentScrollPosition( 0, 0 );
+			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 0 ] );
 		}
 
 	} );
