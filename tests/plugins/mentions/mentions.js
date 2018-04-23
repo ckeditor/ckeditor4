@@ -148,6 +148,34 @@
 			ajaxStub.restore();
 		},
 
+		'test URL gets encoded': function() {
+			var editor = this.editor,
+				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
+					callback( JSON.stringify( [] ) );
+				} ),
+				mentions = new CKEDITOR.plugins.mentions( editor, {
+					feed: '/controller/method/?query={encodedQuery}&format=json'
+				} );
+
+			// Artificially faked callback to consider non-standard chars.
+			mentions.autocomplete.textWatcher.callback = function() {
+				return {
+					text: '@F&/oo',
+					range: editor.getSelection().getRanges()[ 0 ]
+				};
+			};
+
+			this.editorBot.setHtmlWithSelection( '<p>@F&/oo^</p>' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			mentions.destroy();
+			ajaxStub.restore();
+
+			assert.areSame( 1, ajaxStub.callCount, 'AJAX call count' );
+			sinon.assert.calledWith( ajaxStub, '/controller/method/?query=F%26%2Foo&format=json', sinon.match.any );
+		},
+
 		'test URL feed without match': function() {
 			var editor = this.editor, bot = this.editorBot,
 				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
@@ -232,14 +260,14 @@
 
 			customAssert && customAssert( opts, data );
 			callback( data );
-		}
+		};
 	}
 
 	function failureFeed( customAssert ) {
 		return function( opts, callback ) {
 			customAssert && customAssert( opts );
 			callback( [] );
-		}
+		};
 	}
 
 } )();
