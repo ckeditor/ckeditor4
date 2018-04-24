@@ -51,7 +51,7 @@
 			assert.isTrue( spy.calledOnce );
 		},
 
-		'test unmach text on blur': function() {
+		'test unmatch text on blur': function() {
 			var editor = this.editor,
 				spy = sinon.spy( attachTextWatcher( editor ), 'unmatch' );
 
@@ -60,7 +60,7 @@
 			assert.isTrue( spy.calledOnce );
 		},
 
-		'test unmach text on beforeModeUnload': function() {
+		'test unmatch text on beforeModeUnload': function() {
 			var editor = this.editor,
 				spy = sinon.spy( attachTextWatcher( editor ), 'unmatch' );
 
@@ -69,7 +69,7 @@
 			assert.isTrue( spy.calledOnce );
 		},
 
-		'test unmach text on setData': function() {
+		'test unmatch text on setData': function() {
 			var editor = this.editor,
 				spy = sinon.spy( attachTextWatcher( editor ), 'unmatch' );
 
@@ -110,7 +110,7 @@
 		},
 
 		'test check with ignoreNext ignores next check': function() {
-			var editor = this.editor, bot = this.editorBot,
+			var editor = this.editor,
 				callbackCount = 0,
 				textMatcher = attachTextWatcher( editor, function() {
 					callbackCount++;
@@ -125,7 +125,7 @@
 		},
 
 		'test check ignores control keys': function() {
-			var editor = this.editor, bot = this.editorBot,
+			var editor = this.editor,
 				callbackCount = 0, keyName = 'keyup',
 				textMatcher = attachTextWatcher( editor, function() {
 					callbackCount++;
@@ -140,7 +140,7 @@
 		},
 
 		'test check ignored without proper selection': function() {
-			var editor = this.editor, bot = this.editorBot,
+			var editor = this.editor,
 				callbackCount = 0,
 				textMatcher = attachTextWatcher( editor, function() {
 					callbackCount++;
@@ -157,7 +157,7 @@
 			var editor = this.editor, bot = this.editorBot,
 				expectedMatch = 'Lorem ipsum dolor sit amet, consectetur.',
 				textMatcher = attachTextWatcher( editor, function() {
-					return { text: expectedMatch }
+					return { text: expectedMatch };
 				} ),
 				spy = sinon.spy( textMatcher, 'fire' );
 
@@ -173,7 +173,7 @@
 			var editor = this.editor, bot = this.editorBot,
 				expectedMatch = 'Lorem ipsum dolor sit amet, consectetur.',
 				textMatcher = attachTextWatcher( editor, function() {
-					return { text: expectedMatch }
+					return { text: expectedMatch };
 				} ),
 				spy = sinon.spy( textMatcher, 'fire' );
 
@@ -191,14 +191,14 @@
 				} ),
 				spy = sinon.spy( textMatcher, 'unmatch' );
 
-			textMatcher.lastMatched = 'Lorem ipsum dolor sit amet, consectetur.'
+			textMatcher.lastMatched = 'Lorem ipsum dolor sit amet, consectetur.';
 
 			bot.setHtmlWithSelection( 'Lorem ipsum dolor ^sit amet, consectetur.' );
 
 			textMatcher.check( {} );
 
 			assert.isTrue( spy.calledOnce );
-		},
+		}
 
 	} );
 
@@ -214,7 +214,7 @@
 					return keyCode;
 				}
 			}
-		}
+		};
 	}
 
 } )();
