@@ -7,6 +7,32 @@
 
 	bender.test( {
 
+		'test destroy': function() {
+			var editor = this.editor,
+				textwatcher = attachTextWatcher( editor ),
+				checkSpy = sinon.spy( textwatcher, 'check' ),
+				unmatchSpy = sinon.spy( textwatcher, 'unmatch' );
+
+			textwatcher.destroy();
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			assert.isFalse( checkSpy.called, 'Check called on keyup' );
+
+			editor.fire( 'blur', new CKEDITOR.dom.event( {} ) );
+			assert.isFalse( unmatchSpy.called, 'Unmatch called on blur' );
+
+			editor.fire( 'beforeModeUnload', new CKEDITOR.dom.event( {} ) );
+			assert.isFalse( unmatchSpy.called, 'Unmatch called on beforeModeUnload' );
+
+			editor.fire( 'setData', new CKEDITOR.dom.event( {} ) );
+			assert.isFalse( unmatchSpy.called, 'Unmatch called on setData' );
+
+			editor.fire( 'afterCommandExec', new CKEDITOR.dom.event( {} ) );
+			assert.isFalse( unmatchSpy.called, 'Unmatch called on afterCommandExec' );
+
+			assert.areEqual( 0, textwatcher._listeners.length, 'Listeners has not been emptied' );
+		},
+
 		'test checks text on keyup': function() {
 			var editor = this.editor,
 				spy = sinon.spy( attachTextWatcher( editor ), 'check' );

@@ -315,6 +315,8 @@
 				obj.removeListener();
 			} );
 
+			this._listeners = [];
+
 			this.view.element.remove();
 		},
 
