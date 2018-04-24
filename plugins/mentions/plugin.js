@@ -218,7 +218,7 @@
 			// Feed is a URL to be requested for a JSON of matches e.g. `/user-controller/get-list/{encodedQuery}`.
 			else if ( typeof feed === 'string' ) {
 				var encodedQueryRegex = new RegExp( ENCODED_QUERY, 'g' ),
-					encodedUrl = feed.replace( encodedQueryRegex, query );
+					encodedUrl = feed.replace( encodedQueryRegex, encodeURIComponent( query ) );
 
 				CKEDITOR.ajax.load( encodedUrl, function( data ) {
 					callback( JSON.parse( data ) );
