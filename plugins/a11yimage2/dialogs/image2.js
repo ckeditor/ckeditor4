@@ -419,11 +419,13 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 						type: 'fieldset',
 						label: lang.typeOfImage,
 						title: lang.typeOfImageTitle,
+						style: 'margin-top: 5px;',
 						children: [
 							{
 								id: 'imageType',
 								type: 'radio',
 								'default': 'simple',
+								style: 'margin-top: 7px;',
 								items: [
 									[ lang.typeSimple, 'simple' ],
 									[ lang.typeComplex, 'complex' ],
@@ -525,7 +527,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								id: 'isSimpleMsg',
 								type: 'html',
 								class: 'a11yfirst_html',
-								html: '<p style="margin-top: 3px; font-style: italic">' + lang.typeSimpleHelp + '</p>',
+								html: '<p style="margin-top: 10px; font-style: italic">' + lang.typeSimpleHelp + '</p>',
 								setup: function( widget ) {
 									this.getElement().show();
 								}
@@ -534,7 +536,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								id: 'isComplexMsg',
 								type: 'html',
 								class: 'a11yfirst_html',
-								html: '<p style="margin-top: 3px; font-style: italic">' + lang.typeComplexHelp + '</p>',
+								html: '<p style="margin-top: 10px; font-style: italic">' + lang.typeComplexHelp + '</p>',
 								setup: function( widget ) {
 									this.getElement().hide();
 								}
@@ -543,7 +545,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								id: 'isDecorativeMsg',
 								type: 'html',
 								class: 'a11yfirst_html',
-								html: '<p style="margin-top: 3px; font-style: italic">' + lang.typeDecorativeHelp + '</p>',
+								html: '<p style="margin-top: 10px; font-style: italic">' + lang.typeDecorativeHelp + '</p>',
 								setup: function( widget ) {
 									this.getElement().hide();
 								}
@@ -554,7 +556,8 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 						id: 'imageDescFieldset',
 						type: 'fieldset',
 						label: lang.imageDesc,
-						children: [
+						style: 'margin-top: 7px;',
+					  children: [
 							{
 								type: 'hbox',
 								widths: [ '90%', '10%' ],
@@ -925,7 +928,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 					{
 						id: 'imageAlignFieldset',
 						type: 'fieldset',
-						style: 'margin-top: 5px',
+						style: 'margin-top: 7px',
     				label: commonLang.align,
 						children: [
 							{
