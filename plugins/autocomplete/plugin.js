@@ -440,7 +440,7 @@
 			} else if ( keyCode == 38 ) {
 				this.model.selectPrevious();
 				handled = true;
-			// Completition keys.
+			// Completion keys.
 			} else if ( CKEDITOR.tools.indexOf( this.commitKeystroke, keyCode ) != -1 ) {
 				this.commit();
 				this.textWatcher.unmatch();
