@@ -24,41 +24,37 @@
 	 * Allows to search in the DOM for matching text using a callback which operates on strings instead of text nodes.
 	 * Returns {@link CKEDITOR.dom.range} and the matching text.
 	 *
-	 *		var range = editor.getSelection().getRanges()[ 0 ];
+	 * ```javascript
+	 *	var range = editor.getSelection().getRanges()[ 0 ];
 	 *
-	 *		CKEDITOR.plugins.textMatch.match( range, function( text, offset ) {
-	 *			// Let's assume that text is 'Special thanks to @jo.' and offset is 21.
-	 *			// The offset "21" means that the caret is between '@jo' and '.'.
+	 *	CKEDITOR.plugins.textMatch.match( range, function( text, offset ) {
+	 *		// Let's assume that text is 'Special thanks to @jo.' and offset is 21.
+	 *		// The offset "21" means that the caret is between '@jo' and '.'.
 	 *
-	 *				// Get the text before the caret.
-	 *			var left = text.slice( 0, offset ),
-	 *				// Will look for a literal '@' character and at least two word characters.
-	 *				match = left.match( /@\w{2,}$/ );
+	 *			// Get the text before the caret.
+	 *		var left = text.slice( 0, offset ),
+	 *			// Will look for a literal '@' character and at least two word characters.
+	 *			match = left.match( /@\w{2,}$/ );
 	 *
-	 *			if ( !match ) {
-	 *				return null;
-	 *			}
+	 *		if ( !match ) {
+	 *			return null;
+	 *		}
 	 *
-	 *			// The matching fragment is the '@jo', which can
-	 *			// be identified by the following offsets: { start: 18, end: 21 }.
-	 *			return { start: match.index, end: offset };
-	 *		} );
+	 *		// The matching fragment is the '@jo', which can
+	 *		// be identified by the following offsets: { start: 18, end: 21 }.
+	 *		return { start: match.index, end: offset };
+	 *	} );
+	 * ```
 	 *
 	 * @member CKEDITOR.plugins.textMatch
 	 * @param {CKEDITOR.dom.range} range A collapsed range &mdash; the position from which the scanning starts.
 	 * Usually the caret position.
 	 * @param {Function} testCallback Callback executed to check if the text matches.
-	 *
-	 * ### Parameters
-	 *
-	 * * `{String} text` The full text to check.
-	 * * `{Number} rangeOffset` Offset of the `range` in the `text` to be checked.
-	 *
-	 * ### Returns
-	 *
-	 * * `{Object/null}` The position of the matching fragment (`null` if nothing matches).
-	 *		* `{Number} start` The offset of the start of the matching fragment.
-	 *		* `{Number} end` The offset of the end of the matching fragment.
+	 * @param {String} testCallback.text The full text to check.
+	 * @param {Number} testCallback.rangeOffset Offset of the `range` in the `text` to be checked.
+	 * @param {Object} [testCallback.return] The position of the matching fragment (`null` if nothing matches).
+	 * @param {Number} testCallback.return.start The offset of the start of the matching fragment.
+	 * @param {Number} testCallback.return.end The offset of the end of the matching fragment.
 	 *
 	 * @returns {Object/null} Object with information about matching text or `null`.
 	 * @returns {String} return.text The matching text.
@@ -108,8 +104,8 @@
 	 * @member CKEDITOR.plugins.textMatch
 	 * @param {CKEDITOR.dom.range} range
 	 * @returns {Object/null}
-	 * @returns {String} return.text
-	 * @returns {Number} return.offset
+	 * @returns {String} return.text A text in which the DOM range is located.
+	 * @returns {Number} return.offset An offset of the caret.
 	 */
 	CKEDITOR.plugins.textMatch.getTextAndOffset = function( range ) {
 		if ( !range.collapsed ) {
@@ -197,9 +193,9 @@
 	 *
 	 * @member CKEDITOR.plugins.textMatch
 	 * @param {CKEDITOR.dom.range} range
-	 * @param {Number} start
-	 * @param {Number} end
-	 * @returns {CKEDITOR.dom.range}
+	 * @param {Number} start A start offset.
+	 * @param {Number} end An end offset.
+	 * @returns {CKEDITOR.dom.range} Transformed range.
 	 */
 	CKEDITOR.plugins.textMatch.getRangeInText = function( range, start, end ) {
 		var resultRange = new CKEDITOR.dom.range( range.root ),
