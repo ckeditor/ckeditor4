@@ -10,141 +10,94 @@
 		expectedFeedData = [ 'Anna', 'Annabelle' ];
 
 	bender.test( {
+
+		setUp: function() {
+			this.createMentionsInstance = function( config ) {
+				this._mentions = new CKEDITOR.plugins.mentions( this.editor, config );
+				return this._mentions;
+			};
+		},
+
+		tearDown: function() {
+			if ( this._mentions ) {
+				this._mentions.destroy();
+			}
+		},
+
 		'test array feed with match': function() {
-			var editor = this.editor, bot = this.editorBot,
-				config = {
-					feed: feedData
-				},
-				mentions = new CKEDITOR.plugins.mentions( editor, config );
-
-			bot.setHtmlWithSelection( '<p>@An^</p>' );
-
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, expectedFeedData );
-
-			mentions.destroy();
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			assertView( this.createMentionsInstance( { feed: feedData } ), expectedFeedData );
 		},
 
 		'test array feed without match': function() {
-			var editor = this.editor, bot = this.editorBot,
-				config = {
-					feed: feedData
-				},
-				mentions = new CKEDITOR.plugins.mentions( editor, config );
-
-			bot.setHtmlWithSelection( '<p>@A^</p>' );
-
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, [] );
-
-			mentions.destroy();
+			this.editorBot.setHtmlWithSelection( '<p>@A^</p>' );
+			assertView( this.createMentionsInstance( { feed: feedData } ), [] );
 		},
 
 		'test array feed with custom minChars': function() {
-			var editor = this.editor, bot = this.editorBot,
-				config = {
-					feed: feedData,
-					minChars: 0
-				},
-				mentions = new CKEDITOR.plugins.mentions( editor, config );
+			this.editorBot.setHtmlWithSelection( '<p>@A^</p>' );
 
-			bot.setHtmlWithSelection( '<p>@A^</p>' );
-
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, expectedFeedData );
-
-			mentions.destroy();
+			assertView( this.createMentionsInstance( {
+				feed: feedData,
+				minChars: 0
+			} ), expectedFeedData );
 		},
 
 		'test array feed with custom marker': function() {
-			var editor = this.editor, bot = this.editorBot,
-				config = {
-					feed: feedData,
-					marker: '$'
-				},
-				mentions = new CKEDITOR.plugins.mentions( editor, config );
+			this.editorBot.setHtmlWithSelection( '<p>$An^</p>' );
 
-			bot.setHtmlWithSelection( '<p>$An^</p>' );
-
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, expectedFeedData );
-
-			mentions.destroy();
+			assertView( this.createMentionsInstance( {
+				feed: feedData,
+				marker: '$'
+			} ), expectedFeedData );
 		},
 
 		'test callback feed with match': function() {
-			var editor = this.editor, bot = this.editorBot,
-				config = {
-					feed: successFeed( function( opts ) {
-							assert.areEqual( '@', opts.marker );
-							assert.areEqual( 'Ann', opts.query );
-						} )
-				},
-				mentions = new CKEDITOR.plugins.mentions( editor, config );
+			this.editorBot.setHtmlWithSelection( '<p>@Ann^</p>' );
 
-			bot.setHtmlWithSelection( '<p>@Ann^</p>' );
-
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, expectedFeedData );
-
-			mentions.destroy();
+			assertView( this.createMentionsInstance( {
+				feed: successFeed( function( opts ) {
+					assert.areEqual( '@', opts.marker );
+					assert.areEqual( 'Ann', opts.query );
+				} )
+			} ), expectedFeedData );
 		},
 
 		'test callback feed without match': function() {
-			var editor = this.editor, bot = this.editorBot,
-				config = {
-					feed: failureFeed( function( opts ) {
-							assert.areEqual( '@', opts.marker );
-							assert.areEqual( 'Th', opts.query );
-						} )
-				},
-				mentions = new CKEDITOR.plugins.mentions( editor, config );
+			this.editorBot.setHtmlWithSelection( '<p>@Th^</p>' );
 
-			bot.setHtmlWithSelection( '<p>@Th^</p>' );
-
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, [] );
-
-			mentions.destroy();
+			assertView( this.createMentionsInstance( {
+				feed: failureFeed( function( opts ) {
+					assert.areEqual( '@', opts.marker );
+					assert.areEqual( 'Th', opts.query );
+				} )
+			} ), [] );
 		},
 
 		'test callback feed with custom marker': function() {
-			var editor = this.editor, bot = this.editorBot,
-				config = {
-					marker: '#',
-					feed: successFeed( function( opts ) {
-							assert.areEqual( '#', opts.marker );
-							assert.areEqual( 'Ann', opts.query );
-						} )
-				},
-				mentions = new CKEDITOR.plugins.mentions( editor, config );
+			this.editorBot.setHtmlWithSelection( '<p>#Ann^</p>' );
 
-			bot.setHtmlWithSelection( '<p>#Ann^</p>' );
-
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, expectedFeedData );
-
-			mentions.destroy();
+			assertView( this.createMentionsInstance( {
+				marker: '#',
+				feed: successFeed( function( opts ) {
+					assert.areEqual( '#', opts.marker );
+					assert.areEqual( 'Ann', opts.query );
+				} )
+			} ), expectedFeedData );
 		},
 
 		'test URL feed with match': function() {
-			var editor = this.editor, bot = this.editorBot,
-				data = [ { id: 1, name: 'Anna' }, { id: 2, name: 'Annabelle' } ],
+			var data = [ { id: 1, name: 'Anna' }, { id: 2, name: 'Annabelle' } ],
 				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
 					assert.areEqual( '/controller/method/Ann', url );
 					callback( JSON.stringify( data ) );
-				} ),
-				config = {
-					feed: '/controller/method/{encodedQuery}'
-				},
-				mentions = new CKEDITOR.plugins.mentions( editor, config );
+				} );
 
-			bot.setHtmlWithSelection( '<p>@Ann^</p>' );
+			this.editorBot.setHtmlWithSelection( '<p>@Ann^</p>' );
 
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, expectedFeedData );
-
-			mentions.destroy();
+			assertView( this.createMentionsInstance( {
+				feed: '/controller/method/{encodedQuery}'
+			} ), expectedFeedData );
 
 			ajaxStub.restore();
 		},
@@ -154,7 +107,7 @@
 				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
 					callback( JSON.stringify( [] ) );
 				} ),
-				mentions = new CKEDITOR.plugins.mentions( editor, {
+				mentions = this.createMentionsInstance( {
 					feed: '/controller/method/?query={encodedQuery}&format=json'
 				} );
 
@@ -170,7 +123,6 @@
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			mentions.destroy();
 			ajaxStub.restore();
 
 			assert.areSame( 1, ajaxStub.callCount, 'AJAX call count' );
@@ -178,46 +130,33 @@
 		},
 
 		'test URL feed without match': function() {
-			var editor = this.editor, bot = this.editorBot,
-				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
-					assert.areEqual( '/controller/method/Th', url );
-					callback( null );
-				} ),
-				config = {
-					feed: '/controller/method/{encodedQuery}'
-				},
-				mentions = new CKEDITOR.plugins.mentions( editor, config );
+			var ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
+				assert.areEqual( '/controller/method/Th', url );
+				callback( null );
+			} );
 
-			bot.setHtmlWithSelection( '<p>@Th^</p>' );
+			this.editorBot.setHtmlWithSelection( '<p>@Th^</p>' );
 
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, [] );
-
-			mentions.destroy();
+			assertView( this.createMentionsInstance( {
+				feed: '/controller/method/{encodedQuery}'
+			} ), [] );
 
 			ajaxStub.restore();
 		},
 
 		'test feed with custom template': function() {
-			var editor = this.editor, bot = this.editorBot,
-				config = {
-					feed: feedData,
-					template: '<li data-id="{id}">{name} is the best!</li>'
-				},
-				mentions = new CKEDITOR.plugins.mentions( editor, config );
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
 
-			bot.setHtmlWithSelection( '<p>@An^</p>' );
-
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assertView( mentions, [ 'Anna is the best!', 'Annabelle is the best!' ] );
-
-			mentions.destroy();
+			assertView( this.createMentionsInstance( {
+				feed: feedData,
+				template: '<li data-id="{id}">{name} is the best!</li>'
+			} ), [ 'Anna is the best!', 'Annabelle is the best!' ] );
 		},
 
 		'test attach mentions from configuration': function() {
 			var config = {
-					mentions: [ { feed: feedData } ]
-				};
+				mentions: [ { feed: feedData } ]
+			};
 
 			bender.editorBot.create( { name: 'editor_config_attach', config: config }, function( bot ) {
 				var editor = bot.editor,
@@ -225,7 +164,6 @@
 
 				bot.setHtmlWithSelection( '<p>@An^</p>' );
 
-				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 				assertView( mentions, expectedFeedData );
 
 				mentions.destroy();
@@ -234,6 +172,9 @@
 	} );
 
 	function assertView( mentions, matches ) {
+		// Fire keyup event on editable to trigger text matching and open autocomplete view if it matches.
+		mentions.autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
 		var viewElement = mentions.autocomplete.view.element,
 			isOpened = viewElement.hasClass( 'cke_autocomplete_opened' ),
 			items = viewElement.find( 'li' ),
