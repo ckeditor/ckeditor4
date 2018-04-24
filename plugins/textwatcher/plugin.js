@@ -243,6 +243,7 @@
 			CKEDITOR.tools.array.forEach( this._listeners, function( obj ) {
 				obj.removeListener();
 			} );
+			this._listeners = [];
 		}
 	};
 
