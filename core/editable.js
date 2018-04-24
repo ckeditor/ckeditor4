@@ -2528,22 +2528,22 @@
 			endPath = range.endPath(),
 			endBlock = endPath.block;
 
-		var selectionInTwoDifferentBlocks = !startBlock || !endBlock || startBlock.equals( endBlock );
+		var selectionInSameBlock = !startBlock || !endBlock || startBlock.equals( endBlock );
 		var hasBoundariesInTable = range.startContainer.getAscendant( 'table', true ) || range.endContainer.getAscendant( 'table', true );
 
 		// Selection must be anchored in two different blocks
 		// Boundary block is not in table (block elements are empty there).
-		if ( selectionInTwoDifferentBlocks && !hasBoundariesInTable ) {
+		if ( selectionInSameBlock && !hasBoundariesInTable ) {
 			return false;
 		}
 
 		editor.fire( 'saveSnapshot' );
 
 		// Remove bogus to avoid duplicated boguses.
-		var bogus;
-		if ( ( bogus = startBlock && startBlock.getBogus() ) )
+		var bogus = startBlock && startBlock.getBogus();
+		if ( bogus ) {
 			bogus.remove();
-
+		}
 
 		// Remove selected content. Handle cases when list, tables, etc. are partially selected (#541).
 		editor.extractSelectedHtml();

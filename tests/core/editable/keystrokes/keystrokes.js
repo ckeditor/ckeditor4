@@ -97,10 +97,10 @@ bender.test( {
 		'<table><tbody><tr><td><p><b><i>[foo]</i></b></p></td></tr></tbody></table>' ,
 		'^', 'table b2' );
 
-		// Adverse tests.
+		// Since #541 webkit browsers will process this markup other remain it untouched to be processed natively by the browser.
 		this.assertKeystroke( DEL, 0,
 		'<table><tbody><tr><td>[foo]bar</td></tr></tbody></table>' ,
-		'(not handled)', 'table r1' );
+		CKEDITOR.env.webkit ? '<table><tbody><tr><td>^bar</td></tr></tbody></table>' : '(not handled)', 'table r1' );
 
 		// Make sure that the modifiers are ignored.
 		// https://dev.ckeditor.com/ticket/11861#comment:13
@@ -170,12 +170,12 @@ bender.test( {
 	},
 
 	// https://dev.ckeditor.com/ticket/13096
-    'test deleting text without selection with DEL key': function() {
+	'test deleting text without selection with DEL key': function() {
 		var editor = this.editor,
 			bot = this.editorBot;
 		editor.focus();
 
-		bot.setHtmlWithSelection('<p>^Foo</p>');
+		bot.setHtmlWithSelection( '<p>^Foo</p>' );
 		editor.getSelection().removeAllRanges();
 		editor.fire( 'key', {
 			domEvent: {
@@ -192,7 +192,7 @@ bender.test( {
 			bot = this.editorBot;
 
 		editor.focus();
-		bot.setHtmlWithSelection('<p>^Foo</p>');
+		bot.setHtmlWithSelection( '<p>^Foo</p>' );
 		editor.getSelection().removeAllRanges();
 		editor.fire( 'key', {
 			domEvent: {
