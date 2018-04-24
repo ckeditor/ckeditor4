@@ -2,6 +2,7 @@
 /* bender-ckeditor-plugins: mentions */
 
 ( function() {
+	'use strict';
 
 	bender.editor = true;
 
