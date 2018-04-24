@@ -204,17 +204,41 @@
 		},
 
 		'test view position below viewport': function() {
+			// +---------------------------------------------+
+			// |       editor viewport                       |
+			// |                                             |
+			// |     +--------------+                        |
+			// |     |              |                        |
+			// |     |     view     |                        |
+			// |     |              |                        |
+			// +-----+==============+------------------------+
+			// |																						 |
+			// |     █ - caret position                      |
+			// |                                             |
+			// +---------------------------------------------+
 			var view = createPositionedView( this.editors.classic, {
 				caretRect: { top: 400, bottom: 410, left: 100 },
 				editorViewportRect: { top: 0, bottom: 300 },
 				viewPanelHeight: 100
 			} );
 
-			assert.areEqual( '300px', view.element.getStyle( 'top' ) );
+			assert.areEqual( '200px', view.element.getStyle( 'top' ) );
 			assert.areEqual( '100px', view.element.getStyle( 'left' ) );
 		},
 
-		'test set position below outside absolute rect': function() {
+		'test view position above viewport': function() {
+			// +---------------------------------------------+
+			// |																						 |
+			// |     █ - caret position                      |
+			// |                                             |
+			// +-----+==============+------------------------+
+			// |     |              |                        |
+			// |     |     view     |                        |
+			// |     |              |                        |
+			// |     +--------------+                        |
+			// |																						 |
+			// |       editor viewport                       |
+			// +---------------------------------------------+
 			var view = createPositionedView( this.editors.classic, {
 				caretRect: { top: 100, bottom: 110, left: 50 },
 				editorViewportRect: { top: 200, bottom: 500 },
