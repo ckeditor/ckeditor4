@@ -24,51 +24,48 @@
 	 *
 	 * Example:
 	 *
-	 *		function textTestCallback( range ) {
-	 *			// We don't want to autocomplete a non-empty selection.
-	 *			if ( !range.collapsed ) {
-	 *				return null;
-	 *			}
-	 *
-	 *			// Use the textmatch plugin which does the tricky job of doing
-	 *			// a text search in the DOM. The matchCallback function should return
-	 *			// a matching fragment of the text.
-	 *			return CKEDITOR.plugins.textMatch.match( range, matchCallback );
+	 * ```javascript
+	 *	function textTestCallback( range ) {
+	 *		// We don't want to autocomplete a non-empty selection.
+	 *		if ( !range.collapsed ) {
+	 *			return null;
 	 *		}
 	 *
-	 *		function matchCallback( text, offset ) {
-	 *				// Get the text before the caret.
-	 *			var left = text.slice( 0, offset ),
-	 *				// Will look for an '@' character followed by word characters.
-	 *				match = left.match( /@\w*$/ );
+	 *		// Use the textmatch plugin which does the tricky job of doing
+	 *		// a text search in the DOM. The matchCallback function should return
+	 *		// a matching fragment of the text.
+	 *		return CKEDITOR.plugins.textMatch.match( range, matchCallback );
+	 *	}
 	 *
-	 *			if ( !match ) {
-	 *				return null;
-	 *			}
-	 *			return { start: match.index, end: offset };
+	 *	function matchCallback( text, offset ) {
+	 *			// Get the text before the caret.
+	 *		var left = text.slice( 0, offset ),
+	 *			// Will look for an '@' character followed by word characters.
+	 *			match = left.match( /@\w*$/ );
+	 *
+	 *		if ( !match ) {
+	 *			return null;
 	 *		}
+	 *		return { start: match.index, end: offset };
+	 *	}
 	 *
-	 *		// Initilize the text watcher.
-	 *		var textWatcher = new CKEDITOR.plugins.textWatcher( editor, textTestCallback );
-	 *		// Starts listening.
-	 *		textWatcher.attach();
+	 *	// Initialize the text watcher.
+	 *	var textWatcher = new CKEDITOR.plugins.textWatcher( editor, textTestCallback );
+	 *	// Starts listening.
+	 *	textWatcher.attach();
+	 * ```
 	 *
 	 * @class CKEDITOR.plugins.textWatcher
+	 * @since 4.10.0
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates the text watcher instance.
 	 * @param {CKEDITOR.editor} editor The editor instance to watch in.
 	 * @param {Function} callback Callback executed when the text watcher
 	 * thinks that something might have changed.
-	 *
-	 * ### Parameters
-	 *
-	 * * `{CKEDITOR.dom.range} range` The selection range.
-	 *
-	 * ### Returns
-	 *
-	 * * `{Object/null}` Matching text data (`null` if nothing matches).
-	 *		* `{String} text` The matching text.
-	 *		* `{CKEDITOR.dom.range} range` Range in the DOM for the text that matches.
+	 * @param {CKEDITOR.dom.range} callback.range The range representing the caret position.
+	 * @param {Object} [callback.return=null] Matching text data (`null` if nothing matches).
+	 * @param {String} callback.return.text The matching text.
+	 * @param {CKEDITOR.dom.range} callback.return.range Range in the DOM for the text that matches.
 	 */
 	function TextWatcher( editor, callback ) {
 		/**
@@ -140,6 +137,8 @@
 	TextWatcher.prototype = {
 		/**
 		 * Attaches the text watcher to the {@link #editor}.
+		 *
+		 * @chainable
 		 */
 		attach: function() {
 			var editor = this.editor;
