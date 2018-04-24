@@ -260,8 +260,10 @@
 	}
 
 	function assertViewElement( editor, element ) {
-		var zIndex = editor.config.baseFloatZIndex - 3;
-		assert.areEqual( '<ul class="cke_autocomplete_panel" style="z-index: ' + zIndex + ';"></ul>', element.$.outerHTML );
+		var zIndex = editor.config.baseFloatZIndex - 3,
+			expectedHtml = '<ul class="cke_autocomplete_panel" style="z-index: ' + zIndex + ';"></ul>';
+
+		assert.areEqual( expectedHtml, bender.tools.compatHtml( element.$.outerHTML, false, true ) );
 	}
 
 	function assertItemElement( item, itemElement ) {
