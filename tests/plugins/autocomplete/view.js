@@ -184,11 +184,11 @@
 			// +---------------------------------------------+
 			// |       editor viewport                       |
 			// |                                             |
+			// |                                             |
+			// |                                             |
 			// |     █ - caret position                      |
 			// |     +--------------+                        |
-			// |     |              |                        |
 			// |     |     view     |                        |
-			// |     |              |                        |
 			// |     +--------------+                        |
 			// |                                             |
 			// |                                             |
@@ -203,7 +203,7 @@
 			assert.areEqual( '50px', view.element.getStyle( 'left' ) );
 		},
 
-		'test set position above outside absolute rect': function() {
+		'test view position below viewport': function() {
 			var view = createPositionedView( this.editors.classic, {
 				caretRect: { top: 400, bottom: 410, left: 100 },
 				editorViewportRect: { top: 0, bottom: 300 },
