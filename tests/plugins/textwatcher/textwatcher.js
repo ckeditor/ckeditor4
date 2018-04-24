@@ -2,6 +2,7 @@
 /* bender-ckeditor-plugins: textwatcher */
 
 ( function() {
+	'use strict';
 
 	bender.editor = true;
 

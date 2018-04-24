@@ -2,6 +2,7 @@
 /* bender-ckeditor-plugins: autocomplete, caretposition */
 
 ( function() {
+	'use strict';
 
 	bender.editors = {
 		classic: {

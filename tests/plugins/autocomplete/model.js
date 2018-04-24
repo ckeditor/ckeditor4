@@ -2,6 +2,7 @@
 /* bender-ckeditor-plugins: autocomplete */
 
 ( function() {
+	'use strict';
 
 	bender.editor = true;
 
