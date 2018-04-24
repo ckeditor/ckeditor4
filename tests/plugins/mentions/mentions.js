@@ -21,6 +21,7 @@
 		tearDown: function() {
 			if ( this._mentions ) {
 				this._mentions.destroy();
+				this._mentions = null;
 			}
 		},
 
