@@ -796,7 +796,7 @@
 			// |                                             |
 			// +---------------------------------------------+
 			if ( editorViewportRect.bottom < rect.bottom ) {
-				top = editorViewportRect.bottom - viewHeight;
+				top = Math.min( rect.top - viewHeight, editorViewportRect.bottom - viewHeight );
 			}
 
 			// If the caret position is above the view - keep it at the top edge.
@@ -813,7 +813,7 @@
 			// |       editor viewport                       |
 			// +---------------------------------------------+
 			if ( editorViewportRect.top > rect.top ) {
-				top = editorViewportRect.top;
+				top = Math.max( rect.bottom, editorViewportRect.top );
 			}
 
 			this.element.setStyles( {
