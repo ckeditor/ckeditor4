@@ -1,6 +1,6 @@
 @bender-tags: 4.10, feature, 1566
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, easyimage, sourcearea
+@bender-ckeditor-plugins: wysiwygarea, toolbar, easyimage, sourcearea, undo
 @bender-include: ../../widget/_helpers/tools.js
 
 Testing integration of `CKEDITOR.style` with `easyimage` widgets
