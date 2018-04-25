@@ -3,29 +3,16 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, image2, link, sourcearea, undo
 @bender-include: ../../widget/_helpers/tools.js
 
-Testing adding classes, styles and attributes to widget
+Testing integration of `CKEDITOR.style` with `image2` widgets
 
-1. Focus widget
-1. Press first button without icon on toolbar
-	### Expected
-	- Widget changes its background color to red
-	- Widget floats to right
-	- Text size changes to 48
-	- Text aligns to right
+# Notes for tester:
 
-1. Open source
-	### Expected
-	Widget div has following attributes:
-	- `class` contains `test`
-	- `id = 'test'`
-	- `style` contains following: `font-size: 48px;`, `float: right`, `width: 200px`
-
-1. Leave source
-1. Focus widget again
-1. Press second button
-	### Expected
-	All changes on styling are reverted, background color, text align and text size.
-
-1. open source again
-	### Expected
-	Widget has no `id` attribute, `class` doesn't contain `test` and `style` contains only `width: 200px`
+* Start with focusing widget. Area below widget will display focused widget `styleDefinition` and `data`.
+* If no widget is focused output will present registered widget with lowest id.
+* Buttons with no icons will add/remove styles just as button label says:
+	- Border is styled via inline styles,
+	- Font is styled via CSS classes.
+* Test adding/removing various styles to widget.
+* Test if styles are preserved after copy/paste.
+* Test if styles are preserved after going into and back from `sourcemode`.
+* Test undo integration.

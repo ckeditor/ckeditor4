@@ -5,27 +5,19 @@
 
 Testing adding classes, styles and attributes to widget
 
-1. Focus widget
-1. Press first button without icon on toolbar
-	### Expected
-	- Widget changes its background color to red
-	- Widget floats to right
-	- Text size changes to 48
-	- Text aligns to right
+# Notes for tester:
 
-1. Open source
-	### Expected
-	Widget div has following attributes:
-	- `class` contains `test`
-	- `id = 'test'`
-	- `style` contains following: `font-size: 48px;`, `float: right`, `width: 200px`
-
-1. Leave source
-1. Focus widget again
-1. Press second button
-	### Expected
-	All changes on styling are reverted, background color, text align and text size.
-
-1. open source again
-	### Expected
-	Widget has no `id` attribute, `class` doesn't contain `test` and `style` contains only `width: 200px`
+* Start with focusing widget. Area below widget will display focused widget `styleDefinition` and `data`.
+* If no widget is focused output will present registered widget with lowest id.
+* Buttons with no icons will add/remove style:
+	- `class` contains `test`,
+	- `id = 'test'`,
+	- `style` contains following: `font-size: 48px;`, `float: right`.
+* Predefined attributes are:
+	- `class = 'widget'`,
+	- `style = 'width: 200px'`,
+	- no id.
+* Test adding/removing style to widget.
+* Test if styles are preserved after copy/paste.
+* Test if styles are preserved after going into and back from `sourcemode`.
+* Test undo integration.

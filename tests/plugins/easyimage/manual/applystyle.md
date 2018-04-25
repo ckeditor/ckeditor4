@@ -5,23 +5,14 @@
 
 Testing integration of `CKEDITOR.style` with `easyimage` widgets
 
-# Things to test:
-- Adding various styles
-- Adding and removing classes
-- Styling as 'Side Image' or 'Full Size Image' with balloon toolbar
-- Source mode
-- Cut and paste
+# Notes for tester:
 
-## Expected:
-- Styles are added to widget and reflected in source mode
-- Turning on 'Side Image' or 'Full Size Image' with balloon toolbar work without any interferences to extra styling
-- After cutting and pasting widget styles are the same as before
-
-## Unexpected:
-- Styles/classes are not applied
-- Styles/classes are not reflected in source mode
-- Buttons in balloon toolbar don't work
-
-### Note:
-- You need to focus widget not editable to apply any style
-- Font style will add/remove class `font_big` or `font_italic` not inline styles.
+* Start with focusing widget. Area below widget will display focused widget `styleDefinition` and `data`.
+* If no widget is focused output will present registered widget with lowest id.
+* Buttons with no icons will add/remove styles just as button label says:
+	- Border is styled via inline styles,
+	- Font is styled via CSS classes.
+* Test adding/removing various styles to widget.
+* Test if styles are preserved after copy/paste.
+* Test if styles are preserved after going into and back from `sourcemode`.
+* Test undo integration.
