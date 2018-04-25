@@ -9,7 +9,7 @@
 	bender.test( {
 		'test model is initialized with correct data': function() {
 			var model = new CKEDITOR.plugins.autocomplete.model( dataCallback );
-			assert.isFalse( model.isPanelActive );
+			assert.isFalse( model.isActive );
 			assert.areSame( dataCallback, model.dataCallback );
 		},
 
@@ -118,10 +118,10 @@
 			var model = new CKEDITOR.plugins.autocomplete.model( dataCallback ),
 				spy = sinon.spy( model, 'fire' );
 
-			model.setPanelActive( true );
+			model.setActive( true );
 
-			assert.isTrue( model.isPanelActive );
-			assert.isTrue( spy.calledWith( 'change-isPanelActive', true ) );
+			assert.isTrue( model.isActive );
+			assert.isTrue( spy.calledWith( 'change-isActive', true ) );
 		},
 
 		'test set query sync': function() {
@@ -134,13 +134,13 @@
 						assert.areEqual( expectedRange, range );
 						assert.isNull( model.data );
 
+						var spy = sinon.spy( model, 'fire' );
+
 						callback( expectedData );
 
 						assert.areSame( expectedData, model.data );
 						assert.isTrue( spy.calledWith( 'change-data', expectedData ) );
-					} ),
-
-				spy = sinon.spy( model, 'fire' );
+					} );
 
 			model.setQuery( expectedQuery, expectedRange );
 
@@ -150,25 +150,25 @@
 
 		'test set query async': function() {
 			var expectedQuery = 'query',
-					expectedRange = 'range',
-					expectedData = getData(),
+				expectedRange = 'range',
+				expectedData = getData(),
 
-					model = new CKEDITOR.plugins.autocomplete.model( function( query, range, callback ) {
-						assert.areEqual( expectedQuery, query );
-						assert.areEqual( expectedRange, range );
-						assert.isNull( model.data );
+				model = new CKEDITOR.plugins.autocomplete.model( function( query, range, callback ) {
+					assert.areEqual( expectedQuery, query );
+					assert.areEqual( expectedRange, range );
+					assert.isNull( model.data );
 
-						setTimeout( function() {
-							resume( function() {
-								callback( expectedData );
+					var spy = sinon.spy( model, 'fire' );
 
-								assert.areSame( expectedData, model.data );
-								assert.isTrue( spy.calledWith( 'change-data', expectedData ) );
-							}, 0 );
-						} );
-					} ),
+					setTimeout( function() {
+						resume( function() {
+							callback( expectedData );
 
-				spy = sinon.spy( model, 'fire' );
+							assert.areSame( expectedData, model.data );
+							assert.isTrue( spy.calledWith( 'change-data', expectedData ) );
+						}, 0 );
+					} );
+				} );
 
 			model.setQuery( expectedQuery, expectedRange );
 
@@ -186,7 +186,7 @@
 			{ id: 1 },
 			{ id: 2 },
 			{ id: 3 }
-		]
+		];
 	}
 
 } )();
