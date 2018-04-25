@@ -140,6 +140,10 @@
 						return false;
 					}
 
+					if ( element.attributes.src && element.attributes.src.match( /^blob:https?:\/\// ) ) {
+						element.attributes.src = convertBlobUrlToBase64( element.attributes.src );
+					}
+
 				},
 				'p': function( element ) {
 					element.filterChildren( filter );
@@ -2406,6 +2410,42 @@
 		for ( i = 0; i < children.length; i++ ) {
 			innermostElement.add( children[ i ] );
 		}
+	}
+
+	function convertBlobUrlToBase64( src ) {
+		var arrayBuffer = CKEDITOR.ajax.load( src, null, { responseType: 'arraybuffer' } );
+		var data = new Uint8Array( arrayBuffer );
+		var fileType = '';
+		var header = getFileHeader( data.subarray( 0, 4 ) );
+
+		var base64 = CKEDITOR.tools.convertBytesToBase64( data );
+
+		switch ( header ) {
+			case '89504e47':
+				fileType = 'image/png';
+				break;
+			case '47494638':
+				fileType = 'image/gif';
+				break;
+			case 'ffd8ffe0':
+			case 'ffd8ffe1':
+			case 'ffd8ffe2':
+			case 'ffd8ffe3':
+			case 'ffd8ffe8':
+				fileType = 'image/jpeg';
+				break;
+		}
+
+		return fileType ? 'data:' + fileType + ';base64,' + base64 : src;
+
+		function getFileHeader( arr ) {
+			var header = '';
+			for ( var i = 0; i < arr.length; i++ ) {
+				header += arr[ i ].toString( 16 );
+			}
+			return header;
+		}
+
 	}
 
 	CKEDITOR.plugins.pastefromword.createAttributeStack = createAttributeStack;

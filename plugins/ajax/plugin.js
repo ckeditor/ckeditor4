@@ -65,13 +65,24 @@
 			return null;
 		}
 
-		function load( url, callback, getResponseFn ) {
+		function getResponse( xhr ) {
+			if ( checkStatus( xhr ) && ( xhr.responseType === 'blob' || xhr.responseType === 'arraybuffer' ) ) {
+				return xhr.response;
+			}
+			return null;
+		}
+
+		function load( url, callback, getResponseFn, options ) {
 			var async = !!callback;
 
 			var xhr = createXMLHttpRequest();
 
 			if ( !xhr )
 				return null;
+
+			if ( options && options.responseType ) {
+				xhr.responseType = options.responseType;
+			}
 
 			xhr.open( 'GET', url, async );
 
@@ -87,7 +98,7 @@
 
 			xhr.send( null );
 
-			return async ? '' : getResponseFn( xhr );
+			return async ? '' : getResponseFn( xhr, options.responseType );
 		}
 
 		function post( url, data, contentType, callback, getResponseFn ) {
@@ -132,8 +143,12 @@
 			 * @returns {String} The loaded data. For asynchronous requests, an
 			 * empty string. For invalid requests, `null`.
 			 */
-			load: function( url, callback ) {
-				return load( url, callback, getResponseText );
+			load: function( url, callback, options ) {
+				if ( options && options.responseType === 'blob' || options.responseType === 'arraybuffer' ) {
+					return load( url, callback, getResponse, options );
+				} else {
+					return load( url, callback, getResponseText );
+				}
 			},
 
 			/**
