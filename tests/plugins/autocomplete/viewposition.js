@@ -17,6 +17,12 @@
 	};
 
 	var tests = {
+		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 8 ) {
+				assert.ignore();
+			}
+		},
+
 		'test position not enough space between the caret and bottom viewport': function( editor ) {
 			// +---------------------------------------------+
 			// |                                             |
@@ -149,7 +155,6 @@
 			assert.areEqual( '200px', view.element.getStyle( 'top' ), 'View is displayed below the caret' );
 			assert.areEqual( '50px', view.element.getStyle( 'left' ) );
 		}
-
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
