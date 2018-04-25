@@ -1040,7 +1040,6 @@
 		addClass: function( className ) {
 			this.element.addClass( className );
 			this.wrapper.addClass( Widget.WRAPPER_CLASS_PREFIX + className );
-			addRemoveClassToStyleDef( this, className );
 		},
 
 		/**
@@ -1402,7 +1401,6 @@
 		removeClass: function( className ) {
 			this.element.removeClass( className );
 			this.wrapper.removeClass( Widget.WRAPPER_CLASS_PREFIX + className );
-			addRemoveClassToStyleDef( this, className, 1 );
 		},
 
 		/**
@@ -3514,10 +3512,14 @@
 				// Avoid removing and adding classes again.
 				if ( !( newClasses && newClasses[ cl ] ) ) {
 					this.removeClass( cl );
+					// Adding and removing classes to style definition stays here instead of in widget.removeClass,
+					// other way calling removeClass instead of setData would make it desynchronized.
+					addRemoveClassToStyleDef( this, cl, 1 );
 				}
 			}
 			for ( cl in newClasses ) {
 				this.addClass( cl );
+				addRemoveClassToStyleDef( this, cl );
 			}
 
 			previousClasses = newClasses;
