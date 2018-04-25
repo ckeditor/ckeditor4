@@ -1,7 +1,7 @@
 @bender-tags: 4.10, feature, 1566
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, image, sourcearea
-@bender-include: ../_helpers/tools.js
+@bender-ckeditor-plugins: wysiwygarea, toolbar, image2, link, sourcearea
+@bender-include: ../../widget/_helpers/tools.js
 
 Testing adding classes, styles and attributes to widget
 

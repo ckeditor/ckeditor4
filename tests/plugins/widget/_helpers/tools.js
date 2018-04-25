@@ -359,6 +359,42 @@ var widgetTestsTools = ( function() {
 		} );
 	}
 
+	function writeOutput( widget, output ) {
+		var indent = 0;
+
+		output.setValue( 'Widget ' + widget.id + ': ' + widget.name );
+
+		indent++;
+		output.setValue( output.getValue() + tab() + 'styleDefinition:' );
+		writeOutput( widget.styleDefinition );
+
+		output.setValue( output.getValue() + tab() + 'data:' );
+		writeOutput( widget.data );
+
+		function writeOutput( element ) {
+			for ( var key in element ) {
+				if ( isNaN( key ) ) {
+					indent++;
+					output.setValue( output.getValue() + tab() + key + ': ' + ( typeof element[ key ] !== 'object' ? element[ key ] : '' ) );
+
+					if ( typeof element[ key ] === 'object' ) {
+						writeOutput( element[ key ] );
+					}
+				}
+				indent--;
+			}
+		}
+
+		function tab() {
+			var i = indent,
+				output = '\n';
+			while ( i-- ) {
+				output += '\t';
+			}
+			return output;
+		}
+	}
+
 	return {
 		addTests: addTests,
 		data2Attribute: data2Attr,
@@ -371,6 +407,7 @@ var widgetTestsTools = ( function() {
 		assertDowncast: assertDowncast,
 		assertWidgetDialog: assertWidgetDialog,
 		assertWidget: assertWidget,
+		writeOutput: writeOutput,
 
 		widgetInitedWrapperAttributes:
 			'aria-label="[a-z]+ widget" ' +

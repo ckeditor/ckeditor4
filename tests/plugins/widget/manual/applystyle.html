@@ -2,10 +2,14 @@
 	<div class="widget" style="width: 200px">Test</div>
 </textarea>
 
+<textarea name="output" id="output" cols="40" rows="25" readonly="readonly"></textarea>
+
 <script>
 	CKEDITOR.addCss( '.widget { background: #ccc; border-radius: 3px;padding: 30px;min-height: 70px;}' +
 		'.test { background: red;}' +
 		'#test { text-align: right;}' );
+
+	var writeOutput = widgetTestsTools.writeOutput;
 
 	CKEDITOR.replace( 'editor', {
 		extraPlugins: 'widget,elementspath',
@@ -57,6 +61,29 @@
 					command: 'widgetRmStyle',
 					label: 'Remove style'
 				} );
+			},
+			instanceReady: function() {
+				var output = CKEDITOR.document.getById( 'output' ),
+					widgets = this.widgets,
+					previousWidget;
+
+				this.on( 'selectionChange', function() {
+					if ( previousWidget = widgets.focused ) {
+						writeOutput( widgets.focused, output );
+					}
+				} );
+
+				setInterval( function(){
+					if ( previousWidget && ( previousWidget.id in widgets.instances ) ) {
+						writeOutput( previousWidget, output)
+					} else {
+						for ( var i = 0; i < widgets._.nextId; i++ ) {
+							if ( previousWidget = widgets.instances[ i ] ) {
+								break;
+							}
+						}
+					}
+				}, 100 );
 			}
 		}
 	}, 1);

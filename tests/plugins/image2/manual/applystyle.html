@@ -1,16 +1,20 @@
 <textarea id="editor">
-	<figure class="easyimage easyimage-side">
-		<img alt="foo" src="../../image2/_assets/bar.png"/>
-		<figcaption>Caption text</figcaption>
+<p>
+	<a href="http://cksource.com">
+		<img alt="foo" src="../../image2/_assets/foo.png" />
+	</a>
+	<br>
+	<img alt="foo" src="../../image2/_assets/bar.png" />
+	<figure class="image" style="float:left">
+		<a href="http://cksource.com">
+			<img alt="foo" src="../../image2/_assets/foo.png" />
+		</a>
+		<figcaption>Caption</figcaption></figure>
+	<figure class="image" style="float:right">
+		<img alt="foo" src="../../image2/_assets/bar.png" />
+		<figcaption>Caption</figcaption>
 	</figure>
-	<p>Some text and text and text.</p>
-	<p>Some text and text and text.</p>
-	<p>Some text and text and text.</p>
-	<p>Some text and text and text.</p>
-	<figure class="easyimage easyimage-full">
-		<img alt="foo" src="../../image2/_assets/foo.png"/>
-		<figcaption>Caption text</figcaption>
-	</figure>
+</p>
 </textarea>
 <div id="test_border_buttons">
 	<p>Test inline styles with:</p>
@@ -21,7 +25,6 @@
 </div>
 
 <textarea name="output" id="output" cols="40" rows="25" readonly="readonly"></textarea>
-
 <script>
 	CKEDITOR.addCss(
 		'.font_big { font-size: 24px }' +
@@ -60,7 +63,7 @@
 				function createStyle( config ) {
 					return new CKEDITOR.style( {
 						type: 'widget',
-						widget: 'easyimage',
+						widget: 'image',
 						styles: config.styles,
 						attributes: config.attributes
 					} );
