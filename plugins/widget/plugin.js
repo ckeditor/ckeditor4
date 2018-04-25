@@ -2261,7 +2261,7 @@
 			element = wrapper.getFirst( Widget.isDomWidgetElement );
 			// If wrapper contains widget element - unwrap it and wrap again.
 			if ( element.type == CKEDITOR.NODE_ELEMENT && element.data( 'widget' ) ) {
-				styleDefinition = { attributes: {}, element: element.getName() };
+				styleDefinition = { attributes: {}, styles: {}, element: element.getName() };
 
 				styles = CKEDITOR.tools.parseCssText( wrapper.getAttribute( 'style' ) );
 				if ( styles ) {
@@ -2289,8 +2289,6 @@
 
 				if ( CKEDITOR.tools.objectKeys( styles ).length ) {
 					wrapper.setStyles( styleDefinition.styles );
-				} else {
-					delete styleDefinition.styles;
 				}
 
 				wrapper.setAttribute( 'data-cke-style-definition', JSON.stringify( styleDefinition ) );
