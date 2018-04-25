@@ -17,6 +17,7 @@
 	 *
 	 * @singleton
 	 * @class
+	 * @since 4.10.0
 	 */
 	CKEDITOR.plugins.textMatch = {};
 
@@ -86,20 +87,22 @@
 	 *
 	 * Examples:
 	 *
-	 *		Input: <p>he[]llo</p>
-	 *		Result: { text: 'hello', offset: 2 }
+	 * ```
+	 *	Input: <p>he[]llo</p>
+	 *	Result: { text: 'hello', offset: 2 }
 	 *
-	 *		Input: <p>he.llo{}</p>
-	 *		Result: { text: 'hello', offset: 5 }
+	 *	Input: <p>he.llo{}</p>
+	 *	Result: { text: 'hello', offset: 5 }
 	 *
-	 *		Input: <p>{}he.ll<i>o</i></p>
-	 *		Result: { text: 'hell', offset: 0 }
+	 *	Input: <p>{}he.ll<i>o</i></p>
+	 *	Result: { text: 'hell', offset: 0 }
 	 *
-	 *		Input: <p>he{}<i>ll</i>o<p>
-	 *		Result: { text: 'he', offset: 2 }
+	 *	Input: <p>he{}<i>ll</i>o</p>
+	 *	Result: { text: 'he', offset: 2 }
 	 *
-	 *		Input: <p>he<i>ll</i>o.m{}y.friend<p>
-	 *		Result: { text: 'omyfriend', offset: 2 }
+	 *	Input: <p>he<i>ll</i>o.m{}y.friend</p>
+	 *	Result: { text: 'omyfriend', offset: 2 }
+	 * ```
 	 *
 	 * @member CKEDITOR.plugins.textMatch
 	 * @param {CKEDITOR.dom.range} range
@@ -185,11 +188,13 @@
 	 *
 	 * Examples:
 	 *
-	 *		Input: <p>f{}oo.bar</p>, 0, 3
-	 *		Result: <p>{foo}.bar</p>
+	 * ```
+	 *	Input: <p>f{}oo.bar</p>, 0, 3
+	 *	Result: <p>{foo}.bar</p>
 	 *
-	 *		Input: <p>f{}oo.bar</p>, 1, 5
-	 *		Result: <p>f{oo.ba}r</p>
+	 *	Input: <p>f{}oo.bar</p>, 1, 5
+	 *	Result: <p>f{oo.ba}r</p>
+	 * ```
 	 *
 	 * @member CKEDITOR.plugins.textMatch
 	 * @param {CKEDITOR.dom.range} range
@@ -220,17 +225,19 @@
 	 *
 	 * Examples:
 	 *
-	 *		Input: <p>he.llo{}</p>
-	 *		Result: [ 'he', 'llo' ]
+	 * ```
+	 *	Input: <p>he.llo{}</p>
+	 *	Result: [ 'he', 'llo' ]
 	 *
-	 *		Input: <p>{}he.ll<i>o</i></p>
-	 *		Result:  [ 'he', 'll' ]
+	 *	Input: <p>{}he.ll<i>o</i></p>
+	 *	Result:  [ 'he', 'll' ]
 	 *
-	 *		Input: <p>he{}<i>ll</i>o.<p>
-	 *		Result:  [ 'he' ]
+	 *	Input: <p>he{}<i>ll</i>o.</p>
+	 *	Result:  [ 'he' ]
 	 *
-	 *		Input: <p>he<i>ll</i>{}o.my.friend<p>
-	 *		Result: [ 'o', 'my', 'friend' ]
+	 *	Input: <p>he<i>ll</i>{}o.my.friend</p>
+	 *	Result: [ 'o', 'my', 'friend' ]
+	 * ```
 	 *
 	 * @member CKEDITOR.plugins.textMatch
 	 * @param {CKEDITOR.dom.range} range

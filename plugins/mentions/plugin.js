@@ -26,7 +26,6 @@
 
 	/**
 	 * Mentions plugin allows you to type custom marker character and get suggested values for the usernames so that you don't have to write it on your own.
-	 * Of course, you could use any source of data, but the plugin has been created in thoughts of users data.
 	 *
 	 * The recommended way to add mentions feature to an editor is by
 	 * using {@link CKEDITOR.config#mentions} configuration property or pass it as the configuration option when instantiating an editor.
@@ -67,6 +66,7 @@
 	 * 		mentions: [ { feed: '/user-controller/get-list/{encodedQuery}' } ]
 	 * }
 	 * ```
+	 *
 	 * # Function
 	 * If you want full control of how you feeding mentions feature with data you should take a look at a functional version of the feed.
 	 * It allows you to query the data source and use a callback function to pass data to mentions autocomplete.
@@ -84,6 +84,7 @@
 	 * 	]
 	 * }
 	 * ```
+	 *
 	 * `opts` object contains information about current mentions query and a {@link CKEDITOR.plugins.mentions#marker marker}.
 	 *
 	 * In both situations - using URL string or a function, you should provide correct object structure containing unique user id and a name.
@@ -109,6 +110,7 @@
 	 * ```
 	 *
 	 * @class CKEDITOR.plugins.mentions
+	 * @since 4.10.0
 	 * @constructor Creates the new instance of mentions and attaches it to the editor using {@link CKEDITOR.plugins.autocomplete Autocomplete feature}.
 	 * @param {CKEDITOR.editor} editor The editor to watch.
 	 * @param {Object} config Configuration object keeping information how to instantiate mentions plugin.
@@ -268,6 +270,7 @@
 	 * For each configuration object new {@link CKEDITOR.plugins.mentions Mentions} instance will be created and attached to an editor.
 	 *
 	 * @cfg
+	 * @since 4.10.0
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.mentions = [];
