@@ -359,6 +359,22 @@ var widgetTestsTools = ( function() {
 		} );
 	}
 
+	// Iterates over widgets styleDefinition and data and writes all nested properties into text area. Nested properties are indented.
+	//
+	// Example output:
+	// 	Widget 0: testWidget
+	// 		styleDefinition:
+	// 			attributes:
+	// 				class: widget
+	// 			element: div
+	// 			styles:
+	// 				width: 200px
+	// 		data:
+	// 			classes:
+	// 				widget: 1
+	//
+	// @param {CKEDITOR.plugins.widget}
+	// @param {CKEDITOR.dom.element}
 	function writeOutput( widget, output ) {
 		var indent = 0;
 
@@ -366,19 +382,19 @@ var widgetTestsTools = ( function() {
 
 		indent++;
 		output.setValue( output.getValue() + tab() + 'styleDefinition:' );
-		writeOutput( widget.styleDefinition );
+		setOutputValue( widget.styleDefinition );
 
 		output.setValue( output.getValue() + tab() + 'data:' );
-		writeOutput( widget.data );
+		setOutputValue( widget.data );
 
-		function writeOutput( element ) {
+		function setOutputValue( element ) {
 			for ( var key in element ) {
 				if ( isNaN( key ) ) {
 					indent++;
 					output.setValue( output.getValue() + tab() + key + ': ' + ( typeof element[ key ] !== 'object' ? element[ key ] : '' ) );
 
 					if ( typeof element[ key ] === 'object' ) {
-						writeOutput( element[ key ] );
+						setOutputValue( element[ key ] );
 					}
 				}
 				indent--;
