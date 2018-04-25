@@ -148,12 +148,12 @@
 	 * @param {Function} textTestCallback Callback executed to check if a text next to the selection should open
 	 * the autocomplete. See the {@link CKEDITOR.plugins.textWatcher}'s `callback` argument.
 	 * @param {Function} dataCallback Callback executed to get suggestion data based on search query. The returned data will be
-	 * displayed in the autocomplete panel.
+	 * displayed in the autocomplete view.
 	 * @param {String} dataCallback.query The query string that was accepted by the `textTestCallback`.
 	 * @param {CKEDITOR.dom.range} dataCallback.range The range in the DOM where the query text is.
 	 * @param {Function} dataCallback.callback The callback which should be executed with the data.
 	 * @param {CKEDITOR.plugins.autocomplete.model.item[]} dataCallback.callback.data The suggestion data that should be
-	 * displayed in the autocomplete panel for a given query. The data items should implement the
+	 * displayed in the autocomplete view for a given query. The data items should implement the
 	 * {@link CKEDITOR.plugins.autocomplete.model.item} interface.
 	 */
 	function Autocomplete( editor, textTestCallback, dataCallback ) {
@@ -265,10 +265,10 @@
 		},
 
 		/**
-		 * Closes the panel and sets its {@link CKEDITOR.plugins.autocomplete.model#isPanelActive state} to inactive.
+		 * Closes the view and sets its {@link CKEDITOR.plugins.autocomplete.model#isActive state} to inactive.
 		 */
 		close: function() {
-			this.model.setPanelActive( false );
+			this.model.setActive( false );
 			this.view.close();
 		},
 
@@ -282,7 +282,7 @@
 		 * instead of the currently chosen one.
 		 */
 		commit: function( itemId ) {
-			if ( !this.model.isPanelActive ) {
+			if ( !this.model.isActive ) {
 				return;
 			}
 
@@ -372,7 +372,7 @@
 		 */
 		open: function() {
 			if ( this.model.hasData() ) {
-				this.model.setPanelActive( true );
+				this.model.setActive( true );
 				this.view.open();
 				this.model.selectFirst();
 				this.view.updatePosition();
@@ -386,7 +386,7 @@
 		 * {@link CKEDITOR.editor#change} event listener.
 		 */
 		onChange: function() {
-			if ( this.model.isPanelActive ) {
+			if ( this.model.isActive ) {
 				this.view.updatePosition();
 			}
 		},
@@ -422,7 +422,7 @@
 		 * @param {CKEDITOR.dom.event} evt
 		 */
 		onKeyDown: function( evt ) {
-			if ( !this.model.isPanelActive ) {
+			if ( !this.model.isActive ) {
 				return;
 			}
 
@@ -473,7 +473,7 @@
 		 * @param {CKEDITOR.eventInfo} evt
 		 */
 		onTextMatched: function( evt ) {
-			this.model.setPanelActive( false );
+			this.model.setActive( false );
 			this.model.setQuery( evt.data.text, evt.data.range );
 		},
 
@@ -831,12 +831,12 @@
 		this.dataCallback = dataCallback;
 
 		/**
-		 * Whether the panel is active (i.e. can receive user input like click, key press).
-		 * Can be modified by the {@link #setPanelActive} method which fires the {@link #change-isPanelActive} event.
+		 * Whether the autocomplete is active (i.e. can receive user input like click, key press).
+		 * Can be modified by the {@link #setActive} method which fires the {@link #change-isActive} event.
 		 *
 		 * @readonly
 		 */
-		this.isPanelActive = false;
+		this.isActive = false;
 
 		/**
 		 * ID of the last request for data. Used by the {@link #setQuery} method.
@@ -892,9 +892,9 @@
 		 */
 
 		/**
-		 * Event fired when the {@link #isPanelActive} property changes.
+		 * Event fired when the {@link #isActive} property changes.
 		 *
-		 * @event change-isPanelActive
+		 * @event change-isActive
 		 * @param {Boolean} data The new value
 		 */
 	}
@@ -1016,13 +1016,13 @@
 		},
 
 		/**
-		 * Sets the {@link #isPanelActive} property and fires the {@link #change-isPanelActive} event.
+		 * Sets the {@link #isActive} property and fires the {@link #change-isActive} event.
 		 *
 		 * @param {Boolean} isActive
 		 */
-		setPanelActive: function( isActive ) {
-			this.isPanelActive = isActive;
-			this.fire( 'change-isPanelActive', isActive );
+		setActive: function( isActive ) {
+			this.isActive = isActive;
+			this.fire( 'change-isActive', isActive );
 		},
 
 		/**
