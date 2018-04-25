@@ -222,7 +222,8 @@
 		attach: function() {
 			var editor = this.editor,
 				win = CKEDITOR.document.getWindow(),
-				editorDocument = editor.editable().getDocument();
+				editable = editor.editable(),
+				editorScrollableElement = editable.isInline() ? editable : editable.getDocument();
 
 			this.view.append();
 			this.view.attach();
@@ -238,7 +239,7 @@
 			this._listeners.push( win.on( 'scroll', function() {
 				this.onChange();
 			}, this ) );
-			this._listeners.push( editorDocument.on( 'scroll', function() {
+			this._listeners.push( editorScrollableElement.on( 'scroll', function() {
 				this.onChange();
 			}, this ) );
 
@@ -250,7 +251,7 @@
 			}, this ) );
 
 			// Attach if editor is already initialized.
-			if ( editor.editable() ) {
+			if ( editable ) {
 				onContentDom.call( this );
 			}
 
@@ -258,7 +259,7 @@
 				// Priority 5 to get before the enterkey.
 				// Note: CKEditor's event system has a limitation that one function (in this case this.onKeyDown)
 				// cannot be used as listener for the same event more than once. Hence, wrapper function.
-				this._listeners.push( editor.editable().on( 'keydown', function( evt ) {
+				this._listeners.push( editable.on( 'keydown', function( evt ) {
 					this.onKeyDown( evt );
 				}, this, null, 5 ) );
 			}
@@ -635,7 +636,7 @@
 		},
 
 		/**
-		 * Returns the caret position relative to the panel's offset parent (the `body` element of the host document).
+		 * Returns the caret position relative to the panel's offset parent.
 		 * The value returned by this function is passed to the {@link #setPosition} method
 		 * by the {@link #updatePosition} method.
 		 *
@@ -654,6 +655,18 @@
 			} else {
 				offset = editable.getParent().getDocumentPosition( CKEDITOR.document );
 			}
+
+			// Consider that offset host might be repositioned on its own.
+			// Similar to #1048. See https://github.com/ckeditor/ckeditor-dev/pull/1732#discussion_r182790235.
+			var hostElement = CKEDITOR.document.getBody();
+			if ( hostElement.getComputedStyle( 'position' ) === 'static' ) {
+				hostElement = hostElement.getParent();
+			}
+
+			var offsetCorrection = hostElement.getDocumentPosition();
+
+			offset.x -= offsetCorrection.x;
+			offset.y -= offsetCorrection.y;
 
 			return {
 				top: ( caretClientRect.top + offset.y ),
@@ -727,36 +740,80 @@
 		 * For example: the position of the bottom end of the caret.
 		 */
 		setPosition: function( rect ) {
-			var window = this.document.getWindow(),
-				panelHeight = this.element.getSize( 'height' ),
-				viewPane = window.getViewPaneSize(),
-				viewScroll = window.getScrollPosition(),
-				// Position of the top and bottom boundaries of the view
-				// relative to the body.
-				viewTop = viewScroll.x,
-				viewBottom = viewScroll.x + viewPane.height,
-				// How much space is there for the panel above and below the specified rect.
-				spaceAbove = rect.top - viewTop,
-				spaceBelow = viewBottom - rect.bottom,
-
-				frame = this.editor.window.getFrame(),
-				editable = this.editor.editable(),
-				// Bounding rect where view should fit (visible editor viewport).
-				absoluteRect = editable.isInline() ? editable.getClientRect( true ) : frame.getClientRect( true ),
+			var editor = this.editor,
+				viewHeight = this.element.getSize( 'height' ),
+				editable = editor.editable(),
+				// Bounding rect where the view should fit (visible editor viewport).
+				editorViewportRect = editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true ),
+				// How much space is there for the view above and below the specified rect.
+				spaceAbove = rect.top - editorViewportRect.top,
+				spaceBelow = editorViewportRect.bottom - rect.bottom,
 				top;
 
-			// If panel does not fit below the rect and fits above, set it there.
-			// This means that position below the rect is preferred.
-			// Skip changing position above if caret position is not visible in editor viewport.
-			if (
-				panelHeight > spaceBelow &&
-				panelHeight < spaceAbove &&
-				absoluteRect.top < rect.top &&
-				absoluteRect.bottom > rect.bottom
-				) {
-				top = rect.top - panelHeight;
-			} else {
-				top = rect.top < absoluteRect.top ? absoluteRect.top : Math.min( absoluteRect.bottom, rect.bottom );
+			// As a default, keep the view inside an editor viewport.
+			// +---------------------------------------------+
+			// |       editor viewport                       |
+			// |                                             |
+			// |                                             |
+			// |                                             |
+			// |     █ - caret position                      |
+			// |     +--------------+                        |
+			// |     |     view     |                        |
+			// |     +--------------+                        |
+			// |                                             |
+			// |                                             |
+			// +---------------------------------------------+
+			top = rect.top < editorViewportRect.top ? editorViewportRect.top : Math.min( editorViewportRect.bottom, rect.bottom );
+
+			// If the view doesn't fit below the caret position and fits above, set it there.
+			// This means that position below the caret is preferred.
+			// +---------------------------------------------+
+			// |                                             |
+			// |       editor viewport                       |
+			// |     +--------------+                        |
+			// |     |              |                        |
+			// |     |     view     |                        |
+			// |     |              |                        |
+			// |     +--------------+                        |
+			// |     █ - caret position                      |
+			// |                                             |
+			// +---------------------------------------------+
+			if ( viewHeight > spaceBelow && viewHeight < spaceAbove ) {
+				top = rect.top - viewHeight;
+			}
+
+			// If the caret position is below the view - keep it at the bottom edge.
+			// +---------------------------------------------+
+			// |       editor viewport                       |
+			// |                                             |
+			// |     +--------------+                        |
+			// |     |              |                        |
+			// |     |     view     |                        |
+			// |     |              |                        |
+			// +-----+==============+------------------------+
+			// |																						 |
+			// |     █ - caret position                      |
+			// |                                             |
+			// +---------------------------------------------+
+			if ( editorViewportRect.bottom < rect.bottom ) {
+				top = Math.min( rect.top - viewHeight, editorViewportRect.bottom - viewHeight );
+			}
+
+			// If the caret position is above the view - keep it at the top edge.
+			// +---------------------------------------------+
+			// |																						 |
+			// |     █ - caret position                      |
+			// |                                             |
+			// +-----+==============+------------------------+
+			// |     |              |                        |
+			// |     |     view     |                        |
+			// |     |              |                        |
+			// |     +--------------+                        |
+			// |																						 |
+			// |       editor viewport                       |
+			// +---------------------------------------------+
+			if ( editorViewportRect.top > rect.top ) {
+				top = Math.max( rect.bottom, editorViewportRect.top );
 			}
 
 			this.element.setStyles( {
