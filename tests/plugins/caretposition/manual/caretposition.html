@@ -1,0 +1,81 @@
+<style>
+	#marker1, #marker2
+	{
+		position: absolute;
+		width: 2px;
+		background: #F00;
+		background: rgba(255,0,0,0.75);
+		box-shadow: 0 0 5px #05C;
+	}
+	.scrollable {
+		overflow: auto;
+		height: 400px;
+	}
+</style>
+
+<h2>Classic editor</h2>
+<div id="editor1">
+	<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+	<figure class="image easyimage easyimage-side">
+		<img src="../../image2/_assets/foo.png" alt="foo">
+		<figcaption>Test image</figcaption>
+	</figure>
+	<p>Armstrong spent about <s>three and a half</s> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+</div>
+
+<h2>Inline editor</h2>
+<div id="editor2" contenteditable="true">
+	<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+	<figure class="image easyimage easyimage-side">
+		<img src="../../image2/_assets/foo.png" alt="foo">
+		<figcaption>Test image</figcaption>
+	</figure>
+	<p>Armstrong spent about <s>three and a half</s> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+</div>
+
+<div id="marker1"></div>
+<div id="marker2"></div>
+
+<script>
+	'use strict';
+
+	CKEDITOR.disableAutoInline = true;
+
+	init( 1, 'replace' );
+	init( 2, 'inline' );
+
+	function init( editorNum, creator ) {
+		var editor = CKEDITOR[ creator ]( 'editor' + editorNum, {
+			height: 400
+		} );
+
+		var marker = CKEDITOR.document.getById( 'marker' + editorNum );
+
+		editor.on( 'contentDom', function() {
+			var editable = editor.editable();
+
+			editable.attachListener( editable, 'keyup', update );
+			editable.attachListener( editable, 'mouseup', update );
+			editable.attachListener( editor, 'afterCommandExec', update );
+
+			function update() {
+				var rect = editor.getSelection().getCaretPosition(),
+					offset;
+				if ( editable.isInline() ) {
+					offset = CKEDITOR.document.getWindow().getScrollPosition();
+				} else {
+					offset = editable.getParent().getDocumentPosition( CKEDITOR.document );
+				}
+
+				rect.left += offset.x - 300;
+				rect.top += offset.y;
+
+				marker.setStyles( {
+					left: rect.left + 'px',
+					top: rect.top + 'px',
+					height: rect.height + 'px'
+				} );
+			}
+		} );
+	}
+</script>
