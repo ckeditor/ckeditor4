@@ -1,0 +1,28 @@
+<h2>plugins</h2>
+<div id="plugins">
+	<p>I'm the editor.</p>
+</div>
+
+<h2>extraPlugins</h2>
+<div id="extraPlugins">
+	<p>I'm the editor.</p>
+</div>
+
+<h2>removePlugins</h2>
+<div id="removePlugins">
+	<p>I'm the editor.</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'plugins', {
+		plugins: [ 'wysiwygarea', 'toolbar', 'basicstyles', 'link', 'undo' ]
+	} );
+
+	CKEDITOR.replace( 'extraPlugins', {
+		extraPlugins: [ 'link', 'undo' ]
+	} );
+
+	CKEDITOR.replace( 'removePlugins', {
+		removePlugins: [ 'basicstyles', 'toolbar' ]
+	} );
+</script>
