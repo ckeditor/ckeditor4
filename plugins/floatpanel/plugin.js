@@ -148,9 +148,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					rect,
 					rtl = this._.dir == 'rtl';
 				if ( offsetX === undefined || offsetY === undefined ) {
-					rectList = this._.editor.getSelection().getRanges()[ 0 ].getClientRects(  );
+					rectList = this._.editor.getSelection().getRanges()[ 0 ].getClientRects();
 					rect = rectList[ rectList.length - 1 ];
-					offsetX = rect.left;
 					offsetX = rtl ? rect.left : rect.right;
 					offsetY = rect.bottom;
 				}
