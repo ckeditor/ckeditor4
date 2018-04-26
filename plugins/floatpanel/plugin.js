@@ -370,15 +370,17 @@ CKEDITOR.plugins.add( 'floatpanel', {
 								scrollParent = offsetParent;
 
 							// Quirks returns <body>, but standards returns <html>.
-							if ( scrollParent.getName() == 'html' )
+							if ( scrollParent.getName() == 'html' ) {
 								scrollParent = scrollParent.getDocument().getBody();
+							}
 
 							if ( scrollParent.getComputedStyle( 'direction' ) == 'rtl' ) {
 								// For IE8, there is not much logic on this, but it works.
-								if ( CKEDITOR.env.ie8Compat )
+								if ( CKEDITOR.env.ie8Compat ) {
 									left -= element.getDocument().getDocumentElement().$.scrollLeft * 2;
-								else
+								} else {
 									left -= ( offsetParent.$.scrollWidth - offsetParent.$.clientWidth );
+								}
 							}
 						}
 
