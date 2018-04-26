@@ -223,7 +223,14 @@
 			var editor = this.editor,
 				win = CKEDITOR.document.getWindow(),
 				editable = editor.editable(),
+				editorScrollableElement;
+
+			// iOS classic editor listenes on different element for editor `scroll` event (#1910).
+			if ( CKEDITOR.env.iOS && !editable.isInline() ) {
+				editorScrollableElement = CKEDITOR.document.getById( editor.id + '_contents' );
+			} else {
 				editorScrollableElement = editable.isInline() ? editable : editable.getDocument();
+			}
 
 			this.view.append();
 			this.view.attach();
@@ -744,9 +751,17 @@
 				viewHeight = this.element.getSize( 'height' ),
 				editable = editor.editable(),
 				// Bounding rect where the view should fit (visible editor viewport).
-				editorViewportRect = editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true ),
-				// How much space is there for the view above and below the specified rect.
-				spaceAbove = rect.top - editorViewportRect.top,
+				editorViewportRect;
+
+			// iOS classic editor has different viewport element (#1910).
+			if ( CKEDITOR.env.iOS && !editable.isInline() ) {
+				editorViewportRect = CKEDITOR.document.getById( editor.id + '_contents' ).getClientRect( true );
+			} else {
+				editorViewportRect = editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true );
+			}
+
+			// How much space is there for the view above and below the specified rect.
+			var spaceAbove = rect.top - editorViewportRect.top,
 				spaceBelow = editorViewportRect.bottom - rect.bottom,
 				top;
 
