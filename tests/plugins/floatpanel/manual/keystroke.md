@@ -1,4 +1,4 @@
-@bender-tags: bug, 4.9.1, 1451
+@bender-tags: bug, 4.10, 1451
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,toolbar,contextmenu,clipboard
 
@@ -13,4 +13,3 @@
 
 #### Right to left editors:
 - The panel shows itself on the left side of selection.
-g
