@@ -492,10 +492,9 @@
 
 	function loadPlugins( editor ) {
 		var config = editor.config,
-			// We have to remove whitespaces (#1712).
-			plugins = config.plugins && config.plugins.replace( /\s/g, '' ) || '',
-			extraPlugins = config.extraPlugins && config.extraPlugins.replace( /\s/g, '' ),
-			removePlugins = config.removePlugins && config.removePlugins.replace( /\s/g, '' );
+			plugins = parsePluginsOption( config.plugins ),
+			extraPlugins = parsePluginsOption( config.extraPlugins ),
+			removePlugins = parsePluginsOption( config.removePlugins );
 
 		if ( extraPlugins ) {
 			// Remove them first to avoid duplications.
@@ -635,6 +634,20 @@
 				CKEDITOR.fire( 'instanceLoaded', null, editor );
 			} );
 		} );
+
+		// Parse *plugins option into a string (#1802).
+		function parsePluginsOption( option ) {
+			if ( !option ) {
+				return '';
+			}
+
+			if ( CKEDITOR.tools.isArray( option ) ) {
+				option = option.join( ',' );
+			}
+
+			// We have to remove whitespaces (#1712).
+			return option.replace( /\s/g, '' );
+		}
 	}
 
 	// Send to data output back to editor's associated element.
