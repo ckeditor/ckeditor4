@@ -117,6 +117,7 @@
 	 * @param {Number} [config.minChars=2] A number of characters that should follow the marker character in order to trigger mentions feature.
 	 * @param {String} [config.marker='@'] A character that should trigger autocompletion.
 	 * @param {String} [config.template=CKEDITOR.plugins.autocomplete.view.itemTemplate] Template used to render matches in the dropdown.
+	 * @param {Boolean} [config.caseSensitive=false] Indicates that mentions instance is character case sensitive for simple items feed i.e. array feed.
 	 * @param {String/String[]/Function} config.feed Feed of items to be displayed in mentions plugin.
 	 */
 	function Mentions( editor, config ) {
@@ -124,7 +125,7 @@
 			template = config.template;
 
 		/**
-		 * Indicates that mentions instance is character sensitive for simple items feed i.e. array feed.
+		 * Indicates that mentions instance is character case sensitive for simple items feed i.e. array feed.
 		 * @property {Boolean} [caseSensitive=false]
 		 */
 		this.caseSensitive = config.caseSensitive;
