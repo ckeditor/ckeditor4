@@ -30,9 +30,24 @@
 			assertView( this.createMentionsInstance( { feed: feedData } ), expectedFeedData );
 		},
 
+		'test case sensitive array feed with match': function() {
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			assertView( this.createMentionsInstance( { feed: feedData, caseSensitive: true } ), expectedFeedData );
+		},
+
 		'test array feed without match': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@A^</p>' );
 			assertView( this.createMentionsInstance( { feed: feedData } ), [] );
+		},
+
+		'test case sensitive array feed without match - lowercase query': function() {
+			this.editorBot.setHtmlWithSelection( '<p>@an^</p>' );
+			assertView( this.createMentionsInstance( { feed: feedData, caseSensitive: true } ), [] );
+		},
+
+		'test case sensitive array feed without match - lowercase data': function() {
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			assertView( this.createMentionsInstance( { feed: [ 'anna' ], caseSensitive: true } ), [] );
 		},
 
 		'test array feed with custom minChars': function() {
