@@ -220,6 +220,59 @@
 			assert.areEqual( '<p>item1</p>', editor.getData() );
 
 			ac.destroy();
+		},
+
+		// (#1910)
+		'test view position on scroll': function() {
+			var editor = this.editors.standard;
+
+			if ( !CKEDITOR.env.iOS && !editor.editable().isInline()  ) {
+				assert.ignore();
+			}
+
+			var ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+
+			this.editorBots.standard.setHtmlWithSelection( '' );
+
+			// Starting view position.
+			// +---------------------------------------------+
+			// |       editor viewport                       |
+			// |                                             |
+			// |     █ - caret position                      |
+			// |     +--------------+                        |
+			// |     |     view     |                        |
+			// |     +--------------+                        |
+			// |                                             |
+			// |                                             |
+			// +---------------------------------------------+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			// Stub caret and view positioning functions after view show up so we will be able to check if view repositioning
+			// occurs after scroll event on viewport element.
+			var getClientRectStub = sinon.stub( CKEDITOR.dom.element.prototype, 'getClientRect' )
+				.returns( { top: 0, bottom: 100 } ),
+				viewport = CKEDITOR.document.getById( editor.id + '_contents' );
+
+			sinon.stub( ac.view, 'getCaretRect' ).returns( { top: 150, bottom: 160, left: 50 } );
+			sinon.stub( ac.view.element, 'getSize' ).returns( 50 );
+
+			// View postion after scroll.
+			// +-----+==============+------------------------+
+			// |     |              |                        |
+			// |     |     view     |                        |
+			// |     |              |                        |
+			// |     +--------------+                        |
+			// |																						 |
+			// |       editor viewport                       |
+			// +---------------------------------------------+
+			viewport.fire( 'scroll' );
+
+			getClientRectStub.restore();
+
+			assert.areEqual( '50px', ac.view.element.getStyle( 'top' ) );
+			assert.areEqual( '50px', ac.view.element.getStyle( 'left' ) );
+
+			ac.destroy();
 		}
 	} );
 
