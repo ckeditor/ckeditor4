@@ -5,7 +5,7 @@
 ## Test scenario #1
 
 1. Scroll page down until editable is on top of view.
-1. Put focus caret in any line of editable content.
+1. Put focus caret in any line of editable content. Check especially typing into the super long paragraph.
 1. Start typing with on screen keyboard using letter keys and auto-complete.
 
 ### Expected result
@@ -16,7 +16,7 @@ The edited line is scrolled to the top of the editor.
 
 Editable is scrolled down and caret is not visible and typed letters are not visible.
 
-Note: Flickering could occur at the start of typing. Additionally typing in the last line causes that only this line is visible while typing.
+Note: Flickering or scroll jump could occur at the start of typing.
 
 ## Test scenario #2
 
