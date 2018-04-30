@@ -408,6 +408,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 			// Get the natural height of the image.
 			preLoadedHeight = domHeight = natural.height;
+
 		},
 		contents: [
 			{
@@ -463,6 +464,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 										  imageDescFSElem.show();
 											altTextElem.show();
 											infoButtonElem.show();
+
 										  hasDescElem.show()
 										  descLocFSElem.show()
 
@@ -473,16 +475,16 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 											break;
 
 										default:
-										  imageDescFSElem.getParent().show();
+										  imageDescFSElem.show();
 											altTextElem.show();
 											infoButtonElem.show();
+
 										  hasDescElem.hide()
+										  descLocFSElem.hide()
 
 											isSimpleMsgElem.show();
 											isComplexMsgElem.hide();
 											isDecorativeMsgElem.hide();
-
-										  descLocFSElem.hide()
 
 											break;
 									}
@@ -515,10 +517,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 										}
 									});
 
-									if (!!widget) {
-										if (widget.data.alt) {
-										}
-									}
+									this.onChange();
 								},
 								commit: function( data ) {
 								}
@@ -568,8 +567,15 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 										type: 'text',
 										label: lang.alt,
 										setup: function( widget ) {
-											this.setValue( widget.data.alt );
 											this.getDialog().getContentElement( 'info', 'imageDescFieldset').getElement().addClass('a11yfirst_fieldset');
+
+											var imageType = this.getDialog().getContentElement( 'info', 'imageType' );
+
+											this.setValue( widget.data.alt );
+
+											if ( widget.data.alt === '' && widget.data.src.length ) {
+												imageType.setValue( 'decorative' );
+											}
 
 										},
 										commit: function( widget ) {
