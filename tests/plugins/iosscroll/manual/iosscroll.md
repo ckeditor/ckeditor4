@@ -1,6 +1,6 @@
 @bender-tags: 4.10.0, bug, 498
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea
+@bender-ckeditor-plugins: wysiwygarea, iosscroll, sourcearea, toolbar, basicstyles
 
 ## Test scenario
 

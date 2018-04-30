@@ -1211,55 +1211,6 @@
 						return false;
 					}, this, null, 100 ); // Later is better – do not override existing listeners.
 				}
-
-				// Scroll to current ranges due to bug on iOS #498
-				if ( !this.isInline() && CKEDITOR.env.iOS && CKEDITOR.env.safari ) {
-					var touchListenerStatus, scrollListenerStatus;
-
-					this.on( 'input', scrollToRangesOnScroll, this, null, 10000 );
-					this.on( 'keydown', scrollToRangesOnScroll, this, null, 10000 );
-				}
-
-				function scrollToRangesOnScroll() {
-					var contentsWrapper = CKEDITOR.document.findOne( '#' + editor.id + '_contents' ),
-						frame = this.getWindow().getFrame();
-
-					function scrollListener() {
-						var range = this.editor.getSelection().getRanges()[ 0 ],
-							offset = range.startContainer.getAscendant( function( el ) {
-									return el.type === CKEDITOR.NODE_ELEMENT;
-								}, true ).getClientRect();
-
-						if ( frame.getAttribute( 'scrolling' ) !== 'no' ) {
-							frame.setAttribute( 'scrolling', 'no' );
-							frame.setStyle( 'height', contentsWrapper.$.clientHeight + 'px' );
-							this.setStyle( 'margin-top', '-' + ( offset.top - offset.height ) + 'px' );
-						}
-					}
-
-					// Don't register same listener many times.
-					if ( !scrollListenerStatus ) {
-						contentsWrapper.on( 'scroll', scrollListener, this );
-						scrollListenerStatus = true;
-					}
-
-					if ( !touchListenerStatus ) {
-						// Restore scrolling on editable, when user touches it.
-						this.once( 'touchstart', function() {
-							var top = parseInt( this.getStyle( 'margin-top' ), 10 ) * -1;
-
-							frame.setStyle( 'height', '100%' );
-							frame.setAttribute( 'scrolling', 'yes' );
-							this.setStyle( 'margin-top', 0 );
-							contentsWrapper.$.scrollTop = top;
-
-							scrollListenerStatus = false;
-							contentsWrapper.removeListener( 'scroll', scrollListener );
-							touchListenerStatus = false;
-						}, this );
-						touchListenerStatus = true;
-					}
-				}
 			}
 		},
 
