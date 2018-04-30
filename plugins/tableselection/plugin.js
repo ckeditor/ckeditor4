@@ -987,7 +987,7 @@
 					firstCell = ranges[ 0 ]._getTableElement();
 					lastCell = ranges[ ranges.length - 1 ]._getTableElement();
 
-					// Pass enter event to be handled by enterkey.
+					// Pass enter event to be handled by enterkey (#1816).
 					if ( keystroke !== 13 ) {
 						evt.data.preventDefault();
 						evt.cancel();
