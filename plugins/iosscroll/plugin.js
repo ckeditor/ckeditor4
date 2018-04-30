@@ -16,45 +16,42 @@
 				var editable = editor.editable();
 
 				if ( !editable.isInline() && CKEDITOR.env.iOS && CKEDITOR.env.safari ) {
-					editable.attachListener( editable, 'keydown', handleInput, editable, null, 10000 );
+					editable.attachListener( editable, 'input', inputListener, editable, null, 10000 );
 				}
 			} );
 		}
 	} );
 
-	function handleInput() {
-		var contentsWrapper = CKEDITOR.document.findOne( '#' + this.editor.id + '_contents' ),
-			frame = this.getWindow().getFrame();
-
-		// Don't register same listener many times.
-		if ( frame.getAttribute( 'scrolling' ) !== 'no' ) {
-			contentsWrapper.on( 'scroll', scrollListener, this );
-			this.once( 'touchstart', touchListener, this );
-		}
-	}
-
-	function scrollListener() {
+	function inputListener() {
 		var contentsWrapper = CKEDITOR.document.findOne( '#' + this.editor.id + '_contents' ),
 			frame = this.getWindow().getFrame(),
 			range = this.editor.getSelection().getRanges()[ 0 ],
 			offset = range.startContainer.getAscendant( function( el ) {
 					return el.type === CKEDITOR.NODE_ELEMENT;
-				}, true ).getClientRect( true );
+				}, true ).getClientRect(),
+			scrollOffset = offset.top - offset.height;
+
+		if ( frame.getAttribute( 'scrolling' ) === 'no' ) {
+			return;
+		}
 
 		frame.setAttribute( 'scrolling', 'no' );
 		frame.setStyle( 'height', contentsWrapper.$.clientHeight + 'px' );
-		this.setStyle( 'margin-top', '-' + ( offset.top - offset.height ) + 'px' );
+		this.data( 'scroll-offset', scrollOffset );
+		this.setStyle( 'margin-top', '-' + scrollOffset + 'px' );
+
+		this.once( 'touchstart', touchListener, this );
 	}
 
 	function touchListener() {
 		var contentsWrapper = CKEDITOR.document.findOne( '#' + this.editor.id + '_contents' ),
 			frame = this.getWindow().getFrame(),
-			top = parseInt( this.getStyle( 'margin-top' ), 10 ) * -1;
+			top = parseInt( this.data( 'scroll-offset' ), 10 );
 
 		frame.setStyle( 'height', 'auto' );
 		frame.setAttribute( 'scrolling', 'yes' );
 		this.setStyle( 'margin-top', 0 );
+		this.data( 'scroll-offset', false );
 		contentsWrapper.$.scrollTop = top;
-		contentsWrapper.removeListener( 'scroll', scrollListener );
 	}
 } )();
