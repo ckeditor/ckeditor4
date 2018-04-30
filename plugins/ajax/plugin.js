@@ -66,7 +66,7 @@
 		}
 
 		function getResponse( xhr ) {
-			if ( checkStatus( xhr ) && ( xhr.responseType === 'blob' || xhr.responseType === 'arraybuffer' ) ) {
+			if ( checkStatus( xhr ) && xhr.responseType === 'arraybuffer' ) {
 				return xhr.response;
 			}
 			return null;
@@ -144,7 +144,7 @@
 			 * empty string. For invalid requests, `null`.
 			 */
 			load: function( url, callback, options ) {
-				if ( options && options.responseType === 'blob' || options.responseType === 'arraybuffer' ) {
+				if ( options && options.responseType === 'arraybuffer' ) {
 					return load( url, callback, getResponse, options );
 				} else {
 					return load( url, callback, getResponseText );
