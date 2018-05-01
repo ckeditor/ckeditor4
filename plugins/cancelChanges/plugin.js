@@ -1,9 +1,9 @@
 CKEDITOR.plugins.add('cancelChanges', {
-    showDelay: 300,
-    hideDelay: 200,
+    showDelay: 200,
+    hideDelay: 700,
     topCorrection: 42,
     leftCorrection: 20,
-    tooltipIsShowing: false,
+    currentElement: null,
 
     init: function(editor) {
         var _this = this;
@@ -20,8 +20,9 @@ CKEDITOR.plugins.add('cancelChanges', {
                     clientY = e.clientY;
                 });
 
-                if (_this.tooltipIsShowing) return;
+                if (_this.currentElement === e.target) return;
 
+	            _this.hideTooltip()
                 clearTimeout(_this.timerShow);
                 clearTimeout(_this.timerHide);
                 _this.timerShow = setTimeout(function() {_this.showTooltip(e, clientX, clientY, editor)}, _this.showDelay);
@@ -47,7 +48,7 @@ CKEDITOR.plugins.add('cancelChanges', {
         var top = clientY - this.topCorrection + window.pageYOffset - (document.clientTop || 0);
         var left = Math.min(clientX, $tgt.offset().left + $tgt.width()) - this.leftCorrection + window.pageXOffset - (document.clientLeft || 0);
 
-        this.tooltipIsShowing = true;
+        this.currentElement = e.target;
 
         $('<div class="ckeditor-tooltip" style="z-index: 100500; position: absolute; left:' + left + 'px; top:' + top + 'px;">' +
             '<span class="ckeditor-tooltip__remove">Reject</span>' +
@@ -76,7 +77,7 @@ CKEDITOR.plugins.add('cancelChanges', {
     },
 
     hideTooltip: function() {
-        this.tooltipIsShowing = false;
+        this.currentElement = null;
         $('body').find('.ckeditor-tooltip').remove();
     }
 });
