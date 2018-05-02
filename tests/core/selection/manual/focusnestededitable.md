@@ -7,8 +7,8 @@
 
 ## Expected
 
-Upper square changes color to blue (1st step) and red (2nd step).
+Upper square changes color to blue (1st step) and red (2nd step) which means that elements path has been changed.
 
 ## Unexpected
 
-Upper square is not changing when moving selection between text nodes.
+Upper square is not changing when moving selection between text nodes which means that elements path didn't change.

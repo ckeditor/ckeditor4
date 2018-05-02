@@ -263,8 +263,9 @@
 			// Handle case when dialog inserts new element but parent block and path (so also focus context) does not change. (https://dev.ckeditor.com/ticket/13362)
 			var sameBlockParent = this._.selectionPreviousPath && this._.selectionPreviousPath.blockLimit.equals( currentPath.blockLimit );
 			// Cache the active element, which we'll eventually lose on Webkit and Gecko (#1113).
-			if ( ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) && !sameBlockParent )
+			if ( ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) && !sameBlockParent ) {
 				this._.previousActive = this.document.getActive();
+			}
 
 			this._.selectionPreviousPath = currentPath;
 			this.fire( 'selectionChange', { selection: sel, path: currentPath } );
@@ -773,12 +774,8 @@
 					// On Webkit when editor uses divarea, native focus causes editable viewport to scroll
 					// to the top (when there is no active selection inside while focusing) so the scroll
 					// position should be restored after focusing back editable area. (https://dev.ckeditor.com/ticket/14659)
-					if (
-						CKEDITOR.env.webkit &&
-						restoreSel &&
-						editor._.previousScrollTop != null &&
-						editor._.previousScrollTop != editable.$.scrollTop
-						) {
+					var requiresScrollFix = editor._.previousScrollTop != null && editor._.previousScrollTop != editable.$.scrollTop;
+					if ( CKEDITOR.env.webkit && restoreSel && requiresScrollFix ) {
 						editable.$.scrollTop = editor._.previousScrollTop;
 					}
 				}
