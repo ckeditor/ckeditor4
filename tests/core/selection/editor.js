@@ -753,6 +753,7 @@ bender.test( {
 		assert.isTrue( stub.called );
 	},
 
+	// (#1113)
 	'test focused nested editable changes elementPath': function() {
 		var editor = this.editors.editorInline;
 
@@ -764,7 +765,6 @@ bender.test( {
 
 		assert.areEqual( 'em', editor.elementPath().blockLimit.getName() );
 	}
-
 } );
 
 function testSelectionCheck( editor, event ) {

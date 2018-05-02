@@ -7,7 +7,7 @@
 
 ## Expected
 
-Upper square changes color to blue (1st step) and red (2nd step) which means that elements path has been changed.
+Upper square changes color to blue (1st step) and red (2nd step) which means that elements path changed.
 
 ## Unexpected
 
