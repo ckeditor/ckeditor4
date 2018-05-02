@@ -964,16 +964,17 @@
 				return function( evt ) {
 					// Use getKey directly in order to ignore modifiers.
 					// Justification: https://dev.ckeditor.com/ticket/11861#comment:13
-					var keystroke = evt.data.getKey(),
+					var key = evt.data.getKey(),
+						keystroke = evt.data.getKeystroke(),
 						selection,
-						toStart = keystroke === 37 || keystroke == 38,
+						toStart = key === 37 || key == 38,
 						ranges,
 						firstCell,
 						lastCell,
 						i;
 
 					// Handle only left/right/del/bspace keys.
-					if ( !keystrokes[ keystroke ] ) {
+					if ( !keystrokes[ key ] ) {
 						return;
 					}
 
@@ -987,13 +988,10 @@
 					firstCell = ranges[ 0 ]._getTableElement();
 					lastCell = ranges[ ranges.length - 1 ]._getTableElement();
 
-					// Pass enter event to be handled by enterkey (#1816).
-					if ( keystroke !== 13 ) {
-						evt.data.preventDefault();
-						evt.cancel();
-					}
+					evt.data.preventDefault();
+					evt.cancel();
 
-					if ( keystroke > 36 && keystroke < 41 ) {
+					if ( key > 36 && key < 41 ) {
 						// Arrows.
 						ranges[ 0 ].moveToElementEditablePosition( toStart ? firstCell : lastCell, !toStart );
 						selection.selectRanges( [ ranges[ 0 ] ] );
@@ -1013,6 +1011,14 @@
 						}
 
 						selection.selectRanges( ranges );
+
+						// We need to lock undoManager to consider clearing table and inserting new paragraph as single operation, and have only one undo step (#1816).
+						if ( key === 13 && editor.plugins.enterkey ) {
+							editor.undoManager.lock();
+							// Use proper command depend of shift modifier presence.
+							keystroke < CKEDITOR.SHIFT + 13 ? editor.execCommand( 'enter' ) : editor.execCommand( 'shiftEnter' );
+							editor.undoManager.unlock();
+						}
 						editor.fire( 'saveSnapshot' );
 					}
 				};
