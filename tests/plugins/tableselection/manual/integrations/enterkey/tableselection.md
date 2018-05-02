@@ -29,7 +29,14 @@
 ----
 **Test case 3:**
 1. Put cursor in single table cell at beginning ( and later on ending ) of the table cell
-3. Press <kbd>Enter</kbd> key or <kbd>Shift</kbd> + <kbd>Enter</kbd> combination.
+2. Press <kbd>Enter</kbd> key or <kbd>Shift</kbd> + <kbd>Enter</kbd> combination.
 
 **Expected result:**
 * New line appear in table cell, before or after text depend where caret was located.
+
+----
+**Test case 4:**
+1. Check how undo/redo integrate with this fix.
+
+**Expected result:**
+* Clearing selected content and adding new paragraph should be stored as single undo step.
