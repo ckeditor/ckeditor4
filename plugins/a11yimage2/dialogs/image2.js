@@ -356,7 +356,20 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 				commit: function( widget ) {
 					widget.setData( 'src', this.getValue() );
 				},
-				validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
+				validate: function( widget ) {
+
+					var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
+					var hasDescValue      = this.getDialog().getContentElement( 'info', 'hasDescription').getValue();
+					var descLocValue      = this.getDialog().getContentElement( 'info', 'descriptionLocationRadioGroup').getValue();
+
+					console.log('[imageTypeValue]: ' + imageTypeValue );
+					console.log('  [hasDescValue]: ' + hasDescValue );
+					console.log('  [descLocValue]: ' + descLocValue );
+
+					if (!((imageTypeValue === 'complex') && hasDescValue && !descLocValue)) {
+						CKEDITOR.dialog.validate.notEmpty( lang.urlMissing );
+					}
+				}
 			}
 		];
 
@@ -787,12 +800,29 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 													var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
 													var hasDescValue      = this.getDialog().getContentElement( 'info', 'hasDescription').getValue();
 													var locDescValue      = this.getValue();
+													var srcElem           = this.getDialog().getContentElement( 'info', 'src');
+													var srcValue          = this.getDialog().getContentElement( 'info', 'src').getValue();
+
+													console.log('[srcValue]: ' + srcValue + ' (' + srcValue.length + ')');
 
 													// Testing for empty caption
 													if (imageTypeValue === 'complex' && hasDescValue && !locDescValue) {
 														var value = confirm(lang.msgChooseLocation);
 														this.getElement().focusNext();
+
+														if (value && srcValue.length === 0) {
+															alert(lang.urlMissing);
+															srcElem.focus();
+															value = false;
+														}
 														return value;
+													}
+													else {
+														if (srcValue.length === 0) {
+															alert(lang.urlMissing);
+															srcElem.focus();
+															return false;
+														}
 													}
 												},
 												commit: function( widget ) {
