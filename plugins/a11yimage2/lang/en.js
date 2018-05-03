@@ -49,12 +49,12 @@ CKEDITOR.plugins.setLang( 'a11yimage2', 'en', {
 	altStartsWithInvalid: ['image of', 'graphic of'],
 	altEndsWithInvalid: ['bytes'],
 	msgAltEmpty: 'Please type the text alternative for the image',
-	msgAltToLong: 'Text alternative is %s1 characters, which is longer than the recommended maximum length of %s2 characters. Are you sure you want to continue?',
-	msgAltContainsFilename: 'Please remove the filename with the extension "%s" from the text alternative',
-	msgAltIsInvalid: 'Please replace "%s" with text that describes the image',
-	msgAltStartsWithInvalid: 'Please remove "%s" from the text alternative',
-	msgAltEndsWithInvalid: 'Please don\'t include the size of the image in the text alternative',
+	msgAltToLong: 'The text alternative is %s1 characters, which is longer than the recommended maximum length of %s2 characters. Are you sure you want to continue?',
+	msgAltPrefix: 'The text alternative should succinctly describe the content of the image.',
+	msgAltContainsFilename: 'Please remove the filename with the extension "%s" from the text alternative.',
+	msgAltIsInvalid: 'Please remove "%s" from the text alternative.',
+	msgAltStartsWithInvalid: 'Please remove "%s" from the text alternative.',
+	msgAltEndsWithInvalid: 'Please do not include the size of the image in the text alternative.',
 	msgAddDescription: 'For accessibility reasons, a complex image must be accompanied by content within the document that provides a detailed description of the image. Are you sure you want to continue?',
-	msgChooseLocation: 'Please select the location of the long description',
-	msgCaptionEmpty: 'Caption text is missing'
+	msgChooseLocation: 'For accessibility reasons, a complex image must be accompanied by information on the location of the long description within the document relative to the image. Are you sure you want to continue?'
 } );

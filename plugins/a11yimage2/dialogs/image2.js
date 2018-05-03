@@ -605,7 +605,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 												for (i = 0; i < lang.altContainsFilename.length; i++) {
 													s = lang.altContainsFilename[i];
 													if (altNormalized.indexOf(s) >= 0) {
-														alert(lang.msgAltContainsFilename.replace('%s', s));
+														alert(lang.msgAltPrefix + ' ' + lang.msgAltContainsFilename.replace('%s', s));
 														return false;
 													}
 												}
@@ -613,7 +613,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 												// Testing for common cases of invalid alternative text
 												for (i = 0; i < lang.altIsInvalid.length; i++) {
 													if (altNormalized === lang.altIsInvalid[i]) {
-														alert(lang.msgAltIsInvalid.replace('%s', alt));
+														alert(lang.msgAltPrefix + ' ' + lang.msgAltIsInvalid.replace('%s', alt));
 														return false;
 													}
 												}
@@ -621,7 +621,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 												// Testing for alternative text starting with "image",...
 												for (i = 0; i < lang.altStartsWithInvalid.length; i++) {
 													if (altNormalized.indexOf(lang.altStartsWithInvalid[i]) === 0) {
-														alert(lang.msgAltStartsWithInvalid.replace('%s', alt.substring(0,lang.altStartsWithInvalid[i].length)));
+														alert(lang.msgAltPrefix + ' ' + lang.msgAltStartsWithInvalid.replace('%s', alt.substring(0,lang.altStartsWithInvalid[i].length)));
 														return false;
 													}
 												}
@@ -630,7 +630,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 												for (i = 0; i < lang.altEndsWithInvalid.length; i++) {
 													var s = lang.altEndsWithInvalid[i];
 													if (altNormalized.substring((altLength-s.length),altLength) === s) {
-														alert(lang.msgAltEndsWithInvalid);
+														alert(lang.msgAltPrefix + ' ' + lang.msgAltEndsWithInvalid);
 														return false;
 													}
 												}
@@ -790,9 +790,9 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 													// Testing for empty caption
 													if (imageTypeValue === 'complex' && hasDescValue && !locDescValue) {
-														alert(lang.msgChooseLocation);
+														var value = confirm(lang.msgChooseLocation);
 														this.getElement().focusNext();
-														return false;
+														return value;
 													}
 												},
 												commit: function( widget ) {
