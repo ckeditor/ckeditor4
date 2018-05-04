@@ -807,15 +807,9 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 													// Testing for empty caption
 													if (imageTypeValue === 'complex' && hasDescValue && !locDescValue) {
-														var value = confirm(lang.msgChooseLocation);
+														alert(lang.msgChooseLocation);
 														this.getElement().focusNext();
-
-														if (value && srcValue.length === 0) {
-															alert(lang.urlMissing);
-															srcElem.focus();
-															value = false;
-														}
-														return value;
+														return false;
 													}
 													else {
 														if (srcValue.length === 0) {
