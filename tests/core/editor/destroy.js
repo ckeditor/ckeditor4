@@ -2,6 +2,8 @@
 /* bender-ckeditor-plugins: toolbar,button,stylescombo,wysiwygarea */
 
 ( function() {
+	'use strict';
+
 	bender.editor = {
 		config: {
 			startupFocus: true
@@ -32,22 +34,19 @@
 		},
 
 		// (#1722)
-		'test destroy destorys attached filters': function() {
-			bender.editorBot.create( { name: 'editor_destorys_filters' }, function( bot ) {
+		'test destroy attached filters': function() {
+			var filters = countFilters();
+			bender.editorBot.create( { name: 'editor_filter_destroy' }, function( bot ) {
 				var editor = bot.editor;
 
 				new CKEDITOR.filter( 'b', editor );
 				new CKEDITOR.filter( editor );
 				new CKEDITOR.filter( 'b ' );
 
-				// +1 because there is additional filter attached on editor creation.
-				assert.areEqual( 3, getEditorFilters( editor ).length, 'Should be 3 editor filters' );
-				assert.areEqual( 1, getEditorFilters().length, 'Should be 1 global filter' );
-
 				editor.destroy();
 
-				assert.areEqual( 0, getEditorFilters( editor ).length, 'Editor filters should have been destroyed' );
-				assert.areEqual( 1, getEditorFilters().length, 'Global filter should not have been destroyed' );
+				assert.areEqual( 0, countFilters( editor ) );
+				assert.areEqual( filters + 1, countFilters() );
 			} );
 		},
 
@@ -104,10 +103,11 @@
 		}
 	} );
 
-	function getEditorFilters( editor ) {
-		return bender.tools.objToArray( CKEDITOR.filter.instances ).filter( function( filter ) {
+	function countFilters( editor ) {
+		var filters = bender.tools.objToArray( CKEDITOR.filter.instances );
+		return editor ? filters.filter( function( filter ) {
 			return filter.editor === editor;
-		} );
+		} ).length : filters.length;
 	}
 
 } )();
