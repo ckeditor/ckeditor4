@@ -319,7 +319,8 @@
 		 * touches that element. Once the panel is attached it gains focus.
 		 *
 		 * @method attach
-		 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
+		 * @param {CKEDITOR.dom.element/CKEDITOR.dom.selection} element The element to which the panel is attached.
+		 * **Since 4.9.0** instead of an element it is possible to pass a selection {@link CKEDITOR.dom.selection}.
 		 * @param {Object/CKEDITOR.dom.element/Boolean} [options] **Since 4.8.0** this parameter works as an `options` object.
 		 *
 		 * If a `{@link CKEDITOR.dom.element}/Boolean` instance is given, this parameter acts as an `options.focusElement`.
@@ -363,6 +364,23 @@
 			};
 
 			return function( element, options ) {
+				var isDummy;
+				if ( element instanceof CKEDITOR.dom.selection ) {
+					isDummy = true;
+					var range = element.getRanges(),
+						rectList = range[ 0 ].getClientRects(),
+						rect = rectList[ rectList.length - 1 ],
+						dummy = new CKEDITOR.dom.element( 'div' );
+					dummy.setStyle( 'position', 'fixed' );
+					dummy.setStyle( 'width', rect.width + 'px' );
+					dummy.setStyle( 'height', rect.height + 'px' );
+					dummy.setStyle( 'top', rect.top + 'px' );
+					dummy.setStyle( 'left', rect.left + 'px' );
+					dummy.setStyle( 'visibility', 'hidden' );
+					this.editor.editable().append( dummy );
+					element = dummy;
+				}
+
 				if ( options instanceof CKEDITOR.dom.element || !options ) {
 					options = { focusElement: options };
 				}
@@ -390,6 +408,11 @@
 
 					viewPaneSize = winGlobal.getViewPaneSize(),
 					winGlobalScroll = winGlobal.getScrollPosition();
+
+				// Remove dummy element when its not needed anymore
+				if ( isDummy ) {
+					element.remove();
+				}
 
 				// allowedRect is the rect into which the panel should fit to remain
 				// both within the visible area of the editor and the viewport, i.e.
