@@ -2863,18 +2863,61 @@ CKEDITOR.dom.range = function( root ) {
 
 					range.setStart( this.startContainer.$, this.startOffset );
 					range.setEnd( this.endContainer.$, this.endOffset );
+					var lastFirst,
+						childNode;
 
 					rectArray = CKEDITOR.tools.array.map( range.getClientRects(), function( item ) {
 						return convertRect( item, isAbsolute, this );
 					}, this );
 
-					// In some cases ( eg. ranges contain only image ) IE will return empty rectList.
-					if ( !range.collapsed && !rectArray.length ) {
-						rectArray = [ convertRect( getRect( this.createBookmark() ), isAbsolute, this ) ];
+					if ( !rectArray.length ) {
+						if ( !range.collapsed ) {
+							// In some cases ( eg. ranges contain only image ) IE will return empty rectList.
+							rectArray = [ getRect( this.createBookmark() ) ];
+						} else if ( this.startContainer instanceof CKEDITOR.dom.element ) {
+
+							lastFirst = this.checkStartOfBlock() ? 'First' : this.checkEndOfBlock() && 'Last';
+
+							if ( lastFirst ) {
+								if ( childNode = this.startContainer[ 'get' + lastFirst ]() ) {
+
+									while ( !( childNode instanceof CKEDITOR.dom.text ) && childNode.getChildCount() ) {
+										childNode = childNode[ 'get' + lastFirst ]();
+									}
+
+									if ( !( childNode instanceof CKEDITOR.dom.text ) && !childNode.getChildCount() ) {
+										var childRect = childNode.getClientRect( isAbsolute );
+
+										//
+										return [ childRect ];
+									}
+
+									this.setStart( childNode, lastFirst === 'Last' ? childNode.getLength() : 0 );
+									this.setEnd( childNode, lastFirst === 'Last' ? childNode.getLength() : 0 );
+									return this.getClientRects( isAbsolute );
+								}
+							} else {
+								// If selection is in the middle of element and still no rects are returned use the IE helper.
+								rectArray = [ getRect( this.createBookmark() ) ];
+							}
+
+						} else if ( this.startContainer instanceof CKEDITOR.dom.text ) {
+
+							if ( this.startContainer.getText() === '' ) {
+								this.startContainer.setText( '\u200b' );
+
+								rectArray = CKEDITOR.tools.array.map( range.getClientRects(), function( item ) {
+									return convertRect( item, isAbsolute, this );
+								}, this );
+
+								this.startContainer.setText( '' );
+							} else {
+								rectArray =  [ convertRect( getRect( this.createBookmark() ), isAbsolute, this ) ];
+							}
+						}
 					}
 
 					range.detach();
-
 					return rectArray;
 				};
 			} else {
