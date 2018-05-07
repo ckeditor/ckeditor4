@@ -683,12 +683,25 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 											}
 										},
 										validate: function( widget ) {
+											var imageTypeElem     = this.getDialog().getContentElement( 'info', 'imageType');
 											var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
 											var hasDescValue      = this.getValue();
 
+											var srcElem           = this.getDialog().getContentElement( 'info', 'src');
+											var srcValue          = this.getDialog().getContentElement( 'info', 'src').getValue();
+
+
 											// Testing for empty caption
 											if (imageTypeValue === 'complex' && !hasDescValue ) {
-													return confirm(lang.msgAddDescription);
+													var value = confirm(lang.msgAddDescription);
+
+													if (value && srcValue === '') {
+														imageTypeElem.setValue('simple');
+														srcElem.focus();
+														value = false;
+													}
+
+													return value;
 											}
 										},
 										commit: function( widget ) {
