@@ -60,6 +60,19 @@
 
 	bender.tools = {
 		/**
+		 * Creates an array from an object.
+		 *
+		 * @param  {Object} obj
+		 * @return {Array} object values.
+		 */
+		objToArray: function( obj ) {
+			var tools = CKEDITOR.tools;
+			return tools.array.map( tools.objectKeys( obj ), function( key ) {
+				return obj[ key ];
+			} );
+		},
+
+		/**
 		 * Gets the inner HTML of an element, for testing purposes.
 		 * @param {Boolean} stripLineBreaks Assign 'false' to avoid trimming line-breaks.
 		 */

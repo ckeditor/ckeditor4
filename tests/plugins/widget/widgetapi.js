@@ -24,7 +24,7 @@
 		data2Attr = widgetTestsTools.data2Attribute,
 		getAttrData = widgetTestsTools.getAttributeData,
 		getWidgetById = widgetTestsTools.getWidgetById,
-		obj2Array = widgetTestsTools.obj2Array,
+		objToArray = bender.tools.objToArray,
 		classes2Array = widgetTestsTools.classes2Array,
 		prefix;
 
@@ -239,7 +239,7 @@
 
 				assert.isNull( widget, 'widget was not created' );
 				assert.areSame( 'p', el.getParent().getName(), 'widget element is not wrapped' );
-				assert.areSame( 0, obj2Array( editor.widgets.instances ).length, 'no instances' );
+				assert.areSame( 0, objToArray( editor.widgets.instances ).length, 'no instances' );
 			} );
 		},
 

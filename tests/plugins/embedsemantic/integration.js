@@ -19,7 +19,7 @@ bender.editors = {
 	}
 };
 
-var obj2Array = widgetTestsTools.obj2Array;
+var objToArray = bender.tools.objToArray;
 var classes2Array = widgetTestsTools.classes2Array;
 
 embedTools.mockJsonp();
@@ -40,20 +40,20 @@ var tcs = {
 			editor = bot.editor;
 
 		bot.setData( '<p>x</p><oembed>http://onload/1</oembed><oembed>http://onload/2</oembed><p>x</p>', function() {
-			assert.areSame( 2, obj2Array( editor.widgets.instances ).length, 'two widgets on data ready' );
+			assert.areSame( 2, objToArray( editor.widgets.instances ).length, 'two widgets on data ready' );
 			// Make sure that the TC works - widgets should be empty at this stage.
-			assert.isMatching( /^(<br>|)$/, obj2Array( editor.widgets.instances )[ 0 ].element.getHtml(),
+			assert.isMatching( /^(<br>|)$/, objToArray( editor.widgets.instances )[ 0 ].element.getHtml(),
 				'first widget is still empty' );
-			assert.isMatching( /^(<br>|)$/, obj2Array( editor.widgets.instances )[ 1 ].element.getHtml(),
+			assert.isMatching( /^(<br>|)$/, objToArray( editor.widgets.instances )[ 1 ].element.getHtml(),
 				'second widget is still empty' );
 
 			editor.resetUndo();
 
 			wait( function() {
 				assert.isMatching( /<p>url:http/i,
-					obj2Array( editor.widgets.instances )[ 0 ].element.getHtml(), 'first widget is ready' );
+					objToArray( editor.widgets.instances )[ 0 ].element.getHtml(), 'first widget is ready' );
 				assert.isMatching( /<p>url:http/i,
-					obj2Array( editor.widgets.instances )[ 1 ].element.getHtml(), 'second widget is ready' );
+					objToArray( editor.widgets.instances )[ 1 ].element.getHtml(), 'second widget is ready' );
 
 				// Make sure that we grab all unrecored changes.
 				editor.fire( 'saveSnapshot' );
@@ -70,7 +70,7 @@ var tcs = {
 		bot.setData( '<p>x</p><oembed>http://undo/no/load</oembed><p>x</p>', function() {
 			wait( function() {
 				assert.isInnerHtmlMatching( '<p>url:http%3A%2F%2Fundo%2Fno%2Fload</p>',
-					obj2Array( editor.widgets.instances )[ 0 ].element.getHtml(), 'widget is ready on load' );
+					objToArray( editor.widgets.instances )[ 0 ].element.getHtml(), 'widget is ready on load' );
 
 				var p = editor.editable().findOne( 'p' ),
 					range = editor.createRange();
@@ -98,7 +98,7 @@ var tcs = {
 		bot.setData( '<p>x</p><oembed class="a c b">http://widget/classes</oembed><p>x</p>', function() {
 			wait( function() {
 				arrayAssert.itemsAreSame( [ 'a', 'b', 'c' ],
-					classes2Array( obj2Array( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
+					classes2Array( objToArray( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
 
 				assert.areSame( '<p>x</p><oembed class="a b c">http://widget/classes</oembed><p>x</p>', bot.getData(), 'classes transfered from widget.element back to data' );
 			}, 100 );
@@ -114,7 +114,7 @@ var tcs = {
 		bot.setData( '<p>x</p><oembed class="bar foo">http://widget/classes</oembed><p>x</p>', function() {
 			wait( function() {
 				arrayAssert.itemsAreSame( [ 'bar', 'foo' ],
-					classes2Array( obj2Array( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
+					classes2Array( objToArray( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
 
 				assert.areSame( '<p>x</p><oembed class="bar foo">http://widget/classes</oembed><p>x</p>', bot.getData(), 'classes transfered from widget.element back to data' );
 			}, 100 );

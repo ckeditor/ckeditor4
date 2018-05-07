@@ -1,8 +1,8 @@
 /* bender-tags: editor, clipboard, upload */
 /* bender-ckeditor-plugins: sourcearea, wysiwygarea, easyimage */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, %BASE_PATH%/plugins/imagebase/features/_helpers/tools.js */
-/* bender-include: %BASE_PATH%/plugins/widget/_helpers/tools.js, ./_helpers/tools.js */
-/* global imageBaseFeaturesTools, pasteFiles, widgetTestsTools, assertPasteEvent, easyImageTools */
+/* bender-include: ./_helpers/tools.js */
+/* global imageBaseFeaturesTools, pasteFiles, assertPasteEvent, easyImageTools */
 
 ( function() {
 	'use strict';
@@ -139,7 +139,7 @@
 				this.editorBot.setHtmlWithSelection( '<p>foo [bar] baz</p>' );
 
 				pasteFiles( editor, [], '<img src="' + bender.tools.pngBase64 + '">', { type: 'auto', method: 'paste' } );
-				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
+				widgets = bender.tools.objToArray( editor.widgets.instances );
 
 				assert.areSame( 1, widgets.length, 'Widget count' );
 				assert.areSame( 'easyimage', widgets[ 0 ].name, 'Widget type' );
@@ -164,7 +164,7 @@
 				this.editorBot.setHtmlWithSelection( '<p>foo [bar] baz</p>' );
 
 				pasteFiles( editor, [], '<img src="' + bender.tools.pngBase64 + '"><img src="' + bender.tools.pngBase64 + '">', { type: 'auto', method: 'paste' } );
-				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
+				widgets = bender.tools.objToArray( editor.widgets.instances );
 
 				assert.areSame( 2, widgets.length, 'Widget count' );
 
@@ -205,7 +205,7 @@
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
 
 				pasteFiles( editor, [], '<p>first<img src="' + bender.tools.pngBase64 + '">last</p>', { type: 'auto', method: 'paste' } );
-				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
+				widgets = bender.tools.objToArray( editor.widgets.instances );
 
 				assert.areSame( 1, widgets.length, 'Widget count' );
 
@@ -219,7 +219,7 @@
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
 
 				pasteFiles( editor, [], '<p>Imagine its a cool <img src="' + bender.tools.pngBase64 + '"> emoji!</p><p>It should work.</p>', { type: 'auto', method: 'paste' } );
-				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
+				widgets = bender.tools.objToArray( editor.widgets.instances );
 
 				assert.areSame( 1, widgets.length, 'Widget count' );
 
