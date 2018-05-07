@@ -8,8 +8,8 @@
 
 ## Expected
 
-Alert shows up `Invalid token` message.
+Alert shows up with `Invalid token` message.
 
 ## Unexpected
 
-Alert shows up `Your image could not be uploaded due to a network error.` message.
+No alert showed up or it had a different message.

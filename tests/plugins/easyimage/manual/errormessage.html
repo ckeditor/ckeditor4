@@ -9,10 +9,15 @@
 		bender.ignore();
 	}
 
-	easyImageTools.getToken( function( token ) {
-		CKEDITOR.replace( 'editor1', {
-				cloudServices_url: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
-				cloudServices_token: token + 'invalid' // Pass invalid token to fire uploadFailed event.
-			} );
+	var editor = CKEDITOR.replace( 'editor1', {
+		cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+		cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL,
+		on: {
+			instanceReady: function() {
+				editor.once( 'fileUploadRequest', function( evt ) {
+					evt.data.fileLoader.xhr.setRequestHeader( 'Authorization', 'invalid token' );
+				} );
+			}
+		}
 	} );
 </script>

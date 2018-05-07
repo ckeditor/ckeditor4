@@ -343,6 +343,7 @@
 
 					this.on( 'uploadFailed', function( evt ) {
 						var response = evt.data.loader.responseData.response;
+						// Add response message if available (#1763).
 						alert( response && response.message || this.editor.lang.easyimage.uploadFailed ); // jshint ignore:line
 					} );
 
