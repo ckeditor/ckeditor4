@@ -320,7 +320,7 @@
 		 *
 		 * @method attach
 		 * @param {CKEDITOR.dom.element/CKEDITOR.dom.selection} element The element to which the panel is attached.
-		 * **Since 4.9.0** instead of an element it is possible to pass a selection {@link CKEDITOR.dom.selection}.
+		 * **Since 4.10.0** instead of an element it is possible to pass a selection {@link CKEDITOR.dom.selection}.
 		 * @param {Object/CKEDITOR.dom.element/Boolean} [options] **Since 4.8.0** this parameter works as an `options` object.
 		 *
 		 * If a `{@link CKEDITOR.dom.element}/Boolean` instance is given, this parameter acts as an `options.focusElement`.
