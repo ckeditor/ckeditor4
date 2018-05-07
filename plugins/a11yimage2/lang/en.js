@@ -49,12 +49,12 @@ CKEDITOR.plugins.setLang( 'a11yimage2', 'en', {
 	altStartsWithInvalid: ['image of', 'graphic of'],
 	altEndsWithInvalid: ['bytes'],
 	msgAltEmpty: 'Please type the text alternative for the image',
-	msgAltToLong: 'The text alternative is %s1 characters, which is longer than the recommended maximum length of %s2 characters. Are you sure you want to continue?',
+	msgAltToLong: 'The text alternative is %s1 characters, which is longer than the recommended maximum length of %s2 characters.\n\nAre you sure you want to continue?',
 	msgAltPrefix: 'The text alternative should succinctly describe the content of the image.',
 	msgAltContainsFilename: 'Please remove the filename with the extension "%s" from the text alternative.',
 	msgAltIsInvalid: 'Please remove "%s" from the text alternative.',
 	msgAltStartsWithInvalid: 'Please remove "%s" from the text alternative.',
 	msgAltEndsWithInvalid: 'Please do not include the size of the image in the text alternative.',
-	msgAddDescription: 'A complex image must include a long description within the document. If there is no long description, the image type will be changed to \'Simple\'.\nAre you sure you want to continue?',
+	msgAddDescription: 'A complex image must include a long description within the document. If there is no long description, the image type will be changed to \'Simple\'.\n\nAre you sure you want to continue?',
 	msgChooseLocation: 'Please select the location of the long description within the document relative to the image.'
 } );
