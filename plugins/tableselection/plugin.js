@@ -988,8 +988,11 @@
 					firstCell = ranges[ 0 ]._getTableElement();
 					lastCell = ranges[ ranges.length - 1 ]._getTableElement();
 
-					evt.data.preventDefault();
-					evt.cancel();
+					// Only prevent event when tableselection handle it. Which is non-enter button, or pressing enter button with enterkey plugin present (#1816).
+					if ( key !== 13 || editor.plugins.enterkey ) {
+						evt.data.preventDefault();
+						evt.cancel();
+					}
 
 					if ( key > 36 && key < 41 ) {
 						// Arrows.
@@ -1014,10 +1017,10 @@
 
 						// We need to lock undoManager to consider clearing table and inserting new paragraph as single operation, and have only one undo step (#1816).
 						if ( key === 13 && editor.plugins.enterkey ) {
-							editor.undoManager.lock();
+							editor.fire( 'lockSnapshot' );
 							// Use proper command depend of shift modifier presence.
 							keystroke < CKEDITOR.SHIFT + 13 ? editor.execCommand( 'enter' ) : editor.execCommand( 'shiftEnter' );
-							editor.undoManager.unlock();
+							editor.fire( 'unlockSnapshot' );
 						}
 						editor.fire( 'saveSnapshot' );
 					}
