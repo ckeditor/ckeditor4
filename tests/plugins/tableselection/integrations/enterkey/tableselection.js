@@ -99,7 +99,7 @@
 			editor.fire( 'saveSnapshot' );
 
 			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13, shiftKey: true } ) );
-			assert.beautified.html( expectedResult, editor.getData(), 'There wasn\'t table clear and/or adding new paragraph in it\'s content after pressing Shoft+Enter key.' );
+			assert.beautified.html( expectedResult, editor.getData(), 'There wasn\'t table clear and/or adding new paragraph in it\'s content after pressing Shift+Enter key.' );
 
 			editor.execCommand( 'undo' );
 			assert.beautified.html( TABLE_WITH_SELECTION, fixMarkersInTable( bender.tools.getHtmlWithSelection( editor ) ), 'Editor\'s content wasn\'t properly restored after single undo step.' );
