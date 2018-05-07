@@ -274,24 +274,6 @@
 			}
 		},
 
-		// (#1722)
-		'test all nested editable filters are destroyed when widget is destroyed': function() {
-			var editor = this.editors.editor,
-				initialFilters = bender.tools.objToArray( CKEDITOR.filter.instances ).length;
-
-			this.editorBots.editor.setData( generateWidgetsData( 2 ), function() {
-				for ( var widgetId in editor.widgets.instances ) {
-					var widget = editor.widgets.instances[ widgetId ];
-					for ( var editableId in widget.editables ) {
-						widget.editables[ editableId ].filter = new CKEDITOR.filter();
-					}
-					widget.destroy();
-				}
-
-				assert.areEqual( initialFilters, bender.tools.objToArray( CKEDITOR.filter.instances ).length );
-			} );
-		},
-
 		'test all nested widgets are destroyed when setting nested editable data': function() {
 			var editor = this.editors.editor,
 				bot = this.editorBots.editor,

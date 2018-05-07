@@ -2,7 +2,6 @@
 /* bender-ckeditor-plugins: toolbar,button,stylescombo,wysiwygarea */
 
 ( function() {
-	'use strict';
 
 	bender.editor = {
 		config: {
@@ -30,23 +29,6 @@
 					}, 0 );
 				} );
 
-			} );
-		},
-
-		// (#1722)
-		'test destroy attached filters': function() {
-			var filters = countFilters();
-			bender.editorBot.create( { name: 'editor_filter_destroy' }, function( bot ) {
-				var editor = bot.editor;
-
-				new CKEDITOR.filter( 'b', editor );
-				new CKEDITOR.filter( editor );
-				new CKEDITOR.filter( 'b ' );
-
-				editor.destroy();
-
-				assert.areEqual( 0, countFilters( editor ) );
-				assert.areEqual( filters + 1, countFilters() );
 			} );
 		},
 
@@ -100,6 +82,23 @@
 			} );
 
 			wait();
+		},
+
+		// (#1722)
+		'test destroy attached filters': function() {
+			var filters = countFilters();
+			bender.editorBot.create( { name: 'editor_filter_destroy' }, function( bot ) {
+				var editor = bot.editor;
+
+				new CKEDITOR.filter( 'b', editor );
+				new CKEDITOR.filter( editor );
+				new CKEDITOR.filter( 'b ' );
+
+				editor.destroy();
+
+				assert.areEqual( 0, countFilters( editor ) );
+				assert.areEqual( filters + 1, countFilters() );
+			} );
 		}
 	} );
 
