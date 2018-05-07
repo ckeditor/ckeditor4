@@ -356,7 +356,20 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 				commit: function( widget ) {
 					widget.setData( 'src', this.getValue() );
 				},
-				validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
+				validate: function( widget ) {
+
+					var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
+					var hasDescValue      = this.getDialog().getContentElement( 'info', 'hasDescription').getValue();
+					var descLocValue      = this.getDialog().getContentElement( 'info', 'descriptionLocationRadioGroup').getValue();
+
+					console.log('[imageTypeValue]: ' + imageTypeValue );
+					console.log('  [hasDescValue]: ' + hasDescValue );
+					console.log('  [descLocValue]: ' + descLocValue );
+
+					if (!((imageTypeValue === 'complex') && hasDescValue && !descLocValue)) {
+						CKEDITOR.dialog.validate.notEmpty( lang.urlMissing );
+					}
+				}
 			}
 		];
 
@@ -408,6 +421,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 			// Get the natural height of the image.
 			preLoadedHeight = domHeight = natural.height;
+
 		},
 		contents: [
 			{
@@ -419,11 +433,13 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 						type: 'fieldset',
 						label: lang.typeOfImage,
 						title: lang.typeOfImageTitle,
+						style: 'margin-top: 5px;',
 						children: [
 							{
 								id: 'imageType',
 								type: 'radio',
 								'default': 'simple',
+								style: 'margin-top: 7px;',
 								items: [
 									[ lang.typeSimple, 'simple' ],
 									[ lang.typeComplex, 'complex' ],
@@ -433,38 +449,56 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 
 									var value = this.getValue();
 
-									var isDecMsgElem   = this.getDialog().getContentElement( 'info', 'isDecorativeMsg').getElement();
+									var isSimpleMsgElem     = this.getDialog().getContentElement( 'info', 'isSimpleMsg').getElement();
+									var isComplexMsgElem    = this.getDialog().getContentElement( 'info', 'isComplexMsg').getElement();
+									var isDecorativeMsgElem = this.getDialog().getContentElement( 'info', 'isDecorativeMsg').getElement();
 
-									var imageDescFSElem  = this.getDialog().getContentElement( 'info', 'imageDescFieldset' ).getElement();
+									var imageDescFSElem  = this.getDialog().getContentElement( 'info', 'imageDescFieldset' ).getElement().getParent();
 									var altTextElem      = this.getDialog().getContentElement( 'info', 'altText' ).getElement();
 									var infoButtonElem   = this.getDialog().getContentElement( 'info', 'infoButton').getElement();
 									var hasDescElem      = this.getDialog().getContentElement( 'info', 'hasDescription').getElement();
 									var descLocFSElem    = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset').getElement();
 
+									var hasCaptionElem    = this.getDialog().getContentElement( 'info', 'hasCaptionMsg').getElement();
+
 									switch(value) {
 										case 'decorative':
-										  imageDescFSElem.hide()
+										  imageDescFSElem.hide();
 										  hasDescElem.hide()
 										  descLocFSElem.hide()
-											isDecMsgElem.show();
+
+											isSimpleMsgElem.hide();
+											isComplexMsgElem.hide();
+											isDecorativeMsgElem.show();
+
 											break;
 
 										case 'complex':
-										  imageDescFSElem.show()
+										  imageDescFSElem.show();
 											altTextElem.show();
 											infoButtonElem.show();
+
 										  hasDescElem.show()
 										  descLocFSElem.show()
-											isDecMsgElem.hide();
+
+											isSimpleMsgElem.hide();
+											isComplexMsgElem.show();
+											isDecorativeMsgElem.hide();
+
 											break;
 
 										default:
-											isDecMsgElem.hide();
-										  imageDescFSElem.show()
+										  imageDescFSElem.show();
 											altTextElem.show();
 											infoButtonElem.show();
+
 										  hasDescElem.hide()
 										  descLocFSElem.hide()
+
+											isSimpleMsgElem.show();
+											isComplexMsgElem.hide();
+											isDecorativeMsgElem.hide();
+
 											break;
 									}
 								},
@@ -496,30 +530,46 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 										}
 									});
 
-									if (!!widget) {
-										if (widget.data.alt) {
-										}
-									}
+									this.onChange();
 								},
 								commit: function( data ) {
+								}
+							},
+							{
+								id: 'isSimpleMsg',
+								type: 'html',
+								class: 'a11yfirst_html',
+								html: '<p style="margin-top: 10px; font-style: italic">' + lang.typeSimpleHelp + '</p>',
+								setup: function( widget ) {
+									this.getElement().show();
+								}
+							},
+							{
+								id: 'isComplexMsg',
+								type: 'html',
+								class: 'a11yfirst_html',
+								html: '<p style="margin-top: 10px; font-style: italic">' + lang.typeComplexHelp + '</p>',
+								setup: function( widget ) {
+									this.getElement().hide();
+								}
+							},
+							{
+								id: 'isDecorativeMsg',
+								type: 'html',
+								class: 'a11yfirst_html',
+								html: '<p style="margin-top: 10px; font-style: italic">' + lang.typeDecorativeHelp + '</p>',
+								setup: function( widget ) {
+									this.getElement().hide();
 								}
 							}
 						]
 					},
 					{
-						id: 'isDecorativeMsg',
-						type: 'html',
-						class: 'a11yfirst_html',
-						html: '<p style="color: gray; font-style: italic; position: relative; top: 10px;">' + lang.isDecorative + '</p>',
-						setup: function( widget ) {
-							this.getElement().hide();
-						}
-					},
-					{
 						id: 'imageDescFieldset',
 						type: 'fieldset',
 						label: lang.imageDesc,
-						children: [
+						style: 'margin-top: 7px;',
+					  children: [
 							{
 								type: 'hbox',
 								widths: [ '90%', '10%' ],
@@ -530,8 +580,15 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 										type: 'text',
 										label: lang.alt,
 										setup: function( widget ) {
-											this.setValue( widget.data.alt );
 											this.getDialog().getContentElement( 'info', 'imageDescFieldset').getElement().addClass('a11yfirst_fieldset');
+
+											var imageType = this.getDialog().getContentElement( 'info', 'imageType' );
+
+											this.setValue( widget.data.alt );
+
+											if ( widget.data.alt === '' && widget.data.src.length ) {
+												imageType.setValue( 'decorative' );
+											}
 
 										},
 										commit: function( widget ) {
@@ -561,7 +618,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 												for (i = 0; i < lang.altContainsFilename.length; i++) {
 													s = lang.altContainsFilename[i];
 													if (altNormalized.indexOf(s) >= 0) {
-														alert(lang.msgAltContainsFilename.replace('%s', s));
+														alert(lang.msgAltPrefix + ' ' + lang.msgAltContainsFilename.replace('%s', s));
 														return false;
 													}
 												}
@@ -569,7 +626,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 												// Testing for common cases of invalid alternative text
 												for (i = 0; i < lang.altIsInvalid.length; i++) {
 													if (altNormalized === lang.altIsInvalid[i]) {
-														alert(lang.msgAltIsInvalid.replace('%s', alt));
+														alert(lang.msgAltPrefix + ' ' + lang.msgAltIsInvalid.replace('%s', alt));
 														return false;
 													}
 												}
@@ -577,7 +634,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 												// Testing for alternative text starting with "image",...
 												for (i = 0; i < lang.altStartsWithInvalid.length; i++) {
 													if (altNormalized.indexOf(lang.altStartsWithInvalid[i]) === 0) {
-														alert(lang.msgAltStartsWithInvalid.replace('%s', alt.substring(0,lang.altStartsWithInvalid[i].length)));
+														alert(lang.msgAltPrefix + ' ' + lang.msgAltStartsWithInvalid.replace('%s', alt.substring(0,lang.altStartsWithInvalid[i].length)));
 														return false;
 													}
 												}
@@ -586,7 +643,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 												for (i = 0; i < lang.altEndsWithInvalid.length; i++) {
 													var s = lang.altEndsWithInvalid[i];
 													if (altNormalized.substring((altLength-s.length),altLength) === s) {
-														alert(lang.msgAltEndsWithInvalid);
+														alert(lang.msgAltPrefix + ' ' + lang.msgAltEndsWithInvalid);
 														return false;
 													}
 												}
@@ -626,12 +683,25 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 											}
 										},
 										validate: function( widget ) {
+											var imageTypeElem     = this.getDialog().getContentElement( 'info', 'imageType');
 											var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
 											var hasDescValue      = this.getValue();
 
+											var srcElem           = this.getDialog().getContentElement( 'info', 'src');
+											var srcValue          = this.getDialog().getContentElement( 'info', 'src').getValue();
+
+
 											// Testing for empty caption
 											if (imageTypeValue === 'complex' && !hasDescValue ) {
-													return confirm(lang.msgAddDescription);
+													var value = confirm(lang.msgAddDescription);
+
+													if (value && srcValue === '') {
+														imageTypeElem.setValue('simple');
+														srcElem.focus();
+														value = false;
+													}
+
+													return value;
 											}
 										},
 										commit: function( widget ) {
@@ -743,12 +813,23 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 													var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
 													var hasDescValue      = this.getDialog().getContentElement( 'info', 'hasDescription').getValue();
 													var locDescValue      = this.getValue();
+													var srcElem           = this.getDialog().getContentElement( 'info', 'src');
+													var srcValue          = this.getDialog().getContentElement( 'info', 'src').getValue();
+
+													console.log('[srcValue]: ' + srcValue + ' (' + srcValue.length + ')');
 
 													// Testing for empty caption
 													if (imageTypeValue === 'complex' && hasDescValue && !locDescValue) {
 														alert(lang.msgChooseLocation);
 														this.getElement().focusNext();
 														return false;
+													}
+													else {
+														if (srcValue.length === 0) {
+															alert(lang.urlMissing);
+															srcElem.focus();
+															return false;
+														}
 													}
 												},
 												commit: function( widget ) {
@@ -795,10 +876,27 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 								requiredContent: features.caption.requiredContent,
 								setup: function( widget ) {
 									this.setValue( widget.data.hasCaption );
+									this.onClick();
+								},
+								onClick: function () {
+									var hasCaptionElem  = this.getDialog().getContentElement( 'info', 'hasCaptionMsg').getElement();
+
+									if (this.getValue()) {
+										hasCaptionElem.show();
+									}
+									else {
+										hasCaptionElem.hide();
+									}
 								},
 								commit: function( widget ) {
 									widget.setData( 'hasCaption', this.getValue() );
 								}
+							},
+							{
+								id: 'hasCaptionMsg',
+								type: 'html',
+								class: 'a11yfirst_html',
+								html: '<p style="margin-top: 5px; font-style: italic">' + lang.msgCaption + '</p>'
 							}
 						]
 					},
@@ -873,7 +971,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 					{
 						id: 'imageAlignFieldset',
 						type: 'fieldset',
-						style: 'margin-top: 5px',
+						style: 'margin-top: 7px',
     				label: commonLang.align,
 						children: [
 							{
