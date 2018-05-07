@@ -453,7 +453,7 @@
 			editor.focus();
 
 			bot.setData( getFixture( 'blurEmpty' ), function() {
-				var widgets = widgetTestsTools.obj2Array( editor.widgets.instances ).slice( 0, 2 ),
+				var widgets = bender.tools.objToArray( editor.widgets.instances ).slice( 0, 2 ),
 					emptyCaptionWidget = widgets[ 0 ],
 					widgetWithCaption = widgets[ 1 ];
 
