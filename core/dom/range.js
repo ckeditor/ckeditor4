@@ -2863,7 +2863,7 @@ CKEDITOR.dom.range = function( root ) {
 
 					range.setStart( this.startContainer.$, this.startOffset );
 					range.setEnd( this.endContainer.$, this.endOffset );
-					var lastFirst,
+					var firstLast,
 						childNode;
 
 					rectArray = CKEDITOR.tools.array.map( range.getClientRects(), function( item ) {
@@ -2876,24 +2876,24 @@ CKEDITOR.dom.range = function( root ) {
 							rectArray = [ getRect( this.createBookmark() ) ];
 						} else if ( this.startContainer instanceof CKEDITOR.dom.element ) {
 
-							lastFirst = this.checkStartOfBlock() ? 'First' : this.checkEndOfBlock() && 'Last';
+							firstLast = this.checkStartOfBlock() ? 'First' : this.checkEndOfBlock() && 'Last';
 
-							if ( lastFirst ) {
-								if ( childNode = this.startContainer[ 'get' + lastFirst ]() ) {
+							if ( firstLast ) {
+								// If selection is at the beginning or the end of an element we can move it into end of last or first child.
+								if ( childNode = this.startContainer[ 'get' + firstLast ]() ) {
 
 									while ( !( childNode instanceof CKEDITOR.dom.text ) && childNode.getChildCount() ) {
-										childNode = childNode[ 'get' + lastFirst ]();
+										childNode = childNode[ 'get' + firstLast ]();
 									}
 
 									if ( !( childNode instanceof CKEDITOR.dom.text ) && !childNode.getChildCount() ) {
 										var childRect = childNode.getClientRect( isAbsolute );
 
-										//
 										return [ childRect ];
 									}
 
-									this.setStart( childNode, lastFirst === 'Last' ? childNode.getLength() : 0 );
-									this.setEnd( childNode, lastFirst === 'Last' ? childNode.getLength() : 0 );
+									this.setStart( childNode, firstLast === 'Last' ? childNode.getLength() : 0 );
+									this.setEnd( childNode, firstLast === 'Last' ? childNode.getLength() : 0 );
 									return this.getClientRects( isAbsolute );
 								}
 							} else {
@@ -2904,6 +2904,7 @@ CKEDITOR.dom.range = function( root ) {
 						} else if ( this.startContainer instanceof CKEDITOR.dom.text ) {
 
 							if ( this.startContainer.getText() === '' ) {
+								// In case of empty text fill it with zero width space.
 								this.startContainer.setText( '\u200b' );
 
 								rectArray = CKEDITOR.tools.array.map( range.getClientRects(), function( item ) {
@@ -2912,6 +2913,7 @@ CKEDITOR.dom.range = function( root ) {
 
 								this.startContainer.setText( '' );
 							} else {
+								// If there is text node which isn't empty, but still no rects are returned use IE polyfill.
 								rectArray =  [ convertRect( getRect( this.createBookmark() ), isAbsolute, this ) ];
 							}
 						}
