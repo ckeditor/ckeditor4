@@ -5,7 +5,8 @@ bender.editor = {
 	config: {
 		extraAllowedContent: 'p span em ul li[id,contenteditable]',
 		// They make HTML comparison different in build and dev modes.
-		removePlugins: 'htmlwriter,entities'
+		removePlugins: 'htmlwriter,entities',
+		extraPlugins: 'placeholder'
 	}
 };
 
@@ -74,6 +75,10 @@ function getKeyEvent( keyCode, preventDefaultCallback ) {
 }
 
 bender.test( {
+	tearDown: function() {
+		this.editor.setReadOnly( false );
+	},
+
 	'Make fake-selection': function() {
 		var editor = this.editor;
 
@@ -203,6 +208,15 @@ bender.test( {
 		editor.getSelection().selectElement( editor.document.getById( 'bar' ) );
 		assert.isFalse( editor.getSelection( 1 ).isHidden(), 'Real selection is not placed in hidden element' );
 		assert.isFalse( !!countHiddenContainers( editor.document ), 'There sould be no hidden selection container' );
+	},
+
+	'Hiding selection encodes label': function() {
+		var editor = this.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>[<span id="bar">bar</span>]</p>' );
+
+		editor.getSelection().fake( editor.document.getById( 'bar' ), '<i>foo</i>' );
+		assert.areEqual( '&lt;i&gt;foo&lt;/i&gt;', editor.editable().findOne( 'div[data-cke-hidden-sel]' ).getHtml() );
 	},
 
 	'Clean up on setData in framed editor': function() {
@@ -1053,6 +1067,34 @@ bender.test( {
 
 			// Be sure the selection is really there - regexp doesn't check it.
 			assert.isTrue( !!html.match( /\[/ ) && !!html.match( /\]/ ), 'Selection exists' );
+		} );
+	},
+
+	// #1516
+	'Test delete/backspace keys are not removing readonly selection': function() {
+
+		// Test has been ignored for IE due to #1575 issue. Remove this ignore statement after the issue fix.
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor, bot = this.editorBot;
+
+		editor.setReadOnly( true );
+
+		bot.setData( '<p>[[placeholder]]</p>', function() {
+			var widget = editor.widgets.instances[ 0 ],
+				domEvent = {
+					getKey: function() {
+						return false;
+					}
+				};
+			widget.focus();
+
+			editor.fire( 'key', { keyCode: 8, domEvent: domEvent } ); // backspace
+			editor.fire( 'key', { keyCode: 46, domEvent: domEvent } ); // delete
+
+			assert.areEqual( '<p>[[placeholder]]</p>', editor.getData() );
 		} );
 	}
 } );

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'pt-br', {
@@ -8,5 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pt-br', {
 	cut: 'Recortar',
 	cutError: 'As configurações de segurança do seu navegador não permitem que o editor execute operações de recortar automaticamente. Por favor, utilize o teclado para recortar (Ctrl/Cmd+X).',
 	paste: 'Colar',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteArea: 'Área para Colar',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
+	title: 'Colar'
 } );

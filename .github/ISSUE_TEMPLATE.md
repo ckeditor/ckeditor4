@@ -1,14 +1,12 @@
 ## Are you reporting a feature request or a bug?
 
 <!--
-Replace this comment with your issue type: Bug / Feature request / Other, please explain.
+Before reporting your issue make sure there are no duplicates already reported.
 
 Please **do not report security issues here**, use the contact form at https://ckeditor.com/contact/ instead.
+
+Replace this comment with your issue type: Bug / Feature request / Other, please explain.
 -->
-
-## [Check if the issue is already reported](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_issues_readme-section-avoid-duplicates)
-
-*Put all reference links here…*
 
 ## Provide detailed reproduction steps (if any)
 

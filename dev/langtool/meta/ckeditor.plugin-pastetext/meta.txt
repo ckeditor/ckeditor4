@@ -1,5 +1,6 @@
-# Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+# Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 button = Toolbar button tooltip for the Paste as Plain Text feature.
 pasteNotification = A notification message shown when the browser is blocking pasting, and the user should use the keyboard instead. The %1 sequence is replaced with a keystroke that - when pressed - will perform the action.
+title = Label for the Paste as Plain Text dialog window.

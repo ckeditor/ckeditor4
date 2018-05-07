@@ -1,0 +1,12 @@
+<div id="editor"></div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		keystrokes: [
+			[ CKEDITOR.CTRL + 116, 'strike' ],
+			[ CKEDITOR.CTRL + 117, 'subscript' ],
+			[ CKEDITOR.CTRL + 118, 'superscript' ]
+		],
+		removeButtons: 'Bold,Italic,Underline'
+	} );
+</script>

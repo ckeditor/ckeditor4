@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -405,12 +405,14 @@ CKEDITOR.plugins.add( 'menu', {
 				CKEDITOR.ui.fire( 'ready', this );
 
 				// Show the panel.
-				if ( this.parent )
+				if ( this.parent ) {
 					this.parent._.panel.showAsChild( panel, this.id, offsetParent, corner, offsetX, offsetY );
-				else
+				} else {
 					panel.showBlock( this.id, offsetParent, corner, offsetX, offsetY );
+				}
 
-				editor.fire( 'menuShow', [ panel ] );
+				var data = [ panel ];
+				editor.fire( 'menuShow', data );
 			},
 
 			/**
@@ -435,6 +437,36 @@ CKEDITOR.plugins.add( 'menu', {
 			hide: function( returnFocus ) {
 				this._.onHide && this._.onHide();
 				this._.panel && this._.panel.hide( returnFocus );
+			},
+
+			/**
+			 * Finds the menu item corresponding to a given command.
+			 *
+			 * **Notice**: Keep in mind that the menu is re-rendered on each opening, so caching items (especially DOM elements)
+			 * may not work. Also executing this method when the menu is not visible may give unexpected results as the
+			 * items may not be rendered.
+			 *
+			 * @since 4.9.0
+			 * @param {String} commandName
+			 * @returns {Object/null} return An object containing a given item. If the item was not found, `null` is returned.
+			 * @returns {CKEDITOR.menuItem} return.item The item definition.
+			 * @returns {CKEDITOR.dom.element} return.element The rendered element representing the item in the menu.
+			 */
+			findItemByCommandName: function( commandName ) {
+				var commands = CKEDITOR.tools.array.filter( this.items, function( item ) {
+					return commandName === item.command;
+				} );
+
+				if ( commands.length ) {
+					var commandItem = commands[ 0 ];
+
+					return {
+						item: commandItem,
+						element: this._.element.findOne( '.' + commandItem.className )
+					};
+				}
+
+				return null;
 			}
 		}
 	} );

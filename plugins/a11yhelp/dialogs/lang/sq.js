@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -12,7 +12,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sq', {
 		items: [
 			{
 			name: 'Shiriti i Redaktuesit',
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT+TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			legend: 'Shtyp ${toolbarFocus} për të shfletuar kokështrirjen. Kalo tek grupi paraprak ose pasues i shiritit përmes kombinacionit TAB dhe SHIFT+TAB, në tastierë. Kalo tek pulla paraprake ose pasuese e kokështrirjes përmes SHIGJETË DJATHTAS ose SHIGJETËS MAJTAS, në tastierë. Shtyp HAPËSIRË ose ENTER Move to the next and previous toolbar button with RIGHT ARROW për të aktivizuar pullën e kokështrirjes.'
 		},
 
 			{
@@ -22,17 +22,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sq', {
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
+			name: 'Menyja Kontestuese e Redaktorit',
 			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
 		},
 
 			{
-			name: 'Editor List Box', // MISSING
+			name: 'Kutiza e Listës së Redaktuesit',
 			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
 		},
 
 			{
-			name: 'Editor Element Path Bar', // MISSING
+			name: 'Shiriti i Rrugës së Elementeve të Redaktorit',
 			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
 		}
 		]
@@ -65,7 +65,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sq', {
 			legend: 'Shtyp ${link}'
 		},
 			{
-			name: ' Toolbar Collapse command', // MISSING
+			name: 'Komanda e Mbjedhjes së Kokështrirjes',
 			legend: 'Shtyp ${toolbarCollapse}'
 		},
 			{
@@ -81,9 +81,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sq', {
 			legend: 'Shtyp ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'Hidhe tërë tekstin e thjeshtë',
+			legend: 'Shtyp ${pastetext}',
+			legendEdge: 'Shtyp ${pastetext}, pasuar nga ${paste}'
 		}
 		]
 	}
@@ -99,24 +99,24 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sq', {
 	rightArrow: 'Shenja djathtas',
 	downArrow: 'Shenja poshtë',
 	insert: 'Shto',
-	leftWindowKey: 'Left Windows key', // MISSING
-	rightWindowKey: 'Right Windows key', // MISSING
-	selectKey: 'Select key', // MISSING
-	numpad0: 'Numpad 0', // MISSING
-	numpad1: 'Numpad 1', // MISSING
-	numpad2: 'Numpad 2', // MISSING
-	numpad3: 'Numpad 3', // MISSING
-	numpad4: 'Numpad 4', // MISSING
-	numpad5: 'Numpad 5', // MISSING
-	numpad6: 'Numpad 6', // MISSING
-	numpad7: 'Numpad 7', // MISSING
-	numpad8: 'Numpad 8', // MISSING
-	numpad9: 'Numpad 9', // MISSING
-	multiply: 'Multiply', // MISSING
+	leftWindowKey: 'Pulla Majtas e Windows-it',
+	rightWindowKey: 'Pulla Djathtas e Windows-it',
+	selectKey: 'Pulla Përzgjedhëse',
+	numpad0: 'Numpad 0',
+	numpad1: 'Numpad 1',
+	numpad2: 'Numpad 2',
+	numpad3: 'Numpad 3',
+	numpad4: 'Numpad 4',
+	numpad5: 'Numpad 5',
+	numpad6: 'Numpad 6',
+	numpad7: 'Numpad 7',
+	numpad8: 'Numpad 8',
+	numpad9: 'Numpad 9',
+	multiply: 'Shumëzo',
 	add: 'Shto',
-	subtract: 'Subtract', // MISSING
-	decimalPoint: 'Decimal Point', // MISSING
-	divide: 'Divide', // MISSING
+	subtract: 'Zbrit',
+	decimalPoint: 'Pika Decimale',
+	divide: 'Pjesëto',
 	f1: 'F1',
 	f2: 'F2',
 	f3: 'F3',
@@ -132,7 +132,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sq', {
 	numLock: 'Num Lock',
 	scrollLock: 'Scroll Lock',
 	semiColon: 'Semicolon',
-	equalSign: 'Equal Sign', // MISSING
+	equalSign: 'Shenja e Barazimit',
 	comma: 'Presje',
 	dash: 'vizë',
 	period: 'Pikë',
@@ -141,5 +141,5 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sq', {
 	openBracket: 'Hape kllapën',
 	backSlash: 'Backslash', // MISSING
 	closeBracket: 'Mbylle kllapën',
-	singleQuote: 'Single Quote' // MISSING
+	singleQuote: 'Thonjëz e vetme'
 } );

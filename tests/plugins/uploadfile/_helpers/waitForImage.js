@@ -5,7 +5,7 @@ function waitForImage( image, callback ) {
 	if ( CKEDITOR.env.ie ) {
 		wait( callback, 100 );
 	} else {
-		image.on( 'load', function() {
+		image.once( 'load', function() {
 			resume( callback );
 		} );
 		wait();

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'oc', {
@@ -8,5 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'oc', {
 	cut: 'Talhar',
 	cutError: 'Los paramètres de seguretat de vòstre navigador autorizan pas l\'editor a executar automaticament l\'operacion « Talhar ». Utilizatz l\'acorchi de clavièr a aqueste efièit (Ctrl/Cmd+X).',
 	paste: 'Pegar',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteArea: 'Paste Area', // MISSING
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
+	title: 'Paste' // MISSING
 } );

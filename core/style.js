@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -136,7 +136,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 *
 	 * @class
 	 * @constructor Creates a style class instance.
-	 * @param styleDefinition
+	 * @param {CKEDITOR.style.definition} styleDefinition
 	 * @param variablesValues
 	 */
 	CKEDITOR.style = function( styleDefinition, variablesValues ) {
@@ -2116,4 +2116,105 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * @since 3.3
  * @cfg {String/Array/Boolean} [stylesSet='default']
  * @member CKEDITOR.config
+ */
+
+/**
+ * Abstract class describing the definition of a style.
+ *
+ * This virtual class illustrates the properties that developers can use to define and create
+ * style definitions.
+ *
+ * A style definition object represents a style as a set of properties defining the element structure, its attributes and CSS styles.
+ * The {@link CKEDITOR.style} based on such definition can be applied to and removed from the selection
+ * through various {@link CKEDITOR.style} methods.
+ *
+ * ```javascript
+ * {
+ *		name: 'Special Title',
+ *		element: 'h1',
+ *		attributes: { class: 'my_class' },
+ *		styles: { color: 'red', 'font-size': '16px', 'font-width': 'bold' }
+ * }
+ * ```
+ *
+ *	Refer to the [Styles guide](#!/guide/dev_howtos_styles) for more information about how editor content styles are handled.
+ *
+ * @class CKEDITOR.style.definition
+ * @abstract
+ */
+
+/**
+ * Defines the style type.
+ *
+ * There are three standard style types:
+ *
+ * * {@link CKEDITOR#STYLE_INLINE},
+ * * {@link CKEDITOR#STYLE_BLOCK},
+ * * {@link CKEDITOR#STYLE_OBJECT}.
+ *
+ * Each type is related to the element used in the style rule and the types of elements to which a specific style can be applied.
+ *
+ * Plugins may define {@link CKEDITOR.style.customHandlers special style handlers} to customize style operations.
+ * To use a special style handler, the `type` property should be set to the name of the style handler, e.g. `widget`.
+ *
+ * Refer to the [Style Types section of the Applying Styles to Editor Content guide](#!/guide/dev_styles-section-style-types) for more information about style types.
+ *
+ * ```javascript
+ * { type: CKEDITOR.STYLE_INLINE }
+ * ```
+ *
+ * @property {String/Number} type=CKEDITOR.STYLE_INLINE
+ */
+
+/**
+ * A unique style definition name. It can be used to differentiate style definitions, like in the [Styles Combo](#!/guide/dev_styles) plugin
+ * drop-down where it represents item labels.
+ *
+ * ```javascript
+ * { name: 'Special title' }
+ * ```
+ *
+ * @property {String} name
+ */
+
+/**
+ * A set of properties specifying attributes of the HTML style element.
+ * If the `style` attribute is present, it will be merged with the existing {@link CKEDITOR.style.definition#styles} property.
+ *
+ * ```javascript
+ * {
+ *		attributes: {
+ *			style: 'color: red',
+ *			class: 'link'
+ *		}
+ * }
+ * ```
+ *
+ * @property {Object.<String, String>} attributes
+ */
+
+/**
+ * An element type that will be applied to the selection when applying a style. It should be a valid HTML element, for example `span`.
+ *
+ * ```javascript
+ * { element: 'h1' }
+ * ```
+ *
+ * @property {String} element
+ */
+
+/**
+ * A set of properties specifying CSS style rules of the HTML style element.
+ *
+ * ```javascript
+ * {
+ *		styles: {
+ *			color: 'red',
+ *			'font-size': '12px'
+ *			'font-weight': 'bold'
+ *		}
+ * }
+ * ```
+ *
+ * @property {Object.<String, String>} styles
  */

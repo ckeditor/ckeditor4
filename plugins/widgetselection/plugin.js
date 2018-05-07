@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -26,14 +26,10 @@
 						editable = editor.editable();
 
 					editable.attachListener( doc, 'keydown', function( evt ) {
-						var data = evt.data.$;
-
 						// Ctrl/Cmd + A
-						if ( evt.data.getKey() == 65 && ( CKEDITOR.env.mac && data.metaKey || !CKEDITOR.env.mac && data.ctrlKey ) ) {
-
+						if ( evt.data.getKeystroke() == CKEDITOR.CTRL + 65 ) {
 							// Defer the call so the selection is already changed by the pressed keys.
 							CKEDITOR.tools.setTimeout( function() {
-
 								// Manage filler elements on keydown. If there is no need
 								// to add fillers, we need to check and clean previously used once.
 								if ( !widgetselection.addFillers( editable ) ) {

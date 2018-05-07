@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'vi', {
@@ -8,5 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'vi', {
 	cut: 'Cắt',
 	cutError: 'Các thiết lập bảo mật của trình duyệt không cho phép trình biên tập tự động thực thi lệnh cắt. Hãy sử dụng bàn phím cho lệnh này (Ctrl/Cmd+X).',
 	paste: 'Dán',
-	pasteNotification: 'Trình duyệt của bạn không cho phép bạn dán theo cách này. Nhấn %1 để dán'
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteArea: 'Khu vực dán',
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
+	title: 'Dán'
 } );

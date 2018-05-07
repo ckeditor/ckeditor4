@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -190,7 +190,7 @@
 					// No def.supportedTypes means all types are supported.
 					if ( !def.supportedTypes || fileTools.isTypeSupported( file, def.supportedTypes ) ) {
 						var el = def.fileToElement( file ),
-							loader = uploads.create( file );
+							loader = uploads.create( file, undefined, def.loaderType );
 
 						if ( el ) {
 							loader[ loadMethod ]( def.uploadUrl, def.additionalRequestParameters );
@@ -337,7 +337,15 @@
 				} else {
 					editor.getSelection().selectBookmarks( bookmarks );
 				}
+			},
 
+			/**
+			 * @private
+			 * @returns {CKEDITOR.fileTools.fileLoader/null} The loader associated with this widget instance or `null` if not found.
+			 */
+			_getLoader: function() {
+				var marker = this.wrapper.findOne( '[data-cke-upload-id]' );
+				return marker ? this.editor.uploadRepository.loaders[ marker.data( 'cke-upload-id' ) ] : null;
 			}
 
 			/**
@@ -363,6 +371,12 @@
 			 * {@link CKEDITOR.fileTools#getUploadUrl}.
 			 *
 			 * @property {String} [uploadUrl]
+			 */
+
+			/**
+			 * Loader type that should be used for creating file tools requests.
+			 *
+			 * @property {Function} [loaderType]
 			 */
 
 			/**

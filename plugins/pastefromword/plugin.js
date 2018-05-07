@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -47,7 +47,7 @@
 			} );
 
 			// Register the toolbar button.
-			editor.ui.addButton && editor.ui.addButton( 'PasteFromWord', {
+			CKEDITOR.plugins.clipboard.addPasteButton( editor, 'PasteFromWord', {
 				label: editor.lang.pastefromword.toolbar,
 				command: 'pastefromword',
 				toolbar: 'clipboard,50'

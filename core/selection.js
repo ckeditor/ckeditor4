@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -457,7 +457,7 @@
 
 	// Creates cke_hidden_sel container and puts real selection there.
 	function hideSelection( editor, ariaLabel ) {
-		var content = ariaLabel || '&nbsp;',
+		var content = ariaLabel && CKEDITOR.tools.htmlEncode( ariaLabel ) || '&nbsp;',
 			style = CKEDITOR.env.ie && CKEDITOR.env.version < 14 ? 'display:none' : 'position:fixed;top:0;left:-1000px',
 			hiddenEl = CKEDITOR.dom.element.createFromHtml(
 				'<div data-cke-hidden-sel="1" data-cke-temp="1" style="' + style + '">' + content + '</div>',
@@ -525,6 +525,11 @@
 				var editor = evt.editor,
 					range = editor.createRange(),
 					found;
+
+				// We have to skip deletion for read only editor (#1516).
+				if ( editor.readOnly ) {
+					return;
+				}
 
 				// If haven't found place for caret on the default side,
 				// try to find it on the other side.
@@ -1085,8 +1090,9 @@
 		}, null, null, 100 );
 
 		editor.on( 'key', function( evt ) {
-			if ( editor.mode != 'wysiwyg' )
+			if ( editor.mode != 'wysiwyg' ) {
 				return;
+			}
 
 			var sel = editor.getSelection();
 			if ( !sel.isFake )

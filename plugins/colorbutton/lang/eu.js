@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'eu', {
@@ -67,7 +67,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'eu', {
 		'C0392B': 'Strong Red', // MISSING
 		'BDC3C7': 'Silver', // MISSING
 		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'999': 'Gris iluna'
 	},
 	more: 'Kolore gehiago...',
 	panelTitle: 'Koloreak',

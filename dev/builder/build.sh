@@ -1,5 +1,5 @@
 ﻿#!/bin/bash
-# Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+# Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 # Build CKEditor using the default settings (and build.js).
@@ -9,8 +9,8 @@ set -e
 echo "CKBuilder - Builds a release version of ckeditor-dev."
 echo ""
 
-CKBUILDER_VERSION="2.3.1"
-CKBUILDER_URL="http://download.cksource.com/CKBuilder/$CKBUILDER_VERSION/ckbuilder.jar"
+CKBUILDER_VERSION="2.3.2"
+CKBUILDER_URL="https://download.cksource.com/CKBuilder/$CKBUILDER_VERSION/ckbuilder.jar"
 
 PROGNAME=$(basename $0)
 MSG_UPDATE_FAILED="Warning: The attempt to update ckbuilder.jar failed. The existing file will be used."

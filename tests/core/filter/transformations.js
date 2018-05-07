@@ -4,13 +4,23 @@
 ( function() {
 	'use strict';
 
-	function assertToHtml( editor, input, html,  msg ) {
+	function assertToHtml( editor, input, html, msg ) {
 		assert[ typeof html == 'string' ? 'areSame' : 'isMatching' ]( html, bender.tools.compatHtml( editor.dataProcessor.toHtml( input ), 0, 1 ), msg + ' - toHtml' );
 	}
 
 	function assertToDF( editor, html, output, msg ) {
 		assert[ typeof output == 'string' ? 'areSame' : 'isMatching' ]( output, bender.tools.compatHtml( editor.dataProcessor.toDataFormat( html ), 0, 1 ), msg + ' - toDF' );
 	}
+
+	function assertToBeautifiedHtml( editor, input, html, msg ) {
+		var result = bender.tools.compatHtml( editor.dataProcessor.toHtml( input ), 0, 1 );
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version === 11 ) {
+			// IE11 adds `border-image: none;` to styles. We need to fix it before assertion check. It's an upstream issue: #473, https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12263408/.
+			result = result.replace( 'border-image:none; ', '' );
+		}
+		assert.beautified.html( html, result, msg + ' - toBeautifiedHtml' );
+	}
+
 
 	bender.test( {
 		'test size transformations': function() {
@@ -428,6 +438,39 @@
 				assertToHtml( editor, '<h1 style="margin:1px 2px 3px 4px">A</h1>',
 					'<h1 style="margin-left:4px; margin-top:1px">A</h1>',
 					'margin shortcut 4 members' );
+			} );
+		},
+
+		'test splitBorderShorthand transformation': function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				// IE8 has a browser "feature" which split up border into border-top, border-left, border-bottom, border-right styles.
+				// That's why this change does not affect IE8 browser.
+				assert.ignore();
+			}
+			bender.editorBot.create( {
+				name: 'test_splitBorderShorthand_transformation',
+				config: {
+					extraAllowedContent: 'p{border,border-*}'
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				editor.filter.addTransformations( [
+					[ 'p: splitBorderShorthand' ]
+				] );
+
+				assertToBeautifiedHtml( editor, '<p style="border: 1px solid red">A</p>',
+					'<p style="border-color:red; border-style:solid; border-width:1px">A</p>', 'border split shorthand 1' );
+				assertToBeautifiedHtml( editor, '<p style="border: 5px dashed rgb(23, 45, 89)">A</p>',
+					'<p style="border-color:#172d59; border-style:dashed; border-width:5px">A</p>', 'border split shorthand 2' );
+				assertToBeautifiedHtml( editor, '<p style="border: 2em dotted #345678">A</p>',
+					'<p style="border-color:#345678; border-style:dotted; border-width:2em">A</p>', 'border split shorthand 3' );
+				assertToBeautifiedHtml( editor, '<p style="border: 3px double">A</p>',
+					'<p style="border-style:double; border-width:3px">A</p>', 'border split shorthand 4' );
+				assertToBeautifiedHtml( editor, '<p style="border:3px">A</p>',
+					'<p style="border-width:3px">A</p>', 'border split shorthand 5' );
+				assertToBeautifiedHtml( editor, '<p style="border:thick ridge hsla(50, 100%, 50%, 0.7)">A</p>',
+					'<p style="border-color:hsla(50, 100%, 50%, 0.7); border-style:ridge; border-width:thick">A</p>', 'border split shorthand 6' );
 			} );
 		}
 	} );

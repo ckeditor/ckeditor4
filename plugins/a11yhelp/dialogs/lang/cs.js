@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -81,9 +81,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 			legend: 'Stiskněte ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'Vložit jako čistý text',
+			legend: 'Stiskněte ${pastetext}',
+			legendEdge: 'Stiskněte ${pastetext} a pak ${paste}'
 		}
 		]
 	}

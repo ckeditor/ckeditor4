@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'cs', {
@@ -46,28 +46,28 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'cs', {
 		F0F8FF: 'Alenčina modrá',
 		E6E6FA: 'Levandulová',
 		FFF: 'Bílá',
-		'1ABC9C': 'Strong Cyan', // MISSING
+		'1ABC9C': 'Silná azurová',
 		'2ECC71': 'Emeraldová',
 		'3498DB': 'Jasně modrá',
 		'9B59B6': 'Ametystová',
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
+		'4E5F70': 'Šedomodrá',
+		'F1C40F': 'Sytá žlutá',
+		'16A085': 'Tmavě azurová',
+		'27AE60': 'Tmavě emeraldová',
+		'2980B9': 'Silná modrá',
+		'8E44AD': 'Tmavě fialová',
+		'2C3E50': 'Odsycená modrá',
 		'F39C12': 'Oranžová',
 		'E67E22': 'Mrkvová',
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
+		'E74C3C': 'Bledě červená',
+		'ECF0F1': 'Světle stříbrná',
+		'95A5A6': 'Světlě šedoazurová',
+		'DDD': 'Světle šedá',
 		'D35400': 'Dýňová',
-		'C0392B': 'Strong Red', // MISSING
+		'C0392B': 'Silná červená',
 		'BDC3C7': 'Stříbrná',
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'7F8C8D': 'Šedoazurová',
+		'999': 'Tmavošedá'
 	},
 	more: 'Více barev...',
 	panelTitle: 'Barvy',

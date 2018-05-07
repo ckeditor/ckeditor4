@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'ko' ] = {
 		width: '너비',
 		height: '높이',
 		align: '정렬',
-		alignLeft: '왼쪽',
-		alignRight: '오른쪽',
-		alignCenter: '가운데',
-		alignJustify: '양쪽 맞춤',
+		left: '왼쪽',
+		right: '오른쪽',
+		center: '중앙',
+		justify: '양쪽 정렬',
+		alignLeft: '왼쪽 정렬',
+		alignRight: '오른쪽 정렬',
+		alignCenter: '중앙 정렬',
 		alignTop: '위',
 		alignMiddle: '중간',
 		alignBottom: '아래',
@@ -89,7 +92,7 @@ CKEDITOR.lang[ 'ko' ] = {
 		invalidValue: '잘못된 값.',
 		invalidHeight: '높이는 숫자여야 합니다.',
 		invalidWidth: '넓이는 숫자여야 합니다.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
+		invalidLength: '"%1" 값은 유효한 측정단위(%2)를 포함하거나 포함하지 않은 양수여야 합니다.',
 		invalidCssLength: '"%1" 값은 유효한 CSS 측정 단위(px, %, in, cm, mm, em, ex, pt, or pc)를 포함하거나 포함하지 않은 양수 여야 합니다.',
 		invalidHtmlLength: '"%1" 값은 유효한 HTML 측정 단위(px or %)를 포함하거나 포함하지 않은 양수여야 합니다.',
 		invalidInlineStyle: '인라인 스타일에 설정된 값은 "name : value" 형식을 가진 하나 이상의 투플(tuples)이 세미콜론(;)으로 구분되어 구성되어야 합니다.',
@@ -109,12 +112,36 @@ CKEDITOR.lang[ 'ko' ] = {
 			35: '엔드',
 			36: '홈',
 			46: '딜리트',
+			112: 'F1', // MISSING
+			113: 'F2', // MISSING
+			114: 'F3', // MISSING
+			115: 'F4', // MISSING
+			116: 'F5', // MISSING
+			117: 'F6', // MISSING
+			118: 'F7', // MISSING
+			119: 'F8', // MISSING
+			120: 'F9', // MISSING
+			121: 'F10', // MISSING
+			122: 'F11', // MISSING
+			123: 'F12', // MISSING
+			124: 'F13', // MISSING
+			125: 'F14', // MISSING
+			126: 'F15', // MISSING
+			127: 'F16', // MISSING
+			128: 'F17', // MISSING
+			129: 'F18', // MISSING
+			130: 'F19', // MISSING
+			131: 'F20', // MISSING
+			132: 'F21', // MISSING
+			133: 'F22', // MISSING
+			134: 'F23', // MISSING
+			135: 'F24', // MISSING
 			224: '커맨드'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
 		keyboardShortcut: '키보드 단축키',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: '기본값'
 	}
 };
