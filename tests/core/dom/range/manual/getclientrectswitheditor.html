@@ -49,6 +49,7 @@
 <script>
 	( function() {
 		// IE 8 polyfill doesn't work when selecting block elements like widget. Also it's unsupported by table selection.
+		// Also bugs #1925 and #1930 are not occuring when using IE polyfill, so there is no need to run this test on IE8.
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
 			bender.ignore()
 		}
@@ -66,20 +67,24 @@
 						output = doc.getById( 'output' ),
 						editor = this;
 
-					rng.setStart( par.getParent(), par.getIndex() );
-					rng.setEnd( par.getParent(), par.getIndex() + 1 );
+					rng.setStart( par, CKEDITOR.POSITION_AFTER_START );
 
 					this.getSelection().selectRanges( [ rng ] );
 
 					window.setInterval( function() {
+						removeRectangles();
+
+						if ( !editor.getSelection() || editor.getSelection().isLocked ) {
+							// Don't do anything else if there is no selection, e.g. editor is in sourcemode.
+							// When selection is locked IE9 and IE10 are throwing indexSizeError.
+							return;
+						}
 						var ranges = editor.getSelection().getRanges(),
 							rects = ranges && CKEDITOR.tools.array.reduce( ranges, function( total, current ) {
 								return total.concat( current.getClientRects( true ) );
 							}, [] );
 
 						output.setValue( 'Selection rect\n---\nrectangle count: ' + ( rects ? rects.length : rects ) );
-
-						removeRectangles();
 
 						if ( !rng || !rects || !rects.length ) {
 							return;
