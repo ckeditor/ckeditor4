@@ -53,6 +53,12 @@
 			assertView( this.createMentionsInstance( { feed: [ 'anna' ], caseSensitive: true } ), [] );
 		},
 
+		// (#1934)
+		'test case insensitive array match': function() {
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			assertView( this.createMentionsInstance( { feed: [ 'Andy', 'anna' ], caseSensitive: false } ), [ 'Andy', 'anna' ] );
+		},
+
 		'test array feed with custom minChars': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@A^</p>' );
 
