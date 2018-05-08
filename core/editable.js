@@ -2553,8 +2553,12 @@
 		}
 
 		// Remove selected content. It appears work better than native handling "backspace"/"delete" button.
-		editor.document.$.execCommand( 'delete' );
-		editor.focus();
+		if ( hasBoundariesInTable ) {
+			editor.document.$.execCommand( 'delete' );
+		} else {
+			editor.extractSelectedHtml();
+		}
+
 		return true;
 	}
 
