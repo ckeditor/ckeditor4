@@ -48,26 +48,23 @@
 			};
 
 			editor.getCommand( item.command ).on( 'state', function() {
-				var activeButton = getLastActiveCommands( editor, allItems ),
-					previousId = previousButton && properties.buttons[ previousButton.id ]._.id;
+				var activeButton = getLastActiveCommands( editor, allItems );
 
-				if ( previousId && activeButton && previousButton.label !== activeButton.label ) {
-					CKEDITOR.document.getById( previousId ).setStyle( 'display', 'none' );
-					properties.buttons[ previousButton.id ].hidden = true;
+				if ( !properties.buttons[ defaultButton.id ]._.id ) {
+					// Button without id isn't in DOM tree, eg. when it is in balloon toolbar which didn't show yet.
+					// So don't update anything.
+					return;
+				}
+				if ( previousButton ) {
+					setButtonDisplay( previousButton.id, 'none' );
 				}
 
 				if ( activeButton ) {
-					if ( activeButton.label !== defaultButton.label ) {
-						CKEDITOR.document.getById( properties.buttons[ defaultButton.id ]._.id ).setStyle( 'display', 'none' );
-						properties.buttons[ defaultButton.id ].hidden = true;
-
-						CKEDITOR.document.getById( properties.buttons[ activeButton.id ]._.id ).removeStyle( 'display' );
-						properties.buttons[ activeButton.id ].hidden = false;
-						previousButton = activeButton;
-					}
+					setButtonDisplay( defaultButton.id, 'none' );
+					setButtonDisplay( activeButton.id );
+					previousButton = activeButton;
 				} else {
-					CKEDITOR.document.getById( properties.buttons[ defaultButton.id ]._.id ).removeStyle( 'display' );
-					properties.buttons[ defaultButton.id ].hidden = false;
+					setButtonDisplay( defaultButton.id );
 					previousButton = defaultButton;
 				}
 			} );
@@ -91,6 +88,16 @@
 			}
 		}
 		return properties;
+
+		function setButtonDisplay( buttonId, display ) {
+			var element = CKEDITOR.document.getById( properties.buttons[ buttonId ]._.id );
+			element[ display ? 'setStyle' : 'removeStyle' ]( 'display', display );
+			if ( !display ) {
+				delete properties.buttons[ buttonId ].hidden;
+			} else {
+				properties.buttons[ buttonId ].hidden = true;
+			}
+		}
 	}
 
 	CKEDITOR.plugins.add( 'splitbutton', {
