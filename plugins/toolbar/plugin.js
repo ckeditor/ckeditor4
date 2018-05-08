@@ -17,7 +17,7 @@
 	toolbox.prototype.focus = function() {
 		for ( var t = 0, toolbar; toolbar = this.toolbars[ t++ ]; ) {
 			for ( var i = 0, item; item = toolbar.items[ i++ ]; ) {
-				if ( item.focus ) {
+				if ( item.focus && !item.button.hidden ) {
 					item.focus();
 					return;
 				}
@@ -97,17 +97,7 @@
 							return false;
 
 						case rightKeyCode:
-							next = item;
-							do {
-								// Look for the next item in the toolbar.
-								next = next.next;
-								while ( next && next.button && next.button.hidden ) {
-									next = next.next;
-								}
-								// If it's the last item, cycle to the first one.
-								if ( !next && toolbarGroupCycling ) next = item.toolbar.items[ 0 ];
-							}
-							while ( next && !next.focus );
+							next = getNextItem( item, 'next' );
 
 							// If available, just focus it, otherwise focus the
 							// first one.
@@ -128,22 +118,8 @@
 							return false;
 						case leftKeyCode:
 						case 38: // UP-ARROW
-							next = item;
-							do {
-								// Look for the previous item in the toolbar.
-								next = next.previous;
+							next = getNextItem( item, 'previous' );
 
-								while ( next && next.button && next.button.hidden ) {
-									next = next.previous;
-								}
-
-								// If it's the first item, cycle to the last one.
-								if ( !next && toolbarGroupCycling ) next = item.toolbar.items[ item.toolbar.items.length - 1 ];
-							}
-							while ( next && !next.focus );
-
-							// If available, just focus it, otherwise focus the
-							// last one.
 							if ( next )
 								next.focus();
 							else {
@@ -165,6 +141,29 @@
 							return false;
 					}
 					return true;
+					function getNextItem( item, nextOrPrevious ) {
+						var next;
+						do {
+							// Look for the next item in the toolbar.
+							next = item[ nextOrPrevious ];
+
+							while ( next && next.button && next.button.hidden ) {
+								next = next[ nextOrPrevious ];
+							}
+							// If it's the last item, cycle to the first one.
+							if ( !next && toolbarGroupCycling ) {
+								if ( nextOrPrevious === 'previous' ) {}
+								next = item.toolbar.items[ nextOrPrevious === 'next' ? 0 : item.toolbar.items.length - 1 ];
+
+								if ( next.button.hidden ) {
+									return getNextItem( next, nextOrPrevious );
+								}
+							}
+						}
+						while ( next && !next.focus );
+
+						return next;
+					}
 				};
 
 			editor.on( 'uiSpace', function( event ) {
