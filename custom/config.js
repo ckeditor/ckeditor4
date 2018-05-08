@@ -8,7 +8,7 @@
 * Note: When filebrowser, format, link and stylescombo are removed, their
 * dependencies (popup, listblock, fakeobjects and richcombo) are also removed.
 *
-* 1. Add the following plugins:
+* 1. Add the following 7 plugins:
 *
 *    Accessibility Checker  (a11ychecker)
 *    Code Snippet           (codesnippet)
@@ -18,12 +18,13 @@
 *    List Style             (liststyle)
 *    Show Blocks            (showblocks)
 *
-* 2. Remove the following plugins:
+* 2. Remove the following 11 plugins:
 *
 *    File Browser           (filebrowser)
 *    Floating Space         (floatingspace)
 *    Format                 (format)
 *    Horizontal Rule        (horizontalrule)
+*    Image                  (image)
 *    Link                   (link)
 *    Maximize               (maximize)
 *    SpellCheckAsYouType    (scayt)
@@ -31,7 +32,7 @@
 *    Upload Image           (uploadimage)
 *    WebSpellChecker        (wsc)
 *
-* 3. Add the a11yfirst plugin dependencies that were removed when the
+* 3. Add the 3 a11yfirst plugin dependencies that were removed when the
 *    Standard preset plugins format, link and stylescombo were removed:
 *
 *    Fake Objects           (fakeobjects)
@@ -83,7 +84,6 @@ CKEDITOR.editorConfig = function ( config ) {
     'find,' +
     'floatpanel,' +
     'htmlwriter,' +
-//    'image,' +
     'indent,' +
     'indentlist,' +
     'justify,' +
@@ -160,7 +160,7 @@ CKEDITOR.editorConfig = function ( config ) {
     { name: 'misc1',          items: [ 'Image', 'Table' ] },
     { name: 'showblocks',     items: [ 'ShowBlocks' ] },
     { name: 'a11yfirsthelp',  items: [ 'A11yFirstHelp' ] },
-//    { name: 'source',         items: [ 'Source' ] },
+//  { name: 'source',         items: [ 'Source' ] },
     '/',
     { name: 'undoredo',       items: [ 'Undo', 'Redo' ] },
     { name: 'clipboard',      items: [ 'Cut', 'Copy', 'Paste', 'PasteFromWord' ] },
