@@ -2859,68 +2859,63 @@ CKEDITOR.dom.range = function( root ) {
 				return function( isAbsolute ) {
 					// We need to create native range so we can call native getClientRects.
 					var range = document.createRange(),
-						rectArray;
+						rectList;
 
 					range.setStart( this.startContainer.$, this.startOffset );
 					range.setEnd( this.endContainer.$, this.endOffset );
-					var firstLast,
-						childNode;
+					var first,
+						textNode,
+						itemToInsertAfter;
 
-					rectArray = CKEDITOR.tools.array.map( range.getClientRects(), function( item ) {
-						return convertRect( item, isAbsolute, this );
-					}, this );
+					rectList = range.getClientRects();
 
-					if ( !rectArray.length ) {
+					if ( !rectList.length ) {
+						// If native rect list is empty, use workarounds to get rects.
+
 						if ( !range.collapsed ) {
 							// In some cases ( eg. ranges contain only image ) IE will return empty rectList.
-							rectArray = [ getRect( this.createBookmark() ) ];
+
+							rectList = [ getRect( this.createBookmark() ) ];
 						} else if ( this.startContainer instanceof CKEDITOR.dom.element ) {
+							// If collapsed ranges are in element add textNode and return its rects.
 
-							firstLast = this.checkStartOfBlock() ? 'First' : this.checkEndOfBlock() && 'Last';
+							first = this.checkStartOfBlock();
+							textNode = new CKEDITOR.dom.text( '\u200b' );
 
-							if ( firstLast ) {
-								// If selection is at the beginning or the end of an element we can move it into end of last or first child.
-								if ( childNode = this.startContainer[ 'get' + firstLast ]() ) {
-
-									while ( !( childNode instanceof CKEDITOR.dom.text ) && childNode.getChildCount() ) {
-										childNode = childNode[ 'get' + firstLast ]();
-									}
-
-									if ( !( childNode instanceof CKEDITOR.dom.text ) && !childNode.getChildCount() ) {
-										var childRect = childNode.getClientRect( isAbsolute );
-
-										return [ childRect ];
-									}
-
-									this.setStart( childNode, firstLast === 'Last' ? childNode.getLength() : 0 );
-									this.setEnd( childNode, firstLast === 'Last' ? childNode.getLength() : 0 );
-									return this.getClientRects( isAbsolute );
-								}
+							if ( first ) {
+								this.startContainer.append( textNode, true );
 							} else {
-								// If selection is in the middle of element and still no rects are returned use the IE helper.
-								rectArray = [ getRect( this.createBookmark() ) ];
+								itemToInsertAfter = this.startContainer.getChildren().getItem( this.startOffset - 1 );
+								textNode.insertAfter( itemToInsertAfter );
 							}
 
-						} else if ( this.startContainer instanceof CKEDITOR.dom.text ) {
+							// Create native collapsed ranges inside just created textNode.
+							range.setStart( textNode.$, 0 );
+							range.setEnd( textNode.$, 0 );
 
+							rectList = range.getClientRects();
+							textNode.remove();
+						} else if ( this.startContainer instanceof CKEDITOR.dom.text ) {
 							if ( this.startContainer.getText() === '' ) {
 								// In case of empty text fill it with zero width space.
 								this.startContainer.setText( '\u200b' );
-
-								rectArray = CKEDITOR.tools.array.map( range.getClientRects(), function( item ) {
-									return convertRect( item, isAbsolute, this );
-								}, this );
+								rectList = range.getClientRects();
 
 								this.startContainer.setText( '' );
+
 							} else {
-								// If there is text node which isn't empty, but still no rects are returned use IE polyfill.
-								rectArray =  [ convertRect( getRect( this.createBookmark() ), isAbsolute, this ) ];
+								// If there is text node which isn't empty, but still no rects are returned use IE8 polyfill.
+								// This happens with selection at the end of line in IE.
+								rectList =  [ convertRect( getRect( this.createBookmark() ), isAbsolute, this ) ];
 							}
 						}
 					}
 
 					range.detach();
-					return rectArray;
+
+					return CKEDITOR.tools.array.map( rectList, function( item ) {
+						return convertRect( item, isAbsolute, this );
+					}, this );
 				};
 			} else {
 				return function( isAbsolute ) {
