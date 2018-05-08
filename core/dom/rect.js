@@ -5,7 +5,7 @@
 
 /**
  * @fileOverview Defines the "virtual" {@link CKEDITOR.dom.rect} class
- * which contains the defintion of an element's DOM rectangle. This file is for
+ * which contains the definition of an element's DOM rectangle. This file is for
  * documentation purposes only.
  */
 
