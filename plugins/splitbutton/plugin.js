@@ -51,18 +51,20 @@
 				var activeButton = getLastActiveCommands( editor, allItems ),
 					previousId = previousButton && properties.buttons[ previousButton.id ]._.id;
 
-				if ( previousId ) {
+				if ( previousId && activeButton && previousButton.label !== activeButton.label ) {
 					CKEDITOR.document.getById( previousId ).setStyle( 'display', 'none' );
 					properties.buttons[ previousButton.id ].hidden = true;
 				}
 
 				if ( activeButton ) {
-					CKEDITOR.document.getById( properties.buttons[ defaultButton.id ]._.id ).setStyle( 'display', 'none' );
-					properties.buttons[ defaultButton.id ].hidden = true;
+					if ( activeButton.label !== defaultButton.label ) {
+						CKEDITOR.document.getById( properties.buttons[ defaultButton.id ]._.id ).setStyle( 'display', 'none' );
+						properties.buttons[ defaultButton.id ].hidden = true;
 
-					CKEDITOR.document.getById( properties.buttons[ activeButton.id ]._.id ).removeStyle( 'display' );
-					properties.buttons[ activeButton.id ].hidden = false;
-					previousButton = activeButton;
+						CKEDITOR.document.getById( properties.buttons[ activeButton.id ]._.id ).removeStyle( 'display' );
+						properties.buttons[ activeButton.id ].hidden = false;
+						previousButton = activeButton;
+					}
 				} else {
 					CKEDITOR.document.getById( properties.buttons[ defaultButton.id ]._.id ).removeStyle( 'display' );
 					properties.buttons[ defaultButton.id ].hidden = false;
