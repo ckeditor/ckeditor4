@@ -117,11 +117,22 @@
 	 * @param {Number} [config.minChars=2] A number of characters that should follow the marker character in order to trigger mentions feature.
 	 * @param {String} [config.marker='@'] A character that should trigger autocompletion.
 	 * @param {String} [config.template=CKEDITOR.plugins.autocomplete.view.itemTemplate] Template used to render matches in the dropdown.
+	 * @param {Boolean} [config.caseSensitive=false] See {@link #caseSensitive}.
 	 * @param {String/String[]/Function} config.feed Feed of items to be displayed in mentions plugin.
 	 */
 	function Mentions( editor, config ) {
 		var feed = config.feed,
 			template = config.template;
+
+		/**
+		 * Indicates that mentions instance is character case sensitive for simple items feed i.e. array feed.
+		 *
+		 * Note that this will take no effect on feeds using callback or URLs, as in this case results are expected to
+		 * be already filtered.
+		 *
+		 * @property {Boolean} [caseSensitive=false]
+		 */
+		this.caseSensitive = config.caseSensitive;
 
 		/**
 		 * A character that should trigger autocompletion.
@@ -140,7 +151,9 @@
 		 * @readonly
 		 * @property {CKEDITOR.plugins.autocomplete}
 		 */
-		this.autocomplete = new CKEDITOR.plugins.autocomplete( editor, getTextTestCallback( this.marker, this.minChars ), getDataCallback( feed, this.marker ) );
+		this.autocomplete = new CKEDITOR.plugins.autocomplete( editor,
+			getTextTestCallback( this.marker, this.minChars ),
+			getDataCallback( feed, this.marker, this.caseSensitive ) );
 
 		template && this.changeViewTemplate( template );
 	}
@@ -200,7 +213,7 @@
 		}
 	}
 
-	function getDataCallback( feed, marker ) {
+	function getDataCallback( feed, marker, caseSensitive ) {
 		return function( query, range, callback ) {
 			// We are removing marker here to give clean query result for the endpoint callback.
 			if ( marker ) {
@@ -211,12 +224,20 @@
 
 			// Feed is a simple array e.g. [ 'Anna', 'John', 'Thomas' ].
 			if ( CKEDITOR.tools.array.isArray( feed ) ) {
-				callback(
-					indexFeed( feed ).filter( function( item ) {
-						return item.name.indexOf( query ) === 0;
-					} )
-				);
+				var data = indexFeed( feed ).filter( function( item ) {
+					var itemName = item.name;
+
+					if ( !caseSensitive ) {
+						itemName = itemName.toLowerCase();
+						query = query.toLowerCase();
+					}
+
+					return itemName.indexOf( query ) === 0;
+				} );
+
+				callback( data );
 			}
+
 			// Feed is a URL to be requested for a JSON of matches e.g. `/user-controller/get-list/{encodedQuery}`.
 			else if ( typeof feed === 'string' ) {
 				var encodedQueryRegex = new RegExp( ENCODED_QUERY, 'g' ),
@@ -226,7 +247,8 @@
 					callback( JSON.parse( data ) );
 				} );
 			}
-			// Feed is a function using callback to pass data through autocomplete plugin e.g.
+
+			// Feed is a function which uses callback to pass data through autocomplete plugin e.g.
 			//
 			// function dataSource( { query: query, marker: marker }, callback ) {
 			// 		callMyBackend( query, function( results ) {

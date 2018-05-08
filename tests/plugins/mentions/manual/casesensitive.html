@@ -1,0 +1,19 @@
+<textarea id="editor">
+	<p>Amet architecto tempore provident harum optio animi Et dolorem vero.</p>
+	<p>Dolor ipsum impedit asperiores iusto molestias nemo itaque nobis, ratione!</p>
+	<p>Lorem sunt doloremque explicabo eveniet quae, natus cumque? Commodi aliquid?</p>
+</textarea>
+
+<script>
+
+	CKEDITOR.replace( 'editor', {
+		width: 600,
+		mentions: [
+			{
+				feed: [ 'Anna', 'Annabelle', 'Thomas' ],
+				minChars: 1,
+				caseSensitive: true
+			}
+		]
+	} );
+</script>

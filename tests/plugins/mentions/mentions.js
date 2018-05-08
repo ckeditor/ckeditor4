@@ -30,9 +30,33 @@
 			assertView( this.createMentionsInstance( { feed: feedData } ), expectedFeedData );
 		},
 
+		// (#1934)
+		'test case sensitive array feed with match': function() {
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			assertView( this.createMentionsInstance( { feed: feedData, caseSensitive: true } ), expectedFeedData );
+		},
+
 		'test array feed without match': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@A^</p>' );
 			assertView( this.createMentionsInstance( { feed: feedData } ), [] );
+		},
+
+		// (#1934)
+		'test case sensitive array feed without match - lowercase query': function() {
+			this.editorBot.setHtmlWithSelection( '<p>@an^</p>' );
+			assertView( this.createMentionsInstance( { feed: feedData, caseSensitive: true } ), [] );
+		},
+
+		// (#1934)
+		'test case sensitive array feed without match - lowercase data': function() {
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			assertView( this.createMentionsInstance( { feed: [ 'anna' ], caseSensitive: true } ), [] );
+		},
+
+		// (#1934)
+		'test case insensitive array match': function() {
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			assertView( this.createMentionsInstance( { feed: [ 'Andy', 'anna' ], caseSensitive: false } ), [ 'Andy', 'anna' ] );
 		},
 
 		'test array feed with custom minChars': function() {
