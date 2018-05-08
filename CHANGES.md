@@ -6,6 +6,7 @@
 New Features:
 
 * [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin supports email links.
+* [#1679](https://github.com/ckeditor/ckeditor-dev/issues/1679): Introduced the Split Button plugin. Also added option to set initial style for button when creating it, and create button without icon.
 
 Fixed Issues:
 
@@ -41,7 +42,6 @@ We would like to thank the [Drupal security team](https://www.drupal.org/drupal-
 Fixed Issues:
 
 * [#1835](https://github.com/ckeditor/ckeditor-dev/issues/1835): Fixed: Integration between [CKFinder](https://ckeditor.com/ckeditor-4/ckfinder/) and the [File Browser](https://ckeditor.com/cke4/addon/filebrowser) plugin does not work.
-* [#1679](https://github.com/ckeditor/ckeditor-dev/issues/1679): Introduced the Split Button plugin. Also added option to set initial style for button when creating it, and create button without icon.
 
 ## CKEditor 4.9
 
