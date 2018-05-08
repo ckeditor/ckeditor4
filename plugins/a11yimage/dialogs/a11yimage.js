@@ -9,7 +9,7 @@
 
 'use strict';
 
-CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
+CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 
 	// RegExp: 123, 123px, empty string ""
 	var regexGetSizeOrEmpty = /(^\s*(\d+)(px)?\s*$)|^$/i,
@@ -17,7 +17,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 		lockButtonId = CKEDITOR.tools.getNextId(),
 		resetButtonId = CKEDITOR.tools.getNextId(),
 
-		lang = editor.lang.a11yimage2,
+		lang = editor.lang.a11yimage,
 		commonLang = editor.lang.common,
 
 		lockResetStyle = 'margin-top:18px;width:40px;height:20px;',
@@ -36,7 +36,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 				resetButtonId: resetButtonId
 			} ),
 
-		helpers = CKEDITOR.plugins.a11yimage2,
+		helpers = CKEDITOR.plugins.a11yimage,
 
 		// Editor instance configuration.
 		config = editor.config,
@@ -47,7 +47,7 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 		// impact on dialog structure and presence of fields.
 		features = editor.widgets.registered.image.features,
 
-		// Functions inherited from a11yimage2 plugin.
+		// Functions inherited from a11yimage plugin.
 		getNatural = helpers.getNatural,
 
 		// Global variables referring to the dialog's context.
@@ -147,10 +147,10 @@ CKEDITOR.dialog.add( 'a11yimage2', function( editor ) {
 					return toggleLockRatio( false );
 
 				// Fill width field with the width of the new image.
-				widthField.setValue( editor.config.a11yimage2_prefillDimensions === false ? 0 : width );
+				widthField.setValue( editor.config.a11yimage_prefillDimensions === false ? 0 : width );
 
 				// Fill height field with the height of the new image.
-				heightField.setValue( editor.config.a11yimage2_prefillDimensions === false ? 0 : height );
+				heightField.setValue( editor.config.a11yimage_prefillDimensions === false ? 0 : height );
 
 				// Cache the new width.
 				preLoadedWidth = width;

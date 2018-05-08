@@ -16,7 +16,7 @@
 		alignmentsObj = { left: 0, center: 1, right: 2 },
 		regexPercent = /^\s*(\d+\%)\s*$/i;
 
-	CKEDITOR.plugins.add( 'a11yimage2', {
+	CKEDITOR.plugins.add( 'a11yimage', {
 		// jscs:disable maximumLineLength
 		lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
@@ -71,7 +71,7 @@
 			// Adapts configuration from original image plugin. Should be removed
 			// when we'll rename image2 to image.
 			var config = editor.config,
-				lang = editor.lang.a11yimage2,
+				lang = editor.lang.a11yimage,
 				image = widgetDef( editor );
 
 			// Since filebrowser plugin discovers config properties by dialog (plugin?)
@@ -106,7 +106,7 @@
 				} );
 			}
 
-			CKEDITOR.dialog.add( 'a11yimage2', this.path + 'dialogs/image2.js' );
+			CKEDITOR.dialog.add( 'a11yimage', this.path + 'dialogs/a11yimage.js' );
 		},
 
 		afterInit: function( editor ) {
@@ -122,7 +122,7 @@
 		}
 	} );
 
-	// Wiget states (forms) depending on alignment and configuration.
+	// Widget states (forms) depending on alignment and configuration.
 	//
 	// Non-captioned widget (inline styles)
 	// 		┌──────┬───────────────────────────────┬─────────────────────────────┐
@@ -297,7 +297,7 @@
 			},
 
 			// The name of this widget's dialog.
-			dialog: 'a11yimage2',
+			dialog: 'a11yimage',
 
 			// Template of the widget: plain image.
 			template: template,
@@ -363,7 +363,7 @@
 
 //				console.log('[plugin][caption]:' + this.parts.caption);
 
-				var helpers = CKEDITOR.plugins.a11yimage2,
+				var helpers = CKEDITOR.plugins.a11yimage,
 					image = this.parts.image,
 					data = {
 						hasCaption: !!this.parts.caption,
@@ -512,7 +512,7 @@
 	 * @class
 	 * @singleton
 	 */
-	CKEDITOR.plugins.a11yimage2 = {
+	CKEDITOR.plugins.a11yimage = {
 		stateShifter: function( editor ) {
 			// Tag name used for centering non-captioned widgets.
 			var doc = editor.document,
@@ -579,9 +579,9 @@
 
 					// There was no caption, but the caption is to be added.
 					if ( newValue ) {
-						var figCaptionValue = editor.lang.a11yimage2.figCaptionValue;
+						var figCaptionValue = editor.lang.a11yimage.figCaptionValue;
 						if (!figCaptionValue || figCaptionValue.length === 0) {
-							figCaptionValue = editor.lang.a11yimage2.captionPlaceholder;
+							figCaptionValue = editor.lang.a11yimage.captionPlaceholder;
 						}
 						// Create new <figure> from widget template.
 						var figure = CKEDITOR.dom.element.createFromHtml( templateBlock.output( {
@@ -636,7 +636,7 @@
 								newEl = wrapInLink( img, shift.newData.link );
 
 							// Set and remove all attributes associated with this state.
-							var attributes = CKEDITOR.plugins.a11yimage2.getLinkAttributesGetter()( editor, newValue );
+							var attributes = CKEDITOR.plugins.a11yimage.getLinkAttributesGetter()( editor, newValue );
 
 							if ( !CKEDITOR.tools.isEmpty( attributes.set ) )
 								( newEl || link ).setAttributes( attributes.set );
@@ -1135,7 +1135,7 @@
 			resizer = widget.resizer = doc.createElement( 'span' );
 
 		resizer.addClass( 'cke_image_resizer' );
-		resizer.setAttribute( 'title', editor.lang.a11yimage2.resizer );
+		resizer.setAttribute( 'title', editor.lang.a11yimage.resizer );
 		resizer.append( new CKEDITOR.dom.text( '\u200b', doc ) );
 
 		// Inline widgets don't need a resizer wrapper as an image spans the entire widget.

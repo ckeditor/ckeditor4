@@ -117,7 +117,7 @@ CKEDITOR.editorConfig = function ( config ) {
     'a11yfirsthelp,' +
     'a11yheading,' +
     'a11ylink,' +
-    'a11yimage2,' +
+    'a11yimage,' +
     'a11ystylescombo';
 
   config.language_list = [
