@@ -10,9 +10,9 @@
 2. Press <kbd>Backspace</kbd> or <kbd>Delete</kbd>
 3. Now select content between second pair of arrows and repeat step 2.
 
-**Expected:** Selected text will be nicely removed.
+**Expected:**
+	* Selected text will be removed.
+	* Text from paragraph might be merged with table content. This behaviour has to be coherent with using regular keys over selection.
 
 **Unexpected:**
 	* Table cells are removed
-	* Content from paragraph is moved inside a table
-	* Content from table is moved outside

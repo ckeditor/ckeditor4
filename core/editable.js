@@ -1204,8 +1204,15 @@
 								return;
 						}
 
+						// We need to obtain new range for creating bookmarks, as previously obtained might be modified while merging.
+						range = editor.getSelection().getRanges()[ 0 ];
+
+						// Storing selection in bookmark is temporary fix until #1956 will be merged.
+						var bm = range.createBookmark2();
 						// Scroll to the new position of the caret (https://dev.ckeditor.com/ticket/11960).
 						editor.getSelection().scrollIntoView();
+						sel.selectBookmarks( [ bm ] );
+
 						editor.fire( 'saveSnapshot' );
 
 						return false;
@@ -2545,9 +2552,9 @@
 			bogus.remove();
 		}
 
-		// Remove selected content. Handle cases when list, tables, etc. are partially selected (#541).
-		editor.extractSelectedHtml();
-
+		// Remove selected content. It appears work better than native handling "backspace"/"delete" button.
+		editor.document.$.execCommand( 'delete' );
+		editor.focus();
 		return true;
 	}
 
