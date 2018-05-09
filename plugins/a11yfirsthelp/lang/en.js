@@ -343,6 +343,8 @@ Providing an *accessible text description* of an image is straightforward if you
 \n\
 * A **caption** is an optional visual label supported by CKEditor for an image. It provides an additional way to describe an image that is immediately below and proximate to the image.\n\
 \n\
+* The caption content is specified and is editable in the text box just below the image, once it has been inserted in the document.\n\
+\n\
 * From an accessibility perspective the *caption* and the *text alternative* should not be the same, but instead should complement each other.\n\
 \n\
 * In some cases the *caption* may sufficiently describe the purpose of the image, so *Alternative Text* is not needed, or should be used to provide a more detailed description that the *caption*.\n\
