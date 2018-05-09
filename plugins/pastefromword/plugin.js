@@ -96,7 +96,18 @@
 						editor.fire( 'paste', data );
 					} else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) {
 
-						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor );
+						var filteredData = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor );
+
+						if ( typeof filteredData === 'string' ) {
+							pfwEvtData.dataValue = filteredData;
+						} else if ( typeof filteredData === 'object' ) {
+							editor.fire( 'lockSnapshot' );
+							pfwEvtData.dataValue = filteredData.dataValue;
+							handleBlobs( filteredData.blobUrls, function() {
+								editor.fire( 'unlockSnapshot' );
+								editor.fire( 'saveSnapshot' );
+							} );
+						}
 
 						editor.fire( 'afterPasteFromWord', pfwEvtData );
 
@@ -164,6 +175,40 @@
 						if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
 							evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ], newSrcValues[ i ] );
 						}
+					}
+				}
+			}
+
+			function handleBlobs( blobs, callback ) {
+				var blobUrlsToProcess = removeDuplicates( blobs ),
+					blobUrlsToBase64Map = {},
+					amountOfBlobsToProcess = blobUrlsToProcess.length;
+
+				CKEDITOR.tools.array.forEach( blobUrlsToProcess, function( blobUrl ) {
+					CKEDITOR.plugins.pastefromword.images.convertBlobUrlToBase64( blobUrl, function( base64 ) {
+						blobUrlsToBase64Map[ blobUrl ] = base64;
+						amountOfBlobsToProcess--;
+						if ( amountOfBlobsToProcess === 0 ) {
+							replaceBlobUrlsInEditor( blobUrlsToBase64Map );
+							callback();
+						}
+					}, this );
+				}, this );
+
+
+				function removeDuplicates( arr ) {
+					return CKEDITOR.tools.array.filter( arr, function( item, index ) {
+						return index === CKEDITOR.tools.array.indexOf( arr, item );
+					} );
+				}
+
+				function replaceBlobUrlsInEditor( map ) {
+					for ( var blob in map ) {
+						var nodeList = editor.editable().find( 'img[src="' + blob + '"]' ).toArray();
+						CKEDITOR.tools.array.forEach( nodeList, function( element ) {
+							element.setAttribute( 'src', map[ blob ] );
+							element.setAttribute( 'data-cke-saved-src', map[ blob ] );
+						}, this );
 					}
 				}
 			}

@@ -65,7 +65,7 @@
 			return null;
 		}
 
-		function getResponse( xhr ) {
+		function getCustomResponse( xhr ) {
 			if ( checkStatus( xhr ) && xhr.responseType === 'arraybuffer' ) {
 				return xhr.response;
 			}
@@ -98,7 +98,7 @@
 
 			xhr.send( null );
 
-			return async ? '' : getResponseFn( xhr, options.responseType );
+			return async ? '' : getResponseFn( xhr, options ? options.responseType : null );
 		}
 
 		function post( url, data, contentType, callback, getResponseFn ) {
@@ -140,12 +140,14 @@
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded
 			 * synchronously.
+			 * @param {Object} [options] Options object
+			 * @param {String} [options.responseType] Defines type of returned data. Currently support only `arraybuffer` other values will fallback to text response.
 			 * @returns {String} The loaded data. For asynchronous requests, an
 			 * empty string. For invalid requests, `null`.
 			 */
 			load: function( url, callback, options ) {
 				if ( options && options.responseType === 'arraybuffer' ) {
-					return load( url, callback, getResponse, options );
+					return load( url, callback, getCustomResponse, options );
 				} else {
 					return load( url, callback, getResponseText );
 				}

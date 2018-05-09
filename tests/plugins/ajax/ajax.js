@@ -182,18 +182,6 @@
 			wait();
 		},
 
-		'test load sync arraybuffer': function() {
-			if ( typeof Blob !== 'function' || typeof Uint8Array !== 'function' || typeof URL !== 'function' ) {
-				assert.ignore();
-			}
-			var testData = [ '0', '1', '2', '3' ];
-			var blobUrl = URL.createObjectURL( new Blob( new Uint8Array( testData ) ) );
-			var data = CKEDITOR.ajax.load( blobUrl, null, { responseType: 'arraybuffer' } );
-			// Test data are saved as char codes in buffer. That's why, result is compared to 48-51.
-			arrayAssert.itemsAreSame( [ 48, 49, 50, 51 ], new Uint8Array( data ), 'Data in buffer are not equivalent to stored values.' );
-
-		},
-
 		'test load async arraybuffer': function() {
 			if ( typeof Blob !== 'function' || typeof Uint8Array !== 'function' || typeof URL !== 'function' ) {
 				assert.ignore();

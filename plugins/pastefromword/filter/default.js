@@ -42,7 +42,8 @@
 
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
 		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
-			shapesIds = [];
+			shapesIds = [],
+			blobUrls = [];
 
 		function shapeTagging( element ) {
 			// Check if regular or canvas shape (#1088).
@@ -141,7 +142,7 @@
 					}
 
 					if ( element.attributes.src && element.attributes.src.match( /^blob:https?:\/\// ) ) {
-						element.attributes.src = convertBlobUrlToBase64( element.attributes.src );
+						blobUrls.push( element.attributes.src );
 					}
 
 				},
@@ -519,7 +520,16 @@
 
 		fragment.writeHtml( writer );
 
-		return writer.getHtml();
+		// If there was blobUrl detected (Paste images from word in Safari browser),
+		// Then we need to transform those images asynchronously into base64 and replace them in editor.
+		if ( blobUrls.length ) {
+			return {
+				dataValue: writer.getHtml(),
+				blobUrls: blobUrls
+			};
+		} else {
+			return writer.getHtml();
+		}
 	};
 
 	/**
@@ -2096,6 +2106,44 @@
 			}
 
 			return ret;
+		},
+
+		convertBlobUrlToBase64: function( src, callback ) {
+			CKEDITOR.ajax.load( src, function( arrayBuffer ) {
+				var data = new Uint8Array( arrayBuffer );
+				var fileType = '';
+				var header = getFileHeader( data.subarray( 0, 4 ) );
+
+				var base64 = CKEDITOR.tools.convertBytesToBase64( data );
+
+				switch ( header ) {
+					case '89504e47':
+						fileType = 'image/png';
+						break;
+					case '47494638':
+						fileType = 'image/gif';
+						break;
+					case 'ffd8ffe0':
+					case 'ffd8ffe1':
+					case 'ffd8ffe2':
+					case 'ffd8ffe3':
+					case 'ffd8ffe8':
+						fileType = 'image/jpeg';
+						break;
+				}
+
+				callback( fileType ? 'data:' + fileType + ';base64,' + base64 : '' );
+
+			} , { responseType: 'arraybuffer' } );
+
+			function getFileHeader( arr ) {
+				var header = '';
+				for ( var i = 0; i < arr.length; i++ ) {
+					header += arr[ i ].toString( 16 );
+				}
+				return header;
+			}
+
 		}
 	};
 
@@ -2410,42 +2458,6 @@
 		for ( i = 0; i < children.length; i++ ) {
 			innermostElement.add( children[ i ] );
 		}
-	}
-
-	function convertBlobUrlToBase64( src ) {
-		var arrayBuffer = CKEDITOR.ajax.load( src, null, { responseType: 'arraybuffer' } );
-		var data = new Uint8Array( arrayBuffer );
-		var fileType = '';
-		var header = getFileHeader( data.subarray( 0, 4 ) );
-
-		var base64 = CKEDITOR.tools.convertBytesToBase64( data );
-
-		switch ( header ) {
-			case '89504e47':
-				fileType = 'image/png';
-				break;
-			case '47494638':
-				fileType = 'image/gif';
-				break;
-			case 'ffd8ffe0':
-			case 'ffd8ffe1':
-			case 'ffd8ffe2':
-			case 'ffd8ffe3':
-			case 'ffd8ffe8':
-				fileType = 'image/jpeg';
-				break;
-		}
-
-		return fileType ? 'data:' + fileType + ';base64,' + base64 : src;
-
-		function getFileHeader( arr ) {
-			var header = '';
-			for ( var i = 0; i < arr.length; i++ ) {
-				header += arr[ i ].toString( 16 );
-			}
-			return header;
-		}
-
 	}
 
 	CKEDITOR.plugins.pastefromword.createAttributeStack = createAttributeStack;
