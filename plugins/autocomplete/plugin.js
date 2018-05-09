@@ -225,8 +225,8 @@
 				editable = editor.editable(),
 				editorScrollableElement = editable.isInline() ? editable : editable.getDocument();
 
-			// iOS editor listens on frame parent element for editor `scroll` event (#1910).
-			if ( CKEDITOR.env.iOS ) {
+			// iOS classic editor listens on frame parent element for editor `scroll` event (#1910).
+			if ( CKEDITOR.env.iOS && !editable.isInline() ) {
 				editorScrollableElement = iOSViewportElement( editor );
 			}
 
@@ -751,8 +751,8 @@
 				// Bounding rect where the view should fit (visible editor viewport).
 				editorViewportRect;
 
-			// iOS editor has different viewport element (#1910).
-			if ( CKEDITOR.env.iOS ) {
+			// iOS classic editor has different viewport element (#1910).
+			if ( CKEDITOR.env.iOS && !editable.isInline() ) {
 				editorViewportRect = iOSViewportElement( editor ).getClientRect( true );
 			} else {
 				editorViewportRect = editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true );
@@ -1199,7 +1199,6 @@
 	// Once upstream issue is resolved this function should be removed and its concurrences should be refactored to
 	// follow the default code path.
 	function iOSViewportElement( editor ) {
-		var editable = editor.editable();
-		return editable.isInline() ? editable : editor.window.getFrame().getParent();
+		return editor.window.getFrame().getParent();
 	}
 } )();
