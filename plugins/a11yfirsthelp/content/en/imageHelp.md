@@ -62,9 +62,13 @@ Providing an *accessible text description* of an image is straightforward if you
 
 ### Why it's important
 
-Adding accessible text descriptions of images is an important part of making web pages accessible to the visually impaired who use assistive devices such as screen readers and magnifiers. When the user cannot see all or part of the image, assistive technologies will read or display the text alternative associated with the image. This is especially important when the image conveys information that is required for the user to fully understand the information on the web page. The following is some general guidance on writing text alternatives and providing more detailed descriptions.
+Adding accessible text descriptions of images is an important part of making web pages accessible to the visually impaired who use assistive devices such as screen readers and magnifiers.
 
-* Simple images, photos and icons often can be described in less than 100 characters.
+When the user cannot see all or part of the image, assistive technologies will read or display the text alternative associated with the image. This is especially important when the image conveys information that is required for the user to fully understand the information on the web page.
+
+The following is some general guidance on writing text alternatives and providing more detailed descriptions:
+
+* Simple images, photos and logos often can be described in less than 100 characters.
 
 * More complex images like graphs, diagrams and charts need both a text alternative and a more detailed description, typically on the same page as the image.
 
