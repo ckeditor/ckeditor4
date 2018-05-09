@@ -6,7 +6,9 @@
 'use strict';
 
 ( function() {
-	var MARKER = '@', MIN_CHARS = 2, ENCODED_QUERY = '{encodedQuery}';
+	var MARKER = '@',
+		MIN_CHARS = 2,
+		ENCODED_QUERY = '{encodedQuery}';
 
 	CKEDITOR.plugins.add( 'mentions', {
 		requires: 'autocomplete,textmatch,ajax',
@@ -111,18 +113,17 @@
 	 *
 	 * @class CKEDITOR.plugins.mentions
 	 * @since 4.10.0
-	 * @constructor Creates the new instance of mentions and attaches it to the editor using {@link CKEDITOR.plugins.autocomplete Autocomplete feature}.
+	 * @constructor Creates the new instance of mentions and attaches it to the editor.
 	 * @param {CKEDITOR.editor} editor The editor to watch.
 	 * @param {Object} config Configuration object keeping information how to instantiate mentions plugin.
-	 * @param {Number} [config.minChars=2] A number of characters that should follow the marker character in order to trigger mentions feature.
-	 * @param {String} [config.marker='@'] A character that should trigger autocompletion.
-	 * @param {String} [config.template=CKEDITOR.plugins.autocomplete.view.itemTemplate] Template used to render matches in the dropdown.
-	 * @param {Boolean} [config.caseSensitive=false] See {@link #caseSensitive}.
 	 * @param {String/String[]/Function} config.feed Feed of items to be displayed in mentions plugin.
+	 * @param {String} [config.template=CKEDITOR.plugins.autocomplete.view.itemTemplate] See {@link #template}.
+	 * @param {Boolean} [config.caseSensitive=false] See {@link #caseSensitive}.
+	 * @param {Number} [config.minChars=2] See {@link #minChars}.
+	 * @param {String} [config.marker='@'] See {@link #marker}.
 	 */
 	function Mentions( editor, config ) {
-		var feed = config.feed,
-			template = config.template;
+		var feed = config.feed;
 
 		/**
 		 * Indicates that mentions instance is character case sensitive for simple items feed i.e. array feed.
@@ -131,31 +132,47 @@
 		 * be already filtered.
 		 *
 		 * @property {Boolean} [caseSensitive=false]
+		 * @readonly
 		 */
 		this.caseSensitive = config.caseSensitive;
 
 		/**
 		 * A character that should trigger autocompletion.
+		 *
 		 * @property {String} [marker='@']
+		 * @readonly
 		 */
 		this.marker = config.marker || MARKER;
 
 		/**
 		 * A number of characters that should follow the marker character in order to trigger mentions feature.
+		 *
 		 * @property {Number} [minChars=2]
+		 * @readonly
 		 */
 		this.minChars = config.minChars !== null && config.minChars !== undefined ? config.minChars : MIN_CHARS;
 
 		/**
-		 * {@link CKEDITOR.plugins.autocomplete Autocomplete} instance used by mentions feature to implement autocompletion logic.
+		 * Template used to render matches in the dropdown. To change template use {@link #changeViewTemplate} function.
+		 *
+		 * @property {String} [template=CKEDITOR.plugins.autocomplete.view.itemTemplate]
 		 * @readonly
-		 * @property {CKEDITOR.plugins.autocomplete}
 		 */
-		this.autocomplete = new CKEDITOR.plugins.autocomplete( editor,
+		this.template = config.template;
+
+		/**
+		 * {@link CKEDITOR.plugins.autocomplete Autocomplete} instance used by mentions feature to implement autocompletion logic.
+		 *
+		 * @property {CKEDITOR.plugins.autocomplete}
+		 * @private
+		 */
+		this._autocomplete = new CKEDITOR.plugins.autocomplete( editor,
 			getTextTestCallback( this.marker, this.minChars ),
 			getDataCallback( feed, this.marker, this.caseSensitive ) );
 
-		template && this.changeViewTemplate( template );
+		if ( this.template ) {
+			this.changeViewTemplate( this.template );
+		}
 	}
 
 	Mentions.prototype = {
@@ -165,15 +182,16 @@
 		 * View element and event listeners will be removed from the DOM.
 		 */
 		destroy: function() {
-			this.autocomplete.destroy();
+			this._autocomplete.destroy();
 		},
 
 		/**
-		 * Changes the view template. The given template will be used by {@link CKEDITOR.template}.
+		 * Changes the view template. The given template will be used to render matches in the dropdown.
+		 *
 		 * @param {String} template
 		 */
 		changeViewTemplate: function( template ) {
-			this.autocomplete.view.itemTemplate = new CKEDITOR.template( template );
+			this._autocomplete.view.itemTemplate = new CKEDITOR.template( template );
 		}
 	};
 
