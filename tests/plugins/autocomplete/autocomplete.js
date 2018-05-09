@@ -256,7 +256,7 @@
 			sinon.stub( ac.view, 'getCaretRect' ).returns( { top: 150, bottom: 160, left: 50 } );
 			sinon.stub( ac.view.element, 'getSize' ).returns( 50 );
 
-			// View postion after scroll.
+			// View position after scroll.
 			// +-----+==============+------------------------+
 			// |     |              |                        |
 			// |     |     view     |                        |
