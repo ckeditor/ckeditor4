@@ -293,74 +293,89 @@ screen reader users to find and follow links of interest to them.\n\
     'content' : '\
 ## Image\n\
 \n\
-### Image Type\n\
+### Accessible Description\n\
 \n\
-Providing accessible *Display Text* is straightforward if you keep the following guidelines in mind:\n\
+Providing an *accessible text description* of an image is straightforward if you keep the following guidelines in mind:\n\
 \n\
-1. **Decorative** image is an icon, *"eye candy"* or some other type of image that does not contribute informative content on the page and no *Alernative Text* is needed.\n\
+1. An **accessible text description** is needed when an image adds additional information to the document. The text description should focus on the informational content of the image rather than its superficial appearance.\n\
 \n\
-1. **Simple** image provides additional information to the page that can be described with *Alternative Text*.\n\
+1. Careful consideration of the **type of image** you are placing in the document will determine the nature of the accessible description that it requires. There are three image types to choose from: **simple**, **complex** and **decorative**.\n\
 \n\
-1. **Complex** image indicates the page contains a more detailed description of the imageand whether the description is before and/or after the image on the page.  Complex images also need *alternative text*.\n\
+### Type of Image\n\
 \n\
-### Alternative Text\n\
+* A **simple** image can be adequately described by a short description, also known as a **text alternative**.\n\
 \n\
-* Alternative text should **not** exceed more than 100 characters.\n\
+* A **complex** image requires both a **text alternative** and a **long description**, because its informational content is richer and more detailed than that of a simple image.\n\
 \n\
-* If an image needs more than 100 character description include a description of the image in the page and use the *Description Location* to indicate if the description is before and/or after the image.\n\
+* A **decorative** image does not add additional information to the document and therefore *does not need an accessible text description*.\n\
 \n\
-* The alternative text option disabled when the image type "Decorative" is selected.\n\
+* Examples of **decorative** images include icons, borders and corners, an image that is part of a text link, and any image that only adds ambience or visual interest to the document.\n\
 \n\
-* The alternative text is added to the `alt` attribute of the `img` element.\n\
+### Text Alternative\n\
 \n\
+* A text alternative (short description) should **not** exceed more than 100 characters.\n\
 \n\
-### Location of Description\n\
+* If an image needs more than 100 characters for its description, please reclassify it as a **complex** image and follow the corresponding accessible description guidelines above.\n\
 \n\
-* The *Location of Description* provides information to screen reader users of where thy can find a more detailed description of the content of the imageon the current page.\n\
+* The text alternative should avoid redundant words and phrases such as "image of" and "picture of".\n\
 \n\
-* Images of charts can be described by adding a table of the data used to generate the chart in the page.\n\
+* The text alternative should not include information relating to the file name or size of the image.\n\
 \n\
-* This option is only enabled when the image type "Complex" is selected.\n\
+* The text alternative is added to the `alt` attribute of the `img` element.\n\
+\n\
+### Document includes long description\n\
+\n\
+* Best practices for the **long description** of a **complex** image prescribe that it be placed in the document itself, usually just before or after the image.\n\
+\n\
+* Selecting this option allows you to specify the location of the long description.\n\
+\n\
+* Images of charts can be described by adding a table of the data used to generate the chart.\n\
+\n\
+### Location of long description\n\
+\n\
+* The *Location of long description* option provides information to screen reader users of where they can find a more detailed description of the content of the image within the document.\n\
+\n\
+* This option is only enabled for a complex image, which must have a long description.\n\
 \n\
 * The location information is added to the `title` attribute of the `img` element.\n\
 \n\
-### Caption\n\
+### Include an editable caption\n\
 \n\
-* A *Caption* is an optional visual label supprted by CKEditor for an image and provides an additional way to describe an image.\n\
+* A **caption** is an optional visual label supported by CKEditor for an image. It provides an additional way to describe an image that is immediately below and proximate to the image.\n\
 \n\
-* From an accessibility perspective the *Caption* and *Alternative Text* should not be the same, but complement each other.\n\
+* From an accessibility perspective the *caption* and the *text alternative* should not be the same, but instead should complement each other.\n\
 \n\
-* In some cases the *Caption* may sufficiently describe the purpose of the image, so *Alternative Text* is not needed, or should be used to provide a more detailed description that the *caption*.\n\
+* In some cases the *caption* may sufficiently describe the purpose of the image, so *Alternative Text* is not needed, or should be used to provide a more detailed description that the *caption*.\n\
 \n\
-* In some cases the *Caption* maybe providing detailed information about an image (e.g. the names and rows of people in a group picture), and in this case the *Alternative Text* should provide shorter text describing the purpose of the image (e.g. group picture of..).\n\
+* In some cases the *Caption* may be providing detailed information about an image (e.g. the names and rows of people in a group picture), and in this case the *text alternative* should provide a shorter text description of the purpose of the image (e.g. group picture of..).\n\
 \n\
 * Using the caption creates a `figcaption` element contained in a `figure` element.  The `figure` element also contains the `img` element.\n\
 \n\
 ### Why it\'s important\n\
 \n\
-Adding alternative text to images is an important part of making web pages accessible to the visually impaired who use assistive devices including screen readers and screen magnifiers.   When the user cannot see all or part of the image, assistive technologies will read or display the alternative text that is associated with the image.   This is especially important when the image conveys information that is required for the user to fully understand the information on the web page.  The following is some general guidance on writing alternative text and providing more detailed descriptions.\n\
+Adding accessible text descriptions of images is an important part of making web pages accessible to the visually impaired who use assistive devices such as screen readers and magnifiers. When the user cannot see all or part of the image, assistive technologies will read or display the text alternative associated with the image. This is especially important when the image conveys information that is required for the user to fully understand the information on the web page. The following is some general guidance on writing text alternatives and providing more detailed descriptions.\n\
 \n\
 * Simple images, photos and icons often can be described in less than 100 characters.\n\
 \n\
-* More complex images like graphs, diagrams and charts need both alternative text and a more detailed description, typically on the same page as the image.\n\
+* More complex images like graphs, diagrams and charts need both a text alternative and a more detailed description, typically on the same page as the image.\n\
 \n\
-* Purely decorative images do not need any alternative text\n\
+* Purely decorative images do not need a text alternative.\n\
 \n\
-### Writing Effective Alernative Text content\n\
+### Writing effective text alternative content\n\
 \n\
-The following are based on <a href="https://webaim.org/">WebAIM\'s</a> writing effective alternative text:\n\
+The following are based on <a href="https://webaim.org/">WebAIM\'s</a> guidelines for writing effective text alternatives:\n\
 \n\
 * **Be accurate and equivalent** in presenting the same content and function of the image.\n\
 \n\
-* When **images are used as links** the alternative text should describe the target of the link.\n\
+* When **images are used as links** the text alternative should describe the target of the link.\n\
 \n\
 * **Be succinct.** This means the correct content (if there is content) and function (if there is a function) of the image should be presented as succinctly as is appropriate. Typically no more than a few words are necessary, though rarely a short sentence or two may be appropriate.\n\
 \n\
-*  **Do NOT be redundant** or provide the same information as text already part of the page.\n\
+* **Do NOT be redundant** or provide the same information as text already part of the page.\n\
 \n\
-*  **Do NOT use the phrases "image of ..." or "graphic of ..."** to describe the image. Assistive technologies notify the user of the image.  It is your job to descibe the purpose or the content of the image.  If the image is a photograph or illustration, etc. of important content, it may be useful to include this in alternative text.\n\
+* **Do NOT use the phrases "image of ..." or "graphic of ..."** to describe the image. Assistive technologies notify the user of the image.  It is your job to descibe the purpose or the content of the image.  If the image is a photograph or illustration, etc. of important content, it may be useful to include this in the text alternative.\n\
 \n\
-* **Do NOT include filenames or file size** as part of the alterniatve text.\n\
+* **Do NOT include file names or sizes** as part of the text alternative.\n\
 \n\
 ### More information\n\
 \n\
@@ -369,7 +384,6 @@ The following are based on <a href="https://webaim.org/">WebAIM\'s</a> writing e
 * <a href="https://webaim.org/techniques/alttext/" target="_resource">WebAIM: Alternative Text</a>\n\
 \n\
 * <a href="http://diagramcenter.org/" target="_resource">Diagram Center</a>\n\
-\n\
 '
   }
 } );
