@@ -30,7 +30,7 @@
 	 * Mentions plugin allows you to type custom marker character and get suggested values for the usernames so that you don't have to write it on your own.
 	 *
 	 * The recommended way to add mentions feature to an editor is by
-	 * using {@link CKEDITOR.config#mentions} configuration property or pass it as the configuration option when instantiating an editor.
+	 * using {@link CKEDITOR.config#mentions} configuration property or by passing it as the configuration option when instantiating an editor.
 	 *
 	 * ```javascript
 	 * // Simple usage with CKEDITOR.config.mentions property.
@@ -42,94 +42,17 @@
 	 * } );
 	 * ```
 	 *
-	 * There are different ways to feed mentions with users data.
-	 *
-	 * * Simple list of usernames, mentions plugin will use synchronous data feed.
-	 * * Backend URL to get the list of users in JSON format using asynchronous data feed.
-	 * * Function with signature `opts:Object, callback:Function` allowing you to use asynchronous callback to pass data from custom source to mentions instance.
-	 *
-	 * # Simple list of usernames
-	 * The easiest way is to simply provide a list of usernames. Mentions plugin will use synchronous data feed and create user IDs by itself.
-	 *
-	 *```javascript
-	 * CKEDITOR.replace( 'editor', {
-	 * 		mentions: [ { feed: ['Anna', 'Thomas', 'John'], minChars: 0, marker: '#' } ]
-	 * } );
-	 * ```
-	 *
-	 * More complex case allows you to use an asynchronous feed to get a list of the users. You could pass URL string to fetch users data or use an asynchronous callback to load data by yourself.
-	 *
-	 * # URL string
-	 * URL string features `encodedQuery` special variable that will be replaced with URL encoded query of current mentions query. Requested backend URL should response with JSON of matches
-	 * that should appear in the dropdown.
-	 *
-	 * ```javascript
-	 * {
-	 * 		mentions: [ { feed: '/user-controller/get-list/{encodedQuery}' } ]
-	 * }
-	 * ```
-	 *
-	 * # Function
-	 * If you want full control of how you feeding mentions feature with data you should take a look at a functional version of the feed.
-	 * It allows you to query the data source and use a callback function to pass data to mentions autocomplete.
-	 *
-	 * ```javascript
-	 * {
-	 * 	mentions: [
-	 * 		{
-	 * 				feed: function( opts, callback ) {
-	 * 					callMyBackend( opts.query, function( results ) {
-	 * 						callback( results );
-	 * 					} );
-	 * 				}
-	 * 			}
-	 * 	]
-	 * }
-	 * ```
-	 *
-	 * `opts` object contains information about current mentions query and a {@link CKEDITOR.plugins.mentions#marker marker}.
-	 *
-	 * In both situations - using URL string or a function, you should provide correct object structure containing unique user id and a name.
-	 * You can pass additional information also which can be used to create custom view template.
-	 *
-	 * ```javascript
-	 * // Results from backend API.
-	 * [
-	 * 		{ id: 1, name: 'anna87', firstName: 'Anna', lastName: 'Doe' },
-	 * 		{ id: 2, name: 'tho-mass', firstName: 'Thomas', lastName: 'Doe' },
-	 * 		{ id: 3, name: 'ozzy', firstName: 'John', lastName: 'Doe' }
-	 * ]
-	 *
-	 * // Mentions configuration.
-	 * {
-	 * 		mentions: [
-	 * 			{
-	 * 				feed: backendApiFunction,
-	 * 				template: '<li data-id="{id}>{name} ({firstName} {lastName})</li>'
-	 * 			}
-	 * 		]
-	 * }
-	 * ```
-	 *
 	 * @class CKEDITOR.plugins.mentions
 	 * @since 4.10.0
 	 * @constructor Creates the new instance of mentions and attaches it to the editor.
 	 * @param {CKEDITOR.editor} editor The editor to watch.
-	 * @param {Object} config Configuration object keeping information how to instantiate mentions plugin.
-	 * @param {String/String[]/Function} config.feed Feed of items to be displayed in mentions plugin.
-	 * @param {String} [config.template=CKEDITOR.plugins.autocomplete.view.itemTemplate] See {@link #template}.
-	 * @param {Boolean} [config.caseSensitive=false] See {@link #caseSensitive}.
-	 * @param {Number} [config.minChars=2] See {@link #minChars}.
-	 * @param {String} [config.marker='@'] See {@link #marker}.
+	 * @param {CKEDITOR.plugins.mentions.configDefinition} config Configuration object keeping information how to instantiate mentions plugin.
 	 */
 	function Mentions( editor, config ) {
 		var feed = config.feed;
 
 		/**
-		 * Indicates that mentions instance is character case sensitive for simple items feed i.e. array feed.
-		 *
-		 * Note that this will take no effect on feeds using callback or URLs, as in this case results are expected to
-		 * be already filtered.
+		 * See {@link CKEDITOR.plugins.mentions.configDefinition#caseSensitive caseSensitive}
 		 *
 		 * @property {Boolean} [caseSensitive=false]
 		 * @readonly
@@ -137,7 +60,7 @@
 		this.caseSensitive = config.caseSensitive;
 
 		/**
-		 * A character that should trigger autocompletion.
+		 * See {@link CKEDITOR.plugins.mentions.configDefinition#marker marker}
 		 *
 		 * @property {String} [marker='@']
 		 * @readonly
@@ -145,7 +68,7 @@
 		this.marker = config.marker || MARKER;
 
 		/**
-		 * A number of characters that should follow the marker character in order to trigger mentions feature.
+		 * See {@link CKEDITOR.plugins.mentions.configDefinition#minChars minChars}
 		 *
 		 * @property {Number} [minChars=2]
 		 * @readonly
@@ -153,7 +76,7 @@
 		this.minChars = config.minChars !== null && config.minChars !== undefined ? config.minChars : MIN_CHARS;
 
 		/**
-		 * Template used to render matches in the dropdown. To change template use {@link #changeViewTemplate} function.
+		 * See {@link CKEDITOR.plugins.mentions.configDefinition#template template}. Use {@link #changeViewTemplate changeViewTemplate} function to change view template.
 		 *
 		 * @property {String} [template=CKEDITOR.plugins.autocomplete.view.itemTemplate]
 		 * @readonly
@@ -309,10 +232,119 @@
 	 * List of mentions configuration objects.
 	 * For each configuration object new {@link CKEDITOR.plugins.mentions Mentions} instance will be created and attached to an editor.
 	 *
-	 * @cfg
+	 * @cfg {CKEDITOR.plugins.mentions.configDefinition[]} [=[]]
 	 * @since 4.10.0
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.mentions = [];
 
+	/**
+	 * Abstract class describing the definition of a {@link CKEDITOR.plugins.mentions mentions} plugin configuration.
+	 *
+	 * This virtual class illustrates the properties that developers can use to define and create
+	 * mentions configuration definition.
+	 *
+	 * A mentions definition object represents an object as a set of properties defining a mentions data feed and it's optional parameters.
+	 *
+	 * Simple usage:
+	 *
+	 * ```javascript
+	 * var definition = { feed: ['Anna', 'Thomas', 'John'], minChars: 0, marker: '#', caseSensitive: true };
+	 * ```
+	 *
+	 * Essential option which should be configured to create correct mentions configuration definition is its data feed. There are different ways to create data feed:
+	 *
+	 * * Simple list of usernames as synchronous data feed.
+	 * * Backend URL to get the list of users in JSON format using asynchronous data feed.
+	 * * Function with signature `opts:Object, callback:Function` allowing to use asynchronous callback to pass data from custom data source into mentions instance.
+	 *
+	 * # Simple list of usernames
+	 * The easiest way to configure data feed is to simply provide a list of usernames. Mentions plugin will use synchronous data feed and create user IDs by itself.
+	 *
+	 *```javascript
+	 * var definition = { feed: ['Anna', 'Thomas', 'John'], minChars: 0, marker: '#' };
+	 * ```
+	 *
+	 * More complex case allows you to use an asynchronous feed to get a list of the users. You could pass URL string to fetch users data or use an asynchronous callback to load data by yourself.
+	 *
+	 * # URL string
+	 * URL string features `encodedQuery` special variable that will be replaced with URL encoded query of current mentions query. Requested backend URL should response with JSON of matches
+	 * that should appear in the dropdown.
+	 *
+	 * ```javascript
+	 * var definition = { feed: '/user-controller/get-list/{encodedQuery}' };
+	 * ```
+	 *
+	 * # Function
+	 * If you want to get full control of how you feeding mentions feature with data you should take a look at a functional version of the feed.
+	 * It allows you to query the data source and use a callback function to pass data into mentions instance.
+	 *
+	 * ```javascript
+	 * var definition = {
+	 *		feed: function( opts, callback ) {
+	 *			callMyBackend( opts.query, function( results ) {
+	 *				callback( results );
+	 *			} );
+	 *		}
+	 * };
+	 * ```
+	 *
+	 * `opts` object contains information about current mentions query and a {@link CKEDITOR.plugins.mentions#marker marker}.
+	 *
+	 * In both situations - using URL string or a function, you should provide correct object structure containing unique user ID and a name.
+	 * You can pass additional information also which can be used to create custom view template.
+	 *
+	 * ```javascript
+	 * // Example of expected results from backend API. `firstName` and `lastName` properties are optional.
+	 * [
+	 * 		{ id: 1, name: 'anna87', firstName: 'Anna', lastName: 'Doe' },
+	 * 		{ id: 2, name: 'tho-mass', firstName: 'Thomas', lastName: 'Doe' },
+	 * 		{ id: 3, name: 'ozzy', firstName: 'John', lastName: 'Doe' }
+	 * ]
+	 *
+	 * // Custom mentions configuration definition taking advantage of additional `firstName` and `lastName` properties by setting custom view template.
+	 * var definition = {
+	 *	 feed: backendApiFunction,
+	 *	 template: '<li data-id="{id}>{name} ({firstName} {lastName})</li>'
+	 * }
+	 *
+	 * ```
+	 *
+	 * @class CKEDITOR.plugins.mentions.configDefinition
+	 * @abstract
+	 * @since 4.10.0
+	 */
+
+	/**
+	 * Feed of items to be displayed in mentions plugin.
+	 *
+	 * @property {String/String[]/Function} feed
+	 */
+
+	/**
+	 * Template used to render matches in the dropdown.
+	 *
+	 * @property {String} [template=CKEDITOR.plugins.autocomplete.view.itemTemplate] template
+	 */
+
+	/**
+	 * A character that should trigger autocompletion.
+	 *
+	 * @property {String} [marker='@'] marker
+	 */
+
+	/**
+	 * A number of characters that should follow the marker character in order to trigger mentions feature.
+	 *
+	 * @property {Number} [minChars=2] minChars
+	 */
+
+	/**
+	 * Indicates that mentions instance is character case sensitive for simple items feed i.e. array feed.
+	 *
+	 * Note that this will take no effect on feeds using callback or URLs, as in this case results are expected to
+	 * be already filtered.
+	 *
+	 * @property {Boolean} [caseSensitive=false] caseSensitive
+	 */
 } )();
