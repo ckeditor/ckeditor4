@@ -1196,7 +1196,8 @@
 	CKEDITOR.config.autocomplete_commitKeystroke = [ 9, 13 ];
 
 	// Viewport on iOS is moved into iframe parent element because of https://bugs.webkit.org/show_bug.cgi?id=149264 issue.
-	// After issue fix this function should be removed and its occurences should be refactored to utilize default code path.
+	// Once upstream issue is resolved this function should be removed and its concurrences should be refactored to
+	// follow the default code path.
 	function iOSViewportElement( editor ) {
 		var editable = editor.editable();
 		return editable.isInline() ? editable : editor.window.getFrame().getParent();
