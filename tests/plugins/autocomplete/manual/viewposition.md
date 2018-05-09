@@ -23,7 +23,7 @@ The view is not changing its position depending on space below and above a caret
 # Inline editor
 
 1. Focus the editor at the first line and type `@`.
-1. Close the view using `esc` key.
+1. Close the view using `esc` key ( or `backspace` key on mobile ).
 1. Focus the editor at the last line and type `@`
 
 ## Expected

@@ -225,7 +225,7 @@
 				editable = editor.editable(),
 				editorScrollableElement;
 
-			// iOS classic editor listenes on different element for editor `scroll` event (#1910).
+			// iOS classic editor listens on different element for editor `scroll` event (#1910).
 			if ( CKEDITOR.env.iOS && !editable.isInline() ) {
 				editorScrollableElement = CKEDITOR.document.getById( editor.id + '_contents' );
 			} else {
