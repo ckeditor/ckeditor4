@@ -1,4 +1,5 @@
 ﻿/* bender-tags: editor */
+/* bender-ckeditor-plugins: ajax */
 
 ( function() {
 	'use strict';
@@ -856,6 +857,74 @@
 			CKEDITOR.tools.array.forEach( testCases, function( test ) {
 				assert.areSame( test.base64, CKEDITOR.tools.convertBytesToBase64( test.bytes ) );
 			} );
+		},
+
+		// #1134
+		'test getFileTypeFromHeader': function() {
+			if ( typeof Uint8Array !== 'function' ) {
+				assert.ignore();
+			}
+			var test_cases = [
+				{
+					input: '89504e47',
+					output: 'image/png'
+				},
+				{
+					input: '47494638',
+					output: 'image/gif'
+				},
+				{
+					input: 'ffd8ffe0',
+					output: 'image/jpeg'
+				},
+				{
+					input: 'ffd8ffe1',
+					output: 'image/jpeg'
+				},
+				{
+					input: 'ffd8ffe2',
+					output: 'image/jpeg'
+				},
+				{
+					input: 'ffd8ffe3',
+					output: 'image/jpeg'
+				},
+				{
+					input: 'ffd8ffe8',
+					output: 'image/jpeg'
+				},
+				{
+					input: '12345678',
+					output: null
+				},
+				{
+					input: 'ffff',
+					output: null
+				}
+			];
+
+			CKEDITOR.tools.array.forEach( test_cases, function( test ) {
+				var header = CKEDITOR.tools.getFileTypeFromHeader( new Uint8Array( CKEDITOR.tools.convertHexStringToBytes( test.input ) ) );
+				assert.areEqual( test.output, header, 'There is problem for test case with input: ' + test.input );
+			} );
+		},
+
+		// #1134
+		'test convertBlobUrlToBase64': function() {
+			if ( typeof Uint8Array !== 'function' || typeof Blob !== 'function' || typeof URL !== 'function' ) {
+				assert.ignore();
+			}
+			var imageHex = '89504e470d0a1a0a0000000d4948445200000001000000010804000000b51c0c020000000b4944415478da6364600000000600023081d02f0000000049454e44ae426082';
+			var imageBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+			var fileType = 'image/png';
+			var typedArray = new Uint8Array( CKEDITOR.tools.convertHexStringToBytes( imageHex ) );
+			var blobUrl = URL.createObjectURL( new Blob( [ typedArray ], { type: fileType } ) );
+			CKEDITOR.tools.convertBlobUrlToBase64( blobUrl, function( base64 ) {
+				resume( function() {
+					assert.areEqual( 'data:' + fileType + ';base64,' + imageBase64, base64, 'obtained data uri string is different than expected' );
+				} );
+			} );
+			wait();
 		}
 
 	} );

@@ -2106,44 +2106,6 @@
 			}
 
 			return ret;
-		},
-
-		convertBlobUrlToBase64: function( src, callback ) {
-			CKEDITOR.ajax.load( src, function( arrayBuffer ) {
-				var data = new Uint8Array( arrayBuffer );
-				var fileType = '';
-				var header = getFileHeader( data.subarray( 0, 4 ) );
-
-				var base64 = CKEDITOR.tools.convertBytesToBase64( data );
-
-				switch ( header ) {
-					case '89504e47':
-						fileType = 'image/png';
-						break;
-					case '47494638':
-						fileType = 'image/gif';
-						break;
-					case 'ffd8ffe0':
-					case 'ffd8ffe1':
-					case 'ffd8ffe2':
-					case 'ffd8ffe3':
-					case 'ffd8ffe8':
-						fileType = 'image/jpeg';
-						break;
-				}
-
-				callback( fileType ? 'data:' + fileType + ';base64,' + base64 : '' );
-
-			} , { responseType: 'arraybuffer' } );
-
-			function getFileHeader( arr ) {
-				var header = '';
-				for ( var i = 0; i < arr.length; i++ ) {
-					header += arr[ i ].toString( 16 );
-				}
-				return header;
-			}
-
 		}
 	};
 

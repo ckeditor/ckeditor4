@@ -1597,6 +1597,64 @@
 		},
 
 		/**
+		 * Converts blob url into base64 string. Function requires {@link CKEditor.ajax} to proper work. Conversion has happened asynchronously.
+		 * Currently supported file types: `image/png`, `image/jpeg`, `image/gif`.
+		 *
+		 * @since 4.10.0
+		 * @param {String} blobUrlSrc Address of blob which is going to be converted
+		 * @param {Function} callback Function execute when blob url will be converted.
+		 * @param {String} callback.dataUri data uri represent transformed blobUrl or empty string file type was unrecognized.
+		 */
+
+		convertBlobUrlToBase64: function( blobUrlSrc, callback ) {
+			CKEDITOR.ajax.load( blobUrlSrc, function( arrayBuffer ) {
+				var data = new Uint8Array( arrayBuffer );
+				var fileType = CKEDITOR.tools.getFileTypeFromHeader( data.subarray( 0, 4 ) );
+
+				var base64 = CKEDITOR.tools.convertBytesToBase64( data );
+
+				callback( fileType ? 'data:' + fileType + ';base64,' + base64 : '' );
+
+			} , { responseType: 'arraybuffer' } );
+
+		},
+
+		/**
+		 * Return file type based on first 4 bytes of given file. Currently supported file types: `image/png`, `image/jpeg`, `image/gif`.
+		 *
+		 * @since 4.10.0
+		 * @param {Uint8Array} bytesArray Typed array which will be analysed to obtain file type.
+		 * @returns {String/Null} File type recognized from given typed array or null.
+		 */
+
+		getFileTypeFromHeader: function( bytesArray ) {
+			var header = '',
+				fileType = null,
+				bytesHeader = bytesArray.subarray( 0, 4 );
+
+			for ( var i = 0; i < bytesHeader.length; i++ ) {
+				header += bytesHeader[ i ].toString( 16 );
+			}
+
+			switch ( header ) {
+				case '89504e47':
+					fileType = 'image/png';
+					break;
+				case '47494638':
+					fileType = 'image/gif';
+					break;
+				case 'ffd8ffe0':
+				case 'ffd8ffe1':
+				case 'ffd8ffe2':
+				case 'ffd8ffe3':
+				case 'ffd8ffe8':
+					fileType = 'image/jpeg';
+					break;
+			}
+			return fileType;
+		},
+
+		/**
 		 * A set of functions for operations on styles.
 		 *
 		 * @property {CKEDITOR.tools.style}

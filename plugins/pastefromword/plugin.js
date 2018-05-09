@@ -185,7 +185,7 @@
 					amountOfBlobsToProcess = blobUrlsToProcess.length;
 
 				CKEDITOR.tools.array.forEach( blobUrlsToProcess, function( blobUrl ) {
-					CKEDITOR.plugins.pastefromword.images.convertBlobUrlToBase64( blobUrl, function( base64 ) {
+					CKEDITOR.tools.convertBlobUrlToBase64( blobUrl, function( base64 ) {
 						blobUrlsToBase64Map[ blobUrl ] = base64;
 						amountOfBlobsToProcess--;
 						if ( amountOfBlobsToProcess === 0 ) {
