@@ -223,13 +223,11 @@
 			var editor = this.editor,
 				win = CKEDITOR.document.getWindow(),
 				editable = editor.editable(),
-				editorScrollableElement;
-
-			// iOS classic editor listens on different element for editor `scroll` event (#1910).
-			if ( CKEDITOR.env.iOS && !editable.isInline() ) {
-				editorScrollableElement = CKEDITOR.document.getById( editor.id + '_contents' );
-			} else {
 				editorScrollableElement = editable.isInline() ? editable : editable.getDocument();
+
+			// iOS editor listens on frame parent element for editor `scroll` event (#1910).
+			if ( CKEDITOR.env.iOS ) {
+				editorScrollableElement = iOSViewportElement( editor );
 			}
 
 			this.view.append();
@@ -753,9 +751,9 @@
 				// Bounding rect where the view should fit (visible editor viewport).
 				editorViewportRect;
 
-			// iOS classic editor has different viewport element (#1910).
-			if ( CKEDITOR.env.iOS && !editable.isInline() ) {
-				editorViewportRect = CKEDITOR.document.getById( editor.id + '_contents' ).getClientRect( true );
+			// iOS editor has different viewport element (#1910).
+			if ( CKEDITOR.env.iOS ) {
+				editorViewportRect = iOSViewportElement( editor ).getClientRect( true );
 			} else {
 				editorViewportRect = editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true );
 			}
@@ -1196,4 +1194,11 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.autocomplete_commitKeystroke = [ 9, 13 ];
+
+	// Viewport on iOS is moved into iframe parent element because of https://bugs.webkit.org/show_bug.cgi?id=149264 issue.
+	// After issue fix this function should be removed and its occurences should be refactored to utilize default code path.
+	function iOSViewportElement( editor ) {
+		var editable = editor.editable();
+		return editable.isInline() ? editable : editor.window.getFrame().getParent();
+	}
 } )();
