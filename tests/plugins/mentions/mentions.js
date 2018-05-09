@@ -137,7 +137,7 @@
 				} );
 
 			// Artificially faked callback to consider non-standard chars.
-			mentions.autocomplete.textWatcher.callback = function() {
+			mentions._autocomplete.textWatcher.callback = function() {
 				return {
 					text: '@F&/oo',
 					range: editor.getSelection().getRanges()[ 0 ]
@@ -197,10 +197,10 @@
 	} );
 
 	function assertView( mentions, matches ) {
-		// Fire keyup event on editable to trigger text matching and open autocomplete view if it matches.
-		mentions.autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+		// Fire keyup event on editable to trigger text matching and open _autocomplete view if it matches.
+		mentions._autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-		var viewElement = mentions.autocomplete.view.element,
+		var viewElement = mentions._autocomplete.view.element,
 			isOpened = viewElement.hasClass( 'cke_autocomplete_opened' ),
 			items = viewElement.find( 'li' ),
 			itemsArray = items.toArray();
