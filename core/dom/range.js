@@ -2858,57 +2858,18 @@ CKEDITOR.dom.range = function( root ) {
 			if ( this.document.getSelection !== undefined ) {
 				return function( isAbsolute ) {
 					// We need to create native range so we can call native getClientRects.
-					var range = document.createRange(),
+					var range = this.root.getDocument().$.createRange(),
 						rectList;
 
 					range.setStart( this.startContainer.$, this.startOffset );
 					range.setEnd( this.endContainer.$, this.endOffset );
-					var first,
-						textNode,
-						itemToInsertAfter;
 
 					rectList = range.getClientRects();
 
+					rectList = fixWidgetsRects( this, rectList );
+
 					if ( !rectList.length ) {
-						// If native rect list is empty, use workarounds to get rects.
-
-						if ( !range.collapsed ) {
-							// In some cases ( eg. ranges contain only image ) IE will return empty rectList.
-
-							rectList = [ getRect( this.createBookmark() ) ];
-						} else if ( this.startContainer instanceof CKEDITOR.dom.element ) {
-							// If collapsed ranges are in element add textNode and return its rects.
-
-							first = this.checkStartOfBlock();
-							textNode = new CKEDITOR.dom.text( '\u200b' );
-
-							if ( first ) {
-								this.startContainer.append( textNode, true );
-							} else {
-								itemToInsertAfter = this.startContainer.getChildren().getItem( this.startOffset - 1 );
-								textNode.insertAfter( itemToInsertAfter );
-							}
-
-							// Create native collapsed ranges inside just created textNode.
-							range.setStart( textNode.$, 0 );
-							range.setEnd( textNode.$, 0 );
-
-							rectList = range.getClientRects();
-							textNode.remove();
-						} else if ( this.startContainer instanceof CKEDITOR.dom.text ) {
-							if ( this.startContainer.getText() === '' ) {
-								// In case of empty text fill it with zero width space.
-								this.startContainer.setText( '\u200b' );
-								rectList = range.getClientRects();
-
-								this.startContainer.setText( '' );
-
-							} else {
-								// If there is text node which isn't empty, but still no rects are returned use IE8 polyfill.
-								// This happens with selection at the end of line in IE.
-								rectList =  [ convertRect( getRect( this.createBookmark() ), isAbsolute, this ) ];
-							}
-						}
+						rectList = fixEmptyRectList( this, rectList, range, isAbsolute );
 					}
 
 					range.detach();
@@ -2921,6 +2882,110 @@ CKEDITOR.dom.range = function( root ) {
 				return function( isAbsolute ) {
 					return [ convertRect( getRect( this.createBookmark() ), isAbsolute, this ) ];
 				};
+			}
+
+			// Remove all widget rects except for outermost one.
+			function fixWidgetsRects( context, rectList ) {
+				var iterator = context.createIterator(),
+					rectArray = CKEDITOR.tools.array.map( rectList, function( item ) {
+						return item;
+					} ),
+					element,
+					widgetElements = [],
+					widgetRects,
+					widgetRange,
+					nodeList;
+
+				// Lets iterate over each element inside ranges to find widgets.
+				while ( element = iterator.getNextParagraph() ) {
+
+					nodeList = element.find( '[data-widget]' );
+
+					if ( element.hasAttribute( 'data-widget' ) ) {
+						// If element is widget push it into array.
+						widgetElements.push( element );
+					} else if ( nodeList.$.length ) {
+						// If element contains one or more widget push each one of them into array.
+						widgetElements = widgetElements.concat( CKEDITOR.tools.array.map( nodeList.$, function( item ) {
+							return new CKEDITOR.dom.element( item );
+						} ) );
+					}
+				}
+
+				if ( !widgetElements ) {
+					return;
+				}
+
+				// Once we have all widget elements, get all rects for them and store them in another array.
+				widgetRects = CKEDITOR.tools.array.map( widgetElements, function( element ) {
+					var rects;
+					widgetRange = this.root.getDocument().$.createRange();
+					widgetRange.setStart( element.getParent().$, element.getIndex() );
+					widgetRange.setEnd( element.getParent().$, element.getIndex() + 1 );
+
+					rects = widgetRange.getClientRects();
+					widgetRange.detach();
+
+					return rects;
+				}, context );
+
+				CKEDITOR.tools.array.forEach( widgetRects, function( item ) {
+					CKEDITOR.tools.array.forEach( rectArray, function( rectArrayItem, index ) {
+						var compare = CKEDITOR.tools.objectCompare( item[ 0 ], rectArrayItem );
+						if ( compare ) {
+							// Find widget rect in rectArray and remove following rects that represent widget child elements.
+							Array.prototype.splice.call( rectArray, index + 1, item.length - 1 );
+						}
+					} );
+				} );
+
+				return rectArray;
+			}
+
+			// Create rectList when browser natively doesn't return it.
+			function fixEmptyRectList( context, rectList, range ) {
+				var first,
+					textNode,
+					itemToInsertAfter;
+
+				if ( !range.collapsed ) {
+					// In some cases ( eg. ranges contain only image ) IE will return empty rectList.
+
+					rectList = [ getRect( context.createBookmark() ) ];
+				} else if ( context.startContainer instanceof CKEDITOR.dom.element ) {
+					// If collapsed ranges are in element add textNode and return its rects.
+
+					first = context.checkStartOfBlock();
+					textNode = new CKEDITOR.dom.text( '\u200b' );
+
+					if ( first ) {
+						context.startContainer.append( textNode, true );
+					} else {
+						itemToInsertAfter = context.startContainer.getChildren().getItem( context.startOffset - 1 );
+						textNode.insertAfter( itemToInsertAfter );
+					}
+
+					// Create native collapsed ranges inside just created textNode.
+					range.setStart( textNode.$, 0 );
+					range.setEnd( textNode.$, 0 );
+
+					rectList = range.getClientRects();
+					textNode.remove();
+				} else if ( context.startContainer instanceof CKEDITOR.dom.text ) {
+					if ( context.startContainer.getText() === '' ) {
+						// In case of empty text fill it with zero width space.
+						context.startContainer.setText( '\u200b' );
+						rectList = range.getClientRects();
+
+						context.startContainer.setText( '' );
+
+					} else {
+						// If there is text node which isn't empty, but still no rects are returned use IE8 polyfill.
+						// This happens with selection at the end of line in IE.
+						rectList = [ getRect( context.createBookmark() ) ];
+					}
+				}
+				return rectList;
 			}
 
 			// Extending empty object with rect, to prevent inheriting from DOMRect, same approach as in CKEDITOR.dom.element.getClientRect().
