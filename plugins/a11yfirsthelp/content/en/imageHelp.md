@@ -86,7 +86,7 @@ The following are based on <a href="https://webaim.org/">WebAIM's</a> guidelines
 
 * **Do NOT be redundant** or provide the same information as text already part of the page.
 
-* **Do NOT use the phrases "image of ..." or "graphic of ..."** to describe the image. Assistive technologies notify the user of the image.  It is your job to descibe the purpose or the content of the image.  If the image is a photograph or illustration, etc. of important content, it may be useful to include this in the text alternative.
+* **Do NOT use the phrases "image of ..." or "graphic of ..."** to describe the image. Assistive technologies notify the user of the image.  It is your job to describe the purpose or the content of the image.  If the image is a photograph or illustration, etc. of important content, it may be useful to include this in the text alternative.
 
 * **Do NOT include file names or sizes** as part of the text alternative.
 
