@@ -1,5 +1,5 @@
 ---
-name: ☠️ Security issue
+name: 🚨 Security issue
 about: If you want to report a security issue.
 ---
 
