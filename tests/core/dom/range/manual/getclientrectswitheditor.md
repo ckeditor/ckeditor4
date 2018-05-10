@@ -11,6 +11,8 @@ This manual test checks the result returned by the `range.getClientRects()` insi
 
 1. Select some table cells too see if red rectangles are matching the selection. Try different selections on the table and on the widget.
 
+	Note: Selected widget should return only one rectangle matching its outermost boundaries.
+
 1. Test [#1925](https://github.com/ckeditor/ckeditor-dev/issues/1925) for IE 9 and 10:
 
 	Remove all content from editor. Write some one line text, and place selection at the end of it. Rect should appear at caret position.
