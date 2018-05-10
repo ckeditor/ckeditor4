@@ -1591,15 +1591,29 @@
 				var eventData = {
 						$: evt.data.$,
 						target: evt.data.getTarget()
-					};
+					},
+					element,
+					range,
+					offset;
 
 				if ( dragRange ) {
 					eventData.dragRange = dragRange;
 				}
 				if ( dropRange ) {
-					eventData.dropRange = dropRange;
+					eventData.dropRange = range = dropRange;
 				}
 
+				while ( range.checkReadOnly() ) {
+					element = range.startContainer.getParent();
+					offset = range.startContainer.getIndex() + 1;
+
+					range.setStart( element, offset );
+					range.setEnd( element, offset );
+
+					if ( element instanceof CKEDITOR.editable ) {
+						break;
+					}
+				}
 				if ( editor.fire( evt.name, eventData ) === false ) {
 					evt.data.preventDefault();
 				}
