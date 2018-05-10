@@ -2866,10 +2866,10 @@ CKEDITOR.dom.range = function( root ) {
 
 					rectList = range.getClientRects();
 
-					rectList = fixWidgetsRects( this, rectList );
+					rectList = fixWidgetsRects( rectList, this );
 
 					if ( !rectList.length ) {
-						rectList = fixEmptyRectList( this, rectList, range, isAbsolute );
+						rectList = fixEmptyRectList( rectList, range, this );
 					}
 
 					range.detach();
@@ -2885,7 +2885,7 @@ CKEDITOR.dom.range = function( root ) {
 			}
 
 			// Remove all widget rects except for outermost one.
-			function fixWidgetsRects( context, rectList ) {
+			function fixWidgetsRects( rectList, context ) {
 				var iterator = context.createIterator(),
 					rectArray = CKEDITOR.tools.array.map( rectList, function( item ) {
 						return item;
@@ -2898,14 +2898,12 @@ CKEDITOR.dom.range = function( root ) {
 
 				// Lets iterate over each element inside ranges to find widgets.
 				while ( element = iterator.getNextParagraph() ) {
-
 					nodeList = element.find( '[data-widget]' );
-
+					// Store each widget element in array.
 					if ( element.hasAttribute( 'data-widget' ) ) {
-						// If element is widget push it into array.
 						widgetElements.push( element );
+
 					} else if ( nodeList.$.length ) {
-						// If element contains one or more widget push each one of them into array.
 						widgetElements = widgetElements.concat( CKEDITOR.tools.array.map( nodeList.$, function( item ) {
 							return new CKEDITOR.dom.element( item );
 						} ) );
@@ -2916,14 +2914,18 @@ CKEDITOR.dom.range = function( root ) {
 					return;
 				}
 
-				// Once we have all widget elements, get all rects for them and store them in another array.
+				// Once we have all widgets, get all theirs rects.
 				widgetRects = CKEDITOR.tools.array.map( widgetElements, function( element ) {
-					var rects;
+					var rects,
+						container = element.getParent().hasClass( 'cke_widget_wrapper' ) ? element.getParent() : element;
 					widgetRange = this.root.getDocument().$.createRange();
-					widgetRange.setStart( element.getParent().$, element.getIndex() );
-					widgetRange.setEnd( element.getParent().$, element.getIndex() + 1 );
+
+					widgetRange.setStart( container.getParent().$, container.getIndex() );
+					widgetRange.setEnd( container.getParent().$, container.getIndex() + 1 );
 
 					rects = widgetRange.getClientRects();
+					// Still some browsers might have wrong rect for widget.element so lets make sure it is correct.
+					rects.widgetRect = element.getClientRect();
 					widgetRange.detach();
 
 					return rects;
@@ -2934,7 +2936,7 @@ CKEDITOR.dom.range = function( root ) {
 						var compare = CKEDITOR.tools.objectCompare( item[ 0 ], rectArrayItem );
 						if ( compare ) {
 							// Find widget rect in rectArray and remove following rects that represent widget child elements.
-							Array.prototype.splice.call( rectArray, index + 1, item.length - 1 );
+							Array.prototype.splice.call( rectArray, index, item.length, item.widgetRect );
 						}
 					} );
 				} );
@@ -2943,7 +2945,7 @@ CKEDITOR.dom.range = function( root ) {
 			}
 
 			// Create rectList when browser natively doesn't return it.
-			function fixEmptyRectList( context, rectList, range ) {
+			function fixEmptyRectList( rectList, range, context ) {
 				var first,
 					textNode,
 					itemToInsertAfter;
@@ -2993,40 +2995,13 @@ CKEDITOR.dom.range = function( root ) {
 				var newRect = CKEDITOR.tools.extend( {}, rect );
 
 				if ( isAbsolute ) {
-					appendParentFramePosition( context.document.getWindow().getFrame() );
-
-					var winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition();
-
-					newRect.top += winGlobalScroll.y;
-					newRect.left += winGlobalScroll.x;
-
-					newRect.y += winGlobalScroll.y;
-					newRect.x += winGlobalScroll.x;
-
-					newRect.right = newRect.left + newRect.width;
-					newRect.bottom = newRect.top + newRect.height;
+					newRect = CKEDITOR.tools.getAbsoluteRectPosition( context.document.getWindow(), newRect );
 				}
 
 				// Some browsers might not return width and height.
 				!newRect.width && ( newRect.width = newRect.right - newRect.left );
 				!newRect.height && ( newRect.height = newRect.bottom - newRect.top );
 				return newRect;
-
-				function appendParentFramePosition( frame ) {
-					if ( !frame ) {
-						return;
-					}
-
-					var frameRect = frame.getClientRect();
-
-					newRect.top += frameRect.top;
-					newRect.left += frameRect.left;
-
-					newRect.x += frameRect.x;
-					newRect.y += frameRect.y;
-
-					appendParentFramePosition( frame.getWindow().getFrame() );
-				}
 			}
 
 			// Fallback helper for browsers that don't support native getClientRects().
