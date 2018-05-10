@@ -2152,6 +2152,47 @@
 
 				return copy1;
 			}
+		},
+
+		/**
+		 * Returns rect with absolute position.
+		 *
+		 * @since 4.10.0
+		 * @param { CKEDITOR.dom.window } Window containing element for which rect is passed.
+		 * @param { CKEDITOR.dom.rect } Rect with relative position.
+		 * @returns { CKEDITOR.dom.rect } Rect with absolute position.
+		 */
+		getAbsoluteRectPosition: function( window, rect ) {
+			appendParentFramePosition( window.getFrame() );
+
+			var winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition();
+
+			rect.top += winGlobalScroll.y;
+			rect.left += winGlobalScroll.x;
+
+			rect.y += winGlobalScroll.y;
+			rect.x += winGlobalScroll.x;
+
+			rect.right = rect.left + rect.width;
+			rect.bottom = rect.top + rect.height;
+
+			return rect;
+
+			function appendParentFramePosition( frame ) {
+				if ( !frame ) {
+					return;
+				}
+
+				var frameRect = frame.getClientRect();
+
+				rect.top += frameRect.top;
+				rect.left += frameRect.left;
+
+				rect.x += frameRect.x;
+				rect.y += frameRect.y;
+
+				appendParentFramePosition( frame.getWindow().getFrame() );
+			}
 		}
 	};
 
