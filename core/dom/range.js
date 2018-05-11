@@ -2886,29 +2886,31 @@ CKEDITOR.dom.range = function( root ) {
 
 			// Remove all widget rects except for outermost one.
 			function fixWidgetsRects( rectList, context ) {
-				var iterator = context.createIterator(),
+				var walker = new CKEDITOR.dom.walker( context ),
 					rectArray = CKEDITOR.tools.array.map( rectList, function( item ) {
 						return item;
 					} ),
-					element,
 					widgetElements = [],
 					widgetRects,
 					widgetRange,
 					nodeList;
 
-				// Lets iterate over each element inside ranges to find widgets.
-				while ( element = iterator.getNextParagraph() ) {
-					nodeList = element.find( '[data-widget]' );
-					// Store each widget element in array.
-					if ( element.hasAttribute( 'data-widget' ) ) {
-						widgetElements.push( element );
 
-					} else if ( nodeList.$.length ) {
-						widgetElements = widgetElements.concat( CKEDITOR.tools.array.map( nodeList.$, function( item ) {
-							return new CKEDITOR.dom.element( item );
-						} ) );
+				// Lets iterate over each element inside ranges to find widgets.
+				walker.evaluator = function( element ) {
+					if ( element instanceof CKEDITOR.dom.element ) {
+						nodeList = element.find( '[data-widget]' );
+
+						// Store each widget element in array.
+						if ( element.hasAttribute( 'data-widget' ) ) {
+							widgetElements.push( element );
+						} else if ( nodeList.count() ) {
+							widgetElements = widgetElements.concat( nodeList.toArray() );
+						}
 					}
-				}
+				};
+
+				walker.checkForward();
 
 				if ( !widgetElements ) {
 					return;
