@@ -2155,7 +2155,7 @@
 		},
 
 		/**
-		 * Returns rect with position calculated from top left edge of current view.
+		 * Returns rect with position calculated from top left edge of outermost document containing editor.
 		 *
 		 * @since 4.10.0
 		 * @param { CKEDITOR.dom.window } window Window containing element for which rect is passed.
@@ -2163,20 +2163,24 @@
 		 * @returns { CKEDITOR.dom.rect } Rect with absolute position.
 		 */
 		getAbsoluteRectPosition: function( window, rect ) {
+			var newRect = CKEDITOR.tools.copy( rect );
 			appendParentFramePosition( window.getFrame() );
 
 			var winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition();
 
-			rect.top += winGlobalScroll.y;
-			rect.left += winGlobalScroll.x;
+			newRect.top += winGlobalScroll.y;
+			newRect.left += winGlobalScroll.x;
 
-			rect.y += winGlobalScroll.y;
-			rect.x += winGlobalScroll.x;
+			// If there is no x or y, e.g. Microsoft browsers, don't return them, otherwise we will have rect.x = NaN.
+			if ( ( 'x' in newRect ) && ( 'y' in newRect ) ) {
+				newRect.y += winGlobalScroll.y;
+				newRect.x += winGlobalScroll.x;
+			}
 
-			rect.right = rect.left + rect.width;
-			rect.bottom = rect.top + rect.height;
+			newRect.right = newRect.left + newRect.width;
+			newRect.bottom = newRect.top + newRect.height;
 
-			return rect;
+			return newRect;
 
 			function appendParentFramePosition( frame ) {
 				if ( !frame ) {
@@ -2185,11 +2189,13 @@
 
 				var frameRect = frame.getClientRect();
 
-				rect.top += frameRect.top;
-				rect.left += frameRect.left;
+				newRect.top += frameRect.top;
+				newRect.left += frameRect.left;
 
-				rect.x += frameRect.x;
-				rect.y += frameRect.y;
+				if ( ( 'x' in newRect ) && ( 'y' in newRect ) ) {
+					newRect.x += frameRect.x;
+					newRect.y += frameRect.y;
+				}
 
 				appendParentFramePosition( frame.getWindow().getFrame() );
 			}
