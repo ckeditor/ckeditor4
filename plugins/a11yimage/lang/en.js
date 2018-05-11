@@ -5,9 +5,9 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	alt: 'Text Alternative (short description)',
 	btnUpload: 'Send it to the Server',
-	captioned: 'Include an editable caption',
-	captionedHelp: 'Adds an editable textbox below the image with placeholder text "Caption"',
-	msgCaption: 'Caption is located in the document just below the image',
+	captioned: 'Add an editable caption below the image',
+	captionedHelp: 'Adds an editable textbox below the image with placeholder text \'Caption\'',
+	msgCaption: 'Edit the caption in the textbox just below the image',
 	captionPlaceholder: 'Caption',
 	infoTab: 'Image Info',
 	lockRatio: 'Lock Ratio',
