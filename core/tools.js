@@ -2155,11 +2155,11 @@
 		},
 
 		/**
-		 * Returns rect with absolute position.
+		 * Returns rect with position calculated from top left edge of current view.
 		 *
 		 * @since 4.10.0
-		 * @param { CKEDITOR.dom.window } Window containing element for which rect is passed.
-		 * @param { CKEDITOR.dom.rect } Rect with relative position.
+		 * @param { CKEDITOR.dom.window } window Window containing element for which rect is passed.
+		 * @param { CKEDITOR.dom.rect } rect Rect with relative position.
 		 * @returns { CKEDITOR.dom.rect } Rect with absolute position.
 		 */
 		getAbsoluteRectPosition: function( window, rect ) {
