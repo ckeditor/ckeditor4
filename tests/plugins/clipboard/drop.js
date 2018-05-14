@@ -1189,7 +1189,10 @@ var testsForMultipleEditor = {
 				bot = this.editorBots[ editor.name ],
 				spy = sinon.spy(),
 				data = {
-					preventDefault: spy
+					preventDefault: spy,
+					getTarget: function() {
+						return null;
+					}
 				};
 
 			bot.setHtmlWithSelection( '<p>Test area.</p>' );
