@@ -17,9 +17,7 @@
 			var self = this;
 
 			editor.on( 'instanceReady', function() {
-				var mentions = editor.config.mentions || CKEDITOR.config.mentions;
-
-				CKEDITOR.tools.array.forEach( mentions, function( config ) {
+				CKEDITOR.tools.array.forEach( editor.config.mentions || [], function( config ) {
 					self.instances.push( new Mentions( editor, config ) );
 				} );
 			} );
@@ -243,7 +241,6 @@
 	 * @since 4.10.0
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.mentions = [];
 
 	/**
 	 * Abstract class describing the definition of a {@link CKEDITOR.plugins.mentions mentions} plugin configuration.
