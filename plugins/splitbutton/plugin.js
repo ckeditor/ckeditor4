@@ -21,7 +21,8 @@
 			i,
 			item,
 			previousButton,
-			defaultButton;
+			defaultButton,
+			staticFace;
 
 		for ( i in allItems ) {
 			item = allItems[ i ];
@@ -48,6 +49,9 @@
 			};
 
 			editor.getCommand( item.command ).on( 'state', function() {
+				if ( staticFace ) {
+					return;
+				}
 				var activeCommand = getLastActiveCommands( editor, allItems ), activeButton;
 				if ( activeCommand ) {
 					activeButton = properties.buttons[ activeCommand.id ];
@@ -78,11 +82,15 @@
 			editor.addFeature( properties.buttons[ item.id ] );
 
 			// First button as default. It might be overwritten by actual default button.
-			if ( !defaultButton ) {
+			if ( !defaultButton && !item[ 'default' ] ) {
 				previousButton = properties.buttons[ item.id ];
 				defaultButton = properties.buttons[ item.id ];
 			} else {
 				if ( item[ 'default' ] ) {
+					if ( item[ 'default' ] = 'static' ) {
+						staticFace = true;
+						defaultButton && defaultButton.hide();
+					}
 					defaultButton = properties.buttons[ item.id ];
 				} else {
 					properties.buttons[ item.id ].hide();
