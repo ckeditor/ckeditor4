@@ -19,7 +19,10 @@ bender.editor = {
 				} );
 				ed.ui.addButton( 'iconless_btn', {
 					label: 'button without icon',
-					noicon: true
+					icon: false
+				} );
+				ed.ui.addButton( 'hidden_btn', {
+					label: 'hidden button'
 				} );
 			}
 		}
@@ -44,5 +47,21 @@ bender.test( {
 		var btn = this.editor.ui.get( 'iconless_btn' ),
 			btnEl = CKEDITOR.document.getById( btn._.id );
 		assert.isNull( btnEl.findOne( '.cke_button_icon' ) );
+	},
+	'test hiding button from toolbar': function() {
+		var btn = this.editor.ui.get( 'custom_btn' ),
+			btnEl = CKEDITOR.document.getById( btn._.id );
+		assert.areEqual( btnEl.getStyle( 'display' ), '' );
+		assert.isUndefined( btn.hidden );
+
+		btn.hideFromToolbar();
+
+		assert.areEqual( btnEl.getStyle( 'display' ), 'none' );
+		assert.isTrue( btn.hidden );
+
+		btn.showInToolbar();
+
+		assert.areEqual( btnEl.getStyle( 'display' ), '' );
+		assert.isUndefined( btn.hidden );
 	}
 } );
