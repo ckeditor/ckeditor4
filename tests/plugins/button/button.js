@@ -29,6 +29,9 @@ bender.editor = {
 					label: 'button without icon',
 					icon: false
 				} );
+				ed.ui.addButton( 'hidden_btn', {
+					label: 'hidden button'
+				} );
 			}
 		}
 	}
@@ -68,6 +71,7 @@ bender.test( {
 		assert.isNull( btnEl.findOne( '.cke_button_icon' ) );
 	},
 
+	// (#2091)
 	'test hiding button from toolbar': function() {
 		var btn = this.editor.ui.get( 'custom_btn' ),
 			btnEl = CKEDITOR.document.getById( btn._.id );
