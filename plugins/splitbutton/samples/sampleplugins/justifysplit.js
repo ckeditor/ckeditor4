@@ -7,24 +7,23 @@ CKEDITOR.plugins.add( 'justifysplit', {
 	requires: 'splitbutton,justify',
 	init: function( editor ) {
 
-		var lang = editor.lang.common;
 		editor.ui.add( 'JustifySplit', CKEDITOR.UI_SPLITBUTTON, {
-			label: 'Justify',
+			label: 'Text Align',
 			items: [ {
-				label: lang.alignLeft,
+				label: 'Left',
 				command: 'justifyleft',
 				icon: 'justifyleft',
 				'default': true
 			}, {
-				label: lang.center,
+				label: 'Center',
 				command: 'justifycenter',
 				icon: 'justifycenter'
 			}, {
-				label: lang.alignRight,
+				label: 'Right',
 				command: 'justifyright',
 				icon: 'justifyright'
 			}, {
-				label: lang.justify,
+				label: 'Justify',
 				command: 'justifyblock',
 				icon: 'justifyblock'
 			} ]
