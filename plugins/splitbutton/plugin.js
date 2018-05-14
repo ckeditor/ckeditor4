@@ -63,15 +63,15 @@
 					return;
 				}
 				if ( previousButton ) {
-					previousButton.hide();
+					previousButton.hideFromToolbar();
 				}
 
 				if ( activeButton ) {
-					defaultButton.hide();
-					activeButton.show();
+					defaultButton.hideFromToolbar();
+					activeButton.showInToolbar();
 					previousButton = activeButton;
 				} else {
-					defaultButton.show();
+					defaultButton.showInToolbar();
 					previousButton = defaultButton;
 				}
 			} );
@@ -87,13 +87,13 @@
 				defaultButton = properties.buttons[ item.id ];
 			} else {
 				if ( item[ 'default' ] ) {
-					if ( item[ 'default' ] = 'static' ) {
+					if ( item[ 'default' ] === 'static' ) {
 						staticFace = true;
-						defaultButton && defaultButton.hide();
+						defaultButton && defaultButton.hideFromToolbar();
 					}
 					defaultButton = properties.buttons[ item.id ];
 				} else {
-					properties.buttons[ item.id ].hide();
+					properties.buttons[ item.id ].hideFromToolbar();
 				}
 			}
 		}
