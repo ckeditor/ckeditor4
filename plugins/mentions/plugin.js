@@ -27,7 +27,7 @@
 	} );
 
 	/**
-	 * Mentions plugin allows you to type custom marker character and get suggested values for the usernames so that you don't have to write it on your own.
+	 * Mentions plugin allows you to type custom marker character and get suggested values for the text matches so that you don't have to write it on your own.
 	 *
 	 * The recommended way to add mentions feature to an editor is by
 	 * using {@link CKEDITOR.config#mentions} configuration property or by passing it as the configuration option when instantiating an editor.
@@ -161,10 +161,18 @@
 				query = query.replace( marker, '' );
 			}
 
-			callback = getDataCallbackWithMarkedItems( marker, callback );
-
-			// Feed is a simple array e.g. [ 'Anna', 'John', 'Thomas' ].
+			// Array feed.
 			if ( CKEDITOR.tools.array.isArray( feed ) ) {
+				arrayFeed();
+				// Url feed.
+			} else if ( typeof feed === 'string' ) {
+				urlFeed();
+				// Function feed.
+			} else {
+				feed( { query: query, marker: marker }, resolveData );
+			}
+
+			function arrayFeed() {
 				var data = indexFeed( feed ).filter( function( item ) {
 					var itemName = item.name;
 
@@ -176,54 +184,40 @@
 					return itemName.indexOf( query ) === 0;
 				} );
 
-				callback( data );
+				resolveData( data );
 			}
 
-			// Feed is a URL to be requested for a JSON of matches e.g. `/user-controller/get-list/{encodedQuery}`.
-			else if ( typeof feed === 'string' ) {
+			function urlFeed() {
 				var encodedQueryRegex = new RegExp( ENCODED_QUERY, 'g' ),
 					encodedUrl = feed.replace( encodedQueryRegex, encodeURIComponent( query ) );
 
 				CKEDITOR.ajax.load( encodedUrl, function( data ) {
-					callback( JSON.parse( data ) );
+					resolveData( JSON.parse( data ) );
 				} );
 			}
 
-			// Feed is a function which uses callback to pass data through autocomplete plugin e.g.
-			//
-			// function dataSource( { query: query, marker: marker }, callback ) {
-			// 		callMyBackend( query, function( results ) {
-			// 			callback( results )
-			// 		} );
-			// }
-			else {
-				feed( { query: query, marker: marker }, callback );
-			}
-		};
-	}
+			function resolveData( data ) {
+				if ( !data ) {
+					return;
+				}
 
-	function getDataCallbackWithMarkedItems( marker, callback ) {
-		return function( data ) {
-			if ( !data ) {
-				return;
+				// We don't want to change item data, so lets create new one.
+				var newData = CKEDITOR.tools.array.map( data, function( item ) {
+					var name = marker + item.name;
+					return CKEDITOR.tools.object.merge( item, { name: name } );
+				} );
+
+				callback( newData );
 			}
 
-			// We don't want to change user data, so lets create new one.
-			var newData = CKEDITOR.tools.array.map( data, function( item ) {
-				var markedName = marker + item.name;
-				return CKEDITOR.tools.object.merge( item, { name: markedName } );
-			} );
-
-			callback( newData );
+			function indexFeed( feed ) {
+				var index = 1;
+				return CKEDITOR.tools.array.reduce( feed, function( current, name ) {
+					current.push( { name: name, id: index++ } );
+					return current;
+				}, [] );
+			}
 		};
-	}
-
-	function indexFeed( feed ) {
-		var index = 1;
-		return CKEDITOR.tools.array.reduce( feed, function( current, name ) {
-			current.push( { name: name, id: index++ } );
-			return current;
-		}, [] );
 	}
 
 	CKEDITOR.plugins.mentions = Mentions;
@@ -254,18 +248,18 @@
 	 *
 	 * Essential option which should be configured to create correct mentions configuration definition is its data feed. There are different ways to create data feed:
 	 *
-	 * * Simple list of usernames as synchronous data feed.
-	 * * Backend URL to get the list of users in JSON format using asynchronous data feed.
+	 * * Simple list of text matches as synchronous data feed.
+	 * * Backend URL to get the list of items in JSON format using asynchronous data feed.
 	 * * Function with signature `opts:Object, callback:Function` allowing to use asynchronous callback to pass data from custom data source into mentions instance.
 	 *
-	 * # Simple list of usernames
-	 * The easiest way to configure data feed is to simply provide a list of usernames. Mentions plugin will use synchronous data feed and create user IDs by itself.
+	 * # Simple list of data
+	 * The easiest way to configure data feed is to simply provide a list of text matches. Mentions plugin will use synchronous data feed and create item IDs by itself.
 	 *
 	 *```javascript
 	 * var definition = { feed: ['Anna', 'Thomas', 'John'], minChars: 0, marker: '#' };
 	 * ```
 	 *
-	 * More complex case allows you to use an asynchronous feed to get a list of the users. You could pass URL string to fetch users data or use an asynchronous callback to load data by yourself.
+	 * More complex case allows you to use an asynchronous feed to get a list of the items. You could pass URL string to fetch text matches or use an asynchronous callback to load data by yourself.
 	 *
 	 * # URL string
 	 * URL string features `encodedQuery` special variable that will be replaced with URL encoded query of current mentions query. Requested backend URL should response with JSON of matches
@@ -291,7 +285,7 @@
 	 *
 	 * `opts` object contains information about current mentions query and a {@link CKEDITOR.plugins.mentions#marker marker}.
 	 *
-	 * In both situations - using URL string or a function, you should provide correct object structure containing unique user ID and a name.
+	 * In both situations - using URL string or a function, you should provide correct object structure containing unique item ID and a name.
 	 * You can pass additional information also which can be used to create custom view template.
 	 *
 	 * ```javascript
@@ -324,19 +318,19 @@
 	/**
 	 * Template used to render matches in the dropdown.
 	 *
-	 * @property {String} [template=CKEDITOR.plugins.autocomplete.view.itemTemplate] template
+	 * @property {String} [template=CKEDITOR.plugins.autocomplete.view.itemTemplate]
 	 */
 
 	/**
 	 * A character that should trigger autocompletion.
 	 *
-	 * @property {String} [marker='@'] marker
+	 * @property {String} [marker='@']
 	 */
 
 	/**
 	 * A number of characters that should follow the marker character in order to trigger mentions feature.
 	 *
-	 * @property {Number} [minChars=2] minChars
+	 * @property {Number} [minChars=2]
 	 */
 
 	/**
@@ -345,6 +339,6 @@
 	 * Note that this will take no effect on feeds using callback or URLs, as in this case results are expected to
 	 * be already filtered.
 	 *
-	 * @property {Boolean} [caseSensitive=false] caseSensitive
+	 * @property {Boolean} [caseSensitive=false]
 	 */
 } )();
