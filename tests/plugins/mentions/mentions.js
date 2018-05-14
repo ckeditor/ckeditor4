@@ -196,32 +196,36 @@
 		},
 
 		'test URL has no race condition': function() {
-			var timeoutFactor = 1,
-				callbacksDone = 0,
+			var callbacksDone = 0,
 				mentions = this.createMentionsInstance( {
 					feed: '/controller/method/{encodedQuery}'
 				} ),
+
+				lastDataSetKey = 2,
 				dataSet = {
 					// Responses come out of order.
-					1: [ { id: 2, name: 'Annabelle' } ],
-					2: [ { id: 1, name: 'Anna' }, { id: 2, name: 'Annabelle' } ]
+					1: [ { id: 1, name: 'Anna' }, { id: 2, name: 'Annabelle' } ],
+					2: [ { id: 2, name: 'Annabelle' } ]
 				},
+				dataSetSize = CKEDITOR.tools.objectKeys( dataSet ),
 				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
-					window.setTimeout( function() {
-						callbacksDone += 1;
+					window.setTimeout( ( function( dataSetKey ) {
+						return function() {
+							callbacksDone++;
 
-						callback( JSON.stringify( dataSet[ callbacksDone ] ) );
+							callback( JSON.stringify( dataSet[ dataSetKey ] ) );
 
-						if ( callbacksDone == 2 ) {
-							resume( function() {
-								ajaxStub.restore();
+							if ( callbacksDone == 2 ) {
+								resume( function() {
+									ajaxStub.restore();
 
-								assertView( mentions, [ 'Annabelle' ], true );
-							} );
-						}
-					}, timeoutFactor * 500 );
+									assertView( mentions, [ 'Annabelle' ], true );
+								} );
+							}
+						};
+					} )( lastDataSetKey ), ( dataSetSize - lastDataSetKey ) * 500 );
 
-					timeoutFactor++;
+					lastDataSetKey--;
 				} );
 
 			this.editorBot.setHtmlWithSelection( '<p>@Anna^</p>' );
