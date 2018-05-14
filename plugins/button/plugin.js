@@ -389,6 +389,42 @@
 				feature = editor.getCommand( this.command ) || feature;
 
 			return this._.feature = feature;
+		},
+
+		/**
+		 * Hides this button from UI.
+		 *
+		 * @since 4.10.0
+		 */
+		hide: function() {
+			var element;
+			if ( this._.id ) {
+				element = CKEDITOR.document.getById( this._.id );
+				element.setStyle( 'display', 'none' );
+			} else {
+				// If button hasn't been rendered, then add initial style.
+				if ( !this.style ) {
+					this.style = 'display: none;';
+				} else {
+					this.style += 'display: none;';
+				}
+			}
+
+			this.hidden = true;
+		},
+
+		/**
+		 * Shows this button in UI.
+		 *
+		 * @since 4.10.0
+		 */
+		show: function() {
+			var element;
+			if ( this._.id && this.hidden ) {
+				element = CKEDITOR.document.getById( this._.id );
+				delete this.hidden;
+				element.removeStyle( 'display' );
+			}
 		}
 	};
 

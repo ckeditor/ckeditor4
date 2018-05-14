@@ -48,7 +48,10 @@
 			};
 
 			editor.getCommand( item.command ).on( 'state', function() {
-				var activeButton = getLastActiveCommands( editor, allItems );
+				var activeCommand = getLastActiveCommands( editor, allItems ), activeButton;
+				if ( activeCommand ) {
+					activeButton = properties.buttons[ activeCommand.id ];
+				}
 
 				if ( !properties.buttons[ defaultButton.id ]._.id ) {
 					// Button without id isn't in DOM tree, eg. when it is in balloon toolbar which didn't show yet.
@@ -56,15 +59,15 @@
 					return;
 				}
 				if ( previousButton ) {
-					setButtonDisplay( previousButton.id, 'none' );
+					previousButton.hide();
 				}
 
 				if ( activeButton ) {
-					setButtonDisplay( defaultButton.id, 'none' );
-					setButtonDisplay( activeButton.id );
+					defaultButton.hide();
+					activeButton.show();
 					previousButton = activeButton;
 				} else {
-					setButtonDisplay( defaultButton.id );
+					defaultButton.show();
 					previousButton = defaultButton;
 				}
 			} );
@@ -82,22 +85,11 @@
 				if ( item[ 'default' ] ) {
 					defaultButton = properties.buttons[ item.id ];
 				} else {
-					properties.buttons[ item.id ].style = 'display: none;';
-					properties.buttons[ item.id ].hidden = true;
+					properties.buttons[ item.id ].hide();
 				}
 			}
 		}
 		return properties;
-
-		function setButtonDisplay( buttonId, display ) {
-			var element = CKEDITOR.document.getById( properties.buttons[ buttonId ]._.id );
-			element[ display ? 'setStyle' : 'removeStyle' ]( 'display', display );
-			if ( !display ) {
-				delete properties.buttons[ buttonId ].hidden;
-			} else {
-				properties.buttons[ buttonId ].hidden = true;
-			}
-		}
 	}
 
 	CKEDITOR.plugins.add( 'splitbutton', {
