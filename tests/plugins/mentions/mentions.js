@@ -27,42 +27,42 @@
 
 		'test array feed with match': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
-			assertView( this.createMentionsInstance( { feed: feedData } ), expectedFeedData );
+			testView( this.createMentionsInstance( { feed: feedData } ), expectedFeedData );
 		},
 
 		// (#1934)
 		'test case sensitive array feed with match': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
-			assertView( this.createMentionsInstance( { feed: feedData, caseSensitive: true } ), expectedFeedData );
+			testView( this.createMentionsInstance( { feed: feedData, caseSensitive: true } ), expectedFeedData );
 		},
 
 		'test array feed without match': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@A^</p>' );
-			assertView( this.createMentionsInstance( { feed: feedData } ), [] );
+			testView( this.createMentionsInstance( { feed: feedData } ), [] );
 		},
 
 		// (#1934)
 		'test case sensitive array feed without match - lowercase query': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@an^</p>' );
-			assertView( this.createMentionsInstance( { feed: feedData, caseSensitive: true } ), [] );
+			testView( this.createMentionsInstance( { feed: feedData, caseSensitive: true } ), [] );
 		},
 
 		// (#1934)
 		'test case sensitive array feed without match - lowercase data': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
-			assertView( this.createMentionsInstance( { feed: [ 'anna' ], caseSensitive: true } ), [] );
+			testView( this.createMentionsInstance( { feed: [ 'anna' ], caseSensitive: true } ), [] );
 		},
 
 		// (#1934)
 		'test case insensitive array match': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
-			assertView( this.createMentionsInstance( { feed: [ 'Andy', 'anna' ], caseSensitive: false } ), [ 'Andy', 'anna' ] );
+			testView( this.createMentionsInstance( { feed: [ 'Andy', 'anna' ], caseSensitive: false } ), [ 'Andy', 'anna' ] );
 		},
 
 		'test array feed with custom minChars': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@A^</p>' );
 
-			assertView( this.createMentionsInstance( {
+			testView( this.createMentionsInstance( {
 				feed: feedData,
 				minChars: 0
 			} ), expectedFeedData );
@@ -71,7 +71,7 @@
 		'test array feed with custom marker': function() {
 			this.editorBot.setHtmlWithSelection( '<p>$An^</p>' );
 
-			assertView( this.createMentionsInstance( {
+			testView( this.createMentionsInstance( {
 				feed: feedData,
 				marker: '$'
 			} ), expectedFeedData );
@@ -80,7 +80,7 @@
 		'test callback feed with match': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@Ann^</p>' );
 
-			assertView( this.createMentionsInstance( {
+			testView( this.createMentionsInstance( {
 				feed: successFeed( function( opts ) {
 					assert.areEqual( '@', opts.marker );
 					assert.areEqual( 'Ann', opts.query );
@@ -91,7 +91,7 @@
 		'test callback feed without match': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@Th^</p>' );
 
-			assertView( this.createMentionsInstance( {
+			testView( this.createMentionsInstance( {
 				feed: failureFeed( function( opts ) {
 					assert.areEqual( '@', opts.marker );
 					assert.areEqual( 'Th', opts.query );
@@ -102,7 +102,7 @@
 		'test callback feed with custom marker': function() {
 			this.editorBot.setHtmlWithSelection( '<p>#Ann^</p>' );
 
-			assertView( this.createMentionsInstance( {
+			testView( this.createMentionsInstance( {
 				marker: '#',
 				feed: successFeed( function( opts ) {
 					assert.areEqual( '#', opts.marker );
@@ -120,7 +120,7 @@
 
 			this.editorBot.setHtmlWithSelection( '<p>@Ann^</p>' );
 
-			assertView( this.createMentionsInstance( {
+			testView( this.createMentionsInstance( {
 				feed: '/controller/method/{encodedQuery}'
 			} ), expectedFeedData );
 
@@ -162,7 +162,7 @@
 
 			this.editorBot.setHtmlWithSelection( '<p>@Th^</p>' );
 
-			assertView( this.createMentionsInstance( {
+			testView( this.createMentionsInstance( {
 				feed: '/controller/method/{encodedQuery}'
 			} ), [] );
 
@@ -172,7 +172,7 @@
 		'test feed with custom template': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
 
-			assertView( this.createMentionsInstance( {
+			testView( this.createMentionsInstance( {
 				feed: feedData,
 				template: '<li data-id="{id}">{name} is the best!</li>'
 			} ), [ 'Anna is the best!', 'Annabelle is the best!' ] );
@@ -189,16 +189,55 @@
 
 				bot.setHtmlWithSelection( '<p>@An^</p>' );
 
-				assertView( mentions, expectedFeedData );
+				testView( mentions, expectedFeedData );
 
 				mentions.destroy();
 			} );
+		},
+
+		'test URL has no race condition': function() {
+			var ajaxCallsLeft = 2,
+				callbacksLeft = 2,
+				mentions = this.createMentionsInstance( {
+					feed: '/controller/method/{encodedQuery}'
+				} ),
+				dataSet = {
+					1: [ { id: 2, name: 'Annabelle' } ],
+					2: [ { id: 1, name: 'Anna' }, { id: 2, name: 'Annabelle' } ]
+				},
+				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
+					var data = url.indexOf( 'Annab' ) != -1 ? dataSet[ 1 ] : dataSet[ 2 ];
+
+					ajaxCallsLeft--;
+
+					window.setTimeout( function() {
+						callback( JSON.stringify( data ) );
+
+						callbacksLeft--;
+						if ( !callbacksLeft ) {
+							resume( function() {
+								ajaxStub.restore();
+								testView( mentions, [ 'Annabelle' ], true );
+							} );
+						}
+					}, ajaxCallsLeft * 50 );
+				} );
+
+			this.editorBot.setHtmlWithSelection( '<p>@Anna^</p>' );
+			mentions._autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			this.editor.editable().findOne( 'p' ).getFirst().setText( '@Annab' );
+			mentions._autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			wait();
 		}
 	} );
 
-	function assertView( mentions, matches ) {
-		// Fire keyup event on editable to trigger text matching and open _autocomplete view if it matches.
-		mentions._autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+	function testView( mentions, matches, skipTrigger ) {
+		if ( !skipTrigger ) {
+			// Fire keyup event on editable to trigger text matching and open _autocomplete view if it matches.
+			mentions._autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+		}
 
 		var viewElement = mentions._autocomplete.view.element,
 			isOpened = viewElement.hasClass( 'cke_autocomplete_opened' ),
