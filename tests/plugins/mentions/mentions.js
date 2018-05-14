@@ -202,8 +202,9 @@
 					feed: '/controller/method/{encodedQuery}'
 				} ),
 				dataSet = {
-					1: [ { id: 1, name: 'Anna' }, { id: 2, name: 'Annabelle' } ],
-					2: [ { id: 2, name: 'Annabelle' } ]
+					// Responses come out of order.
+					1: [ { id: 2, name: 'Annabelle' } ],
+					2: [ { id: 1, name: 'Anna' }, { id: 2, name: 'Annabelle' } ]
 				},
 				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
 					window.setTimeout( function() {
@@ -215,7 +216,7 @@
 							resume( function() {
 								ajaxStub.restore();
 
-								assertView( mentions, expectedFeedData, true );
+								assertView( mentions, [ 'Annabelle' ], true );
 							} );
 						}
 					}, timeoutFactor * 500 );
