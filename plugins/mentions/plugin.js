@@ -7,8 +7,7 @@
 
 ( function() {
 	var MARKER = '@',
-		MIN_CHARS = 2,
-		ENCODED_QUERY = '{encodedQuery}';
+		MIN_CHARS = 2;
 
 	CKEDITOR.plugins.add( 'mentions', {
 		requires: 'autocomplete,textmatch,ajax',
@@ -190,8 +189,8 @@
 			}
 
 			function urlFeed() {
-				var encodedQueryRegex = new RegExp( ENCODED_QUERY, 'g' ),
-					encodedUrl = feed.replace( encodedQueryRegex, encodeURIComponent( query ) );
+				var encodedUrl = new CKEDITOR.template( feed )
+					.output( { encodedQuery: encodeURIComponent( query ) } );
 
 				CKEDITOR.ajax.load( encodedUrl, function( data ) {
 					resolveData( JSON.parse( data ) );
