@@ -193,12 +193,53 @@
 
 				mentions.destroy();
 			} );
+		},
+
+		'test URL has no race condition': function() {
+			var timeoutFactor = 1,
+				callbacksDone = 0,
+				mentions = this.createMentionsInstance( {
+					feed: '/controller/method/{encodedQuery}'
+				} ),
+				dataSet = {
+					1: [ { id: 1, name: 'Anna' }, { id: 2, name: 'Annabelle' } ],
+					2: [ { id: 2, name: 'Annabelle' } ]
+				},
+				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
+					window.setTimeout( function() {
+						callbacksDone += 1;
+
+						callback( JSON.stringify( dataSet[ callbacksDone ] ) );
+
+						if ( callbacksDone == 2 ) {
+							resume( function() {
+								ajaxStub.restore();
+
+								assertView( mentions, expectedFeedData, true );
+							} );
+						}
+					}, timeoutFactor * 500 );
+
+					timeoutFactor++;
+				} );
+
+			this.editorBot.setHtmlWithSelection( '<p>@Anna^</p>' );
+
+			mentions._autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			this.editor.editable().findOne( 'p' ).getFirst().setText( '@Annab' );
+
+			mentions._autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			wait();
 		}
 	} );
 
-	function assertView( mentions, matches ) {
-		// Fire keyup event on editable to trigger text matching and open _autocomplete view if it matches.
-		mentions._autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+	function assertView( mentions, matches, skipTrigger ) {
+		if ( !skipTrigger ) {
+			// Fire keyup event on editable to trigger text matching and open _autocomplete view if it matches.
+			mentions._autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+		}
 
 		var viewElement = mentions._autocomplete.view.element,
 			isOpened = viewElement.hasClass( 'cke_autocomplete_opened' ),
