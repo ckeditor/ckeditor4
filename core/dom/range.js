@@ -2965,8 +2965,12 @@ CKEDITOR.dom.range = function( root ) {
 					if ( first ) {
 						context.startContainer.append( textNode, true );
 					} else {
-						itemToInsertAfter = context.startContainer.getChildren().getItem( context.startOffset - 1 );
-						textNode.insertAfter( itemToInsertAfter );
+						if ( context.startOffset === 0 ) {
+							textNode.insertBefore( context.startContainer.getFirst() );
+						} else {
+							itemToInsertAfter = context.startContainer.getChildren().getItem( context.startOffset - 1 );
+							textNode.insertAfter( itemToInsertAfter );
+						}
 					}
 
 					// Create native collapsed ranges inside just created textNode.
