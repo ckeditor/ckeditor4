@@ -30,15 +30,15 @@
 	 * Mentions plugin allows you to type custom marker character and get suggested values for the text matches so that you don't have to write it on your own.
 	 *
 	 * The recommended way to add mentions feature to an editor is by
-	 * using {@link CKEDITOR.config#mentions} configuration property or by passing it as the configuration option when instantiating an editor.
+	 * using {@link CKEDITOR.config#mentions config.mentions} property or by passing it as the configuration option when instantiating an editor.
 	 *
 	 * ```javascript
 	 * // Simple usage with CKEDITOR.config.mentions property.
-	 * CKEDITOR.config.mentions = [ { feed: ['Anna', 'Thomas', 'John'], minChars: 0, marker: '#' } ];
+	 * CKEDITOR.config.mentions = [ { feed: ['Anna', 'Thomas', 'John'], minChars: 0 } ];
 	 *
 	 * // Passing mentions configuration when creating editor.
 	 * CKEDITOR.replace( 'editor', {
-	 * 		mentions: [ { feed: ['Anna', 'Thomas', 'John'], minChars: 0, marker: '#' } ]
+	 * 		mentions: [ { feed: ['Anna', 'Thomas', 'John'], minChars: 0 } ]
 	 * } );
 	 * ```
 	 *
@@ -130,13 +130,17 @@
 		};
 
 		function matchCallback( text, offset ) {
-			var match = text.slice( 0, offset ).match( matchPattern );
+			var match = text.slice( 0, offset )
+				.match( matchPattern );
 
 			if ( !match ) {
 				return null;
 			}
 
-			return { start: match.index, end: offset };
+			return {
+				start: match.index,
+				end: offset
+			};
 		}
 
 		function createPattern() {
@@ -225,6 +229,15 @@
 	/**
 	 * List of mentions configuration objects.
 	 * For each configuration object new {@link CKEDITOR.plugins.mentions Mentions} instance will be created and attached to an editor.
+	 *
+	 * ```javascript
+	 * config.mentions = [
+	 * 	{ feed: [ 'Anna', 'Thomas', 'Jack' ], minChars: 0 },
+	 * 	{ feed: backendApiFunction, marker: '#' },
+	 * 	{ feed: '/users?query={encodedQuery}', marker: '$' }
+	 * ];
+	 *
+	 * ```
 	 *
 	 * @cfg {CKEDITOR.plugins.mentions.configDefinition[]} [=[]]
 	 * @since 4.10.0
@@ -317,6 +330,18 @@
 
 	/**
 	 * Template used to render matches in the dropdown.
+	 *
+	 * A minimal template should be wrapped with HTML `li` element containing `data-id={id}` attribute.
+	 * Template accepts `id` and `name` parameters.
+	 * Also with {@link #feed asynchronous feed} you can pass additional parameters and use them inside template.
+	 *
+	 * ```javascript
+	 * var definition = {
+	 * 		feed: feed,
+	 * 		template: '<li data-id={id}><img src="{iconSrc}" alt="{name}">{name}</li>'
+	 * }
+	 *
+	 * ```
 	 *
 	 * @property {String} [template=CKEDITOR.plugins.autocomplete.view.itemTemplate]
 	 */
