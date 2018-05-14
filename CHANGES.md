@@ -6,7 +6,7 @@
 New Features:
 
 * [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin supports email links.
-* [#1679](https://github.com/ckeditor/ckeditor-dev/issues/1679): Introduced the Split Button plugin. Also added option to set initial style for button when creating it, and create button without icon.
+* [#1679](https://github.com/ckeditor/ckeditor-dev/issues/1679): Introduced the [Split Button](https://ckeditor.com/cke4/addon/splitbutton plugin. Also added option to set initial style for button when creating it, and create button without icon.
 
 Fixed Issues:
 
