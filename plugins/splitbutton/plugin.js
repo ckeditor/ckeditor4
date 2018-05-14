@@ -77,7 +77,7 @@
 			} );
 
 			properties.items[ item.id ] = item;
-			properties.buttons[ item.id ] = new CKEDITOR.ui.button( item );
+			properties.buttons[ item.id ] = new CKEDITOR.ui.button( CKEDITOR.tools.extend( { label: definition.label + ' ' + item.label }, item ) );
 
 			editor.addFeature( properties.buttons[ item.id ] );
 
