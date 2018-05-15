@@ -898,13 +898,13 @@
 					output: null
 				},
 				{
-					input: 'ffff',
+					input: 'ff',
 					output: null
 				}
 			];
 
 			CKEDITOR.tools.array.forEach( test_cases, function( test ) {
-				var header = CKEDITOR.tools.getFileTypeFromHeader( new Uint8Array( CKEDITOR.tools.convertHexStringToBytes( test.input ) ) );
+				var header = CKEDITOR.tools.getFileTypeFromHeader( Uint8Array.from( CKEDITOR.tools.convertHexStringToBytes( test.input ) ) );
 				assert.areEqual( test.output, header, 'There is problem for test case with input: ' + test.input );
 			} );
 		},
@@ -917,7 +917,7 @@
 			var imageHex = '89504e470d0a1a0a0000000d4948445200000001000000010804000000b51c0c020000000b4944415478da6364600000000600023081d02f0000000049454e44ae426082';
 			var imageBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 			var fileType = 'image/png';
-			var typedArray = new Uint8Array( CKEDITOR.tools.convertHexStringToBytes( imageHex ) );
+			var typedArray = Uint8Array.from( CKEDITOR.tools.convertHexStringToBytes( imageHex ) );
 			var blobUrl = URL.createObjectURL( new Blob( [ typedArray ], { type: fileType } ) );
 			CKEDITOR.tools.convertBlobUrlToBase64( blobUrl, function( base64 ) {
 				resume( function() {
