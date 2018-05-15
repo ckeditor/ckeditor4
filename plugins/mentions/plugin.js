@@ -230,6 +230,7 @@
 				CKEDITOR.ajax.load( encodedUrl, function( data ) {
 					var items = JSON.parse( data );
 
+					// Cache URL responses for performance improvement (#1969).
 					if ( mentions.cache ) {
 						cache[ encodedUrl ] = items;
 					}
