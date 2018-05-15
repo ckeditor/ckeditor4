@@ -2891,21 +2891,36 @@ CKEDITOR.dom.range = function( root ) {
 						return item;
 					} ),
 					widgetElements = [],
+					widgetIds = [],
 					widgetRects,
 					widgetRange,
 					nodeList;
 
-
 				// Lets iterate over each element inside ranges to find widgets.
 				walker.evaluator = function( element ) {
+					var id;
+
 					if ( element instanceof CKEDITOR.dom.element ) {
 						nodeList = element.find( '[data-widget]' );
 
 						// Store each widget element in array.
 						if ( element.hasAttribute( 'data-widget' ) ) {
-							widgetElements.push( element );
+
+							addWidgetElement( element );
 						} else if ( nodeList.count() ) {
-							widgetElements = widgetElements.concat( nodeList.toArray() );
+
+							CKEDITOR.tools.array.forEach( nodeList.toArray(), function( element ) {
+								addWidgetElement( element );
+							} );
+						}
+					}
+					function addWidgetElement( element ) {
+						id = element.hasAttribute( 'data-cke-widget-id' ) ? element.getAttribute( 'data-cke-widget-id' ) : element.getParent().getAttribute( 'data-cke-widget-id' );
+
+						// Evaluator can return two elements with relation parent-child we can have one widget element added multiple times, no need for that.
+						if ( CKEDITOR.tools.indexOf( widgetIds, id ) === -1 ) {
+							widgetIds.push( id );
+							widgetElements.push( element );
 						}
 					}
 				};
@@ -2934,13 +2949,26 @@ CKEDITOR.dom.range = function( root ) {
 				}, context );
 
 				CKEDITOR.tools.array.forEach( widgetRects, function( item ) {
-					CKEDITOR.tools.array.forEach( rectArray, function( rectArrayItem, index ) {
-						var compare = CKEDITOR.tools.objectCompare( item[ 0 ], rectArrayItem );
-						if ( compare ) {
-							// Find widget rect in rectArray and remove following rects that represent widget child elements.
-							Array.prototype.splice.call( rectArray, index, item.length, item.widgetRect );
-						}
-					} );
+					var found;
+
+					cleanWidgetRects( 0 );
+
+					function cleanWidgetRects( startIndex ) {
+						CKEDITOR.tools.array.forEach( rectArray, function( rectArrayItem, index ) {
+							var compare = CKEDITOR.tools.objectCompare( item[ startIndex ], rectArrayItem );
+
+							if ( compare ) {
+								// Find widget rect in rectArray and remove following rects that represent widget child elements.
+								Array.prototype.splice.call( rectArray, index, item.length - startIndex, item.widgetRect );
+								found = true;
+							} else if ( rectArray.length - 1 === index && !found ) {
+								// If first rect isn't existing inside rectArray lets take another element for reference.
+								if ( startIndex < rectArray.length - 1 ) {
+									cleanWidgetRects( startIndex + 1 );
+								}
+							}
+						} );
+					}
 				} );
 
 				return rectArray;
