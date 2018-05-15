@@ -24,7 +24,7 @@
 	} );
 
 	/**
-	 * Mentions plugin allows you to type custom marker character and get suggested values for the text matches so that you don't have to write it on your own.
+	 * Mentions plugin allows you to type marker character and get suggested values for the text matches so that you don't have to write it on your own.
 	 *
 	 * The recommended way to add mentions feature to an editor is by
 	 * using {@link CKEDITOR.config#mentions config.mentions} property or by passing it as the configuration option when instantiating an editor.
@@ -49,7 +49,7 @@
 		var feed = config.feed;
 
 		/**
-		 * See {@link CKEDITOR.plugins.mentions.configDefinition#caseSensitive caseSensitive}
+		 * See {@link CKEDITOR.plugins.mentions.configDefinition#caseSensitive caseSensitive}.
 		 *
 		 * @property {Boolean} [caseSensitive=false]
 		 * @readonly
@@ -57,7 +57,7 @@
 		this.caseSensitive = config.caseSensitive;
 
 		/**
-		 * See {@link CKEDITOR.plugins.mentions.configDefinition#marker marker}
+		 * See {@link CKEDITOR.plugins.mentions.configDefinition#marker marker}.
 		 *
 		 * @property {String} [marker='@']
 		 * @readonly
@@ -65,7 +65,7 @@
 		this.marker = config.hasOwnProperty( 'marker' ) ? config.marker : MARKER;
 
 		/**
-		 * See {@link CKEDITOR.plugins.mentions.configDefinition#minChars minChars}
+		 * See {@link CKEDITOR.plugins.mentions.configDefinition#minChars minChars}.
 		 *
 		 * @property {Number} [minChars=2]
 		 * @readonly
@@ -81,20 +81,10 @@
 		this.template = config.template;
 
 		/**
-		 * Pattern used to match queries.
-		 *
-		 * Default pattern matches words with query including {@link #marker marker} and {@link #minChars minChars} properties.
-		 *
-		 * ```javascript
-		 * // Match only words starting with "a".
-		 * config.pattern = {
-		 * 	feed: [ 'Anna', 'Thomas', 'Jack' ],
-		 *	pattern: /^a+\w*$/,
-		 * 	marker: null
-		 * }
-		 * ```
+		 * See {@link CKEDITOR.plugins.mentions.configDefinition#pattern pattern}.
 		 *
 		 * @property {RegExp} pattern
+		 * @readonly
 		 */
 		this.pattern = config.pattern || createPattern( this.marker, this.minChars );
 
@@ -117,6 +107,7 @@
 
 		/**
 		 * Destroys the mentions instance.
+		 *
 		 * View element and event listeners will be removed from the DOM.
 		 */
 		destroy: function() {
@@ -125,6 +116,11 @@
 
 		/**
 		 * Changes the view template. The given template will be used to render matches in the dropdown.
+		 *
+		 * ```javascript
+		 * mentions.changeViewTemplate( '<li data-id="{id}" ><img src="{iconSrc}" alt="{name}" /><span>{name}</span></li>' );
+		 *
+		 * ```
 		 *
 		 * @param {String} template
 		 */
@@ -179,15 +175,15 @@
 				query = query.substring( 1 );
 			}
 
-			// Array feed.
 			if ( CKEDITOR.tools.array.isArray( feed ) ) {
 				createArrayFeed();
-				// Url feed.
 			} else if ( typeof feed === 'string' ) {
 				createUrlFeed();
-				// Function feed.
 			} else {
-				feed( { query: query, marker: marker }, resolveCallbackData );
+				feed( {
+					query: query,
+					marker: marker
+				}, resolveCallbackData );
 			}
 
 			function createArrayFeed() {
@@ -242,6 +238,7 @@
 
 	/**
 	 * List of mentions configuration objects.
+	 *
 	 * For each configuration object new {@link CKEDITOR.plugins.mentions Mentions} instance will be created and attached to an editor.
 	 *
 	 * ```javascript
@@ -263,71 +260,13 @@
 	 *
 	 * This virtual class illustrates the properties that developers can use to define and create
 	 * mentions configuration definition.
-	 *
-	 * A mentions definition object represents an object as a set of properties defining a mentions data feed and it's optional parameters.
+	 * A mentions definition object represents an object as a set of properties defining a mentions
+	 * data feed and it's optional parameters.
 	 *
 	 * Simple usage:
 	 *
 	 * ```javascript
-	 * var definition = { feed: ['Anna', 'Thomas', 'John'], minChars: 0, marker: '#', caseSensitive: true };
-	 * ```
-	 *
-	 * Essential option which should be configured to create correct mentions configuration definition is its data feed. There are different ways to create data feed:
-	 *
-	 * * Simple list of text matches as synchronous data feed.
-	 * * Backend URL to get the list of items in JSON format using asynchronous data feed.
-	 * * Function with signature `opts:Object, callback:Function` allowing to use asynchronous callback to pass data from custom data source into mentions instance.
-	 *
-	 * # Simple list of data
-	 * The easiest way to configure data feed is to simply provide a list of text matches. Mentions plugin will use synchronous data feed and create item IDs by itself.
-	 *
-	 *```javascript
-	 * var definition = { feed: ['Anna', 'Thomas', 'John'], minChars: 0, marker: '#' };
-	 * ```
-	 *
-	 * More complex case allows you to use an asynchronous feed to get a list of the items. You could pass URL string to fetch text matches or use an asynchronous callback to load data by yourself.
-	 *
-	 * # URL string
-	 * URL string features `encodedQuery` special variable that will be replaced with URL encoded query of current mentions query. Requested backend URL should response with JSON of matches
-	 * that should appear in the dropdown.
-	 *
-	 * ```javascript
-	 * var definition = { feed: '/user-controller/get-list/{encodedQuery}' };
-	 * ```
-	 *
-	 * # Function
-	 * If you want to get full control of how you feeding mentions feature with data you should take a look at a functional version of the feed.
-	 * It allows you to query the data source and use a callback function to pass data into mentions instance.
-	 *
-	 * ```javascript
-	 * var definition = {
-	 *		feed: function( opts, callback ) {
-	 *			callMyBackend( opts.query, function( results ) {
-	 *				callback( results );
-	 *			} );
-	 *		}
-	 * };
-	 * ```
-	 *
-	 * `opts` object contains information about current mentions query and a {@link CKEDITOR.plugins.mentions#marker marker}.
-	 *
-	 * In both situations - using URL string or a function, you should provide correct object structure containing unique item ID and a name.
-	 * You can pass additional information also which can be used to create custom view template.
-	 *
-	 * ```javascript
-	 * // Example of expected results from backend API. `firstName` and `lastName` properties are optional.
-	 * [
-	 * 		{ id: 1, name: 'anna87', firstName: 'Anna', lastName: 'Doe' },
-	 * 		{ id: 2, name: 'tho-mass', firstName: 'Thomas', lastName: 'Doe' },
-	 * 		{ id: 3, name: 'ozzy', firstName: 'John', lastName: 'Doe' }
-	 * ]
-	 *
-	 * // Custom mentions configuration definition taking advantage of additional `firstName` and `lastName` properties by setting custom view template.
-	 * var definition = {
-	 *	 feed: backendApiFunction,
-	 *	 template: '<li data-id="{id}>{name} ({firstName} {lastName})</li>'
-	 * }
-	 *
+	 * var definition = { feed: ['Anna', 'Thomas', 'John'], minChars: 0 };
 	 * ```
 	 *
 	 * @class CKEDITOR.plugins.mentions.configDefinition
@@ -336,7 +275,106 @@
 	 */
 
 	/**
-	 * Feed of items to be displayed in mentions plugin.
+	 * Feed of items to be displayed in the mentions plugin.
+	 *
+	 * Essential option which should be configured to create correct mentions configuration definition.
+	 * There are tree different ways to create data feed:
+	 *
+	 * * A simple array of text matches as synchronous data feed.
+	 * * A backend URL string responding with a list of items in JSON format. This method utilizes asynchronous data feed.
+	 * * A function allowing to use asynchronous callback to customize data source.
+	 * Gives the freedom to use any data source depending on your implementation.
+	 *
+	 * # An array of text matches
+	 * The easiest way to configure data feed is to provide an array of text matches.
+	 * Mentions plugin will use synchronous data feed and create item IDs by itself.
+	 * The biggest advantage of this method is its simplicity, although it's limited to synchronous data feed.
+	 * Please see two other methods if you need more complex techniques to fetch text matches.
+	 *
+	 *```javascript
+	 * var definition = { feed: ['Anna', 'Thomas', 'John'], minChars: 0 };
+	 * ```
+	 *
+	 * By default query matching for an array feed is case insensitive.
+	 * You can change this behavior by setting {@link #caseSensitive caseSensitive} property to `true`.
+	 *
+	 * # A backend URL string
+	 * You can provide a backend URL string which will be used to fetch text matches from custom endpoint service.
+	 * Each time when a user types matching text into an editor your backend service will be queried for text matches.
+	 * Ajax URL request should response with an array of matches in JSON format. A URL response will appear in the mentions dropdown.
+	 *
+	 * A backend URL string features `encodedQuery` special variable replaced with a mentions query.
+	 * `encodedQuery` variable allows you to create customized URL which can be both RESTful API compliant or any other
+	 * URL which suits your needs. E.g. for query `@anna` and the given URL `/users?name={encodedQuery}` your endpoint
+	 * service will be queried with `/users?name=anna`.
+	 *
+	 * ```javascript
+	 * var definition = { feed: '/users?query={encodedQuery}' };
+	 * ```
+	 *
+	 * # Function feed
+	 * This method is recommended for advanced users who would like to take full control of the data feed.
+	 * It allows you to provide data feed as an function which accepts two parameters: `options` and `callback`.
+	 * Provided function will be called every time when user types matching text into an editor.
+	 *
+	 * The `options` object contains information about current query and a {@link #marker marker}.
+	 *
+	 * ```javascript
+	 * { query: 'anna', marker: '@' }
+	 * ```
+	 *
+	 * The `callback` argument should be used to pass an array of text match items into mentions instance.
+	 *
+	 * ```javascript
+	 * callback( [ { id: 1, name: 'anna' }, { id: 2, name: 'annabelle' } ] );
+	 * ```
+	 *
+	 * Depending on your use case, you can use this code as an example boilerplate to create your own function feed:
+	 *
+	 * ```javascript
+	 * var definition = {
+	 *		feed: function( opts, callback ) {
+	 *			var xhr = new XMLHttpRequest();
+	 *
+	 *			xhr.onreadystatechange = function() {
+	 *				if ( xhr.readyState == 4 ) {
+	 *					if ( xhr.status == 200 ) {
+	 *						callback( JSON.parse( this.responseText ) );
+	 *					} else {
+	 *						callback( [] );
+	 *					}
+	 *				}
+	 *			}
+	 *
+	 *			xhr.open( 'GET', '/users?name=' + opts.query );
+	 *			xhr.send();
+	 *		}
+	 * };
+	 * ```
+	 *
+	 * **Other details**
+	 *
+	 * When using asynchronous method i.e. backend URL string or a function,
+	 *  you should provide correct object structure containing unique item ID and a name.
+	 *
+	 * You can pass additional information also which can be used to create custom view template.
+	 *
+	 * ```javascript
+	 * // Example of expected results from backend API.
+	 * // `firstName` and `lastName` properties are optional.
+	 * [
+	 * 		{ id: 1, name: 'anna87', firstName: 'Anna', lastName: 'Doe' },
+	 * 		{ id: 2, name: 'tho-mass', firstName: 'Thomas', lastName: 'Doe' },
+	 * 		{ id: 3, name: 'ozzy', firstName: 'John', lastName: 'Doe' }
+	 * ]
+	 *
+	 * // Setting custom view template by utilizing additional `firstname` and `lastname` parameters.
+	 * var definition = {
+	 *	 feed: backendApiFunction,
+	 *	 template: '<li data-id="{id}><strong>{name}</strong><i>({firstName} {lastName})</i></li>'
+	 * }
+	 *
+	 * ```
 	 *
 	 * @property {String/String[]/Function} feed
 	 */
@@ -378,5 +416,18 @@
 	 * be already filtered.
 	 *
 	 * @property {Boolean} [caseSensitive=false]
+	 */
+
+	/**
+	 * Pattern used to match queries.
+	 *
+	 * Default pattern matches words with query including {@link #marker marker} and {@link #minChars minChars} properties.
+	 *
+	 * ```javascript
+	 * // Match only words starting with "a".
+	 * config.pattern = { feed: [ 'Anna', 'Thomas', 'Jack' ], pattern: /^a+\w*$/, marker: null };
+	 * ```
+	 *
+	 * @property {RegExp} pattern
 	 */
 } )();
