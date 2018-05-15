@@ -2907,7 +2907,8 @@ CKEDITOR.dom.range = function( root ) {
 						if ( element.hasAttribute( 'data-widget' ) ) {
 
 							addWidgetElement( element );
-						} else if ( nodeList.count() ) {
+						}
+						if ( nodeList.count() ) {
 
 							CKEDITOR.tools.array.forEach( nodeList.toArray(), function( element ) {
 								addWidgetElement( element );
@@ -2950,7 +2951,6 @@ CKEDITOR.dom.range = function( root ) {
 
 				CKEDITOR.tools.array.forEach( widgetRects, function( item ) {
 					var found;
-
 					cleanWidgetRects( 0 );
 
 					function cleanWidgetRects( startIndex ) {
@@ -2961,10 +2961,14 @@ CKEDITOR.dom.range = function( root ) {
 								// Find widget rect in rectArray and remove following rects that represent widget child elements.
 								Array.prototype.splice.call( rectArray, index, item.length - startIndex, item.widgetRect );
 								found = true;
-							} else if ( rectArray.length - 1 === index && !found ) {
-								// If first rect isn't existing inside rectArray lets take another element for reference.
+							}
+							if ( rectArray.length - 1 === index && !found ) {
 								if ( startIndex < rectArray.length - 1 ) {
+									// If first rect isn't existing inside rectArray lets take another element for reference.
 									cleanWidgetRects( startIndex + 1 );
+								} else {
+									// If none of widgets rect is found add widget element rect to rect list.
+									rectArray.push( item.widgetRect );
 								}
 							}
 						} );
