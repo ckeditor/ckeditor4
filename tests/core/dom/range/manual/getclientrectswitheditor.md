@@ -1,5 +1,5 @@
 @bender-tags: 4.10.0, feature, range, selection, 1902, 1915, 1925, 1930, tableselection
-@bender-ckeditor-plugins: wysiwygarea, toolbar, codesnippet, image2, table, tableselection, sourcearea
+@bender-ckeditor-plugins: wysiwygarea, toolbar, codesnippet, image2, table, tableselection, sourcearea, placeholder
 
 # Selection rectangles
 
