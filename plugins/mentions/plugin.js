@@ -368,7 +368,7 @@
 	 * 		{ id: 3, name: 'ozzy', firstName: 'John', lastName: 'Doe' }
 	 * ]
 	 *
-	 * // Setting custom view template by utilizing additional `firstname` and `lastname` parameters.
+	 * // Setting custom view template by utilizing additional `firstname` and `lastname` attributes.
 	 * var definition = {
 	 *	 feed: backendApiFunction,
 	 *	 template: '<li data-id="{id}><strong>{name}</strong><i>({firstName} {lastName})</i></li>'
