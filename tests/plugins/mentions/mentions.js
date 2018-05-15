@@ -68,13 +68,53 @@
 			} ), expectedFeedData );
 		},
 
-		'test array feed with custom marker': function() {
+		'test array feed with custom marker "$"': function() {
 			this.editorBot.setHtmlWithSelection( '<p>$An^</p>' );
 
 			testView( this.createMentionsInstance( {
 				feed: feedData,
 				marker: '$'
 			} ), expectedFeedData );
+		},
+
+		'test array feed with custom marker "."': function() {
+			this.editorBot.setHtmlWithSelection( '<p>.An^</p>' );
+
+			testView( this.createMentionsInstance( {
+				feed: feedData,
+				marker: '.'
+			} ), expectedFeedData );
+		},
+
+		'test array feed with custom marker "/"': function() {
+			this.editorBot.setHtmlWithSelection( '<p>/An^</p>' );
+
+			testView( this.createMentionsInstance( {
+				feed: feedData,
+				marker: '/'
+			} ), expectedFeedData );
+		},
+
+		'test passing custom pattern': function() {
+			this.editorBot.setHtmlWithSelection( '<p>anna^</p>' );
+
+			testView( this.createMentionsInstance( {
+				feed: feedData,
+				pattern: /^a+\w*$/, // Match only words starting with "a".
+				marker: null,
+				minChars: 0
+			} ), expectedFeedData );
+		},
+
+		'test failing custom pattern': function() {
+			this.editorBot.setHtmlWithSelection( '<p>thomas^</p>' );
+
+			testView( this.createMentionsInstance( {
+				feed: feedData,
+				pattern: /^a+\w*$/, // Match only words starting with "a".
+				marker: null,
+				minChars: 0
+			} ), [] );
 		},
 
 		'test callback feed with match': function() {

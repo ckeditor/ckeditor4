@@ -62,7 +62,7 @@
 		 * @property {String} [marker='@']
 		 * @readonly
 		 */
-		this.marker = config.marker || MARKER;
+		this.marker = config.hasOwnProperty( 'marker' ) ? config.marker : MARKER;
 
 		/**
 		 * See {@link CKEDITOR.plugins.mentions.configDefinition#minChars minChars}
@@ -81,13 +81,31 @@
 		this.template = config.template;
 
 		/**
+		 * Pattern used to match queries.
+		 *
+		 * Default pattern matches words with query including {@link #marker marker} and {@link #minChars minChars} properties.
+		 *
+		 * ```javascript
+		 * // Match only words starting with "a".
+		 * config.pattern = {
+		 * 	feed: [ 'Anna', 'Thomas', 'Jack' ],
+		 *	pattern: /^a+\w*$/,
+		 * 	marker: null
+		 * }
+		 * ```
+		 *
+		 * @property {RegExp} pattern
+		 */
+		this.pattern = config.pattern || createPattern( this.marker, this.minChars );
+
+		/**
 		 * {@link CKEDITOR.plugins.autocomplete Autocomplete} instance used by mentions feature to implement autocompletion logic.
 		 *
 		 * @property {CKEDITOR.plugins.autocomplete}
 		 * @private
 		 */
 		this._autocomplete = new CKEDITOR.plugins.autocomplete( editor,
-			getTextTestCallback( this.marker, this.minChars ),
+			getTextTestCallback( this.marker, this.minChars, this.pattern ),
 			getDataCallback( feed, this.marker, this.caseSensitive ) );
 
 		if ( this.template ) {
@@ -111,13 +129,26 @@
 		 * @param {String} template
 		 */
 		changeViewTemplate: function( template ) {
+			this.template = template;
 			this._autocomplete.view.itemTemplate = new CKEDITOR.template( template );
 		}
 	};
 
-	function getTextTestCallback( marker, minChars ) {
-		var matchPattern = createPattern();
+	function createPattern( marker, minChars ) {
+		var pattern = '\\' + marker + '\\w';
 
+		if ( minChars ) {
+			pattern += '{' + minChars + ',}';
+		} else {
+			pattern += '*';
+		}
+
+		pattern += '$';
+
+		return new RegExp( pattern );
+	}
+
+	function getTextTestCallback( marker, minChars, pattern ) {
 		return function( range ) {
 			if ( !range.collapsed ) {
 				return null;
@@ -128,7 +159,7 @@
 
 		function matchCallback( text, offset ) {
 			var match = text.slice( 0, offset )
-				.match( matchPattern );
+				.match( pattern );
 
 			if ( !match ) {
 				return null;
@@ -139,42 +170,28 @@
 				end: offset
 			};
 		}
-
-		function createPattern() {
-			var pattern = '[' + marker + ']\\w';
-
-			if ( minChars ) {
-				pattern += '{' + minChars + ',}';
-			} else {
-				pattern += '*';
-			}
-
-			pattern += '$';
-
-			return new RegExp( pattern );
-		}
 	}
 
 	function getDataCallback( feed, marker, caseSensitive ) {
 		return function( query, range, callback ) {
 			// We are removing marker here to give clean query result for the endpoint callback.
 			if ( marker ) {
-				query = query.replace( marker, '' );
+				query = query.substring( 1 );
 			}
 
 			// Array feed.
 			if ( CKEDITOR.tools.array.isArray( feed ) ) {
-				arrayFeed();
+				createArrayFeed();
 				// Url feed.
 			} else if ( typeof feed === 'string' ) {
-				urlFeed();
+				createUrlFeed();
 				// Function feed.
 			} else {
-				feed( { query: query, marker: marker }, resolveData );
+				feed( { query: query, marker: marker }, resolveCallbackData );
 			}
 
-			function arrayFeed() {
-				var data = indexFeed( feed ).filter( function( item ) {
+			function createArrayFeed() {
+				var data = indexArrayFeed( feed ).filter( function( item ) {
 					var itemName = item.name;
 
 					if ( !caseSensitive ) {
@@ -185,19 +202,27 @@
 					return itemName.indexOf( query ) === 0;
 				} );
 
-				resolveData( data );
+				resolveCallbackData( data );
 			}
 
-			function urlFeed() {
+			function indexArrayFeed( feed ) {
+				var index = 1;
+				return CKEDITOR.tools.array.reduce( feed, function( current, name ) {
+					current.push( { name: name, id: index++ } );
+					return current;
+				}, [] );
+			}
+
+			function createUrlFeed() {
 				var encodedUrl = new CKEDITOR.template( feed )
 					.output( { encodedQuery: encodeURIComponent( query ) } );
 
 				CKEDITOR.ajax.load( encodedUrl, function( data ) {
-					resolveData( JSON.parse( data ) );
+					resolveCallbackData( JSON.parse( data ) );
 				} );
 			}
 
-			function resolveData( data ) {
+			function resolveCallbackData( data ) {
 				if ( !data ) {
 					return;
 				}
@@ -209,14 +234,6 @@
 				} );
 
 				callback( newData );
-			}
-
-			function indexFeed( feed ) {
-				var index = 1;
-				return CKEDITOR.tools.array.reduce( feed, function( current, name ) {
-					current.push( { name: name, id: index++ } );
-					return current;
-				}, [] );
 			}
 		};
 	}
@@ -236,7 +253,7 @@
 	 *
 	 * ```
 	 *
-	 * @cfg {CKEDITOR.plugins.mentions.configDefinition[]} [=[]]
+	 * @cfg {CKEDITOR.plugins.mentions.configDefinition[]} [mentions]
 	 * @since 4.10.0
 	 * @member CKEDITOR.config
 	 */
