@@ -270,6 +270,74 @@
 			mentions._autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 			wait();
+		},
+
+		// (#1969)
+		'test URL feed responses are not cached': function() {
+			var mentions = this.createMentionsInstance( {
+					feed: '{encodedQuery}',
+					cache: false,
+					minChars: 0
+				} ),
+				dataSet = [
+					{ id: 1, name: 'Anna' },
+					{ id: 2, name: 'Annabelle' }
+				],
+				calledTimes = 0,
+				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
+					if ( url === 'An' ) {
+						calledTimes++;
+					}
+
+					callback( JSON.stringify( dataSet ) );
+				} );
+
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			testView( mentions, expectedFeedData );
+
+			this.editor.editable().findOne( 'p' ).getFirst().setText( '@Ann' );
+			testView( mentions, expectedFeedData );
+
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			testView( mentions, expectedFeedData );
+
+			assert.areEqual( 2, calledTimes );
+
+			ajaxStub.restore();
+		},
+
+		// (#1969)
+		'test URL feed responses are cached': function() {
+			var mentions = this.createMentionsInstance( {
+					feed: '{encodedQuery}',
+					cache: true,
+					minChars: 0
+				} ),
+				dataSet = [
+					{ id: 1, name: 'Anna' },
+					{ id: 2, name: 'Annabelle' }
+				],
+				calledTimes = 0,
+				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
+					if ( url === 'An' ) {
+						calledTimes++;
+					}
+
+					callback( JSON.stringify( dataSet ) );
+				} );
+
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			testView( mentions, expectedFeedData );
+
+			this.editor.editable().findOne( 'p' ).getFirst().setText( '@Ann' );
+			testView( mentions, expectedFeedData );
+
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			testView( mentions, expectedFeedData );
+
+			assert.areEqual( 1, calledTimes );
+
+			ajaxStub.restore();
 		}
 	} );
 
