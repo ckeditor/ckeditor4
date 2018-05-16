@@ -6,7 +6,7 @@
 
 1. Download the Builder ZIP file and expand it to a new folder
 
-1. Make sure that the `plugins-dev` working copy is clean and includes all the changes needed for the new distribution, including the new version number and updates to the `CHANGELOG.md` file.
+1. Make sure that the `plugins-dev` working copy is clean and includes all the changes needed for the new distribution, including the new version number and updates to the `CHANGELOG.md` and scripts/syncdist.sh files.
 
 1. Change directory to the `distribution` working copy folder
 
@@ -16,7 +16,9 @@
 
 1. Commit and push the changes: "Delete all files in preparation for new distribution"
 
-1. Copy all files from the new build folder to the working copy folder
+1. Copy all files from the new build folder to the working copy folder, for example
+
+   * `cp -r ~/Downloads/ckeditor/* ./`
 
 1. Run the script `syncdist.sh` giving it the location of the working copy folder.
 

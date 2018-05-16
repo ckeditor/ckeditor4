@@ -2,6 +2,17 @@
 
 All notable changes to the A11yFirst project will be documented in this file.
 
+## v0.8.0 — 16 May 2018
+
+### Updates
+
+* Add new `a11yimage` plugin, which is activated by the Image toolbar button
+  * Requires `alt` text for Simple and Complex images
+  * Prompts for location of long description for Complex images
+  * Based on the `image2` plugin with image caption feature
+
+* Add A11yFirst Help topic: Image
+
 ## v0.7.2 – 22 Mar 2018
 
 ### Updates
