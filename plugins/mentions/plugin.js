@@ -440,7 +440,7 @@
 	 */
 
 	/**
-	 * Indicates if backend URL feed query responses will be cached.
+	 * Indicates if URL feed responses will be cached.
 	 *
 	 * The cache is based on URL request and shared between all mentions instances (including different editors).
 	 *
