@@ -2,6 +2,8 @@
 * Copyright (c) 2018 University of Illinois - Jon Gunderson and Nicholas Hoyt. All rights reserved.
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 *
+* DISTRIBUTION BUILD INSTRUCTIONS: Updated for v0.8.0
+*
 * To use the CKEditor Builder tool, start by selecting the Standard preset.
 * Then add and remove plugins as specified in the three steps listed below.
 *
@@ -116,8 +118,8 @@ CKEDITOR.editorConfig = function ( config ) {
   config.extraPlugins =
     'a11yfirsthelp,' +
     'a11yheading,' +
-    'a11ylink,' +
     'a11yimage,' +
+    'a11ylink,' +
     'a11ystylescombo';
 
   config.language_list = [
