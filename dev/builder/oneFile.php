@@ -20,7 +20,9 @@ $plugins = array(
     'taohighlight',
     'taotooltip',
     'taoqtiinclude',
-    'taoqtiprintedvariable'
+    'taoqtiprintedvariable',
+    'taotab',
+    'taountab'
 );
 
 $one = new OneFileCompiler($dir.'release/ckeditor/', $dir.'release/ckeditor-reduced/', 'en');
