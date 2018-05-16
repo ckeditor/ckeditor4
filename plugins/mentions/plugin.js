@@ -333,6 +333,9 @@
 	 * var definition = { feed: '/users?query={encodedQuery}' };
 	 * ```
 	 *
+	 * To avoid multiple HTTP requests to your endpoint service you can enable caching mechanism.
+	 * See {@link #cache cache} property for more details.
+	 *
 	 * # Function feed
 	 * This method is recommended for advanced users who would like to take full control of the data feed.
 	 * It allows you to provide data feed as an function which accepts two parameters: `options` and `callback`.
