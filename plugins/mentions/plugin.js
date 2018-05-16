@@ -222,7 +222,7 @@
 				var encodedUrl = new CKEDITOR.template( feed )
 					.output( { encodedQuery: encodeURIComponent( query ) } );
 
-				if ( mentions.cache && cache[ encodedUrl ] ) {
+				if ( mentions.cache && cache.hasOwnProperty( encodedUrl ) ) {
 					resolveCallbackData( cache[ encodedUrl ] );
 					return;
 				}
