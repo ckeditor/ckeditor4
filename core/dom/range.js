@@ -2850,7 +2850,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * <img src="https://33333.cdn.cke-cs.com/rc1DFuFpHqcR3Mah6y0e/images/90893fcc6c323c10023e73ebfc1fbaa622b48b29c066f7af_ie-rects.png">
 		 *
 		 * @since 4.10.0
-		 * @param {Boolean} [isAbsolute=false] The function will retrieve an absolute
+		 * @param {Boolean} The function will retrieve an absolute
 		 * rectangle of the element i.e. position relative to the upper-left corner of the topmost viewport.
 		 * @returns {CKEDITOR.dom.rect[]}
 		 */
