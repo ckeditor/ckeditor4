@@ -22,6 +22,8 @@
 			if ( this._mentions ) {
 				this._mentions.destroy();
 				this._mentions = null;
+
+				CKEDITOR._.mentions.cache = {};
 			}
 		},
 
@@ -310,7 +312,6 @@
 		'test URL feed responses are cached': function() {
 			var mentions = this.createMentionsInstance( {
 					feed: '{encodedQuery}',
-					cache: true,
 					minChars: 0
 				} ),
 				dataSet = [
@@ -336,6 +337,24 @@
 			testView( mentions, expectedFeedData );
 
 			assert.areEqual( 1, calledTimes );
+
+			ajaxStub.restore();
+		},
+
+		// (#1969)
+		'test URL feed invalid responses are not cached': function() {
+			var mentions = this.createMentionsInstance( {
+					feed: '{encodedQuery}',
+					minChars: 0
+				} ),
+				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
+					callback( null );
+				} );
+
+			this.editorBot.setHtmlWithSelection( '<p>@test^</p>' );
+			testView( mentions, [] );
+
+			assert.isUndefined( CKEDITOR._.mentions.cache.test );
 
 			ajaxStub.restore();
 		}
