@@ -17,9 +17,40 @@
 
 </style>
 
-<textarea name="output" id="output" cols="30" rows="10" readonly="readonly"></textarea>
+<textarea name="output" id="output" cols="30" rows="10" readonly="readonly" style="display:inline-block"></textarea>
 
+<p>Editor with 'tableselection' plugin.</p>
 <div id="editor" contenteditable="true">
+	<p>Line [[with]][[inline]] widgets.</p>
+	<figure class="image"><img alt="" width="279" height="157" src="../../../../plugins/image2/_assets/bar.png" /><figcaption>Caption</figcaption></figure>
+	<table border="1" cellspacing="1" cellpadding="1" style="width:250px">
+		<tbody>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Nested widget:<pre>
+		<code class="language-javascript">console.log( 'Hello World!' );</code>
+	</pre></td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+		</tbody>
+	</table>
+	<pre>
+		<code class="language-javascript">console.log( 'Hello World!' );</code>
+	</pre>
+</div>
+
+<p>Editor without 'tableselection' plugin.</p>
+<div id="editor2" contenteditable="true">
 	<p>Line [[with]][[inline]] widgets.</p>
 	<figure class="image"><img alt="" width="279" height="157" src="../../../../plugins/image2/_assets/bar.png" /><figcaption>Caption</figcaption></figure>
 	<table border="1" cellspacing="1" cellpadding="1" style="width:250px">
@@ -60,76 +91,90 @@
 		CKEDITOR.replace( 'editor', {
 			height: 500,
 			on: {
-				instanceReady: function() {
-					var rectMarkers = [];
-
-					var doc = CKEDITOR.document,
-						editable = this.editable(),
-						par = editable.findOne( 'p' ),
-						rng = new CKEDITOR.dom.range( editable ),
-						output = doc.getById( 'output' ),
-						editor = this;
-
-					rng.setStart( par, CKEDITOR.POSITION_AFTER_START );
-
-					this.getSelection().selectRanges( [ rng ] );
-
-					window.setInterval( function() {
-						removeRectangles();
-
-						if ( !editor.getSelection() || editor.getSelection().isLocked ) {
-							// Don't do anything else if there is no selection, e.g. editor is in sourcemode.
-							// When selection is locked IE9 and IE10 are throwing indexSizeError.
-							return;
-						}
-						var ranges = editor.getSelection().getRanges(),
-							rects = ranges && CKEDITOR.tools.array.reduce( ranges, function( total, current ) {
-								return total.concat( current.getClientRects( true ) );
-							}, [] );
-
-						output.setValue( 'Selection rect\n---\nrectangle count: ' + ( rects ? rects.length : rects ) );
-
-						if ( !rng || !rects || !rects.length ) {
-							return;
-						}
-
-						output.setValue( output.getValue() + '\nwidth:' + rects[ 0 ].width + '\nheight: ' + rects[ 0 ].height );
-						output.setValue( output.getValue() + '\ntop:' + rects[ 0 ].top + '\nleft: ' + rects[ 0 ].left );
-
-						for ( var i = 0; i < rects.length; i++ ) {
-							drawRectangle( rects[ i ] );
-						}
-					}, 100 );
-
-					function drawRectangle( rect ) {
-						var rectMarker;
-						if ( !rectMarker ) {
-							rectMarker = doc.createElement( 'div' );
-							rectMarker.addClass( 'marker' );
-							doc.getBody().append( rectMarker );
-						}
-
-						rectMarker.setStyles( {
-							top: rect.top + 'px',
-							left: rect.left + 'px',
-							height: rect.height + 'px',
-							width: rect.width + 'px'
-						} );
-
-						rectMarkers.push( rectMarker );
-					}
-
-					function removeRectangles() {
-						if ( rectMarkers.length ) {
-							rectMarkers = CKEDITOR.tools.array.filter( rectMarkers, function( marker ) {
-								marker.remove();
-								return false;
-							} );
-						}
-					}
-				}
+				instanceReady: onInstanceReady
+			}
+		} );
+		CKEDITOR.replace( 'editor2', {
+			height: 500,
+			removePlugins: 'tableselection',
+			on: {
+				instanceReady: onInstanceReady
 			}
 		} );
 	} )();
 
+	function onInstanceReady ( outputId ) {
+		var rectMarkers = [];
+
+		var doc = CKEDITOR.document,
+			editable = this.editable(),
+			par = editable.findOne( 'p' ),
+			rng = new CKEDITOR.dom.range( editable ),
+			output = doc.getById( 'output' ),
+			editor = this;
+
+		rng.setStart( par, CKEDITOR.POSITION_AFTER_START );
+
+		this.getSelection().selectRanges( [ rng ] );
+
+		window.setInterval( function() {
+			removeRectangles();
+
+			if ( !editor.getSelection() || editor.getSelection().isLocked ) {
+				// Don't do anything else if there is no selection, e.g. editor is in sourcemode.
+				// When selection is locked IE9 and IE10 are throwing indexSizeError.
+				return;
+			}
+			var ranges = editor.getSelection().getRanges(),
+				rects = ranges && CKEDITOR.tools.array.reduce( ranges, function( total, current ) {
+					return total.concat( current.getClientRects( true ) );
+				}, [] );
+
+			if ( editable.hasFocus ) {
+				writeOutput( rects );
+			}
+
+			for ( var i = 0; i < rects.length; i++ ) {
+				drawRectangle( rects[ i ] );
+			}
+		}, 100 );
+
+		function drawRectangle( rect ) {
+			var rectMarker;
+			if ( !rectMarker ) {
+				rectMarker = doc.createElement( 'div' );
+				rectMarker.addClass( 'marker' );
+				doc.getBody().append( rectMarker );
+			}
+
+			rectMarker.setStyles( {
+				top: rect.top + 'px',
+				left: rect.left + 'px',
+				height: rect.height + 'px',
+				width: rect.width + 'px'
+			} );
+
+			rectMarkers.push( rectMarker );
+		}
+
+		function removeRectangles() {
+			if ( rectMarkers.length ) {
+				rectMarkers = CKEDITOR.tools.array.filter( rectMarkers, function( marker ) {
+					marker.remove();
+					return false;
+				} );
+			}
+		}
+
+		function writeOutput( rects ) {
+			output.setValue( 'Selection rect\n---\nrectangle count: ' + ( rects ? rects.length : rects ) );
+
+			if ( !rng || !rects || !rects.length ) {
+				return;
+			}
+
+			output.setValue( output.getValue() + '\nwidth:' + rects[ 0 ].width + '\nheight: ' + rects[ 0 ].height );
+			output.setValue( output.getValue() + '\ntop:' + rects[ 0 ].top + '\nleft: ' + rects[ 0 ].left );
+		}
+	}
 </script>
