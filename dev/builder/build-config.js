@@ -59,6 +59,8 @@ var CKBUILDER_CONFIG = {
         image : 0,
 		indentlist: 1,
 		indentblock: 1,
+		taotab: 1,
+		taountab: 1,
 		justify: 1,
 		link: 1,
 		list: 1,
