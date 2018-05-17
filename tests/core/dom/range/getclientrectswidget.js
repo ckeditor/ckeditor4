@@ -34,7 +34,7 @@
 	bender.test( tests );
 
 	function assertWidgetsRects( editor, bot, widgetsCount ) {
-		if ( widgetsCount > 1 && CKEDITOR.env.ie ) {
+		if ( widgetsCount > 1 && CKEDITOR.env.ie || CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
 			// IE and Edge returns another rect for parent object more than one widget is selected.
 			assert.ignore();
 		}
@@ -57,10 +57,18 @@
 			assert.areEqual( widgetsCount, rects.length, 'Rect count' );
 
 			widgetWrappers = editor.editable().find( '[data-widget]' );
-			CKEDITOR.tools.array.forEach( widgetWrappers.$, function( item, index ) {
-				var rect = new CKEDITOR.dom.element( item ).getClientRect();
+			CKEDITOR.tools.array.forEach( widgetWrappers.toArray(), function( item, index ) {
+				var rect = item.getClientRect(),
+					rectFound;
 
-				assert.isTrue( CKEDITOR.tools.objectCompare( rect, rects[ index ] ), 'Rect[ ' + index + ' ]' );
+				// Rects order isn't guaranteed so we need to iterate over all rects.
+				for ( i = rects.length; i >= 0; i-- ) {
+					rectFound = CKEDITOR.tools.objectCompare( rects[ i - 1 ], rect );
+					if ( rectFound ) {
+						break;
+					}
+				}
+				assert.isTrue( rectFound, 'Rect[ ' + index + ' ]' );
 			} );
 		} );
 	}
