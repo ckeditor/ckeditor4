@@ -6,9 +6,12 @@
 'use strict';
 
 ( function() {
+
+	CKEDITOR._.mentions = { cache: {} };
+
 	var MARKER = '@',
 		MIN_CHARS = 2,
-		cache = {};
+		cache = CKEDITOR._.mentions.cache;
 
 	CKEDITOR.plugins.add( 'mentions', {
 		requires: 'autocomplete,textmatch,ajax',
@@ -92,10 +95,10 @@
 		/**
 		 * See {@link CKEDITOR.plugins.mentions.configDefinition#cache cache}.
 		 *
-		 * @property {Boolean} [cache=false]
+		 * @property {Boolean} [cache=true]
 		 * @readonly
 		 */
-		this.cache = Boolean( config.cache );
+		this.cache = config.hasOwnProperty( 'cache' ) ? config.cache : true;
 
 		/**
 		 * {@link CKEDITOR.plugins.autocomplete Autocomplete} instance used by mentions feature to implement autocompletion logic.
@@ -231,7 +234,7 @@
 					var items = JSON.parse( data );
 
 					// Cache URL responses for performance improvement (#1969).
-					if ( mentions.cache ) {
+					if ( mentions.cache && items !== null ) {
 						cache[ encodedUrl ] = items;
 					}
 
@@ -333,7 +336,7 @@
 	 * var definition = { feed: '/users?query={encodedQuery}' };
 	 * ```
 	 *
-	 * To avoid multiple HTTP requests to your endpoint service you can enable caching mechanism.
+	 * To avoid multiple HTTP requests to your endpoint service each HTTP response is cached by default and shared globally.
 	 * See {@link #cache cache} property for more details.
 	 *
 	 * # Function feed
@@ -447,7 +450,7 @@
 	 *
 	 * The cache is based on URL request and shared between all mentions instances (including different editors).
 	 *
-	 * @property {Boolean} [cache=false]
+	 * @property {Boolean} [cache=true]
 	 */
 
 	/**
