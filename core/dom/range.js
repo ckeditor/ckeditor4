@@ -2890,6 +2890,7 @@ CKEDITOR.dom.range = function( root ) {
 					rectArray = CKEDITOR.tools.array.map( rectList, function( item ) {
 						return item;
 					} ),
+					documentFragment = context.cloneContents(),
 					widgetElements = [],
 					widgetIds = [],
 					widgetRects,
@@ -2905,11 +2906,9 @@ CKEDITOR.dom.range = function( root ) {
 
 						// Store each widget element in array.
 						if ( element.hasAttribute( 'data-widget' ) ) {
-
 							addWidgetElement( element );
 						}
 						if ( nodeList.count() ) {
-
 							CKEDITOR.tools.array.forEach( nodeList.toArray(), function( element ) {
 								addWidgetElement( element );
 							} );
@@ -2919,9 +2918,13 @@ CKEDITOR.dom.range = function( root ) {
 						id = element.hasAttribute( 'data-cke-widget-id' ) ? element.getAttribute( 'data-cke-widget-id' ) : element.getParent().getAttribute( 'data-cke-widget-id' );
 
 						// Evaluator can return two elements with relation parent-child we can have one widget element added multiple times, no need for that.
-						if ( CKEDITOR.tools.indexOf( widgetIds, id ) === -1 ) {
+						if ( shouldBeAdded() ) {
 							widgetIds.push( id );
 							widgetElements.push( element );
+						}
+
+						function shouldBeAdded() {
+							return CKEDITOR.tools.indexOf( widgetIds, id ) === -1 && CKEDITOR.dom.document.prototype.find.call( documentFragment, '[data-cke-widget-id="' + id + '"]' ).count();
 						}
 					}
 				};
