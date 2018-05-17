@@ -15,16 +15,21 @@
 
 	var tests = {
 		'test absolute rect': function( editor, bot ) {
-			var expected = {
+			var offset = {
+				// Editor has different position when test is run alone and when it's run with other tests. Need to include differences.
+					x: editor.container.getClientRect().left - ( editor.name === 'inline' ? 40 : 19 ),
+					y: editor.container.getClientRect().top - ( editor.name === 'inline' ? 56 : 19 )
+				},
+				expected = {
 					0: {
-						x: 40,
-						y: 40,
+						x: 40 + offset.x,
+						y: 40 + offset.y,
 						width: 163,
 						height: 61,
-						top: 40,
-						right: 203,
-						bottom: 101,
-						left: 40
+						top: 40 + offset.y,
+						right: 203 + offset.x,
+						bottom: 101 + offset.y,
+						left: 40 + offset.x
 					}
 				},
 				rects,
