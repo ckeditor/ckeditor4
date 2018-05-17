@@ -2958,7 +2958,11 @@ CKEDITOR.dom.range = function( root ) {
 
 					function cleanWidgetRects( startIndex ) {
 						CKEDITOR.tools.array.forEach( rectArray, function( rectArrayItem, index ) {
-							var compare = CKEDITOR.tools.objectCompare( item[ startIndex ], rectArrayItem );
+							var compare = CKEDITOR.tools.objectCompare( item[ index ], rectArrayItem );
+
+							if ( !compare ) {
+								compare = CKEDITOR.tools.objectCompare( item.widgetRect, rectArrayItem );
+							}
 
 							if ( compare ) {
 								// Find widget rect in rectArray and remove following rects that represent widget child elements.
