@@ -2155,7 +2155,8 @@
 		},
 
 		/**
-		 * Returns rect with position calculated from top left edge of outermost document containing editor.
+		 * Converts relative positions inside DOMRect into absolute ones using given window as context.
+		 * By absolute means in relation to upper-left corner of topmost viewport.
 		 *
 		 * @since 4.10.0
 		 * @param { CKEDITOR.dom.window } window Window containing element for which rect is passed.
