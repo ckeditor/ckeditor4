@@ -25,3 +25,4 @@ Test selecting widget editable.
 ### Note:
 
 Rectangles might vary depending on if you performed real selection on table or fake one. Fake selection happens when table cell are filled with blue color. Also keep in mind that the presented results, are values for the first rectangle from returned array.
+gi
