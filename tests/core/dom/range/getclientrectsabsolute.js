@@ -1,4 +1,6 @@
 /* bender-tags: editor,dom,range */
+/* bender-include: ../../../plugins/uploadfile/_helpers/waitForImage.js */
+/* global waitForImage */
 
 ( function() {
 	'use strict';
@@ -17,8 +19,8 @@
 		'test absolute rect': function( editor, bot ) {
 			var offset = {
 				// Editor has different position when test is run alone and when it's run with other tests. Need to include differences.
-					x: editor.container.getClientRect().left - ( editor.name === 'inline' ? 40 : 19 ),
-					y: editor.container.getClientRect().top - ( editor.name === 'inline' ? 56 : 19 )
+					x: editor.container.getClientRect( true ).left - ( editor.name === 'inline' ? 40 : 19 ),
+					y: editor.container.getClientRect( true ).top - ( editor.name === 'inline' ? 56 : 19 )
 				},
 				expected = {
 					0: {
@@ -52,25 +54,33 @@
 			range.setStart( img.getParent(), 0 );
 			range.setEnd( img.getParent(), 1 );
 
-			rects = range.getClientRects( true );
 
-			for ( var index in expected ) {
+			waitForImage( img, function() {
+				rects = range.getClientRects( true );
 
-				for ( var rectKey in expected[ index ] ) {
-					actual = rects[ index ][ rectKey ];
+				for ( var index in expected ) {
 
-					if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+					for ( var rectKey in expected[ index ] ) {
+						actual = rects[ index ][ rectKey ];
 
-						if ( rectKey === 'width' || rectKey === 'right' ) {
-							actual = Math.floor( actual * 10 ) / 10;
-
-						} else if ( rectKey === 'height' || rectKey === 'top' ) {
-							continue;
+						if ( CKEDITOR.env.gecko && editor.name !== 'inline' && rectKey !== 'width' && rectKey !== 'height' ) {
+							// Firefox has 1.25px border around editor while other browsers have 1px.
+							expected[ index ][ rectKey ] += 0.25;
 						}
+
+						if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+
+							if ( rectKey === 'width' || rectKey === 'right' ) {
+								actual = Math.floor( actual * 10 ) / 10;
+
+							} else if ( rectKey === 'height' || rectKey === 'top' ) {
+								continue;
+							}
+						}
+						assert.areEqual( expected[ index ][ rectKey ], actual, 'rect[' + index + '].' + rectKey );
 					}
-					assert.areEqual( expected[ index ][ rectKey ], actual, 'rect[' + index + '].' + rectKey );
 				}
-			}
+			} );
 		}
 	};
 
