@@ -7,7 +7,9 @@
 
 ( function() {
 
-	CKEDITOR._.mentions = { cache: {} };
+	CKEDITOR._.mentions = {
+		cache: {}
+	};
 
 	var MARKER = '@',
 		MIN_CHARS = 2,
@@ -98,7 +100,7 @@
 		 * @property {Boolean} [cache=true]
 		 * @readonly
 		 */
-		this.cache = config.hasOwnProperty( 'cache' ) ? config.cache : true;
+		this.cache = config.cache !== undefined ? config.cache : true;
 
 		/**
 		 * {@link CKEDITOR.plugins.autocomplete Autocomplete} instance used by mentions feature to implement autocompletion logic.
@@ -225,9 +227,8 @@
 				var encodedUrl = new CKEDITOR.template( feed )
 					.output( { encodedQuery: encodeURIComponent( query ) } );
 
-				if ( mentions.cache && cache.hasOwnProperty( encodedUrl ) ) {
-					resolveCallbackData( cache[ encodedUrl ] );
-					return;
+				if ( mentions.cache && cache[ encodedUrl ] ) {
+					return resolveCallbackData( cache[ encodedUrl ] );
 				}
 
 				CKEDITOR.ajax.load( encodedUrl, function( data ) {
