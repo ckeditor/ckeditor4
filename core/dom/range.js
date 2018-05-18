@@ -2902,8 +2902,14 @@ CKEDITOR.dom.range = function( root ) {
 
 				// In case of ranges start and end container set as widget wrapper, document container won't contain wrapper and we cant find its id.
 				// Let's move ranges to parent element to fix that.
-				moveStart = context.startOffset === 0;
-				moveEnd = context.endOffset === ( context.endContainer.getChildCount ? context.endContainer.getChildCount() : context.endContainer.length );
+				if ( context.startContainer instanceof CKEDITOR.dom.element ) {
+					moveStart = context.startOffset === 0 && context.startContainer.hasAttribute( 'data-widget' );
+				}
+				if ( context.endContainer instanceof CKEDITOR.dom.element ) {
+					moveEnd = context.endOffset === ( context.endContainer.getChildCount ? context.endContainer.getChildCount() : context.endContainer.length );
+					moveEnd = moveEnd && context.endContainer.hasAttribute( 'data-widget' );
+				}
+
 				if ( moveStart ) {
 					newRange.setStart( context.startContainer.getParent(), context.startContainer.getIndex() );
 				}
