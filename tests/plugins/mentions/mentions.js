@@ -275,7 +275,7 @@
 		},
 
 		// (#1969)
-		'test URL feed responses are not cached': function() {
+		'test URL feed cache can be disabled': function() {
 			var mentions = this.createMentionsInstance( {
 					feed: '{encodedQuery}',
 					cache: false,
@@ -285,12 +285,7 @@
 					{ id: 1, name: 'Anna' },
 					{ id: 2, name: 'Annabelle' }
 				],
-				calledTimes = 0,
 				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
-					if ( url === 'An' ) {
-						calledTimes++;
-					}
-
 					callback( JSON.stringify( dataSet ) );
 				} );
 
@@ -303,7 +298,7 @@
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
 			testView( mentions, expectedFeedData );
 
-			assert.areEqual( 2, calledTimes );
+			assert.areEqual( 3, ajaxStub.callCount, 'CKEDITOR.ajax.load call count' );
 
 			ajaxStub.restore();
 		},
@@ -318,12 +313,7 @@
 					{ id: 1, name: 'Anna' },
 					{ id: 2, name: 'Annabelle' }
 				],
-				calledTimes = 0,
 				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
-					if ( url === 'An' ) {
-						calledTimes++;
-					}
-
 					callback( JSON.stringify( dataSet ) );
 				} );
 
@@ -336,7 +326,7 @@
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
 			testView( mentions, expectedFeedData );
 
-			assert.areEqual( 1, calledTimes );
+			assert.areEqual( 2, ajaxStub.callCount );
 
 			ajaxStub.restore();
 		},
