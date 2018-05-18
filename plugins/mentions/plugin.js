@@ -6,8 +6,14 @@
 'use strict';
 
 ( function() {
+
+	CKEDITOR._.mentions = {
+		cache: {}
+	};
+
 	var MARKER = '@',
-		MIN_CHARS = 2;
+		MIN_CHARS = 2,
+		cache = CKEDITOR._.mentions.cache;
 
 	CKEDITOR.plugins.add( 'mentions', {
 		requires: 'autocomplete,textmatch,ajax',
@@ -89,6 +95,14 @@
 		this.pattern = config.pattern || createPattern( this.marker, this.minChars );
 
 		/**
+		 * See {@link CKEDITOR.plugins.mentions.configDefinition#cache cache}.
+		 *
+		 * @property {Boolean} [cache=true]
+		 * @readonly
+		 */
+		this.cache = config.cache !== undefined ? config.cache : true;
+
+		/**
 		 * {@link CKEDITOR.plugins.autocomplete Autocomplete} instance used by mentions feature to implement autocompletion logic.
 		 *
 		 * @property {CKEDITOR.plugins.autocomplete}
@@ -96,7 +110,7 @@
 		 */
 		this._autocomplete = new CKEDITOR.plugins.autocomplete( editor,
 			getTextTestCallback( this.marker, this.minChars, this.pattern ),
-			getDataCallback( feed, this.marker, this.caseSensitive ) );
+			getDataCallback( feed, this ) );
 
 		if ( this.template ) {
 			this.changeViewTemplate( this.template );
@@ -168,10 +182,10 @@
 		}
 	}
 
-	function getDataCallback( feed, marker, caseSensitive ) {
+	function getDataCallback( feed, mentions ) {
 		return function( query, range, callback ) {
 			// We are removing marker here to give clean query result for the endpoint callback.
-			if ( marker ) {
+			if ( mentions.marker ) {
 				query = query.substring( 1 );
 			}
 
@@ -182,7 +196,7 @@
 			} else {
 				feed( {
 					query: query,
-					marker: marker
+					marker: mentions.marker
 				}, resolveCallbackData );
 			}
 
@@ -190,7 +204,7 @@
 				var data = indexArrayFeed( feed ).filter( function( item ) {
 					var itemName = item.name;
 
-					if ( !caseSensitive ) {
+					if ( !mentions.caseSensitive ) {
 						itemName = itemName.toLowerCase();
 						query = query.toLowerCase();
 					}
@@ -213,8 +227,19 @@
 				var encodedUrl = new CKEDITOR.template( feed )
 					.output( { encodedQuery: encodeURIComponent( query ) } );
 
+				if ( mentions.cache && cache[ encodedUrl ] ) {
+					return resolveCallbackData( cache[ encodedUrl ] );
+				}
+
 				CKEDITOR.ajax.load( encodedUrl, function( data ) {
-					resolveCallbackData( JSON.parse( data ) );
+					var items = JSON.parse( data );
+
+					// Cache URL responses for performance improvement (#1969).
+					if ( mentions.cache && items !== null ) {
+						cache[ encodedUrl ] = items;
+					}
+
+					resolveCallbackData( items );
 				} );
 			}
 
@@ -225,7 +250,7 @@
 
 				// We don't want to change item data, so lets create new one.
 				var newData = CKEDITOR.tools.array.map( data, function( item ) {
-					var name = marker + item.name;
+					var name = mentions.marker + item.name;
 					return CKEDITOR.tools.object.merge( item, { name: name } );
 				} );
 
@@ -311,6 +336,9 @@
 	 * ```javascript
 	 * var definition = { feed: '/users?query={encodedQuery}' };
 	 * ```
+	 *
+	 * To avoid multiple HTTP requests to your endpoint service each HTTP response is cached by default and shared globally.
+	 * See {@link #cache cache} property for more details.
 	 *
 	 * # Function feed
 	 * This method is recommended for advanced users who would like to take full control of the data feed.
@@ -416,6 +444,14 @@
 	 * be already filtered.
 	 *
 	 * @property {Boolean} [caseSensitive=false]
+	 */
+
+	/**
+	 * Indicates if URL feed responses will be cached.
+	 *
+	 * The cache is based on URL request and shared between all mentions instances (including different editors).
+	 *
+	 * @property {Boolean} [cache=true]
 	 */
 
 	/**

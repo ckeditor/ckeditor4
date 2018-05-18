@@ -22,6 +22,8 @@
 			if ( this._mentions ) {
 				this._mentions.destroy();
 				this._mentions = null;
+
+				CKEDITOR._.mentions.cache = {};
 			}
 		},
 
@@ -270,6 +272,81 @@
 			mentions._autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 			wait();
+		},
+
+		// (#1969)
+		'test URL feed cache can be disabled': function() {
+			var mentions = this.createMentionsInstance( {
+					feed: '{encodedQuery}',
+					cache: false,
+					minChars: 0
+				} ),
+				dataSet = [
+					{ id: 1, name: 'Anna' },
+					{ id: 2, name: 'Annabelle' }
+				],
+				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
+					callback( JSON.stringify( dataSet ) );
+				} );
+
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			testView( mentions, expectedFeedData );
+
+			this.editor.editable().findOne( 'p' ).getFirst().setText( '@Ann' );
+			testView( mentions, expectedFeedData );
+
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			testView( mentions, expectedFeedData );
+
+			assert.areEqual( 3, ajaxStub.callCount, 'CKEDITOR.ajax.load call count' );
+
+			ajaxStub.restore();
+		},
+
+		// (#1969)
+		'test URL feed responses are cached': function() {
+			var mentions = this.createMentionsInstance( {
+					feed: '{encodedQuery}',
+					minChars: 0
+				} ),
+				dataSet = [
+					{ id: 1, name: 'Anna' },
+					{ id: 2, name: 'Annabelle' }
+				],
+				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
+					callback( JSON.stringify( dataSet ) );
+				} );
+
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			testView( mentions, expectedFeedData );
+
+			this.editor.editable().findOne( 'p' ).getFirst().setText( '@Ann' );
+			testView( mentions, expectedFeedData );
+
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+			testView( mentions, expectedFeedData );
+
+			assert.areEqual( 2, ajaxStub.callCount );
+
+			ajaxStub.restore();
+		},
+
+		// (#1969)
+		'test URL feed invalid responses are not cached': function() {
+			var mentions = this.createMentionsInstance( {
+					feed: '{encodedQuery}',
+					minChars: 0
+				} ),
+				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
+					callback( null );
+				} );
+
+			this.editorBot.setHtmlWithSelection( '<p>@test^</p>' );
+			testView( mentions, [] );
+
+			assert.isUndefined( CKEDITOR._.mentions.cache.test );
+
+			ajaxStub.restore();
 		}
 	} );
 
