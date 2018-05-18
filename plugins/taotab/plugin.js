@@ -30,10 +30,12 @@ CKEDITOR.plugins.add('taotab', {
                 var focusNode = new CKEDITOR.dom.text(sel._.cache.nativeSel.focusNode);
 
                 //replace text node, this technique is prefered to insertHtml because the latter will create a new text node and the caret position will be lost!
-                var text = focusNode.getText();
                 var position = caretPosition;
-                var output = [text.slice(0, position), buildSpacedTab(), text.slice(position)].join('');
-                focusNode.setText(output);
+                var text = focusNode.getText();
+                if(text === null){
+                    return;//todo fix this: temporarily skip the situation where the focus in on an empty node
+                }
+                focusNode.setText([text.slice(0, position), buildSpacedTab(), text.slice(position)].join(''));
 
                 //set the cursor at the end of the insertion
                 ranges[0].setStart(focusNode, caretPosition+4);
