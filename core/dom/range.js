@@ -2890,13 +2890,36 @@ CKEDITOR.dom.range = function( root ) {
 					rectArray = CKEDITOR.tools.array.map( rectList, function( item ) {
 						return item;
 					} ),
-					documentFragment = context.cloneContents(),
+					newRange = new CKEDITOR.dom.range( context.root ),
 					widgetElements = [],
 					widgetIds = [],
 					widgetRects,
 					widgetRange,
-					nodeList;
+					nodeList,
+					documentFragment,
+					moveStart,
+					moveEnd;
 
+
+
+				// In case of ranges start and end container set as widget wrapper, document container won't contain wrapper and we cant find its id.
+				// Let's move ranges to parent element to fix that.
+				moveStart = context.startOffset === 0;
+				moveEnd = context.endOffset === ( context.endContainer.getChildCount ? context.endContainer.getChildCount() : context.endContainer.length );
+				// if ( context.startContainer instanceof CKEDITOR.dom.element && context.startContainer.hasAttribute( 'data-widget') && context.checkStartOfBlock() ) {
+				if ( moveStart ) {
+					newRange.setStart( context.startContainer.getParent(), context.startContainer.getIndex() );
+				}
+				// if ( context.startContainer instanceof CKEDITOR.dom.element && context.endContainer.hasAttribute( 'data-widget') && context.checkEndOfBlock() ) {
+				if ( moveEnd ) {
+					newRange.setEnd( context.endContainer.getParent(), context.endContainer.getIndex() + 1 );
+				}
+				// if ( context.checkStartOfBlock() || context.checkEndOfBlock() ) {
+				if ( moveStart || moveEnd ) {
+					context = newRange;
+				}
+
+				documentFragment = context.cloneContents();
 				// Lets iterate over each element inside ranges to find widgets.
 				walker.evaluator = function( element ) {
 					var id;
@@ -2958,7 +2981,7 @@ CKEDITOR.dom.range = function( root ) {
 
 					function cleanWidgetRects( startIndex ) {
 						CKEDITOR.tools.array.forEach( rectArray, function( rectArrayItem, index ) {
-							var compare = CKEDITOR.tools.objectCompare( item[ index ], rectArrayItem );
+							var compare = CKEDITOR.tools.objectCompare( item[ startIndex ], rectArrayItem );
 
 							if ( !compare ) {
 								compare = CKEDITOR.tools.objectCompare( item.widgetRect, rectArrayItem );
@@ -2969,16 +2992,17 @@ CKEDITOR.dom.range = function( root ) {
 								Array.prototype.splice.call( rectArray, index, item.length - startIndex, item.widgetRect );
 								found = true;
 							}
-							if ( rectArray.length - 1 === index && !found ) {
-								if ( startIndex < rectArray.length - 1 ) {
-									// If first rect isn't existing inside rectArray lets take another element for reference.
-									cleanWidgetRects( startIndex + 1 );
-								} else {
-									// If none of widgets rect is found add widget element rect to rect list.
-									rectArray.push( item.widgetRect );
-								}
-							}
 						} );
+
+						if ( !found ) {
+							if ( startIndex < rectArray.length - 1 ) {
+								// If first rect isn't existing inside rectArray lets take another element for reference.
+								cleanWidgetRects( startIndex + 1 );
+							} else {
+								// If none of widgets rect is found add widget element rect to rect list.
+								rectArray.push( item.widgetRect );
+							}
+						}
 					}
 				} );
 
