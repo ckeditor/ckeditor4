@@ -4,9 +4,11 @@
 
 # Play around with splitbutton plugin
 ## Expected behaviour to test:
-1. Pressing arrow opens menu list with styles.
-1. Buttons from list are working and change selected text style.
-1. Style button before arrow is working.
-1. Style button changes itself to match current selection active style.
-1. When selected text has no style style button will change to default which is `Bold`.
-1. Menu list active items are matching selected text style.
+1. Split button face remain static and doesn't change its icon.
+1. Face has proper state according to current selection.
+1. Pressing on face applies last picked option from its menu or removes styling if last picked option is already applied to current selection.
+1. Menu items state matches current selection.
+1. Menu items applies/removes style from current selection.
+
+### Note:
+IE and Edge doesn't support custom CSS underline styles. To test if it works you need to look at source area.
