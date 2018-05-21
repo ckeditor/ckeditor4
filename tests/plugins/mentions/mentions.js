@@ -4,7 +4,11 @@
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			allowedContent: 'strong'
+		}
+	};
 
 	var feedData = [ 'Anna', 'Annabelle', 'John', 'Thomas' ],
 		expectedFeedData = [ 'Anna', 'Annabelle' ];
@@ -347,6 +351,42 @@
 			assert.isUndefined( CKEDITOR._.mentions.cache.test );
 
 			ajaxStub.restore();
+		},
+
+		// (#1987)
+		'test custom output template with default item': function() {
+			var editable = this.editor.editable();
+
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+
+			this.createMentionsInstance( {
+				feed: [ 'Anna' ],
+				output: '<strong>{name}</strong>'
+			} );
+
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
+
+			assert.areEqual( '<p><strong>@Anna</strong></p>', editable.getData() );
+		},
+
+		// (#1987)
+		'test custom output template with custom item': function() {
+			var editable = this.editor.editable();
+
+			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
+
+			this.createMentionsInstance( {
+				feed: function( opts, callback ) {
+					callback( [ { id: 1, name: 'Anna', surname: 'Doe' } ] );
+				},
+				output: '<strong>{name} {surname}</strong>'
+			} );
+
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
+
+			assert.areEqual( '<p><strong>@Anna Doe</strong></p>', editable.getData() );
 		}
 	} );
 
