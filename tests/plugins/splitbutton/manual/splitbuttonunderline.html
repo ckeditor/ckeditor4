@@ -37,8 +37,10 @@
 					command: 'underlinestyle',
 					commandData: { style: item },
 					stateFn: function() {
-						return styles[ this.commandData.style ].checkActive( editor.elementPath(), editor ) ?
-							CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+						if ( editor.elementPath() ) {
+							return styles[ this.commandData.style ].checkActive( editor.elementPath(), editor ) ?
+								CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+						}
 					},
 					icon: 'underline'
 				};
