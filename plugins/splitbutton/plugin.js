@@ -18,11 +18,21 @@
 	function createButtons( editor, definition ) {
 		var allItems = definition.items,
 			properties = { items: {}, buttons: {}, groups: {} },
+			face = definition.face,
 			i,
 			item,
 			previousButton,
-			defaultButton,
-			staticFace;
+			defaultButton;
+
+		if ( face ) {
+			if ( !face.onClick ) {
+				face.onClick = function() {
+					editor.execCommand( face.command, face.commandData );
+				};
+			}
+			properties.face = new CKEDITOR.ui.button( face );
+			editor.addFeature( properties.face );
+		}
 
 		for ( i in allItems ) {
 			item = allItems[ i ];
@@ -44,14 +54,13 @@
 
 			item.role = 'menuitemcheckbox';
 
-			item.onClick = function() {
-				editor.execCommand( this.command );
-			};
+			if ( !item.onClick ) {
+				item.onClick = function() {
+					editor.execCommand( this.command, this.commandData );
+				};
+			}
 
 			editor.getCommand( item.command ).on( 'state', function() {
-				if ( staticFace ) {
-					return;
-				}
 				var activeCommand = getLastActiveCommands( editor, allItems ), activeButton;
 				if ( activeCommand ) {
 					activeButton = properties.buttons[ activeCommand.id ];
@@ -87,10 +96,7 @@
 				defaultButton = properties.buttons[ item.id ];
 			} else {
 				if ( item[ 'default' ] ) {
-					if ( item[ 'default' ] === 'static' ) {
-						staticFace = true;
-						defaultButton && defaultButton.hideFromToolbar();
-					}
+					defaultButton && defaultButton.hideFromToolbar();
 					defaultButton = properties.buttons[ item.id ];
 				} else {
 					properties.buttons[ item.id ].hideFromToolbar();
@@ -137,6 +143,10 @@
 					this.items = properties.items;
 					this.buttons = properties.buttons;
 
+					if ( properties.face ) {
+						this.face = properties.face;
+					}
+
 					this.offsetParent = function() {
 						return this.rendered && this.rendered[ 0 ] && CKEDITOR.document.getById( this.rendered[ 0 ].id ).getParent();
 					};
@@ -169,9 +179,15 @@
 			 */
 			CKEDITOR.ui.splitButton.prototype.render = function( editor, output ) {
 				output.push( '<span class="cke_splitbutton">' );
+
 				this.rendered = [];
-				for ( var key in this.buttons ) {
-					this.rendered.push( this.buttons[ key ].render( editor, output ) );
+
+				if ( this.face ) {
+					this.rendered.push( this.face.render( editor, output ) );
+				} else {
+					for ( var key in this.buttons ) {
+						this.rendered.push( this.buttons[ key ].render( editor, output ) );
+					}
 				}
 
 				var splitButton = CKEDITOR.ui.button.prototype.render.call( this, editor, output );
