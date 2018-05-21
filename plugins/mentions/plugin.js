@@ -52,7 +52,8 @@
 	 * @param {CKEDITOR.plugins.mentions.configDefinition} config Configuration object keeping information how to instantiate mentions plugin.
 	 */
 	function Mentions( editor, config ) {
-		var feed = config.feed;
+		var that = this,
+			feed = config.feed;
 
 		/**
 		 * See {@link CKEDITOR.plugins.mentions.configDefinition#caseSensitive caseSensitive}.
@@ -103,6 +104,14 @@
 		this.cache = config.cache !== undefined ? config.cache : true;
 
 		/**
+		 * See {@link CKEDITOR.plugins.mentions.configDefinition#output output}.
+		 *
+		 * @property {String} output
+		 * @readonly
+		 */
+		this.output = config.output;
+
+		/**
 		 * {@link CKEDITOR.plugins.autocomplete Autocomplete} instance used by mentions feature to implement autocompletion logic.
 		 *
 		 * @property {CKEDITOR.plugins.autocomplete}
@@ -114,6 +123,13 @@
 
 		if ( this.template ) {
 			this.changeViewTemplate( this.template );
+		}
+
+		// Overwrite getHtmlToInsert function to use user's output template (#1987).
+		if ( this.output ) {
+			this._autocomplete.getHtmlToInsert = function( item ) {
+				return new CKEDITOR.template( that.output ).output( item );
+			};
 		}
 	}
 
@@ -423,6 +439,23 @@
 	 * ```
 	 *
 	 * @property {String} [template=CKEDITOR.plugins.autocomplete.view.itemTemplate]
+	 */
+
+	/**
+	 * Output template used to write selected match into an editor.
+	 *
+	 * You can use any parameter passed into {@link #feed data feed}.
+	 * Array data feed is limited to `name` and generated `id` parameters.
+	 *
+	 * ```javascript
+	 * var definition = {
+	 * 		feed: feed,
+	 * 		output: '<a href="item.src" alt="item.name">{item.name}</a>'
+	 * }
+	 *
+	 * ```
+	 *
+	 * @property {String} output
 	 */
 
 	/**
