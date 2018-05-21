@@ -9,6 +9,11 @@
 	bender.test( {
 		'test getting absolute rect': function() {
 			var editor = this.editorBot.editor,
+				container = CKEDITOR.document.findOne( '#test_container' ).getClientRect( true ),
+				offset = {
+					x: container.left - 99,
+					y: container.top - 99
+				},
 				rect = {
 					bottom: 10,
 					height: 10,
@@ -35,8 +40,10 @@
 
 			function assertRect() {
 				for ( key in rect ) {
-					if ( !( key in { height: '', width: '' } ) ) {
-						expected = rect[ key ] + 100;
+					if ( key in { left: '', right: '', x: '' } ) {
+						expected = rect[ key ] + 100 + offset.x;
+					} else if ( key in { top: '', bottom: '', y: '' } ) {
+						expected = rect[ key ] + 100 + offset.y;
 					} else {
 						expected = rect[ key ];
 					}
