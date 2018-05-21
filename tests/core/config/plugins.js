@@ -29,7 +29,7 @@
 
 		// (#1712)
 		'test removePlugins allows whitespaces': function() {
-			bender.editorBot.create( { name: 'editor_removePlugins', config: { extraPlugins: 'basicstyles,image2,toolbar', removePlugins: 'basicstyles, image2, toolbar ' } }, function( bot ) {
+			bender.editorBot.create( { name: 'editor_removePlugins', config: { plugins: 'basicstyles,image2,toolbar', removePlugins: 'basicstyles, image2, toolbar ' } }, function( bot ) {
 				var editor = bot.editor,
 					plugins = CKEDITOR.tools.objectKeys( editor.plugins );
 
@@ -80,7 +80,7 @@
 
 		// (#1802)
 		'test removePlugins allows array': function() {
-			bender.editorBot.create( { name: 'editor_removePluginsarray', config: { extraPlugins: 'basicstyles,image2,toolbar', removePlugins: [ 'basicstyles', 'image2', 'toolbar' ] } }, function( bot ) {
+			bender.editorBot.create( { name: 'editor_removePluginsarray', config: { plugins: 'basicstyles,image2,toolbar', removePlugins: [ 'basicstyles', 'image2', 'toolbar' ] } }, function( bot ) {
 				var editor = bot.editor,
 					plugins = CKEDITOR.tools.objectKeys( editor.plugins );
 
