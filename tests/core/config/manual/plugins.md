@@ -1,13 +1,19 @@
 @bender-tags: feature, 4.10.0, 1712
 @bender-ui: collapsed
 
-1. Open console.
-2. Check if plugins loaded correctly with an editor.
+1. Check if plugins listed inside the editor are the same as listed below.
 
 ## Expected
 
-Toolbar, basicstyles and wysiwygarea plugins has been loaded. There are no console errors.
+All listed plugins have been loaded (list below).
 
 ## Unexpected
 
-There are console errors or expected plugins are not loaded.
+The loaded plugins are not the same as the ones in the list.
+
+## Expected plugins
+
+* wysiwygarea
+* basicstyles
+* toolbar
+* button

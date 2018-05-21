@@ -2,6 +2,11 @@
 </textarea>
 <script>
 	var editor = CKEDITOR.replace( 'editor1', {
-		plugins: 'wysiwygarea,basicstyles, toolbar '
+		plugins: 'wysiwygarea,basicstyles, toolbar ',
+		on: {
+			instanceReady: function() {
+				this.setData( '<p>I have following plugins loaded: ' + CKEDITOR.tools.objectKeys( this.plugins ) + '</p>' );
+			}
+		}
 	} );
 </script>
