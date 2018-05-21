@@ -157,7 +157,7 @@
 	 * {@link CKEDITOR.plugins.autocomplete.model.item} interface.
 	 */
 	function Autocomplete( editor, textTestCallback, dataCallback ) {
-		var configKeystroke = editor.config.autocomplete_commitKeystroke || CKEDITOR.config.autocomplete_commitKeystroke;
+		var configKeystrokes = editor.config.autocomplete_commitKeystrokes || CKEDITOR.config.autocomplete_commitKeystrokes;
 
 		/**
 		 * The editor instance to which this autocomplete is attached (meaning &mdash; on which it listens).
@@ -193,12 +193,12 @@
 
 		/**
 		 * The autocomplete keystrokes used to finish autocompletion with selected view item.
-		 * The property is using {@link CKEDITOR.config#autocomplete_commitKeystroke} configuration option as default keystrokes.
+		 * The property is using {@link CKEDITOR.config#autocomplete_commitKeystrokes} configuration option as default keystrokes.
 		 * You can change this property to set individual keystrokes for plugin instance.
 		 *
 		 * @property {Number[]}
 		 */
-		this.commitKeystroke = CKEDITOR.tools.array.isArray( configKeystroke ) ? configKeystroke.slice() : [ configKeystroke ];
+		this.commitKeystrokes = CKEDITOR.tools.array.isArray( configKeystrokes ) ? configKeystrokes.slice() : [ configKeystrokes ];
 
 		/**
 		 * Listeners registered by this autocomplete instance.
@@ -449,7 +449,7 @@
 				this.model.selectPrevious();
 				handled = true;
 			// Completion keys.
-			} else if ( CKEDITOR.tools.indexOf( this.commitKeystroke, keyCode ) != -1 ) {
+			} else if ( CKEDITOR.tools.indexOf( this.commitKeystrokes, keyCode ) != -1 ) {
 				this.commit();
 				this.textWatcher.unmatch();
 				handled = true;
@@ -1175,25 +1175,25 @@
 	 * The autocomplete keystrokes used to finish autocompletion with selected view item.
 	 * This setting will set completing keystrokes for each autocomplete plugin respectively.
 	 *
-	 * To change completing keystrokes individually use {@link CKEDITOR.plugins.autocomplete#commitKeystroke} plugin property.
+	 * To change completing keystrokes individually use {@link CKEDITOR.plugins.autocomplete#commitKeystrokes} plugin property.
 	 *
 	 * ```javascript
 	 * // Default config (9 = tab, 13 = enter).
-	 * config.autocomplete_commitKeystroke = [ 9, 13 ];
+	 * config.autocomplete_commitKeystrokes = [ 9, 13 ];
 	 * ```
 	 *
 	 * Commit keystroke can be also disabled by setting it to an empty array.
 	 *
 	 * ```javascript
 	 * // Disable autocomplete commit keystroke.
-	 * config.autocomplete_commitKeystroke = [];
+	 * config.autocomplete_commitKeystrokes = [];
 	 * ```
 	 *
 	 * @since 4.10.0
-	 * @cfg {Number/Number[]} [autocomplete_commitKeystroke=[9, 13]]
+	 * @cfg {Number/Number[]} [autocomplete_commitKeystrokes=[9, 13]]
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.autocomplete_commitKeystroke = [ 9, 13 ];
+	CKEDITOR.config.autocomplete_commitKeystrokes = [ 9, 13 ];
 
 	// Viewport on iOS is moved into iframe parent element because of https://bugs.webkit.org/show_bug.cgi?id=149264 issue.
 	// Once upstream issue is resolved this function should be removed and its concurrences should be refactored to

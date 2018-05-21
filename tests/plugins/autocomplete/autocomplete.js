@@ -8,12 +8,12 @@
 		standard: {},
 		arrayKeystrokes: {
 			config: {
-				autocomplete_commitKeystroke: [ 16 ] // SHIFT
+				autocomplete_commitKeystrokes: [ 16 ] // SHIFT
 			}
 		},
 		singleKeystroke: {
 			config: {
-				autocomplete_commitKeystroke: 16 // SHIFT
+				autocomplete_commitKeystrokes: 16 // SHIFT
 			}
 		}
 	};
@@ -148,14 +148,14 @@
 			ac.destroy();
 		},
 
-		'test custom autocomplete.commitKeystroke value': function() {
+		'test custom autocomplete.commitKeystrokes value': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
-			ac.commitKeystroke = [ 16 ]; // SHIFT
+			ac.commitKeystrokes = [ 16 ]; // SHIFT
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
@@ -169,7 +169,7 @@
 			ac.destroy();
 		},
 
-		'test custom config.autocomplete_commitKeystroke (array format)': function() {
+		'test custom config.autocomplete_commitKeystrokes (array format)': function() {
 			var editor = this.editors.arrayKeystrokes,
 				editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
@@ -188,7 +188,7 @@
 			ac.destroy();
 		},
 
-		'test custom config.autocomplete_commitKeystroke (primitive number)': function() {
+		'test custom config.autocomplete_commitKeystrokes (primitive number)': function() {
 			var editor = this.editors.singleKeystroke,
 				editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
