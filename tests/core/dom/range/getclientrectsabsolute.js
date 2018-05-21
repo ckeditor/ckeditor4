@@ -63,11 +63,6 @@
 					for ( var rectKey in expected[ index ] ) {
 						actual = rects[ index ][ rectKey ];
 
-						if ( CKEDITOR.env.gecko && editor.name !== 'inline' && rectKey !== 'width' && rectKey !== 'height' ) {
-							// Firefox has 1.25px border around editor while other browsers have 1px.
-							expected[ index ][ rectKey ] += 0.25;
-						}
-
 						if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 
 							if ( rectKey === 'width' || rectKey === 'right' ) {
