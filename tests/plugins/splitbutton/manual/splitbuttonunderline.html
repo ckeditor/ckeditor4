@@ -1,5 +1,5 @@
 <textarea id="editor" cols="30" rows="10">
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, <u>sed</u> do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo <u>consequat</u>. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 </textarea>
 <script>
 	CKEDITOR.plugins.add( 'underlinesplit', {
@@ -58,7 +58,7 @@
 				);
 			} );
 
-			editor.ui.add( 'underlinesplit', CKEDITOR.UI_SPLITBUTTON, {
+			editor.ui.add( 'Underlinesplit', CKEDITOR.UI_SPLITBUTTON, {
 				face: {
 					label: 'Underline',
 					command: 'underlinestyle',
@@ -80,8 +80,7 @@
 
 	CKEDITOR.replace( 'editor', {
 		extraPlugins: 'underlinesplit',
-		toolbar: [
-			{ name: 'underline', items: [ 'underlinesplit' ] }
-		]
+		toolbar: [ [ 'Source', 'Underlinesplit' ] ],
+		extraAllowedContent: 'u{text-decoration-style}'
 	} );
 </script>
