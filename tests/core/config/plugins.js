@@ -8,6 +8,7 @@
 			bender.editorBot.create( {
 				name: 'editor_extraplugins',
 				config: {
+					plugins: '',
 					extraPlugins: 'basicstyles, image2, toolbar '
 				}
 			}, function( bot ) {
@@ -89,6 +90,7 @@
 			bender.editorBot.create( {
 				name: 'editor_extraPluginsarray',
 				config: {
+					plugins: '',
 					extraPlugins: [ 'basicstyles', 'image2', 'toolbar' ]
 				}
 			}, function( bot ) {
