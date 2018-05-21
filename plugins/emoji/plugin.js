@@ -8,7 +8,6 @@
 	CKEDITOR.plugins.add( 'emoji', {
 		requires: 'autocomplete,textmatch,ajax',
 		init: function( editor ) {
-			var startChar = ':';
 			var emoji;
 
 			/* jshint ignore:start */
@@ -27,6 +26,28 @@
 
 			} );
 
+			var emojiNames = emoji.map( function( item ) {
+				return item.id;
+			} );
+
+			editor.on( 'toHtml', function( evt ) {
+				var filter = new CKEDITOR.htmlParser.filter( {
+					text: function( value ) {
+						var hits = value.match(  /:[a-zA-Z_-]+?:/g );
+						if ( hits ) {
+							for ( var i = 0; i < hits.length; i++ ) {
+								var index = emojiNames.indexOf( hits[ i ] );
+								if ( index !== -1 ) {
+									value = value.replace( hits[ i ], emoji[ index ].symbol );
+								}
+							}
+						}
+						return value;
+					}
+				} );
+				filter.applyTo( evt.data.dataValue );
+			} );
+
 			function getTextTestCallback() {
 				return function( range ) {
 					return CKEDITOR.plugins.textMatch.match( range, matchCallback );
@@ -35,7 +56,7 @@
 
 			function matchCallback( text, offset ) {
 				var left = text.slice( 0, offset ),
-					match = left.match( new RegExp( startChar + '\\w*$' ) );
+					match = left.match( /:\w*$/ );
 
 				if ( !match ) {
 					return null;
@@ -45,11 +66,22 @@
 			}
 
 			function dataCallback( query, range, callback ) {
-				callback(
-					emoji.filter( function( item ) {
-						return item.id.indexOf( query.slice( 1 ) ) !== -1;
-					} )
-				);
+				var data = emoji.filter( function( item ) {
+					return item.id.indexOf( query.slice( 1 ) ) !== -1;
+				} ).sort( function( a, b ) {
+					// Sort at the beginning emoji starts with given query.
+					var qr = query.slice( 1 );
+					var itemA = a.id.slice( 1 );
+					var itemB = b.id.slice( 1 );
+					if ( itemA.startsWith( qr ) && itemB.startsWith( qr ) || !itemA.startsWith( qr ) && !itemB.startsWith( qr ) ) {
+						return itemA.localeCompare( itemB );
+					} else if ( itemA.startsWith( qr ) ) {
+						return -1;
+					} else {
+						return 1;
+					}
+				} );
+				callback( data );
 			}
 		}
 	} );
