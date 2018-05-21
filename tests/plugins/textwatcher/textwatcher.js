@@ -112,46 +112,41 @@
 
 		'test check with ignoreNext ignores next check': function() {
 			var editor = this.editor,
-				callbackCount = 0,
-				textMatcher = attachTextWatcher( editor, function() {
-					callbackCount++;
-				} );
+				textMatcher = attachTextWatcher( editor ),
+				callbackSpy = sinon.spy( textMatcher, 'callback' );
 
 			textMatcher.ignoreNext = true;
 
 			textMatcher.check();
 
 			assert.isFalse( textMatcher.ignoreNext );
-			assert.areEqual( 0, callbackCount );
+			assert.isTrue( callbackSpy.notCalled );
 		},
 
 		'test check ignores control keys': function() {
 			var editor = this.editor,
-				callbackCount = 0, keyName = 'keyup',
-				textMatcher = attachTextWatcher( editor, function() {
-					callbackCount++;
-				} );
+				keyName = 'keyup',
+				textMatcher = attachTextWatcher( editor ),
+				callbackSpy = sinon.spy( textMatcher, 'callback' );
 
 			textMatcher.check( getKeyEvent( keyName, 16 ) ); // Shift
 			textMatcher.check( getKeyEvent( keyName, 17 ) ); // Ctrl
 			textMatcher.check( getKeyEvent( keyName, 18 ) ); // Alt
 			textMatcher.check( getKeyEvent( keyName, 91 ) ); // Cmd
 
-			assert.areEqual( 0, callbackCount );
+			assert.isTrue( callbackSpy.notCalled );
 		},
 
 		'test check ignored without proper selection': function() {
 			var editor = this.editor,
-				callbackCount = 0,
-				textMatcher = attachTextWatcher( editor, function() {
-					callbackCount++;
-				} );
+				textMatcher = attachTextWatcher( editor ),
+				callbackSpy = sinon.spy( textMatcher, 'callback' );
 
 			editor.getSelection().removeAllRanges();
 
 			textMatcher.check( {} );
 
-			assert.areEqual( 0, callbackCount );
+			assert.isTrue( callbackSpy.notCalled );
 		},
 
 		'test check ignored with existing match': function() {

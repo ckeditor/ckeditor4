@@ -53,6 +53,11 @@
 	 *	var textWatcher = new CKEDITOR.plugins.textWatcher( editor, textTestCallback );
 	 *	// Starts listening.
 	 *	textWatcher.attach();
+	 *
+	 *  // Handle text matching.
+	 *	textWatcher.on( 'matched', function( evt ) {
+	 *		autocomplete.setQuery( evt.data.text );
+	 *	} );
 	 * ```
 	 *
 	 * @class CKEDITOR.plugins.textWatcher
@@ -103,13 +108,14 @@
 		 * Keys that should be ignored by the {@link #check} method.
 		 *
 		 * @readonly
+		 * @property {Number[]}
 		 */
-		this.ignoredKeys = {
-			16: 1, // Shift
-			17: 1, // Ctrl
-			18: 1, // Alt
-			91: 1 // Cmd
-		};
+		this.ignoredKeys = [
+			16, // Shift
+			17, // Ctrl
+			18, // Alt
+			91 // Cmd
+		];
 
 		/**
 		 * Listeners registered by this text watcher.
@@ -119,7 +125,7 @@
 		this._listeners = [];
 
 		/**
-		 * Event fired when the text starts matching and then on every change.
+		 * Event fired when the text is no longer matching.
 		 *
 		 * @event matched
 		 * @param {Object} data The value returned by the {@link #callback}.
@@ -187,7 +193,7 @@
 			}
 
 			// Ignore control keys, so they don't trigger the check.
-			if ( evt && evt.name == 'keyup' && ( evt.data.getKey() in this.ignoredKeys ) ) {
+			if ( evt && evt.name == 'keyup' && ( CKEDITOR.tools.array.indexOf( this.ignoredKeys, evt.data.getKey() ) != -1 ) ) {
 				return;
 			}
 

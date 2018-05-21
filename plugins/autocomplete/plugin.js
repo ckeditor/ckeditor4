@@ -21,19 +21,26 @@
 	} );
 
 	/**
-	 * The main class implementing a generic autocomplete feature in the editor.
+	 * The main class implementing a generic {@link https://ckeditor.com/cke4/addon/autocomplete autocomplete} feature in the editor.
 	 * It is a controller which works with {@link CKEDITOR.plugins.autocomplete.model model} and
 	 * {@link CKEDITOR.plugins.autocomplete.view view} classes.
 	 *
+	 * It's possible to maintain multiple autocomplete instances for a single editor at a time.
+	 * In order to create autocomplete instance use its {@link #constructor constructor}.
+	 *
+	 * @class CKEDITOR.plugins.autocomplete
+	 * @since 4.10.0
+	 * @constructor Creates the new instance of autocomplete and attaches it to the editor.
+	 *
 	 * In order to initialize the autocomplete feature it is enough to instantiate this class with
-	 * two important callbacks:
+	 * two required callbacks:
 	 *
 	 * * A text test callback &ndash; a function which should return a fragment of text (typed in the editor) that
 	 * should be autocompleted (best to use the {@link CKEDITOR.plugins.textMatch#match} function).
 	 * * A data callback &ndash; a function which should return (through its callback) a suggestion data for the current
 	 * query string.
 	 *
-	 * ## Creating an autocomplete instance
+	 * # Creating an autocomplete instance
 	 *
 	 * Depending on your use case, put this code in the {@link CKEDITOR.pluginDefinition#init} callback of your
 	 * plugin or for example in the {@link CKEDITOR.editor#instanceReady} event listener.
@@ -87,7 +94,7 @@
 	 *	new CKEDITOR.plugins.autocomplete( editor, textTestCallback, dataCallback );
 	 * ```
 	 *
-	 * ## Changing the behavior of the autocomplete class by subclassing it
+	 * # Changing the behavior of the autocomplete class by subclassing it
 	 *
 	 * This plugin will expose a `CKEDITOR.plugins.customAutocomplete` class which uses
 	 * a custom view that positions the panel relative to the {@link CKEDITOR.editor#container}.
@@ -140,10 +147,6 @@
 	 *		}
 	 *	} );
 	 * ```
-	 *
-	 * @class CKEDITOR.plugins.autocomplete
-	 * @since 4.10.0
-	 * @constructor Creates the new instance of autocomplete and attaches it to the editor.
 	 * @param {CKEDITOR.editor} editor The editor to watch.
 	 * @param {Function} textTestCallback Callback executed to check if a text next to the selection should open
 	 * the autocomplete. See the {@link CKEDITOR.plugins.textWatcher}'s `callback` argument.
@@ -160,7 +163,7 @@
 		var configKeystrokes = editor.config.autocomplete_commitKeystrokes || CKEDITOR.config.autocomplete_commitKeystrokes;
 
 		/**
-		 * The editor instance to which this autocomplete is attached (meaning &mdash; on which it listens).
+		 * The editor instance to which autocomplete is attached to.
 		 *
 		 * @readonly
 		 * @property {CKEDITOR.editor}
@@ -197,6 +200,7 @@
 		 * You can change this property to set individual keystrokes for plugin instance.
 		 *
 		 * @property {Number[]}
+		 * @readonly
 		 */
 		this.commitKeystrokes = CKEDITOR.tools.array.isArray( configKeystrokes ) ? configKeystrokes.slice() : [ configKeystrokes ];
 
@@ -217,7 +221,6 @@
 		 * * The view is appended to the DOM and the listeners are attached.
 		 * * The {@link #textWatcher text watcher} is attached to the editor.
 		 * * The listeners on the {@link #model} and {@link #view} events are added.
-		 * * The listeners on the DOM events are added.
 		 */
 		attach: function() {
 			var editor = this.editor,
@@ -902,7 +905,7 @@
 
 		/**
 		 * Whether the autocomplete is active (i.e. can receive user input like click, key press).
-		 * Can be modified by the {@link #setActive} method which fires the {@link #change-isActive} event.
+		 * Should be modified by the {@link #setActive} method which fires the {@link #change-isActive} event.
 		 *
 		 * @readonly
 		 */
@@ -912,6 +915,7 @@
 		 * ID of the last request for data. Used by the {@link #setQuery} method.
 		 *
 		 * @readonly
+		 * @private
 		 * @property {Number} lastRequestId
 		 */
 
@@ -1133,7 +1137,7 @@
 
 	/**
 	 * An abstract class representing one {@link CKEDITOR.plugins.autocomplete.model#data data item}.
-	 * Item can be understood as a one position in the autocomplete panel.
+	 * Item can be understood as a one entry in the autocomplete panel.
 	 *
 	 * Item must have a unique {@link #id} and may have more properties which can then be used for example in
 	 * the {@link CKEDITOR.plugins.autocomplete.view#itemTemplate} template or the
@@ -1142,7 +1146,7 @@
 	 * Example items:
 	 *
 	 * ```javascript
-	 *	{ id: 345, name: '@ckeditor' }
+	 *	{ id: 345, name: 'CKEditor' }
 	 *	{ id: 'smile1', alt: 'smile', emojiSrc: 'emojis/smile.png' }
 	 * ```
 	 *
