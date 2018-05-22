@@ -22,6 +22,11 @@
 		}
 	};
 
+	var configDefinition = {
+		textTestCallback: textTestCallback,
+		dataCallback: dataCallback
+	};
+
 	bender.test( {
 
 		'test API exists': function() {
@@ -32,7 +37,7 @@
 
 		'test esc key closes view': function() {
 			var editor = this.editors.standard,
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -49,7 +54,7 @@
 
 		'test autocomplete starts with the first item selected': function() {
 			var editor = this.editors.standard,
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -64,7 +69,7 @@
 		'test arrow down selects next item': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -91,7 +96,7 @@
 		'test arrow up selects previous item': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -123,7 +128,7 @@
 		'test enter inserts match': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -139,7 +144,7 @@
 		'test tab inserts match': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -155,7 +160,7 @@
 		'test custom autocomplete.commitKeystrokes value': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -176,7 +181,7 @@
 		'test custom config.autocomplete_commitKeystrokes (array format)': function() {
 			var editor = this.editors.arrayKeystrokes,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.arrayKeystrokes.setHtmlWithSelection( '' );
 
@@ -195,7 +200,7 @@
 		'test custom config.autocomplete_commitKeystrokes (primitive number)': function() {
 			var editor = this.editors.singleKeystroke,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.singleKeystroke.setHtmlWithSelection( '' );
 
@@ -213,7 +218,7 @@
 
 		'test click inserts match': function() {
 			var editor = this.editors.standard,
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -234,7 +239,7 @@
 				assert.ignore();
 			}
 
-			var ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+			var ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -367,7 +372,7 @@
 		}
 	}
 
-	function matchTestCallback( selectionRange ) {
+	function textTestCallback( selectionRange ) {
 		return { text: 'text', range: selectionRange };
 	}
 
