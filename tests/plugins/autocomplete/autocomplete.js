@@ -5,7 +5,11 @@
 	'use strict';
 
 	bender.editors = {
-		standard: {},
+		standard: {
+			config: {
+				extraAllowedContent: 'strong'
+			}
+		},
 		arrayKeystrokes: {
 			config: {
 				autocomplete_commitKeystrokes: [ 16 ] // SHIFT
@@ -273,8 +277,50 @@
 			assert.areEqual( '50px', ac.view.element.getStyle( 'left' ) );
 
 			ac.destroy();
+		},
+
+		// (#1987)
+		'test custom view template': function() {
+			var editor = this.editors.standard,
+				itemTemplate = '<li data-id="{id}"><strong>{name}</strong></li>',
+				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback,
+					function( query, range, callback ) {
+						callback( [ { id: 1, name: 'anna' } ] );
+					},
+					itemTemplate );
+
+			this.editorBots.standard.setHtmlWithSelection( '' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			assert.beautified.html( '<ul><li class="cke_autocomplete_selected" data-id="1"><strong>anna</strong></li></ul>',
+				ac.view.element.getHtml() );
+
+			ac.destroy();
+		},
+
+		// (#1987)
+		'test custom output template': function() {
+			var editor = this.editors.standard,
+				editable = editor.editable(),
+				outputTemplate = '<strong>{name}</strong>',
+				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback,
+					function( query, range, callback ) {
+						callback( [ { id: 1, name: 'anna' } ] );
+					},
+					null,
+					outputTemplate );
+
+			this.editorBots.standard.setHtmlWithSelection( '' );
+
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
+
+			assert.beautified.html( '<p><strong>anna</strong></p>', editable.getData() );
+
+			ac.destroy();
 		}
-	} );
+	}	);
 
 	function assertViewOpened( ac, isOpened ) {
 		var opened = ac.view.element.hasClass( 'cke_autocomplete_opened' );

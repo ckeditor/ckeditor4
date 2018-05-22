@@ -1,0 +1,38 @@
+<div id="editor1" ></div>
+
+<script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		width: 600,
+		on: {
+			instanceReady: function( evt ) {
+				var template = '<strong>{name}</strong>';
+				new CKEDITOR.plugins.autocomplete( evt.editor, getTextTestCallback(), dataCallback, null, template );
+			}
+		}
+	} );
+
+	function getTextTestCallback() {
+		return function( range ) {
+			return CKEDITOR.plugins.textMatch.match( range, matchCallback );
+		};
+	}
+
+	function matchCallback( text, offset ) {
+		var left = text.slice( 0, offset ),
+			match = left.match( new RegExp( '@\\w*$' ) );
+
+		if ( !match ) {
+			return null;
+		}
+
+		return { start: match.index, end: offset };
+	}
+
+	function dataCallback( query, range, callback ) {
+		callback( [ { id: 1, name: '@anna' } ] );
+	}
+</script>

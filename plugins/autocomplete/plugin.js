@@ -158,8 +158,10 @@
 	 * @param {CKEDITOR.plugins.autocomplete.model.item[]} dataCallback.callback.data The suggestion data that should be
 	 * displayed in the autocomplete view for a given query. The data items should implement the
 	 * {@link CKEDITOR.plugins.autocomplete.model.item} interface.
+	 * @param {String} [itemTemplate] Template for list item in dropdown. See {@link CKEDITOR.plugins.autocomplete.view#itemTemplate} for more information.
+	 * @param {String} [outputTemplate] Template for match rendering. See {@link #outputTemplate}.
 	 */
-	function Autocomplete( editor, textTestCallback, dataCallback ) {
+	function Autocomplete( editor, textTestCallback, dataCallback, itemTemplate, outputTemplate ) {
 		var configKeystrokes = editor.config.autocomplete_commitKeystrokes || CKEDITOR.config.autocomplete_commitKeystrokes;
 
 		/**
@@ -210,6 +212,24 @@
 		 * @private
 		 */
 		this._listeners = [];
+
+		/**
+		 * Template of markup to be inserted as the autocomplete item gets committed.
+		 *
+		 * You can use {@link CKEDITOR.plugins.autocomplete.model#data data item} properties to customize the template.
+		 *
+		 * ```javascript
+		 * var outputTemplate = `<a href="/tracker/{ticket}">#{ticket} ({name})</a>`;
+		 * ```
+		 *
+		 * @readonly
+		 * @property {CKEDITOR.template} [outputTemplate=null]
+		 */
+		this.outputTemplate = outputTemplate !== undefined ? new CKEDITOR.template( outputTemplate ) : null;
+
+		if ( itemTemplate ) {
+			this.view.itemTemplate = new CKEDITOR.template( itemTemplate );
+		}
 
 		this.attach();
 	}
@@ -338,7 +358,7 @@
 		 * @returns {String} The HTML to insert.
 		 */
 		getHtmlToInsert: function( item ) {
-			return item.name;
+			return this.outputTemplate ? this.outputTemplate.output( item ) : item.name;
 		},
 
 		/**
@@ -531,7 +551,15 @@
 	 */
 	function View( editor ) {
 		/**
-		 * The panel's item template.
+		 * The panel's item template used to render matches in the dropdown.
+		 *
+		 * You can use {@link CKEDITOR.plugins.autocomplete.model#data data item} properties to customize the template.
+		 *
+		 * A minimal template must be wrapped with HTML `li` element containing `data-id="{id}"` attribute.
+		 *
+		 * ```javascript
+		 * autocomplete.itemTemplate = '<li data-id="{id}"><img src="{iconSrc}" alt="{name}">{name}</li>';
+		 * ```
 		 *
 		 * @readonly
 		 * @property {CKEDITOR.template}
@@ -1207,4 +1235,5 @@
 	function iOSViewportElement( editor ) {
 		return editor.window.getFrame().getParent();
 	}
+
 } )();
