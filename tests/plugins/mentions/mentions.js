@@ -215,12 +215,12 @@
 			ajaxStub.restore();
 		},
 
-		'test feed with custom template': function() {
+		'test feed with custom view template': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
 
 			testView( this.createMentionsInstance( {
 				feed: feedData,
-				template: '<li data-id="{id}">{name} is the best!</li>'
+				viewTemplate: '<li data-id="{id}">{name} is the best!</li>'
 			} ), [ 'Anna is the best!', 'Annabelle is the best!' ] );
 		},
 
@@ -361,7 +361,7 @@
 
 			this.createMentionsInstance( {
 				feed: [ 'Anna' ],
-				output: '<strong>{name}</strong>'
+				outputTemplate: '<strong>{name}</strong>'
 			} );
 
 			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
@@ -380,7 +380,7 @@
 				feed: function( opts, callback ) {
 					callback( [ { id: 1, name: 'Anna', surname: 'Doe' } ] );
 				},
-				output: '<strong>{name} {surname}</strong>'
+				outputTemplate: '<strong>{name} {surname}</strong>'
 			} );
 
 			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );

@@ -52,8 +52,7 @@
 	 * @param {CKEDITOR.plugins.mentions.configDefinition} config Configuration object keeping information how to instantiate mentions plugin.
 	 */
 	function Mentions( editor, config ) {
-		var that = this,
-			feed = config.feed;
+		var feed = config.feed;
 
 		/**
 		 * See {@link CKEDITOR.plugins.mentions.configDefinition#caseSensitive caseSensitive}.
@@ -119,18 +118,10 @@
 		 */
 		this._autocomplete = new CKEDITOR.plugins.autocomplete( editor,
 			getTextTestCallback( this.marker, this.minChars, this.pattern ),
-			getDataCallback( feed, this ) );
-
-		if ( this.template ) {
-			this.changeViewTemplate( this.template );
-		}
-
-		// Overwrite getHtmlToInsert function to use user's output template (#1987).
-		if ( this.output ) {
-			this._autocomplete.getHtmlToInsert = function( item ) {
-				return new CKEDITOR.template( that.output ).output( item );
-			};
-		}
+			getDataCallback( feed, this ),
+			config.viewTemplate,
+			config.outputTemplate
+		);
 	}
 
 	Mentions.prototype = {
@@ -142,21 +133,6 @@
 		 */
 		destroy: function() {
 			this._autocomplete.destroy();
-		},
-
-		/**
-		 * Changes the view template. The given template will be used to render matches in the dropdown.
-		 *
-		 * ```javascript
-		 * mentions.changeViewTemplate( '<li data-id="{id}" ><img src="{iconSrc}" alt="{name}" /><span>{name}</span></li>' );
-		 *
-		 * ```
-		 *
-		 * @param {String} template
-		 */
-		changeViewTemplate: function( template ) {
-			this.template = template;
-			this._autocomplete.view.itemTemplate = new CKEDITOR.template( template );
 		}
 	};
 
@@ -433,9 +409,8 @@
 	 * ```javascript
 	 * var definition = {
 	 * 		feed: feed,
-	 * 		template: '<li data-id={id}><img src="{iconSrc}" alt="{name}">{name}</li>'
+	 * 		viewTemplate: '<li data-id={id}><img src="{iconSrc}" alt="{name}">{name}</li>'
 	 * }
-	 *
 	 * ```
 	 *
 	 * @property {String} [template=CKEDITOR.plugins.autocomplete.view.itemTemplate]
@@ -450,12 +425,11 @@
 	 * ```javascript
 	 * var definition = {
 	 * 		feed: feed,
-	 * 		output: '<a href="item.src" alt="item.name">{item.name}</a>'
+	 * 		outputTemplate: '<a href="src" alt="{name}">{name}</a>'
 	 * }
-	 *
 	 * ```
 	 *
-	 * @property {String} output
+	 * @property {String} outputTemplate
 	 */
 
 	/**
