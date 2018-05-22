@@ -148,20 +148,15 @@
 	 *	} );
 	 * ```
 	 * @param {CKEDITOR.editor} editor The editor to watch.
-	 * @param {Function} textTestCallback Callback executed to check if a text next to the selection should open
-	 * the autocomplete. See the {@link CKEDITOR.plugins.textWatcher}'s `callback` argument.
-	 * @param {Function} dataCallback Callback executed to get suggestion data based on search query. The returned data will be
-	 * displayed in the autocomplete view.
-	 * @param {String} dataCallback.query The query string that was accepted by the `textTestCallback`.
-	 * @param {CKEDITOR.dom.range} dataCallback.range The range in the DOM where the query text is.
-	 * @param {Function} dataCallback.callback The callback which should be executed with the data.
-	 * @param {CKEDITOR.plugins.autocomplete.model.item[]} dataCallback.callback.data The suggestion data that should be
-	 * displayed in the autocomplete view for a given query. The data items should implement the
-	 * {@link CKEDITOR.plugins.autocomplete.model.item} interface.
-	 * @param {String} [itemTemplate] Template for list item in dropdown. See {@link CKEDITOR.plugins.autocomplete.view#itemTemplate} for more information.
-	 * @param {String} [outputTemplate] Template for match rendering. See {@link #outputTemplate}.
+	 * @param {CKEDITOR.plugins.autocomplete.configDefinition} config Configuration object keeping information
+	 * how to instantiate autocomplete plugin.
 	 */
-	function Autocomplete( editor, textTestCallback, dataCallback, itemTemplate, outputTemplate ) {
+	function Autocomplete( editor, config ) {
+		var configKeystrokes = editor.config.autocomplete_commitKeystrokes || CKEDITOR.config.autocomplete_commitKeystrokes;
+
+		/**
+		 * The editor instance to which autocomplete is attached to.
+		 *
 		var configKeystrokes = editor.config.autocomplete_commitKeystrokes || CKEDITOR.config.autocomplete_commitKeystrokes;
 
 		/**
@@ -171,6 +166,13 @@
 		 * @property {CKEDITOR.editor}
 		 */
 		this.editor = editor;
+
+		/**
+		 * See {@link CKEDITOR.plugins.autocomplete.configDefinition#throttle}.
+		 *
+		 * @property {Number} [throttle=0]
+		 */
+		this.throttle = config.throttle || 0;
 
 		/**
 		 * The autocomplete view instance.
@@ -186,7 +188,7 @@
 		 * @readonly
 		 * @property {CKEDITOR.plugins.autocomplete.model}
 		 */
-		this.model = this.getModel( dataCallback );
+		this.model = this.getModel( config.dataCallback );
 
 		/**
 		 * The autocomplete text watcher instance.
@@ -194,7 +196,7 @@
 		 * @readonly
 		 * @property {CKEDITOR.plugins.textWatcher}
 		 */
-		this.textWatcher = this.getTextWatcher( textTestCallback );
+		this.textWatcher = this.getTextWatcher( config.textTestCallback );
 
 		/**
 		 * The autocomplete keystrokes used to finish autocompletion with selected view item.
@@ -382,7 +384,7 @@
 		 * @returns {CKEDITOR.plugins.textWatcher} The text watcher instance.
 		 */
 		getTextWatcher: function( textTestCallback ) {
-			return new CKEDITOR.plugins.textWatcher( this.editor, textTestCallback );
+			return new CKEDITOR.plugins.textWatcher( this.editor, textTestCallback, this.throttle );
 		},
 
 		/**
@@ -1241,5 +1243,65 @@
 	function iOSViewportElement( editor ) {
 		return editor.window.getFrame().getParent();
 	}
+
+	/**
+	 * Abstract class describing the definition of a {@link CKEDITOR.plugins.autocomplete autocomplete} plugin configuration.
+	 *
+	 * This virtual class illustrates the properties that developers can use to define and create
+	 * autocomplete configuration definition.
+	 *
+	 * Simple usage:
+	 *
+	 * ```javascript
+	 * var definition = { dataCallback: dataCallback, textTestCallback: textTestCallback, throttle: 200 };
+	 * ```
+	 *
+	 * @class CKEDITOR.plugins.autocomplete.configDefinition
+	 * @abstract
+	 * @since 4.10.0
+	 */
+
+
+	/**
+	 * Callback executed to get suggestion data based on search query. The returned data will be
+	 * displayed in the autocomplete view.
+	 *
+	 * @method dataCallback
+	 * @param {String} query The query string that was accepted by the `textTestCallback`.
+	 * @param {CKEDITOR.dom.range} range The range in the DOM where the query text is.
+	 * @param {Function} callback The callback which should be executed with the data.
+	 * @param {CKEDITOR.plugins.autocomplete.model.item[]} callback.data The suggestion data that should be
+	 * displayed in the autocomplete view for a given query. The data items should implement the
+	 * {@link CKEDITOR.plugins.autocomplete.model.item} interface.
+	 */
+
+	/**
+	 * Callback executed to check if a text next to the selection should open
+	 * the autocomplete. See the {@link CKEDITOR.plugins.textWatcher}'s `callback` argument.
+	 *
+	 * @method textTestCallback
+	 */
+
+
+	/**
+	 * Indicates throttle threshold mitigating text checks.
+	 *
+	 * Higher levels of throttle threshold will create visible delay for autocomplete view
+	 * but also save the number of {@link #dataCallback} calls.
+	 *
+	 * @property {Number} [throttle=0]
+	 */
+
+	/**
+	 * Template for list item in dropdown. See {@link CKEDITOR.plugins.autocomplete.view#itemTemplate} for more information.
+	 *
+	 * @property {String} [itemTemplate]
+	 */
+
+	/**
+	 * Template for match rendering. See {@link CKEDITOR.plugin.autocomplete#outputTemplate}.
+	 *
+	 * @property {String} [outputTemplate]
+	 */
 
 } )();
