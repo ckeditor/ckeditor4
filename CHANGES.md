@@ -7,6 +7,7 @@ New Features:
 
 * [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin supports email links.
 * [#1703](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduced Mentions plugin providing autocompletion feature for usernames.
+* [#1993](https://github.com/ckeditor/ckeditor-dev/issues/1993): Added [`CKEDITOR.tools.throttle`](http://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR_tools.html#method-throttle) function.
 
 Fixed Issues:
 
