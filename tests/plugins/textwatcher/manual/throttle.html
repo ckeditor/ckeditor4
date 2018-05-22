@@ -1,0 +1,26 @@
+<style>
+#logger {
+	height: 200px;
+	overflow-y: auto;
+}
+</style>
+<strong>Logger: </strong>
+<ul id="logger"></ul>
+<div id="editor1" ></div>
+
+<script>
+	var logger = document.getElementById( 'logger' ),
+		editor = CKEDITOR.replace( 'editor1', {
+		on: {
+			instanceReady: function() {
+				var textWatcher = new CKEDITOR.plugins.textWatcher( editor, function( selectionRange ) {
+					var match = document.createElement( 'li' );
+					match.innerText = selectionRange.startContainer.getText();
+					logger.appendChild( match );
+				}, 2000 );
+
+				textWatcher.attach();
+			}
+		}
+	} );
+</script>
