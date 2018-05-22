@@ -1266,6 +1266,24 @@
 	 * Callback executed to get suggestion data based on search query. The returned data will be
 	 * displayed in the autocomplete view.
 	 *
+	 * ```javascript
+	 *	// Returns (through its callback) the suggestions for the current query.
+	 *	// Note: the itemsArray variable is our example "database".
+	 *	function dataCallback( query, range, callback ) {
+	 *		// Simple search.
+	 *		// Filter the entire items array so only the items that start
+	 *		// with the query remain.
+	 *		var suggestions = itemsArray.filter( function( item ) {
+	 *			return item.name.indexOf( query ) === 0;
+	 *		} );
+	 *
+	 *		// Note - the callback function can also be executed asynchronously
+	 *		// so dataCallback can do an XHR requests or use any other asynchronous API.
+	 *		callback( suggestions );
+	 *	}
+	 *
+	 * ```
+	 *
 	 * @method dataCallback
 	 * @param {String} query The query string that was accepted by the `textTestCallback`.
 	 * @param {CKEDITOR.dom.range} range The range in the DOM where the query text is.
@@ -1278,6 +1296,37 @@
 	/**
 	 * Callback executed to check if a text next to the selection should open
 	 * the autocomplete. See the {@link CKEDITOR.plugins.textWatcher}'s `callback` argument.
+	 *
+	 * ```javascript
+	 *	// Called when the user types in the editor or moves the caret.
+	 *	// The range represents the caret position.
+	 *	function textTestCallback( range ) {
+	 *		// We don't want to autocomplete a non-empty selection.
+	 *		if ( !range.collapsed ) {
+	 *			return null;
+	 *		}
+	 *
+	 *		// Use the textmatch plugin which does the tricky job of doing
+	 *		// a text search in the DOM. The matchCallback function should return
+	 *		// a matching fragment of the text.
+	 *		return CKEDITOR.plugins.textMatch.match( range, matchCallback );
+	 *	}
+	 *
+	 *	// Returns a position of the matching text.
+	 *	// It matches with text starting from the '@' character
+	 *	// followed by spaces, up to the caret position.
+	 *	function matchCallback( text, offset ) {
+	 *			// Get the text before the caret.
+	 *		var left = text.slice( 0, offset ),
+	 *			// Will look for an '@' character followed by word characters.
+	 *			match = left.match( /@\w*$/ );
+	 *
+	 *		if ( !match ) {
+	 *			return null;
+	 *		}
+	 *		return { start: match.index, end: offset };
+	 *	}
+	 * ```
 	 *
 	 * @method textTestCallback
 	 */
