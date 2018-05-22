@@ -5,11 +5,7 @@
 	'use strict';
 
 	bender.editors = {
-		standard: {
-			config: {
-				extraAllowedContent: 'strong'
-			}
-		},
+		standard: {},
 		arrayKeystrokes: {
 			config: {
 				autocomplete_commitKeystrokes: [ 16 ] // SHIFT
@@ -284,15 +280,45 @@
 			ac.destroy();
 		},
 
+		// (#1997)
+		'test throttle': function() {
+			var editor = this.editors.standard,
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					dataCallback: dataCallback,
+					textTestCallback: function() {
+						return { text: CKEDITOR.tools.getUniqueId() };
+					},
+					throttle: 100
+				} ),
+				callbackSpy = sinon.spy( ac.textWatcher, 'callback' );
+
+			this.editorBots.standard.setHtmlWithSelection( '' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			assert.isTrue( callbackSpy.calledOnce );
+
+			setTimeout( function() {
+				resume( function() {
+					assert.isTrue( callbackSpy.calledTwice );
+					ac.destroy();
+				} );
+			}, 100 );
+			wait();
+		},
+
 		// (#1987)
 		'test custom view template': function() {
 			var editor = this.editors.standard,
-				itemTemplate = '<li data-id="{id}"><strong>{name}</strong></li>',
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback,
-					function( query, range, callback ) {
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					textTestCallback: textTestCallback,
+					dataCallback: function( query, range, callback ) {
 						callback( [ { id: 1, name: 'anna' } ] );
 					},
-					itemTemplate );
+					itemTemplate: '<li data-id="{id}"><strong>{name}</strong></li>'
+				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -308,13 +334,13 @@
 		'test custom output template': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
-				outputTemplate = '<strong>{name}</strong>',
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback,
-					function( query, range, callback ) {
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					textTestCallback: textTestCallback,
+					dataCallback: function( query, range, callback ) {
 						callback( [ { id: 1, name: 'anna' } ] );
 					},
-					null,
-					outputTemplate );
+					outputTemplate: '<strong>{name}</strong>'
+				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -361,7 +387,7 @@
 
 			ac.destroy();
 		}
-	}	);
+	} );
 
 	function assertViewOpened( ac, isOpened ) {
 		var opened = ac.view.element.hasClass( 'cke_autocomplete_opened' );
