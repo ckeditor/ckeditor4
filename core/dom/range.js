@@ -2872,8 +2872,6 @@ CKEDITOR.dom.range = function( root ) {
 						rectList = fixEmptyRectList( rectList, range, this );
 					}
 
-					range.detach();
-
 					return CKEDITOR.tools.array.map( rectList, function( item ) {
 						return convertRect( item, isAbsolute, this );
 					}, this );
@@ -2971,7 +2969,6 @@ CKEDITOR.dom.range = function( root ) {
 					rects = widgetRange.getClientRects();
 					// Still some browsers might have wrong rect for widget.element so lets make sure it is correct.
 					rects.widgetRect = element.getClientRect();
-					widgetRange.detach();
 
 					return rects;
 				}, context );
