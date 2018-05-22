@@ -54,7 +54,6 @@
 			range.setStart( img.getParent(), 0 );
 			range.setEnd( img.getParent(), 1 );
 
-
 			waitForImage( img, function() {
 				rects = range.getClientRects( true );
 
