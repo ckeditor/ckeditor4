@@ -2884,21 +2884,18 @@ CKEDITOR.dom.range = function( root ) {
 
 			// Remove all widget rects except for outermost one.
 			function fixWidgetsRects( rectList, context ) {
-				var walker = new CKEDITOR.dom.walker( context ),
-					rectArray = CKEDITOR.tools.array.map( rectList, function( item ) {
+				var rectArray = CKEDITOR.tools.array.map( rectList, function( item ) {
 						return item;
 					} ),
 					newRange = new CKEDITOR.dom.range( context.root ),
-					widgetElements = [],
-					widgetIds = [],
+					widgetElements,
 					widgetRects,
 					widgetRange,
-					nodeList,
 					documentFragment,
 					moveStart,
 					moveEnd;
 
-				// In case of ranges start and end container set as widget wrapper, document container won't contain wrapper and we cant find its id.
+				// In case of ranges start and end container set as widget wrapper, document container won't contain wrapper and we can't find its id.
 				// Let's move ranges to parent element to fix that.
 				if ( context.startContainer instanceof CKEDITOR.dom.element ) {
 					moveStart = context.startOffset === 0 && context.startContainer.hasAttribute( 'data-widget' );
@@ -2919,39 +2916,14 @@ CKEDITOR.dom.range = function( root ) {
 				}
 
 				documentFragment = context.cloneContents();
-				// Lets iterate over each element inside ranges to find widgets.
-				walker.evaluator = function( element ) {
-					var id;
 
-					if ( element instanceof CKEDITOR.dom.element ) {
-						nodeList = element.find( '[data-widget]' );
-
-						// Store each widget element in array.
-						if ( element.hasAttribute( 'data-widget' ) ) {
-							addWidgetElement( element );
-						}
-						if ( nodeList.count() ) {
-							CKEDITOR.tools.array.forEach( nodeList.toArray(), function( element ) {
-								addWidgetElement( element );
-							} );
-						}
-					}
-					function addWidgetElement( element ) {
-						id = element.hasAttribute( 'data-cke-widget-id' ) ? element.getAttribute( 'data-cke-widget-id' ) : element.getParent().getAttribute( 'data-cke-widget-id' );
-
-						// Evaluator can return two elements with relation parent-child we can have one widget element added multiple times, no need for that.
-						if ( shouldBeAdded() ) {
-							widgetIds.push( id );
-							widgetElements.push( element );
-						}
-
-						function shouldBeAdded() {
-							return CKEDITOR.tools.indexOf( widgetIds, id ) === -1 && CKEDITOR.dom.document.prototype.find.call( documentFragment, '[data-cke-widget-id="' + id + '"]' ).count();
-						}
-					}
-				};
-
-				walker.checkForward();
+				// Find all widget elements.
+				widgetElements = CKEDITOR.dom.document.prototype.find.call( documentFragment, '[data-cke-widget-id]' ).toArray();
+				widgetElements = CKEDITOR.tools.array.map( widgetElements, function( item ) {
+					var editor = context.root.editor,
+						id = item.getAttribute( 'data-cke-widget-id' );
+					return editor.widgets.instances[ id ].element;
+				} );
 
 				if ( !widgetElements ) {
 					return;
