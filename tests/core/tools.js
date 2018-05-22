@@ -628,6 +628,99 @@
 			assert.areSame( 'ABcDeF', c( 'aBcDeF', true ) );
 		},
 
+		'test throttle': function() {
+			var output = 0,
+				foo = 'foo',
+				buz = 'buz',
+				message,
+				buffer = CKEDITOR.tools.throttle( 200, function( arg ) {
+					output++;
+					message = arg;
+				} );
+
+			assert.areSame( 0, output );
+
+			buffer.input( foo );
+
+			assert.areSame( 1, output );
+			assert.areSame( foo, message );
+
+			buffer.input( buz );
+			buffer.input( buz );
+			buffer.input( buz );
+
+			assert.areSame( 1, output );
+			assert.areSame( foo, message );
+
+			wait( function() {
+				assert.areSame( 1, output );
+				assert.areSame( foo, message );
+
+				wait( function() {
+					assert.areSame( 2, output );
+					assert.areSame( buz, message );
+
+					buffer.input( foo );
+
+					assert.areSame( 2, output );
+					assert.areSame( buz, message );
+
+					wait( function() {
+						assert.areSame( 3, output );
+						assert.areSame( foo, message );
+
+						// Check that input triggered after 70ms from previous
+						// buffer.input will trigger output after next 140ms (200-70).
+						wait( function() {
+							buffer.input( buz );
+
+							assert.areSame( 3, output );
+							assert.areSame( foo, message );
+
+							wait( function() {
+								assert.areSame( 4, output );
+								assert.areSame( buz, message );
+							}, 140 );
+						}, 70 );
+					}, 210 );
+				}, 110 );
+			}, 100 );
+		},
+
+		'test throttle.reset': function() {
+			var output = 0,
+				buffer = CKEDITOR.tools.throttle( 100, function() {
+					output++;
+				} );
+
+			assert.areSame( 0, output );
+
+			buffer.input();
+
+			assert.areSame( 1, output );
+
+			buffer.input();
+			buffer.reset();
+
+			wait( function() {
+				assert.areSame( 1, output );
+
+				buffer.input();
+
+				assert.areSame( 2, output );
+			}, 110 );
+		},
+
+		'test throttle contex': function() {
+			var spy = sinon.spy(),
+				ctxObj = {},
+				buffer = CKEDITOR.tools.throttle( 100, spy, ctxObj );
+
+			buffer.input();
+
+			assert.areSame( ctxObj, spy.getCall( 0 ).thisValue, 'callback was executed with the right context' );
+		},
+
 		'test checkIfAnyObjectPropertyMatches': function() {
 			var c = CKEDITOR.tools.checkIfAnyObjectPropertyMatches,
 				r1 = /foo/,
