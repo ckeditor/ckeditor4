@@ -6,6 +6,10 @@
 	bender.editors = {
 		classic: {
 			name: 'classic'
+		},
+		inline: {
+			name: 'inline',
+			creator: 'inline'
 		}
 	};
 
