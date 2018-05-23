@@ -1,0 +1,14 @@
+<div id="editor"></div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		width: 600,
+		mentions: [
+			{
+				feed: [ 'Anna', 'John', 'Thomas' ],
+				viewTemplate: '<li data-id="{id}"><strong>{name}</strong></li>',
+				minChars: 0
+			}
+		]
+	} );
+</script>
