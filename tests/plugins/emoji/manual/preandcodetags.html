@@ -1,0 +1,16 @@
+<textarea id="editor1" cols="10" rows="10">
+	<p>Hello world.</p>
+</textarea>
+
+<p>Empty editor</p>
+
+<div id="editor2" cols="10" rows="10">
+	<p>Hello world.</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'divarea'
+	} );
+</script>
