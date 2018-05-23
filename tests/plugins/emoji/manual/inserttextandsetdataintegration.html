@@ -1,0 +1,48 @@
+
+<label style="padding:8px;border:2px solid #11CC44;display:block;margin-bottom:5px;">Type text which will be inserted or set in editor: <input id="text" value=":tractor:" ></label>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Hello world.</p>
+</textarea>
+
+<p>Empty editor</p>
+
+<div id="editor2" cols="10" rows="10">
+	<p>Hello world.</p>
+</div>
+
+<script>
+	CKEDITOR.plugins.add( 'test', {
+		init: function( editor ) {
+			editor.addCommand( 'inserttext', {
+				exec: function( editor ) {
+					var val = CKEDITOR.document.getBody().findOne( '#text' ).getValue();
+					editor.insertText( val );
+				}
+			} );
+			editor.addCommand( 'setdata', {
+				exec: function( editor ) {
+					var val = CKEDITOR.document.getBody().findOne( '#text' ).getValue();
+					editor.setData( val );
+				}
+			} );
+
+			editor.ui.addButton( 'insertText', {
+				label: 'Insert text',
+				command: 'inserttext'
+			} );
+			editor.ui.addButton( 'setData', {
+				label: 'Set Data',
+				command: 'setdata'
+			} );
+		}
+	} )
+
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'test'
+	} );
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'divarea,test'
+	} );
+</script>
