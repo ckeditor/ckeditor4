@@ -2,14 +2,22 @@
 
 ( function() {
 	'use strict';
-	bender.editor = {
-		name: 'classic'
+	bender.editors = {
+		inline: {
+			name: 'inline',
+			creator: 'inline'
+		},
+		classic: {
+			name: 'classic'
+		}
 	};
 
-	bender.test( {
-		'test getting absolute rect': function() {
-			var editor = this.editorBot.editor,
-				container = CKEDITOR.document.findOne( '#test_container' ).getClientRect( true ),
+	var tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), {
+		tearDown: function() {
+			window.scrollBy( 0, -window.scrollY );
+		},
+		'test getting absolute rect': function( editor ) {
+			var container = CKEDITOR.document.findOne( '#test_container_' + editor.name ).getClientRect( true ),
 				offset = {
 					x: container.left - 99,
 					y: container.top - 99
@@ -32,18 +40,21 @@
 				delete rect.x;
 				delete rect.y;
 			}
-			assertRect();
+			assertRect( editor.name === 'classic', 0 );
 
 			window.scrollBy( 0, 100 );
-			absoluteRect = CKEDITOR.tools.getAbsoluteRectPosition( editor.window, rect );
-			assertRect();
 
-			function assertRect() {
+			absoluteRect = CKEDITOR.tools.getAbsoluteRectPosition( editor.window, rect );
+			assertRect( editor.name === 'classic', 100 );
+
+			function assertRect( classic, scroll ) {
+				// `getAbsoluteRectPosition` on classic editor adds its parent offset position which is also affected by scroll
+				// we need to include that in our test so inline and classic have different expected results.
 				for ( key in rect ) {
 					if ( key in { left: '', right: '', x: '' } ) {
-						expected = rect[ key ] + 100 + offset.x;
+						expected = rect[ key ] + ( classic ? 100 + offset.x : 0 );
 					} else if ( key in { top: '', bottom: '', y: '' } ) {
-						expected = rect[ key ] + 100 + offset.y;
+						expected = rect[ key ] + ( classic ? 100 + offset.y : scroll );
 					} else {
 						expected = rect[ key ];
 					}
@@ -52,4 +63,6 @@
 			}
 		}
 	} );
+
+	bender.test( tests );
 } )();
