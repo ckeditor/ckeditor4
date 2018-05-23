@@ -507,36 +507,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				return elementRect;
 			}
 
-			appendParentFramePosition( this.getWindow().getFrame() );
-
-			var winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition();
-
-			elementRect.top += winGlobalScroll.y;
-			elementRect.left += winGlobalScroll.x;
-
-			elementRect.y += winGlobalScroll.y;
-			elementRect.x += winGlobalScroll.x;
-
-			elementRect.right = elementRect.left + elementRect.width;
-			elementRect.bottom = elementRect.top + elementRect.height;
-
-			return elementRect;
-
-			function appendParentFramePosition( frame ) {
-				if ( !frame ) {
-					return;
-				}
-
-				var frameRect = frame.getClientRect();
-
-				elementRect.top += frameRect.top;
-				elementRect.left += frameRect.left;
-
-				elementRect.x += frameRect.x;
-				elementRect.y += frameRect.y;
-
-				appendParentFramePosition( frame.getWindow().getFrame() );
-			}
+			return CKEDITOR.tools.getAbsoluteRectPosition( this.getWindow(), elementRect );
 		},
 
 		/**

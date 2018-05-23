@@ -2843,46 +2843,200 @@ CKEDITOR.dom.range = function( root ) {
 		 * Note: Various browsers might return different list of rectangles.
 		 *
 		 * Internet Explorer 8 doesn't have implemented native `range.getClientRects()` which is base for this method.
-		 * As a workaround it will return an array containing only one rectangle which would start in the top left hand corner of the selection and end in the bottom right hand corner.
+		 * As a workaround it will return an array containing only one rectangle which would
+		 * start in the top left hand corner of the selection and end in the bottom right hand corner.
 		 * Possible cases when returned rectangle doesn't fully cover ranges are presented below:
 		 *
 		 * <img src="https://33333.cdn.cke-cs.com/rc1DFuFpHqcR3Mah6y0e/images/90893fcc6c323c10023e73ebfc1fbaa622b48b29c066f7af_ie-rects.png">
 		 *
 		 * @since 4.10.0
+		 * @param {Boolean} [isAbsolute] The function will retrieve an absolute
+		 * rectangle of the element i.e. position relative to the upper-left corner of the topmost viewport.
 		 * @returns {CKEDITOR.dom.rect[]}
 		 */
 		getClientRects: ( function() {
 			if ( this.document.getSelection !== undefined ) {
-				return function() {
+				return function( isAbsolute ) {
 					// We need to create native range so we can call native getClientRects.
-					var range = document.createRange(),
-						rectArray;
+					var range = this.root.getDocument().$.createRange(),
+						rectList;
 
 					range.setStart( this.startContainer.$, this.startOffset );
 					range.setEnd( this.endContainer.$, this.endOffset );
 
-					rectArray = CKEDITOR.tools.array.map( range.getClientRects(), function( item ) {
-						return convertRect( item );
-					} );
+					rectList = range.getClientRects();
 
-					// In some cases ( eg. ranges contain only image ) IE will return empty rectList.
-					if ( !range.collapsed && !rectArray.length ) {
-						rectArray = [ getRect( this.createBookmark() ) ];
+					rectList = fixWidgetsRects( rectList, this );
+
+					if ( !rectList.length ) {
+						rectList = fixEmptyRectList( rectList, range, this );
 					}
 
-					range.detach();
-
-					return rectArray;
+					return CKEDITOR.tools.array.map( rectList, function( item ) {
+						return convertRect( item, isAbsolute, this );
+					}, this );
 				};
 			} else {
-				return function() {
-					return [ getRect( this.createBookmark() ) ];
+				return function( isAbsolute ) {
+					return [ convertRect( getRect( this.createBookmark() ), isAbsolute, this ) ];
 				};
 			}
 
+			// Remove all widget rects except for outermost one.
+			function fixWidgetsRects( rectList, context ) {
+				var rectArray = CKEDITOR.tools.array.map( rectList, function( item ) {
+						return item;
+					} ),
+					newRange = new CKEDITOR.dom.range( context.root ),
+					widgetElements,
+					widgetRects,
+					widgetRange,
+					documentFragment,
+					moveStart,
+					moveEnd;
+
+				// In case of ranges start and end container set as widget wrapper, document container won't contain wrapper and we can't find its id.
+				// Let's move ranges to parent element to fix that.
+				if ( context.startContainer instanceof CKEDITOR.dom.element ) {
+					moveStart = context.startOffset === 0 && context.startContainer.hasAttribute( 'data-widget' );
+				}
+				if ( context.endContainer instanceof CKEDITOR.dom.element ) {
+					moveEnd = context.endOffset === ( context.endContainer.getChildCount ? context.endContainer.getChildCount() : context.endContainer.length );
+					moveEnd = moveEnd && context.endContainer.hasAttribute( 'data-widget' );
+				}
+
+				if ( moveStart ) {
+					newRange.setStart( context.startContainer.getParent(), context.startContainer.getIndex() );
+				}
+				if ( moveEnd ) {
+					newRange.setEnd( context.endContainer.getParent(), context.endContainer.getIndex() + 1 );
+				}
+				if ( moveStart || moveEnd ) {
+					context = newRange;
+				}
+
+				documentFragment = context.cloneContents();
+
+				// Find all widget elements.
+				widgetElements = CKEDITOR.dom.document.prototype.find.call( documentFragment, '[data-cke-widget-id]' ).toArray();
+				widgetElements = CKEDITOR.tools.array.map( widgetElements, function( item ) {
+					var editor = context.root.editor,
+						id = item.getAttribute( 'data-cke-widget-id' );
+					return editor.widgets.instances[ id ].element;
+				} );
+
+				if ( !widgetElements ) {
+					return;
+				}
+
+				// Once we have all widgets, get all theirs rects.
+				widgetRects = CKEDITOR.tools.array.map( widgetElements, function( element ) {
+					var rects,
+						container = element.getParent().hasClass( 'cke_widget_wrapper' ) ? element.getParent() : element;
+					widgetRange = this.root.getDocument().$.createRange();
+
+					widgetRange.setStart( container.getParent().$, container.getIndex() );
+					widgetRange.setEnd( container.getParent().$, container.getIndex() + 1 );
+
+					rects = widgetRange.getClientRects();
+					// Still some browsers might have wrong rect for widget.element so lets make sure it is correct.
+					rects.widgetRect = element.getClientRect();
+
+					return rects;
+				}, context );
+
+				CKEDITOR.tools.array.forEach( widgetRects, function( item ) {
+					var found;
+					cleanWidgetRects( 0 );
+
+					function cleanWidgetRects( startIndex ) {
+						CKEDITOR.tools.array.forEach( rectArray, function( rectArrayItem, index ) {
+							var compare = CKEDITOR.tools.objectCompare( item[ startIndex ], rectArrayItem );
+
+							if ( !compare ) {
+								compare = CKEDITOR.tools.objectCompare( item.widgetRect, rectArrayItem );
+							}
+
+							if ( compare ) {
+								// Find widget rect in rectArray and remove following rects that represent widget child elements.
+								Array.prototype.splice.call( rectArray, index, item.length - startIndex, item.widgetRect );
+								found = true;
+							}
+						} );
+
+						if ( !found ) {
+							if ( startIndex < rectArray.length - 1 ) {
+								// If first rect isn't existing inside rectArray lets take another element for reference.
+								cleanWidgetRects( startIndex + 1 );
+							} else {
+								// If none of widgets rect is found add widget element rect to rect list.
+								rectArray.push( item.widgetRect );
+							}
+						}
+					}
+				} );
+
+				return rectArray;
+			}
+
+			// Create rectList when browser natively doesn't return it.
+			function fixEmptyRectList( rectList, range, context ) {
+				var first,
+					textNode,
+					itemToInsertAfter;
+
+				if ( !range.collapsed ) {
+					// In some cases ( eg. ranges contain only image ) IE will return empty rectList.
+
+					rectList = [ getRect( context.createBookmark() ) ];
+				} else if ( context.startContainer instanceof CKEDITOR.dom.element ) {
+					// If collapsed ranges are in element add textNode and return its rects.
+
+					first = context.checkStartOfBlock();
+					textNode = new CKEDITOR.dom.text( '\u200b' );
+
+					if ( first ) {
+						context.startContainer.append( textNode, true );
+					} else {
+						if ( context.startOffset === 0 ) {
+							textNode.insertBefore( context.startContainer.getFirst() );
+						} else {
+							itemToInsertAfter = context.startContainer.getChildren().getItem( context.startOffset - 1 );
+							textNode.insertAfter( itemToInsertAfter );
+						}
+					}
+
+					// Create native collapsed ranges inside just created textNode.
+					range.setStart( textNode.$, 0 );
+					range.setEnd( textNode.$, 0 );
+
+					rectList = range.getClientRects();
+					textNode.remove();
+				} else if ( context.startContainer instanceof CKEDITOR.dom.text ) {
+					if ( context.startContainer.getText() === '' ) {
+						// In case of empty text fill it with zero width space.
+						context.startContainer.setText( '\u200b' );
+						rectList = range.getClientRects();
+
+						context.startContainer.setText( '' );
+
+					} else {
+						// If there is text node which isn't empty, but still no rects are returned use IE8 polyfill.
+						// This happens with selection at the end of line in IE.
+						rectList = [ getRect( context.createBookmark() ) ];
+					}
+				}
+				return rectList;
+			}
+
 			// Extending empty object with rect, to prevent inheriting from DOMRect, same approach as in CKEDITOR.dom.element.getClientRect().
-			function convertRect( rect ) {
+			function convertRect( rect, isAbsolute, context ) {
 				var newRect = CKEDITOR.tools.extend( {}, rect );
+
+				if ( isAbsolute ) {
+					newRect = CKEDITOR.tools.getAbsoluteRectPosition( context.document.getWindow(), newRect );
+				}
+
 				// Some browsers might not return width and height.
 				!newRect.width && ( newRect.width = newRect.right - newRect.left );
 				!newRect.height && ( newRect.height = newRect.bottom - newRect.top );

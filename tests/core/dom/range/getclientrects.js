@@ -1,4 +1,6 @@
 /* bender-tags: editor,dom,range */
+/* bender-include: ../../../plugins/uploadfile/_helpers/waitForImage.js */
+/* global waitForImage */
 
 ( function() {
 	'use strict';
@@ -185,8 +187,9 @@
 
 		_assertRectList: function( fixtureId, expectedMap ) {
 			var range = this._selectFixture( fixtureId ),
-				rects = range.getClientRects(),
+				playground = this.playground,
 				expectedKey = 'defaultExpected',
+				rects,
 				expectedRects,
 				curExpectedRect;
 
@@ -198,32 +201,41 @@
 
 			expectedRects = expectedMap[ expectedKey ] || expectedMap.defaultExpected;
 
-			for ( var index in expectedRects ) {
-				if ( CKEDITOR.env.ie ) {
-					// IE and Edge doesn't return x and y properties, emulate that. (#1852)
-					if ( typeof expectedRects[ index ].x !== 'undefined' ) {
-						delete expectedRects[ index ].x;
-					}
+			if ( CKEDITOR.env.safari ) {
+				waitForImage( playground.getLast(), assertRectsAfterImageLoad );
+			} else {
+				assertRectsAfterImageLoad();
+			}
 
-					if ( typeof expectedRects[ index ].y !== 'undefined' ) {
-						delete expectedRects[ index ].y;
-					}
-				}
+			function assertRectsAfterImageLoad() {
+				rects = range.getClientRects();
+				for ( var index in expectedRects ) {
+					if ( CKEDITOR.env.ie ) {
+						// IE and Edge doesn't return x and y properties, emulate that. (#1852)
+						if ( typeof expectedRects[ index ].x !== 'undefined' ) {
+							delete expectedRects[ index ].x;
+						}
 
-				for ( var key in expectedRects[ index ] ) {
-					curExpectedRect = rects[ index ][ key ];
-
-					if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-						if ( rects.length === 1 && ( key === 'height' || key === 'top' ) ) {
-							// Selecting image alone on IE will return an empty rect. Using fallback for that case will return wrong height and top.
-							continue;
-						} else if ( key === 'width' || key === 'right' ) {
-							// IE returns width and right bigger by small value.
-							curExpectedRect = Math.floor( curExpectedRect * 10 ) / 10;
+						if ( typeof expectedRects[ index ].y !== 'undefined' ) {
+							delete expectedRects[ index ].y;
 						}
 					}
 
-					assert.areEqual( expectedRects[ index ][ key ], curExpectedRect, 'rect[ ' + index + ' ].' + key );
+					for ( var key in expectedRects[ index ] ) {
+						curExpectedRect = rects[ index ][ key ];
+
+						if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+							if ( rects.length === 1 && ( key === 'height' || key === 'top' ) ) {
+								// Selecting image alone on IE will return an empty rect. Using fallback for that case will return wrong height and top.
+								continue;
+							} else if ( key === 'width' || key === 'right' ) {
+								// IE returns width and right bigger by small value.
+								curExpectedRect = Math.floor( curExpectedRect * 10 ) / 10;
+							}
+						}
+
+						assert.areEqual( expectedRects[ index ][ key ], curExpectedRect, 'rect[ ' + index + ' ].' + key );
+					}
 				}
 			}
 		}

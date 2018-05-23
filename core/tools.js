@@ -2152,6 +2152,54 @@
 
 				return copy1;
 			}
+		},
+
+		/**
+		 * Converts relative positions inside DOMRect into absolute ones using given window as context.
+		 * By absolute means in relation to upper-left corner of topmost viewport.
+		 *
+		 * @since 4.10.0
+		 * @param { CKEDITOR.dom.window } window Window containing element for which rect is passed.
+		 * @param { CKEDITOR.dom.rect } rect Rect with relative position.
+		 * @returns { CKEDITOR.dom.rect } Rect with absolute position.
+		 */
+		getAbsoluteRectPosition: function( window, rect ) {
+			var newRect = CKEDITOR.tools.copy( rect );
+			appendParentFramePosition( window.getFrame() );
+
+			var winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition();
+
+			newRect.top += winGlobalScroll.y;
+			newRect.left += winGlobalScroll.x;
+
+			// If there is no x or y, e.g. Microsoft browsers, don't return them, otherwise we will have rect.x = NaN.
+			if ( ( 'x' in newRect ) && ( 'y' in newRect ) ) {
+				newRect.y += winGlobalScroll.y;
+				newRect.x += winGlobalScroll.x;
+			}
+
+			newRect.right = newRect.left + newRect.width;
+			newRect.bottom = newRect.top + newRect.height;
+
+			return newRect;
+
+			function appendParentFramePosition( frame ) {
+				if ( !frame ) {
+					return;
+				}
+
+				var frameRect = frame.getClientRect();
+
+				newRect.top += frameRect.top;
+				newRect.left += frameRect.left;
+
+				if ( ( 'x' in newRect ) && ( 'y' in newRect ) ) {
+					newRect.x += frameRect.x;
+					newRect.y += frameRect.y;
+				}
+
+				appendParentFramePosition( frame.getWindow().getFrame() );
+			}
 		}
 	};
 
