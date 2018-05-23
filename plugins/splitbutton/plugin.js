@@ -25,11 +25,10 @@
 			defaultButton;
 
 		if ( face ) {
-			if ( !face.onClick ) {
-				face.onClick = function() {
-					editor.execCommand( face.command, face.commandData );
-				};
-			}
+			face.click = face.click || face.onClick ||  function() {
+				editor.execCommand( face.command, face.commandData );
+			};
+
 			properties.face = new CKEDITOR.ui.button( face );
 			editor.addFeature( properties.face );
 		}
@@ -54,11 +53,9 @@
 
 			item.role = 'menuitemcheckbox';
 
-			if ( !item.onClick ) {
-				item.onClick = function() {
-					editor.execCommand( this.command, this.commandData );
-				};
-			}
+			item.onClick = item.onClick || item.click ||  function() {
+				editor.execCommand( this.command, this.commandData );
+			};
 
 			editor.getCommand( item.command ).on( 'state', function() {
 				var activeCommand = getLastActiveCommands( editor, allItems ), activeButton;
@@ -86,7 +83,9 @@
 			} );
 
 			properties.items[ item.id ] = item;
-			properties.buttons[ item.id ] = new CKEDITOR.ui.button( CKEDITOR.tools.extend( { label: definition.label + ' ' + item.label }, item ) );
+			properties.buttons[ item.id ] = new CKEDITOR.ui.button( CKEDITOR.tools.extend( {
+				click: item.onClick, label: definition.label + ' ' + item.label
+			}, item ) );
 
 			editor.addFeature( properties.buttons[ item.id ] );
 
