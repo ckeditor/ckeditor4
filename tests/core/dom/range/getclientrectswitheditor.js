@@ -51,17 +51,28 @@
 			if ( !( CKEDITOR.env.ie && ( CKEDITOR.env.version in { 9: '', 10: '' } ) ) ) {
 				assert.ignore();
 			}
+			var offset = {
+				x: 0, y: 0
+			};
+
+			if ( editor.name === 'inline' ) {
+				offset = {
+					x: bot.editor.container.getClientRect().left - 20,
+					y: bot.editor.container.getClientRect().left - 20
+				};
+			}
+
 
 			bot.setHtmlWithSelection(
 				'<p style="font-family:Sans-Serif;font-size:13px;line-height:1.6;margin:0">This is paragraph for testing purposes.^</p>'
 			);
 
 			var expectedRect = {
-					bottom: 41,
+					bottom: 41 + offset.y,
 					height: 21,
-					left: 242,
-					right: 242,
-					top: 20,
+					left: 242 + offset.x,
+					right: 242 + offset.x,
+					top: 20 + offset.y,
 					width: 0
 				},
 				rects = editor.getSelection().getRanges()[ 0 ].getClientRects(),
