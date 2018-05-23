@@ -7,7 +7,7 @@ This manual test checks the result returned by the `range.getClientRects()` insi
 
 ## Things to test:
 
-1. Test [#1930](https://github.com/ckeditor/ckeditor-dev/issues/1930) after editor is initialized rectangle should match caret which is at the end of first paragraph.
+1. Test [#1930](https://github.com/ckeditor/ckeditor-dev/issues/1930): after editor is initialized rectangle should match caret.
 
 1. Select some table cells too see if red rectangles are matching the selection. Try different selections on the table and on the widgets.
 Test selecting widget editable.

@@ -11,15 +11,15 @@
 		pointer-events: none;
 	}
 
-	#output {
+	.output {
 		width: 250px;
 	}
 
 </style>
 
-<textarea name="output" id="output" cols="30" rows="10" readonly="readonly" style="display:inline-block"></textarea>
-
 <p>Editor with 'tableselection' plugin.</p>
+<textarea class="output" id="output-editor" cols="30" rows="10" readonly="readonly" style="display:inline-block"></textarea>
+
 <div id="editor" contenteditable="true">
 	<p>Line [[with]][[inline]] widgets.</p>
 	<figure class="image"><img alt="" width="279" height="157" src="../../../../plugins/image2/_assets/bar.png" /><figcaption>Caption</figcaption></figure>
@@ -50,6 +50,7 @@
 </div>
 
 <p>Editor without 'tableselection' plugin.</p>
+<textarea class="output" id="output-editor2" cols="30" rows="10" readonly="readonly" style="display:inline-block"></textarea>
 <div id="editor2" contenteditable="true">
 	<p>Line [[with]][[inline]] widgets.</p>
 	<figure class="image"><img alt="" width="279" height="157" src="../../../../plugins/image2/_assets/bar.png" /><figcaption>Caption</figcaption></figure>
@@ -103,14 +104,14 @@
 		} );
 	} )();
 
-	function onInstanceReady ( outputId ) {
+	function onInstanceReady () {
 		var rectMarkers = [];
 
 		var doc = CKEDITOR.document,
 			editable = this.editable(),
 			par = editable.findOne( 'p' ),
 			rng = new CKEDITOR.dom.range( editable ),
-			output = doc.getById( 'output' ),
+			output = doc.getById( 'output-' + this.name ),
 			editor = this;
 
 		rng.setStart( par, CKEDITOR.POSITION_AFTER_START );
