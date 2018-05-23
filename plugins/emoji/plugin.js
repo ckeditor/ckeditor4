@@ -117,10 +117,11 @@
 
 /**
  * Array with names of tags where emoji plugin remin inactive. By default emoji are not transformed inside `<pre>` and `<code>` tags
+ *
+ *  ```
+ * 	editor.emoji_preventTransformation = [ 'h1', 'h2' ];
  * ```
- * 	editor.emoji_preventTransformation = [ 'pre', 'code' ];
- * ```
- * @cfg {String}[] [emoji_preventTransformation=[ 'pre', 'code' ]]
+ * @cfg {Array} [ emoji_preventTransformation = [ 'pre', 'code' ] ]
  * @member CKEDITOR.config
  */
 
@@ -130,6 +131,6 @@
  * ```
  * 	editor.emoji_numberOfCharactersToStart = 2;
  * ```
- * @cfg {Number} [emoji_numberOfCharactersToStart=0]
+ * @cfg {Number} [ emoji_numberOfCharactersToStart = 0 ]
  * @member CKEDITOR.config
  */
