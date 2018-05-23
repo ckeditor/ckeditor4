@@ -25,14 +25,14 @@
 			if ( !editor._.emojiList ) {
 				editor._.emojiList = defaultEmojiList;
 			}
-
 			var emoji = editor._.emojiList,
-				forbiddenScope = editor.config.emoji_preventTransformation || [ 'pre', 'code' ];
+				forbiddenScope = editor.config.emoji_preventTransformation || [ 'pre', 'code' ],
+				charactersToStart = editor.config.emoji_numberOfCharactersToStart || 0;
 
 			editor.on( 'instanceReady', function() {
 				var emoji = new CKEDITOR.plugins.autocomplete( editor, getTextTestCallback(), dataCallback );
 
-				emoji.view.itemTemplate = new CKEDITOR.template( '<li data-id="{id}">{symbol} {id}</li>' );
+				emoji.view.itemTemplate = new CKEDITOR.template( '<li data-id="{id}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{symbol} {id}</li>' );
 				emoji.getHtmlToInsert = function( item ) {
 					return item.symbol;
 				};
@@ -74,7 +74,7 @@
 
 			function matchCallback( text, offset ) {
 				var left = text.slice( 0, offset ),
-					match = left.match( /:\w*$/ );
+					match = left.match( new RegExp( ':\\S{' + charactersToStart + '}\\S*$' ) );
 
 				if ( !match ) {
 					return null;
@@ -113,3 +113,23 @@
 		}
 	} );
 } )();
+
+
+/**
+ * Array with names of tags where emoji plugin remin inactive. By default emoji are not transformed inside `<pre>` and `<code>` tags
+ * ```
+ * 	editor.emoji_preventTransformation = [ 'pre', 'code' ];
+ * ```
+ * @cfg {String}[] [emoji_preventTransformation=[ 'pre', 'code' ]]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Number which defines how many characters is required to start displaying emoji autocomplete.
+ *
+ * ```
+ * 	editor.emoji_numberOfCharactersToStart = 2;
+ * ```
+ * @cfg {Number} [emoji_numberOfCharactersToStart=0]
+ * @member CKEDITOR.config
+ */
