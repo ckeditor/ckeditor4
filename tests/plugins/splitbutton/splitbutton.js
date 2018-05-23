@@ -7,10 +7,8 @@
 		config: {
 			on: {
 				pluginsLoaded: function( evt ) {
-					var editor = evt.editor;
-					editor.ui.add( 'teststylesplit', CKEDITOR.UI_SPLITBUTTON, {
-						label: 'Basic Styles',
-						items: [ {
+					var editor = evt.editor,
+						items = [ {
 							command: 'bold',
 							icon: 'bold',
 							'default': true
@@ -29,7 +27,20 @@
 						}, {
 							command: 'superscript',
 							icon: 'superscript'
-						} ]
+						} ];
+
+					editor.ui.add( 'teststylesplit', CKEDITOR.UI_SPLITBUTTON, {
+						label: 'Basic Styles',
+						items: items
+					} );
+
+					editor.ui.add( 'staticface', CKEDITOR.UI_SPLITBUTTON, {
+						label: 'Basic Styles',
+						face: {
+							command: 'bold',
+							icon: 'bold'
+						},
+						items: items
 					} );
 				}
 			}
@@ -37,6 +48,9 @@
 	};
 
 	bender.test( {
+		tearDown: function() {
+			this.editor.editable().setHtml( '' );
+		},
 		'test split button rendered in toolbar': function() {
 			var splitButton = this.editor.ui.get( 'teststylesplit' ),
 				arrow = CKEDITOR.document.getById( splitButton._.id ),
@@ -70,6 +84,8 @@
 				key,
 				command;
 
+			selectBeginningOfEditable( this.editor );
+
 			for ( key in splitButton.items ) {
 				command = this.editor.getCommand( splitButton.items[ key ].command );
 				button = splitButtonElement.findOne( '.cke_button__' + command.name );
@@ -98,6 +114,38 @@
 				assert.isTrue( button.hasClass( 'cke_button_on' ), 'Button should be in `on` state' );
 
 				assertMenuButtonsState( this.editor );
+			}
+		},
+		'test static face': function() {
+			// Face should be allways visible
+			var splitButton = this.editor.ui.get( 'staticface' ),
+				arrow = CKEDITOR.document.getById( splitButton._.id ),
+				face = CKEDITOR.document.getById( splitButton.face._.id ),
+				splitButtonElement = arrow.getParent(),
+				buttons = splitButtonElement.getChildren().toArray(),
+				key;
+
+			selectBeginningOfEditable( this.editor );
+
+			// Split button with static face should have only two buttons, face and arrow.
+			assert.areEqual( buttons.length, 2 );
+			assert.areEqual( buttons[ 0 ].getAttribute( 'id' ), splitButton.face._.id );
+			assert.areEqual( buttons[ 1 ].getAttribute( 'id' ), splitButton._.id );
+
+			// Test state of face.
+			assert.isTrue( face.hasClass( 'cke_button_off' ), 'Button should be in `off` state' );
+			this.editor.execCommand( splitButton.face.command );
+			assert.isFalse( face.hasClass( 'cke_button_off' ), 'Button should be in `on` state' );
+
+			this.editor.execCommand( splitButton.face.command );
+
+			for ( key in splitButton.buttons ) {
+				var item = splitButton.buttons[ key ];
+
+				if ( item.command != 'bold' ) {
+					this.editor.execCommand( item.command );
+					assert.isTrue( face.hasClass( 'cke_button_off' ), 'Button should be in `off` state' );
+				}
 			}
 		}
 	} );
@@ -141,4 +189,12 @@
 			}
 		} );
 	}
+
+	function selectBeginningOfEditable( editor ) {
+		var range = editor.createRange(),
+			editable = editor.editable();
+		range.setStart( editable, 0 );
+		editor.getSelection().selectRanges( [ range ] );
+	}
+
 } )();
