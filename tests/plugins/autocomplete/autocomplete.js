@@ -5,7 +5,11 @@
 	'use strict';
 
 	bender.editors = {
-		standard: {},
+		standard: {
+			config: {
+				extraAllowedContent: 'strong'
+			}
+		},
 		arrayKeystrokes: {
 			config: {
 				autocomplete_commitKeystroke: [ 16 ] // SHIFT
@@ -218,6 +222,47 @@
 			ac.view.getItemById( 1 ).$.click();
 
 			assert.areEqual( '<p>item1</p>', editor.getData() );
+
+			ac.destroy();
+		},
+
+		// (#1987)
+		'test custom view template': function() {
+			var editor = this.editors.standard,
+				viewTemplate = '<li data-id="{id}"><strong>{name}</strong></li>',
+				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback,
+					function( query, range, callback ) {
+						callback( [ { id: 1, name: 'anna' } ] );
+					},
+					viewTemplate );
+
+			this.editorBots.standard.setHtmlWithSelection( '' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			assert.areEqual( '<li data-id="1" class="cke_autocomplete_selected"><strong>anna</strong></li>', ac.view.element.getHtml() );
+
+			ac.destroy();
+		},
+
+		// (#1987)
+		'test custom output template': function() {
+			var editor = this.editors.standard,
+				editable = editor.editable(),
+				outputTemplate = '<strong>{name}</strong>',
+				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback,
+					function( query, range, callback ) {
+						callback( [ { id: 1, name: 'anna' } ] );
+					},
+					null,
+					outputTemplate );
+
+			this.editorBots.standard.setHtmlWithSelection( '' );
+
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
+
+			assert.areEqual( '<p><strong>anna</strong></p>', editable.getData() );
 
 			ac.destroy();
 		}
