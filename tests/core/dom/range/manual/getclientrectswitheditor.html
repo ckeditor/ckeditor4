@@ -1,21 +1,24 @@
-<style>
-	body {
-		padding-top: 150px;
-		margin-left: 0px;
-		padding-left: 330px;
-	}
+<head>
+	<link rel="stylesheet" href="/apps/ckeditor/contents.css">
+	<style>
+		html body {
+			padding-top: 150px;
+			margin-left: 0px;
+			padding-left: 330px;
+			position: static;
+		}
 
-	.marker {
-		position: absolute;
-		outline: 1px solid red;
-		pointer-events: none;
-	}
+		.rect-marker {
+			position: absolute;
+			outline: 1px solid red;
+			pointer-events: none;
+		}
 
-	.output {
-		width: 250px;
-	}
-
-</style>
+		.output {
+			width: 250px;
+		}
+	</style>
+</head>
 
 <div class="data" style="display:none">
 	<p>Line [[with]][[inline]] widgets.</p>
@@ -50,19 +53,19 @@
 	</pre>
 </div>
 
-<p>Editor with 'tableselection' plugin.</p>
+<h2>Classic editor with 'tableselection' plugin.</h2>
 <textarea class="output" id="output-editor" cols="30" rows="10" readonly="readonly" style="display:inline-block"></textarea>
 <div id="editor" contenteditable="true"></div>
 
-<p>Editor without 'tableselection' plugin.</p>
+<h2>Classic editor without 'tableselection' plugin.</h2>
 <textarea class="output" id="output-editor2" cols="30" rows="10" readonly="readonly" style="display:inline-block"></textarea>
 <div id="editor2" contenteditable="true"></div>
 
-<p>Editor with 'tableselection' plugin.</p>
+<h2>Inline editor with 'tableselection' plugin.</h2>
 <textarea class="output" id="output-editor-inline" cols="30" rows="10" readonly="readonly" style="display:inline-block"></textarea>
 <div id="editor-inline" contenteditable="true"></div>
 
-<p>Inline Editor without 'tableselection' plugin.</p>
+<h2>Inline editor without 'tableselection' plugin.</h2>
 <textarea class="output" id="output-editor-inline2" cols="30" rows="10" readonly="readonly" style="display:inline-block"></textarea>
 <div id="editor-inline2" contenteditable="true"></div>
 
@@ -145,7 +148,7 @@
 					var rectMarker;
 					if ( !rectMarker ) {
 						rectMarker = doc.createElement( 'div' );
-						rectMarker.addClass( 'marker' );
+						rectMarker.addClass( 'rect-marker' );
 						doc.getBody().append( rectMarker );
 					}
 
