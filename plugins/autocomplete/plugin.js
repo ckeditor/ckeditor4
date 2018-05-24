@@ -11,7 +11,7 @@
 	var stylesLoaded = false;
 
 	CKEDITOR.plugins.add( 'autocomplete', {
-		requires: 'textwatcher,caretposition',
+		requires: 'textwatcher',
 		init: function() {
 			if ( !stylesLoaded ) {
 				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/autocomplete.css' );
@@ -654,7 +654,9 @@
 		 * @returns {Number} rect.bottom
 		 */
 		getCaretRect: function() {
-			var caretClientRect = this.editor.getSelection().getCaretPosition(),
+			var caretClientRect = this.editor.getSelection()
+				.getRanges()[ 0 ]
+				.getClientRects()[ 0 ],
 				offset,
 				editable = this.editor.editable();
 

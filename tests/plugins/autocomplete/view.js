@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: autocomplete, caretposition */
+/* bender-ckeditor-plugins: autocomplete */
 
 ( function() {
 	'use strict';
@@ -74,6 +74,8 @@
 		},
 
 		'test get caret rect (classic)': function() {
+			this.editorBots.classic.setHtmlWithSelection( '' );
+
 			var rect = getCaretRect( this.editors.classic, { top: 2, height: 3, left: 4 }, { y: 2, x: 4 } );
 
 			assert.areEqual( 7, rect.bottom );
@@ -82,6 +84,8 @@
 		},
 
 		'test get caret rect (inline)': function() {
+			this.editorBots.inline.setHtmlWithSelection( '' );
+
 			var rect = getCaretRect( this.editors.inline, { top: 2, height: 3, left: 4 }, { y: 2, x: 4 } );
 
 			assert.areEqual( 7, rect.bottom );
@@ -96,6 +100,8 @@
 				'margin-top': '10px'
 			} );
 
+			this.editorBots.classic.setHtmlWithSelection( '' );
+
 			var rect = getCaretRect( this.editors.classic, { top: 10, height: 5, left: 10 }, { y: 2, x: 4 } );
 
 			assert.areEqual( 7, rect.bottom );
@@ -109,6 +115,8 @@
 				'margin-left': '10px',
 				'margin-top': '10px'
 			} );
+
+			this.editorBots.inline.setHtmlWithSelection( '' );
 
 			var rect = getCaretRect( this.editors.inline, { top: 10, height: 5, left: 10 }, { y: 2, x: 4 } );
 
@@ -190,7 +198,7 @@
 
 	function getCaretRect( editor, caretPosition, offset ) {
 		var view = new CKEDITOR.plugins.autocomplete.view( editor ),
-			caretPositionStub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getCaretPosition' ).returns( caretPosition ),
+			getClientRectsStub = sinon.stub( CKEDITOR.dom.range.prototype, 'getClientRects' ).returns( [ caretPosition ] ),
 			offsetStub;
 
 		if ( editor.editable().isInline() ) {
@@ -211,7 +219,7 @@
 
 		var caretRect = view.getCaretRect();
 
-		caretPositionStub.restore();
+		getClientRectsStub.restore();
 		offsetStub.restore();
 
 		return caretRect;
