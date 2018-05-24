@@ -240,7 +240,7 @@
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			assert.areEqual( '<li data-id="1" class="cke_autocomplete_selected"><strong>anna</strong></li>', ac.view.element.getHtml() );
+			assert.areEqual( '<ul><li class="cke_autocomplete_selected" data-id="1"><strong>anna</strong></li></ul>', bender.tools.compatHtml( ac.view.element.getHtml(), false, true ) );
 
 			ac.destroy();
 		},
