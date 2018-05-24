@@ -220,7 +220,7 @@
 
 			testView( this.createMentionsInstance( {
 				feed: feedData,
-				viewTemplate: '<li data-id="{id}">{name} is the best!</li>'
+				itemTemplate: '<li data-id="{id}">{name} is the best!</li>'
 			} ), [ 'Anna is the best!', 'Annabelle is the best!' ] );
 		},
 

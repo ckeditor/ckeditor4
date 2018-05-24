@@ -79,14 +79,6 @@
 		this.minChars = config.minChars !== null && config.minChars !== undefined ? config.minChars : MIN_CHARS;
 
 		/**
-		 * See {@link CKEDITOR.plugins.mentions.configDefinition#template template}. Use {@link #changeViewTemplate changeViewTemplate} function to change view template.
-		 *
-		 * @property {String} [template=CKEDITOR.plugins.autocomplete.view.itemTemplate]
-		 * @readonly
-		 */
-		this.template = config.template;
-
-		/**
 		 * See {@link CKEDITOR.plugins.mentions.configDefinition#pattern pattern}.
 		 *
 		 * @property {RegExp} pattern
@@ -103,14 +95,6 @@
 		this.cache = config.cache !== undefined ? config.cache : true;
 
 		/**
-		 * See {@link CKEDITOR.plugins.mentions.configDefinition#output output}.
-		 *
-		 * @property {String} output
-		 * @readonly
-		 */
-		this.output = config.output;
-
-		/**
 		 * {@link CKEDITOR.plugins.autocomplete Autocomplete} instance used by mentions feature to implement autocompletion logic.
 		 *
 		 * @property {CKEDITOR.plugins.autocomplete}
@@ -119,7 +103,7 @@
 		this._autocomplete = new CKEDITOR.plugins.autocomplete( editor,
 			getTextTestCallback( this.marker, this.minChars, this.pattern ),
 			getDataCallback( feed, this ),
-			config.viewTemplate,
+			config.itemTemplate,
 			config.outputTemplate
 		);
 	}
@@ -377,7 +361,7 @@
 	 * When using asynchronous method i.e. backend URL string or a function,
 	 *  you should provide correct object structure containing unique item ID and a name.
 	 *
-	 * You can pass additional information also which can be used to create custom view template.
+	 * You can pass additional information also which can be used to create custom item template.
 	 *
 	 * ```javascript
 	 * // Example of expected results from backend API.
@@ -388,10 +372,10 @@
 	 * 		{ id: 3, name: 'ozzy', firstName: 'John', lastName: 'Doe' }
 	 * ]
 	 *
-	 * // Setting custom view template by utilizing additional `firstname` and `lastname` attributes.
+	 * // Setting custom item template by utilizing additional `firstname` and `lastname` attributes.
 	 * var definition = {
 	 *	 feed: backendApiFunction,
-	 *	 template: '<li data-id="{id}><strong>{name}</strong><i>({firstName} {lastName})</i></li>'
+	 *	 itemTemplate: '<li data-id="{id}><strong>{name}</strong><i>({firstName} {lastName})</i></li>'
 	 * }
 	 *
 	 * ```
@@ -400,34 +384,13 @@
 	 */
 
 	/**
-	 * Template used to render matches in the dropdown.
+	 * See {@link CKEDITOR.plugins.autocomplete.view#itemTemplate}.
 	 *
-	 * A minimal template should be wrapped with HTML `li` element containing `data-id={id}` attribute.
-	 * Template accepts `id` and `name` parameters.
-	 * Also with {@link #feed asynchronous feed} you can pass additional parameters and use them inside template.
-	 *
-	 * ```javascript
-	 * var definition = {
-	 * 		feed: feed,
-	 * 		viewTemplate: '<li data-id={id}><img src="{iconSrc}" alt="{name}">{name}</li>'
-	 * }
-	 * ```
-	 *
-	 * @property {String} [template=CKEDITOR.plugins.autocomplete.view.itemTemplate]
+	 * @property {String} itemTemplate
 	 */
 
 	/**
-	 * Output template used to write selected match into an editor.
-	 *
-	 * You can use any parameter passed into {@link #feed data feed}.
-	 * Array data feed is limited to `name` and generated `id` parameters.
-	 *
-	 * ```javascript
-	 * var definition = {
-	 * 		feed: feed,
-	 * 		outputTemplate: '<a href="src" alt="{name}">{name}</a>'
-	 * }
-	 * ```
+	 * See {@link CKEDITOR.plugins.autocomplete#outputTemplate}.
 	 *
 	 * @property {String} outputTemplate
 	 */
