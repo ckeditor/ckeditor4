@@ -229,12 +229,12 @@
 		// (#1987)
 		'test custom view template': function() {
 			var editor = this.editors.standard,
-				viewTemplate = '<li data-id="{id}"><strong>{name}</strong></li>',
+				itemTemplate = '<li data-id="{id}"><strong>{name}</strong></li>',
 				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback,
 					function( query, range, callback ) {
 						callback( [ { id: 1, name: 'anna' } ] );
 					},
-					viewTemplate );
+					itemTemplate );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 

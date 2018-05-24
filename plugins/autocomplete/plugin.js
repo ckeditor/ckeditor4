@@ -155,18 +155,10 @@
 	 * @param {CKEDITOR.plugins.autocomplete.model.item[]} dataCallback.callback.data The suggestion data that should be
 	 * displayed in the autocomplete view for a given query. The data items should implement the
 	 * {@link CKEDITOR.plugins.autocomplete.model.item} interface.
-	 * @param {String} viewTemplate Changes the view template.
-	 * The given template will be used to render matches in the dropdown.
-	 *
-	 * A minimal template should be wrapped with HTML `li` element containing `data-id={id}` attribute.
-	 *
-	 * ```javascript
-	 * autocomplete.setViewTemplate( '<li data-id="{id}" ><img src="{iconSrc}" alt="{name}" /><span>{name}</span></li>' );
-	 * ```
-	 *
-	 * @param {String} outputTemplate See {@link #outputTemplate}
+	 * @param {String} itemTemplate Template for list item in dropdown. See {@link CKEDITOR.plugins.autocomplete.view#itemTemplate} for more information.
+	 * @param {String} outputTemplate Template for match rendering. See {@link #outputTemplate}.
 	 */
-	function Autocomplete( editor, textTestCallback, dataCallback, viewTemplate, outputTemplate ) {
+	function Autocomplete( editor, textTestCallback, dataCallback, itemTemplate, outputTemplate ) {
 		var configKeystroke = editor.config.autocomplete_commitKeystroke || CKEDITOR.config.autocomplete_commitKeystroke;
 
 		/**
@@ -218,20 +210,21 @@
 		this._listeners = [];
 
 		/**
-		 * Output template used to write selected match into an editor.
-		 * You can use any parameter passed into `dataCallback` parameter.
+		 * Template used to render selected dropdown match into an editor.
+		 *
+		 * You can use {@link CKEDITOR.plugins.autocomplete.model#data data item} properties to customize the template.
 		 *
 		 * ```javascript
-		 * autocomplete.setOutputTemplate( '<a href="src" alt="name">{name}</a>' );
+		 * config.outputTemplate = `<a href="/tracker/{ticket}">#{ticket} ({name})</a>`;
 		 * ```
 		 *
 		 * @readonly
-		 * @property {CKEDITOR.template}
+		 * @property {CKEDITOR.template} [outputTemplate=null]
 		 */
 		this.outputTemplate = outputTemplate !== undefined ? new CKEDITOR.template( outputTemplate ) : null;
 
-		if ( viewTemplate ) {
-			this.view.itemTemplate = new CKEDITOR.template( viewTemplate );
+		if ( itemTemplate ) {
+			this.view.itemTemplate = new CKEDITOR.template( itemTemplate );
 		}
 
 		this.attach();
@@ -551,7 +544,15 @@
 	 */
 	function View( editor ) {
 		/**
-		 * The panel's item template.
+		 * The panel's item template used to render matches in the dropdown.
+		 *
+		 * You can use {@link CKEDITOR.plugins.autocomplete.model#data data item} properties to customize the template.
+		 *
+		 * A minimal template should be wrapped with HTML `li` element containing `data-id={id}` attribute.
+		 *
+		 * ```javascript
+		 * autocomplete.itemTemplate: '<li data-id={id}><img src="{iconSrc}" alt="{name}">{name}</li>'
+		 * ```
 		 *
 		 * @readonly
 		 * @property {CKEDITOR.template}
