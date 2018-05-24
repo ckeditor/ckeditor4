@@ -364,21 +364,10 @@
 			};
 
 			return function( element, options ) {
-				var isDummy;
 				if ( element instanceof CKEDITOR.dom.selection ) {
-					isDummy = true;
-					var range = element.getRanges(),
-						rectList = range[ 0 ].getClientRects(),
-						rect = rectList[ rectList.length - 1 ],
-						dummy = new CKEDITOR.dom.element( 'div' );
-					dummy.setStyle( 'position', 'fixed' );
-					dummy.setStyle( 'width', rect.width + 'px' );
-					dummy.setStyle( 'height', rect.height + 'px' );
-					dummy.setStyle( 'top', rect.top + 'px' );
-					dummy.setStyle( 'left', rect.left + 'px' );
-					dummy.setStyle( 'visibility', 'hidden' );
-					this.editor.editable().append( dummy );
-					element = dummy;
+					var ranges = element.getRanges(),
+						rectList = ranges[ 0 ].getClientRects( true ),
+						rect = rectList[ rectList.length - 1 ];
 				}
 
 				if ( options instanceof CKEDITOR.dom.element || !options ) {
@@ -403,16 +392,11 @@
 				var panelWidth = this.getWidth(),
 					panelHeight = this.getHeight(),
 
-					elementRect = element.getClientRect( true ),
+					elementRect = rect || element.getClientRect( true ),
 					editorRect = isInline ? editable.getClientRect( true ) : frame.getClientRect( true ),
 
 					viewPaneSize = winGlobal.getViewPaneSize(),
 					winGlobalScroll = winGlobal.getScrollPosition();
-
-				// Remove dummy element when its not needed anymore
-				if ( isDummy ) {
-					element.remove();
-				}
 
 				// allowedRect is the rect into which the panel should fit to remain
 				// both within the visible area of the editor and the viewport, i.e.
