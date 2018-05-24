@@ -65,7 +65,7 @@
 
 			function getTextTestCallback() {
 				return function( range ) {
-					if ( range.startContainer.getAscendant( getConfigForNotConvertedTags() ) ) {
+					if ( !range.collapsed || range.startContainer.getAscendant( getConfigForNotConvertedTags() ) ) {
 						return null;
 					}
 					return CKEDITOR.plugins.textMatch.match( range, matchCallback );
