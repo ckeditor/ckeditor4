@@ -53,9 +53,12 @@
 
 			item.role = 'menuitemcheckbox';
 
+			// We need both 'click' and 'onClick', because this definition can be used for setting both buttons and menu items.
+			// Button uses 'click' property, menu item uses 'onClick' property.
 			item.onClick = item.onClick || item.click ||  function() {
 				editor.execCommand( this.command, this.commandData );
 			};
+			item.click = item.onClick;
 
 			editor.getCommand( item.command ).on( 'state', function() {
 				var activeCommand = getLastActiveCommands( editor, allItems ), activeButton;

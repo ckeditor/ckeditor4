@@ -8,6 +8,10 @@
 			on: {
 				pluginsLoaded: function( evt ) {
 					var editor = evt.editor,
+						counter = {
+							faceClick: 0,
+							itemClick: 0
+						},
 						items = [ {
 							command: 'bold',
 							icon: 'bold',
@@ -24,23 +28,58 @@
 						}, {
 							command: 'subscript',
 							icon: 'subscript'
-						}, {
-							command: 'superscript',
-							icon: 'superscript'
 						} ];
 
 					editor.ui.add( 'teststylesplit', CKEDITOR.UI_SPLITBUTTON, {
-						label: 'Basic Styles',
 						items: items
 					} );
 
 					editor.ui.add( 'staticface', CKEDITOR.UI_SPLITBUTTON, {
-						label: 'Basic Styles',
 						face: {
 							command: 'bold',
 							icon: 'bold'
 						},
 						items: items
+					} );
+
+					editor.ui.add( 'customclick', CKEDITOR.UI_SPLITBUTTON, {
+						face: {
+							icon: 'underline',
+							click: function() {
+								counter.faceClick++;
+								return counter;
+							}
+						},
+						items: [ {
+							icon: 'superscript',
+							command: 'superscript',
+							onClick: function() {
+								counter.itemClick++;
+							},
+							stateFn: function() {
+								return ( counter.itemClick % 2 ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_ON;
+							}
+						} ]
+					} );
+
+					editor.addCommand( 'customcommand', {
+						exec: function( editor, data ) {
+							var text;
+							if ( data && data.foo ) {
+								text = data.foo;
+							} else {
+								text = 'bar';
+							}
+							editor.editable().setHtml( '<p>' + text + '</p>' );
+						}
+					} );
+
+					editor.ui.add( 'commanddata', CKEDITOR.UI_SPLITBUTTON, {
+						items: [ {
+							icon: 'superscript',
+							command: 'customcommand',
+							commandData: { foo: 'foo' }
+						} ]
 					} );
 				}
 			}
@@ -49,12 +88,13 @@
 
 	bender.test( {
 		tearDown: function() {
-			this.editor.editable().setHtml( '' );
+			this.editor.editable().setHtml( '<p></p>' );
 		},
 		'test split button rendered in toolbar': function() {
 			var splitButton = this.editor.ui.get( 'teststylesplit' ),
 				arrow = CKEDITOR.document.getById( splitButton._.id ),
-				children = arrow.getParent().$.childNodes,
+				children = arrow.getParent().getChildren(),
+				cls,
 				cl,
 				i,
 				item,
@@ -65,9 +105,10 @@
 			assert.isTrue( arrow.getParent().getParent().hasClass( 'cke_toolgroup' ) );
 
 			// Test if each of split button items are represented by buttons in toolbar.
-			for ( i = 0; i < children.length; i++ ) {
-				item = children[ i ];
-				cl = item.classList[ 1 ].substring( 12, item.classList[ 1 ].length );
+			for ( i = 0; i < children.count(); i++ ) {
+				item = children.getItem( i );
+				cls = item.getAttribute( 'class' ).split( ' ' )[ 1 ],
+				cl = cls.substring( 12, cls.length );
 				items[ cl ] = cl;
 			}
 			for ( key in splitButton.items ) {
@@ -89,7 +130,6 @@
 			for ( key in splitButton.items ) {
 				command = this.editor.getCommand( splitButton.items[ key ].command );
 				button = splitButtonElement.findOne( '.cke_button__' + command.name );
-
 				// Test initial state of buttons and commands.
 				assert.isTrue( button.hasClass( 'cke_button_off' ), 'Button should be in `off` state' );
 				assert.isTrue( command.state == CKEDITOR.TRISTATE_OFF, 'Command state should be 2' );
@@ -147,6 +187,58 @@
 					assert.isTrue( face.hasClass( 'cke_button_off' ), 'Button should be in `off` state' );
 				}
 			}
+		},
+		'test custom click and state fn': function() {
+			var splitButton = this.editor.ui.get( 'customclick' ),
+				// arrow = CKEDITOR.document.getById( splitButton._.id ),
+				face = CKEDITOR.document.getById( splitButton.face._.id ),
+				counter = splitButton.face.click(),
+				i;
+
+			// Once we retrieved counter object, lets reset it.
+			counter.faceClick = 0;
+
+			for ( i = 1; i < 5; i++ ) {
+				if ( CKEDITOR.env.ie ) {
+					face.$.onmouseup();
+				} else {
+					face.$.click();
+				}
+				assert.areEqual( i, counter.faceClick );
+			}
+
+			for ( i = 0; i < 5; i++ ) {
+				this.editor.once( 'menuShow', function() {
+					var menu = this.ui.instances.customclick._.menu,
+						menuButton = menu._.element.findOne( '.' + menu.items[ 0 ].className ),
+						expectedClass = ( i % 2 ) ? 'cke_menubutton_off' : 'cke_menubutton_on';
+					assert.isTrue( menuButton.hasClass( expectedClass, 'Command state is 1, menuButton should have class `' + expectedClass + '`.' ) );
+					assert.areEqual( counter.itemClick, i );
+					if ( CKEDITOR.env.ie ) {
+						menuButton.$.onmouseup();
+					} else {
+						menuButton.$.click();
+					}
+				} );
+				splitButton.click( this.editor );
+				splitButton._.menu.show( CKEDITOR.document.getById( splitButton._.id ), 4 );
+			}
+		},
+		'test custom command data': function() {
+			var splitButton = this.editor.ui.get( 'commanddata' ),
+				arrow = CKEDITOR.document.getById( splitButton._.id ),
+				splitButtonElement = arrow.getParent(),
+				button = splitButtonElement.getFirst();
+
+			this.editor.execCommand( 'customcommand' );
+			assert.areSame( this.editor.editable().getHtml().toLowerCase(), '<p>bar</p>' );
+
+			if ( CKEDITOR.env.ie ) {
+				button.$.onmouseup();
+			} else {
+				button.$.click();
+			}
+			assert.areSame( this.editor.editable().getHtml().toLowerCase(), '<p>foo</p>' );
 		}
 	} );
 
@@ -193,8 +285,7 @@
 	function selectBeginningOfEditable( editor ) {
 		var range = editor.createRange(),
 			editable = editor.editable();
-		range.setStart( editable, 0 );
+		range.setStart( editable.getFirst(), 0 );
 		editor.getSelection().selectRanges( [ range ] );
 	}
-
 } )();
