@@ -268,7 +268,7 @@
 			this.editorBot.setHtmlWithSelection( '<p>@Anna^</p>' );
 			mentions._autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			this.editor.editable().findOne( 'p' ).getFirst().setText( '@Annab' );
+			this.editorBot.setHtmlWithSelection( '<p>@Annab^</p>' );
 			mentions._autocomplete.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 			wait();
@@ -292,7 +292,7 @@
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
 			testView( mentions, expectedFeedData );
 
-			this.editor.editable().findOne( 'p' ).getFirst().setText( '@Ann' );
+			this.editorBot.setHtmlWithSelection( '<p>@Ann^</p>' );
 			testView( mentions, expectedFeedData );
 
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
@@ -320,7 +320,7 @@
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
 			testView( mentions, expectedFeedData );
 
-			this.editor.editable().findOne( 'p' ).getFirst().setText( '@Ann' );
+			this.editorBot.setHtmlWithSelection( '<p>@Ann^</p>' );
 			testView( mentions, expectedFeedData );
 
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
