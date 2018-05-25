@@ -147,14 +147,17 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					rectList,
 					rect,
 					rtl = this._.dir == 'rtl';
+
+				// #1451 when opening context menu via keystroke there is no offsetX and Y passed.
 				if ( offsetX === undefined || offsetY === undefined ) {
 					rectList = this._.editor.getSelection().getRanges()[ 0 ].getClientRects();
 					rect = rectList[ rectList.length - 1 ];
 					offsetX = rtl ? rect.left : rect.right;
 					offsetY = rect.bottom;
 				}
-				// When this method is invoked by keystroke (SHIFT + F10) offsetParent is body instead of html, we need to get html, because body styling like margin might influence position of panel
-				if ( offsetParent.$.tagName === 'BODY' ) {
+				// When this method is invoked by keystroke (SHIFT + F10) offsetParent is body instead of html,
+				// we need to get html, because body styling like margin might influence position of panel.
+				if ( offsetParent.getName() === 'body' ) {
 					offsetParent = offsetParent.getParent();
 				}
 
