@@ -143,28 +143,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			 */
 			showBlock: function( name, offsetParent, corner, offsetX, offsetY, callback ) {
 				var panel = this._.panel,
-					block = panel.showBlock( name ),
-					rectList,
-					rect,
-					rtl = this._.dir == 'rtl';
-
-				// #1451 when opening context menu via keystroke there is no offsetX and Y passed.
-				if ( offsetX === undefined || offsetY === undefined ) {
-					rectList = this._.editor.getSelection().getRanges()[ 0 ].getClientRects();
-					if ( rectList.length ) {
-						rect = rectList[ rectList.length - 1 ];
-						offsetX = rtl ? rect.left : rect.right;
-						offsetY = rect.bottom;
-					} else {
-						offsetX = 0;
-						offsetY = 0;
-					}
-				}
-				// When this method is invoked by keystroke (SHIFT + F10) offsetParent is body instead of html,
-				// we need to get html, because body styling like margin might influence position of panel.
-				if ( offsetParent.getName() === 'body' ) {
-					offsetParent = offsetParent.getParent();
-				}
+					block = panel.showBlock( name );
 
 				this._.showBlockParams = [].slice.call( arguments );
 				this.allowBlur( false );
@@ -182,6 +161,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					positionedAncestor = this._.parentElement.getPositionedAncestor(),
 					position = offsetParent.getDocumentPosition( doc ),
 					positionedAncestorPosition = positionedAncestor ? positionedAncestor.getDocumentPosition( doc ) : { x: 0, y: 0 },
+					rtl = this._.dir == 'rtl',
 					left = position.x + ( offsetX || 0 ) - positionedAncestorPosition.x,
 					top = position.y + ( offsetY || 0 ) - positionedAncestorPosition.y;
 
