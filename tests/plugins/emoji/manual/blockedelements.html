@@ -11,8 +11,11 @@
 </div>
 
 <script>
-	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor1', {
+		emoji_blacklistedElements: [ 'h1', 'h2', 'h3' ]
+	} );
 	CKEDITOR.replace( 'editor2', {
-		extraPlugins: 'divarea'
+		extraPlugins: 'divarea',
+		emoji_blacklistedElements: [ 'h1', 'h2', 'h3' ]
 	} );
 </script>
