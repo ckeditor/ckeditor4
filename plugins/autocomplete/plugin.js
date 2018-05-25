@@ -210,12 +210,12 @@
 		this._listeners = [];
 
 		/**
-		 * Template used to render selected dropdown match into an editor.
+		 * Template of markup to be inserted as the autocomplete item gets committed.
 		 *
 		 * You can use {@link CKEDITOR.plugins.autocomplete.model#data data item} properties to customize the template.
 		 *
 		 * ```javascript
-		 * config.outputTemplate = `<a href="/tracker/{ticket}">#{ticket} ({name})</a>`;
+		 * var outputTemplate = `<a href="/tracker/{ticket}">#{ticket} ({name})</a>`;
 		 * ```
 		 *
 		 * @readonly
@@ -350,8 +350,7 @@
 		 * @returns {String} The HTML to insert.
 		 */
 		getHtmlToInsert: function( item ) {
-			return this.outputTemplate ? this.outputTemplate.output( item )
-				: item.name;
+			return this.outputTemplate ? this.outputTemplate.output( item ) : item.name;
 		},
 
 		/**
@@ -548,10 +547,10 @@
 		 *
 		 * You can use {@link CKEDITOR.plugins.autocomplete.model#data data item} properties to customize the template.
 		 *
-		 * A minimal template should be wrapped with HTML `li` element containing `data-id={id}` attribute.
+		 * A minimal template must be wrapped with HTML `li` element containing `data-id="{id}"` attribute.
 		 *
 		 * ```javascript
-		 * autocomplete.itemTemplate: '<li data-id={id}><img src="{iconSrc}" alt="{name}">{name}</li>'
+		 * autocomplete.itemTemplate = '<li data-id="{id}"><img src="{iconSrc}" alt="{name}">{name}</li>';
 		 * ```
 		 *
 		 * @readonly

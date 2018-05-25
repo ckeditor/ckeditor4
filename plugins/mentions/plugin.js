@@ -361,8 +361,6 @@
 	 * When using asynchronous method i.e. backend URL string or a function,
 	 *  you should provide correct object structure containing unique item ID and a name.
 	 *
-	 * You can pass additional information also which can be used to create custom item template.
-	 *
 	 * ```javascript
 	 * // Example of expected results from backend API.
 	 * // `firstName` and `lastName` properties are optional.
@@ -371,28 +369,23 @@
 	 * 		{ id: 2, name: 'tho-mass', firstName: 'Thomas', lastName: 'Doe' },
 	 * 		{ id: 3, name: 'ozzy', firstName: 'John', lastName: 'Doe' }
 	 * ]
-	 *
-	 * // Setting custom item template by utilizing additional `firstname` and `lastname` attributes.
-	 * var definition = {
-	 *	 feed: backendApiFunction,
-	 *	 itemTemplate: '<li data-id="{id}><strong>{name}</strong><i>({firstName} {lastName})</i></li>'
-	 * }
-	 *
 	 * ```
 	 *
 	 * @property {String/String[]/Function} feed
 	 */
 
 	/**
-	 * See {@link CKEDITOR.plugins.autocomplete.view#itemTemplate}.
+	 * A template for autocomplete list item, allowing to customize how entries are displayed.
 	 *
-	 * @property {String} itemTemplate
+	 * See {@link CKEDITOR.plugins.autocomplete.view#itemTemplate} for more information.
+	 *
+	 * @property {String} [itemTemplate]
 	 */
 
 	/**
 	 * See {@link CKEDITOR.plugins.autocomplete#outputTemplate}.
 	 *
-	 * @property {String} outputTemplate
+	 * @property {String} [outputTemplate]
 	 */
 
 	/**

@@ -240,7 +240,8 @@
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			assert.areEqual( '<ul><li class="cke_autocomplete_selected" data-id="1"><strong>anna</strong></li></ul>', bender.tools.compatHtml( ac.view.element.getHtml(), false, true ) );
+			assert.beautified.html( '<ul><li class="cke_autocomplete_selected" data-id="1"><strong>anna</strong></li></ul>',
+				ac.view.element.getHtml() );
 
 			ac.destroy();
 		},
@@ -262,7 +263,7 @@
 			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
 
-			assert.areEqual( '<p><strong>anna</strong></p>', editable.getData() );
+			assert.beautified.html( '<p><strong>anna</strong></p>', editable.getData() );
 
 			ac.destroy();
 		}

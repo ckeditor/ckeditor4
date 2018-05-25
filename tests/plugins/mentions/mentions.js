@@ -378,7 +378,11 @@
 
 			this.createMentionsInstance( {
 				feed: function( opts, callback ) {
-					callback( [ { id: 1, name: 'Anna', surname: 'Doe' } ] );
+					callback( [ {
+						id: 1,
+						name: 'Anna',
+						surname: 'Doe'
+					} ] );
 				},
 				outputTemplate: '<strong>{name} {surname}</strong>'
 			} );

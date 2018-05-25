@@ -8,7 +8,7 @@
 
 ## Expected
 
-Inserted name is bold.
+Inserted name is bolded.
 
 ## Unexpected
 
