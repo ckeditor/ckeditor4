@@ -7,8 +7,10 @@
 
 ## Expected
 
-Dropdown contains **bold** names.
+* Dropdown contains **bolded** names.
+* All are prefixed with "item: " string.
 
 ## Unexpected
 
-Names inside dropdown are plain text.
+* Names inside dropdown are plain text.
+* Names are not prefixed with "item: " string.
