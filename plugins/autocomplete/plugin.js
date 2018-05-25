@@ -155,8 +155,8 @@
 	 * @param {CKEDITOR.plugins.autocomplete.model.item[]} dataCallback.callback.data The suggestion data that should be
 	 * displayed in the autocomplete view for a given query. The data items should implement the
 	 * {@link CKEDITOR.plugins.autocomplete.model.item} interface.
-	 * @param {String} itemTemplate Template for list item in dropdown. See {@link CKEDITOR.plugins.autocomplete.view#itemTemplate} for more information.
-	 * @param {String} outputTemplate Template for match rendering. See {@link #outputTemplate}.
+	 * @param {String} [itemTemplate] Template for list item in dropdown. See {@link CKEDITOR.plugins.autocomplete.view#itemTemplate} for more information.
+	 * @param {String} [outputTemplate] Template for match rendering. See {@link #outputTemplate}.
 	 */
 	function Autocomplete( editor, textTestCallback, dataCallback, itemTemplate, outputTemplate ) {
 		var configKeystroke = editor.config.autocomplete_commitKeystroke || CKEDITOR.config.autocomplete_commitKeystroke;
