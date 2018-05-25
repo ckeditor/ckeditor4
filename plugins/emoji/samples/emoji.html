@@ -69,9 +69,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		<div class="grid-container">
 			<div class="grid-width-100">
 				<div id="editor">
-					<h1>Hello world!</h1>
-					<p>I&#39;m an instance of <a href="https://ckeditor.com">CKEditor</a>.</p>
-					<p>:slightly_smiling_face:</p>
+					<p>This is <code>:slightly_smiling_face:</code> :slightly_smiling_face:</p>
+					<p>Type `:` (colon) to select emoji.</p>
 				</div>
 			</div>
 		</div>
@@ -95,6 +94,24 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 		var editor = CKEDITOR.replace( 'editor', {
 			extraPlugins: 'emoji',
+			toolbarGroups: [
+				{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+				{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+				{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+				{ name: 'forms', groups: [ 'forms' ] },
+				{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+				{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+				{ name: 'links', groups: [ 'links' ] },
+				{ name: 'insert', groups: [ 'insert' ] },
+				{ name: 'colors', groups: [ 'colors' ] },
+				'/',
+				{ name: 'styles', groups: [ 'styles' ] },
+				{ name: 'tools', groups: [ 'tools' ] },
+				{ name: 'others', groups: [ 'others' ] },
+				{ name: 'about', groups: [ 'about' ] }
+			],
+
+			removeButtons: 'Save,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Strike,Subscript,Superscript,CopyFormatting,RemoveFormat,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,BidiRtl,Language,Anchor,Flash,Image,Table,HorizontalRule,Smiley,SpecialChar,Iframe,PageBreak,Maximize,ShowBlocks,About'
 		} );
 
 	} )();
