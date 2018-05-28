@@ -197,7 +197,7 @@
 			}
 
 			setTimeout( function() {
-				CKEDITOR.ajax.load( blobUrl, cb, { responseType: 'arraybuffer' } );
+				CKEDITOR.ajax.load( blobUrl, cb, 'arraybuffer' );
 			}, 0 );
 			wait();
 		}

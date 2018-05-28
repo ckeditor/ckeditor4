@@ -1615,7 +1615,7 @@
 
 				callback( fileType ? 'data:' + fileType + ';base64,' + base64 : '' );
 
-			} , { responseType: 'arraybuffer' } );
+			} , 'arraybuffer' );
 
 		},
 
