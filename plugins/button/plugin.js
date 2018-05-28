@@ -396,7 +396,7 @@
 		 *
 		 * @since 4.10.0
 		 */
-		hideFromToolbar: function() {
+		hide: function() {
 			var element;
 			if ( this._.id ) {
 				element = CKEDITOR.document.getById( this._.id );
@@ -418,12 +418,16 @@
 		 *
 		 * @since 4.10.0
 		 */
-		showInToolbar: function() {
+		show: function() {
 			var element;
-			if ( this._.id && this.hidden ) {
-				element = CKEDITOR.document.getById( this._.id );
+			if ( this.hidden ) {
+				if ( this._.id ) {
+					element = CKEDITOR.document.getById( this._.id );
+					element.removeStyle( 'display' );
+				} else {
+					this.style.replace( /display:\s*none;*/g, '' );
+				}
 				delete this.hidden;
-				element.removeStyle( 'display' );
 			}
 		}
 	};
