@@ -179,12 +179,18 @@
 				}
 			}
 
+			// Method takes blob list (Array of Strings) and when finish processing it, then run callback method.
+			// 1. Remove blob duplicates (if exists).
+			// 2. Count amount of URLs to process.
+			// 3. For each blobUrl calculate its base64 value and store it in map blobUrl as a key and base64 as a value.
+			// 4. If process last blobUrl run replaceBlobUrlsInEditor and after that run callback function.
 			function handleBlobs( blobs, callback ) {
 				var blobUrlsToProcess = removeDuplicates( blobs ),
 					blobUrlsToBase64Map = {},
-					amountOfBlobsToProcess = blobUrlsToProcess.length;
+					amountOfBlobsToProcess = blobUrlsToProcess.length,
+					arrayTools = CKEDITOR.tools.array;
 
-				CKEDITOR.tools.array.forEach( blobUrlsToProcess, function( blobUrl ) {
+				arrayTools.forEach( blobUrlsToProcess, function( blobUrl ) {
 					CKEDITOR.tools.convertBlobUrlToBase64( blobUrl, function( base64 ) {
 						blobUrlsToBase64Map[ blobUrl ] = base64;
 						amountOfBlobsToProcess--;
@@ -195,17 +201,16 @@
 					}, this );
 				}, this );
 
-
 				function removeDuplicates( arr ) {
-					return CKEDITOR.tools.array.filter( arr, function( item, index ) {
-						return index === CKEDITOR.tools.array.indexOf( arr, item );
+					return arrayTools.filter( arr, function( item, index ) {
+						return index === arrayTools.indexOf( arr, item );
 					} );
 				}
 
 				function replaceBlobUrlsInEditor( map ) {
 					for ( var blob in map ) {
 						var nodeList = editor.editable().find( 'img[src="' + blob + '"]' ).toArray();
-						CKEDITOR.tools.array.forEach( nodeList, function( element ) {
+						arrayTools.forEach( nodeList, function( element ) {
 							element.setAttribute( 'src', map[ blob ] );
 							element.setAttribute( 'data-cke-saved-src', map[ blob ] );
 						}, this );
