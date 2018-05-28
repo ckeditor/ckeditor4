@@ -50,14 +50,17 @@
 								return counter;
 							}
 						},
+						onMenu: function() {
+							var activeItems = {};
+							for ( var key in this.items ) {
+								activeItems[ key ] = ( counter.itemClick % 2 ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_ON;
+							}
+							return activeItems;
+						},
 						items: [ {
 							icon: 'superscript',
-							command: 'superscript',
 							onClick: function() {
 								counter.itemClick++;
-							},
-							stateFn: function() {
-								return ( counter.itemClick % 2 ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_ON;
 							}
 						} ]
 					} );
@@ -188,7 +191,7 @@
 				}
 			}
 		},
-		'test custom click and state fn': function() {
+		'test custom click, commandless items and onMenu': function() {
 			var splitButton = this.editor.ui.get( 'customclick' ),
 				// arrow = CKEDITOR.document.getById( splitButton._.id ),
 				face = CKEDITOR.document.getById( splitButton.face._.id ),
