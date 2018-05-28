@@ -47,6 +47,11 @@
 			testView( this.createMentionsInstance( { feed: feedData } ), [] );
 		},
 
+		'test feed with a marker as a part of word': function() {
+			this.editorBot.setHtmlWithSelection( '<p>a@An^</p>' );
+			testView( this.createMentionsInstance( { feed: feedData } ), [] );
+		},
+
 		// (#1934)
 		'test case sensitive array feed without match - lowercase query': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@an^</p>' );
