@@ -60,30 +60,32 @@
 			};
 			item.click = item.onClick;
 
-			editor.getCommand( item.command ).on( 'state', function() {
-				var activeCommand = getLastActiveCommands( editor, allItems ), activeButton;
-				if ( activeCommand ) {
-					activeButton = properties.buttons[ activeCommand.id ];
-				}
+			if ( item.command ) {
+				editor.getCommand( item.command ).on( 'state', function() {
+					var activeCommand = getLastActiveCommands( editor, allItems ), activeButton;
+					if ( activeCommand ) {
+						activeButton = properties.buttons[ activeCommand.id ];
+					}
 
-				if ( !properties.buttons[ defaultButton.id ]._.id ) {
-					// Button without id isn't in DOM tree, eg. when it is in balloon toolbar which didn't show yet.
-					// So don't update anything.
-					return;
-				}
-				if ( previousButton ) {
-					previousButton.hideFromToolbar();
-				}
+					if ( !properties.buttons[ defaultButton.id ]._.id ) {
+						// Button without id isn't in DOM tree, eg. when it is in balloon toolbar which didn't show yet.
+						// So don't update anything.
+						return;
+					}
+					if ( previousButton ) {
+						previousButton.hide();
+					}
 
-				if ( activeButton ) {
-					defaultButton.hideFromToolbar();
-					activeButton.showInToolbar();
-					previousButton = activeButton;
-				} else {
-					defaultButton.showInToolbar();
-					previousButton = defaultButton;
-				}
-			} );
+					if ( activeButton ) {
+						defaultButton.hide();
+						activeButton.show();
+						previousButton = activeButton;
+					} else {
+						defaultButton.show();
+						previousButton = defaultButton;
+					}
+				} );
+			}
 
 			properties.items[ item.id ] = item;
 			properties.buttons[ item.id ] = new CKEDITOR.ui.button( CKEDITOR.tools.extend( {
@@ -98,10 +100,10 @@
 				defaultButton = properties.buttons[ item.id ];
 			} else {
 				if ( item[ 'default' ] ) {
-					defaultButton && defaultButton.hideFromToolbar();
+					defaultButton && defaultButton.hide();
 					defaultButton = properties.buttons[ item.id ];
 				} else {
-					properties.buttons[ item.id ].hideFromToolbar();
+					properties.buttons[ item.id ].hide();
 				}
 			}
 		}
@@ -127,7 +129,9 @@
 				 * @param {Object} definition The splitButton definition.
 				 */
 				$: function( definition ) {
-					var properties = createButtons( editor, definition, this );
+					var properties = createButtons( editor, definition, this ),
+						onMenu,
+						context;
 
 					if ( !definition.onMenu ) {
 						definition.onMenu = function() {
@@ -136,6 +140,12 @@
 								activeItems[ i ] = ( editor.getCommand( properties.items[ i ].command ).state === CKEDITOR.TRISTATE_ON ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
 							}
 							return activeItems;
+						};
+					} else {
+						onMenu = definition.onMenu;
+						context = this;
+						definition.onMenu = function() {
+							return onMenu.apply( context, arguments );
 						};
 					}
 
