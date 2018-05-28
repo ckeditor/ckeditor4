@@ -36,12 +36,6 @@
 					label: item.charAt( 0 ).toUpperCase() + item.substr( 1 ),
 					command: 'underlinestyle',
 					commandData: { style: item },
-					stateFn: function() {
-						if ( editor.elementPath() ) {
-							return styles[ this.commandData.style ].checkActive( editor.elementPath(), editor ) ?
-								CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
-						}
-					},
 					icon: 'underline'
 				};
 			} );
@@ -65,6 +59,20 @@
 					label: 'Underline',
 					command: 'underlinestyle',
 					icon: 'underline'
+				},
+				onMenu: function( start, selection ) {
+					var activeItems = {},
+						editor = selection.root.editor,
+						style;
+						for ( var key in this.items ) {
+							style = styles[ this.items[ key ].commandData.style ];
+							if ( editor.elementPath() ) {
+								activeItems[ key ] = style.checkActive( editor.elementPath(), editor ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+							} else {
+								activeItems[ key ] = CKEDITOR.TRISTATE_DISABLED;
+							}
+						}
+					return activeItems;
 				},
 				items: items
 			} );
