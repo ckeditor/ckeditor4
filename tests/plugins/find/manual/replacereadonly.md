@@ -1,4 +1,4 @@
-@bender-tags: find, feature, 4.8.0
+@bender-tags: find, feature, 4.10.0
 @bender-ui: collapsed
 @bender-ckeditor-plugins: find, wysiwygarea, toolbar
 
