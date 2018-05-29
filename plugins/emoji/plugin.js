@@ -37,6 +37,12 @@
 			} );
 
 			editor.on( 'toHtml', function( evt ) {
+				var sel = evt.editor.getSelection();
+				// We want to prevent embedding emoji inside wrong context, e.g. paste :emoji: inside <pre>
+				if ( sel && !isEmojiAllowed( sel.getRanges()[ 0 ] ) ) {
+					return;
+				}
+
 				var filter = new CKEDITOR.htmlParser.filter( {
 					text: function( value, element ) {
 						var preventEmojiConversion = element.getAscendant( hasForbiddenParent );
@@ -62,7 +68,7 @@
 
 			function getTextTestCallback() {
 				return function( range ) {
-					if ( !range.collapsed || range.startContainer.getAscendant( hasForbiddenParent ) ) {
+					if ( !range.collapsed || !isEmojiAllowed( range ) ) {
 						return null;
 					}
 					return CKEDITOR.plugins.textMatch.match( range, matchCallback );
@@ -100,18 +106,23 @@
 				callback( data );
 			}
 
-			function hasForbiddenParent( element ) {
-				if ( element.type === CKEDITOR.NODE_TEXT ) {
+			function isEmojiAllowed( range ) {
+				var elementsPath,
+					editable = editor.editable();
+				if ( range ) {
+					elementsPath = new CKEDITOR.dom.elementPath( range.startContainer, editable );
+					return elementsPath.contains( forbiddenScope ) ? false : true;
+				} else {
+					return true;
+				}
+			}
+
+			function hasForbiddenParent( htmlParserNode ) {
+				if ( htmlParserNode.type === CKEDITOR.NODE_TEXT ) {
 					return false;
 				}
 
-				var elementName = element instanceof CKEDITOR.htmlParser.element ?
-						element.name :
-						element instanceof CKEDITOR.dom.element ?
-							element.getName() :
-							null;
-
-				if ( elementName && CKEDITOR.tools.array.indexOf( forbiddenScope, elementName ) !== -1 ) {
+				if ( htmlParserNode.name && CKEDITOR.tools.array.indexOf( forbiddenScope, htmlParserNode.name ) !== -1 ) {
 					return true;
 				} else {
 					return false;
