@@ -133,6 +133,12 @@
 			textMatcher.check( getKeyEvent( keyName, 17 ) ); // Ctrl
 			textMatcher.check( getKeyEvent( keyName, 18 ) ); // Alt
 			textMatcher.check( getKeyEvent( keyName, 91 ) ); // Cmd
+			textMatcher.check( getKeyEvent( keyName, 35 ) ); // End
+			textMatcher.check( getKeyEvent( keyName, 36 ) ); // Home
+			textMatcher.check( getKeyEvent( keyName, 37 ) ); // Left
+			textMatcher.check( getKeyEvent( keyName, 38 ) ); // Up
+			textMatcher.check( getKeyEvent( keyName, 39 ) ); // Right
+			textMatcher.check( getKeyEvent( keyName, 40 ) ); // Down
 
 			assert.isTrue( callbackSpy.notCalled );
 		},
