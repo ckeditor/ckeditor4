@@ -687,6 +687,25 @@
 			}, 100 );
 		},
 
+		'test throttle always uses the most recent argument': function() {
+			var input = sinon.stub(),
+				buffer = CKEDITOR.tools.throttle( 50, input );
+
+			buffer.input( 'first' );
+
+			assert.areSame( 1, input.callCount, 'Call count after the first call' );
+			sinon.assert.calledWithExactly( input.getCall( 0 ), 'first' );
+
+			buffer.input( 'second' );
+
+			buffer.input( 'third' );
+
+			wait( function() {
+				assert.areSame( 2, input.callCount, 'Call count after the timeout' );
+				sinon.assert.calledWithExactly( input.getCall( 1 ), 'third' );
+			}, 100 );
+		},
+
 		'test throttle.reset': function() {
 			var output = 0,
 				buffer = CKEDITOR.tools.throttle( 100, function() {
