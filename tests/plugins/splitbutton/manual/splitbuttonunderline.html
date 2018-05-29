@@ -54,7 +54,7 @@
 				);
 			} );
 
-			editor.ui.add( 'Underlinesplit', CKEDITOR.UI_SPLITBUTTON, {
+			editor.ui.add( 'UnderlineSplit', CKEDITOR.UI_SPLITBUTTON, {
 				face: {
 					label: 'Underline',
 					command: 'underlinestyle',
@@ -65,11 +65,12 @@
 						editor = selection.root.editor,
 						style;
 						for ( var key in this.items ) {
+							var commandDisabled = editor.getCommand( this.items[ key ].command ).state === CKEDITOR.TRISTATE_DISABLED;
 							style = styles[ this.items[ key ].commandData.style ];
-							if ( editor.elementPath() ) {
+							if ( editor.elementPath() && !commandDisabled ) {
 								activeItems[ key ] = style.checkActive( editor.elementPath(), editor ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
 							} else {
-								activeItems[ key ] = CKEDITOR.TRISTATE_DISABLED;
+								activeItems[ key ] = commandDisabled ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF;
 							}
 						}
 					return activeItems;
@@ -90,7 +91,7 @@
 
 	CKEDITOR.replace( 'editor', {
 		extraPlugins: 'underlinesplit',
-		toolbar: [ [ 'Source', 'Underlinesplit' ] ],
+		toolbar: [ [ 'Source', 'UnderlineSplit' ] ],
 		extraAllowedContent: 'u{text-decoration-style}'
 	} );
 </script>
