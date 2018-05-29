@@ -7,6 +7,10 @@
 
 ## Test case #2:
 1. Copy-paste emoji. You can use table below test cases.
+1. Please try to paste emoji inside blacklisted elements, which are `<pre>` and `<code>` for this test.
+
+### Expected TC#2:
+Emoji are converted in allowed places, and remain untrasformed inside blacklisted elements.
 
 ## Test case #3:
 1. Move selection to `Formatted` section.
