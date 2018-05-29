@@ -120,7 +120,9 @@
 			37, // Left
 			38, // Up
 			39, // Right
-			40 // Down
+			40, // Down
+			33, // PageUp
+			34 // PageUp
 		];
 
 		/**

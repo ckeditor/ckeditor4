@@ -14,6 +14,8 @@
 * `arrowDown`
 * `end`
 * `home`
+* `pageUp`
+* `pageDown`
 
 ## Expected
 

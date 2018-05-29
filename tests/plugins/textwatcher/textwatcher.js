@@ -138,7 +138,9 @@
 			textMatcher.check( getKeyEvent( keyName, 37 ) ); // Left
 			textMatcher.check( getKeyEvent( keyName, 38 ) ); // Up
 			textMatcher.check( getKeyEvent( keyName, 39 ) ); // Right
-			textMatcher.check( getKeyEvent( keyName, 40 ) ); // Down
+			textMatcher.check( getKeyEvent( keyName, 39 ) ); // Right
+			textMatcher.check( getKeyEvent( keyName, 33 ) ); // PageUp
+			textMatcher.check( getKeyEvent( keyName, 34 ) ); // PageDown
 
 			assert.isTrue( callbackSpy.notCalled );
 		},
