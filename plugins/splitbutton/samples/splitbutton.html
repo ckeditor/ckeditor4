@@ -75,12 +75,13 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	</div>
 </footer>
 <script type="text/javascript" src="./sampleplugins/justifysplit.js"></script>
+<script type="text/javascript" src="sampleplugins/underlinesplit.js"></script>
 <script>
 		CKEDITOR.replace( 'editor', {
-			plugins: 'sourcearea,toolbar,undo,wysiwygarea,list,justifysplit,format,link,basicstyles,splitbutton',
+			plugins: 'sourcearea,toolbar,undo,wysiwygarea,list,justifysplit,underlinesplit,format,link,basicstyles,splitbutton',
 			toolbar: [
 				{ name: 'document', items: [ 'Source', 'Undo', 'Redo' ] },
-				{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike' ] },
+				{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike', 'UnderlineSplit' ] },
 				{ name: 'align', items: [ 'JustifySplit' ] },
 				{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList' ] }
 			],
