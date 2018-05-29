@@ -52,7 +52,7 @@
 	}
 
 	function findDialog( editor ) {
-		// Style object for highlights: (http://dev.ckeditor.com/ticket/5018)
+		// Style object for highlights: (https://dev.ckeditor.com/ticket/5018)
 		// 1. Defined as full match style to avoid compromising ordinary text color styles.
 		// 2. Must be apply onto inner-most text to avoid conflicting with ordinary text color styles visually.
 		var highlightConfig = {
