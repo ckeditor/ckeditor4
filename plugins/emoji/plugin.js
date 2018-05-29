@@ -9,7 +9,7 @@
 	'use strict';
 
 	CKEDITOR.plugins.add( 'emoji', {
-		requires: 'autocomplete,textmatch,ajax',
+		requires: 'autocomplete,textmatch',
 		init: function( editor ) {
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				return;
@@ -24,7 +24,7 @@
 			}
 			var emoji = editor._.emojiList,
 				forbiddenScope = editor.config.emoji_blacklistedElements || [ 'pre', 'code' ],
-				charactersToStart = editor.config.emoji_minChar || 0;
+				charactersToStart = editor.config.emoji_minChars || 2;
 
 			editor.on( 'instanceReady', function() {
 				var emoji = new CKEDITOR.plugins.autocomplete( editor, getTextTestCallback(), dataCallback );
@@ -126,10 +126,11 @@
 /**
  * Array with names of tags where emoji plugin remain inactive.
  *
- * ```
+ * ```js
  * 	editor.emoji_blacklistedElements = [ 'h1', 'h2' ];
  * ```
  *
+ * @since 4.10.0
  * @cfg {String[]} [emoji_blacklistedElements = [ 'pre', 'code' ]]
  * @member CKEDITOR.config
  */
@@ -138,10 +139,11 @@
  * Number which defines how many characters is required to start displaying emoji's autocomplete suggestion box.
  * Delimiter `:`, which activates emoji's suggestion box, is not included into this value.
  *
- * ```
- * 	editor.emoji_minChar = 2;
+ * ```js
+ * 	editor.emoji_minChars = 0; // Emoji suggestion box appear after typing ':'.
  * ```
  *
- * @cfg {Number} [emoji_minChar = 0]
+ * @since 4.10.0
+ * @cfg {Number} [emoji_minChars = 2]
  * @member CKEDITOR.config
  */
