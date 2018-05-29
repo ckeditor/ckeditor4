@@ -516,6 +516,10 @@
 		 * @param {CKEDITOR.eventInfo} evt
 		 */
 		onTextUnmatched: function() {
+			// Remove query and request id to avoid opening view for invalid callback (#1984).
+			this.model.query = null;
+			this.model.lastRequestId = null;
+
 			this.close();
 		}
 	};
