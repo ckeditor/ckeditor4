@@ -66,6 +66,7 @@
 			ac.destroy();
 		},
 
+		// (#2031)
 		'test mouseover changes selected item': function() {
 			var editor = this.editors.standard,
 				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
@@ -86,6 +87,37 @@
 			assert.isTrue( target.hasClass( 'cke_autocomplete_selected' ) );
 
 			ac.destroy();
+		},
+
+		// (#1984)
+		'test view is not opened after unmatch': function() {
+			var editor = this.editors.standard,
+				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, function( query, range, callback ) {
+
+					setTimeout( function() {
+						callback( [ { id: 1, name: 'test' } ] );
+					}, 100 );
+
+				} );
+
+			this.editorBots.standard.setHtmlWithSelection( 'foo' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			ac.textWatcher.fire( 'unmatched' );
+
+			setTimeout( function() {
+
+				resume( function() {
+					assertViewOpened( ac, false );
+					assert.isNull( ac.model.data );
+
+					ac.destroy();
+				} );
+
+			}, 150 );
+
+			wait();
 		},
 
 		'test arrow down selects next item': function() {
