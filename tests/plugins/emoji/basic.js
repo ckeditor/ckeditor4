@@ -15,6 +15,15 @@
 			creator: 'replace',
 			name: 'classic',
 			startupData: '<p>foo:grinning_face:bar :not_emoji:</p>'
+		},
+		divarea: {
+			creator: 'replace',
+			name: 'divarea',
+			startupData: '<p>foo:grinning_face:bar :not_emoji:</p>',
+			config: {
+				extraPlugins: 'divarea',
+				emoji_blacklistedElements: [ 'section', 'pre', 'code' ]
+			}
 		}
 	};
 
