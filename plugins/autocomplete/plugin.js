@@ -117,8 +117,8 @@
 	 *			// Change the positioning of the panel, so it is stretched
 	 *			// to 100% of the editor container width and is positioned
 	 *			// relative to the editor container.
-	 *			CustomView.prototype.updatePosition = function() {
-	 *				var caretRect = this.getCaretRect(),
+	 *			CustomView.prototype.updatePosition = function( range ) {
+	 *				var caretRect = this.getViewStartPosition( range ),
 	 *					container = this.editor.container;
 	 *
 	 *				this.setPosition( {
@@ -672,18 +672,20 @@
 		},
 
 		/**
-		 * Returns the caret position relative to the panel's offset parent.
+		 * Returns the view position relative to the panel's offset parent.
+		 *
+		 * Indicates the start position of the autocomplete dropdown.
 		 * The value returned by this function is passed to the {@link #setPosition} method
 		 * by the {@link #updatePosition} method.
 		 *
+		 * @param {CKEDITOR.dom.range} range The range of text match.
 		 * @returns {Object} Represents the position of the caret.
 		 * @returns {Number} rect.left
 		 * @returns {Number} rect.top
 		 * @returns {Number} rect.bottom
 		 */
-		getCaretRect: function( range ) {
-			var caretClientRect = range
-				.getClientRects()[ 0 ],
+		getViewStartPosition: function( range ) {
+			var viewPositionRect = range.getClientRects()[ 0 ],
 				offset,
 				editable = this.editor.editable();
 
@@ -706,9 +708,9 @@
 			offset.y -= offsetCorrection.y;
 
 			return {
-				top: ( caretClientRect.top + offset.y ),
-				bottom: ( caretClientRect.top + caretClientRect.height + offset.y ),
-				left: ( caretClientRect.left + offset.x )
+				top: ( viewPositionRect.top + offset.y ),
+				bottom: ( viewPositionRect.top + viewPositionRect.height + offset.y ),
+				left: ( viewPositionRect.left + offset.x )
 			};
 		},
 
@@ -904,7 +906,7 @@
 			range = range.clone();
 			range.collapse( true );
 
-			this.setPosition( this.getCaretRect( range ) );
+			this.setPosition( this.getViewStartPosition( range ) );
 		}
 	};
 

@@ -103,8 +103,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 				// Change the positioning of the panel, so it is stretched
 				// to 100% of the editor container width and is positioned
 				// according to the editor container.
-				CustomView.prototype.updatePosition = function() {
-					var caretRect = this.getCaretRect(),
+				CustomView.prototype.updatePosition = function( range ) {
+					var caretRect = this.getViewStartPosition( range ),
 						container = this.editor.container;
 
 					this.setPosition( {
