@@ -8,11 +8,11 @@
 
 **Movement keys:** 
 
-* `arrowLeft` 
-* `arrowRight` 
-* `arrowUp` 
-* `arrowDown` 
-* `end` 
+* `arrowLeft`
+* `arrowRight`
+* `arrowUp`
+* `arrowDown`
+* `end`
 * `home`
 
 ## Expected
