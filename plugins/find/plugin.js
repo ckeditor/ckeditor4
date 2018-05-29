@@ -11,11 +11,14 @@ CKEDITOR.plugins.add( 'find', {
 	icons: 'find,find-rtl,replace', // %REMOVE_LINE_CORE%
 	hidpi: true, // %REMOVE_LINE_CORE%
 	init: function( editor ) {
-		var findCommand = editor.addCommand( 'find', new CKEDITOR.dialogCommand( 'find' ) );
+		var findCommand = editor.addCommand( 'find', new CKEDITOR.dialogCommand( 'find' ) ),
+			replaceCommand = editor.addCommand( 'replace', new CKEDITOR.dialogCommand( 'find', {
+				tabId: 'replace'
+			} ) );
+
 		findCommand.canUndo = false;
 		findCommand.readOnly = 1;
 
-		var replaceCommand = editor.addCommand( 'replace', new CKEDITOR.dialogCommand( 'replace' ) );
 		replaceCommand.canUndo = false;
 
 		if ( editor.ui.addButton ) {
@@ -33,7 +36,6 @@ CKEDITOR.plugins.add( 'find', {
 		}
 
 		CKEDITOR.dialog.add( 'find', this.path + 'dialogs/find.js' );
-		CKEDITOR.dialog.add( 'replace', this.path + 'dialogs/find.js' );
 	}
 } );
 

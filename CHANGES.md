@@ -3,6 +3,10 @@
 
 ## CKEditor 4.10
 
+**Important Notes:**
+
+* [#850](https://github.com/ckeditor/ckeditor-dev/issues/850): Replaced `replace` dialog from [Find / Replace](https://ckeditor.com/cke4/addon/find) plugin with `tabId` option in `find` command.
+
 New Features:
 
 * [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin supports email links.
