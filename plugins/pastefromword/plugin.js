@@ -185,13 +185,13 @@
 			// 3. For each blobUrl calculate its base64 value and store it in map blobUrl as a key and base64 as a value.
 			// 4. If process last blobUrl run replaceBlobUrlsInEditor and after that run callback function.
 			function handleBlobs( blobs, callback ) {
-				var blobUrlsToProcess = removeDuplicates( blobs ),
+				var arrayTools = CKEDITOR.tools.array,
+					blobUrlsToProcess = removeDuplicates( blobs ),
 					blobUrlsToBase64Map = {},
-					amountOfBlobsToProcess = blobUrlsToProcess.length,
-					arrayTools = CKEDITOR.tools.array;
+					amountOfBlobsToProcess = blobUrlsToProcess.length;
 
 				arrayTools.forEach( blobUrlsToProcess, function( blobUrl ) {
-					CKEDITOR.tools.convertBlobUrlToBase64( blobUrl, function( base64 ) {
+					CKEDITOR.ajax.convertBlobUrlToBase64( blobUrl, function( base64 ) {
 						blobUrlsToBase64Map[ blobUrl ] = base64;
 						amountOfBlobsToProcess--;
 						if ( amountOfBlobsToProcess === 0 ) {

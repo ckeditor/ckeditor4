@@ -1597,29 +1597,6 @@
 		},
 
 		/**
-		 * Converts blob url into base64 string. Function requires {@link CKEditor.ajax} to proper work. Conversion has happened asynchronously.
-		 * Currently supported file types: `image/png`, `image/jpeg`, `image/gif`.
-		 *
-		 * @since 4.10.0
-		 * @param {String} blobUrlSrc Address of blob which is going to be converted
-		 * @param {Function} callback Function execute when blob url will be converted.
-		 * @param {String} callback.dataUri data uri represent transformed blobUrl or empty string file type was unrecognized.
-		 */
-
-		convertBlobUrlToBase64: function( blobUrlSrc, callback ) {
-			CKEDITOR.ajax.load( blobUrlSrc, function( arrayBuffer ) {
-				var data = new Uint8Array( arrayBuffer );
-				var fileType = CKEDITOR.tools.getFileTypeFromHeader( data.subarray( 0, 4 ) );
-
-				var base64 = CKEDITOR.tools.convertBytesToBase64( data );
-
-				callback( fileType ? 'data:' + fileType + ';base64,' + base64 : '' );
-
-			} , 'arraybuffer' );
-
-		},
-
-		/**
 		 * Return file type based on first 4 bytes of given file. Currently supported file types: `image/png`, `image/jpeg`, `image/gif`.
 		 *
 		 * @since 4.10.0

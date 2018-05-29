@@ -192,6 +192,26 @@
 			 */
 			loadXml: function( url, callback ) {
 				return load( url, callback, 'xml' );
+			},
+
+			/**
+			 * Converts blob url into base64 string. Conversion is happening asynchronously.
+			 * Currently supported file types: `image/png`, `image/jpeg`, `image/gif`.
+			 *
+			 * @since 4.10.0
+			 * @param {String} blobUrlSrc Address of blob which is going to be converted
+			 * @param {Function} callback Function to execute when blob url is be converted.
+			 * @param {String} callback.dataUri data uri represent transformed blobUrl or empty string file type was unrecognized.
+			 */
+			convertBlobUrlToBase64: function( blobUrlSrc, callback ) {
+				load( blobUrlSrc, function( arrayBuffer ) {
+					var data = new Uint8Array( arrayBuffer ),
+						fileType = CKEDITOR.tools.getFileTypeFromHeader( data.subarray( 0, 4 ) ),
+						base64 = CKEDITOR.tools.convertBytesToBase64( data );
+
+					callback( fileType ? 'data:' + fileType + ';base64,' + base64 : '' );
+
+				} , 'arraybuffer' );
 			}
 		};
 	} )();
