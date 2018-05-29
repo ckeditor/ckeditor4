@@ -2,12 +2,13 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, elementspath, sourcearea, emoji, clipboard, undo
 @bender-ui: collapsed
 
-1. Start typing emoji name
+1. Type `:` (colon) in editor only, it should activate suggestion box of emoji in editor with list of all emojis.
 
-**Expected:** Autocomplete should be visible after inserting 2 characters excluding colon [:] ( for example after typing  `:fa` ).
+## Expected:
+Autocomplete suggestion box should be visible after inserting `:`.
 
-
-Example emoji:
+----
+## Example emoji:
 
 | name | symbol |
 | ---: | --- |
