@@ -2,15 +2,16 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, elementspath, sourcearea, emoji, clipboard, undo, format, stylescombo
 @bender-ui: collapsed
 
+1. It is required to type at lest 2 characters with emoji name to show up a suggestion box. E.g `:fa`.
 1. Try to add emoji inside `h1`, `h2` or `h3`.
 1. Try to add emoji in `Formatted` format and `Computer code` style.
 
-**Expected:**
+## Expected:
   * Emoji should not be added in any of mentioned headers.
   * Emoji should be possible to add in `Formatted` and `Computer code` styles.
 
-
-Example emoji:
+----
+## Example emoji:
 
 | name | symbol |
 | ---: | --- |
