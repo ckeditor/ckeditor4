@@ -182,6 +182,7 @@
 			wait();
 		},
 
+		// (#1134)
 		'test load async arraybuffer': function() {
 			if ( typeof Blob !== 'function' || typeof Uint8Array !== 'function' || typeof URL !== 'function' ) {
 				assert.ignore();
@@ -202,7 +203,7 @@
 			wait();
 		},
 
-		// #1134
+		// (#1134)
 		'test convertBlobUrlToBase64': function() {
 			if ( typeof Uint8Array !== 'function' || typeof Blob !== 'function' || typeof URL !== 'function' ) {
 				assert.ignore();
