@@ -55,6 +55,7 @@
 			if ( !checkStatus( xhr ) ) {
 				return null;
 			}
+
 			switch ( type ) {
 				case 'text':
 					return xhr.responseText;
@@ -76,7 +77,7 @@
 			if ( !xhr )
 				return null;
 
-			if ( responseType === 'arraybuffer' ) {
+			if ( async && responseType !== 'text' && responseType !== 'xml' ) {
 				xhr.responseType = responseType;
 			}
 
@@ -136,16 +137,15 @@
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded
 			 * synchronously. Please notice that only text data might be loaded synchrnously.
-			 * @param {String} [responseType] Defines type of returned data. Currently supports: `text`, `xml`, `arraybuffer` other values will fallback to text response.
-			 * @returns {String} The loaded data. For asynchronous requests, an
+			 * @param {String} [responseType='text'] Defines type of returned data.
+			 * Currently supports: `text`, `xml`, `arraybuffer`. This parameter was added in 4.10.
+			 * @returns {String/null} The loaded data. For asynchronous requests, an
 			 * empty string. For invalid requests, `null`.
 			 */
 			load: function( url, callback, responseType ) {
-				if ( responseType ) {
-					return load( url, callback, responseType );
-				} else {
-					return load( url, callback, 'text' );
-				}
+				responseType = responseType || 'text';
+
+				return load( url, callback, responseType );
 			},
 
 			/**
