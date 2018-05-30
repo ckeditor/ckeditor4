@@ -1,6 +1,7 @@
 @bender-tags: 4.10.0, feature, tp3560
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, autocomplete
+@bender-include: _helpers/utils.js
 
 1. Focus the editor.
 1. Type `@`.
