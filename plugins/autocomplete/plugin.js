@@ -259,7 +259,8 @@
 			this._listeners.push( this.textWatcher.on( 'matched', this.onTextMatched, this ) );
 			this._listeners.push( this.textWatcher.on( 'unmatched', this.onTextUnmatched, this ) );
 			this._listeners.push( this.model.on( 'change-data', this.onData, this ) );
-			this._listeners.push( this.model.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
+			this._listeners.push( this.model.on( 'change-selectedItemId', this.onModelItemChange, this ) );
+			this._listeners.push( this.view.on( 'change-selectedItemId', this.onViewItemChange, this ) );
 			this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
 
 			// Update view position on viewport change.
@@ -487,11 +488,21 @@
 
 		/**
 		 * The function registered by the {@link #attach} method as the
+		 * {@link CKEDITOR.plugins.autocomplete.view#change-selectedItemId} event listener.
+		 *
+		 * @param {CKEDITOR.eventInfo} evt
+		 */
+		onViewItemChange: function( evt ) {
+			this.model.setItem( evt.data );
+		},
+
+		/**
+		 * The function registered by the {@link #attach} method as the
 		 * {@link CKEDITOR.plugins.autocomplete.model#change-selectedItemId} event listener.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
 		 */
-		onSelectedItemId: function( evt ) {
+		onModelItemChange: function( evt ) {
 			this.view.selectItem( evt.data );
 		},
 
@@ -636,6 +647,18 @@
 				if ( itemElement ) {
 					this.fire( 'click-item', itemElement.data( 'id' ) );
 				}
+			}, this );
+
+			this.element.on( 'mouseover', function( evt ) {
+				var target = evt.data.getTarget();
+
+				if ( this.element.contains( target ) ) {
+					var itemId = target.data( 'id' );
+
+					this.selectItem( itemId );
+					this.fire( 'change-selectedItemId', itemId );
+				}
+
 			}, this );
 		},
 
@@ -1052,17 +1075,26 @@
 		},
 
 		/**
+		 * Sets the {@link #selectedItemId} property.
+		 *
+		 * @param {Number/String} itemId
+		 */
+		setItem: function( itemId ) {
+			if ( this.getIndexById( itemId ) < 0 ) {
+				throw new Error( 'Item with given id does not exist' );
+			}
+
+			this.selectedItemId = itemId;
+		},
+
+		/**
 		 * Selects an item. Sets the {@link #selectedItemId} property and
 		 * fires the {@link #change-selectedItemId} event.
 		 *
 		 * @param {Number/String} itemId
 		 */
 		select: function( itemId ) {
-			if ( this.getIndexById( itemId ) < 0 ) {
-				throw new Error( 'Item with given id does not exist' );
-			}
-
-			this.selectedItemId = itemId;
+			this.setItem( itemId );
 			this.fire( 'change-selectedItemId', itemId );
 		},
 
