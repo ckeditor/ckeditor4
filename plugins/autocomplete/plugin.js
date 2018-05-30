@@ -358,7 +358,8 @@
 		 * @returns {String} The HTML to insert.
 		 */
 		getHtmlToInsert: function( item ) {
-			return this.outputTemplate ? this.outputTemplate.output( item ) : item.name;
+			var encodedItem = encodeItem( item );
+			return this.outputTemplate ? this.outputTemplate.output( encodedItem ) : encodedItem.name;
 		},
 
 		/**
@@ -668,7 +669,8 @@
 		 * @returns {CKEDITOR.dom.element}
 		 */
 		createItem: function( item ) {
-			return CKEDITOR.dom.element.createFromHtml( this.itemTemplate.output( item ), this.document );
+			var encodedItem = encodeItem( item );
+			return CKEDITOR.dom.element.createFromHtml( this.itemTemplate.output( encodedItem ), this.document );
 		},
 
 		/**
@@ -1240,6 +1242,13 @@
 	// follow the default code path.
 	function iOSViewportElement( editor ) {
 		return editor.window.getFrame().getParent();
+	}
+
+	function encodeItem( item ) {
+		return CKEDITOR.tools.array.reduce( CKEDITOR.tools.objectKeys( item ), function( cur, key ) {
+			cur[ key ] = CKEDITOR.tools.htmlEncode( item[ key ] );
+			return cur;
+		}, {} );
 	}
 
 } )();
