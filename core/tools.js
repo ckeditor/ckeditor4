@@ -583,46 +583,51 @@
 		 * Throttles `input` events (or any `input` calls)
 		 * and triggers `output` not more often than once per `minInterval`.
 		 *
-		 * After each `input` scheduled `output` will be destroyed and replaced with
-		 * new one. It gives you the opportunity to modify passed parameters into `input` function and get
-		 * different results.
+		 * If multiple calls occur within a single `minInterval` time, the most recent `input` call with its arguments will be used to schedule next `output` call,
+		 *  and the previous `output` call will be discarded.
 		 *
-		 *		var buffer = CKEDITOR.tools.throttle( 200, function( message ) {
-		 *			console.log( message );
-		 *		} );
+		 * The first `input` call is always executed asynchronously which means that `output` call will be executed immediately.
 		 *
-		 *		buffer.input( 'foo!' );
-		 *		// 'foo!' logged immediately.
-		 *		buffer.input( 'buz!' );
-		 *		// Nothing logged.
-		 *		buffer.input( 'bar!' );
-		 *		// Nothing logged.
-		 *		// ... after 200ms a single 'bar!' will be logged.
+		 * ```javascript
+		 *	var buffer = CKEDITOR.tools.throttle( 200, function( message ) {
+		 *		console.log( message );
+		 *	} );
+		 *
+		 *	buffer.input( 'foo!' );
+		 *	// 'foo!' logged immediately.
+		 *	buffer.input( 'baz!' );
+		 *	// Nothing logged.
+		 *	buffer.input( 'bar!' );
+		 *	// Nothing logged.
+		 *	// … after 200ms a single 'bar!' will be logged.
+		 * ```
 		 *
 		 * Can be easily used with events:
 		 *
-		 *		var buffer = CKEDITOR.tools.throttle( 200, function( evt ) {
-		 *			console.log( evt.data.text );
-		 *		} );
+		 * ```javascript
+		 *	var buffer = CKEDITOR.tools.throttle( 200, function( evt ) {
+		 *		console.log( evt.data.text );
+		 *	} );
 		 *
-		 *		editor.on( 'key', buffer.input );
-		 *		// Note: There is no need to bind buffer as a context.
+		 *	editor.on( 'key', buffer.input );
+		 *	// Note: There is no need to bind buffer as a context.
+		 * ```
 		 *
 		 * @since 4.10.0
 		 * @param {Number} minInterval Minimum interval between `output` calls in milliseconds.
 		 * @param {Function} output Function that will be executed as `output`.
-		 * @param {Object} [scopeObj] The object used to scope the listener call (the `this` object).
+		 * @param {Object} [contextObj] The object used to context the listener call (the `this` object).
 		 * @returns {Object}
 		 * @returns {Function} return.input Buffer's input method.
 		 * Accepts parameters which will be directly passed into `output` function.
 		 * @returns {Function} return.reset Resets buffered events &mdash; `output` will not be executed
 		 * until next `input` is triggered.
 		 */
-		throttle: function( minInterval, output, scopeObj ) {
+		throttle: function( minInterval, output, contextObj ) {
 			var scheduled,
 				lastOutput = 0;
 
-			scopeObj = scopeObj || {};
+			contextObj = contextObj || {};
 
 			return {
 				input: input,
@@ -651,7 +656,7 @@
 					lastOutput = ( new Date() ).getTime();
 					scheduled = false;
 
-					output.apply( scopeObj, args );
+					output.apply( contextObj, args );
 				}
 			}
 
@@ -1273,45 +1278,50 @@
 		 * Buffers `input` events (or any `input` calls)
 		 * and triggers `output` not more often than once per `minInterval`.
 		 *
-		 *		var buffer = CKEDITOR.tools.eventsBuffer( 200, function() {
-		 *			console.log( 'foo!' );
-		 *		} );
+		 * ```javascript
+		 *	var buffer = CKEDITOR.tools.eventsBuffer( 200, function() {
+		 *		console.log( 'foo!' );
+		 *	} );
 		 *
-		 *		buffer.input();
-		 *		// 'foo!' logged immediately.
-		 *		buffer.input();
-		 *		// Nothing logged.
-		 *		buffer.input();
-		 *		// Nothing logged.
-		 *		// ... after 200ms a single 'foo!' will be logged.
+		 *	buffer.input();
+		 *	// 'foo!' logged immediately.
+		 *	buffer.input();
+		 *	// Nothing logged.
+		 *	buffer.input();
+		 *	// Nothing logged.
+		 *	// … after 200ms a single 'foo!' will be logged.
+		 * ```
 		 *
 		 * Can be easily used with events:
 		 *
-		 *		var buffer = CKEDITOR.tools.eventsBuffer( 200, function() {
-		 *			console.log( 'foo!' );
-		 *		} );
+		 * ```javascript
+		 *	var buffer = CKEDITOR.tools.eventsBuffer( 200, function() {
+		 *		console.log( 'foo!' );
+		 *	} );
 		 *
-		 *		editor.on( 'key', buffer.input );
-		 *		// Note: There is no need to bind buffer as a context.
+		 *	editor.on( 'key', buffer.input );
+		 *	// Note: There is no need to bind buffer as a context.
+		 * ```
+		 *
 		 *
 		 * @since 4.2.1
 		 * @param {Number} minInterval Minimum interval between `output` calls in milliseconds.
 		 * @param {Function} output Function that will be executed as `output`.
-		 * @param {Object} [scopeObj] The object used to scope the listener call (the `this` object).
+		 * @param {Object} [contextObj] The object used to context the listener call (the `this` object).
 		 * @returns {Object}
 		 * @returns {Function} return.input Buffer's input method.
 		 * @returns {Function} return.reset Resets buffered events &mdash; `output` will not be executed
 		 * until next `input` is triggered.
 		 */
-		eventsBuffer: function( minInterval, output, scopeObj ) {
+		eventsBuffer: function( minInterval, output, contextObj ) {
 			var scheduled,
 				lastOutput = 0;
 
 			function triggerOutput() {
 				lastOutput = ( new Date() ).getTime();
 				scheduled = false;
-				if ( scopeObj ) {
-					output.call( scopeObj );
+				if ( contextObj ) {
+					output.call( contextObj );
 				} else {
 					output();
 				}
