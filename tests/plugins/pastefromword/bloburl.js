@@ -20,6 +20,16 @@
 			blobHelpers.simulatePasteBlob( editor, function( input, expected ) {
 				assert.beautified.html( expected, editor.getData() );
 			} );
+		},
+
+		'test undo manager state after pasting image from Word': function( editor, bot ) {
+			bot.setData( '', function() {
+				editor.resetUndo();
+
+				blobHelpers.simulatePasteBlob( editor, function() {
+					assert.isTrue( editor.undoManager.hasUndo, 'Undo step is created' );
+				} );
+			} );
 		}
 	};
 

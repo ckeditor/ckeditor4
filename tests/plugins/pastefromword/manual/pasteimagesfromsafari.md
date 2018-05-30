@@ -10,3 +10,11 @@
 **Expected:** Image is pasted and transformed into base64,
 
 **Unexpected:** Image is not pasted or src attribute is blob url.
+
+---
+
+Check if pasting Word content with image generates undo step.
+
+**Expected:** It's possible to undo and redo changes.
+
+**Unexpected:** Changes couldn't be undone.

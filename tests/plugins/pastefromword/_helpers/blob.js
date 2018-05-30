@@ -42,7 +42,14 @@
 			// `saveSnapshot` is last event after content is paste from word.
 			evt.editor.once( 'saveSnapshot', function() {
 				resume( function() {
-					assertion( input, expected );
+					// Additional wait is required to update undo manager state.
+					setTimeout( function() {
+						resume( function() {
+							assertion( input, expected );
+						} );
+					}, 100 );
+
+					wait();
 				} );
 			}, null, null, 999 );
 		} );

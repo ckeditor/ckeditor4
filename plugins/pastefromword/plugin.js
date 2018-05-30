@@ -101,10 +101,8 @@
 						if ( typeof filteredData === 'string' ) {
 							pfwEvtData.dataValue = filteredData;
 						} else if ( typeof filteredData === 'object' ) {
-							editor.fire( 'lockSnapshot' );
 							pfwEvtData.dataValue = filteredData.dataValue;
 							handleBlobs( filteredData.blobUrls, function() {
-								editor.fire( 'unlockSnapshot' );
 								editor.fire( 'saveSnapshot' );
 							} );
 						}
