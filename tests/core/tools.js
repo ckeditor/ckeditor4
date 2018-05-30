@@ -629,57 +629,46 @@
 		},
 
 		'test throttle': function() {
-			var output = 0,
-				foo = 'foo',
-				buz = 'buz',
-				message,
-				buffer = CKEDITOR.tools.throttle( 200, function( arg ) {
-					output++;
-					message = arg;
-				} );
-
-			assert.areSame( 0, output );
+			var foo = 'foo',
+				baz = 'baz',
+				inputSpy = sinon.spy(),
+				buffer = CKEDITOR.tools.throttle( 200, inputSpy );
 
 			buffer.input( foo );
 
-			assert.areSame( 1, output );
-			assert.areSame( foo, message );
+			assert.isTrue( inputSpy.calledOnce, 'Call count after the first call' );
+			assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument after the first call' );
 
-			buffer.input( buz );
-			buffer.input( buz );
-			buffer.input( buz );
+			buffer.input( baz );
 
-			assert.areSame( 1, output );
-			assert.areSame( foo, message );
+			assert.isTrue( inputSpy.calledOnce, 'Call count after the second call' );
+			assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument the after second call' );
 
 			wait( function() {
-				assert.areSame( 1, output );
-				assert.areSame( foo, message );
+				assert.isTrue( inputSpy.calledOnce, 'Call count after the second call timeout (1st)' );
+				assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument after the second call timeout (1st)' );
 
 				wait( function() {
-					assert.areSame( 2, output );
-					assert.areSame( buz, message );
+					assert.isTrue( inputSpy.calledTwice, 'Call count after the second call timeout (2nd)' );
+					assert.isTrue( inputSpy.calledWithExactly( baz ), 'Call argument after the second call timeout (2nd)' );
 
 					buffer.input( foo );
 
-					assert.areSame( 2, output );
-					assert.areSame( buz, message );
-
 					wait( function() {
-						assert.areSame( 3, output );
-						assert.areSame( foo, message );
+						assert.isTrue( inputSpy.calledThrice, 'Call count after the third call' );
+						assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument after the third call' );
 
 						// Check that input triggered after 70ms from previous
 						// buffer.input will trigger output after next 140ms (200-70).
 						wait( function() {
-							buffer.input( buz );
+							buffer.input( baz );
 
-							assert.areSame( 3, output );
-							assert.areSame( foo, message );
+							assert.isTrue( inputSpy.calledThrice, 'Call count after the fourth call' );
+							assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument after the fourth call' );
 
 							wait( function() {
-								assert.areSame( 4, output );
-								assert.areSame( buz, message );
+								assert.areSame( 4, inputSpy.callCount, 'Call count after the fourth call timeout' );
+								assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument after the fourth call timeout' );
 							}, 140 );
 						}, 70 );
 					}, 210 );
@@ -707,27 +696,23 @@
 		},
 
 		'test throttle.reset': function() {
-			var output = 0,
-				buffer = CKEDITOR.tools.throttle( 100, function() {
-					output++;
-				} );
+			var inputSpy = sinon.spy(),
+				buffer = CKEDITOR.tools.throttle( 100, inputSpy );
 
-			assert.areSame( 0, output );
+			assert.areSame( 0, inputSpy.callCount, 'Initial call count' );
 
 			buffer.input();
 
-			assert.areSame( 1, output );
+			assert.areSame( 1, inputSpy.callCount, 'Call count after the first call' );
 
 			buffer.input();
 			buffer.reset();
 
-			wait( function() {
-				assert.areSame( 1, output );
+			assert.areSame( 1, inputSpy.callCount, 'Call count after reset' );
 
-				buffer.input();
+			buffer.input();
 
-				assert.areSame( 2, output );
-			}, 110 );
+			assert.areSame( 2, inputSpy.callCount, 'Call count after the second call' );
 		},
 
 		'test throttle contex': function() {
