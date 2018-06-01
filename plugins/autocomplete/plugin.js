@@ -819,7 +819,6 @@
 		 */
 		setPosition: function( rect ) {
 			var editor = this.editor,
-				viewHeight = this.element.getSize( 'height' ),
 				editable = editor.editable(),
 				// Bounding rect where the view should fit (visible editor viewport).
 				editorViewportRect;
@@ -831,10 +830,40 @@
 				editorViewportRect = editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true );
 			}
 
-			// How much space is there for the view above and below the specified rect.
-			var spaceAbove = rect.top - editorViewportRect.top,
-				spaceBelow = editorViewportRect.bottom - rect.bottom,
-				top;
+			// If the caret position is below the view
+			// +---------------------------------------------+
+			// |       editor viewport                       |
+			// |                                             |
+			// |     +--------------+                        |
+			// |     |              |                        |
+			// |     |     view     |                        |
+			// |     |              |                        |
+			// +-----+==============+------------------------+
+			// |																						 |
+			// |     █ - caret position                      |
+			// |                                             |
+			// +---------------------------------------------+
+
+			// or if the caret position is above the view
+			// +---------------------------------------------+
+			// |																						 |
+			// |     █ - caret position                      |
+			// |                                             |
+			// +-----+==============+------------------------+
+			// |     |              |                        |
+			// |     |     view     |                        |
+			// |     |              |                        |
+			// |     +--------------+                        |
+			// |																						 |
+			// |       editor viewport                       |
+			// +---------------------------------------------+
+			//
+			//  close the view! (#1911).
+			if ( rect.bottom <= editorViewportRect.top || rect.top >= editorViewportRect.bottom ) {
+				this.close();
+			} else {
+				this.open();
+			}
 
 			// As a default, keep the view inside an editor viewport.
 			// +---------------------------------------------+
@@ -849,7 +878,7 @@
 			// |                                             |
 			// |                                             |
 			// +---------------------------------------------+
-			top = rect.top < editorViewportRect.top ? editorViewportRect.top : Math.min( editorViewportRect.bottom, rect.bottom );
+			var top = Math.min( editorViewportRect.bottom, rect.bottom );
 
 			// If the view doesn't fit below the caret position and fits above, set it there.
 			// This means that position below the caret is preferred.
@@ -864,42 +893,14 @@
 			// |     █ - caret position                      |
 			// |                                             |
 			// +---------------------------------------------+
+
+			// How much space is there for the view above and below the specified rect.
+			var spaceAbove = rect.top - editorViewportRect.top,
+				spaceBelow = editorViewportRect.bottom - rect.bottom,
+				viewHeight = this.element.getSize( 'height' );
+
 			if ( viewHeight > spaceBelow && viewHeight < spaceAbove ) {
 				top = rect.top - viewHeight;
-			}
-
-			// If the caret position is below the view - keep it at the bottom edge.
-			// +---------------------------------------------+
-			// |       editor viewport                       |
-			// |                                             |
-			// |     +--------------+                        |
-			// |     |              |                        |
-			// |     |     view     |                        |
-			// |     |              |                        |
-			// +-----+==============+------------------------+
-			// |																						 |
-			// |     █ - caret position                      |
-			// |                                             |
-			// +---------------------------------------------+
-			if ( editorViewportRect.bottom < rect.bottom ) {
-				top = Math.min( rect.top - viewHeight, editorViewportRect.bottom - viewHeight );
-			}
-
-			// If the caret position is above the view - keep it at the top edge.
-			// +---------------------------------------------+
-			// |																						 |
-			// |     █ - caret position                      |
-			// |                                             |
-			// +-----+==============+------------------------+
-			// |     |              |                        |
-			// |     |     view     |                        |
-			// |     |              |                        |
-			// |     +--------------+                        |
-			// |																						 |
-			// |       editor viewport                       |
-			// +---------------------------------------------+
-			if ( editorViewportRect.top > rect.top ) {
-				top = Math.max( rect.bottom, editorViewportRect.top );
 			}
 
 			this.element.setStyles( {
