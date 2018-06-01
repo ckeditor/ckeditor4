@@ -114,7 +114,15 @@
 			16, // Shift
 			17, // Ctrl
 			18, // Alt
-			91 // Cmd
+			91, // Cmd
+			35, // End
+			36, // Home
+			37, // Left
+			38, // Up
+			39, // Right
+			40, // Down
+			33, // PageUp
+			34 // PageUp
 		];
 
 		/**
