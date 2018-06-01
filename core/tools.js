@@ -580,11 +580,11 @@
 		},
 
 		/**
-		 * Throttles `input` events (or any `input` calls)
-		 * and triggers `output` not more often than once per `minInterval`.
+		 * Returns a wrapper that exposes an `input` function, which acts as a proxy to the given `output` function, providing a throttling.
+		 * This proxy guarantees that the `output` function is not called more often than `minInterval`.
 		 *
-		 * If multiple calls occur within a single `minInterval` time, the most recent `input` call with its arguments will be used to schedule next `output` call,
-		 *  and the previous `output` call will be discarded.
+		 * If multiple calls occur within a single `minInterval` time, the most recent `input` call with its arguments will be used to schedule
+		 * next `output` call, and the previous throttled calls will be discarded.
 		 *
 		 * The first `input` call is always executed asynchronously which means that `output` call will be executed immediately.
 		 *
@@ -595,11 +595,11 @@
 		 *
 		 *	buffer.input( 'foo!' );
 		 *	// 'foo!' logged immediately.
-		 *	buffer.input( 'baz!' );
-		 *	// Nothing logged.
 		 *	buffer.input( 'bar!' );
 		 *	// Nothing logged.
-		 *	// … after 200ms a single 'bar!' will be logged.
+		 *	buffer.input( 'baz!' );
+		 *	// Nothing logged.
+		 *	// … after 200ms a single 'baz!' will be logged.
 		 * ```
 		 *
 		 * Can be easily used with events:
@@ -620,7 +620,7 @@
 		 * @returns {Object}
 		 * @returns {Function} return.input Buffer's input method.
 		 * Accepts parameters which will be directly passed into `output` function.
-		 * @returns {Function} return.reset Resets buffered events &mdash; `output` will not be executed
+		 * @returns {Function} return.reset Resets buffered calls &mdash; `output` will not be executed
 		 * until next `input` is triggered.
 		 */
 		throttle: function( minInterval, output, contextObj ) {
