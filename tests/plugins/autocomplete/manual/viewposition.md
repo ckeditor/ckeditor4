@@ -1,4 +1,4 @@
-@bender-tags: 4.10.0, bug, 1910
+@bender-tags: 4.10.0, bug, 1910, 1911
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, autocomplete, textmatch
 @bender-include: _helpers/utils.js
@@ -16,10 +16,12 @@ When changing scroll position of the editor the view should be placed differentl
 - If there is enough space above a caret position and too little space below, the view should be placed above a caret.
 - If there is enough space below a caret position, the view should be placed below a caret.
 - If there is not enough space above and below a caret, the view should be placed below a caret.
+- If the caret position is outside viewable area, the view should be hidden.
 
 ## Unexpected
 
-The view is not changing its position depending on space below and above a caret.
+* The view is not changing its position depending on space below and above a caret.
+* The view is not changing its visibility depending on its position inside viewable area.
 
 # Inline editor
 

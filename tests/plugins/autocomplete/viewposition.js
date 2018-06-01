@@ -110,6 +110,7 @@
 			assert.areEqual( '50px', view.element.getStyle( 'left' ) );
 		},
 
+		// (#1911)
 		'test view position below viewport': function( editor ) {
 			// +---------------------------------------------+
 			// |       editor viewport                       |
@@ -129,10 +130,10 @@
 				viewPanelHeight: 100
 			} );
 
-			assert.areEqual( '200px', view.element.getStyle( 'top' ), 'View is displayed above the caret' );
-			assert.areEqual( '100px', view.element.getStyle( 'left' ) );
+			assert.isFalse( view.element.hasClass( 'cke_autocomplete_opened' ), 'View should be hidden' );
 		},
 
+		// (#1911)
 		'test view position above viewport': function( editor ) {
 			// +---------------------------------------------+
 			// |																						 |
@@ -152,8 +153,7 @@
 				viewPanelHeight: 100
 			} );
 
-			assert.areEqual( '200px', view.element.getStyle( 'top' ), 'View is displayed below the caret' );
-			assert.areEqual( '50px', view.element.getStyle( 'left' ) );
+			assert.isFalse( view.element.hasClass( 'cke_autocomplete_opened' ), 'View should be hidden' );
 		}
 	};
 
