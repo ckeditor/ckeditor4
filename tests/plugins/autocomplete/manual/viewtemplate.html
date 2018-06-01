@@ -9,42 +9,12 @@
 		width: 600,
 		on: {
 			instanceReady: function( evt ) {
-				var template = '<li data-id="{id}">item: <strong>{name}</strong></li>';
-				new CKEDITOR.plugins.autocomplete( evt.editor, getTextTestCallback(), dataCallback, template );
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback(),
+					itemTemplate: '<li data-id="{id}">item: <strong>{name}</strong></li>'
+				} );
 			}
 		}
 	} );
-
-	function getTextTestCallback() {
-		return function( range ) {
-			return CKEDITOR.plugins.textMatch.match( range, matchCallback );
-		};
-	}
-
-	function matchCallback( text, offset ) {
-		var left = text.slice( 0, offset ),
-			match = left.match( new RegExp( '@\\w*$' ) );
-
-		if ( !match ) {
-			return null;
-		}
-
-		return {
-			start: match.index,
-			end: offset
-		};
-	}
-
-	function dataCallback( query, range, callback ) {
-		callback( [ {
-				id: 1,
-				name: 'anna'
-			},
-			{
-				id: 2,
-				name: 'john'
-			}
-		] );
-	}
-
 </script>

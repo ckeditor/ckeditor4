@@ -10,43 +10,11 @@
 		on: {
 			instanceReady: function( evt ) {
 				new CKEDITOR.plugins.autocomplete( evt.editor, {
-					textTestCallback: getTextTestCallback(),
-					dataCallback: dataCallback,
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback(),
 					throttle: 3000
 				} );
 			}
 		}
 	} );
-
-	function getTextTestCallback() {
-		return function( range ) {
-			return CKEDITOR.plugins.textMatch.match( range, matchCallback );
-		};
-	}
-
-	function matchCallback( text, offset ) {
-		var left = text.slice( 0, offset ),
-			match = left.match( new RegExp( '@\\w*$' ) );
-
-		if ( !match ) {
-			return null;
-		}
-
-		return { start: match.index, end: offset };
-	}
-
-	function dataCallback( query, range, callback ) {
-		var data = [
-			{ id: 1, name: '@jack' },
-			{ id: 2, name: '@thomas' },
-			{ id: 3, name: '@anna' }
-		];
-
-		callback(
-			data.filter( function( item ) {
-				return item.name.indexOf( query ) === 0;
-			} )
-		);
-	}
-
 </script>

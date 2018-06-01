@@ -5,7 +5,11 @@
 	'use strict';
 
 	bender.editors = {
-		standard: {},
+		standard: {
+			config: {
+				allowedContent: 'strong'
+			}
+		},
 		arrayKeystrokes: {
 			config: {
 				autocomplete_commitKeystrokes: [ 16 ] // SHIFT

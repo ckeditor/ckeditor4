@@ -227,10 +227,10 @@
 		 * @readonly
 		 * @property {CKEDITOR.template} [outputTemplate=null]
 		 */
-		this.outputTemplate = outputTemplate !== undefined ? new CKEDITOR.template( outputTemplate ) : null;
+		this.outputTemplate = config.outputTemplate !== undefined ? new CKEDITOR.template( config.outputTemplate ) : null;
 
-		if ( itemTemplate ) {
-			this.view.itemTemplate = new CKEDITOR.template( itemTemplate );
+		if ( config.itemTemplate ) {
+			this.view.itemTemplate = new CKEDITOR.template( config.itemTemplate );
 		}
 
 		this.attach();
@@ -1329,8 +1329,8 @@
 	 * ```
 	 *
 	 * @method textTestCallback
+	 * @param {CKEDITOR.dom.range} range Range representing the caret position.
 	 */
-
 
 	/**
 	 * Indicates throttle threshold mitigating text checks.
@@ -1348,7 +1348,7 @@
 	 */
 
 	/**
-	 * Template for match rendering. See {@link CKEDITOR.plugin.autocomplete#outputTemplate}.
+	 * Template for match rendering. See {@link CKEDITOR.plugins.autocomplete#outputTemplate} for more information.
 	 *
 	 * @property {String} [outputTemplate]
 	 */
