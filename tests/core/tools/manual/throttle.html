@@ -1,0 +1,21 @@
+<style>
+.red {
+	background-color: red;
+}
+.blue {
+	background-color: blue;
+}
+</style>
+
+<button id="btn" class="red" >Click me!</button>
+
+<script>
+	var button = document.getElementById( 'btn' ),
+		buffer = CKEDITOR.tools.throttle( 2000, function ( css ) {
+		button.className = css === 'red' ? 'blue' : 'red';
+	} );
+
+	button.addEventListener( 'click', function() {
+		buffer.input( button.className );
+	} );
+</script>
