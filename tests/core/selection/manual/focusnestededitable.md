@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 4.10.0, 1113, bug
-@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, elementspath
+@bender-ckeditor-plugins: divarea, toolbar, basicstyles, elementspath
 
 1. Put selection inside text with normal font style i.e. `You can ^type here`
 2. Put selection inside text text with italic font style i.e. *`and you can ^type again inside this editable part`*
