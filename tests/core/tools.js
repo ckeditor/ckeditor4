@@ -602,7 +602,7 @@
 			}, 110 );
 		},
 
-		'test eventsBuffer contex': function() {
+		'test eventsBuffer context': function() {
 			var spy = sinon.spy(),
 				ctxObj = {},
 				buffer = CKEDITOR.tools.eventsBuffer( 100, spy, ctxObj );
@@ -636,39 +636,38 @@
 
 			buffer.input( foo );
 
-			assert.isTrue( inputSpy.calledOnce, 'Call count after the first call' );
+			assert.areSame( 1, inputSpy.callCount, 'Call count after the first call' );
 			assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument after the first call' );
 
 			buffer.input( baz );
 
-			assert.isTrue( inputSpy.calledOnce, 'Call count after the second call' );
+			assert.areSame( 1, inputSpy.callCount, 'Call count after the second call' );
 			assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument the after second call' );
 
 			wait( function() {
-				assert.isTrue( inputSpy.calledOnce, 'Call count after the second call timeout (1st)' );
+				assert.areSame( 1, inputSpy.callCount, 'Call count after the second call timeout (1st)' );
 				assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument after the second call timeout (1st)' );
 
 				wait( function() {
-					assert.isTrue( inputSpy.calledTwice, 'Call count after the second call timeout (2nd)' );
-					assert.isTrue( inputSpy.calledWithExactly( baz ), 'Call argument after the second call timeout (2nd)' );
+					assert.areSame( 2, inputSpy.callCount, 'Call count after the second call timeout (2nd)' );
+					assert.isTrue( inputSpy.getCall( 1 ).calledWithExactly( baz ), 'Call argument after the second call timeout (2nd)' );
 
 					buffer.input( foo );
 
 					wait( function() {
-						assert.isTrue( inputSpy.calledThrice, 'Call count after the third call' );
-						assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument after the third call' );
+						assert.areSame( 3, inputSpy.callCount, 'Call count after the third call' );
+						assert.isTrue( inputSpy.getCall( 2 ).calledWithExactly( foo ), 'Call argument after the third call' );
 
 						// Check that input triggered after 70ms from previous
 						// buffer.input will trigger output after next 140ms (200-70).
 						wait( function() {
 							buffer.input( baz );
 
-							assert.isTrue( inputSpy.calledThrice, 'Call count after the fourth call' );
-							assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument after the fourth call' );
+							assert.areSame( 3, inputSpy.callCount, 'Call count after the fourth call' );
 
 							wait( function() {
 								assert.areSame( 4, inputSpy.callCount, 'Call count after the fourth call timeout' );
-								assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument after the fourth call timeout' );
+								assert.isTrue( inputSpy.getCall( 3 ).calledWithExactly( baz ), 'Call argument after the fourth call timeout' );
 							}, 140 );
 						}, 70 );
 					}, 210 );
@@ -715,7 +714,7 @@
 			assert.areSame( 2, inputSpy.callCount, 'Call count after the second call' );
 		},
 
-		'test throttle contex': function() {
+		'test throttle context': function() {
 			var spy = sinon.spy(),
 				ctxObj = {},
 				buffer = CKEDITOR.tools.throttle( 100, spy, ctxObj );
