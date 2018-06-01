@@ -1603,7 +1603,6 @@
 		 * @param {Uint8Array} bytesArray Typed array which will be analysed to obtain file type.
 		 * @returns {String/Null} File type recognized from given typed array or null.
 		 */
-
 		getFileTypeFromHeader: function( bytesArray ) {
 			var header = '',
 				fileType = null,
