@@ -22,6 +22,16 @@
 			} );
 		},
 
+		'test replace multiple blobUrl in PFW content to base64': function( editor, bot ) {
+			bot.setData( '', function() {
+				blobHelpers.simulatePasteBlob( editor, function( input, expected ) {
+					assert.beautified.html( expected, editor.getData() );
+				}, {
+					template: '<p{%CLASS%}><img style="height:200px; width:200px" src="{%URL%}" /><img style="height:200px; width:200px" src="{%URL%}" /></p>'
+				} );
+			} );
+		},
+
 		'test undo manager state after pasting image from Word': function( editor, bot ) {
 			bot.setData( '', function() {
 				editor.resetUndo();
