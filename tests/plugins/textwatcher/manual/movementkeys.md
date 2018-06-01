@@ -6,7 +6,7 @@
 1. Use all of the listed movement keys to change cursor position inside editor between `@` characters. Repeat with modifier keys `cmd`, `ctrl`, `option` e.g. `ctrl+leftArrow`.
 1. See history output (above the editor).
 
-**Movement keys:** 
+**Movement keys:**
 
 * `arrowLeft`
 * `arrowRight`
@@ -25,4 +25,4 @@ No `textwatcher` checks logged inside history output.
 
 Any `textwatcher` check logged into history output.
 
-***Other details*** If you use different keys than listed above the editor you may see logged checks inside history output.
+**Other details** If you use different keys than listed above the editor you may see logged checks inside history output.
