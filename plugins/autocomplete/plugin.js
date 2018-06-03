@@ -685,7 +685,10 @@
 		 * @returns {Number} rect.bottom
 		 */
 		getViewPosition: function( range ) {
-			var viewPositionRect = range.getClientRects()[ 0 ],
+			// Use the last rect so the view will be
+			// correctly positioned with a word splitted into few lines.
+			var rects = range.getClientRects(),
+				viewPositionRect = rects[ rects.length - 1 ],
 				offset,
 				editable = this.editor.editable();
 
@@ -906,7 +909,6 @@
 		 */
 		updatePosition: function( range ) {
 			range = range.clone();
-			range.collapse( true );
 
 			this.setPosition( this.getViewPosition( range ) );
 		}

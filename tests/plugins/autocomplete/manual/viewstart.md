@@ -3,13 +3,37 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, autocomplete, textmatch
 @bender-include: _helpers/utils.js
 
+# Single word
+
 1. Focus the editor.
 1. Type `@anna`.
 
 ## Expected
 
-View should be placed at the beginning of the typed text.
+View should be placed at the beginning of the word.
 
 ## Unexpected
 
-View is placed at the end of the typed text.
+View is placed at the end of the word.
+
+# Splitted word
+
+1. Focus the editor.
+1. Type `@foo bar` where both words are in different lines e.g.
+
+```
++-----------------------+
+|                       |
+|      text start - @foo|
+| bar█ - caret position |
+|                       |
++-----------------------+
+```
+
+## Expected
+
+View should be placed at the beginning of the second word.
+
+## Unexpected
+
+View is placed at the end of the second word.

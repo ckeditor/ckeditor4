@@ -16,14 +16,15 @@
 	];
 
 	window.autocompleteUtils = {
-		getTextTestCallback: function() {
+		getTextTestCallback: function( config ) {
+			config = config || {};
 			return function( range ) {
 				return CKEDITOR.plugins.textMatch.match( range, matchCallback );
 			};
 
 			function matchCallback( text, offset ) {
 				var left = text.slice( 0, offset ),
-					match = left.match( new RegExp( '@\\w*$' ) );
+					match = left.match( new RegExp( config.regex || '@\\w*$' ) );
 
 				if ( !match ) {
 					return null;
@@ -34,9 +35,12 @@
 		},
 
 		getDataCallback: function( config ) {
+			var dataSource = config.data || DATA;
+
 			config = config || {};
+
 			return function( query, range, callback ) {
-				var data = DATA.filter( function( item ) {
+				var data = dataSource.filter( function( item ) {
 					return item.name.indexOf( query.toLowerCase() ) == 0;
 				} );
 
