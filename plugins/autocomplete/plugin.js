@@ -908,8 +908,6 @@
 		 * @param {CKEDITOR.dom.range} range The range of text match.
 		 */
 		updatePosition: function( range ) {
-			range = range.clone();
-
 			this.setPosition( this.getViewPosition( range ) );
 		}
 	};

@@ -6,7 +6,7 @@
 # Single word
 
 1. Focus the editor.
-1. Type `@anna`.
+1. Type `@foo`.
 
 ## Expected
 
