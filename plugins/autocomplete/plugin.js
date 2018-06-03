@@ -118,7 +118,7 @@
 	 *			// to 100% of the editor container width and is positioned
 	 *			// relative to the editor container.
 	 *			CustomView.prototype.updatePosition = function( range ) {
-	 *				var caretRect = this.getViewStartPosition( range ),
+	 *				var caretRect = this.getViewPosition( range ),
 	 *					container = this.editor.container;
 	 *
 	 *				this.setPosition( {
@@ -684,7 +684,7 @@
 		 * @returns {Number} rect.top
 		 * @returns {Number} rect.bottom
 		 */
-		getViewStartPosition: function( range ) {
+		getViewPosition: function( range ) {
 			var viewPositionRect = range.getClientRects()[ 0 ],
 				offset,
 				editable = this.editor.editable();
@@ -901,12 +901,14 @@
 		 * By default this method finds the position of the caret and uses
 		 * {@link #setPosition} to move the panel to the best position close
 		 * to the caret.
+		 *
+		 * @param {CKEDITOR.dom.range} range The range of text match.
 		 */
 		updatePosition: function( range ) {
 			range = range.clone();
 			range.collapse( true );
 
-			this.setPosition( this.getViewStartPosition( range ) );
+			this.setPosition( this.getViewPosition( range ) );
 		}
 	};
 

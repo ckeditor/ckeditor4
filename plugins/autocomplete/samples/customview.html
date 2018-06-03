@@ -104,7 +104,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 				// to 100% of the editor container width and is positioned
 				// according to the editor container.
 				CustomView.prototype.updatePosition = function( range ) {
-					var caretRect = this.getViewStartPosition( range ),
+					var caretRect = this.getViewPosition( range ),
 						container = this.editor.container;
 
 					this.setPosition( {
