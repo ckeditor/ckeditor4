@@ -24,7 +24,9 @@
 
 		init: function( editor ) {
 
-			CKEDITOR.ajax.load( CKEDITOR.getUrl( 'plugins/emoji/emoji.json' ), function( data ) {
+			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json';
+
+			CKEDITOR.ajax.load( CKEDITOR.getUrl( emojiListUrl ), function( data ) {
 				var defaultEmojiList = JSON.parse( data );
 
 				if ( !editor._.emojiList ) {
@@ -178,5 +180,36 @@
  *
  * @since 4.10.0
  * @cfg {Number} [emoji_minChars = 2]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Address to json file containing emoji list. File is downloaded through {@link CKEDITOR.ajax#load} method
+ * and url address is processed by {@link CKEDITOR#getUrl}.
+ * Emoji list has to be an array of objects with `id` and `symbol` property. Those keys represent text to match and UTF symbol for its replacement.
+ * Emoji has to start with `:` (colon) symbol.
+ * ```json
+ * [
+ * 	{
+ * 		"id": ":grinning_face:",
+ * 		"symbol":"😀"
+ * 	},
+ * 	{
+ * 		"id": ":bug:",
+ * 		"symbol":"🐛"
+ * 	},
+ * 	{
+ * 		"id": ":star:",
+ * 		"symbol":"⭐"
+ * 	}
+ * ]
+ * ```
+ *
+ * ```js
+ * 	editor.emoji_emojiListUrl = 'https://my.custom.domain/ckeditor/emoji.json';
+ * ```
+ *
+ * @since 4.10.0
+ * @cfg {String} [emoji_emojiListUrl = 'plugins/emoji/emoji.json']
  * @member CKEDITOR.config
  */
