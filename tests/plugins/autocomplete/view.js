@@ -217,7 +217,7 @@
 
 		view.append();
 
-		var caretRect = view.getCaretRect();
+		var caretRect = view.getViewPosition( editor.getSelection().getRanges()[ 0 ] );
 
 		getClientRectsStub.restore();
 		offsetStub.restore();
