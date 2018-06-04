@@ -6,6 +6,7 @@
 
 1. Open console.
 1. Focus the editor.
+1. Press `Bold` style button.
 1. Type `@`.
 1. Press `enter`.
 
