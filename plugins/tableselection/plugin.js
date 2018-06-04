@@ -999,7 +999,13 @@
 						ranges[ 0 ].moveToElementEditablePosition( toStart ? firstCell : lastCell, !toStart );
 						selection.selectRanges( [ ranges[ 0 ] ] );
 					} else {
-						// Delete.
+						// Delete, backspace, enter.
+
+						// Do nothing for Enter with modifiers different than shift.
+						if ( key === 13 && !( keystroke === 13 || keystroke === CKEDITOR.SHIFT + 13 ) ) {
+							return;
+						}
+
 						for ( i = 0; i < ranges.length; i++ ) {
 							clearCellInRange( ranges[ i ] );
 						}
@@ -1018,8 +1024,7 @@
 						// We need to lock undoManager to consider clearing table and inserting new paragraph as single operation, and have only one undo step (#1816).
 						if ( key === 13 && editor.plugins.enterkey ) {
 							editor.fire( 'lockSnapshot' );
-							// Use proper command depend of shift modifier presence.
-							keystroke < CKEDITOR.SHIFT + 13 ? editor.execCommand( 'enter' ) : editor.execCommand( 'shiftEnter' );
+							keystroke === 13 ? editor.execCommand( 'enter' ) : editor.execCommand( 'shiftEnter' );
 							editor.fire( 'unlockSnapshot' );
 						}
 						editor.fire( 'saveSnapshot' );
