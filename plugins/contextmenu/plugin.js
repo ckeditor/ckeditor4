@@ -142,19 +142,19 @@ CKEDITOR.plugins.add( 'contextmenu', {
 		} );
 
 		editor.addCommand( 'contextMenu', {
-			exec: function( editor, data ) {
+			exec: function( editor ) {
 				var offsetX = 0,
 					offsetY = 0,
+					rects,
 					rect;
 
-				// #1451 when opening context menu via keystroke there is no offsetX and Y passed.
-				if ( data.from === 'keystrokeHandler' ) {
-					rect = editor.getSelection().getRanges()[ 0 ].getClientRects()[ 0 ];
-				}
+				// When opening context menu via keystroke there is no offsetX and Y passed (#1451).
+				rects = editor.getSelection().getRanges()[ 0 ].getClientRects();
+				rect = rects[ rects.length - 1 ];
 
 				if ( rect ) {
-					offsetX = rect.left;
-					offsetY = rect.top;
+					offsetX = rect.right;
+					offsetY = rect.bottom;
 				}
 
 				editor.contextMenu.open( editor.document.getBody().getParent(), null, offsetX, offsetY );
