@@ -740,8 +740,7 @@
 			// Make a deep copy.
 			var clone = CKEDITOR.tools.clone( element ),
 				toBeRemoved = [],
-				transformations,
-				elementAttrClass;
+				transformations;
 
 			// Apply transformations to original element.
 			// Transformations will be applied to clone by the filter function.
@@ -783,11 +782,6 @@
 				if ( originClassNames ) {
 					element.attributes[ 'class' ] = originClassNames;
 				}
-			}
-
-			// Restoring attribute class if it was removed previously
-			if ( elementAttrClass ) {
-				element.attributes[ 'class' ] = elementAttrClass;
 			}
 
 			// Cache result of this test - we can build cache only for string tests.
