@@ -125,10 +125,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				'default': '',
 				accessKey: 'Q',
 				value: 'required',
-				setup: function( element ) {
-					var required = element.getAttribute( 'required' );
-					this.setValue( required === '' || required === 'required' );
-				},
+				setup: CKEDITOR.plugins.forms._setupFormDialogRequired,
 				commit: function( data ) {
 					var element = data.element;
 					if ( this.getValue() )

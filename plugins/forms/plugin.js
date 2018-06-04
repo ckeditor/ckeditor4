@@ -277,3 +277,16 @@ CKEDITOR.plugins.add( 'forms', {
 		}
 	}
 } );
+
+CKEDITOR.plugins.forms = {
+	/*
+	* Private helper function for setting dialog required value.
+	*
+	* @private
+	* @param {CKEDITOR.dom.element} element Element which required attribute is checked.
+	* */
+	_setupFormDialogRequired: function( element ) {
+		var required = element.getAttribute( 'required' );
+		this.setValue( required === '' || required === 'required' );
+	}
+};
