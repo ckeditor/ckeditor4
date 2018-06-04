@@ -767,23 +767,21 @@
 				result = false;
 			}
 			else {
-				// Class might be stored as attribute in different order.
-				if ( element.attributes[ 'class' ] && clone.attributes[ 'class' ] ) {
-					elementAttrClass = element.attributes[ 'class' ];
-					if ( !CKEDITOR.tools.arrayCompare( element.attributes[ 'class' ].split( ' ' ).sort(), clone.attributes[ 'class' ].split( ' ' ).sort() ) ) {
-						result = false;
-					}
-					delete element.attributes[ 'class' ];
-					delete clone.attributes[ 'class' ];
+				// We need to compare class alphabetically, because cloned element is created in such way (#727).
+				var originClassNames = element.attributes[ 'class' ];
+				if ( originClassNames ) {
+					element.attributes[ 'class' ] = element.attributes[ 'class' ].split( ' ' ).sort().join( ' ' );
 				}
 
-				// Compare only left to right, because clone may be only trimmed version of original element.
-				// We don't want to overwrite result if was given by comparing classes.
-				if ( result === false || !CKEDITOR.tools.objectCompare( element.attributes, clone.attributes, true ) ) {
+				if ( !CKEDITOR.tools.objectCompare( element.attributes, clone.attributes, true ) ) {
 					result = false;
 				}
 				else {
 					result = true;
+				}
+
+				if ( originClassNames ) {
+					element.attributes[ 'class' ] = originClassNames;
 				}
 			}
 
