@@ -257,7 +257,7 @@
 				.returns( { top: 0, bottom: 100 } ),
 				viewport = CKEDITOR.document.getById( editor.id + '_contents' );
 
-			sinon.stub( ac.view, 'getCaretRect' ).returns( { top: 150, bottom: 160, left: 50 } );
+			sinon.stub( ac.view, 'getViewPosition' ).returns( { top: 150, bottom: 160, left: 50 } );
 			sinon.stub( ac.view.element, 'getSize' ).returns( 50 );
 
 			// View position after scroll.
@@ -317,6 +317,42 @@
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
 
 			assert.beautified.html( '<p><strong>anna</strong></p>', editable.getData() );
+
+			ac.destroy();
+		},
+
+		// (#1970)
+		'test view position starts from the beginning of the match': function() {
+			var editor = this.editors.standard,
+				editable = editor.editable(),
+				expectedRect = { left: 10, top: 10, height: 10 },
+				ac = new CKEDITOR.plugins.autocomplete( editor,
+					function() {
+						var range = editor.createRange(),
+							invalidRect = { top: 999, left: 999, height: 10 };
+
+						sinon.stub( range, 'getClientRects' ).returns( [ invalidRect, invalidRect, expectedRect ] );
+
+						return { text: '@Annabelle', range: range };
+					},
+					dataCallback );
+
+			this.editorBots.standard.setHtmlWithSelection( '@Annabelle^' );
+
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			var viewRect = ac.view.element.getClientRect(),
+				offset = 3;
+
+			assert.isNumberInRange( viewRect.left,
+				expectedRect.left - offset,
+				expectedRect.left + offset,
+				'Horizontal position.' );
+
+			assert.isNumberInRange( viewRect.top,
+				expectedRect.top + expectedRect.height - offset,
+				expectedRect.top + expectedRect.height + offset,
+				'Vertical position.' );
 
 			ac.destroy();
 		}
