@@ -63,14 +63,23 @@
 	 */
 	CKEDITOR.plugins.textMatch.match = function( range, callback ) {
 		var textAndOffset = CKEDITOR.plugins.textMatch.getTextAndOffset( range ),
-			result = callback( textAndOffset.text, textAndOffset.offset );
+			fillingCharSequence = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE,
+			fillingSequenceOffset = 0;
+
+		// Remove filling char sequence for clean query (#2038).
+		if ( textAndOffset.text.indexOf( fillingCharSequence ) == 0 ) {
+			textAndOffset.text = textAndOffset.text.replace( fillingCharSequence, '' );
+			textAndOffset.offset -= fillingSequenceOffset = 7;
+		}
+
+		var result = callback( textAndOffset.text, textAndOffset.offset );
 
 		if ( !result ) {
 			return null;
 		}
 
 		return {
-			range: CKEDITOR.plugins.textMatch.getRangeInText( range, result.start, result.end ),
+			range: CKEDITOR.plugins.textMatch.getRangeInText( range, result.start, result.end + fillingSequenceOffset ),
 			text: textAndOffset.text.slice( result.start, result.end )
 		};
 	};
@@ -207,6 +216,7 @@
 			elements = CKEDITOR.plugins.textMatch.getAdjacentTextNodes( range ),
 			startData = findElementAtOffset( elements, start ),
 			endData = findElementAtOffset( elements, end );
+
 
 		resultRange.setStart( startData.element, startData.offset );
 		resultRange.setEnd( endData.element, endData.offset );
