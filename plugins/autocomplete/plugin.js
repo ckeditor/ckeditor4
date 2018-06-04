@@ -672,21 +672,21 @@
 		},
 
 		/**
-		 * Returns the view position relative to the panel's offset parent.
+		 * Returns the view position based on a given `range`.
 		 *
 		 * Indicates the start position of the autocomplete dropdown.
 		 * The value returned by this function is passed to the {@link #setPosition} method
 		 * by the {@link #updatePosition} method.
 		 *
 		 * @param {CKEDITOR.dom.range} range The range of text match.
-		 * @returns {Object} Represents the position of the caret.
+		 * @returns {Object} Represents the position of the caret. The value is relative to the panel's offset parent.
 		 * @returns {Number} rect.left
 		 * @returns {Number} rect.top
 		 * @returns {Number} rect.bottom
 		 */
 		getViewPosition: function( range ) {
 			// Use the last rect so the view will be
-			// correctly positioned with a word splitted into few lines.
+			// correctly positioned with a word split into few lines.
 			var rects = range.getClientRects(),
 				viewPositionRect = rects[ rects.length - 1 ],
 				offset,
