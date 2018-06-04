@@ -325,13 +325,13 @@
 		'test view position starts from the beginning of the match': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
-				expectedRect = { left: 10, top: 10, height: 10 },
+				lastRangeRect = { left: 10, top: 10, height: 10 },
 				ac = new CKEDITOR.plugins.autocomplete( editor,
 					function() {
 						var range = editor.createRange(),
-							invalidRect = { top: 999, left: 999, height: 10 };
+							invalidRect = { top: 0, left: 0, height: 5 };
 
-						sinon.stub( range, 'getClientRects' ).returns( [ invalidRect, invalidRect, expectedRect ] );
+						sinon.stub( range, 'getClientRects' ).returns( [ invalidRect, invalidRect, lastRangeRect ] );
 
 						return { text: '@Annabelle', range: range };
 					},
@@ -345,13 +345,13 @@
 				offset = 3;
 
 			assert.isNumberInRange( viewRect.left,
-				expectedRect.left - offset,
-				expectedRect.left + offset,
+				lastRangeRect.left - offset,
+				lastRangeRect.left + offset,
 				'Horizontal position.' );
 
 			assert.isNumberInRange( viewRect.top,
-				expectedRect.top + expectedRect.height - offset,
-				expectedRect.top + expectedRect.height + offset,
+				lastRangeRect.top + lastRangeRect.height - offset,
+				lastRangeRect.top + lastRangeRect.height + offset,
 				'Vertical position.' );
 
 			ac.destroy();
