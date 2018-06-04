@@ -289,8 +289,11 @@
 			var editor = this.editors.standard,
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					dataCallback: dataCallback,
-					textTestCallback: function() {
-						return { text: CKEDITOR.tools.getUniqueId() };
+					textTestCallback: function( selectionRange ) {
+						return {
+							text: CKEDITOR.tools.getUniqueId(),
+							range: selectionRange
+						};
 					},
 					throttle: 100
 				} ),
@@ -361,8 +364,8 @@
 			var editor = this.editors.standard,
 				editable = editor.editable(),
 				lastRangeRect = { left: 10, top: 10, height: 10 },
-				ac = new CKEDITOR.plugins.autocomplete( editor,
-					function() {
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					textTestCallback: function() {
 						var range = editor.createRange(),
 							invalidRect = { top: 0, left: 0, height: 5 };
 
@@ -370,7 +373,8 @@
 
 						return { text: '@Annabelle', range: range };
 					},
-					dataCallback );
+					dataCallback: dataCallback
+				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '@Annabelle^' );
 
