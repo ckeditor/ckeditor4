@@ -325,6 +325,9 @@
 		'test view position starts from the beginning of the match': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
+				// Remove document position offset so it won't broke dashboard test (#2051).
+				getDocumentPositionStub = sinon.stub( CKEDITOR.dom.element.prototype, 'getDocumentPosition' )
+					.returns( { x: 0, y: 0 } ),
 				lastRangeRect = { left: 10, top: 10, height: 10 },
 				ac = new CKEDITOR.plugins.autocomplete( editor,
 					function() {
@@ -341,15 +344,16 @@
 
 			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			var viewRect = ac.view.element.getClientRect(),
-				offset = 3;
+			getDocumentPositionStub.restore();
 
-			assert.isNumberInRange( viewRect.left,
+			var offset = 3;
+
+			assert.isNumberInRange( ac.view.element.getSize( 'left' ),
 				lastRangeRect.left - offset,
 				lastRangeRect.left + offset,
 				'Horizontal position.' );
 
-			assert.isNumberInRange( viewRect.top,
+			assert.isNumberInRange( ac.view.element.getSize( 'top' ),
 				lastRangeRect.top + lastRangeRect.height - offset,
 				lastRangeRect.top + lastRangeRect.height + offset,
 				'Vertical position.' );
