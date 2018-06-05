@@ -23,14 +23,13 @@ CKEDITOR.plugins.add('taotab', {
          */
         function getTextNodes(rootNode){
             var textNodes = [];
-            for (var i = 0; i < rootNode.childNodes.length; i++) {
-                var curNode = rootNode.childNodes[i];
+            rootNode.childNodes.forEach(function(curNode){
                 if (curNode.nodeType === Node.TEXT_NODE) {
                     textNodes.push(curNode);
                 } else if(curNode.nodeType === Node.ELEMENT_NODE){
                     textNodes = textNodes.concat(getTextNodes(curNode));
                 }
-            }
+            });
             return textNodes;
         }
 
