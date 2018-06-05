@@ -586,7 +586,7 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 
 											this.setValue( widget.data.alt );
 
-											if ( widget.data.alt === '' && widget.data.src.length ) {
+											if ( widget.data.hasAlt && widget.data.alt === '' && widget.data.src.length ) {
 												imageType.setValue( 'decorative' );
 											}
 
@@ -983,10 +983,10 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 										id: 'align',
 										type: 'radio',
 										items: [
-											[ commonLang.alignNone, 'none' ],
-											[ commonLang.alignLeft, 'left' ],
-											[ commonLang.alignCenter, 'center' ],
-											[ commonLang.alignRight, 'right' ]
+											[ lang.alignNone, 'none' ],
+											[ lang.alignLeft, 'left' ],
+											[ lang.alignCenter, 'center' ],
+											[ lang.alignRight, 'right' ]
 										],
 										setup: function( widget ) {
 											this.setValue( widget.data.align );

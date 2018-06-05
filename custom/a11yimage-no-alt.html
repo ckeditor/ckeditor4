@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+-->
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>A11yFirst Plugins Demo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+  <style>
+    body {
+      padding: 0 12px;
+      font-family: sans-serif;
+    }
+    h1 {
+      font-weight: normal;
+    }
+
+    h2 {
+      border-bottom: thin solid #808080;
+    }
+
+    button {
+      border-color: rgb(188,188,188);
+      border-radius: 2px;
+      background-color: rgb(248,248,248);
+      color: rgb(72,72,72);
+      font-size: 105%;
+      padding: 0.125em 0.75em;
+      margin-bottom: 0.5em;
+    }
+    table.data {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    table.data th,
+    table.data td {
+        text-align: left;
+        padding: 8px;
+    }
+
+    table.data tr:nth-child(even){background-color: #f2f2f2}
+
+    table.data thead th {
+      font-weight: bold;
+      border-bottom: solid thin #808080;
+    }
+
+    figure.image {
+      display: inline-block;
+      padding: 0.5em;
+      background-color: #e8e8e8;
+      text-align: center;
+    }
+
+    figure.image figcaption {
+      padding-top: 0.25em;
+    }
+
+</style>
+
+  <script>
+
+    function edit() {
+
+      var contentNode = document.getElementById('content');
+      var editorNode  = document.getElementById('editor');
+      var buttonNode  = document.getElementById('editor-button');
+
+      if (buttonNode.textContent === 'Edit') {
+        buttonNode.textContent = 'Save';
+        CKEDITOR.instances.editor.setData(contentNode.innerHTML);
+        editorNode.parentNode.parentNode.parentNode.removeAttribute('hidden');
+        contentNode.setAttribute('hidden', '');
+      }
+      else {
+        buttonNode.textContent = 'Edit';
+        contentNode.innerHTML = CKEDITOR.instances.editor.getData();
+        editorNode.parentNode.parentNode.parentNode.setAttribute('hidden', '');
+        contentNode.removeAttribute('hidden');
+      }
+
+    }
+
+  </script>
+</head>
+
+
+
+<body id="main">
+
+  <main>
+  <h1>A11yFirst Plugins Demo</h1>
+
+    <button id="editor-button" onclick="edit()" class="cke_dialog_ui_button">Edit</button>
+
+    <div id="content">
+            <h1>Test Document for A11yFirst <code>a11yimage</code> Plugin for images with and without ALT attribute</h1>
+
+
+            <h2>No ALT Attribute</h2>
+
+            <p><img src="images/decorative1.png" width="50px"/></p>
+
+            <h2>ALT Text that is Empty</h2>
+
+            <p><img src="images/decorative2.png" width="50px" alt=""/></p>
+
+            <h2><a name="si" id="si"></a>ALT Text has Content</h2>
+
+            <p><img alt="NASA Logo" height="100" src="images/simple1.png"/></p>
+
+    </div>
+
+    <div class="adjoined-bottom" hidden style="margin-top: 1em">
+      <div class="grid-container">
+        <div class="grid-width-100">
+          <div id="editor">
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-a grid-container">
+    <div class="grid-container">
+   </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+  <script src="../ckeditor.js"></script>
+  <script src="ui-library.js"></script>
+</body>
+</html>

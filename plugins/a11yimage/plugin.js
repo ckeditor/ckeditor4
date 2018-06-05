@@ -369,6 +369,7 @@
 						hasCaption: !!this.parts.caption,
 						caption: this.parts.caption,
 						src:    image.getAttribute( 'src' ),
+						hasAlt: image.hasAttribute( 'alt' ),
 						alt:    image.getAttribute( 'alt' ) || '',
 						title:  image.getAttribute( 'title' ) || '',
 						width:  image.getAttribute( 'width' ) || '',
