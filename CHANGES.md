@@ -56,7 +56,7 @@ New Features:
 
 New Features:
 
-* [#1763](https://github.com/ckeditor/ckeditor-dev/issues/1763): Easy Image includes backend service error message (if available) on upload failure.
+* [#1763](https://github.com/ckeditor/ckeditor-dev/issues/1763): [Easy Image](https://ckeditor.com/cke4/addon/easyimage) plugin includes backend service error message (if available) on upload failure.
 
 Fixed Issues:
 

@@ -108,6 +108,10 @@
 						data[ i ] = response[ i ];
 					}
 
+					if ( !response.uploaded ) {
+						evt.cancel();
+					}
+
 				} catch ( err ) {
 					// Response parsing error.
 					data.message = fileLoader.lang.filetools.responseError;
@@ -620,7 +624,7 @@
 
 				loader.uploaded = loader.uploadTotal;
 
-				var responseData = fireAndCopyFileUploadResponse();
+				var responseData = handleFileUploadResponse();
 
 				if ( xhr.status < 200 || xhr.status > 299 ) {
 					loader.message = loader.lang.filetools[ 'httpError' + xhr.status ];
@@ -637,7 +641,7 @@
 				}
 			};
 
-			function fireAndCopyFileUploadResponse() {
+			function handleFileUploadResponse() {
 				var data = {
 						fileLoader: loader
 					},

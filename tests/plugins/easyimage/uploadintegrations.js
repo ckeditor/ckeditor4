@@ -275,7 +275,7 @@
 						easyImageDef.loaderType = originalLoader;
 
 						assert.areSame( 1, window.alert.callCount, 'Alert call count' );
-						sinon.assert.alwaysCalledWith( window.alert, 'Input buffer contains unsupported image format.' );
+						assert.isTrue( window.alert.alwaysCalledWith( 'Input buffer contains unsupported image format.' ) );
 
 						// Widget should be removed.
 						assert.areSame( 0, widgets.length, 'Widgets count' );
