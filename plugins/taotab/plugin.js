@@ -77,7 +77,14 @@ CKEDITOR.plugins.add('taotab', {
                     var newNode = findNewNode(getTextNodes(ranges[0].root.$), existingNodes);
                     focusNode = new CKEDITOR.dom.text(newNode);
 
-                    ranges = sel.getRanges();//get the new ranges from the current selection and set the cursor on the new text node:
+                    ranges = sel.getRanges();//get the new ranges from the current selection
+
+                    //address cross-browser issue (especially on EDGE): first, set the cursor in the text node (not on the edge)
+                    ranges[0].setStart(focusNode, tabSize-1);
+                    ranges[0].setEnd(focusNode, tabSize-1);
+                    sel.selectRanges([ranges[0]]);
+
+                    //finally, set the cursor at the end of the new text node
                     ranges[0].setStart(focusNode, tabSize);
                     ranges[0].setEnd(focusNode, tabSize);
                     sel.selectRanges([ranges[0]]);
