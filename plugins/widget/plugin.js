@@ -3176,7 +3176,7 @@
 		range.select();
 
 		if ( needsScrollHack ) {
-			editor.editable().getDocument().ScrollPosition( scrollTop );
+			editor.editable().getDocument().setScrollPosition( scrollTop );
 		}
 
 		setTimeout( function() {
