@@ -1127,19 +1127,28 @@
 				for ( var widgetName in this.repository.instances ) {
 					var widget = this.repository.instances[ widgetName ];
 
-					if ( this === widget || !widget.editables ) {
+					if ( !widget.editables ) {
 						continue;
 					}
 
 					var widgetEditable = widget.editables[ editableName ];
 
-					if ( widgetEditable && editable.filter === widgetEditable.filter ) {
+					if ( !widgetEditable || widgetEditable === editable ) {
+						continue;
+					}
+
+					if ( editable.filter === widgetEditable.filter ) {
 						canDestroyFilter = false;
 					}
 				}
 
 				if ( canDestroyFilter ) {
 					editable.filter.destroy();
+
+					var filters = this.repository._.filters[ this.name ];
+					if ( filters ) {
+						delete filters[ editableName ];
+					}
 				}
 			}
 
