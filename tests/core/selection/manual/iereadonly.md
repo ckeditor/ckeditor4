@@ -1,0 +1,15 @@
+@bender-tags: bug, 4.10.0, 1632, selection, widget
+@bender-ui: collapsed
+@bender-ckeditor-plugins: wysiwygarea, toolbar, placeholder
+
+1. Open console.
+1. Select whole editor content.
+1. Press `ctrl`.
+
+## Expected
+
+No warning or errors inside console.
+
+## Unexpected
+
+Console registered multiple warnings about invalid selection.

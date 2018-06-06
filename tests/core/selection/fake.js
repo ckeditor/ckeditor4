@@ -1106,11 +1106,11 @@ bender.test( {
 			assert.ignore();
 		}
 
-		var editor = this.editor, bot = this.editorBot;
+		var editor = this.editor;
 
 		editor.setReadOnly( true );
 
-		bot.setData( '<p>[[placeholder]]</p>', function() {
+		this.editorBot.setData( '<p>[[placeholder]]</p>', function() {
 			var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ];
 
 			widget.focus();
@@ -1118,6 +1118,31 @@ bender.test( {
 			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + 88 } ) );
 
 			assert.isFalse( !!editor.getSelection().isFake, 'selection is faked' );
+		} );
+	},
+
+	// (#1632)
+	'Test keys with readonly mode are not prevented': function() {
+
+		// Test has been ignored for IE due to #1575 issue. Remove this ignore statement after the issue fix.
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor;
+
+		editor.setReadOnly( true );
+
+		this.editorBot.setData( '<p>[[placeholder]]</p>', function() {
+			var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ],
+				event = new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + 88 } ),
+				eventSpy = sinon.spy( event, 'preventDefault' );
+
+			widget.focus();
+
+			editor.editable().fire( 'keydown', event );
+
+			assert.isFalse( eventSpy.called );
 		} );
 	}
 } );
