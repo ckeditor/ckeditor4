@@ -1536,7 +1536,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 
 				// https://dev.ckeditor.com/ticket/12747.
 				if ( needAdjustScrollAndBorders ) {
-					var scrollRelative = this.getDocumentScrollPosition();
+					var scrollRelative = this.getDocument().getScrollPosition();
 
 					x = box.left + scrollRelative.scrollLeft - clientLeft;
 					y = box.top + scrollRelative.scrollTop - clientTop;
@@ -2101,29 +2101,6 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				else if ( !type || node.type == type )
 					callback( node );
 			}
-		},
-
-		/**
-		 * Returns scroll position of the element's document.
-		 *
-		 * @since 4.10.0
-		 * @returns {Object} Object representing vertical and horizontal scroll position of the document.
-		 * @returns {Number} return.scrollTop vertical scroll position.
-		 * @returns {Number} return.scrollLeft horizontal scroll position.
-		 */
-		getDocumentScrollPosition: function() {
-			return this.getDocument().getScrollPosition();
-		},
-
-		/**
-		 * Set scroll position of element's document.
-		 *
-		 * @since 4.10.0
-		 * @param {Number} scrollTop number of pixels that an element's document is scrolled vertically.
-		 * @param {Number} [scrollLeft] number of pixels that an element's document is scrolled horizontally.
-		 */
-		setDocumentScrollPosition: function( scrollTop, scrollLeft ) {
-			return this.getDocument().setScrollPosition( scrollTop, scrollLeft );
 		},
 
 		/**

@@ -23,7 +23,6 @@
 		assertAllScrolls: function( element, doc, expected ) {
 			this.assertBothScrolls( { left: expected[ 1 ], top: expected[ 0 ] }, element.getScrollPosition(), '`element.getScrollPosition` should return equal values' );
 			this.assertBothScrolls( { left: expected[ 3 ], top: expected[ 2 ] }, doc.getScrollPosition(), '`document.getScrollPosition` should return equal values' );
-			this.assertBothScrolls( { left: expected[ 3 ], top: expected[ 2 ] }, element.getDocumentScrollPosition(), '`element.getDocumentScrollPosition` should return equal values' );
 		}
 	};
 
@@ -99,28 +98,6 @@
 			doc.setScrollPosition( 0, 0 );
 			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 0 ] );
 
-		},
-
-		'test setDocumentScrollPosition for element': function() {
-			var element = new CKEDITOR.dom.element( document.getElementById( 'small' ) ),
-				doc = element.getDocument();
-
-			helpers.resetScrolls( element.$ );
-
-			element.setDocumentScrollPosition( 0, 0 );
-			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 0 ] );
-
-			element.setDocumentScrollPosition( 87, 65 );
-			helpers.assertAllScrolls( element, doc, [ 0, 0, 87, 65 ] );
-
-			element.setDocumentScrollPosition( 0 );
-			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 65 ] );
-
-			element.setDocumentScrollPosition( 43 );
-			helpers.assertAllScrolls( element, doc, [ 0, 0, 43, 65 ] );
-
-			element.setDocumentScrollPosition( 0, 0 );
-			helpers.assertAllScrolls( element, doc, [ 0, 0, 0, 0 ] );
 		}
 
 	} );

@@ -28,7 +28,7 @@ API Changes:
 * [#1712](https://github.com/ckeditor/ckeditor-dev/issues/1712): [`extraPlugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-extraPlugins), [`removePlugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removePlugins) and [`plugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-plugins) configuration options allow whitespace.
 * [#1724](https://github.com/ckeditor/ckeditor-dev/issues/1724): Added option to [`getClientRect`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_dom_element.html#method-getClientRect) function allowing to retrieve an absolute bounding rectangle of the element i.e. position relative to the upper-left corner of the topmost viewport.
 * [#1498](https://github.com/ckeditor/ckeditor-dev/issues/1498) : Added new method 'getClientRects()' to CKEDITOR.dom.range, which returns list of rects for each selected element.
-* [#910](https://github.com/ckeditor/ckeditor-dev/issues/910): Added new methods to CKEDITOR.dom.element and CKEDITOR.dom.document, which set up scroll position of given element or document.
+* [#910](https://github.com/ckeditor/ckeditor-dev/issues/910): Added new methods to [CKEDITOR.dom.element](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_dom_element.html) and [CKEDITOR.dom.document](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_dom_document.html), which set up scroll position of given element or document.
 
 ## CKEditor 4.9.2
 

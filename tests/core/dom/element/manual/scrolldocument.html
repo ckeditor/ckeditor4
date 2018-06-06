@@ -40,8 +40,8 @@
 				doc = element.getDocument();
 
 			if ( !isDoc ) {
-				element.setDocumentScrollPosition( top, left );
-				scroll = element.getDocumentScrollPosition();
+				element.getDocument().setScrollPosition( top, left );
+				scroll = element.getDocument().getScrollPosition();
 			} else {
 				doc.setScrollPosition( top, left );
 				scroll = doc.getScrollPosition();

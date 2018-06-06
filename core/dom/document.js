@@ -266,9 +266,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * @returns {Number} return.scrollLeft horizontal scroll position.
 	 */
 	getScrollPosition: function() {
-		var	scrollingElement = this.getScrollingElement();
-
-		return { scrollTop: scrollingElement.$.scrollTop, scrollLeft: scrollingElement.$.scrollLeft };
+		return this.getScrollingElement().getScrollPosition();
 	},
 
 	/**
@@ -279,12 +277,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * @param {Number} [scrollLeft] number of pixels that document is scrolled horizontally.
 	 */
 	setScrollPosition: function( scrollTop, scrollLeft ) {
-		var scrollingElement = this.getScrollingElement();
-
-		if ( scrollLeft !== undefined ) {
-			scrollingElement.$.scrollLeft = scrollLeft;
-		}
-		scrollingElement.$.scrollTop = scrollTop;
+		this.getScrollingElement().setScrollPosition( scrollTop, scrollLeft );
 	},
 
 	/**

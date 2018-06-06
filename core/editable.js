@@ -807,7 +807,7 @@
 			 * @returns {Number} return.scrollLeft horizontal scroll position.
 			*/
 			getEditableScrollPosition: function() {
-				return this.isInline() ? this.getScrollPosition() : this.getDocumentScrollPosition();
+				return this.isInline() ? this.getScrollPosition() : this.getDocument().getScrollPosition();
 			},
 
 			/**
@@ -818,7 +818,7 @@
 			 * @param {Number} [scrollLeft] number of pixels that an element's document is scrolled horizontally.
 			 */
 			setEditableScrollPosition: function( scrollTop, scrollLeft ) {
-				this.isInline() ? this.setScrollPosition( scrollTop, scrollLeft ) : this.setDocumentScrollPosition( scrollTop, scrollLeft );
+				this.isInline() ? this.setScrollPosition( scrollTop, scrollLeft ) : this.getDocument().setScrollPosition( scrollTop, scrollLeft );
 			},
 
 
