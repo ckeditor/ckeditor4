@@ -90,9 +90,9 @@
 			bender.editorBot.create( { name: 'editor_filter_destroy' }, function( bot ) {
 				var editor = bot.editor;
 
-				new CKEDITOR.filter( 'b', editor );
+				new CKEDITOR.filter( editor, 'br' );
 				new CKEDITOR.filter( editor );
-				new CKEDITOR.filter( 'b ' );
+				new CKEDITOR.filter( 'br' );
 
 				editor.destroy();
 

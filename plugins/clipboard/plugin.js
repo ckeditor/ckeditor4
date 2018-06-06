@@ -1346,7 +1346,7 @@
 		}
 
 		function createSemanticContentFilter() {
-			var filter = new CKEDITOR.filter( null, editor );
+			var filter = new CKEDITOR.filter( editor, {} );
 
 			filter.allow( {
 				$1: {
@@ -1374,12 +1374,12 @@
 					// so it tries to replace it with an element created based on the active enter mode, eventually doing nothing.
 					//
 					// Now you can sleep well.
-					return filters.plainText || ( filters.plainText = new CKEDITOR.filter( 'br', editor ) );
+					return filters.plainText || ( filters.plainText = new CKEDITOR.filter( editor, 'br' ) );
 				} else if ( type == 'semantic-content' ) {
 					return filters.semanticContent || ( filters.semanticContent = createSemanticContentFilter() );
 				} else if ( type ) {
 					// Create filter based on rules (string or object).
-					return new CKEDITOR.filter( type, editor );
+					return new CKEDITOR.filter( editor, type );
 				}
 
 				return null;

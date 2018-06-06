@@ -68,20 +68,20 @@
 	 * filter.check( 'i' ); // -> true
 	 * ```
 	 *
-	 * If filter is only used by a single editor instance, you should pass additional owner editor instance
+	 * If filter is only used by a single editor instance, you should pass editor instance alongside with the rules
 	 * so the filter could be removed with {@link CKEDITOR.editor#destroy} method.
 	 *
 	 * ```javascript
-	 * var filter = new CKEDITOR.filter( 'b', editor );
+	 * var filter = new CKEDITOR.filter( editor, 'b' );
 	 * ```
 	 *
 	 * @since 4.1
 	 * @class
 	 * @constructor Creates a filter class instance.
 	 * @param {CKEDITOR.editor/CKEDITOR.filter.allowedContentRules} editorOrRules
-	 * @param {CKEDITOR.editor} owner Editor owning the filter instance. This parameter is available since 4.10.0.
+	 * @param {CKEDITOR.editor} rules This parameter is available since 4.10.0.
 	 */
-	CKEDITOR.filter = function( editorOrRules, owner ) {
+	CKEDITOR.filter = function( editorOrRules, rules ) {
 		/**
 		 * Whether custom {@link CKEDITOR.config#allowedContent} was set.
 		 *
@@ -175,11 +175,12 @@
 		// Register filter instance.
 		CKEDITOR.filter.instances[ this.id ] = this;
 
-		if ( editorOrRules instanceof CKEDITOR.editor ) {
-			var editor = this.editor = editorOrRules;
+		this.editor = editorOrRules instanceof CKEDITOR.editor ? editorOrRules : null;
+
+		if ( this.editor && !rules ) {
 			this.customConfig = true;
 
-			var allowedContent = editor.config.allowedContent;
+			var allowedContent = this.editor.config.allowedContent;
 
 			// Disable filter completely by setting config.allowedContent = true.
 			if ( allowedContent === true ) {
@@ -191,18 +192,17 @@
 				this.customConfig = false;
 
 			this.allow( allowedContent, 'config', 1 );
-			this.allow( editor.config.extraAllowedContent, 'extra', 1 );
+			this.allow( this.editor.config.extraAllowedContent, 'extra', 1 );
 
 			// Enter modes should extend filter rules (ENTER_P adds 'p' rule, etc.).
-			this.allow( enterModeTags[ editor.enterMode ] + ' ' + enterModeTags[ editor.shiftEnterMode ], 'default', 1 );
+			this.allow( enterModeTags[ this.editor.enterMode ] + ' ' + enterModeTags[ this.editor.shiftEnterMode ], 'default', 1 );
 
-			this.disallow( editor.config.disallowedContent );
+			this.disallow( this.editor.config.disallowedContent );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
 			this.customConfig = false;
-			this.editor = owner;
-			this.allow( editorOrRules, 'default', 1 );
+			this.allow( rules || editorOrRules, 'default', 1 );
 		}
 	};
 
