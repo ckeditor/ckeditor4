@@ -1115,11 +1115,33 @@
 		 * @param {Boolean} [offline] See {@link #method-destroy} method.
 		 */
 		destroyEditable: function( editableName, offline ) {
-			var editable = this.editables[ editableName ];
+			var editable = this.editables[ editableName ],
+				canDestroyFilter = true;
 
 			editable.removeListener( 'focus', onEditableFocus );
 			editable.removeListener( 'blur', onEditableBlur );
 			this.editor.focusManager.remove( editable );
+
+			// Destroy filter if it's no longer used by other editables (#1722).
+			if ( editable.filter ) {
+				for ( var widgetName in this.repository.instances ) {
+					var widget = this.repository.instances[ widgetName ];
+
+					if ( this === widget || !widget.editables ) {
+						continue;
+					}
+
+					var widgetEditable = widget.editables[ editableName ];
+
+					if ( widgetEditable && editable.filter === widgetEditable.filter ) {
+						canDestroyFilter = false;
+					}
+				}
+
+				if ( canDestroyFilter ) {
+					editable.filter.destroy();
+				}
+			}
 
 			if ( !offline ) {
 				this.repository.destroyAll( false, editable );
