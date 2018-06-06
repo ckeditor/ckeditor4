@@ -2107,9 +2107,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * Returns scroll position of the element itself.
 		 *
 		 * @since 4.10.0
-		 * @returns {Object} Object representing vertical and horizontal scroll position of the element itself.
-		 * @returns {Number} return.scrollTop vertical scroll position.
-		 * @returns {Number} return.scrollLeft horizontal scroll position.
+		 * @returns {CKEDITOR.dom.scrollPosition} Object representing vertical and horizontal scroll position of the element itself.
 		 */
 		getScrollPosition: function() {
 			return { scrollTop: this.$.scrollTop, scrollLeft: this.$.scrollLeft };

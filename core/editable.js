@@ -802,9 +802,7 @@
 			 * Returns scroll position of the editable.
 			 *
 			 * @since 4.10.0
-			 * @returns {Object} Object representing vertical and horizontal scroll position of the editable.
-			 * @returns {Number} return.scrollTop vertical scroll position.
-			 * @returns {Number} return.scrollLeft horizontal scroll position.
+			 * @returns {CKEDITOR.dom.scrollPosition} Object representing vertical and horizontal scroll position of the editable.
 			*/
 			getEditableScrollPosition: function() {
 				return this.isInline() ? this.getScrollPosition() : this.getDocument().getScrollPosition();

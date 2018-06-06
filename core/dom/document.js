@@ -261,9 +261,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * Returns scroll position of the document.
 	 *
 	 * @since 4.10.0
-	 * @returns {Object} Object representing vertical and horizontal scroll position of the document.
-	 * @returns {Number} return.scrollTop vertical scroll position.
-	 * @returns {Number} return.scrollLeft horizontal scroll position.
+	 * @returns {CKEDITOR.dom.scrollPosition} Object representing vertical and horizontal scroll position of the document..
 	 */
 	getScrollPosition: function() {
 		return this.getScrollingElement().getScrollPosition();
