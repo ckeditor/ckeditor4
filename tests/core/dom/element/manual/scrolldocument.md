@@ -4,5 +4,5 @@
 
 ----
 
-Press bottom buttons and check if editor is scrolled properly. Compare scroll position with values displayed above editor. Buttons should scroll editor to its edges.
-Repeat steps for both sets of buttons.
+1. Press each of the bottom buttons and check if editor is scrolled properly.
+2. Compare scroll position with values displayed above editor. Buttons should scroll editor to its edges.

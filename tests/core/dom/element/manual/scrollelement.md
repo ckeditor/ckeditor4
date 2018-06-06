@@ -1,7 +1,8 @@
-@bender-tags: 4.8.1, bug
+@bender-tags: 4.10.0, bug
 @bender-ui: collapsed
 @bender-ckeditor-plugins: toolbar, divarea, undo, sourcearea, basicstyles, div
 
 ----
 
-Press bottom buttons and check if editor is scrolled properly. Compare scroll position with values displayed above editor. Buttons should scroll editor to its edges.
+1. Press bottom buttons and check if editor is scrolled properly.
+2. Compare scroll position with values displayed above editor. Buttons should scroll editor to its edges.
