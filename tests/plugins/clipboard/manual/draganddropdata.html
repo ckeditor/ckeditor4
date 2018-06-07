@@ -85,7 +85,8 @@
 
 			CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
 
-			var dataTransfer = evt.data.dataTransfer;
+			var dataTransfer = evt.data.dataTransfer,
+				id = dataTransfer.getData( 'cke/id' );
 
 			dataTransfer.setData( 'contact', CONTACTS[ target.data( 'contact' ) ] );
 
@@ -93,6 +94,12 @@
 
 			if ( dataTransfer.$.setDragImage ) {
 				dataTransfer.$.setDragImage( target.findOne( 'img' ).$, 0, 0 );
+			}
+
+			// This is temporary, should be removed once Edge fully accepts custom mine types in dataTransfer.
+			// https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/11780845/
+			if ( CKEDITOR.env.ie && id ) {
+				dataTransfer.setData( 'cke/id', id );
 			}
 		} );
 	} );
