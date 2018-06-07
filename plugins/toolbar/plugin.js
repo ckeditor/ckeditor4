@@ -97,7 +97,7 @@
 							return false;
 
 						case rightKeyCode:
-							next = getNextItem( item, 'next' );
+							next = getNextOrPreviousItem( item, 'next' );
 
 							// If available, just focus it, otherwise focus the
 							// first one.
@@ -118,7 +118,7 @@
 							return false;
 						case leftKeyCode:
 						case 38: // UP-ARROW
-							next = getNextItem( item, 'previous' );
+							next = getNextOrPreviousItem( item, 'previous' );
 
 							if ( next )
 								next.focus();
@@ -141,28 +141,28 @@
 							return false;
 					}
 					return true;
-					function getNextItem( item, nextOrPrevious ) {
-						var next;
+					function getNextOrPreviousItem( item, nextOrPrevious ) {
+						var toBeFocused;
 						do {
 							// Look for the next item in the toolbar.
-							next = item[ nextOrPrevious ];
+							toBeFocused = item[ nextOrPrevious ];
 
-							while ( next && next.button && next.button.hidden ) {
-								next = next[ nextOrPrevious ];
+							while ( toBeFocused && toBeFocused.button && toBeFocused.button.hidden ) {
+								toBeFocused = toBeFocused[ nextOrPrevious ];
 							}
 							// If it's the last item, cycle to the first one.
-							if ( !next && toolbarGroupCycling ) {
+							if ( !toBeFocused && toolbarGroupCycling ) {
 								if ( nextOrPrevious === 'previous' ) {}
-								next = item.toolbar.items[ nextOrPrevious === 'next' ? 0 : item.toolbar.items.length - 1 ];
+								toBeFocused = item.toolbar.items[ nextOrPrevious === 'next' ? 0 : item.toolbar.items.length - 1 ];
 
-								if ( next.button.hidden ) {
-									return getNextItem( next, nextOrPrevious );
+								if ( toBeFocused.button.hidden ) {
+									return getNextOrPreviousItem( toBeFocused, nextOrPrevious );
 								}
 							}
 						}
-						while ( next && !next.focus );
+						while ( toBeFocused && !toBeFocused.focus );
 
-						return next;
+						return toBeFocused;
 					}
 				};
 
