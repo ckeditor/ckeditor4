@@ -13,10 +13,21 @@
 		editor = CKEDITOR.replace( 'editor1', {
 		on: {
 			instanceReady: function() {
-				var textWatcher = new CKEDITOR.plugins.textWatcher( editor, function( selectionRange ) {
-					var match = document.createElement( 'li' );
-					match.innerText = selectionRange.startContainer.getText();
-					logger.appendChild( match );
+				var counter = 0,
+					counterInterval = 100,
+
+					textWatcher = new CKEDITOR.plugins.textWatcher( editor, function( selectionRange ) {
+					var matchEl = document.createElement( 'li' );
+
+					matchEl.innerText = 'Time: ' + counter + 'ms, Text: ' + selectionRange.startContainer.getText();
+					logger.appendChild( matchEl );
+
+					if ( counter == 0 ) {
+						setInterval( function() {
+							counter += counterInterval;
+						}, counterInterval );
+					}
+
 				}, 2000 );
 
 				textWatcher.attach();

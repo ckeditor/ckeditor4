@@ -3,7 +3,8 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, autocomplete, textmatch
 @bender-include: _helpers/utils.js
 
-1. Focus the editor.
+1. Read expected section before starting the test.
+1. Focus the editor using mouse.
 1. Type `@`.
 1. Wait until dropdown appear.
 1. Immediately type `a`.
