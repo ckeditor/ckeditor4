@@ -91,7 +91,10 @@
 	 *	}
 	 *
 	 *	// Finally, instantiate the autocomplete class.
-	 *	new CKEDITOR.plugins.autocomplete( editor, textTestCallback, dataCallback );
+	 *	new CKEDITOR.plugins.autocomplete( editor, {
+	 *  	textTestCallback: textTestCallback,
+	 *  	dataCallback: dataCallback
+	 *  } );
 	 * ```
 	 *
 	 * # Changing the behavior of the autocomplete class by subclassing it
@@ -131,9 +134,9 @@
 	 *				this.element.setStyle( 'width', container.getSize( 'width' ) + 'px' );
 	 *			};
 	 *
-	 *			function CustomAutocomplete( editor, textTestCallback, dataCallback ) {
+	 *			function CustomAutocomplete( editor, configDefinition ) {
 	 *				// Call the parent class constructor.
-	 *				Autocomplete.call( this, editor, textTestCallback, dataCallback );
+	 *				Autocomplete.call( this, editor, configDefinition );
 	 *			}
 	 *			// Inherit the autocomplete methods.
 	 *			CustomAutocomplete.prototype = CKEDITOR.tools.prototypedCopy( Autocomplete.prototype );
@@ -148,15 +151,9 @@
 	 *	} );
 	 * ```
 	 * @param {CKEDITOR.editor} editor The editor to watch.
-	 * @param {CKEDITOR.plugins.autocomplete.configDefinition} config Configuration object keeping information
-	 * how to instantiate autocomplete plugin.
+	 * @param {CKEDITOR.plugins.autocomplete.configDefinition} config Configuration object for this autocomplete instance.
 	 */
 	function Autocomplete( editor, config ) {
-		var configKeystrokes = editor.config.autocomplete_commitKeystrokes || CKEDITOR.config.autocomplete_commitKeystrokes;
-
-		/**
-		 * The editor instance to which autocomplete is attached to.
-		 *
 		var configKeystrokes = editor.config.autocomplete_commitKeystrokes || CKEDITOR.config.autocomplete_commitKeystrokes;
 
 		/**
@@ -170,9 +167,9 @@
 		/**
 		 * See {@link CKEDITOR.plugins.autocomplete.configDefinition#throttle}.
 		 *
-		 * @property {Number} [throttle=0]
+		 * @property {Number} [throttle]
 		 */
-		this.throttle = config.throttle || 0;
+		this.throttle = config.throttle || 20;
 
 		/**
 		 * The autocomplete view instance.
@@ -1253,14 +1250,17 @@
 	 * Simple usage:
 	 *
 	 * ```javascript
-	 * var definition = { dataCallback: dataCallback, textTestCallback: textTestCallback, throttle: 200 };
+ 	 * var definition = {
+	 *	 dataCallback: dataCallback,
+	 *	 textTestCallback: textTestCallback,
+	 *	 throttle: 200
+	 * };
 	 * ```
 	 *
 	 * @class CKEDITOR.plugins.autocomplete.configDefinition
 	 * @abstract
 	 * @since 4.10.0
 	 */
-
 
 	/**
 	 * Callback executed to get suggestion data based on search query. The returned data will be
@@ -1333,12 +1333,9 @@
 	 */
 
 	/**
-	 * Indicates throttle threshold mitigating text checks.
+	 * Indicates throttle threshold expressed in milliseconds mitigating text checks.
 	 *
-	 * Higher levels of throttle threshold will create visible delay for autocomplete view
-	 * but also save the number of {@link #dataCallback} calls.
-	 *
-	 * @property {Number} [throttle=0]
+	 * @property {Number} [throttle=20]
 	 */
 
 	/**
