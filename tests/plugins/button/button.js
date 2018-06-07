@@ -76,12 +76,12 @@ bender.test( {
 		assert.areEqual( btnEl.getStyle( 'display' ), '' );
 		assert.isUndefined( btn.hidden );
 
-		btn.hideFromToolbar();
+		btn.hide();
 
 		assert.areEqual( btnEl.getStyle( 'display' ), 'none' );
 		assert.isTrue( btn.hidden );
 
-		btn.showInToolbar();
+		btn.show();
 
 		assert.areEqual( btnEl.getStyle( 'display' ), '' );
 		assert.isUndefined( btn.hidden );
