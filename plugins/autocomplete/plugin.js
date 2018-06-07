@@ -21,7 +21,7 @@
 	} );
 
 	/**
-	 * The main class implementing a generic {@link https://ckeditor.com/cke4/addon/autocomplete autocomplete} feature in the editor.
+	 * The main class implementing a generic [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) feature in the editor.
 	 * It is a controller which works with {@link CKEDITOR.plugins.autocomplete.model model} and
 	 * {@link CKEDITOR.plugins.autocomplete.view view} classes.
 	 *

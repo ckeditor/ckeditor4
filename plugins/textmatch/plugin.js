@@ -29,19 +29,19 @@
 	 *	var range = editor.getSelection().getRanges()[ 0 ];
 	 *
 	 *	CKEDITOR.plugins.textMatch.match( range, function( text, offset ) {
-	 *		// Let's assume that text is 'Special thanks to @jo.' and offset is 21.
-	 *		// The offset "21" means that the caret is between '@jo' and '.'.
+	 *		// Let's assume that text is 'Special thanks to #jo.' and offset is 21.
+	 *		// The offset "21" means that the caret is between '#jo' and '.'.
 	 *
 	 *			// Get the text before the caret.
 	 *		var left = text.slice( 0, offset ),
-	 *			// Will look for a literal '@' character and at least two word characters.
-	 *			match = left.match( /@\w{2,}$/ );
+	 *			// Will look for a literal '#' character and at least two word characters.
+	 *			match = left.match( /#\w{2,}$/ );
 	 *
 	 *		if ( !match ) {
 	 *			return null;
 	 *		}
 	 *
-	 *		// The matching fragment is the '@jo', which can
+	 *		// The matching fragment is the '#jo', which can
 	 *		// be identified by the following offsets: { start: 18, end: 21 }.
 	 *		return { start: match.index, end: offset };
 	 *	} );
