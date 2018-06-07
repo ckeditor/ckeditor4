@@ -623,50 +623,7 @@
 		 * @returns {Function} return.reset Resets buffered calls &mdash; `output` will not be executed
 		 * until the next `input` is triggered.
 		 */
-		throttle: function( minInterval, output, contextObj ) {
-			var scheduled,
-				lastOutput = 0;
-
-			contextObj = contextObj || {};
-
-			return {
-				input: input,
-				reset: reset
-			};
-
-			function input() {
-				var args = Array.prototype.slice.call( arguments );
-
-				if ( scheduled ) {
-					clearTimeout( scheduled );
-					scheduled = 0;
-				}
-
-				var diff = ( new Date() ).getTime() - lastOutput;
-
-				// If less than minInterval passed after last check,
-				// schedule next for minInterval after previous one.
-				if ( diff < minInterval ) {
-					scheduled = setTimeout( triggerOutput, minInterval - diff );
-				} else {
-					triggerOutput();
-				}
-
-				function triggerOutput() {
-					lastOutput = ( new Date() ).getTime();
-					scheduled = false;
-
-					output.apply( contextObj, args );
-				}
-			}
-
-			function reset() {
-				if ( scheduled ) {
-					clearTimeout( scheduled );
-					scheduled = lastOutput = 0;
-				}
-			}
-		},
+		throttle: createBufferFunction( true ),
 
 		/**
 		 * Removes spaces from the start and the end of a string. The following
@@ -1313,43 +1270,7 @@
 		 * @returns {Function} return.reset Resets buffered events &mdash; `output` will not be executed
 		 * until next `input` is triggered.
 		 */
-		eventsBuffer: function( minInterval, output, contextObj ) {
-			var scheduled,
-				lastOutput = 0;
-
-			function triggerOutput() {
-				lastOutput = ( new Date() ).getTime();
-				scheduled = false;
-				if ( contextObj ) {
-					output.call( contextObj );
-				} else {
-					output();
-				}
-			}
-
-			return {
-				input: function() {
-					if ( scheduled )
-						return;
-
-					var diff = ( new Date() ).getTime() - lastOutput;
-
-					// If less than minInterval passed after last check,
-					// schedule next for minInterval after previous one.
-					if ( diff < minInterval )
-						scheduled = setTimeout( triggerOutput, minInterval - diff );
-					else
-						triggerOutput();
-				},
-
-				reset: function() {
-					if ( scheduled )
-						clearTimeout( scheduled );
-
-					scheduled = lastOutput = 0;
-				}
-			};
-		},
+		eventsBuffer: createBufferFunction(),
 
 		/**
 		 * Enables HTML5 elements for older browsers (IE8) in the passed document.
@@ -2321,6 +2242,60 @@
 		}
 
 		return result;
+	}
+
+	function createBufferFunction( throttleBuffer ) {
+		return function( minInterval, output, contextObj ) {
+			var scheduled,
+				lastOutput = 0;
+
+			contextObj = contextObj || {};
+
+			return {
+				input: input,
+				reset: reset
+			};
+
+			function input() {
+				var args;
+
+				if ( throttleBuffer ) {
+					args = Array.prototype.slice.call( arguments );
+
+					if ( scheduled ) {
+						clearTimeout( scheduled );
+						scheduled = 0;
+					}
+
+				} else if ( scheduled ) {
+					return;
+				}
+
+				var diff = ( new Date() ).getTime() - lastOutput;
+
+				// If less than minInterval passed after last check,
+				// schedule next for minInterval after previous one.
+				if ( diff < minInterval ) {
+					scheduled = setTimeout( triggerOutput, minInterval - diff );
+				} else {
+					triggerOutput();
+				}
+
+				function triggerOutput() {
+					lastOutput = ( new Date() ).getTime();
+					scheduled = false;
+
+					output.apply( contextObj, args );
+				}
+			}
+
+			function reset() {
+				if ( scheduled ) {
+					clearTimeout( scheduled );
+				}
+				scheduled = lastOutput = 0;
+			}
+		};
 	}
 
 	/**
