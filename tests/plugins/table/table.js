@@ -20,7 +20,7 @@
 
 			bot.dialog( 'tableProperties', function( dialog ) {
 				// Check defaults.
-				assert.areSame( '500px', dialog.getValueOf( 'info', 'txtWidth' ) );
+				assert.areSame( '', dialog.getValueOf( 'info', 'txtWidth' ) );
 				assert.areSame( '3', dialog.getValueOf( 'info', 'txtRows' ) );
 				assert.areSame( '2', dialog.getValueOf( 'info', 'txtCols' ) );
 

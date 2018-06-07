@@ -378,8 +378,8 @@
 								controlStyle: 'width:5em',
 								label: editor.lang.common.width,
 								title: editor.lang.common.cssLengthTooltip,
-								// Smarter default table width. (https://dev.ckeditor.com/ticket/9600)
-								'default': editor.filter.check( 'table{width}' ) ? ( editable.getSize( 'width' ) < 500 ? '100%' : 500 ) : 0,
+                // Remove opiniated 500px default width. (https://github.com/ckeditor/ckeditor-dev/issues/2061)
+                'default': 0,
 								getValue: defaultToPixel,
 								validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength.replace( '%1', editor.lang.common.width ) ),
 								onChange: function() {
