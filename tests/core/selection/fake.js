@@ -1115,7 +1115,7 @@ bender.test( {
 
 			widget.focus();
 
-			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + 88 } ) );
+			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + 88 } ) ); // CUT
 
 			assert.isFalse( !!editor.getSelection().isFake, 'selection is faked' );
 		} );
@@ -1135,7 +1135,7 @@ bender.test( {
 
 		this.editorBot.setData( '<p>[[placeholder]]</p>', function() {
 			var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ],
-				event = new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + 88 } ),
+				event = new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + 88 } ), // CUT
 				eventSpy = sinon.spy( event, 'preventDefault' );
 
 			widget.focus();
