@@ -5,7 +5,8 @@
 
 New Features:
 
-* [#1679](https://github.com/ckeditor/ckeditor-dev/issues/1679): Introduced the [Split Button](https://ckeditor.com/cke4/addon/splitbutton plugin. Also added option to set initial style for button when creating it, and create button without icon.
+
+* [#1679](https://github.com/ckeditor/ckeditor-dev/issues/1679): Introduced the [Split Button](https://ckeditor.com/cke4/addon/splitbutton) plugin. Also added option to set initial style for button when creating it, and create button without icon.
 
 ## CKEditor 4.11.2
 
