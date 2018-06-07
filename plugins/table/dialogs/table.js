@@ -378,8 +378,8 @@
 								controlStyle: 'width:5em',
 								label: editor.lang.common.width,
 								title: editor.lang.common.cssLengthTooltip,
-                // Remove opiniated 500px default width. (https://github.com/ckeditor/ckeditor-dev/issues/2061)
-                'default': 0,
+								// Remove opiniated 500px default width. (https://github.com/ckeditor/ckeditor-dev/issues/2061)
+								'default': 0,
 								getValue: defaultToPixel,
 								validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength.replace( '%1', editor.lang.common.width ) ),
 								onChange: function() {
