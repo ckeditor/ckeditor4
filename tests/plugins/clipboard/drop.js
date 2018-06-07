@@ -1,4 +1,4 @@
-/* bender-tags: clipboard, 13468, 13015, 13140, 12806, 13011, 13453, 1832 */
+/* bender-tags: clipboard, 13468, 13015, 13140, 12806, 13011, 13453, 1832, 1943 */
 /* bender-ckeditor-plugins: toolbar,clipboard,undo */
 /* bender-include: _helpers/pasting.js */
 
@@ -1180,6 +1180,7 @@ var testsForMultipleEditor = {
 		},
 
 		// #1832 https://github.com/ckeditor/ckeditor-dev/issues/1832
+		// #1943 https://github.com/ckeditor/ckeditor-dev/issues/1943
 		'test dragOver Edge': function() {
 			if ( !CKEDITOR.env.edge ) {
 				assert.ignore();
