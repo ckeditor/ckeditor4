@@ -1,9 +1,12 @@
 CKEDITOR.plugins.add('taountab', {
-    onLoad: function(){
-        CKEDITOR.addCss('span.white-space-pre{white-space:pre}');
-    },
     init: function(editor) {
 
+        /**
+         * Get the starting index of a pattern of successive whitespaces
+         * @param {String} selectedText - the string to look into
+         * @param {Number} spaceNum - number of successive spaces sequence to find
+         * @returns {Number}
+         */
         function getSuccessiveSpacesStartIndex(selectedText, spaceNum){
             var successive = 0;
             var startIndex = -1;
@@ -28,17 +31,20 @@ CKEDITOR.plugins.add('taountab', {
 
         editor.addCommand('removeTab', {
             exec: function(editor) {
+
                 var spaceNum = 4;
                 var sel = editor.getSelection();
                 var ranges = editor.getSelection().getRanges();
-                var caretPosition = ranges[0].startOffset;
-                var selectedText, startIndex, position;
+                var caretPosition, selectedText, startIndex, position;
+
                 //first, select a range of strings to verify if there are enough successive whitespaces, using the native selection is here more reliable than ckeditor's api
                 var focusNode = new CKEDITOR.dom.text(sel._.cache.nativeSel.focusNode);
                 var text = focusNode.getText();
+
                 if(text === null){
-                    return;//todo fix this: temporarily skip the situation where the focus in on an empty node
+                    return;//empty node so no tab to be removed
                 }
+                caretPosition = ranges[0].startOffset;
                 ranges[0].setStart(focusNode, Math.max(0, caretPosition - spaceNum));
                 ranges[0].setEnd(focusNode, Math.min(caretPosition + spaceNum, text.length));
                 sel.selectRanges([ranges[0]]);
