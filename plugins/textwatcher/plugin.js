@@ -151,7 +151,7 @@
 		 *
 		 * @private
 		 */
-		this._buffer = CKEDITOR.tools.throttle( this.throttle, check, this );
+		this._buffer = CKEDITOR.tools.throttle( this.throttle, matchTextTestCallback, this );
 
 		/**
 		 * Event fired when the text is no longer matching.
@@ -167,6 +167,21 @@
 		 *
 		 * @event unmatched
 		 */
+
+		function matchTextTestCallback( selectionRange ) {
+			var matched = this.callback( selectionRange );
+
+			if ( matched ) {
+				if ( matched.text == this.lastMatched ) {
+					return;
+				}
+
+				this.lastMatched = matched.text;
+				this.fire( 'matched', matched );
+			} else if ( this.lastMatched ) {
+				this.unmatch();
+			}
+		}
 	}
 
 	TextWatcher.prototype = {
@@ -270,21 +285,6 @@
 			this._listeners = [];
 		}
 	};
-
-	function check( selectionRange ) {
-		var matched = this.callback( selectionRange );
-
-		if ( matched ) {
-			if ( matched.text == this.lastMatched ) {
-				return;
-			}
-
-			this.lastMatched = matched.text;
-			this.fire( 'matched', matched );
-		} else if ( this.lastMatched ) {
-			this.unmatch();
-		}
-	}
 
 	CKEDITOR.event.implementOn( TextWatcher.prototype );
 
