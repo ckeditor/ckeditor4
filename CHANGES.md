@@ -20,6 +20,7 @@ Fixed Issues:
 * [#1184](https://github.com/ckeditor/ckeditor-dev/issues/1184): [IE8-11] Fixed: Copying and pasting data in [read-only mode](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#property-readOnly) throws an error.
 * [#1916](https://github.com/ckeditor/ckeditor-dev/issues/1916): [IE9-11] Fixed: Pressing <kbd>Delete</kbd> key in [read-only mode](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#property-readOnly) throws an error.
 * [#2254](https://github.com/ckeditor/ckeditor-dev/issues/2254): Fixed: [Image](https://ckeditor.com/cke4/addon/image) ratio locking is too precise for resized images. Thanks to [Jonathan Gilbert](https://github.com/logiclrd)!
+* [#2003](https://github.com/ckeditor/ckeditor-dev/issues/2003): Fixed: Right-clicking on multiple selected cells containing empty paragraphs removes the selection on Firefox.
 
 API Changes:
 
