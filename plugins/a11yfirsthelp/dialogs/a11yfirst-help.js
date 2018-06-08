@@ -106,6 +106,13 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       if ( editor.a11yfirst.helpOption ) {
         showHelpTopic( editor.a11yfirst.helpOption );
       }
+
+      // Add version information to the button bar at the bottom of the dialog box
+      node = document.querySelector('.cke_dialog_footer');
+      html = document.createElement('div');
+      html.setAttribute('style', 'position: absolute; top: 0.75em; left: 0.75em');
+      html.innerHTML = lang.versionLabel + ' ' + version;
+      node.insertBefore(html, node.firstElementChild);
     },
 
     contents: [
