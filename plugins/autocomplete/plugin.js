@@ -259,8 +259,8 @@
 			this._listeners.push( this.textWatcher.on( 'matched', this.onTextMatched, this ) );
 			this._listeners.push( this.textWatcher.on( 'unmatched', this.onTextUnmatched, this ) );
 			this._listeners.push( this.model.on( 'change-data', this.onData, this ) );
-			this._listeners.push( this.model.on( 'change-selectedItemId', this.onModelItemChange, this ) );
-			this._listeners.push( this.view.on( 'change-selectedItemId', this.onViewItemChange, this ) );
+			this._listeners.push( this.model.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
+			this._listeners.push( this.view.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
 			this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
 
 			// Update view position on viewport change.
@@ -488,21 +488,13 @@
 
 		/**
 		 * The function registered by the {@link #attach} method as the
-		 * {@link CKEDITOR.plugins.autocomplete.view#change-selectedItemId} event listener.
+		 * {@link CKEDITOR.plugins.autocomplete.view#change-selectedItemId view#change-selectedItemId}
+		 * and {@link CKEDITOR.plugins.autocomplete.model#change-selectedItemId model#change-selectedItemId} event listeners.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
 		 */
-		onViewItemChange: function( evt ) {
+		onSelectedItemId: function( evt ) {
 			this.model.setItem( evt.data );
-		},
-
-		/**
-		 * The function registered by the {@link #attach} method as the
-		 * {@link CKEDITOR.plugins.autocomplete.model#change-selectedItemId} event listener.
-		 *
-		 * @param {CKEDITOR.eventInfo} evt
-		 */
-		onModelItemChange: function( evt ) {
 			this.view.selectItem( evt.data );
 		},
 
@@ -613,6 +605,13 @@
 		 * @param {String} The clicked item {@link CKEDITOR.plugins.autocomplete.model.item#id}. Note: the id
 		 * is stringified due to the way how it is stored in the DOM.
 		 */
+
+		/**
+		 * Event fired when the {@link #selectedItemId} property changes.
+		 *
+		 * @event change-selectedItemId
+		 * @param {Number/String} data The new value.
+		 */
 	}
 
 	View.prototype = {
@@ -655,7 +654,6 @@
 				if ( this.element.contains( target ) ) {
 					var itemId = target.data( 'id' );
 
-					this.selectItem( itemId );
 					this.fire( 'change-selectedItemId', itemId );
 				}
 
@@ -1088,13 +1086,11 @@
 		},
 
 		/**
-		 * Selects an item. Sets the {@link #selectedItemId} property and
-		 * fires the {@link #change-selectedItemId} event.
+		 * Fires the {@link #change-selectedItemId} event.
 		 *
 		 * @param {Number/String} itemId
 		 */
 		select: function( itemId ) {
-			this.setItem( itemId );
 			this.fire( 'change-selectedItemId', itemId );
 		},
 
