@@ -151,7 +151,7 @@
 		 *
 		 * @private
 		 */
-		this._buffer = CKEDITOR.tools.throttle( this.throttle, matchTextTestCallback, this );
+		this._buffer = CKEDITOR.tools.throttle( this.throttle, testTextMatch, this );
 
 		/**
 		 * Event fired when the text is no longer matching.
@@ -168,7 +168,7 @@
 		 * @event unmatched
 		 */
 
-		function matchTextTestCallback( selectionRange ) {
+		function testTextMatch( selectionRange ) {
 			var matched = this.callback( selectionRange );
 
 			if ( matched ) {
