@@ -4,16 +4,15 @@
 
 1. Focus the editor.
 1. Start typing `a` constantly.
-1. Check log above the editor. 
+1. Check log above the editor.
 
 ## Expected
 
 Typed text should be logged:
+
 1. Immediately after first typed character.
 1. Not more often than once every 2000ms.
 
 ## Unexpected
 
 Typed text is logged immediately or in invalid interval times.
-
-***Other details*** Measured time by logger can have slight error +/- 100ms.

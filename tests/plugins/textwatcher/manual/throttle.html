@@ -3,35 +3,57 @@
 	height: 200px;
 	overflow-y: auto;
 }
+
+#performance-msg {
+	position: absolute;
+	top: 20px;
+	border: 2px solid orange;
+	color: orange;
+	background: #111;
+	padding: 0.3em;
+	right: 150px;
+	display: none;
+}
 </style>
+<div id="performance-msg">
+	Your browser does not have
+	<var>performance.now()</var>
+	function. So you have to feel out the timings :(
+</div>
 <strong>Logger: </strong>
 <ul id="logger"></ul>
 <div id="editor1" ></div>
 
 <script>
 	var logger = document.getElementById( 'logger' ),
+		hasPerformance = window.performance && window.performance.now,
 		editor = CKEDITOR.replace( 'editor1', {
 		on: {
 			instanceReady: function() {
-				var counter = 0,
-					counterInterval = 100,
-
+				var lastTime = null,
 					textWatcher = new CKEDITOR.plugins.textWatcher( editor, function( selectionRange ) {
-					var matchEl = document.createElement( 'li' );
+						var now = hasPerformance ? performance.now() : null,
+							matchEl = document.createElement( 'li' );
 
-					matchEl.innerText = 'Time: ' + counter + 'ms, Text: ' + selectionRange.startContainer.getText();
-					logger.appendChild( matchEl );
+						if ( lastTime === null ) {
+							lastTime = now;
+						}
 
-					if ( counter == 0 ) {
-						setInterval( function() {
-							counter += counterInterval;
-						}, counterInterval );
-					}
+						matchEl.innerText = hasPerformance ? 'Delta: ' + ( now - lastTime ) + 'ms, ' : '';
+						matchEl.innerText += 'Text: ' + selectionRange.startContainer.getText();
+						logger.appendChild( matchEl );
 
-				}, 2000 );
+						lastTime = now;
+
+						// Throttling set slightly higher than expected due to https://github.com/ckeditor/ckeditor-dev/pull/2001#discussion_r194047585.
+					}, 2002 );
 
 				textWatcher.attach();
 			}
 		}
 	} );
+
+	if ( !hasPerformance ) {
+		CKEDITOR.document.getById( 'performance-msg' ).setStyle( 'display', 'block' );
+	}
 </script>

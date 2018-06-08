@@ -92,9 +92,9 @@
 	 *
 	 *	// Finally, instantiate the autocomplete class.
 	 *	new CKEDITOR.plugins.autocomplete( editor, {
-	 *  	textTestCallback: textTestCallback,
-	 *  	dataCallback: dataCallback
-	 *  } );
+	 *		textTestCallback: textTestCallback,
+	 *		dataCallback: dataCallback
+	 *	} );
 	 * ```
 	 *
 	 * # Changing the behavior of the autocomplete class by subclassing it
