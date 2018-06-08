@@ -1333,7 +1333,7 @@
 	 */
 
 	/**
-	 * Indicates throttle threshold expressed in milliseconds mitigating text checks.
+	 * Indicates throttle threshold expressed in milliseconds reducing text checks frequency.
 	 *
 	 * @property {Number} [throttle=20]
 	 */
