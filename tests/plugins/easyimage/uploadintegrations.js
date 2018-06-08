@@ -3,6 +3,8 @@
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, %BASE_PATH%/plugins/imagebase/features/_helpers/tools.js */
 /* bender-include: ./_helpers/tools.js */
 /* global imageBaseFeaturesTools, pasteFiles, assertPasteEvent, easyImageTools */
+/* bender-include: ../uploadfile/_helpers/waitForImage.js */
+/* global pasteFiles, waitForImage */
 
 ( function() {
 	'use strict';
@@ -145,7 +147,10 @@
 				assert.areSame( 'easyimage', widgets[ 0 ].name, 'Widget type' );
 				assert.areSame( bender.tools.pngBase64, widgets[ 0 ].parts.image.getAttribute( 'src' ), 'Image src attribute' );
 
-				assert.beautified.html( CKEDITOR.document.getById( 'expected-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
+				// Assertion failed on Edge because it was fired before image 'load' event, on which easyimage plugin adds width #2057.
+				waitForImage( editor.editable().findOne( 'img' ), function() {
+					assert.beautified.html( CKEDITOR.document.getById( 'expected-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
+				} );
 
 				this.listeners.push( widgets[ 0 ].once( 'uploadDone', function() {
 					resume( function() {
