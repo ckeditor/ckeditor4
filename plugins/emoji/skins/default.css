@@ -4,3 +4,39 @@
 	white-space: nowrap;
 	font-family: sans-serif, Arial, Verdana, "Trebuchet MS", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
+
+.cke_emoji_item {
+	list-style-type: none;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin: 5px 5px 5px 0;
+}
+
+.cke_emoji_panel {
+	width: 180px;
+	height: 220px;
+}
+
+.cke_emoji_list {
+	max-height: 100%;
+}
+
+.cke_emoji_list > ul {
+	padding: 0;
+	margin: 0;
+	width: 150px;
+}
+
+.cke_emoji_panel_block {
+	padding: 10px;
+	overflow: hidden;
+}
+
+.cke_emoji_inner_panel {
+	width: 100%;
+}
+
+.cke_emoji_inner_panel > h2 {
+	font-size: 0.8em;
+}
