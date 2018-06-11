@@ -7,7 +7,7 @@
 	bender.editors = {
 		standard: {
 			config: {
-				extraAllowedContent: 'strong'
+				allowedContent: 'strong'
 			}
 		},
 		arrayKeystrokes: {
@@ -22,6 +22,11 @@
 		}
 	};
 
+	var configDefinition = {
+		textTestCallback: textTestCallback,
+		dataCallback: dataCallback
+	};
+
 	bender.test( {
 
 		'test API exists': function() {
@@ -32,7 +37,7 @@
 
 		'test esc key closes view': function() {
 			var editor = this.editors.standard,
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -49,7 +54,7 @@
 
 		'test autocomplete starts with the first item selected': function() {
 			var editor = this.editors.standard,
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -64,7 +69,7 @@
 		'test arrow down selects next item': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -91,7 +96,7 @@
 		'test arrow up selects previous item': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -123,7 +128,7 @@
 		'test enter inserts match': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -139,7 +144,7 @@
 		'test tab inserts match': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -155,7 +160,7 @@
 		'test custom autocomplete.commitKeystrokes value': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -176,7 +181,7 @@
 		'test custom config.autocomplete_commitKeystrokes (array format)': function() {
 			var editor = this.editors.arrayKeystrokes,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.arrayKeystrokes.setHtmlWithSelection( '' );
 
@@ -195,7 +200,7 @@
 		'test custom config.autocomplete_commitKeystrokes (primitive number)': function() {
 			var editor = this.editors.singleKeystroke,
 				editable = editor.editable(),
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.singleKeystroke.setHtmlWithSelection( '' );
 
@@ -213,7 +218,7 @@
 
 		'test click inserts match': function() {
 			var editor = this.editors.standard,
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -234,7 +239,7 @@
 				assert.ignore();
 			}
 
-			var ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+			var ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -279,15 +284,48 @@
 			ac.destroy();
 		},
 
+		// (#1997)
+		'test throttle': function() {
+			var editor = this.editors.standard,
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					dataCallback: dataCallback,
+					textTestCallback: function( selectionRange ) {
+						return {
+							text: CKEDITOR.tools.getUniqueId(),
+							range: selectionRange
+						};
+					},
+					throttle: 100
+				} ),
+				callbackSpy = sinon.spy( ac.textWatcher, 'callback' );
+
+			this.editorBots.standard.setHtmlWithSelection( '' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			assert.isTrue( callbackSpy.calledOnce );
+
+			setTimeout( function() {
+				resume( function() {
+					assert.isTrue( callbackSpy.calledTwice );
+					ac.destroy();
+				} );
+			}, 100 );
+			wait();
+		},
+
 		// (#1987)
 		'test custom view template': function() {
 			var editor = this.editors.standard,
-				itemTemplate = '<li data-id="{id}"><strong>{name}</strong></li>',
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback,
-					function( query, range, callback ) {
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					textTestCallback: textTestCallback,
+					dataCallback: function( query, range, callback ) {
 						callback( [ { id: 1, name: 'anna' } ] );
 					},
-					itemTemplate );
+					itemTemplate: '<li data-id="{id}"><strong>{name}</strong></li>'
+				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -303,13 +341,13 @@
 		'test custom output template': function() {
 			var editor = this.editors.standard,
 				editable = editor.editable(),
-				outputTemplate = '<strong>{name}</strong>',
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback,
-					function( query, range, callback ) {
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					textTestCallback: textTestCallback,
+					dataCallback: function( query, range, callback ) {
 						callback( [ { id: 1, name: 'anna' } ] );
 					},
-					null,
-					outputTemplate );
+					outputTemplate: '<strong>{name}</strong>'
+				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -326,8 +364,8 @@
 			var editor = this.editors.standard,
 				editable = editor.editable(),
 				lastRangeRect = { left: 10, top: 10, height: 10 },
-				ac = new CKEDITOR.plugins.autocomplete( editor,
-					function() {
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					textTestCallback: function() {
 						var range = editor.createRange(),
 							invalidRect = { top: 0, left: 0, height: 5 };
 
@@ -335,7 +373,8 @@
 
 						return { text: '@Annabelle', range: range };
 					},
-					dataCallback );
+					dataCallback: dataCallback
+				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '@Annabelle^' );
 
@@ -356,7 +395,7 @@
 
 			ac.destroy();
 		}
-	}	);
+	} );
 
 	function assertViewOpened( ac, isOpened ) {
 		var opened = ac.view.element.hasClass( 'cke_autocomplete_opened' );
@@ -367,7 +406,7 @@
 		}
 	}
 
-	function matchTestCallback( selectionRange ) {
+	function textTestCallback( selectionRange ) {
 		return { text: 'text', range: selectionRange };
 	}
 

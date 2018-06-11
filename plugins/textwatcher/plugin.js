@@ -67,12 +67,13 @@
 	 * @param {CKEDITOR.editor} editor The editor instance to watch in.
 	 * @param {Function} callback Callback executed when the text watcher
 	 * thinks that something might have changed.
+	 * @param {Number} [throttle=0] Throttle inverval, see {@link #throttle}.
 	 * @param {CKEDITOR.dom.range} callback.range The range representing the caret position.
 	 * @param {Object} [callback.return=null] Matching text data (`null` if nothing matches).
 	 * @param {String} callback.return.text The matching text.
 	 * @param {CKEDITOR.dom.range} callback.return.range Range in the DOM for the text that matches.
 	 */
-	function TextWatcher( editor, callback ) {
+	function TextWatcher( editor, callback, throttle ) {
 		/**
 		 * The editor instance which the text watcher watches.
 		 *
@@ -133,6 +134,26 @@
 		this._listeners = [];
 
 		/**
+		 * Indicates throttle threshold mitigating text checks.
+		 *
+		 * Higher levels of throttle threshold will create delay for text watcher checks
+		 * but also improve its performance.
+		 *
+		 * See {@link CKEDITOR.tools#throttle throttle} feature for more information.
+		 *
+		 * @readonly
+		 * @property {Number} [throttle=0]
+		 */
+		this.throttle = throttle || 0;
+
+		/**
+		 * {@link CKEDITOR.tools#throttle Throttle buffer} used to mitigate text checks.
+		 *
+		 * @private
+		 */
+		this._buffer = CKEDITOR.tools.throttle( this.throttle, testTextMatch, this );
+
+		/**
 		 * Event fired when the text is no longer matching.
 		 *
 		 * @event matched
@@ -146,6 +167,21 @@
 		 *
 		 * @event unmatched
 		 */
+
+		function testTextMatch( selectionRange ) {
+			var matched = this.callback( selectionRange );
+
+			if ( matched ) {
+				if ( matched.text == this.lastMatched ) {
+					return;
+				}
+
+				this.lastMatched = matched.text;
+				this.fire( 'matched', matched );
+			} else if ( this.lastMatched ) {
+				this.unmatch();
+			}
+		}
 	}
 
 	TextWatcher.prototype = {
@@ -215,18 +251,7 @@
 				return;
 			}
 
-			var matched = this.callback( selectionRange );
-
-			if ( matched ) {
-				if ( matched.text == this.lastMatched ) {
-					return;
-				}
-
-				this.lastMatched = matched.text;
-				this.fire( 'matched', matched );
-			} else if ( this.lastMatched ) {
-				this.unmatch();
-			}
+			this._buffer.input( selectionRange );
 		},
 
 		/**
