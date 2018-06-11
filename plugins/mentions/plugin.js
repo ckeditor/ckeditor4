@@ -100,12 +100,13 @@
 		 * @property {CKEDITOR.plugins.autocomplete}
 		 * @private
 		 */
-		this._autocomplete = new CKEDITOR.plugins.autocomplete( editor,
-			getTextTestCallback( this.marker, this.minChars, this.pattern ),
-			getDataCallback( feed, this ),
-			config.itemTemplate,
-			config.outputTemplate
-		);
+		this._autocomplete = new CKEDITOR.plugins.autocomplete( editor, {
+			textTestCallback: getTextTestCallback( this.marker, this.minChars, this.pattern ),
+			dataCallback: getDataCallback( feed, this ),
+			itemTemplate: config.itemTemplate,
+			outputTemplate: config.outputTemplate,
+			throttle: 0
+		} );
 	}
 
 	Mentions.prototype = {
