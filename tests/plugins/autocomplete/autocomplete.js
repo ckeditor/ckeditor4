@@ -329,6 +329,7 @@
 				getDocumentPositionStub = sinon.stub( CKEDITOR.dom.element.prototype, 'getDocumentPosition' )
 					.returns( { x: 0, y: 0 } ),
 				lastRangeRect = { left: 10, top: 10, height: 10 },
+				offset = 3,
 				ac = new CKEDITOR.plugins.autocomplete( editor,
 					function() {
 						var range = editor.createRange(),
@@ -345,8 +346,6 @@
 			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 			getDocumentPositionStub.restore();
-
-			var offset = 3;
 
 			assert.isNumberInRange( ac.view.element.getSize( 'left' ),
 				lastRangeRect.left - offset,
