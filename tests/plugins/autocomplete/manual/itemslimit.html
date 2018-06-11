@@ -1,0 +1,15 @@
+<div id="editor"></div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback(),
+					itemsLimit: 1
+				} );
+			}
+		}
+	} );
+</script>
