@@ -10,6 +10,7 @@
 
 	CKEDITOR.plugins.add( 'emoji', {
 		requires: 'autocomplete,textmatch,ajax',
+		icons: 'emojipanel',
 		beforeInit: function() {
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
 		},
@@ -19,10 +20,12 @@
 				return;
 			}
 
-			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json';
+			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
+				lang = editor.lang.emoji,
+				defaultEmojiList = null;
 
 			CKEDITOR.ajax.load( CKEDITOR.getUrl( emojiListUrl ), function( data ) {
-				var defaultEmojiList = JSON.parse( data );
+				defaultEmojiList = JSON.parse( data );
 
 				if ( !editor._.emojiList ) {
 					editor._.emojiList = defaultEmojiList;
@@ -148,6 +151,56 @@
 					}
 				}
 			} );
+
+			editor.addCommand( 'insertEmoji', {
+				exec: function( editor, data ) {
+					editor.insertText( data.emojiName );
+				}
+			} );
+
+			// Name is responsible for icon name also.
+			editor.ui.add( 'emojiPanel', CKEDITOR.UI_PANELBUTTON, {
+				label: 'emoji',
+				title: 'Emoji List',
+				modes: { wysiwyg: 1 },
+				editorFocus: 0,
+				toolbar: 'emoji',
+				panel: {
+					css: [ CKEDITOR.skin.getPath( 'editor' ), this.path + 'skins/default.css' ],
+					attributes: { role: 'listbox', 'aria-label': 'Emoji List' }
+				},
+
+				onBlock: function( panel, block ) {
+					block.element.addClass( 'cke_emoji_panel_block' );
+					block.element.setHtml( getEmojiBlock() );
+					panel.element.addClass( 'cke_emoji_panel' );
+
+				}
+
+			} );
+
+			var clickFn = CKEDITOR.tools.addFunction( function( event ) {
+				editor.insertText( ':' + event.target.dataset.ckeEmojiName + ':' );
+			} );
+
+			function getEmojiBlock() {
+				var output = [];
+				// Search Box:
+				output.push( '<input type="search">' );
+				// Result box:
+				var resultTpl = new CKEDITOR.template( '<h2>{langTitle}</h2>' );
+				var emojiTpl = new CKEDITOR.template( '<li data-cke-emoji-name="{id}" class="cke_emoji_item cke_emoji_item_active">{symbol}</li>' );
+				output.push( resultTpl.output( { langTitle: lang ? lang.resultTitle : 'Frequently used' } ) );
+
+				output.push( '<div class="cke_emoji_list"><ul onclick="CKEDITOR.tools.callFunction(', clickFn, ',event);return false;">' );
+				CKEDITOR.tools.array.forEach( defaultEmojiList, function( emoji ) {
+					output.push( emojiTpl.output( { symbol: emoji.symbol, id: emoji.id.replace( /^:|:$/g, '' ) } ) );
+				} );
+				output.push( '</ul></div>' );
+
+				return '<div class="cke_emoji_inner_panel">' + output.join( '' ) + '</div>';
+			}
+
 		}
 	} );
 } )();
