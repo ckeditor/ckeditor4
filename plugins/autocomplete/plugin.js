@@ -169,7 +169,7 @@
 		 *
 		 * @property {Number} [throttle]
 		 */
-		this.throttle = config.throttle || 20;
+		this.throttle = config.throttle !== undefined ? config.throttle : 20;
 
 		/**
 		 * The autocomplete view instance.
