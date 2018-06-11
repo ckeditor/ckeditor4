@@ -95,6 +95,14 @@
 		this.cache = config.cache !== undefined ? config.cache : true;
 
 		/**
+		 * See {@link CKEDITOR.plugins.mentions.configDefinition#throttle throttle}.
+		 *
+		 * @property {Boolean} [throttle]
+		 * @readonly
+		 */
+		this.throttle = config.throttle !== undefined ? config.throttle : 200;
+
+		/**
 		 * {@link CKEDITOR.plugins.autocomplete Autocomplete} instance used by mentions feature to implement autocompletion logic.
 		 *
 		 * @property {CKEDITOR.plugins.autocomplete}
@@ -105,7 +113,7 @@
 			dataCallback: getDataCallback( feed, this ),
 			itemTemplate: config.itemTemplate,
 			outputTemplate: config.outputTemplate,
-			throttle: 0
+			throttle: this.throttle
 		} );
 	}
 
@@ -393,6 +401,12 @@
 	 * See {@link CKEDITOR.plugins.autocomplete#outputTemplate}.
 	 *
 	 * @property {String} [outputTemplate]
+	 */
+
+	/**
+	 * See {@link CKEDITOR.plugins.autocomplete.configDefinition#throttle}.
+	 *
+	 * @property {String} [throttle=200]
 	 */
 
 	/**
