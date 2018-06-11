@@ -179,7 +179,7 @@
 		 *
 		 * @property {Boolean} [followingSpace]
 		 */
-		this.throttle = config.followingSpace !== undefined ? config.followingSpace : true;
+		this.followingSpace = config.followingSpace !== undefined ? config.followingSpace : true;
 
 		/**
 		 * The autocomplete view instance.
