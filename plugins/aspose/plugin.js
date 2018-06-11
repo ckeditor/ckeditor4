@@ -28,7 +28,8 @@
 		var POSSIBLE_ERRORS = [
 			'more than one element first level',
 			'have table inside',
-			'have more than one list'
+			'have more than one list',
+			'have more than one inserted paragraph'
 			// 'have list inside'
 		];
 		var errors = [];
@@ -36,6 +37,10 @@
 
 		if ($editor.children().length > 1) {
 			errors.push(POSSIBLE_ERRORS[0])
+		}
+
+		if ($editor.find('p p').length > 0) {
+			errors.push(POSSIBLE_ERRORS[4])
 		}
 
 		if ($editor.find('* table').length && $editor.text().length > $editor.find('table').text().length) {

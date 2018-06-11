@@ -79,7 +79,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.coreStyles_italic = { element: 'span', styles: { 'font-style': 'italic' }, overrides: 'em' };
 	config.coreStyles_underline = { element: 'span', styles: { 'text-decoration': 'underline' }, overrides: 'u' };
 
-	config.pasteDisallowContent = '*[data-id, table-parent-id, table-id, par-style, class, data-placeholder-id]';
+	config.pasteDisallowContent = '*[data-id, table-parent-id, table-id, par-style, class, data-placeholder-id]; p';
 	config.pasteFromWordRemoveFontStyles = false;
 	config.pasteFromWordRemoveStyles = false;
 
