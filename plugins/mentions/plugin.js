@@ -97,7 +97,7 @@
 		/**
 		 * See {@link CKEDITOR.plugins.mentions.configDefinition#throttle throttle}.
 		 *
-		 * @property {Boolean} [throttle]
+		 * @property {Number} [throttle]
 		 * @readonly
 		 */
 		this.throttle = config.throttle !== undefined ? config.throttle : 200;
@@ -406,7 +406,7 @@
 	/**
 	 * See {@link CKEDITOR.plugins.autocomplete.configDefinition#throttle}.
 	 *
-	 * @property {String} [throttle=200]
+	 * @property {Number} [throttle=200]
 	 */
 
 	/**
