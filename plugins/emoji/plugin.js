@@ -10,7 +10,11 @@
 
 	CKEDITOR.plugins.add( 'emoji', {
 		requires: 'autocomplete,textmatch,ajax',
-		beforeInit: function( editor ) {
+		beforeInit: function() {
+			CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
+		},
+
+		init: function( editor ) {
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				return;
 			}
@@ -49,16 +53,12 @@
 				} );
 
 				editor.on( 'instanceReady', function() {
-					var emoji = new CKEDITOR.plugins.autocomplete( editor, {
+					new CKEDITOR.plugins.autocomplete( editor, {
 						textTestCallback: getTextTestCallback(),
-						dataCallback: dataCallback
+						dataCallback: dataCallback,
+						itemTemplate: '<li data-id="{id}" class="cke_emoji_suggestion_item">{symbol} {id}</li>',
+						outputTemplate: '{symbol}'
 					} );
-
-					emoji.view.itemTemplate = new CKEDITOR.template( '<li data-id="{id}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{symbol} {id}</li>' );
-					emoji.getHtmlToInsert = function( item ) {
-						return item.symbol;
-					};
-
 				} );
 
 				editor.on( 'toHtml', function( evt ) {
