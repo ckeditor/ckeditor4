@@ -31,5 +31,11 @@ bender.test( {
 		assert.isTrue( btnEl.hasClass( 'cke_combo' ), 'check ui type class name' );
 		assert.isTrue( btnEl.hasClass( 'cke_combo__custom_combo' ), 'check named ui type class name' );
 		assert.isTrue( btnEl.hasClass( customCls ), 'check ui item custom class name' );
+	},
+	'test aria-haspopup': function() {
+		var combo = this.editor.ui.get( 'custom_combo' ),
+			anchorEl = CKEDITOR.document.getById( 'cke_' + combo.id ).findOne( 'a' );
+
+		assert.areEqual( anchorEl.getAttribute( 'aria-haspopup' ), 'listbox' );
 	}
 } );

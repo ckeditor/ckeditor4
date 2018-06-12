@@ -3,7 +3,7 @@
 
 bender.editor = {
 	config: {
-		toolbar: [ [ 'custom_btn', 'disabled_btn' ] ],
+		toolbar: [ [ 'custom_btn', 'disabled_btn', 'haspopup_btn' ] ],
 		on: {
 			'pluginsLoaded': function( evt ) {
 				var editor = evt.editor;
@@ -13,6 +13,9 @@ bender.editor = {
 				editor.ui.addButton( 'disabled_btn', {
 					label: 'disabled button',
 					modes: {} // This button should be disabled because it does not work in any of modes.
+				} );
+				editor.ui.addButton( 'haspopup_btn', {
+					hasPopup: 'foo'
 				} );
 			}
 		}
@@ -51,6 +54,13 @@ bender.test( {
 
 		assert.isTrue( !!label, 'Label element not found' );
 		assert.areEqual( 'aria label', label.getText(), 'innerText of label doesn\'t match' );
+	},
+
+	'test aria-haspopup': function() {
+		var btn = this.getUiItem( 'haspopup_btn' ),
+			btnEl = CKEDITOR.document.getById( btn._.id );
+
+		assert.areEqual( btnEl.getAttribute( 'aria-haspopup' ), 'foo' );
 	},
 
 	// Asserts that button has given attributes, with given values.
