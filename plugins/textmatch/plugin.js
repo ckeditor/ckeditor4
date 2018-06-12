@@ -66,10 +66,16 @@
 			fillingCharSequence = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE,
 			fillingSequenceOffset = 0;
 
+		if ( !textAndOffset ) {
+			return;
+		}
+
 		// Remove filling char sequence for clean query (#2038).
 		if ( textAndOffset.text.indexOf( fillingCharSequence ) == 0 ) {
+			fillingSequenceOffset = fillingCharSequence.length;
+
 			textAndOffset.text = textAndOffset.text.replace( fillingCharSequence, '' );
-			textAndOffset.offset -= fillingSequenceOffset = 7;
+			textAndOffset.offset -= fillingSequenceOffset;
 		}
 
 		var result = callback( textAndOffset.text, textAndOffset.offset );
@@ -216,7 +222,6 @@
 			elements = CKEDITOR.plugins.textMatch.getAdjacentTextNodes( range ),
 			startData = findElementAtOffset( elements, start ),
 			endData = findElementAtOffset( elements, end );
-
 
 		resultRange.setStart( startData.element, startData.offset );
 		resultRange.setEnd( endData.element, endData.offset );

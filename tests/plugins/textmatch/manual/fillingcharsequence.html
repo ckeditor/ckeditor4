@@ -4,7 +4,10 @@
 	CKEDITOR.replace( 'editor', {
 		on: {
 			instanceReady: function( evt ) {
-				new CKEDITOR.plugins.autocomplete( evt.editor, textTestCallback, dataCallback );
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: textTestCallback,
+					dataCallback: dataCallback
+				} );
 			}
 		}
 	} );
