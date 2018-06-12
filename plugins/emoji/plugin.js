@@ -18,6 +18,10 @@
 			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json';
 
 			CKEDITOR.ajax.load( CKEDITOR.getUrl( emojiListUrl ), function( data ) {
+				if ( data === null ) {
+					return;
+				}
+
 				var defaultEmojiList = JSON.parse( data );
 
 				if ( !editor._.emojiList ) {
@@ -48,19 +52,6 @@
 					}
 				} );
 
-				editor.on( 'instanceReady', function() {
-					var emoji = new CKEDITOR.plugins.autocomplete( editor, {
-						textTestCallback: getTextTestCallback(),
-						dataCallback: dataCallback
-					} );
-
-					emoji.view.itemTemplate = new CKEDITOR.template( '<li data-id="{id}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{symbol} {id}</li>' );
-					emoji.getHtmlToInsert = function( item ) {
-						return item.symbol;
-					};
-
-				} );
-
 				editor.on( 'toHtml', function( evt ) {
 					var sel = evt.editor.getSelection();
 					// We want to prevent embedding emoji inside wrong context, e.g. paste :emoji: inside <pre>
@@ -79,10 +70,30 @@
 
 				if ( editor.status !== 'ready' ) {
 					editor.once( 'instanceReady', function() {
-						editor.editable().setHtml( writer.getHtml() );
+						initEmojiPlugin( writer );
 					} );
 				} else {
+					initEmojiPlugin( writer );
+				}
+
+				function initEmojiPlugin( writer ) {
+					var emoji = new CKEDITOR.plugins.autocomplete( editor, {
+						textTestCallback: getTextTestCallback(),
+						dataCallback: dataCallback
+					} );
+
+					emoji.view.itemTemplate = new CKEDITOR.template( '<li data-id="{id}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{symbol} {id}</li>' );
+					emoji.getHtmlToInsert = function( item ) {
+						return item.symbol;
+					};
+
+					// Replace startup emoji
 					editor.editable().setHtml( writer.getHtml() );
+
+					// Synchronize undo.
+					if ( editor.undoManager && editor.undoManager.snapshots.length === 1 ) {
+						editor.undoManager.update();
+					}
 				}
 
 				function getTextTestCallback() {
@@ -179,8 +190,8 @@
  */
 
 /**
- * Address to json file containing emoji list. File is downloaded through {@link CKEDITOR.ajax#load} method
- * and url address is processed by {@link CKEDITOR#getUrl}.
+ * Address to JSON file containing emoji list. File is downloaded through {@link CKEDITOR.ajax#load} method
+ * and URL address is processed by {@link CKEDITOR#getUrl}.
  * Emoji list has to be an array of objects with `id` and `symbol` property. Those keys represent text to match and UTF symbol for its replacement.
  * Emoji has to start with `:` (colon) symbol.
  * ```json
