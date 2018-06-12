@@ -95,7 +95,7 @@
 		this.cache = config.cache !== undefined ? config.cache : true;
 
 		/**
-		 * See {@link CKEDITOR.plugins.mentions.configDefinition#throttle throttle}.
+		 * See {@link CKEDITOR.plugins.autocomplete.configDefinition#throttle}.
 		 *
 		 * @property {Number} [throttle]
 		 * @readonly
