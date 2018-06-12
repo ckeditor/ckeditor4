@@ -59,6 +59,8 @@
 	 *
 	 * @returns {Object/null} Object with information about matching text or `null`.
 	 * @returns {String} return.text The matching text.
+	 * The text doesn't reflect the range offsets. The range could contain additional,
+	 *  browser related characters like CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE.
 	 * @returns {CKEDITOR.dom.range} return.range Range in the DOM for the text that matches.
 	 */
 	CKEDITOR.plugins.textMatch.match = function( range, callback ) {
