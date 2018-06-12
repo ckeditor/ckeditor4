@@ -134,13 +134,29 @@
 			} );
 
 			var clickFn = CKEDITOR.tools.addFunction( function( event ) {
-				editor.insertText( ':' + event.target.dataset.ckeEmojiName + ':' );
+				if ( event.target.dataset.ckeEmojiName ) {
+					editor.insertText( ':' + event.target.dataset.ckeEmojiName + ':' );
+				}
+			} );
+
+			var filterFn = CKEDITOR.tools.addFunction( function( searchElement ) {
+				var query = searchElement.value;
+				var elements = searchElement.ownerDocument.getElementsByClassName( 'cke_emoji_item' );
+
+				for ( var i = 0; i < elements.length; i++ ) {
+					var name = elements[ i ].dataset.ckeEmojiName;
+					if ( name.indexOf( query ) !== -1 || query === '' ) {
+						elements[ i ].classList.add( 'cke_emoji_item_active' );
+					} else {
+						elements[ i ].classList.remove( 'cke_emoji_item_active' );
+					}
+				}
 			} );
 
 			function getEmojiBlock() {
 				var output = [];
 				// Search Box:
-				output.push( '<input type="search">' );
+				output.push( '<input placeholder="', 'Search Emoji' ,'" type="search" oninput="CKEDITOR.tools.callFunction(', filterFn ,',this)">' );
 				// Result box:
 				var resultTpl = new CKEDITOR.template( '<h2>{langTitle}</h2>' );
 				var emojiTpl = new CKEDITOR.template( '<li data-cke-emoji-name="{id}" class="cke_emoji_item cke_emoji_item_active">{symbol}</li>' );
