@@ -1,5 +1,5 @@
 /* bender-tags: emoji */
-/* bender-ckeditor-plugins: emoji,toolbar,stylescombo,format,clipboard */
+/* bender-ckeditor-plugins: emoji,toolbar,stylescombo,format,clipboard,undo */
 
 ( function() {
 	'use strict';
@@ -24,6 +24,20 @@
 				extraPlugins: 'divarea',
 				emoji_blacklistedElements: [ 'section', 'pre', 'code' ]
 			}
+		}
+	};
+
+	var singleTests = {
+		'test emoji doesn\'t create additional undo step on creation': function() {
+			bender.editorBot.create( {
+				creator: 'replace',
+				startupData: '<p>foo:grinning_face:bar :not_emoji:</p>'
+			}, function( bot ) {
+				var editor = bot.editor;
+				editor.fire( 'saveSnapshot' );
+				assert.areSame( '<p>foo😀bar :not_emoji:</p>', editor.getData() );
+				assert.areSame( editor.undoManager.snapshots.length, 1 );
+			} );
 		}
 	};
 
@@ -78,5 +92,12 @@
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+
+	CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( singleTests ), function( key ) {
+		if ( tests[ key ] === undefined ) {
+			tests[ key ] = singleTests[ key ];
+		}
+	} );
+
 	bender.test( tests );
 } )();
