@@ -93,7 +93,11 @@
 						'width="' + width + '" ' +
 						'height="' + height + '">', null, selectionFixRequired );
 
-					selectionFixRequired && fixWidgetSelection( this ) || clearUnusedBookmarks( this );
+					if ( selectionFixRequired ) {
+						fixWidgetSelection( this );
+					} else {
+						clearUnusedBookmarks( this );
+					}
 				},
 
 				onAbort: function() {

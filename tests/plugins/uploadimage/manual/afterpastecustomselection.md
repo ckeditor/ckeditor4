@@ -1,6 +1,6 @@
 @bender-tags: 4.9.0, bug, 1217
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, uploadwidget, basicstyles, image2, uploadimage, uploadfile, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, uploadwidget, basicstyles, image2, uploadimage
 @bender-include: ../../uploadwidget/manual/_helpers/xhr.js
 
 1. Copy several custom images.
