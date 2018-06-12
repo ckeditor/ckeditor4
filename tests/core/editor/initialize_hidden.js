@@ -9,7 +9,7 @@ bender.test( {
 
 		// For Firefox 60.0.1+ this code is executed after 'instanceReady' event so listener won't be called.
 		// For that case just assert it right away.
-		if ( editor.instanceReady ) {
+		if ( editor.status === 'ready' ) {
 			this._assertEditor( editor );
 		} else {
 			CKEDITOR.on( 'instanceReady', function( evt ) {
