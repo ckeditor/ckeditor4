@@ -187,10 +187,12 @@
 			return;
 		}
 
+		editor.fire( 'lockSnapshot' );
 		pasteRange = editor.createRange();
 		pasteRange.setStartBefore( range.startContainer );
 		pasteRange.setEndAfter( range.endContainer );
 		pasteBookmark = pasteRange.createBookmark();
+		editor.fire( 'unlockSnapshot' );
 	}
 
 	function isSelectionFixRequired( widget ) {
