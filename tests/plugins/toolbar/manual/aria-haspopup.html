@@ -1,0 +1,14 @@
+<div id="editor">
+</div>
+
+
+<script>
+	if ( CKEDITOR.env.mobile ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor', {
+		toolbar: [ [
+			'Language', 'Styles', 'Format', 'Font', 'Fontsize', 'TextColor', 'BGColor'
+		] ]
+	} );
+</script>
