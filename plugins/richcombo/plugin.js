@@ -21,7 +21,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 			' hidefocus="true"' +
 			' role="button"' +
 			' aria-labelledby="{id}_label"' +
-			' aria-haspopup="true"';
+			' aria-haspopup="listbox"';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.

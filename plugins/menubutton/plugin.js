@@ -74,6 +74,8 @@ CKEDITOR.plugins.add( 'menubutton', {
 
 				this.hasArrow = true;
 
+				this.hasPopup = 'menu';
+
 				this.click = clickFn;
 			},
 

@@ -13,7 +13,7 @@
 		' role="button"' +
 		' aria-labelledby="{id}_label"' +
 		' aria-describedby="{id}_description"' +
-		' aria-haspopup="{hasArrow}"' +
+		' aria-haspopup="{hasPopup}"' +
 		' aria-disabled="{ariaDisabled}"';
 
 	// Some browsers don't cancel key events in the keydown but in the
@@ -299,6 +299,7 @@
 				ariaShortcut: shortcut ? editor.lang.common.keyboardShortcut + ' ' + shortcut.aria : '',
 				titleJs: env.gecko && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 				hasArrow: this.hasArrow ? 'true' : 'false',
+				hasPopup: this.hasPopup || !!this.hasArrow,
 				keydownFn: keydownFn,
 				focusFn: focusFn,
 				clickFn: clickFn,
@@ -432,6 +433,9 @@
 	 * 		editor.ui.addButton( 'my_button', {
 	 * 			iconHiDpi: 'assets/icons/my_button.hidpi.png'
 	 * 		} )
+	 * @param {String} definition.hasPopup The value of button elements `aria-haspopup` attribute.
+	 * If none is passed it will fallback to {@link CKEDITOR.button#definition.hasArrow} value.
+	 * It is supported since **4.10.0** version.
 	 */
 	CKEDITOR.ui.prototype.addButton = function( name, definition ) {
 		this.add( name, CKEDITOR.UI_BUTTON, definition );
