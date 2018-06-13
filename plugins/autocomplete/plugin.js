@@ -1171,6 +1171,56 @@
 	CKEDITOR.event.implementOn( Model.prototype );
 
 	/**
+	 * @param {Function} dataCallback
+	 */
+	function ModelProxy( dataCallback ) {
+		/**
+		 * @property {Number/Boolean}
+		 * @private
+		 */
+		this._limit = false;
+
+		this._observedModel = null;
+
+		Model.call( this, dataCallback );
+	}
+
+	ModelProxy.prototype = new Model();
+
+	/**
+	 * Limits a number of entries returned by model proxy.
+	 *
+	 * @param {Number/Boolean} number Number of maximal items to be returned by proxy. If set to `false` limit will be disabled.
+	 */
+	ModelProxy.prototype.setLimit = function( number ) {
+		if ( number !== this._limit ) {
+			this._limit = number;
+		}
+	};
+
+	ModelProxy.prototype.setObservedModel = function( model ) {
+		var that = this;
+
+		this._observedModel = model;
+
+		model.on( 'change-data', function( evt ) {
+			that.fire( 'change-data', that._filterData( evt.data ) );
+		} );
+	};
+
+	ModelProxy.prototype._filterData = function( data ) {
+		if ( typeof this._limit === 'number' ) {
+			return data.slice( 0, this._limit );
+		} else {
+			return data;
+		}
+	};
+
+	ModelProxy.prototype.setQuery = function( query, range ) {
+		this._observedModel.setQuery( query, range );
+	};
+
+	/**
 	 * An abstract class representing one {@link CKEDITOR.plugins.autocomplete.model#data data item}.
 	 * Item can be understood as a one entry in the autocomplete panel.
 	 *
@@ -1209,6 +1259,7 @@
 	CKEDITOR.plugins.autocomplete = Autocomplete;
 	Autocomplete.view = View;
 	Autocomplete.model = Model;
+	Autocomplete.modelProxy = ModelProxy;
 
 	/**
 	 * The autocomplete keystrokes used to finish autocompletion with selected view item.
