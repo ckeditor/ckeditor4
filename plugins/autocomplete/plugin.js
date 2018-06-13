@@ -1195,6 +1195,8 @@
 	ModelProxy.prototype.setLimit = function( number ) {
 		if ( number !== this._limit ) {
 			this._limit = number;
+
+			this.fire( 'change-data', this._filterData( this._observedModel.data ) );
 		}
 	};
 
@@ -1209,7 +1211,7 @@
 	};
 
 	ModelProxy.prototype._filterData = function( data ) {
-		if ( typeof this._limit === 'number' ) {
+		if ( typeof this._limit === 'number' && data ) {
 			return data.slice( 0, this._limit );
 		} else {
 			return data;
