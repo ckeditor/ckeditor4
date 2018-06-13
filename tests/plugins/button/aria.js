@@ -15,7 +15,7 @@ bender.editor = {
 					modes: {} // This button should be disabled because it does not work in any of modes.
 				} );
 				editor.ui.addButton( 'haspopup_btn', {
-					hasPopup: 'foo'
+					hasArrow: 'menu'
 				} );
 			}
 		}
@@ -56,11 +56,12 @@ bender.test( {
 		assert.areEqual( 'aria label', label.getText(), 'innerText of label doesn\'t match' );
 	},
 
+	// WAI-ARIA 1.1 has added new values for aria-haspopup property #2072
 	'test aria-haspopup': function() {
 		var btn = this.getUiItem( 'haspopup_btn' ),
 			btnEl = CKEDITOR.document.getById( btn._.id );
 
-		assert.areEqual( btnEl.getAttribute( 'aria-haspopup' ), 'foo' );
+		assert.areEqual( btnEl.getAttribute( 'aria-haspopup' ), 'menu' );
 	},
 
 	// Asserts that button has given attributes, with given values.
