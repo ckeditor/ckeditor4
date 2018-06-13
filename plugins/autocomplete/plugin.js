@@ -185,7 +185,13 @@
 		 * @readonly
 		 * @property {CKEDITOR.plugins.autocomplete.model}
 		 */
-		this.model = this.getModel( config.dataCallback );
+		this._sourceModel = this.getModel( config.dataCallback );
+
+		this.model = new ModelProxy();
+		this.model.setObservedModel( this._sourceModel );
+		this.model.setLimit( 3 );
+
+		// this.model = this.getModel( config.dataCallback );
 
 		/**
 		 * The autocomplete text watcher instance.
@@ -1020,7 +1026,7 @@
 				return -1;
 			}
 
-			for ( var data = this.data, i = 0, l = data.length; i < l; i++ ) {
+			for ( var data = this.getData(), i = 0, l = data.length; i < l; i++ ) {
 				if ( data[ i ].id == itemId ) {
 					return i;
 				}
@@ -1037,7 +1043,7 @@
 		 */
 		getItemById: function( itemId ) {
 			var index = this.getIndexById( itemId );
-			return ~index && this.data[ index ] || null;
+			return ~index && this.getData()[ index ] || null;
 		},
 
 		/**
@@ -1046,7 +1052,11 @@
 		 * @returns {Boolean}
 		 */
 		hasData: function() {
-			return Boolean( this.data && this.data.length );
+			return Boolean( this.getData() && this.getData().length );
+		},
+
+		getData: function() {
+			return this.data;
 		},
 
 		/**
@@ -1069,7 +1079,7 @@
 		 */
 		selectFirst: function() {
 			if ( this.hasData() ) {
-				this.select( this.data[ 0 ].id );
+				this.select( this.getData()[ 0 ].id );
 			}
 		},
 
@@ -1078,7 +1088,7 @@
 		 */
 		selectLast: function() {
 			if ( this.hasData() ) {
-				this.select( this.data[ this.data.length - 1 ].id );
+				this.select( this.getData()[ this.getData().length - 1 ].id );
 			}
 		},
 
@@ -1096,10 +1106,10 @@
 
 			var index = this.getIndexById( this.selectedItemId );
 
-			if ( index < 0 || index + 1 == this.data.length ) {
+			if ( index < 0 || index + 1 == this.getData().length ) {
 				this.selectFirst();
 			} else {
-				this.select( this.data[ index + 1 ].id );
+				this.select( this.getData()[ index + 1 ].id );
 			}
 		},
 
@@ -1120,7 +1130,7 @@
 			if ( index <= 0 ) {
 				this.selectLast();
 			} else {
-				this.select( this.data[ index - 1 ].id );
+				this.select( this.getData()[ index - 1 ].id );
 			}
 		},
 
@@ -1171,6 +1181,67 @@
 	CKEDITOR.event.implementOn( Model.prototype );
 
 	/**
+	 *
+	 */
+	function ModelProxy() {
+		/**
+		 * @property {Number/Boolean}
+		 * @private
+		 */
+		this._limit = false;
+
+		this._observedModel = null;
+
+		Model.call( this );
+	}
+
+	ModelProxy.prototype = new Model();
+
+	/**
+	 * Limits a number of entries returned by model proxy.
+	 *
+	 * @param {Number/Boolean} number Number of maximal items to be returned by proxy. If set to `false` limit will be disabled.
+	 */
+	ModelProxy.prototype.setLimit = function( number ) {
+		if ( number !== this._limit ) {
+			this._limit = number;
+
+			this.fire( 'change-data', this._filterData( this._observedModel.data ) );
+		}
+	};
+
+	ModelProxy.prototype.setObservedModel = function( model ) {
+		var that = this;
+
+		this._observedModel = model;
+
+		model.on( 'change-data', function( evt ) {
+			that.fire( 'change-data', that._filterData( evt.data ) );
+		} );
+	};
+
+	ModelProxy.prototype._filterData = function( data ) {
+		if ( typeof this._limit === 'number' && data ) {
+			return data.slice( 0, this._limit );
+		} else {
+			return data;
+		}
+	};
+
+	ModelProxy.prototype.setQuery = function( query, range ) {
+		this._observedModel.setQuery( query, range );
+		this.range = range;
+	};
+
+	ModelProxy.prototype.hasData = function() {
+		return this._observedModel.hasData();
+	};
+
+	ModelProxy.prototype.getData = function() {
+		return this._filterData( this._observedModel.getData() );
+	};
+
+	/**
 	 * An abstract class representing one {@link CKEDITOR.plugins.autocomplete.model#data data item}.
 	 * Item can be understood as a one entry in the autocomplete panel.
 	 *
@@ -1209,6 +1280,7 @@
 	CKEDITOR.plugins.autocomplete = Autocomplete;
 	Autocomplete.view = View;
 	Autocomplete.model = Model;
+	Autocomplete.modelProxy = ModelProxy;
 
 	/**
 	 * The autocomplete keystrokes used to finish autocompletion with selected view item.
