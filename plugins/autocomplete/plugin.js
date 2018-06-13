@@ -1190,6 +1190,8 @@
 		 */
 		this._limit = false;
 
+		this._sort = null;
+
 		this._observedModel = null;
 
 		Model.call( this );
@@ -1210,6 +1212,17 @@
 		}
 	};
 
+	/**
+	 * Sets the sorting algorithm for the results.
+	 */
+	ModelProxy.prototype.setSorting = function( fn ) {
+		if ( fn !== this._sort ) {
+			this._sort = fn;
+
+			this.fire( 'change-data', this._filterData( this._observedModel.data ) );
+		}
+	};
+
 	ModelProxy.prototype.setObservedModel = function( model ) {
 		var that = this;
 
@@ -1221,11 +1234,17 @@
 	};
 
 	ModelProxy.prototype._filterData = function( data ) {
-		if ( typeof this._limit === 'number' && data ) {
-			return data.slice( 0, this._limit );
-		} else {
-			return data;
+		if ( data ) {
+			if ( this._sort ) {
+				data = data.splice( 0 ).sort( this._sort );
+			}
+
+			if ( typeof this._limit === 'number' ) {
+				data = data.slice( 0, this._limit );
+			}
 		}
+
+		return data;
 	};
 
 	ModelProxy.prototype.setQuery = function( query, range ) {
