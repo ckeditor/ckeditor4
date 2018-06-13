@@ -432,7 +432,7 @@
 	 * 		editor.ui.addButton( 'my_button', {
 	 * 			iconHiDpi: 'assets/icons/my_button.hidpi.png'
 	 * 		} )
-	 * @param {String/Boolean} definition.hasArrow The value of button elements `aria-haspopup` attribute.
+	 * @param {String/Boolean} definition.hasArrow If button should have an arrow, and value of buttons `aria-haspopup` attribute.
 	 * Since **4.10.0** it supports string as value.
 	 */
 	CKEDITOR.ui.prototype.addButton = function( name, definition ) {
