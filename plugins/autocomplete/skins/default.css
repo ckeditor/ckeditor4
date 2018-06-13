@@ -8,16 +8,15 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	position: absolute;
 	display: none;
 	box-sizing: border-box;
-	width: 200px;
-	max-height: 300px;
 	font: 12px Arial, Helvetica, Tahoma, Verdana, Sans-Serif;
 	overflow: hidden;
+}
+.cke_autocomplete_panel > ul {
+	max-height: 300px;
+	width: 200px;
 	border: 1px solid #b6b6b6;
 	border-bottom-color: #999;
 	border-radius: 3px;
-}
-.cke_autocomplete_panel > ul {
-	max-height: inherit;
 	padding: 0;
 	margin: 0;
 	list-style: none;
