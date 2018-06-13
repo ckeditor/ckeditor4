@@ -15,7 +15,7 @@
 			var model = this._getDummyProxyModel();
 
 			assert.isFalse( model.isActive );
-			assert.areSame( dataCallback, model.dataCallback );
+			assert.areSame( model._observedModel, this.dummySourceModel, 'Source model' );
 		},
 
 		'test items limiting': function() {
@@ -85,6 +85,18 @@
 
 			assert.areSame( 5, changeListener.args[ 0 ][ 0 ].data.length, 'First change event entries count' );
 			assert.areSame( 3, changeListener.args[ 1 ][ 0 ].data.length, 'Last change event entries count' );
+		},
+
+		'test proxies hasData': function() {
+			this.dummySourceModel.hasData = sinon.stub().returns( true );
+
+			var model = this._getDummyProxyModel();
+
+			assert.isTrue( model.hasData() );
+
+			this.dummySourceModel.hasData.returns( false );
+
+			assert.isFalse( model.hasData() );
 		},
 
 		_getDummyProxyModel: function() {
