@@ -1,10 +1,10 @@
-@bender-tags: 4.8.0, trac16893, bug
+@bender-tags: 4.10.0, feature, 2072
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, language, stylescombo, format, colorbutton, font
 
 # Test scenario:
 
-Open web inspector, for each button in menu find it's 'a' element and search for `aria-haspopup` attribute.
+Compare `aria-haspopup` value for each button element in toolbar with expected one.
 
 ## Expected:
 
@@ -16,4 +16,3 @@ Open web inspector, for each button in menu find it's 'a' element and search for
 ## Unexpected:
 
 Any other value, or attribute missing.
-

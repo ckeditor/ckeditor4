@@ -1,6 +1,26 @@
+<style>
+	table, th, td {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+	table {
+		margin: 10px;
+	}
+	td {
+		padding: 3px;
+	}
+</style>
 <div id="editor">
 </div>
-
+<table>
+	<thead>
+	<tr>
+		<th>Button name:</th>
+		<th>Value of <br> aria-hashpopup:</th>
+	</tr>
+	</thead>
+	<tbody class="output"></tbody>
+</table>
 
 <script>
 	if ( CKEDITOR.env.mobile ) {
@@ -8,7 +28,39 @@
 	}
 	CKEDITOR.replace( 'editor', {
 		toolbar: [ [
-			'Language', 'Styles', 'Format', 'Font', 'Fontsize', 'TextColor', 'BGColor'
-		] ]
+			'Language', 'Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor'
+		] ],
+		height: '0',
+		on: {
+			instanceReady: function() {
+				var document = CKEDITOR.document,
+					output = document.findOne( '.output' );
+
+				for ( var key in this.ui.instances ) {
+					var row = new CKEDITOR.dom.element( 'tr' ),
+						button = this.ui.instances[ key ],
+						label = button.label,
+						buttonElement = document.getById( button._.id || ( 'cke_' + button.id ) ),
+						value;
+
+					if ( buttonElement.getName() === 'span' ) {
+						buttonElement = buttonElement.findOne( 'a' );
+					}
+
+					value  = buttonElement.getAttribute( 'aria-haspopup' );
+
+					appendCell( row, label );
+					appendCell( row, value );
+					output.append( row );
+				}
+
+				function appendCell ( row, cellText ) {
+					var cell = new CKEDITOR.dom.element( 'td' );
+
+					cell.setText( cellText );
+					row.append( cell );
+				}
+			}
+		}
 	} );
 </script>
