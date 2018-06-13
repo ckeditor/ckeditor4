@@ -49,9 +49,7 @@ CKEDITOR.plugins.add( 'panelbutton', {
 				};
 				panelDefinition.toolbarRelated = true;
 
-				this.hasArrow = true;
-
-				this.hasPopup = 'listbox';
+				this.hasArrow = 'listbox';
 
 				this.click = clickFn;
 
