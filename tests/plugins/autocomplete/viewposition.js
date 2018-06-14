@@ -110,7 +110,6 @@
 			assert.areEqual( '50px', view.element.getStyle( 'left' ) );
 		},
 
-		// (#1911)
 		'test view position below viewport': function( editor ) {
 			// +---------------------------------------------+
 			// |       editor viewport                       |
@@ -130,10 +129,58 @@
 				viewPanelHeight: 100
 			} );
 
-			assert.isFalse( view.element.hasClass( 'cke_autocomplete_opened' ), 'View should be hidden' );
+			assert.areEqual( '200px', view.element.getStyle( 'top' ), 'View is displayed above the caret' );
+			assert.areEqual( '100px', view.element.getStyle( 'left' ) );
 		},
 
 		// (#1911)
+		'test view clipping below viewport': function( editor ) {
+			// +---------------------------------------------+
+			// |       editor viewport                       |
+			// |                                             |
+			// |     +--------------+                        |
+			// |     |     view     |                        |
+			// +-----+==============+------------------------+
+			// |     |              |                        |
+			// |		 +--------------+							           |
+			// |     █ - caret position                      |
+			// |                                             |
+			// +---------------------------------------------+
+			var view = createPositionedView( editor, {
+				caretRect: { top: 500, bottom: 510, left: 100 },
+				editorViewportRect: { top: 0, bottom: 300 },
+				viewPanelHeight: 100
+			} );
+
+			var list = view.element.findOne( 'ul' );
+			assert.areEqual( '-200px', list.getStyle( 'margin-bottom' ) );
+			assert.areEqual( '0px', list.getStyle( 'margin-top' ) );
+		},
+
+		// (#1911)
+		'test view clipping above viewport': function( editor ) {
+			// +---------------------------------------------+
+			// |																						 |
+			// |     █ - caret position                      |
+			// |     +--------------+                        |
+			// |     |              |                        |
+			// +-----+==============+------------------------+
+			// |     |     view     |                        |
+			// |     +--------------+                        |
+			// |																						 |
+			// |       editor viewport                       |
+			// +---------------------------------------------+
+			var view = createPositionedView( editor, {
+				caretRect: { top: 100, bottom: 110, left: 50 },
+				editorViewportRect: { top: 300, bottom: 500 },
+				viewPanelHeight: 100
+			} );
+
+			var list = view.element.findOne( 'ul' );
+			assert.areEqual( '0px', list.getStyle( 'margin-bottom' ) );
+			assert.areEqual( '-190px', list.getStyle( 'margin-top' ) );
+		},
+
 		'test view position above viewport': function( editor ) {
 			// +---------------------------------------------+
 			// |																						 |
@@ -153,7 +200,8 @@
 				viewPanelHeight: 100
 			} );
 
-			assert.isFalse( view.element.hasClass( 'cke_autocomplete_opened' ), 'View should be hidden' );
+			assert.areEqual( '200px', view.element.getStyle( 'top' ), 'View is displayed below the caret' );
+			assert.areEqual( '50px', view.element.getStyle( 'left' ) );
 		}
 	};
 

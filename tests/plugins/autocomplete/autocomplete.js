@@ -386,8 +386,9 @@
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			assert.beautified.html( '<ul><li class="cke_autocomplete_selected" data-id="1"><strong>anna</strong></li></ul>',
+			assert.beautified.html( '<ul style="margin-top: 0px; margin-bottom: 0px;" ><li class="cke_autocomplete_selected" data-id="1"><strong>anna</strong></li></ul>',
 				ac.view.element.getHtml() );
+
 
 			ac.destroy();
 		},

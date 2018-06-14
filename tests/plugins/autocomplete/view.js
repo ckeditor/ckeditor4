@@ -187,7 +187,7 @@
 
 	function assertViewElement( editor, element ) {
 		var zIndex = editor.config.baseFloatZIndex - 3,
-			expectedHtml = '<ul class="cke_autocomplete_panel" style="z-index: ' + zIndex + ';"></ul>';
+			expectedHtml = '<div class="cke_autocomplete_panel" style="z-index: ' + zIndex + ';"><ul></ul></div>';
 
 		assert.areEqual( expectedHtml, bender.tools.compatHtml( element.$.outerHTML, false, true ) );
 	}
