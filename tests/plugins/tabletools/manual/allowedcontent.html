@@ -1,0 +1,32 @@
+<textarea id="editor1">
+	<table>
+		<tbody>
+			<tr>
+				<td>Ths is cell</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+<textarea id="editor2">
+	<table>
+		<tbody>
+			<tr>
+				<td>Ths is cell</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		allowedContent:
+			'p;' +
+			'div;' +
+			'table;' +
+			'thead;' +
+			'tbody;' +
+			'tr;' +
+			'td;'
+	} );
+	CKEDITOR.replace( 'editor2' );
+</script>
