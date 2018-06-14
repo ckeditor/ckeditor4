@@ -6,104 +6,10 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
   label:        'A11yFirst Help',
   panelTitle:   'Learn about A11yFirst features',
   keyboardShortcutsLabel: 'Keyboard Shortcuts',
-  versionLabel: 'Version',
+
   a11yFirstHelpLabel: 'A11yFirst Help: Content Accessibility',
   a11yFirstHelpTitle: 'Information to help authors understand how the A11yFirst features help \
   them make content more accessible to people with disabilites',
-
-  aboutA11yFirst: {
-    'menu':  'About A11yFirst',
-    'label': 'About A11yFirst',
-    'title': 'About A11yFirst',
-
-    'no_org': '\
-## About A11yFirst\n\
-\n\
-### Importance of Accessibility\n\
-This organization has made a committment to accessibility, not only to comply with the \
-Americans with Disabilities Act (ADA) and Section 504 requirements, but also because making \
-sure everyone has equal access to the information in this website is the right thing \
-to do.\n\n\
-**You play an important part** in making sure this organization creates and maintains online \
-content that is accessible. The changes to the editor toolbar are designed to help you create \
-and maintain accessible content and learn more about accessibility.\n',
-
-    'has_org':'\
-## About A11yFirst\n\
-\
-### Importance of Accessibility\n\
-The %org has made a committment to accessibility, not only to comply with the Americans with \
-Disabilities Act (ADA) and Section 504 requirements, but also because making sure everyone has \
-equal access to the information in this website is the right thing to do.\n\n\
-**You play an important part** in making sure the %org creates and maintains online \
-content that is accessible. The changes to the editor toolbar are designed to help you create \
-and maintain accessible content and learn more about accessibility.\n',
-
-    'policy_link':  '\n[%policy_label](%policy_url)\n',
-
-    'content': '\
-### What Is Accessibility?\n\
-\n\
-* Information should be perceivable and usable by everyone, including people\n\
-with disabilities.\n\
-\n\
-* Documents should be organized and structured to make them as easy to read\n\
-and understand as possible.\n\
-\n\
-* Accessible documents are compatible with assistive technologies and\n\
-operating system accessibility features.\n\
-\n\
-### People with disabilities include people who:\n\
-\n\
-* cannot see very well or are blind;\n\
-\n\
-* cannot hear very well or are deaf;\n\
-\n\
-* have impaired motor skills or are paralyzed;\n\
-\n\
-* have learning or cognitive disabilities that affect their ability to read\n\
-text or understand images.\n\
-\n\
-### A11yFirst Toolbar Features\n\
-\n\
-* **Heading/Paragaph**: Assists you in choosing the proper heading levels to make the\n\
-heading structure in your document more meaningful to readers and provides special\n\
-formatting for blocks of text (e.g. paragraphs) within your document.\n\
-\n\
-* **Character Style**: Provides styling to highlight or emphasize a word or group\n\
-of words (i.e. characters) within a block of text.\n\
-\n\
-* **Link**: Checks the accessibility of *Display Text* when adding or editing links.\n\
-\n\
-* **A11yFirst Help**: Provides information on the important features of accessible\n\
-documents.\n\
-\n\
-### Project Information\n\
-\n\
-Version: %version\n\
-\n\
-GitHub Repository: <a href="https://github.com/a11yfirst/plugins-dev" target="_resource">a11yfirst/plugins-dev</a>\n\
-\n\
-### Additional Resources\n\
-\n\
-* <a href="https://webaim.org/techniques/semanticstructure/" target="_resource">WebAIM: Semantic Structure</a>\n\
-\n\
-* <a href="http://accessibility.umn.edu/core-skills/headings" target="_resource">Accessible U: Headings</a>\n\
-\n\
-* <a href="https://webaim.org/techniques/hypertext/" target="_resource">WebAIM: Links and Hypertext</a>\n\
-\n\
-* <a href="http://accessibility.umn.edu/core-skills/hyperlinks" target="_resource">Accessible U: Links</a>\n\
-\n\
-* <a href="https://webaim.org/techniques/images/" target="_resource">WebAIM: Accessible Images</a>\n\
-\n\
-* <a href="http://accessibility.umn.edu/core-skills/alt-text" target="_resource">Accessible U: ALT Text</a>\n\
-\n\
-* <a href="http://diagramcenter.org/" target="_resource">Diagram Center: Image Description Guidelines</a>\n\
-\n\
-* <a href="https://webaim.org/techniques/tables/data" target="_resource">WebAIM: Creating Accessible Tables</a>\n\
-\n\
-'
-  },
 
   headingHelp: {
     'menu':  'Heading / Paragraph',
@@ -391,5 +297,143 @@ The following are based on <a href="https://webaim.org/">WebAIM\'s</a> guideline
 \n\
 * <a href="http://diagramcenter.org/" target="_resource">Diagram Center</a>\n\
 '
+  },
+
+  aboutA11yFirst: {
+    'menu':  'About A11yFirst',
+    'label': 'About A11yFirst',
+    'title': 'About A11yFirst',
+    'content': '\
+## About A11yFirst\n\
+\n\
+### What Is Accessibility?\n\
+\n\
+* Information should be perceivable and usable by everyone, including people\n\
+with disabilities.\n\
+\n\
+* Documents should be organized and structured to make them as easy to read\n\
+and understand as possible.\n\
+\n\
+* Accessible documents are compatible with assistive technologies and\n\
+operating system accessibility features.\n\
+\n\
+### People with disabilities include people who:\n\
+\n\
+* cannot see very well or are blind;\n\
+\n\
+* cannot hear very well or are deaf;\n\
+\n\
+* have impaired motor skills or are paralyzed;\n\
+\n\
+* have learning or cognitive disabilities that affect their ability to read\n\
+text or understand images.\n\
+\n\
+### A11yFirst Toolbar Features\n\
+\n\
+* **Heading/Paragaph**: Assists you in choosing the proper heading levels to make the\n\
+heading structure in your document more meaningful to readers and provides special\n\
+formatting for blocks of text (e.g. paragraphs) within your document.\n\
+\n\
+* **Character Style**: Provides styling to highlight or emphasize a word or group\n\
+of words (i.e. characters) within a block of text.\n\
+\n\
+* **Link**: Checks the accessibility of *Display Text* when adding or editing links.\n\
+\n\
+* **A11yFirst Help**: Provides information on the important features of accessible\n\
+documents.\n\
+\n\
+### Project Information\n\
+\n\
+Version: %version\n\
+\n\
+GitHub Repository: <a href="https://github.com/a11yfirst/plugins-dev" target="_resource">a11yfirst/plugins-dev</a>\n\
+\n\
+### Additional Resources\n\
+\n\
+* <a href="https://webaim.org/techniques/semanticstructure/" target="_resource">WebAIM: Semantic Structure</a>\n\
+\n\
+* <a href="http://accessibility.umn.edu/core-skills/headings" target="_resource">Accessible U: Headings</a>\n\
+\n\
+* <a href="https://webaim.org/techniques/hypertext/" target="_resource">WebAIM: Links and Hypertext</a>\n\
+\n\
+* <a href="http://accessibility.umn.edu/core-skills/hyperlinks" target="_resource">Accessible U: Links</a>\n\
+\n\
+* <a href="https://webaim.org/techniques/images/" target="_resource">WebAIM: Accessible Images</a>\n\
+\n\
+* <a href="http://accessibility.umn.edu/core-skills/alt-text" target="_resource">Accessible U: ALT Text</a>\n\
+\n\
+* <a href="http://diagramcenter.org/" target="_resource">Diagram Center: Image Description Guidelines</a>\n\
+\n\
+* <a href="https://webaim.org/techniques/tables/data" target="_resource">WebAIM: Creating Accessible Tables</a>\n\
+\n\
+'
+  },
+
+  gettingStarted: {
+    'menu':  'Getting Started',
+    'label': 'Getting Started',
+    'title': 'Getting Started with A11yFirst',
+    'content': '\
+## Getting Started with A11yFirst\n\
+\n\
+### What is A11yFirst?\n\
+\n\
+Before you begin using the A11yFirst editor, it is important to know what\n\
+makes it different from other editors. The name *A11yFirst* hints at some\n\
+of these differences.\n\
+\n\
+*A11y* is shorthand for *accessibility* (*a* + 11 letters + *y*), and\n\
+accessibility in the context of document authoring is about making the\n\
+information that documents contain perceivable and understandable by everyone,\n\
+including people with disabilities.</p>\n\
+\n\
+### Commitment to accessibility\n\
+\n\
+Your organization, by hosting the A11yFirst editor within its content\n\
+management system, has made a commitment to accessibility because (1) it\n\
+removes barriers that people with visual, auditory, learning and other\n\
+disabilities may experience in their use of web information and communication\n\
+technologies and (2) it is required by law.\n\
+\n\
+By following accessibility guidelines when creating public-facing documents,\n\
+you are fulfilling your role in this commitment.\n\
+\n\
+### Document accessibility\n\
+\n\
+Some of the main components within a document that are important for\n\
+accessibility are:\n\
+\n\
+* **Headings** — These provide titles for the sections and subsections of content\n\
+within your document, as well as a title for the document itself.\n\
+\n\
+* **Lists** — By using the list feature, the items in a list are grouped together\n\
+and information about the grouping can be conveyed to users of assistive\n\
+technologies.\n\
+\n\
+* **Links** — The text component of a link should describe its target, i.e., the\n\
+web site, page or section that will be displayed if you activate the link.\n\
+\n\
+* **Images** — When an image is included within a document, a text alternative\n\
+(also known as ‘alt text’) allows screen reader users to obtain a concise\n\
+description of the image.\n\
+\n\
+* **Tables** — By using the table feature to organize tabular data and provide row\n\
+and column headers, users of assistive technologies gain the ability to easily\n\
+navigate and understand structural relationships within the data.\n\
+\n\
+### A different way of thinking\n\
+\n\
+The way you think about the process or workflow of creating and editing\n\
+documents can make a significant difference in whether the end result, your\n\
+finished document, is accessible.\n\
+\n\
+For example, rather than thinking about stylistic considerations such as font\n\
+sizes and colors first, if you make the structure of your document a primary\n\
+consideration, by breaking it down into sections and subsections and giving\n\
+each of these a meaningful title, you will end up with a document that will\n\
+be easier for all users to navigate and understand, including people with\n\
+disabilities.\n\
+'
   }
+
 } );
