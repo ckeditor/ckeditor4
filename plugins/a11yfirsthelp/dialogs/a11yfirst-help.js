@@ -10,12 +10,12 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
 
   var buttonStyle = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 0';
 
-  var helpTopicsKeys = Object.keys( config.a11yFirstHelpTopics ),
+  var helpTopicKeys = Object.keys( config.a11yFirstHelpTopics ),
       helpOptions = [];
 
   // Initialize helpOptions array from config defined in plugin.js
-  for ( var i = 0; i < helpTopicsKeys.length; i++ ) {
-    var key = helpTopicsKeys[ i ];
+  for ( var i = 0; i < helpTopicKeys.length; i++ ) {
+    var key = helpTopicKeys[ i ];
     helpOptions.push( config.a11yFirstHelpTopics[ key ].option );
   }
 
@@ -60,48 +60,18 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
     minHeight: 360,
 
     onShow: function( event ) {
-      var node, html;
+      var key, contentId, node, html;
 
       dialogObj = this;
 
       var converter = new showdown.Converter();
 
-      // Add getting started content
-      node = document.getElementById( 'contentAboutA11yFirst' );
-
-      var content = lang.aboutA11yFirst.no_org;
-      var a11yLink  = "";
-
-      if ( config.a11yfirst ) {
-        if ( config.a11yfirst.organization && config.a11yfirst.organization.length ) {
-          content = lang.aboutA11yFirst.has_org.replace( /%org/g, config.a11yfirst.organization );
-        }
-        if ( config.a11yfirst.a11yPolicyLink && config.a11yfirst.a11yPolicyLabel ) {
-          content += lang.aboutA11yFirst.policy_link
-          .replace( /%policy_label/g, config.a11yfirst.a11yPolicyLabel )
-          .replace( /%policy_url/g, config.a11yfirst.a11yPolicyLink );
-        }
+      for ( var i = 0; i < helpTopicKeys.length; i++ ) {
+        key = helpTopicKeys[ i ];
+        contentId = 'content' + helpOptions[ i ];
+        node = document.getElementById( contentId );
+        node.innerHTML = converter.makeHtml( lang[ key ].content );
       }
-
-      content += lang.aboutA11yFirst.content;
-      content = content.replace( /%version/g, version );
-
-      node.innerHTML = converter.makeHtml( content );
-
-      // Add help content
-
-      node = document.getElementById( 'contentHeadingHelp' );
-      node.innerHTML = converter.makeHtml( lang.headingHelp.content );
-
-      node = document.getElementById( 'contentInlineStyleHelp' );
-      node.innerHTML = converter.makeHtml( lang.inlineStyleHelp.content );
-
-      node = document.getElementById( 'contentLinkHelp' );
-      node.innerHTML = converter.makeHtml( lang.linkHelp.content );
-
-      node = document.getElementById( 'contentImageHelp' );
-      node.innerHTML = converter.makeHtml( lang.imageHelp.content );
-
 
       if ( editor.a11yfirst.helpOption ) {
         showHelpTopic( editor.a11yfirst.helpOption );
@@ -110,7 +80,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       // Add version information to the button bar at the bottom of the dialog box
       node = document.querySelector('.cke_dialog_footer');
       html = document.createElement('div');
-      html.setAttribute('style', 'position: absolute; top: 0.75em; left: 0.75em');
+      html.setAttribute('style', 'position: absolute; top: 1em; left: 1em');
       html.innerHTML = lang.versionLabel + ' ' + version;
       node.insertBefore(html, node.firstElementChild);
     },
@@ -181,6 +151,16 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                     onClick: function() {
                         showHelpTopic( 'AboutA11yFirst' );
                     },
+                  },
+                  {
+                    type: 'button',
+                    id: 'buttonGettingStarted',
+                    style: buttonStyle,
+                    label: lang.gettingStarted.label,
+                    title: lang.gettingStarted.title,
+                    onClick: function() {
+                        showHelpTopic( 'GettingStarted' );
+                    },
                   }
                 ],
               },
@@ -195,11 +175,12 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                   margin: 0; margin-top: -1em; margin-left: -5.5em; \
                   padding-left: 1em; border-left: 2px solid #ddd; \
                   height: 400px; overflow: auto">\
-                    <div id="contentAboutA11yFirst"></div>\
                     <div id="contentHeadingHelp"></div>\
                     <div id="contentInlineStyleHelp"></div>\
                     <div id="contentLinkHelp"></div>\
                     <div id="contentImageHelp"></div>\
+                    <div id="contentAboutA11yFirst"></div>\
+                    <div id="contentGettingStarted"></div>\
                   </div>'
               }
             ]
