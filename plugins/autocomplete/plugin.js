@@ -835,10 +835,34 @@
 				editorViewportRect = editable.isInline() ? editable.getClientRect( true ) : editor.window.getFrame().getClientRect( true );
 			}
 
+			// If the caret position is above the view - add dropdown top offset to simulate view clipping (#1911).
+			// +---------------------------------------------+
+			// |																						 |
+			// |     █ - caret position                      |
+			// |     +--------------+                        |
+			// |     |              |                        |
+			// +-----+==============+------------------------+
+			// |     |     view     |                        |
+			// |     +--------------+                        |
+			// |																						 |
+			// |       editor viewport                       |
+			// +---------------------------------------------+
 			if ( editorViewportRect.top > rect.bottom ) {
 				listOffsetTop = -( editorViewportRect.top - rect.bottom );
 			}
 
+			// If the caret position is below the view - add dropdown bottom offset to simulate view clipping (#1911).
+			// +---------------------------------------------+
+			// |       editor viewport                       |
+			// |                                             |
+			// |     +--------------+                        |
+			// |     |     view     |                        |
+			// +-----+==============+------------------------+
+			// |     |              |												 |
+			// |     +--------------+                        |
+			// |     █ - caret position                      |
+			// |                                             |
+			// +---------------------------------------------+
 			if ( editorViewportRect.bottom < rect.top ) {
 				listOffsetBottom = -( rect.top - editorViewportRect.bottom );
 			}
