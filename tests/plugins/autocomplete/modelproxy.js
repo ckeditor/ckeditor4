@@ -99,6 +99,27 @@
 			assert.isFalse( model.hasData() );
 		},
 
+		'test proxy sorting': function() {
+			var model = this._getDummyProxyModel(),
+				changeListener = sinon.stub(),
+				lastModelData;
+
+			// Simply a reverse sorting function.
+			model.setSorting( function( a, b ) {
+				return a.id < b.id ? 1 : -1;
+			} );
+
+			model.on( 'change-data', changeListener );
+
+			model.setQuery();
+
+			lastModelData = changeListener.args[ 0 ][ 0 ].data;
+
+			assert.areSame( 5, lastModelData.length, 'Model data entries count' );
+			assert.areSame( 5, lastModelData[ 0 ].id, 'Id of first entry' );
+			assert.areSame( 1, lastModelData[ 4 ].id, 'Id of last entry' );
+		},
+
 		_getDummyProxyModel: function() {
 			var model = new CKEDITOR.plugins.autocomplete.modelProxy( dataCallback );
 			model.setObservedModel( this.dummySourceModel );
