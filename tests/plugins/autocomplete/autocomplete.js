@@ -397,6 +397,22 @@
 				'Vertical position.' );
 
 			ac.destroy();
+		},
+
+		// (#2030)
+		'test limit view items': function() {
+			var editor = this.editors.standard,
+				itemsCount = 1,
+				ac = new CKEDITOR.plugins.autocomplete( editor, CKEDITOR.tools.object.merge( configDefinition, { itemsLimit: itemsCount } ) );
+
+			this.editorBots.standard.setHtmlWithSelection( '' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			assertViewOpened( ac, true );
+			assert.areEqual( itemsCount, ac.view.element.getChildCount() );
+
+			ac.destroy();
 		}
 	} );
 
