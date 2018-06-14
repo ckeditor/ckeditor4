@@ -198,6 +198,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					{
 						type: 'select',
 						id: 'wordWrap',
+						requiredContent: 'td{white-space}',
 						label: langCell.wordWrap,
 						'default': 'yes',
 						items: [
@@ -224,6 +225,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					{
 						type: 'select',
 						id: 'hAlign',
+						requiredContent: 'td{text-align}',
 						label: langCell.hAlign,
 						'default': '',
 						items: [
@@ -253,6 +255,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					{
 						type: 'select',
 						id: 'vAlign',
+						requiredContent: 'td{vertical-align}',
 						label: langCell.vAlign,
 						'default': '',
 						items: [
@@ -298,6 +301,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					children: [ {
 						type: 'select',
 						id: 'cellType',
+						requiredContent: 'th',
 						label: langCell.cellType,
 						'default': 'td',
 						items: [
@@ -315,6 +319,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					{
 						type: 'text',
 						id: 'rowSpan',
+						requiredContent: 'td[rowspan]',
 						label: langCell.rowSpan,
 						'default': '',
 						validate: validate.integer( langCell.invalidRowSpan ),
@@ -334,6 +339,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					{
 						type: 'text',
 						id: 'colSpan',
+						requiredContent: 'td[colspan]',
 						label: langCell.colSpan,
 						'default': '',
 						validate: validate.integer( langCell.invalidColSpan ),
@@ -358,6 +364,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						children: [ {
 							type: 'text',
 							id: 'bgColor',
+							requiredContent: 'td{background-color}',
 							label: langCell.bgColor,
 							'default': '',
 							setup: setupCells( function( element ) {
@@ -403,6 +410,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						children: [ {
 							type: 'text',
 							id: 'borderColor',
+							requiredContent: 'td{border-color}',
 							label: langCell.borderColor,
 							'default': '',
 							setup: setupCells( function( element ) {
