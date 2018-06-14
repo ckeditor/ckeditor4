@@ -120,6 +120,47 @@
 			assert.areSame( 1, lastModelData[ 4 ].id, 'Id of last entry' );
 		},
 
+		'test proxy filtering': function() {
+			var model = this._getDummyProxyModel(),
+				changeListener = sinon.stub(),
+				lastModelData;
+
+			model.setFilter( function( item ) {
+				return item.id >= 3 && item.id <= 4;
+			} );
+
+			model.on( 'change-data', changeListener );
+
+			model.setQuery();
+
+			assert.areSame( 1, changeListener.callCount, 'Change listener call count' );
+
+			lastModelData = changeListener.args[ 0 ][ 0 ].data;
+
+			assert.areSame( 2, lastModelData.length, 'Model data entries count' );
+			assert.areSame( 3, lastModelData[ 0 ].id, 'Id of first entry' );
+			assert.areSame( 4, lastModelData[ 1 ].id, 'Id of last entry' );
+		},
+
+		'test proxy filter does not cause change in underlying object': function() {
+			var model = this._getDummyProxyModel(),
+				changeListener = sinon.stub(),
+				coreChangeListener = sinon.stub();
+
+			// Force fetching the results.
+			model.setQuery();
+
+			this.dummySourceModel.on( 'change', coreChangeListener );
+			model.on( 'change-data', changeListener );
+
+			model.setFilter( function( item ) {
+				return item.id >= 3 && item.id <= 4;
+			} );
+
+			assert.areSame( 1, changeListener.callCount, 'Change listener call count' );
+			assert.isFalse( coreChangeListener.called, 'Observed model was not changed' );
+		},
+
 		_getDummyProxyModel: function() {
 			var model = new CKEDITOR.plugins.autocomplete.modelProxy( dataCallback );
 			model.setObservedModel( this.dummySourceModel );

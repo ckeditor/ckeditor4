@@ -1191,6 +1191,8 @@
 
 		this._sort = null;
 
+		this._filter = null;
+
 		this._observedModel = null;
 
 		Model.call( this );
@@ -1207,7 +1209,9 @@
 		if ( number !== this._limit ) {
 			this._limit = number;
 
-			this.fire( 'change-data', this._filterData( this._observedModel.data ) );
+			if ( this._observedModel ) {
+				this.fire( 'change-data', this._filterData( this._observedModel.data ) );
+			}
 		}
 	};
 
@@ -1222,10 +1226,22 @@
 		}
 	};
 
+	ModelProxy.prototype.setFilter = function( query ) {
+		if ( query !== this._filter ) {
+			this._filter = query;
+
+			if ( this._observedModel ) {
+				this.fire( 'change-data', this._filterData( this._observedModel.data ) );
+			}
+		}
+	};
+
 	ModelProxy.prototype.setObservedModel = function( model ) {
 		var that = this;
 
 		this._observedModel = model;
+
+		this.dataCallback = model.dataCallback;
 
 		model.on( 'change-data', function( evt ) {
 			that.fire( 'change-data', that._filterData( evt.data ) );
@@ -1234,6 +1250,10 @@
 
 	ModelProxy.prototype._filterData = function( data ) {
 		if ( data ) {
+			if ( this._filter ) {
+				data = data.filter( this._filter );
+			}
+
 			if ( this._sort ) {
 				data = data.slice( 0 ).sort( this._sort );
 			}
