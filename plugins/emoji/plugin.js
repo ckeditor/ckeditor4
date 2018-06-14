@@ -7,7 +7,7 @@
 	'use strict';
 
 	var stylesLoaded = false;
-	var DEFAULE_EMOJI = [ 'star', 'poop', 'grinning_face', 'face_with_tongue', 'upside-down_face', 'smiling_face_with_horns', 'gear', 'doughnut', 'cookie', 'Poland' ];
+	var DEFAULT_EMOJI = [ 'star', 'poop', 'grinning_face', 'face_with_tongue', 'upside-down_face', 'smiling_face_with_horns', 'gear', 'doughnut', 'cookie', 'Poland' ];
 
 	CKEDITOR.plugins.add( 'emoji', {
 		requires: 'autocomplete,textmatch,ajax',
@@ -26,17 +26,10 @@
 
 			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
 				emojiPanelLimit = editor.config.emoji_emojiPanelLimit || 30,
-				favouriteEmoji = editor.config.emoji_favourite || DEFAULE_EMOJI,
-				lang = editor.lang.emoji,
-				defaultEmojiList = null;
+				favouriteEmoji = editor.config.emoji_favourite || DEFAULT_EMOJI,
+				lang = editor.lang.emoji;
 
 			CKEDITOR.ajax.load( CKEDITOR.getUrl( emojiListUrl ), function( data ) {
-				defaultEmojiList = JSON.parse( data );
-
-				if ( !editor._.emojiList ) {
-					editor._.emojiList = defaultEmojiList;
-				}
-
 				if ( editor._.emoji === undefined ) {
 					editor._.emoji = {};
 				}
@@ -154,69 +147,55 @@
 			} )() );
 
 
-			function getEmojiList( query, limit ) {
+			function getEmojiList( query ) {
 				var emojiTpl = new CKEDITOR.template( '<li data-cke-emoji-name="{id}" title="{id}" class="cke_emoji_item">{symbol}</li>' );
 				var output = [];
 				var name;
 				var i;
-				if ( query === '' ) {
-					if ( favouriteEmoji ) {
-						var emojiCounter = 0;
-						for ( i = 0; i < defaultEmojiList.length; i++ ) {
-							var favIndex = favouriteEmoji.indexOf( defaultEmojiList[ i ].id.replace( /^:|:$/g, '' ) );
-							if ( favIndex !== -1 ) {
-								output[ favIndex ] = emojiTpl.output( { symbol: defaultEmojiList[ i ].symbol, id: defaultEmojiList[ i ].id.replace( /^:|:$/g, '' ) } );
-								emojiCounter++;
+
+				editor._.emoji.autocomplete.model.dataCallback( { query: query.indexOf( ':' ) === 0 ? query : ':' + query }, function( data ) {
+					if ( query === '' ) {
+						if ( favouriteEmoji ) {
+							var emojiCounter = 0;
+							for ( i = 0; i < data.length; i++ ) {
+								var favIndex = favouriteEmoji.indexOf( data[ i ].id.replace( /^:|:$/g, '' ) );
+								if ( favIndex !== -1 ) {
+									output[ favIndex ] = emojiTpl.output( { symbol: data[ i ].symbol, id: data[ i ].id.replace( /^:|:$/g, '' ) } );
+									emojiCounter++;
+								}
+								if ( emojiCounter >= emojiPanelLimit || emojiCounter === favouriteEmoji.length ) {
+									break;
+								}
 							}
-							if ( emojiCounter >= emojiPanelLimit || emojiCounter === favouriteEmoji.length ) {
+						}
+					} else {
+						for ( i = 0; i < data.length; i++ ) {
+							name = data[ i ].id.replace( /^:|:$/g, '' );
+							if ( name.toLowerCase().indexOf( query.toLowerCase() ) !== -1 || query === '' ) {
+								output.push( emojiTpl.output( { symbol: data[ i ].symbol, id: data[ i ].id.replace( /^:|:$/g, '' ) } ) );
+							}
+							if ( output.length >= emojiPanelLimit ) {
 								break;
 							}
 						}
 					}
-				} else {
-					for ( i = 0; i < defaultEmojiList.length; i++ ) {
-						name = defaultEmojiList[ i ].id.replace( /^:|:$/g, '' );
-						if ( name.toLowerCase().indexOf( query.toLowerCase() ) !== -1 || query === '' ) {
-							output.push( emojiTpl.output( { symbol: defaultEmojiList[ i ].symbol, id: defaultEmojiList[ i ].id.replace( /^:|:$/g, '' ) } ) );
-						}
-						if ( output.length >= limit ) {
-							break;
-						}
-					}
-				}
+
+				} );
+
 				return output.join( '' );
 			}
 
 			function getEmojiBlock() {
 				var output = [];
-				var liItems = [];
 				// Search Box:
 				output.push( '<input placeholder="', 'Search emoji...' ,'" type="search" oninput="CKEDITOR.tools.callFunction(', filterFn ,',this)">' );
 				// Result box:
 				var resultTpl = new CKEDITOR.template( '<h2>{langTitle}</h2>' );
-				var emojiTpl = new CKEDITOR.template( '<li data-cke-emoji-name="{id}" title="{id}" class="cke_emoji_item">{symbol}</li>' );
-				output.push( resultTpl.output( { langTitle: lang ? lang.resultTitle : 'Frequently used' } ) );
+
+				output.push( resultTpl.output( { langTitle: lang ? lang.resultTitle : 'Search results:' } ) );
 
 				output.push( '<div class="cke_emoji_list"><ul class="cke_emoji_unordered_list" onclick="CKEDITOR.tools.callFunction(', clickFn, ',event);return false;">' );
-				if ( favouriteEmoji ) {
-					var emojiCounter = 0,
-						i;
-					for ( i = 0; i < defaultEmojiList.length; i++ ) {
-						var favIndex = favouriteEmoji.indexOf( defaultEmojiList[ i ].id.replace( /^:|:$/g, '' ) );
-						if ( favIndex !== -1 ) {
-							liItems[ favIndex ] = emojiTpl.output( { symbol: defaultEmojiList[ i ].symbol, id: defaultEmojiList[ i ].id.replace( /^:|:$/g, '' ) } );
-							emojiCounter++;
-						}
-						if ( emojiCounter >= emojiPanelLimit || emojiCounter === favouriteEmoji.length ) {
-							break;
-						}
-					}
-				} else {
-					for ( i = 0; i < emojiPanelLimit; i++ ) {
-						liItems.push( emojiTpl.output( { symbol: defaultEmojiList[ i ].symbol, id: defaultEmojiList[ i ].id.replace( /^:|:$/g, '' ) } ) );
-					}
-				}
-				output.push( liItems.join( '' ) );
+				output.push( getEmojiList( '' ) );
 				output.push( '</ul></div>' );
 
 				return '<div class="cke_emoji_inner_panel">' + output.join( '' ) + '</div>';
