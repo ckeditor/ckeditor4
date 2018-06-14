@@ -21,7 +21,7 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
         keyboardShortcutsValue = 'keyboardShortcuts',
         keyboardShortcutsCmd   = 'a11yHelp', // defined in a11yhelp plugin by CKSource
         helpTopics = config.a11yFirstHelpTopics,
-        helpTopicsKeys = Object.keys( helpTopics ),
+        helpTopicKeys = Object.keys( helpTopics ),
         menuStyle = new CKEDITOR.style( { element: 'p' } );
 
     // Load the separator script
@@ -60,8 +60,8 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
       },
 
       init: function() {
-        for ( var i = 0; i < helpTopicsKeys.length; i++ ) {
-          var key = helpTopicsKeys[ i ];
+        for ( var i = 0; i < helpTopicKeys.length; i++ ) {
+          var key = helpTopicKeys[ i ];
           var label = lang[ key ].menu;
           var title = lang[ key ].title;
 
@@ -83,7 +83,7 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
           return;
         }
         // editor.fire( 'saveSnapshot' );
-        if (helpTopicsKeys.indexOf( value ) !== -1) {
+        if (helpTopicKeys.indexOf( value ) !== -1) {
           editor.a11yfirst.helpOption = helpTopics[ value ].option;
           editor.execCommand( a11yFirstHelpDialogCmd );
         }
@@ -97,18 +97,27 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
 
 CKEDITOR.config.a11yFirstHelpTopics = {
   'headingHelp': {
-    option:  'HeadingHelp'
+    option:  'HeadingHelp',
+    content: 'contentHeadingHelp'
   },
   'inlineStyleHelp': {
-    option:  'InlineStyleHelp'
+    option:  'InlineStyleHelp',
+    content: 'contentInlineStyleHelp'
   },
   'linkHelp': {
-    option:  'LinkHelp'
+    option:  'LinkHelp',
+    content: 'contentLinkHelp'
   },
   'imageHelp': {
-    option:  'ImageHelp'
+    option:  'ImageHelp',
+    content: 'contentImageHelp'
   },
   'aboutA11yFirst': {
-    option:  'AboutA11yFirst'
+    option:  'AboutA11yFirst',
+    content: 'contentAboutA11yFirst'
+  },
+  'gettingStarted': {
+    option:  'GettingStarted',
+    content: 'contentGettingStarted'
   }
 };
