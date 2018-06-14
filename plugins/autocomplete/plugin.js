@@ -189,10 +189,6 @@
 
 		this.model = new ModelProxy();
 		this.model.setObservedModel( this._sourceModel );
-		this.model.setLimit( 3 );
-		this.model.setSorting( function( a, b ) {
-			return String( a.name ).localeCompare( b.name );
-		} );
 
 		// this.model = this.getModel( config.dataCallback );
 
@@ -1251,8 +1247,8 @@
 	};
 
 	ModelProxy.prototype.setQuery = function( query, range ) {
-		this._observedModel.setQuery( query, range );
 		this.range = range;
+		this._observedModel.setQuery( query, range );
 	};
 
 	ModelProxy.prototype.hasData = function() {
