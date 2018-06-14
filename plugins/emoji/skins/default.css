@@ -7,19 +7,16 @@
 
 .cke_emoji_item {
 	list-style-type: none;
-	display: none;
+	display: inline-block;
 	width: 20px;
 	height: 20px;
 	margin: 5px 5px 5px 0;
-}
-
-.cke_emoji_item.cke_emoji_item_active {
-	display: inline-block;
+	cursor: pointer;
 }
 
 .cke_emoji_panel {
-	width: 180px;
-	height: 220px;
+	width: 170px;
+	height: 230px;
 }
 
 .cke_emoji_list {
