@@ -921,6 +921,10 @@
 		 * @param {CKEDITOR.dom.range} range The range of text match.
 		 */
 		updatePosition: function( range ) {
+			if ( !range ) {
+				return;
+			}
+
 			this.setPosition( this.getViewPosition( range ) );
 		}
 	};
