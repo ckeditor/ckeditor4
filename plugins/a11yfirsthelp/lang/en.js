@@ -91,6 +91,15 @@ Style` options.\n\
 '
   },
 
+  listHelp: {
+    'menu':  'List',
+    'label': 'List',
+    'title': 'List Help',
+    'content' : '\
+## List\n\
+'
+  },
+
   inlineStyleHelp: {
     'menu':  'Character Style',
     'label': 'Character Style',

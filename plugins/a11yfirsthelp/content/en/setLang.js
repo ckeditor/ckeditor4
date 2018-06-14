@@ -20,6 +20,15 @@ HEADINGHELP\
 '
   },
 
+  listHelp: {
+    'menu':  'List',
+    'label': 'List',
+    'title': 'List Help',
+    'content' : '\
+LISTHELP\
+'
+  },
+
   inlineStyleHelp: {
     'menu':  'Character Style',
     'label': 'Character Style',

@@ -114,6 +114,16 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                   },
                   {
                     type: 'button',
+                    id: 'buttonListHelp',
+                    style: buttonStyle,
+                    label: lang.listHelp.label,
+                    title: lang.listHelpTitle,
+                    onClick: function() {
+                        showHelpTopic( 'ListHelp' );
+                    },
+                  },
+                  {
+                    type: 'button',
                     id: 'buttonInlineStyleHelp',
                     style: buttonStyle,
                     label: lang.inlineStyleHelp.label,
@@ -176,6 +186,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                   padding-left: 1em; border-left: 2px solid #ddd; \
                   height: 400px; overflow: auto">\
                     <div id="contentHeadingHelp"></div>\
+                    <div id="contentListHelp"></div>\
                     <div id="contentInlineStyleHelp"></div>\
                     <div id="contentLinkHelp"></div>\
                     <div id="contentImageHelp"></div>\

@@ -100,6 +100,10 @@ CKEDITOR.config.a11yFirstHelpTopics = {
     option:  'HeadingHelp',
     content: 'contentHeadingHelp'
   },
+  'listHelp': {
+    option:  'ListHelp',
+    content: 'contentListHelp'
+  },
   'inlineStyleHelp': {
     option:  'InlineStyleHelp',
     content: 'contentInlineStyleHelp'
