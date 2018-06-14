@@ -31,7 +31,7 @@ const path = require( 'path' );
 					continue;
 				}
 				ret.push( {
-					id: ':' + name.replace( / /g, '_' ) + ':',
+					id: ':' + name.replace( / /g, '_' ).replace( /,/g, '' ) + ':',
 					symbol
 				} );
 			}
