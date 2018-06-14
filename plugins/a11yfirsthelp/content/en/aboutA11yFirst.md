@@ -1,3 +1,5 @@
+## About A11yFirst
+
 ### What Is Accessibility?
 
 * Information should be perceivable and usable by everyone, including people
