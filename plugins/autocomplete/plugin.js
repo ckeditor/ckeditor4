@@ -172,6 +172,13 @@
 		this.throttle = config.throttle !== undefined ? config.throttle : 20;
 
 		/**
+		 * See {@link CKEDITOR.plugins.autocomplete.configDefinition#itemsLimit}.
+		 *
+		 * @property {Number} [itemsLimit]
+		 */
+		this.itemsLimit = typeof config.itemsLimit !== 'undefined' ? config.itemsLimit : false;
+
+		/**
 		 * The autocomplete view instance.
 		 *
 		 * @readonly
@@ -190,7 +197,9 @@
 		this.model = new ModelProxy();
 		this.model.setObservedModel( this._sourceModel );
 
-		// this.model = this.getModel( config.dataCallback );
+		if ( config.itemsLimit ) {
+			this.model.setLimit( config.itemsLimit );
+		}
 
 		/**
 		 * The autocomplete text watcher instance.
@@ -1446,6 +1455,14 @@
 	 * Indicates throttle threshold expressed in milliseconds reducing text checks frequency.
 	 *
 	 * @property {Number} [throttle=20]
+	 */
+
+	/**
+	 * Indicates the limit of items rendered in the dropdown.
+	 *
+	 * `false` means there's no limit.
+	 *
+	 * @property {Number/Boolean} [itemsLimit=false]
 	 */
 
 	/**
