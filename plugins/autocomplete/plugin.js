@@ -190,6 +190,9 @@
 		this.model = new ModelProxy();
 		this.model.setObservedModel( this._sourceModel );
 		this.model.setLimit( 3 );
+		this.model.setSorting( function( a, b ) {
+			return String( a.name ).localeCompare( b.name );
+		} );
 
 		// this.model = this.getModel( config.dataCallback );
 
@@ -1236,7 +1239,7 @@
 	ModelProxy.prototype._filterData = function( data ) {
 		if ( data ) {
 			if ( this._sort ) {
-				data = data.splice( 0 ).sort( this._sort );
+				data = data.slice( 0 ).sort( this._sort );
 			}
 
 			if ( typeof this._limit === 'number' ) {
