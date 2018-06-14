@@ -11,6 +11,7 @@ Fixed Issues:
 * [#1191](https://github.com/ckeditor/ckeditor-dev/issues/1191): Fixed: Items in the [elements path](https://ckeditor.com/cke4/addon/elementspath) are draggable.
 * [#2292](https://github.com/ckeditor/ckeditor-dev/issues/2292): Fixed: Dropping list with link on editor's margin cause console error and removing dragged text from editor.
 * [#2756](https://github.com/ckeditor/ckeditor-dev/issues/2756): Fixed: The [Auto Link](https://ckeditor.com/cke4/addon/autolink) plugin causes an error when typing in [Source Editing Mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_sourcearea.html).
+* [#1986](https://github.com/ckeditor/ckeditor-dev/issues/1986): Fixed: cell properties dialog shows styles that are not allowed through allowedContent.
 
 ## CKEditor 4.11.2
 
