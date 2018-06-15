@@ -30,6 +30,15 @@ LISTHELP\
 '
   },
 
+  imageHelp: {
+    'menu':  'Image',
+    'label': 'Image',
+    'title': 'Image Help',
+    'content' : '\
+IMAGEHELP\
+'
+  },
+
   inlineStyleHelp: {
     'menu':  'Character Style',
     'label': 'Character Style',
@@ -45,24 +54,6 @@ INLINESTYLEHELP\
     'title': 'Link Help',
     'content' : '\
 LINKHELP\
-'
-  },
-
-  imageHelp: {
-    'menu':  'Image',
-    'label': 'Image',
-    'title': 'Image Help',
-    'content' : '\
-IMAGEHELP\
-'
-  },
-
-  aboutA11yFirst: {
-    'menu':  'About A11yFirst',
-    'label': 'About A11yFirst',
-    'title': 'About A11yFirst',
-    'content': '\
-ABOUTA11YFIRST\
 '
   },
 

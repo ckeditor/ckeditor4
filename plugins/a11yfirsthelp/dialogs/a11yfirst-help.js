@@ -138,7 +138,6 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                     <div id="contentImageHelp"></div>\
                     <div id="contentInlineStyleHelp"></div>\
                     <div id="contentLinkHelp"></div>\
-                    <div id="contentAboutA11yFirst"></div>\
                     <div id="contentGettingStarted"></div>\
                   </div>'
               }

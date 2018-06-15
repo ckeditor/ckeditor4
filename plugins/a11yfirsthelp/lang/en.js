@@ -101,107 +101,6 @@ Style` options.\n\
 '
   },
 
-  inlineStyleHelp: {
-    'menu':  'Character Style',
-    'label': 'Character Style',
-    'title': 'Character Style Help',
-    'content': '\
-## Character Style\n\
-\n\
-### How it works\n\
-\n\
-* Character styles have a different purpose than paragraph formats. They are\n\
-used at a lower level to highlight words or phrases within blocks of text.\n\
-\n\
-* To apply a character style to existing text, select a range of text and then\n\
-choose an option from the menu.\n\
-\n\
-* To apply a character style to text you are about to type, choose an option\n\
-from the menu and begin typing. The style will continue to be applied until\n\
-you choose another option or move the cursor to a different point in the\n\
-document.\n\
-\n\
-* Multiple character styles can be applied to selected text.\n\
-\n\
-### Why it\'s important\n\
-\n\
-* Thinking in terms of headings, lists and paragraph formats first, and then\n\
-using character styles to emphasize key words or phrases within text blocks,\n\
-results in documents that are easier to read and understand.\n\
-\n\
-* Character styles, when used properly, help screen reader users better\n\
-understand the types and meanings of lower-level stylistic changes within\n\
-blocks of text.\n\
-\n\
-* When headings, lists and paragraph formats are considered as primary, and\n\
-character styles secondary, many visual styling decisions can be avoided, as\n\
-they are already made by default.\n\
-\n\
-* When character styles are used to change the styling of blocks of text\n\
-without regard to whether the block is a heading, list item or other type of\n\
-paragraph format, it makes the document more difficult to read and understand\n\
-within the context of the website.\n\
-\n\
-* Using headings, lists, paragraph formats and character styles properly will\n\
-make it easier for you to maintain stylistic consistency.\n\
-'
-  },
-
-  linkHelp: {
-    'menu':  'Link',
-    'label': 'Link',
-    'title': 'Link Help',
-    'content' : '\
-## Link\n\
-\n\
-### Display Text\n\
-\n\
-Providing accessible *Display Text* is straightforward if you keep the following guidelines in mind:\n\
-\n\
-1. The *Display Text* for a link should describe the target of the link.\n\
-\n\
-1. Do not use ambiguous text, such as “Click Here” or “More”.\n\
-\n\
-1. Do not begin the *Display Text* with redundant words or phrases such as “Link” or “Link to”.\n\
-\n\
-1. Be consistent: Links to the same URL or e-mail address should have the same *Display Text*.\n\
-\n\
-1. In most cases, it is best not to use the link URL or e-mail address as the *Display Text*.\n\
-\n\
-### About links\n\
-\n\
-* Screen reader users often use the “List of Links” feature to identify and navigate to links on a page. When links are presented as a list,  using descriptive *Display Text* becomes even more important since understanding the target of each link no longer benefits from its original context within the document.\n\
-\n\
-* Screen reader users often use the “Search” feature to find links on a page based on keywords they would expect to find in the *Display Text* of the links. Thus the more descriptive the link *Display Text*, the more effective the search feature will be in finding relevant links.\n\
-\n\
-* Usable and accessible *Display Text* should be descriptive, unique and start with\n\
-keywords (NNG).\n\
-\n\
-* The *Display Text* for links is like a sign post. It should tell you what\n\
-you’ll find when you follow it (NOMENSA).\n\
-\n\
-### Why it\'s important\n\
-\n\
-* Descriptive link text makes it easier for everyone to find and follow links\n\
-on a page that are of interest to them.\n\
-\n\
-* Descriptive link text is especially important for people using screen\n\
-readers, who typically only hear the display text spoken to them through speech\n\
-synthesis and do not "see" the link in the context of other content on the page.\n\
-\n\
-* When URLs, e-mail addresses or other ambiguous text are used as the display text for a link, it is impossible in many cases, and much more difficult in the remaining cases, for\n\
-screen reader users to find and follow links of interest to them.\n\
-\n\
-### More information\n\
-\n\
-* <a href="https://www.nngroup.com/articles/writing-links/" target="_resource">NNG: Writing Hyperlinks: Salient, Descriptive, Start with Keyword</a>\n\
-\n\
-* <a href="https://www.nomensa.com/blog/2011/writing-good-link-text" target="_resource">NOMENSA: Writing good link text</a>\n\
-\n\
-* <a href="http://accessibility.umn.edu/core-skills/hyperlinks" target="_resource">Accessible U: Hyperlinks (Good ad Bad Examples)</a>\n\
-'
-  },
-
   imageHelp: {
     'menu':  'Image',
     'label': 'Image',
@@ -309,73 +208,104 @@ The following are based on <a href="https://webaim.org/">WebAIM\'s</a> guideline
 '
   },
 
-  aboutA11yFirst: {
-    'menu':  'About A11yFirst',
-    'label': 'About A11yFirst',
-    'title': 'About A11yFirst',
+  inlineStyleHelp: {
+    'menu':  'Character Style',
+    'label': 'Character Style',
+    'title': 'Character Style Help',
     'content': '\
-## About A11yFirst\n\
+## Character Style\n\
 \n\
-### What Is Accessibility?\n\
+### How it works\n\
 \n\
-* Information should be perceivable and usable by everyone, including people\n\
-with disabilities.\n\
+* Character styles have a different purpose than paragraph formats. They are\n\
+used at a lower level to highlight words or phrases within blocks of text.\n\
 \n\
-* Documents should be organized and structured to make them as easy to read\n\
-and understand as possible.\n\
+* To apply a character style to existing text, select a range of text and then\n\
+choose an option from the menu.\n\
 \n\
-* Accessible documents are compatible with assistive technologies and\n\
-operating system accessibility features.\n\
+* To apply a character style to text you are about to type, choose an option\n\
+from the menu and begin typing. The style will continue to be applied until\n\
+you choose another option or move the cursor to a different point in the\n\
+document.\n\
 \n\
-### People with disabilities include people who:\n\
+* Multiple character styles can be applied to selected text.\n\
 \n\
-* cannot see very well or are blind;\n\
+### Why it\'s important\n\
 \n\
-* cannot hear very well or are deaf;\n\
+* Thinking in terms of headings, lists and paragraph formats first, and then\n\
+using character styles to emphasize key words or phrases within text blocks,\n\
+results in documents that are easier to read and understand.\n\
 \n\
-* have impaired motor skills or are paralyzed;\n\
+* Character styles, when used properly, help screen reader users better\n\
+understand the types and meanings of lower-level stylistic changes within\n\
+blocks of text.\n\
 \n\
-* have learning or cognitive disabilities that affect their ability to read\n\
-text or understand images.\n\
+* When headings, lists and paragraph formats are considered as primary, and\n\
+character styles secondary, many visual styling decisions can be avoided, as\n\
+they are already made by default.\n\
 \n\
-### A11yFirst Toolbar Features\n\
+* When character styles are used to change the styling of blocks of text\n\
+without regard to whether the block is a heading, list item or other type of\n\
+paragraph format, it makes the document more difficult to read and understand\n\
+within the context of the website.\n\
 \n\
-* **Heading/Paragaph**: Assists you in choosing the proper heading levels to make the\n\
-heading structure in your document more meaningful to readers and provides special\n\
-formatting for blocks of text (e.g. paragraphs) within your document.\n\
+* Using headings, lists, paragraph formats and character styles properly will\n\
+make it easier for you to maintain stylistic consistency.\n\
+'
+  },
+
+  linkHelp: {
+    'menu':  'Link',
+    'label': 'Link',
+    'title': 'Link Help',
+    'content' : '\
+## Link\n\
 \n\
-* **Character Style**: Provides styling to highlight or emphasize a word or group\n\
-of words (i.e. characters) within a block of text.\n\
+### Display Text\n\
 \n\
-* **Link**: Checks the accessibility of *Display Text* when adding or editing links.\n\
+Providing accessible *Display Text* is straightforward if you keep the following guidelines in mind:\n\
 \n\
-* **A11yFirst Help**: Provides information on the important features of accessible\n\
-documents.\n\
+1. The *Display Text* for a link should describe the target of the link.\n\
 \n\
-### Project Information\n\
+1. Do not use ambiguous text, such as “Click Here” or “More”.\n\
 \n\
-Version: %version\n\
+1. Do not begin the *Display Text* with redundant words or phrases such as “Link” or “Link to”.\n\
 \n\
-GitHub Repository: <a href="https://github.com/a11yfirst/plugins-dev" target="_resource">a11yfirst/plugins-dev</a>\n\
+1. Be consistent: Links to the same URL or e-mail address should have the same *Display Text*.\n\
 \n\
-### Additional Resources\n\
+1. In most cases, it is best not to use the link URL or e-mail address as the *Display Text*.\n\
 \n\
-* <a href="https://webaim.org/techniques/semanticstructure/" target="_resource">WebAIM: Semantic Structure</a>\n\
+### About links\n\
 \n\
-* <a href="http://accessibility.umn.edu/core-skills/headings" target="_resource">Accessible U: Headings</a>\n\
+* Screen reader users often use the “List of Links” feature to identify and navigate to links on a page. When links are presented as a list,  using descriptive *Display Text* becomes even more important since understanding the target of each link no longer benefits from its original context within the document.\n\
 \n\
-* <a href="https://webaim.org/techniques/hypertext/" target="_resource">WebAIM: Links and Hypertext</a>\n\
+* Screen reader users often use the “Search” feature to find links on a page based on keywords they would expect to find in the *Display Text* of the links. Thus the more descriptive the link *Display Text*, the more effective the search feature will be in finding relevant links.\n\
 \n\
-* <a href="http://accessibility.umn.edu/core-skills/hyperlinks" target="_resource">Accessible U: Links</a>\n\
+* Usable and accessible *Display Text* should be descriptive, unique and start with\n\
+keywords (NNG).\n\
 \n\
-* <a href="https://webaim.org/techniques/images/" target="_resource">WebAIM: Accessible Images</a>\n\
+* The *Display Text* for links is like a sign post. It should tell you what\n\
+you’ll find when you follow it (NOMENSA).\n\
 \n\
-* <a href="http://accessibility.umn.edu/core-skills/alt-text" target="_resource">Accessible U: ALT Text</a>\n\
+### Why it\'s important\n\
 \n\
-* <a href="http://diagramcenter.org/" target="_resource">Diagram Center: Image Description Guidelines</a>\n\
+* Descriptive link text makes it easier for everyone to find and follow links\n\
+on a page that are of interest to them.\n\
 \n\
-* <a href="https://webaim.org/techniques/tables/data" target="_resource">WebAIM: Creating Accessible Tables</a>\n\
+* Descriptive link text is especially important for people using screen\n\
+readers, who typically only hear the display text spoken to them through speech\n\
+synthesis and do not "see" the link in the context of other content on the page.\n\
 \n\
+* When URLs, e-mail addresses or other ambiguous text are used as the display text for a link, it is impossible in many cases, and much more difficult in the remaining cases, for\n\
+screen reader users to find and follow links of interest to them.\n\
+\n\
+### More information\n\
+\n\
+* <a href="https://www.nngroup.com/articles/writing-links/" target="_resource">NNG: Writing Hyperlinks: Salient, Descriptive, Start with Keyword</a>\n\
+\n\
+* <a href="https://www.nomensa.com/blog/2011/writing-good-link-text" target="_resource">NOMENSA: Writing good link text</a>\n\
+\n\
+* <a href="http://accessibility.umn.edu/core-skills/hyperlinks" target="_resource">Accessible U: Hyperlinks (Good ad Bad Examples)</a>\n\
 '
   },
 
