@@ -1103,13 +1103,29 @@
 		this._filter = null;
 
 		this.observedModel = null;
+
+		this.data = {};
 	}
 
 	ViewModel.prototype = {
 		publish: function( query, data, requestId ) {
 			if ( this.requestId === requestId ) {
-				this.fire( 'change-data', this._filterData( data ) );
+
+				if ( !this.data[ query ] ) {
+					this.data[ query ] = this._filterData( data );
+				}
+
+				this.fire( 'change-data', this.data[ query ] );
 			}
+		},
+
+		setQuery: function( query, range ) {
+			this.requestId = CKEDITOR.tools.getNextId();
+
+			this.query = query;
+			this.range = range;
+
+			this.observedModel.queryData( this.query, this.requestId );
 		},
 
 		/**
@@ -1120,6 +1136,7 @@
 		setLimit: function( number ) {
 			if ( number !== this._limit ) {
 				this._limit = number;
+				this.data = {};
 
 				if ( this.isActive ) {
 					this.observedModel.queryData( this.query, this.requestId );
@@ -1133,6 +1150,7 @@
 		setSorting: function( fn ) {
 			if ( fn !== this._sort ) {
 				this._sort = fn;
+				this.data = {};
 
 				if ( this.isActive ) {
 					this.observedModel.queryData( this.query, this.requestId );
@@ -1143,6 +1161,7 @@
 		setFilter: function( query ) {
 			if ( query !== this._filter ) {
 				this._filter = query;
+				this.data = {};
 
 				if ( this.isActive ) {
 					this.observedModel.queryData( this.query, this.requestId );
@@ -1182,15 +1201,6 @@
 
 		getItemById: function( id ) {
 			return this.observedModel.getItemById( this.query, id );
-		},
-
-		setQuery: function( query, range ) {
-			this.requestId = CKEDITOR.tools.getNextId();
-
-			this.query = query;
-			this.range = range;
-
-			this.observedModel.queryData( this.query, this.requestId );
 		},
 
 		/**
