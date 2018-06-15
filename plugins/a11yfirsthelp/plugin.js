@@ -73,8 +73,10 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
           this.add( key, menuStyle.buildPreview( label ), title );
         }
 
+        /*
         this.add( keyboardShortcutsValue, menuStyle.buildPreview( lang.keyboardShortcutsLabel ),
           lang.keyboardShortcutsLabel );
+        */
       },
 
       onClick: function( value ) {
@@ -104,6 +106,10 @@ CKEDITOR.config.a11yFirstHelpTopics = {
     option:  'ListHelp',
     content: 'contentListHelp'
   },
+  'imageHelp': {
+    option:  'ImageHelp',
+    content: 'contentImageHelp'
+  },
   'inlineStyleHelp': {
     option:  'InlineStyleHelp',
     content: 'contentInlineStyleHelp'
@@ -111,10 +117,6 @@ CKEDITOR.config.a11yFirstHelpTopics = {
   'linkHelp': {
     option:  'LinkHelp',
     content: 'contentLinkHelp'
-  },
-  'imageHelp': {
-    option:  'ImageHelp',
-    content: 'contentImageHelp'
   },
   'aboutA11yFirst': {
     option:  'AboutA11yFirst',
