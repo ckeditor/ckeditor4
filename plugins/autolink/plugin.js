@@ -6,16 +6,19 @@
 ( function() {
 	'use strict';
 
-	// Regex by Imme Emosol.
-	var validUrlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig,
-		// Regex by (https://www.w3.org/TR/html5/forms.html#valid-e-mail-address).
-		validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g,
-		doubleQuoteRegex = /"/g;
+	var doubleQuoteRegex = /"/g;
 
 	CKEDITOR.plugins.add( 'autolink', {
-		requires: 'clipboard',
+		requires: 'clipboard,textwatcher,textmatch',
 
 		init: function( editor ) {
+			var textwatcher = new CKEDITOR.plugins.textWatcher( editor, textTestCallback ),
+				urlTemplate = new CKEDITOR.template( '<a href="{text}">{text}</a>' ),
+				emailTemplate = new CKEDITOR.template( '<a mailto="{text}">{text}</a>' );
+
+			textwatcher.on( 'matched', onTextMatched );
+			textwatcher.attach();
+
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data.dataValue;
 
@@ -29,12 +32,14 @@
 				}
 
 				// Create valid email links (#1761).
-				if ( data.match( validEmailRegex ) ) {
-					data = data.replace( validEmailRegex, '<a href="mailto:' + data.replace( doubleQuoteRegex, '%22' ) + '">$&</a>' );
+				if ( data.match( CKEDITOR.config.autolink_emailRegex ) ) {
+					data = data.replace( CKEDITOR.config.autolink_emailRegex,
+						'<a href="mailto:' + data.replace( doubleQuoteRegex, '%22' ) + '">$&</a>' );
 					data = tryToEncodeLink( data );
 				} else {
 					// https://dev.ckeditor.com/ticket/13419
-					data = data.replace( validUrlRegex , '<a href="' + data.replace( doubleQuoteRegex, '%22' ) + '">$&</a>' );
+					data = data.replace( CKEDITOR.config.autolink_urlRegex,
+						'<a href="' + data.replace( doubleQuoteRegex, '%22' ) + '">$&</a>' );
 				}
 
 				// If link was discovered, change the type to 'html'. This is important e.g. when pasting plain text in Chrome
@@ -64,6 +69,73 @@
 				}
 				return data;
 			}
+
+			function onTextMatched( evt ) {
+				editor.fire( 'lockSnapshot' );
+
+				editor.getSelection().selectRanges( [ evt.data.range ] );
+				editor.insertHtml( getHtmlToInsert( evt.data.text ), 'html' );
+
+				editor.fire( 'unlockSnapshot' );
+			}
+
+			function getHtmlToInsert( text ) {
+				var link = text.replace( doubleQuoteRegex, '%22' ),
+					spaceMatch = text.match( /\s+$/ ),
+					space = '',
+					template;
+
+				// Text could contain following space - we will restore it by appending at the end of a link.
+				if ( spaceMatch ) {
+					space = text.substring( spaceMatch.index ).replace( /\s/g, '&nbsp;' );
+					link = link.substring( 0, spaceMatch.index );
+				}
+
+				template = link.match( CKEDITOR.config.autolink_urlRegex ) ?
+					urlTemplate.output( { text: link } )
+					: emailTemplate.output( { text: link } );
+
+				return tryToEncodeLink( template ) + space;
+			}
+
+			function textTestCallback( range ) {
+				return CKEDITOR.plugins.textMatch.match( range, matchCallback );
+			}
+
+			function matchCallback( text, offset ) {
+				var query = text.slice( 0, offset ),
+					// Remove empty strings.
+					parts = CKEDITOR.tools.array.filter( query.split( /(\s+)/g ), function( part ) {
+						return part;
+					} );
+
+				// Query should contain at least 2 parts - link and a space.
+				if ( parts.length < 2 ) {
+					return null;
+				}
+
+				var lastIndex = parts.length - 1;
+
+				// If the last part is not a space, abort.
+				if ( !parts[ lastIndex ].match( /\s+/ ) ) {
+					return null;
+				}
+
+				var linkPart = parts[ lastIndex - 1 ],
+					match = CKEDITOR.config.autolink_urlRegex.exec( linkPart ) || CKEDITOR.config.autolink_emailRegex.exec( linkPart );
+
+				if ( !match ) {
+					return null;
+				}
+
+				return { start: query.indexOf( linkPart ), end: offset };
+			}
 		}
 	} );
+
+	// Regex by Imme Emosol.
+	CKEDITOR.config.autolink_urlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig;
+
+	// Regex by (https://www.w3.org/TR/html5/forms.html#valid-e-mail-address).
+	CKEDITOR.config.autolink_emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
 } )();
