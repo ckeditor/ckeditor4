@@ -5,18 +5,36 @@
 CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
   var lang = editor.lang.a11yfirsthelp,
     config = editor.config,
-    version = '0.8.0',
+    version = '0.8.1',
     dialogObj;
 
   var buttonStyle = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 0';
 
   var helpTopicKeys = Object.keys( config.a11yFirstHelpTopics ),
-      helpOptions = [];
+      helpOptions = [], dialogMenuButtons = [];
 
   // Initialize helpOptions array from config defined in plugin.js
   for ( var i = 0; i < helpTopicKeys.length; i++ ) {
     var key = helpTopicKeys[ i ];
     helpOptions.push( config.a11yFirstHelpTopics[ key ].option );
+  }
+
+  // Initialize dialogMenuButtons array from helpTopicKeys and helpOptions
+  for ( var i = 0; i < helpTopicKeys.length; i++ ) {
+    var key = helpTopicKeys[ i ];
+    var option = helpOptions[ i ];
+    var buttonObj = {
+      type: 'button',
+      id: 'button' + option,
+      style: buttonStyle,
+      label: lang[ key ].label,
+      title: lang[ key ].title,
+      option: option,
+      onClick: function() {
+        showHelpTopic( this.option );
+      }
+    };
+    dialogMenuButtons.push ( buttonObj );
   }
 
   function showHelpTopic( value ) {
@@ -101,78 +119,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                 type: 'vbox',
                 align: 'left',
                 width: '200px',
-                children: [
-                  {
-                    type: 'button',
-                    id: 'buttonHeadingHelp',
-                    style: buttonStyle,
-                    label: lang.headingHelp.label,
-                    title: lang.headingHelpTitle,
-                    onClick: function() {
-                        showHelpTopic( 'HeadingHelp' );
-                    },
-                  },
-                  {
-                    type: 'button',
-                    id: 'buttonListHelp',
-                    style: buttonStyle,
-                    label: lang.listHelp.label,
-                    title: lang.listHelpTitle,
-                    onClick: function() {
-                        showHelpTopic( 'ListHelp' );
-                    },
-                  },
-                  {
-                    type: 'button',
-                    id: 'buttonInlineStyleHelp',
-                    style: buttonStyle,
-                    label: lang.inlineStyleHelp.label,
-                    title: lang.inlineStyleHelpTitle,
-                    onClick: function() {
-                        showHelpTopic( 'InlineStyleHelp' );
-                    },
-                  },
-                  {
-                    type: 'button',
-                    id: 'buttonLinkHelp',
-                    style: buttonStyle,
-                    label: lang.linkHelp.label,
-                    title: lang.linkHelpTitle,
-                    onClick: function() {
-                        showHelpTopic( 'LinkHelp' );
-                    },
-                  },
-                  {
-                    type: 'button',
-                    id: 'buttonImageHelp',
-                    style: buttonStyle,
-                    label: lang.imageHelp.label,
-                    title: lang.imageHelpTitle,
-                    onClick: function() {
-                        showHelpTopic( 'ImageHelp' );
-                    },
-                  },
-                  {
-                    type: 'button',
-                    id: 'buttonAboutA11yFirst',
-                    style: buttonStyle,
-                    label: lang.aboutA11yFirst.label,
-                    title: lang.aboutA11yFirst.title,
-                    onClick: function() {
-                        showHelpTopic( 'AboutA11yFirst' );
-                    },
-                  },
-                  {
-                    type: 'button',
-                    id: 'buttonGettingStarted',
-                    style: buttonStyle,
-                    label: lang.gettingStarted.label,
-                    title: lang.gettingStarted.title,
-                    onClick: function() {
-                        showHelpTopic( 'GettingStarted' );
-                    },
-                  }
-                ],
+                children: dialogMenuButtons
               },
               {
                 type: 'html',
@@ -187,9 +134,9 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                   height: 400px; overflow: auto">\
                     <div id="contentHeadingHelp"></div>\
                     <div id="contentListHelp"></div>\
+                    <div id="contentImageHelp"></div>\
                     <div id="contentInlineStyleHelp"></div>\
                     <div id="contentLinkHelp"></div>\
-                    <div id="contentImageHelp"></div>\
                     <div id="contentAboutA11yFirst"></div>\
                     <div id="contentGettingStarted"></div>\
                   </div>'
