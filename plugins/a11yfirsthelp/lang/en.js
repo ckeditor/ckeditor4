@@ -98,6 +98,38 @@ Style` options.\n\
     'title': 'List Help',
     'content' : '\
 ## List\n\
+\n\
+### How it works\n\
+\n\
+Use the toolbar buttons to:\n\
+\n\
+* Insert/Remove Numbered List\n\
+* Insert/Remove Bulleted List\n\
+* Increase Indent\n\
+* Decrease Indent\n\
+\n\
+Additional properties such as list numbering and bullet types can be configured\n\
+by using the context menu and selecting:\n\
+\n\
+* Numbered List Properties\n\
+* Bulleted List Properties\n\
+\n\
+The context menu can be invoked by positioning the cursor in a list item and\n\
+\n\
+* right-clicking, using the mouse, or\n\
+* using Mouse Keys on Windows or Mac.\n\
+\n\
+### About lists\n\
+\n\
+* Use a numbered list when the order or sequence of the items is significant.\n\
+* Use a bulleted list when the order of the items is not significant.\n\
+\n\
+### Why lists are important\n\
+\n\
+* Lists convey grouping semantics for related items.\n\
+* Lists may also convey hierarchical structure.\n\
+\n\
+### More information\n\
 '
   },
 
