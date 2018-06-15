@@ -59,18 +59,35 @@
 	 *
 	 * @returns {Object/null} Object with information about matching text or `null`.
 	 * @returns {String} return.text The matching text.
+	 * The text doesn't reflect the range offsets. The range could contain additional,
+	 *  browser related characters like CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE.
 	 * @returns {CKEDITOR.dom.range} return.range Range in the DOM for the text that matches.
 	 */
 	CKEDITOR.plugins.textMatch.match = function( range, callback ) {
 		var textAndOffset = CKEDITOR.plugins.textMatch.getTextAndOffset( range ),
-			result = callback( textAndOffset.text, textAndOffset.offset );
+			fillingCharSequence = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE,
+			fillingSequenceOffset = 0;
+
+		if ( !textAndOffset ) {
+			return;
+		}
+
+		// Remove filling char sequence for clean query (#2038).
+		if ( textAndOffset.text.indexOf( fillingCharSequence ) == 0 ) {
+			fillingSequenceOffset = fillingCharSequence.length;
+
+			textAndOffset.text = textAndOffset.text.replace( fillingCharSequence, '' );
+			textAndOffset.offset -= fillingSequenceOffset;
+		}
+
+		var result = callback( textAndOffset.text, textAndOffset.offset );
 
 		if ( !result ) {
 			return null;
 		}
 
 		return {
-			range: CKEDITOR.plugins.textMatch.getRangeInText( range, result.start, result.end ),
+			range: CKEDITOR.plugins.textMatch.getRangeInText( range, result.start, result.end + fillingSequenceOffset ),
 			text: textAndOffset.text.slice( result.start, result.end )
 		};
 	};

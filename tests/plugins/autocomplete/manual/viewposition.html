@@ -27,7 +27,7 @@
 
 <script>
 
-	if( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+	if ( autocompleteUtils.isUnsupportedEnvironment() ) {
 		bender.ignore();
 	}
 
@@ -36,7 +36,10 @@
 		extraAllowedContent: 'p(filler)',
 		on: {
 			instanceReady: function( evt ) {
-				new CKEDITOR.plugins.autocomplete( evt.editor, autocompleteUtils.getTextTestCallback(), autocompleteUtils.getDataCallback() );
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback()
+				} );
 			}
 		}
 	};

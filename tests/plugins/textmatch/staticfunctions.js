@@ -119,8 +119,12 @@
 	};
 
 	tcs[ 'test textMatch' ] = function() {
-		var range = bender.tools.range.setWithHtml( rangeRoot, '<p>{}Hello</p>' ),
-			result = CKEDITOR.plugins.textMatch.match( range, function() {
+		var range = bender.tools.range.setWithHtml( rangeRoot, '<p>Hel{}lo</p>' ),
+			result = CKEDITOR.plugins.textMatch.match( range, function( text, offset ) {
+
+				assert.areEqual( 'Hello', text );
+				assert.areEqual( 3, offset );
+
 				return {
 					start: 0,
 					end: 3
@@ -131,6 +135,27 @@
 		assert.areSame( range.startContainer, result.range.startContainer );
 		assert.areSame( 0, result.range.startOffset );
 		assert.areSame( 3, result.range.endOffset );
+	};
+
+	// (#2038)
+	tcs[ 'test textMatch with filling char sequence' ] = function() {
+		var html = '<p>' + CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE + 'Hel{}lo</p>',
+			range = bender.tools.range.setWithHtml( rangeRoot, html ),
+			result = CKEDITOR.plugins.textMatch.match( range, function( text, offset ) {
+
+				assert.areEqual( 'Hello', text );
+				assert.areEqual( 3, offset );
+
+				return {
+					start: 0,
+					end: 3
+				};
+			} );
+
+		assert.areSame( 'Hel', result.text );
+		assert.areSame( range.startContainer, result.range.startContainer );
+		assert.areSame( 0, result.range.startOffset );
+		assert.areSame( 10, result.range.endOffset );
 	};
 
 	addTestCases( tcs, {

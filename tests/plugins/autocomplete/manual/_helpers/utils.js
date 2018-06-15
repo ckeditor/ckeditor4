@@ -16,6 +16,11 @@
 	];
 
 	window.autocompleteUtils = {
+
+		isUnsupportedEnvironment: function() {
+			return CKEDITOR.env.ie && CKEDITOR.env.version < 9;
+		},
+
 		getTextTestCallback: function( config ) {
 			config = config || {};
 			return function( range ) {
@@ -35,9 +40,9 @@
 		},
 
 		getDataCallback: function( config ) {
-			var dataSource = config.data || DATA;
-
 			config = config || {};
+
+			var dataSource = config.data || DATA;
 
 			return function( query, range, callback ) {
 				var data = dataSource.filter( function( item ) {

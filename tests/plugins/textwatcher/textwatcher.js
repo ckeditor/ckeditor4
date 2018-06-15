@@ -202,12 +202,43 @@
 			textMatcher.check( {} );
 
 			assert.isTrue( spy.calledOnce );
+		},
+
+		// (#1997)
+		'test throttle': function() {
+			var editor = this.editor, bot = this.editorBot,
+				textWatcher = attachTextWatcher( editor, function() {
+					return {
+						text: 'test'
+					};
+				}, 100 ),
+				callbackSpy = sinon.spy( textWatcher, 'callback' );
+
+			bot.setHtmlWithSelection( 'Lorem ipsum dolor ^sit amet, consectetur.' );
+
+			textWatcher.lastMatched = 'changed first time';
+			textWatcher.check( {} );
+			assert.isTrue( callbackSpy.calledOnce );
+
+			textWatcher.lastMatched = 'changed second time';
+			textWatcher.check( {} );
+			assert.isTrue( callbackSpy.calledOnce );
+
+			setTimeout( function() {
+				resume( function() {
+					textWatcher.lastMatched = 'changed third time';
+					textWatcher.check( {} );
+					assert.isTrue( callbackSpy.calledTwice );
+				} );
+			}, 100 );
+
+			wait();
 		}
 
 	} );
 
-	function attachTextWatcher( editor, callback ) {
-		return new CKEDITOR.plugins.textWatcher( editor, callback || function() {} ).attach();
+	function attachTextWatcher( editor, callback, throttle ) {
+		return new CKEDITOR.plugins.textWatcher( editor, callback || function() {}, throttle ).attach();
 	}
 
 	function getKeyEvent( keyName, keyCode ) {

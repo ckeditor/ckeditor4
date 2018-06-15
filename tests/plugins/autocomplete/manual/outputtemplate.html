@@ -1,7 +1,7 @@
 <div id="editor1" ></div>
 
 <script>
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+	if ( autocompleteUtils.isUnsupportedEnvironment() ) {
 		bender.ignore();
 	}
 
@@ -9,30 +9,12 @@
 		width: 600,
 		on: {
 			instanceReady: function( evt ) {
-				var template = '<strong>{name}</strong>';
-				new CKEDITOR.plugins.autocomplete( evt.editor, getTextTestCallback(), dataCallback, null, template );
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback(),
+					outputTemplate: '<strong>{name}</strong>'
+				} );
 			}
 		}
 	} );
-
-	function getTextTestCallback() {
-		return function( range ) {
-			return CKEDITOR.plugins.textMatch.match( range, matchCallback );
-		};
-	}
-
-	function matchCallback( text, offset ) {
-		var left = text.slice( 0, offset ),
-			match = left.match( new RegExp( '@\\w*$' ) );
-
-		if ( !match ) {
-			return null;
-		}
-
-		return { start: match.index, end: offset };
-	}
-
-	function dataCallback( query, range, callback ) {
-		callback( [ { id: 1, name: '@anna' } ] );
-	}
 </script>

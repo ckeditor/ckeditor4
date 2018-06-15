@@ -1,6 +1,6 @@
-<div id="editor1"></div>
-
+<div id="editor1" ></div>
 <script>
+
 	if ( autocompleteUtils.isUnsupportedEnvironment() ) {
 		bender.ignore();
 	}
@@ -12,7 +12,7 @@
 				new CKEDITOR.plugins.autocomplete( evt.editor, {
 					textTestCallback: autocompleteUtils.getTextTestCallback(),
 					dataCallback: autocompleteUtils.getDataCallback(),
-					itemTemplate: '<li data-id="{id}">item: <strong>{name}</strong></li>'
+					throttle: 3000
 				} );
 			}
 		}
