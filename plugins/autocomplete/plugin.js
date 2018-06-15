@@ -199,7 +199,7 @@
 		this.model.addSubscriber( this.viewModel );
 
 		if ( config.itemsLimit ) {
-			this.model.setLimit( config.itemsLimit );
+			this.viewModel.setLimit( config.itemsLimit );
 		}
 
 		/**
@@ -429,8 +429,8 @@
 		 * {@link CKEDITOR.editor#change} event listener.
 		 */
 		onChange: function() {
-			if ( this.model.isActive ) {
-				this.view.updatePosition( this.model.range );
+			if ( this.viewModel.isActive ) {
+				this.view.updatePosition( this.viewModel.range );
 			}
 		},
 
@@ -1088,8 +1088,6 @@
 		}
 	};
 
-	CKEDITOR.event.implementOn( Model.prototype );
-
 	/**
 	 *
 	 */
@@ -1108,7 +1106,6 @@
 	}
 
 	ViewModel.prototype = {
-
 		publish: function( query, data, requestId ) {
 			if ( this.requestId === requestId ) {
 				this.fire( 'change-data', this._filterData( data ) );
@@ -1125,7 +1122,7 @@
 				this._limit = number;
 
 				if ( this.isActive ) {
-					this.queryData();
+					this.observedModel.queryData( this.query, this.requestId );
 				}
 			}
 		},
@@ -1138,7 +1135,7 @@
 				this._sort = fn;
 
 				if ( this.isActive ) {
-					this.queryData();
+					this.observedModel.queryData( this.query, this.requestId );
 				}
 			}
 		},
@@ -1148,7 +1145,7 @@
 				this._filter = query;
 
 				if ( this.isActive ) {
-					this.queryData();
+					this.observedModel.queryData( this.query, this.requestId );
 				}
 			}
 		},
@@ -1193,10 +1190,6 @@
 			this.query = query;
 			this.range = range;
 
-			this.queryData( this.query, this.requestId );
-		},
-
-		queryData: function() {
 			this.observedModel.queryData( this.query, this.requestId );
 		},
 
