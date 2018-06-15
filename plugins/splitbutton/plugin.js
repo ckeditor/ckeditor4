@@ -21,10 +21,19 @@
 			face = definition.face,
 			i,
 			item,
+			itemName,
 			previousButton,
 			defaultButton;
 
 		if ( face ) {
+			// Split Button can be defined with simpler definition via strings, needed by #2091
+			if ( typeof face === 'string' ) {
+				face = editor.ui.items[ face ];
+
+				if ( !face.icon ) {
+					face.icon = face.name || face.command;
+				}
+			}
 			face.click = face.click || face.onClick ||  function() {
 				editor.execCommand( face.command, face.commandData );
 			};
@@ -34,7 +43,21 @@
 		}
 
 		for ( i in allItems ) {
-			item = allItems[ i ];
+			itemName = item = allItems[ i ];
+
+			// Split Button can be defined with simpler definition via strings, needed by #2091
+			if ( typeof item === 'string' ) {
+				item = editor.ui.items[ item ];
+
+				if ( !item.icon ) {
+					item.icon = item.name || item.command;
+				}
+
+				if ( definition[ 'default' ] === itemName ) {
+					item[ 'default' ] = true;
+				}
+				allItems[ i ] = item;
+			}
 
 			if ( !item.group ) {
 				item.group = definition.label + '_default';
