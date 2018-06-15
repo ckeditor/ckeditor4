@@ -99,7 +99,7 @@ Style` options.\n\
     'content' : '\
 ## List\n\
 \n\
-### How it works\n\
+### Working with lists\n\
 \n\
 Use the toolbar buttons to:\n\
 \n\
@@ -131,8 +131,6 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
 * When related items are grouped as a list, information about the list is\n\
   conveyed to screen reader users, including the type of list, the number of\n\
   items it contains and the sequence number of the current list item.\n\
-\n\
-### More information\n\
 '
   },
 
@@ -203,7 +201,7 @@ Providing an *accessible text description* of an image is straightforward if you
 \n\
 * Using the caption creates a `figcaption` element contained in a `figure` element.  The `figure` element also contains the `img` element.\n\
 \n\
-### Why it\'s important\n\
+### Why image properties are important\n\
 \n\
 Adding accessible text descriptions of images is an important part of making web pages accessible to the visually impaired who use assistive devices such as screen readers and magnifiers.\n\
 \n\
@@ -250,10 +248,7 @@ The following are based on <a href="https://webaim.org/">WebAIM\'s</a> guideline
     'content': '\
 ## Character Style\n\
 \n\
-### How it works\n\
-\n\
-* Character styles have a different purpose than paragraph formats. They are\n\
-used at a lower level to highlight words or phrases within blocks of text.\n\
+### Working with character styles\n\
 \n\
 * To apply a character style to existing text, select a range of text and then\n\
 choose an option from the menu.\n\
@@ -265,15 +260,20 @@ document.\n\
 \n\
 * Multiple character styles can be applied to selected text.\n\
 \n\
-### Why it\'s important\n\
+### About character styles\n\
 \n\
-* Thinking in terms of headings, lists and paragraph formats first, and then\n\
-using character styles to emphasize key words or phrases within text blocks,\n\
-results in documents that are easier to read and understand.\n\
+* Character styles have a different purpose than paragraph formats. They are\n\
+used at a lower level to highlight words or phrases within blocks of text.\n\
 \n\
 * Character styles, when used properly, help screen reader users better\n\
 understand the types and meanings of lower-level stylistic changes within\n\
 blocks of text.\n\
+\n\
+### Character styles vs. headings, lists and paragraph formats\n\
+\n\
+* Thinking in terms of headings, lists and paragraph formats first, and then\n\
+using character styles to emphasize key words or phrases within text blocks,\n\
+results in documents that are easier to read and understand.\n\
 \n\
 * When headings, lists and paragraph formats are considered as primary, and\n\
 character styles secondary, many visual styling decisions can be avoided, as\n\
@@ -322,7 +322,7 @@ keywords (NNG).\n\
 * The *Display Text* for links is like a sign post. It should tell you what\n\
 you’ll find when you follow it (NOMENSA).\n\
 \n\
-### Why it\'s important\n\
+### Why links are important\n\
 \n\
 * Descriptive link text makes it easier for everyone to find and follow links\n\
 on a page that are of interest to them.\n\

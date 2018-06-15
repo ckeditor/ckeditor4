@@ -26,7 +26,7 @@ keywords (NNG).
 * The *Display Text* for links is like a sign post. It should tell you what
 you’ll find when you follow it (NOMENSA).
 
-### Why it's important
+### Why links are important
 
 * Descriptive link text makes it easier for everyone to find and follow links
 on a page that are of interest to them.

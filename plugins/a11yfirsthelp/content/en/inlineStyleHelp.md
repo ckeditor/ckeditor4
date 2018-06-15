@@ -1,9 +1,6 @@
 ## Character Style
 
-### How it works
-
-* Character styles have a different purpose than paragraph formats. They are
-used at a lower level to highlight words or phrases within blocks of text.
+### Working with character styles
 
 * To apply a character style to existing text, select a range of text and then
 choose an option from the menu.
@@ -15,15 +12,20 @@ document.
 
 * Multiple character styles can be applied to selected text.
 
-### Why it's important
+### About character styles
 
-* Thinking in terms of headings, lists and paragraph formats first, and then
-using character styles to emphasize key words or phrases within text blocks,
-results in documents that are easier to read and understand.
+* Character styles have a different purpose than paragraph formats. They are
+used at a lower level to highlight words or phrases within blocks of text.
 
 * Character styles, when used properly, help screen reader users better
 understand the types and meanings of lower-level stylistic changes within
 blocks of text.
+
+### Character styles vs. headings, lists and paragraph formats
+
+* Thinking in terms of headings, lists and paragraph formats first, and then
+using character styles to emphasize key words or phrases within text blocks,
+results in documents that are easier to read and understand.
 
 * When headings, lists and paragraph formats are considered as primary, and
 character styles secondary, many visual styling decisions can be avoided, as

@@ -1,6 +1,6 @@
 ## List
 
-### How it works
+### Working with lists
 
 Use the toolbar buttons to:
 
@@ -32,5 +32,3 @@ The context menu can be invoked by positioning the cursor in a list item and:
 * When related items are grouped as a list, information about the list is
   conveyed to screen reader users, including the type of list, the number of
   items it contains and the sequence number of the current list item.
-
-### More information
