@@ -10,6 +10,47 @@ This plug-in adds a dialog box to CKEditor explaining:
 * How to work with the A11yFirst features, as well as a few of the standard
   features included in CKEditor that are important for accessibility
 
+## Help Topics & Subtopics
+
+### Heading / Paragraph
+
+* Menu items
+* About headings
+* About paragraph formats
+* Why headings and paragraph formats are important
+* More information
+
+### List
+
+* Working with lists
+* About lists
+* Why lists are important
+
+### Image
+
+* Accessible Description
+* Type of Image
+* Text Alternative
+* Document includes long description
+* Location of long description
+* Include an editable caption
+* Why image properties are important
+* Writing effective text alternative content
+* More information
+
+### Character Style
+
+* Working with character styles
+* About character styles
+* Character styles vs. headings, lists and paragraph formats
+
+### Link
+
+* Display Text
+* About links
+* Why links are important
+* More information
+
 ## Developer Notes
 
 To modify the help topics contained in this plug-in, the following steps are
