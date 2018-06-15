@@ -194,6 +194,16 @@
 			assert.isTrue( doc.getById( '_enclosed_i' ).equals( range.getEnclosedNode() ) );
 		},
 
+		// Test getEnclosedNode returns text node (#2089).
+		test_enclosed_node4: function() {
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_enclosed_i' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_enclosed_i' ).getLast(), 8 );
+			// <p> Test <i>[enclosed]</i> node.</p>
+
+			assert.areSame( doc.getById( '_enclosed_i' ).getFirst(), range.getEnclosedNode() );
+		},
+
 		/* Start of https://dev.ckeditor.com/ticket/6735 */
 
 		'test checkReadOnly when both range boundaries are inside of read-only element': function() {
