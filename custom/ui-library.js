@@ -4,13 +4,6 @@
 */
 CKEDITOR.replace( 'editor', {
   customConfig: CKEDITOR.basePath + 'custom/config.js',
-
-  a11yfirst: {
-    organization: 'University of Illinois Library',
-    a11yPolicyLink: 'http://guides.library.illinois.edu/usersdisabilities/',
-    a11yPolicyLabel: 'Information for Users with Disabilities',
-  },
-
   headings: 'h1:h4',
   oneLevel1: true
 } );

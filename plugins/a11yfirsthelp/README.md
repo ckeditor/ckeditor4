@@ -1,37 +1,29 @@
 # A11yFirst Help
 
+## Overview
+
 This plug-in adds a dialog box to CKEditor explaining:
 
-* The importance of accessibility, which can be customized to use your
-  organization's name and a link to its accessibility policies
-* Features to support accessible authoring
-* How the toolbar options and layout help accessible authoring
+* How to get started using A11yFirst for CKEditor and why accessibility
+  is important
 
-## Configuration Options
+* How to work with the A11yFirst features, as well as a few of the standard
+  features included in CKEditor that are important for accessibility
 
-You can customize the importance message to include your organization's
-name and a link to its accessibility policies by adding an `a11yfirst`
-object to the CKEditor configuration file.
+## Developer Notes
 
-The `a11yfirst` object has three options:
-* `organization`: *name of the organization*
-* `a11yPolicyLink`: *URL to a resource describing the organization's
-  accessibility policies*
-* `a11yPolicyLabel`: *Text label for the URL*
+To modify the help topics contained in this plug-in, the following steps are
+required:
 
-If the `a11yfirst` option is not present, a generic importance message
-is used.
+* In `plugin.js`, update the `config.a11yFirstHelpTopics` object. The
+  sequence order of the properties in this object determine the ordering of
+  the A11yFirst Help menu items and the help dialog menu buttons.
 
-## Example Configuration
+* In `dialogs/a11yfirst-help.js`, update the `contents.children.html` string
+  to include the necessary `div` elements for the help topics.
 
-```
-CKEDITOR.replace('editor', {
-  a11yfirst: {
-    organization: 'University of Illinois Library',
-    a11yPolicyLink: 'http://guides.library.illinois.edu/usersdisabilities/',
-    a11yPolicyLabel: 'Information for Users With Disabilities',
-  },
-  headings: 'h1:h4',
-  oneLevel1: true
-}
-```
+* In `content/en/setLang.js`, update the properties of the object passed to
+  the `setLang` function.
+
+* Update `content/en/build.sh` to include the processing of the markdown files
+  that contain the content for all of the help topics.
