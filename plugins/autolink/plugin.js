@@ -51,6 +51,28 @@
 				evt.data.dataValue = data;
 			} );
 
+			editor.once( 'instanceReady', function() {
+				editor.editable().on( 'keydown', function( evt ) {
+					var keyCode = evt.data.getKey();
+
+					// Enter
+					if ( keyCode != 13 ) {
+						return;
+					}
+
+					var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], getMatchCallback() );
+
+					if ( matched ) {
+						editor.fire( 'lockSnapshot' );
+
+						editor.getSelection().selectRanges( [ matched.range ] );
+						editor.insertHtml( getHtmlToInsert( matched.text ), 'html' );
+
+						editor.fire( 'unlockSnapshot' );
+					}
+				} );
+			} );
+
 			function tryToEncodeLink( data ) {
 				// If enabled use link plugin to encode email link.
 				if ( editor.plugins.link ) {
@@ -99,36 +121,43 @@
 			}
 
 			function textTestCallback( range ) {
-				return CKEDITOR.plugins.textMatch.match( range, matchCallback );
+				return CKEDITOR.plugins.textMatch.match( range, getMatchCallback( true ) );
 			}
 
-			function matchCallback( text, offset ) {
-				var query = text.slice( 0, offset ),
-					// Remove empty strings.
-					parts = CKEDITOR.tools.array.filter( query.split( /(\s+)/g ), function( part ) {
-						return part;
-					} );
+			function getMatchCallback( spaceRequired ) {
+				return function( text, offset ) {
+					var query = text.slice( 0, offset ),
+						// Remove empty strings.
+						parts = CKEDITOR.tools.array.filter( query.split( /(\s+)/g ), function( part ) {
+							return part;
+						} ),
+						linkPart;
 
-				// Query should contain at least 2 parts - link and a space.
-				if ( parts.length < 2 ) {
-					return null;
-				}
+					// Query should contain at least 2 parts - link and a space.
+					if ( parts.length < 2 ) {
+						return null;
+					}
 
-				var lastIndex = parts.length - 1;
+					var lastIndex = parts.length - 1;
 
-				// If the last part is not a space, abort.
-				if ( !parts[ lastIndex ].match( /\s+/ ) ) {
-					return null;
-				}
+					if ( spaceRequired ) {
+						// If the last part is not a space, abort.
+						if ( !parts[ lastIndex ].match( /\s+/ ) ) {
+							return null;
+						}
+						linkPart = parts[ lastIndex - 1 ];
+					} else {
+						linkPart = parts[ lastIndex ];
+					}
 
-				var linkPart = parts[ lastIndex - 1 ],
-					match = CKEDITOR.config.autolink_urlRegex.exec( linkPart ) || CKEDITOR.config.autolink_emailRegex.exec( linkPart );
+					var match = CKEDITOR.config.autolink_urlRegex.exec( linkPart ) || CKEDITOR.config.autolink_emailRegex.exec( linkPart );
 
-				if ( !match ) {
-					return null;
-				}
+					if ( !match ) {
+						return null;
+					}
 
-				return { start: query.indexOf( linkPart ), end: offset };
+					return { start: query.indexOf( linkPart ), end: offset };
+				};
 			}
 		}
 	} );
