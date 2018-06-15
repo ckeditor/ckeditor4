@@ -192,10 +192,11 @@
 		 * @readonly
 		 * @property {CKEDITOR.plugins.autocomplete.model}
 		 */
-		this._sourceModel = this.getModel( config.dataCallback );
 
-		this.model = new ModelProxy();
-		this.model.setObservedModel( this._sourceModel );
+		this.model = this.getModel( config.dataCallback );
+		this.viewModel = new ViewModel();
+
+		this.model.addSubscriber( this.viewModel );
 
 		if ( config.itemsLimit ) {
 			this.model.setLimit( config.itemsLimit );
@@ -272,8 +273,8 @@
 
 			this._listeners.push( this.textWatcher.on( 'matched', this.onTextMatched, this ) );
 			this._listeners.push( this.textWatcher.on( 'unmatched', this.onTextUnmatched, this ) );
-			this._listeners.push( this.model.on( 'change-data', this.onData, this ) );
-			this._listeners.push( this.model.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
+			this._listeners.push( this.viewModel.on( 'change-data', this.onData, this ) );
+			this._listeners.push( this.viewModel.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
 			this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
 
 			// Update view position on viewport change.
@@ -310,7 +311,7 @@
 		 * Closes the view and sets its {@link CKEDITOR.plugins.autocomplete.model#isActive state} to inactive.
 		 */
 		close: function() {
-			this.model.setActive( false );
+			this.viewModel.setActive( false );
 			this.view.close();
 		},
 
@@ -324,14 +325,14 @@
 		 * instead of the currently chosen one.
 		 */
 		commit: function( itemId ) {
-			if ( !this.model.isActive ) {
+			if ( !this.viewModel.isActive ) {
 				return;
 			}
 
 			this.close();
 
 			if ( itemId == null ) {
-				itemId = this.model.selectedItemId;
+				itemId = this.viewModel.selectedItemId;
 
 				// If non item is selected abort commit.
 				if ( itemId == null ) {
@@ -339,11 +340,11 @@
 				}
 			}
 
-			var item = this.model.getItemById( itemId ),
+			var item = this.viewModel.getItemById( itemId ),
 				editor = this.editor;
 
 			editor.fire( 'saveSnapshot' );
-			editor.getSelection().selectRanges( [ this.model.range ] );
+			editor.getSelection().selectRanges( [ this.viewModel.range ] );
 			editor.insertHtml( this.getHtmlToInsert( item ), 'text' );
 			editor.fire( 'saveSnapshot' );
 		},
@@ -413,11 +414,11 @@
 		 * Opens the panel if {@link CKEDITOR.plugins.autocomplete.model#hasData there is any data available}.
 		 */
 		open: function() {
-			if ( this.model.hasData() ) {
-				this.model.setActive( true );
+			if ( this.viewModel.hasData() ) {
+				this.viewModel.setActive( true );
 				this.view.open();
-				this.model.selectFirst();
-				this.view.updatePosition( this.model.range );
+				this.viewModel.selectFirst();
+				this.view.updatePosition( this.viewModel.range );
 			}
 		},
 
@@ -440,7 +441,7 @@
 		 * @param {CKEDITOR.eventInfo} evt
 		 */
 		onData: function( evt ) {
-			if ( this.model.hasData() ) {
+			if ( this.viewModel.hasData() ) {
 				this.view.updateItems( evt.data );
 				this.open();
 			} else {
@@ -464,7 +465,7 @@
 		 * @param {CKEDITOR.dom.event} evt
 		 */
 		onKeyDown: function( evt ) {
-			if ( !this.model.isActive ) {
+			if ( !this.viewModel.isActive ) {
 				return;
 			}
 
@@ -478,11 +479,11 @@
 				handled = true;
 			// Down Arrow.
 			} else if ( keyCode == 40 ) {
-				this.model.selectNext();
+				this.viewModel.selectNext();
 				handled = true;
 			// Up Arrow.
 			} else if ( keyCode == 38 ) {
-				this.model.selectPrevious();
+				this.viewModel.selectPrevious();
 				handled = true;
 			// Completion keys.
 			} else if ( CKEDITOR.tools.indexOf( this.commitKeystrokes, keyCode ) != -1 ) {
@@ -515,8 +516,8 @@
 		 * @param {CKEDITOR.eventInfo} evt
 		 */
 		onTextMatched: function( evt ) {
-			this.model.setActive( false );
-			this.model.setQuery( evt.data.text, evt.data.range );
+			this.viewModel.setActive( false );
+			this.viewModel.setQuery( evt.data.text, evt.data.range );
 		},
 
 		/**
@@ -921,10 +922,6 @@
 		 * @param {CKEDITOR.dom.range} range The range of text match.
 		 */
 		updatePosition: function( range ) {
-			if ( !range ) {
-				return;
-			}
-
 			this.setPosition( this.getViewPosition( range ) );
 		}
 	};
@@ -956,13 +953,8 @@
 		 */
 		this.dataCallback = dataCallback;
 
-		/**
-		 * Whether the autocomplete is active (i.e. can receive user input like click, key press).
-		 * Should be modified by the {@link #setActive} method which fires the {@link #change-isActive} event.
-		 *
-		 * @readonly
-		 */
-		this.isActive = false;
+		this.subscribers = [];
+		this.data = {};
 
 		/**
 		 * ID of the last request for data. Used by the {@link #setQuery} method.
@@ -1033,12 +1025,12 @@
 		 * @param {Number/String} itemId
 		 * @returns {Number}
 		 */
-		getIndexById: function( itemId ) {
-			if ( !this.hasData() ) {
+		getIndexById: function( query, itemId ) {
+			if ( !this.hasData( query ) ) {
 				return -1;
 			}
 
-			for ( var data = this.getData(), i = 0, l = data.length; i < l; i++ ) {
+			for ( var data = this.getData( query ), i = 0, l = data.length; i < l; i++ ) {
 				if ( data[ i ].id == itemId ) {
 					return i;
 				}
@@ -1053,22 +1045,159 @@
 		 * @param {Number/String} itemId
 		 * @returns {CKEDITOR.plugins.autocomplete.model.item}
 		 */
-		getItemById: function( itemId ) {
-			var index = this.getIndexById( itemId );
-			return ~index && this.getData()[ index ] || null;
+		getItemById: function( query, itemId ) {
+			var index = this.getIndexById( query, itemId );
+			return ~index && this.getData( query )[ index ] || null;
+		},
+
+		getData: function( query ) {
+			return this.data[ query ];
+		},
+
+		hasData: function( query ) {
+			return Boolean( this.getData( query ) && this.getData( query ).length );
+		},
+
+		addSubscriber: function( subscriber ) {
+			this.subscribers.push( subscriber );
+			subscriber.observedModel = this;
+		},
+
+		notifySubscribers: function( query, data, requestId ) {
+			CKEDITOR.tools.array.forEach( this.subscribers, function( subscriber ) {
+				subscriber.publish( query, data, requestId );
+			} );
+		},
+
+		queryData: function( query, requestId ) {
+			var that = this;
+
+			if ( this.hasData( query ) ) {
+				this.notifySubscribers( query, this.getData( query ), requestId );
+				return;
+			}
+
+			// TODO Instead null we were passing range object - TBO I think it's reduntant at this place and could be removed.
+			this.dataCallback( query, null, function( data ) {
+				that.data[ query ] = data;
+				that.notifySubscribers( query, data, requestId );
+			} );
+			// Note: don't put any code here because the callback passed to
+			// this.dataCallback may be executed synchronously or asynchronously
+			// so execution order will differ.
+		}
+	};
+
+	CKEDITOR.event.implementOn( Model.prototype );
+
+	/**
+	 *
+	 */
+	function ViewModel() {
+		/**
+		 * @property {Number/Boolean}
+		 * @private
+		 */
+		this._limit = false;
+
+		this._sort = null;
+
+		this._filter = null;
+
+		this.observedModel = null;
+	}
+
+	ViewModel.prototype = {
+
+		publish: function( query, data, requestId ) {
+			if ( this.requestId === requestId ) {
+				this.fire( 'change-data', this._filterData( data ) );
+			}
 		},
 
 		/**
-		 * Whether the model contains a non-empty {@link #data}.
+		 * Limits a number of entries returned by model proxy.
 		 *
-		 * @returns {Boolean}
+		 * @param {Number/Boolean} number Number of maximal items to be returned by proxy. If set to `false` limit will be disabled.
 		 */
+		setLimit: function( number ) {
+			if ( number !== this._limit ) {
+				this._limit = number;
+
+				if ( this.isActive ) {
+					this.queryData();
+				}
+			}
+		},
+
+		/**
+		 * Sets the sorting algorithm for the results.
+		 */
+		setSorting: function( fn ) {
+			if ( fn !== this._sort ) {
+				this._sort = fn;
+
+				if ( this.isActive ) {
+					this.queryData();
+				}
+			}
+		},
+
+		setFilter: function( query ) {
+			if ( query !== this._filter ) {
+				this._filter = query;
+
+				if ( this.isActive ) {
+					this.queryData();
+				}
+			}
+		},
+
+		_filterData: function( data ) {
+			if ( data ) {
+				if ( this._filter ) {
+					data = data.filter( this._filter );
+				}
+
+				if ( this._sort ) {
+					data = data.slice( 0 ).sort( this._sort );
+				}
+
+				if ( typeof this._limit === 'number' ) {
+					data = data.slice( 0, this._limit );
+				}
+			}
+
+			return data;
+		},
+
 		hasData: function() {
-			return Boolean( this.getData() && this.getData().length );
+			return this.observedModel.hasData( this.query );
 		},
 
 		getData: function() {
-			return this.data;
+			return this._filterData( this.observedModel.getData( this.query ) );
+		},
+
+		getIndexById: function( id ) {
+			return this.observedModel.getIndexById( this.query, id );
+		},
+
+		getItemById: function( id ) {
+			return this.observedModel.getItemById( this.query, id );
+		},
+
+		setQuery: function( query, range ) {
+			this.requestId = CKEDITOR.tools.getNextId();
+
+			this.query = query;
+			this.range = range;
+
+			this.queryData( this.query, this.requestId );
+		},
+
+		queryData: function() {
+			this.observedModel.queryData( this.query, this.requestId );
 		},
 
 		/**
@@ -1154,143 +1283,10 @@
 		setActive: function( isActive ) {
 			this.isActive = isActive;
 			this.fire( 'change-isActive', isActive );
-		},
-
-		/**
-		 * Sets the {@link #query} and {@link #range} and makes a request for the query results
-		 * by executing the {@link #dataCallback} function. When the data is returned (synchronously or
-		 * asynchronously, because {@link #dataCallback} exposes a callback function), the {@link #data}
-		 * property is set and the {@link #change-data} event is fired.
-		 *
-		 * This method controls that only the response for the current query is handled.
-		 *
-		 * @param {String} query
-		 * @param {CKEDITOR.dom.range} range
-		 */
-		setQuery: function( query, range ) {
-			var that = this,
-				requestId = CKEDITOR.tools.getNextId();
-
-			this.lastRequestId = requestId;
-			this.query = query;
-			this.range = range;
-			this.data = null;
-			this.selectedItemId = null;
-
-			this.dataCallback( query, range, function( data ) {
-				// Handle only the response for the most recent setQuery call.
-				if ( requestId == that.lastRequestId ) {
-					that.data = data;
-					that.fire( 'change-data', data );
-				}
-			} );
-			// Note: don't put any code here because the callback passed to
-			// this.dataCallback may be executed synchronously or asynchronously
-			// so execution order will differ.
 		}
 	};
 
-	CKEDITOR.event.implementOn( Model.prototype );
-
-	/**
-	 *
-	 */
-	function ModelProxy() {
-		/**
-		 * @property {Number/Boolean}
-		 * @private
-		 */
-		this._limit = false;
-
-		this._sort = null;
-
-		this._filter = null;
-
-		this._observedModel = null;
-
-		Model.call( this );
-	}
-
-	ModelProxy.prototype = new Model();
-
-	/**
-	 * Limits a number of entries returned by model proxy.
-	 *
-	 * @param {Number/Boolean} number Number of maximal items to be returned by proxy. If set to `false` limit will be disabled.
-	 */
-	ModelProxy.prototype.setLimit = function( number ) {
-		if ( number !== this._limit ) {
-			this._limit = number;
-
-			if ( this._observedModel ) {
-				this.fire( 'change-data', this._filterData( this._observedModel.data ) );
-			}
-		}
-	};
-
-	/**
-	 * Sets the sorting algorithm for the results.
-	 */
-	ModelProxy.prototype.setSorting = function( fn ) {
-		if ( fn !== this._sort ) {
-			this._sort = fn;
-
-			this.fire( 'change-data', this._filterData( this._observedModel.data ) );
-		}
-	};
-
-	ModelProxy.prototype.setFilter = function( query ) {
-		if ( query !== this._filter ) {
-			this._filter = query;
-
-			if ( this._observedModel ) {
-				this.fire( 'change-data', this._filterData( this._observedModel.data ) );
-			}
-		}
-	};
-
-	ModelProxy.prototype.setObservedModel = function( model ) {
-		var that = this;
-
-		this._observedModel = model;
-
-		this.dataCallback = model.dataCallback;
-
-		model.on( 'change-data', function( evt ) {
-			that.fire( 'change-data', that._filterData( evt.data ) );
-		} );
-	};
-
-	ModelProxy.prototype._filterData = function( data ) {
-		if ( data ) {
-			if ( this._filter ) {
-				data = data.filter( this._filter );
-			}
-
-			if ( this._sort ) {
-				data = data.slice( 0 ).sort( this._sort );
-			}
-
-			if ( typeof this._limit === 'number' ) {
-				data = data.slice( 0, this._limit );
-			}
-		}
-
-		return data;
-	};
-
-	ModelProxy.prototype.setQuery = function( query, range ) {
-		this.range = range;
-		this._observedModel.setQuery( query, range );
-	};
-
-	ModelProxy.prototype.hasData = function() {
-		return this._observedModel.hasData();
-	};
-
-	ModelProxy.prototype.getData = function() {
-		return this._filterData( this._observedModel.getData() );
-	};
+	CKEDITOR.event.implementOn( ViewModel.prototype );
 
 	/**
 	 * An abstract class representing one {@link CKEDITOR.plugins.autocomplete.model#data data item}.
@@ -1331,7 +1327,7 @@
 	CKEDITOR.plugins.autocomplete = Autocomplete;
 	Autocomplete.view = View;
 	Autocomplete.model = Model;
-	Autocomplete.modelProxy = ModelProxy;
+	Autocomplete.viewModel = ViewModel;
 
 	/**
 	 * The autocomplete keystrokes used to finish autocompletion with selected view item.

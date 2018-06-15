@@ -25,7 +25,7 @@
 			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
 				emojiPanelLimit = editor.config.emoji_emojiPanelLimit || 30,
 				favouriteEmoji = editor.config.emoji_favourite || DEFAULT_EMOJI,
-				dropdownModel = new CKEDITOR.plugins.autocomplete.modelProxy(),
+				dropdownModel = new CKEDITOR.plugins.autocomplete.viewModel(),
 				lang = editor.lang.emoji,
 				autocomplete = null;
 
@@ -93,10 +93,10 @@
 						outputTemplate: '{symbol}'
 					} );
 
-					dropdownModel.setObservedModel( autocomplete.model._observedModel );
+					autocomplete.model.addSubscriber( dropdownModel );
 
 					// Force model to be fetched.
-					autocomplete.model.setQuery( '', null, function() {} );
+					dropdownModel.setQuery( '', null, 'searchbar' );
 
 					// autocomplete.model.setLimit( 8 );
 					// autocomplete.model.setSorting( function( a, b ) {
@@ -226,6 +226,7 @@
 						}
 						var query = searchElement.value;
 
+
 						if ( query === '' ) {
 							// In case of empty search query, just display favorites.
 							dropdownModel.setFilter( modelFilterFavorites );
@@ -235,6 +236,7 @@
 								return item.id.indexOf( query ) !== -1;
 							} );
 						}
+						dropdownModel.setQuery( query, null, 'searchbar' );
 					};
 				} )() );
 
