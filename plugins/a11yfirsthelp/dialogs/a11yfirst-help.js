@@ -4,14 +4,15 @@
 */
 CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
   var lang = editor.lang.a11yfirsthelp,
-    config = editor.config,
-    version = '0.8.1',
-    dialogObj;
+      config = editor.config,
+      version = '0.8.1',
+      dialogObj;
 
   var buttonStyle = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 0';
 
   var helpTopicKeys = Object.keys( config.a11yFirstHelpTopics ),
-      helpOptions = [], dialogMenuButtons = [];
+      helpOptions = [],
+      dialogMenuButtons = [];
 
   // Initialize helpOptions array from config defined in plugin.js
   for ( var i = 0; i < helpTopicKeys.length; i++ ) {
