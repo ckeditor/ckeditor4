@@ -27,7 +27,7 @@
 
 <script>
 
-	if( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+	if ( autocompleteUtils.isUnsupportedEnvironment() ) {
 		bender.ignore();
 	}
 

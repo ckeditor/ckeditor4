@@ -3,6 +3,10 @@
 </div>
 
 <script>
+	if ( autocompleteUtils.isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor', {
 		width: 600,
 		on: {

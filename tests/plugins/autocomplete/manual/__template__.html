@@ -1,11 +1,3 @@
-<style>
-	/* Swap margin with padding to prevent moving autocomplete panel outside editor. */
-	body {
-		margin-left: 0px;
-		padding-left: 350px;
-	}
-</style>
-
 <textarea id="editor1" >
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 	<p>Vitae perferendis architecto sapiente veniam eius eos enim mollitia</p>
@@ -13,7 +5,10 @@
 </textarea>
 
 <script>
-	var editor;
+
+	if ( autocompleteUtils.isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
 
 	CKEDITOR.replace( 'editor1', {
 		width: 600,
