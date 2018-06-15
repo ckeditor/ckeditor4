@@ -8,10 +8,15 @@
 ( function() {
 	'use strict';
 
+	var stylesLoaded = false;
+
 	CKEDITOR.plugins.add( 'emoji', {
 		requires: 'autocomplete,textmatch',
 		beforeInit: function() {
-			CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
+			if ( !stylesLoaded ) {
+				CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
+				stylesLoaded = true;
+			}
 		},
 
 		init: function( editor ) {
