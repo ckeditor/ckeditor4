@@ -1,0 +1,25 @@
+<textarea id="editor">
+	<p>Text</p>
+	<p style="text-align: center;"><strong>Text</strong></p>
+	<p style="text-align: right;"><em>Text</em></p>
+	<p style="text-align: justify;"><u>Text</u></p>
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		toolbar: [ [ {
+			type: 'splitbutton',
+			name: 'BasicStylesSplitButton',
+			label: 'Basic styles',
+			face: 'Bold',
+			items: [ 'Bold' , 'Italic', 'Underline' ],
+		} ], [ {
+			type: 'splitbutton',
+			name: 'JustifySplitButton',
+			label: 'Justify',
+			items: [ 'JustifyLeft' , 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ],
+			'default': 'JustifyRight'
+			} ]
+		]
+	} );
+</script>
