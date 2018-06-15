@@ -108,13 +108,13 @@ Use the toolbar buttons to:\n\
 * Increase Indent\n\
 * Decrease Indent\n\
 \n\
-Additional properties such as list numbering and bullet types can be configured\n\
-by using the context menu and selecting:\n\
+The context menu allows further configuration of list properties such as\n\
+numbering and bullet types by selecting:\n\
 \n\
 * Numbered List Properties\n\
 * Bulleted List Properties\n\
 \n\
-The context menu can be invoked by positioning the cursor in a list item and\n\
+The context menu can be invoked by positioning the cursor in a list item and:\n\
 \n\
 * right-clicking, using the mouse, or\n\
 * using Mouse Keys on Windows or Mac.\n\
@@ -128,6 +128,9 @@ The context menu can be invoked by positioning the cursor in a list item and\n\
 \n\
 * Lists convey grouping semantics for related items.\n\
 * Lists may also convey hierarchical structure.\n\
+* When related items are grouped as a list, information about the list is\n\
+  conveyed to screen reader users, including the type of list, the number of\n\
+  items it contains and the sequence number of the current list item.\n\
 \n\
 ### More information\n\
 '
