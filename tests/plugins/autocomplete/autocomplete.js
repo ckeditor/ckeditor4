@@ -68,7 +68,7 @@
 
 		'test mouseover changes selected item': function() {
 			var editor = this.editors.standard,
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, dataCallback );
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
