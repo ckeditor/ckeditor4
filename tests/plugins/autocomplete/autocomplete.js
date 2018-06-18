@@ -482,7 +482,7 @@
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
 			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 38 } ) ); // ARROW UP
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 40 } ) ); // ARROW DOWN
 
 			assertViewOpened( ac, true );
 			assert.areEqual( 1, ac.model.selectedItemId, 'Model selected item id' );
