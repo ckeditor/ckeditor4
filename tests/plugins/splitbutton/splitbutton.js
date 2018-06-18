@@ -15,8 +15,7 @@
 							},
 							items = [ {
 								command: 'bold',
-								icon: 'bold',
-								'default': true
+								icon: 'bold'
 							}, {
 								command: 'italic',
 								icon: 'italic'
@@ -32,7 +31,8 @@
 							} ];
 
 						editor.ui.add( 'teststylesplit', CKEDITOR.UI_SPLITBUTTON, {
-							items: items
+							items: items,
+							'default': 'bold'
 						} );
 
 						editor.ui.add( 'staticface', CKEDITOR.UI_SPLITBUTTON, {
