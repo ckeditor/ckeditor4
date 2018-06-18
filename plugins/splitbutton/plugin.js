@@ -120,7 +120,7 @@
 				previousButton = properties.buttons[ item.id ];
 				defaultButton = properties.buttons[ item.id ];
 			} else {
-				if ( definition[ 'default' ] === item.name ) {
+				if ( definition[ 'default' ] && definition[ 'default' ].toLowerCase() === item.name ) {
 					defaultButton && defaultButton.hide();
 					defaultButton = properties.buttons[ item.id ];
 				} else {
