@@ -1376,13 +1376,16 @@
 	function insertFollowingSpace( editor ) {
 		var selection = editor.getSelection();
 
-			if ( nextNode && nextNode.getText().match( /^\s+/ ) ) {
-				var range = editor.createRange();
-				range.setStart( nextNode, 1 );
-				selection.selectRanges( [ range ] );
-			} else {
-				editor.insertHtml( '&nbsp;' );
-			}
+		var nextNode = selection.getRanges()[ 0 ].getNextNode( function( node ) {
+			return Boolean( node.type == CKEDITOR.NODE_TEXT && node.getText() );
+		} );
+
+		if ( nextNode && nextNode.getText().match( /^\s+/ ) ) {
+			var range = editor.createRange();
+			range.setStart( nextNode, 1 );
+			selection.selectRanges( [ range ] );
+		} else {
+			editor.insertHtml( '&nbsp;', 'text' );
 		}
 	}
 
