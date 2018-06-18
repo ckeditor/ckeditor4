@@ -298,7 +298,7 @@
 				title: this.title + ( shortcut ? ' (' + shortcut.display + ')' : '' ),
 				ariaShortcut: shortcut ? editor.lang.common.keyboardShortcut + ' ' + shortcut.aria : '',
 				titleJs: env.gecko && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
-				hasArrow: this.hasArrow || false,
+				hasArrow: typeof this.hasArrow === 'string' && this.hasArrow || ( this.hasArrow ? 'true' : 'false' ),
 				keydownFn: keydownFn,
 				focusFn: focusFn,
 				clickFn: clickFn,
@@ -432,7 +432,7 @@
 	 * 		editor.ui.addButton( 'my_button', {
 	 * 			iconHiDpi: 'assets/icons/my_button.hidpi.png'
 	 * 		} )
-	 * @param {String/Boolean} definition.hasArrow If button should have an arrow, and value of buttons `aria-haspopup` attribute.
+	 * @param {String/Boolean} definition.hasArrow If boolean, indicates if button should have a dropdown. If string, acts as a value of button's aria-haspopup attribute.
 	 * Since **4.10.0** it supports string as value.
 	 */
 	CKEDITOR.ui.prototype.addButton = function( name, definition ) {
