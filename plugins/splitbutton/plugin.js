@@ -27,7 +27,7 @@
 		if ( face ) {
 			// Split Button can be defined with simpler definition via strings, needed by #2091
 			if ( typeof face === 'string' ) {
-				face = editor.ui.items[ face ];
+				face = CKEDITOR.tools.clone( editor.ui.items[ face ] );
 
 				if ( !face.icon ) {
 					face.icon = face.name || face.command;
@@ -46,7 +46,7 @@
 
 			// Split Button can be defined with simpler definition via strings, needed by #2091
 			if ( typeof item === 'string' ) {
-				item = editor.ui.items[ item ];
+				item = CKEDITOR.tools.clone( editor.ui.items[ item ] );
 
 				if ( !item.icon ) {
 					item.icon = item.name || item.command;
