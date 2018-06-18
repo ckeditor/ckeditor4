@@ -21,7 +21,6 @@
 			face = definition.face,
 			i,
 			item,
-			itemName,
 			previousButton,
 			defaultButton;
 
@@ -43,7 +42,7 @@
 		}
 
 		for ( i in allItems ) {
-			itemName = item = allItems[ i ];
+			item = allItems[ i ];
 
 			// Split Button can be defined with simpler definition via strings, needed by #2091
 			if ( typeof item === 'string' ) {
@@ -53,11 +52,10 @@
 					item.icon = item.name || item.command;
 				}
 
-				if ( definition[ 'default' ] === itemName ) {
-					item[ 'default' ] = true;
-				}
 				allItems[ i ] = item;
 			}
+
+			item.name = item.name || item.command;
 
 			if ( !item.group ) {
 				item.group = definition.label + '_default';
@@ -117,12 +115,12 @@
 
 			editor.addFeature( properties.buttons[ item.id ] );
 
-			// First button as default. It might be overwritten by actual default button.
-			if ( !defaultButton && !item[ 'default' ] ) {
+			// If no default button was defined then first button will act as default.
+			if ( !defaultButton && !definition[ 'default' ] ) {
 				previousButton = properties.buttons[ item.id ];
 				defaultButton = properties.buttons[ item.id ];
 			} else {
-				if ( item[ 'default' ] ) {
+				if ( definition[ 'default' ] === item.name ) {
 					defaultButton && defaultButton.hide();
 					defaultButton = properties.buttons[ item.id ];
 				} else {
