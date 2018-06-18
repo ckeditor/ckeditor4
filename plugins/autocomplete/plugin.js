@@ -526,7 +526,10 @@
 	};
 
 	/**
-	 * Class representing the autocomplete view.
+	 * Private class representing the autocomplete view.
+	 *
+	 * This class should not be used outside of the {@link CKEDITOR.plugins.autocomplete Autocomplete} plugin
+	 *  as API defined here may change at any time without notice.
 	 *
 	 * In order to use a different view, implement a new view class and override
 	 * the {@link CKEDITOR.plugins.autocomplete#getView} method.
@@ -553,6 +556,7 @@
 	 *
 	 * @class CKEDITOR.plugins.autocomplete.view
 	 * @since 4.10.0
+	 * @private
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates the autocomplete view instance.
 	 * @param {CKEDITOR.editor} editor The editor instance.
@@ -942,7 +946,10 @@
 	CKEDITOR.event.implementOn( View.prototype );
 
 	/**
-	 * Class representing the autocomplete model.
+	 * Private class representing the autocomplete model.
+	 *
+	 * This class should not be used outside of the {@link CKEDITOR.plugins.autocomplete Autocomplete} plugin
+	 *  as API defined here may change at any time without notice.
 	 *
 	 * In case you want to modify model behavior, check out the
 	 * {@link CKEDITOR.plugins.autocomplete.view} documentation. It contains
@@ -952,6 +959,7 @@
 	 *
 	 * @class CKEDITOR.plugins.autocomplete.model
 	 * @since 4.10.0
+	 * @private
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates the autocomplete model instance.
 	 * @param {Function} dataCallback See {@link CKEDITOR.plugins.autocomplete} arguments.
