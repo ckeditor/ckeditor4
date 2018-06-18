@@ -9,10 +9,6 @@
 				on: {
 					pluginsLoaded: function( evt ) {
 						var editor = evt.editor,
-							counter = {
-								faceClick: 0,
-								itemClick: 0
-							},
 							items = [ {
 								command: 'bold',
 								icon: 'bold'
@@ -43,28 +39,7 @@
 							items: items
 						} );
 
-						editor.ui.add( 'customclick', CKEDITOR.UI_SPLITBUTTON, {
-							face: {
-								icon: 'underline',
-								click: function() {
-									counter.faceClick++;
-									return counter;
-								}
-							},
-							onMenu: function() {
-								var activeItems = {};
-								for ( var key in this.items ) {
-									activeItems[ key ] = ( counter.itemClick % 2 ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_ON;
-								}
-								return activeItems;
-							},
-							items: [ {
-								icon: 'superscript',
-								onClick: function() {
-									counter.itemClick++;
-								}
-							} ]
-						} );
+						editor.ui.add( 'customclick', CKEDITOR.UI_SPLITBUTTON, getCustomClickDefinition() );
 
 						addCustomCommand( editor );
 
@@ -81,11 +56,7 @@
 		},
 		splitButtonFromToolbar: {
 			config: ( function() {
-				var counter = {
-						faceClick: 0,
-						itemClick: 0
-					},
-					items = [ 'Bold' , 'Italic', 'Underline', 'Strike', 'Subscript' ];
+				var items = [ 'Bold' , 'Italic', 'Underline', 'Strike', 'Subscript' ];
 
 				return {
 					on: {
@@ -102,30 +73,7 @@
 						name: 'staticface',
 						face: 'Bold',
 						items: items
-					}, {
-						type: 'splitbutton',
-						name: 'customclick',
-						face: {
-							icon: 'underline',
-							click: function() {
-								counter.faceClick++;
-								return counter;
-							}
-						},
-						onMenu: function() {
-							var activeItems = {};
-							for ( var key in this.items ) {
-								activeItems[ key ] = ( counter.itemClick % 2 ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_ON;
-							}
-							return activeItems;
-						},
-						items: [ {
-							icon: 'superscript',
-							onClick: function() {
-								counter.itemClick++;
-							}
-						} ]
-					}, {
+					}, getCustomClickDefinition( true ), {
 						type: 'splitbutton',
 						name: 'commanddata',
 						items: [ {
@@ -246,13 +194,16 @@
 		},
 		'test custom click, commandless items and onMenu': function( editor ) {
 			var splitButton = editor.ui.get( 'customclick' ),
-				// arrow = CKEDITOR.document.getById( splitButton._.id ),
 				face = CKEDITOR.document.getById( splitButton.face._.id ),
-				counter = splitButton.face.click(),
+				onMenuSpy = sinon.stub(),
 				i;
 
-			// Once we retrieved counter object, lets reset it.
-			counter.faceClick = 0;
+			onMenuSpy.returns( onMenu );
+			splitButton.onMenu = function() {
+				return onMenuSpy()();
+			};
+
+			splitButton.face.click = sinon.spy();
 
 			for ( i = 1; i < 5; i++ ) {
 				if ( CKEDITOR.env.ie ) {
@@ -260,24 +211,41 @@
 				} else {
 					face.$.click();
 				}
-				assert.areEqual( i, counter.faceClick );
+				assert.areEqual( i, splitButton.face.click.callCount );
 			}
 
-			for ( i = 0; i < 5; i++ ) {
+			for ( i = 1; i < 6; i++ ) {
 				editor.once( 'menuShow', function() {
+					resume();
 					var menu = this.ui.instances.customclick._.menu,
 						menuButton = menu._.element.findOne( '.' + menu.items[ 0 ].className ),
-						expectedClass = ( i % 2 ) ? 'cke_menubutton_off' : 'cke_menubutton_on';
-					assert.isTrue( menuButton.hasClass( expectedClass, 'Command state is 1, menuButton should have class `' + expectedClass + '`.' ) );
-					assert.areEqual( counter.itemClick, i );
+						expectedClass = ( i % 2 ) ? 'cke_menubutton_on' : 'cke_menubutton_off';
+
+					assert.isTrue( menuButton.hasClass( expectedClass, 'MenuButton should have class `' + expectedClass + '`.' ) );
+					assert.areEqual( onMenuSpy.callCount, i );
+
+					assert.areEqual( i - 1, splitButton.items.item.click.callCount, 'Call count shoud be: ' + ( i - 1 ) );
+
 					if ( CKEDITOR.env.ie ) {
 						menuButton.$.onmouseup();
 					} else {
-						menuButton.$.click();
+						menuButton.$.onclick();
 					}
+
+					assert.areEqual( i, splitButton.items.item.click.callCount, 'Call count shoud be: ' + i );
 				} );
+
 				splitButton.click( editor );
-				splitButton._.menu.show( CKEDITOR.document.getById( splitButton._.id ), 4 );
+				wait();
+			}
+
+			function onMenu() {
+				var activeItems = {};
+
+				for ( var key in splitButton.items ) {
+					activeItems[ key ] = ( onMenuSpy.callCount % 2 ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+				}
+				return activeItems;
 			}
 		},
 		'test custom command data': function( editor ) {
@@ -359,5 +327,27 @@
 				editor.editable().setHtml( '<p>' + text + '</p>' );
 			}
 		} );
+	}
+
+	function getCustomClickDefinition( simplifiedDefinition ) {
+		var spy = sinon.spy(),
+			def = {
+			face: simplifiedDefinition ? 'Underline' : {
+				icon: 'underline'
+			},
+			items: [ {
+				id: 'item',
+				// Changing menu item click fn later won't change onclick callback, so we need to add spy here.
+				click: spy,
+				icon: 'superscript'
+			} ]
+		};
+
+		if ( simplifiedDefinition ) {
+			def.type = 'splitbutton';
+			def.name = 'customclick';
+		}
+
+		return def;
 	}
 } )();
