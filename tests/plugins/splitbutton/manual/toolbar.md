@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: feature, 4.10.0, 1679
+@bender-tags: feature, 4.10.0, 2091
 @bender-ckeditor-plugins: wysiwygarea, toolbar, sourcearea, splitbutton, basicstyles, justify
 
 # Creating Split Button with `config.toolbar`
