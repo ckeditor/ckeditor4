@@ -9,9 +9,10 @@
 	CKEDITOR.replace( 'editor', {
 		on: {
 			instanceReady: function( evt ) {
-				new CKEDITOR.plugins.autocomplete( evt.editor,
-					autocompleteUtils.getTextTestCallback(),
-					autocompleteUtils.getDataCallback( { async: 3000 } ) );
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback( { async: 3000 } )
+				} );
 			}
 		}
 

@@ -92,12 +92,13 @@
 		// (#1984)
 		'test view is not opened after unmatch': function() {
 			var editor = this.editors.standard,
-				ac = new CKEDITOR.plugins.autocomplete( editor, matchTestCallback, function( query, range, callback ) {
-
-					setTimeout( function() {
-						callback( [ { id: 1, name: 'test' } ] );
-					}, 100 );
-
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					textTestCallback: textTestCallback,
+					dataCallback: function( query, range, callback ) {
+						setTimeout( function() {
+							callback( [ { id: 1, name: 'test' } ] );
+						}, 100 );
+					}
 				} );
 
 			this.editorBots.standard.setHtmlWithSelection( 'foo' );
