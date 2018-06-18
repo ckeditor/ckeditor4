@@ -172,13 +172,6 @@
 		this.throttle = config.throttle !== undefined ? config.throttle : 20;
 
 		/**
-		 * See {@link CKEDITOR.plugins.autocomplete.configDefinition#itemsLimit}.
-		 *
-		 * @property {Number} [itemsLimit]
-		 */
-		this.itemsLimit = config.itemsLimit;
-
-		/**
 		 * The autocomplete view instance.
 		 *
 		 * @readonly
@@ -193,6 +186,7 @@
 		 * @property {CKEDITOR.plugins.autocomplete.model}
 		 */
 		this.model = this.getModel( config.dataCallback );
+		this.model.itemsLimit = config.itemsLimit;
 
 		/**
 		 * The autocomplete text watcher instance.
@@ -436,9 +430,7 @@
 		 */
 		onData: function( evt ) {
 			if ( this.model.hasData() ) {
-				// Limit number of items passed into view (#2030).
-				var items = evt.data.slice( 0, this.itemsLimit || undefined );
-				this.view.updateItems( items );
+				this.view.updateItems( evt.data );
 				this.open();
 			} else {
 				this.close();
@@ -983,6 +975,15 @@
 		this.isActive = false;
 
 		/**
+		 * Indicates the limit of items rendered in the dropdown.
+		 *
+		 * For false values i.e. `0` or `null` all items will be rendered.
+		 *
+		 * @property {Number} [itemsLimit=0]
+		 */
+		this.itemsLimit = 0;
+
+		/**
 		 * ID of the last request for data. Used by the {@link #setQuery} method.
 		 *
 		 * @readonly
@@ -1201,8 +1202,13 @@
 			this.dataCallback( query, range, function( data ) {
 				// Handle only the response for the most recent setQuery call.
 				if ( requestId == that.lastRequestId ) {
-					that.data = data;
-					that.fire( 'change-data', data );
+					// Limit number of items (#2030).
+					if ( that.itemsLimit ) {
+						that.data = data.slice( 0, that.itemsLimit || undefined );
+					} else {
+						that.data = data;
+					}
+					that.fire( 'change-data', that.data );
 				}
 			} );
 			// Note: don't put any code here because the callback passed to
@@ -1389,9 +1395,7 @@
 	 */
 
 	/**
-	 * Indicates the limit of items rendered in the dropdown.
-	 *
-	 * For false values i.e. `0` or `null` all items will be rendered.
+	 * Indicates the limit of items rendered in the dropdown. See {@link CKEDITOR.plugins.autocomplete.model#itemsLimit} for more information.
 	 *
 	 * @property {Number} [itemsLimit]
 	 */

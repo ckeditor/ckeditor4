@@ -5,11 +5,14 @@
 
 1. Focus the editor.
 1. Type `@`.
+1. Wait until dropdown appear.
+1. Press <kbd>ArrowUp</kbd> key.
 
 ## Expected
 
-Dropdown contains single item.
+* Dropdown contains 3 items.
+* The last dropdown item is selected after <kbd>ArrowUp</kbd> key.
 
 ## Unexpected
 
-Dropdown contains more than one item.
+* Dropdown contains more than 3 items.
