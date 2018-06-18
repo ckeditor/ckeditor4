@@ -56,11 +56,10 @@ bender.test( {
 		assert.areEqual( 'aria label', label.getText(), 'innerText of label doesn\'t match' );
 	},
 
-	// WAI-ARIA 1.1 has added new values for aria-haspopup property #2072
+	// WAI-ARIA 1.1 has added new values for aria-haspopup property (#2072).
 	'test aria-haspopup': function() {
 		var btn = this.getUiItem( 'haspopup_btn' ),
 			btnEl = CKEDITOR.document.getById( btn._.id );
-
 		assert.areEqual( btnEl.getAttribute( 'aria-haspopup' ), 'menu' );
 	},
 
