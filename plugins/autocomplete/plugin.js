@@ -1019,68 +1019,29 @@
 	}
 
 	Model.prototype = {
-		/**
-		 * Gets an index from the {@link #data} array of the item by its ID.
-		 *
-		 * @param {Number/String} itemId
-		 * @returns {Number}
-		 */
-		getIndexById: function( query, itemId ) {
-			if ( !this.hasData( query ) ) {
-				return -1;
-			}
-
-			for ( var data = this.getData( query ), i = 0, l = data.length; i < l; i++ ) {
-				if ( data[ i ].id == itemId ) {
-					return i;
-				}
-			}
-
-			return -1;
-		},
-
-		/**
-		 * Gets the item from the {@link #data} array by its ID.
-		 *
-		 * @param {Number/String} itemId
-		 * @returns {CKEDITOR.plugins.autocomplete.model.item}
-		 */
-		getItemById: function( query, itemId ) {
-			var index = this.getIndexById( query, itemId );
-			return ~index && this.getData( query )[ index ] || null;
-		},
-
-		getData: function( query ) {
-			return this.data[ query ];
-		},
-
-		hasData: function( query ) {
-			return Boolean( this.getData( query ) && this.getData( query ).length );
-		},
-
 		addSubscriber: function( subscriber ) {
 			this.subscribers.push( subscriber );
 			subscriber.observedModel = this;
 		},
 
-		notifySubscribers: function( query, data, requestId ) {
+		notify: function( query, data, requestId ) {
 			CKEDITOR.tools.array.forEach( this.subscribers, function( subscriber ) {
-				subscriber.publish( query, data, requestId );
+				subscriber.update( query, data, requestId );
 			} );
 		},
 
 		queryData: function( query, requestId ) {
 			var that = this;
 
-			if ( this.hasData( query ) ) {
-				this.notifySubscribers( query, this.getData( query ), requestId );
+			if ( this.data[ query ] ) {
+				this.notify( query, this.data[ query ], requestId );
 				return;
 			}
 
 			// TODO Instead null we were passing range object - TBO I think it's reduntant at this place and could be removed.
 			this.dataCallback( query, null, function( data ) {
 				that.data[ query ] = data;
-				that.notifySubscribers( query, data, requestId );
+				that.notify( query, data, requestId );
 			} );
 			// Note: don't put any code here because the callback passed to
 			// this.dataCallback may be executed synchronously or asynchronously
@@ -1108,7 +1069,7 @@
 	}
 
 	ViewModel.prototype = {
-		publish: function( query, data, requestId ) {
+		update: function( query, data, requestId ) {
 			if ( this.requestId === requestId ) {
 
 				if ( !this.data[ query ] ) {
@@ -1188,19 +1149,30 @@
 		},
 
 		hasData: function() {
-			return this.observedModel.hasData( this.query );
+			return this.data[ this.query ] && this.data[ this.query ].length;
 		},
 
 		getData: function() {
-			return this._filterData( this.observedModel.getData( this.query ) );
+			return this.data[ this.query ];
 		},
 
-		getIndexById: function( id ) {
-			return this.observedModel.getIndexById( this.query, id );
+		getIndexById: function( itemId ) {
+			if ( !this.hasData() ) {
+				return -1;
+			}
+
+			for ( var data = this.getData(), i = 0, l = data.length; i < l; i++ ) {
+				if ( data[ i ].id == itemId ) {
+					return i;
+				}
+			}
+
+			return -1;
 		},
 
-		getItemById: function( id ) {
-			return this.observedModel.getItemById( this.query, id );
+		getItemById: function( itemId ) {
+			var index = this.getIndexById( itemId );
+			return index != -1 && this.getData()[ index ] || null;
 		},
 
 		/**
