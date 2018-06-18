@@ -276,5 +276,75 @@ bender.test( {
 			assert.areEqual( 'html', data.type );
 			assert.areEqual( expected, bender.tools.compatHtml( data.dataValue ) );
 		} );
+	},
+
+	// (#1815)
+	'test typed URL separated by a space is replaced with a link': function() {
+		var editor = this.editors.classic,
+			expected = '<p><a href="http://example.com">http://example.com</a>&nbsp;</p>';
+
+		this.editorBots.classic.setHtmlWithSelection( 'http://example.com ^' );
+
+		editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+		assert.areEqual( expected, editor.getData() );
+	},
+
+	// (#1815)
+	'test typed URL separated by an enter is replaced with a link': function() {
+		var editor = this.editors.classic,
+			expected = '<p><a href="http://example.com">http://example.com</a></p>';
+
+		this.editorBots.classic.setHtmlWithSelection( 'http://example.com^' );
+
+		editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
+
+		assert.areEqual( expected, editor.getData() );
+	},
+
+	// (#1815)
+	'test typed email separated by a space is replaced with a link': function() {
+		var editor = this.editors.classic,
+			expected = '<p><a href="mailto:mail@example.com">mail@example.com</a>&nbsp;</p>';
+
+		this.editorBots.classic.setHtmlWithSelection( 'mail@example.com ^' );
+
+		editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+		assert.areEqual( expected, editor.getData() );
+	},
+
+	// (#1815)
+	'test typed email separated by an enter is replaced with a link': function() {
+		var editor = this.editors.classic,
+			expected = '<p><a href="mailto:mail@example.com">mail@example.com</a></p>';
+
+		this.editorBots.classic.setHtmlWithSelection( 'mail@example.com^' );
+
+		editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
+
+		assert.areEqual( expected, editor.getData() );
+	},
+
+	// (#1815)
+	'test typed URL without a trigger is not replaced with a link': function() {
+		var editor = this.editors.classic;
+
+		this.editorBots.classic.setHtmlWithSelection( 'http://example.com^' );
+
+		editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+		assert.areEqual( '<p>http://example.com</p>', editor.getData() );
+	},
+
+	// (#1815)
+	'test typed email without a trigger is not replaced with a link': function() {
+		var editor = this.editors.classic;
+
+		this.editorBots.classic.setHtmlWithSelection( 'mail@example.com^' );
+
+		editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+		assert.areEqual( '<p>mail@example.com</p>', editor.getData() );
 	}
 } );
