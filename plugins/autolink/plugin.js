@@ -14,10 +14,17 @@
 		init: function( editor ) {
 			var textwatcher = new CKEDITOR.plugins.textWatcher( editor, textTestCallback ),
 				urlTemplate = new CKEDITOR.template( '<a href="{text}">{text}</a>' ),
-				emailTemplate = new CKEDITOR.template( '<a mailto="{text}">{text}</a>' );
+				emailTemplate = new CKEDITOR.template( '<a href="mailto:{text}">{text}</a>' );
 
-			textwatcher.on( 'matched', onTextMatched );
+			textwatcher.on( 'matched', function( evt ) {
+				insertMatch( evt.data );
+			} );
+
 			textwatcher.attach();
+
+			editor.on( 'destroy', function() {
+				textwatcher.destroy();
+			} );
 
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data.dataValue;
@@ -32,13 +39,13 @@
 				}
 
 				// Create valid email links (#1761).
-				if ( data.match( CKEDITOR.config.autolink_emailRegex ) ) {
-					data = data.replace( CKEDITOR.config.autolink_emailRegex,
+				if ( data.match( CKEDITOR.config.autolink_emailregex ) ) {
+					data = data.replace( CKEDITOR.config.autolink_emailregex,
 						'<a href="mailto:' + data.replace( doubleQuoteRegex, '%22' ) + '">$&</a>' );
 					data = tryToEncodeLink( data );
 				} else {
 					// https://dev.ckeditor.com/ticket/13419
-					data = data.replace( CKEDITOR.config.autolink_urlRegex,
+					data = data.replace( CKEDITOR.config.autolink_urlregex,
 						'<a href="' + data.replace( doubleQuoteRegex, '%22' ) + '">$&</a>' );
 				}
 
@@ -63,15 +70,19 @@
 					var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], getMatchCallback() );
 
 					if ( matched ) {
-						editor.fire( 'lockSnapshot' );
-
-						editor.getSelection().selectRanges( [ matched.range ] );
-						editor.insertHtml( getHtmlToInsert( matched.text ), 'html' );
-
-						editor.fire( 'unlockSnapshot' );
+						insertMatch( matched );
 					}
 				} );
 			} );
+
+			function insertMatch( match ) {
+				editor.fire( 'lockSnapshot' );
+
+				editor.getSelection().selectRanges( [ match.range ] );
+				editor.insertHtml( getHtmlToInsert( match.text ), 'text' );
+
+				editor.fire( 'unlockSnapshot' );
+			}
 
 			function tryToEncodeLink( data ) {
 				// If enabled use link plugin to encode email link.
@@ -92,15 +103,6 @@
 				return data;
 			}
 
-			function onTextMatched( evt ) {
-				editor.fire( 'lockSnapshot' );
-
-				editor.getSelection().selectRanges( [ evt.data.range ] );
-				editor.insertHtml( getHtmlToInsert( evt.data.text ), 'html' );
-
-				editor.fire( 'unlockSnapshot' );
-			}
-
 			function getHtmlToInsert( text ) {
 				var link = text.replace( doubleQuoteRegex, '%22' ),
 					spaceMatch = text.match( /\s+$/ ),
@@ -113,7 +115,7 @@
 					link = link.substring( 0, spaceMatch.index );
 				}
 
-				template = link.match( CKEDITOR.config.autolink_urlRegex ) ?
+				template = link.match( CKEDITOR.config.autolink_urlregex ) ?
 					urlTemplate.output( { text: link } )
 					: emailTemplate.output( { text: link } );
 
@@ -131,26 +133,30 @@
 						parts = CKEDITOR.tools.array.filter( query.split( /(\s+)/g ), function( part ) {
 							return part;
 						} ),
+						lastIndex = parts.length - 1,
 						linkPart;
 
-					// Query should contain at least 2 parts - link and a space.
-					if ( parts.length < 2 ) {
-						return null;
-					}
-
-					var lastIndex = parts.length - 1;
-
 					if ( spaceRequired ) {
+						// Query should contain at least 2 parts - link and a space.
+						if ( parts.length < 2 ) {
+							return null;
+						}
+
 						// If the last part is not a space, abort.
 						if ( !parts[ lastIndex ].match( /\s+/ ) ) {
 							return null;
 						}
+
 						linkPart = parts[ lastIndex - 1 ];
 					} else {
 						linkPart = parts[ lastIndex ];
 					}
 
-					var match = CKEDITOR.config.autolink_urlRegex.exec( linkPart ) || CKEDITOR.config.autolink_emailRegex.exec( linkPart );
+					if ( !linkPart ) {
+						return null;
+					}
+
+					var match = linkPart.match( CKEDITOR.config.autolink_urlregex ) || linkPart.match( CKEDITOR.config.autolink_emailregex );
 
 					if ( !match ) {
 						return null;
@@ -163,8 +169,8 @@
 	} );
 
 	// Regex by Imme Emosol.
-	CKEDITOR.config.autolink_urlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig;
+	CKEDITOR.config.autolink_urlregex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig;
 
 	// Regex by (https://www.w3.org/TR/html5/forms.html#valid-e-mail-address).
-	CKEDITOR.config.autolink_emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
+	CKEDITOR.config.autolink_emailregex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
 } )();
