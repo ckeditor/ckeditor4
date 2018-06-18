@@ -11,8 +11,9 @@
 ## Expected
 
 * Dropdown contains 3 items.
-* The last dropdown item is selected after <kbd>ArrowUp</kbd> key.
+* The last dropdown item is focused.
 
 ## Unexpected
 
 * Dropdown contains more than 3 items.
+* Dropdown has invalid item focus.

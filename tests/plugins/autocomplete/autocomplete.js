@@ -468,6 +468,25 @@
 			assert.areEqual( itemsCount, ac.view.element.getChildCount() );
 
 			ac.destroy();
+		},
+
+		// (#2030)
+		'test cycle through limited items': function() {
+			var editor = this.editors.standard,
+				editable = editor.editable(),
+				itemsCount = 1,
+				ac = new CKEDITOR.plugins.autocomplete( editor, CKEDITOR.tools.object.merge( configDefinition, { itemsLimit: itemsCount } ) );
+
+			this.editorBots.standard.setHtmlWithSelection( '' );
+
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 38 } ) ); // ARROW UP
+
+			assertViewOpened( ac, true );
+			assert.areEqual( 1, ac.model.selectedItemId, 'Model selected item id' );
+			assert.areEqual( 1, ac.view.selectedItemId, 'View selected item id' );
+
+			ac.destroy();
 		}
 	} );
 
