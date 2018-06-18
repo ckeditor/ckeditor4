@@ -23,13 +23,11 @@
 </table>
 
 <script>
-	if ( CKEDITOR.env.mobile ) {
-		bender.ignore();
-	}
 	CKEDITOR.replace( 'editor', {
 		toolbar: [ [
 			'Language', 'Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor'
 		] ],
+		language: 'en',
 		height: '0',
 		on: {
 			instanceReady: function() {
