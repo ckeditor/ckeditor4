@@ -535,11 +535,9 @@
 
 					// Ignore items that are configured to be removed.
 					if ( !removeButtons || CKEDITOR.tools.indexOf( removeButtons, name ) == -1 ) {
-						// Option to define Split Button or other UI elements in `config.toolbar` #2091
-						if ( item.type ) {
-							if ( item.type in editor.ui._.handlers ) {
-								editor.ui.add( name, item.type, item );
-							}
+						// Option to define UI element in `config.toolbar` (#2091).
+						if ( item.type && item.type in editor.ui._.handlers ) {
+							editor.ui.add( name, item.type, item );
 						}
 						item = editor.ui.create( name );
 
