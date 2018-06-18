@@ -1212,7 +1212,7 @@
 				if ( requestId == that.lastRequestId ) {
 					// Limit number of items (#2030).
 					if ( that.itemsLimit ) {
-						that.data = data.slice( 0, that.itemsLimit || undefined );
+						that.data = data.slice( 0, that.itemsLimit );
 					} else {
 						that.data = data;
 					}
