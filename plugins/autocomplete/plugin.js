@@ -260,6 +260,7 @@
 			this._listeners.push( this.textWatcher.on( 'unmatched', this.onTextUnmatched, this ) );
 			this._listeners.push( this.model.on( 'change-data', this.onData, this ) );
 			this._listeners.push( this.model.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
+			this._listeners.push( this.view.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
 			this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
 
 			// Update view position on viewport change.
@@ -487,11 +488,13 @@
 
 		/**
 		 * The function registered by the {@link #attach} method as the
-		 * {@link CKEDITOR.plugins.autocomplete.model#change-selectedItemId} event listener.
+		 * {@link CKEDITOR.plugins.autocomplete.view#change-selectedItemId view#change-selectedItemId}
+		 * and {@link CKEDITOR.plugins.autocomplete.model#change-selectedItemId model#change-selectedItemId} event listeners.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
 		 */
 		onSelectedItemId: function( evt ) {
+			this.model.setItem( evt.data );
 			this.view.selectItem( evt.data );
 		},
 
@@ -602,6 +605,13 @@
 		 * @param {String} The clicked item {@link CKEDITOR.plugins.autocomplete.model.item#id}. Note: the id
 		 * is stringified due to the way how it is stored in the DOM.
 		 */
+
+		/**
+		 * Event fired when the {@link #selectedItemId} property changes.
+		 *
+		 * @event change-selectedItemId
+		 * @param {Number/String} data The new value.
+		 */
 	}
 
 	View.prototype = {
@@ -636,6 +646,17 @@
 				if ( itemElement ) {
 					this.fire( 'click-item', itemElement.data( 'id' ) );
 				}
+			}, this );
+
+			this.element.on( 'mouseover', function( evt ) {
+				var target = evt.data.getTarget();
+
+				if ( this.element.contains( target ) ) {
+					var itemId = target.data( 'id' );
+
+					this.fire( 'change-selectedItemId', itemId );
+				}
+
 			}, this );
 		},
 
@@ -1052,17 +1073,24 @@
 		},
 
 		/**
-		 * Selects an item. Sets the {@link #selectedItemId} property and
-		 * fires the {@link #change-selectedItemId} event.
+		 * Sets the {@link #selectedItemId} property.
 		 *
 		 * @param {Number/String} itemId
 		 */
-		select: function( itemId ) {
+		setItem: function( itemId ) {
 			if ( this.getIndexById( itemId ) < 0 ) {
 				throw new Error( 'Item with given id does not exist' );
 			}
 
 			this.selectedItemId = itemId;
+		},
+
+		/**
+		 * Fires the {@link #change-selectedItemId} event.
+		 *
+		 * @param {Number/String} itemId
+		 */
+		select: function( itemId ) {
 			this.fire( 'change-selectedItemId', itemId );
 		},
 
