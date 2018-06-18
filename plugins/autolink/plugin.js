@@ -37,13 +37,13 @@
 				}
 
 				// Create valid email links (#1761).
-				if ( data.match( CKEDITOR.config.autolink_emailregex ) ) {
-					data = data.replace( CKEDITOR.config.autolink_emailregex,
+				if ( data.match( CKEDITOR.config.autolink_emailRegex ) ) {
+					data = data.replace( CKEDITOR.config.autolink_emailRegex,
 						'<a href="mailto:' + data.replace( doubleQuoteRegex, '%22' ) + '">$&</a>' );
 					data = tryToEncodeLink( data );
 				} else {
 					// https://dev.ckeditor.com/ticket/13419
-					data = data.replace( CKEDITOR.config.autolink_urlregex,
+					data = data.replace( CKEDITOR.config.autolink_urlRegex,
 						'<a href="' + data.replace( doubleQuoteRegex, '%22' ) + '">$&</a>' );
 				}
 
@@ -122,7 +122,7 @@
 					link = link.substring( 0, spaceMatch.index );
 				}
 
-				template = link.match( CKEDITOR.config.autolink_urlregex ) ?
+				template = link.match( CKEDITOR.config.autolink_urlRegex ) ?
 					urlTemplate.output( { text: link } )
 					: emailTemplate.output( { text: link } );
 
@@ -163,8 +163,8 @@
 						return null;
 					}
 
-					var match = linkPart.match( CKEDITOR.config.autolink_urlregex ) ||
-						linkPart.match( CKEDITOR.config.autolink_emailregex );
+					var match = linkPart.match( CKEDITOR.config.autolink_urlRegex ) ||
+						linkPart.match( CKEDITOR.config.autolink_emailRegex );
 
 					if ( !match ) {
 						return null;
@@ -176,9 +176,23 @@
 		}
 	} );
 
+	/**
+	 * Regex used by [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin to match URL adresses.
+	 *
+	 * @cfg {RegExp} [autolink_urlRegex]
+	 * @since 4.10.0
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.autolink_urlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig;
 	// Regex by Imme Emosol.
-	CKEDITOR.config.autolink_urlregex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig;
 
+	/**
+	 * Regex used by [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin to match email adresses.
+	 *
+	 * @cfg {RegExp} [autolink_emailRegex]
+	 * @since 4.10.0
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.autolink_emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
 	// Regex by (https://www.w3.org/TR/html5/forms.html#valid-e-mail-address).
-	CKEDITOR.config.autolink_emailregex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
 } )();
