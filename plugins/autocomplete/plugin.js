@@ -526,6 +526,8 @@
 	};
 
 	/**
+	 * Class representing the autocomplete view.
+	 *
 	 * In order to use a different view, implement a new view class and override
 	 * the {@link CKEDITOR.plugins.autocomplete#getView} method.
 	 *
@@ -944,6 +946,8 @@
 	CKEDITOR.event.implementOn( View.prototype );
 
 	/**
+	 * Class representing the autocomplete model.
+	 *
 	 * In case you want to modify model behavior, check out the
 	 * {@link CKEDITOR.plugins.autocomplete.view} documentation. It contains
 	 * examples of how to easily override the default behavior.
