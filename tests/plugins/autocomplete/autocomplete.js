@@ -458,7 +458,8 @@
 		'test limit view items': function() {
 			var editor = this.editors.standard,
 				itemsCount = 1,
-				ac = new CKEDITOR.plugins.autocomplete( editor, CKEDITOR.tools.object.merge( configDefinition, { itemsLimit: itemsCount } ) );
+				ac = new CKEDITOR.plugins.autocomplete( editor,
+					CKEDITOR.tools.object.merge( configDefinition, { itemsLimit: itemsCount } ) );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
@@ -475,7 +476,8 @@
 			var editor = this.editors.standard,
 				editable = editor.editable(),
 				itemsCount = 1,
-				ac = new CKEDITOR.plugins.autocomplete( editor, CKEDITOR.tools.object.merge( configDefinition, { itemsLimit: itemsCount } ) );
+				ac = new CKEDITOR.plugins.autocomplete( editor,
+					CKEDITOR.tools.object.merge( configDefinition, { itemsLimit: itemsCount } ) );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
