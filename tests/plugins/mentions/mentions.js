@@ -288,7 +288,8 @@
 			var mentions = this.createMentionsInstance( {
 					feed: '{encodedQuery}',
 					cache: false,
-					minChars: 0
+					minChars: 0,
+					throttle: 0
 				} ),
 				dataSet = [
 					{ id: 1, name: 'Anna' },
@@ -316,7 +317,8 @@
 		'test URL feed responses are cached': function() {
 			var mentions = this.createMentionsInstance( {
 					feed: '{encodedQuery}',
-					minChars: 0
+					minChars: 0,
+					throttle: 0
 				} ),
 				dataSet = [
 					{ id: 1, name: 'Anna' },
@@ -344,7 +346,8 @@
 		'test URL feed invalid responses are not cached': function() {
 			var mentions = this.createMentionsInstance( {
 					feed: '{encodedQuery}',
-					minChars: 0
+					minChars: 0,
+					throttle: 0
 				} ),
 				ajaxStub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
 					callback( null );
