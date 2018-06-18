@@ -9,11 +9,11 @@ CKEDITOR.plugins.add( 'justifysplit', {
 
 		editor.ui.add( 'JustifySplit', CKEDITOR.UI_SPLITBUTTON, {
 			label: 'Text Align',
+			'default': 'justifyleft',
 			items: [ {
 				label: 'Left',
 				command: 'justifyleft',
-				icon: 'justifyleft',
-				'default': true
+				icon: 'justifyleft'
 			}, {
 				label: 'Center',
 				command: 'justifycenter',
