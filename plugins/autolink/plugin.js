@@ -16,9 +16,7 @@
 				urlTemplate = new CKEDITOR.template( '<a href="{text}">{text}</a>' ),
 				emailTemplate = new CKEDITOR.template( '<a href="mailto:{text}">{text}</a>' );
 
-			textwatcher.on( 'matched', function( evt ) {
-				insertMatch( evt.data );
-			} );
+			textwatcher.on( 'matched', onTextMatched );
 
 			textwatcher.attach();
 
@@ -74,6 +72,15 @@
 					}
 				} );
 			} );
+
+			function onTextMatched( evt ) {
+				// We don't want to insert a link if selection is already inside another link.
+				if ( editor.getSelection().getRanges()[ 0 ].startContainer.getAscendant( 'a', true ) ) {
+					return;
+				}
+
+				insertMatch( evt.data );
+			}
 
 			function insertMatch( match ) {
 				editor.fire( 'lockSnapshot' );
@@ -156,7 +163,8 @@
 						return null;
 					}
 
-					var match = linkPart.match( CKEDITOR.config.autolink_urlregex ) || linkPart.match( CKEDITOR.config.autolink_emailregex );
+					var match = linkPart.match( CKEDITOR.config.autolink_urlregex ) ||
+						linkPart.match( CKEDITOR.config.autolink_emailregex );
 
 					if ( !match ) {
 						return null;
