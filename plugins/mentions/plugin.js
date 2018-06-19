@@ -55,7 +55,10 @@
 		var feed = config.feed;
 
 		/**
-		 * See {@link CKEDITOR.plugins.mentions.configDefinition#caseSensitive caseSensitive}.
+		 * Indicates that mentions instance is character case sensitive for simple items feed i.e. array feed.
+		 *
+		 * Note that this will take no effect on feeds using callback or URLs, as in this case results are expected to
+		 * be already filtered.
 		 *
 		 * @property {Boolean} [caseSensitive=false]
 		 * @readonly
@@ -63,7 +66,7 @@
 		this.caseSensitive = config.caseSensitive;
 
 		/**
-		 * See {@link CKEDITOR.plugins.mentions.configDefinition#marker marker}.
+		 * A character that should trigger autocompletion.
 		 *
 		 * @property {String} [marker='@']
 		 * @readonly
@@ -71,7 +74,7 @@
 		this.marker = config.hasOwnProperty( 'marker' ) ? config.marker : MARKER;
 
 		/**
-		 * See {@link CKEDITOR.plugins.mentions.configDefinition#minChars minChars}.
+		 * A number of characters that should follow the marker character in order to trigger mentions feature.
 		 *
 		 * @property {Number} [minChars=2]
 		 * @readonly
@@ -79,7 +82,14 @@
 		this.minChars = config.minChars !== null && config.minChars !== undefined ? config.minChars : MIN_CHARS;
 
 		/**
-		 * See {@link CKEDITOR.plugins.mentions.configDefinition#pattern pattern}.
+		 * Pattern used to match queries.
+		 *
+		 * Default pattern matches words with query including {@link #marker marker} and {@link #minChars minChars} properties.
+		 *
+		 * ```javascript
+		 * // Match only words starting with "a".
+		 * var pattern = /^a+\w*$/;
+		 * ```
 		 *
 		 * @property {RegExp} pattern
 		 * @readonly
@@ -87,7 +97,9 @@
 		this.pattern = config.pattern || createPattern( this.marker, this.minChars );
 
 		/**
-		 * See {@link CKEDITOR.plugins.mentions.configDefinition#cache cache}.
+		 * Indicates if URL feed responses will be cached.
+		 *
+		 * The cache is based on URL request and shared between all mentions instances (including different editors).
 		 *
 		 * @property {Boolean} [cache=true]
 		 * @readonly
@@ -95,8 +107,7 @@
 		this.cache = config.cache !== undefined ? config.cache : true;
 
 		/**
-		 * See {@link CKEDITOR.plugins.autocomplete.configDefinition#throttle}.
-		 *
+		 * @inheritdoc CKEDITOR.plugins.mentions.configDefinition#throttle
 		 * @property {Number} [throttle]
 		 * @readonly
 		 */
@@ -390,64 +401,42 @@
 	 */
 
 	/**
-	 * A template for autocomplete list item, allowing to customize how entries are displayed.
-	 *
-	 * See {@link CKEDITOR.plugins.autocomplete.view#itemTemplate} for more information.
-	 *
+	 * @inheritdoc CKEDITOR.plugins.autocomplete.configDefinition#itemTemplate
 	 * @property {String} [itemTemplate]
 	 */
 
 	/**
-	 * See {@link CKEDITOR.plugins.autocomplete#outputTemplate}.
-	 *
+	 * @inheritdoc CKEDITOR.plugins.autocomplete.configDefinition#outputTemplate
 	 * @property {String} [outputTemplate]
 	 */
 
 	/**
-	 * See {@link CKEDITOR.plugins.autocomplete.configDefinition#throttle}.
-	 *
+	 * @inheritdoc CKEDITOR.plugins.autocomplete.configDefinition#throttle
 	 * @property {Number} [throttle=200]
 	 */
 
 	/**
-	 * A character that should trigger autocompletion.
-	 *
-	 * @property {String} [marker='@']
+	 * @inheritdoc CKEDITOR.plugins.mentions#marker
+	 * @property {String} [marker]
 	 */
 
 	/**
-	 * A number of characters that should follow the marker character in order to trigger mentions feature.
-	 *
-	 * @property {Number} [minChars=2]
+	 * @inheritdoc CKEDITOR.plugins.mentions#minChars
+	 * @property {Number} [minChars]
 	 */
 
 	/**
-	 * Indicates that mentions instance is character case sensitive for simple items feed i.e. array feed.
-	 *
-	 * Note that this will take no effect on feeds using callback or URLs, as in this case results are expected to
-	 * be already filtered.
-	 *
-	 * @property {Boolean} [caseSensitive=false]
+	 * @inheritdoc CKEDITOR.plugins.mentions#caseSensitive
+	 * @property {Boolean} [caseSensitive]
 	 */
 
 	/**
-	 * Indicates if URL feed responses will be cached.
-	 *
-	 * The cache is based on URL request and shared between all mentions instances (including different editors).
-	 *
+	 * @inheritdoc CKEDITOR.plugins.mentions#cache
 	 * @property {Boolean} [cache=true]
 	 */
 
 	/**
-	 * Pattern used to match queries.
-	 *
-	 * Default pattern matches words with query including {@link #marker marker} and {@link #minChars minChars} properties.
-	 *
-	 * ```javascript
-	 * // Match only words starting with "a".
-	 * config.pattern = { feed: [ 'Anna', 'Thomas', 'Jack' ], pattern: /^a+\w*$/, marker: null };
-	 * ```
-	 *
+	 * @inheritdoc CKEDITOR.plugins.mentions#pattern
 	 * @property {RegExp} pattern
 	 */
 } )();
