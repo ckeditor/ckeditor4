@@ -16,7 +16,7 @@
 
 	/**
 	 * The main class implementing a generic [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) feature in the editor.
-	 * It is a controller which works with {@link CKEDITOR.plugins.autocomplete.model model} and
+	 * It acts as a controller which works with {@link CKEDITOR.plugins.autocomplete.model model} and
 	 * {@link CKEDITOR.plugins.autocomplete.view view} classes.
 	 *
 	 * It's possible to maintain multiple autocomplete instances for a single editor at a time.
@@ -24,7 +24,7 @@
 	 *
 	 * @class CKEDITOR.plugins.autocomplete
 	 * @since 4.10.0
-	 * @constructor Creates the new instance of autocomplete and attaches it to the editor.
+	 * @constructor Creates a new instance of autocomplete and attaches it to the editor.
 	 *
 	 * In order to initialize the autocomplete feature it is enough to instantiate this class with
 	 * two required callbacks:
@@ -1310,18 +1310,17 @@
 	}
 
 	/**
-	 * Abstract class describing the definition of a {@link CKEDITOR.plugins.autocomplete autocomplete} plugin configuration.
+	 * Abstract class describing the definition of a {@link https://ckeditor.com/cke4/addon/autocomplete Autocomplete} plugin configuration.
 	 *
-	 * This virtual class illustrates the properties that developers can use to define and create
-	 * autocomplete configuration definition.
+	 * It lists properties used to define and create autocomplete configuration definition.
 	 *
 	 * Simple usage:
 	 *
 	 * ```javascript
  	 * var definition = {
-	 *	 dataCallback: dataCallback,
-	 *	 textTestCallback: textTestCallback,
-	 *	 throttle: 200
+	 * 	dataCallback: dataCallback,
+	 * 	textTestCallback: textTestCallback,
+	 * 	throttle: 200
 	 * };
 	 * ```
 	 *
