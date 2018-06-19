@@ -1,5 +1,7 @@
 /* bender-tags: emoji */
 /* bender-ckeditor-plugins: emoji,toolbar,stylescombo,format,clipboard,undo */
+/* bender-include: _helpers/tools.js */
+/* global emojiTools */
 
 ( function() {
 	'use strict';
@@ -27,67 +29,91 @@
 		}
 	};
 
-	function clearAutocompleteModel( autocomplete ) {
-		var model = autocomplete.model;
-		delete model.data;
-		delete model.lastRequestId;
-		delete model.query;
-		delete model.range;
-		delete model.selectedItemId;
-	}
+	var stub = null;
 
 	var singleTests = {
 		'test for custom emoji characters': function() {
 			var editor = this.editors.divarea,
-				bot = this.editorBots.divarea,
-				autocomplete = editor._.emoji.autocomplete;
+				bot = this.editorBots.divarea;
 
-			bot.setHtmlWithSelection( '<p>foo:da^</p>' );
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assert.isUndefined( autocomplete.model.query );
-			assert.isUndefined( autocomplete.model.data );
+			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
+				var autocomplete = editor._.emoji.autocomplete;
 
-			// Handle throttle in autocomplete which by defualt is 20ms;
-			setTimeout( function() {
-				resume( function() {
-					bot.setHtmlWithSelection( '<p>foo:dagg^</p>' );
-					editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-					assert.areSame( ':dagg', autocomplete.model.query, 'Model keeps wrong querry.' );
-					assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
-					objectAssert.areEqual( { id: ':dagger:', symbol: '🗡' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
-				} );
-			}, 21 );
-			wait();
+				bot.setHtmlWithSelection( '<p>foo:da^</p>' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+				assert.isUndefined( autocomplete.model.query );
+				assert.isUndefined( autocomplete.model.data );
+
+				// Handle throttle in autocomplete which by defualt is 20ms;
+				setTimeout( function() {
+					resume( function() {
+						bot.setHtmlWithSelection( '<p>foo:dagg^</p>' );
+						editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+						assert.areSame( ':dagg', autocomplete.model.query, 'Model keeps wrong querry.' );
+						assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
+						objectAssert.areEqual( { id: ':dagger:', symbol: '🗡' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+					} );
+				}, 50 );
+				wait();
+			} );
 		}
 	};
 
 	var tests = {
-		'test emoji objects are added to editor': function( editor ) {
-			assert.isObject( editor._.emoji, 'Emoji variable doesn\' exists.' );
-			objectAssert.ownsKeys( [ 'list', 'autocomplete' ], editor._.emoji, 'Emoji variable is missing some keys.' );
+		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
 
+			// Fallback in case where ajax couldn't load before tests.
+			var data = JSON.stringify( [
+				{ id: ':bug:', symbol: '🐛' },
+				{ id: ':dagger:', symbol: '🗡' }
+			] );
+
+			stub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
+				if ( url.indexOf( 'emoji/_assets/emoji.json' ) !== -1 ) {
+					callback( data );
+				}
+			} );
+		},
+
+		tearDown: function() {
+			stub.restore();
+		},
+
+		'test emoji objects are added to editor': function( editor ) {
+			emojiTools.runAfterInstanceReady( editor, null, function( editor ) {
+				assert.isObject( editor._.emoji, 'Emoji variable doesn\' exists.' );
+				objectAssert.ownsKeys( [ 'list', 'autocomplete' ], editor._.emoji, 'Emoji variable is missing some keys.' );
+			} );
 		},
 
 		'test emoji suggestion box has proper values': function( editor, bot ) {
-			var autocomplete = editor._.emoji.autocomplete;
-			bot.setHtmlWithSelection( '<p>foo:bug^</p>' );
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			assert.areSame( ':bug', autocomplete.model.query, 'Model keeps wrong querry.' );
-			assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
-			objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
+				var autocomplete = editor._.emoji.autocomplete;
 
-			clearAutocompleteModel( autocomplete );
+				bot.setHtmlWithSelection( '<p>foo:bug^</p>' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+				assert.areSame( ':bug', autocomplete.model.query, 'Model keeps wrong querry.' );
+				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
+				objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+
+				emojiTools.clearAutocompleteModel( autocomplete );
+			} );
 		},
 
 		'test emoji are not actived when too few letters are written': function( editor, bot ) {
-			var autocomplete = editor._.emoji.autocomplete;
-			bot.setHtmlWithSelection( '<p>foo:b^</p>' );
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
+				var autocomplete = editor._.emoji.autocomplete;
+				bot.setHtmlWithSelection( '<p>foo:b^</p>' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-			assert.isUndefined( autocomplete.model.query );
-			assert.isUndefined( autocomplete.model.data );
+				assert.isUndefined( autocomplete.model.query );
+				assert.isUndefined( autocomplete.model.data );
 
-			clearAutocompleteModel( autocomplete );
+				emojiTools.clearAutocompleteModel( autocomplete );
+			} );
 		}
 
 	};
