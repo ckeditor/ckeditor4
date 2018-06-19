@@ -42,12 +42,24 @@
 				var emojiList = editor._.emoji.list,
 					charactersToStart = editor.config.emoji_minChars === undefined ? 2 : editor.config.emoji_minChars;
 
-				editor._.emoji.autocomplete = new CKEDITOR.plugins.autocomplete( editor, {
-					textTestCallback: getTextTestCallback(),
-					dataCallback: dataCallback,
-					itemTemplate: '<li data-id="{id}" class="cke_emoji_suggestion_item">{symbol} {id}</li>',
-					outputTemplate: '{symbol}'
-				} );
+				if ( editor.status !== 'ready' ) {
+					editor.once( 'instanceReady', function() {
+						initPlugin();
+					} );
+				} else {
+					initPlugin();
+				}
+
+				// HELPER FUNCTIONS:
+
+				function initPlugin() {
+					editor._.emoji.autocomplete = new CKEDITOR.plugins.autocomplete( editor, {
+						textTestCallback: getTextTestCallback(),
+						dataCallback: dataCallback,
+						itemTemplate: '<li data-id="{id}" class="cke_emoji_suggestion_item">{symbol} {id}</li>',
+						outputTemplate: '{symbol}'
+					} );
+				}
 
 				function getTextTestCallback() {
 					return function( range ) {

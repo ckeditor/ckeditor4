@@ -1,5 +1,7 @@
 /* bender-tags: emoji */
 /* bender-ckeditor-plugins: emoji,toolbar,stylescombo,format,clipboard */
+/* bender-include: _helpers/tools.js */
+/* global emojiTools */
 
 ( function() {
 	'use strict';
@@ -31,41 +33,17 @@
 		// #2036
 		'test custom emoji list is loadd': function() {
 			var editor = this.editors.classic;
-
-			if ( editor.status !== 'ready' ) {
-				editor.once( function() {
-					resume( function() {
-						assertEmoji();
-					} );
-				} );
-				wait();
-			} else {
-				assertEmoji();
-			}
-
-			function assertEmoji() {
+			emojiTools.runAfterInstanceReady( editor, null, function( editor ) {
 				assert.areSame( 1, editor._.emoji.list.length );
 				objectAssert.areEqual( { id: ':star:', symbol: '⭐' }, editor._.emoji.list[ 0 ] );
-			}
+			} );
 		},
 
 		'test invalid emoji list': function() {
 			var editor = this.editors.classic2;
-
-			if ( editor.status !== 'ready' ) {
-				editor.once( function() {
-					resume( function() {
-						assertEmoji();
-					} );
-				} );
-				wait();
-			} else {
-				assertEmoji();
-			}
-
-			function assertEmoji() {
+			emojiTools.runAfterInstanceReady( editor, null, function( editor ) {
 				assert.isUndefined( editor._.emoji, 'There are created emoji private data, so emoji was loaded what is wrong for this case.' );
-			}
+			} );
 		},
 
 		'test long ajax loading': function() {
@@ -80,26 +58,13 @@
 				},
 				startupData: '<p>foo :grinning_face: bar :not_emoji: this :star: is converted emoji :bug:</p>'
 			}, function( bot ) {
-				var editor = bot.editor;
-
-				if ( editor.status !== 'ready' ) {
-					editor.once( 'instanceReady', function() {
-						resume( function() {
-							assertAfterReady();
-						} );
-					}, null, null, 1000 );
-					wait();
-				} else {
-					assertAfterReady();
-				}
-
-				function assertAfterReady() {
+				emojiTools.runAfterInstanceReady( bot.editor, null, function( editor ) {
 					assert.isUndefined( editor._.emoji, 'Emoji is loaded on this stage, what should not happen here.' );
 					server.respond();
 					assert.areSame( 1, editor._.emoji.list.length );
 					objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, editor._.emoji.list[ 0 ] );
 					server.restore();
-				}
+				} );
 			} );
 		}
 	} );
