@@ -9,6 +9,8 @@ Use the toolbar buttons to:
 * Increase Indent
 * Decrease Indent
 
+### List properties via context menu
+
 The context menu allows further configuration of list properties such as
 numbering and bullet types by selecting:
 

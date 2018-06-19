@@ -60,7 +60,7 @@ Providing an *accessible text description* of an image is straightforward if you
 
 * Using the caption creates a `figcaption` element contained in a `figure` element.  The `figure` element also contains the `img` element.
 
-### Why image properties are important
+### Why image descriptions are important
 
 Adding accessible text descriptions of images is an important part of making web pages accessible to the visually impaired who use assistive devices such as screen readers and magnifiers.
 
