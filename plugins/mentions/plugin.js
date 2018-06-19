@@ -124,7 +124,8 @@
 			dataCallback: getDataCallback( feed, this ),
 			itemTemplate: config.itemTemplate,
 			outputTemplate: config.outputTemplate,
-			throttle: this.throttle
+			throttle: this.throttle,
+			itemsLimit: config.itemsLimit
 		} );
 	}
 
@@ -438,5 +439,10 @@
 	/**
 	 * @inheritdoc CKEDITOR.plugins.mentions#pattern
 	 * @property {RegExp} pattern
+	 */
+
+	/**
+	 * @inheritdoc CKEDITOR.plugins.autocomplete.configDefinition#itemsLimit
+	 * @property {Number} [itemsLimit]
 	 */
 } )();
