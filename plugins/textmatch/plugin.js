@@ -268,20 +268,20 @@
 		}
 
 		var collection = [],
-			sibligns,
+			siblings,
 			elementIndex,
 			node, i;
 
 		if ( range.startContainer.type != CKEDITOR.NODE_ELEMENT ) {
-			sibligns = range.startContainer.getParent().getChildren();
+			siblings = range.startContainer.getParent().getChildren();
 			elementIndex = range.startContainer.getIndex();
 		} else {
-			sibligns = range.startContainer.getChildren();
+			siblings = range.startContainer.getChildren();
 			elementIndex = range.startOffset;
 		}
 
 		i = elementIndex;
-		while ( node = sibligns.getItem( --i ) ) {
+		while ( node = siblings.getItem( --i ) ) {
 			if ( node.type == CKEDITOR.NODE_TEXT ) {
 				collection.unshift( node );
 			} else {
@@ -290,7 +290,7 @@
 		}
 
 		i = elementIndex;
-		while ( node = sibligns.getItem( i++ ) ) {
+		while ( node = siblings.getItem( i++ ) ) {
 			if ( node.type == CKEDITOR.NODE_TEXT ) {
 				collection.push( node );
 			} else {

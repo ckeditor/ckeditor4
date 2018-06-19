@@ -69,7 +69,7 @@
 	 * @param {CKEDITOR.editor} editor The editor instance to watch in.
 	 * @param {Function} callback Callback executed when the text watcher
 	 * thinks that something might have changed.
-	 * @param {Number} [throttle=0] Throttle inverval, see {@link #throttle}.
+	 * @param {Number} [throttle=0] Throttle interval, see {@link #throttle}.
 	 * @param {CKEDITOR.dom.range} callback.range The range representing the caret position.
 	 * @param {Object} [callback.return=null] Matching text data (`null` if nothing matches).
 	 * @param {String} callback.return.text The matching text.
