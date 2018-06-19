@@ -31,80 +31,27 @@
 					return;
 				}
 
-				var defaultEmojiList = JSON.parse( data );
-
-				if ( !editor._.emojiList ) {
-					editor._.emojiList = defaultEmojiList;
+				if ( editor._.emoji === undefined ) {
+					editor._.emoji = {};
 				}
-				var emoji = editor._.emojiList,
-					forbiddenScope = editor.config.emoji_blacklistedElements || [ 'pre', 'code' ],
-					charactersToStart = editor.config.emoji_minChars || 2;
 
-				var filter = new CKEDITOR.htmlParser.filter( {
-					text: function( value, element ) {
-						var preventEmojiConversion = element.getAscendant( hasForbiddenParent );
-						if ( preventEmojiConversion ) {
-							return value;
-						}
-						var hits = value.match( /:[a-zA-Z_-]+?:/g );
-						if ( hits ) {
-							for ( var i = 0; i < hits.length; i++ ) {
-								var item = emoji.find( function( element ) {
-									return element.id === hits[ i ];
-								} );
-								if ( item ) {
-									value = value.replace( item.id, item.symbol );
-								}
-							}
-						}
-						return value;
-					}
+				if ( editor._.emoji.list === undefined ) {
+					editor._.emoji.list = JSON.parse( data );
+				}
+
+				var emojiList = editor._.emoji.list,
+					charactersToStart = editor.config.emoji_minChars === undefined ? 2 : editor.config.emoji_minChars;
+
+				editor._.emoji.autocomplete = new CKEDITOR.plugins.autocomplete( editor, {
+					textTestCallback: getTextTestCallback(),
+					dataCallback: dataCallback,
+					itemTemplate: '<li data-id="{id}" class="cke_emoji_suggestion_item">{symbol} {id}</li>',
+					outputTemplate: '{symbol}'
 				} );
-
-				editor.on( 'toHtml', function( evt ) {
-					var sel = evt.editor.getSelection();
-					// We want to prevent embedding emoji inside wrong context, e.g. paste :emoji: inside <pre>
-					if ( sel && !isEmojiAllowed( sel.getRanges()[ 0 ] ) ) {
-						return;
-					}
-
-					filter.applyTo( evt.data.dataValue );
-				} );
-
-				var html = CKEDITOR.htmlParser.fragment.fromHtml( editor.getData() );
-				var writer = new CKEDITOR.htmlParser.basicWriter();
-
-				filter.applyTo( html );
-				html.writeHtml( writer );
-
-				if ( editor.status !== 'ready' ) {
-					editor.once( 'instanceReady', function() {
-						initEmojiPlugin( writer );
-					} );
-				} else {
-					initEmojiPlugin( writer );
-				}
-
-				function initEmojiPlugin( writer ) {
-					new CKEDITOR.plugins.autocomplete( editor, {
-						textTestCallback: getTextTestCallback(),
-						dataCallback: dataCallback,
-						itemTemplate: '<li data-id="{id}" class="cke_emoji_suggestion_item">{symbol} {id}</li>',
-						outputTemplate: '{symbol}'
-					} );
-
-					// Replace startup emoji
-					editor.editable().setHtml( writer.getHtml() );
-
-					// Synchronize undo.
-					if ( editor.undoManager && editor.undoManager.snapshots.length === 1 ) {
-						editor.undoManager.update();
-					}
-				}
 
 				function getTextTestCallback() {
 					return function( range ) {
-						if ( !range.collapsed || !isEmojiAllowed( range ) ) {
+						if ( !range.collapsed ) {
 							return null;
 						}
 						return CKEDITOR.plugins.textMatch.match( range, matchCallback );
@@ -123,7 +70,7 @@
 				}
 
 				function dataCallback( query, range, callback ) {
-					var data = CKEDITOR.tools.array.filter( emoji, function( item ) {
+					var data = CKEDITOR.tools.array.filter( emojiList, function( item ) {
 						return item.id.indexOf( query.slice( 1 ) ) !== -1;
 					} ).sort( function( a, b ) {
 						// Sort at the beginning emoji starts with given query.
@@ -140,29 +87,6 @@
 						}
 					} );
 					callback( data );
-				}
-
-				function isEmojiAllowed( range ) {
-					var elementsPath,
-						editable = editor.editable();
-					if ( range ) {
-						elementsPath = new CKEDITOR.dom.elementPath( range.startContainer, editable );
-						return elementsPath.contains( forbiddenScope ) ? false : true;
-					} else {
-						return true;
-					}
-				}
-
-				function hasForbiddenParent( htmlParserNode ) {
-					if ( htmlParserNode.type === CKEDITOR.NODE_TEXT ) {
-						return false;
-					}
-
-					if ( htmlParserNode.name && CKEDITOR.tools.array.indexOf( forbiddenScope, htmlParserNode.name ) !== -1 ) {
-						return true;
-					} else {
-						return false;
-					}
 				}
 			} );
 		}
