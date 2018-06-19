@@ -29,21 +29,43 @@
 		},
 
 		// #2036
-		'test custom emoji list': function() {
-			var editor = this.editors.classic,
-				bot = this.editorBots.classic;
+		'test custom emoji list is loadd': function() {
+			var editor = this.editors.classic;
 
-			assert.areSame( '<p>foo :grinning_face: bar :not_emoji: this is converted emoji ⭐</p>', editor.getData(), 'Checking startup data' );
+			if ( editor.status !== 'ready' ) {
+				editor.once( function() {
+					resume( function() {
+						assertEmoji();
+					} );
+				} );
+				wait();
+			} else {
+				assertEmoji();
+			}
 
-			bot.setHtmlWithSelection( '<p>hello^world</p>' );
-			editor.insertText( ':grinning_face::not_emoji::star:' );
-			assert.areSame( '<p>hello:grinning_face::not_emoji:⭐world</p>', editor.getData() );
+			function assertEmoji() {
+				assert.areSame( 1, editor._.emoji.list.length );
+				objectAssert.areEqual( { id: ':star:', symbol: '⭐' }, editor._.emoji.list[ 0 ] );
+			}
 		},
 
 		'test invalid emoji list': function() {
 			var editor = this.editors.classic2;
-			assert.areSame( '<p>foo :grinning_face: bar :not_emoji: this is not converted emoji :star:</p>', editor.getData(), 'Checking startup data' );
-			assert.isUndefined( editor._.emojiList, 'There is no emoji list loaded' );
+
+			if ( editor.status !== 'ready' ) {
+				editor.once( function() {
+					resume( function() {
+						assertEmoji();
+					} );
+				} );
+				wait();
+			} else {
+				assertEmoji();
+			}
+
+			function assertEmoji() {
+				assert.isUndefined( editor._.emoji, 'There are created emoji private data, so emoji was loaded what is wrong for this case.' );
+			}
 		},
 
 		'test long ajax loading': function() {
@@ -72,8 +94,10 @@
 				}
 
 				function assertAfterReady() {
+					assert.isUndefined( editor._.emoji, 'Emoji is loaded on this stage, what should not happen here.' );
 					server.respond();
-					assert.areSame( '<p>foo :grinning_face: bar :not_emoji: this :star: is converted emoji 🐛</p>', editor.getData() );
+					assert.areSame( 1, editor._.emoji.list.length );
+					objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, editor._.emoji.list[ 0 ] );
 					server.restore();
 				}
 			} );
