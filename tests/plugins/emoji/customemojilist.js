@@ -17,7 +17,7 @@
 			config: {
 				emoji_emojiListUrl: 'fake.url'
 			},
-			startupData: '<p>foo :grinning_face: bar :not_emoji: this is converted emoji :star:</p>'
+			startupData: '<p>foo :grinning_face: bar :not_emoji: this is not converted emoji :star:</p>'
 		}
 	};
 
@@ -42,8 +42,41 @@
 
 		'test invalid emoji list': function() {
 			var editor = this.editors.classic2;
-			assert.areSame( '<p>foo :grinning_face: bar :not_emoji: this is converted emoji :star:</p>', editor.getData(), 'Checking startup data' );
+			assert.areSame( '<p>foo :grinning_face: bar :not_emoji: this is not converted emoji :star:</p>', editor.getData(), 'Checking startup data' );
 			assert.isUndefined( editor._.emojiList, 'There is no emoji list loaded' );
+		},
+
+		'test long ajax loading': function() {
+			var server = sinon.fakeServer.create();
+
+			server.respondWith( 'GET', 'http://random.url', [ 200, { 'Content-Type': 'application/json' }, '[{"id":":bug:","symbol":"🐛"}]' ] );
+
+			bender.editorBot.create( {
+				name: 'created1',
+				config: {
+					emoji_emojiListUrl: 'http://random.url'
+				},
+				startupData: '<p>foo :grinning_face: bar :not_emoji: this :star: is converted emoji :bug:</p>'
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				if ( editor.status !== 'ready' ) {
+					editor.once( 'instanceReady', function() {
+						resume( function() {
+							assertAfterReady();
+						} );
+					}, null, null, 1000 );
+					wait();
+				} else {
+					assertAfterReady();
+				}
+
+				function assertAfterReady() {
+					server.respond();
+					assert.areSame( '<p>foo :grinning_face: bar :not_emoji: this :star: is converted emoji 🐛</p>', editor.getData() );
+					server.restore();
+				}
+			} );
 		}
 	} );
 
