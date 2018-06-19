@@ -1,4 +1,5 @@
 /* bender-tags: editor, tools */
+/* bender-ckeditor-plugins: toolbar */
 
 ( function() {
 	'use strict';
@@ -8,7 +9,11 @@
 			creator: 'inline'
 		},
 		classic: {
-			name: 'classic'
+			name: 'classic',
+			// Toolbar height affects absolute rects in built classic editor, this should make it consistent.
+			config: {
+				toolbar: [ '' ]
+			}
 		}
 	};
 
@@ -22,6 +27,7 @@
 					x: container.left - 99,
 					y: container.top - 99
 				},
+				inline = editor.name === 'inline' ? 0 : 9,
 				rect = {
 					bottom: 10,
 					height: 10,
@@ -54,7 +60,7 @@
 					if ( key in { left: '', right: '', x: '' } ) {
 						expected = rect[ key ] + ( classic ? 100 + offset.x : 0 );
 					} else if ( key in { top: '', bottom: '', y: '' } ) {
-						expected = rect[ key ] + ( classic ? 100 + offset.y : scroll );
+						expected = rect[ key ] + ( classic ? 100 + offset.y : scroll ) + inline;
 					} else {
 						expected = rect[ key ];
 					}

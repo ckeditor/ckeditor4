@@ -1,13 +1,19 @@
 /* bender-tags: editor,dom,range */
 /* bender-include: ../../../plugins/uploadfile/_helpers/waitForImage.js */
 /* global waitForImage */
+/* bender-ckeditor-plugins: toolbar */
+
 
 ( function() {
 	'use strict';
 
 	bender.editors = {
 		classic: {
-			name: 'classic'
+			name: 'classic',
+			// Toolbar height affects absolute rects in built classic editor, this should make it consistent.
+			config: {
+				toolbar: [ '' ]
+			}
 		},
 		inline: {
 			creator: 'inline',
@@ -22,15 +28,16 @@
 					x: editor.container.getClientRect( true ).left - ( editor.name === 'inline' ? 40 : 19 ),
 					y: editor.container.getClientRect( true ).top - ( editor.name === 'inline' ? 56 : 19 )
 				},
+				inline = editor.name === 'inline',
 				expected = {
 					0: {
 						x: 40 + offset.x,
-						y: 40 + offset.y,
+						y: ( inline ? 40 : 49 ) + offset.y,
 						width: 163,
 						height: 61,
-						top: 40 + offset.y,
+						top: ( inline ? 40 : 49 ) + offset.y,
 						right: 203 + offset.x,
-						bottom: 101 + offset.y,
+						bottom: ( inline ? 101 : 110 ) + offset.y,
 						left: 40 + offset.x
 					}
 				},
