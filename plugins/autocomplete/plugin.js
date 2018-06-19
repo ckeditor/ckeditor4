@@ -35,17 +35,23 @@
 	 * In order to initialize the autocomplete feature it is enough to instantiate this class with
 	 * two required callbacks:
 	 *
-	 * * A text test callback &ndash; a function which should return a fragment of text (typed in the editor) that
-	 * should be autocompleted (best to use the {@link CKEDITOR.plugins.textMatch#match} function).
-	 * * A data callback &ndash; a function which should return (through its callback) a suggestion data for the current
-	 * query string.
+	 * * {@link CKEDITOR.plugins.autocomplete.configDefinition#textTestCallback config.textTestCallback} - A function being called by
+	 *  the {@link CKEDITOR.plugins.textWatcher Text Watcher} component, as new text is being inserted.
+	 *  It's purpose is to determine whether given range should be matched or not.
+	 *  See {@link CKEDITOR.plugins.textWatcher#constructor} for more details.
+	 *  There's also {@link CKEDITOR.plugins.textMatch#match} which is a handy helper for that purpose.
+	 * * {@link CKEDITOR.plugins.autocomplete.configDefinition#dataCallback config.dataCallback} - A function which should return
+	 *  (through its callback) a suggestion data for the current query string.
 	 *
 	 * # Creating an autocomplete instance
 	 *
 	 * Depending on your use case, put this code in the {@link CKEDITOR.pluginDefinition#init} callback of your
-	 * plugin or for example in the {@link CKEDITOR.editor#instanceReady} event listener.
+	 * plugin or for example in the {@link CKEDITOR.editor#instanceReady} event listener. Ensure that you loaded
+	 * {@link CKEDITOR.plugins.textMatch Text Match} plugin.
 	 *
 	 * ```javascript
+	 *	var itemsArray = [ { id: 1, name: '@Andrew' }, { id: 2, name: '@Kate' } ];
+	 *
 	 *	// Called when the user types in the editor or moves the caret.
 	 *	// The range represents the caret position.
 	 *	function textTestCallback( range ) {
@@ -72,17 +78,17 @@
 	 *		if ( !match ) {
 	 *			return null;
 	 *		}
+	 *
 	 *		return { start: match.index, end: offset };
 	 *	}
 	 *
 	 *	// Returns (through its callback) the suggestions for the current query.
-	 *	// Note: the itemsArray variable is our example "database".
 	 *	function dataCallback( query, range, callback ) {
 	 *		// Simple search.
 	 *		// Filter the entire items array so only the items that start
 	 *		// with the query remain.
 	 *		var suggestions = itemsArray.filter( function( item ) {
-	 *			return item.name.indexOf( query ) === 0;
+	 *			return item.name.indexOf( query ) == 0;
 	 *		} );
 	 *
 	 *		// Note - the callback function can also be executed asynchronously
@@ -216,7 +222,7 @@
 		/**
 		 * Template of markup to be inserted as the autocomplete item gets committed.
 		 *
-		 * You can use {@link CKEDITOR.plugins.autocomplete.model#data data item} properties to customize the template.
+		 * You can use {@link CKEDITOR.plugins.autocomplete.model.item item} properties to customize the template.
 		 *
 		 * ```javascript
 		 * var outputTemplate = `<a href="/tracker/{ticket}">#{ticket} ({name})</a>`;
@@ -259,24 +265,24 @@
 
 			this._listeners.push( this.textWatcher.on( 'matched', this.onTextMatched, this ) );
 			this._listeners.push( this.textWatcher.on( 'unmatched', this.onTextUnmatched, this ) );
-			this._listeners.push( this.model.on( 'change-data', this.onData, this ) );
+			this._listeners.push( this.model.on( 'change-data', this.modelChangeListener, this ) );
 			this._listeners.push( this.model.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
 			this._listeners.push( this.view.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
 			this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
 
 			// Update view position on viewport change.
 			this._listeners.push( win.on( 'scroll', function() {
-				this.onChange();
+				this.viewRepositionListener();
 			}, this ) );
 			this._listeners.push( editorScrollableElement.on( 'scroll', function() {
-				this.onChange();
+				this.viewRepositionListener();
 			}, this ) );
 
 			this._listeners.push( editor.on( 'contentDom', onContentDom, this ) );
 			// CKEditor's event system has a limitation that one function (in this case this.check)
 			// cannot be used as listener for the same event more than once. Hence, wrapper function.
 			this._listeners.push( editor.on( 'change', function() {
-				this.onChange();
+				this.viewRepositionListener();
 			}, this ) );
 
 			// Attach if editor is already initialized.
@@ -413,22 +419,23 @@
 		// LISTENERS ------------------
 
 		/**
-		 * The function registered by the {@link #attach} method as the
-		 * {@link CKEDITOR.editor#change} event listener.
+		 * The function should be called once the content has changed.
+		 *
+		 * @private
 		 */
-		onChange: function() {
+		viewRepositionListener: function() {
 			if ( this.model.isActive ) {
 				this.view.updatePosition( this.model.range );
 			}
 		},
 
 		/**
-		 * The function registered by the {@link #attach} method as the
-		 * {@link CKEDITOR.plugins.autocomplete.model#change-data} event listener.
+		 * The function should be called once the model data has changed.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
+		 * @private
 		 */
-		onData: function( evt ) {
+		modelChangeListener: function( evt ) {
 			if ( this.model.hasData() ) {
 				this.view.updateItems( evt.data );
 				this.open();
@@ -438,19 +445,21 @@
 		},
 
 		/**
-		 * The function registered by the {@link #attach} method as the
-		 * {@link CKEDITOR.plugins.autocomplete.view#click-item} event listener.
+		 * The function should be called once view item has been clicked.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
+		 * @private
 		 */
 		onItemClick: function( evt ) {
 			this.commit( evt.data );
 		},
 
 		/**
-		 * The function registered by the {@link #attach} method as the `keydown` event listener.
+		 * The function should be called on every `keydown` event occured
+		 *  within {@link CKEDITOR.editable editable} element.
 		 *
 		 * @param {CKEDITOR.dom.event} evt
+		 * @private
 		 */
 		onKeyDown: function( evt ) {
 			if ( !this.model.isActive ) {
@@ -488,11 +497,10 @@
 		},
 
 		/**
-		 * The function registered by the {@link #attach} method as the
-		 * {@link CKEDITOR.plugins.autocomplete.view#change-selectedItemId view#change-selectedItemId}
-		 * and {@link CKEDITOR.plugins.autocomplete.model#change-selectedItemId model#change-selectedItemId} event listeners.
+		 * The funciton should be called once an item has been selected.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
+		 * @private
 		 */
 		onSelectedItemId: function( evt ) {
 			this.model.setItem( evt.data );
@@ -500,10 +508,11 @@
 		},
 
 		/**
-		 * The function registered by the {@link #attach} method as the
-		 * {@link CKEDITOR.plugins.textWatcher#matched} event listener.
+		 * The function should be called once a text has been
+		 *  matched by {@link CKEDITOR.plugins.textWatcher Text Watcher} component.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
+		 * @private
 		 */
 		onTextMatched: function( evt ) {
 			this.model.setActive( false );
@@ -511,10 +520,11 @@
 		},
 
 		/**
-		 * The function registered by the {@link #attach} method as the
-		 * {@link CKEDITOR.plugins.textWatcher#unmatched} event listener.
+		 * The function should be called once a text has been
+		 *  unmatched by {@link CKEDITOR.plugins.textWatcher Text Watcher} component.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
+		 * @private
 		 */
 		onTextUnmatched: function() {
 			// Remove query and request id to avoid opening view for invalid callback (#1984).
@@ -537,7 +547,7 @@
 	 *	};
 	 * ```
 	 *
-	 * You can also modify this class on the fly.
+	 * You can also modify this autocomplete instance on the fly.
 	 *
 	 * ```javascript
 	 *	myAutocomplete.prototype.getView = function() {
@@ -679,6 +689,7 @@
 		/**
 		 * Creates and returns the view's main element.
 		 *
+		 * @private
 		 * @returns {CKEDITOR.dom.element}
 		 */
 		createElement: function() {
@@ -1351,7 +1362,7 @@
 	 * @method dataCallback
 	 * @param {String} query The query string that was accepted by the `textTestCallback`.
 	 * @param {CKEDITOR.dom.range} range The range in the DOM where the query text is.
-	 * @param {Function} callback The callback which should be executed with the data.
+	 * @param {Function} callback The callback which should be executed with the matched data.
 	 * @param {CKEDITOR.plugins.autocomplete.model.item[]} callback.data The suggestion data that should be
 	 * displayed in the autocomplete view for a given query. The data items should implement the
 	 * {@link CKEDITOR.plugins.autocomplete.model.item} interface.
