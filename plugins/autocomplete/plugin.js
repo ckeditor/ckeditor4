@@ -165,9 +165,9 @@
 		this.editor = editor;
 
 		/**
-		 * See {@link CKEDITOR.plugins.autocomplete.configDefinition#throttle}.
+		 * Indicates throttle threshold expressed in milliseconds reducing text checks frequency.
 		 *
-		 * @property {Number} [throttle]
+		 * @property {Number} [throttle=20]
 		 */
 		this.throttle = config.throttle !== undefined ? config.throttle : 20;
 
@@ -570,7 +570,7 @@
 		 * A minimal template must be wrapped with HTML `li` element containing `data-id="{id}"` attribute.
 		 *
 		 * ```javascript
-		 * autocomplete.itemTemplate = '<li data-id="{id}"><img src="{iconSrc}" alt="{name}">{name}</li>';
+		 * var itemTemplate = '<li data-id="{id}"><img src="{iconSrc}" alt="{name}">{name}</li>';
 		 * ```
 		 *
 		 * @readonly
@@ -1397,26 +1397,22 @@
 	 */
 
 	/**
-	 * Indicates throttle threshold expressed in milliseconds reducing text checks frequency.
-	 *
-	 * @property {Number} [throttle=20]
+	 * @inheritdoc CKEDITOR.plugins.autocomplete#throttle
+	 * @property {Number} [throttle]
 	 */
 
 	/**
-	 * Indicates the limit of items rendered in the dropdown. See {@link CKEDITOR.plugins.autocomplete.model#itemsLimit} for more information.
-	 *
+	 * @inheritdoc CKEDITOR.plugins.autocomplete.model#itemsLimit
 	 * @property {Number} [itemsLimit]
 	 */
 
 	/**
-	 * Template for list item in dropdown. See {@link CKEDITOR.plugins.autocomplete.view#itemTemplate} for more information.
-	 *
+	 * @inheritdoc CKEDITOR.plugins.autocomplete.view#itemTemplate
 	 * @property {String} [itemTemplate]
 	 */
 
 	/**
-	 * Template for match rendering. See {@link CKEDITOR.plugins.autocomplete#outputTemplate} for more information.
-	 *
+	 * @inheritdoc CKEDITOR.plugins.autocomplete#outputTemplate
 	 * @property {String} [outputTemplate]
 	 */
 } )();
