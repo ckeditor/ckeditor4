@@ -82,7 +82,7 @@
 	 *		// Filter the entire items array so only the items that start
 	 *		// with the query remain.
 	 *		var suggestions = itemsArray.filter( function( item ) {
-	 *			return item.name.indexOf( query ) == 0;
+	 *			return item.name.toLowerCase().indexOf( query.toLowerCase() ) == 0;
 	 *		} );
 	 *
 	 *		// Note - the callback function can also be executed asynchronously
