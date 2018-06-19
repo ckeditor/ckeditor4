@@ -27,6 +27,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 .cke_autocomplete_panel > li
 {
 	padding: 5px;
+	cursor: pointer;
 }
 .cke_autocomplete_selected, .cke_autocomplete_panel > li:hover
 {

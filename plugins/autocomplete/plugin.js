@@ -7,16 +7,10 @@
 
 ( function() {
 
-	// This flag prevents appending stylesheet more than once.
-	var stylesLoaded = false;
-
 	CKEDITOR.plugins.add( 'autocomplete', {
 		requires: 'textwatcher',
-		init: function() {
-			if ( !stylesLoaded ) {
-				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/autocomplete.css' );
-				stylesLoaded = true;
-			}
+		onLoad: function() {
+			CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
 		}
 	} );
 
