@@ -449,8 +449,7 @@
 		},
 
 		/**
-		 * The function should be called on every `keydown` event occured
-		 *  within {@link CKEDITOR.editable editable} element.
+		 * The function should be called on every `keydown` event occurred within {@link CKEDITOR.editable editable} element.
 		 *
 		 * @param {CKEDITOR.dom.event} evt
 		 * @private
@@ -491,7 +490,7 @@
 		},
 
 		/**
-		 * The funciton should be called once an item has been selected.
+		 * The function should be called once an item has been selected.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
 		 * @private
@@ -502,8 +501,8 @@
 		},
 
 		/**
-		 * The function should be called once a text has been
-		 *  matched by {@link CKEDITOR.plugins.textWatcher Text Watcher} component.
+		 * The function should be called once a text has been matched by {@link CKEDITOR.plugins.textWatcher Text Watcher}
+		 * component.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
 		 * @private
@@ -514,8 +513,8 @@
 		},
 
 		/**
-		 * The function should be called once a text has been
-		 *  unmatched by {@link CKEDITOR.plugins.textWatcher Text Watcher} component.
+		 * The function should be called once a text has been unmatched by {@link CKEDITOR.plugins.textWatcher Text Watcher}
+		 * component.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
 		 * @private
@@ -990,7 +989,7 @@
 		/**
 		 * Indicates the limit of items rendered in the dropdown.
 		 *
-		 * For false values i.e. `0` or `null` all items will be rendered.
+		 * For falsy values like `0` or `null` all items will be rendered.
 		 *
 		 * @property {Number} [itemsLimit=0]
 		 */

@@ -10,7 +10,7 @@
 	CKEDITOR.plugins.add( 'textmatch', {} );
 
 	/**
-	 * Global namespace for methods exposed by the textmatch plugin.
+	 * Global namespace for methods exposed by the [Text Match](https://ckeditor.com/cke4/addon/textmatch) plugin.
 	 *
 	 * The most important function is {@link #match} which performs a text
 	 * search in the DOM.

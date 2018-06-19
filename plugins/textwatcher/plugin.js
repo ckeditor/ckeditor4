@@ -10,6 +10,8 @@
 	CKEDITOR.plugins.add( 'textwatcher', {} );
 
 	/**
+	 * API exposed by the [Text Watcher](https://ckeditor.com/cke4/addon/textwatcher) plugin.
+	 *
 	 * Class implementing a text watcher &mdash; a base for features like
 	 * autocomplete. It fires the {@link #matched} and {@link #unmatched} events
 	 * based on changes in the text and position of the caret in the editor.
