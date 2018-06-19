@@ -63,6 +63,9 @@ required:
 * In `dialogs/a11yfirst-help.js`, update the `contents.children.html` string
   to include the necessary `div` elements for the help topics.
 
+* In the `content/en` subdirectory, add a new MarkDown file with content for
+  the new help topic.
+
 * In `content/en/setLang.js`, update the properties of the object passed to
   the `setLang` function to include all of the help topics.
 
