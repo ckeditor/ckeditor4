@@ -79,7 +79,7 @@
 			assertViewOpened( ac, true );
 			assert.isTrue( firstElement.hasClass( 'cke_autocomplete_selected' ) );
 
-			var target = ac.view.element.getLast();
+			var target = ac.view.element.findOne( 'ul' ).getLast();
 			ac.view.element.fire( 'mouseover', new CKEDITOR.dom.event( { target: target.$ } ) );
 
 			assertViewOpened( ac, true );

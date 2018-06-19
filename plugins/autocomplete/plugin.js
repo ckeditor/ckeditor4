@@ -665,7 +665,7 @@
 			this.element.on( 'mouseover', function( evt ) {
 				var target = evt.data.getTarget();
 
-				if ( this.element.contains( target ) ) {
+				if ( this.element.contains( target ) && target.getName() === 'li' ) {
 					var itemId = target.data( 'id' );
 
 					this.fire( 'change-selectedItemId', itemId );
