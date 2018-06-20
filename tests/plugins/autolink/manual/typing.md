@@ -3,10 +3,11 @@
 @bender-ckeditor-plugins: clipboard, toolbar, wysiwygarea, link, autolink, undo
 
 1. Focus the editor.
-1. Type ` mail@example.com mail`.
+1. Type `http://example.com`.
+1. Press `space`.
 1. Double click on created link and check its `Link Type`.
-1. Click `Undo` button twice.
-1. Repeat `1-4` with ` http://example.com url` text.
+1. Click `Undo` button once.
+1. Repeat `1-5` with `http://example.com` and `enter`.
 
 ## Expected
 
@@ -16,4 +17,4 @@
 ## Unexpected
 
 * Typed text has not been turned into a link or have invalid type.
-* Typed link is not removed on `Undo` button click or requires more than 2 clicks.
+* Typed link is not removed on `Undo` button click or requires more than single click.

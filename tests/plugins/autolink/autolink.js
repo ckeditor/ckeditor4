@@ -26,6 +26,12 @@ bender.editors = {
 			pasteFilter: null,
 			emailProtection: 'mt(NAME,DOMAIN,SUBJECT,BODY)'
 		}
+	},
+	customCommitKeystrokes: {
+		config: {
+			allowedContent: true,
+			autolink_commitKeystrokes: [ 9 ] // TAB
+		}
 	}
 };
 
@@ -279,72 +285,34 @@ bender.test( {
 	},
 
 	// (#1815)
-	'test typed URL separated by a space is replaced with a link': function() {
-		var editor = this.editors.classic,
-			expected = '<p><a href="http://example.com">http://example.com</a>&nbsp;</p>';
-
-		this.editorBots.classic.setHtmlWithSelection( 'http://example.com ^' );
-
-		editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-
-		assert.areEqual( expected, editor.getData() );
+	'test press space to finish link completion': function() {
+		testTyping( this.editors.classic, 32, 'http://example.com^', '<p><a href="http://example.com">http://example.com</a></p>' ); // SPACE
+		testTyping( this.editors.classic, 32, 'mail@example.com^', '<p><a href="mailto:mail@example.com">mail@example.com</a></p>' ); // SPACE
 	},
 
 	// (#1815)
-	'test typed URL separated by an enter is replaced with a link': function() {
-		var editor = this.editors.classic,
-			expected = '<p><a href="http://example.com">http://example.com</a></p>';
-
-		this.editorBots.classic.setHtmlWithSelection( 'http://example.com^' );
-
-		editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
-
-		assert.areEqual( expected, editor.getData() );
+	'test press enter to finish link completion': function() {
+		testTyping( this.editors.classic, 13, 'http://example.com^', '<p><a href="http://example.com">http://example.com</a></p>' ); // ENTER
+		testTyping( this.editors.classic, 13, 'mail@example.com^', '<p><a href="mailto:mail@example.com">mail@example.com</a></p>' ); // ENTER
 	},
 
 	// (#1815)
-	'test typed email separated by a space is replaced with a link': function() {
-		var editor = this.editors.classic,
-			expected = '<p><a href="mailto:mail@example.com">mail@example.com</a>&nbsp;</p>';
-
-		this.editorBots.classic.setHtmlWithSelection( 'mail@example.com ^' );
-
-		editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-
-		assert.areEqual( expected, editor.getData() );
+	'test press custom commit keystroke to finish link completion': function() {
+		testTyping( this.editors.customCommitKeystrokes, 9, 'http://example.com^', '<p><a href="http://example.com">http://example.com</a></p>' ); // TAB
+		testTyping( this.editors.customCommitKeystrokes, 9, 'mail@example.com^', '<p><a href="mailto:mail@example.com">mail@example.com</a></p>' ); // TAB
 	},
 
 	// (#1815)
-	'test typed email separated by an enter is replaced with a link': function() {
-		var editor = this.editors.classic,
-			expected = '<p><a href="mailto:mail@example.com">mail@example.com</a></p>';
-
-		this.editorBots.classic.setHtmlWithSelection( 'mail@example.com^' );
-
-		editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
-
-		assert.areEqual( expected, editor.getData() );
-	},
-
-	// (#1815)
-	'test typed URL without a trigger is not replaced with a link': function() {
-		var editor = this.editors.classic;
-
-		this.editorBots.classic.setHtmlWithSelection( 'http://example.com^' );
-
-		editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-
-		assert.areEqual( '<p>http://example.com</p>', editor.getData() );
-	},
-
-	// (#1815)
-	'test typed email without a trigger is not replaced with a link': function() {
-		var editor = this.editors.classic;
-
-		this.editorBots.classic.setHtmlWithSelection( 'mail@example.com^' );
-
-		editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-
-		assert.areEqual( '<p>mail@example.com</p>', editor.getData() );
+	'test link completion with invalid commit keystroke': function() {
+		testTyping( this.editors.classic, 9, 'http://example.com^', '<p>http://example.com</p>' ); // TAB
+		testTyping( this.editors.classic, 9, 'mail@example.com^', '<p>mail@example.com</p>' ); // TAB
 	}
 } );
+
+function testTyping( editor, commitKeystroke, actual, expected ) {
+	bender.tools.setHtmlWithSelection( editor, actual );
+
+	editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: commitKeystroke } ) );
+
+	assert.areEqual( expected, editor.getData() );
+}

@@ -9,20 +9,11 @@
 	var doubleQuoteRegex = /"/g;
 
 	CKEDITOR.plugins.add( 'autolink', {
-		requires: 'clipboard,textwatcher,textmatch',
+		requires: 'clipboard,textmatch',
 
 		init: function( editor ) {
-			var textwatcher = new CKEDITOR.plugins.textWatcher( editor, textTestCallback ),
-				urlTemplate = new CKEDITOR.template( '<a href="{text}">{text}</a>' ),
+			var urlTemplate = new CKEDITOR.template( '<a href="{text}">{text}</a>' ),
 				emailTemplate = new CKEDITOR.template( '<a href="mailto:{text}">{text}</a>' );
-
-			textwatcher.on( 'matched', onTextMatched );
-
-			textwatcher.attach();
-
-			editor.on( 'destroy', function() {
-				textwatcher.destroy();
-			} );
 
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data.dataValue;
@@ -57,15 +48,14 @@
 			} );
 
 			editor.once( 'instanceReady', function() {
-				editor.editable().on( 'keydown', function( evt ) {
-					var keyCode = evt.data.getKey();
+				var commitKeystrokes = editor.config.autolink_commitKeystrokes || CKEDITOR.config.autolink_commitKeystrokes;
 
-					// Enter
-					if ( keyCode != 13 ) {
+				editor.editable().on( 'keydown', function( evt ) {
+					if ( CKEDITOR.tools.indexOf( commitKeystrokes, evt.data.getKey() ) == -1 ) {
 						return;
 					}
 
-					var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], getMatchCallback() );
+					var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], matchCallback );
 
 					if ( matched ) {
 						insertMatch( matched );
@@ -73,16 +63,12 @@
 				} );
 			} );
 
-			function onTextMatched( evt ) {
+			function insertMatch( match ) {
 				// We don't want to insert a link if selection is already inside another link.
 				if ( editor.getSelection().getRanges()[ 0 ].startContainer.getAscendant( 'a', true ) ) {
 					return;
 				}
 
-				insertMatch( evt.data );
-			}
-
-			function insertMatch( match ) {
 				editor.fire( 'lockSnapshot' );
 
 				editor.getSelection().selectRanges( [ match.range ] );
@@ -112,69 +98,55 @@
 
 			function getHtmlToInsert( text ) {
 				var link = text.replace( doubleQuoteRegex, '%22' ),
-					spaceMatch = text.match( /\s+$/ ),
-					space = '',
-					template;
-
-				// Text could contain following space - we will restore it by appending at the end of a link.
-				if ( spaceMatch ) {
-					space = text.substring( spaceMatch.index ).replace( /\s/g, '&nbsp;' );
-					link = link.substring( 0, spaceMatch.index );
-				}
-
-				template = link.match( CKEDITOR.config.autolink_urlRegex ) ?
+					template = link.match( CKEDITOR.config.autolink_urlRegex ) ?
 					urlTemplate.output( { text: link } )
 					: emailTemplate.output( { text: link } );
 
-				return tryToEncodeLink( template ) + space;
+				return tryToEncodeLink( template );
 			}
 
-			function textTestCallback( range ) {
-				return CKEDITOR.plugins.textMatch.match( range, getMatchCallback( true ) );
-			}
+			function matchCallback( text, offset ) {
+				var query = text.slice( 0, offset ),
+					// Remove empty strings.
+					parts = query.split( /(\s+)/g ),
+					linkText = parts[ parts.length - 1 ];
 
-			function getMatchCallback( spaceRequired ) {
-				return function( text, offset ) {
-					var query = text.slice( 0, offset ),
-						// Remove empty strings.
-						parts = CKEDITOR.tools.array.filter( query.split( /(\s+)/g ), function( part ) {
-							return part;
-						} ),
-						lastIndex = parts.length - 1,
-						linkPart;
+				if ( !linkText ) {
+					return null;
+				}
 
-					if ( spaceRequired ) {
-						// Query should contain at least 2 parts - link and a space.
-						if ( parts.length < 2 ) {
-							return null;
-						}
+				var match = linkText.match( CKEDITOR.config.autolink_urlRegex ) ||
+					linkText.match( CKEDITOR.config.autolink_emailRegex );
 
-						// If the last part is not a space, abort.
-						if ( !parts[ lastIndex ].match( /\s+/ ) ) {
-							return null;
-						}
+				if ( !match ) {
+					return null;
+				}
 
-						linkPart = parts[ lastIndex - 1 ];
-					} else {
-						linkPart = parts[ lastIndex ];
-					}
-
-					if ( !linkPart ) {
-						return null;
-					}
-
-					var match = linkPart.match( CKEDITOR.config.autolink_urlRegex ) ||
-						linkPart.match( CKEDITOR.config.autolink_emailRegex );
-
-					if ( !match ) {
-						return null;
-					}
-
-					return { start: query.indexOf( linkPart ), end: offset };
-				};
+				return { start: query.indexOf( linkText ), end: offset };
 			}
 		}
 	} );
+
+	/**
+	 * The [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin keystrokes used to finish link completion.
+	 *
+	 * ```javascript
+	 * // Default config (13 = enter, 32 = space).
+	 * config.autolink_commitKeystrokes = [ 9, 13 ];
+	 * ```
+	 *
+	 * Commit keystrokes can be also disabled by setting it to an empty array.
+	 *
+	 * ```javascript
+	 * // Disable autolink commit keystrokes.
+	 * config.autolink_commitKeystrokes = [];
+	 * ```
+	 *
+	 * @since 4.10.0
+	 * @cfg {Number/Number[]} [autocomplete_commitKeystrokes=[ 13, 32 ]]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.autolink_commitKeystrokes = [ 13, 32 ];
 
 	/**
 	 * Regex used by [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin to match URL adresses.
