@@ -25,13 +25,13 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			if ( emojiTools.notSupportedEnvironment ) {
 				assert.ignore();
 			}
 		},
 
 		// #2036
-		'test custom emoji list is loadd': function() {
+		'test custom emoji list is load': function() {
 			var editor = this.editors.classic;
 			emojiTools.runAfterInstanceReady( editor, null, function( editor ) {
 				assert.areSame( 1, editor._.emoji.list.length );
@@ -42,7 +42,7 @@
 		'test invalid emoji list': function() {
 			var editor = this.editors.classic2;
 			emojiTools.runAfterInstanceReady( editor, null, function( editor ) {
-				assert.isUndefined( editor._.emoji, 'There are created emoji private data, so emoji was loaded what is wrong for this case.' );
+				assert.isUndefined( editor._.emoji, 'editor._.emoji should not be initialised when invalid emoji file is loaded.' );
 			} );
 		},
 

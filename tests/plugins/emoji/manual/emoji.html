@@ -27,6 +27,9 @@
 </div>
 
 <script>
+	if ( emojiTools.notSupportedEnvironment) {
+		bender.ignore();
+	}
 	CKEDITOR.replace( 'editor1' );
 	CKEDITOR.replace( 'editor2', {
 		extraPlugins: 'divarea'
