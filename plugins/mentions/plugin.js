@@ -189,7 +189,7 @@
 		return function( query, range, callback ) {
 			// We are removing marker here to give clean query result for the endpoint callback.
 			if ( mentions.marker ) {
-				query = query.substring( 1 );
+				query = query.substring( mentions.marker.length );
 			}
 
 			if ( CKEDITOR.tools.array.isArray( feed ) ) {

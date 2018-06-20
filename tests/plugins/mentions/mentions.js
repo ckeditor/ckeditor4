@@ -14,14 +14,6 @@
 		expectedFeedData = [ 'Anna', 'Annabelle' ];
 
 	bender.test( {
-
-		setUp: function() {
-			this.createMentionsInstance = function( config ) {
-				this._mentions = new CKEDITOR.plugins.mentions( this.editor, config );
-				return this._mentions;
-			};
-		},
-
 		tearDown: function() {
 			if ( this._mentions ) {
 				this._mentions.destroy();
@@ -203,6 +195,25 @@
 
 			assert.areSame( 1, ajaxStub.callCount, 'AJAX call count' );
 			sinon.assert.calledWith( ajaxStub, '/controller/method/?query=F%26%2Foo&format=json', sinon.match.any );
+		},
+
+		'test valid URL called for multi char marker': function() {
+			var ajaxStub = sinon.stub( CKEDITOR.ajax, 'load' );
+
+			this.createMentionsInstance( {
+				feed: '/controller/method/{encodedQuery}',
+				marker: '##'
+			} );
+
+			this.editorBot.setHtmlWithSelection( '<p>##MultiMarker^</p>' );
+
+			this.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			this.editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
+
+			ajaxStub.restore();
+
+			assert.areSame( 1, ajaxStub.callCount, 'Call count' );
+			sinon.assert.calledWith( ajaxStub, '/controller/method/MultiMarker' );
 		},
 
 		'test URL feed without match': function() {
@@ -400,6 +411,11 @@
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
 
 			assert.areEqual( '<p><strong>@Anna Doe</strong></p>', editable.getData() );
+		},
+
+		createMentionsInstance: function( config ) {
+			this._mentions = new CKEDITOR.plugins.mentions( this.editor, config );
+			return this._mentions;
 		}
 	} );
 
