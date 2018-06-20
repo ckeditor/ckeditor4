@@ -21,6 +21,7 @@
 			delete model.query;
 			delete model.range;
 			delete model.selectedItemId;
-		}
+		},
+		notSupportEnvironment: CKEDITOR.env.ie && CKEDITOR.env.version < 11
 	};
 } )();

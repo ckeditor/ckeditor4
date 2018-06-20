@@ -13,7 +13,7 @@
 	CKEDITOR.plugins.add( 'emoji', {
 		requires: 'autocomplete,textmatch,ajax',
 		beforeInit: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 				return;
 			}
 			if ( !stylesLoaded ) {
@@ -23,7 +23,6 @@
 		},
 
 		init: function( editor ) {
-
 			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json';
 
 			CKEDITOR.ajax.load( CKEDITOR.getUrl( emojiListUrl ), function( data ) {

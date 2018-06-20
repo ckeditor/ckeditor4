@@ -11,6 +11,9 @@
 </div>
 
 <script>
+	if ( emojiTools.notSupportedEnvironment) {
+		bender.ignore();
+	}
 	CKEDITOR.replace( 'editor1', {
 		emoji_minChars: 0
 	} );
