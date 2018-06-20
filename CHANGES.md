@@ -34,20 +34,20 @@ Other Changes:
 	* Language Dictionaries Updates - Added support of the Uzbek Latin language.
 	* No Longer Supported Languages - Manx - Isle of Man (gv_GB) and Interlingua (ia_XR) languages are no longer available as an additional language.
 	* Extended and Improved Language Dictionaries - Georgian and Swedish languages dictionary has been enlarged. Added missing word _"Ensure"_ to the American/British/Canada English language
-	* Fixed: [#141](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/141) SCAYT plugin for CKEditor: SCAYT throws Uncaught Error: Error in RangyWrappedRange module: createRange(): Parameter must be a Window object or DOM node
-	* Fixed: [#153](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/153) SCAYT plugin for CKEditor: Chrome. Correcting word in widget moves focus to anothereditable
-	* Fixed: [#155](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/155) SCAYT plugin for CKEditor: SCAYT throw an error on IE8 and doesn't work
-	* Fixed: [#156](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/156) SCAYT plugin for CKEditor: SCAYT doesn't seem to work on IE10
-	* Fixed: SCAYT plugin for CKEditor: After some text is drag & dropped, markup is not refreshedfor grammar problems
-	* Fixed: WSC plugin for CKEditor: Request to FastCGI fails when user tries to replace word withnon-English characters with a proper suggestion
+	* Fixed: [#141](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/141) SCAYT: throws Uncaught Error: Error in RangyWrappedRange module: createRange(): Parameter must be a Window object or DOM node
+	* Fixed: [#153](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/153) SCAYT: Chrome. Correcting word in widget moves focus to another editable
+	* Fixed: [#155](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/155) SCAYT: throw an error on IE8 and doesn't work
+	* Fixed: [#156](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/156) SCAYT: doesn't seem to work on IE10
+	* Fixed: SCAYT: After some text is drag & dropped, markup is not refreshed for grammar problems
+	* Fixed: WSC: Request to FastCGI fails when user tries to replace word with non-English characters with a proper suggestion
 	* Fixed: SCAYT Core: CTRL+Z removes focus in FireFox
-	* Enchancments: Grammar Support for Default Languages
-	* Enchancments: New Application Source URL in SCAYT plugin for CKEditor
-	* Enchancments: SCAYT plugin for CKEditor: Settings: Languages: Removed green marks and legend related to grammarsupported languages. At the moment there are not marks as now grammar is supported almost for all thelanguages in the list.
-	* Enchancements: Updated SCAYT User Manual: Updated view of Language Tab and add description about supportedlanguages for grammar functionality.
-	* Fixed: SCAYT & WSC plugin for CKEditor: WSC JS error in console "Cannot read property 'split'of undefined"
+	* Enhancements: Grammar Support for Default Languages
+	* Enhancements: New Application Source URL in SCAYT
+	* Enhancements: SCAYT: Settings: Languages: Removed green marks and legend related to grammar supported languages. At the moment there are not marks as now grammar is supported almost for all thelanguages in the list.
+	* Enhancements: Updated SCAYT User Manual: Updated view of Language Tab and add description about supported languages for grammar functionality.
+	* Fixed: SCAYT & WSC: WSC JS error in console "Cannot read property 'split' of undefined"
 	* Fixed: SCAYT plugin CKEditor: Markup is not set for a specific case in IE10
-	* Fixed: SCAYT plugin for CKEditor: Accessibility issue: No alt tag for Logo image on About tab
+	* Fixed: SCAYT: Accessibility issue: No alt tag for Logo image on About tab
 
 ## CKEditor 4.9.2
 
