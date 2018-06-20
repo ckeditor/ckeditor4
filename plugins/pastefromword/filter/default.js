@@ -630,6 +630,41 @@
 					delete styles[ keys[ i ] ];
 				}
 			}
+			if ( styles[ 'margin-left' ] && styles.margin ) {
+				var margin = styles.margin ? styles.margin.split( ' ' ) : 0,
+					marginLeft = styles[ 'margin-left' ] ? CKEDITOR.tools.convertToPx( styles[ 'margin-left' ] ) : 0;
+
+				margin = CKEDITOR.tools.array.map( margin, function( item ) {
+					return CKEDITOR.tools.convertToPx( item );
+				} );
+
+				switch ( margin.length ) {
+					case 1:
+						margin[ 1 ] = margin [ 2 ] = margin[ 0 ];
+						margin[ 3 ] = marginLeft + margin[ 1 ];
+						break;
+					case 2:
+						margin[ 2 ] = margin[ 0 ];
+						margin[ 3 ] = marginLeft + margin[ 1 ];
+						break;
+					case 3:
+						margin[ 3 ] = marginLeft + margin[ 1 ];
+						break;
+					case 4:
+						margin[ 3 ] = marginLeft + margin[ 3 ];
+				}
+
+				margin = CKEDITOR.tools.array.map( margin, function( item ) {
+					return item + 'px';
+				} );
+
+				styles.margin = margin.join( ' ' );
+				if ( styles[ 'margin-left' ] ) {
+
+					delete styles[ 'margin-left' ];
+				}
+			}
+
 			return CKEDITOR.tools.writeCssText( styles );
 		},
 
