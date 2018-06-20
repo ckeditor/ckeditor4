@@ -57,7 +57,7 @@
 		/**
 		 * Indicates that mentions instance is character case sensitive for simple items feed i.e. array feed.
 		 *
-		 * Note that this will take no effect on feeds using callback or URLs, as in this case results are expected to
+		 * **Note:** this will take no effect on feeds using callback or URLs, as in this case results are expected to
 		 * be already filtered.
 		 *
 		 * @property {Boolean} [caseSensitive=false]
@@ -108,7 +108,7 @@
 
 		/**
 		 * @inheritdoc CKEDITOR.plugins.mentions.configDefinition#throttle
-		 * @property {Number} [throttle]
+		 * @property {Number} [throttle=200]
 		 * @readonly
 		 */
 		this.throttle = config.throttle !== undefined ? config.throttle : 200;
