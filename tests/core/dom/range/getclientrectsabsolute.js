@@ -3,7 +3,6 @@
 /* global waitForImage */
 /* bender-ckeditor-plugins: toolbar */
 
-
 ( function() {
 	'use strict';
 
