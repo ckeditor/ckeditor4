@@ -131,24 +131,28 @@
 
 			var clickFn = CKEDITOR.tools.addFunction( function( event ) {
 				if ( event.target.dataset.ckeEmojiName ) {
-					editor.insertText( ':' + event.target.dataset.ckeEmojiName + ':' );
+					editor.insertText( event.target.dataset.ckeEmojiSymbol );
 				}
 			} );
 
 			var filterFn = CKEDITOR.tools.addFunction( ( function() {
 				var ul;
+				var title;
 				return function( searchElement ) {
 					if ( !ul ) {
-						ul = new CKEDITOR.dom.element( searchElement.ownerDocument.getElementsByClassName( 'cke_emoji_unordered_list' )[ 0 ] );
+						ul = new CKEDITOR.dom.element( searchElement.parentElement.querySelector( '.cke_emoji_unordered_list' ) );
+					}
+					if ( !title ) {
+						title = new CKEDITOR.dom.element( searchElement.parentElement.querySelector( 'h2' ) );
 					}
 					var query = searchElement.value;
 					ul.setHtml( getEmojiList( query, emojiPanelLimit ) );
+					title.setHtml( getSearchTitle( query ) );
 				};
 			} )() );
 
-
 			function getEmojiList( query ) {
-				var emojiTpl = new CKEDITOR.template( '<li data-cke-emoji-name="{id}" title="{id}" class="cke_emoji_item">{symbol}</li>' );
+				var emojiTpl = new CKEDITOR.template( '<li data-cke-emoji-name="{id}" data-cke-emoji-symbol="{symbol}" title="{id}" class="cke_emoji_item">{symbol}</li>' );
 				var output = [];
 				var name;
 				var i;
@@ -185,14 +189,23 @@
 				return output.join( '' );
 			}
 
+			function getSearchTitle( query ) {
+				var output = [];
+				if ( query === '' ) {
+					output.push( lang ? lang.commonEmojiTitle : 'Common emoji:' );
+				} else {
+					output.push( lang ? lang.searchResultTitle : 'Search results:' );
+				}
+				return output.join( '' );
+			}
+
 			function getEmojiBlock() {
 				var output = [];
 				// Search Box:
-				output.push( '<input placeholder="', 'Search emoji...' ,'" type="search" oninput="CKEDITOR.tools.callFunction(', filterFn ,',this)">' );
+				output.push( '<input placeholder="', lang ? lang.searchPlaceholder : 'Search emoji...' ,'" type="search" oninput="CKEDITOR.tools.callFunction(', filterFn ,',this)">' );
 				// Result box:
-				var resultTpl = new CKEDITOR.template( '<h2>{langTitle}</h2>' );
 
-				output.push( resultTpl.output( { langTitle: lang ? lang.resultTitle : 'Search results:' } ) );
+				output.push( '<h2>', getSearchTitle( '' ), '</h2>' );
 
 				output.push( '<div class="cke_emoji_list"><ul class="cke_emoji_unordered_list" onclick="CKEDITOR.tools.callFunction(', clickFn, ',event);return false;">' );
 				output.push( getEmojiList( '' ) );
