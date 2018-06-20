@@ -30,7 +30,7 @@
 			}
 		},
 
-		// #2036
+		// (#2036)
 		'test custom emoji list is load': function() {
 			var editor = this.editors.classic;
 			emojiTools.runAfterInstanceReady( editor, null, function( editor ) {
