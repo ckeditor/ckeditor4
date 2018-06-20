@@ -2,7 +2,7 @@
 
 ### Working with lists
 
-<img style="padding: 8px 0 3px 5px" alt="list toolbar buttons" src="/plugins-dev/custom/images/list-buttons.png"/>
+<img style="padding: 8px 0 3px 5px" alt="list toolbar buttons" src="basePath/plugins/a11yfirsthelp/images/list-buttons.png"/>
 
 Use the toolbar buttons shown above to:
 

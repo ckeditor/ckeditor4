@@ -10,6 +10,15 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
 
   var buttonStyle = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 0';
 
+  var basePathExt = {
+    type: 'lang',
+    regex: /basePath\//g,
+    replace: CKEDITOR.basePath
+  };
+
+  // Register the showdown extension
+  showdown.extension( 'basePath', basePathExt );
+
   var helpTopicKeys = Object.keys( config.a11yFirstHelpTopics ),
       helpOptions = [],
       dialogMenuButtons = [];
@@ -83,7 +92,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
 
       dialogObj = this;
 
-      var converter = new showdown.Converter();
+      var converter = new showdown.Converter({ extensions: [ 'basePath' ] });
 
       for ( var i = 0; i < helpTopicKeys.length; i++ ) {
         key = helpTopicKeys[ i ];
