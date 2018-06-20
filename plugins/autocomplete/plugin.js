@@ -77,17 +77,17 @@
 	 *	}
 	 *
 	 *	// Returns (through its callback) the suggestions for the current query.
-	 *	function dataCallback( query, range, callback ) {
+	 *	function dataCallback( options ) {
 	 *		// Simple search.
 	 *		// Filter the entire items array so only the items that start
 	 *		// with the query remain.
 	 *		var suggestions = itemsArray.filter( function( item ) {
-	 *			return item.name.toLowerCase().indexOf( query.toLowerCase() ) == 0;
+	 *			return item.name.toLowerCase().indexOf( options.query.toLowerCase() ) == 0;
 	 *		} );
 	 *
 	 *		// Note - the callback function can also be executed asynchronously
 	 *		// so dataCallback can do an XHR requests or use any other asynchronous API.
-	 *		callback( suggestions );
+	 *		options.callback( suggestions );
 	 *	}
 	 *
 	 *	// Finally, instantiate the autocomplete class.
@@ -1211,16 +1211,21 @@
 			this.data = null;
 			this.selectedItemId = null;
 
-			this.dataCallback( query, range, function( data ) {
-				// Handle only the response for the most recent setQuery call.
-				if ( requestId == that.lastRequestId ) {
-					// Limit number of items (#2030).
-					if ( that.itemsLimit ) {
-						that.data = data.slice( 0, that.itemsLimit );
-					} else {
-						that.data = data;
+			this.dataCallback( {
+				query: query,
+				range: range,
+				autocomplete: this,
+				callback: function( data ) {
+					// Handle only the response for the most recent setQuery call.
+					if ( requestId == that.lastRequestId ) {
+						// Limit number of items (#2030).
+						if ( that.itemsLimit ) {
+							that.data = data.slice( 0, that.itemsLimit );
+						} else {
+							that.data = data;
+						}
+						that.fire( 'change-data', that.data );
 					}
-					that.fire( 'change-data', that.data );
 				}
 			} );
 			// Note: don't put any code here because the callback passed to
@@ -1310,7 +1315,7 @@
 	}
 
 	/**
-	 * Abstract class describing the definition of a {@link https://ckeditor.com/cke4/addon/autocomplete Autocomplete} plugin configuration.
+	 * Abstract class describing the definition of a [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) plugin configuration.
 	 *
 	 * It lists properties used to define and create autocomplete configuration definition.
 	 *
@@ -1336,28 +1341,23 @@
 	 * ```javascript
 	 *	// Returns (through its callback) the suggestions for the current query.
 	 *	// Note: the itemsArray variable is our example "database".
-	 *	function dataCallback( query, range, callback ) {
+	 *	function dataCallback( options ) {
 	 *		// Simple search.
 	 *		// Filter the entire items array so only the items that start
 	 *		// with the query remain.
 	 *		var suggestions = itemsArray.filter( function( item ) {
-	 *			return item.name.indexOf( query ) === 0;
+	 *			return item.name.indexOf( options.query ) === 0;
 	 *		} );
 	 *
 	 *		// Note - the callback function can also be executed asynchronously
 	 *		// so dataCallback can do an XHR requests or use any other asynchronous API.
-	 *		callback( suggestions );
+	 *		options.callback( suggestions );
 	 *	}
 	 *
 	 * ```
 	 *
 	 * @method dataCallback
-	 * @param {String} query The query string that was accepted by the `textTestCallback`.
-	 * @param {CKEDITOR.dom.range} range The range in the DOM where the query text is.
-	 * @param {Function} callback The callback which should be executed with the matched data.
-	 * @param {CKEDITOR.plugins.autocomplete.model.item[]} callback.data The suggestion data that should be
-	 * displayed in the autocomplete view for a given query. The data items should implement the
-	 * {@link CKEDITOR.plugins.autocomplete.model.item} interface.
+	 * @param {CKEDITOR.plugins.autocomplete.dataCallbackDefinition} dataCallbackDefinition
 	 */
 
 	/**
@@ -1417,5 +1417,45 @@
 	/**
 	 * @inheritdoc CKEDITOR.plugins.autocomplete#outputTemplate
 	 * @property {String} [outputTemplate]
+	 */
+
+	/**
+	 * Abstract class describing the definition of a
+	 *  {@link CKEDITOR.plugins.autocomplete.configDefinition#dataCallback config.dataCallback} arguments.
+	 *
+	 * It lists properties which can be used to produce more adequate suggestion data based on matched query.
+	 *
+	 * @class CKEDITOR.plugins.autocomplete.dataCallbackDefinition
+	 * @abstract
+	 * @since 4.10.0
+	 */
+
+	/**
+	 * The query string that was accepted by the
+	 *  {@link CKEDITOR.plugins.autocomplete.configDefinition#textTestCallback config.textTestCallback}.
+	 *
+	 * @property {String} query
+	 */
+
+	/**
+	 * The range in the DOM indicating the position of the {@link #query}.
+	 *
+	 * @property {CKEDITOR.dom.range} range
+	 */
+
+	/**
+	 * The {@link CKEDITOR.plugins.autocomplete Autocomplete} instance which
+	 *  called {@link CKEDITOR.plugins.autocomplete.configDefinition#dataCallback config.dataCallback}.
+	 *
+	 * @property {CKEDITOR.plugins.autocomplete} autocomplete
+	 */
+
+	/**
+	 * The callback which should be executed with the matched data.
+	 *
+	 * @param {CKEDITOR.plugins.autocomplete.model.item[]} data The suggestion data that should be
+	 * displayed in the autocomplete view for a given query. The data items should implement the
+	 * {@link CKEDITOR.plugins.autocomplete.model.item} interface.
+	 * @property {Function} callback
 	 */
 } )();
