@@ -5,15 +5,16 @@
 1. Focus the editor.
 1. Type `@anna`.
 1. Press enter.
+1. Press space.
 1. Type `@anna` again.
-1. Press enter. 
+1. Press enter.
 1. Check request history log above the editor.
 
 
 ## Expected
 
-History log doesn't contain duplicated URL requests.
+History log doesn't contain duplicated request values.
 
 ## Unexpected
 
-There are duplicated URL requests inside history log.
+There are requests in the history log.
