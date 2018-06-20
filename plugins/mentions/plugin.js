@@ -30,24 +30,24 @@
 	} );
 
 	/**
-	 * Mentions plugin allows you to type marker character and get suggested values for the text matches so that you don't have to write it on your own.
+	 * [Mentions](https://ckeditor.com/cke4/addon/mentions) plugin allows you to type marker character and get suggested values for the text matches
+	 * so that you don't have to write it on your own.
 	 *
-	 * The recommended way to add mentions feature to an editor is by
-	 * using {@link CKEDITOR.config#mentions config.mentions} property or by passing it as the configuration option when instantiating an editor.
+	 * The recommended way to add mentions feature to an editor is by setting {@link CKEDITOR.config#mentions config.mentions} option:
 	 *
 	 * ```javascript
-	 * // Simple usage with CKEDITOR.config.mentions property.
-	 * CKEDITOR.config.mentions = [ { feed: ['Anna', 'Thomas', 'John'], minChars: 0 } ];
-	 *
 	 * // Passing mentions configuration when creating editor.
 	 * CKEDITOR.replace( 'editor', {
 	 * 		mentions: [ { feed: ['Anna', 'Thomas', 'John'], minChars: 0 } ]
 	 * } );
+	 *
+	 * // Simple usage with CKEDITOR.config.mentions property.
+	 * CKEDITOR.config.mentions = [ { feed: ['Anna', 'Thomas', 'John'], minChars: 0 } ];
 	 * ```
 	 *
 	 * @class CKEDITOR.plugins.mentions
 	 * @since 4.10.0
-	 * @constructor Creates the new instance of mentions and attaches it to the editor.
+	 * @constructor Creates a new instance of mentions and attaches it to the editor.
 	 * @param {CKEDITOR.editor} editor The editor to watch.
 	 * @param {CKEDITOR.plugins.mentions.configDefinition} config Configuration object keeping information how to instantiate mentions plugin.
 	 */
