@@ -108,6 +108,8 @@ Use the toolbar buttons to:\n\
 * Increase Indent\n\
 * Decrease Indent\n\
 \n\
+### List properties via context menu\n\
+\n\
 The context menu allows further configuration of list properties such as\n\
 numbering and bullet types by selecting:\n\
 \n\
@@ -201,7 +203,7 @@ Providing an *accessible text description* of an image is straightforward if you
 \n\
 * Using the caption creates a `figcaption` element contained in a `figure` element.  The `figure` element also contains the `img` element.\n\
 \n\
-### Why image properties are important\n\
+### Why image descriptions are important\n\
 \n\
 Adding accessible text descriptions of images is an important part of making web pages accessible to the visually impaired who use assistive devices such as screen readers and magnifiers.\n\
 \n\
