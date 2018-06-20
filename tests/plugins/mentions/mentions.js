@@ -250,7 +250,8 @@
 			var ajaxCallsLeft = 2,
 				callbacksLeft = 2,
 				mentions = this.createMentionsInstance( {
-					feed: '/controller/method/{encodedQuery}'
+					feed: '/controller/method/{encodedQuery}',
+					throttle: 0
 				} ),
 				dataSet = {
 					1: [ { id: 2, name: 'Annabelle' } ],
