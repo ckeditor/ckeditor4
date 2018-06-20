@@ -53,6 +53,8 @@ This plug-in adds a dialog box to CKEditor explaining:
 
 ## Developer Notes
 
+### Adding or Removing Help Topics
+
 To modify the help topics contained in this plug-in, the following steps are
 required:
 
@@ -63,11 +65,18 @@ required:
 * In `dialogs/a11yfirst-help.js`, update the `contents.children.html` string
   to include the necessary `div` elements for the help topics.
 
-* In the `content/en` subdirectory, add a new MarkDown file with content for
-  the new help topic.
+* In the `content/en` subdirectory, add the Markdown files with content for
+  the help topics.
 
 * In `content/en/setLang.js`, update the properties of the object passed to
   the `setLang` function to include all of the help topics.
 
-* Update `content/en/build.sh` to include the processing of the markdown files
+* Update `content/en/build.sh` to include the processing of the Markdown files
   that contain the content for all of the help topics.
+
+### Using the `showdown` converter
+
+A `showdown` extension is defined in `dialogs/a11yfirst-help.js` that allows
+URLs such as image `src` values to be independent of the editor installation
+path. The extension object is named `basePathExt`, and it is registered with
+`showdown` using the name `basePath`.
