@@ -28,10 +28,6 @@
 			// Split Button can be defined with simpler definition via strings, needed by (#2091).
 			if ( typeof face === 'string' ) {
 				face = CKEDITOR.tools.clone( editor.ui.items[ face ] );
-
-				if ( !face.icon ) {
-					face.icon = face.name || face.command;
-				}
 			}
 			face.click = face.click || face.onClick ||  function() {
 				editor.execCommand( face.command, face.commandData );
@@ -117,15 +113,11 @@
 
 			// If no default button was defined then first button will act as default.
 			if ( !defaultButton && !definition[ 'default' ] ) {
-				previousButton = properties.buttons[ item.id ];
+				defaultButton = properties.buttons[ item.id ];
+			} else if ( definition[ 'default' ] && definition[ 'default' ].toLowerCase() === item.name ) {
 				defaultButton = properties.buttons[ item.id ];
 			} else {
-				if ( definition[ 'default' ] && definition[ 'default' ].toLowerCase() === item.name ) {
-					defaultButton && defaultButton.hide();
-					defaultButton = properties.buttons[ item.id ];
-				} else {
-					properties.buttons[ item.id ].hide();
-				}
+				properties.buttons[ item.id ].hide();
 			}
 		}
 		return properties;
