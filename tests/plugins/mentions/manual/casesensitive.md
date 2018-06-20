@@ -5,7 +5,7 @@
 Sad path
 ========
 
-1. Focus an editor.
+1. Focus the editor.
 1. Type `@a`.
 
 ## Expected
