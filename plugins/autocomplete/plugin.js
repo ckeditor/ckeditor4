@@ -509,7 +509,7 @@
 		 */
 		onTextMatched: function( evt ) {
 			this.model.setActive( false );
-			this.model.setQuery( evt.data.text, evt.data.range );
+			this.model.setQuery( evt.data.text, evt.data.range, this );
 		},
 
 		/**
@@ -1200,8 +1200,9 @@
 		 *
 		 * @param {String} query
 		 * @param {CKEDITOR.dom.range} range
+		 * @param {CKEDITOR.plugins.autocomplete} autocomplete
 		 */
-		setQuery: function( query, range ) {
+		setQuery: function( query, range, autocomplete ) {
 			var that = this,
 				requestId = CKEDITOR.tools.getNextId();
 
@@ -1214,7 +1215,7 @@
 			this.dataCallback( {
 				query: query,
 				range: range,
-				autocomplete: this,
+				autocomplete: autocomplete,
 				callback: function( data ) {
 					// Handle only the response for the most recent setQuery call.
 					if ( requestId == that.lastRequestId ) {
@@ -1421,7 +1422,7 @@
 
 	/**
 	 * Abstract class describing the definition of a
-	 *  {@link CKEDITOR.plugins.autocomplete.configDefinition#dataCallback config.dataCallback} arguments.
+	 * {@link CKEDITOR.plugins.autocomplete.configDefinition#dataCallback config.dataCallback} arguments.
 	 *
 	 * It lists properties which can be used to produce more adequate suggestion data based on matched query.
 	 *
@@ -1432,7 +1433,7 @@
 
 	/**
 	 * The query string that was accepted by the
-	 *  {@link CKEDITOR.plugins.autocomplete.configDefinition#textTestCallback config.textTestCallback}.
+	 * {@link CKEDITOR.plugins.autocomplete.configDefinition#textTestCallback config.textTestCallback}.
 	 *
 	 * @property {String} query
 	 */
@@ -1444,8 +1445,7 @@
 	 */
 
 	/**
-	 * The {@link CKEDITOR.plugins.autocomplete Autocomplete} instance which
-	 *  called {@link CKEDITOR.plugins.autocomplete.configDefinition#dataCallback config.dataCallback}.
+	 * The {@link CKEDITOR.plugins.autocomplete Autocomplete} instance.
 	 *
 	 * @property {CKEDITOR.plugins.autocomplete} autocomplete
 	 */
