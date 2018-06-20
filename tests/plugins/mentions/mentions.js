@@ -14,6 +14,12 @@
 		expectedFeedData = [ 'Anna', 'Annabelle' ];
 
 	bender.test( {
+		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+		},
+
 		tearDown: function() {
 			if ( this._mentions ) {
 				this._mentions.destroy();

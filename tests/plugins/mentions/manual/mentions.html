@@ -6,6 +6,10 @@
 
 <script>
 
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+		bender.ignore();
+	}
+
 	var data = [
 			{ id: 1, name: 'john', fullName: 'John Doe' },
 			{ id: 2, name: 'thomas', fullName: 'Thomas Doe' },
