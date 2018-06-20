@@ -445,7 +445,7 @@
 		assert.areEqual( matches.length, items.count(), 'Invalid items count' );
 
 		for ( var i = items.count() - 1; i >= 0; i-- ) {
-			assert.areEqual( mentions.marker + matches[ i ], itemsArray[ i ].getHtml(), 'Match and item html are not equal' );
+			assert.areEqual( mentions.config.marker + matches[ i ], itemsArray[ i ].getHtml(), 'Match and item html are not equal' );
 		}
 	}
 
