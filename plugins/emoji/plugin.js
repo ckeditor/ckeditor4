@@ -3,8 +3,6 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
-/* jshint -W100 */
-
 ( function() {
 	'use strict';
 
@@ -104,19 +102,6 @@
 	} );
 } )();
 
-
-/**
- * Array with names of tags where emoji plugin remain inactive.
- *
- * ```js
- * 	editor.emoji_blacklistedElements = [ 'h1', 'h2' ];
- * ```
- *
- * @since 4.10.0
- * @cfg {String[]} [emoji_blacklistedElements = [ 'pre', 'code' ]]
- * @member CKEDITOR.config
- */
-
 /**
  * Number which defines how many characters is required to start displaying emoji's autocomplete suggestion box.
  * Delimiter `:`, which activates emoji's suggestion box, is not included into this value.
@@ -126,7 +111,7 @@
  * ```
  *
  * @since 4.10.0
- * @cfg {Number} [emoji_minChars = 2]
+ * @cfg {Number} [emoji_minChars=2]
  * @member CKEDITOR.config
  */
 
@@ -157,6 +142,6 @@
  * ```
  *
  * @since 4.10.0
- * @cfg {String} [emoji_emojiListUrl = 'plugins/emoji/emoji.json']
+ * @cfg {String} [emoji_emojiListUrl='plugins/emoji/emoji.json']
  * @member CKEDITOR.config
  */
