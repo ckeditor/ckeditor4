@@ -19,6 +19,7 @@ Fixed Issues:
 * [#1592](https://github.com/ckeditor/ckeditor-dev/issues/1592): [Image Base](https://ckeditor.com/cke4/addon/imagebase) caption is not visible after paste.
 * [#620](https://github.com/ckeditor/ckeditor-dev/issues/620): Fixed: [`forcePasteAsPlainText`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-forcePasteAsPlainText) will be respected when internal and cross-editor pasting happen.
 * [#1467](https://github.com/ckeditor/ckeditor-dev/issues/1467): Fixed: [Table Resize](https://ckeditor.com/cke4/addon/tableresize) resizing coursor appearing in middle of merged cell.
+* [#966](https://github.com/ckeditor/ckeditor-dev/issues/966): Fixed: Executing [`editor.destroy()`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#destroy) during [file upload](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_fileTools_uploadWidgetDefinition.html#onUploading) throws error.
 
 API Changes:
 

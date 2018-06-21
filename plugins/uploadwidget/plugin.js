@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -254,7 +254,8 @@
 				loader.on( 'update', function( evt ) {
 					// Abort if widget was removed.
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
-						if ( !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
+						// Don't continue if the editor has been destroyed (#966).
+						if ( !editor.editable() || !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
 							loader.abort();
 						}
 						evt.removeListener();
@@ -522,7 +523,9 @@
 
 		loader.on( 'abort', function() {
 			task && task.cancel();
-			editor.showNotification( editor.lang.uploadwidget.abort, 'info' );
+			if ( editor.editable() ) {
+				editor.showNotification( editor.lang.uploadwidget.abort, 'info' );
+			}
 		} );
 
 		function createAggregator() {

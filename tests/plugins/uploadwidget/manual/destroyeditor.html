@@ -1,0 +1,20 @@
+<div id="editor"></div>
+<button id="destroyer">Destroy</button>
+
+<script>
+
+	CKEDITOR.replace( 'editor', {
+		imageUploadUrl: 'http://sub.ckeditor.dev/',
+		on: {
+				instanceReady: function( evt ) {
+					if ( !CKEDITOR.fileTools.isFileUploadSupported || bender.tools.env.mobile ) {
+						bender.ignore();
+					}
+
+					CKEDITOR.document.getById( 'destroyer' ).on( 'click', function() {
+						evt.editor.destroy();
+					} );
+				}
+			}
+	} );
+</script>
