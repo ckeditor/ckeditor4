@@ -156,7 +156,8 @@
 			} );
 		},
 
-		'test destroy editor during upload': function() {
+		// (#966)
+		'test uploading with destroyed editor': function() {
 
 			bender.editorBot.create( { name: 'destroy_test', config: { extraPlugins: 'uploadwidget' } }, function( bot ) {
 				var editor = bot.editor;

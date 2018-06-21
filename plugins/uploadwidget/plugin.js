@@ -252,14 +252,10 @@
 					oldStyle, newStyle;
 
 				loader.on( 'update', function( evt ) {
-					// Abort if the editor has been destroyed.
-					if ( widget.editor.status === 'destroyed' ) {
-						return;
-					}
-
 					// Abort if widget was removed.
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
-						if ( !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
+						// Don't continue if the editor has been destroyed (#966).
+						if ( !editor.editable() || !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
 							loader.abort();
 						}
 						evt.removeListener();
@@ -527,7 +523,9 @@
 
 		loader.on( 'abort', function() {
 			task && task.cancel();
-			editor.showNotification( editor.lang.uploadwidget.abort, 'info' );
+			if ( editor.editable() ) {
+				editor.showNotification( editor.lang.uploadwidget.abort, 'info' );
+			}
 		} );
 
 		function createAggregator() {

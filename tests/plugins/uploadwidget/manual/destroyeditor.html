@@ -2,19 +2,18 @@
 <button id="destroyer">Destroy</button>
 
 <script>
+
 	CKEDITOR.replace( 'editor', {
 		imageUploadUrl: 'http://sub.ckeditor.dev/',
 		on: {
 				instanceReady: function( evt ) {
-					var editor = evt.editor;
-
-					document.getElementById( 'destroyer' ).addEventListener( 'click', function() {
-						editor.destroy();
-					} );
-
 					if ( !CKEDITOR.fileTools.isFileUploadSupported || bender.tools.env.mobile ) {
 						bender.ignore();
 					}
+
+					CKEDITOR.document.getById( 'destroyer' ).on( 'click', function() {
+						evt.editor.destroy();
+					} );
 				}
 			}
 	} );
