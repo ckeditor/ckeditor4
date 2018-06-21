@@ -40,9 +40,7 @@
 					charactersToStart = editor.config.emoji_minChars === undefined ? 2 : editor.config.emoji_minChars;
 
 				if ( editor.status !== 'ready' ) {
-					editor.once( 'instanceReady', function() {
-						initPlugin();
-					} );
+					editor.once( 'instanceReady', initPlugin );
 				} else {
 					initPlugin();
 				}
