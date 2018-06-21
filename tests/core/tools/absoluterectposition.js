@@ -10,7 +10,7 @@
 		},
 		classic: {
 			name: 'classic',
-			// Toolbar height affects absolute rects in built classic editor, this should make it consistent.
+			// Toolbar height affects absolute rects in built classic editor, this should make it consistent (#2092).
 			config: {
 				toolbar: [ '' ]
 			}
