@@ -41,8 +41,10 @@
 
 				bot.setHtmlWithSelection( '<p>foo:da^</p>' );
 				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-				assert.isUndefined( autocomplete.model.query );
-				assert.isUndefined( autocomplete.model.data );
+
+				// Asserted data might not be initialised yet or reset to null value with `onTextUnmatch` method.
+				emojiTools.assertIsNullOrUndefined( autocomplete.model.query );
+				emojiTools.assertIsNullOrUndefined( autocomplete.model.data );
 
 				// Handle throttle in autocomplete which by defualt is 20ms;
 				setTimeout( function() {
@@ -111,8 +113,9 @@
 				bot.setHtmlWithSelection( '<p>foo:b^</p>' );
 				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-				assert.isUndefined( autocomplete.model.query );
-				assert.isUndefined( autocomplete.model.data );
+				// Asserted data might not be initialised yet or reset to null value with `onTextUnmatch` method.
+				emojiTools.assertIsNullOrUndefined( autocomplete.model.query );
+				emojiTools.assertIsNullOrUndefined( autocomplete.model.data );
 
 				emojiTools.clearAutocompleteModel( autocomplete );
 				autocomplete.close();

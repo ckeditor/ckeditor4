@@ -22,6 +22,9 @@
 			delete model.range;
 			delete model.selectedItemId;
 		},
+		assertIsNullOrUndefined: function( value ) {
+			assert.isTrue( value === undefined || value === null );
+		},
 		notSupportedEnvironment: CKEDITOR.env.ie && CKEDITOR.env.version < 11
 	};
 } )();
