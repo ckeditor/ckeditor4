@@ -137,9 +137,9 @@
 					expectedRange = 'range',
 					expectedData = getData(),
 
-					model = new CKEDITOR.plugins.autocomplete.model( function( query, range, callback ) {
-						assert.areEqual( expectedQuery, query );
-						assert.areEqual( expectedRange, range );
+					model = new CKEDITOR.plugins.autocomplete.model( function( matchInfo, callback ) {
+						assert.areEqual( expectedQuery, matchInfo.query );
+						assert.areEqual( expectedRange, matchInfo.range );
 						assert.isNull( model.data );
 
 						var spy = sinon.spy( model, 'fire' );
@@ -161,9 +161,9 @@
 				expectedRange = 'range',
 				expectedData = getData(),
 
-				model = new CKEDITOR.plugins.autocomplete.model( function( query, range, callback ) {
-					assert.areEqual( expectedQuery, query );
-					assert.areEqual( expectedRange, range );
+				model = new CKEDITOR.plugins.autocomplete.model( function( matchInfo, callback ) {
+					assert.areEqual( expectedQuery, matchInfo.query );
+					assert.areEqual( expectedRange, matchInfo.range );
 					assert.isNull( model.data );
 
 					var spy = sinon.spy( model, 'fire' );

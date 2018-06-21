@@ -94,7 +94,7 @@
 			var editor = this.editors.standard,
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					textTestCallback: textTestCallback,
-					dataCallback: function( query, range, callback ) {
+					dataCallback: function( matchInfo, callback ) {
 						setTimeout( function() {
 							callback( [ { id: 1, name: 'test' } ] );
 						}, 100 );
@@ -376,7 +376,7 @@
 			var editor = this.editors.standard,
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					textTestCallback: textTestCallback,
-					dataCallback: function( query, range, callback ) {
+					dataCallback: function( matchInfo, callback ) {
 						callback( [ { id: 1, name: 'anna' } ] );
 					},
 					itemTemplate: '<li data-id="{id}"><strong>{name}</strong></li>'
@@ -398,7 +398,7 @@
 				editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					textTestCallback: textTestCallback,
-					dataCallback: function( query, range, callback ) {
+					dataCallback: function( matchInfo, callback ) {
 						callback( [ { id: 1, name: 'anna' } ] );
 					},
 					outputTemplate: '<strong>{name}</strong>'
@@ -471,6 +471,27 @@
 			ac.destroy();
 		},
 
+		// (#2108)
+		'test dataCallback API': function() {
+			var editor = this.editors.standard,
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					textTestCallback: textTestCallback,
+					dataCallback: function( matchInfo, callback ) {
+						assert.areSame( 'text', matchInfo.query, 'matchInfo.query' );
+						assert.isInstanceOf( CKEDITOR.dom.range, matchInfo.range, 'matchInfo.range' );
+						assert.areSame( ac, matchInfo.autocomplete, 'matchInfo.autocomplete' );
+
+						callback( [ { id: 1, name: 'textSample' } ] );
+					}
+				} );
+
+			this.editorBots.standard.setHtmlWithSelection( '<p>text^ bar</p>' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			ac.destroy();
+		},
+
 		// (#2030)
 		'test cycle through limited items': function() {
 			var editor = this.editors.standard,
@@ -505,7 +526,7 @@
 		return { text: 'text', range: selectionRange };
 	}
 
-	function dataCallback( query, range, callback ) {
+	function dataCallback( matchInfo, callback ) {
 		return callback( [ { id: 1, name: 'item1' }, { id: 2, name: 'item2' }, { id: 3, name: 'item3' } ] );
 	}
 

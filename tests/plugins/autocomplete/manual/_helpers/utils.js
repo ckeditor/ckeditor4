@@ -44,9 +44,9 @@
 
 			var dataSource = config.data || DATA;
 
-			return function( query, range, callback ) {
+			return function( matchInfo, callback ) {
 				var data = dataSource.filter( function( item ) {
-					return item.name.indexOf( query.toLowerCase() ) == 0;
+					return item.name.indexOf( matchInfo.query.toLowerCase() ) == 0;
 				} );
 
 				setTimeout( function() {

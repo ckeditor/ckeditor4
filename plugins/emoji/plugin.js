@@ -76,12 +76,12 @@
 					return { start: match.index, end: offset };
 				}
 
-				function dataCallback( query, range, callback ) {
+				function dataCallback( matchInfo, callback ) {
 					var data = CKEDITOR.tools.array.filter( emojiList, function( item ) {
-						return item.id.indexOf( query.slice( 1 ) ) !== -1;
+						return item.id.indexOf( matchInfo.query.slice( 1 ) ) !== -1;
 					} ).sort( function( a, b ) {
 						// Sort at the beginning emoji starts with given query.
-						var emojiName = query.substr( 1 ),
+						var emojiName = matchInfo.query.substr( 1 ),
 							isAStartWithEmojiName = a.id.substr( 1, emojiName.length ) === emojiName,
 							isBStartWithEmojiName = b.id.substr( 1, emojiName.length ) === emojiName;
 
