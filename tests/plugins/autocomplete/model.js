@@ -7,6 +7,13 @@
 	bender.editor = true;
 
 	bender.test( {
+
+		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+		},
+
 		'test model is initialized with correct data': function() {
 			var model = new CKEDITOR.plugins.autocomplete.model( dataCallback );
 			assert.isFalse( model.isActive );

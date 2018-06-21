@@ -29,6 +29,12 @@
 
 	bender.test( {
 
+		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+		},
+
 		'test API exists': function() {
 			assert.isFunction( CKEDITOR.plugins.autocomplete, 'autocomplete' );
 			assert.isFunction( CKEDITOR.plugins.autocomplete.view, 'autocomplete.view' );

@@ -18,7 +18,7 @@
 
 	var tests = {
 		setUp: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 8 ) {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				assert.ignore();
 			}
 		},
