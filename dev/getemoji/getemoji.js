@@ -35,7 +35,7 @@ const path = require( 'path' );
 					symbol
 				} );
 			}
-			fs.writeFile( path.join( process.cwd(), 'emoji-list.json' ), JSON.stringify( ret ), err => {
+			fs.writeFile( path.join( __dirname, '..', '..', 'plugins', 'emoji', 'emoji.json' ), JSON.stringify( ret ), err => {
 				if ( err ) {
 					throw new Error( 'Something went wrong :(' + err );
 				} else {
