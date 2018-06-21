@@ -2,6 +2,26 @@
 
 All notable changes to the A11yFirst project will be documented in this file.
 
+## v0.9.0 — 21 Jun 2018
+
+### Updates
+
+* Reorganize A11yFirst Help topics, which now consist of:
+  * Heading / Paragraph
+  * List
+  * Image
+  * Character Style
+  * Link
+  * Getting Started
+
+* Update some of the Help topic subsection headings for better consistency.
+
+* Modify the way that help topic content is processed for the Help dialog to
+  make it easier to add and remove topics.
+
+* Add a `showdown` extension called `basePath` to allow URLs for help content
+  assets such as images to be independent of CKEditor installation location.
+
 ## v0.8.0 — 16 May 2018
 
 ### Updates
