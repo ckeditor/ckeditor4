@@ -14,13 +14,17 @@ All notable changes to the A11yFirst project will be documented in this file.
   * Link
   * Getting Started
 
+* Display A11yFirst version number at the bottom left of the help dialog.
+
 * Update some of the Help topic subsection headings for better consistency.
 
-* Modify the way that help topic content is processed for the Help dialog to
-  make it easier to add and remove topics.
+* Modify the way that help topic content is processed to make it easier to
+  add and remove topics.
 
 * Add a `showdown` extension called `basePath` to allow URLs for help content
   assets such as images to be independent of CKEditor installation location.
+
+* Tweak the labels for Alignment choices in the Image Properties dialog.
 
 ## v0.8.0 — 16 May 2018
 

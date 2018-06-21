@@ -27,7 +27,7 @@
 1. Test the distribution in the browser:
 
    * All new editor functionality
-   * New version number in A11yFirstHelp > About A11yFirst
+   * New version number in A11yFirstHelp dialog
    * Updates to `CHANGELOG.md`
 
 1. Commit and push the changes: "Initial commit for new distribution"
