@@ -19,6 +19,7 @@ Fixed Issues:
 * [#1592](https://github.com/ckeditor/ckeditor-dev/issues/1592): [Image Base](https://ckeditor.com/cke4/addon/imagebase) caption is not visible after paste.
 * [#620](https://github.com/ckeditor/ckeditor-dev/issues/620): Fixed: [`forcePasteAsPlainText`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-forcePasteAsPlainText) will be respected when internal and cross-editor pasting happen.
 * [#1467](https://github.com/ckeditor/ckeditor-dev/issues/1467): Fixed: [Table Resize](https://ckeditor.com/cke4/addon/tableresize) resizing coursor appearing in middle of merged cell.
+* [#966](https://github.com/ckeditor/ckeditor-dev/issues/966): Fixed: Executing [`editor.destroy()`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#destroy) during [file upload](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_fileTools_uploadWidgetDefinition.html#onUploading) throws error.
 
 API Changes:
 
@@ -100,7 +101,6 @@ Fixed Issues:
 * [#1516](https://github.com/ckeditor/ckeditor-dev/issues/1516): Fixed: Fake selection allows removing content in read-only mode using the <kbd>Backspace</kbd> and <kbd>Delete</kbd> keys.
 * [#1570](https://github.com/ckeditor/ckeditor-dev/issues/1570): Fixed: Fake selection allows cutting content in read-only mode using the <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>X</kbd> keys.
 * [#1363](https://github.com/ckeditor/ckeditor-dev/issues/1363): Fixed: Paste notification is unclear and it might confuse users.
-* [#966](https://github.com/ckeditor/ckeditor-dev/issues/966): Fixed: Executing [`editor.destroy()`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#destroy) during [file upload](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_fileTools_uploadWidgetDefinition.html#onUploading) throws error.
 
 API Changes:
 
