@@ -44,13 +44,13 @@
 
 			var dataSource = config.data || DATA;
 
-			return function( options ) {
+			return function( matchInfo, callback ) {
 				var data = dataSource.filter( function( item ) {
-					return item.name.indexOf( options.query.toLowerCase() ) == 0;
+					return item.name.indexOf( matchInfo.query.toLowerCase() ) == 0;
 				} );
 
 				setTimeout( function() {
-					options.callback( data );
+					callback( data );
 				}, config.async || 0 );
 			};
 		}

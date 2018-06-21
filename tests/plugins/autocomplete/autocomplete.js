@@ -94,9 +94,9 @@
 			var editor = this.editors.standard,
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					textTestCallback: textTestCallback,
-					dataCallback: function( options ) {
+					dataCallback: function( matchInfo, callback ) {
 						setTimeout( function() {
-							options.callback( [ { id: 1, name: 'test' } ] );
+							callback( [ { id: 1, name: 'test' } ] );
 						}, 100 );
 					}
 				} );
@@ -376,8 +376,8 @@
 			var editor = this.editors.standard,
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					textTestCallback: textTestCallback,
-					dataCallback: function( options ) {
-						options.callback( [ { id: 1, name: 'anna' } ] );
+					dataCallback: function( matchInfo, callback ) {
+						callback( [ { id: 1, name: 'anna' } ] );
 					},
 					itemTemplate: '<li data-id="{id}"><strong>{name}</strong></li>'
 				} );
@@ -398,8 +398,8 @@
 				editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					textTestCallback: textTestCallback,
-					dataCallback: function( options ) {
-						options.callback( [ { id: 1, name: 'anna' } ] );
+					dataCallback: function( matchInfo, callback ) {
+						callback( [ { id: 1, name: 'anna' } ] );
 					},
 					outputTemplate: '<strong>{name}</strong>'
 				} );
@@ -476,12 +476,12 @@
 			var editor = this.editors.standard,
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					textTestCallback: textTestCallback,
-					dataCallback: function( options ) {
-						assert.areSame( 'text', options.query, 'options.query' );
-						assert.isInstanceOf( CKEDITOR.dom.range, options.range, 'options.range' );
-						assert.areSame( ac, options.autocomplete, 'options.autocomplete' );
+					dataCallback: function( matchInfo, callback ) {
+						assert.areSame( 'text', matchInfo.query, 'matchInfo.query' );
+						assert.isInstanceOf( CKEDITOR.dom.range, matchInfo.range, 'matchInfo.range' );
+						assert.areSame( ac, matchInfo.autocomplete, 'matchInfo.autocomplete' );
 
-						options.callback( [ { id: 1, name: 'textSample' } ] );
+						callback( [ { id: 1, name: 'textSample' } ] );
 					}
 				} );
 
@@ -526,8 +526,8 @@
 		return { text: 'text', range: selectionRange };
 	}
 
-	function dataCallback( options ) {
-		return options.callback( [ { id: 1, name: 'item1' }, { id: 2, name: 'item2' }, { id: 3, name: 'item3' } ] );
+	function dataCallback( matchInfo, callback ) {
+		return callback( [ { id: 1, name: 'item1' }, { id: 2, name: 'item2' }, { id: 3, name: 'item3' } ] );
 	}
 
 } )();
