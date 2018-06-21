@@ -52,6 +52,7 @@
 						assert.areSame( ':dagg', autocomplete.model.query, 'Model keeps wrong querry.' );
 						assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
 						objectAssert.areEqual( { id: ':dagger:', symbol: '🗡' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+						autocomplete.close();
 					} );
 				}, 50 );
 				wait();
@@ -100,6 +101,7 @@
 				objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
 
 				emojiTools.clearAutocompleteModel( autocomplete );
+				autocomplete.close();
 			} );
 		},
 
@@ -113,6 +115,8 @@
 				assert.isUndefined( autocomplete.model.data );
 
 				emojiTools.clearAutocompleteModel( autocomplete );
+				autocomplete.close();
+
 			} );
 		}
 
