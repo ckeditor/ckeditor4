@@ -178,7 +178,9 @@
 				assert.areSame( 'easyimage', widgets[ 1 ].name, 'Widget 1 type' );
 				assert.areSame( bender.tools.pngBase64, widgets[ 1 ].parts.image.getAttribute( 'src' ), 'Image 1 src attribute' );
 
-				assert.beautified.html( CKEDITOR.document.getById( 'expected-multiple-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
+				waitForImage( editor.editable().findOne( 'img' ), function() {
+					assert.beautified.html( CKEDITOR.document.getById( 'expected-multiple-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
+				} );
 			},
 
 			// #1529
@@ -213,7 +215,9 @@
 
 				assert.areSame( 1, widgets.length, 'Widget count' );
 
-				assert.beautified.html( CKEDITOR.document.getById( 'expected-mixed-content' ).getHtml(), editor.getData(), 'Editor data' );
+				waitForImage( editor.editable().findOne( 'img' ), function() {
+					assert.beautified.html( CKEDITOR.document.getById( 'expected-mixed-content' ).getHtml(), editor.getData(), 'Editor data' );
+				} );
 			},
 
 			'test pasting mixed HTML content image inline': function() {
@@ -227,7 +231,9 @@
 
 				assert.areSame( 1, widgets.length, 'Widget count' );
 
-				assert.beautified.html( CKEDITOR.document.getById( 'expected-mixed-content-inline-img' ).getHtml(), editor.getData(), 'Editor data' );
+				waitForImage( editor.editable().findOne( 'img' ), function() {
+					assert.beautified.html( CKEDITOR.document.getById( 'expected-mixed-content-inline-img' ).getHtml(), editor.getData(), 'Editor data' );
+				} );
 			},
 
 			'test downcast does not include progress bar': function() {
