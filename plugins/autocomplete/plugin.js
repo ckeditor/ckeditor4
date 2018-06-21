@@ -368,7 +368,7 @@
 		 * initializing the autocomplete and can be overwritten in order to
 		 * return an instance of a different class than the default model.
 		 *
-		 * @param {Function} dataCallback See {@link CKEDITOR.plugins.autocomplete} arguments.
+		 * @param {Function} dataCallback See {@link CKEDITOR.plugins.autocomplete.configDefinition#dataCallback configDefinition.dataCallback}.
 		 * @returns {CKEDITOR.plugins.autocomplete.model} The model instance.
 		 */
 		getModel: function( dataCallback ) {
@@ -376,6 +376,7 @@
 
 			return new Model( function( matchInfo, callback ) {
 				return dataCallback.call( this, CKEDITOR.tools.extend( {
+					// Make sure autocomplete instance is available in the callback (#2108).
 					autocomplete: that
 				}, matchInfo ), callback );
 			} );
@@ -1431,10 +1432,7 @@
 	 */
 
 	/**
-	 * Abstract class describing the definition of a
-	 * {@link CKEDITOR.plugins.autocomplete.configDefinition#dataCallback config.dataCallback} arguments.
-	 *
-	 * It lists properties which can be used to produce more adequate suggestion data based on matched query.
+	 * Abstract class describing set of properties which can be used to produce more adequate suggestion data based on matched query.
 	 *
 	 * @class CKEDITOR.plugins.autocomplete.matchInfo
 	 * @abstract
@@ -1455,7 +1453,7 @@
 	 */
 
 	/**
-	 * The {@link CKEDITOR.plugins.autocomplete Autocomplete} instance.
+	 * The {@link CKEDITOR.plugins.autocomplete Autocomplete} instance that matched the query.
 	 *
 	 * @property {CKEDITOR.plugins.autocomplete} autocomplete
 	 */
