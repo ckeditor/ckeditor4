@@ -186,7 +186,9 @@
 	}
 
 	function getDataCallback( feed, mentions ) {
-		return function( query, range, callback ) {
+		return function( matchInfo, callback ) {
+			var query = matchInfo.query;
+
 			// We are removing marker here to give clean query result for the endpoint callback.
 			if ( mentions.marker ) {
 				query = query.substring( mentions.marker.length );
