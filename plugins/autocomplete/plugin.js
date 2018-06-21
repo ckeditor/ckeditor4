@@ -693,7 +693,7 @@
 		 * @returns {CKEDITOR.dom.element}
 		 */
 		createElement: function() {
-			var el = new CKEDITOR.dom.element( 'ul', this.document );
+			var el = CKEDITOR.dom.element.createFromHtml( '<ul onselectstart="return false;"></ul>' );
 
 			el.addClass( 'cke_autocomplete_panel' );
 			// Below float panels and context menu, but above maximized editor (-5).
