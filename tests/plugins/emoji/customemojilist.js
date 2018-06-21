@@ -49,7 +49,7 @@
 		'test long ajax loading': function() {
 			var server = sinon.fakeServer.create();
 
-			server.respondWith( 'GET', 'http://random.url', [ 200, { 'Content-Type': 'application/json' }, '[{"id":":bug:","symbol":"🐛"}]' ] );
+			server.respondWith( 'GET', /^http:\/\/random\.url(?:\/?\?.*)?$/, [ 200, { 'Content-Type': 'application/json' }, '[{"id":":bug:","symbol":"🐛"}]' ] );
 
 			bender.editorBot.create( {
 				name: 'created1',
