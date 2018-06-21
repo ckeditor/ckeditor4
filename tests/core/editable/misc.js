@@ -84,6 +84,8 @@ bender.test( {
 			var editor = bot.editor,
 				img = editor.editable().findOne( 'img' );
 
+			// For some reason Edge 42+ needs focus (#2129).
+			editor.focus();
 			editor.getSelection().selectElement( editor.editable().findOne( 'p' ) );
 
 			editor.editable().fire( 'mousedown', new CKEDITOR.dom.event( {
