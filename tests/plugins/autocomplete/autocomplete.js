@@ -471,6 +471,27 @@
 			ac.destroy();
 		},
 
+		// (#2108)
+		'test dataCallback API': function() {
+			var editor = this.editors.standard,
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					textTestCallback: textTestCallback,
+					dataCallback: function( options ) {
+						assert.areSame( 'text', options.query, 'options.query' );
+						assert.isInstanceOf( CKEDITOR.dom.range, options.range, 'options.range' );
+						assert.areSame( ac, options.autocomplete, 'options.autocomplete' );
+
+						options.callback( [ { id: 1, name: 'textSample' } ] );
+					}
+				} );
+
+			this.editorBots.standard.setHtmlWithSelection( '<p>text^ bar</p>' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			ac.destroy();
+		},
+
 		// (#2030)
 		'test cycle through limited items': function() {
 			var editor = this.editors.standard,
