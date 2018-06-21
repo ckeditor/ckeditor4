@@ -372,7 +372,13 @@
 		 * @returns {CKEDITOR.plugins.autocomplete.model} The model instance.
 		 */
 		getModel: function( dataCallback ) {
-			return new Model( dataCallback );
+			var that = this;
+
+			return new Model( function( options ) {
+				return dataCallback.call( this, CKEDITOR.tools.extend( {
+					autocomplete: that
+				}, options ) );
+			} );
 		},
 
 		/**
@@ -509,7 +515,7 @@
 		 */
 		onTextMatched: function( evt ) {
 			this.model.setActive( false );
-			this.model.setQuery( evt.data.text, evt.data.range, this );
+			this.model.setQuery( evt.data.text, evt.data.range );
 		},
 
 		/**
@@ -1200,9 +1206,8 @@
 		 *
 		 * @param {String} query
 		 * @param {CKEDITOR.dom.range} range
-		 * @param {CKEDITOR.plugins.autocomplete} autocomplete
 		 */
-		setQuery: function( query, range, autocomplete ) {
+		setQuery: function( query, range ) {
 			var that = this,
 				requestId = CKEDITOR.tools.getNextId();
 
@@ -1215,7 +1220,6 @@
 			this.dataCallback( {
 				query: query,
 				range: range,
-				autocomplete: autocomplete,
 				callback: function( data ) {
 					// Handle only the response for the most recent setQuery call.
 					if ( requestId == that.lastRequestId ) {
