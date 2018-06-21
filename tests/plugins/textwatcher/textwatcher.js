@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: textwatcher */
+/* bender-ckeditor-plugins: textwatcher,undo */
 
 ( function() {
 	'use strict';
@@ -28,7 +28,7 @@
 			editor.fire( 'setData', new CKEDITOR.dom.event( {} ) );
 			assert.isFalse( unmatchSpy.called, 'Unmatch called on setData' );
 
-			editor.fire( 'afterCommandExec', new CKEDITOR.dom.event( {} ) );
+			editor.fire( 'afterCommandExec', { command: new CKEDITOR.command( editor, {} ) } );
 			assert.isFalse( unmatchSpy.called, 'Unmatch called on afterCommandExec' );
 
 			assert.areEqual( 0, textwatcher._listeners.length, 'Listeners has not been emptied' );
@@ -47,7 +47,7 @@
 			var editor = this.editor,
 				spy = sinon.spy( attachTextWatcher( editor ), 'unmatch' );
 
-			editor.fire( 'afterCommandExec' );
+			editor.fire( 'afterCommandExec', { command: new CKEDITOR.command( editor, {} ) } );
 
 			assert.isTrue( spy.calledOnce );
 		},
