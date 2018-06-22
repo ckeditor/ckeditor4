@@ -7,17 +7,20 @@
 	bender.editors = {
 		standard: {
 			config: {
-				allowedContent: 'strong'
+				allowedContent: 'strong',
+				removePlugins: 'tab'
 			}
 		},
 		arrayKeystrokes: {
 			config: {
-				autocomplete_commitKeystrokes: [ 16 ] // SHIFT
+				autocomplete_commitKeystrokes: [ 16 ], // SHIFT
+				removePlugins: 'tab'
 			}
 		},
 		singleKeystroke: {
 			config: {
-				autocomplete_commitKeystrokes: 16 // SHIFT
+				autocomplete_commitKeystrokes: 16, // SHIFT
+				removePlugins: 'tab'
 			}
 		}
 	};
@@ -232,8 +235,6 @@
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 9 } ) ); // TAB
 			assert.areEqual( '', editor.getData(), 'Tab caused insertion' );
 
-			// Model may be deactivated by the previous keydown.
-			ac.model.isActive = true;
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 16 } ) ); // SHIFT
 
 			assert.areEqual( '<p>item1</p>', editor.getData() );
@@ -253,8 +254,6 @@
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 9 } ) ); // TAB
 			assert.areEqual( '', editor.getData(), 'Tab caused insertion' );
 
-			// Model may be deactivated by the previous keydown.
-			ac.model.isActive = true;
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 16 } ) ); // SHIFT
 
 			assert.areEqual( '<p>item1</p>', editor.getData() );
@@ -274,8 +273,6 @@
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 9 } ) ); // TAB
 			assert.areEqual( '', editor.getData(), 'Tab caused insertion' );
 
-			// Model may be deactivated by the previous keydown.
-			ac.model.isActive = true;
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 16 } ) ); // SHIFT
 
 			assert.areEqual( '<p>item1</p>', editor.getData() );
