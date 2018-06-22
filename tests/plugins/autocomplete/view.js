@@ -88,9 +88,11 @@
 
 			var rect = getCaretRect( this.editors.inline, { top: 2, height: 3, left: 4 }, { y: 2, x: 4 } );
 
-			assert.areEqual( 7, rect.bottom );
-			assert.areEqual( 8, rect.left );
-			assert.areEqual( 4, rect.top );
+			// Firefox in some circumstances (e.g. non-visible element) tends to return _too precise_
+			// result that should be rounded to the nearest integer (#2141).
+			assert.areEqual( 7, Math.ceil( rect.bottom ) );
+			assert.areEqual( 8, Math.ceil( rect.left ) );
+			assert.areEqual( 4, Math.ceil( rect.top ) );
 		},
 
 		'test get caret rect with repositioned offset host (classic)': function() {
@@ -120,9 +122,11 @@
 
 			var rect = getCaretRect( this.editors.inline, { top: 10, height: 5, left: 10 }, { y: 2, x: 4 } );
 
-			assert.areEqual( 7, rect.bottom );
-			assert.areEqual( 4, rect.left );
-			assert.areEqual( 2, rect.top );
+			// Firefox in some circumstances (e.g. non-visible element) tends to return _too precise_
+			// result that should be rounded to the nearest integer (#2141).
+			assert.areEqual( 7, Math.ceil( rect.bottom ) );
+			assert.areEqual( 4, Math.ceil( rect.left ) );
+			assert.areEqual( 2, Math.ceil( rect.top ) );
 		},
 
 		'test is item element': function() {
