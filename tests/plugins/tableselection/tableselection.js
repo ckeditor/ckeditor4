@@ -155,5 +155,10 @@
 
 	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
 
+	// Ignores for Edge (#1944).
+	var shouldIgnore = !tableSelectionHelpers.isSupportedEnvironment || CKEDITOR.env.edge;
+	tests._should.ignore[ 'test simulating merge cells from context menu  (classic)' ] = shouldIgnore;
+	tests._should.ignore[ 'test simulating merge cells from context menu  (inline)' ] = shouldIgnore;
+
 	bender.test( tests );
 } )();

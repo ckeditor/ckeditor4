@@ -1106,5 +1106,10 @@
 
 	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
 
+	// Ignores for Edge (#1944).
+	var shouldIgnore = !tableSelectionHelpers.isSupportedEnvironment || CKEDITOR.env.edge;
+	tests._should.ignore[ 'Make fake table selection' ] = shouldIgnore;
+	tests._should.ignore[ 'Reset fake-selection' ] = shouldIgnore;
+
 	bender.test( tests );
 }() );
