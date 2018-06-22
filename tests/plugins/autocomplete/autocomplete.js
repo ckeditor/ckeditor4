@@ -7,17 +7,20 @@
 	bender.editors = {
 		standard: {
 			config: {
-				allowedContent: 'strong'
+				allowedContent: 'strong',
+				removePlugins: 'tab'
 			}
 		},
 		arrayKeystrokes: {
 			config: {
-				autocomplete_commitKeystrokes: [ 16 ] // SHIFT
+				autocomplete_commitKeystrokes: [ 16 ], // SHIFT
+				removePlugins: 'tab'
 			}
 		},
 		singleKeystroke: {
 			config: {
-				autocomplete_commitKeystrokes: 16 // SHIFT
+				autocomplete_commitKeystrokes: 16, // SHIFT
+				removePlugins: 'tab'
 			}
 		}
 	};
@@ -427,8 +430,9 @@
 				// Remove document position offset so it won't broke dashboard test (#2051).
 				getDocumentPositionStub = sinon.stub( CKEDITOR.dom.element.prototype, 'getDocumentPosition' )
 					.returns( { x: 0, y: 0 } ),
+				editorViewportRectStub = sinon.stub( CKEDITOR.dom.element.prototype, 'getClientRect' )
+					.returns( { top: 0, bottom: 200 } ),
 				lastRangeRect = { left: 10, top: 10, height: 10 },
-				offset = 3,
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					textTestCallback: function() {
 						var range = editor.createRange(),
@@ -446,16 +450,10 @@
 			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 			getDocumentPositionStub.restore();
+			editorViewportRectStub.restore();
 
-			assert.isNumberInRange( ac.view.element.getSize( 'left' ),
-				lastRangeRect.left - offset,
-				lastRangeRect.left + offset,
-				'Horizontal position.' );
-
-			assert.isNumberInRange( ac.view.element.getSize( 'top' ),
-				lastRangeRect.top + lastRangeRect.height - offset,
-				lastRangeRect.top + lastRangeRect.height + offset,
-				'Vertical position.' );
+			assert.areEqual( 10, ac.view.element.getSize( 'left' ), 'Horizontal position' );
+			assert.areEqual( 20, ac.view.element.getSize( 'top' ), 'Vertical position' );
 
 			ac.destroy();
 		},
