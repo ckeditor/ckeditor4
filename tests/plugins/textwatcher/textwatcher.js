@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: textwatcher,undo */
+/* bender-ckeditor-plugins: textwatcher */
 
 ( function() {
 	'use strict';

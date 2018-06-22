@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: autocomplete, toolbar, basicstyles */
+/* bender-ckeditor-plugins: autocomplete */
 
 ( function() {
 	'use strict';
