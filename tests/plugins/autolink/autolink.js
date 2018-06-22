@@ -1,7 +1,7 @@
 'use strict';
 
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: autolink,clipboard */
+/* bender-ckeditor-plugins: autolink,clipboard,link */
 /* bender-include: ../clipboard/_helpers/pasting.js */
 /* global assertPasteEvent */
 
@@ -9,23 +9,22 @@ bender.editors = {
 	classic: {
 		config: {
 			allowedContent: true,
-			pasteFilter: null
+			pasteFilter: null,
+			removePlugins: 'link'
 		}
 	},
 	encodedDefault: {
 		config: {
 			allowedContent: true,
 			pasteFilter: null,
-			emailProtection: 'encode',
-			extraPlugins: 'link'
+			emailProtection: 'encode'
 		}
 	},
 	encodedCustom: {
 		config: {
 			allowedContent: true,
 			pasteFilter: null,
-			emailProtection: 'mt(NAME,DOMAIN,SUBJECT,BODY)',
-			extraPlugins: 'link'
+			emailProtection: 'mt(NAME,DOMAIN,SUBJECT,BODY)'
 		}
 	}
 };
