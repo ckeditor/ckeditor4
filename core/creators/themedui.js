@@ -541,13 +541,13 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  */
 
 /**
- * Fired when UI space is created. Event allows to modify top bar or bottom bar with additional html.
+ * Fired when the UI space is created. This event allows to modify the top bar or the bottom bar with additional HTML.
  *
- * For example it's used in the [Editor Resize plugin](https://ckeditor.com/cke4/addon/resize)
- * to add HTML element used to resize the editor.
+ * For example, it is used in the [Editor Resize](https://ckeditor.com/cke4/addon/resize) plugin
+ * to add the HTML element used to resize the editor.
  *
  * @event uiSpace
  * @param {Object} data
- * @param {String} data.space Name of {@link CKEDITOR.ui#space space} for which the event is fired.
- * @param {String} data.html HTML string which will be included to given space.
+ * @param {String} data.space The name of the {@link CKEDITOR.ui#space space} for which the event is fired.
+ * @param {String} data.html HTML string which will be included in the given space.
  */

@@ -746,7 +746,7 @@
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 		/**
 		 * Adds a command definition to the editor instance. Commands added with
-		 * this function can be executed later with the <code>{@link #execCommand}</code> method.
+		 * this function can be executed later with the {@link #execCommand} method.
 		 *
 		 * 		editorInstance.addCommand( 'sample', {
 		 * 			exec: function( editor ) {
@@ -754,10 +754,10 @@
 		 * 			}
 		 * 		} );
 		 *
-		 * Since 4.10.0 this method also accepts `CKEDITOR.command` instance as param.
+		 * Since 4.10.0 this method also accepts a {@link CKEDITOR.command} instance as a parameter.
 		 *
 		 * @param {String} commandName The indentifier name of the command.
-		 * @param {CKEDITOR.commandDefinition/CKEDITOR.command} commandDefinition The command definition or the command instance.
+		 * @param {CKEDITOR.commandDefinition/CKEDITOR.command} commandDefinition The command definition or a `CKEDITOR.command` instance.
 		 */
 		addCommand: function( commandName, commandDefinition ) {
 			commandDefinition.name = commandName.toLowerCase();

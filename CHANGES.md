@@ -5,18 +5,18 @@
 
 New Features:
 
-* [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin supports email links.
+* [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin now supports email links.
 * [#1751](https://github.com/ckeditor/ckeditor-dev/issues/1751): Introduced [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) plugin.
 * [#1703](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduced [Mentions](https://ckeditor.com/cke4/addon/mentions) plugin.
 * [#1746](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduce [Emoji](https://ckeditor.com/cke4/addon/emoji) plugin.
 
 Fixed Issues:
 
-* [#1458](https://github.com/ckeditor/ckeditor-dev/issues/1458): [Edge] Fixed: After blurring editor it takes 2 clicks to focus a widget.
-* [#1034](https://github.com/ckeditor/ckeditor-dev/issues/1034): Fixed: JAWS leaves forms mode after pressing <kbd>Enter</kbd> key in an inline CKEditor instance.
+* [#1458](https://github.com/ckeditor/ckeditor-dev/issues/1458): [Edge] Fixed: After blurring the editor it takes 2 clicks to focus a widget.
+* [#1034](https://github.com/ckeditor/ckeditor-dev/issues/1034): Fixed: JAWS leaves forms mode after pressing the <kbd>Enter</kbd> key in an inline editor instance.
 * [#1748](https://github.com/ckeditor/ckeditor-dev/pull/1748): Fixed: Added missing [`CKEDITOR.dialog.definition.onHide`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_dialog_definition.html#property-onHide) API documentation. Thanks to [sunnyone](https://github.com/sunnyone)!
-* [#1321](https://github.com/ckeditor/ckeditor-dev/issues/1321): Ideographic space character `\u3000` is lost when pasting text.
-* [#1776](https://github.com/ckeditor/ckeditor-dev/issues/1776): [Image Base](https://ckeditor.com/cke4/addon/imagebase) empty caption placeholder is not hidden when blurred.
+* [#1321](https://github.com/ckeditor/ckeditor-dev/issues/1321): Ideographic space character (`\u3000`) is lost when pasting text.
+* [#1776](https://github.com/ckeditor/ckeditor-dev/issues/1776): Empty caption placeholder of the [Image Base](https://ckeditor.com/cke4/addon/imagebase) plugin is not hidden when blurred.
 * [#1592](https://github.com/ckeditor/ckeditor-dev/issues/1592): [Image Base](https://ckeditor.com/cke4/addon/imagebase) caption is not visible after paste.
 * [#620](https://github.com/ckeditor/ckeditor-dev/issues/620): Fixed: [`forcePasteAsPlainText`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-forcePasteAsPlainText) will be respected when internal and cross-editor pasting happen.
 * [#1467](https://github.com/ckeditor/ckeditor-dev/issues/1467): Fixed: [Table Resize](https://ckeditor.com/cke4/addon/tableresize) resizing coursor appearing in middle of merged cell.
@@ -24,8 +24,8 @@ Fixed Issues:
 API Changes:
 
 * [#850](https://github.com/ckeditor/ckeditor-dev/issues/850): Backward incompatibility: Replaced `replace` dialog from [Find / Replace](https://ckeditor.com/cke4/addon/find) plugin with `tabId` option in `find` command.
-* [#1582](https://github.com/ckeditor/ckeditor-dev/issues/1582): The [`CKEDITOR.editor.addCommand`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#method-addCommand) can accept [`CKEDITOR.command`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_command.html) instance as parameter.
-* [#1712](https://github.com/ckeditor/ckeditor-dev/issues/1712): [`extraPlugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-extraPlugins), [`removePlugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removePlugins) and [`plugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-plugins) configuration options allow whitespace.
+* [#1582](https://github.com/ckeditor/ckeditor-dev/issues/1582): The [`CKEDITOR.editor.addCommand`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#method-addCommand) method can now accept a [`CKEDITOR.command`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_command.html) instance as a parameter.
+* [#1712](https://github.com/ckeditor/ckeditor-dev/issues/1712): The [`extraPlugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-extraPlugins), [`removePlugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removePlugins) and [`plugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-plugins) configuration options now allow whitespace.
 * [#1802](https://github.com/ckeditor/ckeditor-dev/issues/1802): [`extraPlugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-extraPlugins), [`removePlugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removePlugins) and [`plugins`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-plugins) configuration options allow passing plugins names as array.
 * [#1724](https://github.com/ckeditor/ckeditor-dev/issues/1724): Added option to [`getClientRect`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_dom_element.html#method-getClientRect) function allowing to retrieve an absolute bounding rectangle of the element i.e. position relative to the upper-left corner of the topmost viewport.
 * [#1498](https://github.com/ckeditor/ckeditor-dev/issues/1498) : Added new method 'getClientRects()' to CKEDITOR.dom.range, which returns list of rects for each selected element.
