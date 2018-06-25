@@ -1,6 +1,10 @@
 <div id="editor"></div>
 
 <script>
+	if ( !CKEDITOR.env.webkit ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor', {
 		on: {
 			instanceReady: function( evt ) {
