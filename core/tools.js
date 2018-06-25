@@ -2249,13 +2249,13 @@
 		},
 
 		/**
-		 * Converts relative positions inside DOMRect into absolute ones using given window as context.
-		 * By absolute means in relation to upper-left corner of topmost viewport.
+		 * Converts relative positions inside a DOM rectangle into absolute ones using the given window as context.
+		 * "Absolute" here means in relation to the upper-left corner of the topmost viewport.
 		 *
 		 * @since 4.10.0
-		 * @param { CKEDITOR.dom.window } window Window containing element for which rect is passed.
-		 * @param { CKEDITOR.dom.rect } rect Rect with relative position.
-		 * @returns { CKEDITOR.dom.rect } Rect with absolute position.
+		 * @param { CKEDITOR.dom.window } window The window containing an element for which the rectangle is passed.
+		 * @param { CKEDITOR.dom.rect } rect A rectangle with a relative position.
+		 * @returns { CKEDITOR.dom.rect } A rectangle with an absolute position.
 		 */
 		getAbsoluteRectPosition: function( window, rect ) {
 			var newRect = CKEDITOR.tools.copy( rect );

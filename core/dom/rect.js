@@ -5,13 +5,13 @@
 
 /**
  * @fileOverview Defines the "virtual" {@link CKEDITOR.dom.rect} class
- * which contains the definition of an element's DOM rectangle. This file is for
+ * that contains the definition of the element's DOM rectangle. This file is for
  * documentation purposes only.
  */
 
 /**
  * Virtual class that illustrates the {@link CKEDITOR.dom.element} DOM rectangle (dimensions and coordinates
- * of the area, which element occupies on the page).
+ * of the area that the element occupies on the page).
  *
  * @class CKEDITOR.dom.rect
  * @abstract
@@ -24,9 +24,9 @@
  */
 
 /**
- * Element's bottom edge's offset from the viewport's top edge.
+ * Element's bottom edge offset from the viewport's top edge.
  *
- * The value is the same as {@link CKEDITOR.dom.rect#top} value plus {@link CKEDITOR.dom.rect#height} value.
+ * This value is the same as the {@link CKEDITOR.dom.rect#top} value plus the {@link CKEDITOR.dom.rect#height} value.
  *
  * @property {Number} bottom
  */
@@ -38,9 +38,9 @@
  */
 
 /**
- * Element's right edge's offset from the viewport's left edge.
+ * Element's right edge offset from the viewport's left edge.
  *
- * The value is the same as {@link CKEDITOR.dom.rect#left} value plus {@link CKEDITOR.dom.rect#width} value.
+ * This value is the same as the {@link CKEDITOR.dom.rect#left} value plus the {@link CKEDITOR.dom.rect#width} value.
  *
  * @property {Number} right
  */

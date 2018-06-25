@@ -2838,20 +2838,20 @@ CKEDITOR.dom.range = function( root ) {
 		 * [very long ]span
 		 * ```
 		 *
-		 * Where each pair of brackets represents one rectangle.
+		 * where each pair of brackets represents one rectangle.
 		 *
-		 * Note: Various browsers might return different list of rectangles.
+		 * Note: Various browsers might return a different list of rectangles.
 		 *
-		 * Internet Explorer 8 doesn't have implemented native `range.getClientRects()` which is base for this method.
+		 * Internet Explorer 8 does not have the native `range.getClientRects()` method, which is a base for this method, implemented.
 		 * As a workaround it will return an array containing only one rectangle which would
-		 * start in the top left hand corner of the selection and end in the bottom right hand corner.
-		 * Possible cases when returned rectangle doesn't fully cover ranges are presented below:
+		 * start in the top left-hand corner of the selection and end in the bottom right-hand corner.
+		 * Possible cases when the returned rectangle does not fully cover ranges are presented below:
 		 *
 		 * <img src="https://33333.cdn.cke-cs.com/rc1DFuFpHqcR3Mah6y0e/images/90893fcc6c323c10023e73ebfc1fbaa622b48b29c066f7af_ie-rects.png">
 		 *
 		 * @since 4.10.0
-		 * @param {Boolean} [isAbsolute] The function will retrieve an absolute
-		 * rectangle of the element i.e. position relative to the upper-left corner of the topmost viewport.
+		 * @param {Boolean} [isAbsolute] The function will retrieve an absolute rectangle of the element,
+		 * i.e. a position relative to the upper-left corner of the topmost viewport.
 		 * @returns {CKEDITOR.dom.rect[]}
 		 */
 		getClientRects: ( function() {
