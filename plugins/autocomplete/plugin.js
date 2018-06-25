@@ -16,11 +16,11 @@
 
 	/**
 	 * The main class implementing a generic [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) feature in the editor.
-	 * It acts as a controller which works with {@link CKEDITOR.plugins.autocomplete.model model} and
+	 * It acts as a controller that works with the {@link CKEDITOR.plugins.autocomplete.model model} and
 	 * {@link CKEDITOR.plugins.autocomplete.view view} classes.
 	 *
-	 * It's possible to maintain multiple autocomplete instances for a single editor at a time.
-	 * In order to create autocomplete instance use its {@link #constructor constructor}.
+	 * It is possible to maintain multiple autocomplete instances for a single editor at a time.
+	 * In order to create an autocomplete instance use its {@link #constructor constructor}.
 	 *
 	 * @class CKEDITOR.plugins.autocomplete
 	 * @since 4.10.0
@@ -29,18 +29,18 @@
 	 * In order to initialize the autocomplete feature it is enough to instantiate this class with
 	 * two required callbacks:
 	 *
-	 * * {@link CKEDITOR.plugins.autocomplete.configDefinition#textTestCallback config.textTestCallback} - A function being called by
-	 *  the {@link CKEDITOR.plugins.textWatcher Text Watcher} component, as new text is being inserted.
-	 *  It's purpose is to determine whether given range should be matched or not.
+	 * * {@link CKEDITOR.plugins.autocomplete.configDefinition#textTestCallback config.textTestCallback} &ndash; A function being called by
+	 *  the {@link CKEDITOR.plugins.textWatcher text watcher} plugin, as new text is being inserted.
+	 *  Its purpose is to determine whether a given range should be matched or not.
 	 *  See {@link CKEDITOR.plugins.textWatcher#constructor} for more details.
-	 *  There's also {@link CKEDITOR.plugins.textMatch#match} which is a handy helper for that purpose.
-	 * * {@link CKEDITOR.plugins.autocomplete.configDefinition#dataCallback config.dataCallback} - A function which should return
-	 *  (through its callback) a suggestion data for the current query string.
+	 *  There is also {@link CKEDITOR.plugins.textMatch#match} which is a handy helper for that purpose.
+	 * * {@link CKEDITOR.plugins.autocomplete.configDefinition#dataCallback config.dataCallback} &ndash; A function that should return
+	 *  (through its callback) suggestion data for the current query string.
 	 *
 	 * # Creating an autocomplete instance
 	 *
 	 * Depending on your use case, put this code in the {@link CKEDITOR.pluginDefinition#init} callback of your
-	 * plugin or for example in the {@link CKEDITOR.editor#instanceReady} event listener. Ensure that you loaded
+	 * plugin or, for example, in the {@link CKEDITOR.editor#instanceReady} event listener. Ensure that you loaded the
 	 * {@link CKEDITOR.plugins.textMatch Text Match} plugin.
 	 *
 	 * ```javascript
@@ -49,20 +49,20 @@
 	 *	// Called when the user types in the editor or moves the caret.
 	 *	// The range represents the caret position.
 	 *	function textTestCallback( range ) {
-	 *		// We don't want to autocomplete a non-empty selection.
+	 *		// You do not want to autocomplete a non-empty selection.
 	 *		if ( !range.collapsed ) {
 	 *			return null;
 	 *		}
 	 *
-	 *		// Use the textmatch plugin which does the tricky job of doing
+	 *		// Use the text match plugin which does the tricky job of doing
 	 *		// a text search in the DOM. The matchCallback function should return
 	 *		// a matching fragment of the text.
 	 *		return CKEDITOR.plugins.textMatch.match( range, matchCallback );
 	 *	}
 	 *
-	 *	// Returns a position of the matching text.
-	 *	// It matches with text starting from the '@' character
-	 *	// followed by spaces, up to the caret position.
+	 *	// Returns the position of the matching text.
+	 *	// It matches with a word starting from the '@' character
+	 *  // up to the caret position.
 	 *	function matchCallback( text, offset ) {
 	 *			// Get the text before the caret.
 	 *		var left = text.slice( 0, offset ),
@@ -85,8 +85,8 @@
 	 *			return item.name.toLowerCase().indexOf( matchInfo.query.toLowerCase() ) == 0;
 	 *		} );
 	 *
-	 *		// Note - the callback function can also be executed asynchronously
-	 *		// so dataCallback can do an XHR requests or use any other asynchronous API.
+	 *		// Note: The callback function can also be executed asynchronously
+	 *		// so dataCallback can do XHR requests or use any other asynchronous API.
 	 *		callback( suggestions );
 	 *	}
 	 *
@@ -157,7 +157,7 @@
 		var configKeystrokes = editor.config.autocomplete_commitKeystrokes || CKEDITOR.config.autocomplete_commitKeystrokes;
 
 		/**
-		 * The editor instance to which autocomplete is attached to.
+		 * The editor instance that autocomplete is attached to.
 		 *
 		 * @readonly
 		 * @property {CKEDITOR.editor}
@@ -165,7 +165,7 @@
 		this.editor = editor;
 
 		/**
-		 * Indicates throttle threshold expressed in milliseconds reducing text checks frequency.
+		 * Indicates throttle threshold expressed in milliseconds, reducing text checks frequency.
 		 *
 		 * @property {Number} [throttle=20]
 		 */
@@ -197,9 +197,9 @@
 		this.textWatcher = this.getTextWatcher( config.textTestCallback );
 
 		/**
-		 * The autocomplete keystrokes used to finish autocompletion with selected view item.
-		 * The property is using {@link CKEDITOR.config#autocomplete_commitKeystrokes} configuration option as default keystrokes.
-		 * You can change this property to set individual keystrokes for plugin instance.
+		 * The autocomplete keystrokes used to finish autocompletion with the selected view item.
+		 * The property is using the {@link CKEDITOR.config#autocomplete_commitKeystrokes} configuration option as default keystrokes.
+		 * You can change this property to set individual keystrokes for the plugin instance.
 		 *
 		 * @property {Number[]}
 		 * @readonly
@@ -364,7 +364,7 @@
 		},
 
 		/**
-		 * Creates and returns the model instance. This method is used while
+		 * Creates and returns the model instance. This method is used when
 		 * initializing the autocomplete and can be overwritten in order to
 		 * return an instance of a different class than the default model.
 		 *
@@ -387,7 +387,7 @@
 		 * initializing the autocomplete and can be overwritten in order to
 		 * return an instance of a different class than the default text watcher.
 		 *
-		 * @param {Function} textTestCallback See {@link CKEDITOR.plugins.autocomplete} arguments.
+		 * @param {Function} textTestCallback See the {@link CKEDITOR.plugins.autocomplete} arguments.
 		 * @returns {CKEDITOR.plugins.textWatcher} The text watcher instance.
 		 */
 		getTextWatcher: function( textTestCallback ) {
@@ -420,7 +420,7 @@
 		// LISTENERS ------------------
 
 		/**
-		 * The function should be called once the content has changed.
+		 * The function that should be called once the content has changed.
 		 *
 		 * @private
 		 */
@@ -431,7 +431,7 @@
 		},
 
 		/**
-		 * The function should be called once the model data has changed.
+		 * The function that should be called once the model data has changed.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
 		 * @private
@@ -446,7 +446,7 @@
 		},
 
 		/**
-		 * The function should be called once view item has been clicked.
+		 * The function that should be called once a view item was clicked.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
 		 * @private
@@ -456,7 +456,7 @@
 		},
 
 		/**
-		 * The function should be called on every `keydown` event occurred within {@link CKEDITOR.editable editable} element.
+		 * The function that should be called on every `keydown` event occurred within the {@link CKEDITOR.editable editable} element.
 		 *
 		 * @param {CKEDITOR.dom.event} evt
 		 * @private
@@ -497,7 +497,7 @@
 		},
 
 		/**
-		 * The function should be called once an item has been selected.
+		 * The function that should be called once an item was selected.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
 		 * @private
@@ -508,7 +508,7 @@
 		},
 
 		/**
-		 * The function should be called once a text has been matched by {@link CKEDITOR.plugins.textWatcher Text Watcher}
+		 * The function that should be called once a text was matched by the {@link CKEDITOR.plugins.textWatcher text watcher}
 		 * component.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
@@ -520,14 +520,14 @@
 		},
 
 		/**
-		 * The function should be called once a text has been unmatched by {@link CKEDITOR.plugins.textWatcher Text Watcher}
+		 * The function that should be called once a text was unmatched by the {@link CKEDITOR.plugins.textWatcher text watcher}
 		 * component.
 		 *
 		 * @param {CKEDITOR.eventInfo} evt
 		 * @private
 		 */
 		onTextUnmatched: function() {
-			// Remove query and request id to avoid opening view for invalid callback (#1984).
+			// Remove query and request ID to avoid opening view for invalid callback (#1984).
 			this.model.query = null;
 			this.model.lastRequestId = null;
 
@@ -561,7 +561,7 @@
 	 *	};
 	 * ```
 	 *
-	 * **Note:** This class is marked as private meaning that it's API might be a subject of further changes in order to
+	 * **Note:** This class is marked as private, which means that its API might be subject to change in order to
 	 * provide further enhancements.
 	 *
 	 * @class CKEDITOR.plugins.autocomplete.view
@@ -577,7 +577,7 @@
 		 *
 		 * You can use {@link CKEDITOR.plugins.autocomplete.model#data data item} properties to customize the template.
 		 *
-		 * A minimal template must be wrapped with HTML `li` element containing `data-id="{id}"` attribute.
+		 * A minimal template must be wrapped with a HTML `li` element containing the `data-id="{id}"` attribute.
 		 *
 		 * ```javascript
 		 * var itemTemplate = '<li data-id="{id}"><img src="{iconSrc}" alt="{name}">{name}</li>';
@@ -621,7 +621,7 @@
 		 * Event fired when an item in the panel is clicked.
 		 *
 		 * @event click-item
-		 * @param {String} The clicked item {@link CKEDITOR.plugins.autocomplete.model.item#id}. Note: the id
+		 * @param {String} The clicked item {@link CKEDITOR.plugins.autocomplete.model.item#id}. Note: the ID
 		 * is stringified due to the way how it is stored in the DOM.
 		 */
 
@@ -647,7 +647,7 @@
 		/**
 		 * Removes existing items and appends given items to the {@link #element}.
 		 *
-		 * @param {CKEDITOR.dom.documentFragment} itemsFragment Document fragment with items elements.
+		 * @param {CKEDITOR.dom.documentFragment} itemsFragment The document fragment with item elements.
 		 */
 		appendItems: function( itemsFragment ) {
 			this.element.setHtml( '' );
@@ -720,7 +720,7 @@
 		 * The value returned by this function is passed to the {@link #setPosition} method
 		 * by the {@link #updatePosition} method.
 		 *
-		 * @param {CKEDITOR.dom.range} range The range of text match.
+		 * @param {CKEDITOR.dom.range} range The range of the text match.
 		 * @returns {Object} Represents the position of the caret. The value is relative to the panel's offset parent.
 		 * @returns {Number} rect.left
 		 * @returns {Number} rect.top
@@ -811,17 +811,17 @@
 		 * positions the panel in the best place.
 		 *
 		 * This method is used by the {@link #updatePosition} method which
-		 * controls how the panel should be positioned on the screen for example
+		 * controls how the panel should be positioned on the screen, for example
 		 * based on the caret position and/or the editor position.
 		 *
 		 * @param {Object} rect Represents the position of a vertical (e.g. a caret) line relative to which
 		 * the panel should be positioned.
 		 * @param {Number} rect.left The position relative to the panel's offset parent in pixels.
-		 * For example: the position of the caret.
+		 * For example, the position of the caret.
 		 * @param {Number} rect.top The position relative to the panel's offset parent in pixels.
-		 * For example: the position of the upper end of the caret.
+		 * For example, the position of the upper end of the caret.
 		 * @param {Number} rect.bottom The position relative to the panel's offset parent in pixels.
-		 * For example: the position of the bottom end of the caret.
+		 * For example, the position of the bottom end of the caret.
 		 */
 		setPosition: function( rect ) {
 			var editor = this.editor,
@@ -842,7 +842,7 @@
 				spaceBelow = editorViewportRect.bottom - rect.bottom,
 				top;
 
-			// As a default, keep the view inside an editor viewport.
+			// As a default, keep the view inside the editor viewport.
 			// +---------------------------------------------+
 			// |       editor viewport                       |
 			// |                                             |
@@ -858,7 +858,7 @@
 			top = rect.top < editorViewportRect.top ? editorViewportRect.top : Math.min( editorViewportRect.bottom, rect.bottom );
 
 			// If the view doesn't fit below the caret position and fits above, set it there.
-			// This means that position below the caret is preferred.
+			// This means that the position below the caret is preferred.
 			// +---------------------------------------------+
 			// |                                             |
 			// |       editor viewport                       |
@@ -947,7 +947,7 @@
 		 * {@link #setPosition} to move the panel to the best position close
 		 * to the caret.
 		 *
-		 * @param {CKEDITOR.dom.range} range The range of text match.
+		 * @param {CKEDITOR.dom.range} range The range of the text match.
 		 */
 		updatePosition: function( range ) {
 			this.setPosition( this.getViewPosition( range ) );
@@ -959,13 +959,13 @@
 	/**
 	 * Class representing the autocomplete model.
 	 *
-	 * In case you want to modify model behavior, check out the
+	 * In case you want to modify the model behavior, check out the
 	 * {@link CKEDITOR.plugins.autocomplete.view} documentation. It contains
 	 * examples of how to easily override the default behavior.
 	 *
-	 * Model instance is created by the {@link CKEDITOR.plugins.autocomplete#getModel} method.
+	 * A model instance is created by the {@link CKEDITOR.plugins.autocomplete#getModel} method.
 	 *
-	 * **Note:** This class is marked as private meaning that it's API might be a subject of further changes in order to
+	 * **Note:** This class is marked as private, which means that its API might be subject to change in order to
 	 * provide further enhancements.
 	 *
 	 * @class CKEDITOR.plugins.autocomplete.model
@@ -1003,7 +1003,7 @@
 		this.itemsLimit = 0;
 
 		/**
-		 * ID of the last request for data. Used by the {@link #setQuery} method.
+		 * The ID of the last request for data. Used by the {@link #setQuery} method.
 		 *
 		 * @readonly
 		 * @private
@@ -1029,14 +1029,14 @@
 		 */
 
 		/**
-		 * The query results &mdash; items to be displayed in the autocomplete panel.
+		 * The query results &mdash; the items to be displayed in the autocomplete panel.
 		 *
 		 * @readonly
 		 * @property {CKEDITOR.plugins.autocomplete.model.item[]} data
 		 */
 
 		/**
-		 * ID of the item currently selected in the panel.
+		 * The ID of the item currently selected in the panel.
 		 *
 		 * @readonly
 		 * @property {Number/String} selectedItemId
@@ -1060,7 +1060,7 @@
 		 * Event fired when the {@link #isActive} property changes.
 		 *
 		 * @event change-isActive
-		 * @param {Boolean} data The new value
+		 * @param {Boolean} data The new value.
 		 */
 	}
 
@@ -1097,7 +1097,7 @@
 		},
 
 		/**
-		 * Whether the model contains a non-empty {@link #data}.
+		 * Whether the model contains non-empty {@link #data}.
 		 *
 		 * @returns {Boolean}
 		 */
@@ -1146,8 +1146,8 @@
 		},
 
 		/**
-		 * Selects the next item in the {@link #data} array. If no item is selected, then
-		 * it selects the first one. If the last one is selected, then it selects the first one.
+		 * Selects the next item in the {@link #data} array. If no item is selected,
+		 * it selects the first one. If the last one is selected, it selects the first one.
 		 *
 		 * See also the {@link #select} method.
 		 */
@@ -1167,8 +1167,8 @@
 		},
 
 		/**
-		 * Selects the previous item in the {@link #data} array. If no item is selected, then
-		 * it selects the last one. If the first one is selected, then it selects the last one.
+		 * Selects the previous item in the {@link #data} array. If no item is selected,
+		 * it selects the last one. If the first one is selected, it selects the last one.
 		 *
 		 * See also the {@link #select} method.
 		 */
@@ -1246,10 +1246,10 @@
 
 	/**
 	 * An abstract class representing one {@link CKEDITOR.plugins.autocomplete.model#data data item}.
-	 * Item can be understood as a one entry in the autocomplete panel.
+	 * A item can be understood as one entry in the autocomplete panel.
 	 *
-	 * Item must have a unique {@link #id} and may have more properties which can then be used for example in
-	 * the {@link CKEDITOR.plugins.autocomplete.view#itemTemplate} template or the
+	 * An item must have a unique {@link #id} and may have more properties which can then be used, for example,
+	 * in the {@link CKEDITOR.plugins.autocomplete.view#itemTemplate} template or the
 	 * {@link CKEDITOR.plugins.autocomplete#getHtmlToInsert} method.
 	 *
 	 * Example items:
@@ -1268,10 +1268,10 @@
 	 * The unique ID of the item. The ID should not change with time, so two
 	 * {@link CKEDITOR.plugins.autocomplete.model#dataCallback}
 	 * calls should always result in the same ID for the same logical item.
-	 * This can for example allow to keep the same item selected when
+	 * This can, for example, allow to keep the same item selected when
 	 * the data changes.
 	 *
-	 * **Note:** When using a string as an item make sure that the string does not
+	 * **Note:** When using a string as an item, make sure that the string does not
 	 * contain any special characters (above all `"[]` characters). This limitation is
 	 * due to the simplified way the {@link CKEDITOR.plugins.autocomplete.view}
 	 * stores IDs in the DOM.
@@ -1285,17 +1285,17 @@
 	Autocomplete.model = Model;
 
 	/**
-	 * The autocomplete keystrokes used to finish autocompletion with selected view item.
+	 * The autocomplete keystrokes used to finish autocompletion with the selected view item.
 	 * This setting will set completing keystrokes for each autocomplete plugin respectively.
 	 *
-	 * To change completing keystrokes individually use {@link CKEDITOR.plugins.autocomplete#commitKeystrokes} plugin property.
+	 * To change completing keystrokes individually use the {@link CKEDITOR.plugins.autocomplete#commitKeystrokes} plugin property.
 	 *
 	 * ```javascript
-	 * // Default config (9 = tab, 13 = enter).
+	 * // Default configuration (9 = Tab, 13 = Enter).
 	 * config.autocomplete_commitKeystrokes = [ 9, 13 ];
 	 * ```
 	 *
-	 * Commit keystroke can be also disabled by setting it to an empty array.
+	 * Commit keystroke can also be disabled by setting it to an empty array.
 	 *
 	 * ```javascript
 	 * // Disable autocomplete commit keystroke.
@@ -1323,7 +1323,7 @@
 	}
 
 	/**
-	 * Abstract class describing the definition of a [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) plugin configuration.
+	 * Abstract class describing the definition of the [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) plugin configuration.
 	 *
 	 * It lists properties used to define and create autocomplete configuration definition.
 	 *
@@ -1343,12 +1343,12 @@
 	 */
 
 	/**
-	 * Callback executed to get suggestion data based on search query. The returned data will be
+	 * Callback executed to get suggestion data based on the search query. The returned data will be
 	 * displayed in the autocomplete view.
 	 *
 	 * ```javascript
 	 *	// Returns (through its callback) the suggestions for the current query.
-	 *	// Note: the itemsArray variable is our example "database".
+	 *	// Note: The itemsArray variable is the example "database".
 	 *	function dataCallback( matchInfo, callback ) {
 	 *		// Simple search.
 	 *		// Filter the entire items array so only the items that start
@@ -1357,8 +1357,8 @@
 	 *			return item.name.indexOf( matchInfo.query ) === 0;
 	 *		} );
 	 *
-	 *		// Note - the callback function can also be executed asynchronously
-	 *		// so dataCallback can do an XHR requests or use any other asynchronous API.
+	 *		// Note: The callback function can also be executed asynchronously
+	 *		// so dataCallback can do an XHR request or use any other asynchronous API.
 	 *		callback( suggestions );
 	 *	}
 	 *
@@ -1380,20 +1380,20 @@
 	 *	// Called when the user types in the editor or moves the caret.
 	 *	// The range represents the caret position.
 	 *	function textTestCallback( range ) {
-	 *		// We don't want to autocomplete a non-empty selection.
+	 *		// You do not want to autocomplete a non-empty selection.
 	 *		if ( !range.collapsed ) {
 	 *			return null;
 	 *		}
 	 *
-	 *		// Use the textmatch plugin which does the tricky job of doing
+	 *		// Use the text match plugin which does the tricky job of doing
 	 *		// a text search in the DOM. The matchCallback function should return
 	 *		// a matching fragment of the text.
 	 *		return CKEDITOR.plugins.textMatch.match( range, matchCallback );
 	 *	}
 	 *
 	 *	// Returns a position of the matching text.
-	 *	// It matches with text starting from the '@' character
-	 *	// followed by spaces, up to the caret position.
+	 *	// It matches with a word starting from the '@' character
+	 *  // up to the caret position.
 	 *	function matchCallback( text, offset ) {
 	 *			// Get the text before the caret.
 	 *		var left = text.slice( 0, offset ),
@@ -1432,7 +1432,7 @@
 	 */
 
 	/**
-	 * Abstract class describing set of properties which can be used to produce more adequate suggestion data based on matched query.
+	 * Abstract class describing a set of properties that can be used to produce more adequate suggestion data based on the matched query.
 	 *
 	 * @class CKEDITOR.plugins.autocomplete.matchInfo
 	 * @abstract
