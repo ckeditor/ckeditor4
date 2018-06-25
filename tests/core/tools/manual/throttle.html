@@ -10,12 +10,12 @@
 <button id="btn" class="red" >Click me!</button>
 
 <script>
-	var button = document.getElementById( 'btn' ),
+	var button = CKEDITOR.document.getById( 'btn' ),
 		buffer = CKEDITOR.tools.throttle( 2000, function ( css ) {
-		button.className = css === 'red' ? 'blue' : 'red';
+			button.$.className = css === 'red' ? 'blue' : 'red';
 	} );
 
-	button.addEventListener( 'click', function() {
-		buffer.input( button.className );
+	button.on( 'click', function() {
+		buffer.input( button.$.className );
 	} );
 </script>
