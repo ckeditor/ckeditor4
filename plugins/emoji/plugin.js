@@ -101,11 +101,11 @@
 } )();
 
 /**
- * Number which defines how many characters is required to start displaying emoji's autocomplete suggestion box.
- * Delimiter `:`, which activates emoji's suggestion box, is not included into this value.
+ * A number that defines how many characters are required to start displaying emoji's autocomplete suggestion box.
+ * Delimiter `:`, which activates the emoji suggestion box, is not included in this value.
  *
  * ```js
- * 	editor.emoji_minChars = 0; // Emoji suggestion box appear after typing ':'.
+ * 	editor.emoji_minChars = 0; // Emoji suggestion box appears after typing ':'.
  * ```
  *
  * @since 4.10.0
@@ -114,10 +114,12 @@
  */
 
 /**
- * Address to JSON file containing emoji list. File is downloaded through {@link CKEDITOR.ajax#load} method
- * and URL address is processed by {@link CKEDITOR#getUrl}.
- * Emoji list has to be an array of objects with `id` and `symbol` property. Those keys represent text to match and UTF symbol for its replacement.
- * Emoji has to start with `:` (colon) symbol.
+ * Address of the JSON file containing the emoji list. The file is downloaded through the {@link CKEDITOR.ajax#load} method
+ * and the URL address is processed by {@link CKEDITOR#getUrl}.
+ * Emoji list has to be an array of objects with the `id` and `symbol` properties. These keys represent the text to match and the 
+ * UTF symbol for its replacement.
+ * An emoji has to start with the `:` (colon) symbol.
+ *
  * ```json
  * [
  * 	{

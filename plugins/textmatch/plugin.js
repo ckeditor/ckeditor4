@@ -10,7 +10,7 @@
 	CKEDITOR.plugins.add( 'textmatch', {} );
 
 	/**
-	 * Global namespace for methods exposed by the [Text Match](https://ckeditor.com/cke4/addon/textmatch) plugin.
+	 * A global namespace for methods exposed by the [Text Match](https://ckeditor.com/cke4/addon/textmatch) plugin.
 	 *
 	 * The most important function is {@link #match} which performs a text
 	 * search in the DOM.
@@ -32,7 +32,7 @@
 	 *		// Let's assume that text is 'Special thanks to #jo.' and offset is 21.
 	 *		// The offset "21" means that the caret is between '#jo' and '.'.
 	 *
-	 *			// Get the text before the caret.
+	 *		// Get the text before the caret.
 	 *		var left = text.slice( 0, offset ),
 	 *			// Will look for a literal '#' character and at least two word characters.
 	 *			match = left.match( /#\w{2,}$/ );
@@ -50,18 +50,18 @@
 	 * @member CKEDITOR.plugins.textMatch
 	 * @param {CKEDITOR.dom.range} range A collapsed range &mdash; the position from which the scanning starts.
 	 * Usually the caret position.
-	 * @param {Function} testCallback Callback executed to check if the text matches.
+	 * @param {Function} testCallback A callback executed to check if the text matches.
 	 * @param {String} testCallback.text The full text to check.
-	 * @param {Number} testCallback.rangeOffset Offset of the `range` in the `text` to be checked.
+	 * @param {Number} testCallback.rangeOffset An offset of the `range` in the `text` to be checked.
 	 * @param {Object} [testCallback.return] The position of the matching fragment (`null` if nothing matches).
 	 * @param {Number} testCallback.return.start The offset of the start of the matching fragment.
 	 * @param {Number} testCallback.return.end The offset of the end of the matching fragment.
 	 *
-	 * @returns {Object/null} Object with information about matching text or `null`.
+	 * @returns {Object/null} An object with information about the matching text or `null`.
 	 * @returns {String} return.text The matching text.
-	 * The text doesn't reflect the range offsets. The range could contain additional,
-	 *  browser related characters like CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE.
-	 * @returns {CKEDITOR.dom.range} return.range Range in the DOM for the text that matches.
+	 * The text does not reflect the range offsets. The range could contain additional,
+	 * browser-related characters like {@link CKEDITOR.dom.selection#FILLING_CHAR_SEQUENCE}.
+	 * @returns {CKEDITOR.dom.range} return.range A range in the DOM for the text that matches.
 	 */
 	CKEDITOR.plugins.textMatch.match = function( range, callback ) {
 		var textAndOffset = CKEDITOR.plugins.textMatch.getTextAndOffset( range ),
@@ -98,9 +98,9 @@
 	 *
 	 * ## Examples
 	 *
-	 * * `{}` is the range position in the text node (means that the text node is **not** split at that position).
-	 * * `[]` is the range position in the element (means that the text node is split at that position).
-	 * * `.` is a separator for text nodes (means that the text node is split at that position).
+	 * * `{}` is the range position in the text node (it means that the text node is **not** split at that position).
+	 * * `[]` is the range position in the element (it means that the text node is split at that position).
+	 * * `.` is a separator for text nodes (it means that the text node is split at that position).
 	 *
 	 * Examples:
 	 *
@@ -124,7 +124,7 @@
 	 * @member CKEDITOR.plugins.textMatch
 	 * @param {CKEDITOR.dom.range} range
 	 * @returns {Object/null}
-	 * @returns {String} return.text A text in which the DOM range is located.
+	 * @returns {String} return.text The text in which the DOM range is located.
 	 * @returns {Number} return.offset An offset of the caret.
 	 */
 	CKEDITOR.plugins.textMatch.getTextAndOffset = function( range ) {
@@ -200,8 +200,8 @@
 	 *
 	 * ## Examples
 	 *
-	 * * `{}` is the range position in the text node (means that the text node is **not** split at that position).
-	 * * `.` is a separator for text nodes (means that the text node is split at that position).
+	 * * `{}` is the range position in the text node (it means that the text node is **not** split at that position).
+	 * * `.` is a separator for text nodes (it means that the text node is split at that position).
 	 *
 	 * Examples:
 	 *
@@ -232,13 +232,13 @@
 	};
 
 	/**
-	 * Creates an adjacent text nodes collection which are between DOM elements, starting from the given range.
+	 * Creates a collection of adjacent text nodes which are between DOM elements, starting from the given range.
 	 * This function works only for collapsed ranges.
 	 *
 	 * ## Examples
 	 *
-	 * * `{}` is the range position in the text node (means that the text node is **not** split at that position).
-	 * * `.` is a separator for text nodes (means that the text node is split at that position).
+	 * * `{}` is the range position in the text node (it means that the text node is **not** split at that position).
+	 * * `.` is a separator for text nodes (it means that the text node is split at that position).
 	 *
 	 * Examples:
 	 *
@@ -258,7 +258,7 @@
 	 *
 	 * @member CKEDITOR.plugins.textMatch
 	 * @param {CKEDITOR.dom.range} range
-	 * @return {CKEDITOR.dom.text[]} Array of text nodes.
+	 * @return {CKEDITOR.dom.text[]} An array of text nodes.
 	 */
 	CKEDITOR.plugins.textMatch.getAdjacentTextNodes = function( range ) {
 		if ( !range.collapsed ) {

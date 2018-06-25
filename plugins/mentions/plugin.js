@@ -30,18 +30,18 @@
 	} );
 
 	/**
-	 * [Mentions](https://ckeditor.com/cke4/addon/mentions) plugin allows you to type marker character and get suggested values for the text matches
-	 * so that you don't have to write it on your own.
+	 * The [Mentions](https://ckeditor.com/cke4/addon/mentions) plugin allows you to type a marker character and get suggested values for the
+	 * text matches so that you do not have to write it on your own.
 	 *
-	 * The recommended way to add mentions feature to an editor is by setting {@link CKEDITOR.config#mentions config.mentions} option:
+	 * The recommended way to add the mentions feature to an editor is by setting the {@link CKEDITOR.config#mentions config.mentions} option:
 	 *
 	 * ```javascript
-	 * // Passing mentions configuration when creating editor.
+	 * // Passing mentions configuration when creating the editor.
 	 * CKEDITOR.replace( 'editor', {
 	 * 		mentions: [ { feed: ['Anna', 'Thomas', 'John'], minChars: 0 } ]
 	 * } );
 	 *
-	 * // Simple usage with CKEDITOR.config.mentions property.
+	 * // Simple usage with the CKEDITOR.config.mentions property.
 	 * CKEDITOR.config.mentions = [ { feed: ['Anna', 'Thomas', 'John'], minChars: 0 } ];
 	 * ```
 	 *
@@ -49,15 +49,15 @@
 	 * @since 4.10.0
 	 * @constructor Creates a new instance of mentions and attaches it to the editor.
 	 * @param {CKEDITOR.editor} editor The editor to watch.
-	 * @param {CKEDITOR.plugins.mentions.configDefinition} config Configuration object keeping information how to instantiate mentions plugin.
+	 * @param {CKEDITOR.plugins.mentions.configDefinition} config Configuration object keeping information about how to instantiate the mentions plugin.
 	 */
 	function Mentions( editor, config ) {
 		var feed = config.feed;
 
 		/**
-		 * Indicates that mentions instance is character case sensitive for simple items feed i.e. array feed.
+		 * Indicates that a mentions instance is case-sensitive for simple items feed, i.e. an array feed.
 		 *
-		 * **Note:** this will take no effect on feeds using callback or URLs, as in this case results are expected to
+		 * **Note:** This will take no effect on feeds using a callback or URLs, as in this case the results are expected to
 		 * be already filtered.
 		 *
 		 * @property {Boolean} [caseSensitive=false]
@@ -66,7 +66,7 @@
 		this.caseSensitive = config.caseSensitive;
 
 		/**
-		 * A character that should trigger autocompletion.
+		 * The character that should trigger autocompletion.
 		 *
 		 * @property {String} [marker='@']
 		 * @readonly
@@ -74,7 +74,7 @@
 		this.marker = config.hasOwnProperty( 'marker' ) ? config.marker : MARKER;
 
 		/**
-		 * A number of characters that should follow the marker character in order to trigger mentions feature.
+		 * The number of characters that should follow the marker character in order to trigger the mentions feature.
 		 *
 		 * @property {Number} [minChars=2]
 		 * @readonly
@@ -82,9 +82,9 @@
 		this.minChars = config.minChars !== null && config.minChars !== undefined ? config.minChars : MIN_CHARS;
 
 		/**
-		 * Pattern used to match queries.
+		 * The pattern used to match queries.
 		 *
-		 * Default pattern matches words with query including {@link #marker marker} and {@link #minChars minChars} properties.
+		 * The default pattern matches words with the query including the {@link #marker config.marker} and {@link #minChars config.minChars} properties.
 		 *
 		 * ```javascript
 		 * // Match only words starting with "a".
@@ -97,9 +97,9 @@
 		this.pattern = config.pattern || createPattern( this.marker, this.minChars );
 
 		/**
-		 * Indicates if URL feed responses will be cached.
+		 * Indicates if the URL feed responses will be cached.
 		 *
-		 * The cache is based on URL request and shared between all mentions instances (including different editors).
+		 * The cache is based on the URL request and is shared between all mentions instances (including different editors).
 		 *
 		 * @property {Boolean} [cache=true]
 		 * @readonly
@@ -114,7 +114,7 @@
 		this.throttle = config.throttle !== undefined ? config.throttle : 200;
 
 		/**
-		 * {@link CKEDITOR.plugins.autocomplete Autocomplete} instance used by mentions feature to implement autocompletion logic.
+		 * {@link CKEDITOR.plugins.autocomplete Autocomplete} instance used by the mentions feature to implement autocompletion logic.
 		 *
 		 * @property {CKEDITOR.plugins.autocomplete}
 		 * @private
@@ -134,7 +134,7 @@
 		/**
 		 * Destroys the mentions instance.
 		 *
-		 * View element and event listeners will be removed from the DOM.
+		 * The view element and event listeners will be removed from the DOM.
 		 */
 		destroy: function() {
 			this._autocomplete.destroy();
@@ -267,9 +267,9 @@
 	CKEDITOR.plugins.mentions = Mentions;
 
 	/**
-	 * List of mentions configuration objects.
+	 * A list of mentions configuration objects.
 	 *
-	 * For each configuration object new {@link CKEDITOR.plugins.mentions Mentions} instance will be created and attached to an editor.
+	 * For each configuration object a new {@link CKEDITOR.plugins.mentions mentions} plugin instance will be created and attached to the editor.
 	 *
 	 * ```javascript
 	 * config.mentions = [
@@ -288,10 +288,10 @@
 	/**
 	 * Abstract class describing the definition of a {@link CKEDITOR.plugins.mentions mentions} plugin configuration.
 	 *
-	 * This virtual class illustrates the properties that developers can use to define and create
-	 * mentions configuration definition.
-	 * A mentions definition object represents an object as a set of properties defining a mentions
-	 * data feed and it's optional parameters.
+	 * This virtual class illustrates the properties that the developers can use to define and create
+	 * a mentions configuration definition.
+	 * The mentions definition object represents an object as a set of properties defining a mentions
+	 * data feed and its optional parameters.
 	 *
 	 * Simple usage:
 	 *
@@ -305,58 +305,58 @@
 	 */
 
 	/**
-	 * Feed of items to be displayed in the mentions plugin.
+	 * The feed of items to be displayed in the mentions plugin.
 	 *
-	 * Essential option which should be configured to create correct mentions configuration definition.
-	 * There are tree different ways to create data feed:
+	 * Essential option which should be configured to create a correct mentions configuration definition.
+	 * There are three different ways to create a data feed:
 	 *
-	 * * A simple array of text matches as synchronous data feed.
-	 * * A backend URL string responding with a list of items in JSON format. This method utilizes asynchronous data feed.
-	 * * A function allowing to use asynchronous callback to customize data source.
+	 * * A simple array of text matches as a synchronous data feed.
+	 * * A backend URL string responding with a list of items in the JSON format. This method utilizes an asynchronous data feed.
+	 * * A function allowing to use an asynchronous callback to customize the data source.
 	 * Gives the freedom to use any data source depending on your implementation.
 	 *
 	 * # An array of text matches
-	 * The easiest way to configure data feed is to provide an array of text matches.
-	 * Mentions plugin will use synchronous data feed and create item IDs by itself.
-	 * The biggest advantage of this method is its simplicity, although it's limited to synchronous data feed.
-	 * Please see two other methods if you need more complex techniques to fetch text matches.
+	 * The easiest way to configure the data feed is to provide an array of text matches.
+	 * The mentions plugin will use a synchronous data feed and create item IDs by itself.
+	 * The biggest advantage of this method is its simplicity, although it is limited to a synchronous data feed.
+	 * Please see two other methods if you require more complex techniques to fetch the text matches.
 	 *
 	 *```javascript
 	 * var definition = { feed: ['Anna', 'Thomas', 'John'], minChars: 0 };
 	 * ```
 	 *
 	 * By default query matching for an array feed is case insensitive.
-	 * You can change this behavior by setting {@link #caseSensitive caseSensitive} property to `true`.
+	 * You can change this behavior by setting the {@link #caseSensitive caseSensitive} property to `true`.
 	 *
 	 * # A backend URL string
-	 * You can provide a backend URL string which will be used to fetch text matches from custom endpoint service.
-	 * Each time when a user types matching text into an editor your backend service will be queried for text matches.
-	 * Ajax URL request should response with an array of matches in JSON format. A URL response will appear in the mentions dropdown.
+	 * You can provide a backend URL string which will be used to fetch text matches from a custom endpoint service.
+	 * Each time the user types matching text into an editor, your backend service will be queried for text matches.
+	 * An Ajax URL request should response with an array of matches in the JSON format. A URL response will appear in the mentions dropdown.
 	 *
-	 * A backend URL string features `encodedQuery` special variable replaced with a mentions query.
-	 * `encodedQuery` variable allows you to create customized URL which can be both RESTful API compliant or any other
-	 * URL which suits your needs. E.g. for query `@anna` and the given URL `/users?name={encodedQuery}` your endpoint
+	 * A backend URL string features the special `encodedQuery` variable replaced with a mentions query.
+	 * The `encodedQuery` variable allows you to create a customized URL which can be both RESTful API compliant or any other
+	 * URL which suits your needs. E.g. for the query `@anna` and the given URL `/users?name={encodedQuery}` your endpoint
 	 * service will be queried with `/users?name=anna`.
 	 *
 	 * ```javascript
 	 * var definition = { feed: '/users?query={encodedQuery}' };
 	 * ```
 	 *
-	 * To avoid multiple HTTP requests to your endpoint service each HTTP response is cached by default and shared globally.
-	 * See {@link #cache cache} property for more details.
+	 * To avoid multiple HTTP requests to your endpoint service, each HTTP response is cached by default and shared globally.
+	 * See the {@link #cache cache} property for more details.
 	 *
 	 * # Function feed
 	 * This method is recommended for advanced users who would like to take full control of the data feed.
-	 * It allows you to provide data feed as an function which accepts two parameters: `options` and `callback`.
-	 * Provided function will be called every time when user types matching text into an editor.
+	 * It allows you to provide the data feed as a function that accepts two parameters: `options` and `callback`.
+	 * The provided function will be called every time the user types matching text into an editor.
 	 *
-	 * The `options` object contains information about current query and a {@link #marker marker}.
+	 * The `options` object contains information about the current query and a {@link #marker marker}.
 	 *
 	 * ```javascript
 	 * { query: 'anna', marker: '@' }
 	 * ```
 	 *
-	 * The `callback` argument should be used to pass an array of text match items into mentions instance.
+	 * The `callback` argument should be used to pass an array of text match items into the mentions instance.
 	 *
 	 * ```javascript
 	 * callback( [ { id: 1, name: 'anna' }, { id: 2, name: 'annabelle' } ] );
@@ -387,12 +387,12 @@
 	 *
 	 * **Other details**
 	 *
-	 * When using asynchronous method i.e. backend URL string or a function,
-	 *  you should provide correct object structure containing unique item ID and a name.
+	 * When using the asynchronous method, i.e. a backend URL string or a function,
+	 * you should provide correct object structure containing a unique item ID and a name.
 	 *
 	 * ```javascript
-	 * // Example of expected results from backend API.
-	 * // `firstName` and `lastName` properties are optional.
+	 * // Example of expected results from the backend API.
+	 * // The `firstName` and `lastName` properties are optional.
 	 * [
 	 * 		{ id: 1, name: 'anna87', firstName: 'Anna', lastName: 'Doe' },
 	 * 		{ id: 2, name: 'tho-mass', firstName: 'Thomas', lastName: 'Doe' },

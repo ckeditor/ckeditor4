@@ -580,13 +580,13 @@
 		},
 
 		/**
-		 * Returns a wrapper that exposes an `input` function, which acts as a proxy to the given `output` function, providing a throttling.
-		 * This proxy guarantees that the `output` function is not called more often than `minInterval`.
+		 * Returns a wrapper that exposes an `input` function, which acts as a proxy to the given `output` function, providing throttling.
+		 * This proxy guarantees that the `output` function is not called more often than the `minInterval`.
 		 *
 		 * If multiple calls occur within a single `minInterval` time, the most recent `input` call with its arguments will be used to schedule
-		 * next `output` call, and the previous throttled calls will be discarded.
+		 * the next `output` call, and the previous throttled calls will be discarded.
 		 *
-		 * The first `input` call is always executed asynchronously which means that `output` call will be executed immediately.
+		 * The first `input` call is always executed asynchronously which means that the `output` call will be executed immediately.
 		 *
 		 * ```javascript
 		 *	var buffer = CKEDITOR.tools.throttle( 200, function( message ) {
@@ -602,7 +602,7 @@
 		 *	// … after 200ms a single 'baz!' will be logged.
 		 * ```
 		 *
-		 * Can be easily used with events:
+		 * It can be easily used with events:
 		 *
 		 * ```javascript
 		 *	var buffer = CKEDITOR.tools.throttle( 200, function( evt ) {
@@ -610,18 +610,18 @@
 		 *	} );
 		 *
 		 *	editor.on( 'key', buffer.input );
-		 *	// Note: There is no need to bind buffer as a context.
+		 *	// Note: There is no need to bind the buffer as a context.
 		 * ```
 		 *
 		 * @since 4.10.0
-		 * @param {Number} minInterval Minimum interval between `output` calls in milliseconds.
-		 * @param {Function} output Function that will be executed as `output`.
-		 * @param {Object} [contextObj] The object used to context the listener call (the `this` object).
+		 * @param {Number} minInterval The minimum interval between `output` calls in milliseconds.
+		 * @param {Function} output The function that will be executed as `output`.
+		 * @param {Object} [contextObj] The object used as context to the listener call (the `this` object).
 		 * @returns {Object}
-		 * @returns {Function} return.input Buffer's input method.
-		 * Accepts parameters which will be directly passed into `output` function.
+		 * @returns {Function} return.input The buffer input method.
+		 * Accepts parameters which will be directly passed to the `output` function.
 		 * @returns {Function} return.reset Resets buffered calls &mdash; `output` will not be executed
-		 * until next `input` is triggered.
+		 * until the next `input` is triggered.
 		 */
 		throttle: function( minInterval, output, contextObj ) {
 			var scheduled,

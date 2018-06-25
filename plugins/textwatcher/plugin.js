@@ -12,15 +12,15 @@
 	/**
 	 * API exposed by the [Text Watcher](https://ckeditor.com/cke4/addon/textwatcher) plugin.
 	 *
-	 * Class implementing a text watcher &mdash; a base for features like
+	 * Class implementing the text watcher &mdash; a base for features like
 	 * autocomplete. It fires the {@link #matched} and {@link #unmatched} events
-	 * based on changes in the text and position of the caret in the editor.
+	 * based on changes in the text and the position of the caret in the editor.
 	 *
-	 * To check whether a text matches some criteria, the text watcher uses
+	 * To check whether the text matches some criteria, the text watcher uses
 	 * a callback function which should return the matching text and a {@link CKEDITOR.dom.range}
 	 * for that text.
 	 *
-	 * Since the text watcher works on the DOM in which searching for text
+	 * Since the text watcher works on the DOM where searching for text
 	 * is pretty complicated, it is usually recommended to use the {@link CKEDITOR.plugins.textMatch#match}
 	 * function.
 	 *
@@ -28,19 +28,19 @@
 	 *
 	 * ```javascript
 	 *	function textTestCallback( range ) {
-	 *		// We don't want to autocomplete a non-empty selection.
+	 *		// You do not want to autocomplete a non-empty selection.
 	 *		if ( !range.collapsed ) {
 	 *			return null;
 	 *		}
 	 *
-	 *		// Use the textmatch plugin which does the tricky job of doing
+	 *		// Use the text match plugin which does the tricky job of doing
 	 *		// a text search in the DOM. The matchCallback function should return
 	 *		// a matching fragment of the text.
 	 *		return CKEDITOR.plugins.textMatch.match( range, matchCallback );
 	 *	}
 	 *
 	 *	function matchCallback( text, offset ) {
-	 *			// Get the text before the caret.
+	 *		// Get the text before the caret.
 	 *		var left = text.slice( 0, offset ),
 	 *			// Will look for an '@' character followed by word characters.
 	 *			match = left.match( /@\w*$/ );
@@ -53,7 +53,7 @@
 	 *
 	 *	// Initialize the text watcher.
 	 *	var textWatcher = new CKEDITOR.plugins.textWatcher( editor, textTestCallback );
-	 *	// Starts listening.
+	 *	// Start listening.
 	 *	textWatcher.attach();
 	 *
 	 *  // Handle text matching.
@@ -73,7 +73,7 @@
 	 * @param {CKEDITOR.dom.range} callback.range The range representing the caret position.
 	 * @param {Object} [callback.return=null] Matching text data (`null` if nothing matches).
 	 * @param {String} callback.return.text The matching text.
-	 * @param {CKEDITOR.dom.range} callback.return.range Range in the DOM for the text that matches.
+	 * @param {CKEDITOR.dom.range} callback.return.range A range in the DOM for the text that matches.
 	 */
 	function TextWatcher( editor, callback, throttle ) {
 		/**
@@ -138,10 +138,10 @@
 		/**
 		 * Indicates throttle threshold mitigating text checks.
 		 *
-		 * Higher levels of throttle threshold will create delay for text watcher checks
+		 * Higher levels of the throttle threshold will create a delay for text watcher checks
 		 * but also improve its performance.
 		 *
-		 * See {@link CKEDITOR.tools#throttle throttle} feature for more information.
+		 * See the {@link CKEDITOR.tools#throttle throttle} feature for more information.
 		 *
 		 * @readonly
 		 * @property {Number} [throttle=0]
@@ -149,7 +149,7 @@
 		this.throttle = throttle || 0;
 
 		/**
-		 * {@link CKEDITOR.tools#throttle Throttle buffer} used to mitigate text checks.
+		 * The {@link CKEDITOR.tools#throttle throttle buffer} used to mitigate text checks.
 		 *
 		 * @private
 		 */
@@ -226,7 +226,7 @@
 		},
 
 		/**
-		 * Triggers a text check. Fires {@link #matched} and {@link #unmatched} events.
+		 * Triggers a text check. Fires the {@link #matched} and {@link #unmatched} events.
 		 * The {@link #matched} event will not be fired twice in a row for the same text
 		 * unless the text watcher is {@link #unmatch reset}.
 		 *
