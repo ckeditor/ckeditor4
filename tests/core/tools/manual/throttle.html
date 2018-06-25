@@ -12,10 +12,10 @@
 <script>
 	var button = CKEDITOR.document.getById( 'btn' ),
 		buffer = CKEDITOR.tools.throttle( 2000, function ( css ) {
-			button.$.className = css === 'red' ? 'blue' : 'red';
-	} );
+			button.setAttribute( 'class', css === 'red' ? 'blue' : 'red' );
+		} );
 
 	button.on( 'click', function() {
-		buffer.input( button.$.className );
+		buffer.input( button.getAttribute( 'class' ) );
 	} );
 </script>
