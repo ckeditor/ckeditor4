@@ -193,7 +193,7 @@
 	}
 
 	function assertItemElement( item, itemElement ) {
-		assert.areEqual( '<li data-id="' + item.id + '">' + item.name + '</li>', itemElement.$.outerHTML );
+		assert.areEqual( '<li data-id="' + item.id + '" tabindex="-1">' + item.name + '</li>', itemElement.$.outerHTML );
 	}
 
 	function getCaretRect( editor, caretPosition, offset ) {
