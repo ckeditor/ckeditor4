@@ -7,7 +7,6 @@
 	'use strict';
 
 	var stylesLoaded = false;
-	var DEFAULT_EMOJI = [ 'star', 'poop', 'grinning_face', 'face_with_tongue', 'upside-down_face', 'smiling_face_with_horns', 'gear', 'doughnut', 'cookie', 'Poland' ];
 
 	CKEDITOR.plugins.add( 'emoji', {
 		requires: 'autocomplete,textmatch,ajax',
@@ -26,7 +25,7 @@
 
 			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
 				emojiPanelLimit = editor.config.emoji_emojiPanelLimit || 30,
-				favouriteEmoji = editor.config.emoji_favourite || DEFAULT_EMOJI,
+				defaultEmoji = editor.config.emoji_defaults,
 				lang = editor.lang.emoji;
 
 			CKEDITOR.ajax.load( CKEDITOR.getUrl( emojiListUrl ), function( data ) {
@@ -124,7 +123,6 @@
 					block.element.addClass( 'cke_emoji_panel_block' );
 					block.element.setHtml( getEmojiBlock() );
 					panel.element.addClass( 'cke_emoji_panel' );
-
 				}
 
 			} );
@@ -159,15 +157,15 @@
 
 				editor._.emoji.autocomplete.model.dataCallback( { query: query.indexOf( ':' ) === 0 ? query : ':' + query }, function( data ) {
 					if ( query === '' ) {
-						if ( favouriteEmoji ) {
+						if ( defaultEmoji ) {
 							var emojiCounter = 0;
 							for ( i = 0; i < data.length; i++ ) {
-								var favIndex = favouriteEmoji.indexOf( data[ i ].id.replace( /^:|:$/g, '' ) );
+								var favIndex = defaultEmoji.indexOf( data[ i ].id.replace( /^:|:$/g, '' ) );
 								if ( favIndex !== -1 ) {
 									output[ favIndex ] = emojiTpl.output( { symbol: data[ i ].symbol, id: data[ i ].id.replace( /^:|:$/g, '' ) } );
 									emojiCounter++;
 								}
-								if ( emojiCounter >= emojiPanelLimit || emojiCounter === favouriteEmoji.length ) {
+								if ( emojiCounter >= emojiPanelLimit || emojiCounter === defaultEmoji.length ) {
 									break;
 								}
 							}
@@ -261,5 +259,14 @@
  *
  * @since 4.10.0
  * @cfg {String} [emoji_emojiListUrl='plugins/emoji/emoji.json']
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Array with emoji names, which will be used as default one in emoji panel.
+ * If value is not set, then first 30 emoji from `emoji.json` file will be displayed.
+ *
+ * @since 4.11.0
+ * @cfg {String}[] [emoji_defaults]
  * @member CKEDITOR.config
  */
