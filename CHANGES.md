@@ -5,9 +5,12 @@
 
 New Features:
 
-* [#1751](https://github.com/ckeditor/ckeditor-dev/issues/1751): Introduced the [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) plugin.
-* [#1703](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduced the [Mentions](https://ckeditor.com/cke4/addon/mentions) plugin.
-* [#1746](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduced the [Emoji](https://ckeditor.com/cke4/addon/emoji) plugin.
+* [#1751](https://github.com/ckeditor/ckeditor-dev/issues/1751): Introduced the **Autocomplete** feature that consists of the following plugins: 
+	* [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) &ndash; Provides contextual completion feature for custom text matches based on user input.
+	* [Text Watcher](https://ckeditor.com/cke4/addon/textWatcher) &ndash; Checks whether an editor's text change matches the chosen criteria.
+	* [Text Match](https://ckeditor.com/cke4/addon/textMatch) &ndash; Allows to search [`CKEDITOR.dom.range`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_dom_range.html) for matching text.
+* [#1703](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduced the [Mentions](https://ckeditor.com/cke4/addon/mentions) plugin providing smart completion feature for custom text matches based on user input starting with a chosen marker character.
+* [#1746](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduced the [Emoji](https://ckeditor.com/cke4/addon/emoji) plugin providing completion feature for emoji ideograms.
 * [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): The [Auto Link](https://ckeditor.com/cke4/addon/autolink) plugin now supports email links.
 
 Fixed Issues:
