@@ -511,6 +511,29 @@
 			} );
 
 			wait();
+		},
+
+		// (#2158)
+		'test moving mouse over dropdown items': function() {
+			var editor = this.editors.standard,
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
+
+			this.editorBots.standard.setHtmlWithSelection( '' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			var firstElement = ac.view.getItemById( 1 );
+			assertViewOpened( ac, true );
+			assert.isTrue( firstElement.hasClass( 'cke_autocomplete_selected' ) );
+
+			var target = ac.view.element.getLast();
+			ac.view.element.fire( 'mouseover', new CKEDITOR.dom.event( { target: target.$ } ) );
+
+			assertViewOpened( ac, true );
+			assert.isTrue( firstElement.hasClass( 'cke_autocomplete_selected' ) );
+			assert.isFalse( target.hasClass( 'cke_autocomplete_selected' ) );
+
+			ac.destroy();
 		}
 	} );
 
