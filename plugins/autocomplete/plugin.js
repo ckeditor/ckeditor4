@@ -354,6 +354,7 @@
 
 			this._listeners = [];
 
+			this.view.deregisterAllFocusables();
 			this.view.element.remove();
 		},
 
@@ -593,7 +594,7 @@
 		 * @readonly
 		 * @property {CKEDITOR.template}
 		 */
-		this.itemTemplate = new CKEDITOR.template( '<li data-id="{id}">{name}</li>' );
+		this.itemTemplate = new CKEDITOR.template( '<li data-id="{id}" tabindex="-1">{name}</li>' );
 
 		/**
 		 * The editor instance.
@@ -602,6 +603,14 @@
 		 * @property {CKEDITOR.editor}
 		 */
 		this.editor = editor;
+
+		/**
+		 * Focusable elements in this view.
+		 * See {@link #registerAllFocusables}, {@link #deregisterAllFocusables} and {@link CKEDITOR.focusManager}.
+		 *
+		 * @since 4.11.0
+		 */
+		this.focusables = {};
 
 		/**
 		 * The ID of the selected item.
@@ -659,6 +668,7 @@
 		appendItems: function( itemsFragment ) {
 			this.element.setHtml( '' );
 			this.element.append( itemsFragment );
+			this.registerAllFocusables();
 		},
 
 		/**
@@ -701,6 +711,7 @@
 		 */
 		close: function() {
 			this.element.removeClass( 'cke_autocomplete_opened' );
+			this.deregisterAllFocusables();
 		},
 
 		/**
@@ -711,7 +722,6 @@
 		 */
 		createElement: function() {
 			var el = new CKEDITOR.dom.element( 'ul', this.document );
-
 			el.addClass( 'cke_autocomplete_panel' );
 			// Below float panels and context menu, but above maximized editor (-5).
 			el.setStyle( 'z-index', this.editor.config.baseFloatZIndex - 3 );
@@ -728,6 +738,35 @@
 		createItem: function( item ) {
 			var encodedItem = encodeItem( item );
 			return CKEDITOR.dom.element.createFromHtml( this.itemTemplate.output( encodedItem ), this.document );
+		},
+
+		/**
+		 * Unregisters Views all focusables from editor's focus manager.
+		 * See {@link #focusables}, {@link #deregisterFocusable}.
+		 *
+		 * @since 4.11.0
+		 */
+		deregisterAllFocusables: function() {
+			var children = this.element.getChildren().toArray();
+			CKEDITOR.tools.array.forEach( children, function( item ) {
+				this.deregisterFocusable( item );
+			}, this );
+		},
+
+		/**
+		 * Unregisters an element from editor's focus manager.
+		 * See {@link #focusables}.
+		 *
+		 * @since 4.11.0
+		 * @param {CKEDITOR.dom.element} element An element to be registered.
+		 */
+		deregisterFocusable: function( element ) {
+			var id = element.getUniqueId();
+			// Don't remove same item many times. Currently we are removing items both on `destroy` and on `close`.
+			if ( id in this.focusables ) {
+				this.editor.focusManager.remove( element );
+				delete this.focusables[ id ];
+			}
 		},
 
 		/**
@@ -802,6 +841,33 @@
 		 */
 		open: function() {
 			this.element.addClass( 'cke_autocomplete_opened' );
+		},
+
+		/**
+		 * Register Views all items as focusables in editor's focus manager.
+		 * See {@link #focusables}, {@link #registerFocusable}.
+		 *
+		 * @since 4.11.0
+		 */
+		registerAllFocusables: function() {
+			var children = this.element.getChildren().toArray();
+
+			CKEDITOR.tools.array.forEach( children, function( item ) {
+				this.registerFocusable( item );
+			}, this );
+		},
+
+		/**
+		 * Registers a new focusable element in the editor's focus manager so the instance
+		 * does not blur once the child of the balloon panel gains focus.
+		 * See {@link #focusables}.
+		 *
+		 * @since 4.11.0
+		 * @param {CKEDITOR.dom.element} element An element to be registered.
+		 */
+		registerFocusable: function( element ) {
+			this.editor.focusManager.add( element );
+			this.focusables[ element.getUniqueId() ] = element;
 		},
 
 		/**
