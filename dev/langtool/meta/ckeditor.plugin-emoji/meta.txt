@@ -1,0 +1,6 @@
+# Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or http://ckeditor.com/license
+
+searchPlaceholder = Text displayed inside search bar which encourage user to enter search query.
+defaultEmojiTitle = Title of emoji list, which is displayed as default value when search query is empty.
+searchResultTitle = Title of emoji list, which is displayed for results after inserting any search query.

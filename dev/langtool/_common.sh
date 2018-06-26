@@ -46,5 +46,5 @@ fi
 cd ../..
 
 
-plugins=( about autoembed basicstyles bidi blockquote clipboard codesnippet colorbutton colordialog contextmenu copyformatting devtools div docprops easyimage elementspath embedbase fakeobjects filetools find flash font format forms horizontalrule iframe image image2 imagebase indent language link list liststyle magicline maximize mathjax newpage notification pagebreak pastefromword pastetext placeholder preview print removeformat save selectall showblocks smiley sourcearea sourcedialog specialchar stylescombo table templates toolbar uicolor undo uploadwidget widget )
+plugins=( about autoembed basicstyles bidi blockquote clipboard codesnippet colorbutton colordialog contextmenu copyformatting devtools div docprops easyimage elementspath embedbase emoji fakeobjects filetools find flash font format forms horizontalrule iframe image image2 imagebase indent language link list liststyle magicline maximize mathjax newpage notification pagebreak pastefromword pastetext placeholder preview print removeformat save selectall showblocks smiley sourcearea sourcedialog specialchar stylescombo table templates toolbar uicolor undo uploadwidget widget )
 plugins_dialogs=( a11yhelp specialchar )
