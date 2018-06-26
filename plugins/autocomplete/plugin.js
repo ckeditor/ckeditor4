@@ -268,7 +268,6 @@
 			this._listeners.push( this.textWatcher.on( 'unmatched', this.onTextUnmatched, this ) );
 			this._listeners.push( this.model.on( 'change-data', this.modelChangeListener, this ) );
 			this._listeners.push( this.model.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
-			this._listeners.push( this.view.on( 'change-selectedItemId', this.onSelectedItemId, this ) );
 			this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
 
 			// Update view position on viewport change.
@@ -677,27 +676,6 @@
 				if ( itemElement ) {
 					this.fire( 'click-item', itemElement.data( 'id' ) );
 				}
-			}, this );
-
-			this.element.on( 'mouseover', function( evt ) {
-				var target = evt.data.getTarget();
-
-				if ( this.element.contains( target ) ) {
-
-					// Find node containing data-id attribute inside target node tree (#2187).
-					target = target.getAscendant( function( element ) {
-						return element.hasAttribute( 'data-id' );
-					}, true );
-
-					if ( !target ) {
-						return;
-					}
-
-					var itemId = target.data( 'id' );
-
-					this.fire( 'change-selectedItemId', itemId );
-				}
-
 			}, this );
 		},
 
@@ -1128,24 +1106,17 @@
 		},
 
 		/**
-		 * Sets the {@link #selectedItemId} property.
+		 * Selects an item. Sets the {@link #selectedItemId} property and
+		 * fires the {@link #change-selectedItemId} event.
 		 *
 		 * @param {Number/String} itemId
 		 */
-		setItem: function( itemId ) {
+		select: function( itemId ) {
 			if ( this.getIndexById( itemId ) < 0 ) {
 				throw new Error( 'Item with given id does not exist' );
 			}
 
 			this.selectedItemId = itemId;
-		},
-
-		/**
-		 * Fires the {@link #change-selectedItemId} event.
-		 *
-		 * @param {Number/String} itemId
-		 */
-		select: function( itemId ) {
 			this.fire( 'change-selectedItemId', itemId );
 		},
 

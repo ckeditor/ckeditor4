@@ -55,35 +55,29 @@
 			assert.areEqual( getData()[ 2 ].id, model.getItemById( 3 ).id );
 		},
 
-		'test select fires change-selectedItemId event': function() {
+		'test selects correct item': function() {
 			var model = new CKEDITOR.plugins.autocomplete.model( dataCallback ),
 				spy = sinon.spy( model, 'fire' ),
 				itemId = 2;
 
+			model.data = getData();
 			model.select( itemId );
 
+			assert.areEqual( itemId, model.selectedItemId );
 			assert.isTrue( spy.calledWith( 'change-selectedItemId', itemId ) );
 		},
 
-		'test sets correct item': function() {
+		'test selects throws with invalid itemId': function() {
 			var model = new CKEDITOR.plugins.autocomplete.model( dataCallback ),
-				itemId = 2;
-
-			model.data = getData();
-			model.setItem( itemId );
-
-			assert.areEqual( itemId, model.selectedItemId );
-		},
-
-		'test sets item throws with invalid itemId': function() {
-			var model = new CKEDITOR.plugins.autocomplete.model( dataCallback ),
+				spy = sinon.spy( model, 'fire' ),
 				itemId = 999;
 
 			assert.throwsError( Error, function() {
-				model.setItem( itemId );
+				model.select( itemId );
 			} );
 
 			assert.isUndefined( model.selectedItemId );
+			assert.isFalse( spy.calledWith( 'change-selectedItemId', itemId ) );
 		},
 
 		'test select first': function() {
@@ -122,8 +116,6 @@
 
 			model.selectPrevious();
 			assert.isTrue( spy.calledWith( 3 ) );
-
-			model.selectedItemId = 3;
 
 			model.selectPrevious();
 			assert.isTrue( spy.calledWith( 2 ) );
