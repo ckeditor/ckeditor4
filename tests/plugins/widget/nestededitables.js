@@ -978,14 +978,19 @@
 
 				CKEDITOR.document.getById( 'some_input' ).focus();
 
-				wait( function() {
+				editor.once( 'blur', function() {
+					resume();
 					assert.isFalse( editor.focusManager.hasFocus, 'editor lost focus' );
 					assert.isFalse( !!widget.focusedEditable, 'editable is not focused' );
 
 					editor.focus();
 					assert.isTrue( editor.focusManager.hasFocus, 'editor has focus again' );
 					assert.areSame( eFoo, widget.focusedEditable, 'editable is focused again' );
-				}, 210 );
+				} );
+
+				CKEDITOR.document.getById( 'some_input' ).focus();
+
+				wait();
 			} );
 		},
 
@@ -1101,7 +1106,8 @@
 
 				CKEDITOR.document.getById( 'some_input' ).focus();
 
-				wait( function() {
+				editor.once( 'blur', function() {
+					resume();
 					assert.isFalse( editor.focusManager.hasFocus, 'editor lost focus' );
 
 					selectionChanged = 0;
@@ -1109,7 +1115,11 @@
 					eFoo.focus();
 
 					assert.isTrue( !!selectionChanged, 'selectionChange fired second time on next focus' );
-				}, 210 );
+				} );
+
+				CKEDITOR.document.getById( 'some_input' ).focus();
+
+				wait();
 			} );
 		},
 
