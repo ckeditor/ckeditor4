@@ -78,7 +78,8 @@
 
 				function dataCallback( matchInfo, callback ) {
 					var data = CKEDITOR.tools.array.filter( emojiList, function( item ) {
-						return item.id.indexOf( matchInfo.query.slice( 1 ) ) !== -1;
+						// Testing with case insensitive regular expression (#2167).
+						return ( new RegExp( matchInfo.query.slice( 1 ), 'i' ) ).test( item.id );
 					} ).sort( function( a, b ) {
 						// Sort at the beginning emoji starts with given query.
 						var emojiName = matchInfo.query.substr( 1 ),
