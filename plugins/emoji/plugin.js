@@ -41,6 +41,12 @@
 				var emojiList = editor._.emoji.list,
 					charactersToStart = editor.config.emoji_minChars === undefined ? 2 : editor.config.emoji_minChars;
 
+				if ( defaultEmoji === undefined ) {
+					defaultEmoji = CKEDITOR.tools.array.map( emojiList.slice( 0, 30 ), function( item ) {
+						return item.id.replace( /:/g, '' );
+					} );
+				}
+
 				if ( editor.status !== 'ready' ) {
 					editor.once( 'instanceReady', initPlugin );
 				} else {
