@@ -433,7 +433,7 @@
 	 * 			iconHiDpi: 'assets/icons/my_button.hidpi.png'
 	 * 		} )
 	 * @param {String/Boolean} definition.hasArrow If boolean, indicates if button should have a dropdown. If string, acts as a value of button's aria-haspopup attribute.
-	 * Since **4.10.0** it supports string as value.
+	 * Since **4.11.0** it supports string as value.
 	 */
 	CKEDITOR.ui.prototype.addButton = function( name, definition ) {
 		this.add( name, CKEDITOR.UI_BUTTON, definition );
