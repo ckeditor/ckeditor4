@@ -71,7 +71,8 @@
 			// Fallback in case where ajax couldn't load before tests.
 			var data = JSON.stringify( [
 				{ id: ':bug:', symbol: '🐛' },
-				{ id: ':dagger:', symbol: '🗡' }
+				{ id: ':dagger:', symbol: '🗡' },
+				{ id: ':OK_hand:', symbol: '👌' }
 			] );
 
 			stub = sinon.stub( CKEDITOR.ajax, 'load', function( url, callback ) {
@@ -121,8 +122,29 @@
 				autocomplete.close();
 
 			} );
-		}
+		},
 
+		// (#2167)
+		'test emoji suggestion box is case insensitive': function( editor, bot ) {
+			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
+				var autocomplete = editor._.emoji.autocomplete,
+					queries = [ ':OK_HAND', ':ok_hand', ':OK_hand', ':ok_HAND', ':Ok_hanD', 'oK_HANd' ];
+
+				CKEDITOR.tools.array.forEach( queries, function( query, index ) {
+					setTimeout( function() {
+						resume();
+						bot.setHtmlWithSelection( '<p>foo' + query + '^</p>' );
+						editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+						objectAssert.areEqual( { id: ':OK_hand:', symbol: '👌' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+
+						emojiTools.clearAutocompleteModel( autocomplete );
+						autocomplete.close();
+					}, 50 * ( index + 1 ) );
+					wait();
+				} );
+			} );
+		}
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
