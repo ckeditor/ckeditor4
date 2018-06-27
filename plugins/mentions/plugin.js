@@ -420,17 +420,17 @@
 
 	/**
 	 * @inheritdoc CKEDITOR.plugins.mentions#marker
-	 * @property {String} [marker]
+	 * @property {String} [marker='@']
 	 */
 
 	/**
 	 * @inheritdoc CKEDITOR.plugins.mentions#minChars
-	 * @property {Number} [minChars]
+	 * @property {Number} [minChars=2]
 	 */
 
 	/**
 	 * @inheritdoc CKEDITOR.plugins.mentions#caseSensitive
-	 * @property {Boolean} [caseSensitive]
+	 * @property {Boolean} [caseSensitive=false]
 	 */
 
 	/**
