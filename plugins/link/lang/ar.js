@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'ar', {
 	anchorName: 'حسب إسم الإشارة المرجعية',
 	charset: 'ترميز المادة المطلوبة',
 	cssClasses: 'فئات التنسيق',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'فرض التحميل',
+	displayText: 'نص العرض',
 	emailAddress: 'البريد الإلكتروني',
 	emailBody: 'محتوى الرسالة',
 	emailSubject: 'موضوع الرسالة',

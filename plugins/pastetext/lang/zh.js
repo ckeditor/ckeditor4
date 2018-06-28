@@ -4,6 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'zh', {
 	button: '貼成純文字',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteNotification: '請按下「%1」貼上。您的瀏覽器不支援工具列按鈕或是內容功能表選項。 ',
 	title: '貼成純文字'
 } );

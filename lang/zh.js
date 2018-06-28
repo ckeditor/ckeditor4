@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'zh' ] = {
 		justify: '左右對齊',
 		alignLeft: '靠左對齊',
 		alignRight: '靠右對齊',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: '置中對齊',
 		alignTop: '頂端',
 		alignMiddle: '中間對齊',
 		alignBottom: '底端',

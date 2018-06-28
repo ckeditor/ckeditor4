@@ -29,7 +29,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'tr', {
 		'0FF': 'Ciyan',
 		'00F': 'Mavi',
 		EE82EE: 'Menekşe',
-		A9A9A9: 'Koyu Gri',
+		A9A9A9: 'Loş Gri',
 		FFA07A: 'Açık Sarımsı',
 		FFA500: 'Portakal',
 		FFFF00: 'Sarı',

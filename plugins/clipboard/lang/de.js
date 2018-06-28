@@ -8,8 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'de', {
 	cut: 'Ausschneiden',
 	cutError: 'Die Sicherheitseinstellungen Ihres Browsers lassen es nicht zu, den Text automatisch auszuschneiden. Bitte benutzen Sie die System-Zwischenablage über STRG-X (ausschneiden) und STRG-V (einfügen).',
 	paste: 'Einfügen',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteNotification: 'Drücken Sie %1 zum Einfügen. Ihr Browser unterstützt nicht das Einfügen über dem Knopf in der Toolbar oder dem Kontextmenü.',
 	pasteArea: 'Einfügebereich',
-	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
+	pasteMsg: 'Fügen Sie den Inhalt in den unteren Bereich ein und drücken Sie OK.',
 	title: 'Einfügen'
 } );

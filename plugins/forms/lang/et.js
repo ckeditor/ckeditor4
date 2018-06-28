@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'et', {
 		size: 'Suurus',
 		lines: 'ridu',
 		chkMulti: 'Võimalik mitu valikut',
-		required: 'Required', // MISSING
+		required: 'Nõutud',
 		opText: 'Tekst',
 		opValue: 'Väärtus',
 		btnAdd: 'Lisa',

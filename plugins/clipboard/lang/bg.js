@@ -4,12 +4,12 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'bg', {
 	copy: 'Копирай',
-	copyError: 'Настройките за сигурност на вашия бразуър не разрешават на редактора да изпълни запаметяването. За целта използвайте клавиатурата (Ctrl/Cmd+C).',
+	copyError: 'Настройките за сигурност на вашия бразуър не разрешават на редактора да изпълни действията по копиране. За целта използвайте клавиатурата (Ctrl+C).',
 	cut: 'Отрежи',
-	cutError: 'Настройките за сигурност на Вашия браузър не позволяват на редактора автоматично да изъплни действията за отрязване. Моля ползвайте клавиатурните команди за целта (ctrl+x).',
+	cutError: 'Настройките за сигурност на вашия браузър не позволяват на редактора автоматично да изъплни действията за отрязване. За целта използвайте клавиатурата (Ctrl+X).',
 	paste: 'Вмъкни',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
-	pasteArea: 'Зона за вмъкване',
-	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
+	pasteNotification: 'Натиснете %1 за да вмъкнете. Вашият браузър не поддържа поставяне с бутон от лентата с инструменти или от контекстното меню.',
+	pasteArea: 'Зона за поставяне',
+	pasteMsg: 'Поставете съдържанието в зоната отдолу и натиснете OK.',
 	title: 'Вмъкни'
 } );

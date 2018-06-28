@@ -83,7 +83,7 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		justify: 'Justificar',
 		alignLeft: 'Alinhar Esquerda',
 		alignRight: 'Alinhar Direita',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'Centralizar',
 		alignTop: 'Superior',
 		alignMiddle: 'Centralizado',
 		alignBottom: 'Inferior',

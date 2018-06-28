@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'uicolor', 'tr', {
 	title: 'UI Renk Seçici',
 	options: 'Renk Seçenekleri',
-	highlight: 'Highlight', // MISSING
+	highlight: 'İşaretle',
 	selected: 'Seçilmiş Renk',
 	predefined: 'Önceden tanımlı renk seti',
 	config: 'Bu yazıyı config.js dosyasının içine yapıştırın'
