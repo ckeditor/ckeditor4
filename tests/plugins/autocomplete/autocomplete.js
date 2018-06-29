@@ -98,6 +98,35 @@
 			ac.destroy();
 		},
 
+		// (#2187)
+		'test mouseover finds correct target': function() {
+			var editor = this.editors.standard,
+				ac = new CKEDITOR.plugins.autocomplete( editor, {
+					dataCallback: dataCallback,
+					textTestCallback: textTestCallback,
+					itemTemplate: '<li data-id="{id}"><b>{name}</b></li>'
+				} );
+
+			this.editorBots.standard.setHtmlWithSelection( '' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			var firstElement = ac.view.getItemById( 1 );
+			assertViewOpened( ac, true );
+			assert.isTrue( firstElement.hasClass( 'cke_autocomplete_selected' ) );
+
+			var listItem = ac.view.element.getLast(),
+				target = listItem.findOne( 'b' );
+
+			ac.view.element.fire( 'mouseover', new CKEDITOR.dom.event( { target: target.$ } ) );
+
+			assertViewOpened( ac, true );
+			assert.isFalse( firstElement.hasClass( 'cke_autocomplete_selected' ) );
+			assert.isTrue( listItem.hasClass( 'cke_autocomplete_selected' ) );
+
+			ac.destroy();
+		},
+
 		// (#1984)
 		'test view is not opened after unmatch': function() {
 			var editor = this.editors.standard,

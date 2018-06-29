@@ -671,6 +671,16 @@
 				var target = evt.data.getTarget();
 
 				if ( this.element.contains( target ) ) {
+
+					// Find node containing data-id attribute inside target node tree (#2187).
+					target = target.getParents().filter( function( element ) {
+						return element.hasAttribute( 'data-id' );
+					} )[ 0 ];
+
+					if ( !target ) {
+						return;
+					}
+
 					var itemId = target.data( 'id' );
 
 					this.fire( 'change-selectedItemId', itemId );
