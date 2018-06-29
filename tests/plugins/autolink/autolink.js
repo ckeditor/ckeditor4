@@ -29,6 +29,7 @@ bender.editors = {
 	},
 	customCommitKeystrokes: {
 		config: {
+			removePlugins: 'link',
 			allowedContent: true,
 			autolink_commitKeystrokes: [ 9 ] // TAB
 		}
