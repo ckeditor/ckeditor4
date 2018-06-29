@@ -26,13 +26,6 @@ bender.editors = {
 			pasteFilter: null,
 			emailProtection: 'mt(NAME,DOMAIN,SUBJECT,BODY)'
 		}
-	},
-	customCommitKeystrokes: {
-		config: {
-			removePlugins: 'link',
-			allowedContent: true,
-			autolink_commitKeystrokes: [ 9 ] // TAB
-		}
 	}
 };
 
@@ -286,27 +279,53 @@ bender.test( {
 	},
 
 	// (#1815)
-	'test press space to finish link completion': function() {
-		testTyping( this.editors.classic, 32, 'http://example.com^', '<p><a href="http://example.com">http://example.com</a></p>' ); // SPACE
-		testTyping( this.editors.classic, 32, 'mail@example.com^', '<p><a href="mailto:mail@example.com">mail@example.com</a></p>' ); // SPACE
-	},
+	'test press commit keystroke to finish link completion': function() {
+		var url = 'http://example.com^',
+			email = 'mail@example.com^',
+			expectedUrlLink = '<p><a href="http://example.com">http://example.com</a></p>',
+			expectedEmailLink = '<p><a href="mailto:mail@example.com">mail@example.com</a></p>';
 
-	// (#1815)
-	'test press enter to finish link completion': function() {
-		testTyping( this.editors.classic, 13, 'http://example.com^', '<p><a href="http://example.com">http://example.com</a></p>' ); // ENTER
-		testTyping( this.editors.classic, 13, 'mail@example.com^', '<p><a href="mailto:mail@example.com">mail@example.com</a></p>' ); // ENTER
-	},
+		testTyping( this.editors.classic, 9, url, expectedUrlLink, 'Tab URL' );
+		testTyping( this.editors.classic, 9, email, expectedEmailLink, 'Tab Email' );
 
-	// (#1815)
-	'test press custom commit keystroke to finish link completion': function() {
-		testTyping( this.editors.customCommitKeystrokes, 9, 'http://example.com^', '<p><a href="http://example.com">http://example.com</a></p>' ); // TAB
-		testTyping( this.editors.customCommitKeystrokes, 9, 'mail@example.com^', '<p><a href="mailto:mail@example.com">mail@example.com</a></p>' ); // TAB
+		testTyping( this.editors.classic, 13, url, expectedUrlLink, 'Enter URL' );
+		testTyping( this.editors.classic, 13, email, expectedEmailLink, 'Enter Email' );
+
+		testTyping( this.editors.classic, 32, url, expectedUrlLink, 'Space URL' );
+		testTyping( this.editors.classic, 32, email, expectedEmailLink, 'Space Email' );
+
+		testTyping( this.editors.classic, 32, url, expectedUrlLink, 'Enter URL' );
+		testTyping( this.editors.classic, 32, email, expectedEmailLink, 'Enter email' );
+
+		testTyping( this.editors.classic, 33, url, expectedUrlLink, 'PageUp URL' );
+		testTyping( this.editors.classic, 33, email, expectedEmailLink, 'PageUp email' );
+
+		testTyping( this.editors.classic, 34, url, expectedUrlLink, 'PageDown URL' );
+		testTyping( this.editors.classic, 34, email, expectedEmailLink, 'PageDown email' );
+
+		testTyping( this.editors.classic, 35, url, expectedUrlLink, 'End URL' );
+		testTyping( this.editors.classic, 35, email, expectedEmailLink, 'End email' );
+
+		testTyping( this.editors.classic, 36, url, expectedUrlLink, 'Home URL' );
+		testTyping( this.editors.classic, 36, email, expectedEmailLink, 'Home email' );
+
+		testTyping( this.editors.classic, 37, url, expectedUrlLink, 'ArrowLeft URL' );
+		testTyping( this.editors.classic, 37, email, expectedEmailLink, 'ArrowLeft email' );
+
+		testTyping( this.editors.classic, 38, url, expectedUrlLink, 'ArrowUp URL' );
+		testTyping( this.editors.classic, 38, email, expectedEmailLink, 'ArrowUp email' );
+
+		testTyping( this.editors.classic, 39, url, expectedUrlLink, 'ArrowRight URL' );
+		testTyping( this.editors.classic, 39, email, expectedEmailLink, 'ArrowRight email' );
+
+		testTyping( this.editors.classic, 40, url, expectedUrlLink, 'ArrowDown URL' );
+		testTyping( this.editors.classic, 40, email, expectedEmailLink, 'ArrowDown email' );
 	},
 
 	// (#1815)
 	'test link completion with invalid commit keystroke': function() {
-		testTyping( this.editors.classic, 9, 'http://example.com^', '<p>http://example.com</p>' ); // TAB
-		testTyping( this.editors.classic, 9, 'mail@example.com^', '<p>mail@example.com</p>' ); // TAB
+		testTyping( this.editors.classic, 93, 'http://example.com^', '<p>http://example.com</p>' ); // Backspace
+		testTyping( this.editors.classic, 93, 'mail@example.com^', '<p>mail@example.com</p>' ); // Backspace
 	},
 
 	// (#1815)
@@ -320,10 +339,10 @@ bender.test( {
 	}
 } );
 
-function testTyping( editor, commitKeystroke, actual, expected ) {
+function testTyping( editor, commitKeystroke, actual, expected, message ) {
 	bender.tools.setHtmlWithSelection( editor, actual );
 
 	editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: commitKeystroke } ) );
 
-	assert.areEqual( expected, editor.getData() );
+	assert.areEqual( expected, editor.getData(), message );
 }

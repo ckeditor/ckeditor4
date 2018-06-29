@@ -4,10 +4,25 @@
 
 1. Focus the editor.
 1. Type `http://example.com`.
-1. Press `space`.
+1. Press listed commit key.
 1. Double click on created link and check its `Link Type`.
 1. Click `Undo` button once.
-1. Repeat `1-5` with ` mail@example.com ` and `enter`.
+1. Repeat for each commit key and ` mail@example.com ` text.
+
+
+**Commit keys**:
+
+* `Tab`
+* `Enter`
+* `Space`
+* `PageUp`
+* `PageDown`
+* `End`
+* `Home`
+* `ArrowLeft`
+* `ArrowUp`
+* `ArrowRight`
+* `ArrowDown`
 
 ## Expected
 
