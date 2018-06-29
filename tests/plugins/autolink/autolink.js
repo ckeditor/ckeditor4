@@ -307,6 +307,16 @@ bender.test( {
 	'test link completion with invalid commit keystroke': function() {
 		testTyping( this.editors.classic, 9, 'http://example.com^', '<p>http://example.com</p>' ); // TAB
 		testTyping( this.editors.classic, 9, 'mail@example.com^', '<p>mail@example.com</p>' ); // TAB
+	},
+
+	// (#1815)
+	'test created protected mail link (string) on typing': function() {
+		testTyping( this.editors.encodedCustom, 32, 'a@a^', '<p><a href="javascript:mt(\'a\',\'a\',\'\',\'\')">a@a</a></p>' ); // SPACE
+	},
+
+	// (#1815)
+	'test created protected mail link (function) on typing': function() {
+		testTyping( this.editors.encodedDefault, 32, 'a@a^', '<p><a href="javascript:void(location.href=\'mailto:\'+String.fromCharCode(97,64,97))">a@a</a></p>' ); // SPACE
 	}
 } );
 
