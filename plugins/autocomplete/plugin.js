@@ -673,9 +673,9 @@
 				if ( this.element.contains( target ) ) {
 
 					// Find node containing data-id attribute inside target node tree (#2187).
-					target = target.getParents().filter( function( element ) {
+					target = target.getAscendant( function( element ) {
 						return element.hasAttribute( 'data-id' );
-					} )[ 0 ];
+					}, true );
 
 					if ( !target ) {
 						return;

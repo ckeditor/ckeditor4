@@ -5,10 +5,10 @@
 
 1. Open a console.
 1. Focus the editor.
-1. Type `@` character.
+1. Type `@` character to open autocomplete with default template.
 1. Move mouse over the last dropdown item.
 1. Press enter.
-1. Repeat with `#` character.
+1. Repeat with `#` character to open autocomplete with custom template.
 
 
 ## Expected
