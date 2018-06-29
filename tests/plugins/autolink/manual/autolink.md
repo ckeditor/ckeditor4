@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 4.7.0, bug, trac14769
-@bender-ckeditor-plugins: clipboard, toolbar, wysiwygarea, elementspath, link, autolink, basicstyles, undo
+@bender-ckeditor-plugins: clipboard, toolbar, wysiwygarea, elementspath, link, autolink
 
 ## Test Scenario
 
