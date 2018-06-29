@@ -282,6 +282,10 @@
 
 		// (#1815)
 		'test press commit keystroke to finish link completion': function() {
+			if ( isTypingUnsupported() ) {
+				assert.ignore();
+			}
+
 			var url = 'http://example.com^',
 				email = 'mail@example.com^',
 				expectedUrlLink = '<p><a href="http://example.com">http://example.com</a></p>',
@@ -326,20 +330,36 @@
 
 		// (#1815)
 		'test link completion with invalid commit keystroke': function() {
+			if ( isTypingUnsupported() ) {
+				assert.ignore();
+			}
+
 			testTyping( this.editors.classic, 93, 'http://example.com^', '<p>http://example.com</p>' ); // Backspace
 			testTyping( this.editors.classic, 93, 'mail@example.com^', '<p>mail@example.com</p>' ); // Backspace
 		},
 
 		// (#1815)
 		'test created protected mail link (string) on typing': function() {
+			if ( isTypingUnsupported() ) {
+				assert.ignore();
+			}
+
 			testTyping( this.editors.encodedCustom, 32, 'a@a^', '<p><a href="javascript:mt(\'a\',\'a\',\'\',\'\')">a@a</a></p>' ); // SPACE
 		},
 
 		// (#1815)
 		'test created protected mail link (function) on typing': function() {
+			if ( isTypingUnsupported() ) {
+				assert.ignore();
+			}
+
 			testTyping( this.editors.encodedDefault, 32, 'a@a^', '<p><a href="javascript:void(location.href=\'mailto:\'+String.fromCharCode(97,64,97))">a@a</a></p>' ); // SPACE
 		}
 	} );
+
+	function isTypingUnsupported() {
+		return CKEDITOR.env.ie && !CKEDITOR.env.edge;
+	}
 
 	function testTyping( editor, commitKeystroke, actual, expected, message ) {
 		bender.tools.setHtmlWithSelection( editor, actual );
