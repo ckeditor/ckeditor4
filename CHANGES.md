@@ -7,6 +7,10 @@ Fixed Issues:
 
 * [#2114](https://github.com/ckeditor/ckeditor-dev/issues/2114): [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) cannot be initialized before [`instanceReady`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#event-instanceReady).
 
+Fixed Issues:
+
+* [#2169](https://github.com/ckeditor/ckeditor-dev/issues/2169): Fixed: MS Edge some times throws an error when pasting into editor.
+
 ## CKEditor 4.10
 
 New Features:
