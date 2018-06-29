@@ -2825,6 +2825,11 @@
 
 					fallbackDataTransfer._isCustomMimeTypeSupported = false;
 
+					// It looks like after our custom mime type test Edge 17 is denying access on nativeDataTransfer.
+					if ( CKEDITOR.env.edge && CKEDITOR.env.version > 16 ) {
+						return false;
+					}
+
 					try {
 						nativeDataTransfer.setData( testType, testValue );
 						fallbackDataTransfer._isCustomMimeTypeSupported = nativeDataTransfer.getData( testType ) === testValue;
