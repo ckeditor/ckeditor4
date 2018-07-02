@@ -151,7 +151,7 @@
 	 * Regex used by [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin to match URL adresses.
 	 *
 	 * @cfg {RegExp} [autolink_urlRegex]
-	 * @since 4.10.0
+	 * @since 4.11.0
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.autolink_urlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig;
@@ -161,7 +161,7 @@
 	 * Regex used by [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin to match email adresses.
 	 *
 	 * @cfg {RegExp} [autolink_emailRegex]
-	 * @since 4.10.0
+	 * @since 4.11.0
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.autolink_emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
