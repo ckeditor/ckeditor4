@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'toolbar', 'bg', {
 	toolbarGroups: {
 		document: 'Документ',
 		clipboard: 'Клипборд/Отмяна',
-		editing: 'Промяна',
+		editing: 'Редакция',
 		forms: 'Форми',
 		basicstyles: 'Базови стилове',
 		paragraph: 'Параграф',

@@ -1,0 +1,21 @@
+<div id="editor" ></div>
+
+<script>
+
+	if( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback( { async: 3000 } )
+				} );
+			}
+		}
+
+	} );
+
+</script>

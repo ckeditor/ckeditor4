@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'ro' ] = {
 		justify: 'Aliniere în bloc (Justify)',
 		alignLeft: 'Aliniere la stânga',
 		alignRight: 'Aliniere la dreapta',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'Aliniere centru',
 		alignTop: 'Aliniere sus',
 		alignMiddle: 'Aliniere la mijloc',
 		alignBottom: 'Aliniere jos',
@@ -92,7 +92,7 @@ CKEDITOR.lang[ 'ro' ] = {
 		invalidValue: 'Valoare invalidă',
 		invalidHeight: 'Înălțimea trebuie să fie un număr.',
 		invalidWidth: 'Lățimea trebuie să fie un număr.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
+		invalidLength: 'Valoarea specificată pentru câmpul "%1" trebuie să fie un număr pozitiv cu sau fără o unitate de măsură validă (%2).',
 		invalidCssLength: 'Valoarea specificată pentru câmpul "%1" trebuie să fie un număr pozitiv cu sau fără o unitate de măsură validă CSS (px, %, in, cm, mm, em, ex, pt, sau pc).',
 		invalidHtmlLength: 'Valoarea specificată pentru câmpul "%1" trebuie să fie un număr pozitiv cu sau fără o unitate de măsură validă HTML (px sau %).',
 		invalidInlineStyle: 'Valoarea specificată pentru stil trebuie să conțină una sau mai multe construcții de tipul "name : value", separate prin punct și virgulă.',
@@ -112,12 +112,12 @@ CKEDITOR.lang[ 'ro' ] = {
 			35: 'End',
 			36: 'Home',
 			46: 'Delete',
-			112: 'F1', // MISSING
-			113: 'F2', // MISSING
-			114: 'F3', // MISSING
-			115: 'F4', // MISSING
-			116: 'F5', // MISSING
-			117: 'F6', // MISSING
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
 			118: 'F7', // MISSING
 			119: 'F8', // MISSING
 			120: 'F9', // MISSING
@@ -142,6 +142,6 @@ CKEDITOR.lang[ 'ro' ] = {
 		// Prepended to ARIA labels with shortcuts.
 		keyboardShortcut: 'Scurtături tastatură',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'Implicit'
 	}
 };

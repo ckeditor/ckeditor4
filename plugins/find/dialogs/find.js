@@ -51,21 +51,21 @@
 		}
 	}
 
-	function findDialog( editor, startupPage ) {
+	function findDialog( editor ) {
 		// Style object for highlights: (https://dev.ckeditor.com/ticket/5018)
 		// 1. Defined as full match style to avoid compromising ordinary text color styles.
 		// 2. Must be apply onto inner-most text to avoid conflicting with ordinary text color styles visually.
 		var highlightConfig = {
-			attributes: {
-				'data-cke-highlight': 1
+				attributes: {
+					'data-cke-highlight': 1
+				},
+				fullMatch: 1,
+				ignoreReadonly: 1,
+				childRule: function() {
+					return 0;
+				}
 			},
-			fullMatch: 1,
-			ignoreReadonly: 1,
-			childRule: function() {
-				return 0;
-			}
-		};
-		var highlightStyle = new CKEDITOR.style( CKEDITOR.tools.extend( highlightConfig, editor.config.find_highlight, true ) );
+			highlightStyle = new CKEDITOR.style( CKEDITOR.tools.extend( highlightConfig, editor.config.find_highlight, true ) );
 
 		// Iterator which walk through the specified range char by char. By
 		// default the walking will not stop at the character boundaries, until
@@ -776,14 +776,13 @@
 				finder.searchRange = getSearchRange();
 
 				// Fill in the find field with selected text.
-				var selectedText = this.getParentEditor().getSelection().getSelectedText(),
-					patternFieldId = ( startupPage == 'find' ? 'txtFindFind' : 'txtFindReplace' );
+				var startupPage = this._.currentTabId,
+					selectedText = this.getParentEditor().getSelection().getSelectedText(),
+					patternFieldId = ( startupPage == 'find' ? 'txtFindFind' : 'txtFindReplace' ),
+					field = this.getContentElement( startupPage, patternFieldId );
 
-				var field = this.getContentElement( startupPage, patternFieldId );
 				field.setValue( selectedText );
 				field.select();
-
-				this.selectPage( startupPage );
 
 				this[ ( startupPage == 'find' && this._.editor.readOnly ? 'hide' : 'show' ) + 'Page' ]( 'replace' );
 			},
@@ -806,19 +805,14 @@
 				delete finder.matchRange;
 			},
 			onFocus: function() {
-				if ( startupPage == 'replace' )
+				if ( this._.currentTabId == 'replace' ) {
 					return this.getContentElement( 'replace', 'txtFindReplace' );
-				else
+				} else {
 					return this.getContentElement( 'find', 'txtFindFind' );
+				}
 			}
 		};
 	}
 
-	CKEDITOR.dialog.add( 'find', function( editor ) {
-		return findDialog( editor, 'find' );
-	} );
-
-	CKEDITOR.dialog.add( 'replace', function( editor ) {
-		return findDialog( editor, 'replace' );
-	} );
+	CKEDITOR.dialog.add( 'find', findDialog );
 } )();

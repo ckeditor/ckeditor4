@@ -54,6 +54,11 @@
 </textarea>
 
 <script>
+	// Ignore on mobiles due to hovering.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor1', {
 		magicline_color: 'blue',
 		height: '30em'

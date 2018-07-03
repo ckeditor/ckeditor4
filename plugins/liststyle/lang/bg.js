@@ -4,9 +4,9 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'bg', {
 	armenian: 'Арменско номериране',
-	bulletedTitle: 'Bulleted List Properties',
+	bulletedTitle: 'Свойства на точков списък',
 	circle: 'Кръг',
-	decimal: 'Числа (1, 2, 3 и др.)',
+	decimal: 'Числа (1, 2, 3 и т.н.)',
 	decimalLeadingZero: 'Числа с водеща нула (01, 02, 03 и т.н.)',
 	disc: 'Диск',
 	georgian: 'Грузинско номериране (an, ban, gan, и т.н.)',
@@ -21,5 +21,5 @@ CKEDITOR.plugins.setLang( 'liststyle', 'bg', {
 	type: 'Тип',
 	upperAlpha: 'Големи букви (А, Б, В, Г, Д и т.н.)',
 	upperRoman: 'Големи римски числа (I, II, III, IV, V и т.н.)',
-	validateStartNumber: 'List start number must be a whole number.'
+	validateStartNumber: 'Началният номер на списъка трябва да е цяло число.'
 } );

@@ -492,20 +492,20 @@
 
 	function loadPlugins( editor ) {
 		var config = editor.config,
-			plugins = config.plugins,
-			extraPlugins = config.extraPlugins,
-			removePlugins = config.removePlugins;
+			plugins = parsePluginsOption( config.plugins ),
+			extraPlugins = parsePluginsOption( config.extraPlugins ),
+			removePlugins = parsePluginsOption( config.removePlugins );
 
 		if ( extraPlugins ) {
 			// Remove them first to avoid duplications.
-			var extraRegex = new RegExp( '(?:^|,)(?:' + extraPlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
+			var extraRegex = new RegExp( '(?:^|,)(?:' + extraPlugins.replace( /,/g, '|' ) + ')(?=,|$)', 'g' );
 			plugins = plugins.replace( extraRegex, '' );
 
 			plugins += ',' + extraPlugins;
 		}
 
 		if ( removePlugins ) {
-			var removeRegex = new RegExp( '(?:^|,)(?:' + removePlugins.replace( /\s*,\s*/g, '|' ) + ')(?=,|$)', 'g' );
+			var removeRegex = new RegExp( '(?:^|,)(?:' + removePlugins.replace( /,/g, '|' ) + ')(?=,|$)', 'g' );
 			plugins = plugins.replace( removeRegex, '' );
 		}
 
@@ -634,6 +634,20 @@
 				CKEDITOR.fire( 'instanceLoaded', null, editor );
 			} );
 		} );
+
+		// Parse *plugins option into a string (#1802).
+		function parsePluginsOption( option ) {
+			if ( !option ) {
+				return '';
+			}
+
+			if ( CKEDITOR.tools.isArray( option ) ) {
+				option = option.join( ',' );
+			}
+
+			// We have to remove whitespaces (#1712).
+			return option.replace( /\s/g, '' );
+		}
 	}
 
 	// Send to data output back to editor's associated element.
@@ -732,7 +746,7 @@
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 		/**
 		 * Adds a command definition to the editor instance. Commands added with
-		 * this function can be executed later with the <code>{@link #execCommand}</code> method.
+		 * this function can be executed later with the {@link #execCommand} method.
 		 *
 		 * 		editorInstance.addCommand( 'sample', {
 		 * 			exec: function( editor ) {
@@ -740,12 +754,14 @@
 		 * 			}
 		 * 		} );
 		 *
+		 * Since 4.10.0 this method also accepts a {@link CKEDITOR.command} instance as a parameter.
+		 *
 		 * @param {String} commandName The indentifier name of the command.
-		 * @param {CKEDITOR.commandDefinition} commandDefinition The command definition.
+		 * @param {CKEDITOR.commandDefinition/CKEDITOR.command} commandDefinition The command definition or a `CKEDITOR.command` instance.
 		 */
 		addCommand: function( commandName, commandDefinition ) {
 			commandDefinition.name = commandName.toLowerCase();
-			var cmd = new CKEDITOR.command( this, commandDefinition );
+			var cmd = commandDefinition instanceof CKEDITOR.command ? commandDefinition : new CKEDITOR.command( this, commandDefinition );
 
 			// Update command when mode is set.
 			// This guarantees that commands added before first editor#mode

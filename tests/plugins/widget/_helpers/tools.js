@@ -116,7 +116,7 @@ var widgetTestsTools = ( function() {
 
 				editor.once( 'dialogHide', function() {
 					resume( function() {
-						var instances = obj2Array( editor.widgets.instances );
+						var instances = bender.tools.objToArray( editor.widgets.instances );
 						assert.areSame( 1, instances.length, 'one instance was created' );
 						assert.isMatching( config.newWidgetPattern, editor.getData(), 'data' );
 					} );
@@ -130,7 +130,7 @@ var widgetTestsTools = ( function() {
 		};
 
 		function assertWidgets( msg ) {
-			var instances = obj2Array( editor.widgets.instances );
+			var instances = bender.tools.objToArray( editor.widgets.instances );
 			assert.areSame( config.initialInstancesNumber, instances.length, 'instances number ' + msg );
 
 			checkData && assert.areSame( initialData, fixHtml( editor.getData(), config.ignoreStyle ), 'data ' + msg );
@@ -141,14 +141,6 @@ var widgetTestsTools = ( function() {
 
 			config.assertWidgets && config.assertWidgets( editor, msg );
 		}
-	}
-
-	function obj2Array( obj ) {
-		var arr = [];
-		for ( var id in obj )
-			arr.push( obj[ id ] );
-
-		return arr;
 	}
 
 	function classes2Array( classesObj ) {
@@ -221,7 +213,7 @@ var widgetTestsTools = ( function() {
 			expectedInstancesCount = 1;
 
 		editorBot.setData( data, function() {
-			var instancesArray = obj2Array( editorBot.editor.widgets.instances );
+			var instancesArray = bender.tools.objToArray( editorBot.editor.widgets.instances );
 
 			assert.areEqual( expectedInstancesCount, instancesArray.length, 'Invalid count of created widget instances.' );
 			assert.areEqual( fixHtml( data ), fixHtml( editorBot.getData() ), 'Editor html after performing downcast is not matching.' );
@@ -323,7 +315,7 @@ var widgetTestsTools = ( function() {
 					return ret;
 				};
 
-			instancesArray = widgetTestsTools.obj2Array( editor.widgets.instances );
+			instancesArray = bender.tools.objToArray( editor.widgets.instances );
 
 			// If expected widgets count was specified, check if it's the same.
 			typeof config.count !== 'undefined' && assert.areSame( Number( config.count ), instancesArray.length, 'Invalid count of widgets found.' );
@@ -366,7 +358,6 @@ var widgetTestsTools = ( function() {
 		fixHtml: fixHtml,
 		getWidgetById: getWidgetById,
 		getWidgetByDOMOffset: getWidgetByDOMOffset,
-		obj2Array: obj2Array,
 		classes2Array: classes2Array,
 		assertDowncast: assertDowncast,
 		assertWidgetDialog: assertWidgetDialog,

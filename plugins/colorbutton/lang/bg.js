@@ -9,9 +9,9 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'bg', {
 		'000': 'Черно',
 		'800000': 'Кестеняво',
 		'8B4513': 'Светлокафяво',
-		'2F4F4F': 'Dark Slate Gray',
-		'008080': 'Teal',
-		'000080': 'Navy',
+		'2F4F4F': 'Тъмно плочесто сиво',
+		'008080': 'Сиво птиче',
+		'000080': 'Морско синьо',
 		'4B0082': 'Индиго',
 		'696969': 'Тъмно сиво',
 		B22222: 'Огнено червено',
@@ -27,49 +27,49 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'bg', {
 		FFD700: 'Златно',
 		'008000': 'Зелено',
 		'0FF': 'Светло синьо',
-		'00F': 'Blue',
-		EE82EE: 'Violet',
-		A9A9A9: 'Dim Gray',
-		FFA07A: 'Light Salmon',
-		FFA500: 'Orange',
-		FFFF00: 'Yellow',
-		'00FF00': 'Lime',
-		AFEEEE: 'Pale Turquoise',
-		ADD8E6: 'Light Blue',
-		DDA0DD: 'Plum',
-		D3D3D3: 'Light Grey',
-		FFF0F5: 'Lavender Blush',
-		FAEBD7: 'Antique White',
-		FFFFE0: 'Light Yellow',
-		F0FFF0: 'Honeydew',
-		F0FFFF: 'Azure',
-		F0F8FF: 'Alice Blue',
-		E6E6FA: 'Lavender',
-		FFF: 'White',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'00F': 'Синьо',
+		EE82EE: 'Виолетово',
+		A9A9A9: 'Бледо сиво',
+		FFA07A: 'Светло розово-оранжево',
+		FFA500: 'Оранжево',
+		FFFF00: 'Жълто',
+		'00FF00': 'Варосано',
+		AFEEEE: 'Тюркоазено остро',
+		ADD8E6: 'Светло синьо',
+		DDA0DD: 'Сливово',
+		D3D3D3: 'Светло сиво',
+		FFF0F5: 'Лавандула изчервено',
+		FAEBD7: 'Антично бяло',
+		FFFFE0: 'Светло жълто',
+		F0FFF0: 'Медена роса',
+		F0FFFF: 'Лазурно',
+		F0F8FF: 'Алиса синьо',
+		E6E6FA: 'Лавандула',
+		FFF: 'Бяло',
+		'1ABC9C': 'Силно синьо-зелено',
+		'2ECC71': 'Изомрудено',
+		'3498DB': 'Ярко синьо',
+		'9B59B6': 'Аметист',
+		'4E5F70': 'Сивкаво синьо',
+		'F1C40F': 'Блестящо жълто',
+		'16A085': 'Тъмно синьо-зелено',
+		'27AE60': 'Тъмно изомрудено',
+		'2980B9': 'Силно синьо',
+		'8E44AD': 'Тъмно виолетово',
+		'2C3E50': 'Ненаситено синьо',
+		'F39C12': 'Оранжево',
+		'E67E22': 'Морков',
+		'E74C3C': 'Бледо червено',
+		'ECF0F1': 'Ярко сребърно',
+		'95A5A6': 'Светло сивкаво синьо-зелено',
+		'DDD': 'Светло сиво',
+		'D35400': 'Тиквено',
+		'C0392B': 'Силно червено',
+		'BDC3C7': 'Сребърно',
+		'7F8C8D': 'Сивкаво синьо-зелено',
+		'999': 'Тъмно сиво'
 	},
 	more: 'Още цветове',
 	panelTitle: 'Цветове',
-	textColorTitle: 'Цвят на шрифт'
+	textColorTitle: 'Цвят на текста'
 } );

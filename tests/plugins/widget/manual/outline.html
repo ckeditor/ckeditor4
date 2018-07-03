@@ -26,6 +26,11 @@
 
 
 <script>
+	// Ignore on mobiles due to hovering.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'classic' );
 
 	CKEDITOR.inline( 'inline' );

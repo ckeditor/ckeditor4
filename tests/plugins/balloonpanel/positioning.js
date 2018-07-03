@@ -112,7 +112,7 @@
 				// |                         |
 				// +-------------------------+
 				// Position acts as if the editor viewport was at position x: 0, 305.
-				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 389, bottom: 111.34375, right: 414, top: 96.34375 } );
+				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 390, bottom: 454.34375, right: 415, top: 439.34375 } );
 				var moveSpy = spy( this.balloon, 'move' );
 				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
 
@@ -123,7 +123,7 @@
 
 			'test classic - out of view - bottom center': function() {
 				// Position acts as if the editor viewport was at position x: 260, 0.
-				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 129, bottom: 416.34375, right: 154, top: 401.34375 } );
+				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 130, bottom: 759.34375, right: 155, top: 744.34375 } );
 				var moveSpy = spy( this.balloon, 'move' );
 				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
 
@@ -134,7 +134,7 @@
 
 			'test classic - out of view - left vcenter': function() {
 				// Position acts as if the editor viewport was at position x: 420, 260.
-				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: -31, bottom: 156.34375, right: -6, top: 141.34375 } );
+				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: -30, bottom: 499.34375, right: -5, top: 484.34375 } );
 				var moveSpy = spy( this.balloon, 'move' );
 				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
 
@@ -145,7 +145,7 @@
 
 			'test classic - out of view - hcenter top': function() {
 				// Position acts as if the editor viewport was at position x: 260, 500.
-				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 129, bottom: -75.65625, right: 154, top: -90.65625 } );
+				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 130, bottom: 267.34375, right: 155, top: 252.3475 } );
 				var moveSpy = spy( this.balloon, 'move' );
 				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
 
@@ -156,7 +156,7 @@
 
 			'test classic - inside viewport - left top': function() {
 				// Position acts as if the editor viewport was at position x: 388, 400.
-				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 1, bottom: 16.34375, right: 26, top: 1.34375 } );
+				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 2, bottom: 359.34375, right: 27, top: 344.34375 } );
 				var moveSpy = spy( this.balloon, 'move' );
 				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
 
@@ -168,7 +168,7 @@
 
 			'test classic - inside viewport - right bottom': function() {
 				// Position acts as if the editor viewport was at position x: 114, 101.
-				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 275, bottom: 315.34375, right: 300, top: 300.34375 } );
+				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 276, bottom: 658.34375, right: 301, top: 643.34375 } );
 				var moveSpy = spy( this.balloon, 'move' );
 				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
 

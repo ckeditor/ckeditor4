@@ -52,7 +52,7 @@
 				dialogAssertConfig = {},
 				editedWidgetOffset = 0,
 				onResume = function( dialog ) {
-					var widget = widgetTestsTools.obj2Array( editorBot.editor.widgets.instances )[ editedWidgetOffset ];
+					var widget = bender.tools.objToArray( editorBot.editor.widgets.instances )[ editedWidgetOffset ];
 					assert.areSame( 'bar', widget.data.name, 'Invalid name' );
 					// Changes value of input in dialog, and clicks ok.
 					dialog.setValueOf( 'info', 'name', 'boo_faa' );

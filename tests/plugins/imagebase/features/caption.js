@@ -160,7 +160,7 @@
 			}
 
 			bot.setData( getFixture( options.fixture ), function() {
-				var widgets = widgetTestsTools.obj2Array( editor.widgets.instances ).slice( 0, options.widgetsCount );
+				var widgets = bender.tools.objToArray( editor.widgets.instances ).slice( 0, options.widgetsCount );
 
 				assertMultipleVisibility( widgets, options.initial, 'initial' );
 				assertOnFocus( widgets, options.focus );
@@ -410,6 +410,14 @@
 			}
 		} ),
 
+		// (#1592)
+		'test toggling active caption': createToggleTest( {
+			fixture: 'toggleActive',
+			initial: true,
+			focus: true,
+			blur: false
+		} ),
+
 		'test blurring editor does not hide the caption': createToggleTest( {
 			fixture: 'toggleOne',
 			initial: true,
@@ -435,7 +443,31 @@
 			onFocus: function( widget ) {
 				assert.isNotMatching( /Enter image caption/, widget.editor.getData() );
 			}
-		} )
+		} ),
+
+		// (#1776)
+		'test empty caption placeholder is hidden when blurred': function( editor, bot ) {
+			addTestWidget( editor );
+
+			// Make sure the editor is focused, otherwise Edge/IE11 will throw Permission Denied error.
+			editor.focus();
+
+			bot.setData( getFixture( 'blurEmpty' ), function() {
+				var widgets = bender.tools.objToArray( editor.widgets.instances ).slice( 0, 2 ),
+					emptyCaptionWidget = widgets[ 0 ],
+					widgetWithCaption = widgets[ 1 ];
+
+				widgetWithCaption.focus();
+				emptyCaptionWidget.focus();
+
+				blurEditor( {
+					assert: function() {
+						assert.areEqual( 'true', emptyCaptionWidget.parts.caption.data( 'cke-caption-hidden' ) );
+					},
+					blurHost: emptyCaptionWidget
+				} );
+			} );
+		}
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );

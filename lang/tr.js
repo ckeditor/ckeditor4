@@ -35,7 +35,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		image: 'Resim',
 		flash: 'Flash',
 		form: 'Form',
-		checkbox: 'Onay Kutusu',
+		checkbox: 'Seçim Kutusu',
 		radio: 'Seçenek Düğmesi',
 		textField: 'Metin Kutusu',
 		textarea: 'Metin Alanı',
@@ -49,11 +49,11 @@ CKEDITOR.lang[ 'tr' ] = {
 		langDir: 'Dil Yönü',
 		langDirLtr: 'Soldan Sağa (LTR)',
 		langDirRtl: 'Sağdan Sola (RTL)',
-		langCode: 'Dil Kodlaması',
-		longDescr: 'Uzun Tanımlı URL',
-		cssClass: 'Biçem Sayfası Sınıfları',
+		langCode: ' Dil Kodu',
+		longDescr: 'Uzun Açıklamalı URL',
+		cssClass: 'Stil Sınıfları',
 		advisoryTitle: 'Öneri Başlığı',
-		cssStyle: 'Biçem',
+		cssStyle: 'Stil',
 		ok: 'Tamam',
 		cancel: 'İptal',
 		close: 'Kapat',
@@ -72,8 +72,8 @@ CKEDITOR.lang[ 'tr' ] = {
 		targetParent: 'Üst Pencere (_parent)',
 		langDirLTR: 'Soldan Sağa (LTR)',
 		langDirRTL: 'Sağdan Sola (RTL)',
-		styles: 'Biçem',
-		cssClasses: 'Biçem Sayfası Sınıfları',
+		styles: 'Stil',
+		cssClasses: 'Stil Sınıfları',
 		width: 'Genişlik',
 		height: 'Yükseklik',
 		align: 'Hizalama',
@@ -83,7 +83,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		justify: 'İki Kenara Yaslanmış',
 		alignLeft: 'Sola Dayalı',
 		alignRight: 'Sağa Dayalı',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'Ortaya Hizala',
 		alignTop: 'Üst',
 		alignMiddle: 'Orta',
 		alignBottom: 'Alt',
@@ -91,10 +91,10 @@ CKEDITOR.lang[ 'tr' ] = {
 		invalidValue: 'Geçersiz değer.',
 		invalidHeight: 'Yükseklik değeri bir sayı olmalıdır.',
 		invalidWidth: 'Genişlik değeri bir sayı olmalıdır.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
+		invalidLength: '"%1" alanı için belirtilen değer, geçerli bir ölçü birimi olsun veya olmasın (%2) pozitif bir sayı olmalıdır.',
 		invalidCssLength: '"%1" alanı için verilen değer, geçerli bir CSS ölçü birimi (px, %, in, cm, mm, em, ex, pt, veya pc) içeren veya içermeyen pozitif bir sayı olmalıdır.',
-		invalidHtmlLength: 'Belirttiğiniz sayı "%1" alanı için pozitif bir sayı HTML birim değeri olmalıdır (px veya %).',
-		invalidInlineStyle: 'Satıriçi biçem için verilen değer, "isim : değer" biçiminde birbirinden noktalı virgüllerle ayrılan bir veya daha fazla değişkenler grubundan oluşmalıdır.',
+		invalidHtmlLength: '"%1" alanı için belirttiğiniz sayı, HTML (px veya %) birimi olsun yada olmasın pozitif bir değeri olmalıdır.',
+		invalidInlineStyle: 'Satıriçi stil için verilen değer, "isim : değer" biçiminde birbirinden noktalı virgüllerle ayrılan bir veya daha fazla değişkenler grubundan oluşmalıdır.',
 		cssLengthTooltip: 'Piksel türünde bir sayı veya geçerli bir CSS ölçü birimi (px, %, in, cm, mm, em, ex, pt veya pc) içeren bir sayı girin.',
 
 		// Put the voice-only part of the label in the span.
@@ -111,36 +111,36 @@ CKEDITOR.lang[ 'tr' ] = {
 			35: 'En Sona Tuşu',
 			36: 'En Başa Tuşu',
 			46: 'Silme Tuşu',
-			112: 'F1', // MISSING
-			113: 'F2', // MISSING
-			114: 'F3', // MISSING
-			115: 'F4', // MISSING
-			116: 'F5', // MISSING
-			117: 'F6', // MISSING
-			118: 'F7', // MISSING
-			119: 'F8', // MISSING
-			120: 'F9', // MISSING
-			121: 'F10', // MISSING
-			122: 'F11', // MISSING
-			123: 'F12', // MISSING
-			124: 'F13', // MISSING
-			125: 'F14', // MISSING
-			126: 'F15', // MISSING
-			127: 'F16', // MISSING
-			128: 'F17', // MISSING
-			129: 'F18', // MISSING
-			130: 'F19', // MISSING
-			131: 'F20', // MISSING
-			132: 'F21', // MISSING
-			133: 'F22', // MISSING
-			134: 'F23', // MISSING
-			135: 'F24', // MISSING
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
 			224: 'Komut Tuşu'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
 		keyboardShortcut: 'Klavye Kısayolu',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'Varsayılan'
 	}
 };

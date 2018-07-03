@@ -83,7 +83,7 @@ CKEDITOR.lang[ 'sv' ] = {
 		justify: 'Justera till marginaler',
 		alignLeft: 'Vänsterjustera',
 		alignRight: 'Högerjustera',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'Centrera',
 		alignTop: 'Överkant',
 		alignMiddle: 'Mitten',
 		alignBottom: 'Nederkant',

@@ -129,6 +129,12 @@
  */
 
 /**
+ * The function executed every time the dialog is closed.
+ *
+ * @property {Function} onHide
+ */
+
+/**
  * This class is not really part of the API. It just illustrates the properties
  * that developers can use to define and create dialog content pages.
  *

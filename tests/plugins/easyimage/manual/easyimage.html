@@ -1,3 +1,5 @@
+<p>Note, this test uses a real Cloud Service connection, so you might want to be on-line 😉.</p>
+
 <h2>Classic editor</h2>
 <div id="classic">
 	<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
@@ -32,9 +34,15 @@
 	if ( easyImageTools.isUnsupportedEnvironment() ) {
 		bender.ignore();
 	}
-	CKEDITOR.replace( 'classic' );
-	CKEDITOR.replace( 'divarea', {
+
+	var commonConfig = {
+			cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
+			cloudServices_tokenUrl: easyImageTools.CLOUD_SERVICES_TOKEN_URL
+		};
+
+	CKEDITOR.replace( 'classic', commonConfig );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( {
 		extraPlugins: 'divarea'
-	} );
-	CKEDITOR.inline( 'inline' );
+	}, commonConfig ) );
+	CKEDITOR.inline( 'inline', commonConfig );
 </script>

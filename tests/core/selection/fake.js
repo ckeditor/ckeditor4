@@ -1083,7 +1083,7 @@ bender.test( {
 		editor.setReadOnly( true );
 
 		bot.setData( '<p>[[placeholder]]</p>', function() {
-			var widget = editor.widgets.instances[ 0 ],
+			var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ],
 				domEvent = {
 					getKey: function() {
 						return false;

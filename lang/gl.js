@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'gl' ] = {
 		justify: 'Xustificado',
 		alignLeft: 'Aliñar á esquerda',
 		alignRight: 'Aliñar á dereita',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'Aliñar ao centro',
 		alignTop: 'Arriba',
 		alignMiddle: 'Centro',
 		alignBottom: 'Abaixo',
@@ -92,7 +92,7 @@ CKEDITOR.lang[ 'gl' ] = {
 		invalidValue: 'Valor incorrecto.',
 		invalidHeight: 'O alto debe ser un número.',
 		invalidWidth: 'O largo debe ser un número.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
+		invalidLength: 'O valor especificado para o campo «%1» debe ser un número positivo con ou sen unha unidade de medida correcta (%2).',
 		invalidCssLength: 'O valor especificado para o campo «%1» debe ser un número positivo con ou sen unha unidade de medida CSS correcta (px, %, in, cm, mm, em, ex, pt, ou pc).',
 		invalidHtmlLength: 'O valor especificado para o campo «%1» debe ser un número positivo con ou sen unha unidade de medida HTML correcta (px ou %).',
 		invalidInlineStyle: 'O valor especificado no estilo en liña debe consistir nunha ou máis tuplas co formato «nome : valor», separadas por punto e coma.',
@@ -112,36 +112,36 @@ CKEDITOR.lang[ 'gl' ] = {
 			35: 'Fin',
 			36: 'Inicio',
 			46: 'Supr',
-			112: 'F1', // MISSING
-			113: 'F2', // MISSING
-			114: 'F3', // MISSING
-			115: 'F4', // MISSING
-			116: 'F5', // MISSING
-			117: 'F6', // MISSING
-			118: 'F7', // MISSING
-			119: 'F8', // MISSING
-			120: 'F9', // MISSING
-			121: 'F10', // MISSING
-			122: 'F11', // MISSING
-			123: 'F12', // MISSING
-			124: 'F13', // MISSING
-			125: 'F14', // MISSING
-			126: 'F15', // MISSING
-			127: 'F16', // MISSING
-			128: 'F17', // MISSING
-			129: 'F18', // MISSING
-			130: 'F19', // MISSING
-			131: 'F20', // MISSING
-			132: 'F21', // MISSING
-			133: 'F22', // MISSING
-			134: 'F23', // MISSING
-			135: 'F24', // MISSING
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
 			224: 'Orde'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
 		keyboardShortcut: 'Atallo de teclado',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'Predeterminado'
 	}
 };

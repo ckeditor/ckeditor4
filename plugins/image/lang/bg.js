@@ -5,21 +5,21 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 CKEDITOR.plugins.setLang( 'image', 'bg', {
 	alt: 'Алтернативен текст',
 	border: 'Рамка',
-	btnUpload: 'Изпрати я на сървъра',
-	button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
+	btnUpload: 'Изпрати на сървъра',
+	button2Img: 'Искате ли да превърнете избрания бутон за изображение в просто изображение?',
 	hSpace: 'Хоризонтален отстъп',
-	img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-	infoTab: 'Инфо за снимка',
+	img2Button: 'Искате ли да превърнете избраното изображение в бутон за изображение?',
+	infoTab: 'Изображение',
 	linkTab: 'Връзка',
 	lockRatio: 'Заключване на съотношението',
-	menu: 'Настройки за снимка',
+	menu: 'Настройки на изображение',
 	resetSize: 'Нулиране на размер',
-	title: 'Настройки за снимка',
-	titleButton: 'Настойки за бутон за снимка',
+	title: 'Настройки на изображение',
+	titleButton: 'Настройки на бутон за изображение',
 	upload: 'Качване',
-	urlMissing: 'Image source URL is missing.', // MISSING
+	urlMissing: 'URL адресът на изображението липсва.',
 	vSpace: 'Вертикален отстъп',
-	validateBorder: 'Border must be a whole number.', // MISSING
-	validateHSpace: 'HSpace must be a whole number.', // MISSING
-	validateVSpace: 'VSpace must be a whole number.' // MISSING
+	validateBorder: 'Рамката трябва да е цяло число.',
+	validateHSpace: 'Хоризонтален отстъп трябва да е цяло число.',
+	validateVSpace: 'Вертикален отстъп трябва да е цяло число.'
 } );

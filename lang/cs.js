@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'cs' ] = {
 		justify: 'Zarovnat do bloku',
 		alignLeft: 'Zarovnat vlevo',
 		alignRight: 'Zarovnat vpravo',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'Zarovnat na střed',
 		alignTop: 'Nahoru',
 		alignMiddle: 'Na střed',
 		alignBottom: 'Dolů',

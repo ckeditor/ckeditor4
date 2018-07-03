@@ -9,6 +9,20 @@ var READ_ONLY_CMDS = [
 	'preview', 'print', 'showblocks', 'showborders', 'source', 'toolbarCollapse', 'toolbarFocus', 'selectAll'
 ];
 
+function assertCommand( editor, cmd, commandDefinition ) {
+	// Register command from command instance.
+	editor.addCommand( 'cmd1', cmd );
+
+	// Register command from command definition.
+	editor.addCommand( 'cmd2', commandDefinition );
+
+	// Registered command should be same as the command that was passed as definition.
+	assert.areSame( editor.getCommand( 'cmd1' ), cmd );
+
+	// Registered command should't be same to another command with same definition.
+	assert.areNotSame( editor.getCommand( 'cmd2' ), cmd );
+}
+
 bender.editor = true;
 
 bender.test( {
@@ -302,5 +316,38 @@ bender.test( {
 		editor._.elementsPath.onClick( 0 );
 
 		wait();
+	},
+
+	// (#1582)
+	'test addCommand from command instance': function() {
+		var editor = this.editor,
+			styleDefinition = {
+				element: 'span',
+				attributes: {
+					bar: 'foo'
+				}
+			},
+			style = new CKEDITOR.style( styleDefinition ),
+			commandDefinition = new CKEDITOR.styleCommand( style ),
+			cmd = new CKEDITOR.command( editor, commandDefinition );
+
+		assertCommand( editor, cmd, commandDefinition );
+	},
+
+	// (#1582)
+	'test addCommand from command subclass': function() {
+		var editor = this.editor,
+			styleDefinition = {
+				element: 'span',
+				attributes: {
+					bar: 'foo'
+				}
+			},
+			subCommand = CKEDITOR.tools.createClass( { base: CKEDITOR.command } ),
+			style = new CKEDITOR.style( styleDefinition ),
+			commandDefinition = new CKEDITOR.styleCommand( style ),
+			cmd = new subCommand( editor, commandDefinition );
+
+		assertCommand( editor, cmd, commandDefinition );
 	}
 } );

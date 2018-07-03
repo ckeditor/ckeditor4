@@ -32,7 +32,8 @@
 </div>
 
 <script>
-	if ( easyImageTools.isUnsupportedEnvironment() ) {
+	// Ignore on mobiles due to hovering.
+	if ( easyImageTools.isUnsupportedEnvironment() || bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 

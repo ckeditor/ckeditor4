@@ -808,6 +808,14 @@
 			} );
 		},
 
+		// (#1321)
+		'htmlified text unification 7 - IDEOGRAPHIC space': function() {
+			assertPasteEvent( this.editor,
+				{ dataValue: 'a\u3000a\u3000\u3000' },
+				{ type: 'text', dataValue: 'a\u3000a\u3000\u3000' },
+				'htmlified text - IDEOGRAPHIC space' );
+		},
+
 		'html textification <p class="test" style="color:red">a<br style="display:none">b</p>': function() {
 			assertPasteEvent( this.editor, {
 					type: 'text',

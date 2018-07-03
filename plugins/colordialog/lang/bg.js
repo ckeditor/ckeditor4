@@ -7,5 +7,5 @@ CKEDITOR.plugins.setLang( 'colordialog', 'bg', {
 	highlight: 'Осветяване',
 	options: 'Цветови опции',
 	selected: 'Изберете цвят',
-	title: 'Изберете цвят'
+	title: 'Избор на цвят'
 } );

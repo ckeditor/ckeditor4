@@ -480,17 +480,35 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * Retrieve the bounding rectangle of the current element, in pixels,
 		 * relative to the upper-left corner of the browser's client area.
 		 *
-		 * @returns {Object} The dimensions of the DOM element including
-		 * `left`, `top`, `right`, `bottom`, `width` and `height`.
+		 * Since 4.10.0 you can pass an additional parameter if the function should return an absolute element position that can be used for
+		 * positioning elements inside scrollable areas.
+		 *
+		 * For example, you can use this function with the {@link CKEDITOR.dom.window#getFrame editor's window frame} to
+		 * calculate the absolute rectangle of the visible area of the editor viewport.
+		 * The retrieved absolute rectangle can be used to position elements like toolbars or notifications (elements outside the editor)
+		 * to always keep them inside the editor viewport independently from the scroll position.
+		 *
+		 * ```javascript
+		 * var frame = editor.window.getFrame();
+		 * frame.getClientRect( true );
+		 * ```
+		 *
+		 * @param {Boolean} [isAbsolute=false] The function will retrieve an absolute rectangle of the element, i.e. the position relative
+		 * to the upper-left corner of the topmost viewport. This option is available since 4.10.0.
+		 * @returns {CKEDITOR.dom.rect} The dimensions of the DOM element.
 		 */
-		getClientRect: function() {
+		getClientRect: function( isAbsolute ) {
 			// http://help.dottoro.com/ljvmcrrn.php
-			var rect = CKEDITOR.tools.extend( {}, this.$.getBoundingClientRect() );
+			var elementRect = CKEDITOR.tools.extend( {}, this.$.getBoundingClientRect() );
 
-			!rect.width && ( rect.width = rect.right - rect.left );
-			!rect.height && ( rect.height = rect.bottom - rect.top );
+			!elementRect.width && ( elementRect.width = elementRect.right - elementRect.left );
+			!elementRect.height && ( elementRect.height = elementRect.bottom - elementRect.top );
 
-			return rect;
+			if ( !isAbsolute ) {
+				return elementRect;
+			}
+
+			return CKEDITOR.tools.getAbsoluteRectPosition( this.getWindow(), elementRect );
 		},
 
 		/**

@@ -580,6 +580,95 @@
 		},
 
 		/**
+		 * Returns a wrapper that exposes an `input` function, which acts as a proxy to the given `output` function, providing throttling.
+		 * This proxy guarantees that the `output` function is not called more often than the `minInterval`.
+		 *
+		 * If multiple calls occur within a single `minInterval` time, the most recent `input` call with its arguments will be used to schedule
+		 * the next `output` call, and the previous throttled calls will be discarded.
+		 *
+		 * The first `input` call is always executed asynchronously which means that the `output` call will be executed immediately.
+		 *
+		 * ```javascript
+		 *	var buffer = CKEDITOR.tools.throttle( 200, function( message ) {
+		 *		console.log( message );
+		 *	} );
+		 *
+		 *	buffer.input( 'foo!' );
+		 *	// 'foo!' logged immediately.
+		 *	buffer.input( 'bar!' );
+		 *	// Nothing logged.
+		 *	buffer.input( 'baz!' );
+		 *	// Nothing logged.
+		 *	// … after 200ms a single 'baz!' will be logged.
+		 * ```
+		 *
+		 * It can be easily used with events:
+		 *
+		 * ```javascript
+		 *	var buffer = CKEDITOR.tools.throttle( 200, function( evt ) {
+		 *		console.log( evt.data.text );
+		 *	} );
+		 *
+		 *	editor.on( 'key', buffer.input );
+		 *	// Note: There is no need to bind the buffer as a context.
+		 * ```
+		 *
+		 * @since 4.10.0
+		 * @param {Number} minInterval The minimum interval between `output` calls in milliseconds.
+		 * @param {Function} output The function that will be executed as `output`.
+		 * @param {Object} [contextObj] The object used as context to the listener call (the `this` object).
+		 * @returns {Object}
+		 * @returns {Function} return.input The buffer input method.
+		 * Accepts parameters which will be directly passed to the `output` function.
+		 * @returns {Function} return.reset Resets buffered calls &mdash; `output` will not be executed
+		 * until the next `input` is triggered.
+		 */
+		throttle: function( minInterval, output, contextObj ) {
+			var scheduled,
+				lastOutput = 0;
+
+			contextObj = contextObj || {};
+
+			return {
+				input: input,
+				reset: reset
+			};
+
+			function input() {
+				var args = Array.prototype.slice.call( arguments );
+
+				if ( scheduled ) {
+					clearTimeout( scheduled );
+					scheduled = 0;
+				}
+
+				var diff = ( new Date() ).getTime() - lastOutput;
+
+				// If less than minInterval passed after last check,
+				// schedule next for minInterval after previous one.
+				if ( diff < minInterval ) {
+					scheduled = setTimeout( triggerOutput, minInterval - diff );
+				} else {
+					triggerOutput();
+				}
+
+				function triggerOutput() {
+					lastOutput = ( new Date() ).getTime();
+					scheduled = false;
+
+					output.apply( contextObj, args );
+				}
+			}
+
+			function reset() {
+				if ( scheduled ) {
+					clearTimeout( scheduled );
+					scheduled = lastOutput = 0;
+				}
+			}
+		},
+
+		/**
 		 * Removes spaces from the start and the end of a string. The following
 		 * characters are removed: space, tab, line break, line feed.
 		 *
@@ -1189,45 +1278,50 @@
 		 * Buffers `input` events (or any `input` calls)
 		 * and triggers `output` not more often than once per `minInterval`.
 		 *
-		 *		var buffer = CKEDITOR.tools.eventsBuffer( 200, function() {
-		 *			console.log( 'foo!' );
-		 *		} );
+		 * ```javascript
+		 *	var buffer = CKEDITOR.tools.eventsBuffer( 200, function() {
+		 *		console.log( 'foo!' );
+		 *	} );
 		 *
-		 *		buffer.input();
-		 *		// 'foo!' logged immediately.
-		 *		buffer.input();
-		 *		// Nothing logged.
-		 *		buffer.input();
-		 *		// Nothing logged.
-		 *		// ... after 200ms a single 'foo!' will be logged.
+		 *	buffer.input();
+		 *	// 'foo!' logged immediately.
+		 *	buffer.input();
+		 *	// Nothing logged.
+		 *	buffer.input();
+		 *	// Nothing logged.
+		 *	// … after 200ms a single 'foo!' will be logged.
+		 * ```
 		 *
 		 * Can be easily used with events:
 		 *
-		 *		var buffer = CKEDITOR.tools.eventsBuffer( 200, function() {
-		 *			console.log( 'foo!' );
-		 *		} );
+		 * ```javascript
+		 *	var buffer = CKEDITOR.tools.eventsBuffer( 200, function() {
+		 *		console.log( 'foo!' );
+		 *	} );
 		 *
-		 *		editor.on( 'key', buffer.input );
-		 *		// Note: There is no need to bind buffer as a context.
+		 *	editor.on( 'key', buffer.input );
+		 *	// Note: There is no need to bind buffer as a context.
+		 * ```
+		 *
 		 *
 		 * @since 4.2.1
 		 * @param {Number} minInterval Minimum interval between `output` calls in milliseconds.
 		 * @param {Function} output Function that will be executed as `output`.
-		 * @param {Object} [scopeObj] The object used to scope the listener call (the `this` object).
+		 * @param {Object} [contextObj] The object used to context the listener call (the `this` object).
 		 * @returns {Object}
 		 * @returns {Function} return.input Buffer's input method.
 		 * @returns {Function} return.reset Resets buffered events &mdash; `output` will not be executed
 		 * until next `input` is triggered.
 		 */
-		eventsBuffer: function( minInterval, output, scopeObj ) {
+		eventsBuffer: function( minInterval, output, contextObj ) {
 			var scheduled,
 				lastOutput = 0;
 
 			function triggerOutput() {
 				lastOutput = ( new Date() ).getTime();
 				scheduled = false;
-				if ( scopeObj ) {
-					output.call( scopeObj );
+				if ( contextObj ) {
+					output.call( contextObj );
 				} else {
 					output();
 				}
@@ -2151,6 +2245,54 @@
 				} );
 
 				return copy1;
+			}
+		},
+
+		/**
+		 * Converts relative positions inside a DOM rectangle into absolute ones using the given window as context.
+		 * "Absolute" here means in relation to the upper-left corner of the topmost viewport.
+		 *
+		 * @since 4.10.0
+		 * @param { CKEDITOR.dom.window } window The window containing an element for which the rectangle is passed.
+		 * @param { CKEDITOR.dom.rect } rect A rectangle with a relative position.
+		 * @returns { CKEDITOR.dom.rect } A rectangle with an absolute position.
+		 */
+		getAbsoluteRectPosition: function( window, rect ) {
+			var newRect = CKEDITOR.tools.copy( rect );
+			appendParentFramePosition( window.getFrame() );
+
+			var winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition();
+
+			newRect.top += winGlobalScroll.y;
+			newRect.left += winGlobalScroll.x;
+
+			// If there is no x or y, e.g. Microsoft browsers, don't return them, otherwise we will have rect.x = NaN.
+			if ( ( 'x' in newRect ) && ( 'y' in newRect ) ) {
+				newRect.y += winGlobalScroll.y;
+				newRect.x += winGlobalScroll.x;
+			}
+
+			newRect.right = newRect.left + newRect.width;
+			newRect.bottom = newRect.top + newRect.height;
+
+			return newRect;
+
+			function appendParentFramePosition( frame ) {
+				if ( !frame ) {
+					return;
+				}
+
+				var frameRect = frame.getClientRect();
+
+				newRect.top += frameRect.top;
+				newRect.left += frameRect.left;
+
+				if ( ( 'x' in newRect ) && ( 'y' in newRect ) ) {
+					newRect.x += frameRect.x;
+					newRect.y += frameRect.y;
+				}
+
+				appendParentFramePosition( frame.getWindow().getFrame() );
 			}
 		}
 	};
