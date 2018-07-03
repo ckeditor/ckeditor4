@@ -630,40 +630,14 @@
 					delete styles[ keys[ i ] ];
 				}
 			}
-			if ( styles[ 'margin-left' ] && styles.margin ) {
-				var margin = styles.margin ? styles.margin.split( ' ' ) : 0,
-					marginLeft = styles[ 'margin-left' ] ? CKEDITOR.tools.convertToPx( styles[ 'margin-left' ] ) : 0;
+			var margins = [ 'top', 'right', 'bottom', 'left' ];
 
-				margin = CKEDITOR.tools.array.map( margin, function( item ) {
-					return CKEDITOR.tools.convertToPx( item );
-				} );
-
-				switch ( margin.length ) {
-					case 1:
-						margin[ 1 ] = margin [ 2 ] = margin[ 0 ];
-						margin[ 3 ] = marginLeft + margin[ 1 ];
-						break;
-					case 2:
-						margin[ 2 ] = margin[ 0 ];
-						margin[ 3 ] = marginLeft + margin[ 1 ];
-						break;
-					case 3:
-						margin[ 3 ] = marginLeft + margin[ 1 ];
-						break;
-					case 4:
-						margin[ 3 ] = marginLeft + margin[ 3 ];
+			CKEDITOR.tools.array.forEach( margins, function( key ) {
+				var margin = CKEDITOR.tools.convertToPx( styles[ 'margin-' + key ] );
+				if ( !margin ) {
+					delete styles[ 'margin-' + key ];
 				}
-
-				margin = CKEDITOR.tools.array.map( margin, function( item ) {
-					return item + 'px';
-				} );
-
-				styles.margin = margin.join( ' ' );
-				if ( styles[ 'margin-left' ] ) {
-
-					delete styles[ 'margin-left' ];
-				}
-			}
+			} );
 
 			return CKEDITOR.tools.writeCssText( styles );
 		},
@@ -700,7 +674,7 @@
 				styleTopmost = element.name === 'span'; // Ensure that the root element retains at least one style.
 
 			for ( var style in styles ) {
-				if ( style.match( skipStyles || /margin|text\-align|width|border|padding/i ) ) {
+				if ( style.match( skipStyles || /margin((?!-)|-left|-top|-bottom|-right)|text-align|width|border|padding/i ) ) {
 					continue;
 				}
 
@@ -1034,7 +1008,24 @@
 						element,
 						oldStyle,
 						newStyle,
+						key,
+						margin,
 						i;
+
+					if ( style.margin ) {
+						margin = CKEDITOR.tools.style.parse.margin( style.margin );
+
+						if ( elements.count() ) {
+							for ( key in margin ) {
+								var currMargin = margin[ key ];
+								// Skip zeros.
+								if ( CKEDITOR.tools.convertToPx( currMargin ) ) {
+									style[ 'margin-' + key ] = currMargin;
+								}
+							}
+							delete style.margin;
+						}
+					}
 
 					for ( i = 0; i < elements.count(); i++ ) {
 						element = elements.getItem( i );
