@@ -14,7 +14,7 @@
 
 	// Removing `indent` plugin, because of (#1330).
 	config.removePlugins = 'indent';
-	config.extraAllowedContent = 'p{margin};span{margin}';
+	config.extraAllowedContent = 'p{margin,margin-top,margin-right,margin-bottom,margin-left};span{margin,margin-top,margin-right,margin-bottom,margin-left}';
 	config.disallowedContent = 'span{font-family}';
 
 	bender.editor = {
