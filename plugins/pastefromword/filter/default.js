@@ -630,16 +630,23 @@
 					delete styles[ keys[ i ] ];
 				}
 			}
-			var margins = [ 'top', 'right', 'bottom', 'left' ];
 
-			CKEDITOR.tools.array.forEach( margins, function( key ) {
-				var margin = CKEDITOR.tools.convertToPx( styles[ 'margin-' + key ] );
-				if ( !margin ) {
-					delete styles[ 'margin-' + key ];
-				}
-			} );
+			// Still some elements might have margins either shorthand or not with zero values, we need to clean them.
+			parseShorthandMargins( styles );
+			removeZeroMargins();
 
 			return CKEDITOR.tools.writeCssText( styles );
+
+			function removeZeroMargins() {
+				var keys = [ 'top', 'right', 'bottom', 'left' ];
+					// margin;
+				CKEDITOR.tools.array.forEach( keys, function( key ) {
+					// margin = CKEDITOR.tools.convertToPx( styles[ 'margin-' + key ] );
+					if ( !parseFloat( styles[ 'margin-' + key ] ) ) {
+						delete styles[ 'margin-' + key ];
+					}
+				} );
+			}
 		},
 
 		/**
@@ -1008,29 +1015,16 @@
 						element,
 						oldStyle,
 						newStyle,
-						key,
-						margin,
 						i;
 
-					if ( style.margin ) {
-						margin = CKEDITOR.tools.style.parse.margin( style.margin );
-
-						if ( elements.count() ) {
-							for ( key in margin ) {
-								var currMargin = margin[ key ];
-								// Skip zeros.
-								if ( CKEDITOR.tools.convertToPx( currMargin ) ) {
-									style[ 'margin-' + key ] = currMargin;
-								}
-							}
-							delete style.margin;
-						}
-					}
+					parseShorthandMargins( style );
 
 					for ( i = 0; i < elements.count(); i++ ) {
 						element = elements.getItem( i );
 
 						oldStyle = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ) );
+
+						parseShorthandMargins( oldStyle );
 						// The styles are applied with decreasing priority so we do not want
 						// to overwrite the existing properties.
 						newStyle = CKEDITOR.tools.extend( {}, oldStyle, style );
@@ -2431,6 +2425,22 @@
 		// Add the stored children to the innermost span.
 		for ( i = 0; i < children.length; i++ ) {
 			innermostElement.add( children[ i ] );
+		}
+	}
+
+	function parseShorthandMargins( style ) {
+		var marginCase = style.margin ? 'margin' : style.MARGIN ? 'MARGIN' : false,
+			key, margin;
+		if ( marginCase ) {
+			margin = CKEDITOR.tools.style.parse.margin( style[ marginCase ] );
+			for ( key in margin ) {
+				var currMargin = margin[ key ];
+				// skip zeros.
+				if ( parseFloat( currMargin ) ) {
+					style[ marginCase + '-' + key ] = currMargin;
+				}
+			}
+			delete style[ marginCase ];
 		}
 	}
 
