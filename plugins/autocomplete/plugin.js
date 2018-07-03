@@ -231,7 +231,14 @@
 			this.view.itemTemplate = new CKEDITOR.template( config.itemTemplate );
 		}
 
-		this.attach();
+		// Attach autocomplete when editor instance is ready (#2114).
+		if ( this.editor.status === 'ready' ) {
+			this.attach();
+		} else {
+			this.editor.on( 'instanceReady', function() {
+				this.attach();
+			}, this );
+		}
 	}
 
 	Autocomplete.prototype = {
