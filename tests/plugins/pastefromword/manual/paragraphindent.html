@@ -1,7 +1,6 @@
 <textarea id="editor" cols="30" rows="10"></textarea>
 <script>
-	// not env mobile!
-	if ( CKEDITOR.env.mobile ) {
+	if ( bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 	CKEDITOR.replace( 'editor', {
