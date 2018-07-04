@@ -12,7 +12,7 @@
 			extraAllowedContent: 'span{line-height,background,font-weight,font-style,text-decoration,text-underline,display,' +
 				'page-break-before,height,tab-stops,layout-grid-mode,text-justify,-ms-layout-grid-mode,-ms-text-justify,' +
 				'unicode-bidi,direction,dir,lang,page-break-after};td[valign]',
-			disallowedContent: 'td{vertical-align}'
+			disallowedContent: 'td{vertical-align};p{text-indent};span{text-indent}'
 		},
 		// Preferred editor config for generated tests with PFW Image.
 		imageDefaultConfig: {
