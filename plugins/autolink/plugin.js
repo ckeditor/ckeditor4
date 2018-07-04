@@ -150,7 +150,7 @@
 	 * ```
 	 *
 	 * @since 4.11.0
-	 * @cfg {Number/Number[]} [autocomplete_commitKeystrokes=[ 13, 32 ]]
+	 * @cfg {Number/Number[]} [autolink_commitKeystrokes=[ 13, 32 ]]
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.autolink_commitKeystrokes = [ 13, 32 ];
