@@ -65,9 +65,7 @@
 						insertMatch( matched );
 					}
 
-					// Match link before Gecko PageUp/PageDown fix
-					// so it won't modify selection (https://dev.ckeditor.com/ticket/7955).
-				}, null, null, 0 );
+				} );
 			} );
 
 			function insertMatch( match ) {
@@ -76,12 +74,10 @@
 					return;
 				}
 
-				editor.fire( 'lockSnapshot' );
-
+				editor.fire( 'saveSnapshot' );
 				editor.getSelection().selectRanges( [ match.range ] );
 				editor.insertHtml( getHtmlToInsert( match.text ), 'text' );
-
-				editor.fire( 'unlockSnapshot' );
+				editor.fire( 'saveSnapshot' );
 			}
 
 			function tryToEncodeLink( data ) {

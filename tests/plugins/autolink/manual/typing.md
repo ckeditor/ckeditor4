@@ -6,7 +6,7 @@
 1. Type `http://example.com`.
 1. Press listed commit key.
 1. Double click on created link and check its `Link Type`.
-1. Click `Undo` button once.
+1. Undo changes using `Undo` button.
 1. Repeat for each commit key and ` mail@example.com ` text.
 
 **Commit keys**:
@@ -17,9 +17,12 @@
 ## Expected
 
 * Typed text has been turned into a link with correct type i.e. `URL` for URL link and `E-mail` for email.
-* Whole typed link should be removed on `Undo` button click.
+* Typed link should be removed on `Undo` button click in three steps:
+	* undo commit key
+	* undo link
+	* undo link text
 
 ## Unexpected
 
 * Typed text has not been turned into a link or have invalid type.
-* Typed link is not removed on `Undo` button click or requires more than single click.
+* Typed link is not removed on `Undo` button click or it's removed in invalid order.
