@@ -9,20 +9,10 @@
 1. Click `Undo` button once.
 1. Repeat for each commit key and ` mail@example.com ` text.
 
-
 **Commit keys**:
 
-* `Tab`
 * `Enter`
 * `Space`
-* `PageUp`
-* `PageDown`
-* `End`
-* `Home`
-* `ArrowLeft`
-* `ArrowUp`
-* `ArrowRight`
-* `ArrowDown`
 
 ## Expected
 

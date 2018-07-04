@@ -53,20 +53,7 @@
 			}
 
 			editor.on( 'contentDom', function() {
-				var commitKeystrokes = [
-					9, // Tab
-					13, // Enter
-					32, // Space
-					33, // PageUp
-					34, // PageDown
-					35, // End
-					36, // Home
-					37, // ArrowLeft
-					38, // ArrowUp
-					39, // ArrowRight
-					40 // ArrowDown
-				];
-
+				var commitKeystrokes = editor.config.autolink_commitKeystrokes || CKEDITOR.config.autolink_commitKeystrokes;
 				editor.editable().on( 'keydown', function( evt ) {
 					if ( CKEDITOR.tools.indexOf( commitKeystrokes, evt.data.getKey() ) == -1 ) {
 						return;
@@ -146,6 +133,27 @@
 			}
 		}
 	} );
+
+	/**
+	 * The [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin keystrokes used to finish link completion.
+	 *
+	 * ```javascript
+	 * // Default config (13 = enter, 32 = space).
+	 * config.autolink_commitKeystrokes = [ 9, 13 ];
+	 * ```
+	 *
+	 * Commit keystrokes can be also disabled by setting it to an empty array.
+	 *
+	 * ```javascript
+	 * // Disable autolink commit keystrokes.
+	 * config.autolink_commitKeystrokes = [];
+	 * ```
+	 *
+	 * @since 4.11.0
+	 * @cfg {Number/Number[]} [autocomplete_commitKeystrokes=[ 13, 32 ]]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.autolink_commitKeystrokes = [ 13, 32 ];
 
 	/**
 	 * Regex used by [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin to match URL adresses.
