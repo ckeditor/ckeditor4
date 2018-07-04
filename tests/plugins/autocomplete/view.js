@@ -193,10 +193,7 @@
 	}
 
 	function assertItemElement( item, itemElement ) {
-		assert.areEqual( '<li data-id="' + item.id + '" tabindex="-1">' + item.name + '</li>',
-			// We need to sort attributes because of Edge, but 'compatHtml' wraps 'li' with an 'ul' element.
-			bender.tools.compatHtml( itemElement.$.outerHTML, false, true ).replace( '<ul>', '' ).replace( '</ul>', '' )
-		);
+		assert.areEqual( '<li data-id="' + item.id + '">' + item.name + '</li>', itemElement.$.outerHTML );
 	}
 
 	function getCaretRect( editor, caretPosition, offset ) {
