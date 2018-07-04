@@ -69,15 +69,24 @@
 			} );
 
 			function insertMatch( match ) {
+				var selection = editor.getSelection();
 				// We don't want to insert a link if selection is already inside another link.
-				if ( editor.getSelection().getRanges()[ 0 ].startContainer.getAscendant( 'a', true ) ) {
+				if ( selection.getRanges()[ 0 ].startContainer.getAscendant( 'a', true ) ) {
 					return;
 				}
 
 				editor.fire( 'saveSnapshot' );
-				editor.getSelection().selectRanges( [ match.range ] );
+				selection.selectRanges( [ match.range ] );
 				editor.insertHtml( getHtmlToInsert( match.text ), 'text' );
 				editor.fire( 'saveSnapshot' );
+
+				// Make sure that link cannot be modified right after insertion
+				// by moving selection at the end of inserted node.
+				var insertionRange = selection.getRanges()[ 0 ],
+					newRange = editor.createRange();
+
+				newRange.setStartAfter( insertionRange.startContainer );
+				selection.selectRanges( [ newRange ] );
 			}
 
 			function tryToEncodeLink( data ) {
