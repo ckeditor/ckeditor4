@@ -631,7 +631,7 @@
 				}
 			}
 
-			// Still some elements might have margins either shorthand or not with zero values, we need to clean them.
+			// Still some elements might have shorthand margins or longhand with zero values.
 			parseShorthandMargins( styles );
 			removeZeroMargins();
 
@@ -639,11 +639,10 @@
 
 			function removeZeroMargins() {
 				var keys = [ 'top', 'right', 'bottom', 'left' ];
-					// margin;
 				CKEDITOR.tools.array.forEach( keys, function( key ) {
-					// margin = CKEDITOR.tools.convertToPx( styles[ 'margin-' + key ] );
-					if ( !parseFloat( styles[ 'margin-' + key ] ) ) {
-						delete styles[ 'margin-' + key ];
+					key = 'margin-' + key;
+					if ( !parseFloat( styles[ key ] ) ) {
+						delete styles[ key ];
 					}
 				} );
 			}
