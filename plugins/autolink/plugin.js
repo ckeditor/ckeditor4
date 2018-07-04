@@ -169,5 +169,5 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.autolink_emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
-	// Regex by (https://www.w3.org/TR/html5/forms.html#valid-e-mail-address).
+	// Regex by (https://html.spec.whatwg.org/#e-mail-state-(type=email)).
 } )();
