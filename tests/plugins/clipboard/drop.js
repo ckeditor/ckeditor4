@@ -1179,8 +1179,7 @@ var testsForMultipleEditor = {
 			assert.areEqual( 'none', data.$.dataTransfer.dropEffect, 'dropEffect reset to \'none\'' );
 		},
 
-		// #1832 https://github.com/ckeditor/ckeditor-dev/issues/1832
-		// #1943 https://github.com/ckeditor/ckeditor-dev/issues/1943
+		// (#1832) and (#1943).
 		'test dragOver Edge': function() {
 			if ( !CKEDITOR.env.edge ) {
 				assert.ignore();

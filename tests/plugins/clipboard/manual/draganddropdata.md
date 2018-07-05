@@ -1,4 +1,4 @@
-@bender-tags: bug, 4.7.0, trac16777, dataTransfer, 4.10.0, 1832
+@bender-tags: bug, 4.7.0, trac16777, dataTransfer, 4.10.1, 1832
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, sourcearea, elementspath, clipboard, image2, uploadimage, uploadwidget
 @bender-include: ../../../plugins/uploadwidget/manual/_helpers/xhr.js
