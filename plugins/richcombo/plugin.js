@@ -74,7 +74,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 				canGroup: false,
 				title: definition.label,
 				modes: { wysiwyg: 1 },
-				editorFocus: 1
+				editorFocus: 1,
+				clearOnBlur: true
 			} );
 
 			// We don't want the panel definition in this object.
@@ -169,7 +170,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 					if ( editor.readOnly && !this.readOnly )
 						state = CKEDITOR.TRISTATE_DISABLED;
 
-					this.setState( state );
+					this.clearOnBlur && this.setState( state );
 					this.setValue( '' );
 
 					// Let plugin to disable button.
