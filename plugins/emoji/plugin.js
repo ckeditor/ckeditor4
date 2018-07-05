@@ -77,23 +77,23 @@
 				}
 
 				function dataCallback( matchInfo, callback ) {
-					var data = CKEDITOR.tools.array.filter( emojiList, function( item ) {
-						// Comparing lowercased strings, because emoji should be case insensitive (#2167).
-						return item.id.toLowerCase().indexOf( matchInfo.query.slice( 1 ).toLowerCase() ) !== -1;
-					} ).sort( function( a, b ) {
-						// Sort at the beginning emoji starts with given query.
-						var emojiName = matchInfo.query.substr( 1 ).toLowerCase(),
-							isAStartWithEmojiName = a.id.substr( 1, emojiName.length ) === emojiName,
-							isBStartWithEmojiName = b.id.substr( 1, emojiName.length ) === emojiName;
+					var emojiName =  matchInfo.query.substr( 1 ).toLowerCase(),
+						data = CKEDITOR.tools.array.filter( emojiList, function( item ) {
+							// Comparing lowercased strings, because emoji should be case insensitive (#2167).
+							return item.id.toLowerCase().indexOf( emojiName ) !== -1;
+						} ).sort( function( a, b ) {
+							// Sort at the beginning emoji starts with given query.
+							var isAStartWithEmojiName = a.id.substr( 1, emojiName.length ) === emojiName,
+								isBStartWithEmojiName = b.id.substr( 1, emojiName.length ) === emojiName;
 
-						if ( isAStartWithEmojiName && isBStartWithEmojiName || !isAStartWithEmojiName && !isBStartWithEmojiName ) {
-							return a.id === b.id ? 0 : ( a.id > b.id ? 1 : -1 );
-						} else if ( isAStartWithEmojiName ) {
-							return -1;
-						} else {
-							return 1;
-						}
-					} );
+							if ( isAStartWithEmojiName && isBStartWithEmojiName || !isAStartWithEmojiName && !isBStartWithEmojiName ) {
+								return a.id === b.id ? 0 : ( a.id > b.id ? 1 : -1 );
+							} else if ( isAStartWithEmojiName ) {
+								return -1;
+							} else {
+								return 1;
+							}
+						} );
 					callback( data );
 				}
 			} );
