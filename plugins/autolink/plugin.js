@@ -65,7 +65,9 @@
 						insertMatch( matched );
 					}
 
-				} );
+					// Handle event ASAP thus some plugins may change
+					// editor selection or cancel keydown events e.g. wysiwygarea, enterkey.
+				}, null, null, 0 );
 			} );
 
 			function insertMatch( match ) {

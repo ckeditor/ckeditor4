@@ -12,6 +12,13 @@
 				allowedContent: true
 			}
 		},
+		enterkey: {
+			config: {
+				removePlugins: 'link',
+				extraPlugins: 'enterkey',
+				allowedContent: true
+			}
+		},
 		customCommitKeystrokes: {
 			config: {
 				removePlugins: 'link',
@@ -57,6 +64,13 @@
 
 			testTyping( this.editors.classic, 32, url, expectedUrlLink, 'Space URL' );
 			testTyping( this.editors.classic, 32, email, expectedEmailLink, 'Space Email' );
+		},
+
+		// (#1815)
+		'test enter commit keystroke not canceled': function() {
+			var enterPlaceholder = '<p>\u00A0</p>';
+			testTyping( this.editors.enterkey, 13, url, expectedUrlLink + enterPlaceholder, 'Enter URL' );
+			testTyping( this.editors.enterkey, 13, email, expectedEmailLink + enterPlaceholder, 'Enter Email' );
 		},
 
 		// (#1815)
