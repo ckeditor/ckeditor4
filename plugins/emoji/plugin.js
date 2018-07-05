@@ -78,11 +78,11 @@
 
 				function dataCallback( matchInfo, callback ) {
 					var data = CKEDITOR.tools.array.filter( emojiList, function( item ) {
-						// Testing with case insensitive regular expression (#2167).
-						return ( new RegExp( matchInfo.query.slice( 1 ), 'i' ) ).test( item.id );
+						// Comparing lowercased strings, because emoji should be case insensitive (#2167).
+						return item.id.toLowerCase().indexOf( matchInfo.query.slice( 1 ).toLowerCase() ) !== -1;
 					} ).sort( function( a, b ) {
 						// Sort at the beginning emoji starts with given query.
-						var emojiName = matchInfo.query.substr( 1 ),
+						var emojiName = matchInfo.query.substr( 1 ).toLowerCase(),
 							isAStartWithEmojiName = a.id.substr( 1, emojiName.length ) === emojiName,
 							isBStartWithEmojiName = b.id.substr( 1, emojiName.length ) === emojiName;
 
@@ -117,7 +117,7 @@
 /**
  * Address of the JSON file containing the emoji list. The file is downloaded through the {@link CKEDITOR.ajax#load} method
  * and the URL address is processed by {@link CKEDITOR#getUrl}.
- * Emoji list has to be an array of objects with the `id` and `symbol` properties. These keys represent the text to match and the 
+ * Emoji list has to be an array of objects with the `id` and `symbol` properties. These keys represent the text to match and the
  * UTF symbol for its replacement.
  * An emoji has to start with the `:` (colon) symbol.
  *
