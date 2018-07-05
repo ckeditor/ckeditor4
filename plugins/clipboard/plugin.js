@@ -2825,7 +2825,8 @@
 
 					fallbackDataTransfer._isCustomMimeTypeSupported = false;
 
-					// It looks like after our custom mime type test Edge 17 is denying access on nativeDataTransfer.
+					// It looks like after our custom mime type test Edge 17 is denying access on nativeDataTransfer (#2169).
+					// Upstream issue: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/18089287/
 					if ( CKEDITOR.env.edge && CKEDITOR.env.version > 16 ) {
 						return true;
 					}
