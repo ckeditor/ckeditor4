@@ -17,10 +17,9 @@
 ## Expected
 
 * Typed text has been turned into a link with correct type i.e. `URL` for URL link and `E-mail` for email.
-* Typed link should be removed on `Undo` button click in three steps:
-	* undo commit key
+* Typed link should be removed on `Undo` button click in two steps:
 	* undo link
-	* undo link text
+	* undo typed text
 
 ## Unexpected
 

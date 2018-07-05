@@ -75,10 +75,8 @@
 					return;
 				}
 
-				editor.fire( 'saveSnapshot' );
 				selection.selectRanges( [ match.range ] );
 				editor.insertHtml( getHtmlToInsert( match.text ), 'text' );
-				editor.fire( 'saveSnapshot' );
 
 				// Make sure that link cannot be modified right after insertion
 				// by moving selection at the end of inserted node.
