@@ -30,12 +30,6 @@
 
 	bender.test( {
 
-		tearDown: function() {
-			CKEDITOR.tools.array.forEach( bender.tools.objToArray( this.editors ), function( editor ) {
-				editor.setData( '' );
-			} );
-		},
-
 		'test URL link with HTML tags': function() {
 			var pastedTexts = [
 				'https://<br>placekitten.com/g/200/301',
@@ -221,6 +215,8 @@
 		editor.once( 'afterPaste', function() {
 			resume( function() {
 				assert.areEqual( '<p>' + expected + '</p>', bender.tools.compatHtml( editor.getData() ), message );
+				// Clean editor.
+				editor.editable().setHtml( '' );
 			} );
 		} );
 
