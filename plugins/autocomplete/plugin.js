@@ -286,7 +286,7 @@
 				this.viewRepositionListener();
 			}, this ) );
 
-			// Don't let browser to focus dropdown element.
+			// Don't let browser to focus dropdown element (#2107).
 			this._listeners.push( this.view.element.on( 'mousedown', function( e ) {
 				e.data.preventDefault();
 			}, null, null, 9999 ) );
