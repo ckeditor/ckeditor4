@@ -7,6 +7,7 @@ Fixed Issues:
 
 * [#2114](https://github.com/ckeditor/ckeditor-dev/issues/2114): [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) cannot be initialized before [`instanceReady`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#event-instanceReady).
 * [#2169](https://github.com/ckeditor/ckeditor-dev/issues/2169): [Edge] Fixed: Error thrown when pasting into editor.
+* [#2107](https://github.com/ckeditor/ckeditor-dev/issues/2107): [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete): holding and releasing mouse button is not inserting autocomplete item.
 
 ## CKEditor 4.10
 
