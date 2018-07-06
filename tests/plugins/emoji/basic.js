@@ -136,7 +136,7 @@
 						bot.setHtmlWithSelection( '<p>foo' + query + '^</p>' );
 						editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-						objectAssert.areEqual( { id: ':OK_hand:', symbol: '👌' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+						objectAssert.areEqual( { id: ':ok_hand:', symbol: '👌' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
 
 						emojiTools.clearAutocompleteModel( autocomplete );
 						autocomplete.close();
