@@ -84,6 +84,14 @@
 
 		tearDown: function() {
 			stub.restore();
+
+			for ( var key in this.editorBots ) {
+				var editor = this.editorBots[ key ].editor,
+					autocomplete = editor._.emoji.autocomplete;
+
+				emojiTools.clearAutocompleteModel( autocomplete );
+				autocomplete.close();
+			}
 		},
 
 		'test emoji objects are added to editor': function( editor ) {
@@ -102,9 +110,6 @@
 				assert.areSame( ':bug', autocomplete.model.query, 'Model keeps wrong querry.' );
 				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
 				objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
-
-				emojiTools.clearAutocompleteModel( autocomplete );
-				autocomplete.close();
 			} );
 		},
 
@@ -117,9 +122,6 @@
 				// Asserted data might not be initialised yet or reset to null value with `onTextUnmatch` method.
 				emojiTools.assertIsNullOrUndefined( autocomplete.model.query );
 				emojiTools.assertIsNullOrUndefined( autocomplete.model.data );
-
-				emojiTools.clearAutocompleteModel( autocomplete );
-				autocomplete.close();
 
 			} );
 		},
@@ -137,9 +139,6 @@
 						editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 						objectAssert.areEqual( { id: ':ok_hand:', symbol: '👌' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
-
-						emojiTools.clearAutocompleteModel( autocomplete );
-						autocomplete.close();
 					}, 50 * ( index + 1 ) );
 					wait();
 				} );
