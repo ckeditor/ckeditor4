@@ -73,6 +73,12 @@
 						return null;
 					}
 
+					// Do not proceed if a query is a part of word.
+					var prevChar = text[ match.index - 1];
+					if ( prevChar !== undefined && !prevChar.match( /\s+/ ) ) {
+						return null;
+					}
+
 					return { start: match.index, end: offset };
 				}
 
