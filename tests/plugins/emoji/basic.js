@@ -143,6 +143,19 @@
 					wait();
 				} );
 			} );
+		},
+
+		// (#2195)
+		'test emoji suggestion box shouldn\'t appear inside text: function( editor, bot )': function( editor, bot ) {
+			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
+				var autocomplete = editor._.emoji.autocomplete;
+
+				bot.setHtmlWithSelection( '<p>foo:bug^</p>' );
+
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+				emojiTools.assertIsNullOrUndefined( autocomplete.model.query );
+				emojiTools.assertIsNullOrUndefined( autocomplete.model.data );
+			} );
 		}
 	};
 
