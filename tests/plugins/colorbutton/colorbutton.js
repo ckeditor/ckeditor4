@@ -164,6 +164,32 @@
 
 				wait();
 			} );
-		}
+		},
+
+		// (#1084)
+		'test changing text color to automatic': testAutomaticColor(),
+
+		// (#1084)
+		'test changing background color to automatic': testAutomaticColor( true )
 	} );
+
+	function testAutomaticColor( background ) {
+		return function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				colorBtn = editor.ui.get( background ? 'BGColor' : 'TextColor' );
+
+			bot.setHtmlWithSelection( 'Foo [<span style="' + ( background ? 'background-' : '' ) + 'color:red">bar</span>]' );
+
+			colorBtn.click( editor );
+
+			setTimeout( function() {
+				resume();
+				colorBtn._.panel.getBlock( colorBtn._.id ).element.findOne( '.cke_colorauto' ).$.click();
+
+				assert.areEqual( '<p>Foo bar</p>', editor.getData() );
+			}, 0 );
+			wait();
+		};
+	}
 } )();
