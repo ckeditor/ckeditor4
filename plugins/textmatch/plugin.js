@@ -268,37 +268,23 @@
 		}
 
 		var collection = [],
-			siblings,
-			elementIndex,
-			node, i;
+			node = range.startContainer.getAscendant( function( element ) {
+				return element.type != CKEDITOR.NODE_TEXT && element.isBlockBoundary();
+			}, true );
 
-		if ( range.startContainer.type != CKEDITOR.NODE_ELEMENT ) {
-			siblings = range.startContainer.getParent().getChildren();
-			elementIndex = range.startContainer.getIndex();
-		} else {
-			siblings = range.startContainer.getChildren();
-			elementIndex = range.startOffset;
-		}
-
-		i = elementIndex;
-		while ( node = siblings.getItem( --i ) ) {
-			if ( node.type == CKEDITOR.NODE_TEXT ) {
-				collection.unshift( node );
-			} else {
-				break;
-			}
-		}
-
-		i = elementIndex;
-		while ( node = siblings.getItem( i++ ) ) {
-			if ( node.type == CKEDITOR.NODE_TEXT ) {
-				collection.push( node );
-			} else {
-				break;
-			}
-		}
+		flattenTextNodes( node );
 
 		return collection;
+
+		function flattenTextNodes( node ) {
+			if ( node.type == CKEDITOR.NODE_TEXT ) {
+				return collection.push( node );
+			}
+
+			CKEDITOR.tools.array.forEach( node.getChildren().toArray(), function( element ) {
+				flattenTextNodes( element );
+			} );
+		}
 	};
 
 	function findElementAtOffset( elements, offset ) {
