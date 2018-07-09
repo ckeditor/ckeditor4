@@ -65,13 +65,15 @@
 				selection.selectRanges( [ match.range ] );
 				editor.insertHtml( getHtmlToInsert( match.text ), 'text' );
 
-				// Make sure that link cannot be modified right after insertion
-				// by moving selection at the end of inserted node.
-				var insertionRange = selection.getRanges()[ 0 ],
-					newRange = editor.createRange();
+				if ( !CKEDITOR.env.webkit ) {
+					// Make sure that link cannot be modified right after insertion
+					// by moving selection at the end of inserted node.
+					var insertionRange = selection.getRanges()[ 0 ],
+						newRange = editor.createRange();
 
-				newRange.setStartAfter( insertionRange.startContainer );
-				selection.selectRanges( [ newRange ] );
+					newRange.setStartAfter( insertionRange.startContainer );
+					selection.selectRanges( [ newRange ] );
+				}
 			}
 
 			function tryToEncodeLink( data ) {
