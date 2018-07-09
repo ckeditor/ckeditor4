@@ -9,6 +9,8 @@ Fixed Issues:
 * [#2169](https://github.com/ckeditor/ckeditor-dev/issues/2169): [Edge] Fixed: Error thrown when pasting into editor.
 * [#2107](https://github.com/ckeditor/ckeditor-dev/issues/2107): Fixed: [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete): holding and releasing mouse button is not inserting autocomplete item.
 * [#2167](https://github.com/ckeditor/ckeditor-dev/issues/2167): Fixed: Matching in [Emoji](https://ckeditor.com/cke4/addon/emoji) plugin is not case insensitive.
+* [#1084](https://github.com/ckeditor/ckeditor-dev/issues/1084) Fixed: Using `Automatic` color with color button on text with already defined color creates span with `style="color:null"`.
+
 
 ## CKEditor 4.10
 
