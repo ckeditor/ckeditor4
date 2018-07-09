@@ -5,9 +5,9 @@
 
 Fixed Issues:
 
-* [#2114](https://github.com/ckeditor/ckeditor-dev/issues/2114): [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) cannot be initialized before [`instanceReady`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#event-instanceReady).
+* [#2114](https://github.com/ckeditor/ckeditor-dev/issues/2114): Fixed: [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) cannot be initialized before [`instanceReady`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#event-instanceReady).
 * [#2169](https://github.com/ckeditor/ckeditor-dev/issues/2169): [Edge] Fixed: Error thrown when pasting into editor.
-* [#2107](https://github.com/ckeditor/ckeditor-dev/issues/2107): [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete): holding and releasing mouse button is not inserting autocomplete item.
+* [#2107](https://github.com/ckeditor/ckeditor-dev/issues/2107): Fixed: [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete): holding and releasing mouse button is not inserting autocomplete item.
 * [#2167](https://github.com/ckeditor/ckeditor-dev/issues/2167): Fixed: Matching in [Emoji](https://ckeditor.com/cke4/addon/emoji) plugin is not case insensitive.
 
 ## CKEditor 4.10
@@ -27,9 +27,9 @@ Fixed Issues:
 * [#1458](https://github.com/ckeditor/ckeditor-dev/issues/1458): [Edge] Fixed: After blurring the editor it takes 2 clicks to focus a widget.
 * [#1034](https://github.com/ckeditor/ckeditor-dev/issues/1034): Fixed: JAWS leaves forms mode after pressing the <kbd>Enter</kbd> key in an inline editor instance.
 * [#1748](https://github.com/ckeditor/ckeditor-dev/pull/1748): Fixed: Missing [`CKEDITOR.dialog.definition.onHide`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_dialog_definition.html#property-onHide) API documentation. Thanks to [sunnyone](https://github.com/sunnyone)!
-* [#1321](https://github.com/ckeditor/ckeditor-dev/issues/1321): Ideographic space character (`\u3000`) is lost when pasting text.
-* [#1776](https://github.com/ckeditor/ckeditor-dev/issues/1776): Empty caption placeholder of the [Image Base](https://ckeditor.com/cke4/addon/imagebase) plugin is not hidden when blurred.
-* [#1592](https://github.com/ckeditor/ckeditor-dev/issues/1592): The [Image Base](https://ckeditor.com/cke4/addon/imagebase) plugin caption is not visible after paste.
+* [#1321](https://github.com/ckeditor/ckeditor-dev/issues/1321): Fixed: Ideographic space character (`\u3000`) is lost when pasting text.
+* [#1776](https://github.com/ckeditor/ckeditor-dev/issues/1776): Fixed: Empty caption placeholder of the [Image Base](https://ckeditor.com/cke4/addon/imagebase) plugin is not hidden when blurred.
+* [#1592](https://github.com/ckeditor/ckeditor-dev/issues/1592): Fixed: The [Image Base](https://ckeditor.com/cke4/addon/imagebase) plugin caption is not visible after paste.
 * [#620](https://github.com/ckeditor/ckeditor-dev/issues/620): Fixed: The [`config.forcePasteAsPlainText`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html#cfg-forcePasteAsPlainText) option is not respected in internal and cross-editor pasting.
 * [#1467](https://github.com/ckeditor/ckeditor-dev/issues/1467): Fixed: The resizing cursor of the [Table Resize](https://ckeditor.com/cke4/addon/tableresize) plugin appearing in the middle of a merged cell.
 
