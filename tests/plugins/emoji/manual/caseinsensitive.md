@@ -1,4 +1,4 @@
-@bender-tags: 4.10.1, feature, emoji, 2167
+@bender-tags: 4.10.1, bug, emoji, 2167
 @bender-ckeditor-plugins: wysiwygarea, toolbar, elementspath, sourcearea, emoji, clipboard, undo
 @bender-ui: collapsed
 @bender-include: ../_helpers/tools.js
