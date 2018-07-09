@@ -210,14 +210,14 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				if ( color == '?' ) {
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
-							return applyColor( color );
+							return applyOrRemoveColor( color );
 						}
 					} );
 				} else {
-					return applyColor( color );
+					return applyOrRemoveColor( color );
 				}
 
-				function applyColor( color ) {
+				function applyOrRemoveColor( color ) {
 					// Clean up any conflicting style within the range.
 					editor.removeStyle( new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ) );
 					var colorStyle = config[ 'colorButton_' + type + 'Style' ];
@@ -233,7 +233,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					};
 
 					editor.focus();
-					editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
+					editor[ ( color ? 'apply' : 'remove' ) + 'Style' ]( new CKEDITOR.style( colorStyle, { color: color } ) );
 					editor.fire( 'saveSnapshot' );
 				}
 
