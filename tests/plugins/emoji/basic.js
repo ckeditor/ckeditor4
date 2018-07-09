@@ -39,7 +39,7 @@
 			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
 				var autocomplete = editor._.emoji.autocomplete;
 
-				bot.setHtmlWithSelection( '<p>foo:da^</p>' );
+				bot.setHtmlWithSelection( '<p>foo :da^</p>' );
 				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 				// Asserted data might not be initialised yet or reset to null value with `onTextUnmatch` method.
@@ -49,7 +49,7 @@
 				// Handle throttle in autocomplete which by defualt is 20ms;
 				setTimeout( function() {
 					resume( function() {
-						bot.setHtmlWithSelection( '<p>foo:dagg^</p>' );
+						bot.setHtmlWithSelection( '<p>foo :dagg^</p>' );
 						editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 						assert.areSame( ':dagg', autocomplete.model.query, 'Model keeps wrong querry.' );
 						assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
@@ -105,7 +105,7 @@
 			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
 				var autocomplete = editor._.emoji.autocomplete;
 
-				bot.setHtmlWithSelection( '<p>foo:bug^</p>' );
+				bot.setHtmlWithSelection( '<p>foo :bug^</p>' );
 				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 				assert.areSame( ':bug', autocomplete.model.query, 'Model keeps wrong querry.' );
 				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
@@ -116,7 +116,7 @@
 		'test emoji are not actived when too few letters are written': function( editor, bot ) {
 			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
 				var autocomplete = editor._.emoji.autocomplete;
-				bot.setHtmlWithSelection( '<p>foo:b^</p>' );
+				bot.setHtmlWithSelection( '<p>foo :b^</p>' );
 				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 				// Asserted data might not be initialised yet or reset to null value with `onTextUnmatch` method.
@@ -135,7 +135,7 @@
 				CKEDITOR.tools.array.forEach( queries, function( query, index ) {
 					setTimeout( function() {
 						resume();
-						bot.setHtmlWithSelection( '<p>foo' + query + '^</p>' );
+						bot.setHtmlWithSelection( '<p>foo ' + query + '^</p>' );
 						editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 						objectAssert.areEqual( { id: ':ok_hand:', symbol: '👌' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
