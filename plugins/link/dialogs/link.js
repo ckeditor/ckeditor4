@@ -546,7 +546,7 @@
 						id: 'telNumber',
 						label: linkLang.phoneNumber,
 						required: true,
-						validate: editor.config.telInputValidate || undefined,
+						validate: editor.config.telLinkValidate ? validateTelNumber : undefined,
 						setup: function( data ) {
 							if ( data.tel ) {
 								this.setValue( data.tel );
@@ -1014,6 +1014,17 @@
 			}
 		};
 	} );
+
+	function validateTelNumber() {
+		var editor = this.getDialog()._.editor,
+			validate =  editor.config.telLinkValidate,
+			regExp = validate.regExp,
+			msg = validate.msg;
+
+		if ( !regExp.test( this.getValue() ) ) {
+			return msg || false;
+		}
+	}
 } )();
 // jscs:disable maximumLineLength
 /**

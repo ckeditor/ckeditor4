@@ -1,0 +1,11 @@
+<textarea id="editor1"></textarea>
+<textarea id="editor2"></textarea>
+<script>
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor2', {
+		telLinkValidate: {
+			regExp: /^[0-9]{9}$/,
+			msg: 'Invalid number'
+		}
+	} );
+</script>
