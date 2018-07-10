@@ -2,7 +2,7 @@
 
 <script>
 
-	if ( autocompleteUtils.isUnsupportedEnvironment() && !CKEDITOR.env.mobile ) {
+	if ( autocompleteUtils.isUnsupportedEnvironment() || CKEDITOR.env.mobile ) {
 		bender.ignore();
 	}
 
