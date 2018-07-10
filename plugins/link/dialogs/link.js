@@ -149,7 +149,7 @@
 		// Handles the event when the "Type" selection box is changed.
 		var linkTypeChanged = function() {
 				var dialog = this.getDialog(),
-					partIds = [ 'urlOptions', 'anchorOptions', 'emailOptions' ],
+					partIds = [ 'urlOptions', 'anchorOptions', 'emailOptions', 'telOptions' ],
 					typeValue = this.getValue(),
 					uploadTab = dialog.definition.getContents( 'upload' ),
 					uploadInitiallyHidden = uploadTab && uploadTab.hidden;
@@ -245,7 +245,8 @@
 					items: [
 						[ linkLang.toUrl, 'url' ],
 						[ linkLang.toAnchor, 'anchor' ],
-						[ linkLang.toEmail, 'email' ]
+						[ linkLang.toEmail, 'email' ],
+						[ linkLang.toPhone, 'tel' ]
 					],
 					onChange: linkTypeChanged,
 					setup: function( data ) {
@@ -529,6 +530,36 @@
 								data.email = {};
 
 							data.email.body = this.getValue();
+						}
+					} ],
+					setup: function() {
+						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
+							this.getElement().hide();
+					}
+				},
+				{
+					type: 'vbox',
+					id: 'telOptions',
+					padding: 1,
+					children: [ {
+						type: 'tel',
+						id: 'telNumber',
+						label: linkLang.phoneNumber,
+						required: true,
+						validate: editor.config.telInputValidate || undefined,
+						setup: function( data ) {
+							if ( data.tel ) {
+								this.setValue( data.tel );
+							}
+
+							var linkType = this.getDialog().getContentElement( 'info', 'linkType' );
+							if ( linkType && linkType.getValue() == 'tel' ) {
+								this.select();
+							}
+						},
+						commit: function( data ) {
+
+							data.tel = this.getValue();
 						}
 					} ],
 					setup: function() {
