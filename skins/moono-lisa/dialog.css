@@ -451,6 +451,7 @@ It is possible to have nested V/H-Boxes.
 /* Applies to all labeled dialog fields */
 .cke_hc div.cke_dialog_ui_input_text,
 .cke_hc div.cke_dialog_ui_input_password,
+.cke_hc div.cke_dialog_ui_input_tel,
 .cke_hc div.cke_dialog_ui_input_textarea,
 .cke_hc div.cke_dialog_ui_input_select,
 .cke_hc div.cke_dialog_ui_input_file
@@ -506,6 +507,7 @@ textarea.cke_dialog_ui_input_textarea
 
 input.cke_dialog_ui_input_text,
 input.cke_dialog_ui_input_password,
+input.cke_dialog_ui_input_tel,
 textarea.cke_dialog_ui_input_textarea
 {
 	background-color: #fff;
@@ -525,6 +527,7 @@ textarea.cke_dialog_ui_input_textarea
 
 input.cke_dialog_ui_input_text:hover,
 input.cke_dialog_ui_input_password:hover,
+input.cke_dialog_ui_input_tel:hover,
 textarea.cke_dialog_ui_input_textarea:hover
 {
 	border: 1px solid #aeb3b9;
@@ -532,6 +535,7 @@ textarea.cke_dialog_ui_input_textarea:hover
 
 input.cke_dialog_ui_input_text:focus,
 input.cke_dialog_ui_input_password:focus,
+input.cke_dialog_ui_input_tel:focus,
 textarea.cke_dialog_ui_input_textarea:focus,
 select.cke_dialog_ui_input_select:focus
 {

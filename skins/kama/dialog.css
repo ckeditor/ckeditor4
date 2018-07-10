@@ -426,7 +426,8 @@ The basic text field to input text.
 */
 
 input.cke_dialog_ui_input_text,
-input.cke_dialog_ui_input_password
+input.cke_dialog_ui_input_password,
+input.cke_dialog_ui_input_tel
 {
 	background-color: white;
 	border: none;
@@ -436,7 +437,8 @@ input.cke_dialog_ui_input_password
 }
 
 div.cke_dialog_ui_input_text,
-div.cke_dialog_ui_input_password
+div.cke_dialog_ui_input_password,
+div.cke_dialog_ui_input_tel
 {
 	background-color: white;
 	border: 1px solid #a0a0a0;
