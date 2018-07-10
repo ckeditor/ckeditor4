@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'sr-latn', {
 	noEmail: 'Otkucajte adresu elektronske pote',
 	noUrl: 'Unesite URL linka',
 	other: '<остало>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Zavisno (Netscape)',
 	popupFeatures: 'Mogućnosti popup prozora',
 	popupFullScreen: 'Prikaz preko celog ekrana (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'sr-latn', {
 	toAnchor: 'Sidro na ovoj stranici',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Unesi/izmeni link',
 	type: 'Vrsta linka',
 	unlink: 'Ukloni link',

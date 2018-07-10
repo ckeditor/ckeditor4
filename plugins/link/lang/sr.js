@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'sr', {
 	noEmail: 'Откуцајте адресу електронске поште',
 	noUrl: 'Унесите УРЛ линка',
 	other: '<друго>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Зависно (Netscape)',
 	popupFeatures: 'Могућности искачућег прозора',
 	popupFullScreen: 'Приказ преко целог екрана (ИE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'sr', {
 	toAnchor: 'Сидро на овој страници',
 	toEmail: 'Eлектронска пошта',
 	toUrl: 'УРЛ',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Унеси/измени линк',
 	type: 'Врста линка',
 	unlink: 'Уклони линк',

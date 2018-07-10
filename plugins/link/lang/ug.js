@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'ug', {
 	noEmail: 'ئېلخەت ئادرېسىنى كىرگۈزۈڭ',
 	noUrl: 'ئۇلانما ئادرېسىنى كىرگۈزۈڭ',
 	other: '‹باشقا›',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'تەۋە (NS)',
 	popupFeatures: 'قاڭقىش كۆزنەك خاسلىقى',
 	popupFullScreen: 'پۈتۈن ئېكران (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'ug', {
 	toAnchor: 'بەت ئىچىدىكى لەڭگەرلىك نۇقتا ئۇلانمىسى',
 	toEmail: 'ئېلخەت',
 	toUrl: 'ئادرېس',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'ئۇلانما قىستۇر/تەھرىرلە',
 	type: 'ئۇلانما تىپى',
 	unlink: 'ئۇلانما بىكار قىل',

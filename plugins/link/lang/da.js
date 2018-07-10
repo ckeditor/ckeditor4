@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'da', {
 	noEmail: 'Indtast e-mailadresse!',
 	noUrl: 'Indtast hyperlink-URL!',
 	other: '<anden>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Koblet/dependent (Netscape)',
 	popupFeatures: 'Egenskaber for popup',
 	popupFullScreen: 'Fuld skærm (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'da', {
 	toAnchor: 'Bogmærke på denne side',
 	toEmail: 'E-mail',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Indsæt/redigér hyperlink',
 	type: 'Type',
 	unlink: 'Fjern hyperlink',

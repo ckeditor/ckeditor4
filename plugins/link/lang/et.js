@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'et', {
 	noEmail: 'Palun kirjuta e-posti aadress',
 	noUrl: 'Palun kirjuta lingi URL',
 	other: '<muu>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Sõltuv (Netscape)',
 	popupFeatures: 'Hüpikakna omadused',
 	popupFullScreen: 'Täisekraan (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'et', {
 	toAnchor: 'Ankur sellel lehel',
 	toEmail: 'E-post',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Lingi lisamine/muutmine',
 	type: 'Lingi liik',
 	unlink: 'Lingi eemaldamine',

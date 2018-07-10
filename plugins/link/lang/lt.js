@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'lt', {
 	noEmail: 'Prašome įvesti el.pašto adresą',
 	noUrl: 'Prašome įvesti nuorodos URL',
 	other: '<kitas>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Priklausomas (Netscape)',
 	popupFeatures: 'Išskleidžiamo lango savybės',
 	popupFullScreen: 'Visas ekranas (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'lt', {
 	toAnchor: 'Žymė šiame puslapyje',
 	toEmail: 'El.paštas',
 	toUrl: 'Nuoroda',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Įterpti/taisyti nuorodą',
 	type: 'Nuorodos tipas',
 	unlink: 'Panaikinti nuorodą',

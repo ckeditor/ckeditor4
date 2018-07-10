@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh', {
 	noEmail: '請輸入電子郵件',
 	noUrl: '請輸入連結 URL',
 	other: '<其他>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: '獨立 (Netscape)',
 	popupFeatures: '快顯視窗功能',
 	popupFullScreen: '全螢幕 (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh', {
 	toAnchor: '文字中的錨點連結',
 	toEmail: '電子郵件',
 	toUrl: '網址',
+	toPhone: 'Telephone', // MISSING
 	toolbar: '連結',
 	type: '連結類型',
 	unlink: '取消連結',

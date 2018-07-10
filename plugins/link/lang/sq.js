@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'sq', {
 	noEmail: 'Ju lutemi shkruani postën elektronike',
 	noUrl: 'Ju lutemi shkruani URL-në e nyjes',
 	other: '<tjetër>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'E Varur (Netscape)',
 	popupFeatures: 'Karakteristikat e Dritares së Dialogut',
 	popupFullScreen: 'Ekran i Plotë  (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'sq', {
 	toAnchor: 'Lidhu me spirancën në tekst',
 	toEmail: 'Posta Elektronike',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Nyja',
 	type: 'Lloji i Nyjes',
 	unlink: 'Largo Nyjen',

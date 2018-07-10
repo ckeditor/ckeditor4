@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'sk', {
 	noEmail: 'Zadajte prosím e-mailovú adresu',
 	noUrl: 'Zadajte prosím URL odkazu',
 	other: '<iný>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Závislosť (Netscape)',
 	popupFeatures: 'Vlastnosti vyskakovacieho okna',
 	popupFullScreen: 'Celá obrazovka (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'sk', {
 	toAnchor: 'Odkaz na kotvu v texte',
 	toEmail: 'E-mail',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Odkaz',
 	type: 'Typ odkazu',
 	unlink: 'Odstrániť odkaz',

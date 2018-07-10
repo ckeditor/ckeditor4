@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'vi', {
 	noEmail: 'Hãy đưa vào địa chỉ thư điện tử',
 	noUrl: 'Hãy đưa vào đường dẫn liên kết (URL)',
 	other: '<khác>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Phụ thuộc (Netscape)',
 	popupFeatures: 'Đặc điểm của cửa sổ Popup',
 	popupFullScreen: 'Toàn màn hình (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'vi', {
 	toAnchor: 'Neo trong trang này',
 	toEmail: 'Thư điện tử',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Chèn/Sửa liên kết',
 	type: 'Kiểu liên kết',
 	unlink: 'Xoá liên kết',

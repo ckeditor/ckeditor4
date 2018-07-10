@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'fo', {
 	noEmail: 'Vinarliga skriva teldupost-adressu',
 	noUrl: 'Vinarliga skriva tilknýti (URL)',
 	other: '<annað>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Bundið (Netscape)',
 	popupFeatures: 'Popup vindeygans víðkaðu eginleikar',
 	popupFullScreen: 'Fullur skermur (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'fo', {
 	toAnchor: 'Tilknýti til marknastein í tekstinum',
 	toEmail: 'Teldupostur',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Ger/broyt tilknýti',
 	type: 'Tilknýtisslag',
 	unlink: 'Strika tilknýti',

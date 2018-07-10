@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'eu', {
 	noEmail: 'Mesedez idatzi e-posta helbidea',
 	noUrl: 'Mesedez idatzi estekaren URLa',
 	other: '<bestelakoa>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Menpekoa (Netscape)',
 	popupFeatures: 'Laster-leihoaren ezaugarriak',
 	popupFullScreen: 'Pantaila osoa (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'eu', {
 	toAnchor: 'Estekatu testuko aingurara',
 	toEmail: 'E-posta',
 	toUrl: 'URLa',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Esteka',
 	type: 'Esteka-mota',
 	unlink: 'Kendu esteka',

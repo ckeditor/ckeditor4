@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'eo', {
 	noEmail: 'Bonvolu entajpi la retpoŝtadreson',
 	noUrl: 'Bonvolu entajpi la URL-on',
 	other: '<alia>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dependa (Netscape)',
 	popupFeatures: 'Atributoj de la Ŝprucfenestro',
 	popupFullScreen: 'Tutekrane (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'eo', {
 	toAnchor: 'Ankri en tiu ĉi paĝo',
 	toEmail: 'Retpoŝto',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Enmeti/Ŝanĝi Ligilon',
 	type: 'Tipo de Ligilo',
 	unlink: 'Forigi Ligilon',

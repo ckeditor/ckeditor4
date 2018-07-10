@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'pt', {
 	noEmail: 'Por favor, escreva o endereço de email',
 	noUrl: 'Por favor, introduza o endereço URL',
 	other: '<outro>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dependente (Netscape)',
 	popupFeatures: 'Características de janela flutuante',
 	popupFullScreen: 'Janela completa (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'pt', {
 	toAnchor: 'Ligar a âncora no texto',
 	toEmail: 'Email',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Hiperligação',
 	type: 'Tipo de hiperligação',
 	unlink: 'Eliminar hiperligação',

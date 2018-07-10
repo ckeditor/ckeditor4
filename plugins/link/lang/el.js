@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	noEmail: 'Εισάγετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου',
 	noUrl: 'Εισάγετε την τοποθεσία (URL) του συνδέσμου',
 	other: '<άλλο>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Εξαρτημένο (Netscape)',
 	popupFeatures: 'Επιλογές Αναδυόμενου Παραθύρου',
 	popupFullScreen: 'Πλήρης Οθόνη (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	toAnchor: 'Άγκυρα σε αυτήν τη σελίδα',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Σύνδεσμος',
 	type: 'Τύπος Συνδέσμου',
 	unlink: 'Αφαίρεση Συνδέσμου',

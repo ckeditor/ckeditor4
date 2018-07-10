@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'ku', {
 	noEmail: 'تکایە ناونیشانی ئیمەیل بنووسە',
 	noUrl: 'تکایە ناونیشانی بەستەر بنووسە',
 	other: '<هیتر>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'پێوەبەستراو (Netscape)',
 	popupFeatures: 'خاسیەتی پەنجەرەی سەرهەڵدەر',
 	popupFullScreen: 'پڕ بەپڕی شاشە (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'ku', {
 	toAnchor: 'بەستەر بۆ لەنگەر له دەق',
 	toEmail: 'ئیمەیل',
 	toUrl: 'ناونیشانی بەستەر',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'دانان/ڕێکخستنی بەستەر',
 	type: 'جۆری بەستەر',
 	unlink: 'لابردنی بەستەر',

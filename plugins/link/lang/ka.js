@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'ka', {
 	noEmail: 'აკრიფეთ ელფოსტის მისამართი',
 	noUrl: 'აკრიფეთ ბმულის URL',
 	other: '<სხვა>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'დამოკიდებული (Netscape)',
 	popupFeatures: 'Popup ფანჯრის პარამეტრები',
 	popupFullScreen: 'მთელი ეკრანი (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'ka', {
 	toAnchor: 'ბმული ტექსტში ღუზაზე',
 	toEmail: 'ელფოსტა',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'ბმული',
 	type: 'ბმულის ტიპი',
 	unlink: 'ბმულის მოხსნა',

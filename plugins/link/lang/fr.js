@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'fr', {
 	noEmail: 'Veuillez entrer l\'adresse électronique',
 	noUrl: 'Veuillez entrer l\'URL du lien',
 	other: '<autre>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dépendante (Netscape)',
 	popupFeatures: 'Caractéristiques de la fenêtre surgissante',
 	popupFullScreen: 'Plein écran (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'fr', {
 	toAnchor: 'Ancre',
 	toEmail: 'Courriel',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Lien',
 	type: 'Type de lien',
 	unlink: 'Supprimer le lien',

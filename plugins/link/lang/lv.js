@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'lv', {
 	noEmail: 'Lūdzu norādi e-pasta adresi',
 	noUrl: 'Lūdzu norādi hipersaiti',
 	other: '<cits>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Atkarīgs (Netscape)',
 	popupFeatures: 'Uznirstošā loga nosaukums īpašības',
 	popupFullScreen: 'Pilnā ekrānā (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'lv', {
 	toAnchor: 'Iezīme šajā lapā',
 	toEmail: 'E-pasts',
 	toUrl: 'Adrese',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Ievietot/Labot hipersaiti',
 	type: 'Hipersaites tips',
 	unlink: 'Noņemt hipersaiti',

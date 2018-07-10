@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'ar', {
 	noEmail: 'الرجاء كتابة الريد الإلكتروني',
 	noUrl: 'الرجاء كتابة رابط الموقع',
 	other: '<أخرى>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'تابع (Netscape)',
 	popupFeatures: 'خصائص النافذة المنبثقة',
 	popupFullScreen: 'ملئ الشاشة (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'ar', {
 	toAnchor: 'مكان في هذا المستند',
 	toEmail: 'بريد إلكتروني',
 	toUrl: 'الرابط',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'رابط',
 	type: 'نوع الربط',
 	unlink: 'إزالة رابط',

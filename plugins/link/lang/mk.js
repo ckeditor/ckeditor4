@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'mk', {
 	noEmail: 'Please type the e-mail address', // MISSING
 	noUrl: 'Please type the link URL', // MISSING
 	other: '<other>', // MISSING
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dependent (Netscape)', // MISSING
 	popupFeatures: 'Popup Window Features', // MISSING
 	popupFullScreen: 'Full Screen (IE)', // MISSING
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'mk', {
 	toAnchor: 'Link to anchor in the text', // MISSING
 	toEmail: 'E-mail', // MISSING
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Врска',
 	type: 'Link Type', // MISSING
 	unlink: 'Unlink', // MISSING

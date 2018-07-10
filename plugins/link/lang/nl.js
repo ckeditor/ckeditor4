@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'nl', {
 	noEmail: 'Geef een e-mailadres',
 	noUrl: 'Geef de link van de URL',
 	other: '<ander>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Afhankelijk (Netscape)',
 	popupFeatures: 'Instellingen popupvenster',
 	popupFullScreen: 'Volledig scherm (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'nl', {
 	toAnchor: 'Interne link in pagina',
 	toEmail: 'E-mail',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Link invoegen/wijzigen',
 	type: 'Linktype',
 	unlink: 'Link verwijderen',

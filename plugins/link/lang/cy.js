@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'cy', {
 	noEmail: 'Teipiwch gyfeiriad yr e-bost',
 	noUrl: 'Teipiwch URL y ddolen',
 	other: '<eraill>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dibynnol (Netscape)',
 	popupFeatures: 'Nodweddion Ffenestr Bop',
 	popupFullScreen: 'Sgrin Llawn (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'cy', {
 	toAnchor: 'Dolen at angor yn y testun',
 	toEmail: 'E-bost',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Dolen',
 	type: 'Math y Ddolen',
 	unlink: 'Datgysylltu',

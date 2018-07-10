@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'he', {
 	noEmail: 'יש להקליד את כתובת הדוא"ל',
 	noUrl: 'יש להקליד את כתובת הקישור (URL)',
 	other: '<אחר>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'תלוי (Netscape)',
 	popupFeatures: 'תכונות החלון הקופץ',
 	popupFullScreen: 'מסך מלא (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'he', {
 	toAnchor: 'עוגן בעמוד זה',
 	toEmail: 'דוא"ל',
 	toUrl: 'כתובת (URL)',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'הוספת/עריכת קישור',
 	type: 'סוג קישור',
 	unlink: 'הסרת הקישור',

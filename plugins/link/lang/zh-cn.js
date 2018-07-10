@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh-cn', {
 	noEmail: '请输入电子邮件地址',
 	noUrl: '请输入超链接地址',
 	other: '<其他>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: '依附 (NS)',
 	popupFeatures: '弹出窗口属性',
 	popupFullScreen: '全屏 (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh-cn', {
 	toAnchor: '页内锚点链接',
 	toEmail: '电子邮件',
 	toUrl: '地址',
+	toPhone: 'Telephone', // MISSING
 	toolbar: '插入/编辑超链接',
 	type: '超链接类型',
 	unlink: '取消超链接',

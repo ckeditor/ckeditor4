@@ -36,6 +36,7 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 	noEmail: 'ई-मेल पता टाइप करें',
 	noUrl: 'लिंक URL टाइप करें',
 	other: '<अन्य>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'डिपेन्डॅन्ट (Netscape)',
 	popupFeatures: 'पॉप-अप विन्डो फ़ीचर्स',
 	popupFullScreen: 'फ़ुल स्क्रीन (IE)',
@@ -60,6 +61,7 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 	toAnchor: 'इस पेज का ऐंकर',
 	toEmail: 'ई-मेल',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'लिंक इन्सर्ट/संपादन',
 	type: 'लिंक प्रकार',
 	unlink: 'लिंक हटायें',
