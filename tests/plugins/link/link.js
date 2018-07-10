@@ -1,4 +1,4 @@
-/* bender-tags: editor */
+/* bender-tags: editor, dialog */
 /* bender-ckeditor-plugins: link,toolbar,image */
 
 ( function() {
@@ -559,6 +559,36 @@
 
 				bot.dialog( 'link', function( dialog ) {
 					assert.areSame( dialog.getValueOf( 'info', 'url' ), 'linkUrl' );
+					dialog.hide();
+				} );
+			} );
+		},
+
+		// (#2154)
+		'test telephone number link': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			bot.setHtmlWithSelection( '^' );
+			bot.dialog( 'link', function( dialog ) {
+				var expectedNumber = '12345678',
+					input;
+
+				dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
+				dialog.setValueOf( 'info', 'linkType', 'tel' );
+				dialog.setValueOf( 'info', 'telNumber', expectedNumber );
+
+				input = CKEDITOR.document.findOne( 'input.cke_dialog_ui_input_tel' );
+
+				assert.areEqual( 'tel', input.getAttribute( 'type' ), 'Input type should be \'tel\'' );
+				dialog.getButton( 'ok' ).click();
+
+				assert.areEqual( '<a href="tel:12345678">foo</a>', editor.getData() );
+
+
+				bot.dialog( 'link', function( dialog ) {
+					assert.areEqual( 'tel', dialog.getValueOf( 'info', 'linkType' ), 'Link type should be \'tel\' ' );
+					assert.areEqual( expectedNumber, dialog.getValueOf( 'info', 'telNumber', 'Phone number should be ' + expectedNumber ) );
 					dialog.hide();
 				} );
 			} );
