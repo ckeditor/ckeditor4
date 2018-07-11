@@ -319,18 +319,7 @@
 					Style.createStyleStack( element, filter, editor );
 				},
 				'table': function( element ) {
-					element._tdBorders = {};
 					element.filterChildren( filter );
-
-					var borderStyle, occurences = 0;
-					for ( var border in element._tdBorders ) {
-						if ( element._tdBorders[ border ] > occurences ) {
-							occurences = element._tdBorders[ border ];
-							borderStyle = border;
-						}
-					}
-
-					Style.setStyle( element, 'border', borderStyle );
 
 					var parent = element.parent,
 						root = parent && parent.parent,
@@ -356,39 +345,107 @@
 				'td': function( element ) {
 
 					var ascendant = element.getAscendant( 'table' ),
-						tdBorders =  ascendant._tdBorders,
-						borderStyles = [ 'border', 'border-top', 'border-right', 'border-bottom', 'border-left' ],
-						ascendantStyle = tools.parseCssText( ascendant.attributes.style );
+						allowedBorderTypes = [ 'border-top', 'border-right', 'border-bottom', 'border-left' ],
+						borderModifiers = [ 'style', 'width', 'color' ],
+						ascendantStyle = tools.parseCssText( ascendant.attributes.style, true );
 
 					// Sometimes the background is set for the whole table - move it to individual cells.
-					var background = ascendantStyle.background || ascendantStyle.BACKGROUND;
+					var background = ascendantStyle.background;
 					if ( background ) {
 						Style.setStyle( element, 'background', background, true );
 					}
 
-					var backgroundColor = ascendantStyle[ 'background-color' ] || ascendantStyle[ 'BACKGROUND-COLOR' ];
+					var backgroundColor = ascendantStyle[ 'background-color' ];
 					if ( backgroundColor ) {
 						Style.setStyle( element, 'background-color', backgroundColor, true );
 					}
 
-					var styles = tools.parseCssText( element.attributes.style );
+					var styles = tools.parseCssText( element.attributes.style, true ),
+						borderStyles = styles.border ? CKEDITOR.tools.style.parse.border( styles.border ) : {};
 
-					for ( var style in styles ) {
-						var temp = styles[ style ];
-						delete styles[ style ];
-						styles[ style.toLowerCase() ] = temp;
-					}
+					for ( var i = 0; i < allowedBorderTypes.length; i++ ) {
+						var borderType = allowedBorderTypes[ i ],
+							borderValue = mergeBorderStyles( borderType, styles[ borderType ] );
 
-					// Count all border styles that occur in the table.
-					for ( var i = 0; i < borderStyles.length; i++ ) {
-						if ( styles[ borderStyles[ i ] ] ) {
-							var key = styles[ borderStyles[ i ] ];
-							tdBorders[ key ] = tdBorders[ key ] ? tdBorders[ key ] + 1 : 1;
+						if ( borderValue ) {
+							Style.setStyle( element, borderType, borderValue );
 						}
 					}
 
 					Style.createStyleStack( element, filter, editor,
 						/margin|text\-align|padding|list\-style\-type|width|height|border|white\-space|vertical\-align|background/i );
+
+					function mergeBorderStyles( borderType, borderValue ) {
+						var currentBorder = borderValue ? CKEDITOR.tools.style.parse.border( borderValue ) : {},
+							borderObj = CKEDITOR.tools.array.reduce( borderModifiers, function( current, modifier ) {
+
+								if ( !current[ modifier ] ) {
+									var style = getBorderStyle( modifier, borderType );
+
+									if ( style ) {
+										current[ modifier ] = style;
+									}
+								}
+
+								return current;
+							}, currentBorder );
+
+						// Use parent styles if required `style` property is `none`.
+						if ( borderObj.style === 'none' ) {
+							return null;
+						}
+
+						// We are setting `black` as default color thus Word give us invalid `windowtext` color property
+						// which is removed by border parsing. See (#1490) discussion for more information.
+						borderObj = CKEDITOR.tools.object.merge( {
+							color: 'black',
+							style: 'none',
+							width: 'inherit'
+						}, borderObj );
+
+						return borderObj.width + ' ' + borderObj.style + ' ' + borderObj.color;
+					}
+
+					function getBorderStyle( modifier, borderType ) {
+						var borderStyle = styles[ 'border-' + modifier ];
+
+						if ( !borderStyle ) {
+							return borderStyles[ modifier ];
+						}
+
+						var stylesParts = borderStyle.split( /\s+/ ),
+							partsLength = stylesParts.length,
+							stylesObj = {};
+
+						// Resolve correct border style depending on styles format.
+						// E.g. for `border-style: solid dotted` it creates:
+						// {
+						// 		'border-top': 'solid',
+						// 		'border-bottom': 'solid',
+						// 		'border-left': 'dotted',
+						// 		'border-right': 'dotted'
+						// }
+						CKEDITOR.tools.array.forEach( allowedBorderTypes, function( borderType, idx ) {
+							var borderIndex;
+
+							switch ( partsLength ) {
+								case 1:
+									borderIndex = 0;
+									break;
+
+								case 2:
+									borderIndex = idx % 2;
+									break;
+
+								default:
+									borderIndex = idx;
+							}
+
+							stylesObj[ borderType ] = stylesParts[ borderIndex ];
+						} );
+
+						return stylesObj[ borderType ];
+					}
 				},
 				'v:imagedata': remove,
 				// This is how IE8 presents images.
