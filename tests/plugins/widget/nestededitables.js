@@ -979,13 +979,15 @@
 				CKEDITOR.document.getById( 'some_input' ).focus();
 
 				editor.once( 'blur', function() {
-					resume();
-					assert.isFalse( editor.focusManager.hasFocus, 'editor lost focus' );
-					assert.isFalse( !!widget.focusedEditable, 'editable is not focused' );
+					resume( function() {
+							assert.isFalse( editor.focusManager.hasFocus, 'editor lost focus' );
+							assert.isFalse( !!widget.focusedEditable, 'editable is not focused' );
 
-					editor.focus();
-					assert.isTrue( editor.focusManager.hasFocus, 'editor has focus again' );
-					assert.areSame( eFoo, widget.focusedEditable, 'editable is focused again' );
+							editor.focus();
+							assert.isTrue( editor.focusManager.hasFocus, 'editor has focus again' );
+							assert.areSame( eFoo, widget.focusedEditable, 'editable is focused again' );
+						}
+					);
 				} );
 
 				CKEDITOR.document.getById( 'some_input' ).focus();
@@ -1107,14 +1109,16 @@
 				CKEDITOR.document.getById( 'some_input' ).focus();
 
 				editor.once( 'blur', function() {
-					resume();
-					assert.isFalse( editor.focusManager.hasFocus, 'editor lost focus' );
+					resume( function() {
+							assert.isFalse( editor.focusManager.hasFocus, 'editor lost focus' );
 
-					selectionChanged = 0;
+							selectionChanged = 0;
 
-					eFoo.focus();
+							eFoo.focus();
 
-					assert.isTrue( !!selectionChanged, 'selectionChange fired second time on next focus' );
+							assert.isTrue( !!selectionChanged, 'selectionChange fired second time on next focus' );
+						}
+					);
 				} );
 
 				CKEDITOR.document.getById( 'some_input' ).focus();
