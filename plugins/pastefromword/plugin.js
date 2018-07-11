@@ -23,6 +23,7 @@
 				// Snapshots are done manually by editable.insertXXX methods.
 				canUndo: false,
 				async: true,
+				allowedContent: 'td{border-left,border-right,border-top,border-bottom}',
 
 				/**
 				 * The Paste from Word command. It will determine its pasted content from Word automatically if possible.
