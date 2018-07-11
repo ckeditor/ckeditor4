@@ -6,7 +6,7 @@ Ut eleifend, eros in scelerisque auctor, purus eros semper ligula, non scelerisq
 </textarea>
 
 <script>
-	if ( CKEDITOR.env.edge ) {
+	if ( !CKEDITOR.env.edge ) {
 		bender.ignore();
 	}
 	CKEDITOR.replace( 'editor1' );
