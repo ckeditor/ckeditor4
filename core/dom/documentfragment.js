@@ -156,6 +156,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.ele
  * @method getDocument
  * @inheritdoc CKEDITOR.dom.element#getDocument
  */
+
 /**
  * @member CKEDITOR.dom.documentFragment
  * @method getChildCount
