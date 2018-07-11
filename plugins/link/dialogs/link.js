@@ -546,7 +546,7 @@
 						id: 'telNumber',
 						label: linkLang.phoneNumber,
 						required: true,
-						validate: editor.config.telLinkValidate ? validateTelNumber : undefined,
+						validate: editor.config.linkTelNumberValidate_regExp ? validateTelNumber : undefined,
 						setup: function( data ) {
 							if ( data.tel ) {
 								this.setValue( data.tel );
@@ -1017,9 +1017,8 @@
 
 	function validateTelNumber() {
 		var editor = this.getDialog()._.editor,
-			validate =  editor.config.telLinkValidate,
-			regExp = validate.regExp,
-			msg = validate.msg,
+			regExp =  editor.config.linkTelNumberValidate_regExp,
+			msg = editor.config.linkTelNumberValidate_msg,
 			dialog = this.getDialog();
 
 		if ( !dialog.getContentElement( 'info', 'linkType' ) || dialog.getValueOf( 'info', 'linkType' ) != 'tel' ) {

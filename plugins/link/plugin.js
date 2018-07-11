@@ -880,5 +880,25 @@
 		 * @cfg {Boolean} [linkJavaScriptLinksAllowed=false]
 		 * @member CKEDITOR.config
 		 */
+
+		/**
+		 * Optional JavaScript Regular Expression whenever telephone numbers in Link dialog should be validated.
+		 *
+		 *		config.linkTelNumberValidate_regExp = /^[0-9]{9}$/;
+		 *
+		 * @since 4.11.0
+		 * @cfg {RegExp} [linkTelNumberValidate_regExp]
+		 * @member CKEDITOR.config
+		 */
+
+		/**
+		 * Optional message for alert popup when telephone number in Link dialog doesn't pass validation.
+		 *
+		 *		config.linkTelNumberValidate_msg = "Invalid number";
+		 *
+		 * @since 4.11.0
+		 * @cfg {String} [linkTelNumberValidate_msg]
+		 * @member CKEDITOR.config
+		 */
 	} );
 } )();

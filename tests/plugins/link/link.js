@@ -8,10 +8,8 @@
 		config: {
 			autoParagraph: false,
 			extraAllowedContent: 'span[style]',
-			telLinkValidate: {
-				regExp: /^[0-9]{9}$/,
-				msg: 'Invalid number'
-			}
+			linkTelNumberValidate_regExp: /^[0-9]{9}$/,
+			linkTelNumberValidate_msg: 'Invalid number'
 		}
 	};
 
