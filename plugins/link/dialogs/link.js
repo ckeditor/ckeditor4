@@ -1019,7 +1019,12 @@
 		var editor = this.getDialog()._.editor,
 			validate =  editor.config.telLinkValidate,
 			regExp = validate.regExp,
-			msg = validate.msg;
+			msg = validate.msg,
+			dialog = this.getDialog();
+
+		if ( !dialog.getContentElement( 'info', 'linkType' ) || dialog.getValueOf( 'info', 'linkType' ) != 'tel' ) {
+			return true;
+		}
 
 		if ( !regExp.test( this.getValue() ) ) {
 			return msg || false;
