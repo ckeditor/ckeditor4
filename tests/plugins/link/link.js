@@ -7,11 +7,24 @@
 	bender.editor = {
 		config: {
 			autoParagraph: false,
-			extraAllowedContent: 'span[style]'
+			extraAllowedContent: 'span[style]',
+			telLinkValidate: {
+				regExp: /^[0-9]{9}$/,
+				msg: 'Invalid number'
+			}
 		}
 	};
 
 	bender.test( {
+		tearDown: function() {
+			var stubs = this._stubs;
+			for ( var key in stubs ) {
+				stubs[ key ].restore();
+				delete stubs[ key ];
+			}
+		},
+
+		_stubs: {},
 		// https://dev.ckeditor.com/ticket/8275
 		'test create link (without editor focus)': function() {
 			var bot = this.editorBot;
@@ -571,11 +584,18 @@
 
 			bot.setHtmlWithSelection( '^' );
 			bot.dialog( 'link', function( dialog ) {
-				var expectedNumber = '12345678',
-					input;
+				var expectedNumber = '123456789',
+					input,
+					stub = this._stubs.alert = sinon.stub( window, 'alert' );
 
 				dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
 				dialog.setValueOf( 'info', 'linkType', 'tel' );
+				dialog.setValueOf( 'info', 'telNumber', 'foo' );
+				dialog.getButton( 'ok' ).click();
+
+				assert.areEqual( 1, stub.callCount );
+				assert.areEqual( 'Invalid number', stub.args[ 0 ][ 0 ] );
+
 				dialog.setValueOf( 'info', 'telNumber', expectedNumber );
 
 				input = CKEDITOR.document.findOne( 'input.cke_dialog_ui_input_tel' );
@@ -583,7 +603,7 @@
 				assert.areEqual( 'tel', input.getAttribute( 'type' ), 'Input type should be \'tel\'' );
 				dialog.getButton( 'ok' ).click();
 
-				assert.areEqual( '<a href="tel:12345678">foo</a>', editor.getData() );
+				assert.areEqual( '<a href="tel:' + expectedNumber + '">foo</a>', editor.getData() );
 
 
 				bot.dialog( 'link', function( dialog ) {
