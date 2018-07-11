@@ -675,7 +675,9 @@ var testsForMultipleEditor = {
 			editor.once( 'drop', listener, null, null, -1 );
 
 			// dropRange must be not null.
-			evt.testRange = {};
+			evt.testRange = { checkReadOnly: function() {
+					return false;
+				} };
 
 			dropTarget.fire( 'drop', evt );
 
