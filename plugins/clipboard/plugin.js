@@ -1614,6 +1614,7 @@
 						break;
 					}
 				}
+
 				if ( editor.fire( evt.name, eventData ) === false ) {
 					evt.data.preventDefault();
 				}
@@ -2929,6 +2930,11 @@
 				nativeDataTransfer = this._dataTransfer.$;
 
 			try {
+				// We need to clear data of existing type before storing it or else clipboard will get broken on Edge (#1943).
+				if ( CKEDITOR.env.edge && CKEDITOR.env.version >= 17 && nativeDataTransfer.getData( type ) ) {
+					nativeDataTransfer.clearData( type );
+				}
+
 				nativeDataTransfer.setData( type, data );
 
 				if ( isFallbackDataType ) {
