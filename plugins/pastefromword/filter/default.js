@@ -343,7 +343,6 @@
 
 				},
 				'td': function( element ) {
-
 					var ascendant = element.getAscendant( 'table' ),
 						allowedBorderTypes = [ 'border-top', 'border-right', 'border-bottom', 'border-left' ],
 						borderModifiers = [ 'style', 'width', 'color' ],
@@ -371,6 +370,12 @@
 							Style.setStyle( element, borderType, borderValue );
 						}
 					}
+
+					// Remove unused styles.
+					Style.setStyle( element, 'border', '' );
+					CKEDITOR.tools.array.forEach( borderModifiers, function( modifier ) {
+						Style.setStyle( element, 'border-' + modifier, '' );
+					} );
 
 					Style.createStyleStack( element, filter, editor,
 						/margin|text\-align|padding|list\-style\-type|width|height|border|white\-space|vertical\-align|background/i );
@@ -400,7 +405,7 @@
 						borderObj = CKEDITOR.tools.object.merge( {
 							color: 'black',
 							style: 'none',
-							width: 'inherit'
+							width: '0'
 						}, borderObj );
 
 						return borderObj.width + ' ' + borderObj.style + ' ' + borderObj.color;
@@ -429,14 +434,22 @@
 							var borderIndex;
 
 							switch ( partsLength ) {
+								// E.g. border-style: solid
 								case 1:
 									borderIndex = 0;
 									break;
 
+								// E.g. border-style: solid dotted
 								case 2:
 									borderIndex = idx % 2;
 									break;
 
+								// E.g. border-style: solid dotted solid
+								case 3:
+									borderIndex = idx == 3 ? 1 : idx;
+									break;
+
+								// E.g. border-style: solid dotted dotted solid
 								default:
 									borderIndex = idx;
 							}
