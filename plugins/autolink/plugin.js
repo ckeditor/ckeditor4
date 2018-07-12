@@ -21,13 +21,9 @@
 
 				// Attach afterPaste event here to avoid race condition between events.
 				editor.once( 'afterPaste', function() {
-					var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], matchCallback );
-
-					if ( !matched || matched.text.length != text.length ) {
-						return;
-					}
-
-					insertLink( matched );
+					autolink( function( matched ) {
+						return matched && matched.text.length == text.length;
+					} );
 				} );
 			} );
 
@@ -43,17 +39,22 @@
 						return;
 					}
 
-					var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], matchCallback );
+					autolink( function( matched ) {
+						return matched;
+					} );
 
-					if ( !matched ) {
-						return;
-					}
-
-					insertLink( matched );
 					// Handle event ASAP thus some plugins may change
 					// editor selection or cancel keydown events e.g. wysiwygarea, enterkey.
 				}, null, null, 0 );
 			} );
+
+			function autolink( condition ) {
+				var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], matchCallback );
+
+				if ( condition( matched ) ) {
+					insertLink( matched );
+				}
+			}
 
 			function insertLink( match ) {
 				var selection = editor.getSelection();
