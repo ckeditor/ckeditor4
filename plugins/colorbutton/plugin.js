@@ -210,14 +210,14 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				if ( color == '?' ) {
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
-							return applyOrRemoveColor( color );
+							return setColor( color );
 						}
 					} );
 				} else {
-					return applyOrRemoveColor( color );
+					return setColor( color );
 				}
 
-				function applyOrRemoveColor( color ) {
+				function setColor( color ) {
 					// Clean up any conflicting style within the range.
 					editor.removeStyle( new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ) );
 					var colorStyle = config[ 'colorButton_' + type + 'Style' ];
