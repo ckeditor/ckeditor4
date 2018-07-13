@@ -408,7 +408,11 @@
 							width: '0'
 						}, borderObj );
 
-						return borderObj.width + ' ' + borderObj.style + ' ' + borderObj.color;
+						var width = parseFloat( borderObj.width ) ?
+							CKEDITOR.tools.convertToPx( borderObj.width ) + 'px'
+							: borderObj.width;
+
+						return width + ' ' + borderObj.style + ' ' + borderObj.color;
 					}
 
 					function getBorderStyle( modifier, borderType ) {
