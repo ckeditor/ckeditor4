@@ -3,6 +3,7 @@
 1. Focus text area.
 2. Type in some value with any valid CSS unit.
 3. Press `Enter` or blur text area.
+4. Try different values, including negative ones.
 
 ## Expected:
 
