@@ -47,8 +47,8 @@
 
 	textArea.on( 'change', onChange );
 	textArea.on( 'keydown', function( e ) {
-		if ( e.data.$.code === 'Enter' ) {
-			e.data.$.preventDefault();
+		if ( e.data.$.keyCode === 13 ) {
+			e.data.preventDefault();
 			onChange.call( this );
 		}
 	} ) ;

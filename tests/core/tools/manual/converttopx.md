@@ -6,9 +6,9 @@
 
 ## Expected:
 
-- Boxes changes their width.
-- Both boxes has same width.
-- Boxes width is displayed as text.
+- Boxes changes their `margin-right` to match passed value.
+- Both boxes has visually same width.
+- Boxes `margin-right` is displayed as text.
 
 ### Note:
 
