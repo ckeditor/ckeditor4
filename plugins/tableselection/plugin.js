@@ -8,6 +8,7 @@
 
 	var fakeSelectedClass = 'cke_table-faked-selection',
 		fakeSelectedEditorClass = fakeSelectedClass + '-editor',
+		fakeSelectedFocusedEditorClass = fakeSelectedClass + '-focused-editor',
 		fakeSelectedTableDataAttribute = 'cke-table-faked-selection-table',
 		fakeSelection = { active: false },
 		tabletools,
@@ -362,6 +363,13 @@
 		// We're not supporting dragging in our table selection for the time being.
 		evt.cancel();
 		evt.data.preventDefault();
+	}
+
+	function fakeSelectionFocusHandler( evt ) {
+		var editor = evt.listenerData.editor,
+			method = evt.name === 'focus' ? 'addClass' : 'removeClass';
+
+		editor.editable()[ method ]( fakeSelectedFocusedEditorClass );
 	}
 
 	function copyTable( editor, isCut ) {
@@ -1104,6 +1112,7 @@
 			editor.on( 'contentDom', function() {
 				var editable = editor.editable(),
 					mouseHost = editable.isInline() ? editable : editor.document,
+					window = editable.getWindow(),
 					evtInfo = { editor: editor };
 
 				// Explicitly set editor as DOM events generated on document does not convey information about it.
@@ -1113,6 +1122,13 @@
 
 				editable.attachListener( editable, 'dragstart', fakeSelectionDragHandler );
 				editable.attachListener( editor, 'selectionCheck', fakeSelectionChangeHandler );
+
+				// In readonly mode iframe-based editor has issues with getting proper focus, resulting in
+				// incorrect selection handling. To circumvent it we manually add class to editable (#1887).
+				if ( !editable.isInline() ) {
+					editable.attachListener( window, 'focus', fakeSelectionFocusHandler, null, evtInfo );
+					editable.attachListener( window, 'blur', fakeSelectionFocusHandler, null, evtInfo );
+				}
 
 				CKEDITOR.plugins.tableselection.keyboardIntegration( editor );
 
