@@ -151,10 +151,11 @@
 		'test toggling class while focusing/bluring editor': function( editor ) {
 			var editable = editor.editable(),
 				assertion = editable.isInline() ? 'isFalse' : 'isTrue',
-				className = 'cke_table-faked-selection-focused-editor';
+				className = 'cke_table-faked-selection-focused-editor',
+				focusTrap = CKEDITOR.document.findOne( '#focusIframe' ).getFrameDocument().findOne( 'div' );
 
 			// We move focus to the iframe to force blur of the editor.
-			CKEDITOR.document.findOne( '#focusIframe' ).getWindow().focus();
+			focusTrap.focus();
 			editable.$.focus();
 
 			// setTimeout is needed for IE.
@@ -166,7 +167,7 @@
 
 			assert[ assertion ]( editable.hasClass( className ) );
 
-			CKEDITOR.document.findOne( '#focusIframe' ).getWindow().focus();
+			focusTrap.focus();
 			wait();
 		}
 	};
