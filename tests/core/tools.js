@@ -952,7 +952,36 @@
 			CKEDITOR.tools.array.forEach( testCases, function( test ) {
 				assert.areSame( test.base64, CKEDITOR.tools.convertBytesToBase64( test.bytes ) );
 			} );
-		}
+		},
 
+		// (#2224)
+		'test convertToPx': function() {
+			var conversionArray = [ {
+				input: '10px',
+				output: '10'
+			}, {
+				input: '-15px',
+				output: '-15'
+			}, {
+				input: '10pt',
+				output: '13'
+			}, {
+				input: '-20px',
+				output: '-20'
+			}, {
+				input: '.25in',
+				output: '24'
+			}, {
+				input: '-.5in',
+				output: '-48'
+			}, {
+				input: '50%',
+				output: '50%'
+			} ];
+
+			CKEDITOR.tools.array.forEach( conversionArray, function( item ) {
+				assert.areEqual( item.output, CKEDITOR.tools.convertToPx( item.input ), 'Value ' + item.input + ' should be converted to ' + item.output );
+			} );
+		}
 	} );
 } )();
