@@ -400,19 +400,21 @@
 							return null;
 						}
 
-						// We are setting `black` as default color thus Word give us invalid `windowtext` color property
-						// which is removed by border parsing. See (#1490) discussion for more information.
+						// Set default cell style properties.
 						borderObj = CKEDITOR.tools.object.merge( {
 							color: 'black',
-							style: 'none',
 							width: '0'
 						}, borderObj );
 
-						var width = parseFloat( borderObj.width ) ?
+						// Width may be set to some string value e.g. `inherit`.
+						borderObj.width = parseFloat( borderObj.width ) ?
 							CKEDITOR.tools.convertToPx( borderObj.width ) + 'px'
 							: borderObj.width;
 
-						return width + ' ' + borderObj.style + ' ' + borderObj.color;
+						return borderObj.width + ' ' +
+							borderObj.style + ' ' +
+							// Replace old CSS2 `windowtext` color with `black`.
+							borderObj.color.replace( 'windowtext', 'black' );
 					}
 
 					function getBorderStyle( modifier, borderType ) {
