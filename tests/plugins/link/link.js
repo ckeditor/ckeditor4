@@ -4,28 +4,26 @@
 ( function() {
 	'use strict';
 
-	bender.editor = {
-		config: {
-			autoParagraph: false,
-			extraAllowedContent: 'span[style]',
-			linkTelNumberValidate_regExp: /^[0-9]{9}$/,
-			linkTelNumberValidate_msg: 'Invalid number'
+	bender.editors = {
+		noValidation: {
+			config: {
+				autoParagraph: false,
+				extraAllowedContent: 'span[style]'
+			}
+		},
+		validation: {
+			config: {
+				autoParagraph: false,
+				linkTelNumberValidate_regExp: /^[0-9]{9}$/,
+				linkTelNumberValidate_msg: 'Invalid number'
+			}
 		}
 	};
 
 	bender.test( {
-		tearDown: function() {
-			var stubs = this._stubs;
-			for ( var key in stubs ) {
-				stubs[ key ].restore();
-				delete stubs[ key ];
-			}
-		},
-
-		_stubs: {},
 		// https://dev.ckeditor.com/ticket/8275
 		'test create link (without editor focus)': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			// Make sure that the focus is not in the editor.
 			CKEDITOR.document.getById( 'blurTarget' ).focus();
@@ -40,7 +38,7 @@
 		},
 
 		'test create link (with editor focus)': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			bot.setData( '', function() {
 				bot.editor.focus();
@@ -55,8 +53,8 @@
 		},
 
 		'test text selection after link created': function() {
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBots.noValidation,
+				editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p>foo ^</p>' );
 
@@ -80,7 +78,7 @@
 		},
 
 		'test edit link (text selected)': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			bot.setHtmlWithSelection( '<a href="http://cksource.com" name="test">[foo]</a>' );
 
@@ -93,8 +91,9 @@
 		},
 
 		'test unlink command states': function() {
-			var unlink = this.editor.getCommand( 'unlink' ),
-				bot = this.editorBot;
+			var bot = this.editorBots.noValidation,
+				unlink = bot.editor.getCommand( 'unlink' );
+
 
 			bot.setHtmlWithSelection( '<a href="http://ckeditor.com">^foo</a>' );
 			assert.isTrue( unlink.state == CKEDITOR.TRISTATE_OFF, 'collapsed in link' );
@@ -106,24 +105,24 @@
 
 		// https://dev.ckeditor.com/ticket/9212
 		'test getSelectedLink for selection inside read-only node': function() {
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBots.noValidation,
+				editor = bot.editor;
 
 			bot.setHtmlWithSelection( 'foo<span contenteditable="false">ba^r</span>bum' );
 			assert.isNull( CKEDITOR.plugins.link.getSelectedLink( editor ) );
 		},
 
 		'test getSelectedLink for fake selection on non-editable element': function() {
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBots.noValidation,
+				editor = bot.editor;
 
 			bot.setHtmlWithSelection( 'foo<a href="http://ckeditor.com">[<i contenteditable="false">bar</i>]</a>bum' );
 			assert.areSame( 'a', CKEDITOR.plugins.link.getSelectedLink( editor ).getName() );
 		},
 
 		'test create link on a non-editable inline element': function() {
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBots.noValidation,
+				editor = bot.editor;
 
 			bot.setHtmlWithSelection( 'foo[<em contenteditable="false">bar</em>]bum' );
 			bot.dialog( 'link', function( dialog ) {
@@ -136,8 +135,8 @@
 		},
 
 		'test edit link on a non-editable inline element': function() {
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBots.noValidation,
+				editor = bot.editor;
 
 			bot.setHtmlWithSelection( 'foo<a href="http://ckeditor.com">[<em contenteditable="false">bar</em>]</a>bum' );
 			bot.dialog( 'link', function( dialog ) {
@@ -150,8 +149,8 @@
 		},
 
 		'test unlink on a non-editable inline element': function() {
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBots.noValidation,
+				editor = bot.editor;
 
 			bot.setHtmlWithSelection( 'foo<a href="http://ckeditor.com">[<em contenteditable="false">bar</em>]</a>bum' );
 			editor.execCommand( 'unlink' );
@@ -161,8 +160,8 @@
 		},
 
 		'test edit link which contents equals its href': function() {
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBots.noValidation,
+				editor = bot.editor;
 
 			bot.setHtmlWithSelection( 'foo<a href="http://ckeditor.com" data-cke-saved-href="http://ckeditor.com">http://ckedi^tor.com</a>bum' );
 			bot.dialog( 'link', function( dialog ) {
@@ -175,7 +174,7 @@
 		},
 
 		'test edit selected text': function() {
-			var bot = this.editorBot,
+			var bot = this.editorBots.noValidation,
 				expected = 'aa <a href="http://ckeditor.com">[foo]</a> cc';
 
 			bot.setHtmlWithSelection( 'aa [bb] cc' );
@@ -194,7 +193,7 @@
 		},
 
 		'test edit existing link': function() {
-			var bot = this.editorBot,
+			var bot = this.editorBots.noValidation,
 				expected = '[<a href="http://ckeditor.com">testing 1, 2, 3</a>]';
 
 			if ( CKEDITOR.env.safari || ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) ) {
@@ -214,7 +213,7 @@
 		'test changing inner text': function() {
 			// Once the innertext (display text) is changed, any markup within the selection should be removed, and it should add
 			// an anchor element with innertext at the beginning of initial selection.
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			bot.setHtmlWithSelection( '<p>[testing <a href="http://ckeditor.com">http://ckeditor.<strong>com</strong></a>].</p>' );
 
@@ -228,10 +227,10 @@
 		},
 
 		'test XSS protection': function() {
-			var bot = this.editorBot,
+			var bot = this.editorBots.noValidation,
 				expected = '<a href="http://ckeditor.com">&lt;img src="" onerror="alert( 1 );"&gt;</a>';
 
-			if ( this.editor.plugins.entities ) {
+			if ( bot.editor.plugins.entities ) {
 				// If entities plugin is present (e.g. built version) also quotes will be encoded.
 				expected = '<a href="http://ckeditor.com">&lt;img src=&quot;&quot; onerror=&quot;alert( 1 );&quot;&gt;</a>';
 			}
@@ -248,7 +247,7 @@
 		'test overriding whole block': function() {
 			// If we have whole block selected, we need to make sure that by overriding the selection with new anchor it
 			// will be wrapped with a block instead of be put directly into editable (body).
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			bot.setHtmlWithSelection( '[<p>aaa</p>]' );
 
@@ -262,7 +261,7 @@
 
 		'test link with a nested strong without text change': function() {
 			// If no innertext was changed, the nested elements should not get removed.
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			bot.setHtmlWithSelection( '[<a href="http://ckeditor.com">http://ckeditor.<strong>com</strong></a>].' );
 
@@ -275,7 +274,7 @@
 		},
 
 		'test changing inner text of link with same href and inner text': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			// Note it's crucial to include data-cke-saved-href attribute to reproduce this issue.
 			bot.setHtmlWithSelection( '<p>aa [<a href="http://foobar" data-cke-saved-href="http://foobar">http://foobar</a>] bb</p>' );
@@ -295,7 +294,7 @@
 			}
 
 			// Even though display text was not changed we have to remove nested, editable anchor elements.
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			bot.setHtmlWithSelection( '[<em>foo </em><a href="aaa">bbb</a> <span contenteditable="false"><a href="aaa">ccc</a></span>]' );
 
@@ -307,7 +306,7 @@
 		},
 
 		'test link with a nested strong with text change': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			bot.setHtmlWithSelection( '[<a href="http://ckeditor.com">http://ckeditor.<strong>com</strong></a>].' );
 
@@ -320,7 +319,7 @@
 		},
 
 		'test changing inner text multiline': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			bot.setHtmlWithSelection( '<p>a[a</p><p>bb</p><p>c]c</p>' );
 
@@ -334,7 +333,7 @@
 		},
 
 		'test multiline selection without changing display text': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			// When using getSelectedText() on multiline selection, it will contain new line chars. Text inputs used in dialog, can't contain
 			// new lines, so if our initial pattern would use text with new lines, those would always differ.
@@ -349,7 +348,7 @@
 		},
 
 		'test changing inner text block containing': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			bot.setHtmlWithSelection( '<p>a[a</p><p>bb]</p><p>cc</p>' );
 
@@ -363,14 +362,14 @@
 		},
 
 		'test link passes filter': function() {
-			this.editorBot.assertInputOutput(
+			this.editorBots.noValidation.assertInputOutput(
 				'<p><a href="http://ckeditor.com">text</a></p>',
 				/^<p><a data-cke-saved-href="http:\/\/ckeditor.com" href="http:\/\/ckeditor.com">text<\/a>(<br \/>)?<\/p>$/
 			);
 		},
 
 		'test anchor passes filter': function() {
-			this.editorBot.assertInputOutput(
+			this.editorBots.noValidation.assertInputOutput(
 				'<p><a name="#idid">text</a></p>',
 				/^<p><a( class="\s?cke_anchor")? data-cke-saved-name="#idid" name="#idid">text<\/a>(<br \/>)?<\/p>$/
 			);
@@ -383,7 +382,7 @@
 				/^<p><img align="" alt="[^"]+" class="cke_anchor" data-cke-real-element-type="anchor" data-cke-real-node-type="1" data-cke-realelement="[^"]+" src="data:image[^"]+" title="[^"]+" \/>(<br \/>)?<\/p>$/;
 			// jscs:enable maximumLineLength
 
-			this.editorBot.assertInputOutput(
+			this.editorBots.noValidation.assertInputOutput(
 				'<p><a name="#idid"></a></p>',
 				matchRegex
 			);
@@ -391,7 +390,7 @@
 
 		// https://dev.ckeditor.com/ticket/11822
 		'test select link on double-click': function() {
-			var bot = this.editorBot,
+			var bot = this.editorBots.noValidation,
 				editor = bot.editor;
 
 			// Do not let dialog to show – it is not necessary.
@@ -412,7 +411,7 @@
 
 		// https://dev.ckeditor.com/ticket/11822
 		'test select anchor on double-click': function() {
-			var bot = this.editorBot,
+			var bot = this.editorBots.noValidation,
 				editor = bot.editor;
 
 			// Do not let dialog to show – it is not necessary.
@@ -433,7 +432,7 @@
 
 		// https://dev.ckeditor.com/ticket/11956
 		'test select link with descendants on double-click': function() {
-			var bot = this.editorBot,
+			var bot = this.editorBots.noValidation,
 				editor = bot.editor;
 
 			// Do not let dialog to show – it is not necessary.
@@ -456,7 +455,7 @@
 
 		// https://dev.ckeditor.com/ticket/13887
 		'test link target special chars': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			bot.setHtmlWithSelection( '<a href="http://ckeditor.com">[foo]</a>' );
 
@@ -473,7 +472,7 @@
 		},
 
 		'test link target keywords': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			bot.setHtmlWithSelection( '<a href="http://ckeditor.com">[foo]</a>' );
 
@@ -489,7 +488,7 @@
 
 		// https://dev.ckeditor.com/ticket/5278
 		'test link target with space': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			bot.setHtmlWithSelection( '<a href="http://ckeditor.com">[foo]</a>' );
 
@@ -507,17 +506,18 @@
 
 		'test CKEDITOR.link.showDisplayTextForElement': function() {
 			var doc = CKEDITOR.document,
+				editor = this.editorBots.noValidation.editor,
 				showDisplayTextForElement = CKEDITOR.plugins.link.showDisplayTextForElement;
 
-			assert.isFalse( showDisplayTextForElement( doc.findOne( 'input#blurTarget' ), this.editor ), 'Input element' );
-			assert.isTrue( showDisplayTextForElement( doc.findOne( 'span' ), this.editor ), 'Span element' );
-			assert.isTrue( showDisplayTextForElement( null, this.editor ), 'Null value' );
+			assert.isFalse( showDisplayTextForElement( doc.findOne( 'input#blurTarget' ), editor ), 'Input element' );
+			assert.isTrue( showDisplayTextForElement( doc.findOne( 'span' ), editor ), 'Span element' );
+			assert.isTrue( showDisplayTextForElement( null, editor ), 'Null value' );
 		},
 
 		// https://dev.ckeditor.com/ticket/13062
 		'test unlink when cursor is right before the link': function() {
-			var editor = this.editor,
-				bot = this.editorBot;
+			var bot = this.editorBots.noValidation,
+				editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p><a href="http://cksource.com">^Link</a></p>' );
 
@@ -534,8 +534,8 @@
 				assert.ignore();
 			}
 
-			var editor = this.editor,
-				bot = this.editorBot;
+			var bot = this.editorBots.noValidation,
+				editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p><a href="http://cksource.com">Link^</a></p>' );
 
@@ -549,8 +549,8 @@
 
 		// https://dev.ckeditor.com/ticket/13062
 		'test unlink when cursor is right before the link and there are more than one link in paragraph': function() {
-			var editor = this.editor,
-				bot = this.editorBot;
+			var bot = this.editorBots.noValidation,
+				editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p>I am<a href="http://foo"> an </a>in<a href="http://bar">sta</a>nce of <a href="http://ckeditor.com">^<s>CKEditor</s></a>.</p>' );
 
@@ -561,7 +561,7 @@
 
 		// 859
 		'test edit link with selection': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBots.noValidation;
 
 			bot.setData( '<p><a class="linkClass" href="linkUrl"><img src="someUrl"/>some button text</a>some text</p>', function() {
 				var editable = bot.editor.editable();
@@ -576,40 +576,60 @@
 		},
 
 		// (#2154)
-		'test telephone number link': function() {
-			var editor = this.editor,
-				bot = this.editorBot;
+		'test telephone number link without validation': assertTelephoneLinks(),
+
+		// (#2154)
+		'test telephone number link with validation': assertTelephoneLinks( true )
+	} );
+
+	function assertTelephoneLinks( validate ) {
+		return function() {
+			var bot = this.editorBots[ validate ? 'validation' : 'noValidation' ],
+				editor = bot.editor;
 
 			bot.setHtmlWithSelection( '^' );
 			bot.dialog( 'link', function( dialog ) {
 				var expectedNumber = '123456789',
 					input,
-					stub = this._stubs.alert = sinon.stub( window, 'alert' );
+					stub = sinon.stub( window, 'alert' );
 
 				dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
 				dialog.setValueOf( 'info', 'linkType', 'tel' );
 				dialog.setValueOf( 'info', 'telNumber', 'foo' );
 				dialog.getButton( 'ok' ).click();
 
-				assert.areEqual( 1, stub.callCount );
-				assert.areEqual( 'Invalid number', stub.args[ 0 ][ 0 ] );
+				assert.areEqual( validate ? 1 : 0, stub.callCount );
 
-				dialog.setValueOf( 'info', 'telNumber', expectedNumber );
+				if ( validate ) {
+					assert.areEqual( 'Invalid number', stub.args[ 0 ][ 0 ] );
+					assertCorrectLinks( dialog );
+				} else {
+					bot.dialog( 'link', function( dialog ) {
+						assertCorrectLinks( dialog );
+					} );
+				}
 
-				input = CKEDITOR.document.findOne( 'input.cke_dialog_ui_input_tel' );
+				function assertCorrectLinks( dialog ) {
+					dialog.setValueOf( 'info', 'telNumber', expectedNumber );
 
-				assert.areEqual( 'tel', input.getAttribute( 'type' ), 'Input type should be \'tel\'' );
-				dialog.getButton( 'ok' ).click();
+					input = CKEDITOR.document.findOne( 'input.cke_dialog_ui_input_tel' );
 
-				assert.areEqual( '<a href="tel:' + expectedNumber + '">foo</a>', editor.getData() );
+					assert.areEqual( 'tel', input.getAttribute( 'type' ), 'Input type should be \'tel\'' );
+					dialog.getButton( 'ok' ).click();
+
+					assert.areEqual( '<a href="tel:' + expectedNumber + '">foo</a>', editor.getData() );
 
 
-				bot.dialog( 'link', function( dialog ) {
-					assert.areEqual( 'tel', dialog.getValueOf( 'info', 'linkType' ), 'Link type should be \'tel\' ' );
-					assert.areEqual( expectedNumber, dialog.getValueOf( 'info', 'telNumber', 'Phone number should be ' + expectedNumber ) );
-					dialog.hide();
-				} );
+					bot.dialog( 'link', function( dialog ) {
+						assert.areEqual( 'tel', dialog.getValueOf( 'info', 'linkType' ), 'Link type should be \'tel\' ' );
+						assert.areEqual( expectedNumber, dialog.getValueOf( 'info', 'telNumber', 'Phone number should be ' + expectedNumber ) );
+						dialog.hide();
+
+						stub.restore();
+					} );
+				}
 			} );
-		}
-	} );
+		};
+	}
+
 } )();
