@@ -1016,10 +1016,10 @@
 	} );
 
 	function validateTelNumber() {
-		var editor = this.getDialog()._.editor,
+		var dialog = this.getDialog(),
+			editor = dialog._.editor,
 			regExp =  editor.config.linkTelNumberValidate_regExp,
-			msg = editor.config.linkTelNumberValidate_msg,
-			dialog = this.getDialog();
+			msg = editor.config.linkTelNumberValidate_msg;
 
 		if ( !dialog.getContentElement( 'info', 'linkType' ) || dialog.getValueOf( 'info', 'linkType' ) != 'tel' ) {
 			return true;
