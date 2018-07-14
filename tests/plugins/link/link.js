@@ -595,13 +595,18 @@
 
 				dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
 				dialog.setValueOf( 'info', 'linkType', 'tel' );
+				dialog.getButton( 'ok' ).click();
+
+				assert.areEqual( 1, stub.callCount );
+				assert.areEqual( editor.lang.link.noTel, stub.args[ 0 ][ 0 ] );
+
 				dialog.setValueOf( 'info', 'telNumber', 'foo' );
 				dialog.getButton( 'ok' ).click();
 
-				assert.areEqual( validate ? 1 : 0, stub.callCount );
+				assert.areEqual( validate ? 2 : 1, stub.callCount );
 
 				if ( validate ) {
-					assert.areEqual( 'Invalid number', stub.args[ 0 ][ 0 ] );
+					assert.areEqual( 'Invalid number', stub.args[ 1 ][ 0 ] );
 					assertCorrectLinks( dialog );
 				} else {
 					bot.dialog( 'link', function( dialog ) {
