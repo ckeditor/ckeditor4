@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'ku', {
 	noAnchors: '(هیچ جۆرێکی لەنگەر ئامادە نیە لەم پەڕەیه)',
 	noEmail: 'تکایە ناونیشانی ئیمەیل بنووسە',
 	noUrl: 'تکایە ناونیشانی بەستەر بنووسە',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<هیتر>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'پێوەبەستراو (Netscape)',

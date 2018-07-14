@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'ar', {
 	noAnchors: '(لا توجد علامات مرجعية في هذا المستند)',
 	noEmail: 'الرجاء كتابة الريد الإلكتروني',
 	noUrl: 'الرجاء كتابة رابط الموقع',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<أخرى>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'تابع (Netscape)',

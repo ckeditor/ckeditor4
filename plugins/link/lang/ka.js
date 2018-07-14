@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'ka', {
 	noAnchors: '(ამ დოკუმენტში ღუზა არაა)',
 	noEmail: 'აკრიფეთ ელფოსტის მისამართი',
 	noUrl: 'აკრიფეთ ბმულის URL',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<სხვა>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'დამოკიდებული (Netscape)',

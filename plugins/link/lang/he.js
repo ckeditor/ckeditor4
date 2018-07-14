@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'he', {
 	noAnchors: '(אין עוגנים זמינים בדף)',
 	noEmail: 'יש להקליד את כתובת הדוא"ל',
 	noUrl: 'יש להקליד את כתובת הקישור (URL)',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<אחר>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'תלוי (Netscape)',

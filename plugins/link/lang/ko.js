@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'ko', {
 	noAnchors: '(문서에 책갈피가 없습니다.)',
 	noEmail: '이메일 주소를 입력하십시오',
 	noUrl: '링크 주소(URL)를 입력하십시오',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<기타>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dependent (Netscape)',

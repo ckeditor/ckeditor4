@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'id', {
 	noAnchors: '(No anchors available in the document)', // MISSING
 	noEmail: 'Silahkan ketikkan alamat e-mail',
 	noUrl: 'Silahkan ketik URL tautan',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<lainnya>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dependent (Netscape)', // MISSING

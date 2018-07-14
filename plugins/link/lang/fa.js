@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'fa', {
 	noAnchors: '(در این سند لنگری دردسترس نیست)',
 	noEmail: 'لطفا نشانی پست الکترونیکی را بنویسید',
 	noUrl: 'لطفا URL پیوند را بنویسید',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<سایر>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'وابسته (Netscape)',

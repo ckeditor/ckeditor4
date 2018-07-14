@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'eo', {
 	noAnchors: '<Ne disponeblas ankroj en la dokumento>',
 	noEmail: 'Bonvolu entajpi la retpoŝtadreson',
 	noUrl: 'Bonvolu entajpi la URL-on',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<alia>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dependa (Netscape)',

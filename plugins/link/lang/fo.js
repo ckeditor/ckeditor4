@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'fo', {
 	noAnchors: '(Eingir marknasteinar eru í hesum dokumentið)',
 	noEmail: 'Vinarliga skriva teldupost-adressu',
 	noUrl: 'Vinarliga skriva tilknýti (URL)',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<annað>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Bundið (Netscape)',

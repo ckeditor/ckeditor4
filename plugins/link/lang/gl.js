@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'gl', {
 	noAnchors: '(Non hai ancoraxes dispoñíbeis no documento)',
 	noEmail: 'Escriba o enderezo de correo',
 	noUrl: 'Escriba a ligazón URL',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<outro>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dependente (Netscape)',

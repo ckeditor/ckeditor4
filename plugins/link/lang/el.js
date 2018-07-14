@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	noAnchors: '(Δεν υπάρχουν άγκυρες στο κείμενο)',
 	noEmail: 'Εισάγετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου',
 	noUrl: 'Εισάγετε την τοποθεσία (URL) του συνδέσμου',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<άλλο>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Εξαρτημένο (Netscape)',

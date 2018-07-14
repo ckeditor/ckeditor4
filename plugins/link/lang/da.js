@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'da', {
 	noAnchors: '(Ingen bogmærker i dokumentet)',
 	noEmail: 'Indtast e-mailadresse!',
 	noUrl: 'Indtast hyperlink-URL!',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<anden>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Koblet/dependent (Netscape)',

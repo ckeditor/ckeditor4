@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'gu', {
 	noAnchors: '(ડૉક્યુમન્ટમાં ઍંકરની સંખ્યા)',
 	noEmail: 'ઈ-મેલ સરનામું ટાઇપ કરો',
 	noUrl: 'લિંક  URL ટાઇપ કરો',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<other> <અન્ય>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'ડિપેન્ડન્ટ (Netscape)',

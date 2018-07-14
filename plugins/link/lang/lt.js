@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'lt', {
 	noAnchors: '(Šiame dokumente žymių nėra)',
 	noEmail: 'Prašome įvesti el.pašto adresą',
 	noUrl: 'Prašome įvesti nuorodos URL',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<kitas>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Priklausomas (Netscape)',

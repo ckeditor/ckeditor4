@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'ro', {
 	noAnchors: 'Nu există nici o ancoră',
 	noEmail: 'Vă rugăm să scrieţi adresa de e-mail',
 	noUrl: 'Vă rugăm să scrieţi URL-ul',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: 'altceva',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dependent (Netscape)',

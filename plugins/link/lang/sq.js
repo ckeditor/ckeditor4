@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'sq', {
 	noAnchors: '(Nuk ka asnjë spirancë në dokument)',
 	noEmail: 'Ju lutemi shkruani postën elektronike',
 	noUrl: 'Ju lutemi shkruani URL-në e nyjes',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<tjetër>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'E Varur (Netscape)',

@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'fi', {
 	noAnchors: '(Ei ankkureita tässä dokumentissa)',
 	noEmail: 'Kirjoita sähköpostiosoite',
 	noUrl: 'Linkille on kirjoitettava URL',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<muu>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Riippuva (Netscape)',

@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 	noAnchors: '(Әлеге документта якорьләр табылмады)',
 	noEmail: 'Электрон почта адресын языгыз',
 	noUrl: 'Сылталаманы языгыз',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<бүтән>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Бәйле (Netscape)',

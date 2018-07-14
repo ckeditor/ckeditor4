@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'hu', {
 	noAnchors: '(Nincs horgony a dokumentumban)',
 	noEmail: 'Adja meg az E-Mail címet',
 	noUrl: 'Adja meg a hivatkozás webcímét',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<más>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Szülőhöz kapcsolt (csak Netscape)',

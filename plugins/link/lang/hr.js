@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'hr', {
 	noAnchors: '(Nema dostupnih sidra)',
 	noEmail: 'Molimo upišite e-mail adresu',
 	noUrl: 'Molimo upišite URL link',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<drugi>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Ovisno (Netscape)',

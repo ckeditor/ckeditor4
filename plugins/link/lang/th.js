@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'th', {
 	noAnchors: '(ยังไม่มีจุดเชื่อมโยงภายในหน้าเอกสารนี้)',
 	noEmail: 'กรุณาระบุอีเมล์ (E-mail)',
 	noUrl: 'กรุณาระบุที่อยู่อ้างอิงออนไลน์ (URL)',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<อื่น ๆ>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'แสดงเต็มหน้าจอ (Netscape)',

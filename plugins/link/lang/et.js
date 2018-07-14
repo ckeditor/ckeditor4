@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'et', {
 	noAnchors: '(Selles dokumendis pole ankruid)',
 	noEmail: 'Palun kirjuta e-posti aadress',
 	noUrl: 'Palun kirjuta lingi URL',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<muu>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Sõltuv (Netscape)',

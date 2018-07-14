@@ -35,6 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'is', {
 	noAnchors: '<Engin bókamerki á skrá>',
 	noEmail: 'Sláðu inn netfang!',
 	noUrl: 'Sláðu inn veffang stiklunnar!',
+	noTel: 'Please type the link telephone number', // MISSING
 	other: '<annar>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Háð venslum (Netscape)',
