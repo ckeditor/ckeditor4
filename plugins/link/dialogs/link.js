@@ -546,7 +546,7 @@
 						id: 'telNumber',
 						label: linkLang.phoneNumber,
 						required: true,
-						validate: editor.config.linkTelNumberValidate_regExp ? validateTelNumber : undefined,
+						validate: validateTelNumber,
 						setup: function( data ) {
 							if ( data.tel ) {
 								this.setValue( data.tel );
@@ -1019,15 +1019,19 @@
 		var dialog = this.getDialog(),
 			editor = dialog._.editor,
 			regExp =  editor.config.linkTelNumberValidate_regExp,
-			msg = editor.config.linkTelNumberValidate_msg;
+			msg = editor.config.linkTelNumberValidate_msg,
+			linkLang = editor.lang.link;
 
 		if ( !dialog.getContentElement( 'info', 'linkType' ) || dialog.getValueOf( 'info', 'linkType' ) != 'tel' ) {
 			return true;
 		}
 
-		if ( !regExp.test( this.getValue() ) ) {
+		if ( regExp && !regExp.test( this.getValue() ) ) {
 			return msg || false;
 		}
+
+		var func = CKEDITOR.dialog.validate.notEmpty( linkLang.noTel );
+		return func.apply( this );
 	}
 } )();
 // jscs:disable maximumLineLength
