@@ -1020,18 +1020,21 @@
 			editor = dialog._.editor,
 			regExp =  editor.config.linkTelNumberValidate_regExp,
 			msg = editor.config.linkTelNumberValidate_msg,
-			linkLang = editor.lang.link;
+			linkLang = editor.lang.link,
+			func = CKEDITOR.dialog.validate.notEmpty( linkLang.noTel ),
+			messageWhenEmpty = func.apply( this );;
 
 		if ( !dialog.getContentElement( 'info', 'linkType' ) || dialog.getValueOf( 'info', 'linkType' ) != 'tel' ) {
 			return true;
 		}
 
+		if ( typeof messageWhenEmpty === 'string' || !messageWhenEmpty ) {
+			return messageWhenEmpty;
+		}
+
 		if ( regExp && !regExp.test( this.getValue() ) ) {
 			return msg || false;
 		}
-
-		var func = CKEDITOR.dialog.validate.notEmpty( linkLang.noTel );
-		return func.apply( this );
 	}
 } )();
 // jscs:disable maximumLineLength
