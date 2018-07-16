@@ -951,6 +951,7 @@
 		 *
 		 * @method
 		 * @param {String} cssLength CSS length value.
+		 * @returns {Number/String} number representing length in pixels or string with percentage value.
 		 */
 		convertToPx: ( function() {
 			var calculator;
