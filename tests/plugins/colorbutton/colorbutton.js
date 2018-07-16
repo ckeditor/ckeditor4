@@ -173,13 +173,13 @@
 		'test changing background color to automatic': testAutomaticColor( true )
 	} );
 
-	function testAutomaticColor( background ) {
+	function testAutomaticColor( isBackgroundColor ) {
 		return function() {
 			var editor = this.editor,
 				bot = this.editorBot,
-				colorBtn = editor.ui.get( background ? 'BGColor' : 'TextColor' );
+				colorBtn = editor.ui.get( isBackgroundColor ? 'BGColor' : 'TextColor' );
 
-			bot.setHtmlWithSelection( 'Foo [<span style="' + ( background ? 'background-' : '' ) + 'color:red">bar</span>]' );
+			bot.setHtmlWithSelection( 'Foo [<span style="' + ( isBackgroundColor ? 'background-' : '' ) + 'color:red">bar</span>]' );
 
 			editor.once( 'panelShow', function() {
 				resume();
