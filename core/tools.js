@@ -945,7 +945,7 @@
 		/**
 		 * Converts the specified CSS length value to the calculated pixel length inside this page.
 		 *
-		 * Since 4.10.1 it returns also negative values.
+		 * Since 4.11.0 it returns also negative values.
 		 *
 		 * **Note:** Percentage-based value is left intact.
 		 *
