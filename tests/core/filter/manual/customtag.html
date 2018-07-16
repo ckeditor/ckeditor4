@@ -1,0 +1,34 @@
+<textarea id="editor">
+	<objectfoo data-foo="bar">objectfoo</objectfoo>
+	<embedfoo data-foo="bar">embedfoo</embedfoo>
+	<paramfoo data-foo="bar">paramfoo</paramfoo>
+	<htmlfoo data-foo="bar">htmlfoo</htmlfoo>
+	<headfoo data-foo="bar">headfoo</headfoo>
+	<bodyfoo data-foo="bar">bodyfoo</bodyfoo>
+	<titlefoo data-foo="bar">titlefoo</titlefoo>
+</textarea>
+
+<!--<textarea id="editor"><embedded-expression data-test="test">test</embedded-expression></textarea>-->
+
+<script>
+	var elements = [
+			'object',
+			'embed',
+			'param',
+			'html',
+			'head',
+			'body',
+			'title'
+		],
+		extraAllowedContent = '';
+
+	CKEDITOR.tools.array.forEach( elements, function( item ) {
+		var customTag = item + 'foo';
+		extraAllowedContent += customTag + '[*]{*}(*);';
+	} );
+
+	CKEDITOR.replace( 'editor', {
+		extraAllowedContent: extraAllowedContent,
+		autoParagraph: false
+	} );
+</script>
