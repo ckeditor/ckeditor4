@@ -1,5 +1,6 @@
 @bender-tags: bug, 4.10.1, 1084
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, sourcearea
+@bender-ui: collapsed
 
 Do following steps for both text color button and background color button.
 
@@ -18,6 +19,6 @@ Html in source mode matches following:
 
 ## Unexpected
 
-Html in source mode has span with color undefined, eg.:
+Html in source mode has span with color `null`, eg.:
 
-`<p>Test <span style="color:undefined">text</span></p>`
+`<p>Test <span style="color:null">text</span></p>`
