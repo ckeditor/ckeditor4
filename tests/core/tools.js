@@ -958,29 +958,29 @@
 		'test convertToPx': function() {
 			var conversionArray = [ {
 				input: '10px',
-				output: '10'
+				output: 10
 			}, {
 				input: '-15px',
-				output: '-15'
+				output: -15
 			}, {
 				input: '10pt',
-				output: '13'
+				output: 13
 			}, {
 				input: '-20px',
-				output: '-20'
+				output: -20
 			}, {
 				input: '.25in',
-				output: '24'
+				output: 24
 			}, {
 				input: '-.5in',
-				output: '-48'
+				output: -48
 			}, {
 				input: '50%',
 				output: '50%'
 			} ];
 
 			CKEDITOR.tools.array.forEach( conversionArray, function( item ) {
-				assert.areEqual( item.output, CKEDITOR.tools.convertToPx( item.input ), 'Value ' + item.input + ' should be converted to ' + item.output );
+				assert.areSame( item.output, CKEDITOR.tools.convertToPx( item.input ), 'Value ' + item.input + ' should be converted to ' + item.output );
 			} );
 		}
 	} );
