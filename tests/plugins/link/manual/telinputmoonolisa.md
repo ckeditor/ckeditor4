@@ -1,5 +1,6 @@
 @bender-tags: feature, link, 2154, 4.11.0
 @bender-ckeditor-plugins: link, toolbar, wysiwygarea, sourcearea
+@bender-ui: collapsed
 
 ----
 
