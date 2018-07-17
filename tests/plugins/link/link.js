@@ -576,65 +576,93 @@
 		},
 
 		// (#2154)
-		'test telephone number link without validation': assertTelephoneLinks(),
+		'test telephone number link without validation': assertTelephoneLinks( {
+			editorName: 'noValidation',
+			incorrectInput: 'foo',
+			correctInput: '123456789',
+			incorrectLinkAssertionCallback: assertIncorrectLinks,
+			correctLinkAssertionCallback: assertCorrectLinks
+		} ),
 
 		// (#2154)
-		'test telephone number link with validation': assertTelephoneLinks( true )
+		'test telephone number link with validation': assertTelephoneLinks( {
+			editorName: 'validation',
+			validate: true,
+			incorrectInput: 'foo',
+			correctInput: '123456789',
+			incorrectLinkAssertionCallback: assertIncorrectLinks,
+			correctLinkAssertionCallback: assertCorrectLinks
+		} )
 	} );
 
-	function assertTelephoneLinks( validate ) {
+	function assertTelephoneLinks( config ) {
 		return function() {
-			var bot = this.editorBots[ validate ? 'validation' : 'noValidation' ],
-				editor = bot.editor;
+			var bot = this.editorBots[ config.editorName ];
 
 			bot.setHtmlWithSelection( '^' );
 			bot.dialog( 'link', function( dialog ) {
-				var expectedNumber = '123456789',
-					input,
-					stub = sinon.stub( window, 'alert' );
-
-				dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
-				dialog.setValueOf( 'info', 'linkType', 'tel' );
-				dialog.getButton( 'ok' ).click();
-
-				assert.areEqual( 1, stub.callCount );
-				assert.areEqual( editor.lang.link.noTel, stub.args[ 0 ][ 0 ] );
-
-				dialog.setValueOf( 'info', 'telNumber', 'foo' );
-				dialog.getButton( 'ok' ).click();
-
-				assert.areEqual( validate ? 2 : 1, stub.callCount );
-
-				if ( validate ) {
-					assert.areEqual( 'Invalid number', stub.args[ 1 ][ 0 ] );
-					assertCorrectLinks( dialog );
-				} else {
-					bot.dialog( 'link', function( dialog ) {
-						assertCorrectLinks( dialog );
-					} );
+				if ( config.incorrectLinkAssertionCallback ) {
+					config.incorrectLinkAssertionCallback( bot, dialog, config );
 				}
 
-				function assertCorrectLinks( dialog ) {
-					dialog.setValueOf( 'info', 'telNumber', expectedNumber );
-
-					input = CKEDITOR.document.findOne( 'input.cke_dialog_ui_input_tel' );
-
-					assert.areEqual( 'tel', input.getAttribute( 'type' ), 'Input type should be \'tel\'' );
-					dialog.getButton( 'ok' ).click();
-
-					assert.areEqual( '<a href="tel:' + expectedNumber + '">foo</a>', editor.getData() );
-
-
-					bot.dialog( 'link', function( dialog ) {
-						assert.areEqual( 'tel', dialog.getValueOf( 'info', 'linkType' ), 'Link type should be \'tel\' ' );
-						assert.areEqual( expectedNumber, dialog.getValueOf( 'info', 'telNumber', 'Phone number should be ' + expectedNumber ) );
-						dialog.hide();
-
-						stub.restore();
-					} );
-				}
+				bot.dialog( 'link', function( dialog ) {
+					if ( config.correctLinkAssertionCallback ) {
+						config.correctLinkAssertionCallback( bot, dialog, config );
+					}
+				} );
 			} );
 		};
 	}
 
+	function assertIncorrectLinks( bot, dialog, config ) {
+		var stub = sinon.stub( window, 'alert' ),
+			editor = bot.editor,
+			validate = config.validate;
+
+		setLinkNameAndType( dialog );
+		dialog.getButton( 'ok' ).click();
+
+		assert.areEqual( 1, stub.callCount );
+		assert.areEqual( editor.lang.link.noTel, stub.args[ 0 ][ 0 ] );
+
+		dialog.setValueOf( 'info', 'telNumber', config.incorrectInput );
+		dialog.getButton( 'ok' ).click();
+
+		assert.areEqual( validate ? 2 : 1, stub.callCount );
+
+		if ( validate ) {
+			assert.areEqual( 'Invalid number', stub.args[ 1 ][ 0 ] );
+			dialog.hide();
+		}
+
+		stub.restore();
+	}
+
+	function assertCorrectLinks( bot, dialog, config ) {
+		var editor = bot.editor,
+			expected = config.correctInput,
+			input;
+
+		setLinkNameAndType( dialog );
+		dialog.setValueOf( 'info', 'telNumber', expected );
+
+		input = CKEDITOR.document.findOne( 'input.cke_dialog_ui_input_tel' );
+
+		assert.areEqual( 'tel', input.getAttribute( 'type' ), 'Input type should be \'tel\'' );
+		dialog.getButton( 'ok' ).click();
+
+		assert.areEqual( '<a href="tel:' + expected + '">foo</a>', editor.getData() );
+
+
+		bot.dialog( 'link', function( dialog ) {
+			assert.areEqual( 'tel', dialog.getValueOf( 'info', 'linkType' ), 'Link type should be \'tel\' ' );
+			assert.areEqual( expected, dialog.getValueOf( 'info', 'telNumber' ), 'Phone number should be ' + expected );
+			dialog.hide();
+		} );
+	}
+
+	function setLinkNameAndType( dialog ) {
+		dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
+		dialog.setValueOf( 'info', 'linkType', 'tel' );
+	}
 } )();
