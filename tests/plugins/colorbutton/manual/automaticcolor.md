@@ -7,7 +7,6 @@ Do following steps for both text color button and background color button.
 1. Select word 'text'.
 1. Press text color button.
 1. Set any of colors other than automatic.
-1. Select word 'text' again.
 1. Press text color button again.
 1. Set color to 'automatic'.
 1. Press source button.
