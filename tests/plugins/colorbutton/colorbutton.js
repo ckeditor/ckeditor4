@@ -17,10 +17,12 @@
 		} );
 	}
 
-	function openColorDialog( frame ) {
+	function openColorDialog() {
 		setTimeout( function() {
-			frame = document.querySelector( '.cke_panel_frame' );
-			frame.contentDocument.querySelector( '.cke_colormore' ).click();
+			document.querySelector( '.cke_panel_frame' )
+				.contentDocument
+				.querySelector( '.cke_colormore' )
+				.click();
 		}, 0 );
 
 		wait();
@@ -121,8 +123,7 @@
 		'test changing text color': function() {
 			var ed = this.editor,
 				bot = this.editorBot,
-				txtColorBtn = ed.ui.get( 'TextColor' ),
-				frame;
+				txtColorBtn = ed.ui.get( 'TextColor' );
 
 			ed.on( 'dialogHide', function() {
 				assert.areEqual( '<h1><span style="color:#ff3333">Moo</span></h1>', ed.getData() );
@@ -133,7 +134,7 @@
 			bot.setHtmlWithSelection( '[<h1>Moo</h1>]' );
 
 			txtColorBtn.click( ed );
-			openColorDialog( frame );
+			openColorDialog();
 		},
 
 		// 590
@@ -145,8 +146,7 @@
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
-					txtColorBtn = editor.ui.get( 'TextColor' ),
-					frame;
+					txtColorBtn = editor.ui.get( 'TextColor' );
 
 				resume( function() {
 					editor.on( 'dialogHide', function() {
@@ -159,7 +159,7 @@
 					onDialogShow( editor );
 
 					txtColorBtn.click( editor );
-					openColorDialog( frame );
+					openColorDialog();
 				} );
 
 				wait();
