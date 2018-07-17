@@ -218,9 +218,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				}
 
 				function setColor( color ) {
+					var colorStyle = config[ 'colorButton_' + type + 'Style' ];
 					// Clean up any conflicting style within the range.
 					editor.removeStyle( new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ) );
-					var colorStyle = config[ 'colorButton_' + type + 'Style' ];
 
 					colorStyle.childRule = type == 'back' ?
 					function( element ) {
@@ -233,7 +233,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					};
 
 					editor.focus();
-					editor[ ( color ? 'apply' : 'remove' ) + 'Style' ]( new CKEDITOR.style( colorStyle, { color: color } ) );
+					if ( color ) {
+						editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
+					}
 					editor.fire( 'saveSnapshot' );
 				}
 
