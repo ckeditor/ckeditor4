@@ -67,15 +67,10 @@
 
 				function matchCallback( text, offset ) {
 					var left = text.slice( 0, offset ),
-						match = left.match( new RegExp( ':\\S{' + charactersToStart + '}\\S*$' ) );
+						// Positive lookbehind for space, as emoji should be started with space or newline (#2195).
+						match = left.match( new RegExp( '(?<=\\s\|^):\\S{' + charactersToStart + '}\\S*$' ) );
 
 					if ( !match ) {
-						return null;
-					}
-
-					// Do not proceed if a query is a part of word.
-					var prevChar = text[ match.index - 1];
-					if ( prevChar !== undefined && !prevChar.match( /\s+/ ) ) {
 						return null;
 					}
 
