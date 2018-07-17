@@ -558,13 +558,13 @@
 							}
 						},
 						commit: function( data ) {
-
 							data.tel = this.getValue();
 						}
 					} ],
 					setup: function() {
-						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
+						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) ) {
 							this.getElement().hide();
+						}
 					}
 				} ]
 			},
