@@ -580,47 +580,16 @@
 		},
 
 		/**
-		 * Returns a wrapper that exposes an `input` function, which acts as a proxy to the given `output` function, providing throttling.
-		 * This proxy guarantees that the `output` function is not called more often than the `minInterval`.
-		 *
-		 * If multiple calls occur within a single `minInterval` time, the most recent `input` call with its arguments will be used to schedule
-		 * the next `output` call, and the previous throttled calls will be discarded.
-		 *
-		 * The first `input` call is always executed asynchronously which means that the `output` call will be executed immediately.
-		 *
-		 * ```javascript
-		 *	var buffer = CKEDITOR.tools.throttle( 200, function( message ) {
-		 *		console.log( message );
-		 *	} );
-		 *
-		 *	buffer.input( 'foo!' );
-		 *	// 'foo!' logged immediately.
-		 *	buffer.input( 'bar!' );
-		 *	// Nothing logged.
-		 *	buffer.input( 'baz!' );
-		 *	// Nothing logged.
-		 *	// … after 200ms a single 'baz!' will be logged.
-		 * ```
-		 *
-		 * It can be easily used with events:
-		 *
-		 * ```javascript
-		 *	var buffer = CKEDITOR.tools.throttle( 200, function( evt ) {
-		 *		console.log( evt.data.text );
-		 *	} );
-		 *
-		 *	editor.on( 'key', buffer.input );
-		 *	// Note: There is no need to bind the buffer as a context.
-		 * ```
+		 * Creates {@link CKEDITOR.tools.buffers.throttle throttle buffer} instance.
 		 *
 		 * @since 4.10.0
 		 * @param {Number} minInterval The minimum interval between `output` calls in milliseconds.
 		 * @param {Function} output The function that will be executed as `output`.
 		 * @param {Object} [contextObj] The object used as context to the listener call (the `this` object).
-		 * @returns {CKEDITOR.tools.ThrottleBuffer}
+		 * @returns {CKEDITOR.tools.buffers.throttle}
 		 */
 		throttle: function( minInterval, output, contextObj ) {
-			return new ThrottleBuffer( minInterval, output, contextObj );
+			return new this.buffers.throttle( minInterval, output, contextObj );
 		},
 
 		/**
@@ -1230,43 +1199,16 @@
 		},
 
 		/**
-		 * Buffers `input` events (or any `input` calls)
-		 * and triggers `output` not more often than once per `minInterval`.
-		 *
-		 * ```javascript
-		 *	var buffer = CKEDITOR.tools.eventsBuffer( 200, function() {
-		 *		console.log( 'foo!' );
-		 *	} );
-		 *
-		 *	buffer.input();
-		 *	// 'foo!' logged immediately.
-		 *	buffer.input();
-		 *	// Nothing logged.
-		 *	buffer.input();
-		 *	// Nothing logged.
-		 *	// … after 200ms a single 'foo!' will be logged.
-		 * ```
-		 *
-		 * Can be easily used with events:
-		 *
-		 * ```javascript
-		 *	var buffer = CKEDITOR.tools.eventsBuffer( 200, function() {
-		 *		console.log( 'foo!' );
-		 *	} );
-		 *
-		 *	editor.on( 'key', buffer.input );
-		 *	// Note: There is no need to bind buffer as a context.
-		 * ```
-		 *
+		 * Creates {@link CKEDITOR.tools.buffers.event events buffer} instance.
 		 *
 		 * @since 4.2.1
 		 * @param {Number} minInterval Minimum interval between `output` calls in milliseconds.
 		 * @param {Function} output Function that will be executed as `output`.
 		 * @param {Object} [contextObj] The object used to context the listener call (the `this` object).
-		 * @returns {CKEDITOR.tools.EventsBuffer}
+		 * @returns {CKEDITOR.tools.buffers.event}
 		 */
 		eventsBuffer: function( minInterval, output, contextObj ) {
-			return new EventsBuffer( minInterval, output, contextObj );
+			return new this.buffers.event( minInterval, output, contextObj );
 		},
 
 		/**
@@ -2242,9 +2184,16 @@
 	}
 
 	/**
+	 * Buffers `input` events (or any `input` calls)
+	 * and triggers `output` not more often than once per `minInterval`.
+	 *
 	 * @since 4.11.0
-	 * @class CKEDITOR.tools.EventsBuffer
-	 * @member CKEDITOR.tools
+	 * @class CKEDITOR.tools.buffers.event
+	 * @member CKEDITOR.tools.buffers
+	 * @constructor Creates a new instance of buffer.
+	 * @param {Number} minInterval The minimum interval between `output` calls in milliseconds.
+	 * @param {Function} output The function that will be executed as `output`.
+	 * @param {Object} [contextObj] The object used as context to the listener call (the `this` object).
 	 */
 	function EventsBuffer( minInterval, output, context ) {
 		/**
@@ -2279,9 +2228,38 @@
 
 	EventsBuffer.prototype = {
 		/**
-		 * Function to be called from external code. Buffer will handle the trottling and
-		 * make sure that the buffered function doesn't get called more often than indicated
-		 * by the {@link #_minInterval}.
+		 * Acts as a proxy to the given `output` function, providing function throttling.
+		 *
+		 * Guarantees that `output` function doesn't get called more often than
+		 * indicated by the {@link #_minInterval}.
+		 *
+		 * The first `input` call is always executed asynchronously which means that the `output`
+		 * call will be executed immediately.
+		 *
+		 * ```javascript
+		 *	var buffer = new CKEDITOR.tools.buffers.event( 200, function() {
+		 *		console.log( 'foo!' );
+		 *	} );
+		 *
+		 *	buffer.input();
+		 *	// 'foo!' logged immediately.
+		 *	buffer.input();
+		 *	// Nothing logged.
+		 *	buffer.input();
+		 *	// Nothing logged.
+		 *	// … after 200ms a single 'foo!' will be logged.
+		 * ```
+		 *
+		 * Can be easily used with events:
+		 *
+		 * ```javascript
+		 *	var buffer = new CKEDITOR.tools.buffers.event( 200, function() {
+		 *		console.log( 'foo!' );
+		 *	} );
+		 *
+		 *	editor.on( 'key', buffer.input );
+		 *	// Note: There is no need to bind buffer as a context.
+		 * ```
 		 */
 		input: function() {
 			var that = this;
@@ -2346,9 +2324,12 @@
 	};
 
 	/**
+	 * Throttles `input` events (or any `input` calls)
+	 * and triggers `output` not more often than once per `minInterval`.
+	 *
 	 * @since 4.11.0
-	 * @class CKEDITOR.tools.ThrottleBuffer
-	 * @extends CKEDITOR.tools.EventsBuffer
+	 * @class CKEDITOR.tools.buffers.throttle
+	 * @extends CKEDITOR.tools.buffers.event
 	 */
 	function ThrottleBuffer( minInterval, output, context ) {
 		EventsBuffer.call( this, minInterval, output, context );
@@ -2364,6 +2345,47 @@
 
 	ThrottleBuffer.prototype = CKEDITOR.tools.prototypedCopy( EventsBuffer.prototype );
 
+	/**
+	 * Acts as a proxy to the given `output` function, providing function throttling.
+	 *
+	 * Guarantees that `output` function doesn't get called more often than
+	 * indicated by the {@link #_minInterval}.
+	 *
+	 * If multiple calls occur within a single `minInterval` time,
+	 * the most recent `input` call with its arguments will be used to schedule
+	 * the next `output` call, and the previous throttled calls will be discarded.
+	 *
+	 * The first `input` call is always executed asynchronously which means that the `output`
+	 * call will be executed immediately.
+	 *
+	 * ```javascript
+	 *	var buffer = new CKEDITOR.tools.buffers.throttle( 200, function( message ) {
+	 *		console.log( message );
+	 *	} );
+	 *
+	 *	buffer.input( 'foo!' );
+	 *	// 'foo!' logged immediately.
+	 *	buffer.input( 'bar!' );
+	 *	// Nothing logged.
+	 *	buffer.input( 'baz!' );
+	 *	// Nothing logged.
+	 *	// … after 200ms a single 'baz!' will be logged.
+	 * ```
+	 *
+	 * It can be easily used with events:
+	 *
+	 * ```javascript
+	 *	var buffer = new CKEDITOR.tools.buffers.throttle( 200, function( evt ) {
+	 *		console.log( evt.data.text );
+	 *	} );
+	 *
+	 *	editor.on( 'key', buffer.input );
+	 *	// Note: There is no need to bind the buffer as a context.
+	 * ```
+	 * @method input
+	 * @param {Mixed[]} [args]
+	 * @member CKEDITOR.tools.buffers.throttle
+	 */
 	ThrottleBuffer.prototype.input = function() {
 		this._args = Array.prototype.slice.call( arguments );
 
@@ -2379,6 +2401,10 @@
 	ThrottleBuffer.prototype._call = function() {
 		this._output.apply( this._context, this._args );
 	};
+
+	CKEDITOR.tools.buffers = {};
+	CKEDITOR.tools.buffers.event = EventsBuffer;
+	CKEDITOR.tools.buffers.throttle = ThrottleBuffer;
 
 	/**
 	 * @member CKEDITOR.tools.array
