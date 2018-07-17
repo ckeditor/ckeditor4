@@ -7,6 +7,12 @@ New Features:
 
 * [#2072](https://github.com/ckeditor/ckeditor-dev/issues/2072): [UI Button](https://ckeditor.com/cke4/addon/button) plugin supports custom `aria-haspopup` property values. [Menu Button](https://ckeditor.com/cke4/addon/menubutton) `aria-haspopup` value is now `menu`, [Panel Button](https://ckeditor.com/cke4/addon/panelbutton) and [Rich Combo](https://ckeditor.com/cke4/addon/richcombo) `aria-haspopup` value is now `listbox`.
 
+API Changes:
+
+* [2045](https://github.com/ckeditor/ckeditor-dev/issues/2045): Extracted [`tools.eventsBuffer`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-eventsBuffer) and [`tools.throttle`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-throttle) functions logic into separate namespace.
+	* [`tools.eventsBuffer`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-eventsBuffer) has been extracted into [`tools.buffers.event`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools_buffers_event.html)
+	* [`tools.throttle`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-throttle) has been extracted into [`tools.buffers.throttle`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools_buffers_throttle.html)
+
 ## CKEditor 4.10.1
 
 ## CKEditor 4.10
