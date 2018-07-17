@@ -9,6 +9,12 @@
 
 1. Chose link type: 'Telephone'.
 
+1. Press 'OK'.
+
+	### Expected
+
+	- Alert appears with information to type a telephone number.
+
 1. Type following into dialog and press 'OK':
 
 		Display name: Foo
