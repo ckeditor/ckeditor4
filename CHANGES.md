@@ -10,7 +10,7 @@ New Features:
 
 API Changes:
 
-* [#2224](https://github.com/ckeditor/ckeditor-dev/issues/2224): The [CKEDITOR.tools.convertToPx](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools
+* [#2224](https://github.com/ckeditor/ckeditor-dev/issues/2224):  The [CKEDITOR.tools.convertToPx](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-convertToPx) now converts negative values.
 
 ## CKEditor 4.10.1
 
@@ -24,7 +24,7 @@ New Features:
 	* [Text Match](https://ckeditor.com/cke4/addon/textMatch) &ndash; Allows to search [`CKEDITOR.dom.range`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_dom_range.html) for matching text.
 * [#1703](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduced the [Mentions](https://ckeditor.com/cke4/addon/mentions) plugin providing smart completion feature for custom text matches based on user input starting with a chosen marker character.
 * [#1746](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduced the [Emoji](https://ckeditor.com/cke4/addon/emoji) plugin providing completion feature for emoji ideograms.
-* [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): The [Auto Link](https://ckeditor.com/cke4/addon/autolink) plugin now supports email links..html#method-convertToPx) now converts negative values.
+* [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): The [Auto Link](https://ckeditor.com/cke4/addon/autolink) plugin now supports email links.
 
 Fixed Issues:
 
