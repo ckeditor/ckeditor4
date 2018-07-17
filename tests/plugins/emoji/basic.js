@@ -146,7 +146,7 @@
 		},
 
 		// (#2195)
-		'test emoji suggestion box shouldn\'t appear inside text: function( editor, bot )': function( editor, bot ) {
+		'test emoji suggestion box shouldn\'t appear inside text': function( editor, bot ) {
 			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
 				var autocomplete = editor._.emoji.autocomplete;
 
