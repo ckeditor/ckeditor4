@@ -5,29 +5,27 @@
 
 ## For both editors:
 
-1. Place caret at the end of first line.
+1. Place caret at the end of line.
 
-1. Type `:bu`.
+1. Type ':bu' without space before.
 
-	### Expected
+1. Type ' :bu' with space.
 
-	Nothing happens.
+### Expected
 
-	### Unexpected
+When there is no space:
 
-	Emoji suggestion box appears.
+- Nothing happens.
 
-1. Place caret at the end of second line.
+When there is space:
 
-1. Type `:bu`.
+- Emoji suggestion box appears.
 
-	### Expected
+### Unexpected
 
-	Emoji suggestion box appears.
+When there is no space:
 
-	### Unexpected
-
-	Nothing happens
+- Emoji suggestion box appears.
 
 ----
 ## Example emoji to use in tests:
