@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'sl', {
 	noAnchors: '(V tem dokumentu ni sider)',
 	noEmail: 'Vnesite e-poštni naslov',
 	noUrl: 'Vnesite URL povezave',
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<drugo>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Podokno (Netscape)',
 	popupFeatures: 'Značilnosti pojavnega okna',
 	popupFullScreen: 'Celozaslonsko (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'sl', {
 	toAnchor: 'Sidro na tej strani',
 	toEmail: 'E-pošta',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Vstavi/uredi povezavo',
 	type: 'Vrsta povezave',
 	unlink: 'Odstrani povezavo',

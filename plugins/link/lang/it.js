@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'it', {
 	noAnchors: '(Nessuna ancora disponibile nel documento)',
 	noEmail: 'Devi inserire un\'indirizzo e-mail',
 	noUrl: 'Devi inserire l\'URL del collegamento',
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<altro>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dipendente (Netscape)',
 	popupFeatures: 'Caratteristiche finestra popup',
 	popupFullScreen: 'A tutto schermo (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'it', {
 	toAnchor: 'Ancora nel testo',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Collegamento',
 	type: 'Tipo di Collegamento',
 	unlink: 'Elimina collegamento',

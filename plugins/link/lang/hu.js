@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'hu', {
 	noAnchors: '(Nincs horgony a dokumentumban)',
 	noEmail: 'Adja meg az E-Mail címet',
 	noUrl: 'Adja meg a hivatkozás webcímét',
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<más>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Szülőhöz kapcsolt (csak Netscape)',
 	popupFeatures: 'Felugró ablak jellemzői',
 	popupFullScreen: 'Teljes képernyő (csak IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'hu', {
 	toAnchor: 'Horgony az oldalon',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Hivatkozás beillesztése/módosítása',
 	type: 'Hivatkozás típusa',
 	unlink: 'Hivatkozás törlése',

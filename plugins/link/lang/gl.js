@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'gl', {
 	noAnchors: '(Non hai ancoraxes dispoñíbeis no documento)',
 	noEmail: 'Escriba o enderezo de correo',
 	noUrl: 'Escriba a ligazón URL',
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<outro>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dependente (Netscape)',
 	popupFeatures: 'Características da xanela emerxente',
 	popupFullScreen: 'Pantalla completa (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'gl', {
 	toAnchor: 'Ligar coa ancoraxe no testo',
 	toEmail: 'Correo',
 	toUrl: 'URL',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Ligazón',
 	type: 'Tipo de ligazón',
 	unlink: 'Eliminar a ligazón',

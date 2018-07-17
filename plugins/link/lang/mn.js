@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'mn', {
 	noAnchors: '(Баримт бичиг зангуугүй байна)',
 	noEmail: 'Э-шуудангий хаягаа шивнэ үү',
 	noUrl: 'Холбоосны URL хаягийг шивнэ үү',
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<other>', // MISSING
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Хамаатай (Netscape)',
 	popupFeatures: 'Popup цонхны онцлог',
 	popupFullScreen: 'Цонх дүүргэх (Internet Explorer)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'mn', {
 	toAnchor: 'Энэ бичвэр дэх зангуу руу очих холбоос',
 	toEmail: 'Э-захиа',
 	toUrl: 'цахим хуудасны хаяг (URL)',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Холбоос',
 	type: 'Линкийн төрөл',
 	unlink: 'Холбоос авч хаях',

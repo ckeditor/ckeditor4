@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'is', {
 	noAnchors: '<Engin bókamerki á skrá>',
 	noEmail: 'Sláðu inn netfang!',
 	noUrl: 'Sláðu inn veffang stiklunnar!',
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<annar>',
+	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Háð venslum (Netscape)',
 	popupFeatures: 'Eigindi sprettiglugga',
 	popupFullScreen: 'Heilskjár (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'is', {
 	toAnchor: 'Bókamerki á þessari síðu',
 	toEmail: 'Netfang',
 	toUrl: 'Vefslóð',
+	toPhone: 'Telephone', // MISSING
 	toolbar: 'Stofna/breyta stiklu',
 	type: 'Stikluflokkur',
 	unlink: 'Fjarlægja stiklu',

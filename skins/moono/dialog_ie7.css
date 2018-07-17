@@ -51,6 +51,7 @@ This file contains styles to used by Internet Explorer 7 only.
 	have sexy inputs which go well with the layout. */
 .cke_dialog_ui_input_text,
 .cke_dialog_ui_input_password,
+.cke_dialog_ui_input_tel,
 .cke_dialog_ui_input_textarea,
 .cke_dialog_ui_input_select
 {

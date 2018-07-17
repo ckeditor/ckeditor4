@@ -15,13 +15,15 @@ This file contains styles to used by all versions of Internet Explorer only.
 
 /* IE doesn't leave enough padding in text input for cursor to blink in RTL. (#6087) */
 .cke_rtl input.cke_dialog_ui_input_text,
-.cke_rtl input.cke_dialog_ui_input_password
+.cke_rtl input.cke_dialog_ui_input_password,
+.cke_rtl input.cke_dialog_ui_input_tel
 {
 	padding-right: 2px;
 }
 /* Compensate the padding added above on container. */
 .cke_rtl div.cke_dialog_ui_input_text,
-.cke_rtl div.cke_dialog_ui_input_password
+.cke_rtl div.cke_dialog_ui_input_password,
+.cke_rtl div.cke_dialog_ui_input_tel
 {
 	padding-left: 2px;
 }
@@ -55,6 +57,7 @@ This file contains styles to used by all versions of Internet Explorer only.
 	to avoid double borders. */
 .cke_hc div.cke_dialog_ui_input_text,
 .cke_hc div.cke_dialog_ui_input_password,
+.cke_hc div.cke_dialog_ui_input_tel,
 .cke_hc div.cke_dialog_ui_input_textarea,
 .cke_hc div.cke_dialog_ui_input_select,
 .cke_hc div.cke_dialog_ui_input_file
