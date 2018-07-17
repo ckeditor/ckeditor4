@@ -2302,7 +2302,7 @@
 			return false;
 		},
 		/**
-		 * Performs an actual call. This function could be overriden.
+		 * Performs an actual call.
 		 *
 		 * @private
 		 */
@@ -2326,6 +2326,9 @@
 	/**
 	 * Throttles `input` events (or any `input` calls)
 	 * and triggers `output` not more often than once per `minInterval`.
+	 *
+	 * Unlike {@link CKEDITOR.tools.buffers.event} this class allows passing custom parameters
+	 * into {@link #input} function.
 	 *
 	 * @since 4.11.0
 	 * @class CKEDITOR.tools.buffers.throttle
