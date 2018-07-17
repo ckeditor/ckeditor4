@@ -1021,19 +1021,18 @@
 			regExp =  editor.config.linkTelNumberValidate_regExp,
 			msg = editor.config.linkTelNumberValidate_msg,
 			linkLang = editor.lang.link,
-			func = CKEDITOR.dialog.validate.notEmpty( linkLang.noTel ),
-			messageWhenEmpty = func.apply( this );;
+			messageWhenEmpty = CKEDITOR.dialog.validate.notEmpty( linkLang.noTel ).apply( this );
 
 		if ( !dialog.getContentElement( 'info', 'linkType' ) || dialog.getValueOf( 'info', 'linkType' ) != 'tel' ) {
 			return true;
 		}
 
-		if ( typeof messageWhenEmpty === 'string' || !messageWhenEmpty ) {
+		if ( messageWhenEmpty !== true ) {
 			return messageWhenEmpty;
 		}
 
-		if ( regExp && !regExp.test( this.getValue() ) ) {
-			return msg || false;
+		if ( regExp ) {
+			return CKEDITOR.dialog.validate.regex( regExp, msg ).call( this );
 		}
 	}
 } )();
