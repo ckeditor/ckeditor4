@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 	noAnchors: '(डॉक्यूमॅन्ट में ऐंकर्स की संख्या)',
 	noEmail: 'ई-मेल पता टाइप करें',
 	noUrl: 'लिंक URL टाइप करें',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<अन्य>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'डिपेन्डॅन्ट (Netscape)',

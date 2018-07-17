@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'ms', {
 	noAnchors: '(Tiada pautan terdapat dalam dokumen ini)',
 	noEmail: 'Sila taip alamat e-mail',
 	noUrl: 'Sila taip sambungan URL',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<lain>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Bergantungan (Netscape)',

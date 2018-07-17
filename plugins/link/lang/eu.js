@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'eu', {
 	noAnchors: '(Ez dago aingurarik erabilgarri dokumentuan)',
 	noEmail: 'Mesedez idatzi e-posta helbidea',
 	noUrl: 'Mesedez idatzi estekaren URLa',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<bestelakoa>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Menpekoa (Netscape)',

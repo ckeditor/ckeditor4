@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'pl', {
 	noAnchors: '(W dokumencie nie zdefiniowano żadnych kotwic)',
 	noEmail: 'Podaj adres e-mail',
 	noUrl: 'Podaj adres URL',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<inny>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Okno zależne (Netscape)',

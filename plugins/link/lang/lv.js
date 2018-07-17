@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'lv', {
 	noAnchors: '(Šajā dokumentā nav iezīmju)',
 	noEmail: 'Lūdzu norādi e-pasta adresi',
 	noUrl: 'Lūdzu norādi hipersaiti',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<cits>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Atkarīgs (Netscape)',

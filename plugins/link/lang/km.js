@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'km', {
 	noAnchors: '(មិន​មាន​យុថ្កា​នៅ​ក្នុង​ឯកសារ​អត្ថថបទ​ទេ)',
 	noEmail: 'សូម​បញ្ចូល​អាសយដ្ឋាន​អ៊ីមែល',
 	noUrl: 'សូម​បញ្ចូល​តំណ URL',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<ផ្សេង​ទៀត>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dependent (Netscape)',

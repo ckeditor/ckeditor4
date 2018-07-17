@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'ug', {
 	noAnchors: '(بۇ پۈتۈكتە ئىشلەتكىلى بولىدىغان لەڭگەرلىك نۇقتا يوق)',
 	noEmail: 'ئېلخەت ئادرېسىنى كىرگۈزۈڭ',
 	noUrl: 'ئۇلانما ئادرېسىنى كىرگۈزۈڭ',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '‹باشقا›',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'تەۋە (NS)',

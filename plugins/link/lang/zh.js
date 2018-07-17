@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh', {
 	noAnchors: '(本文件中無可用之錨點)',
 	noEmail: '請輸入電子郵件',
 	noUrl: '請輸入連結 URL',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<其他>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: '獨立 (Netscape)',

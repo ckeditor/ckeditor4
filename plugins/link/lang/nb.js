@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'nb', {
 	noAnchors: '(Ingen anker i dokumentet)',
 	noEmail: 'Vennligst skriv inn e-postadressen',
 	noUrl: 'Vennligst skriv inn lenkens URL',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<annen>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Avhenging (Netscape)',

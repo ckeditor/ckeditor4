@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh-cn', {
 	noAnchors: '(此文档没有可用的锚点)',
 	noEmail: '请输入电子邮件地址',
 	noUrl: '请输入超链接地址',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<其他>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: '依附 (NS)',

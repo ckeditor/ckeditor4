@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'af', {
 	noAnchors: '(Geen ankers beskikbaar in dokument)',
 	noEmail: 'Gee die e-posadres',
 	noUrl: 'Gee die skakel se URL',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<ander>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Afhanklik (Netscape)',

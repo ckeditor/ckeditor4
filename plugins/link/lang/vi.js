@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'vi', {
 	noAnchors: '(Không có điểm neo nào trong tài liệu)',
 	noEmail: 'Hãy đưa vào địa chỉ thư điện tử',
 	noUrl: 'Hãy đưa vào đường dẫn liên kết (URL)',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<khác>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Phụ thuộc (Netscape)',

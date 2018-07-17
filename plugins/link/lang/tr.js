@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'tr', {
 	noAnchors: '(Bu belgede hiç çapa yok)',
 	noEmail: 'Lütfen E-posta adresini yazın',
 	noUrl: 'Lütfen Link URL\'sini yazın',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<diğer>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Bağımlı (Netscape)',

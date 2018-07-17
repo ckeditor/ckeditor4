@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'cs', {
 	noAnchors: '(Ve stránce není definována žádná kotva!)',
 	noEmail: 'Zadejte prosím e-mailovou adresu',
 	noUrl: 'Zadejte prosím URL odkazu',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<jiný>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Závislost (Netscape)',

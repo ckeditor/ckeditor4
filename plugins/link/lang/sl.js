@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'sl', {
 	noAnchors: '(V tem dokumentu ni sider)',
 	noEmail: 'Vnesite e-poštni naslov',
 	noUrl: 'Vnesite URL povezave',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<drugo>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Podokno (Netscape)',

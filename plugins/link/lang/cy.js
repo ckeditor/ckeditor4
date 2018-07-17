@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'cy', {
 	noAnchors: '(Dim angorau ar gael yn y ddogfen)',
 	noEmail: 'Teipiwch gyfeiriad yr e-bost',
 	noUrl: 'Teipiwch URL y ddolen',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<eraill>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Dibynnol (Netscape)',

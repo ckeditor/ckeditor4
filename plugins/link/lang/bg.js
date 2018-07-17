@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'bg', {
 	noAnchors: '(Няма котви в текущия документ)',
 	noEmail: 'Моля въведете имейл адрес',
 	noUrl: 'Моля въведете URL адрес',
-	noTel: 'Please type the link telephone number', // MISSING
+	noTel: 'Please type the telephone number', // MISSING
 	other: '<друго>',
 	phoneNumber: 'Telephone number', // MISSING
 	popupDependent: 'Зависимост (Netscape)',
