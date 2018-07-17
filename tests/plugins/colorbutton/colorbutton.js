@@ -182,10 +182,11 @@
 			bot.setHtmlWithSelection( 'Foo [<span style="' + ( isBackgroundColor ? 'background-' : '' ) + 'color:red">bar</span>]' );
 
 			editor.once( 'panelShow', function() {
-				resume();
-				colorBtn._.panel.getBlock( colorBtn._.id ).element.findOne( '.cke_colorauto' ).$.click();
+				resume( function() {
+					colorBtn._.panel.getBlock( colorBtn._.id ).element.findOne( '.cke_colorauto' ).$.click();
 
-				assert.areEqual( '<p>Foo bar</p>', editor.getData() );
+					assert.areEqual( '<p>Foo bar</p>', editor.getData() );
+				} );
 			} );
 
 			colorBtn.click( editor );
