@@ -126,7 +126,10 @@
 				 *
 				 * @since 4.11.0
 				 * @constructor
-				 * @param {Object} definition The splitButton definition.
+				 * @param {Object} definition The Split Button definition
+				 * @param {Object[]} definition.items An array of Split Button dropdown items
+				 * @param {Object} [definition.face] Item which will be Split Button face
+				 * @param {String} [definition.default] Item which will be Split Button face when there is no face defined and none of items is currently active
 				 */
 				$: function( definition ) {
 					var properties = createButtons( editor, definition, this ),
