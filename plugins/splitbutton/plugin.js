@@ -124,7 +124,7 @@
 				/**
 				 * Creates a splitButton class instance.
 				 *
-				 * @since 4.10.0
+				 * @since 4.11.0
 				 * @constructor
 				 * @param {Object} definition The splitButton definition.
 				 */

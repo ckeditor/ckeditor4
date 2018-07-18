@@ -390,7 +390,7 @@
 		/**
 		 * Hides this button from UI.
 		 *
-		 * @since 4.10.0
+		 * @since 4.11.0
 		 */
 		hide: function() {
 			var element;
@@ -412,7 +412,7 @@
 		/**
 		 * Shows this button in UI.
 		 *
-		 * @since 4.10.0
+		 * @since 4.11.0
 		 */
 		show: function() {
 			var element;
@@ -444,9 +444,9 @@
 	 * @param {String} definition.command The command to be executed once the button is activated.
 	 * @param {String} definition.toolbar The {@link CKEDITOR.config#toolbarGroups toolbar group} into which
 	 * the button will be added. An optional index value (separated by a comma) determines the button position within the group.
-	 * @param {String} definition.style The optional inline style that will be applied on button. Custom button styles are supported sins the **4.10.0** version.
+	 * @param {String} definition.style The optional inline style that will be applied on button. Custom button styles are supported sins the **4.11.0** version.
 	 * @param {String/Boolean} definition.icon The path to a custom icon or icon name registered by another plugin. Custom icon paths
-	 * are supported since the **4.9.0** version. Since **4.10** if boolean `false` is passed no icon will be rendered.
+	 * are supported since the **4.9.0** version. Since **4.11** if boolean `false` is passed no icon will be rendered.
 	 *
 	 * To use icon registered by another plugin, icon parameter should be used like:
 	 *
