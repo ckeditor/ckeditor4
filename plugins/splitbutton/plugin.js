@@ -111,10 +111,13 @@
 
 			editor.addFeature( properties.buttons[ item.id ] );
 
-			// If no default button was defined then first button will act as default.
-			if ( !defaultButton && !definition[ 'default' ] ) {
+			// Store first item as default. It will be overwritten by actual default if it exists and has correct value.
+			if ( !defaultButton ) {
 				defaultButton = properties.buttons[ item.id ];
 			} else if ( definition[ 'default' ] && definition[ 'default' ].toLowerCase() === item.name ) {
+				if ( defaultButton ) {
+					defaultButton.hide();
+				}
 				defaultButton = properties.buttons[ item.id ];
 			} else {
 				properties.buttons[ item.id ].hide();
