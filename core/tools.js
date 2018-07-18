@@ -945,10 +945,13 @@
 		/**
 		 * Converts the specified CSS length value to the calculated pixel length inside this page.
 		 *
+		 * Since 4.11.0 it returns also negative values.
+		 *
 		 * **Note:** Percentage-based value is left intact.
 		 *
 		 * @method
 		 * @param {String} cssLength CSS length value.
+		 * @returns {Number/String} number representing length in pixels or string with percentage value.
 		 */
 		convertToPx: ( function() {
 			var calculator;
@@ -962,8 +965,20 @@
 				}
 
 				if ( !( /%$/ ).test( cssLength ) ) {
+					var isNegative = parseFloat( cssLength ) < 0,
+						ret;
+
+					if ( isNegative ) {
+						cssLength = cssLength.replace( '-', '' );
+					}
+
 					calculator.setStyle( 'width', cssLength );
-					return calculator.$.clientWidth;
+					ret = calculator.$.clientWidth;
+
+					if ( isNegative ) {
+						return -ret;
+					}
+					return ret;
 				}
 
 				return cssLength;
