@@ -10,9 +10,7 @@ New Features:
 
 API Changes:
 
-* [#2224](https://github.com/ckeditor/ckeditor-dev/issues/2224):  The [CKEDITOR.tools.convertToPx](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-convertToPx) now converts negative values.
-
-## CKEditor 4.10.1
+* [#2224](https://github.com/ckeditor/ckeditor-dev/issues/2224):  The [`CKEDITOR.tools.convertToPx`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-convertToPx) function now converts negative values.
 
 ## CKEditor 4.10
 
