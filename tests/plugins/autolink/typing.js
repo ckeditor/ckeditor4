@@ -68,9 +68,8 @@
 
 		// (#1815)
 		'test enter commit keystroke not canceled': function() {
-			var enterPlaceholder = '<p>\u00A0</p>';
-			testTyping( this.editors.enterkey, 13, url, expectedUrlLink + enterPlaceholder, 'Enter URL' );
-			testTyping( this.editors.enterkey, 13, email, expectedEmailLink + enterPlaceholder, 'Enter Email' );
+			testTyping( this.editors.enterkey, 13, url, expectedUrlLink, 'Enter URL' );
+			testTyping( this.editors.enterkey, 13, email, expectedEmailLink, 'Enter Email' );
 		},
 
 		// (#1815)
@@ -115,7 +114,7 @@
 
 			bender.tools.setHtmlWithSelection( editor, 'http://example.com^' );
 
-			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 32 } ) ); // SPACE
+			fireKeyEvent( editor, 32 ); // SPACE
 
 			editor.insertHtml( '&nbsp;test', 'text' );
 
@@ -126,8 +125,18 @@
 	function testTyping( editor, commitKeystroke, actual, expected, message ) {
 		bender.tools.setHtmlWithSelection( editor, actual );
 
-		editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: commitKeystroke } ) );
+		fireKeyEvent( editor, commitKeystroke );
 
 		assert.areEqual( expected, editor.getData(), message );
+	}
+
+	function fireKeyEvent( editor, keyCode ) {
+		var domEvent = {
+			getKey: function() {
+				return keyCode;
+			}
+		};
+
+		editor.fire( 'key', { keyCode: keyCode, domEvent: domEvent } );
 	}
 } )();

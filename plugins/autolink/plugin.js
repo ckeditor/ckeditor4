@@ -34,18 +34,15 @@
 
 			editor.on( 'contentDom', function() {
 				var commitKeystrokes = editor.config.autolink_commitKeystrokes || CKEDITOR.config.autolink_commitKeystrokes;
-				editor.editable().on( 'keydown', function( evt ) {
-					if ( CKEDITOR.tools.indexOf( commitKeystrokes, evt.data.getKey() ) == -1 ) {
+				editor.on( 'key', function( evt ) {
+					if ( CKEDITOR.tools.indexOf( commitKeystrokes, evt.data.keyCode ) == -1 ) {
 						return;
 					}
 
 					autolink( function( matched ) {
 						return matched;
 					} );
-
-					// Handle event ASAP thus some plugins may change
-					// editor selection or cancel keydown events e.g. wysiwygarea, enterkey.
-				}, null, null, 0 );
+				} );
 			} );
 
 			function autolink( condition ) {
