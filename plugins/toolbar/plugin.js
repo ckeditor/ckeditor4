@@ -724,8 +724,8 @@ CKEDITOR.config.toolbarLocation = 'top';
  *		// Load toolbar_Name where Name = Basic.
  *		config.toolbar = 'Basic';
  *
- *	*Since 4.11.0* item can be a {@link CKEDITOR.ui.item}.
- *	Such item will be passed as an argument to {@CKEDITOR.ui.add}.
+ *	**Since 4.11.0:** item can be a {@link CKEDITOR.ui.toolbarItem}.
+ *	Such item will be passed as an argument to {@link CKEDITOR.ui#add}.
  *
  * @cfg {Array/String} [toolbar=null]
  * @member CKEDITOR.config
@@ -832,10 +832,20 @@ CKEDITOR.config.toolbarLocation = 'top';
  *
  * This virtual class illustrates the properties that developers have to use to define and create new UI element.
  *
- * *Note* other properties vary depending on item type which is defined.
+ * **Note:** other properties vary depending on item type which is defined.
  *
- * @class CKEDITOR.toolbar.item
- * @property {String} name UI element name
- * @property {String} type UI item type, added by {@link CKEDITOR.ui.addHandler}
+ * @class CKEDITOR.ui.toolbarItem
  * @abstract
+ */
+
+/**
+ * UI element name.
+ *
+ * @property {String} name
+ */
+
+/**
+ * UI item type, added by {@link CKEDITOR.ui.addHandler}.
+ *
+ * @property {String} type
  */
