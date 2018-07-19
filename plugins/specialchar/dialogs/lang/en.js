@@ -84,6 +84,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'en', {
 	eacute: 'Latin small letter e with acute accent',
 	ecirc: 'Latin small letter e with circumflex',
 	euml: 'Latin small letter e with diaeresis',
+	emacr: 'Latin small letter e with macron',
 	igrave: 'Latin small letter i with grave accent',
 	iacute: 'Latin small letter i with acute accent',
 	icirc: 'Latin small letter i with circumflex',
