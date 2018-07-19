@@ -254,7 +254,8 @@
 				loader.on( 'update', function( evt ) {
 					// Abort if widget was removed.
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
-						if ( !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
+						// Uploading should be aborted if the editor is already destroyed (#966) or the upload widget was removed.
+						if ( !CKEDITOR.instances[ editor.name ] || !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
 							loader.abort();
 						}
 						evt.removeListener();
@@ -522,7 +523,10 @@
 
 		loader.on( 'abort', function() {
 			task && task.cancel();
-			editor.showNotification( editor.lang.uploadwidget.abort, 'info' );
+			// Editor could be already destroyed (#966).
+			if ( CKEDITOR.instances[ editor.name ] ) {
+				editor.showNotification( editor.lang.uploadwidget.abort, 'info' );
+			}
 		} );
 
 		function createAggregator() {
