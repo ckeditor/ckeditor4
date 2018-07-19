@@ -168,6 +168,26 @@
 				editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 				wait();
 			} );
+		},
+
+		// (#2195)
+		'test emoji suggestion box should appear at the beginning of new line': function( editor, bot ) {
+			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
+				var autocomplete = editor._.emoji.autocomplete,
+					editable = editor.editable();
+
+				bot.setHtmlWithSelection( '<p>foo</p><p>:bug^</p>' );
+
+				// Delay assertions because of autocomplete throttle.
+				setTimeout( function() {
+					resume( function() {
+						objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+					} );
+				}, 50 );
+
+				editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+				wait();
+			} );
 		}
 	};
 
