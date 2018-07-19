@@ -7,13 +7,12 @@ This test ensures that upload won't bleed if editor is destroyed during the uplo
 
 1. Drop an image.
 	* Note the editor will get automatically destroyed &mdash; that's fine 👌
-1. Wait until a message is logged in the "output" section, no longer than 4 secs though.
+1. Wait until a message is logged in the _output_ section, no longer than 4 secs though.
 
 ## Expected
 
-Output section contains "File upload  aborted" message.
-
-No exceptions were thrown.
+* _Output_ section contains "File upload  aborted" message.
+* No exceptions were thrown.
 
 ## Unexpected
 

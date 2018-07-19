@@ -2,10 +2,6 @@
 	&lt;p&gt;Drop an image:&lt;/p&gt;
 </textarea>
 
-<div>
-	<button id="destroy">Destroy the editor</button>
-</div>
-
 <h2>Output</h2>
 
 <pre id="output" style="outline: 2px solid gray; min-height: 1em;">
@@ -40,9 +36,5 @@
 				}
 			}
 		} );
-
-	CKEDITOR.document.getById( 'destroy' ).on( 'click', function() {
-		editor.destroy();
-	} );
 
 </script>
