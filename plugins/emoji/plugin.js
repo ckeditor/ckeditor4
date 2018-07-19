@@ -67,14 +67,15 @@
 
 				function matchCallback( text, offset ) {
 					var left = text.slice( 0, offset ),
-						// Positive lookbehind for space, as emoji should be started with space or newline (#2195).
-						match = left.match( new RegExp( '(?<=\\s\|^):\\S{' + charactersToStart + '}\\S*$' ) );
+						// Emoji should be started with space or newline, but space shouldn't leak to output, hence it is in non captured group (#2195).
+						match = left.match( new RegExp( '(?:\\s\|^)(:\\S{' + charactersToStart + '}\\S*)$' ) );
 
 					if ( !match ) {
 						return null;
 					}
 
-					return { start: match.index, end: offset };
+					// In case of space preceding colon we need to return index of capturing grup.
+					return { start: text.indexOf( match[ 1 ] ), end: offset };
 				}
 
 				function dataCallback( matchInfo, callback ) {
