@@ -3037,8 +3037,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		/**
 		 * The namespace with dialog helper validation functions.
 		 *
-		 * @property {CKEDITOR.dialog.validate}
-		 * @member CKEDITOR.dialog
+		 * @class
+		 * @singleton
 		 */
 		CKEDITOR.dialog.validate = {
 			/**
@@ -3046,9 +3046,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 *
 			 * ```
 			 * CKEDITOR.dialog.validation.functions(
-			 * 		CKEDITOR.dialog.validation.notEmpty( 'Value is required.' ),
-			 * 		CKEDITOR.dialog.validation.number( 'Value is not a number.' )
-			 * 	);
+			 * 	CKEDITOR.dialog.validation.notEmpty( 'Value is required.' ),
+			 * 	CKEDITOR.dialog.validation.number( 'Value is not a number.' )
+			 * );
 			 * ```
 			 *
 			 * @param {Mixed[]} arguments
@@ -3057,12 +3057,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			functions: function() {
 				var args = arguments;
 				return function() {
-					/**
-					 * It's important for validate functions to be able to accept the value
-					 * as argument in addition to this.getValue(), so that it is possible to
-					 * combine validate functions together to make more sophisticated
-					 * validators.
-					 */
+					// It's important for validate functions to be able to accept the value
+					// as argument in addition to this.getValue(), so that it is possible to
+					// combine validate functions together to make more sophisticated
+					// validators.
 					var value = this && this.getValue ? this.getValue() : args[ 0 ];
 
 					var msg,
@@ -3151,7 +3149,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			},
 
 			/**
-			 * Checks if a dialog UI element value is an Number.
+			 * Checks if a dialog UI element value is a Number.
 			 *
 			 * ```javascript
 			 * CKEDITOR.dialog.validation.number( 'error!' )( '123' ) // true
