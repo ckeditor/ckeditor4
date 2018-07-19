@@ -87,10 +87,14 @@
 
 			for ( var key in this.editorBots ) {
 				var editor = this.editorBots[ key ].editor,
+					autocomplete;
+
+				if ( editor._.emoji ) {
 					autocomplete = editor._.emoji.autocomplete;
 
-				emojiTools.clearAutocompleteModel( autocomplete );
-				autocomplete.close();
+					emojiTools.clearAutocompleteModel( autocomplete );
+					autocomplete.close();
+				}
 			}
 		},
 
