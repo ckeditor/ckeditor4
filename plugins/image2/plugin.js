@@ -68,6 +68,17 @@
 		},
 
 		init: function( editor ) {
+			// Abort when Easyimage is to be loaded since this plugins
+			// share the same functionality (#1791).
+			var conflictPlugin = editor.plugins.easyimage;
+			if ( conflictPlugin ) {
+				CKEDITOR.warn( 'editor-plugin-conflict', {
+					plugin: 'image',
+					replacedWith: conflictPlugin.name
+				} );
+				return;
+			}
+
 			// Adapts configuration from original image plugin. Should be removed
 			// when we'll rename image2 to image.
 			var config = editor.config,
