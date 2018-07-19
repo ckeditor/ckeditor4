@@ -31,6 +31,11 @@
 							'default': 'bold'
 						} );
 
+						editor.ui.add( 'wrongdefault', CKEDITOR.UI_SPLITBUTTON, {
+							items: items,
+							'default': 'foo'
+						} );
+
 						editor.ui.add( 'staticface', CKEDITOR.UI_SPLITBUTTON, {
 							face: {
 								command: 'bold',
@@ -67,6 +72,12 @@
 					toolbar: [ [ {
 						type: 'splitbutton',
 						name: 'teststylesplit',
+						'default': 'bold',
+						items: items
+					}, {
+						type: 'splitbutton',
+						name: 'wrongdefault',
+						'default': 'foo',
 						items: items
 					}, {
 						type: 'splitbutton',
@@ -119,6 +130,14 @@
 				key = key.substring( 0, key.length - 1 );
 				assert.isTrue( key in items );
 			}
+		},
+		'test split button with wrong default item value': function( editor ) {
+			var splitButton = editor.ui.get( 'wrongdefault' ),
+				button = splitButton.buttons.bold0,
+				element = CKEDITOR.document.findOne( '#' + button._.id );
+
+			// Bold as first item should become default item and be visible.
+			assert.isFalse( element.getStyle( 'display' ) === 'none' );
 		},
 		'test state of split button buttons': function( editor ) {
 			var splitButton = editor.ui.get( 'teststylesplit' ),
