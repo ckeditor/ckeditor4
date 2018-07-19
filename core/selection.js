@@ -1033,7 +1033,7 @@
 							( parent.getAttribute( 'contenteditable' ) == 'false' || parent.getAttribute( 'contenteditable' ) == 'true' );
 					}, true ) : null ;
 
-				return range && ascendant.getAttribute( 'contenteditable' ) == 'false' && ascendant;
+				return ascendant && ascendant.getAttribute( 'contenteditable' ) == 'false' ? ascendant : null;
 			}
 		} );
 
