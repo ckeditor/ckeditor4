@@ -44,6 +44,10 @@
 			if ( typeof item === 'string' ) {
 				item = CKEDITOR.tools.clone( editor.ui.items[ item ] );
 
+				// It is possible to define CKEDITOR.ui.button instance without `icon` property defined.
+				// In such case icon name will fallback to `name` or `command`. However CKEDITOR.ui.menu doesn't have such logic for its items.
+				// We need to reverse this fallback to pass an icon name to the menu item.
+				// See comment (https://github.com/ckeditor/ckeditor-dev/pull/2094#discussion_r196684673).
 				if ( !item.icon ) {
 					item.icon = item.name || item.command;
 				}
