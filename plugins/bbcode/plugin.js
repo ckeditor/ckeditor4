@@ -666,10 +666,10 @@
 								tagName = 'color';
 								value = CKEDITOR.tools.convertRgbToHex( value );
 							} else if ( ( value = style[ 'font-size' ] ) ) {
-								tagName = 'size';
 								var percentValue = value.match( /(\d+)%$/ );
 								if ( percentValue ) {
 									value = percentValue[ 1 ];
+									tagName = 'size';
 								}
 							}
 						} else if ( tagName == 'ol' || tagName == 'ul' ) {
@@ -790,11 +790,10 @@
 								name = 'size';
 							else if ( element.getStyle( 'color' ) )
 								name = 'color';
-                                                // Styled div could be align
-						} else if ( htmlName == 'div' ) {
-                                                    if ( element.getStyle( 'text-align' ) )
-								name = element.getStyle( 'text-align' );
-                                                } else if ( name == 'img' ) {
+						// Styled div could be align
+						} else if ( htmlName == 'div' && element.getStyle( 'text-align' ) ) {
+							name = element.getStyle( 'text-align' );
+						} else if ( name == 'img' ) {
 							var src = element.data( 'cke-saved-src' ) || element.getAttribute( 'src' );
 							if ( src && src.indexOf( editor.config.smiley_path ) === 0 )
 								name = 'smiley';
