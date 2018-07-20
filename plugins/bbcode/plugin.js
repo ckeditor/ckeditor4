@@ -5,6 +5,9 @@
 
 ( function() {
 	CKEDITOR.on( 'dialogDefinition', function( ev ) {
+		
+		if (!('bbcode' in ev.editor.plugins)) { return; }  // Only remove advanced tabs if bbcode is in current editor instance
+		
 		var tab,
 			name = ev.data.name,
 			definition = ev.data.definition;
