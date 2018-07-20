@@ -138,8 +138,8 @@
 
 						if ( stylesMap[ part ] ) {
 							// Font size represents percentage.
-//							if ( part == 'size' )
-//								optionPart += '%';
+							if ( part == 'size' )
+								optionPart += '%';
 
 							styles[ stylesMap[ part ] ] = optionPart;
 							attribs.style = serializeStyleText( styles );
@@ -157,12 +157,12 @@
 					// as "span" with an attribute marker.
 					if ( part == 'email' || part == 'img' )
 						attribs.bbcode = part;
-                                            
-                                        //special handling of left, right and center tags
-                                        if(part == 'left' || part == 'right' || part == 'center'){
-                                                styles[ stylesMap[ part ] ] = part;
-                                                attribs.style = serializeStyleText( styles );
-                                        }
+
+					// Special handling of justify tags.
+					if ( part == 'left' || part == 'right' || part == 'center' ) {
+						styles[ stylesMap[ part ] ] = part;
+						attribs.style = serializeStyleText( styles );
+					}
 
 					this.onTagOpen( tagName, attribs, CKEDITOR.dtd.$empty[ tagName ] );
 				}
@@ -666,18 +666,18 @@
 								tagName = 'color';
 								value = CKEDITOR.tools.convertRgbToHex( value );
 							} else if ( ( value = style[ 'font-size' ] ) ) {
-                                                                tagName = 'size';
+								tagName = 'size';
 								var percentValue = value.match( /(\d+)%$/ );
 								if ( percentValue ) {
 									value = percentValue[ 1 ];
 								}
 							}
 						} else if ( tagName == 'div' ) {
-                                                    if( ( value = style[ 'text-align' ]) ){
-                                                        tagName = value;
-                                                        value = '';
-                                                    }
-                                                } else if ( tagName == 'ol' || tagName == 'ul' ) {
+							if ( ( value = style[ 'text-align' ] ) ) {
+								tagName = value;
+								value = '';
+							}
+						} else if ( tagName == 'ol' || tagName == 'ul' ) {
 							if ( ( value = style[ 'list-style-type' ] ) ) {
 								switch ( value ) {
 									case 'lower-alpha':
