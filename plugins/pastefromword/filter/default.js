@@ -2441,7 +2441,7 @@
 				var currMargin = margin[ key ];
 				// skip zeros.
 				if ( parseFloat( currMargin ) ) {
-					style[ marginCase + '-' + key ] = currMargin;
+					style[ 'margin-' + key ] = currMargin;
 				}
 			}
 			delete style[ marginCase ];
