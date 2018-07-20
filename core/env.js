@@ -193,7 +193,12 @@ if ( !CKEDITOR.env ) {
 			if ( edge ) {
 				version = parseFloat( edge[ 1 ] );
 			} else if ( env.quirks || !document.documentMode ) {
-				version = parseFloat( agent.match( /msie (\d+)/ )[ 1 ] );
+				// for IE 11: "mozilla/5.0 (windows nt 6.3; trident/7.0; rv:11.0) like gecko"
+				if (trident){
+					version = parseFloat( agent.match( /rv:(\d+)/ )[ 1 ] );
+				} else {
+					version = parseFloat( agent.match( /msie (\d+)/ )[ 1 ] );
+				}
 			} else {
 				version = document.documentMode;
 			}
