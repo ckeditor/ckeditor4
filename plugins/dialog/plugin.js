@@ -3031,7 +3031,24 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			cssLengthRegex = /^(((\d*(\.\d+))|(\d*))(px|em|ex|in|cm|mm|pt|pc|\%)?)?$/i,
 			inlineStyleRegex = /^(\s*[\w-]+\s*:\s*[^:;]+(?:;|$))*$/;
 
+		/**
+		 * {@link CKEDITOR.dialog Dialog} `OR` logical value indicates
+		 * relation between validation functions.
+		 *
+		 * @readonly
+		 * @property {Number} [=1]
+		 * @member CKEDITOR
+		 */
 		CKEDITOR.VALIDATE_OR = 1;
+
+		/**
+		 * {@link CKEDITOR.dialog Dialog} `AND` logical value indicates
+		 * relation between validation functions.
+		 *
+		 * @readonly
+		 * @property {Number} [=2]
+		 * @member CKEDITOR
+		 */
 		CKEDITOR.VALIDATE_AND = 2;
 
 		/**
@@ -3044,15 +3061,33 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			/**
 			 * Performs validation functions composition.
 			 *
-			 * ```
+			 * ```javascript
 			 * CKEDITOR.dialog.validation.functions(
 			 * 	CKEDITOR.dialog.validation.notEmpty( 'Value is required.' ),
-			 * 	CKEDITOR.dialog.validation.number( 'Value is not a number.' )
+			 * 	CKEDITOR.dialog.validation.number( 'Value is not a number.' ),
+			 * 	'error!'
 			 * );
 			 * ```
 			 *
-			 * @param {Mixed[]} arguments
-			 * @returns {Function}
+			 * @param {Mixed...} arguments
+			 * Accepts multiple functions which will be composed into a single validation function.
+			 *
+			 * ```javascript
+			 * CKEDITOR.dialog.validation.functions( validator1, validator2 );
+			 * ```
+			 *
+			 * Also you can pass two optional parameters:
+			 *
+			 * `msg` - error message returned by composed validation function
+			 *
+			 * `relation` - indicates {@link CKEDITOR#VALIDATE_OR OR} / {@link CKEDITOR#VALIDATE_AND AND}
+			 * relation between validation functions ( defaults {@link CKEDITOR#VALIDATE_OR OR} )
+			 *
+			 * ```javascript
+			 * CKEDITOR.dialog.validation.functions( validator1, validator2, 'error message', CKEDITOR.VALIDATE_AND );
+			 * ```
+			 *
+			 * @returns {Function} Composed validation function.
 			 */
 			functions: function() {
 				var args = arguments;
@@ -3103,9 +3138,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * CKEDITOR.dialog.validation.regex( 'error!' )( '123.321' ) // error!
 			 * ```
 			 *
-			 * @param {RegExp} regex
+			 * @param {RegExp} regex RegExp used to validate value.
 			 * @param {String} msg Validator error message.
-			 * @returns {Function}
+			 * @returns {Function} Validation function.
 			 */
 			regex: function( regex, msg ) {
 				/*
@@ -3127,7 +3162,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * ```
 			 *
 			 * @param {String} msg Validator error message.
-			 * @returns {Function}
+			 * @returns {Function} Validation function.
 			 */
 			notEmpty: function( msg ) {
 				return this.regex( notEmptyRegex, msg );
@@ -3142,7 +3177,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * ```
 			 *
 			 * @param {String} msg Validator error message.
-			 * @returns {Function}
+			 * @returns {Function} Validation function.
 			 */
 			integer: function( msg ) {
 				return this.regex( integerRegex, msg );
@@ -3157,7 +3192,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * ```
 			 *
 			 * @param {String} msg Validator error message.
-			 * @returns {Function}
+			 * @returns {Function} Validation function.
 			 */
 			'number': function( msg ) {
 				return this.regex( numberRegex, msg );
@@ -3174,7 +3209,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * ```
 			 *
 			 * @param {String} msg Validator error message.
-			 * @returns {Function}
+			 * @returns {Function} Validation function.
 			 */
 			'cssLength': function( msg ) {
 				return this.functions( function( val ) {
@@ -3193,7 +3228,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * ```
 			 *
 			 * @param {String} msg Validator error message.
-			 * @returns {Function}
+			 * @returns {Function} Validation function.
 			 */
 			'htmlLength': function( msg ) {
 				return this.functions( function( val ) {
@@ -3210,7 +3245,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * ```
 			 *
 			 * @param {String} msg Validator error message.
-			 * @returns {Function}
+			 * @returns {Function} Validation function.
 			 */
 			'inlineStyle': function( msg ) {
 				return this.functions( function( val ) {
@@ -3226,9 +3261,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * CKEDITOR.dialog.validation.equals( 'foo', 'error!' )( 'baz' ) // error!
 			 * ```
 			 *
-			 * @param {String} value
+			 * @param {String} value Value to compare.
 			 * @param {String} msg Validator error message.
-			 * @returns {Function}
+			 * @returns {Function} Validation function.
 			 */
 			equals: function( value, msg ) {
 				return this.functions( function( val ) {
@@ -3244,9 +3279,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * CKEDITOR.dialog.validation.notEqual( 'foo', 'error!' )( 'foo' ) // error!
 			 * ```
 			 *
-			 * @param {String} value
+			 * @param {String} value Value to compare.
 			 * @param {String} msg Validator error message.
-			 * @returns {Function}
+			 * @returns {Function} Validation function.
 			 */
 			notEqual: function( value, msg ) {
 				return this.functions( function( val ) {
