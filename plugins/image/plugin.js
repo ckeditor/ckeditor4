@@ -17,16 +17,11 @@
 		icons: 'image', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
+			var pluginName = 'image';
+
 			// Abort when Easyimage or Image2 are to be loaded since this plugins
 			// share the same functionality (#1791).
-			var conflictPlugin = editor.plugins.easyimage || editor.plugins.image2,
-				pluginName = 'image';
-
-			if ( conflictPlugin ) {
-				CKEDITOR.warn( 'editor-plugin-conflict', {
-					plugin: pluginName,
-					replacedWith: conflictPlugin.name
-				} );
+			if ( CKEDITOR.tools.detectPluginsConflict( editor, pluginName, [ 'image2', 'easyimage' ] ) ) {
 				return;
 			}
 

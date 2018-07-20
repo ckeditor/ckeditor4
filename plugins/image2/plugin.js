@@ -70,13 +70,7 @@
 		init: function( editor ) {
 			// Abort when Easyimage is to be loaded since this plugins
 			// share the same functionality (#1791).
-			var conflictPlugin = editor.plugins.easyimage;
-
-			if ( conflictPlugin ) {
-				CKEDITOR.warn( 'editor-plugin-conflict', {
-					plugin: 'image2',
-					replacedWith: conflictPlugin.name
-				} );
+			if ( CKEDITOR.tools.detectPluginsConflict( editor, 'image2', [ 'easyimage' ] ) ) {
 				return;
 			}
 
