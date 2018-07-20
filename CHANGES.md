@@ -18,6 +18,10 @@ Fixed Issues:
 * [#2195](https://github.com/ckeditor/ckeditor-dev/issues/2195): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) shows suggestion box when colon preceded with other character than white space.
 * [#1791](https://github.com/ckeditor/ckeditor-dev/issues/1791): Fixed: [Image](https://ckeditor.com/cke4/addon/image) and [Enhanced Image](https://ckeditor.com/cke4/addon/image2) plugins are enabled when [Easy Image](https://ckeditor.com/cke4/addon/easyimage) is present.
 
+API Changes:
+
+* [#1791](https://github.com/ckeditor/ckeditor-dev/issues/1791): Added [`CKEDITOR.tools.detectPluginsConflict`](http://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR_tools.html#method-detectPluginsConflict) function finding conflicts between provided plugins.
+
 ## CKEditor 4.10
 
 New Features:
