@@ -49,6 +49,9 @@ bender.test( {
 		this.assertToBBCode( '[right]foo[/right]', '<div style="text-align:right">foo</div>' );
 		this.assertToBBCode( '[justify]foo[/justify]', '<div style="text-align:justify">foo</div>' );
 		this.assertToBBCode( 'foo', '<div style="text-align:unset">foo</div>' );
+
+		this.assertToBBCode( '[right][img]http://a.cksource.com/c/1/inc/img/demo-little-red.jpg[/img][/right]',
+			'<div style="text-align:right"><img src="http://a.cksource.com/c/1/inc/img/demo-little-red.jpg" /></div>' );
 	},
 
 	'test bbcode to HTML': function() {
