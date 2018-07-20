@@ -1,0 +1,16 @@
+<textarea cols="80" id="editor1" name="editor1" rows="10">
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam pariatur saepe quasi doloremque est explicabo dignissimos voluptatum autem dolores, in! Quibusdam ad magnam porro, nisi a rem illum in, omnis esse eaque culpa iste cum nulla et deleniti earum autem, odio suscipit exercitationem est quo tempora reprehenderit necessitatibus eum. Aliquid veniam debitis ullam eum nisi ipsum molestias rem quisquam vero minima inventore, quo. Magni animi maiores eaque quas reprehenderit atque aspernatur minus repudiandae, laudantium asperiores officia labore itaque! Voluptatibus, modi perspiciatis, saepe, in temporibus delectus natus rem quasi possimus nostrum vel dolorem? Magni delectus, incidunt explicabo ullam obcaecati accusamus, aut perspiciatis accusantium? Provident assumenda, nobis nihil et quaerat harum numquam sapiente, explicabo, aliquam dolorum adipisci maxime nemo blanditiis doloremque? Impedit error aliquam provident distinctio natus repellendus aut nulla cumque, expedita perferendis placeat sapiente quos tempore veniam autem a vel rem nesciunt tenetur corrupti odio! Rerum facilis beatae maiores molestiae velit, aliquid impedit ut esse ducimus reiciendis nemo fugiat quaerat accusamus adipisci fuga quae quia blanditiis quas nam, ipsum iure? Aliquid, beatae, accusamus? Et saepe mollitia fugiat, a laborum est minima enim neque eligendi libero voluptates tempore nam! Quia sunt nemo sapiente rerum, animi, totam expedita eius error quo nesciunt ab, explicabo, accusamus nostrum dolore optio fuga mollitia temporibus odit? A laudantium ea odio blanditiis at molestiae quos placeat sit reiciendis aspernatur, provident dolorum excepturi minima. Obcaecati odio modi aliquam rerum, unde quisquam accusamus esse provident iure cumque ipsam consequuntur adipisci consequatur hic molestiae eligendi eveniet, veniam porro eius error tempore.
+</textarea>
+<script>
+	CKEDITOR.replace( 'editor1', {
+		height: 400,
+		uploadUrl: '%BASE_PATH%',
+		on: {
+			instanceReady: function () {
+				if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
+					bender.ignore();
+				}
+			}
+		}
+	} );
+</script>

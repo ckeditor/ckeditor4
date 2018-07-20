@@ -15,7 +15,7 @@
 
 	bender.editor = {
 		config: {
-			extraPlugins: 'uploadwidget,toolbar,undo,basicstyles'
+			extraPlugins: 'uploadwidget,toolbar,undo,basicstyles,link'
 		}
 	};
 
@@ -310,6 +310,33 @@
 				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
 
 				assert.isInnerHtmlMatching( '<p><strong>xuploadedfo^o</strong>@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
+			} );
+		},
+
+		'test replaceWith skipping selection': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadRepository,
+				loader = uploads.create( bender.tools.getTestPngFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testReplaceWith1', {
+				onUploaded: function() {
+					// We're using strong to force editable.insertHtml to do some elements merging.
+					this.replaceWith( '<strong>uploaded</strong>', null, true );
+				}
+			} );
+
+			bot.setData( '<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>', function() {
+				editor.insertHtml( '<a href="foo">xxx</a>' );
+
+				var link = editor.editable().findOne( 'a' );
+				editor.getSelection().selectElement( link );
+
+				loader.changeStatus( 'uploaded' );
+
+				assert.isInnerHtmlMatching( '<p>[<a data-cke-saved-href="foo" href="foo">xxx</a>]<strong>uploaded</strong></p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 			} );
 		},
 

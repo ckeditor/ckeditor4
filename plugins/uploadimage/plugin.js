@@ -7,6 +7,9 @@
 
 ( function() {
 	var uniqueNameCounter = 0,
+		pasteBookmark,
+		selectionBookmark,
+		pasteRange,
 		// Black rectangle which is shown before the image is loaded.
 		loadingImage = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=';
 
@@ -78,12 +81,27 @@
 					// Width and height could be returned by server (https://dev.ckeditor.com/ticket/13519).
 					var $img = this.parts.img.$,
 						width = upload.responseData.width || $img.naturalWidth,
-						height = upload.responseData.height || $img.naturalHeight;
+						height = upload.responseData.height || $img.naturalHeight,
+						selectionFixRequired = isSelectionFixRequired( this );
+
+					// Preserving selection range will fire only for the first uploaded element.
+					preserveWidgetSelection( this );
 
 					// Set width and height to prevent blinking.
+					// If selection fix is required we will omit selecting replacement and fix it later.
 					this.replaceWith( '<img src="' + upload.url + '" ' +
 						'width="' + width + '" ' +
-						'height="' + height + '">' );
+						'height="' + height + '">', null, selectionFixRequired );
+
+					if ( selectionFixRequired ) {
+						fixWidgetSelection( this );
+					} else {
+						clearUnusedBookmarks( this );
+					}
+				},
+
+				onAbort: function() {
+					clearUnusedBookmarks( this );
 				}
 			} );
 
@@ -100,6 +118,12 @@
 					tempDoc = document.implementation.createHTMLDocument( '' ),
 					temp = new CKEDITOR.dom.element( tempDoc.body ),
 					imgs, img, i;
+
+				// With Firefox `ctrl/cmd + a` gives body to body selection range,
+				// we have to change selection range to the first and the last element of the body.
+				adjustBodySelection( editor );
+				// Preserve selection on paste to resolve it after images upload.
+				createPasteRange( editor );
 
 				// Without this isReadOnly will not works properly.
 				temp.data( 'cke-editable', 1 );
@@ -139,6 +163,131 @@
 			} );
 		}
 	} );
+
+	function adjustBodySelection( editor ) {
+		var selection = editor.getSelection(),
+			ranges = selection.getRanges(),
+			range = ranges[ 0 ];
+
+		if ( !range ) {
+			return;
+		}
+
+		if ( range.startContainer.type != CKEDITOR.NODE_TEXT && range.startContainer.getName() === 'body' ) {
+			range.setStartAt( range.startContainer.getFirst(), CKEDITOR.POSITION_AFTER_START );
+		}
+
+		if ( range.endContainer.type != CKEDITOR.NODE_TEXT && range.endContainer.getName() === 'body' ) {
+			range.setEndAt( range.endContainer.getLast(), CKEDITOR.POSITION_BEFORE_END );
+		}
+
+		selection.selectRanges( ranges );
+	}
+
+	function createPasteRange( editor ) {
+		var range = editor.getSelection().getRanges()[ 0 ];
+
+		if ( !range ) {
+			return;
+		}
+
+		editor.fire( 'lockSnapshot' );
+		pasteRange = editor.createRange();
+		pasteRange.setStartBefore( range.startContainer );
+		pasteRange.setEndAfter( range.endContainer );
+		pasteBookmark = pasteRange.createBookmark();
+		editor.fire( 'unlockSnapshot' );
+	}
+
+	function isSelectionFixRequired( widget ) {
+		var range = widget.editor.getSelection().getRanges()[ 0 ];
+
+		if ( !range ) {
+			return true;
+		}
+
+		var startElement = range.startContainer,
+			endElement = range.endContainer;
+
+		return ( isUploadImageWidget( startElement ) || isUploadImageWidget( endElement ) ) && widget !== widget.editor.widgets.focused;
+	}
+
+	function isUploadImageWidget( node ) {
+		if ( node.type === CKEDITOR.NODE_TEXT ) {
+			return false;
+		}
+
+		return node.hasClass( 'cke_upload_uploading' );
+	}
+
+	function preserveWidgetSelection() {
+		if ( !pasteBookmark ) {
+			return;
+		}
+
+		var forward, backward;
+
+		pasteRange.moveToBookmark( pasteBookmark );
+		removeBookmark( pasteBookmark );
+		pasteBookmark = null;
+
+		if ( forward = createUploadImageWalker( pasteRange ).lastForward() ) {
+			pasteRange.setStartBefore( forward );
+		}
+
+		if ( backward = createUploadImageWalker( pasteRange ).lastBackward() )  {
+			pasteRange.setEndAfter( backward );
+		}
+
+		selectionBookmark = pasteRange.createBookmark();
+	}
+
+	function fixWidgetSelection( widget ) {
+		var selection = widget.editor.getSelection();
+
+		if ( pasteRange ) {
+			pasteRange.moveToBookmark( selectionBookmark );
+			removeBookmark( selectionBookmark );
+			selectionBookmark = null;
+
+			selection.selectRanges( [ pasteRange ] );
+			pasteRange = null;
+		}
+	}
+
+	function removeBookmark( bookmark ) {
+		if ( !bookmark ) {
+			return;
+		}
+		bookmark.startNode.remove();
+		bookmark.endNode.remove();
+	}
+
+	function createUploadImageWalker() {
+		var walker = new CKEDITOR.dom.walker( pasteRange );
+
+		walker.guard = function( node ) {
+			return !isUploadImageWidget( node );
+		};
+		return walker;
+	}
+
+	function clearUnusedBookmarks( widget ) {
+		var widgets = widget.editor.widgets.instances,
+			keys = CKEDITOR.tools.objectKeys( widgets ),
+			uploadImageWidgetsCount = 0;
+
+		for ( var i = 0; i < keys.length; i++ ) {
+			var id = keys[ i ];
+			widgets[ id ].name === 'uploadimage' && uploadImageWidgetsCount++;
+		}
+
+		// Remove unused bookmarks only if there is no more upload image widgets.
+		if ( uploadImageWidgetsCount == 0 ) {
+			removeBookmark( pasteBookmark );
+			removeBookmark( selectionBookmark );
+		}
+	}
 
 	/**
 	 * The URL where images should be uploaded.

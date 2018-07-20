@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -300,8 +300,9 @@
 			 * @property {Function}
 			 * @param {String} data HTML to replace the upload widget.
 			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s modes.
+			 * @param {Boolean} [skipSelection='false'] allows skipping data selection after upload widget replace.
 			 */
-			replaceWith: function( data, mode ) {
+			replaceWith: function( data, mode, skipSelection ) {
 				if ( data.trim() === '' ) {
 					editor.widgets.del( this );
 					return;
@@ -312,14 +313,14 @@
 					range = editor.createRange(),
 					bookmark, bookmarks;
 
-				if ( !wasSelected ) {
+				if ( !wasSelected && !skipSelection ) {
 					bookmarks = editor.getSelection().createBookmarks();
 				}
 
 				range.setStartBefore( this.wrapper );
 				range.setEndAfter( this.wrapper );
 
-				if ( wasSelected ) {
+				if ( wasSelected && !skipSelection ) {
 					bookmark = range.createBookmark();
 				}
 
@@ -331,7 +332,9 @@
 				// If replaceWith is called in init, because of paste then checkWidgets will not remove it.
 				editor.widgets.destroy( this, true );
 
-				if ( wasSelected ) {
+				if ( skipSelection ) {
+					return;
+				} else if ( wasSelected ) {
 					range.moveToBookmark( bookmark );
 					range.select();
 				} else {
