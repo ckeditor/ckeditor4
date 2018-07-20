@@ -636,11 +636,11 @@
 
 			// Still some elements might have shorthand margins or longhand with zero values.
 			parseShorthandMargins( styles );
-			cleanAndConverTMarginsToPx();
+			cleanAndConvertMarginsToPx();
 
 			return CKEDITOR.tools.writeCssText( styles );
 
-			function cleanAndConverTMarginsToPx() {
+			function cleanAndConvertMarginsToPx() {
 				var keys = [ 'top', 'right', 'bottom', 'left' ];
 				CKEDITOR.tools.array.forEach( keys, function( key ) {
 					key = 'margin-' + key;
