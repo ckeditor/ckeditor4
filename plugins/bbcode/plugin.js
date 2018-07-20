@@ -126,7 +126,7 @@
 						styles = {},
 						optionPart = parts[ 2 ];
 
-					// Special handling of justify tags, these provide the alignment as a tag name (#434).
+					// Special handling of justify tags, these provide the alignment as a tag name (#2248).
 					if ( part == 'left' || part == 'right' || part == 'center' || part == 'justify' ) {
 						optionPart = part;
 					}

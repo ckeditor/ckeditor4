@@ -1,4 +1,4 @@
-@bender-tags: 434, feature, 4.11.0
+@bender-tags: 2248, feature, 4.11.0
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, bbcode, undo, justify, basicstyles, sourcearea, elementspath
 

@@ -43,6 +43,7 @@ bender.test( {
 		this.assertToBBCode( '[list]\n[*]foo\n[*]bar\n[/list]\n', '<ul><li>foo</li><li>bar</li></ul>' );
 	},
 
+	// (#2248)
 	'test HTML to bbcode justify': function() {
 		this.assertToBBCode( '[left]foo[/left]', '<div style="text-align:left">foo</div>' );
 		this.assertToBBCode( '[center]foo[/center]', '<div style="text-align:center">foo</div>' );
@@ -74,6 +75,7 @@ bender.test( {
 		this.assertToHtml( '<ul><li>foo</li><li>bar</li></ul>', '[list]\n[*]foo\n[*]bar\n[/list]\n' );
 	},
 
+	// (#2248)
 	'test bbcode to HTML justify': function() {
 		this.assertToHtml( '<div style="text-align:left;">foo</div>', '[left]foo[/left]' );
 		this.assertToHtml( '<div style="text-align:center;">foo</div>', '[center]foo[/center]' );
