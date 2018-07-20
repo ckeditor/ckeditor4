@@ -220,7 +220,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				function setColor( color ) {
 					var colorStyle = config[ 'colorButton_' + type + 'Style' ];
 					// Clean up any conflicting style within the range.
-					editor.removeStyle( new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ) );
+					editor.removeStyle( new CKEDITOR.style( colorStyle, { color: 'inherit' } ) );
 
 					colorStyle.childRule = type == 'back' ?
 					function( element ) {
