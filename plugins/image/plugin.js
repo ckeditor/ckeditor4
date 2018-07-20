@@ -17,19 +17,18 @@
 		icons: 'image', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-
 			// Abort when Easyimage or Image2 are to be loaded since this plugins
 			// share the same functionality (#1791).
-			var conflictPlugin = editor.plugins.easyimage || editor.plugins.image2;
+			var conflictPlugin = editor.plugins.easyimage || editor.plugins.image2,
+				pluginName = 'image';
+
 			if ( conflictPlugin ) {
 				CKEDITOR.warn( 'editor-plugin-conflict', {
-					plugin: 'image',
+					plugin: pluginName,
 					replacedWith: conflictPlugin.name
 				} );
 				return;
 			}
-
-			var pluginName = 'image';
 
 			// Register the dialog.
 			CKEDITOR.dialog.add( pluginName, this.path + 'dialogs/image.js' );
