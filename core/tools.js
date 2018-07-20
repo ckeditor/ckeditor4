@@ -1419,7 +1419,9 @@
 		 * @since 4.6.0
 		 * @param {Object} lang A language object with the key name translation.
 		 * @param {Number} keystroke The keystroke to convert.
-		 * @returns {{display: String, aria: String}} See {@link #keystrokeToArray}.
+		 * @returns {Object} See {@link #keystrokeToArray}.
+		 * @returns {String} return.display
+		 * @returns {String} return.aria
 		 */
 		keystrokeToString: function( lang, keystroke ) {
 			var ret = this.keystrokeToArray( lang, keystroke );
