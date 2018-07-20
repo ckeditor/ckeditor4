@@ -972,6 +972,7 @@
 			assert.isTrue( spy.calledWith( 'editor-plugin-conflict', { plugin: 'plugin', replacedWith: 'plugin2' } ) );
 		},
 
+		// (#1791)
 		'test detect plugins conflict - without conflicting plugins': function() {
 			var editor = {
 					plugins: {}
