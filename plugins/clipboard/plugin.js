@@ -2935,7 +2935,13 @@
 					nativeDataTransfer.clearData( type );
 				}
 
-				nativeDataTransfer.setData( type, data );
+				// Edge crashes when we try to store empty string as data.
+				// As it doesn't make any sense to set empty data, lets not do it on any browser.
+				// https://github.com/ckeditor/ckeditor-dev/pull/1850#issuecomment-404463434
+				// https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/18336754/
+				if ( data ) {
+					nativeDataTransfer.setData( type, data );
+				}
 
 				if ( isFallbackDataType ) {
 					// If fallback type used, the native data is different so we overwrite `nativeHtmlCache` here.
