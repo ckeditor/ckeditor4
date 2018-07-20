@@ -7,7 +7,7 @@
 
 ## Expected
 
-* Easyimage plugin is loaded.
+* `Easyimage` plugin is loaded.
 * Console warining:
 ``` 
 [CKEDITOR] Error code: editor-plugin-conflict.
@@ -16,5 +16,5 @@
 
 ## Unexpected
 
-* Image2 plugin is loaded.
+* `Image2` plugin is loaded.
 * No or different console warning.
