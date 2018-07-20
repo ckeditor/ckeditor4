@@ -47,6 +47,8 @@ bender.test( {
 		this.assertToBBCode( '[left]foo[/left]', '<div style="text-align:left">foo</div>' );
 		this.assertToBBCode( '[center]foo[/center]', '<div style="text-align:center">foo</div>' );
 		this.assertToBBCode( '[right]foo[/right]', '<div style="text-align:right">foo</div>' );
+		this.assertToBBCode( '[justify]foo[/justify]', '<div style="text-align:justify">foo</div>' );
+		this.assertToBBCode( 'foo', '<div style="text-align:unset">foo</div>' );
 	},
 
 	'test bbcode to HTML': function() {
@@ -73,6 +75,7 @@ bender.test( {
 		this.assertToHtml( '<div style="text-align:left;">foo</div>', '[left]foo[/left]' );
 		this.assertToHtml( '<div style="text-align:center;">foo</div>', '[center]foo[/center]' );
 		this.assertToHtml( '<div style="text-align:right;">foo</div>', '[right]foo[/right]' );
+		this.assertToHtml( '<div style="text-align:justify;">foo</div>', '[justify]foo[/justify]' );
 	},
 
 	// https://dev.ckeditor.com/ticket/8995

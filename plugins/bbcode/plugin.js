@@ -26,10 +26,10 @@
 		}
 	} );
 
-	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
+	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div', justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
 		convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', code: 'code', li: '*' },
 		tagnameMap = { strong: 'b', em: 'i', u: 'u', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link', img: 'img', blockquote: 'quote' },
-		stylesMap = { color: 'color', size: 'font-size', left: 'text-align', center: 'text-align', right: 'text-align' },
+		stylesMap = { color: 'color', size: 'font-size', left: 'text-align', center: 'text-align', right: 'text-align', justify: 'text-align' },
 		attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType' };
 
 	// List of block-like tags.
@@ -126,6 +126,11 @@
 						styles = {},
 						optionPart = parts[ 2 ];
 
+					// Special handling of justify tags, these provide the alignment as a tag name (#434).
+					if ( part == 'left' || part == 'right' || part == 'center' || part == 'justify' ) {
+						optionPart = part;
+					}
+
 					if ( optionPart ) {
 						if ( part == 'list' ) {
 							if ( !isNaN( optionPart ) )
@@ -138,8 +143,9 @@
 
 						if ( stylesMap[ part ] ) {
 							// Font size represents percentage.
-							if ( part == 'size' )
+							if ( part == 'size' ) {
 								optionPart += '%';
+							}
 
 							styles[ stylesMap[ part ] ] = optionPart;
 							attribs.style = serializeStyleText( styles );
@@ -157,12 +163,6 @@
 					// as "span" with an attribute marker.
 					if ( part == 'email' || part == 'img' )
 						attribs.bbcode = part;
-
-					// Special handling of justify tags.
-					if ( part == 'left' || part == 'right' || part == 'center' ) {
-						styles[ stylesMap[ part ] ] = part;
-						attribs.style = serializeStyleText( styles );
-					}
 
 					this.onTagOpen( tagName, attribs, CKEDITOR.dtd.$empty[ tagName ] );
 				}
@@ -672,11 +672,6 @@
 									value = percentValue[ 1 ];
 								}
 							}
-						} else if ( tagName == 'div' ) {
-							if ( ( value = style[ 'text-align' ] ) ) {
-								tagName = value;
-								value = '';
-							}
 						} else if ( tagName == 'ol' || tagName == 'ul' ) {
 							if ( ( value = style[ 'list-style-type' ] ) ) {
 								switch ( value ) {
@@ -738,6 +733,15 @@
 						value && ( element.attributes.option = value );
 
 						return null;
+					},
+
+					div: function( element ) {
+						var alignment = CKEDITOR.tools.parseCssText( element.attributes.style, 1 )[ 'text-align' ] || '';
+
+						if ( alignment ) {
+							element.name = alignment;
+							return null;
+						}
 					},
 
 					// Remove any bogus br from the end of a pseudo block,
