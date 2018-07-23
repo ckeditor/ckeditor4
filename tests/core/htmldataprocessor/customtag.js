@@ -25,6 +25,7 @@
 	};
 
 	bender.test( {
+		// (#988)
 		'test allowed custom tags': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
@@ -40,6 +41,7 @@
 				assert.areEqual( data, editor.getData() );
 			} );
 		},
+		// (#988)
 		'test not allowed custom tags': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
