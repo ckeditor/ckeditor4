@@ -21,4 +21,4 @@ Example: `<objectfoo data-foo"bar">objectfoo</objectfoo>`
 
 ## Unexpected:
 
-Editor source contains only text without any tags.
+Any of tags is missing.
