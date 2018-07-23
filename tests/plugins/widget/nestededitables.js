@@ -1011,7 +1011,19 @@
 				var widget = getWidgetById( editor, 'w1' ),
 					eFoo = widget.editables.foo;
 
-				wait( function() {
+				// If editor still has focus assert on blur, else assert right away.
+				if ( editor.focusManager.hasFocus ) {
+					editor.once( 'blur', function() {
+						resume( function() {
+							assertEditorFocus();
+						} );
+					} );
+					wait();
+				} else {
+					assertEditorFocus();
+				}
+
+				function assertEditorFocus() {
 					assert.isFalse( editor.focusManager.hasFocus, 'editor lost focus' );
 					assert.isFalse( !!widget.focusedEditable, 'editable is not focused' );
 
@@ -1024,7 +1036,7 @@
 
 					assert.areSame( eFoo, widget.focusedEditable, 'editable is focused' );
 					assert.isTrue( editor.focusManager.hasFocus, 'editor has focus' );
-				}, 210 );
+				}
 			} );
 		},
 
