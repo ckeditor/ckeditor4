@@ -2,8 +2,6 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, sourcearea
 
-----
-
 1. Press 'source' button.
 
 ## Expected:
@@ -18,7 +16,7 @@ Editor source contains all of custom tags from list:
 	- bodyfoo
 	- titlefoo
 
-Tags, has \[data-foo="bar"\] attribute, and text matching tag name.
+Tags, has `[data-foo="bar"]` attribute, and text matching tag name.
 Example: `<objectfoo data-foo"bar">objectfoo</objectfoo>`
 
 ## Unexpected:
