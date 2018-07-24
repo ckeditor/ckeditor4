@@ -4043,6 +4043,9 @@
  * * The widget element will be inserted into DOM.
  *
  * @property {Function} insert
+ * @param {Object} options Options object added in **4.11.0**.
+ * @param {CKEDITOR.editor} options.editor Editor where the widget is going to be inserted to.
+ * @param {Object} [options.commandData] Command data passed to the invoking command, if any.
  */
 
 /**
