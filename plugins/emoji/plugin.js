@@ -23,7 +23,7 @@
 		},
 
 		init: function( editor ) {
-
+			var that = this;
 			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
 				emojiPanelLimit = editor.config.emoji_emojiPanelLimit || 30,
 				defaultEmoji = editor.config.emoji_defaults,
@@ -128,7 +128,7 @@
 
 				onBlock: function( panel, block ) {
 					block.element.addClass( 'cke_emoji_panel_block' );
-					block.element.setHtml( getEmojiBlock() );
+					block.element.setHtml( createEmojiBlock() );
 					panel.element.addClass( 'cke_emoji_panel' );
 				}
 
@@ -204,10 +204,13 @@
 				return output.join( '' );
 			}
 
-			function getEmojiBlock() {
+			function createEmojiBlock() {
 				var output = [];
+
+				output.push( createGroupsNavigation() );
+
 				// Search Box:
-				output.push( '<input placeholder="', lang.searchPlaceholder, '" type="search" oninput="CKEDITOR.tools.callFunction(', filterFn ,',this)">' );
+				output.push( createSearchSection() );
 				// Result box:
 
 				output.push( '<h2>', getSearchTitle( '' ), '</h2>' );
@@ -217,6 +220,44 @@
 				output.push( '</ul></div>' );
 
 				return '<div class="cke_emoji_inner_panel">' + output.join( '' ) + '</div>';
+			}
+
+			function createGroupsNavigation() {
+				var groupNames = [
+					{ name: 'Used', viewBox: '0 0 50 50' },
+					{ name: 'People', viewBox: '0 0 0 0' },
+					{ name: 'Nature', viewBox: '0 0 0 0' },
+					{ name: 'Food', viewBox: '0 0 0 0' },
+					{ name: 'Travel', viewBox: '0 0 0 0' },
+					{ name: 'Activities', viewBox: '0 0 0 0' },
+					{ name: 'Objects', viewBox: '0 0 0 0' },
+					{ name: 'Symbols', viewBox: '0 0 0 0' },
+					{ name: 'Flags', viewBox: '0 0 0 0' }
+				];
+				var svgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.svg' );
+				var itemTemplate = new CKEDITOR.template( '<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href={href}><svg viewBox="{viewBox}"> <use xlink:href="' + svgUrl + '{href}"></use></svg></a></li>' );
+
+				var items = CKEDITOR.tools.array.reduce( groupNames, function( acc, item ) {
+					return acc + itemTemplate.output( {
+						group: item.name,
+						href: '#' + item.name.toLowerCase(),
+						viewBox: item.viewBox
+					} );
+				}, '' );
+
+				return '<nav><ul>' + items + '</ul></nav>';
+			}
+
+			function createSearchSection() {
+				return '<input placeholder="' + lang.searchPlaceholder + '" type="search" oninput="CKEDITOR.tools.callFunction(' + filterFn + ',this)">';
+			}
+
+			function createMainBlock() {
+				return '';
+			}
+
+			function createStatusBar() {
+				return '';
 			}
 
 		}
