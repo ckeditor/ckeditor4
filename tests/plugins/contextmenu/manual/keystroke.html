@@ -1,37 +1,83 @@
 <H1> Left to right editors:</H1>
-<textarea id="editor1">
+<textarea id="classic-ltr">
 	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag</p>
 	<p>na aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons</p>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>Head</th>
+				<th>Head</th>
+				<th>Head</th>
+				<th>Head</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+		</tbody>
+	</table>
 </textarea>
 
 <div>
-	<div id="editor2" contenteditable="true">
+	<div id="inline-ltr" contenteditable="true">
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag</p>
 		<p>na aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons</p>
 	</div>
 </div>
 <H1> Right to left editors:</H1>
-<textarea id="editor3">
+<textarea id="classic-rtl">
 	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag</p>
 	<p>na aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons</p>
+		<table border="1">
+		<thead>
+			<tr>
+				<th>Head</th>
+				<th>Head</th>
+				<th>Head</th>
+				<th>Head</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+			<tr>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+				<td>Cell</td>
+			</tr>
+		</tbody>
+	</table>
 </textarea>
 
 <div>
-	<div id="editor4" contenteditable="true">
+	<div id="inline-rtl" contenteditable="true">
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag</p>
 		<p>na aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons</p>
 	</div>
 </div>
 <script>
-	CKEDITOR.replace( 'editor1', {
-		height: 100
+	CKEDITOR.replace( 'classic-ltr', {
 	} );
-	CKEDITOR.inline( 'editor2' );
-	CKEDITOR.replace( 'editor3', {
-		height: 100,
+	CKEDITOR.inline( 'inline-ltr' );
+	CKEDITOR.replace( 'classic-rtl', {
 		language: 'he'
 	} );
-	CKEDITOR.inline( 'editor4', {
+	CKEDITOR.inline( 'inline-rtl', {
 		language: 'he'
 	} );
 </script>
