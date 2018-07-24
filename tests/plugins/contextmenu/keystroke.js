@@ -33,14 +33,14 @@
 
 			editor.once( 'panelShow', function( evt ) {
 				setTimeout( function() {
-					resume();
+					resume( function() {
+						var element = evt.data.element,
+							elementRect = element.getClientRect( true );
 
-					var element = evt.data.element,
-						elementRect = element.getClientRect( true );
-
-					// Edge and IE have values differing by small factor, letls ignore that, because it's not important for context menu positioning.
-					assert.isNumberInRange( elementRect.left, selectionRect.right - 0.1, selectionRect.left + 0.1  );
-					assert.isNumberInRange( elementRect.top, selectionRect.bottom - 0.1, selectionRect.bottom + 0.1 );
+						// Edge and IE have values differing by small factor, letls ignore that, because it's not important for context menu positioning.
+						assert.isNumberInRange( elementRect.left, selectionRect.right - 0.1, selectionRect.left + 0.1 );
+						assert.isNumberInRange( elementRect.top, selectionRect.bottom - 0.1, selectionRect.bottom + 0.1 );
+					} );
 				} );
 			} );
 
