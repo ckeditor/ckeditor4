@@ -5,6 +5,7 @@
 	'use strict';
 
 	bender.test( {
+		// (#https://dev.ckeditor.com/ticket/14613)
 		'test destroy editor on instance created': function() {
 			var init = sinon.spy(),
 				editor;
@@ -14,6 +15,7 @@
 			} );
 
 			CKEDITOR.tools.setTimeout( function() {
+				// Seemingly redundant resume here, to make sure we catch exceptions occurred in destroy().
 				resume( function() {
 					editor.destroy();
 
