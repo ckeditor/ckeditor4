@@ -15,7 +15,7 @@
 	};
 
 	var tests = {
-		'Opening context menu with keystroke': function( editor ) {
+		'test opening context menu with keystroke': function( editor ) {
 			// Test is unstable on Firefox, because context menu is showing asynchronously and in Firefox its after 'contextMenu' event.
 			// Adding longer timeout like 200ms still doesn't guarantee that test will pass on Firefox.
 			if ( CKEDITOR.env.gecko ) {
