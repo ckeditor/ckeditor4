@@ -79,7 +79,7 @@
 			assert.areSame( 2, ranges.length, 'Range count' );
 			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( contentCells.getItem( 1 ) ), 'Range[ 0 ] encloses correct element' );
 			assert.isTrue( ranges[ 1 ].getEnclosedNode().equals( contentCells.getItem( 4 ) ), 'Range[ 1 ] encloses correct element' );
-			assert.areSame( 1,  editor.getSelection().isFake, 'Selection remains faked' );
+			assert.areSame( 1, editor.getSelection().isFake, 'Selection remains faked' );
 		},
 
 		'test simulating merge cells from context menu ': function( editor ) {
@@ -144,6 +144,42 @@
 
 			mockMouseSelection( editor, [ cells.getItem( 1 ), cells.getItem( 3 ), cells.getItem( 8 ) ], function() {
 				assert.pass();
+			} );
+		},
+
+		// (#2003)
+		'test': function( editor, bot ) {
+			if ( !CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+			bot.setData( CKEDITOR.document.getById( 'emptyParagraph' ).getHtml(), function() {
+				var cells = editor.editable().find( 'td' ).toArray(),
+					ranges = CKEDITOR.tools.array.map( cells, function( cell ) {
+						var range = editor.createRange(),
+							row = cell.getParent(),
+							index = cell.getIndex();
+
+						range.setStart( row, index );
+						range.setEnd( row, index + 1 );
+
+						return range;
+					} ),
+					paragraph = cells[ 0 ].findOne( 'p' ),
+					selection = editor.getSelection();
+
+				selection.selectRanges( ranges );
+				ranges = selection.getRanges();
+
+				editor.editable().fire( 'mouseup', {
+					getTarget: function() {
+						return paragraph;
+					},
+					$: {
+						button: 2
+					}
+				} );
+
+				assert.areSame( ranges, editor.getSelection().getRanges(), 'Selected ranges should be unchanged' );
 			} );
 		}
 	};
