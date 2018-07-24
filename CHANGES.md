@@ -13,6 +13,7 @@ New Features:
 API Changes:
 
 * [#2224](https://github.com/ckeditor/ckeditor-dev/issues/2224):  The [`CKEDITOR.tools.convertToPx`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-convertToPx) function now converts negative values.
+* [#2253](https://github.com/ckeditor/ckeditor-dev/issues/2253): The widget definition [`insert`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget.definition-property-insert) method now passes `editor` and `commandData`.
 
 ## CKEditor 4.10
 
