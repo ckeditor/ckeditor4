@@ -1902,15 +1902,17 @@
 		editor.addCommand( widgetDef.name, {
 			exec: function( editor, commandData ) {
 				var focused = editor.widgets.focused;
-				// If a widget of the same type is focused, start editing.
-				if ( focused && focused.name == widgetDef.name )
+				if ( focused && focused.name == widgetDef.name ) {
+					// If a widget of the same type is focused, start editing.
 					focused.edit();
-				// Otherwise...
-				// ... use insert method is was defined.
-				else if ( widgetDef.insert )
-					widgetDef.insert( editor );
-				// ... or create a brand-new widget from template.
-				else if ( widgetDef.template ) {
+				} else if ( widgetDef.insert ) {
+					// ... use insert method is was defined.
+					widgetDef.insert( {
+						editor: editor,
+						commandData: commandData
+					} );
+				} else if ( widgetDef.template ) {
+					// ... or create a brand-new widget from template.
 					var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
 						element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
 						instance,
