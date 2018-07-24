@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: bug, 4.10.0, 2003
+@bender-tags: bug, 4.10.1, 2003
 @bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection
 
 # Test steps:
