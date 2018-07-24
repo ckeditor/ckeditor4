@@ -4,6 +4,7 @@
 bender.editor = {};
 
 bender.test( {
+	// (#898)
 	'test image long alt visible in editor': function() {
 		var bot = this.editorBot,
 			editor = bot.editor;
