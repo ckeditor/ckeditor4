@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fr', {
 	paste: 'Coller',
 	pasteNotification: 'Utilisez le raccourci %1 pour coller. Votre navigateur n\'accepte pas de coller à l\'aide du bouton ou du menu contextuel.',
 	pasteArea: 'Coller la zone',
-	pasteMsg: 'Collez votre contenu dans la zone de saisie ci-dessous et cliquez OK.',
-	title: 'Coller'
+	pasteMsg: 'Collez votre contenu dans la zone de saisie ci-dessous et cliquez OK.'
 } );

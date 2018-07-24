@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'gl', {
 	paste: 'Pegar',
 	pasteNotification: 'Prema %1 para pegar. O seu navegador non admite pegar co botón da barra de ferramentas ou coa opción do menú contextual.',
 	pasteArea: 'Zona de pegado',
-	pasteMsg: 'Pegue o contido dentro da área de abaixo e prema Aceptar.',
-	title: 'Pegar'
+	pasteMsg: 'Pegue o contido dentro da área de abaixo e prema Aceptar.'
 } );

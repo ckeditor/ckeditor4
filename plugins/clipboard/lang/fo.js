@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fo', {
 	paste: 'Innrita',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Avritingarumráði',
-	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
-	title: 'Innrita'
+	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
 } );

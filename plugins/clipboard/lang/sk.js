@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sk', {
 	paste: 'Vložiť',
 	pasteNotification: 'Stlačte %1 na vloženie. Váš prehliadač nepodporuje vloženie prostredníctvom tlačidla v nástrojovej lište alebo voľby v kontextovom menu.',
 	pasteArea: 'Miesto pre vloženie',
-	pasteMsg: 'Vložte svoj obsah do nasledujúcej oblasti a stlačte OK.',
-	title: 'Vložiť'
+	pasteMsg: 'Vložte svoj obsah do nasledujúcej oblasti a stlačte OK.'
 } );

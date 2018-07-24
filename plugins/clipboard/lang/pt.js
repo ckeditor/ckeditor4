@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pt', {
 	paste: 'Colar',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Colar área',
-	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
-	title: 'Colar'
+	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
 } );
