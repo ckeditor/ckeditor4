@@ -154,7 +154,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 				rect = rects[ rects.length - 1 ];
 
 				if ( rect ) {
-					offsetX = rect.right;
+					offsetX = rect[ editor.lang.dir === 'rtl' ? 'left' : 'right' ];
 					offsetY = rect.bottom;
 				}
 
