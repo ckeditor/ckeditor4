@@ -13,8 +13,15 @@ bender.test( {
 
 			editor.widgets.instances[0].focus();
 			altContainer = editor.editable().findOne( '[data-cke-hidden-sel]' );
-			assert.areEqual( '0px', altContainer.getStyle( 'height' ) );
-			assert.areEqual( '0px', altContainer.getStyle( 'width' ) );
+
+			// On IE and Edge < 14 element should have `display:none`.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 14 ) {
+				assert.areEqual( 'none', altContainer.getStyle( 'display' ) );
+			} else {
+				// Other browers should have 0 with and 0 height.
+				assert.areEqual( '0px', altContainer.getStyle( 'height' ) );
+				assert.areEqual( '0px', altContainer.getStyle( 'width' ) );
+			}
 		} );
 	}
 } );
