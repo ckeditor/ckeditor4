@@ -114,37 +114,37 @@
 				// Position acts as if the editor viewport was at position x: 0, 305.
 				var rect = { height: 15, width: 25, left: 390, bottom: 454.34375, right: 415, top: 439.34375 };
 
-				this.assertBalloonPanelPosition( rect, 180, 346.84375 );
+				this.testBalloonPanelPosition( rect, 180, 346.84375 );
 			},
 
 			'test classic - out of view - bottom center': function() {
 				// Position acts as if the editor viewport was at position x: 260, 0.
 				var rect = { height: 15, width: 25, left: 130, bottom: 759.34375, right: 155, top: 744.34375 };
-				this.assertBalloonPanelPosition( rect, 92.5, 422 );
+				this.testBalloonPanelPosition( rect, 92.5, 422 );
 			},
 
 			'test classic - out of view - left vcenter': function() {
 				// Position acts as if the editor viewport was at position x: 420, 260.
 				var rect = { height: 15, width: 25, left: -30, bottom: 499.34375, right: -5, top: 484.34375 };
-				this.assertBalloonPanelPosition( rect, 21, 391.84375 );
+				this.testBalloonPanelPosition( rect, 21, 391.84375 );
 			},
 
 			'test classic - out of view - hcenter top': function() {
 				// Position acts as if the editor viewport was at position x: 260, 500.
 				var rect = { height: 15, width: 25, left: 130, bottom: 267.34375, right: 155, top: 252.3475 };
-				this.assertBalloonPanelPosition( rect, 92.5, 363 );
+				this.testBalloonPanelPosition( rect, 92.5, 363 );
 			},
 
 			'test classic - inside viewport - left top': function() {
 				// Position acts as if the editor viewport was at position x: 388, 400.
 				var rect = { height: 15, width: 25, left: 2, bottom: 359.34375, right: 27, top: 344.34375 };
-				this.assertBalloonPanelPosition( rect, -25.5, 379.34375 );
+				this.testBalloonPanelPosition( rect, -25.5, 379.34375 );
 			},
 
 			'test classic - inside viewport - right bottom': function() {
 				// Position acts as if the editor viewport was at position x: 114, 101.
 				var rect = { height: 15, width: 25, left: 276, bottom: 658.34375, right: 301, top: 643.34375 };
-				this.assertBalloonPanelPosition( rect, 228.5, 422 );
+				this.testBalloonPanelPosition( rect, 228.5, 422 );
 			},
 
 			createSelectionForTests: function( rect ) {
@@ -160,7 +160,7 @@
 				return selection;
 			},
 
-			assertBalloonPanelPosition: function( rect, expectedX, expectedY ) {
+			testBalloonPanelPosition: function( rect, expectedX, expectedY ) {
 				var moveSpy = spy( this.balloon, 'move' ),
 					selection = this.createSelectionForTests( rect );
 
