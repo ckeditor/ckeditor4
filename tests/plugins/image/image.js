@@ -335,6 +335,46 @@
 			} );
 		},
 
+		// (#2254)
+		'test lock ratio status after image resize': function() {
+			var image = imgs[ 1 ];
+			bender.editorBot.create( {
+				name: 'editor_lockratio'
+			},
+				function( bot ) {
+					bot.dialog( 'image', function( dialog ) {
+						// Load image at the first time.
+						loadImage( function() {
+							// Load image and change its size.
+							loadImage( function() {
+								dialog.getContentElement( 'info', 'txtWidth' ).setValue( getFixedImageSize( 'width' ) );
+								dialog.getContentElement( 'info', 'txtHeight' ).setValue( getFixedImageSize( 'height' ) );
+
+								// Run asynchronously so switch lock ratio will have time to update its status.
+								setTimeout( function() {
+									resume( function() {
+										assert.isTrue( dialog.lockRatio );
+									} );
+								} );
+
+							} );
+						} );
+
+						wait();
+
+						function loadImage( callback ) {
+							dialog.originalElement.once( 'load', callback );
+							dialog.getContentElement( 'info', 'txtUrl' ).setValue( image.url );
+						}
+
+						function getFixedImageSize( prop ) {
+							return Math.round( Number( image[ prop ] ) / 3.6 );
+						}
+
+					} );
+				} );
+		},
+
 		/**
 		 * https://dev.ckeditor.com/ticket/12126
 		 *
