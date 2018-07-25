@@ -118,26 +118,23 @@
 								height = dialog.getValueOf( 'info', 'txtHeight' ),
 								originalRatio = oImageOriginal.$.width / oImageOriginal.$.height,
 								thisRatio = width / height;
+
 							dialog.lockRatio = false; // Default: unlock ratio
 
-							if ( !width && !height )
+							if ( !width && !height ) {
 								dialog.lockRatio = true;
-							else if ( !isNaN( originalRatio ) && !isNaN( thisRatio ) ) {
-								var ratioComparison = originalRatio / thisRatio;
+							} else {
+								// Round ratio to two decimal places so ratio locking will be more precise (#2254).
+								var ratioComparison = Math.round( ( originalRatio / thisRatio ) * 100 ) / 100;
 
-								// Ensure that we have the larger ratio value divided by the smaller ratio value, to simplify
-								// testing for the desired tolerance.
-								if ( ratioComparison < 1.0 )
-									ratioComparison = 1.0 / ratioComparison;
-
-								// Check that the ratios are within 2% of one another.
-								if ( ratioComparison < 1.02 )
+								if ( ratioComparison == 1 ) {
 									dialog.lockRatio = true;
+								}
 							}
 						}
-					} else if ( value !== undefined )
+					} else if ( value !== undefined ) {
 						dialog.lockRatio = value;
-					else {
+					} else {
 						dialog.userlockRatio = 1;
 						dialog.lockRatio = !dialog.lockRatio;
 					}
