@@ -5,7 +5,7 @@
 	'use strict';
 
 	bender.test( {
-		// (#https://dev.ckeditor.com/ticket/14613)
+		// (#2257)
 		'test destroy editor on instance created': function() {
 			var init = sinon.spy(),
 				editor;
@@ -15,15 +15,17 @@
 			} );
 
 			CKEDITOR.tools.setTimeout( function() {
-				// Seemingly redundant resume here, to make sure we catch exceptions occurred in destroy().
 				resume( function() {
-					editor.destroy();
+					editor.on( 'destroy', function() {
+						// Seemingly redundant resume here, as the plugins are also loaded in a timeout launched during editor creation.
+						setTimeout( function() {
+							resume( function() {
+								assert.isFalse( init.called, 'plugin init called when editor already destroyed' );
+							} );
+						}, 150 );
+					} );
 
-					setTimeout( function() {
-						resume( function() {
-							assert.isFalse( init.called, 'plugin init called when editor already destroyed' );
-						} );
-					}, 100 );
+					editor.destroy();
 
 					wait();
 
@@ -31,7 +33,7 @@
 			}, 0 );
 
 			editor = CKEDITOR.replace( 'destroyed', {
-				extraPlugins: 'test'
+				plugins: 'test'
 			} );
 
 			wait();
