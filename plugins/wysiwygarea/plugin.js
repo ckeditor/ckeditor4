@@ -124,7 +124,7 @@
 			doc = win.document,
 			body = doc.body;
 
-		// Check if editor had been destroyed (https://dev.ckeditor.com/ticket/14613).
+		// Check if editor had been destroyed (#2257).
 		if ( !editor ) {
 			return;
 		}
