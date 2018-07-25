@@ -11,6 +11,7 @@ Fixed Issues:
 * [#2167](https://github.com/ckeditor/ckeditor-dev/issues/2167): Fixed: Matching in [Emoji](https://ckeditor.com/cke4/addon/emoji) plugin is not case insensitive.
 * [#1084](https://github.com/ckeditor/ckeditor-dev/issues/1084) Fixed: Using the "Automatic" option with [Color Button](https://ckeditor.com/cke4/addon/colorbutton) on a text with color already defined sets an invalid color value.
 * [#966](https://github.com/ckeditor/ckeditor-dev/issues/966): Fixed: Executing [`editor.destroy()`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#destroy) during [file upload](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_fileTools_uploadWidgetDefinition.html#onUploading) throws error. Thanks to [Maksim Makarevich](https://github.com/MaksimMakarevich)!
+* [#2254](https://github.com/ckeditor/ckeditor-dev/issues/2254): Fixed: [Image](https://ckeditor.com/cke4/addon/image) ratio locking is too precise for resized images. Thanks to [Jonathan Gilbert](https://github.com/logiclrd)!
 
 ## CKEditor 4.10
 
