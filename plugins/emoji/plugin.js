@@ -235,7 +235,7 @@
 					{ name: 'Flags', viewBox: '0 0 0 0' }
 				];
 				var svgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.svg' );
-				var itemTemplate = new CKEDITOR.template( '<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href={href}><svg viewBox="{viewBox}"> <use xlink:href="' + svgUrl + '{href}"></use></svg></a></li>' );
+				var itemTemplate = new CKEDITOR.template( '<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href={href}><svg viewBox="0 0 34 34"> <use xlink:href="' + svgUrl + '{href}"></use></svg></a></li>' );
 
 				var items = CKEDITOR.tools.array.reduce( groupNames, function( acc, item ) {
 					return acc + itemTemplate.output( {
