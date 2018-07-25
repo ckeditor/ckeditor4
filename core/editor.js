@@ -604,7 +604,6 @@
 
 			// Load all plugin specific language files in a row.
 			CKEDITOR.scriptLoader.load( languageFiles, function() {
-
 				// Ensure the editor had not been destroyed in the meantime (#2257).
 				if ( editor.status === 'destroyed' ) {
 					return;
