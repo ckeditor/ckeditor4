@@ -344,6 +344,8 @@
 				function( bot ) {
 					bot.dialog( 'image', function( dialog ) {
 						// Load image at the first time.
+						// Lock ratio swich is triggered for each `load` image event.
+						// This event is triggered every time when images src is changed.
 						loadImage( function() {
 							// Load image and change its size.
 							loadImage( function() {
