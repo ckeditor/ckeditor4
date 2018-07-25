@@ -166,11 +166,13 @@
 
 				this.markerElement.getClientRect = sinon.stub().returns( rect );
 
+				// Assert balloon panel attached to an element.
 				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
 				balloonTestsTools.assertMoveTo( moveSpy, expectedX, expectedY );
 
 				moveSpy.restore();
 
+				// Assert baloon panel attached to a selection.
 				balloonTestsTools.attachBalloon( this.balloon, selection );
 				balloonTestsTools.assertMoveTo( moveSpy, expectedX, expectedY );
 
