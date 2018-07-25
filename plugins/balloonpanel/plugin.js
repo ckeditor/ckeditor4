@@ -366,8 +366,8 @@
 			return function( element, options ) {
 				if ( element instanceof CKEDITOR.dom.selection ) {
 					var ranges = element.getRanges(),
-						rectList = ranges[ 0 ].getClientRects( true ),
-						rect = rectList[ rectList.length - 1 ];
+						rectList = ranges[ ranges.length - 1 ].getClientRects( true ),
+						rect = rectList.pop();
 				}
 
 				if ( options instanceof CKEDITOR.dom.element || !options ) {
