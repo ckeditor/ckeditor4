@@ -1,7 +1,7 @@
 <textarea id="editor_classic" cols="10" rows="10">
 	<p>Apollo 11</p>
 	<p>Apollo 11 <strong>was</strong> the spaceflight that landed the first humans, Americans Neil Armstrong and Buzz Aldrin, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
-	<p>Armstrong spent about three and a half two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5 kg) of lunar material for return to Earth. A third member of the mission, Michael Collins, piloted the command spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+	<p>Armstrong spent about three [[and]] a half two and a half [[hours]] outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5 kg) of lunar material for return to Earth. A third member of the [[mission]], Michael Collins, piloted the command spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
 	<table border="1">
 		<thead>
 			<tr>
@@ -31,9 +31,9 @@
 </textarea>
 
 <textarea id="editor_inline" cols="10" rows="10">
-		<p>Apollo 11</p>
+	<p>Apollo 11</p>
 	<p>Apollo 11 <strong>was</strong> the spaceflight that landed the first humans, Americans Neil Armstrong and Buzz Aldrin, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
-	<p>Armstrong <span>spent</span> about three and a half two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5 kg) of lunar material for return to Earth. A third member of the mission, Michael Collins, piloted the command spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+	<p>Armstrong spent about three [[and]] a half two and a half [[hours]] outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5 kg) of lunar material for return to Earth. A third member of the [[mission]], Michael Collins, piloted the command spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
 		<table border="1">
 		<thead>
 			<tr>
@@ -89,6 +89,10 @@
 			setTimeout( function() {
 				var selection = editor.getSelection(),
 					text = selection.getSelectedText();
+
+				if ( text === null ) {
+					text = selection.getSelectedElement().getText();
+				}
 
 				fillPanel( panel, text );
 				panel.attach( selection, { focusElement: false } );
