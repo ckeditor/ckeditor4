@@ -13,8 +13,8 @@
 	extraAllowedContent = '';
 
 	CKEDITOR.tools.array.forEach( elements, function( item ) {
-		var customTag = item;
-		extraAllowedContent += customTag + '[*]{*}(*);' + customTag + 'foo' + '[*]{*}(*);';
+		var customTag = item + 'foo';
+		extraAllowedContent += customTag + '[*]{*}(*);';
 	} );
 
 	bender.editor = {
@@ -52,23 +52,6 @@
 					'<titlebar data-bar="foo">titlebar</titlebar>',
 
 			expected: 'objectbarembedbarparambarhtmlbarheadbarbodybartitlebar'
-		} ),
-
-		// (#988)
-		'test protected element names': assertHtmlDataProcessor( {
-			data: '<object data-bar="foo">object</object>' +
-				'<embed data-bar="foo"></embed>' +
-				'<param data-bar="foo"/>' +
-				'<html data-bar="foo">html</html>' +
-				'<head data-bar="foo">head</head>' +
-				'<body data-bar="foo">body</body>' +
-				'<title data-bar="foo">title</title>',
-
-			expected: '<object data-bar="foo">object</object>' +
-				'<embed data-bar="foo"></embed>' +
-				'<param data-bar="foo" />' +
-				'htmlheadbody' +
-				'<title data-bar="foo"></title>'
 		} )
 	} );
 
