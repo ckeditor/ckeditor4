@@ -113,7 +113,6 @@
 				// +-------------------------+
 				// Position acts as if the editor viewport was at position x: 0, 305.
 				var rect = { height: 15, width: 25, left: 390, bottom: 454.34375, right: 415, top: 439.34375 };
-
 				this._testBalloonPanelPosition( rect, 180, 346.84375 );
 			},
 
