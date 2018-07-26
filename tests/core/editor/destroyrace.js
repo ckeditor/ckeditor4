@@ -20,7 +20,7 @@
 						// Another  timeout as the plugins are also loaded in a timeout launched during editor creation.
 						setTimeout( function() {
 							resume( function() {
-								assert.isFalse( init.called, 'plugin init called when editor already destroyed' );
+								assert.isFalse( init.called, 'Plugin init called when editor already destroyed' );
 							} );
 						}, 150 );
 					} );
