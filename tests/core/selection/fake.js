@@ -1097,5 +1097,4 @@ bender.test( {
 			assert.areEqual( '<p>[[placeholder]]</p>', editor.getData() );
 		} );
 	}
-
 } );
