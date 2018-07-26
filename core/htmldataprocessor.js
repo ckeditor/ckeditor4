@@ -799,7 +799,7 @@
 		protectTextareaRegex = /(<textarea(?=[ >])[^>]*>)([\s\S]*?)(?:<\/textarea>)/gi,
 		encodedElementsRegex = /<cke:encoded>([^<]*)<\/cke:encoded>/gi;
 
-		// Element name should be followed by space or closing angle bracket '>' to not filter custom tags (#988).
+		// Element name should be followed by space or closing angle bracket '>' to not protect custom tags (#988).
 	var protectElementNamesRegex = /(<\/?)((?:object|embed|param|html|body|head|title)([\s][^>]*)?>)/gi,
 		unprotectElementNamesRegex = /(<\/?)cke:((?:html|body|head|title)[^>]*>)/gi;
 
