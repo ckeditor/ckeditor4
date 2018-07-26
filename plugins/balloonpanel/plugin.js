@@ -787,7 +787,7 @@
 		 * @param elementRect
 		 * @param {Number} panelWidth
 		 * @param {Number} panelHeight
-		 * @param {String/Array} [requestedAlignments] Since 4.10.1 list of alignments to be returned
+		 * @param {String/Array} [requestedAlignments] Since 4.11.0 list of alignments to be returned
 		 * @returns {Object}
 		 */
 		_getAlignments: function( elementRect, panelWidth, panelHeight, requestedAlignments ) {
