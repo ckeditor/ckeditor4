@@ -183,7 +183,7 @@
 				//           | panel |
 				//           +-------+
 				//               V
-				//     <[ rect ] [ rect ]>
+				//     <[  rect ] [  rect ]>
 				//
 				// '<' - represents beginning of range, and '>' represents end of range.
 				var rects = [
