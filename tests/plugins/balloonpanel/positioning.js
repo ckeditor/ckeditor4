@@ -78,7 +78,7 @@
 				window.scrollTo( 0, 0 );
 
 				if ( !this._getFrameMethodReplaced ) {
-					// The problem is also window.getFrame().getClientRect() as it retursn different results from dashboard and directly.
+					// The problem is also window.getFrame().getClientRect() as it returns different results from dashboard and directly.
 					this._getFrameMethodReplaced = true;
 					var orig = this.editor.window.getFrame;
 
@@ -102,7 +102,7 @@
 			},
 
 			'test classic - out of view - right - attached to an element': function() {
-				// Check balloon position if the elemnt outside of right border of the editor.
+				// Check balloon position if the element outside of right border of the editor.
 				//
 				// +-------------------------+
 				// |                         |
