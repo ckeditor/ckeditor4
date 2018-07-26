@@ -26,23 +26,20 @@
 
 	bender.test( {
 		// (#988)
-		'test allowed custom tags': assertHtmlDataProcessor( {
-			data: '<objectfoo data-foo="bar">objectfoo</objectfoo>' +
+		'test allowed custom tags': ( function() {
+			var data = '<objectfoo data-foo="bar">objectfoo</objectfoo>' +
 				'<embedfoo data-foo="bar">embedfoo</embedfoo>' +
 				'<paramfoo data-foo="bar">paramfoo</paramfoo>' +
 				'<htmlfoo data-foo="bar">htmlfoo</htmlfoo>' +
 				'<headfoo data-foo="bar">headfoo</headfoo>' +
 				'<bodyfoo data-foo="bar">bodyfoo</bodyfoo>' +
-				'<titlefoo data-foo="bar">titlefoo</titlefoo>',
+				'<titlefoo data-foo="bar">titlefoo</titlefoo>';
 
-			expected: '<objectfoo data-foo="bar">objectfoo</objectfoo>' +
-				'<embedfoo data-foo="bar">embedfoo</embedfoo>' +
-				'<paramfoo data-foo="bar">paramfoo</paramfoo>' +
-				'<htmlfoo data-foo="bar">htmlfoo</htmlfoo>' +
-				'<headfoo data-foo="bar">headfoo</headfoo>' +
-				'<bodyfoo data-foo="bar">bodyfoo</bodyfoo>' +
-				'<titlefoo data-foo="bar">titlefoo</titlefoo>'
-		} ),
+			return assertHtmlDataProcessor( {
+				data: data,
+				expected: data
+			} );
+		} )(),
 
 		// (#988)
 		'test not allowed custom tags': assertHtmlDataProcessor( {
