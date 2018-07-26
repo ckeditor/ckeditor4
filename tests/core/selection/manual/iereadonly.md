@@ -5,6 +5,7 @@
 1. Open console.
 1. Select whole editor content.
 1. Press `ctrl`.
+1. Repeat 1-2 with `delete` key.
 
 ## Expected
 

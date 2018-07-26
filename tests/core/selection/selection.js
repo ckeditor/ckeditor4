@@ -1,4 +1,5 @@
 /* bender-tags: editor */
+/* bender-ckeditor-plugins: placeholder */
 /* global testSelection, testSelectedElement, testSelectedText, testStartElement, rangy, doc, makeSelection,
 	convertRange, checkRangeEqual, checkSelection, assertSelectionsAreEqual, tools */
 
@@ -785,5 +786,57 @@ bender.test( {
 		bender.tools.setHtmlWithSelection( editor, '<p>T^es^t</p>' );
 
 		assert.isFalse( editor.getSelection().isCollapsed() );
+	},
+
+	// (#1632)
+	'test keys with readonly editor': function() {
+
+		// Test has been ignored for IE due to #1575 issue. Remove this ignore statement after the issue fix.
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor;
+
+		editor.setReadOnly( true );
+
+		this.editorBot.setData( '<p>[[placeholder]]</p>', function() {
+			var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ],
+				spy = sinon.spy( CKEDITOR.dom.selection.prototype, 'selectElement' ),
+				editable = editor.editable();
+
+			widget.focus();
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL } ) );
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) ); // DELETE
+
+			spy.restore();
+			assert.isFalse( spy.called );
+		} );
+	},
+
+	// (#1632)
+	'test keys with readonly mode are not prevented': function() {
+
+		// Test has been ignored for IE due to #1575 issue. Remove this ignore statement after the issue fix.
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor;
+
+		editor.setReadOnly( true );
+
+		this.editorBot.setData( '<p>[[placeholder]]</p>', function() {
+			var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ],
+				event = new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL } ),
+				eventSpy = sinon.spy( event, 'preventDefault' );
+
+			widget.focus();
+
+			editor.editable().fire( 'keydown', event );
+
+			assert.isFalse( eventSpy.called );
+		} );
 	}
 } );
