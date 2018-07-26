@@ -372,7 +372,7 @@
 				alignedRects = getAlignedRects( rectList );
 				last = createLineRect( alignedRects[ 0 ], alignedRects.pop() );
 
-				// Make height of both rects equal to height of whole selection, so panel won't covet selection unless it needs to.
+				// Make height of both rects equal to height of whole selection, so panel won't cover selection unless it needs to.
 				first.bottom = last.bottom;
 				first.height = first.bottom - first.top;
 				if ( last.y ) {
