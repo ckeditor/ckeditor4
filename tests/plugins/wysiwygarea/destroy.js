@@ -14,22 +14,23 @@
 				init: init
 			} );
 
-			// Note that resumes under the hood causes yet another setTimeout(). If it was wrapped with other timeout (for readability)
-			// it failed on IE8, due to yet another race condition.
-			resume( function() {
-				editor.on( 'destroy', function() {
-					// Seemingly redundant timeout here, as the plugins are also loaded in a timeout launched during editor creation.
-					setTimeout( function() {
-						resume( function() {
-							assert.isFalse( init.called, 'plugin init called when editor already destroyed' );
-						} );
-					}, 150 );
+			CKEDITOR.tools.setTimeout( function() {
+				resume( function() {
+					editor.on( 'destroy', function() {
+						// Another  timeout as the plugins are also loaded in a timeout launched during editor creation.
+						setTimeout( function() {
+							resume( function() {
+								assert.isFalse( init.called, 'plugin init called when editor already destroyed' );
+							} );
+						}, 150 );
+					} );
+
+					editor.destroy();
+
+					wait();
+
 				} );
-
-				editor.destroy();
-
-				wait();
-			} );
+			}, 0 );
 
 			editor = CKEDITOR.replace( 'destroyed', {
 				plugins: 'test'
