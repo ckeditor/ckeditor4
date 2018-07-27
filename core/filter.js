@@ -686,11 +686,22 @@
 		 *
 		 * Second `check()` call returned `false` because `src` is required.
 		 *
+		 * When an array of rules is passed as the `test` argument the filter
+		 * returns `true` if at least one of passed rules is allowed.
+		 *
+		 * For example:
+		 *
+		 * ```javascript
+		 * // Rule: 'img'
+		 * filter.check( [ 'img', 'div' ] ) // -> true
+		 * filter.check( [ 'p', 'div' ] ) // -> false
+		 * ```
+		 *
 		 * **Note:** The `test` argument is of {@link CKEDITOR.filter.contentRule} type, which is
 		 * a limited version of {@link CKEDITOR.filter.allowedContentRules}. Read more about it
 		 * in the {@link CKEDITOR.filter.contentRule}'s documentation.
 		 *
-		 * @param {CKEDITOR.filter.contentRule} test
+		 * @param {CKEDITOR.filter.contentRule/CKEDITOR.filter.contentRule[]} test
 		 * @param {Boolean} [applyTransformations=true] Whether to use registered transformations.
 		 * @param {Boolean} [strictCheck] Whether the filter should check if an element with exactly
 		 * these properties is allowed.

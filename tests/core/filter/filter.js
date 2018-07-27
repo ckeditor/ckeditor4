@@ -869,6 +869,15 @@
 			assert.isTrue( filter.check( new CKEDITOR.style( { element: 'a' } ) ) );
 			assert.isTrue( filter.check( new CKEDITOR.style( { element: 'a', styles: {} } ) ) );
 			assert.isTrue( filter.check( new CKEDITOR.style( { element: 'a', styles: { color: 'red' } } ) ) );
+		},
+
+		'test filter.check handles array': function() {
+			var filter = new CKEDITOR.filter( 'a {color}' ),
+				aStyle = new CKEDITOR.style( { element: 'a' } ),
+				bStyle = new CKEDITOR.style( { element: 'b' } );
+
+			assert.isTrue( filter.check( [ bStyle, aStyle ] ) );
+			assert.isFalse( filter.check( [ bStyle ] ) );
 		}
 	} );
 } )();
