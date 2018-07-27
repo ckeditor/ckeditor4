@@ -31,16 +31,6 @@ And use it in your website:
 
 Note that you can also load editor using [CDN](https://cdn.ckeditor.com/#ckeditor4).
 
-## Presets
-
-## Further Resources
-
-* Demo
-* SDK
-* docs
-* API docs
-* Configuration API
-
 ## Features
 
 * Over 500 plugins in the [Addons Repository](https://ckeditor.com/cke4/addons).
@@ -50,6 +40,18 @@ Note that you can also load editor using [CDN](https://cdn.ckeditor.com/#ckedito
 * Extensible widget system.
 * Improved table selection.
 * Accessibility conforming to WCAG / Section 508
+
+## Presets
+
+By default npm package comes in a "standard-all" preset, you can read more on presets it CKEditor 4 presets article.
+
+## Further Resources
+
+* [CKEditor 4 demo](https://ckeditor.com/ckeditor-4/)
+* [Documentation](https://docs.ckeditor.com/ckeditor4/latest/)
+* [API documentation](https://docs.ckeditor.com/ckeditor4/latest/api/index.html)
+* [Configuration reference](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html)
+* [SDK including more samples](https://sdk.ckeditor.com/)
 
 ## Browser Support
 
