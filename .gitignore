@@ -28,4 +28,5 @@ tests/plugins/mathjax/_assets/mathjax/**
 bender-*.log
 
 !.github/*
+!.npm/*
 .DS_Store
