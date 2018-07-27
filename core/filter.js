@@ -686,14 +686,16 @@
 		 *
 		 * Second `check()` call returned `false` because `src` is required.
 		 *
-		 * When an array of rules is passed as the 'test' argument the filter
-		 * returns true if at least one of passed rules is allowed.
+		 * When an array of rules is passed as the `test` argument the filter
+		 * returns `true` if at least one of passed rules is allowed.
 		 *
 		 * For example:
 		 *
-		 *		// Rule: 'img'
-		 *		filter.check( [ 'img', 'div' ] ) // -> true
-		 *		filter.check( [ 'p', 'div' ] ) // -> false
+		 * ```javascript
+		 * // Rule: 'img'
+		 * filter.check( [ 'img', 'div' ] ) // -> true
+		 * filter.check( [ 'p', 'div' ] ) // -> false
+		 * ```
 		 *
 		 * **Note:** The `test` argument is of {@link CKEDITOR.filter.contentRule} type, which is
 		 * a limited version of {@link CKEDITOR.filter.allowedContentRules}. Read more about it
