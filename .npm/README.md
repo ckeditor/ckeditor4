@@ -5,9 +5,9 @@
 [![Dev dependencies](https://img.shields.io/david/dev/ckeditor/ckeditor-dev.svg)](https://david-dm.org/ckeditor/ckeditor-dev?type=dev)
 
 [![Join newsletter](https://img.shields.io/badge/join-newsletter-00cc99.svg)](http://eepurl.com/c3zRPr)
-[![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/ckeditor)
+[![Follow twitter](https://img.shields.io/badge/follow-twitter-00cc99.svg)](https://twitter.com/ckeditor)
 
-A highly configurable browser-based WYSIWYG editor with a borad browser compatibility.
+A highly configurable browser-based WYSIWYG editor with a broad browser compatibility.
 
 -- screenshot --
 
@@ -39,7 +39,7 @@ Note that you can also load editor using [CDN](https://cdn.ckeditor.com/#ckedito
 * Content quality control with Advanced Content Filter.
 * Extensible widget system.
 * Improved table selection.
-* Accessibility conforming to WCAG / Section 508
+* Accessibility conforming to WCAG / Section 508.
 
 ## Presets
 
