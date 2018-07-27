@@ -43,7 +43,7 @@ Note that you can also load editor using [CDN](https://cdn.ckeditor.com/#ckedito
 
 ## Presets
 
-By default npm package comes in a "standard-all" preset, you can read more on presets it CKEditor 4 presets article.
+By default npm package comes in a "standard-all" preset, you can read more about it in [CKEditor 4 standard package sample](https://sdk.ckeditor.com/samples/standardpreset.html).
 
 ## Further Resources
 
