@@ -7,7 +7,7 @@
 [![Join newsletter](https://img.shields.io/badge/join-newsletter-00cc99.svg)](http://eepurl.com/c3zRPr)
 [![Follow twitter](https://img.shields.io/badge/follow-twitter-00cc99.svg)](https://twitter.com/ckeditor)
 
-A highly configurable browser-based WYSIWYG editor with a broad browser compatibility.
+A highly configurable browser-based WYSIWYG HTML editor with a broad browser compatibility.
 
 -- screenshot --
 
@@ -17,7 +17,7 @@ A highly configurable browser-based WYSIWYG editor with a broad browser compatib
 npm install --save ckeditor
 ```
 
-And use it in your website:
+Use it on your website:
 
 ```html
 <div id="editor">
@@ -29,7 +29,7 @@ And use it in your website:
 </script>
 ```
 
-Note that you can also load editor using [CDN](https://cdn.ckeditor.com/#ckeditor4).
+Note that you can also load CKEditor 4 using [CDN](https://cdn.ckeditor.com/#ckeditor4).
 
 ## Features
 
@@ -43,7 +43,7 @@ Note that you can also load editor using [CDN](https://cdn.ckeditor.com/#ckedito
 
 ## Presets
 
-By default npm package comes in a "standard-all" preset, you can read more about it in [CKEditor 4 standard package sample](https://sdk.ckeditor.com/samples/standardpreset.html).
+By default CKEditor 4 npm package comes in a "standard-all" preset, you can read more about it in [CKEditor 4 standard package sample](https://sdk.ckeditor.com/samples/standardpreset.html).
 
 ## Further Resources
 
@@ -59,11 +59,11 @@ By default npm package comes in a "standard-all" preset, you can read more about
 | --------- | --------- | --------- | --------- | --------- |
 | IE8, IE9, IE10, IE11, Edge| last version| last version| last version| last version
 
-Find more in the [Browser Compatibility guide](https://docs.ckeditor.com/ckeditor4/latest/guide/dev_browsers.html#officially-supported-browsers).
+Find out more in the [Browser Compatibility guide](https://docs.ckeditor.com/ckeditor4/latest/guide/dev_browsers.html#officially-supported-browsers).
 
 ## Contribute
 
-If you'd like to help the project, follow [our Contribution instructions](https://github.com/ckeditor/ckeditor-dev/blob/master/.github/CONTRIBUTING.md).
+If you would like to help maintaining the project, follow [our Contribution instructions](https://github.com/ckeditor/ckeditor-dev/blob/master/.github/CONTRIBUTING.md).
 
 ## License
 
