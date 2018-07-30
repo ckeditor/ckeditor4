@@ -2,8 +2,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton
 
-1. Click the background color button.
-1. Focus the orange color.
+1. Click "Background Color" button.
+1. Move the cursor over the orange color button.
 1. Wait until the title/label appears.
 
 ### Expected
