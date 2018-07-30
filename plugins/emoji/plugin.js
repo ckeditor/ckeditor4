@@ -224,15 +224,15 @@
 
 			function createGroupsNavigation() {
 				var groupNames = [
-					{ name: 'Used', viewBox: '0 0 50 50' },
-					{ name: 'People', viewBox: '0 0 0 0' },
-					{ name: 'Nature', viewBox: '0 0 0 0' },
-					{ name: 'Food', viewBox: '0 0 0 0' },
-					{ name: 'Travel', viewBox: '0 0 0 0' },
-					{ name: 'Activities', viewBox: '0 0 0 0' },
-					{ name: 'Objects', viewBox: '0 0 0 0' },
-					{ name: 'Symbols', viewBox: '0 0 0 0' },
-					{ name: 'Flags', viewBox: '0 0 0 0' }
+					{ name: 'Used' },
+					{ name: 'People' },
+					{ name: 'Nature' },
+					{ name: 'Food' },
+					{ name: 'Travel' },
+					{ name: 'Activities' },
+					{ name: 'Objects' },
+					{ name: 'Symbols' },
+					{ name: 'Flags' }
 				];
 				var svgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.svg' );
 				var itemTemplate = new CKEDITOR.template( '<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href={href}><svg viewBox="0 0 34 34"> <use xlink:href="' + svgUrl + '{href}"></use></svg></a></li>' );
