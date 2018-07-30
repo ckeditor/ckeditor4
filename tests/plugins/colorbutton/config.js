@@ -34,20 +34,18 @@
 		'test config.colorButton_colors labels': function() {
 			var editor = this.editors.colorLabels,
 				bgColorBtn = editor.ui.get( 'BGColor' ),
-				expectedLabels = [ 'FontColor1', 'FontColor2', 'Red' ];
+				expectedLabels = [ 'FontColor1', 'FontColor2', 'Red' ],
+				colorOptions;
 
-			resume( function() {
-				var colorOptions = bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.find( 'a.cke_colorbox' );
-
-				CKEDITOR.tools.array.map( colorOptions.toArray(), function( el, index ) {
-					assert.areSame( expectedLabels[ index ], colorOptions.getItem( index ).getAttribute( 'title' ), 'Title for color at index ' + index );
-				} );
-			} );
-
-			bender.tools.selection.setWithHtml( editor, '<h1 style="background: #999999">{Moo}</h1>' );
+			// Editor needs a focus, otherwise IE/Edge throws permission error.
+			editor.focus();
 			bgColorBtn.click( editor );
 
-			wait();
+			colorOptions = bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.find( 'a.cke_colorbox' );
+
+			CKEDITOR.tools.array.map( colorOptions.toArray(), function( el, index ) {
+				assert.areSame( expectedLabels[ index ], colorOptions.getItem( index ).getAttribute( 'title' ), 'Title for color at index ' + index );
+			} );
 		}
 	} );
 } )();
