@@ -22,10 +22,9 @@
 				editor.on( 'contentDom', function( evt ) {
 
 					var editor = evt.editor,
-						doc = editor.document,
 						editable = editor.editable();
 
-					editable.attachListener( doc, 'keydown', function( evt ) {
+					editable.attachListener( editable, 'keydown', function( evt ) {
 						// Ctrl/Cmd + A
 						if ( evt.data.getKeystroke() == CKEDITOR.CTRL + 65 ) {
 							// Defer the call so the selection is already changed by the pressed keys.
@@ -121,10 +120,6 @@
 		 */
 		addFillers: function( editable ) {
 			var editor = editable.editor;
-			
-			if (!editor.focusManager.hasFocus) {
-    			return false;
-			}
 
 			// Whole content should be selected, if not fix the selection manually.
 			if ( !this.isWholeContentSelected( editable ) && editable.getChildCount() > 0 ) {
