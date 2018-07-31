@@ -13,6 +13,7 @@ Fixed Issues:
 * [#1348](https://github.com/ckeditor/ckeditor-dev/issues/1348): Fixed: [Enhanced Image](https://ckeditor.com/cke4/addon/image2) plugin aspect ratio locking uses old width and height on image URL change.
 * [#2271](https://github.com/ckeditor/ckeditor-dev/issues/2271): Fixed: Custom color name not used as a label in [Color Button](https://ckeditor.com/cke4/addon/image2) plugin. Thanks to [Eric Geloen](https://github.com/egeloen).
 * [#966](https://github.com/ckeditor/ckeditor-dev/issues/966): Fixed: Executing [`editor.destroy()`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#destroy) during [file upload](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_fileTools_uploadWidgetDefinition.html#onUploading) throws error. Thanks to [Maksim Makarevich](https://github.com/MaksimMakarevich)!
+* [#1719](https://github.com/ckeditor/ckeditor-dev/issues/1719): Fixed: <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>A</kbd> focuses inline editor if starting and ending with a list. Thanks to [theNailz](https://github.com/theNailz)!
 
 ## CKEditor 4.10
 
