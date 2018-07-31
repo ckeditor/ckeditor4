@@ -3117,7 +3117,7 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * @since 4.5.11
 		 * @private
-		 * @param {String} query
+		 * @param {String} query A valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 		 * @param {Boolean} [includeNonEditables=false] Whether elements with `contenteditable` set to `false` should
 		 * be included.
 		 * @returns {CKEDITOR.dom.element[]}

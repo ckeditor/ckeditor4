@@ -284,7 +284,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * **Note:** The returned list is not a live collection (like the result of native `querySelectorAll`).
 	 *
 	 * @since 4.3
-	 * @param {String} selector
+	 * @param {String} selector A valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 	 * @returns {CKEDITOR.dom.nodeList}
 	 */
 	find: function( selector ) {
@@ -296,7 +296,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * the specified `selector`.
 	 *
 	 * @since 4.3
-	 * @param {String} selector
+	 * @param {String} selector A valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 	 * @returns {CKEDITOR.dom.element}
 	 */
 	findOne: function( selector ) {
