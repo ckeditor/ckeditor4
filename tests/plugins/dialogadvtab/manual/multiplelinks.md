@@ -6,13 +6,13 @@
 1. Press "Link" button.
 1. Set URL to "aa".
 1. Go to "Advanced" tab.
-1. Set Id filed to "aa".
+1. Set Id field to "aa".
 1. Click OK.
 1. Put the selection in the "bar" link.
 1. Press "Link" button.
 1. Set URL to "bb".
 1. Go to "Advanced" tab.
-1. Set Id filed to "bb".
+1. Set Id field to "bb".
 1. Click OK.
 1. Click "Source" button.
 
