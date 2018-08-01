@@ -181,7 +181,7 @@
 		},
 
 		fireSelectAll: function( editor ) {
-			editor.document.fire( 'keydown', new CKEDITOR.dom.event( {
+			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
 				keyCode: 65,
 				metaKey: true,
 				ctrlKey: true
