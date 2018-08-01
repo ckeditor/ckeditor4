@@ -1662,8 +1662,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Avoid ID duplication.
 		if ( targetDocument.getCustomData( 'doc_processing_style' ) && el.hasAttribute( 'id' ) )
-			if ( targetDocument.getById(el.getAttribute('id')) != null )
-				el.removeAttribute( 'id' );
+			el.removeAttribute( 'id' );
 		else
 			targetDocument.setCustomData( 'doc_processing_style', 1 );
 
