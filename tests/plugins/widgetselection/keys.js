@@ -5,10 +5,10 @@
 	'use strict';
 
 	bender.editors = {
-		editor1: {
+		classic: {
 			creator: 'replace'
 		},
-		editor2: {
+		divarea: {
 			creator: 'replace',
 			config: {
 				extraPlugins: 'divarea'
@@ -54,15 +54,15 @@
 		},
 
 		'test `ctrl + a` key combination': function() {
-			var editor = this.editors.editor1;
-			this.editorBots.editor1.setHtmlWithSelection( '<p contenteditable="false">Non-editable</p><p>This ^is text</p>' );
+			var editor = this.editors.classic;
+			this.editorBots.classic.setHtmlWithSelection( '<p contenteditable="false">Non-editable</p><p>This ^is text</p>' );
 
 			testKeyCombination( editor.editable(), { keyCode: 65, ctrlKey: true }, 1 );
 		},
 
 		'test ctrl + alt + a key combination': function() {
-			var editor = this.editors.editor1;
-			this.editorBots.editor1.setHtmlWithSelection( '<p contenteditable="false">Non-editable</p><p>This ^is text</p>' );
+			var editor = this.editors.classic;
+			this.editorBots.classic.setHtmlWithSelection( '<p contenteditable="false">Non-editable</p><p>This ^is text</p>' );
 
 			testKeyCombination( editor.editable(), { keyCode: 65, ctrlKey: true, altKey: true }, 0 );
 		},
@@ -75,7 +75,7 @@
 				},
 				focusTrap = CKEDITOR.document.getById( 'focus-trap' );
 
-			this.editorBots.editor2.setHtmlWithSelection( '<ul><li>Sample text</li></ul><p>Paragraph</p><ul><li>Sample ^text</li></ul>' );
+			this.editorBots.divarea.setHtmlWithSelection( '<ul><li>Sample text</li></ul><p>Paragraph</p><ul><li>Sample ^text</li></ul>' );
 
 			focusTrap.focus();
 
