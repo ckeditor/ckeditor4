@@ -8,12 +8,7 @@
 1. Go to "Advanced" tab.
 1. Set Id field to "aa".
 1. Click OK.
-1. Put the selection in the "bar" link.
-1. Press "Link" button.
-1. Set URL to "bb".
-1. Go to "Advanced" tab.
-1. Set Id field to "bb".
-1. Click OK.
+1. Repeat steps 1-6, but this time by selecting "bar" and setting id to "bb".
 1. Click "Source" button.
 
 ## Expected
