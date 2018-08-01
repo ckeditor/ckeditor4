@@ -88,9 +88,10 @@
 			bot.dialog( 'link', function( dialog ) {
 				var editor = this.editor;
 
-				dialog.setValueOf( 'info', 'url', 'a' );
-				dialog.setValueOf( 'advanced', 'advId', 'aa' );
-				dialog.getButton( 'ok' ).click();
+				commitDialogWithValues( dialog, [
+					[ 'info', 'url', 'a' ],
+					[ 'advanced', 'advId', 'aa' ]
+				] );
 
 				assert.beautified.html( '<p><a href="http://a" id="aa">aaa</a> <strong>bbb</strong></p>',
 					bot.getData( true ) );
@@ -99,9 +100,10 @@
 
 				// Now add the id to a second link.
 				bot.dialog( 'link', function( dialog ) {
-					dialog.setValueOf( 'info', 'url', 'b' );
-					dialog.setValueOf( 'advanced', 'advId', 'bb' );
-					dialog.getButton( 'ok' ).click();
+					commitDialogWithValues( dialog, [
+						[ 'info', 'url', 'b' ],
+						[ 'advanced', 'advId', 'bb' ]
+					] );
 
 					assert.beautified.html( '<p><a href="http://a" id="aa">aaa</a> <a href="http://b" id="bb"><strong>bbb</strong></a></p>',
 						bot.getData( true ) );
@@ -118,8 +120,9 @@
 			bot.dialog( 'link', function( dialog ) {
 				var editor = this.editor;
 
-				dialog.setValueOf( 'advanced', 'advId', 'aa' );
-				dialog.getButton( 'ok' ).click();
+				commitDialogWithValues( dialog, [
+					[ 'advanced', 'advId', 'aa' ]
+				] );
 
 				assert.beautified.html( '<p><a href="a" id="aa">aaa</a> <a href="b">bbb</a></p>', bot.getData( true ) );
 
@@ -127,8 +130,9 @@
 
 				// Now add the id to a second link.
 				bot.dialog( 'link', function( dialog ) {
-					dialog.setValueOf( 'advanced', 'advId', 'bb' );
-					dialog.getButton( 'ok' ).click();
+					commitDialogWithValues( dialog, [
+						[ 'advanced', 'advId', 'bb' ]
+					] );
 
 					assert.beautified.html( '<p><a href="a" id="aa">aaa</a> <a href="b" id="bb">bbb</a></p>',
 						bot.getData( true ) );
@@ -136,4 +140,12 @@
 			} );
 		}
 	} );
+
+	function commitDialogWithValues( dialog, values ) {
+		for ( var i = 0; i < values.length; i++ ) {
+			dialog.setValueOf( values[ i ][ 0 ], values[ i ][ 1 ], values[ i ][ 2 ] );
+		}
+
+		dialog.getButton( 'ok' ).click();
+	}
 } )();
