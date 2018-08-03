@@ -6,6 +6,6 @@
 
 1. Open link dialog.
 
-1. Choose link type `telephone`.
+1. Choose link type `phone`.
 
 1. Check if phone number input is styled.

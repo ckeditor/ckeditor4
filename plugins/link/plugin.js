@@ -882,7 +882,7 @@
 		 */
 
 		/**
-		 * Optional JavaScript Regular Expression whenever telephone numbers in Link dialog should be validated.
+		 * Optional JavaScript Regular Expression whenever phone numbers in Link dialog should be validated.
 		 *
 		 *		config.linkTelNumberRegExp = /^[0-9]{9}$/;
 		 *
@@ -892,7 +892,7 @@
 		 */
 
 		/**
-		 * Optional message for alert popup when telephone number in Link dialog doesn't pass validation.
+		 * Optional message for alert popup when phone number in Link dialog doesn't pass validation.
 		 *
 		 *		config.linkTelNumberMsg = "Invalid number";
 		 *

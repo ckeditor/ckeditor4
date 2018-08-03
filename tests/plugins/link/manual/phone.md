@@ -7,13 +7,13 @@
 
 1. Click on link button.
 
-1. Chose link type: 'Telephone'.
+1. Chose link type: 'Phone'.
 
 1. Press 'OK'.
 
 	### Expected
 
-	- Alert appears with information to type a telephone number.
+	- Alert appears with information to type a phone number.
 
 1. Type following into dialog and press 'OK':
 
