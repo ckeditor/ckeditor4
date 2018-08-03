@@ -39,7 +39,7 @@ CKEDITOR.lang[ 'es' ] = {
 		checkbox: 'Casilla de Verificación',
 		radio: 'Botones de Radio',
 		textField: 'Campo de Texto',
-		textarea: 'Area de Texto',
+		textarea: 'Área de Texto',
 		hiddenField: 'Campo Oculto',
 		button: 'Botón',
 		select: 'Campo de Selección',
@@ -96,7 +96,7 @@ CKEDITOR.lang[ 'es' ] = {
 		invalidCssLength: 'El valor especificado para el campo "%1" debe ser un número positivo, incluyendo optionalmente una unidad de medida CSS válida (px, %, in, cm, mm, em, ex, pt, o pc).',
 		invalidHtmlLength: 'El valor especificado para el campo "%1" debe ser un número positivo, incluyendo optionalmente una unidad de medida HTML válida (px o %).',
 		invalidInlineStyle: 'El valor especificado para el estilo debe consistir en uno o más pares con el formato "nombre: valor", separados por punto y coma.',
-		cssLengthTooltip: 'Introduca un número para el valor en pixels o un número con una unidad de medida CSS válida (px, %, in, cm, mm, em, ex, pt, o pc).',
+		cssLengthTooltip: 'Introduzca un número para el valor en pixels o un número con una unidad de medida CSS válida (px, %, in, cm, mm, em, ex, pt, o pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, no disponible</span>',
