@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	noAnchors: '(Inga ankare kunde hittas)',
 	noEmail: 'Var god ange e-postadress',
 	noUrl: 'Var god ange länkens URL',
-	noTel: 'Please type the telephone number', // MISSING
+	noTel: 'Please type the phone number', // MISSING
 	other: '<annan>',
-	phoneNumber: 'Telephone number', // MISSING
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Beroende (endast Netscape)',
 	popupFeatures: 'Popup-fönstrets egenskaper',
 	popupFullScreen: 'Helskärm (endast IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	toAnchor: 'Länk till ankare i texten',
 	toEmail: 'E-post',
 	toUrl: 'URL',
-	toPhone: 'Telephone', // MISSING
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Infoga/Redigera länk',
 	type: 'Länktyp',
 	unlink: 'Radera länk',

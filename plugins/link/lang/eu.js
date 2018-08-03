@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'eu', {
 	noAnchors: '(Ez dago aingurarik erabilgarri dokumentuan)',
 	noEmail: 'Mesedez idatzi e-posta helbidea',
 	noUrl: 'Mesedez idatzi estekaren URLa',
-	noTel: 'Please type the telephone number', // MISSING
+	noTel: 'Please type the phone number', // MISSING
 	other: '<bestelakoa>',
-	phoneNumber: 'Telephone number', // MISSING
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Menpekoa (Netscape)',
 	popupFeatures: 'Laster-leihoaren ezaugarriak',
 	popupFullScreen: 'Pantaila osoa (IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'eu', {
 	toAnchor: 'Estekatu testuko aingurara',
 	toEmail: 'E-posta',
 	toUrl: 'URLa',
-	toPhone: 'Telephone', // MISSING
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Esteka',
 	type: 'Esteka-mota',
 	unlink: 'Kendu esteka',

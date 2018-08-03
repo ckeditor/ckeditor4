@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'pl', {
 	noAnchors: '(W dokumencie nie zdefiniowano żadnych kotwic)',
 	noEmail: 'Podaj adres e-mail',
 	noUrl: 'Podaj adres URL',
-	noTel: 'Please type the telephone number', // MISSING
+	noTel: 'Please type the phone number', // MISSING
 	other: '<inny>',
-	phoneNumber: 'Telephone number', // MISSING
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Okno zależne (Netscape)',
 	popupFeatures: 'Właściwości wyskakującego okna',
 	popupFullScreen: 'Pełny ekran (IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'pl', {
 	toAnchor: 'Odnośnik wewnątrz strony (kotwica)',
 	toEmail: 'Adres e-mail',
 	toUrl: 'Adres URL',
-	toPhone: 'Telephone', // MISSING
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Wstaw/edytuj odnośnik',
 	type: 'Typ odnośnika',
 	unlink: 'Usuń odnośnik',

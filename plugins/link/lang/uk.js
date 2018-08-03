@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'uk', {
 	noAnchors: '(В цьому документі немає якорів)',
 	noEmail: 'Будь ласка, вкажіть адрес ел. пошти',
 	noUrl: 'Будь ласка, вкажіть URL посилання',
-	noTel: 'Please type the telephone number', // MISSING
+	noTel: 'Please type the phone number', // MISSING
 	other: '<інший>',
-	phoneNumber: 'Telephone number', // MISSING
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Залежний (Netscape)',
 	popupFeatures: 'Властивості випливаючого вікна',
 	popupFullScreen: 'Повний екран (IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'uk', {
 	toAnchor: 'Якір на цю сторінку',
 	toEmail: 'Ел. пошта',
 	toUrl: 'URL',
-	toPhone: 'Telephone', // MISSING
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Вставити/Редагувати посилання',
 	type: 'Тип посилання',
 	unlink: 'Видалити посилання',

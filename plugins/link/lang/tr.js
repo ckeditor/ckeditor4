@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'tr', {
 	noAnchors: '(Bu belgede hiç çapa yok)',
 	noEmail: 'Lütfen E-posta adresini yazın',
 	noUrl: 'Lütfen Link URL\'sini yazın',
-	noTel: 'Please type the telephone number', // MISSING
+	noTel: 'Please type the phone number', // MISSING
 	other: '<diğer>',
-	phoneNumber: 'Telephone number', // MISSING
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Bağımlı (Netscape)',
 	popupFeatures: 'Yeni Açılan Pencere Özellikleri',
 	popupFullScreen: 'Tam Ekran (IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'tr', {
 	toAnchor: 'Bu sayfada çapa',
 	toEmail: 'E-Posta',
 	toUrl: 'URL',
-	toPhone: 'Telephone', // MISSING
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Link Ekle/Düzenle',
 	type: 'Link Türü',
 	unlink: 'Köprü Kaldır',
