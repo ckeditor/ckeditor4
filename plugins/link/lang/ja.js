@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 	noAnchors: '(このドキュメント内にアンカーはありません)',
 	noEmail: 'メールアドレスを入力してください。',
 	noUrl: 'リンクURLを入力してください。',
-	noTel: 'Please type the telephone number', // MISSING
+	noTel: 'Please type the phone number', // MISSING
 	other: '<その他の>',
-	phoneNumber: 'Telephone number', // MISSING
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: '開いたウィンドウに連動して閉じる (Netscape)',
 	popupFeatures: 'ポップアップウィンドウ特徴',
 	popupFullScreen: '全画面モード(IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 	toAnchor: 'ページ内のアンカー',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
-	toPhone: 'Telephone', // MISSING
+	toPhone: 'Phone', // MISSING
 	toolbar: 'リンク挿入/編集',
 	type: 'リンクタイプ',
 	unlink: 'リンクを削除',

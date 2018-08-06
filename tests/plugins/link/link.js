@@ -14,8 +14,8 @@
 		validation: {
 			config: {
 				autoParagraph: false,
-				linkTelNumberRegExp: /^[0-9]{9}$/,
-				linkTelNumberMsg: 'Invalid number'
+				linkPhoneRegExp: /^[0-9]{9}$/,
+				linkPhoneMsg: 'Invalid number'
 			}
 		}
 	};
@@ -576,7 +576,7 @@
 		},
 
 		// (#2154)
-		'test telephone number link without validation': assertTelephoneLinks( {
+		'test phone number link without validation': assertPhoneLinks( {
 			editorName: 'noValidation',
 			incorrectInput: 'foo',
 			correctInput: '123456789',
@@ -585,7 +585,7 @@
 		} ),
 
 		// (#2154)
-		'test telephone number link with validation': assertTelephoneLinks( {
+		'test phone number link with validation': assertPhoneLinks( {
 			editorName: 'validation',
 			validate: true,
 			incorrectInput: 'foo',
@@ -595,7 +595,7 @@
 		} )
 	} );
 
-	function assertTelephoneLinks( config ) {
+	function assertPhoneLinks( config ) {
 		return function() {
 			var bot = this.editorBots[ config.editorName ];
 

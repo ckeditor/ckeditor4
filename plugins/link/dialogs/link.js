@@ -1018,8 +1018,8 @@
 	function validateTelNumber() {
 		var dialog = this.getDialog(),
 			editor = dialog._.editor,
-			regExp =  editor.config.linkTelNumberRegExp,
-			msg = editor.config.linkTelNumberMsg,
+			regExp =  editor.config.linkPhoneRegExp,
+			msg = editor.config.linkPhoneMsg,
 			linkLang = editor.lang.link,
 			messageWhenEmpty = CKEDITOR.dialog.validate.notEmpty( linkLang.noTel ).apply( this );
 

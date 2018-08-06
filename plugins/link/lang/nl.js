@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'nl', {
 	noAnchors: '(Geen interne links in document gevonden)',
 	noEmail: 'Geef een e-mailadres',
 	noUrl: 'Geef de link van de URL',
-	noTel: 'Please type the telephone number', // MISSING
+	noTel: 'Please type the phone number', // MISSING
 	other: '<ander>',
-	phoneNumber: 'Telephone number', // MISSING
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Afhankelijk (Netscape)',
 	popupFeatures: 'Instellingen popupvenster',
 	popupFullScreen: 'Volledig scherm (IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'nl', {
 	toAnchor: 'Interne link in pagina',
 	toEmail: 'E-mail',
 	toUrl: 'URL',
-	toPhone: 'Telephone', // MISSING
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Link invoegen/wijzigen',
 	type: 'Linktype',
 	unlink: 'Link verwijderen',
