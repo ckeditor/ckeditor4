@@ -124,10 +124,7 @@
 							if ( !width && !height ) {
 								dialog.lockRatio = true;
 							} else {
-								// Round ratio to two decimal places so ratio locking will be less precise (#2254).
-								var ratioComparison = Math.round( ( originalRatio / thisRatio ) * 100 ) / 100;
-
-								if ( ratioComparison == 1 ) {
+								if ( originalRatio.toFixed( 2 ) == thisRatio.toFixed( 2 ) ) {
 									dialog.lockRatio = true;
 								}
 							}
