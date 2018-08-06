@@ -14,8 +14,8 @@
 		validation: {
 			config: {
 				autoParagraph: false,
-				linkTelNumberRegExp: /^[0-9]{9}$/,
-				linkTelNumberMsg: 'Invalid number'
+				linkPhoneRegExp: /^[0-9]{9}$/,
+				linkPhoneMsg: 'Invalid number'
 			}
 		}
 	};

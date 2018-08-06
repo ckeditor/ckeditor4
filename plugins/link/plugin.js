@@ -884,20 +884,20 @@
 		/**
 		 * Optional JavaScript Regular Expression whenever phone numbers in Link dialog should be validated.
 		 *
-		 *		config.linkTelNumberRegExp = /^[0-9]{9}$/;
+		 *		config.linkPhoneRegExp = /^[0-9]{9}$/;
 		 *
 		 * @since 4.11.0
-		 * @cfg {RegExp} [linkTelNumberRegExp]
+		 * @cfg {RegExp} [linkPhoneRegExp]
 		 * @member CKEDITOR.config
 		 */
 
 		/**
 		 * Optional message for alert popup when phone number in Link dialog doesn't pass validation.
 		 *
-		 *		config.linkTelNumberMsg = "Invalid number";
+		 *		config.linkPhoneMsg = "Invalid number";
 		 *
 		 * @since 4.11.0
-		 * @cfg {String} [linkTelNumberMsg]
+		 * @cfg {String} [linkPhoneMsg]
 		 * @member CKEDITOR.config
 		 */
 	} );
