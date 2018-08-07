@@ -3062,30 +3062,17 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * Performs validation functions composition.
 			 *
 			 * ```javascript
-			 * CKEDITOR.dialog.validation.functions(
-			 * 	CKEDITOR.dialog.validation.notEmpty( 'Value is required.' ),
-			 * 	CKEDITOR.dialog.validation.number( 'Value is not a number.' ),
+			 * CKEDITOR.dialog.validate.functions(
+			 * 	CKEDITOR.dialog.validate.notEmpty( 'Value is required.' ),
+			 * 	CKEDITOR.dialog.validate.number( 'Value is not a number.' ),
 			 * 	'error!'
 			 * );
 			 * ```
 			 *
-			 * @param {Mixed...} arguments
-			 * Accepts multiple functions which will be composed into a single validation function.
-			 *
-			 * ```javascript
-			 * CKEDITOR.dialog.validation.functions( validator1, validator2 );
-			 * ```
-			 *
-			 * Also you can pass two optional parameters:
-			 *
-			 * `msg` - error message returned by composed validation function
-			 *
-			 * `relation` - indicates {@link CKEDITOR#VALIDATE_OR OR} / {@link CKEDITOR#VALIDATE_AND AND}
-			 * relation between validation functions ( defaults {@link CKEDITOR#VALIDATE_OR OR} )
-			 *
-			 * ```javascript
-			 * CKEDITOR.dialog.validation.functions( validator1, validator2, 'error message', CKEDITOR.VALIDATE_AND );
-			 * ```
+			 * @param {Function...} validators Validation functions which will be composed into a single validator.
+			 * @param {String} [msg] Error message returned by a composed validation function.
+			 * @param {Number} [relation=CKEDITOR.VALIDATE_OR] Indicates a relation between validation functions.
+			 * Use {@link CKEDITOR#VALIDATE_OR} or {@link CKEDITOR#VALIDATE_AND}.
 			 *
 			 * @returns {Function} Composed validation function.
 			 */
@@ -3134,8 +3121,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * Checks if a dialog UI element value meets the regex condition.
 			 *
 			 * ```javascript
-			 * CKEDITOR.dialog.validation.regex( 'error!', /^\d*$/ )( '123' ) // true
-			 * CKEDITOR.dialog.validation.regex( 'error!' )( '123.321' ) // error!
+			 * CKEDITOR.dialog.validate.regex( 'error!', /^\d*$/ )( '123' ) // true
+			 * CKEDITOR.dialog.validate.regex( 'error!' )( '123.321' ) // error!
 			 * ```
 			 *
 			 * @param {RegExp} regex RegExp used to validate value.
@@ -3157,8 +3144,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * Checks if a dialog UI element value is not an empty string.
 			 *
 			 * ```javascript
-			 * CKEDITOR.dialog.validation.notEmpty( 'error!' )( 'test' ) // true
-			 * CKEDITOR.dialog.validation.notEmpty( 'error!' )( '  ' ) // error!
+			 * CKEDITOR.dialog.validate.notEmpty( 'error!' )( 'test' ) // true
+			 * CKEDITOR.dialog.validate.notEmpty( 'error!' )( '  ' ) // error!
 			 * ```
 			 *
 			 * @param {String} msg Validator error message.
@@ -3172,8 +3159,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * Checks if a dialog UI element value is an Integer.
 			 *
 			 * ```javascript
-			 * CKEDITOR.dialog.validation.integer( 'error!' )( '123' ) // true
-			 * CKEDITOR.dialog.validation.integer( 'error!' )( '123.321' ) // error!
+			 * CKEDITOR.dialog.validate.integer( 'error!' )( '123' ) // true
+			 * CKEDITOR.dialog.validate.integer( 'error!' )( '123.321' ) // error!
 			 * ```
 			 *
 			 * @param {String} msg Validator error message.
@@ -3187,8 +3174,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * Checks if a dialog UI element value is a Number.
 			 *
 			 * ```javascript
-			 * CKEDITOR.dialog.validation.number( 'error!' )( '123' ) // true
-			 * CKEDITOR.dialog.validation.number( 'error!' )( 'test' ) // error!
+			 * CKEDITOR.dialog.validate.number( 'error!' )( '123' ) // true
+			 * CKEDITOR.dialog.validate.number( 'error!' )( 'test' ) // error!
 			 * ```
 			 *
 			 * @param {String} msg Validator error message.
@@ -3204,8 +3191,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * It allows `px`, `em`, `ex`, `in`, `cm`, `mm`, `pt`, `pc` units.
 			 *
 			 * ```javascript
-			 * CKEDITOR.dialog.validation.cssLength( 'error!' )( '10pt' ) // true
-			 * CKEDITOR.dialog.validation.cssLength( 'error!' )( 'solid' ) // error!
+			 * CKEDITOR.dialog.validate.cssLength( 'error!' )( '10pt' ) // true
+			 * CKEDITOR.dialog.validate.cssLength( 'error!' )( 'solid' ) // error!
 			 * ```
 			 *
 			 * @param {String} msg Validator error message.
@@ -3223,8 +3210,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * It allows `px` units.
 			 *
 			 * ```javascript
-			 * CKEDITOR.dialog.validation.htmlLength( 'error!' )( '10px' ) // true
-			 * CKEDITOR.dialog.validation.htmlLength( 'error!' )( 'solid' ) // error!
+			 * CKEDITOR.dialog.validate.htmlLength( 'error!' )( '10px' ) // true
+			 * CKEDITOR.dialog.validate.htmlLength( 'error!' )( 'solid' ) // error!
 			 * ```
 			 *
 			 * @param {String} msg Validator error message.
@@ -3240,8 +3227,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * Checks if a dialog UI element value is a correct CSS inline style.
 			 *
 			 * ```javascript
-			 * CKEDITOR.dialog.validation.inlineStyle( 'error!' )( 'height: 10px; width: 20px;' ) // true
-			 * CKEDITOR.dialog.validation.inlineStyle( 'error!' )( 'test' ) // error!
+			 * CKEDITOR.dialog.validate.inlineStyle( 'error!' )( 'height: 10px; width: 20px;' ) // true
+			 * CKEDITOR.dialog.validate.inlineStyle( 'error!' )( 'test' ) // error!
 			 * ```
 			 *
 			 * @param {String} msg Validator error message.
@@ -3257,8 +3244,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * Checks if a dialog UI element value and the given value are equal.
 			 *
 			 * ```javascript
-			 * CKEDITOR.dialog.validation.equals( 'foo', 'error!' )( 'foo' ) // true
-			 * CKEDITOR.dialog.validation.equals( 'foo', 'error!' )( 'baz' ) // error!
+			 * CKEDITOR.dialog.validate.equals( 'foo', 'error!' )( 'foo' ) // true
+			 * CKEDITOR.dialog.validate.equals( 'foo', 'error!' )( 'baz' ) // error!
 			 * ```
 			 *
 			 * @param {String} value Value to compare.
@@ -3275,8 +3262,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * Checks if a dialog UI element value and the given value are not equal.
 			 *
 			 * ```javascript
-			 * CKEDITOR.dialog.validation.notEqual( 'foo', 'error!' )( 'baz' ) // true
-			 * CKEDITOR.dialog.validation.notEqual( 'foo', 'error!' )( 'foo' ) // error!
+			 * CKEDITOR.dialog.validate.notEqual( 'foo', 'error!' )( 'baz' ) // true
+			 * CKEDITOR.dialog.validate.notEqual( 'foo', 'error!' )( 'foo' ) // error!
 			 * ```
 			 *
 			 * @param {String} value Value to compare.
