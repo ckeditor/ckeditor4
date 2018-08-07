@@ -1,4 +1,6 @@
 /* bender-tags: editor,widget */
+/* bender-include: ../easyimage/_helpers/tools.js */
+/* global easyImageTools */
 
 ( function() {
 	'use strict';
@@ -6,6 +8,10 @@
 	bender.test( {
 		// (#1791)
 		'test plugin init when easyimage is active': function() {
+			if ( easyImageTools.isUnsupportedEnvironment() ) {
+				assert.ignore();
+			}
+
 			var spy = sinon.spy( CKEDITOR, 'warn' );
 
 			bender.editorBot.create( {
