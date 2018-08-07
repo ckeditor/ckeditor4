@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: bug, trac16755, 4.11.0, 706
+@bender-tags: bug, 4.11.0, 706
 @bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, elementspath
 
 Try to select some cells.
