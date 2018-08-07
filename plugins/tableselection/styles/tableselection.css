@@ -15,6 +15,7 @@
 	background: #0076cb !important;
 	color: white;
 }
+
 .cke_editable:focus .cke_table-faked-selection a {
 	color: white;
 }
@@ -23,4 +24,9 @@
 }
 .cke_table-faked-selection::selection, .cke_table-faked-selection ::selection {
 	background: transparent;
+}
+
+/* Change cursor when selecting cells (#706). */
+table[data-cke-table-faked-selection-table] {
+	cursor: cell;
 }
