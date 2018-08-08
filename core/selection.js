@@ -920,9 +920,11 @@
 
 			// We check the selection change:
 			// 1. Upon "selectionchange" event from the editable element. (which might be faked event fired by our code)
-			// 2. After the accomplish of keyboard and mouse events.
+			// 2. After the accomplish of keyboard, mouse and touch (#2276) events.
 			editable.attachListener( editable, 'selectionchange', checkSelectionChange, editor );
 			editable.attachListener( editable, 'keyup', checkSelectionChangeTimeout, editor );
+			editable.attachListener( editable, 'touchstart', checkSelectionChangeTimeout, editor );
+			editable.attachListener( editable, 'touchend', checkSelectionChangeTimeout, editor );
 
 			if ( CKEDITOR.env.ie ) {
 				// https://dev.ckeditor.com/ticket/14407 - Don't even let anything happen if the selection is in a non-editable element.
