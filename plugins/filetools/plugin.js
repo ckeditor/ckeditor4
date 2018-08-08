@@ -917,7 +917,7 @@
  * Allows to add extra headers for every request made using the {@link CKEDITOR.fileTools} API.
  *
  * Note that headers can still be customized per a single request, using the
- * [`fileUploadRequest`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.editor-event-fileUploadRequest)
+ * [`fileUploadRequest`](https://ckeditor.com/docs/ckeditor4/docs/#!/api/CKEDITOR.editor-event-fileUploadRequest)
  * event.
  *
  *		config.fileTools_requestHeaders = {
