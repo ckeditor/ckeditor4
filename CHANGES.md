@@ -9,6 +9,7 @@ New Features:
 * [#2154](https://github.com/ckeditor/ckeditor-dev/issues/2154): [Link](https://ckeditor.com/cke4/addon/link) plugin now supports phone number links.
 * [#1815](https://github.com/ckeditor/ckeditor-dev/issues/1815): [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin supports typing link completion.
 * [#2248](https://github.com/ckeditor/ckeditor-dev/issues/2248): Added support for justification in the [BBCode](https://ckeditor.com/cke4/addon/bbcode) plugin. Thanks to [Matěj Kmínek](https://github.com/KminekMatej)!
+* [#706](https://github.com/ckeditor/ckeditor-dev/issues/706): Added different cursor style when selecting cells for [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
 
 API Changes:
 
