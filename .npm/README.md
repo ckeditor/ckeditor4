@@ -7,7 +7,7 @@
 [![Join newsletter](https://img.shields.io/badge/join-newsletter-00cc99.svg)](http://eepurl.com/c3zRPr)
 [![Follow twitter](https://img.shields.io/badge/follow-twitter-00cc99.svg)](https://twitter.com/ckeditor)
 
-A highly configurable browser-based WYSIWYG HTML editor with a broad browser compatibility.
+A highly configurable WYSIWYG HTML editor with a broad browser compatibility.
 
 -- screenshot --
 
@@ -48,9 +48,9 @@ By default CKEditor 4 npm package comes in a "standard-all" preset, you can read
 ## Further Resources
 
 * [CKEditor 4 demo](https://ckeditor.com/ckeditor-4/)
-* [Documentation](https://docs.ckeditor.com/ckeditor4/latest/)
-* [API documentation](https://docs.ckeditor.com/ckeditor4/latest/api/index.html)
-* [Configuration reference](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_config.html)
+* [Documentation](https://ckeditor.com/docs/ckeditor4/latest/)
+* [API documentation](https://ckeditor.com/docs/ckeditor4/latest/api/index.html)
+* [Configuration reference](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html)
 * [SDK including more samples](https://sdk.ckeditor.com/)
 
 If you are looking for CKEditor 5, here's a link to the relevant npm package: <https://www.npmjs.com/package/ckeditor5>
@@ -61,7 +61,7 @@ If you are looking for CKEditor 5, here's a link to the relevant npm package: <h
 | --------- | --------- | --------- | --------- | --------- |
 | IE8, IE9, IE10, IE11, Edge| last version| last version| last version| last version
 
-Find out more in the [Browser Compatibility guide](https://docs.ckeditor.com/ckeditor4/latest/guide/dev_browsers.html#officially-supported-browsers).
+Find out more in the [Browser Compatibility guide](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_browsers.html#officially-supported-browsers).
 
 ## Contribute
 
