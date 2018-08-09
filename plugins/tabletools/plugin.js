@@ -153,6 +153,11 @@
 
 	function deleteRows( selectionOrRow ) {
 		if ( selectionOrRow instanceof CKEDITOR.dom.selection ) {
+			// Problem occurs only on webkit and MacOS (#2300).
+			if ( CKEDITOR.env.webkit && !selectionOrRow.isFake ) {
+				selectionOrRow = preserveSelection( selectionOrRow );
+			}
+
 			var ranges = selectionOrRow.getRanges(),
 				cells = getSelectedCells( selectionOrRow ),
 				firstCell = cells[ 0 ],
