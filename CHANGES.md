@@ -17,12 +17,12 @@ Fixed Issues:
 * [#1046](https://github.com/ckeditor/ckeditor-dev/issues/1046): Fixed: Subsequent new links do not include `id` attribute. Thanks to [Nathan Samson](https://github.com/nathansamson)!
 * [#2195](https://github.com/ckeditor/ckeditor-dev/issues/2195): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) shows suggestion box when colon preceded with other character than white space.
 * [#1791](https://github.com/ckeditor/ckeditor-dev/issues/1791): Fixed: [Image](https://ckeditor.com/cke4/addon/image) and [Enhanced Image](https://ckeditor.com/cke4/addon/image2) plugins are enabled when [Easy Image](https://ckeditor.com/cke4/addon/easyimage) is present.
+* [#1184](https://github.com/ckeditor/ckeditor-dev/issues/1184): [IE8-11] Fixed: Copying and pasting data in [read-only mode](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#property-readOnly) throws an error.
+* [#1916](https://github.com/ckeditor/ckeditor-dev/issues/1916): [IE9-11] Fixed: Pressing <kbd>Delete</kbd> key in [read-only mode](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#property-readOnly) throws an error.
 
 API Changes:
 
 * [#2249](https://github.com/ckeditor/ckeditor-dev/issues/1791): Added [`CKEDITOR.tools.detectPluginsConflict`](http://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR_tools.html#method-detectPluginsConflict) function finding conflicts between provided plugins.
-* [#1184](https://github.com/ckeditor/ckeditor-dev/issues/1184): [IE8-11] Fixed: Copying and pasting data in [read-only mode](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#property-readOnly) throws an error.
-* [#1916](https://github.com/ckeditor/ckeditor-dev/issues/1916): [IE9-11] Fixed: Pressing <kbd>Delete</kbd> key in [read-only mode](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#property-readOnly) throws an error.
 
 ## CKEditor 4.10
 
