@@ -305,7 +305,7 @@
 		return addedCells;
 	}
 
-	function processSelection( selection ) {
+	function preserveSelection( selection ) {
 		// If selection leak to next td/th cell, then preserve it in previous cell.
 
 		var ranges,
@@ -353,7 +353,7 @@
 		// Problem occures only on webkit in case of native selection (#577).
 		// Upstream: https://bugs.webkit.org/show_bug.cgi?id=175131, https://bugs.chromium.org/p/chromium/issues/detail?id=752091
 		if ( CKEDITOR.env.webkit && !selection.isFake ) {
-			selection = processSelection( selection );
+			selection = preserveSelection( selection );
 		}
 
 		var ranges = selection.getRanges(),
