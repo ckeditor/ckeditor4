@@ -1,5 +1,4 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: placeholder */
 /* global testSelection, testSelectedElement, testSelectedText, testStartElement, rangy, doc, makeSelection,
 	convertRange, checkRangeEqual, checkSelection, assertSelectionsAreEqual, tools */
 
@@ -17,6 +16,10 @@ var htmlComparisonOpts = {
 var isElement = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT );
 
 bender.test( {
+	tearDown: function() {
+		this.editor.setReadOnly( false );
+	},
+
 	'test contructor': function() {
 		// Make the DOM selection at the beginning of the document.
 		var newRange = new CKEDITOR.dom.range( doc );
@@ -790,53 +793,34 @@ bender.test( {
 
 	// (#1632)
 	'test keys with readonly editor': function() {
+		var editor = this.editor,
+			spy = sinon.spy( CKEDITOR.dom.selection.prototype, 'selectElement' ),
+			editable = editor.editable();
 
-		// Test has been ignored for IE due to #1575 issue. Remove this ignore statement after the issue fix.
-		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-			assert.ignore();
-		}
-
-		var editor = this.editor;
+		bender.tools.setHtmlWithSelection( editor, '<p>[test]</p>' );
 
 		editor.setReadOnly( true );
 
-		this.editorBot.setData( '<p>[[placeholder]]</p>', function() {
-			var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ],
-				spy = sinon.spy( CKEDITOR.dom.selection.prototype, 'selectElement' ),
-				editable = editor.editable();
+		editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL } ) );
+		editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) ); // DELETE
 
-			widget.focus();
+		spy.restore();
 
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL } ) );
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) ); // DELETE
-
-			spy.restore();
-			assert.isFalse( spy.called );
-		} );
+		assert.isFalse( spy.called );
 	},
 
 	// (#1632)
 	'test keys with readonly mode are not prevented': function() {
-
-		// Test has been ignored for IE due to #1575 issue. Remove this ignore statement after the issue fix.
-		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-			assert.ignore();
-		}
-
-		var editor = this.editor;
+		var editor = this.editor,
+			event = new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL } ),
+			eventSpy = sinon.spy( event, 'preventDefault' );
 
 		editor.setReadOnly( true );
 
-		this.editorBot.setData( '<p>[[placeholder]]</p>', function() {
-			var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ],
-				event = new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL } ),
-				eventSpy = sinon.spy( event, 'preventDefault' );
+		bender.tools.setHtmlWithSelection( editor, '<p>[test]</p>' );
 
-			widget.focus();
+		editor.editable().fire( 'keydown', event );
 
-			editor.editable().fire( 'keydown', event );
-
-			assert.isFalse( eventSpy.called );
-		} );
+		assert.isFalse( eventSpy.called );
 	}
 } );
