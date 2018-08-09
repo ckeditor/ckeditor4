@@ -53,6 +53,10 @@
 	}
 
 	bender.test( {
+		tearDown: function() {
+			this.editor.setReadOnly( false );
+		},
+
 		'test initializing widgets': function() {
 			var editor = this.editor;
 
@@ -664,8 +668,6 @@
 					assert.isTrue( !!getWidgetById( editor, 'w1' ), 'widget has not been deleted' );
 					assert.isFalse( !!editor.getSelection().isFake, 'selection is not faked' );
 					assert.isFalse( !!editor.document.getById( 'cke_copybin' ), 'copybin was removed' );
-
-					this.editor.setReadOnly( false );
 				}, 150 );
 			} );
 		},
