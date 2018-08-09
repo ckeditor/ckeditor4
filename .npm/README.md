@@ -43,7 +43,7 @@ Note that you can also load CKEditor 4 using [CDN](https://cdn.ckeditor.com/#cke
 
 ## Presets
 
-By default CKEditor 4 npm package comes in a "standard-all" preset, you can read more about it in [CKEditor 4 standard package sample](https://sdk.ckeditor.com/samples/standardpreset.html).
+By default CKEditor 4 dev npm package comes in a "full-all" preset, you can read more about it in [CKEditor 4 full package sample](https://sdk.ckeditor.com/samples/fullpreset.html).
 
 ## Further Resources
 
