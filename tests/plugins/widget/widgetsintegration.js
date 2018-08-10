@@ -641,11 +641,6 @@
 
 		// #1570
 		'test cutting single focused widget with readonly mode': function() {
-			// Test has been ignored for IE due to #1632 issue. Remove this ignore statement after the issue fix.
-			if ( CKEDITOR.env.ie ) {
-				assert.ignore();
-			}
-
 			var editor = this.editor;
 
 			this.editorBot.setData( '<p>X</p><p id="w1" data-widget="test2">A</p><p>X</p>', function() {

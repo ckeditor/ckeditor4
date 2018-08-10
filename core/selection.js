@@ -923,14 +923,21 @@
 			// 2. After the accomplish of keyboard and mouse events.
 			editable.attachListener( editable, 'selectionchange', checkSelectionChange, editor );
 			editable.attachListener( editable, 'keyup', checkSelectionChangeTimeout, editor );
-			// https://dev.ckeditor.com/ticket/14407 - Don't even let anything happen if the selection is in a non-editable element.
-			editable.attachListener( editable, 'keydown', function( evt ) {
-				var sel = this.getSelection( 1 );
-				if ( nonEditableAscendant( sel ) ) {
-					sel.selectElement( nonEditableAscendant( sel ) );
-					evt.data.preventDefault();
-				}
-			}, editor );
+
+			if ( CKEDITOR.env.ie ) {
+				// https://dev.ckeditor.com/ticket/14407 - Don't even let anything happen if the selection is in a non-editable element.
+				editable.attachListener( editable, 'keydown', function( evt ) {
+					var sel = this.getSelection( 1 ),
+						ascendant = getNonEditableAscendant( sel );
+
+					// Prevent changing selection when an ascendant is an entire editable (#1632).
+					if ( ascendant && !ascendant.equals( editable ) ) {
+						sel.selectElement( ascendant );
+						evt.data.preventDefault();
+					}
+				}, editor );
+			}
+
 			// Always fire the selection change on focus gain.
 			// On Webkit do this on DOMFocusIn, because the selection is unlocked on it too and
 			// we need synchronization between those listeners to not lost cached editor._.previousActive property
@@ -1017,16 +1024,23 @@
 					range.select();
 			}
 
-			function nonEditableAscendant( sel ) {
-				if ( CKEDITOR.env.ie ) {
-					var range = sel.getRanges()[ 0 ],
-						ascendant = range ? range.startContainer.getAscendant( function( parent ) {
-								return parent.type == CKEDITOR.NODE_ELEMENT &&
-									( parent.getAttribute( 'contenteditable' ) == 'false' || parent.getAttribute( 'contenteditable' ) == 'true' );
-							}, true ) : null ;
+			function getNonEditableAscendant( sel ) {
+				var range = sel.getRanges()[ 0 ];
 
-					return range && ascendant.getAttribute( 'contenteditable' ) == 'false' && ascendant;
+				if ( !range ) {
+					return null;
 				}
+
+				// Fetch first contenteditable parent.
+				var ascendant = range.startContainer.getAscendant( function( parent ) {
+					return parent.type == CKEDITOR.NODE_ELEMENT && parent.hasAttribute( 'contenteditable' );
+				}, true );
+
+				if ( ascendant && ascendant.getAttribute( 'contenteditable' ) === 'false' ) {
+					return ascendant;
+				}
+
+				return null;
 			}
 		} );
 
