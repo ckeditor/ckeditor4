@@ -928,14 +928,12 @@
 				// https://dev.ckeditor.com/ticket/14407 - Don't even let anything happen if the selection is in a non-editable element.
 				editable.attachListener( editable, 'keydown', function( evt ) {
 					var sel = this.getSelection( 1 ),
-						ascendant = nonEditableAscendant( sel );
+						ascendant = getNonEditableAscendant( sel );
 
-					if ( ascendant ) {
-						// Prevent changing selection when an ascendant is an entire editable (#1632).
-						if ( !ascendant.equals( editable ) ) {
-							sel.selectElement( ascendant );
-							evt.data.preventDefault();
-						}
+					// Prevent changing selection when an ascendant is an entire editable (#1632).
+					if ( ascendant && !ascendant.equals( editable ) ) {
+						sel.selectElement( ascendant );
+						evt.data.preventDefault();
 					}
 				}, editor );
 			}
@@ -1026,14 +1024,23 @@
 					range.select();
 			}
 
-			function nonEditableAscendant( sel ) {
-				var range = sel.getRanges()[ 0 ],
-					ascendant = range ? range.startContainer.getAscendant( function( parent ) {
-						return parent.type == CKEDITOR.NODE_ELEMENT &&
-							( parent.getAttribute( 'contenteditable' ) == 'false' || parent.getAttribute( 'contenteditable' ) == 'true' );
-					}, true ) : null ;
+			function getNonEditableAscendant( sel ) {
+				var range = sel.getRanges()[ 0 ];
 
-				return ascendant && ascendant.getAttribute( 'contenteditable' ) == 'false' ? ascendant : null;
+				if ( !range ) {
+					return null;
+				}
+
+				// Fetch first contenteditable parent.
+				var ascendant = range.startContainer.getAscendant( function( parent ) {
+					return parent.type == CKEDITOR.NODE_ELEMENT && parent.hasAttribute( 'contenteditable' );
+				}, true );
+
+				if ( ascendant && ascendant.getAttribute( 'contenteditable' ) === 'false' ) {
+					return ascendant;
+				}
+
+				return null;
 			}
 		} );
 
