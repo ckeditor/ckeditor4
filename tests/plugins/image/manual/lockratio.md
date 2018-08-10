@@ -2,12 +2,11 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, image
 
-1. Click `Image` button.
-1. Set image URL into `http://via.placeholder.com/1800x1200`
+1. Double click on image.
 1. Make sure that `Lock ratio` option is locked.
-1. Set image width into `500`.
+1. Set image width into `100`.
 1. Press `OK`.
-1. Double click on inserted image.
+1. Double click on image again.
 
 ## Expected
 
