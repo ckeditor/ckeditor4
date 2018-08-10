@@ -1916,6 +1916,12 @@
 		 * @param {CKEDITOR.editor} editor
 		 */
 		internalDrop: function( dragRange, dropRange, dataTransfer, editor ) {
+			function compareRanges( range1, range2 ) {
+				return range1.startContainer.equals( range2.startContainer ) &&
+					range1.endContainer && range2.endContainer &&
+					range1.endContainer.equals( range2.endContainer );
+			}
+
 			var clipboard = CKEDITOR.plugins.clipboard,
 				editable = editor.editable(),
 				dragBookmark, dropBookmark, isDropRangeAffected;
@@ -1932,6 +1938,11 @@
 					clipboard.dragStartContainerChildCount,
 					clipboard.dragEndContainerChildCount
 				);
+			}
+
+			if ( compareRanges( dragRange, dropRange ) ) {
+				firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop', range: dragRange }, 1 );
+				return editor.fire( 'unlockSnapshot' );
 			}
 
 			// Because we manipulate multiple ranges we need to do it carefully,
