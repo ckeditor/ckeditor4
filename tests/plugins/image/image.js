@@ -343,36 +343,28 @@
 			},
 				function( bot ) {
 					bot.dialog( 'image', function( dialog ) {
-						// Load image at the first time.
-						// Lock ratio swich is triggered for each `load` image event.
-						// This event is triggered every time when images src is changed.
-						loadImage( function() {
-							// Load image and change its size.
-							loadImage( function() {
-								dialog.getContentElement( 'info', 'txtWidth' ).setValue( getFixedImageSize( 'width' ) );
-								dialog.getContentElement( 'info', 'txtHeight' ).setValue( getFixedImageSize( 'height' ) );
-
-								// Run asynchronously so switch lock ratio will have time to update its status.
-								setTimeout( function() {
-									resume( function() {
-										assert.isTrue( dialog.lockRatio );
-									} );
-								} );
-
-							} );
+						var stub = sinon.stub( dialog, 'getValueOf', function( field, prop ) {
+							return prop === 'txtWidth' ? getFixedImageSize( 'width' ) : getFixedImageSize( 'height' );
 						} );
 
-						wait();
+						dialog.originalElement.once( 'load', function() {
+							setTimeout( function() {
+								resume( function() {
+									stub.restore();
+									assert.isTrue( dialog.lockRatio );
+								} );
+							} );
 
-						function loadImage( callback ) {
-							dialog.originalElement.once( 'load', callback );
-							dialog.getContentElement( 'info', 'txtUrl' ).setValue( image.url );
-						}
+						}, null, null, 999 );
+
+						// Changing image url triggers load event.
+						dialog.getContentElement( 'info', 'txtUrl' ).setValue( image.url );
+
+						wait();
 
 						function getFixedImageSize( prop ) {
 							return Math.round( Number( image[ prop ] ) / 3.6 );
 						}
-
 					} );
 				} );
 		},
