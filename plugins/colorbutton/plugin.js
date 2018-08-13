@@ -210,17 +210,17 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				if ( color == '?' ) {
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
-							return applyColor( color );
+							return setColor( color );
 						}
 					} );
 				} else {
-					return applyColor( color );
+					return setColor( color );
 				}
 
-				function applyColor( color ) {
-					// Clean up any conflicting style within the range.
-					editor.removeStyle( new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ) );
+				function setColor( color ) {
 					var colorStyle = config[ 'colorButton_' + type + 'Style' ];
+					// Clean up any conflicting style within the range.
+					editor.removeStyle( new CKEDITOR.style( colorStyle, { color: 'inherit' } ) );
 
 					colorStyle.childRule = type == 'back' ?
 					function( element ) {
@@ -233,7 +233,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					};
 
 					editor.focus();
-					editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
+					if ( color ) {
+						editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
+					}
 					editor.fire( 'saveSnapshot' );
 				}
 
@@ -262,15 +264,21 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				var parts = colors[ i ].split( '/' ),
 					colorName = parts[ 0 ],
-					colorCode = parts[ 1 ] || colorName;
+					colorCode = parts[ 1 ] || colorName,
+					colorLabel;
 
 				// The data can be only a color code (without #) or colorName + color code
 				// If only a color code is provided, then the colorName is the color with the hash
 				// Convert the color from RGB to RRGGBB for better compatibility with IE and <font>. See https://dev.ckeditor.com/ticket/5676
-				if ( !parts[ 1 ] )
+				// Additionally, if the data is a single color code then let's try to translate it or fallback on the
+				// color code. If the data is a color name/code, then use directly the color name provided.
+				if ( !parts[ 1 ] ) {
 					colorName = '#' + colorName.replace( /^(.)(.)(.)$/, '$1$1$2$2$3$3' );
+					colorLabel = editor.lang.colorbutton.colors[ colorCode ] || colorCode;
+				} else {
+					colorLabel = colorName;
+				}
 
-				var colorLabel = editor.lang.colorbutton.colors[ colorCode ] || colorCode;
 				output.push( '<td>' +
 					'<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
 						' title="', colorLabel, '"' +

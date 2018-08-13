@@ -16,6 +16,10 @@ var htmlComparisonOpts = {
 var isElement = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT );
 
 bender.test( {
+	tearDown: function() {
+		this.editor.setReadOnly( false );
+	},
+
 	'test contructor': function() {
 		// Make the DOM selection at the beginning of the document.
 		var newRange = new CKEDITOR.dom.range( doc );
@@ -785,5 +789,38 @@ bender.test( {
 		bender.tools.setHtmlWithSelection( editor, '<p>T^es^t</p>' );
 
 		assert.isFalse( editor.getSelection().isCollapsed() );
+	},
+
+	// (#1632)
+	'test keys with readonly editor': function() {
+		var editor = this.editor,
+			spy = sinon.spy( CKEDITOR.dom.selection.prototype, 'selectElement' ),
+			editable = editor.editable();
+
+		bender.tools.setHtmlWithSelection( editor, '<p>[test]</p>' );
+
+		editor.setReadOnly( true );
+
+		editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL } ) );
+		editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) ); // DELETE
+
+		spy.restore();
+
+		assert.isFalse( spy.called );
+	},
+
+	// (#1632)
+	'test keys with readonly mode are not prevented': function() {
+		var editor = this.editor,
+			event = new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL } ),
+			eventSpy = sinon.spy( event, 'preventDefault' );
+
+		editor.setReadOnly( true );
+
+		bender.tools.setHtmlWithSelection( editor, '<p>[test]</p>' );
+
+		editor.editable().fire( 'keydown', event );
+
+		assert.isFalse( eventSpy.called );
 	}
 } );

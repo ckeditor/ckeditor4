@@ -1,0 +1,19 @@
+<div id="editor"></div>
+
+<script>
+
+	if ( autocompleteUtils.isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		on: {
+			pluginsLoaded: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback(),
+				} );
+			}
+		}
+	} );
+</script>

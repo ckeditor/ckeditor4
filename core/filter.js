@@ -686,11 +686,22 @@
 		 *
 		 * Second `check()` call returned `false` because `src` is required.
 		 *
+		 * When an array of rules is passed as the `test` argument the filter
+		 * returns `true` if at least one of passed rules is allowed.
+		 *
+		 * For example:
+		 *
+		 * ```javascript
+		 * // Rule: 'img'
+		 * filter.check( [ 'img', 'div' ] ) // -> true
+		 * filter.check( [ 'p', 'div' ] ) // -> false
+		 * ```
+		 *
 		 * **Note:** The `test` argument is of {@link CKEDITOR.filter.contentRule} type, which is
 		 * a limited version of {@link CKEDITOR.filter.allowedContentRules}. Read more about it
 		 * in the {@link CKEDITOR.filter.contentRule}'s documentation.
 		 *
-		 * @param {CKEDITOR.filter.contentRule} test
+		 * @param {CKEDITOR.filter.contentRule/CKEDITOR.filter.contentRule[]} test
 		 * @param {Boolean} [applyTransformations=true] Whether to use registered transformations.
 		 * @param {Boolean} [strictCheck] Whether the filter should check if an element with exactly
 		 * these properties is allowed.
@@ -2360,7 +2371,7 @@
  *			}
  *		} );
  *
- * Read more in the [documentation](#!/guide/dev_acf-section-automatic-mode-and-allow-additional-tags%2Fproperties)
+ * Read more in the [documentation](#!/guide/dev_acf-section-automatic-mode-and-allow-additional-tagsproperties)
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/acf.html).
  * See also {@link CKEDITOR.config#allowedContent} for more details.
  *
@@ -2373,7 +2384,7 @@
  * Disallowed content rules. They have precedence over {@link #allowedContent allowed content rules}.
  * Read more in the [Disallowed Content guide](#!/guide/dev_disallowed_content).
  *
- * Read more in the [documentation](#!/guide/dev_acf-section-automatic-mode-but-disallow-certain-tags%2Fproperties)
+ * Read more in the [documentation](#!/guide/dev_acf-section-automatic-mode-but-disallow-certain-tagsproperties)
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/acf.html).
  * See also {@link CKEDITOR.config#allowedContent} and {@link CKEDITOR.config#extraAllowedContent}.
  *
@@ -2403,8 +2414,8 @@
  *
  * Possible formats are:
  *
- *	* the [string format](#!/guide/dev_allowed_content_rules-section-2),
- *	* the [object format](#!/guide/dev_allowed_content_rules-section-3),
+ *	* the [string format](#!/guide/dev_allowed_content_rules-section-string-format),
+ *	* the [object format](#!/guide/dev_allowed_content_rules-section-object-format),
  *	* a {@link CKEDITOR.style} instance &ndash; used mainly for integrating plugins with Advanced Content Filter,
  *	* an array of the above formats.
  *

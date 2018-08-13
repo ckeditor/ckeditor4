@@ -1426,15 +1426,19 @@
 		 * members as {@link #keystrokeToArray}, but the returned object contains strings of
 		 * keys joined with "+" rather than an array of keystrokes.
 		 *
-		 * 		var lang = editor.lang.common.keyboard;
-		 * 		var shortcut = CKEDITOR.tools.keystrokeToString( lang, CKEDITOR.CTRL + 88 );
-		 * 		console.log( shortcut.display ); // 'Ctrl + X', on Mac '⌘ + X'.
-		 * 		console.log( shortcut.aria ); // 'Ctrl + X', on Mac 'Cmd + X'.
+		 * ```javascript
+		 * var lang = editor.lang.common.keyboard;
+		 * var shortcut = CKEDITOR.tools.keystrokeToString( lang, CKEDITOR.CTRL + 88 );
+		 * console.log( shortcut.display ); // 'Ctrl + X', on Mac '⌘ + X'.
+		 * console.log( shortcut.aria ); // 'Ctrl + X', on Mac 'Cmd + X'.
+		 * ```
 		 *
 		 * @since 4.6.0
 		 * @param {Object} lang A language object with the key name translation.
 		 * @param {Number} keystroke The keystroke to convert.
-		 * @returns {{display: String, aria: String}} See {@link #keystrokeToArray}.
+		 * @returns {Object} See {@link #keystrokeToArray}.
+		 * @returns {String} return.display
+		 * @returns {String} return.aria
 		 */
 		keystrokeToString: function( lang, keystroke ) {
 			var ret = this.keystrokeToArray( lang, keystroke );
@@ -1446,23 +1450,23 @@
 		},
 
 		/**
-		 * Converts a keystroke to its string representation. Returns an object with two fields:
+		 * Converts a keystroke to its string representation.
 		 *
-		 * * `display` &ndash; An array of strings that should be used for visible labels.
-		 * For Mac devices it uses `⌥` for <kbd>Alt</kbd>, `⇧` for <kbd>Shift</kbd> and
-		 * `⌘` for <kbd>Command</kbd>.
-		 * * `aria` &ndash; An array of strings that should be used for ARIA descriptions.
-		 * It does not use special characters such as `⌥`, `⇧` or `⌘`.
-		 *
-		 * 		var lang = editor.lang.common.keyboard;
-		 * 		var shortcut = CKEDITOR.tools.keystrokeToArray( lang, CKEDITOR.CTRL + 88 );
-		 * 		console.log( shortcut.display ); // [ 'CTRL', 'X' ], on Mac [ '⌘', 'X' ].
-		 * 		console.log( shortcut.aria ); // [ 'CTRL', 'X' ], on Mac [ 'COMMAND', 'X' ].
+		 * ```javascript
+		 * var lang = editor.lang.common.keyboard;
+		 * var shortcut = CKEDITOR.tools.keystrokeToArray( lang, CKEDITOR.CTRL + 88 );
+		 * console.log( shortcut.display ); // [ 'CTRL', 'X' ], on Mac [ '⌘', 'X' ].
+		 * console.log( shortcut.aria ); // [ 'CTRL', 'X' ], on Mac [ 'COMMAND', 'X' ].
+		 * ```
 		 *
 		 * @since 4.8.0
 		 * @param {Object} lang A language object with the key name translation.
 		 * @param {Number} keystroke The keystroke to convert.
-		 * @returns {{display: String[], aria: String[]}}
+		 * @returns {Object}
+		 * @returns {String[]} return.display An array of strings that should be used for visible labels.
+		 * For Mac devices it uses `⌥` for <kbd>Alt</kbd>, `⇧` for <kbd>Shift</kbd> and `⌘` for <kbd>Command</kbd>.
+		 * @returns {String[]} return.aria An array of strings that should be used for ARIA descriptions.
+		 * It does not use special characters such as `⌥`, `⇧` or `⌘`.
 		 */
 		keystrokeToArray: function( lang, keystroke ) {
 			var special = keystroke & 0xFF0000,
@@ -2309,6 +2313,41 @@
 
 				appendParentFramePosition( frame.getWindow().getFrame() );
 			}
+		},
+
+		/**
+		 * Checks for conflicting plugins with the given one.
+		 *
+		 * If conflict occurs this function will send {@link CKEDITOR#warn console warning}
+		 * with `editor-plugin-conflict` error code. Order of a `conflicted` names is respected
+		 * where the first conflicted plugin has the highest priority and will be used in a warning
+		 * message.
+		 *
+		 * ```javascript
+		 * CKEDITOR.tools.detectPluginsConflict( editor, 'image', [ 'image2', 'easyimage' ] );
+		 * ```
+		 *
+		 * @since 4.10.1
+		 * @param {CKEDITOR.editor} editor Editor searched for conflicting plugins.
+		 * @param {String} plugin Current plugin name.
+		 * @param {String[]} conflicted Names of plugins that are conflicted with a current plugin.
+		 * @return {Boolean} Returns true, if there is some conflict. Returns false otherwise.
+		 */
+		detectPluginsConflict: function( editor, plugin, conflicted ) {
+			for ( var i = 0; i < conflicted.length; i++ ) {
+				var pluginName = conflicted[ i ];
+
+				if ( editor.plugins[ pluginName ] ) {
+					CKEDITOR.warn( 'editor-plugin-conflict', {
+						plugin: plugin,
+						replacedWith: pluginName
+					} );
+
+					return true;
+				}
+			}
+
+			return false;
 		}
 	};
 

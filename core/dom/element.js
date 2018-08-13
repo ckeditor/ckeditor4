@@ -2021,7 +2021,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *
 		 *	* Not available in IE7.
 		 *	* Returned list is not a live collection (like a result of native `querySelectorAll`).
-		 *	* Unlike native `querySelectorAll` this method ensures selector contextualization. This is:
+		 *	* Unlike the native `querySelectorAll` this method ensures selector contextualization. This is:
 		 *
 		 *			HTML:		'<body><div><i>foo</i></div></body>'
 		 *			Native:		div.querySelectorAll( 'body i' ) // ->		[ <i>foo</i> ]
@@ -2029,7 +2029,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *						div.find( 'i' ) // ->						[ <i>foo</i> ]
 		 *
 		 * @since 4.3
-		 * @param {String} selector
+		 * @param {String} selector A valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 		 * @returns {CKEDITOR.dom.nodeList}
 		 */
 		find: function( selector ) {
@@ -2044,12 +2044,12 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		},
 
 		/**
-		 * Returns first element within this element that matches specified `selector`.
+		 * Returns the first element within this element that matches the specified `selector`.
 		 *
 		 * **Notes:**
 		 *
 		 *	* Not available in IE7.
-		 *	* Unlike native `querySelectorAll` this method ensures selector contextualization. This is:
+		 *	* Unlike the native `querySelector` this method ensures selector contextualization. This is:
 		 *
 		 *			HTML:		'<body><div><i>foo</i></div></body>'
 		 *			Native:		div.querySelector( 'body i' ) // ->			<i>foo</i>
@@ -2057,7 +2057,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *						div.findOne( 'i' ) // ->					<i>foo</i>
 		 *
 		 * @since 4.3
-		 * @param {String} selector
+		 * @param {String} selector A valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 		 * @returns {CKEDITOR.dom.element}
 		 */
 		findOne: function( selector ) {

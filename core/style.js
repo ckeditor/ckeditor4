@@ -1684,6 +1684,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 		if ( styles )
 			el.setAttribute( 'style', styles );
 
+		el.getDocument().removeCustomData( 'doc_processing_style' );
+
 		return el;
 	}
 
@@ -1826,8 +1828,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	function applyStyleOnSelection( selection, remove, editor ) {
-		var doc = selection.document,
-			ranges = selection.getRanges(),
+		var ranges = selection.getRanges(),
 			func = remove ? this.removeFromRange : this.applyToRange,
 			originalRanges,
 			range,
@@ -1848,7 +1849,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 			func.call( this, range, editor );
 
 		selection.selectRanges( originalRanges || ranges );
-		doc.removeCustomData( 'doc_processing_style' );
 	}
 } )();
 

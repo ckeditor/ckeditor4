@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: autocomplete */
+/* bender-ckeditor-plugins: autocomplete,wysiwygarea */
 
 ( function() {
 	'use strict';
@@ -543,6 +543,26 @@
 			assert.areEqual( 1, ac.view.selectedItemId, 'View selected item id' );
 
 			ac.destroy();
+		},
+
+		// (#2114)
+		'test initialize autocomplete before instanceReady': function() {
+			var editor = CKEDITOR.replace( 'init' ),
+				ac;
+
+			editor.once( 'pluginsLoaded', function() {
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition );
+			} );
+
+			editor.on( 'instanceReady', function() {
+				resume( function() {
+					bender.tools.setHtmlWithSelection( editor, '' );
+					editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+					assertViewOpened( ac, true );
+				} );
+			} );
+
+			wait();
 		}
 	} );
 

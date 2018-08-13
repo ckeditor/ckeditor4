@@ -231,7 +231,14 @@
 			this.view.itemTemplate = new CKEDITOR.template( config.itemTemplate );
 		}
 
-		this.attach();
+		// Attach autocomplete when editor instance is ready (#2114).
+		if ( this.editor.status === 'ready' ) {
+			this.attach();
+		} else {
+			this.editor.on( 'instanceReady', function() {
+				this.attach();
+			}, this );
+		}
 	}
 
 	Autocomplete.prototype = {
@@ -278,6 +285,11 @@
 			this._listeners.push( editor.on( 'change', function() {
 				this.viewRepositionListener();
 			}, this ) );
+
+			// Don't let browser to focus dropdown element (#2107).
+			this._listeners.push( this.view.element.on( 'mousedown', function( e ) {
+				e.data.preventDefault();
+			}, null, null, 9999 ) );
 
 			// Attach if editor is already initialized.
 			if ( editable ) {

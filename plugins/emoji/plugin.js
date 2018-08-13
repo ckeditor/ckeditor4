@@ -67,32 +67,35 @@
 
 				function matchCallback( text, offset ) {
 					var left = text.slice( 0, offset ),
-						match = left.match( new RegExp( ':\\S{' + charactersToStart + '}\\S*$' ) );
+						// Emoji should be started with space or newline, but space shouldn't leak to output, hence it is in non captured group (#2195).
+						match = left.match( new RegExp( '(?:\\s\|^)(:\\S{' + charactersToStart + '}\\S*)$' ) );
 
 					if ( !match ) {
 						return null;
 					}
 
-					return { start: match.index, end: offset };
+					// In case of space preceding colon we need to return index of capturing grup.
+					return { start: text.indexOf( match[ 1 ] ), end: offset };
 				}
 
 				function dataCallback( matchInfo, callback ) {
-					var data = CKEDITOR.tools.array.filter( emojiList, function( item ) {
-						return item.id.indexOf( matchInfo.query.slice( 1 ) ) !== -1;
-					} ).sort( function( a, b ) {
-						// Sort at the beginning emoji starts with given query.
-						var emojiName = matchInfo.query.substr( 1 ),
-							isAStartWithEmojiName = a.id.substr( 1, emojiName.length ) === emojiName,
-							isBStartWithEmojiName = b.id.substr( 1, emojiName.length ) === emojiName;
+					var emojiName =  matchInfo.query.substr( 1 ).toLowerCase(),
+						data = CKEDITOR.tools.array.filter( emojiList, function( item ) {
+							// Comparing lowercased strings, because emoji should be case insensitive (#2167).
+							return item.id.toLowerCase().indexOf( emojiName ) !== -1;
+						} ).sort( function( a, b ) {
+							// Sort at the beginning emoji starts with given query.
+							var isAStartWithEmojiName = a.id.substr( 1, emojiName.length ) === emojiName,
+								isBStartWithEmojiName = b.id.substr( 1, emojiName.length ) === emojiName;
 
-						if ( isAStartWithEmojiName && isBStartWithEmojiName || !isAStartWithEmojiName && !isBStartWithEmojiName ) {
-							return a.id === b.id ? 0 : ( a.id > b.id ? 1 : -1 );
-						} else if ( isAStartWithEmojiName ) {
-							return -1;
-						} else {
-							return 1;
-						}
-					} );
+							if ( isAStartWithEmojiName && isBStartWithEmojiName || !isAStartWithEmojiName && !isBStartWithEmojiName ) {
+								return a.id === b.id ? 0 : ( a.id > b.id ? 1 : -1 );
+							} else if ( isAStartWithEmojiName ) {
+								return -1;
+							} else {
+								return 1;
+							}
+						} );
 					callback( data );
 				}
 			} );
@@ -116,7 +119,7 @@
 /**
  * Address of the JSON file containing the emoji list. The file is downloaded through the {@link CKEDITOR.ajax#load} method
  * and the URL address is processed by {@link CKEDITOR#getUrl}.
- * Emoji list has to be an array of objects with the `id` and `symbol` properties. These keys represent the text to match and the 
+ * Emoji list has to be an array of objects with the `id` and `symbol` properties. These keys represent the text to match and the
  * UTF symbol for its replacement.
  * An emoji has to start with the `:` (colon) symbol.
  *

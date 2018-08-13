@@ -31,6 +31,22 @@ bender.editors = {
 			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
 			pasteFilter: null
 		}
+	},
+	disposableEditor: {
+		name: 'disposableEditor',
+		creator: 'inline',
+		config: {
+			extraPlugins: 'uploadfile',
+			uploadUrl: 'http://foo/upload'
+		}
+	},
+	notificationDisposableEditor: {
+		name: 'notificationDisposableEditor',
+		creator: 'inline',
+		config: {
+			extraPlugins: 'uploadfile',
+			uploadUrl: 'http://foo/upload'
+		}
 	}
 };
 
@@ -172,5 +188,43 @@ bender.test( {
 			assert.areSame( 0, uploadCount );
 			assert.areSame( 'http://foo/upload', lastUploadUrl );
 		} );
+	},
+
+	'test removing editor during upload wont break it': function() {
+		var editor = this.editors.disposableEditor;
+
+		pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+		assert.areSame( 1, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
+		assert.areSame( '', editor.getData(), 'getData on loading.' );
+
+		var loader = editor.uploadRepository.loaders[ 0 ];
+
+		loader.data = bender.tools.pngBase64;
+		loader.uploadTotal = 10;
+
+		loader.uplaoded = 5;
+		loader.update();
+
+		editor.destroy();
+
+		loader.uplaoded = 10;
+		loader.update();
+
+		assert.areSame( 'abort', loader.status, 'Loader status' );
+	},
+
+	'test aborting the upload after editor was removed wont break it': function() {
+		var editor = this.editors.notificationDisposableEditor;
+
+		pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+		var loader = editor.uploadRepository.loaders[ 0 ];
+
+		editor.destroy();
+
+		loader.abort();
+
+		assert.areSame( 'abort', loader.status, 'Loader status' );
 	}
 } );

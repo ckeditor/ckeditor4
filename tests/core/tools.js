@@ -954,6 +954,39 @@
 			} );
 		},
 
+		// (#1791)
+		'test detect plugins conflict - with conflicting plugins': function() {
+			var editor = {
+					plugins: {
+						'plugin1': 1,
+						'plugin2': 2
+					}
+				},
+				spy = sinon.spy( CKEDITOR, 'warn' ),
+
+				result = CKEDITOR.tools.detectPluginsConflict( editor, 'plugin', [ 'plugin1', 'plugin2' ] );
+
+			spy.restore();
+
+			assert.isTrue( result, 'Conflicts detected.' );
+			assert.isTrue( spy.calledWith( 'editor-plugin-conflict', { plugin: 'plugin', replacedWith: 'plugin1' } ) );
+		},
+
+		// (#1791)
+		'test detect plugins conflict - without conflicting plugins': function() {
+			var editor = {
+					plugins: {}
+				},
+				spy = sinon.spy( CKEDITOR, 'warn' ),
+
+				result = CKEDITOR.tools.detectPluginsConflict( editor, 'plugin', [ 'plugin1', 'plugin2' ] );
+
+			spy.restore();
+
+			assert.isFalse( result, 'Conflicts not detected.' );
+			assert.isFalse( spy.called );
+		},
+
 		// (#2224)
 		'test convertToPx': function() {
 			var conversionArray = [ {
