@@ -583,9 +583,7 @@
 		 * Creates {@link CKEDITOR.tools.buffers.throttle throttle buffer} instance.
 		 *
 		 * @since 4.10.0
-		 * @param {Number} minInterval The minimum interval between `output` calls in milliseconds.
-		 * @param {Function} output The function that will be executed as `output`.
-		 * @param {Object} [contextObj] The object used as context to the listener call (the `this` object).
+		 * @inheritdoc CKEDITOR.tools.buffers.throttle#method-constructor
 		 * @returns {CKEDITOR.tools.buffers.throttle}
 		 */
 		throttle: function( minInterval, output, contextObj ) {
@@ -1217,9 +1215,7 @@
 		 * Creates {@link CKEDITOR.tools.buffers.event events buffer} instance.
 		 *
 		 * @since 4.2.1
-		 * @param {Number} minInterval Minimum interval between `output` calls in milliseconds.
-		 * @param {Function} output Function that will be executed as `output`.
-		 * @param {Object} [contextObj] The object used to context the listener call (the `this` object).
+		 * @inheritdoc CKEDITOR.tools.buffers.event#method-constructor
 		 * @returns {CKEDITOR.tools.buffers.event}
 		 */
 		eventsBuffer: function( minInterval, output, contextObj ) {
@@ -2238,8 +2234,7 @@
 	}
 
 	/**
-	 * Buffers `input` events (or any `input` calls)
-	 * and triggers `output` not more often than once per `minInterval`.
+	 * Buffers `input` events (or any `input` calls) and triggers `output` not more often than once per `minInterval`.
 	 *
 	 * @since 4.11.0
 	 * @class CKEDITOR.tools.buffers.event
@@ -2378,11 +2373,11 @@
 	};
 
 	/**
-	 * Throttles `input` events (or any `input` calls)
-	 * and triggers `output` not more often than once per `minInterval`.
+	 * Throttles `input` events (or any `input` calls) and triggers `output` not more often than once per `minInterval`.
 	 *
-	 * Unlike {@link CKEDITOR.tools.buffers.event} this class allows passing custom parameters
-	 * into {@link #input} function.
+	 * Unlike {@link CKEDITOR.tools.buffers.event} this class allows passing custom parameters into {@link #input}
+	 * function. For more information see
+	 * [Throttling function issue](https://github.com/ckeditor/ckeditor-dev/issues/1993).
 	 *
 	 * @since 4.11.0
 	 * @class CKEDITOR.tools.buffers.throttle
