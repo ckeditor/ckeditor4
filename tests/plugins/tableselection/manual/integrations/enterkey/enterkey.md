@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: bug, 4.10.0, 1816, tableselection
+@bender-tags: bug, 4.10.1, 1816, tableselection
 @bender-ckeditor-plugins: wysiwygarea, toolbar, sourcearea, table, tableselection, clipboard, enterkey, floatingspace, basicstyles, list, undo, elementspath
 
 ## Important: Repeat tests in all editors.
