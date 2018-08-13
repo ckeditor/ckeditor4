@@ -1696,7 +1696,7 @@
 		/**
 		 * Returns `true` if it is expected that a browser provides HTML data through the Clipboard API.
 		 * If not, this method returns `false` and as a result CKEditor will use the paste bin. Read more in
-		 * the [Clipboard Integration](https://ckeditor.com/docs/ckeditor4/docs/#!/guide/dev_clipboard-section-clipboard-api) guide.
+		 * the [Clipboard Integration](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_clipboard.html#clipboard-api) guide.
 		 *
 		 * @since 4.5.2
 		 * @returns {Boolean}
