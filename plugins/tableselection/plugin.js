@@ -1026,8 +1026,8 @@
 							editor.fire( 'lockSnapshot' );
 							keystroke === 13 ? editor.execCommand( 'enter' ) : editor.execCommand( 'shiftEnter' );
 							editor.fire( 'unlockSnapshot' );
+							editor.fire( 'saveSnapshot' );
 						}
-						editor.fire( 'saveSnapshot' );
 					}
 				};
 			}
