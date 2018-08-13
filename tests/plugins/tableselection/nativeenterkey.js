@@ -44,6 +44,24 @@
 			editor.fire( 'saveSnapshot' );
 			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) );
 			assert.beautified.html( expectedResult, editor.getData() );
+		},
+		'test tableselection + undo without enterkey plugin': function( editor, bot ) {
+			var source = TABLE_WITH_SELECTION.replace( /(\[|\])/g, '' );
+			var expectedResult = source.replace( 'BB', '&nbsp;' ).replace( 'YY', '&nbsp;' );
+
+			bot.setHtmlWithSelection( TABLE_WITH_SELECTION );
+			editor.fire( 'saveSnapshot' );
+			var spy = sinon.spy( editor, 'fire' );
+
+			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) );
+			assert.beautified.html( expectedResult, editor.getData(), 'Content before undo step is incorrect' );
+
+			editor.execCommand( 'undo' );
+			assert.beautified.html( source, editor.getData(), 'Content after undo step is incorrect' );
+
+			sinon.assert.neverCalledWith( spy, 'saveSnapshot' );
+
+			spy.restore();
 		}
 	};
 
