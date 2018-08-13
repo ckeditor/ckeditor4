@@ -114,7 +114,7 @@ CKEDITOR.plugins.add( 'devtools', {
  * A function that returns the text to be displayed inside the Developer Tools
  * tooltip when hovering over a dialog UI element.
  *
- * Read more in the [documentation](#!/guide/dev_devtools)
+ * Read more in the {@glink guide/dev_devtools documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/devtools.html).
  *
  *		// This is actually the default value.
@@ -150,7 +150,7 @@ CKEDITOR.plugins.add( 'devtools', {
 /**
  * A setting that stores CSS rules to be injected into the page with styles to be applied to the tooltip element.
  *
- * Read more in the [documentation](#!/guide/dev_devtools)
+ * Read more in the {@glink guide/dev_devtools documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/devtools.html).
  *
  *		// This is actually the default value.

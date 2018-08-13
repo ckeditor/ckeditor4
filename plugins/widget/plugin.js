@@ -4253,7 +4253,7 @@
  */
 
 /**
- * The [Advanced Content Filter](#!/guide/dev_advanced_content_filter) rules
+ * The {@glink guide/dev_advanced_content_filter Advanced Content Filter} rules
  * which will be used to limit the content allowed in this nested editable.
  * This option is similar to {@link CKEDITOR.config#allowedContent} and one can
  * use it to limit the editor features available in the nested editable.
@@ -4265,7 +4265,7 @@
  */
 
 /**
- * The [Advanced Content Filter](#!/guide/dev_advanced_content_filter) rules
+ * The {@glink guide/dev_advanced_content_filter Advanced Content Filter} rules
  * which will be used to blacklist elements within this nested editable.
  * This option is similar to {@link CKEDITOR.config#disallowedContent}.
  *

@@ -2091,7 +2091,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * **Note**: Since 4.1 it is possible to set `stylesSet` to `false`
  * to prevent loading any styles set.
  *
- * Read more in the [documentation](#!/guide/dev_styles)
+ * Read more in the {@glink guide/dev_styles documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/styles.html).
  *
  *		// Do not load any file. The styles set is empty.
@@ -2137,7 +2137,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * }
  * ```
  *
- *	Refer to the [Styles guide](#!/guide/dev_howtos_styles) for more information about how editor content styles are handled.
+ *	Refer to the {@glink guide/dev_howtos_styles Styles guide} for more information about how editor content styles are handled.
  *
  * @class CKEDITOR.style.definition
  * @abstract
@@ -2167,7 +2167,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  */
 
 /**
- * A unique style definition name. It can be used to differentiate style definitions, like in the [Styles Combo](#!/guide/dev_styles) plugin
+ * A unique style definition name. It can be used to differentiate style definitions, like in the {@glink guide/dev_styles Styles Combo} plugin
  * drop-down where it represents item labels.
  *
  * ```javascript
