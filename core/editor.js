@@ -1466,7 +1466,7 @@
 		 * However, the dynamic Enter modes can be changed during runtime by using this method, to reflect the selection context.
 		 * For example, if selection is moved to the {@link CKEDITOR.plugins.widget widget}'s nested editable which
 		 * is a {@link #blockless blockless one}, then the active Enter modes should be changed to {@link CKEDITOR#ENTER_BR}
-		 * (in this case [Widget System](#!/guide/dev_widgets) takes care of that).
+		 * (in this case {@glink guide/dev_widgets Widget System} takes care of that).
 		 *
 		 * **Note:** This method should not be used to configure the editor &ndash; use {@link CKEDITOR.config#enterMode} and
 		 * {@link CKEDITOR.config#shiftEnterMode} instead. This method should only be used to dynamically change
@@ -1577,7 +1577,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * If `true`, makes the editor start in read-only state. Otherwise, it will check
  * if the linked `<textarea>` element has the `disabled` attribute.
  *
- * Read more in the [documentation](#!/guide/dev_readonly)
+ * Read more in the {@glink guide/dev_readonly documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/readonly.html).
  *
  *		config.readOnly = true;

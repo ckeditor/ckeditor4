@@ -91,7 +91,7 @@
  * It is recommended to set up an account on the [Iframely](https://iframely.com/) service for
  * better control over embedded content.
  *
- * Read more in the [documentation](#!/guide/dev_media_embed)
+ * Read more in the {@glink guide/dev_media_embed documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/mediaembed.html).
  *
  * Refer to {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl} for more information about content providers.
