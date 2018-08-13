@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: bug, 4.10.0, 1816, tableselection
+@bender-tags: bug, 4.10.1, 1816, tableselection
 @bender-ckeditor-plugins: wysiwygarea, toolbar, sourcearea, table, tableselection, clipboard, floatingspace, basicstyles, list, undo, elementspath
 
 ## Enter event **without** enterkey plugin:
