@@ -2273,6 +2273,33 @@
 		this._lastOutput = 0;
 
 		this._output = CKEDITOR.tools.bind( output, context || {} );
+
+		var that = this;
+
+		// Function needs to be created for each instance, as there's a common practice to pass `buffer.input`
+		// directly to a listener, and overwrite context object.
+		this.input = function() {
+			if ( that._scheduledTimer && that._reschedule() === false ) {
+				return;
+			}
+
+			var diff = ( new Date() ).getTime() - that._lastOutput;
+
+			// If less than minInterval passed after last check,
+			// schedule next for minInterval after previous one.
+			if ( diff < that._minInterval ) {
+				that._scheduledTimer = setTimeout( triggerOutput, that._minInterval - diff );
+			} else {
+				triggerOutput();
+			}
+
+			function triggerOutput() {
+				that._lastOutput = ( new Date() ).getTime();
+				that._scheduledTimer = 0;
+
+				that._call();
+			}
+		};
 	}
 
 	EventsBuffer.prototype = {
@@ -2310,30 +2337,7 @@
 		 *	// Note: There is no need to bind buffer as a context.
 		 * ```
 		 */
-		input: function() {
-			var that = this;
 
-			if ( this._scheduledTimer && this._reschedule() === false ) {
-				return;
-			}
-
-			var diff = ( new Date() ).getTime() - this._lastOutput;
-
-			// If less than minInterval passed after last check,
-			// schedule next for minInterval after previous one.
-			if ( diff < this._minInterval ) {
-				this._scheduledTimer = setTimeout( triggerOutput, this._minInterval - diff );
-			} else {
-				triggerOutput();
-			}
-
-			function triggerOutput() {
-				that._lastOutput = ( new Date() ).getTime();
-				that._scheduledTimer = 0;
-
-				that._call();
-			}
-		},
 		/**
 		 * Resets the buffer state and cancels any pending calls.
 		 */
@@ -2393,6 +2397,17 @@
 		 * @private
 		 */
 		this._args = [];
+
+		var that = this;
+
+
+		this.input = CKEDITOR.tools.override( this.input, function( originalInput ) {
+			return function() {
+				that._args = Array.prototype.slice.call( arguments );
+
+				originalInput.call( this );
+			};
+		} );
 	}
 
 	ThrottleBuffer.prototype = CKEDITOR.tools.prototypedCopy( EventsBuffer.prototype );
@@ -2438,11 +2453,6 @@
 	 * @param {Mixed[]} [args]
 	 * @member CKEDITOR.tools.buffers.throttle
 	 */
-	ThrottleBuffer.prototype.input = function() {
-		this._args = Array.prototype.slice.call( arguments );
-
-		EventsBuffer.prototype.input.call( this );
-	};
 
 	ThrottleBuffer.prototype._reschedule = function() {
 		if ( this._scheduledTimer ) {
