@@ -194,15 +194,13 @@
 	 * @param {Boolean} options.collapsed information if selection is collapsed. If it's true, then additional text is inserted to not remove empty span from some browsers.
 	 * @param {Object} options.bot bot instance in current test case
 	 * @param {String} options.resultHtml html which should be present after applying rich combo change
-	 * @param {Function} options.callback function run after assertion.
 	 */
 	bender.assert.assertCombo = function( options ) {
 		var comboName = options.comboName,
 			comboValue = options.comboValue,
 			collapsed = options.collapsed,
 			bot = options.bot,
-			resultHtml = options.resultHtml,
-			htmlMatchingOpts = options.htmlMatchingOpts;
+			resultHtml = options.resultHtml;
 
 		bot.combo( comboName, function( combo ) {
 			combo.onClick( comboValue );
@@ -210,7 +208,7 @@
 			this.wait( function() {
 				// The empty span from collapsed selection is lost on FF and IE8, insert something to prevent that.
 				collapsed && bot.editor.insertText( 'bar' );
-				assert.isInnerHtmlMatching( resultHtml, bot.editor.editable().getHtml(), htmlMatchingOpts );
+				assert.beautified.html( resultHtml, bot.editor.editable().getHtml() );
 			}, 0 );
 		} );
 	};
