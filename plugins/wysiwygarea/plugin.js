@@ -12,6 +12,7 @@
 	var framedWysiwyg;
 
 	CKEDITOR.plugins.add( 'wysiwygarea', {
+		requires: 'tab',
 		init: function( editor ) {
 			if ( editor.config.fullPage ) {
 				editor.addFeature( {
@@ -85,7 +86,22 @@
 				// When editor is in readonly mode, browsers need additional hint
 				// to make it focusable (#1887).
 				editor.on( 'contentDom', function() {
-					editor.editable().setAttribute( 'tabindex', 0 );
+					editor.editable().setAttribute( 'tabindex', CKEDITOR.env.gecko ? -1 : 0 );
+
+					// Firefox treats editable in readonly editor as double tab-stop. To prevent
+					// such behaviour we have to implement custom Tab handling.
+					if ( CKEDITOR.env.gecko && iframe.$.contentWindow ) {
+						// Additionally Firefox removes text selection in readonly editor, so we must
+						// restore it.
+						iframe.$.contentWindow.addEventListener( 'focus', focusHandler );
+
+						editor.document.on( 'keydown', function( evt ) {
+							if ( evt.data.getKeystroke() === CKEDITOR.SHIFT + 9 ) { // Shift + Tab
+								evt.data.preventDefault();
+								iframe.focusPrevious();
+							}
+						} );
+					}
 				} );
 
 				// Execute onLoad manually for all non IE||Gecko browsers.
@@ -97,6 +113,17 @@
 					evt && evt.removeListener();
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
 					editor.setData( editor.getData( 1 ), callback );
+				}
+
+				function focusHandler() {
+					// if ( !editor.readOnly ) {
+					// 	return;
+					// }
+
+					var bkms = editor.getSelection().createBookmarks();
+
+					editor.focus();
+					editor.getSelection().selectBookmarks( bkms );
 				}
 			} );
 		}
