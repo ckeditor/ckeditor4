@@ -1,0 +1,24 @@
+<button>I'm a focus trap</button>
+
+<h2>Editable one</h2>
+<div id="editor1">
+	<p>Some text</p>
+</div>
+
+<button>I'm a focus trap</button>
+
+<h2>Readonly one</h2>
+<div id="editor2">
+	<p>Some text</p>
+</div>
+
+<button>I'm a focus trap</button>
+
+<script>
+	( function() {
+		CKEDITOR.replace( 'editor1' );
+		CKEDITOR.replace( 'editor2', {
+			readOnly: true
+		} );
+	} )();
+</script>
