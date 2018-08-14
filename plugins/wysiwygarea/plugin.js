@@ -82,6 +82,12 @@
 					allowTransparency: 'true'
 				} );
 
+				// When editor is in readonly mode, browsers need additional hint
+				// to make it focusable (#1887).
+				editor.on( 'contentDom', function() {
+					editor.editable().setAttribute( 'tabindex', 0 );
+				} );
+
 				// Execute onLoad manually for all non IE||Gecko browsers.
 				!useOnloadEvent && onLoad();
 
