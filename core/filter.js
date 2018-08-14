@@ -772,12 +772,7 @@
 					element.attributes[ 'class' ] = element.attributes[ 'class' ].split( ' ' ).sort().join( ' ' );
 				}
 
-				if ( !CKEDITOR.tools.objectCompare( element.attributes, clone.attributes, true ) ) {
-					result = false;
-				}
-				else {
-					result = true;
-				}
+				result = CKEDITOR.tools.objectCompare( element.attributes, clone.attributes, true );
 
 				if ( originClassNames ) {
 					element.attributes[ 'class' ] = originClassNames;

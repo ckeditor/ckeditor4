@@ -2,18 +2,33 @@
 <div id="inline" contenteditable="true"><p>Hello world</p></div>
 
 <script>
+	var styleSet = [
+		{
+			name: 'Marker 1',
+			element: 'span',
+			attributes: {
+				'class': 'test case'
+			}
+		},
+		{
+			name: 'Marker 2',
+			element: 'span',
+			attributes: {
+				'class': 'b-test a-test'
+			}
+		},
+		{
+			name: 'Marker 3',
+			element: 'p',
+			attributes: {
+				'class': 'd-test c-test'
+			}
+		}
+	];
 	CKEDITOR.replace( 'classic', {
-		stylesSet: [
-				{ name: 'Marker 1', element: 'span', attributes: { 'class': 'test case' } },
-				{ name: 'Marker 2', element: 'span', attributes: { 'class': 'b-test a-test' } },
-				{ name: 'Marker 3', element: 'p', attributes: { 'class': 'd-test c-test' } }
-			]
+		stylesSet: styleSet
 	} );
 	CKEDITOR.inline( 'inline', {
-		stylesSet: [
-			{ name: 'Marker 1', element: 'span', attributes: { 'class': 'test case' } },
-			{ name: 'Marker 2', element: 'span', attributes: { 'class': 'b-test a-test' } },
-			{ name: 'Marker 3', element: 'p', attributes: { 'class': 'd-test c-test' } }
-		]
+		stylesSet: styleSet
 	} );
 </script>
