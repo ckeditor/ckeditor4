@@ -54,7 +54,9 @@
 		},
 		editor = CKEDITOR.replace( 'editor1', {
 			allowedContent: allowedContent
-		} );
+		} ),
+		// Change event doesn't work in IE8.
+		eventName = CKEDITOR.env.ie && CKEDITOR.env.version === 8 ? 'click' : 'change';
 
 	for ( var key in cellPropMap ) {
 		var name = cellPropMap[ key ];
@@ -63,7 +65,7 @@
 		);
 	}
 
-	options.on( 'input', inputListener );
+	options.on( eventName, inputListener );
 
 	function inputListener( e ) {
 		var target = e.data.getTarget(),
@@ -71,6 +73,10 @@
 			rule = target.getAttribute( 'name' ),
 			attributes = allowedContent.td.attributes,
 			styles = allowedContent.td.styles;
+
+		if ( !rule ) {
+			return;
+		}
 
 		switch ( rule ) {
 			case 'th':
@@ -94,7 +100,7 @@
 				} );
 
 				// Calling destroy on editor removes listener.
-				options.on( 'input', inputListener );
+				options.on( eventName, inputListener );
 			} );
 		} );
 
