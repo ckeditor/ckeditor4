@@ -82,11 +82,9 @@
 			case 'rowspan':
 			case 'colspan':
 				addRemoveRule( rule, state, attributes );
-				// rule = 'td[' + rule + ']';
 				break;
 			default:
 				addRemoveRule( rule, state, styles );
-			// rule = 'td{' + rule + '}';
 		}
 
 		editor.once( 'destroy', function() {
