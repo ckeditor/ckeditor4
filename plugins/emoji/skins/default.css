@@ -42,7 +42,7 @@
 	font-size: 0.8em;
 }
 
-/* NAVIGATION */
+/* TOP NAVIGATION */
 .cke_emoji_inner_panel > nav {
 	width: 100%;
 	height: 38px;
@@ -50,13 +50,59 @@
 	padding: 0;
 }
 .cke_emoji_inner_panel > nav > ul {
-	display: flex;
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
+	border-bottom: 1px solid #d1d1d1;
+	height: 32px;
+}
+
+.cke_emoji_inner_panel > nav li {
+	display: inline-block;
+	width: 24px;
+	height: auto;
+	margin: 0 4px;
+}
+
+.cke_emoji_inner_panel li svg {
+	opacity: 0.4;
+}
+
+.cke_emoji_inner_panel li:hover svg {
+	opacity: 1;
+}
+
+.cke_emoji_inner_panel .active {
+	border-bottom: 5px solid rgba(44, 195, 255, 1);
 }
 
 .cke_emoji-navigation_item {
 	width: 32px;
 	height: 32px;
+}
+
+/* SEARCHBOX */
+.cke_emoji_inner_panel input {
+	width: 100%
+}
+
+/* EMOJI */
+.cke_emoji-outer_emoji_block {
+	height: 180px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	margin-top: 5px;
+}
+
+.cke_emoji-outer_emoji_block ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.cke_emoji-outer_emoji_block li {
+	width: 33px;
+	height: auto;
+	font-size: 2em;
+	margin: 0 3px;
 }

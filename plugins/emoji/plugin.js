@@ -25,8 +25,6 @@
 		init: function( editor ) {
 			var that = this;
 			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
-				emojiPanelLimit = editor.config.emoji_emojiPanelLimit || 30,
-				defaultEmoji = editor.config.emoji_defaults,
 				lang = editor.lang.emoji;
 
 			CKEDITOR.ajax.load( CKEDITOR.getUrl( emojiListUrl ), function( data ) {
@@ -40,12 +38,6 @@
 
 				var emojiList = editor._.emoji.list,
 					charactersToStart = editor.config.emoji_minChars === undefined ? 2 : editor.config.emoji_minChars;
-
-				if ( defaultEmoji === undefined ) {
-					defaultEmoji = CKEDITOR.tools.array.map( emojiList.slice( 0, 30 ), function( item ) {
-						return item.id.replace( /:/g, '' );
-					} );
-				}
 
 				if ( editor.status !== 'ready' ) {
 					editor.once( 'instanceReady', initPlugin );
@@ -91,18 +83,6 @@
 						data = CKEDITOR.tools.array.filter( emojiList, function( item ) {
 							// Comparing lowercased strings, because emoji should be case insensitive (#2167).
 							return item.id.toLowerCase().indexOf( emojiName ) !== -1;
-						} ).sort( function( a, b ) {
-							// Sort at the beginning emoji starts with given query.
-							var isAStartWithEmojiName = a.id.substr( 1, emojiName.length ) === emojiName,
-								isBStartWithEmojiName = b.id.substr( 1, emojiName.length ) === emojiName;
-
-							if ( isAStartWithEmojiName && isBStartWithEmojiName || !isAStartWithEmojiName && !isBStartWithEmojiName ) {
-								return a.id === b.id ? 0 : ( a.id > b.id ? 1 : -1 );
-							} else if ( isAStartWithEmojiName ) {
-								return -1;
-							} else {
-								return 1;
-							}
 						} );
 					callback( data );
 				}
@@ -151,7 +131,7 @@
 						title = new CKEDITOR.dom.element( searchElement.parentElement.querySelector( 'h2' ) );
 					}
 					var query = searchElement.value;
-					ul.setHtml( getEmojiList( query, emojiPanelLimit ) );
+					ul.setHtml( getEmojiList( query ) );
 					title.setHtml( getSearchTitle( query ) );
 				};
 			} )() );
@@ -163,32 +143,12 @@
 				var i;
 
 				editor._.emoji.autocomplete.model.dataCallback( { query: query.indexOf( ':' ) === 0 ? query : ':' + query }, function( data ) {
-					if ( query === '' ) {
-						if ( defaultEmoji ) {
-							var emojiCounter = 0;
-							for ( i = 0; i < data.length; i++ ) {
-								var favIndex = defaultEmoji.indexOf( data[ i ].id.replace( /^:|:$/g, '' ) );
-								if ( favIndex !== -1 ) {
-									output[ favIndex ] = emojiTpl.output( { symbol: data[ i ].symbol, id: data[ i ].id.replace( /^:|:$/g, '' ) } );
-									emojiCounter++;
-								}
-								if ( emojiCounter >= emojiPanelLimit || emojiCounter === defaultEmoji.length ) {
-									break;
-								}
-							}
-						}
-					} else {
-						for ( i = 0; i < data.length; i++ ) {
-							name = data[ i ].id.replace( /^:|:$/g, '' );
-							if ( name.toLowerCase().indexOf( query.toLowerCase() ) !== -1 || query === '' ) {
-								output.push( emojiTpl.output( { symbol: data[ i ].symbol, id: data[ i ].id.replace( /^:|:$/g, '' ) } ) );
-							}
-							if ( output.length >= emojiPanelLimit ) {
-								break;
-							}
+					for ( i = 0; i < data.length; i++ ) {
+						name = data[ i ].id.replace( /^:|:$/g, '' );
+						if ( name.toLowerCase().indexOf( query.toLowerCase() ) !== -1 || query === '' ) {
+							output.push( emojiTpl.output( { symbol: data[ i ].symbol, id: data[ i ].id.replace( /^:|:$/g, '' ) } ) );
 						}
 					}
-
 				} );
 
 				return output.join( '' );
@@ -213,11 +173,13 @@
 				output.push( createSearchSection() );
 				// Result box:
 
-				output.push( '<h2>', getSearchTitle( '' ), '</h2>' );
+				// output.push( '<h2>', getSearchTitle( '' ), '</h2>' );
 
-				output.push( '<div class="cke_emoji_list"><ul class="cke_emoji_unordered_list" onclick="CKEDITOR.tools.callFunction(', clickFn, ',event);return false;">' );
-				output.push( getEmojiList( '' ) );
-				output.push( '</ul></div>' );
+				// output.push( '<div class="cke_emoji_list"><ul class="cke_emoji_unordered_list" onclick="CKEDITOR.tools.callFunction(', clickFn, ',event);return false;">' );
+				// output.push( getEmojiList( '' ) );
+				// output.push( '</ul></div>' );
+
+				output.push( createMainBlock() );
 
 				return '<div class="cke_emoji_inner_panel">' + output.join( '' ) + '</div>';
 			}
@@ -235,7 +197,10 @@
 					{ name: 'Flags' }
 				];
 				var svgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.svg' );
-				var itemTemplate = new CKEDITOR.template( '<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href={href}><svg viewBox="0 0 34 34"> <use xlink:href="' + svgUrl + '{href}"></use></svg></a></li>' );
+				var itemTemplate = new CKEDITOR.template(
+					'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href={href}><svg viewBox="0 0 34 34"> <use xlink:href="' +
+					svgUrl +
+					'{href}"></use></svg></a></li>' );
 
 				var items = CKEDITOR.tools.array.reduce( groupNames, function( acc, item ) {
 					return acc + itemTemplate.output( {
@@ -253,7 +218,7 @@
 			}
 
 			function createMainBlock() {
-				return '';
+				return '<div class="cke_emoji-outer_emoji_block"><ul onclick="CKEDITOR.tools.callFunction(' + clickFn + ',event);return false;">' + getEmojiList( '' ) + '</ul></div>';
 			}
 
 			function createStatusBar() {
