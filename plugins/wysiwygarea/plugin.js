@@ -95,7 +95,7 @@
 							editor.focus();
 						} );
 
-						iframe.getFrameDocument().getBody().on( 'focusout', function( evt ) {
+						iframe.$.contentDocument.body.addEventListener( 'focusout', function( evt ) {
 							if ( evt.relatedTarget && evt.relatedTarget === iframe.$.contentDocument.documentElement ) {
 								setTimeout( function() {
 									iframe.focusPrevious();
