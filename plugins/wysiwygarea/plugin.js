@@ -95,10 +95,11 @@
 							editor.focus();
 						} );
 
-						editor.document.on( 'keydown', function( evt ) {
-							if ( evt.data.getKeystroke() === CKEDITOR.SHIFT + 9 ) { // Shift + Tab
-								evt.data.preventDefault();
-								iframe.focusPrevious();
+						iframe.getFrameDocument().getBody().on( 'focusout', function( evt ) {
+							if ( evt.relatedTarget && evt.relatedTarget === iframe.$.contentDocument.documentElement ) {
+								setTimeout( function() {
+									iframe.focusPrevious();
+								}, 0 );
 							}
 						} );
 					}
