@@ -63,8 +63,8 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 
 	return {
 		title: langCell.title,
-		minWidth: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 450 : 410,
-		minHeight: CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ? 230 : 220,
+		minWidth: 100,
+		minHeight: 50,
 		contents: [ {
 			id: 'info',
 			label: langCell.title,
@@ -74,6 +74,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				widths: [ '40%', '5%', '40%' ],
 				children: [ {
 					type: 'vbox',
+					requiredContent: [ 'td{width,height}', 'td{white-space}', 'td{text-align}', 'td{vertical-align}' ],
 					padding: 0,
 					children: [ {
 						type: 'hbox',
@@ -221,7 +222,6 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							element.removeAttribute( 'noWrap' );
 						}
 					},
-					spacer,
 					{
 						type: 'select',
 						id: 'hAlign',
@@ -294,9 +294,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						}
 					} ]
 				},
-				spacer,
 				{
 					type: 'vbox',
+					requiredContent: [ 'th', 'td[rowspan]', 'td[colspan]', 'td{background-color}', 'td{border-color}' ],
 					padding: 0,
 					children: [ {
 						type: 'select',
@@ -315,7 +315,6 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							selectedCell.renameNode( this.getValue() );
 						}
 					},
-					spacer,
 					{
 						type: 'text',
 						id: 'rowSpan',
@@ -356,15 +355,14 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								selectedCell.removeAttribute( 'colSpan' );
 						}
 					},
-					spacer,
 					{
 						type: 'hbox',
 						padding: 0,
 						widths: [ '60%', '40%' ],
+						requiredContent: 'td{background-color}',
 						children: [ {
 							type: 'text',
 							id: 'bgColor',
-							requiredContent: 'td{background-color}',
 							label: langCell.bgColor,
 							'default': '',
 							setup: setupCells( function( element ) {
@@ -402,15 +400,14 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							}
 						} : spacer ]
 					},
-					spacer,
 					{
 						type: 'hbox',
 						padding: 0,
 						widths: [ '60%', '40%' ],
+						requiredContent: 'td{border-color}',
 						children: [ {
 							type: 'text',
 							id: 'borderColor',
-							requiredContent: 'td{border-color}',
 							label: langCell.borderColor,
 							'default': '',
 							setup: setupCells( function( element ) {
