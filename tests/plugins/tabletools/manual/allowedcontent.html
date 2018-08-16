@@ -1,13 +1,22 @@
+<style>
+	.options {
+		line-height: 24px;
+	}
+
+	.options label {
+		display: block;
+	}
+
+	.options input {
+		margin-right: 8px;
+	}
+</style>
+
+<div class="options"><p>
+	Allowed content:
+</p></div>
+
 <textarea id="editor1">
-	<table>
-		<tbody>
-			<tr>
-				<td>Ths is cell</td>
-			</tr>
-		</tbody>
-	</table>
-</textarea>
-<textarea id="editor2">
 	<table>
 		<tbody>
 			<tr>
@@ -18,15 +27,88 @@
 </textarea>
 
 <script>
-	CKEDITOR.replace( 'editor1', {
-		allowedContent:
-			'p;' +
-			'div;' +
-			'table;' +
-			'thead;' +
-			'tbody;' +
-			'tr;' +
-			'td;'
+	var cellPropMap = {
+			'Width': 'width',
+			'Height': 'height',
+			'Word Wrap': 'white-space',
+			'Horizontal Align': 'text-align',
+			'Vertical Align': 'vertical-align',
+			'Cell Type': 'th',
+			'Rows Span': 'rowspan',
+			'Cols Span': 'colspan',
+			'Background Color': 'background-color',
+			'Border Color': 'border-color'
+		},
+		options = CKEDITOR.document.findOne( '.options' ),
+		allowedContent = {
+			p: true,
+			div: true,
+			table: true,
+			thead: true,
+			tbody: true,
+			tr: true,
+			td: {
+				styles: [],
+				attributes: []
+			}
+		},
+		editor = CKEDITOR.replace( 'editor1', {
+			allowedContent: allowedContent
+		} );
+
+	for ( var key in cellPropMap ) {
+		var name = cellPropMap[ key ];
+		options.appendHtml(
+			'<label><input type="checkbox" name="' + name + '">' + key + '</label>'
+		);
+	}
+
+	// Calling destroy on editor removes listener, so use native.
+	options.$.addEventListener( 'input', function( e ) {
+		var target = new CKEDITOR.dom.element( e.target ),
+			state = target.$.checked,
+			rule = target.getAttribute( 'name' ),
+			attributes = allowedContent.td.attributes,
+			styles = allowedContent.td.styles;
+
+		switch ( rule ) {
+			case 'th':
+				if ( state ) {
+					allowedContent.th = true;
+				} else {
+					delete allowedContent.th;
+				}
+			case 'rowspan':
+			case 'colspan':
+				addRemoveRule( rule, state, attributes );
+				// rule = 'td[' + rule + ']';
+				break;
+			default:
+				addRemoveRule( rule, state, styles );
+				// rule = 'td{' + rule + '}';
+		}
+
+
+		editor.once( 'destroy', function() {
+			setTimeout( function() {
+				editor = CKEDITOR.replace( 'editor1', {
+					allowedContent: allowedContent
+				} );
+			} );
+		} );
+
+		// We need to recreate editor, because filter is caching checks.
+		editor.destroy();
+
+		function addRemoveRule( rule, state, arr ) {
+			var index = CKEDITOR.tools.array.indexOf( arr, rule );
+
+			if ( state && index === -1 ) {
+				arr.push( rule );
+			} else if ( !state && index >= 0 ) {
+				arr.splice( index, 1 );
+			}
+		}
+
 	} );
-	CKEDITOR.replace( 'editor2' );
 </script>
