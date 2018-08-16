@@ -4,34 +4,19 @@
 
 # Test scenario
 
-For each editor:
-1. Open context menu for table cell.
-1. Choose cell properties from context menu.
+1. Use checkboxes to select allowed cell properties.
+1. Use context menu on editor to open cell properties.
 
 ## Expected
 
-#### First editor:
-
-Dialog is empty.
-
-#### Second editor:
-
-Dialog has all listed options:
-- Width,
-- Height,
-- Word Wrap,
-- Horizontal Align,
-- Vertical Align,
-- Cell Type,
-- Rows Span,
-- Cols Span,
-- Background Color,
-- Border Color
-
-It is possible to change any of cell property via dialog.
+- Cell properties dialog options are matching selected checkboxes.
+- If none is selected then cell properties is not displayed in context menu.
 
 ## Unexpected
 
-First editor has any option in dialog,
-Second editor has any missing option in dialog,
-It is impossible to change any property via dialog in second editor.
+- Dialog options are different than selected checkboxes.
+
+## Note:
+
+- Selecting/unselecting checkboxes destroys and creates new editor, so visible flickering may occur.
+- To change width or height of cell both properties needs to be allowed.
