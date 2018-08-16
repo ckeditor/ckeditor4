@@ -28,7 +28,7 @@ var initSample = ( function() {
 			);
 		}
 
-		// Depending on the wysiwygare plugin availability initialize classic or inline editor.
+		// Depending on the wysiwygarea plugin availability initialize classic or inline editor.
 		if ( wysiwygareaAvailable ) {
 			CKEDITOR.replace( 'editor' );
 		} else {
