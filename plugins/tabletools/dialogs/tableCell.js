@@ -9,11 +9,28 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		langCommon = editor.lang.common,
 		validate = CKEDITOR.dialog.validate,
 		widthPattern = /^(\d+(?:\.\d+)?)(px|%)$/,
-		spacer = { type: 'html', html: '&nbsp;' },
 		hiddenSpacer,
 		rtl = editor.lang.dir == 'rtl',
 		colorDialog = editor.plugins.colordialog;
 
+	function createSpacer( requiredContent ) {
+		return {
+			type: 'html',
+			html: '&nbsp;',
+			requiredContent: requiredContent ? requiredContent : undefined
+		};
+	}
+
+	function getColumnsCount() {
+		var columns = 0;
+		if ( editor.filter.check( [ 'th', 'td[rowspan]', 'td[colspan]', 'td{background-color}', 'td{border-color}' ] ) ) {
+			columns++;
+		}
+		if ( editor.filter.check( [ 'td{width,height}', 'td{white-space}', 'td{text-align}', 'td{vertical-align}' ] ) ) {
+			columns++;
+		}
+		return columns;
+	}
 	// Returns a function, which runs regular "setup" for all selected cells to find out
 	// whether the initial value of the field would be the same for all cells. If so,
 	// the value is displayed just as if a regular "setup" was executed. Otherwise,
@@ -63,7 +80,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 
 	return {
 		title: langCell.title,
-		minWidth: 100,
+		minWidth: getColumnsCount() * 205,
 		minHeight: 50,
 		contents: [ {
 			id: 'info',
@@ -222,6 +239,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							element.removeAttribute( 'noWrap' );
 						}
 					},
+					createSpacer( 'td{white-space}' ),
 					{
 						type: 'select',
 						id: 'hAlign',
@@ -294,6 +312,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						}
 					} ]
 				},
+				createSpacer( 'td{vertical-align}' ),
 				{
 					type: 'vbox',
 					requiredContent: [ 'th', 'td[rowspan]', 'td[colspan]', 'td{background-color}', 'td{border-color}' ],
@@ -315,6 +334,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							selectedCell.renameNode( this.getValue() );
 						}
 					},
+					createSpacer( 'th' ),
 					{
 						type: 'text',
 						id: 'rowSpan',
@@ -355,6 +375,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								selectedCell.removeAttribute( 'colSpan' );
 						}
 					},
+					createSpacer( 'td[colspan]' ),
 					{
 						type: 'hbox',
 						padding: 0,
@@ -398,8 +419,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 									this.focus();
 								}, this );
 							}
-						} : spacer ]
+						} : createSpacer() ]
 					},
+					createSpacer( 'td{background-color}' ),
 					{
 						type: 'hbox',
 						padding: 0,
@@ -444,7 +466,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 									this.focus();
 								}, this );
 							}
-						} : spacer ]
+						} : createSpacer() ]
 					} ]
 				} ]
 			} ]
