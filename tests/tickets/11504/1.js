@@ -16,7 +16,7 @@
 				data = '<p>Este &eacute; &gt;um&lt; &quot;email&quot; autom&aacute;tico &alpha;.</p>';
 
 			bot.setData( data, function() {
-				assert.areSame( bender.tools.compatHtml( '<html><head><title></title></head><body>' + data + '</body></html>' ),
+				assert.areSame( bender.tools.compatHtml( '<html><head><title></title></head><body tabindex="0">' + data + '</body></html>' ),
 					bender.tools.compatHtml( bot.getData() ), 'Entities are encoded when in fullPage mode.' );
 			} );
 		}

@@ -5,7 +5,7 @@ bender.editor = { config: { fullPage: 1 } };
 
 var title1 = 'Document title',
 	title2 = 'Another document title',
-	template = new CKEDITOR.template( '<html><head><title>{title}</title></head><body></body></html>' );
+	template = new CKEDITOR.template( '<html><head><title>{title}</title></head><body tabindex="0"></body></html>' );
 
 bender.test( {
 	'test set page title with dialog': function() {

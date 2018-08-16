@@ -60,7 +60,7 @@
 					'<head>' +
 					'<title>' + title + '</title>' +
 					'</head>' +
-					'<body>' +
+					'<body tabindex="0">' +
 					bodyHtml +
 					'</body>' +
 					'</html>',
