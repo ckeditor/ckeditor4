@@ -108,9 +108,7 @@ bender.test( {
 
 	// (#1887)
 	'test tabindex attribute': function() {
-		var expected = CKEDITOR.env.gecko ? '-1' : '0';
-
-		assert.areSame( expected, this.editor.editable().getAttribute( 'tabindex' ), 'editable has correct tabindex value' );
+		assert.areSame( '0', this.editor.editable().getAttribute( 'tabindex' ), 'editable has correct tabindex value' );
 	},
 
 	test_detach: function() {
