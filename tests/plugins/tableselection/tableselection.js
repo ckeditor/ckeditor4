@@ -148,22 +148,13 @@
 		},
 
 		// (#2003)
-		'test': function( editor, bot ) {
+		'test right-click in cell with empty paragraph': function( editor, bot ) {
 			if ( !CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
 			bot.setData( CKEDITOR.document.getById( 'emptyParagraph' ).getHtml(), function() {
 				var cells = editor.editable().find( 'td' ).toArray(),
-					ranges = CKEDITOR.tools.array.map( cells, function( cell ) {
-						var range = editor.createRange(),
-							row = cell.getParent(),
-							index = cell.getIndex();
-
-						range.setStart( row, index );
-						range.setEnd( row, index + 1 );
-
-						return range;
-					} ),
+					ranges = tableSelectionHelpers.getRangesForCells( editor, [ 0, 1, 2, 3 ] ),
 					paragraph = cells[ 0 ].findOne( 'p' ),
 					selection = editor.getSelection();
 
