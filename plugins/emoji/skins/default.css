@@ -94,6 +94,10 @@
 	margin-top: 5px;
 }
 
+.cke_emoji-outer_emoji_block h2 {
+	font-size: 1em;
+}
+
 .cke_emoji-outer_emoji_block ul {
 	margin: 0;
 	padding: 0;

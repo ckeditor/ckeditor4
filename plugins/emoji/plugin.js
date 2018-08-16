@@ -26,6 +26,44 @@
 			var that = this;
 			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
 				lang = editor.lang.emoji;
+			var GROUPS = [
+				{
+					name: 'used',
+					sectionName: 'Lastly used'
+				},
+				{
+					name: 'people',
+					sectionName: 'People'
+				},
+				{
+					name: 'nature',
+					sectionName: 'Nature and animals'
+				},
+				{
+					name: 'food',
+					sectionName: 'Food and drinks'
+				},
+				{
+					name: 'travel',
+					sectionName: 'Travel and places'
+				},
+				{
+					name: 'activities',
+					sectionName: 'Activities'
+				},
+				{
+					name: 'objects',
+					sectionName: 'Objects'
+				},
+				{
+					name: 'symbols',
+					sectionName: 'Symbols'
+				},
+				{
+					name: 'flags',
+					sectionName: 'Flags'
+				}
+			];
 
 			CKEDITOR.ajax.load( CKEDITOR.getUrl( emojiListUrl ), function( data ) {
 				if ( editor._.emoji === undefined ) {
@@ -79,7 +117,7 @@
 				}
 
 				function dataCallback( matchInfo, callback ) {
-					var emojiName =  matchInfo.query.substr( 1 ).toLowerCase(),
+					var emojiName = matchInfo.query.substr( 1 ).toLowerCase(),
 						data = CKEDITOR.tools.array.filter( emojiList, function( item ) {
 							// Comparing lowercased strings, because emoji should be case insensitive (#2167).
 							return item.id.toLowerCase().indexOf( emojiName ) !== -1;
@@ -185,28 +223,17 @@
 			}
 
 			function createGroupsNavigation() {
-				var groupNames = [
-					{ name: 'Used' },
-					{ name: 'People' },
-					{ name: 'Nature' },
-					{ name: 'Food' },
-					{ name: 'Travel' },
-					{ name: 'Activities' },
-					{ name: 'Objects' },
-					{ name: 'Symbols' },
-					{ name: 'Flags' }
-				];
+
 				var svgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.svg' );
 				var itemTemplate = new CKEDITOR.template(
 					'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href={href}><svg viewBox="0 0 34 34"> <use xlink:href="' +
 					svgUrl +
 					'{href}"></use></svg></a></li>' );
 
-				var items = CKEDITOR.tools.array.reduce( groupNames, function( acc, item ) {
+				var items = CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
 					return acc + itemTemplate.output( {
 						group: item.name,
-						href: '#' + item.name.toLowerCase(),
-						viewBox: item.viewBox
+						href: '#' + item.name.toLowerCase()
 					} );
 				}, '' );
 
@@ -218,11 +245,38 @@
 			}
 
 			function createMainBlock() {
-				return '<div class="cke_emoji-outer_emoji_block"><ul onclick="CKEDITOR.tools.callFunction(' + clickFn + ',event);return false;">' + getEmojiList( '' ) + '</ul></div>';
+
+				return '<div class="cke_emoji-outer_emoji_block" onclick="CKEDITOR.tools.callFunction(' + clickFn + ',event);return false;">' + getEmojiSections() + '</div>';
 			}
 
+			// jshint ignore:start
 			function createStatusBar() {
 				return '';
+			}
+			// jshint ignore:end
+
+			function getEmojiSections() {
+				return CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
+					return acc + getEmojiSection( item );
+				}, '' );
+			}
+
+			function getEmojiSection( item ) {
+				var groupName = item.name;
+				var sectionName = item.sectionName;
+				var group = getEmojiListGroup( groupName );
+				return group === '' ? '' : '<section><h2 id="' + groupName + '">' + sectionName + '</h2><ul>' + group + '</ul></section>';
+			}
+
+			function getEmojiListGroup( groupName ) {
+				var emojiList = editor._.emoji.list;
+				var emojiTpl = new CKEDITOR.template( '<li data-cke-emoji-name="{id}" data-cke-emoji-symbol="{symbol}" title="{id}" class="cke_emoji_item">{symbol}</li>' );
+				return CKEDITOR.tools.array.reduce( CKEDITOR.tools.array.filter( emojiList, function( item ) {
+					return item.group === groupName;
+				} ), function( acc, item ) {
+					return acc + emojiTpl.output( { symbol: item.symbol, id: item.id.replace( /^:|:$/g, '' ) } );
+				}, '' );
+
 			}
 
 		}
