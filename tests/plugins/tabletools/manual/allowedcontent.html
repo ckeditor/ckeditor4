@@ -20,7 +20,7 @@
 	<table>
 		<tbody>
 			<tr>
-				<td>Ths is cell</td>
+				<td>This is cell</td>
 			</tr>
 		</tbody>
 	</table>
@@ -63,9 +63,10 @@
 		);
 	}
 
-	// Calling destroy on editor removes listener, so use native.
-	options.$.addEventListener( 'input', function( e ) {
-		var target = new CKEDITOR.dom.element( e.target ),
+	options.on( 'input', inputListener );
+
+	function inputListener( e ) {
+		var target = e.data.getTarget(),
 			state = target.$.checked,
 			rule = target.getAttribute( 'name' ),
 			attributes = allowedContent.td.attributes,
@@ -85,30 +86,31 @@
 				break;
 			default:
 				addRemoveRule( rule, state, styles );
-				// rule = 'td{' + rule + '}';
+			// rule = 'td{' + rule + '}';
 		}
-
 
 		editor.once( 'destroy', function() {
 			setTimeout( function() {
 				editor = CKEDITOR.replace( 'editor1', {
 					allowedContent: allowedContent
 				} );
+
+				// Calling destroy on editor removes listener.
+				options.on( 'input', inputListener );
 			} );
 		} );
 
 		// We need to recreate editor, because filter is caching checks.
 		editor.destroy();
+	}
 
-		function addRemoveRule( rule, state, arr ) {
-			var index = CKEDITOR.tools.array.indexOf( arr, rule );
+	function addRemoveRule( rule, state, arr ) {
+		var index = CKEDITOR.tools.array.indexOf( arr, rule );
 
-			if ( state && index === -1 ) {
-				arr.push( rule );
-			} else if ( !state && index >= 0 ) {
-				arr.splice( index, 1 );
-			}
+		if ( state && index === -1 ) {
+			arr.push( rule );
+		} else if ( !state && index >= 0 ) {
+			arr.splice( index, 1 );
 		}
-
-	} );
+	}
 </script>
