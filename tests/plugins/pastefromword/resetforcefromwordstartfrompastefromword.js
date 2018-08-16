@@ -1,6 +1,6 @@
-/* bender-tags: editor,unit,clipboard */
+/* bender-tags: editor,clipboard */
 /* bender-ckeditor-plugins: pastefromword */
-/* bender-include: _helpers/resetforcefromword.js */
+/* bender-include: _helpers/resetforcefromword.js,../clipboard/_helpers/pasting.js */
 /* global testScenario */
 
 'use strict';

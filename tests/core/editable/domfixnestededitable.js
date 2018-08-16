@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,autoparagraphing */
+/* bender-tags: editor,autoparagraphing */
 
 ( function() {
 	'use strict';
@@ -10,7 +10,7 @@
 	};
 
 	bender.test( {
-		// (#12162)
+		// (https://dev.ckeditor.com/ticket/12162)
 		'test autoparagraphing in nested editable': function() {
 			var editor = this.editors.editor1,
 				editable = editor.editable(),

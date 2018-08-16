@@ -1,0 +1,24 @@
+<div id="editor">
+	<p>Foo</p>
+</div>
+
+<script>
+
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		height: 300
+	} );
+</script>
+
+<div onmouseenter="start()" style="width:50px;height:50px;border:1px solid black;background-color:#bbddbb;padding:5px;">😊</div>
+<script>
+
+	function start() {
+		var ed = CKEDITOR.instances.editor;
+		ed.focus();
+		ed.getSelection().removeAllRanges()
+	}
+</script>

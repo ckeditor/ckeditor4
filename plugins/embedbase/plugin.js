@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -80,8 +80,8 @@
 	};
 
 	CKEDITOR.plugins.add( 'embedbase', {
-		lang: 'az,ca,cs,da,de,de-ch,en,eo,es,eu,fr,gl,id,it,ja,ko,ku,nb,nl,oc,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
-		requires: 'widget,notificationaggregator',
+		lang: 'az,bg,ca,cs,da,de,de-ch,en,en-au,eo,es,es-mx,eu,fr,gl,hr,hu,id,it,ja,ko,ku,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		requires: 'dialog,widget,notificationaggregator',
 
 		onLoad: function() {
 			CKEDITOR._.jsonpCallbacks = {};
@@ -468,7 +468,7 @@
 						'alt="' + CKEDITOR.tools.htmlEncodeAttr( response.title || '' ) + '" style="max-width:100%;height:auto" />';
 				} else if ( response.type == 'video' || response.type == 'rich' ) {
 					// Embedded iframes are added to page's focus list. Adding negative tabindex attribute
-					// removes their ability to be focused by user. (#14538)
+					// removes their ability to be focused by user. (https://dev.ckeditor.com/ticket/14538)
 					response.html = response.html.replace( /<iframe/g, '<iframe tabindex="-1"' );
 
 					return response.html;

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,insertion */
+/* bender-tags: editor,insertion */
 /* global insertionDT */
 
 ( function() {
@@ -73,7 +73,7 @@
 				ts + '<tr><td>x<b>foo</b>^y</td></tr>' + te,												'collapsed' );
 			a(	ts + r + '<tr><td>x[y</td><td>y]z</td></tr>' + r + te,
 				ts + r + '<tr><td>x<b>foo</b>^z</td></tr>' + r + te,										'one row' );
-			// Result of this test is incorrect, however it doesn't test correctness, but stableness (#11183).
+			// Result of this test is incorrect, however it doesn't test correctness, but stableness (https://dev.ckeditor.com/ticket/11183).
 			a(	ts + r + '<tr><td>[a1</td><td>a2</td></tr><tr><td>b1</td><td>b2]</td></tr>' + r + te,
 				ts + '<tr><td>r1</td><td>r2</td><td><b>foo</b>^</td><td>&nbsp;</td></tr>' + r + te, 'two rows' );
 		},
@@ -118,7 +118,7 @@
 			a(	ts + '<tr><td>x^y</td></tr>' + te,
 				ts + '<tr><td>x<p contenteditable="false">foo</p>^y</td></tr>' + te,						'collapsed - middle' );
 
-			// #11798
+			// https://dev.ckeditor.com/ticket/11798
 			a(	ts + '<tr><td>x^</td></tr>' + te,
 				ts + '<tr><td>x<p contenteditable="false">foo</p><p>^&nbsp;</p></td></tr>' + te,			'collapsed - boundary' );
 

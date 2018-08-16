@@ -1,0 +1,17 @@
+<div id="editor"></div>
+
+<script>
+	// Ignore on mobiles due to hovering.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		keystrokes: [
+			[ CKEDITOR.CTRL + 116, 'strike' ],
+			[ CKEDITOR.CTRL + 117, 'subscript' ],
+			[ CKEDITOR.CTRL + 118, 'superscript' ]
+		],
+		removeButtons: 'Bold,Italic,Underline'
+	} );
+</script>

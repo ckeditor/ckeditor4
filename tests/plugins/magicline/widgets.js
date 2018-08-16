@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,magicline */
+/* bender-tags: editor,magicline */
 /* bender-ckeditor-plugins: magicline,widget */
 /* global widgetTestsTools */
 
@@ -749,7 +749,7 @@
 			}
 		} )
 
-		/* See #12474
+		/* See https://dev.ckeditor.com/ticket/12474
 
 		// --- ACF in nested ------------------------------------------------------------------------------------
 

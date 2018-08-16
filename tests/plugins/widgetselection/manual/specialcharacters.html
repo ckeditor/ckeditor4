@@ -1,0 +1,15 @@
+<div id="editor1">
+	<p contenteditable="false">NonEditable</p>
+	<h1>Hello world!</h1>
+	<p>I&#39;m an instance of <a href="http://ckeditor.com">CKEditor</a>.</p>
+</div>
+
+<script>
+	// Ignore on mobiles due to keyboard shortcuts requirements.
+	if ( !CKEDITOR.env.webkit || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor1', {
+		extraAllowedContent: 'p[contenteditable]'
+	} );
+</script>

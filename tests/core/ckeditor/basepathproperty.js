@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 ( function() {
 	'use strict';
@@ -31,7 +31,7 @@
 			a( '\\ckeditor.js' );
 			a( '/ckeditor.js?foo=1#bar' );
 			a( 'CKEDITOR.JS' );
-			// #12215
+			// https://dev.ckeditor.com/ticket/12215
 			a( '/ckeditor.js;id=foo-bar' );
 
 			function a( src ) {
@@ -40,7 +40,7 @@
 		}
 
 		/*
-		#12215
+		https://dev.ckeditor.com/ticket/12215
 		Test impossible to perform with present Bender's capabilities.
 		'test CKEDITOR.basePath when used src="ckeditor.js;foo&bar"': function() {
 			var iframe = CKEDITOR.document.getById( 'iframe-semicolon-params' ),

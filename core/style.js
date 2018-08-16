@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 'use strict';
@@ -136,7 +136,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 *
 	 * @class
 	 * @constructor Creates a style class instance.
-	 * @param styleDefinition
+	 * @param {CKEDITOR.style.definition} styleDefinition
 	 * @param variablesValues
 	 */
 	CKEDITOR.style = function( styleDefinition, variablesValues ) {
@@ -235,7 +235,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				var initialEnterMode = this._.enterMode;
 
 				// Before CKEditor 4.4 style knew nothing about editor, so in order to provide enterMode
-				// which should be used developers were forced to hack the style object (see #10190).
+				// which should be used developers were forced to hack the style object (see https://dev.ckeditor.com/ticket/10190).
 				// Since CKEditor 4.4 style knows about editor (at least when it's being applied/removed), but we
 				// use _.enterMode for backward compatibility with those hacks.
 				// Note: we should not change style's enter mode if it was already set.
@@ -569,7 +569,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			var styleVal = stylesDef[ style ],
 				text = ( style + ':' + styleVal ).replace( semicolonFixRegex, ';' );
 
-			// Some browsers don't support 'inherit' property value, leave them intact. (#5242)
+			// Some browsers don't support 'inherit' property value, leave them intact. (https://dev.ckeditor.com/ticket/5242)
 			if ( styleVal == 'inherit' )
 				specialStylesText += text;
 			else
@@ -678,7 +678,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * reusing them.
 	 *
 	 * The only style handler which can be implemented from scratch without huge effort is a style
-	 * applicable to objects ([read more about types](http://docs.ckeditor.com/#!/guide/dev_styles-section-style-types)).
+	 * applicable to objects ([read more about types](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_styles.html#style-types)).
 	 * Such style can only be applied when a specific object is selected. An example implementation can
 	 * be found in the [widget plugin](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/widget/plugin.js).
 	 *
@@ -1024,7 +1024,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 					if ( !CKEDITOR.env.ie )
 						styleNode.$.normalize();
 				}
-				// Style already inherit from parents, left just to clear up any internal overrides. (#5931)
+				// Style already inherit from parents, left just to clear up any internal overrides. (https://dev.ckeditor.com/ticket/5931)
 				else {
 					styleNode = new CKEDITOR.dom.element( 'span' );
 					styleRange.extractContents().appendTo( styleNode );
@@ -1042,7 +1042,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Remove the bookmark nodes.
 		range.moveToBookmark( boundaryNodes );
 
-		// Minimize the result range to exclude empty text nodes. (#5374)
+		// Minimize the result range to exclude empty text nodes. (https://dev.ckeditor.com/ticket/5374)
 		range.shrink( CKEDITOR.SHRINK_TEXT );
 
 		// Get inside the remaining element if range.shrink( TEXT ) has failed because of non-editable elements inside.
@@ -1058,27 +1058,31 @@ CKEDITOR.STYLE_OBJECT = 3;
 		range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
 
 		var bookmark = range.createBookmark(),
-			startNode = bookmark.startNode;
+			startNode = bookmark.startNode,
+			alwaysRemoveElement = this._.definition.alwaysRemoveElement;
 
 		if ( range.collapsed ) {
 			var startPath = new CKEDITOR.dom.elementPath( startNode.getParent(), range.root ),
-				// The topmost element in elementspatch which we should jump out of.
+				// The topmost element in elements path which we should jump out of.
 				boundaryElement;
-
 
 			for ( var i = 0, element; i < startPath.elements.length && ( element = startPath.elements[ i ] ); i++ ) {
 				// 1. If it's collaped inside text nodes, try to remove the style from the whole element.
 				//
 				// 2. Otherwise if it's collapsed on element boundaries, moving the selection
 				//  outside the styles instead of removing the whole tag,
-				//  also make sure other inner styles were well preserverd.(#3309)
-				if ( element == startPath.block || element == startPath.blockLimit )
+				//  also make sure other inner styles were well preserved.(https://dev.ckeditor.com/ticket/3309)
+				//
+				// 3. Force removing the element even if it's an boundary element when alwaysRemoveElement is true.
+				// Without it, the links won't be unlinked if the cursor is placed right before/after it. (https://dev.ckeditor.com/ticket/13062)
+				if ( element == startPath.block || element == startPath.blockLimit ) {
 					break;
+				}
 
 				if ( this.checkElementRemovable( element ) ) {
 					var isStart;
 
-					if ( range.collapsed && ( range.checkBoundaryOfElement( element, CKEDITOR.END ) || ( isStart = range.checkBoundaryOfElement( element, CKEDITOR.START ) ) ) ) {
+					if ( !alwaysRemoveElement && range.collapsed && ( range.checkBoundaryOfElement( element, CKEDITOR.END ) || ( isStart = range.checkBoundaryOfElement( element, CKEDITOR.START ) ) ) ) {
 						boundaryElement = element;
 						boundaryElement.match = isStart ? 'start' : 'end';
 					} else {
@@ -1087,10 +1091,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 						// no difference that they're separate entities in the DOM tree. So, merge
 						// them before removal.
 						element.mergeSiblings();
-						if ( element.is( this.element ) )
+						if ( element.is( this.element ) ) {
 							removeFromElement.call( this, element );
-						else
+						} else {
 							removeOverrides( element, getOverrides( this )[ element.getName() ] );
+						}
 					}
 				}
 			}
@@ -1235,7 +1240,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	function applyObjectStyle( range ) {
-		// Selected or parent element. (#9651)
+		// Selected or parent element. (https://dev.ckeditor.com/ticket/9651)
 		var start = range.getEnclosedNode() || range.getCommonAncestor( false, true ),
 			element = new CKEDITOR.dom.elementPath( start, range.root ).contains( this.element, 1 );
 
@@ -1276,7 +1281,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		var iterator = range.createIterator();
 		iterator.enforceRealBlocks = true;
 
-		// make recognize <br /> tag as a separator in ENTER_BR mode (#5121)
+		// make recognize <br /> tag as a separator in ENTER_BR mode (https://dev.ckeditor.com/ticket/5121)
 		if ( this._.enterMode )
 			iterator.enlargeBr = ( this._.enterMode != CKEDITOR.ENTER_BR );
 
@@ -1326,7 +1331,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	// Replace the original block with new one, with special treatment
 	// for <pre> blocks to make sure content format is well preserved, and merging/splitting adjacent
-	// when necessary. (#3188)
+	// when necessary. (https://dev.ckeditor.com/ticket/3188)
 	function replaceBlock( block, newBlock ) {
 		// Block is to be removed, create a temp element to
 		// save contents.
@@ -1502,11 +1507,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Remove definition attributes/style from the elemnt.
 		for ( var attName in attributes ) {
-			// The 'class' element value must match (#1318).
+			// The 'class' element value must match (https://dev.ckeditor.com/ticket/1318).
 			if ( ( attName == 'class' || this._.definition.fullMatch ) && element.getAttribute( attName ) != normalizeProperty( attName, attributes[ attName ] ) )
 				continue;
 
-			// Do not touch data-* attributes (#11011) (#11258).
+			// Do not touch data-* attributes (https://dev.ckeditor.com/ticket/11011) (https://dev.ckeditor.com/ticket/11258).
 			if ( keepDataAttrs && attName.slice( 0, 5 ) == 'data-' )
 				continue;
 
@@ -1515,7 +1520,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 
 		for ( var styleName in styles ) {
-			// Full match style insist on having fully equivalence. (#5018)
+			// Full match style insist on having fully equivalence. (https://dev.ckeditor.com/ticket/5018)
 			if ( this._.definition.fullMatch && element.getStyle( styleName ) != normalizeProperty( styleName, styles[ styleName ], true ) )
 				continue;
 
@@ -1649,7 +1654,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Create the element.
 		el = new CKEDITOR.dom.element( elementName, targetDocument );
 
-		// #6226: attributes should be copied before the new ones are applied
+		// https://dev.ckeditor.com/ticket/6226: attributes should be copied before the new ones are applied
 		if ( element )
 			element.copyAttributes( el );
 
@@ -1678,6 +1683,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Assign all defined styles.
 		if ( styles )
 			el.setAttribute( 'style', styles );
+
+		el.getDocument().removeCustomData( 'doc_processing_style' );
 
 		return el;
 	}
@@ -1797,7 +1804,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// @returns {Boolean}
 	function compareCssText( source, target ) {
 		function filter( string, propertyName ) {
-			// In case of font-families we'll skip quotes. (#10750)
+			// In case of font-families we'll skip quotes. (https://dev.ckeditor.com/ticket/10750)
 			return propertyName.toLowerCase() == 'font-family' ? string.replace( /["']/g, '' ) : string;
 		}
 
@@ -1821,17 +1828,27 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	function applyStyleOnSelection( selection, remove, editor ) {
-		var doc = selection.document,
-			ranges = selection.getRanges(),
+		var ranges = selection.getRanges(),
 			func = remove ? this.removeFromRange : this.applyToRange,
-			range;
+			originalRanges,
+			range,
+			i;
+
+		// In case of fake table selection, we would like to apply all styles and then select
+		// the original ranges. Otherwise browsers would complain about discontiguous selection.
+		if ( selection.isFake && selection.isInTable() ) {
+			originalRanges = [];
+
+			for ( i = 0; i < ranges.length; i++ ) {
+				originalRanges.push( ranges[ i ].clone() );
+			}
+		}
 
 		var iterator = ranges.createIterator();
 		while ( ( range = iterator.getNextRange() ) )
 			func.call( this, range, editor );
 
-		selection.selectRanges( ranges );
-		doc.removeCustomData( 'doc_processing_style' );
+		selection.selectRanges( originalRanges || ranges );
 	}
 } )();
 
@@ -1901,7 +1918,7 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
  */
 CKEDITOR.stylesSet = new CKEDITOR.resourceManager( '', 'stylesSet' );
 
-// Backward compatibility (#5025).
+// Backward compatibility (https://dev.ckeditor.com/ticket/5025).
 CKEDITOR.addStylesSet = CKEDITOR.tools.bind( CKEDITOR.stylesSet.add, CKEDITOR.stylesSet );
 CKEDITOR.loadStylesSet = function( name, url, callback ) {
 	CKEDITOR.stylesSet.addExternal( name, url, '' );
@@ -2004,7 +2021,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 				return;
 			}
 
-			// #5352 Allow to define the styles directly in the config object
+			// https://dev.ckeditor.com/ticket/5352 Allow to define the styles directly in the config object
 			if ( configStyleSet instanceof Array ) {
 				editor._.stylesDefinitions = configStyleSet;
 				callback( configStyleSet );
@@ -2075,7 +2092,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * to prevent loading any styles set.
  *
  * Read more in the [documentation](#!/guide/dev_styles)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/styles.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/styles.html).
  *
  *		// Do not load any file. The styles set is empty.
  *		config.stylesSet = false;
@@ -2099,4 +2116,105 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * @since 3.3
  * @cfg {String/Array/Boolean} [stylesSet='default']
  * @member CKEDITOR.config
+ */
+
+/**
+ * Abstract class describing the definition of a style.
+ *
+ * This virtual class illustrates the properties that developers can use to define and create
+ * style definitions.
+ *
+ * A style definition object represents a style as a set of properties defining the element structure, its attributes and CSS styles.
+ * The {@link CKEDITOR.style} based on such definition can be applied to and removed from the selection
+ * through various {@link CKEDITOR.style} methods.
+ *
+ * ```javascript
+ * {
+ *		name: 'Special Title',
+ *		element: 'h1',
+ *		attributes: { class: 'my_class' },
+ *		styles: { color: 'red', 'font-size': '16px', 'font-width': 'bold' }
+ * }
+ * ```
+ *
+ *	Refer to the [Styles guide](#!/guide/dev_howtos_styles) for more information about how editor content styles are handled.
+ *
+ * @class CKEDITOR.style.definition
+ * @abstract
+ */
+
+/**
+ * Defines the style type.
+ *
+ * There are three standard style types:
+ *
+ * * {@link CKEDITOR#STYLE_INLINE},
+ * * {@link CKEDITOR#STYLE_BLOCK},
+ * * {@link CKEDITOR#STYLE_OBJECT}.
+ *
+ * Each type is related to the element used in the style rule and the types of elements to which a specific style can be applied.
+ *
+ * Plugins may define {@link CKEDITOR.style.customHandlers special style handlers} to customize style operations.
+ * To use a special style handler, the `type` property should be set to the name of the style handler, e.g. `widget`.
+ *
+ * Refer to the [Style Types section of the Applying Styles to Editor Content guide](#!/guide/dev_styles-section-style-types) for more information about style types.
+ *
+ * ```javascript
+ * { type: CKEDITOR.STYLE_INLINE }
+ * ```
+ *
+ * @property {String/Number} type=CKEDITOR.STYLE_INLINE
+ */
+
+/**
+ * A unique style definition name. It can be used to differentiate style definitions, like in the [Styles Combo](#!/guide/dev_styles) plugin
+ * drop-down where it represents item labels.
+ *
+ * ```javascript
+ * { name: 'Special title' }
+ * ```
+ *
+ * @property {String} name
+ */
+
+/**
+ * A set of properties specifying attributes of the HTML style element.
+ * If the `style` attribute is present, it will be merged with the existing {@link CKEDITOR.style.definition#styles} property.
+ *
+ * ```javascript
+ * {
+ *		attributes: {
+ *			style: 'color: red',
+ *			class: 'link'
+ *		}
+ * }
+ * ```
+ *
+ * @property {Object.<String, String>} attributes
+ */
+
+/**
+ * An element type that will be applied to the selection when applying a style. It should be a valid HTML element, for example `span`.
+ *
+ * ```javascript
+ * { element: 'h1' }
+ * ```
+ *
+ * @property {String} element
+ */
+
+/**
+ * A set of properties specifying CSS style rules of the HTML style element.
+ *
+ * ```javascript
+ * {
+ *		styles: {
+ *			color: 'red',
+ *			'font-size': '12px'
+ *			'font-weight': 'bold'
+ *		}
+ * }
+ * ```
+ *
+ * @property {Object.<String, String>} styles
  */

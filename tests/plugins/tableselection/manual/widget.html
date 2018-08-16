@@ -1,0 +1,11 @@
+<div id="editor1">
+	<img alt="Lena" src="../../../_assets/lena.jpg" width="200">
+</div>
+
+<script>
+	if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1' );
+</script>

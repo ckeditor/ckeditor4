@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'ku', {
 	acccessKey: 'کلیلی دەستپێگەیشتن',
@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'ku', {
 	anchorName: 'بەپێی ناوی لەنگەر',
 	charset: 'بەستەری سەرچاوەی نووسە',
 	cssClasses: 'شێوازی چینی پەڕه',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'داگرتنی بەهێز',
+	displayText: 'پیشاندانی دەق',
 	emailAddress: 'ناونیشانی ئیمەیل',
 	emailBody: 'ناوەڕۆکی نامە',
 	emailSubject: 'بابەتی نامە',

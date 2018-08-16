@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /* exported CKBUILDER_CONFIG */
@@ -62,6 +62,7 @@ var CKBUILDER_CONFIG = {
 		indentlist: 1,
 		indentblock: 1,
 		justify: 1,
+		language: 1,
 		link: 1,
 		list: 1,
 		liststyle: 1,
@@ -85,10 +86,12 @@ var CKBUILDER_CONFIG = {
 		stylescombo: 1,
 		tab: 1,
 		table: 1,
+		tableselection: 1,
 		tabletools: 1,
 		templates: 1,
 		toolbar: 1,
 		undo: 1,
+		uploadimage: 1,
 		wysiwygarea: 1
 	}
 };

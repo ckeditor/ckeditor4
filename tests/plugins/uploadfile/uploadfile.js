@@ -1,7 +1,8 @@
-/* bender-tags: editor,unit,clipboard,widget */
+/* bender-tags: editor,clipboard,widget */
 /* bender-ckeditor-plugins: uploadwidget,uploadimage,toolbar,image */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js */
-/* global pasteFiles */
+/* bender-include: _helpers/waitForImage.js */
+/* global pasteFiles, waitForImage */
 
 'use strict';
 
@@ -29,6 +30,22 @@ bender.editors = {
 			uploadUrl: 'http://foo/upload',
 			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
 			pasteFilter: null
+		}
+	},
+	disposableEditor: {
+		name: 'disposableEditor',
+		creator: 'inline',
+		config: {
+			extraPlugins: 'uploadfile',
+			uploadUrl: 'http://foo/upload'
+		}
+	},
+	notificationDisposableEditor: {
+		name: 'notificationDisposableEditor',
+		creator: 'inline',
+		config: {
+			extraPlugins: 'uploadfile',
+			uploadUrl: 'http://foo/upload'
 		}
 	}
 };
@@ -158,8 +175,9 @@ bender.test( {
 		assert.areSame( 1, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
 		assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
-		// IE needs to wait for image to be loaded so it can read width and height of the image.
-		wait( function() {
+		var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
+		waitForImage( image, function() {
 			loader.url = IMG_URL;
 			loader.changeStatus( 'uploaded' );
 
@@ -169,6 +187,44 @@ bender.test( {
 			assert.areSame( 1, loadAndUploadCount );
 			assert.areSame( 0, uploadCount );
 			assert.areSame( 'http://foo/upload', lastUploadUrl );
-		}, 10 );
+		} );
+	},
+
+	'test removing editor during upload wont break it': function() {
+		var editor = this.editors.disposableEditor;
+
+		pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+		assert.areSame( 1, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
+		assert.areSame( '', editor.getData(), 'getData on loading.' );
+
+		var loader = editor.uploadRepository.loaders[ 0 ];
+
+		loader.data = bender.tools.pngBase64;
+		loader.uploadTotal = 10;
+
+		loader.uplaoded = 5;
+		loader.update();
+
+		editor.destroy();
+
+		loader.uplaoded = 10;
+		loader.update();
+
+		assert.areSame( 'abort', loader.status, 'Loader status' );
+	},
+
+	'test aborting the upload after editor was removed wont break it': function() {
+		var editor = this.editors.notificationDisposableEditor;
+
+		pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+		var loader = editor.uploadRepository.loaders[ 0 ];
+
+		editor.destroy();
+
+		loader.abort();
+
+		assert.areSame( 'abort', loader.status, 'Loader status' );
 	}
 } );

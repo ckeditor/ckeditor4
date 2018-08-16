@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,clipboard,filetools */
+/* bender-tags: editor,clipboard,filetools */
 /* bender-ckeditor-plugins: filetools,clipboard */
 
 'use strict';
@@ -133,6 +133,15 @@
 			assert.isUndefined( repository.loaders[ 2 ] );
 		},
 
+		'test UploadRepository.create allows changing fileLoader type': function() {
+			function CustomType() {
+			}
+
+			var repository = this.editor.uploadRepository,
+				loader = repository.create( { name: 'name' }, undefined, CustomType );
+
+			assert.isInstanceOf( CustomType, loader, 'Returned loader type' );
+		},
 
 		'test UploadRepository instanceCreated event': function() {
 			var repository = this.editor.uploadRepository,
@@ -224,7 +233,7 @@
 			wait();
 		},
 
-		'test ensure onAbort is called (#13812)': function() {
+		'test ensure onAbort is called (https://dev.ckeditor.com/ticket/13812)': function() {
 			var file;
 
 			// Fire this to fail the test if loader.abort() is never called.

@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, copyformatting
+@bender-tags: bug, copyformatting
 @bender-ckeditor-plugins: copyformatting, toolbar, wysiwygarea, floatingspace, elementspath, list, indentlist, liststyle, undo
 
 1. Put the caret inside list item with "start-value-6-lower-roman" content.

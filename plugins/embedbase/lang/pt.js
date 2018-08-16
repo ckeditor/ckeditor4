@@ -1,12 +1,12 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'embedbase', 'pt', {
 	pathName: 'objeto de media',
 	title: 'Embeber media',
 	button: 'Insert Media Embed', // MISSING
-	unsupportedUrlGiven: 'The specified URL is not supported.', // MISSING
+	unsupportedUrlGiven: 'O URL especificado não é suportado.',
 	unsupportedUrl: 'The URL {url} is not supported by Media Embed.', // MISSING
 	fetchingFailedGiven: 'Failed to fetch content for the given URL.', // MISSING
 	fetchingFailed: 'Failed to fetch content for {url}.', // MISSING

@@ -1,4 +1,4 @@
-@bender-tags: 4.5.11, tc, 7154
+@bender-tags: 4.5.11, bug, trac7154
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, sourcearea, toolbar, image2, link
 
@@ -11,7 +11,7 @@
 1. Click OK button.
 
 **Expected:** Following source `<p>An example image: <a href="http://foo"><img alt="alt" src="/tests//_assets/logo.png" /></a>.</p>`
- 
+
 ## Restoring Display Text
 
 1. Perform the above "Link dialog integration" TC.

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,dialog */
+/* bender-tags: editor,dialog */
 /* bender-ckeditor-plugins: wysiwygarea,toolbar,forms */
 
 ( function() {

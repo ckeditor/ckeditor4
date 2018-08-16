@@ -1,21 +1,21 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'ug', {
 	alt: 'تېكىست ئالماشتۇر',
 	btnUpload: 'مۇلازىمېتىرغا يۈكلە',
 	captioned: 'ماۋزۇلۇق سۈرەت',
-	captionPlaceholder: 'Caption', // MISSING
+	captionPlaceholder: 'ماۋزۇ',
 	infoTab: 'سۈرەت',
 	lockRatio: 'نىسبەتنى قۇلۇپلا',
 	menu: 'سۈرەت خاسلىقى',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	pathName: 'رەسىم',
+	pathNameCaption: 'ماۋزۇ',
 	resetSize: 'ئەسلى چوڭلۇق',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'چېكىپ تۇرۇپ سۆرەپ چوڭ كىچىكلىكىنى تەڭشىگىلى بولىدۇ',
 	title: 'سۈرەت خاسلىقى',
 	uploadTab: 'يۈكلە',
 	urlMissing: 'سۈرەتنىڭ ئەسلى ھۆججەت ئادرېسى كەم',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'باشقا تېكىست كەمچىل'
 } );

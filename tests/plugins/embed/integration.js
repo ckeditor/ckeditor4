@@ -20,7 +20,7 @@ bender.editors = {
 	}
 };
 
-var obj2Array = widgetTestsTools.obj2Array;
+var objToArray = bender.tools.objToArray;
 var classes2Array = widgetTestsTools.classes2Array;
 
 embedTools.mockJsonp();
@@ -36,7 +36,7 @@ var tcs = {
 		bot.setData( data, function() {
 			wait( function() {
 				arrayAssert.itemsAreSame( [ 'a', 'b', 'c' ],
-					classes2Array( obj2Array( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
+					classes2Array( objToArray( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
 
 				assert.areSame( data, bot.getData( 1, 1 ), 'classes transfered from widget.element back to data' );
 			}, 100 );
@@ -56,7 +56,7 @@ var tcs = {
 
 		bot.setData( data, function() {
 			arrayAssert.itemsAreSame( [ 'bar', 'foo' ],
-				classes2Array( obj2Array( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
+				classes2Array( objToArray( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
 
 			assert.areSame( data, bot.getData( 1, 1 ), 'classes transfered from widget.element back to data' );
 		} );

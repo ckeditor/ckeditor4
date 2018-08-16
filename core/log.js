@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -123,5 +123,5 @@ CKEDITOR.on( 'log', function( evt ) {
 		console[ type ]( prefix + errorCodeLabel + errorCode + '.' );
 	}
 
-	console[ type ]( prefix + 'For more information about this error go to http://docs.ckeditor.com/#!/guide/dev_errors-section-' + errorCode );
+	console[ type ]( prefix + 'For more information about this error go to https://ckeditor.com/docs/ckeditor4/latest/guide/dev_errors.html#' + errorCode );
 }, null, null, 999 );

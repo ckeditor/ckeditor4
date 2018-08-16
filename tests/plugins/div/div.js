@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,dialog,div */
+/* bender-tags: editor,dialog,div */
 /* bender-ckeditor-plugins: dialog,toolbar,button,div,table,list */
 
 ( function() {
@@ -27,6 +27,34 @@
 
 			bender.tools.testInputOut( 'create', function( source, output ) {
 				bot.setHtmlWithSelection( source );
+				bot.dialog( 'creatediv', function( dialog ) {
+					dialog.getButton( 'ok' ).click();
+					assert.areEqual( bender.tools.compatHtml( output ), bot.getData( 1 ) );
+				} );
+			} );
+		},
+
+		// https://dev.ckeditor.com/ticket/13585
+		'test create div from selection from 2 adjacent divs': function() {
+			var bot = this.editorBot;
+
+			bender.tools.testInputOut( 'create-divs', function( source, output ) {
+				bot.setHtmlWithSelection( source );
+
+				bot.dialog( 'creatediv', function( dialog ) {
+					dialog.getButton( 'ok' ).click();
+					assert.areEqual( bender.tools.compatHtml( output ), bot.getData( 1 ) );
+				} );
+			} );
+		},
+
+		// https://dev.ckeditor.com/ticket/13585
+		'test create nested divs from selection from 2 adjacent divs': function() {
+			var bot = this.editorBot;
+
+			bender.tools.testInputOut( 'create-divs-nested', function( source, output ) {
+				bot.setHtmlWithSelection( source );
+
 				bot.dialog( 'creatediv', function( dialog ) {
 					dialog.getButton( 'ok' ).click();
 					assert.areEqual( bender.tools.compatHtml( output ), bot.getData( 1 ) );

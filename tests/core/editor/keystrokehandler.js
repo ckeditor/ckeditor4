@@ -1,12 +1,15 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 CKEDITOR.replaceClass = 'ckeditor';
 bender.editor = true;
 
 var keyCombo1 = CKEDITOR.CTRL + 10,
 	keyCombo2 = CKEDITOR.ALT + 20,
+	keyCombo3 = CKEDITOR.SHIFT + CKEDITOR.ALT + 30,
 	command1 = 'command#1',
-	command2 = 'command#2';
+	command2 = 'command#2',
+	command3 = 'command#3WithCapitalLetters';
+
 
 bender.test(
 {
@@ -29,8 +32,14 @@ bender.test(
 		editor.setKeystroke( keyCombo1, command1 );
 
 		assert.areEqual( command1, keystrokes[ keyCombo1 ] );
+
+		// Get by command instance.
 		keystroke = editor.getCommandKeystroke( editor.getCommand( command1 ) );
-		assert.areEqual( keyCombo1, keystroke, 'Keystrokes should be equal.' );
+		assert.areEqual( keyCombo1, keystroke, 'Keystrokes should be equal (command).' );
+
+		// Get by command name.
+		keystroke = editor.getCommandKeystroke( command1 );
+		assert.areEqual( keyCombo1, keystroke, 'Keystrokes should be equal (command name).' );
 	},
 
 	'test keystroke array assignment': function() {
@@ -51,10 +60,17 @@ bender.test(
 		assert.areEqual( command1, keystrokes[ keyCombo1 ] );
 		assert.areEqual( command2, keystrokes[ keyCombo2 ] );
 
+		// Get by command instance.
 		keystroke1 = editor.getCommandKeystroke( editor.getCommand( command1 ) );
 		keystroke2 = editor.getCommandKeystroke( editor.getCommand( command2 ) );
-		assert.areEqual( keyCombo1, keystroke1, 'Keystrokes should be equal.' );
-		assert.areEqual( keyCombo2, keystroke2, 'Keystrokes should be equal.' );
+		assert.areEqual( keyCombo1, keystroke1, 'Keystrokes should be equal (command).' );
+		assert.areEqual( keyCombo2, keystroke2, 'Keystrokes should be equal (command).' );
+
+		// Get by command name.
+		keystroke1 = editor.getCommandKeystroke( command1 );
+		keystroke2 = editor.getCommandKeystroke( command2 );
+		assert.areEqual( keyCombo1, keystroke1, 'Keystrokes should be equal (command name).' );
+		assert.areEqual( keyCombo2, keystroke2, 'Keystrokes should be equal (command name).' );
 	},
 
 	'test editor#key event': function() {
@@ -76,5 +92,31 @@ bender.test(
 		assert.areSame( CKEDITOR.CTRL + CKEDITOR.SHIFT + 66, evtData.keyCode, 'keyCode' );
 		assert.isInstanceOf( CKEDITOR.dom.event, evtData.domEvent, 'domEvent' );
 		assert.areSame( 66, evtData.domEvent.getKey(), 'domEvent.getKey()' );
+	},
+
+	'test editor#getCommandKeystroke with empty name': function() {
+		var editor = this.editor;
+		assert.isNull( editor.getCommandKeystroke( '' ), 'Returned keystroke.' );
+	},
+
+	// #523
+	'test keystroke with capital letters': function() {
+		var editor = this.editor,
+			keystrokes = editor.keystrokeHandler.keystrokes,
+			keystroke;
+
+		editor.addCommand( command3, {} );
+		editor.setKeystroke( keyCombo3, command3 );
+
+		assert.areEqual( command3, keystrokes[ keyCombo3 ] );
+
+		// Get by command instance.
+		keystroke = editor.getCommandKeystroke( editor.getCommand( command3 ) );
+		assert.areEqual( keyCombo3, keystroke, 'Keystrokes should be equal (command).' );
+
+		// Get by command name.
+		keystroke = editor.getCommandKeystroke( command3 );
+		assert.areEqual( keyCombo3, keystroke, 'Keystrokes should be equal (command name).' );
 	}
+
 } );

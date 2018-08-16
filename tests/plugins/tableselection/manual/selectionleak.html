@@ -1,0 +1,27 @@
+<div id="editor1">
+	<table style="width: 300px; border: 1px solid black">
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+	</table>
+	<p></p>
+	<table style="width: 300px; border: 1px solid black">
+			<tr>
+				<td>foo</td>
+				<td>bar</td>
+			</tr>
+			<tr>
+				<td>baz</td>
+				<td></td>
+			</tr>
+	</table>
+</div>
+
+<script>
+	if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1' );
+</script>

@@ -1,0 +1,13 @@
+<textarea cols="80" id="classic" name="classic" rows="10">
+</textarea>
+
+<script>
+	// Ignore on mobiles due to browser dev console requirement.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'classic', {
+		removeButtons: 'Paste'
+	} );
+</script>

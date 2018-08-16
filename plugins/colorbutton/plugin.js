@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -11,7 +11,7 @@
 CKEDITOR.plugins.add( 'colorbutton', {
 	requires: 'panelbutton,floatpanel',
 	// jscs:disable maximumLineLength
-	lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 	// jscs:enable maximumLineLength
 	icons: 'bgcolor,textcolor', // %REMOVE_LINE_CORE%
 	hidpi: true, // %REMOVE_LINE_CORE%
@@ -85,7 +85,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		function addButton( name, type, title, order, options ) {
 			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
-				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox';
+				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
+				panelBlock;
 
 			options = options || {};
 
@@ -105,10 +106,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				onBlock: function( panel, block ) {
+					panelBlock = block;
+
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
 					block.element.setHtml( renderColors( panel, type, colorBoxId ) );
-					// The block should not have scrollbars (#5933, #6056)
+					// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
 					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 
 					CKEDITOR.ui.fire( 'ready', this );
@@ -129,13 +132,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						this.setState( CKEDITOR.TRISTATE_DISABLED );
 				},
 
-				// The automatic colorbox should represent the real color (#6010)
+				// The automatic colorbox should represent the real color (https://dev.ckeditor.com/ticket/6010)
 				onOpen: function() {
 
 					var selection = editor.getSelection(),
 						block = selection && selection.getStartElement(),
 						path = editor.elementPath( block ),
-						color;
+						automaticColor;
 
 					if ( !path )
 						return;
@@ -145,19 +148,46 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					// The background color might be transparent. In that case, look up the color in the DOM tree.
 					do {
-						color = block && block.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) || 'transparent';
+						automaticColor = block && block.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) || 'transparent';
 					}
-					while ( type == 'back' && color == 'transparent' && block && ( block = block.getParent() ) );
+					while ( type == 'back' && automaticColor == 'transparent' && block && ( block = block.getParent() ) );
 
 					// The box should never be transparent.
-					if ( !color || color == 'transparent' )
-						color = '#ffffff';
+					if ( !automaticColor || automaticColor == 'transparent' )
+						automaticColor = '#ffffff';
 
 					if ( config.colorButton_enableAutomatic !== false ) {
-						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
+						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', automaticColor );
 					}
 
-					return color;
+					var range = selection && selection.getRanges()[ 0 ];
+
+					if ( range ) {
+						var walker = new CKEDITOR.dom.walker( range ),
+							element = range.collapsed ? range.startContainer : walker.next(),
+							finalColor = '',
+							currentColor;
+
+						while ( element ) {
+							if ( element.type === CKEDITOR.NODE_TEXT ) {
+								element = element.getParent();
+							}
+
+							currentColor = normalizeColor( element.getComputedStyle( type == 'back' ? 'background-color' : 'color'  ) );
+							finalColor = finalColor || currentColor;
+
+							if ( finalColor !== currentColor ) {
+								finalColor = '';
+								break;
+							}
+
+							element = walker.next();
+						}
+
+						selectColor( panelBlock, finalColor );
+					}
+
+					return automaticColor;
 				}
 			} );
 		}
@@ -169,53 +199,46 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				// Tells if we should include "More Colors..." button.
 				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
 				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
-				// screen readers doesn't play nice with table, based layouts (#12097).
+				// screen readers doesn't play nice with table, based layouts (https://dev.ckeditor.com/ticket/12097).
 				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
 
-			var clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
-				var applyColorStyle = arguments.callee;
-				function onColorDialogClose( evt ) {
-					this.removeListener( 'ok', onColorDialogClose );
-					this.removeListener( 'cancel', onColorDialogClose );
-
-					evt.name == 'ok' && applyColorStyle( this.getContentElement( 'picker', 'selectedColor' ).getValue(), type );
-				}
-
-				if ( color == '?' ) {
-					editor.openDialog( 'colordialog', function() {
-						this.on( 'ok', onColorDialogClose );
-						this.on( 'cancel', onColorDialogClose );
-					} );
-
-					return;
-				}
+			var clickFn = CKEDITOR.tools.addFunction( function applyColorStyle( color, type ) {
 
 				editor.focus();
-
-				panel.hide();
-
 				editor.fire( 'saveSnapshot' );
 
-				// Clean up any conflicting style within the range.
-				editor.removeStyle( new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ) );
+				if ( color == '?' ) {
+					editor.getColorFromDialog( function( color ) {
+						if ( color ) {
+							return setColor( color );
+						}
+					} );
+				} else {
+					return setColor( color );
+				}
 
-				if ( color ) {
+				function setColor( color ) {
 					var colorStyle = config[ 'colorButton_' + type + 'Style' ];
+					// Clean up any conflicting style within the range.
+					editor.removeStyle( new CKEDITOR.style( colorStyle, { color: 'inherit' } ) );
 
 					colorStyle.childRule = type == 'back' ?
 					function( element ) {
-						// It's better to apply background color as the innermost style. (#3599)
-						// Except for "unstylable elements". (#6103)
+						// It's better to apply background color as the innermost style. (https://dev.ckeditor.com/ticket/3599)
+						// Except for "unstylable elements". (https://dev.ckeditor.com/ticket/6103)
 						return isUnstylable( element );
 					} : function( element ) {
-						// Fore color style must be applied inside links instead of around it. (#4772,#6908)
+						// Fore color style must be applied inside links instead of around it. (https://dev.ckeditor.com/ticket/4772,https://dev.ckeditor.com/ticket/6908)
 						return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
 					};
 
-					editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
+					editor.focus();
+					if ( color ) {
+						editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
+					}
+					editor.fire( 'saveSnapshot' );
 				}
 
-				editor.fire( 'saveSnapshot' );
 			} );
 
 			if ( config.colorButton_enableAutomatic !== false ) {
@@ -241,20 +264,27 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				var parts = colors[ i ].split( '/' ),
 					colorName = parts[ 0 ],
-					colorCode = parts[ 1 ] || colorName;
+					colorCode = parts[ 1 ] || colorName,
+					colorLabel;
 
 				// The data can be only a color code (without #) or colorName + color code
 				// If only a color code is provided, then the colorName is the color with the hash
-				// Convert the color from RGB to RRGGBB for better compatibility with IE and <font>. See #5676
-				if ( !parts[ 1 ] )
+				// Convert the color from RGB to RRGGBB for better compatibility with IE and <font>. See https://dev.ckeditor.com/ticket/5676
+				// Additionally, if the data is a single color code then let's try to translate it or fallback on the
+				// color code. If the data is a color name/code, then use directly the color name provided.
+				if ( !parts[ 1 ] ) {
 					colorName = '#' + colorName.replace( /^(.)(.)(.)$/, '$1$1$2$2$3$3' );
+					colorLabel = editor.lang.colorbutton.colors[ colorCode ] || colorCode;
+				} else {
+					colorLabel = colorName;
+				}
 
-				var colorLabel = editor.lang.colorbutton.colors[ colorCode ] || colorCode;
 				output.push( '<td>' +
 					'<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
 						' title="', colorLabel, '"' +
 						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorName, '\',\'', type, '\'); return false;"' +
 						' href="javascript:void(\'', colorLabel, '\')"' +
+						' data-value="' + colorCode + '"' +
 						' role="option" aria-posinset="', ( i + 2 ), '" aria-setsize="', total, '">' +
 						'<span class="cke_colorbox" style="background-color:#', colorCode, '"></span>' +
 					'</a>' +
@@ -281,6 +311,41 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function isUnstylable( ele ) {
 			return ( ele.getAttribute( 'contentEditable' ) == 'false' ) || ele.getAttribute( 'data-nostyle' );
 		}
+
+		/*
+		 * Selects the specified color in the specified panel block.
+		 *
+		 * @private
+		 * @member CKEDITOR.plugins.colorbutton
+		 * @param {CKEDITOR.ui.panel.block} block
+		 * @param {String} color
+		 */
+		function selectColor( block, color ) {
+			var items = block._.getItems();
+
+			for ( var i = 0; i < items.count(); i++ ) {
+				var item = items.getItem( i );
+
+				item.removeAttribute( 'aria-selected' );
+
+				if ( color && color == normalizeColor( item.getAttribute( 'data-value' ) ) ) {
+					item.setAttribute( 'aria-selected', true );
+				}
+			}
+		}
+
+		/*
+		 * Converts a CSS color value to an easily comparable form.
+		 *
+		 * @private
+		 * @member CKEDITOR.plugins.colorbutton
+		 * @param {String} color
+		 * @returns {String}
+		 */
+		function normalizeColor( color ) {
+			// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
+			return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
+		}
 	}
 } );
 
@@ -288,7 +353,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * Whether to enable the **More Colors** button in the color selectors.
  *
  * Read more in the [documentation](#!/guide/dev_colorbutton)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
  *
  *		config.colorButton_enableMore = false;
  *
@@ -308,7 +373,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * pastel shades than the previous one.
  *
  * Read more in the [documentation](#!/guide/dev_colorbutton)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
  *
  *		// Brazil colors only.
  *		config.colorButton_colors = '00923E,F8C100,28166F';
@@ -335,7 +400,7 @@ CKEDITOR.config.colorButton_colors = '1ABC9C,2ECC71,3498DB,9B59B6,4E5F70,F1C40F,
  * Stores the style definition that applies the text foreground color.
  *
  * Read more in the [documentation](#!/guide/dev_colorbutton)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
  *
  *		// This is actually the default value.
  *		config.colorButton_foreStyle = {
@@ -358,7 +423,7 @@ CKEDITOR.config.colorButton_foreStyle = {
  * Stores the style definition that applies the text background color.
  *
  * Read more in the [documentation](#!/guide/dev_colorbutton)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
  *
  *		// This is actually the default value.
  *		config.colorButton_backStyle = {
@@ -378,7 +443,7 @@ CKEDITOR.config.colorButton_backStyle = {
  * Whether to enable the **Automatic** button in the color selectors.
  *
  * Read more in the [documentation](#!/guide/dev_colorbutton)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
  *
  *		config.colorButton_enableAutomatic = false;
  *
@@ -390,7 +455,7 @@ CKEDITOR.config.colorButton_backStyle = {
  * Defines how many colors will be shown per row in the color selectors.
  *
  * Read more in the [documentation](#!/guide/dev_colorbutton)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
  *
  *		config.colorButton_colorsPerRow = 8;
  *
@@ -401,7 +466,7 @@ CKEDITOR.config.colorButton_backStyle = {
 
 /**
  * Whether the plugin should convert `background` CSS properties with color only, to a `background-color` property,
- * allowing the [Color Button](http://ckeditor.com/addon/colorbutton) plugin to edit these styles.
+ * allowing the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) plugin to edit these styles.
  *
  *		config.colorButton_normalizeBackground = false;
  *

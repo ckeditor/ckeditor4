@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,utils */
+/* bender-tags: editor,utils */
 
 ( function() {
 	'use strict';
@@ -42,7 +42,7 @@
 			assert.isNumberInRange( 100, 98, 100, '98 <= 100 <= 100' );
 		},
 
-		// #12841
+		// https://dev.ckeditor.com/ticket/12841
 		'test proper assertion message': function() {
 			try {
 				assert.isNumberInRange( 102, 99, 101, 'Custom message.' );

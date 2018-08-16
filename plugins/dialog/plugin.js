@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -177,10 +177,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			title = body.getChild( 0 ),
 			close = body.getChild( 1 );
 
-		// Don't allow dragging on dialog (#13184).
+		// Don't allow dragging on dialog (https://dev.ckeditor.com/ticket/13184).
 		editor.plugins.clipboard && CKEDITOR.plugins.clipboard.preventDefaultDropOnElement( body );
 
-		// IFrame shim for dialog that masks activeX in IE. (#7619)
+		// IFrame shim for dialog that masks activeX in IE. (https://dev.ckeditor.com/ticket/7619)
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.quirks && !CKEDITOR.env.edge ) {
 			var src = 'javascript:void(function(){' + encodeURIComponent( 'document.open();(' + CKEDITOR.tools.fixDomain + ')();document.close();' ) + '}())', // jshint ignore:line
 				iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
@@ -229,7 +229,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			tabsToRemove = {},
 			i, processed, stopPropagation;
 
-		if ( ( buttonsOrder == 'OS' && CKEDITOR.env.mac ) || // The buttons in MacOS Apps are in reverse order (#4750)
+		if ( ( buttonsOrder == 'OS' && CKEDITOR.env.mac ) || // The buttons in MacOS Apps are in reverse order (https://dev.ckeditor.com/ticket/4750)
 		( buttonsOrder == 'rtl' && dir == 'ltr' ) || ( buttonsOrder == 'ltr' && dir == 'rtl' ) )
 			defaultDefinition.buttons.reverse();
 
@@ -334,7 +334,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 		if ( definition.onOk ) {
 			this.on( 'ok', function( evt ) {
-				// Dialog confirm might probably introduce content changes (#5415).
+				// Dialog confirm might probably introduce content changes (https://dev.ckeditor.com/ticket/5415).
 				editor.fire( 'saveSnapshot' );
 				setTimeout( function() {
 					editor.fire( 'saveSnapshot' );
@@ -451,7 +451,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				currentIndex = currentIndex + offset;
 
 				if ( hasTabs && !me._.tabBarMode && ( currentIndex == focusList.length || currentIndex == -1 ) ) {
-					// If the dialog was not in tab mode, then focus the first tab (#13027).
+					// If the dialog was not in tab mode, then focus the first tab (https://dev.ckeditor.com/ticket/13027).
 					me._.tabBarMode = true;
 					me._.tabs[ me._.currentTabId ][ 0 ].focus();
 					me._.currentFocusIndex = -1;
@@ -528,7 +528,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 					button && CKEDITOR.tools.setTimeout( button.click, 0, button );
 					processed = 1;
 				}
-				stopPropagation = 1; // Always block the propagation (#4269)
+				stopPropagation = 1; // Always block the propagation (https://dev.ckeditor.com/ticket/4269)
 			} else if ( keystroke == 27 /*ESC*/ ) {
 				button = this.getButton( 'cancel' );
 
@@ -539,7 +539,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 					if ( this.fire( 'cancel', { hide: true } ).hide !== false )
 						this.hide();
 				}
-				stopPropagation = 1; // Always block the propagation (#4269)
+				stopPropagation = 1; // Always block the propagation (https://dev.ckeditor.com/ticket/4269)
 			} else {
 				return;
 			}
@@ -563,7 +563,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			dialogElement.on( 'keydown', keydownHandler, this );
 
 			// Some browsers instead, don't cancel key events in the keydown, but in the
-			// keypress. So we must do a longer trip in those cases. (#4531,#8985)
+			// keypress. So we must do a longer trip in those cases. (https://dev.ckeditor.com/ticket/4531,https://dev.ckeditor.com/ticket/8985)
 			if ( CKEDITOR.env.gecko )
 				dialogElement.on( 'keypress', keypressHandler, this );
 
@@ -596,7 +596,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				me._.tabs[ me._.currentTabId ][ 0 ].focus();
 				me._.currentFocusIndex = -1;
 			} else if ( !this._.hasFocus ) {
-				// http://dev.ckeditor.com/ticket/13114#comment:4.
+				// https://dev.ckeditor.com/ticket/13114#comment:4.
 				this._.currentFocusIndex = hasTabs ? -1 : this._.focusList.length - 1;
 
 				// Decide where to put the initial focus.
@@ -612,7 +612,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 		}, this, null, 0xffffffff );
 
-		// IE6 BUG: Text fields and text areas are only half-rendered the first time the dialog appears in IE6 (#2661).
+		// IE6 BUG: Text fields and text areas are only half-rendered the first time the dialog appears in IE6 (https://dev.ckeditor.com/ticket/2661).
 		// This is still needed after [2708] and [2709] because text fields in hidden TR tags are still broken.
 		if ( CKEDITOR.env.ie6Compat ) {
 			this.on( 'load', function() {
@@ -788,7 +788,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			var element = this._.element.getFirst(), rtl = this._.editor.lang.dir == 'rtl';
 			var isFixed = element.getComputedStyle( 'position' ) == 'fixed';
 
-			// (#8888) In some cases of a very small viewport, dialog is incorrectly
+			// (https://dev.ckeditor.com/ticket/8888) In some cases of a very small viewport, dialog is incorrectly
 			// positioned in IE7. It also happens that it remains sticky and user cannot
 			// scroll down/up to reveal dialog's content below/above the viewport; this is
 			// cumbersome.
@@ -862,8 +862,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			// Reset all inputs back to their default value.
 			this.reset();
 
-			// Select the first tab by default.
-			this.selectPage( this.definition.contents[ 0 ].id );
+			// Selects the first tab if no tab is already selected.
+			if ( this._.currentTabId === null ) {
+				this.selectPage( this.definition.contents[ 0 ].id );
+			}
 
 			// Set z-index.
 			if ( CKEDITOR.dialog._.currentZIndex === null )
@@ -1038,7 +1040,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		commitContent: function() {
 			var args = arguments;
 			this.foreach( function( widget ) {
-				// Make sure IE triggers "change" event on last focused input before closing the dialog. (#7915)
+				// Make sure IE triggers "change" event on last focused input before closing the dialog. (https://dev.ckeditor.com/ticket/7915)
 				if ( CKEDITOR.env.ie && this._.currentFocusIndex == widget.focusIndex )
 					widget.getInputElement().$.blur();
 
@@ -1090,11 +1092,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				var editor = this._.editor;
 				editor.focus();
 
-				// Give a while before unlock, waiting for focus to return to the editable. (#172)
+				// Give a while before unlock, waiting for focus to return to the editable. (https://dev.ckeditor.com/ticket/172)
 				setTimeout( function() {
 					editor.focusManager.unlock();
 
-					// Fixed iOS focus issue (#12381).
+					// Fixed iOS focus issue (https://dev.ckeditor.com/ticket/12381).
 					// Keep in mind that editor.focus() does not work in this case.
 					if ( CKEDITOR.env.iOS ) {
 						editor.window.focus();
@@ -1111,7 +1113,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				contentObj.resetInitValue && contentObj.resetInitValue();
 			} );
 
-			// Reset dialog state back to IDLE, if busy (#13213).
+			// Reset dialog state back to IDLE, if busy (https://dev.ckeditor.com/ticket/13213).
 			this.setState( CKEDITOR.DIALOG_STATE_IDLE );
 		},
 
@@ -1232,7 +1234,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 			// [IE] an invisible input[type='text'] will enlarge it's width
 			// if it's value is long when it shows, so we clear it's value
-			// before it shows and then recover it (#5649)
+			// before it shows and then recover it (https://dev.ckeditor.com/ticket/5649)
 			if ( CKEDITOR.env.ie6Compat || CKEDITOR.env.ie7Compat ) {
 				clearOrRecoverTextInputValue( selected[ 1 ] );
 				selected[ 1 ].show();
@@ -2199,7 +2201,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		resizeCover = resizeFunc;
 		win.on( 'resize', resizeFunc );
 		resizeFunc();
-		// Using Safari/Mac, focus must be kept where it is (#7027)
+		// Using Safari/Mac, focus must be kept where it is (https://dev.ckeditor.com/ticket/7027)
 		if ( !( CKEDITOR.env.mac && CKEDITOR.env.webkit ) )
 			coverElement.focus();
 
@@ -2560,7 +2562,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 							if ( elementDefinition && elementDefinition.padding !== undefined ) {
 								styles.push( 'padding:' + cssLength( elementDefinition.padding ) );
 							}
-							// In IE Quirks alignment has to be done on table cells. (#7324)
+							// In IE Quirks alignment has to be done on table cells. (https://dev.ckeditor.com/ticket/7324)
 							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && children[ i ].align ) {
 								styles.push( 'text-align:' + children[ i ].align );
 							}
@@ -2619,7 +2621,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 							html.push( 'height:100%;' );
 						html.push( 'width:' + cssLength( width || '100%' ), ';' );
 
-						// (#10123) Temp fix for dialog broken layout in latest webkit.
+						// (https://dev.ckeditor.com/ticket/10123) Temp fix for dialog broken layout in latest webkit.
 						if ( CKEDITOR.env.webkit )
 							html.push( 'float:none;' );
 
@@ -2639,7 +2641,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 								styles.push( 'height:' + Math.floor( 100 / childHtmlList.length ) + '%' );
 							if ( elementDefinition && elementDefinition.padding !== undefined )
 								styles.push( 'padding:' + cssLength( elementDefinition.padding ) );
-							// In IE Quirks alignment has to be done on table cells. (#7324)
+							// In IE Quirks alignment has to be done on table cells. (https://dev.ckeditor.com/ticket/7324)
 							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && children[ i ].align )
 								styles.push( 'text-align:' + children[ i ].align );
 							if ( styles.length > 0 )
@@ -2984,7 +2986,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	/**
 	 * Generic dialog command. It opens a specific dialog when executed.
 	 *
-	 *		// Register the "link" command, which opens the "link" dialog.
+	 *		// Register the "link" command which opens the "link" dialog.
 	 *		editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link' ) );
 	 *
 	 * @class
@@ -2993,6 +2995,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	 * @param {String} dialogName The name of the dialog to open when executing
 	 * this command.
 	 * @param {Object} [ext] Additional command definition's properties.
+	 * @param {String} [ext.tabId] You can provide additional property (`tabId`) if you wish to open the dialog on a specific tabId.
+	 *
+	 *		// Open the dialog on the 'keystroke' tabId.
+	 *		editor.addCommand( 'keystroke', new CKEDITOR.dialogCommand( 'a11yHelp', { tabId: 'keystroke' } ) );
 	 */
 	CKEDITOR.dialogCommand = function( dialogName, ext ) {
 		this.dialogName = dialogName;
@@ -3001,7 +3007,13 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 	CKEDITOR.dialogCommand.prototype = {
 		exec: function( editor ) {
-			editor.openDialog( this.dialogName );
+			var tabId = this.tabId;
+			editor.openDialog( this.dialogName, function( dialog ) {
+				// Select different tab if it's provided (#830).
+				if ( tabId ) {
+					dialog.selectPage( tabId );
+				}
+			} );
 		},
 
 		// Dialog commands just open a dialog ui, thus require no undo logic,
@@ -3019,19 +3031,58 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			cssLengthRegex = /^(((\d*(\.\d+))|(\d*))(px|em|ex|in|cm|mm|pt|pc|\%)?)?$/i,
 			inlineStyleRegex = /^(\s*[\w-]+\s*:\s*[^:;]+(?:;|$))*$/;
 
+		/**
+		 * {@link CKEDITOR.dialog Dialog} `OR` logical value indicates
+		 * relation between validation functions.
+		 *
+		 * @readonly
+		 * @property {Number} [=1]
+		 * @member CKEDITOR
+		 */
 		CKEDITOR.VALIDATE_OR = 1;
+
+		/**
+		 * {@link CKEDITOR.dialog Dialog} `AND` logical value indicates
+		 * relation between validation functions.
+		 *
+		 * @readonly
+		 * @property {Number} [=2]
+		 * @member CKEDITOR
+		 */
 		CKEDITOR.VALIDATE_AND = 2;
 
+		/**
+		 * The namespace with dialog helper validation functions.
+		 *
+		 * @class
+		 * @singleton
+		 */
 		CKEDITOR.dialog.validate = {
+			/**
+			 * Performs validation functions composition.
+			 *
+			 * ```javascript
+			 * CKEDITOR.dialog.validate.functions(
+			 * 	CKEDITOR.dialog.validate.notEmpty( 'Value is required.' ),
+			 * 	CKEDITOR.dialog.validate.number( 'Value is not a number.' ),
+			 * 	'error!'
+			 * );
+			 * ```
+			 *
+			 * @param {Function...} validators Validation functions which will be composed into a single validator.
+			 * @param {String} [msg] Error message returned by a composed validation function.
+			 * @param {Number} [relation=CKEDITOR.VALIDATE_OR] Indicates a relation between validation functions.
+			 * Use {@link CKEDITOR#VALIDATE_OR} or {@link CKEDITOR#VALIDATE_AND}.
+			 *
+			 * @returns {Function} Composed validation function.
+			 */
 			functions: function() {
 				var args = arguments;
 				return function() {
-					/**
-					 * It's important for validate functions to be able to accept the value
-					 * as argument in addition to this.getValue(), so that it is possible to
-					 * combine validate functions together to make more sophisticated
-					 * validators.
-					 */
+					// It's important for validate functions to be able to accept the value
+					// as argument in addition to this.getValue(), so that it is possible to
+					// combine validate functions together to make more sophisticated
+					// validators.
 					var value = this && this.getValue ? this.getValue() : args[ 0 ];
 
 					var msg,
@@ -3066,6 +3117,18 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				};
 			},
 
+			/**
+			 * Checks if a dialog UI element value meets the regex condition.
+			 *
+			 * ```javascript
+			 * CKEDITOR.dialog.validate.regex( 'error!', /^\d*$/ )( '123' ) // true
+			 * CKEDITOR.dialog.validate.regex( 'error!' )( '123.321' ) // error!
+			 * ```
+			 *
+			 * @param {RegExp} regex RegExp used to validate value.
+			 * @param {String} msg Validator error message.
+			 * @returns {Function} Validation function.
+			 */
 			regex: function( regex, msg ) {
 				/*
 				 * Can be greatly shortened by deriving from functions validator if code size
@@ -3077,42 +3140,136 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				};
 			},
 
+			/**
+			 * Checks if a dialog UI element value is not an empty string.
+			 *
+			 * ```javascript
+			 * CKEDITOR.dialog.validate.notEmpty( 'error!' )( 'test' ) // true
+			 * CKEDITOR.dialog.validate.notEmpty( 'error!' )( '  ' ) // error!
+			 * ```
+			 *
+			 * @param {String} msg Validator error message.
+			 * @returns {Function} Validation function.
+			 */
 			notEmpty: function( msg ) {
 				return this.regex( notEmptyRegex, msg );
 			},
 
+			/**
+			 * Checks if a dialog UI element value is an Integer.
+			 *
+			 * ```javascript
+			 * CKEDITOR.dialog.validate.integer( 'error!' )( '123' ) // true
+			 * CKEDITOR.dialog.validate.integer( 'error!' )( '123.321' ) // error!
+			 * ```
+			 *
+			 * @param {String} msg Validator error message.
+			 * @returns {Function} Validation function.
+			 */
 			integer: function( msg ) {
 				return this.regex( integerRegex, msg );
 			},
 
+			/**
+			 * Checks if a dialog UI element value is a Number.
+			 *
+			 * ```javascript
+			 * CKEDITOR.dialog.validate.number( 'error!' )( '123' ) // true
+			 * CKEDITOR.dialog.validate.number( 'error!' )( 'test' ) // error!
+			 * ```
+			 *
+			 * @param {String} msg Validator error message.
+			 * @returns {Function} Validation function.
+			 */
 			'number': function( msg ) {
 				return this.regex( numberRegex, msg );
 			},
 
+			/**
+			 * Checks if a dialog UI element value is a correct CSS length value.
+			 *
+			 * It allows `px`, `em`, `ex`, `in`, `cm`, `mm`, `pt`, `pc` units.
+			 *
+			 * ```javascript
+			 * CKEDITOR.dialog.validate.cssLength( 'error!' )( '10pt' ) // true
+			 * CKEDITOR.dialog.validate.cssLength( 'error!' )( 'solid' ) // error!
+			 * ```
+			 *
+			 * @param {String} msg Validator error message.
+			 * @returns {Function} Validation function.
+			 */
 			'cssLength': function( msg ) {
 				return this.functions( function( val ) {
 					return cssLengthRegex.test( CKEDITOR.tools.trim( val ) );
 				}, msg );
 			},
 
+			/**
+			 * Checks if a dialog UI element value is a correct HTML length value.
+			 *
+			 * It allows `px` units.
+			 *
+			 * ```javascript
+			 * CKEDITOR.dialog.validate.htmlLength( 'error!' )( '10px' ) // true
+			 * CKEDITOR.dialog.validate.htmlLength( 'error!' )( 'solid' ) // error!
+			 * ```
+			 *
+			 * @param {String} msg Validator error message.
+			 * @returns {Function} Validation function.
+			 */
 			'htmlLength': function( msg ) {
 				return this.functions( function( val ) {
 					return htmlLengthRegex.test( CKEDITOR.tools.trim( val ) );
 				}, msg );
 			},
 
+			/**
+			 * Checks if a dialog UI element value is a correct CSS inline style.
+			 *
+			 * ```javascript
+			 * CKEDITOR.dialog.validate.inlineStyle( 'error!' )( 'height: 10px; width: 20px;' ) // true
+			 * CKEDITOR.dialog.validate.inlineStyle( 'error!' )( 'test' ) // error!
+			 * ```
+			 *
+			 * @param {String} msg Validator error message.
+			 * @returns {Function} Validation function.
+			 */
 			'inlineStyle': function( msg ) {
 				return this.functions( function( val ) {
 					return inlineStyleRegex.test( CKEDITOR.tools.trim( val ) );
 				}, msg );
 			},
 
+			/**
+			 * Checks if a dialog UI element value and the given value are equal.
+			 *
+			 * ```javascript
+			 * CKEDITOR.dialog.validate.equals( 'foo', 'error!' )( 'foo' ) // true
+			 * CKEDITOR.dialog.validate.equals( 'foo', 'error!' )( 'baz' ) // error!
+			 * ```
+			 *
+			 * @param {String} value Value to compare.
+			 * @param {String} msg Validator error message.
+			 * @returns {Function} Validation function.
+			 */
 			equals: function( value, msg ) {
 				return this.functions( function( val ) {
 					return val == value;
 				}, msg );
 			},
 
+			/**
+			 * Checks if a dialog UI element value and the given value are not equal.
+			 *
+			 * ```javascript
+			 * CKEDITOR.dialog.validate.notEqual( 'foo', 'error!' )( 'baz' ) // true
+			 * CKEDITOR.dialog.validate.notEqual( 'foo', 'error!' )( 'foo' ) // error!
+			 * ```
+			 *
+			 * @param {String} value Value to compare.
+			 * @param {String} msg Validator error message.
+			 * @returns {Function} Validation function.
+			 */
 			notEqual: function( value, msg ) {
 				return this.functions( function( val ) {
 					return val != value;

@@ -1,0 +1,36 @@
+
+<textarea name="editor1" id="editor1" cols="30" rows="10">
+	<p>Put caret here first.</p>
+</textarea>
+
+<script>
+
+	CKEDITOR.plugins.add( 'noneditablewidget', {
+		requires: 'widget',
+		init: function ( editor ) {
+			editor.widgets.add( 'noneditablewidget', {
+				button: 'Non-editable widget',
+				order: 1,
+				template: '<div class="noneditable">' +
+				'<div>This part shouldn\'t be editable.</div>' +
+				'</div>',
+				allowedContent: 'div(noneditable)',
+				requiredContent: 'div',
+				upcast: function( element ) {
+				  return element.name == 'div' && element.hasClass( 'noneditable' );
+				}
+			} );
+		}
+	} );
+
+	if ( !CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'noneditablewidget',
+		extraAllowedContent: 'div'
+	} );
+
+
+</script>

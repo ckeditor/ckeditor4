@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,dom,range */
+/* bender-tags: editor,dom,range */
 
 ( function() {
 	'use strict';
@@ -284,7 +284,7 @@
 				this.rangeMoveToClosestEditable( '<p id="start">foo</p><hr />', true ) );
 		},
 
-		// Special case which we need to be certain because #11861 bases on this.
+		// Special case which we need to be certain because https://dev.ckeditor.com/ticket/11861 bases on this.
 		'test moveToClosestEditablePosition returns range anchored next to hr': function() {
 			var ct = doc.getById( 'editable_playground' );
 			ct.setHtml( '<p>foo</p><hr /><p id="start">bar</p>' );

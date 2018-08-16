@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 // jscs:disable maximumLineLength
 /* bender-ckeditor-plugins: about,basicstyles,bidi,blockquote,clipboard,colorbutton,colordialog,div,elementspath,enterkey,entities,find,flash,font,format,forms,horizontalrule,image,iframe,indent,justify,link,list,maximize,newpage,pagebreak,pastefromword,pastetext,preview,print,removeformat,resize,toolbar,save,selectall,showblocks,showborders,smiley,sourcearea,specialchar,stylescombo,table,templates,undo,wysiwygarea */
 // jscs:enable maximumLineLength

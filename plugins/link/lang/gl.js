@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'gl', {
 	acccessKey: 'Chave de acceso',
@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'gl', {
 	anchorName: 'Polo nome da ancoraxe',
 	charset: 'Codificación do recurso ligado',
 	cssClasses: 'Clases da folla de estilos',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'Forzar a descarga',
+	displayText: 'Amosar o texto',
 	emailAddress: 'Enderezo de correo',
 	emailBody: 'Corpo da mensaxe',
 	emailSubject: 'Asunto da mensaxe',

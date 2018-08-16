@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,clipboard */
+/* bender-tags: editor,clipboard */
 /* bender-ckeditor-plugins: toolbar,clipboard */
 
 'use strict';
@@ -23,5 +23,28 @@ bender.test( {
 		} );
 
 		editor.execCommand( 'cut' );
+	},
+
+	// #869
+	'test check if collapse selection is not copied': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor,
+			bot = this.editorBot,
+			range;
+
+		bot.setHtmlWithSelection( '<p>[Some] text</p>' );
+
+		editor.editable().fire( 'copy', new CKEDITOR.dom.event( {} ) );
+		assert.areSame( 'Some', CKEDITOR.plugins.clipboard.copyCutData.getData( 'text/html' ) );
+
+		range = editor.getSelection().getRanges()[ 0 ];
+		range.collapse();
+		range.select();
+
+		editor.editable().fire( 'copy', new CKEDITOR.dom.event( {} ) );
+		assert.areSame( 'Some', CKEDITOR.plugins.clipboard.copyCutData.getData( 'text/html' ) );
 	}
 } );

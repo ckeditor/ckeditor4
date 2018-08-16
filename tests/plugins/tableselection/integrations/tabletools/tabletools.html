@@ -1,0 +1,1378 @@
+<textarea id='add-row-before'>
+<table summary="X">
+	<tbody>
+		<tr>
+			<td>
+				cell1</td>
+			<td>
+				cell2</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table summary="X">
+	<tbody>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id='add-row-before-2'>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">
+			cell1
+		</td>
+		<td>
+			cell2
+		</td>
+	</tr>
+	<tr>
+		<td>
+			cell3
+		</td>
+	</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	<tr>
+		<td rowspan="2">cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>cell3</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id='add-row-before-3'>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">
+			cell1
+		</td>
+		<td>
+			cell2
+		</td>
+	</tr>
+	<tr>
+		<td>cell3</td>
+	</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	<tr>
+		<td rowspan="2">cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>cell3</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id='add-row-before-multi'>
+<table summary="X">
+	<tbody>
+		<tr>
+			<td>
+				cell1</td>
+			<td>
+				cell2</td>
+		</tr>
+	</tbody>
+</table>
+=>
+<table summary="X">
+	<tbody>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id='add-row-after'>
+<table summary="X">
+	<tbody>
+		<tr>
+			<td>
+				cell1</td>
+			<td>
+				cell2</td>
+		</tr>
+	</tbody>
+</table>
+=>
+<table summary="X">
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='add-row-after-2'>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">
+			cell1
+		</td>
+		<td>
+			cell2
+		</td>
+	</tr>
+	<tr>
+		<td>
+			cell3
+		</td>
+	</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="3">cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>&amp;nbsp;</td>
+	</tr>
+	<tr>
+		<td>cell3</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='add-row-after-3'>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">
+			cell1
+		</td>
+		<td>
+			cell2
+		</td>
+	</tr>
+	<tr>
+		<td>cell3</td>
+	</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>cell3</td>
+	</tr>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='add-row-after-multi'>
+<table summary="X">
+	<tbody>
+		<tr>
+			<td>
+				cell1</td>
+			<td>
+				cell2</td>
+		</tr>
+	</tbody>
+</table>
+=>
+<table summary="X">
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id='add-col-before'>
+<table summary="X">
+	<tbody>
+		<tr>
+			<td>
+				cell1</td>
+			<td>
+				cell2</td>
+		</tr>
+	</tbody>
+</table>
+=>
+<table summary="X">
+	<tbody>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='add-col-before-2'>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">
+			cell1
+		</td>
+		<td>
+			cell2
+		</td>
+	</tr>
+	<tr>
+		<td>
+			cell3
+		</td>
+	</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">cell1</td>
+		<td>&amp;nbsp;</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>cell3</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='add-col-before-3'>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">
+			cell1
+		</td>
+		<td>
+			cell2
+		</td>
+	</tr>
+	<tr>
+		<td>cell3</td>
+	</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">&amp;nbsp;</td>
+		<td rowspan="2">cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>cell3</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='add-col-before-4'>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>cell1</td>
+	</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>&nbsp;</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>cell1</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='add-col-before-multi'>
+<table summary="X">
+	<tbody>
+		<tr>
+			<td>
+				cell1</td>
+			<td>
+				cell2</td>
+		</tr>
+	</tbody>
+</table>
+=>
+<table summary="X">
+	<tbody>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='add-col-before-multi2'>
+<table>
+	<tbody>
+		<tr>
+			<td rowspan="2">
+				&amp;nbsp;</td>
+			<td>
+				&amp;nbsp;</td>
+		</tr>
+		<tr>
+			<td>
+				&amp;nbsp;</td>
+		</tr>
+		<tr>
+			<td>
+				&amp;nbsp;</td>
+			<td>
+				&amp;nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	</tbody>
+</textarea>
+<textarea id="add-col-before-vertical-split">
+	<table>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td colspan="2">2</td>
+				<td>3</td>
+				<td>4</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td colspan="2"></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td colspan="2">2</td>
+				<td>3</td>
+				<td>&nbsp;</td>
+				<td>4</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td colspan="2">&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id='add-col-after'>
+<table summary="X">
+	<tbody>
+		<tr>
+			<td>
+				cell1</td>
+			<td>
+				cell2</td>
+		</tr>
+	</tbody>
+</table>
+	=>
+<table summary="X">
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>&amp;nbsp;</td>
+		<td>cell2</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='add-col-after-2'>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">
+			cell1
+		</td>
+		<td>
+			cell2
+		</td>
+	</tr>
+	<tr>
+		<td>
+			cell3
+		</td>
+	</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">cell1</td>
+		<td>cell2</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	<tr>
+		<td>cell3</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='add-col-after-3'>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">
+			cell1
+		</td>
+		<td>
+			cell2
+		</td>
+	</tr>
+	<tr>
+		<td>cell3</td>
+	</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td rowspan="2">cell1</td>
+		<td rowspan="2">&amp;nbsp;</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>cell3</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='add-col-after-4'>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>cell1</td>
+	</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>cell1</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='add-col-after-multi'>
+<table summary="X">
+	<tbody>
+		<tr>
+			<td>
+				cell1</td>
+			<td>
+				cell2</td>
+		</tr>
+	</tbody>
+</table>
+	=>
+<table summary="X">
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='merge-cells'>
+<table>
+	    <tbody>
+	        <tr>
+	            <td rowspan="2">cell1</td>
+	            <td colspan="2">cell2</td>
+	        </tr>
+	        <tr>
+	            <td rowspan="2">cell3</td>
+	            <td>cell4</td>
+	        </tr>
+	        <tr>
+	            <td>cell5</td>
+	            <td>cell6</td>
+	        </tr>
+	    </tbody>
+</table>
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>
+				cell1cell2<br /> cell3cell4<br /> cell5cell6</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id='merge-cells-2'>
+<table>
+	    <tbody>
+	        <tr>
+	            <td>cell1</td>
+	            <td>cell2</td>
+	        </tr>
+	        <tr>
+	            <td>cell3</td>
+	            <td>cell4</td>
+	        </tr>
+	    </tbody>
+</table>
+=>
+<table>
+		<tbody>
+			<tr>
+				<td colspan="2">
+					cell1cell2</td>
+			</tr>
+			<tr>
+				<td>
+					cell3</td>
+				<td>
+					cell4</td>
+			</tr>
+		</tbody>
+</table>
+</textarea>
+
+<textarea id='merge-cells-3'>
+<table>
+	    <tbody>
+	        <tr>
+	            <td rowspan="2">cell1</td>
+	            <td colspan="2">cell2</td>
+	        </tr>
+	        <tr>
+	            <td rowspan="2">cell3</td>
+	            <td>cell4</td>
+	        </tr>
+	        <tr>
+	            <td>cell5</td>
+	            <td>cell6</td>
+	        </tr>
+	    </tbody>
+</table>
+=>
+<table>
+		<tbody>
+			<tr>
+				<td rowspan="2">
+					cell1</td>
+				<td colspan="2">
+					cell2</td>
+			</tr>
+			<tr>
+					<td colspan="2" rowspan="2">cell3cell4<br /> cell6</td>
+			</tr>
+			<tr>
+				<td>
+					cell5</td>
+			</tr>
+		</tbody>
+</table>
+</textarea>
+<textarea id='merge-cells-4'>
+<table>
+	    <tbody>
+	        <tr>
+	            <td rowspan="2"><br _moz_dirty="" type="_moz"/></td>
+	            <td colspan="2">cell2</td>
+	        </tr>
+	    </tbody>
+</table>
+=>
+<table>
+		<tbody>
+			<tr>
+				<td>
+					cell2</td>
+			</tr>
+		</tbody>
+</table>
+</textarea>
+<textarea id='merge-cells-5'>
+<table>
+	    <tbody>
+	        <tr>
+	            <td rowspan="2">cell1<br /></td>
+	        </tr>
+	        <tr>
+	            <td colspan="2">cell2</td>
+	        </tr>
+	    </tbody>
+</table>
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>
+				cell1<br />
+				cell2</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id="split-cells">
+<table>
+    <tbody>
+        <tr>
+            <td rowspan="2">cell1</td>
+            <td colspan="2">cell2</td>
+        </tr>
+        <tr>
+            <td rowspan="2">cell3</td>
+            <td>cell4</td>
+        </tr>
+        <tr>
+            <td>cell5</td>
+            <td>cell6</td>
+        </tr>
+    </tbody>
+</table>
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>
+				cell1</td>
+			<td colspan="2">
+				cell2</td>
+		</tr>
+		<tr>
+			<td>
+				&amp;nbsp;</td>
+			<td rowspan="2">
+				cell3</td>
+			<td>
+				cell4</td>
+		</tr>
+		<tr>
+			<td>
+				cell5</td>
+			<td>
+				cell6</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id="split-cells-2">
+<table>
+    <tbody>
+        <tr>
+            <td rowspan="2">cell1</td>
+            <td colspan="2">cell2</td>
+        </tr>
+        <tr>
+            <td rowspan="2">cell3</td>
+            <td>cell4</td>
+        </tr>
+        <tr>
+            <td>cell5</td>
+            <td>cell6</td>
+        </tr>
+    </tbody>
+</table>
+=>
+<table>
+	<tbody>
+		<tr>
+			<td rowspan="3">
+				cell1</td>
+			<td colspan="2">
+				cell2</td>
+		</tr>
+		<tr>
+			<td rowspan="3">
+				cell3</td>
+			<td>
+				cell4</td>
+		</tr>
+		<tr>
+			<td>
+				&amp;nbsp;</td>
+		</tr>
+		<tr>
+			<td>
+				cell5</td>
+			<td>
+				cell6</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id="split-cells-3">
+<table>
+    <tbody>
+        <tr>
+            <td rowspan="2">cell1</td>
+            <td colspan="2">cell2</td>
+        </tr>
+        <tr>
+            <td rowspan="2">cell3</td>
+            <td>cell4</td>
+        </tr>
+        <tr>
+            <td>cell5</td>
+            <td>cell6</td>
+        </tr>
+    </tbody>
+</table>
+=>
+<table>
+	<tbody>
+		<tr>
+			<td rowspan="2">
+				cell1</td>
+			<td colspan="2">
+				cell2</td>
+		</tr>
+		<tr>
+			<td>
+				cell3</td>
+			<td>
+				cell4</td>
+		</tr>
+		<tr>
+			<td>
+				cell5</td>
+			<td>
+				&amp;nbsp;</td>
+			<td>
+				cell6</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id="split-cells-4">
+<table>
+    <tbody>
+        <tr>
+            <td rowspan="2">cell1</td>
+            <td colspan="2">cell2</td>
+        </tr>
+        <tr>
+            <td rowspan="2">cell3</td>
+            <td>cell4</td>
+        </tr>
+        <tr>
+            <td>cell5</td>
+            <td>cell6</td>
+        </tr>
+    </tbody>
+</table>
+=>
+<table>
+	<tbody>
+		<tr>
+			<td rowspan="2">
+				cell1</td>
+			<td>
+				cell2</td>
+			<td>
+				&amp;nbsp;</td>
+		</tr>
+		<tr>
+			<td rowspan="2">
+				cell3</td>
+			<td>
+				cell4</td>
+		</tr>
+		<tr>
+			<td>
+				cell5</td>
+			<td>
+				cell6</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id="split-cells-5">
+<table>
+    <tbody>
+        <tr>
+            <td rowspan="2">cell1</td>
+            <td colspan="2">cell2</td>
+        </tr>
+        <tr>
+            <td rowspan="2">cell3</td>
+            <td>cell4</td>
+        </tr>
+        <tr>
+            <td>cell5</td>
+            <td>cell6</td>
+        </tr>
+    </tbody>
+</table>
+=>
+<table>
+	<tbody>
+		<tr>
+			<td rowspan="2">
+				cell1</td>
+			<td rowspan="2">
+				&amp;nbsp;</td>
+			<td colspan="2">
+				cell2</td>
+		</tr>
+		<tr>
+			<td rowspan="2">
+				cell3</td>
+			<td>
+				cell4</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				cell5</td>
+			<td>
+				cell6</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id="split-cells-6">
+<table>
+    <tbody>
+        <tr>
+            <td rowspan="2">cell1</td>
+            <td colspan="2">cell2</td>
+        </tr>
+        <tr>
+            <td rowspan="2">cell3</td>
+            <td>cell4</td>
+        </tr>
+        <tr>
+            <td>cell5</td>
+            <td>cell6</td>
+        </tr>
+    </tbody>
+</table>
+=>
+<table>
+	<tbody>
+		<tr>
+			<td rowspan="2">
+				cell1</td>
+			<td colspan="3">
+				cell2</td>
+		</tr>
+		<tr>
+			<td rowspan="2">
+				cell3</td>
+			<td>
+				cell4</td>
+			<td>
+				&amp;nbsp;</td>
+		</tr>
+		<tr>
+			<td>
+				cell5</td>
+			<td colspan="2">
+				cell6</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+
+<textarea id="merge-cell-right">
+<table>
+    <tbody>
+        <tr>
+            <td>ce^ll1</td>
+            <td>cell2</td>
+        </tr>
+        <tr>
+            <td colspan="2">cell3</td>
+        </tr>
+    </tbody>
+</table>
+=>
+<table>
+	<tbody>
+		<tr>
+			<td colspan="2">
+				cell1cell2</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				cell3</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-cell-down">
+<table>
+    <tbody>
+        <tr>
+            <td>cel^l1</td>
+            <td rowspan="2">cell2</td>
+        </tr>
+        <tr>
+            <td>cell3</td>
+        </tr>
+    </tbody>
+</table>
+=>
+<table>
+	<tbody>
+		<tr>
+			<td rowspan="2">
+				cell1<br />
+				cell3</td>
+			<td rowspan="2">
+				cell2</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-cell-down-2">
+<table>
+	<tbody>
+		<tr>
+			<td>cell1</td>
+			<td>cel^l2</td>
+		</tr>
+		<tr>
+			<td>cell3</td>
+			<td>cell4</td>
+		</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td rowspan="2">cell2<br />cell4</td>
+	</tr>
+	<tr>
+		<td>cell3</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="delete-nested-cells">
+<table>
+	<tbody>
+	<tr>
+		<td>
+			<table>
+				<tbody>
+				<tr>
+					<td>IA</td>
+					<td>IB</td>
+				</tr>
+				<tr>
+					<td>IC</td>
+					<td>ID</td>
+				</tr>
+				</tbody>
+			</table>
+		</td>
+		<td>OB</td>
+	</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>
+			<table>
+				<tbody>
+				<tr>
+					<td>IC</td>
+					<td>ID</td>
+				</tr>
+				</tbody>
+			</table>
+		</td>
+		<td>OB</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="delete-nested-cells-2">
+<table>
+	<tbody>
+	<tr>
+		<td>
+			<table>
+				<tbody>
+				<tr>
+					<td>IA</td>
+					<td>IB</td>
+				</tr>
+				<tr>
+					<td>IC</td>
+					<td>ID</td>
+				</tr>
+				</tbody>
+			</table>
+		</td>
+		<td>OB</td>
+	</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>
+			<table>
+				<tbody>
+				<tr>
+					<td>IA</td>
+				</tr>
+				<tr>
+					<td>ID</td>
+				</tr>
+				</tbody>
+			</table>
+		</td>
+		<td>OB</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="delete-nested-cells-3">
+<table>
+	<thead>
+	<tr>
+		<th>OHA</th>
+		<th>O[HB</th>
+	</tr>
+	</thead>
+	<caption>OCAP</caption>
+	<tbody>
+	<tr>
+		<td>OA</td>
+		<td>OB</td>
+	</tr>
+	<tr>
+		<td>
+			<table>
+				<caption>ICAP</caption>
+				<thead>
+				<tr>
+					<th>IHA</th>
+					<th>IHB</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td>IA</td>
+					<td>IB</td>
+				</tr>
+				</tbody>
+			</table>
+		</td>
+		<td>OD</td>
+	</tr>
+	</tbody>
+</table>
+=>
+<table>
+	<thead>
+	<tr>
+		<th>OHA</th>
+	</tr>
+	</thead>
+	<caption>OCAP</caption>
+	<tbody>
+	<tr>
+		<td>OD</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="delete-row-from-middle">
+	<p><a name="x"></a></p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>aaa</td>
+			</tr>
+			<tr>
+				<td>bbb</td>
+			</tr>
+			<tr>
+				<td>ccc</td>
+			</tr>
+			<tr>
+				<td>ddd</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<p><a name="x"></a></p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>aaa</td>
+			</tr>
+			<tr>
+				<td>ccc</td>
+			</tr>
+			<tr>
+				<td>ddd</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="delete-column-trailing">
+	<p><a name="x"></a></p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>aaa</td>
+				<td>bbb</td>
+			</tr>
+			<tr>
+				<td>ccc</td>
+				<td>ddd</td>
+			</tr>
+			<tr>
+				<td>eee</td>
+				<td>fff</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<p><a name="x"></a></p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>aaa</td>
+			</tr>
+			<tr>
+				<td>ccc</td>
+			</tr>
+			<tr>
+				<td>eee</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="delete-cell-trailing">
+	<p><a name="x"></a></p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>aaa</td>
+				<td>bbb</td>
+			</tr>
+			<tr>
+				<td>ccc</td>
+				<td>ddd</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<p><a name="x"></a></p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>aaa</td>
+				<td>bbb</td>
+			</tr>
+			<tr>
+				<td>ccc</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="delete-all-cells">
+	<p><a name="x"></a></p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>aaa</td>
+				<td>bbb</td>
+			</tr>
+			<tr>
+				<td>ccc</td>
+				<td>ddd</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<p><a name="x"></a></p>
+</textarea>
+
+<textarea id="cellBackground">
+	<table>
+		<tr>
+			<td id="first">aa</td>
+			<td id="second" style="background-color: red">bb</td>
+		</tr>
+	</table>
+</textarea>
+
+<textarea id="getSelectedCells-nested">
+	<table border="1">
+	<tbody>
+		<tr>
+			<td>Cell 1.1.1</td>
+			<td>Cell
+				<table id="inner" border="1">
+					<tbody>
+						<tr>
+							<td>Cell 2.1.1.</td>
+						</tr>
+						<tr>
+							<td>Cell 2.2.1</td>
+						</tr>
+					</tbody>
+				</table>
+				1.1.2</td>
+	     </tr>
+	 </tbody>
+	</table>
+</textarea>
+
+<textarea id="getSelectedCells-nestedHeader">
+	<table border="1">
+		<tr>
+			<td>
+				<p>I shouldn't be selected</p>
+				<table id="inner" border="1">
+					<tr>
+						<th>Start here…</th>
+						<td>…and go here</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</textarea>

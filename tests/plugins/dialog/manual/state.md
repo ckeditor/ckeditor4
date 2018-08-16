@@ -1,4 +1,4 @@
-@bender-tags: dialog, 13434, tc, 4.5.2
+@bender-tags: dialog, trac13434, bug, 4.5.2
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, dialog
 

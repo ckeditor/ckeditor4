@@ -1,7 +1,5 @@
 /* bender-tags: widgetcore */
 /* bender-ckeditor-plugins: widget,toolbar,clipboard */
-/* bender-include: _helpers/tools.js */
-/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -16,7 +14,7 @@
 		}
 	};
 
-	var obj2Array = widgetTestsTools.obj2Array;
+	var objToArray = bender.tools.objToArray;
 
 	bender.test( {
 		'test widget without buttons should not be added to ACF': function() {
@@ -49,7 +47,7 @@
 			}, function( bot ) {
 				var editor = bot.editor;
 
-				assert.areSame( 0, obj2Array( editor.widgets.instances ).length );
+				assert.areSame( 0, objToArray( editor.widgets.instances ).length );
 				assert.areSame( '<p>foobarbimbom</p>', editor.getData() );
 			} );
 		},
@@ -96,8 +94,16 @@
 			}, function( bot ) {
 				var editor = bot.editor;
 
-				assert.areSame( 3, obj2Array( editor.widgets.instances ).length );
-				assert.areSame( '<p><b data-widget="test1">foo</b><i data-widget="test2" foo="1">bar</i><s class="test3">bim</s>bom</p>', editor.getData() );
+				assert.areSame( 3, objToArray( editor.widgets.instances ).length );
+
+				// On Edge 16+ when test is run from the main bender panel the `<i>` tag attributes order
+				// is different so isInnerHtmlMatching should be used here.
+				assert.isInnerHtmlMatching(
+					'<p><b data-widget="test1">foo</b><i data-widget="test2" foo="1">bar</i><s class="test3">bim</s>bom</p>',
+					editor.getData(), {
+						fixNbsp: false,
+						fixZWS: false
+					} );
 			} );
 		},
 
@@ -133,7 +139,7 @@
 			}, function( bot ) {
 				var editor = bot.editor;
 
-				assert.areSame( 2, obj2Array( editor.widgets.instances ).length );
+				assert.areSame( 2, objToArray( editor.widgets.instances ).length );
 				assert.areSame( '<p><b>fooa</b><i data-widget="test2a">bara</i><u>foob</u><s data-widget="test2b">barb</s></p>', editor.getData() );
 
 				assert.areSame( CKEDITOR.TRISTATE_DISABLED, editor.getCommand( 'test1a' ).state, 'test1a is disabled' );
@@ -166,14 +172,14 @@
 				var editor = bot.editor;
 
 				bot.setData( '<p><s data-widget="pasting1"><u class="pasting1">foo</u>bar</s>bom</p>', function() {
-					obj2Array( editor.widgets.instances )[ 0 ].setData( 'a', 'b' );
+					objToArray( editor.widgets.instances )[ 0 ].setData( 'a', 'b' );
 
 					var html = editor.editable().getHtml();
 
 					editor.once( 'afterPaste', function() {
 						resume( function() {
-							var instances = obj2Array( editor.widgets.instances );
-							assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widget is initialized after paste' );
+							var instances = objToArray( editor.widgets.instances );
+							assert.areSame( 1, objToArray( editor.widgets.instances ).length, 'one widget is initialized after paste' );
 							assert.areSame( 'b', instances[ 0 ].data.a, 'data is preserved' );
 							assert.areSame( '<p><s data-widget="pasting1"><u class="pasting1">foo</u>bar</s>bom</p>', editor.getData() );
 						} );

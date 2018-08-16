@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: fakeobjects */
 
 'use strict';
@@ -31,7 +31,7 @@ bender.test( {
 		assert.areSame( '<p><em>foo</em></p>', editor.getData() );
 	},
 
-	// #11850
+	// https://dev.ckeditor.com/ticket/11850
 	'test downcasting non-editable element': function() {
 		var editor = this.editors.editor,
 			el = fake( editor, '<em>foo</em>' );

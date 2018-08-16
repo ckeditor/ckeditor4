@@ -31,7 +31,7 @@
 	}
 
 	bender.test( {
-		// #13351.
+		// https://dev.ckeditor.com/ticket/13351.
 		'keep link after editing (selected link)': function() {
 			// IE8 isn't able to select link from outside.
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
@@ -40,17 +40,17 @@
 			keepLinkTest( this.editorBot, '<p>x[<a href="#"><img alt="" src="' + SRC + '" /></a>]x</p>', defaultExpectedOutput );
 		},
 
-		// #13351.
+		// https://dev.ckeditor.com/ticket/13351.
 		'keep link after editing (selected image)': function() {
 			keepLinkTest( this.editorBot, '<p>x<a href="#">[<img alt="" src="' + SRC + '" />]</a>x</p>', defaultExpectedOutput );
 		},
 
-		// #13351.
+		// https://dev.ckeditor.com/ticket/13351.
 		'keep link after editing (selected text, new image)': function() {
 			keepLinkTest( this.editorBot, '<p>x<a href="#">[old content]</a>x</p>', defaultExpectedOutput );
 		},
 
-		// #13351.
+		// https://dev.ckeditor.com/ticket/13351.
 		'keep link after editing (selected link, new image)': function() {
 			// IE8 isn't able to select link from outside.
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {

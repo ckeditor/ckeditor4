@@ -1,0 +1,268 @@
+<textarea id="emptyTable">
+<table>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>&nbsp;</td>
+			<td>^&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="emptyTableBogusBr">
+<table>
+	<tr>
+		<td><br></td>
+		<td><br></td>
+		<td><br></td>
+	</tr>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td><br></td>
+			<td><br></td>
+			<td><br></td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="emptyTableDeleteSecondRow">
+<table>
+	<tbody>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>&nbsp;</td>
+			<td>^&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="emptyTableDeleteFirstRow">
+<table>
+	<tbody>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>^&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="emptyTableDeleteFewRows">
+<table>
+	<tbody>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>^&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="emptyTableRemoveWhole">
+<table>
+	<tbody>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<p>^&nbsp;</p>
+</textarea>
+
+<textarea id="emptyTableSibling">
+<table>
+	<tbody>
+		<tr>
+			<td>aa</td>
+			<td>bb</td>
+		</tr>
+	</tbody>
+</table>
+
+<table>
+	<tbody>
+		<tr>
+			<td>cc</td>
+			<td>dd</td>
+		</tr>
+		<tr>
+			<td>ee</td>
+			<td>ff</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+
+<table>
+	<tbody>
+		<tr>
+			<td>aa</td>
+			<td>bb</td>
+		</tr>
+	</tbody>
+</table>
+
+<table>
+	<tbody>
+		<tr>
+			<td>^ee</td>
+			<td>ff</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="emptyTableParagraphSibling">
+<table>
+	<tbody>
+		<tr>
+			<td>aa</td>
+			<td>bb</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>&nbsp;</p>
+
+=>
+
+<p>^&nbsp;</p>
+
+<p>&nbsp;</p>
+</textarea>
+
+<textarea id="emptyTableSingleColumn">
+<table border="2">
+	<tr>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+	</tr>
+</table>
+
+=>
+<table border="2">
+	<tbody>
+		<tr>
+			<td>&nbsp;</td>
+			<td class="selected">&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="enterKey">
+<table>
+	<tr>
+		<td>a</td>
+		<td>b</td>
+		<td>c</td>
+		<td>d</td>
+	</tr>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>^&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+
+<textarea id="typingTable">
+<table>
+	<tr>
+		<td>a</td>
+		<td>b</td>
+		<td>c</td>
+		<td>d</td>
+	</tr>
+</table>
+
+=>
+<p>^&nbsp;</p>
+</textarea>

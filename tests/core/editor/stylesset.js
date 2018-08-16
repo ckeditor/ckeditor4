@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 bender.test( {
 	'test default styles set setting': function() {

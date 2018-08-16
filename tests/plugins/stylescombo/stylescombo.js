@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: richcombo,format,stylescombo,font,toolbar */
 
 ( function() {
@@ -59,6 +59,65 @@
 			}, function( bot ) {
 				assert.areSame( '<h2 style="font-style:italic">A</h2><p>X<big>Y</big>Z</p>',
 					bot.editor.dataProcessor.toHtml( '<h2 style="font-style:italic">A</h2><p>X<big>Y</big>Z</p>' ) );
+			} );
+		},
+
+		// #646
+		'test for applying style without selection': function() {
+			bender.editorBot.create( {
+				name: 'style_error',
+				config: {
+					removePlugins: 'format,font'
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+				var selection = editor.getSelection();
+
+				// During opening combo selection is modified, what force selection to be at the beginning of editable.
+				// Stub resets native selection before every execution of `getNative`, to properly simulate error case.
+				var stub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getNative', function() {
+					if ( typeof window.getSelection != 'function' ) {
+						this.document.$.selection.empty();
+						return this.document.$.selection;
+					}
+					this.document.getWindow().$.getSelection().removeAllRanges();
+					return this.document.getWindow().$.getSelection();
+
+				} );
+
+				selection.removeAllRanges();
+				selection.reset();
+				try {
+					bot.combo( 'Styles', function() {
+						assert.pass();
+					} );
+				} finally {
+					stub.restore();
+				}
+
+			} );
+		},
+
+		// #862
+		'test visible object styles on list items': function() {
+			bender.editorBot.create( {
+				name: 'object_styles',
+				config: {
+					removePlugins: 'format,font',
+					language: 'en'
+				}
+			}, function( bot ) {
+
+				bot.setHtmlWithSelection( '<ul><li>o^ne</li><li>two</li></ul>' );
+
+				bot.combo( 'Styles', function( combo ) {
+					var list = combo._.list.element;
+					var squareOptionId = combo._.list._.items[ 'Square Bulleted List' ] ;
+
+					assert.isNotNull( list.findOne( '#' + squareOptionId ), 'Square Bulleted List should be avialable.' );
+					assert.areNotSame( 'none', list.findOne( '#' + squareOptionId ).getStyle( 'display' ).toLowerCase(),
+						'Element with ID: #' + squareOptionId + ', should be displayed.' );
+				} );
 			} );
 		}
 	} );

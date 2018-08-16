@@ -1,4 +1,4 @@
-@bender-tags: embed, 14538, tc, 4.5.9
+@bender-tags: embed, trac14538, bug, 4.5.9
 @bender-ui: collapsed
 @bender-ckeditor-plugins: embed,wysiwygarea,sourcearea,htmlwriter,entities,toolbar,elementspath,undo,clipboard
 

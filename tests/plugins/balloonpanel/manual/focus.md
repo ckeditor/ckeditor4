@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.6.0, tc, 14672, balloonpanel
+@bender-tags: 4.6.0, bug, trac14672, balloonpanel
 @bender-ckeditor-plugins: wysiwygarea,toolbar,undo,basicstyles,notification,floatingspace,balloonpanel,sourcearea,list,link
 
 1. Select a part of any of the fragments with red borders by dragging the mouse.

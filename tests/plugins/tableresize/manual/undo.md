@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, 4.5.3, 13388
+@bender-tags: bug, 4.5.3, trac13388
 @bender-ckeditor-plugins: wysiwygarea, toolbar, table, tableresize, basicstyles, undo
 
 1. Insert a table.

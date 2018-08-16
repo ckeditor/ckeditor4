@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -20,7 +20,7 @@
 
 	CKEDITOR.plugins.add( 'undo', {
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'redo,redo-rtl,undo,undo-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -412,7 +412,7 @@
 
 			if ( image.bookmarks ) {
 				editor.focus();
-				// Retrieve the selection beforehand. (#8324)
+				// Retrieve the selection beforehand. (https://dev.ckeditor.com/ticket/8324)
 				sel = editor.getSelection();
 			}
 
@@ -441,7 +441,7 @@
 
 			// Update current image with the actual editor
 			// content, since actualy content may differ from
-			// the original snapshot due to dom change. (#4622)
+			// the original snapshot due to dom change. (https://dev.ckeditor.com/ticket/4622)
 			this.update();
 			this.refreshState();
 
@@ -625,7 +625,7 @@
 						// * we don't compare them,
 						// * there's a chance that DOM has been changed since
 						// locked (e.g. fake) selection was made, so createBookmark2 could fail.
-						// http://dev.ckeditor.com/ticket/11027#comment:3
+						// https://dev.ckeditor.com/ticket/11027#comment:3
 						var imageBefore = new Image( this.editor, true );
 
 						// If current editor content matches the tip of snapshot stack,
@@ -813,7 +813,7 @@
 			var thisContents = this.contents,
 				otherContents = otherImage.contents;
 
-			// For IE7 and IE QM: Comparing only the protected attribute values but not the original ones.(#4522)
+			// For IE7 and IE QM: Comparing only the protected attribute values but not the original ones.(https://dev.ckeditor.com/ticket/4522)
 			if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
 				thisContents = thisContents.replace( protectedAttrs, '' );
 				otherContents = otherContents.replace( protectedAttrs, '' );
@@ -927,12 +927,12 @@
 		onKeydown: function( evt ) {
 			var keyCode = evt.data.getKey();
 
-			// The composition is in progress - ignore the key. (#12597)
+			// The composition is in progress - ignore the key. (https://dev.ckeditor.com/ticket/12597)
 			if ( keyCode === 229 ) {
 				return;
 			}
 
-			// Block undo/redo keystrokes when at the bottom/top of the undo stack (#11126 and #11677).
+			// Block undo/redo keystrokes when at the bottom/top of the undo stack (https://dev.ckeditor.com/ticket/11126 and https://dev.ckeditor.com/ticket/11677).
 			if ( CKEDITOR.tools.indexOf( keystrokes, evt.data.getKeystroke() ) > -1 ) {
 				evt.data.preventDefault();
 				return;
@@ -957,7 +957,7 @@
 				if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
 					// We already have image, so we'd like to reuse it.
 
-					// #12300
+					// https://dev.ckeditor.com/ticket/12300
 					undoManager.save( false, this.lastKeydownImage, false );
 					undoManager.resetType();
 				}
@@ -1007,7 +1007,7 @@
 
 			// Second part of the workaround for IEs functional keys bug. We need to check whether something has really
 			// changed because we blindly mocked the keypress event.
-			// Also we need to be aware that lastKeydownImage might not be available (#12327).
+			// Also we need to be aware that lastKeydownImage might not be available (https://dev.ckeditor.com/ticket/12327).
 			if ( UndoManager.ieFunctionalKeysBug( keyCode ) && this.lastKeydownImage &&
 				this.lastKeydownImage.equalsContent( new Image( undoManager.editor, true ) ) ) {
 				return;
@@ -1050,6 +1050,14 @@
 		},
 
 		/**
+		 * Stops ignoring `input` events.
+		 * @since 4.7.3
+		 */
+		activateInputEventListener: function() {
+			this.ignoreInputEvent = false;
+		},
+
+		/**
 		 * Attaches editable listeners required to provide the undo functionality.
 		 */
 		attachListeners: function() {
@@ -1080,10 +1088,13 @@
 			editable.attachListener( editable, 'paste', that.ignoreInputEventListener, that, null, 999 );
 			editable.attachListener( editable, 'drop', that.ignoreInputEventListener, that, null, 999 );
 
+			// After paste we need to re-enable input event listener (#554).
+			editor.on( 'afterPaste', that.activateInputEventListener, that, null, 999 );
+
 			// Click should create a snapshot if needed, but shouldn't cause change event.
 			// Don't pass onNavigationKey directly as a listener because it accepts one argument which
 			// will conflict with evt passed to listener.
-			// #12324 comment:4
+			// https://dev.ckeditor.com/ticket/12324 comment:4
 			editable.attachListener( editable.isInline() ? editable : editor.document.getDocumentElement(), 'click', function() {
 				that.onNavigationKey();
 			}, null, null, 999 );

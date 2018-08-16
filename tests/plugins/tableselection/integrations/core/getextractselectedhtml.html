@@ -1,0 +1,115 @@
+<textarea id="multipleRanges">
+<p>
+	<table>
+		<tr>
+			<td>11</td>
+			<td>22</td>
+		</tr>
+		<tr>
+			<td>44</td>
+			<td>55</td>
+		</tr>
+	</table>
+</p>
+=>
+<table data-cke-table-faked-selection-table="">
+	<tbody>
+		<tr>
+			<td class="cke_table-faked-selection">11@</td>
+			<td class="cke_table-faked-selection">22</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="partialTableSeleciton">
+<p>
+	<table>
+		<tr>
+			<td>11</td>
+			<td>22</td>
+		</tr>
+		<tr>
+			<td>44</td>
+			<td>55</td>
+		</tr>
+	</table>
+</p>
+=>
+<table data-cke-table-faked-selection-table="">
+	<tbody>
+		<tr>
+			<td class="cke_table-faked-selection">11@</td>
+		</tr>
+		<tr>
+			<td class="cke_table-faked-selection">44</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="rowspanColspan">
+<table>
+	<tr>
+		<td colspan="2">11</td>
+		<td rowspan="2">22</td>
+		<td>33</td>
+	</tr>
+	<tr>
+		<td>44</td>
+		<td>55</td>
+		<td>66</td>
+	</tr>
+</table>
+=>
+<table data-cke-table-faked-selection-table="">
+	<tbody>
+		<tr>
+			<td class="cke_table-faked-selection" colspan="2">11@</td>
+			<td class="cke_table-faked-selection" rowspan="2">22</td>
+			<td class="cke_table-faked-selection">33</td>
+		</tr>
+		<tr>
+			<td class="cke_table-faked-selection">44</td>
+			<td class="cke_table-faked-selection">55</td>
+			<td class="cke_table-faked-selection">66</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="nested">
+<table>
+	<tr>
+		<td>11</td>
+		<td>2
+			<table>
+				<tr>
+					<td>33</td>
+					<td>44</td>
+				</tr>
+			</table>
+		2</td>
+		<td>55</td>
+	</tr>
+</table>
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>11</td>
+			<td>2
+				<table>
+					<tbody>
+						<tr>
+							<td>^&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+					</tbody>
+				</table>
+			2</td>
+			<td>55</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>

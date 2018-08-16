@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -124,7 +124,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * but an element with focus is always the active element in a document.
 	 *
 	 * @returns {CKEDITOR.dom.element} Active element or `null` if an IE8-9 bug is encountered.
-	 * See [#10030](http://dev.ckeditor.com/ticket/10030).
+	 * See [#10030](https://dev.ckeditor.com/ticket/10030).
 	 */
 	getActive: function() {
 		var $active;
@@ -262,7 +262,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * @param {String} html The HTML defining the document content.
 	 */
 	write: function( html ) {
-		// Don't leave any history log in IE. (#5657)
+		// Don't leave any history log in IE. (https://dev.ckeditor.com/ticket/5657)
 		this.$.open( 'text/html', 'replace' );
 
 		// Support for custom document.domain in IE.
@@ -284,7 +284,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * **Note:** The returned list is not a live collection (like the result of native `querySelectorAll`).
 	 *
 	 * @since 4.3
-	 * @param {String} selector
+	 * @param {String} selector A valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 	 * @returns {CKEDITOR.dom.nodeList}
 	 */
 	find: function( selector ) {
@@ -296,7 +296,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * the specified `selector`.
 	 *
 	 * @since 4.3
-	 * @param {String} selector
+	 * @param {String} selector A valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 	 * @returns {CKEDITOR.dom.element}
 	 */
 	findOne: function( selector ) {

@@ -6,7 +6,7 @@
 ( function() {
 	'use strict';
 
-	var obj2Array = widgetTestsTools.obj2Array,
+	var objToArray = bender.tools.objToArray,
 		getWidgetById = widgetTestsTools.getWidgetById;
 
 	var widgetData =
@@ -114,11 +114,11 @@
 				var widget = getWidgetById( editor, 'wp-0' ),
 					widgetHtml = widget.wrapper.getHtml();
 
-				assert.areSame( 6, obj2Array( editor.widgets.instances ).length, '6 after setData' );
+				assert.areSame( 6, objToArray( editor.widgets.instances ).length, '6 after setData' );
 				widget.wrapper.remove();
 
 				editor.widgets.checkWidgets();
-				assert.areSame( 3, obj2Array( editor.widgets.instances ).length, '3 widgets before paste' );
+				assert.areSame( 3, objToArray( editor.widgets.instances ).length, '3 widgets before paste' );
 
 				var range = editor.createRange(),
 					nestedEditable = getWidgetById( editor, 'wp-1' ).editables.ned;
@@ -130,7 +130,7 @@
 
 				editor.once( 'afterPaste', function() {
 					resume( function() {
-						assert.areSame( 6, obj2Array( editor.widgets.instances ).length, '6 after paste' );
+						assert.areSame( 6, objToArray( editor.widgets.instances ).length, '6 after paste' );
 						assertWidget( editor, 'wp-0', 'testcontainer', 'div', 'container widget 0' );
 						assertWidget( editor, 'wn-0-0', 'test1', 'h1', 'nested 0,0 widget' );
 						assertWidget( editor, 'wn-0-1', 'test1', 'p', 'nested 0,1 widget' );
@@ -151,11 +151,11 @@
 				var widget = getWidgetById( editor, 'wp-0' ),
 					widgetHtml = widget.wrapper.getHtml();
 
-				assert.areSame( 6, obj2Array( editor.widgets.instances ).length, '6 after setData' );
+				assert.areSame( 6, objToArray( editor.widgets.instances ).length, '6 after setData' );
 				widget.wrapper.remove();
 
 				editor.widgets.checkWidgets();
-				assert.areSame( 3, obj2Array( editor.widgets.instances ).length, '3 widgets before paste' );
+				assert.areSame( 3, objToArray( editor.widgets.instances ).length, '3 widgets before paste' );
 
 				var range = editor.createRange();
 				getWidgetById( editor, 'wp-1' ).editables.ned.focus();
@@ -164,7 +164,7 @@
 
 				editor.once( 'afterPaste', function() {
 					resume( function() {
-						assert.areSame( 6, obj2Array( editor.widgets.instances ).length, '6 after paste' );
+						assert.areSame( 6, objToArray( editor.widgets.instances ).length, '6 after paste' );
 						assertWidget( editor, 'wp-0', 'testcontainer', 'div', 'container widget 0' );
 						assertWidget( editor, 'wn-0-0', 'test1', 'h1', 'nested 0,0 widget' );
 						assertWidget( editor, 'wn-0-1', 'test1', 'p', 'nested 0,1 widget' );
@@ -203,7 +203,7 @@
 					editor.execCommand( 'undo' );
 
 					assert.areSame( '<p>foo</p>', editor.getData(), 'data after undo' );
-					assert.areSame( 0, obj2Array( editor.widgets.instances ).length, '0 widgets after undo' );
+					assert.areSame( 0, objToArray( editor.widgets.instances ).length, '0 widgets after undo' );
 				}, 50 );
 			} );
 		},
@@ -222,25 +222,25 @@
 				editor.fire( 'saveSnapshot' );
 
 				assert.areSame( CKEDITOR.TRISTATE_OFF, undo.state, 'undoable after editable.setHtml' );
-				assert.areSame( 0, obj2Array( editor.widgets.instances ).length, '0 widgets after undo' );
+				assert.areSame( 0, objToArray( editor.widgets.instances ).length, '0 widgets after undo' );
 
 				editor.execCommand( 'undo' );
 				editor.widgets.checkWidgets();
 
 				assert.areSame( CKEDITOR.TRISTATE_DISABLED, undo.state, 'undo disabled after undoing' );
 				assert.areSame( CKEDITOR.TRISTATE_OFF, redo.state, 'redoable after undoing' );
-				assert.areSame( 3, obj2Array( editor.widgets.instances ).length, '3 widgets after undo' );
+				assert.areSame( 3, objToArray( editor.widgets.instances ).length, '3 widgets after undo' );
 
 				editor.execCommand( 'redo' );
 				editor.widgets.checkWidgets();
 
 				assert.areSame( CKEDITOR.TRISTATE_OFF, undo.state, 'undoable after redoing' );
 				assert.areSame( CKEDITOR.TRISTATE_DISABLED, redo.state, 'redo disabled after redoing' );
-				assert.areSame( 0, obj2Array( editor.widgets.instances ).length, '0 widgets after redo' );
+				assert.areSame( 0, objToArray( editor.widgets.instances ).length, '0 widgets after redo' );
 			} );
 		},
 
-		// #12022
+		// https://dev.ckeditor.com/ticket/12022
 		'test drag handler is created for every widget': function() {
 			var editor = this.editors.editor;
 
@@ -297,7 +297,7 @@
 			}
 		},
 
-		// #12008
+		// https://dev.ckeditor.com/ticket/12008
 		'test pasting widget with nested editable into nested editable': function() {
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				assert.ignore();
@@ -374,7 +374,7 @@
 			} );
 		},
 
-		// #13334
+		// https://dev.ckeditor.com/ticket/13334
 		'test editables are not matched from among nested widgets': function() {
 			var editor = this.editors.editor;
 

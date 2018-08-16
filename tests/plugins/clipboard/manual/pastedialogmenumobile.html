@@ -1,0 +1,22 @@
+<textarea cols="80" id="classic" name="classic" rows="10">
+	Foo Bar Baz
+	<ul>
+		<li>Item 1</li>
+		<li>Item 2</li>
+		<li>Item 3</li>
+		<li>Item 4</li>
+		<li>Item 5</li>
+	</ul>
+</textarea>
+
+<script>
+	if ( CKEDITOR.env.iOS ) {
+		// Ignore as there is no custom context menu on iOS.
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'classic', {
+		language: 'en',
+		allowedContent: true
+	} );
+</script>

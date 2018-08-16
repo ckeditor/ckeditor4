@@ -1181,7 +1181,7 @@
     // very slow. So make the area wide instead.
     if (webkit) te.style.width = "1000px";
     else te.setAttribute("wrap", "off");
-    // If border: 0; -- iOS fails to open keyboard (issue #1287)
+    // If border: 0; -- iOS fails to open keyboard (issue https://dev.ckeditor.com/ticket/1287)
     if (ios) te.style.border = "1px solid black";
     disableBrowserMagic(te);
     return div;
@@ -1397,7 +1397,7 @@
       if (text == prevInput && !cm.somethingSelected()) return false;
       // Work around nonsensical selection resetting in IE9/10, and
       // inexplicable appearance of private area unicode characters on
-      // some key combos in Mac (#2689).
+      // some key combos in Mac (https://dev.ckeditor.com/ticket/2689).
       if (ie && ie_version >= 9 && this.hasSelection === text ||
           mac && /[\uf700-\uf7ff]/.test(text)) {
         cm.display.input.reset();
@@ -1457,7 +1457,7 @@
         "px; left: " + (e.clientX - 5) + "px; z-index: 1000; background: " +
         (ie ? "rgba(255, 255, 255, .05)" : "transparent") +
         "; outline: none; border-width: 0; outline: none; overflow: hidden; opacity: .05; filter: alpha(opacity=5);";
-      if (webkit) var oldScrollY = window.scrollY; // Work around Chrome issue (#2712)
+      if (webkit) var oldScrollY = window.scrollY; // Work around Chrome issue (https://dev.ckeditor.com/ticket/2712)
       display.input.focus();
       if (webkit) window.scrollTo(null, oldScrollY);
       display.input.reset();
@@ -3581,7 +3581,7 @@
         e_preventDefault(e2);
         if (!modifier && +new Date - 200 < startTime)
           extendSelection(cm.doc, start);
-        // Work around unexplainable focus problem in IE9 (#2127) and Chrome (#3081)
+        // Work around unexplainable focus problem in IE9 (https://dev.ckeditor.com/ticket/2127) and Chrome (https://dev.ckeditor.com/ticket/3081)
         if (webkit || ie && ie_version == 9)
           setTimeout(function() {document.body.focus(); display.input.focus();}, 20);
         else
@@ -3769,7 +3769,7 @@
   }
 
   // Kludge to work around strange IE behavior where it'll sometimes
-  // re-fire a series of drag-related events right after the drop (#1551)
+  // re-fire a series of drag-related events right after the drop (https://dev.ckeditor.com/ticket/1551)
   var lastDrop = 0;
 
   function onDrop(e) {
@@ -4139,7 +4139,7 @@
       // select-all detection hack)
       if (!cm.curOp && cm.display.selForContextMenu != cm.doc.sel) {
         cm.display.input.reset();
-        if (webkit) setTimeout(function() { cm.display.input.reset(true); }, 20); // Issue #1730
+        if (webkit) setTimeout(function() { cm.display.input.reset(true); }, 20); // Issue https://dev.ckeditor.com/ticket/1730
       }
       cm.display.input.receivedFocus();
     }
@@ -6832,7 +6832,7 @@
       }
     }
 
-    // See issue #2901
+    // See issue https://dev.ckeditor.com/ticket/2901
     if (webkit && /\bcm-tab\b/.test(builder.content.lastChild.className))
       builder.content.className = "cm-tab-wrap-hack";
 
@@ -8367,7 +8367,7 @@
     if (badBidiRects != null) return badBidiRects;
     var txt = removeChildrenAndAdd(measure, document.createTextNode("A\u062eA"));
     var r0 = range(txt, 0, 1).getBoundingClientRect();
-    if (!r0 || r0.left == r0.right) return false; // Safari returns null in some cases (#2780)
+    if (!r0 || r0.left == r0.right) return false; // Safari returns null in some cases (https://dev.ckeditor.com/ticket/2780)
     var r1 = range(txt, 1, 2).getBoundingClientRect();
     return badBidiRects = (r1.right - r0.right < 3);
   }

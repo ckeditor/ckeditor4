@@ -1,17 +1,17 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: maximize,sourcearea */
 
 bender.editor = true;
 
 bender.test( {
 	setUp: function() {
-		// Maximize plugin is disabled on iOS (#8307).
+		// Maximize plugin is disabled on iOS (https://dev.ckeditor.com/ticket/8307).
 		if ( CKEDITOR.env.iOS ) {
 			assert.ignore();
 		}
 	},
 
-	// #4355
+	// https://dev.ckeditor.com/ticket/4355
 	'test command exec not require editor focus': function() {
 		if ( this.editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
 			assert.ignore();

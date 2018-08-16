@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: wysiwygarea,sourcearea,dialog,toolbar,docprops */
 
 bender.editor = { config: { fullPage: 1 } };
@@ -41,7 +41,7 @@ bender.test( {
 		tc.wait();
 	},
 
-	// #12546
+	// https://dev.ckeditor.com/ticket/12546
 	'test preview tab is available': function() {
 		var bot = this.editorBot;
 

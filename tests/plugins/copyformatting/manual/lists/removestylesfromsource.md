@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, copyformatting
+@bender-tags: bug, copyformatting
 @bender-ckeditor-plugins: copyformatting, toolbar, wysiwygarea, floatingspace, elementspath, list, indentlist, liststyle, undo
 
 1. Keep cursor in the 2nd list which has list styles and double click on "Copy Formatting" icon to enable.

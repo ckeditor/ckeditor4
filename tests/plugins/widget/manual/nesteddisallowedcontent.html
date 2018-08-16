@@ -1,0 +1,77 @@
+
+<h2>Editor1</h2>
+
+<div id="editor1">
+	<p>Paragraph before the widget.</p>
+	<div class="test1">
+		<div class="content">Put the selection here...</div>
+	</div>
+	<p>Paragraph after the widget.</p>
+</div>
+
+<h2>Editor2</h2>
+
+<div id="editor2">
+	<p>Paragraph before the widget.</p>
+	<div class="test1">
+		<div class="content">Put the selection here...</div>
+	</div>
+	<p>Paragraph after the widget.</p>
+</div>
+
+<script>
+( function() {
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'test1'
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'test1'
+	} );
+
+	var widgetEditableDefinitions = {
+		// Editable definition will be different per editor.
+		editor1: {
+			pathName: 'nested editable',
+			selector: '.content',
+			disallowedContent: 's sup sub'
+		},
+
+		editor2: {
+			pathName: 'nested editable',
+			selector: '.content',
+			allowedContent: 'strong sup sub',
+			disallowedContent: 's sup sub'
+		}
+	};
+
+	CKEDITOR.addCss( 'div.content{ border: 1px solid blue }' );
+
+	CKEDITOR.plugins.add( 'test1', {
+		requires: 'widget',
+		init: function( editor ) {
+			editor.widgets.add( 'test1', {
+				button: 'Create test widget',
+				pathName: 'test widget',
+
+				template:
+					'<div class="test1">' +
+						'<div class="content"></div>' +
+					'</div>',
+
+				editables: {
+					content: widgetEditableDefinitions[ editor.name ]
+				},
+
+				allowedContent: 'div(test1,content)',
+				requiredContent: 'div(test1)',
+
+				upcast: function( element ) {
+					return element.name == 'div' && element.hasClass( 'test1' );
+				}
+			} );
+		}
+	} );
+
+} )();
+</script>

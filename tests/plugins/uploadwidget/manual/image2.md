@@ -1,4 +1,4 @@
-﻿@bender-tags: 4.5.0, 4.5.11, 4.6.0, tc, clipboard, widget, filetools, 13755
+﻿@@bender-tags: 4.5.0, 4.5.11, 4.6.0, bug, clipboard, widget, filetools, trac13755
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, uploadwidget, basicstyles, image2, uploadimage, uploadfile, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify
 @bender-include: _helpers/xhr.js

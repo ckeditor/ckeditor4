@@ -1,10 +1,14 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 ( function() {
 
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			removePlugins: 'tableselection'
+		}
+	};
 
 	var getInnerHtml = bender.tools.getInnerHtml,
 		fixHtml = bender.tools.fixHtml,
@@ -462,7 +466,7 @@
 			assert.areSame( '<span class="fontcomic">one <b><i>two</i></b> three</span>', getInnerHtml( element ) );
 		},
 
-		// #8078
+		// https://dev.ckeditor.com/ticket/8078
 		'test remove heading style': function() {
 			function doTest( enterMode, expected ) {
 				var range = bender.tools.setHtmlWithRange( playground, '<h1>h[eadi]ng</h1>' )[ 0 ];
@@ -477,7 +481,7 @@
 			doTest( CKEDITOR.ENTER_DIV, '<div>heading</div>' );
 		},
 
-		// #4772, #8232
+		// https://dev.ckeditor.com/ticket/4772, https://dev.ckeditor.com/ticket/8232
 		'test color styles applied inside of link': function() {
 			var ct = playground;
 			var range = bender.tools.setHtmlWithRange( ct, '[some text and <a href="javascript:void(0)">a link</a>]' )[ 0 ];
@@ -513,7 +517,7 @@
 			assert.areSame( 'abc def ghi', getInnerHtml( playground ) );
 		},
 
-		// #14667
+		// https://dev.ckeditor.com/ticket/14667
 		'test removing background color in IE': function() {
 			if ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
 				assert.ignore();
@@ -535,6 +539,21 @@
 			// Internet Explorer 8 return color without the spaces.
 			assert.areSame( fixHtml( '<p><span style="background-color: rgb(255, 255, 0);">Text </span>with<span style="background-color: rgb(255, 255, 0);"> background</span></p>' ),
 				fixHtml( getInnerHtml( ct ).replace( /rgb\(255,255,0\)/g, 'rgb(255, 255, 0)' ) ) );
+		},
+
+		// https://dev.ckeditor.com/ticket/13062
+		'test forcing remove of boundary element': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				style = new CKEDITOR.style( { element: 'b', type: CKEDITOR.STYLE_INLINE, alwaysRemoveElement: 1 } );
+
+			bot.setHtmlWithSelection( '<p><b>^example</b></p>' );
+			editor.removeStyle( style );
+			assert.areSame( '<p>^example</p>', bot.htmlWithSelection() );
+
+			bot.setHtmlWithSelection( '<p><b>example^</b></p>' );
+			editor.removeStyle( style );
+			assert.areSame( '<p>example^</p>', bot.htmlWithSelection() );
 		},
 
 		'test filler is preserved when applying block style': function() {
@@ -576,7 +595,7 @@
 	t.a( '<ul><li><p>{x</p></li><li><p>a}</p><p>b</p></li><li>x</li></ul>', '<ul><li><h1>x</h1></li><li><h1>a</h1><p>b</p></li><li>x</li></ul>', 'tc3' );
 
 
-	// #12273
+	// https://dev.ckeditor.com/ticket/12273
 	t = createAssertionFunction2( tcs, 'test apply block style - description lists', { element: 'h1' } );
 
 	t.a( '<dl><dt>x</dt><dd>a{}b</dd><dt>x</dt></dl>', '<dl><dt>x</dt><dd><h1>ab</h1></dd><dt>x</dt></dl>', 'tc1' );

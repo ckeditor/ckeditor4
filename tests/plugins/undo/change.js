@@ -1,5 +1,5 @@
-/* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: undo,basicstyles,toolbar,wysiwygarea */
+/* bender-tags: editor */
+/* bender-ckeditor-plugins: undo,clipboard,basicstyles,toolbar,wysiwygarea */
 /* global undoEventDispatchTestsTools */
 
 ( function() {
@@ -97,7 +97,7 @@
 
 			for ( var i = 0; i < navigationKeyCodes.length; i++ ) {
 				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: navigationKeyCodes[ i ] } ) );
-				// Firefox will fire keypress for all of these keys (#11611).
+				// Firefox will fire keypress for all of these keys (https://dev.ckeditor.com/ticket/11611).
 				if ( CKEDITOR.env.gecko ) {
 					editor.editable().fire( 'keypress', new CKEDITOR.dom.event( { keyCode: navigationKeyCodes[ i ] } ) );
 				}
@@ -163,7 +163,7 @@
 			} );
 		},
 
-		// #12300
+		// https://dev.ckeditor.com/ticket/12300
 		'test change event not fired after navigation key': function() {
 			this.editorBot.setHtmlWithSelection( '<p>foo^</p>' );
 
@@ -180,6 +180,27 @@
 				// After setting text - caret is moved to beginning. We don't care - it does not change nothing.
 				keyTools.keyEvent( keyCodesEnum.LEFT, null, true );
 			} );
+		},
+
+		// #554
+		'test change event fired on type after paste': function() {
+			this.editorBot.setHtmlWithSelection( '<p>foo^</p>' );
+
+			var that = this,
+				keys = this.keyTools.keyCodesEnum;
+
+			bender.tools.emulatePaste( this.editor, 'PASTE' );
+
+			this.editor.once( 'afterPaste', function() {
+				resume( function() {
+					changeCounter = 0;
+					that.checkChange( function() {
+						that.keyTools.keyEvent( keys.KEY_G );
+					} );
+				} );
+			} );
+
+			wait();
 		}
 	} );
 

@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'ug' ] = {
 		upload: 'يۈكلە',
 		uploadSubmit: 'مۇلازىمېتىرغا يۈكلە',
 		image: 'سۈرەت',
-		flash: 'Flash',
+		flash: 'چاقماق',
 		form: 'جەدۋەل',
 		checkbox: 'كۆپ تاللاش رامكىسى',
 		radio: 'يەككە تاللاش توپچىسى',
@@ -77,10 +77,13 @@ CKEDITOR.lang[ 'ug' ] = {
 		width: 'كەڭلىك',
 		height: 'ئېگىزلىك',
 		align: 'توغرىلىنىشى',
-		alignLeft: 'سول',
-		alignRight: 'ئوڭ',
-		alignCenter: 'ئوتتۇرا',
-		alignJustify: 'ئىككى تەرەپتىن توغرىلا',
+		left: 'سول',
+		right: 'ئوڭ',
+		center: 'ئوتتۇرا',
+		justify: 'ئىككى تەرەپتىن توغرىلا',
+		alignLeft: 'سولغا توغرىلا',
+		alignRight: 'ئوڭغا توغرىلا',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'ئۈستى',
 		alignMiddle: 'ئوتتۇرا',
 		alignBottom: 'ئاستى',
@@ -88,6 +91,7 @@ CKEDITOR.lang[ 'ug' ] = {
 		invalidValue: 'ئىناۋەتسىز قىممەت.',
 		invalidHeight: 'ئېگىزلىك چوقۇم رەقەم پىچىمىدا بولۇشى زۆرۈر',
 		invalidWidth: 'كەڭلىك چوقۇم رەقەم پىچىمىدا بولۇشى زۆرۈر',
+		invalidLength: 'بەلگىلەنگەن قىممەت "1%" سۆز بۆلىكىدىكى ئېنىقسىز ماتىريال ياكى مۇسبەت سانلار (2%).',
 		invalidCssLength: 'بۇ سۆز بۆلىكى چوقۇم مۇۋاپىق بولغان CSS ئۇزۇنلۇق قىممىتى بولۇشى زۆرۈر، بىرلىكى (px, %, in, cm, mm, em, ex, pt ياكى pc)',
 		invalidHtmlLength: 'بۇ سۆز بۆلىكى چوقۇم بىرىكمە HTML ئۇزۇنلۇق قىممىتى بولۇشى كېرەك. ئۆز ئىچىگە ئالىدىغان بىرلىك (px ياكى %)',
 		invalidInlineStyle: 'ئىچكى باغلانما ئۇسلۇبى چوقۇم چېكىتلىك پەش بىلەن ئايرىلغان بىر ياكى كۆپ «خاسلىق ئاتى:خاسلىق قىممىتى» پىچىمىدا بولۇشى لازىم',
@@ -103,14 +107,40 @@ CKEDITOR.lang[ 'ug' ] = {
 			16: 'Shift',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Space',
 			35: 'End',
 			36: 'Home',
 			46: 'ئۆچۈر',
-			224: 'Command' // MISSING
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
+			224: 'Command'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'تېزلەتمە كونۇپكا',
+
+		optionDefault: 'سۈكۈتتىكى'
 	}
 };

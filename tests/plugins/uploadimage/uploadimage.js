@@ -1,7 +1,8 @@
-/* bender-tags: editor,unit,clipboard,widget */
+/* bender-tags: editor,clipboard,widget */
 /* bender-ckeditor-plugins: uploadwidget,uploadimage,toolbar,image2 */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js */
-/* global pasteFiles */
+/* bender-include: %BASE_PATH%/plugins/uploadfile/_helpers/waitForImage.js */
+/* global pasteFiles, waitForImage */
 
 'use strict';
 
@@ -106,8 +107,9 @@
 			assertUploadingWidgets( editor, LOADED_IMG );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
-			// IE needs to wait for image to be loaded so it can read width and height of the image.
-			wait( function() {
+			var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
+			waitForImage( image, function() {
 				loader.url = IMG_URL;
 				loader.changeStatus( 'uploaded' );
 
@@ -117,10 +119,10 @@
 				assert.areSame( 1, loadAndUploadCount );
 				assert.areSame( 0, uploadCount );
 				assert.areSame( 'http://foo/upload', lastUploadUrl );
-			}, 10 );
+			} );
 		},
 
-		'test finish upload notification marked as important and is visible (#13032).': function() {
+		'test finish upload notification marked as important and is visible (https://dev.ckeditor.com/ticket/13032).': function() {
 			var editor = this.editors.classic;
 
 			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
@@ -138,14 +140,15 @@
 
 			assertUploadingWidgets( editor, LOADED_IMG );
 
-			// IE needs to wait for image to be loaded so it can read width and height of the image.
-			wait( function() {
+			var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
+			waitForImage( image, function() {
 				loader.url = IMG_URL;
 				loader.changeStatus( 'uploaded' );
 
 				assert.areSame( 1, area.notifications.length, 'Successs notification is present because it\'s important one.' );
 				assert.areSame( 'success', area.notifications[ 0 ].type );
-			}, 10 );
+			} );
 		},
 
 		'test inline with image2 (integration test)': function() {
@@ -164,8 +167,9 @@
 			assertUploadingWidgets( editor, LOADED_IMG );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
-			// IE needs to wait for image to be loaded so it can read width and height of the image.
-			wait( function() {
+			var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
+			waitForImage( image, function() {
 				loader.url = IMG_URL;
 				loader.changeStatus( 'uploaded' );
 
@@ -175,7 +179,7 @@
 				assert.areSame( 1, loadAndUploadCount );
 				assert.areSame( 0, uploadCount );
 				assert.areSame( 'http://foo/upload?type=Images&responseType=json', lastUploadUrl );
-			}, 10 );
+			} );
 		},
 
 		'test paste img as html (integration test)': function() {
@@ -196,8 +200,9 @@
 				assertUploadingWidgets( editor, LOADED_IMG );
 				assert.areSame( '<p>xx</p>', editor.getData(), 'getData on uploading.' );
 
-				// IE needs to wait for image to be loaded so it can read width and height of the image.
-				wait( function() {
+				var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
+				waitForImage( image, function() {
 					loader.url = IMG_URL;
 					loader.changeStatus( 'uploaded' );
 
@@ -207,11 +212,11 @@
 					assert.areSame( 0, loadAndUploadCount );
 					assert.areSame( 1, uploadCount );
 					assert.areSame( 'http://foo/upload', lastUploadUrl );
-				}, 10 );
+				} );
 			} );
 		},
 
-		'test setting image dimensions via response (integration test) (#13794)': function() {
+		'test setting image dimensions via response (integration test) (https://dev.ckeditor.com/ticket/13794)': function() {
 			var bot = this.editorBots.classic,
 				editor = this.editors.classic;
 
@@ -531,9 +536,9 @@
 			wait();
 		},
 
-		'test prevent upload fake elements (#13003)': function() {
+		'test prevent upload fake elements (https://dev.ckeditor.com/ticket/13003)': function() {
 			var editor = this.editors.inline,
-				createspy = sinon.spy( editor.uploadRepository, 'create' );
+				createSpy = sinon.spy( editor.uploadRepository, 'create' );
 
 			editor.fire( 'paste', {
 				dataValue: '<img src="data:image/gif;base64,aw==" alt="nothing" data-cke-realelement="some" />'
@@ -541,11 +546,51 @@
 
 			editor.once( 'afterPaste', function() {
 				resume( function() {
-					assert.isTrue( createspy.notCalled );
+					createSpy.restore();
+					assert.isTrue( createSpy.notCalled );
 				} );
 			} );
 
 			wait();
+		},
+
+		'test uploads generate unique names (#1213)': function() {
+			var editor = this.editors.inline,
+				createSpy = sinon.spy( editor.uploadRepository, 'create' );
+
+			editor.fire( 'paste', {
+				dataValue: '<img src="data:image/gif;base64,aw==" alt="gif" />' +
+					'<img src="data:image/gif;base64,aw==" alt="gif" />' +
+					'<img src="data:image/png;base64,aw==" alt="png" />'
+			} );
+
+			editor.once( 'afterPaste', function() {
+				resume( function() {
+					createSpy.restore();
+					assert.areSame( 3, createSpy.callCount, 'create call count' );
+
+					assert.isMatching( /image-\d+-\d+\.gif/, createSpy.args[ 0 ][ 1 ], 'file name passed to first call' );
+					assert.isMatching( /image-\d+-\d+\.gif/, createSpy.args[ 1 ][ 1 ], 'file name passed to second call' );
+					assert.areNotSame( createSpy.args[ 0 ][ 1 ], createSpy.args[ 1 ][ 1 ], 'first and second call names are different' );
+					assert.isMatching( /image-\d+-\d+\.png/, createSpy.args[ 2 ][ 1 ], 'png type is recognized' );
+				} );
+			} );
+
+			wait();
+		},
+
+		'test no error if missing configuration': function() {
+			var spy = sinon.spy( CKEDITOR, 'error' );
+
+			bender.editorBot.create( {
+				name: 'configerror_test',
+				extraPlugins: 'uploadimage'
+			}, function( bot ) {
+				spy.restore();
+
+				assert.areSame( 0, spy.callCount, 'CKEDITOR.error call count' );
+				assert.isFalse( !!bot.editor.widgets.registered.uploadimage, 'uploadimage widget' );
+			} );
 		}
 	} );
 } )();

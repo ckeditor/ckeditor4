@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image', 'en-au', {
 	alt: 'Alternative Text',
@@ -17,9 +17,9 @@ CKEDITOR.plugins.setLang( 'image', 'en-au', {
 	title: 'Image Properties',
 	titleButton: 'Image Button Properties',
 	upload: 'Upload',
-	urlMissing: 'Image source URL is missing.', // MISSING
+	urlMissing: 'Image source URL is missing.',
 	vSpace: 'VSpace',
-	validateBorder: 'Border must be a whole number.', // MISSING
-	validateHSpace: 'HSpace must be a whole number.', // MISSING
-	validateVSpace: 'VSpace must be a whole number.' // MISSING
+	validateBorder: 'Border must be a whole number.',
+	validateHSpace: 'HSpace must be a whole number.',
+	validateVSpace: 'VSpace must be a whole number.'
 } );

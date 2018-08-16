@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: clipboard */
 /* bender-include: _helpers/pasting.js */
 
@@ -29,9 +29,9 @@
 			this.editor.focus();
 		},
 
-		// #10787
+		// https://dev.ckeditor.com/ticket/10787
 		'test paste text in non-empty text selection': function() {
-			// See (#11384 #10787). Couldn't be added to regressions, because it throws error.
+			// See (https://dev.ckeditor.com/ticket/11384 https://dev.ckeditor.com/ticket/10787). Couldn't be added to regressions, because it throws error.
 			if ( CKEDITOR.env.ie )
 				assert.ignore();
 

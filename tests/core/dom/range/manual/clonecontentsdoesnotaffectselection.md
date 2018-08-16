@@ -1,4 +1,4 @@
-@bender-tags: 4.5.0, tc, range, selection
+@bender-tags: 4.5.0, bug, range, selection
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, table, image, list, link, format
 

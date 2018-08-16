@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'ca' ] = {
 		width: 'Amplada',
 		height: 'Alçada',
 		align: 'Alineació',
-		alignLeft: 'Ajusta a l\'esquerra',
-		alignRight: 'Ajusta a la dreta',
-		alignCenter: 'Centre',
-		alignJustify: 'Justificat',
+		left: 'Ajusta a l\'esquerra',
+		right: 'Ajusta a la dreta',
+		center: 'Centre',
+		justify: 'Justificat',
+		alignLeft: 'Alinea a l\'esquerra',
+		alignRight: 'Alinea a la dreta',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Superior',
 		alignMiddle: 'Centre',
 		alignBottom: 'Inferior',
@@ -89,6 +92,7 @@ CKEDITOR.lang[ 'ca' ] = {
 		invalidValue: 'Valor no vàlid.',
 		invalidHeight: 'L\'alçada ha de ser un número.',
 		invalidWidth: 'L\'amplada ha de ser un número.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'El valor especificat per als "%1" camps ha de ser un número positiu amb o sense unitat de mesura vàlida de CSS (px, %, in, cm, mm, em, ex, pt o pc).',
 		invalidHtmlLength: 'El valor especificat per als "%1" camps ha de ser un número positiu amb o sense unitat de mesura vàlida d\'HTML (px o %).',
 		invalidInlineStyle: 'El valor especificat per l\'estil en línia ha de constar d\'una o més tuples amb el format "name: value", separats per punt i coma.',
@@ -108,10 +112,36 @@ CKEDITOR.lang[ 'ca' ] = {
 			35: 'Fi',
 			36: 'Inici',
 			46: 'Eliminar',
+			112: 'F1', // MISSING
+			113: 'F2', // MISSING
+			114: 'F3', // MISSING
+			115: 'F4', // MISSING
+			116: 'F5', // MISSING
+			117: 'F6', // MISSING
+			118: 'F7', // MISSING
+			119: 'F8', // MISSING
+			120: 'F9', // MISSING
+			121: 'F10', // MISSING
+			122: 'F11', // MISSING
+			123: 'F12', // MISSING
+			124: 'F13', // MISSING
+			125: 'F14', // MISSING
+			126: 'F15', // MISSING
+			127: 'F16', // MISSING
+			128: 'F17', // MISSING
+			129: 'F18', // MISSING
+			130: 'F19', // MISSING
+			131: 'F20', // MISSING
+			132: 'F21', // MISSING
+			133: 'F22', // MISSING
+			134: 'F23', // MISSING
+			135: 'F24', // MISSING
 			224: 'Command' // MISSING
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Keyboard shortcut', // MISSING
+
+		optionDefault: 'Default' // MISSING
 	}
 };

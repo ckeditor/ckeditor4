@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: link,toolbar */
 
 ( function() {
@@ -8,7 +8,7 @@
 		enter_p: {
 			config: {
 				enterMode: CKEDITOR.ENTER_P,
-				extraAllowedContent: 'strong' 
+				extraAllowedContent: 'strong'
 			}
 		},
 		enter_div: {
@@ -26,7 +26,7 @@
 	};
 
 	var tagMapping = {};
-	
+
 	tagMapping[ CKEDITOR.ENTER_DIV ] = 'div';
 	tagMapping[ CKEDITOR.ENTER_P ] = 'p';
 

@@ -1,12 +1,9 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'about', 'gu', {
 	copy: 'કોપીરાઈટ &copy; $1. ઓલ રાઈટ્સ ',
 	dlgTitle: 'CKEditor વિષે',
-	help: 'મદદ માટે $1 તપાસો',
-	moreInfo: 'લાયસનસની માહિતી માટે અમારી વેબ સાઈટ',
-	title: 'CKEditor વિષે',
-	userGuide: 'CKEditor યુઝર્સ ગાઈડ'
+	moreInfo: 'લાયસનસની માહિતી માટે અમારી વેબ સાઈટ'
 } );

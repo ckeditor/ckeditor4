@@ -1,0 +1,72 @@
+<head>
+	<link rel="stylesheet" href="/apps/ckeditor/contents.css">
+</head>
+<div>
+	<h2>Helpers (<a href="javascript:hideshow('helpers');">hide/show</a>)</h2>
+	<div id="helpers">
+		<div>
+			<h1>Apollo 11</h1>
+			Lorem ipsum <b>dolor</b> sit <i>amet</i>, consectetur adipiscing elit. In commodo vulputate tempor. Sed &lt;b&gt;at elit&lt;/b&gt; vel ligula mollis aliquet a ac odio.
+			<pre>
+Aenean cursus egestas ipsum.
+			</pre>
+			<figure class="image right"><img alt="CKEditor logo" src="%BASE_PATH%_assets/logo.png" />
+				<figcaption>CKEditor</figcaption>
+			</figure>
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+</div>
+<div>
+	<h2>Classic editor (<a href="javascript:hideshow('classic-editor');">hide/show</a>)</h2>
+	<div id="classic-editor">
+		<div id="classic">
+			<p>Paste here</p>
+		</div>
+	</div>
+</div>
+<div>
+	<h2>Inline editor (<a href="javascript:hideshow('inline');">hide/show</a>)</h2>
+	<div id="inline" contenteditable="true">
+		<p>Paste here</p>
+	</div>
+</div>
+<script>
+/* global console */
+
+if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+	CKEDITOR.tools.enableHtml5Elements( document );
+}
+
+CKEDITOR.disableAutoInline = true;
+
+function hideshow( id ) {
+	var element = CKEDITOR.document.getById( id );
+
+	if ( element.getStyle( 'display' ) == 'none' )
+		element.show();
+	else
+		element.hide();
+}
+
+function getTransferTypeAsString( evt ) {
+	var transferType = evt.data.dataTransfer.getTransferType( evt.editor );
+
+	switch ( transferType ) {
+		case CKEDITOR.DATA_TRANSFER_INTERNAL:
+			return 'internal';
+		case CKEDITOR.DATA_TRANSFER_EXTERNAL:
+			return 'external';
+		case CKEDITOR.DATA_TRANSFER_CROSS_EDITORS:
+			return 'cross editors';
+	}
+}
+
+var config = {
+			allowedContent: true,
+			language: 'en'
+		};
+
+CKEDITOR.replace( 'classic', config );
+CKEDITOR.inline( 'inline', config );
+</script>

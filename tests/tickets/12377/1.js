@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,image */
+/* bender-tags: editor,image */
 /* bender-ckeditor-plugins: image,toolbar */
 
 ( function() {

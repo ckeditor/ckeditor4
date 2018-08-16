@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,insertion */
+/* bender-tags: editor,insertion */
 /* global insertionDT */
 
 ( function() {
@@ -39,7 +39,7 @@
 		//
 		//		Another case for which this rule won't work brilliantly is:
 		//		"x[x<s>xx </s>]xx", where <s> has styles visible for white-spaces. However there
-		//		is possibility (discussed in #2015) that editor will have feature trimming inline
+		//		is possibility (discussed in https://dev.ckeditor.com/ticket/2015) that editor will have feature trimming inline
 		//		elements, so they won't contain white-spaces at the ends and then this rule could
 		//		be fixed: "aa^aa" + "cc<b>dd </b>" => "aacc<b>dd ^</b>aa", because only visible
 		//		styles will can contain spaces at boundaries.

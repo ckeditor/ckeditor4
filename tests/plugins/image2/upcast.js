@@ -1,11 +1,10 @@
-/* bender-tags: editor,unit,widget */
+/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: image2,toolbar */
-/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
 
-	var obj2Array = widgetTestsTools.obj2Array;
+	var objToArray = bender.tools.objToArray;
 
 	function assertUpcast( config, callback ) {
 		var bot = bender.editorBots[ config.name ];
@@ -40,7 +39,7 @@
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
 				'</p>'
 			}, function( editor ) {
-				var instances = obj2Array( editor.widgets.instances ),
+				var instances = objToArray( editor.widgets.instances ),
 					widget = instances[ 0 ];
 
 				assert.areSame( 1, instances.length, 'A single widget has been initialized' );
@@ -56,7 +55,7 @@
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
 				'</p>'
 			}, function( editor ) {
-				var instances = obj2Array( editor.widgets.instances ),
+				var instances = objToArray( editor.widgets.instances ),
 					widget = instances[ 0 ];
 
 				assert.areSame( 1, instances.length, 'A single widget has been initialized' );
@@ -64,7 +63,7 @@
 			} );
 		},
 
-		// #11283
+		// https://dev.ckeditor.com/ticket/11283
 		'test upcast: ENTER_P, non-captioned, centered->DIV{text-align}': function() {
 			assertUpcast( {
 				name: 'enterP',
@@ -72,7 +71,7 @@
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
 				'</div>'
 			}, function( editor ) {
-				var instances = obj2Array( editor.widgets.instances ),
+				var instances = objToArray( editor.widgets.instances ),
 					widget = instances[ 0 ];
 
 				assert.areSame( 1, instances.length, 'A single widget has been initialized' );
@@ -80,7 +79,7 @@
 			} );
 		},
 
-		// #11283
+		// https://dev.ckeditor.com/ticket/11283
 		'test upcast: ENTER_BR, non-captioned, centered->DIV{text-align}': function() {
 			assertUpcast( {
 				name: 'enterBR',
@@ -88,7 +87,7 @@
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
 				'</div>'
 			}, function( editor ) {
-				var instances = obj2Array( editor.widgets.instances ),
+				var instances = objToArray( editor.widgets.instances ),
 					widget = instances[ 0 ];
 
 				assert.areSame( 1, instances.length, 'A single widget has been initialized' );
@@ -96,7 +95,7 @@
 			} );
 		},
 
-		// #11283
+		// https://dev.ckeditor.com/ticket/11283
 		'test upcast: ENTER_BR, non-captioned, centered->DIV{text-align}, siblings': function() {
 			assertUpcast( {
 				name: 'enterBR',
@@ -105,7 +104,7 @@
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
 				'</div>'
 			}, function( editor ) {
-				var instances = obj2Array( editor.widgets.instances ),
+				var instances = objToArray( editor.widgets.instances ),
 					widget = instances[ 0 ];
 
 				assert.areSame( 1, instances.length, 'A single widget has been initialized' );
@@ -113,7 +112,7 @@
 			} );
 		},
 
-		// #14701
+		// https://dev.ckeditor.com/ticket/14701
 		'test upcast: setting proper label': function() {
 			assertUpcast( {
 				name: 'enterP',
@@ -122,7 +121,7 @@
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
 				'</div>'
 			}, function( editor ) {
-				var instances = obj2Array( editor.widgets.instances ),
+				var instances = objToArray( editor.widgets.instances ),
 					widget = instances[ 0 ],
 					expectedLabel = editor.lang.widget.label.replace( /%1/,
 						'foo ' + widget.pathName );

@@ -1,13 +1,12 @@
-/* bender-tags: editor,unit,widget */
+/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: codesnippet,toolbar */
-/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
 
 	bender.editor = true;
 
-	var obj2Array = widgetTestsTools.obj2Array,
+	var objToArray = bender.tools.objToArray,
 		html = '<pre>' +
 			'<code class="language-php">foo</code>' +
 		'</pre>';
@@ -60,7 +59,7 @@
 			editor.plugins.codesnippet.setHighlighter( highlighter );
 
 			this.editorBot.setData( html, function() {
-				var widget = obj2Array( editor.widgets.instances )[ 0 ];
+				var widget = objToArray( editor.widgets.instances )[ 0 ];
 
 				// Method highlight should call our highlighterMockup function,
 				// which changes widget.parts#pre.
@@ -101,7 +100,7 @@
 			editor.plugins.codesnippet.setHighlighter( highlighter );
 
 			this.editorBot.setData( html, function() {
-				var widget = obj2Array( editor.widgets.instances )[ 0 ];
+				var widget = objToArray( editor.widgets.instances )[ 0 ];
 
 				// Method highlight should call our highlighterMockup function,
 				// which changes widget.parts#pre.

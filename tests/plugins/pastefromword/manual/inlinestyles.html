@@ -1,0 +1,21 @@
+<h2>Via dialog</h2>
+<textarea name="editor1" id="editor1" cols="30" rows="10">
+	<p>Paste here using "Paste From Word" dialog</p>
+</textarea>
+
+<h2>Via keyboard</h2>
+<textarea name="editor2" id="editor2" cols="30" rows="10">
+	<p>Paste here using keyboard shortcut</p>
+</textarea>
+
+<script>
+	if ( CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
+
+	// Newer Words use sans-serif font, so change default font to serif one.
+	CKEDITOR.addCss( 'body.cke_editable { font-family: serif; }' );
+
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor2' );
+</script>

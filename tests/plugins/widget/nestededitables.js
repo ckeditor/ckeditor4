@@ -10,7 +10,7 @@
 		config: {
 			allowedContent: true,
 
-			// (#13186)
+			// (https://dev.ckeditor.com/ticket/13186)
 			pasteFilter: null,
 
 			on: {
@@ -654,8 +654,7 @@
 			} );
 
 			this.editorBot.setData( data, function() {
-				var widget = getWidgetById( editor, 'w1' ),
-					editable = widget.editables.foo;
+				var editable = getWidgetById( editor, 'w1' ).editables.foo;
 
 				editable.filter.addContentForms( [ 'u', 'i' ] );
 
@@ -678,6 +677,66 @@
 				assert.areSame(
 					'<p>Foo</p><div data-widget="testprocessing2" id="w1"><p id="foo"><i testprocessing2="2">A</i></p></div>',
 					editor.getData(), 'nested editable\'s data was processed as an editable content on output' );
+			} );
+		},
+
+		// #568
+		'test nested editable editableDef.disallowedContent filter works with editableDef.allowedContent': function() {
+			var editor = this.editor,
+				data = '<p>Foo</p><div data-widget="testprocessing3" id="w1"><p id="foo">B</p></div>';
+
+			editor.widgets.add( 'testprocessing3', {
+				editables: {
+					disallowedWithAllowedContent: {
+						selector: '#foo',
+						allowedContent: 'u i p',
+						disallowedContent: 'i'
+					}
+				}
+			} );
+
+			this.editorBot.setData( data, function() {
+				var editable = getWidgetById( editor, 'w1' ).editables.disallowedWithAllowedContent;
+
+				assert.isTrue( editable.filter.check( 'u' ), 'filter.check( \'u\' )' );
+				assert.isTrue( editable.filter.check( 'p' ), 'filter.check( \'p\' )' );
+				assert.isFalse( editable.filter.check( 'i' ), 'filter.check( \'i\' )' );
+			} );
+		},
+
+		// #568
+		'test nested editable editableDef.disallowedContent filter works based on editor.filter': function() {
+			var editor = this.editor,
+				data = '<p>Foo</p><div data-widget="testprocessing4" id="w1"><p id="foo">B</p></div>',
+				originalFilter = this.editor.filter;
+
+			// Since this test suite's editor have filter disabled, we need to temporary filter replace.
+			editor.filter = new CKEDITOR.filter( 'em strong sub; div[*](*); p[id]' );
+
+			editor.widgets.add( 'testprocessing4', {
+				editables: {
+					disallowedInheritingFromEditor: {
+						selector: '#foo',
+						// Since there's no allowedContent in the definition, disallowedContent will work based on
+						// current CKEDITOR.editor.filter clone. Since this test suite has ACF disabled it will allow everything.
+						// Here disallowedContent rules will be added on top of
+						disallowedContent: 'em strong'
+					}
+				}
+			} );
+
+			this.editorBot.setData( data, function() {
+				var editable = getWidgetById( editor, 'w1' ).editables.disallowedInheritingFromEditor;
+
+				// Restore the original filter.
+				editor.filter = originalFilter;
+
+				assert.isTrue( editable.filter.check( 'sub' ), 'filter.check( \'sub\' )' );
+				assert.isFalse( editable.filter.check( 'strong' ), 'filter.check( \'strong\' )' );
+				assert.isFalse( editable.filter.check( 'em' ), 'filter.check( \'em\' )' );
+				// And ensure that any other rule not allowed by the editor will fail.
+				assert.isFalse( editable.filter.check( 'audio' ), 'filter.check( \'audio\' )' );
+				assert.isFalse( editable.filter.check( 'sup' ), 'filter.check( \'sup\' )' );
 			} );
 		},
 
@@ -1198,7 +1257,7 @@
 
 					range.moveToPosition( e2.findOne( '.p2' ), CKEDITOR.POSITION_AFTER_START );
 					testDelKey( editor,	'del',	range,	false,	'e2 - ^bar' );
-					// This case is handled on Webkits and Gecko because of #11861, #13798.
+					// This case is handled on Webkits and Gecko because of https://dev.ckeditor.com/ticket/11861, https://dev.ckeditor.com/ticket/13798.
 					if ( CKEDITOR.env.ie )
 						testDelKey( editor,	'bspc',	range,	false,	'e2 - ^bar' );
 
@@ -1280,7 +1339,7 @@
 		},
 
 		'test pasting widget which was copied (d&d) when its nested editable was focused': function() {
-			// #11055
+			// https://dev.ckeditor.com/ticket/11055
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
 				assert.ignore();
 			}
@@ -1325,7 +1384,7 @@
 			} );
 		},
 
-		// (#13186)
+		// (https://dev.ckeditor.com/ticket/13186)
 		'test pasting into widget nested editable when range in paste data (drop)': function() {
 			var editor = this.editor,
 				bot = this.editorBot;
@@ -1366,7 +1425,7 @@
 			} );
 		},
 
-		// Behaviour has been changed in 4.5 (#12112), so we're leaving this
+		// Behaviour has been changed in 4.5 (https://dev.ckeditor.com/ticket/12112), so we're leaving this
 		// test as a validation of this change.
 		'test widgets\' commands are enabled in nested editable': function() {
 			var editor = this.editor,
@@ -1456,7 +1515,7 @@
 		},
 
 		'test selection in nested editable is preserved after opening and closing dialog - inline editor': function() {
-			// #11399
+			// https://dev.ckeditor.com/ticket/11399
 			if ( CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
@@ -1558,7 +1617,7 @@
 			} );
 		},
 
-		// Nested editable with preexisting numeric id. (#14451)
+		// Nested editable with preexisting numeric id. (https://dev.ckeditor.com/ticket/14451)
 		'test nested editable with preexisting numeric id': function() {
 			var editor = this.editor,
 				bot = this.editorBot;

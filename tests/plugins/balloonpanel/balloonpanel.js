@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,balloonpanel */
+/* bender-tags: editor,balloonpanel */
 /* bender-ckeditor-plugins: balloonpanel */
 
 ( function() {
@@ -149,20 +149,52 @@
 			assert.isTrue( doc.getActive().equals( panelElement ), 'Panel element is focused' );
 
 			// Giving focus element explicitly.
-			panel.attach( strong, closeElement );
+			panel.attach( strong, { focusElement: closeElement } );
 			assert.isTrue( doc.getActive().equals( closeElement ), 'Close element is focused' );
 
 			// Blur focused element, so the body will be focused.
 			closeElement.$.blur();
 
 			// Ensure that focus is not changed when giving false.
-			panel.attach( strong, false );
+			panel.attach( strong, { focusElement: false } );
 			assert.isTrue( doc.getActive().equals( doc.getBody() ), 'Focus remains on body element' );
+		},
+
+		'test panel show option': function() {
+			var panel = new CKEDITOR.ui.balloonPanel( bender.editor, {
+					title: 'Test panel #4'
+				} ),
+				strong = bender.editor.document.findOne( 'strong' ),
+				showListener = sinon.stub(),
+				resetState = function() {
+					showListener.reset();
+					panel.hide();
+				};
+
+			panel.addShowListener( showListener );
+			panels.push( panel );
+
+
+			panel.attach( strong, { show: false } );
+			assert.isFalse( showListener.called, 'Event show should not be fired when show param is false.' );
+			resetState();
+
+			panel.attach( strong, { show: true } );
+			assert.isTrue( showListener.called, 'Event show should be fired when show param is true.' );
+			resetState();
+
+			panel.attach( strong, {} );
+			assert.isTrue( showListener.called, 'Event show should be fired when show param is undefined.' );
+			resetState();
+
+			panel.attach( strong, null );
+			assert.isTrue( showListener.called, 'Event show should be fired when show param is null.' );
+			resetState();
 		},
 
 		'test panel destroy': function() {
 			var panel = new CKEDITOR.ui.balloonPanel( bender.editor, {
-				title: 'Test panel #4'
+				title: 'Test panel #5'
 			} );
 
 			panels.push( panel );

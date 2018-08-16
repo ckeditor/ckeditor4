@@ -1,10 +1,10 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 CKEDITOR.plugins.setLang( 'filetools', 'pt', {
 	loadError: 'Ocorreu um erro ao ler o ficheiro',
-	networkError: 'Network error occurred during file upload.', // MISSING
+	networkError: 'Ocorreu um erro de rede ao carregar o ficheiro.',
 	httpError404: 'HTTP error occurred during file upload (404: File not found).', // MISSING
 	httpError403: 'HTTP error occurred during file upload (403: Forbidden).', // MISSING
 	httpError: 'HTTP error occurred during file upload (error status: %1).', // MISSING

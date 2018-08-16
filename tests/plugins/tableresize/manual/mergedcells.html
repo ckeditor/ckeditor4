@@ -1,0 +1,38 @@
+<div id="editor">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:600px">
+		<thead>
+		<tr>
+			<th scope="row" style="width:150px">Header</th>
+			<th scope="col" style="width:300px" colspan="2">Header</th>
+			<th scope="col" style="width:150px">Header</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<th scope="row" style="width:150px">Header</th>
+			<td style="width:150px">not header</td>
+			<td style="width:150px">not header</td>
+			<td style="width:150px">not header</td>
+		</tr>
+		<tr>
+			<th scope="row" style="width:300px" colspan="2">Header</th>
+			<td style="width:300px" colspan="2">not header</td>
+		</tr>
+		</tbody>
+		<tfoot>
+		<tr>
+			<th scope="row" style="width:150px">Header Footer</th>
+			<td style="width:150px" colspan="2">footer</td>
+			<td style="width:150px">footer</td>
+		</tr>
+		</tfoot>
+	</table>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor' );
+</script>

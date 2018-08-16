@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /* exported CKEDITOR_LANGS */
@@ -26,6 +26,7 @@ var CKEDITOR_LANGS = ( function() {
 		'en-gb': 'English (United Kingdom)',
 		eo: 'Esperanto',
 		es: 'Spanish',
+		'es-mx': 'Spanish (Mexico)',
 		et: 'Estonian',
 		eu: 'Basque',
 		fa: 'Persian',

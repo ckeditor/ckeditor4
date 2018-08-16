@@ -1,4 +1,4 @@
-@bender-tags: selection, fake, widget, 4.5.11, tc, 14831
+@bender-tags: selection, fake, widget, 4.5.11, bug, trac14831
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, placeholder, basicstyles, toolbar, floatingspace
 

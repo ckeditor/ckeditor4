@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,13421 */
+/* bender-tags: editor,13421 */
 /* bender-ckeditor-plugins: embedbase,embed,toolbar,htmlwriter */
 /* bender-include: ../widget/_helpers/tools.js, _helpers/tools.js */
 /* global widgetTestsTools, embedTools */

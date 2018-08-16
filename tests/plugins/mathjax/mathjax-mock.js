@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,widget */
+/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: mathjax,dialog,toolbar,preview,clipboard,basicstyles,sourcearea */
 /* global widgetTestsTools */
 
@@ -105,14 +105,14 @@
 				assert.areSame( 1, editor.document.getElementsByTag( 'iframe' ).count(), 'There should be only one widget.' );
 			},
 
-			// #11777
+			// https://dev.ckeditor.com/ticket/11777
 			'test &amp; encoding': function() {
 				var editor = this.editors.classic,
 					bot = this.editorBots.classic;
 
 				// Create an empty mathjax widget and set the content later, in WYSIWYG mode.
 				bot.setData( '<p><span class="math-tex">\\(\\)</span></p>', function() {
-					var widget = tools.obj2Array( editor.widgets.instances )[ 0 ],
+					var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ],
 						data;
 
 					widget.setData( 'math', '\\(&\\)' );
@@ -125,20 +125,20 @@
 					bot.setData( data, function() {
 						assert.areSame( '<p><span class="math-tex">\\(&amp;\\)</span></p>', editor.getData(), '& should not change after loading data.' );
 
-						widget = tools.obj2Array( editor.widgets.instances )[ 0 ];
+						widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ];
 						assert.areSame( '\\(&\\)', widget.data.math, 'data.math was loaded correctly' );
 					} );
 				} );
 			},
 
-			// #11777
+			// https://dev.ckeditor.com/ticket/11777
 			'test &amp;amp; encoding': function() {
 				var editor = this.editors.classic,
 					bot = this.editorBots.classic;
 
 				// Create an empty mathjax widget and set the content later, in WYSIWYG mode.
 				bot.setData( '<p><span class="math-tex">\\(\\)</span></p>', function() {
-					var widget = tools.obj2Array( editor.widgets.instances )[ 0 ],
+					var widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ],
 						data;
 
 					widget.setData( 'math', '\\(&amp;\\)' );
@@ -150,7 +150,7 @@
 					bot.setData( data, function() {
 						assert.areSame( '<p><span class="math-tex">\\(&amp;amp;\\)</span></p>', editor.getData(), '&amp; should not change after loading data.' );
 
-						widget = tools.obj2Array( editor.widgets.instances )[ 0 ];
+						widget = bender.tools.objToArray( editor.widgets.instances )[ 0 ];
 						assert.areSame( '\\(&amp;\\)', widget.data.math, 'data.math was loaded correctly' );
 					} );
 				} );

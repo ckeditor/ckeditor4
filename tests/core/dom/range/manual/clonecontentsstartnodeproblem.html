@@ -1,0 +1,17 @@
+<div id="editor1">
+	<p>foo <strong>bar baz</strong> foo</p>
+</div>
+<button id="getFragment">Press me</button>
+<br>
+<pre id="result" style="background-color:lightgreen"></pre>
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	var editor = CKEDITOR.replace( 'editor1' );
+
+	document.getElementById( 'getFragment' ).onclick = function() {
+		document.getElementById( 'result' ).innerText = editor.getSelection().getRanges()[ 0 ].cloneContents().getHtml()
+	}
+</script>

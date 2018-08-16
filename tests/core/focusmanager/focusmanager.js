@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 bender.editor = true;
 
@@ -54,5 +54,50 @@ bender.test( {
 				assert.isTrue( focusManager.hasFocus, 'editor is still focused' );
 			}, 50 );
 		}, 10 );
+	},
+
+	// https://dev.ckeditor.com/ticket/16935
+	'test blur editor in source mode': function() {
+		if ( !CKEDITOR.env.chrome ) {
+			assert.ignore();
+		}
+
+		bender.editorBot.create( {
+			name: 'test_editor_source',
+			config: {
+				plugins: 'sourcearea',
+				startupMode: 'source'
+			}
+		}, function( bot ) {
+			// Super mega ugly hack to test async error:
+			// 1. Listener for global error event is created, which forces the test to fail.
+			// 2. At the same time setTimeout is set to resonably long time to be sure that
+			// if error was going to throw, it had been already thrown. This timeout forces test to pass.
+			var timer;
+
+			function errorHandler( evt ) {
+				resume( function() {
+					if ( evt.data.$.message.indexOf( 'Cannot read property \'$\'' ) !== -1 ) {
+						clearTimeout( timer );
+						assert.fail( 'Error was thrown' );
+					}
+				} );
+			}
+
+			CKEDITOR.document.getWindow().once( 'error',  errorHandler );
+
+			timer = setTimeout( function() {
+				resume( function() {
+					CKEDITOR.document.getWindow().removeListener( 'error', errorHandler );
+
+					assert.pass( 'Error was not thrown' );
+				} );
+			}, 200 );
+
+			bot.editor.focus();
+			CKEDITOR.document.getById( 'focusable' ).focus();
+
+			wait();
+		} );
 	}
 } );

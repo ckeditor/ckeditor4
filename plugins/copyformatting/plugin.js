@@ -1,34 +1,15 @@
 ﻿/**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
 	'use strict';
 
 	var indexOf = CKEDITOR.tools.indexOf,
+		getMouseButton = CKEDITOR.tools.getMouseButton,
 		// This flag prevents appending stylesheet more than once.
 		stylesLoaded = false;
-
-	// Detects if the left mouse button was pressed:
-	// * In all browsers and IE 9+ we use event.button property with standard compliant values.
-	// * In IE 8- we use event.button with IE's proprietary values.
-	function detectLeftMouseButton( evt ) {
-		var evtData = evt.data,
-			domEvent = evtData && evtData.$;
-
-		if ( !( evtData && domEvent ) ) {
-			// Added in case when there's no data available. That's the case in some unit test in built version which
-			// mock event but doesn't put data object.'
-			return false;
-		}
-
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-			return domEvent.button === 1;
-		}
-
-		return domEvent.button === 0;
-	}
 
 	// Searches for given node in given query. It also checks ancestors of elements in the range.
 	function getNodeAndApplyCmd( range, query, cmd, stopOnFirst ) {
@@ -120,7 +101,7 @@
 					copyFormattingButtonEl;
 
 				editable.attachListener( mouseupHost, 'mouseup', function( evt ) {
-					if ( detectLeftMouseButton( evt ) ) {
+					if ( getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT ) {
 						editor.execCommand( 'applyFormatting' );
 					}
 				} );
@@ -128,7 +109,7 @@
 				editable.attachListener( CKEDITOR.document, 'mouseup', function( evt ) {
 					var cmd = editor.getCommand( 'copyFormatting' );
 
-					if ( detectLeftMouseButton( evt ) && cmd.state === CKEDITOR.TRISTATE_ON &&
+					if ( getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT && cmd.state === CKEDITOR.TRISTATE_ON &&
 						!editable.contains( evt.data.getTarget() ) ) {
 						editor.execCommand( 'copyFormatting' );
 					}
@@ -150,9 +131,6 @@
 			// Set customizable keystrokes.
 			if ( editor.config.copyFormatting_keystrokeCopy ) {
 				editor.setKeystroke( editor.config.copyFormatting_keystrokeCopy, 'copyFormatting' );
-			}
-			if ( editor.config.copyFormatting_keystrokePaste ) {
-				editor.setKeystroke( editor.config.copyFormatting_keystrokePaste, 'applyFormatting' );
 			}
 
 			editor.on( 'key', function( evt ) {
@@ -379,6 +357,16 @@
 		 */
 		breakOnElements: [ 'ul', 'ol', 'table' ],
 
+		/**
+		 * Stores the name of the command (if any) initially bound to the keystroke used for format applying
+		 * ({@link CKEDITOR.config#copyFormatting_keystrokePaste}), to restore it after copy formatting
+		 * is deactivated.
+		 *
+		 * @private
+		 * @property {String}
+		 */
+		_initialKeystrokePasteCommand: null,
+
 		commands: {
 			copyFormatting: {
 				exec: function( editor, data ) {
@@ -399,6 +387,7 @@
 						documentElement.removeClass( 'cke_copyformatting_tableresize_cursor' );
 
 						plugin._putScreenReaderMessage( editor, 'canceled' );
+						plugin._detachPasteKeystrokeHandler( editor );
 
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
@@ -420,10 +409,12 @@
 					copyFormatting.sticky = isSticky;
 
 					plugin._putScreenReaderMessage( editor, 'copied' );
+					plugin._attachPasteKeystrokeHandler( editor );
 				}
 			},
 
 			applyFormatting: {
+				editorFocus: CKEDITOR.env.ie && !CKEDITOR.env.edge ? false : true,
 				exec: function( editor, data ) {
 					var cmd = editor.getCommand( 'copyFormatting' ),
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
@@ -435,8 +426,11 @@
 
 					if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON ) {
 						return;
+
 					} else if ( isFromKeystroke && !copyFormatting.styles ) {
-						return plugin._putScreenReaderMessage( editor, 'failed' );
+						plugin._putScreenReaderMessage( editor, 'failed' );
+						plugin._detachPasteKeystrokeHandler( editor );
+						return false;
 					}
 
 					isApplied = plugin._applyFormat( editor, copyFormatting.styles );
@@ -449,6 +443,8 @@
 						documentElement.removeClass( 'cke_copyformatting_tableresize_cursor' );
 
 						cmd.setState( CKEDITOR.TRISTATE_OFF );
+
+						plugin._detachPasteKeystrokeHandler( editor );
 					}
 
 					plugin._putScreenReaderMessage( editor, isApplied ? 'applied' : 'canceled' );
@@ -1073,6 +1069,35 @@
 			}
 
 			return CKEDITOR.document.getBody().findOne( '.cke_copyformatting_notification div[aria-live]' );
+		},
+
+		/**
+		 * Attaches the paste keystroke handler to the given editor instance.
+		 *
+		 * @private
+		 * @param {CKEDITOR.editor} editor
+		 */
+		_attachPasteKeystrokeHandler: function( editor ) {
+			var keystrokePaste = editor.config.copyFormatting_keystrokePaste;
+
+			if ( keystrokePaste ) {
+				this._initialKeystrokePasteCommand = editor.keystrokeHandler.keystrokes[ keystrokePaste ];
+				editor.setKeystroke( keystrokePaste, 'applyFormatting' );
+			}
+		},
+
+		/**
+		 * Detaches the paste keystroke handler from the given editor instance.
+		 *
+		 * @private
+		 * @param {CKEDITOR.editor} editor
+		 */
+		_detachPasteKeystrokeHandler: function( editor ) {
+			var keystrokePaste = editor.config.copyFormatting_keystrokePaste;
+
+			if ( keystrokePaste ) {
+				editor.setKeystroke( keystrokePaste, this._initialKeystrokePasteCommand || false );
+			}
 		}
 	};
 
@@ -1085,7 +1110,7 @@
 	 *		config.copyFormatting_outerCursor = false;
 	 *
 	 * Read more in the [documentation](#!/guide/dev_copyformatting)
-	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_outerCursor=true]
@@ -1098,14 +1123,14 @@
 	 * filtering.
 	 *
 	 * This property is using Advanced Content Filter syntax. You can learn more about it in the
-	 * [Content Filtering (ACF)](http://docs.ckeditor.com/#!/guide/dev_acf) documentation.
+	 * [Content Filtering (ACF)](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_acf.html) documentation.
 	 *
 	 *		config.copyFormatting_allowRules = 'span(*)[*]{*}'; // Allows only spans.
 	 *		config.copyFormatting_allowRules = true; // Disables filtering.
 	 *
 	 *
 	 * Read more in the [documentation](#!/guide/dev_copyformatting)
-	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_allowRules='b; s; u; strong; span; p; div; table; thead; tbody; ' +
@@ -1118,13 +1143,13 @@
 	 * Defines rules for the elements from which fetching styles is explicitly forbidden (eg. widgets).
 	 *
 	 * This property is using Advanced Content Filter syntax. You can learn more about it in the
-	 * [Content Filtering (ACF)](http://docs.ckeditor.com/#!/guide/dev_acf) documentation.
+	 * [Content Filtering (ACF)](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_acf.html) documentation.
 	 *
 	 *		config.copyFormatting_disallowRules = 'span(important)'; // Disallows spans with "important" class.
 	 *
 	 *
 	 * Read more in the [documentation](#!/guide/dev_copyformatting)
-	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_disallowRules='*[data-cke-widget*,data-widget*,data-cke-realelement](cke_widget*)']
@@ -1148,7 +1173,7 @@
 	 *		config.copyFormatting_allowedContexts = true;
 	 *
 	 * Read more in the [documentation](#!/guide/dev_copyformatting)
-	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg {Boolean/String[]} [copyFormatting_allowedContexts=true]
@@ -1166,7 +1191,7 @@
 	 *		config.copyFormatting_keystrokeCopy = false;
 	 *
 	 * Read more in the [documentation](#!/guide/dev_copyformatting)
-	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg {Number} [copyFormatting_keystrokeCopy=CKEDITOR.CTRL + CKEDITOR.SHIFT + 67]
@@ -1184,7 +1209,7 @@
 	 *		config.copyFormatting_keystrokePaste = false;
 	 *
 	 * Read more in the [documentation](#!/guide/dev_copyformatting)
-	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg {Number} [copyFormatting_keystrokePaste=CKEDITOR.CTRL + CKEDITOR.SHIFT + 86]

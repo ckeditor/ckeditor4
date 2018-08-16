@@ -1,12 +1,9 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'about', 'sk', {
 	copy: 'Copyright &copy; $1. Všetky práva vyhradené.',
-	dlgTitle: 'O CKEditor-e',
-	help: 'Zaškrtnite $1 pre pomoc.',
-	moreInfo: 'Pre informácie o licenciách, prosíme, navštívte našu web stránku:',
-	title: 'O CKEditor-e',
-	userGuide: 'Používateľská príručka KCEditor-a'
+	dlgTitle: 'O aplikácii CKEditor 4',
+	moreInfo: 'Pre informácie o licenciách, prosíme, navštívte našu web stránku:'
 } );

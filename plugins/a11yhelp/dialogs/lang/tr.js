@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
@@ -79,6 +79,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 			{
 			name: 'Erişilebilirlik Yardımı',
 			legend: '${a11yHelp}\'e basın'
+		},
+			{
+			name: 'Düz Metin Olarak Yapıştır',
+			legend: '${pastetext} basın',
+			legendEdge: 'Önce ${pastetext} ardından${paste} basın'
 		}
 		]
 	}

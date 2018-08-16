@@ -1701,6 +1701,12 @@
 
 		'test Widget.isDomDragHandlerContainer - <em class="cke_widget_drag_handler_container"></em>': function() {
 			assert.isTrue( Widget.isDomDragHandlerContainer( domEmWidgetDragHandlerContainer ) );
+		},
+
+		'test Widget.isDomWidget - all': function() {
+			assert.isFalse( Widget.isDomWidget( domEm ), 'domEm' );
+			assert.isTrue( Widget.isDomWidget( domEmDataWidgetTest ), 'domEmDataWidgetTest' );
+			assert.isTrue( Widget.isDomWidget( domEmDataWidgetWrapperTrue ), 'domEmDataWidgetWrapperTrue' );
 		}
 	} );
 } )();

@@ -1,0 +1,42 @@
+<textarea id="classic"></textarea>
+
+<pre id="output" style="background-color:lightgreen;"></pre>
+
+<script>
+	// Mock XHR
+	var xhr = sinon.useFakeXMLHttpRequest();
+		requests = [];
+
+	xhr.onCreate = function( xhr ) {
+		requests.push( xhr );
+	};
+	window.onunload = function() {
+		xhr.restore();
+	}
+
+	var classic = CKEDITOR.replace( 'classic', {
+		fileTools_requestHeaders: {
+			'hello': 'world',
+			'foo': 'bar'
+		},
+		filebrowserUploadUrl: 'fake-url',
+		filebrowserUploadMethod: 'xhr',
+		on: {
+			instanceReady: function() {
+				if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
+					bender.ignore();
+				}
+			}
+		}
+	} );
+
+	// Display XHR details when CKEDITOR process entire request.
+	classic.on( 'fileUploadRequest', function( evt ) {
+		var output = document.getElementById( 'output' ),
+			outputString = CKEDITOR.tools.array.reduce( requests, function( acc, item ) {
+				return acc + '<li>' + JSON.stringify( item.requestHeaders, null, 4 ) + '</li>';
+			}, '' );
+
+		output.innerHTML = '<ol>' + outputString + '</ol>';
+	}, null, null, 1000 )
+</script>

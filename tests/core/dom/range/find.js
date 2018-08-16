@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,dom,range */
+/* bender-tags: editor,dom,range */
 
 ( function() {
 	'use strict';
@@ -28,6 +28,21 @@
 			assert.areSame( 2, results.length, 'Result count' );
 			assert.areSame( 'strong1', results[ 0 ].getId(), 'Id of a first matched element' );
 			assert.areSame( 'strong2', results[ 1 ].getId(), 'Id of a second matched element' );
+		},
+
+		// (https://dev.ckeditor.com/ticket/17022)
+		'test matching a contained node': function() {
+			var range = new CKEDITOR.dom.range( doc ),
+				strongsWrapper = doc.getById( 'strongs' ),
+				results;
+
+			range.setStartBefore( strongsWrapper );
+			range.setEndAfter( strongsWrapper );
+			results = range._find( 'div' );
+
+			assert.isArray( results, 'Return object type' );
+			assert.areSame( 1, results.length, 'Result count' );
+			assert.areSame( 'strongs', results[ 0 ].getId(), 'Id of a first matched element' );
 		},
 
 		'test multiple matches in a spanned range': function() {

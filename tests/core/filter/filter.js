@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* global acfTestTools */
 
 ( function() {
@@ -611,7 +611,7 @@
 			filter( '<p>X<a href="x"><img src="x" /></a>X</p>',		'<p>XX</p>' );
 			filter( '<p>X<a href="x"><img /></a>X</p>',				'<p>XX</p>' );
 			filter( '<p>X<a href="x"><b>A</b></a>X</p>',			'<p>XAX</p>' );
-			// #10224 - <a> element doesn't have to have any attribute if it isn't empty.
+			// https://dev.ckeditor.com/ticket/10224 - <a> element doesn't have to have any attribute if it isn't empty.
 			// Empty name attribute make this element valid (name is required).
 			filter( '<p>X<a name="">A</a>X</p>',					'<p>X<a name="">A</a>X</p>' );
 			// Keep empty anchor (it has non-empty name attr).
@@ -742,7 +742,7 @@
 				'<p>X<!--{cke_protected}%3C%3F%20echo%201%3B%20%3F%3E-->Y</p>',							'leave entire PHP code' );
 		},
 
-		// #13393
+		// https://dev.ckeditor.com/ticket/13393
 		// The script's body may not be encoded if htmlDP was not used or if the encoding didn't work.
 		'test script removed completely when its body is not encoded': function() {
 			var filter = createFilter( 'p', false );
@@ -858,17 +858,26 @@
 
 			filter( '<p><bar>bar</bar></p>',						'<p><bar>bar</bar></p>' );
 			filter( '<bar><foo>bar</foo></bar>',					'<bar>bar</bar>' );
-			// #12683
+			// https://dev.ckeditor.com/ticket/12683
 			filter( '<bar><h1>bar</h1></bar>',						'<p>bar</p>' );
 		},
 
-		// #13886
+		// https://dev.ckeditor.com/ticket/13886
 		'test filter styles validation with none or empty styles': function() {
 			var filter = new CKEDITOR.filter( 'a {color}' );
 
 			assert.isTrue( filter.check( new CKEDITOR.style( { element: 'a' } ) ) );
 			assert.isTrue( filter.check( new CKEDITOR.style( { element: 'a', styles: {} } ) ) );
 			assert.isTrue( filter.check( new CKEDITOR.style( { element: 'a', styles: { color: 'red' } } ) ) );
+		},
+
+		'test filter.check handles array': function() {
+			var filter = new CKEDITOR.filter( 'a {color}' ),
+				aStyle = new CKEDITOR.style( { element: 'a' } ),
+				bStyle = new CKEDITOR.style( { element: 'b' } );
+
+			assert.isTrue( filter.check( [ bStyle, aStyle ] ) );
+			assert.isFalse( filter.check( [ bStyle ] ) );
 		}
 	} );
 } )();

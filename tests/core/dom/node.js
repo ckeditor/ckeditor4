@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,dom */
+/* bender-tags: editor,dom */
 
 ( function() {
 	'use strict';
@@ -254,7 +254,7 @@
 			assert.isFalse( el.getChild( [ 0, 0 ] ).isReadOnly( 1 ) );
 		},
 
-		// #13609, #13919
+		// https://dev.ckeditor.com/ticket/13609, https://dev.ckeditor.com/ticket/13919
 		'test isReadOnly - isContentEditable property access': function() {
 			// Edge tends to break when accessing isContentEditable property in certain elements.
 			// If this test causes refreshes/crashes the web page, then some new element is causing this issue.
@@ -439,7 +439,7 @@
 			assert.isTrue( CKEDITOR.tools.arrayCompare( address1, [ 4, 3, 2 ] ) );
 			assert.isTrue( CKEDITOR.tools.arrayCompare( address2, [ 0, 0, 0, 0, 0 ] ) );
 
-			// check detached trees (#8670 - test currently fails in IE7&8)
+			// check detached trees (https://dev.ckeditor.com/ticket/8670 - test currently fails in IE7&8)
 			/*
 			var root = newElement( 'span' ),
 				child1 = newElement( 'span' ),

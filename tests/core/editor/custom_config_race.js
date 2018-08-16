@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 var assetsPath = '%TEST_DIR%_assets/',
 	instances = {},
@@ -27,9 +27,9 @@ var assetsPath = '%TEST_DIR%_assets/',
 bender.test( {
 	'async:init': function() {
 		initEditors( {
-			editor1: { customConfig: assetsPath + 'raceConfig1.js' },
-			editor2: { customConfig: assetsPath + 'raceConfig2.js' },
-			editor3: { customConfig: assetsPath + 'raceConfig3.js' }
+			editor1: { customConfig: assetsPath + 'raceconfig1.js' },
+			editor2: { customConfig: assetsPath + 'raceconfig2.js' },
+			editor3: { customConfig: assetsPath + 'raceconfig3.js' }
 		}, this.callback );
 	},
 

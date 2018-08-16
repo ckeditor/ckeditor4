@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'az', {
 	copy: 'Köçür',
@@ -8,8 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'az', {
 	cut: 'Kəs',
 	cutError: 'Avtomatik kəsmə mümkün deyil. Ctrl+X basın.',
 	paste: 'Əlavə et',
-	pasteArea: 'Əlavəetmə sahəsi',
-	pasteMsg: 'Bu sahəyə əlavə edin (<strong>Ctrl+V</strong>)',
-	securityMsg: 'Mübadilə buferi açmaq mümkün deyil. Bu pəncərədə yenidən əlavə edin.',
-	title: 'Əlavə et'
+	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteArea: 'Paste Area', // MISSING
+	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
+	title: 'Paste' // MISSING
 } );

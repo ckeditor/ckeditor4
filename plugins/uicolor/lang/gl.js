@@ -1,11 +1,13 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'uicolor', 'gl', {
 	title: 'Recolledor de cor da interface de usuario',
-	preview: 'Vista previa en vivo',
-	config: 'Pegue esta cadea no seu ficheiro config.js',
-	predefined: 'Conxuntos predefinidos de cores'
+	options: 'Opcións de cor',
+	highlight: 'Resaltar',
+	selected: 'Cor seleccionado',
+	predefined: 'Conxuntos predefinidos de cores',
+	config: 'Pegue esta cadea no seu ficheiro config.js'
 } );

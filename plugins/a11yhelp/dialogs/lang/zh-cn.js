@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
@@ -79,6 +79,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 			{
 			name: '辅助功能帮助',
 			legend: '按 ${a11yHelp}'
+		},
+			{
+			name: '粘贴为纯文本',
+			legend: '按 ${pastetext}',
+			legendEdge: '按 ${pastetext}，然后再按 ${paste}'
 		}
 		]
 	}

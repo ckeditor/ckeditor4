@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+﻿/* bender-tags: editor */
 /* bender-ckeditor-plugins: format,toolbar */
 
 bender.editor = true;
@@ -25,5 +25,19 @@ bender.test( {
 		bot.setHtmlWithSelection( '<fieldset><legend>^foo</legend><form>bar</form></fieldset>' );
 		var name = 'Format', combo = ed.ui.get( name );
 		assert.areSame( CKEDITOR.TRISTATE_DISABLED, combo._.state, 'check state disabled when not in context' );
+	},
+
+	// Drop-down format menu should not be toggleable (#584).
+	'test apply format style to preformated text': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<h1>f^oo</h1>' );
+
+		// Preserved h1 block style.
+		bot.combo( 'Format', function( combo ) {
+			combo.onClick( 'h1' );
+			assert.areSame( '<h1>f^oo</h1>', bot.htmlWithSelection() );
+		} );
 	}
+
 } );

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 ( function() {
 	'use strict';
@@ -12,12 +12,14 @@
 
 			CKEDITOR.inlineAll();
 
-			try {
-				CKEDITOR.inline( 'editable' );
-				fail = true;
-			} catch ( e ) {}
+			wait( function() {
+				try {
+					CKEDITOR.inline( 'editable' );
+					fail = true;
+				} catch ( e ) {}
 
-			assert.isFalse( fail, 'Expected error not thrown.' );
+				assert.isFalse( fail, 'Expected error not thrown.' );
+			}, 100 );
 		},
 
 		'themedui duplicates': function() {
@@ -25,12 +27,14 @@
 
 			CKEDITOR.replace( 'editor' );
 
-			try {
-				CKEDITOR.replace( 'editor' );
-				fail = true;
-			} catch ( e ) {}
+			wait( function() {
+				try {
+					CKEDITOR.replace( 'editor' );
+					fail = true;
+				} catch ( e ) {}
 
-			assert.isFalse( fail, 'Expected error not thrown.' );
+				assert.isFalse( fail, 'Expected error not thrown.' );
+			}, 100 );
 		}
 	} );
 

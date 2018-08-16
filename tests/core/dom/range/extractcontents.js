@@ -1,15 +1,17 @@
-/* bender-tags: editor,unit,dom,range */
+/* bender-tags: editor,dom,range */
 
 ( function() {
 	'use strict';
 
 	var getInnerHtml = bender.tools.getInnerHtml,
 		doc = CKEDITOR.document,
-		html1 = document.getElementById( 'playground' ).innerHTML;
+		html1 = document.getElementById( 'playground' ).innerHTML,
+		numbers = document.getElementById( 'numbers' ).innerHTML;
 
 	var tests = {
 		setUp: function() {
 			document.getElementById( 'playground' ).innerHTML = html1;
+			document.getElementById( 'numbers' ).innerHTML = numbers;
 		},
 
 		test_extractContents_W3C_1: function() {
@@ -360,7 +362,7 @@
 			var playground = doc.getById( 'playground' );
 
 			// See: execContentsAction in range.js.
-			assert.isInnerHtmlMatching( '<h1>Test</h1><p>t<b id="_B">some</b>This is</p>', tmpDiv.getHtml(), 'Extracted HTML' );
+			assert.isInnerHtmlMatching( '<h1>Test</h1><p>This is <b id="_B">some</b> t</p>', tmpDiv.getHtml(), 'Extracted HTML' );
 			assert.isInnerHtmlMatching( '<h1 id="_H1">FCKW3CRange</h1><p id="_Para">ext.</p><p>Another paragraph.</p>',
 				playground.getHtml(), 'HTML after extraction' );
 
@@ -369,7 +371,7 @@
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
-		// #13568.
+		// https://dev.ckeditor.com/ticket/13568.
 		'test extractContents - bogus br': function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( 'bogus' ), 0 ); // <p>
@@ -379,6 +381,35 @@
 
 			// See: execContentsAction in range.js.
 			assert.isInnerHtmlMatching( '<p>Foo bar</p>', docFrag.getHtml(), 'Extracted HTML' );
+		},
+
+		// #644
+		'test extract nested tags': function() {
+			var range = new CKEDITOR.dom.range( doc ),
+				docFrag;
+
+			// You want to select text nodes.
+			range.setStart( doc.getById( '_pe' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_sub' ).getFirst(), 3 );
+
+			docFrag = range.extractContents();
+
+			assert.isInnerHtmlMatching( '111<strong>222<span>333<em>444</em></span>555<sup>666</sup>777<sub id="_sub">888</sub></strong>', docFrag.getHtml() );
+		},
+
+		// #644
+		'test extractContents and cloneContents provides equal results': function() {
+			var range = new CKEDITOR.dom.range( doc ),
+				extractFrag,
+				cloneFrag;
+
+			range.setStart( doc.getById( '_pe' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_sub' ).getFirst(), 3 );
+
+			cloneFrag = range.cloneContents(),
+			extractFrag = range.extractContents();
+
+			assert.beautified.html( cloneFrag.getHtml(), extractFrag.getHtml() );
 		}
 	};
 
