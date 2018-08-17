@@ -670,7 +670,7 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 									{
 								 	  id: 'infoDetailDescLink',
 										type: 'html',
-										html: '<div style="position: relative; top: -0.35em; margin-left: 1.6em; margin-bottom: 1em;">(<a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline; font-style: italic">' + lang.descriptionHelp + '</a>)</div>',
+										html: '<div style="position: relative; top: -0.35em; margin-left: 1.6em; margin-bottom: 1em;"><a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline; font-style: italic">' + lang.descriptionHelp + '</a></div>',
 										onClick: function() {
 						          editor.a11yfirst.helpOption = 'ImageHelp';
 						          editor.execCommand('a11yFirstHelpDialog');
@@ -756,40 +756,32 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 													var hasDesc      = this.getDialog().getContentElement( 'info', 'hasDescription');
 													var hasDescElem  = this.getDialog().getContentElement( 'info', 'hasDescription').getElement();
 
+
 													if (widget.data.title && widget.data.title.length) {
 
 														var imageType = this.getDialog().getContentElement( 'info', 'imageType' );
 
 														var title = widget.data.title.toLowerCase();
-														var hasBefore = title.indexOf(lang.locationBefore.toLowerCase()) >= 0;
-														var hasAfter  = title.indexOf(lang.locationAfter.toLowerCase()) >= 0;
-														var hasBoth   = title.indexOf(lang.locationBoth.toLowerCase()) >= 0;
+														var hasBefore = title.indexOf(lang.locationBeforeTitle.toLowerCase()) >= 0;
+														var hasAfter  = title.indexOf(lang.locationAfterTitle.toLowerCase()) >= 0;
+														var hasBoth   = title.indexOf(lang.locationBothTitle.toLowerCase()) >= 0;
+
+														this.enable();
+														imageType.setValue('informative');
+														hasDesc.setValue(true);
+														descLocFS.enable();
+
 
 														if (hasBoth || (hasBefore && hasAfter)) {
-															this.enable();
 															this.setValue( 'both' );
-															imageType.setValue('informative');
-															hasDesc.setValue(true);
-															descLocFS.enable();
 														}
 														else {
 															if (hasBefore) {
-																this.enable();
 																this.setValue( 'before' );
-																imageType.setValue('informative');
-																hasDesc.setValue(true);
-																descLocFS.enable();
 															}
 															else {
 																if (hasAfter) {
-																	this.enable();
 																	this.setValue( 'after' );
-																	imageType.setValue('informative');
-																	hasDesc.setValue(true);
-																	descLocFS.enable();
-																}
-																else {
-																	hasDesc.setValue(false);
 																}
 															}
 														}
