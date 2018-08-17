@@ -1021,11 +1021,14 @@
 
 						selection.selectRanges( ranges );
 
-						// We need to lock undoManager to consider clearing table and inserting new paragraph as single operation, and have only one undo step (#1816).
 						if ( key === 13 && editor.plugins.enterkey ) {
+							// We need to lock undoManager to consider clearing table and inserting new paragraph as single operation, and have only one undo step (#1816).
 							editor.fire( 'lockSnapshot' );
 							keystroke === 13 ? editor.execCommand( 'enter' ) : editor.execCommand( 'shiftEnter' );
 							editor.fire( 'unlockSnapshot' );
+							editor.fire( 'saveSnapshot' );
+						} else if ( key !== 13 ) {
+							// Backspace and delete key should have saved snapshot.
 							editor.fire( 'saveSnapshot' );
 						}
 					}
