@@ -11,7 +11,6 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		widthPattern = /^(\d+(?:\.\d+)?)(px|%)$/,
 		rtl = editor.lang.dir == 'rtl',
 		colorDialog = editor.plugins.colordialog,
-
 		firstColumn = {
 			type: 'vbox',
 			requiredContent: [ 'td{width,height}', 'td{white-space}', 'td{text-align}', 'td{vertical-align}' ],
@@ -307,6 +306,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					children: [ {
 						type: 'text',
 						id: 'bgColor',
+						requiredContent: 'td{background-color}',
 						label: langCell.bgColor,
 						'default': '',
 						setup: setupCells( function( element ) {
@@ -353,6 +353,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					children: [ {
 						type: 'text',
 						id: 'borderColor',
+						requiredContent: 'td{border-color}',
 						label: langCell.borderColor,
 						'default': '',
 						setup: setupCells( function( element ) {
@@ -393,17 +394,10 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				} ]
 		},
 
-		children = [];
+	children = [ firstColumn, secondColumn ];
 
-	switch ( whichColumns() ) {
-		case 'first':
-			children.push( firstColumn );
-			break;
-		case 'second':
-			children.push( secondColumn );
-			break;
-		default:
-			children = [ firstColumn, createSpacer(), secondColumn ];
+	if ( getColumnsCount() === 2 ) {
+		children.splice( 1, 0, createSpacer() );
 	}
 
 	return {
@@ -501,8 +495,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 	function getWidths() {
 		switch ( whichColumns() ) {
 			case 'first':
+				return [ '100%', '0' ];
 			case 'second':
-				return [ '100%' ];
+				return [ '0', '100%' ];
 			default:
 				return [ '40%', '5%', '40%' ];
 		}
