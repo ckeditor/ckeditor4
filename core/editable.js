@@ -316,6 +316,11 @@
 				// Make the final range selection.
 				range.select();
 
+				// Edge sometimes loses focus on editable on text drag and drop, even when editor is still focused.
+				if ( CKEDITOR.env.edge && !this.hasFocus ) {
+					this.focus();
+				}
+
 				afterInsert( this );
 
 				this.editor.fire( 'afterInsertHtml', {} );
