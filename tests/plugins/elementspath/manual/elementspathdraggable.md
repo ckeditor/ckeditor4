@@ -5,6 +5,13 @@
 ----
 
 1. Click on element in editor.
-1. Click and drag element in elementspath
+1. Click and try to drag elements path item.
 
-**Expected:** Elements in element path should not be draggable.
+
+## Expected
+
+Elements path items aren't draggable.
+
+## Unexpected
+
+Elements path items are draggable.
