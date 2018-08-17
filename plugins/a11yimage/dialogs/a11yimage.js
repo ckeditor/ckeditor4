@@ -756,7 +756,6 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 													var hasDesc      = this.getDialog().getContentElement( 'info', 'hasDescription');
 													var hasDescElem  = this.getDialog().getContentElement( 'info', 'hasDescription').getElement();
 
-
 													if (widget.data.title && widget.data.title.length) {
 
 														var imageType = this.getDialog().getContentElement( 'info', 'imageType' );
@@ -770,7 +769,6 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 														imageType.setValue('informative');
 														hasDesc.setValue(true);
 														descLocFS.enable();
-
 
 														if (hasBoth || (hasBefore && hasAfter)) {
 															this.setValue( 'both' );
