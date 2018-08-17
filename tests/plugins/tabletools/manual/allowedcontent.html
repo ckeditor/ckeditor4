@@ -55,7 +55,7 @@
 		editor = CKEDITOR.replace( 'editor1', {
 			allowedContent: allowedContent
 		} ),
-		// Change event doesn't work in IE8.
+		// 'change' event doesn't work in IE8.
 		eventName = CKEDITOR.env.ie && CKEDITOR.env.version === 8 ? 'click' : 'change';
 
 	for ( var key in cellPropMap ) {
