@@ -25,18 +25,18 @@
 				bot.dialog( 'cellProperties', function( dialog ) {
 					for ( var key in filterMap ) {
 						if ( key !== editor.name ) {
-							assert.isTrue( getNotAllowed( key ), 'Dialog ' + key + ' should be disallowed.' );
+							assert.isTrue( isNotAllowed( key ), 'Dialog ' + key + ' should be disallowed.' );
 							if ( key === 'width' ) {
-								assert.isTrue( getNotAllowed( 'height' ), 'Dialog height should be disallowed.' );
+								assert.isTrue( isNotAllowed( 'height' ), 'Dialog height should be disallowed.' );
 							}
 						} else {
-							assert.isUndefined( getNotAllowed( key ), 'Dialog ' + key + ' shouldn\'t be disallowed.' );
+							assert.isUndefined( isNotAllowed( key ), 'Dialog ' + key + ' shouldn\'t be disallowed.' );
 							if ( key === 'width' ) {
-								assert.isUndefined( getNotAllowed( 'height' ), 'Dialog height shouldn\'t be disallowed.' );
+								assert.isUndefined( isNotAllowed( 'height' ), 'Dialog height shouldn\'t be disallowed.' );
 							}
 						}
 					}
-					function getNotAllowed( key ) {
+					function isNotAllowed( key ) {
 						return dialog._.contents.info[ key ].notAllowed;
 					}
 				} );
