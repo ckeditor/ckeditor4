@@ -44,7 +44,7 @@
 				comboValue: 'Courier New',
 				collapsed: false,
 				bot: bot,
-				resultHtml: '<p><font face="Courier New, Courier, monospace">foo</font></p>'
+				resultHtml: '<p><font face="Courier New, Courier, monospace">foo</font>@</p>'
 			} );
 		},
 
@@ -58,7 +58,7 @@
 				comboValue: 'Courier New',
 				collapsed: false,
 				bot: bot,
-				resultHtml: '<p><font face="Courier New, Courier, monospace">foo</font></p>'
+				resultHtml: '<p><font face="Courier New, Courier, monospace">foo</font>@</p>'
 			} );
 		},
 
@@ -72,7 +72,7 @@
 				comboValue: 'cke-default',
 				collapsed: false,
 				bot: bot,
-				resultHtml: '<p>foo</p>'
+				resultHtml: '<p>foo@</p>'
 			} );
 		},
 
@@ -86,7 +86,7 @@
 				comboValue: 'Courier New',
 				collapsed: false,
 				bot: bot,
-				resultHtml: '<p><strong><font face="Courier New, Courier, monospace">fo</font><em><font face="Courier New, Courier, monospace">o</font> bar</em> baz</strong></p>'
+				resultHtml: '<p><strong><font face="Courier New, Courier, monospace">fo</font><em><font face="Courier New, Courier, monospace">o</font> bar</em> baz</strong>@</p>'
 			} );
 		},
 
@@ -109,7 +109,7 @@
 				comboValue: '6',
 				collapsed: false,
 				bot: bot,
-				resultHtml: '<p><font size="6">foo</font></p>'
+				resultHtml: '<p><font size="6">foo</font>@</p>'
 			} );
 		},
 
@@ -123,7 +123,7 @@
 				comboValue: '6',
 				collapsed: false,
 				bot: bot,
-				resultHtml: '<p><font size="6">foo</font></p>'
+				resultHtml: '<p><font size="6">foo</font>@</p>'
 			} );
 		},
 
@@ -137,7 +137,7 @@
 				comboValue: 'cke-default',
 				collapsed: false,
 				bot: bot,
-				resultHtml: '<p>foo</p>'
+				resultHtml: '<p>foo@</p>'
 			} );
 		},
 
@@ -151,7 +151,7 @@
 				comboValue: '6',
 				collapsed: false,
 				bot: bot,
-				resultHtml: '<p><strong><font size="6">fo</font><em><font size="6">o</font> bar</em> baz</strong></p>'
+				resultHtml: '<p><strong><font size="6">fo</font><em><font size="6">o</font> bar</em> baz</strong>@</p>'
 			} );
 		}
 	} );
