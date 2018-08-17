@@ -1,4 +1,7 @@
 /* bender-ckeditor-plugins: font,toolbar,wysiwygarea */
+/* bender-include: ../richcombo/_helpers/tools.js */
+
+/* global richComboTools */
 
 ( function() {
 	'use strict';
@@ -39,7 +42,7 @@
 				bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( editor, '<p>[foo]</p>' );
-			assert.assertCombo( {
+			richComboTools.assertCombo( {
 				comboName: 'Font',
 				comboValue: 'Courier New',
 				collapsed: false,
@@ -53,7 +56,7 @@
 			bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( editor, '<p><font face="Arial, Helvetica, sans-serif">[foo]</font></p>' );
-			assert.assertCombo( {
+			richComboTools.assertCombo( {
 				comboName: 'Font',
 				comboValue: 'Courier New',
 				collapsed: false,
@@ -67,7 +70,7 @@
 			bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( editor, '<p><font face="Courier New, Courier, monospace">[foo]</font></p>' );
-			assert.assertCombo( {
+			richComboTools.assertCombo( {
 				comboName: 'Font',
 				comboValue: 'cke-default',
 				collapsed: false,
@@ -81,7 +84,7 @@
 			bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( editor, '<p><strong>[fo<em>o] bar</em> baz</strong></p>' );
-			assert.assertCombo( {
+			richComboTools.assertCombo( {
 				comboName: 'Font',
 				comboValue: 'Courier New',
 				collapsed: false,
@@ -104,7 +107,7 @@
 			bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( editor, '<p>[foo]</p>' );
-			assert.assertCombo( {
+			richComboTools.assertCombo( {
 				comboName: 'FontSize',
 				comboValue: '6',
 				collapsed: false,
@@ -118,7 +121,7 @@
 			bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( editor, '<p><font size="2">[foo]</font></p>' );
-			assert.assertCombo( {
+			richComboTools.assertCombo( {
 				comboName: 'FontSize',
 				comboValue: '6',
 				collapsed: false,
@@ -132,7 +135,7 @@
 			bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( editor, '<p><font size="6">[foo]</font></p>' );
-			assert.assertCombo( {
+			richComboTools.assertCombo( {
 				comboName: 'FontSize',
 				comboValue: 'cke-default',
 				collapsed: false,
@@ -146,7 +149,7 @@
 			bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( editor, '<p><strong>[fo<em>o] bar</em> baz</strong></p>' );
-			assert.assertCombo( {
+			richComboTools.assertCombo( {
 				comboName: 'FontSize',
 				comboValue: '6',
 				collapsed: false,
