@@ -26,6 +26,10 @@ API Changes:
 
 * [#2249](https://github.com/ckeditor/ckeditor-dev/issues/1791): Added [`CKEDITOR.tools.detectPluginsConflict`](http://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR_tools.html#method-detectPluginsConflict) function finding conflicts between provided plugins.
 
+Other Changes:
+
+* [#2319](https://github.com/ckeditor/ckeditor-dev/issues/2319): Removed BOM from the beginning of source files. Thanks to [Dr. Sassafras](https://github.com/drsassafras)!
+
 ## CKEditor 4.10
 
 New Features:
