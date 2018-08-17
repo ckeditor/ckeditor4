@@ -1049,16 +1049,14 @@
 				}
 			} );
 
-			wait( function() {
-				this.editorBot.setData( '<p id="x">X</p><div data-widget="testdestroy1" id="w1"><p id="foo">B</p></div>', function() {
-					var widget = getWidgetById( editor, 'w1' );
+			this.editorBot.setData( '<p id="x">X</p><div data-widget="testdestroy1" id="w1"><p id="foo">B</p></div>', function() {
+				var widget = getWidgetById( editor, 'w1' );
 
-					// Destroy in offline mode.
-					editor.widgets.destroy( widget, true );
+				// Destroy in offline mode.
+				editor.widgets.destroy( widget, true );
 
-					assert.isFalse( !!editor.widgets.widgetHoldingFocusedEditable, 'widgets repo does not point to nested editable' );
-				} );
-			}, 210 );
+				assert.isFalse( !!editor.widgets.widgetHoldingFocusedEditable, 'widgets repo does not point to nested editable' );
+			} );
 		},
 
 		'test focused editable is resetted on setData': function() {
