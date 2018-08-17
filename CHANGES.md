@@ -18,6 +18,7 @@ Fixed Issues:
 API Changes:
 
 * [#1451](https://github.com/ckeditor/ckeditor-dev/issues/1451): Fixed: Context menu is incorrectly positioned when opened with `Shift-F10`.
+* [#898](https://github.com/ckeditor/ckeditor-dev/issues/898): Fixed: [Image2](https://ckeditor.com/cke4/addon/image2) long alt text protrudes into editor when image is selected.
 
 ## CKEditor 4.10.1
 
