@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 4.10.1, bug, 1191
-@bender-ckeditor-plugins: wysiwygarea, elementspath
+@bender-ckeditor-plugins: wysiwygarea, elementspath, toolbar, list
 
 ----
 
