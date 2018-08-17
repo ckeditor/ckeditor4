@@ -52,10 +52,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							// case (https://dev.ckeditor.com/ticket/11439).
 							unit = this.getDialog().getValueOf( 'info', 'widthType' ) || getCellWidthType( element );
 
-						if ( !isNaN( value ) )
+						if ( !isNaN( value ) ) {
 							element.setStyle( 'width', value + unit );
-						else
+						} else {
 							element.removeStyle( 'width' );
+						}
 
 						element.removeAttribute( 'width' );
 					},
@@ -114,10 +115,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						commit: function( element ) {
 							var value = parseInt( this.getValue(), 10 );
 
-							if ( !isNaN( value ) )
+							if ( !isNaN( value ) ) {
 								element.setStyle( 'height', CKEDITOR.tools.cssLength( value ) );
-							else
+							} else {
 								element.removeStyle( 'height' );
+							}
 
 							element.removeAttribute( 'height' );
 						}
@@ -149,14 +151,16 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						var wordWrapAttr = element.getAttribute( 'noWrap' ),
 							wordWrapStyle = element.getStyle( 'white-space' );
 
-						if ( wordWrapStyle == 'nowrap' || wordWrapAttr )
+						if ( wordWrapStyle == 'nowrap' || wordWrapAttr ) {
 							return 'no';
+						}
 					} ),
 					commit: function( element ) {
-						if ( this.getValue() == 'no' )
+						if ( this.getValue() == 'no' ) {
 							element.setStyle( 'white-space', 'nowrap' );
-						else
+						} else {
 							element.removeStyle( 'white-space' );
+						}
 
 						element.removeAttribute( 'noWrap' );
 					}
@@ -184,10 +188,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					commit: function( selectedCell ) {
 						var value = this.getValue();
 
-						if ( value )
+						if ( value ) {
 							selectedCell.setStyle( 'text-align', value );
-						else
+						} else {
 							selectedCell.removeStyle( 'text-align' );
+						}
 
 						selectedCell.removeAttribute( 'align' );
 					}
@@ -225,10 +230,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					commit: function( element ) {
 						var value = this.getValue();
 
-						if ( value )
+						if ( value ) {
 							element.setStyle( 'vertical-align', value );
-						else
+						} else {
 							element.removeStyle( 'vertical-align' );
+						}
 
 						element.removeAttribute( 'vAlign' );
 					}
@@ -266,15 +272,17 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					validate: validate.integer( langCell.invalidRowSpan ),
 					setup: setupCells( function( selectedCell ) {
 						var attrVal = parseInt( selectedCell.getAttribute( 'rowSpan' ), 10 );
-						if ( attrVal && attrVal != 1 )
+						if ( attrVal && attrVal != 1 ) {
 							return attrVal;
+						}
 					} ),
 					commit: function( selectedCell ) {
 						var value = parseInt( this.getValue(), 10 );
-						if ( value && value != 1 )
+						if ( value && value != 1 ) {
 							selectedCell.setAttribute( 'rowSpan', this.getValue() );
-						else
+						} else {
 							selectedCell.removeAttribute( 'rowSpan' );
+						}
 					}
 				},
 				{
@@ -286,15 +294,17 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					validate: validate.integer( langCell.invalidColSpan ),
 					setup: setupCells( function( element ) {
 						var attrVal = parseInt( element.getAttribute( 'colSpan' ), 10 );
-						if ( attrVal && attrVal != 1 )
+						if ( attrVal && attrVal != 1 ) {
 							return attrVal;
+						}
 					} ),
 					commit: function( selectedCell ) {
 						var value = parseInt( this.getValue(), 10 );
-						if ( value && value != 1 )
+						if ( value && value != 1 ) {
 							selectedCell.setAttribute( 'colSpan', this.getValue() );
-						else
+						} else {
 							selectedCell.removeAttribute( 'colSpan' );
+						}
 					}
 				},
 				createSpacer( 'td[colspan]' ),
@@ -318,10 +328,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						commit: function( selectedCell ) {
 							var value = this.getValue();
 
-							if ( value )
+							if ( value ) {
 								selectedCell.setStyle( 'background-color', this.getValue() );
-							else
+							} else {
 								selectedCell.removeStyle( 'background-color' );
+							}
 
 							selectedCell.removeAttribute( 'bgColor' );
 						}
@@ -337,8 +348,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							},
 							onClick: function() {
 								editor.getColorFromDialog( function( color ) {
-									if ( color )
+									if ( color ) {
 										this.getDialog().getContentElement( 'info', 'bgColor' ).setValue( color );
+									}
 									this.focus();
 								}, this );
 							}
@@ -364,10 +376,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						} ),
 						commit: function( selectedCell ) {
 							var value = this.getValue();
-							if ( value )
+							if ( value ) {
 								selectedCell.setStyle( 'border-color', this.getValue() );
-							else
+							} else {
 								selectedCell.removeStyle( 'border-color' );
+							}
 
 							selectedCell.removeAttribute( 'borderColor' );
 						}
@@ -385,8 +398,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							},
 							onClick: function() {
 								editor.getColorFromDialog( function( color ) {
-									if ( color )
+									if ( color ) {
 										this.getDialog().getContentElement( 'info', 'borderColor' ).setValue( color );
+									}
 									this.focus();
 								}, this );
 							}
@@ -437,8 +451,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 			// remains unaltered, i.e. when selected multiple cells and dialog loaded
 			// only the properties of the first cell (https://dev.ckeditor.com/ticket/11439).
 			this.foreach( function( field ) {
-				if ( !field.setup || !field.commit )
+				if ( !field.setup || !field.commit ) {
 					return;
+				}
 
 				// Save field's value every time after "setup" is called.
 				field.setup = CKEDITOR.tools.override( field.setup, function( orgSetup ) {
@@ -451,8 +466,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				// Compare saved value with actual value. Update cell only if value has changed.
 				field.commit = CKEDITOR.tools.override( field.commit, function( orgCommit ) {
 					return function() {
-						if ( saved[ field.id ] !== field.getValue() )
+						if ( saved[ field.id ] !== field.getValue() ) {
 							orgCommit.apply( this, arguments );
+						}
 					};
 				} );
 			} );
@@ -531,8 +547,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 
 				// The only way to have an empty select value in Firefox is
 				// to set a negative selectedIndex.
-				if ( CKEDITOR.env.gecko && this.type == 'select' && !fieldValue )
+				if ( CKEDITOR.env.gecko && this.type == 'select' && !fieldValue ) {
 					this.getInputElement().$.selectedIndex = -1;
+				}
 			}
 		};
 	}
@@ -545,7 +562,8 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		var match = widthPattern.exec(
 			cell.getStyle( 'width' ) || cell.getAttribute( 'width' ) );
 
-		if ( match )
+		if ( match ) {
 			return match[ 2 ];
+		}
 	}
 } );
