@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -125,7 +125,7 @@
 			offset = overrideOffset || ( icon && icon.offset );
 			bgsize = overrideBgsize || ( icon && icon.bgsize ) || '16px';
 
-			// If we use apostrophes in background-image, we must escape apostrophes in path (just to be sure). (#13361)
+			// If we use apostrophes in background-image, we must escape apostrophes in path (just to be sure). (https://dev.ckeditor.com/ticket/13361)
 			if ( path )
 				path = path.replace( /'/g, '\\\'' );
 
@@ -347,4 +347,24 @@
  * @method chameleon
  * @param {String} editor The editor instance that the color changes apply to.
  * @param {String} part The name of the skin part where the color changes take place.
+ */
+
+/**
+ * To help implement browser-specific "hacks" to the skin files and make it easy to maintain,
+ * it is possible to have dedicated files for such browsers. The browser files must be named after the main file names,
+ * appended by an underscore and the browser name (e.g. `editor_ie.css`, `editor_ie8.css`). The accepted browser names
+ * must match the {@link CKEDITOR.env} properties. You can find more information about browser "hacks" in the
+ * {@glink guide/skin_sdk_browser_hacks Dedicated Browser Hacks} guide.
+ *
+ *		CKEDITOR.skin.ua_editor = 'ie,iequirks,ie8,gecko';
+ *
+ * @property {String} ua_editor
+ */
+
+/**
+ * Similar to {@link #ua_editor} but used for dialog stylesheets.
+ *
+ *		CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie8,gecko';
+ *
+ * @property {String} ua_dialog
  */

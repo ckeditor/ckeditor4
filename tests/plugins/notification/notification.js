@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: toolbar,undo,notification */
 
 'use strict';
@@ -440,5 +440,16 @@ bender.test( {
 		assert.isTrue( listener.calledOnce );
 
 		assertNotifications( editor, [ { message: 'Foo', type: 'info', alert: true } ] );
+	},
+
+	// #1057
+	'test Notification should not leak the global scope': function() {
+		// Web Notification Api is not supported by IE.
+		if ( typeof Notification === 'undefined' ) {
+			return assert.pass();
+		}
+
+		assert.isFunction( Notification );
+		assert.beautified.js( 'function Notification() { [native code] }', Notification.toString() );
 	}
 } );

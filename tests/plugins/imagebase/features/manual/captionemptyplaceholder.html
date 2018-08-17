@@ -1,0 +1,30 @@
+<div id="editor1">
+	<p>First image:</p>
+	<figure>
+		<img src="../../../image2/_assets/foo.png" alt="foo">
+		<figcaption>Test caption</figcaption>
+	</figure>
+	<p>Second image:</p>
+	<figure>
+		<img src="../../../image2/_assets/foo.png" alt="foo">
+		<figcaption></figcaption>
+	</figure>
+</div>
+
+<script>
+	if ( easyImageTools.isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		on: {
+			pluginsLoaded: function( evt ) {
+				var editor = evt.editor,
+					plugin = CKEDITOR.plugins.imagebase;
+
+				plugin.addImageWidget( editor, 'testWidget', plugin.addFeature( editor, 'caption', {} ) );
+			}
+		},
+		height: 500
+	} );
+</script>

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: toolbar,button,entities,dialog,table */
 
 ( function() {
@@ -28,7 +28,7 @@
 				dialog.hide();
 
 				wait( function() {
-					// #8337: check cursor position after hand.
+					// https://dev.ckeditor.com/ticket/8337: check cursor position after hand.
 					var output = bender.tools.getHtmlWithSelection( bot.editor );
 					output = bender.tools.fixHtml( bender.tools.compatHtml( output ) );
 					var expected = bender.tools.compatHtml( bender.tools.getValueAsHtml( 'create-table' ) );
@@ -93,7 +93,7 @@
 			} );
 		},
 
-		// #12110.
+		// https://dev.ckeditor.com/ticket/12110.
 		'test delete table directly in inline editor': function() {
 			var bot = this.editorBots.inline,
 				editable = bot.editor.editable();
@@ -111,6 +111,40 @@
 
 			assert.isTrue( CKEDITOR.document.getBody().contains( editable ), 'Editable should not be removed' );
 			assert.areEqual( '', bot.editor.getData() );
+		},
+
+		// (#566)
+		'test html border attribute behaviour when CSS border is 0': function() {
+			var bot = this.editorBots.editor;
+
+			bot.setHtmlWithSelection(
+				'<table border="0" style="border:0px solid #ff0000">' +
+					'<tbody>' +
+						'<tr>' +
+							'<td></td>' +
+							'<td>x^x</td>' +
+						'</tr>' +
+					'</tbody>' +
+				'</table>' );
+
+			assert.isTrue( /border="0"/.test( bot.editor.getData() ), 'Border attribute should be zero' );
+		},
+
+		// (#566)
+		'test html border attribute behaviour when CSS border is not  0': function() {
+			var bot = this.editorBots.editor;
+
+			bot.setHtmlWithSelection(
+				'<table border="0" style="border:6px solid #ff0000">' +
+					'<tbody>' +
+						'<tr>' +
+							'<td></td>' +
+							'<td>x^x</td>' +
+						'</tr>' +
+					'</tbody>' +
+				'</table>' );
+
+			assert.isTrue( /border="1"/.test( bot.editor.getData() ), 'Border attribute should be one' );
 		}
 	} );
 

@@ -1,11 +1,11 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'ro', {
-	border: 'Show frame border', // MISSING
-	noUrl: 'Please type the iframe URL', // MISSING
-	scrolling: 'Enable scrollbars', // MISSING
-	title: 'IFrame Properties', // MISSING
-	toolbar: 'IFrame' // MISSING
+	border: 'Arată bordura chenarului',
+	noUrl: 'Te rog scrie URL-ul iframe-ului',
+	scrolling: 'Permite bare de defilare',
+	title: 'Proprietăți IFrame',
+	toolbar: 'IFrame'
 } );

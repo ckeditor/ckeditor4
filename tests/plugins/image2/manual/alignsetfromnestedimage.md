@@ -1,4 +1,4 @@
-@bender-tags: 4.5.0, tc, widget, image2
+@bender-tags: 4.5.0, bug, widget, image2
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, image2, link
 

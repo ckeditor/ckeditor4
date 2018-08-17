@@ -1,14 +1,14 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image', 'ro', {
 	alt: 'Text alternativ',
 	border: 'Margine',
 	btnUpload: 'Trimite la server',
-	button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
+	button2Img: 'Buton imagine în imagine normală',
 	hSpace: 'HSpace',
-	img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
+	img2Button: 'Imagine în buton imagine',
 	infoTab: 'Informaţii despre imagine',
 	linkTab: 'Link (Legătură web)',
 	lockRatio: 'Păstrează proporţiile',
@@ -19,7 +19,7 @@ CKEDITOR.plugins.setLang( 'image', 'ro', {
 	upload: 'Încarcă',
 	urlMissing: 'Sursa URL a imaginii lipsește.',
 	vSpace: 'VSpace',
-	validateBorder: 'Bordura trebuie să fie un număr întreg.',
-	validateHSpace: 'Hspace trebuie să fie un număr întreg.',
-	validateVSpace: 'Vspace trebuie să fie un număr întreg.'
+	validateBorder: 'Bordura trebuie să fie număr întreg.',
+	validateHSpace: 'Hspace trebuie să fie număr întreg.',
+	validateVSpace: 'Vspace trebuie să fie număr întreg.'
 } );

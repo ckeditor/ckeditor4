@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'ru', {
 	acccessKey: 'Клавиша доступа',
@@ -19,7 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'ru', {
 	anchorName: 'По имени',
 	charset: 'Кодировка ресурса',
 	cssClasses: 'Классы CSS',
-	download: 'Force Download', // MISSING
+	download: 'Скачать как файл',
 	displayText: 'Отображаемый текст',
 	emailAddress: 'Email адрес',
 	emailBody: 'Текст сообщения',

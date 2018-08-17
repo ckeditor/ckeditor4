@@ -1,12 +1,9 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'about', 'pl', {
 	copy: 'Copyright &copy; $1. Wszelkie prawa zastrzeżone.',
-	dlgTitle: 'Informacje o programie CKEditor',
-	help: 'Pomoc znajdziesz w $1.',
-	moreInfo: 'Informacje na temat licencji można znaleźć na naszej stronie:',
-	title: 'Informacje o programie CKEditor',
-	userGuide: 'podręczniku użytkownika programu CKEditor'
+	dlgTitle: 'Informacje o programie CKEditor 4',
+	moreInfo: 'Informacje na temat licencji można znaleźć na naszej stronie:'
 } );

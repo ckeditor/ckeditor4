@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 ( function() {
 	'use strict';
@@ -53,7 +53,7 @@
 					htmlParse( '<span class="outer"><span data-cke-survive="true">text</span>text</span>' ) );
 		},
 
-		// Attribute name may contains hypen and dot.(#4351)
+		// Attribute name may contains hypen and dot.(https://dev.ckeditor.com/ticket/4351)
 		// Ref: http://www.w3.org/TR/xml/#NT-Name
 		test_fromHtml_attribute_name: function() {
 			var html = '<p attr-name="value" attr_name="value" attr.name="value" attr:name="value">text</p>';
@@ -63,14 +63,14 @@
 		},
 
 		// Test white-spaces inside inline elements are well preserved, while
-		// white-spaces before block-level elements are trimmed. (#4656)
+		// white-spaces before block-level elements are trimmed. (https://dev.ckeditor.com/ticket/4656)
 		test_trim_whitespaces: function() {
 			assert.areSame( '<div>some <strong>bold</strong> text<p>paragraph</p></div>',
 				htmlParse( '<div>some <strong>bold</strong> text <p>\nparagraph</p></div>' ),
 				'White-spaces don\'t match.' );
 		},
 
-		// Attributes may have the < or > character. (#7513)
+		// Attributes may have the < or > character. (https://dev.ckeditor.com/ticket/7513)
 		test_lt_gt_on_attributes: function() {
 			assert.areSame( '<p title="a &lt; b &gt; c" class="test">Sample</p>',
 				htmlParse( '<p title="a < b > c" class="test">Sample</p>' ) );
@@ -312,7 +312,7 @@
 			}
 		},
 
-		// #13680
+		// https://dev.ckeditor.com/ticket/13680
 		'test header elements in summary tag': function() {
 			assert.areSame( '<summary><h2>Summary</h2></summary>',
 				htmlParse( '<summary><h2>Summary</h2></summary>' ) );

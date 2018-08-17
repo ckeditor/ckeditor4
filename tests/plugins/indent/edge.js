@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: list,indentblock,indentlist */
 
 bender.editor = {
@@ -13,7 +13,7 @@ var tests = {};
 // These tests simply set the input and ouput HTML expected for the
 // indent or outdent command exection.
 
-// #7566
+// https://dev.ckeditor.com/ticket/7566
 addTests( 'test indent on list item with text direction', 'indent', [
 	[
 		'<ol dir="rtl"><li>a<ol dir="ltr"><li dir="ltr">b</li></ol></li><li>[c]</li></ol>',
@@ -21,7 +21,7 @@ addTests( 'test indent on list item with text direction', 'indent', [
 	]
 ] );
 
-// #7907
+// https://dev.ckeditor.com/ticket/7907
 addTests( 'test outdent on list item with direction', 'outdent', [
 	[
 		'<ul dir="rtl"><li><p>^foo</p></li></ul>',
@@ -49,7 +49,7 @@ addTests( 'test outdent on list item with direction', 'outdent', [
 	]
 ] );
 
-// #7907
+// https://dev.ckeditor.com/ticket/7907
 addTests( 'test outdent on list item with styles', 'outdent', [
 	[
 		'<ul><li style="text-align:left;" class="alignleft"><p>^foo</p></li></ul>',
@@ -77,7 +77,7 @@ addTests( 'test outdent on list item with styles', 'outdent', [
 	]
 ] );
 
-// #8087
+// https://dev.ckeditor.com/ticket/8087
 addTests( 'test indent list items in RLT list', 'indent', [
 	[
 		'<ul dir="rtl"><li>1</li><li>[2</li><li>3]</li><li>4</li></ul>',
@@ -85,7 +85,7 @@ addTests( 'test indent list items in RLT list', 'indent', [
 	]
 ] );
 
-// #9057
+// https://dev.ckeditor.com/ticket/9057
 addTests( 'test decrease nest list keeps inline style on list element', 'outdent', [
 	[
 		'<ul><li>foo<ul><li style="text-align:right">^bar</li></ul></li></ul>',
@@ -94,7 +94,7 @@ addTests( 'test decrease nest list keeps inline style on list element', 'outdent
 ] );
 
 
-// #9063
+// https://dev.ckeditor.com/ticket/9063
 addTests( 'test outdent nest list keeps styles on list root', 'outdent', [
 	[
 		'<ul style="font-size:10px"><li>[foo <ul style="font-size:24px"><li>bar]</li></ul></li></ul>',
@@ -102,7 +102,7 @@ addTests( 'test outdent nest list keeps styles on list root', 'outdent', [
 	]
 ] );
 
-// #12141
+// https://dev.ckeditor.com/ticket/12141
 // { indentBlock: true, hasParagraph: false, caretAtFirst: true }
 addTests( 'test indent add margin to the whole list when items are not wrapped in paragraph and caret is in the first one', 'indent', [
 	[
@@ -111,7 +111,7 @@ addTests( 'test indent add margin to the whole list when items are not wrapped i
 	]
 ] );
 
-// #12141
+// https://dev.ckeditor.com/ticket/12141
 // { indentBlock: true, hasParagraph: false, caretAtFirst: false }
 addTests( 'test indent nests list item when items are not wrapped in paragraph and caret is in the second one', 'indent', [
 	[
@@ -120,7 +120,7 @@ addTests( 'test indent nests list item when items are not wrapped in paragraph a
 	]
 ] );
 
-// #12141
+// https://dev.ckeditor.com/ticket/12141
 // { indentBlock: true, hasParagraph: true, caretAtFirst: true }
 addTests( 'test indent add margin to the whole list when items are wrapped in paragraph and caret is in the first one', 'indent', [
 	[
@@ -129,7 +129,7 @@ addTests( 'test indent add margin to the whole list when items are wrapped in pa
 	]
 ] );
 
-// #12141
+// https://dev.ckeditor.com/ticket/12141
 // { indentBlock: true, hasParagraph: true, caretAtFirst: false }
 addTests( 'test indent nest list item when items are wrapped in paragraph and caret is in the second one', 'indent', [
 	[

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: list,indentlist */
 
 bender.editor = {
@@ -11,25 +11,25 @@ bender.editor = {
 
 var tests = {};
 
-// #12141
+// https://dev.ckeditor.com/ticket/12141
 // { indentBlock: false, hasParagraph: false, caretAtFirst: true }
 addTests( 'test indent does nothing when items are not wrapped in paragraph and caret is in the first one', 'indent', [
 	[ '<ul><li>f^oo</li><li>bar</li></ul>', '<ul><li>foo</li><li>bar</li></ul>' ]
 ] );
 
-// #12141
+// https://dev.ckeditor.com/ticket/12141
 // { indentBlock: false, hasParagraph: false, caretAtFirst: false }
 addTests( 'test indent does not remove second list item when items are not wrapped in paragraph and caret is in the second one', 'indent', [
 	[ '<ul><li>foo</li><li>b^ar</li></ul>', '<ul><li>foo<ul><li>bar</li></ul></li></ul>' ]
 ] );
 
-// #12141
+// https://dev.ckeditor.com/ticket/12141
 // { indentBlock: false, hasParagraph: true, caretAtFirst: true }
 addTests( 'test indent does not make changes when items are wrapped in paragraph and caret is in the first one', 'indent', [
 	[ '<ul><li><p>f^oo</p></li><li><p>bar</p></li></ul>', '<ul><li><p>foo</p></li><li><p>bar</p></li></ul>' ]
 ] );
 
-// #12141
+// https://dev.ckeditor.com/ticket/12141
 // { indentBlock: false, hasParagraph: true, caretAtFirst: false }
 addTests( 'test indent nests list when items are wrapped in paragraph and caret is in the second one', 'indent', [
 	[ '<ul><li><p>foo</p></li><li><p>b^ar</p></li></ul>', '<ul><li><p>foo</p><ul><li><p>bar</p></li></ul></li></ul>' ]

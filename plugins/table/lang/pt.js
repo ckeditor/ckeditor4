@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'pt', {
 	border: 'Tamanho do contorno',
@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 		wordWrap: 'Moldar texto',
 		hAlign: 'Alinhamento horizontal',
 		vAlign: 'Alinhamento vertical',
-		alignBaseline: 'Base',
+		alignBaseline: 'Linha base',
 		bgColor: 'Cor de fundo',
 		borderColor: 'Cor da margem',
 		data: 'Dados',
@@ -31,7 +31,7 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 		no: 'Não',
 		invalidWidth: 'A largura da célula deve ser um número.',
 		invalidHeight: 'A altura da célula deve ser um número.',
-		invalidRowSpan: 'As filas da célula deve ter um número inteiro.',
+		invalidRowSpan: 'As linhas da célula devem ser um número inteiro.',
 		invalidColSpan: 'As colunas da célula devem ter um número inteiro.',
 		chooseColor: 'Escolher'
 	},

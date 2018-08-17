@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: wysiwygarea, htmlwriter */
 bender.test( {
 	'test extra line break': function() {

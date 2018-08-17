@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 CKEDITOR.addCss( 'p{float:left;}' );
 

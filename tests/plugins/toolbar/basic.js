@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: floatingspace,toolbar,basicstyles,list,link,about */
 
 function testToolbarExpanded( bot ) {

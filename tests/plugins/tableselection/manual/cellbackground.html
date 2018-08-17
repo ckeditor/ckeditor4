@@ -1,0 +1,20 @@
+<div id="editor1">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>aa</td>
+				<td style="background-color: blue">bb</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>&nbsp;</p>
+</div>
+
+<script>
+	if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1' );
+</script>

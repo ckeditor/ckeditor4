@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 'use strict';
@@ -11,7 +11,7 @@ window.FormData = function() {
 	var total, uploadedFilename;
 	return {
 		append: function( name, file, filename ) {
-			if ( name == 'upload' ) {
+			if ( CKEDITOR.tools.array.indexOf( [ 'upload', 'file' ], name ) !== -1 ) {
 				total = file.size;
 				uploadedFilename = filename;
 			}
@@ -31,6 +31,8 @@ window.XMLHttpRequest = function() {
 
 	return {
 		open: function() {},
+
+		setRequestHeader: function() {},
 
 		upload: {},
 

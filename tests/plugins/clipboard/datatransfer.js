@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,clipboard,13690 */
+/* bender-tags: editor,clipboard,13690 */
 /* bender-ckeditor-plugins: toolbar,clipboard */
 /* bender-include: _helpers/pasting.js */
 
@@ -6,7 +6,11 @@
 
 var htmlMatchOpts = {
 		fixStyles: true
-	};
+	},
+	/* jshint -W100, -W113 */
+	// An example of garbage string sometimes appended to Chrome.
+	garbage = ';\��VN�';
+	/* jshint +W100, +W113 */
 
 bender.editors = {
 	editor1: {
@@ -32,21 +36,34 @@ bender.test( {
 	'test id': function() {
 		var nativeData1 = bender.tools.mockNativeDataTransfer(),
 			nativeData2 = bender.tools.mockNativeDataTransfer(),
-			dataTransfer1a = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 ),
-			dataTransfer1b = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 ),
-			dataTransfer2 = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData2 );
+			dataTransfer1a,
+			dataTransfer1b,
+			dataTransfer2;
+
+		// Setting id was moved from dataTransfer constructor to functions which initialize dataTransfer object
+		// only on specific events so we need to simulate these behaviour here too (#962).
+		dataTransfer1a = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 );
+		dataTransfer1a.storeId();
+
+		dataTransfer1b = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 );
+		dataTransfer1b.storeId();
+
+		dataTransfer2 = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData2 );
+		dataTransfer2.storeId();
 
 		assert.areSame( dataTransfer1a.id, dataTransfer1b.id, 'Ids for object based on the same event should be the same.' );
 
 		// In IE we can not use any data type besides text, so id is fixed.
-		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported )
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			assert.areNotSame( dataTransfer1a.id, dataTransfer2.id, 'Ids for object based on different events should be different.' );
+		}
 	},
 
 	'test internal drag drop': function() {
 		var bot = this.editorBots.editor1,
 			editor = this.editors.editor1,
-			nativeData, dataTransfer;
+			nativeData,
+			dataTransfer;
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
@@ -85,7 +102,8 @@ bender.test( {
 
 	'test drop text from external source': function() {
 		var editor = this.editors.editor1,
-			nativeData, dataTransfer;
+			nativeData,
+			dataTransfer;
 
 		nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'Text', 'x<b>foo</b>x' );
@@ -104,7 +122,8 @@ bender.test( {
 	'test drop html from external source': function() {
 		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
 			editor = this.editors.editor1,
-			nativeData, dataTransfer;
+			nativeData,
+			dataTransfer;
 
 		nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'Text', 'bar' );
@@ -127,7 +146,8 @@ bender.test( {
 		var bot1 = this.editorBots.editor1,
 			editor1 = this.editors.editor1,
 			editor2 = this.editors.editor2,
-			nativeData, dataTransfer;
+			nativeData,
+			dataTransfer;
 
 		bot1.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
@@ -357,12 +377,257 @@ bender.test( {
 		assert.areSame( '', dataTransfer.getData( 'Text' ) );
 	},
 
+	// https://dev.ckeditor.com/ticket/16847
+	'test getData with getNative flag': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var html = '<html>' +
+				'<head>' +
+					'<meta charset="UTF-8">' +
+					'<meta name="foo" content=bar>' +
+					'<STYLE>h1 { color: red; }</style>' +
+				'</head>' +
+				'<BODY>' +
+					'<!--StartFragment--><p>Foo</p>' +
+					'<p>Bar</p><!--EndFragment-->' +
+				'</body>' +
+			'</html>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', html );
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
+	},
+
+	// https://dev.ckeditor.com/ticket/16847
+	'test getData with getNative flag after caching': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var html = '<html>' +
+				'<head>' +
+					'<meta charset="UTF-8">' +
+					'<meta name="foo" content=bar>' +
+					'<STYLE>h1 { color: red; }</style>' +
+				'</head>' +
+				'<BODY>' +
+					'<!--StartFragment--><p>Foo</p>' +
+					'<p>Bar</p><!--EndFragment-->' +
+				'</body>' +
+			'</html>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', html );
+		dataTransfer.cacheData();
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
+	},
+
+	// (#1223)
+	'test asynchronous getData after caching': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var html = '<html>' +
+			'<head>' +
+			'<meta charset="UTF-8">' +
+			'<meta name="foo" content=bar>' +
+			'<STYLE>h1 { color: red; }</style>' +
+			'</head>' +
+			'<BODY>' +
+			'<!--StartFragment--><p>Foo</p>' +
+			'<p>Bar</p><!--EndFragment-->' +
+			'</body>' +
+			'</html>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', html );
+		dataTransfer.cacheData();
+
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored data.
+		nativeData.clearData( 'text/html' );
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
+		assert.areSame( '<p>Foo</p><p>Bar</p>', dataTransfer.getData( 'text/html' ) );
+	},
+
+	// (#1223)
+	'test asynchronous HTML getData with change': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', '<p>foo bar baz</p>' );
+		dataTransfer.setData( 'text/html', '<h1>foobar</h1>' );
+
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored data.
+		nativeData.clearData( 'text/html' );
+
+		assert.areSame( '<h1>foobar</h1>', dataTransfer.getData( 'text/html', true ) );
+	},
+
+	// (#1223)
+	'test asynchronous HTML getData with change after cache': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var html = '<html>' +
+			'<head>' +
+			'<meta charset="UTF-8">' +
+			'<meta name="foo" content=bar>' +
+			'<STYLE>h1 { color: red; }</style>' +
+			'</head>' +
+			'<BODY>' +
+			'<!--StartFragment--><p>Foo</p>' +
+			'<p>Bar</p><!--EndFragment-->' +
+			'</body>' +
+			'</html>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', '<h1>foobar</h1>' );
+		dataTransfer.cacheData();
+		dataTransfer.setData( 'text/html', html );
+
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored data.
+		nativeData.clearData( 'text/html' );
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
+	},
+
+	'test asynchronous full HTML overwrite (with cached data)': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var html = '<html>' +
+			'<head></head>' +
+			'<BODY>' +
+			'<!--StartFragment--><p>Foo</p>' +
+			'<p>Bar</p><!--EndFragment-->' +
+			'</body>' +
+			'</html>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', '<h1>foobar</h1>' );
+		dataTransfer.cacheData();
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored data.
+		nativeData.clearData( 'text/html' );
+
+		// Change HTML value after original data transfer is no longer available.
+		dataTransfer.setData( 'text/html', html );
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ), 'Native HTML' );
+		assert.areSame( '<p>Foo</p><p>Bar</p>', dataTransfer.getData( 'text/html' ), 'Inner HTML' );
+	},
+
+	'test asynchronous simple HTML overwrite (with cached data)': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var html = '<p>Foo</p><p>Bar</p>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', '<h1>foobar</h1>' );
+		dataTransfer.cacheData();
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored data.
+		nativeData.clearData( 'text/html' );
+
+		// Change HTML value after original data transfer is no longer available.
+		dataTransfer.setData( 'text/html', html );
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ), 'Native HTML' );
+		assert.areSame( html, dataTransfer.getData( 'text/html' ), 'Inner HTML' );
+	},
+
+	// https://dev.ckeditor.com/ticket/16847
+	'test getData with filter after caching': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var html = '<html>' +
+				'<head>' +
+					'<meta charset="UTF-8">' +
+					'<meta name="foo" content=bar>' +
+					'<STYLE>h1 { color: red; }</style>' +
+				'</head>' +
+				'<BODY>' +
+					'<!--StartFragment--><p>Foo</p>' +
+					'<p>Bar</p><!--EndFragment-->' +
+				'</body>' +
+			'</html>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', html );
+		dataTransfer.cacheData();
+
+		assert.areSame( '<p>Foo</p><p>Bar</p>', dataTransfer.getData( 'text/html' ) );
+	},
+
+	// https://dev.ckeditor.com/ticket/16847
+	'test filtering unwanted content with getNative': function() {
+		// Chrome tends to put unwanted artifacts at the end of data transfer, see
+		// https://bugs.chromium.org/p/chromium/issues/detail?id=696978
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var html = '<html>' +
+				'<body>Foo</body>' +
+			'</html>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', html + garbage );
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
+	},
+
+	// https://dev.ckeditor.com/ticket/16847
+	'test filtering unwanted content with getNative and cacheData': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var html = '<html>' +
+				'<body>Foo</body>' +
+			'</html>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer;
+
+		nativeData.setData( 'text/html', html + garbage );
+
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+		dataTransfer.cacheData();
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
+	},
+
 	'test cacheData': function() {
 		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
 			// Emulate native clipboard.
 			nativeData = bender.tools.mockNativeDataTransfer();
 
-		if ( isCustomDataTypesSupported ) {
+		// This test uses mocked `setData` which does not apply fallback
+		// for Edge >= 16 (because it skips `CKEDITOR.plugins.clipboard.dataTransfer` wrapper)
+		// so it works as if `isCustomDataTypesSupported` flag was turned off for Edge (#962).
+		if ( isCustomDataTypesSupported && !CKEDITOR.env.edge ) {
 			nativeData.setData( 'text/html', 'foo' );
 			nativeData.setData( 'text/plain', 'bom' );
 			nativeData.setData( 'cke/custom', 'bar' );
@@ -381,8 +646,8 @@ bender.test( {
 		nativeData.setData = throwPermissionDenied;
 		nativeData.getData = throwPermissionDenied;
 
-		// Assert
-		if ( isCustomDataTypesSupported ) {
+		// Assert. Edge browser case same as above (#962).
+		if ( isCustomDataTypesSupported && !CKEDITOR.env.edge ) {
 			assert.areSame( 'foo', dataTransfer.getData( 'text/html' ) );
 			assert.areSame( 'bom', dataTransfer.getData( 'text/plain' ) );
 			assert.areSame( 'bar', dataTransfer.getData( 'cke/custom' ) );
@@ -431,12 +696,8 @@ bender.test( {
 		assert.isUndefined( dataTransfer.getFile( 2 ) );
 	},
 
-	// #12961
+	// https://dev.ckeditor.com/ticket/12961
 	'test file in items': function() {
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-			assert.ignore();
-		}
-
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
 			file = { type: 'type' };
@@ -452,7 +713,7 @@ bender.test( {
 		assert.isUndefined( dataTransfer.getFile( 1 ) );
 	},
 
-	// #12961
+	// https://dev.ckeditor.com/ticket/12961
 	'test file in items with error': function() {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
 			assert.ignore();
@@ -471,7 +732,7 @@ bender.test( {
 		assert.isUndefined( dataTransfer.getFile( 0 ) );
 	},
 
-	// #12961
+	// https://dev.ckeditor.com/ticket/12961
 	'test file in items and files': function() {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
 			assert.ignore();
@@ -520,12 +781,8 @@ bender.test( {
 		assert.isFalse( !!dataTransfer.getFile( 2 ) );
 	},
 
-	// #12961
+	// https://dev.ckeditor.com/ticket/12961
 	'test file in items with cache': function() {
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-			assert.ignore();
-		}
-
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
 			file = { type: 'type' };
@@ -550,7 +807,7 @@ bender.test( {
 		assert.isUndefined( dataTransfer.getFile( 1 ) );
 	},
 
-	// #12961
+	// https://dev.ckeditor.com/ticket/12961
 	'test file in items and files with cache': function() {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
 			assert.ignore();
@@ -568,7 +825,6 @@ bender.test( {
 
 		nativeData.files.push( 'foo' );
 
-		// debugger;
 		dataTransfer.cacheData();
 
 		assert.areSame( 1, dataTransfer.getFilesCount() );
@@ -693,9 +949,9 @@ bender.test( {
 	'test initDragDataTransfer binding': function() {
 		var nativeData1 = bender.tools.mockNativeDataTransfer(),
 			nativeData2 = bender.tools.mockNativeDataTransfer(),
-			evt1a = { data: { $: { dataTransfer: nativeData1 } } },
-			evt1b = { data: { $: { dataTransfer: nativeData1 } } },
-			evt2 = { data: { $: { dataTransfer: nativeData2 } } };
+			evt1a = { data: { $: { dataTransfer: nativeData1 } }, name: 'dragstart' },
+			evt1b = { data: { $: { dataTransfer: nativeData1 } }, name: 'dragstart' },
+			evt2 = { data: { $: { dataTransfer: nativeData2 } }, name: 'dragstart' };
 
 		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1a );
 		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1b );
@@ -772,9 +1028,9 @@ bender.test( {
 
 		var nativeData1 = bender.tools.mockNativeDataTransfer(),
 			nativeData2 = bender.tools.mockNativeDataTransfer(),
-			evt1 = { data: { $: { clipboardData: nativeData1 } } },
-			evt2 = { data: { $: { clipboardData: nativeData1 } } },
-			evt3 = { data: { $: { clipboardData: nativeData2 } } },
+			evt1 = { data: { $: { clipboardData: nativeData1 } }, name: 'copy' },
+			evt2 = { data: { $: { clipboardData: nativeData1 } }, name: 'copy' },
+			evt3 = { data: { $: { clipboardData: nativeData2 } }, name: 'copy' },
 			dataTransfer1 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt1 ),
 			dataTransfer2 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt2 ),
 			dataTransfer3 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt3 );
@@ -830,5 +1086,112 @@ bender.test( {
 				text: isCustomDataTypesSupported ? 'xfoox' : '',
 				html: 'x<b>foo</b>x'	},
 		dataTransfer );
+	},
+
+	// (#962)
+	'test new dataTransfer id is created for copy/cut/dragstart events': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+			assert.ignore();
+		}
+
+		var nativeData1 = bender.tools.mockNativeDataTransfer(),
+			nativeData2 = bender.tools.mockNativeDataTransfer(),
+			nativeData3 = bender.tools.mockNativeDataTransfer(),
+			evt1 = { data: { $: { clipboardData: nativeData1 } }, name: 'copy' },
+			evt2 = { data: { $: { clipboardData: nativeData2 } }, name: 'cut' },
+			evt3 = { data: { $: { dataTransfer: nativeData3 } }, name: 'dragstart' },
+			dataTransfer1 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt1 ),
+			dataTransfer2 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt2 ),
+			dtFallback1 = dataTransfer1._.fallbackDataTransfer,
+			dtFallback2 = dataTransfer2._.fallbackDataTransfer,
+			dataTransfer3,
+			dtFallback3;
+
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt3 );
+		dataTransfer3 = evt3.data.dataTransfer;
+		dtFallback3 = dataTransfer3._.fallbackDataTransfer;
+
+		// Check if ids are not empty.
+		assert.isTrue( dataTransfer1.id.length > 0, 'dataTransfer1 id is not empty' );
+		assert.isTrue( dataTransfer2.id.length > 0, 'dataTransfer2 id is not empty' );
+		assert.isTrue( dataTransfer3.id.length > 0, 'dataTransfer3 id is not empty' );
+
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && !CKEDITOR.env.edge ) {
+			assert.areSame( dataTransfer1.id, nativeData1.getData( 'cke/id' ), 'cke/id type holds dataTransfer1 id' );
+			assert.areSame( dataTransfer2.id, nativeData2.getData( 'cke/id' ), 'cke/id type holds dataTransfer2 id' );
+			assert.areSame( dataTransfer3.id, nativeData3.getData( 'cke/id' ), 'cke/id type holds dataTransfer3 id' );
+		} else {
+			assert.areSame( dataTransfer1.id,
+				dtFallback1._extractDataComment( nativeData1.getData( dtFallback1._customDataFallbackType ) ).data[ 'cke/id' ],
+				'cke/id custom data holds dataTransfer1 id' );
+
+			assert.areSame( dataTransfer2.id,
+				dtFallback2._extractDataComment( nativeData2.getData( dtFallback2._customDataFallbackType ) ).data[ 'cke/id' ],
+				'cke/id custom data holds dataTransfer2 id' );
+
+			assert.areSame( dataTransfer3.id,
+				dtFallback3._extractDataComment( nativeData3.getData( dtFallback3._customDataFallbackType ) ).data[ 'cke/id' ],
+				'cke/id custom data holds dataTransfer3 id' );
+		}
+	},
+
+	// (#962)
+	'test no new dataTransfer id is created for paste/drop/dragend events': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+			assert.ignore();
+		}
+
+		var nativeData1 = bender.tools.mockNativeDataTransfer(),
+			nativeData2 = bender.tools.mockNativeDataTransfer(),
+			nativeData3 = bender.tools.mockNativeDataTransfer(),
+			evt1 = { data: { $: { clipboardData: nativeData1 } }, name: 'paste' },
+			evt2 = { data: { $: { dataTransfer: nativeData2 } }, name: 'drop' },
+			evt3 = { data: { $: { dataTransfer: nativeData3 } }, name: 'dragend' },
+			dataTransfer1 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt1 ),
+			dataTransfer2,
+			dataTransfer3;
+
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt2 );
+		dataTransfer2 = evt2.data.dataTransfer;
+
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt3 );
+		dataTransfer3 = evt3.data.dataTransfer;
+
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && !CKEDITOR.env.edge ) {
+			assert.areSame( '', nativeData1.getData( 'cke/id' ), 'dataTransfer1 id is empty' );
+			assert.areSame( '', nativeData2.getData( 'cke/id' ), 'dataTransfer2 id is empty' );
+			assert.areSame( '', nativeData3.getData( 'cke/id' ), 'dataTransfer2 id is empty' );
+		} else {
+			// As dataTransfer id is stored in `customDataFallbackType` ('text/html' mime type), we just check if it is empty.
+			assert.areSame( '',
+				nativeData1.getData( dataTransfer1._.fallbackDataTransfer._customDataFallbackType ), 'dataTransfer1 id is empty' );
+			assert.areSame( '',
+				nativeData2.getData( dataTransfer2._.fallbackDataTransfer._customDataFallbackType ), 'dataTransfer2 id is empty' );
+			assert.areSame( '',
+				nativeData2.getData( dataTransfer3._.fallbackDataTransfer._customDataFallbackType ), 'dataTransfer2 id is empty' );
+		}
+	},
+
+	'test if cache is initialized on dataTransfer creation': function() {
+		var cache = new CKEDITOR.plugins.clipboard.dataTransfer()._.data;
+
+		assert.isObject( cache, 'cache should be initialized' );
+	},
+
+	'test if different dataTransfer objects has different caches': function() {
+		var dt1 = new CKEDITOR.plugins.clipboard.dataTransfer(),
+			dt2 = new CKEDITOR.plugins.clipboard.dataTransfer();
+
+		assert.isObject( dt1._.data, 'cache should be initialized' );
+		assert.isTrue( dt1._.data !== dt2._.data, 'caches should not be equal' );
+	},
+
+	// (#1299)
+	'test dataTransfer._stripHtml empty values': function() {
+		var dt1 = new CKEDITOR.plugins.clipboard.dataTransfer();
+
+		assert.areSame( '', dt1._stripHtml( '' ), 'Empty html' );
+		assert.isUndefined( dt1._stripHtml( undefined ), 'Undefined' );
+		assert.isNull( dt1._stripHtml( null ), 'Null' );
 	}
 } );

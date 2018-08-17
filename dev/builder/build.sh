@@ -1,6 +1,6 @@
-#!/bin/bash
-# Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.md or http://ckeditor.com/license
+﻿#!/bin/bash
+# Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 # Build CKEditor using the default settings (and build.js).
 
@@ -9,8 +9,8 @@ set -e
 echo "CKBuilder - Builds a release version of ckeditor-dev."
 echo ""
 
-CKBUILDER_VERSION="2.3.1"
-CKBUILDER_URL="http://download.cksource.com/CKBuilder/$CKBUILDER_VERSION/ckbuilder.jar"
+CKBUILDER_VERSION="2.3.2"
+CKBUILDER_URL="https://download.cksource.com/CKBuilder/$CKBUILDER_VERSION/ckbuilder.jar"
 
 PROGNAME=$(basename $0)
 MSG_UPDATE_FAILED="Warning: The attempt to update ckbuilder.jar failed. The existing file will be used."
@@ -57,18 +57,17 @@ echo "Starting CKBuilder..."
 
 JAVA_ARGS=${ARGS// -t / } # Remove -t from args.
 
-VERSION="4.7.0 DEV"
+VERSION=$(grep '"version":' ./../../package.json | sed $'s/[\t\",: ]//g; s/version//g' | tr -d '[[:space:]]')
 REVISION=$(git rev-parse --verify --short HEAD)
-SEMVER_REGEX="^([0-9]+)\.([0-9]+)\.([0-9]+)(\-[0-9A-Za-z-]+)?(\+[0-9A-Za-z-]+)?$"
 
-# Get version number from tag (if available and follows semantic versioning principles).
-# Use 2>/dev/null to block "fatal: no tag exactly matches", true is needed because of "set -e".
-TAG=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match 2>/dev/null) || true
-# "Git Bash" does not support regular expressions.
-if echo $TAG | grep -E "$SEMVER_REGEX" > /dev/null
+# If the current revision is not tagged with any CKE version, it means it's a "dirty" build. We
+# mark such builds with a " DEV" suffix. true is needed because of "set -e".
+TAG=$(git tag --points-at HEAD) || true
+
+# This fancy construction check str length of $TAG variable.
+if [ ${#TAG} -le 0 ];
 then
-	echo "Setting version to $TAG"
-	VERSION=$TAG
+	VERSION="$VERSION DEV"
 fi
 
 java -jar ckbuilder/$CKBUILDER_VERSION/ckbuilder.jar --build ../../ release $JAVA_ARGS --version="$VERSION" --revision="$REVISION" --overwrite

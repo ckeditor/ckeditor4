@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'hr', {
 	border: 'Veličina okvira',
@@ -28,7 +28,7 @@ CKEDITOR.plugins.setLang( 'table', 'hr', {
 		data: 'Podatak',
 		header: 'Zaglavlje',
 		yes: 'Da',
-		no: 'ne',
+		no: 'Ne',
 		invalidWidth: 'Širina ćelije mora biti broj.',
 		invalidHeight: 'Visina ćelije mora biti broj.',
 		invalidRowSpan: 'Rows span mora biti cijeli broj.',

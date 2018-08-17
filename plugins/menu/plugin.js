@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.add( 'menu', {
@@ -102,13 +102,13 @@ CKEDITOR.plugins.add( 'menu', {
 		menuItemSource += ' onkeypress="return false;"';
 
 	// With Firefox, we need to force the button to redraw, otherwise it
-	// will remain in the focus state. Also we some extra help to prevent dragging (#10373).
+	// will remain in the focus state. Also we some extra help to prevent dragging (https://dev.ckeditor.com/ticket/10373).
 	if ( CKEDITOR.env.gecko ) {
 		menuItemSource += ( ' onblur="this.style.cssText = this.style.cssText;"' +
 			' ondragstart="return false;"' );
 	}
 
-	// #188
+	// https://dev.ckeditor.com/ticket/188
 	menuItemSource += ' onmouseover="CKEDITOR.tools.callFunction({hoverFn},{index});"' +
 			' onmouseout="CKEDITOR.tools.callFunction({moveOutFn},{index});" ' +
 			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) +
@@ -258,7 +258,7 @@ CKEDITOR.plugins.add( 'menu', {
 
 				// Show the submenu.
 				// This timeout is needed to give time for the sub-menu get
-				// focus when JAWS is running. (#9844)
+				// focus when JAWS is running. (https://dev.ckeditor.com/ticket/9844)
 				setTimeout( function() {
 					menu.show( element, 2 );
 				}, 0 );
@@ -274,7 +274,7 @@ CKEDITOR.plugins.add( 'menu', {
 			add: function( item ) {
 				// Later we may sort the items, but Array#sort is not stable in
 				// some browsers, here we're forcing the original sequence with
-				// 'order' attribute if it hasn't been assigned. (#3868)
+				// 'order' attribute if it hasn't been assigned. (https://dev.ckeditor.com/ticket/3868)
 				if ( !item.order )
 					item.order = this.items.length;
 
@@ -342,7 +342,7 @@ CKEDITOR.plugins.add( 'menu', {
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 					keys[ ( editor.lang.dir == 'rtl' ? 37 : 39 ) ] = CKEDITOR.env.ie ? 'mouseup' : 'click'; // ARROW-RIGHT/ARROW-LEFT(rtl)
 					keys[ 32 ] = CKEDITOR.env.ie ? 'mouseup' : 'click'; // SPACE
-					CKEDITOR.env.ie && ( keys[ 13 ] = 'mouseup' ); // Manage ENTER, since onclick is blocked in IE (#8041).
+					CKEDITOR.env.ie && ( keys[ 13 ] = 'mouseup' ); // Manage ENTER, since onclick is blocked in IE (https://dev.ckeditor.com/ticket/8041).
 
 					element = this._.element = block.element;
 
@@ -405,12 +405,14 @@ CKEDITOR.plugins.add( 'menu', {
 				CKEDITOR.ui.fire( 'ready', this );
 
 				// Show the panel.
-				if ( this.parent )
+				if ( this.parent ) {
 					this.parent._.panel.showAsChild( panel, this.id, offsetParent, corner, offsetX, offsetY );
-				else
+				} else {
 					panel.showBlock( this.id, offsetParent, corner, offsetX, offsetY );
+				}
 
-				editor.fire( 'menuShow', [ panel ] );
+				var data = [ panel ];
+				editor.fire( 'menuShow', data );
 			},
 
 			/**
@@ -435,6 +437,36 @@ CKEDITOR.plugins.add( 'menu', {
 			hide: function( returnFocus ) {
 				this._.onHide && this._.onHide();
 				this._.panel && this._.panel.hide( returnFocus );
+			},
+
+			/**
+			 * Finds the menu item corresponding to a given command.
+			 *
+			 * **Notice**: Keep in mind that the menu is re-rendered on each opening, so caching items (especially DOM elements)
+			 * may not work. Also executing this method when the menu is not visible may give unexpected results as the
+			 * items may not be rendered.
+			 *
+			 * @since 4.9.0
+			 * @param {String} commandName
+			 * @returns {Object/null} return An object containing a given item. If the item was not found, `null` is returned.
+			 * @returns {CKEDITOR.menuItem} return.item The item definition.
+			 * @returns {CKEDITOR.dom.element} return.element The rendered element representing the item in the menu.
+			 */
+			findItemByCommandName: function( commandName ) {
+				var commands = CKEDITOR.tools.array.filter( this.items, function( item ) {
+					return commandName === item.command;
+				} );
+
+				if ( commands.length ) {
+					var commandItem = commands[ 0 ];
+
+					return {
+						item: commandItem,
+						element: this._.element.findOne( '.' + commandItem.className )
+					};
+				}
+
+				return null;
 			}
 		}
 	} );

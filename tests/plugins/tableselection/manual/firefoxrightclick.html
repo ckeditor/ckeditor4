@@ -1,0 +1,30 @@
+<textarea id="editor">
+	<table border="1" style="width:500px">
+		<tbody>
+		<tr>
+			<td>
+				<p>&nbsp;</p>
+			</td>
+			<td>
+				<p>&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p>&nbsp;</p>
+			</td>
+			<td>
+				<p>&nbsp;</p>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<script>
+	if ( !CKEDITOR.env.gecko ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor' );
+</script>

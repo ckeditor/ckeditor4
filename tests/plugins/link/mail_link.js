@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: link,button,htmlwriter,toolbar */
 
 bender.editor = {
@@ -55,7 +55,7 @@ bender.test( {
 		} );
 	},
 
-	// #9192
+	// https://dev.ckeditor.com/ticket/9192
 	'test read from protected mail link without subject and body provided': function() {
 		var bot = this.editorBot;
 
@@ -77,7 +77,7 @@ bender.test( {
 		} );
 	},
 
-	// #12189
+	// https://dev.ckeditor.com/ticket/12189
 	'test read from mail link with Subject and Body parameters provided': function() {
 		var bot = this.editorBot;
 

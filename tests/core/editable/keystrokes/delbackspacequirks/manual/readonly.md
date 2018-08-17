@@ -1,4 +1,4 @@
-@bender-tags: 4.4.8, tc, 13344
+@bender-tags: 4.4.8, bug, trac13344
 @bender-ui: collapsed
 @bender-ckeditor-plugins: toolbar, format, wysiwygarea
 

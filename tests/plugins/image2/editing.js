@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,widget */
+/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: image2,toolbar */
 /* global widgetTestsTools, image2TestsTools */
 
@@ -74,6 +74,37 @@
 			wait();
 		},
 
+		// (#1348)
+		'test image dialog has correct aspect ratio after src change': function() {
+			var bot = this.editorBot,
+				editor = bot.editor;
+
+			editor.once( 'dialogShow', function( evt ) {
+				var dialog = evt.data,
+					widthInput = CKEDITOR.document.findOne( '#' + dialog.getContentElement( 'info', 'width' )._.inputId );
+
+				dialog.setValueOf( 'info', 'src', '_assets/foo.png' );
+				downloadImage( '_assets/foo.png', assertImage );
+
+				function assertImage() {
+					widthInput.fire( 'keyup', new CKEDITOR.dom.event( {} ) ); // It will force image dialog to recalculate width and height.
+
+					assert.areEqual( 50, dialog.getContentElement( 'info', 'width' ).getValue(), 'invalid width' );
+					assert.areEqual( 120, dialog.getContentElement( 'info', 'height' ).getValue(), 'invalid height' );
+
+					dialog.hide();
+
+					resume();
+				}
+			} );
+
+			bot.setData( widgetsHtml, function() {
+				getWidgetById( editor, 'y' ).focus();
+				editor.execCommand( 'image' );
+				wait();
+			} );
+		},
+
 		'test create inline widget with a global command': function() {
 			var editorBot = this.editorBot,
 				onResume = function( dialog ) {
@@ -114,7 +145,7 @@
 		},
 
 		/**
-		 * #12126
+		 * https://dev.ckeditor.com/ticket/12126
 		 *
 		 * 1. Open image2 dialog.
 		 * 2. Set some proper image url and focus out.
@@ -164,7 +195,7 @@
 		},
 
 		/**
-		 * #12126
+		 * https://dev.ckeditor.com/ticket/12126
 		 *
 		 * 1. Open image2 dialog.
 		 * 2. Set some proper image url and focus out.

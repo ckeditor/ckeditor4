@@ -1,0 +1,28 @@
+<h3>URLs that should be turned into links</h3>
+
+<style>
+input[type=text] { width: 450px }
+</style>
+
+<ul>
+	<li><input type="text" readonly="readonly" value="http://google.com/one_two_three"></li>
+	<li><input type="text" readonly="readonly" value="http://google.com/one_two_three/"></li>
+	<li><input type="text" readonly="readonly" value="http://www.google.com/one_two_three#anchor"></li>
+	<li><input type="text" readonly="readonly" value="https://www.google.com/test/?one=scoobydoobydoo&two=scoobydooby1doo&asdfgh"></li>
+	<li><input type="text" readonly="readonly" value="http://a.b-c.de"></li>
+</ul>
+
+<h3>URLs that shouldn't be turned into links</h3>
+
+<ul>
+	<li><input type="text" readonly="readonly" value="http://google.com/URL encoded spaces please/"></li>
+	<li><input type="text" readonly="readonly" value="h://notarealprotocol"></li>
+</ul>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Foo bar.</p>
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1' );
+</script>

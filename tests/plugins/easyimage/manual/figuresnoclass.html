@@ -1,0 +1,24 @@
+
+<div id="classic">
+	<p>Both figures should become widgets:</p>
+	<figure class="easyimage">
+		<img src="../../image2/_assets/foo.png" alt="foo">
+		<figcaption>Test image</figcaption>
+	</figure>
+	<p>Figure two:</p>
+	<figure>
+		<img src="../../image2/_assets/foo.png" alt="foo">
+		<figcaption>Test image</figcaption>
+	</figure>
+</div>
+
+<script>
+	if ( easyImageTools.isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'classic', {
+		easyimage_class: null,
+		height: 500,
+		extraAllowedContent: 'figure(*)'
+	} );
+</script>

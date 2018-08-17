@@ -1,4 +1,4 @@
-@bender-tags: style, tc, 4.5.10, 14667
+@bender-tags: style, bug, 4.5.10, trac14667
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, removeformat, toolbar, colorbutton
 

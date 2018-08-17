@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 function parseHtml( raw, parent ) {
 	var fragment = CKEDITOR.htmlParser.fragment.fromHtml( raw, parent || 'body', 'p' ),
@@ -113,7 +113,7 @@ bender.test( {
 	},
 
 	/**
-	 * Test fixing malformed nested list structure. (#3828)
+	 * Test fixing malformed nested list structure. (https://dev.ckeditor.com/ticket/3828)
 	 */
 	test_parser_13: function() {
 		assert.areSame( '<ul><li><ol></ol></li></ul>',
@@ -195,7 +195,7 @@ bender.test( {
 		assert.areSame( output,			parseHtml( source, 'figcaption' ),	'figcaption context - between blocks' );
 	},
 
-	// Test whitespaces handling in different context. (#3715)
+	// Test whitespaces handling in different context. (https://dev.ckeditor.com/ticket/3715)
 	'parse pre-formatted contents': function() {
 		var pre = '<pre>\t\tfoo\nbar quz  \n</pre>',
 			textarea = '<p><textarea>\t\tfoo\nbar quz  \n</textarea></p>';
@@ -249,7 +249,7 @@ bender.test( {
 						parseHtml( '<table><strong>foo</strong><tr>bar</tr></table>' ) );
 		assert.areSame( '<tr><td>foo</td></tr>', parseHtml( '<tr>foo</tr>' ) );
 
-		// #11660
+		// https://dev.ckeditor.com/ticket/11660
 		assert.areSame( '<table><tbody><tr><td>1</td></tr><tr><td>Issue2</td></tr><tr><td>3</td></tr></tbody></table>',
 			parseHtml( '<table><tbody><tr><td>1</td></tr>Issue2<tr><td>3</td></tr></tbody></table>' ) );
 	},
@@ -305,7 +305,7 @@ bender.test( {
 						parseHtml( '<div><b><font><span>A</font></span></b></div><div>X</div>' ) );
 	},
 
-	// #3862
+	// https://dev.ckeditor.com/ticket/3862
 	'test not breaking on malformed close tag': function() {
 		assert.areSame(
 			'<p><span><a><b>test</b></a><a><b>test</b></a><a><b>test</b></a><a><b>test</b></a><a><b>test</b></a>' +
@@ -328,7 +328,7 @@ bender.test( {
 		assert.areSame( '<div>pseudo<p>paragraph</p></div>', parseHtml( '<div>pseudo <p>paragraph</p></div>' ) );
 	},
 
-	// #5626
+	// https://dev.ckeditor.com/ticket/5626
 	'test parser fix partial list items': function() {
 		assert.areSame( '<table><tr><td><ul><li>item1</li><li>item2</li></ul></td></tr></table>',
 						parseHtml( '<table><tr><td><li>item1</li><li>item2</li></td></tr></table>' ) );
@@ -340,7 +340,7 @@ bender.test( {
 						parseHtml( '<dd>test</dd><dd>test</dd>' ) );
 	},
 
-	// #5626
+	// https://dev.ckeditor.com/ticket/5626
 	'test parser *NOT* fixing orphan table cells': function() {
 		assert.areSame( '<td>td1</td><p>text</p>',
 						parseHtml( '<td>td1</td>text' ) );
@@ -348,7 +348,7 @@ bender.test( {
 						parseHtml( '<ul><tr><td>td1</td></tr><li>li1</li></ul>' ) );
 	},
 
-	// #5626
+	// https://dev.ckeditor.com/ticket/5626
 	'test parser fix malformed table cell/list item': function() {
 		assert.areSame( '<table><tr><td>cell1</td><td>cell2</td></tr></table>',
 						parseHtml( '<table><tr><td>cell1<td>cell2</td></td></tr></table>' ) );
@@ -356,7 +356,7 @@ bender.test( {
 						parseHtml( '<ul><li>item1<li>item2</li></li></ul>' ) );
 	},
 
-	// #7894
+	// https://dev.ckeditor.com/ticket/7894
 	'test parser fix malformed link': function() {
 		assert.areSame( '<p>foo<a href="#2">bar</a></p><p>foo bar</p>',
 						parseHtml( '<p>foo<a href="#1"><a href="#2">bar</a></p> <p>foo</a> bar</p>' ) );

@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'ku', {
 	bgColor: 'ڕەنگی پاشبنەما',
@@ -33,7 +33,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'ku', {
 	metaAuthor: 'نووسەر',
 	metaCopyright: 'مافی بڵاوکردنەوەی',
 	metaDescription: 'پێناسەی لاپەڕه',
-	metaKeywords: 'بەڵگەنامەی وشەی کاریگەر(به کۆما لێکیان جیابکەوه)',
+	metaKeywords: 'ئیندێکسی پیتەکانی دۆکیومێنت(به کۆما جیاکراوەتەوه)',
 	other: 'هیتر...',
 	previewHtml: '<p>ئەمە وەك نموونەی <strong>دەقه</strong>. تۆ بەکاردەهێنیت <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'خاسییەتی پەڕه',

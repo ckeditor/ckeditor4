@@ -1,13 +1,13 @@
 ﻿/**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 'use strict';
 
 ( function() {
 	CKEDITOR.plugins.add( 'uploadwidget', {
-		lang: 'az,ca,cs,da,de,de-ch,el,en,eo,es,eu,fr,gl,hu,id,it,ja,km,ko,ku,nb,nl,no,oc,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'az,bg,ca,cs,da,de,de-ch,el,en,en-au,eo,es,es-mx,et,eu,fa,fr,gl,hr,hu,id,it,ja,km,ko,ku,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sq,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		requires: 'widget,clipboard,filetools,notificationaggregator',
 
 		init: function( editor ) {
@@ -173,6 +173,8 @@
 		if ( def.fileToElement ) {
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data,
+					// Fetch runtime widget definition as it might get changed in editor#widgetDefinition event.
+					def = editor.widgets.registered[ name ],
 					dataTransfer = data.dataTransfer,
 					filesCount = dataTransfer.getFilesCount(),
 					loadMethod = def.loadMethod || 'loadAndUpload',
@@ -188,14 +190,14 @@
 					// No def.supportedTypes means all types are supported.
 					if ( !def.supportedTypes || fileTools.isTypeSupported( file, def.supportedTypes ) ) {
 						var el = def.fileToElement( file ),
-							loader = uploads.create( file );
+							loader = uploads.create( file, undefined, def.loaderType );
 
 						if ( el ) {
 							loader[ loadMethod ]( def.uploadUrl, def.additionalRequestParameters );
 
 							CKEDITOR.fileTools.markElement( el, name, loader.id );
 
-							if ( loadMethod == 'loadAndUpload' || loadMethod == 'upload' ) {
+							if ( ( loadMethod == 'loadAndUpload' || loadMethod == 'upload' ) && !def.skipNotifications ) {
 								CKEDITOR.fileTools.bindNotifications( editor, loader );
 							}
 
@@ -252,7 +254,8 @@
 				loader.on( 'update', function( evt ) {
 					// Abort if widget was removed.
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
-						if ( !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
+						// Uploading should be aborted if the editor is already destroyed (#966) or the upload widget was removed.
+						if ( !CKEDITOR.instances[ editor.name ] || !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
 							loader.abort();
 						}
 						evt.removeListener();
@@ -335,7 +338,15 @@
 				} else {
 					editor.getSelection().selectBookmarks( bookmarks );
 				}
+			},
 
+			/**
+			 * @private
+			 * @returns {CKEDITOR.fileTools.fileLoader/null} The loader associated with this widget instance or `null` if not found.
+			 */
+			_getLoader: function() {
+				var marker = this.wrapper.findOne( '[data-cke-upload-id]' );
+				return marker ? this.editor.uploadRepository.loaders[ marker.data( 'cke-upload-id' ) ] : null;
 			}
 
 			/**
@@ -364,6 +375,12 @@
 			 */
 
 			/**
+			 * Loader type that should be used for creating file tools requests.
+			 *
+			 * @property {Function} [loaderType]
+			 */
+
+			/**
 			 * An object containing additional data that should be passed to the function defined by {@link #loadMethod}.
 			 *
 			 * @property {Object} [additionalRequestParameters]
@@ -381,6 +398,16 @@
 			 * otherwise you can get an "out of memory" error.
 			 *
 			 * @property {String} [loadMethod=loadAndUpload]
+			 */
+
+			/**
+			 * Indicates whether default notification handling should be skipped.
+			 *
+			 * By default upload widget will use [Notification](https://ckeditor.com/cke4/addon/notification) plugin to provide
+			 * feedback for upload progress and eventual success / error message.
+			 *
+			 * @since 4.8.0
+			 * @property {Boolean} [skipNotifications=false]
 			 */
 
 			/**
@@ -496,7 +523,10 @@
 
 		loader.on( 'abort', function() {
 			task && task.cancel();
-			editor.showNotification( editor.lang.uploadwidget.abort, 'info' );
+			// Editor could be already destroyed (#966).
+			if ( CKEDITOR.instances[ editor.name ] ) {
+				editor.showNotification( editor.lang.uploadwidget.abort, 'info' );
+			}
 		} );
 
 		function createAggregator() {

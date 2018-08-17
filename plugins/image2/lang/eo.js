@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'eo', {
 	alt: 'Anstataŭiga Teksto',
@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'eo', {
 	title: 'Atributoj de Bildo',
 	uploadTab: 'Alŝuti',
 	urlMissing: 'La fontretadreso de la bildo mankas.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'Alternativa teksto mankas.'
 } );

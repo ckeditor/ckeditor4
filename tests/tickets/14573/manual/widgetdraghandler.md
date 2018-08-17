@@ -1,4 +1,4 @@
-@bender-tags: 4.5.9, tc, 14573
+@bender-tags: 4.5.9, bug, trac14573
 @bender-ui: collapsed
 
 1. Hover over CKEditor logo inside Editor 2.

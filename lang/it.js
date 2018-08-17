@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -78,10 +78,13 @@ CKEDITOR.lang[ 'it' ] = {
 		width: 'Larghezza',
 		height: 'Altezza',
 		align: 'Allineamento',
-		alignLeft: 'Sinistra',
-		alignRight: 'Destra',
-		alignCenter: 'Centrato',
-		alignJustify: 'Giustifica',
+		left: 'Sinistra',
+		right: 'Destra',
+		center: 'Centrato',
+		justify: 'Giustifica',
+		alignLeft: 'Allinea a sinistra',
+		alignRight: 'Allinea a destra',
+		alignCenter: 'Allinea al centro',
 		alignTop: 'In Alto',
 		alignMiddle: 'Centrato',
 		alignBottom: 'In Basso',
@@ -89,6 +92,7 @@ CKEDITOR.lang[ 'it' ] = {
 		invalidValue: 'Valore non valido.',
 		invalidHeight: 'L\'altezza dev\'essere un numero',
 		invalidWidth: 'La Larghezza dev\'essere un numero',
+		invalidLength: 'Il valore specificato per il campo "%1" deve essere un numero positivo con o senza un\'unità di misura valida (%2).',
 		invalidCssLength: 'Il valore indicato per il campo "%1" deve essere un numero positivo con o senza indicazione di una valida unità di misura per le classi CSS (px, %, in, cm, mm, em, ex, pt, o pc).',
 		invalidHtmlLength: 'Il valore indicato per il campo "%1" deve essere un numero positivo con o senza indicazione di una valida unità di misura per le pagine HTML (px o %).',
 		invalidInlineStyle: 'Il valore specificato per lo stile inline deve consistere in una o più tuple con il formato di "name : value", separati da semicolonne.',
@@ -108,10 +112,36 @@ CKEDITOR.lang[ 'it' ] = {
 			35: 'Fine',
 			36: 'Inizio',
 			46: 'Canc',
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
 			224: 'Comando'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Scorciatoia da tastiera'
+		keyboardShortcut: 'Scorciatoia da tastiera',
+
+		optionDefault: 'Predefinito'
 	}
 };

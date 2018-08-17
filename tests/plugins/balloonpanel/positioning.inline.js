@@ -1,10 +1,14 @@
-/* bender-tags: a11ychecker,unit,balloonpanel */
+/* bender-tags: a11ychecker,balloonpanel */
 /* bender-ckeditor-plugins: balloonpanel */
 /* bender-include: _helpers/tools.js */
 /* global balloonTestsTools */
 
 ( function() {
 	'use strict';
+	// Iframes on Safari mobile cannot be scrolled. That's why method `_scrollViewport` quietly failed (#441).
+	if ( CKEDITOR.env.iOS && CKEDITOR.env.safari ) {
+		bender.ignore();
+	}
 
 	// We need to lie about view pane size. This is due running test from dashboard might have random, tiny size for
 	// the iframe, this will result with unpredictable balloon positioning. Not that it's relatively safe, because in

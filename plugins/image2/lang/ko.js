@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'image2', 'ko', {
 	alt: '대체 문자열',
@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'ko', {
 	title: '이미지 속성',
 	uploadTab: '업로드',
 	urlMissing: '이미지 원본 주소(URL)가 없습니다.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: '대체 문자가 없습니다.'
 } );

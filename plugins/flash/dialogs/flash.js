@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -91,7 +91,7 @@
 
 	// These attributes are "true" by default and not present in editor data (when "true").
 	// Note that, though default value of "allowFullScreen" is "true", it is not listed here.
-	// "allowFullScreen" is present in editor data regardless of the value (#7634).
+	// "allowFullScreen" is present in editor data regardless of the value (https://dev.ckeditor.com/ticket/7634).
 	names = [ 'play', 'loop', 'menu' ];
 	for ( i = 0; i < names.length; i++ )
 		attributesMap[ names[ i ] ][ 0 ][ 'default' ] = attributesMap[ names[ i ] ][ 1 ][ 'default' ] = true;
@@ -164,7 +164,7 @@
 			var attrDef = attributes[ i ];
 			switch ( attrDef.type ) {
 				case ATTRTYPE_OBJECT:
-					// Avoid applying the data attribute when not needed (#7733)
+					// Avoid applying the data attribute when not needed (https://dev.ckeditor.com/ticket/7733)
 					if ( !objectNode || ( attrDef.name == 'data' && embedNode && !objectNode.hasAttribute( 'data' ) ) )
 						continue;
 					var value = this.getValue();
@@ -294,7 +294,7 @@
 
 				// A subset of the specified attributes/styles
 				// should also be applied on the fake element to
-				// have better visual effect. (#5240)
+				// have better visual effect. (https://dev.ckeditor.com/ticket/5240)
 				var extraStyles = {},
 					extraAttributes = {};
 				this.commitContent( objectNode, embedNode, paramMap, extraStyles, extraAttributes );
@@ -536,13 +536,13 @@
 						style: 'width : 100%;',
 						items: [
 							[ editor.lang.common.notSet, '' ],
-							[ editor.lang.common.alignLeft, 'left' ],
+							[ editor.lang.common.left, 'left' ],
 							[ editor.lang.flash.alignAbsBottom, 'absBottom' ],
 							[ editor.lang.flash.alignAbsMiddle, 'absMiddle' ],
 							[ editor.lang.flash.alignBaseline, 'baseline' ],
 							[ editor.lang.common.alignBottom, 'bottom' ],
 							[ editor.lang.common.alignMiddle, 'middle' ],
-							[ editor.lang.common.alignRight, 'right' ],
+							[ editor.lang.common.right, 'right' ],
 							[ editor.lang.flash.alignTextTop, 'textTop' ],
 							[ editor.lang.common.alignTop, 'top' ]
 						],

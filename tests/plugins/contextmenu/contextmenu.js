@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: clipboard,contextmenu */
 
 ( function() {
@@ -28,6 +28,33 @@
 						assert.isTrue( ed2.focusManager.hasFocus, 'editor2 focused on menu open' );
 					} );
 				} );
+			} );
+		},
+
+		'test opening context menu default config': function() {
+			bender.editorBot.create( {
+				name: 'editor_nocontextmenu1'
+			}, function( bot ) {
+				bot.editor.contextMenu.show = sinon.spy();
+
+				bot.editor.contextMenu.open( bot.editor.editable() );
+
+				assert.isTrue( bot.editor.contextMenu.show.called );
+			} );
+		},
+
+		'test opening disabled context menu': function() {
+			bender.editorBot.create( {
+					name: 'editor_nocontextmenu2',
+					config: {
+						enableContextMenu: false
+					}
+				}, function( bot ) {
+				bot.editor.contextMenu.show = sinon.spy();
+
+				bot.editor.contextMenu.open( bot.editor.editable() );
+
+				assert.isFalse( bot.editor.contextMenu.show.called );
 			} );
 		},
 
@@ -68,7 +95,7 @@
 						nestedEditable = doc.getById( 'b' ),
 						preventDefaultCalled = 0;
 
-					// #13910
+					// https://dev.ckeditor.com/ticket/13910
 					editor.focus();
 
 					editable.fire( 'contextmenu', new CKEDITOR.dom.event( {

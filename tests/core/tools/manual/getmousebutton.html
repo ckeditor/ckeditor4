@@ -1,0 +1,32 @@
+<div id="editor">
+	<p>Example text</p>
+</div>
+
+<script>
+	function getButtonInfo( button ) {
+		switch ( button ) {
+			default:
+			case CKEDITOR.MOUSE_BUTTON_LEFT:
+				return 'left';
+			break;
+
+			case CKEDITOR.MOUSE_BUTTON_MIDDLE:
+				return 'middle';
+			break;
+
+			case CKEDITOR.MOUSE_BUTTON_RIGHT:
+				return 'right';
+			break;
+		}
+	}
+
+	CKEDITOR.replace( 'editor', {
+		on: {
+			instanceReady: function( evt ) {
+				evt.editor.editable().on( 'mousedown', function( evt ) {
+					console.log( getButtonInfo( CKEDITOR.tools.getMouseButton( evt ) ) );
+				} );
+			}
+		}
+	} );
+</script>

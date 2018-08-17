@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,widget */
+/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: placeholder */
 /* global widgetTestsTools */
 
@@ -131,7 +131,7 @@
 			} );
 		},
 
-		// #14701
+		// https://dev.ckeditor.com/ticket/14701
 		'test label': function() {
 			assertWidget( {
 				html: '<p>[[just example]]</p>',

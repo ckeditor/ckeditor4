@@ -1,7 +1,0 @@
-# Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.md or http://ckeditor.com/license
-
-block = Toolbar button tooltip for the Justify feature.
-center = Toolbar button tooltip for the Align Center feature.
-left = Toolbar button tooltip for the Align Left feature.
-right = Toolbar button tooltip for the Align Right feature.

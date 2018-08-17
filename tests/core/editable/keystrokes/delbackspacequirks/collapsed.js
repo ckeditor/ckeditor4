@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: list,table,undo */
 /* global quirksTools */
 
@@ -91,12 +91,12 @@
 		'test backspace #2': CKEDITOR.env.safari ? ignoreIt :
 											b( '<p>x</p><p><strong>[]y</strong></p>',							[
 																													'<p>x<strong>^y</strong></p>',
-																													'<p>x^<strong>y</strong></p>' // For WebKit (#13709).
+																													'<p>x^<strong>y</strong></p>' // For WebKit (https://dev.ckeditor.com/ticket/13709).
 																												] ),
 		'test backspace #3': CKEDITOR.env.safari ? ignoreIt :
 											b( '<p>x</p><p><a href="z">[]y</a></p>',							[
 																													'<p>x<a href="z">^y</a></p>',
-																													'<p>x^<a href="z">y</a></p>' // For WebKit (#13709).
+																													'<p>x^<a href="z">y</a></p>' // For WebKit (https://dev.ckeditor.com/ticket/13709).
 																												] ),
 		'test backspace #4':				b( '<p>x</p><blockquote><p>[]y</p></blockquote>',					'<p>x^y</p>' ),
 		'test backspace #5':				b( '<h1>x</h1><p>[]y</p>',											'<h1>x^y</h1>' ),
@@ -108,7 +108,7 @@
 											b( '<div><p><strong>f<em>oo</em></strong></p></div><blockquote><p><u>{}y</u></p></blockquote>',
 																												[
 																													'<div><p><strong>f<em>oo</em></strong><u>^y</u></p></div>',
-																													'<div><p><strong>f<em>oo^</em></strong><u>y</u></p></div>' // For WebKit (#13709).
+																													'<div><p><strong>f<em>oo^</em></strong><u>y</u></p></div>' // For WebKit (https://dev.ckeditor.com/ticket/13709).
 																												] ),
 		'test backspace #10':				b( '<p>x</p><p>[]@</p>',											'<p>x^@!</p>' ),
 		'test backspace #11':				b( '<ul><li><p>x</p><p>[]y</p></li></ul>',							'<ul><li><p>x^y</p></li></ul>' ),
@@ -126,12 +126,12 @@
 		'test backspace, merge #2': CKEDITOR.env.safari ? ignoreIt :
 										b( '<p><em id="x">x</em></p><p><em id="y">[]y</em></p>',			[
 																												'<p><em id="x">x</em><em id="y">^y</em></p>',
-																												'<p><em id="x">x^</em><em id="y">y</em></p>' // For WebKit (#13709).
+																												'<p><em id="x">x^</em><em id="y">y</em></p>' // For WebKit (https://dev.ckeditor.com/ticket/13709).
 																											] ),
 		'test backspace, merge #3': CKEDITOR.env.safari ? ignoreIt :
 										b( '<p><a href="x">x</a></p><p><a href="y">[]y</a></p>',			[
 																												'<p><a href="x">x</a><a href="y">^y</a></p>',
-																												'<p><a href="x">x^</a><a href="y">y</a></p>' // For WebKit (#13709).
+																												'<p><a href="x">x^</a><a href="y">y</a></p>' // For WebKit (https://dev.ckeditor.com/ticket/13709).
 																											] ),
 		'test backspace, merge #4':		b( '<p><em>x</em></p><div><p><em>[]y</em></p><p>z</p></div>',		'<p><em>x^y</em></p><div><p>z</p></div>' ),
 		'test backspace, merge #5':		b( '<p id="foo">x</p><p id="bar">[]y</p>',							'<p id="foo">x^y</p>' ),
@@ -142,7 +142,7 @@
 										b( '<p><em style="color:red">x</em></p><p><em style="color:blue">[]y</em></p>',
 																											[
 																												'<p><em style="color:red">x</em><em style="color:blue">^y</em></p>',
-																												'<p><em style="color:red">x^</em><em style="color:blue">y</em></p>' // For WebKit (#13709).
+																												'<p><em style="color:red">x^</em><em style="color:blue">y</em></p>' // For WebKit (https://dev.ckeditor.com/ticket/13709).
 																											] ),
 		'test backspace, merge #9':		b( '<p style="color:red">x</p><p style="color:blue;text-align:right;">[]y</p>',
 																												'<p style="color:red">x^y</p>' ),
@@ -163,8 +163,8 @@
 		'test backspace, no action #6':	bf( 'x<p>{}y</p>', 'x<p>^y</p>' ),
 		'test backspace, no action #7':	bf( '<p>x</p>z<p>{}y</p>', '<p>x</p>z<p>^y</p>' ),
 
-		// Handled by list or table plugin or editable, but not related to #9998.
-		// This is just to control whether the fix for #9998 does not break some case which it should not handle at all.
+		// Handled by list or table plugin or editable, but not related to https://dev.ckeditor.com/ticket/9998.
+		// This is just to control whether the fix for https://dev.ckeditor.com/ticket/9998 does not break some case which it should not handle at all.
 		'test backspace, excluded #1':		b( '<ul><li>x</li><li>[]y</li></ul>',								'<ul><li>x^y</li></ul>' ),
 		'test backspace, excluded #2':		b( '<p>x</p><ul><li>[]y</li></ul>',									'<p>x</p><p>^y</p>' ),
 		'test backspace, excluded #3':		b( '<p>x</p><ul><li><h1>[]y</h1></li></ul>',							'<p>x</p><h1>^y</h1>' ),
@@ -215,8 +215,8 @@
 		'test delete, no action #6':		df( '<p>x{}</p>y', '<p>x^</p>y' ),
 		'test delete, no action #7':		df( '<p>y{}</p>y<p>z</p>', '<p>y^</p>y<p>z</p>' ),
 
-		// Handled by list or table plugin or editable, but not related to #9998.
-		// This is just to control whether the fix for #9998 does not break some case which it should not handle at all.
+		// Handled by list or table plugin or editable, but not related to https://dev.ckeditor.com/ticket/9998.
+		// This is just to control whether the fix for https://dev.ckeditor.com/ticket/9998 does not break some case which it should not handle at all.
 		'test delete, excluded #1':			d( '<ul><li>x[]</li><li>y</li></ul>',								'<ul><li>x^y</li></ul>' ),
 		'test delete, excluded #2':			d( '<ul><li>x[]</li></ul><p>y</p>',									'<ul><li>x^y</li></ul>' ),
 		'test delete, excluded #3':			d( '<ul><li><h1>x[]</h1></li></ul><p>y</p>',							'<ul><li><h1>x^y</h1></li></ul>' ),

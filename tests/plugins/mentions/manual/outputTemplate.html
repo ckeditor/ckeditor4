@@ -1,0 +1,19 @@
+<div id="editor"></div>
+
+<script>
+
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		width: 600,
+		mentions: [
+			{
+				feed: [ 'Anna', 'John', 'Thomas' ],
+				outputTemplate: '<strong>{name}</strong>',
+				minChars: 0
+			}
+		]
+	} );
+</script>

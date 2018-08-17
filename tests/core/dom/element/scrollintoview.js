@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,dom */
+/* bender-tags: editor,dom */
 
 var doc = CKEDITOR.document,
 	win = doc.getWindow();

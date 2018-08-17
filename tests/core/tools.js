@@ -1,4 +1,4 @@
-﻿/* bender-tags: editor,unit */
+﻿/* bender-tags: editor */
 
 ( function() {
 	'use strict';
@@ -88,11 +88,11 @@
 			assert.areSame( '0', htmlEncode( 0 ), '0' );
 		},
 
-		'test htmlEncode - #3874': function() {
+		'test htmlEncode - https://dev.ckeditor.com/ticket/3874': function() {
 			assert.areSame( 'line1\nline2', htmlEncode( 'line1\nline2' ) );
 		},
 
-		// http://dev.ckeditor.com/ticket/13105#comment:8
+		// https://dev.ckeditor.com/ticket/13105#comment:8
 		'test htmlDecode - all covered named entities': function() {
 			assert.areSame( '< a & b > c \u00a0 d \u00ad e "', htmlDecode( '&lt; a &amp; b &gt; c &nbsp; d &shy; e &quot;' ) );
 		},
@@ -335,7 +335,7 @@
 
 		testQuoteEntity: assertNormalizeCssText( 'font-family:"foo";', 'font-family: &quot;foo&quot;;', '' ),
 
-		// (#10750)
+		// (https://dev.ckeditor.com/ticket/10750)
 		'test Normalize double quote': assertNormalizeCssText( 'font-family:"crazy font";', 'font-family: "crazy font";',
 			'quoted font name' ),
 		'test Normalize single quote': assertNormalizeCssText( 'font-family:\'crazy font\';', 'font-family: \'crazy font\';',
@@ -389,7 +389,7 @@
 			assert.areSame( 'color:#010203; border-color:#ffff00;', c( 'color:rgb(1,2,3); border-color:rgb(255,255,0);' ), 'multiple' );
 		},
 
-		// #14252
+		// https://dev.ckeditor.com/ticket/14252
 		testNormalizeHex: function() {
 			var c = CKEDITOR.tools.normalizeHex;
 
@@ -602,7 +602,7 @@
 			}, 110 );
 		},
 
-		'test eventsBuffer contex': function() {
+		'test eventsBuffer context': function() {
 			var spy = sinon.spy(),
 				ctxObj = {},
 				buffer = CKEDITOR.tools.eventsBuffer( 100, spy, ctxObj );
@@ -626,6 +626,102 @@
 			assert.areSame( 'Ab', c( 'ab', true ) );
 			assert.areSame( 'AB', c( 'aB', true ) );
 			assert.areSame( 'ABcDeF', c( 'aBcDeF', true ) );
+		},
+
+		'test throttle': function() {
+			var foo = 'foo',
+				baz = 'baz',
+				inputSpy = sinon.spy(),
+				buffer = CKEDITOR.tools.throttle( 200, inputSpy );
+
+			buffer.input( foo );
+
+			assert.areSame( 1, inputSpy.callCount, 'Call count after the first call' );
+			assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument after the first call' );
+
+			buffer.input( baz );
+
+			assert.areSame( 1, inputSpy.callCount, 'Call count after the second call' );
+			assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument the after second call' );
+
+			wait( function() {
+				assert.areSame( 1, inputSpy.callCount, 'Call count after the second call timeout (1st)' );
+				assert.isTrue( inputSpy.calledWithExactly( foo ), 'Call argument after the second call timeout (1st)' );
+
+				wait( function() {
+					assert.areSame( 2, inputSpy.callCount, 'Call count after the second call timeout (2nd)' );
+					assert.isTrue( inputSpy.getCall( 1 ).calledWithExactly( baz ), 'Call argument after the second call timeout (2nd)' );
+
+					buffer.input( foo );
+
+					wait( function() {
+						assert.areSame( 3, inputSpy.callCount, 'Call count after the third call' );
+						assert.isTrue( inputSpy.getCall( 2 ).calledWithExactly( foo ), 'Call argument after the third call' );
+
+						// Check that input triggered after 70ms from previous
+						// buffer.input will trigger output after next 140ms (200-70).
+						wait( function() {
+							buffer.input( baz );
+
+							assert.areSame( 3, inputSpy.callCount, 'Call count after the fourth call' );
+
+							wait( function() {
+								assert.areSame( 4, inputSpy.callCount, 'Call count after the fourth call timeout' );
+								assert.isTrue( inputSpy.getCall( 3 ).calledWithExactly( baz ), 'Call argument after the fourth call timeout' );
+							}, 140 );
+						}, 70 );
+					}, 210 );
+				}, 110 );
+			}, 100 );
+		},
+
+		'test throttle always uses the most recent argument': function() {
+			var input = sinon.stub(),
+				buffer = CKEDITOR.tools.throttle( 50, input );
+
+			buffer.input( 'first' );
+
+			assert.areSame( 1, input.callCount, 'Call count after the first call' );
+			sinon.assert.calledWithExactly( input.getCall( 0 ), 'first' );
+
+			buffer.input( 'second' );
+
+			buffer.input( 'third' );
+
+			wait( function() {
+				assert.areSame( 2, input.callCount, 'Call count after the timeout' );
+				sinon.assert.calledWithExactly( input.getCall( 1 ), 'third' );
+			}, 100 );
+		},
+
+		'test throttle.reset': function() {
+			var inputSpy = sinon.spy(),
+				buffer = CKEDITOR.tools.throttle( 100, inputSpy );
+
+			assert.areSame( 0, inputSpy.callCount, 'Initial call count' );
+
+			buffer.input();
+
+			assert.areSame( 1, inputSpy.callCount, 'Call count after the first call' );
+
+			buffer.input();
+			buffer.reset();
+
+			assert.areSame( 1, inputSpy.callCount, 'Call count after reset' );
+
+			buffer.input();
+
+			assert.areSame( 2, inputSpy.callCount, 'Call count after the second call' );
+		},
+
+		'test throttle context': function() {
+			var spy = sinon.spy(),
+				ctxObj = {},
+				buffer = CKEDITOR.tools.throttle( 100, spy, ctxObj );
+
+			buffer.input();
+
+			assert.areSame( ctxObj, spy.getCall( 0 ).thisValue, 'callback was executed with the right context' );
 		},
 
 		'test checkIfAnyObjectPropertyMatches': function() {
@@ -708,31 +804,6 @@
 			assert.areEqual( token, CKEDITOR.tools.getCsrfToken(), 'getCsrfToken returns token from cookie' );
 		},
 
-		'test keystrokeToString': function() {
-			var toString = CKEDITOR.tools.keystrokeToString,
-				lang = this.editor.lang.common.keyboard,
-				tests = [
-					// [ Keystroke, display string, display string on Mac, ARIA string, ARIA string on Mac ]
-					[ CKEDITOR.CTRL + 65 /*A*/, 'Ctrl+A', '⌘+A', 'Ctrl+A', 'Command+A' ],
-					[ CKEDITOR.ALT + 66 /*B*/, 'Alt+B', '⌥+B', 'Alt+B', 'Alt+B' ],
-					[ CKEDITOR.SHIFT + 67 /*C*/, 'Shift+C', '⇧+C', 'Shift+C', 'Shift+C' ],
-					[ CKEDITOR.CTRL + CKEDITOR.ALT + 68 /*D*/, 'Ctrl+Alt+D', '⌘+⌥+D', 'Ctrl+Alt+D', 'Command+Alt+D' ],
-					[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 69 /*E*/, 'Ctrl+Shift+E', '⌘+⇧+E', 'Ctrl+Shift+E', 'Command+Shift+E' ],
-					[ CKEDITOR.ALT + CKEDITOR.SHIFT + 70 /*F*/, 'Alt+Shift+F', '⌥+⇧+F', 'Alt+Shift+F', 'Alt+Shift+F' ],
-					[ CKEDITOR.CTRL + CKEDITOR.ALT + CKEDITOR.SHIFT + 71 /*G*/, 'Ctrl+Alt+Shift+G', '⌘+⌥+⇧+G', 'Ctrl+Alt+Shift+G', 'Command+Alt+Shift+G' ],
-					[ CKEDITOR.CTRL + 32 /*SPACE*/, 'Ctrl+Space', '⌘+Space', 'Ctrl+Space', 'Command+Space' ],
-					[ CKEDITOR.ALT + 13 /*ENTER*/, 'Alt+Enter', '⌥+Enter', 'Alt+Enter', 'Alt+Enter' ]
-				],
-				test,
-				expIndex = CKEDITOR.env.mac ? 2 : 1;
-
-			for ( var i = 0, l = tests.length; i < l; i++ ) {
-				test = tests[ i ];
-				assert.areEqual( test[ expIndex ], toString( lang, test[ 0 ] ).display, 'Keystroke display string representation is invalid.' );
-				assert.areEqual( test[ expIndex + 2 ], toString( lang, test[ 0 ] ).aria, 'Keystroke ARIA string representation is invalid.' );
-			}
-		},
-
 		'test escapeCss - invalid selector': function() {
 			var selector;
 			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
@@ -773,6 +844,148 @@
 
 			// Check standard selector.
 			assert.areSame( escapedSelector, 'aaa', 'standard selector' );
+		},
+
+		// #810
+		'test getMouseButton': function() {
+			var isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
+
+			function generateMouseButtonAsserts( inputs ) {
+				function generateEvent( button ) {
+					return {
+						data: {
+							$: {
+								button: button
+							}
+						}
+					};
+				}
+
+				CKEDITOR.tools.array.forEach( inputs, function( input ) {
+					assert.areSame( input[ 0 ], CKEDITOR.tools.getMouseButton( generateEvent( input[ 1 ] ) ) );
+				} );
+			}
+
+			generateMouseButtonAsserts( [
+				[ CKEDITOR.MOUSE_BUTTON_LEFT, isIe8 ? 1 : CKEDITOR.MOUSE_BUTTON_LEFT ],
+				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, isIe8 ? 4 : CKEDITOR.MOUSE_BUTTON_MIDDLE ],
+				[ CKEDITOR.MOUSE_BUTTON_RIGHT, isIe8 ? 2 : CKEDITOR.MOUSE_BUTTON_RIGHT ]
+			] );
+		},
+
+		// #662
+		'test hexstring to bytes converter': function() {
+			var testCases = [
+				{
+					hex: '00',
+					bytes:	[ 0 ]
+				},
+				{
+					hex: '000000',
+					bytes: [ 0, 0, 0 ]
+				},
+				{
+					hex: '011001',
+					bytes: [ 1, 16, 1 ]
+				},
+				{
+					hex: '0123456789ABCDEF',
+					bytes: [ 1, 35, 69, 103, 137, 171, 205, 239 ]
+				},
+				{
+					hex: 'FFFFFFFF',
+					bytes: [ 255, 255, 255, 255 ]
+				},
+				{
+					hex: 'fc0fc0',
+					bytes: [ 252, 15, 192 ]
+				},
+				{
+					hex: '08A11D8ADA2B',
+					bytes: [ 8, 161, 29, 138, 218, 43 ]
+				}
+			];
+			CKEDITOR.tools.array.forEach( testCases, function( test ) {
+				arrayAssert.itemsAreEqual( test.bytes, CKEDITOR.tools.convertHexStringToBytes( test.hex ) );
+			} );
+		},
+
+		// #662
+		'test bytes to base64 converter': function() {
+			var testCases = [
+				{
+					bytes: [ 0 ],
+					base64: 'AA=='
+				},
+				{
+					bytes: [ 0, 0, 0 ],
+					base64: 'AAAA'
+				},
+				{
+					bytes: [ 1, 16, 1 ],
+					base64: 'ARAB'
+				},
+				{
+					bytes: [ 1, 35, 69, 103, 137, 171, 205, 239 ],
+					base64: 'ASNFZ4mrze8='
+				},
+				{
+					bytes: [ 255, 255, 255 ],
+					base64: '////'
+				},
+				{
+					bytes: [ 252, 15, 192 ],
+					base64: '/A/A'
+				},
+				{
+					bytes: [ 8, 161, 29, 138, 218, 43 ],
+					base64: 'CKEditor'
+				},
+				{
+					// jscs:disable
+					bytes: [ 0, 16, 131, 16, 81, 135, 32, 146, 139, 48, 211, 143, 65, 20, 147, 81, 85, 151, 97, 150, 155, 113, 215, 159, 130, 24, 163, 146, 89, 167, 162, 154, 171, 178, 219, 175, 195, 28, 179, 211, 93, 183, 227, 158, 187, 243, 223, 191 ],
+					// jscs:enable
+					base64: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+				}
+			];
+
+			CKEDITOR.tools.array.forEach( testCases, function( test ) {
+				assert.areSame( test.base64, CKEDITOR.tools.convertBytesToBase64( test.bytes ) );
+			} );
+		},
+
+		// (#1791)
+		'test detect plugins conflict - with conflicting plugins': function() {
+			var editor = {
+					plugins: {
+						'plugin1': 1,
+						'plugin2': 2
+					}
+				},
+				spy = sinon.spy( CKEDITOR, 'warn' ),
+
+				result = CKEDITOR.tools.detectPluginsConflict( editor, 'plugin', [ 'plugin1', 'plugin2' ] );
+
+			spy.restore();
+
+			assert.isTrue( result, 'Conflicts detected.' );
+			assert.isTrue( spy.calledWith( 'editor-plugin-conflict', { plugin: 'plugin', replacedWith: 'plugin1' } ) );
+		},
+
+		// (#1791)
+		'test detect plugins conflict - without conflicting plugins': function() {
+			var editor = {
+					plugins: {}
+				},
+				spy = sinon.spy( CKEDITOR, 'warn' ),
+
+				result = CKEDITOR.tools.detectPluginsConflict( editor, 'plugin', [ 'plugin1', 'plugin2' ] );
+
+			spy.restore();
+
+			assert.isFalse( result, 'Conflicts not detected.' );
+			assert.isFalse( spy.called );
 		}
+
 	} );
 } )();

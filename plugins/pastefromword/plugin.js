@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -9,55 +9,48 @@
 	CKEDITOR.plugins.add( 'pastefromword', {
 		requires: 'clipboard',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'pastefromword,pastefromword-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var commandName = 'pastefromword',
-				// Flag indicate this command is actually been asked instead of a generic pasting.
-				forceFromWord = 0,
-				path = this.path;
+			// Flag indicate this command is actually been asked instead of a generic pasting.
+			var forceFromWord = 0,
+				path = this.path,
+				configInlineImages = editor.config.pasteFromWord_inlineImages === undefined ? true : editor.config.pasteFromWord_inlineImages;
 
-			editor.addCommand( commandName, {
+			editor.addCommand( 'pastefromword', {
 				// Snapshots are done manually by editable.insertXXX methods.
 				canUndo: false,
 				async: true,
 
-				exec: function( editor ) {
-					var cmd = this;
-
+				/**
+				 * The Paste from Word command. It will determine its pasted content from Word automatically if possible.
+				 *
+				 * At the time of writing it was working correctly only in Internet Explorer browsers, due to their
+				 * `paste` support in `document.execCommand`.
+				 *
+				 * @private
+				 * @param {CKEDITOR.editor} editor An instance of the editor where the command is being executed.
+				 * @param {Object} [data] The options object.
+				 * @param {Boolean/String} [data.notification=true] Content for a notification shown after an unsuccessful
+				 * paste attempt. If `false`, the notification will not be displayed. This parameter was added in 4.7.0.
+				 * @member CKEDITOR.editor.commands.pastefromword
+				 */
+				exec: function( editor, data ) {
 					forceFromWord = 1;
-					// Force html mode for incomming paste events sequence.
-					editor.once( 'beforePaste', forceHtmlMode );
-
-					editor.getClipboardData( { title: editor.lang.pastefromword.title }, function( data ) {
-						// Do not use editor#paste, because it would start from beforePaste event.
-						data && editor.fire( 'paste', {
-							type: 'html',
-							dataValue: data.dataValue,
-							method: 'paste',
-							dataTransfer: CKEDITOR.plugins.clipboard.initPasteDataTransfer()
-						} );
-
-						editor.fire( 'afterCommandExec', {
-							name: commandName,
-							command: cmd,
-							returnValue: !!data
-						} );
+					editor.execCommand( 'paste', {
+						type: 'html',
+						notification: data && typeof data.notification !== 'undefined' ? data.notification : true
 					} );
 				}
 			} );
 
 			// Register the toolbar button.
-			editor.ui.addButton && editor.ui.addButton( 'PasteFromWord', {
+			CKEDITOR.plugins.clipboard.addPasteButton( editor, 'PasteFromWord', {
 				label: editor.lang.pastefromword.toolbar,
-				command: commandName,
+				command: 'pastefromword',
 				toolbar: 'clipboard,50'
-			} );
-
-			editor.on( 'pasteState', function( evt ) {
-				editor.getCommand( commandName ).setState( evt.data );
 			} );
 
 			// Features brought by this command beside the normal process:
@@ -68,11 +61,20 @@
 			// type sniffing (priority = 6).
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data,
-					mswordHtml = data.dataValue,
-					wordRegexp = /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
-					pfwEvtData = { dataValue: mswordHtml };
+					dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
+						data.dataTransfer.getData( 'text/html', true ) : null,
+					// Required in Paste from Word Image plugin (#662).
+					dataTransferRtf = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
+						data.dataTransfer.getData( 'text/rtf' ) : null,
+					// Some commands fire paste event without setting dataTransfer property. In such case
+					// dataValue should be used.
+					mswordHtml = dataTransferHtml || data.dataValue,
+					pfwEvtData = { dataValue: mswordHtml, dataTransfer: { 'text/rtf': dataTransferRtf } },
+					officeMetaRegexp = /<meta\s*name=(?:\"|\')?generator(?:\"|\')?\s*content=(?:\"|\')?microsoft/gi,
+					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
+					isOfficeContent = officeMetaRegexp.test( mswordHtml ) || wordRegexp.test( mswordHtml );
 
-				if ( !mswordHtml || !( forceFromWord || wordRegexp.test( mswordHtml ) ) ) {
+				if ( !mswordHtml || !( forceFromWord || isOfficeContent ) ) {
 					return;
 				}
 
@@ -81,7 +83,7 @@
 					return;
 				}
 
-				// Do not apply paste filter to data filtered by the Word filter (#13093).
+				// Do not apply paste filter to data filtered by the Word filter (https://dev.ckeditor.com/ticket/13093).
 				data.dontFilter = true;
 
 				// If filter rules aren't loaded then cancel 'paste' event,
@@ -93,11 +95,20 @@
 					if ( isLazyLoad ) {
 						editor.fire( 'paste', data );
 					} else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) {
+
 						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor );
 
 						editor.fire( 'afterPasteFromWord', pfwEvtData );
 
 						data.dataValue = pfwEvtData.dataValue;
+						if ( editor.config.forcePasteAsPlainText === true ) {
+							// If `config.forcePasteAsPlainText` set to true, force plain text even on Word content (#1013).
+							data.type = 'text';
+						} else if ( CKEDITOR.env.ie && editor.config.forcePasteAsPlainText === 'allow-word' ) {
+							// In IE when pasting from Word, evt.data.type is 'auto' (not 'html') so it gets converted
+							// by 'pastetext' plugin to 'text'. We need to restore 'html' type (#1013).
+							data.type = 'html';
+						}
 					}
 
 					// Reset forceFromWord.
@@ -108,6 +119,54 @@
 				// this event.
 				isLazyLoad && evt.cancel();
 			}, null, null, 3 );
+
+			// Paste From Word Image:
+			// RTF clipboard is required for embedding images.
+			// If img tags are not allowed there is no point to process images.
+			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && configInlineImages ) {
+				editor.on( 'afterPasteFromWord', imagePastingListener );
+			}
+
+			function imagePastingListener( evt ) {
+				var pfw = CKEDITOR.plugins.pastefromword && CKEDITOR.plugins.pastefromword.images,
+					imgTags,
+					hexImages,
+					newSrcValues = [],
+					i;
+
+				// If pfw images namespace is unavailable or img tags are not allowed we simply skip adding images.
+				if ( !pfw || !evt.editor.filter.check( 'img[src]' ) ) {
+					return;
+				}
+
+				function createSrcWithBase64( img ) {
+					return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
+				}
+
+				imgTags = pfw.extractTagsFromHtml( evt.data.dataValue );
+				if ( imgTags.length === 0 ) {
+					return;
+				}
+
+				hexImages = pfw.extractFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
+				if ( hexImages.length === 0 ) {
+					return;
+				}
+
+				CKEDITOR.tools.array.forEach( hexImages, function( img ) {
+					newSrcValues.push( createSrcWithBase64( img ) );
+				}, this );
+
+				// Assuming there is equal amount of Images in RTF and HTML source, so we can match them accordingly to the existing order.
+				if ( imgTags.length === newSrcValues.length ) {
+					for ( i = 0; i < imgTags.length; i++ ) {
+						// Replace only `file` urls of images ( shapes get newSrcValue with null ).
+						if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
+							evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ], newSrcValues[ i ] );
+						}
+					}
+				}
+			}
 		}
 
 	} );
@@ -125,10 +184,6 @@
 		}
 
 		return !isLoaded;
-	}
-
-	function forceHtmlMode( evt ) {
-		evt.data.type = 'html';
 	}
 } )();
 
@@ -160,6 +215,20 @@
  *
  * @since 3.1
  * @cfg {String} [pasteFromWordCleanupFile=<plugin path> + 'filter/default.js']
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Flag decides whether embedding images pasted with Word content is enabled or not.
+ *
+ * **Note:** Please be aware that embedding images requires Clipboard API support, available only in modern browsers, that is indicated by
+ * {@link CKEDITOR.plugins.clipboard#isCustomDataTypesSupported} flag.
+ *
+ *		// Disable embedding images pasted from Word.
+ *		config.pasteFromWord_inlineImages = false;
+ *
+ * @since 4.8.0
+ * @cfg {Boolean} [pasteFromWord_inlineImages=true]
  * @member CKEDITOR.config
  */
 

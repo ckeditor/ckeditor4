@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,image */
+/* bender-tags: editor,image */
 /* bender-ckeditor-plugins: image,button,toolbar,link */
 
 ( function() {
@@ -245,7 +245,7 @@
 			} );
 		},
 
-		// #10867
+		// https://dev.ckeditor.com/ticket/10867
 		'test set encoded URI as image\'s link': function() {
 			var uri = 'http://ckeditor.dev/?q=%C5rsrapport';
 			var htmlWithSelection = '<p>[<img src="' + SRC + '" />]</p>';
@@ -256,7 +256,7 @@
 			} );
 		},
 
-		// #12132
+		// https://dev.ckeditor.com/ticket/12132
 		'test width and height not set when not allowed': function() {
 			bender.editorBot.create( {
 				name: 'editor_disallowed_dimension',
@@ -289,7 +289,7 @@
 		},
 
 		/**
-		 * #12126
+		 * https://dev.ckeditor.com/ticket/12126
 		 *
 		 * 1. Open image dialog.
 		 * 2. Set some proper image url and focus out.
@@ -335,8 +335,42 @@
 			} );
 		},
 
+		// (#2254)
+		'test lock ratio status after image resize': function() {
+			var image = imgs[ 1 ];
+			bender.editorBot.create( {
+				name: 'editor_lockratio'
+			},
+				function( bot ) {
+					bot.dialog( 'image', function( dialog ) {
+						var stub = sinon.stub( dialog, 'getValueOf', function( field, prop ) {
+							return prop === 'txtWidth' ? getFixedImageSize( 'width' ) : getFixedImageSize( 'height' );
+						} );
+
+						dialog.originalElement.once( 'load', function() {
+							setTimeout( function() {
+								resume( function() {
+									stub.restore();
+									assert.isTrue( dialog.lockRatio );
+								} );
+							} );
+
+						}, null, null, 999 );
+
+						// Changing image url triggers load event.
+						dialog.getContentElement( 'info', 'txtUrl' ).setValue( image.url );
+
+						wait();
+
+						function getFixedImageSize( prop ) {
+							return Math.round( Number( image[ prop ] ) / 3.6 );
+						}
+					} );
+				} );
+		},
+
 		/**
-		 * #12126
+		 * https://dev.ckeditor.com/ticket/12126
 		 *
 		 * 1. Open image dialog.
 		 * 2. Set some proper image url and focus out.

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,lineutils */
+/* bender-tags: editor,lineutils */
 /* bender-ckeditor-plugins: lineutils */
 
 ( function() {

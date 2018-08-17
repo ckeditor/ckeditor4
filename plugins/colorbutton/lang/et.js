@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'et', {
 	auto: 'Automaatne',
@@ -57,8 +57,8 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'et', {
 		'2980B9': 'Strong Blue', // MISSING
 		'8E44AD': 'Dark Violet', // MISSING
 		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
+		'F39C12': 'Oraanž',
+		'E67E22': 'Porgand',
 		'E74C3C': 'Pale Red', // MISSING
 		'ECF0F1': 'Bright Silver', // MISSING
 		'95A5A6': 'Light Grayish Cyan', // MISSING
@@ -67,7 +67,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'et', {
 		'C0392B': 'Strong Red', // MISSING
 		'BDC3C7': 'Silver', // MISSING
 		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'999': 'Tume hall'
 	},
 	more: 'Rohkem värve...',
 	panelTitle: 'Värvid',

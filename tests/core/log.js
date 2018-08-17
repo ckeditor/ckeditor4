@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* global console */
 
 ( function() {
@@ -55,7 +55,7 @@
 			// call/apply methods. This leads to situation when spy methods cannot work properly.
 			// Because of that each function should be wrapped before use.
 			// The console object should be also stubbed because newer sinon version cannot work on that object in
-			// IE <= 9 (#13917).
+			// IE <= 9 (https://dev.ckeditor.com/ticket/13917).
 			if ( consoleEnabled && CKEDITOR.env.ie && CKEDITOR.env.version <= 9 ) {
 				_console = window.console;
 				window.console = {

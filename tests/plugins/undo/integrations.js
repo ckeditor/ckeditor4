@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: undo,image */
 /* bender-include: _helpers/tools.js */
 /* global undoEventDispatchTestsTools */
@@ -25,7 +25,7 @@
 				this.editor.resetUndo();
 			},
 
-			// (#12327)
+			// (https://dev.ckeditor.com/ticket/12327)
 			'test image deletion': function() {
 				bender.tools.selection.setWithHtml( this.editor, '<p>[<img src="%BASE_PATH%_assets/img.gif" />]Apollo 11</p>' );
 				this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, true );

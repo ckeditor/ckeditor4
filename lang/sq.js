@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -77,10 +77,13 @@ CKEDITOR.lang[ 'sq' ] = {
 		width: 'Gjerësi',
 		height: 'Lartësi',
 		align: 'Rreshtim',
-		alignLeft: 'Majtas',
-		alignRight: 'Djathtas',
-		alignCenter: 'Qendër',
-		alignJustify: 'Zgjero',
+		left: 'Majtas',
+		right: 'Djathtas',
+		center: 'Qendër',
+		justify: 'Zgjero',
+		alignLeft: 'Rreshto majtas',
+		alignRight: 'Rreshto Djathtas',
+		alignCenter: 'Align Center', // MISSING
 		alignTop: 'Lart',
 		alignMiddle: 'Në mes',
 		alignBottom: 'Poshtë',
@@ -88,6 +91,7 @@ CKEDITOR.lang[ 'sq' ] = {
 		invalidValue: 'Vlerë e pavlefshme',
 		invalidHeight: 'Lartësia duhet të jetë një numër',
 		invalidWidth: 'Gjerësia duhet të jetë një numër',
+		invalidLength: 'Vlera e përcaktuar për fushën "%1" duhet të jetë pozitive me ose pa njësi matëse me vlerë (%2).',
 		invalidCssLength: 'Vlera e fushës "%1" duhet të jetë një numër pozitiv me apo pa njësi matëse të vlefshme CSS (px, %, in, cm, mm, em, ex, pt ose pc).',
 		invalidHtmlLength: 'Vlera e fushës "%1" duhet të jetë një numër pozitiv me apo pa njësi matëse të vlefshme HTML (px ose %)',
 		invalidInlineStyle: 'Stili inline duhet të jetë një apo disa vlera të formatit "emër: vlerë", ndarë nga pikëpresje.',
@@ -103,14 +107,40 @@ CKEDITOR.lang[ 'sq' ] = {
 			16: 'Shift',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Hapësirë',
 			35: 'End',
 			36: 'Home',
 			46: 'Grise',
-			224: 'Command' // MISSING
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
+			224: 'Urdhëri'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Shkurtesat e tastierës',
+
+		optionDefault: 'Parazgjedhur'
 	}
 };

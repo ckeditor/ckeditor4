@@ -1,4 +1,4 @@
-@bender-tags: tc, colordialog, 8679, 4.5.9
+@bender-tags: bug, colordialog, trac8679, 4.5.9
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog
 

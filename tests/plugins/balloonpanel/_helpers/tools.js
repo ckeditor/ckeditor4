@@ -49,5 +49,57 @@ var balloonTestsTools = {
 		balloon.attach( elem );
 		// For some reason cke_reset_all overrides balloon styling in tests.
 		balloon.parts.panel.removeClass( 'cke_reset_all' );
+	},
+
+	getDocumentOrigin: function() {
+		// The `document.location.origin` is not available on IE8-10 (#1276).
+		if ( !document.location.origin ) {
+			return document.location.protocol + '//' + document.location.hostname + ( document.location.port ? ':' + document.location.port : '' );
+		}
+		return document.location.origin;
+	},
+
+	getTriangleTipPosition: function( balloon ) {
+		var pos = {
+			x: balloon.rect.left,
+			y: balloon.rect.top
+		};
+
+		switch ( balloon.triangleSide + ' ' + balloon.triangleAlign ) {
+			case 'right vcenter':
+				pos.x = pos.x + balloon.rect.width + balloon.triangleWidth;
+				pos.y = pos.y + balloon.rect.height / 2;
+				break;
+			case 'left vcenter':
+				pos.x = pos.x - balloon.triangleWidth;
+				pos.y = pos.y + balloon.rect.height / 2;
+				break;
+			case 'top hcenter':
+				pos.x = pos.x + balloon.rect.width / 2;
+				pos.y = pos.y - balloon.triangleHeight;
+				break;
+			case 'top left':
+				pos.x = pos.x + balloon.triangleMinDistance;
+				pos.y = pos.y - balloon.triangleHeight;
+				break;
+			case 'top right':
+				pos.x = pos.x + balloon.rect.width - balloon.triangleMinDistance;
+				pos.y = pos.y - balloon.triangleHeight;
+				break;
+			case 'bottom hcenter':
+				pos.x = pos.x + balloon.rect.width / 2;
+				pos.y = pos.y + balloon.height + balloon.triangleHeight;
+				break;
+			case 'bottom left':
+				pos.x = pos.x + balloon.triangleMinDistance;
+				pos.y = pos.y + balloon.height + balloon.triangleHeight;
+				break;
+			case 'bottom right':
+				pos.x = pos.x + balloon.rect.width - balloon.triangleMinDistance;
+				pos.y = pos.y + balloon.height + balloon.triangleHeight;
+				break;
+		}
+		return pos;
 	}
+
 };

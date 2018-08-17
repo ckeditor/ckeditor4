@@ -1,0 +1,22 @@
+/*
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+*/
+CKEDITOR.plugins.setLang( 'toolbar', 'es-mx', {
+	toolbarCollapse: 'Colapsar barra de herramientas',
+	toolbarExpand: 'Expandir barra de herramientas',
+	toolbarGroups: {
+		document: 'Documento',
+		clipboard: 'Portapapeles/deshacer',
+		editing: 'Editando',
+		forms: 'Formularios',
+		basicstyles: 'Estilo básico',
+		paragraph: 'Párrafo',
+		links: 'Enlaces',
+		insert: 'Insertar',
+		styles: 'Estilos',
+		colors: 'Colores',
+		tools: 'Herramientas'
+	},
+	toolbars: 'Editor de barra de herramientas'
+} );

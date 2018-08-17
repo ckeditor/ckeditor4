@@ -1,6 +1,5 @@
-/* bender-tags: editor,unit,widget */
+/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: codesnippet,codesnippetgeshi,toolbar */
-/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -12,7 +11,7 @@
 		}
 	};
 
-	var obj2Array = widgetTestsTools.obj2Array,
+	var objToArray = bender.tools.objToArray,
 		html = '<pre><code class="language-php">foo</code></pre>';
 
 	function fixHtml( html ) {
@@ -44,7 +43,7 @@
 			// highlighter functions in any case. It's done in finally block.
 			try {
 				this.editorBot.setData( html, function() {
-					var widget = obj2Array( this.editor.widgets.instances )[ 0 ],
+					var widget = objToArray( this.editor.widgets.instances )[ 0 ],
 						expectedHtml = fixHtml( '<code class="language-php geshi">foo<strong>bar</strong></code>' );
 
 					assert.areSame( 1, ajaxCalled, 'Invalid count of calls to CKEDITOR.ajax#post' );

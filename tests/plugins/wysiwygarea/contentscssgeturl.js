@@ -1,5 +1,5 @@
-/* bender-tags: editor,unit */
-/* bender-ckeditor-remove-plugins: copyformatting */
+/* bender-tags: editor */
+/* bender-ckeditor-remove-plugins: copyformatting, tableselection */
 /* exported CKEDITOR_GETURL */
 
 // Load contents.css from assets directory and all other files a default way.

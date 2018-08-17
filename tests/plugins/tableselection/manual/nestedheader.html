@@ -1,0 +1,23 @@
+<div id="editor1">
+	<table border="1">
+		<tr>
+			<td>
+				<p>I shouldn't be selected</p>
+				<table border="1">
+					<tr>
+						<th>Start here…</th>
+						<td>…and go here</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<script>
+	if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1' );
+</script>

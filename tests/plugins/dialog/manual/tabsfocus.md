@@ -1,4 +1,4 @@
-@bender-tags: 4.4.8, tc, 13027, accessibility
+@bender-tags: 4.4.8, bug, trac13027, accessibility
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, link
 

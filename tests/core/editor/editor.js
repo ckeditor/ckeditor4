@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 CKEDITOR.replaceClass = 'ckeditor';
 bender.editor = true;
@@ -347,7 +347,7 @@ bender.test( {
 			name: 'no_notification',
 			creator: 'inline',
 			config: {
-				removePlugins: 'notification'
+				plugins: 'wysiwygarea'
 			}
 		}, function( bot ) {
 			var editor = bot.editor,

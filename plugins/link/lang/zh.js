@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'zh', {
 	acccessKey: '便捷鍵',
@@ -19,7 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh', {
 	anchorName: '依錨點名稱',
 	charset: '連結資源的字元集',
 	cssClasses: '樣式表類別',
-	download: 'Force Download', // MISSING
+	download: '強制下載',
 	displayText: '顯示文字',
 	emailAddress: '電子郵件地址',
 	emailBody: '郵件本文',

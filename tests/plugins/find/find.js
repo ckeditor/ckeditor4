@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: find */
 
 bender.editor = {
@@ -36,7 +36,7 @@ bender.test( {
 
 		} );
 	},
-	// #6957
+	// https://dev.ckeditor.com/ticket/6957
 	'test find highlight for read-only text': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<p>[foo]</p><p contenteditable="false">bar</p>' );
@@ -49,7 +49,7 @@ bender.test( {
 		} );
 	},
 
-	// #7028
+	// https://dev.ckeditor.com/ticket/7028
 	'test replace all': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<p>[foo]&nbsp;foo</p><p>foobaz</p>' );
@@ -62,7 +62,7 @@ bender.test( {
 		} );
 	},
 
-	// #12848
+	// https://dev.ckeditor.com/ticket/12848
 	'test find in read-only mode': function() {
 		var bot = this.editorBot;
 
@@ -81,7 +81,7 @@ bender.test( {
 		} );
 	},
 
-	// #11697
+	// https://dev.ckeditor.com/ticket/11697
 	'test find and replace with pattern change - replace text after selection': function() {
 		var bot = this.editorBot;
 
@@ -104,7 +104,7 @@ bender.test( {
 		} );
 	},
 
-	// #11697
+	// https://dev.ckeditor.com/ticket/11697
 	'test find and replace with pattern change - replace text before selection': function() {
 		var bot = this.editorBot;
 
@@ -127,7 +127,7 @@ bender.test( {
 		} );
 	},
 
-	// #11697
+	// https://dev.ckeditor.com/ticket/11697
 	'test find and replace with options change': function() {
 		var bot = this.editorBot;
 

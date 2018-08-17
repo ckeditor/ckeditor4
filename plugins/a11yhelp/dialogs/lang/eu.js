@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'eu', {
@@ -79,6 +79,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eu', {
 			{
 			name: 'Erabilerraztasunaren laguntza',
 			legend: 'Sakatu ${a11yHelp}'
+		},
+			{
+			name: 'Itsatsi testu arrunt bezala',
+			legend: 'Sakatu ${pastetext}',
+			legendEdge: 'Sakatu ${pastetext} eta jarraian ${paste}'
 		}
 		]
 	}
@@ -87,8 +92,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eu', {
 	pause: 'Pausatu',
 	capslock: 'Blok Maius',
 	escape: 'Ihes',
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
+	pageUp: 'Orria gora',
+	pageDown: 'Orria behera',
 	leftArrow: 'Ezker-gezia',
 	upArrow: 'Gora gezia',
 	rightArrow: 'Eskuin-gezia',

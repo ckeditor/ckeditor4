@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, copyformatting, 4.6.0
+@bender-tags: bug, copyformatting, 4.6.0
 @bender-ckeditor-plugins: copyformatting, toolbar, wysiwygarea, floatingspace, basicstyles, elementspath, undo
 
 **Procedure for the first editor**
@@ -22,4 +22,5 @@
 
 **Expected**
 
-* The keystrokes are not activating Copy Formatting functions.
+* The keystrokes are not activating Copy Formatting functions. If some content had been present
+in your clipboard it should be pasted as a plain text.

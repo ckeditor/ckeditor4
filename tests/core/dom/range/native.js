@@ -2,7 +2,7 @@
 	'use strict';
 
 	bender.test( {
-		// #11586
+		// https://dev.ckeditor.com/ticket/11586
 		'test range.cloneContents does not split text nodes': function() {
 			if ( typeof document.createRange != 'function' ) {
 				assert.ignore();
@@ -27,7 +27,7 @@
 			assert.areSame( endContainer, range.endContainer, 'endContainer ref' );
 		},
 
-		// #11586
+		// https://dev.ckeditor.com/ticket/11586
 		'test range.cloneContents does not affect selection': function() {
 			if ( typeof document.createRange != 'function' ) {
 				assert.ignore();

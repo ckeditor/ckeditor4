@@ -1,4 +1,4 @@
-@bender-tags: 4.5.10, tc, 14701, widget, accessibility
+@bender-tags: 4.5.10, bug, trac14701, widget, accessibility
 @bender-ui: collapsed
 @bender-ckeditor-plugins: image2, wysiwygarea, toolbar, sourcearea, floatingspace, elementspath
 

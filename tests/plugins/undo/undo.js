@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: undo,enterkey,horizontalrule,image,iframe,flash,basicstyles,toolbar,sourcearea */
 
 var fillingCharSequence = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE,
@@ -127,7 +127,7 @@ bender.test( {
 		} );
 	},
 
-	// #10249
+	// https://dev.ckeditor.com/ticket/10249
 	'check initial command states': function() {
 		var bot = this.editorBot,
 			undo = bot.editor.getCommand( 'undo' ),
@@ -155,7 +155,7 @@ bender.test( {
 		wait();
 	},
 
-	// #10249
+	// https://dev.ckeditor.com/ticket/10249
 	'check command states on readOnly': function() {
 		var bot = this.editorBot,
 			undo = bot.editor.getCommand( 'undo' ),
@@ -182,12 +182,12 @@ bender.test( {
 		wait();
 	},
 
-	// #7912
+	// https://dev.ckeditor.com/ticket/7912
 	'test undo enter key': function() {
 		this.doUndoCommand( '<p>foo^bar</p>', 'enter' );
 	},
 
-	// #8299
+	// https://dev.ckeditor.com/ticket/8299
 	'test undo hr insertion': function() {
 		this.doUndoCommand( '<p>foo^bar</p>', 'horizontalrule' );
 	},
@@ -229,7 +229,7 @@ bender.test( {
 		assert.isTrue( isActive( undo ), msg );
 	},
 
-	// #10131
+	// https://dev.ckeditor.com/ticket/10131
 	// Scenario:
 	// * lock (+1)
 	// * lock (+2)
@@ -323,7 +323,7 @@ bender.test( {
 		assert.areSame( '<p>foo</p>', editor.getData(), 'after unlockSnapshot - data' );
 	},
 
-	// #10315
+	// https://dev.ckeditor.com/ticket/10315
 	'test filling char is not recorded': function() {
 		var editor = this.editor,
 			editable = editor.editable(),
@@ -362,7 +362,7 @@ bender.test( {
 		assert.isFalse( isActive( redo ), msg + 'redoable' );
 	},
 
-	// #10315 Two scenarios:
+	// https://dev.ckeditor.com/ticket/10315 Two scenarios:
 	//
 	// 1.
 	// * sellection with filling char
@@ -450,7 +450,7 @@ bender.test( {
 		assert.isFalse( isActive( redo ), msg + 'redoable' );
 	},
 
-	// #13816
+	// https://dev.ckeditor.com/ticket/13816
 	'test selection is restored despite filling char': function() {
 		// This TC fails on IE8 because it uses old IE selection implementation, which uses original (intrusive)
 		// bookmark implementation and it messes up the TC.
@@ -707,7 +707,7 @@ bender.test( {
 		wait();
 	},
 
-	// #9230
+	// https://dev.ckeditor.com/ticket/9230
 	'test automatic DOM changes handling': function() {
 		var bot = this.editorBot,
 			editor = bot.editor,
@@ -798,7 +798,7 @@ bender.test( {
 		}, 0 );
 	},
 
-	// #8258
+	// https://dev.ckeditor.com/ticket/8258
 	'test undo image insertion (dialog)': function() {
 		this.doUndoDialog( '<p>foo^bar</p>', 'image', function( dialog ) {
 			dialog.setValueOf( 'info', 'txtUrl', '../../_assets/logo.png' );
@@ -806,7 +806,7 @@ bender.test( {
 		} ) ;
 	},
 
-	// #8258
+	// https://dev.ckeditor.com/ticket/8258
 	'test undo iframe insertion (dialog)': function() {
 		this.doUndoDialog( '<p>foo^bar</p>', 'iframe', function( dialog ) {
 			dialog.setValueOf( 'info', 'src', 'about:blank' );
@@ -814,7 +814,7 @@ bender.test( {
 		} ) ;
 	},
 
-	// #8258
+	// https://dev.ckeditor.com/ticket/8258
 	'test undo flash insertion (dialog)': function() {
 		this.doUndoDialog( '<p>foo^bar</p>', 'flash', function( dialog ) {
 			dialog.setValueOf( 'info', 'src', '../../_assets/sample.swf' );
@@ -822,7 +822,7 @@ bender.test( {
 		} ) ;
 	},
 
-	// #12597
+	// https://dev.ckeditor.com/ticket/12597
 	'test no beforeUndoImage event fire while composition': function() {
 		var bot = this.editorBot,
 			editor = bot.editor,

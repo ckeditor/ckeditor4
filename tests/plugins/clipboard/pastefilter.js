@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: toolbar,clipboard,pastetext */
 /* bender-include: _helpers/pasting.js */
 /* global assertPasteEvent */
@@ -109,6 +109,10 @@
 		return {
 			getTransferType: function() {
 				return type;
+			},
+
+			getData: function() {
+				return '';
 			}
 		};
 	}
@@ -214,6 +218,20 @@
 
 		assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>', dataTransfer: mockDataTransfer( CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) },
 			{ dataValue: '<h2>Foo <strong>bar</strong></h2>' } );
+	};
+
+	tests[ 'internal paste is filtered for forceAsPlainText' ] = function() {
+		var editor = this.editors.editorForcePAPT;
+
+		assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>', dataTransfer: mockDataTransfer( CKEDITOR.DATA_TRANSFER_INTERNAL ) },
+			{ dataValue: '<p>Foo bar</p>' } );
+	};
+
+	tests[ 'cross-editors paste is filtered for forceAsPlainText' ] = function() {
+		var editor = this.editors.editorForcePAPT;
+
+		assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>', dataTransfer: mockDataTransfer( CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) },
+			{ dataValue: '<p>Foo bar</p>' } );
 	};
 
 	tests[ 'external paste is filtered' ] = function() {

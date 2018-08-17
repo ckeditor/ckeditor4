@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: undo,basicstyles,toolbar,wysiwygarea */
 /* global undoEventDispatchTestsTools */
 
@@ -468,7 +468,7 @@
 			},
 
 			'test snapshot created on more than 25 changes by holding different keys - one after another': function() {
-				// #12425
+				// https://dev.ckeditor.com/ticket/12425
 				assert.ignore();
 
 				this.editorBot.setData( '<p>Hi</p>', function() {

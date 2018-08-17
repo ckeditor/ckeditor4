@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: list,toolbar,table,format */
 
 bender.editor = {
@@ -34,7 +34,7 @@ var tests = {
 	}
 };
 
-// Start of #8248
+// Start of https://dev.ckeditor.com/ticket/8248
 addTests( 'test backspace join list items', 'join_list1', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list2', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list3', BACKSPACE );
@@ -92,7 +92,7 @@ addTests( 'test del join with next list item', 'merge_next_list2', DEL );
 addTests( 'test del join with next list item', 'merge_next_list3', DEL );
 addTests( 'test del join with next list item', 'merge_next_list4', DEL );
 
-// On IE8 this test fails due to #13098.
+// On IE8 this test fails due to https://dev.ckeditor.com/ticket/13098.
 if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 ) {
 	addTests( 'test del join with next list item', 'merge_next_list5', DEL );
 }
@@ -104,7 +104,7 @@ addTests( 'test del do nothing', 'del_no_action', DEL );
 addTests( 'test del do nothing', 'del_no_action2', DEL );
 
 // Make sure that the modifiers are ignored.
-// http://dev.ckeditor.com/ticket/11861#comment:13
+// https://dev.ckeditor.com/ticket/11861#comment:13
 addTests( 'test backspace join list items - CTRL', 'join_list1', BACKSPACE, CKEDITOR.CTRL );
 addTests( 'test backspace outdent list item - SHIFT', 'outdent_list', BACKSPACE, CKEDITOR.SHIFT );
 addTests( 'test del join list items - CTRL', 'join_list1_del', DEL, CKEDITOR.CTRL );

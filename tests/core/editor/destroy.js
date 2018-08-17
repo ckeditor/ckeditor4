@@ -1,10 +1,13 @@
-/* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: toolbar,button,stylescombo */
+/* bender-tags: editor */
+/* bender-ckeditor-plugins: toolbar,button,stylescombo,wysiwygarea */
 
-bender.editor = true;
+bender.editor = {
+	config: {
+		startupFocus: true
+	}
+};
 
-bender.test(
-{
+bender.test( {
 	'test destroy editor with rich combo panel opened': function() {
 		var bot = this.editorBot, editor = this.editor;
 		bot.combo( 'Styles', function( combo ) {
@@ -12,7 +15,7 @@ bender.test(
 			editor.destroy();
 			assert.isFalse( CKEDITOR.document.getBody().contains( panelEl ) );
 
-			// #4552: Do that one more time.
+			// https://dev.ckeditor.com/ticket/4552: Do that one more time.
 			bender.editorBot.create( {}, function( bot ) {
 				this.wait( function() {
 					bot.combo( 'Styles', function( combo ) {
@@ -27,7 +30,7 @@ bender.test(
 		} );
 	},
 
-	// #13385.
+	// https://dev.ckeditor.com/ticket/13385.
 	'test getSnapshot returns empty string after editor destroyed': function() {
 		bender.editorBot.create( {}, function( bot ) {
 			this.wait( function() {
@@ -58,5 +61,24 @@ bender.test(
 				'CKEDITOR.warn error code should be "editor-incorrect-destroy".' );
 		}, 0 );
 
+	},
+
+	'test check editable existence on blur': function() {
+		CKEDITOR.replace( 'focused', {
+			on: {
+				instanceReady: function( evt ) {
+					resume( function() {
+						var editor = evt.sender;
+						// Simulate the circumstances instead of creating them.
+						editor.focusManager.hasFocus = true;
+						sinon.stub( editor, 'editable' ).returns( null );
+						editor.focusManager.blur( 1 );
+						assert.pass();
+					} );
+				}
+			}
+		} );
+
+		wait();
 	}
 } );

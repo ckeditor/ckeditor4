@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,clipboard,pastefromword */
+/* bender-tags: editor,clipboard,pastefromword */
 /* bender-ckeditor-plugins: clipboard,pastefromword,ajax */
 /* global assertPasteEvent */
 

@@ -1,8 +1,8 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 // editor language detect will need a standalone clean suite.
 bender.test( {
-	// #4219
+	// https://dev.ckeditor.com/ticket/4219
 	'test fallback to use probe language': function() {
 		var tc = this;
 		var editor = new CKEDITOR.editor( {

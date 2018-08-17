@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 ( function() {
 	'use strict';
@@ -43,7 +43,7 @@
 				assert.areSame( 'bar', sel.getSelectedText(), 'selection after 1st setData' );
 				assert.isTrue( bots.inline1.editor.editable().hasFocus, 'focus after 1st setData' );
 
-				// http://dev.ckeditor.com/ticket/11500#comment:10 - two set data needed.
+				// https://dev.ckeditor.com/ticket/11500#comment:10 - two set data needed.
 				bots.inline2.setData( '<p>x2</p>', function() {
 					var sel = bots.inline1.editor.getSelection( true ); // Get real selection.
 					assert.areSame( 'bar', sel.getSelectedText(), 'selection after 2nd setData' );

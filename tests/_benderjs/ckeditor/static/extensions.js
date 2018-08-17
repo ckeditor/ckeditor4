@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function( window, bender ) {
@@ -43,15 +43,31 @@
 		);
 	}
 
-	bender.assert.isMatching = function( expected, actual, message ) {
+	/*
+	 * @param {RegExp} expected RegExp that must be matched.
+	 * @param {String} actual String value to be tested.
+	 * @param {String} [message]
+	 * @param {Boolean} [reversed=false] If `true` will reverse assertion, and ensure that pattern is not included.
+	 */
+	bender.assert.isMatching = function( expected, actual, message, reversed ) {
 		YTest.Assert._increment();
+		var desiredMatchResult = reversed ? false : true;
 		// Using regexp.test may lead to unpredictable bugs when using global flag for regexp.
-		if ( typeof actual != 'string' || !actual.match( expected ) ) {
+		if ( typeof actual != 'string' || !!actual.match( expected ) !== desiredMatchResult ) {
 			throw new YTest.ComparisonFailure(
 				YTest.Assert._formatMessage( message, 'Value should match expected pattern.' ),
 				expected.toString(), actual
 			);
 		}
+	};
+
+	/*
+	 * @param {RegExp} expected RegExp that **must not** be matched.
+	 * @param {String} actual String value to be tested.
+	 * @param {String} [message]
+	 */
+	bender.assert.isNotMatching = function( expected, actual, message ) {
+		this.isMatching( expected, actual, message || 'Value can not match the pattern.', true );
 	};
 
 	/**
@@ -133,6 +149,40 @@
 	 */
 	bender.assert.sameData = function( expected, actual, message ) {
 		assert.areSame( expected, bender.tools.compatHtml( actual, false, true, false, true, true ), message );
+	};
+
+	/**
+	 * Asserts that two objects are deep equal.
+	 *
+	 * @param {Object} expected
+	 * @param {Object} actual
+	 * @param {String} [message]
+	 */
+	bender.objectAssert.areDeepEqual = function( expected, actual, message ) {
+		// Based on http://yuilibrary.com/yui/docs/api/files/test_js_ObjectAssert.js.html#l12.
+		var expectedKeys = YUITest.Object.keys( expected ),
+			actualKeys = YUITest.Object.keys( actual );
+
+		YUITest.Assert._increment();
+
+		// First check keys array length.
+		if ( expectedKeys.length != actualKeys.length ) {
+			YUITest.Assert.fail( YUITest.Assert._formatMessage( message,
+				'Object should have ' + expectedKeys.length + ' keys but has ' + actualKeys.length ) );
+		}
+
+		// Then check values.
+		for ( var name in expected ) {
+			if ( expected.hasOwnProperty( name ) ) {
+				if ( expected[ name ] && typeof expected[ name ] === 'object' ) {
+					bender.objectAssert.areDeepEqual( expected[ name ], actual[ name ] );
+				}
+				else if ( expected[ name ] !== actual[ name ] ) {
+					throw new YUITest.ComparisonFailure( YUITest.Assert._formatMessage( message,
+						'Values should be equal for property ' + name ), expected[ name ], actual[ name ] );
+				}
+			}
+		}
 	};
 
 	// Add support test ignore.

@@ -36,7 +36,8 @@
 		extraPlugins: 'embed',
 		height: 500,
 		// Make them narrow so images don't take too much space.
-		width: 600
+		width: 600,
+		embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
 	} );
 
 	CKEDITOR.replace( 'editor2', {
@@ -44,6 +45,7 @@
 		extraPlugins: 'embedsemantic',
 		height: 500,
 		// Make them narrow so images don't take too much space.
-		width: 600
+		width: 600,
+		embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
 	} );
 </script>
