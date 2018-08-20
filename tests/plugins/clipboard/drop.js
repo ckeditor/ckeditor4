@@ -657,6 +657,34 @@ var testsForMultipleEditor = {
 			}, function() {
 				assert.areSame( '<p class="p">^foo</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 			} );
+		},
+
+		// #724
+		'test drop inside dragged range': function( editor, bot ) {
+			var evt = bender.tools.mockDropEvent();
+
+			bot.setHtmlWithSelection( '<p><strong>[foo]</strong></p>' );
+			editor.resetUndo();
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				dropContainer: editor.editable().findOne( 'strong' ).getChild( 0 ),
+				dropOffset: 0,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				expectedText: 'foo',
+				expectedHtml: '<strong>foo</strong>',
+				expectedDataType: 'html',
+				expectedDataValue: '<strong>foo</strong>',
+				expectedBeforePasteEventCount: 1,
+				expectedPasteEventCount: 1,
+				expectedDropPrevented: false
+			}, function() {
+				return true;
+			}, function() {
+				assert.areSame( '<p><strong>foo^</strong></p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+			} );
+
 		}
 	},
 	testsForOneEditor = {
