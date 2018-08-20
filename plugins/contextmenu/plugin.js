@@ -111,7 +111,9 @@ CKEDITOR.plugins.add( 'contextmenu', {
 				 * @param {Number} [offsetY]
 				 */
 				open: function( offsetParent, corner, offsetX, offsetY ) {
-					if ( this.editor.config.enableContextMenu === false ) {
+					// Do not open context menu if there is no selection in the editor (#1181).
+					if ( this.editor.config.enableContextMenu === false ||
+						this.editor.getSelection().getType() === CKEDITOR.SELECTION_NONE ) {
 						return;
 					}
 
