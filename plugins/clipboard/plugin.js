@@ -1916,12 +1916,6 @@
 		 * @param {CKEDITOR.editor} editor
 		 */
 		internalDrop: function( dragRange, dropRange, dataTransfer, editor ) {
-			function compareRanges( range1, range2 ) {
-				return range1.startContainer.equals( range2.startContainer ) &&
-					range1.endContainer && range2.endContainer &&
-					range1.endContainer.equals( range2.endContainer );
-			}
-
 			var clipboard = CKEDITOR.plugins.clipboard,
 				editable = editor.editable(),
 				dragBookmark, dropBookmark, isDropRangeAffected;
@@ -1938,11 +1932,6 @@
 					clipboard.dragStartContainerChildCount,
 					clipboard.dragEndContainerChildCount
 				);
-			}
-
-			if ( compareRanges( dragRange, dropRange ) ) {
-				firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop', range: dragRange }, 1 );
-				return editor.fire( 'unlockSnapshot' );
 			}
 
 			// Because we manipulate multiple ranges we need to do it carefully,
@@ -1985,8 +1974,14 @@
 			editable.extractHtmlFromRange( dragRange, 1 );
 
 			// ...and paste content into the drop position.
-			dropRange = editor.createRange();
-			dropRange.moveToBookmark( dropBookmark );
+			if ( editable.contains( dropBookmark.startNode ) ) {
+				// Move range only when bookmarks are still in editable
+				dropRange = editor.createRange();
+				dropRange.moveToBookmark( dropBookmark );
+			} else {
+				// If there is no saved bookmarks paste content inside current selection
+				dropRange = editor.getSelection().getRanges()[ 0 ];
+			}
 
 			// We do not select drop range, because of may be in the place we can not set the selection
 			// (e.g. between blocks, in case of block widget D&D). We put range to the paste event instead.
