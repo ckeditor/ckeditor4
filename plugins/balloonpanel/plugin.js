@@ -541,7 +541,7 @@
 					}
 
 					// Determine the alignment of a minimal area difference. It will be used as a fallback
-					// if no aligment provides a perfect fit into allowed rect.
+					// if no alignment provides a perfect fit into allowed rect.
 					if ( areaDifference < alignments[ minDifferenceAlignment ].areaDifference ) {
 						minDifferenceAlignment = a;
 					}
