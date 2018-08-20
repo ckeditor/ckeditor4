@@ -464,7 +464,7 @@
 					editorRect = isInline ? editable.getClientRect( true ) : frame.getClientRect( true ),
 
 					viewPaneSize = winGlobal.getViewPaneSize(),
-					winGlobalScroll = winGlobal.getScrollPosition();
+					winGlobalScroll = winGlobal.getScrollPosition(),
 
 				// allowedRect is the rect into which the panel should fit to remain
 				// both within the visible area of the editor and the viewport, i.e.
@@ -480,13 +480,13 @@
 				// 	|                        +--------------------+
 				// 	|                                     |
 				// 	+-------------------------------------+
-				var allowedRect = {
-					top: Math.max( editorRect.top, winGlobalScroll.y ),
-					left: Math.max( editorRect.left, winGlobalScroll.x ),
-					right: Math.min( editorRect.right, viewPaneSize.width + winGlobalScroll.x ),
-					bottom: Math.min( editorRect.bottom, viewPaneSize.height + winGlobalScroll.y )
-				},
-				alignmentKeys;
+					allowedRect = {
+						top: Math.max( editorRect.top, winGlobalScroll.y ),
+						left: Math.max( editorRect.left, winGlobalScroll.x ),
+						right: Math.min( editorRect.right, viewPaneSize.width + winGlobalScroll.x ),
+						bottom: Math.min( editorRect.bottom, viewPaneSize.height + winGlobalScroll.y )
+					},
+					alignmentKeys;
 
 				// Position balloon on entire view port only when it's real inline mode (#1048).
 				if ( isInline && this.editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ) {
