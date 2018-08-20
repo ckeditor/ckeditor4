@@ -504,12 +504,13 @@
 					CKEDITOR.tools.array.forEach( selectionRects, function( item ) {
 						this._adjustElementRect( item, isInline ? allowedRect : editorRect );
 					}, this );
-					if ( selectionRects.length === 1 ) {
-						alignments = this._getAlignments( selectionRects[ 0 ], panelWidth, panelHeight );
-					} else {
-						alignments = this._getAlignments( selectionRects[ 0 ], panelWidth, panelHeight );
+
+					alignments = this._getAlignments( selectionRects[ 0 ], panelWidth, panelHeight );
+
+					if ( selectionRects.length > 1 ) {
 						alignments[ 'bottom hcenter' ] = this._getAlignments( selectionRects[ 1 ], panelWidth, panelHeight )[ 'bottom hcenter' ];
 					}
+
 					alignmentKeys = {
 						'top hcenter': true,
 						'bottom hcenter': true
