@@ -365,12 +365,10 @@
 			}
 
 			function getTopAndBottomRects( rectList ) {
-				var alignedRects = getAlignedRects( rectList, true ),
-					first = createLineRect( alignedRects[ 0 ], alignedRects.pop() ),
-					last;
-
-				alignedRects = getAlignedRects( rectList );
-				last = createLineRect( alignedRects[ 0 ], alignedRects.pop() );
+				var topAlignedRects = getAlignedRects( rectList, true ),
+					bottomAlignedRects = getAlignedRects( rectList ),
+					first = createLineRect( topAlignedRects[ 0 ], topAlignedRects.pop() ),
+					last = createLineRect( bottomAlignedRects[ 0 ], bottomAlignedRects.pop() );
 
 				// Make height of both rects equal to height of whole selection, so panel won't cover selection unless it needs to.
 				first.bottom = last.bottom;
@@ -407,18 +405,20 @@
 				left: 'right'
 			};
 
-			return function( element, options ) {
-				if ( element instanceof CKEDITOR.dom.selection ) {
-					var ranges = element.getRanges(),
-						rectList = ranges[ ranges.length - 1 ].getClientRects( true );
+			return function( elementOrSelection, options ) {
+				if ( elementOrSelection instanceof CKEDITOR.dom.selection ) {
+					var ranges = elementOrSelection.getRanges(),
+						rectList;
 
 					// If selection is fake we have selected widget or table.
-					if ( element.isFake ) {
+					if ( elementOrSelection.isFake && elementOrSelection.isInTable() ) {
 						rectList = CKEDITOR.tools.array.map( ranges, function( item ) {
 							// With table selection the first rect represents `td` element rect. Lets use it in that case.
 							// In case of widget, there should be only one rect returned anyway.
 							return item.getClientRects( true )[ 0 ];
 						} );
+					} else {
+						rectList = ranges[ ranges.length - 1 ].getClientRects( true );
 					}
 
 					// We need two rects, one representing the first selected line, and other representing the last selected line.
@@ -433,7 +433,6 @@
 					} else {
 						selectionRects = getTopAndBottomRects( rectList );
 					}
-
 				}
 
 				if ( options instanceof CKEDITOR.dom.element || !options ) {
@@ -458,7 +457,11 @@
 				var panelWidth = this.getWidth(),
 					panelHeight = this.getHeight(),
 
-					elementRect = element.getClientRect && element.getClientRect( true ),
+					// The area of the panel.
+					panelArea = panelWidth * panelHeight,
+					alignments, minDifferenceAlignment, alignmentRect, areaDifference,
+
+					elementRect = elementOrSelection.getClientRect && elementOrSelection.getClientRect( true ),
 					editorRect = isInline ? editable.getClientRect( true ) : frame.getClientRect( true ),
 
 					viewPaneSize = winGlobal.getViewPaneSize(),
@@ -483,7 +486,8 @@
 					left: Math.max( editorRect.left, winGlobalScroll.x ),
 					right: Math.min( editorRect.right, viewPaneSize.width + winGlobalScroll.x ),
 					bottom: Math.min( editorRect.bottom, viewPaneSize.height + winGlobalScroll.y )
-				};
+				},
+				alignmentKeys;
 
 				// Position balloon on entire view port only when it's real inline mode (#1048).
 				if ( isInline && this.editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ) {
@@ -501,28 +505,23 @@
 					CKEDITOR.tools.array.forEach( selectionRects, function( item ) {
 						this._adjustElementRect( item, isInline ? allowedRect : editorRect );
 					}, this );
+					if ( selectionRects.length === 1 ) {
+						alignments = this._getAlignments( selectionRects[ 0 ], panelWidth, panelHeight );
+					} else {
+						alignments = this._getAlignments( selectionRects[ 0 ], panelWidth, panelHeight );
+						alignments[ 'bottom hcenter' ] = this._getAlignments( selectionRects[ 1 ], panelWidth, panelHeight )[ 'bottom hcenter' ];
+					}
+					alignmentKeys = {
+						'top hcenter': true,
+						'bottom hcenter': true
+					};
 				} else {
 					this._adjustElementRect( elementRect, isInline ? allowedRect : editorRect );
-				}
-
-				// The area of the panel.
-				var panelArea = panelWidth * panelHeight,
-					alignments, minDifferenceAlignment, alignmentRect, areaDifference;
-
-				if ( selectionRects ) {
-					if ( selectionRects.length === 1 ) {
-						alignments = this._getAlignments( selectionRects[ 0 ], panelWidth, panelHeight, 'top hcenter,bottom hcenter' );
-					} else {
-						alignments = this._getAlignments( selectionRects[ 0 ], panelWidth, panelHeight, 'top hcenter' );
-						alignments = CKEDITOR.tools.extend( alignments, this._getAlignments( selectionRects[ 1 ], panelWidth, panelHeight, 'bottom hcenter' ) );
-					}
-				}
-				else {
 					alignments = this._getAlignments( elementRect, panelWidth, panelHeight );
 				}
 
 				// Iterate over all possible alignments to find the optimal one.
-				for ( var a in alignments ) {
+				for ( var a in alignmentKeys || alignments ) {
 					// Create a rect which would represent the panel in such alignment.
 					alignmentRect = newPanelRect( alignments[ a ].top, alignments[ a ].left, panelWidth, panelHeight );
 
@@ -790,8 +789,8 @@
 		 * @param {String/Array} [requestedAlignments] Since 4.11.0 list of alignments to be returned
 		 * @returns {Object}
 		 */
-		_getAlignments: function( elementRect, panelWidth, panelHeight, requestedAlignments ) {
-			var alignments = {
+		_getAlignments: function( elementRect, panelWidth, panelHeight ) {
+			return {
 				'right vcenter': {
 					top: elementRect.top + elementRect.height / 2 - panelHeight / 2,
 					left: elementRect.right + this.triangleWidth
@@ -825,16 +824,6 @@
 					left: elementRect.right - elementRect.width / 2 - panelWidth + this.triangleMinDistance
 				}
 			};
-
-			if ( requestedAlignments ) {
-				for ( var key in alignments ) {
-					if ( requestedAlignments.indexOf( key ) === -1 ) {
-						delete alignments[ key ];
-					}
-				}
-			}
-
-			return alignments;
 		},
 
 		/**
