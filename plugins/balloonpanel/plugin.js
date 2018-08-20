@@ -319,7 +319,7 @@
 		 * touches that element. Once the panel is attached it gains focus.
 		 *
 		 * @method attach
-		 * @param {CKEDITOR.dom.element/CKEDITOR.dom.selection} element The element to which the panel is attached.
+		 * @param {CKEDITOR.dom.element/CKEDITOR.dom.selection} elementOrSelection The element to which the panel is attached.
 		 * **Since 4.11.0** instead of an element it is possible to pass a selection {@link CKEDITOR.dom.selection}.
 		 * @param {Object/CKEDITOR.dom.element/Boolean} [options] **Since 4.8.0** this parameter works as an `options` object.
 		 *
@@ -786,7 +786,6 @@
 		 * @param elementRect
 		 * @param {Number} panelWidth
 		 * @param {Number} panelHeight
-		 * @param {String/Array} [requestedAlignments] Since 4.11.0 list of alignments to be returned
 		 * @returns {Object}
 		 */
 		_getAlignments: function( elementRect, panelWidth, panelHeight ) {
