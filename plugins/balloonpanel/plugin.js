@@ -410,11 +410,10 @@
 					var ranges = elementOrSelection.getRanges(),
 						rectList;
 
-					// If selection is fake we have selected widget or table.
+					// Handle fake selection within table.
 					if ( elementOrSelection.isFake && elementOrSelection.isInTable() ) {
 						rectList = CKEDITOR.tools.array.map( ranges, function( item ) {
 							// With table selection the first rect represents `td` element rect. Lets use it in that case.
-							// In case of widget, there should be only one rect returned anyway.
 							return item.getClientRects( true )[ 0 ];
 						} );
 					} else {
