@@ -386,7 +386,7 @@
 			}
 
 			function getAlignedRects( rectList, top ) {
-				var edgeRect = top ? rectList [ 0 ] : rectList[ length - 1 ],
+				var edgeRect = top ? rectList [ 0 ] : rectList[ rectList.length - 1 ],
 					alignment = top ? 'top' : 'bottom';
 
 				return CKEDITOR.tools.array.filter( rectList, function( item ) {
