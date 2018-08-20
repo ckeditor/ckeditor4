@@ -11,6 +11,8 @@
 
 Context menu does not appear.
 
+In case of Chrome on macOS: right-clicking on link will select it and open the context menu.
+
 **Unexpected**
 
 There is an error inside the console:

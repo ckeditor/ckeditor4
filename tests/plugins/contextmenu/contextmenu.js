@@ -7,9 +7,6 @@
 	bender.editor = {};
 
 	bender.test( {
-		tearDown: function() {
-		},
-
 		'test opening context menu color': function() {
 			var ed1 = this.editor,
 				bot1 = this.editorBot;
