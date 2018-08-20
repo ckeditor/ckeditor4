@@ -7,10 +7,14 @@
 	bender.editor = {};
 
 	bender.test( {
+		tearDown: function() {
+		},
+
 		'test opening context menu color': function() {
 			var ed1 = this.editor,
 				bot1 = this.editorBot;
 
+			ed1.focus();
 			bot1.contextmenu( function( menu1 ) {
 				// Check DOM focus and virtual editor focus.
 				assert.areSame( menu1._.panel._.iframe, CKEDITOR.document.getActive(), 'check DOM focus inside of panel' );
@@ -36,7 +40,7 @@
 				name: 'editor_nocontextmenu1'
 			}, function( bot ) {
 				bot.editor.contextMenu.show = sinon.spy();
-
+				bot.editor.focus();
 				bot.editor.contextMenu.open( bot.editor.editable() );
 
 				assert.isTrue( bot.editor.contextMenu.show.called );
@@ -51,7 +55,7 @@
 					}
 				}, function( bot ) {
 				bot.editor.contextMenu.show = sinon.spy();
-
+				bot.editor.focus();
 				bot.editor.contextMenu.open( bot.editor.editable() );
 
 				assert.isFalse( bot.editor.contextMenu.show.called );
