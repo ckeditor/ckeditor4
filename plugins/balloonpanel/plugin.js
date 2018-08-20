@@ -315,11 +315,11 @@
 		},
 
 		/**
-		 * Places the balloon panel next to a specified element so the tip of the balloon's triangle
-		 * touches that element. Once the panel is attached it gains focus.
+		 * Places the balloon panel next to a specified element or selection so the tip of the balloon's triangle
+		 * touches that element or center of selection. Once the panel is attached it gains focus.
 		 *
 		 * @method attach
-		 * @param {CKEDITOR.dom.element/CKEDITOR.dom.selection} elementOrSelection The element to which the panel is attached.
+		 * @param {CKEDITOR.dom.element/CKEDITOR.dom.selection} elementOrSelection The element or selection to which the panel is attached.
 		 * **Since 4.11.0** instead of an element it is possible to pass a selection {@link CKEDITOR.dom.selection}.
 		 * @param {Object/CKEDITOR.dom.element/Boolean} [options] **Since 4.8.0** this parameter works as an `options` object.
 		 *
