@@ -3,6 +3,10 @@
 
 ## CKEditor 4.10.2
 
+Fixed Issues:
+
+* [#1181](https://github.com/ckeditor/ckeditor-dev/issues/1181): [Chrome] Fixed: Opening context menu in readonly editor results in error.
+
 ## CKEditor 4.10.1
 
 Fixed Issues:
