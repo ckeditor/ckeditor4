@@ -121,6 +121,22 @@
 					assert.isFalse( !!editor.getSelection().isFake, 'Fake selection is not set for nested editables' );
 				} );
 			} );
+		},
+
+		// (#1181)
+		'test open context menu when no selection in the editor': function() {
+			bender.editorBot.create( {
+				name: 'editor_noselection'
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				editor.contextMenu.show = sinon.spy();
+
+				editor.getSelection().removeAllRanges();
+				editor.contextMenu.open( editor.editable() );
+
+				assert.isFalse( editor.contextMenu.show.called );
+			} );
 		}
 	} );
 } )();
