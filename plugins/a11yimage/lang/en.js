@@ -58,5 +58,5 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	msgAltIsInvalid: 'Please remove "%s" from the text alternative.',
 	msgAltStartsWithInvalid: 'Please remove "%s" from the text alternative.',
 	msgAltEndsWithInvalid: 'Please do not include the size of the image in the text alternative.',
-	msgChooseLocation: 'Please select the location of the detailed description within the document relative to the image.'
+	msgChooseLocation: 'Please select the location of the long description within the document relative to the complex image.'
 } );
