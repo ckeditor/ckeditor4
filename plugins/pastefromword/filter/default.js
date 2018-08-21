@@ -574,7 +574,6 @@
 					'color:windowtext',
 					'direction:ltr',
 					'mso-',
-					'text-indent',
 					'visibility:visible',
 					'div:border:none' // This one stays because https://dev.ckeditor.com/ticket/6241
 				],
@@ -602,13 +601,17 @@
 			var styles = tools.parseCssText( element.attributes.style );
 
 			if ( element.name == 'cke:li' ) {
+
 				// IE8 tries to emulate list indentation with a combination of
 				// text-indent and left margin. Normalize this. Note that IE8 styles are uppercase.
 				if ( styles[ 'TEXT-INDENT' ] && styles.MARGIN ) {
 					element.attributes[ 'cke-indentation' ] = List.getElementIndentation( element );
 					styles.MARGIN = styles.MARGIN.replace( /(([\w\.]+ ){3,3})[\d\.]+(\w+$)/, '$10$3' );
+				} else {
+					// Remove text indent in other cases, because it works differently with lists in html than in Word.
+					delete styles[ 'TEXT-INDENT' ];
 				}
-
+				delete styles[ 'text-indent' ];
 			}
 
 			var keys = tools.objectKeys( styles );
@@ -630,7 +633,24 @@
 					delete styles[ keys[ i ] ];
 				}
 			}
+
+			// Still some elements might have shorthand margins or longhand with zero values.
+			parseShorthandMargins( styles );
+			normalizeMargins();
+
 			return CKEDITOR.tools.writeCssText( styles );
+
+			function normalizeMargins() {
+				var keys = [ 'top', 'right', 'bottom', 'left' ];
+				CKEDITOR.tools.array.forEach( keys, function( key ) {
+					key = 'margin-' + key;
+					if ( !parseFloat( styles[ key ] ) ) {
+						delete styles[ key ];
+					} else {
+						styles[ key ] = CKEDITOR.tools.convertToPx( styles[ key ] ) + 'px';
+					}
+				} );
+			}
 		},
 
 		/**
@@ -642,7 +662,7 @@
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 * @param {CKEDITOR.editor} editor
 		 * @param {RegExp} [skipStyles] All matching style names will not be extracted to a style stack. Defaults
-		 * to `/margin|text\-align|width|border|padding/i`.
+		 * to `/margin((?!-)|-left|-top|-bottom|-right)|text-indent|text-align|width|border|padding/i`.
 		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
 		createStyleStack: function( element, filter, editor, skipStyles ) {
@@ -665,7 +685,7 @@
 				styleTopmost = element.name === 'span'; // Ensure that the root element retains at least one style.
 
 			for ( var style in styles ) {
-				if ( style.match( skipStyles || /margin|text\-align|width|border|padding/i ) ) {
+				if ( style.match( skipStyles || /margin((?!-)|-left|-top|-bottom|-right)|text-indent|text-align|width|border|padding/i ) ) {
 					continue;
 				}
 
@@ -1001,10 +1021,14 @@
 						newStyle,
 						i;
 
+					parseShorthandMargins( style );
+
 					for ( i = 0; i < elements.count(); i++ ) {
 						element = elements.getItem( i );
 
 						oldStyle = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ) );
+
+						parseShorthandMargins( oldStyle );
 						// The styles are applied with decreasing priority so we do not want
 						// to overwrite the existing properties.
 						newStyle = CKEDITOR.tools.extend( {}, oldStyle, style );
@@ -2405,6 +2429,22 @@
 		// Add the stored children to the innermost span.
 		for ( i = 0; i < children.length; i++ ) {
 			innermostElement.add( children[ i ] );
+		}
+	}
+
+	function parseShorthandMargins( style ) {
+		var marginCase = style.margin ? 'margin' : style.MARGIN ? 'MARGIN' : false,
+			key, margin;
+		if ( marginCase ) {
+			margin = CKEDITOR.tools.style.parse.margin( style[ marginCase ] );
+			for ( key in margin ) {
+				var currMargin = margin[ key ];
+				// skip zeros.
+				if ( parseFloat( currMargin ) ) {
+					style[ 'margin-' + key ] = currMargin;
+				}
+			}
+			delete style[ marginCase ];
 		}
 	}
 

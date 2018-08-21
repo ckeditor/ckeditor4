@@ -55,12 +55,12 @@
 		},
 		// Margin-bottom is a block style, so it should not be stacked.
 		'test create style stack omit block styles': function() {
-			var edgeCase = '<p style="font-size: 16pt;font-family: Arial;margin-bottom:0pt;">Test</p>',
+			var edgeCase = '<p style="font-size: 16pt;font-family: Arial;margin-bottom:10pt;">Test</p>',
 				fragment = CKEDITOR.htmlParser.fragment.fromHtml( edgeCase ),
 				element = fragment.children[ 0 ];
 
 			this.pastefromword.styles.createStyleStack( element, filterMock );
-			assert.areSame( '<p style="margin-bottom:0pt"><span style="font-size:16pt"><span style="font-family:Arial">Test</span></span></p>', element.getOuterHtml() );
+			assert.areSame( '<p style="margin-bottom:13px"><span style="font-size:16pt"><span style="font-family:Arial">Test</span></span></p>', element.getOuterHtml() );
 		},
 		'test push styles lower': function() {
 			var ol = new CKEDITOR.htmlParser.element( 'ol' ),
@@ -201,8 +201,8 @@
 						'<p class="MsoNormal"><span style="color:green"><o:p>&nbsp;</o:p></span></p>';
 
 			assert.beautified.html( '<p><span style="color:red">The list below does not copy + paste correctly:</span></p>' +
-				'<p style="margin-left:.25in"><span lang="EN-GB" style="font-size:8.0pt"></span></p>' +
-				'<p style="margin-left:.25in"><span lang="EN-GB" style="font-size:8.0pt"></span></p>' +
+				'<p style="margin-left:24px"><span lang="EN-GB" style="font-size:8.0pt"></span></p>' +
+				'<p style="margin-left:24px"><span lang="EN-GB" style="font-size:8.0pt"></span></p>' +
 				'<ul style="list-style-type:circle">' +
 				'<li><span style="tab-stops:list .5in"><span lang="EN-GB" style="font-size:8.0pt"></span>' +
 				'<span lang="EN-GB" style="font-size:8.0pt">This line is size 8, TNR</span></span></li>' +
