@@ -1011,22 +1011,14 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * Selects all the text in the text input.
 			 */
 			select: function() {
-				var me = this.selectParentTab(),
-					editor = this._.dialog._.editor;
+				var me = this.selectParentTab();
 
 				// GECKO BUG: setTimeout() is needed to workaround invisible selections.
 				setTimeout( function() {
-					var e = me.getInputElement(),
-						ranges = editor.getSelection().getRanges();
-
+					var e = me.getInputElement();
 					if ( e ) {
 						e.$.focus();
 						e.$.select();
-
-						// #1686 Edge occasionally loses editor selection. Restore it when it happens.
-						if ( editor.getSelection().getRanges().length != ranges.length ) {
-							editor.getSelection().selectRanges( ranges );
-						}
 					}
 				}, 0 );
 			},
