@@ -23,14 +23,16 @@
 			}
 
 			var range = new CKEDITOR.dom.range( editor.document ),
-				selectionRect;
+				selectionRect,
+				frame = CKEDITOR.document.getWindow().getFrame();
+
+			// Context menu uses frame height to calculate if it fits inside and bender dashboard puts tests in frame with 70px height.
+			frame.setStyle( 'height', '500px' );
 
 			range.setStart( editor.editable().getFirst(), 0 );
-
 			range.select();
 
-			selectionRect = range.getClientRects( true )[ 0 ];
-
+			selectionRect = range.getClientRects( true ).pop();
 			editor.once( 'panelShow', function( evt ) {
 				setTimeout( function() {
 					resume( function() {
@@ -40,6 +42,8 @@
 						// Edge and IE have values differing by small factor, let's ignore that, because it's not important for context menu positioning.
 						assert.isNumberInRange( elementRect.left, selectionRect.right - 0.1, selectionRect.left + 0.1 );
 						assert.isNumberInRange( elementRect.top, selectionRect.bottom - 0.1, selectionRect.bottom + 0.1 );
+
+						frame.removeStyle( 'height' );
 					} );
 				} );
 			} );
