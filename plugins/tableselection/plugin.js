@@ -883,7 +883,7 @@
 		 * @private
 		 */
 		keyboardIntegration: function( editor ) {
-			// Handle left, up, right, down, delete and backspace keystrokes inside table fake selection.
+			// Handle left, up, right, down, delete, backspace and enter keystrokes inside table fake selection.
 			function getTableOnKeyDownListener( editor ) {
 				var keystrokes = {
 						37: 1, // Left Arrow
@@ -891,7 +891,8 @@
 						39: 1, // Right Arrow,
 						40: 1, // Down Arrow
 						8: 1, // Backspace
-						46: 1 // Delete
+						46: 1, // Delete
+						13: 1 // Enter
 					},
 					tags = CKEDITOR.tools.extend( { table: 1 }, CKEDITOR.dtd.$tableContent );
 
@@ -963,16 +964,17 @@
 				return function( evt ) {
 					// Use getKey directly in order to ignore modifiers.
 					// Justification: https://dev.ckeditor.com/ticket/11861#comment:13
-					var keystroke = evt.data.getKey(),
+					var key = evt.data.getKey(),
+						keystroke = evt.data.getKeystroke(),
 						selection,
-						toStart = keystroke === 37 || keystroke == 38,
+						toStart = key === 37 || key == 38,
 						ranges,
 						firstCell,
 						lastCell,
 						i;
 
 					// Handle only left/right/del/bspace keys.
-					if ( !keystrokes[ keystroke ] ) {
+					if ( !keystrokes[ key ] ) {
 						return;
 					}
 
@@ -986,15 +988,24 @@
 					firstCell = ranges[ 0 ]._getTableElement();
 					lastCell = ranges[ ranges.length - 1 ]._getTableElement();
 
-					evt.data.preventDefault();
-					evt.cancel();
+					// Only prevent event when tableselection handle it. Which is non-enter button, or pressing enter button with enterkey plugin present (#1816).
+					if ( key !== 13 || editor.plugins.enterkey ) {
+						evt.data.preventDefault();
+						evt.cancel();
+					}
 
-					if ( keystroke > 8 && keystroke < 46 ) {
+					if ( key > 36 && key < 41 ) {
 						// Arrows.
 						ranges[ 0 ].moveToElementEditablePosition( toStart ? firstCell : lastCell, !toStart );
 						selection.selectRanges( [ ranges[ 0 ] ] );
 					} else {
-						// Delete.
+						// Delete, backspace, enter.
+
+						// Do nothing for Enter with modifiers different than shift.
+						if ( key === 13 && !( keystroke === 13 || keystroke === CKEDITOR.SHIFT + 13 ) ) {
+							return;
+						}
+
 						for ( i = 0; i < ranges.length; i++ ) {
 							clearCellInRange( ranges[ i ] );
 						}
@@ -1009,7 +1020,17 @@
 						}
 
 						selection.selectRanges( ranges );
-						editor.fire( 'saveSnapshot' );
+
+						if ( key === 13 && editor.plugins.enterkey ) {
+							// We need to lock undoManager to consider clearing table and inserting new paragraph as single operation, and have only one undo step (#1816).
+							editor.fire( 'lockSnapshot' );
+							keystroke === 13 ? editor.execCommand( 'enter' ) : editor.execCommand( 'shiftEnter' );
+							editor.fire( 'unlockSnapshot' );
+							editor.fire( 'saveSnapshot' );
+						} else if ( key !== 13 ) {
+							// Backspace and delete key should have saved snapshot.
+							editor.fire( 'saveSnapshot' );
+						}
 					}
 				};
 			}

@@ -30,7 +30,11 @@
 	} );
 
 	var whitespaces = CKEDITOR.dom.walker.whitespaces(),
-		bookmark = CKEDITOR.dom.walker.bookmark();
+		bookmark = CKEDITOR.dom.walker.bookmark(),
+		plugin,
+		enterBr,
+		enterBlock,
+		headerTagRegex;
 
 	CKEDITOR.plugins.enterkey = {
 		enterBlock: function( editor, mode, range, forceMode ) {
@@ -306,7 +310,6 @@
 				range.moveToElementEditStart( node );
 				previousBlock.move( previousBlock.getPrevious() );
 			}
-
 			// If we have both the previous and next blocks, it means that the
 			// boundaries were on separated blocks, or none of them where on the
 			// block limits (start/end).
@@ -330,7 +333,13 @@
 				// Move the selection to the end block.
 				if ( nextBlock )
 					range.moveToElementEditStart( nextBlock );
+			}
+			// Handle differently when content of table cell was erased by pressing enter (#1816).
+			// We don't want to add new block, because it was created with range.splitBlock().
+			else if ( preventExtraLineInsideTable( mode ) ) {
+				range.moveToElementEditStart( range.getTouchedStartNode() );
 			} else {
+
 				var newBlockDir;
 
 				if ( previousBlock ) {
@@ -405,6 +414,42 @@
 
 			range.select();
 			range.scrollIntoView();
+
+			// ===== HELPERS =====
+			function preventExtraLineInsideTable( mode ) {
+				// #1816
+				// We want to have behaviour after pressing enter like this:
+				// 1. <td>^</td> -> <td><p> </p></td>
+				// 2. <td>Foo^</td> -> <td><p>Foo</p><p> </p></td>
+				// 3. <td>Foo^Bar</td> -> <td><p>Foo</p><p>Bar</p></td>
+				// We need to separate 1. case to not add extra line. Like it happen for 2nd or 3rd option.
+
+				var innerElement,
+					bogus;
+
+				if ( mode === CKEDITOR.ENTER_BR ) {
+					return false;
+				}
+
+				if ( CKEDITOR.tools.indexOf( [ 'td', 'th' ], path.lastElement.getName() ) === -1 ) {
+					return false;
+				}
+				if ( path.lastElement.getChildCount() !== 1 ) {
+					return false;
+				}
+
+				innerElement = path.lastElement.getChild( 0 ).clone( true );
+				bogus = innerElement.getBogus();
+				if ( bogus ) {
+					bogus.remove();
+				}
+
+				if ( innerElement.getText().length ) {
+					return false;
+				}
+
+				return true;
+			}
 		},
 
 		enterBr: function( editor, mode, range, forceMode ) {
@@ -495,10 +540,10 @@
 		}
 	};
 
-	var plugin = CKEDITOR.plugins.enterkey,
-		enterBr = plugin.enterBr,
-		enterBlock = plugin.enterBlock,
-		headerTagRegex = /^h[1-6]$/;
+	plugin = CKEDITOR.plugins.enterkey;
+	enterBr = plugin.enterBr;
+	enterBlock = plugin.enterBlock;
+	headerTagRegex = /^h[1-6]$/;
 
 	function shiftEnter( editor ) {
 		// On SHIFT+ENTER:

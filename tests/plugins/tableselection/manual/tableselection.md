@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: tableselection
-@bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, link, basicstyles, sourcearea, elementspath, undo, autogrow
+@bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, link, basicstyles, sourcearea, elementspath, undo, autogrow, enterkey
 
 Have fun with visual table selection!
 
