@@ -14,7 +14,7 @@ A highly configurable WYSIWYG HTML editor with a broad browser compatibility. **
 ## Getting Started
 
 ```
-npm install --save ckeditor
+npm install --save ckeditor-dev
 ```
 
 Use it on your website:
