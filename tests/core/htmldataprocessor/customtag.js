@@ -35,14 +35,14 @@
 				'<bodyfoo data-foo="bar">bodyfoo</bodyfoo>' +
 				'<titlefoo data-foo="bar">titlefoo</titlefoo>';
 
-			return assertHtmlDataProcessor( {
+			return assertDataFormat( {
 				data: data,
 				expected: data
 			} );
 		} )(),
 
 		// (#988)
-		'test not allowed custom tags': assertHtmlDataProcessor( {
+		'test not allowed custom tags': assertDataFormat( {
 			data: '<objectbar data-bar="foo">objectbar</objectbar>' +
 					'<embedbar data-bar="foo">embedbar</embedbar>' +
 					'<parambar data-bar="foo">parambar</parambar>' +
@@ -55,7 +55,7 @@
 		} )
 	} );
 
-	function assertHtmlDataProcessor( config ) {
+	function assertDataFormat( config ) {
 		return function() {
 			var editor = this.editor,
 				bot = this.editorBot;
