@@ -1237,6 +1237,20 @@
 				context: 'h1',
 				enterMode: CKEDITOR.ENTER_BR
 			} ), 'toHtml' );
+		},
+
+		// #988
+		'test protected element names regex': function() {
+			var editor = this.editor,
+				dataProcessor = editor.dataProcessor,
+				html = getTextAreaValue( 'protected-element-names' ),
+				protectedHtml;
+
+			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
+			dataProcessor.writer.sortAttributes = true;
+			protectedHtml = dataProcessor.toHtml( html );
+
+			assert.beautified.html( html, dataProcessor.toDataFormat( protectedHtml ) );
 		}
 	};
 
