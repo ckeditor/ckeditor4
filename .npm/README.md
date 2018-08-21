@@ -1,4 +1,4 @@
-# CKEditor 4
+# CKEditor 4 (dev)
 
 [![GitHub tag](https://img.shields.io/github/tag/ckeditor/ckeditor-dev.svg)](https://github.com/ckeditor/ckeditor-dev)
 [![Dependencies](https://img.shields.io/david/ckeditor/ckeditor-dev.svg)](https://david-dm.org/ckeditor/ckeditor-dev)
@@ -7,7 +7,7 @@
 [![Join newsletter](https://img.shields.io/badge/join-newsletter-00cc99.svg)](http://eepurl.com/c3zRPr)
 [![Follow twitter](https://img.shields.io/badge/follow-twitter-00cc99.svg)](https://twitter.com/ckeditor)
 
-A highly configurable WYSIWYG HTML editor with a broad browser compatibility.
+A highly configurable WYSIWYG HTML editor with a broad browser compatibility. **Note this is a developer version** - for production quality use the  [CKEditor 4 optimized package](https://www.npmjs.com/package/ckeditor).
 
 ![CKEditor 4 screenshot](assets/ckeditor4.png)
 
