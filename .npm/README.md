@@ -9,7 +9,7 @@
 
 A highly configurable WYSIWYG HTML editor with a broad browser compatibility.
 
--- screenshot --
+![CKEditor 4 screenshot](assets/ckeditor4.png)
 
 ## Getting Started
 
