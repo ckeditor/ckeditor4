@@ -145,51 +145,61 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
     'content' : '\
 ## Image\n\
 \n\
-### Accessible Description\n\
+### Overview\n\
 \n\
-Providing an *accessible text description* of an image is straightforward if you keep the following guidelines in mind:\n\
+* People with visual impairments or visual processing disorders need *accessible text descriptions* of informative images.\n\
 \n\
-1. An **accessible text description** is needed when an image adds additional information to the document. The text description should focus on the informational content of the image rather than its superficial appearance.\n\
+* Effective text descriptions of informative images can determine the extent to which users comprehend your document.\n\
 \n\
-1. Careful consideration of the **type of image** you are placing in the document will determine the nature of the accessible description that it requires. There are three image types to choose from: **simple**, **complex** and **decorative**.\n\
+* By understanding how to classify images, you will be able to determine whether an image needs an accessible text description and how detailed that description needs to be.\n\
 \n\
 ### Type of Image\n\
 \n\
-* A **simple** image can be adequately described by a short description, also known as a **text alternative**.\n\
+* An **informative** image adds informational content to the document, and therefore requires at least a short text description. If the image is informationally complex, it requires an additional long description.\n\
 \n\
-* A **complex** image requires both a **text alternative** and a **long description**, because its informational content is richer and more detailed than that of a simple image.\n\
+* A **decorative** image does not add information to the document, and therefore *does not require an accessible text description*.\n\
 \n\
-* A **decorative** image does not add additional information to the document and therefore *does not need an accessible text description*.\n\
+### Accessible Description\n\
 \n\
-* Examples of **decorative** images include icons, borders and corners, an image that is part of a text link, and any image that only adds ambience or visual interest to the document.\n\
+* An accessible text description should focus on the informational content of the image rather than its superficial appearance.\n\
 \n\
-### Text Alternative\n\
+### Short Description\n\
 \n\
-* A text alternative (short description) should **not** exceed more than 100 characters.\n\
+* An informative image, whether it is complex or not, requires a short description, which you provide in the *Short description* field.\n\
 \n\
-* If an image needs more than 100 characters for its description, please reclassify it as a **complex** image and follow the corresponding accessible description guidelines above.\n\
+### Tips for Writing Effective Short Descriptions\n\
 \n\
-* The text alternative should avoid redundant words and phrases such as "image of" and "picture of".\n\
+* A short description should **not** exceed more than 100 characters. If an image needs more than 100 characters for its description, please classify it as a **complex** image and follow the applicable guidelines outlined below.\n\
 \n\
-* The text alternative should not include information relating to the file name or size of the image.\n\
+* The short description should avoid redundant words and phrases such as "image of" and "picture of".\n\
 \n\
-* The text alternative is added to the `alt` attribute of the `img` element.\n\
+* The short description should not include information relating to the file name or size of the image.\n\
 \n\
-### Document includes long description\n\
+* The short description is added to the `alt` attribute of the `img` element.\n\
 \n\
-* Best practices for the **long description** of a **complex** image prescribe that it be placed in the document itself, usually just before or after the image.\n\
+### What Is a Complex Image?\n\
 \n\
-* Selecting this option allows you to specify the location of the long description.\n\
+* Images that convey a significant amount of information, such as charts, graphs, diagrams, scientific photographs and works of art, are complex images. The type of long description you provide for such an image is dependent on the context of the image in the document.\n\
 \n\
-* Images of charts can be described by adding a table of the data used to generate the chart.\n\
+* Many authors find it both natural and necessary to describe the informational content of a complex image within the document itself, using expository prose or tabular data.\n\
 \n\
-### Location of long description\n\
+* For example, images of charts can be described by adding a table of the data used to generate the chart.\n\
 \n\
-* The *Location of long description* option provides information to screen reader users of where they can find a more detailed description of the content of the image within the document.\n\
+### Describing a Complex Image\n\
 \n\
-* This option is only enabled for a complex image, which must have a long description.\n\
+A complex image has informational content that is richer and more detailed than simpler images, and cannot be described adequately with a short description. A complex image needs both a short description and a longer, more detailed description.\n\
 \n\
-* The location information is added to the `title` attribute of the `img` element.\n\
+Best practices for the long description of a complex image prescribe that it be placed in the document itself, usually just before or after the image.\n\
+\n\
+Follow these three steps for describing a complex image:\n\
+\n\
+1. Provide an adequately long and detailed description of the image within the document itself, either just before or after the image (or both).\n\
+\n\
+1. Select the *Complex image (requires long description)* checkbox.\n\
+\n\
+1. Select the appropriate option for *Location of long description in document*.\n\
+\n\
+By specifying the location of the long description relative to the image, this information can then be made available to screen reader users.\n\
 \n\
 ### Include an editable caption\n\
 \n\
@@ -197,27 +207,27 @@ Providing an *accessible text description* of an image is straightforward if you
 \n\
 * The caption content is specified and is editable in the text box just below the image, once it has been inserted in the document.\n\
 \n\
-* From an accessibility perspective the *caption* and the *text alternative* should not be the same, but instead should complement each other.\n\
+* From an accessibility perspective the *caption* and the *short description* should not be the same, but instead should complement each other.\n\
 \n\
-* In some cases the *caption* may sufficiently describe the purpose of the image, so *Alternative Text* is not needed, or should be used to provide a more detailed description that the *caption*.\n\
+* In some cases, where the *caption* sufficiently describes the purpose of the image, it may not be necessary to provide a *short description*. Alternatively, it may be useful to use the *short description* to provide a slightly more detailed description than the *caption*.\n\
 \n\
-* In some cases the *Caption* may be providing detailed information about an image (e.g. the names and rows of people in a group picture), and in this case the *text alternative* should provide a shorter text description of the purpose of the image (e.g. group picture of..).\n\
+* In other cases the *caption* may be providing detailed information about an image (e.g. the names and rows of people in a group picture), whereby the *short description* should provide a shorter text description of the purpose of the image (e.g. group picture of..).\n\
 \n\
 * Using the caption creates a `figcaption` element contained in a `figure` element.  The `figure` element also contains the `img` element.\n\
 \n\
 ### Why image descriptions are important\n\
 \n\
-Adding accessible text descriptions of images is an important part of making web pages accessible to the visually impaired who use assistive devices such as screen readers and magnifiers.\n\
+Adding accessible text descriptions of images is an important part of making documents accessible to the visually impaired who use assistive devices such as screen readers and magnifiers, and to people with visual processing disorders that make especially complex images more difficult to understand.\n\
 \n\
-When the user cannot see all or part of the image, assistive technologies will read or display the text alternative associated with the image. This is especially important when the image conveys information that is required for the user to fully understand the information on the web page.\n\
+When the user cannot see all or part of the image, assistive technologies will read or display the accessible text description(s) associated with the image. This is especially important when the image conveys information that is required for the user to fully understand the information in the document. For people with visual processing disorders, the long description of a complex image helps them to more quickly or completely understand the information being conveyed by the image.\n\
 \n\
-The following is some general guidance on writing text alternatives and providing more detailed descriptions:\n\
+The following is some general guidance on writing short text descriptions and providing longer, more detailed descriptions:\n\
 \n\
 * Simple images, photos and logos often can be described in less than 100 characters.\n\
 \n\
-* More complex images like graphs, diagrams and charts need both a text alternative and a more detailed description, typically on the same page as the image.\n\
+* More complex images like graphs, diagrams and charts need both a short description and a longer, more detailed description, which is typically included in the same document as the image.\n\
 \n\
-* Purely decorative images do not need a text alternative.\n\
+* Purely decorative images do not need an accessible text description.\n\
 \n\
 ### Writing effective text alternative content\n\
 \n\
@@ -242,6 +252,8 @@ The following are based on <a href="https://webaim.org/">WebAIM\'s</a> guideline
 * <a href="https://webaim.org/techniques/alttext/" target="_resource">WebAIM: Alternative Text</a>\n\
 \n\
 * <a href="http://diagramcenter.org/" target="_resource">Diagram Center</a>\n\
+\n\
+* <a href="https://www.w3.org/WAI/tutorials/images/">W3C Web Accessibility Image Tutorial</a>\n\
 '
   },
 
