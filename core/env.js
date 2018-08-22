@@ -193,7 +193,17 @@ if ( !CKEDITOR.env ) {
 			if ( edge ) {
 				version = parseFloat( edge[ 1 ] );
 			} else if ( env.quirks || !document.documentMode ) {
-				version = parseFloat( agent.match( /msie (\d+)/ )[ 1 ] );
+				// documentMode can be undefined for IE10 and IE11
+				// so lets do this a bit more thoroughly
+				var msie = agent.indexOf('msie '); // IE10 or older
+				if (msie > -1) {
+					version = parseInt(agent.substring(msie + 5, agent.indexOf('.', msie)), 10);
+				}
+				var trident = agent.indexOf('trident/'); // IE11
+				if (trident > -1) {
+                    var rv = agent.indexOf('rv:');
+                    version = parseInt(agent.substring(rv + 3, agent.indexOf('.', rv)), 10);
+                }
 			} else {
 				version = document.documentMode;
 			}
