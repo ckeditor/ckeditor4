@@ -67,8 +67,8 @@ CKEDITOR.plugins.setLang( 'a11ylink', 'en', {
 	// Added for a11yLink modifications
 	a11yFirstInvalidStartText: ['link to', 'link'],
 	a11yFirstInvalidDisplayText: ['add', 'click', 'click here', 'clone', 'delete', 'download', 'go to', 'here', 'image', 'link to', 'link', 'more', 'order', 'read', 'read more', 'view', 'clic aqu&iacute;', 'clic', 'haga clic', 'm&aacute;s', 'aqu&iacute;'],
-	displayTextTitle: 'Use \'Info\' to learn more about accessible links',
-	a11yfirstHelp: 'Info',
+	displayTextTitle: 'Use \'Help\' to learn more about accessible links',
+	a11yfirstHelp: 'Help',
 	a11yfirstHelpTitle: 'Learn about accessible links',
 	msgInvalidStartText: 'Please remove "%s" from the display text',
 	msgInvalidDisplayText: 'Please replace "%s" with text that describes the target of the link',
