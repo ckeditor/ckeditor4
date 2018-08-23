@@ -149,7 +149,7 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
 \n\
 * People with visual impairments or visual processing disorders need *accessible text descriptions* of informative images.\n\
 \n\
-* Effective text descriptions of informative images can determine the extent to which users comprehend your document.\n\
+* Effective text descriptions of informative images can determine the extent to which readers comprehend your document.\n\
 \n\
 * By understanding how to classify images, you will be able to determine whether an image needs an accessible text description and how detailed that description needs to be.\n\
 \n\
@@ -159,15 +159,22 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
 \n\
 * A **decorative** image does not add information to the document, and therefore *does not require an accessible text description*.\n\
 \n\
-### Accessible Description\n\
+### Accessible Descriptions\n\
 \n\
-* An accessible text description should focus on the informational content of the image rather than its superficial appearance.\n\
+Accessible text descriptions of images fall into two categories:\n\
+\n\
+1. **Short description**: required for all *informative* images\n\
+1. **Long description**: required for informationally *complex* images\n\
+\n\
+An accessible text description should focus on the informational content of the image rather than its superficial appearance.\n\
 \n\
 ### Short Description\n\
 \n\
 * An informative image, whether it is complex or not, requires a short description, which you provide in the *Short description* field.\n\
 \n\
-### Tips for Writing Effective Short Descriptions\n\
+### Tips for Writing an Effective Short Description\n\
+\n\
+* A short description should briefly describe what the image conveys visually in terms of its content or function.\n\
 \n\
 * A short description should **not** exceed more than 100 characters. If an image needs more than 100 characters for its description, please classify it as a **complex** image and follow the applicable guidelines outlined below.\n\
 \n\
@@ -179,21 +186,23 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
 \n\
 ### What Is a Complex Image?\n\
 \n\
-* Images that convey a significant amount of information, such as charts, graphs, diagrams, scientific photographs and works of art, are complex images. The type of long description you provide for such an image is dependent on the context of the image in the document.\n\
+* Images that convey a significant amount of information, such as charts, graphs, diagrams, scientific photographs and works of art, are complex images.\n\
+\n\
+* A complex image has informational content that is richer and more detailed than simpler images, and cannot be described adequately with a short description. A complex image needs both a short description and a longer, more detailed description.\n\
+\n\
+### Describing a Complex Image\n\
+\n\
+* Best practices for describing a complex image prescribe that the long description be placed within the document, usually just before or after the image.\n\
+\n\
+* The type of long description you provide for a complex image is dependent on the context of the image in the document.\n\
 \n\
 * Many authors find it both natural and necessary to describe the informational content of a complex image within the document itself, using expository prose or tabular data.\n\
 \n\
 * For example, images of charts can be described by adding a table of the data used to generate the chart.\n\
 \n\
-### Describing a Complex Image\n\
-\n\
-A complex image has informational content that is richer and more detailed than simpler images, and cannot be described adequately with a short description. A complex image needs both a short description and a longer, more detailed description.\n\
-\n\
-Best practices for the long description of a complex image prescribe that it be placed in the document itself, usually just before or after the image.\n\
-\n\
 Follow these three steps for describing a complex image:\n\
 \n\
-1. Provide an adequately long and detailed description of the image within the document itself, either just before or after the image (or both).\n\
+1. Insert an adequately long and detailed description of the image within the document, either just before or after the image (or both).\n\
 \n\
 1. Select the *Complex image (requires long description)* checkbox.\n\
 \n\

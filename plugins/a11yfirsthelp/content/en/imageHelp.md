@@ -4,7 +4,7 @@
 
 * People with visual impairments or visual processing disorders need *accessible text descriptions* of informative images.
 
-* Effective text descriptions of informative images can determine the extent to which users comprehend your document.
+* Effective text descriptions of informative images can determine the extent to which readers comprehend your document.
 
 * By understanding how to classify images, you will be able to determine whether an image needs an accessible text description and how detailed that description needs to be.
 
@@ -14,15 +14,22 @@
 
 * A **decorative** image does not add information to the document, and therefore *does not require an accessible text description*.
 
-### Accessible Description
+### Accessible Descriptions
 
-* An accessible text description should focus on the informational content of the image rather than its superficial appearance.
+Accessible text descriptions of images fall into two categories:
+
+1. **Short description**: required for all *informative* images
+1. **Long description**: required for informationally *complex* images
+
+An accessible text description should focus on the informational content of the image rather than its superficial appearance.
 
 ### Short Description
 
 * An informative image, whether it is complex or not, requires a short description, which you provide in the *Short description* field.
 
-### Tips for Writing Effective Short Descriptions
+### Tips for Writing an Effective Short Description
+
+* A short description should briefly describe what the image conveys visually in terms of its content or function.
 
 * A short description should **not** exceed more than 100 characters. If an image needs more than 100 characters for its description, please classify it as a **complex** image and follow the applicable guidelines outlined below.
 
@@ -34,21 +41,23 @@
 
 ### What Is a Complex Image?
 
-* Images that convey a significant amount of information, such as charts, graphs, diagrams, scientific photographs and works of art, are complex images. The type of long description you provide for such an image is dependent on the context of the image in the document.
+* Images that convey a significant amount of information, such as charts, graphs, diagrams, scientific photographs and works of art, are complex images.
+
+* A complex image has informational content that is richer and more detailed than simpler images, and cannot be described adequately with a short description. A complex image needs both a short description and a longer, more detailed description.
+
+### Describing a Complex Image
+
+* Best practices for describing a complex image prescribe that the long description be placed within the document, usually just before or after the image.
+
+* The type of long description you provide for a complex image is dependent on the context of the image in the document.
 
 * Many authors find it both natural and necessary to describe the informational content of a complex image within the document itself, using expository prose or tabular data.
 
 * For example, images of charts can be described by adding a table of the data used to generate the chart.
 
-### Describing a Complex Image
-
-A complex image has informational content that is richer and more detailed than simpler images, and cannot be described adequately with a short description. A complex image needs both a short description and a longer, more detailed description.
-
-Best practices for the long description of a complex image prescribe that it be placed in the document itself, usually just before or after the image.
-
 Follow these three steps for describing a complex image:
 
-1. Provide an adequately long and detailed description of the image within the document itself, either just before or after the image (or both).
+1. Insert an adequately long and detailed description of the image within the document, either just before or after the image (or both).
 
 1. Select the *Complex image (requires long description)* checkbox.
 
