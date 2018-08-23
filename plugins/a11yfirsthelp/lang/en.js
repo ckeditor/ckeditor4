@@ -168,11 +168,11 @@ Accessible text descriptions of images fall into two categories:\n\
 \n\
 An accessible text description should focus on the informational content of the image rather than its superficial appearance.\n\
 \n\
-### Short Description\n\
+### Short description\n\
 \n\
 * An informative image, whether it is complex or not, requires a short description, which you provide in the *Short description* field.\n\
 \n\
-### Tips for Writing an Effective Short Description\n\
+### Tips for writing an effective short description\n\
 \n\
 * A short description should briefly describe what the image conveys visually in terms of its content or function.\n\
 \n\
@@ -184,13 +184,13 @@ An accessible text description should focus on the informational content of the 
 \n\
 * The short description is added to the `alt` attribute of the `img` element.\n\
 \n\
-### What Is a Complex Image?\n\
+### What is a complex image?\n\
 \n\
 * Images that convey a significant amount of information, such as charts, graphs, diagrams, scientific photographs and works of art, are complex images.\n\
 \n\
 * A complex image has informational content that is richer and more detailed than simpler images, and cannot be described adequately with a short description. A complex image needs both a short description and a longer, more detailed description.\n\
 \n\
-### Describing a Complex Image\n\
+### Describing a complex image\n\
 \n\
 * Best practices for describing a complex image prescribe that the long description be placed within the document, usually just before or after the image.\n\
 \n\
