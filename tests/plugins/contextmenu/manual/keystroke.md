@@ -3,6 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea,toolbar,contextmenu,clipboard,table,tableselection
 
 ## For each editor:
+1. Scroll page so editor as at the top.
 1. Select some editor context with mouse or keyboard.
 1. Press `Shift + F10` to open context menu from keyboard.
 
