@@ -5,7 +5,8 @@
 	'use strict';
 
 	var filterMap = {
-		width: 'td{width,height}',
+		width: 'td{width}',
+		height: 'td{height}',
 		wordWrap: 'td{white-space}',
 		hAlign: 'td{text-align}',
 		vAlign: 'td{vertical-align}',
@@ -26,14 +27,8 @@
 					for ( var key in filterMap ) {
 						if ( key !== editor.name ) {
 							assert.isTrue( isNotAllowed( key ), 'Dialog ' + key + ' should be disallowed.' );
-							if ( key === 'width' ) {
-								assert.isTrue( isNotAllowed( 'height' ), 'Dialog height should be disallowed.' );
-							}
 						} else {
 							assert.isUndefined( isNotAllowed( key ), 'Dialog ' + key + ' shouldn\'t be disallowed.' );
-							if ( key === 'width' ) {
-								assert.isUndefined( isNotAllowed( 'height' ), 'Dialog height shouldn\'t be disallowed.' );
-							}
 						}
 					}
 					function isNotAllowed( key ) {
