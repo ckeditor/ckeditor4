@@ -27,7 +27,9 @@
 				frame = CKEDITOR.document.getWindow().getFrame();
 
 			// Context menu uses frame height to calculate if it fits inside and bender dashboard puts tests in frame with 70px height.
-			frame.setStyle( 'height', '500px' );
+			if ( frame ) {
+				frame.setStyle( 'height', '500px' );
+			}
 
 			range.setStart( editor.editable().getFirst(), 0 );
 			range.select();
@@ -43,7 +45,9 @@
 						assert.isNumberInRange( elementRect.left, selectionRect.right - 0.1, selectionRect.left + 0.1 );
 						assert.isNumberInRange( elementRect.top, selectionRect.bottom - 0.1, selectionRect.bottom + 0.1 );
 
-						frame.removeStyle( 'height' );
+						if ( frame ) {
+							frame.removeStyle( 'height' );
+						}
 					} );
 				} );
 			} );
