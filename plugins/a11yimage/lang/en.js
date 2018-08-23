@@ -12,8 +12,8 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	typeDecorative: 'Decorative',
 	typeDecorativeHelp: 'Does not require a text description — image adds no additional information to the document',
 
-	// Accessible Description
-	imageDesc: 'Accessible Description',
+	// Accessible Descriptions
+	imageDesc: 'Accessible Descriptions',
 
 	alt: 'Short description (required)',
 	a11yfirstInfo: 'Tips',
