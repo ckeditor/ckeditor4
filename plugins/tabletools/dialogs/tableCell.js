@@ -13,7 +13,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		colorDialog = editor.plugins.colordialog,
 		firstColumn = {
 			type: 'vbox',
-			requiredContent: [ 'td{width,height}', 'td{white-space}', 'td{text-align}', 'td{vertical-align}' ],
+			requiredContent: [ 'td{width}', 'td{height}', 'td{white-space}', 'td{text-align}', 'td{vertical-align}' ],
 			padding: 0,
 			children: [ {
 				type: 'hbox',
@@ -22,7 +22,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					type: 'text',
 					id: 'width',
 					width: '100px',
-					requiredContent: 'td{width,height}',
+					requiredContent: 'td{width}',
 					label: langCommon.width,
 					validate: validate.number( langCell.invalidWidth ),
 
@@ -65,7 +65,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					{
 						type: 'select',
 						id: 'widthType',
-						requiredContent: 'td{width,height}',
+						requiredContent: 'td{width}',
 						label: editor.lang.table.widthUnit,
 						labelStyle: 'visibility:hidden',
 						'default': 'px',
@@ -82,7 +82,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					children: [ {
 						type: 'text',
 						id: 'height',
-						requiredContent: 'td{width,height}',
+						requiredContent: 'td{height}',
 						label: langCommon.height,
 						width: '100px',
 						'default': '',
@@ -486,7 +486,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 	function whichColumns() {
 		var columns = 'none';
 
-		if ( editor.filter.check( [ 'td{width,height}', 'td{white-space}', 'td{text-align}', 'td{vertical-align}' ] ) ) {
+		if ( editor.filter.check( [ 'td{width}', 'td{height}', 'td{white-space}', 'td{text-align}', 'td{vertical-align}' ] ) ) {
 			columns = 'first';
 		}
 

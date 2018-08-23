@@ -771,7 +771,7 @@
 			var lang = editor.lang.table,
 				styleParse = CKEDITOR.tools.style.parse,
 				requiredContent = [
-					'td{width,height}', 'td{border-color}', 'td{background-color}', 'td{white-space}', 'td{vertical-align}', 'td{text-align}',
+					'td{width}', 'td{height}', 'td{border-color}', 'td{background-color}', 'td{white-space}', 'td{vertical-align}', 'td{text-align}',
 					'td[colspan]', 'td[rowspan]', 'th' ];
 
 			function createDef( def ) {
