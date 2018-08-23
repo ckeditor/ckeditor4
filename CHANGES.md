@@ -22,7 +22,7 @@ Fixed Issues:
 * [#2254](https://github.com/ckeditor/ckeditor-dev/issues/2254): Fixed: [Image](https://ckeditor.com/cke4/addon/image) ratio locking is too precise for resized images. Thanks to [Jonathan Gilbert](https://github.com/logiclrd)!
 * [#2003](https://github.com/ckeditor/ckeditor-dev/issues/2003): Fixed: Right-clicking on multiple selected cells containing empty paragraphs removes the selection on Firefox.
 * [#1816](https://github.com/ckeditor/ckeditor-dev/issues/1816): Fixed: Table breaks when <kbd>Enter</kbd> was pressed over [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
-* [#1115](https://github.com/ckeditor/ckeditor-dev/issues/1115): Fixed: `<font>` tag is not preserved, when proper config is provided and style is applied by [font](https://ckeditor.com/cke4/addon/font) plugin.
+* [#1115](https://github.com/ckeditor/ckeditor-dev/issues/1115): Fixed: `<font>` tag is not preserved, when proper config is provided and style is applied by [Font](https://ckeditor.com/cke4/addon/font) plugin.
 
 API Changes:
 
