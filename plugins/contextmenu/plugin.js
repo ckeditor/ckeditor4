@@ -150,7 +150,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 					rect;
 
 				// When opening context menu via keystroke there is no offsetX and Y passed (#1451).
-				rects = ranges[ ranges.length - 1 ].getClientRects();
+				rects = ranges[ ranges.length - 1 ].getClientRects( editor.editable().isInline() );
 				rect = rects[ rects.length - 1 ];
 
 				if ( rect ) {
