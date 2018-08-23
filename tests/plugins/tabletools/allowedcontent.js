@@ -31,6 +31,9 @@
 							assert.isUndefined( isNotAllowed( key ), 'Dialog ' + key + ' shouldn\'t be disallowed.' );
 						}
 					}
+
+					dialog.hide();
+
 					function isNotAllowed( key ) {
 						return dialog._.contents.info[ key ].notAllowed;
 					}
