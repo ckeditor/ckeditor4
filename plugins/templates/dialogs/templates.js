@@ -65,7 +65,7 @@
 
 			if ( isReplace ) {
 				editor.fire( 'saveSnapshot' );
-				// Everything should happen after the document is loaded (https://dev.ckeditor.com/ticket/4073).
+				// Everything should happen after the document is loaded (http://dev.ckeditor.com/ticket/4073).
 				editor.setData( html, function() {
 					dialog.hide();
 
@@ -164,6 +164,7 @@
 						id: 'chkInsertOpt',
 						type: 'checkbox',
 						label: lang.insertOption,
+						style: 'top:0px;',
 						'default': config.templates_replaceContent
 					} ]
 				} ]
