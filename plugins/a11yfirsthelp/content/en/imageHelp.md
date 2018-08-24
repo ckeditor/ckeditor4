@@ -16,28 +16,34 @@
 
 ### Accessible Descriptions
 
-Accessible text descriptions of images fall into two categories:
+An accessible text description should accurately present the informational content of the image.
+
+Accessible descriptions of images fall into two categories:
 
 1. **Short description**: required for all *informative* images
 1. **Long description**: required for informationally *complex* images
-
-An accessible text description should focus on the informational content of the image rather than its superficial appearance.
 
 ### Short description
 
 * An informative image, whether it is complex or not, requires a short description, which you provide in the *Short description* field.
 
+* The short description is added to the `alt` attribute of the `img` element.
+
 ### Tips for writing an effective short description
 
-* A short description should briefly describe what the image conveys visually in terms of its content or function.
+The following are based on <a href="https://webaim.org/">WebAIM's</a> guidelines for writing effective short descriptions:
 
-* A short description should **not** exceed more than 100 characters. If an image needs more than 100 characters for its description, please classify it as a **complex** image and follow the applicable guidelines outlined below.
+* **Be accurate and equivalent** in presenting the same *content* and *function* of the image.
 
-* The short description should avoid redundant words and phrases such as "image of" and "picture of".
+* When **images are used as links** the short description should describe the target of the link.
 
-* The short description should not include information relating to the file name or size of the image.
+* **Be succinct.** This means the correct content and function of the image should be presented as succinctly as is appropriate. Typically no more than a few words are necessary, though rarely a short sentence or two may be appropriate. The length should not exceed 100 characters.
 
-* The short description is added to the `alt` attribute of the `img` element.
+* **Do NOT be redundant** or provide the same information as text that is already part of the document.
+
+* **Do NOT use the phrases "image of ..." or "graphic of ..."** to describe the image. Assistive technologies notify the user of the image.  It is your job to describe the purpose or the content of the image.  If the image is a photograph or illustration, etc. of important content, it may be useful to include this in the short description.
+
+* **Do NOT include file names or sizes** as part of the short description.
 
 ### What is a complex image?
 
@@ -85,6 +91,8 @@ Adding accessible text descriptions of images is an important part of making doc
 
 When the user cannot see all or part of the image, assistive technologies will read or display the accessible text description(s) associated with the image. This is especially important when the image conveys information that is required for the user to fully understand the information in the document. For people with visual processing disorders, the long description of a complex image helps them to more quickly or completely understand the information being conveyed by the image.
 
+### Summary
+
 The following is some general guidance on writing short text descriptions and providing longer, more detailed descriptions:
 
 * Simple images, photos and logos often can be described in less than 100 characters.
@@ -93,28 +101,12 @@ The following is some general guidance on writing short text descriptions and pr
 
 * Purely decorative images do not need an accessible text description.
 
-### Writing effective text alternative content
-
-The following are based on <a href="https://webaim.org/">WebAIM's</a> guidelines for writing effective text alternatives:
-
-* **Be accurate and equivalent** in presenting the same content and function of the image.
-
-* When **images are used as links** the text alternative should describe the target of the link.
-
-* **Be succinct.** This means the correct content (if there is content) and function (if there is a function) of the image should be presented as succinctly as is appropriate. Typically no more than a few words are necessary, though rarely a short sentence or two may be appropriate.
-
-* **Do NOT be redundant** or provide the same information as text already part of the page.
-
-* **Do NOT use the phrases "image of ..." or "graphic of ..."** to describe the image. Assistive technologies notify the user of the image.  It is your job to describe the purpose or the content of the image.  If the image is a photograph or illustration, etc. of important content, it may be useful to include this in the text alternative.
-
-* **Do NOT include file names or sizes** as part of the text alternative.
-
 ### More information
 
 * <a href="http://accessibility.psu.edu/images/alttext/" target="_resource">Penn State: Image ALT Text</a>
 
 * <a href="https://webaim.org/techniques/alttext/" target="_resource">WebAIM: Alternative Text</a>
 
-* <a href="http://diagramcenter.org/" target="_resource">Diagram Center</a>
-
 * <a href="https://www.w3.org/WAI/tutorials/images/">W3C Web Accessibility Image Tutorial</a>
+
+* <a href="http://diagramcenter.org/" target="_resource">Diagram Center</a>
