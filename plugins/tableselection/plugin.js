@@ -299,6 +299,12 @@
 				selectedTable.getCommonAncestor( table ).is( tableElements );
 		}
 
+		function isInSelectedCell( target, fakeSelectedClass ) {
+			var cell = target.getAscendant( { td: 1, th: 1 }, true );
+
+			return cell && cell.hasClass( fakeSelectedClass );
+		}
+
 		function isOutsideTable( node ) {
 			return !node.getAscendant( 'table', true ) && node.getDocument().equals( editor.document );
 		}
@@ -311,8 +317,9 @@
 
 			// Covers a case when:
 			// 1. User releases mouse button outside the table.
-			// 2. User opens context menu not in the selected table.
-			if ( evt.name === 'mouseup' && !isOutsideTable( evt.data.getTarget() ) && !isSameTable( selectedTable, table ) ) {
+			// 2. User opens context menu not in the selected part of table.
+			if ( evt.name === 'mouseup' && !isOutsideTable( evt.data.getTarget() ) &&
+				!isInSelectedCell( evt.data.getTarget(), fakeSelectedClass, table ) ) {
 				return true;
 			}
 
