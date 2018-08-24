@@ -318,7 +318,7 @@
 			// Covers a case when:
 			// 1. User releases mouse button outside the table.
 			// 2. User opens context menu not in the selected part of table.
-			if ( evt.name === 'mouseup' && !isOutsideTable( evt.data.getTarget() ) &&
+			if ( evt.name === ( CKEDITOR.env.gecko ? 'mousedown' : 'mouseup' ) && !isOutsideTable( evt.data.getTarget() ) &&
 				!isInSelectedCell( evt.data.getTarget(), fakeSelectedClass, table ) ) {
 				return true;
 			}
