@@ -7,7 +7,7 @@
 
 ## Expected
 
-- Context menu opens, and none of cell is selected.
+- Context menu opens, and none of cells is selected.
 
 ## Unexpected
 
