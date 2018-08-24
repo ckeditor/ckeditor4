@@ -1,4 +1,4 @@
-# CKEditor 4 (dev)
+# CKEditor 4 (dev) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20CKEditor%204%20on%20npm&https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fckeditor-dev)
 
 [![GitHub tag](https://img.shields.io/github/tag/ckeditor/ckeditor-dev.svg)](https://github.com/ckeditor/ckeditor-dev)
 [![Dependencies](https://img.shields.io/david/ckeditor/ckeditor-dev.svg)](https://david-dm.org/ckeditor/ckeditor-dev)
@@ -69,10 +69,6 @@ If you are looking for CKEditor 5, here's a link to the relevant npm package: <h
 | IE8, IE9, IE10, IE11, Edge| latest version| latest version| latest version| latest version| latest version| latest version
 
 Find out more in the [Browser Compatibility guide](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_browsers.html#officially-supported-browsers).
-
-## Releases
-
-See CKEditor 4 release blog posts [on the CKEditor blog](https://ckeditor.com/blog/?category=releases&tags=CKEditor-4).
 
 ## Contribute
 
