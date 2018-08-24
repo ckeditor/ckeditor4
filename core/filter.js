@@ -764,11 +764,19 @@
 			// Element has been marked for removal.
 			if ( toBeRemoved.length > 0 ) {
 				result = false;
-			// Compare only left to right, because clone may be only trimmed version of original element.
-			} else if ( !CKEDITOR.tools.objectCompare( element.attributes, clone.attributes, true ) ) {
-				result = false;
-			} else {
-				result = true;
+			}
+			else {
+				// We need to compare class alphabetically, because cloned element is created in such way (#727).
+				var originClassNames = element.attributes[ 'class' ];
+				if ( originClassNames ) {
+					element.attributes[ 'class' ] = element.attributes[ 'class' ].split( ' ' ).sort().join( ' ' );
+				}
+
+				result = CKEDITOR.tools.objectCompare( element.attributes, clone.attributes, true );
+
+				if ( originClassNames ) {
+					element.attributes[ 'class' ] = originClassNames;
+				}
 			}
 
 			// Cache result of this test - we can build cache only for string tests.
