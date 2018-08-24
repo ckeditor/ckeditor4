@@ -29,8 +29,9 @@ Fixed Issues:
 * [#898](https://github.com/ckeditor/ckeditor-dev/issues/898): Fixed: [Enhanced Image](https://ckeditor.com/cke4/addon/image2) long alt text protrudes into editor when image is selected.
 * [#1113](https://github.com/ckeditor/ckeditor-dev/issues/1113): [Firefox] Fixed: Nested contenteditable elements path not updated on focus with [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) plugin.
 * [#1682](https://github.com/ckeditor/ckeditor-dev/issues/1682) Fixed: Hovering [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) panel changes its size causing flickering.
-* [#1832](https://github.com/ckeditor/ckeditor-dev/issues/1832): Fixed: Drop doesn't always work in Edge.
-* [#1943](https://github.com/ckeditor/ckeditor-dev/issues/1943): Fixed: Dragged text disappears when dropped on Edge.
+* [#1832](https://github.com/ckeditor/ckeditor-dev/issues/1832): [Edge] Fixed: Drop doesn't always work.
+* [#1943](https://github.com/ckeditor/ckeditor-dev/issues/1943): [Edge] Fixed: Dragged text disappears when dropped.
+* [#2303](https://github.com/ckeditor/ckeditor-dev/issues/2303): [Edge] Fixed: Pasting with [Clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin present throws error.
 
 API Changes:
 
