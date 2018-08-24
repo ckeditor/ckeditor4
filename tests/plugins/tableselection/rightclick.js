@@ -111,7 +111,7 @@
 
 				target = ( setup.test.inner ? innerCells : outerCells )[ setup.test.index ];
 
-				mouseHost.fire( 'mouseup', {
+				mouseHost.fire( CKEDITOR.env.gecko ? 'mousedown' : 'mouseup', {
 					editor: editor,
 					getTarget: function() {
 						return target;
