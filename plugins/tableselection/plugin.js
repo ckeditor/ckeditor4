@@ -317,7 +317,8 @@
 
 			// Covers a case when:
 			// 1. User releases mouse button outside the table.
-			// 2. User opens context menu not in the selected part of table.
+			// 2. User opens context menu outside of selection.
+			// Use 'mousedown' for Firefox, as it doesn't fire 'mouseup' when mouse is released in context menu.
 			if ( evt.name === ( CKEDITOR.env.gecko ? 'mousedown' : 'mouseup' ) && !isOutsideTable( evt.data.getTarget() ) &&
 				!isInSelectedCell( evt.data.getTarget(), fakeSelectedClass, table ) ) {
 				return true;
