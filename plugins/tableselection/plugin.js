@@ -299,12 +299,6 @@
 				selectedTable.getCommonAncestor( table ).is( tableElements );
 		}
 
-		function isInSelectedCell( target, fakeSelectedClass ) {
-			var cell = target.getAscendant( { td: 1, th: 1 }, true );
-
-			return cell && cell.hasClass( fakeSelectedClass );
-		}
-
 		function isOutsideTable( node ) {
 			return !node.getAscendant( 'table', true ) && node.getDocument().equals( editor.document );
 		}
@@ -319,12 +313,18 @@
 			// 1. User releases mouse button outside the table.
 			// 2. User opens context menu outside of selection.
 			// Use 'mousedown' for Firefox, as it doesn't fire 'mouseup' when mouse is released in context menu.
-			if ( evt.name === ( CKEDITOR.env.gecko ? 'mousedown' : 'mouseup' ) && !isOutsideTable( evt.data.getTarget() ) &&
-				!isInSelectedCell( evt.data.getTarget(), fakeSelectedClass, table ) ) {
-				return true;
-			}
+			return isProperEvent( evt.name ) && !isOutsideTable( evt.data.getTarget() ) &&
+				!isInSelectedCell( evt.data.getTarget(), fakeSelectedClass, table );
+		}
 
-			return false;
+		function isProperEvent( evtName ) {
+			return evtName === ( CKEDITOR.env.gecko ? 'mousedown' : 'mouseup' );
+		}
+
+		function isInSelectedCell( target, fakeSelectedClass ) {
+			var cell = target.getAscendant( { td: 1, th: 1 }, true );
+
+			return cell && cell.hasClass( fakeSelectedClass );
 		}
 
 		if ( canClearSelection( evt, selection, selectedTable, table ) ) {
