@@ -166,6 +166,20 @@
 			} );
 		},
 
+		// (#2296).
+		'test opening dropdown with comments': function() {
+			var bot = this.editorBot,
+				bgColorBtn = bot.editor.ui.get( 'BGColor' );
+
+			bot.setHtmlWithSelection( '[<p>foo <!-- comment --> bar</p>]' );
+
+			// Check if automatic background color is obtained correctly.
+			bgColorBtn.click( bot.editor );
+
+			// The test would break execution in case of fail.
+			assert.isTrue( true );
+		},
+
 		// (#1084)
 		'test changing text color to automatic': testAutomaticColor(),
 
