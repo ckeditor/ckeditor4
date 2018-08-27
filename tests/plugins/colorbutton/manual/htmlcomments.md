@@ -14,3 +14,7 @@ Content gets bolded, no error are thrown in the console.
 ### Actual
 
 Content gets Bold but a js error is thrown.
+
+### Notes
+
+[Edge will throw `Premission denied` exception](https://github.com/ckeditor/ckeditor-dev/issues/2035), this particular error is not related to this test.

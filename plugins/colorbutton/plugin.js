@@ -169,7 +169,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							currentColor;
 
 						while ( element ) {
-							if ( element.type === CKEDITOR.NODE_TEXT ) {
+							if ( element.type !== CKEDITOR.NODE_ELEMENT ) {
 								element = element.getParent();
 							}
 
