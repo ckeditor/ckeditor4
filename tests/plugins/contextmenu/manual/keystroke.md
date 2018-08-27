@@ -1,6 +1,6 @@
 @bender-tags: bug, 4.10.1, 1451
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea,toolbar,contextmenu,clipboard,table,tableselection
+@bender-ckeditor-plugins: wysiwygarea,toolbar,contextmenu,clipboard,table,tableselection,floatingspace
 
 ## For each editor:
 1. Scroll page so editor as at the top.
