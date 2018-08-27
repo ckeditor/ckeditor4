@@ -19,6 +19,7 @@ Fixed Issues:
 * [#1791](https://github.com/ckeditor/ckeditor-dev/issues/1791): Fixed: [Image](https://ckeditor.com/cke4/addon/image) and [Enhanced Image](https://ckeditor.com/cke4/addon/image2) plugins are enabled when [Easy Image](https://ckeditor.com/cke4/addon/easyimage) is present.
 * [#1184](https://github.com/ckeditor/ckeditor-dev/issues/1184): [IE8-11] Fixed: Copying and pasting data in [read-only mode](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#property-readOnly) throws an error.
 * [#1916](https://github.com/ckeditor/ckeditor-dev/issues/1916): [IE9-11] Fixed: Pressing <kbd>Delete</kbd> key in [read-only mode](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#property-readOnly) throws an error.
+* [#2294](https://github.com/ckeditor/ckeditor-dev/issues/2294): Fixed: Color button throws an error when activated on a content containing HTML comments.
 * [#2254](https://github.com/ckeditor/ckeditor-dev/issues/2254): Fixed: [Image](https://ckeditor.com/cke4/addon/image) ratio locking is too precise for resized images. Thanks to [Jonathan Gilbert](https://github.com/logiclrd)!
 * [#2003](https://github.com/ckeditor/ckeditor-dev/issues/2003): Fixed: Right-clicking on multiple selected cells containing empty paragraphs removes the selection on Firefox.
 * [#1816](https://github.com/ckeditor/ckeditor-dev/issues/1816): Fixed: Table breaks when <kbd>Enter</kbd> was pressed over [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
