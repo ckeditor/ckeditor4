@@ -166,7 +166,7 @@
 			} );
 		},
 
-		// (#2294).
+		// (#2296).
 		'test opening dropdown with comments': function() {
 			var bot = this.editorBot,
 				bgColorBtn = bot.editor.ui.get( 'BGColor' );

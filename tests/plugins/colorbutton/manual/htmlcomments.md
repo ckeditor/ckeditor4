@@ -1,4 +1,4 @@
-@bender-tags: bug, 2294, 4.10.1
+@bender-tags: bug, 2296, 4.10.1
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton
 
@@ -9,11 +9,11 @@
 
 ### Expected
 
-Content gets bolded, no error are thrown in the console.
+No error are thrown in the console.
 
 ### Actual
 
-Content gets bolded but a js error is thrown.
+JS error is thrown.
 
 ### Notes
 
