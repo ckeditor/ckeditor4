@@ -14,3 +14,8 @@
 
 #### Right to left editors:
 - The panel shows itself on the left side of selection.
+
+
+### Note:
+
+IE8: There is known bug [#549](https://github.com/ckeditor/ckeditor-dev/issues/549) with wrong context menu position in inline editors.
