@@ -1601,18 +1601,19 @@
 				}
 				if ( dropRange ) {
 					eventData.dropRange = range = dropRange;
+					element = range.startContainer;
 				}
 
-				while ( range && range.checkReadOnly() ) {
-					element = range.startContainer.getParent();
-					offset = range.startContainer.getIndex() + 1;
+				while ( element && element.isReadOnly() ) {
+					element = element.getParent();
+					offset = element.getIndex() + 1;
+
+					if ( !element || element instanceof CKEDITOR.editable  ) {
+						break;
+					}
 
 					range.setStart( element, offset );
 					range.setEnd( element, offset );
-
-					if ( element instanceof CKEDITOR.editable ) {
-						break;
-					}
 				}
 
 				if ( editor.fire( evt.name, eventData ) === false ) {
