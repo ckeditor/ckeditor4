@@ -32,6 +32,7 @@ Fixed Issues:
 * [#1115](https://github.com/ckeditor/ckeditor-dev/issues/1115): Fixed: `<font>` tag is not preserved, when proper config is provided and style is applied by [Font](https://ckeditor.com/cke4/addon/font) plugin.
 * [#727](https://github.com/ckeditor/ckeditor-dev/issues/727): Fixed: custom styles might be invisible in [Styles Combo](https://ckeditor.com/cke4/addon/stylescombo) plugin.
 * [#988](https://github.com/ckeditor/ckeditor-dev/issues/988): Fixed: ACF - enabled custom elements prefixed with `object`, `embed`, `param` are removed from editor's content.
+* [#2276](https://github.com/ckeditor/ckeditor-dev/issues/2276): [iOS] Fixed: [Button](https://ckeditor.com/cke4/addon/button) state doesn't refresh properly.
 
 API Changes:
 
