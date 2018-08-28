@@ -524,7 +524,7 @@
 			// The list of URLs to language files.
 			var languageFiles = [];
 
-			CKEDITOR.tools.extend( editor.plugins, plugins );
+			editor.plugins = CKEDITOR.tools.extend( {}, editor.plugins, plugins );
 
 			// Loop through all plugins, to build the list of language
 			// files to get loaded.
