@@ -29,7 +29,9 @@
 			arrayAssert.itemsAreEqual( [ 1, 2, 2, 4, 4, 2, 3 ], ret.levels );
 
 			assert.beautified.html( CKEDITOR.document.getById( 'tc1expected' ).getHtml(),
-				this.getFragmentsOutputHtml( paragraphs[ 0 ].parent ) );
+				this.getFragmentsOutputHtml( paragraphs[ 0 ].parent ), {
+					noInterWS: true
+				} );
 		},
 
 		'test assignListLevels zero indent': function() {
@@ -76,7 +78,10 @@
 
 			html = this.getFragmentsOutputHtml( paragraph );
 
-			assert.beautified.html( CKEDITOR.document.getById( 'tc3expected' ).getHtml(), html, 'Paragraph\'s html' );
+			assert.beautified.html( CKEDITOR.document.getById( 'tc3expected' ).getHtml(), html, {
+				noInterWS: true,
+				msg: 'Paragraph\'s html'
+			} );
 		},
 
 		// Creates CKEDITOR.htmlParser.fragment based on given element, and returns it's children.'
