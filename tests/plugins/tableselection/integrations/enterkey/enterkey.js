@@ -27,7 +27,8 @@
 			name: 'editor1',
 			config: {
 				enterMode: CKEDITOR.ENTER_DIV,
-				shiftEnterMode: CKEDITOR.ENTER_BR
+				shiftEnterMode: CKEDITOR.ENTER_BR,
+				removePlugins: 'entities'
 			}
 		},
 		editor2: {
@@ -35,14 +36,16 @@
 			creator: 'inline',
 			config: {
 				enterMode: CKEDITOR.ENTER_BR,
-				shiftEnterMode: CKEDITOR.ENTER_DIV
+				shiftEnterMode: CKEDITOR.ENTER_DIV,
+				removePlugins: 'entities'
 			}
 		},
 		editor3: {
 			name: 'editor3',
 			config: {
 				enterMode: CKEDITOR.ENTER_P,
-				shiftEnterMode: CKEDITOR.ENTER_DIV
+				shiftEnterMode: CKEDITOR.ENTER_DIV,
+				removePlugins: 'entities'
 			}
 		},
 		editor4: {
@@ -50,7 +53,8 @@
 			creator: 'inline',
 			config: {
 				enterMode: CKEDITOR.ENTER_DIV,
-				shiftEnterMode: CKEDITOR.ENTER_P
+				shiftEnterMode: CKEDITOR.ENTER_P,
+				removePlugins: 'entities'
 			}
 		}
 	};
