@@ -17,16 +17,10 @@
 			'head',
 			'body',
 			'title'
-		],
-		extraAllowedContent = '';
-
-	CKEDITOR.tools.array.forEach( elements, function( item ) {
-		var customTag = item + 'foo';
-		extraAllowedContent += customTag + '[*]{*}(*);';
-	} );
+		];
 
 	CKEDITOR.replace( 'editor', {
-		extraAllowedContent: extraAllowedContent,
+		extraAllowedContent: elements.join( 'foo[*]{*}(*);' ) + 'foo[*]{*}(*);',
 		autoParagraph: false
 	} );
 </script>

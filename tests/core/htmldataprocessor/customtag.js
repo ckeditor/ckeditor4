@@ -2,24 +2,18 @@
 
 ( function() {
 	var elements = [
-		'object',
-		'embed',
-		'param',
-		'html',
-		'head',
-		'body',
-		'title'
-	],
-	extraAllowedContent = '';
-
-	CKEDITOR.tools.array.forEach( elements, function( item ) {
-		var customTag = item + 'foo';
-		extraAllowedContent += customTag + '[*]{*}(*);';
-	} );
+			'object',
+			'embed',
+			'param',
+			'html',
+			'head',
+			'body',
+			'title'
+		];
 
 	bender.editor = {
 		config: {
-			extraAllowedContent: extraAllowedContent,
+			extraAllowedContent: elements.join( 'foo[*]{*}(*);' ) + 'foo[*]{*}(*);',
 			autoParagraph: false
 		}
 	};
@@ -44,12 +38,12 @@
 		// (#988)
 		'test not allowed custom tags': assertDataFormat( {
 			data: '<objectbar data-bar="foo">objectbar</objectbar>' +
-					'<embedbar data-bar="foo">embedbar</embedbar>' +
-					'<parambar data-bar="foo">parambar</parambar>' +
-					'<htmlbar data-bar="foo">htmlbar</htmlbar>' +
-					'<headbar data-bar="foo">headbar</headbar>' +
-					'<bodybar data-bar="foo">bodybar</bodybar>' +
-					'<titlebar data-bar="foo">titlebar</titlebar>',
+				'<embedbar data-bar="foo">embedbar</embedbar>' +
+				'<parambar data-bar="foo">parambar</parambar>' +
+				'<htmlbar data-bar="foo">htmlbar</htmlbar>' +
+				'<headbar data-bar="foo">headbar</headbar>' +
+				'<bodybar data-bar="foo">bodybar</bodybar>' +
+				'<titlebar data-bar="foo">titlebar</titlebar>',
 
 			expected: 'objectbarembedbarparambarhtmlbarheadbarbodybartitlebar'
 		} )
