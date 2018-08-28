@@ -757,6 +757,7 @@
 			 * editor.plugins.detectPluginsConflict( 'image', [ 'image2', 'easyimage' ] );
 			 * ```
 			 *
+			 * @member CKEDITOR.editor.plugins
 			 * @since 4.10.1
 			 * @param {String} plugin Current plugin name.
 			 * @param {String[]} conflicted Names of plugins that are conflicted with a current plugin.
