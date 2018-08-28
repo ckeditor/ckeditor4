@@ -21,7 +21,7 @@
 
 			// Abort when Easyimage or Image2 are to be loaded since this plugins
 			// share the same functionality (#1791).
-			if ( editor.plugins.detectPluginsConflict( pluginName, [ 'easyimage', 'image2' ] ) ) {
+			if ( editor.plugins.detectConflict( pluginName, [ 'easyimage', 'image2' ] ) ) {
 				return;
 			}
 

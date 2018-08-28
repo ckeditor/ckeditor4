@@ -80,7 +80,7 @@ bender.test(
 			},
 			spy = sinon.spy( CKEDITOR, 'warn' ),
 
-			result = CKEDITOR.editor.prototype.plugins.detectPluginsConflict.call( editor.plugins,
+			result = CKEDITOR.editor.prototype.plugins.detectConflict.call( editor.plugins,
 				'plugin', [ 'plugin1', 'plugin2' ] );
 
 		spy.restore();
@@ -96,7 +96,7 @@ bender.test(
 			},
 			spy = sinon.spy( CKEDITOR, 'warn' ),
 
-			result = CKEDITOR.editor.prototype.plugins.detectPluginsConflict.call( editor.plugins,
+			result = CKEDITOR.editor.prototype.plugins.detectConflict.call( editor.plugins,
 				'plugin', [ 'plugin1', 'plugin2' ] );
 
 		spy.restore();

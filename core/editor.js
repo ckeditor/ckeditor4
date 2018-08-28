@@ -754,7 +754,7 @@
 			 * message.
 			 *
 			 * ```javascript
-			 * editor.plugins.detectPluginsConflict( 'image', [ 'image2', 'easyimage' ] );
+			 * editor.plugins.detectConflict( 'image', [ 'image2', 'easyimage' ] );
 			 * ```
 			 *
 			 * @member CKEDITOR.editor.plugins
@@ -763,7 +763,7 @@
 			 * @param {String[]} conflicted Names of plugins that are conflicted with a current plugin.
 			 * @return {Boolean} Returns true, if there is some conflict. Returns false otherwise.
 			 */
-			detectPluginsConflict: function( plugin, conflicted ) {
+			detectConflict: function( plugin, conflicted ) {
 				for ( var i = 0; i < conflicted.length; i++ ) {
 					var pluginName = conflicted[ i ];
 

@@ -70,7 +70,7 @@
 		init: function( editor ) {
 			// Abort when Easyimage is to be loaded since this plugins
 			// share the same functionality (#1791).
-			if ( editor.plugins.detectPluginsConflict( 'image2', [ 'easyimage' ] ) ) {
+			if ( editor.plugins.detectConflict( 'image2', [ 'easyimage' ] ) ) {
 				return;
 			}
 
