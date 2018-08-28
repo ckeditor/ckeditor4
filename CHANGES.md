@@ -29,7 +29,7 @@ Fixed Issues:
 
 API Changes:
 
-* [#2249](https://github.com/ckeditor/ckeditor-dev/issues/1791): Added [`CKEDITOR.tools.detectPluginsConflict`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-detectPluginsConflict) function finding conflicts between provided plugins.
+* [#2249](https://github.com/ckeditor/ckeditor-dev/issues/1791): Added [`editor.plugins.detectPluginsConflict`](https://ckeditor.com/docs/ckeditor4/latest/CKEDITOR_editor_plugins.html#method-detectPluginsConflict) function finding conflicts between provided plugins.
 
 ## CKEditor 4.10
 
