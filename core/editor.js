@@ -524,21 +524,7 @@
 			// The list of URLs to language files.
 			var languageFiles = [];
 
-			/**
-			 * An object that contains references to all plugins used by this
-			 * editor instance.
-			 *
-			 *		alert( editor.plugins.dialog.path ); // e.g. 'http://example.com/ckeditor/plugins/dialog/'
-			 *
-			 *		// Check if a plugin is available.
-			 *		if ( editor.plugins.image ) {
-			 *			...
-			 *		}
-			 *
-			 * @readonly
-			 * @property {Object}
-			 */
-			editor.plugins = plugins;
+			CKEDITOR.tools.extend( editor.plugins, plugins );
 
 			// Loop through all plugins, to build the list of language
 			// files to get loaded.
@@ -744,6 +730,55 @@
 	}
 
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
+		/**
+		 * An object that contains references to all plugins used by this
+		 * editor instance.
+		 *
+		 *		alert( editor.plugins.dialog.path ); // e.g. 'http://example.com/ckeditor/plugins/dialog/'
+		 *
+		 *		// Check if a plugin is available.
+		 *		if ( editor.plugins.image ) {
+		 *			...
+		 *		}
+		 *
+		 * @readonly
+		 * @property {Object}
+		 */
+		plugins: {
+			/**
+			 * Checks for conflicting plugins with the given one.
+			 *
+			 * If conflict occurs this function will send {@link CKEDITOR#warn console warning}
+			 * with `editor-plugin-conflict` error code. Order of a `conflicted` names is respected
+			 * where the first conflicted plugin has the highest priority and will be used in a warning
+			 * message.
+			 *
+			 * ```javascript
+			 * editor.plugins.detectPluginsConflict( 'image', [ 'image2', 'easyimage' ] );
+			 * ```
+			 *
+			 * @since 4.10.1
+			 * @param {String} plugin Current plugin name.
+			 * @param {String[]} conflicted Names of plugins that are conflicted with a current plugin.
+			 * @return {Boolean} Returns true, if there is some conflict. Returns false otherwise.
+			 */
+			detectPluginsConflict: function( plugin, conflicted ) {
+				for ( var i = 0; i < conflicted.length; i++ ) {
+					var pluginName = conflicted[ i ];
+
+					if ( this[ pluginName ] ) {
+						CKEDITOR.warn( 'editor-plugin-conflict', {
+							plugin: plugin,
+							replacedWith: pluginName
+						} );
+
+						return true;
+					}
+				}
+
+				return false;
+			}
+		},
 		/**
 		 * Adds a command definition to the editor instance. Commands added with
 		 * this function can be executed later with the {@link #execCommand} method.
