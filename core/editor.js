@@ -742,7 +742,7 @@
 		 *		}
 		 *
 		 * @readonly
-		 * @property {Object}
+		 * @property {CKEDITOR.editor.plugins}
 		 */
 		plugins: {
 			/**
