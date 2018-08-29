@@ -158,7 +158,7 @@ CKEDITOR.editorConfig = function ( config ) {
     { name: 'heading',        items: [ 'Heading' ] },
     { name: 'list',           items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ] },
     { name: 'otherblocks',    items: [ 'Blockquote', 'CodeSnippet' ] },
-    { name: 'justify',        items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+    { name: 'justify',        items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight' ] },
     { name: 'misc1',          items: [ 'Image', 'Table' ] },
     { name: 'showblocks',     items: [ 'ShowBlocks' ] },
     { name: 'a11yfirsthelp',  items: [ 'A11yFirstHelp' ] },
