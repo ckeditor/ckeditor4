@@ -1,6 +1,7 @@
 @bender-ui: collapsed
 @bender-tags: bug, 4.10.1, 1816, tableselection
 @bender-ckeditor-plugins: wysiwygarea, toolbar, sourcearea, table, tableselection, clipboard, floatingspace, basicstyles, list, undo, elementspath
+@bender-ckeditor-remove-plugins: enterkey
 
 ## Enter event **without** enterkey plugin:
 1. Select few cells to have activated tableselection.
