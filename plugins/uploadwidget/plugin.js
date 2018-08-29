@@ -249,15 +249,21 @@
 					id = this.wrapper.findOne( '[data-cke-upload-id]' ).data( 'cke-upload-id' ),
 					loader = uploads.loaders[ id ],
 					capitalize = CKEDITOR.tools.capitalize,
-					aborted = false,
 					oldStyle, newStyle;
+
+				// (#1454)
+				loader.once( 'abort', function() {
+					if ( typeof widget.onAbort === 'function' ) {
+						widget.onAbort( loader );
+					}
+				} );
 
 				loader.on( 'update', function( evt ) {
 					// Abort if widget was removed.
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
 						// Uploading should be aborted if the editor is already destroyed (#966) or the upload widget was removed.
 						if ( !CKEDITOR.instances[ editor.name ] || !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
-							abort();
+							loader.abort();
 						}
 						evt.removeListener();
 						return;
@@ -265,32 +271,12 @@
 
 					editor.fire( 'lockSnapshot' );
 
-					function abort() {
-						if ( aborted ) {
-							return;
-						}
-						if ( typeof widget.onAbort === 'function' ) {
-							widget.onAbort( loader );
-						}
-
-						aborted = true;
-						loader.abort();
-					}
-
 					// Call users method, eg. if the status is `uploaded` then
 					// `onUploaded` method will be called, if exists.
-					var methodName = 'on' + capitalize( loader.status ),
-						unlock = false;
+					var methodName = 'on' + capitalize( loader.status );
 
 					if ( typeof widget[ methodName ] === 'function' ) {
-						if ( loader.status === 'abort' ) {
-							abort();
-							unlock = true;
-						} else if ( widget[ methodName ]( loader ) === false ) {
-							unlock = true;
-						}
-
-						if ( unlock ) {
+						if ( widget[ methodName ]( loader ) === false ) {
 							editor.fire( 'unlockSnapshot' );
 							return;
 						}

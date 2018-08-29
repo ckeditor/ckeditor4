@@ -157,7 +157,7 @@
 		},
 
 		// (#1454)
-		'test abort': function() {
+		'test onAbort': function() {
 			var bot = this.editorBot,
 				editor = bot.editor;
 
@@ -183,7 +183,7 @@
 		},
 
 		// (#1454)
-		'test abort can be called only once': function() {
+		'test onAbort can be called only once': function() {
 			var bot = this.editorBot,
 				editor = bot.editor;
 
