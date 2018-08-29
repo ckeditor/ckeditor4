@@ -91,6 +91,7 @@ function createTestCase( options ) {
 
 						assert.beautified.html( values[ 0 ], values[ 1 ], {
 							fixStyles: true,
+							noInterWS: true,
 							sortAttributes: true,
 							customFilters: options.customFilters
 						} );
