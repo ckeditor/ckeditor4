@@ -7,7 +7,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 <head>
   <meta charset="utf-8">
-  <title>A11yFirst Plugins Demo</title>
+  <title>A11yFirst Plugins Demo: Modified A11y Checker Rules</title>
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
   <style>
     body {
@@ -23,88 +23,27 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 <body id="main">
 
   <main>
-  <h1>A11yFirst Plugins Demo</h1>
+  <h1>A11yFirst Plugins Demo: Modified A11y Checker Rules</h1>
 
     <div class="adjoined-bottom">
       <div class="grid-container">
         <div class="grid-width-100">
           <div id="editor">
-      <h1>Content Accessibility Matters</h1>
 
-        <p><img src="images/accessibility-matters-01.png" style="float:right" /> As the creators of a highly popular WYSIWYG rich text editor, <a href="http://cksource.com/">CKSource</a> is no stranger to web standards. <a href="http://ckeditor.com/demo">CKEditor</a> is responsible for producing a good part of the HTML content online so it must always generate semantic markup. Web standards are what keep the Internet from chaos and accessibility plays an important role in defining how the Web is shaped. CKSource is proud of being fully committed to the cause and thus CKEditor complies with most important industry standards, recommendations and checklists, including:</p>
+            <h1>Tests for Updated A11yChecker</h1>
 
-        <ul>
-          <li><a href="http://www.w3.org/WAI/intro/wcag.php">Web Content Accessibility Guidelines (WCAG 2.0)</a></li>
-          <li><a href="http://www.state.gov/m/irm/impact/c32157.htm">Section 508 Amendment to the Rehabilitation Act of 1973</a></li>
-          <li><a href="http://www.w3.org/WAI/intro/aria.php">WAI-ARIA</a></li>
-          <li><a href="http://www-03.ibm.com/able/guidelines/web/accessweb.html">IBM Web Accessibility Checklist</a></li>
-        </ul>
+            <h2>Should not Prompt for Blockquote</h2>
 
-        <p>It also includes a <a href="http://docs.ckeditor.com/#!/guide/dev_a11y">number of features</a> that make it easy to use with assistive technologies, such as intuitive <a href="http://docs.ckeditor.com/#!/guide/dev_shortcuts">keyboard navigation</a> or WAI-ARIA based user interface.</p>
+            <blockquote>
+              Four score and seven years ago our fathers brought forth on this continent, a new nation,
+              conceived in Liberty, and dedicated to the proposition that all men are created equal.
+            </blockquote>
 
-        <p><strong>Accessibility Checker Is Here!</strong></p>
+            <h2>Should not prompt for title attribute on images</h2>
 
-        <p>Accessibility Checker is an innovative solution that lets you <strong>inspect the accessibility level</strong> of content created in CKEditor and <strong>immediately solve</strong> any accessibility issues that are found.</p>
+            <p><img src="images/simple3.jpg" width="60px" alt="Test 1">"Test" alt attribute</p>
 
-        <p>It is built upon three key elements:</p>
-
-        <p>1) <strong>Intuitive user interface</strong> optimized for quick problem solving.<br />
-        2) Flexibility allowing you to use the <strong>accessibility checking engine</strong> of your choice.<br />
-        3) <strong>Quick Fix</strong> feature letting you fix common problems fully automatically.</p>
-
-        <p>All of this comes bundled with a tight integration with CKEditor.</p>
-
-        <h3>Usage Instructions</h3>
-
-        <p>You can enable Accessibility Checker by clicking the <strong>Check Accessibility</strong> (<img alt="a11ychecker.png" src="images/a11ychecker.png" />) toolbar button. Once the button is clicked, Accessibility Checker will perform the content checking process. Typically it takes a fraction of a second. Depending on the result, Accessibility Checker will switch to <strong>checking mode</strong> or inform you that the document contains no accessibility issues. If any issues are found, use the Accessbility Checker panel to investigate and fix them - often with one click of a button!</p>
-
-        <h2>Keyboard Shortcuts</h2>
-
-        <table>
-          <tbody>
-            <tr>
-              <td>Command</td>
-              <td>Keystroke</td>
-              <td>Restrictions</td>
-            </tr>
-            <tr>
-              <td>Open or close Accessibility Checker</td>
-              <td><kbd>Ctrl+Alt+E</kbd></td>
-              <td> </td>
-            </tr>
-            <tr>
-              <td>Next issue</td>
-              <td><kbd>Ctrl+E</kbd></td>
-              <td>Checking mode only</td>
-            </tr>
-            <tr>
-              <td>Previous issue</td>
-              <td><kbd>Ctrl+Shift+E</kbd></td>
-              <td>Checking mode only</td>
-            </tr>
-            <tr>
-              <td>Close Accessibility Checker</td>
-              <td><kbd>Esc</kbd></td>
-              <td> </td>
-            </tr>
-            <tr>
-              <td>Switch to listening mode</td>
-              <td><kbd>Shift+Esc</kbd></td>
-              <td>Checking mode only</td>
-            </tr>
-            <tr>
-              <td>Switch to checking mode</td>
-              <td><kbd>Shift+Esc</kbd></td>
-              <td>Listening mode only</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <h2>Additional Information</h2>
-
-        <p>Read the <a href="http://docs.ckeditor.com/#!/guide/dev_accessibility_checker">documentation</a>, try out this sample and visit <a href="http://sdk.ckeditor.com/samples/accessibilitychecker.html">Accessibility Checker</a> <a href="http://sdk.ckeditor.com/samples/accessibilitychecker.html">homepage</a> for more information.</p>
-
-        <p>Accessibility Checker is licensed under GPL or a commercial license. <a href="https://cksource.com/contact">Contact us</a> for more details!</p>
+            <p><img src="images/simple4.jpg" width="60px" alt="Test 2" title="Test Title:">"Test" alt attribute and "Text Title" for title attribute</p>
 
           </div>
         </div>

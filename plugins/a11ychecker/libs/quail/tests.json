@@ -952,36 +952,6 @@
       "selector": "blink"
     }
   },
-  "blockquoteNotUsedForIndentation": {
-    "type": "selector",
-    "testability": 0.5,
-    "title": {
-      "de": "Der \"blockquote\"-Tag sollte nicht zur Einrückung verwnendet werden",
-      "en": "The block quote should not be used just for indentation",
-      "nl": "De \"blockquote\"-tag mag niet gebruikt worden om in te springen"
-    },
-    "description": {
-      "de": "Blockquotes sind für längere Zitate gedacht und sollten nicht zum Einrücken von Text verwendet werden.",
-      "en": "Blockquote tags are for longer quotes, and should not be used to indent text.",
-      "nl": "Blockquotes zijn bedoeld voor lange stukken geciteerde tekst, en niet om tekst te laten inspringen."
-    },
-    "guidelines": {
-      "wcag": {
-        "1.3.1": {
-          "techniques": [
-            "H49"
-          ]
-        }
-      }
-    },
-    "tags": [
-      "blockquote",
-      "content"
-    ],
-    "options": {
-      "selector": "blockquote:not(blockquote[cite])"
-    }
-  },
   "blockquoteUseForQuotations": {
     "type": "custom",
     "testability": 0.5,
@@ -4037,28 +4007,6 @@
     ],
     "options": {
       "selector": "img[ismap]"
-    }
-  },
-  "imgShouldNotHaveTitle": {
-    "type": "selector",
-    "testability": 1,
-    "title": {
-      "de": "Grafiken sollten kein \"title\"-Attribut haben",
-      "en": "Images should not have a \"title\" attribute",
-      "nl": "Afbeeldingen moeten geen \"title\"-attribuut hebben"
-    },
-    "description": {
-      "de": "Grafiken sollten kein \"title\"-Attribut haben",
-      "en": "Images should not contain a \"title\" attribute.",
-      "nl": "Afbeeldingen zouden geen \"title\"-attribuut moeten bevatten."
-    },
-    "guidelines": [],
-    "tags": [
-      "image",
-      "content"
-    ],
-    "options": {
-      "selector": "img[title]"
     }
   },
   "imgWithEmptyAlt": {
