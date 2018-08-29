@@ -603,9 +603,11 @@
 						if ( pasteButton ) {
 							var buttonElement = CKEDITOR.document.getById( pasteButton._.id );
 
-							buttonElement.on( 'touchend', function() {
-								editor._.forcePasteDialog = true;
-							} );
+							if ( buttonElement ) {
+								buttonElement.on( 'touchend', function() {
+									editor._.forcePasteDialog = true;
+								} );
+							}
 						}
 					} );
 				} );
