@@ -247,7 +247,7 @@
 			} );
 
 			// Force selection in the editor as opening menu
-			// by user always results in selection.
+			// by user always results in selection in non readonly editor.
 			if ( editor.getSelection().getType() === CKEDITOR.SELECTION_NONE ) {
 				range = editor.createRange();
 
