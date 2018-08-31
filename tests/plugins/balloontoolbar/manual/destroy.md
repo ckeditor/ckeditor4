@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.9.0 bug, 1477, balloontoolbar
+@bender-tags: 4.11.0 bug, 1477, balloontoolbar
 @bender-ckeditor-plugins: wysiwygarea,toolbar,undo,basicstyles,balloontoolbar,sourcearea,list
 
 1. Click on list item.
