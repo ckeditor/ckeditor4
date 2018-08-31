@@ -1,4 +1,4 @@
-@bender-tags: 4.10.1, bug, 898
+@bender-tags: 4.10.2, bug, 898
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, image2
 
