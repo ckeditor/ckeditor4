@@ -2276,33 +2276,6 @@
 
 		var that = this;
 
-		// Function needs to be created for each instance, as there's a common practice to pass `buffer.input`
-		// directly to a listener, and overwrite context object.
-		this.input = function() {
-			if ( that._scheduledTimer && that._reschedule() === false ) {
-				return;
-			}
-
-			var diff = ( new Date() ).getTime() - that._lastOutput;
-
-			// If less than minInterval passed after last check,
-			// schedule next for minInterval after previous one.
-			if ( diff < that._minInterval ) {
-				that._scheduledTimer = setTimeout( triggerOutput, that._minInterval - diff );
-			} else {
-				triggerOutput();
-			}
-
-			function triggerOutput() {
-				that._lastOutput = ( new Date() ).getTime();
-				that._scheduledTimer = 0;
-
-				that._call();
-			}
-		};
-	}
-
-	EventsBuffer.prototype = {
 		/**
 		 * Acts as a proxy to the given `output` function, providing function throttling.
 		 *
@@ -2336,8 +2309,38 @@
 		 *	editor.on( 'key', buffer.input );
 		 *	// Note: There is no need to bind buffer as a context.
 		 * ```
+		 *
+		 * @method
+		 * @param {Mixed[]} [args]
 		 */
+		this.input = function() {
+			// NOTE: This function needs to be created for each instance,
+			// as there's a common practice to pass `buffer.input`
+			// directly to a listener, and overwrite context object.
+			if ( that._scheduledTimer && that._reschedule() === false ) {
+				return;
+			}
 
+			var diff = ( new Date() ).getTime() - that._lastOutput;
+
+			// If less than minInterval passed after last check,
+			// schedule next for minInterval after previous one.
+			if ( diff < that._minInterval ) {
+				that._scheduledTimer = setTimeout( triggerOutput, that._minInterval - diff );
+			} else {
+				triggerOutput();
+			}
+
+			function triggerOutput() {
+				that._lastOutput = ( new Date() ).getTime();
+				that._scheduledTimer = 0;
+
+				that._call();
+			}
+		};
+	}
+
+	EventsBuffer.prototype = {
 		/**
 		 * Resets the buffer state and cancels any pending calls.
 		 */
@@ -2400,7 +2403,46 @@
 
 		var that = this;
 
-
+		/**
+		 * Acts as a proxy to the given `output` function, providing function throttling.
+		 *
+		 * Guarantees that `output` function doesn't get called more often than
+		 * indicated by the {@link #_minInterval}.
+		 *
+		 * If multiple calls occur within a single `minInterval` time,
+		 * the most recent `input` call with its arguments will be used to schedule
+		 * the next `output` call, and the previous throttled calls will be discarded.
+		 *
+		 * The first `input` call is always executed asynchronously which means that the `output`
+		 * call will be executed immediately.
+		 *
+		 * ```javascript
+		 *	var buffer = new CKEDITOR.tools.buffers.throttle( 200, function( message ) {
+		 *		console.log( message );
+		 *	} );
+		 *
+		 *	buffer.input( 'foo!' );
+		 *	// 'foo!' logged immediately.
+		 *	buffer.input( 'bar!' );
+		 *	// Nothing logged.
+		 *	buffer.input( 'baz!' );
+		 *	// Nothing logged.
+		 *	// … after 200ms a single 'baz!' will be logged.
+		 * ```
+		 *
+		 * It can be easily used with events:
+		 *
+		 * ```javascript
+		 *	var buffer = new CKEDITOR.tools.buffers.throttle( 200, function( evt ) {
+		 *		console.log( evt.data.text );
+		 *	} );
+		 *
+		 *	editor.on( 'key', buffer.input );
+		 *	// Note: There is no need to bind the buffer as a context.
+		 * ```
+		 * @method
+		 * @param {Mixed[]} [args]
+		 */
 		this.input = CKEDITOR.tools.override( this.input, function( originalInput ) {
 			return function() {
 				that._args = Array.prototype.slice.call( arguments );
@@ -2411,48 +2453,6 @@
 	}
 
 	ThrottleBuffer.prototype = CKEDITOR.tools.prototypedCopy( EventsBuffer.prototype );
-
-	/**
-	 * Acts as a proxy to the given `output` function, providing function throttling.
-	 *
-	 * Guarantees that `output` function doesn't get called more often than
-	 * indicated by the {@link #_minInterval}.
-	 *
-	 * If multiple calls occur within a single `minInterval` time,
-	 * the most recent `input` call with its arguments will be used to schedule
-	 * the next `output` call, and the previous throttled calls will be discarded.
-	 *
-	 * The first `input` call is always executed asynchronously which means that the `output`
-	 * call will be executed immediately.
-	 *
-	 * ```javascript
-	 *	var buffer = new CKEDITOR.tools.buffers.throttle( 200, function( message ) {
-	 *		console.log( message );
-	 *	} );
-	 *
-	 *	buffer.input( 'foo!' );
-	 *	// 'foo!' logged immediately.
-	 *	buffer.input( 'bar!' );
-	 *	// Nothing logged.
-	 *	buffer.input( 'baz!' );
-	 *	// Nothing logged.
-	 *	// … after 200ms a single 'baz!' will be logged.
-	 * ```
-	 *
-	 * It can be easily used with events:
-	 *
-	 * ```javascript
-	 *	var buffer = new CKEDITOR.tools.buffers.throttle( 200, function( evt ) {
-	 *		console.log( evt.data.text );
-	 *	} );
-	 *
-	 *	editor.on( 'key', buffer.input );
-	 *	// Note: There is no need to bind the buffer as a context.
-	 * ```
-	 * @method input
-	 * @param {Mixed[]} [args]
-	 * @member CKEDITOR.tools.buffers.throttle
-	 */
 
 	ThrottleBuffer.prototype._reschedule = function() {
 		if ( this._scheduledTimer ) {
