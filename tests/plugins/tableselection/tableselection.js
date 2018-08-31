@@ -147,7 +147,6 @@
 			} );
 		},
 
-<<<<<<< HEAD
 		// (#2003)
 		'test right-click in cell with empty paragraph': function( editor, bot ) {
 			if ( !CKEDITOR.env.gecko ) {
@@ -176,21 +175,17 @@
 		},
 
 		// (#1489)
-		'test delete/backspace keys are not removing readonly selection': function( editor ) {
-=======
-		// (#1489)
-		'test random keys are not removing readonly selection': function( editor ) {
->>>>>>> Refactoring.
+		'test random keys are not removing readonly selection': function( editor  ) {
 			var selection = editor.getSelection(),
 				editable = editor.editable(),
-				table = CKEDITOR.document.getById( 'simpleTable' ).getHtml();
+				table = CKEDITOR.document.getById( 'simpleTable'  ).getHtml();
 
-			editor.setReadOnly( true );
+			editor.setReadOnly( true  );
 
-			bender.tools.setHtmlWithSelection( editor, table );
+			bender.tools.setHtmlWithSelection( editor, table  );
 
-			var row = editor.editable().findOne( 'tr' );
-			selection.selectElement( row );
+			var row = editor.editable().findOne( 'tr'  );
+			selection.selectElement( row  );
 
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 8 } ) ); // backspace
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) ); // delete
@@ -198,9 +193,9 @@
 			editable.fire( 'keypress', new CKEDITOR.dom.event( { keyCode: 65, charCode: 65 } ) ); // `a`
 			editable.fire( 'keypress', new CKEDITOR.dom.event( { keyCode: 93, charCode: 93 } ) ); // `t`
 
-			editor.setReadOnly( false );
+			editor.setReadOnly( false  );
 
-			assert.areSame( bender.tools.compatHtml( table ), editor.getData(), 'Editor data' );
+			assert.areSame( bender.tools.compatHtml( table  ), editor.getData(), 'Editor data'  );
 		}
 	};
 
