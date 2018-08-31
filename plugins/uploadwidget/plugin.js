@@ -275,7 +275,7 @@
 					// `onUploaded` method will be called, if exists.
 					var methodName = 'on' + capitalize( loader.status );
 
-					if ( typeof widget[ methodName ] === 'function' ) {
+					if ( loader.status !== 'abort' && typeof widget[ methodName ] === 'function' ) {
 						if ( widget[ methodName ]( loader ) === false ) {
 							editor.fire( 'unlockSnapshot' );
 							return;

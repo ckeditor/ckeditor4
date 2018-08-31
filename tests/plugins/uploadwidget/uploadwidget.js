@@ -172,11 +172,7 @@
 
 				var loader = editor.uploadRepository.loaders[ 0 ];
 
-				// Remove widget from the DOM.
-				editor.widgets.destroyAll();
-				editor.editable().findOne( '[data-cke-upload-id="' + loader.id + '"]' ).remove();
-
-				loader.changeStatus( 'abort' );
+				loader.abort();
 
 				assert.isTrue( stub.calledOnce );
 			} );
@@ -198,12 +194,8 @@
 
 				var loader = editor.uploadRepository.loaders[ 0 ];
 
-				// Remove widget from the DOM.
-				editor.widgets.destroyAll();
-				editor.editable().findOne( '[data-cke-upload-id="' + loader.id + '"]' ).remove();
-
-				loader.changeStatus( 'abort' );
-				loader.changeStatus( 'abort' );
+				loader.abort();
+				loader.abort();
 
 				assert.isTrue( stub.calledOnce );
 			} );
