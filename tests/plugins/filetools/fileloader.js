@@ -395,6 +395,7 @@
 			wait();
 		},
 
+		// (#1763)
 		'test upload with error fires fileUploadResponse': function() {
 			var responseText = 'Unauthorized';
 			editorMock.lang = { filetools: { 'httpError401': responseText } };

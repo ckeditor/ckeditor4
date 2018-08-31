@@ -283,6 +283,7 @@
 				} );
 			},
 
+			// (#1763)
 			'test handling failed uploads with default alert message': function() {
 				var easyImageDef = this.editor.widgets.registered.easyimage,
 					originalLoader = easyImageDef.loaderType;
