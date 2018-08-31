@@ -14,11 +14,13 @@
 				panel = new CKEDITOR.ui.balloonToolbar( this.editor, {
 					width: 'auto',
 					height: 40
-				} );
+				} ),
+				items = [],
+				p;
 
 			// Creating some editor content and attaching balloonToolbar to it in order to create some event listeners related to richCombo
 			bot.setHtmlWithSelection( '<div><p>[Text]</p></div>' );
-			var p = editor.editable().findOne( 'p' ) ;
+			p = editor.editable().findOne( 'p' ) ;
 
 			panel.addItems( {
 				bold: new CKEDITOR.ui.button( {
@@ -30,7 +32,6 @@
 			panel.attach( p );
 
 			// Pushing items from panel to another variable, because calling destroy() on panel will remove all item references.
-			var items = [];
 			for ( var key in panel._items ) {
 				items.push( panel._items[ key ] );
 			}
