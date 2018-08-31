@@ -12,6 +12,7 @@ New Features:
 * [#706](https://github.com/ckeditor/ckeditor-dev/issues/706): Added different cursor style when selecting cells for [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
 * [#651](https://github.com/ckeditor/ckeditor-dev/issues/651): Text pasted using [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) preservers indentation in paragraphs.
 * [#1176](https://github.com/ckeditor/ckeditor-dev/pull/1176): The [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) can be attached to selection instead of element.
+* [#1763](https://github.com/ckeditor/ckeditor-dev/issues/1763): [Easy Image](https://ckeditor.com/cke4/addon/easyimage) plugin includes backend service error message (if available) on upload failure.
 
 API Changes:
 
@@ -53,10 +54,6 @@ New Features:
 * [#1703](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduced the [Mentions](https://ckeditor.com/cke4/addon/mentions) plugin providing smart completion feature for custom text matches based on user input starting with a chosen marker character.
 * [#1746](https://github.com/ckeditor/ckeditor-dev/issues/1703): Introduced the [Emoji](https://ckeditor.com/cke4/addon/emoji) plugin providing completion feature for emoji ideograms.
 * [#1761](https://github.com/ckeditor/ckeditor-dev/issues/1761): The [Auto Link](https://ckeditor.com/cke4/addon/autolink) plugin now supports email links.
-
-New Features:
-
-* [#1763](https://github.com/ckeditor/ckeditor-dev/issues/1763): [Easy Image](https://ckeditor.com/cke4/addon/easyimage) plugin includes backend service error message (if available) on upload failure.
 
 Fixed Issues:
 
