@@ -159,9 +159,8 @@
 		// (#1454)
 		'test onAbort': function() {
 			var bot = this.editorBot,
-				editor = bot.editor;
-
-			var stub = sinon.stub().returns( true );
+				editor = bot.editor,
+				stub = sinon.stub().returns( true );
 
 			addTestUploadWidget( editor, 'testuploadwidget', {
 				onAbort: stub
@@ -181,9 +180,8 @@
 		// (#1454)
 		'test onAbort can be called only once': function() {
 			var bot = this.editorBot,
-				editor = bot.editor;
-
-			var stub = sinon.stub().returns( true );
+				editor = bot.editor,
+				stub = sinon.stub().returns( true );
 
 			addTestUploadWidget( editor, 'testuploadwidget', {
 				onAbort: stub
