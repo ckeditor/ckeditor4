@@ -9,7 +9,8 @@
 </textarea>
 <script>
 	// Currently balloon toolbar is not integrated with old IE browsers.
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+	// Ignore mobiles, as test requires using console.
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 || bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 
