@@ -131,7 +131,6 @@
 	 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} element An instance of the UI element.
 	 */
 	CKEDITOR.ui.balloonToolbar.prototype.addItem = function( name, element ) {
-		// console.log( this._items[ name ] );
 		this._items[ name ] = element;
 	};
 
