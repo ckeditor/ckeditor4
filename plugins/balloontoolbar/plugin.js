@@ -170,24 +170,16 @@
 	};
 
 	/**
-	 * Cleares Balloon Toolbar from each menu items.
-	 *
-	 * @since 4.9.0
+	 * Hides the toolbar, removes it from the DOM, and clears all its items.
 	 */
-	CKEDITOR.ui.balloonToolbar.prototype.clearItems = function() {
+	CKEDITOR.ui.balloonToolbar.prototype.destroy = function() {
 		for ( var key in this._items ) {
 			if ( this._items[ key ].destroy ) {
 				this._items[ key ].destroy();
 			}
 			this.deleteItem( key );
 		}
-	};
 
-	/**
-	 * Hides the toolbar, removes it from the DOM, and clears all its items.
-	 */
-	CKEDITOR.ui.balloonToolbar.prototype.destroy = function() {
-		this.clearItems();
 		this._pointedElement = null;
 		this._view.destroy();
 	};
