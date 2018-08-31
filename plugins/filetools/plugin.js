@@ -624,7 +624,7 @@
 
 				loader.uploaded = loader.uploadTotal;
 
-				var responseData = handleFileUploadResponse();
+				var success = handleFileUploadResponse();
 
 				if ( xhr.status < 200 || xhr.status > 299 ) {
 					loader.message = loader.lang.filetools[ 'httpError' + xhr.status ];
@@ -632,12 +632,10 @@
 						loader.message = loader.lang.filetools.httpError.replace( '%1', xhr.status );
 					}
 					loader.changeStatus( 'error' );
+				} else if ( success === false ) {
+					loader.changeStatus( 'error' );
 				} else {
-					if ( responseData.uploaded ) {
-						loader.changeStatus( 'uploaded' );
-					} else {
-						loader.changeStatus( 'error' );
-					}
+					loader.changeStatus( 'uploaded' );
 				}
 			};
 
@@ -646,7 +644,7 @@
 						fileLoader: loader
 					},
 					valuesToCopy = [ 'message', 'fileName', 'url' ],
-					responseData = loader.editor.fire( 'fileUploadResponse', data );
+					success = loader.editor.fire( 'fileUploadResponse', data );
 
 				for ( var i = 0; i < valuesToCopy.length; i++ ) {
 					var key = valuesToCopy[ i ];
@@ -659,7 +657,7 @@
 				// But without reference to the loader itself.
 				delete loader.responseData.fileLoader;
 
-				return responseData;
+				return success;
 			}
 
 			function onError() {
