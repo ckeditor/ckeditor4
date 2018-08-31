@@ -13,25 +13,27 @@
 		bender.ignore();
 	}
 
-	CKEDITOR.disableAutoInline = true;
+	CKEDITOR.replace( 'editor1', {
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
 
 	function instanceReadyListener( evt ) {
-		var lis = this.editable().find( 'li' ),
-			panel = {},
-			i = 0,
-			li,
-			_this = this;
+		var listItems = this.editable().find( 'li' ).toArray(),
+			panel;
 
-
-		while ( ( li = lis.getItem( i++ ) ) ) {
-			li.on( 'click', function() {
+		CKEDITOR.tools.array.forEach( listItems, function( item ) {
+			item.on( 'click', function() {
 				if ( !CKEDITOR.tools.isEmpty( panel ) ) {
 					panel.destroy()
 				}
-				panel = new CKEDITOR.ui.balloonToolbar( _this, {
+
+				panel = new CKEDITOR.ui.balloonToolbar( evt.editor, {
 					width: 'auto',
 					height: 40
 				} );
+
 				panel.addItems( {
 					bold: new CKEDITOR.ui.button( {
 						label: 'test',
@@ -40,17 +42,9 @@
 					language: evt.editor.ui.create('Language'),
 					Styles: evt.editor.ui.create( 'Styles' )
 				} );
+
 				panel.attach( this );
 			} );
-		}
+		} );
 	}
-
-	CKEDITOR.replace( 'editor1', {
-		extraPlugins: 'balloonpanel,language,stylescombo',
-		height: 300,
-		width: 600,
-		on: {
-			instanceReady: instanceReadyListener
-		}
-	} );
 </script>
