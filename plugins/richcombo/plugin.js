@@ -387,7 +387,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 			/**
 			 * Removes all listeners from richCombo element.
 			 *
-			 * @since 4.9.0
+			 * @since 4.11.0
 			 */
 			destroy: function() {
 				if ( this._listeners.length ) {
