@@ -390,12 +390,10 @@ CKEDITOR.plugins.add( 'richcombo', {
 			 * @since 4.11.0
 			 */
 			destroy: function() {
-				if ( this._listeners.length ) {
-					CKEDITOR.tools.array.forEach( this._listeners, function( listener ) {
-						listener.removeListener();
-					} );
-					this._listeners = [];
-				}
+				CKEDITOR.tools.array.forEach( this._listeners, function( listener ) {
+					listener.removeListener();
+				} );
+				this._listeners = [];
 			}
 		},
 
