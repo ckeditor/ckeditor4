@@ -12,7 +12,7 @@ New Features:
 * [#706](https://github.com/ckeditor/ckeditor-dev/issues/706): Added different cursor style when selecting cells for [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
 * [#651](https://github.com/ckeditor/ckeditor-dev/issues/651): Text pasted using [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) preservers indentation in paragraphs.
 * [#1176](https://github.com/ckeditor/ckeditor-dev/pull/1176): The [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) can be attached to selection instead of element.
-* [#1477](https://github.com/ckeditor/ckeditor-dev/issues/1477): Fixed: Balloon toolbar on destroy doesn't destroy its content.
+* [#1477](https://github.com/ckeditor/ckeditor-dev/issues/1477): Fixed: [Balloon toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) on destroy doesn't destroy its content.
 
 API Changes:
 
