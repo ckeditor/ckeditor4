@@ -1,4 +1,4 @@
-/* bender-tags: balloontoolbar, 1477, 4.9.0 */
+/* bender-tags: balloontoolbar, 1477 */
 /* bender-ckeditor-plugins: balloontoolbar,button,basicstyles,list,richcombo,stylescombo,wysiwygarea,toolbar */
 
 ( function() {
