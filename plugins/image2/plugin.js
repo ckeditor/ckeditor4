@@ -68,6 +68,12 @@
 		},
 
 		init: function( editor ) {
+			// Abort when Easyimage is to be loaded since this plugins
+			// share the same functionality (#1791).
+			if ( editor.plugins.detectConflict( 'image2', [ 'easyimage' ] ) ) {
+				return;
+			}
+
 			// Adapts configuration from original image plugin. Should be removed
 			// when we'll rename image2 to image.
 			var config = editor.config,
@@ -1663,10 +1669,10 @@ CKEDITOR.config.image2_captionedClass = 'image';
  * **Note**: Once this configuration option is set, corresponding style definitions
  * must be supplied to the editor:
  *
- * * For [classic editor](#!/guide/dev_framed) it can be done by defining additional
+ * * For {@glink guide/dev_framed classic editor} it can be done by defining additional
  * styles in the {@link CKEDITOR.config#contentsCss stylesheets loaded by the editor}. The same
  * styles must be provided on the target page where the content will be loaded.
- * * For [inline editor](#!/guide/dev_inline) the styles can be defined directly
+ * * For {@glink guide/dev_inline inline editor} the styles can be defined directly
  * with `<style> ... <style>` or `<link href="..." rel="stylesheet">`, i.e. within the `<head>`
  * of the page.
  *

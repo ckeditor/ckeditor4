@@ -7,7 +7,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'uploadwidget', {
-		lang: 'az,ca,cs,da,de,de-ch,el,en,en-au,eo,es,es-mx,eu,fr,gl,hr,hu,id,it,ja,km,ko,ku,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'az,bg,ca,cs,da,de,de-ch,el,en,en-au,eo,es,es-mx,et,eu,fa,fr,gl,hr,hu,id,it,ja,km,ko,ku,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sq,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		requires: 'widget,clipboard,filetools,notificationaggregator',
 
 		init: function( editor ) {
@@ -254,7 +254,8 @@
 				loader.on( 'update', function( evt ) {
 					// Abort if widget was removed.
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
-						if ( !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
+						// Uploading should be aborted if the editor is already destroyed (#966) or the upload widget was removed.
+						if ( !CKEDITOR.instances[ editor.name ] || !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
 							loader.abort();
 						}
 						evt.removeListener();
@@ -522,7 +523,10 @@
 
 		loader.on( 'abort', function() {
 			task && task.cancel();
-			editor.showNotification( editor.lang.uploadwidget.abort, 'info' );
+			// Editor could be already destroyed (#966).
+			if ( CKEDITOR.instances[ editor.name ] ) {
+				editor.showNotification( editor.lang.uploadwidget.abort, 'info' );
+			}
 		} );
 
 		function createAggregator() {

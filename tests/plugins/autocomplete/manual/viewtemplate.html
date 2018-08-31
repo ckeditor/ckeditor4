@@ -1,0 +1,20 @@
+<div id="editor1"></div>
+
+<script>
+	if ( autocompleteUtils.isUnsupportedEnvironment() ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		width: 600,
+		on: {
+			instanceReady: function( evt ) {
+				new CKEDITOR.plugins.autocomplete( evt.editor, {
+					textTestCallback: autocompleteUtils.getTextTestCallback(),
+					dataCallback: autocompleteUtils.getDataCallback(),
+					itemTemplate: '<li data-id="{id}">item: <strong>{name}</strong></li>'
+				} );
+			}
+		}
+	} );
+</script>

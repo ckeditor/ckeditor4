@@ -17,6 +17,11 @@
 	</div>
 </div>
 <script>
+	// Ignore on mobiles due to lack of support for Paste from Word.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'classic1', {
 		forcePasteAsPlainText: false
 	} );

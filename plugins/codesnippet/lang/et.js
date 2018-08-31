@@ -8,6 +8,6 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'et', {
 	codeContents: 'Koodi sisu',
 	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
 	language: 'Keel',
-	title: 'Code snippet', // MISSING
+	title: 'Koodi vidin',
 	pathName: 'code snippet' // MISSING
 } );

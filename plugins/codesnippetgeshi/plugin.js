@@ -181,7 +181,7 @@
 /**
  * Sets GeSHi URL which, once queried with Ajax, will return highlighted code.
  *
- * Check the [Code Snippet GeSHi documentation](#!/guide/dev_codesnippetgeshi) for
+ * Check the {@glink guide/dev_codesnippetgeshi Code Snippet GeSHi documentation} for
  * more information.
  *
  *		config.codeSnippetGeshi_url = 'http:\/\/example.com\/geshi\/colorize.php';

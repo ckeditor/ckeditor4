@@ -14,7 +14,7 @@
 
 	CKEDITOR.plugins.add( 'widget', {
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,ca,cs,cy,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,eu,fa,fi,fr,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,ca,cs,cy,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,et,eu,fa,fi,fr,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		requires: 'lineutils,clipboard,widgetselection',
 		onLoad: function() {
@@ -4253,7 +4253,7 @@
  */
 
 /**
- * The [Advanced Content Filter](#!/guide/dev_advanced_content_filter) rules
+ * The {@glink guide/dev_advanced_content_filter Advanced Content Filter} rules
  * which will be used to limit the content allowed in this nested editable.
  * This option is similar to {@link CKEDITOR.config#allowedContent} and one can
  * use it to limit the editor features available in the nested editable.
@@ -4265,7 +4265,7 @@
  */
 
 /**
- * The [Advanced Content Filter](#!/guide/dev_advanced_content_filter) rules
+ * The {@glink guide/dev_advanced_content_filter Advanced Content Filter} rules
  * which will be used to blacklist elements within this nested editable.
  * This option is similar to {@link CKEDITOR.config#disallowedContent}.
  *

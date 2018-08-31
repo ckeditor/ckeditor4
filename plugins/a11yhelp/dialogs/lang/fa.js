@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 			{
 			name: 'پنجره محاورهای ویرایشگر',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'در داخل یک پنجره محاوره‌ای، کلید Tab را بفشارید تا به پنجره‌ی بعدی بروید، Shift+Tab برای حرکت به فیلد قبلی، فشردن Enter برای ثبت اطلاعات پنجره‌، فشردن Esc برای لغو پنجره محاوره‌ای و برای پنجره‌هایی که چندین برگه دارند، فشردن Alt+F10 یا Tab برای حرکت در برگه ها. وقتی بر فهرست برگه ها هستید، به صفحه بعدی و قبلی با کلید های راستی و چپ حرکت کنید.' 
 		},
 
 			{
@@ -81,9 +81,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 			legend: 'فشردن ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'چسباندن به عنوان متن ساده',
+			legend: 'فشردن ${pastetext}',
+			legendEdge: 'فشردن ${pastetext}، همراه با ${paste}'
 		}
 		]
 	}

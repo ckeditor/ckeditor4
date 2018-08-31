@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: dialogadvtab,entities */
+/* bender-ckeditor-plugins: dialogadvtab,entities,link,toolbar */
 
 ( function() {
 	bender.editor = true;
@@ -17,6 +17,14 @@
 			// Force result data un-formatted.
 			ed.dataProcessor.writer._.rules = {};
 			ed.focus();
+		},
+
+		tearDown: function(  ) {
+			var dlg = CKEDITOR.dialog.getCurrent();
+
+			if ( dlg ) {
+				dlg.hide();
+			}
 		},
 
 		// https://dev.ckeditor.com/ticket/9553
@@ -68,7 +76,64 @@
 
 				dialog.hide();
 			} );
+		},
+
+		// (#1046).
+		'test adding two subsequent id changes': function() {
+			var bot = this.editorBot;
+
+			this.editorBot.setHtmlWithSelection( '<p>[aaa] <strong>bbb</strong></p>' );
+
+			// First add id to one of links.
+			bot.dialog( 'link', function( dialog ) {
+				var editor = this.editor;
+
+				dialog.setValueOf( 'info', 'url', 'a' );
+				dialog.setValueOf( 'advanced', 'advId', 'aa' );
+				dialog.getButton( 'ok' ).click();
+
+				assert.beautified.html( '<p><a href="http://a" id="aa">aaa</a> <strong>bbb</strong></p>',
+					bot.getData( true ) );
+
+				editor.getSelection().selectElement( editor.editable().findOne( 'strong' ) );
+
+				// Now add the id to a second link.
+				bot.dialog( 'link', function( dialog ) {
+					dialog.setValueOf( 'info', 'url', 'b' );
+					dialog.setValueOf( 'advanced', 'advId', 'bb' );
+					dialog.getButton( 'ok' ).click();
+
+					assert.beautified.html( '<p><a href="http://a" id="aa">aaa</a> <a href="http://b" id="bb"><strong>bbb</strong></a></p>',
+						bot.getData( true ) );
+				} );
+			} );
+		},
+
+		'test editing two subsequent id changes': function() {
+			var bot = this.editorBot;
+
+			this.editorBot.setHtmlWithSelection( '<p>[<a href="a">aaa</a>] <a href="b">bbb</a></p>' );
+
+			// First add id to one of links.
+			bot.dialog( 'link', function( dialog ) {
+				var editor = this.editor;
+
+				dialog.setValueOf( 'advanced', 'advId', 'aa' );
+				dialog.getButton( 'ok' ).click();
+
+				assert.beautified.html( '<p><a href="a" id="aa">aaa</a> <a href="b">bbb</a></p>', bot.getData( true ) );
+
+				editor.getSelection().selectElement( editor.editable().findOne( 'a[href="b"]' ) );
+
+				// Now add the id to a second link.
+				bot.dialog( 'link', function( dialog ) {
+					dialog.setValueOf( 'advanced', 'advId', 'bb' );
+					dialog.getButton( 'ok' ).click();
+
+					assert.beautified.html( '<p><a href="a" id="aa">aaa</a> <a href="b" id="bb">bbb</a></p>',
+						bot.getData( true ) );
+				} );
+			} );
 		}
 	} );
 } )();
-	//]]>

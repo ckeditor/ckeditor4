@@ -1,0 +1,12 @@
+<div id="editor"></div>
+
+<script>
+	if ( easyImageTools.isUnsupportedEnvironment() || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		// Image plugin creates additional conflict warning message (#2353).
+		removePlugins: 'image'
+	} );
+</script>

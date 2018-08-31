@@ -20,6 +20,7 @@ if ( !window.CKEDITOR ) {
 	/**
 	 * This is the API entry point. The entire CKEditor code runs under this object.
 	 * @class CKEDITOR
+	 * @mixins CKEDITOR.event
 	 * @singleton
 	 */
 	window.CKEDITOR = ( function() {
@@ -311,7 +312,7 @@ if ( !window.CKEDITOR ) {
  * @param {CKEDITOR.config} config A configuration object containing the
  * settings defined for a {@link CKEDITOR.editor} instance up to this
  * function call. Note that not all settings may still be available. See
- * [Configuration Loading Order](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_configuration)
+ * [Configuration Loading Order](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_configuration.html)
  * for details.
  */
 

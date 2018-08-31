@@ -1131,10 +1131,11 @@
 				}
 
 				// For some reason, after click event is done, IE Edge loses focus on the selected element. (https://dev.ckeditor.com/ticket/13386)
+				// Additional check for readonly disabled selecting of non-editable images (#2129).
 				if ( CKEDITOR.env.edge ) {
 					this.attachListener( this, 'mouseup', function( ev ) {
 						var selectedElement = ev.data.getTarget();
-						if ( selectedElement && selectedElement.is( 'img' ) ) {
+						if ( selectedElement && selectedElement.is( 'img' ) && !selectedElement.isReadOnly() ) {
 							editor.getSelection().selectElement( selectedElement );
 						}
 					} );
@@ -1147,7 +1148,7 @@
 						if ( ev.data.$.button == 2 ) {
 							var target = ev.data.getTarget();
 
-							if ( !target.getOuterHtml().replace( emptyParagraphRegexp, '' ) ) {
+							if ( !target.getAscendant( 'table' ) && !target.getOuterHtml().replace( emptyParagraphRegexp, '' ) ) {
 								var range = editor.createRange();
 								range.moveToElementEditStart( target );
 								range.select( true );
@@ -1330,6 +1331,7 @@
 				var ariaLabel = editor.title;
 
 				editable.changeAttr( 'role', 'textbox' );
+				editable.changeAttr( 'aria-multiline', 'true' ); // (#1034)
 				editable.changeAttr( 'aria-label', ariaLabel );
 
 				if ( ariaLabel )

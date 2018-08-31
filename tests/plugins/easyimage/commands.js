@@ -164,6 +164,7 @@
 			}
 		};
 
-	tests = easyImageTools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	// Force Edge to run every test in new CKEditor's instance.
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests, CKEDITOR.env.edge );
 	bender.test( tests );
 } )();

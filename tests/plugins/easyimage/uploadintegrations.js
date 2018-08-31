@@ -1,8 +1,8 @@
 /* bender-tags: editor, clipboard, upload */
 /* bender-ckeditor-plugins: sourcearea, wysiwygarea, easyimage */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, %BASE_PATH%/plugins/imagebase/features/_helpers/tools.js */
-/* bender-include: %BASE_PATH%/plugins/widget/_helpers/tools.js, ./_helpers/tools.js */
-/* global imageBaseFeaturesTools, pasteFiles, widgetTestsTools, assertPasteEvent, easyImageTools */
+/* bender-include: ./_helpers/tools.js */
+/* global imageBaseFeaturesTools, pasteFiles, assertPasteEvent, easyImageTools */
 
 ( function() {
 	'use strict';
@@ -138,21 +138,27 @@
 
 				this.editorBot.setHtmlWithSelection( '<p>foo [bar] baz</p>' );
 
-				pasteFiles( editor, [], '<img src="' + bender.tools.pngBase64 + '">', { type: 'auto', method: 'paste' } );
-				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
-
-				assert.areSame( 1, widgets.length, 'Widget count' );
-				assert.areSame( 'easyimage', widgets[ 0 ].name, 'Widget type' );
-				assert.areSame( bender.tools.pngBase64, widgets[ 0 ].parts.image.getAttribute( 'src' ), 'Image src attribute' );
-
-				assert.beautified.html( CKEDITOR.document.getById( 'expected-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
-
-				this.listeners.push( widgets[ 0 ].once( 'uploadDone', function() {
+				editor.once( 'afterPaste', function() {
 					resume( function() {
-						assert.areSame( '%BASE_PATH%/_assets/logo.png', widgets[ 0 ].parts.image.getAttribute( 'src' ), 'Image src after load' );
-					} );
-				} ) );
+						widgets = bender.tools.objToArray( editor.widgets.instances );
 
+						assert.areSame( 1, widgets.length, 'Widget count' );
+						assert.areSame( 'easyimage', widgets[ 0 ].name, 'Widget type' );
+						assert.areSame( bender.tools.pngBase64, widgets[ 0 ].parts.image.getAttribute( 'src' ), 'Image src attribute' );
+
+						assert.beautified.html( CKEDITOR.document.getById( 'expected-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
+
+						this.listeners.push( widgets[ 0 ].once( 'uploadDone', function() {
+							resume( function() {
+								assert.areSame( '%BASE_PATH%/_assets/logo.png', widgets[ 0 ].parts.image.getAttribute( 'src' ), 'Image src after load' );
+							} );
+						} ) );
+
+						wait();
+					} );
+				} );
+
+				pasteFiles( editor, [], '<img src="' + bender.tools.pngBase64 + '">', { type: 'auto', method: 'paste' } );
 				wait();
 			},
 
@@ -163,18 +169,23 @@
 
 				this.editorBot.setHtmlWithSelection( '<p>foo [bar] baz</p>' );
 
+				editor.once( 'afterPaste', function() {
+					resume( function() {
+						widgets = bender.tools.objToArray( editor.widgets.instances );
+
+						assert.areSame( 2, widgets.length, 'Widget count' );
+
+						assert.areSame( 'easyimage', widgets[ 0 ].name, 'Widget 0 type' );
+						assert.areSame( bender.tools.pngBase64, widgets[ 0 ].parts.image.getAttribute( 'src' ), 'Image 0 src attribute' );
+
+						assert.areSame( 'easyimage', widgets[ 1 ].name, 'Widget 1 type' );
+						assert.areSame( bender.tools.pngBase64, widgets[ 1 ].parts.image.getAttribute( 'src' ), 'Image 1 src attribute' );
+						assert.beautified.html( CKEDITOR.document.getById( 'expected-multiple-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
+					} );
+				} );
+
 				pasteFiles( editor, [], '<img src="' + bender.tools.pngBase64 + '"><img src="' + bender.tools.pngBase64 + '">', { type: 'auto', method: 'paste' } );
-				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
-
-				assert.areSame( 2, widgets.length, 'Widget count' );
-
-				assert.areSame( 'easyimage', widgets[ 0 ].name, 'Widget 0 type' );
-				assert.areSame( bender.tools.pngBase64, widgets[ 0 ].parts.image.getAttribute( 'src' ), 'Image 0 src attribute' );
-
-				assert.areSame( 'easyimage', widgets[ 1 ].name, 'Widget 1 type' );
-				assert.areSame( bender.tools.pngBase64, widgets[ 1 ].parts.image.getAttribute( 'src' ), 'Image 1 src attribute' );
-
-				assert.beautified.html( CKEDITOR.document.getById( 'expected-multiple-image-base64' ).getHtml(), editor.getData(), 'Editor data' );
+				wait();
 			},
 
 			// #1529
@@ -204,12 +215,18 @@
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
 
+				editor.once( 'afterPaste',  function() {
+					resume( function() {
+						widgets = bender.tools.objToArray( editor.widgets.instances );
+
+						assert.areSame( 1, widgets.length, 'Widget count' );
+
+						assert.beautified.html( CKEDITOR.document.getById( 'expected-mixed-content' ).getHtml(), editor.getData(), 'Editor data' );
+					} );
+				} );
+
 				pasteFiles( editor, [], '<p>first<img src="' + bender.tools.pngBase64 + '">last</p>', { type: 'auto', method: 'paste' } );
-				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
-
-				assert.areSame( 1, widgets.length, 'Widget count' );
-
-				assert.beautified.html( CKEDITOR.document.getById( 'expected-mixed-content' ).getHtml(), editor.getData(), 'Editor data' );
+				wait();
 			},
 
 			'test pasting mixed HTML content image inline': function() {
@@ -218,12 +235,16 @@
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
 
+				editor.once( 'afterPaste', function() {
+					resume( function() {
+						widgets = bender.tools.objToArray( editor.widgets.instances );
+
+						assert.beautified.html( CKEDITOR.document.getById( 'expected-mixed-content-inline-img' ).getHtml(), editor.getData(), 'Editor data' );
+					} );
+				} );
+
 				pasteFiles( editor, [], '<p>Imagine its a cool <img src="' + bender.tools.pngBase64 + '"> emoji!</p><p>It should work.</p>', { type: 'auto', method: 'paste' } );
-				widgets = widgetTestsTools.obj2Array( editor.widgets.instances );
-
-				assert.areSame( 1, widgets.length, 'Widget count' );
-
-				assert.beautified.html( CKEDITOR.document.getById( 'expected-mixed-content-inline-img' ).getHtml(), editor.getData(), 'Editor data' );
+				wait();
 			},
 
 			'test downcast does not include progress bar': function() {

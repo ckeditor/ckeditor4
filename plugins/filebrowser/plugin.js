@@ -467,7 +467,7 @@
  * button is pressed. If configured, the **Browse Server** button will appear in the
  * **Link**, **Image**, and **Flash** dialog windows.
  *
- * Read more in the [documentation](#!/guide/dev_file_browse_upload)
+ * Read more in the {@glink guide/dev_file_browse_upload documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserBrowseUrl = '/browser/browse.php';
@@ -482,13 +482,13 @@
  * If set, the **Upload** tab will appear in the **Link**, **Image**,
  * and **Flash** dialog windows.
  *
- * Read more in the [documentation](#!/guide/dev_file_browse_upload)
+ * Read more in the {@glink guide/dev_file_browse_upload documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserUploadUrl = '/uploader/upload.php';
  *
- * **Note:** This is a configuration setting for a [file browser/uploader](#!/guide/dev_file_browse_upload).
- * To configure [uploading dropped or pasted files](#!/guide/dev_file_upload) use the {@link CKEDITOR.config#uploadUrl}
+ * **Note:** This is a configuration setting for a {@glink guide/dev_file_browse_upload file browser/uploader}.
+ * To configure {@glink guide/dev_file_upload uploading dropped or pasted files} use the {@link CKEDITOR.config#uploadUrl}
  * configuration option.
  *
  * @since 3.0
@@ -538,8 +538,8 @@
  *
  *		config.filebrowserImageUploadUrl = '/uploader/upload.php?type=Images';
  *
- * **Note:** This is a configuration setting for a [file browser/uploader](#!/guide/dev_file_browse_upload).
- * To configure [uploading dropped or pasted files](#!/guide/dev_file_upload) use the {@link CKEDITOR.config#uploadUrl}
+ * **Note:** This is a configuration setting for a {@glink guide/dev_file_browse_upload file browser/uploader}.
+ * To configure {@glink guide/dev_file_upload uploading dropped or pasted files} use the {@link CKEDITOR.config#uploadUrl}
  * or {@link CKEDITOR.config#imageUploadUrl} configuration option.
  *
  * @since 3.0

@@ -305,7 +305,9 @@
 					trueType,
 					// Default is 'html'.
 					defaultType = editor.config.clipboard_defaultContentType || 'html',
-					transferType = dataObj.dataTransfer.getTransferType( editor );
+					transferType = dataObj.dataTransfer.getTransferType( editor ),
+					isExternalPaste = transferType == CKEDITOR.DATA_TRANSFER_EXTERNAL,
+					isActiveForcePAPT = editor.config.forcePasteAsPlainText === true;
 
 				// If forced type is 'html' we don't need to know true data type.
 				if ( type == 'html' || dataObj.preSniffing == 'html' ) {
@@ -330,7 +332,8 @@
 					data = filterContent( editor, data, filtersFactory.get( 'plain-text' ) );
 				}
 				// External paste and pasteFilter exists and filtering isn't disabled.
-				else if ( transferType == CKEDITOR.DATA_TRANSFER_EXTERNAL && editor.pasteFilter && !dataObj.dontFilter ) {
+				// Or force filtering even for internal and cross-editor paste, when forcePAPT is active (#620).
+				else if ( isExternalPaste && editor.pasteFilter && !dataObj.dontFilter || isActiveForcePAPT ) {
 					data = filterContent( editor, data, editor.pasteFilter );
 				}
 
@@ -600,9 +603,11 @@
 						if ( pasteButton ) {
 							var buttonElement = CKEDITOR.document.getById( pasteButton._.id );
 
-							buttonElement.on( 'touchend', function() {
-								editor._.forcePasteDialog = true;
-							} );
+							if ( buttonElement ) {
+								buttonElement.on( 'touchend', function() {
+									editor._.forcePasteDialog = true;
+								} );
+							}
 						}
 					} );
 				} );
@@ -1267,7 +1272,8 @@
 		}
 
 			// Replace adjacent white-spaces (EOLs too - Fx sometimes keeps them) with one space.
-		data = data.replace( /\s+/g, ' ' )
+			// We have to skip \u3000 (IDEOGRAPHIC SPACE) character - it's special space character correctly rendered by the browsers (#1321).
+		data = data.replace( /(?!\u3000)\s+/g, ' ' )
 			// Remove spaces from between tags.
 			.replace( /> +</g, '><' )
 			// Normalize XHTML syntax and upper cased <br> tags.
@@ -1692,7 +1698,7 @@
 		/**
 		 * Returns `true` if it is expected that a browser provides HTML data through the Clipboard API.
 		 * If not, this method returns `false` and as a result CKEditor will use the paste bin. Read more in
-		 * the [Clipboard Integration](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_clipboard-section-clipboard-api) guide.
+		 * the [Clipboard Integration](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_clipboard.html#clipboard-api) guide.
 		 *
 		 * @since 4.5.2
 		 * @returns {Boolean}
@@ -2821,6 +2827,12 @@
 
 					fallbackDataTransfer._isCustomMimeTypeSupported = false;
 
+					// It looks like after our custom MIME type test Edge 17 is denying access on nativeDataTransfer (#2169).
+					// Upstream issue: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/18089287/
+					if ( CKEDITOR.env.edge && CKEDITOR.env.version >= 17 ) {
+						return true;
+					}
+
 					try {
 						nativeDataTransfer.setData( testType, testValue );
 						fallbackDataTransfer._isCustomMimeTypeSupported = nativeDataTransfer.getData( testType ) === testValue;
@@ -3078,7 +3090,7 @@
  *		CKEDITOR.config.clipboard_defaultContentType = 'text';
  *
  * See also the {@link CKEDITOR.editor#paste} event and read more about the integration with clipboard
- * in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ * in the {@glink guide/dev_clipboard Clipboard Deep Dive guide}.
  *
  * @since 4.0
  * @cfg {'html'/'text'} [clipboard_defaultContentType='html']
@@ -3089,7 +3101,7 @@
  * Fired after the user initiated a paste action, but before the data is inserted into the editor.
  * The listeners to this event are able to process the content before its insertion into the document.
  *
- * Read more about the integration with clipboard in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ * Read more about the integration with clipboard in the {@glink guide/dev_clipboard Clipboard Deep Dive guide}.
  *
  * See also:
  *
@@ -3154,7 +3166,7 @@
  * **Note:** To manipulate dropped data, use the {@link CKEDITOR.editor#paste} event.
  * Use the `drop` event only to control drag and drop operations (e.g. to prevent the ability to drop some content).
  *
- * Read more about integration with drag and drop in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ * Read more about integration with drag and drop in the {@glink guide/dev_clipboard Clipboard Deep Dive guide}.
  *
  * See also:
  *
@@ -3184,7 +3196,7 @@
  * operation. For instance, the `widget` plugin uses this option to integrate its custom block widget drag and drop with
  * the entire system.
  *
- * Read more about integration with drag and drop in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ * Read more about integration with drag and drop in the {@glink guide/dev_clipboard Clipboard Deep Dive guide}.
  *
  * See also:
  *
@@ -3205,7 +3217,7 @@
 /**
  * Facade for the native `dragend` event. Fired when the native `dragend` event occurs.
  *
- * Read more about integration with drag and drop in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ * Read more about integration with drag and drop in the {@glink guide/dev_clipboard Clipboard Deep Dive guide}.
  *
  * See also:
  *
@@ -3231,7 +3243,7 @@
  * `style` and `class`) will be kept.
  * * `'h1 h2 p div'` &ndash; Custom rules compatible with {@link CKEDITOR.filter}.
  * * `null` &ndash; Content will not be filtered by the paste filter (but it still may be filtered
- * by [Advanced Content Filter](#!/guide/dev_advanced_content_filter)). This value can be used to
+ * by {@glink guide/dev_advanced_content_filter Advanced Content Filter}). This value can be used to
  * disable the paste filter in Chrome and Safari, where this option defaults to `'semantic-content'`.
  *
  * Example:

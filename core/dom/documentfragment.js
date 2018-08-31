@@ -60,3 +60,117 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.ele
 	'appendTo': 1, 'moveChildren': 1, 'insertBefore': 1, 'insertAfterNode': 1, 'replace': 1, 'trim': 1, 'type': 1,
 	'ltrim': 1, 'rtrim': 1, 'getDocument': 1, 'getChildCount': 1, 'getChild': 1, 'getChildren': 1
 } );
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method append
+ * @inheritdoc CKEDITOR.dom.element#append
+*/
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method appendBogus
+ * @inheritdoc CKEDITOR.dom.element#appendBogus
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method clone
+ * @inheritdoc CKEDITOR.dom.element#clone
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method getFirst
+ * @inheritdoc CKEDITOR.dom.element#getFirst
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method getLast
+ * @inheritdoc CKEDITOR.dom.element#getLast
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method getParent
+ * @inheritdoc CKEDITOR.dom.element#getParent
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method getNext
+ * @inheritdoc CKEDITOR.dom.element#getNext
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method getPrevious
+ * @inheritdoc CKEDITOR.dom.element#getPrevious
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method appendTo
+ * @inheritdoc CKEDITOR.dom.element#appendTo
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method moveChildren
+ * @inheritdoc CKEDITOR.dom.element#moveChildren
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method insertBefore
+ * @inheritdoc CKEDITOR.dom.element#insertBefore
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method replace
+ * @inheritdoc CKEDITOR.dom.element#replace
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method trim
+ * @inheritdoc CKEDITOR.dom.element#trim
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method ltrim
+ * @inheritdoc CKEDITOR.dom.element#ltrim
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method rtrim
+ * @inheritdoc CKEDITOR.dom.element#rtrim
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method getDocument
+ * @inheritdoc CKEDITOR.dom.element#getDocument
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method getChildCount
+ * @inheritdoc CKEDITOR.dom.element#getChildCount
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method getChild
+ * @inheritdoc CKEDITOR.dom.element#getChild
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method getChildren
+ * @inheritdoc CKEDITOR.dom.element#getChildren
+ */

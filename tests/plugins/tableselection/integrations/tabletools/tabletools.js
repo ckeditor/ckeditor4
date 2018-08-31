@@ -181,5 +181,16 @@
 
 	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
 
+	// Ignores for Edge (#1944).
+	var shouldIgnore = !tableSelectionHelpers.isSupportedEnvironment || CKEDITOR.env.edge;
+	tests._should.ignore[ 'test merge cells (classic)' ] = shouldIgnore;
+	tests._should.ignore[ 'test merge cells (inline)' ] = shouldIgnore;
+	tests._should.ignore[ 'test merge one cell (classic)' ] = shouldIgnore;
+	tests._should.ignore[ 'test merge one cell (inline)' ] = shouldIgnore;
+	tests._should.ignore[ 'test merge one cell (collapsed selection) (classic)' ] = shouldIgnore;
+	tests._should.ignore[ 'test merge one cell (collapsed selection) (inline)' ] = shouldIgnore;
+	tests._should.ignore[ 'test delete nested cells (classic)' ] = shouldIgnore;
+	tests._should.ignore[ 'test delete nested cells (inline)' ] = shouldIgnore;
+
 	bender.test( tests );
 } )();

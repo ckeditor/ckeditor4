@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'et', {
 	anchorName: 'Ankru nime järgi',
 	charset: 'Lingitud ressursi märgistik',
 	cssClasses: 'Stiilistiku klassid',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'Sunni allalaadimine',
+	displayText: 'Näidatav tekst',
 	emailAddress: 'E-posti aadress',
 	emailBody: 'Sõnumi tekst',
 	emailSubject: 'Sõnumi teema',

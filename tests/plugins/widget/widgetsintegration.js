@@ -32,7 +32,7 @@
 	};
 
 	var fixHtml = widgetTestsTools.fixHtml,
-		obj2Array = widgetTestsTools.obj2Array,
+		objToArray = bender.tools.objToArray,
 		data2Attr = widgetTestsTools.data2Attribute,
 		getWidgetById = widgetTestsTools.getWidgetById,
 		widgetWrapperAttributes = widgetTestsTools.widgetWrapperAttributes,
@@ -62,7 +62,7 @@
 
 			this.editorBot.setData( sampleWidget + '<p>foo</p>' + sampleWidget2 + '<p id="x">foo</p>' + sampleWidget2, function() {
 				var editable = editor.editable(),
-					instances = obj2Array( editor.widgets.instances ),
+					instances = objToArray( editor.widgets.instances ),
 					names = [ instances[ 0 ].name, instances[ 1 ].name, instances[ 2 ].name ].sort();
 
 				assert.areEqual( 3, instances.length, 'Three widget instances are present.' );
@@ -81,7 +81,7 @@
 				editor.insertElement( el );
 				var widget = editor.widgets.initOn( el, editor.widgets.registered.test2 );
 
-				instances = obj2Array( editor.widgets.instances );
+				instances = objToArray( editor.widgets.instances );
 
 				assert.areEqual( 4, instances.length, 'Four widget instances are present.' );
 				assert.areEqual( 'test2', instances[ 3 ].name, 'Widget4 is correctly initialized.' );
@@ -162,7 +162,7 @@
 
 			this.editorBot.setData( sampleWidget + '<p>foo</p>' + sampleWidget2 + '<p id="x">foo</p>' + sampleWidget2, function() {
 				var widgets = editor.widgets,
-					instances = obj2Array( widgets.instances );
+					instances = objToArray( widgets.instances );
 
 				assert.areEqual( 3, instances.length, 'Three widget instances are present at the beginning' );
 
@@ -173,7 +173,7 @@
 				editor.insertElement( el );
 				widgets.initOn( el );
 
-				instances = obj2Array( widgets.instances );
+				instances = objToArray( widgets.instances );
 
 				assert.areEqual( 4, instances.length, 'Four widget instances are present after initializing new one' );
 
@@ -187,7 +187,7 @@
 					} );
 
 				bot.setData( sampleWidget2, function() {
-					instances = obj2Array( widgets.instances );
+					instances = objToArray( widgets.instances );
 					assert.areEqual( 1, instances.length, 'After setData only one widget instance is registered' );
 					assert.areSame( 'test2', instances[ 0 ].name );
 					assert.areSame( 4, destroyedInstances, '4 instances were destroyed' );
@@ -346,7 +346,7 @@
 			var editor = this.editor;
 
 			this.editorBot.setData( '<div>Foo' + sampleWidget + 'Bar</div>', function() {
-				var instances = obj2Array( editor.widgets.instances ),
+				var instances = objToArray( editor.widgets.instances ),
 					instance = instances[ 0 ];
 
 				assert.areEqual( '1',
@@ -490,13 +490,13 @@
 			var editor = this.editor;
 
 			this.editorBot.setData( sampleWidget + '<p>X</p>', function() {
-				obj2Array( editor.widgets.instances )[ 0 ].setData( 'foo', 'bar' );
+				objToArray( editor.widgets.instances )[ 0 ].setData( 'foo', 'bar' );
 
 				var html = editor.editable().getHtml();
 
 				editor.once( 'afterPaste', function() {
 					resume( function() {
-						assert.areSame( 'bar', obj2Array( editor.widgets.instances )[ 0 ].data.foo );
+						assert.areSame( 'bar', objToArray( editor.widgets.instances )[ 0 ].data.foo );
 					} );
 				} );
 
@@ -520,7 +520,7 @@
 
 				editor.once( 'afterPaste', function() {
 					resume( function() {
-						var instances = obj2Array( editor.widgets.instances ),
+						var instances = objToArray( editor.widgets.instances ),
 							sel = editor.getSelection();
 
 						assert.areSame( 1, instances.length, 'one widget initialized after paste' );
@@ -550,7 +550,7 @@
 
 				editor.once( 'afterPaste', function() {
 					resume( function() {
-						var instances = obj2Array( editor.widgets.instances ),
+						var instances = objToArray( editor.widgets.instances ),
 							sel = editor.getSelection();
 
 						assert.areSame( 2, instances.length, 'one widget initialized after paste' );
@@ -641,11 +641,6 @@
 
 		// #1570
 		'test cutting single focused widget with readonly mode': function() {
-			// Test has been ignored for IE due to #1632 issue. Remove this ignore statement after the issue fix.
-			if ( CKEDITOR.env.ie ) {
-				assert.ignore();
-			}
-
 			var editor = this.editor;
 
 			this.editorBot.setData( '<p>X</p><p id="w1" data-widget="test2">A</p><p>X</p>', function() {
@@ -780,7 +775,7 @@
 
 				editor.insertHtml( '<b data-widget="test2">x</b>' );
 
-				var instances = obj2Array( editor.widgets.instances ),
+				var instances = objToArray( editor.widgets.instances ),
 					sel = editor.getSelection();
 
 				assert.areSame( 1, instances.length, 'one widget initialized after paste' );
@@ -798,7 +793,7 @@
 
 				editor.insertHtml( '<b data-widget="test2">x</b>foo' );
 
-				var instances = obj2Array( editor.widgets.instances ),
+				var instances = objToArray( editor.widgets.instances ),
 					sel = editor.getSelection();
 
 				assert.areSame( 1, instances.length, 'one widget initialized after paste' );

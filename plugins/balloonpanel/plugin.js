@@ -385,8 +385,8 @@
 				var panelWidth = this.getWidth(),
 					panelHeight = this.getHeight(),
 
-					elementRect = this._getAbsoluteRect( element ),
-					editorRect = this._getAbsoluteRect( isInline ? editable : frame ),
+					elementRect = element.getClientRect( true ),
+					editorRect = isInline ? editable.getClientRect( true ) : frame.getClientRect( true ),
 
 					viewPaneSize = winGlobal.getViewPaneSize(),
 					winGlobalScroll = winGlobal.getScrollPosition();
@@ -784,41 +784,6 @@
 				left: pos.x,
 				right: pos.x + viewSize.width
 			};
-		},
-
-		/**
-		 * Returns the position of the element on the screen.
-		 *
-		 * @since 4.9.0
-		 * @private
-		 * @param {CKEDITOR.dom.element} element The element whose position is calculated.
-		 * @returns {Object} The element position (scroll position included).
-		 * @returns {Number} return.top Top offset.
-		 * @returns {Number} return.bottom Bottom offset.
-		 * @returns {Number} return.left Left offset.
-		 * @returns {Number} return.right Right offset.
-		 */
-		_getAbsoluteRect: function( element ) {
-			var elementRect = element.getClientRect(),
-				winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition(),
-				frame = this.editor.window.getFrame(),
-				frameRect;
-
-			if ( this.editor.editable().isInline() || element.equals( frame ) ) {
-				elementRect.top = elementRect.top + winGlobalScroll.y;
-				elementRect.left = elementRect.left + winGlobalScroll.x;
-				elementRect.right = elementRect.left + elementRect.width;
-				elementRect.bottom = elementRect.top + elementRect.height;
-			} else {
-				frameRect = frame.getClientRect();
-
-				elementRect.top = frameRect.top + elementRect.top + winGlobalScroll.y;
-				elementRect.left = frameRect.left + elementRect.left + winGlobalScroll.x;
-				elementRect.right = elementRect.left + elementRect.width;
-				elementRect.bottom = elementRect.top + elementRect.height;
-			}
-
-			return elementRect;
 		}
 	};
 

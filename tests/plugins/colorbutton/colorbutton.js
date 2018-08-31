@@ -17,10 +17,12 @@
 		} );
 	}
 
-	function openColorDialog( frame ) {
+	function openColorDialog() {
 		setTimeout( function() {
-			frame = document.querySelector( '.cke_panel_frame' );
-			frame.contentDocument.querySelector( '.cke_colormore' ).click();
+			document.querySelector( '.cke_panel_frame' )
+				.contentDocument
+				.querySelector( '.cke_colormore' )
+				.click();
 		}, 0 );
 
 		wait();
@@ -121,8 +123,7 @@
 		'test changing text color': function() {
 			var ed = this.editor,
 				bot = this.editorBot,
-				txtColorBtn = ed.ui.get( 'TextColor' ),
-				frame;
+				txtColorBtn = ed.ui.get( 'TextColor' );
 
 			ed.on( 'dialogHide', function() {
 				assert.areEqual( '<h1><span style="color:#ff3333">Moo</span></h1>', ed.getData() );
@@ -133,7 +134,7 @@
 			bot.setHtmlWithSelection( '[<h1>Moo</h1>]' );
 
 			txtColorBtn.click( ed );
-			openColorDialog( frame );
+			openColorDialog();
 		},
 
 		// 590
@@ -145,8 +146,7 @@
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
-					txtColorBtn = editor.ui.get( 'TextColor' ),
-					frame;
+					txtColorBtn = editor.ui.get( 'TextColor' );
 
 				resume( function() {
 					editor.on( 'dialogHide', function() {
@@ -159,11 +159,53 @@
 					onDialogShow( editor );
 
 					txtColorBtn.click( editor );
-					openColorDialog( frame );
+					openColorDialog();
 				} );
 
 				wait();
 			} );
-		}
+		},
+
+		// (#2296).
+		'test opening dropdown with comments': function() {
+			var bot = this.editorBot,
+				bgColorBtn = bot.editor.ui.get( 'BGColor' );
+
+			bot.setHtmlWithSelection( '[<p>foo <!-- comment --> bar</p>]' );
+
+			// Check if automatic background color is obtained correctly.
+			bgColorBtn.click( bot.editor );
+
+			// The test would break execution in case of fail.
+			assert.isTrue( true );
+		},
+
+		// (#1084)
+		'test changing text color to automatic': testAutomaticColor(),
+
+		// (#1084)
+		'test changing background color to automatic': testAutomaticColor( true )
 	} );
+
+	function testAutomaticColor( isBackgroundColor ) {
+		return function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				colorBtn = editor.ui.get( isBackgroundColor ? 'BGColor' : 'TextColor' );
+
+			bot.setHtmlWithSelection( 'Foo [<span style="' + ( isBackgroundColor ? 'background-' : '' ) + 'color:red">bar</span>]' );
+
+			editor.once( 'panelShow', function() {
+				resume( function() {
+					colorBtn._.panel.getBlock( colorBtn._.id ).element.findOne( '.cke_colorauto' ).$.click();
+
+					assert.areEqual( '<p>Foo bar</p>', editor.getData() );
+				} );
+			} );
+
+			colorBtn.click( editor );
+
+			wait();
+		};
+	}
 } )();

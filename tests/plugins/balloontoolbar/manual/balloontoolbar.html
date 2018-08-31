@@ -26,19 +26,19 @@
 			i = 0,
 			strong;
 
+			panel.addItems( {
+				bold: new CKEDITOR.ui.button( {
+					label: 'test',
+					command: 'bold'
+				} ),
+				language: evt.editor.ui.create('Language'),
+				Styles: evt.editor.ui.create( 'Styles' )
+			} );
 
 		while ( ( strong = strongs.getItem( i++ ) ) ) {
 			strong.setStyle( 'background', 'pink' );
 			strong.setStyle( 'outline', '4px solid red' );
 			strong.on( 'click', function() {
-				panel.addItems( {
-					bold: new CKEDITOR.ui.button( {
-						label: 'test',
-						command: 'bold'
-					} ),
-					language: evt.editor.ui.create('Language'),
-					Styles: evt.editor.ui.create( 'Styles' )
-				} );
 				panel.attach( this );
 			} );
 		}

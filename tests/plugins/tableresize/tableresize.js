@@ -18,10 +18,11 @@ function createMoveEventMock( table ) {
 				x:
 					// If x is defined use it.
 					definedX ? definedX :
-					// For the first run x does not matter, because we want to create pillars.
-					pillars ? pillars[ 0 ].x :
-					// Return 0 otherwise.
-					0
+						// For the first run x does not matter, because we want to create pillars.
+						pillars ? pillars[ 0 ].x :
+							// Return 0 otherwise.
+							0,
+				y: pillars ? pillars[ 0 ].y : 0
 			};
 		},
 

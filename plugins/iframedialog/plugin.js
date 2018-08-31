@@ -17,6 +17,7 @@ CKEDITOR.plugins.add( 'iframedialog', {
 		 * @member CKEDITOR.dialog
 		 * @param {String} name Name of the dialog.
 		 * @param {String} title Title of the dialog.
+		 * @param {String} src URL address of the dialog.
 		 * @param {Number} minWidth Minimum width of the dialog.
 		 * @param {Number} minHeight Minimum height of the dialog.
 		 * @param {Function} [onContentLoad] Function called when the iframe has been loaded.

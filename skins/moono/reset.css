@@ -20,7 +20,7 @@ editors:
 	   also its child elements.
 
 To understand why "reset" is needed, check the CKEditor Skin SDK:
-https://docs.ckeditor.com/ckeditor4/docs/#!/guide/skin_sdk_reset
+https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_reset.html
 */
 
 /* Reset for single elements, not their children. */

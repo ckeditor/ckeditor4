@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'bg', {
 	button: {
-		title: 'Настройки на бутона',
+		title: 'Настройки на бутон',
 		text: 'Текст (стойност)',
 		type: 'Тип',
 		typeBtn: 'Бутон',
@@ -12,58 +12,58 @@ CKEDITOR.plugins.setLang( 'forms', 'bg', {
 		typeRst: 'Нулиране'
 	},
 	checkboxAndRadio: {
-		checkboxTitle: 'Checkbox Properties',
+		checkboxTitle: 'Настройки на чекбокс',
 		radioTitle: 'Настройки на радиобутон',
 		value: 'Стойност',
 		selected: 'Избрано',
-		required: 'Required' // MISSING
+		required: 'Задължително'
 	},
 	form: {
-		title: 'Настройки на формата',
-		menu: 'Настройки на формата',
+		title: 'Настройки на форма',
+		menu: 'Настройки на форма',
 		action: 'Действие',
 		method: 'Метод',
 		encoding: 'Кодиране'
 	},
 	hidden: {
-		title: 'Настройки за скрито поле',
+		title: 'Настройки на скрито поле',
 		name: 'Име',
 		value: 'Стойност'
 	},
 	select: {
-		title: 'Selection Field Properties',
-		selectInfo: 'Select Info',
+		title: 'Настройки на поле за избор',
+		selectInfo: 'Селект инфо',
 		opAvail: 'Налични опции',
 		value: 'Стойност',
 		size: 'Размер',
 		lines: 'линии',
-		chkMulti: 'Allow multiple selections',
-		required: 'Required', // MISSING
+		chkMulti: 'Разрешаване на няколко избора',
+		required: 'Задължително',
 		opText: 'Текст',
 		opValue: 'Стойност',
 		btnAdd: 'Добави',
 		btnModify: 'Промени',
-		btnUp: 'На горе',
-		btnDown: 'На долу',
-		btnSetValue: 'Set as selected value',
+		btnUp: 'Нагоре',
+		btnDown: 'Надолу',
+		btnSetValue: 'Задай като избрана стойност',
 		btnDelete: 'Изтриване'
 	},
 	textarea: {
-		title: 'Опции за текстовата зона',
+		title: 'Настройки на текстова зона',
 		cols: 'Колони',
 		rows: 'Редове'
 	},
 	textfield: {
-		title: 'Настройки за текстово поле',
+		title: 'Настройки на текстово поле',
 		name: 'Име',
 		value: 'Стойност',
 		charWidth: 'Ширина на знаците',
 		maxChars: 'Макс. знаци',
-		required: 'Required', // MISSING
+		required: 'Задължително',
 		type: 'Тип',
 		typeText: 'Текст',
 		typePass: 'Парола',
-		typeEmail: 'Email',
+		typeEmail: 'Имейл',
 		typeSearch: 'Търсене',
 		typeTel: 'Телефонен номер',
 		typeUrl: 'Уеб адрес'
