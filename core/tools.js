@@ -582,6 +582,8 @@
 		/**
 		 * Creates {@link CKEDITOR.tools.buffers.throttle throttle buffer} instance.
 		 *
+		 * See {@link CKEDITOR.tools.buffers.throttle#method-input input method's} docs for example listings.
+		 *
 		 * @since 4.10.0
 		 * @inheritdoc CKEDITOR.tools.buffers.throttle#method-constructor
 		 * @returns {CKEDITOR.tools.buffers.throttle}
@@ -1213,6 +1215,8 @@
 
 		/**
 		 * Creates {@link CKEDITOR.tools.buffers.event events buffer} instance.
+		 *
+		 * See {@link CKEDITOR.tools.buffers.event#method-input input method's} docs for example code listings.
 		 *
 		 * @since 4.2.1
 		 * @inheritdoc CKEDITOR.tools.buffers.event#method-constructor
@@ -2277,7 +2281,7 @@
 		var that = this;
 
 		/**
-		 * Acts as a proxy to the given `output` function, providing function throttling.
+		 * Acts as a proxy to the `output` function given in the consturctor, providing function throttling.
 		 *
 		 * Guarantees that `output` function doesn't get called more often than
 		 * indicated by the {@link #_minInterval}.
@@ -2404,7 +2408,7 @@
 		var that = this;
 
 		/**
-		 * Acts as a proxy to the given `output` function, providing function throttling.
+		 * Acts as a proxy to the `output` function given in the consturctor, providing function throttling.
 		 *
 		 * Guarantees that `output` function doesn't get called more often than
 		 * indicated by the {@link #_minInterval}.
