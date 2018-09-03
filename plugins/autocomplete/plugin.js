@@ -279,19 +279,10 @@
 			this._listeners.push( this.view.on( 'click-item', this.onItemClick, this ) );
 
 			// Update view position on viewport change.
-			this._listeners.push( win.on( 'scroll', function() {
-				this.viewRepositionListener();
-			}, this ) );
-			this._listeners.push( editorScrollableElement.on( 'scroll', function() {
-				this.viewRepositionListener();
-			}, this ) );
+			this._listeners.push( win.on( 'scroll', this.viewRepositionListener, this ) );
+			this._listeners.push( editorScrollableElement.on( 'scroll', this.viewRepositionListener, this ) );
 
 			this._listeners.push( editor.on( 'contentDom', onContentDom, this ) );
-			// CKEditor's event system has a limitation that one function (in this case this.check)
-			// cannot be used as listener for the same event more than once. Hence, wrapper function.
-			this._listeners.push( editor.on( 'change', function() {
-				this.viewRepositionListener();
-			}, this ) );
 
 			// Don't let browser to focus dropdown element (#2107).
 			this._listeners.push( this.view.element.on( 'mousedown', function( e ) {
