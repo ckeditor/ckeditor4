@@ -1974,6 +1974,7 @@
 			editable.extractHtmlFromRange( dragRange, 1 );
 
 			// ...and paste content into the drop position.
+			// #724
 			if ( editable.contains( dropBookmark.startNode ) ) {
 				// Move range only when bookmarks are still in editable
 				dropRange = editor.createRange();
