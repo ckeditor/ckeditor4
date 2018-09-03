@@ -45,15 +45,15 @@ bender.test( {
 		} );
 	},
 
-	'test read collapsed required attribute': assertRequiredAttribute( '[<input type="checkbox" required />]', true ),
+	'test required attribute collapsed': assertRequiredAttribute( '[<input type="checkbox" required />]', true ),
 
-	'test read empty required attribute': assertRequiredAttribute( '[<input type="checkbox" required="" />]', true ),
+	'test required attribute without value': assertRequiredAttribute( '[<input type="checkbox" required="" />]', true ),
 
-	'test read required attribute with value `required`': assertRequiredAttribute( '[<input type="checkbox" required="required" />]', true ),
+	'test required attribute with value `required`': assertRequiredAttribute( '[<input type="checkbox" required="required" />]', true ),
 
 	'test required attribute absent': assertRequiredAttribute( '[<input type="checkbox" />]', false ),
 
-	'test read required attribute with invalid value': assertRequiredAttribute(
+	'test required attribute with invalid value': assertRequiredAttribute(
 		'[<input type="checkbox" required="any value other than empty string or required" />]', true )
 } );
 
