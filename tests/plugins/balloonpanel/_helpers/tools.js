@@ -29,11 +29,9 @@ var balloonTestsTools = {
 		var actualX = moveMethod.args[ 0 ][ 1 ],
 			actualY = moveMethod.args[ 0 ][ 0 ];
 
-		// Firefox might return subpixel values.
-		if ( CKEDITOR.env.gecko ) {
-			actualX = Math.round( actualX );
-			actualY = Math.round( actualY );
-		}
+		// Round values, as there is no need to compare pixels as floats.
+		actualX = Math.round( actualX );
+		actualY = Math.round( actualY );
 
 		if ( maxX !== undefined || maxY !== undefined ) {
 			maxX = maxX !== undefined ? maxX : expectedX;
