@@ -278,13 +278,22 @@ CKEDITOR.plugins.add( 'forms', {
 	}
 } );
 
+/**
+ * Namespace containing helper functions for Forms Plugin.
+ *
+ * @since 4.10.2
+ * @private
+ * @singleton
+ * @class CKEDITOR.plugins.forms
+ */
 CKEDITOR.plugins.forms = {
-	/*
-	* Private helper function for setting dialog required value.
+	/**
+	* Sets dialog required value.
 	*
+	* @since 4.10.2
 	* @private
-	* @param {CKEDITOR.dom.element} element Element which required attribute is checked.
-	* */
+	* @param {CKEDITOR.dom.element} element An element which required attribute is checked.
+	*/
 	_setupFormDialogRequired: function( element ) {
 		this.setValue( element.hasAttribute( 'required' ) );
 	}
