@@ -25,13 +25,15 @@ var balloonTestsTools = {
 		}
 	},
 
-	assertMoveTo: function( moveMethod, expectedX, expectedY, maxX, maxY ) {
+	assertMoveTo: function( moveMethod, expectedX, expectedY, maxX, maxY, shouldRound ) {
 		var actualX = moveMethod.args[ 0 ][ 1 ],
 			actualY = moveMethod.args[ 0 ][ 0 ];
 
 		// Round values, as there is no need to compare pixels as floats.
-		actualX = Math.round( actualX );
-		actualY = Math.round( actualY );
+		if ( shouldRound ) {
+			actualX = Math.round( actualX );
+			actualY = Math.round( actualY );
+		}
 
 		if ( maxX !== undefined || maxY !== undefined ) {
 			maxX = maxX !== undefined ? maxX : expectedX;

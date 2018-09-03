@@ -80,7 +80,8 @@
 			var moveSpy = spy( this.balloon, 'move' );
 			balloonTestsTools.attachBalloon( this.balloon, 'center' );
 
-			balloonTestsTools.assertMoveTo( moveSpy, screenSize.width - balloonSize.width - 40, screenSize.height, screenSize.width - balloonSize.width, screenSize.height * 2 );
+			balloonTestsTools.assertMoveTo( moveSpy, screenSize.width - balloonSize.width - 40, screenSize.height,
+				screenSize.width - balloonSize.width, screenSize.height * 2, true );
 			moveSpy.restore();
 		},
 
@@ -90,7 +91,8 @@
 			balloonTestsTools.attachBalloon( this.balloon, 'center' );
 
 			// Should appear on the right-hand side.
-			balloonTestsTools.assertMoveTo( moveSpy, screenSize.width * 1.5, screenSize.height * 1.5 - balloonSize.height / 2, screenSize.width * 2, screenSize.height * 1.5 );
+			balloonTestsTools.assertMoveTo( moveSpy, screenSize.width * 1.5, screenSize.height * 1.5 - balloonSize.height / 2,
+				screenSize.width * 2, screenSize.height * 1.5, true );
 			moveSpy.restore();
 		},
 
@@ -100,7 +102,8 @@
 			balloonTestsTools.attachBalloon( this.balloon, 'center' );
 
 			// Should appear on the right-hand side.
-			balloonTestsTools.assertMoveTo( moveSpy, screenSize.width * 1.5 - balloonSize.width, screenSize.height * 2 + 20, screenSize.width * 1.5 + balloonSize.width, screenSize.height * 2 + 21 );
+			balloonTestsTools.assertMoveTo( moveSpy, screenSize.width * 1.5 - balloonSize.width, screenSize.height * 2 + 20,
+				screenSize.width * 1.5 + balloonSize.width, screenSize.height * 2 + 21, true );
 			moveSpy.restore();
 		},
 
