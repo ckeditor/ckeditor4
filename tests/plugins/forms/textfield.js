@@ -1,5 +1,9 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: dialog,button,forms,toolbar */
+/* bender-include: _helpers/tools.js */
+/* global formsTools */
+
+var assertRequiredAttribute = formsTools.assertRequiredAttribute;
 
 bender.editor = {
 	config: {
@@ -79,53 +83,33 @@ bender.test( {
 		} );
 	},
 
-	'test read collapsed required attribute': function() {
-		var bot = this.editorBot;
+	'test required attribute collapsed': assertRequiredAttribute( {
+		html: '[<input type="text" required />]',
+		type: 'textfield',
+		expected: true
+	} ),
 
-		bot.setHtmlWithSelection( '[<input type="text" required />]' );
+	'test required attribute without value': assertRequiredAttribute( {
+		html: '[<input type="text" required="" />]',
+		type: 'textfield',
+		expected: true
+	} ),
 
-		bot.dialog( 'textfield', function( dialog ) {
-			assert.isTrue( dialog.getValueOf( 'info', 'required' ) );
-		} );
-	},
+	'test required attribute with value `required`': assertRequiredAttribute( {
+		html: '[<input type="text" required="required" />]',
+		type: 'textfield',
+		expected: true
+	} ),
 
-	'test read empty required attribute': function() {
-		var bot = this.editorBot;
+	'test required attribute absent': assertRequiredAttribute( {
+		html: '[<input type="text" />]',
+		type: 'textfield',
+		expected: false
+	} ),
 
-		bot.setHtmlWithSelection( '[<input type="text" required="" />]' );
-
-		bot.dialog( 'textfield', function( dialog ) {
-			assert.isTrue( dialog.getValueOf( 'info', 'required' ) );
-		} );
-	},
-
-	'test read required attribute with value `required`': function() {
-		var bot = this.editorBot;
-
-		bot.setHtmlWithSelection( '[<input type="text" required="required" />]' );
-
-		bot.dialog( 'textfield', function( dialog ) {
-			assert.isTrue( dialog.getValueOf( 'info', 'required' ) );
-		} );
-	},
-
-	'test required attribute absent': function() {
-		var bot = this.editorBot;
-
-		bot.setHtmlWithSelection( '[<input type="text" />]' );
-
-		bot.dialog( 'textfield', function( dialog ) {
-			assert.isFalse( dialog.getValueOf( 'info', 'required' ) );
-		} );
-	},
-
-	'test read required attribute with invalid value': function() {
-		var bot = this.editorBot;
-
-		bot.setHtmlWithSelection( '[<input type="text" required="any value other than empty string or required" />]' );
-
-		bot.dialog( 'textfield', function( dialog ) {
-			assert.isFalse( dialog.getValueOf( 'info', 'required' ) );
-		} );
-	}
+	'test required attribute with invalid value': assertRequiredAttribute( {
+		html: '[<input type="text" required="any value other than empty string or required" />]',
+		type: 'textfield',
+		expected: true
+	} )
 } );

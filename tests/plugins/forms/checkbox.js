@@ -1,5 +1,9 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: dialog,button,forms,htmlwriter,toolbar */
+/* bender-include: _helpers/tools.js */
+/* global formsTools */
+
+var assertRequiredAttribute = formsTools.assertRequiredAttribute;
 
 bender.editor = {
 	config: {
@@ -45,26 +49,33 @@ bender.test( {
 		} );
 	},
 
-	'test required attribute collapsed': assertRequiredAttribute( '[<input type="checkbox" required />]', true ),
+	'test required attribute collapsed': assertRequiredAttribute( {
+		html: '[<input type="checkbox" required />]',
+		type: 'checkbox',
+		expected: true
+	} ),
 
-	'test required attribute without value': assertRequiredAttribute( '[<input type="checkbox" required="" />]', true ),
+	'test required attribute without value': assertRequiredAttribute( {
+		html: '[<input type="checkbox" required="" />]',
+		type: 'checkbox',
+		expected: true
+	} ),
 
-	'test required attribute with value `required`': assertRequiredAttribute( '[<input type="checkbox" required="required" />]', true ),
+	'test required attribute with value `required`': assertRequiredAttribute( {
+		html: '[<input type="checkbox" required="required" />]',
+		type: 'checkbox',
+		expected: true
+	} ),
 
-	'test required attribute absent': assertRequiredAttribute( '[<input type="checkbox" />]', false ),
+	'test required attribute absent': assertRequiredAttribute( {
+		html: '[<input type="checkbox" />]',
+		type: 'checkbox',
+		expected: false
+	} ),
 
-	'test required attribute with invalid value': assertRequiredAttribute(
-		'[<input type="checkbox" required="any value other than empty string or required" />]', true )
+	'test required attribute with invalid value': assertRequiredAttribute( {
+		html: '[<input type="checkbox" required="any value other than empty string or required" />]',
+		type: 'checkbox',
+		expected: true
+	} )
 } );
-
-function assertRequiredAttribute( html, expected ) {
-	return function() {
-		var bot = this.editorBot;
-
-		bot.setHtmlWithSelection( html );
-
-		bot.dialog( 'checkbox', function( dialog ) {
-			assert[ expected ? 'isTrue' : 'isFalse' ]( dialog.getValueOf( 'info', 'required' ) );
-		} );
-	};
-}
