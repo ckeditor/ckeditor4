@@ -16,13 +16,12 @@
 				emailTemplate = new CKEDITOR.template( '<a href="mailto:{link}">{text}</a>' );
 
 			editor.on( 'paste', function( evt ) {
-
 				if ( evt.data.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
 					return;
 				}
 
 				var data = evt.data.dataValue,
-					matched = data.match( CKEDITOR.config.autolink_urlRegex );
+					matched = data.match( CKEDITOR.config.autolink_urlRegex ) || data.match( CKEDITOR.config.autolink_emailRegex );
 
 				// If we found "<" it means that most likely there's some tag and we don't want to touch it.
 				if ( data.indexOf( '<' ) > -1 ) {
@@ -33,7 +32,6 @@
 					evt.data.dataValue = getHtmlToInsert( data );
 					evt.data.type = 'html';
 				}
-
 			} );
 
 			// IE has its own link completion and we don't want to interfere with it.
@@ -113,7 +111,13 @@
 			}
 
 			function matchCallback( text, offset ) {
-				var query = text.slice( 0, offset );
+				var parts = text.slice( 0, offset )
+						.split( /\s+/ ),
+					query = parts[ parts.length - 1 ];
+
+				if ( !query ) {
+					return null;
+				}
 
 				var match = query.match( CKEDITOR.config.autolink_urlRegex ) ||
 					query.match( CKEDITOR.config.autolink_emailRegex );
@@ -122,7 +126,7 @@
 					return null;
 				}
 
-				return { start: match.index, end: offset };
+				return { start: text.lastIndexOf( query ), end: offset };
 			}
 		}
 	} );
@@ -155,7 +159,7 @@
 	 * @since 4.11.0
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.autolink_urlRegex = /(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/i;
+	CKEDITOR.config.autolink_urlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/i;
 	// Regex by Imme Emosol.
 
 	/**
@@ -165,6 +169,6 @@
 	 * @since 4.11.0
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.autolink_emailRegex = /[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+	CKEDITOR.config.autolink_emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 	// Regex by (https://html.spec.whatwg.org/#e-mail-state-(type=email)).
 } )();
