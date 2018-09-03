@@ -116,7 +116,11 @@
 				var moveSpy = spy( this.balloon, 'move' );
 				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
 
-				balloonTestsTools.assertMoveTo( moveSpy, 180, 346.84375 );
+				balloonTestsTools.assertMoveTo( {
+					moveMethod: moveSpy,
+					expectedX: 180,
+					expectedY: 346.84375
+				} );
 
 				moveSpy.restore();
 			},
@@ -127,7 +131,11 @@
 				var moveSpy = spy( this.balloon, 'move' );
 				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
 
-				balloonTestsTools.assertMoveTo( moveSpy, 92.5, 422 );
+				balloonTestsTools.assertMoveTo( {
+					moveMethod: moveSpy,
+					expectedX: 92.5,
+					expectedY: 422
+				} );
 
 				moveSpy.restore();
 			},
@@ -138,7 +146,11 @@
 				var moveSpy = spy( this.balloon, 'move' );
 				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
 
-				balloonTestsTools.assertMoveTo( moveSpy, 21, 391.84375 );
+				balloonTestsTools.assertMoveTo( {
+					moveMethod: moveSpy,
+					expectedX: 21,
+					expectedY: 391.84375
+				} );
 
 				moveSpy.restore();
 			},
@@ -149,7 +161,11 @@
 				var moveSpy = spy( this.balloon, 'move' );
 				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
 
-				balloonTestsTools.assertMoveTo( moveSpy, 92.5, 363 );
+				balloonTestsTools.assertMoveTo( {
+					moveMethod: moveSpy,
+					expectedX: 92.5,
+					expectedY: 363
+				} );
 
 				moveSpy.restore();
 			},
@@ -161,7 +177,11 @@
 				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
 
 				// Most likely we'll have to work on this case, since balloon is cropped.
-				balloonTestsTools.assertMoveTo( moveSpy, -25.5, 379.34375 );
+				balloonTestsTools.assertMoveTo( {
+					moveMethod: moveSpy,
+					expectedX: -25.5,
+					expectedY: 379.34375
+				} );
 
 				moveSpy.restore();
 			},
@@ -172,7 +192,11 @@
 				var moveSpy = spy( this.balloon, 'move' );
 				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
 
-				balloonTestsTools.assertMoveTo( moveSpy, 228.5, 422 );
+				balloonTestsTools.assertMoveTo( {
+					moveMethod: moveSpy,
+					expectedX: 228.5,
+					expectedY: 422
+				} );
 
 				moveSpy.restore();
 			}
