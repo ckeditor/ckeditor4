@@ -4,10 +4,10 @@
 		/**
 		 * Asserts 'required' attribute of a form element.
 		 *
-		 * @param {Object} setup Test setup object
-		 * @param {String} setup.html Html string to be set as editor data
-		 * @param {String} setup.type Type of tested form element
-		 * @param {Boolean} setup.expected Whenever form dialog should have required field selected
+		 * @param {Object} setup Test setup object.
+		 * @param {String} setup.html Html string to be set as editor data.
+		 * @param {String} setup.type Type of tested form element.
+		 * @param {Boolean} setup.expected Whenever form dialog should have required field selected.
 		 * */
 		assertRequiredAttribute: function( setup ) {
 			return function() {
