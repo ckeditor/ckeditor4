@@ -45,53 +45,26 @@ bender.test( {
 		} );
 	},
 
-	'test read collapsed required attribute': function() {
-		var bot = this.editorBot;
+	'test read collapsed required attribute': assertRequiredAttribute( '[<input type="checkbox" required />]', true ),
 
-		bot.setHtmlWithSelection( '[<input type="checkbox" required />]' );
+	'test read empty required attribute': assertRequiredAttribute( '[<input type="checkbox" required="" />]', true ),
 
-		bot.dialog( 'checkbox', function( dialog ) {
-			assert.isTrue( dialog.getValueOf( 'info', 'required' ) );
-		} );
-	},
+	'test read required attribute with value `required`': assertRequiredAttribute( '[<input type="checkbox" required="required" />]', true ),
 
-	'test read empty required attribute': function() {
-		var bot = this.editorBot;
+	'test required attribute absent': assertRequiredAttribute( '[<input type="checkbox" />]', false ),
 
-		bot.setHtmlWithSelection( '[<input type="checkbox" required="" />]' );
-
-		bot.dialog( 'checkbox', function( dialog ) {
-			assert.isTrue( dialog.getValueOf( 'info', 'required' ) );
-		} );
-	},
-
-	'test read required attribute with value `required`': function() {
-		var bot = this.editorBot;
-
-		bot.setHtmlWithSelection( '[<input type="checkbox" required="required" />]' );
-
-		bot.dialog( 'checkbox', function( dialog ) {
-			assert.isTrue( dialog.getValueOf( 'info', 'required' ) );
-		} );
-	},
-
-	'test required attribute absent': function() {
-		var bot = this.editorBot;
-
-		bot.setHtmlWithSelection( '[<input type="checkbox" />]' );
-
-		bot.dialog( 'checkbox', function( dialog ) {
-			assert.isFalse( dialog.getValueOf( 'info', 'required' ) );
-		} );
-	},
-
-	'test read required attribute with invalid value': function() {
-		var bot = this.editorBot;
-
-		bot.setHtmlWithSelection( '[<input type="checkbox" required="any value other than empty string or required" />]' );
-
-		bot.dialog( 'checkbox', function( dialog ) {
-			assert.isFalse( dialog.getValueOf( 'info', 'required' ) );
-		} );
-	}
+	'test read required attribute with invalid value': assertRequiredAttribute(
+		'[<input type="checkbox" required="any value other than empty string or required" />]', true )
 } );
+
+function assertRequiredAttribute( html, expected ) {
+	return function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( html );
+
+		bot.dialog( 'checkbox', function( dialog ) {
+			assert[ expected ? 'isTrue' : 'isFalse' ]( dialog.getValueOf( 'info', 'required' ) );
+		} );
+	};
+}
