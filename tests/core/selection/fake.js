@@ -1104,12 +1104,12 @@ bender.test( {
 			editor = bot.editor;
 
 		bot.setData( '<p>[<span id="bar">bar</span>]</p>', function() {
-			var altContainer, styles, expected, item;
+			var altContainer, styles, expected;
+
 			editor.getSelection().fake( editor.document.getById( 'bar' ), '<i>foo</i>' );
 
 			altContainer = editor.editable().findOne( '[data-cke-hidden-sel]' );
 
-			// On IE and Edge < 14 element should have `display:none`.
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 14 ) {
 				assert.areEqual( 'none', altContainer.getStyle( 'display' ) );
 			} else {
@@ -1122,9 +1122,7 @@ bender.test( {
 					height: 0
 				};
 
-				for ( item in expected ) {
-					assert.areEqual( expected[ item ], styles[ item ] );
-				}
+				assert.isTrue( CKEDITOR.tools.objectCompare( expected, styles ) );
 			}
 		} );
 	}

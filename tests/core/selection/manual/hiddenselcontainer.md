@@ -5,7 +5,9 @@
 1. Click on image
 
 ## Expected:
+
 There shouldn't be any visible text around image.
 
 ## Unexpected:
+
 There is visible text around image.
