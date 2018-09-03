@@ -237,6 +237,10 @@ CKEDITOR.plugins.add( 'richcombo', {
 					this.onRender();
 
 				return instance;
+
+				function updateState( evt ) {
+					this.updateState( evt.editor );
+				}
 			},
 
 			createPanel: function( editor ) {
