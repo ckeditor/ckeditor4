@@ -29,6 +29,12 @@ var balloonTestsTools = {
 		var actualX = moveMethod.args[ 0 ][ 1 ],
 			actualY = moveMethod.args[ 0 ][ 0 ];
 
+		// Firefox might return subpixel values.
+		if ( CKEDITOR.env.gecko ) {
+			actualX = Math.round( actualX );
+			actualY = Math.round( actualY );
+		}
+
 		if ( maxX !== undefined || maxY !== undefined ) {
 			maxX = maxX !== undefined ? maxX : expectedX;
 			maxY = maxY !== undefined ? maxY : expectedY;

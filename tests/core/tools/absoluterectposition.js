@@ -54,6 +54,7 @@
 			assertRect( editor.name === 'classic', 100 );
 
 			function assertRect( classic, scroll ) {
+				var actual;
 				// `getAbsoluteRectPosition` on classic editor adds its parent offset position which is also affected by scroll
 				// we need to include that in our test so inline and classic have different expected results.
 				for ( key in rect ) {
@@ -64,7 +65,9 @@
 					} else {
 						expected = rect[ key ];
 					}
-					assert.areEqual( expected, absoluteRect[ key ], 'Rect[ ' + key + ' ]' );
+					// Firefox might return subpixel values.
+					actual = CKEDITOR.env.gecko ? Math.round( absoluteRect[ key ] ) : absoluteRect[ key ];
+					assert.areEqual( expected, actual, 'Rect[ ' + key + ' ]' );
 				}
 			}
 		}
