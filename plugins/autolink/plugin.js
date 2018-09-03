@@ -16,15 +16,24 @@
 				emailTemplate = new CKEDITOR.template( '<a href="mailto:{link}">{text}</a>' );
 
 			editor.on( 'paste', function( evt ) {
-				// Pasted text may be encoded. Decode it so we will be able to compare its length with match.
-				var text = CKEDITOR.tools.htmlDecode( evt.data.dataValue );
 
-				// Attach afterPaste event here to avoid race condition between events.
-				editor.once( 'afterPaste', function() {
-					autolink( function( matched ) {
-						return matched && matched.text.length == text.length;
-					} );
-				} );
+				if ( evt.data.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+					return;
+				}
+
+				var data = evt.data.dataValue,
+					matched = data.match( CKEDITOR.config.autolink_urlRegex );
+
+				// If we found "<" it means that most likely there's some tag and we don't want to touch it.
+				if ( data.indexOf( '<' ) > -1 ) {
+					return;
+				}
+
+				if ( matched ) {
+					evt.data.dataValue = getHtmlToInsert( data );
+					evt.data.type = 'html';
+				}
+
 			} );
 
 			// IE has its own link completion and we don't want to interfere with it.
@@ -39,19 +48,14 @@
 						return;
 					}
 
-					autolink( function( matched ) {
-						return matched;
-					} );
+					var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], matchCallback );
+
+					if ( matched ) {
+						insertLink( matched );
+					}
+
 				} );
 			} );
-
-			function autolink( condition ) {
-				var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], matchCallback );
-
-				if ( condition( matched ) ) {
-					insertLink( matched );
-				}
-			}
 
 			function insertLink( match ) {
 				var selection = editor.getSelection();
@@ -88,6 +92,9 @@
 					if ( attributes.removed.length ) {
 						link.removeAttributes( attributes.removed );
 					}
+
+					link.removeAttribute( 'data-cke-saved-href' );
+
 					return link.getOuterHtml();
 				}
 				return data;
