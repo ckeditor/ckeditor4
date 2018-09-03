@@ -1,8 +1,11 @@
-<textarea id="editor1" cols="10" rows="10">
+<textarea id="classic" cols="10" rows="10">
 	<p>Some text</p>
 	<p><strong>Click on me</strong></p>
 </textarea>
-
+<div id="inline" contenteditable="true">
+	<p>Some text</p>
+	<p><strong>Click on me</strong></p>
+</div>
 <script>
 	// Currently balloon toolbar is not integrated with old IE browsers.
 	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 || bender.tools.env.mobile ) {
@@ -24,12 +27,16 @@
 		} );
 	}
 
-	CKEDITOR.replace( 'editor1', {
-		height: 300,
-		width: 600,
+	CKEDITOR.replace( 'classic', {
 		on: {
 			instanceReady: instanceReadyListener
 		}
 	} );
 
+	CKEDITOR.inline( 'inline', {
+		on: {
+			instanceReady: instanceReadyListener
+		},
+		extraPlugins: 'floatingspace'
+	} );
 </script>
