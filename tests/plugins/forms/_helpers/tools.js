@@ -2,7 +2,7 @@
 	'use strict';
 	window.formsTools = {
 		/**
-		 * Asserts required attribute of an form element.
+		 * Asserts 'required' attribute of a form element.
 		 *
 		 * @param {Object} setup Test setup object
 		 * @param {String} setup.html Html string to be set as editor data
