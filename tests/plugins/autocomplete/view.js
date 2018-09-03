@@ -78,9 +78,9 @@
 
 			var rect = getCaretRect( this.editors.classic, { top: 2, height: 3, left: 4 }, { y: 2, x: 4 } );
 
-			assert.areEqual( 7, rect.bottom );
-			assert.areEqual( 8, rect.left );
-			assert.areEqual( 4, rect.top );
+			assert.areEqual( 7, Math.round( rect.bottom ) );
+			assert.areEqual( 8, Math.round( rect.left ) );
+			assert.areEqual( 4, Math.round( rect.top ) );
 		},
 
 		'test get caret rect (inline)': function() {
@@ -90,9 +90,9 @@
 
 			// Firefox in some circumstances (e.g. non-visible element) tends to return _too precise_
 			// result that should be rounded to the nearest integer (#2141).
-			assert.areEqual( 7, Math.ceil( rect.bottom ) );
-			assert.areEqual( 8, Math.ceil( rect.left ) );
-			assert.areEqual( 4, Math.ceil( rect.top ) );
+			assert.areEqual( 7, Math.round( rect.bottom ) );
+			assert.areEqual( 8, Math.round( rect.left ) );
+			assert.areEqual( 4, Math.round( rect.top ) );
 		},
 
 		'test get caret rect with repositioned offset host (classic)': function() {
@@ -106,9 +106,9 @@
 
 			var rect = getCaretRect( this.editors.classic, { top: 10, height: 5, left: 10 }, { y: 2, x: 4 } );
 
-			assert.areEqual( 7, rect.bottom );
-			assert.areEqual( 4, rect.left );
-			assert.areEqual( 2, rect.top );
+			assert.areEqual( 7, Math.round( rect.bottom ) );
+			assert.areEqual( 4, Math.round( rect.left ) );
+			assert.areEqual( 2, Math.round( rect.top ) );
 		},
 
 		'test get caret rect with repositioned offset host (inline)': function() {
@@ -124,9 +124,9 @@
 
 			// Firefox in some circumstances (e.g. non-visible element) tends to return _too precise_
 			// result that should be rounded to the nearest integer (#2141).
-			assert.areEqual( 7, Math.ceil( rect.bottom ) );
-			assert.areEqual( 4, Math.ceil( rect.left ) );
-			assert.areEqual( 2, Math.ceil( rect.top ) );
+			assert.areEqual( 7, Math.round( rect.bottom ) );
+			assert.areEqual( 4, Math.round( rect.left ) );
+			assert.areEqual( 2, Math.round( rect.top ) );
 		},
 
 		'test is item element': function() {
