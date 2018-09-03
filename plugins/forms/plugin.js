@@ -286,7 +286,6 @@ CKEDITOR.plugins.forms = {
 	* @param {CKEDITOR.dom.element} element Element which required attribute is checked.
 	* */
 	_setupFormDialogRequired: function( element ) {
-		var required = element.getAttribute( 'required' );
-		this.setValue( required === '' || required === 'required' );
+		this.setValue( element.hasAttribute( 'required' ) );
 	}
 };
