@@ -2,12 +2,12 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, image2
 
-1. Click on image
+Click on the image
 
 ## Expected:
 
-There shouldn't be any visible text around image.
+There shouldn't be any visible text around the image.
 
 ## Unexpected:
 
-There is visible text around image.
+There is a visible text around the image.
