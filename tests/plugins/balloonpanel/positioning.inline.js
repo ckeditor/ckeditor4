@@ -42,10 +42,10 @@
 
 	// Some init logic, we need to properly place elements according to the screen size.
 
-	// Make body as big as 3 screens.
+	// Make body big enough so scrollbars are visibly on any screen resolution.
 	CKEDITOR.document.getBody().setStyles( {
-		height: screenSize.height * 3 + 'px',
-		width: screenSize.width * 3 + 'px'
+		height: screenSize.height * 10 + 'px',
+		width: screenSize.width * 10 + 'px'
 	} );
 
 	// Set reference element size.
