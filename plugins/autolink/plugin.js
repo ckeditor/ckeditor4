@@ -20,15 +20,14 @@
 					return;
 				}
 
-				var data = evt.data.dataValue,
-					matched = data.match( CKEDITOR.config.autolink_urlRegex ) || data.match( CKEDITOR.config.autolink_emailRegex );
+				var data = evt.data.dataValue;
 
 				// If we found "<" it means that most likely there's some tag and we don't want to touch it.
 				if ( data.indexOf( '<' ) > -1 ) {
 					return;
 				}
 
-				if ( matched ) {
+				if ( matchLink( data ) ) {
 					evt.data.dataValue = getHtmlToInsert( data );
 					evt.data.type = 'html';
 				}
@@ -119,14 +118,16 @@
 					return null;
 				}
 
-				var match = query.match( CKEDITOR.config.autolink_urlRegex ) ||
-					query.match( CKEDITOR.config.autolink_emailRegex );
-
-				if ( !match ) {
+				if ( !matchLink( query ) ) {
 					return null;
 				}
 
 				return { start: text.lastIndexOf( query ), end: offset };
+			}
+
+			function matchLink( query ) {
+				return query.match( CKEDITOR.config.autolink_urlRegex ) ||
+					query.match( CKEDITOR.config.autolink_emailRegex );
 			}
 		}
 	} );
