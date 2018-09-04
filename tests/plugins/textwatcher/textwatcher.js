@@ -10,13 +10,14 @@
 
 		'test destroy': function() {
 			var editor = this.editor,
+				checkSpy = sinon.spy( CKEDITOR.plugins.textWatcher.prototype, 'check' ),
 				textwatcher = attachTextWatcher( editor ),
-				checkSpy = sinon.spy( textwatcher, 'check' ),
 				unmatchSpy = sinon.spy( textwatcher, 'unmatch' );
 
 			textwatcher.destroy();
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			checkSpy.restore();
 			assert.isFalse( checkSpy.called, 'Check called on keyup' );
 
 			editor.fire( 'blur', new CKEDITOR.dom.event( {} ) );
@@ -36,9 +37,13 @@
 
 		'test checks text on keyup': function() {
 			var editor = this.editor,
-				spy = sinon.spy( attachTextWatcher( editor ), 'check' );
+				spy = sinon.spy( CKEDITOR.plugins.textWatcher.prototype, 'check' );
+
+			attachTextWatcher( editor );
 
 			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			spy.restore();
 
 			assert.isTrue( spy.calledOnce );
 		},
@@ -206,7 +211,9 @@
 
 		// (#1997)
 		'test throttle': function() {
-			var editor = this.editor, bot = this.editorBot,
+			var editor = this.editor,
+				bot = this.editorBot,
+				editable = editor.editable(),
 				textWatcher = attachTextWatcher( editor, function() {
 					return {
 						text: 'test'
@@ -217,17 +224,17 @@
 			bot.setHtmlWithSelection( 'Lorem ipsum dolor ^sit amet, consectetur.' );
 
 			textWatcher.lastMatched = 'changed first time';
-			textWatcher.check( {} );
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 			assert.isTrue( callbackSpy.calledOnce );
 
 			textWatcher.lastMatched = 'changed second time';
-			textWatcher.check( {} );
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 			assert.isTrue( callbackSpy.calledOnce );
 
 			setTimeout( function() {
 				resume( function() {
 					textWatcher.lastMatched = 'changed third time';
-					textWatcher.check( {} );
+					editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 					assert.isTrue( callbackSpy.calledTwice );
 				} );
 			}, 100 );
