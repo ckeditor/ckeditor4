@@ -6,10 +6,11 @@
 'use strict';
 
 ( function() {
-	var validLinkRegExp = /^<a[^>]+href="([^"]+)"[^>]*>([^<]+)<\/a>$/i;
+	var validLinkRegExp = /(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/i,
+		validLinkElRegExp = /^<a[^>]+href="([^"]+)"[^>]*>([^<]+)<\/a>$/i;
 
 	CKEDITOR.plugins.add( 'autoembed', {
-		requires: 'autolink,undo',
+		requires: 'undo',
 		lang: 'az,bg,ca,cs,da,de,de-ch,el,en,en-au,eo,es,es-mx,eu,fr,gl,hr,hu,it,ja,km,ko,ku,mk,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sv,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var currentId = 1,
@@ -17,20 +18,23 @@
 
 			editor.on( 'paste', function( evt ) {
 				if ( evt.data.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
-					embedCandidatePasted = 0;
+					embedCandidatePasted = false;
 					return;
 				}
 
-				var match = evt.data.dataValue.match( validLinkRegExp );
-
-				embedCandidatePasted = match != null && decodeURI( match[ 1 ] ) == decodeURI( match[ 2 ] );
+				var matchEl = evt.data.dataValue.match( validLinkElRegExp ),
+					match = evt.data.dataValue.match( validLinkRegExp );
 
 				// Expecting exactly one <a> tag spanning the whole pasted content.
 				// The tag has to have same href as content.
-				if ( embedCandidatePasted ) {
+				if ( matchEl && decodeURI( matchEl[ 1 ] ) == decodeURI( matchEl[ 2 ] ) ) {
+					embedCandidatePasted = true;
 					evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '"' + evt.data.dataValue.substr( 2 );
+				} else if ( match ) {
+					embedCandidatePasted = true;
+					evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '" href="' + match[ 0 ] + '">' + match[ 0 ] + '</a>';
 				}
-			}, null, null, 20 ); // Execute after autolink.
+			} );
 
 			editor.on( 'afterPaste', function() {
 				// If one pasted an embeddable link and then undone the action, the link in the content holds the
