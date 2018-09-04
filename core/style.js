@@ -788,9 +788,12 @@ CKEDITOR.STYLE_OBJECT = 3;
 		);
 	}
 
-	function checkIfTextOrReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) {
-		var nodeType = currentNode.type;
-		return nodeType == CKEDITOR.NODE_TEXT || nodeIsReadonly || ( nodeType == CKEDITOR.NODE_ELEMENT && !currentNode.getChildCount() );
+	function isElement( currentNode ) {
+		return currentNode && currentNode.type == CKEDITOR.NODE_ELEMENT;
+	}
+
+	function isReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) {
+		return nodeIsReadonly || ( isElement( currentNode ) && !currentNode.getChildCount() );
 	}
 
 	// Checks if position is a subset of posBitFlags and that nodeA fulfills style def rule.
@@ -905,14 +908,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 						}
 
 						// Non element nodes, readonly elements, or empty
-						// elements can be added completely to the range.
-						if ( checkIfTextOrReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) ) {
+						// elements can be added completely to the range (#2294).
+						if ( !isElement( currentNode ) || isReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) ) {
 							var includedNode = currentNode;
 							var parentNode;
 
-							// This node is about to be included completelly, but,
+							// This node is about to be included completely, but,
 							// if this is the last node in its parent, we must also
-							// check if the parent itself can be added completelly
+							// check if the parent itself can be added completely
 							// to the range, otherwise apply the style immediately.
 							while (
 								( applyStyle = !includedNode.getNext( notBookmark ) ) &&
