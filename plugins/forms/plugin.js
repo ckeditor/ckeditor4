@@ -288,7 +288,8 @@ CKEDITOR.plugins.add( 'forms', {
  */
 CKEDITOR.plugins.forms = {
 	/**
-	* Sets dialog required value.
+	* Sets dialogs 'required' value to match presence of 'required' attribute on element.
+	* Based on algorithm described in specification.
 	*
 	* @since 4.10.2
 	* @private
