@@ -19,13 +19,22 @@
 				// Pasted text may be encoded. Decode it so we will be able to compare its length with match.
 				var text = CKEDITOR.tools.htmlDecode( evt.data.dataValue );
 
+				if ( evt.data.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+					return;
+				}
+
+				// If we found "<" it means that most likely there's some tag and we don't want to touch it.
+				if ( evt.data.dataValue.indexOf( '<' ) > -1 ) {
+					return;
+				}
+
 				// Attach afterPaste event here to avoid race condition between events.
 				editor.once( 'afterPaste', function() {
 					autolink( function( matched ) {
 						return matched && matched.text.length == text.length;
 					} );
 				} );
-			} );
+			}, null, null, 20 ); // Move autolink after autoembed.
 
 			// IE has its own link completion and we don't want to interfere with it.
 			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
