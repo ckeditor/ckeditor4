@@ -16,6 +16,7 @@ Fixed Issues:
 API Changes:
 
 * [#1451](https://github.com/ckeditor/ckeditor-dev/issues/1451): Fixed: Context menu is incorrectly positioned when opened with `Shift-F10`.
+* [#2373](https://github.com/ckeditor/ckeditor-dev/issues/2373): Fixed: [Text Watcher](https://ckeditor.com/cke4/addon/textwatcher) throttling calls [`check`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_textWatcher.html#method-check) method with invalid selection.
 
 ## CKEditor 4.10.1
 
