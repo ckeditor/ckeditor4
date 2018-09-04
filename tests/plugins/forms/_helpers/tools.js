@@ -4,19 +4,19 @@
 		/**
 		 * Asserts 'required' attribute of a form element.
 		 *
-		 * @param {Object} setup Test setup object.
-		 * @param {String} setup.html Html string to be set as editor data.
-		 * @param {String} setup.type Type of tested form element.
-		 * @param {Boolean} setup.expected Whenever form dialog should have required field selected.
+		 * @param {Object} options
+		 * @param {String} options.html Html string to be set as editor data.
+		 * @param {String} options.type Type of tested form element.
+		 * @param {Boolean} options.expected Whenever form dialog should have required field selected.
 		 * */
-		assertRequiredAttribute: function( setup ) {
+		assertRequiredAttribute: function( options ) {
 			return function() {
 				var bot = this.editorBot;
 
-				bot.setHtmlWithSelection( setup.html );
+				bot.setHtmlWithSelection( options.html );
 
-				bot.dialog( setup.type, function( dialog ) {
-					assert[ setup.expected ? 'isTrue' : 'isFalse' ]( dialog.getValueOf( 'info', 'required' ) );
+				bot.dialog( options.type, function( dialog ) {
+					assert[ options.expected ? 'isTrue' : 'isFalse' ]( dialog.getValueOf( 'info', 'required' ) );
 					dialog.destroy();
 				} );
 			};
