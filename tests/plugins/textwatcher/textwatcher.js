@@ -240,6 +240,37 @@
 			}, 100 );
 
 			wait();
+		},
+
+		// (#2373)
+		'test throttle synchronization': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				editable = editor.editable(),
+				isSelCorrect;
+
+			attachTextWatcher( editor, function( selectionRange ) {
+				var range = editor.getSelection().getRanges()[ 0 ];
+				isSelCorrect = range.startContainer.equals( selectionRange.startContainer );
+				return {
+					text: 'test'
+				};
+			}, 100 );
+
+			bot.setHtmlWithSelection( '<b>[xxx]</b><i>yyy</i>' );
+
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			bot.setHtmlWithSelection( '<b>xxx</b><i>[yyy]</i>' );
+
+			setTimeout( function() {
+				resume( function() {
+					assert.isTrue( isSelCorrect );
+				} );
+			}, 100 );
+
+			wait();
 		}
 
 	} );
