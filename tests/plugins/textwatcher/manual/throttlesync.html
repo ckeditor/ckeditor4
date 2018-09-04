@@ -1,0 +1,34 @@
+<style>
+.ok {
+	color: green;
+}
+.error {
+	color: red;
+}
+</style>
+
+<span>Status:</span>
+<span id="status" class="ok">OK!</span>
+<div id="editor">
+	Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+	tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+	vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+	no sea takimata sanctus est Lorem ipsum dolor sit amet.
+</div>
+
+<script>
+	var statusEl = document.getElementById( 'status' ),
+		editor = CKEDITOR.replace( 'editor', {
+		on: {
+			instanceReady: function() {
+				new CKEDITOR.plugins.textWatcher( editor, function( selectionRange ) {
+					var isSelCorrect = editor.getSelection().getRanges()[0].startContainer.equals( selectionRange.startContainer );
+					if ( !isSelCorrect ) {
+						statusEl.innerText = 'Selection is out of sync!';
+						statusEl.className = 'error';
+					}
+				}, 1000 ).attach();
+			}
+		}
+	} )
+</script>
