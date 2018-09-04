@@ -137,7 +137,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 				'default': '',
 				accessKey: 'Q',
 				value: 'required',
-				setup: CKEDITOR.plugins.forms._setupFormDialogRequired,
+				setup: CKEDITOR.plugins.forms._setupRequiredAttribute,
 				commit: function( data ) {
 					var element = data.element;
 					if ( this.getValue() )

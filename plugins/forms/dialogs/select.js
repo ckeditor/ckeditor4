@@ -491,7 +491,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						value: 'checked',
 						setup: function( name, element ) {
 							if ( name == 'select' ) {
-								CKEDITOR.plugins.forms._setupFormDialogRequired.call( this, element );
+								CKEDITOR.plugins.forms._setupRequiredAttribute.call( this, element );
 							}
 						},
 						commit: function( element ) {
