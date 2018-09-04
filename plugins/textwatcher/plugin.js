@@ -153,7 +153,7 @@
 		 *
 		 * @private
 		 */
-		this._buffer = CKEDITOR.tools.throttle( this.throttle, testTextMatch, this );
+		this._buffer = CKEDITOR.tools.throttle( this.throttle, this.check, this );
 
 		/**
 		 * Event fired when the text is no longer matching.
@@ -169,21 +169,6 @@
 		 *
 		 * @event unmatched
 		 */
-
-		function testTextMatch( selectionRange ) {
-			var matched = this.callback( selectionRange );
-
-			if ( matched ) {
-				if ( matched.text == this.lastMatched ) {
-					return;
-				}
-
-				this.lastMatched = matched.text;
-				this.fire( 'matched', matched );
-			} else if ( this.lastMatched ) {
-				this.unmatch();
-			}
-		}
 	}
 
 	TextWatcher.prototype = {
@@ -211,13 +196,7 @@
 			function onContentDom() {
 				var editable = editor.editable();
 
-				this._listeners.push( editable.attachListener( editable, 'keyup', check, this ) );
-			}
-
-			// CKEditor's event system has a limitation that one function (in this case this.check)
-			// cannot be used as listener for the same event more than once. Hence, wrapper function.
-			function check( evt ) {
-				this.check( evt );
+				this._listeners.push( editable.attachListener( editable, 'keyup', this._buffer.input, this ) );
 			}
 
 			function unmatch() {
@@ -253,7 +232,18 @@
 				return;
 			}
 
-			this._buffer.input( selectionRange );
+			var matched = this.callback( selectionRange );
+
+			if ( matched ) {
+				if ( matched.text == this.lastMatched ) {
+					return;
+				}
+
+				this.lastMatched = matched.text;
+				this.fire( 'matched', matched );
+			} else if ( this.lastMatched ) {
+				this.unmatch();
+			}
 		},
 
 		/**
