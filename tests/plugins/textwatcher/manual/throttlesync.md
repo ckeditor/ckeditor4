@@ -2,9 +2,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, textwatcher
 
-1. Put cursor at the end of the editor's content.
-1. Start deleting characters using `backspace` key.
-
+1. Focus the editor.
+1. Start pressing `backspace` key multiple times.
 
 ## Expected
 
