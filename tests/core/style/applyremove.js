@@ -264,12 +264,28 @@
 				'<b lang="pt" style="color:red; font-size:11pt">this<b style="font-weight:700"> is some sample text</b></b>' );
 		},
 
+		// (#2294)
+		'test inline style apply to HTML comments': function() {
+			bender.tools.testInputOut( 'html-comments-bold', function( inputHtml, expectedHtml ) {
+				playground.setHtml( CKEDITOR.tools.trim( inputHtml ) );
+
+				var rng = new CKEDITOR.dom.range( doc );
+				rng.selectNodeContents( playground );
+
+				getStyle( { element: 'strong' } ).applyToRange( rng );
+
+				assert.beautified.html( expectedHtml, playground.getHtml() );
+			} );
+		},
+
 		test_inline_nobreak1: function() {
 			playground.setHtml( 'this is <a href="http://example.com/">some sample</a> text' );
 
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( playground, 0 );
 			range.setEnd( playground.getChild( 1 ).getFirst(), 4 );
+
+			playground.trim();
 
 			assertAppliedStyle( playground, range, { element: 'b' }, '<b>this is </b><a href="http://example.com/"><b>some</b> sample</a> text' );
 		},
