@@ -25,11 +25,12 @@
 		init: function( editor ) {
 			var that = this;
 			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
-				lang = editor.lang.emoji;
+				lang = editor.lang.emoji,
+				blockElement;
 			var GROUPS = [
 				{
 					name: 'used',
-					sectionName: 'Lastly used'
+					sectionName: 'Recently used'
 				},
 				{
 					name: 'people',
@@ -145,6 +146,7 @@
 				},
 
 				onBlock: function( panel, block ) {
+					blockElement = block;
 					block.element.addClass( 'cke_emoji_panel_block' );
 					block.element.setHtml( createEmojiBlock() );
 					panel.element.addClass( 'cke_emoji_panel' );
@@ -171,6 +173,28 @@
 					var query = searchElement.value;
 					ul.setHtml( getEmojiList( query ) );
 					title.setHtml( getSearchTitle( query ) );
+				};
+			} )() );
+
+			var updateStatusFn = CKEDITOR.tools.addFunction( ( function() {
+				var statusIcon,
+					statusDescription;
+				var buffer = CKEDITOR.tools.throttle( 100, function( emojiItem ) {
+					if ( !statusIcon ) {
+						statusIcon = blockElement.element.findOne( '.cke_emoji-status_icon' );
+					}
+					if ( !statusDescription ) {
+						statusDescription = blockElement.element.findOne( '.cke_emoji-status_description' );
+					}
+					statusIcon.setText( emojiItem.getText() );
+					statusDescription.setText( emojiItem.data( 'cke-emoji-name' ) );
+				}, this );
+				return function( evt ) {
+					var el = new CKEDITOR.dom.element( evt.target );
+					if ( el.getName() !== 'li' ) {
+						return;
+					}
+					buffer.input( el );
 				};
 			} )() );
 
@@ -217,7 +241,9 @@
 				// output.push( getEmojiList( '' ) );
 				// output.push( '</ul></div>' );
 
-				output.push( createMainBlock() );
+				output.push( createEmocjiListBlock() );
+
+				output.push( createStatusBar() );
 
 				return '<div class="cke_emoji_inner_panel">' + output.join( '' ) + '</div>';
 			}
@@ -244,16 +270,19 @@
 				return '<input placeholder="' + lang.searchPlaceholder + '" type="search" oninput="CKEDITOR.tools.callFunction(' + filterFn + ',this)">';
 			}
 
-			function createMainBlock() {
-
-				return '<div class="cke_emoji-outer_emoji_block" onclick="CKEDITOR.tools.callFunction(' + clickFn + ',event);return false;">' + getEmojiSections() + '</div>';
+			function createEmocjiListBlock() {
+				return '<div class="cke_emoji-outer_emoji_block"' +
+					'onclick="CKEDITOR.tools.callFunction(' + clickFn + ',event);return false;" ' +
+					'onmouseover="CKEDITOR.tools.callFunction(' + updateStatusFn + ',event);return false;" ' +
+					'>' + getEmojiSections() + '</div>';
 			}
 
-			// jshint ignore:start
 			function createStatusBar() {
-				return '';
+				return '<div class="cke_emoji-status_bar">' +
+					'<div class="cke_emoji-status_icon"></div>' +
+					'<div class="cke_emoji-status_description"></div>' +
+					'</div>';
 			}
-			// jshint ignore:end
 
 			function getEmojiSections() {
 				return CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {

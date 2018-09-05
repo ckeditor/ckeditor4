@@ -16,7 +16,8 @@
 
 .cke_emoji_panel {
 	width: 310px;
-	height: 280px;
+	height: 288px;
+	overflow: hidden;
 }
 
 .cke_emoji_list {
@@ -31,7 +32,6 @@
 
 .cke_emoji_panel_block {
 	padding: 10px;
-	overflow: hidden;
 }
 
 .cke_emoji_inner_panel {
@@ -109,4 +109,14 @@
 	height: auto;
 	font-size: 2em;
 	margin: 0 3px;
+}
+
+.cke_emoji-status_icon {
+	margin: 5px;
+	display: inline-block
+}
+
+.cke_emoji-status_description {
+	display: inline-block;
+	margin-top: 8px;
 }
