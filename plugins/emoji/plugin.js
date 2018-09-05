@@ -231,17 +231,9 @@
 
 				output.push( createGroupsNavigation() );
 
-				// Search Box:
 				output.push( createSearchSection() );
-				// Result box:
 
-				// output.push( '<h2>', getSearchTitle( '' ), '</h2>' );
-
-				// output.push( '<div class="cke_emoji_list"><ul class="cke_emoji_unordered_list" onclick="CKEDITOR.tools.callFunction(', clickFn, ',event);return false;">' );
-				// output.push( getEmojiList( '' ) );
-				// output.push( '</ul></div>' );
-
-				output.push( createEmocjiListBlock() );
+				output.push( createEmojiListBlock() );
 
 				output.push( createStatusBar() );
 
@@ -270,7 +262,7 @@
 				return '<input placeholder="' + lang.searchPlaceholder + '" type="search" oninput="CKEDITOR.tools.callFunction(' + filterFn + ',this)">';
 			}
 
-			function createEmocjiListBlock() {
+			function createEmojiListBlock() {
 				return '<div class="cke_emoji-outer_emoji_block"' +
 					'onclick="CKEDITOR.tools.callFunction(' + clickFn + ',event);return false;" ' +
 					'onmouseover="CKEDITOR.tools.callFunction(' + updateStatusFn + ',event);return false;" ' +
