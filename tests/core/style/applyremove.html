@@ -17,6 +17,18 @@
 	<p><strong>bar</strong></p>
 </textarea>
 
+<textarea name="html-comments-between-inline" id="html-comments-between-inline">
+	<p><em>foo</em><!-- com --><em>bar</em></p>
+=>
+	<p>
+		<strong>
+			<em>foo</em>
+			<!-- com -->
+			<em>bar</em>
+		</strong>
+	</p>
+</textarea>
+
 <textarea name="html-comments-tailing-inline" id="html-comments-tailing-inline">
 	<p>
 		foo

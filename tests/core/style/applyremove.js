@@ -265,31 +265,13 @@
 		},
 
 		// (#2294)
-		'test inline style apply to HTML comments': function() {
-			bender.tools.testInputOut( 'html-comments-bold', function( inputHtml, expectedHtml ) {
-				playground.setHtml( CKEDITOR.tools.trim( inputHtml ) );
+		'test inline style apply to HTML comments': createInlineStyleTestCase( 'html-comments-bold' ),
 
-				var rng = new CKEDITOR.dom.range( doc );
-				rng.selectNodeContents( playground );
+		// (#2294)
+		'test HTML comments between blocks': createInlineStyleTestCase( 'html-comments-between-blocks' ),
 
-				getStyle( { element: 'strong' } ).applyToRange( rng );
-
-				assert.beautified.html( CKEDITOR.tools.trim( expectedHtml ), playground.getHtml() );
-			} );
-		},
-
-		'test HTML comments between blocks': function() {
-			bender.tools.testInputOut( 'html-comments-between-blocks', function( inputHtml, expectedHtml ) {
-				playground.setHtml( CKEDITOR.tools.trim( inputHtml ) );
-
-				var rng = new CKEDITOR.dom.range( doc );
-				rng.selectNodeContents( playground );
-
-				getStyle( { element: 'strong' } ).applyToRange( rng );
-
-				assert.beautified.html( expectedHtml, playground.getHtml() );
-			} );
-		},
+		// (#2294)
+		'test HTML comments between inline': createInlineStyleTestCase( 'html-comments-between-inline' ),
 
 		test_inline_nobreak1: function() {
 			playground.setHtml( 'this is <a href="http://example.com/">some sample</a> text' );
@@ -1073,4 +1055,18 @@
 
 	bender.test( tcs );
 
+	function createInlineStyleTestCase( fixtureId ) {
+		return function() {
+			bender.tools.testInputOut( fixtureId, function( inputHtml, expectedHtml ) {
+				playground.setHtml( CKEDITOR.tools.trim( inputHtml ) );
+
+				var rng = new CKEDITOR.dom.range( doc );
+				rng.selectNodeContents( playground );
+
+				getStyle( { element: 'strong' } ).applyToRange( rng );
+
+				assert.beautified.html( expectedHtml, playground.getHtml() );
+			} );
+		};
+	}
 } )();
