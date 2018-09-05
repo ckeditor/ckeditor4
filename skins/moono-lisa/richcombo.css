@@ -103,10 +103,7 @@ a.cke_combo_button
 .cke_combo_off a.cke_combo_button:active
 {
 	background: #e5e5e5;
-	border: 1px solid #bcbcbc;
-	/* Move combo so borders cover separators. Adjust padding to borders. */
-	padding: 0 0 0 1px;
-	margin-left: -1px;
+	outline: 1px solid #bcbcbc;
 }
 
 .cke_combo_off a.cke_combo_button:focus {
