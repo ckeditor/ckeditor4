@@ -81,7 +81,7 @@
 
 	bender.test( tests );
 
-	function test( setup ) {
+	function test( options ) {
 		return function( editor, bot ) {
 			bot.setData( CKEDITOR.document.getById( 'test' ).getHtml(), function() {
 				var editable = editor.editable(),
@@ -98,11 +98,11 @@
 					return !item.getAscendant( 'table' ).equals( innerTable );
 				} );
 
-				ranges = CKEDITOR.tools.array.map( setup.select.indexes, function( index ) {
+				ranges = CKEDITOR.tools.array.map( options.select.indexes, function( index ) {
 					var range = editor.createRange(),
 						cell;
 
-					cell = ( setup.select.inner ? innerCells : outerCells )[ index ];
+					cell = ( options.select.inner ? innerCells : outerCells )[ index ];
 
 					range.setStartBefore( cell );
 					range.setEndAfter( cell );
@@ -112,7 +112,7 @@
 
 				selection.selectRanges( ranges );
 
-				target = ( setup.test.inner ? innerCells : outerCells )[ setup.test.index ];
+				target = ( options.test.inner ? innerCells : outerCells )[ options.test.index ];
 
 				mouseHost.fire( CKEDITOR.env.gecko ? 'mousedown' : 'mouseup', {
 					editor: editor,
@@ -124,7 +124,7 @@
 					}
 				} );
 
-				shouldBeSame = setup.select.inner === setup.test.inner && setup.select.indexes.indexOf( setup.test.index ) !== -1;
+				shouldBeSame = options.select.inner === options.test.inner && options.select.indexes.indexOf( options.test.index ) !== -1;
 
 				assert[ shouldBeSame ? 'areSame' : 'areNotSame' ]( ranges, editor.getSelection().getRanges() );
 			} );
