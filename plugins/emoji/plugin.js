@@ -174,12 +174,26 @@
 					var query = searchElement.value;
 
 					CKEDITOR.tools.array.forEach( emojiItems, function( element ) {
-						var name = element.data( 'cke-emoji-name' );
-						if ( name.indexOf( query ) !== -1 || query === '' ) {
+						if ( isInNameOrKeywords( query, element.data( 'cke-emoji-name' ), element.data( 'cke-emoji-keywords' ) ) || query === '' ) {
 							element.removeClass( 'hidden' );
 							groups[ element.data( 'cke-emoji-group' ) ] = true;
 						} else {
 							element.addClass( 'hidden' );
+						}
+
+						function isInNameOrKeywords( query, name, keywordsString ) {
+							if ( name.indexOf( query ) !== -1 ) {
+								return true;
+							}
+							if ( keywordsString ) {
+								var keywords = keywordsString.split( ',' );
+								for ( var i = 0; i < keywords.length; i++ ) {
+									if ( keywords[ i ].indexOf( query ) !== -1 ) {
+										return true;
+									}
+								}
+							}
+							return false;
 						}
 					} );
 
@@ -281,7 +295,7 @@
 
 			function getEmojiListGroup( groupName ) {
 				var emojiList = editor._.emoji.list;
-				var emojiTpl = new CKEDITOR.template( '<li data-cke-emoji-name="{id}" data-cke-emoji-group="{group}" ' +
+				var emojiTpl = new CKEDITOR.template( '<li data-cke-emoji-name="{id}" data-cke-emoji-symbol="{symbol}" data-cke-emoji-group="{group}" ' +
 					'data-cke-emoji-keywords="{keywords}" title="{id}" class="cke_emoji_item">{symbol}</li>' );
 				return CKEDITOR.tools.array.reduce( CKEDITOR.tools.array.filter( emojiList, function( item ) {
 					return item.group === groupName;
