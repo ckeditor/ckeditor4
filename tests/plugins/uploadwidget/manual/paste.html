@@ -1,0 +1,11 @@
+<div id="editor"></div>
+
+<script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		uploadUrl: '%BASE_PATH%'
+	} );
+</script>

@@ -1,4 +1,4 @@
-﻿@@bender-tags: 4.10.2, bug, clipboard, widget, filetools, 1217
+﻿@bender-tags: 4.10.2, bug, clipboard, widget, filetools, 1217
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, uploadwidget, image2, uploadimage, uploadfile
 @bender-include: _helpers/xhr.js
