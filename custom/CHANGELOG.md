@@ -2,6 +2,22 @@
 
 All notable changes to the A11yFirst project will be documented in this file.
 
+## v1.0.0 – 5 Sep 2018
+
+### Updates
+
+* Modify Image plugin design, labeling and messaging:
+  * Change `Image Type` options to `Informative` and `Decorative`
+  * Replace `Text alternative` label with `Short description`
+  * Add `Tips` button next to `Short description` textbox
+  * Add `More information on describing a complex image` link
+  * Various tweaks to other labels and warning dialog messages
+
+* Update Image help topic to support with new design
+
+* Replace Accessibility Checker with our own modified version that addresses
+  problems with rules for blockquote and image title attribute.
+
 ## v0.9.0 — 21 Jun 2018
 
 ### Updates
