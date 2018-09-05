@@ -147,6 +147,8 @@
 
 				onBlock: function( panel, block ) {
 					blockElement = block.element;
+					block.element.getAscendant( 'html' ).addClass( 'cke_emoji' );
+					block.element.getDocument().appendStyleSheet( CKEDITOR.getUrl( '../../contents.css' ) );
 					block.element.addClass( 'cke_emoji_panel_block' );
 					block.element.setHtml( createEmojiBlock() );
 					panel.element.addClass( 'cke_emoji_panel' );
@@ -272,7 +274,11 @@
 			}
 
 			function createSearchSection() {
-				return '<input placeholder="' + lang.searchPlaceholder + '" type="search" oninput="CKEDITOR.tools.callFunction(' + filterFn + ',this)">';
+				var loupeUrl = CKEDITOR.getUrl( that.path + 'assets/loupe.svg' );
+				return '<label class="cke_emoji-search"><img src="' + loupeUrl +
+					'" /><input placeholder="' + lang.searchPlaceholder +
+					'" type="search" oninput="CKEDITOR.tools.callFunction(' + filterFn +
+					',this)"></label>';
 			}
 
 			function createEmojiListBlock() {

@@ -5,6 +5,10 @@
 	font-family: sans-serif, Arial, Verdana, "Trebuchet MS", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+.cke_emoji.cke_panel_container {
+	overflow: hidden;
+}
+
 .cke_emoji_panel {
 	width: 310px;
 	height: 300px;
@@ -73,8 +77,25 @@
 }
 
 /* SEARCHBOX */
-.cke_emoji_inner_panel input {
-	width: 100%
+.cke_emoji-search {
+	position: relative;
+	height: 21px;
+	width: 99%;
+	display: block;
+	border: 1px solid #d1d1d1;
+}
+
+.cke_emoji-search img {
+	position: relative;
+	top: 3px;
+	width: 15px;
+	height: 15px;
+	margin: 0 5px;
+}
+
+.cke_emoji-search input {
+	border: 0;
+	width: 90%
 }
 
 /* EMOJI */
@@ -87,6 +108,7 @@
 
 .cke_emoji-outer_emoji_block h2 {
 	font-size: 1em;
+	margin: 5px 0 3px 8px;
 }
 
 .cke_emoji-outer_emoji_block ul {
@@ -96,6 +118,7 @@
 }
 
 .cke_emoji_item {
+	font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	list-style-type: none;
 	display: inline-block;
 	cursor: pointer;
