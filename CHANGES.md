@@ -13,6 +13,7 @@ Fixed Issues:
 * [#2380](https://github.com/ckeditor/ckeditor-dev/issues/2380) Fixed: Styling HTML comments in top level element result with extra paragraphs.
 * [#2294](https://github.com/ckeditor/ckeditor-dev/issues/2294) Fixed: Pasting content from MS Outlook and then bolding it results with an error.
 * [#2035](https://github.com/ckeditor/ckeditor-dev/issues/2035) [Edge] Fixed: `Permission denied` is thrown when opening [Panel](https://ckeditor.com/cke4/addon/panel) instance.
+* [#1217](https://github.com/ckeditor/ckeditor-dev/issues/1217): Fixed: Exception thrown when pasting multiple images into an empty editable. 
 
 API Changes:
 
