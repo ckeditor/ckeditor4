@@ -309,14 +309,19 @@
 				return true;
 			}
 
+			var isProperMouseEvent = evt.name === ( CKEDITOR.env.gecko ? 'mousedown' : 'mouseup' );
 			// Covers a case when:
 			// 1. User releases mouse button outside the table.
-			// 2. User opens context menu not in the selected table.
-			if ( evt.name === 'mouseup' && !isOutsideTable( evt.data.getTarget() ) && !isSameTable( selectedTable, table ) ) {
-				return true;
-			}
+			// 2. User opens context menu outside of selection.
+			// Use 'mousedown' for Firefox, as it doesn't fire 'mouseup' when mouse is released in context menu.
+			return isProperMouseEvent && !isOutsideTable( evt.data.getTarget() ) &&
+				!isInSelectedCell( evt.data.getTarget(), fakeSelectedClass );
+		}
 
-			return false;
+		function isInSelectedCell( target, fakeSelectedClass ) {
+			var cell = target.getAscendant( { td: 1, th: 1 }, true );
+
+			return cell && cell.hasClass( fakeSelectedClass );
 		}
 
 		if ( canClearSelection( evt, selection, selectedTable, table ) ) {
