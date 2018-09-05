@@ -19,10 +19,11 @@
 				height: 40
 			} );
 
-		strong.on( 'click', function() {
-			panel.addItems( {
-				Styles: evt.editor.ui.create( 'Styles' )
-			} );
+		panel.addItems( {
+			Styles: evt.editor.ui.create( 'Styles' )
+		} );
+
+		strong.once( 'click', function() {
 			panel.attach( this );
 		} );
 	}
