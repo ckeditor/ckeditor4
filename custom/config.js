@@ -12,7 +12,7 @@
 *
 * 1. Add the following 7 plugins:
 *
-*    Accessibility Checker  (a11ychecker)
+*    Balloon Panel          (balloonpanel)
 *    Code Snippet           (codesnippet)
 *    Find / Replace         (find)
 *    Justify                (justify)
@@ -67,7 +67,6 @@ CKEDITOR.editorConfig = function ( config ) {
   config.startupFocus = true;
 
   config.plugins =
-    'a11ychecker,' +
     'a11yhelp,' +
     'about,' +
     'balloonpanel,' +
@@ -116,6 +115,7 @@ CKEDITOR.editorConfig = function ( config ) {
     'wysiwygarea';
 
   config.extraPlugins =
+    'a11ychecker,' +
     'a11yfirsthelp,' +
     'a11yheading,' +
     'a11yimage,' +

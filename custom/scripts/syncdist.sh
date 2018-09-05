@@ -19,6 +19,7 @@
 # The folders, relative to the top-level folder, that are synchronized:
 
 # 1. custom
+# 2. plugins/a11ychecker
 # 2. plugins/a11yfirsthelp
 # 3. plugins/a11yheading
 # 4. plugins/a11yimage
@@ -42,6 +43,7 @@ if [ ! -d $DISTPATH ]; then
 fi
 
 PLUGINS=(
+  a11ychecker
   a11yfirsthelp
   a11yheading
   a11yimage
