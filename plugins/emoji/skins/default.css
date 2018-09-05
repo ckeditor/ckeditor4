@@ -5,18 +5,9 @@
 	font-family: sans-serif, Arial, Verdana, "Trebuchet MS", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-.cke_emoji_item {
-	list-style-type: none;
-	display: inline-block;
-	width: 20px;
-	height: 20px;
-	margin: 5px 5px 5px 0;
-	cursor: pointer;
-}
-
 .cke_emoji_panel {
 	width: 310px;
-	height: 288px;
+	height: 300px;
 	overflow: hidden;
 }
 
@@ -104,11 +95,23 @@
 	list-style-type: none;
 }
 
-.cke_emoji-outer_emoji_block li {
+.cke_emoji_item {
+	list-style-type: none;
+	display: inline-block;
+	cursor: pointer;
 	width: 33px;
 	height: auto;
 	font-size: 2em;
 	margin: 0 3px;
+}
+
+.cke_emoji-outer_emoji_block .hidden {
+	display: none
+}
+
+/* STATUS BAR */
+.cke_emoji-status_bar {
+	border-top: 1px solid #d1d1d1;
 }
 
 .cke_emoji-status_icon {
