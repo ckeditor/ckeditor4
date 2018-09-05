@@ -160,6 +160,15 @@
 				}
 			} );
 
+			var keyDownFn = CKEDITOR.tools.addFunction( function( event ) {
+				if ( !event.key || event.key !== 'Enter' ) {
+					return;
+				}
+				if ( event.target.dataset.ckeEmojiName ) {
+					editor.insertText( event.target.dataset.ckeEmojiSymbol );
+				}
+			} );
+
 			var filterFn = CKEDITOR.tools.addFunction( ( function() {
 				var emojiItems;
 				var sections;
@@ -269,6 +278,7 @@
 			function createEmojiListBlock() {
 				return '<div class="cke_emoji-outer_emoji_block"' +
 					'onclick="CKEDITOR.tools.callFunction(' + clickFn + ',event);return false;" ' +
+					'onkeydown="CKEDITOR.tools.callFunction(' + keyDownFn + ',event);" ' +
 					'onmouseover="CKEDITOR.tools.callFunction(' + updateStatusFn + ',event);return false;" ' +
 					'>' + getEmojiSections() + '</div>';
 			}
@@ -296,7 +306,7 @@
 			function getEmojiListGroup( groupName ) {
 				var emojiList = editor._.emoji.list;
 				var emojiTpl = new CKEDITOR.template( '<li data-cke-emoji-name="{id}" data-cke-emoji-symbol="{symbol}" data-cke-emoji-group="{group}" ' +
-					'data-cke-emoji-keywords="{keywords}" title="{id}" class="cke_emoji_item">{symbol}</li>' );
+					'data-cke-emoji-keywords="{keywords}" title="{id}" class="cke_emoji_item" tabindex="0">{symbol}</li>' );
 				return CKEDITOR.tools.array.reduce( CKEDITOR.tools.array.filter( emojiList, function( item ) {
 					return item.group === groupName;
 				} ), function( acc, item ) {
