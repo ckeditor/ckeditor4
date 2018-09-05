@@ -788,12 +788,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 		);
 	}
 
-	function isElement( currentNode ) {
-		return currentNode && currentNode.type == CKEDITOR.NODE_ELEMENT;
-	}
-
-	function isReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) {
-		return nodeIsReadonly || ( isElement( currentNode ) && !currentNode.getChildCount() );
+	function checkIfTextOrReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) {
+		var nodeType = currentNode.type;
+		return nodeType == CKEDITOR.NODE_TEXT || nodeIsReadonly || ( nodeType == CKEDITOR.NODE_ELEMENT && !currentNode.getChildCount() );
 	}
 
 	// Checks if position is a subset of posBitFlags and that nodeA fulfills style def rule.
@@ -908,8 +905,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 						}
 
 						// Non element nodes, readonly elements, or empty
-						// elements can be added completely to the range (#2294).
-						if ( !isElement( currentNode ) || isReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) ) {
+						// elements can be added completely to the range.
+						if ( checkIfTextOrReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) ) {
 							var includedNode = currentNode;
 							var parentNode;
 
