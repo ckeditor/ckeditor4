@@ -315,7 +315,7 @@
 			// 2. User opens context menu outside of selection.
 			// Use 'mousedown' for Firefox, as it doesn't fire 'mouseup' when mouse is released in context menu.
 			return isProperMouseEvent && !isOutsideTable( evt.data.getTarget() ) &&
-				!isInSelectedCell( evt.data.getTarget(), fakeSelectedClass, table );
+				!isInSelectedCell( evt.data.getTarget(), fakeSelectedClass );
 		}
 
 		function isInSelectedCell( target, fakeSelectedClass ) {
