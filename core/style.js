@@ -881,8 +881,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 					nodeIsReadonly = nodeName && ( currentNode.getAttribute( 'contentEditable' ) == 'false' ),
 					nodeIsNoStyle = nodeName && currentNode.getAttribute( 'data-nostyle' );
 
-				// Skip bookmarks.
-				if ( nodeName && currentNode.data( 'cke-bookmark' ) ) {
+				// Skip bookmarks or comments.
+				if ( ( nodeName && currentNode.data( 'cke-bookmark' ) ) || currentNode.type === CKEDITOR.NODE_COMMENT ) {
 					currentNode = currentNode.getNextSourceNode( true );
 					continue;
 				}

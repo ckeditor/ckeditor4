@@ -1,14 +1,30 @@
 <div id="playground" contenteditable="true"></div>
 <textarea name="html-comments-bold" id="html-comments-bold">
-	<p>foo</p>
-	<!--/end logo -->
-	<p> </p>
-	<!-- Begin: Body -->
-	<p>a<br />a</p>
+	<p>foo</p><!--/end logo --><p> </p><!-- begin: body --><p>a<br />a</p>
 =>
 	<p><strong>foo</strong></p>
-	<strong><!--/end logo --></strong>
+	<!--/end logo -->
 	<p><strong>&nbsp;</strong></p>
-	<strong><!-- Begin: Body --></strong>
+	<!-- begin: body -->
 	<p><strong>a<br />a</strong></p>
+</textarea>
+
+<textarea name="html-comments-between-blocks" id="html-comments-between-blocks">
+	<p>foo</p><!-- com --><p>bar</p>
+=>
+	<p><strong>foo</strong></p>
+	<!-- com -->
+	<p><strong>bar</strong></p>
+</textarea>
+
+<textarea name="html-comments-tailing-inline" id="html-comments-tailing-inline">
+	<p>
+		foo
+		<!-- com -->
+	</p>
+=>
+	<p>
+		<strong>foo</strong>
+		<!-- com -->
+	</p>
 </textarea>

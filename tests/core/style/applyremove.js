@@ -274,6 +274,19 @@
 
 				getStyle( { element: 'strong' } ).applyToRange( rng );
 
+				assert.beautified.html( CKEDITOR.tools.trim( expectedHtml ), playground.getHtml() );
+			} );
+		},
+
+		'test HTML comments between blocks': function() {
+			bender.tools.testInputOut( 'html-comments-between-blocks', function( inputHtml, expectedHtml ) {
+				playground.setHtml( CKEDITOR.tools.trim( inputHtml ) );
+
+				var rng = new CKEDITOR.dom.range( doc );
+				rng.selectNodeContents( playground );
+
+				getStyle( { element: 'strong' } ).applyToRange( rng );
+
 				assert.beautified.html( expectedHtml, playground.getHtml() );
 			} );
 		},
