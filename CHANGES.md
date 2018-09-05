@@ -6,30 +6,30 @@
 Fixed Issues:
 
 * [#2114](https://github.com/ckeditor/ckeditor-dev/issues/2114): Fixed: [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) cannot be initialized before [`instanceReady`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#event-instanceReady).
-* [#2169](https://github.com/ckeditor/ckeditor-dev/issues/2169): [Edge] Fixed: Error thrown when pasting into editor.
-* [#2107](https://github.com/ckeditor/ckeditor-dev/issues/2107): Fixed: [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete): holding and releasing mouse button is not inserting autocomplete item.
+* [#2107](https://github.com/ckeditor/ckeditor-dev/issues/2107): Fixed: Holding and releasing the mouse button is not inserting an [autocomplete](https://ckeditor.com/cke4/addon/autocomplete) suggestion.
 * [#2167](https://github.com/ckeditor/ckeditor-dev/issues/2167): Fixed: Matching in [Emoji](https://ckeditor.com/cke4/addon/emoji) plugin is not case insensitive.
-* [#1084](https://github.com/ckeditor/ckeditor-dev/issues/1084) Fixed: Using the "Automatic" option with [Color Button](https://ckeditor.com/cke4/addon/colorbutton) on a text with color already defined sets an invalid color value.
-* [#1348](https://github.com/ckeditor/ckeditor-dev/issues/1348): Fixed: [Enhanced Image](https://ckeditor.com/cke4/addon/image2) plugin aspect ratio locking uses old width and height on image URL change.
-* [#2271](https://github.com/ckeditor/ckeditor-dev/issues/2271): Fixed: Custom color name not used as a label in [Color Button](https://ckeditor.com/cke4/addon/image2) plugin. Thanks to [Eric Geloen](https://github.com/egeloen).
-* [#966](https://github.com/ckeditor/ckeditor-dev/issues/966): Fixed: Executing [`editor.destroy()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-destroy) during [file upload](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_fileTools_uploadWidgetDefinition.html#property-onUploading) throws error. Thanks to [Maksim Makarevich](https://github.com/MaksimMakarevich)!
-* [#1719](https://github.com/ckeditor/ckeditor-dev/issues/1719): Fixed: <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>A</kbd> focuses inline editor if starting and ending with a list. Thanks to [theNailz](https://github.com/theNailz)!
-* [#1046](https://github.com/ckeditor/ckeditor-dev/issues/1046): Fixed: Subsequent new links do not include `id` attribute. Thanks to [Nathan Samson](https://github.com/nathansamson)!
-* [#2195](https://github.com/ckeditor/ckeditor-dev/issues/2195): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) shows suggestion box when colon preceded with other character than white space.
-* [#1791](https://github.com/ckeditor/ckeditor-dev/issues/1791): Fixed: [Image](https://ckeditor.com/cke4/addon/image) and [Enhanced Image](https://ckeditor.com/cke4/addon/image2) plugins are enabled when [Easy Image](https://ckeditor.com/cke4/addon/easyimage) is present.
-* [#1184](https://github.com/ckeditor/ckeditor-dev/issues/1184): [IE8-11] Fixed: Copying and pasting data in [read-only mode](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#property-readOnly) throws an error.
-* [#1916](https://github.com/ckeditor/ckeditor-dev/issues/1916): [IE9-11] Fixed: Pressing <kbd>Delete</kbd> key in [read-only mode](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#property-readOnly) throws an error.
+* [#2195](https://github.com/ckeditor/ckeditor-dev/issues/2195): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) shows the suggestion box when the colon is preceded with other characters than white space.
+* [#2169](https://github.com/ckeditor/ckeditor-dev/issues/2169): [Edge] Fixed: Error thrown when pasting into the editor.
+* [#1084](https://github.com/ckeditor/ckeditor-dev/issues/1084) Fixed: Using the "Automatic" option with [Color Button](https://ckeditor.com/cke4/addon/colorbutton) on a text with the color already defined sets an invalid color value.
+* [#2271](https://github.com/ckeditor/ckeditor-dev/issues/2271): Fixed: Custom color name not used as a label in the [Color Button](https://ckeditor.com/cke4/addon/image2) plugin. Thanks to [Eric Geloen](https://github.com/egeloen)!
 * [#2296](https://github.com/ckeditor/ckeditor-dev/issues/2296): Fixed: [Color Button](https://ckeditor.com/cke4/addon/colorbutton) throws an error when activated on a content containing HTML comments.
+* [#966](https://github.com/ckeditor/ckeditor-dev/issues/966): Fixed: Executing [`editor.destroy()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-destroy) during the [file upload](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_fileTools_uploadWidgetDefinition.html#property-onUploading) throws an error. Thanks to [Maksim Makarevich](https://github.com/MaksimMakarevich)!
+* [#1719](https://github.com/ckeditor/ckeditor-dev/issues/1719): Fixed: <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>A</kbd> inadvertently focuses inline editor if it is starting and ending with a list. Thanks to [theNailz](https://github.com/theNailz)!
+* [#1046](https://github.com/ckeditor/ckeditor-dev/issues/1046): Fixed: Subsequent new links do not include the `id` attribute. Thanks to [Nathan Samson](https://github.com/nathansamson)!
+* [#1348](https://github.com/ckeditor/ckeditor-dev/issues/1348): Fixed: [Enhanced Image](https://ckeditor.com/cke4/addon/image2) plugin aspect ratio locking uses an old width and height on image URL change.
+* [#1791](https://github.com/ckeditor/ckeditor-dev/issues/1791): Fixed: [Image](https://ckeditor.com/cke4/addon/image) and [Enhanced Image](https://ckeditor.com/cke4/addon/image2) plugins can be enabled when [Easy Image](https://ckeditor.com/cke4/addon/easyimage) is present.
 * [#2254](https://github.com/ckeditor/ckeditor-dev/issues/2254): Fixed: [Image](https://ckeditor.com/cke4/addon/image) ratio locking is too precise for resized images. Thanks to [Jonathan Gilbert](https://github.com/logiclrd)!
-* [#2003](https://github.com/ckeditor/ckeditor-dev/issues/2003): Fixed: Right-clicking on multiple selected cells containing empty paragraphs removes the selection on Firefox.
-* [#1816](https://github.com/ckeditor/ckeditor-dev/issues/1816): Fixed: Table breaks when <kbd>Enter</kbd> was pressed over [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
-* [#1115](https://github.com/ckeditor/ckeditor-dev/issues/1115): Fixed: `<font>` tag is not preserved, when proper config is provided and style is applied by [Font](https://ckeditor.com/cke4/addon/font) plugin.
-* [#727](https://github.com/ckeditor/ckeditor-dev/issues/727): Fixed: custom styles might be invisible in [Styles Combo](https://ckeditor.com/cke4/addon/stylescombo) plugin.
-* [#988](https://github.com/ckeditor/ckeditor-dev/issues/988): Fixed: ACF - enabled custom elements prefixed with `object`, `embed`, `param` are removed from editor's content.
+* [#1184](https://github.com/ckeditor/ckeditor-dev/issues/1184): [IE8-11] Fixed: Copying and pasting data in [read-only mode](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#property-readOnly) throws an error.
+* [#1916](https://github.com/ckeditor/ckeditor-dev/issues/1916): [IE9-11] Fixed: Pressing the <kbd>Delete</kbd> key in [read-only mode](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_editor.html#property-readOnly) throws an error.
+* [#2003](https://github.com/ckeditor/ckeditor-dev/issues/2003): [Firefox] Fixed: Right-clicking multiple selected table cells containing empty paragraphs removes the selection.
+* [#1816](https://github.com/ckeditor/ckeditor-dev/issues/1816): Fixed: Table breaks when <kbd>Enter</kbd> is pressed over the [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
+* [#1115](https://github.com/ckeditor/ckeditor-dev/issues/1115): Fixed: The `<font>` tag is not preserved when proper configuration is provided and a style is applied by the [Font](https://ckeditor.com/cke4/addon/font) plugin.
+* [#727](https://github.com/ckeditor/ckeditor-dev/issues/727): Fixed: Custom styles may be invisible in the [Styles Combo](https://ckeditor.com/cke4/addon/stylescombo) plugin.
+* [#988](https://github.com/ckeditor/ckeditor-dev/issues/988): Fixed: ACF-enabled custom elements prefixed with `object`, `embed`, `param` are removed from the editor content.
 
 API Changes:
 
-* [#2249](https://github.com/ckeditor/ckeditor-dev/issues/1791): Added [`editor.plugins.detectConflict`](https://ckeditor.com/docs/ckeditor4/latest/CKEDITOR_editor_plugins.html#method-detectConflict) function finding conflicts between provided plugins.
+* [#2249](https://github.com/ckeditor/ckeditor-dev/issues/1791): Added the [`editor.plugins.detectConflict()`](https://ckeditor.com/docs/ckeditor4/latest/CKEDITOR_editor_plugins.html#method-detectConflict) method finding conflicts between provided plugins.
 
 ## CKEditor 4.10
 

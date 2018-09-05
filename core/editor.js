@@ -746,22 +746,22 @@
 		 */
 		plugins: {
 			/**
-			 * Checks for conflicting plugins with the given one.
+			 * Checks the plugin for conflicts with other plugins.
 			 *
-			 * If conflict occurs this function will send {@link CKEDITOR#warn console warning}
-			 * with `editor-plugin-conflict` error code. Order of a `conflicted` names is respected
+			 * If a conflict occurs, this function will send a {@link CKEDITOR#warn console warning}
+			 * with the `editor-plugin-conflict` error code. The order of the `conflicted` names is respected
 			 * where the first conflicted plugin has the highest priority and will be used in a warning
 			 * message.
 			 *
-			 * ```javascript
+			 * ```js
 			 * editor.plugins.detectConflict( 'image', [ 'image2', 'easyimage' ] );
 			 * ```
 			 *
 			 * @member CKEDITOR.editor.plugins
 			 * @since 4.10.1
 			 * @param {String} plugin Current plugin name.
-			 * @param {String[]} conflicted Names of plugins that are conflicted with a current plugin.
-			 * @return {Boolean} Returns true, if there is some conflict. Returns false otherwise.
+			 * @param {String[]} conflicted Names of plugins that conflict with the current plugin.
+			 * @return {Boolean} Returns `true` if there is a conflict. Returns `false` otherwise.
 			 */
 			detectConflict: function( plugin, conflicted ) {
 				for ( var i = 0; i < conflicted.length; i++ ) {

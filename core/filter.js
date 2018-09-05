@@ -686,12 +686,12 @@
 		 *
 		 * Second `check()` call returned `false` because `src` is required.
 		 *
-		 * When an array of rules is passed as the `test` argument the filter
-		 * returns `true` if at least one of passed rules is allowed.
+		 * When an array of rules is passed as the `test` argument, the filter
+		 * returns `true` if at least one of the passed rules is allowed.
 		 *
 		 * For example:
 		 *
-		 * ```javascript
+		 * ```js
 		 * // Rule: 'img'
 		 * filter.check( [ 'img', 'div' ] ) // -> true
 		 * filter.check( [ 'p', 'div' ] ) // -> false
