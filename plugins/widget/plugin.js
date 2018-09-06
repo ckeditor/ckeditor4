@@ -1158,11 +1158,13 @@
 				if ( that.fire( 'dialog', dialog ) === false )
 					return;
 
-				showListener = dialog.on( 'show', function() {
+				showListener = dialog.on( 'show', function( evt ) {
+					evt.data.widget = that;
 					dialog.setupContent( that );
-				} );
+				}, null, null, 0 );
 
-				okListener = dialog.on( 'ok', function() {
+				okListener = dialog.on( 'ok', function( evt ) {
+					evt.data.widget = that;
 					// Commit dialog's fields, but prevent from
 					// firing data event for every field. Fire only one,
 					// bulk event at the end.
@@ -1183,7 +1185,7 @@
 						that.fire( 'data', that.data );
 						that.editor.fire( 'saveSnapshot' );
 					}
-				} );
+				}, null, null, 0 );
 
 				dialog.once( 'hide', function() {
 					showListener.removeListener();
