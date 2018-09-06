@@ -100,6 +100,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 			/**
 			 * Array containing richCombos registered listeners.
 			 *
+			 * @type {Array}
 			 * @private
 			 */
 			this._listeners = [];
