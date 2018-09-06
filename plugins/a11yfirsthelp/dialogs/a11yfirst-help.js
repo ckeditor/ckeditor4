@@ -5,7 +5,7 @@
 CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
   var lang = editor.lang.a11yfirsthelp,
       config = editor.config,
-      version = '0.9.0',
+      version = '1.0.0',
       dialogObj;
 
   var buttonStyle = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 0';
