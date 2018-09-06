@@ -15,7 +15,7 @@
 					width: 'auto',
 					height: 40
 				} ),
-				items = [],
+				items,
 				p;
 
 			// Creating some editor content and attaching balloonToolbar to it in order to create some event listeners related to richCombo
@@ -31,17 +31,18 @@
 			} );
 			panel.attach( p );
 
-			// Pushing items from panel to another variable, because calling destroy() on panel will remove all item references.
-			for ( var key in panel._items ) {
-				items.push( panel._items[ key ] );
-			}
+
+			// Storing items from panel in another variable, because calling destroy() on panel will remove all item references.
+			items = CKEDITOR.tools.array.map( CKEDITOR.tools.objectKeys( this._items ), function( key ) {
+				return panel._items[ key ];
+			} );
+
 			panel.destroy();
 
 			var listenersDeleted = CKEDITOR.tools.array.every( items, function( item ) {
 				return !( item instanceof CKEDITOR.ui.richCombo ) || item._listeners.length === 0;
 			} );
 			assert.isTrue( listenersDeleted, 'All listeners are deleted' );
-
 		}
 	};
 
