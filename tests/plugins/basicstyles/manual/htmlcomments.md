@@ -1,19 +1,29 @@
-@bender-tags: bug, 2296, 4.10.1
+@bender-tags: bug, 2294, 2380, 4.10.2
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles
+@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, sourcearea, htmlwriter
 
 1. Open the console.
 1. Focus the editor.
 1. Select all the contents (`ctrl/cmd+a`).
-1. Click "Bold" button in the toolbar.
+1. Click the "Bold" button in the toolbar.
 
-### Expected
+	### Expected
 
-No error are thrown in the console.
+	No errors are thrown in the console.
 
-### Actual
+	### Actual
 
-JS error is thrown, like `Uncaught TypeError: Cannot read property 'getParents' of null`
+	JS error is thrown, like `Uncaught TypeError: Cannot read property 'getParents' of null`
+
+1. Click the "Source" button.
+
+	### Expected
+
+	HTML comments that are ouside of paragraphs, are not wrapped with additional `p` or `strong` tags.
+
+	### Actual
+
+	Additional markup is created around HTML comments.
 
 ### Notes
 
