@@ -1187,10 +1187,12 @@
 					}
 				}, null, null, 0 );
 
-				dialog.once( 'hide', function() {
+				dialog.once( 'hide', function( evt ) {
+					evt.data.widget = that;
+
 					showListener.removeListener();
 					okListener.removeListener();
-				} );
+				}, null, null, 0 );
 			} );
 
 			return true;
