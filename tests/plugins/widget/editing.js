@@ -55,6 +55,30 @@
 							]
 						};
 					} );
+
+					evt.editor.widgets.add( 'dialogtest1', {
+						template: '<div>bar</div>',
+						dialog: 'dialogtest1'
+					} );
+
+					CKEDITOR.dialog.add( 'dialogtest1', function() {
+						return {
+							title: 'DialogTest1',
+							contents: [
+								{
+									id: 'info',
+									elements: []
+								}
+							],
+							onShow: dialogEventListener,
+							onOk: dialogEventListener,
+							onHide: dialogEventListener
+						};
+					} );
+
+					function dialogEventListener( evt ) {
+						assert.areEqual( 'dialogtest1', evt.data.widget.name );
+					}
 				}
 			}
 		}
@@ -327,6 +351,24 @@
 						assert.areNotSame( 'foofoo', value1, 'Cancelled dialog event prevented from default data loading' );
 						assert.isInstanceOf( CKEDITOR.dialog, dialogEventData, 'evt.data' );
 					} );
+				} );
+
+				wait( function() {
+					widget.edit();
+				} );
+			} );
+		},
+
+		// (#1044)
+		'test opening and hiding dialog events': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p data-widget="dialogtest1" id="x">bar</p>', function() {
+				var widget = getWidgetById( editor, 'x' );
+
+				editor.once( 'dialogShow', function( evt ) {
+					evt.data.getButton( 'ok' ).click();
+					resume();
 				} );
 
 				wait( function() {
@@ -692,4 +734,5 @@
 			} );
 		}
 	} );
+	
 } )();
