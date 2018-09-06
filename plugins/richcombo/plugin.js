@@ -97,6 +97,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 				items: {}
 			};
 
+			/**
+			 * Array containing richCombos registered listeners.
+			 *
+			 * @private
+			 */
 			this._listeners = [];
 		},
 
