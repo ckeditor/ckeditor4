@@ -15,3 +15,15 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	margin-bottom: 0;
 	margin-right: 2px;
 }
+
+/* Combo states. */
+.cke_balloon.cke_balloontoolbar .cke_combo_on a.cke_combo_button,
+.cke_balloon.cke_balloontoolbar .cke_combo_off a.cke_combo_button:hover,
+.cke_balloon.cke_balloontoolbar .cke_combo_off a.cke_combo_button:focus,
+.cke_balloon.cke_balloontoolbar .cke_combo_off a.cke_combo_button:active
+{
+	border: none;
+	padding: 1px;
+	margin: 0;
+	outline: 1px solid #bcbcbc;
+}
