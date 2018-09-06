@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.11.0 bug, 1477, balloontoolbar
+@bender-tags: 4.11.0, bug, 1477, balloontoolbar
 @bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,balloontoolbar,sourcearea,list,language,stylescombo
 
 1. Open console.
