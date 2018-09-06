@@ -37,12 +37,11 @@
 			}
 			panel.destroy();
 
-			items.forEach( function( item ) {
-				if ( item instanceof CKEDITOR.ui.richCombo ) {
-					assert.isTrue( item._listeners.length === 0 );
-				}
+			var listenersDeleted = CKEDITOR.tools.array.every( items, function( item ) {
+				return !( item instanceof CKEDITOR.ui.richCombo ) || item._listeners.length === 0;
 			} );
-			assert.isTrue( CKEDITOR.tools.isEmpty( panel._items ) );
+			assert.isTrue( listenersDeleted, 'All listeners are deleted' );
+
 		}
 	};
 
