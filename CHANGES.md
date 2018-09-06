@@ -10,6 +10,8 @@ Fixed Issues:
 * [#1489](https://github.com/ckeditor/ckeditor-dev/issues/1489): Fixed: [Table Selection](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_plugins_tableselection.html) table contents can be removed in readonly mode.
 * [#586](https://github.com/ckeditor/ckeditor-dev/issues/586) Fixed: required attribute not being correctly recognized by form dialog. Thanks to [Roli Züger](https://github.com/rzueger)!
 * [#1264](https://github.com/ckeditor/ckeditor-dev/issues/1264) Fixed: Right-click doesn't clear selection created with [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
+* [#2380](https://github.com/ckeditor/ckeditor-dev/issues/2380) Fixed: Styling HTML comments in top level element result with extra paragraphs.
+* [#2294](https://github.com/ckeditor/ckeditor-dev/issues/2294) Fixed: Pasting content from MS Outlook and then bolding it results with an error.
 
 API Changes:
 
