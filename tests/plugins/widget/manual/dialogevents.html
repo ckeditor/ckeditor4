@@ -1,0 +1,50 @@
+<div id="editor">
+	<p><span>Widget 1</span></p>
+	<p><span>Widget 2</span></p>
+</div>
+
+<script>
+
+	var editor = CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'span',
+		extraPlugins: 'spanwidget',
+		allowedContent: true,
+		on: {
+			instanceReady: function() {
+				CKEDITOR.dialog.add( 'spanwidget', function() {
+					return {
+						width: 200,
+						height: 200,
+						title: 'spanwidget',
+						contents: [
+							{
+								id: 'info',
+								elements: []
+							}
+						],
+						onOk: showNotification,
+						onShow: showNotification,
+						onHide: showNotification
+					}
+				} );
+			}
+		}
+	} );
+
+	CKEDITOR.plugins.add( 'spanwidget', {
+		requires: 'widget',
+		init: function ( editor )	{
+			editor.widgets.add( 'spanwidget', {
+				dialog: 'spanwidget',
+				upcast: function ( element ) {
+					return element.name == 'span';
+				}
+			} );
+		}
+	} );
+
+	function showNotification( evt ) {
+		editor.showNotification( evt.data.widget.element.getText() );
+	}
+
+</script>
