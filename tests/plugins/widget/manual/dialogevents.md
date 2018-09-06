@@ -20,3 +20,5 @@ Repeat test steps for `Widget 2`.
 
 * Notification doesn't show up on widget opening and closing.
 * Notification message is not the same as widget content.
+
+**Note**: Clicking `OK` button triggers `ok` and `hide` events thus notification message will be doubled.
