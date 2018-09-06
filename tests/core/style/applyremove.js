@@ -280,8 +280,6 @@
 			range.setStart( playground, 0 );
 			range.setEnd( playground.getChild( 1 ).getFirst(), 4 );
 
-			playground.trim();
-
 			assertAppliedStyle( playground, range, { element: 'b' }, '<b>this is </b><a href="http://example.com/"><b>some</b> sample</a> text' );
 		},
 
