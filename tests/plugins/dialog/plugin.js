@@ -58,7 +58,46 @@
 
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {
 		CKEDITOR.dialog.add( 'testDialog1', function() {
-			return dialogDefinitions.testDialog1;
+			return {
+				title: 'Test Dialog 1',
+				contents: [
+					{
+						id: 'info',
+						label: 'Test',
+						elements: [
+							{
+								type: 'text',
+								id: 'foo',
+								label: 'bar'
+							},
+							{
+								type: 'vbox',
+								id: 'vbox1',
+								label: 'vbox1',
+								children: [
+									{
+										type: 'hbox',
+										id: 'hbox1',
+										label: 'hbox1',
+										children: [
+											{
+												type: 'text',
+												id: 'text1',
+												label: 'text1'
+											}
+										]
+									}
+								]
+							},
+							{
+								type: 'text',
+								id: 'text2',
+								label: 'text2'
+							}
+						]
+					}
+				]
+			};
 		} );
 		CKEDITOR.dialog.add( 'testDialog2', '%TEST_DIR%_assets/testdialog.js' );
 		CKEDITOR.dialog.add( 'testGetModel', function() {
@@ -78,7 +117,14 @@
 		evt.editor.addCommand( 'testDialogDefinitionEvent', new CKEDITOR.dialogCommand( 'testDialogDefinitionEvent' ) );
 	} );
 
-	bender.editor = {};
+	bender.editor = {
+		config: {
+			dialog_defaultValues: {
+				'testDialog1.info.text1': 'text1',
+				'testDialog1.info.text2': 'text2'
+			}
+		}
+	};
 
 	bender.test( {
 		'test open dialog from local': function() {
@@ -553,6 +599,21 @@
 					definition: sinon.match.instanceOf( Object )
 				} ) );
 			} );
+		},
+
+		// (#2277)
+		'test default values': function() {
+			this.editor.openDialog( 'testDialog1', function( dialog ) {
+				this.resume( function() {
+					wait( function() {
+						assert.areEqual( 'text1', dialog.getContentElement( 'info', 'text1' ).getValue(), 'text1 field has invalid value' );
+						assert.areEqual( 'text2', dialog.getContentElement( 'info', 'text2' ).getValue(), 'text2 field has invalid value' );
+
+						dialog.getButton( 'cancel' ).click();
+					}, 100 );
+				} );
+			} );
+			this.wait();
 		}
 	} );
 
