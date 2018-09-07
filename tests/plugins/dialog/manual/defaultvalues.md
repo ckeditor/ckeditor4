@@ -1,4 +1,4 @@
-@bender-tags: 4.11.0, feature, 2277
+@bender-tags: 4.11.0, feature, 2277, dialog
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, link
 

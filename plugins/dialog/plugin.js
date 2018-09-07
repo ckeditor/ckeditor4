@@ -986,8 +986,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 				this.fire( 'show', {} );
 
-				// Configure default values right after `show` event so they won't be modified by plugin (#2277).
-
 				this._.editor.fire( 'dialogShow', this );
 
 				if ( !this._.parentDialog )
@@ -3608,6 +3606,31 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  * @since 4.3.0
  * @cfg {Boolean} [dialog_noConfirmCancel=false]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Allows to customize default dialog field values.
+ *
+ * Each field is represented by a flat object separated by `.` into three values used to
+ * identify it. E.g. `link.info.protocol` stands for:
+ *
+ * * `link` - dialog window name for which we want to customize dialog field value.
+ * * `info` - dialog window tab name in which the field is located.
+ * * `protocol` - the given field ID we want to customize.
+ *
+ * To make it easier for you to track field paths you may want to use
+ * [Developer Tools](https://ckeditor.com/cke4/addon/devtools) plugin.
+ *
+ * ```javascript
+ *  config.dialog_defaultValues = {
+ *    'link.info.protocol': 'https://',
+ *    'table.info.txtWidth': '100%'
+ *  }
+ * ```
+ *
+ * @since 4.11.0
+ * @cfg {String} [dialog_defaultValues]
  * @member CKEDITOR.config
  */
 
