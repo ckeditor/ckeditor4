@@ -952,6 +952,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				CKEDITOR.ui.fire( 'ready', this );
 
 				this.fire( 'show', {} );
+
+				// Configure default values right after `show` event so they won't be modified by plugin (#2277).
+				setConfigurationDefaultValues( this );
+
 				this._.editor.fire( 'dialogShow', this );
 
 				if ( !this._.parentDialog )
@@ -963,6 +967,28 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				} );
 
 			}, 100, this );
+
+			function setConfigurationDefaultValues( dialog ) {
+				var defaultValues = CKEDITOR.config.dialog_defaultValues;
+
+				if ( !defaultValues ) {
+					return;
+				}
+
+				for ( var chain in defaultValues ) {
+					var props = chain.split( '.' ),
+						name = props[ 0 ],
+						page = props[ 1 ],
+						field = props[ 2 ];
+
+					if ( name === dialog._.name ) {
+						var contentElement = dialog.getContentElement( page, field );
+						if ( contentElement ) {
+							contentElement.setValue( defaultValues[ chain ] );
+						}
+					}
+				}
+			}
 		},
 
 		/**
