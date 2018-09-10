@@ -87,14 +87,34 @@
 					if ( CKEDITOR.env.ie && !( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) && this.getDocument().equals( CKEDITOR.document ) ) {
 						this.$.setActive();
 					} else {
-						// We have no control over exactly what happens when the native `focus` method is called,
-						// so save the scroll position and restore it later.
-						if ( CKEDITOR.env.chrome ) {
-							var scrollPos = this.$.scrollTop;
+						if ( CKEDITOR.env.edge ) {
+							// Edge: testing if element is scrollable and trying to set elements scrollTop is bugged.
+							// https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14721015/
 							this.$.focus();
-							this.$.scrollTop = scrollPos;
 						} else {
+							var element = this,
+								scrollables = [];
+
+							// Find all scrollable ancestors to restore their scroll position after focus.
+							while ( element ) {
+								if ( element.$.scrollHeight > element.$.clientHeight ) {
+									scrollables.push( {
+										element: element,
+										scrollTop: element.$.scrollTop
+									} );
+								}
+								if ( element.getParent() ) {
+									element = element.getParent();
+								} else {
+									element = element.getWindow().getFrame();
+								}
+							}
+
 							this.$.focus();
+
+							CKEDITOR.tools.array.forEach( scrollables, function( item ) {
+								item.element.$.scrollTop = item.scrollTop;
+							} );
 						}
 					}
 				} catch ( e ) {
