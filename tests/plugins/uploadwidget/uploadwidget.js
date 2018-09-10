@@ -281,6 +281,33 @@
 			} );
 		},
 
+		// (#1217)
+		'test replaceWith with selection inside widget wrapper': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadRepository,
+				loader = uploads.create( bender.tools.getTestPngFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testReplaceWith1', {
+				onUploaded: function() {
+					// We're using strong to force editable.insertHtml to do some elements merging.
+					this.replaceWith( '<strong>uploaded</strong>' );
+				}
+			} );
+
+			bot.setData( '<p><strong>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span></strong></p>', function() {
+				editor.getSelection().selectElement( editor.editable().findOne( 'span' ).getChild( 1 ) );
+
+				loader.changeStatus( 'uploaded' );
+
+				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
+
+				assert.isInnerHtmlMatching( '<p><strong>x^uploaded</strong>@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
+			} );
+		},
+
 		'test custom event lister': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
