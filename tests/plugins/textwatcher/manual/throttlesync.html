@@ -17,7 +17,7 @@
 		on: {
 			instanceReady: function() {
 				new CKEDITOR.plugins.textWatcher( editor, function( selectionRange ) {
-					var isSelCorrect = editor.getSelection().getRanges()[0].startContainer.equals( selectionRange.startContainer );
+					var isSelCorrect = editor.getSelection().getRanges()[ 0 ].startContainer.equals( selectionRange.startContainer );
 					if ( !isSelCorrect ) {
 						statusEl.innerText = 'Selection is out of sync!';
 						statusEl.className = 'error';
