@@ -170,9 +170,9 @@
 		 * @event unmatched
 		 */
 
-		function testTextMatch( selectionRange ) {
+		function testTextMatch() {
 			// There are cases where the selection needs to be refreshed after debounce. (#2373)
-			selectionRange = this._getRange( this.editor );
+			var selectionRange = this._getRange( this.editor );
 
 			if ( !selectionRange ) {
 				return;
@@ -250,10 +250,8 @@
 				return;
 			}
 
-			var selectionRange = this._getRange( this.editor );
-
-			if ( selectionRange ) {
-				this._buffer.input( selectionRange );
+			if ( this._getRange( this.editor ) ) {
+				this._buffer.input();
 			}
 		},
 
