@@ -148,7 +148,7 @@
 				onBlock: function( panel, block ) {
 					blockElement = block.element;
 					block.element.getAscendant( 'html' ).addClass( 'cke_emoji' );
-					block.element.getDocument().appendStyleSheet( CKEDITOR.getUrl( '../../contents.css' ) );
+					block.element.getDocument().appendStyleSheet( CKEDITOR.getUrl( CKEDITOR.basePath + 'contents.css' ) );
 					block.element.addClass( 'cke_emoji_panel_block' );
 					block.element.setHtml( createEmojiBlock() );
 					panel.element.addClass( 'cke_emoji_panel' );
