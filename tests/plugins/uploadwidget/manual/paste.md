@@ -1,6 +1,6 @@
-﻿@bender-tags: 4.10.2, bug, clipboard, widget, filetools, 1217
+﻿@bender-tags: 4.10.2, bug, clipboard, uploadwidget, widget, filetools, 1217
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, uploadwidget, image2, uploadimage, uploadfile
+@bender-ckeditor-plugins: wysiwygarea, toolbar, image2, uploadimage, uploadfile
 @bender-include: _helpers/xhr.js
 
 ## No selection
@@ -24,7 +24,6 @@ Image is selected.
 1. Copy an image.
 1. Focus the editor.
 1. Paste an image using `cmd/ctrl-v`.
-1. Focus pasted image during image upload.
 1. Wait until upload finished.
 
 ## Expected
