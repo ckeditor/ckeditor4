@@ -1,0 +1,11 @@
+<button class="button" style="font-size:20px">Focus!</button>
+<div style="height:100vh"></div>
+<div id="editor" contenteditable="true">This is editor</div>
+<script>
+	var editor = CKEDITOR.inline( 'editor' ),
+		button = CKEDITOR.document.findOne( '.button' );
+
+	button.on( 'click', function() {
+		editor.focus();
+	} );
+</script>
