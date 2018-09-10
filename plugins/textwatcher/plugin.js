@@ -250,17 +250,11 @@
 				return;
 			}
 
-			var sel = this.editor.getSelection();
-			if ( !sel ) {
-				return;
-			}
+			var selectionRange = this._getRange( this.editor );
 
-			var selectionRange = sel.getRanges()[ 0 ];
-			if ( !selectionRange ) {
-				return;
+			if ( selectionRange ) {
+				this._buffer.input( selectionRange );
 			}
-
-			this._buffer.input( selectionRange );
 		},
 
 		/**
