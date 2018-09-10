@@ -22,6 +22,7 @@ API Changes:
 * [#2045](https://github.com/ckeditor/ckeditor-dev/issues/2045): Extracted [`tools.eventsBuffer`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-eventsBuffer) and [`tools.throttle`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-throttle) functions logic into separate namespace.
 	* [`tools.eventsBuffer`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-eventsBuffer) has been extracted into [`tools.buffers.event`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools_buffers_event.html)
 	* [`tools.throttle`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-throttle) has been extracted into [`tools.buffers.throttle`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools_buffers_throttle.html)
+* [#1044](https://github.com/ckeditor/ckeditor-dev/pull/1044): [Widget dialog](https://ckeditor.com/cke4/addon/widget) [`show`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#event-show), [`hide`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#event-hide), [`ok`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#event-ok) events contains information about a widget instance for which a dialog is launched.
 
 ## CKEditor 4.10.1
 
