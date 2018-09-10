@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea
 
-1. Press `Focus!` button.
+Use buttons to focus each editors.
 
 ## Expected
 
