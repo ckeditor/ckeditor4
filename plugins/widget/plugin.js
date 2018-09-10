@@ -1154,17 +1154,18 @@
 				var showListener,
 					okListener;
 
+				// Enable widget in the dialog listeners (#1044).
+				dialog.widget = that;
+
 				// Allow to add a custom dialog handler.
 				if ( that.fire( 'dialog', dialog ) === false )
 					return;
 
-				showListener = dialog.on( 'show', function( evt ) {
-					evt.data.widget = that;
+				showListener = dialog.on( 'show', function() {
 					dialog.setupContent( that );
-				}, null, null, 0 );
+				} );
 
-				okListener = dialog.on( 'ok', function( evt ) {
-					evt.data.widget = that;
+				okListener = dialog.on( 'ok', function() {
 					// Commit dialog's fields, but prevent from
 					// firing data event for every field. Fire only one,
 					// bulk event at the end.
@@ -1185,14 +1186,14 @@
 						that.fire( 'data', that.data );
 						that.editor.fire( 'saveSnapshot' );
 					}
-				}, null, null, 0 );
+				} );
 
-				dialog.once( 'hide', function( evt ) {
-					evt.data.widget = that;
+				dialog.once( 'hide', function() {
+					delete dialog.widget;
 
 					showListener.removeListener();
 					okListener.removeListener();
-				}, null, null, 0 );
+				} );
 			} );
 
 			return true;
