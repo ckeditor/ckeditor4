@@ -1,11 +1,25 @@
-<button class="button" style="font-size:20px">Focus!</button>
-<div style="height:100vh"></div>
-<div id="editor" contenteditable="true">This is editor</div>
-<script>
-	var editor = CKEDITOR.inline( 'editor' ),
-		button = CKEDITOR.document.findOne( '.button' );
+<div class="buttons">
+	<button data-editor-name="inline" style="font-size:20px">Focus inline</button>
+	<button data-editor-name="classic" style="font-size:20px">Focus classic</button>
+</div>
 
-	button.on( 'click', function() {
-		editor.focus();
+<div style="height:100vh"></div>
+
+<div id="inline" contenteditable="true">Inline editor.</div>
+<textarea id="classic">Classic editor.</textarea>
+
+<script>
+	var buttons = CKEDITOR.document.findOne( '.buttons' );
+
+	CKEDITOR.inline( 'inline' );
+	CKEDITOR.replace( 'classic' );
+
+	buttons.on( 'click', function( evt ) {
+		var editorName = evt.data.getTarget().getAttribute( 'data-editor-name' ),
+			editor = CKEDITOR.instances[ editorName ];
+
+		if ( editor ) {
+			editor.editable().focus();
+		}
 	} );
 </script>
