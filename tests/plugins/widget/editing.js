@@ -77,8 +77,8 @@
 					} );
 
 					function dialogEventListener( evt ) {
-						assert.isNotUndefined( evt.data.widget, 'No widget passed for: ' + evt.name );
-						assert.areEqual( 'dialogtest1', evt.data.widget.name, 'Invalid widget for: ' + evt.name );
+						assert.isNotUndefined( this.widget, 'No widget passed for: ' + evt.name );
+						assert.areEqual( 'dialogtest1', this.widget.name, 'Invalid widget for: ' + evt.name );
 					}
 				}
 			}
@@ -735,5 +735,4 @@
 			} );
 		}
 	} );
-	
 } )();
