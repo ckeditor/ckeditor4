@@ -153,7 +153,7 @@
 		 *
 		 * @private
 		 */
-		this._buffer = CKEDITOR.tools.throttle( this.throttle, this.check, this );
+		this._buffer = CKEDITOR.tools.throttle( this.throttle, testTextMatch, this );
 
 		/**
 		 * Event fired when the text is no longer matching.
@@ -169,6 +169,28 @@
 		 *
 		 * @event unmatched
 		 */
+
+		function testTextMatch( selectionRange ) {
+			// There are cases where the selection needs to be refreshed after debounce. (#2373)
+			selectionRange = this._getRange( this.editor );
+
+			if ( !selectionRange ) {
+				return;
+			}
+
+			var matched = this.callback( selectionRange );
+
+			if ( matched ) {
+				if ( matched.text == this.lastMatched ) {
+					return;
+				}
+
+				this.lastMatched = matched.text;
+				this.fire( 'matched', matched );
+			} else if ( this.lastMatched ) {
+				this.unmatch();
+			}
+		}
 	}
 
 	TextWatcher.prototype = {
@@ -196,7 +218,13 @@
 			function onContentDom() {
 				var editable = editor.editable();
 
-				this._listeners.push( editable.attachListener( editable, 'keyup', this._buffer.input, this ) );
+				this._listeners.push( editable.attachListener( editable, 'keyup', check, this ) );
+			}
+
+			// CKEditor's event system has a limitation that one function (in this case this.check)
+			// cannot be used as listener for the same event more than once. Hence, wrapper function.
+			function check( evt ) {
+				this.check( evt );
 			}
 
 			function unmatch() {
@@ -232,18 +260,7 @@
 				return;
 			}
 
-			var matched = this.callback( selectionRange );
-
-			if ( matched ) {
-				if ( matched.text == this.lastMatched ) {
-					return;
-				}
-
-				this.lastMatched = matched.text;
-				this.fire( 'matched', matched );
-			} else if ( this.lastMatched ) {
-				this.unmatch();
-			}
+			this._buffer.input( selectionRange );
 		},
 
 		/**
@@ -275,6 +292,21 @@
 				obj.removeListener();
 			} );
 			this._listeners = [];
+		},
+
+		/**
+		 * Returns the range for a given `editor`.
+		 *
+		 * @since 4.10.2
+		 * @private
+		 * @param {CKEDITOR.editor} editor
+		 * @returns {CKEDITOR.dom.range/null} Returns the range or `null` in case of no selection.
+		 */
+		_getRange: function( editor ) {
+			var sel = editor.getSelection(),
+				rng = sel ? sel.getRanges()[ 0 ] : null;
+
+			return rng;
 		}
 	};
 
