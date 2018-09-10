@@ -1,4 +1,4 @@
-@bender-tags: widget, dialog, feature, 1044
+@bender-tags: widget, dialog, feature, 1044, 4.11.0
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, widget, dialog
 
