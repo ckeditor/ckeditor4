@@ -52,6 +52,10 @@
 				data = evtData.dataValue,
 				fixBodyTag;
 
+			// Before we start protecting markup, make sure there's no externally injected <cke:encoded> elements. Only
+			// HTML processor can use this tag, any external injections should discarded.
+			data = data.replace( reservedElementsRegex, '' );
+
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
 			data = protectSource( data, editor );
@@ -797,7 +801,8 @@
 		// Note: we use lazy star '*?' to prevent eating everything up to the last occurrence of </style> or </textarea>.
 	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*?<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,
 		protectTextareaRegex = /(<textarea(?=[ >])[^>]*>)([\s\S]*?)(?:<\/textarea>)/gi,
-		encodedElementsRegex = /<cke:encoded>([^<]*)<\/cke:encoded>/gi;
+		encodedElementsRegex = /<cke:encoded>([^<]*)<\/cke:encoded>/gi,
+		reservedElementsRegex = /(<|&lt;)cke:encoded(>|&gt;)([^<]*)(<|&lt;)\/cke:encoded(>|&gt;)/gi;
 
 		// Element name should be followed by space or closing angle bracket '>' to not protect custom tags (#988).
 	var protectElementNamesRegex = /(<\/?)((?:object|embed|param|html|body|head|title)([\s][^>]*)?>)/gi,
