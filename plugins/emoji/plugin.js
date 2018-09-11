@@ -155,7 +155,9 @@
 					panel.element.addClass( 'cke_emoji_panel' );
 
 					registerListeners( listeners );
-				}
+				},
+
+				onOpen: refreshNavigationStatus
 
 			} );
 
@@ -316,26 +318,10 @@
 					selector: '.cke_emoji-outer_emoji_block',
 					event: 'scroll',
 					listener: ( function() {
-						var buffer = CKEDITOR.tools.throttle( 150, function() {
-							var sections = blockElement.find( 'section' ).toArray();
-							var containerOffset = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).getClientRect().top;
-							var section = CKEDITOR.tools.array.filter( sections, function( element ) {
-								var rect = element.getClientRect();
-								return rect.height + rect.top > containerOffset;
-							} );
-							var groupName = section[ 0 ].data( 'cke-emoji-group' );
-							var navigationElements = blockElement.find( 'nav li' ).toArray();
-							CKEDITOR.tools.array.forEach( navigationElements, function( node ) {
-								if ( node.data( 'cke-emoji-group' ) === groupName ) {
-									node.addClass( 'active' );
-								} else {
-									node.removeClass( 'active' );
-								}
-							} );
-						} );
+						var buffer = CKEDITOR.tools.throttle( 150, refreshNavigationStatus );
 						return buffer.input;
 					} )()
-				} )
+				} );
 				return '<div class="cke_emoji-outer_emoji_block"' +
 					'onclick="CKEDITOR.tools.callFunction(' + clickFn + ',event);return false;" ' +
 					'onkeydown="CKEDITOR.tools.callFunction(' + keyDownFn + ',event);" ' +
@@ -377,7 +363,24 @@
 						group: item.group, keywords: ( item.keywords || [] ).join( ',' )
 					} );
 				}, '' );
+			}
 
+			function refreshNavigationStatus() {
+				var sections = blockElement.find( 'section' ).toArray();
+				var containerOffset = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).getClientRect().top;
+				var section = CKEDITOR.tools.array.filter( sections, function( element ) {
+					var rect = element.getClientRect();
+					return rect.height + rect.top > containerOffset;
+				} );
+				var groupName = section[ 0 ].data( 'cke-emoji-group' );
+				var navigationElements = blockElement.find( 'nav li' ).toArray();
+				CKEDITOR.tools.array.forEach( navigationElements, function( node ) {
+					if ( node.data( 'cke-emoji-group' ) === groupName ) {
+						node.addClass( 'active' );
+					} else {
+						node.removeClass( 'active' );
+					}
+				} );
 			}
 
 			function registerListeners( list ) {
