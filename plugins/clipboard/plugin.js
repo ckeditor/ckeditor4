@@ -1606,11 +1606,12 @@
 
 				while ( element && element.isReadOnly() ) {
 					element = element.getParent();
-					offset = element.getIndex() + 1;
 
 					if ( !element || element instanceof CKEDITOR.editable  ) {
 						break;
 					}
+
+					offset = element.getIndex() + 1;
 
 					range.setStart( element, offset );
 					range.setEnd( element, offset );
