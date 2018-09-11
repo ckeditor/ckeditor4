@@ -1,4 +1,4 @@
-(function() {
+(function () {
 	var removePgbrReg = /<pgbr[^>][^>]*>(.*?)<\/pgbr>/g;
 	var STYLES_THAT_NEED_SET_AS_DEFAULT = ['font-size', 'font-weight', 'font-family', 'font-style'];
 	var throttle = false;
@@ -10,13 +10,13 @@
 		this.styleNamesThatNeedSet = [];
 		this.editor = editor;
 
-		for(var i = 0; i < STYLES_THAT_NEED_SET_AS_DEFAULT.length; i++) {
+		for (var i = 0; i < STYLES_THAT_NEED_SET_AS_DEFAULT.length; i++) {
 			if (this.defaultStyles[STYLES_THAT_NEED_SET_AS_DEFAULT[i]]) {
 				this.styleNamesThatNeedSet.push(STYLES_THAT_NEED_SET_AS_DEFAULT[i]);
 			}
 		}
 
-		this.styleNamesThatNeedSet.length && editor.on('key', function(event) {
+		this.styleNamesThatNeedSet.length && editor.on('key', function (event) {
 			if (event.data.domEvent.$.key.length === 1) {
 				self.setDefaultStyles();
 			}
@@ -64,23 +64,23 @@
 		 * example: "font-size" => "fontSize"
 		 * @param name
 		 */
-		normalizeStyleName: function(name) {
-			return name.replace(/-([a-z])/, function(match, letter) {
+		normalizeStyleName: function (name) {
+			return name.replace(/-([a-z])/, function (match, letter) {
 				return letter.toUpperCase();
 			});
 		},
 
 
-		getStylesThatNeedApply: function() {
+		getStylesThatNeedApply: function () {
 			var range = this.editor.getSelection().getRanges()[0];
 			var editorDOMContainer = this.editor.editable().$;
 			var container = range.startContainer.$;
 			var stylesThatNeedApply = this.styleNamesThatNeedSet.slice(0);
 
 			if ((container === range.endContainer.$ || container === range.startContainer.$) && container !== editorDOMContainer) {
-				while(container !== editorDOMContainer && container !== range.document && stylesThatNeedApply.length) {
+				while (container !== editorDOMContainer && container !== range.document && stylesThatNeedApply.length) {
 					if (container.nodeType === 1) {
-						for(var i = 0; i < stylesThatNeedApply.length; i++) {
+						for (var i = 0; i < stylesThatNeedApply.length; i++) {
 							if (this.hasStyle(container, stylesThatNeedApply[i])) {
 								stylesThatNeedApply.splice(i--, 1);
 							}
@@ -94,21 +94,21 @@
 			return stylesThatNeedApply;
 		},
 
-		hasStyle: function(element, style) {
+		hasStyle: function (element, style) {
 			return element.style[this.normalizeStyleName(style)];
 		},
 
-		makeStyleObject: function(styleNames) {
+		makeStyleObject: function (styleNames) {
 			var styleObj = {};
 
-			for(var i = 0; i < styleNames.length; i++) {
+			for (var i = 0; i < styleNames.length; i++) {
 				styleObj[styleNames[i]] = this.defaultStyles[styleNames[i]];
 			}
 
 			return styleObj;
 		},
 
-		setDefaultStyles: function() {
+		setDefaultStyles: function () {
 			var styles = this.getStylesThatNeedApply();
 
 			if (styles.length) {
@@ -128,11 +128,30 @@
 
 			new defaultStyle(editor, config.defaultStyles);
 
+			editor.on('key', function (event) {
+				var kc = event.data.keyCode,
+					csa = ~(CKEDITOR.CTRL | CKEDITOR.SHIFT | CKEDITOR.ALT),
+					classname;
+				if (kc == 13 && (kc & csa) == 13) { //enter
+					setTimeout(function () {
+						var element = editor.getSelection().getStartElement();
+						if (element.hasAscendant('p'))
+							element = element.getAscendant('p');
+						if (element.getName() == 'p') {
+							if (element.hasAttribute("data-id")) {
+								element.removeAttribute("data-id");
+							}
+						}
+					}, 40);
+
+				}
+			});
+
 			// Disable adding pagebreak into table
 			editor.on('selectionChange', function (event) {
 				var path = event.data.path;
 
-				if (path.elements && path.elements.some(function(element) { return element.getName() === 'table'; })) {
+				if (path.elements && path.elements.some(function (element) { return element.getName() === 'table'; })) {
 					editor.getCommand('pagebreak').disable();
 				} else {
 					editor.getCommand('pagebreak').enable();
@@ -161,29 +180,29 @@
 			});
 
 			// Remove page break on paste
-			editor.on('paste', function(event) {
+			editor.on('paste', function (event) {
 				event.data.dataValue = event.data.dataValue.replace(removePgbrReg, '');
 			});
 
 			if (config.singleParagraphEdit) {
-				editor.on('change', function() {
+				editor.on('change', function () {
 					var $editor = $(editor.editable().$);
 					var errors = validateParagraph($editor);
 
 					if (errors.length && !throttle) {
 						throttle = true;
 
-						setTimeout(function() {throttle = false}, 2000);
+						setTimeout(function () { throttle = false }, 2000);
 
 						CKEDITOR._.errors = errors;
 						CKEDITOR.dialog.getCurrent() || editor.openDialog('singleParagraphValidate');
 					}
 				});
 
-				CKEDITOR.dialog.add( 'singleParagraphValidate', this.path + 'dialogs/singleParagraphValidate.js' );
+				CKEDITOR.dialog.add('singleParagraphValidate', this.path + 'dialogs/singleParagraphValidate.js');
 			}
 
-			editor.element.$.parentNode.addEventListener('keydown', function(e) {
+			editor.element.$.parentNode.addEventListener('keydown', function (e) {
 				if (e.keyCode !== 46 && e.keyCode !== 8) {
 					return;
 				}
