@@ -313,40 +313,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			dialog: this
 		}, editor ).definition;
 
-		var me = this,
-			contents = this.definition.contents;
-
-		// Overwrite definition with default values (#2277).
-		for ( var key in contents ) {
-			var contentObj = contents[ key ];
-			CKEDITOR.tools.array.forEach( contentObj.elements, function( element ) {
-				setDefaultValues( me, contentObj.id, element );
-			} );
-		}
-
-		function setDefaultValues( dialog, tabId, element ) {
-			var dialogId = dialog._.name;
-			if ( element.type === 'vbox' || element.type === 'hbox' ) {
-				return CKEDITOR.tools.array.forEach( element.children, function( child ) {
-					setDefaultValues( dialog, tabId, child );
-				} );
-			}
-
-			var defaultValue = getFieldConfig( dialog._.editor, dialogId, tabId, element.id );
-			if ( defaultValue ) {
-				element[ 'default' ] = defaultValue;
-			}
-		}
-
-		function getFieldConfig( editor, dialogId, tabId, fieldName ) {
-			var defaultValues = editor.config.dialog_defaultValues || CKEDITOR.config.dialog_defaultValues;
-
-			if ( !defaultValues ) {
-				return null;
-			}
-
-			return defaultValues[ [ dialogId, tabId, fieldName ].join( '.' ) ];
-		}
+		// Overwrite definition with default config values (#2277).
+		setConfigDefaultValues( this );
 
 		// Cache tabs that should be removed.
 		if ( !( 'removeDialogTabs' in editor._ ) && editor.config.removeDialogTabs ) {
@@ -401,6 +369,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 					evt.data.hide = false;
 			} );
 		}
+
+		var me = this;
 
 		// Iterates over all items inside all content in the dialog, calling a
 		// function for each of them.
@@ -719,6 +689,40 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @property {Number} [state=CKEDITOR.DIALOG_STATE_IDLE]
 		 */
 	};
+
+	function setConfigDefaultValues( dialog ) {
+		var contents = dialog.definition.contents;
+		for ( var key in contents ) {
+			var contentObj = contents[ key ];
+			CKEDITOR.tools.array.forEach( contentObj.elements, function( element ) {
+				setElementDefaultValues( this, contentObj.id, element );
+			}, dialog );
+		}
+	}
+
+	function setElementDefaultValues( dialog, tabId, element ) {
+		var dialogId = dialog._.name;
+		if ( element.children ) {
+			return CKEDITOR.tools.array.forEach( element.children, function( child ) {
+				setElementDefaultValues( dialog, tabId, child );
+			} );
+		}
+
+		var defaultValue = getFieldConfig( dialog._.editor, dialogId, tabId, element.id );
+		if ( defaultValue ) {
+			element[ 'default' ] = defaultValue;
+		}
+	}
+
+	function getFieldConfig( editor, dialogId, tabId, fieldName ) {
+		var defaultValues = editor.config.dialog_defaultValues || CKEDITOR.config.dialog_defaultValues;
+
+		if ( !defaultValues ) {
+			return null;
+		}
+
+		return defaultValues[ [ dialogId, tabId, fieldName ].join( '.' ) ];
+	}
 
 	// Focusable interface. Use it via dialog.addFocusable.
 	function Focusable( dialog, element, index ) {
