@@ -402,6 +402,36 @@
 } )();
 
 /**
+ * This is an abstract class representing filter rules passed to {@link CKEDITOR.htmlParser.filter#constructor} as an argument. See {@link CKEDITOR.htmlParser.filter} for examples.
+ *
  * @class CKEDITOR.htmlParser.filterRulesDefinition
  * @abstract
+ */
+
+/**
+ * @property {Function[]} elementNames An array of functions for data processing element names.
+ */
+
+/**
+ * @property {Function[]} attributeNames An array of functions for data processing attribute names.
+ */
+
+/**
+ * @property {Object.<String, Function>} elements An object containing pairs of keys representing element selectors and function for data processing selected elements.
+ */
+
+/**
+ * @property {Object.<String, Function>} attributes An object containing pairs of keys representing attributes and function for data processing selected attributes.
+ */
+
+/**
+ * @property {Function} text Function for data processing text content.
+ */
+
+/**
+ * @property {Function} comment Function for data processing comments.
+ */
+
+/**
+ * @property {Function} root Function for data processing root element.
  */
