@@ -715,7 +715,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	}
 
 	function getFieldConfig( editor, dialogId, tabId, fieldName ) {
-		var defaultValues = editor.config.dialog_defaultValues || CKEDITOR.config.dialog_defaultValues;
+		var defaultValues = editor.config.dialog_defaultValues;
 
 		if ( !defaultValues ) {
 			return null;
