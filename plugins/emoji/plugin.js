@@ -26,7 +26,8 @@
 			var that = this;
 			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
 				lang = editor.lang.emoji,
-				blockElement;
+				blockElement,
+				listeners = [];
 			var GROUPS = [
 				{
 					name: 'used',
@@ -152,6 +153,8 @@
 					block.element.addClass( 'cke_emoji_panel_block' );
 					block.element.setHtml( createEmojiBlock() );
 					panel.element.addClass( 'cke_emoji_panel' );
+
+					registerListeners( listeners );
 				}
 
 			} );
@@ -282,7 +285,21 @@
 						href: '#' + item.name.toLowerCase()
 					} );
 				}, '' );
-
+				listeners.push( {
+					selector: 'nav li',
+					event: 'click',
+					listener: function( event ) {
+						var nodeArr = blockElement.find( 'nav li' ).toArray();
+						var activeElement = event.sender;
+						CKEDITOR.tools.array.forEach( nodeArr, function( node ) {
+							if ( node.equals( activeElement ) ) {
+								node.addClass( 'active' );
+							} else {
+								node.removeClass( 'active' );
+							}
+						} );
+					}
+				} );
 				return '<nav><ul>' + items + '</ul></nav>';
 			}
 
@@ -295,6 +312,30 @@
 			}
 
 			function createEmojiListBlock() {
+				listeners.push( {
+					selector: '.cke_emoji-outer_emoji_block',
+					event: 'scroll',
+					listener: ( function() {
+						var buffer = CKEDITOR.tools.throttle( 150, function() {
+							var sections = blockElement.find( 'section' ).toArray();
+							var containerOffset = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).getClientRect().top;
+							var section = CKEDITOR.tools.array.filter( sections, function( element ) {
+								var rect = element.getClientRect();
+								return rect.height + rect.top > containerOffset;
+							} );
+							var groupName = section[ 0 ].data( 'cke-emoji-group' );
+							var navigationElements = blockElement.find( 'nav li' ).toArray();
+							CKEDITOR.tools.array.forEach( navigationElements, function( node ) {
+								if ( node.data( 'cke-emoji-group' ) === groupName ) {
+									node.addClass( 'active' );
+								} else {
+									node.removeClass( 'active' );
+								}
+							} );
+						} );
+						return buffer.input;
+					} )()
+				} )
 				return '<div class="cke_emoji-outer_emoji_block"' +
 					'onclick="CKEDITOR.tools.callFunction(' + clickFn + ',event);return false;" ' +
 					'onkeydown="CKEDITOR.tools.callFunction(' + keyDownFn + ',event);" ' +
@@ -319,7 +360,7 @@
 				var groupName = item.name;
 				var sectionName = item.sectionName;
 				var group = getEmojiListGroup( groupName );
-				return group === '' ? '' : '<section><h2 id="' + groupName + '">' + sectionName + '</h2><ul>' + group + '</ul></section>';
+				return group === '' ? '' : '<section data-cke-emoji-group="' + groupName + '" ><h2 id="' + groupName + '">' + sectionName + '</h2><ul>' + group + '</ul></section>';
 			}
 
 			function getEmojiListGroup( groupName ) {
@@ -337,6 +378,19 @@
 					} );
 				}, '' );
 
+			}
+
+			function registerListeners( list ) {
+				CKEDITOR.tools.array.forEach( list, function( item ) {
+					var root = blockElement,
+						selector = item.selector,
+						listener = item.listener,
+						event = item.event;
+
+					CKEDITOR.tools.array.forEach( root.find( selector ).toArray(), function( node ) {
+						node.on( event, listener );
+					} );
+				} );
 			}
 
 		}
