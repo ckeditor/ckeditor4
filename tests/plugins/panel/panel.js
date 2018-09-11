@@ -18,7 +18,7 @@
 					forceIFrame: true
 				} ),
 				html = panel.render( editor ),
-				src = html.match( /src="[^"]*"/i )[ 0 ];
+				src = html.match( /src="([^"]*)"/i )[ 1 ];
 
 			src = src.substring( 5, src.length - 1 );
 
