@@ -2,18 +2,29 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, link
 
+## Info tab
+
 1. Click `link` button.
 1. Wait until dialog show up.
-1. Compare `Protocol` field with expected results.
-1. Click `Advanced` tab.
-1. Compare `Id` and `Name` fields with expected results.
 
 ## Expected
 
-* `Info:Protocol`: `https://`
-* `Advanced:Id`: `1`
-* `Advanced:Name`: `test`
+Procotol option value is `https://`.
 
 ## Unexpected
 
-Values are different than expected.
+Protocol option value is `http://`.
+
+## Advanced tab
+
+Switch to `Advanced` tab.
+
+## Expected
+
+* ID input value is `1`.
+* Name input value is `test`.
+
+## Unexpected
+
+* ID input value is empty.
+* Name input value is empty.
