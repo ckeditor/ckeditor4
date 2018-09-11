@@ -127,6 +127,9 @@
 	};
 
 	bender.test( {
+		setUp: function() {
+			this.editor.addCommand( 'testDialog1', new CKEDITOR.dialogCommand( 'testDialog1' ) );
+		},
 		'test open dialog from local': function() {
 			var ed = this.editor, tc = this;
 			ed.openDialog( 'testDialog1', function( dialog ) {
@@ -603,18 +606,12 @@
 
 		// (#2277)
 		'test default values': function() {
-			var tc = this;
-			this.editor.openDialog( 'testDialog1', function( dialog ) {
-				tc.resume( function() {
-					wait( function() {
-						assert.areEqual( 'text1', dialog.getContentElement( 'info', 'text1' ).getValue(), 'text1 field has invalid value' );
-						assert.areEqual( 'text2', dialog.getContentElement( 'info', 'text2' ).getValue(), 'text2 field has invalid value' );
+			this.editorBot.dialog( 'testDialog1', function( dialog ) {
+				assert.areEqual( 'text1', dialog.getContentElement( 'info', 'text1' ).getValue(), 'text1 field has invalid value' );
+				assert.areEqual( 'text2', dialog.getContentElement( 'info', 'text2' ).getValue(), 'text2 field has invalid value' );
 
-						dialog.getButton( 'cancel' ).click();
-					}, 100 );
-				} );
+				dialog.getButton( 'cancel' ).click();
 			} );
-			tc.wait();
 		}
 	} );
 
