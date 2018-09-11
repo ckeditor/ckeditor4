@@ -802,7 +802,7 @@
 	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*?<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,
 		protectTextareaRegex = /(<textarea(?=[ >])[^>]*>)([\s\S]*?)(?:<\/textarea>)/gi,
 		encodedElementsRegex = /<cke:encoded>([^<]*)<\/cke:encoded>/gi,
-		reservedElementsRegex = /(<|&lt;)cke:encoded(>|&gt;)(.*)(<|&lt;)\/cke:encoded(>|&gt;)/gi;
+		reservedElementsRegex = /(<|&lt;|&#60;)cke(:|&#58;)encoded(>|&gt;|&#62;)(.*)(<|&lt;|&#60;)(\/|&#47;)cke(:|&#58;)encoded(>|&gt;|&#62;)/gi;
 
 		// Element name should be followed by space or closing angle bracket '>' to not protect custom tags (#988).
 	var protectElementNamesRegex = /(<\/?)((?:object|embed|param|html|body|head|title)([\s][^>]*)?>)/gi,
