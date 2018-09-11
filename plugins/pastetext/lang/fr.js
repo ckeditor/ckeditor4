@@ -4,6 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'fr', {
 	button: 'Coller comme texte brut',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteNotification: 'Utilisez le raccourci %1 pour coller. Votre navigateur n\'accepte pas de coller à l\'aide du bouton ou du menu contextuel.',
 	title: 'Coller comme texte brut'
 } );

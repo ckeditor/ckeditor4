@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		radioTitle: 'Izvēles poga īpašības',
 		value: 'Vērtība',
 		selected: 'Iezīmēts',
-		required: 'Required' // MISSING
+		required: 'Obligāts'
 	},
 	form: {
 		title: 'Formas īpašības',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		size: 'Izmērs',
 		lines: 'rindas',
 		chkMulti: 'Atļaut vairākus iezīmējumus',
-		required: 'Required', // MISSING
+		required: 'Obligāts',
 		opText: 'Teksts',
 		opValue: 'Vērtība',
 		btnAdd: 'Pievienot',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		value: 'Vērtība',
 		charWidth: 'Simbolu platums',
 		maxChars: 'Simbolu maksimālais daudzums',
-		required: 'Required', // MISSING
+		required: 'Obligāts',
 		type: 'Tips',
 		typeText: 'Teksts',
 		typePass: 'Parole',

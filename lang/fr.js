@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		justify: 'Justifier',
 		alignLeft: 'Aligner à gauche',
 		alignRight: 'Aligner à droite',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'Aligner au centre',
 		alignTop: 'Haut',
 		alignMiddle: 'Milieu',
 		alignBottom: 'Bas',
@@ -92,7 +92,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		invalidValue: 'Valeur invalide.',
 		invalidHeight: 'La hauteur doit être un nombre.',
 		invalidWidth: 'La largeur doit être un nombre.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
+		invalidLength: 'La valeur de "%1" doit être un nombre positif avec ou sans unité de mesure (%2).',
 		invalidCssLength: 'La valeur spécifiée pour le champ « %1 » doit être un nombre positif avec ou sans unité de mesure CSS valide (px, %, in, cm, mm, em, ex, pt, ou pc).',
 		invalidHtmlLength: 'La valeur spécifiée pour le champ « %1 » doit être un nombre positif avec ou sans unité de mesure HTML valide (px ou %).',
 		invalidInlineStyle: 'La valeur spécifiée pour le style en ligne doit être composée d\'un ou plusieurs couples au format « nom : valeur », séparés par des points-virgules.',
