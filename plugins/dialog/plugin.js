@@ -3634,7 +3634,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * ```
  *
  * @since 4.11.0
- * @cfg {String} [dialog_defaultValues]
+ * @cfg {Object} [dialog_defaultValues]
  * @member CKEDITOR.config
  */
 
