@@ -3,7 +3,7 @@
 <div id="editor"></div>
 
 <script>
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 || bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 
