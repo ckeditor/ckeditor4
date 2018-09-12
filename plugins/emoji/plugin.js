@@ -150,7 +150,7 @@
 					blockElement = block.element;
 					block.element.getAscendant( 'html' ).addClass( 'cke_emoji' );
 					block.element.getDocument().appendStyleSheet( CKEDITOR.getUrl( CKEDITOR.basePath + 'contents.css' ) );
-					block.element.addClass( 'cke_emoji_panel_block' );
+					block.element.addClass( 'cke_emoji-panel_block' );
 					block.element.setHtml( createEmojiBlock() );
 					panel.element.addClass( 'cke_emoji_panel' );
 
@@ -178,33 +178,6 @@
 				}
 			} );
 
-
-			var updateStatusFn = CKEDITOR.tools.addFunction( ( function() {
-				var statusIcon,
-					statusFullName,
-					statusDescription;
-				var buffer = CKEDITOR.tools.throttle( 100, function( emojiItem ) {
-					if ( !statusIcon ) {
-						statusIcon = blockElement.findOne( '.cke_emoji-status_icon' );
-					}
-					if ( !statusDescription ) {
-						statusDescription = blockElement.findOne( 'p.cke_emoji-status_description' );
-					}
-					if ( !statusFullName ) {
-						statusFullName = blockElement.findOne( 'p.cke_emoji-status_full_name' );
-					}
-					statusIcon.setText( emojiItem.getText() );
-					statusDescription.setText( emojiItem.data( 'cke-emoji-name' ) );
-					statusFullName.setText( emojiItem.data( 'cke-emoji-full-name' ) );
-				}, this );
-				return function( evt ) {
-					var el = new CKEDITOR.dom.element( evt.target );
-					if ( el.getName() !== 'li' ) {
-						return;
-					}
-					buffer.input( el );
-				};
-			} )() );
 
 			function createEmojiBlock() {
 				var output = [];
@@ -284,6 +257,7 @@
 						return buffer.input;
 					} )()
 				} );
+
 				listeners.push( {
 					selector: '.cke_emoji-outer_emoji_block',
 					event: 'click',
@@ -293,9 +267,23 @@
 						}
 					}
 				} );
+
+				listeners.push( {
+					selector: '.cke_emoji-outer_emoji_block',
+					event: 'mouseover',
+					listener: function( event ) {
+						var target = event.data.getTarget();
+						if ( target.getName() !== 'li' ) {
+							return;
+						}
+						blockElement.findOne( '.cke_emoji-status_icon' ).setText( target.getText() );
+						blockElement.findOne( 'p.cke_emoji-status_description' ).setText( target.data( 'cke-emoji-name' ) );
+						blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( target.data( 'cke-emoji-full-name' ) );
+					}
+				} );
+
 				return '<div class="cke_emoji-outer_emoji_block"' +
 					'onkeydown="CKEDITOR.tools.callFunction(' + keyDownFn + ',event);" ' +
-					'onmouseover="CKEDITOR.tools.callFunction(' + updateStatusFn + ',event);return false;" ' +
 					'>' + getEmojiSections() + '</div>';
 			}
 
@@ -409,7 +397,6 @@
 					} );
 				} );
 			}
-
 		}
 	} );
 } )();
