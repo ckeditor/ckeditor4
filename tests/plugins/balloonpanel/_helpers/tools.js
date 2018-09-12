@@ -25,19 +25,38 @@ var balloonTestsTools = {
 		}
 	},
 
-	assertMoveTo: function( moveMethod, expectedX, expectedY, maxX, maxY ) {
-		var actualX = moveMethod.args[ 0 ][ 1 ],
-			actualY = moveMethod.args[ 0 ][ 0 ];
+	/**
+	 * Asserts balloon toolbar move method. If `options.maxX` or `options.maxY` is passed will use `assertInRange`, otherwise will use `areEqual`.
+	 *
+	 * @param {Object} options
+	 * @param {Number} options.expectedX Expected X value.
+	 * @param {Number} options.expectedY Expected Y value.
+	 * @param {Number} [options.maxX] Maximum expected X value.
+	 * @param {Number} [options.maxY] Maximum expected Y value.
+	 * @param {Object} options.moveMethod Spied `move` method.
+	 */
+	assertMoveTo: function( options ) {
+		//moveMethod, expectedX, expectedY, maxX, maxY, shouldRound
+		var actualX = options.moveMethod.args[ 0 ][ 1 ],
+			actualY = options.moveMethod.args[ 0 ][ 0 ],
+			maxX = options.maxX,
+			maxY = options.maxY;
 
-		if ( maxX !== undefined || maxY !== undefined ) {
-			maxX = maxX !== undefined ? maxX : expectedX;
-			maxY = maxY !== undefined ? maxY : expectedY;
+		// Round values, as there is no need to compare pixels as floats.
+		if ( options.shouldRound ) {
+			actualX = Math.round( actualX );
+			actualY = Math.round( actualY );
+		}
 
-			this.assertInRange( expectedX, maxX, actualX, 'balloon move() x argument is not in range' );
-			this.assertInRange( expectedY, maxY, actualY, 'balloon move() y argument is not in range' );
+		if ( maxX || maxY ) {
+			maxX = maxX || options.expectedX;
+			maxY = maxY || options.expectedY;
+
+			this.assertInRange( options.expectedX, maxX, actualX, 'balloon move() x argument is not in range' );
+			this.assertInRange( options.expectedY, maxY, actualY, 'balloon move() y argument is not in range' );
 		} else {
-			assert.areEqual( expectedX, actualX, 'invalid balloon move() x value' );
-			assert.areEqual( expectedY, actualY, 'invalid balloon move() y value' );
+			assert.areEqual( options.expectedX, actualX, 'invalid balloon move() x value' );
+			assert.areEqual( options.expectedY, actualY, 'invalid balloon move() y value' );
 		}
 	},
 
