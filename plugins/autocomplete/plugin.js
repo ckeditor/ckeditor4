@@ -312,6 +312,7 @@
 		close: function() {
 			this.model.setActive( false );
 			this.view.close();
+			this.view.setActive( false );
 		},
 
 		/**
@@ -324,7 +325,7 @@
 		 * instead of the currently chosen one.
 		 */
 		commit: function( itemId ) {
-			if ( !this.model.isActive ) {
+			if ( !this.model.isActive || !this.view.isActive ) {
 				return;
 			}
 
@@ -424,6 +425,7 @@
 			if ( this.model.hasData() ) {
 				this.model.setActive( true );
 				this.view.open();
+				this.view.setActive( true );
 				this.model.selectFirst();
 				this.view.updatePosition( this.model.range );
 			}
@@ -496,15 +498,23 @@
 				handled = true;
 			// Completion keys.
 			} else if ( CKEDITOR.tools.indexOf( this.commitKeystrokes, keyCode ) != -1 ) {
-				this.commit();
-				this.textWatcher.unmatch();
-				handled = true;
+				// If the view is not active, prevent completion thus data is still processed (#2162).
+				if ( !this.view.isActive ) {
+					evt.cancel();
+					evt.data.preventDefault();
+				} else {
+					this.commit();
+					this.textWatcher.unmatch();
+					handled = true;
+				}
 			}
 
 			if ( handled ) {
 				evt.cancel();
 				evt.data.preventDefault();
 				this.textWatcher.consumeNext();
+			} else {
+				this.view.setActive( false );
 			}
 		},
 
@@ -607,6 +617,16 @@
 		 * @property {CKEDITOR.editor}
 		 */
 		this.editor = editor;
+
+		/**
+		 * Indicates if the view is active.
+		 *
+		 * Should be modified by the {@link #setActive} method which changes view style.
+		 *
+		 * @readonly
+		 * @property {Boolean} [isActive=false]
+		 */
+		this.isActive = false;
 
 		/**
 		 * The ID of the selected item.
@@ -825,6 +845,21 @@
 			this.selectedItemId = itemId;
 
 			this.scrollElementTo( itemElement );
+		},
+
+		/**
+		 * Sets the {@link #isActive} property and changes view style.
+		 *
+		 * @param {Boolean} isActive
+		 */
+		setActive: function( isActive ) {
+			this.isActive = isActive;
+
+			if ( isActive ) {
+				this.element.removeClass( 'cke_autocomplete_disabled' );
+			} else {
+				this.element.addClass( 'cke_autocomplete_disabled' );
+			}
 		},
 
 		/**
