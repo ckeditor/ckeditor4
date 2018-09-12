@@ -246,27 +246,51 @@
 		'test throttle synchronization': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
-				editable = editor.editable(),
-				isSelCorrect;
-
-			attachTextWatcher( editor, function( selectionRange ) {
-				var range = editor.getSelection().getRanges()[ 0 ];
-				isSelCorrect = range.startContainer.equals( selectionRange.startContainer );
-				return {
-					text: 'test'
-				};
-			}, 100 );
+				isSelCorrect,
+				textWatcher = attachTextWatcher( editor, function( selectionRange ) {
+					var range = editor.getSelection().getRanges()[ 0 ];
+					isSelCorrect = range.startContainer.equals( selectionRange.startContainer );
+					return {
+						text: 'test'
+					};
+				}, 100 );
 
 			bot.setHtmlWithSelection( '<b>[xxx]</b><i>yyy</i>' );
 
-			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+			textWatcher.check( {} );
+			textWatcher.check( {} );
 
 			bot.setHtmlWithSelection( '<b>xxx</b><i>[yyy]</i>' );
 
 			setTimeout( function() {
 				resume( function() {
 					assert.isTrue( isSelCorrect );
+				} );
+			}, 100 );
+
+			wait();
+		},
+
+		// (#2373)
+		'test throttle with no selection': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				callbackSpy = sinon.spy(),
+				textWatcher = attachTextWatcher( editor, callbackSpy, 100 ),
+				unmatchSpy = sinon.spy( textWatcher, 'unmatch' );
+
+			bot.setHtmlWithSelection( '<b>[xxx]</b>' );
+
+			textWatcher.check( {} );
+			textWatcher.check( {} );
+
+			var selectionStub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getRanges' ).returns( [] );
+
+			setTimeout( function() {
+				resume( function() {
+					selectionStub.restore();
+					assert.isTrue( callbackSpy.calledOnce, 'Callback called with no selection.' );
+					assert.isTrue( unmatchSpy.calledOnce, 'Text has not been unmatched.' );
 				} );
 			}, 100 );
 
