@@ -175,6 +175,7 @@
 			var selectionRange = this._getRange( this.editor );
 
 			if ( !selectionRange ) {
+				this.unmatch();
 				return;
 			}
 
