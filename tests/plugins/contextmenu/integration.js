@@ -28,6 +28,7 @@
 					} );
 				} );
 
+				editor.focus();
 				editor.contextMenu.open( editor.editable() );
 
 				wait();
@@ -55,6 +56,7 @@
 					} );
 				} );
 
+				editor.focus();
 				editor.contextMenu.open( editor.editable() );
 
 				wait();
@@ -87,6 +89,7 @@
 					editor.contextMenu.open( editor.editable() );
 				} );
 
+				editor.focus();
 				editor.contextMenu.open( editor.editable() );
 
 				wait();
@@ -103,6 +106,7 @@
 					} );
 				} );
 
+				bot.editor.focus();
 				bot.editor.contextMenu.open( bot.editor.editable() );
 
 				wait();

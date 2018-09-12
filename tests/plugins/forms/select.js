@@ -1,5 +1,9 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: dialog,button,forms,htmlwriter,toolbar */
+/* bender-include: _helpers/tools.js */
+/* global formsTools */
+
+var assertRequiredAttribute = formsTools.assertRequiredAttribute;
 
 bender.editor = {
 	config: {
@@ -49,5 +53,35 @@ bender.test( {
 
 			assert.areSame( '<select></select>', bot.getData( false, true ) );
 		} );
-	}
+	},
+
+	'test required attribute collapsed': assertRequiredAttribute( {
+		html: '[<select required></select>]',
+		type: 'select',
+		expected: true
+	} ),
+
+	'test required attribute without value': assertRequiredAttribute( {
+		html: '[<select required=""></select>]',
+		type: 'select',
+		expected: true
+	} ),
+
+	'test required attribute with value `required`': assertRequiredAttribute( {
+		html: '[<select required="required"></select>]',
+		type: 'select',
+		expected: true
+	} ),
+
+	'test required attribute absent': assertRequiredAttribute( {
+		html: '[<select></select>]',
+		type: 'select',
+		expected: false
+	} ),
+
+	'test required attribute with invalid value': assertRequiredAttribute( {
+		html: '[<select required="any value other than empty string or required"></select>]',
+		type: 'select',
+		expected: true
+	} )
 } );

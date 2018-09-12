@@ -232,7 +232,8 @@
 		 */
 		contextmenu: function( callback ) {
 			var editor = this.editor,
-				tc = this.testCase;
+				tc = this.testCase,
+				range;
 
 			editor.once( 'panelShow', function() {
 				// Make sure resume comes after wait.
@@ -245,10 +246,20 @@
 				} );
 			} );
 
+			// Force selection in the editor as opening menu
+			// by user always results in selection in non readonly editor.
+			if ( !editor.readOnly && editor.getSelection().getType() === CKEDITOR.SELECTION_NONE ) {
+				range = editor.createRange();
+
+				range.selectNodeContents( editor.editable() );
+				range.collapse( true );
+				range.select();
+			}
+
 			// Open context menu on editable element.
 			editor.contextMenu.open( editor.editable() );
 
-			// combo panel opening is synchronous;
+			// Combo panel opening is asynchronous.
 			tc.wait();
 		},
 
