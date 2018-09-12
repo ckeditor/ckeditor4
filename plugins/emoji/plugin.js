@@ -169,12 +169,6 @@
 				} )()
 			} );
 
-			var clickFn = CKEDITOR.tools.addFunction( function( event ) {
-				if ( event.target.dataset.ckeEmojiName ) {
-					editor.insertText( event.target.dataset.ckeEmojiSymbol );
-				}
-			} );
-
 			var keyDownFn = CKEDITOR.tools.addFunction( function( event ) {
 				if ( !event.key || event.key !== 'Enter' ) {
 					return;
@@ -290,8 +284,16 @@
 						return buffer.input;
 					} )()
 				} );
+				listeners.push( {
+					selector: '.cke_emoji-outer_emoji_block',
+					event: 'click',
+					listener: function( event ) {
+						if ( event.data.getTarget().data( 'cke-emoji-name' ) ) {
+							editor.insertText( event.data.getTarget().data( 'cke-emoji-symbol' ) );
+						}
+					}
+				} );
 				return '<div class="cke_emoji-outer_emoji_block"' +
-					'onclick="CKEDITOR.tools.callFunction(' + clickFn + ',event);return false;" ' +
 					'onkeydown="CKEDITOR.tools.callFunction(' + keyDownFn + ',event);" ' +
 					'onmouseover="CKEDITOR.tools.callFunction(' + updateStatusFn + ',event);return false;" ' +
 					'>' + getEmojiSections() + '</div>';
