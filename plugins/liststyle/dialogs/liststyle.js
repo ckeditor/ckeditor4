@@ -91,15 +91,6 @@
 				[ lang.decimal, 'decimal' ]
 			];
 
-			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 7 ) {
-				listStyleOptions.concat( [
-					[ lang.armenian, 'armenian' ],
-					[ lang.decimalLeadingZero, 'decimal-leading-zero' ],
-					[ lang.georgian, 'georgian' ],
-					[ lang.lowerGreek, 'lower-greek' ]
-				] );
-			}
-
 			return {
 				title: lang.numberedTitle,
 				minWidth: 300,
