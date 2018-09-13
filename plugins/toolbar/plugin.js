@@ -157,6 +157,9 @@
 						case 32: // SPACE
 							item.execute();
 							return false;
+						case CKEDITOR.ALT + 122: // ALT + F11 (#438).
+							editor.execCommand( 'elementsPathFocus' );
+							return false;
 					}
 					return true;
 				};
