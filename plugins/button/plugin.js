@@ -331,19 +331,22 @@
 			if ( element ) {
 				element.setState( state, 'cke_button' );
 
-				state == CKEDITOR.TRISTATE_DISABLED ?
-					element.setAttribute( 'aria-disabled', true ) :
+				if ( state == CKEDITOR.TRISTATE_DISABLED ) {
+					element.setAttribute( 'aria-disabled', true );
+				} else {
 					element.removeAttribute( 'aria-disabled' );
+				}
 
 				if ( !this.hasArrow ) {
 					// Note: aria-pressed attribute should not be added to menuButton instances. (https://dev.ckeditor.com/ticket/11331)
-					state == CKEDITOR.TRISTATE_ON ?
-						element.setAttribute( 'aria-pressed', true ) :
+					if ( state == CKEDITOR.TRISTATE_ON ) {
+						element.setAttribute( 'aria-pressed', true );
+					} else {
 						element.removeAttribute( 'aria-pressed' );
+					}
 				} else {
-					var newLabel = state == CKEDITOR.TRISTATE_ON ?
-						this._.editor.lang.button.selectedLabel.replace( /%1/g, this.label ) : this.label;
-					CKEDITOR.document.getById( this._.id + '_label' ).setText( newLabel );
+					element.setAttribute( 'aria-expanded', state == CKEDITOR.TRISTATE_ON );
+					CKEDITOR.document.getById( this._.id + '_label' ).setText( this.label );
 				}
 
 				return true;
