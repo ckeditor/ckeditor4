@@ -128,15 +128,23 @@ bender.test( {
 	// (#438)
 	'test focusing elements path': function() {
 		this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
-		this.editor.execCommand( 'toolbarFocus' );
+		this.editorBot.execCommand( 'toolbarFocus' );
 
-		CKEDITOR.document.getActive().$.onkeydown( { keyCode: 122, altKey: true } ); // ALT + F11
+		// Timeouts are required for focus change on IE && Edge.
+		setTimeout( function() {
+			CKEDITOR.document.getActive().$.onkeydown( { keyCode: 122, altKey: true } ); // ALT + F11
+			setTimeout( function() {
+				resume( function() {
+					var expected = this.editor.ui.space( 'path' ),
+						path = CKEDITOR.document.getActive().getAscendant( function( el ) {
+							return el.equals( expected );
+						}, true );
 
-		var expected = this.editor.ui.space( 'path' ),
-			path = CKEDITOR.document.getActive().getAscendant( function( el ) {
-				return el.equals( expected );
-			}, true );
+					assert.isNotNull( path );
+				} );
+			}, 100 );
+		}, 100 );
 
-		assert.isNotNull( path );
+		wait();
 	}
 } );

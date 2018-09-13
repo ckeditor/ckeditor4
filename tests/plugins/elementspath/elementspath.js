@@ -35,15 +35,22 @@
 			this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
 			this.editor.execCommand( 'elementsPathFocus' );
 
-			this.editor.ui.space( 'path' ).getFirst().$
-				.onkeydown( { keyCode: 121, altKey: true } ); // ALT + F10
+			// Timeouts are required for focus change on IE && Edge.
+			setTimeout( function() {
+				CKEDITOR.document.getActive().$.onkeydown( { keyCode: 121, altKey: true } ); // ALT + F10
+				setTimeout( function() {
+					resume( function() {
+						var expected = this.editor.ui.space( 'toolbox' ),
+							toolbox = CKEDITOR.document.getActive().getAscendant( function( el ) {
+								return el.equals( expected );
+							}, true );
 
-			var expected = this.editor.ui.space( 'toolbox' ),
-				toolbox = CKEDITOR.document.getActive().getAscendant( function( el ) {
-					return el.equals( expected );
-				}, true );
+						assert.isNotNull( toolbox );
+					} );
+				}, 100 );
+			}, 100 );
 
-			assert.isNotNull( toolbox );
+			wait();
 		}
 
 	} );
