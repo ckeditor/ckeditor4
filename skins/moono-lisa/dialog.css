@@ -52,6 +52,7 @@ Comments in this file will give more details about each of the above blocks.
 {
 	z-index: 1;
 	background: #fff;
+	postition: relative;
 }
 
 /* Due to our reset we have to recover the styles of some elements. */
@@ -135,7 +136,7 @@ Comments in this file will give more details about each of the above blocks.
 	background-color: #fff;
 	overflow: auto;
 	padding: 15px 10px 5px 10px;
-	margin-top: 43px;
+	margin-top: 1px;
 	border-top: 1px solid #d1d1d1;
 }
 
@@ -209,16 +210,14 @@ The .cke_dialog_tab_selected class is appended to the active tab.
 {
 	height: 33px;
 	display: inline-block;
-	margin: 9px 0 0;
-	position: absolute;
+	margin: 9px 0 0 11px;
 	z-index: 2;
-	left: 11px;
 }
 
 .cke_rtl .cke_dialog_tabs
 {
 	left: auto;
-	right: 11px;
+	margin-right: 11px;
 }
 
 /* A single tab (an <a> element). */
@@ -1157,4 +1156,19 @@ a.cke_dialog_ui_button.cke_dialog_image_browse
 {
 	border: 2px solid #139FF7;
 	padding: 6px;
+}
+
+.cke_dialog_open {
+	overflow: hidden;
+}
+
+.cke_dialog_container {
+	position: fixed;
+	overflow-y: auto;
+	overflow-x: auto;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 10010;
 }
