@@ -99,7 +99,27 @@
 				]
 			};
 		} );
+		CKEDITOR.dialog.add( 'testDialogEmptyVal', function() {
+			return {
+				title: 'Test Dialog Empty Value',
+				contents: [
+					{
+						id: 'info',
+						label: 'Test',
+						elements: [
+							{
+								type: 'text',
+								id: 'foo',
+								label: 'bar',
+								'default': 'default value'
+							}
+						]
+					}
+				]
+			};
+		} );
 		CKEDITOR.dialog.add( 'testDialog2', '%TEST_DIR%_assets/testdialog.js' );
+
 		CKEDITOR.dialog.add( 'testGetModel', function() {
 			return dialogDefinitions.testGetModel;
 		} );
@@ -115,13 +135,16 @@
 		evt.editor.addCommand( 'testGetModel', new CKEDITOR.dialogCommand( 'testGetModel' ) );
 		evt.editor.addCommand( 'testGetMode', new CKEDITOR.dialogCommand( 'testGetMode' ) );
 		evt.editor.addCommand( 'testDialogDefinitionEvent', new CKEDITOR.dialogCommand( 'testDialogDefinitionEvent' ) );
+
+		evt.editor.addCommand( 'testDialogEmptyVal', new CKEDITOR.dialogCommand( 'testDialogEmptyVal' ) );
 	} );
 
 	bender.editor = {
 		config: {
 			dialog_defaultValues: {
 				'testDialog1.info.text1': 'text1',
-				'testDialog1.info.text2': 'text2'
+				'testDialog1.info.text2': 'text2',
+				'testDialogEmptyVal.info.foo': ''
 			}
 		}
 	};
@@ -609,6 +632,15 @@
 			this.editorBot.dialog( 'testDialog1', function( dialog ) {
 				assert.areEqual( 'text1', dialog.getContentElement( 'info', 'text1' ).getValue(), 'text1 field has invalid value' );
 				assert.areEqual( 'text2', dialog.getContentElement( 'info', 'text2' ).getValue(), 'text2 field has invalid value' );
+
+				dialog.getButton( 'cancel' ).click();
+			} );
+		},
+
+		// (#2277)
+		'test removing dialog value with config.dialog_defaultValues': function() {
+			this.editorBot.dialog( 'testDialogEmptyVal', function( dialog ) {
+				assert.areEqual( '', dialog.getContentElement( 'info', 'foo' ).getValue(), 'Field has invalid value.' );
 
 				dialog.getButton( 'cancel' ).click();
 			} );
