@@ -9,7 +9,7 @@
 	var stylesLoaded = false;
 
 	CKEDITOR.plugins.add( 'emoji', {
-		requires: 'autocomplete,textmatch,ajax',
+		requires: 'autocomplete,textmatch,ajax,panelbutton',
 		lang: 'en', // %REMOVE_LINE_CORE%
 		icons: 'emojipanel',
 		beforeInit: function() {
@@ -134,6 +134,7 @@
 				}
 			} );
 
+			editor.ui.addToolbarGroup( 'emoji', 'insert' );
 			// Name is responsible for icon name also.
 			editor.ui.add( 'emojiPanel', CKEDITOR.UI_PANELBUTTON, {
 				label: 'emoji',
