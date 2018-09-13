@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: floatingspace,toolbar,basicstyles,list,link,about */
+/* bender-ckeditor-plugins: floatingspace,toolbar,basicstyles,list,link,about,wysiwygarea,elementspath */
 
 function testToolbarExpanded( bot ) {
 	var editor = bot.editor,
@@ -123,5 +123,20 @@ bender.test( {
 				assert.areSame( resizeData[ 0 ].outerHeight, resizeData[ 2 ].outerHeight, 'Height should properly restore to same value.' );
 			}
 		);
+	},
+
+	// (#438)
+	'test focusing elements path': function() {
+		this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
+		this.editor.execCommand( 'toolbarFocus' );
+
+		CKEDITOR.document.getActive().$.onkeydown( { keyCode: 122, altKey: true } ); // ALT + F11
+
+		var expected = this.editor.ui.space( 'path' ),
+			path = CKEDITOR.document.getActive().getAscendant( function( el ) {
+				return el.equals( expected );
+			}, true );
+
+		assert.isNotNull( path );
 	}
 } );
