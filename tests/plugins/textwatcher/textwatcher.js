@@ -275,22 +275,61 @@
 		'test throttle with no selection': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
-				callbackSpy = sinon.spy(),
-				textWatcher = attachTextWatcher( editor, callbackSpy, 100 ),
-				unmatchSpy = sinon.spy( textWatcher, 'unmatch' );
+				callbackStub = sinon.stub().returns( {
+					text: 'xxx'
+				} ),
+				textWatcher = attachTextWatcher( editor, callbackStub, 100 ),
+				matchStub = sinon.stub(),
+				unmatchStub = sinon.stub();
+
+			textWatcher.on( 'matched', matchStub );
+			textWatcher.on( 'unmatched', unmatchStub );
 
 			bot.setHtmlWithSelection( '<b>[xxx]</b>' );
 
 			textWatcher.check( {} );
 			textWatcher.check( {} );
 
+			// Make sure the text has been actually initially matched.
+			sinon.assert.calledOnce( matchStub );
+
 			var selectionStub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getRanges' ).returns( [] );
 
 			setTimeout( function() {
 				resume( function() {
 					selectionStub.restore();
-					assert.isTrue( callbackSpy.calledOnce, 'Callback called with no selection.' );
-					assert.isTrue( unmatchSpy.calledOnce, 'Text has not been unmatched.' );
+					assert.isTrue( callbackStub.calledOnce, 'Callback called with no selection.' );
+					assert.isTrue( unmatchStub.calledOnce, 'Text has not been unmatched.' );
+				} );
+			}, 100 );
+
+			wait();
+		},
+
+		// (#2373)
+		'test empty selection does not fire stray unmatched event': function() {
+			// Make sure textWatcher callback says nothing is matched.
+			var callbackStub = sinon.stub().returns( null ),
+				textWatcher = attachTextWatcher( this.editor, callbackStub, 100 ),
+				matchStub = sinon.stub(),
+				unmatchStub = sinon.stub();
+
+			textWatcher.on( 'matched', matchStub );
+			textWatcher.on( 'unmatched', unmatchStub );
+
+			this.editorBot.setHtmlWithSelection( '<b>[xxx]</b>' );
+
+			textWatcher.check( {} );
+			textWatcher.check( {} );
+
+			sinon.assert.notCalled( matchStub );
+
+			var selectionStub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getRanges' ).returns( [] );
+
+			setTimeout( function() {
+				resume( function() {
+					selectionStub.restore();
+					assert.areSame( 0, unmatchStub.callCount, 'unmatched events count.' );
 				} );
 			}, 100 );
 
