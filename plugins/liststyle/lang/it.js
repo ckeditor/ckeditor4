@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'it', {
-	armenian: 'Numerazione Armena',
 	bulletedTitle: 'Proprietà liste puntate',
 	circle: 'Cerchio',
 	decimal: 'Decimale (1, 2, 3, ecc.)',
-	decimalLeadingZero: 'Decimale preceduto da 0 (01, 02, 03, ecc.)',
 	disc: 'Disco',
-	georgian: 'Numerazione Georgiana (an, ban, gan, ecc.)',
 	lowerAlpha: 'Alfabetico minuscolo (a, b, c, d, e, ecc.)',
-	lowerGreek: 'Greco minuscolo (alpha, beta, gamma, ecc.)',
 	lowerRoman: 'Numerazione Romana minuscola (i, ii, iii, iv, v, ecc.)',
 	none: 'Nessuno',
 	notset: '<non impostato>',

@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'pl', {
-	armenian: 'Numerowanie armeńskie',
 	bulletedTitle: 'Właściwości list wypunktowanych',
 	circle: 'Koło',
 	decimal: 'Liczby (1, 2, 3 itd.)',
-	decimalLeadingZero: 'Liczby z początkowym zerem (01, 02, 03 itd.)',
 	disc: 'Okrąg',
-	georgian: 'Numerowanie gruzińskie (an, ban, gan itd.)',
 	lowerAlpha: 'Małe litery (a, b, c, d, e itd.)',
-	lowerGreek: 'Małe litery greckie (alpha, beta, gamma itd.)',
 	lowerRoman: 'Małe cyfry rzymskie (i, ii, iii, iv, v itd.)',
 	none: 'Brak',
 	notset: '<nie ustawiono>',

@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'uk', {
-	armenian: 'Вірменська нумерація',
 	bulletedTitle: 'Опції маркованого списку',
 	circle: 'Кільце',
 	decimal: 'Десяткові (1, 2, 3 і т.д.)',
-	decimalLeadingZero: 'Десяткові з нулем (01, 02, 03 і т.д.)',
 	disc: 'Кружечок',
-	georgian: 'Грузинська нумерація (an, ban, gan і т.д.)',
 	lowerAlpha: 'Малі лат. букви (a, b, c, d, e і т.д.)',
-	lowerGreek: 'Малі гр. букви (альфа, бета, гамма і т.д.)',
 	lowerRoman: 'Малі римські (i, ii, iii, iv, v і т.д.)',
 	none: 'Нема',
 	notset: '<не вказано>',
