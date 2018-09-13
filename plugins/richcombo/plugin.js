@@ -103,7 +103,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 			 * @type {Array}
 			 * @private
 			 */
-			this._listeners = [];
+			this._.listeners = [];
 		},
 
 		proto: {
@@ -186,11 +186,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 				}
 
 				// Update status when activeFilter, mode, selection or readOnly changes.
-				this._listeners.push( editor.on( 'activeFilterChange', updateState, this ) );
-				this._listeners.push( editor.on( 'mode', updateState, this ) );
-				this._listeners.push( editor.on( 'selectionChange', updateState, this ) );
+				this._.listeners.push( editor.on( 'activeFilterChange', updateState, this ) );
+				this._.listeners.push( editor.on( 'mode', updateState, this ) );
+				this._.listeners.push( editor.on( 'selectionChange', updateState, this ) );
 				// If this combo is sensitive to readOnly state, update it accordingly.
-				!this.readOnly && this._listeners.push( editor.on( 'readOnly', updateState, this ) );
+				!this.readOnly && this._.listeners.push( editor.on( 'readOnly', updateState, this ) );
 
 				var keyDownFn = CKEDITOR.tools.addFunction( function( ev, element ) {
 					ev = new CKEDITOR.dom.event( ev );
@@ -396,10 +396,10 @@ CKEDITOR.plugins.add( 'richcombo', {
 			 * @since 4.11.0
 			 */
 			destroy: function() {
-				CKEDITOR.tools.array.forEach( this._listeners, function( listener ) {
+				CKEDITOR.tools.array.forEach( this._.listeners, function( listener ) {
 					listener.removeListener();
 				} );
-				this._listeners = [];
+				this._.listeners = [];
 			}
 		},
 
