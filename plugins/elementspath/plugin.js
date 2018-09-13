@@ -87,7 +87,16 @@
 		// Register the ui element to the focus manager.
 		editor.on( 'uiReady', function() {
 			var element = editor.ui.space( 'path' );
-			element && editor.focusManager.add( element, 1 );
+			if ( element ) {
+				editor.focusManager.add( element, 1 );
+
+				element.on( 'keydown', function( evt ) {
+					// Focus toolbar on alt + F11 (#438).
+					if ( evt.data.getKeystroke() == ( CKEDITOR.ALT + 121 ) ) {
+						editor.execCommand( 'toolbarFocus' );
+					}
+				} );
+			}
 		} );
 
 		function onClick( elementIndex ) {
@@ -148,9 +157,6 @@
 					case 13: // ENTER	// Opera
 					case 32: // SPACE
 						onClick( elementIndex );
-						return false;
-					case CKEDITOR.ALT + 121: // ALT + F10
-						editor.execCommand( 'toolbarFocus' );
 						return false;
 				}
 				return true;
