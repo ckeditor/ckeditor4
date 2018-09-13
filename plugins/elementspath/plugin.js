@@ -153,6 +153,9 @@
 					case CKEDITOR.ALT + 121: // ALT + F10 (#438).
 						editor.execCommand( 'toolbarFocus' );
 						return false;
+					case CKEDITOR.ALT + 122: // ALT + F11 (#438).
+						editor.focus();
+						return false;
 
 				}
 				return true;

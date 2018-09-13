@@ -32,25 +32,30 @@
 
 		// (#438)
 		'test focusing toolbar': function() {
+			var editor = this.editor,
+				commandSpy = sinon.spy( editor, 'execCommand' );
+
 			this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
-			this.editor.execCommand( 'elementsPathFocus' );
 
-			// Timeouts are required for focus change on IE && Edge.
-			setTimeout( function() {
-				CKEDITOR.document.getActive().$.onkeydown( { keyCode: 121, altKey: true } ); // ALT + F10
-				setTimeout( function() {
-					resume( function() {
-						var expected = this.editor.ui.space( 'toolbox' ),
-							toolbox = CKEDITOR.document.getActive().getAscendant( function( el ) {
-								return el.equals( expected );
-							}, true );
+			editor.ui.space( 'path' ).getFirst().$
+				.onkeydown( { keyCode: 121, altKey: true } ); // ALT + F10
 
-						assert.isNotNull( toolbox );
-					} );
-				}, 100 );
-			}, 100 );
+			commandSpy.restore();
+			assert.isTrue( commandSpy.calledWith( 'toolbarFocus' ) );
+		},
 
-			wait();
+		// (#438)
+		'test focusing editor': function() {
+			var editor = this.editor,
+				focusSpy = sinon.spy( editor, 'focus' );
+
+			this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
+
+			editor.ui.space( 'path' ).getFirst().$
+				.onkeydown( { keyCode: 122, altKey: true } ); // ALT + F11
+
+			focusSpy.restore();
+			assert.isTrue( focusSpy.calledOnce );
 		}
 
 	} );
