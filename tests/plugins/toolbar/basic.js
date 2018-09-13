@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: floatingspace,toolbar,basicstyles,list,link,about,wysiwygarea,elementspath */
+/* bender-ckeditor-plugins: floatingspace,toolbar,basicstyles,list,link,about,elementspath */
 
 function testToolbarExpanded( bot ) {
 	var editor = bot.editor,

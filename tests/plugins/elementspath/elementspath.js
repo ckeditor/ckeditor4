@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: elementspath, toolbar, basicstyles, wysiwygarea */
+/* bender-ckeditor-plugins: elementspath, toolbar, basicstyles */
 /* global elementspathTestsTools */
 
 ( function() {

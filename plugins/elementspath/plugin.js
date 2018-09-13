@@ -87,8 +87,7 @@
 		// Register the ui element to the focus manager.
 		editor.on( 'uiReady', function() {
 			var element = editor.ui.space( 'path' );
-			if ( element )
-				editor.focusManager.add( element, 1 );
+			element && editor.focusManager.add( element, 1 );
 		} );
 
 		function onClick( elementIndex ) {
