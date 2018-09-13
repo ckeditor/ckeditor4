@@ -35,8 +35,8 @@
 			this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
 			this.editor.execCommand( 'elementsPathFocus' );
 
-			this.editor.ui.space( 'path' )
-				.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 121, altKey: true } ) ); // ALT + F10
+			this.editor.ui.space( 'path' ).getFirst().$
+				.onkeydown( { keyCode: 121, altKey: true } ); // ALT + F10
 
 			var expected = this.editor.ui.space( 'toolbox' ),
 				toolbox = CKEDITOR.document.getActive().getAscendant( function( el ) {
