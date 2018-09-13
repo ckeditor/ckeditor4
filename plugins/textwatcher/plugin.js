@@ -172,14 +172,8 @@
 
 		function testTextMatch() {
 			// There are cases where the selection needs to be refreshed after debounce. (#2373)
-			var selectionRange = this._getRange( this.editor );
-
-			if ( !selectionRange ) {
-				this.unmatch();
-				return;
-			}
-
-			var matched = this.callback( selectionRange );
+			var selectionRange = this._getRange( this.editor ),
+				matched = selectionRange && this.callback( selectionRange );
 
 			if ( matched ) {
 				if ( matched.text == this.lastMatched ) {
