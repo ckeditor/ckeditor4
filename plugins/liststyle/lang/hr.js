@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'hr', {
-	armenian: 'Armenijska numeracija',
 	bulletedTitle: 'Svojstva liste',
 	circle: 'Krug',
 	decimal: 'Decimalna numeracija (1, 2, 3, itd.)',
-	decimalLeadingZero: 'Decimalna s vodećom nulom (01, 02, 03, itd)',
 	disc: 'Disk',
-	georgian: 'Gruzijska numeracija(an, ban, gan, etc.)',
 	lowerAlpha: 'Znakovi mala slova (a, b, c, d, e, itd.)',
-	lowerGreek: 'Grčka numeracija mala slova (alfa, beta, gama, itd).',
 	lowerRoman: 'Romanska numeracija mala slova (i, ii, iii, iv, v, itd.)',
 	none: 'Bez',
 	notset: '<nije određen>',

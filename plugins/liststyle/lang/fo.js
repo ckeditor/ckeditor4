@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'fo', {
-	armenian: 'Armensk talskipan',
 	bulletedTitle: 'Eginleikar fyri lista við prikkum',
 	circle: 'Sirkul',
 	decimal: 'Vanlig tøl (1, 2, 3, etc.)',
-	decimalLeadingZero: 'Tøl við null frammanfyri (01, 02, 03, etc.)',
 	disc: 'Disc',
-	georgian: 'Georgisk talskipan (an, ban, gan, osv.)',
 	lowerAlpha: 'Lítlir bókstavir (a, b, c, d, e, etc.)',
-	lowerGreek: 'Grikskt við lítlum (alpha, beta, gamma, etc.)',
 	lowerRoman: 'Lítil rómaratøl (i, ii, iii, iv, v, etc.)',
 	none: 'Einki',
 	notset: '<ikki sett>',

@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'ku', {
-	armenian: 'ئاراستەی ژمارەی ئەرمەنی',
 	bulletedTitle: 'خاسیەتی لیستی خاڵی',
 	circle: 'بازنه',
 	decimal: 'ژمارە (1, 2, 3, وە هیتر.)',
-	decimalLeadingZero: 'ژمارە سفڕی لەپێشەوه (01, 02, 03, وە هیتر.)',
 	disc: 'پەپکە',
-	georgian: 'ئاراستەی ژمارەی جۆڕجی (an, ban, gan, وە هیتر.)',
 	lowerAlpha: 'ئەلفابێی بچووك (a, b, c, d, e, وە هیتر.)',
-	lowerGreek: 'یۆنانی بچووك (alpha, beta, gamma, وە هیتر.)',
 	lowerRoman: 'ژمارەی ڕۆمی بچووك (i, ii, iii, iv, v, وە هیتر.)',
 	none: 'هیچ',
 	notset: '<دانەندراوه>',

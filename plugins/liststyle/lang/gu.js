@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'gu', {
-	armenian: 'અરમેનિયન આંકડા પદ્ધતિ',
 	bulletedTitle: 'બુલેટેડ લીસ્ટના ગુણ',
 	circle: 'વર્તુળ',
 	decimal: 'આંકડા (1, 2, 3, etc.)',
-	decimalLeadingZero: 'સુન્ય આગળ આંકડા (01, 02, 03, etc.)',
 	disc: 'ડિસ્ક',
-	georgian: 'ગેઓર્ગિયન આંકડા પદ્ધતિ (an, ban, gan, etc.)',
 	lowerAlpha: 'આલ્ફા નાના (a, b, c, d, e, etc.)',
-	lowerGreek: 'ગ્રીક નાના (alpha, beta, gamma, etc.)',
 	lowerRoman: 'રોમન નાના (i, ii, iii, iv, v, etc.)',
 	none: 'કસુ ',
 	notset: '<સેટ નથી>',
