@@ -2129,11 +2129,19 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	}
 
 	var document = CKEDITOR.document,
-		body = document.getBody(),
-		scrollBarWidth = document.getWindow().$.innerWidth - document.$.documentElement.clientWidth,
-		paddingRight = CKEDITOR.tools.convertToPx( body.getComputedStyle[ 'padding-right' ] );
+		body,
+		scrollBarWidth,
+		paddingRight;
 
 	function handleBodyStyles( dialogOpen ) {
+		body = body || document.getBody();
+		scrollBarWidth = document.getWindow().$.innerWidth - document.$.documentElement.clientWidth;
+		paddingRight = body.getComputedStyle[ 'padding-right' ];
+
+		if ( paddingRight ) {
+			paddingRight.tools.convertToPx( paddingRight );
+		}
+
 		if ( dialogOpen ) {
 			body.addClass( 'cke_dialog_open' );
 
