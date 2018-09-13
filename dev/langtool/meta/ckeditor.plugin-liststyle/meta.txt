@@ -1,15 +1,11 @@
 # Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
-armenian = Label for the Armenian numbering numbered list type option.
 bulletedTitle = Label for the Bulleted List Properties dialog window.
 circle = Label for the Circle bulleted list type option.
 decimal = Label for the Decimal numbering numbered list type option.
-decimalLeadingZero = Label for the Decimal leading zero numbered list type option.
 disc = Label for the Disc bulleted list type option.
-georgian = Label for the Georgian numbering numbered list type option.
 lowerAlpha = Label for the Lower Alpha numbered list type option.
-lowerGreek = Label for the Lower Greek numbered list type option.
 lowerRoman = Label for the Lower Roman numbered list type option.
 none =
 notset = Label for the <not set> list type option.
