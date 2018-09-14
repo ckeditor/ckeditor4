@@ -27,3 +27,8 @@ Text is pasted into editor.
 ## Unexpected
 
 Text is not pasted and clipboard is empty.
+
+
+## Note
+
+There is known bug, when caret disappears after drop.
