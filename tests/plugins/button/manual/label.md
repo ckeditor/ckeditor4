@@ -11,5 +11,5 @@ Click `Language` button.
 
 ## Unexpected
 
-* **aria-expanded:** false
-* **label:** Set language ( Selected )
+* **aria-expanded:** null
+* **label:** Set language (Selected)
