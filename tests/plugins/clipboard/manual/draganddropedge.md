@@ -24,6 +24,6 @@ Selected text disappears.
 
 Text is pasted into editor.
 
-## Unexpeted
+## Unexpected
 
 Text is not pasted and clipboard is empty.
