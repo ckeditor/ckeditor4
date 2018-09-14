@@ -114,19 +114,23 @@ CKEDITOR.plugins.add( 'richcombo', {
 			 */
 			updateState: function( editor ) {
 				// Don't change state while richcombo is active (https://dev.ckeditor.com/ticket/11793).
-				if ( this.getState() == CKEDITOR.TRISTATE_ON )
+				if ( this.getState() == CKEDITOR.TRISTATE_ON ) {
 					return;
+				}
 
 				var state = this.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 
-				if ( editor.readOnly && !this.readOnly )
+				if ( editor.readOnly && !this.readOnly ) {
 					state = CKEDITOR.TRISTATE_DISABLED;
+				}
 
 				this.setState( state );
 				this.setValue( '' );
+
 				// Let plugin to disable button.
-				if ( state != CKEDITOR.TRISTATE_DISABLED && this.refresh )
+				if ( state != CKEDITOR.TRISTATE_DISABLED && this.refresh ) {
 					this.refresh();
+				}
 			},
 			/**
 			 * Renders the combo.
