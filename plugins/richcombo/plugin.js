@@ -94,16 +94,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 			this._ = {
 				panelDefinition: panelDefinition,
-				items: {}
+				items: {},
+				listeners: []
 			};
-
-			/**
-			 * Array containing richCombos registered listeners.
-			 *
-			 * @type {Array}
-			 * @private
-			 */
-			this._.listeners = [];
 		},
 
 		proto: {
