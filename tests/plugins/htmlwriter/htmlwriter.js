@@ -46,34 +46,20 @@ bender.test( {
 		var data = '<p><a href="http://www.blah.com?foo=1&bar=2">Test link</a></p>';
 
 		bender.editorBot.create( {
-			name: 'basic_forceSimpleAmpersand',
+			name: 'forceSimpleAmpersand',
 			formattedOutput: true,
-
 			config: {
-				allowedContent: true,
-				forceSimpleAmpersand: true,
-
-				on: {
-					instanceReady: function( evt ) {
-						var wrtierConfig = {
-							indent: true,
-							breakBeforeOpen: false,
-							breakAfterOpen: false,
-							breakBeforeClose: false,
-							breakAfterClose: false
-						};
-
-						evt.editor.dataProcessor.writer.setRules( 'p', wrtierConfig );
-						evt.editor.dataProcessor.writer.setRules( 'div', wrtierConfig );
-					}
-				}
+				extraAllowedContent: 'a[href]',
+				forceSimpleAmpersand: true
 			}
 		}, function( bot ) {
-			bot.setData( data, function() {
-				var afterFormat = bot.getData( false, false );
+			bot.editor.dataProcessor.writer.setRules( 'p', {
+				indent: false,
+				breakAfterClose: false
+			} );
 
-				// Trigger getData a second time to reveal bug.
-				assert.areSame( afterFormat, data );
+			bot.setData( data, function() {
+				assert.areSame( data, bot.getData( false, false ) );
 			} );
 		} );
 	}
