@@ -33,14 +33,14 @@
 
 
 			// Storing items from panel in another variable, because calling destroy() on panel will remove all item references.
-			items = CKEDITOR.tools.array.map( CKEDITOR.tools.objectKeys( this._items ), function( key ) {
+			items = CKEDITOR.tools.array.map( CKEDITOR.tools.objectKeys( panel._items ), function( key ) {
 				return panel._items[ key ];
 			} );
 
 			panel.destroy();
 
 			var listenersDeleted = CKEDITOR.tools.array.every( items, function( item ) {
-				return !( item instanceof CKEDITOR.ui.richCombo ) || item._listeners.length === 0;
+				return !( item instanceof CKEDITOR.ui.richCombo ) || item._.listeners.length === 0;
 			} );
 			assert.isTrue( listenersDeleted, 'All listeners are deleted' );
 		}
