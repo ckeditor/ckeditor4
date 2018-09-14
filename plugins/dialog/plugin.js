@@ -314,7 +314,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}, editor ).definition;
 
 		// (#2277)
-		setConfigDefaultValues( this );
+		this._setConfigDefaultValues();
 
 		// Cache tabs that should be removed.
 		if ( !( 'removeDialogTabs' in editor._ ) && editor.config.removeDialogTabs ) {
@@ -689,40 +689,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @property {Number} [state=CKEDITOR.DIALOG_STATE_IDLE]
 		 */
 	};
-
-	function setConfigDefaultValues( dialog ) {
-		var contents = dialog.definition.contents;
-		for ( var key in contents ) {
-			var contentObj = contents[ key ];
-			CKEDITOR.tools.array.forEach( contentObj.elements, function( element ) {
-				setElementDefaultValues( this, contentObj.id, element );
-			}, dialog );
-		}
-	}
-
-	function setElementDefaultValues( dialog, tabId, element ) {
-		var dialogId = dialog._.name;
-		if ( element.children ) {
-			return CKEDITOR.tools.array.forEach( element.children, function( child ) {
-				setElementDefaultValues( dialog, tabId, child );
-			} );
-		}
-
-		var defaultValue = getFieldConfig( dialog._.editor, dialogId, tabId, element.id );
-		if ( defaultValue ) {
-			element[ 'default' ] = defaultValue;
-		}
-	}
-
-	function getFieldConfig( editor, dialogId, tabId, fieldName ) {
-		var defaultValues = editor.config.dialog_defaultValues;
-
-		if ( !defaultValues ) {
-			return null;
-		}
-
-		return defaultValues[ [ dialogId, tabId, fieldName ].join( '.' ) ];
-	}
 
 	// Focusable interface. Use it via dialog.addFocusable.
 	function Focusable( dialog, element, index ) {
@@ -1618,6 +1584,72 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 
 			return CKEDITOR.dialog.EDITING_MODE;
+		},
+
+		/*
+		 * Overwrites dialog field default values with {@link CKEDITOR.config.dialog_defaultValues}.
+		 *
+		 * @since 4.11.0
+		 * @private
+		 */
+		_setConfigDefaultValues: function() {
+			var contents = this.definition.contents;
+			for ( var key in contents ) {
+				var contentObj = contents[ key ];
+				CKEDITOR.tools.array.forEach( contentObj.elements, function( element ) {
+					this._setFieldConfigDefaultValue( contentObj.id, element );
+				}, this );
+			}
+		},
+
+		/*
+		 * Overwrites field default value located in the provided tab with
+		 * {@link CKEDITOR.config.dialog_defaultValues}.
+		 *
+		 * Field default value is left unchanged if config default value doesn't exist.
+		 *
+		 * @since 4.11.0
+		 * @private
+		 *
+		 * @param {String} tabId
+		 * @param {CKEDITOR.ui.dialog.uiElement} element
+		 */
+		_setFieldConfigDefaultValue: function( tabId, element ) {
+			if ( element.children ) {
+				return CKEDITOR.tools.array.forEach( element.children, function( child ) {
+					this._setFieldConfigDefaultValue( tabId, child );
+				}, this );
+			}
+
+			var defaultValue = this._getFieldCofigDefaultValue( tabId, element.id );
+			if ( defaultValue ) {
+				element[ 'default' ] = defaultValue;
+			}
+		},
+
+
+		/*
+		 * Gets field config value from {@link CKEDITOR.config.dialog_defaultValues}
+		 * for the given tab and element name.
+		 *
+		 * The value is fetched only for the current dialog name.
+		 *
+		 * @since 4.11.0
+		 * @private
+		 *
+		 * @param {String} tabId
+		 * @param {String} elementName
+		 *
+		 * @returns {String} [defaultValue]
+		 */
+		_getFieldCofigDefaultValue: function( tabId, elementName ) {
+			var defaultValues = this._.editor.config.dialog_defaultValues;
+
+			if ( !defaultValues ) {
+				return null;
+			}
+
+			return defaultValues[ [ this._.name, tabId, elementName ].join( '.' ) ];
 		}
 	};
 
