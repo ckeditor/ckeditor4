@@ -1193,5 +1193,33 @@ bender.test( {
 		assert.areSame( '', dt1._stripHtml( '' ), 'Empty html' );
 		assert.isUndefined( dt1._stripHtml( undefined ), 'Undefined' );
 		assert.isNull( dt1._stripHtml( null ), 'Null' );
+	},
+
+	// (#1832)
+	'test setData with empty string doesn\'t call nativeDataTransfer.setData': function() {
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+			assert.ignore();
+		}
+
+		var mockedDataTransfer = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( mockedDataTransfer ),
+			spy = sinon.spy( mockedDataTransfer, 'setData' ),
+			args;
+
+		dataTransfer._.fallbackDataTransfer.isRequired = function() {
+			return true;
+		};
+
+		CKEDITOR.tools.array.forEach( [ 'text/plain', 'text/html', 'custom' ], function( type ) {
+			dataTransfer.setData( type, '' );
+			dataTransfer.setData( type, 'foo' );
+		} );
+
+		args = CKEDITOR.tools.array.map( spy.args, function( item ) {
+			return item[ 1 ];
+		} );
+
+		assert.areSame( spy.callCount, 3, 'Method setData should be called 3 times.' );
+		assert.areSame( args.indexOf( '' ), -1, 'Empty string shouldn\'t be passed as an argument to setData.' );
 	}
 } );
