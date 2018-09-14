@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.10.2, bug, htmlwriter
+@bender-tags: 4.10.2, 965, bug,htmlwriter
 @bender-ckeditor-plugins: wysiwygarea,toolbar,link,htmlwriter,sourcearea
 
 1. Click the "Source" button.
