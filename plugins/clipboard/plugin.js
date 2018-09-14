@@ -1604,7 +1604,7 @@
 					element = range.startContainer;
 				}
 
-				// When dropping to the end of editable, when last element is read only (e.g. widget)Edge returns widget element as drop range container.
+				// When dropping to the end of editable, when last element is read only (e.g. widget) Edge returns widget element as drop range container.
 				// To solve this we need to move range outside of widget element. This also allows to drop in between widgets (#1832).
 				while ( element && element.isReadOnly() ) {
 					element = element.getParent();
