@@ -40,9 +40,12 @@ bender.test( {
 			} );
 		} );
 	},
-	'test editor config.forceSimpleAmpersand in html element attributes': function () {
+
+	// (#965)
+	'test config.forceSimpleAmpersand works in HTML element attributes': function() {
 		var data = '<p><a href="http://www.blah.com?foo=1&bar=2">Test link</a></p>';
-		bender.editorBot.create({
+
+		bender.editorBot.create( {
 			name: 'basic_forceSimpleAmpersand',
 			formattedOutput: true,
 
@@ -51,7 +54,7 @@ bender.test( {
 				forceSimpleAmpersand: true,
 
 				on: {
-					instanceReady: function (evt) {
+					instanceReady: function( evt ) {
 						var wrtierConfig = {
 							indent: true,
 							breakBeforeOpen: false,
@@ -59,19 +62,19 @@ bender.test( {
 							breakBeforeClose: false,
 							breakAfterClose: false
 						};
-						
-						evt.editor.dataProcessor.writer.setRules('p', wrtierConfig);
-						evt.editor.dataProcessor.writer.setRules('div', wrtierConfig);
+
+						evt.editor.dataProcessor.writer.setRules( 'p', wrtierConfig );
+						evt.editor.dataProcessor.writer.setRules( 'div', wrtierConfig );
 					}
 				}
 			}
-		}, function (bot) {
-			bot.setData( data, function () {
-				var afterFormat = bot.getData( false, false);
+		}, function( bot ) {
+			bot.setData( data, function() {
+				var afterFormat = bot.getData( false, false );
 
 				// Trigger getData a second time to reveal bug.
-				assert.areSame( afterFormat, data);
-			});
-		});
+				assert.areSame( afterFormat, data );
+			} );
+		} );
 	}
 } );

@@ -182,8 +182,10 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass( {
 				// Browsers don't always escape special character in attribute values. (https://dev.ckeditor.com/ticket/4683, https://dev.ckeditor.com/ticket/4719).
 				attValue = CKEDITOR.tools.htmlEncodeAttr( attValue );
 
-				// Run ampersand replacement after the  htmlEncodeAttr, otherwise the results are overwritten (https://github.com/ckeditor/ckeditor-dev/issues/965)
-				this.forceSimpleAmpersand && ( attValue = attValue.replace( /&amp;/g, '&' ) );
+				// Run ampersand replacement after the htmlEncodeAttr, otherwise the results are overwritten (#965).
+				if ( this.forceSimpleAmpersand ) {
+					attValue = attValue.replace( /&amp;/g, '&' );
+				}
 			}
 
 			this._.output.push( ' ', attName, '="', attValue, '"' );
