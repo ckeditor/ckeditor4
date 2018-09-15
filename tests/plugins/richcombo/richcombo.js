@@ -39,7 +39,8 @@ bender.test( {
 
 		assert.areEqual( anchorEl.getAttribute( 'aria-haspopup' ), 'listbox' );
 	},
-	// #1477
+
+	// (#1477)
 	'test destroy removes combo listeners': function() {
 		var combo = this.editor.ui.get( 'custom_combo' ),
 			spies = CKEDITOR.tools.array.map( combo._.listeners, function( listener ) {
