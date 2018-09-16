@@ -151,6 +151,14 @@
 	};
 
 	bender.test( {
+		tearDown: function() {
+			var dialog = CKEDITOR.dialog.getCurrent();
+
+			if ( dialog ) {
+				dialog.hide();
+			}
+		},
+
 		'test open dialog from local': function() {
 			var ed = this.editor, tc = this;
 			ed.openDialog( 'testDialog1', function( dialog ) {
@@ -630,8 +638,6 @@
 			this.editorBot.dialog( 'testDialog1', function( dialog ) {
 				assert.areEqual( 'text1', dialog.getContentElement( 'info', 'text1' ).getValue(), 'text1 field has invalid value' );
 				assert.areEqual( 'text2', dialog.getContentElement( 'info', 'text2' ).getValue(), 'text2 field has invalid value' );
-
-				dialog.getButton( 'cancel' ).click();
 			} );
 		},
 
@@ -639,8 +645,6 @@
 		'test removing dialog value with config.dialog_defaultValues': function() {
 			this.editorBot.dialog( 'testDialogEmptyVal', function( dialog ) {
 				assert.areEqual( '', dialog.getContentElement( 'info', 'foo' ).getValue(), 'Field has invalid value.' );
-
-				dialog.getButton( 'cancel' ).click();
 			} );
 		}
 	} );
