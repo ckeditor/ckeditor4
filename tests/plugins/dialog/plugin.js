@@ -636,8 +636,8 @@
 		// (#2277)
 		'test default values': function() {
 			this.editorBot.dialog( 'testDialog1', function( dialog ) {
-				assert.areEqual( 'text1', dialog.getContentElement( 'info', 'text1' ).getValue(), 'text1 field has invalid value' );
-				assert.areEqual( 'text2', dialog.getContentElement( 'info', 'text2' ).getValue(), 'text2 field has invalid value' );
+				assert.areEqual( 'text1', dialog.getContentElement( 'info', 'text1' ).getValue(), 'text1 field has invalid value.' );
+				assert.areEqual( 'text2', dialog.getContentElement( 'info', 'text2' ).getValue(), 'text2 field has invalid value.' );
 			} );
 		},
 
