@@ -93,6 +93,16 @@
 								type: 'text',
 								id: 'text2',
 								label: 'text2'
+							},
+							{
+								type: 'hbox',
+								id: 'hbox2',
+								label: 'hbox2',
+								children: [ {
+									type: 'checkbox',
+									id: 'checkbox1',
+									label: 'checkbox1'
+								} ]
 							}
 						]
 					}
@@ -145,6 +155,7 @@
 			dialog_defaultValues: {
 				'testDialog1.info.text1': 'text1',
 				'testDialog1.info.text2': 'text2',
+				'testDialog1.info.checkbox1': true,
 				'testDialogEmptyVal.info.foo': ''
 			}
 		}
@@ -638,6 +649,7 @@
 			this.editorBot.dialog( 'testDialog1', function( dialog ) {
 				assert.areEqual( 'text1', dialog.getContentElement( 'info', 'text1' ).getValue(), 'text1 field has invalid value.' );
 				assert.areEqual( 'text2', dialog.getContentElement( 'info', 'text2' ).getValue(), 'text2 field has invalid value.' );
+				assert.areEqual( true, dialog.getContentElement( 'info', 'checkbox1' ).getValue(), 'checkbox1 field has invalid value.' );
 			} );
 		},
 

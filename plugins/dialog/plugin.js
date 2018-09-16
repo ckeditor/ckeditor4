@@ -1622,7 +1622,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 
 			var defaultValue = this._getFieldCofigDefaultValue( tabId, element.id );
-			if ( defaultValue ) {
+			if ( defaultValue !== null ) {
 				element[ 'default' ] = defaultValue;
 			}
 		},
@@ -1632,7 +1632,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * Gets field config value from {@link CKEDITOR.config.dialog_defaultValues}
 		 * for the given tab and element name.
 		 *
-		 * The value is fetched only for the current dialog name.
+		 * The value is retrieved only for the current dialog definition.
 		 *
 		 * @since 4.11.0
 		 * @private
@@ -1649,7 +1649,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				return null;
 			}
 
-			return defaultValues[ [ this._.name, tabId, elementName ].join( '.' ) ];
+			var value = defaultValues[ [ this._.name, tabId, elementName ].join( '.' ) ];
+
+			return value !== undefined ? value : null;
 		}
 	};
 
