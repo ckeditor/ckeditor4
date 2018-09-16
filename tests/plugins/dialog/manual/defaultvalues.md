@@ -23,8 +23,10 @@ Switch to `Advanced` tab.
 
 * ID input value is `1`.
 * Name input value is `test`.
+* Force download checkbox is checked.
 
 ## Unexpected
 
 * ID input value is empty.
 * Name input value is empty.
+* Force download checkbox is unchecked.

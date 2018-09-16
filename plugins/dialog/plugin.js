@@ -1602,11 +1602,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 		},
 
-		/*
-		 * Overwrites field default value located in the provided tab with
-		 * {@link CKEDITOR.config.dialog_defaultValues}.
+		/**
+		 * Overwrites field default value located in the given tab with
+		 * {@link CKEDITOR.config#dialog_defaultValues}.
 		 *
-		 * Field default value is left unchanged if config default value doesn't exist.
+		 * Field default value is left unchanged if configuration value doesn't exist.
 		 *
 		 * @since 4.11.0
 		 * @private
@@ -1621,15 +1621,15 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				}, this );
 			}
 
-			var defaultValue = this._getFieldCofigDefaultValue( tabId, element.id );
+			var defaultValue = this._getFieldConfigDefaultValue( tabId, element.id );
 			if ( defaultValue !== null ) {
 				element[ 'default' ] = defaultValue;
 			}
 		},
 
 
-		/*
-		 * Gets field config value from {@link CKEDITOR.config.dialog_defaultValues}
+		/**
+		 * Gets field config value from {@link CKEDITOR.config#dialog_defaultValues}
 		 * for the given tab and element name.
 		 *
 		 * The value is retrieved only for the current dialog definition.
@@ -1642,7 +1642,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 *
 		 * @returns {String} [defaultValue]
 		 */
-		_getFieldCofigDefaultValue: function( tabId, elementName ) {
+		_getFieldConfigDefaultValue: function( tabId, elementName ) {
 			var defaultValues = this._.editor.config.dialog_defaultValues;
 
 			if ( !defaultValues ) {
