@@ -7,8 +7,10 @@
 
 ## Expected
 
-Balloon option hovers smoothly.
+* Balloon option hovers smoothly.
+* Hovered option has equal left and right margin.
 
 ## Unexpected
 
-Visible flickering occurs on the right edge of the balloon panel.
+* Visible flickering occurs on the right edge of the balloon panel.
+* Hovered option has bigger right margin compared to left margin.
