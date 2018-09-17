@@ -246,10 +246,14 @@
 		'test throttle synchronization': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
-				isSelCorrect,
 				textWatcher = attachTextWatcher( editor, function( selectionRange ) {
-					var range = editor.getSelection().getRanges()[ 0 ];
-					isSelCorrect = range.startContainer.equals( selectionRange.startContainer );
+					if ( editor.getSelection().getSelectedText() === 'yyy' ) {
+						resume( function() {
+							var range = editor.getSelection().getRanges()[ 0 ];
+							assert.isTrue( range.startContainer.equals( selectionRange.startContainer ) );
+						} );
+					}
+
 					return {
 						text: 'test'
 					};
@@ -261,12 +265,6 @@
 			textWatcher.check( {} );
 
 			bot.setHtmlWithSelection( '<b>xxx</b><i>[yyy]</i>' );
-
-			setTimeout( function() {
-				resume( function() {
-					assert.isTrue( isSelCorrect );
-				} );
-			}, 100 );
 
 			wait();
 		},
