@@ -651,17 +651,17 @@
 		// (#2277)
 		'test default values': function() {
 			this.editorBot.dialog( 'testDialog1', function( dialog ) {
-				assert.areEqual( 'text1', dialog.getContentElement( 'info', 'text1' ).getValue(), 'text1 field has invalid value.' );
-				assert.areEqual( 'text2', dialog.getContentElement( 'info', 'text2' ).getValue(), 'text2 field has invalid value.' );
-				assert.isTrue( dialog.getContentElement( 'info', 'checkbox1' ).getValue(), 'checkbox1 field has invalid value.' );
-				assert.isFalse( dialog.getContentElement( 'info', 'checkbox2' ).getValue(), 'checkbox1 field has invalid value.' );
+				assert.areEqual( 'text1', dialog.getContentElement( 'info', 'text1' ).getValue(), 'text1 field has valid value.' );
+				assert.areEqual( 'text2', dialog.getContentElement( 'info', 'text2' ).getValue(), 'text2 field has valid value.' );
+				assert.isTrue( dialog.getContentElement( 'info', 'checkbox1' ).getValue(), 'checkbox1 field is checked.' );
+				assert.isFalse( dialog.getContentElement( 'info', 'checkbox2' ).getValue(), 'checkbox1 field is unchecked.' );
 			} );
 		},
 
 		// (#2277)
 		'test removing dialog value with config.dialog_defaultValues': function() {
 			this.editorBot.dialog( 'testDialogEmptyVal', function( dialog ) {
-				assert.areEqual( '', dialog.getContentElement( 'info', 'foo' ).getValue(), 'Field has invalid value.' );
+				assert.areEqual( '', dialog.getContentElement( 'info', 'foo' ).getValue(), 'Field is empty.' );
 			} );
 		}
 	} );
