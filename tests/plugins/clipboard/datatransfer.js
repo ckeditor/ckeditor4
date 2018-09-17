@@ -1218,8 +1218,7 @@ bender.test( {
 		args = CKEDITOR.tools.array.map( spy.args, function( item ) {
 			return item[ 1 ];
 		} );
-
-		assert.areSame( spy.callCount, 3, 'Method setData should be called 3 times.' );
+		assert.isTrue( spy.callCount >= 3, 'Method setData should be called at least 3 times.' );
 		assert.areSame( args.indexOf( '' ), -1, 'Empty string shouldn\'t be passed as an argument to setData.' );
 	}
 } );
