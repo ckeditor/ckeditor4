@@ -12,6 +12,11 @@
 <div id="editor"></div>
 
 <script>
+
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	var statusEl = document.getElementById( 'status' ),
 		editor = CKEDITOR.replace( 'editor', {
 		on: {
