@@ -1610,7 +1610,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 *
 		 * @since 4.11.0
 		 * @private
-		 *
 		 * @param {String} tabId
 		 * @param {CKEDITOR.ui.dialog.uiElement} element
 		 */
@@ -1636,10 +1635,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 *
 		 * @since 4.11.0
 		 * @private
-		 *
 		 * @param {String} tabId
 		 * @param {String} elementName
-		 *
 		 * @returns {String} [defaultValue]
 		 */
 		_getFieldConfigDefaultValue: function( tabId, elementName ) {
