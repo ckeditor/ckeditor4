@@ -102,6 +102,10 @@
 									type: 'checkbox',
 									id: 'checkbox1',
 									label: 'checkbox1'
+								}, {
+									type: 'checkbox',
+									id: 'checkbox2',
+									label: 'checkbox2'
 								} ]
 							}
 						]
@@ -649,7 +653,8 @@
 			this.editorBot.dialog( 'testDialog1', function( dialog ) {
 				assert.areEqual( 'text1', dialog.getContentElement( 'info', 'text1' ).getValue(), 'text1 field has invalid value.' );
 				assert.areEqual( 'text2', dialog.getContentElement( 'info', 'text2' ).getValue(), 'text2 field has invalid value.' );
-				assert.areEqual( true, dialog.getContentElement( 'info', 'checkbox1' ).getValue(), 'checkbox1 field has invalid value.' );
+				assert.isTrue( dialog.getContentElement( 'info', 'checkbox1' ).getValue(), 'checkbox1 field has invalid value.' );
+				assert.isFalse( dialog.getContentElement( 'info', 'checkbox2' ).getValue(), 'checkbox1 field has invalid value.' );
 			} );
 		},
 
