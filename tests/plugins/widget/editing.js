@@ -55,31 +55,6 @@
 							]
 						};
 					} );
-
-					evt.editor.widgets.add( 'dialogtest1', {
-						template: '<div>bar</div>',
-						dialog: 'dialogtest1'
-					} );
-
-					CKEDITOR.dialog.add( 'dialogtest1', function() {
-						return {
-							title: 'DialogTest1',
-							contents: [
-								{
-									id: 'info',
-									elements: []
-								}
-							],
-							onShow: dialogEventListener,
-							onOk: dialogEventListener,
-							onHide: dialogEventListener
-						};
-					} );
-
-					function dialogEventListener( evt ) {
-						assert.isNotUndefined( this.widget, 'No widget passed for: ' + evt.name );
-						assert.areEqual( 'dialogtest1', this.widget.name, 'Invalid widget for: ' + evt.name );
-					}
 				}
 			}
 		}
@@ -364,17 +339,48 @@
 		'test opening and hiding dialog has reference to widget': function() {
 			var editor = this.editor;
 
+			editor.widgets.add( 'dialogtest1', {
+				template: '<div>bar</div>',
+				dialog: 'dialogtest1'
+			} );
+
 			this.editorBot.setData( '<p data-widget="dialogtest1" id="x">bar</p>', function() {
-				var widget = getWidgetById( editor, 'x' );
+				var widget = getWidgetById( editor, 'x' ),
+					results = {};
+
+				CKEDITOR.dialog.add( 'dialogtest1', function() {
+					return {
+						title: 'DialogTest1',
+						contents: [
+							{
+								id: 'info',
+								elements: []
+							}
+						],
+						onShow: verifyWidgetReference,
+						onOk: verifyWidgetReference,
+						onHide: verifyWidgetReference
+					};
+				} );
+
+				function verifyWidgetReference( evt ) {
+					results[ evt.name ] = widget === this.widget;
+				}
 
 				editor.once( 'dialogShow', function( evt ) {
-					evt.data.getButton( 'ok' ).click();
-					resume();
+					resume( function() {
+						evt.data.getButton( 'ok' ).click();
+
+						for ( var event in results ) {
+							assert.isTrue( results[ event ], 'Widget is accessible from "' + event + '" event.' );
+						}
+					} );
 				} );
 
 				wait( function() {
 					widget.edit();
 				} );
+
 			} );
 		},
 
