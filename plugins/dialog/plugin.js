@@ -1515,6 +1515,17 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 
 			this.fire( 'state', state );
+		},
+
+		/**
+		 * @inheritdoc CKEDITOR.dialog.modeledDialog#getModel
+		 */
+		getModel: function() {
+			if ( this.definition.getModel ) {
+				return this.definition.getModel();
+			} else {
+				return null;
+			}
 		}
 	};
 
@@ -1805,12 +1816,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				contents[ i ] = content && new contentObject( dialog, content );
 
 			CKEDITOR.tools.extend( this, dialogDefinition );
-
-			if ( !this.getModel ) {
-				this.getModel = function() {
-					return null;
-				}
-			}
 		};
 
 	definitionObject.prototype = {
