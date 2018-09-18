@@ -1520,9 +1520,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		/**
 		 * @inheritdoc CKEDITOR.dialog.modeledDialog#getModel
 		 */
-		getModel: function() {
+		getModel: function( editor ) {
 			if ( this.definition.getModel ) {
-				return this.definition.getModel();
+				return this.definition.getModel( editor );
 			} else {
 				return null;
 			}
