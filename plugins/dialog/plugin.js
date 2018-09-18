@@ -3356,6 +3356,31 @@ CKEDITOR.plugins.add( 'dialog', {
 	}
 } );
 
+/**
+ * Interface to be implemented by any dialogs that can insert or edit any data into
+ * the editor.
+ *
+ * This class is here for documentation purposes only and is not really part of
+ * the API. It serves as the base ("interface") for data processor implementations.
+ *
+ * @since 4.11.0
+ * @class CKEDITOR.dialog.modeledDialog
+ * @abstract
+ */
+
+/**
+ * Returns the subject of the dialog.
+ *
+ * For the most plugins like `table` / `link` plugin it should return a
+ * {@link CKEDITOR.dom.element DOM element instance} if there's a related element to it.
+ * For widget plugins (`image2`, `placeholder`) it should return a widget instance that
+ * is a subject of this dialog.
+ *
+ * @method getModel
+ * @param {CKEDITOR.editor} editor
+ * @returns {Object/null} Returns `null` if dialog does not use model.
+ */
+
 // Dialog related configurations.
 
 /**
