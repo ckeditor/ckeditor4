@@ -174,6 +174,7 @@
 		/**
 		 * Indicates if a following space should be added after inserted match into an editor.
 		 *
+		 * @since 4.11.0
 		 * @property {Boolean} [followingSpace]
 		 */
 		this.followingSpace = config.followingSpace !== undefined ? config.followingSpace : true;
@@ -1484,6 +1485,7 @@
 
 	/**
 	 * @inheritdoc CKEDITOR.plugins.mentions#followingSpace
+	 * @since 4.11.0
 	 * @property {Boolean} [followingSpace]
 	 */
 
