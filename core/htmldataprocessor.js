@@ -54,8 +54,7 @@
 
 			// Before we start protecting markup, make sure there's no externally injected <cke:encoded> elements. Only
 			// HTML processor can use this tag, any external injections should discarded.
-			data = data.replace( reservedClosedElementsRegex, '' )
-				.replace( reservedUnclosedElementsRegex, '' );
+			data = data.replace( reservedElementsRegex, '' );
 
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
@@ -803,8 +802,7 @@
 	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*?<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,
 		protectTextareaRegex = /(<textarea(?=[ >])[^>]*>)([\s\S]*?)(?:<\/textarea>)/gi,
 		encodedElementsRegex = /<cke:encoded>([^<]*)<\/cke:encoded>/gi,
-		reservedClosedElementsRegex = /(<|&lt;|&#60;)cke(:|&#58;)encoded(>|&gt;|&#62;)(.*?)(<|&lt;|&#60;)(\/|&#47;)cke(:|&#58;)encoded(>|&gt;|&#62;)/gi,
-		reservedUnclosedElementsRegex = /(<|&lt;|&#60;)(\/?)cke(:|&#58;)encoded(>|&gt;|&#62;)/gi;
+		reservedElementsRegex = createReservedElementsRegex();
 
 		// Element name should be followed by space or closing angle bracket '>' to not protect custom tags (#988).
 	var protectElementNamesRegex = /(<\/?)((?:object|embed|param|html|body|head|title)([\s][^>]*)?>)/gi,
@@ -865,6 +863,63 @@
 				encodeURIComponent( match ).replace( /--/g, '%2D%2D' ) +
 				'-->';
 		} );
+	}
+
+	// Produces regex matching reserved `cke:encoded` element for valid HTML symbol codes.
+	// Matches `cke:encoded` element in unicode, hexadecimal, HTML-code, or HTML-entity.
+	function createReservedElementsRegex() {
+		return new RegExp( '(' +
+			// Create closed element regex i.e `<cke:encoded>xxx</cke:encoded>`.
+			createEncodedRegex( '<cke:encoded>' ) +
+			'(.*?)' +
+			createEncodedRegex( '</cke:encoded>' ) +
+			')|(' +
+			// Create unclosed element regex i.e `<cke:encoded>xxx` to make sure that
+			// element won't be closed by HTML parser and matched by `unprotectElements` function.
+			createEncodedRegex( '<' ) +
+			'(\/?)' +
+			createEncodedRegex( 'cke:encoded>' ) +
+			')', 'gi' );
+	}
+
+	function getCharRegex( character ) {
+		var entities = {
+				'<': '&lt;',
+				'>': '&gt;',
+				':': '&colon;'
+			},
+			charCode = character.charCodeAt( 0 ),
+			hex = charCode.toString( 16 ),
+			unicode = hex;
+
+		while ( unicode.length < 4 ) {
+			unicode = '0' + unicode;
+		}
+
+		return {
+			htmlCode: '&#' + charCode + ';',
+			// Hexadecimal value is valid despite leading zero padding e.g. `&#x0065` === `&#x65`.
+			hex: '&#x0*' + hex + ';',
+			unicode: '\\u' + unicode,
+			entity: entities[ character ]
+		};
+	}
+
+	function createEncodedRegex( str ) {
+		return CKEDITOR.tools.array.reduce( str.split( '' ), function( cur, character ) {
+			var map = getCharRegex( character ),
+				charRegex = '(' + character;
+
+			for ( var code in map ) {
+				if ( map[ code ] ) {
+					charRegex += '|' + map[ code ];
+				}
+			}
+
+			cur += charRegex + ')';
+
+			return cur;
+		}, '' );
 	}
 
 	// Replace all "on\w{3,}" strings which are not:
