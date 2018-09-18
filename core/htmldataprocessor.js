@@ -869,7 +869,6 @@
 	// Matches `cke:encoded` element in unicode, hexadecimal, HTML-code, or HTML-entity.
 	function createReservedElementsRegex() {
 		return new RegExp( '(' +
-			// Create closed element regex i.e `<cke:encoded>xxx</cke:encoded>`.
 			createEncodedRegex( '<cke:encoded>' ) +
 			'(.*?)' +
 			createEncodedRegex( '</cke:encoded>' ) +
