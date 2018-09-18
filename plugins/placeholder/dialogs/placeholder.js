@@ -20,6 +20,12 @@ CKEDITOR.dialog.add( 'placeholder', function( editor ) {
 		title: lang.title,
 		minWidth: 300,
 		minHeight: 80,
+		getModel: function( editor ) {
+			var curWidget = editor.widgets.focused,
+				ret = curWidget && curWidget.name === 'placeholder' ? curWidget : null;
+
+			return ret;
+		},
 		contents: [
 			{
 				id: 'info',
@@ -35,11 +41,11 @@ CKEDITOR.dialog.add( 'placeholder', function( editor ) {
 						'default': '',
 						required: true,
 						validate: CKEDITOR.dialog.validate.regex( validNameRegex, lang.invalidName ),
-						setup: function( widget ) {
-							this.setValue( widget.data.name );
+						setup: function() {
+							this.setValue( this.getDialog().getModel( editor ).data.name );
 						},
-						commit: function( widget ) {
-							widget.setData( 'name', this.getValue() );
+						commit: function() {
+							this.getDialog().getModel( editor ).setData( 'name', this.getValue() );
 						}
 					}
 				]
