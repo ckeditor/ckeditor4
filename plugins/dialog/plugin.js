@@ -1778,6 +1778,12 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				contents[ i ] = content && new contentObject( dialog, content );
 
 			CKEDITOR.tools.extend( this, dialogDefinition );
+
+			if ( !this.getModel ) {
+				this.getModel = function() {
+					return null;
+				}
+			}
 		};
 
 	definitionObject.prototype = {
