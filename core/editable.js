@@ -59,7 +59,7 @@
 		},
 
 		proto: {
-			focus: function() {
+			focus: function( focusOption ) {
 
 				var active;
 
@@ -69,7 +69,7 @@
 					// Restore focus on element which we cached (on selectionCheck) as previously active.
 					active = this.editor._.previousActive || this.getDocument().getActive();
 					if ( this.contains( active ) ) {
-						active.focus();
+						active.focus( focusOption );
 						return;
 					}
 				}
@@ -87,34 +87,43 @@
 					if ( CKEDITOR.env.ie && !( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) && this.getDocument().equals( CKEDITOR.document ) ) {
 						this.$.setActive();
 					} else {
-						if ( CKEDITOR.env.edge ) {
+						var isScrollLockFallbackNeeded = !CKEDITOR.env.safari && !CKEDITOR.env.chrome;
+
+						if ( !CKEDITOR.env.edge && isScrollLockFallbackNeeded ) {
 							// Edge: testing if element is scrollable and trying to set elements scrollTop is bugged.
 							// https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14721015/
-							this.$.focus();
-						} else {
-							var element = this,
-								scrollables = [];
+							var scrollables = [],
+								element = this;
 
-							// Find all scrollable ancestors to restore their scroll position after focus.
-							while ( element ) {
-								if ( element.$.scrollHeight > element.$.clientHeight ) {
-									scrollables.push( {
-										element: element,
-										scrollTop: element.$.scrollTop
-									} );
+							if ( focusOption && focusOption.preventScroll ) {
+								while ( element ) {
+									if ( element.$.scrollHeight > element.$.clientHeight ) {
+										scrollables.push( {
+											element: element,
+											scrollTop: element.$.scrollTop
+										} );
+									}
+									if ( element.getParent() ) {
+										element = element.getParent();
+									} else {
+										element = element.getWindow().getFrame();
+									}
 								}
-								if ( element.getParent() ) {
-									element = element.getParent();
-								} else {
-									element = element.getWindow().getFrame();
-								}
+
+								CKEDITOR.tools.array.forEach( scrollables, function( item ) {
+									item.element.$.scrollTop = item.scrollTop;
+								} );
 							}
 
 							this.$.focus();
 
-							CKEDITOR.tools.array.forEach( scrollables, function( item ) {
-								item.element.$.scrollTop = item.scrollTop;
-							} );
+							if ( scrollables.length ) {
+								CKEDITOR.tools.array.forEach( scrollables, function( item ) {
+									item.element.$.scrollTop = item.scrollTop;
+								} );
+							}
+						} else {
+							this.$.focus( focusOption );
 						}
 					}
 				} catch ( e ) {
@@ -123,7 +132,7 @@
 						throw e;
 				}
 
-				// Remedy if Safari doens't applies focus properly. (https://dev.ckeditor.com/ticket/279)
+				// Remedy if Safari doesn't applies focus properly. (https://dev.ckeditor.com/ticket/279)
 				if ( CKEDITOR.env.safari && !this.isInline() ) {
 					active = CKEDITOR.document.getActive();
 					if ( !active.equals( this.getWindow().getFrame() ) )
@@ -854,9 +863,10 @@
 				}, this );
 
 				// Delegate editor focus/blur to editable.
-				this.attachListener( editor, 'beforeFocus', function() {
+				this.attachListener( editor, 'beforeFocus', function( evt ) {
 					var sel = editor.getSelection(),
-						ieSel = sel && sel.getNative();
+						ieSel = sel && sel.getNative(),
+						focusOption = evt.data.focusOption;
 
 					// IE considers control-type element as separate
 					// focus host when selected, avoid destroying the
@@ -864,7 +874,7 @@
 					if ( ieSel && ieSel.type == 'Control' )
 						return;
 
-					this.focus();
+					this.focus( focusOption );
 				}, this );
 
 				this.attachListener( editor, 'insertHtml', function( evt ) {
