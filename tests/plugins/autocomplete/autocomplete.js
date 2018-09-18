@@ -473,8 +473,7 @@
 
 						return { text: '@Annabelle', range: range };
 					},
-					dataCallback: dataCallback,
-					followingSpace: false
+					dataCallback: dataCallback
 				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '@Annabelle^' );
@@ -566,6 +565,8 @@
 			} );
 
 			wait();
+		},
+
 		// (#2008)
 		'test following space is inserted after accepting match': function() {
 			// Ignore test due to IE issue (#2077).
@@ -602,7 +603,8 @@
 				editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					dataCallback: dataCallback,
-					textTestCallback: textTestCallback
+					textTestCallback: textTestCallback,
+					followingSpace: false
 				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '^&nbsp;foo' );
@@ -614,7 +616,6 @@
 			assert.areEqual( '<p>item1&nbsp;foo</p>', editor.getData() );
 
 			ac.destroy();
->>>>>>> Added unit tests and refactored docs.
 		}
 	} );
 
