@@ -48,7 +48,8 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 			return false;
 
 		if ( this.editorFocus ) // Give editor focus if necessary (https://dev.ckeditor.com/ticket/4355).
-			editor.focus();
+			// Prevent scroll for dialog commands (#748).
+			editor.focus( { preventScroll: !!this.dialogName } );
 
 		if ( this.fire( 'exec' ) === false )
 			return true;

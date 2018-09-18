@@ -1090,7 +1090,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				element.removeListener( 'keyup', accessKeyUpHandler );
 
 				var editor = this._.editor;
-				editor.focus();
+				editor.focus( { preventScroll: true } );
 
 				// Give a while before unlock, waiting for focus to return to the editable. (https://dev.ckeditor.com/ticket/172)
 				setTimeout( function() {
