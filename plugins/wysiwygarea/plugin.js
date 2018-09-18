@@ -506,10 +506,11 @@
 			},
 
 			focus: function( focusOption ) {
-				if ( this._.isLoadingData )
+				if ( this._.isLoadingData ) {
 					this._.isPendingFocus = true;
-				else
+				} else {
 					framedWysiwyg.baseProto.focus.call( this, focusOption );
+				}
 			},
 
 			detach: function() {
