@@ -1158,6 +1158,8 @@
 				if ( that.fire( 'dialog', dialog ) === false )
 					return;
 
+				dialog._model = that;
+
 				showListener = dialog.on( 'show', function() {
 					dialog.setupContent( that );
 				} );
@@ -1188,6 +1190,8 @@
 				dialog.once( 'hide', function() {
 					showListener.removeListener();
 					okListener.removeListener();
+
+					dialog._model = null;
 				} );
 			} );
 

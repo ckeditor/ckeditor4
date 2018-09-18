@@ -15,6 +15,10 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 		minWidth: 350,
 		minHeight: 50,
 
+		getModel: function() {
+			return this.dialog._model || null;
+		},
+
 		onLoad: function() {
 			var that = this,
 				loadContentRequest = null;
@@ -29,14 +33,15 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 				// Indicate visually that waiting for the response (https://dev.ckeditor.com/ticket/13213).
 				that.setState( CKEDITOR.DIALOG_STATE_BUSY );
 
-				var url = that.getValueOf( 'info', 'url' );
+				var url = that.getValueOf( 'info', 'url' ),
+					widget = that.getModel( editor );
 
-				loadContentRequest = that.widget.loadContent( url, {
+				loadContentRequest = widget.loadContent( url, {
 					noNotifications: true,
 
 					callback: function() {
-						if ( !that.widget.isReady() ) {
-							editor.widgets.finalizeCreation( that.widget.wrapper.getParent( true ) );
+						if ( !widget.isReady() ) {
+							editor.widgets.finalizeCreation( widget.wrapper.getParent( true ) );
 						}
 
 						editor.fire( 'saveSnapshot' );
@@ -48,7 +53,7 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 					errorCallback: function( messageTypeOrMessage ) {
 						that.getContentElement( 'info', 'url' ).select();
 
-						alert( that.widget.getErrorMessage( messageTypeOrMessage, url, 'Given' ) );
+						alert( widget.getErrorMessage( messageTypeOrMessage, url, 'Given' ) );
 
 						unlock();
 					}
@@ -80,12 +85,16 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 						label: editor.lang.common.url,
 						required: true,
 
-						setup: function( widget ) {
+						setup: function() {
+							var widget = this.getDialog().getModel( editor );
+
 							this.setValue( widget.data.url );
 						},
 
 						validate: function() {
-							if ( !this.getDialog().widget.isUrlValid( this.getValue() ) ) {
+							var widget = this.getDialog().getModel( editor );
+
+							if ( !widget.isUrlValid( this.getValue() ) ) {
 								return lang.unsupportedUrlGiven;
 							}
 
