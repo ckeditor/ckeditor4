@@ -9,6 +9,9 @@
 <textarea id="classic">Classic editor.</textarea>
 
 <script>
+	if ( CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
 	var buttons = CKEDITOR.document.findOne( '.buttons' );
 
 	CKEDITOR.inline( 'inline' );
