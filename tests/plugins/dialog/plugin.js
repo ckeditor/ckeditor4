@@ -4,7 +4,7 @@
 ( function() {
 	'use strict';
 
-	CKEDITOR.on( 'instanceLoaded', function() {
+	CKEDITOR.on( 'instanceLoaded', function( evt ) {
 		CKEDITOR.dialog.add( 'testDialog1', function() {
 			return {
 				title: 'Test Dialog 1',
@@ -24,6 +24,9 @@
 			};
 		} );
 		CKEDITOR.dialog.add( 'testDialog2', '%TEST_DIR%_assets/testdialog.js' );
+
+		evt.editor.addCommand( 'testDialog1', new CKEDITOR.dialogCommand( 'testDialog1' ) );
+		evt.editor.addCommand( 'testDialog2', new CKEDITOR.dialogCommand( 'testDialog2' ) );
 	} );
 
 	bender.editor = {};
@@ -401,6 +404,13 @@
 
 			editor.execCommand( 'testDialog6' );
 			wait();
+		},
+
+		'test dialog has getModel() method by default': function() {
+			this.editorBot.dialog( 'testDialog1', function( dialog ) {
+				dialog.hide();
+				assert.isNull( dialog.getModel() );
+			} );
 		}
 	} );
 
