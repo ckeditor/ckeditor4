@@ -361,7 +361,7 @@
 		},
 
 		// (#1044)
-		'test opening and hiding dialog events': function() {
+		'test opening and hiding dialog has reference to widget': function() {
 			var editor = this.editor;
 
 			this.editorBot.setData( '<p data-widget="dialogtest1" id="x">bar</p>', function() {
