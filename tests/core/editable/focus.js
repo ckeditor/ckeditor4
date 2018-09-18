@@ -15,13 +15,12 @@
 	};
 
 	var tests = {
-		// #748
-		'test scroll position doesn\'t change when focusing editable': function( editor ) {
-			// Edge should be ignored until this is fixed:
-			// https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14721015/
+		// #2420
+		'test scroll position doesn\'t change when preventScroll is set to true': function( editor ) {
 			if ( CKEDITOR.env.edge ) {
 				assert.ignore();
 			}
+
 			var editable = editor.editable(),
 				body = CKEDITOR.document.getBody(),
 				html = body.getParent(),
@@ -34,7 +33,7 @@
 			scrollTop.body = body.$.scrollTop;
 			scrollTop.html = html.$.scrollTop;
 
-			editable.focus();
+			editable.focus( { preventScroll: true } );
 
 			assert.areEqual( scrollTop.body, body.$.scrollTop, 'Body should be scrolled top' );
 			assert.areEqual( scrollTop.html, html.$.scrollTop, 'Html should be scrolled top' );

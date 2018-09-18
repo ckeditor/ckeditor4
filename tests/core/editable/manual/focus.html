@@ -19,7 +19,7 @@
 			editor = CKEDITOR.instances[ editorName ];
 
 		if ( editor ) {
-			editor.editable().focus();
+			editor.editable().focus( { preventScroll: true } );
 		}
 	} );
 </script>

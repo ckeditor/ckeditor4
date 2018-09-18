@@ -1,8 +1,9 @@
-@bender-tags: 4.10.2, bug, 478
+@bender-tags: 4.11.0, feature, 2420
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea
 
-Use buttons to focus each editors.
+1. Press first button.
+1. Press second button.
 
 ## Expected
 
@@ -10,4 +11,4 @@ Page doesn't scroll.
 
 ## Unexpected
 
-Page scrolls to the editor.
+Page scrolls to editor.
