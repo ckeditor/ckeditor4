@@ -2,13 +2,13 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea
 
-1. Press first button.
-1. Press second button.
+1. Press the first button.
+1. Press the second button.
 
 ## Expected
 
-Page doesn't scroll.
+Window doesn't scroll.
 
 ## Unexpected
 
-Page scrolls to editor.
+Window scrolls to the editor.

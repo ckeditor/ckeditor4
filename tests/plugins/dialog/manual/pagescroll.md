@@ -2,14 +2,14 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, link
 
-1. Scroll down until you see editor toolbar, but editing area is outside of view.
-1. Press link button.
-1. Close dialog.
+1. Scroll down until you see the editors toolbar, but the editing area is outside of the view.
+1. Press the link button.
+1. Close the dialog.
 
 ## Expected
 
-Page doesn't scroll.
+Window doesn't scroll.
 
 ## Unexpected
 
-Page scrolls down to editor.
+Window scrolls down to the editor.
