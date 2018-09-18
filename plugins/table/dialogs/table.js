@@ -59,6 +59,31 @@
 			minWidth: 310,
 			minHeight: CKEDITOR.env.ie ? 310 : 280,
 
+			getModel: function( editor ) {
+				var selection = editor.getSelection(),
+					ranges = selection.getRanges(),
+					dialog = this.dialog,
+					ret;
+
+				if ( dialog.getName() === 'tableProperties' ) {
+					var selected = selection.getSelectedElement();
+
+					if ( selected && selected.is( 'table' ) ) {
+						ret = selected;
+					} else if ( ranges.length > 0 ) {
+						// Webkit could report the following range on cell selection (https://dev.ckeditor.com/ticket/4948):
+						// <table><tr><td>[&nbsp;</td></tr></table>]
+						if ( CKEDITOR.env.webkit ) {
+							ranges[ 0 ].shrink( CKEDITOR.NODE_ELEMENT );
+						}
+
+						ret = editor.elementPath( ranges[ 0 ].getCommonAncestor( true ) ).contains( 'table', 1 );
+					}
+				}
+
+				return ret || null;
+			},
+
 			onLoad: function() {
 				var dialog = this;
 
@@ -267,8 +292,12 @@
 							required: true,
 							controlStyle: 'width:5em',
 							validate: validatorNum( editor.lang.table.invalidRows ),
-							setup: function( selectedElement ) {
-								this.setValue( selectedElement.$.rows.length );
+							setup: function() {
+								var selectedTable = this.getDialog().getModel( editor );
+
+								if ( selectedTable ) {
+									this.setValue( selectedTable.$.rows.length );
+								}
 							},
 							commit: commitValue
 						},
@@ -280,8 +309,12 @@
 							required: true,
 							controlStyle: 'width:5em',
 							validate: validatorNum( editor.lang.table.invalidCols ),
-							setup: function( selectedTable ) {
-								this.setValue( tableColumns( selectedTable ) );
+							setup: function() {
+								var selectedTable = this.getDialog().getModel( editor );
+
+								if ( selectedTable ) {
+									this.setValue( tableColumns( selectedTable ) );
+								}
 							},
 							commit: commitValue
 						},
@@ -301,7 +334,13 @@
 								[ editor.lang.table.headersColumn, 'col' ],
 								[ editor.lang.table.headersBoth, 'both' ]
 							],
-							setup: function( selectedTable ) {
+							setup: function() {
+								var selectedTable = this.getDialog().getModel( editor );
+
+								if ( !selectedTable ) {
+									return;
+								}
+
 								// Fill in the headers field.
 								var dialog = this.getDialog();
 								dialog.hasColumnHeaders = true;
@@ -333,8 +372,10 @@
 							label: editor.lang.table.border,
 							controlStyle: 'width:3em',
 							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidBorder ),
-							setup: function( selectedTable ) {
-								this.setValue( selectedTable.getAttribute( 'border' ) || '' );
+							setup: function() {
+								var selectedTable = this.getDialog().getModel( editor );
+
+								this.setValue( selectedTable && selectedTable.getAttribute( 'border' ) || '' );
 							},
 							commit: function( data, selectedTable ) {
 								if ( this.getValue() )
@@ -355,8 +396,10 @@
 								[ editor.lang.common.center, 'center' ],
 								[ editor.lang.common.right, 'right' ]
 							],
-							setup: function( selectedTable ) {
-								this.setValue( selectedTable.getAttribute( 'align' ) || '' );
+							setup: function( ) {
+								var selectedTable = this.getDialog().getModel( editor );
+
+								this.setValue( selectedTable && selectedTable.getAttribute( 'align' ) || '' );
 							},
 							commit: function( data, selectedTable ) {
 								if ( this.getValue() )
@@ -387,9 +430,12 @@
 									var styles = this.getDialog().getContentElement( 'advanced', 'advStyles' );
 									styles && styles.updateStyle( 'width', this.getValue() );
 								},
-								setup: function( selectedTable ) {
-									var val = selectedTable.getStyle( 'width' );
-									this.setValue( val );
+								setup: function() {
+									var selectedTable = this.getDialog().getModel( editor );
+
+									if ( selectedTable ) {
+										this.setValue( selectedTable.getStyle( 'width' ) );
+									}
 								},
 								commit: commitValue
 							} ]
