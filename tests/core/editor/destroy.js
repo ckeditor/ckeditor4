@@ -104,7 +104,7 @@
 
 	function countFilters( editor ) {
 		var filters = bender.tools.objToArray( CKEDITOR.filter.instances );
-		return editor ? filters.filter( function( filter ) {
+		return editor ? CKEDITOR.tools.array.filter( filters, function( filter ) {
 			return filter.editor === editor;
 		} ).length : filters.length;
 	}
