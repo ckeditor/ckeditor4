@@ -79,7 +79,7 @@
 	 * @class
 	 * @constructor Creates a filter class instance.
 	 * @param {CKEDITOR.editor/CKEDITOR.filter.allowedContentRules} editorOrRules
-	 * @param {CKEDITOR.editor} rules This parameter is available since 4.10.0.
+	 * @param {CKEDITOR.filter.allowedContentRules} rules This parameter is available since 4.10.2
 	 */
 	CKEDITOR.filter = function( editorOrRules, rules ) {
 		/**
