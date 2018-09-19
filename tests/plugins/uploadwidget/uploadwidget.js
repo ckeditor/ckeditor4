@@ -172,8 +172,9 @@
 				var loader = editor.uploadRepository.loaders[ 0 ];
 
 				editor.widgets.destroyAll();
+				editor.editable().findOne( '[data-cke-upload-id="' + loader.id + '"]' ).remove();
 
-				loader.abort();
+				loader.fire( 'update' );
 
 				assert.isTrue( stub.calledOnce );
 			} );
