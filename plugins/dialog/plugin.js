@@ -301,6 +301,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			definition: definition
 		}, editor ).definition;
 
+		CKEDITOR.dialog.fire( 'dialogCreated', {
+			name: dialogName,
+			dialog: this
+		} );
+
 		// Cache tabs that should be removed.
 		if ( !( 'removeDialogTabs' in editor._ ) && editor.config.removeDialogTabs ) {
 			var removeContents = editor.config.removeDialogTabs.split( ';' );
@@ -3513,6 +3518,23 @@ CKEDITOR.plugins.add( 'dialog', {
  * @member CKEDITOR
  * @param {CKEDITOR.dialog.definition} data The dialog defination that
  * is being loaded.
+ * @param {CKEDITOR.editor} editor The editor instance that will use the dialog.
+ */
+
+/**
+ * Event fired during the dialog instance initialization, but before it's rendered and ready
+ * for use.
+ *
+ * It should be used to hook any listeners that may fire during the dialog rendering.
+ *
+ * Note that the event is fired only **once** for each dialog per editor instance.
+ *
+ * @since 4.11.0
+ * @event dialogCreated
+ * @member CKEDITOR.dialog
+ * @param {Object} data
+ * @param {CKEDITOR.dialog} data.dialog Dialog instance that is being created.
+ * @param {String} data.name Name of the related dialog.
  * @param {CKEDITOR.editor} editor The editor instance that will use the dialog.
  */
 

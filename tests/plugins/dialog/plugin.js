@@ -465,6 +465,48 @@
 				sinon.assert.calledWith( getModelListener, sinon.match.has( 'editor', this.editor ) );
 				sinon.assert.calledWith( getModelListener, sinon.match.has( 'data', expectedData ) );
 			} );
+		},
+
+		'test dialog namespace fires dialogCreated event': function() {
+			var listener = sinon.stub(),
+				bot = this.editorBot;
+
+			this._disposableListeners.push( CKEDITOR.dialog.on( 'dialogCreated', listener ) );
+
+			CKEDITOR.dialog.add( 'dialogCreatedEvent', function() {
+				return {
+					title: 'foo',
+					contents: [ {
+						id: 'foo',
+						label: 'foo',
+						elements: []
+					} ]
+				};
+			} );
+
+			this.editor.addCommand( 'dialogCreatedEvent', new CKEDITOR.dialogCommand( 'dialogCreatedEvent' ) );
+
+			bot.dialog( 'dialogCreatedEvent', function( dialog ) {
+				assert.areSame( 1, listener.callCount, 'dialogCreated event count.' );
+				sinon.assert.calledWith( listener, sinon.match.has( 'data', {
+					name: 'dialogCreatedEvent',
+					dialog: sinon.match.instanceOf( CKEDITOR.dialog )
+				} ) );
+
+				dialog.hide();
+
+				window.setTimeout( function() {
+					resume( function() {
+						// Subsequent openings of the same dialog must not cause another event.
+						bot.dialog( 'dialogCreatedEvent', function() {
+							assert.areSame( 1, listener.callCount, 'dialogCreated event count remains unchanged.' );
+						} );
+					} );
+
+				}, 110 );
+
+				wait();
+			} );
 		}
 	} );
 
