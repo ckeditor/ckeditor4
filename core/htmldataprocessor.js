@@ -866,7 +866,7 @@
 	}
 
 	// Produces regex matching reserved `cke:encoded` element for valid HTML symbol codes.
-	// Matches `cke:encoded` element in unicode, hexadecimal, HTML-code, or HTML-entity.
+	// Matches `cke:encoded` element in hexadecimal, HTML-code, or HTML-entity.
 	function createReservedElementsRegex() {
 		return new RegExp( '(' +
 			createEncodedRegex( '<cke:encoded>' ) +
@@ -888,19 +888,13 @@
 				':': '&colon;'
 			},
 			charCode = character.charCodeAt( 0 ),
-			hex = charCode.toString( 16 ),
-			unicode = hex;
-
-		while ( unicode.length < 4 ) {
-			unicode = '0' + unicode;
-		}
+			hex = charCode.toString( 16 );
 
 		return {
 			// `;` is optional and HTML parser is able to recognize codes without it.
 			htmlCode: '&#' + charCode + ';?',
 			// Hexadecimal value is valid despite leading zero padding e.g. `&#x0065` === `&#x65`.
 			hex: '&#x0*' + hex + ';?',
-			unicode: '\\u' + unicode,
 			entity: entities[ character ]
 		};
 	}
