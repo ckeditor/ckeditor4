@@ -524,21 +524,7 @@
 			// The list of URLs to language files.
 			var languageFiles = [];
 
-			/**
-			 * An object that contains references to all plugins used by this
-			 * editor instance.
-			 *
-			 *		alert( editor.plugins.dialog.path ); // e.g. 'http://example.com/ckeditor/plugins/dialog/'
-			 *
-			 *		// Check if a plugin is available.
-			 *		if ( editor.plugins.image ) {
-			 *			...
-			 *		}
-			 *
-			 * @readonly
-			 * @property {Object}
-			 */
-			editor.plugins = plugins;
+			editor.plugins = CKEDITOR.tools.extend( {}, editor.plugins, plugins );
 
 			// Loop through all plugins, to build the list of language
 			// files to get loaded.
@@ -744,6 +730,56 @@
 	}
 
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
+		/**
+		 * An object that contains references to all plugins used by this
+		 * editor instance.
+		 *
+		 *		alert( editor.plugins.dialog.path ); // e.g. 'http://example.com/ckeditor/plugins/dialog/'
+		 *
+		 *		// Check if a plugin is available.
+		 *		if ( editor.plugins.image ) {
+		 *			...
+		 *		}
+		 *
+		 * @readonly
+		 * @property {CKEDITOR.editor.plugins}
+		 */
+		plugins: {
+			/**
+			 * Checks the plugin for conflicts with other plugins.
+			 *
+			 * If a conflict occurs, this function will send a {@link CKEDITOR#warn console warning}
+			 * with the `editor-plugin-conflict` error code. The order of the `conflicted` names is respected
+			 * where the first conflicted plugin has the highest priority and will be used in a warning
+			 * message.
+			 *
+			 * ```js
+			 * editor.plugins.detectConflict( 'image', [ 'image2', 'easyimage' ] );
+			 * ```
+			 *
+			 * @member CKEDITOR.editor.plugins
+			 * @since 4.10.1
+			 * @param {String} plugin Current plugin name.
+			 * @param {String[]} conflicted Names of plugins that conflict with the current plugin.
+			 * @return {Boolean} Returns `true` if there is a conflict. Returns `false` otherwise.
+			 */
+			detectConflict: function( plugin, conflicted ) {
+				for ( var i = 0; i < conflicted.length; i++ ) {
+					var pluginName = conflicted[ i ];
+
+					if ( this[ pluginName ] ) {
+						CKEDITOR.warn( 'editor-plugin-conflict', {
+							plugin: plugin,
+							replacedWith: pluginName
+						} );
+
+						return true;
+					}
+				}
+
+				return false;
+			}
+		},
 		/**
 		 * Adds a command definition to the editor instance. Commands added with
 		 * this function can be executed later with the {@link #execCommand} method.
@@ -1466,7 +1502,7 @@
 		 * However, the dynamic Enter modes can be changed during runtime by using this method, to reflect the selection context.
 		 * For example, if selection is moved to the {@link CKEDITOR.plugins.widget widget}'s nested editable which
 		 * is a {@link #blockless blockless one}, then the active Enter modes should be changed to {@link CKEDITOR#ENTER_BR}
-		 * (in this case [Widget System](#!/guide/dev_widgets) takes care of that).
+		 * (in this case {@glink guide/dev_widgets Widget System} takes care of that).
 		 *
 		 * **Note:** This method should not be used to configure the editor &ndash; use {@link CKEDITOR.config#enterMode} and
 		 * {@link CKEDITOR.config#shiftEnterMode} instead. This method should only be used to dynamically change
@@ -1577,7 +1613,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * If `true`, makes the editor start in read-only state. Otherwise, it will check
  * if the linked `<textarea>` element has the `disabled` attribute.
  *
- * Read more in the [documentation](#!/guide/dev_readonly)
+ * Read more in the {@glink guide/dev_readonly documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/readonly.html).
  *
  *		config.readOnly = true;

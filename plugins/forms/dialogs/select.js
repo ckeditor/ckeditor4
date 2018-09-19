@@ -490,8 +490,9 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						accessKey: 'Q',
 						value: 'checked',
 						setup: function( name, element ) {
-							if ( name == 'select' )
-								this.setValue( element.getAttribute( 'required' ) );
+							if ( name == 'select' ) {
+								CKEDITOR.plugins.forms._setupRequiredAttribute.call( this, element );
+							}
 						},
 						commit: function( element ) {
 							if ( this.getValue() )

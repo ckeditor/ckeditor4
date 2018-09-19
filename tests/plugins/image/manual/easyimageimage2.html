@@ -1,7 +1,7 @@
 <div id="editor"></div>
 
 <script>
-	if ( easyImageTools.isUnsupportedEnvironment() ) {
+	if ( easyImageTools.isUnsupportedEnvironment() || bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 

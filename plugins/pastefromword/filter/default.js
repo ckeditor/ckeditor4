@@ -2468,7 +2468,7 @@
 	 *
 	 * **Important note:** Prior to version 4.6.0 this configuration option defaulted to `true`.
 	 *
-	 * @deprecated 4.6.0 Either configure proper [Advanced Content Filter](#!/guide/dev_advanced_content_filter) for the editor
+	 * @deprecated 4.6.0 Either configure proper {@glink guide/dev_advanced_content_filter Advanced Content Filter} for the editor
 	 * or use the {@link CKEDITOR.editor#afterPasteFromWord} event.
 	 * @since 3.1
 	 * @cfg {Boolean} [pasteFromWordRemoveFontStyles=false]

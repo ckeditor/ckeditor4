@@ -2173,41 +2173,6 @@
 
 				appendParentFramePosition( frame.getWindow().getFrame() );
 			}
-		},
-
-		/**
-		 * Checks for conflicting plugins with the given one.
-		 *
-		 * If conflict occurs this function will send {@link CKEDITOR#warn console warning}
-		 * with `editor-plugin-conflict` error code. Order of a `conflicted` names is respected
-		 * where the first conflicted plugin has the highest priority and will be used in a warning
-		 * message.
-		 *
-		 * ```javascript
-		 * CKEDITOR.tools.detectPluginsConflict( editor, 'image', [ 'image2', 'easyimage' ] );
-		 * ```
-		 *
-		 * @since 4.10.1
-		 * @param {CKEDITOR.editor} editor Editor searched for conflicting plugins.
-		 * @param {String} plugin Current plugin name.
-		 * @param {String[]} conflicted Names of plugins that are conflicted with a current plugin.
-		 * @return {Boolean} Returns true, if there is some conflict. Returns false otherwise.
-		 */
-		detectPluginsConflict: function( editor, plugin, conflicted ) {
-			for ( var i = 0; i < conflicted.length; i++ ) {
-				var pluginName = conflicted[ i ];
-
-				if ( editor.plugins[ pluginName ] ) {
-					CKEDITOR.warn( 'editor-plugin-conflict', {
-						plugin: plugin,
-						replacedWith: pluginName
-					} );
-
-					return true;
-				}
-			}
-
-			return false;
 		}
 	};
 

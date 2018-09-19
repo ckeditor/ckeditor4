@@ -20,7 +20,7 @@ CKEDITOR.plugins.setLang( 'link', 'fa', {
 	charset: 'نویسه​گان منبع پیوند شده',
 	cssClasses: 'کلاس​های شیوه​نامه(Stylesheet)',
 	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	displayText: 'نمایش متن',
 	emailAddress: 'نشانی پست الکترونیکی',
 	emailBody: 'متن پیام',
 	emailSubject: 'موضوع پیام',

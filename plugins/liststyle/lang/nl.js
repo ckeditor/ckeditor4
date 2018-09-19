@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'nl', {
-	armenian: 'Armeense nummering',
 	bulletedTitle: 'Eigenschappen lijst met opsommingstekens',
 	circle: 'Cirkel',
 	decimal: 'Cijfers (1, 2, 3, etc.)',
-	decimalLeadingZero: 'Cijfers beginnen met nul (01, 02, 03, etc.)',
 	disc: 'Schijf',
-	georgian: 'Georgische nummering (an, ban, gan, etc.)',
 	lowerAlpha: 'Kleine letters (a, b, c, d, e, etc.)',
-	lowerGreek: 'Grieks kleine letters (alpha, beta, gamma, etc.)',
 	lowerRoman: 'Romeins kleine letters (i, ii, iii, iv, v, etc.)',
 	none: 'Geen',
 	notset: '<niet gezet>',

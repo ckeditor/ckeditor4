@@ -661,11 +661,11 @@ CKEDITOR.UI_SEPARATOR = 'separator';
  * The part of the user interface where the toolbar will be rendered. For the default
  * editor implementation, the recommended options are `'top'` and `'bottom'`.
  *
- * Please note that this option is only applicable to [classic](#!/guide/dev_framed)
- * (`iframe`-based) editor. In case of [inline](#!/guide/dev_inline) editor the toolbar
+ * Please note that this option is only applicable to {@glink guide/dev_framed classic}
+ * (`iframe`-based) editor. In case of {@glink guide/dev_inline inline} editor the toolbar
  * position is set dynamically depending on the position of the editable element on the screen.
  *
- * Read more in the [documentation](#!/guide/dev_toolbarlocation)
+ * Read more in the {@glink guide/dev_toolbarlocation documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/toolbarlocation.html).
  *
  *		config.toolbarLocation = 'bottom';
@@ -683,7 +683,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  * and {@link #toolbarGroups} as a toolbar groups layout.
  *
  * In CKEditor 4.5+ you can generate your toolbar customization code by using the [visual
- * toolbar configurator](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_toolbar).
+ * toolbar configurator](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_toolbar.html).
  *
  *		// Defines a toolbar with only one strip containing the "Source" button, a
  *		// separator, and the "Bold" and "Italic" buttons.

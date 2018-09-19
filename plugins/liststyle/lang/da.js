@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'da', {
-	armenian: 'Armensk nummering',
 	bulletedTitle: 'Værdier for cirkelpunktopstilling',
 	circle: 'Cirkel',
 	decimal: 'Decimal (1, 2, 3, osv.)',
-	decimalLeadingZero: 'Decimaler med 0 først (01, 02, 03, etc.)',
 	disc: 'Værdier for diskpunktopstilling',
-	georgian: 'Georgiansk nummering (an, ban, gan, etc.)',
 	lowerAlpha: 'Små alfabet (a, b, c, d, e, etc.)',
-	lowerGreek: 'Små græsk (alpha, beta, gamma, etc.)',
 	lowerRoman: 'Små romerske (i, ii, iii, iv, v, etc.)',
 	none: 'Ingen',
 	notset: '<ikke defineret>',

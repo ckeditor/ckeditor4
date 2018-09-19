@@ -149,6 +149,14 @@ bender.test( {
 		}, 200 );
 	},
 
+	// (#2276)
+	'test "selectionCheck" fires for mouse, key and touch events': function() {
+		testSelectionCheck( this.editors.editor, 'touchstart' );
+		testSelectionCheck( this.editors.editor, 'touchend' );
+		testSelectionCheck( this.editors.editor, 'keyup' );
+		testSelectionCheck( this.editors.editor, 'mouseup' );
+	},
+
 	'test "selectionChange" not fired when editor selection is locked': function() {
 		var ed = this.editors.editor, editable = ed.editable();
 
@@ -735,3 +743,18 @@ bender.test( {
 	}
 
 } );
+
+function testSelectionCheck( editor, event ) {
+	var onSelectionChange = sinon.spy();
+
+	bender.tools.setHtmlWithSelection( editor, '<p>[test]</p>' );
+
+	editor.on( 'selectionCheck', onSelectionChange );
+	editor.editable().fire( event );
+
+	// selection change has a 200ms delay.
+	wait( function() {
+		editor.removeListener( 'selectionCheck', onSelectionChange );
+		assert.isTrue( onSelectionChange.calledOnce, 'selectionCheck not fired on ' + event );
+	}, 200 );
+}

@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'eu', {
-	armenian: 'Zenbakitze armeniarra',
 	bulletedTitle: 'Buletadun zerrendaren propietateak',
 	circle: 'Zirkulua',
 	decimal: 'Hamartarra (1, 2, 3...)',
-	decimalLeadingZero: 'Aurretik zeroa duen hamartarra (01, 02, 03...)',
 	disc: 'Diskoa',
-	georgian: 'Zenbakitze georgiarra (an, ban, gan...)',
 	lowerAlpha: 'Alfabetoa minuskulaz (a, b, c, d, e...)',
-	lowerGreek: 'Greziera minuskulaz (alpha, beta, gamma...)',
 	lowerRoman: 'Erromatarra minuskulaz (i, ii, iii, iv, v...)',
 	none: 'Bat ere ez',
 	notset: '<ezarri gabea>',

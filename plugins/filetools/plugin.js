@@ -7,7 +7,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'filetools', {
-		lang: 'az,bg,ca,cs,da,de,de-ch,en,en-au,eo,es,es-mx,et,eu,fr,gl,hr,hu,id,it,ja,km,ko,ku,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'az,bg,ca,cs,da,de,de-ch,en,en-au,eo,es,es-mx,et,eu,fa,fr,gl,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 
 		beforeInit: function( editor ) {
 			/**
@@ -27,7 +27,7 @@
 			/**
 			 * Event fired when the {@link CKEDITOR.fileTools.fileLoader file loader} should send XHR. If the event is not
 			 * {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled}, the default request
-			 * will be sent. Refer to the [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article for more information.
+			 * will be sent. Refer to the {@glink guide/dev_file_upload Uploading Dropped or Pasted Files} article for more information.
 			 *
 			 * @since 4.5
 			 * @event fileUploadRequest
@@ -79,7 +79,7 @@
 			 * Event fired when the {CKEDITOR.fileTools.fileLoader file upload} response is received and needs to be parsed.
 			 * If the event is not {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled},
 			 * the default response handler will be used. Refer to the
-			 * [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article for more information.
+			 * {@glink guide/dev_file_upload Uploading Dropped or Pasted Files} article for more information.
 			 *
 			 * @since 4.5
 			 * @event fileUploadResponse
@@ -917,7 +917,7 @@
  * Allows to add extra headers for every request made using the {@link CKEDITOR.fileTools} API.
  *
  * Note that headers can still be customized per a single request, using the
- * [`fileUploadRequest`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.editor-event-fileUploadRequest)
+ * [`fileUploadRequest`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#event-fileUploadRequest)
  * event.
  *
  *		config.fileTools_requestHeaders = {

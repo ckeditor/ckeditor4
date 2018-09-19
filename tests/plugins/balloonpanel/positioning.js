@@ -249,7 +249,11 @@
 				}
 
 				balloonTestsTools.attachBalloon( this.balloon, target );
-				balloonTestsTools.assertMoveTo( moveSpy, expectedX, expectedY );
+				balloonTestsTools.assertMoveTo( {
+					moveMethod: moveSpy,
+					expectedX: expectedX,
+					expectedY: expectedY
+				} );
 
 				moveSpy.restore();
 			}

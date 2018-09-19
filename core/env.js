@@ -284,7 +284,7 @@ if ( !CKEDITOR.env ) {
 		 * It became too complicated to check in which new environments CKEditor is going to work.
 		 *
 		 * In order to enable CKEditor 4.4.x and below in unsupported environments see the
-		 * [Enabling CKEditor in Unsupported Environments](#!/guide/dev_unsupported_environments) article.
+		 * {@glink guide/dev_unsupported_environments Enabling CKEditor in Unsupported Environments} article.
 		 *
 		 *		if ( CKEDITOR.env.isCompatible )
 		 *			alert( 'Your browser is not known to be incompatible with CKEditor!' );

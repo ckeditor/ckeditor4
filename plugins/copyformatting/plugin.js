@@ -1109,7 +1109,7 @@
 	 *
 	 *		config.copyFormatting_outerCursor = false;
 	 *
-	 * Read more in the [documentation](#!/guide/dev_copyformatting)
+	 * Read more in the {@glink guide/dev_copyformatting documentation}
 	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
@@ -1123,13 +1123,13 @@
 	 * filtering.
 	 *
 	 * This property is using Advanced Content Filter syntax. You can learn more about it in the
-	 * [Content Filtering (ACF)](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_acf) documentation.
+	 * [Content Filtering (ACF)](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_acf.html) documentation.
 	 *
 	 *		config.copyFormatting_allowRules = 'span(*)[*]{*}'; // Allows only spans.
 	 *		config.copyFormatting_allowRules = true; // Disables filtering.
 	 *
 	 *
-	 * Read more in the [documentation](#!/guide/dev_copyformatting)
+	 * Read more in the {@glink guide/dev_copyformatting documentation}
 	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
@@ -1143,12 +1143,12 @@
 	 * Defines rules for the elements from which fetching styles is explicitly forbidden (eg. widgets).
 	 *
 	 * This property is using Advanced Content Filter syntax. You can learn more about it in the
-	 * [Content Filtering (ACF)](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_acf) documentation.
+	 * [Content Filtering (ACF)](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_acf.html) documentation.
 	 *
 	 *		config.copyFormatting_disallowRules = 'span(important)'; // Disallows spans with "important" class.
 	 *
 	 *
-	 * Read more in the [documentation](#!/guide/dev_copyformatting)
+	 * Read more in the {@glink guide/dev_copyformatting documentation}
 	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
@@ -1172,7 +1172,7 @@
 	 *		// If set to "true", enables all contexts.
 	 *		config.copyFormatting_allowedContexts = true;
 	 *
-	 * Read more in the [documentation](#!/guide/dev_copyformatting)
+	 * Read more in the {@glink guide/dev_copyformatting documentation}
 	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
@@ -1190,7 +1190,7 @@
 	 *
 	 *		config.copyFormatting_keystrokeCopy = false;
 	 *
-	 * Read more in the [documentation](#!/guide/dev_copyformatting)
+	 * Read more in the {@glink guide/dev_copyformatting documentation}
 	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
@@ -1208,7 +1208,7 @@
 	 *
 	 *		config.copyFormatting_keystrokePaste = false;
 	 *
-	 * Read more in the [documentation](#!/guide/dev_copyformatting)
+	 * Read more in the {@glink guide/dev_copyformatting documentation}
 	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0

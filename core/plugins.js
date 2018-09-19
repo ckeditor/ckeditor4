@@ -117,3 +117,16 @@ CKEDITOR.plugins.setLang = function( pluginName, languageCode, languageEntries )
 
 	pluginLangEntries[ languageCode ] = languageEntries;
 };
+
+/**
+ * Virtual class that illustrates the API of {@link CKEDITOR.editor} instance plugins dictionary.
+ *
+ * Such object contains references to all plugins used by a related editor instance.
+ *
+ * See {@link CKEDITOR.editor#property-plugins} for example use.
+ *
+ * This class is not really a part of the API, so its constructor can not be called.
+ *
+ * @abstract
+ * @class CKEDITOR.editor.plugins
+ */

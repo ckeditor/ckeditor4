@@ -7,5 +7,5 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'sk', {
 	panelTitle: 'Formátovanie štýlov',
 	panelTitle1: 'Štýly bloku',
 	panelTitle2: 'Znakové štýly',
-	panelTitle3: 'Štýly objeku'
+	panelTitle3: 'Štýly objektu'
 } );
