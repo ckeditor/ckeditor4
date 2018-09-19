@@ -251,14 +251,15 @@
 					capitalize = CKEDITOR.tools.capitalize,
 					oldStyle, newStyle;
 
-				// (#1454)
-				loader.once( 'abort', function() {
-					if ( typeof widget.onAbort === 'function' ) {
-						widget.onAbort( loader );
-					}
-				} );
-
 				loader.on( 'update', function( evt ) {
+					// (#1454)
+					if ( loader.status === 'abort' ) {
+						if ( typeof widget.onAbort === 'function' ) {
+							widget.onAbort( loader );
+						}
+						return;
+					}
+
 					// Abort if widget was removed.
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
 						// Uploading should be aborted if the editor is already destroyed (#966) or the upload widget was removed.
@@ -275,7 +276,7 @@
 					// `onUploaded` method will be called, if exists.
 					var methodName = 'on' + capitalize( loader.status );
 
-					if ( loader.status !== 'abort' && typeof widget[ methodName ] === 'function' ) {
+					if ( typeof widget[ methodName ] === 'function' ) {
 						if ( widget[ methodName ]( loader ) === false ) {
 							editor.fire( 'unlockSnapshot' );
 							return;
