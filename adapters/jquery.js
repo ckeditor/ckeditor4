@@ -12,7 +12,7 @@
  * @singleton
  *
  * The jQuery Adapter allows for easy use of basic CKEditor functions and access to the internal API.
- * To find more information about the jQuery Adapter, go to the [jQuery Adapter section](#!/guide/dev_jquery)
+ * To find more information about the jQuery Adapter, go to the {@glink guide/dev_jquery jQuery Adapter section}
  * of the Developer's Guide or see the "Create Editors with jQuery" sample.
  *
  * @aside guide dev_jquery
@@ -34,7 +34,7 @@
 	 * This configuration option is global and is executed during the loading of the jQuery Adapter.
 	 * It cannot be customized across editor instances.
 	 *
-	 * Read more in the [documentation](#!/guide/dev_jquery).
+	 * Read more in the {@glink guide/dev_jquery documentation}.
 	 *
 	 *		<script>
 	 *			CKEDITOR.config.jqueryOverrideVal = true;

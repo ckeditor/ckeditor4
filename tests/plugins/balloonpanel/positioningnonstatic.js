@@ -8,16 +8,19 @@
 
 	var getViewPaneSizeStub;
 
+/*
+Editors' order is important (#2350).
+When inline editor is added as a last one, there appear an error for test:
+
+	Triangle tip y position outside of element
+	Expected: Greater than 464 and lower than 485. (string)
+	Actual:   1013.5 (number)
+
+It seems that iOS might have some sort of optimization which is not refreshed as frequently as test goes.
+That's why method `CKEDITOR.tools.getAbsoluteRectPosition()`, which uses native `getBoundingClientRect()`,
+obtain negative `top` and `y` value, which is propagate to test result.
+*/
 	bender.editors = {
-		classic: {
-			name: 'editor1',
-			startupData: '<p><strong>Hello</strong> world</p>',
-			config: {
-				width: 300,
-				height: 300,
-				allowedContent: true
-			}
-		},
 		divarea: {
 			name: 'editor2',
 			startupData: '<p><strong>Hello</strong> world</p>',
@@ -37,8 +40,16 @@
 				height: 300,
 				allowedContent: true
 			}
+		},
+		classic: {
+			name: 'editor1',
+			startupData: '<p><strong>Hello</strong> world</p>',
+			config: {
+				width: 300,
+				height: 300,
+				allowedContent: true
+			}
 		}
-
 	};
 
 	function calculatePositions( editor, panelWidth, panelHeight ) {
@@ -89,7 +100,7 @@
 
 			// Because balloon is positioned absolutely, and body is relative with margin, then we need to add those margin to final result to get proper position on the screen.
 			assert.isNumberInRange( pos.triangleTip.x + bodyMarginLeft, pos.elementRect.left - DELTA, pos.elementRect.right + DELTA, 'Triangle tip x position outsid of element' );
-			assert.isNumberInRange( pos.triangleTip.y + bodyMarginTop, pos.elementRect.top - DELTA, pos.elementRect.bottom + DELTA, 'Triangle tip y position outsid of element' );
+			assert.isNumberInRange( pos.triangleTip.y + bodyMarginTop, pos.elementRect.top - DELTA, pos.elementRect.bottom + DELTA, 'Triangle tip y position outside of element' );
 			pos.panel.destroy();
 		}
 	};

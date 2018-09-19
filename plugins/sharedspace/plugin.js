@@ -114,7 +114,7 @@
  * instances. In that case only the blocks relevant to the active editor instance
  * will be displayed.
  *
- * Read more in the [documentation](#!/guide/dev_sharedspace)
+ * Read more in the {@glink guide/dev_sharedspace documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/sharedspace.html).
  *
  *		// Place the toolbar inside the element with an ID of "someElementId" and the

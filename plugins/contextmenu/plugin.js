@@ -111,7 +111,9 @@ CKEDITOR.plugins.add( 'contextmenu', {
 				 * @param {Number} [offsetY]
 				 */
 				open: function( offsetParent, corner, offsetX, offsetY ) {
-					if ( this.editor.config.enableContextMenu === false ) {
+					// Do not open context menu if it's disabled or there is no selection in the editor (#1181).
+					if ( this.editor.config.enableContextMenu === false ||
+						this.editor.getSelection().getType() === CKEDITOR.SELECTION_NONE ) {
 						return;
 					}
 
@@ -140,8 +142,23 @@ CKEDITOR.plugins.add( 'contextmenu', {
 		} );
 
 		editor.addCommand( 'contextMenu', {
-			exec: function() {
-				editor.contextMenu.open( editor.document.getBody() );
+			exec: function( editor ) {
+				var offsetX = 0,
+					offsetY = 0,
+					ranges = editor.getSelection().getRanges(),
+					rects,
+					rect;
+
+				// When opening context menu via keystroke there is no offsetX and Y passed (#1451).
+				rects = ranges[ ranges.length - 1 ].getClientRects( editor.editable().isInline() );
+				rect = rects[ rects.length - 1 ];
+
+				if ( rect ) {
+					offsetX = rect[ editor.lang.dir === 'rtl' ? 'left' : 'right' ];
+					offsetY = rect.bottom;
+				}
+
+				editor.contextMenu.open( editor.document.getBody().getParent(), null, offsetX, offsetY );
 			}
 		} );
 

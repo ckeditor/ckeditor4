@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'hu', {
-	armenian: 'Örmény számozás',
 	bulletedTitle: 'Pontozott lista tulajdonságai',
 	circle: 'Kör',
 	decimal: 'Arab számozás (1, 2, 3, stb.)',
-	decimalLeadingZero: 'Számozás bevezető nullákkal (01, 02, 03, stb.)',
 	disc: 'Korong',
-	georgian: 'Grúz számozás (an, ban, gan, stb.)',
 	lowerAlpha: 'Kisbetűs (a, b, c, d, e, stb.)',
-	lowerGreek: 'Görög (alpha, beta, gamma, stb.)',
 	lowerRoman: 'Római kisbetűs (i, ii, iii, iv, v, stb.)',
 	none: 'Nincs',
 	notset: '<Nincs beállítva>',

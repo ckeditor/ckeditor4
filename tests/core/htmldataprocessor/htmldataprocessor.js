@@ -372,30 +372,9 @@
 			assert.areSame( getTextAreaValue( '_TEXTAREA_3591' ), dataProcessor.toDataFormat( protectedHtml ) );
 		}, */
 
-		test_ticket_3591_2: function() {
-			var editor = this.editor,
-				dataProcessor = editor.dataProcessor;
+		test_ticket_3591_2: testProcessedHtmlUnchanged( '_TEXTAREA_3591_2', true ),
 
-			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
-			dataProcessor.writer.sortAttributes = true;
-
-			var html = getTextAreaValue( '_TEXTAREA_3591_2' );
-			var protectedHtml = dataProcessor.toHtml( html );
-
-			assert.areSame( getTextAreaValue( '_TEXTAREA_3591_2' ),
-				dataProcessor.toDataFormat( protectedHtml ) );
-		},
-
-		test_ticket_3869_1: function() {
-			var editor = this.editor,
-				dataProcessor = editor.dataProcessor;
-
-			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
-			var html = getTextAreaValue( '_TEXTAREA_3869_1' );
-			var protectedHtml = dataProcessor.toHtml( html );
-
-			assert.areSame( html , dataProcessor.toDataFormat( protectedHtml ) );
-		},
+		test_ticket_3869_1: testProcessedHtmlUnchanged( '_TEXTAREA_3869_1' ),
 
 		test_ticket_3869_2: function() {
 			var editor = this.editor,
@@ -1237,7 +1216,10 @@
 				context: 'h1',
 				enterMode: CKEDITOR.ENTER_BR
 			} ), 'toHtml' );
-		}
+		},
+
+		// (#988)
+		'test protected element names regex': testProcessedHtmlUnchanged( 'protected-element-names', true )
 	};
 
 	// https://dev.ckeditor.com/ticket/8630
@@ -1364,4 +1346,18 @@
 	}
 
 	bender.test( tcs );
+
+	function testProcessedHtmlUnchanged( textarea, sortAttributes ) {
+		return function() {
+			var dataProcessor = this.editor.dataProcessor;
+
+			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
+			dataProcessor.writer.sortAttributes = sortAttributes;
+
+			var html = getTextAreaValue( textarea ),
+				protectedHtml = dataProcessor.toHtml( html );
+
+			assert.areSame( html, dataProcessor.toDataFormat( protectedHtml ) );
+		};
+	}
 } )();

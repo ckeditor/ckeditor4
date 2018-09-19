@@ -17,8 +17,8 @@
  *
  * See also:
  *
- * * [The Plugin SDK](#!/guide/plugin_sdk_intro)
- * * [Creating a CKEditor plugin in 20 Lines of Code](#!/guide/plugin_sdk_sample)
+ * * {@glink guide/plugin_sdk_intro The Plugin SDK}
+ * * {@glink guide/plugin_sdk_sample Creating a CKEditor plugin in 20 Lines of Code}
  * * [Creating a Simple Plugin Tutorial](#!/guide/plugin_sdk_sample_1)
  *
  * @class CKEDITOR.pluginDefinition

@@ -309,14 +309,19 @@
 				return true;
 			}
 
+			var isProperMouseEvent = evt.name === ( CKEDITOR.env.gecko ? 'mousedown' : 'mouseup' );
 			// Covers a case when:
 			// 1. User releases mouse button outside the table.
-			// 2. User opens context menu not in the selected table.
-			if ( evt.name === 'mouseup' && !isOutsideTable( evt.data.getTarget() ) && !isSameTable( selectedTable, table ) ) {
-				return true;
-			}
+			// 2. User opens context menu outside of selection.
+			// Use 'mousedown' for Firefox, as it doesn't fire 'mouseup' when mouse is released in context menu.
+			return isProperMouseEvent && !isOutsideTable( evt.data.getTarget() ) &&
+				!isInSelectedCell( evt.data.getTarget(), fakeSelectedClass );
+		}
 
-			return false;
+		function isInSelectedCell( target, fakeSelectedClass ) {
+			var cell = target.getAscendant( { td: 1, th: 1 }, true );
+
+			return cell && cell.hasClass( fakeSelectedClass );
 		}
 
 		if ( canClearSelection( evt, selection, selectedTable, table ) ) {
@@ -883,7 +888,7 @@
 		 * @private
 		 */
 		keyboardIntegration: function( editor ) {
-			// Handle left, up, right, down, delete and backspace keystrokes inside table fake selection.
+			// Handle left, up, right, down, delete, backspace and enter keystrokes inside table fake selection.
 			function getTableOnKeyDownListener( editor ) {
 				var keystrokes = {
 						37: 1, // Left Arrow
@@ -891,7 +896,8 @@
 						39: 1, // Right Arrow,
 						40: 1, // Down Arrow
 						8: 1, // Backspace
-						46: 1 // Delete
+						46: 1, // Delete
+						13: 1 // Enter
 					},
 					tags = CKEDITOR.tools.extend( { table: 1 }, CKEDITOR.dtd.$tableContent );
 
@@ -963,16 +969,18 @@
 				return function( evt ) {
 					// Use getKey directly in order to ignore modifiers.
 					// Justification: https://dev.ckeditor.com/ticket/11861#comment:13
-					var keystroke = evt.data.getKey(),
+					var key = evt.data.getKey(),
+						keystroke = evt.data.getKeystroke(),
 						selection,
-						toStart = keystroke === 37 || keystroke == 38,
+						toStart = key === 37 || key == 38,
 						ranges,
 						firstCell,
 						lastCell,
 						i;
 
 					// Handle only left/right/del/bspace keys.
-					if ( !keystrokes[ keystroke ] ) {
+					// Disable editing cells in readonly mode (#1489).
+					if ( !keystrokes[ key ] || editor.readOnly ) {
 						return;
 					}
 
@@ -986,15 +994,24 @@
 					firstCell = ranges[ 0 ]._getTableElement();
 					lastCell = ranges[ ranges.length - 1 ]._getTableElement();
 
-					evt.data.preventDefault();
-					evt.cancel();
+					// Only prevent event when tableselection handle it. Which is non-enter button, or pressing enter button with enterkey plugin present (#1816).
+					if ( key !== 13 || editor.plugins.enterkey ) {
+						evt.data.preventDefault();
+						evt.cancel();
+					}
 
-					if ( keystroke > 8 && keystroke < 46 ) {
+					if ( key > 36 && key < 41 ) {
 						// Arrows.
 						ranges[ 0 ].moveToElementEditablePosition( toStart ? firstCell : lastCell, !toStart );
 						selection.selectRanges( [ ranges[ 0 ] ] );
 					} else {
-						// Delete.
+						// Delete, backspace, enter.
+
+						// Do nothing for Enter with modifiers different than shift.
+						if ( key === 13 && !( keystroke === 13 || keystroke === CKEDITOR.SHIFT + 13 ) ) {
+							return;
+						}
+
 						for ( i = 0; i < ranges.length; i++ ) {
 							clearCellInRange( ranges[ i ] );
 						}
@@ -1009,7 +1026,17 @@
 						}
 
 						selection.selectRanges( ranges );
-						editor.fire( 'saveSnapshot' );
+
+						if ( key === 13 && editor.plugins.enterkey ) {
+							// We need to lock undoManager to consider clearing table and inserting new paragraph as single operation, and have only one undo step (#1816).
+							editor.fire( 'lockSnapshot' );
+							keystroke === 13 ? editor.execCommand( 'enter' ) : editor.execCommand( 'shiftEnter' );
+							editor.fire( 'unlockSnapshot' );
+							editor.fire( 'saveSnapshot' );
+						} else if ( key !== 13 ) {
+							// Backspace and delete key should have saved snapshot.
+							editor.fire( 'saveSnapshot' );
+						}
 					}
 				};
 			}
@@ -1021,6 +1048,11 @@
 					ranges,
 					firstCell,
 					i;
+
+				// Disable editing cells in readonly mode (#1489).
+				if ( editor.readOnly ) {
+					return;
+				}
 
 				// We must check if the event really did not produce any character as it's fired for all keys in Gecko.
 				if ( !selection || !selection.isInTable() || !selection.isFake || !isCharKey ||

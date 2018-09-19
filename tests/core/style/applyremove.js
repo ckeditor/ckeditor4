@@ -264,6 +264,15 @@
 				'<b lang="pt" style="color:red; font-size:11pt">this<b style="font-weight:700"> is some sample text</b></b>' );
 		},
 
+		// (#2294, #2380)
+		'test inline style apply to HTML comments': createInlineStyleTestCase( 'html-comments-bold' ),
+
+		// (#2294, #2380)
+		'test HTML comments between blocks': createInlineStyleTestCase( 'html-comments-between-blocks' ),
+
+		// (#2294, #2380)
+		'test HTML comments between inline': createInlineStyleTestCase( 'html-comments-between-inline' ),
+
 		test_inline_nobreak1: function() {
 			playground.setHtml( 'this is <a href="http://example.com/">some sample</a> text' );
 
@@ -1044,4 +1053,18 @@
 
 	bender.test( tcs );
 
+	function createInlineStyleTestCase( fixtureId ) {
+		return function() {
+			bender.tools.testInputOut( fixtureId, function( inputHtml, expectedHtml ) {
+				playground.setHtml( CKEDITOR.tools.trim( inputHtml ) );
+
+				var rng = new CKEDITOR.dom.range( doc );
+				rng.selectNodeContents( playground );
+
+				getStyle( { element: 'strong' } ).applyToRange( rng );
+
+				assert.beautified.html( expectedHtml, playground.getHtml() );
+			} );
+		};
+	}
 } )();

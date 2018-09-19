@@ -130,7 +130,7 @@
 	/**
 	 * Global helpers and classes of the Code Snippet plugin.
 	 *
-	 * For more information see the [Code Snippet Guide](#!/guide/dev_codesnippet).
+	 * For more information see the {@glink guide/dev_codesnippet Code Snippet Guide}.
 	 *
 	 * @class
 	 * @singleton
@@ -430,7 +430,7 @@
  * highlighter (the default is [highlight.js](http://highlightjs.org)).
  * See {@link CKEDITOR.plugins.codesnippet.highlighter} to read more.
  *
- * Read more in the [documentation](#!/guide/dev_codesnippet)
+ * Read more in the {@glink guide/dev_codesnippet documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/codesnippet.html).
  *
  * @since 4.4

@@ -169,7 +169,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							currentColor;
 
 						while ( element ) {
-							if ( element.type === CKEDITOR.NODE_TEXT ) {
+							// (#2296)
+							if ( element.type !== CKEDITOR.NODE_ELEMENT ) {
 								element = element.getParent();
 							}
 
@@ -352,7 +353,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 /**
  * Whether to enable the **More Colors** button in the color selectors.
  *
- * Read more in the [documentation](#!/guide/dev_colorbutton)
+ * Read more in the {@glink guide/dev_colorbutton documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
  *
  *		config.colorButton_enableMore = false;
@@ -372,7 +373,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * **Since 4.6.2:** The default color palette has changed. It contains fewer colors in more
  * pastel shades than the previous one.
  *
- * Read more in the [documentation](#!/guide/dev_colorbutton)
+ * Read more in the {@glink guide/dev_colorbutton documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
  *
  *		// Brazil colors only.
@@ -399,7 +400,7 @@ CKEDITOR.config.colorButton_colors = '1ABC9C,2ECC71,3498DB,9B59B6,4E5F70,F1C40F,
 /**
  * Stores the style definition that applies the text foreground color.
  *
- * Read more in the [documentation](#!/guide/dev_colorbutton)
+ * Read more in the {@glink guide/dev_colorbutton documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
  *
  *		// This is actually the default value.
@@ -422,7 +423,7 @@ CKEDITOR.config.colorButton_foreStyle = {
 /**
  * Stores the style definition that applies the text background color.
  *
- * Read more in the [documentation](#!/guide/dev_colorbutton)
+ * Read more in the {@glink guide/dev_colorbutton documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
  *
  *		// This is actually the default value.
@@ -442,7 +443,7 @@ CKEDITOR.config.colorButton_backStyle = {
 /**
  * Whether to enable the **Automatic** button in the color selectors.
  *
- * Read more in the [documentation](#!/guide/dev_colorbutton)
+ * Read more in the {@glink guide/dev_colorbutton documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
  *
  *		config.colorButton_enableAutomatic = false;
@@ -454,7 +455,7 @@ CKEDITOR.config.colorButton_backStyle = {
 /**
  * Defines how many colors will be shown per row in the color selectors.
  *
- * Read more in the [documentation](#!/guide/dev_colorbutton)
+ * Read more in the {@glink guide/dev_colorbutton documentation}
  * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
  *
  *		config.colorButton_colorsPerRow = 8;

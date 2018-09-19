@@ -1,0 +1,35 @@
+<h2>Classic editor:</h2>
+<textarea id="classic">
+	<p>foo bar baz</p>
+</textarea>
+
+<h2>Divarea editor:</h2>
+<div id="divarea">
+	<p>foo bar baz</p>
+</div>
+
+<script>
+	var config = {
+		fontSize_sizes: '1/1;2/2;3/3;4/4;5/5;6/6;7/7;',
+		font_style: {
+			element: 'font',
+			attributes: {'face': '#(family)'},
+			overrides: [ {
+				element: 'font', attributes: { 'face': null }
+			} ]
+		},
+		fontSize_style: {
+			element: 'font',
+			attributes: {'size': '#(size)'},
+			overrides: [ {
+				element: 'font', attributes: { 'size': null }
+			} ]
+		},
+		extraAllowedContent: 'span;font[*]'
+	}
+
+	CKEDITOR.replace( 'classic', config );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( {
+		extraPlugins: 'divarea'
+	}, config ) );
+</script>

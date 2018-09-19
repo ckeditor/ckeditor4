@@ -3032,7 +3032,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			inlineStyleRegex = /^(\s*[\w-]+\s*:\s*[^:;]+(?:;|$))*$/;
 
 		/**
-		 * {@link CKEDITOR.dialog Dialog} `OR` logical value indicates
+		 * {@link CKEDITOR.dialog Dialog} `OR` logical value indicates the
 		 * relation between validation functions.
 		 *
 		 * @readonly
@@ -3042,7 +3042,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		CKEDITOR.VALIDATE_OR = 1;
 
 		/**
-		 * {@link CKEDITOR.dialog Dialog} `AND` logical value indicates
+		 * {@link CKEDITOR.dialog Dialog} `AND` logical value indicates the
 		 * relation between validation functions.
 		 *
 		 * @readonly
@@ -3070,7 +3070,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * ```
 			 *
 			 * @param {Function...} validators Validation functions which will be composed into a single validator.
-			 * @param {String} [msg] Error message returned by a composed validation function.
+			 * @param {String} [msg] Error message returned by the composed validation function.
 			 * @param {Number} [relation=CKEDITOR.VALIDATE_OR] Indicates a relation between validation functions.
 			 * Use {@link CKEDITOR#VALIDATE_OR} or {@link CKEDITOR#VALIDATE_AND}.
 			 *
@@ -3125,7 +3125,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * CKEDITOR.dialog.validate.regex( 'error!' )( '123.321' ) // error!
 			 * ```
 			 *
-			 * @param {RegExp} regex RegExp used to validate value.
+			 * @param {RegExp} regex Regular expression used to validate the value.
 			 * @param {String} msg Validator error message.
 			 * @returns {Function} Validation function.
 			 */
@@ -3248,7 +3248,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * CKEDITOR.dialog.validate.equals( 'foo', 'error!' )( 'baz' ) // error!
 			 * ```
 			 *
-			 * @param {String} value Value to compare.
+			 * @param {String} value The value to compare.
 			 * @param {String} msg Validator error message.
 			 * @returns {Function} Validation function.
 			 */
@@ -3266,7 +3266,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			 * CKEDITOR.dialog.validate.notEqual( 'foo', 'error!' )( 'foo' ) // error!
 			 * ```
 			 *
-			 * @param {String} value Value to compare.
+			 * @param {String} value The value to compare.
 			 * @param {String} msg Validator error message.
 			 * @returns {Function} Validation function.
 			 */

@@ -13,7 +13,7 @@
 ( function() {
 
 	CKEDITOR.plugins.add( 'notification', {
-		lang: 'az,bg,ca,cs,da,de,de-ch,en,en-au,eo,es,es-mx,et,eu,fr,gl,hr,hu,id,it,ja,km,ko,ku,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'az,bg,ca,cs,da,de,de-ch,en,en-au,eo,es,es-mx,et,eu,fa,fr,gl,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
 			editor._.notificationArea = new Area( editor );
@@ -104,7 +104,7 @@
 	 * All of the notification actions: ({@link #show}, {@link #update} and {@link #hide}) fire cancelable events
 	 * on the related {@link CKEDITOR.editor} instance so you can integrate editor notifications with your website notifications.
 	 *
-	 * Refer to the [Notifications](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_notifications) article for more information about this feature.
+	 * Refer to the [Notifications](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_notifications.html) article for more information about this feature.
 	 *
 	 * @since 4.5
 	 * @class CKEDITOR.plugins.notification
@@ -873,7 +873,7 @@
 	 * `0` means that notifications will not close automatically.
 	 * Note that `warning` and `progress` notifications will never close automatically.
 	 *
-	 * Refer to the [Notifications](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_notifications) article
+	 * Refer to the [Notifications](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_notifications.html) article
 	 * for more information about this feature.
 	 *
 	 * @since 4.5

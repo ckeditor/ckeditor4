@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'vi', {
-	armenian: 'Số theo kiểu Armenian',
 	bulletedTitle: 'Thuộc tính danh sách không thứ tự',
 	circle: 'Khuyên tròn',
 	decimal: 'Kiểu số (1, 2, 3 ...)',
-	decimalLeadingZero: 'Kiểu số (01, 02, 03...)',
 	disc: 'Hình đĩa',
-	georgian: 'Số theo kiểu Georgian (an, ban, gan...)',
 	lowerAlpha: 'Kiểu abc thường (a, b, c, d, e...)',
-	lowerGreek: 'Kiểu Hy Lạp (alpha, beta, gamma...)',
 	lowerRoman: 'Số La Mã kiểu thường (i, ii, iii, iv, v...)',
 	none: 'Không gì cả',
 	notset: '<không thiết lập>',

@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'fr', {
-	armenian: 'Numération arménienne',
 	bulletedTitle: 'Propriétés de la liste à puces',
 	circle: 'Cercle',
 	decimal: 'Décimal (1, 2, 3, etc.)',
-	decimalLeadingZero: 'Décimal précédé par un 0 (01, 02, 03, etc.)',
 	disc: 'Disque',
-	georgian: 'Numération géorgienne (an, ban, gan, etc.)',
 	lowerAlpha: 'Lettres minuscules (a, b, c, d, e, etc.)',
-	lowerGreek: 'Grec minuscule (alpha, bêta, gamma, etc.)',
 	lowerRoman: 'Chiffres romains minuscules (i, ii, iii, iv, v, etc.)',
 	none: 'Aucun',
 	notset: '<indéfini>',

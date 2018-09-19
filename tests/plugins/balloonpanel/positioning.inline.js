@@ -42,10 +42,10 @@
 
 	// Some init logic, we need to properly place elements according to the screen size.
 
-	// Make body as big as 3 screens.
+	// Make body big enough so scrollbars are visibly on any screen resolution.
 	CKEDITOR.document.getBody().setStyles( {
-		height: screenSize.height * 3 + 'px',
-		width: screenSize.width * 3 + 'px'
+		height: screenSize.height * 10 + 'px',
+		width: screenSize.width * 10 + 'px'
 	} );
 
 	// Set reference element size.
@@ -80,7 +80,14 @@
 			var moveSpy = spy( this.balloon, 'move' );
 			balloonTestsTools.attachBalloon( this.balloon, 'center' );
 
-			balloonTestsTools.assertMoveTo( moveSpy, screenSize.width - balloonSize.width - 40, screenSize.height, screenSize.width - balloonSize.width, screenSize.height * 2 );
+			balloonTestsTools.assertMoveTo( {
+				moveMethod: moveSpy,
+				expectedX: screenSize.width - balloonSize.width - 40,
+				expectedY: screenSize.height,
+				maxX: screenSize.width - balloonSize.width,
+				maxY: screenSize.height * 2,
+				shouldRound: true
+			} );
 			moveSpy.restore();
 		},
 
@@ -90,7 +97,14 @@
 			balloonTestsTools.attachBalloon( this.balloon, 'center' );
 
 			// Should appear on the right-hand side.
-			balloonTestsTools.assertMoveTo( moveSpy, screenSize.width * 1.5, screenSize.height * 1.5 - balloonSize.height / 2, screenSize.width * 2, screenSize.height * 1.5 );
+			balloonTestsTools.assertMoveTo( {
+				moveMethod: moveSpy,
+				expectedX: screenSize.width * 1.5,
+				expectedY: screenSize.height * 1.5 - balloonSize.height / 2,
+				maxX: screenSize.width * 2,
+				maxY: screenSize.height * 1.5,
+				shouldRound: true
+			} );
 			moveSpy.restore();
 		},
 
@@ -100,7 +114,14 @@
 			balloonTestsTools.attachBalloon( this.balloon, 'center' );
 
 			// Should appear on the right-hand side.
-			balloonTestsTools.assertMoveTo( moveSpy, screenSize.width * 1.5 - balloonSize.width, screenSize.height * 2 + 20, screenSize.width * 1.5 + balloonSize.width, screenSize.height * 2 + 21 );
+			balloonTestsTools.assertMoveTo( {
+				moveMethod: moveSpy,
+				expectedX: screenSize.width * 1.5 - balloonSize.width,
+				expectedY: screenSize.height * 2 + 20,
+				maxX: screenSize.width * 1.5 + balloonSize.width,
+				maxY: screenSize.height * 2 + 21,
+				shouldRound: true
+			} );
 			moveSpy.restore();
 		},
 
