@@ -1321,9 +1321,9 @@
 		 *
 		 * Example:
 		 * ```javascript
-		 * editable.focus( { preventScroll: true } ); // Focuses but prevents scrolling.
-		 * editable.focus( { preventScroll: false } ); // Focuses without preventing scroll.
-		 * editable.focus(); // Focuses without preventing scroll.
+		 * editor.focus( { preventScroll: true } ); // Focuses but prevents scrolling.
+		 * editor.focus( { preventScroll: false } ); // Focuses without preventing scroll.
+		 * editor.focus(); // Focuses without preventing scroll.
 		 * ```
 		 *
 		 * @param {Object} [focusOption]
