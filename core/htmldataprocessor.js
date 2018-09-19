@@ -896,9 +896,10 @@
 		}
 
 		return {
-			htmlCode: '&#' + charCode + ';',
+			// `;` is optional and HTML parser is able to recognize codes without it.
+			htmlCode: '&#' + charCode + ';?',
 			// Hexadecimal value is valid despite leading zero padding e.g. `&#x0065` === `&#x65`.
-			hex: '&#x0*' + hex + ';',
+			hex: '&#x0*' + hex + ';?',
 			unicode: '\\u' + unicode,
 			entity: entities[ character ]
 		};
