@@ -226,9 +226,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		var definition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ],
 			defaultDefinition = CKEDITOR.tools.clone( defaultDialogDefinition ),
 			buttonsOrder = editor.config.dialog_buttonsOrder || 'OS',
-			dir = editor.lang.dir,
-			tabsToRemove = {},
-			i, processed, stopPropagation;
+			dir = editor.lang.dir;
 
 		if ( ( buttonsOrder == 'OS' && CKEDITOR.env.mac ) || // The buttons in MacOS Apps are in reverse order (https://dev.ckeditor.com/ticket/4750)
 		( buttonsOrder == 'rtl' && dir == 'ltr' ) || ( buttonsOrder == 'ltr' && dir == 'rtl' ) )
@@ -306,378 +304,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			dialog: this
 		} );
 
-		// Cache tabs that should be removed.
-		if ( !( 'removeDialogTabs' in editor._ ) && editor.config.removeDialogTabs ) {
-			var removeContents = editor.config.removeDialogTabs.split( ';' );
-
-			for ( i = 0; i < removeContents.length; i++ ) {
-				var parts = removeContents[ i ].split( ':' );
-				if ( parts.length == 2 ) {
-					var removeDialogName = parts[ 0 ];
-					if ( !tabsToRemove[ removeDialogName ] )
-						tabsToRemove[ removeDialogName ] = [];
-					tabsToRemove[ removeDialogName ].push( parts[ 1 ] );
-				}
-			}
-			editor._.removeDialogTabs = tabsToRemove;
-		}
-
-		// Remove tabs of this dialog.
-		if ( editor._.removeDialogTabs && ( tabsToRemove = editor._.removeDialogTabs[ dialogName ] ) ) {
-			for ( i = 0; i < tabsToRemove.length; i++ )
-				definition.removeContents( tabsToRemove[ i ] );
-		}
-
-		// Initialize load, show, hide, ok and cancel events.
-		if ( definition.onLoad )
-			this.on( 'load', definition.onLoad );
-
-		if ( definition.onShow )
-			this.on( 'show', definition.onShow );
-
-		if ( definition.onHide )
-			this.on( 'hide', definition.onHide );
-
-		if ( definition.onOk ) {
-			this.on( 'ok', function( evt ) {
-				// Dialog confirm might probably introduce content changes (https://dev.ckeditor.com/ticket/5415).
-				editor.fire( 'saveSnapshot' );
-				setTimeout( function() {
-					editor.fire( 'saveSnapshot' );
-				}, 0 );
-				if ( definition.onOk.call( this, evt ) === false )
-					evt.data.hide = false;
-			} );
-		}
-
-		// Set default dialog state.
-		this.state = CKEDITOR.DIALOG_STATE_IDLE;
-
-		if ( definition.onCancel ) {
-			this.on( 'cancel', function( evt ) {
-				if ( definition.onCancel.call( this, evt ) === false )
-					evt.data.hide = false;
-			} );
-		}
-
-		var me = this;
-
-		// Iterates over all items inside all content in the dialog, calling a
-		// function for each of them.
-		var iterContents = function( func ) {
-				var contents = me._.contents,
-					stop = false;
-
-				for ( var i in contents ) {
-					for ( var j in contents[ i ] ) {
-						stop = func.call( this, contents[ i ][ j ] );
-						if ( stop )
-							return;
-					}
-				}
-			};
-
-		this.on( 'ok', function( evt ) {
-			iterContents( function( item ) {
-				if ( item.validate ) {
-					var retval = item.validate( this ),
-						invalid = ( typeof retval == 'string' ) || retval === false;
-
-					if ( invalid ) {
-						evt.data.hide = false;
-						evt.stop();
-					}
-
-					handleFieldValidated.call( item, !invalid, typeof retval == 'string' ? retval : undefined );
-					return invalid;
-				}
-			} );
-		}, this, null, 0 );
-
-		this.on( 'cancel', function( evt ) {
-			iterContents( function( item ) {
-				if ( item.isChanged() ) {
-					if ( !editor.config.dialog_noConfirmCancel && !confirm( editor.lang.common.confirmCancel ) ) // jshint ignore:line
-						evt.data.hide = false;
-					return true;
-				}
-			} );
-		}, this, null, 0 );
-
-		this.parts.close.on( 'click', function( evt ) {
-			if ( this.fire( 'cancel', { hide: true } ).hide !== false )
-				this.hide();
-			evt.data.preventDefault();
-		}, this );
-
-		// Sort focus list according to tab order definitions.
-		function setupFocus() {
-			var focusList = me._.focusList;
-			focusList.sort( function( a, b ) {
-				// Mimics browser tab order logics;
-				if ( a.tabIndex != b.tabIndex )
-					return b.tabIndex - a.tabIndex;
-				//  Sort is not stable in some browsers,
-				// fall-back the comparator to 'focusIndex';
-				else
-					return a.focusIndex - b.focusIndex;
-			} );
-
-			var size = focusList.length;
-			for ( var i = 0; i < size; i++ )
-				focusList[ i ].focusIndex = i;
-		}
-
-		// Expects 1 or -1 as an offset, meaning direction of the offset change.
-		function changeFocus( offset ) {
-			var focusList = me._.focusList;
-			offset = offset || 0;
-
-			if ( focusList.length < 1 )
-				return;
-
-			var startIndex = me._.currentFocusIndex;
-
-			if ( me._.tabBarMode && offset < 0 ) {
-				// If we are in tab mode, we need to mimic that we started tabbing back from the first
-				// focusList (so it will go to the last one).
-				startIndex = 0;
-			}
-
-			// Trigger the 'blur' event of  any input element before anything,
-			// since certain UI updates may depend on it.
-			try {
-				focusList[ startIndex ].getInputElement().$.blur();
-			} catch ( e ) {}
-
-			var currentIndex = startIndex,
-				hasTabs = me._.pageCount > 1;
-
-			do {
-				currentIndex = currentIndex + offset;
-
-				if ( hasTabs && !me._.tabBarMode && ( currentIndex == focusList.length || currentIndex == -1 ) ) {
-					// If the dialog was not in tab mode, then focus the first tab (https://dev.ckeditor.com/ticket/13027).
-					me._.tabBarMode = true;
-					me._.tabs[ me._.currentTabId ][ 0 ].focus();
-					me._.currentFocusIndex = -1;
-
-					// Early return, in order to avoid accessing focusList[ -1 ].
-					return;
-				}
-
-				currentIndex = ( currentIndex + focusList.length ) % focusList.length;
-
-				if ( currentIndex == startIndex ) {
-					break;
-				}
-			} while ( offset && !focusList[ currentIndex ].isFocusable() );
-
-			focusList[ currentIndex ].focus();
-
-			// Select whole field content.
-			if ( focusList[ currentIndex ].type == 'text' )
-				focusList[ currentIndex ].select();
-		}
-
-		this.changeFocus = changeFocus;
-
-
-		function keydownHandler( evt ) {
-			// If I'm not the top dialog, ignore.
-			if ( me != CKEDITOR.dialog._.currentTop )
-				return;
-
-			var keystroke = evt.data.getKeystroke(),
-				rtl = editor.lang.dir == 'rtl',
-				arrowKeys = [ 37, 38, 39, 40 ],
-				button;
-
-			processed = stopPropagation = 0;
-
-			if ( keystroke == 9 || keystroke == CKEDITOR.SHIFT + 9 ) {
-				var shiftPressed = ( keystroke == CKEDITOR.SHIFT + 9 );
-				changeFocus( shiftPressed ? -1 : 1 );
-				processed = 1;
-			} else if ( keystroke == CKEDITOR.ALT + 121 && !me._.tabBarMode && me.getPageCount() > 1 ) {
-				// Alt-F10 puts focus into the current tab item in the tab bar.
-				me._.tabBarMode = true;
-				me._.tabs[ me._.currentTabId ][ 0 ].focus();
-				me._.currentFocusIndex = -1;
-				processed = 1;
-			} else if ( CKEDITOR.tools.indexOf( arrowKeys, keystroke ) != -1 && me._.tabBarMode ) {
-				// Array with key codes that activate previous tab.
-				var prevKeyCodes = [
-						// Depending on the lang dir: right or left key
-						rtl ? 39 : 37,
-						// Top/bot arrow: actually for both cases it's the same.
-						38
-					],
-					nextId = CKEDITOR.tools.indexOf( prevKeyCodes, keystroke ) != -1 ? getPreviousVisibleTab.call( me ) : getNextVisibleTab.call( me );
-
-				me.selectPage( nextId );
-				me._.tabs[ nextId ][ 0 ].focus();
-				processed = 1;
-			} else if ( ( keystroke == 13 || keystroke == 32 ) && me._.tabBarMode ) {
-				this.selectPage( this._.currentTabId );
-				this._.tabBarMode = false;
-				this._.currentFocusIndex = -1;
-				changeFocus( 1 );
-				processed = 1;
-			}
-			// If user presses enter key in a text box, it implies clicking OK for the dialog.
-			else if ( keystroke == 13 /*ENTER*/ ) {
-				// Don't do that for a target that handles ENTER.
-				var target = evt.data.getTarget();
-				if ( !target.is( 'a', 'button', 'select', 'textarea' ) && ( !target.is( 'input' ) || target.$.type != 'button' ) ) {
-					button = this.getButton( 'ok' );
-					button && CKEDITOR.tools.setTimeout( button.click, 0, button );
-					processed = 1;
-				}
-				stopPropagation = 1; // Always block the propagation (https://dev.ckeditor.com/ticket/4269)
-			} else if ( keystroke == 27 /*ESC*/ ) {
-				button = this.getButton( 'cancel' );
-
-				// If there's a Cancel button, click it, else just fire the cancel event and hide the dialog.
-				if ( button )
-					CKEDITOR.tools.setTimeout( button.click, 0, button );
-				else {
-					if ( this.fire( 'cancel', { hide: true } ).hide !== false )
-						this.hide();
-				}
-				stopPropagation = 1; // Always block the propagation (https://dev.ckeditor.com/ticket/4269)
-			} else {
-				return;
-			}
-
-			keypressHandler( evt );
-		}
-
-		function keypressHandler( evt ) {
-			if ( processed )
-				evt.data.preventDefault( 1 );
-			else if ( stopPropagation )
-				evt.data.stopPropagation();
-		}
-
-		var dialogElement = this._.element;
-
-		editor.focusManager.add( dialogElement, 1 );
-
-		// Add the dialog keyboard handlers.
-		this.on( 'show', function() {
-			dialogElement.on( 'keydown', keydownHandler, this );
-
-			// Some browsers instead, don't cancel key events in the keydown, but in the
-			// keypress. So we must do a longer trip in those cases. (https://dev.ckeditor.com/ticket/4531,https://dev.ckeditor.com/ticket/8985)
-			if ( CKEDITOR.env.gecko )
-				dialogElement.on( 'keypress', keypressHandler, this );
-
-		} );
-		this.on( 'hide', function() {
-			dialogElement.removeListener( 'keydown', keydownHandler );
-			if ( CKEDITOR.env.gecko )
-				dialogElement.removeListener( 'keypress', keypressHandler );
-
-			// Reset fields state when closing dialog.
-			iterContents( function( item ) {
-				resetField.apply( item );
-			} );
-		} );
-		this.on( 'iframeAdded', function( evt ) {
-			var doc = new CKEDITOR.dom.document( evt.data.iframe.$.contentWindow.document );
-			doc.on( 'keydown', keydownHandler, this, null, 0 );
-		} );
-
-		// Auto-focus logic in dialog.
-		this.on( 'show', function() {
-			// Setup tabIndex on showing the dialog instead of on loading
-			// to allow dynamic tab order happen in dialog definition.
-			setupFocus();
-
-			var hasTabs = me._.pageCount > 1;
-
-			if ( editor.config.dialog_startupFocusTab && hasTabs ) {
-				me._.tabBarMode = true;
-				me._.tabs[ me._.currentTabId ][ 0 ].focus();
-				me._.currentFocusIndex = -1;
-			} else if ( !this._.hasFocus ) {
-				// https://dev.ckeditor.com/ticket/13114#comment:4.
-				this._.currentFocusIndex = hasTabs ? -1 : this._.focusList.length - 1;
-
-				// Decide where to put the initial focus.
-				if ( definition.onFocus ) {
-					var initialFocus = definition.onFocus.call( this );
-					// Focus the field that the user specified.
-					initialFocus && initialFocus.focus();
-				}
-				// Focus the first field in layout order.
-				else {
-					changeFocus( 1 );
-				}
-			}
-		}, this, null, 0xffffffff );
-
-		// IE6 BUG: Text fields and text areas are only half-rendered the first time the dialog appears in IE6 (https://dev.ckeditor.com/ticket/2661).
-		// This is still needed after [2708] and [2709] because text fields in hidden TR tags are still broken.
-		if ( CKEDITOR.env.ie6Compat ) {
-			this.on( 'load', function() {
-				var outer = this.getElement(),
-					inner = outer.getFirst();
-				inner.remove();
-				inner.appendTo( outer );
-			}, this );
-		}
-
-		initDragAndDrop( this );
-		initResizeHandles( this );
-
-		// Insert the title.
-		( new CKEDITOR.dom.text( definition.title, CKEDITOR.document ) ).appendTo( this.parts.title );
-
-		// Insert the tabs and contents.
-		for ( i = 0; i < definition.contents.length; i++ ) {
-			var page = definition.contents[ i ];
-			page && this.addPage( page );
-		}
-
-		this.parts.tabs.on( 'click', function( evt ) {
-			var target = evt.data.getTarget();
-			// If we aren't inside a tab, bail out.
-			if ( target.hasClass( 'cke_dialog_tab' ) ) {
-				// Get the ID of the tab, without the 'cke_' prefix and the unique number suffix.
-				var id = target.$.id;
-				this.selectPage( id.substring( 4, id.lastIndexOf( '_' ) ) );
-
-				if ( this._.tabBarMode ) {
-					this._.tabBarMode = false;
-					this._.currentFocusIndex = -1;
-					changeFocus( 1 );
-				}
-				evt.data.preventDefault();
-			}
-		}, this );
-
-		// Insert buttons.
-		var buttonsHtml = [],
-			buttons = CKEDITOR.dialog._.uiElementBuilders.hbox.build( this, {
-				type: 'hbox',
-				className: 'cke_dialog_footer_buttons',
-				widths: [],
-				children: definition.buttons
-			}, buttonsHtml ).getChild();
-		this.parts.footer.setHtml( buttonsHtml.join( '' ) );
-
-		for ( i = 0; i < buttons.length; i++ )
-			this._.buttons[ buttons[ i ].id ] = buttons[ i ];
-
-		/**
-		 * Current state of the dialog. Use the {@link #setState} method to update it.
-		 * See the {@link #event-state} event to know more.
-		 *
-		 * @readonly
-		 * @property {Number} [state=CKEDITOR.DIALOG_STATE_IDLE]
-		 */
+		this._.isRendered = false;
 	};
 
 	// Focusable interface. Use it via dialog.addFocusable.
@@ -735,6 +362,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 */
 		resize: ( function() {
 			return function( width, height ) {
+				this._renderDialog();
+
 				if ( this._.contentSize && this._.contentSize.width == width && this._.contentSize.height == height )
 					return;
 
@@ -773,6 +402,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @returns {Number} return.height
 		 */
 		getSize: function() {
+			this._renderDialog();
+
 			var element = this._.element.getFirst();
 			return { width: element.$.offsetWidth || 0, height: element.$.offsetHeight || 0 };
 		},
@@ -788,6 +419,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @param {Boolean} save Flag indicate whether the dialog position should be remembered on next open up.
 		 */
 		move: function( x, y, save ) {
+			this._renderDialog();
 
 			// The dialog may be fixed positioned or absolute positioned. Ask the
 			// browser what is the current situation first.
@@ -842,6 +474,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @returns {Number} return.y
 		 */
 		getPosition: function() {
+			this._renderDialog();
+
 			return CKEDITOR.tools.extend( {}, this._.position );
 		},
 
@@ -851,6 +485,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 *		dialogObj.show();
 		 */
 		show: function() {
+			this._renderDialog();
+
 			// Insert the dialog's element to the root document.
 			var element = this._.element;
 			var definition = this.definition;
@@ -1526,6 +1162,400 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 
 			return model || null;
+		},
+
+		_renderDialog: function() {
+			if ( this._.isRendered ) {
+				return;
+			}
+
+			var editor = this._.editor,
+				dialogName = this._.name;
+
+			var definition = this.definition,
+				tabsToRemove = {},
+				i,
+				processed,
+				stopPropagation;
+
+			this._.isRendered = true;
+
+			// Cache tabs that should be removed.
+			if ( !( 'removeDialogTabs' in editor._ ) && editor.config.removeDialogTabs ) {
+				var removeContents = editor.config.removeDialogTabs.split( ';' );
+
+				for ( i = 0; i < removeContents.length; i++ ) {
+					var parts = removeContents[ i ].split( ':' );
+					if ( parts.length == 2 ) {
+						var removeDialogName = parts[ 0 ];
+						if ( !tabsToRemove[ removeDialogName ] )
+							tabsToRemove[ removeDialogName ] = [];
+						tabsToRemove[ removeDialogName ].push( parts[ 1 ] );
+					}
+				}
+				editor._.removeDialogTabs = tabsToRemove;
+			}
+
+			// Remove tabs of this dialog.
+			if ( editor._.removeDialogTabs && ( tabsToRemove = editor._.removeDialogTabs[ dialogName ] ) ) {
+				for ( i = 0; i < tabsToRemove.length; i++ )
+					definition.removeContents( tabsToRemove[ i ] );
+			}
+
+			// Initialize load, show, hide, ok and cancel events.
+			if ( definition.onLoad )
+				this.on( 'load', definition.onLoad );
+
+			if ( definition.onShow )
+				this.on( 'show', definition.onShow );
+
+			if ( definition.onHide )
+				this.on( 'hide', definition.onHide );
+
+			if ( definition.onOk ) {
+				this.on( 'ok', function( evt ) {
+					// Dialog confirm might probably introduce content changes (https://dev.ckeditor.com/ticket/5415).
+					editor.fire( 'saveSnapshot' );
+					setTimeout( function() {
+						editor.fire( 'saveSnapshot' );
+					}, 0 );
+					if ( definition.onOk.call( this, evt ) === false )
+						evt.data.hide = false;
+				} );
+			}
+
+			// Set default dialog state.
+			this.state = CKEDITOR.DIALOG_STATE_IDLE;
+
+			if ( definition.onCancel ) {
+				this.on( 'cancel', function( evt ) {
+					if ( definition.onCancel.call( this, evt ) === false )
+						evt.data.hide = false;
+				} );
+			}
+
+			var me = this;
+
+			// Iterates over all items inside all content in the dialog, calling a
+			// function for each of them.
+			var iterContents = function( func ) {
+				var contents = me._.contents,
+					stop = false;
+
+				for ( var i in contents ) {
+					for ( var j in contents[ i ] ) {
+						stop = func.call( this, contents[ i ][ j ] );
+						if ( stop )
+							return;
+					}
+				}
+			};
+
+			this.on( 'ok', function( evt ) {
+				iterContents( function( item ) {
+					if ( item.validate ) {
+						var retval = item.validate( this ),
+							invalid = ( typeof retval == 'string' ) || retval === false;
+
+						if ( invalid ) {
+							evt.data.hide = false;
+							evt.stop();
+						}
+
+						handleFieldValidated.call( item, !invalid, typeof retval == 'string' ? retval : undefined );
+						return invalid;
+					}
+				} );
+			}, this, null, 0 );
+
+			this.on( 'cancel', function( evt ) {
+				iterContents( function( item ) {
+					if ( item.isChanged() ) {
+						if ( !editor.config.dialog_noConfirmCancel && !confirm( editor.lang.common.confirmCancel ) ) // jshint ignore:line
+							evt.data.hide = false;
+						return true;
+					}
+				} );
+			}, this, null, 0 );
+
+			this.parts.close.on( 'click', function( evt ) {
+				if ( this.fire( 'cancel', {
+						hide: true
+					} ).hide !== false )
+					this.hide();
+				evt.data.preventDefault();
+			}, this );
+
+			// Sort focus list according to tab order definitions.
+			function setupFocus() {
+				var focusList = me._.focusList;
+				focusList.sort( function( a, b ) {
+					// Mimics browser tab order logics;
+					if ( a.tabIndex != b.tabIndex )
+						return b.tabIndex - a.tabIndex;
+					//  Sort is not stable in some browsers,
+					// fall-back the comparator to 'focusIndex';
+					else
+						return a.focusIndex - b.focusIndex;
+				} );
+
+				var size = focusList.length;
+				for ( var i = 0; i < size; i++ )
+					focusList[ i ].focusIndex = i;
+			}
+
+			// Expects 1 or -1 as an offset, meaning direction of the offset change.
+			function changeFocus( offset ) {
+				var focusList = me._.focusList;
+				offset = offset || 0;
+
+				if ( focusList.length < 1 )
+					return;
+
+				var startIndex = me._.currentFocusIndex;
+
+				if ( me._.tabBarMode && offset < 0 ) {
+					// If we are in tab mode, we need to mimic that we started tabbing back from the first
+					// focusList (so it will go to the last one).
+					startIndex = 0;
+				}
+
+				// Trigger the 'blur' event of  any input element before anything,
+				// since certain UI updates may depend on it.
+				try {
+					focusList[ startIndex ].getInputElement().$.blur();
+				} catch ( e ) {}
+
+				var currentIndex = startIndex,
+					hasTabs = me._.pageCount > 1;
+
+				do {
+					currentIndex = currentIndex + offset;
+
+					if ( hasTabs && !me._.tabBarMode && ( currentIndex == focusList.length || currentIndex == -1 ) ) {
+						// If the dialog was not in tab mode, then focus the first tab (https://dev.ckeditor.com/ticket/13027).
+						me._.tabBarMode = true;
+						me._.tabs[ me._.currentTabId ][ 0 ].focus();
+						me._.currentFocusIndex = -1;
+
+						// Early return, in order to avoid accessing focusList[ -1 ].
+						return;
+					}
+
+					currentIndex = ( currentIndex + focusList.length ) % focusList.length;
+
+					if ( currentIndex == startIndex ) {
+						break;
+					}
+				} while ( offset && !focusList[ currentIndex ].isFocusable() );
+
+				focusList[ currentIndex ].focus();
+
+				// Select whole field content.
+				if ( focusList[ currentIndex ].type == 'text' )
+					focusList[ currentIndex ].select();
+			}
+
+			this.changeFocus = changeFocus;
+
+
+			function keydownHandler( evt ) {
+				// If I'm not the top dialog, ignore.
+				if ( me != CKEDITOR.dialog._.currentTop )
+					return;
+
+				var keystroke = evt.data.getKeystroke(),
+					rtl = editor.lang.dir == 'rtl',
+					arrowKeys = [ 37, 38, 39, 40 ],
+					button;
+
+				processed = stopPropagation = 0;
+
+				if ( keystroke == 9 || keystroke == CKEDITOR.SHIFT + 9 ) {
+					var shiftPressed = ( keystroke == CKEDITOR.SHIFT + 9 );
+					changeFocus( shiftPressed ? -1 : 1 );
+					processed = 1;
+				} else if ( keystroke == CKEDITOR.ALT + 121 && !me._.tabBarMode && me.getPageCount() > 1 ) {
+					// Alt-F10 puts focus into the current tab item in the tab bar.
+					me._.tabBarMode = true;
+					me._.tabs[ me._.currentTabId ][ 0 ].focus();
+					me._.currentFocusIndex = -1;
+					processed = 1;
+				} else if ( CKEDITOR.tools.indexOf( arrowKeys, keystroke ) != -1 && me._.tabBarMode ) {
+					// Array with key codes that activate previous tab.
+					var prevKeyCodes = [
+							// Depending on the lang dir: right or left key
+							rtl ? 39 : 37,
+							// Top/bot arrow: actually for both cases it's the same.
+							38
+						],
+						nextId = CKEDITOR.tools.indexOf( prevKeyCodes, keystroke ) != -1 ? getPreviousVisibleTab.call( me ) : getNextVisibleTab.call( me );
+
+					me.selectPage( nextId );
+					me._.tabs[ nextId ][ 0 ].focus();
+					processed = 1;
+				} else if ( ( keystroke == 13 || keystroke == 32 ) && me._.tabBarMode ) {
+					this.selectPage( this._.currentTabId );
+					this._.tabBarMode = false;
+					this._.currentFocusIndex = -1;
+					changeFocus( 1 );
+					processed = 1;
+				}
+				// If user presses enter key in a text box, it implies clicking OK for the dialog.
+				else if ( keystroke == 13 /*ENTER*/ ) {
+					// Don't do that for a target that handles ENTER.
+					var target = evt.data.getTarget();
+					if ( !target.is( 'a', 'button', 'select', 'textarea' ) && ( !target.is( 'input' ) || target.$.type != 'button' ) ) {
+						button = this.getButton( 'ok' );
+						button && CKEDITOR.tools.setTimeout( button.click, 0, button );
+						processed = 1;
+					}
+					stopPropagation = 1; // Always block the propagation (https://dev.ckeditor.com/ticket/4269)
+				} else if ( keystroke == 27 /*ESC*/ ) {
+					button = this.getButton( 'cancel' );
+
+					// If there's a Cancel button, click it, else just fire the cancel event and hide the dialog.
+					if ( button )
+						CKEDITOR.tools.setTimeout( button.click, 0, button );
+					else {
+						if ( this.fire( 'cancel', {
+								hide: true
+							} ).hide !== false )
+							this.hide();
+					}
+					stopPropagation = 1; // Always block the propagation (https://dev.ckeditor.com/ticket/4269)
+				} else {
+					return;
+				}
+
+				keypressHandler( evt );
+			}
+
+			function keypressHandler( evt ) {
+				if ( processed )
+					evt.data.preventDefault( 1 );
+				else if ( stopPropagation )
+					evt.data.stopPropagation();
+			}
+
+			var dialogElement = this._.element;
+
+			editor.focusManager.add( dialogElement, 1 );
+
+			// Add the dialog keyboard handlers.
+			this.on( 'show', function() {
+				dialogElement.on( 'keydown', keydownHandler, this );
+
+				// Some browsers instead, don't cancel key events in the keydown, but in the
+				// keypress. So we must do a longer trip in those cases. (https://dev.ckeditor.com/ticket/4531,https://dev.ckeditor.com/ticket/8985)
+				if ( CKEDITOR.env.gecko )
+					dialogElement.on( 'keypress', keypressHandler, this );
+
+			} );
+			this.on( 'hide', function() {
+				dialogElement.removeListener( 'keydown', keydownHandler );
+				if ( CKEDITOR.env.gecko )
+					dialogElement.removeListener( 'keypress', keypressHandler );
+
+				// Reset fields state when closing dialog.
+				iterContents( function( item ) {
+					resetField.apply( item );
+				} );
+			} );
+			this.on( 'iframeAdded', function( evt ) {
+				var doc = new CKEDITOR.dom.document( evt.data.iframe.$.contentWindow.document );
+				doc.on( 'keydown', keydownHandler, this, null, 0 );
+			} );
+
+			// Auto-focus logic in dialog.
+			this.on( 'show', function() {
+				// Setup tabIndex on showing the dialog instead of on loading
+				// to allow dynamic tab order happen in dialog definition.
+				setupFocus();
+
+				var hasTabs = me._.pageCount > 1;
+
+				if ( editor.config.dialog_startupFocusTab && hasTabs ) {
+					me._.tabBarMode = true;
+					me._.tabs[ me._.currentTabId ][ 0 ].focus();
+					me._.currentFocusIndex = -1;
+				} else if ( !this._.hasFocus ) {
+					// https://dev.ckeditor.com/ticket/13114#comment:4.
+					this._.currentFocusIndex = hasTabs ? -1 : this._.focusList.length - 1;
+
+					// Decide where to put the initial focus.
+					if ( definition.onFocus ) {
+						var initialFocus = definition.onFocus.call( this );
+						// Focus the field that the user specified.
+						initialFocus && initialFocus.focus();
+					}
+					// Focus the first field in layout order.
+					else {
+						changeFocus( 1 );
+					}
+				}
+			}, this, null, 0xffffffff );
+
+			// IE6 BUG: Text fields and text areas are only half-rendered the first time the dialog appears in IE6 (https://dev.ckeditor.com/ticket/2661).
+			// This is still needed after [2708] and [2709] because text fields in hidden TR tags are still broken.
+			if ( CKEDITOR.env.ie6Compat ) {
+				this.on( 'load', function() {
+					var outer = this.getElement(),
+						inner = outer.getFirst();
+					inner.remove();
+					inner.appendTo( outer );
+				}, this );
+			}
+
+			initDragAndDrop( this );
+			initResizeHandles( this );
+
+			// Insert the title.
+			( new CKEDITOR.dom.text( definition.title, CKEDITOR.document ) ).appendTo( this.parts.title );
+
+			// Insert the tabs and contents.
+			for ( i = 0; i < definition.contents.length; i++ ) {
+				var page = definition.contents[ i ];
+				page && this.addPage( page );
+			}
+
+			this.parts.tabs.on( 'click', function( evt ) {
+				var target = evt.data.getTarget();
+				// If we aren't inside a tab, bail out.
+				if ( target.hasClass( 'cke_dialog_tab' ) ) {
+					// Get the ID of the tab, without the 'cke_' prefix and the unique number suffix.
+					var id = target.$.id;
+					this.selectPage( id.substring( 4, id.lastIndexOf( '_' ) ) );
+
+					if ( this._.tabBarMode ) {
+						this._.tabBarMode = false;
+						this._.currentFocusIndex = -1;
+						changeFocus( 1 );
+					}
+					evt.data.preventDefault();
+				}
+			}, this );
+
+			// Insert buttons.
+			var buttonsHtml = [],
+				buttons = CKEDITOR.dialog._.uiElementBuilders.hbox.build( this, {
+					type: 'hbox',
+					className: 'cke_dialog_footer_buttons',
+					widths: [],
+					children: definition.buttons
+				}, buttonsHtml ).getChild();
+			this.parts.footer.setHtml( buttonsHtml.join( '' ) );
+
+			for ( i = 0; i < buttons.length; i++ )
+				this._.buttons[ buttons[ i ].id ] = buttons[ i ];
+
+			/**
+			 * Current state of the dialog. Use the {@link #setState} method to update it.
+			 * See the {@link #event-state} event to know more.
+			 *
+			 * @readonly
+			 * @property {Number} [state=CKEDITOR.DIALOG_STATE_IDLE]
+			 */
 		}
 	};
 
