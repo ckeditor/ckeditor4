@@ -1203,22 +1203,14 @@ bender.test( {
 
 		var mockedDataTransfer = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( mockedDataTransfer ),
-			spy = sinon.spy( mockedDataTransfer, 'setData' ),
-			args;
+			spy = sinon.spy( mockedDataTransfer, 'setData' );
 
 		dataTransfer._.fallbackDataTransfer.isRequired = function() {
 			return true;
 		};
 
-		CKEDITOR.tools.array.forEach( [ 'text/plain', 'text/html', 'custom' ], function( type ) {
-			dataTransfer.setData( type, '' );
-			dataTransfer.setData( type, 'foo' );
-		} );
+		dataTransfer.setData( 'text/html', '' );
 
-		args = CKEDITOR.tools.array.map( spy.args, function( item ) {
-			return item[ 1 ];
-		} );
-		assert.isTrue( spy.callCount >= 3, 'Method setData should be called at least 3 times.' );
-		assert.areSame( args.indexOf( '' ), -1, 'Empty string shouldn\'t be passed as an argument to setData.' );
+		assert.areSame( 0, spy.callCount, 'Method setData shouldn\'t be called.' );
 	}
 } );
