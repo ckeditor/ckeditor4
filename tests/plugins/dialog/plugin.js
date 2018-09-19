@@ -51,12 +51,19 @@
 	bender.editor = {};
 
 	bender.test( {
+		_disposableListeners: [],
+
 		tearDown: function() {
 			var curDialog = CKEDITOR.dialog.getCurrent();
 
 			if ( curDialog ) {
 				curDialog.hide();
 			}
+
+			CKEDITOR.tools.array.filter( this._disposableListeners, function( listener ) {
+				listener.removeListener();
+				return false;
+			} );
 
 			dialogDefinitions.testGetModel.getModel.reset();
 		},
@@ -424,6 +431,9 @@
 
 		'test dialog definition allows for overwriting returned model': function() {
 			this.editorBot.dialog( 'testGetModel', function( dialog ) {
+				// Get model may be called during the initialization, that's not a concern of this TC.
+				dialogDefinitions.testGetModel.getModel.reset();
+
 				var ret = dialog.getModel( this.editor );
 
 				sinon.assert.calledOnce( dialogDefinitions.testGetModel.getModel );
@@ -431,6 +441,29 @@
 
 				assert.isInstanceOf( CKEDITOR.dom.element, ret, 'Return value type.' );
 				assert.areSame( 'span', ret.getName(), 'Returned tag name.' );
+			} );
+		},
+
+		'test dialog fires getModel event if no getModel function is provided': function() {
+			var getModelListener = sinon.stub(),
+				disposableListeners = this._disposableListeners;
+
+			disposableListeners.push( CKEDITOR.ui.on( 'ready', function( evt ) {
+				if ( evt.data._.name == 'testDialog1' ) {
+					disposableListeners.push( evt.data.on( 'getModel', getModelListener ) );
+				}
+			} ) );
+
+			this.editorBot.dialog( 'testDialog1', function( dialog ) {
+				var expectedData = {
+						model: null
+					};
+
+				assert.areSame( 1, getModelListener.callCount, 'getModel events count.' );
+				sinon.assert.calledOn( getModelListener, dialog );
+				sinon.assert.calledOn( getModelListener, dialog );
+				sinon.assert.calledWith( getModelListener, sinon.match.has( 'editor', this.editor ) );
+				sinon.assert.calledWith( getModelListener, sinon.match.has( 'data', expectedData ) );
 			} );
 		}
 	} );
