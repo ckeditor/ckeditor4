@@ -175,12 +175,12 @@
 		// Register filter instance.
 		CKEDITOR.filter.instances[ this.id ] = this;
 
-		this.editor = editorOrRules instanceof CKEDITOR.editor ? editorOrRules : null;
+		var editor = this.editor = editorOrRules instanceof CKEDITOR.editor ? editorOrRules : null;
 
-		if ( this.editor && !rules ) {
+		if ( editor && !rules ) {
 			this.customConfig = true;
 
-			var allowedContent = this.editor.config.allowedContent;
+			var allowedContent = editor.config.allowedContent;
 
 			// Disable filter completely by setting config.allowedContent = true.
 			if ( allowedContent === true ) {
@@ -192,12 +192,12 @@
 				this.customConfig = false;
 
 			this.allow( allowedContent, 'config', 1 );
-			this.allow( this.editor.config.extraAllowedContent, 'extra', 1 );
+			this.allow( editor.config.extraAllowedContent, 'extra', 1 );
 
 			// Enter modes should extend filter rules (ENTER_P adds 'p' rule, etc.).
-			this.allow( enterModeTags[ this.editor.enterMode ] + ' ' + enterModeTags[ this.editor.shiftEnterMode ], 'default', 1 );
+			this.allow( enterModeTags[ editor.enterMode ] + ' ' + enterModeTags[ editor.shiftEnterMode ], 'default', 1 );
 
-			this.disallow( this.editor.config.disallowedContent );
+			this.disallow( editor.config.disallowedContent );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
