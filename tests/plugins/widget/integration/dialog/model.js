@@ -74,15 +74,23 @@
 		},
 
 		'test getting model from dialog in add mode': function() {
-			assert.ignore();
-
 			var bot = this.editorBot;
 
 			bot.setHtmlWithSelection( '<p>^</p>' );
 
-			bot.dialog( 'dialog1', function( dialog ) {
-				assert.isInstanceOf( CKEDITOR.plugins.widget, dialog.getModel(), 'Model type returned by dialog.getModel().' );
+			this.editor.on( 'dialogShow', function( evt ) {
+				var dialog = evt.data;
+
+				if ( dialog.getName() === 'dialog1' ) {
+					resume( function(  ) {
+						assert.isInstanceOf( CKEDITOR.plugins.widget, dialog.getModel( bot.editor ), 'Model type returned by dialog.getModel().' );
+					} );
+				}
 			} );
+
+			this.editor.execCommand( 'test1' );
+
+			wait();
 		}
 	} );
 } )();
