@@ -1138,11 +1138,19 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @inheritdoc CKEDITOR.dialog.modeledDialog#getModel
 		 */
 		getModel: function( editor ) {
+			var ret = null;
+
 			if ( this.definition.getModel ) {
-				return this.definition.getModel( editor );
-			} else {
-				return null;
+				ret = this.definition.getModel( editor );
 			}
+
+			if ( !ret ) {
+				ret = this.fire( 'getModel', {
+					model: ret
+				}, editor ).model;
+			}
+
+			return ret || null;
 		},
 
 		/**
@@ -1153,15 +1161,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @inheritdoc CKEDITOR.dialog.modeledDialog#getModel
 		 */
 		_determineModel: function( editor ) {
-			var model = this.getModel( editor );
-
-			if ( !model ) {
-				model = this.fire( 'getModel', {
-					model: model
-				}, editor ).model;
-			}
-
-			return model || null;
+			return this.getModel( editor );
 		},
 
 		_renderDialog: function() {
