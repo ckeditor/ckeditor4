@@ -9,7 +9,7 @@
 <textarea id="classic">Classic editor.</textarea>
 
 <script>
-	if ( CKEDITOR.env.ie ) {
+	if ( CKEDITOR.env.ie || bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 	var buttons = CKEDITOR.document.findOne( '.buttons' );
