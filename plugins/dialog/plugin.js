@@ -2128,34 +2128,32 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		ev.data.preventDefault( 1 );
 	}
 
-	var document = CKEDITOR.document,
-		body,
-		scrollBarWidth,
-		paddingRight;
-
-	function handleBodyStyles( dialogOpen ) {
-		body = body || document.getBody();
-		scrollBarWidth = document.getWindow().$.innerWidth - document.$.documentElement.clientWidth;
-		paddingRight = body.getComputedStyle[ 'padding-right' ];
+	function hideBodyScrollbars() {
+		var document = CKEDITOR.document,
+			body = document.getBody(),
+			scrollBarWidth = document.getWindow().$.innerWidth - document.$.documentElement.clientWidth,
+			paddingRight = body.getComputedStyle[ 'padding-right' ];
 
 		if ( paddingRight ) {
 			paddingRight.tools.convertToPx( paddingRight );
 		}
 
-		if ( dialogOpen ) {
-			body.addClass( 'cke_dialog_open' );
+		body.addClass( 'cke_dialog_open' );
 
-			if ( !paddingRight && scrollBarWidth ) {
-				// Add right padding, to prevent from resizing elements, when scrollbars are gone.
-				// Don't do anything, when there is any padding on body element, to not break things.
-				body.setStyle( 'padding-right', scrollBarWidth + 'px' );
-			}
-		} else {
-			body.removeClass( 'cke_dialog_open' );
+		if ( !paddingRight && scrollBarWidth ) {
+			// Add right padding, to prevent from resizing elements, when scrollbars are gone.
+			// Don't do anything, when there is any padding on body element, to not break things.
+			body.setStyle( 'padding-right', scrollBarWidth + 'px' );
+			body.addClass( 'cke_body_extra_padding' );
+		}
+	}
 
-			if ( !paddingRight && scrollBarWidth ) {
-				body.removeStyle( 'padding-right' );
-			}
+	function showBodyScrollbars() {
+		var body = CKEDITOR.document.getBody();
+		body.removeClass( 'cke_dialog_open' );
+
+		if ( body.hasClass( 'cke_body_extra_padding' ) ) {
+			body.removeStyle( 'padding-right' );
 		}
 	}
 
@@ -2169,7 +2167,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			coverKey = CKEDITOR.tools.genKey( backgroundColorStyle, backgroundCoverOpacity, baseFloatZIndex ),
 			coverElement = covers[ coverKey ];
 
-		handleBodyStyles( true );
+		hideBodyScrollbars();
 
 		if ( !coverElement ) {
 			var html = [
@@ -2276,7 +2274,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	}
 
 	function hideCover( editor ) {
-		handleBodyStyles();
+		showBodyScrollbars();
 		if ( !currentCover )
 			return;
 
