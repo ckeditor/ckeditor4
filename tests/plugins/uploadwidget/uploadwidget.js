@@ -171,6 +171,8 @@
 
 				var loader = editor.uploadRepository.loaders[ 0 ];
 
+				editor.widgets.destroyAll();
+
 				loader.abort();
 
 				assert.isTrue( stub.calledOnce );
@@ -191,6 +193,8 @@
 				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
 				var loader = editor.uploadRepository.loaders[ 0 ];
+
+				editor.widgets.destroyAll();
 
 				loader.abort();
 				loader.abort();
