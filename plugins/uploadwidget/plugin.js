@@ -257,7 +257,6 @@
 						if ( typeof widget.onAbort === 'function' ) {
 							widget.onAbort( loader );
 						}
-						return;
 					}
 
 					// Abort if widget was removed.
