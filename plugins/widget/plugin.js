@@ -10,8 +10,7 @@
 'use strict';
 
 ( function() {
-	var DRAG_HANDLER_SIZE = 15,
-		dialogsHooked;
+	var DRAG_HANDLER_SIZE = 15;
 
 	CKEDITOR.plugins.add( 'widget', {
 		// jscs:disable maximumLineLength
@@ -110,22 +109,6 @@
 			 * @member CKEDITOR.editor
 			 */
 			editor.widgets = new Repository( editor );
-
-			// Unfortunately this listener can't be hooked in plugin.load function because:
-			// There's no guarantee that dialog plugin will be loaded before widget plugin.
-			// It's not guaranteed that first editor instance has a dialog plugin, while subsequent can load it dynamically.
-			if ( 'dialog' in editor.plugins && !dialogsHooked ) {
-				CKEDITOR.dialog.on( 'dialogCreated', function( evt ) {
-					if ( evt.data.name in Repository._dialogMapping &&
-					CKEDITOR.tools.array.indexOf( Repository._dialogMapping[ evt.data.name ], evt.editor ) ) {
-						evt.data.dialog.on( 'getModel', function( modelEvent ) {
-							if ( !modelEvent.data.model ) {
-								modelEvent.data.model = modelEvent.editor.widgets.focused || null;
-							}
-						} );
-					}
-				} );
-			}
 		},
 
 		afterInit: function( editor ) {
@@ -245,14 +228,6 @@
 			widgetDef._ = widgetDef._ || {};
 
 			this.editor.fire( 'widgetDefinition', widgetDef );
-
-			if ( widgetDef.dialog ) {
-				var dialogSubscribers = Repository._dialogMapping[ widgetDef.dialog ] || [];
-
-				dialogSubscribers.push( this.editor );
-
-				Repository._dialogMapping[ widgetDef.dialog ] = dialogSubscribers;
-			}
 
 			if ( widgetDef.template )
 				widgetDef.template = new CKEDITOR.template( widgetDef.template );
@@ -751,8 +726,6 @@
 
 	CKEDITOR.event.implementOn( Repository.prototype );
 
-	Repository._dialogMapping = {};
-
 	/**
 	 * An event fired when a widget instance is created, but before it is fully initialized.
 	 *
@@ -1210,13 +1183,18 @@
 
 			this.editor.openDialog( evtData.dialog, function( dialog ) {
 				var showListener,
-					okListener;
+					okListener,
+					getModelListener;
 
 				// Allow to add a custom dialog handler.
 				if ( that.fire( 'dialog', dialog ) === false )
 					return;
 
-				dialog._model = that;
+				getModelListener = dialog.on( 'getModel', function( modelEvent ) {
+					if ( !modelEvent.data.model ) {
+						modelEvent.data.model = that;
+					}
+				} );
 
 				showListener = dialog.on( 'show', function() {
 					dialog.setupContent( that );
@@ -1248,8 +1226,7 @@
 				dialog.once( 'hide', function() {
 					showListener.removeListener();
 					okListener.removeListener();
-
-					dialog._model = null;
+					getModelListener.removeListener();
 				} );
 			} );
 
