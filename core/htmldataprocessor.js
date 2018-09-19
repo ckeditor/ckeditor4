@@ -873,10 +873,10 @@
 			'(.*?)' +
 			createEncodedRegex( '</cke:encoded>' ) +
 			')|(' +
-			// Create unclosed element regex i.e `<cke:encoded>xxx` to make sure that
+			// Create unclosed element regex i.e `<cke:encoded>xxx` or `xxx</cke:encoded>` to make sure that
 			// element won't be closed by HTML parser and matched by `unprotectElements` function.
 			createEncodedRegex( '<' ) +
-			'(\/?)' +
+			createEncodedRegex( '/' ) + '?' +
 			createEncodedRegex( 'cke:encoded>' ) +
 			')', 'gi' );
 	}
