@@ -157,7 +157,7 @@
 		},
 
 		// (#1454)
-		'test onAbort': function() {
+		'test calling widget onAbort function when widget is destroyed': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
 				stub = sinon.stub().returns( true );
@@ -173,30 +173,6 @@
 
 				editor.widgets.destroyAll();
 
-				loader.abort();
-
-				assert.isTrue( stub.calledOnce );
-			} );
-		},
-
-		// (#1454)
-		'test onAbort can be called only once': function() {
-			var bot = this.editorBot,
-				editor = bot.editor,
-				stub = sinon.stub().returns( true );
-
-			addTestUploadWidget( editor, 'testuploadwidget', {
-				onAbort: stub
-			} );
-
-			bot.setData( '', function() {
-				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
-
-				var loader = editor.uploadRepository.loaders[ 0 ];
-
-				editor.widgets.destroyAll();
-
-				loader.abort();
 				loader.abort();
 
 				assert.isTrue( stub.calledOnce );
