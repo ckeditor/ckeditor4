@@ -881,7 +881,7 @@
 			')', 'gi' );
 	}
 
-	function getCharRegex( character ) {
+	function getCharRegexMap( character ) {
 		var entities = {
 				'<': '&lt;',
 				'>': '&gt;',
@@ -906,7 +906,7 @@
 
 	function createEncodedRegex( str ) {
 		return CKEDITOR.tools.array.reduce( str.split( '' ), function( cur, character ) {
-			var map = getCharRegex( character ),
+			var map = getCharRegexMap( character ),
 				charRegex = '(' + character;
 
 			for ( var code in map ) {
