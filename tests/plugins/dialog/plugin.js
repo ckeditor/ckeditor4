@@ -507,6 +507,45 @@
 
 				wait();
 			} );
+		},
+
+		'test dialog.isEditing': function() {
+			this.editorBot.dialog( 'testDialog1', function( dialog ) {
+				assert.isFalse( dialog.isEditing() );
+			} );
+		},
+
+		'test dialog.isEditing with dettached DOM model': function() {
+			this.editorBot.dialog( 'testGetModel', function( dialog ) {
+				assert.isFalse( dialog.isEditing() );
+			} );
+		},
+
+		'test dialog.isEditing with attached DOM element model': function() {
+			this.editorBot.setHtmlWithSelection( '<p><em>[foo]</em></p>' );
+
+			this.editorBot.dialog( 'testGetModel', function( dialog ) {
+				// Use element that is truly attached in DOM.
+				var getModelStub = sinon.stub( dialog, 'getModel' ).returns( this.editor.editable().findOne( 'em' ) ),
+					ret = dialog.isEditing();
+
+				getModelStub.restore();
+
+				assert.isTrue( ret );
+			} );
+		},
+
+		'test dialog.isEditing with attached DOM text node model': function() {
+			this.editorBot.setHtmlWithSelection( '<p>{foo}</p>' );
+
+			this.editorBot.dialog( 'testGetModel', function( dialog ) {
+				var getModelStub = sinon.stub( dialog, 'getModel' ).returns( this.editor.editable().findOne( 'p' ).getFirst() ),
+					ret = dialog.isEditing();
+
+				getModelStub.restore();
+
+				assert.isTrue( ret );
+			} );
 		}
 	} );
 
