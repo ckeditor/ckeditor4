@@ -55,6 +55,7 @@ Comments in this file will give more details about each of the above blocks.
 	padding: 5px;
 	background-color: #fff;
 	border-radius: 5px;
+	position: relative;
 }
 
 /* Due to our reset we have to recover the styles of some elements. */
@@ -895,4 +896,19 @@ a.cke_smile:hover img
 	filter:alpha(opacity=0);
 	width:100%;
 	height:100%;
+}
+
+.cke_dialog_open {
+	overflow: hidden;
+}
+
+.cke_dialog_container {
+	position: fixed;
+	overflow-y: auto;
+	overflow-x: auto;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 10010;
 }

@@ -56,6 +56,7 @@ Comments in this file will give more details about each of the above blocks.
 	border-bottom-color: #999;
 	border-radius: 3px;
 	box-shadow: 0 0 3px rgba(0, 0, 0, .15);
+	position: relative;
 }
 
 /* Due to our reset we have to recover the styles of some elements. */
@@ -1061,4 +1062,19 @@ a.cke_specialchar:active
 	filter: alpha(opacity = 0);
 	width: 100%;
 	height: 100%;
+}
+
+.cke_dialog_open {
+	overflow: hidden;
+}
+
+.cke_dialog_container {
+	position: fixed;
+	overflow-y: auto;
+	overflow-x: auto;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 10010;
 }
