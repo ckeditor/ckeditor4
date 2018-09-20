@@ -2132,10 +2132,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		var document = CKEDITOR.document,
 			body = document.getBody(),
 			scrollBarWidth = document.getWindow().$.innerWidth - document.$.documentElement.clientWidth,
-			paddingRight = body.getComputedStyle[ 'padding-right' ];
+			paddingRight = body.getComputedStyle( 'padding-right' );
 
 		if ( paddingRight ) {
-			paddingRight.tools.convertToPx( paddingRight );
+			paddingRight = CKEDITOR.tools.convertToPx( paddingRight );
 		}
 
 		body.addClass( 'cke_dialog_open' );
@@ -2154,6 +2154,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 		if ( body.hasClass( 'cke_body_extra_padding' ) ) {
 			body.removeStyle( 'padding-right' );
+			body.removeClass( 'cke_body_extra_padding' );
 		}
 	}
 
