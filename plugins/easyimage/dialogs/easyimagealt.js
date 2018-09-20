@@ -8,10 +8,19 @@ CKEDITOR.dialog.add( 'easyimageAlt', function( editor ) {
 		title: editor.lang.easyimage.commands.altText,
 		minWidth: 200,
 		minHeight: 30,
-		onOk: function() {
-			var newAlt = CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtAlt' ) );
 
-			this._.selectedImage.setAttribute( 'alt', newAlt );
+		getModel: function( editor ) {
+			var focusedWidget = editor.widgets.focused;
+			return focusedWidget && focusedWidget.name === 'easyimage' ? focusedWidget : null;
+		},
+
+		onOk: function() {
+			var newAlt = CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtAlt' ) ),
+				model = this.getModel( editor );
+
+			if ( model ) {
+				model.parts.image.setAttribute( 'alt', newAlt );
+			}
 		},
 
 		onHide: function() {
@@ -19,11 +28,15 @@ CKEDITOR.dialog.add( 'easyimageAlt', function( editor ) {
 		},
 
 		onShow: function() {
-			var altField = this.getContentElement( 'info', 'txtAlt' );
+			var altField = this.getContentElement( 'info', 'txtAlt' ),
+				model = this.getModel( editor );
 
-			this._.selectedImage = editor.widgets.focused.parts.image;
+			if ( model ) {
+				this._.selectedImage = model.parts.image;
 
-			altField.setValue( this._.selectedImage.getAttribute( 'alt' ) );
+				altField.setValue( model.parts.image.getAttribute( 'alt' ) );
+			}
+
 			altField.focus();
 		},
 		contents: [ {
