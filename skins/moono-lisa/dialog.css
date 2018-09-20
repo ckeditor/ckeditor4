@@ -52,7 +52,7 @@ Comments in this file will give more details about each of the above blocks.
 {
 	z-index: 1;
 	background: #fff;
-	postition: relative;
+	position: relative;
 }
 
 /* Due to our reset we have to recover the styles of some elements. */
