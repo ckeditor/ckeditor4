@@ -302,7 +302,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		CKEDITOR.dialog.fire( 'dialogCreated', {
 			name: dialogName,
 			dialog: this
-		} );
+		}, editor );
 
 		this._.isRendered = false;
 	};
@@ -1158,6 +1158,31 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 
 			return ret || null;
+		},
+
+		/**
+		 * Method tells whether the dialog is editing an existing element or adding a new one.
+		 *
+		 * In case if dialog does not
+		 *
+		 * @since 4.11.0
+		 * @param {CKEDITOR.editor} editor
+		 * @returns {Boolean} Returns `true` if dialog is editing content that already exists in the editor.
+		 */
+		isEditing: function( editor ) {
+			var model = this.getModel( editor ),
+				ret = null;
+
+			if ( model && model instanceof CKEDITOR.dom.node ) {
+				ret = !!model.getParent();
+			}
+
+			ret = this.fire( 'isEditing', {
+				returnValue: ret,
+				model: model
+			} ).returnValue;
+
+			return ret || false;
 		},
 
 		/**
