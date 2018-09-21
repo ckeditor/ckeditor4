@@ -61,14 +61,33 @@
 		return convertNbsp( bender.tools.getHtmlWithSelection( editor ) );
 	}
 
-	function compareObjects( object, reference ) {
+	function compareSize( object, reference ) {
 		assert.isTrue( typeof object == 'object' && typeof reference == 'object' );
 
 		for ( var p in object ) {
-			if ( typeof object[ p ] == 'object' )
-				compareObjects( object[ p ], reference[ p ] );
-			else
-				assert.areEqual( reference[ p ], object[ p ] );
+			if ( typeof object[ p ] == 'object' ) {
+				compareSize( object[ p ], reference[ p ] );
+			}
+			else {
+				var ratio = window.devicePixelRatio,
+					offset = object[ p ];
+
+				// (#444)
+				if ( ratio > 1 ) {
+					offset = Math.ceil( offset * ratio ) - offset;
+				} else {
+					offset = Math.ceil( offset * ratio );
+				}
+
+				var min = reference[ p ] - offset,
+					max = reference[ p ] + offset;
+
+				if ( min == max ) {
+					assert.areEqual( reference[ p ], object[ p ] );
+				} else {
+					assert.isNumberInRange( object[ p ], min, max );
+				}
+			}
 		}
 	}
 
@@ -406,7 +425,7 @@
 					var size = backdoor.getSize( backdoor.that, div, true );
 					delete size.ignoreScroll;
 
-					compareObjects( size,
+					compareSize( size,
 						{
 							border: { bottom: 9, right: 6, left: 12, top: 3 },
 							padding: { bottom: 15, right: 10, left: 20, top: 5 },
