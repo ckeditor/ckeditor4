@@ -1119,7 +1119,8 @@ bender.test( {
 					top: 0,
 					left: '-1000px',
 					width: 0,
-					height: 0
+					height: 0,
+					overflow: 'hidden'
 				};
 
 				assert.isTrue( CKEDITOR.tools.objectCompare( expected, styles ) );
