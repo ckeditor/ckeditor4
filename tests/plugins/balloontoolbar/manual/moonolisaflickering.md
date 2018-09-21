@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea,toolbar,balloontoolbar,image,stylescombo
 
 1. Focus the image.
-1. Hover over balloon option.
+1. Hover over balloon both options.
 
 ## Expected
 
@@ -14,3 +14,4 @@
 
 * Visible flickering occurs on the right edge of the balloon panel.
 * Hovered option has bigger right margin compared to left margin.
+* Options separator is hidden under hover style.
