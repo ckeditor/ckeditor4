@@ -20,6 +20,10 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	margin-right: 0;
 }
 
+.cke_balloon.cke_balloontoolbar .cke_combo a.cke_combo_button{
+	margin-right: 2px;
+}
+
 /* Combo states (#1682). */
 .cke_balloon.cke_balloontoolbar .cke_combo_on a.cke_combo_button,
 .cke_balloon.cke_balloontoolbar .cke_combo_off a.cke_combo_button:hover,
@@ -28,6 +32,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 {
 	border: none;
 	padding: 1px;
-	margin: 0;
+	margin: 0 2px 0 0;
 	outline: 1px solid #bcbcbc;
 }
