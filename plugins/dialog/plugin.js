@@ -950,8 +950,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			if ( !this._.moved && ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) ) {
 				el.removeStyle( 'position' );
 				el.setStyle( 'margin', 'auto' );
+				el.getParent().setStyle( 'display', 'flex' );
 
-				return el.getParent().setStyle( 'display', 'flex' );
+				return;
 			}
 
 			var dialogSize = this.getSize(),
