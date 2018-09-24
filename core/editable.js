@@ -73,6 +73,7 @@
 			 * ```
 			 *
 			 * @param {Object} [focusOptions]
+			 * @param {Boolean} [focusOptions.preventScroll] Whenever after focus scroll should be prevented.
 			 */
 			focus: function( focusOptions ) {
 
