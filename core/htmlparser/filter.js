@@ -402,36 +402,140 @@
 } )();
 
 /**
- * This is an abstract class representing filter rules passed to {@link CKEDITOR.htmlParser.filter#constructor} as an argument. See {@link CKEDITOR.htmlParser.filter} for examples.
+ * Abstract class describing the definition of {@link CKEDITOR.htmlParser.filter} rules.
+ *
+ * This class illustrates the properties that developers can use to define and create filter rules.
+ *
+ * A filter rules definition object represents rules as a set of properties with callback functions
+ * to be applied for transforming and filtering content upon data processing.
+ *
+ * Filter rules definition can be also added with {@link CKEDITOR.htmlParser.filter.addrules}.
  *
  * @class CKEDITOR.htmlParser.filterRulesDefinition
  * @abstract
  */
 
 /**
- * @property {Function[]} elementNames An array of functions for data processing element names.
+ * @property {String[][]/RegExp[][]} elementNames An array of rules for data processing element names.
+ * Rule is defined as an array with two items [ string/regex, string ].
+ * Every matching string from first item will be converted into second.
+ *
+ * Examples:
+ *
+ * ```javascript
+ * elementNames: [
+ * 		[ /^div$/, 'p' ], // Converts 'div' into 'p'.
+ * 		[ /^cke:?/, '' ] // Removes 'cke:' prefixes.
+ * ]
+ * ```
+ *
+ * Incorrect:
+ *
+ * ```javascript
+ * elementNames: [
+ * 		[ 'p', 'div' ] // Converts every letter 'p' inside element name into 'div'
+ * 		// 'p' element will be converted into 'div', 'span' wil be converted into 'sdivan'.
+ * 		// To convert only 'p' elements use regex `/^p$/`.
+ * ]
+ * ```
+ *
  */
 
 /**
- * @property {Function[]} attributeNames An array of functions for data processing attribute names.
+ * @property {String[][]/RegExp[][]} attributeNames An array of rules for data processing attribute names.
+ * Rule is defined as an array with two items [ string/regex, string ].
+ * Every matching string from first item will be converted into second.
+ *
+ * Examples:
+ *
+ * ```javascript
+ * attributeNames: [
+ * 		[ 'data-foo', 'data-bar' ],
+ * 		// Converts string in attribute name from 'data-foo' into 'data-bar'
+ * 		// Note that attribute 'data-foo-baz' is converted into 'data-bar-baz'.
+ *
+ * 		[ /^data-custom$/, 'data-cke' ]
+ * 		// Converts attribute 'data-custom' into 'data-cke'.
+ * ]
+ * ```
+ *
  */
 
 /**
- * @property {Object.<String, Function>} elements An object containing pairs of keys representing element selectors and function for data processing selected elements.
+ * @property {Object.<String, Function>} elements An object containing pairs of keys representing
+ * element selectors and function for data processing selected elements. If function contains return statement element will be removed.
+ *
+ * Examples:
+ *
+ * ```javascript
+ * elements: {
+ * 		div: function( element ) {
+ * 			// Element transformation.
+ * 		},
+ * 		p: function() {
+ * 			return false; // Removes each '<p>' element.
+ * 		}
+ * }
+ * ```
+ *
  */
 
 /**
- * @property {Object.<String, Function>} attributes An object containing pairs of keys representing attributes and function for data processing selected attributes.
+ * @property {Object.<String, Function>} attributes An object containing pairs of keys representing
+ * attributes and function for data processing selected attributes. Returned value replaces attribute value.
+ *
+ * Examples:
+ *
+ * ```javascript
+ * attributes: {
+ * 		'class': function( value, element ) {
+ * 			if ( element.name === 'div' ) {
+ * 				return value + ' cke_div' // Adds class 'cke_div' to every div element.
+ * 			}
+ * 		},
+ * 		id: function() {
+ * 			return false; // Removes every elements 'id' attribute.
+ * 		}
+ * }
+ * ```
+ *
  */
 
 /**
- * @property {Function} text Function for data processing text content.
+ * @property {Function} text Function for data processing text content. Returned value replaces text.
+ *
+ * Examples:
+ *
+ * ```javascript
+ * text: function( value, element ) {
+ * 		return value.toLowerCase(); // Transforms each text into lower case.
+ * }
+ * ```
+ *
  */
 
 /**
- * @property {Function} comment Function for data processing comments.
+ * @property {Function} comment Function for data processing comments. Returned value replaces comment text.
+ *
+ * Examples:
+ *
+ * ```javascript
+ * comment: function( value, element ) {
+ * 		return false; // Removes every comment.
+ * }
+ * ```
+ *
  */
 
 /**
  * @property {Function} root Function for data processing root element.
+ *
+ * Examples:
+ *
+ * ```javascript
+ * root: function( element ) {
+ * 		element.children.push( someElement ) // Appends child to root element.
+ * }
+ * ```
+ *
  */
