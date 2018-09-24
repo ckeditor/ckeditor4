@@ -63,7 +63,7 @@
 			 * Moves the selection focus to this editable element.
 			 *
 			 * ***Since 4.11.0***
-			 * Takes optional param `focusOption` which holds property `preventScroll`. If set to true will prevent scrolling on focus.
+			 * Takes optional param `focusOptions` which holds property `preventScroll`. If set to true will prevent scrolling on focus.
 			 *
 			 * Example:
 			 * ```javascript
@@ -72,9 +72,9 @@
 			 * editable.focus(); // Focuses without preventing scroll.
 			 * ```
 			 *
-			 * @param {Object} [focusOption]
+			 * @param {Object} [focusOptions]
 			 */
-			focus: function( focusOption ) {
+			focus: function( focusOptions ) {
 
 				var active;
 
@@ -84,7 +84,7 @@
 					// Restore focus on element which we cached (on selectionCheck) as previously active.
 					active = this.editor._.previousActive || this.getDocument().getActive();
 					if ( this.contains( active ) ) {
-						active.focus( focusOption );
+						active.focus( focusOptions );
 						return;
 					}
 				}
@@ -110,7 +110,7 @@
 							var scrollables = [],
 								element = this;
 
-							if ( focusOption && focusOption.preventScroll ) {
+							if ( focusOptions && focusOptions.preventScroll ) {
 								while ( element ) {
 									if ( element.$.scrollHeight > element.$.clientHeight ) {
 										scrollables.push( {
@@ -138,7 +138,7 @@
 								} );
 							}
 						} else {
-							this.$.focus( focusOption );
+							this.$.focus( focusOptions );
 						}
 					}
 				} catch ( e ) {
@@ -881,7 +881,7 @@
 				this.attachListener( editor, 'beforeFocus', function( evt ) {
 					var sel = editor.getSelection(),
 						ieSel = sel && sel.getNative(),
-						focusOption = evt.data.focusOption;
+						focusOptions = evt.data.focusOptions;
 
 					// IE considers control-type element as separate
 					// focus host when selected, avoid destroying the
@@ -889,7 +889,7 @@
 					if ( ieSel && ieSel.type == 'Control' )
 						return;
 
-					this.focus( focusOption );
+					this.focus( focusOptions );
 				}, this );
 
 				this.attachListener( editor, 'insertHtml', function( evt ) {

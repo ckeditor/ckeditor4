@@ -1317,7 +1317,7 @@
 		 * Moves the selection focus to the editing area space in the editor.
 		 *
 		 * ***Since 4.11.0***
-		 * Takes optional param `focusOption` which holds property `preventScroll`. If set to true will prevent scrolling on focus.
+		 * Takes optional param `focusOptions` which holds property `preventScroll`. If set to true will prevent scrolling on focus.
 		 *
 		 * Example:
 		 * ```javascript
@@ -1326,10 +1326,10 @@
 		 * editor.focus(); // Focuses without preventing scroll.
 		 * ```
 		 *
-		 * @param {Object} [focusOption]
+		 * @param {Object} [focusOptions]
 		 */
-		focus: function( focusOption ) {
-			this.fire( 'beforeFocus', { focusOption: focusOption } );
+		focus: function( focusOptions ) {
+			this.fire( 'beforeFocus', { focusOptions: focusOptions } );
 		},
 
 		/**

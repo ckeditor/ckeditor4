@@ -505,11 +505,11 @@
 				}
 			},
 
-			focus: function( focusOption ) {
+			focus: function( focusOptions ) {
 				if ( this._.isLoadingData ) {
 					this._.isPendingFocus = true;
 				} else {
-					framedWysiwyg.baseProto.focus.call( this, focusOption );
+					framedWysiwyg.baseProto.focus.call( this, focusOptions );
 				}
 			},
 
