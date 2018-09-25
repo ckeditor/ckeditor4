@@ -137,12 +137,14 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 	var templateSource = '<div class="cke_reset_all cke_dialog_container {editorId} {editorDialogClass} {hidpi}' +
 		'" dir="{langDir}"' +
+		' style="' + ( !CKEDITOR.env.ie || CKEDITOR.env.edge ? 'display:flex' : '' ) + '"' +
 		' lang="{langCode}"' +
 		' role="dialog"' +
 		' aria-labelledby="cke_dialog_title_{id}"' +
 		'>' +
 		'<table class="cke_dialog ' + CKEDITOR.env.cssClass + ' cke_{langDir}"' +
-			' style="position:absolute" role="presentation">' +
+			' style="' + ( !CKEDITOR.env.ie || CKEDITOR.env.edge ? 'margin:auto' : 'position:absolute' ) + '"' +
+			' role="presentation">' +
 			'<tr><td role="presentation">' +
 			'<div class="cke_dialog_body" role="presentation">' +
 				'<div id="cke_dialog_title_{id}" class="cke_dialog_title" role="presentation"></div>' +
@@ -838,10 +840,13 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			// Insert the dialog's element to the root document.
 			var element = this._.element;
 			var definition = this.definition;
-			if ( !( element.getParent() && element.getParent().equals( CKEDITOR.document.getBody() ) ) )
+
+			if ( !( element.getParent() && element.getParent().equals( CKEDITOR.document.getBody() ) ) ) {
 				element.appendTo( CKEDITOR.document.getBody() );
-			else
-				element.setStyle( 'display', 'block' );
+			} else {
+				var display = ( !CKEDITOR.env.ie && CKEDITOR.env.edge ) ? 'block' : 'flex';
+				element.setStyle( 'display', display );
+			}
 
 			// First, set the dialog to an appropriate size.
 			this.resize(
@@ -948,10 +953,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			var el = this.parts.dialog;
 
 			if ( !this._.moved && ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) ) {
-				el.removeStyle( 'position' );
-				el.setStyle( 'margin', 'auto' );
-				el.getParent().setStyle( 'display', 'flex' );
-
 				return;
 			}
 
