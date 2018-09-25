@@ -2119,7 +2119,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}
 	}
 
-	var resizeCover;
 	// Caching resuable covers and allowing only one cover
 	// on screen.
 	var covers = {},
@@ -2154,6 +2153,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				'<div tabIndex="-1" style="position: ', ( CKEDITOR.env.ie6Compat ? 'absolute' : 'fixed' ),
 				'; z-index: ', baseFloatZIndex,
 				'; top: 0px; left: 0px; ',
+				'; width: 100%; height: 100%;',
 				( !CKEDITOR.env.ie6Compat ? 'background-color: ' + backgroundColorStyle : '' ),
 				'" class="cke_dialog_background_cover">'
 			];
@@ -2206,13 +2206,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		editor.focusManager.add( coverElement );
 
 		currentCover = coverElement;
-		var resizeFunc = function() {
-				var size = win.getViewPaneSize();
-				coverElement.setStyles( {
-					width: size.width + 'px',
-					height: size.height + 'px'
-				} );
-			};
 
 		var scrollFunc = function() {
 				var pos = win.getScrollPosition(),
@@ -2230,9 +2223,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				}
 			};
 
-		resizeCover = resizeFunc;
-		win.on( 'resize', resizeFunc );
-		resizeFunc();
 		// Using Safari/Mac, focus must be kept where it is (https://dev.ckeditor.com/ticket/7027)
 		if ( !( CKEDITOR.env.mac && CKEDITOR.env.webkit ) )
 			coverElement.focus();
@@ -2262,17 +2252,12 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		var win = CKEDITOR.document.getWindow();
 		currentCover.hide();
 
-		// Remove the current cover reference once the cover is removed (#589).
-		currentCover = null;
-		win.removeListener( 'resize', resizeCover );
-
 		if ( CKEDITOR.env.ie6Compat ) {
 			win.$.setTimeout( function() {
 				var prevScrollHandler = window.onscroll && window.onscroll.prevScrollHandler;
 				window.onscroll = prevScrollHandler || null;
 			}, 0 );
 		}
-		resizeCover = null;
 	}
 
 	function removeCovers() {
