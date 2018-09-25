@@ -2130,33 +2130,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	}
 
 	function hideBodyScrollbars() {
-		var document = CKEDITOR.document,
-			body = document.getBody(),
-			scrollBarWidth = document.getWindow().$.innerWidth - document.$.documentElement.clientWidth,
-			paddingRight = body.getComputedStyle( 'padding-right' );
-
-		if ( paddingRight ) {
-			paddingRight = CKEDITOR.tools.convertToPx( paddingRight );
-		}
-
-		body.addClass( 'cke_dialog_open' );
-
-		if ( !paddingRight && scrollBarWidth ) {
-			// Add right padding, to prevent from resizing elements, when scrollbars are gone.
-			// Don't do anything, when there is any padding on body element, to not break things.
-			body.setStyle( 'padding-right', scrollBarWidth + 'px' );
-			body.addClass( 'cke_body_extra_padding' );
-		}
+		CKEDITOR.document.getBody().addClass( 'cke_dialog_open' );
 	}
 
 	function showBodyScrollbars() {
-		var body = CKEDITOR.document.getBody();
-		body.removeClass( 'cke_dialog_open' );
-
-		if ( body.hasClass( 'cke_body_extra_padding' ) ) {
-			body.removeStyle( 'padding-right' );
-			body.removeClass( 'cke_body_extra_padding' );
-		}
+		CKEDITOR.document.getBody().removeClass( 'cke_dialog_open' );
 	}
 
 	function showCover( editor ) {
