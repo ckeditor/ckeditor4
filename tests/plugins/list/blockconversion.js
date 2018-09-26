@@ -38,6 +38,17 @@ var tests = {
 			bot.execCommand( 'numberedlist' );
 			assert.beautified.html( expected, bot.getData( false, true ), 'Problem with test case: "test_double_0"' );
 		} );
+	},
+	'test lists which generates error during conversion': function( editor, bot ) {
+		var testesLength = 2;
+		var testPrefix = 'test_errors_';
+		for ( var i = 0; i < testesLength; i++ ) {
+			bender.tools.testInputOut( testPrefix + i, function( input, expected ) {
+				bot.setHtmlWithSelection( input );
+				bot.execCommand( 'numberedlist' );
+				assert.beautified.html( expected, bot.getData( false, true ), 'Problem with test case: "' + testPrefix + i + '"' );
+			} );
+		}
 	}
 };
 

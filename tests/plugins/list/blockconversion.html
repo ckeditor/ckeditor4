@@ -390,3 +390,79 @@ Strange results in tests:
 		</li>
 	</ul>
 </textarea>
+
+<textarea id="test_errors_0">
+	<p>&nbsp;</p>
+	<ul>
+		<li>
+		<div>[test
+		<ul>
+		</ul>
+		</div>
+		</li>
+		<li>test]</li>
+	</ul>
+	<p>&nbsp;</p>
+=>
+	<p>&nbsp;</p>
+	<ul>
+		<li>
+		<div>
+		<ol>
+			<li>test</li>
+		</ol>
+		<ul>
+		</ul>
+		</div>
+		</li>
+	</ul>
+
+	<ol>
+		<li>test</li>
+	</ol>
+	<p>&nbsp;</p>
+
+</textarea>
+
+<textarea id="test_errors_1">
+	<p>&nbsp;[</p>
+
+	<ul>
+	</ul>
+
+	<ul>
+		<li><a href="https://powerusers.microsoft.com/plugins/common/feature/oauth2sso/sso_login_redirect?referer=https%3A%2F%2Fpowerusers.microsoft.com%2Ft5%2FPowerApps-Community%2Fct-p%2FPowerApps1">Register</a></li>
+		<li>&nbsp;</li>
+		<li>&middot;</li>
+		<li>&nbsp;</li>
+		<li><a href="https://powerusers.microsoft.com/plugins/common/feature/oauth2sso/sso_login_redirect?referer=https%3A%2F%2Fpowerusers.microsoft.com%2Ft5%2FPowerApps-Community%2Fct-p%2FPowerApps1">Sign In</a></li>
+		<li>&nbsp;</li>
+		<li>&middot;</li>
+		<li>&nbsp;</li>
+		<li><a href="https://powerusers.microsoft.com/t5/help/faqpage">Help</a></li>
+	</ul>
+
+	<p>]&nbsp;</p>
+
+=>
+<ol>
+	<li>&nbsp;</li>
+</ol>
+
+<ul>
+</ul>
+
+<ol>
+	<li><a href="https://powerusers.microsoft.com/plugins/common/feature/oauth2sso/sso_login_redirect?referer=https%3A%2F%2Fpowerusers.microsoft.com%2Ft5%2FPowerApps-Community%2Fct-p%2FPowerApps1">Register</a></li>
+	<li>&nbsp;</li>
+	<li>&middot;</li>
+	<li>&nbsp;</li>
+	<li><a href="https://powerusers.microsoft.com/plugins/common/feature/oauth2sso/sso_login_redirect?referer=https%3A%2F%2Fpowerusers.microsoft.com%2Ft5%2FPowerApps-Community%2Fct-p%2FPowerApps1">Sign In</a></li>
+	<li>&nbsp;</li>
+	<li>&middot;</li>
+	<li>&nbsp;</li>
+	<li><a href="https://powerusers.microsoft.com/t5/help/faqpage">Help</a></li>
+	<li>&nbsp;</li>
+</ol>
+
+</textarea>
