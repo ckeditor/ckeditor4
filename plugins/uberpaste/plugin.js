@@ -51,9 +51,9 @@
 				toolbar: 'clipboard,50'
 			} );
 
-			var contentParser = new ContentParser( editor );
+			var loader = new FilterLoader( editor );
 
-			contentParser.registerRule( 'word', function( evtData ) {
+			loader.registerRule( 'word', function( evtData ) {
 				var html = evtData.dataValue,
 					officeMetaRegexp = /<meta\s*name=(?:\"|\')?generator(?:\"|\')?\s*content=(?:\"|\')?microsoft/gi,
 					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
@@ -87,7 +87,7 @@
 					// dataValue should be used.
 					html = dataTransferHtml || data.dataValue,
 					pasteEvtData = { dataValue: html, dataTransfer: { 'text/rtf': dataTransferRtf } },
-					filterType = contentParser.resolveRule( pasteEvtData );
+					filterType = loader.resolveRule( pasteEvtData );
 
 				if ( !filterType ) {
 					return;
@@ -100,7 +100,7 @@
 				// load them and when they'll get loaded fire new paste event
 				// for which data will be filtered in second execution of
 				// this listener.
-				var isLazyLoad = contentParser.loadFilterRules( path, function() {
+				var isLazyLoad = loader.loadFilterRules( path, function() {
 					// Event continuation with the original data.
 					if ( isLazyLoad ) {
 						editor.fire( 'paste', data );
@@ -184,12 +184,12 @@
 
 	} );
 
-	function ContentParser( editor ) {
+	function FilterLoader( editor ) {
 		this.editor = editor;
 		this.rules = {};
 	}
 
-	ContentParser.prototype = {
+	FilterLoader.prototype = {
 
 		registerRule: function( name, handler ) {
 			this.rules[ name ] = CKEDITOR.tools.bind( handler, this );
