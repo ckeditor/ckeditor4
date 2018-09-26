@@ -102,6 +102,7 @@
 						var link = editor.editable().findOne( 'a' );
 
 						assert.areSame( link, dialog.getModel( editor ), 'Dialog model' );
+						assert.isTrue( dialog.isEditing( editor ), 'Dialog editing mode' );
 					}
 				} );
 			},
@@ -114,6 +115,7 @@
 						var link = editor.editable().findOne( 'a' );
 
 						assert.areSame( link, dialog.getModel( editor ), 'Dialog model' );
+						assert.isTrue( dialog.isEditing( editor ), 'Dialog editing mode' );
 					}
 				} );
 			},
@@ -124,6 +126,7 @@
 					input: '<p>foo {bar} baz<p>',
 					callback: function( dialog ) {
 						assert.isNull( dialog.getModel( editor ), 'Dialog model' );
+						assert.isFalse( dialog.isEditing( editor ), 'Dialog editing mode' );
 					}
 				} );
 			}
