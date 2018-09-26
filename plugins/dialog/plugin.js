@@ -972,17 +972,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				posY = ( viewSize.height - dialogSize.height ) / 2;
 			}
 
-			// Switch to absolute position when viewport is smaller than dialog size.
 			if ( !CKEDITOR.env.ie6Compat ) {
-				if ( dialogSize.height + ( posY > 0 ? posY : 0 ) > viewSize.height || dialogSize.width + ( posX > 0 ? posX : 0 ) > viewSize.width ) {
-					el.setStyles( {
-						position: 'static',
-						margin: 'auto'
-					} );
-				} else {
-					el.setStyle( 'position', 'absolute' );
-					el.removeStyle( 'margin' );
-				}
+				el.setStyle( 'position', 'absolute' );
+				el.removeStyle( 'margin' );
 			}
 
 			this.move( posX, posY );
