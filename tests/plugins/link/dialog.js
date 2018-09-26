@@ -25,6 +25,19 @@
 		} );
 	}
 
+	function assertLinkDialog( options ) {
+		// Funny thing is that I had to do setData here to remove junk from potentially previous test runs.
+		options.bot.setData( options.input, function() {
+			options.bot.setHtmlWithSelection( options.input );
+
+			options.bot.dialog( 'link', function( dialog ) {
+				assert.areSame( 'link', dialog.getName(), 'Dialog name' );
+
+				options.callback( dialog );
+			} );
+		} );
+	}
+
 	bender.editors = {
 		framed: {
 			name: 'framed',
@@ -79,6 +92,40 @@
 
 			'test discovery of anchors': function( editor, bot ) {
 				assertAnchorDiscovery( bot, anchorsMapping[ editor.name ].expectedIds, anchorsMapping[ editor.name ].expectedNames );
+			},
+
+			'test dialog returns a proper model (whole link selected)': function( editor, bot ) {
+				assertLinkDialog( {
+					bot: bot,
+					input: '<p>foo <a href="https://ckeditor.com">[bar]</a> baz<p>',
+					callback: function( dialog ) {
+						var link = editor.editable().findOne( 'a' );
+
+						assert.areSame( link, dialog.getModel( editor ), 'Dialog model' );
+					}
+				} );
+			},
+
+			'test dialog returns a proper model (collapsed selection)': function( editor, bot ) {
+				assertLinkDialog( {
+					bot: bot,
+					input: '<p>foo <a href="https://ckeditor.com">b^ar</a> baz<p>',
+					callback: function( dialog ) {
+						var link = editor.editable().findOne( 'a' );
+
+						assert.areSame( link, dialog.getModel( editor ), 'Dialog model' );
+					}
+				} );
+			},
+
+			'test dialog returns a proper model (new link)': function( editor, bot ) {
+				assertLinkDialog( {
+					bot: bot,
+					input: '<p>foo {bar} baz<p>',
+					callback: function( dialog ) {
+						assert.isNull( dialog.getModel( editor ), 'Dialog model' );
+					}
+				} );
 			}
 		};
 
