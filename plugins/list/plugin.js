@@ -650,11 +650,14 @@
 			while ( listGroups.length > 0 ) {
 				groupObj = listGroups.shift();
 				if ( this.state == CKEDITOR.TRISTATE_OFF ) {
-					if ( listNodeNames[ groupObj.root.getName() ] )
+					if ( isEmptyList( groupObj ) ) {
+						continue;
+					} else if ( listNodeNames[ groupObj.root.getName() ] ) {
 						changeListType.call( this, editor, groupObj, database, listsCreated );
-					else
+					} else {
 						createList.call( this, editor, groupObj, listsCreated );
-				} else if ( this.state == CKEDITOR.TRISTATE_ON && listNodeNames[ groupObj.root.getName() ] ) {
+					}
+				} else if ( this.state == CKEDITOR.TRISTATE_ON && listNodeNames[ groupObj.root.getName() ] && !isEmptyList( groupObj ) ) {
 					removeList.call( this, editor, groupObj, database );
 				}
 			}
@@ -667,6 +670,12 @@
 			CKEDITOR.dom.element.clearAllMarkers( database );
 			selection.selectBookmarks( bookmarks );
 			editor.focus();
+
+			function isEmptyList( obj ) {
+				// If list is without any li item, then ignore such element from transformation, becasue it throws errors in console.
+				// Hack for situation described in #2411, #2438.
+				return obj.root.is( 'ul', 'ol' ) && obj.root.getChildCount() === 0;
+			}
 		},
 
 		refresh: function( editor, path ) {
