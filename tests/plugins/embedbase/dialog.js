@@ -82,10 +82,6 @@ bender.test( {
 	},
 
 	openDialog: function( editor, widget, callback ) {
-		var initialFocusedWidget = editor.widgets.focused;
-
-		editor.widgets.focused = widget;
-
 		editor.openDialog( 'embedBase', function( dialog ) {
 			dialog.widget = widget;
 
@@ -93,8 +89,6 @@ bender.test( {
 				dialog.setupContent( widget );
 
 				resume( function() {
-					editor.widgets.focused = initialFocusedWidget;
-
 					callback( dialog );
 				} );
 			} );
