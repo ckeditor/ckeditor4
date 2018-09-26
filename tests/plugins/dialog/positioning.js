@@ -59,6 +59,23 @@
 		// When drag starts, dialog becomes centered with `position:absolute`, then it moves together with mouse (#2395).
 		'test dialog move': function() {
 			this.editorBot.dialog( 'link', function( dialog ) {
+				var window = CKEDITOR.document.getWindow(),
+					viewPaneSize = {
+						width: 1000,
+						height: 1000
+					},
+					element = dialog._.element.getFirst(),
+					dialogSize = dialog.getSize(),
+					expectedX = Math.floor( ( viewPaneSize.width - dialogSize.width ) / 2 ),
+					expectedY = Math.floor( ( viewPaneSize.height - dialogSize.height ) / 2 ),
+					stubs = {
+						getWindow: sinon.stub( CKEDITOR.document, 'getWindow' ),
+						getViewPane: sinon.stub( window, 'getViewPaneSize' )
+					};
+
+				stubs.getWindow.returns( window );
+				stubs.getViewPane.returns( viewPaneSize );
+
 				dialog.parts.title.fire( 'mousedown', {
 					$: {
 						screenX: 0,
@@ -67,12 +84,7 @@
 					preventDefault: function() {}
 				} );
 
-				var element = dialog._.element.getFirst(),
-					dialogSize = dialog.getSize(),
-					viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize(),
-					expectedX = Math.floor( ( viewPaneSize.width - dialogSize.width ) / 2 ),
-					expectedY = Math.floor( ( viewPaneSize.height - dialogSize.height ) / 2 ),
-					actualX = parseInt( element.getStyle( 'left' ), 10 ),
+				var actualX = parseInt( element.getStyle( 'left' ), 10 ),
 					actualY = parseInt( element.getStyle( 'top' ), 10 );
 
 				assert.areEqual( 'absolute', element.getStyle( 'position' ), 'Dialog element should have `position:absolute`.' );
@@ -95,6 +107,10 @@
 
 				CKEDITOR.document.fire( 'mouseup' );
 				dialog.hide();
+
+				for ( var key in stubs ) {
+					stubs[ key ].restore();
+				}
 			} );
 		}
 	} );
