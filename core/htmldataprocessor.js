@@ -882,6 +882,37 @@
 			')', 'gi' );
 	}
 
+	function createEncodedRegex( str ) {
+		return CKEDITOR.tools.array.reduce( str.split( '' ), function( cur, character ) {
+			// Produce case insensitive regex. `i` flag is not enough thus code entities differs
+			// depending on case sensitivity.
+			var lowerCase = character.toLowerCase(),
+				upperCase = character.toUpperCase(),
+				regex = createCharacterEncodedRegex( lowerCase );
+
+			if ( lowerCase !== upperCase ) {
+				regex += '|' + createCharacterEncodedRegex( upperCase );
+			}
+
+			cur += '(' + regex + ')';
+
+			return cur;
+		}, '' );
+	}
+
+	function createCharacterEncodedRegex( character ) {
+		var map = getCharRegexMap( character ),
+			charRegex = character;
+
+		for ( var code in map ) {
+			if ( map[ code ] ) {
+				charRegex += '|' + map[ code ];
+			}
+		}
+
+		return charRegex;
+	}
+
 	function getCharRegexMap( character ) {
 		var entities = {
 				'<': '&lt;',
@@ -898,23 +929,6 @@
 			hex: '&#x0*' + hex + ';?',
 			entity: entities[ character ]
 		};
-	}
-
-	function createEncodedRegex( str ) {
-		return CKEDITOR.tools.array.reduce( str.split( '' ), function( cur, character ) {
-			var map = getCharRegexMap( character ),
-				charRegex = '(' + character;
-
-			for ( var code in map ) {
-				if ( map[ code ] ) {
-					charRegex += '|' + map[ code ];
-				}
-			}
-
-			cur += charRegex + ')';
-
-			return cur;
-		}, '' );
 	}
 
 	// Replace all "on\w{3,}" strings which are not:
