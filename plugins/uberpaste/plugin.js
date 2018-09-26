@@ -100,11 +100,10 @@
 		pasteListener: function( evt ) {
 			var editor = this.editor,
 				data = evt.data,
-				dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
-				data.dataTransfer.getData( 'text/html', true ) : null,
+				isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
+				dataTransferHtml = isCustomDataTypesSupported ? data.dataTransfer.getData( 'text/html', true ) : null,
 				// Required in Paste from Word Image plugin (#662).
-				dataTransferRtf = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
-				data.dataTransfer.getData( 'text/rtf' ) : null,
+				dataTransferRtf = isCustomDataTypesSupported ? data.dataTransfer.getData( 'text/rtf' ) : null,
 				// Some commands fire paste event without setting dataTransfer property. In such case
 				// dataValue should be used.
 				html = dataTransferHtml || data.dataValue,
