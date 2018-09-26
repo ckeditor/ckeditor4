@@ -192,7 +192,7 @@
 	FilterLoader.prototype = {
 
 		registerRule: function( name, handler ) {
-			this.rules[ name ] = CKEDITOR.tools.bind( handler, this );
+			this.rules[ name ] = handler;
 		},
 
 		loadFilterRules: function( path, callback ) {

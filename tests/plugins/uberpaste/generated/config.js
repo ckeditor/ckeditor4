@@ -13,7 +13,7 @@
 	bender.editor = {
 		config: {
 			language: 'en',
-			uberpasteRemoveFontStyles: true
+			pasteFromWordRemoveFontStyles: true
 		}
 	};
 

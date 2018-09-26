@@ -7,7 +7,7 @@
 function testScenario( scenario, filterPath ) {
 	bender.editor = {
 		config: {
-			uberpasteCleanupFile: filterPath
+			pasteFromWordCleanupFile: filterPath
 		}
 	};
 

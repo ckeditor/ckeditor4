@@ -22,7 +22,7 @@
 				nativeData = bender.tools.mockNativeDataTransfer(),
 				dataTransfer;
 
-			editor.once( 'afterUberPaste', function( evt ) {
+			editor.once( 'afterPasteFromWord', function( evt ) {
 				resume( function() {
 					assert.areSame( evt.data.dataValue, 'foo' );
 				} );
@@ -42,7 +42,7 @@
 		'test PFW uses dataValue when dataTransfer is empty':  function() {
 			var editor = this.editor;
 
-			editor.once( 'afterUberPaste', function( evt ) {
+			editor.once( 'afterPasteFromWord', function( evt ) {
 				resume( function() {
 					assert.areSame( evt.data.dataValue, 'foo' );
 				} );
@@ -65,7 +65,7 @@
 				nativeData = bender.tools.mockNativeDataTransfer(),
 				dataTransfer;
 
-			editor.once( 'afterUberPaste', function( evt ) {
+			editor.once( 'afterPasteFromWord', function( evt ) {
 				resume( function() {
 					assert.areSame( evt.data.dataValue, 'bar' );
 				} );

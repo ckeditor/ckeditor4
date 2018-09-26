@@ -6,7 +6,7 @@
 
 	bender.editor = {
 		config: {
-			uberpasteCleanupFile: '%TEST_DIR%_assets/customfilter.js'
+			pasteFromWordCleanupFile: '%TEST_DIR%_assets/customfilter.js'
 		}
 	};
 
