@@ -58,31 +58,29 @@
 		}
 	};
 
-	bender.editorsConfig = {
-		extraAllowedContent: 'a[id,name]'
-	};
-
-	bender.test( {
-		tearDown: function() {
-			CKEDITOR.dialog.getCurrent().hide();
+	var anchorsMapping = {
+			framed: {
+				expectedIds: [ 'aa', 'ba', 'ca', '' ],
+				expectedNames: [ 'ab', 'bb', 'cb', '' ]
+			},
+			inline: {
+				expectedIds: [ 'ga', 'ha', 'ma', 'na', 'oa', 'ta', 'ua', 'wa', '' ],
+				expectedNames: [ 'gb', 'hb', 'mb', 'nb', 'ob', 'tb', 'ub', 'wb', '' ]
+			},
+			divarea: {
+				expectedIds: [ 'ta', 'ua', 'wa', '' ],
+				expectedNames: [ 'tb', 'ub', 'wb', '' ]
+			}
 		},
+		tests = {
+			tearDown: function() {
+				CKEDITOR.dialog.getCurrent().hide();
+			},
 
-		'test discovery of anchors (framed)': function() {
-			assertAnchorDiscovery( this.editorBots.framed,
-				[ 'aa', 'ba', 'ca', '' ],
-				[ 'ab', 'bb', 'cb', '' ] );
-		},
+			'test discovery of anchors': function( editor, bot ) {
+				assertAnchorDiscovery( bot, anchorsMapping[ editor.name ].expectedIds, anchorsMapping[ editor.name ].expectedNames );
+			}
+		};
 
-		'test discovery of anchors (inline)': function() {
-			assertAnchorDiscovery( this.editorBots.inline,
-				[ 'ga', 'ha', 'ma', 'na', 'oa', 'ta', 'ua', 'wa', '' ],
-				[ 'gb', 'hb', 'mb', 'nb', 'ob', 'tb', 'ub', 'wb', '' ] );
-		},
-
-		'test discovery of anchors (divarea)': function() {
-			assertAnchorDiscovery( this.editorBots.divarea,
-				[ 'ta', 'ua', 'wa', '' ],
-				[ 'tb', 'ub', 'wb', '' ] );
-		}
-	} );
+	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
 } )();
