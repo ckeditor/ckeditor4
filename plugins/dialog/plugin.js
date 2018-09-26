@@ -283,10 +283,13 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		// Set the startup styles for the dialog, avoiding it enlarging the
 		// page size on the dialog creation.
 		var startStyles = {
-			position: CKEDITOR.env.ie6Compat ? 'absolute' : 'static',
 			top: 0,
 			visibility: 'hidden'
 		};
+
+		if ( CKEDITOR.env.ie6Compat ) {
+			startStyles.position = 'absolute';
+		}
 
 		startStyles[ dir == 'rtl' ? 'right' : 'left' ] = 0;
 		this.parts.dialog.setStyles( startStyles );
