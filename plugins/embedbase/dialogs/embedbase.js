@@ -15,10 +15,6 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 		minWidth: 350,
 		minHeight: 50,
 
-		getModel: function() {
-			return this.dialog._model || null;
-		},
-
 		onLoad: function() {
 			var that = this,
 				loadContentRequest = null;
