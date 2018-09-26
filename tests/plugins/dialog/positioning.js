@@ -16,31 +16,16 @@
 			}
 			var bot = this.editorBot,
 				document = CKEDITOR.document,
-				body = document.getBody(),
-				scrollBarWidth;
+				body = document.getBody();
 
 			body.appendHtml( '<div style="height:4000px"></div>' );
-			scrollBarWidth = document.getWindow().$.innerWidth - document.$.documentElement.clientWidth;
 
 			bot.dialog( 'link', function( dialog ) {
 				assert.isTrue( body.hasClass( 'cke_dialog_open' ), 'Body should have proper class.' );
-				assert.isTrue( body.hasClass( 'cke_body_extra_padding' ), 'Body should have proper class.' );
-				assert.areSame( scrollBarWidth + 'px', body.getStyle( 'padding-right' ), 'Body should have right padding.' );
 
 				dialog.hide();
 
 				assert.isFalse( body.hasClass( 'cke_dialog_open' ), 'Body shouldn\'t have class.' );
-				assert.areSame( '', body.getStyle( 'padding-right' ), 'Body shouldn\'t have right padding.' );
-
-				body.setStyle( 'padding-right', '1em' );
-
-				bot.dialog( 'link', function( dialog ) {
-					assert.areSame( '1em', body.getStyle( 'padding-right' ), 'Right padding should be preserved on body.' );
-					assert.isFalse( body.hasClass( 'cke_body_extra_padding' ), 'Body shouldn\'t have class.' );
-					dialog.hide();
-
-					assert.areSame( '1em', body.getStyle( 'padding-right' ), 'Right padding should be preserved on body.' );
-				} );
 			} );
 		},
 		// Dialog is initially centered by CSS styles:
@@ -57,6 +42,16 @@
 				assert.areEqual( container.getStyle( 'display' ), 'flex', 'Dialog container should have `display:flex`.' );
 				assert.areEqual( element.getStyle( 'position' ), '', 'Dialog element should\'t have position style.' );
 				assert.areEqual( element.getStyle( 'margin' ), 'auto', 'Dialog element should have `margin:auto`.' );
+
+				dialog.hide();
+			} );
+		},
+		'test dialog cover styles': function() {
+			this.editorBot.dialog( 'link', function( dialog ) {
+				var cover = CKEDITOR.document.findOne( '.cke_dialog_background_cover' );
+
+				assert.areEqual( cover.getStyle( 'width' ), '100%', 'Dialog element should have `width:100%`.' );
+				assert.areEqual( cover.getStyle( 'height' ), '100%', 'Dialog element should have `height:100%`.' );
 
 				dialog.hide();
 			} );
