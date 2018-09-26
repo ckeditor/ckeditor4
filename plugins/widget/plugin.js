@@ -221,21 +221,41 @@
 		 * @returns {CKEDITOR.plugins.widget.definition}
 		 */
 		add: function( name, widgetDef ) {
+			var editor = this.editor;
+
 			// Create prototyped copy of original widget definition, so we won't modify it.
 			widgetDef = CKEDITOR.tools.prototypedCopy( widgetDef );
 			widgetDef.name = name;
 
 			widgetDef._ = widgetDef._ || {};
 
-			this.editor.fire( 'widgetDefinition', widgetDef );
+			editor.fire( 'widgetDefinition', widgetDef );
 
 			if ( widgetDef.template )
 				widgetDef.template = new CKEDITOR.template( widgetDef.template );
 
-			addWidgetCommand( this.editor, widgetDef );
+			addWidgetCommand( editor, widgetDef );
 			addWidgetProcessors( this, widgetDef );
 
 			this.registered[ name ] = widgetDef;
+
+			if ( widgetDef.dialog && editor.plugins.dialog ) {
+				var dialogListener = CKEDITOR.dialog.on( 'dialogCreated', function( evt ) {
+					var data = evt.data;
+
+					if ( data.name == widgetDef.dialog && evt.editor === editor ) {
+						data.dialog.on( 'isEditing', function( editingEvent ) {
+							var data = editingEvent.data,
+								model = data.model;
+
+							if ( !data.returnValue && model && model instanceof CKEDITOR.plugins.widget && model.ready ) {
+								data.returnValue = true;
+							}
+						} );
+						dialogListener.removeListener();
+					}
+				} );
+			}
 
 			return widgetDef;
 		},
@@ -1228,7 +1248,7 @@
 					okListener.removeListener();
 					getModelListener.removeListener();
 				} );
-			} );
+			}, that );
 
 			return true;
 		},
