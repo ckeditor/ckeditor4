@@ -1172,18 +1172,11 @@
 
 			this.editor.openDialog( evtData.dialog, function( dialog ) {
 				var showListener,
-					okListener,
-					getModelListener;
+					okListener;
 
 				// Allow to add a custom dialog handler.
 				if ( that.fire( 'dialog', dialog ) === false )
 					return;
-
-				getModelListener = dialog.on( 'getModel', function( modelEvent ) {
-					if ( !modelEvent.data.model ) {
-						modelEvent.data.model = that;
-					}
-				} );
 
 				showListener = dialog.on( 'show', function() {
 					dialog.setupContent( that );
@@ -1215,7 +1208,6 @@
 				dialog.once( 'hide', function() {
 					showListener.removeListener();
 					okListener.removeListener();
-					getModelListener.removeListener();
 				} );
 			}, that );
 
