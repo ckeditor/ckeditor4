@@ -2124,14 +2124,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		ev.data.preventDefault( 1 );
 	}
 
-	function hideBodyScrollbars() {
-		CKEDITOR.document.getBody().addClass( 'cke_dialog_open' );
-	}
-
-	function showBodyScrollbars() {
-		CKEDITOR.document.getBody().removeClass( 'cke_dialog_open' );
-	}
-
 	function showCover( editor ) {
 		var win = CKEDITOR.document.getWindow(),
 			config = editor.config,
@@ -2142,7 +2134,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			coverKey = CKEDITOR.tools.genKey( backgroundColorStyle, backgroundCoverOpacity, baseFloatZIndex ),
 			coverElement = covers[ coverKey ];
 
-		hideBodyScrollbars();
+		CKEDITOR.document.getBody().addClass( 'cke_dialog_open' );
 
 		if ( !coverElement ) {
 			var html = [
@@ -2240,7 +2232,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	}
 
 	function hideCover( editor ) {
-		showBodyScrollbars();
+		CKEDITOR.document.getBody().removeClass( 'cke_dialog_open' );
 		if ( !currentCover )
 			return;
 
