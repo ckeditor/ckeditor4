@@ -252,6 +252,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			editor: editor,
 			element: themeBuilt.element,
 			name: dialogName,
+			model: null,
 			contentSize: { width: 0, height: 0 },
 			size: { width: 0, height: 0 },
 			contents: {},
@@ -1168,7 +1169,12 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @inheritdoc CKEDITOR.dialog.modeledDialog#getModel
 		 */
 		getModel: function( editor ) {
-			var ret = null;
+			var ret = this._.model;
+
+			// Always return cached model instance.
+			if ( this._.model ) {
+				return this._.model;
+			}
 
 			if ( this.definition.getModel ) {
 				ret = this.definition.getModel( editor );
@@ -1181,6 +1187,16 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 
 			return ret || null;
+		},
+
+		/**
+		 *
+		 * @since 4.11.0
+		 * @param {CKEDITOR.editor} editor
+		 * @param {CKEDITOR.dom.element/}
+		 */
+		setModel: function( editor, newModel ) {
+			this._.model = newModel;
 		},
 
 		/**
@@ -3435,7 +3451,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * `null` if the dialog name is not registered.
 		 * @see CKEDITOR.dialog#add
 		 */
-		openDialog: function( dialogName, callback ) {
+		openDialog: function( dialogName, callback, model ) {
 			var dialog = null, dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
 
 			if ( CKEDITOR.dialog._.currentTop === null )
@@ -3447,6 +3463,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 				dialog = storedDialogs[ dialogName ] || ( storedDialogs[ dialogName ] = new CKEDITOR.dialog( this, dialogName ) );
 
+				if ( model ) {
+					dialog.setModel( this, model );
+				}
 				dialog.show( function() {
 					callback && callback.call( dialog, dialog );
 				} );
@@ -3463,7 +3482,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 						if ( typeof dialogDefinition != 'function' )
 							CKEDITOR.dialog._.dialogDefinitions[ dialogName ] = 'failed';
 
-						this.openDialog( dialogName, callback );
+						this.openDialog( dialogName, callback, model );
 					}, this, 0, 1 );
 			}
 
