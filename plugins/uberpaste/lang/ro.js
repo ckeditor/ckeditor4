@@ -2,7 +2,7 @@
 Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
-CKEDITOR.plugins.setLang( 'pastefromword', 'ro', {
+CKEDITOR.plugins.setLang( 'uberpaste', 'ro', {
 	confirmCleanup: 'Textul pe care doriți să-l lipiți este din Word. Doriți curățarea textului înante de a-l adăuga?',
 	error: 'Nu a fost posibilă curățarea datelor adăugate datorită unei erori interne',
 	title: 'Adaugă din Word',

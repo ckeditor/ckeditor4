@@ -14,25 +14,9 @@
 		icons: 'uberpaste,uberpaste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var contentParser = new ContentParser( editor, this.path );
-
-			contentParser.registerRule( 'word', function( evtData ) {
-				var html = evtData.dataValue,
-					officeMetaRegexp = /<meta\s*name=(?:\"|\')?generator(?:\"|\')?\s*content=(?:\"|\')?microsoft/gi,
-					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
-					isOfficeContent = officeMetaRegexp.test( html ) || wordRegexp.test( html );
-
-				if ( !html || !( this.forcePaste || isOfficeContent ) ) {
-					return false;
-				}
-
-				// PFW might still get prevented, if it's not forced.
-				if ( this.editor.fire( 'pasteFromWord', evtData ) === false && !this.forcePaste ) {
-					return false;
-				}
-
-				return true;
-			} );
+			// Flag indicate this command is actually been asked instead of a generic pasting.
+			var forcePaste = false,
+				path = this.path;
 
 			editor.addCommand( 'uberpaste', {
 				// Snapshots are done manually by editable.insertXXX methods.
@@ -53,7 +37,7 @@
 				 * @member CKEDITOR.editor.commands.uberpaste
 				 */
 				exec: function( editor, data ) {
-					contentParser.forcePaste = true;
+					forcePaste = true;
 					editor.execCommand( 'paste', {
 						type: 'html',
 						notification: data && typeof data.notification !== 'undefined' ? data.notification : true
@@ -66,23 +50,143 @@
 				command: 'uberpaste',
 				toolbar: 'clipboard,50'
 			} );
+
+			var contentParser = new ContentParser( editor );
+
+			contentParser.registerRule( 'word', function( evtData ) {
+				var html = evtData.dataValue,
+					officeMetaRegexp = /<meta\s*name=(?:\"|\')?generator(?:\"|\')?\s*content=(?:\"|\')?microsoft/gi,
+					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
+					isOfficeContent = officeMetaRegexp.test( html ) || wordRegexp.test( html );
+
+				if ( !html || !( forcePaste || isOfficeContent ) ) {
+					return false;
+				}
+
+				// PFW might still get prevented, if it's not forced.
+				if ( editor.fire( 'pasteFromWord', evtData ) === false && !forcePaste ) {
+					return false;
+				}
+
+				return true;
+			} );
+
+			// Features brought by this command beside the normal process:
+			// 1. No more bothering of user about the clean-up.
+			// 2. Perform the clean-up even if content is not from Microsoft Word.
+			// (e.g. from a Microsoft Word similar application.)
+			// 3. Listen with high priority (3), so clean up is done before content
+			// type sniffing (priority = 6).
+			editor.on( 'paste', function( evt ) {
+				var data = evt.data,
+					isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
+					dataTransferHtml = isCustomDataTypesSupported ? data.dataTransfer.getData( 'text/html', true ) : null,
+					// Required in Paste from Word Image plugin (#662).
+					dataTransferRtf = isCustomDataTypesSupported ? data.dataTransfer.getData( 'text/rtf' ) : null,
+					// Some commands fire paste event without setting dataTransfer property. In such case
+					// dataValue should be used.
+					html = dataTransferHtml || data.dataValue,
+					pasteEvtData = { dataValue: html, dataTransfer: { 'text/rtf': dataTransferRtf } },
+					filterType = contentParser.resolveRule( pasteEvtData );
+
+				if ( !filterType ) {
+					return;
+				}
+
+				// Do not apply paste filter to data filtered by uberpaste (https://dev.ckeditor.com/ticket/13093).
+				data.dontFilter = true;
+
+				// If filter rules aren't loaded then cancel 'paste' event,
+				// load them and when they'll get loaded fire new paste event
+				// for which data will be filtered in second execution of
+				// this listener.
+				var isLazyLoad = contentParser.loadFilterRules( path, function() {
+					// Event continuation with the original data.
+					if ( isLazyLoad ) {
+						editor.fire( 'paste', data );
+					} else if ( !editor.config.pasteFromWordPromptCleanup || ( forcePaste || confirm( editor.lang.uberpaste.confirmCleanup ) ) ) {
+
+						pasteEvtData.dataValue = CKEDITOR.cleanPaste( html, editor, filterType );
+
+						editor.fire( 'afterPasteFromWord', pasteEvtData );
+
+						data.dataValue = pasteEvtData.dataValue;
+
+						if ( editor.config.forcePasteAsPlainText === true ) {
+							// If `config.forcePasteAsPlainText` set to true, force plain text even on Word content (#1013).
+							data.type = 'text';
+						} else if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported && editor.config.forcePasteAsPlainText === 'allow-word' ) {
+							// In browsers using pastebin when pasting from Word, evt.data.type is 'auto' (not 'html') so it gets converted
+							// by 'pastetext' plugin to 'text'. We need to restore 'html' type (#1013) and (#1638).
+							data.type = 'html';
+						}
+					}
+
+					// Reset forcePaste.
+					forcePaste = false;
+				} );
+
+				// The cleanup rules are to be loaded, we should just cancel
+				// this event.
+				isLazyLoad && evt.cancel();
+			}, null, null, 3 );
+
+			// Paste From Word Image:
+			// RTF clipboard is required for embedding images.
+			// If img tags are not allowed there is no point to process images.
+			if ( editor.config.pasteFromWord_inlineImages === undefined ? true : editor.config.pasteFromWord_inlineImages ) {
+				editor.on( 'afterPasteFromWord', imagePastingListener );
+			}
+
+			function imagePastingListener( evt ) {
+				var images = CKEDITOR.plugins.uberpaste && CKEDITOR.plugins.uberpaste.images,
+					imgTags,
+					hexImages,
+					newSrcValues = [],
+					i;
+
+				// If images images namespace is unavailable or img tags are not allowed we simply skip adding images.
+				if ( !images || !evt.editor.filter.check( 'img[src]' ) ) {
+					return;
+				}
+
+				imgTags = images.extractTagsFromHtml( evt.data.dataValue );
+				if ( imgTags.length === 0 ) {
+					return;
+				}
+
+				hexImages = images.extractFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
+				if ( hexImages.length === 0 ) {
+					return;
+				}
+
+				CKEDITOR.tools.array.forEach( hexImages, function( img ) {
+					newSrcValues.push( createSrcWithBase64( img ) );
+				}, this );
+
+				// Assuming there is equal amount of Images in RTF and HTML source, so we can match them accordingly to the existing order.
+				if ( imgTags.length === newSrcValues.length ) {
+					for ( i = 0; i < imgTags.length; i++ ) {
+						// Replace only `file` urls of images ( shapes get newSrcValue with null ).
+						if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
+							evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ], newSrcValues[ i ] );
+						}
+					}
+				}
+			}
+
+			function createSrcWithBase64( img ) {
+				return img.type ?
+					'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) )
+					: null;
+			}
 		}
 
 	} );
 
-	function ContentParser( editor, path ) {
+	function ContentParser( editor ) {
 		this.editor = editor;
-		this.path = path;
 		this.rules = {};
-
-		// Flag indicate this command is actually been asked instead of a generic pasting.
-		this.forcePaste = false;
-
-		this.editor.on( 'paste', this.pasteListener, this, null, 3 );
-
-		if ( this.isImageProcessRequired() ) {
-			this.editor.on( 'afterPasteFromWord', this.imagePastingListener, this );
-		}
 	}
 
 	ContentParser.prototype = {
@@ -91,85 +195,15 @@
 			this.rules[ name ] = CKEDITOR.tools.bind( handler, this );
 		},
 
-		// Features brought by this command beside the normal process:
-		// 1. No more bothering of user about the clean-up.
-		// 2. Perform the clean-up even if content is not from Microsoft Word.
-		// (e.g. from a Microsoft Word similar application.)
-		// 3. Listen with high priority (3), so clean up is done before content
-		// type sniffing (priority = 6).
-		pasteListener: function( evt ) {
-			var editor = this.editor,
-				data = evt.data,
-				isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
-				dataTransferHtml = isCustomDataTypesSupported ? data.dataTransfer.getData( 'text/html', true ) : null,
-				// Required in Paste from Word Image plugin (#662).
-				dataTransferRtf = isCustomDataTypesSupported ? data.dataTransfer.getData( 'text/rtf' ) : null,
-				// Some commands fire paste event without setting dataTransfer property. In such case
-				// dataValue should be used.
-				html = dataTransferHtml || data.dataValue,
-				pasteEvtData = { dataValue: html, dataTransfer: { 'text/rtf': dataTransferRtf } },
-				filterType = this.resolveRule( pasteEvtData );
-
-			if ( !filterType ) {
-				return;
-			}
-
-			// Do not apply paste filter to data filtered by uberpaste (https://dev.ckeditor.com/ticket/13093).
-			data.dontFilter = true;
-
-			// If filter rules aren't loaded then cancel 'paste' event,
-			// load them and when they'll get loaded fire new paste event
-			// for which data will be filtered in second execution of
-			// this listener.
-			var isLazyLoad = this.loadFilterRules( function() {
-				// Event continuation with the original data.
-				if ( isLazyLoad ) {
-					editor.fire( 'paste', data );
-				} else if ( !editor.config.pasteFromWordPromptCleanup || ( this.forcePaste || confirm( editor.lang.uberpaste.confirmCleanup ) ) ) {
-
-					pasteEvtData.dataValue = CKEDITOR.cleanPaste( html, editor, filterType );
-
-					editor.fire( 'afterPasteFromWord', pasteEvtData );
-
-					data.dataValue = pasteEvtData.dataValue;
-
-					if ( editor.config.forcePasteAsPlainText === true ) {
-						// If `config.forcePasteAsPlainText` set to true, force plain text even on Word content (#1013).
-						data.type = 'text';
-					} else if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported && editor.config.forcePasteAsPlainText === 'allow-word' ) {
-						// In browsers using pastebin when pasting from Word, evt.data.type is 'auto' (not 'html') so it gets converted
-						// by 'pastetext' plugin to 'text'. We need to restore 'html' type (#1013) and (#1638).
-						data.type = 'html';
-					}
-				}
-
-				// Reset forcePaste.
-				this.forcePaste = false;
-			} );
-
-			// The cleanup rules are to be loaded, we should just cancel
-			// this event.
-			isLazyLoad && evt.cancel();
-		},
-
-		// Paste From Word Image:
-		// RTF clipboard is required for embedding images.
-		// If img tags are not allowed there is no point to process images.
-		isImageProcessRequired: function() {
-			return this.editor.config.pasteFromWord_inlineImages === undefined ? true : this.editor.config.pasteFromWord_inlineImages;
-		},
-
-		loadFilterRules: function( callback ) {
+		loadFilterRules: function( path, callback ) {
 			var isLoaded = Boolean( CKEDITOR.cleanPaste );
-
-			callback = CKEDITOR.tools.bind( callback, this );
 
 			if ( isLoaded ) {
 				callback();
 			}
 
 			else {
-				var filterFilePath = CKEDITOR.getUrl( this.editor.config.pasteFromWordCleanupFile || ( this.path + 'filter/default.js' ) );
+				var filterFilePath = CKEDITOR.getUrl( this.editor.config.pasteFromWordCleanupFile || ( path + 'filter/default.js' ) );
 				// Load with busy indicator.
 				CKEDITOR.scriptLoader.load( filterFilePath, callback, null, true );
 			}
@@ -184,49 +218,6 @@
 				}
 			}
 			return null;
-		},
-
-		imagePastingListener: function( evt ) {
-			var images = CKEDITOR.plugins.uberpaste && CKEDITOR.plugins.uberpaste.images,
-				imgTags,
-				hexImages,
-				newSrcValues = [],
-				i;
-
-			// If images images namespace is unavailable or img tags are not allowed we simply skip adding images.
-			if ( !images || !evt.editor.filter.check( 'img[src]' ) ) {
-				return;
-			}
-
-			imgTags = images.extractTagsFromHtml( evt.data.dataValue );
-			if ( imgTags.length === 0 ) {
-				return;
-			}
-
-			hexImages = images.extractFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
-			if ( hexImages.length === 0 ) {
-				return;
-			}
-
-			CKEDITOR.tools.array.forEach( hexImages, function( img ) {
-				newSrcValues.push( this.createSrcWithBase64( img ) );
-			}, this );
-
-			// Assuming there is equal amount of Images in RTF and HTML source, so we can match them accordingly to the existing order.
-			if ( imgTags.length === newSrcValues.length ) {
-				for ( i = 0; i < imgTags.length; i++ ) {
-					// Replace only `file` urls of images ( shapes get newSrcValue with null ).
-					if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
-						evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ], newSrcValues[ i ] );
-					}
-				}
-			}
-		},
-
-		createSrcWithBase64: function( img ) {
-			return img.type ?
-				'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) )
-				: null;
 		}
 	};
 
