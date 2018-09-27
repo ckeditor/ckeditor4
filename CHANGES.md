@@ -14,11 +14,11 @@ Fixed Issues:
 * [#2294](https://github.com/ckeditor/ckeditor-dev/issues/2294) Fixed: Pasting content from MS Outlook and then bolding it results with an error.
 * [#2035](https://github.com/ckeditor/ckeditor-dev/issues/2035) [Edge] Fixed: `Permission denied` is thrown when opening [Panel](https://ckeditor.com/cke4/addon/panel) instance.
 * [#965](https://github.com/ckeditor/ckeditor-dev/issues/965) Fixed: The [`config.forceSimpleAmpersand`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-forceSimpleAmpersand) option does no longer work. Thanks to [Alex Maris](https://github.com/alexmaris)!
+* [#898](https://github.com/ckeditor/ckeditor-dev/issues/898): Fixed: [Enchanced Image](https://ckeditor.com/cke4/addon/image2) long alt text protrudes into editor when image is selected.
 
 API Changes:
 
 * [#1451](https://github.com/ckeditor/ckeditor-dev/issues/1451): Fixed: Context menu is incorrectly positioned when opened with `Shift-F10`.
-* [#898](https://github.com/ckeditor/ckeditor-dev/issues/898): Fixed: [Image2](https://ckeditor.com/cke4/addon/image2) long alt text protrudes into editor when image is selected.
 
 ## CKEditor 4.10.1
 
