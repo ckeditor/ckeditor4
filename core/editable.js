@@ -96,50 +96,52 @@
 					this.editor._.previousScrollTop = this.$.scrollTop;
 				}
 
-				// [IE] Use instead "setActive" method to focus the editable if it belongs to the host page document,
-				// to avoid bringing an unexpected scroll.
 				try {
-					if ( CKEDITOR.env.ie && !( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) && this.getDocument().equals( CKEDITOR.document ) ) {
-						this.$.setActive();
-					} else {
-						var isScrollLockFallbackNeeded = !CKEDITOR.env.safari && !CKEDITOR.env.chrome;
+					var isScrollLockFallbackNeeded = !CKEDITOR.env.safari && !CKEDITOR.env.chrome;
 
-						if ( !CKEDITOR.env.edge && isScrollLockFallbackNeeded ) {
-							// Edge: testing if element is scrollable and trying to set elements scrollTop is bugged.
-							// https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14721015/
-							var scrollables = [],
-								element = this;
+					if ( !CKEDITOR.env.edge && isScrollLockFallbackNeeded ) {
+						// Edge: testing if element is scrollable and trying to set elements scrollTop is bugged.
+						// https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14721015/
+						var scrollables = [],
+							element = this;
 
-							if ( focusOptions && focusOptions.preventScroll ) {
-								while ( element ) {
-									if ( element.$.scrollHeight > element.$.clientHeight ) {
-										scrollables.push( {
-											element: element,
-											scrollTop: element.$.scrollTop
-										} );
-									}
-									if ( element.getParent() ) {
-										element = element.getParent();
-									} else {
-										element = element.getWindow().getFrame();
-									}
+						if ( focusOptions && focusOptions.preventScroll ) {
+							while ( element ) {
+								if ( element.$.scrollHeight > element.$.clientHeight ) {
+									scrollables.push( {
+										element: element,
+										scrollTop: element.$.scrollTop
+									} );
 								}
-
-								CKEDITOR.tools.array.forEach( scrollables, function( item ) {
-									item.element.$.scrollTop = item.scrollTop;
-								} );
+								if ( element.getParent() ) {
+									element = element.getParent();
+								} else {
+									element = element.getWindow().getFrame();
+								}
 							}
-
-							this.$.focus();
-
-							if ( scrollables.length ) {
-								CKEDITOR.tools.array.forEach( scrollables, function( item ) {
-									item.element.$.scrollTop = item.scrollTop;
-								} );
-							}
-						} else {
-							this.$.focus( focusOptions );
 						}
+
+						this.$.focus();
+
+						if ( scrollables.length ) {
+							CKEDITOR.tools.array.forEach( scrollables, function( item ) {
+								if ( CKEDITOR.env.ie || !CKEDITOR.env.edge ) {
+									// IE scrolls asynchronously.
+									var listener = CKEDITOR.document.getWindow().once( 'scroll', function() {
+										item.element.$.scrollTop = item.scrollTop;
+									} );
+
+									// Clean listener to not break user scroll.
+									setTimeout( function() {
+										listener.removeListener();
+									}, 50 );
+								} else {
+									item.element.$.scrollTop = item.scrollTop;
+								}
+							} );
+						}
+					} else {
+						this.$.focus( focusOptions );
 					}
 				} catch ( e ) {
 					// IE throws unspecified error when focusing editable after closing dialog opened on nested editable.
