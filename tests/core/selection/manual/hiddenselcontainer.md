@@ -12,7 +12,7 @@ There shouldn't be any visible text around the image.
 
 There is a visible text around the image.
 
-# Test steps for browsers supporting JAWS text reader:
+# Test steps for Firefox with JAWS text reader:
 
 1. Open JAWS.
 1. Place caret in the text, eg: `Test: ^`.
