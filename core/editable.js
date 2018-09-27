@@ -99,7 +99,7 @@
 				try {
 					var isScrollLockFallbackNeeded = !CKEDITOR.env.safari && !CKEDITOR.env.chrome;
 
-					if ( !CKEDITOR.env.edge && isScrollLockFallbackNeeded ) {
+					if ( isScrollLockFallbackNeeded ) {
 						// Edge: testing if element is scrollable and trying to set elements scrollTop is bugged.
 						// https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14721015/
 						var scrollables = [],
@@ -125,8 +125,8 @@
 
 						if ( scrollables.length ) {
 							CKEDITOR.tools.array.forEach( scrollables, function( item ) {
-								if ( CKEDITOR.env.ie || !CKEDITOR.env.edge ) {
-									// IE scrolls asynchronously.
+								if ( CKEDITOR.env.ie ) {
+									// IE and Edge scroll asynchronously.
 									var listener = CKEDITOR.document.getWindow().once( 'scroll', function() {
 										item.element.$.scrollTop = item.scrollTop;
 									} );
