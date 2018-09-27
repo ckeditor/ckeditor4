@@ -3,13 +3,13 @@
 	<button data-editor-name="classic" style="font-size:20px">Focus classic</button>
 </div>
 
-<div style="height:100vh"></div>
+<div style="height:8000px"></div>
 
 <div id="inline" contenteditable="true">Inline editor.</div>
 <textarea id="classic">Classic editor.</textarea>
 
 <script>
-	if ( CKEDITOR.env.ie || bender.tools.env.mobile ) {
+	if ( bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 	var buttons = CKEDITOR.document.findOne( '.buttons' );
