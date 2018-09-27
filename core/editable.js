@@ -157,8 +157,9 @@
 					}
 				} catch ( e ) {
 					// IE throws unspecified error when focusing editable after closing dialog opened on nested editable.
-					if ( !CKEDITOR.env.ie )
+					if ( !CKEDITOR.env.ie ) {
 						throw e;
+					}
 				}
 
 				// Remedy if Safari doesn't applies focus properly. (https://dev.ckeditor.com/ticket/279)
