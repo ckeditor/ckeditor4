@@ -12,3 +12,7 @@ Window doesn't scroll.
 ## Unexpected
 
 Window scrolls to the editor.
+
+## Note
+
+Edge and IE can have visible flickering when pressing buttons.
