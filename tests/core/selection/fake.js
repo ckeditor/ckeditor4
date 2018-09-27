@@ -1104,7 +1104,7 @@ bender.test( {
 			editor = bot.editor;
 
 		bot.setData( '<p>[<span id="bar">bar</span>]</p>', function() {
-			var altContainer, styles, expected;
+			var altContainer, expected;
 
 			editor.getSelection().fake( editor.document.getById( 'bar' ), '<i>foo</i>' );
 
@@ -1113,17 +1113,18 @@ bender.test( {
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 14 ) {
 				assert.areEqual( 'none', altContainer.getStyle( 'display' ) );
 			} else {
-				styles = CKEDITOR.tools.parseCssText( altContainer.getAttributes().style );
 				expected = {
 					position: 'fixed',
-					top: 0,
+					top: '0px',
 					left: '-1000px',
-					width: 0,
-					height: 0,
+					width: '0px',
+					height: '0px',
 					overflow: 'hidden'
 				};
 
-				assert.isTrue( CKEDITOR.tools.objectCompare( expected, styles ) );
+				for ( var key in expected ) {
+					assert.areEqual( expected[ key ] , altContainer.getComputedStyle( key ) );
+				}
 			}
 		} );
 	}
