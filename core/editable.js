@@ -100,18 +100,42 @@
 					var isScrollLockFallbackNeeded = !CKEDITOR.env.safari && !CKEDITOR.env.chrome;
 
 					if ( isScrollLockFallbackNeeded ) {
-						// Edge: testing if element is scrollable and trying to set elements scrollTop is bugged.
-						// https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14721015/
 						var scrollables = [],
 							element = this;
 
 						if ( focusOptions && focusOptions.preventScroll ) {
 							while ( element ) {
 								if ( element.$.scrollHeight > element.$.clientHeight ) {
-									scrollables.push( {
-										element: element,
-										scrollTop: element.$.scrollTop
-									} );
+									// Separate scopes for each variable, so it's accessible in listener.
+									( function() {
+										var scrollable = element,
+											scrollTop = element.$.scrollTop;
+
+										scrollables.push( {
+											element: scrollable,
+											scrollTop: scrollTop
+										} );
+
+										// IE and Edge scroll asynchronously.
+										if ( CKEDITOR.env.ie ) {
+											var listener = CKEDITOR.document.getWindow().once( 'scroll', function() {
+
+												// In IE8 scrolls happens after scroll event.
+												if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+													setTimeout( function() {
+														scrollable.$.scrollTop = scrollTop;
+													} );
+												} else {
+													scrollable.$.scrollTop = scrollTop;
+												}
+											} );
+
+											// Clean listener to not break user scroll.
+											setTimeout( function() {
+												listener.removeListener();
+											}, 50 );
+										}
+									} )();
 								}
 								if ( element.getParent() ) {
 									element = element.getParent();
@@ -123,21 +147,9 @@
 
 						this.$.focus();
 
-						if ( scrollables.length ) {
+						if ( !CKEDITOR.env.ie && scrollables.length ) {
 							CKEDITOR.tools.array.forEach( scrollables, function( item ) {
-								if ( CKEDITOR.env.ie ) {
-									// IE and Edge scroll asynchronously.
-									var listener = CKEDITOR.document.getWindow().once( 'scroll', function() {
-										item.element.$.scrollTop = item.scrollTop;
-									} );
-
-									// Clean listener to not break user scroll.
-									setTimeout( function() {
-										listener.removeListener();
-									}, 50 );
-								} else {
-									item.element.$.scrollTop = item.scrollTop;
-								}
+								item.element.$.scrollTop = item.scrollTop;
 							} );
 						}
 					} else {
