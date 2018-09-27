@@ -9,16 +9,12 @@
 	bender.test( {
 		// #748
 		'test opening dialog doesn\'t scroll editor': function() {
-			if ( CKEDITOR.env.ie ) {
-				assert.ignore();
-			}
-
 			var editor = this.editor,
 				bot = this.editorBot,
 				spy = sinon.spy( editor, 'focus' ),
 				spacer = new CKEDITOR.dom.element( 'div' );
 
-			spacer.setStyle( 'height', '100vh' );
+			spacer.setStyle( 'height', '8000px' );
 			spacer.insertBefore( CKEDITOR.document.getBody().getFirst() );
 
 			bot.dialog( 'link', function( dialog ) {
