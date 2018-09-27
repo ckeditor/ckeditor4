@@ -1099,7 +1099,7 @@ bender.test( {
 	},
 
 	// (#898)
-	'Test image long alt visibility': function() {
+	'test hidden selection container styles': function() {
 		var bot = this.editorBot,
 			editor = bot.editor;
 
