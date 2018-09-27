@@ -1104,14 +1104,14 @@ bender.test( {
 			editor = bot.editor;
 
 		bot.setData( '<p>[<span id="bar">bar</span>]</p>', function() {
-			var altContainer, expected;
+			var hiddenSelectionContainer, expected;
 
 			editor.getSelection().fake( editor.document.getById( 'bar' ), '<i>foo</i>' );
 
-			altContainer = editor.editable().findOne( '[data-cke-hidden-sel]' );
+			hiddenSelectionContainer = editor.editable().findOne( '[data-cke-hidden-sel]' );
 
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 14 ) {
-				assert.areEqual( 'none', altContainer.getStyle( 'display' ) );
+				assert.areEqual( 'none', hiddenSelectionContainer.getStyle( 'display' ) );
 			} else {
 				expected = {
 					position: 'fixed',
@@ -1123,7 +1123,7 @@ bender.test( {
 				};
 
 				for ( var key in expected ) {
-					assert.areEqual( expected[ key ] , altContainer.getComputedStyle( key ) );
+					assert.areEqual( expected[ key ] , hiddenSelectionContainer.getComputedStyle( key ) );
 				}
 			}
 		} );
