@@ -582,8 +582,7 @@
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
 
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
 
 			assert.areEqual( '<p>item1&nbsp;</p>', editor.getData() );
@@ -608,8 +607,7 @@
 
 			this.editorBots.standard.setHtmlWithSelection( '^&nbsp;foo' );
 
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
 
 			assert.areEqual( '<p>item1&nbsp;foo</p>', editor.getData() );
@@ -635,8 +633,7 @@
 
 			this.editorBots.standard.setHtmlWithSelection( '^&nbsp;foo' );
 
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
 
 			assert.beautified.html( '<p><strong>item1</strong>&nbsp;foo</p>', editable.getData() );
@@ -662,8 +659,7 @@
 
 			this.editorBots.standard.setHtmlWithSelection( '^foo' );
 
-			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-
+			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
 
 			assert.beautified.html( '<p><strong>item1&nbsp;</strong>foo</p>', editable.getData() );
