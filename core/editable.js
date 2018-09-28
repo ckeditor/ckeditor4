@@ -97,7 +97,7 @@
 				}
 
 				try {
-					var isScrollLockFallbackNeeded = !CKEDITOR.env.safari && !CKEDITOR.env.chrome;
+					var isScrollLockFallbackNeeded = !CKEDITOR.env.webkit;
 
 					if ( isScrollLockFallbackNeeded ) {
 						var scrollables = [],
