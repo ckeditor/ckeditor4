@@ -105,7 +105,13 @@
 
 						if ( focusOptions && focusOptions.preventScroll ) {
 							while ( element ) {
-								if ( element.$.scrollHeight > element.$.clientHeight ) {
+								var isElementScrollable = element.$.scrollHeight > element.$.clientHeight;
+
+								if ( CKEDITOR.env.edge && element.getName() == 'body' ) {
+									isElementScrollable = true;
+								}
+
+								if ( isElementScrollable ) {
 									// Separate scopes for each variable, so it's accessible in listener.
 									( function() {
 										var scrollable = element,
@@ -153,7 +159,7 @@
 							this.$.focus();
 						}
 
-						if ( !CKEDITOR.env.ie && scrollables.length ) {
+						if ( ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) && scrollables.length ) {
 							CKEDITOR.tools.array.forEach( scrollables, function( item ) {
 								item.element.$.scrollTop = item.scrollTop;
 							} );
