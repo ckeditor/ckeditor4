@@ -1,7 +1,7 @@
-<div style="min-height: 100vh"></div>
+<div style="min-height: 8000px"></div>
 <textarea id="editor"></textarea>
 <script>
-	if ( CKEDITOR.env.ie || bender.tools.env.mobile ) {
+	if ( bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 	CKEDITOR.replace( 'editor' );
