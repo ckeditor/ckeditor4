@@ -3,6 +3,8 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, autocomplete, textmatch
 @bender-include: _helpers/utils.js
 
+Reproduce test steps for both classic and inline editors.
+
 # Following space
 
 1. Place cursor at end of the editors content.
