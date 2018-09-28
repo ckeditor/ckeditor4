@@ -404,21 +404,16 @@
 /**
  * Abstract class describing the definition of {@link CKEDITOR.htmlParser.filter} rules.
  *
- * This class illustrates the properties that developers can use to define and create filter rules.
- *
  * A filter rules definition object represents rules as a set of properties with callback functions
  * to be applied for transforming and filtering content upon data processing.
- *
- * Filter rules definition can be also added with {@link CKEDITOR.htmlParser.filter.addrules}.
  *
  * @class CKEDITOR.htmlParser.filterRulesDefinition
  * @abstract
  */
 
 /**
- * @property {String[][]/RegExp[][]} elementNames An array of rules for data processing element names.
- * Rule is defined as an array with two items [ string/regex, string ].
- * Every matching string from first item will be converted into second.
+ * @property {Array<String,RegExp>[]} elementNames An array of rules for element names transformation.
+ * Every rule match will be replaced by given string.
  *
  * Examples:
  *
@@ -429,22 +424,11 @@
  * ]
  * ```
  *
- * Incorrect:
- *
- * ```javascript
- * elementNames: [
- * 		[ 'p', 'div' ] // Converts every letter 'p' inside element name into 'div'
- * 		// 'p' element will be converted into 'div', 'span' wil be converted into 'sdivan'.
- * 		// To convert only 'p' elements use regex `/^p$/`.
- * ]
- * ```
- *
  */
 
 /**
- * @property {String[][]/RegExp[][]} attributeNames An array of rules for data processing attribute names.
- * Rule is defined as an array with two items [ string/regex, string ].
- * Every matching string from first item will be converted into second.
+ * @property {Array<String,RegExp>[]} attributeNames An array of rules for attribute names transformation.
+ * Every matching string from the first item will be converted into a second.
  *
  * Examples:
  *
@@ -463,18 +447,33 @@
 
 /**
  * @property {Object.<String, Function>} elements An object containing pairs of keys representing
- * element selectors and function for data processing selected elements. If function contains return statement element will be removed.
+ * element selectors and function for element filtering and transformation.
+ *
+ * Selector can be either element name or one of following: '^', '$'.
+ *
+ * '^' and '$' is to be applied on every filtered element. The first is applied before element specific filter,
+ * and second is applied after element specific filter.
+ *
+ * If function returns 'false' or any positive value element is removed.
  *
  * Examples:
  *
  * ```javascript
  * elements: {
+ * 		'^': function( element ) {
+ * 			// Element transformation to be applied on every filtered element.
+ * 			// This will be applied as the first filter.
+ * 		}
  * 		div: function( element ) {
  * 			// Element transformation.
  * 		},
  * 		p: function() {
  * 			return false; // Removes each '<p>' element.
- * 		}
+ * 		},
+ * 		'$': function( element ) {
+ * 			// Element transformation to be applied on every filtered element.
+ * 			// This will be applied after other defined filters.
+ * 		},
  * }
  * ```
  *
@@ -482,7 +481,8 @@
 
 /**
  * @property {Object.<String, Function>} attributes An object containing pairs of keys representing
- * attributes and function for data processing selected attributes. Returned value replaces attribute value.
+ * attributes and function for attribute filtering and transformation. Returned value replaces attribute value.
+ * Returning false removes attribute.
  *
  * Examples:
  *
@@ -490,11 +490,11 @@
  * attributes: {
  * 		'class': function( value, element ) {
  * 			if ( element.name === 'div' ) {
- * 				return value + ' cke_div' // Adds class 'cke_div' to every div element.
+ * 				return value + ' cke_div' // Adds class 'cke_div' to every filtered div element.
  * 			}
  * 		},
  * 		id: function() {
- * 			return false; // Removes every elements 'id' attribute.
+ * 			return false; // Removes 'id' attribute from every filtered element.
  * 		}
  * }
  * ```
@@ -502,7 +502,7 @@
  */
 
 /**
- * @property {Function} text Function for data processing text content. Returned value replaces text.
+ * @property {Function} text Function for text content transforming. Returned value replaces text.
  *
  * Examples:
  *
@@ -515,26 +515,27 @@
  */
 
 /**
- * @property {Function} comment Function for data processing comments. Returned value replaces comment text.
+ * @property {Function} comment Function for comments filtering and transforming. Returned value replaces comment text.
+ * If 'false' is returned comment is removed.
  *
  * Examples:
  *
  * ```javascript
  * comment: function( value, element ) {
- * 		return false; // Removes every comment.
+ * 		return false; // Removes comment.
  * }
  * ```
  *
  */
 
 /**
- * @property {Function} root Function for data processing root element.
+ * @property {Function} root Function for root element transforming.
  *
  * Examples:
  *
  * ```javascript
  * root: function( element ) {
- * 		element.children.push( someElement ) // Appends child to root element.
+ * 		element.children.push( someElement ); // Appends child to root element.
  * }
  * ```
  *
