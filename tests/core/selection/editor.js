@@ -742,8 +742,11 @@ bender.test( {
 		} );
 	},
 
+	// (#1113)
 	'test "selectionChange" fires properly with nested contentEditable': function() {
-		var editor = this.editors.editorInline, editable = editor.editable(), stub = sinon.stub( editor, 'selectionChange' );
+		var editor = this.editors.editorInline,
+			editable = editor.editable(),
+			stub = sinon.stub( editor, 'selectionChange' );
 
 		bender.tools.setHtmlWithSelection( editor, '<div contenteditable=true><div contenteditable=false><div contenteditable=true id="nested">xxx</div></div></div>' );
 
