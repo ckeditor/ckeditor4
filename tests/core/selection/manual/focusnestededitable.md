@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.10.0, 1113, bug
+@bender-tags: 4.10.2, 1113, bug
 @bender-ckeditor-plugins: divarea, toolbar, basicstyles, elementspath
 
 1. Put selection inside text with normal font style i.e. `You can ^type here`
