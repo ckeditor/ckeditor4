@@ -110,6 +110,13 @@
 		this.cache = config.cache !== undefined ? config.cache : true;
 
 		/**
+		 * @inheritdoc CKEDITOR.plugins.autocomplete#followingSpace
+		 * @property {Boolean} [followingSpace]
+		 * @readonly
+		 */
+		this.followingSpace = config.followingSpace;
+
+		/**
 		 * @inheritdoc CKEDITOR.plugins.mentions.configDefinition#throttle
 		 * @property {Number} [throttle=200]
 		 * @readonly
@@ -449,6 +456,11 @@
 
 	/**
 	 * @inheritdoc CKEDITOR.plugins.autocomplete.configDefinition#itemsLimit
+	 * @property {Number} [itemsLimit]
+	 */
+
+	/**
+	 * @inheritdoc CKEDITOR.plugins.autocomplete#followingSpace
 	 * @property {Number} [itemsLimit]
 	 */
 } )();

@@ -181,7 +181,7 @@
 		 * @readonly
 		 * @property {Boolean} [followingSpace]
 		 */
-		this.followingSpace = config.followingSpace !== undefined ? config.followingSpace : true;
+		this.followingSpace = config.followingSpace;
 
 		/**
 		 * The autocomplete view instance.
