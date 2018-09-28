@@ -145,7 +145,13 @@
 							}
 						}
 
-						this.$.focus();
+						// [IE] Use instead "setActive" method to focus the editable if it belongs to the host page document,
+						// to avoid bringing an unexpected scroll.
+						if ( CKEDITOR.env.ie && !( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) && this.getDocument().equals( CKEDITOR.document ) ) {
+							this.$.setActive();
+						} else {
+							this.$.focus();
+						}
 
 						if ( !CKEDITOR.env.ie && scrollables.length ) {
 							CKEDITOR.tools.array.forEach( scrollables, function( item ) {
