@@ -27,8 +27,7 @@
 
 	var configDefinition = {
 		textTestCallback: textTestCallback,
-		dataCallback: dataCallback,
-		followingSpace: false
+		dataCallback: dataCallback
 	};
 
 	bender.test( {
@@ -440,8 +439,7 @@
 					dataCallback: function( matchInfo, callback ) {
 						callback( [ { id: 1, name: 'anna' } ] );
 					},
-					outputTemplate: '<strong>{name}</strong>',
-					followingSpace: false
+					outputTemplate: '<strong>{name}</strong>'
 				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
@@ -578,7 +576,8 @@
 				editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					dataCallback: dataCallback,
-					textTestCallback: textTestCallback
+					textTestCallback: textTestCallback,
+					followingSpace: true
 				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '' );
@@ -603,8 +602,7 @@
 				editable = editor.editable(),
 				ac = new CKEDITOR.plugins.autocomplete( editor, {
 					dataCallback: dataCallback,
-					textTestCallback: textTestCallback,
-					followingSpace: false
+					textTestCallback: textTestCallback
 				} );
 
 			this.editorBots.standard.setHtmlWithSelection( '^&nbsp;foo' );
