@@ -17,6 +17,7 @@ Fixed Issues:
 * [#898](https://github.com/ckeditor/ckeditor-dev/issues/898): Fixed: [Enhanced Image](https://ckeditor.com/cke4/addon/image2) long alt text protrudes into editor when image is selected.
 * [#1113](https://github.com/ckeditor/ckeditor-dev/issues/1113): [Firefox] Fixed: Nested contenteditable elements path not updated on focus with [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) plugin.
 * [#1682](https://github.com/ckeditor/ckeditor-dev/issues/1682) Fixed: Hovering [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) panel changes its size causing flickering.
+* [#1904](https://github.com/ckeditor/ckeditor-dev/issues/1904) Fixed: Readonly editors incorrectly marked up for Assistive Technology.
 
 API Changes:
 
