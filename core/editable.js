@@ -518,6 +518,14 @@
 			 */
 			setReadOnly: function( isReadOnly ) {
 				this.setAttribute( 'contenteditable', !isReadOnly );
+
+				// To correctly announce that the field is read-only,
+				// JAWS needs [aria-readonly] attribute on iframe in classic editor (#1904).
+				if ( this.isInline() ) {
+					this.setAttribute( 'aria-readonly', !!isReadOnly );
+				} else {
+					this.getWindow().getFrame().setAttribute( 'aria-readonly', !!isReadOnly );
+				}
 			},
 
 			/**
