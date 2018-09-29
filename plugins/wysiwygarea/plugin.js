@@ -79,7 +79,12 @@
 
 				iframe.setAttributes( {
 					tabIndex: editor.tabIndex,
-					allowTransparency: 'true'
+					allowTransparency: 'true',
+
+					// To correctly announce read-only state, JAWS neeeds to identify
+					// iframe as multiline textbox (#1904).
+					role: 'textbox',
+					'aria-multiline': 'true'
 				} );
 
 				// Execute onLoad manually for all non IE||Gecko browsers.
