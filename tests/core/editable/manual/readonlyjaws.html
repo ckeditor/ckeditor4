@@ -1,0 +1,38 @@
+<h2>Classic</h2>
+
+<div id="classic">
+	<p>Test</p>
+	<p>Test</p>
+</div>
+
+<h2>Divarea</h2>
+
+<div id="divarea" contenteditable="true">
+	<p>Test</p>
+	<p>Test</p>
+</div>
+
+<h2>Inline</h2>
+
+<div id="inline" contenteditable="false">
+	<p>Test</p>
+	<p>Test</p>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.gecko ) {
+		// JAWS is supported only with Firefox.
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'classic', {
+		readOnly: true
+	} );
+
+	CKEDITOR.replace( 'divarea', {
+		extraPlugins: 'divarea',
+		readOnly: true
+	} );
+
+	CKEDITOR.inline( 'inline' );
+</script>
