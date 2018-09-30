@@ -331,7 +331,11 @@
 
 				if ( !this.hasArrow ) {
 					// Note: aria-pressed attribute should not be added to menuButton instances. (https://dev.ckeditor.com/ticket/11331)
-					element.setAttribute( 'aria-pressed', state == CKEDITOR.TRISTATE_ON );
+					if ( state === CKEDITOR.TRISTATE_ON ) {
+						element.setAttribute( 'aria-pressed', true );
+					} else {
+						element.removeAttribute( 'aria-pressed' );
+					}
 				} else {
 					// Indicates that menu button is opened (#421).
 					element.setAttribute( 'aria-expanded', state == CKEDITOR.TRISTATE_ON );
