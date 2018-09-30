@@ -180,6 +180,28 @@
 			} );
 		},
 
+		// (#1454)
+		'test onAbort can be called only once': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				stub = sinon.stub().returns( true );
+
+			addTestUploadWidget( editor, 'testuploadwidget', {
+				onAbort: stub
+			} );
+
+			bot.setData( '', function() {
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+				var loader = editor.uploadRepository.loaders[ 0 ];
+
+				loader.abort();
+				loader.abort();
+
+				assert.isTrue( stub.calledOnce );
+			} );
+		},
+
 		'test markElement': function() {
 			var element = new CKEDITOR.dom.element( 'p' );
 			CKEDITOR.fileTools.markElement( element, 'widgetName', 1 );
