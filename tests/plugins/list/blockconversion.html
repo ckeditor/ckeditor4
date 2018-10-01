@@ -458,3 +458,36 @@
 </ol>
 
 </textarea>
+
+<textarea id="test_errors_2">
+	<p>&nbsp;</p>
+	<ul>
+		<li>
+		<div>[test
+		<ul><!-- sneaky comment -->
+		</ul>
+		</div>
+		</li>
+		<li>test]</li>
+	</ul>
+	<p>&nbsp;</p>
+=>
+	<p>&nbsp;</p>
+	<ul>
+		<li>
+		<div>
+		<ol>
+			<li>test</li>
+		</ol>
+		<ul><!-- sneaky comment -->
+		</ul>
+		</div>
+		</li>
+	</ul>
+
+	<ol>
+		<li>test</li>
+	</ol>
+	<p>&nbsp;</p>
+
+</textarea>

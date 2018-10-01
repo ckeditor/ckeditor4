@@ -43,7 +43,7 @@ var tests = {
 		} );
 	},
 	'test lists which generates error during conversion': function( editor, bot ) {
-		var testesLength = 2,
+		var testesLength = 3,
 			testPrefix = 'test_errors_',
 			i;
 
