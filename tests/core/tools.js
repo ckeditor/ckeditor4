@@ -990,6 +990,44 @@
 			CKEDITOR.tools.array.forEach( conversionArray, function( item ) {
 				assert.areSame( item.output, CKEDITOR.tools.convertToPx( item.input ), 'Value ' + item.input + ' should be converted to ' + item.output );
 			} );
+		},
+
+		'test child count without comments': function() {
+			var testCases = [
+				{
+					htmlString: '<p><!-- sneaky comment --></p>',
+					expected: 0
+				},
+				{
+					htmlString: '<ul><!-- sneaky comment --></ul>',
+					expected: 0
+				},
+				{
+					htmlString: '<p><!-- sneaky comment --><!-- sneaky comment --><!-- sneaky comment --><!-- sneaky comment --></p>',
+					expected: 0
+				},
+				{
+					htmlString: '<p><!-- sneaky comment --><strong>Some</strong>text</p>',
+					expected: 2
+				},
+				{
+					htmlString: '<p><!-- sneaky comment -->text</p>',
+					expected: 1
+				},
+				{
+					htmlString: '<p><strong>&nbsp;<!-- sneaky comment --></strong></p>',
+					expected: 1
+				},
+				{
+					htmlString: '<ul><!-- sneaky comment --><li>one</li><li>two</li><li>three</li></ul>',
+					expected: 3
+				}
+			];
+
+			CKEDITOR.tools.array.forEach( testCases, function( test ) {
+				assert.areSame( test.expected, CKEDITOR.tools.childCountWithoutComments( CKEDITOR.dom.element.createFromHtml( test.htmlString ) ),
+				'Problem with test with markup: ' + test.htmlString );
+			} );
 		}
 	} );
 } )();
