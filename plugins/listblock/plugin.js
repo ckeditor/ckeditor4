@@ -11,6 +11,8 @@ CKEDITOR.plugins.add( 'listblock', {
 			listItem = CKEDITOR.addTemplate( 'panel-list-item', '<li id="{id}" class="cke_panel_listItem" role=presentation>' +
 				'<a id="{id}_option" _cke_focus=1 hidefocus=true' +
 					' title="{title}"' +
+					' draggable="false"' +
+					' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
 					' href="javascript:void(\'{val}\')" ' +
 					' {onclick}="CKEDITOR.tools.callFunction({clickFn},\'{val}\'); return false;"' + // https://dev.ckeditor.com/ticket/188
 						' role="option">' +
