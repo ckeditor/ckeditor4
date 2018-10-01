@@ -1,6 +1,6 @@
 @bender-tags: bug, 4.10.2, 2411, 2438
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, htmlwriter, list, link, basicstyles, sourcearea, undo, elementspath
+@bender-ckeditor-plugins: wysiwygarea, toolbar, htmlwriter, list, link, basicstyles, sourcearea, undo, elementspath, clipboard
 
 ----
 1. Test both markups separately for all editors.
@@ -13,7 +13,7 @@
 
 ## Expected:
 There is no error in console.
-However content might look strange and this is not a bug, situation is reportd as list plugin improvement.
+_However content might look strange. Changing this view is covered by separate issue [#2441](https://github.com/ckeditor/ckeditor-dev/issues/2441)_
 
 ## Unexpected:
 There is an error in a console.

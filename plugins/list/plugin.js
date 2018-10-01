@@ -674,7 +674,7 @@
 			function isEmptyList( groupObj ) {
 				// If list is without any li item, then ignore such element from transformation, becasue it throws errors in console.
 				// Hack for situation described in #2411, #2438.
-				return groupObj.root.is( 'ul', 'ol' ) && groupObj.root.getChildCount() === 0;
+				return listNodeNames[ groupObj.root.getName() ] && groupObj.root.getChildCount() === 0;
 			}
 		},
 
