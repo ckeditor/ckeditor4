@@ -5,10 +5,10 @@
 1. Open styles combo.
 1. Try to drag dropdown item.
 
-Expected:
+## Expected:
 
 Element can't be dragged.
 
-Unexpected:
+## Unexpected:
 
 Element is draggable.

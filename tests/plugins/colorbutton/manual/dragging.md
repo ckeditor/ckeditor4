@@ -5,10 +5,10 @@
 1. Press color button.
 1. Try to drag various elements from dropdown.
 
-Expected:
+## Expected:
 
 Elements can't be dragged.
 
-Unexpected:
+## Unexpected:
 
 Elements are draggable.
