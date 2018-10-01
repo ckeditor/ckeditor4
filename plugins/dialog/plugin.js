@@ -3438,9 +3438,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 				dialog = storedDialogs[ dialogName ] || ( storedDialogs[ dialogName ] = new CKEDITOR.dialog( this, dialogName ) );
 
-				if ( model ) {
-					dialog.setModel( this, model );
-				}
+				// Set model if it exists, or set it to null meaning that it does not support models.
+				dialog.setModel( this, model || null );
+
 				dialog.show( function() {
 					callback && callback.call( dialog, dialog );
 				} );
