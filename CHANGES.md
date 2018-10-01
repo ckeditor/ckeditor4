@@ -15,6 +15,7 @@ Fixed Issues:
 * [#2690](https://github.com/ckeditor/ckeditor-dev/issues/2690): Fixed: Decimal characters removed from inside ordered lists when pasting content using [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
 * [#2205](https://github.com/ckeditor/ckeditor-dev/issues/2205): Fixed: It is not possible to add new list items under an item containing block element.
 * [#2411](https://github.com/ckeditor/ckeditor-dev/issues/2411), [#2438](https://github.com/ckeditor/ckeditor-dev/issues/2438) Fixed: Apply numbered list option throw console error for specific markup.
+* [#2430](https://github.com/ckeditor/ckeditor-dev/issues/2430) Fixed: [Color Button](https://ckeditor.com/cke4/addon/colorbutton) and [List Block](https://ckeditor.com/cke4/addon/listblock) items being draggable.
 
 Other Changes:
 
