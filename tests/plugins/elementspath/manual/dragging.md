@@ -2,11 +2,8 @@
 @bender-tags: 4.10.2, bug, 1191
 @bender-ckeditor-plugins: wysiwygarea, elementspath, toolbar, list
 
-----
-
 1. Click on element in editor.
 1. Click and try to drag elements path item.
-
 
 ## Expected
 
