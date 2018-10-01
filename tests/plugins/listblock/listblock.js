@@ -44,8 +44,6 @@
 			var editor = this.editor,
 				stylesCombo = editor.ui.get( 'Styles' );
 
-			stylesCombo.createPanel( editor );
-
 			editor.once( 'panelShow', function( evt ) {
 				resume( function() {
 					var block = stylesCombo._.panel.getBlock( stylesCombo.id ).element,
@@ -60,7 +58,7 @@
 				evt.data.hide();
 			} );
 
-			CKEDITOR.document.findOne( '#cke_' + stylesCombo.id ).findOne( 'a' ).$.click();
+			CKEDITOR.document.findOne( '#cke_' + stylesCombo.id ).findOne( 'a' ).$[ CKEDITOR.env.ie ? 'onmouseup' : 'click' ]();
 
 			wait();
 		},
