@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: listblock */
+/* bender-ckeditor-plugins: toolbar, stylescombo */
 
 ( function() {
 	'use strict';
@@ -7,6 +7,8 @@
 	function fixHtml( html ) {
 		return bender.tools.compatHtml( html, 0, 1 );
 	}
+
+	bender.editor = {};
 
 	bender.test( {
 		'test double quote': function() {
@@ -37,6 +39,32 @@
 			);
 		},
 
+		// (#2430)
+		'test list block elements not draggable': function() {
+			var editor = this.editor,
+				stylesCombo = editor.ui.get( 'Styles' );
+
+			stylesCombo.createPanel( editor );
+
+			editor.once( 'panelShow', function( evt ) {
+				resume( function() {
+					var block = stylesCombo._.panel.getBlock( stylesCombo.id ).element,
+						anchors = block.find( 'a' ).toArray();
+
+					CKEDITOR.tools.array.forEach( anchors, function( element ) {
+						assert.areEqual( 'false', element.getAttribute( 'draggable' ), 'Draggable attribute should be "false".' );
+						assert.areEqual( 'return false;', element.getAttribute( 'ondragstart' ), 'Draggable attribute should be "false".' );
+					} );
+				} );
+
+				evt.data.hide();
+			} );
+
+			CKEDITOR.document.findOne( '#cke_' + stylesCombo.id ).findOne( 'a' ).$.click();
+
+			wait();
+		},
+
 		// Expects both object to have following structure:
 		// { value: 'foo', html: 'bar', title: 'baz' }
 		//
@@ -44,7 +72,7 @@
 		// * html is placed as inner html of anchor,
 		// * title is saved to a[title] attribute.
 		assertListBlockAdd: function( expected, input ) {
-				// Mockup of listBlock object required by add() method.
+			// Mockup of listBlock object required by add() method.
 			var mock = {
 					_: {
 						items: {},
