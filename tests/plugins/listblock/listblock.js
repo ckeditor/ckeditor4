@@ -50,8 +50,8 @@
 						anchors = block.find( 'a' ).toArray();
 
 					CKEDITOR.tools.array.forEach( anchors, function( element ) {
-						assert.areEqual( 'false', element.getAttribute( 'draggable' ), 'Draggable attribute should be "false".' );
-						assert.areEqual( 'return false;', element.getAttribute( 'ondragstart' ), 'Draggable attribute should be "false".' );
+						assert.areEqual( 'false', element.getAttribute( 'draggable' ), 'Draggable attribute value should be "false".' );
+						assert.areEqual( 'return false;', element.getAttribute( 'ondragstart' ), 'ondragstart value should be "return false;".' );
 					} );
 				} );
 
