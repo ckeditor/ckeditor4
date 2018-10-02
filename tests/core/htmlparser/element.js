@@ -244,18 +244,6 @@ bender.test( {
 		assert.isTrue( ctx.nonEditable, 'nonEditable' );
 	},
 
-	'test getFilterContext - change - non empty context': function() {
-		var el = new CKEDITOR.htmlParser.fragment.fromHtml( '<p contenteditable="false">foo</p>' ).children[ 0 ];
-
-		var ctxOld = {
-				nonEditable: false
-			},
-			ctx = el.getFilterContext( ctxOld );
-
-		assert.areNotSame( ctx, ctxOld, 'ctx was cloned' );
-		assert.isTrue( ctx.nonEditable, 'nonEditable' );
-	},
-
 	// https://dev.ckeditor.com/ticket/11504
 	'test getFilterContext - editable body (fullPage)': function() {
 		var el = new CKEDITOR.htmlParser.fragment.fromHtml( '<body contenteditable="true">x</body>' ).children[ 0 ];
