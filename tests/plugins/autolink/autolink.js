@@ -1,5 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: autolink,clipboard,link */
+/* bender-include: ../clipboard/_helpers/pasting.js */
+/* global assertPasteEvent */
 
 ( function() {
 	'use strict';
@@ -41,7 +43,13 @@
 			var pastedText;
 
 			while ( ( pastedText = pastedTexts.pop() ) ) {
-				testPasteEvent( this.editors.classic, pastedText, pastedText, 'text was autolinked: ' + pastedText );
+				this.editors.classic.once( 'paste', function( evt ) {
+					evt.cancel();
+
+					assert.areSame( -1, evt.data.dataValue.search( /<a / ), 'text was not auto linked: ' + pastedText );
+				}, null, null, 900 );
+
+				this.editors.classic.execCommand( 'paste', pastedText );
 			}
 		},
 
@@ -56,7 +64,13 @@
 			var pastedText;
 
 			while ( ( pastedText = pastedTexts.pop() ) ) {
-				testPasteEvent( this.editors.classic, pastedText, pastedText, 'text was not auto linked: ' + pastedText );
+				this.editors.classic.once( 'paste', function( evt ) {
+					evt.cancel();
+
+					assert.areSame( -1, evt.data.dataValue.search( /<a / ), 'text was not auto linked: ' + pastedText );
+				}, null, null, 900 );
+
+				this.editors.classic.execCommand( 'paste', pastedText );
 			}
 		},
 
@@ -65,37 +79,37 @@
 			var pastedText = 'https://foo.bar/?bam="bom"',
 				expected = '<a href="https://foo.bar/?bam=%22bom%22">https://foo.bar/?bam="bom"</a>';
 
-			testPasteEvent( this.editors.classic, pastedText, expected );
+			assertPasteEvent( this.editors.classic, { dataValue: pastedText }, { dataValue: expected, type: 'html' } );
 		},
 
 		'test URL link with text after': function() {
 			var pastedText = 'https://placekitten.com/g/210/300 nope';
 
-			testPasteEvent( this.editors.classic, pastedText, pastedText );
+			assertPasteEvent( this.editors.classic, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 		},
 
 		'test mail link with text after': function() {
 			var pastedText = 'mail@example.com nope';
 
-			testPasteEvent( this.editors.classic, pastedText, pastedText );
+			assertPasteEvent( this.editors.classic, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 		},
 
 		'test URL link with text before': function() {
 			var pastedText = 'nope https://placekitten.com/g/220/300';
 
-			testPasteEvent( this.editors.classic, pastedText, pastedText );
+			assertPasteEvent( this.editors.classic, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 		},
 
 		'test mail link with text before': function() {
 			var pastedText = 'nope mail@example.com';
 
-			testPasteEvent( this.editors.classic, pastedText, pastedText );
+			assertPasteEvent( this.editors.classic, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 		},
 
 		'test URL link with text attached before': function() {
 			var pastedText = 'nopehttps://placekitten.com/g/230/300';
 
-			testPasteEvent( this.editors.classic, pastedText, pastedText );
+			assertPasteEvent( this.editors.classic, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 		},
 
 		'test various valid URL links': function() {
@@ -110,10 +124,13 @@
 			var pastedText;
 
 			while ( ( pastedText = pastedTexts.pop() ) ) {
-				testPasteEvent( this.editors.classic,
-					pastedText,
-					'<a href="' + pastedText + '">' + pastedText + '</a>',
-					'autolink failed: ' + pastedText );
+				this.editors.classic.once( 'paste', function( evt ) {
+					evt.cancel();
+
+					assert.areSame( '<a href="' + pastedText + '">' + pastedText + '</a>', evt.data.dataValue );
+				}, null, null, 900 );
+
+				this.editors.classic.execCommand( 'paste', pastedText );
 			}
 		},
 
@@ -128,10 +145,13 @@
 			var pastedText;
 
 			while ( ( pastedText = pastedTexts.pop() ) ) {
-				testPasteEvent( this.editors.classic,
-					pastedText,
-					'<a href="mailto:' + pastedText + '">' + pastedText + '</a>',
-					'autolink failed: ' + pastedText );
+				this.editors.classic.once( 'paste', function( evt ) {
+					evt.cancel();
+
+					assert.areSame( '<a href="mailto:' + pastedText + '">' + pastedText + '</a>', evt.data.dataValue );
+				}, null, null, 900 );
+
+				this.editors.classic.execCommand( 'paste', pastedText );
 			}
 		},
 
@@ -147,7 +167,13 @@
 			var pastedText;
 
 			while ( ( pastedText = pastedTexts.pop() ) ) {
-				testPasteEvent( this.editors.classic, pastedText, pastedText, 'text was autolinked: ' + pastedText );
+				this.editors.classic.once( 'paste', function( evt ) {
+					evt.cancel();
+
+					assert.areSame( pastedText, evt.data.dataValue );
+				}, null, null, 900 );
+
+				this.editors.classic.execCommand( 'paste', pastedText );
 			}
 		},
 
@@ -164,20 +190,26 @@
 			var pastedText;
 
 			while ( ( pastedText = pastedTexts.pop() ) ) {
-				testPasteEvent( this.editors.classic, pastedText, pastedText, 'text was autolinked: ' + pastedText );
+				this.editors.classic.once( 'paste', function( evt ) {
+					evt.cancel();
+
+					assert.areSame( pastedText, evt.data.dataValue );
+				}, null, null, 900 );
+
+				this.editors.classic.execCommand( 'paste', pastedText );
 			}
 		},
 
 		'test pasting multiple URL links': function() {
 			var pastedText = 'http://en.wikipedia.org/wiki/Weasel http://en.wikipedia.org/wiki/Weasel';
 
-			testPasteEvent( this.editors.classic, pastedText, pastedText );
+			assertPasteEvent( this.editors.classic, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 		},
 
 		'test pasting multiple email links': function() {
 			var pastedText = 'example1@mail.com example2@mail.com';
 
-			testPasteEvent( this.editors.classic, pastedText, pastedText );
+			assertPasteEvent( this.editors.classic, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 		},
 
 		'test pasting whole paragraph': function() {
@@ -187,42 +219,64 @@
 				'<a id="organic" href="http://en.wikipedia.org/wiki/Organic">organic</a> and cross-enterprise ' +
 				'<a href="mailto: cultures@mail.com">cultures</a>.';
 
-			testPasteEvent( this.editors.classic, pastedText, pastedText );
+			assertPasteEvent( this.editors.classic, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 		},
 
 		'test content that is a link': function() {
 			var pastedText = '<a href="http://en.wikipedia.org/wiki/Weasel">Weasel</a>';
 
-			testPasteEvent( this.editors.classic, pastedText, pastedText );
+			assertPasteEvent( this.editors.classic, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
+		},
+
+		'test type is changed once a link is created': function() {
+			var pastedText = 'https://placekitten.com/g/180/300',
+				expected = '<a href="' + pastedText + '">' + pastedText + '</a>';
+
+			assertPasteEvent( this.editors.classic, { dataValue: pastedText, type: 'text' }, { dataValue: expected, type: 'html' } );
+		},
+
+		'test type is not changed if link was not found': function() {
+			var pastedText = 'foo bar';
+
+			assertPasteEvent( this.editors.classic, { dataValue: pastedText, type: 'text' }, { dataValue: pastedText, type: 'text' } );
+		},
+
+		'test internal paste is not autolinked': function() {
+			var	editor = this.editors.classic,
+				pastedText = 'https://foo.bar/g/185/310';
+
+			this.editors.classic.once( 'paste', function( evt ) {
+				evt.data.dataTransfer.sourceEditor = editor;
+			}, null, null, 1 );
+
+			this.editors.classic.once( 'paste', function( evt ) {
+				evt.cancel();
+
+				assert.areSame( pastedText, evt.data.dataValue );
+			}, null, null, 900 );
+
+			this.editors.classic.execCommand( 'paste', pastedText );
 		},
 
 		'test created protected mail link (function)': function() {
 			var pastedText = 'a@a',
 				expected = '<a href="javascript:void(location.href=\'mailto:\'+String.fromCharCode(97,64,97))">a@a</a>';
 
-			testPasteEvent( this.editors.encodedDefault, pastedText, expected );
+			assertPasteEvent( this.editors.encodedDefault, { dataValue: pastedText, type: 'text' }, function( data ) {
+				assert.areEqual( 'html', data.type );
+				assert.areEqual( expected, bender.tools.compatHtml( data.dataValue ) );
+			} );
 		},
 
 		'test created protected mail link (string)': function() {
 			var pastedText = 'a@a',
 				expected = '<a href="javascript:mt(\'a\',\'a\',\'\',\'\')">a@a</a>';
 
-			testPasteEvent( this.editors.encodedCustom, pastedText, expected );
+			assertPasteEvent( this.editors.encodedCustom, { dataValue: pastedText, type: 'text' }, function( data ) {
+				assert.areEqual( 'html', data.type );
+				assert.areEqual( expected, bender.tools.compatHtml( data.dataValue ) );
+			} );
 		}
 	} );
-
-	function testPasteEvent( editor, pastedText, expected, message ) {
-		editor.once( 'afterPaste', function() {
-			resume( function() {
-				assert.areEqual( '<p>' + expected + '</p>', bender.tools.compatHtml( editor.getData() ), message );
-				// Clean editor.
-				editor.editable().setHtml( '' );
-			} );
-		} );
-
-		editor.fire( 'paste', { dataValue: pastedText } );
-
-		wait();
-	}
 
 } )();
