@@ -74,8 +74,8 @@
 						return null;
 					}
 
-					// In case of space preceding colon we need to return index of capturing grup.
-					return { start: text.indexOf( match[ 1 ] ), end: offset };
+					// In case of space preceding colon we need to return the last index (#2394) of capturing grup.
+					return { start: left.lastIndexOf( match[ 1 ] ), end: offset };
 				}
 
 				function dataCallback( matchInfo, callback ) {

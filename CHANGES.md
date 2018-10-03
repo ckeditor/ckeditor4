@@ -16,6 +16,7 @@ New Features:
 Fixed Issues:
 
 * [#1477](https://github.com/ckeditor/ckeditor-dev/issues/1477): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) on destroy doesn't destroy its content.
+* [#2394](https://github.com/ckeditor/ckeditor-dev/issues/2394): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) dropdown doesn't show up with repeated symbols in a single line.
 
 API Changes:
 
