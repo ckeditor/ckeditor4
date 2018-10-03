@@ -29,10 +29,10 @@
 		}
 	};
 
-	var stub = null;
-
 	// Disable autocomplete throttling so the tests can be run synchronously.
-	var throttle = CKEDITOR.tools.buffers.throttle;
+	var throttle = CKEDITOR.tools.buffers.throttle,
+		stub = null;
+
 	sinon.stub( CKEDITOR.tools.buffers, 'throttle', function( minInterval, output, contextObj ) {
 		return new throttle( 0, output, contextObj );
 	} );
@@ -54,8 +54,8 @@
 
 				bot.setHtmlWithSelection( '<p>foo :dagg^</p>' );
 				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-				assert.areSame( ':dagg', autocomplete.model.query, 'Model keeps wrong querry.' );
-				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
+				assert.areSame( ':dagg', autocomplete.model.query, 'Model keeps wrong query' );
+				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result' );
 				objectAssert.areEqual( { id: ':dagger:', symbol: '🗡' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
 				autocomplete.close();
 			} );
@@ -100,8 +100,8 @@
 
 		'test emoji objects are added to editor': function( editor ) {
 			emojiTools.runAfterInstanceReady( editor, null, function( editor ) {
-				assert.isObject( editor._.emoji, 'Emoji variable doesn\' exists.' );
-				objectAssert.ownsKeys( [ 'list', 'autocomplete' ], editor._.emoji, 'Emoji variable is missing some keys.' );
+				assert.isObject( editor._.emoji, 'Emoji variable doesn\' exists' );
+				objectAssert.ownsKeys( [ 'list', 'autocomplete' ], editor._.emoji, 'Emoji variable is missing some keys' );
 			} );
 		},
 
@@ -111,8 +111,8 @@
 
 				bot.setHtmlWithSelection( '<p>foo :bug^</p>' );
 				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-				assert.areSame( ':bug', autocomplete.model.query, 'Model keeps wrong querry.' );
-				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
+				assert.areSame( ':bug', autocomplete.model.query, 'Model keeps wrong query' );
+				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result' );
 				objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
 			} );
 		},
@@ -179,8 +179,8 @@
 
 				bot.setHtmlWithSelection( '<p>foo :collision :collision^</p>' );
 				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-				assert.areSame( ':collision', autocomplete.model.query, 'Model keeps wrong querry.' );
-				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
+				assert.areSame( ':collision', autocomplete.model.query, 'Model keeps wrong query' );
+				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result' );
 				objectAssert.areEqual( { id: ':collision:', symbol: '💥' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
 			} );
 		}
