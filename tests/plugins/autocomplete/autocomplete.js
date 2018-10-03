@@ -719,7 +719,7 @@
 			editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) ); // ENTER
 
-			assert.beautified.html( '<p><strong>item1&nbsp;</strong>foo</p>', editable.getData() );
+			assert.beautified.html( '<p><strong>item1</strong>&nbsp;foo</p>', editable.getData() );
 
 			ac.destroy();
 		},
