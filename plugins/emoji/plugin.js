@@ -30,10 +30,6 @@
 				listeners = [];
 			var GROUPS = [
 				{
-					name: 'used',
-					sectionName: 'Recently used'
-				},
-				{
 					name: 'people',
 					sectionName: 'People'
 				},
@@ -148,6 +144,18 @@
 				},
 
 				onBlock: function( panel, block ) {
+
+
+					var keys = block.keys;
+					var rtl = editor.lang.dir == 'rtl';
+					keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
+					keys[ 40 ] = 'next'; // ARROW-DOWN
+					keys[ 9 ] = 'next'; // TAB
+					keys[ rtl ? 39 : 37 ] = 'prev'; // ARROW-LEFT
+					keys[ 38 ] = 'prev'; // ARROW-UP
+					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
+					keys[ 32 ] = 'click'; // SPACE
+
 					blockElement = block.element;
 					block.element.getAscendant( 'html' ).addClass( 'cke_emoji' );
 					block.element.getDocument().appendStyleSheet( CKEDITOR.getUrl( CKEDITOR.basePath + 'contents.css' ) );
@@ -167,7 +175,9 @@
 						}
 						refreshNavigationStatus();
 					};
-				} )()
+				} )(),
+
+				onClose: clearSearch
 			} );
 
 			var keyDownFn = CKEDITOR.tools.addFunction( function( event ) {
@@ -203,10 +213,9 @@
 			}
 
 			function createGroupsNavigation() {
-
 				var svgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.svg' );
 				var itemTemplate = new CKEDITOR.template(
-					'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href={href}><svg viewBox="0 0 34 34"> <use xlink:href="' +
+					'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href={href} _cke_focus="1"><svg viewBox="0 0 34 34"> <use xlink:href="' +
 					svgUrl +
 					'{href}"></use></svg></a></li>' );
 
@@ -246,7 +255,7 @@
 				} );
 				return '<label class="cke_emoji-search"><img src="' + loupeUrl +
 					'" /><input placeholder="' + lang.searchPlaceholder +
-					'" type="search"></label>';
+					'" type="search" _cke_focus="1"></label>';
 			}
 
 			function createEmojiListBlock() {
@@ -310,8 +319,10 @@
 
 			function getEmojiListGroup( groupName ) {
 				var emojiList = editor._.emoji.list;
-				var emojiTpl = new CKEDITOR.template( '<li data-cke-emoji-full-name="{id}" data-cke-emoji-name="{name}" data-cke-emoji-symbol="{symbol}" data-cke-emoji-group="{group}" ' +
-					'data-cke-emoji-keywords="{keywords}" title="{id}" class="cke_emoji_item" tabindex="0">{symbol}</li>' );
+				var emojiTpl = new CKEDITOR.template( '<li class="cke_emoji_item">' +
+				'<a data-cke-emoji-full-name="{id}" data-cke-emoji-name="{name}" data-cke-emoji-symbol="{symbol}" data-cke-emoji-group="{group}" ' +
+				'data-cke-emoji-keywords="{keywords}" title="{id}" href="#" _cke_focus="1">{symbol}</a>' +
+				'</li>' );
 				return CKEDITOR.tools.array.reduce( CKEDITOR.tools.array.filter( emojiList, function( item ) {
 					return item.group === groupName;
 				} ), function( acc, item ) {
@@ -325,7 +336,7 @@
 			}
 
 			function filter( evt ) {
-				var emojiItems = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).find( 'li' ).toArray();
+				var emojiItems = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).find( 'li > a' ).toArray();
 				var sections = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).find( 'h2' ).toArray();
 				var groups = {};
 				var query = typeof evt === 'string' ? evt : evt.sender.getValue();
@@ -333,9 +344,11 @@
 				CKEDITOR.tools.array.forEach( emojiItems, function( element ) {
 					if ( isInNameOrKeywords( query, element.data( 'cke-emoji-name' ), element.data( 'cke-emoji-keywords' ) ) || query === '' ) {
 						element.removeClass( 'hidden' );
+						element.getParent().removeClass( 'hidden' );
 						groups[ element.data( 'cke-emoji-group' ) ] = true;
 					} else {
 						element.addClass( 'hidden' );
+						element.getParent().addClass( 'hidden' );
 					}
 
 					function isInNameOrKeywords( query, name, keywordsString ) {
@@ -356,13 +369,20 @@
 
 				CKEDITOR.tools.array.forEach( sections, function( element ) {
 					if ( groups[ element.getId() ] ) {
+						element.getParent().removeClass( 'hidden' );
 						element.removeClass( 'hidden' );
 					} else {
 						element.addClass( 'hidden' );
+						element.getParent().addClass( 'hidden' );
 					}
 				} );
 
 				refreshNavigationStatus();
+			}
+
+			function clearSearch() {
+				blockElement.findOne( 'input' ).setValue( '' );
+				filter( '' );
 			}
 
 			function refreshNavigationStatus() {

@@ -47,6 +47,7 @@
 	padding: 0;
 	list-style-type: none;
 	height: 24px;
+	text-align: center;
 }
 
 .cke_emoji_inner_panel > nav li {
@@ -132,6 +133,9 @@
 	background-color: rgba(44, 195, 255, 0.2);
 }
 
+.cke_emoji_item > a {
+	text-decoration: none;
+}
 
 .cke_emoji-outer_emoji_block .hidden {
 	display: none
