@@ -404,7 +404,7 @@
 /**
  * Abstract class describing the definition of {@link CKEDITOR.htmlParser.filter} rules.
  *
- * A filter rules definition object represents rules as a set of properties with callback functions
+ * Definition object represents rules as a set of properties with callback functions
  * to be applied for transforming and filtering content upon data processing.
  *
  * @class CKEDITOR.htmlParser.filterRulesDefinition
@@ -413,7 +413,7 @@
 
 /**
  * @property {Array<String,RegExp>[]} elementNames An array of rules for element names transformation.
- * Every rule match will be replaced by given string.
+ * Every rule match will be replaced by the given string.
  *
  * Examples:
  *
@@ -436,7 +436,7 @@
  * attributeNames: [
  * 		[ 'data-foo', 'data-bar' ],
  * 		// Converts string in attribute name from 'data-foo' into 'data-bar'
- * 		// Note that attribute 'data-foo-baz' is converted into 'data-bar-baz'.
+ * 		// Note that attribute 'data-foo-baz' will be converted into 'data-bar-baz'.
  *
  * 		[ /^data-custom$/, 'data-cke' ]
  * 		// Converts attribute 'data-custom' into 'data-cke'.
@@ -446,15 +446,17 @@
  */
 
 /**
- * @property {Object.<String, Function>} elements An object containing pairs of keys representing
- * element selectors and function for element filtering and transformation.
+ * @property {Object.<String, Function>} elements An object containing pairs of element selectors
+ * and functions used upon element filtering and transformation.
  *
- * Selector can be either element name or one of following: '^', '$'.
+ * A selector can be either element name or one of following: '^', '$'.
  *
  * '^' and '$' is to be applied on every filtered element. The first is applied before element specific filter,
  * and second is applied after element specific filter.
  *
- * If function returns 'false' or any positive value element is removed.
+ * Function can contain return statement:
+ * - If `false` is returned the element is removed.
+ * - If an other element is returned it overwrites the original element.
  *
  * Examples:
  *
@@ -463,7 +465,7 @@
  * 		'^': function( element ) {
  * 			// Element transformation to be applied on every filtered element.
  * 			// This will be applied as the first filter.
- * 		}
+ * 		},
  * 		div: function( element ) {
  * 			// Element transformation.
  * 		},
@@ -480,8 +482,9 @@
  */
 
 /**
- * @property {Object.<String, Function>} attributes An object containing pairs of keys representing
- * attributes and function for attribute filtering and transformation. Returned value replaces attribute value.
+ * @property {Object.<String, Function>} attributes An object containing pairs of element attribute names
+ * and functions used upon attribute filtering and transformation.
+ *
  * Returning false removes attribute.
  *
  * Examples:
