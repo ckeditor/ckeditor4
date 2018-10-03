@@ -31,6 +31,12 @@
 
 	var stub = null;
 
+	// Disable autocomplete throttling so the tests can be run synchronously.
+	var throttle = CKEDITOR.tools.buffers.throttle;
+	sinon.stub( CKEDITOR.tools.buffers, 'throttle', function( minInterval, output, contextObj ) {
+		return new throttle( 0, output, contextObj );
+	} );
+
 	var singleTests = {
 		'test for custom emoji characters': function() {
 			var editor = this.editors.divarea,
@@ -46,18 +52,12 @@
 				emojiTools.assertIsNullOrUndefined( autocomplete.model.query );
 				emojiTools.assertIsNullOrUndefined( autocomplete.model.data );
 
-				// Handle throttle in autocomplete which by defualt is 20ms;
-				setTimeout( function() {
-					resume( function() {
-						bot.setHtmlWithSelection( '<p>foo :dagg^</p>' );
-						editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-						assert.areSame( ':dagg', autocomplete.model.query, 'Model keeps wrong querry.' );
-						assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
-						objectAssert.areEqual( { id: ':dagger:', symbol: '🗡' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
-						autocomplete.close();
-					} );
-				}, 50 );
-				wait();
+				bot.setHtmlWithSelection( '<p>foo :dagg^</p>' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+				assert.areSame( ':dagg', autocomplete.model.query, 'Model keeps wrong querry.' );
+				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
+				objectAssert.areEqual( { id: ':dagger:', symbol: '🗡' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+				autocomplete.close();
 			} );
 		}
 	};
@@ -136,15 +136,11 @@
 				var autocomplete = editor._.emoji.autocomplete,
 					queries = [ ':OK_HAND', ':ok_hand', ':OK_hand', ':ok_HAND', ':Ok_hanD', 'oK_HANd' ];
 
-				CKEDITOR.tools.array.forEach( queries, function( query, index ) {
-					setTimeout( function() {
-						resume();
-						bot.setHtmlWithSelection( '<p>foo ' + query + '^</p>' );
-						editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+				CKEDITOR.tools.array.forEach( queries, function( query ) {
+					bot.setHtmlWithSelection( '<p>foo ' + query + '^</p>' );
+					editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-						objectAssert.areEqual( { id: ':ok_hand:', symbol: '👌' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
-					}, 50 * ( index + 1 ) );
-					wait();
+					objectAssert.areEqual( { id: ':ok_hand:', symbol: '👌' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
 				} );
 			} );
 		},
@@ -157,16 +153,10 @@
 
 				bot.setHtmlWithSelection( '<p>foo:bug^</p>' );
 
-				// Delay assertions because of autocomplete throttle.
-				setTimeout( function() {
-					resume( function() {
-						emojiTools.assertIsNullOrUndefined( autocomplete.model.query );
-						emojiTools.assertIsNullOrUndefined( autocomplete.model.data );
-					} );
-				}, 50 );
+				emojiTools.assertIsNullOrUndefined( autocomplete.model.query );
+				emojiTools.assertIsNullOrUndefined( autocomplete.model.data );
 
 				editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-				wait();
 			} );
 		},
 
@@ -177,16 +167,8 @@
 					editable = editor.editable();
 
 				bot.setHtmlWithSelection( '<p>foo</p><p>:bug^</p>' );
-
-				// Delay assertions because of autocomplete throttle.
-				setTimeout( function() {
-					resume( function() {
-						objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
-					} );
-				}, 50 );
-
 				editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-				wait();
+				objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
 			} );
 		}
 	};
