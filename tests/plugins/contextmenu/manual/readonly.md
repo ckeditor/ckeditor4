@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: bug, 4.10.2, 1181
+@bender-tags: bug, 4.11.0, 1181
 @bender-ckeditor-plugins: wysiwygarea, toolbar, contextmenu, link, clipboard
 
 1. Open console.
