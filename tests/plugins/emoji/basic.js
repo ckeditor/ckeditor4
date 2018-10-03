@@ -170,6 +170,19 @@
 				editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 				objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
 			} );
+		},
+
+		// (#2394)
+		'test emoji correctly matches repeated keywords': function( editor, bot ) {
+			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
+				var autocomplete = editor._.emoji.autocomplete;
+
+				bot.setHtmlWithSelection( '<p>foo :collision :collision^</p>' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+				assert.areSame( ':collision', autocomplete.model.query, 'Model keeps wrong querry.' );
+				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result.' );
+				objectAssert.areEqual( { id: ':collision:', symbol: '💥' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+			} );
 		}
 	};
 
