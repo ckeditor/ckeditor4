@@ -807,14 +807,20 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			// Save the current position.
 			this._.position = { x: x, y: y };
 
+			var viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize();
+
 			// Translate coordinate for RTL.
 			if ( rtl ) {
-				var dialogSize = this.getSize(), viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize();
+				var dialogSize = this.getSize();
 				x = viewPaneSize.width - dialogSize.width - x;
 			}
 
-			var styles = { 'top': ( y > 0 ? y : 0 ) + 'px' };
-			styles[ rtl ? 'right' : 'left' ] = ( x > 0 ? x : 0 ) + 'px';
+			// Recalculate pixes into percentages.
+			x = x / viewPaneSize.width * 100;
+			y = y / viewPaneSize.height * 100;
+
+			var styles = { 'top': ( y > 0 ? y : 0 ) + '%' };
+			styles[ rtl ? 'right' : 'left' ] = ( x > 0 ? x : 0 ) + '%';
 
 			element.setStyles( styles );
 
