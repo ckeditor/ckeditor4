@@ -39,6 +39,9 @@ Fixed Issues:
 * [#2294](https://github.com/ckeditor/ckeditor-dev/issues/2294) Fixed: Pasting content from MS Outlook and then bolding it results with an error.
 * [#2035](https://github.com/ckeditor/ckeditor-dev/issues/2035) [Edge] Fixed: `Permission denied` is thrown when opening [Panel](https://ckeditor.com/cke4/addon/panel) instance.
 * [#965](https://github.com/ckeditor/ckeditor-dev/issues/965) Fixed: The [`config.forceSimpleAmpersand`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-forceSimpleAmpersand) option does no longer work. Thanks to [Alex Maris](https://github.com/alexmaris)!
+* [#898](https://github.com/ckeditor/ckeditor-dev/issues/898): Fixed: [Enhanced Image](https://ckeditor.com/cke4/addon/image2) long alt text protrudes into editor when image is selected.
+* [#1113](https://github.com/ckeditor/ckeditor-dev/issues/1113): [Firefox] Fixed: Nested contenteditable elements path not updated on focus with [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) plugin.
+* [#1682](https://github.com/ckeditor/ckeditor-dev/issues/1682) Fixed: Hovering [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) panel changes its size causing flickering.
 
 API Changes:
 
