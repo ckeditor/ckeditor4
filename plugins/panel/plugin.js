@@ -90,6 +90,17 @@
 		 * to this button.
 		 */
 		render: function( editor, output ) {
+			var data = {
+				editorId: editor.id,
+				id: this.id,
+				langCode: editor.langCode,
+				dir: editor.lang.dir,
+				cls: this.className,
+				frame: '',
+				env: CKEDITOR.env.cssClass,
+				'z-index': editor.config.baseFloatZIndex + 1
+			};
+
 			this.getHolderElement = function() {
 				var holder = this._.holder;
 
@@ -150,17 +161,6 @@
 				}
 
 				return holder;
-			};
-
-			var data = {
-				editorId: editor.id,
-				id: this.id,
-				langCode: editor.langCode,
-				dir: editor.lang.dir,
-				cls: this.className,
-				frame: '',
-				env: CKEDITOR.env.cssClass,
-				'z-index': editor.config.baseFloatZIndex + 1
 			};
 
 			if ( this.isFramed ) {
@@ -297,7 +297,7 @@
 			markItem: function( index ) {
 				if ( index == -1 )
 					return;
-				var links = this.element.getElementsByTag( 'a' );
+				var links = this._.getItems();
 				var item = links.getItem( this._.focusIndex = index );
 
 				// Safari need focus on the iframe window first(https://dev.ckeditor.com/ticket/3389), but we need
@@ -361,7 +361,7 @@
 			 * @returns {*|CKEDITOR.dom.nodeList}
 			 */
 			getItems: function() {
-				return this.element.getElementsByTag( 'a' );
+				return this.element.find( 'a,input' );
 			}
 		},
 
@@ -381,7 +381,7 @@
 					// Move forward.
 					case 'next':
 						var index = this._.focusIndex,
-							links = this.element.getElementsByTag( 'a' ),
+							links = this._.getItems(),
 							link;
 
 						while ( ( link = links.getItem( ++index ) ) ) {
@@ -406,7 +406,7 @@
 						// Move backward.
 					case 'prev':
 						index = this._.focusIndex;
-						links = this.element.getElementsByTag( 'a' );
+						links = this._.getItems();
 
 						while ( index > 0 && ( link = links.getItem( --index ) ) ) {
 							// Move the focus only if the element is marked with
@@ -434,7 +434,7 @@
 					case 'click':
 					case 'mouseup':
 						index = this._.focusIndex;
-						link = index >= 0 && this.element.getElementsByTag( 'a' ).getItem( index );
+						link = index >= 0 && this._.getItems().getItem( index );
 
 						if ( link )
 							link.$[ keyAction ] ? link.$[ keyAction ]() : link.$[ 'on' + keyAction ]();
