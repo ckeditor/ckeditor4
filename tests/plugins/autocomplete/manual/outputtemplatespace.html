@@ -1,7 +1,8 @@
 <div id="editor1" ></div>
 
 <script>
-	if ( autocompleteUtils.isUnsupportedEnvironment() ) {
+	// Ignore test due to IE issue (#2077).
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 		bender.ignore();
 	}
 
