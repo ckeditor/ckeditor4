@@ -254,6 +254,9 @@
 		editor.fire( 'lockSnapshot' );
 
 		for ( i = 0; i < cells.length; i++ ) {
+                        if ( !cells[ i ].parent().hasClass("cke_editable") ) {
+                            continue;
+                        }
 			cells[ i ].addClass( fakeSelectedClass );
 		}
 
