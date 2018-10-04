@@ -349,15 +349,18 @@
 			}
 
 			var item = this.model.getItemById( itemId ),
-				editor = this.editor;
+				editor = this.editor,
+				html = this.getHtmlToInsert( item );
+
+			// Insert space after accepting match (#2008).
+			html += this.followingSpace ? '&nbsp;' : '';
 
 			editor.fire( 'saveSnapshot' );
 			editor.getSelection().selectRanges( [ this.model.range ] );
-			editor.insertHtml( this.getHtmlToInsert( item ), 'text' );
+			editor.insertHtml( html, 'text' );
 
-			// Insert following space after accepting match (#2008).
 			if ( this.followingSpace ) {
-				insertFollowingSpace( editor );
+				removeLeadingSpace( editor );
 			}
 
 			editor.fire( 'saveSnapshot' );
@@ -1359,19 +1362,17 @@
 		}, {} );
 	}
 
-	function insertFollowingSpace( editor ) {
-		var selection = editor.getSelection();
-
-		var nextNode = selection.getRanges()[ 0 ].getNextNode( function( node ) {
+	function removeLeadingSpace( editor ) {
+		var selection = editor.getSelection(),
+			nextNode = selection.getRanges()[ 0 ].getNextNode( function( node ) {
 			return Boolean( node.type == CKEDITOR.NODE_TEXT && node.getText() );
 		} );
 
 		if ( nextNode && nextNode.getText().match( /^\s+/ ) ) {
 			var range = editor.createRange();
-			range.setStart( nextNode, 1 );
-			selection.selectRanges( [ range ] );
-		} else {
-			editor.insertHtml( '&nbsp;', 'html' );
+			range.setStart( nextNode, 0 );
+			range.setEnd( nextNode, 1 );
+			range.deleteContents();
 		}
 	}
 
