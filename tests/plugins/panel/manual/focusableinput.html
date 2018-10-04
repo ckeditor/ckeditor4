@@ -1,0 +1,37 @@
+<style>
+a:focus,input:focus {
+	background-color: red
+}
+
+textarea {
+	display: none;
+}
+</style>
+<textarea id="editor"></textarea>
+<div style="width:300px;height:300px;border:1px solid black;" id="testbox" ></div>
+<script>
+	var editor = CKEDITOR.replace( 'editor' );
+	editor.on( 'instanceReady', function() {
+		//It's necessary to laod plugins
+		editor.destroy();
+
+		var parent = CKEDITOR.document.getById( 'testbox' );
+		var block = new CKEDITOR.ui.panel.block( parent, { attributes: {} } );
+
+		block.element.setHtml( '<a href="#" _cke_focus="1">link1</a><input _cke_focus="1"><a href="#" _cke_focus="1">Link 2</a>' );
+
+		block.keys[ 9 ] = 'next'; // TAB
+		block.keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
+
+		block.show();
+
+		CKEDITOR.document.on( 'keydown', function( evt ) {
+			var keystroke = evt.data.getKeystroke();
+				if ( block.onKeyDown && block.onKeyDown( keystroke ) === false ) {
+					evt.data.preventDefault();
+					return;
+				}
+		} );
+	} );
+
+</script>
