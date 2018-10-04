@@ -63,16 +63,20 @@
 			 * Moves the selection focus to this editable element.
 			 *
 			 * Takes optional param `focusOptions` which holds property `preventScroll`. If set to true will prevent scrolling on focus.
+			 * Another property of `focusOptions` is `defer`. If set to true focus will be delayed by 100ms.
 			 *
 			 * Example:
 			 * ```javascript
 			 * editable.focus( { preventScroll: true } ); // Focuses but prevents scrolling.
 			 * editable.focus( { preventScroll: false } ); // Focuses without preventing scroll.
+			 * editable.focus( { defer: false } ); // Focuses after 100ms.
 			 * editable.focus(); // Focuses without preventing scroll.
 			 * ```
 			 *
-			 * @param {Object} [focusOptions] Focus options since **4.10.2**.
+			 * @param {Object} [focusOptions] Focus options since **4.11.0**.
 			 * @param {Boolean} [focusOptions.preventScroll] Whenever after focus scroll should be prevented.
+			 * @param {Boolean} [focusOptions.defer] Whether to asynchronously defer the
+			 * execution by 100 ms.
 			 */
 			focus: function( focusOptions ) {
 				var active;

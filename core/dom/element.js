@@ -419,11 +419,27 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		/**
 		 * Moves the selection focus to this element.
 		 *
-		 *		var element = CKEDITOR.document.getById( 'myTextarea' );
-		 *		element.focus();
+		 * Takes optional param `focusOptionsOrDefer`.
+		 * If boolean is passed it works as defer. When set to `true` focus will be defered by 100ms.
+		 * If an object is passed it works as focus options which holds property `preventScroll`.
+		 * When set to true will prevent scrolling on focus.
+		 *
+		 * When passing focus options it can be defered can be achieved by using property `defer`.
+		 *
+		 *  Example:
+		 * ```javascript
+		 * var element = CKEDITOR.document.getById( 'myTextarea' );
+		 * element.focus( { preventScroll: true } ); // Focuses but prevents scrolling.
+		 * element.focus( { preventScroll: false } ); // Focuses without preventing scroll.
+		 * element.focus( { defer: false } ); // Focuses after 100ms.
+		 * element.focus(); // Focuses without preventing scroll.
+		 * ```
 		 *
 		 * @method
-		 * @param  {Object/Boolean} focusOptionsOrDefer Whether to asynchronously defer the
+		 * @param  {Object/Boolean} [focusOptionsOrDefer] If boolean is passed works same as focusOptionsOrDefer.defer.
+		 * Since **4.11.0** can be an object with focus options.
+		 * @param {Boolean} [focusOptionsOrDefer.preventScroll] Whenever after focus scroll should be prevented.
+		 * @param {Boolean} [focusOptionsOrDefer.defer] Whether to asynchronously defer the
 		 * execution by 100 ms.
 		 */
 		focus: ( function() {

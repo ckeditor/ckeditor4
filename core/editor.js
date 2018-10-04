@@ -1317,16 +1317,20 @@
 		 * Moves the selection focus to the editing area space in the editor.
 		 *
 		 * Takes optional param `focusOptions` which holds property `preventScroll`. If set to true will prevent scrolling on focus.
+		 * Another property of `focusOptions` is `defer`. If set to true focus will be delayed by 100ms.
 		 *
 		 * Example:
 		 * ```javascript
 		 * editor.focus( { preventScroll: true } ); // Focuses but prevents scrolling.
 		 * editor.focus( { preventScroll: false } ); // Focuses without preventing scroll.
+		 * editor.focus( { defer: false } ); // Focuses after 100ms.
 		 * editor.focus(); // Focuses without preventing scroll.
 		 * ```
 		 *
-		 * @param {Object} [focusOptions] Focus options since **4.10.2**.
+		 * @param {Object} [focusOptions] Focus options since **4.11.0**.
 		 * @param {Boolean} [focusOptions.preventScroll] Whenever after focus scroll should be prevented.
+		 * @param {Boolean} [focusOptions.defer] Whether to asynchronously defer the
+		 * execution by 100 ms.
 		 */
 		focus: function( focusOptions ) {
 			this.fire( 'beforeFocus', { focusOptions: focusOptions } );
