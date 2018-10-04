@@ -423,22 +423,115 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *		element.focus();
 		 *
 		 * @method
-		 * @param  {Boolean} defer Whether to asynchronously defer the
+		 * @param  {Object/Boolean} focusOptionsOrDefer Whether to asynchronously defer the
 		 * execution by 100 ms.
 		 */
 		focus: ( function() {
-			function exec() {
+			function exec( focusOptions ) {
 				// IE throws error if the element is not visible.
 				try {
-					this.$.focus();
-				} catch ( e ) {}
+					var isScrollLockFallbackNeeded = !CKEDITOR.env.webkit;
+
+					if ( isScrollLockFallbackNeeded ) {
+						var scrollables = [],
+							element = this;
+
+						if ( focusOptions && focusOptions.preventScroll ) {
+							while ( element ) {
+								var isElementScrollable = element.$.scrollHeight > element.$.clientHeight;
+
+								if ( CKEDITOR.env.edge && element.getName() == 'body' ) {
+									isElementScrollable = true;
+								}
+
+								if ( isElementScrollable ) {
+									// Separate scopes for each variable, so it's accessible in listener.
+									( function() {
+										var scrollable = element,
+											scrollTop = element.$.scrollTop;
+
+										scrollables.push( {
+											element: scrollable,
+											scrollTop: scrollTop
+										} );
+
+										// IE and Edge scroll asynchronously.
+										if ( CKEDITOR.env.ie ) {
+											var listener = CKEDITOR.document.getWindow().once( 'scroll', function() {
+
+												// In IE8 scrolls happens after scroll event.
+												if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+													setTimeout( function() {
+														scrollable.$.scrollTop = scrollTop;
+													} );
+												} else {
+													scrollable.$.scrollTop = scrollTop;
+												}
+											} );
+
+											// Clean listener to not break user scroll.
+											setTimeout( function() {
+												listener.removeListener();
+											}, 50 );
+										}
+									} )();
+								}
+								if ( element.getParent() ) {
+									element = element.getParent();
+								} else {
+									element = element.getWindow().getFrame();
+								}
+							}
+						}
+
+						// [IE] Use instead "setActive" method to focus the editable if it belongs to the host page document,
+						// to avoid bringing an unexpected scroll.
+						if ( CKEDITOR.env.ie && !( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) && this.getDocument().equals( CKEDITOR.document ) ) {
+							this.$.setActive();
+						} else {
+							this.$.focus();
+						}
+
+						if ( ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) && scrollables.length ) {
+							CKEDITOR.tools.array.forEach( scrollables, function( item ) {
+								item.element.$.scrollTop = item.scrollTop;
+							} );
+						}
+					} else if ( CKEDITOR.env.chrome ) {
+						// We have no control over exactetly what happens when the native `focus` method is called,
+						// so save the scroll position and restore it later.
+						var scrollPos = this.$.scrollTop;
+						this.$.focus( focusOptions );
+						this.$.scrollTop = scrollPos;
+					} else {
+						this.$.focus( focusOptions );
+					}
+				} catch ( e ) {
+					// IE throws unspecified error when focusing editable after closing dialog opened on nested editable.
+					if ( !CKEDITOR.env.ie ) {
+						throw e;
+					}
+				}
 			}
 
-			return function( defer ) {
-				if ( defer )
-					CKEDITOR.tools.setTimeout( exec, 100, this );
-				else
-					exec.call( this );
+			return function( focusOptionsOrDefer ) {
+
+				if ( focusOptionsOrDefer && ( typeof focusOptionsOrDefer !== 'object' || focusOptionsOrDefer.defer ) ) {
+
+					CKEDITOR.tools.setTimeout( function() {
+
+						if ( focusOptionsOrDefer.defer ) {
+							delete focusOptionsOrDefer.defer;
+							exec.call( this, focusOptionsOrDefer );
+
+						} else if ( focusOptionsOrDefer !== 'object' ) {
+							exec.call( this );
+						}
+					}, 100, this );
+
+				} else {
+					exec.call( this, focusOptionsOrDefer );
+				}
 			};
 		} )(),
 

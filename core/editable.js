@@ -75,7 +75,6 @@
 			 * @param {Boolean} [focusOptions.preventScroll] Whenever after focus scroll should be prevented.
 			 */
 			focus: function( focusOptions ) {
-
 				var active;
 
 				// [Webkit] When DOM focus is inside of nested contenteditable elements,
@@ -96,96 +95,13 @@
 					this.editor._.previousScrollTop = this.$.scrollTop;
 				}
 
-				try {
-					var isScrollLockFallbackNeeded = !CKEDITOR.env.webkit;
-
-					if ( isScrollLockFallbackNeeded ) {
-						var scrollables = [],
-							element = this;
-
-						if ( focusOptions && focusOptions.preventScroll ) {
-							while ( element ) {
-								var isElementScrollable = element.$.scrollHeight > element.$.clientHeight;
-
-								if ( CKEDITOR.env.edge && element.getName() == 'body' ) {
-									isElementScrollable = true;
-								}
-
-								if ( isElementScrollable ) {
-									// Separate scopes for each variable, so it's accessible in listener.
-									( function() {
-										var scrollable = element,
-											scrollTop = element.$.scrollTop;
-
-										scrollables.push( {
-											element: scrollable,
-											scrollTop: scrollTop
-										} );
-
-										// IE and Edge scroll asynchronously.
-										if ( CKEDITOR.env.ie ) {
-											var listener = CKEDITOR.document.getWindow().once( 'scroll', function() {
-
-												// In IE8 scrolls happens after scroll event.
-												if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-													setTimeout( function() {
-														scrollable.$.scrollTop = scrollTop;
-													} );
-												} else {
-													scrollable.$.scrollTop = scrollTop;
-												}
-											} );
-
-											// Clean listener to not break user scroll.
-											setTimeout( function() {
-												listener.removeListener();
-											}, 50 );
-										}
-									} )();
-								}
-								if ( element.getParent() ) {
-									element = element.getParent();
-								} else {
-									element = element.getWindow().getFrame();
-								}
-							}
-						}
-
-						// [IE] Use instead "setActive" method to focus the editable if it belongs to the host page document,
-						// to avoid bringing an unexpected scroll.
-						if ( CKEDITOR.env.ie && !( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) && this.getDocument().equals( CKEDITOR.document ) ) {
-							this.$.setActive();
-						} else {
-							this.$.focus();
-						}
-
-						if ( ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) && scrollables.length ) {
-							CKEDITOR.tools.array.forEach( scrollables, function( item ) {
-								item.element.$.scrollTop = item.scrollTop;
-							} );
-						}
-					} else if ( CKEDITOR.env.chrome ) {
-						// We have no control over exactly what happens when the native `focus` method is called,
-						// so save the scroll position and restore it later.
-						var scrollPos = this.$.scrollTop;
-						this.$.focus( focusOptions );
-						this.$.scrollTop = scrollPos;
-					} else {
-						this.$.focus( focusOptions );
-					}
-				} catch ( e ) {
-					// IE throws unspecified error when focusing editable after closing dialog opened on nested editable.
-					if ( !CKEDITOR.env.ie ) {
-						throw e;
-					}
-				}
+				CKEDITOR.dom.element.prototype.focus.call( this, focusOptions );
 
 				// Remedy if Safari doesn't applies focus properly. (https://dev.ckeditor.com/ticket/279)
 				if ( CKEDITOR.env.safari && !this.isInline() ) {
 					active = CKEDITOR.document.getActive();
 					if ( !active.equals( this.getWindow().getFrame() ) )
 						this.getWindow().focus();
-
 				}
 			},
 
