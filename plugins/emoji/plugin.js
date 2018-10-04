@@ -342,7 +342,7 @@
 				var query = typeof evt === 'string' ? evt : evt.sender.getValue();
 
 				CKEDITOR.tools.array.forEach( emojiItems, function( element ) {
-					if ( isInNameOrKeywords( query, element.data( 'cke-emoji-name' ), element.data( 'cke-emoji-keywords' ) ) || query === '' ) {
+					if ( isNameOrKeywords( query, element.data( 'cke-emoji-name' ), element.data( 'cke-emoji-keywords' ) ) || query === '' ) {
 						element.removeClass( 'hidden' );
 						element.getParent().removeClass( 'hidden' );
 						groups[ element.data( 'cke-emoji-group' ) ] = true;
@@ -351,7 +351,7 @@
 						element.getParent().addClass( 'hidden' );
 					}
 
-					function isInNameOrKeywords( query, name, keywordsString ) {
+					function isNameOrKeywords( query, name, keywordsString ) {
 						if ( name.indexOf( query ) !== -1 ) {
 							return true;
 						}
