@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'ro', {
 	noAnchors: 'Nu există nici o ancoră',
 	noEmail: 'Vă rugăm să scrieţi adresa de e-mail',
 	noUrl: 'Vă rugăm să scrieţi URL-ul',
+	noTel: 'Please type the phone number', // MISSING
 	other: 'altceva',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Dependent (Netscape)',
 	popupFeatures: 'Proprietăţile ferestrei popup',
 	popupFullScreen: 'Tot ecranul (Full Screen)(IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'ro', {
 	toAnchor: 'Ancoră în această pagină',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Inserează/Editează link (legătură web)',
 	type: 'Tipul link-ului (al legăturii web)',
 	unlink: 'Înlătură link (legătură web)',

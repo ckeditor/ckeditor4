@@ -10,8 +10,7 @@
 ( function() {
 	'use strict';
 
-	var config = {};
-	config.prototype = pfwTools.defaultConfig;
+	var config = pfwTools.defaultConfig;
 	config.pasteFromWord_heuristicsEdgeList = false;
 
 	bender.editor = {

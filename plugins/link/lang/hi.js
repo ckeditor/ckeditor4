@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 	noAnchors: '(डॉक्यूमॅन्ट में ऐंकर्स की संख्या)',
 	noEmail: 'ई-मेल पता टाइप करें',
 	noUrl: 'लिंक URL टाइप करें',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<अन्य>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'डिपेन्डॅन्ट (Netscape)',
 	popupFeatures: 'पॉप-अप विन्डो फ़ीचर्स',
 	popupFullScreen: 'फ़ुल स्क्रीन (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 	toAnchor: 'इस पेज का ऐंकर',
 	toEmail: 'ई-मेल',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'लिंक इन्सर्ट/संपादन',
 	type: 'लिंक प्रकार',
 	unlink: 'लिंक हटायें',

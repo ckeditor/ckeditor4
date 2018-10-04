@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'ca', {
 	noAnchors: '(No hi ha àncores disponibles en aquest document)',
 	noEmail: 'Si us plau, escrigui l\'adreça correu electrònic',
 	noUrl: 'Si us plau, escrigui l\'enllaç URL',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<altre>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Depenent (Netscape)',
 	popupFeatures: 'Característiques finestra popup',
 	popupFullScreen: 'Pantalla completa (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'ca', {
 	toAnchor: 'Àncora en aquesta pàgina',
 	toEmail: 'Correu electrònic',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Insereix/Edita enllaç',
 	type: 'Tipus d\'enllaç',
 	unlink: 'Elimina l\'enllaç',

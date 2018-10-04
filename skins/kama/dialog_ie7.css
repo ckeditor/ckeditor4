@@ -75,13 +75,15 @@ span.cke_dialog_ui_buttonm
 
 /* The absolute position is required for IE7 on text inputs not to stretch dialog horizontally. (#8971)*/
 input.cke_dialog_ui_input_text,
-input.cke_dialog_ui_input_password
+input.cke_dialog_ui_input_password,
+input.cke_dialog_ui_input_tel
 {
 	position: absolute;
 }
 
 div.cke_dialog_ui_input_text,
-div.cke_dialog_ui_input_password
+div.cke_dialog_ui_input_password,
+div.cke_dialog_ui_input_tel
 {
 	height:14px;
 	position: relative;

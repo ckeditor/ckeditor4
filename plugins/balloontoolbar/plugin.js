@@ -170,9 +170,16 @@
 	};
 
 	/**
-	 * Hides the toolbar and removes it from the DOM.
+	 * Hides the toolbar, removes it from the DOM, and clears all its items.
 	 */
 	CKEDITOR.ui.balloonToolbar.prototype.destroy = function() {
+		for ( var key in this._items ) {
+			if ( this._items[ key ].destroy ) {
+				this._items[ key ].destroy();
+			}
+			this.deleteItem( key );
+		}
+
 		this._pointedElement = null;
 		this._view.destroy();
 	};

@@ -1,10 +1,22 @@
 ﻿CKEditor 4 Changelog
 ====================
 
-## CKEditor 4.10.2
+## CKEditor 4.11
+
+New Features:
+
+* [#2072](https://github.com/ckeditor/ckeditor-dev/issues/2072): [UI Button](https://ckeditor.com/cke4/addon/button) plugin supports custom `aria-haspopup` property values. [Menu Button](https://ckeditor.com/cke4/addon/menubutton) `aria-haspopup` value is now `menu`, [Panel Button](https://ckeditor.com/cke4/addon/panelbutton) and [Rich Combo](https://ckeditor.com/cke4/addon/richcombo) `aria-haspopup` value is now `listbox`.
+* [#2154](https://github.com/ckeditor/ckeditor-dev/issues/2154): [Link](https://ckeditor.com/cke4/addon/link) plugin now supports phone number links.
+* [#1815](https://github.com/ckeditor/ckeditor-dev/issues/1815): [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin supports typing link completion.
+* [#2248](https://github.com/ckeditor/ckeditor-dev/issues/2248): Added support for justification in the [BBCode](https://ckeditor.com/cke4/addon/bbcode) plugin. Thanks to [Matěj Kmínek](https://github.com/KminekMatej)!
+* [#706](https://github.com/ckeditor/ckeditor-dev/issues/706): Added different cursor style when selecting cells for [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
+* [#651](https://github.com/ckeditor/ckeditor-dev/issues/651): Text pasted using [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) preservers indentation in paragraphs.
+* [#1176](https://github.com/ckeditor/ckeditor-dev/pull/1176): The [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) can be attached to selection instead of element.
 
 Fixed Issues:
 
+* [#1477](https://github.com/ckeditor/ckeditor-dev/issues/1477): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) on destroy doesn't destroy its content.
+* [#2394](https://github.com/ckeditor/ckeditor-dev/issues/2394): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) dropdown doesn't show up with repeated symbols in a single line.
 * [#1181](https://github.com/ckeditor/ckeditor-dev/issues/1181): [Chrome] Fixed: Opening context menu in readonly editor results in error.
 * [#2276](https://github.com/ckeditor/ckeditor-dev/issues/2276): [iOS] Fixed: [Button](https://ckeditor.com/cke4/addon/button) state doesn't refresh properly.
 * [#1489](https://github.com/ckeditor/ckeditor-dev/issues/1489): Fixed: [Table Selection](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_plugins_tableselection.html) table contents can be removed in readonly mode.
@@ -20,6 +32,11 @@ Fixed Issues:
 
 API Changes:
 
+* [#2224](https://github.com/ckeditor/ckeditor-dev/issues/2224):  The [`CKEDITOR.tools.convertToPx`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-convertToPx) function now converts negative values.
+* [#2253](https://github.com/ckeditor/ckeditor-dev/issues/2253): The widget definition [`insert`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget.definition-property-insert) method now passes `editor` and `commandData`. Thanks to [marcparmet](https://github.com/marcparmet)!
+* [#2045](https://github.com/ckeditor/ckeditor-dev/issues/2045): Extracted [`tools.eventsBuffer`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-eventsBuffer) and [`tools.throttle`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-throttle) functions logic into separate namespace.
+	* [`tools.eventsBuffer`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-eventsBuffer) has been extracted into [`tools.buffers.event`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools_buffers_event.html)
+	* [`tools.throttle`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-throttle) has been extracted into [`tools.buffers.throttle`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools_buffers_throttle.html)
 * [#1451](https://github.com/ckeditor/ckeditor-dev/issues/1451): Fixed: Context menu is incorrectly positioned when opened with `Shift-F10`.
 
 ## CKEditor 4.10.1

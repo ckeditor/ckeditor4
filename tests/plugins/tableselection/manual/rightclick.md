@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: bug, 4.10.2, 1264
+@bender-tags: bug, 4.11.0, 1264
 @bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, elementspath
 
 1. Select some table cells.

@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'sq', {
 	noAnchors: '(Nuk ka asnjë spirancë në dokument)',
 	noEmail: 'Ju lutemi shkruani postën elektronike',
 	noUrl: 'Ju lutemi shkruani URL-në e nyjes',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<tjetër>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'E Varur (Netscape)',
 	popupFeatures: 'Karakteristikat e Dritares së Dialogut',
 	popupFullScreen: 'Ekran i Plotë  (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'sq', {
 	toAnchor: 'Lidhu me spirancën në tekst',
 	toEmail: 'Posta Elektronike',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Nyja',
 	type: 'Lloji i Nyjes',
 	unlink: 'Largo Nyjen',

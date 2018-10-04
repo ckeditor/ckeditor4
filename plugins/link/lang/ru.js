@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'ru', {
 	noAnchors: '(В документе нет ни одного якоря)',
 	noEmail: 'Пожалуйста, введите email адрес',
 	noUrl: 'Пожалуйста, введите ссылку',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<другой>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Зависимое (Netscape)',
 	popupFeatures: 'Параметры всплывающего окна',
 	popupFullScreen: 'Полноэкранное (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'ru', {
 	toAnchor: 'Ссылка на якорь в тексте',
 	toEmail: 'Email',
 	toUrl: 'Ссылка',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Вставить/Редактировать ссылку',
 	type: 'Тип ссылки',
 	unlink: 'Убрать ссылку',

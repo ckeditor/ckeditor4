@@ -26,10 +26,10 @@
 		}
 	} );
 
-	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', color: 'span', size: 'span', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
+	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div', justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
 		convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', code: 'code', li: '*' },
 		tagnameMap = { strong: 'b', em: 'i', u: 'u', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link', img: 'img', blockquote: 'quote' },
-		stylesMap = { color: 'color', size: 'font-size' },
+		stylesMap = { color: 'color', size: 'font-size', left: 'text-align', center: 'text-align', right: 'text-align', justify: 'text-align' },
 		attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType' };
 
 	// List of block-like tags.
@@ -126,6 +126,11 @@
 						styles = {},
 						optionPart = parts[ 2 ];
 
+					// Special handling of justify tags, these provide the alignment as a tag name (#2248).
+					if ( part == 'left' || part == 'right' || part == 'center' || part == 'justify' ) {
+						optionPart = part;
+					}
+
 					if ( optionPart ) {
 						if ( part == 'list' ) {
 							if ( !isNaN( optionPart ) )
@@ -138,8 +143,9 @@
 
 						if ( stylesMap[ part ] ) {
 							// Font size represents percentage.
-							if ( part == 'size' )
+							if ( part == 'size' ) {
 								optionPart += '%';
+							}
 
 							styles[ stylesMap[ part ] ] = optionPart;
 							attribs.style = serializeStyleText( styles );
@@ -729,6 +735,15 @@
 						return null;
 					},
 
+					div: function( element ) {
+						var alignment = CKEDITOR.tools.parseCssText( element.attributes.style, 1 )[ 'text-align' ] || '';
+
+						if ( alignment ) {
+							element.name = alignment;
+							return null;
+						}
+					},
+
 					// Remove any bogus br from the end of a pseudo block,
 					// e.g. <div>some text<br /><p>paragraph</p></div>
 					br: function( element ) {
@@ -775,6 +790,9 @@
 								name = 'size';
 							else if ( element.getStyle( 'color' ) )
 								name = 'color';
+						// Styled div could be align
+						} else if ( htmlName == 'div' && element.getStyle( 'text-align' ) ) {
+							name = element.getStyle( 'text-align' );
 						} else if ( name == 'img' ) {
 							var src = element.data( 'cke-saved-src' ) || element.getAttribute( 'src' );
 							if ( src && src.indexOf( editor.config.smiley_path ) === 0 )

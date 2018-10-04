@@ -149,7 +149,7 @@
 		// Handles the event when the "Type" selection box is changed.
 		var linkTypeChanged = function() {
 				var dialog = this.getDialog(),
-					partIds = [ 'urlOptions', 'anchorOptions', 'emailOptions' ],
+					partIds = [ 'urlOptions', 'anchorOptions', 'emailOptions', 'telOptions' ],
 					typeValue = this.getValue(),
 					uploadTab = dialog.definition.getContents( 'upload' ),
 					uploadInitiallyHidden = uploadTab && uploadTab.hidden;
@@ -245,7 +245,8 @@
 					items: [
 						[ linkLang.toUrl, 'url' ],
 						[ linkLang.toAnchor, 'anchor' ],
-						[ linkLang.toEmail, 'email' ]
+						[ linkLang.toEmail, 'email' ],
+						[ linkLang.toPhone, 'tel' ]
 					],
 					onChange: linkTypeChanged,
 					setup: function( data ) {
@@ -534,6 +535,36 @@
 					setup: function() {
 						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 							this.getElement().hide();
+					}
+				},
+				{
+					type: 'vbox',
+					id: 'telOptions',
+					padding: 1,
+					children: [ {
+						type: 'tel',
+						id: 'telNumber',
+						label: linkLang.phoneNumber,
+						required: true,
+						validate: validateTelNumber,
+						setup: function( data ) {
+							if ( data.tel ) {
+								this.setValue( data.tel );
+							}
+
+							var linkType = this.getDialog().getContentElement( 'info', 'linkType' );
+							if ( linkType && linkType.getValue() == 'tel' ) {
+								this.select();
+							}
+						},
+						commit: function( data ) {
+							data.tel = this.getValue();
+						}
+					} ],
+					setup: function() {
+						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) ) {
+							this.getElement().hide();
+						}
 					}
 				} ]
 			},
@@ -983,6 +1014,27 @@
 			}
 		};
 	} );
+
+	function validateTelNumber() {
+		var dialog = this.getDialog(),
+			editor = dialog._.editor,
+			regExp =  editor.config.linkPhoneRegExp,
+			msg = editor.config.linkPhoneMsg,
+			linkLang = editor.lang.link,
+			messageWhenEmpty = CKEDITOR.dialog.validate.notEmpty( linkLang.noTel ).apply( this );
+
+		if ( !dialog.getContentElement( 'info', 'linkType' ) || dialog.getValueOf( 'info', 'linkType' ) != 'tel' ) {
+			return true;
+		}
+
+		if ( messageWhenEmpty !== true ) {
+			return messageWhenEmpty;
+		}
+
+		if ( regExp ) {
+			return CKEDITOR.dialog.validate.regex( regExp, msg ).call( this );
+		}
+	}
 } )();
 // jscs:disable maximumLineLength
 /**

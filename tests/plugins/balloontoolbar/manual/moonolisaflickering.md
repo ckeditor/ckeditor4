@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.10.2, bug, balloontoolbar, 1682
+@bender-tags: 4.11.0, bug, balloontoolbar, 1682
 @bender-ckeditor-plugins: wysiwygarea,toolbar,balloontoolbar,image,stylescombo
 
 1. Focus the image.

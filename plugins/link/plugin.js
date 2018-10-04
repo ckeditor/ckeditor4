@@ -214,7 +214,8 @@
 		encodedEmailLinkRegex = /^javascript:void\(location\.href='mailto:'\+String\.fromCharCode\(([^)]+)\)(?:\+'(.*)')?\)$/,
 		functionCallProtectedEmailLinkRegex = /^javascript:([^(]+)\(([^)]+)\)$/,
 		popupRegex = /\s*window.open\(\s*this\.href\s*,\s*(?:'([^']*)'|null)\s*,\s*'([^']*)'\s*\)\s*;\s*return\s*false;*\s*/,
-		popupFeaturesRegex = /(?:^|,)([^=]+)=(\d+|yes|no)/gi;
+		popupFeaturesRegex = /(?:^|,)([^=]+)=(\d+|yes|no)/gi,
+		telRegex = /^tel:(.*)$/;
 
 	var advAttrNames = {
 		id: 'advId',
@@ -454,7 +455,7 @@
 			var href = ( element && ( element.data( 'cke-saved-href' ) || element.getAttribute( 'href' ) ) ) || '',
 				compiledProtectionFunction = editor.plugins.link.compiledProtectionFunction,
 				emailProtection = editor.config.emailProtection,
-				javascriptMatch, emailMatch, anchorMatch, urlMatch,
+				javascriptMatch, emailMatch, anchorMatch, urlMatch, telMatch,
 				retval = {};
 
 			if ( ( javascriptMatch = href.match( javascriptProtocolRegex ) ) ) {
@@ -497,6 +498,9 @@
 					retval.type = 'anchor';
 					retval.anchor = {};
 					retval.anchor.name = retval.anchor.id = anchorMatch[ 1 ];
+				} else if ( ( telMatch = href.match( telRegex ) ) ) {
+					retval.type = 'tel';
+					retval.tel = telMatch[ 1 ];
 				}
 				// Protected email link as encoded string.
 				else if ( ( emailMatch = href.match( emailRegex ) ) ) {
@@ -659,6 +663,9 @@
 					}
 
 					set[ 'data-cke-saved-href' ] = linkHref.join( '' );
+					break;
+				case 'tel':
+					set[ 'data-cke-saved-href' ] = 'tel:' + data.tel;
 					break;
 			}
 
@@ -871,6 +878,26 @@
 		 *
 		 * @since 4.4.1
 		 * @cfg {Boolean} [linkJavaScriptLinksAllowed=false]
+		 * @member CKEDITOR.config
+		 */
+
+		/**
+		 * Optional JavaScript Regular Expression whenever phone numbers in Link dialog should be validated.
+		 *
+		 *		config.linkPhoneRegExp = /^[0-9]{9}$/;
+		 *
+		 * @since 4.11.0
+		 * @cfg {RegExp} [linkPhoneRegExp]
+		 * @member CKEDITOR.config
+		 */
+
+		/**
+		 * Optional message for alert popup when phone number in Link dialog doesn't pass validation.
+		 *
+		 *		config.linkPhoneMsg = "Invalid number";
+		 *
+		 * @since 4.11.0
+		 * @cfg {String} [linkPhoneMsg]
 		 * @member CKEDITOR.config
 		 */
 	} );

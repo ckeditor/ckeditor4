@@ -11,11 +11,12 @@
 
 <script>
 	var button = CKEDITOR.document.getById( 'btn' ),
-		buffer = CKEDITOR.tools.throttle( 2000, function ( css ) {
+		buffer = new CKEDITOR.tools.buffers.throttle( 2000, function () {
+			var css = button.getAttribute( 'class' );
 			button.setAttribute( 'class', css === 'red' ? 'blue' : 'red' );
 		} );
 
 	button.on( 'click', function() {
-		buffer.input( button.getAttribute( 'class' ) );
+		buffer.input();
 	} );
 </script>

@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'oc', {
 	noAnchors: '(Cap d\'ancòra pas disponibla dins aqueste document)',
 	noEmail: 'Entratz l\'adreça electronica',
 	noUrl: 'Entratz l\'URL del ligam',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<autre>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Dependenta (Netscape)',
 	popupFeatures: 'Caracteristicas de la fenèstra sorgissenta',
 	popupFullScreen: 'Ecran complet (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'oc', {
 	toAnchor: 'Ancòra',
 	toEmail: 'Corrièl',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Ligam',
 	type: 'Tipe de ligam',
 	unlink: 'Suprimir lo ligam',

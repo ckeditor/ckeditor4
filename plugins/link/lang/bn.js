@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'bn', {
 	noAnchors: '(No anchors available in the document)', // MISSING
 	noEmail: 'অনুগ্রহ করে ইমেইল এড্রেস টাইপ করুন',
 	noUrl: 'অনুগ্রহ করে URL লিংক টাইপ করুন',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<other>', // MISSING
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'ডিপেন্ডেন্ট (Netscape)',
 	popupFeatures: 'পপআপ উইন্ডো ফীচার সমূহ',
 	popupFullScreen: 'পূর্ণ পর্দা জুড়ে (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'bn', {
 	toAnchor: 'এই পেজে নোঙর কর',
 	toEmail: 'ইমেইল',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'লিংক যুক্ত কর',
 	type: 'লিংক প্রকার',
 	unlink: 'লিংক সরাও',

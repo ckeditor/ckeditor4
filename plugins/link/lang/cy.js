@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'cy', {
 	noAnchors: '(Dim angorau ar gael yn y ddogfen)',
 	noEmail: 'Teipiwch gyfeiriad yr e-bost',
 	noUrl: 'Teipiwch URL y ddolen',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<eraill>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Dibynnol (Netscape)',
 	popupFeatures: 'Nodweddion Ffenestr Bop',
 	popupFullScreen: 'Sgrin Llawn (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'cy', {
 	toAnchor: 'Dolen at angor yn y testun',
 	toEmail: 'E-bost',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Dolen',
 	type: 'Math y Ddolen',
 	unlink: 'Datgysylltu',

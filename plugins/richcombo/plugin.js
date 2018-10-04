@@ -21,7 +21,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 			' hidefocus="true"' +
 			' role="button"' +
 			' aria-labelledby="{id}_label"' +
-			' aria-haspopup="true"';
+			' aria-haspopup="listbox"';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -94,7 +94,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 			this._ = {
 				panelDefinition: panelDefinition,
-				items: {}
+				items: {},
+				listeners: []
 			};
 		},
 
@@ -178,11 +179,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 				}
 
 				// Update status when activeFilter, mode, selection or readOnly changes.
-				editor.on( 'activeFilterChange', updateState, this );
-				editor.on( 'mode', updateState, this );
-				editor.on( 'selectionChange', updateState, this );
+				this._.listeners.push( editor.on( 'activeFilterChange', updateState, this ) );
+				this._.listeners.push( editor.on( 'mode', updateState, this ) );
+				this._.listeners.push( editor.on( 'selectionChange', updateState, this ) );
 				// If this combo is sensitive to readOnly state, update it accordingly.
-				!this.readOnly && editor.on( 'readOnly', updateState, this );
+				!this.readOnly && this._.listeners.push( editor.on( 'readOnly', updateState, this ) );
 
 				var keyDownFn = CKEDITOR.tools.addFunction( function( ev, element ) {
 					ev = new CKEDITOR.dom.event( ev );
@@ -381,6 +382,18 @@ CKEDITOR.plugins.add( 'richcombo', {
 					this._.lastState = this._.state;
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				}
+			},
+
+			/**
+			 * Removes all listeners from richCombo element.
+			 *
+			 * @since 4.11.0
+			 */
+			destroy: function() {
+				CKEDITOR.tools.array.forEach( this._.listeners, function( listener ) {
+					listener.removeListener();
+				} );
+				this._.listeners = [];
 			}
 		},
 

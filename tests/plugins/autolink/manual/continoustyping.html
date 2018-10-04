@@ -1,0 +1,10 @@
+<div id="editor"></div>
+
+<script>
+
+	if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor' );
+</script>

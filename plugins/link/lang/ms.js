@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'ms', {
 	noAnchors: '(Tiada pautan terdapat dalam dokumen ini)',
 	noEmail: 'Sila taip alamat e-mail',
 	noUrl: 'Sila taip sambungan URL',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<lain>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Bergantungan (Netscape)',
 	popupFeatures: 'Ciri Tetingkap Popup',
 	popupFullScreen: 'Skrin Penuh (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'ms', {
 	toAnchor: 'Pautan dalam muka surat ini',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Masukkan/Sunting Sambungan',
 	type: 'Jenis Sambungan',
 	unlink: 'Buang Sambungan',

@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'km', {
 	noAnchors: '(មិន​មាន​យុថ្កា​នៅ​ក្នុង​ឯកសារ​អត្ថថបទ​ទេ)',
 	noEmail: 'សូម​បញ្ចូល​អាសយដ្ឋាន​អ៊ីមែល',
 	noUrl: 'សូម​បញ្ចូល​តំណ URL',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<ផ្សេង​ទៀត>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Dependent (Netscape)',
 	popupFeatures: 'មុខ​ងារ​ផុស​ផ្ទាំង​វីនដូ​ឡើង',
 	popupFullScreen: 'ពេញ​អេក្រង់ (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'km', {
 	toAnchor: 'ត​ភ្ជាប់​ទៅ​យុថ្កា​ក្នុង​អត្ថបទ',
 	toEmail: 'អ៊ីមែល',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'តំណ',
 	type: 'ប្រភេទ​តំណ',
 	unlink: 'ផ្ដាច់​តំណ',
