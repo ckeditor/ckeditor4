@@ -112,6 +112,39 @@
 		}
 	};
 
+	/**
+	 * Open a menu button drop down.
+	 * @param {String} name Name of the panel button.
+	 * @param {Function} callback The function invoked when panel is opened.
+	 */
+	function menuOrPanel( isPanel ) {
+		return function( name, callback ) {
+
+			var editor = this.editor,
+			btn = editor.ui.get( name ),
+			tc = this.testCase,
+			btnEl;
+
+			editor.once( 'panelShow', function() {
+				// Make sure resume comes after wait.
+				setTimeout( function() {
+					tc.resume(
+						function() {
+							callback.call( tc, isPanel ? btn._.panel : btn._.menu );
+						}
+						);
+				} );
+			} );
+
+			btnEl = CKEDITOR.document.getById( btn._.id );
+			btnEl.$[ CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ]();
+
+			// combo panel opening is synchronous.
+			tc.wait();
+		};
+	}
+
+
 	bender.editorBot.prototype = {
 		dialog: function( dialogName, callback ) {
 			var tc = this.testCase,
@@ -202,29 +235,14 @@
 		 * @param {String} name Name of the panel button.
 		 * @param {Function} callback The function invoked when panel is opened.
 		 */
-		menu: function( name, callback ) {
-			var editor = this.editor,
-				btn = editor.ui.get( name ),
-				tc = this.testCase,
-				btnEl;
+		menu: menuOrPanel( false ),
 
-			editor.once( 'panelShow', function() {
-				// Make sure resume comes after wait.
-				setTimeout( function() {
-					tc.resume(
-						function() {
-							callback.call( tc, btn._.menu );
-						}
-					);
-				} );
-			} );
-
-			btnEl = CKEDITOR.document.getById( btn._.id );
-			btnEl.$[ CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ]();
-
-			// combo panel opening is synchronous.
-			tc.wait();
-		},
+		/**
+		 * Open a menu button drop down.
+		 * @param {String} name Name of the panel button.
+		 * @param {Function} callback The function invoked when panel is opened.
+		 */
+		panel: menuOrPanel( true ),
 
 		/**
 		 * Open the context menu on current editor.
@@ -330,4 +348,5 @@
 			wait();
 		}
 	};
+
 } )( bender );
