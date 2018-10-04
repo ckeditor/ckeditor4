@@ -286,9 +286,10 @@
 						if ( target.getName() !== 'li' ) {
 							return;
 						}
-						blockElement.findOne( '.cke_emoji-status_icon' ).setText( target.getText() );
-						blockElement.findOne( 'p.cke_emoji-status_description' ).setText( target.data( 'cke-emoji-name' ) );
-						blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( target.data( 'cke-emoji-full-name' ) );
+
+						blockElement.findOne( '.cke_emoji-status_icon' ).setText( target.getFirst().getText() );
+						blockElement.findOne( 'p.cke_emoji-status_description' ).setText( target.getFirst().data( 'cke-emoji-name' ) );
+						blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( target.getFirst().data( 'cke-emoji-full-name' ) );
 					}
 				} );
 
