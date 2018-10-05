@@ -171,7 +171,7 @@
 
 				var loader = editor.uploadRepository.loaders[ 0 ];
 
-				editor.widgets.destroyAll();
+				bender.tools.objToArray( editor.widgets.instances )[ 0 ].wrapper = null;
 				editor.editable().findOne( '[data-cke-upload-id="' + loader.id + '"]' ).remove();
 
 				loader.fire( 'update' );
