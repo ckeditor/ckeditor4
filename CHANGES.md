@@ -14,6 +14,7 @@ New Features:
 * [#1176](https://github.com/ckeditor/ckeditor-dev/pull/1176): The [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) can be attached to selection instead of element.
 * [#2478](https://github.com/ckeditor/ckeditor-dev/issues/2478): [Link](https://ckeditor.com/cke4/addon/link) can be inserted using <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>K</kbd> keystroke.
 * [#2202](https://github.com/ckeditor/ckeditor-dev/issues/2202): Added `contextmenu_contentsCss` config option to allow adding custom CSS to [Context Menu](https://ckeditor.com/cke4/addon/contextmenu).
+* [#2062](https://github.com/ckeditor/ckeditor-dev/pull/2062): Add emoji dropdown, which allows on choose emoji from toolbar.
 
 Fixed Issues:
 
