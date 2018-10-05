@@ -20,12 +20,12 @@
 
 **Note**: you need to enable screen reader for this test.
 
-1. Click `Language` button.
-1. Blur `Language` button by clicking outside of the editor.
+1. Navigate to `Language` button.
+1. Blur `Language` button.
 
 ### Expected
 
-* When menu is opened, screen reader reads "menu".
+* When menu is opened, screen reader reads "expanded".
 * When menu is closed, screen reader reads "leaving menu".
 
 ### Unexpected
