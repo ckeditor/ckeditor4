@@ -37,6 +37,9 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		title: editor.lang.link.anchor.title,
 		minWidth: 300,
 		minHeight: 60,
+		getModel: function( editor ) {
+			return getSelectedAnchor( editor.getSelection() );
+		},
 		onOk: function() {
 			var name = CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtName' ) );
 			var attributes = {
