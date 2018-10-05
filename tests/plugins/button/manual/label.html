@@ -10,9 +10,9 @@
 					var toolbox = editor.ui.space( 'toolbox' ),
 						langBtn = toolbox.findOne( '.cke_button' );
 
-					updateResults();
+					setInterval( updateResults, 250 );
 
-					langBtn.on( 'click', updateResults );
+					updateResults();
 
 					function updateResults() {
 						var ariaExpanded = langBtn.getAttribute( 'aria-expanded' ),

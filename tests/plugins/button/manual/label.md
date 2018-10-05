@@ -1,33 +1,23 @@
-@bender-tags: 4.10.2, 421, bug, editor, button
+@bender-tags: 4.11.0, 421, bug, editor, button
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, language
 
-## Normal mode
+**Note**: you need to enable screen reader for this test.
 
-1. Click `Language` button.
+1. Focus the editor.
+1. Press `alt+f10` to focus toolbar.
+1. Press `space` to open `Language` menu.
+1. Press `esc` to close `Language` menu.
 
 ### Expected
 
 * **aria-expanded:** true
 * **label:** Set language
-
-### Unexpected
-
-* **aria-expanded:** null
-* **label:** Set language (Selected)
-
-## Screen reader
-
-**Note**: you need to enable screen reader for this test.
-
-1. Navigate to `Language` button.
-1. Blur `Language` button.
-
-### Expected
-
 * When menu is opened, screen reader reads "expanded".
 * When menu is closed, screen reader reads "leaving menu".
 
 ### Unexpected
 
-Invalid or missing screen reader reads.
+* **aria-expanded:** null
+* **label:** Set language (Selected)
+* Invalid or missing screen reader reads.
