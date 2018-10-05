@@ -6,7 +6,7 @@
 		on: {
 			instanceReady: function( evt ) {
 				if ( !CKEDITOR.fileTools.isFileUploadSupported || bender.tools.env.mobile ) {
-					bender.ignore();
+					return bender.ignore();
 				}
 
 				var editor = evt.editor;
