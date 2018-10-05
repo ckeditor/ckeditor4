@@ -180,16 +180,6 @@
 				onClose: clearSearch
 			} );
 
-			var keyDownFn = CKEDITOR.tools.addFunction( function( event ) {
-				if ( !event.key || event.key !== 'Enter' ) {
-					return;
-				}
-				if ( event.target.dataset.ckeEmojiName ) {
-					editor.insertText( event.target.dataset.ckeEmojiSymbol );
-				}
-			} );
-
-
 			function createEmojiBlock() {
 				var output = [];
 
@@ -293,9 +283,7 @@
 					}
 				} );
 
-				return '<div class="cke_emoji-outer_emoji_block"' +
-					'onkeydown="CKEDITOR.tools.callFunction(' + keyDownFn + ',event);" ' +
-					'>' + getEmojiSections() + '</div>';
+				return '<div class="cke_emoji-outer_emoji_block">' + getEmojiSections() + '</div>';
 			}
 
 			function createStatusBar() {
