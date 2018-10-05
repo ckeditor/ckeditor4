@@ -49,9 +49,6 @@
 		btnTpl = CKEDITOR.addTemplate( 'button', template );
 
 	CKEDITOR.plugins.add( 'button', {
-		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,ca,cs,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,eu,fa,fi,fr,gl,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
-		// jscs:enable maximumLineLength
 		beforeInit: function( editor ) {
 			editor.ui.addHandler( CKEDITOR.UI_BUTTON, CKEDITOR.ui.button.handler );
 		}
@@ -330,20 +327,18 @@
 
 			if ( element ) {
 				element.setState( state, 'cke_button' );
-
-				state == CKEDITOR.TRISTATE_DISABLED ?
-					element.setAttribute( 'aria-disabled', true ) :
-					element.removeAttribute( 'aria-disabled' );
+				element.setAttribute( 'aria-disabled', state == CKEDITOR.TRISTATE_DISABLED );
 
 				if ( !this.hasArrow ) {
 					// Note: aria-pressed attribute should not be added to menuButton instances. (https://dev.ckeditor.com/ticket/11331)
-					state == CKEDITOR.TRISTATE_ON ?
-						element.setAttribute( 'aria-pressed', true ) :
+					if ( state === CKEDITOR.TRISTATE_ON ) {
+						element.setAttribute( 'aria-pressed', true );
+					} else {
 						element.removeAttribute( 'aria-pressed' );
+					}
 				} else {
-					var newLabel = state == CKEDITOR.TRISTATE_ON ?
-						this._.editor.lang.button.selectedLabel.replace( /%1/g, this.label ) : this.label;
-					CKEDITOR.document.getById( this._.id + '_label' ).setText( newLabel );
+					// Indicates that menu button is opened (#421).
+					element.setAttribute( 'aria-expanded', state == CKEDITOR.TRISTATE_ON );
 				}
 
 				return true;
