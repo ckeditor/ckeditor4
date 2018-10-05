@@ -1,17 +1,32 @@
 @bender-tags: 4.11.0, feature, 2420
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea
+@bender-ckeditor-plugins: wysiwygarea, floatingspace, toolbar, easyimage
 
-1. Press the first button.
-1. Press the second button.
+## For each editor:
 
-## Expected
+1. Press button to focus editor.
 
-Window doesn't scroll.
+	### Expected
 
-## Unexpected
+	Window doesn't scroll and editor is focused.
 
-Window scrolls to the editor.
+	### Unexpected
+
+	Window scrolls to the editor or editor isn't focused.
+
+1. Scroll down to see editor, and focus caption image.
+
+1. Blur editor.
+
+1. Scroll top and press button again.
+
+	### Expected
+
+	Window doesn't scroll and caption is focused.
+
+	### Unexpected
+
+	Window scrolls to the editor or caption isn't focused.
 
 ## Note
 
