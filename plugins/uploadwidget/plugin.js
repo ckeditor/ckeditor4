@@ -252,6 +252,13 @@
 					oldStyle, newStyle;
 
 				loader.on( 'update', function( evt ) {
+					// (#1454)
+					if ( loader.status === 'abort' ) {
+						if ( typeof widget.onAbort === 'function' ) {
+							widget.onAbort( loader );
+						}
+					}
+
 					// Abort if widget was removed.
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
 						// Uploading should be aborted if the editor is already destroyed (#966) or the upload widget was removed.
@@ -268,7 +275,7 @@
 					// `onUploaded` method will be called, if exists.
 					var methodName = 'on' + capitalize( loader.status );
 
-					if ( typeof widget[ methodName ] === 'function' ) {
+					if ( loader.status !== 'abort' && typeof widget[ methodName ] === 'function' ) {
 						if ( widget[ methodName ]( loader ) === false ) {
 							editor.fire( 'unlockSnapshot' );
 							return;

@@ -30,6 +30,7 @@ Fixed Issues:
 * [#1113](https://github.com/ckeditor/ckeditor-dev/issues/1113): [Firefox] Fixed: Nested contenteditable elements path not updated on focus with [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) plugin.
 * [#1682](https://github.com/ckeditor/ckeditor-dev/issues/1682) Fixed: Hovering [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) panel changes its size causing flickering.
 * [#421](https://github.com/ckeditor/ckeditor-dev/issues/421) Fixed: Expandable [Button](https://ckeditor.com/cke4/addon/button) puts `(Selected)` text at the end of the label when clicked.
+* [#1454](https://github.com/ckeditor/ckeditor-dev/issues/1454): Fixed: [Upload Widget](https://ckeditor.com/cke4/addon/uploadwidget) [`onAbort`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-onAbort) method is not called when loader is aborted.
 
 API Changes:
 
