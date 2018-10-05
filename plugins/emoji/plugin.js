@@ -64,6 +64,9 @@
 			];
 
 			CKEDITOR.ajax.load( CKEDITOR.getUrl( emojiListUrl ), function( data ) {
+				if ( data === null ) {
+					return;
+				}
 				if ( editor._.emoji === undefined ) {
 					editor._.emoji = {};
 				}
