@@ -10,8 +10,8 @@
 	var uberpaste = CKEDITOR.plugins.uberpaste = {},
 		tools = CKEDITOR.tools;
 
-	CKEDITOR.cleanPaste = function( html, editor, type ) {
-		return uberpaste.rules[ type ]( html, editor );
+	CKEDITOR.cleanWord = function( html, editor, type ) {
+		return uberpaste.rules[ type || 'word' ]( html, editor );
 	};
 
 	uberpaste.rules = {

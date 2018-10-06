@@ -1,6 +1,6 @@
-/* bender-tags: clipboard,pastefromword */
-/* bender-ckeditor-plugins: pastefromword,ajax */
-/* bender-include: ../../../plugins/clipboard/_helpers/pasting.js,  ../../../../plugins/pastefromword/filter/default.js, _helpers/pfwTools.js */
+/* bender-tags: clipboard,uberpaste */
+/* bender-ckeditor-plugins: uberpaste,ajax */
+/* bender-include: ../../../plugins/clipboard/_helpers/pasting.js,  ../../../../plugins/uberpaste/filter/default.js, _helpers/pfwTools.js */
 /* global pfwTools */
 
 ( function() {
@@ -13,8 +13,8 @@
 	bender.test( {
 		setUp: function(  ) {
 			// Map PFW namespaces, so it's more convenient to use them.
-			this.pastefromword = CKEDITOR.plugins.pastefromword;
-			this.heuristics = this.pastefromword.heuristics;
+			this.uberpaste = CKEDITOR.plugins.uberpaste;
+			this.heuristics = this.uberpaste.heuristics;
 		},
 
 		'test assignListLevels': function() {

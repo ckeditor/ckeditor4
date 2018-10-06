@@ -1,5 +1,5 @@
-/* bender-tags: editor,clipboard,pastefromword */
-/* bender-ckeditor-plugins: pastefromword */
+/* bender-tags: editor,clipboard,uberpaste */
+/* bender-ckeditor-plugins: uberpaste */
 
 ( function() {
 	'use strict';
@@ -12,7 +12,7 @@
 		} );
 	}
 
-	CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( '/plugins/pastefromword/filter/default.js' ), function() {
+	CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( '/plugins/uberpaste/filter/default.js' ), function() {
 		bender.test( {
 			init: function() {
 				this.isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported;

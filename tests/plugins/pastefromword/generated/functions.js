@@ -1,6 +1,6 @@
-/* bender-tags: clipboard,pastefromword */
-/* bender-ckeditor-plugins: pastefromword,ajax */
-/* bender-include: ../../../plugins/clipboard/_helpers/pasting.js,  ../../../../plugins/pastefromword/filter/default.js */
+/* bender-tags: clipboard,uberpaste */
+/* bender-ckeditor-plugins: uberpaste,ajax */
+/* bender-include: ../../../plugins/clipboard/_helpers/pasting.js,  ../../../../plugins/uberpaste/filter/default.js */
 /* global assertPasteEvent */
 
 ( function() {
@@ -23,9 +23,9 @@
 
 	bender.test( {
 		setUp: function(  ) {
-			// Map PFW namespaces, so it's more convenient to use them.
-			this.pastefromword = CKEDITOR.plugins.pastefromword;
-			this.lists = this.pastefromword.lists;
+			// Map namespaces, so it's more convenient to use them.
+			this.uberpaste = CKEDITOR.plugins.uberpaste;
+			this.lists = this.uberpaste.lists;
 		},
 
 		'test create style stack': function() {
@@ -37,7 +37,7 @@
 
 			// Pasting used only to load the filter script.
 			assertPasteEvent( this.editor, { dataValue: '<w:WordDocument></w:WordDocument>' }, function() {
-				that.pastefromword.styles.createStyleStack( element, filterMock );
+				that.uberpaste.styles.createStyleStack( element, filterMock );
 				assert.areSame(
 					'<p><span style="font-size:36pt"><span style="background:lime"><span style="font-family:&quot;Calibri&quot;"><span style="color:yellow">test</span></span></span></span></p>',
 					element.getOuterHtml()
@@ -50,7 +50,7 @@
 				element = fragment.children[ 0 ];
 
 			// The filter script was loaded in the previous test.
-			this.pastefromword.styles.createStyleStack( element, filterMock );
+			this.uberpaste.styles.createStyleStack( element, filterMock );
 			assert.areSame( '<span style="font-size:14px"><span style="font-family:Courier"><span style="font-weight:bold">Some </span>Text</span></span>', element.getOuterHtml() );
 		},
 		// Margin-bottom is a block style, so it should not be stacked.
@@ -59,7 +59,7 @@
 				fragment = CKEDITOR.htmlParser.fragment.fromHtml( edgeCase ),
 				element = fragment.children[ 0 ];
 
-			this.pastefromword.styles.createStyleStack( element, filterMock );
+			this.uberpaste.styles.createStyleStack( element, filterMock );
 			assert.areSame( '<p style="margin-bottom:13px"><span style="font-size:16pt"><span style="font-family:Arial">Test</span></span></p>', element.getOuterHtml() );
 		},
 		'test push styles lower': function() {
@@ -69,7 +69,7 @@
 			ol.attributes.style = 'list-style-type: lower-alpha;font-family: "Calibri"; font-size: 36pt; color: yellow';
 			ol.add( li );
 
-			this.pastefromword.styles.pushStylesLower( ol );
+			this.uberpaste.styles.pushStylesLower( ol );
 			assert.areSame( '<ol style="list-style-type:lower-alpha"><li style="font-family:&quot;Calibri&quot;; font-size:36pt; color:yellow"></li></ol>', ol.getOuterHtml() );
 		},
 		'test set symbol ul 1': function() {
@@ -125,7 +125,7 @@
 				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
 				element = fragment.children[ 0 ];
 
-			this.pastefromword.styles.sortStyles( element );
+			this.uberpaste.styles.sortStyles( element );
 
 			assert.areSame( '<p style="font-size:48pt; background:yellow; font-family:Courier">Test</p>', element.getOuterHtml() );
 		},
@@ -134,7 +134,7 @@
 				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
 				element = fragment.children[ 0 ];
 
-			CKEDITOR.plugins.pastefromword.createAttributeStack( element, filterMock );
+			this.uberpaste.createAttributeStack( element, filterMock );
 
 			assert.areSame( '<font face="Arial"><font color="#faebd7"><font size="4">There is <em>content</em> here</font></font></font>', element.getOuterHtml() );
 		},
@@ -295,13 +295,13 @@
 			assert.areSame( 1, this.lists.calculateValue( removedListItem ), 'Result for a removed list item' );
 
 			function assertCalculatedValue( expectedValue, list, itemIndex, listName ) {
-				assert.areSame( expectedValue, that.pastefromword.lists.calculateValue( list.children[ itemIndex ] ),
+				assert.areSame( expectedValue, that.uberpaste.lists.calculateValue( list.children[ itemIndex ] ),
 					'Result for item ' + itemIndex + ' in list ' + listName );
 			}
 		},
 
 		'test numbering.toNumber': function() {
-			var toNumber = this.pastefromword.lists.numbering.toNumber;
+			var toNumber = this.uberpaste.lists.numbering.toNumber;
 
 			assert.areSame( 14, toNumber( 'XIV', 'upper-roman' ), 'Upper Roman XIV' );
 			assert.areSame( 4, toNumber( 'd', 'lower-alpha' ), 'Lower alpha d' );
@@ -310,7 +310,7 @@
 		},
 
 		'test numbering.getStyle': function() {
-			var getStyle = this.pastefromword.lists.numbering.getStyle;
+			var getStyle = this.uberpaste.lists.numbering.getStyle;
 
 			assert.areSame( 'decimal', getStyle( '4' ), '4' );
 			assert.areSame( 'lower-alpha', getStyle( 'b' ), 'b' );

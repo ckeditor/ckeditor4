@@ -106,7 +106,7 @@
 						editor.fire( 'paste', data );
 					} else if ( !editor.config.pasteFromWordPromptCleanup || ( forcePaste || confirm( editor.lang.uberpaste.confirmCleanup ) ) ) {
 
-						pasteEvtData.dataValue = CKEDITOR.cleanPaste( html, editor, filterType );
+						pasteEvtData.dataValue = CKEDITOR.cleanWord( html, editor, filterType );
 
 						editor.fire( 'afterPasteFromWord', pasteEvtData );
 
@@ -196,7 +196,7 @@
 		},
 
 		loadFilterRules: function( path, callback ) {
-			var isLoaded = Boolean( CKEDITOR.cleanPaste );
+			var isLoaded = Boolean( CKEDITOR.cleanWord );
 
 			if ( isLoaded ) {
 				callback();
