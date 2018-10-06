@@ -1,7 +1,0 @@
-@bender-tags: bug
-@bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, uberpaste, sourcearea, elementspath
-
-1. Paste bold text from word.
-
-Expected result: bold text should be bold and red.
