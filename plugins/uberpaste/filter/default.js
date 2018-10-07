@@ -10,11 +10,562 @@
 	var uberpaste = CKEDITOR.plugins.uberpaste = {},
 		tools = CKEDITOR.tools;
 
-	CKEDITOR.cleanWord = function( html, editor, type ) {
-		return uberpaste.rules[ type || 'word' ]( html, editor );
+	var parser = {
+		_: {
+			filter: null
+		},
+
+		applyFilter: function( rules, html, editor ) {
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
+				writer = new CKEDITOR.htmlParser.basicWriter(),
+				filter;
+
+			this._.filter = filter = new CKEDITOR.htmlParser.filter();
+
+			filter.addRules( this.getDefaultRules( editor ) );
+			filter.addRules( rules );
+
+			filter.applyTo( fragment );
+
+			fragment.writeHtml( writer );
+
+			return writer.getHtml();
+		},
+
+		getDefaultRules: function( editor ) {
+			var that = this;
+
+			return {
+				elements: {
+					'table': function( element ) {
+						element._tdBorders = {};
+						element.filterChildren( that._.filter );
+
+						var borderStyle, occurences = 0;
+						for ( var border in element._tdBorders ) {
+							if ( element._tdBorders[ border ] > occurences ) {
+								occurences = element._tdBorders[ border ];
+								borderStyle = border;
+							}
+						}
+
+						uberpaste.styles.setStyle( element, 'border', borderStyle );
+
+						var parent = element.parent,
+							root = parent && parent.parent,
+							parentChildren,
+							i;
+
+						// In case parent div has only align attr, move it to the table element (https://dev.ckeditor.com/ticket/16811).
+						if ( parent.name && parent.name === 'div' && parent.attributes.align &&
+							tools.objectKeys( parent.attributes ).length === 1 && parent.children.length === 1 ) {
+							// If align is the only attribute of parent.
+							element.attributes.align = parent.attributes.align;
+
+							parentChildren = parent.children.splice( 0 );
+
+							element.remove();
+							for ( i = parentChildren.length - 1; i >= 0; i-- ) {
+								root.add( parentChildren[ i ], parent.getIndex() );
+							}
+							parent.remove();
+						}
+
+					},
+					'td': function( element ) {
+
+						var ascendant = element.getAscendant( 'table' ),
+							tdBorders =  ascendant._tdBorders,
+							borderStyles = [ 'border', 'border-top', 'border-right', 'border-bottom', 'border-left' ],
+							ascendantStyle = tools.parseCssText( ascendant.attributes.style );
+
+						// Sometimes the background is set for the whole table - move it to individual cells.
+						var background = ascendantStyle.background || ascendantStyle.BACKGROUND;
+						if ( background ) {
+							uberpaste.styles.setStyle( element, 'background', background, true );
+						}
+
+						var backgroundColor = ascendantStyle[ 'background-color' ] || ascendantStyle[ 'BACKGROUND-COLOR' ];
+						if ( backgroundColor ) {
+							uberpaste.styles.setStyle( element, 'background-color', backgroundColor, true );
+						}
+
+						var styles = tools.parseCssText( element.attributes.style );
+
+						for ( var style in styles ) {
+							var temp = styles[ style ];
+							delete styles[ style ];
+							styles[ style.toLowerCase() ] = temp;
+						}
+
+						// Count all border styles that occur in the table.
+						for ( var i = 0; i < borderStyles.length; i++ ) {
+							if ( styles[ borderStyles[ i ] ] ) {
+								var key = styles[ borderStyles[ i ] ];
+								tdBorders[ key ] = tdBorders[ key ] ? tdBorders[ key ] + 1 : 1;
+							}
+						}
+
+						uberpaste.styles.createStyleStack( element, that._.filter, editor,
+							/margin|text\-align|padding|list\-style\-type|width|height|border|white\-space|vertical\-align|background/i );
+					}
+				}
+			};
+		},
+
+		cleanWord: function( html, editor ) {
+			var invalidTags = [
+					'o:p',
+					'xml',
+					'script',
+					'meta',
+					'link'
+				],
+				shapeTags = [
+					'v:arc',
+					'v:curve',
+					'v:line',
+					'v:oval',
+					'v:polyline',
+					'v:rect',
+					'v:roundrect',
+					'v:group'
+				],
+				links = {},
+				shapesIds = [],
+				inComment = 0,
+				msoListsDetected = Boolean( html.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
+				that = this;
+
+			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+				html = uberpaste.styles.inliner.inline( html ).getBody().getHtml();
+			}
+
+			// Sometimes Word malforms the comments.
+			html = html.replace( /<!\[/g, '<!--[' ).replace( /\]>/g, ']-->' );
+
+			function shapeTagging( element ) {
+				// Check if regular or canvas shape (#1088).
+				if ( element.attributes[ 'o:gfxdata' ] || element.parent.name === 'v:group' ) {
+					shapesIds.push( element.attributes.id );
+				}
+			}
+
+			var definition =  {
+				root: function( element ) {
+					element.filterChildren( that._.filter );
+
+					uberpaste.lists.cleanup( uberpaste.lists.createLists( element ) );
+				},
+				elementNames: [
+					[ ( /^\?xml:namespace$/ ), '' ],
+					[ /^v:shapetype/, '' ],
+					[ new RegExp( invalidTags.join( '|' ) ), '' ] // Remove invalid tags.
+				],
+				elements: {
+					'a': function( element ) {
+						// Redundant anchor created by IE8.
+						if ( element.attributes.name ) {
+							if ( element.attributes.name == '_GoBack' ) {
+								delete element.name;
+								return;
+							}
+
+							// Garbage links that go nowhere.
+							if ( element.attributes.name.match( /^OLE_LINK\d+$/ ) ) {
+								delete element.name;
+								return;
+							}
+						}
+
+						if ( element.attributes.href && element.attributes.href.match( /#.+$/ ) ) {
+							var name = element.attributes.href.match( /#(.+)$/ )[ 1 ];
+							links[ name ] = element;
+						}
+
+						if ( element.attributes.name &&  links[ element.attributes.name ] ) {
+							var link = links[ element.attributes.name ];
+							link.attributes.href = link.attributes.href.replace( /.*#(.*)$/, '#$1' );
+						}
+
+					},
+					'div': function( element ) {
+						uberpaste.styles.createStyleStack( element, that._.filter, editor );
+					},
+					'img': function( element ) {
+						var attributeStyleMap = {
+							width: function( value ) {
+								uberpaste.styles.setStyle( element, 'width', value + 'px' );
+							},
+							height: function( value ) {
+								uberpaste.styles.setStyle( element, 'height', value + 'px' );
+							}
+						};
+
+						// If the parent is DocumentFragment it does not have any attributes. (https://dev.ckeditor.com/ticket/16912)
+						if ( element.parent && element.parent.attributes ) {
+							var attrs = element.parent.attributes,
+								style = attrs.style || attrs.STYLE;
+							if ( style && style.match( /mso\-list:\s?Ignore/ ) ) {
+								element.attributes[ 'cke-ignored' ] = true;
+							}
+						}
+
+						uberpaste.styles.mapStyles( element, attributeStyleMap );
+
+						if ( element.attributes.src && element.attributes.src.match( /^file:\/\// ) &&
+							element.attributes.alt && element.attributes.alt.match( /^https?:\/\// ) ) {
+							element.attributes.src = element.attributes.alt;
+						}
+
+						var imgShapesIds = element.attributes[ 'v:shapes' ] ? element.attributes[ 'v:shapes' ].split( ' ' ) : [];
+						// Check whether attribute contains shapes recognised earlier (stored in global list of shapesIds).
+						// If so, add additional data-attribute to img tag.
+						var isShapeFromList = CKEDITOR.tools.array.every( imgShapesIds, function( shapeId ) {
+							return shapesIds.indexOf( shapeId ) > -1;
+						} );
+						if ( imgShapesIds.length && isShapeFromList ) {
+							// As we don't know how to process shapes we can remove them.
+							return false;
+						}
+
+					},
+					'p': function( element ) {
+						element.filterChildren( that._.filter );
+
+						if ( element.attributes.style && element.attributes.style.match( /display:\s*none/i ) ) {
+							return false;
+						}
+
+						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) {
+							if ( uberpaste.heuristics.isEdgeListItem( editor, element ) ) {
+								uberpaste.heuristics.cleanupEdgeListItem( element );
+							}
+
+							uberpaste.lists.convertToFakeListItem( editor, element );
+
+							// IE pastes nested paragraphs in list items, which is different from other browsers. (https://dev.ckeditor.com/ticket/16826)
+							// There's a possibility that list item will contain multiple paragraphs, in that case we want
+							// to split them with BR.
+							tools.array.reduce( element.children, function( paragraphsReplaced, node ) {
+								if ( node.name === 'p' ) {
+									// If there were already paragraphs replaced, put a br before this paragraph, so that
+									// it's inline children are displayed in a next line.
+									if ( paragraphsReplaced > 0 ) {
+										var br = new CKEDITOR.htmlParser.element( 'br' );
+										br.insertBefore( node );
+									}
+
+									node.replaceWithChildren();
+									paragraphsReplaced += 1;
+								}
+
+								return paragraphsReplaced;
+							}, 0 );
+						} else {
+							// In IE list level information is stored in <p> elements inside <li> elements.
+							var container = element.getAscendant( function( element ) {
+								return element.name == 'ul' || element.name == 'ol';
+							} ),
+								style = tools.parseCssText( element.attributes.style );
+							if ( container &&
+								!container.attributes[ 'cke-list-level' ] &&
+								style[ 'mso-list' ] &&
+								style[ 'mso-list' ].match( /level/ ) ) {
+								container.attributes[ 'cke-list-level' ] = style[ 'mso-list' ].match( /level(\d+)/ )[1];
+							}
+
+							// Adapt paragraph formatting to editor's convention according to enter-mode (#423).
+							if ( editor.config.enterMode == CKEDITOR.ENTER_BR ) {
+								// We suffer from attribute/style lost in this situation.
+								delete element.name;
+								element.add( new CKEDITOR.htmlParser.element( 'br' ) );
+							}
+
+						}
+
+						uberpaste.styles.createStyleStack( element, that._.filter, editor );
+					},
+					'pre': function( element ) {
+						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+
+						uberpaste.styles.createStyleStack( element, that._.filter, editor );
+					},
+					'h1': function( element ) {
+						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+
+						uberpaste.styles.createStyleStack( element, that._.filter, editor );
+					},
+					'h2': function( element ) {
+						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+
+						uberpaste.styles.createStyleStack( element, that._.filter, editor );
+					},
+					'h3': function( element ) {
+						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+
+						uberpaste.styles.createStyleStack( element, that._.filter, editor );
+					},
+					'h4': function( element ) {
+						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+
+						uberpaste.styles.createStyleStack( element, that._.filter, editor );
+					},
+					'h5': function( element ) {
+						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+
+						uberpaste.styles.createStyleStack( element, that._.filter, editor );
+					},
+					'h6': function( element ) {
+						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+
+						uberpaste.styles.createStyleStack( element, that._.filter, editor );
+					},
+					'font': function( element ) {
+						if ( element.getHtml().match( /^\s*$/ ) ) {
+							new CKEDITOR.htmlParser.text( ' ' ).insertAfter( element );
+							return false;
+						}
+
+						if ( editor && editor.config.pasteFromWordRemoveFontStyles === true && element.attributes.size ) {
+							// font[size] are still used by old IEs for font size.
+							delete element.attributes.size;
+						}
+
+						// Create style stack for td/th > font if only class
+						// and style attributes are present. Such markup is produced by Excel.
+						if ( CKEDITOR.dtd.tr[ element.parent.name ] &&
+							CKEDITOR.tools.arrayCompare( CKEDITOR.tools.objectKeys( element.attributes ), [ 'class', 'style' ] ) ) {
+
+							uberpaste.styles.createStyleStack( element, that._.filter, editor );
+						} else {
+							createAttributeStack( element, that._.filter );
+						}
+					},
+					'ul': function( element ) {
+						if ( !msoListsDetected ) {
+							// List should only be processed if we're sure we're working with Word. (https://dev.ckeditor.com/ticket/16593)
+							return;
+						}
+
+						// Edge case from 11683 - an unusual way to create a level 2 list.
+						if ( element.parent.name == 'li' && tools.indexOf( element.parent.children, element ) === 0 ) {
+							uberpaste.styles.setStyle( element.parent, 'list-style-type', 'none' );
+						}
+
+						uberpaste.lists.dissolveList( element );
+						return false;
+					},
+					'li': function( element ) {
+						uberpaste.heuristics.correctLevelShift( element );
+
+						if ( !msoListsDetected ) {
+							return;
+						}
+
+						element.attributes.style = uberpaste.styles.normalizedStyles( element, editor );
+
+						uberpaste.styles.pushStylesLower( element );
+					},
+					'ol': function( element ) {
+						if ( !msoListsDetected ) {
+							// List should only be processed if we're sure we're working with Word. (https://dev.ckeditor.com/ticket/16593)
+							return;
+						}
+
+						// Fix edge-case where when a list skips a level in IE11, the <ol> element
+						// is implicitly surrounded by a <li>.
+						if ( element.parent.name == 'li' && tools.indexOf( element.parent.children, element ) === 0 ) {
+							uberpaste.styles.setStyle( element.parent, 'list-style-type', 'none' );
+						}
+
+						uberpaste.lists.dissolveList( element );
+						return false;
+					},
+					'span': function( element ) {
+						element.filterChildren( that._.filter );
+
+						element.attributes.style = uberpaste.styles.normalizedStyles( element, editor );
+
+						if ( !element.attributes.style ||
+							// Remove garbage bookmarks that disrupt the content structure.
+							element.attributes.style.match( /^mso\-bookmark:OLE_LINK\d+$/ ) ||
+							element.getHtml().match( /^(\s|&nbsp;)+$/ ) ) {
+
+							// replaceWithChildren doesn't work in filters.
+							for ( var i = element.children.length - 1; i >= 0; i-- ) {
+								element.children[ i ].insertAfter( element );
+							}
+							return false;
+						}
+
+						if ( element.attributes.style.match( /FONT-FAMILY:\s*Symbol/i ) ) {
+							element.forEach( function( node ) {
+								node.value = node.value.replace( /&nbsp;/g, '' );
+							}, CKEDITOR.NODE_TEXT, true );
+						}
+
+						uberpaste.styles.createStyleStack( element, that._.filter, editor );
+					},
+					'v:imagedata': remove,
+					// This is how IE8 presents images.
+					'v:shape': function( element ) {
+						// There are 3 paths:
+						// 1. There is regular `v:shape` (no `v:imagedata` inside).
+						// 2. There is a simple situation with `v:shape` with `v:imagedata` inside. We can remove such element and rely on `img` tag found later on.
+						// 3. There is a complicated situation where we cannot find proper `img` tag after `v:shape` or there is some canvas element.
+						// 		a) If shape is a child of v:group, then most probably it belongs to canvas, so we need to treat it as in path 1.
+						// 		b) In other cases, most probably there is no related `img` tag. We need to transform `v:shape` into `img` tag (IE8 integration).
+
+						var duplicate = false,
+							child = element.getFirst( 'v:imagedata' );
+
+						// Path 1:
+						if ( child === null ) {
+							shapeTagging( element );
+							return;
+						}
+
+						// Path 2:
+						// Sometimes a child with proper ID might be nested in other tag.
+						element.parent.find( function( child ) {
+							if ( child.name == 'img' && child.attributes &&
+								child.attributes[ 'v:shapes' ] == element.attributes.id ) {
+
+								duplicate = true;
+							}
+						}, true );
+
+						if ( duplicate ) {
+							return false;
+						} else {
+
+							// Path 3:
+							var src = '';
+
+							// 3.a) Filter out situation when canvas is used. In such scenario there is v:group containing v:shape containing v:imagedata.
+							// We streat such v:shapes as in Path 1.
+							if ( element.parent.name === 'v:group' ) {
+								shapeTagging( element );
+								return;
+							}
+
+							// 3.b) Most probably there is no img tag later on, so we need to transform this v:shape into img. This should only happen on IE8.
+							element.forEach( function( child ) {
+								if ( child.attributes && child.attributes.src ) {
+									src = child.attributes.src;
+								}
+							}, CKEDITOR.NODE_ELEMENT, true );
+
+							element.filterChildren( that._.filter );
+
+							element.name = 'img';
+							element.attributes.src = element.attributes.src || src;
+
+							delete element.attributes.type;
+						}
+
+						return;
+					},
+
+					'style': function() {
+						// We don't want to let any styles in. Firefox tends to add some.
+						return false;
+					},
+
+					'object': function( element ) {
+						// The specs about object `data` attribute:
+						// 		Address of the resource as a valid URL. At least one of data and type must be defined.
+						// If there is not `data`, skip the object element. (https://dev.ckeditor.com/ticket/17001)
+						return !!( element.attributes && element.attributes.data );
+					}
+				},
+				attributes: {
+					'style': function( styles, element ) {
+						// Returning false deletes the attribute.
+						return uberpaste.styles.normalizedStyles( element, editor ) || false;
+					},
+					'class': function( classes ) {
+						// The (el\d+)|(font\d+) are default Excel classes for table cells and text.
+						return falseIfEmpty( classes.replace( /(el\d+)|(font\d+)|msonormal|msolistparagraph\w*/ig, '' ) );
+					},
+					'cellspacing': remove,
+					'cellpadding': remove,
+					'border': remove,
+					'v:shapes': remove,
+					'o:spid': remove
+				},
+				comment: function( element ) {
+					if ( element.match( /\[if.* supportFields.*\]/ ) ) {
+						inComment++;
+					}
+					if ( element == '[endif]' ) {
+						inComment = inComment > 0 ? inComment - 1 : 0;
+					}
+					return false;
+				},
+				text: function( content, node ) {
+					if ( inComment ) {
+						return '';
+					}
+
+					var grandparent = node.parent && node.parent.parent;
+
+					if ( grandparent && grandparent.attributes && grandparent.attributes.style && grandparent.attributes.style.match( /mso-list:\s*ignore/i ) ) {
+						return content.replace( /&nbsp;/g, ' ' );
+					}
+
+					return content;
+				}
+			};
+
+			// Add shape processing to filter definition.
+			CKEDITOR.tools.array.forEach( shapeTags, function( shapeTag ) {
+				definition.elements[ shapeTag ] = shapeTagging;
+			} );
+
+			return this.applyFilter( definition, html );
+		},
+
+		cleanGdocs: function( html, editor ) {
+
+		},
 	};
 
+	CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( parser ), function( key ) {
+		if ( key.indexOf( 'clean' ) == 0 ) {
+			CKEDITOR[ key ] = CKEDITOR.tools.bind( parser[ key ], parser );
+		}
+	} );
+
 	uberpaste.rules = {
+		gdocs: function( html, editor ) {
+			var definition = {
+				elementNames: [
+					[ /^meta/, '' ]
+				],
+
+				elements: {
+					'span': function( element ) {
+						uberpaste.styles.createStyleStack( element, filter, editor );
+					},
+
+					'b': function( element ) {
+						if ( element.attributes.id && element.attributes.id.match( /^docs\-internal\-guid\-/  ) ) {
+							element.name = 'span';
+						}
+
+						uberpaste.styles.createStyleStack( element, filter, editor );
+					}
+				}
+			};
+
+			definition = CKEDITOR.tools.object.merge( definition, getDefaultDefinition( editor, filter ) );
+
+			filter = new CKEDITOR.htmlParser.filter( definition );
+
+			return applyFilter( filter, html );
+		},
 		word: function( html, editor ) {
 			var invalidTags = [
 					'o:p',
@@ -498,16 +1049,7 @@
 				definition.elements[ shapeTag ] = shapeTagging;
 			} );
 
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
-				writer = new CKEDITOR.htmlParser.basicWriter();
-
-			filter = new CKEDITOR.htmlParser.filter( definition );
-
-			filter.applyTo( fragment );
-
-			fragment.writeHtml( writer );
-
-			return writer.getHtml();
+			return applyFilter( definition, html );
 		}
 	};
 
