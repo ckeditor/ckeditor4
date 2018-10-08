@@ -31,6 +31,17 @@
 				}
 			],
 			getModel: sinon.stub().returns( new CKEDITOR.dom.element( 'span' ) )
+		},
+		testDialogDefinitionEvent: {
+			title: 'Dialog def event',
+			contents: [
+				{
+					id: 'info',
+					label: 'Test',
+					elements: []
+				}
+			],
+			getModel: sinon.stub().returns( new CKEDITOR.dom.element( 'span' ) )
 		}
 	};
 
@@ -42,10 +53,14 @@
 		CKEDITOR.dialog.add( 'testGetModel', function() {
 			return dialogDefinitions.testGetModel;
 		} );
+		CKEDITOR.dialog.add( 'testDialogDefinitionEvent', function() {
+			return dialogDefinitions.testDialogDefinitionEvent;
+		} );
 
 		evt.editor.addCommand( 'testDialog1', new CKEDITOR.dialogCommand( 'testDialog1' ) );
 		evt.editor.addCommand( 'testDialog2', new CKEDITOR.dialogCommand( 'testDialog2' ) );
 		evt.editor.addCommand( 'testGetModel', new CKEDITOR.dialogCommand( 'testGetModel' ) );
+		evt.editor.addCommand( 'testDialogDefinitionEvent', new CKEDITOR.dialogCommand( 'testDialogDefinitionEvent' ) );
 	} );
 
 	bender.editor = {};
@@ -467,48 +482,6 @@
 			} );
 		},
 
-		'test dialog namespace fires dialogCreated event': function() {
-			var listener = sinon.stub(),
-				bot = this.editorBot;
-
-			this._disposableListeners.push( CKEDITOR.dialog.on( 'dialogCreated', listener ) );
-
-			CKEDITOR.dialog.add( 'dialogCreatedEvent', function() {
-				return {
-					title: 'foo',
-					contents: [ {
-						id: 'foo',
-						label: 'foo',
-						elements: []
-					} ]
-				};
-			} );
-
-			this.editor.addCommand( 'dialogCreatedEvent', new CKEDITOR.dialogCommand( 'dialogCreatedEvent' ) );
-
-			bot.dialog( 'dialogCreatedEvent', function( dialog ) {
-				assert.areSame( 1, listener.callCount, 'dialogCreated event count.' );
-				sinon.assert.calledWith( listener, sinon.match.has( 'data', {
-					name: 'dialogCreatedEvent',
-					dialog: sinon.match.instanceOf( CKEDITOR.dialog )
-				} ) );
-
-				dialog.hide();
-
-				window.setTimeout( function() {
-					resume( function() {
-						// Subsequent openings of the same dialog must not cause another event.
-						bot.dialog( 'dialogCreatedEvent', function() {
-							assert.areSame( 1, listener.callCount, 'dialogCreated event count remains unchanged.' );
-						} );
-					} );
-
-				}, 110 );
-
-				wait();
-			} );
-		},
-
 		'test dialog.isEditing': function() {
 			this.editorBot.dialog( 'testDialog1', function( dialog ) {
 				assert.isFalse( dialog.isEditing() );
@@ -545,6 +518,22 @@
 				getModelStub.restore();
 
 				assert.isTrue( ret );
+			} );
+		},
+
+		'test dialog dialogDefinition event data': function() {
+			var stub = sinon.stub();
+
+			CKEDITOR.once( 'dialogDefinition', stub );
+
+			this.editorBot.dialog( 'testDialogDefinitionEvent', function() {
+				assert.areSame( 1, stub.callCount, 'Event call count' );
+
+				sinon.assert.calledWith( stub, sinon.match.has( 'data', {
+					name: 'testDialogDefinitionEvent',
+					dialog: CKEDITOR.dialog.getCurrent(),
+					definition: sinon.match.instanceOf( Object )
+				} ) );
 			} );
 		}
 	} );
