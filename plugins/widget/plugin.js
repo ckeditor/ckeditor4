@@ -240,7 +240,7 @@
 			this.registered[ name ] = widgetDef;
 
 			if ( widgetDef.dialog && editor.plugins.dialog ) {
-				var dialogListener = CKEDITOR.dialog.on( 'dialogCreated', function( evt ) {
+				var dialogListener = CKEDITOR.on( 'dialogDefinition', function( evt ) {
 					var data = evt.data;
 
 					if ( data.name == widgetDef.dialog && evt.editor === editor ) {
