@@ -7,14 +7,13 @@
 
 ( function() {
 
-	var uberpaste = CKEDITOR.plugins.uberpaste = {},
-		tools = CKEDITOR.tools,
+	var plug = CKEDITOR.plugins.uberpaste = {},
 		rules;
 
 	CKEDITOR.cleanWord = createParser( {
 		prepareHtml: function( html ) {
 			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
-				html = uberpaste.styles.inliner.inline( html ).getBody().getHtml();
+				html = plug.styles.inliner.inline( html ).getBody().getHtml();
 			}
 
 			this.msoListsDetected = Boolean( html.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
@@ -80,7 +79,7 @@
 							}
 						}
 
-						uberpaste.styles.setStyle( element, 'border', borderStyle );
+						plug.styles.setStyle( element, 'border', borderStyle );
 
 						var parent = element.parent,
 							root = parent && parent.parent,
@@ -89,7 +88,7 @@
 
 						// In case parent div has only align attr, move it to the table element (https://dev.ckeditor.com/ticket/16811).
 						if ( parent.name && parent.name === 'div' && parent.attributes.align &&
-							tools.objectKeys( parent.attributes ).length === 1 && parent.children.length === 1 ) {
+							CKEDITOR.tools.objectKeys( parent.attributes ).length === 1 && parent.children.length === 1 ) {
 							// If align is the only attribute of parent.
 							element.attributes.align = parent.attributes.align;
 
@@ -108,20 +107,20 @@
 						var ascendant = element.getAscendant( 'table' ),
 							tdBorders =  ascendant._tdBorders,
 							borderStyles = [ 'border', 'border-top', 'border-right', 'border-bottom', 'border-left' ],
-							ascendantStyle = tools.parseCssText( ascendant.attributes.style );
+							ascendantStyle = CKEDITOR.tools.parseCssText( ascendant.attributes.style );
 
 						// Sometimes the background is set for the whole table - move it to individual cells.
 						var background = ascendantStyle.background || ascendantStyle.BACKGROUND;
 						if ( background ) {
-							uberpaste.styles.setStyle( element, 'background', background, true );
+							plug.styles.setStyle( element, 'background', background, true );
 						}
 
 						var backgroundColor = ascendantStyle[ 'background-color' ] || ascendantStyle[ 'BACKGROUND-COLOR' ];
 						if ( backgroundColor ) {
-							uberpaste.styles.setStyle( element, 'background-color', backgroundColor, true );
+							plug.styles.setStyle( element, 'background-color', backgroundColor, true );
 						}
 
-						var styles = tools.parseCssText( element.attributes.style );
+						var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
 
 						for ( var style in styles ) {
 							var temp = styles[ style ];
@@ -137,7 +136,7 @@
 							}
 						}
 
-						uberpaste.styles.createStyleStack( element, filter, editor,
+						plug.styles.createStyleStack( element, filter, editor,
 							/margin|text\-align|padding|list\-style\-type|width|height|border|white\-space|vertical\-align|background/i );
 					}
 				}
@@ -177,7 +176,7 @@
 				root: function( element ) {
 					element.filterChildren( filter );
 
-					uberpaste.lists.cleanup( uberpaste.lists.createLists( element ) );
+					plug.lists.cleanup( plug.lists.createLists( element ) );
 				},
 				elementNames: [
 					[ ( /^\?xml:namespace$/ ), '' ],
@@ -212,15 +211,15 @@
 
 					},
 					'div': function( element ) {
-						uberpaste.styles.createStyleStack( element, filter, editor );
+						plug.styles.createStyleStack( element, filter, editor );
 					},
 					'img': function( element ) {
 						var attributeStyleMap = {
 							width: function( value ) {
-								uberpaste.styles.setStyle( element, 'width', value + 'px' );
+								plug.styles.setStyle( element, 'width', value + 'px' );
 							},
 							height: function( value ) {
-								uberpaste.styles.setStyle( element, 'height', value + 'px' );
+								plug.styles.setStyle( element, 'height', value + 'px' );
 							}
 						};
 
@@ -233,7 +232,7 @@
 							}
 						}
 
-						uberpaste.styles.mapStyles( element, attributeStyleMap );
+						plug.styles.mapStyles( element, attributeStyleMap );
 
 						if ( element.attributes.src && element.attributes.src.match( /^file:\/\// ) &&
 							element.attributes.alt && element.attributes.alt.match( /^https?:\/\// ) ) {
@@ -259,17 +258,17 @@
 							return false;
 						}
 
-						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) {
-							if ( uberpaste.heuristics.isEdgeListItem( editor, element ) ) {
-								uberpaste.heuristics.cleanupEdgeListItem( element );
+						if ( plug.lists.thisIsAListItem( editor, element ) ) {
+							if ( plug.heuristics.isEdgeListItem( editor, element ) ) {
+								plug.heuristics.cleanupEdgeListItem( element );
 							}
 
-							uberpaste.lists.convertToFakeListItem( editor, element );
+							plug.lists.convertToFakeListItem( editor, element );
 
 							// IE pastes nested paragraphs in list items, which is different from other browsers. (https://dev.ckeditor.com/ticket/16826)
 							// There's a possibility that list item will contain multiple paragraphs, in that case we want
 							// to split them with BR.
-							tools.array.reduce( element.children, function( paragraphsReplaced, node ) {
+							CKEDITOR.tools.array.reduce( element.children, function( paragraphsReplaced, node ) {
 								if ( node.name === 'p' ) {
 									// If there were already paragraphs replaced, put a br before this paragraph, so that
 									// it's inline children are displayed in a next line.
@@ -289,7 +288,7 @@
 							var container = element.getAscendant( function( element ) {
 								return element.name == 'ul' || element.name == 'ol';
 							} ),
-								style = tools.parseCssText( element.attributes.style );
+								style = CKEDITOR.tools.parseCssText( element.attributes.style );
 							if ( container &&
 								!container.attributes[ 'cke-list-level' ] &&
 								style[ 'mso-list' ] &&
@@ -306,42 +305,42 @@
 
 						}
 
-						uberpaste.styles.createStyleStack( element, filter, editor );
+						plug.styles.createStyleStack( element, filter, editor );
 					},
 					'pre': function( element ) {
-						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+						if ( plug.lists.thisIsAListItem( editor, element ) ) plug.lists.convertToFakeListItem( editor, element );
 
-						uberpaste.styles.createStyleStack( element, filter, editor );
+						plug.styles.createStyleStack( element, filter, editor );
 					},
 					'h1': function( element ) {
-						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+						if ( plug.lists.thisIsAListItem( editor, element ) ) plug.lists.convertToFakeListItem( editor, element );
 
-						uberpaste.styles.createStyleStack( element, filter, editor );
+						plug.styles.createStyleStack( element, filter, editor );
 					},
 					'h2': function( element ) {
-						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+						if ( plug.lists.thisIsAListItem( editor, element ) ) plug.lists.convertToFakeListItem( editor, element );
 
-						uberpaste.styles.createStyleStack( element, filter, editor );
+						plug.styles.createStyleStack( element, filter, editor );
 					},
 					'h3': function( element ) {
-						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+						if ( plug.lists.thisIsAListItem( editor, element ) ) plug.lists.convertToFakeListItem( editor, element );
 
-						uberpaste.styles.createStyleStack( element, filter, editor );
+						plug.styles.createStyleStack( element, filter, editor );
 					},
 					'h4': function( element ) {
-						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+						if ( plug.lists.thisIsAListItem( editor, element ) ) plug.lists.convertToFakeListItem( editor, element );
 
-						uberpaste.styles.createStyleStack( element, filter, editor );
+						plug.styles.createStyleStack( element, filter, editor );
 					},
 					'h5': function( element ) {
-						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+						if ( plug.lists.thisIsAListItem( editor, element ) ) plug.lists.convertToFakeListItem( editor, element );
 
-						uberpaste.styles.createStyleStack( element, filter, editor );
+						plug.styles.createStyleStack( element, filter, editor );
 					},
 					'h6': function( element ) {
-						if ( uberpaste.lists.thisIsAListItem( editor, element ) ) uberpaste.lists.convertToFakeListItem( editor, element );
+						if ( plug.lists.thisIsAListItem( editor, element ) ) plug.lists.convertToFakeListItem( editor, element );
 
-						uberpaste.styles.createStyleStack( element, filter, editor );
+						plug.styles.createStyleStack( element, filter, editor );
 					},
 					'font': function( element ) {
 						if ( element.getHtml().match( /^\s*$/ ) ) {
@@ -359,7 +358,7 @@
 						if ( CKEDITOR.dtd.tr[ element.parent.name ] &&
 							CKEDITOR.tools.arrayCompare( CKEDITOR.tools.objectKeys( element.attributes ), [ 'class', 'style' ] ) ) {
 
-							uberpaste.styles.createStyleStack( element, filter, editor );
+							plug.styles.createStyleStack( element, filter, editor );
 						} else {
 							createAttributeStack( element, filter );
 						}
@@ -371,23 +370,23 @@
 						}
 
 						// Edge case from 11683 - an unusual way to create a level 2 list.
-						if ( element.parent.name == 'li' && tools.indexOf( element.parent.children, element ) === 0 ) {
-							uberpaste.styles.setStyle( element.parent, 'list-style-type', 'none' );
+						if ( element.parent.name == 'li' && CKEDITOR.tools.indexOf( element.parent.children, element ) === 0 ) {
+							plug.styles.setStyle( element.parent, 'list-style-type', 'none' );
 						}
 
-						uberpaste.lists.dissolveList( element );
+						plug.lists.dissolveList( element );
 						return false;
 					},
 					'li': function( element ) {
-						uberpaste.heuristics.correctLevelShift( element );
+						plug.heuristics.correctLevelShift( element );
 
 						if ( !msoListsDetected ) {
 							return;
 						}
 
-						element.attributes.style = uberpaste.styles.normalizedStyles( element, editor );
+						element.attributes.style = plug.styles.normalizedStyles( element, editor );
 
-						uberpaste.styles.pushStylesLower( element );
+						plug.styles.pushStylesLower( element );
 					},
 					'ol': function( element ) {
 						if ( !msoListsDetected ) {
@@ -397,17 +396,17 @@
 
 						// Fix edge-case where when a list skips a level in IE11, the <ol> element
 						// is implicitly surrounded by a <li>.
-						if ( element.parent.name == 'li' && tools.indexOf( element.parent.children, element ) === 0 ) {
-							uberpaste.styles.setStyle( element.parent, 'list-style-type', 'none' );
+						if ( element.parent.name == 'li' && CKEDITOR.tools.indexOf( element.parent.children, element ) === 0 ) {
+							plug.styles.setStyle( element.parent, 'list-style-type', 'none' );
 						}
 
-						uberpaste.lists.dissolveList( element );
+						plug.lists.dissolveList( element );
 						return false;
 					},
 					'span': function( element ) {
 						element.filterChildren( filter );
 
-						element.attributes.style = uberpaste.styles.normalizedStyles( element, editor );
+						element.attributes.style = plug.styles.normalizedStyles( element, editor );
 
 						if ( !element.attributes.style ||
 							// Remove garbage bookmarks that disrupt the content structure.
@@ -427,7 +426,7 @@
 							}, CKEDITOR.NODE_TEXT, true );
 						}
 
-						uberpaste.styles.createStyleStack( element, filter, editor );
+						plug.styles.createStyleStack( element, filter, editor );
 					},
 					'v:imagedata': remove,
 					// This is how IE8 presents images.
@@ -505,7 +504,7 @@
 				attributes: {
 					'style': function( styles, element ) {
 						// Returning false deletes the attribute.
-						return uberpaste.styles.normalizedStyles( element, editor ) || false;
+						return plug.styles.normalizedStyles( element, editor ) || false;
 					},
 					'class': function( classes ) {
 						// The (el\d+)|(font\d+) are default Excel classes for table cells and text.
@@ -557,7 +556,7 @@
 
 				elements: {
 					'span': function( element ) {
-						uberpaste.styles.createStyleStack( element, filter, editor );
+						plug.styles.createStyleStack( element, filter, editor );
 					},
 
 					'b': function( element ) {
@@ -565,7 +564,7 @@
 							element.name = 'span';
 						}
 
-						uberpaste.styles.createStyleStack( element, filter, editor );
+						plug.styles.createStyleStack( element, filter, editor );
 					}
 				}
 			};
@@ -579,9 +578,9 @@
 	 * @since 4.6.0
 	 * @member CKEDITOR.plugins.uberpaste
 	 */
-	uberpaste.styles = {
+	plug.styles = {
 		setStyle: function( element, key, value, dontOverwrite ) {
-			var styles = tools.parseCssText( element.attributes.style );
+			var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
 
 			if ( dontOverwrite && styles[ key ] ) {
 				return;
@@ -603,7 +602,7 @@
 					if ( typeof attributeStyleMap[ attribute ] === 'function' ) {
 						attributeStyleMap[ attribute ]( element.attributes[ attribute ] );
 					} else {
-						uberpaste.styles.setStyle( element, attributeStyleMap[ attribute ], element.attributes[ attribute ] );
+						plug.styles.setStyle( element, attributeStyleMap[ attribute ], element.attributes[ attribute ] );
 					}
 					delete element.attributes[ attribute ];
 				}
@@ -648,18 +647,18 @@
 						}
 					}
 
-					return tools.indexOf( resetStyles, keys.join( ':' ) ) !== -1;
+					return CKEDITOR.tools.indexOf( resetStyles, keys.join( ':' ) ) !== -1;
 				},
 				removeFontStyles = editor && editor.config.pasteFromWordRemoveFontStyles === true;
 
-			var styles = tools.parseCssText( element.attributes.style );
+			var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
 
 			if ( element.name == 'cke:li' ) {
 
 				// IE8 tries to emulate list indentation with a combination of
 				// text-indent and left margin. Normalize this. Note that IE8 styles are uppercase.
 				if ( styles[ 'TEXT-INDENT' ] && styles.MARGIN ) {
-					element.attributes[ 'cke-indentation' ] = uberpaste.lists.getElementIndentation( element );
+					element.attributes[ 'cke-indentation' ] = plug.lists.getElementIndentation( element );
 					styles.MARGIN = styles.MARGIN.replace( /(([\w\.]+ ){3,3})[\d\.]+(\w+$)/, '$10$3' );
 				} else {
 					// Remove text indent in other cases, because it works differently with lists in html than in Word.
@@ -668,7 +667,7 @@
 				delete styles[ 'text-indent' ];
 			}
 
-			var keys = tools.objectKeys( styles );
+			var keys = CKEDITOR.tools.objectKeys( styles );
 
 			for ( var i = 0; i < keys.length; i++ ) {
 				var styleName = keys[ i ].toLowerCase(),
@@ -731,10 +730,10 @@
 				element.children[ i ].remove();
 			}
 
-			uberpaste.styles.sortStyles( element );
+			plug.styles.sortStyles( element );
 
 			// Create a stack of spans with each containing one style.
-			var styles = tools.parseCssText( uberpaste.styles.normalizedStyles( element, editor ) ),
+			var styles = CKEDITOR.tools.parseCssText( plug.styles.normalizedStyles( element, editor ) ),
 				innermostElement = element,
 				styleTopmost = element.name === 'span'; // Ensure that the root element retains at least one style.
 
@@ -778,15 +777,15 @@
 					'font-size',
 					'background'
 				],
-				style = tools.parseCssText( element.attributes.style ),
-				keys = tools.objectKeys( style ),
+				style = CKEDITOR.tools.parseCssText( element.attributes.style ),
+				keys = CKEDITOR.tools.objectKeys( style ),
 				sortedKeys = [],
 				nonSortedKeys = [];
 
 			// Divide styles into sorted and non-sorted, because Array.prototype.sort()
 			// requires a transitive relation.
 			for ( var i = 0; i < keys.length; i++ ) {
-				if ( tools.indexOf( orderedStyles, keys[ i ].toLowerCase() ) !== -1 ) {
+				if ( CKEDITOR.tools.indexOf( orderedStyles, keys[ i ].toLowerCase() ) !== -1 ) {
 					sortedKeys.push( keys[ i ] );
 				} else {
 					nonSortedKeys.push( keys[ i ] );
@@ -795,8 +794,8 @@
 
 			// For styles in orderedStyles[] enforce the same order as in orderedStyles[].
 			sortedKeys.sort( function( a, b ) {
-				var aIndex = tools.indexOf( orderedStyles, a.toLowerCase() );
-				var bIndex = tools.indexOf( orderedStyles, b.toLowerCase() );
+				var aIndex = CKEDITOR.tools.indexOf( orderedStyles, a.toLowerCase() );
+				var bIndex = CKEDITOR.tools.indexOf( orderedStyles, b.toLowerCase() );
 
 				return aIndex - bIndex;
 			} );
@@ -842,7 +841,7 @@
 				'border-': true
 			};
 
-			var styles = tools.parseCssText( element.attributes.style );
+			var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
 
 			for ( var style in styles ) {
 				if ( style.toLowerCase() in retainedStyles ||
@@ -869,7 +868,7 @@
 
 					pushed = true;
 
-					uberpaste.styles.setStyle( child, style, styles[ style ] );
+					plug.styles.setStyle( child, style, styles[ style ] );
 				}
 
 				if ( pushed ) {
@@ -921,7 +920,7 @@
 			 */
 			parse: function( styles ) {
 				var parseCssText = CKEDITOR.tools.parseCssText,
-					filterStyles = uberpaste.styles.inliner.filter,
+					filterStyles = plug.styles.inliner.filter,
 					sheet = styles.is ? styles.$.sheet : createIsolatedStylesheet( styles );
 
 				function createIsolatedStylesheet( styles ) {
@@ -975,8 +974,8 @@
 			 * @member CKEDITOR.plugins.uberpaste.styles.inliner
 			 */
 			filter: function( stylesObj ) {
-				var toRemove = uberpaste.styles.inliner.filtered,
-					indexOf = tools.array.indexOf,
+				var toRemove = plug.styles.inliner.filtered,
+					indexOf = CKEDITOR.tools.array.indexOf,
 					newObj = {},
 					style;
 
@@ -1044,8 +1043,8 @@
 			 * @member CKEDITOR.plugins.uberpaste.styles.inliner
 			 */
 			inline: function( html ) {
-				var parseStyles = uberpaste.styles.inliner.parse,
-					sortStyles = uberpaste.styles.inliner.sort,
+				var parseStyles = plug.styles.inliner.parse,
+					sortStyles = plug.styles.inliner.sort,
 					document = createTempDocument( html ),
 					stylesTags = document.find( 'style' ),
 					stylesArray = sortStyles( parseStyleTags( stylesTags ) );
@@ -1105,7 +1104,7 @@
 	 * @since 4.6.0
 	 * @member CKEDITOR.plugins.uberpaste
 	 */
-	uberpaste.lists = {
+	plug.lists = {
 		/**
 		 * Checks if a given element is a list item-alike.
 		 *
@@ -1116,7 +1115,7 @@
 		 * @member CKEDITOR.plugins.uberpaste.lists
 		 */
 		thisIsAListItem: function( editor, element ) {
-			if ( uberpaste.heuristics.isEdgeListItem( editor, element ) ) {
+			if ( plug.heuristics.isEdgeListItem( editor, element ) ) {
 				return true;
 			}
 
@@ -1144,8 +1143,8 @@
 		 * @member CKEDITOR.plugins.uberpaste.lists
 		 */
 		convertToFakeListItem: function( editor, element ) {
-			if ( uberpaste.heuristics.isDegenerateListItem( editor, element ) ) {
-				uberpaste.heuristics.assignListLevels( editor, element );
+			if ( plug.heuristics.isDegenerateListItem( editor, element ) ) {
+				plug.heuristics.assignListLevels( editor, element );
 			}
 
 			// A dummy call to cache parsed list info inside of cke-list-* attributes.
@@ -1181,14 +1180,14 @@
 
 				element.attributes[ 'cke-symbol' ] = symbol.replace( /(?: |&nbsp;).*$/, '' );
 
-				uberpaste.lists.removeSymbolText( element );
+				plug.lists.removeSymbolText( element );
 			}
 
 			if ( element.attributes.style ) {
 				// Hacky way to get rid of margin left.
 				// @todo: we should gather all css cleanup here, and consider bidi. Eventually we might put a config variable to
 				// to enable it.
-				var styles = tools.parseCssText( element.attributes.style );
+				var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
 
 				if ( styles[ 'margin-left' ] ) {
 					delete styles[ 'margin-left' ];
@@ -1215,7 +1214,7 @@
 				if ( element.name == 'cke:li' ) {
 					element.name = 'li';
 
-					//uberpaste.lists.removeSymbolText( element );
+					//plug.lists.removeSymbolText( element );
 
 					listElements.push( element );
 				}
@@ -1246,7 +1245,7 @@
 		setListSymbol: function( list, symbol, level ) {
 			level = level || 1;
 
-			var style = tools.parseCssText( list.attributes.style );
+			var style = CKEDITOR.tools.parseCssText( list.attributes.style );
 
 			if ( list.name == 'ol' ) {
 				if ( list.attributes.type || style[ 'list-style-type' ] ) return;
@@ -1260,7 +1259,7 @@
 				};
 
 				for ( var type in typeMap ) {
-					if ( uberpaste.lists.getSubsectionSymbol( symbol ).match( new RegExp( type ) ) ) {
+					if ( plug.lists.getSubsectionSymbol( symbol ).match( new RegExp( type ) ) ) {
 						style[ 'list-style-type' ] = typeMap[ type ];
 						break;
 					}
@@ -1280,7 +1279,7 @@
 
 			}
 
-			uberpaste.lists.setListSymbol.removeRedundancies( style, level );
+			plug.lists.setListSymbol.removeRedundancies( style, level );
 
 			( list.attributes.style = CKEDITOR.tools.writeCssText( style ) ) || delete list.attributes.style;
 		},
@@ -1302,14 +1301,14 @@
 			switch ( list.attributes[ 'cke-list-style-type' ] ) {
 				case 'lower-roman':
 				case 'upper-roman':
-					list.attributes.start = uberpaste.lists.toArabic( uberpaste.lists.getSubsectionSymbol( symbols[ offset ] ) ) - offset;
+					list.attributes.start = plug.lists.toArabic( plug.lists.getSubsectionSymbol( symbols[ offset ] ) ) - offset;
 					break;
 				case 'lower-alpha':
 				case 'upper-alpha':
-					list.attributes.start = uberpaste.lists.getSubsectionSymbol( symbols[ offset ] ).replace( /\W/g, '' ).toLowerCase().charCodeAt( 0 ) - 96 - offset;
+					list.attributes.start = plug.lists.getSubsectionSymbol( symbols[ offset ] ).replace( /\W/g, '' ).toLowerCase().charCodeAt( 0 ) - 96 - offset;
 					break;
 				case 'decimal':
-					list.attributes.start = ( parseInt( uberpaste.lists.getSubsectionSymbol( symbols[ offset ] ), 10 ) - offset ) || 1;
+					list.attributes.start = ( parseInt( plug.lists.getSubsectionSymbol( symbols[ offset ] ), 10 ) - offset ) || 1;
 					break;
 			}
 
@@ -1479,14 +1478,14 @@
 		 */
 		createLists: function( root ) {
 			var element, level, i, j,
-				listElements = uberpaste.lists.convertToRealListItems( root );
+				listElements = plug.lists.convertToRealListItems( root );
 
 			if ( listElements.length === 0 ) {
 				return [];
 			}
 
 			// Chop data into continuous lists.
-			var lists = uberpaste.lists.groupLists( listElements );
+			var lists = plug.lists.groupLists( listElements );
 
 			// Create nested list structures.
 			for ( i = 0; i < lists.length; i++ ) {
@@ -1501,7 +1500,7 @@
 					}
 				}
 
-				var	containerStack = [ uberpaste.lists.createList( firstLevel1Element ) ],
+				var	containerStack = [ plug.lists.createList( firstLevel1Element ) ],
 					// List wrapper (ol/ul).
 					innermostContainer = containerStack[ 0 ],
 					allContainers = [ containerStack[ 0 ] ];
@@ -1515,7 +1514,7 @@
 					level = element.attributes[ 'cke-list-level' ];
 
 					while ( level > containerStack.length ) {
-						var content = uberpaste.lists.createList( element );
+						var content = plug.lists.createList( element );
 
 						var children = innermostContainer.children;
 						if ( children.length > 0 ) {
@@ -1533,7 +1532,7 @@
 						innermostContainer = content;
 
 						if ( level == containerStack.length ) {
-							uberpaste.lists.setListSymbol( content, element.attributes[ 'cke-symbol' ], level );
+							plug.lists.setListSymbol( content, element.attributes[ 'cke-symbol' ], level );
 						}
 					}
 
@@ -1542,7 +1541,7 @@
 						innermostContainer = containerStack[ containerStack.length - 1 ];
 
 						if ( level == containerStack.length ) {
-							uberpaste.lists.setListSymbol( innermostContainer, element.attributes[ 'cke-symbol' ], level );
+							plug.lists.setListSymbol( innermostContainer, element.attributes[ 'cke-symbol' ], level );
 						}
 					}
 
@@ -1561,13 +1560,13 @@
 					}
 
 					if ( level1Symbol ) {
-						uberpaste.lists.setListSymbol( containerStack[ 0 ], level1Symbol );
+						plug.lists.setListSymbol( containerStack[ 0 ], level1Symbol );
 					}
 				}
 
 				// This can be done only after all the list elements are where they should be.
 				for ( j = 0; j < allContainers.length; j++ ) {
-					uberpaste.lists.setListStart( allContainers[ j ] );
+					plug.lists.setListStart( allContainers[ j ] );
 				}
 
 				// Last but not least apply li[start] if needed, also this needs to be done once ols are final.
@@ -1712,7 +1711,7 @@
 					level = countParents( isList, list ) + 1;
 
 				if ( !type ) {
-					var style = tools.parseCssText( list.attributes.style );
+					var style = CKEDITOR.tools.parseCssText( list.attributes.style );
 					type = style[ 'list-style-type' ];
 				}
 
@@ -1762,22 +1761,22 @@
 				var child = listElement.children[ 0 ];
 
 				if ( child && child.name && child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
-					uberpaste.styles.pushStylesLower( listElement, {
+					plug.styles.pushStylesLower( listElement, {
 						'list-style-type': true,
 						'display': true
 					} );
 
-					var childStyle = tools.parseCssText( child.attributes.style, true );
+					var childStyle = CKEDITOR.tools.parseCssText( child.attributes.style, true );
 
-					uberpaste.styles.setStyle( listElement, 'mso-list', childStyle[ 'mso-list' ], true );
-					uberpaste.styles.setStyle( child, 'mso-list', '' );
+					plug.styles.setStyle( listElement, 'mso-list', childStyle[ 'mso-list' ], true );
+					plug.styles.setStyle( child, 'mso-list', '' );
 					// mso-list takes precedence in determining the level.
 					delete listElement[ 'cke-list-level' ];
 
 					// If this style has a value it's usually "none". This marks such list elements for deletion.
 					var styleName = childStyle.display ? 'display' : childStyle.DISPLAY ? 'DISPLAY' : '';
 					if ( styleName ) {
-						uberpaste.styles.setStyle( listElement, 'display', childStyle[ styleName ], true );
+						plug.styles.setStyle( listElement, 'display', childStyle[ styleName ], true );
 					}
 				}
 
@@ -1836,23 +1835,23 @@
 				lastList = lists[ 0 ];
 
 			element = listElements[ 0 ];
-			element.attributes[ 'cke-indentation' ] = element.attributes[ 'cke-indentation' ] || uberpaste.lists.getElementIndentation( element );
+			element.attributes[ 'cke-indentation' ] = element.attributes[ 'cke-indentation' ] || plug.lists.getElementIndentation( element );
 
 			for ( i = 1; i < listElements.length; i++ ) {
 				element = listElements[ i ];
 				var previous = listElements[ i - 1 ];
 
-				element.attributes[ 'cke-indentation' ] = element.attributes[ 'cke-indentation' ] || uberpaste.lists.getElementIndentation( element );
+				element.attributes[ 'cke-indentation' ] = element.attributes[ 'cke-indentation' ] || plug.lists.getElementIndentation( element );
 
 				if ( element.previous !== previous ) {
-					uberpaste.lists.chopDiscontinuousLists( lastList, lists );
+					plug.lists.chopDiscontinuousLists( lastList, lists );
 					lists.push( lastList = [] );
 				}
 
 				lastList.push( element );
 			}
 
-			uberpaste.lists.chopDiscontinuousLists( lastList, lists );
+			plug.lists.chopDiscontinuousLists( lastList, lists );
 
 			return lists;
 		},
@@ -1889,7 +1888,7 @@
 					// An "n" before an "o".
 					forceType = list[ i ].attributes[ 'cke-symbol' ] == 'o' && lastSymbol.index == 14 ? 'alpha' : forceType;
 
-					currentSymbol = uberpaste.lists.getSymbolInfo( list[ i ].attributes[ 'cke-symbol' ], forceType );
+					currentSymbol = plug.lists.getSymbolInfo( list[ i ].attributes[ 'cke-symbol' ], forceType );
 					currentListInfo = this.getListItemInfo( list[ i ] );
 
 					// Based on current and last index we'll decide if we want to chop list.
@@ -1901,7 +1900,7 @@
 						choppedLists.push( [] );
 					}
 				} else {
-					currentSymbol = uberpaste.lists.getSymbolInfo( list[ i ].attributes[ 'cke-symbol' ] );
+					currentSymbol = plug.lists.getSymbolInfo( list[ i ].attributes[ 'cke-symbol' ] );
 				}
 
 				// Reset all higher levels
@@ -1917,7 +1916,7 @@
 				lastListInfo = currentListInfo;
 			}
 
-			[].splice.apply( lists, [].concat( [ tools.indexOf( lists, list ), 1 ], choppedLists ) );
+			[].splice.apply( lists, [].concat( [ CKEDITOR.tools.indexOf( lists, list ), 1 ], choppedLists ) );
 		},
 
 		/**
@@ -1964,7 +1963,7 @@
 		},
 
 		getElementIndentation: function( element ) {
-			var style = tools.parseCssText( element.attributes.style );
+			var style = CKEDITOR.tools.parseCssText( element.attributes.style );
 
 			if ( style.margin || style.MARGIN ) {
 				style.margin = style.margin || style.MARGIN;
@@ -1977,21 +1976,21 @@
 				style[ 'margin-left' ] = fakeElement.styles[ 'margin-left' ];
 			}
 
-			return parseInt( tools.convertToPx( style[ 'margin-left' ] || '0px' ), 10 );
+			return parseInt( CKEDITOR.tools.convertToPx( style[ 'margin-left' ] || '0px' ), 10 );
 		},
 
 		// Source: http://stackoverflow.com/a/17534350/3698944
 		toArabic: function( symbol ) {
 			if ( !symbol.match( /[ivxl]/i ) ) return 0;
-			if ( symbol.match( /^l/i ) ) return 50 + uberpaste.lists.toArabic( symbol.slice( 1 ) );
-			if ( symbol.match( /^lx/i ) ) return 40 + uberpaste.lists.toArabic( symbol.slice( 1 ) );
-			if ( symbol.match( /^x/i ) ) return 10 + uberpaste.lists.toArabic( symbol.slice( 1 ) );
-			if ( symbol.match( /^ix/i ) ) return 9 + uberpaste.lists.toArabic( symbol.slice( 2 ) );
-			if ( symbol.match( /^v/i ) ) return 5 + uberpaste.lists.toArabic( symbol.slice( 1 ) );
-			if ( symbol.match( /^iv/i ) ) return 4 + uberpaste.lists.toArabic( symbol.slice( 2 ) );
-			if ( symbol.match( /^i/i ) ) return 1 + uberpaste.lists.toArabic( symbol.slice( 1 ) );
+			if ( symbol.match( /^l/i ) ) return 50 + plug.lists.toArabic( symbol.slice( 1 ) );
+			if ( symbol.match( /^lx/i ) ) return 40 + plug.lists.toArabic( symbol.slice( 1 ) );
+			if ( symbol.match( /^x/i ) ) return 10 + plug.lists.toArabic( symbol.slice( 1 ) );
+			if ( symbol.match( /^ix/i ) ) return 9 + plug.lists.toArabic( symbol.slice( 2 ) );
+			if ( symbol.match( /^v/i ) ) return 5 + plug.lists.toArabic( symbol.slice( 1 ) );
+			if ( symbol.match( /^iv/i ) ) return 4 + plug.lists.toArabic( symbol.slice( 2 ) );
+			if ( symbol.match( /^i/i ) ) return 1 + plug.lists.toArabic( symbol.slice( 1 ) );
 			// Ignore other characters.
-			return uberpaste.lists.toArabic( symbol.slice( 1 ) );
+			return plug.lists.toArabic( symbol.slice( 1 ) );
 		},
 
 		/**
@@ -2022,7 +2021,7 @@
 
 			if ( symbol.match( /\d/ ) ) {
 				return {
-					index: symbol ? parseInt( uberpaste.lists.getSubsectionSymbol( symbol ) , 10 ) : 0,
+					index: symbol ? parseInt( plug.lists.getSubsectionSymbol( symbol ) , 10 ) : 0,
 					type: 'decimal'
 				};
 			}
@@ -2031,7 +2030,7 @@
 
 			if ( ( !type && symbol.match( /[ivxl]+/i ) ) || ( type && type != 'alpha' ) || type == 'roman' ) {
 				return {
-					index: uberpaste.lists.toArabic( symbol ),
+					index: plug.lists.toArabic( symbol ),
 					type: symbolCase + 'roman'
 				};
 			}
@@ -2073,7 +2072,7 @@
 				};
 			}
 
-			var propValue = tools.parseCssText( list.attributes.style )[ 'mso-list' ],
+			var propValue = CKEDITOR.tools.parseCssText( list.attributes.style )[ 'mso-list' ],
 				ret = {
 					id: '0',
 					level: '1'
@@ -2102,7 +2101,7 @@
 	 * @since 4.8.0
 	 * @member CKEDITOR.plugins.uberpaste
 	 */
-	uberpaste.images = {
+	plug.images = {
 		/**
 		 * Method parses RTF content to find embedded images. Please be aware that this method should only return `png` and `jpeg` images.
 		 *
@@ -2177,7 +2176,7 @@
 	 * @since 4.6.2
 	 * @member CKEDITOR.plugins.uberpaste
 	*/
-	uberpaste.heuristics = {
+	plug.heuristics = {
 		/**
 		 * Decides if an `item` looks like a list item in Microsoft Edge.
 		 *
@@ -2205,7 +2204,7 @@
 				return true;
 			}
 
-			return uberpaste.heuristics.isDegenerateListItem( editor, item );
+			return plug.heuristics.isDegenerateListItem( editor, item );
 		},
 
 		/**
@@ -2253,7 +2252,7 @@
 						return true;
 					}
 
-					var css = tools.parseCssText( child.attributes && child.attributes.style, true );
+					var css = CKEDITOR.tools.parseCssText( child.attributes && child.attributes.style, true );
 
 					if ( !css ) {
 						return false;
@@ -2288,15 +2287,15 @@
 				return;
 			}
 
-			var indents = [ uberpaste.lists.getElementIndentation( item ) ],
+			var indents = [ plug.lists.getElementIndentation( item ) ],
 				items = [ item ],
 				levels = [],
 				array = CKEDITOR.tools.array,
 				map = array.map;
 
-			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && uberpaste.heuristics.isDegenerateListItem( editor, item.next ) ) {
+			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && plug.heuristics.isDegenerateListItem( editor, item.next ) ) {
 				item = item.next;
-				indents.push( uberpaste.lists.getElementIndentation( item ) );
+				indents.push( plug.lists.getElementIndentation( item ) );
 				items.push( item );
 			}
 
@@ -2365,7 +2364,7 @@
 		 * */
 		correctLevelShift: function( element ) {
 			var isShiftedList = function( list ) {
-				return list.children && list.children.length == 1 && uberpaste.heuristics.isShifted( list.children[ 0 ] );
+				return list.children && list.children.length == 1 && plug.heuristics.isShifted( list.children[ 0 ] );
 			};
 
 			if ( this.isShifted( element ) ) {
@@ -2421,7 +2420,7 @@
 	};
 
 	// Expose this function since it's useful in other places.
-	uberpaste.lists.setListSymbol.removeRedundancies = function( style, level ) {
+	plug.lists.setListSymbol.removeRedundancies = function( style, level ) {
 		// 'disc' and 'decimal' are the default styles in some cases - remove redundancy.
 		if ( ( level === 1 && style[ 'list-style-type' ] === 'disc' ) || style[ 'list-style-type' ] === 'decimal' ) {
 			delete style[ 'list-style-type' ];
@@ -2481,7 +2480,7 @@
 		}
 	}
 
-	uberpaste.createAttributeStack = createAttributeStack;
+	plug.createAttributeStack = createAttributeStack;
 
 	function parseShorthandMargins( style ) {
 		var marginCase = style.margin ? 'margin' : style.MARGIN ? 'MARGIN' : false,
