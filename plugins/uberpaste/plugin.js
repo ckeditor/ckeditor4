@@ -96,12 +96,19 @@
 		this.editor = editor;
 		this.strategy = strategy;
 
+		// Note: CKEditor's event system has a limitation that one function
+		// cannot be used as listener for the same event more than once. Hence, wrapper functions.
+		//
 		// Listen with high priority (3), so clean up is done before content
 		// type sniffing (priority = 6).
-		editor.on( 'paste', this.pasteListener, this, null, 3 );
+		editor.on( 'paste', function( evt ) {
+			this.pasteListener( evt );
+		}, this, null, 3 );
 
 		if ( this.requiresImagesProcessing ) {
-			editor.on( 'afterPasteFromWord', this.imagePastingListener, this );
+			editor.on( 'afterPasteFromWord', function( evt ) {
+				this.imagePastingListener( evt );
+			}, this );
 		}
 	}
 
