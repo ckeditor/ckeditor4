@@ -7,63 +7,51 @@
 
 ( function() {
 
-	var plug = CKEDITOR.plugins.uberpaste = {},
-		rules;
+	var plug = CKEDITOR.plugins.uberpaste = {};
 
-	CKEDITOR.cleanWord = createParser( {
-		prepareHtml: function( html ) {
-			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
-				html = plug.styles.inliner.inline( html ).getBody().getHtml();
-			}
-
-			this.msoListsDetected = Boolean( html.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
-
-			// Sometimes Word malforms the comments.
-			return html.replace( /<!\[/g, '<!--[' ).replace( /\]>/g, ']-->' );
-		},
-
-		customizeFilter: function( filter, editor ) {
-			filter.addRules( rules.table( filter, editor ) );
-			filter.addRules( rules.word( filter, editor, this.msoListsDetected ) );
+	CKEDITOR.cleanWord = createParser( function( html, editor, filter ) {
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			html = plug.styles.inliner.inline( html ).getBody().getHtml();
 		}
 
+		this.msoListsDetected = Boolean( html.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
+
+		filter.addRules( plug.rules.table( filter, editor ) );
+		filter.addRules( plug.rules.word( filter, editor, this.msoListsDetected ) );
+
+		// Sometimes Word malforms the comments.
+		return html.replace( /<!\[/g, '<!--[' ).replace( /\]>/g, ']-->' );
 	} );
 
-	CKEDITOR.cleanGdocs = createParser( {
-		prepareHtml: function( html ) {
-			return html;
-		},
+	CKEDITOR.cleanGdocs = createParser( function( html, editor, filter ) {
+		filter.addRules( plug.rules.table( filter, editor ) );
+		filter.addRules( plug.rules.gdocs( filter, editor ) );
 
-		customizeFilter: function( filter, editor ) {
-			filter.addRules( rules.table( filter, editor ) );
-			filter.addRules( rules.gdocs( filter, editor ) );
-		}
-
+		return html;
 	} );
 
-	function createParser( def ) {
+	function createParser( fn ) {
 		return function( html, editor ) {
-			var filter = new CKEDITOR.htmlParser.filter();
+			var filter = new CKEDITOR.htmlParser.filter(),
+				fragment = CKEDITOR.htmlParser.fragment.fromHtml( fn( html, editor, filter ) || html ),
+				writer = new CKEDITOR.htmlParser.basicWriter();
 
-			html = def.prepareHtml( html, editor );
-			def.customizeFilter( filter, editor );
+			filter.applyTo( fragment );
 
-			return applyFilter( filter, html );
+			fragment.writeHtml( writer );
+
+			return writer.getHtml();
 		};
 	}
 
-	function applyFilter( filter, html ) {
-		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
-			writer = new CKEDITOR.htmlParser.basicWriter();
-
-		filter.applyTo( fragment );
-
-		fragment.writeHtml( writer );
-
-		return writer.getHtml();
-	}
-
-	rules = {
+	/**
+	 * Namespace containing all available rules used to customize filter.
+	 *
+	 * @private
+	 * @since 4.6.0
+	 * @member CKEDITOR.plugins.uberpaste
+	 */
+	plug.rules = {
 		table: function( filter, editor ) {
 			return {
 				elements: {
