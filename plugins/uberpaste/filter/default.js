@@ -48,7 +48,7 @@
 	 * Namespace containing all available rules used to customize filter.
 	 *
 	 * @private
-	 * @since 4.6.0
+	 * @since 4.11.0
 	 * @member CKEDITOR.plugins.uberpaste
 	 */
 	plug.rules = {
@@ -563,7 +563,7 @@
 	 * Namespace containing all the helper functions to work with styles.
 	 *
 	 * @private
-	 * @since 4.6.0
+	 * @since 4.11.0
 	 * @member CKEDITOR.plugins.uberpaste
 	 */
 	plug.styles = {
@@ -872,7 +872,7 @@
 		/**
 		 * Namespace containing the styles inliner.
 		 *
-		 * @since 4.7.0
+		 * @since 4.11.0
 		 * @private
 		 * @member CKEDITOR.plugins.uberpaste.styles
 		 */
@@ -902,7 +902,7 @@
 			 * @returns {Array} An array containing parsed styles. Each item (style) is an object containing two properties:
 			 * 		selector &ndash; A string representing a CSS selector.
 			 * 		styles &ndash; An object containing a list of styles (e.g. `{ margin: 0, text-align: 'left' }`).
-			 * @since 4.7.0
+			 * @since 4.11.0
 			 * @private
 			 * @member CKEDITOR.plugins.uberpaste.styles.inliner
 			 */
@@ -957,7 +957,7 @@
 			 * @param {Object} stylesObj An object containing parsed CSS declarations
 			 * as property/value pairs (see {@link CKEDITOR.plugins.uberpaste.styles.inliner#parse}).
 			 * @returns {Object} The `stylesObj` copy with specific styles filtered out.
-			 * @since 4.7.0
+			 * @since 4.11.0
 			 * @private
 			 * @member CKEDITOR.plugins.uberpaste.styles.inliner
 			 */
@@ -983,7 +983,7 @@
 			 * @param {Array} stylesArray An array of styles as returned from
 			 * {@link CKEDITOR.plugins.uberpaste.styles.inliner#parse}.
 			 * @returns {Array} Sorted stylesArray.
-			 * @since 4.7.0
+			 * @since 4.11.0
 			 * @private
 			 * @member CKEDITOR.plugins.uberpaste.styles.inliner
 			 */
@@ -1026,7 +1026,7 @@
 			 *
 			 * @param {String} html An HTML string to be parsed.
 			 * @returns {CKEDITOR.dom.document}
-			 * @since 4.7.0
+			 * @since 4.11.0
 			 * @private
 			 * @member CKEDITOR.plugins.uberpaste.styles.inliner
 			 */
@@ -1089,7 +1089,7 @@
 	 * Namespace containing any list-oriented helper methods.
 	 *
 	 * @private
-	 * @since 4.6.0
+	 * @since 4.11.0
 	 * @member CKEDITOR.plugins.uberpaste
 	 */
 	plug.lists = {
@@ -1307,6 +1307,12 @@
 			delete list.attributes[ 'cke-list-style-type' ];
 		},
 
+		/**
+		 * Numbering helper.
+		 *
+		 * @property {CKEDITOR.plugins.uberpaste.lists.numbering} numbering
+		 * @member CKEDITOR.plugins.uberpaste.lists
+		 */
 		numbering: {
 			/**
 			 * Converts the list marker value into a decimal number.
@@ -2086,7 +2092,7 @@
 	 * Namespace containing a set of image helper methods.
 	 *
 	 * @private
-	 * @since 4.8.0
+	 * @since 4.11.0
 	 * @member CKEDITOR.plugins.uberpaste
 	 */
 	plug.images = {
@@ -2094,7 +2100,7 @@
 		 * Method parses RTF content to find embedded images. Please be aware that this method should only return `png` and `jpeg` images.
 		 *
 		 * @private
-		 * @since 4.8.0
+		 * @since 4.11.0
 		 * @param {String} rtfContent RTF content to be checked for images.
 		 * @returns {Object[]} An array of images found in the `rtfContent`.
 		 * @returns {String} return.hex Hexadecimal string of an image embedded in `rtfContent`.
@@ -2161,7 +2167,7 @@
 	 * Namespace containing methods used to process the pasted content using heuristics.
 	 *
 	 * @private
-	 * @since 4.6.2
+	 * @since 4.11.0
 	 * @member CKEDITOR.plugins.uberpaste
 	*/
 	plug.heuristics = {
@@ -2199,7 +2205,7 @@
 		 * Cleans up a given list `item`. It is needed to remove Edge pre-marker indentation, since Edge pastes
 		 * list items as plain paragraphs with multiple `&nbsp;`s before the list marker.
 		 *
-		 * @since 4.7.0
+		 * @since 4.11.0
 		 * @param {CKEDITOR.htmlParser.element} item The pre-processed list-like item, like a paragraph.
 		 * @member CKEDITOR.plugins.uberpaste.heuristics
 		 * @private
@@ -2485,13 +2491,6 @@
 			delete style[ marginCase ];
 		}
 	}
-
-	/**
-	 * Numbering helper.
-	 *
-	 * @property {CKEDITOR.plugins.uberpaste.lists.numbering} numbering
-	 * @member CKEDITOR.plugins.uberpaste.lists
-	 */
 
 	/**
 	 * Whether to ignore all font-related formatting styles, including:
