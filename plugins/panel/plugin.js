@@ -358,7 +358,7 @@
 			/**
 			 * Returns a `CKEDITOR.dom.nodeList` of block items.
 			 *
-			 * @returns {*|CKEDITOR.dom.nodeList}
+			 * @returns {CKEDITOR.dom.nodeList}
 			 */
 			getItems: function() {
 				return this.element.find( 'a,input' );
