@@ -10,10 +10,6 @@
 	var plug = CKEDITOR.plugins.uberpaste = {};
 
 	CKEDITOR.cleanWord = createParser( function( html, editor, filter ) {
-		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
-			html = plug.styles.inliner.inline( html ).getBody().getHtml();
-		}
-
 		this.msoListsDetected = Boolean( html.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
 
 		filter.addRules( plug.rules.table( filter, editor ) );
@@ -32,6 +28,10 @@
 
 	function createParser( fn ) {
 		return function( html, editor ) {
+			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+				html = plug.styles.inliner.inline( html ).getBody().getHtml();
+			}
+
 			var filter = new CKEDITOR.htmlParser.filter(),
 				fragment = CKEDITOR.htmlParser.fragment.fromHtml( fn( html, editor, filter ) || html ),
 				writer = new CKEDITOR.htmlParser.basicWriter();
