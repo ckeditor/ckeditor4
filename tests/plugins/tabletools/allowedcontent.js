@@ -47,7 +47,7 @@
 										shouldBeAllowed = shouldBeAllowed[ propertyName ];
 
 										if ( shouldBeAllowed ) {
-											shouldBeAllowed = shouldBeAllowed.indexOf( allowedStyleOrAttribute ) !== -1;
+											shouldBeAllowed = CKEDITOR.tools.indexOf( shouldBeAllowed, allowedStyleOrAttribute ) !== -1;
 										} else {
 											shouldBeAllowed = false;
 										}
