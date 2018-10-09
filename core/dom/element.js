@@ -446,7 +446,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			function exec( focusOptions ) {
 				// IE throws error if the element is not visible.
 				try {
-					var isScrollLockFallbackNeeded = !CKEDITOR.env.webkit;
+					var isScrollLockFallbackNeeded = !CKEDITOR.env.chrome;
 
 					if ( isScrollLockFallbackNeeded ) {
 						var scrollables = [],
@@ -456,7 +456,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 							while ( element ) {
 								var isElementScrollable = element.$.scrollHeight > element.$.clientHeight;
 
-								if ( CKEDITOR.env.edge && element.getName() == 'body' ) {
+								if ( element.getName() == 'body' ) {
 									isElementScrollable = true;
 								}
 
