@@ -59,19 +59,32 @@
 	 * {@link CKEDITOR.filter.allowedContentRules} instead of {@link CKEDITOR.editor}
 	 * to the constructor:
 	 *
-	 *		var filter = new CKEDITOR.filter( 'b' );
+	 * ```javascript
+	 * var filter = new CKEDITOR.filter( 'b' );
 	 *
-	 *		filter.check( 'b' ); // -> true
-	 *		filter.check( 'i' ); // -> false
-	 *		filter.allow( 'i' );
-	 *		filter.check( 'i' ); // -> true
+	 * filter.check( 'b' ); // -> true
+	 * filter.check( 'i' ); // -> false
+	 * filter.allow( 'i' );
+	 * filter.check( 'i' ); // -> true
+	 * ```
+	 *
+	 * If filter is only used by a single editor instance, you should pass editor instance alongside with the rules.
+	 * Passing editor as a first parameter binds it with the filter so the filter can be removed
+	 * with {@link CKEDITOR.editor#destroy} method to prevent memory leaks.
+	 *
+	 * ```javascript
+	 * // In both cases filter will be removed during {@link CKEDITOR.editor#destroy} function execution.
+	 * var filter1 = new CKEDITOR.filter( editor );
+	 * var filter2 = new CKEDITOR.filter( editor, 'b' );
+	 * ```
 	 *
 	 * @since 4.1
 	 * @class
 	 * @constructor Creates a filter class instance.
 	 * @param {CKEDITOR.editor/CKEDITOR.filter.allowedContentRules} editorOrRules
+	 * @param {CKEDITOR.filter.allowedContentRules} [rules] This parameter is available since 4.11.0.
 	 */
-	CKEDITOR.filter = function( editorOrRules ) {
+	CKEDITOR.filter = function( editorOrRules, rules ) {
 		/**
 		 * Whether custom {@link CKEDITOR.config#allowedContent} was set.
 		 *
@@ -165,8 +178,9 @@
 		// Register filter instance.
 		CKEDITOR.filter.instances[ this.id ] = this;
 
-		if ( editorOrRules instanceof CKEDITOR.editor ) {
-			var editor = this.editor = editorOrRules;
+		var editor = this.editor = editorOrRules instanceof CKEDITOR.editor ? editorOrRules : null;
+
+		if ( editor && !rules ) {
 			this.customConfig = true;
 
 			var allowedContent = editor.config.allowedContent;
@@ -191,7 +205,7 @@
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
 			this.customConfig = false;
-			this.allow( editorOrRules, 'default', 1 );
+			this.allow( rules || editorOrRules, 'default', 1 );
 		}
 	};
 

@@ -886,6 +886,9 @@
 		 * element with the instance content.
 		 */
 		destroy: function( noUpdate ) {
+			var filters = CKEDITOR.filter.instances,
+				self = this;
+
 			this.fire( 'beforeDestroy' );
 
 			!noUpdate && updateEditorElement.call( this );
@@ -893,9 +896,16 @@
 			this.editable( null );
 
 			if ( this.filter ) {
-				this.filter.destroy();
 				delete this.filter;
 			}
+
+			// Destroy filters attached to the editor (#1722).
+			CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( filters ), function( id ) {
+				var filter = filters[ id ];
+				if ( self === filter.editor ) {
+					filter.destroy();
+				}
+			} );
 
 			delete this.activeFilter;
 

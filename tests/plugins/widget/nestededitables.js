@@ -219,6 +219,52 @@
 			} );
 		},
 
+		// (#1722)
+		'test #destroyEditable destroys unused editable filters': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testmethod5', {
+				editables: {
+					foo: '#foo'
+				}
+			} );
+
+			var widget1Html = '<div data-widget="testmethod5" id="w1"><p>A</p><p class="foo">B</p></div>',
+				widget2Html = '<div data-widget="testmethod5" id="w2"><p>A</p><p class="foo">B</p></div>';
+
+			this.editorBot.setData( widget1Html + widget2Html, function() {
+				var widget1 = getWidgetById( editor, 'w1' ),
+					widget2 = getWidgetById( editor, 'w2' );
+
+				widget1.initEditable( 'foo', { selector: '.foo', allowedContent: 'p br' } );
+				widget2.initEditable( 'foo', { selector: '.foo', allowedContent: 'p br' } );
+
+				var removedListeners = [],
+					filters = editor.widgets._.filters.testmethod5,
+					filterSpy = sinon.spy( filters.foo, 'destroy' );
+
+				widget1.editables.foo.removeListener = function( evtName ) {
+					removedListeners.push( evtName );
+				};
+
+				widget2.editables.foo.removeListener = function( evtName ) {
+					removedListeners.push( evtName );
+				};
+
+				widget1.destroyEditable( 'foo' );
+
+				assert.isNotUndefined( filters.foo );
+
+				widget2.destroyEditable( 'foo' );
+
+				assert.isUndefined( filters.foo );
+
+				assert.isTrue( filterSpy.calledOnce );
+
+				filterSpy.restore();
+			} );
+		},
+
 		'test nestedEditable enter modes are limited by ACF': function() {
 			var editor = this.editor;
 
