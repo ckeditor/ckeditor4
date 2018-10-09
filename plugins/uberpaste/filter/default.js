@@ -563,6 +563,12 @@
 						}
 
 						plug.styles.createStyleStack( element, filter, editor );
+					},
+
+					'p': function( element ) {
+						if ( element.parent.name === 'li' ) {
+							element.replaceWithChildren();
+						}
 					}
 				}
 			};
