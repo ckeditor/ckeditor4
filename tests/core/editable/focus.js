@@ -36,10 +36,13 @@
 				body = CKEDITOR.document.getBody(),
 				html = body.getParent(),
 				spacer = new CKEDITOR.dom.element( 'div' ),
+				focusable = new CKEDITOR.dom.element( 'textarea' ),
 				scrollTop = {};
 
 			spacer.setStyle( 'height', '8000px' );
 			spacer.insertBefore( body.getFirst() );
+			focusable.insertBefore( spacer );
+			focusable.focus();
 
 			scrollTop.body = body.$.scrollTop;
 			scrollTop.html = html.$.scrollTop;
