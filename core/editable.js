@@ -99,7 +99,7 @@
 					this.editor._.previousScrollTop = this.$.scrollTop;
 				}
 
-				CKEDITOR.dom.element.prototype.focus.call( this, focusOptions );
+				CKEDITOR.editable.baseProto.focus.call( this, focusOptions );
 
 				// Remedy if Safari doesn't applies focus properly. (https://dev.ckeditor.com/ticket/279)
 				if ( CKEDITOR.env.safari && !this.isInline() ) {
