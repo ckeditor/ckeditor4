@@ -542,6 +542,16 @@
 					[ /^meta/, '' ]
 				],
 
+				attributes: {
+					'dir': function( value ) {
+						return value === 'ltr' ? false : value;
+					},
+					'style': function( styles, element ) {
+						// Returning false deletes the attribute.
+						return plug.styles.normalizedStyles( element, editor ) || false;
+					}
+				},
+
 				elements: {
 					'span': function( element ) {
 						plug.styles.createStyleStack( element, filter, editor );
