@@ -68,18 +68,21 @@
 	 * filter.check( 'i' ); // -> true
 	 * ```
 	 *
-	 * If filter is only used by a single editor instance, you should pass editor instance alongside with the rules
-	 * so the filter could be removed with {@link CKEDITOR.editor#destroy} method.
+	 * If filter is only used by a single editor instance, you should pass editor instance alongside with the rules.
+	 * Passing editor as a first parameter binds it with the filter so the filter can be removed
+	 * with {@link CKEDITOR.editor#destroy} method to prevent memory leaks.
 	 *
 	 * ```javascript
-	 * var filter = new CKEDITOR.filter( editor, 'b' );
+	 * // In both cases filter will be removed during {@link CKEDITOR.editor#destroy} function execution.
+	 * var filter1 = new CKEDITOR.filter( editor );
+	 * var filter2 = new CKEDITOR.filter( editor, 'b' );
 	 * ```
 	 *
 	 * @since 4.1
 	 * @class
 	 * @constructor Creates a filter class instance.
 	 * @param {CKEDITOR.editor/CKEDITOR.filter.allowedContentRules} editorOrRules
-	 * @param {CKEDITOR.filter.allowedContentRules} rules This parameter is available since 4.10.2
+	 * @param {CKEDITOR.filter.allowedContentRules} [rules] This parameter is available since 4.11.0.
 	 */
 	CKEDITOR.filter = function( editorOrRules, rules ) {
 		/**
