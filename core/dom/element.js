@@ -508,7 +508,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 							this.$.focus();
 						}
 
-						if ( ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) && scrollables.length ) {
+						if ( !CKEDITOR.env.ie && scrollables.length ) {
 							CKEDITOR.tools.array.forEach( scrollables, function( item ) {
 								item.element.$.scrollTop = item.scrollTop;
 							} );
