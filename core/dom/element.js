@@ -514,7 +514,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 							} );
 						}
 					} else if ( CKEDITOR.env.chrome ) {
-						// We have no control over exactetly what happens when the native `focus` method is called,
+						// We have no control over exactly what happens when the native `focus` method is called,
 						// so save the scroll position and restore it later.
 						var scrollPos = this.$.scrollTop;
 						this.$.focus( focusOptions );
