@@ -401,10 +401,8 @@
 							element.attributes.style.match( /^mso\-bookmark:OLE_LINK\d+$/ ) ||
 							element.getHtml().match( /^(\s|&nbsp;)+$/ ) ) {
 
-							// replaceWithChildren doesn't work in filters.
-							for ( var i = element.children.length - 1; i >= 0; i-- ) {
-								element.children[ i ].insertAfter( element );
-							}
+							plug.elements.replaceWithChildren( element );
+
 							return false;
 						}
 
@@ -553,25 +551,55 @@
 				},
 
 				elements: {
-					'span': function( element ) {
-						plug.styles.createStyleStack( element, filter, editor );
+					'$': function( element ) {
+						// Some elements are wrapped with gdocs specific element. It can be safely replaced with children.
+						if ( element.attributes.id && element.attributes.id.match( /^docs\-internal\-guid\-/  ) ) {
+							plug.elements.replaceWithChildren( element );
+							return false;
+						}
 					},
 
-					'b': function( element ) {
-						if ( element.attributes.id && element.attributes.id.match( /^docs\-internal\-guid\-/  ) ) {
-							element.name = 'span';
-						}
-
+					'span': function( element ) {
 						plug.styles.createStyleStack( element, filter, editor );
 					},
 
 					'p': function( element ) {
 						if ( element.parent.name === 'li' ) {
-							element.replaceWithChildren();
+							plug.elements.replaceWithChildren( element );
+							return false;
 						}
+					},
+
+					'li': function( element ) {
+						// Styles are doubled for list content.
+						delete element.attributes.style;
 					}
 				}
 			};
+		}
+	};
+
+	/**
+	 * Namespace containing all the helper functions to work with elements.
+	 *
+	 * @private
+	 * @since 4.11.0
+	 * @member CKEDITOR.plugins.uberpaste
+	 */
+	plug.elements = {
+		/**
+		 * Replaces element with its children.
+		 *
+		 * This function is customized to work inside filters.
+		 *
+		 * @private
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @member CKEDITOR.plugins.uberpaste.elements
+		 */
+		replaceWithChildren: function( element ) {
+			for ( var i = element.children.length - 1; i >= 0; i-- ) {
+				element.children[ i ].insertAfter( element );
+			}
 		}
 	};
 
