@@ -564,7 +564,7 @@
 					},
 
 					'span': function( element ) {
-						plug.styles.createStyleStack( element, filter, editor );
+						plug.styles.createStyleStack( element, filter, editor, /vertical-align|white-space|font-variant/ );
 					},
 
 					'b': function( element ) {
@@ -671,6 +671,9 @@
 
 			// Some styles and style values are redundant, so delete them.
 			var resetStyles = [
+					'-webkit-text-decoration-skip',
+					'text-decoration-skip-ink',
+
 					'background-color:transparent',
 					'border-image:none',
 					'color:windowtext',
