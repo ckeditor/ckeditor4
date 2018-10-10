@@ -570,9 +570,16 @@
 						}
 					},
 
+					'ul': function( element ) {
+						plug.styles.pushStylesLower( element );
+					},
+
+					'ol': function( element ) {
+						plug.styles.pushStylesLower( element );
+					},
+
 					'li': function( element ) {
-						// Styles are doubled for list content.
-						delete element.attributes.style;
+						plug.styles.pushStylesLower( element );
 					}
 				}
 			};
