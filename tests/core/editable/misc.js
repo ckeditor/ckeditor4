@@ -20,13 +20,6 @@ bender.editors = {
 };
 
 bender.test( {
-	_should: {
-		ignore: {
-			// #895
-			'test scroll editable and focus': CKEDITOR.env.chrome
-		}
-	},
-
 	// https://dev.ckeditor.com/ticket/3448.
 	'test click on image selects it': function() {
 		// This is Gecko/Webkit/Blink fix.
@@ -129,10 +122,10 @@ bender.test( {
 			'<p>Test</p><p>Test</p><p>Test</p><p>Test</p>', function() {
 			var scrollPos = 100;
 
-			editable.$.scrollTop = scrollPos;
+			editable.getParent().$.scrollTop = scrollPos;
 			editable.focus();
 
-			assert.areSame( scrollPos, editable.$.scrollTop );
+			assert.areSame( scrollPos, editable.getParent().$.scrollTop );
 		} );
 	}
 } );
