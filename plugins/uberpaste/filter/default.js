@@ -547,6 +547,10 @@
 					'style': function( styles, element ) {
 						// Returning false deletes the attribute.
 						return plug.styles.normalizedStyles( element, editor ) || false;
+					},
+					'class': function( classes ) {
+						// The (el\d+)|(font\d+) are default Excel classes for table cells and text.
+						return falseIfEmpty( classes.replace( /kix-line-break/ig, '' ) );
 					}
 				},
 
@@ -561,6 +565,12 @@
 
 					'span': function( element ) {
 						plug.styles.createStyleStack( element, filter, editor );
+					},
+
+					'b': function( element ) {
+						// Google docs sometimes uses `b` as a wrapper without semantic value.
+						plug.elements.replaceWithChildren( element );
+						return false;
 					},
 
 					'p': function( element ) {
