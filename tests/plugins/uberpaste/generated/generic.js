@@ -25,7 +25,8 @@
 		],
 		wordVersions: [
 			'word2007',
-			'word2013'
+			'word2013',
+			'gdocs'
 		],
 		tests: {
 			'Bold': true,
@@ -43,6 +44,8 @@
 			'Paragraphs_with_headers': true,
 			'Simple_table': true,
 			'Spacing': true,
+			'Special': true,
+			'Styles': true,
 			'Text_alignment': true,
 			'Underline': true,
 			'Unordered_list': true,
