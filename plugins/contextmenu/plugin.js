@@ -31,7 +31,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 				this.base.call( this, editor, {
 					panel: {
 						// Allow adding custom CSS (#2202).
-						css: editor.config.contextmenu_contentCss,
+						css: editor.config.contextmenu_contentsCss,
 						className: 'cke_menu_panel',
 						attributes: {
 							'aria-label': editor.lang.contextmenu.options

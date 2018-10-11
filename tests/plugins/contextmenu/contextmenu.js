@@ -147,7 +147,7 @@
 			bender.editorBot.create( {
 				name: 'editor_styles',
 				config: {
-					contextmenu_contentCss: customStyle
+					contextmenu_contentsCss: customStyle
 				}
 			}, function( bot ) {
 				assert.areEqual( customStyle, bot.editor.contextMenu._.panelDefinition.css );
