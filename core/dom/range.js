@@ -2869,6 +2869,21 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
+		 * Returns [native range](https://developer.mozilla.org/en-US/docs/Web/API/Range) represented by this object.
+		 *
+		 * @since 4.14.0
+		 * @returns {Object}
+		 */
+		getNative: function() {
+			var range = this.root.getDocument().$.createRange();
+
+			range.setStart( this.startContainer.$, this.startOffset );
+			range.setEnd( this.endContainer.$, this.endOffset );
+
+			return range;
+		},
+
+		/**
 		 * Returns an array of {@link CKEDITOR.dom.rect} elements that are represented as rectangles which are covered by ranges.
 		 * Rectangles represent the area of the screen occupied by the elements contained within the range.
 		 *
