@@ -78,13 +78,6 @@
 					}
 				}
 
-				// [Edge] Starting from EdgeHTML 14.14393, it does not support `setActive`. We need to use focus which
-				// causes unexpected scroll. Store scrollTop value so it can be restored after focusing editor.
-				// Scroll only happens if the editor is focused for the first time. (https://dev.ckeditor.com/ticket/14825)
-				if ( CKEDITOR.env.edge && CKEDITOR.env.version > 14 && !this.hasFocus && this.getDocument().equals( CKEDITOR.document ) ) {
-					this.editor._.previousScrollTop = this.$.scrollTop;
-				}
-
 				CKEDITOR.editable.baseProto.focus.call( this, focusOptions );
 
 				// Remedy if Safari doesn't applies focus properly. (https://dev.ckeditor.com/ticket/279)
@@ -880,23 +873,6 @@
 					this.on( 'scroll', function() {
 						editor._.previousScrollTop = editor.editable().$.scrollTop;
 					}, null, null, -1 );
-				}
-
-				// [Edge] This is the other part of the workaround for Edge which restores saved
-				// scrollTop value and removes listener which is not needed anymore. (https://dev.ckeditor.com/ticket/14825)
-				if ( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) {
-
-					var fixScrollOnFocus = function() {
-						var editable = editor.editable();
-
-						if ( editor._.previousScrollTop != null && editable.getDocument().equals( CKEDITOR.document ) ) {
-							editable.$.scrollTop = editor._.previousScrollTop;
-							editor._.previousScrollTop = null;
-							this.removeListener( 'scroll', fixScrollOnFocus );
-						}
-					};
-
-					this.on( 'scroll', fixScrollOnFocus );
 				}
 
 				// Register to focus manager.
