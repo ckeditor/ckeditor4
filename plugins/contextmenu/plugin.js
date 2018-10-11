@@ -1,5 +1,5 @@
-﻿/** @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights
- * reserved.
+﻿/**
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -174,7 +174,9 @@ CKEDITOR.plugins.add( 'contextmenu', {
  * <kbd>Meta</kbd> (Mac) key is pressed on opening the context menu with the
  * right mouse button click or the <kbd>Menu</kbd> key.
  *
- *		config.browserContextMenuOnCtrl = false;
+ * ```javascript
+ * config.browserContextMenuOnCtrl = false;
+ * ```
  *
  * @since 3.0.2
  * @cfg {Boolean} [browserContextMenuOnCtrl=true]
@@ -185,7 +187,9 @@ CKEDITOR.plugins.add( 'contextmenu', {
  * Whether to enable the context menu. Regardless of the setting the [Context Menu](https://ckeditor.com/cke4/addon/contextmenu)
  * plugin is still loaded.
  *
- *		config.enableContextMenu = false;
+ * ```javascript
+ * config.enableContextMenu = false;
+ * ```
  *
  * @since 4.7.0
  * @cfg {Boolean} [enableContextMenu=true]
@@ -195,7 +199,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 /**
  * The CSS file(s) to be used to apply style to the context menu content.
  *
- * ```
+ * ```javascript
  * config.contextmenu_contentsCss = '/css/myfile.css';
  * config.contextmenu_contentsCss = [ '/css/myfile.css', '/css/anotherfile.css' ];
  * ```
