@@ -13,6 +13,7 @@ API Changes:
 Fixed Issues:
 
 * [#748](https://github.com/ckeditor/ckeditor-dev/issues/748): Fixed: scroll jumps when closing dialogs.
+* [#1429](https://github.com/ckeditor/ckeditor-dev/issues/1429): Fixed: Unfocused editor scrolls to top after opening dialog.
 
 API Changes:
 
