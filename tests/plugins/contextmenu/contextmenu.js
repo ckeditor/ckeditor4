@@ -138,6 +138,20 @@
 
 				assert.isFalse( editor.contextMenu.show.called );
 			} );
+		},
+
+		// (#2202)
+		'test context menu custom panel css styles': function() {
+			var customStyle = '/css/custom.css';
+
+			bender.editorBot.create( {
+				name: 'editor_styles',
+				config: {
+					contextmenu_contentCss: customStyle
+				}
+			}, function( bot ) {
+				assert.areEqual( customStyle, bot.editor.contextMenu._.panelDefinition.css );
+			} );
 		}
 	} );
 } )();
