@@ -549,7 +549,6 @@
 						return plug.styles.normalizedStyles( element, editor ) || false;
 					},
 					'class': function( classes ) {
-						// The (el\d+)|(font\d+) are default Excel classes for table cells and text.
 						return falseIfEmpty( classes.replace( /kix-line-break/ig, '' ) );
 					}
 				},
