@@ -79,13 +79,6 @@
 				}
 
 				CKEDITOR.editable.baseProto.focus.call( this, focusOptions );
-
-				// Remedy if Safari doesn't applies focus properly. (https://dev.ckeditor.com/ticket/279)
-				if ( CKEDITOR.env.safari && !this.isInline() ) {
-					active = CKEDITOR.document.getActive();
-					if ( !active.equals( this.getWindow().getFrame() ) )
-						this.getWindow().focus();
-				}
 			},
 
 			/**
