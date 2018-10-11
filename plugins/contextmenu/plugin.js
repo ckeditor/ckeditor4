@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+﻿/** @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights
+ * reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -30,6 +30,8 @@ CKEDITOR.plugins.add( 'contextmenu', {
 			$: function( editor ) {
 				this.base.call( this, editor, {
 					panel: {
+						// Allow adding custom CSS (#2202).
+						css: editor.config.contextmenu_contentCss,
 						className: 'cke_menu_panel',
 						attributes: {
 							'aria-label': editor.lang.contextmenu.options
