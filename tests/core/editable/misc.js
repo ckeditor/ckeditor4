@@ -107,6 +107,7 @@ bender.test( {
 		} );
 	},
 
+	// (1429)
 	'test scroll editable and focus': function() {
 		if ( !CKEDITOR.env.chrome ) {
 			assert.ignore();
