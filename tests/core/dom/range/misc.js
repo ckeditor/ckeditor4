@@ -412,6 +412,25 @@
 			range.setEndAfter( doc.getById( '_td1' ) );
 
 			assert.isTrue( range._getTableElement( 'tbody' ).equals( doc.getById( '_tbody' ) ), 'filtering elements' );
+		},
+
+		// (#1960)
+		'test getNative': function() {
+			var range = new CKEDITOR.dom.range( doc ),
+				container = CKEDITOR.dom.element.createFromHtml( '<span>Test</span>' ),
+				nativeRange;
+
+			doc.getBody().append( container );
+			range.selectNodeContents( container );
+
+			nativeRange = range.getNative();
+
+			assert.areSame( nativeRange.startContainer.ownerDocument, range.document.$, 'document is the same' );
+			assert.areSame( nativeRange.startContainer, range.startContainer.$, 'startContainer is the same' );
+			assert.areSame( nativeRange.endContainer, range.endContainer.$, 'endContainer is the same' );
+			assert.areSame( nativeRange.startOffset, range.startOffset, 'startOffset is the same' );
+			assert.areSame( nativeRange.endOffset, range.endOffset, 'endOffset is the same' );
+			assert.areSame( nativeRange.collapsed, range.collapsed, 'collapsed is the same' );
 		}
 	};
 
