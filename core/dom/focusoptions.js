@@ -5,8 +5,8 @@
 
 /**
  * @fileOverview Defines the "virtual" {@link CKEDITOR.dom.focusOptions} class
- * that contains the options that can be added to {@link CKEDITOR.dom.element.prototype.focus} or other methods inheriting from it. This file is for
- * documentation purposes only.
+ * that contains the options that can be added to {@link CKEDITOR.dom.element.prototype.focus}
+ * or other methods inheriting from it. This file is for documentation purposes only.
  */
 
 /**
