@@ -191,3 +191,16 @@ CKEDITOR.plugins.add( 'contextmenu', {
  * @cfg {Boolean} [enableContextMenu=true]
  * @member CKEDITOR.config
  */
+
+/**
+ * The CSS file(s) to be used to apply style to the context menu content.
+ *
+ * ```
+ * config.contextmenu_contentsCss = '/css/myfile.css';
+ * config.contextmenu_contentsCss = [ '/css/myfile.css', '/css/anotherfile.css' ];
+ * ```
+ *
+ * @since 4.11.0
+ * @cfg {String/String[]} [contextmenu_contentsCss=CKEDITOR.skin.getPath( 'editor' )]
+ * @member CKEDITOR.config
+ */
