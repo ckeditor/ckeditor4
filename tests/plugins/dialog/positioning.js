@@ -7,18 +7,22 @@
 	bender.editor = {};
 
 	bender.test( {
-		// When dialog is shown body has overflow hidden from class 'cke_dialog_open'
-		// and right padding equal to the scrollbars width. When there is predefined right padding
-		// it should be preserved. All extra styling is removed on dialog hide (#2395).
+		setUp: function() {
+			CKEDITOR.document.document.getBody().appendHtml( '<div style="height:4000px"></div>' );
+		},
+		tearDown: function() {
+			var dialog = CKEDITOR.dialog.getCurrent();
+			if ( dialog ) {
+				dialog.hide();
+			}
+		},
+		// (#2395).
 		'test body has hidden scrollbars when dialog is opened': function() {
 			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 				assert.ignore();
 			}
 			var bot = this.editorBot,
-				document = CKEDITOR.document,
-				body = document.getBody();
-
-			body.appendHtml( '<div style="height:4000px"></div>' );
+				body = CKEDITOR.document.getBody();
 
 			bot.dialog( 'link', function( dialog ) {
 				assert.isTrue( body.hasClass( 'cke_dialog_open' ), 'Body should have proper class.' );
@@ -28,9 +32,7 @@
 				assert.isFalse( body.hasClass( 'cke_dialog_open' ), 'Body shouldn\'t have class.' );
 			} );
 		},
-		// Dialog is initially centered by CSS styles:
-		// When dialog is shown page is covered by fixed dialog container with `display: flex`.
-		// Dialog element doesn't have `position` style, and has `margin: auto` (#2395).
+		// (#2395).
 		'test dialog is initially centered': function() {
 			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 				assert.ignore();
@@ -46,6 +48,7 @@
 				dialog.hide();
 			} );
 		},
+		// (#2395).
 		'test dialog cover styles': function() {
 			this.editorBot.dialog( 'link', function( dialog ) {
 				var cover = CKEDITOR.document.findOne( '.cke_dialog_background_cover' );
@@ -89,11 +92,8 @@
 				} );
 
 				var actualX = parseInt( element.getStyle( 'left' ), 10 ),
-					actualY = parseInt( element.getStyle( 'top' ), 10 );
-
-				assert.areEqual( 'absolute', element.getStyle( 'position' ), 'Dialog element should have `position:absolute`.' );
-				assert.areEqual( expectedX, actualX, 'Dialog should be horizontally centered.' );
-				assert.areEqual( expectedY, actualY, 'Dialog should be vertically centered.' );
+					actualY = parseInt( element.getStyle( 'top' ), 10 ),
+					elementStyle = element.getStyle( 'position' );
 
 				CKEDITOR.document.fire( 'mousemove', {
 					$: {
@@ -103,6 +103,14 @@
 					preventDefault: function() {}
 				} );
 
+				for ( var key in stubs ) {
+					stubs[ key ].restore();
+				}
+
+				assert.areEqual( 'absolute', elementStyle, 'Dialog element should have `position:absolute`.' );
+				assert.areEqual( expectedX, actualX, 'Dialog should be horizontally centered.' );
+				assert.areEqual( expectedY, actualY, 'Dialog should be vertically centered.' );
+
 				actualX = parseInt( element.getStyle( 'left' ), 10 );
 				actualY = parseInt( element.getStyle( 'top' ), 10 );
 
@@ -111,10 +119,6 @@
 
 				CKEDITOR.document.fire( 'mouseup' );
 				dialog.hide();
-
-				for ( var key in stubs ) {
-					stubs[ key ].restore();
-				}
 			} );
 		}
 	} );
