@@ -9,4 +9,4 @@
 
 ## Expected
 
-Styles dropdown has hover css effect.
+Styles dropdown has hover effect.
