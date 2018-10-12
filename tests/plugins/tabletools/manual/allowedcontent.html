@@ -37,7 +37,8 @@
 			'Rows Span': 'rowspan',
 			'Cols Span': 'colspan',
 			'Background Color': 'background-color',
-			'Border Color': 'border-color'
+			'Border Color': 'border-color',
+			'Color Dialog': 'colordialog'
 		},
 		options = CKEDITOR.document.findOne( '.options' ),
 		allowedContent = {
@@ -60,6 +61,13 @@
 
 	for ( var key in cellPropMap ) {
 		var name = cellPropMap[ key ];
+
+		if ( key === 'Color Dialog' ) {
+			options.appendHtml(
+				'<p>Extra plugins:</p>'
+			);
+		}
+
 		options.appendHtml(
 			'<label><input type="checkbox" name="' + name + '">' + key + '</label>'
 		);
@@ -72,7 +80,8 @@
 			state = target.$.checked,
 			rule = target.getAttribute( 'name' ),
 			attributes = allowedContent.td.attributes,
-			styles = allowedContent.td.styles;
+			styles = allowedContent.td.styles,
+			extraPlugins;
 
 		if ( !rule ) {
 			return;
@@ -89,6 +98,9 @@
 			case 'colspan':
 				addRemoveRule( rule, state, attributes );
 				break;
+			case 'colordialog':
+				extraPlugins = state ? 'colordialog' : '';
+				break;
 			default:
 				addRemoveRule( rule, state, styles );
 		}
@@ -96,7 +108,8 @@
 		editor.once( 'destroy', function() {
 			setTimeout( function() {
 				editor = CKEDITOR.replace( 'editor1', {
-					allowedContent: allowedContent
+					allowedContent: allowedContent,
+					extraPlugins: extraPlugins
 				} );
 
 				// Calling destroy on editor removes listener.
