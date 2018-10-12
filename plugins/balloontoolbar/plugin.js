@@ -768,11 +768,13 @@
 					this.registerFocusable( element );
 				}, this );
 				// We need to initially set status of richCombo items (#1268).
-				CKEDITOR.tools.array.forEach( keys, function( itemKey ) {
-					if ( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo ) {
-						items[ itemKey ].updateState( editor );
-					}
-				}, this );
+				if ( CKEDITOR.ui.richCombo ) {
+					CKEDITOR.tools.array.forEach( keys, function( itemKey ) {
+						if ( items[ itemKey ] instanceof CKEDITOR.ui.richCombo ) {
+							items[ itemKey ].updateState( editor );
+						}
+					}, this );
+				}
 			};
 
 			/**
