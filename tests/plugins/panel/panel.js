@@ -2,7 +2,7 @@
 /* bender-ckeditor-plugins: panel */
 
 ( function() {
-	'use sctrict';
+	'use strict';
 
 	bender.editor = {};
 
@@ -22,7 +22,7 @@
 	}
 
 	bender.test( {
-		// #2035
+		// (#2035)
 		'test panel src is empty': function() {
 			if ( !CKEDITOR.env.edge ) {
 				assert.ignore();
@@ -40,7 +40,7 @@
 			assert.areSame( '', src, 'Frame source should be empty.' );
 		},
 
-		// #2453
+		// (#2453)
 		'test panel detects input elements': function() {
 			var block = createBlock();
 
