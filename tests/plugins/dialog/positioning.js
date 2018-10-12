@@ -8,6 +8,7 @@
 
 	bender.test( {
 		setUp: function() {
+			// Make sure page is scrollable on vertical screens.
 			CKEDITOR.document.document.getBody().appendHtml( '<div style="height:4000px"></div>' );
 		},
 		tearDown: function() {
@@ -60,6 +61,33 @@
 			} );
 		},
 		// When drag starts, dialog becomes centered with `position:absolute`, then it moves together with mouse (#2395).
+		//
+		// A - mouse cursor
+		//
+		// Drag start:
+		// +----------------------------------+
+		// |      Editor viewport             |
+		// |                                  |
+		// |        +-------------A--+        |
+		// |        |                |        |
+		// |        |   Dialog       |        |
+		// |        |                |        |
+		// |        +----------------+        |
+		// |                                  |
+		// +----------------------------------+
+		//
+		// Drag end:
+		// +----------------------------------+
+		// |      Editor viewport             |
+		// |                                  |
+		// |                                  |
+		// |                +-------------A--+|
+		// |                |                ||
+		// |                |   Dialog       ||
+		// |                |                ||
+		// |                +----------------+|
+		// +----------------------------------+
+		//
 		'test dialog move': function() {
 			var window = CKEDITOR.document.getWindow(),
 				viewPaneSize = {
