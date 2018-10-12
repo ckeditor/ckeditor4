@@ -33,7 +33,7 @@
 
 			// On Edge and IE the button element has 'onmouseup' instead of 'onclick' so calling `$.click()` will not work there.
 			if ( CKEDITOR.env.ie || CKEDITOR.env.edge ) {
-				CKEDITOR.tools.callFunction( 4, comboButton.$ );
+				comboButton.$.onmouseup();
 			} else {
 				comboButton.$.click();
 			}
