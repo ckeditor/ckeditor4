@@ -1,0 +1,34 @@
+<textarea id="editor"></textarea>
+<script>
+	CKEDITOR.plugins.add( 'testplugin', {
+		requires: 'panelbutton,floatpanel',
+		init: function( editor ) {
+			editor.ui.add( 'testplugin', CKEDITOR.UI_PANELBUTTON, {
+				label: 'test',
+				title: 'Test Panel',
+				modes: {
+					wysiwyg: 1
+				},
+				editorFocus: 0,
+				panel: {
+					attributes: {}
+				},
+				onBlock: function( panel, block ) {
+					var keys = block.keys;
+					keys[ 39 ] = 'next';
+					keys[ 40 ] = 'next';
+					keys[ 9 ] = 'next';
+					keys[ 37 ] = 'prev';
+					keys[ 38 ] = 'prev';
+					keys[ CKEDITOR.SHIFT + 9 ] = 'prev';
+					block.element.setHtml( '<style>a:focus,input:focus { background-color: red; }</style>' +
+						'<a href="#" _cke_focus="1">link1</a><input placeholder="input" _cke_focus="1"><a href="#" _cke_focus="1">Link 2</a>' );
+				}
+			} );
+		}
+	} )
+	var editor = CKEDITOR.replace( 'editor', {
+		extraPlugins: 'testplugin'
+	} );
+
+</script>

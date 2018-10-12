@@ -90,6 +90,17 @@
 		 * to this button.
 		 */
 		render: function( editor, output ) {
+			var data = {
+				editorId: editor.id,
+				id: this.id,
+				langCode: editor.langCode,
+				dir: editor.lang.dir,
+				cls: this.className,
+				frame: '',
+				env: CKEDITOR.env.cssClass,
+				'z-index': editor.config.baseFloatZIndex + 1
+			};
+
 			this.getHolderElement = function() {
 				var holder = this._.holder;
 
@@ -150,17 +161,6 @@
 				}
 
 				return holder;
-			};
-
-			var data = {
-				editorId: editor.id,
-				id: this.id,
-				langCode: editor.langCode,
-				dir: editor.lang.dir,
-				cls: this.className,
-				frame: '',
-				env: CKEDITOR.env.cssClass,
-				'z-index': editor.config.baseFloatZIndex + 1
 			};
 
 			if ( this.isFramed ) {
@@ -297,8 +297,8 @@
 			markItem: function( index ) {
 				if ( index == -1 )
 					return;
-				var links = this.element.getElementsByTag( 'a' );
-				var item = links.getItem( this._.focusIndex = index );
+				var focusables = this._.getItems();
+				var item = focusables.getItem( this._.focusIndex = index );
 
 				// Safari need focus on the iframe window first(https://dev.ckeditor.com/ticket/3389), but we need
 				// lock the blur to avoid hiding the panel.
@@ -322,11 +322,11 @@
 				var notDisplayed = function( element ) {
 						return element.type == CKEDITOR.NODE_ELEMENT && element.getStyle( 'display' ) == 'none';
 					},
-					links = this._.getItems(),
+					focusables = this._.getItems(),
 					item, focused;
 
-				for ( var i = links.count() - 1; i >= 0; i-- ) {
-					item = links.getItem( i );
+				for ( var i = focusables.count() - 1; i >= 0; i-- ) {
+					item = focusables.getItem( i );
 
 					if ( !item.getAscendant( notDisplayed ) ) {
 						focused = item;
@@ -358,10 +358,10 @@
 			/**
 			 * Returns a `CKEDITOR.dom.nodeList` of block items.
 			 *
-			 * @returns {*|CKEDITOR.dom.nodeList}
+			 * @returns {CKEDITOR.dom.nodeList}
 			 */
 			getItems: function() {
-				return this.element.getElementsByTag( 'a' );
+				return this.element.find( 'a,input' );
 			}
 		},
 
@@ -381,22 +381,22 @@
 					// Move forward.
 					case 'next':
 						var index = this._.focusIndex,
-							links = this.element.getElementsByTag( 'a' ),
-							link;
+							focusables = this._.getItems(),
+							focusable;
 
-						while ( ( link = links.getItem( ++index ) ) ) {
+						while ( ( focusable = focusables.getItem( ++index ) ) ) {
 							// Move the focus only if the element is marked with
 							// the _cke_focus and it it's visible (check if it has
 							// width).
-							if ( link.getAttribute( '_cke_focus' ) && link.$.offsetWidth ) {
+							if ( focusable.getAttribute( '_cke_focus' ) && focusable.$.offsetWidth ) {
 								this._.focusIndex = index;
-								link.focus();
+								focusable.focus();
 								break;
 							}
 						}
 
-						// If no link was found, cycle and restart from the top. (https://dev.ckeditor.com/ticket/11125)
-						if ( !link && !noCycle ) {
+						// If no focusable was found, cycle and restart from the top. (https://dev.ckeditor.com/ticket/11125)
+						if ( !focusable && !noCycle ) {
 							this._.focusIndex = -1;
 							return this.onKeyDown( keystroke, 1 );
 						}
@@ -406,26 +406,26 @@
 						// Move backward.
 					case 'prev':
 						index = this._.focusIndex;
-						links = this.element.getElementsByTag( 'a' );
+						focusables = this._.getItems();
 
-						while ( index > 0 && ( link = links.getItem( --index ) ) ) {
+						while ( index > 0 && ( focusable = focusables.getItem( --index ) ) ) {
 							// Move the focus only if the element is marked with
 							// the _cke_focus and it it's visible (check if it has
 							// width).
-							if ( link.getAttribute( '_cke_focus' ) && link.$.offsetWidth ) {
+							if ( focusable.getAttribute( '_cke_focus' ) && focusable.$.offsetWidth ) {
 								this._.focusIndex = index;
-								link.focus();
+								focusable.focus();
 								break;
 							}
 
-							// Make sure link is null when the loop ends and nothing was
+							// Make sure focusable is null when the loop ends and nothing was
 							// found (https://dev.ckeditor.com/ticket/11125).
-							link = null;
+							focusable = null;
 						}
 
-						// If no link was found, cycle and restart from the bottom. (https://dev.ckeditor.com/ticket/11125)
-						if ( !link && !noCycle ) {
-							this._.focusIndex = links.count();
+						// If no focusable was found, cycle and restart from the bottom. (https://dev.ckeditor.com/ticket/11125)
+						if ( !focusable && !noCycle ) {
+							this._.focusIndex = focusables.count();
 							return this.onKeyDown( keystroke, 1 );
 						}
 
@@ -434,10 +434,10 @@
 					case 'click':
 					case 'mouseup':
 						index = this._.focusIndex;
-						link = index >= 0 && this.element.getElementsByTag( 'a' ).getItem( index );
+						focusable = index >= 0 && this._.getItems().getItem( index );
 
-						if ( link )
-							link.$[ keyAction ] ? link.$[ keyAction ]() : link.$[ 'on' + keyAction ]();
+						if ( focusable )
+							focusable.$[ keyAction ] ? focusable.$[ keyAction ]() : focusable.$[ 'on' + keyAction ]();
 
 						return false;
 				}
