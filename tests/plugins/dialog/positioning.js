@@ -108,9 +108,6 @@
 					expectedX = Math.floor( ( viewPaneSize.width - dialogSize.width ) / 2 ),
 					expectedY = Math.floor( ( viewPaneSize.height - dialogSize.height ) / 2 );
 
-				stubs.getWindow.returns( window );
-				stubs.getViewPane.returns( viewPaneSize );
-
 				dialog.parts.title.fire( 'mousedown', {
 					$: {
 						screenX: 0,
@@ -147,6 +144,38 @@
 
 				CKEDITOR.document.fire( 'mouseup' );
 				dialog.hide();
+			} );
+		},
+
+		'test dialog resize': function() {
+			this.editorBot.dialog( 'link', function( dialog ) {
+				var dialogSize = dialog.getSize(),
+					resizer = dialog._.element.findOne( '.cke_resizer' ),
+					sizeChange;
+
+				resizer.$.onmousedown( {
+					screenX: 0,
+					screenY: 0
+				} );
+
+				CKEDITOR.document.fire( 'mousemove', {
+					$: {
+						screenX: 10,
+						screenY: 10
+					},
+					preventDefault: function() {}
+				} );
+
+				CKEDITOR.document.fire( 'mouseup' );
+
+				sizeChange = {
+					width: dialog.getSize().width - dialogSize.width,
+					height: dialog.getSize().height - dialogSize.height
+				};
+
+				// When resizing some floats might be rounded.
+				assert.isNumberInRange( 10, sizeChange.width - 1, sizeChange.width );
+				assert.isNumberInRange( 10, sizeChange.height - 1, sizeChange.height );
 			} );
 		}
 	} );
