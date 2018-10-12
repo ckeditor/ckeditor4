@@ -45,19 +45,15 @@
 				assert.areEqual( container.getStyle( 'display' ), 'flex', 'Dialog container should have `display:flex`.' );
 				assert.areEqual( element.getStyle( 'position' ), '', 'Dialog element should\'t have position style.' );
 				assert.areEqual( element.getStyle( 'margin' ), 'auto', 'Dialog element should have `margin:auto`.' );
-
-				dialog.hide();
 			} );
 		},
 		// (#2395).
 		'test dialog cover styles': function() {
-			this.editorBot.dialog( 'link', function( dialog ) {
+			this.editorBot.dialog( 'link', function() {
 				var cover = CKEDITOR.document.findOne( '.cke_dialog_background_cover' );
 
 				assert.areEqual( cover.getStyle( 'width' ), '100%', 'Dialog element should have `width:100%`.' );
 				assert.areEqual( cover.getStyle( 'height' ), '100%', 'Dialog element should have `height:100%`.' );
-
-				dialog.hide();
 			} );
 		},
 		// When drag starts, dialog becomes centered with `position:absolute`, then it moves together with mouse (#2395).
@@ -143,7 +139,6 @@
 				assert.areEqual( 100, actualY - expectedY, 'Dialog should be moved by 100px down.' );
 
 				CKEDITOR.document.fire( 'mouseup' );
-				dialog.hide();
 			} );
 		},
 
