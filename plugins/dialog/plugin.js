@@ -717,6 +717,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		} );
 	}
 
+	var dialogViewportRatio = {};
+
 	CKEDITOR.dialog.prototype = {
 		destroy: function() {
 			this.hide();
@@ -786,54 +788,50 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @param {Number} y The target y-coordinate.
 		 * @param {Boolean} save Flag indicate whether the dialog position should be remembered on next open up.
 		 */
-		move: ( function() {
-			var fractionOfFreeSpace = {};
+		move: function( x, y, save ) {
+			var element = this._.element.getFirst(), rtl = this._.editor.lang.dir == 'rtl';
 
-			return function( x, y, save ) {
-				var element = this._.element.getFirst(), rtl = this._.editor.lang.dir == 'rtl';
+			// (https://dev.ckeditor.com/ticket/8888) In some cases of a very small viewport, dialog is incorrectly
+			// positioned in IE7. It also happens that it remains sticky and user cannot
+			// scroll down/up to reveal dialog's content below/above the viewport; this is
+			// cumbersome.
+			// The only way to fix this is to move mouse out of the browser and
+			// go back to see that dialog position is automagically fixed. No events,
+			// no style change - pure magic. This is a IE7 rendering issue, which can be
+			// fixed with dummy style redraw on each move.
+			if ( CKEDITOR.env.ie ) {
+				element.setStyle( 'zoom', '100%' );
+			}
 
-				// (https://dev.ckeditor.com/ticket/8888) In some cases of a very small viewport, dialog is incorrectly
-				// positioned in IE7. It also happens that it remains sticky and user cannot
-				// scroll down/up to reveal dialog's content below/above the viewport; this is
-				// cumbersome.
-				// The only way to fix this is to move mouse out of the browser and
-				// go back to see that dialog position is automagically fixed. No events,
-				// no style change - pure magic. This is a IE7 rendering issue, which can be
-				// fixed with dummy style redraw on each move.
-				if ( CKEDITOR.env.ie ) {
-					element.setStyle( 'zoom', '100%' );
-				}
+			var viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize(),
+				dialogSize = this.getSize(),
+				freeSpace = {
+					width: viewPaneSize.width - dialogSize.width,
+					height: viewPaneSize.height - dialogSize.height
+				};
+			if ( this._.position && this._.position.x == x && this._.position.y == y ) {
+				// If position didn't change window might have been resized.
+				x = freeSpace.width * dialogViewportRatio.width;
+				y = freeSpace.height * dialogViewportRatio.height;
+			} else {
+				dialogViewportRatio.width = x / freeSpace.width;
+				dialogViewportRatio.height = y / freeSpace.height;
+			}
+			// Save the current position.
+			this._.position = { x: x, y: y };
 
-				var viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize(),
-					dialogSize = this.getSize(),
-					freeSpace = {
-						width: viewPaneSize.width - dialogSize.width,
-						height: viewPaneSize.height - dialogSize.height
-					};
-				if ( this._.position && this._.position.x == x && this._.position.y == y ) {
-					// If position didn't change window might have been resized.
-					x = freeSpace.width * fractionOfFreeSpace.width;
-					y = freeSpace.height * fractionOfFreeSpace.height;
-				} else {
-					fractionOfFreeSpace.width = x / freeSpace.width;
-					fractionOfFreeSpace.height = y / freeSpace.height;
-				}
-				// Save the current position.
-				this._.position = { x: x, y: y };
+			// Translate coordinate for RTL.
+			if ( rtl ) {
+				x = freeSpace.width - x;
+			}
 
-				// Translate coordinate for RTL.
-				if ( rtl ) {
-					x = freeSpace.width - x;
-				}
+			var styles = { 'top': ( y > 0 ? y : 0 ) + 'px' };
+			styles[ rtl ? 'right' : 'left' ] = ( x > 0 ? x : 0 ) + 'px';
 
-				var styles = { 'top': ( y > 0 ? y : 0 ) + 'px' };
-				styles[ rtl ? 'right' : 'left' ] = ( x > 0 ? x : 0 ) + 'px';
+			element.setStyles( styles );
 
-				element.setStyles( styles );
-
-				save && ( this._.moved = 1 );
-			};
-		} )(),
+			save && ( this._.moved = 1 );
+		},
 
 		/**
 		 * Gets the dialog's position in the window.

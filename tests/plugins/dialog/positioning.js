@@ -9,7 +9,7 @@
 	bender.test( {
 		setUp: function() {
 			// Make sure page is scrollable on vertical screens.
-			CKEDITOR.document.document.getBody().appendHtml( '<div style="height:4000px"></div>' );
+			CKEDITOR.document.getBody().appendHtml( '<div style="height:4000px"></div>' );
 		},
 		tearDown: function() {
 			var dialog = CKEDITOR.dialog.getCurrent();
