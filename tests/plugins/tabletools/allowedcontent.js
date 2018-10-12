@@ -63,7 +63,8 @@
 								dialog.hide();
 
 								function isNotAllowed( key ) {
-									return dialog._.contents.info[ key ].notAllowed;
+									var item = dialog._.contents.info[ key ];
+									return item === undefined || item.notAllowed;
 								}
 							} );
 						}
