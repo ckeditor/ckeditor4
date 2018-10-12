@@ -6,7 +6,9 @@
 			editor.ui.add( 'testplugin', CKEDITOR.UI_PANELBUTTON, {
 				label: 'test',
 				title: 'Test Panel',
-				modes: { wysiwyg: 1 },
+				modes: {
+					wysiwyg: 1
+				},
 				editorFocus: 0,
 				panel: {
 					attributes: {}
@@ -20,7 +22,7 @@
 					keys[ 38 ] = 'prev';
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev';
 					block.element.setHtml( '<style>a:focus,input:focus { background-color: red; }</style>' +
-						'<a href="#" _cke_focus="1">link1</a><input _cke_focus="1"><a href="#" _cke_focus="1">Link 2</a>' );
+						'<a href="#" _cke_focus="1">link1</a><input placeholder="input" _cke_focus="1"><a href="#" _cke_focus="1">Link 2</a>' );
 				}
 			} );
 		}
