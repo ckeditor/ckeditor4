@@ -19,4 +19,3 @@
 ## Note:
 
 - Selecting/unselecting checkboxes destroys and creates new editor, so visible flickering may occur.
-- To change width or height of cell both properties needs to be allowed.
