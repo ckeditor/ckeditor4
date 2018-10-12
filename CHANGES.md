@@ -12,7 +12,6 @@ New Features:
 * [#706](https://github.com/ckeditor/ckeditor-dev/issues/706): Added different cursor style when selecting cells for [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
 * [#651](https://github.com/ckeditor/ckeditor-dev/issues/651): Text pasted using [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) preservers indentation in paragraphs.
 * [#1176](https://github.com/ckeditor/ckeditor-dev/pull/1176): The [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) can be attached to selection instead of element.
-* [#2453](https://github.com/ckeditor/ckeditor-dev/pull/2453): Add possibility to focus on `input` elements within [Panels](https://ckeditor.com/cke4/addon/panel).
 
 Fixed Issues:
 
@@ -37,6 +36,7 @@ Fixed Issues:
 
 API Changes:
 
+* [#2453](https://github.com/ckeditor/ckeditor-dev/issues/2453): The [`CKEDITOR.ui.panel.block.getItems`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_panel_block.html#method-getItems) now returns also `input` elements in addition to links.
 * [#2224](https://github.com/ckeditor/ckeditor-dev/issues/2224):  The [`CKEDITOR.tools.convertToPx`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-convertToPx) function now converts negative values.
 * [#2253](https://github.com/ckeditor/ckeditor-dev/issues/2253): The widget definition [`insert`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget.definition-property-insert) method now passes `editor` and `commandData`. Thanks to [marcparmet](https://github.com/marcparmet)!
 * [#2045](https://github.com/ckeditor/ckeditor-dev/issues/2045): Extracted [`tools.eventsBuffer`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-eventsBuffer) and [`tools.throttle`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-throttle) functions logic into separate namespace.
