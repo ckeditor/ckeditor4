@@ -287,7 +287,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		{
 			type: 'hbox',
 			padding: 0,
-			widths: [ '60%', '40%' ],
+			widths: colorDialog ? [ '60%', '40%' ] : [ '100%' ],
 			requiredContent: 'td{background-color}',
 			children: [ {
 				type: 'text',
@@ -329,12 +329,12 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							this.focus();
 						}, this );
 					}
-				} : createSpacer() ]
+				} : null ]
 		},
 		{
 			type: 'hbox',
 			padding: 0,
-			widths: [ '60%', '40%' ],
+			widths: colorDialog ? [ '60%', '40%' ] : [ '100%' ],
 			requiredContent: 'td{border-color}',
 			children: [ {
 				type: 'text',
@@ -377,7 +377,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						this.focus();
 					}, this );
 				}
-			} : createSpacer() ]
+			} : null ]
 		} ],
 	itemsCount = 0,
 	index = -1,
