@@ -592,7 +592,53 @@
 			correctInput: '123456789',
 			incorrectLinkAssertionCallback: assertIncorrectLinks,
 			correctLinkAssertionCallback: assertCorrectLinks
-		} )
+		} ),
+
+		// (#2478)
+		'test Ctrl+K keystroke': function() {
+			var bot = this.editorBots.noValidation,
+				editor = bot.editor;
+
+			bot.setData( '', function() {
+				editor.once( 'dialogShow', function( evt ) {
+					resume( function() {
+						var dialog = evt.data;
+
+						dialog.hide();
+						assert.areSame( 'link', dialog._.name );
+					} );
+				} );
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
+					keyCode: 75,
+					ctrlKey: true
+				} ) );
+				wait();
+			} );
+		},
+
+		// (#2478)
+		'test Ctrl+L keystroke': function() {
+			var bot = this.editorBots.noValidation,
+				editor = bot.editor;
+
+			bot.setData( '', function() {
+				editor.once( 'dialogShow', function( evt ) {
+					resume( function() {
+						var dialog = evt.data;
+
+						dialog.hide();
+						assert.areSame( 'link', dialog._.name );
+					} );
+				} );
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
+					keyCode: 76,
+					ctrlKey: true
+				} ) );
+				wait();
+			} );
+		}
 	} );
 
 	function assertPhoneLinks( config ) {
