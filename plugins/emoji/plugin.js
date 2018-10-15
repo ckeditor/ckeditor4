@@ -27,6 +27,7 @@
 			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
 				lang = editor.lang.emoji,
 				blockElement,
+				blockObject,
 				listeners = [];
 			var GROUPS = [
 				{
@@ -132,7 +133,6 @@
 					editor.insertText( data.emojiName );
 				}
 			} );
-
 			editor.ui.addToolbarGroup( 'emoji', 'insert' );
 			// Name is responsible for icon name also.
 			editor.ui.add( 'emojiPanel', CKEDITOR.UI_PANELBUTTON, {
@@ -166,6 +166,8 @@
 					block.element.setHtml( createEmojiBlock() );
 					panel.element.addClass( 'cke_emoji_panel' );
 
+					blockObject = block;
+
 					registerListeners( listeners );
 				},
 
@@ -180,7 +182,7 @@
 					};
 				} )(),
 
-				onClose: clearSearch
+				onClose: resetState
 			} );
 
 			function createEmojiBlock() {
@@ -208,7 +210,7 @@
 			function createGroupsNavigation() {
 				var svgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.svg' );
 				var itemTemplate = new CKEDITOR.template(
-					'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href={href} _cke_focus="1"><svg viewBox="0 0 34 34"> <use xlink:href="' +
+					'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href={href} draggable="false" _cke_focus="1"><svg viewBox="0 0 34 34"> <use xlink:href="' +
 					svgUrl +
 					'{href}"></use></svg></a></li>' );
 
@@ -371,9 +373,16 @@
 				refreshNavigationStatus();
 			}
 
-			function clearSearch() {
+			function resetState() {
+				// Clear search results:
 				blockElement.findOne( 'input' ).setValue( '' );
 				filter( '' );
+
+				// Clear focus:
+				blockObject._.markFirstDisplayed();
+
+				// Remove statusbar icons:
+				clearStatusbar();
 			}
 
 			function refreshNavigationStatus() {
@@ -412,6 +421,12 @@
 				blockElement.findOne( '.cke_emoji-status_icon' ).setText( target.getFirst().getText() );
 				blockElement.findOne( 'p.cke_emoji-status_description' ).setText( target.getFirst().data( 'cke-emoji-name' ) );
 				blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( target.getFirst().data( 'cke-emoji-full-name' ) );
+			}
+
+			function clearStatusbar() {
+				blockElement.findOne( '.cke_emoji-status_icon' ).setText( '' );
+				blockElement.findOne( 'p.cke_emoji-status_description' ).setText( '' );
+				blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( '' );
 			}
 
 			function registerListeners( list ) {
