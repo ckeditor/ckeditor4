@@ -302,9 +302,7 @@
 				listeners.push( {
 					selector: '.cke_emoji-outer_emoji_block',
 					event: 'keyup',
-					listener: function( evt ) {
-						updateStatusbar( evt.data.getTarget().getParent() );
-					}
+					listener: updateStatusbar
 				} );
 
 				return '<div class="cke_emoji-outer_emoji_block">' + getEmojiSections() + '</div>';
@@ -434,13 +432,13 @@
 					target = event.data.getTarget();
 				}
 
-				if ( target.getName() !== 'li' ) {
+				if ( target.getName() !== 'a' ) {
 					return;
 				}
 
-				blockElement.findOne( '.cke_emoji-status_icon' ).setText( target.getFirst().getText() );
-				blockElement.findOne( 'p.cke_emoji-status_description' ).setText( target.getFirst().data( 'cke-emoji-name' ) );
-				blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( target.getFirst().data( 'cke-emoji-full-name' ) );
+				blockElement.findOne( '.cke_emoji-status_icon' ).setText( target.getText() );
+				blockElement.findOne( 'p.cke_emoji-status_description' ).setText( target.data( 'cke-emoji-name' ) );
+				blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( target.data( 'cke-emoji-full-name' ) );
 			}
 
 			function clearStatusbar() {
