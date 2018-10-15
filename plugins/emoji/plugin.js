@@ -248,6 +248,26 @@
 						return buffer.input;
 					} )()
 				} );
+				listeners.push( {
+					selector: 'input',
+					event: 'click',
+					listener: ( function() {
+						var inputNumber;
+						return function() {
+							var items;
+							if ( inputNumber === undefined ) {
+								items = blockObject._.getItems();
+								for ( var i = 0; i < items.count(); i++ ) {
+									if ( items.getItem( i ).getName() === 'input' ) {
+										inputNumber = i;
+										break;
+									}
+								}
+							}
+							blockObject._.markItem( inputNumber );
+						};
+					} )()
+				} );
 				return '<label class="cke_emoji-search"><img src="' + loupeUrl +
 					'" /><input placeholder="' + lang.searchPlaceholder +
 					'" type="search" _cke_focus="1"></label>';

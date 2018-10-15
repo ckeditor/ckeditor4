@@ -121,11 +121,10 @@
 	list-style-type: none;
 	display: inline-block;
 	cursor: pointer;
-	width: 33px;
-	height: 33px;
+	width: 39px;
+	height: 35px;
 	font-size: 2em;
 	text-align: center;
-	padding: 1px 3px;
 }
 
 .cke_emoji_item:hover {
@@ -135,6 +134,7 @@
 
 .cke_emoji_item > a {
 	text-decoration: none;
+	padding-top: 3px;
 }
 
 .cke_emoji-outer_emoji_block .hidden {
@@ -174,4 +174,13 @@ p.cke_emoji-status_full_name {
 
 .cke_emoji {
 	height: 100%;
+}
+
+a {
+	display: inline-block;
+	width: 100%;
+}
+
+a:focus, input:focus {
+	outline: 2px solid #139FF7;
 }
