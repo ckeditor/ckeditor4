@@ -274,15 +274,14 @@
 				listeners.push( {
 					selector: '.cke_emoji-outer_emoji_block',
 					event: 'mouseover',
-					listener: function( event ) {
-						var target = event.data.getTarget();
-						if ( target.getName() !== 'li' ) {
-							return;
-						}
+					listener: updateStatusbar
+				} );
 
-						blockElement.findOne( '.cke_emoji-status_icon' ).setText( target.getFirst().getText() );
-						blockElement.findOne( 'p.cke_emoji-status_description' ).setText( target.getFirst().data( 'cke-emoji-name' ) );
-						blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( target.getFirst().data( 'cke-emoji-full-name' ) );
+				listeners.push( {
+					selector: '.cke_emoji-outer_emoji_block',
+					event: 'keyup',
+					listener: function( evt ) {
+						updateStatusbar( evt.data.getTarget().getParent() );
 					}
 				} );
 
@@ -396,6 +395,23 @@
 						node.removeClass( 'active' );
 					}
 				} );
+			}
+
+			function updateStatusbar( event ) {
+				var target;
+				if ( event instanceof CKEDITOR.dom.element ) {
+					target = event;
+				} else {
+					target = event.data.getTarget();
+				}
+
+				if ( target.getName() !== 'li' ) {
+					return;
+				}
+
+				blockElement.findOne( '.cke_emoji-status_icon' ).setText( target.getFirst().getText() );
+				blockElement.findOne( 'p.cke_emoji-status_description' ).setText( target.getFirst().data( 'cke-emoji-name' ) );
+				blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( target.getFirst().data( 'cke-emoji-full-name' ) );
 			}
 
 			function registerListeners( list ) {
