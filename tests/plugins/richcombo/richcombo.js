@@ -56,5 +56,56 @@ bender.test( {
 
 		assert.areEqual( 0, combo._.listeners.length, 'Listeners array is empty.' );
 		assert.isTrue( listenersRemoved, 'All listeners are removed.' );
-	}
+	},
+
+	// (#1268)
+	'test updatestate': testUpdateState(),
+
+	// (#1268)
+	'test updatestate read only editor': testUpdateState( { readOnly: true } ),
+
+	// (#1268)
+	'test updatestate source mode': testUpdateState( { mode: 'source' } ),
+
+	// (#1268)
+	'test updatestate combo on': testUpdateState( { comboOn: true } )
 } );
+
+function testUpdateState( options ) {
+	return function() {
+		var editor = this.editor,
+			combo = editor.ui.get( 'custom_combo' ),
+			spy = sinon.spy( combo, 'setState' ),
+			expected = [ 1, CKEDITOR.TRISTATE_OFF ],
+			originalMode;
+
+		options = options || {};
+
+		if ( options.mode && options.mode !== editor.mode ) {
+			originalMode = editor.mode;
+			editor.mode = options.mode;
+		}
+
+		if ( options.readOnly || originalMode ) {
+			editor.setReadOnly( true );
+			expected[ 1 ] = CKEDITOR.TRISTATE_DISABLED;
+		}
+
+		if ( options.comboOn ) {
+			combo.setState( CKEDITOR.TRISTATE_ON );
+			spy.reset();
+			expected = [ 0, CKEDITOR.TRISTATE_ON ];
+		}
+
+		combo.updateState( editor );
+
+		spy.restore();
+
+		if ( originalMode ) {
+			editor.mode = originalMode;
+		}
+
+		assert.areEqual( expected[ 0 ], spy.callCount );
+		assert.areEqual( expected[ 1 ], combo.getState() );
+	};
+}
