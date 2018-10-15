@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'hr', {
 	paste: 'Zalijepi',
 	pasteNotification: 'Vaš preglednik Vam ne dozvoljava lijepljenje običnog teksta na ovaj način. Za lijepljenje, pritisnite %1.',
 	pasteArea: 'Okvir za lijepljenje',
-	pasteMsg: 'Zalijepite vaš sadržaj u okvir ispod i pritisnite OK.',
-	title: 'Zalijepi'
+	pasteMsg: 'Zalijepite vaš sadržaj u okvir ispod i pritisnite OK.'
 } );

@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'hu', {
 	paste: 'Beillesztés',
 	pasteNotification: 'Nyomjd meg a %1 gombot a beillesztéshez. A böngésző nem támogatja a beillesztést az eszköztás gombbal vagy a menüből.',
 	pasteArea: 'Beillesztési terület',
-	pasteMsg: 'Illeszd be a tartalmat az alábbi területbe, és nyomj egy OK-t.',
-	title: 'Beillesztés'
+	pasteMsg: 'Illeszd be a tartalmat az alábbi területbe, és nyomj egy OK-t.'
 } );

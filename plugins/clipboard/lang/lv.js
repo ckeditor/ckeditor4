@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'lv', {
 	paste: 'Ielīmēt',
 	pasteNotification: 'Nospied %1 lai ielīmētu. Tavs pārlūks neatbalsta ielīmēšanu ar rīkjoslas pogām vai uznirstošās izvēlnes opciju.',
 	pasteArea: 'Ielīmēšanas zona',
-	pasteMsg: 'Ielīmē saturu zemāk esošajā laukā un nospied OK.',
-	title: 'Ievietot'
+	pasteMsg: 'Ielīmē saturu zemāk esošajā laukā un nospied OK.'
 } );

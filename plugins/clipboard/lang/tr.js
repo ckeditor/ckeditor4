@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'tr', {
 	paste: 'Yapıştır',
 	pasteNotification: '%1 tuşuna yapıştırmak için tıklayın. Tarayıcınız, Araç Çubuğu yada İçerik Menüsünü kullanarak yapıştırmayı desteklemiyor.',
 	pasteArea: 'Yapıştırma Alanı',
-	pasteMsg: 'İçeriğinizi alttaki bulunan alana yapıştırın ve TAMAM butonuna tıklayın',
-	title: 'Yapıştır'
+	pasteMsg: 'İçeriğinizi alttaki bulunan alana yapıştırın ve TAMAM butonuna tıklayın'
 } );
