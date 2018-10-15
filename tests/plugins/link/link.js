@@ -617,7 +617,6 @@
 			} );
 		},
 
-		// (#2478)
 		'test Ctrl+L keystroke': function() {
 			var bot = this.editorBots.noValidation,
 				editor = bot.editor;
