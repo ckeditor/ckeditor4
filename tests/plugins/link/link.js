@@ -595,50 +595,34 @@
 		} ),
 
 		// (#2478)
-		'test Ctrl+K keystroke': function() {
-			var bot = this.editorBots.noValidation,
-				editor = bot.editor;
+		'test Ctrl+K keystroke': assertKeystroke( 75 ),
 
-			bot.setData( '', function() {
-				editor.once( 'dialogShow', function( evt ) {
-					resume( function() {
-						var dialog = evt.data;
-
-						dialog.hide();
-						assert.areSame( 'link', dialog._.name );
-					} );
-				} );
-
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
-					keyCode: 75,
-					ctrlKey: true
-				} ) );
-				wait();
-			} );
-		},
-
-		'test Ctrl+L keystroke': function() {
-			var bot = this.editorBots.noValidation,
-				editor = bot.editor;
-
-			bot.setData( '', function() {
-				editor.once( 'dialogShow', function( evt ) {
-					resume( function() {
-						var dialog = evt.data;
-
-						dialog.hide();
-						assert.areSame( 'link', dialog._.name );
-					} );
-				} );
-
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
-					keyCode: 76,
-					ctrlKey: true
-				} ) );
-				wait();
-			} );
-		}
+		'test Ctrl+L keystroke': assertKeystroke( 76 )
 	} );
+
+	function assertKeystroke( key ) {
+		return function() {
+			var bot = this.editorBots.noValidation,
+				editor = bot.editor;
+
+			bot.setData( '', function() {
+				editor.once( 'dialogShow', function( evt ) {
+					resume( function() {
+						var dialog = evt.data;
+
+						dialog.hide();
+						assert.areSame( 'link', dialog._.name );
+					} );
+				} );
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
+					keyCode: key,
+					ctrlKey: true
+				} ) );
+				wait();
+			} );
+		};
+	}
 
 	function assertPhoneLinks( config ) {
 		return function() {
