@@ -220,6 +220,7 @@
 						href: '#' + item.name.toLowerCase()
 					} );
 				}, '' );
+
 				listeners.push( {
 					selector: 'nav li',
 					event: 'click',
@@ -235,11 +236,20 @@
 						} );
 					}
 				} );
+
+				listeners.push( {
+					selector: 'nav li',
+					event: 'click',
+					listener: clearSearchAndMoveFocus
+				} );
+
+
 				return '<nav><ul>' + items + '</ul></nav>';
 			}
 
 			function createSearchSection() {
 				var loupeUrl = CKEDITOR.getUrl( that.path + 'assets/loupe.svg' );
+
 				listeners.push( {
 					selector: 'input',
 					event: 'input',
@@ -268,6 +278,7 @@
 						};
 					} )()
 				} );
+
 				return '<label class="cke_emoji-search"><img src="' + loupeUrl +
 					'" /><input placeholder="' + lang.searchPlaceholder +
 					'" type="search" _cke_focus="1"></label>';
@@ -391,10 +402,14 @@
 				refreshNavigationStatus();
 			}
 
-			function resetState() {
-				// Clear search results:
+			function clearSearchInput() {
 				blockElement.findOne( 'input' ).setValue( '' );
 				filter( '' );
+			}
+
+			function resetState() {
+				// Clear search results:
+				clearSearchInput();
 
 				// Clear focus:
 				blockObject._.markFirstDisplayed();
@@ -445,6 +460,22 @@
 				blockElement.findOne( '.cke_emoji-status_icon' ).setText( '' );
 				blockElement.findOne( 'p.cke_emoji-status_description' ).setText( '' );
 				blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( '' );
+			}
+
+			function clearSearchAndMoveFocus( event ) {
+				clearSearchInput();
+				moveFocus( event );
+			}
+
+			function moveFocus( event ) {
+				var items = blockObject._.getItems().toArray();
+				var groupName = event.data.getTarget().getAscendant( 'li' ).data( 'cke-emoji-group' );
+				var firstSectionItem = blockElement.findOne( 'a[data-cke-emoji-group="' + groupName + '"]' );
+				var itemIndex = CKEDITOR.tools.array.indexOf( items, function( item ) {
+					return item.equals( firstSectionItem );
+				} );
+				firstSectionItem.focus( true );
+				blockObject._.markItem( itemIndex );
 			}
 
 			function registerListeners( list ) {
