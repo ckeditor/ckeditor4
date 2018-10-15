@@ -806,8 +806,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			var viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize(),
 				dialogSize = this.getSize(),
 				freeSpace = {
-					width: viewPaneSize.width - dialogSize.width,
-					height: viewPaneSize.height - dialogSize.height
+					width: Math.max( viewPaneSize.width - dialogSize.width, 0 ),
+					height: Math.max( viewPaneSize.height - dialogSize.height, 0 )
 				};
 			if ( this._.position && this._.position.x == x && this._.position.y == y ) {
 				// If position didn't change window might have been resized.
