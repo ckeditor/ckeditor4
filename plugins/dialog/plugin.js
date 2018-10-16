@@ -943,7 +943,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				this.fireOnce( 'load', {} );
 				CKEDITOR.ui.fire( 'ready', this );
 
-				this._determineModel( this._.editor );
+				this.getModel( this._.editor );
 
 				this.fire( 'show', {} );
 				this._.editor.fire( 'dialogShow', this );
@@ -1514,7 +1514,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 
 			if ( this.definition.getModel ) {
-				ret = this.definition.getModel( editor );
+				ret = this.definition.getModel( editor ) || null;
 			}
 
 			if ( !ret ) {
@@ -1559,17 +1559,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			} ).returnValue;
 
 			return ret || false;
-		},
-
-		/**
-		 * Method for dialog's first attempt to determine the model.
-		 *
-		 * @since 4.11.0
-		 * @private
-		 * @inheritdoc CKEDITOR.dialog.modeledDialog#getModel
-		 */
-		_determineModel: function( editor ) {
-			return this.getModel( editor );
 		}
 	};
 
