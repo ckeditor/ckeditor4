@@ -222,7 +222,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 
 				element.removeAttribute( 'vAlign' );
 			}
-		}, {
+		},
+			createSpacer( [ 'td{text-align}', 'td{vertical-align}' ] ),
+		{
 			type: 'select',
 			id: 'cellType',
 			requiredContent: 'th',
@@ -283,7 +285,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				}
 			}
 		},
-		createSpacer( 'td[colspan]' ),
+		createSpacer( [ 'td[colspan]', 'td[rowspan]' ] ),
 		{
 			type: 'hbox',
 			padding: 0,
