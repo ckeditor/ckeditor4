@@ -113,13 +113,12 @@
 			}
 		} );
 
-		bender.editors[ 'editor_' + index ] = {
+		bender.editors[ 'editor_' + index + '_allowed:' + array.join( ',' ) ] = {
 			config: {
 				allowedContent: bender.editors.editor.config.allowedContent,
 				extraAllowedContent: extraAllowedContent
 			}
 		};
 	} );
-
 	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
 } )();
