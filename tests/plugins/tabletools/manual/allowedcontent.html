@@ -53,6 +53,7 @@
 				attributes: []
 			}
 		},
+		extraPlugins = '',
 		editor = CKEDITOR.replace( 'editor1', {
 			allowedContent: allowedContent
 		} ),
@@ -80,8 +81,7 @@
 			state = target.$.checked,
 			rule = target.getAttribute( 'name' ),
 			attributes = allowedContent.td.attributes,
-			styles = allowedContent.td.styles,
-			extraPlugins;
+			styles = allowedContent.td.styles;
 
 		if ( !rule ) {
 			return;
