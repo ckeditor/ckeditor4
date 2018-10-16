@@ -102,6 +102,8 @@
 	overflow-x: hidden;
 	overflow-y: auto;
 	margin-top: 5px;
+	padding-left: 2px;
+	padding-right: 2px;
 }
 
 .cke_emoji-outer_emoji_block h2 {
@@ -121,7 +123,7 @@
 	list-style-type: none;
 	display: inline-block;
 	cursor: pointer;
-	width: 39px;
+	width: 38px;
 	height: 35px;
 	font-size: 2em;
 	text-align: center;
@@ -181,6 +183,6 @@ a {
 	width: 100%;
 }
 
-a:focus, input:focus {
+.cke_emoji_inner_panel a:focus, .cke_emoji_inner_panel input:focus {
 	outline: 2px solid #139FF7;
 }
