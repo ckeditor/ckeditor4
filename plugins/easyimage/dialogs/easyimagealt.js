@@ -8,6 +8,13 @@ CKEDITOR.dialog.add( 'easyimageAlt', function( editor ) {
 		title: editor.lang.easyimage.commands.altText,
 		minWidth: 200,
 		minHeight: 30,
+		getModel: function() {
+			var focused = editor.widgets.focused;
+
+			if ( focused && focused.name == 'easyimage' ) {
+				return focused;
+			}
+		},
 		onOk: function() {
 			var newAlt = CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtAlt' ) ),
 				model = this.getModel( editor );
