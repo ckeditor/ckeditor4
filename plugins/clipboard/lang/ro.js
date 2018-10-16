@@ -7,9 +7,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ro', {
 	copyError: 'Setările de securitate ale navigatorului (browser) pe care îl folosiţi nu permit editorului să execute automat operaţiunea de copiere. Vă rugăm folosiţi tastatura (Ctrl/Cmd+C).',
 	cut: 'Tăiere',
 	cutError: 'Setările de securitate ale navigatorului (browser) pe care îl folosiţi nu permit editorului să execute automat operaţiunea de tăiere. Vă rugăm folosiţi tastatura (Ctrl/Cmd+X).',
-	paste: 'Adaugă din clipboard',
+	paste: 'Adaugă',
 	pasteNotification: 'Apasă %1 pentru adăugare. Navigatorul (browser) tău nu suportă adăugarea din clipboard cu butonul din toolbar sau cu opțiunea din meniul contextual.',
 	pasteArea: 'Suprafața de adăugare',
-	pasteMsg: 'Adaugă conținutul tău înăuntru zonei de mai jos și apasă OK.',
-	title: 'Adaugă'
+	pasteMsg: 'Adaugă conținutul tău înăuntru zonei de mai jos și apasă OK.'
 } );

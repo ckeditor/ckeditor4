@@ -16,15 +16,21 @@
 				emailTemplate = new CKEDITOR.template( '<a href="mailto:{link}">{text}</a>' );
 
 			editor.on( 'paste', function( evt ) {
-				// Pasted text may be encoded. Decode it so we will be able to compare its length with match.
-				var text = CKEDITOR.tools.htmlDecode( evt.data.dataValue );
+				if ( evt.data.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+					return;
+				}
 
-				// Attach afterPaste event here to avoid race condition between events.
-				editor.once( 'afterPaste', function() {
-					autolink( function( matched ) {
-						return matched && matched.text.length == text.length;
-					} );
-				} );
+				var data = evt.data.dataValue;
+
+				// If we found "<" it means that most likely there's some tag and we don't want to touch it.
+				if ( data.indexOf( '<' ) > -1 ) {
+					return;
+				}
+
+				if ( matchLink( data ) ) {
+					evt.data.dataValue = getHtmlToInsert( data );
+					evt.data.type = 'html';
+				}
 			} );
 
 			// IE has its own link completion and we don't want to interfere with it.
@@ -39,19 +45,14 @@
 						return;
 					}
 
-					autolink( function( matched ) {
-						return matched;
-					} );
+					var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], matchCallback );
+
+					if ( matched ) {
+						insertLink( matched );
+					}
+
 				} );
 			} );
-
-			function autolink( condition ) {
-				var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], matchCallback );
-
-				if ( condition( matched ) ) {
-					insertLink( matched );
-				}
-			}
 
 			function insertLink( match ) {
 				var selection = editor.getSelection();
@@ -88,6 +89,9 @@
 					if ( attributes.removed.length ) {
 						link.removeAttributes( attributes.removed );
 					}
+
+					link.removeAttribute( 'data-cke-saved-href' );
+
 					return link.getOuterHtml();
 				}
 				return data;
@@ -106,16 +110,24 @@
 			}
 
 			function matchCallback( text, offset ) {
-				var query = text.slice( 0, offset );
+				var parts = text.slice( 0, offset )
+						.split( /\s+/ ),
+					query = parts[ parts.length - 1 ];
 
-				var match = query.match( CKEDITOR.config.autolink_urlRegex ) ||
-					query.match( CKEDITOR.config.autolink_emailRegex );
-
-				if ( !match ) {
+				if ( !query ) {
 					return null;
 				}
 
-				return { start: match.index, end: offset };
+				if ( !matchLink( query ) ) {
+					return null;
+				}
+
+				return { start: text.lastIndexOf( query ), end: offset };
+			}
+
+			function matchLink( query ) {
+				return query.match( CKEDITOR.config.autolink_urlRegex ) ||
+					query.match( CKEDITOR.config.autolink_emailRegex );
 			}
 		}
 	} );
@@ -148,7 +160,7 @@
 	 * @since 4.11.0
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.autolink_urlRegex = /(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/i;
+	CKEDITOR.config.autolink_urlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/i;
 	// Regex by Imme Emosol.
 
 	/**
@@ -158,6 +170,6 @@
 	 * @since 4.11.0
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.autolink_emailRegex = /[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+	CKEDITOR.config.autolink_emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 	// Regex by (https://html.spec.whatwg.org/#e-mail-state-(type=email)).
 } )();

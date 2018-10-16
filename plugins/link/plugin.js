@@ -70,6 +70,9 @@
 
 			editor.setKeystroke( CKEDITOR.CTRL + 76 /*L*/, 'link' );
 
+			// (#2478)
+			editor.setKeystroke( CKEDITOR.CTRL + 75 /*K*/, 'link' );
+
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'Link', {
 					label: editor.lang.link.toolbar,

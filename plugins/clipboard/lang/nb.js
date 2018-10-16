@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'nb', {
 	paste: 'Lim inn',
 	pasteNotification: 'Trykk %1 for å lime inn. Nettleseren din støtter ikke å lime inn med knappen i verktøylinjen eller høyreklikkmenyen.',
 	pasteArea: 'Innlimingsområde',
-	pasteMsg: 'Lim inn innholdet i området nedenfor og klikk OK.',
-	title: 'Lim inn'
+	pasteMsg: 'Lim inn innholdet i området nedenfor og klikk OK.'
 } );

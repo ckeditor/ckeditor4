@@ -3,7 +3,7 @@
 
 bender.editor = {
 	config: {
-		toolbar: [ [ 'custom_btn', 'disabled_btn', 'haspopup_btn' ] ],
+		toolbar: [ [ 'custom_btn', 'disabled_btn', 'haspopup_btn', 'arrow_btn' ] ],
 		on: {
 			'pluginsLoaded': function( evt ) {
 				var editor = evt.editor;
@@ -14,8 +14,13 @@ bender.editor = {
 					label: 'disabled button',
 					modes: {} // This button should be disabled because it does not work in any of modes.
 				} );
+
 				editor.ui.addButton( 'haspopup_btn', {
 					hasArrow: 'menu'
+				} );
+
+				editor.ui.addButton( 'arrow_btn', {
+					label: 'arrow button'
 				} );
 			}
 		}
@@ -61,6 +66,23 @@ bender.test( {
 		var btn = this.getUiItem( 'haspopup_btn' ),
 			btnEl = CKEDITOR.document.getById( btn._.id );
 		assert.areEqual( btnEl.getAttribute( 'aria-haspopup' ), 'menu' );
+	},
+
+	// (#421)
+	'test button label with arrow': function() {
+		var button = this.getUiItem( 'arrow_btn' ),
+			expectedAttributes = {
+				'aria-expanded': 'true'
+			};
+
+		button.hasArrow = true;
+		button.setState( CKEDITOR.TRISTATE_ON );
+
+		var buttonEl = this.getButtonDomElement( button ),
+			label = CKEDITOR.document.getById( buttonEl.getAttribute( 'aria-labelledby' ) );
+
+		this.assertAttribtues( expectedAttributes, button );
+		assert.areEqual( 'arrow button', label.getText(), 'innerText of label doesn\'t match' );
 	},
 
 	// Asserts that button has given attributes, with given values.

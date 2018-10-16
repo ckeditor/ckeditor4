@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'es', {
 	paste: 'Pegar',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Zona de pegado',
-	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
-	title: 'Pegar'
+	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
 } );

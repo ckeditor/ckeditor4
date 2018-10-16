@@ -156,6 +156,52 @@
 			} );
 		},
 
+		// (#1454)
+		'test calling widget onAbort function when widget is destroyed': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				stub = sinon.stub().returns( true );
+
+			addTestUploadWidget( editor, 'testuploadwidget', {
+				onAbort: stub
+			} );
+
+			bot.setData( '', function() {
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+				var loader = editor.uploadRepository.loaders[ 0 ];
+
+				bender.tools.objToArray( editor.widgets.instances )[ 0 ].wrapper = null;
+				editor.editable().findOne( '[data-cke-upload-id="' + loader.id + '"]' ).remove();
+
+				loader.fire( 'update' );
+
+				assert.isTrue( stub.calledOnce );
+			} );
+		},
+
+		// (#1454)
+		'test onAbort can be called only once': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				stub = sinon.stub().returns( true );
+
+			addTestUploadWidget( editor, 'testuploadwidget', {
+				onAbort: stub
+			} );
+
+			bot.setData( '', function() {
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+				var loader = editor.uploadRepository.loaders[ 0 ];
+
+				loader.abort();
+				loader.abort();
+
+				assert.isTrue( stub.calledOnce );
+			} );
+		},
+
 		'test markElement': function() {
 			var element = new CKEDITOR.dom.element( 'p' );
 			CKEDITOR.fileTools.markElement( element, 'widgetName', 1 );

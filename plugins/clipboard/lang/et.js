@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'et', {
 	paste: 'Aseta',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'Asetamise ala',
-	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
-	title: 'Asetamine'
+	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
 } );

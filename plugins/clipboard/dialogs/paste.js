@@ -83,7 +83,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 	}, null, null, 1000 );
 
 	return {
-		title: lang.title,
+		title: lang.paste,
 
 		minWidth: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 370 : 350,
 		minHeight: CKEDITOR.env.quirks ? 250 : 245,

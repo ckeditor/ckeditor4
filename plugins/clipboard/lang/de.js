@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'de', {
 	paste: 'Einfügen',
 	pasteNotification: 'Drücken Sie %1 zum Einfügen. Ihr Browser unterstützt nicht das Einfügen über dem Knopf in der Toolbar oder dem Kontextmenü.',
 	pasteArea: 'Einfügebereich',
-	pasteMsg: 'Fügen Sie den Inhalt in den unteren Bereich ein und drücken Sie OK.',
-	title: 'Einfügen'
+	pasteMsg: 'Fügen Sie den Inhalt in den unteren Bereich ein und drücken Sie OK.'
 } );
