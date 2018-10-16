@@ -1553,12 +1553,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		},
 
 		/**
-		 *
 		 * @since 4.11.0
-		 * @param {CKEDITOR.editor} editor
-		 * @param {CKEDITOR.dom.element/}
+		 * @param {CKEDITOR.dom.element/CKEDIOTR.plugins.widget/*} newModel Model to be set.
 		 */
-		setModel: function( editor, newModel ) {
+		setModel: function( newModel ) {
 			this._.model = newModel;
 		},
 
@@ -3422,7 +3420,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				dialog = storedDialogs[ dialogName ] || ( storedDialogs[ dialogName ] = new CKEDITOR.dialog( this, dialogName ) );
 
 				// Set model if it exists, or set it to null meaning that it does not support models.
-				dialog.setModel( this, model || null );
+				dialog.setModel( model || null );
 
 				dialog.show( function() {
 					callback && callback.call( dialog, dialog );
