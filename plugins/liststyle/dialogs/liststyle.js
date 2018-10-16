@@ -38,6 +38,7 @@
 				title: lang.bulletedTitle,
 				minWidth: 300,
 				minHeight: 50,
+				getModel: generateModelGetter( editor, 'ul' ),
 				contents: [ {
 					id: 'info',
 					accessKey: 'I',
@@ -95,6 +96,7 @@
 				title: lang.numberedTitle,
 				minWidth: 300,
 				minHeight: 50,
+				getModel: generateModelGetter( editor, 'ol' ),
 				contents: [ {
 					id: 'info',
 					accessKey: 'I',
@@ -177,4 +179,10 @@
 	CKEDITOR.dialog.add( 'bulletedListStyle', function( editor ) {
 		return listStyle( editor, 'bulletedListStyle' );
 	} );
+
+	function generateModelGetter( editor, tagName ) {
+		return function() {
+			return getListElement( editor, tagName ) || null;
+		};
+	}
 } )();
