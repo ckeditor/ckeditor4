@@ -244,14 +244,10 @@
 					var data = evt.data;
 
 					if ( data.name == widgetDef.dialog && evt.editor === editor ) {
-						data.dialog.on( 'isEditing', function( editingEvent ) {
-							var data = editingEvent.data,
-								model = data.model;
-
-							if ( !data.returnValue && model && model instanceof CKEDITOR.plugins.widget && model.ready ) {
-								data.returnValue = true;
-							}
-						} );
+						data.definition.isEditing = function( editor ) {
+							var model = data.dialog.getModel( editor );
+							return model && model instanceof CKEDITOR.plugins.widget && model.ready;
+						};
 						dialogListener.removeListener();
 					}
 				} );

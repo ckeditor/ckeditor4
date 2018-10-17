@@ -943,8 +943,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				this.fireOnce( 'load', {} );
 				CKEDITOR.ui.fire( 'ready', this );
 
-				this.getModel( this._.editor );
-
 				this.fire( 'show', {} );
 				this._.editor.fire( 'dialogShow', this );
 
@@ -1506,24 +1504,12 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @inheritdoc CKEDITOR.dialog.modeledDialog#getModel
 		 */
 		getModel: function( editor ) {
-			var ret = this._.model;
-
 			// Always return cached model instance.
 			if ( this._.model ) {
 				return this._.model;
 			}
 
-			if ( this.definition.getModel ) {
-				ret = this.definition.getModel( editor ) || null;
-			}
-
-			if ( !ret ) {
-				ret = this.fire( 'getModel', {
-					model: ret
-				}, editor ).model;
-			}
-
-			return ret || null;
+			return this.definition.getModel ? this.definition.getModel( editor ) : null;
 		},
 
 		/**
@@ -1546,19 +1532,17 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @returns {Boolean} Returns `true` if dialog is editing content that already exists in the editor.
 		 */
 		isEditing: function( editor ) {
-			var model = this.getModel( editor ),
-				ret = null;
-
-			if ( model && model instanceof CKEDITOR.dom.node ) {
-				ret = !!model.getParent();
+			if ( this.definition.isEditing ) {
+				return this.definition.isEditing( editor );
 			}
 
-			ret = this.fire( 'isEditing', {
-				returnValue: ret,
-				model: model
-			} ).returnValue;
+			var model = this.getModel( editor );
 
-			return ret || false;
+			if ( model && model instanceof CKEDITOR.dom.node ) {
+				return Boolean( model.getParent() );
+			}
+
+			return false;
 		}
 	};
 
