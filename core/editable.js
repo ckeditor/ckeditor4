@@ -2548,15 +2548,22 @@
 
 		// If something has left of the block to be merged, clean it up.
 		// It may happen when merging with list items.
-		if ( endBlock.getParent() ) {
-			// Move children to the first block.
-			endBlock.moveChildren( startBlock, false );
+		if ( startBlock.getParent() && endBlock.getParent() ) {
+			// Merge to the second block when the first block is empty.
+			var mergeForward = !startBlock.getText();
+
+			// Move children to the target block.
+			if ( mergeForward ) {
+				startBlock.moveChildren( endBlock, true );
+			} else {
+				endBlock.moveChildren( startBlock, false );
+			}
 
 			// ...and merge them if that's possible.
 			startPath.lastElement.mergeSiblings();
 
 			// If expanded selection, things are always merged like with BACKSPACE.
-			pruneEmptyDisjointAncestors( startBlock, endBlock, true );
+			pruneEmptyDisjointAncestors( startBlock, endBlock, !mergeForward );
 		}
 
 		// Make sure the result selection is collapsed.
