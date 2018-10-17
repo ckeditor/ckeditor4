@@ -63,6 +63,18 @@
 			}
 		},
 
+		'test backspace and delete on two paragraphs with forceMergeBlocks=false': function() {
+			CKEDITOR.config.forceMergeBlocks = false;
+
+			try {
+				bd( '<p>Te[st</p><p>Te]st</p>', '<p>Te^</p><p>st</p>' ).call( this );
+			} catch ( e ) {
+				throw e;
+			} finally {
+				delete CKEDITOR.config.forceMergeBlocks;
+			}
+		},
+
 		'test backspace and delete #1':					bd( '<p>xx[x</p><p>y]yy</p>',															'<p>xx^yy</p>' ),
 		'test backspace and delete #2':					bd( '<div>xx[x</div><div>y]yy</div>',													'<div>xx^yy</div>' ),
 		'test backspace and delete #3':					bd( '<p>x<strong>x[x</strong></p><p>y]yy</p>',											'<p>x<strong>x^</strong>yy</p>' ),

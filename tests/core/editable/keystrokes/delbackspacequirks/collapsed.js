@@ -75,6 +75,18 @@
 			}
 		},
 
+		'test backspace on two paragraphs with forceMergeBlocks=false': function() {
+			CKEDITOR.config.forceMergeBlocks = false;
+
+			try {
+				b( '<p>Te</p><p>{}st</p>', '<p>Te^st</p>' ).call( this );
+			} catch ( e ) {
+				throw e;
+			} finally {
+				delete CKEDITOR.config.forceMergeBlocks;
+			}
+		},
+
 		'test CTRL+backspace works as backspace when merging blocks':		assertKeystroke( BACKSPACE, CKEDITOR.CTRL, 0,	'<p>x</p><p>{}y</p>',	'<p>x^y</p>' ),
 		'test SHIFT+backspace works as backspace when merging blocks':		assertKeystroke( BACKSPACE, CKEDITOR.SHIFT, 0,	'<p>x</p><p>{}y</p>',	'<p>x^y</p>' ),
 		'test CTRL+delete works as delete when merging blocks':				assertKeystroke( DEL, CKEDITOR.CTRL, 0,			'<p>x{}</p><p>y</p>',	'<p>x^y</p>' ),

@@ -2546,17 +2546,19 @@
 		// Delete range contents. Do NOT merge. Merging is weird.
 		range.deleteContents();
 
-		// If something has left of the block to be merged, clean it up.
-		// It may happen when merging with list items.
-		if ( endBlock.getParent() ) {
-			// Move children to the first block.
-			endBlock.moveChildren( startBlock, false );
+		if ( editor.config.forceMergeBlocks !== false ) {
+			// If something has left of the block to be merged, clean it up.
+			// It may happen when merging with list items.
+			if ( endBlock.getParent() ) {
+				// Move children to the first block.
+				endBlock.moveChildren( startBlock, false );
 
-			// ...and merge them if that's possible.
-			startPath.lastElement.mergeSiblings();
+				// ...and merge them if that's possible.
+				startPath.lastElement.mergeSiblings();
 
-			// If expanded selection, things are always merged like with BACKSPACE.
-			pruneEmptyDisjointAncestors( startBlock, endBlock, true );
+				// If expanded selection, things are always merged like with BACKSPACE.
+				pruneEmptyDisjointAncestors( startBlock, endBlock, true );
+			}
 		}
 
 		// Make sure the result selection is collapsed.
@@ -3303,4 +3305,14 @@
  * @param {String} data.dialog The dialog window to be opened. If set by the listener,
  * the specified dialog window will be opened.
  * @member CKEDITOR.editor
+ */
+
+/**
+ * Whether the editor must merge the blocks when a selection spans across them is deleted.
+ *
+ * When set to false, only the content contained in the selection gets deleted while the 
+ * blocks remain intact.
+ *
+ * @cfg {Boolean} [forceMergeBlocks=true]
+ * @member CKEDITOR.config
  */
