@@ -130,7 +130,7 @@
 
 			editor.addCommand( 'insertEmoji', {
 				exec: function( editor, data ) {
-					editor.insertText( data.emojiName );
+					editor.insertText( data.emojiText );
 				}
 			} );
 			editor.ui.addToolbarGroup( 'emoji', 'insert' );
@@ -299,7 +299,7 @@
 					event: 'click',
 					listener: function( event ) {
 						if ( event.data.getTarget().data( 'cke-emoji-name' ) ) {
-							editor.insertText( event.data.getTarget().data( 'cke-emoji-symbol' ) );
+							editor.execCommand( 'insertEmoji', { emojiText: event.data.getTarget().data( 'cke-emoji-symbol' ) } );
 						}
 					}
 				} );
