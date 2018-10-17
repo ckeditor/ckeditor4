@@ -121,11 +121,11 @@
 .cke_emoji_item {
 	font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	list-style-type: none;
-	display: inline-block;
+	display: inline-table;
 	cursor: pointer;
-	width: 38px;
-	height: 35px;
-	font-size: 2em;
+	width: 36px;
+	height: 36px;
+	font-size: 1.8em;
 	text-align: center;
 }
 
@@ -136,7 +136,8 @@
 
 .cke_emoji_item > a {
 	text-decoration: none;
-	padding-top: 3px;
+	display: table-cell;
+	vertical-align: middle;
 }
 
 .cke_emoji-outer_emoji_block .hidden {
@@ -158,7 +159,7 @@
 
 .cke_emoji-status_icon {
 	font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	font-size: 2.5em;
+	font-size: 2.2em;
 }
 
 div.cke_emoji-status_description {
