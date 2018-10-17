@@ -342,7 +342,7 @@
 			function getEmojiListGroup( groupName ) {
 				var emojiList = editor._.emoji.list;
 				var emojiTpl = new CKEDITOR.template( '<li class="cke_emoji_item">' +
-				'<a data-cke-emoji-full-name="{id}" data-cke-emoji-name="{name}" data-cke-emoji-symbol="{symbol}" data-cke-emoji-group="{group}" ' +
+				'<a draggable="false" data-cke-emoji-full-name="{id}" data-cke-emoji-name="{name}" data-cke-emoji-symbol="{symbol}" data-cke-emoji-group="{group}" ' +
 				'data-cke-emoji-keywords="{keywords}" title="{id}" href="#" _cke_focus="1">{symbol}</a>' +
 				'</li>' );
 				return CKEDITOR.tools.array.reduce( CKEDITOR.tools.array.filter( emojiList, function( item ) {
