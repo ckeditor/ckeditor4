@@ -116,7 +116,7 @@
 
 				doc.findOne( '.cke_emoji-outer_emoji_block' ).fire( 'scroll', new CKEDITOR.dom.event() );
 				// Scroll event is throttled that's why we need wait a little bit.
-				setTimeout( function() {
+				CKEDITOR.tools.setTimeout( function() {
 					resume( function() {
 						assert.isTrue( doc.findOne( 'li[data-cke-emoji-group="travel"]' ).hasClass( 'active' ), 'Travel item in navigation should be highlighted' );
 						panel.hide();
