@@ -75,7 +75,7 @@
 					testElement = doc.findOne( 'a[data-cke-emoji-name="star"]' );
 
 					doc.findOne( '.cke_emoji-outer_emoji_block' ).fire( 'mouseover', new CKEDITOR.dom.event( {
-						target: testElement.getParent().$
+						target: testElement.$
 					} ) );
 
 					assert.areSame( '⭐', statusBarIcon.getText(), 'Status bar icon should contain star after mouseover event.' );
