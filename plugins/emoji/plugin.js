@@ -478,8 +478,13 @@
 			function moveFocus( event ) {
 				var groupName = event.data.getTarget().getAscendant( 'li' ).data( 'cke-emoji-group' ),
 					firstSectionItem = blockElement.findOne( 'a[data-cke-emoji-group="' + groupName + '"]' ),
-					itemIndex = getItemIndex( blockObject._.getItems().toArray(), firstSectionItem );
+					itemIndex;
 
+				if ( !firstSectionItem ) {
+					return;
+				}
+
+				itemIndex = getItemIndex( blockObject._.getItems().toArray(), firstSectionItem );
 				firstSectionItem.focus( true );
 				blockObject._.markItem( itemIndex );
 			}
