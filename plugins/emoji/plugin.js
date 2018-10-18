@@ -173,22 +173,17 @@
 					registerListeners( listeners );
 				},
 
-				onOpen: openingReset()
+				onOpen: openReset()
 			} );
 
 			function createEmojiBlock() {
 				var output = [];
 
 				output.push( createGroupsNavigation() );
-
 				output.push( createSeparator() );
-
 				output.push( createSearchSection() );
-
 				output.push( createEmojiListBlock() );
-
 				output.push( createSeparator() );
-
 				output.push( createStatusBar() );
 
 				return '<div class="cke_emoji_inner_panel">' + output.join( '' ) + '</div>';
@@ -255,15 +250,8 @@
 					listener: ( function() {
 						var inputNumber;
 						return function() {
-							var items;
 							if ( inputNumber === undefined ) {
-								items = blockObject._.getItems();
-								for ( var i = 0; i < items.count(); i++ ) {
-									if ( items.getItem( i ).getName() === 'input' ) {
-										inputNumber = i;
-										break;
-									}
-								}
+								inputNumber = getItemIndex( blockObject._.getItems().toArray(), blockElement.findOne( 'input' ) );
 							}
 							blockObject._.markItem( inputNumber );
 						};
@@ -348,6 +336,9 @@
 				}, '' );
 			}
 
+			// Apply filters to emoji items in dropdown.
+			// Hidding not searched one.
+			// Can accpet input event or string
 			function filter( evt ) {
 				var emojiItems = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).find( 'li > a' ).toArray();
 				var sections = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).find( 'h2' ).toArray();
@@ -398,18 +389,19 @@
 				filter( '' );
 			}
 
-			function openingReset() {
+			// Resets state of emoji dropdown.
+			// Clear filters, reset focus, etc.
+			function openReset() {
 				var firstCall,
 					inputIndex,
 					input;
 				return function() {
 
 					if ( !firstCall ) {
-						var items = blockObject._.getItems().toArray();
 						filter( '' );
 
 						input = blockElement.findOne( 'input' );
-						inputIndex = getItemIndex( items, input );
+						inputIndex = getItemIndex( blockObject._.getItems().toArray(), input );
 
 						firstCall = true;
 					}
@@ -419,7 +411,7 @@
 					// Clear search results:
 					clearSearchInput();
 
-					// Eeset focus:
+					// Reset focus:
 					input.focus( true );
 					blockObject._.markItem( inputIndex );
 
@@ -478,10 +470,9 @@
 			}
 
 			function moveFocus( event ) {
-				var items = blockObject._.getItems().toArray();
-				var groupName = event.data.getTarget().getAscendant( 'li' ).data( 'cke-emoji-group' );
-				var firstSectionItem = blockElement.findOne( 'a[data-cke-emoji-group="' + groupName + '"]' );
-				var itemIndex = getItemIndex( items, firstSectionItem );
+				var groupName = event.data.getTarget().getAscendant( 'li' ).data( 'cke-emoji-group' ),
+					firstSectionItem = blockElement.findOne( 'a[data-cke-emoji-group="' + groupName + '"]' ),
+					itemIndex = getItemIndex( blockObject._.getItems().toArray(), firstSectionItem );
 
 				firstSectionItem.focus( true );
 				blockObject._.markItem( itemIndex );
