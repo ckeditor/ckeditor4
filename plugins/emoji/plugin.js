@@ -130,7 +130,8 @@
 
 			editor.addCommand( 'insertEmoji', {
 				exec: function( editor, data ) {
-					editor.insertText( data.emojiText );
+					editor.insertHtml( data.emojiText );
+					editor.focus( true );
 				}
 			} );
 			editor.ui.addToolbarGroup( 'emoji', 'insert' );
@@ -171,18 +172,7 @@
 					registerListeners( listeners );
 				},
 
-				onOpen: ( function() {
-					var firstCall;
-					return function() {
-						if ( !firstCall ) {
-							filter( '' );
-							firstCall = true;
-						}
-						refreshNavigationStatus();
-					};
-				} )(),
-
-				onClose: resetState
+				onOpen: openingReset()
 			} );
 
 			function createEmojiBlock() {
@@ -407,15 +397,24 @@
 				filter( '' );
 			}
 
-			function resetState() {
-				// Clear search results:
-				clearSearchInput();
+			function openingReset() {
+				var firstCall;
+				return function() {
+					if ( !firstCall ) {
+						filter( '' );
+						firstCall = true;
+					}
+					refreshNavigationStatus();
 
-				// Clear focus:
-				blockObject._.markFirstDisplayed();
+					// Clear search results:
+					clearSearchInput();
 
-				// Remove statusbar icons:
-				clearStatusbar();
+					// Clear focus:
+					blockObject._.markFirstDisplayed();
+
+					// Remove statusbar icons:
+					clearStatusbar();
+				};
 			}
 
 			function refreshNavigationStatus() {
