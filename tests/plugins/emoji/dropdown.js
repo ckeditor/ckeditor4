@@ -126,6 +126,26 @@
 			} );
 		},
 
+		'test input is focused element when dropdown opens': function() {
+			var bot = this.editorBot;
+			bot.panel( 'emojiPanel', function( panel ) {
+				try {
+					var doc = panel._.iframe.getFrameDocument(),
+						inputElement = doc.findOne( 'input' ),
+						panelBlock = emojiTools.getEmojiPanelBlock( panel ),
+						inputIndex = CKEDITOR.tools.getIndex( panelBlock._.getItems().toArray(), function( el ) {
+							return el.equals( inputElement );
+						} );
+
+					assert.areNotSame( 0, panelBlock._.focusIndex, 'Focus should not be in first element which is navigation.' );
+					assert.areSame( inputIndex, panelBlock._.focusIndex, 'First selected item should be input.' );
+				}
+				finally {
+					panel.hide();
+				}
+			} );
+		},
+
 		'test click inserts emoji to editor and has proper focus': function() {
 			var bot = this.editorBot,
 				editor = this.editor;
@@ -166,7 +186,7 @@
 							testElement = doc.findOne( 'a[data-cke-emoji-name="star"]' ),
 							panelBlock = emojiTools.getEmojiPanelBlock( panel );
 
-						panelBlock._.focusIndex =  CKEDITOR.tools.getIndex( panelBlock._.getItems().toArray(), function( el ) {
+						panelBlock._.focusIndex = CKEDITOR.tools.getIndex( panelBlock._.getItems().toArray(), function( el ) {
 							return el.data( 'cke-emoji-name' ) === 'star';
 						} );
 
