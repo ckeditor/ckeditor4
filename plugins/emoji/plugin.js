@@ -411,6 +411,7 @@
 						firstCall = true;
 					}
 
+					blockElement.findOne( '.cke_emoji-outer_emoji_block' ).$.scrollTop = 0;
 					refreshNavigationStatus();
 
 					// Clear search results:
