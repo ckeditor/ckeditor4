@@ -37,7 +37,7 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 
 	// Image Caption
 	captioned: 'Insert an editable caption textbox below the image',
-	msgCaption: 'The caption text can be edited and character styling can be applied',
+	msgCaption: 'The caption text can be edited with optional character styling',
 	captionedHelp: 'Adds an editable textbox below the image with placeholder text \'Caption\'',
 	captionPlaceholder: 'Caption',
 	captionContent: 'Caption Text',
