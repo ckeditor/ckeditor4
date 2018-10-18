@@ -76,7 +76,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				iframe: iframe,
 				children: [],
 				dir: editor.lang.dir,
-				showBlockParams: null
+				showBlockParams: null,
+				markFirst: definition.markFirst !== undefined ? definition.markFirst : true
 			};
 
 			editor.on( 'mode', hide );
@@ -420,12 +421,14 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						this.allowBlur( true );
 
 						// Ensure that the first item is focused (https://dev.ckeditor.com/ticket/16804).
-						if ( CKEDITOR.env.ie ) {
-							CKEDITOR.tools.setTimeout( function() {
+						if ( this._.markFirst ) {
+							if ( CKEDITOR.env.ie ) {
+								CKEDITOR.tools.setTimeout( function() {
+									block.markFirstDisplayed ? block.markFirstDisplayed() : block._.markFirstDisplayed();
+								}, 0 );
+							} else {
 								block.markFirstDisplayed ? block.markFirstDisplayed() : block._.markFirstDisplayed();
-							}, 0 );
-						} else {
-							block.markFirstDisplayed ? block.markFirstDisplayed() : block._.markFirstDisplayed();
+							}
 						}
 
 						this._.editor.fire( 'panelShow', this );

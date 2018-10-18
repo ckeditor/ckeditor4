@@ -144,7 +144,8 @@
 				toolbar: 'emoji',
 				panel: {
 					css: [ CKEDITOR.skin.getPath( 'editor' ), this.path + 'skins/default.css' ],
-					attributes: { role: 'listbox', 'aria-label': 'Emoji List' }
+					attributes: { role: 'listbox', 'aria-label': 'Emoji List' },
+					markFirst: false
 				},
 
 				onBlock: function( panel, block ) {
@@ -398,19 +399,29 @@
 			}
 
 			function openingReset() {
-				var firstCall;
+				var firstCall,
+					inputIndex,
+					input;
 				return function() {
+
 					if ( !firstCall ) {
+						var items = blockObject._.getItems().toArray();
 						filter( '' );
+
+						input = blockElement.findOne( 'input' );
+						inputIndex = getItemIndex( items, input );
+
 						firstCall = true;
 					}
+
 					refreshNavigationStatus();
 
 					// Clear search results:
 					clearSearchInput();
 
-					// Clear focus:
-					blockObject._.markFirstDisplayed();
+					// Eeset focus:
+					input.focus( true );
+					blockObject._.markItem( inputIndex );
 
 					// Remove statusbar icons:
 					clearStatusbar();
@@ -470,11 +481,16 @@
 				var items = blockObject._.getItems().toArray();
 				var groupName = event.data.getTarget().getAscendant( 'li' ).data( 'cke-emoji-group' );
 				var firstSectionItem = blockElement.findOne( 'a[data-cke-emoji-group="' + groupName + '"]' );
-				var itemIndex = CKEDITOR.tools.array.indexOf( items, function( item ) {
-					return item.equals( firstSectionItem );
-				} );
+				var itemIndex = getItemIndex( items, firstSectionItem );
+
 				firstSectionItem.focus( true );
 				blockObject._.markItem( itemIndex );
+			}
+
+			function getItemIndex( list, item ) {
+				return CKEDITOR.tools.array.indexOf( list, function( element ) {
+					return element.equals( item );
+				} );
 			}
 
 			function registerListeners( list ) {
