@@ -94,6 +94,8 @@
 	border: 0;
 	width: 262px;
 	height: 100%;
+	padding-left: 3px;
+	padding-right: 3px;
 }
 
 /* EMOJI */
