@@ -172,6 +172,35 @@
 					}
 				} );
 			} );
+		},
+
+		'test editor has focus after emoji insertion': function() {
+			var bot = this.editorBot;
+			var editor = this.editor;
+			bot.setData( '', function() {
+				bot.panel( 'emojiPanel', function( panel ) {
+					try {
+						var doc = panel._.iframe.getFrameDocument(),
+						testElement = doc.findOne( 'a[data-cke-emoji-name="star"]' );
+
+						doc.findOne( '.cke_emoji-outer_emoji_block' ).fire( 'click', new CKEDITOR.dom.event( {
+							target: testElement.$
+						} ) );
+						assert.areSame( '<p>⭐</p>', bot.getData() );
+					}
+					finally {
+						panel.hide();
+					}
+
+					CKEDITOR.tools.setTimeout( function() {
+						resume( function() {
+							assert.isTrue( editor.editable().hasFocus, 'Editable should have focus after emoji insertion.' );
+						} );
+					}, 100 );
+
+					wait();
+				} );
+			} );
 		}
 	} );
 
