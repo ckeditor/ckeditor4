@@ -7,21 +7,21 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	typeOfImage: 'Type of Image',
 
 	typeInformative: 'Informative',
-	typeInformativeHelp: 'Requires a short description and may require a longer, more detailed description',
+	typeInformativeHelp: 'Image conveys information and requires text alternative(s)',
 
 	typeDecorative: 'Decorative',
-	typeDecorativeHelp: 'Does not require a text description — image adds no additional information to the document',
+	typeDecorativeHelp: 'Image conveys no pertinent information',
 
 	// Accessible Descriptions
-	imageDesc: 'Accessible Descriptions',
+	imageDesc: 'Text Alternatives',
 
 	alt: 'Short description (required)',
 	a11yfirstInfo: 'Tips',
 	a11yfirstInfoHelp: 'Tips on writing effective short descriptions',
 
-	hasDescription: 'Complex image (requires long description)',
-	descriptionHelp: 'More information on describing a complex image',
-	descriptionLocation: 'Location of long description in document',
+	hasDescription: 'A long description is included in the document',
+	descriptionHelp: 'More information on long descriptions of images',
+	descriptionLocation: 'Location of long description',
 
 	locationBefore: 'Before image',
 	locationBeforeHelp: 'A long description is located just before the image in the document',
@@ -36,8 +36,8 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	locationBothTitle: 'Long description is located before and after the image',
 
 	// Image Caption
-	captioned: 'Add an editable caption below the image',
-	msgCaption: 'Edit the caption in the textbox just below the image',
+	captioned: 'Insert an editable caption textbox below the image',
+	msgCaption: 'The caption text can be edited and character styling can be applied',
 	captionedHelp: 'Adds an editable textbox below the image with placeholder text \'Caption\'',
 	captionPlaceholder: 'Caption',
 	captionContent: 'Caption Text',
@@ -74,5 +74,5 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	msgAltIsInvalid: 'Please remove "%s" from the short description.',
 	msgAltStartsWithInvalid: 'Please remove "%s" from the short description.',
 	msgAltEndsWithInvalid: 'Please do not include the size of the image in the short description.',
-	msgChooseLocation: 'Please select the location of the long description within the document relative to the complex image.'
+	msgChooseLocation: 'Please select the location of the long description within the document relative to the image.'
 } );
