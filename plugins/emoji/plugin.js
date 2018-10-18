@@ -134,6 +134,11 @@
 					editor.focus( true );
 				}
 			} );
+
+			if ( !editor.plugins.toolbar ) {
+				return;
+			}
+
 			editor.ui.addToolbarGroup( 'emoji', 'insert' );
 			// Name is responsible for icon name also.
 			editor.ui.add( 'emojiPanel', CKEDITOR.UI_PANELBUTTON, {
