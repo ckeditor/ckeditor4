@@ -153,7 +153,7 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
 \n\
 ### Type of Image\n\
 \n\
-* An **informative** image adds informational content to the document, and therefore requires at least a short text description.\n\
+* An **informative** image adds informational content to the document, and therefore requires at least a short text alternative.\n\
 \n\
 * A **decorative** image does not add information to the document, and therefore does not require a text alternative.\n\
 \n\

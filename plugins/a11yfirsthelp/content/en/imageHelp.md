@@ -8,7 +8,7 @@
 
 ### Type of Image
 
-* An **informative** image adds informational content to the document, and therefore requires at least a short text description.
+* An **informative** image adds informational content to the document, and therefore requires at least a short text alternative.
 
 * A **decorative** image does not add information to the document, and therefore does not require a text alternative.
 
