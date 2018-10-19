@@ -20,6 +20,7 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	a11yfirstInfoHelp: 'Tips on writing effective short descriptions',
 
 	hasDescription: 'A long description is included in the document',
+	hasDescriptionTooltip: 'Enables a screen reader to announce the location of the long description',
 	descriptionHelp: 'More information on text alternatives for images',
 	descriptionLocation: 'Location of long description',
 
@@ -54,6 +55,7 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	title: 'Image Properties',
 	uploadTab: 'Upload',
 	urlMissing: 'Please provide the URL for the image',
+	urlTitle: 'Image source file URL',
 
 	// Additional properties used in a11yimage
 	alignNone: 'None',

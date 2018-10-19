@@ -348,6 +348,7 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 				id: 'src',
 				type: 'text',
 				label: commonLang.url,
+				title: lang.urlTitle,
 				onKeyup: onChangeSrc,
 				onChange: onChangeSrc,
 				setup: function( widget ) {
@@ -648,6 +649,7 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 										id: 'hasDescription',
 										type: 'checkbox',
 										label: lang.hasDescription,
+										title: lang.hasDescriptionTooltip,
 										onClick: function() {
 											var descLocFS = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset');
 
