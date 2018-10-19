@@ -23,46 +23,46 @@
 		},
 
 		init: function( editor ) {
-			var that = this;
-			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
+			var that = this,
+				emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
 				lang = editor.lang.emoji,
 				blockElement,
 				blockObject,
-				listeners = [];
-			var GROUPS = [
-				{
-					name: 'people',
-					sectionName: 'People'
-				},
-				{
-					name: 'nature',
-					sectionName: 'Nature and animals'
-				},
-				{
-					name: 'food',
-					sectionName: 'Food and drinks'
-				},
-				{
-					name: 'travel',
-					sectionName: 'Travel and places'
-				},
-				{
-					name: 'activities',
-					sectionName: 'Activities'
-				},
-				{
-					name: 'objects',
-					sectionName: 'Objects'
-				},
-				{
-					name: 'symbols',
-					sectionName: 'Symbols'
-				},
-				{
-					name: 'flags',
-					sectionName: 'Flags'
-				}
-			];
+				listeners = [],
+				GROUPS = [
+					{
+						name: 'people',
+						sectionName: 'People'
+					},
+					{
+						name: 'nature',
+						sectionName: 'Nature and animals'
+					},
+					{
+						name: 'food',
+						sectionName: 'Food and drinks'
+					},
+					{
+						name: 'travel',
+						sectionName: 'Travel and places'
+					},
+					{
+						name: 'activities',
+						sectionName: 'Activities'
+					},
+					{
+						name: 'objects',
+						sectionName: 'Objects'
+					},
+					{
+						name: 'symbols',
+						sectionName: 'Symbols'
+					},
+					{
+						name: 'flags',
+						sectionName: 'Flags'
+					}
+				];
 
 			CKEDITOR.ajax.load( CKEDITOR.getUrl( emojiListUrl ), function( data ) {
 				if ( data === null ) {
@@ -154,10 +154,9 @@
 				},
 
 				onBlock: function( panel, block ) {
+					var keys = block.keys,
+						rtl = editor.lang.dir == 'rtl';
 
-
-					var keys = block.keys;
-					var rtl = editor.lang.dir == 'rtl';
 					keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
 					keys[ 40 ] = 'next'; // ARROW-DOWN
 					keys[ 9 ] = 'next'; // TAB
@@ -199,18 +198,17 @@
 			}
 
 			function createGroupsNavigation() {
-				var svgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.svg' );
-				var itemTemplate = new CKEDITOR.template(
+				var svgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.svg' ),
+					itemTemplate = new CKEDITOR.template(
 					'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href={href} draggable="false" _cke_focus="1"><svg viewBox="0 0 34 34"> <use xlink:href="' +
 					svgUrl +
-					'{href}"></use></svg></a></li>' );
-
-				var items = CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
-					return acc + itemTemplate.output( {
-						group: item.name,
-						href: '#' + item.name.toLowerCase()
-					} );
-				}, '' );
+					'{href}"></use></svg></a></li>' ),
+					items = CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
+						return acc + itemTemplate.output( {
+							group: item.name,
+							href: '#' + item.name.toLowerCase()
+						} );
+					}, '' );
 
 				listeners.push( {
 					selector: 'nav li',
@@ -317,38 +315,47 @@
 			}
 
 			function getEmojiSection( item ) {
-				var groupName = item.name;
-				var sectionName = item.sectionName;
-				var group = getEmojiListGroup( groupName );
+				var groupName = item.name,
+					sectionName = item.sectionName,
+					group = getEmojiListGroup( groupName );
+
 				return '<section data-cke-emoji-group="' + groupName + '" ><h2 id="' + groupName + '">' + sectionName + '</h2><ul>' + group + '</ul></section>';
 			}
 
 			function getEmojiListGroup( groupName ) {
-				var emojiList = editor._.emoji.list;
-				var emojiTpl = new CKEDITOR.template( '<li class="cke_emoji_item">' +
-				'<a draggable="false" data-cke-emoji-full-name="{id}" data-cke-emoji-name="{name}" data-cke-emoji-symbol="{symbol}" data-cke-emoji-group="{group}" ' +
-				'data-cke-emoji-keywords="{keywords}" title="{id}" href="#" _cke_focus="1">{symbol}</a>' +
-				'</li>' );
-				return CKEDITOR.tools.array.reduce( CKEDITOR.tools.array.filter( emojiList, function( item ) {
-					return item.group === groupName;
-				} ), function( acc, item ) {
-					return acc + emojiTpl.output( {
-						symbol: item.symbol,
-						id: item.id,
-						name: item.id.replace( /::.*$/, ':' ).replace( /^:|:$/g, '' ).replace( /_/g, ' ' ),
-						group: item.group, keywords: ( item.keywords || [] ).join( ',' )
-					} );
-				}, '' );
+				var emojiList = editor._.emoji.list,
+					emojiTpl = new CKEDITOR.template( '<li class="cke_emoji_item">' +
+					'<a draggable="false" data-cke-emoji-full-name="{id}" data-cke-emoji-name="{name}" data-cke-emoji-symbol="{symbol}" data-cke-emoji-group="{group}" ' +
+					'data-cke-emoji-keywords="{keywords}" title="{id}" href="#" _cke_focus="1">{symbol}</a>' +
+					'</li>' );
+
+				return CKEDITOR.tools.array.reduce(
+					CKEDITOR.tools.array.filter(
+						emojiList,
+						function( item ) {
+							return item.group === groupName;
+						}
+					),
+					function( acc, item ) {
+						return acc + emojiTpl.output( {
+								symbol: item.symbol,
+								id: item.id,
+								name: item.id.replace( /::.*$/, ':' ).replace( /^:|:$/g, '' ).replace( /_/g, ' ' ),
+								group: item.group, keywords: ( item.keywords || [] ).join( ',' )
+							} );
+					},
+					''
+				);
 			}
 
 			// Apply filters to emoji items in dropdown.
 			// Hidding not searched one.
 			// Can accpet input event or string
 			function filter( evt ) {
-				var emojiItems = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).find( 'li > a' ).toArray();
-				var sections = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).find( 'h2' ).toArray();
-				var groups = {};
-				var query = typeof evt === 'string' ? evt : evt.sender.getValue();
+				var emojiItems = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).find( 'li > a' ).toArray(),
+					sections = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).find( 'h2' ).toArray(),
+					groups = {},
+					query = typeof evt === 'string' ? evt : evt.sender.getValue();
 
 				CKEDITOR.tools.array.forEach( emojiItems, function( element ) {
 					if ( isNameOrKeywords( query, element.data( 'cke-emoji-name' ), element.data( 'cke-emoji-keywords' ) ) || query === '' ) {
@@ -361,12 +368,14 @@
 					}
 
 					function isNameOrKeywords( query, name, keywordsString ) {
+						var keywords,
+							i;
 						if ( name.indexOf( query ) !== -1 ) {
 							return true;
 						}
 						if ( keywordsString ) {
-							var keywords = keywordsString.split( ',' );
-							for ( var i = 0; i < keywords.length; i++ ) {
+							keywords = keywordsString.split( ',' );
+							for ( i = 0; i < keywords.length; i++ ) {
 								if ( keywords[ i ].indexOf( query ) !== -1 ) {
 									return true;
 								}
@@ -400,6 +409,7 @@
 				var firstCall,
 					inputIndex,
 					input;
+
 				return function() {
 
 					if ( !firstCall ) {
@@ -427,17 +437,22 @@
 			}
 
 			function refreshNavigationStatus() {
-				var sections = blockElement.find( 'section' ).toArray();
-				var containerOffset = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).getClientRect().top;
-				var section = CKEDITOR.tools.array.filter( sections, function( element ) {
+				var sections = blockElement.find( 'section' ).toArray(),
+					containerOffset = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).getClientRect().top,
+					section,
+					groupName,
+					navigationElements;
+
+				section = CKEDITOR.tools.array.filter( sections, function( element ) {
 					var rect = element.getClientRect();
 					if ( !rect.height || element.findOne( 'h2' ).hasClass( 'hidden' ) ) {
 						return false;
 					}
 					return rect.height + rect.top > containerOffset;
 				} );
-				var groupName = section.length ? section[ 0 ].data( 'cke-emoji-group' ) : false;
-				var navigationElements = blockElement.find( 'nav li' ).toArray();
+				groupName = section.length ? section[ 0 ].data( 'cke-emoji-group' ) : false;
+				navigationElements = blockElement.find( 'nav li' ).toArray();
+
 				CKEDITOR.tools.array.forEach( navigationElements, function( node ) {
 					if ( node.data( 'cke-emoji-group' ) === groupName ) {
 						node.addClass( 'active' );
