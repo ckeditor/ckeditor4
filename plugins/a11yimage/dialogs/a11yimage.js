@@ -548,6 +548,7 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 										id: 'altText',
 										type: 'text',
 										label: lang.alt,
+										title: lang.altTooltip,
 										setup: function( widget ) {
 											this.getDialog().getContentElement( 'info', 'imageDescFieldset').getElement().addClass('a11yfirst_fieldset');
 

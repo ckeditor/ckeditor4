@@ -16,24 +16,25 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	imageDesc: 'Text Alternatives',
 
 	alt: 'Short description (required)',
+	altTooltip: 'The \'alt text\' announced by a screen reader application',
 	a11yfirstInfo: 'Tips',
 	a11yfirstInfoHelp: 'Tips on writing effective short descriptions',
 
 	hasDescription: 'A long description is included in the document',
-	hasDescriptionTooltip: 'Enables a screen reader to announce the location of the long description',
+	hasDescriptionTooltip: 'Enables a screen reader to indicate the existence and location of a long description within the document',
 	descriptionHelp: 'More information on text alternatives for images',
 	descriptionLocation: 'Location of long description',
 
 	locationBefore: 'Before image',
-	locationBeforeHelp: 'Screen reader announcement: "A long description is located in the document just before the image"',
+	locationBeforeHelp: 'Screen reader: \'A long description is located in the document just before the image\'',
 	locationBeforeTitle: 'Long description is located just before the image',
 
 	locationAfter:  'After image',
-	locationAfterHelp:  'Screen reader announcement: "A long description is located in the document just after the image"',
+	locationAfterHelp:  'Screen reader: \'A long description is located in the document just after the image\'',
 	locationAfterTitle: 'Long description is located just after the image',
 
 	locationBoth:   'Before &amp; after',
-	locationBothHelp:   'Screen reader announcement: "A long description is located in the document just before and after the image"',
+	locationBothHelp:   'Screen reader: \'A long description is located in the document before and after the image\'',
 	locationBothTitle: 'Long description is located before and after the image',
 
 	// Image Caption
