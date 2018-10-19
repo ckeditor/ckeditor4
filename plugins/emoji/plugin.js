@@ -200,13 +200,13 @@
 			function createGroupsNavigation() {
 				var svgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.svg' ),
 					itemTemplate = new CKEDITOR.template(
-					'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href={href} draggable="false" _cke_focus="1"><svg viewBox="0 0 34 34"> <use xlink:href="' +
+					'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="{href}" draggable="false" _cke_focus="1"><svg viewBox="0 0 34 34"> <use xlink:href="' +
 					svgUrl +
 					'{href}"></use></svg></a></li>' ),
 					items = CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
 						return acc + itemTemplate.output( {
-							group: item.name,
-							href: '#' + item.name.toLowerCase()
+							group: escapeString( item.name ),
+							href: escapeString( '#' + item.name.toLowerCase() )
 						} );
 					}, '' );
 
@@ -260,9 +260,8 @@
 						};
 					} )()
 				} );
-
-				return '<label class="cke_emoji-search"><img src="' + loupeUrl +
-					'" /><input placeholder="' + lang.searchPlaceholder +
+				return '<label class="cke_emoji-search"><img src="' + escapeString( loupeUrl ) +
+					'" /><input placeholder="' + escapeString( lang.searchPlaceholder ) +
 					'" type="search" _cke_focus="1"></label>';
 			}
 
@@ -315,8 +314,8 @@
 			}
 
 			function getEmojiSection( item ) {
-				var groupName = item.name,
-					sectionName = item.sectionName,
+				var groupName = escapeString( item.name ),
+					sectionName = escapeString( item.sectionName ),
 					group = getEmojiListGroup( groupName );
 
 				return '<section data-cke-emoji-group="' + groupName + '" ><h2 id="' + groupName + '">' + sectionName + '</h2><ul>' + group + '</ul></section>';
@@ -338,10 +337,11 @@
 					),
 					function( acc, item ) {
 						return acc + emojiTpl.output( {
-								symbol: item.symbol,
-								id: item.id,
-								name: item.id.replace( /::.*$/, ':' ).replace( /^:|:$/g, '' ).replace( /_/g, ' ' ),
-								group: item.group, keywords: ( item.keywords || [] ).join( ',' )
+								symbol: escapeString( item.symbol ),
+								id: escapeString( item.id ),
+								name: escapeString( item.id.replace( /::.*$/, ':' ).replace( /^:|:$/g, '' ).replace( /_/g, ' ' ) ),
+								group: escapeString( item.group ),
+								keywords: escapeString( ( item.keywords || [] ).join( ',' ) )
 							} );
 					},
 					''
@@ -474,9 +474,9 @@
 					return;
 				}
 
-				blockElement.findOne( '.cke_emoji-status_icon' ).setText( target.getText() );
-				blockElement.findOne( 'p.cke_emoji-status_description' ).setText( target.data( 'cke-emoji-name' ) );
-				blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( target.data( 'cke-emoji-full-name' ) );
+				blockElement.findOne( '.cke_emoji-status_icon' ).setText( escapeString( target.getText() ) );
+				blockElement.findOne( 'p.cke_emoji-status_description' ).setText( escapeString( target.data( 'cke-emoji-name' ) ) );
+				blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( escapeString( target.data( 'cke-emoji-full-name' ) ) );
 			}
 
 			function clearStatusbar() {
@@ -492,7 +492,7 @@
 
 			function moveFocus( event ) {
 				var groupName = event.data.getTarget().getAscendant( 'li' ).data( 'cke-emoji-group' ),
-					firstSectionItem = blockElement.findOne( 'a[data-cke-emoji-group="' + groupName + '"]' ),
+					firstSectionItem = blockElement.findOne( 'a[data-cke-emoji-group="' + escapeString( groupName ) + '"]' ),
 					itemIndex;
 
 				if ( !firstSectionItem ) {
@@ -521,6 +521,38 @@
 						node.on( event, listener );
 					} );
 				} );
+			}
+
+			function escapeString( str ) {
+				var replacements = [
+						{
+							symbol: '&',
+							replacement: '&amp;'
+						},
+						{
+							symbol: '<',
+							replacement: '&lt;'
+						},
+						{
+							symbol: '"',
+							replacement: '&quot;'
+						},
+						{
+							symbol: '\'',
+							replacement: '&#x27;'
+						},
+						{
+							symbol: '/',
+							replacement: '&#x2F;'
+						}
+					],
+					ret = str;
+
+				CKEDITOR.tools.array.forEach( replacements, function( item ) {
+					ret = ret.replace( new RegExp( item.symbol, 'g' ), item.replacement );
+				} );
+
+				return ret;
 			}
 		}
 	} );
