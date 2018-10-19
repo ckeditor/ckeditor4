@@ -429,7 +429,7 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 						type: 'fieldset',
 						label: lang.typeOfImage,
 						title: lang.typeOfImageTitle,
-						style: 'margin-top: 5px;',
+						style: 'margin-top: 5px; padding-bottom: 2px;',
 						children: [
 							{
 								id: 'imageType',
@@ -514,7 +514,8 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 								id: 'isInformativeMsg',
 								type: 'html',
 								class: 'a11yfirst_html',
-								html: '<p style="margin-top: 10px; font-style: italic">' + lang.typeInformativeHelp + '</p>',
+								// html: '<p style="margin-top: 10px; font-style: italic">' + lang.typeInformativeHelp + '</p>',
+								html: '<br>',
 								setup: function( widget ) {
 									this.getElement().show();
 								}
@@ -523,7 +524,8 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 								id: 'isDecorativeMsg',
 								type: 'html',
 								class: 'a11yfirst_html',
-								html: '<p style="margin-top: 10px; font-style: italic">' + lang.typeDecorativeHelp + '</p>',
+								// html: '<p style="margin-top: 10px; font-style: italic">' + lang.typeDecorativeHelp + '</p>',
+								html: '<br>',
 								setup: function( widget ) {
 									this.getElement().hide();
 								}
@@ -538,7 +540,7 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 					  children: [
 							{
 								type: 'hbox',
-								widths: [ '90%', '10%' ],
+								widths: [ '99%', '1%' ],
 								align: 'bottom',
 								children: [
 									{
@@ -626,7 +628,8 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 									},
 									{
 								 	  id: 'infoButton',
-										type: 'button',
+										type: 'html',
+										html: '<br>',
 										label: lang.a11yfirstInfo,
 										title: lang.a11yfirstInfoHelp,
 										onClick: function() {
@@ -667,45 +670,13 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 										commit: function( widget ) {
 										}
 									},
-									{
-								 	  id: 'infoDetailDescLink',
-										type: 'html',
-										html: '<div style="margin-left: 1.6em; margin-bottom: 1em;"><a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline; font-style: italic">' + lang.descriptionHelp + '</a></div>',
-										onClick: function() {
-						          editor.a11yfirst.helpOption = 'ImageHelp';
-						          editor.execCommand('a11yFirstHelpDialog');
-										},
-										onKeyDown: function(event) {
-											if (event.data.$.keyCode === 13) {
-							          editor.a11yfirst.helpOption = 'ImageHelp';
-							          editor.execCommand('a11yFirstHelpDialog');
-												event.data.$.stopPropagation();
-												event.data.$.preventDefault();
-											}
-
-											if (event.data.$.keyCode === 9) {
-												if (event.data.$.shiftKey) {
-													this.getDialog().getContentElement( 'info', 'hasDescription').focus();
-												}
-												else {
-													if (this.getDialog().getContentElement( 'info', 'hasDescription').getValue()) {
-														this.getDialog().getContentElement( 'info', 'descriptionLocationRadioGroup').focus();
-													}
-													else {
-														this.getDialog().getContentElement( 'info', 'hasCaption').focus();
-													}
-												}
-												event.data.$.stopPropagation();
-												event.data.$.preventDefault();
-											}
-										}
-									}
 								]
 							},
 							{
 								id: 'descriptionLocationFieldset',
 								type: 'fieldset',
 								label: lang.descriptionLocation,
+								style: 'margin-top: 3px',
 								children: [
 									{
 										type: 'hbox',
@@ -844,7 +815,44 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 										]
 									}
 								]
-							}
+							},
+
+									{
+								 	  id: 'infoDetailDescLink',
+										type: 'html',
+										// html: '<div style="margin-left: 1.6em; margin-bottom: 1em;"><a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline; font-style: italic">' + lang.descriptionHelp + '</a></div>',
+										html: '<div style="margin-top: 1em; margin-bottom: 0.5em;margin-left: 3px;"><a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline; font-style: italic">' + lang.descriptionHelp + '</a></div>',
+										onClick: function() {
+						          editor.a11yfirst.helpOption = 'ImageHelp';
+						          editor.execCommand('a11yFirstHelpDialog');
+										},
+										onKeyDown: function(event) {
+											if (event.data.$.keyCode === 13) {
+							          editor.a11yfirst.helpOption = 'ImageHelp';
+							          editor.execCommand('a11yFirstHelpDialog');
+												event.data.$.stopPropagation();
+												event.data.$.preventDefault();
+											}
+
+											if (event.data.$.keyCode === 9) {
+												if (event.data.$.shiftKey) {
+													this.getDialog().getContentElement( 'info', 'hasDescription').focus();
+												}
+												else {
+													if (this.getDialog().getContentElement( 'info', 'hasDescription').getValue()) {
+														this.getDialog().getContentElement( 'info', 'descriptionLocationRadioGroup').focus();
+													}
+													else {
+														this.getDialog().getContentElement( 'info', 'hasCaption').focus();
+													}
+												}
+												event.data.$.stopPropagation();
+												event.data.$.preventDefault();
+											}
+										}
+									}
+
+
 						]
 					},
 					{
@@ -863,13 +871,13 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 									this.onClick();
 								},
 								onClick: function () {
-									var hasCaptionElem  = this.getDialog().getContentElement( 'info', 'hasCaptionMsg').getElement();
+									// var hasCaptionElem  = this.getDialog().getContentElement( 'info', 'hasCaptionMsg').getElement();
 
 									if (this.getValue()) {
-										hasCaptionElem.show();
+										// hasCaptionElem.show();
 									}
 									else {
-										hasCaptionElem.hide();
+										// hasCaptionElem.hide();
 									}
 								},
 								commit: function( widget ) {
@@ -880,7 +888,8 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 								id: 'hasCaptionMsg',
 								type: 'html',
 								class: 'a11yfirst_html',
-								html: '<p style="margin-top: 5px; font-style: italic">' + lang.msgCaption + '</p>'
+								// html: '<p style="margin-top: 5px; font-style: italic">' + lang.msgCaption + '</p>'
+								html: ''
 							}
 						]
 					},
@@ -955,7 +964,7 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 					{
 						id: 'imageAlignFieldset',
 						type: 'fieldset',
-						style: 'margin-top: 7px',
+						style: 'margin-top: 7px;',
     				label: commonLang.align,
 						children: [
 							{

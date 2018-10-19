@@ -20,25 +20,25 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	a11yfirstInfoHelp: 'Tips on writing effective short descriptions',
 
 	hasDescription: 'A long description is included in the document',
-	descriptionHelp: 'More information on long descriptions of images',
+	descriptionHelp: 'More information on text alternatives for images',
 	descriptionLocation: 'Location of long description',
 
 	locationBefore: 'Before image',
-	locationBeforeHelp: 'A long description is located just before the image in the document',
+	locationBeforeHelp: 'Screen reader announcement: "A long description is located in the document just before the image"',
 	locationBeforeTitle: 'Long description is located just before the image',
 
 	locationAfter:  'After image',
-	locationAfterHelp:  'A long description is located just after the image in the document',
+	locationAfterHelp:  'Screen reader announcement: "A long description is located in the document just after the image"',
 	locationAfterTitle: 'Long description is located just after the image',
 
 	locationBoth:   'Before &amp; after',
-	locationBothHelp:   'A long description is located before and after the image in the document',
+	locationBothHelp:   'Screen reader announcement: "A long description is located in the document just before and after the image"',
 	locationBothTitle: 'Long description is located before and after the image',
 
 	// Image Caption
-	captioned: 'Insert an editable caption textbox below the image',
+	captioned: 'Insert an editable caption below the image',
 	msgCaption: 'The caption text can be edited with optional character styling',
-	captionedHelp: 'Adds an editable textbox below the image with placeholder text \'Caption\'',
+	captionedHelp: 'The caption text is editable within the document',
 	captionPlaceholder: 'Caption',
 	captionContent: 'Caption Text',
 
