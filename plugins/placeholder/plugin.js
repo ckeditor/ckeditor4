@@ -65,6 +65,17 @@
 					editor.insertElement(container);
 					editor.widgets.initOn( container, 'placeholder' );
 				}
+      });
+      editor.addCommand('autosequence', {
+				exec: function(e) {
+					var fragment = editor.getSelection().getRanges()[0].extractContents();
+					var container = CKEDITOR.dom.element.createFromHtml('<span class="cke_placeholder" ' +
+						'>[[auto_sequence]]</span>', editor.document);
+
+					fragment.appendTo(container);
+					editor.insertElement(container);
+					editor.widgets.initOn( container, 'placeholder' );
+				}
 			});
 
 			editor.ui.addButton && editor.ui.addButton( 'CreatePlaceholder', {
@@ -76,6 +87,12 @@
 			editor.ui.addButton && editor.ui.addButton( 'CreateCpPlaceholder', {
 				label: lang.cpField,
 				command: 'cpplaceholder',
+				toolbar: 'insert,5',
+				icon: 'placeholder'
+      } );
+      editor.ui.addButton && editor.ui.addButton( 'CreateAutoSequence', {
+				label: lang.autoSequence,
+				command: 'autosequence',
 				toolbar: 'insert,5',
 				icon: 'placeholder'
 			} );
