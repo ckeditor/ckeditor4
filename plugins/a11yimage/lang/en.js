@@ -10,7 +10,7 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	typeInformativeHelp: 'Image conveys information and requires text alternative(s)',
 
 	typeDecorative: 'Decorative',
-	typeDecorativeHelp: 'Image conveys no pertinent information',
+	typeDecorativeHelp: 'Image adds no additional information to the document',
 
 	// Accessible Descriptions
 	imageDesc: 'Text Alternatives',
