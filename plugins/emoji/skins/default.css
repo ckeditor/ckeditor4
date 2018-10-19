@@ -27,6 +27,11 @@
 	width: 100%;
 }
 
+.cke_emoji-panel_block a {
+	display: inline-block;
+	width: 100%;
+}
+
 .cke_emoji_inner_panel > h2 {
 	font-size: 2em;
 }
@@ -89,14 +94,26 @@
 	height: 70%;
 }
 
+.cke_rtl .cke_emoji-search img {
+	left: auto;
+	right: 5px;
+}
+
 .cke_emoji-search input {
 	margin-left: 10px;
+	margin-right: 0px;
 	border: 0;
 	width: 262px;
 	height: 100%;
 	padding-left: 3px;
 	padding-right: 3px;
 }
+
+.cke_rtl .cke_emoji-search input {
+	margin-left: 0px;
+	margin-right: 10px;
+}
+
 
 /* EMOJI */
 .cke_emoji-outer_emoji_block {
@@ -152,7 +169,7 @@
 }
 
 .cke_emoji-status_bar p {
-	margin: 3px 0 0 10px;
+	margin-top: 3px;
 }
 
 .cke_emoji-status_bar > div {
@@ -166,6 +183,17 @@
 
 div.cke_emoji-status_description {
 	vertical-align: top;
+	padding-left: 10px;
+	padding-right: 0;
+}
+
+.cke_rtl div.cke_emoji-status_description {
+	padding-left: 0;
+	padding-right: 10px;
+}
+
+.cke_emoji-panel_block p {
+	margin-bottom: 0;
 }
 
 p.cke_emoji-status_description {
@@ -179,11 +207,6 @@ p.cke_emoji-status_full_name {
 
 .cke_emoji {
 	height: 100%;
-}
-
-a {
-	display: inline-block;
-	width: 100%;
 }
 
 .cke_emoji_inner_panel a:focus, .cke_emoji_inner_panel input:focus {

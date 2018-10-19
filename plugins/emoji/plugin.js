@@ -155,7 +155,7 @@
 
 				onBlock: function( panel, block ) {
 					var keys = block.keys,
-						rtl = editor.lang.dir == 'rtl';
+						rtl = editor.lang.dir === 'rtl';
 
 					keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
 					keys[ 40 ] = 'next'; // ARROW-DOWN
