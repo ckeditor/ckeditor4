@@ -2,5 +2,11 @@
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
 searchPlaceholder = Text displayed inside search bar which encourage user to enter search query.
-defaultEmojiTitle = Title of emoji list, which is displayed as default value when search query is empty.
-searchResultTitle = Title of emoji list, which is displayed for results after inserting any search query.
+groups.people = Name for the section with 'People' emoji.
+groups.nature = Name for the section with 'Nature and animals' emoji.
+groups.food = Name for the section with 'Food and drinks' emoji.
+groups.travel = Name for the section with 'Travel and places' emoji.
+groups.activities = Name for the section with 'Activities' emoji.
+groups.objects = Name for the section with 'Objects' emoji.
+groups.symbols = Name for the section with 'Symbols' emoji.
+groups.flags = Name for the section with 'Flags' emoji.

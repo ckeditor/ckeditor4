@@ -4,6 +4,14 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'emoji', 'en', {
 	searchPlaceholder: 'Search emoji...',
-	defaultEmojiTitle: 'Favourite emoji:',
-	searchResultTitle: 'Search results:'
+	groups: {
+		people: 'People',
+		nature: 'Nature and animals',
+		food: 'Food and drinks',
+		travel: 'Travel and places',
+		activities: 'Activities',
+		objects: 'Objects',
+		symbols: 'Symbols',
+		flags: 'Flags'
+	}
 } );

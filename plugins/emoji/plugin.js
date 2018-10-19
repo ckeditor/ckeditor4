@@ -32,35 +32,35 @@
 				GROUPS = [
 					{
 						name: 'people',
-						sectionName: 'People'
+						sectionName: lang.groups.people
 					},
 					{
 						name: 'nature',
-						sectionName: 'Nature and animals'
+						sectionName: lang.groups.nature
 					},
 					{
 						name: 'food',
-						sectionName: 'Food and drinks'
+						sectionName: lang.groups.food
 					},
 					{
 						name: 'travel',
-						sectionName: 'Travel and places'
+						sectionName: lang.groups.travel
 					},
 					{
 						name: 'activities',
-						sectionName: 'Activities'
+						sectionName: lang.groups.activities
 					},
 					{
 						name: 'objects',
-						sectionName: 'Objects'
+						sectionName: lang.groups.objects
 					},
 					{
 						name: 'symbols',
-						sectionName: 'Symbols'
+						sectionName: lang.groups.symbols
 					},
 					{
 						name: 'flags',
-						sectionName: 'Flags'
+						sectionName: lang.groups.flags
 					}
 				];
 
