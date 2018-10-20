@@ -161,10 +161,10 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
 \n\
 A text alternative for an image is an accessible text description that accurately presents the informational content of the image.\n\
 \n\
-Text alternatives of images fall into two categories:\n\
+There are two types of text alternatives:\n\
 \n\
-1. **Short description**: required for *all* informative images\n\
-1. **Long description**: required for informationally rich or more complex informative images\n\
+1. A **short description** briefly describes the main purpose or content of an informative image.\n\
+1. A **long description** provides a more detailed description of the information or data contained in a complex image.\n\
 \n\
 ### Short description\n\
 \n\
