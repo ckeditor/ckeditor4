@@ -819,43 +819,40 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 									}
 								]
 							},
-
-									{
-								 	  id: 'infoDetailDescLink',
-										type: 'html',
-										// html: '<div style="margin-left: 1.6em; margin-bottom: 1em;"><a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline; font-style: italic">' + lang.descriptionHelp + '</a></div>',
-										html: '<div style="margin-top: 1em; margin-bottom: 0.5em;margin-left: 3px;"><a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline; font-style: italic">' + lang.descriptionHelp + '</a></div>',
-										onClick: function() {
-						          editor.a11yfirst.helpOption = 'ImageHelp';
-						          editor.execCommand('a11yFirstHelpDialog');
-										},
-										onKeyDown: function(event) {
-											if (event.data.$.keyCode === 13) {
-							          editor.a11yfirst.helpOption = 'ImageHelp';
-							          editor.execCommand('a11yFirstHelpDialog');
-												event.data.$.stopPropagation();
-												event.data.$.preventDefault();
-											}
-
-											if (event.data.$.keyCode === 9) {
-												if (event.data.$.shiftKey) {
-													this.getDialog().getContentElement( 'info', 'hasDescription').focus();
-												}
-												else {
-													if (this.getDialog().getContentElement( 'info', 'hasDescription').getValue()) {
-														this.getDialog().getContentElement( 'info', 'descriptionLocationRadioGroup').focus();
-													}
-													else {
-														this.getDialog().getContentElement( 'info', 'hasCaption').focus();
-													}
-												}
-												event.data.$.stopPropagation();
-												event.data.$.preventDefault();
-											}
-										}
+							{
+						 	  id: 'infoDetailDescLink',
+								type: 'html',
+								// html: '<div style="margin-left: 1.6em; margin-bottom: 1em;"><a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline; font-style: italic">' + lang.descriptionHelp + '</a></div>',
+								html: '<div style="margin-top: 1em; margin-bottom: 0.5em;margin-left: 3px;"><a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline">' + lang.descriptionHelp + '</a></div>',
+								onClick: function() {
+				          editor.a11yfirst.helpOption = 'ImageHelp';
+				          editor.execCommand('a11yFirstHelpDialog');
+								},
+								onKeyDown: function(event) {
+									if (event.data.$.keyCode === 13) {
+					          editor.a11yfirst.helpOption = 'ImageHelp';
+					          editor.execCommand('a11yFirstHelpDialog');
+										event.data.$.stopPropagation();
+										event.data.$.preventDefault();
 									}
 
-
+									if (event.data.$.keyCode === 9) {
+										if (event.data.$.shiftKey) {
+											this.getDialog().getContentElement( 'info', 'hasDescription').focus();
+										}
+										else {
+											if (this.getDialog().getContentElement( 'info', 'hasDescription').getValue()) {
+												this.getDialog().getContentElement( 'info', 'descriptionLocationRadioGroup').focus();
+											}
+											else {
+												this.getDialog().getContentElement( 'info', 'hasCaption').focus();
+											}
+										}
+										event.data.$.stopPropagation();
+										event.data.$.preventDefault();
+									}
+								}
+							}
 						]
 					},
 					{
