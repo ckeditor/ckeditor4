@@ -62,10 +62,10 @@
 
 				newBlock;
 
-			// Exit the list when we're inside an empty list item block. (https://dev.ckeditor.com/ticket/5376)
 			if ( atBlockStart && atBlockEnd ) {
-				// Exit the list when we're inside an empty list item block. (https://dev.ckeditor.com/ticket/5376)
-				if ( block && ( block.is( 'li' ) || block.getParent().is( 'li' ) ) ) {
+				// Exit the list when we're inside an empty list item block. (https://dev.ckeditor.com/ticket/5376).
+				// Skip it if a list item contains more than a single child (#2005).
+				if ( block && ( block.is( 'li' ) || block.getParent().is( 'li' ) && block.getParent().getChildCount() <= 1 ) ) {
 					// Make sure to point to the li when dealing with empty list item.
 					if ( !block.is( 'li' ) )
 						block = block.getParent();
