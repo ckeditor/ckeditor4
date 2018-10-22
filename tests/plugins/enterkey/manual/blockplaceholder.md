@@ -13,7 +13,7 @@
 
 ## Expected
 
-New list item has been added at the end of the list.
+Empty line has been replaced by the new empty list item.
 
 ## Unexpected
 
