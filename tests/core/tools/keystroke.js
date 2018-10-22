@@ -11,13 +11,6 @@
 
 	bender.test( {
 		setUp: function() {
-			this.editor.addCommand( 'testcommand', {
-				exec: function() {}
-			} );
-
-			this.editor.setKeystroke( 75, 'testcommand' );
-			this.editor.setKeystroke( 76, 'testcommand' );
-		},
 
 		'test keystrokeToString': function() {
 			var tests = [
@@ -53,16 +46,7 @@
 			];
 
 			this._assertKeyboardMatrix( 'keystrokeToArray', tests, true );
-		},
-
-		'test getCommandKeystroke': function() {
-			assert.areEqual( 75, this.editor.getCommandKeystroke( 'testcommand' ) );
-		},
-
-		// (#2493)
-		'test getCommandKeystroke all keystrokes': function() {
-			assert.isTrue( CKEDITOR.tools.arrayCompare( [ 75, 76 ], this.editor.getCommandKeystroke( 'testcommand', true ) ) );
-		},
+		}
 
 		/*
 		 * Calls `methodName` in `CKEDITOR.tools`, using each entry given in `tests`.
