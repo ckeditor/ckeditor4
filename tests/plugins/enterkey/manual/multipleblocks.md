@@ -1,9 +1,15 @@
 @bender-tags: 4.11.0, bug, 2205
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, enterkey, htmlwriter, list, sourcearea
+@bender-ckeditor-plugins: wysiwygarea, toolbar, enterkey, list
 
-1. Place a cursor at the end of the editor's text.
-1. Press enter.
+1. Place a cursor right under list item.
+
+```
+* foo
+  ^ - put selection here 
+```
+
+2. Press `Enter`.
 
 ## Expected
 
