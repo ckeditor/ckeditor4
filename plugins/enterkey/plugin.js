@@ -62,16 +62,33 @@
 
 				newBlock;
 
-			if ( atBlockStart && atBlockEnd ) {
-				// Exit the list when we're inside an empty list item block. (https://dev.ckeditor.com/ticket/5376).
-				// Skip it if a list item contains more than a single child (#2005).
-				if ( block && ( block.is( 'li' ) || block.getParent().is( 'li' ) && block.getParent().getChildCount() <= 1 ) ) {
-					// Make sure to point to the li when dealing with empty list item.
-					if ( !block.is( 'li' ) )
-						block = block.getParent();
+			if ( block && atBlockStart && atBlockEnd ) {
+				var blockParent = block.getParent();
 
-					var blockParent = block.getParent(),
-						blockGrandParent = blockParent.getParent(),
+				// Block placeholder breaks list structure (#2005).
+				if ( block.is( blockTag ) && blockParent.is( 'li' ) && blockParent.getChildCount() > 1 ) {
+					var placeholder = new CKEDITOR.dom.element( 'li' ),
+						newRange = editor.createRange();
+
+					placeholder.appendBogus( true );
+					placeholder.insertAfter( blockParent );
+
+					block.remove();
+
+					newRange.setStart( placeholder, 0 );
+					editor.getSelection().selectRanges( [ newRange ] );
+
+					return;
+				}
+				// Exit the list when we're inside an empty list item block. (https://dev.ckeditor.com/ticket/5376).
+				else if ( block.is( 'li' ) || block.getParent().is( 'li' ) ) {
+					// Make sure to point to the li when dealing with empty list item.
+					if ( !block.is( 'li' ) ) {
+						block = block.getParent();
+						blockParent = block.getParent();
+					}
+
+					var blockGrandParent = blockParent.getParent(),
 
 						firstChild = !block.hasPrevious(),
 						lastChild = !block.hasNext(),

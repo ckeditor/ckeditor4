@@ -630,7 +630,7 @@
 		},
 
 		// (#2205)
-		'test enterkey: multiple block elements': function() {
+		'test enterkey: block placeholder at the end': function() {
 			assertEnter( 'enterP',
 				'<ul>' +
 					'<li>' +
@@ -642,9 +642,28 @@
 				'<ul>' +
 					'<li>' +
 						'foo' +
-						'<p>&nbsp;</p>' +
 					'</li>' +
-					'<li><p>^&nbsp;</p></li>' +
+					'<li>^&nbsp;</li>' +
+				'</ul>',
+
+				true, 'New item should be added to the list.', true );
+		},
+
+		// (#2205)
+		'test enterkey: block placeholder at the beginning': function() {
+			assertEnter( 'enterP',
+				'<ul>' +
+					'<li>' +
+						'<p>^</p>' +
+						'foo' +
+					'</li>' +
+				'</ul>',
+
+				'<ul>' +
+					'<li>' +
+						'foo' +
+					'</li>' +
+					'<li>^&nbsp;</li>' +
 				'</ul>',
 
 				true, 'New item should be added to the list.', true );
