@@ -70,7 +70,6 @@
 					var placeholder = new CKEDITOR.dom.element( 'li' ),
 						newRange = editor.createRange();
 
-					placeholder.appendBogus( true );
 					placeholder.insertAfter( blockParent );
 
 					block.remove();
