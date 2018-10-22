@@ -288,13 +288,17 @@
 				listeners.push( {
 					selector: '.cke_emoji-outer_emoji_block',
 					event: 'mouseover',
-					listener: updateStatusbar
+					listener: function( event ) {
+						updateStatusbar( event.data.getTarget() );
+					}
 				} );
 
 				listeners.push( {
 					selector: '.cke_emoji-outer_emoji_block',
 					event: 'keyup',
-					listener: updateStatusbar
+					listener: function() {
+						updateStatusbar( blockObject._.getItems().getItem( blockObject._.focusIndex ) );
+					}
 				} );
 
 				return '<div class="cke_emoji-outer_emoji_block">' + getEmojiSections() + '</div>';
@@ -462,21 +466,14 @@
 				} );
 			}
 
-			function updateStatusbar( event ) {
-				var target;
-				if ( event instanceof CKEDITOR.dom.element ) {
-					target = event;
-				} else {
-					target = event.data.getTarget();
-				}
-
-				if ( target.getName() !== 'a' ) {
+			function updateStatusbar( element ) {
+				if ( element.getName() !== 'a' ) {
 					return;
 				}
 
-				blockElement.findOne( '.cke_emoji-status_icon' ).setText( escapeString( target.getText() ) );
-				blockElement.findOne( 'p.cke_emoji-status_description' ).setText( escapeString( target.data( 'cke-emoji-name' ) ) );
-				blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( escapeString( target.data( 'cke-emoji-full-name' ) ) );
+				blockElement.findOne( '.cke_emoji-status_icon' ).setText( escapeString( element.getText() ) );
+				blockElement.findOne( 'p.cke_emoji-status_description' ).setText( escapeString( element.data( 'cke-emoji-name' ) ) );
+				blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( escapeString( element.data( 'cke-emoji-full-name' ) ) );
 			}
 
 			function clearStatusbar() {
