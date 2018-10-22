@@ -132,7 +132,8 @@ CKEDITOR.editorConfig = function( config ) {
 		'Times New Roman;' +
 		'Times;' +
 		'Trebuchet MS;' +
-		'Verdana';
+    'Verdana;' + 
+    'Lato';
 
 	config.font_style = {
 		element: 'span',
