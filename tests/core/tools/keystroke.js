@@ -10,8 +10,6 @@
 	};
 
 	bender.test( {
-		setUp: function() {
-
 		'test keystrokeToString': function() {
 			var tests = [
 				[ CKEDITOR.CTRL + 65 /*A*/, 'Ctrl+A', '⌘+A', 'Ctrl+A', 'Command+A' ],
@@ -46,7 +44,7 @@
 			];
 
 			this._assertKeyboardMatrix( 'keystrokeToArray', tests, true );
-		}
+		},
 
 		/*
 		 * Calls `methodName` in `CKEDITOR.tools`, using each entry given in `tests`.
