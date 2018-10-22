@@ -627,6 +627,27 @@
 				'</ul>',
 
 				true, 'New item should be added to the list.', true );
+		},
+
+		// (#2205)
+		'test enterkey: multiple block elements': function() {
+			assertEnter( 'enterP',
+				'<ul>' +
+					'<li>' +
+						'foo' +
+						'<p>^</p>' +
+					'</li>' +
+				'</ul>',
+
+				'<ul>' +
+					'<li>' +
+						'foo' +
+						'<p>&nbsp;</p>' +
+					'</li>' +
+					'<li><p>^&nbsp;</p></li>' +
+				'</ul>',
+
+				true, 'New item should be added to the list.', true );
 		}
 	} );
 } )();
