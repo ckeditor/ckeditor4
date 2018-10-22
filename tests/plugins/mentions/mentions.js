@@ -29,6 +29,22 @@
 			}
 		},
 
+		// (#2491)
+		'test matching diacritic characters': function() {
+			var diacritics = 'áàâäãéèëêíìïîóòöôõúùüûñçăşţ';
+
+			this.editorBot.setHtmlWithSelection( '<p>@' + diacritics + '^</p>' );
+			testView( this.createMentionsInstance( { feed: [ diacritics ] } ), [ diacritics ] );
+		},
+
+		// (#2491)
+		'test matching underscore character': function() {
+			var expected = 'john_doe';
+
+			this.editorBot.setHtmlWithSelection( '<p>@' + expected + '^</p>' );
+			testView( this.createMentionsInstance( { feed: [ expected ] } ), [ expected ] );
+		},
+
 		'test array feed with match': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
 			testView( this.createMentionsInstance( { feed: feedData } ), expectedFeedData );
