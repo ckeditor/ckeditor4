@@ -164,7 +164,7 @@
 			editor.addCommand( 'insertEmoji', {
 				exec: function( editor, data ) {
 					editor.insertHtml( data.emojiText );
-					editor.focus( true );
+					editor.focus();
 				}
 			} );
 
