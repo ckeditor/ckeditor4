@@ -179,7 +179,7 @@
 				title: 'Emoji List',
 				modes: { wysiwyg: 1 },
 				editorFocus: 0,
-				toolbar: 'emoji',
+				toolbar: 'insert',
 				panel: {
 					css: [ CKEDITOR.skin.getPath( 'editor' ), this.path + 'skins/default.css' ],
 					attributes: { role: 'listbox', 'aria-label': 'Emoji List' },
