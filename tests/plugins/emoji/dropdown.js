@@ -40,23 +40,30 @@
 		'test emoji dropdown filter search results': function() {
 			var bot = this.editorBot;
 			bot.panel( 'emojiPanel', function( panel ) {
-				try {
-					var doc = panel._.iframe.getFrameDocument();
-					var input = doc.findOne( 'input' );
-					input.setValue( 'kebab' );
-					input.fire( 'input', new CKEDITOR.dom.event( {
-						sender: input
-					} ) );
-					assert.areSame( 2, doc.find( 'li.cke_emoji_item :not(.hidden)' ).count(), 'There should be returned 2 values for kebab `keyword`' );
-					panel.hide();
-					bot.panel( 'emojiPanel', function() {
-						assert.areSame( '', input.getValue(), 'Search value should be reset after hidding panel.' );
-						assert.areSame( 0, doc.find( 'li.cke_emoji_item.hidden' ).count(), 'All emoji items should be reset to visible state after closing panel.' );
+				var doc = panel._.iframe.getFrameDocument();
+				var input = doc.findOne( 'input' );
+				input.setValue( 'kebab' );
+				input.fire( 'input', new CKEDITOR.dom.event( {
+					sender: input
+				} ) );
+				// Timeouts are necessary for IE11, which has problem with refreshing DOM. That's why asserts run asynchronously.
+				CKEDITOR.tools.setTimeout( function() {
+					resume( function() {
+						assert.areSame( 2, doc.find( 'li.cke_emoji_item :not(.hidden)' ).count(), 'There should be returned 2 values for kebab `keyword`' );
+						panel.hide();
+						bot.panel( 'emojiPanel', function() {
+							CKEDITOR.tools.setTimeout( function() {
+								resume( function() {
+									assert.areSame( '', input.getValue(), 'Search value should be reset after hidding panel.' );
+									assert.areSame( 0, doc.find( 'li.cke_emoji_item.hidden' ).count(), 'All emoji items should be reset to visible state after closing panel.' );
+									panel.hide();
+								} );
+							}, 10 );
+							wait();
+						} );
 					} );
-				}
-				finally {
-					panel.hide();
-				}
+				}, 10 );
+				wait();
 			} );
 		},
 
