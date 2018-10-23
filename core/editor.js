@@ -1430,11 +1430,14 @@
 		 *
 		 * @since 4.6.0
 		 * @param {CKEDITOR.command/String} command The {@link CKEDITOR.command} instance or a string with the command name.
+		 * @param {Boolean} [all=false] Passing second `all` parameter will result in an array of the all assigned keystrokes.
+		 * Available since 4.11.0.
 		 * @returns {Number/Array/null} The first keystroke assigned to the provided command or `null` if there is no keystroke.
-		 * Since 4.11.0 passing second `all` parameter will return an array of the all assigned keystrokes.
+		 * With enabled `all` parameter returns an array of all assigned keystrokes.
 		 */
 		getCommandKeystroke: function( command, all ) {
-			var commandInstance = ( typeof command === 'string' ? this.getCommand( command ) : command );
+			var commandInstance = ( typeof command === 'string' ? this.getCommand( command ) : command ),
+				ret = all ? [] : null;
 
 			if ( commandInstance ) {
 				var commandName = CKEDITOR.tools.object.findKey( this.commands, commandInstance ),
@@ -1453,14 +1456,14 @@
 				}, {} )[ commandName ];
 
 				if ( !keystrokes ) {
-					return null;
+					return ret;
 				}
 
 				// (#2493)
 				return all ? keystrokes : keystrokes[ 0 ];
 
 			}
-			return null;
+			return ret;
 		},
 
 		/**
