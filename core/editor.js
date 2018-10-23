@@ -1430,7 +1430,7 @@
 		 *
 		 * @since 4.6.0
 		 * @param {CKEDITOR.command/String} command The {@link CKEDITOR.command} instance or a string with the command name.
-		 * @param {Boolean} [all=false] Passing `all` parameter will result in an array of the all assigned keystrokes.
+		 * @param {Boolean} [all=false] Passing `all` parameter will result in an array of the assigned keystrokes.
 		 * Available since 4.11.0.
 		 * @returns {Number/Array/null} The first keystroke assigned to the provided command or `null` if there is no keystroke.
 		 * With enabled `all` parameter returns an array of all assigned keystrokes.
