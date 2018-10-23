@@ -59,6 +59,8 @@
 				var expected = specialCharacters[ i ],
 					viewElement = mentions._autocomplete.view.element;
 
+				// Some characters e.g. `[` are used as selection markers,
+				// they need to be inserted directly to the editor.
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
 				editor.insertText( '@' + expected );
 

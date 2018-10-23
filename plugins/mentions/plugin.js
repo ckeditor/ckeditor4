@@ -166,7 +166,6 @@
 		};
 
 		function matchCallback( text, offset ) {
-			console.log( text )
 			var match = text.slice( 0, offset )
 				.match( pattern );
 
