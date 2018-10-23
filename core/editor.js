@@ -1430,40 +1430,33 @@
 		 *
 		 * @since 4.6.0
 		 * @param {CKEDITOR.command/String} command The {@link CKEDITOR.command} instance or a string with the command name.
-		 * @param {Boolean} [all=false] Passing `all` parameter will result in an array of the assigned keystrokes.
+		 * @param {Boolean} [all=false] If `true` function will return an array of the assigned keystrokes.
 		 * Available since 4.11.0.
-		 * @returns {Number/Array/null} The first keystroke assigned to the provided command or `null` if there is no keystroke.
+		 * @returns {Number/Number[]/null} The first keystroke assigned to the provided command or `null` if there is no keystroke.
 		 * With enabled `all` parameter returns an array of all assigned keystrokes.
 		 */
 		getCommandKeystroke: function( command, all ) {
 			var commandInstance = ( typeof command === 'string' ? this.getCommand( command ) : command ),
-				nil = all ? [] : null;
+				ret = [];
 
 			if ( commandInstance ) {
 				var commandName = CKEDITOR.tools.object.findKey( this.commands, commandInstance ),
 					keystrokes = this.keystrokeHandler.keystrokes;
 
 				// Some commands have a fake keystroke - for example CUT/COPY/PASTE commands are handled natively.
+				// If fake key was used, the regular keystrokes should be skipped.
 				if ( commandInstance.fakeKeystroke ) {
-					return commandInstance.fakeKeystroke;
+					ret.push( commandInstance.fakeKeystroke );
+				} else {
+					for ( var i in keystrokes ) {
+						if ( keystrokes[ i ] === commandName ) {
+							ret.push( i );
+						}
+					}
 				}
-
-				keystrokes = CKEDITOR.tools.array.reduce( CKEDITOR.tools.objectKeys( keystrokes ), function( cur, key ) {
-					var name = keystrokes[ key ];
-					cur[ name ] = cur[ name ] || [];
-					cur[ name ].push( key );
-					return cur;
-				}, {} )[ commandName ];
-
-				if ( !keystrokes ) {
-					return nil;
-				}
-
-				// (#2493)
-				return all ? keystrokes : keystrokes[ 0 ];
-
 			}
-			return nil;
+
+			return all ? ret : ( ret[ 0 ] || null );
 		},
 
 		/**
