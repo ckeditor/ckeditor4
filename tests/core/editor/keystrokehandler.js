@@ -26,6 +26,11 @@ bender.test(
 			exec: function() {}
 		} );
 
+		this.editor.addCommand( 'command_with_fake_keystrokes', {
+			exec: function() {},
+			fakeKeystroke: 77
+		} );
+
 		this.editor.setKeystroke( 75, 'command_with_keystrokes' );
 		this.editor.setKeystroke( 76, 'command_with_keystrokes' );
 
@@ -43,6 +48,15 @@ bender.test(
 	'test getCommandKeystroke multiple keystrokes': function() {
 		arrayAssert.isEmpty( this.editor.getCommandKeystroke( 'command_without_keystrokes', true ), 'Command without keystrokes.' );
 		arrayAssert.itemsAreEqual( [ 75, 76 ], this.editor.getCommandKeystroke( 'command_with_keystrokes', true ), 'Command with keystrokes.' );
+	},
+
+	'test getCommandKeystroke in commands with fake keystrokes': function() {
+		assert.areSame( 77, this.editor.getCommandKeystroke( 'command_with_fake_keystrokes' ), 'Single keystroke result.' );
+
+		// (#2493)
+		var ret = this.editor.getCommandKeystroke( 'command_with_fake_keystrokes', true );
+		assert.isInstanceOf( Array, ret, 'Return type.' );
+		arrayAssert.itemsAreEqual( [ 77 ], ret, 'Multiple keystrokes result.' );
 	},
 
 	'test keystroke assignment': function() {
