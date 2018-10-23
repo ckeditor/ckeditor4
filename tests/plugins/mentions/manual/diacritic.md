@@ -2,8 +2,9 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, mentions
 
-1. Focus the editor.
-2. Type `@trąba_`.
+1. Set Polish keyboard on your OS.
+2. Focus the editor.
+3. Type `@trąba_`.
 
 ## Expected
 
@@ -13,4 +14,4 @@ Dropdown with `@trąba_bomba` entry shows up.
 
 Nothing happens.
 
-3. Play with the rest of the names available after typing `@` to check if diacritic characters matching.
+4. Play with the rest of the names available after typing `@` to check if diacritic characters matching.
