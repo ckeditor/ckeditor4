@@ -29,6 +29,49 @@
 			}
 		},
 
+		// (#2491)
+		'test matching diacritic characters': function() {
+			var diacritics = 'áàâäãéèëêíìïîóòöôõúùüûñçăşţ';
+
+			this.editorBot.setHtmlWithSelection( '<p>@' + diacritics + '^</p>' );
+			testView( this.createMentionsInstance( { feed: [ diacritics ] } ), [ diacritics ] );
+		},
+
+		// (#2491)
+		'test matching underscore character': function() {
+			var expected = 'john_doe';
+
+			this.editorBot.setHtmlWithSelection( '<p>@' + expected + '^</p>' );
+			testView( this.createMentionsInstance( { feed: [ expected ] } ), [ expected ] );
+		},
+
+		// (#2491)
+		'test not matching special characters': function() {
+			var editor = this.editor,
+				specialCharacters = '~!@#$%^&*()-+=`/.,\'"<>?|\\/[]{}'.split( '' ),
+				mentions = this.createMentionsInstance( {
+					feed: specialCharacters,
+					throttle: 0,
+					minChars: 0
+				} );
+
+			for ( var i = 0; i < specialCharacters.length; i++ ) {
+				var expected = specialCharacters[ i ],
+					viewElement = mentions._autocomplete.view.element;
+
+				// Some characters e.g. `[` are used as selection markers,
+				// they need to be inserted directly to the editor.
+				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
+				editor.insertText( '@' + expected );
+
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+				assert.isFalse( viewElement.hasClass( 'cke_autocomplete_opened' ),
+					'View should be closed for "' + expected + '" character' );
+
+			}
+		},
+
 		'test array feed with match': function() {
 			this.editorBot.setHtmlWithSelection( '<p>@An^</p>' );
 			testView( this.createMentionsInstance( { feed: feedData } ), expectedFeedData );
@@ -437,15 +480,15 @@
 			itemsArray = items.toArray();
 
 		if ( matches.length ) {
-			assert.isTrue( isOpened, 'View should be opened' );
+			assert.isTrue( isOpened, 'View should be opened.' );
 		} else {
-			assert.isFalse( isOpened, 'View should be closed' );
+			assert.isFalse( isOpened, 'View should be closed.' );
 		}
 
-		assert.areEqual( matches.length, items.count(), 'Invalid items count' );
+		assert.areEqual( matches.length, items.count(), 'Invalid items count.' );
 
 		for ( var i = items.count() - 1; i >= 0; i-- ) {
-			assert.areEqual( mentions.marker + matches[ i ], itemsArray[ i ].getHtml(), 'Match and item html are not equal' );
+			assert.areEqual( mentions.marker + matches[ i ], itemsArray[ i ].getHtml(), 'Match and item html are not equal.' );
 		}
 	}
 
