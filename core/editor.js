@@ -1434,9 +1434,8 @@
 		 * Available since 4.11.0.
 		 * @returns {Number/Number[]/null} Depending on the `all` parameter value:
 		 *
-		 * `false` (default): the first keystroke assigned to the provided command or `null` if there is no keystroke.
-		 *
-		 * `true`: an array of all assigned keystrokes or empty array if there is no keystroke.
+		 * * `false`: the first keystroke assigned to the provided command or `null` if there is no keystroke.
+		 * * `true`: an array of all assigned keystrokes or empty array if there is no keystroke.
 		 */
 		getCommandKeystroke: function( command, all ) {
 			var commandInstance = ( typeof command === 'string' ? this.getCommand( command ) : command ),
