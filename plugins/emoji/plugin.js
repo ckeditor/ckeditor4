@@ -29,38 +29,71 @@
 				blockElement,
 				blockObject,
 				listeners = [],
+				ICON_SIZE = 21,
 				GROUPS = [
 					{
 						name: 'people',
-						sectionName: lang.groups.people
+						sectionName: lang.groups.people,
+						position: {
+							x: -1 * ICON_SIZE,
+							y: 0
+						}
 					},
 					{
 						name: 'nature',
-						sectionName: lang.groups.nature
+						sectionName: lang.groups.nature,
+						position: {
+							x: -2 * ICON_SIZE,
+							y: 0
+						}
 					},
 					{
 						name: 'food',
-						sectionName: lang.groups.food
+						sectionName: lang.groups.food,
+						position: {
+							x: -3 * ICON_SIZE,
+							y: 0
+						}
 					},
 					{
 						name: 'travel',
-						sectionName: lang.groups.travel
+						sectionName: lang.groups.travel,
+						position: {
+							x: -2 * ICON_SIZE,
+							y: -1 * ICON_SIZE
+						}
 					},
 					{
 						name: 'activities',
-						sectionName: lang.groups.activities
+						sectionName: lang.groups.activities,
+						position: {
+							x: -4 * ICON_SIZE,
+							y: 0
+						}
 					},
 					{
 						name: 'objects',
-						sectionName: lang.groups.objects
+						sectionName: lang.groups.objects,
+						position: {
+							x: 0,
+							y: -1 * ICON_SIZE
+						}
 					},
 					{
 						name: 'symbols',
-						sectionName: lang.groups.symbols
+						sectionName: lang.groups.symbols,
+						position: {
+							x: -1 * ICON_SIZE,
+							y: -1 * ICON_SIZE
+						}
 					},
 					{
 						name: 'flags',
-						sectionName: lang.groups.flags
+						sectionName: lang.groups.flags,
+						position: {
+							x: -3 * ICON_SIZE,
+							y: -1 * ICON_SIZE
+						}
 					}
 				];
 
@@ -198,17 +231,45 @@
 			}
 
 			function createGroupsNavigation() {
-				var svgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.svg' ),
+				var itemTemplate,
+					items,
+					svgUrl,
+					imgUrl;
+
+				if ( !CKEDITOR.env.ie ) {
+					svgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.svg' );
+
 					itemTemplate = new CKEDITOR.template(
-					'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="{href}" draggable="false" _cke_focus="1"><svg viewBox="0 0 34 34"> <use xlink:href="' +
-					svgUrl +
-					'{href}"></use></svg></a></li>' ),
+						'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="{href}" draggable="false" _cke_focus="1"><svg viewBox="0 0 34 34"> <use href="' +
+						svgUrl +
+						'{href}"></use></svg></a></li>'
+					);
+
 					items = CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
 						return acc + itemTemplate.output( {
 							group: escapeString( item.name ),
 							href: escapeString( '#' + item.name.toLowerCase() )
 						} );
 					}, '' );
+				} else {
+					imgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.png' );
+
+					itemTemplate = new CKEDITOR.template(
+						'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="{href}" draggable="false" _cke_focus="1">' +
+						'<span style="background-image:url(' + imgUrl + ');display:inline-block;width:21px;height:21px;background-size:105px 42px;' +
+						'background-repeat:no-repeat;background-position:{positionX}px {positionY}px;"></span>' +
+						'</a></li>'
+					);
+
+					items = CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
+						return acc + itemTemplate.output( {
+							group: escapeString( item.name ),
+							href: escapeString( '#' + item.name.toLowerCase() ),
+							positionX: item.position.x,
+							positionY: item.position.y
+						} );
+					}, '' );
+				}
 
 				listeners.push( {
 					selector: 'nav li',
@@ -231,7 +292,6 @@
 					event: 'click',
 					listener: clearSearchAndMoveFocus
 				} );
-
 
 				return '<nav><ul>' + items + '</ul></nav>';
 			}

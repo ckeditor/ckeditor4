@@ -63,12 +63,20 @@
 	text-align: center;
 }
 
+.cke_browser_ie .cke_emoji_inner_panel > nav li {
+	height: 22px;
+}
+
 .cke_emoji_inner_panel li svg {
 	opacity: 0.4;
 	width: 80%;
 }
 
-.cke_emoji_inner_panel li:hover svg {
+.cke_emoji_inner_panel li span {
+	opacity: 0.4;
+}
+
+.cke_emoji_inner_panel li:hover svg, .cke_emoji_inner_panel li:hover span{
 	opacity: 1;
 }
 
@@ -114,6 +122,10 @@
 	margin-right: 10px;
 }
 
+.cke_browser_ie .cke_emoji-search input {
+	width: 255px;
+	height: auto;
+}
 
 /* EMOJI */
 .cke_emoji-outer_emoji_block {
