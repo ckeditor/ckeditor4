@@ -22,21 +22,27 @@ bender.test(
 		delete commands[ command1 ];
 		delete commands[ command2 ];
 
-		this.editor.addCommand( 'testcommand', {
+		this.editor.addCommand( 'command_with_keystrokes', {
 			exec: function() {}
 		} );
 
-		this.editor.setKeystroke( 75, 'testcommand' );
-		this.editor.setKeystroke( 76, 'testcommand' );
+		this.editor.setKeystroke( 75, 'command_with_keystrokes' );
+		this.editor.setKeystroke( 76, 'command_with_keystrokes' );
+
+		this.editor.addCommand( 'command_without_keystrokes', {
+			exec: function() {}
+		} );
 	},
 
 	'test getCommandKeystroke': function() {
-		assert.areEqual( 75, this.editor.getCommandKeystroke( 'testcommand' ) );
+		assert.isNull( this.editor.getCommandKeystroke( 'command_without_keystrokes' ), 'Command without keystroke' );
+		assert.areEqual( 75, this.editor.getCommandKeystroke( 'command_with_keystrokes' ), 'Command with keystroke.' );
 	},
 
 	// (#2493)
-	'test getCommandKeystroke all keystrokes': function() {
-		assert.isTrue( CKEDITOR.tools.arrayCompare( [ 75, 76 ], this.editor.getCommandKeystroke( 'testcommand', true ) ) );
+	'test getCommandKeystroke multiple keystrokes': function() {
+		arrayAssert.isEmpty( this.editor.getCommandKeystroke( 'command_without_keystrokes', true ), 'Command without keystrokes.' );
+		arrayAssert.itemsAreEqual( [ 75, 76 ], this.editor.getCommandKeystroke( 'command_with_keystrokes', true ), 'Command with keystrokes.' );
 	},
 
 	'test keystroke assignment': function() {
