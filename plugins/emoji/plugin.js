@@ -548,7 +548,7 @@
 			}
 
 			function moveFocus( event ) {
-				var groupName = event.data.getTarget().getAscendant( 'li' ).data( 'cke-emoji-group' ),
+				var groupName = event.data.getTarget().getAscendant( 'li', true ).data( 'cke-emoji-group' ),
 					firstSectionItem = blockElement.findOne( 'a[data-cke-emoji-group="' + escapeString( groupName ) + '"]' ),
 					itemIndex;
 

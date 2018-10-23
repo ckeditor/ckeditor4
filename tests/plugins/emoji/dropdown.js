@@ -217,6 +217,23 @@
 					wait();
 				} );
 			} );
+		},
+
+		'test clicking into navigation does not throw an error': function() {
+			var bot = this.editorBot;
+			bot.panel( 'emojiPanel', function( panel ) {
+				try {
+					var doc = panel._.iframe.getFrameDocument(),
+						panelBlock = emojiTools.getEmojiPanelBlock( panel ),
+						focusedElement = doc.findOne( 'a[data-cke-emoji-group="flags"' );
+
+					doc.findOne( 'a[href="#flags"]' ).getAscendant( 'li' ).$.click();
+					assert.isTrue( focusedElement.equals( panelBlock._.getItems().getItem( panelBlock._.focusIndex ) ), 'First flag should be focused.' )
+				}
+				finally {
+					panel.hide();
+				}
+			} );
 		}
 	} );
 
