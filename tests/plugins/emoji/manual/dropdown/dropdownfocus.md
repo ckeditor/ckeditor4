@@ -5,6 +5,7 @@
 
 1. Open emoji dropdown.
 2. Start to move around it with `Tab`, `Shift + tab` and arrow keys.
-  * Expected: Focus is moved to next elements. Notice arrow down and up also move to next selection not to next line or section.
+### Expected: Focus is moved to next elements.
+_Note that down and up arrows works same as `Tab` and `Shift + Tab`._
 3. Focus one of emoji by keyboard and press `Space` then repeat the same for `Enter` key.
-  * Expected: Focused emoji is insert to editor. Emoji panel is closed
+### Expected: Focused emoji is insert to editor. Emoji panel is closed
