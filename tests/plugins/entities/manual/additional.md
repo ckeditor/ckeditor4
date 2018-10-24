@@ -6,8 +6,8 @@ Click `Source` button.
 
 ## Expected
 
-Content replace with `<p>apos</p>`.
+Following markup: `<p>apos</p>`.
 
 ## Unexpected
 
-Content replace with `<p>&undefined;&undefined;os</p>`.
+Markup like: `<p>&undefined;&undefined;os</p>`.
