@@ -105,7 +105,7 @@ a.cke_button
 }
 
 a.cke_button_expandable {
-	padding: 2px;
+	padding: 2px 3px;
 }
 
 .cke_rtl .cke_button
@@ -233,7 +233,7 @@ a.cke_button_off:active
 {
 	/* Arrow in CSS */
 	display: inline-block;
-	margin: 7px 0 0 5px;
+	margin: 7px 0 0 3px;
 	width: 0;
 	height: 0;
 	border-width: 3px;
