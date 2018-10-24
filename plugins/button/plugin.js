@@ -289,7 +289,8 @@
 				name: name,
 				iconName: iconName,
 				label: this.label,
-				cls: this.className || '',
+				// .cke_button_expandable enables additional styling for popup buttons (#2483).
+				cls:  ( this.hasArrow ? 'cke_button_expandable ' : '' ) + ( this.className || '' ),
 				state: stateName,
 				ariaDisabled: stateName == 'disabled' ? 'true' : 'false',
 				title: this.title + ( shortcut ? ' (' + shortcut.display + ')' : '' ),
