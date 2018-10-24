@@ -136,20 +136,22 @@
 		'test input is focused element when dropdown opens': function() {
 			var bot = this.editorBot;
 			bot.panel( 'emojiPanel', function( panel ) {
-				try {
-					var doc = panel._.iframe.getFrameDocument(),
-						inputElement = doc.findOne( 'input' ),
-						panelBlock = emojiTools.getEmojiPanelBlock( panel ),
-						inputIndex = CKEDITOR.tools.getIndex( panelBlock._.getItems().toArray(), function( el ) {
-							return el.equals( inputElement );
-						} );
+				var doc = panel._.iframe.getFrameDocument(),
+					inputElement = doc.findOne( 'input' ),
+					panelBlock = emojiTools.getEmojiPanelBlock( panel ),
+					inputIndex = CKEDITOR.tools.getIndex( panelBlock._.getItems().toArray(), function( el ) {
+						return el.equals( inputElement );
+					} );
 
-					assert.areNotSame( 0, panelBlock._.focusIndex, 'Focus should not be in first element which is navigation.' );
-					assert.areSame( inputIndex, panelBlock._.focusIndex, 'First selected item should be input.' );
-				}
-				finally {
-					panel.hide();
-				}
+				assert.areNotSame( 0, panelBlock._.focusIndex, 'Focus should not be in first element which is navigation.' );
+				assert.areSame( inputIndex, panelBlock._.focusIndex, 'First selected item should be input.' );
+				CKEDITOR.tools.setTimeout( function() {
+					resume( function() {
+						assert.isTrue( inputElement.equals( new CKEDITOR.dom.element( doc.$.activeElement ) ), 'Input should be focused element.' );
+						panel.hide();
+					} );
+				}, 100 );
+				wait();
 			} );
 		},
 
@@ -219,16 +221,15 @@
 			} );
 		},
 
-		'test clicking into navigation does not throw an error': function() {
+		'test clicking into navigation list item does not throw an error': function() {
 			var bot = this.editorBot;
 			bot.panel( 'emojiPanel', function( panel ) {
 				try {
 					var doc = panel._.iframe.getFrameDocument(),
-						panelBlock = emojiTools.getEmojiPanelBlock( panel ),
 						focusedElement = doc.findOne( 'a[data-cke-emoji-group="flags"' );
 
 					doc.findOne( 'a[href="#flags"]' ).getAscendant( 'li' ).$.click();
-					assert.isTrue( focusedElement.equals( panelBlock._.getItems().getItem( panelBlock._.focusIndex ) ), 'First flag should be focused.' )
+					assert.isTrue( focusedElement.equals( new CKEDITOR.dom.element( doc.$.activeElement ) ), 'First flag should be focused.' );
 				}
 				finally {
 					panel.hide();
