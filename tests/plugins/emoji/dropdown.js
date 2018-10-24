@@ -40,8 +40,9 @@
 		'test emoji dropdown filter search results': function() {
 			var bot = this.editorBot;
 			bot.panel( 'emojiPanel', function( panel ) {
-				var doc = panel._.iframe.getFrameDocument();
-				var input = doc.findOne( 'input' );
+				var doc = panel._.iframe.getFrameDocument(),
+					input = doc.findOne( 'input' );
+
 				input.setValue( 'kebab' );
 				input.fire( 'input', new CKEDITOR.dom.event( {
 					sender: input
@@ -234,6 +235,37 @@
 				finally {
 					panel.hide();
 				}
+			} );
+		},
+
+		'test left and right arrow does not change focus on input element': function() {
+			var bot = this.editorBot;
+			bot.panel( 'emojiPanel', function( panel ) {
+				var doc = panel._.iframe.getFrameDocument(),
+					input = doc.findOne( 'input' );
+
+				// Input is focused asynchrnously, that's why we need to run test asynchronously.
+				CKEDITOR.tools.setTimeout( function() {
+					resume( function() {
+						try {
+							doc.fire( 'keydown', new CKEDITOR.dom.event( {
+								target: input.$,
+								keyCode: 37
+							} ) );
+							assert.isTrue( input.equals( new CKEDITOR.dom.element( doc.$.activeElement ), 'Input shoudl be focused after pressing left arrow.' ) );
+
+							doc.fire( 'keydown', new CKEDITOR.dom.event( {
+								target: input.$,
+								keyCode: 39
+							} ) );
+							assert.isTrue( input.equals( new CKEDITOR.dom.element( doc.$.activeElement ), 'Input shoudl be focused after pressing right arrow.' ) );
+						}
+						finally {
+							panel.hide();
+						}
+					} );
+				}, 100 );
+				wait();
 			} );
 		}
 	} );

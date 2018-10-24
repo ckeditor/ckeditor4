@@ -164,7 +164,6 @@
 			editor.addCommand( 'insertEmoji', {
 				exec: function( editor, data ) {
 					editor.insertHtml( data.emojiText );
-					editor.focus();
 				}
 			} );
 
@@ -492,8 +491,10 @@
 					clearSearchInput();
 
 					// Reset focus:
-					input.focus( true );
-					blockObject._.markItem( inputIndex );
+					CKEDITOR.tools.setTimeout( function() {
+						input.focus( true );
+						blockObject._.markItem( inputIndex );
+					} );
 
 					// Remove statusbar icons:
 					clearStatusbar();

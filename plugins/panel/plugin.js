@@ -137,6 +137,10 @@
 							var keystroke = evt.data.getKeystroke(),
 								dir = this.document.getById( this.id ).getAttribute( 'dir' );
 
+							// Arrow left and right should use native behaviour inside input element
+							if ( evt.data.getTarget().getName() === 'input' && ( keystroke === 37 || keystroke === 39 ) ) {
+								return;
+							}
 							// Delegate key processing to block.
 							if ( this._.onKeyDown && this._.onKeyDown( keystroke ) === false ) {
 								if ( !( evt.data.getTarget().getName() === 'input' && keystroke === 32 ) ) {
