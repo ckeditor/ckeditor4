@@ -12,3 +12,5 @@ Table cells has been inserted into editor.
 ## Unexpected
 
 Table cells has been inserted outside of the editor.
+
+**Note**: You can recognize boundaries of the editor by red border.
