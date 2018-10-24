@@ -3,6 +3,7 @@ Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
+
 	// Type of Image
 	typeOfImage: 'Type of Image',
 
@@ -17,12 +18,10 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 
 	alt: 'Short description (required)',
 	altTooltip: 'The \'alt text\' announced by a screen reader application',
-	a11yfirstInfo: 'Tips',
-	a11yfirstInfoHelp: 'Tips on writing effective short descriptions',
 
 	hasDescription: 'A long description is included in the document',
 	hasDescriptionTooltip: 'Enables a screen reader to indicate the existence and location of a long description within the document',
-	descriptionHelp: 'More information on text alternatives for images',
+
 	descriptionLocation: 'Location of long description',
 
 	locationBefore: 'Before image',
@@ -37,12 +36,12 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	locationBothHelp:   'Screen reader: \'A long description is located in the document before and after the image\'',
 	locationBothTitle: 'Long description is located before and after the image',
 
+	descriptionHelp: 'More information on text alternatives for images',
+
 	// Image Caption
 	captioned: 'Insert an editable caption below the image',
-	msgCaption: 'The caption text can be edited with optional character styling',
 	captionedHelp: 'The caption text is editable within the document',
 	captionPlaceholder: 'Caption',
-	captionContent: 'Caption Text',
 
 	// Miscellaneous
 	btnUpload: 'Send it to the Server',
