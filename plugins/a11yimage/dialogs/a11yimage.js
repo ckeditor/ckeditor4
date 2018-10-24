@@ -834,6 +834,8 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 		]
 	};
 
+	/* ---------------------------------------------------------------- */
+
 	return {
 		title: lang.title,
 		minWidth: 350,
@@ -959,7 +961,7 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 					{
 						id: 'imageAlignFieldset',
 						type: 'fieldset',
-						style: 'margin-top: 7px;',
+						style: 'margin-top: 7px; margin-bottom: 3px',
     				label: commonLang.align,
 						children: [
 							{
