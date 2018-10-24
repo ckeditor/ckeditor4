@@ -386,7 +386,9 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 		} );
 	}
 
-	// UI components for return object contents/elements array
+	/* ---------------------------------------------------------------- */
+	/*   UI components for return object's contents / elements array    */
+	/* ---------------------------------------------------------------- */
 
 	var imageTypeFieldset = {
 		id: 'imageTypeFieldset',
@@ -464,6 +466,8 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 			}
 		]
 	};
+
+	/* ---------------------------------------------------------------- */
 
 	var shortDescriptionTextbox = {
 		type: 'hbox',
@@ -559,6 +563,8 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 		]
 	};
 
+	/* ---------------------------------------------------------------- */
+
 	var hasLongDescriptionCheckbox = {
 		type: 'vbox',
 		padding: 0,
@@ -596,6 +602,8 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 			},
 		]
 	};
+
+	/* ---------------------------------------------------------------- */
 
 	var descriptionLocationFieldset = {
 		id: 'descriptionLocationFieldset',
@@ -746,10 +754,11 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 		]
 	};
 
+	/* ---------------------------------------------------------------- */
+
 	var infoDetailDescLink = {
  	  id: 'infoDetailDescLink',
 		type: 'html',
-		// html: '<div style="margin-left: 1.6em; margin-bottom: 1em;"><a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline; font-style: italic">' + lang.descriptionHelp + '</a></div>',
 		html: '<div style="margin-top: 1em; margin-bottom: 0.5em;margin-left: 3px;"><a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline">' + lang.descriptionHelp + '</a></div>',
 		onClick: function() {
       editor.a11yfirst.helpOption = 'ImageHelp';
@@ -781,6 +790,8 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 		}
 	};
 
+	/* ---------------------------------------------------------------- */
+
 	var imageDescFieldset = {
 		id: 'imageDescFieldset',
 		type: 'fieldset',
@@ -797,6 +808,8 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 			infoDetailDescLink
 		]
 	};
+
+	/* ---------------------------------------------------------------- */
 
 	var hasCaptionCheckbox = {
 		type: 'vbox',
@@ -978,6 +991,7 @@ CKEDITOR.dialog.add( 'a11yimage', function( editor ) {
 					}
 				]
 			},
+
 			{
 				id: 'Upload',
 				hidden: true,
