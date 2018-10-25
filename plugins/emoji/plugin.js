@@ -278,8 +278,8 @@
 					selector: 'nav li',
 					event: 'click',
 					listener: function( event ) {
-						var nodeArr = blockElement.find( 'nav li' ).toArray();
-						var activeElement = event.sender;
+						var nodeArr = blockElement.find( 'nav li' ).toArray(),
+							activeElement = event.sender;
 						CKEDITOR.tools.array.forEach( nodeArr, function( node ) {
 							if ( node.equals( activeElement ) ) {
 								node.addClass( 'active' );
