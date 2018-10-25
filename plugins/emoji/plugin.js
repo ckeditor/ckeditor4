@@ -30,6 +30,7 @@
 				blockObject,
 				listeners = [],
 				strEncode = CKEDITOR.tools.htmlEncode,
+				arrTools = CKEDITOR.tools.array,
 				ICON_SIZE = 21,
 				GROUPS = [
 					{
@@ -162,7 +163,7 @@
 
 				function dataCallback( matchInfo, callback ) {
 					var emojiName = matchInfo.query.substr( 1 ).toLowerCase(),
-						data = CKEDITOR.tools.array.filter( emojiList, function( item ) {
+						data = arrTools.filter( emojiList, function( item ) {
 							// Comparing lowercased strings, because emoji should be case insensitive (#2167).
 							return item.id.toLowerCase().indexOf( emojiName ) !== -1;
 						} );
@@ -259,7 +260,7 @@
 						'</a></li>'
 					);
 
-					items = CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
+					items = arrTools.reduce( GROUPS, function( acc, item ) {
 						return acc + itemTemplate.output( {
 							group: strEncode( item.name ),
 							href: strEncode( item.name.toLowerCase() ),
@@ -278,7 +279,7 @@
 						'</svg></a></li>'
 					);
 
-					items = CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
+					items = arrTools.reduce( GROUPS, function( acc, item ) {
 						return acc + itemTemplate.output( {
 							group: strEncode( item.name ),
 							href: strEncode( item.name.toLowerCase() ),
@@ -294,7 +295,7 @@
 					listener: function( event ) {
 						var nodeArr = blockElement.find( 'nav li' ).toArray(),
 							activeElement = event.sender;
-						CKEDITOR.tools.array.forEach( nodeArr, function( node ) {
+						arrTools.forEach( nodeArr, function( node ) {
 							if ( node.equals( activeElement ) ) {
 								node.addClass( 'active' );
 							} else {
@@ -399,7 +400,7 @@
 			}
 
 			function getEmojiSections() {
-				return CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
+				return arrTools.reduce( GROUPS, function( acc, item ) {
 					return acc + getEmojiSection( item );
 				}, '' );
 			}
@@ -419,8 +420,8 @@
 					'data-cke-emoji-keywords="{keywords}" title="{name}" href="#" _cke_focus="1">{symbol}</a>' +
 					'</li>' );
 
-				return CKEDITOR.tools.array.reduce(
-					CKEDITOR.tools.array.filter(
+				return arrTools.reduce(
+					arrTools.filter(
 						emojiList,
 						function( item ) {
 							return item.group === groupName;
@@ -448,7 +449,7 @@
 					groups = {},
 					query = typeof evt === 'string' ? evt : evt.sender.getValue();
 
-				CKEDITOR.tools.array.forEach( emojiItems, function( element ) {
+				arrTools.forEach( emojiItems, function( element ) {
 					if ( isNameOrKeywords( query, element.data( 'cke-emoji-name' ), element.data( 'cke-emoji-keywords' ) ) || query === '' ) {
 						element.removeClass( 'hidden' );
 						element.getParent().removeClass( 'hidden' );
@@ -476,7 +477,7 @@
 					}
 				} );
 
-				CKEDITOR.tools.array.forEach( sections, function( element ) {
+				arrTools.forEach( sections, function( element ) {
 					if ( groups[ element.getId() ] ) {
 						element.getParent().removeClass( 'hidden' );
 						element.removeClass( 'hidden' );
@@ -536,7 +537,7 @@
 					groupName,
 					navigationElements;
 
-				section = CKEDITOR.tools.array.filter( sections, function( element ) {
+				section = arrTools.filter( sections, function( element ) {
 					var rect = element.getClientRect();
 					if ( !rect.height || element.findOne( 'h2' ).hasClass( 'hidden' ) ) {
 						return false;
@@ -546,7 +547,7 @@
 				groupName = section.length ? section[ 0 ].data( 'cke-emoji-group' ) : false;
 				navigationElements = blockElement.find( 'nav li' ).toArray();
 
-				CKEDITOR.tools.array.forEach( navigationElements, function( node ) {
+				arrTools.forEach( navigationElements, function( node ) {
 					if ( node.data( 'cke-emoji-group' ) === groupName ) {
 						node.addClass( 'active' );
 					} else {
@@ -591,19 +592,19 @@
 			}
 
 			function getItemIndex( list, item ) {
-				return CKEDITOR.tools.array.indexOf( list, function( element ) {
+				return arrTools.indexOf( list, function( element ) {
 					return element.equals( item );
 				} );
 			}
 
 			function registerListeners( list ) {
-				CKEDITOR.tools.array.forEach( list, function( item ) {
+				arrTools.forEach( list, function( item ) {
 					var root = blockElement,
 						selector = item.selector,
 						listener = item.listener,
 						event = item.event;
 
-					CKEDITOR.tools.array.forEach( root.find( selector ).toArray(), function( node ) {
+					arrTools.forEach( root.find( selector ).toArray(), function( node ) {
 						node.on( event, listener );
 					} );
 				} );
