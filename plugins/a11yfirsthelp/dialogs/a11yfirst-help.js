@@ -9,7 +9,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       dialogObj;
 
   var buttonStyleNormal         = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 0';
-  var buttonStyleExtraTopMargin = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 1.5em';
+  var buttonStyleExtraMarginTop = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 1.5em';
 
   var basePathExt = {
     type: 'lang',
@@ -38,7 +38,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
     var buttonObj = {
       type: 'button',
       id: 'button' + option,
-      style: (i == helpTopicKeys.length - offset) ? buttonStyleExtraTopMargin: buttonStyleNormal,
+      style: (i == helpTopicKeys.length - offset) ? buttonStyleExtraMarginTop: buttonStyleNormal,
       label: lang[ key ].label,
       title: lang[ key ].title,
       option: option,
