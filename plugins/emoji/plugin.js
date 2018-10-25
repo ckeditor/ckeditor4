@@ -252,7 +252,7 @@
 
 					itemTemplate = new CKEDITOR.template(
 						'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}">' +
-						'<a href="{href}" draggable="false" _cke_focus="1">' +
+						'<a href="{href}" draggable="false" _cke_focus="1" title="{name}">' +
 						'<span style="background-image:url(' + imgUrl + ');' +
 						'background-repeat:no-repeat;background-position:{positionX}px {positionY}px;"></span>' +
 						'</a></li>'
@@ -262,6 +262,7 @@
 						return acc + itemTemplate.output( {
 							group: escapeString( item.name ),
 							href: escapeString( '#' + item.name.toLowerCase() ),
+							name: escapeString( item.sectionName ),
 							positionX: item.position.x,
 							positionY: item.position.y
 						} );
@@ -270,15 +271,17 @@
 					svgUrl = CKEDITOR.getUrl( that.path + 'assets/iconsall.svg' );
 
 					itemTemplate = new CKEDITOR.template(
-						'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="#{href}" draggable="false" _cke_focus="1"><svg viewBox="0 0 34 34"> <use href="' +
-						svgUrl +
-						'#{svgId}"></use></svg></a></li>'
+						'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="#{href}" title="{name}" draggable="false" _cke_focus="1">' +
+						'<svg viewBox="0 0 34 34" aria-labelledby="{svgId}-title">' +
+						'<title id="{svgId}-title">{name}</title><use href="' + svgUrl + '#{svgId}"></use>' +
+						'</svg></a></li>'
 					);
 
 					items = CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
 						return acc + itemTemplate.output( {
 							group: escapeString( item.name ),
 							href: escapeString( item.name.toLowerCase() ),
+							name: escapeString( item.sectionName ),
 							svgId: escapeString( item.svgId )
 						} );
 					}, '' );
@@ -306,7 +309,7 @@
 					listener: clearSearchAndMoveFocus
 				} );
 
-				return '<nav><ul>' + items + '</ul></nav>';
+				return '<nav aria-label="' + escapeString( lang.navigationLabel ) + '"><ul>' + items + '</ul></nav>';
 			}
 
 			function createSearchSection() {
@@ -334,17 +337,17 @@
 				} );
 				return '<label class="cke_emoji-search">' + getLoupeIcon() +
 					'<input placeholder="' + escapeString( lang.searchPlaceholder ) +
-					'" type="search" _cke_focus="1"></label>';
+					'" type="search" aria-label="' + escapeString( lang.searchLabel ) + '" role="search" _cke_focus="1"></label>';
 			}
 
 			function getLoupeIcon() {
 				var loupeSvgUrl = CKEDITOR.getUrl( that.path + 'assets/iconsall.svg' ),
 					loupePngUrl = CKEDITOR.getUrl( that.path + 'assets/iconsall.png' );
 
-				if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 12 ) || CKEDITOR.env.iOS ) {
-					return '<span class="cke_emoji-search_loupe" style="background-image:url(' + loupePngUrl + ');"></span>';
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 12 || CKEDITOR.env.iOS ) {
+					return '<span class="cke_emoji-search_loupe" aria-hidden="true" style="background-image:url(' + loupePngUrl + ');"></span>';
 				} else {
-					return '<svg viewBox="0 0 34 34" class="cke_emoji-search_loupe"><use href="' + loupeSvgUrl + '#cke4-icon-emoji-10"></use></svg>';
+					return '<svg viewBox="0 0 34 34" role="img" aria-hidden="true" class="cke_emoji-search_loupe"><use href="' + loupeSvgUrl + '#cke4-icon-emoji-10"></use></svg>';
 				}
 			}
 
@@ -412,7 +415,7 @@
 				var emojiList = editor._.emoji.list,
 					emojiTpl = new CKEDITOR.template( '<li class="cke_emoji_item">' +
 					'<a draggable="false" data-cke-emoji-full-name="{id}" data-cke-emoji-name="{name}" data-cke-emoji-symbol="{symbol}" data-cke-emoji-group="{group}" ' +
-					'data-cke-emoji-keywords="{keywords}" title="{name}" aria-label="{name}" href="#" _cke_focus="1">{symbol}</a>' +
+					'data-cke-emoji-keywords="{keywords}" title="{name}" href="#" _cke_focus="1">{symbol}</a>' +
 					'</li>' );
 
 				return CKEDITOR.tools.array.reduce(
