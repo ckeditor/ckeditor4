@@ -1,0 +1,12 @@
+<div id="editor">
+	<p>Hi, I'm CKEditor instance!</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		contextmenu_contentsCss: [
+			CKEDITOR.skin.getPath( 'editor' ),
+			'%BASE_PATH%plugins/contextmenu/_assets/custom.css'
+		]
+	} );
+</script>
