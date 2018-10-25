@@ -4,6 +4,7 @@
 searchPlaceholder = Text displayed inside search bar which encourage user to enter search query.
 searchLabel = Description of search input used for Accessibility purpose.
 navigationLabel = Description of navigation used for Accessibility purpose.
+title = Name of emoji dropdown panel.
 groups.people = Name for the section with 'People' emoji.
 groups.nature = Name for the section with 'Nature and animals' emoji.
 groups.food = Name for the section with 'Food and drinks' emoji.

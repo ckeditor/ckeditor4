@@ -183,7 +183,7 @@
 			// Name is responsible for icon name also.
 			editor.ui.add( 'emojiPanel', CKEDITOR.UI_PANELBUTTON, {
 				label: 'emoji',
-				title: 'Emoji List',
+				title: lang.title,
 				modes: { wysiwyg: 1 },
 				editorFocus: 0,
 				toolbar: 'insert',
@@ -191,7 +191,7 @@
 					css: [ CKEDITOR.skin.getPath( 'editor' ), this.path + 'skins/default.css' ],
 					attributes: {
 						role: 'listbox',
-						'aria-label': 'Emoji List'
+						'aria-label': lang.title
 					},
 					markFirst: false
 				},
