@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: autolink,clipboard,link,sourcearea */
+/* bender-ckeditor-plugins: autolink,clipboard,sourcearea */
 /* bender-include: ../clipboard/_helpers/pasting.js */
 /* global assertPasteEvent */
 
@@ -348,6 +348,18 @@
 			} );
 
 			wait();
+		},
+
+		// (#1824)
+		'test link plugin is loaded': function() {
+			bender.editorBot.create( {
+				name: 'editor_link_loaded',
+				config: {
+					plugins: 'autolink'
+				}
+			}, function( bot ) {
+				assert.isNotUndefined( bot.editor.plugins.link );
+			} );
 		}
 	} );
 

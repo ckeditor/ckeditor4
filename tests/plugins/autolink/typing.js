@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: autolink,clipboard,link */
+/* bender-ckeditor-plugins: autolink,clipboard */
 
 ( function() {
 
