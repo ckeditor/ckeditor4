@@ -392,7 +392,7 @@
 				var emojiList = editor._.emoji.list,
 					emojiTpl = new CKEDITOR.template( '<li class="cke_emoji_item">' +
 					'<a draggable="false" data-cke-emoji-full-name="{id}" data-cke-emoji-name="{name}" data-cke-emoji-symbol="{symbol}" data-cke-emoji-group="{group}" ' +
-					'data-cke-emoji-keywords="{keywords}" title="{id}" href="#" _cke_focus="1">{symbol}</a>' +
+					'data-cke-emoji-keywords="{keywords}" title="{name}" aria-label="{name}" href="#" _cke_focus="1">{symbol}</a>' +
 					'</li>' );
 
 				return CKEDITOR.tools.array.reduce(
