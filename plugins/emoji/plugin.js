@@ -202,6 +202,7 @@
 					block.element.getDocument().appendStyleSheet( CKEDITOR.getUrl( CKEDITOR.basePath + 'contents.css' ) );
 					block.element.addClass( 'cke_emoji-panel_block' );
 					block.element.setHtml( createEmojiBlock() );
+					block.element.removeAttribute( 'title' );
 					panel.element.addClass( 'cke_emoji_panel' );
 
 					blockObject = block;
