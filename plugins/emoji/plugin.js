@@ -230,17 +230,11 @@
 				var output = [];
 
 				output.push( createGroupsNavigation() );
-				output.push( createSeparator() );
 				output.push( createSearchSection() );
 				output.push( createEmojiListBlock() );
-				output.push( createSeparator() );
 				output.push( createStatusBar() );
 
 				return '<div class="cke_emoji_inner_panel">' + output.join( '' ) + '</div>';
-			}
-
-			function createSeparator() {
-				return '<hr>';
 			}
 
 			function createGroupsNavigation() {
