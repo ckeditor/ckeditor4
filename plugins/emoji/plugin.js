@@ -662,12 +662,3 @@
  * @cfg {String} [emoji_emojiListUrl='plugins/emoji/emoji.json']
  * @member CKEDITOR.config
  */
-
-/**
- * Array with emoji names, which will be used as default one in emoji panel.
- * If value is not set, then first 30 emoji from `emoji.json` file will be displayed.
- *
- * @since 4.11.0
- * @cfg {String}[] [emoji_defaults]
- * @member CKEDITOR.config
- */
