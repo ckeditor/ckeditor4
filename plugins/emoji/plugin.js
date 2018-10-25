@@ -134,7 +134,7 @@
 					editor._.emoji.autocomplete = new CKEDITOR.plugins.autocomplete( editor, {
 						textTestCallback: getTextTestCallback(),
 						dataCallback: dataCallback,
-						itemTemplate: '<li data-id="{id}" class="cke_emoji_suggestion_item">{symbol} {id}</li>',
+						itemTemplate: '<li data-id="{id}" class="cke_emoji-suggestion_item">{symbol} {id}</li>',
 						outputTemplate: '{symbol}'
 					} );
 				}
@@ -216,7 +216,7 @@
 					block.element.addClass( 'cke_emoji-panel_block' );
 					block.element.setHtml( createEmojiBlock() );
 					block.element.removeAttribute( 'title' );
-					panel.element.addClass( 'cke_emoji_panel' );
+					panel.element.addClass( 'cke_emoji-panel' );
 
 					blockObject = block;
 
@@ -234,7 +234,7 @@
 				output.push( createEmojiListBlock() );
 				output.push( createStatusBar() );
 
-				return '<div class="cke_emoji_inner_panel">' + output.join( '' ) + '</div>';
+				return '<div class="cke_emoji-inner_panel">' + output.join( '' ) + '</div>';
 			}
 
 			function createGroupsNavigation() {
@@ -409,7 +409,7 @@
 
 			function getEmojiListGroup( groupName ) {
 				var emojiList = editor._.emoji.list,
-					emojiTpl = new CKEDITOR.template( '<li class="cke_emoji_item">' +
+					emojiTpl = new CKEDITOR.template( '<li class="cke_emoji-item">' +
 					'<a draggable="false" data-cke-emoji-full-name="{id}" data-cke-emoji-name="{name}" data-cke-emoji-symbol="{symbol}" data-cke-emoji-group="{group}" ' +
 					'data-cke-emoji-keywords="{keywords}" title="{name}" href="#" _cke_focus="1">{symbol}</a>' +
 					'</li>' );
