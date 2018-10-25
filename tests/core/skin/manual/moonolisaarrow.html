@@ -6,7 +6,7 @@
 		skin: 'moono-lisa',
 		on: {
 			instanceReady: function() {
-				document.getElementById( 'disable' ).addEventListener( 'click', function() {
+				CKEDITOR.document.getById( 'disable' ).on( 'click', function() {
 					editor.setReadOnly( !editor.readOnly );
 				} );
 			}
