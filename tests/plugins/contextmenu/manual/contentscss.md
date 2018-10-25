@@ -2,7 +2,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,toolbar,contextmenu,clipboard
 
-Right click on the editor to open context menu.
+1. Focus the editor.
+2. Right click in the editor to open context menu.
 
 ## Expected
 
