@@ -34,6 +34,7 @@
 					{
 						name: 'people',
 						sectionName: lang.groups.people,
+						svgId: 'cke4-icon-emoji-2',
 						position: {
 							x: -1 * ICON_SIZE,
 							y: 0
@@ -42,6 +43,7 @@
 					{
 						name: 'nature',
 						sectionName: lang.groups.nature,
+						svgId: 'cke4-icon-emoji-3',
 						position: {
 							x: -2 * ICON_SIZE,
 							y: 0
@@ -50,6 +52,7 @@
 					{
 						name: 'food',
 						sectionName: lang.groups.food,
+						svgId: 'cke4-icon-emoji-4',
 						position: {
 							x: -3 * ICON_SIZE,
 							y: 0
@@ -58,6 +61,7 @@
 					{
 						name: 'travel',
 						sectionName: lang.groups.travel,
+						svgId: 'cke4-icon-emoji-6',
 						position: {
 							x: -2 * ICON_SIZE,
 							y: -1 * ICON_SIZE
@@ -66,6 +70,7 @@
 					{
 						name: 'activities',
 						sectionName: lang.groups.activities,
+						svgId: 'cke4-icon-emoji-5',
 						position: {
 							x: -4 * ICON_SIZE,
 							y: 0
@@ -74,6 +79,7 @@
 					{
 						name: 'objects',
 						sectionName: lang.groups.objects,
+						svgId: 'cke4-icon-emoji-7',
 						position: {
 							x: 0,
 							y: -1 * ICON_SIZE
@@ -82,6 +88,7 @@
 					{
 						name: 'symbols',
 						sectionName: lang.groups.symbols,
+						svgId: 'cke4-icon-emoji-8',
 						position: {
 							x: -1 * ICON_SIZE,
 							y: -1 * ICON_SIZE
@@ -90,6 +97,7 @@
 					{
 						name: 'flags',
 						sectionName: lang.groups.flags,
+						svgId: 'cke4-icon-emoji-9',
 						position: {
 							x: -3 * ICON_SIZE,
 							y: -1 * ICON_SIZE
@@ -239,27 +247,13 @@
 					svgUrl,
 					imgUrl;
 
-				if ( !CKEDITOR.env.ie ) {
-					svgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.svg' );
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 12 || CKEDITOR.env.iOS ) {
+					imgUrl = CKEDITOR.getUrl( that.path + 'assets/iconsall.png' );
 
 					itemTemplate = new CKEDITOR.template(
-						'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="{href}" draggable="false" _cke_focus="1"><svg viewBox="0 0 34 34"> <use href="' +
-						svgUrl +
-						'{href}"></use></svg></a></li>'
-					);
-
-					items = CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
-						return acc + itemTemplate.output( {
-							group: escapeString( item.name ),
-							href: escapeString( '#' + item.name.toLowerCase() )
-						} );
-					}, '' );
-				} else {
-					imgUrl = CKEDITOR.getUrl( that.path + 'assets/icons-all.png' );
-
-					itemTemplate = new CKEDITOR.template(
-						'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="{href}" draggable="false" _cke_focus="1">' +
-						'<span style="background-image:url(' + imgUrl + ');display:inline-block;width:21px;height:21px;background-size:105px 42px;' +
+						'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}">' +
+						'<a href="{href}" draggable="false" _cke_focus="1">' +
+						'<span style="background-image:url(' + imgUrl + ');' +
 						'background-repeat:no-repeat;background-position:{positionX}px {positionY}px;"></span>' +
 						'</a></li>'
 					);
@@ -270,6 +264,22 @@
 							href: escapeString( '#' + item.name.toLowerCase() ),
 							positionX: item.position.x,
 							positionY: item.position.y
+						} );
+					}, '' );
+				} else {
+					svgUrl = CKEDITOR.getUrl( that.path + 'assets/iconsall.svg' );
+
+					itemTemplate = new CKEDITOR.template(
+						'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="#{href}" draggable="false" _cke_focus="1"><svg viewBox="0 0 34 34"> <use href="' +
+						svgUrl +
+						'#{svgId}"></use></svg></a></li>'
+					);
+
+					items = CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
+						return acc + itemTemplate.output( {
+							group: escapeString( item.name ),
+							href: escapeString( item.name.toLowerCase() ),
+							svgId: escapeString( item.svgId )
 						} );
 					}, '' );
 				}
@@ -300,7 +310,6 @@
 			}
 
 			function createSearchSection() {
-				var loupeUrl = CKEDITOR.getUrl( that.path + 'assets/loupe.svg' );
 
 				listeners.push( {
 					selector: 'input',
@@ -323,9 +332,20 @@
 						};
 					} )()
 				} );
-				return '<label class="cke_emoji-search"><img src="' + escapeString( loupeUrl ) +
-					'" alt="Loupe icon"/><input placeholder="' + escapeString( lang.searchPlaceholder ) +
+				return '<label class="cke_emoji-search">' + getLoupeIcon() +
+					'<input placeholder="' + escapeString( lang.searchPlaceholder ) +
 					'" type="search" _cke_focus="1"></label>';
+			}
+
+			function getLoupeIcon() {
+				var loupeSvgUrl = CKEDITOR.getUrl( that.path + 'assets/iconsall.svg' ),
+					loupePngUrl = CKEDITOR.getUrl( that.path + 'assets/iconsall.png' );
+
+				if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 12 ) || CKEDITOR.env.iOS ) {
+					return '<span class="cke_emoji-search_loupe" style="background-image:url(' + loupePngUrl + ');"></span>';
+				} else {
+					return '<svg viewBox="0 0 34 34" class="cke_emoji-search_loupe"><use href="' + loupeSvgUrl + '#cke4-icon-emoji-10"></use></svg>';
+				}
 			}
 
 			function createEmojiListBlock() {

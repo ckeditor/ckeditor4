@@ -84,6 +84,12 @@
 	border-bottom: 5px solid rgba(44, 195, 255, 1);
 }
 
+.cke_emoji-navigation_item span {
+	width: 21px;
+	height: 21px;
+	display: inline-block;
+}
+
 /* SEARCHBOX */
 .cke_emoji-search {
 	position: relative;
@@ -93,18 +99,25 @@
 	border: 1px solid #d1d1d1;
 }
 
-.cke_emoji-search img {
+.cke_emoji-search .cke_emoji-search_loupe {
 	position: relative;
 	top: 3px;
 	left: 5px;
 	display: inline-block;
-	width: auto;
-	height: 70%;
+	width: 15px;
+	height: 15px;
+	opacity: 0.4;
 }
 
-.cke_rtl .cke_emoji-search img {
+.cke_rtl .cke_emoji-search .cke_emoji-search_loupe {
 	left: auto;
 	right: 5px;
+}
+
+.cke_emoji-search span {
+    background-repeat: no-repeat;
+    background-position: -60px -15px;
+	background-size: 75px 30px;
 }
 
 .cke_emoji-search input {
