@@ -318,6 +318,7 @@ Fixed Issues:
 * [#2506](https://github.com/ckeditor/ckeditor-dev/issues/2506): Fixed: [Enhanced Image](https://ckeditor.com/cke4/addon/image2) throws type error when empty figure tag with 'image' class is upcasted.
 * [#2650](https://github.com/ckeditor/ckeditor-dev/issues/2650): Fixed: [Table](https://ckeditor.com/cke4/addon/table) dialog validator fails when function `getValue` is defined in global scope.
 * [#2208](https://github.com/ckeditor/ckeditor-dev/issues/2208): [IE8-11] Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin duplicated with native browser implementation.
+* [#1824](https://github.com/ckeditor/ckeditor-dev/issues/1824): Fixed: [`Autolink`](https://ckeditor.com/cke4/addon/autolink) plugin doesn't work without [`Link`](https://ckeditor.com/cke4/addon/link) plugin.
 
 Other Changes:
 
