@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 4.11.0, feature, 1815
-@bender-ckeditor-plugins: clipboard, toolbar, wysiwygarea, link, autolink, undo
+@bender-ckeditor-plugins: clipboard, toolbar, wysiwygarea, autolink, undo
 
 1. Focus the editor.
 1. Type `http://example.com`.

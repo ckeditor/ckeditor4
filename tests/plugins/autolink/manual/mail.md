@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 4.10.0, feature, 1761
-@bender-ckeditor-plugins: toolbar, wysiwygarea, link, autolink
+@bender-ckeditor-plugins: toolbar, wysiwygarea, autolink
 
 ## Test Scenario
 

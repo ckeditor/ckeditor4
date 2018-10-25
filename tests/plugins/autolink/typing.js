@@ -8,20 +8,17 @@
 	bender.editors = {
 		classic: {
 			config: {
-				removePlugins: 'link',
 				allowedContent: true
 			}
 		},
 		enterkey: {
 			config: {
-				removePlugins: 'link',
 				extraPlugins: 'enterkey',
 				allowedContent: true
 			}
 		},
 		customCommitKeystrokes: {
 			config: {
-				removePlugins: 'link',
 				allowedContent: true,
 				autolink_commitKeystrokes: [
 					37, // ArrowLeft
