@@ -35,16 +35,6 @@ CKSource engineers and consists of CKSource-owned intellectual
 property. In some specific instances, CKEditor will incorporate work
 done by developers outside of CKSource with their express permission.
 
-(Ignore this line: %REMOVE_START%)
-
-Software available at our repository and developer version only:
-
-JavaScript Lint: At _dev/_thirdparty/jsl can be found the executable
-files of JavaScript Lint, which are licensed under the terms of the
-Mozilla Public License Version 1.1 (http://www.mozilla.org/MPL/).
-JavaScript Lint is Copyright (c) 2006 Matthias Miller.
-
-(Ignore this line: %REMOVE_END%)
 Trademarks
 ----------
 

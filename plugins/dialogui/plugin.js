@@ -157,7 +157,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 										' for="' + _.inputId + '"' +
 										( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>' +
 											CKEDITOR.tools.htmlEncode( elementDefinition.label ) +
-										'</span>'
+										'</label>'
 								},
 								{
 									type: 'html',
@@ -404,7 +404,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					this._[ 'default' ] = this._.initValue = elementDefinition.items[ 0 ][ 1 ];
 
 				if ( elementDefinition.validate )
-					this.validate = elementDefinition.valdiate;
+					this.validate = elementDefinition.validate;
 
 				var children = [],
 					me = this;

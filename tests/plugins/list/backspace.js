@@ -11,7 +11,7 @@ var BACKSPACE = 8,
 	DEL = 46;
 
 var tests = {
-	assertBackspace: function( name, key, keyModifiers ) {
+	assertBackspace: function( name, key, keyModifiers, assertFn ) {
 		var bot = this.editorBot;
 		bender.tools.testInputOut( name, function( source, expected ) {
 			bot.setHtmlWithSelection( source );
@@ -22,13 +22,15 @@ var tests = {
 				shiftKey: keyModifiers & CKEDITOR.SHIFT
 			} ) );
 
-			var output = bot.getData( true );
-			// For easier tests redability and to align development and release
-			// versions of the tests, replace non-breaking-space char with &nbsp;
-			output = output.replace( /\u00a0/g, '&nbsp;' );
+			assert.isInnerHtmlMatching( bender.tools.compatHtml( expected ), bender.tools.selection.getWithHtml( bot.editor ), {
+				compareSelection: true,
+				normalizeSelection: true
+			}, name );
 
-			assert.areSame( bender.tools.compatHtml( expected ), output, name );
-		} );
+			if ( typeof assertFn === 'function' ) {
+				assertFn( bot.editor );
+			}
+		}, false );
 	}
 };
 
@@ -44,6 +46,14 @@ addTests( 'test backspace join list items', 'join_list8', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list9', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list10', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list11', BACKSPACE );
+addTests( 'test backspace join list items', 'join_list15', BACKSPACE, undefined, assertNotNestedAnchors );
+addTests( 'test backspace join list items', 'join_list16', BACKSPACE, undefined, assertNotNestedAnchors );
+addTests( 'test backspace join list items', 'join_list17', BACKSPACE );
+addTests( 'test backspace join list items', 'join_list18', BACKSPACE );
+
+function assertNotNestedAnchors( editor ) {
+	assert.isNull( editor.editable().findOne( 'a a' ) );
+}
 
 addTests( 'test backspace outdent list item', 'outdent_list', BACKSPACE );
 addTests( 'test backspace outdent list item', 'outdent_list2', BACKSPACE );
@@ -69,11 +79,18 @@ addTests( 'test del join list items', 'join_list11_del', DEL );
 addTests( 'test del join list items', 'join_list12_del', DEL );
 addTests( 'test del join list items', 'join_list13_del', DEL );
 addTests( 'test del join list items', 'join_list14_del', DEL );
+addTests( 'test del join list items', 'join_list15_del', DEL, undefined, assertNotNestedAnchors );
+addTests( 'test del join list items', 'join_list16_del', DEL, undefined, assertNotNestedAnchors );
 
 addTests( 'test del join with next list item', 'merge_next_list', DEL );
 addTests( 'test del join with next list item', 'merge_next_list2', DEL );
 addTests( 'test del join with next list item', 'merge_next_list3', DEL );
 addTests( 'test del join with next list item', 'merge_next_list4', DEL );
+
+// On IE8 this test fails due to #13098.
+if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 ) {
+	addTests( 'test del join with next list item', 'merge_next_list5', DEL );
+}
 
 addTests( 'test del remove empty block', 'remove_empty_block', DEL );
 addTests( 'test del remove empty block', 'remove_empty_block2', DEL );
@@ -88,9 +105,9 @@ addTests( 'test backspace outdent list item - SHIFT', 'outdent_list', BACKSPACE,
 addTests( 'test del join list items - CTRL', 'join_list1_del', DEL, CKEDITOR.CTRL );
 addTests( 'test del join with next list item - SHIFT', 'merge_next_list', DEL, CKEDITOR.SHIFT );
 
-function addTests( title, source, key, keyModifiers ) {
+function addTests( title, source, key, keyModifiers, assertFn ) {
 	tests[ title + ' (' + source + ')' ] = function() {
-		this.assertBackspace( source, key, keyModifiers );
+		this.assertBackspace( source, key, keyModifiers, assertFn );
 	};
 }
 

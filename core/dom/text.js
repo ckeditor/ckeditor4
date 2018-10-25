@@ -12,9 +12,9 @@
  * Represents a DOM text node.
  *
  *		var nativeNode = document.createTextNode( 'Example' );
- *		var text = CKEDITOR.dom.text( nativeNode );
+ *		var text = new CKEDITOR.dom.text( nativeNode );
  *
- *		var text = CKEDITOR.dom.text( 'Example' );
+ *		var text = new CKEDITOR.dom.text( 'Example' );
  *
  * @class
  * @extends CKEDITOR.dom.node

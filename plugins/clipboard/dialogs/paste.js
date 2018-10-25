@@ -141,10 +141,8 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 							' frameborder="0" ' +
 							' allowTransparency="true"' +
 							' src="' + src + '"' +
-							' role="region"' +
 							' aria-label="' + lang.pasteArea + '"' +
 							' aria-describedby="' + dialog.getContentElement( 'general', 'pasteMsg' ).domId + '"' +
-							' aria-multiple="true"' +
 							'></iframe>' );
 
 						iframe.on( 'load', function( e ) {

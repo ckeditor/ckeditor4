@@ -712,10 +712,11 @@
 					styleSet.top = that.inInlineMode ? 0 : view.scroll.y;
 					this.look( LOOK_TOP );
 				} else if ( trigger.is( LOOK_BOTTOM ) || inBetween( styleSet.top, view.pane.bottom - 5, view.pane.bottom + 15 ) ) {
-					styleSet.top = that.inInlineMode ?
+					styleSet.top = that.inInlineMode ? (
 							view.editable.height + view.editable.padding.top + view.editable.padding.bottom
-						:
-							view.pane.bottom - 1;
+						) : (
+							view.pane.bottom - 1
+						);
 
 					this.look( LOOK_BOTTOM );
 				} else {
@@ -1127,11 +1128,14 @@
 		updateEditableSize( that );
 
 		// This flag determines whether checking bottom trigger.
-		var bottomTrigger = mouse.y > ( that.inInlineMode ?
-				view.editable.top + view.editable.height / 2
-			:
-				// This is to handle case when editable.height / 2 <<< pane.height.
-				Math.min( view.editable.height, view.pane.height ) / 2 ),
+		var bottomTrigger = mouse.y > (
+				that.inInlineMode ? (
+					view.editable.top + view.editable.height / 2
+				) : (
+					// This is to handle case when editable.height / 2 <<< pane.height.
+					Math.min( view.editable.height, view.pane.height ) / 2
+				)
+			),
 
 		// Edge node according to bottomTrigger.
 		edgeNode = editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( function( node ) {

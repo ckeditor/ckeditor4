@@ -4,7 +4,7 @@
  */
 
  /**
- * @fileOverview A set of utilities to find and make horizontal spaces in edited contents.
+ * @fileOverview A set of utilities to find and create horizontal spaces in edited content.
  */
 
 'use strict';
@@ -41,13 +41,13 @@
 	CKEDITOR.LINEUTILS_INSIDE = 4;
 
 	/**
-	 * An utility that traverses DOM tree and discovers elements
+	 * A utility that traverses the DOM tree and discovers elements
 	 * (relations) matching user-defined lookups.
 	 *
 	 * @private
 	 * @class CKEDITOR.plugins.lineutils.finder
 	 * @constructor Creates a Finder class instance.
-	 * @param {CKEDITOR.editor} editor Editor instance that Finder belongs to.
+	 * @param {CKEDITOR.editor} editor Editor instance that the Finder belongs to.
 	 * @param {Object} def Finder's definition.
 	 * @since 4.3
 	 */
@@ -60,8 +60,11 @@
 		}, def, true );
 
 		this.inline = this.editable.isInline();
-		if ( !this.inline )
+
+		if ( !this.inline ) {
 			this.frame = this.win.getFrame();
+		}
+
 		this.target = this[ this.inline ? 'editable' : 'doc' ];
 	}
 
@@ -76,7 +79,7 @@
 			var that = this,
 				editor = this.editor,
 				doc = this.doc,
-				el, x, y;
+				el, elfp, x, y;
 
 			var moveBuffer = CKEDITOR.tools.eventsBuffer( 50, function() {
 					if ( editor.readOnly || editor.mode != 'wysiwyg' )
@@ -84,12 +87,21 @@
 
 					that.relations = {};
 
-					el = new CKEDITOR.dom.element( doc.$.elementFromPoint( x, y ) );
+					// Sometimes it happens that elementFromPoint returns null (especially on IE).
+					// Any further traversal makes no sense if there's no start point. Abort.
+					// Note: In IE8 elementFromPoint may return zombie nodes of undefined nodeType,
+					// so rejecting those as well.
+					if ( !( elfp = doc.$.elementFromPoint( x, y ) ) || !elfp.nodeType ) {
+						return;
+					}
+
+					el = new CKEDITOR.dom.element( elfp );
 
 					that.traverseSearch( el );
 
-					if ( !isNaN( x + y ) )
+					if ( !isNaN( x + y ) ) {
 						that.pixelSearch( el, x, y );
+					}
 
 					callback && callback( that.relations, x, y );
 				} );
@@ -111,15 +123,16 @@
 		 * Stops observing mouse events attached by {@link #start}.
 		 */
 		stop: function() {
-			if ( this.listener )
+			if ( this.listener ) {
 				this.listener.removeListener();
+			}
 		},
 
 		/**
 		 * Returns a range representing the relation, according to its element
 		 * and type.
 		 *
-		 * @param {Object} location Location containing unique identifier and type.
+		 * @param {Object} location Location containing a unique identifier and type.
 		 * @returns {CKEDITOR.dom.range} Range representing the relation.
 		 */
 		getRange: ( function() {
@@ -139,7 +152,7 @@
 		} )(),
 
 		/**
-		 * Stores given relation in {@link #relations} object. Processes the relation
+		 * Stores given relation in a {@link #relations} object. Processes the relation
 		 * to normalize and avoid duplicates.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element of the relation.
@@ -149,10 +162,11 @@
 			function merge( el, type, relations ) {
 				var uid = el.getUniqueId();
 
-				if ( uid in relations )
+				if ( uid in relations ) {
 					relations[ uid ].type |= type;
-				else
+				} else {
 					relations[ uid ] = { element: el, type: type };
+				}
 			}
 
 			return function( el, type ) {
@@ -177,9 +191,9 @@
 		} )(),
 
 		/**
-		 * Traverses DOM tree towards root, checking all ancestors
+		 * Traverses the DOM tree towards root, checking all ancestors
 		 * with lookup rules, avoiding duplicates. Stores positive relations
-		 * in {@link #relations} object.
+		 * in the {@link #relations} object.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
 		 */
@@ -191,26 +205,29 @@
 				uid = el.$[ 'data-cke-expando' ];
 
 				// This element was already visited and checked.
-				if ( uid && uid in this.relations )
+				if ( uid && uid in this.relations ) {
 					continue;
+				}
 
-				if ( el.equals( this.editable ) )
+				if ( el.equals( this.editable ) ) {
 					return;
+				}
 
 				if ( isStatic( el ) ) {
 					// Collect all addresses yielded by lookups for that element.
 					for ( l in this.lookups ) {
 
-						if ( ( type = this.lookups[ l ]( el ) ) )
+						if ( ( type = this.lookups[ l ]( el ) ) ) {
 							this.store( el, type );
+						}
 					}
 				}
 			} while ( !isLimit( el ) && ( el = el.getParent() ) );
 		},
 
 		/**
-		 * Iterates vertically pixel-by-pixel within given element starting
-		 * from given coordinates, searching for elements in the neighbourhood.
+		 * Iterates vertically pixel-by-pixel within a given element starting
+		 * from given coordinates, searching for elements in the neighborhood.
 		 * Once an element is found it is processed by {@link #traverseSearch}.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
@@ -219,18 +236,16 @@
 		 */
 		pixelSearch: ( function() {
 			var contains = CKEDITOR.env.ie || CKEDITOR.env.webkit ?
-					function( el, found ) {
-						return el.contains( found );
-					}
-				:
-					function( el, found ) {
-						return !!( el.compareDocumentPosition( found ) & 16 );
-					};
+				function( el, found ) {
+					return el.contains( found );
+				} : function( el, found ) {
+					return !!( el.compareDocumentPosition( found ) & 16 );
+				};
 
 			// Iterates pixel-by-pixel from starting coordinates, moving by defined
 			// step and getting elementFromPoint in every iteration. Iteration stops when:
 			//  * A valid element is found.
-			//  * Condition function returns false (i.e. reached boundaries of viewport).
+			//  * Condition function returns `false` (i.e. reached boundaries of viewport).
 			//  * No element is found (i.e. coordinates out of viewport).
 			//  * Element found is ascendant of starting element.
 			//
@@ -250,8 +265,9 @@
 
 					// If we try and we try, and still nothing's found, let's end
 					// that party.
-					if ( ++tryouts == 25 )
+					if ( ++tryouts == 25 ) {
 						return;
+					}
 
 					found = this.doc.$.elementFromPoint( xStart, y );
 
@@ -259,8 +275,9 @@
 					// It might be that a line, which is in different document,
 					// covers that pixel (elementFromPoint is doc-sensitive).
 					// Better let's have another try.
-					if ( !found )
+					if ( !found ) {
 						continue;
+					}
 
 					// Still in the same element.
 					else if ( found == el ) {
@@ -277,8 +294,9 @@
 					tryouts = 0;
 
 					// Found a valid element. Stop iterating.
-					if ( isStatic( ( found = new CKEDITOR.dom.element( found ) ) ) )
+					if ( isStatic( ( found = new CKEDITOR.dom.element( found ) ) ) ) {
 						return found;
+					}
 				}
 			}
 
@@ -299,16 +317,18 @@
 					this.traverseSearch( neg );
 
 					// Iterate towards DOM root until neg is a direct child of el.
-					while ( !neg.getParent().equals( el ) )
+					while ( !neg.getParent().equals( el ) ) {
 						neg = neg.getParent();
+					}
 				}
 
 				if ( pos ) {
 					this.traverseSearch( pos );
 
 					// Iterate towards DOM root until pos is a direct child of el.
-					while ( !pos.getParent().equals( el ) )
+					while ( !pos.getParent().equals( el ) ) {
 						pos = pos.getParent();
+					}
 				}
 
 				// Iterate forwards starting from neg and backwards from
@@ -316,19 +336,23 @@
 				// Stop when neg and pos meet each other or there's none of them.
 				// TODO (?) reduce number of hops forwards/backwards.
 				while ( neg || pos ) {
-					if ( neg )
+					if ( neg ) {
 						neg = neg.getNext( isStatic );
+					}
 
-					if ( !neg || neg.equals( pos ) )
+					if ( !neg || neg.equals( pos ) ) {
 						break;
+					}
 
 					this.traverseSearch( neg );
 
-					if ( pos )
+					if ( pos ) {
 						pos = pos.getPrevious( isStatic );
+					}
 
-					if ( !pos || pos.equals( neg ) )
+					if ( !pos || pos.equals( neg ) ) {
 						break;
+					}
 
 					this.traverseSearch( pos );
 				}
@@ -336,7 +360,7 @@
 		} )(),
 
 		/**
-		 * Unline {@link #traverseSearch}, it collects **all** elements from editable's DOM tree
+		 * Unlike {@link #traverseSearch}, it collects **all** elements from editable's DOM tree
 		 * and runs lookups for every one of them, collecting relations.
 		 *
 		 * @returns {Object} {@link #relations}.
@@ -351,20 +375,23 @@
 			while ( ( el = all.getItem( i++ ) ) ) {
 				// Don't consider editable, as it might be inline,
 				// and i.e. checking it's siblings is pointless.
-				if ( el.equals( this.editable ) )
+				if ( el.equals( this.editable ) ) {
 					continue;
+				}
 
 				// Don't visit non-editable internals, for example widget's
 				// guts (above wrapper, below nested). Still check editable limits,
 				// as they are siblings with editable contents.
-				if ( !el.hasAttribute( 'contenteditable' ) && el.isReadOnly() )
+				if ( !el.hasAttribute( 'contenteditable' ) && el.isReadOnly() ) {
 					continue;
+				}
 
 				if ( isStatic( el ) && el.isVisible() ) {
 					// Collect all addresses yielded by lookups for that element.
 					for ( l in this.lookups ) {
-						if ( ( type = this.lookups[ l ]( el ) ) )
+						if ( ( type = this.lookups[ l ]( el ) ) ) {
 							this.store( el, type );
+						}
 					}
 				}
 			}
@@ -375,7 +402,7 @@
 		/**
 		 * Relations express elements in DOM that match user-defined {@link #lookups}.
 		 * Every relation has its own `type` that determines whether
-		 * it refers to the space before, after or inside of `element`.
+		 * it refers to the space before, after or inside the `element`.
 		 * This object stores relations found by {@link #traverseSearch} or {@link #greedySearch}, structured
 		 * in the following way:
 		 *
@@ -416,7 +443,7 @@
 
 
 	/**
-	 * An utility that analyses relations found by
+	 * A utility that analyses relations found by
 	 * CKEDITOR.plugins.lineutils.finder and locates them
 	 * in the viewport as horizontal lines of specific coordinates.
 	 *
@@ -434,8 +461,8 @@
 
 	Locator.prototype = {
 		/**
-		 * Localizes Y coordinate for all types of every single relation and stores
-		 * them in the object.
+		 * Locates the Y coordinate for all types of every single relation and stores
+		 * them in an object.
 		 *
 		 * @param {Object} relations {@link CKEDITOR.plugins.lineutils.finder#relations}.
 		 * @returns {Object} {@link #locations}.
@@ -448,18 +475,20 @@
 				if ( sib && isStatic( sib ) ) {
 					rel.siblingRect = sib.getClientRect();
 
-					if ( type == CKEDITOR.LINEUTILS_BEFORE )
+					if ( type == CKEDITOR.LINEUTILS_BEFORE ) {
 						return ( rel.siblingRect.bottom + rel.elementRect.top ) / 2;
-					else
+					} else {
 						return ( rel.elementRect.bottom + rel.siblingRect.top ) / 2;
+					}
 				}
 
 				// If there's no sibling, use the edge of an element.
 				else {
-					if ( type == CKEDITOR.LINEUTILS_BEFORE )
+					if ( type == CKEDITOR.LINEUTILS_BEFORE ) {
 						return rel.elementRect.top;
-					else
+					} else {
 						return rel.elementRect.bottom;
+					}
 				}
 			}
 
@@ -472,15 +501,18 @@
 					rel = relations[ uid ];
 					rel.elementRect = rel.element.getClientRect();
 
-					if ( is( rel.type, CKEDITOR.LINEUTILS_BEFORE ) )
+					if ( is( rel.type, CKEDITOR.LINEUTILS_BEFORE ) ) {
 						this.store( uid, CKEDITOR.LINEUTILS_BEFORE, locateSibling( rel, CKEDITOR.LINEUTILS_BEFORE ) );
+					}
 
-					if ( is( rel.type, CKEDITOR.LINEUTILS_AFTER ) )
+					if ( is( rel.type, CKEDITOR.LINEUTILS_AFTER ) ) {
 						this.store( uid, CKEDITOR.LINEUTILS_AFTER, locateSibling( rel, CKEDITOR.LINEUTILS_AFTER ) );
+					}
 
 					// The middle point of the element.
-					if ( is( rel.type, CKEDITOR.LINEUTILS_INSIDE ) )
+					if ( is( rel.type, CKEDITOR.LINEUTILS_INSIDE ) ) {
 						this.store( uid, CKEDITOR.LINEUTILS_INSIDE, ( rel.elementRect.top + rel.elementRect.bottom ) / 2 );
+					}
 				}
 
 				return this.locations;
@@ -492,7 +524,7 @@
 		 * and sorts locations according to that distance.
 		 *
 		 * @param {Number} y The vertical coordinate used for sorting, used as a reference.
-		 * @param {Number} [howMany] Determines the number "closest locations" to be returned.
+		 * @param {Number} [howMany] Determines the number of "closest locations" to be returned.
 		 * @returns {Array} Sorted, array representation of {@link #locations}.
 		 */
 		sort: ( function() {
@@ -512,9 +544,9 @@
 						dist = distance( y, uid, type );
 
 						// An array is empty.
-						if ( !sorted.length )
+						if ( !sorted.length ) {
 							sorted.push( { uid: +uid, type: type, dist: dist } );
-						else {
+						} else {
 							// Sort the array on fly when it's populated.
 							for ( i = 0; i < sorted.length; i++ ) {
 								if ( dist < sorted[ i ].dist ) {
@@ -525,16 +557,18 @@
 
 							// Nothing was inserted, so the distance is bigger than
 							// any of already calculated: push to the end.
-							if ( i == sorted.length )
+							if ( i == sorted.length ) {
 								sorted.push( { uid: +uid, type: type, dist: dist } );
+							}
 						}
 					}
 				}
 
-				if ( typeof howMany != 'undefined' )
+				if ( typeof howMany != 'undefined' ) {
 					return sorted.slice( 0, howMany );
-				else
+				} else {
 					return sorted;
+				}
 			};
 		} )(),
 
@@ -546,8 +580,9 @@
 		 * @param {Number} y Vertical position of the relation.
 		 */
 		store: function( uid, type, y ) {
-			if ( !this.locations[ uid ] )
+			if ( !this.locations[ uid ] ) {
 				this.locations[ uid ] = {};
+			}
 
 			this.locations[ uid ][ type ] = y;
 		}
@@ -582,7 +617,7 @@
 			'</div>';
 
 	/**
-	 * An utility that draws horizontal lines in DOM according to locations
+	 * A utility that draws horizontal lines in DOM according to locations
 	 * returned by CKEDITOR.plugins.lineutils.locator.
 	 *
 	 * @private
@@ -598,6 +633,7 @@
 		CKEDITOR.tools.extend( this, {
 			editor: editor,
 			editable: editable,
+			inline: editable.isInline(),
 			doc: editor.document,
 			win: editor.window,
 			container: CKEDITOR.document.getBody(),
@@ -607,10 +643,9 @@
 		this.hidden = {};
 		this.visible = {};
 
-		this.inline = editable.isInline();
-
-		if ( !this.inline )
+		if ( !this.inline ) {
 			this.frame = this.win.getFrame();
+		}
 
 		this.queryViewport();
 
@@ -635,12 +670,14 @@
 			this.queryViewport();
 
 			// Check if mouse is out of the element (iframe/editable).
-			if ( x <= this.rect.left || x >= this.rect.right || y <= this.rect.top || y >= this.rect.bottom )
+			if ( x <= this.rect.left || x >= this.rect.right || y <= this.rect.top || y >= this.rect.bottom ) {
 				this.hideVisible();
+			}
 
 			// Check if mouse is out of the top-window vieport.
-			if ( x <= 0 || x >= this.winTopPane.width || y <= 0 || y >= this.winTopPane.height )
+			if ( x <= 0 || x >= this.winTopPane.width || y <= 0 || y >= this.winTopPane.height ) {
 				this.hideVisible();
+			}
 		}, this );
 
 		editable.attachListener( editor, 'resize', queryViewport );
@@ -718,14 +755,15 @@
 		 * Hides all visible lines.
 		 */
 		hideVisible: function() {
-			for ( var l in this.visible )
+			for ( var l in this.visible ) {
 				this.hideLine( this.visible[ l ] );
+			}
 		},
 
 		/**
 		 * Shows a line at given location.
 		 *
-		 * @param {Object} location Location object containing unique identifier of the relation
+		 * @param {Object} location Location object containing the unique identifier of the relation
 		 * and its type. Usually returned by {@link CKEDITOR.plugins.lineutils.locator#sort}.
 		 * @param {Function} [callback] A callback to be called once the line is shown.
 		 */
@@ -733,8 +771,9 @@
 			var styles, line, l;
 
 			// No style means that line would be out of viewport.
-			if ( !( styles = this.getStyle( location.uid, location.type ) ) )
+			if ( !( styles = this.getStyle( location.uid, location.type ) ) ) {
 				return;
+			}
 
 			// Search for any visible line of a different hash first.
 			// It's faster to re-position visible line than to show it.
@@ -756,8 +795,9 @@
 			}
 
 			// If no line available, add the new one.
-			if ( !line )
+			if ( !line ) {
 				this.showLine( ( line = this.addLine() ) );
+			}
 
 			// Mark the line with current hash.
 			line.setCustomData( 'hash', this.hash );
@@ -771,7 +811,7 @@
 		},
 
 		/**
-		 * Creates style set to be used by the line, representing a particular
+		 * Creates a style set to be used by the line, representing a particular
 		 * relation (location).
 		 *
 		 * @param {Number} uid Unique identifier of the relation.
@@ -785,26 +825,32 @@
 				hdiff;
 
 			// Line should be between two elements.
-			if ( rel.siblingRect )
+			if ( rel.siblingRect ) {
 				styles.width = Math.max( rel.siblingRect.width, rel.elementRect.width );
+			}
 			// Line is relative to a single element.
-			else
+			else {
 				styles.width = rel.elementRect.width;
+			}
 
 			// Let's calculate the vertical position of the line.
-			if ( this.inline )
-				styles.top = loc + this.winTopScroll.y;
-			else
+			if ( this.inline ) {
+				// (#13155)
+				styles.top = loc + this.winTopScroll.y - this.rect.relativeY;
+			} else {
 				styles.top = this.rect.top + this.winTopScroll.y + loc;
+			}
 
 			// Check if line would be vertically out of the viewport.
-			if ( styles.top - this.winTopScroll.y < this.rect.top || styles.top - this.winTopScroll.y > this.rect.bottom )
+			if ( styles.top - this.winTopScroll.y < this.rect.top || styles.top - this.winTopScroll.y > this.rect.bottom ) {
 				return false;
+			}
 
 			// Now let's calculate the horizontal alignment (left and width).
-			if ( this.inline )
-				styles.left = rel.elementRect.left;
-			else {
+			if ( this.inline ) {
+				// (#13155)
+				styles.left = rel.elementRect.left - this.rect.relativeX;
+			} else {
 				if ( rel.elementRect.left > 0 )
 					styles.left = this.rect.left + rel.elementRect.left;
 
@@ -815,16 +861,18 @@
 				}
 
 				// H-scroll case. Right edge of element may be out of viewport.
-				if ( ( hdiff = styles.left + styles.width - ( this.rect.left + this.winPane.width ) ) > 0 )
+				if ( ( hdiff = styles.left + styles.width - ( this.rect.left + this.winPane.width ) ) > 0 ) {
 					styles.width -= hdiff;
+				}
 			}
 
 			// Finally include horizontal scroll of the global window.
 			styles.left += this.winTopScroll.x;
 
 			// Append 'px' to style values.
-			for ( var style in styles )
+			for ( var style in styles ) {
 				styles[ style ] = CKEDITOR.tools.cssLength( styles[ style ] );
+			}
 
 			return styles;
 		},
@@ -843,12 +891,12 @@
 		},
 
 		/**
-		 * Assigns an unique hash to the instance that is later utilized
+		 * Assigns a unique hash to the instance that is later used
 		 * to tell unwanted lines from new ones. This method **must** be called
 		 * before a new set of relations is to be visualized so {@link #cleanup}
 		 * eventually hides obsolete lines. This is because lines
 		 * are re-used between {@link #placeLine} calls and the number of
-		 * necessary ones may vary according to the number of relations.
+		 * necessary ones may vary depending on the number of relations.
 		 *
 		 * @param {Object} relations {@link CKEDITOR.plugins.lineutils.finder#relations}.
 		 * @param {Object} locations {@link CKEDITOR.plugins.lineutils.locator#locations}.
@@ -860,8 +908,8 @@
 		},
 
 		/**
-		 * Hides all visible lines that don't belong to current hash
-		 * and no-longer represent relations (locations).
+		 * Hides all visible lines that do not belong to current hash
+		 * and no longer represent relations (locations).
 		 *
 		 * See also: {@link #prepare}.
 		 */
@@ -871,8 +919,9 @@
 			for ( var l in this.visible ) {
 				line = this.visible[ l ];
 
-				if ( line.getCustomData( 'hash' ) !== this.hash )
+				if ( line.getCustomData( 'hash' ) !== this.hash ) {
 					this.hideLine( line );
+				}
 			}
 		},
 
@@ -885,10 +934,39 @@
 			this.winTopScroll = this.winTop.getScrollPosition();
 			this.winTopPane = this.winTop.getViewPaneSize();
 
-			if ( this.inline )
-				this.rect = this.editable.getClientRect();
-			else
-				this.rect = this.frame.getClientRect();
+			// (#13155)
+			this.rect = this.getClientRect( this.inline ? this.editable : this.frame );
+		},
+
+		/**
+		 * Returns `boundingClientRect` of an element, shifted by the position
+		 * of `container` when the container is not `static` (#13155).
+		 *
+		 * See also: {@link CKEDITOR.dom.element#getClientRect}.
+		 *
+		 * @param {CKEDITOR.dom.element} el A DOM element.
+		 * @returns {Object} A shifted rect, extended by `relativeY` and `relativeX` properties.
+		 */
+		getClientRect: function( el ) {
+			var rect = el.getClientRect(),
+				relativeContainerDocPosition = this.container.getDocumentPosition(),
+				relativeContainerComputedPosition = this.container.getComputedStyle( 'position' );
+
+			// Static or not, those values are used to offset the position of the line so they cannot be undefined.
+			rect.relativeX = rect.relativeY = 0;
+
+			if ( relativeContainerComputedPosition != 'static' ) {
+				// Remember the offset used to shift the clientRect.
+				rect.relativeY = relativeContainerDocPosition.y;
+				rect.relativeX = relativeContainerDocPosition.x;
+
+				rect.top -= rect.relativeY;
+				rect.bottom -= rect.relativeY;
+				rect.left -= rect.relativeX;
+				rect.right -= rect.relativeX;
+			}
+
+			return rect;
 		}
 	};
 
@@ -920,7 +998,7 @@
 	}
 
 	/**
-	 * Global namespace holding definitions and global helpers for the lineutils plugin.
+	 * Global namespace storing definitions and global helpers for the Line Utilities plugin.
 	 *
 	 * @private
 	 * @class

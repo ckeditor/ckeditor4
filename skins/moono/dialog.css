@@ -251,7 +251,8 @@ a.cke_dialog_tab
 }
 
 /* A hover state of a regular inactive tab. */
-a.cke_dialog_tab:hover
+a.cke_dialog_tab:hover,
+a.cke_dialog_tab:focus
 {
 	background: #ebebeb;
 	background: -moz-linear-gradient(top, #ebebeb 0%, #dfdfdf 100%);
@@ -273,7 +274,8 @@ a.cke_dialog_tab_selected
 }
 
 /* A hover state for selected tab. */
-a.cke_dialog_tab_selected:hover
+a.cke_dialog_tab_selected:hover,
+a.cke_dialog_tab_selected:focus,
 {
 	background: #ededed;
 	background: -moz-linear-gradient(top, #ededed 0%, #ffffff 100%);
@@ -286,6 +288,7 @@ a.cke_dialog_tab_selected:hover
 }
 
 .cke_hc a.cke_dialog_tab:hover,
+.cke_hc a.cke_dialog_tab:focus,
 .cke_hc a.cke_dialog_tab_selected
 {
 	border: 3px solid;

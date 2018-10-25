@@ -14,8 +14,19 @@
  * @return {Object}
  */
 function build( data ) {
-	function toArray( str ) {
-		return str.replace( /\s/g, '' ).split( ',' );
+	// converts recursively strings found in an object to arrays
+	function convert( obj ) {
+		if ( typeof obj == 'string' ) {
+			return obj.trim().split( /\s*,\s*/ );
+		}
+
+		if ( obj && typeof obj == 'object' && !Array.isArray( obj ) ) {
+			Object.keys( obj ).forEach( function( key ) {
+				obj[ key ] = convert( obj[ key ] );
+			} );
+		}
+
+		return obj;
 	}
 
 	Object.keys( data.tests ).forEach( function( id ) {
@@ -25,9 +36,7 @@ function build( data ) {
 			return;
 		}
 
-		Object.keys( test.ckeditor ).forEach( function( key ) {
-			test.ckeditor[ key ] = toArray( test.ckeditor[ key ] );
-		} );
+		test.ckeditor = convert( test.ckeditor );
 	} );
 
 	return data;
@@ -36,6 +45,6 @@ function build( data ) {
 module.exports = {
 	name: 'bender-testbuilder-ckeditor',
 	attach: function() {
-		this.testbuilders.push( build );
+		this.testbuilders.add( 'ckeditor', build );
 	}
 };

@@ -90,7 +90,7 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 
 .cke_reset_all textarea
 {
-	white-space: pre;
+	white-space: pre-wrap;
 }
 
 .cke_reset_all textarea,

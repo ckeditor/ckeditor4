@@ -51,6 +51,9 @@ var config = {
 				// IE8 (fails only in testing env - window.window === window gives false)
 				'tests/core/tools#test_clone_Window': 'env.ie && env.version == 8',
 
+				// IE8-10 (#13154)
+				'tests/core/selection/editor#test initial selection after set data in autoparagraphing inline editor': 'env.ie && env.version < 11',
+
 				// Safari (#11980)
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace #2': 'env.safari',
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace #3': 'env.safari',
