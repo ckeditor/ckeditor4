@@ -64,6 +64,15 @@ LINKHELP\
     'content': '\
 GETTINGSTARTED\
 '
+  },
+
+  aboutA11yFirst: {
+    'menu':  'About A11yFirst',
+    'label': 'About A11yFirst',
+    'title': 'Description of A11yFirst Project',
+    'content': '\
+ABOUTA11YFIRST\
+'
   }
 
 } );

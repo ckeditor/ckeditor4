@@ -1,62 +1,35 @@
 ## About A11yFirst
 
-### What Is Accessibility?
+### Project Description
 
-* Information should be perceivable and usable by everyone, including people
-with disabilities.
+The A11yFirst Project seeks to make the process of creating and editing
+web documents one that proactively results in accessible content. This
+is in contrast to the typical process that primarily relies upon
+remediation of accessibility problems at the end of the authoring process.
 
-* Documents should be organized and structured to make them as easy to read
-and understand as possible.
+For example, by prompting the author to provide information regarding links
+and image properties as they are added to the document, and promoting block
+actions and logical structure over inline styling, accessibility problems
+are not only avoided, but authors learn on a feature-by-feature basis some
+of the important requirements for accessible content.
 
-* Accessible documents are compatible with assistive technologies and
-operating system accessibility features.
-
-### People with disabilities include people who:
-
-* cannot see very well or are blind;
-
-* cannot hear very well or are deaf;
-
-* have impaired motor skills or are paralyzed;
-
-* have learning or cognitive disabilities that affect their ability to read
-text or understand images.
-
-### A11yFirst Toolbar Features
-
-* **Heading/Paragaph**: Assists you in choosing the proper heading levels to make the
-heading structure in your document more meaningful to readers and provides special
-formatting for blocks of text (e.g. paragraphs) within your document.
-
-* **Character Style**: Provides styling to highlight or emphasize a word or group
-of words (i.e. characters) within a block of text.
-
-* **Link**: Checks the accessibility of *Display Text* when adding or editing links.
-
-* **A11yFirst Help**: Provides information on the important features of accessible
-documents.
+With a better understanding of accessibility requirements as they relate
+to specific features of their documents as content is being added, it is
+hoped that authors will incorporate accessibility as a natural part of the
+document editing process.
 
 ### Project Information
 
-Version: %version
+* Version: %version
 
-GitHub Repository: <a href="https://github.com/a11yfirst/plugins-dev" target="_resource">a11yfirst/plugins-dev</a>
+* GitHub Repository: <a href="https://github.com/a11yfirst/plugins-dev" target="_resource">https://github.com/a11yfirst/plugins-dev</a>
 
-### Additional Resources
+### Contributors
 
-* <a href="https://webaim.org/techniques/semanticstructure/" target="_resource">WebAIM: Semantic Structure</a>
-
-* <a href="http://accessibility.umn.edu/core-skills/headings" target="_resource">Accessible U: Headings</a>
-
-* <a href="https://webaim.org/techniques/hypertext/" target="_resource">WebAIM: Links and Hypertext</a>
-
-* <a href="http://accessibility.umn.edu/core-skills/hyperlinks" target="_resource">Accessible U: Links</a>
-
-* <a href="https://webaim.org/techniques/images/" target="_resource">WebAIM: Accessible Images</a>
-
-* <a href="http://accessibility.umn.edu/core-skills/alt-text" target="_resource">Accessible U: ALT Text</a>
-
-* <a href="http://diagramcenter.org/" target="_resource">Diagram Center: Image Description Guidelines</a>
-
-* <a href="https://webaim.org/techniques/tables/data" target="_resource">WebAIM: Creating Accessible Tables</a>
-
+* Lucy Chang     (Usability Testing)
+* Jon Gunderson  (Requirements, Development)
+* Nicholas Hoyt  (Design, Development)
+* JaEun Jemma Ku (Requirements, Design)
+* Mark McCarthy  (Usability Testing)
+* Robert Slater  (Requirements)
+* Dena Strong    (Usability Testing)

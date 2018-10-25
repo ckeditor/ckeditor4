@@ -434,6 +434,49 @@ each of these a meaningful title, you will end up with a document that will\n\
 be easier for all users to navigate and understand, including people with\n\
 disabilities.\n\
 '
+  },
+
+  aboutA11yFirst: {
+    'menu':  'About A11yFirst',
+    'label': 'About A11yFirst',
+    'title': 'Description of A11yFirst Project',
+    'content': '\
+## About A11yFirst\n\
+\n\
+### Project Description\n\
+\n\
+The A11yFirst Project seeks to make the process of creating and editing\n\
+web documents one that proactively results in accessible content. This\n\
+is in contrast to the typical process that primarily relies upon\n\
+remediation of accessibility problems at the end of the authoring process.\n\
+\n\
+For example, by prompting the author to provide information regarding links\n\
+and image properties as they are added to the document, and promoting block\n\
+actions and logical structure over inline styling, accessibility problems\n\
+are not only avoided, but authors learn on a feature-by-feature basis some\n\
+of the important requirements for accessible content.\n\
+\n\
+With a better understanding of accessibility requirements as they relate\n\
+to specific features of their documents as content is being added, it is\n\
+hoped that authors will incorporate accessibility as a natural part of the\n\
+document editing process.\n\
+\n\
+### Project Information\n\
+\n\
+* Version: %version\n\
+\n\
+* GitHub Repository: <a href="https://github.com/a11yfirst/plugins-dev" target="_resource">https://github.com/a11yfirst/plugins-dev</a>\n\
+\n\
+### Contributors\n\
+\n\
+* Lucy Chang     (Usability Testing)\n\
+* Jon Gunderson  (Requirements, Development)\n\
+* Nicholas Hoyt  (Design, Development)\n\
+* JaEun Jemma Ku (Requirements, Design)\n\
+* Mark McCarthy  (Usability Testing)\n\
+* Robert Slater  (Requirements)\n\
+* Dena Strong    (Usability Testing)\n\
+'
   }
 
 } );

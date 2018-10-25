@@ -115,5 +115,8 @@ CKEDITOR.config.a11yFirstHelpTopics = {
   },
   'gettingStarted': {
     option:  'GettingStarted'
+  },
+  'aboutA11yFirst': {
+    option:  'AboutA11yFirst'
   }
 };

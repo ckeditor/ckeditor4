@@ -8,7 +8,8 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       version = '1.0.1',
       dialogObj;
 
-  var buttonStyle = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 0';
+  var buttonStyleNormal         = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 0';
+  var buttonStyleExtraTopMargin = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 1.5em';
 
   var basePathExt = {
     type: 'lang',
@@ -33,10 +34,11 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
   for ( var i = 0; i < helpTopicKeys.length; i++ ) {
     var key = helpTopicKeys[ i ];
     var option = helpOptions[ i ];
+    var offset = 2;
     var buttonObj = {
       type: 'button',
       id: 'button' + option,
-      style: buttonStyle,
+      style: (i == helpTopicKeys.length - offset) ? buttonStyleExtraTopMargin: buttonStyleNormal,
       label: lang[ key ].label,
       title: lang[ key ].title,
       option: option,
@@ -98,19 +100,12 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
         key = helpTopicKeys[ i ];
         contentId = 'content' + helpOptions[ i ];
         node = document.getElementById( contentId );
-        node.innerHTML = converter.makeHtml( lang[ key ].content );
+        node.innerHTML = converter.makeHtml( lang[ key ].content ).replace( /%version/g, version );
       }
 
       if ( editor.a11yfirst.helpOption ) {
         showHelpTopic( editor.a11yfirst.helpOption );
       }
-
-      // Add version information to the button bar at the bottom of the dialog box
-      node = document.querySelector('.cke_dialog_footer');
-      html = document.createElement('div');
-      html.setAttribute('style', 'position: absolute; top: 1em; left: 1em');
-      html.innerHTML = lang.versionLabel + ' ' + version;
-      node.insertBefore(html, node.firstElementChild);
     },
 
     contents: [
@@ -148,6 +143,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                     <div id="contentInlineStyleHelp"></div>\
                     <div id="contentLinkHelp"></div>\
                     <div id="contentGettingStarted"></div>\
+                    <div id="contentAboutA11yFirst"></div>\
                   </div>'
               }
             ]
