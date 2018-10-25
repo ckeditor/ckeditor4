@@ -22,7 +22,7 @@ document editing process.
 
 * Version: %version
 
-* GitHub Repository: <a href="https://github.com/a11yfirst/plugins-dev" target="_resource">https://github.com/a11yfirst/plugins-dev</a>
+* GitHub Repositories: <a href="https://github.com/a11yfirst" target="_resource">https://github.com/a11yfirst</a>
 
 ### Contributors
 
