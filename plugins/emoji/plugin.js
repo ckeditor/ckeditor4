@@ -181,7 +181,10 @@
 				toolbar: 'insert',
 				panel: {
 					css: [ CKEDITOR.skin.getPath( 'editor' ), this.path + 'skins/default.css' ],
-					attributes: { role: 'listbox', 'aria-label': 'Emoji List' },
+					attributes: {
+						role: 'listbox',
+						'aria-label': 'Emoji List'
+					},
 					markFirst: false
 				},
 
