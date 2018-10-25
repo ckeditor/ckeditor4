@@ -29,6 +29,7 @@
 				blockElement,
 				blockObject,
 				listeners = [],
+				strEncode = CKEDITOR.tools.htmlEncode,
 				ICON_SIZE = 21,
 				GROUPS = [
 					{
@@ -252,7 +253,7 @@
 
 					itemTemplate = new CKEDITOR.template(
 						'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}">' +
-						'<a href="{href}" draggable="false" _cke_focus="1" title="{name}">' +
+						'<a href="#{href}" draggable="false" _cke_focus="1" title="{name}">' +
 						'<span style="background-image:url(' + imgUrl + ');' +
 						'background-repeat:no-repeat;background-position:{positionX}px {positionY}px;"></span>' +
 						'</a></li>'
@@ -260,9 +261,9 @@
 
 					items = CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
 						return acc + itemTemplate.output( {
-							group: escapeString( item.name ),
-							href: escapeString( '#' + item.name.toLowerCase() ),
-							name: escapeString( item.sectionName ),
+							group: strEncode( item.name ),
+							href: strEncode( item.name.toLowerCase() ),
+							name: strEncode( item.sectionName ),
 							positionX: item.position.x,
 							positionY: item.position.y
 						} );
@@ -279,10 +280,10 @@
 
 					items = CKEDITOR.tools.array.reduce( GROUPS, function( acc, item ) {
 						return acc + itemTemplate.output( {
-							group: escapeString( item.name ),
-							href: escapeString( item.name.toLowerCase() ),
-							name: escapeString( item.sectionName ),
-							svgId: escapeString( item.svgId )
+							group: strEncode( item.name ),
+							href: strEncode( item.name.toLowerCase() ),
+							name: strEncode( item.sectionName ),
+							svgId: strEncode( item.svgId )
 						} );
 					}, '' );
 				}
@@ -309,7 +310,7 @@
 					listener: clearSearchAndMoveFocus
 				} );
 
-				return '<nav aria-label="' + escapeString( lang.navigationLabel ) + '"><ul>' + items + '</ul></nav>';
+				return '<nav aria-label="' + strEncode( lang.navigationLabel ) + '"><ul>' + items + '</ul></nav>';
 			}
 
 			function createSearchSection() {
@@ -336,8 +337,8 @@
 					} )()
 				} );
 				return '<label class="cke_emoji-search">' + getLoupeIcon() +
-					'<input placeholder="' + escapeString( lang.searchPlaceholder ) +
-					'" type="search" aria-label="' + escapeString( lang.searchLabel ) + '" role="search" _cke_focus="1"></label>';
+					'<input placeholder="' + strEncode( lang.searchPlaceholder ) +
+					'" type="search" aria-label="' + strEncode( lang.searchLabel ) + '" role="search" _cke_focus="1"></label>';
 			}
 
 			function getLoupeIcon() {
@@ -404,8 +405,8 @@
 			}
 
 			function getEmojiSection( item ) {
-				var groupName = escapeString( item.name ),
-					sectionName = escapeString( item.sectionName ),
+				var groupName = strEncode( item.name ),
+					sectionName = strEncode( item.sectionName ),
 					group = getEmojiListGroup( groupName );
 
 				return '<section data-cke-emoji-group="' + groupName + '" ><h2 id="' + groupName + '">' + sectionName + '</h2><ul>' + group + '</ul></section>';
@@ -427,11 +428,11 @@
 					),
 					function( acc, item ) {
 						return acc + emojiTpl.output( {
-								symbol: escapeString( item.symbol ),
-								id: escapeString( item.id ),
-								name: escapeString( item.id.replace( /::.*$/, ':' ).replace( /^:|:$/g, '' ).replace( /_/g, ' ' ) ),
-								group: escapeString( item.group ),
-								keywords: escapeString( ( item.keywords || [] ).join( ',' ) )
+								symbol: strEncode( item.symbol ),
+								id: strEncode( item.id ),
+								name: strEncode( item.id.replace( /::.*$/, ':' ).replace( /^:|:$/g, '' ).replace( /_/g, ' ' ) ),
+								group: strEncode( item.group ),
+								keywords: strEncode( ( item.keywords || [] ).join( ',' ) )
 							} );
 					},
 					''
@@ -559,9 +560,9 @@
 					return;
 				}
 
-				blockElement.findOne( '.cke_emoji-status_icon' ).setText( escapeString( element.getText() ) );
-				blockElement.findOne( 'p.cke_emoji-status_description' ).setText( escapeString( element.data( 'cke-emoji-name' ) ) );
-				blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( escapeString( element.data( 'cke-emoji-full-name' ) ) );
+				blockElement.findOne( '.cke_emoji-status_icon' ).setText( strEncode( element.getText() ) );
+				blockElement.findOne( 'p.cke_emoji-status_description' ).setText( strEncode( element.data( 'cke-emoji-name' ) ) );
+				blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( strEncode( element.data( 'cke-emoji-full-name' ) ) );
 			}
 
 			function clearStatusbar() {
@@ -577,7 +578,7 @@
 
 			function moveFocus( event ) {
 				var groupName = event.data.getTarget().getAscendant( 'li', true ).data( 'cke-emoji-group' ),
-					firstSectionItem = blockElement.findOne( 'a[data-cke-emoji-group="' + escapeString( groupName ) + '"]' ),
+					firstSectionItem = blockElement.findOne( 'a[data-cke-emoji-group="' + strEncode( groupName ) + '"]' ),
 					itemIndex;
 
 				if ( !firstSectionItem ) {
@@ -608,37 +609,6 @@
 				} );
 			}
 
-			function escapeString( str ) {
-				var replacements = [
-						{
-							symbol: '&',
-							replacement: '&amp;'
-						},
-						{
-							symbol: '<',
-							replacement: '&lt;'
-						},
-						{
-							symbol: '"',
-							replacement: '&quot;'
-						},
-						{
-							symbol: '\'',
-							replacement: '&#x27;'
-						},
-						{
-							symbol: '/',
-							replacement: '&#x2F;'
-						}
-					],
-					ret = str;
-
-				CKEDITOR.tools.array.forEach( replacements, function( item ) {
-					ret = ret.replace( new RegExp( item.symbol, 'g' ), item.replacement );
-				} );
-
-				return ret;
-			}
 		}
 	} );
 } )();
