@@ -324,7 +324,7 @@
 					} )()
 				} );
 				return '<label class="cke_emoji-search"><img src="' + escapeString( loupeUrl ) +
-					'" /><input placeholder="' + escapeString( lang.searchPlaceholder ) +
+					'" alt="Loupe icon"/><input placeholder="' + escapeString( lang.searchPlaceholder ) +
 					'" type="search" _cke_focus="1"></label>';
 			}
 
