@@ -14,7 +14,7 @@ New Features:
 * [#1176](https://github.com/ckeditor/ckeditor-dev/pull/1176): The [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) can be attached to selection instead of element.
 * [#2478](https://github.com/ckeditor/ckeditor-dev/issues/2478): [Link](https://ckeditor.com/cke4/addon/link) can be inserted using <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>K</kbd> keystroke.
 * [#2202](https://github.com/ckeditor/ckeditor-dev/issues/2202): Added `contextmenu_contentsCss` config option to allow adding custom CSS to [Context Menu](https://ckeditor.com/cke4/addon/contextmenu).
-* [#2438](https://github.com/ckeditor/ckeditor-dev/issues/2438): Buttons DOM element created with [`hasArrow`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui.html#method-addButton) definition option can by identified by `.cke_button_expandable` CSS class.
+* [#2483](https://github.com/ckeditor/ckeditor-dev/issues/2483): Buttons DOM element created with [`hasArrow`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui.html#method-addButton) definition option can by identified by `.cke_button_expandable` CSS class.
 
 Fixed Issues:
 
