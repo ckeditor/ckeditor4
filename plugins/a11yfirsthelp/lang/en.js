@@ -425,23 +425,27 @@ disabilities.\n\
     'content': '\
 ## About A11yFirst\n\
 \n\
-### Project Description\n\
+### Project Description & Goals\n\
 \n\
-The A11yFirst Project seeks to make the process of creating and editing\n\
-web documents one that proactively results in accessible content. This\n\
-is in contrast to the typical process that primarily relies upon\n\
-remediation of accessibility problems at the end of the authoring process.\n\
+The A11yFirst Project is a collection of modifications to CKEditor, an\n\
+HTML-embedded WYSIWYG editor typically used within content management\n\
+systems. Its goal is to make the process of creating and editing web documents\n\
+one that proactively results in accessible content.\n\
+\n\
+In the past, authors have had to rely upon remediation tools used at the end\n\
+of the authoring process that ‘fix’ accessibility problems without offering\n\
+much guidance on how to prevent them. The A11yFirst editor takes a different\n\
+approach.\n\
 \n\
 For example, by prompting the author to provide information regarding links\n\
-and image properties as they are added to the document, and promoting block\n\
-actions and logical structure over inline styling, accessibility problems\n\
-are not only avoided, but authors learn on a feature-by-feature basis some\n\
-of the important requirements for accessible content.\n\
+and images as they are added to the document, accessibility problems are not\n\
+only avoided, but authors learn on a feature-by-feature basis some of the\n\
+important requirements for accessible content.\n\
 \n\
-With a better understanding of accessibility requirements as they relate\n\
-to specific features of their documents as content is being added, it is\n\
-hoped that authors will incorporate accessibility as a natural part of the\n\
-document editing process.\n\
+Other design features in A11yFirst promote the use of blocks such as headings\n\
+and lists that carry with them semantics that are communicated to screen\n\
+reader users and that result in documents that are more easily navigated and\n\
+understood by all readers.\n\
 \n\
 ### Project Information\n\
 \n\

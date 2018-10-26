@@ -1,22 +1,26 @@
 ## About A11yFirst
 
-### Project Description
+### Project Description & Goals
 
-The A11yFirst Project seeks to make the process of creating and editing
-web documents one that proactively results in accessible content. This
-is in contrast to the typical process that primarily relies upon
-remediation of accessibility problems at the end of the authoring process.
+The A11yFirst Project is a collection of modifications to CKEditor, an
+HTML-embedded WYSIWYG editor typically used within content management
+systems. Its goal is to make the process of creating and editing web documents
+one that proactively results in accessible content.
+
+In the past, authors have had to rely upon remediation tools used at the end
+of the authoring process that ‘fix’ accessibility problems without offering
+much guidance on how to prevent them. The A11yFirst editor takes a different
+approach.
 
 For example, by prompting the author to provide information regarding links
-and image properties as they are added to the document, and promoting block
-actions and logical structure over inline styling, accessibility problems
-are not only avoided, but authors learn on a feature-by-feature basis some
-of the important requirements for accessible content.
+and images as they are added to the document, accessibility problems are not
+only avoided, but authors learn on a feature-by-feature basis some of the
+important requirements for accessible content.
 
-With a better understanding of accessibility requirements as they relate
-to specific features of their documents as content is being added, it is
-hoped that authors will incorporate accessibility as a natural part of the
-document editing process.
+Other design features in A11yFirst promote the use of blocks such as headings
+and lists that carry with them semantics that are communicated to screen
+reader users and that result in documents that are more easily navigated and
+understood by all readers.
 
 ### Project Information
 
