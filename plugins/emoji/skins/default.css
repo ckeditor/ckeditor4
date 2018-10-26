@@ -39,11 +39,11 @@
 	border-bottom: 1px solid #d1d1d1;
 }
 .cke_emoji-inner_panel > nav > ul {
-	margin: 0;
+	margin-left: 10px;
+	margin-right: 10px;
 	padding: 0;
 	list-style-type: none;
 	height: 24px;
-	text-align: center;
 }
 
 .cke_emoji-inner_panel > nav li {
