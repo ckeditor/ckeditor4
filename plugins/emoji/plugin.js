@@ -111,7 +111,7 @@
 
 	emojiDropdow = ( function() {
 		var arrTools = CKEDITOR.tools.array,
-			strEncode = CKEDITOR.tools.htmlEncode;
+			htmlEncode = CKEDITOR.tools.htmlEncode;
 
 		return {
 			registerListeners: function() {
@@ -138,13 +138,12 @@
 				return '<div class="cke_emoji-inner_panel">' + output.join( '' ) + '</div>';
 			},
 			createGroupsNavigation: function() {
-				var blockElement = this.blockElement,
-					itemTemplate,
+				var itemTemplate,
 					items,
 					svgUrl,
 					imgUrl;
 
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 12 || CKEDITOR.env.iOS ) {
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 12 ) {
 					imgUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.png' );
 
 					itemTemplate = new CKEDITOR.template(
@@ -157,9 +156,9 @@
 
 					items = arrTools.reduce( this.GROUPS, function( acc, item ) {
 						return acc + itemTemplate.output( {
-							group: strEncode( item.name ),
-							href: strEncode( item.name.toLowerCase() ),
-							name: strEncode( item.sectionName ),
+							group: htmlEncode( item.name ),
+							href: htmlEncode( item.name.toLowerCase() ),
+							name: htmlEncode( item.sectionName ),
 							positionX: item.position.x,
 							positionY: item.position.y
 						} );
@@ -176,10 +175,10 @@
 
 					items = arrTools.reduce( this.GROUPS, function( acc, item ) {
 						return acc + itemTemplate.output( {
-							group: strEncode( item.name ),
-							href: strEncode( item.name.toLowerCase() ),
-							name: strEncode( item.sectionName ),
-							svgId: strEncode( item.svgId )
+							group: htmlEncode( item.name ),
+							href: htmlEncode( item.name.toLowerCase() ),
+							name: htmlEncode( item.sectionName ),
+							svgId: htmlEncode( item.svgId )
 						} );
 					}, '' );
 				}
@@ -188,7 +187,7 @@
 					selector: 'nav li',
 					event: 'click',
 					listener: function( event ) {
-						var nodeArr = blockElement.find( 'nav li' ).toArray(),
+						var nodeArr = this.blockElement.find( 'nav li' ).toArray(),
 							activeElement = event.sender;
 						arrTools.forEach( nodeArr, function( node ) {
 							if ( node.equals( activeElement ) ) {
@@ -206,7 +205,7 @@
 					listener: this.clearSearchAndMoveFocus
 				} );
 
-				return '<nav aria-label="' + strEncode( this.lang.navigationLabel ) + '"><ul>' + items + '</ul></nav>';
+				return '<nav aria-label="' + htmlEncode( this.lang.navigationLabel ) + '"><ul>' + items + '</ul></nav>';
 			},
 			createSearchSection: function() {
 				var self = this;
@@ -222,19 +221,13 @@
 				this.listeners.push( {
 					selector: 'input',
 					event: 'click',
-					listener: ( function() {
-						var inputNumber;
-						return function() {
-							if ( inputNumber === undefined ) {
-								inputNumber = this.getItemIndex( this.blockObject._.getItems().toArray(), this.blockElement.findOne( 'input' ) );
-							}
-							this.blockObject._.markItem( inputNumber );
-						};
-					} )()
+					listener: function() {
+						this.blockObject._.markItem( this.inputIndex );
+					}
 				} );
 				return '<label class="cke_emoji-search">' + this.getLoupeIcon() +
-					'<input placeholder="' + strEncode( this.lang.searchPlaceholder ) +
-					'" type="search" aria-label="' + strEncode( this.lang.searchLabel ) + '" role="search" _cke_focus="1"></label>';
+					'<input placeholder="' + htmlEncode( this.lang.searchPlaceholder ) +
+					'" type="search" aria-label="' + htmlEncode( this.lang.searchLabel ) + '" role="search" _cke_focus="1"></label>';
 			},
 			createEmojiListBlock: function() {
 				var self = this;
@@ -269,7 +262,7 @@
 					selector: '.cke_emoji-outer_emoji_block',
 					event: 'keyup',
 					listener: function() {
-						this.updateStatusbar( this.blockObject._.getItems().getItem( this.blockObject._.focusIndex ) );
+						this.updateStatusbar( this.items.getItem( this.blockObject._.focusIndex ) );
 					}
 				} );
 
@@ -285,7 +278,7 @@
 				var loupeSvgUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.svg' ),
 					loupePngUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.png' );
 
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 12 || CKEDITOR.env.iOS ) {
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 12 ) {
 					return '<span class="cke_emoji-search_loupe" aria-hidden="true" style="background-image:url(' + loupePngUrl + ');"></span>';
 				} else {
 					return '<svg viewBox="0 0 34 34" role="img" aria-hidden="true" class="cke_emoji-search_loupe"><use href="' + loupeSvgUrl + '#cke4-icon-emoji-10"></use></svg>';
@@ -297,8 +290,8 @@
 				}, '', this );
 			},
 			getEmojiSection: function( item ) {
-				var groupName = strEncode( item.name ),
-					sectionName = strEncode( item.sectionName ),
+				var groupName = htmlEncode( item.name ),
+					sectionName = htmlEncode( item.sectionName ),
 					group = this.getEmojiListGroup( groupName );
 
 				return '<section data-cke-emoji-group="' + groupName + '" ><h2 id="' + groupName + '">' + sectionName + '</h2><ul>' + group + '</ul></section>';
@@ -319,11 +312,11 @@
 					),
 					function( acc, item ) {
 						return acc + emojiTpl.output( {
-								symbol: strEncode( item.symbol ),
-								id: strEncode( item.id ),
-								name: strEncode( item.id.replace( /::.*$/, ':' ).replace( /^:|:$/g, '' ).replace( /_/g, ' ' ) ),
-								group: strEncode( item.group ),
-								keywords: strEncode( ( item.keywords || [] ).join( ',' ) )
+								symbol: htmlEncode( item.symbol ),
+								id: htmlEncode( item.id ),
+								name: htmlEncode( item.id.replace( /::.*$/, ':' ).replace( /^:|:$/g, '' ).replace( /_/g, ' ' ) ),
+								group: htmlEncode( item.group ),
+								keywords: htmlEncode( ( item.keywords || [] ).join( ',' ) )
 							} );
 					},
 					''
@@ -333,13 +326,10 @@
 				// Apply filters to emoji items in dropdown.
 				// Hidding not searched one.
 				// Can accpet input event or string
-				var blockElement = this.blockElement,
-					emojiItems = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).find( 'li > a' ).toArray(),
-					sections = blockElement.findOne( '.cke_emoji-outer_emoji_block' ).find( 'h2' ).toArray(),
-					groups = {},
+				var groups = {},
 					query = typeof evt === 'string' ? evt : evt.sender.getValue();
 
-				arrTools.forEach( emojiItems, function( element ) {
+				arrTools.forEach( this.elements.emojiItems.toArray(), function( element ) {
 					if ( isNameOrKeywords( query, element.data( 'cke-emoji-name' ), element.data( 'cke-emoji-keywords' ) ) || query === '' ) {
 						element.removeClass( 'hidden' );
 						element.getParent().removeClass( 'hidden' );
@@ -367,7 +357,7 @@
 					}
 				} );
 
-				arrTools.forEach( sections, function( element ) {
+				arrTools.forEach( this.elements.sectionHeaders.toArray(), function( element ) {
 					if ( groups[ element.getId() ] ) {
 						element.getParent().removeClass( 'hidden' );
 						element.removeClass( 'hidden' );
@@ -380,28 +370,23 @@
 				this.refreshNavigationStatus();
 			},
 			clearSearchInput: function() {
-				this.blockElement.findOne( 'input' ).setValue( '' );
+				this.elements.input.setValue( '' );
 				this.filter( '' );
 			},
 			openReset: function() {
 				// Resets state of emoji dropdown.
 				// Clear filters, reset focus, etc.
 				var self = this,
-					firstCall,
-					inputIndex,
-					input;
+					firstCall;
 
 				return function() {
 
 					if ( !firstCall ) {
 						self.filter( '' );
-						input = self.blockElement.findOne( 'input' );
-						inputIndex = self.getItemIndex( self.blockObject._.getItems().toArray(), input );
-
 						firstCall = true;
 					}
 
-					self.blockElement.findOne( '.cke_emoji-outer_emoji_block' ).$.scrollTop = 0;
+					self.elements.emojiBlock.$.scrollTop = 0;
 					self.refreshNavigationStatus();
 
 					// Clear search results:
@@ -409,22 +394,20 @@
 
 					// Reset focus:
 					CKEDITOR.tools.setTimeout( function() {
-						input.focus( true );
-						self.blockObject._.markItem( inputIndex );
-					} );
+						self.elements.input.focus( true );
+						self.blockObject._.markItem( self.inputIndex );
+					}, 0, self );
 
 					// Remove statusbar icons:
 					self.clearStatusbar();
 				};
 			},
 			refreshNavigationStatus: function() {
-				var sections = this.blockElement.find( 'section' ).toArray(),
-					containerOffset = this.blockElement.findOne( '.cke_emoji-outer_emoji_block' ).getClientRect().top,
+				var containerOffset = this.elements.emojiBlock.getClientRect().top,
 					section,
-					groupName,
-					navigationElements;
+					groupName;
 
-				section = arrTools.filter( sections, function( element ) {
+				section = arrTools.filter( this.elements.sections.toArray(), function( element ) {
 					var rect = element.getClientRect();
 					if ( !rect.height || element.findOne( 'h2' ).hasClass( 'hidden' ) ) {
 						return false;
@@ -432,9 +415,8 @@
 					return rect.height + rect.top > containerOffset;
 				} );
 				groupName = section.length ? section[ 0 ].data( 'cke-emoji-group' ) : false;
-				navigationElements = this.blockElement.find( 'nav li' ).toArray();
 
-				arrTools.forEach( navigationElements, function( node ) {
+				arrTools.forEach( this.elements.navigationItems.toArray(), function( node ) {
 					if ( node.data( 'cke-emoji-group' ) === groupName ) {
 						node.addClass( 'active' );
 					} else {
@@ -447,14 +429,14 @@
 					return;
 				}
 
-				this.blockElement.findOne( '.cke_emoji-status_icon' ).setText( strEncode( element.getText() ) );
-				this.blockElement.findOne( 'p.cke_emoji-status_description' ).setText( strEncode( element.data( 'cke-emoji-name' ) ) );
-				this.blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( strEncode( element.data( 'cke-emoji-full-name' ) ) );
+				this.elements.statusIcon.setText( htmlEncode( element.getText() ) );
+				this.elements.statusDescription.setText( htmlEncode( element.data( 'cke-emoji-name' ) ) );
+				this.elements.statusName.setText( htmlEncode( element.data( 'cke-emoji-full-name' ) ) );
 			},
 			clearStatusbar: function() {
-				this.blockElement.findOne( '.cke_emoji-status_icon' ).setText( '' );
-				this.blockElement.findOne( 'p.cke_emoji-status_description' ).setText( '' );
-				this.blockElement.findOne( 'p.cke_emoji-status_full_name' ).setText( '' );
+				this.elements.statusIcon.setText( '' );
+				this.elements.statusDescription.setText( '' );
+				this.elements.statusName.setText( '' );
 			},
 			clearSearchAndMoveFocus: function( event ) {
 				this.clearSearchInput();
@@ -462,14 +444,14 @@
 			},
 			moveFocus: function( event ) {
 				var groupName = event.data.getTarget().getAscendant( 'li', true ).data( 'cke-emoji-group' ),
-					firstSectionItem = this.blockElement.findOne( 'a[data-cke-emoji-group="' + strEncode( groupName ) + '"]' ),
+					firstSectionItem = this.blockElement.findOne( 'a[data-cke-emoji-group="' + htmlEncode( groupName ) + '"]' ),
 					itemIndex;
 
 				if ( !firstSectionItem ) {
 					return;
 				}
 
-				itemIndex = this.getItemIndex( this.blockObject._.getItems().toArray(), firstSectionItem );
+				itemIndex = this.getItemIndex( this.items, firstSectionItem );
 				firstSectionItem.focus( true );
 				this.blockObject._.markItem( itemIndex );
 			},
@@ -479,15 +461,13 @@
 				} );
 			},
 			init: function( editor, plugin ) {
-				this.listeners = [];
-				this.plugin = plugin;
-				this.editor = editor;
-
 				var lang = this.lang = editor.lang.emoji,
 					self = this,
 					ICON_SIZE = 21;
 
-
+				this.listeners = [];
+				this.plugin = plugin;
+				this.editor = editor;
 				this.GROUPS = [
 						{
 							name: 'people',
@@ -562,7 +542,7 @@
 							}
 						}
 					];
-
+				this.elements = {};
 
 				// Below line might be removable
 				editor.ui.addToolbarGroup( 'emoji', 'insert' );
@@ -601,8 +581,19 @@
 						block.element.removeAttribute( 'title' );
 						panel.element.addClass( 'cke_emoji-panel' );
 
-						self.blockObject = block;
+						self.items = block._.getItems().toArray();
 
+						self.blockObject = block;
+						self.elements.emojiItems = block.element.find( '.cke_emoji-outer_emoji_block li > a' );
+						self.elements.sectionHeaders = block.element.find( '.cke_emoji-outer_emoji_block h2' );
+						self.elements.input = block.element.findOne( 'input' );
+						self.inputIndex = self.getItemIndex( self.items, self.elements.input );
+						self.elements.emojiBlock = block.element.findOne( '.cke_emoji-outer_emoji_block' );
+						self.elements.navigationItems = block.element.find( 'nav li' );
+						self.elements.statusIcon = block.element.findOne( '.cke_emoji-status_icon' );
+						self.elements.statusDescription = block.element.findOne( 'p.cke_emoji-status_description' );
+						self.elements.statusName = block.element.findOne( 'p.cke_emoji-status_full_name' );
+						self.elements.sections = block.element.find( 'section' );
 						self.registerListeners();
 					},
 
