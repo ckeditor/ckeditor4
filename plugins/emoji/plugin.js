@@ -141,7 +141,8 @@
 				var itemTemplate,
 					items,
 					svgUrl,
-					imgUrl;
+					imgUrl,
+					useAttr;
 
 				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 12 ) {
 					imgUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.png' );
@@ -165,12 +166,14 @@
 					}, '' );
 				} else {
 					svgUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.svg' );
+					// iOS has problem with reading `href` attribute, that's why,
+					// its necessary to use `xlink:href` even its deprecated: https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/xlink:href
+					useAttr = CKEDITOR.env.iOS ? 'xlink:href="' + svgUrl + '#{svgId}"' : 'href="' + svgUrl + '#{svgId}"';
 
 					itemTemplate = new CKEDITOR.template(
 						'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="#{href}" title="{name}" draggable="false" _cke_focus="1">' +
 						'<svg viewBox="0 0 34 34" aria-labelledby="{svgId}-title">' +
-						'<title id="{svgId}-title">{name}</title><use href="' + svgUrl + '#{svgId}"></use>' +
-						'</svg></a></li>'
+						'<title id="{svgId}-title">{name}</title><use ' + useAttr + '></use></svg></a></li>'
 					);
 
 					items = arrTools.reduce( this.GROUPS, function( acc, item ) {
@@ -276,12 +279,14 @@
 			},
 			getLoupeIcon: function() {
 				var loupeSvgUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.svg' ),
-					loupePngUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.png' );
+					loupePngUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.png' ),
+					useAttr;
 
 				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 12 ) {
 					return '<span class="cke_emoji-search_loupe" aria-hidden="true" style="background-image:url(' + loupePngUrl + ');"></span>';
 				} else {
-					return '<svg viewBox="0 0 34 34" role="img" aria-hidden="true" class="cke_emoji-search_loupe"><use href="' + loupeSvgUrl + '#cke4-icon-emoji-10"></use></svg>';
+					useAttr = CKEDITOR.env.iOS ? 'xlink:href="' + loupeSvgUrl + '#cke4-icon-emoji-10"' : 'href="' + loupeSvgUrl + '#cke4-icon-emoji-10"';
+					return '<svg viewBox="0 0 34 34" role="img" aria-hidden="true" class="cke_emoji-search_loupe"><use ' + useAttr + '></use></svg>';
 				}
 			},
 			getEmojiSections: function() {
