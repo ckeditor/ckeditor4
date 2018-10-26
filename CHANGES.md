@@ -14,7 +14,6 @@ New Features:
 * [#1176](https://github.com/ckeditor/ckeditor-dev/pull/1176): The [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) can be attached to selection instead of element.
 * [#2478](https://github.com/ckeditor/ckeditor-dev/issues/2478): [Link](https://ckeditor.com/cke4/addon/link) can be inserted using <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>K</kbd> keystroke.
 * [#2202](https://github.com/ckeditor/ckeditor-dev/issues/2202): Added `contextmenu_contentsCss` config option to allow adding custom CSS to [Context Menu](https://ckeditor.com/cke4/addon/contextmenu).
-* [#2483](https://github.com/ckeditor/ckeditor-dev/issues/2483): Buttons DOM element created with [`hasArrow`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui.html#method-addButton) definition option can by identified by `.cke_button_expandable` CSS class.
 
 Fixed Issues:
 
@@ -49,6 +48,7 @@ API Changes:
 	* [`tools.throttle`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-throttle) has been extracted into [`tools.buffers.throttle`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools_buffers_throttle.html)
 * [#2466](https://github.com/ckeditor/ckeditor-dev/issues/2466):  The [`CKEDITOR.filter`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_tools.html#method-constructor) constructor accepts additional `rules` parameter allowing to bind editor and filter together.
 * [#2493](https://github.com/ckeditor/ckeditor-dev/issues/2493):  The [`editor.getCommandKeystroke`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-getCommandKeystroke) command accepts additional `all` parameter allowing to retrieve an array of all command keystrokes.
+* [#2483](https://github.com/ckeditor/ckeditor-dev/issues/2483): Buttons DOM element created with [`hasArrow`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui.html#method-addButton) definition option can by identified by `.cke_button_expandable` CSS class.
 
 Other Changes:
 
