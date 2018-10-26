@@ -26,10 +26,10 @@
 					assert.areSame( 1, doc.find( '.cke_emoji-status_bar' ).count(), 'There is no emoji status bar in Emoji Panel.' );
 
 					assert.isTrue( doc.findOne( 'input' ).hasListeners( 'input' ), 'Searchbox doesn\'t have listener.' );
-					assert.isTrue( doc.findOne( '.cke_emoji-outer_emoji_block' ).hasListeners( 'mouseover' ), 'Emoji block doesn\'t have mouseover listener.' );
-					assert.isTrue( doc.findOne( '.cke_emoji-outer_emoji_block' ).hasListeners( 'click' ), 'Emoji block doesn\'t have click listener.' );
-					assert.isTrue( doc.findOne( '.cke_emoji-outer_emoji_block' ).hasListeners( 'scroll' ), 'Emoji block doesn\'t have scroll listener.' );
-					assert.isTrue( doc.findOne( 'nav li' ).hasListeners( 'click' ), 'Navigation elements doesn\'t have click listener.' );
+					assert.isTrue( doc.findOne( '.cke_emoji-outer_emoji_block' ).hasListeners( 'mouseover' ), 'Emoji block should have mouseover listener.' );
+					assert.isTrue( doc.findOne( '.cke_emoji-outer_emoji_block' ).hasListeners( 'click' ), 'Emoji block should have click listener.' );
+					assert.isTrue( doc.findOne( '.cke_emoji-outer_emoji_block' ).hasListeners( 'scroll' ), 'Emoji block should have scroll listener.' );
+					assert.isTrue( doc.findOne( 'nav' ).hasListeners( 'click' ), 'Navigation element should have click listener.' );
 				}
 				finally {
 					panel.hide();
@@ -50,13 +50,13 @@
 				// Timeouts are necessary for IE11, which has problem with refreshing DOM. That's why asserts run asynchronously.
 				CKEDITOR.tools.setTimeout( function() {
 					resume( function() {
-						assert.areSame( 2, doc.find( 'li.cke_emoji_item :not(.hidden)' ).count(), 'There should be returned 2 values for kebab `keyword`' );
+						assert.areSame( 2, doc.find( 'li.cke_emoji-item :not(.hidden)' ).count(), 'There should be returned 2 values for kebab `keyword`' );
 						panel.hide();
 						bot.panel( 'emojiPanel', function() {
 							CKEDITOR.tools.setTimeout( function() {
 								resume( function() {
 									assert.areSame( '', input.getValue(), 'Search value should be reset after hidding panel.' );
-									assert.areSame( 0, doc.find( 'li.cke_emoji_item.hidden' ).count(), 'All emoji items should be reset to visible state after closing panel.' );
+									assert.areSame( 0, doc.find( 'li.cke_emoji-item.hidden' ).count(), 'All emoji items should be reset to visible state after closing panel.' );
 									panel.hide();
 								} );
 							}, 10 );

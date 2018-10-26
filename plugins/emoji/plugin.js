@@ -470,7 +470,7 @@
 				} );
 			},
 			updateStatusbar: function( element ) {
-				if ( element.getName() !== 'a' ) {
+				if ( element.getName() !== 'a' || !element.hasAttribute( 'data-cke-emoji-name' ) ) {
 					return;
 				}
 
