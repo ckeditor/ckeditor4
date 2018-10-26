@@ -37,6 +37,7 @@ Fixed Issues:
 * [#1722](https://github.com/ckeditor/ckeditor-dev/issues/1722): [`CKEDITOR.filter.instances`](https://docs.ckeditor.com/ckeditor4/latest/api/CKEDITOR_filter.html#static-property-instances) is causing memory leaks.
 * [#2491](https://github.com/ckeditor/ckeditor-dev/issues/2491): Fixed: [Mentions](https://ckeditor.com/cke4/addon/mentions) plugin is not matching diacritic characters.
 * [#2448](https://github.com/ckeditor/ckeditor-dev/issues/2448): Fixed: [`Escape HTML Entities`] plugin with custom [additional entities](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-entities_additional) configuration breaks HTML escaping.
+* [#2519](https://github.com/ckeditor/ckeditor-dev/issues/2519): Fixed: [`Accessibility Help`](https://ckeditor.com/cke4/addon/a11yhelp) dialog should display all available keystrokes for a single command. 
 
 API Changes:
 
