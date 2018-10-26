@@ -230,29 +230,11 @@ The following are based on <a href="https://webaim.org/">WebAIM\'s</a> guideline
 \n\
 * **Do NOT include file names or sizes** as part of the short description.\n\
 \n\
-### Summary\n\
-\n\
-The following is some general guidance on writing short text descriptions and providing longer, more detailed descriptions:\n\
-\n\
-* Simple images, photos and logos often can be described in less than 100 characters.\n\
-\n\
-* More complex images like graphs, diagrams and charts need both a short description and a longer, more detailed description, which is typically included in the same document as the image.\n\
-\n\
-* Purely decorative images do not need an accessible text description.\n\
-\n\
-* Best practices for describing a complex image prescribe that the long description be placed within the document, usually just before or after the image.\n\
-\n\
-* The type of long description you provide for a complex image is dependent on the context of the image in the document.\n\
-\n\
-* Many authors find it both natural and necessary to describe the informational content of a complex image within the document itself, using expository prose or tabular data.\n\
-\n\
-* For example, images of charts can be described by adding a table of the data used to generate the chart.\n\
-\n\
 ### More about captions\n\
 \n\
-* In some cases, where the *caption* sufficiently describes the purpose of the image, it may not be necessary to provide a *short description*. Alternatively, it may be useful to use the *short description* to provide a slightly more detailed description than the *caption*.\n\
+* In some cases, where the caption sufficiently describes the purpose of the image, it may not be necessary to provide a short description. Alternatively, it may be useful to use the short description to provide a slightly more detailed description than the caption.\n\
 \n\
-* In other cases the *caption* may be providing detailed information about an image (e.g. the names and rows of people in a group picture), whereby the *short description* should provide a shorter text description of the purpose of the image (e.g. group picture of..).\n\
+* In other cases the caption may be providing detailed information about an image (e.g. the names of people listed by row in a group picture), whereby the short description should provide a shorter text description of the purpose of the image (e.g. group picture of ...).\n\
 \n\
 ### More information\n\
 \n\
@@ -403,19 +385,19 @@ you are fulfilling your role in this commitment.\n\
 Some of the main components within a document that are important for\n\
 accessibility are:\n\
 \n\
-* **Headings** — These provide titles for the sections and subsections of content\n\
-within your document, as well as a title for the document itself.\n\
+* **Headings** — These provide titles for the sections and subsections of\n\
+content within your document, as well as a title for the document itself.\n\
 \n\
-* **Lists** — By using the list feature, the items in a list are grouped together\n\
-and information about the grouping can be conveyed to users of assistive\n\
-technologies.\n\
+* **Lists** — By using the list feature, the items in a list are grouped\n\
+together and information about the grouping can be conveyed to users of\n\
+assistive technologies.\n\
 \n\
-* **Links** — The text component of a link should describe its target, i.e., the\n\
-web site, page or section that will be displayed if you activate the link.\n\
+* **Links** — The text component of a link should describe its target, i.e.,\n\
+the web site, page or section that will be displayed if you activate the link.\n\
 \n\
-* **Images** — When an image is included within a document, a text alternative\n\
-(also known as ‘alt text’) allows screen reader users to obtain a concise\n\
-description of the image.\n\
+* **Images** — When an image with informational content is included within a\n\
+document, a short text description (also known as ‘alt text’) allows screen\n\
+reader users to obtain a concise description of the image.\n\
 \n\
 * **Tables** — By using the table feature to organize tabular data and provide row\n\
 and column headers, users of assistive technologies gain the ability to easily\n\

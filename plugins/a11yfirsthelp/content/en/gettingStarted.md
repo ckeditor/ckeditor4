@@ -27,19 +27,19 @@ you are fulfilling your role in this commitment.
 Some of the main components within a document that are important for
 accessibility are:
 
-* **Headings** — These provide titles for the sections and subsections of content
-within your document, as well as a title for the document itself.
+* **Headings** — These provide titles for the sections and subsections of
+content within your document, as well as a title for the document itself.
 
-* **Lists** — By using the list feature, the items in a list are grouped together
-and information about the grouping can be conveyed to users of assistive
-technologies.
+* **Lists** — By using the list feature, the items in a list are grouped
+together and information about the grouping can be conveyed to users of
+assistive technologies.
 
-* **Links** — The text component of a link should describe its target, i.e., the
-web site, page or section that will be displayed if you activate the link.
+* **Links** — The text component of a link should describe its target, i.e.,
+the web site, page or section that will be displayed if you activate the link.
 
-* **Images** — When an image is included within a document, a text alternative
-(also known as ‘alt text’) allows screen reader users to obtain a concise
-description of the image.
+* **Images** — When an image with informational content is included within a
+document, a short text description (also known as ‘alt text’) allows screen
+reader users to obtain a concise description of the image.
 
 * **Tables** — By using the table feature to organize tabular data and provide row
 and column headers, users of assistive technologies gain the ability to easily
