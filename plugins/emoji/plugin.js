@@ -144,7 +144,7 @@
 					imgUrl,
 					useAttr;
 
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 12 ) {
+				if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 					imgUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.png' );
 
 					itemTemplate = new CKEDITOR.template(
@@ -282,7 +282,7 @@
 					loupePngUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.png' ),
 					useAttr;
 
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 12 ) {
+				if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 					return '<span class="cke_emoji-search_loupe" aria-hidden="true" style="background-image:url(' + loupePngUrl + ');"></span>';
 				} else {
 					useAttr = CKEDITOR.env.iOS ? 'xlink:href="' + loupeSvgUrl + '#cke4-icon-emoji-10"' : 'href="' + loupeSvgUrl + '#cke4-icon-emoji-10"';
