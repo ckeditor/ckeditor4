@@ -2,6 +2,35 @@
 
 All notable changes to the A11yFirst project will be documented in this file.
 
+## v1.0.1 – 26 Oct 2018
+
+### Updates
+
+* Redesign Image plugin dialog with simpler, sparser layout and labeling
+  * Remove messaging underneath `Image Type` radio buttons
+  * Replace `Accessible Descriptions` label with `Text Alternatives`
+  * Remove `Tips` button next to `Short description` textbox
+  * Replace checkbox label `Complex image (requires long description)` with
+    `A long description is included in the document`
+  * Rename link that was labeled `More information on describing a complex image`
+    to `More information on text alternatives for images` and move to just below
+    the `Location of long description` fieldset
+  * Rename checkbox label `Add an editable caption below the image` to `Insert an
+    editable caption below the image`
+  * Remove the message that appeared when caption checkbox is selected
+  * Modify tooltip messages for `Image Type` radio buttons
+  * Add tooltips to all interactive elements in `Text Alternatives` fieldset,
+    all of which reference screen reader behaviors
+  * Add or modify tooltips for `Insert caption` and `URL` fields
+
+* Significantly reorganize and simplify Image help to sync with labeling
+  modifications in the Image dialog
+
+* Add `About A11yFirst` topic to help system
+  * Include list of contributors to the project
+
+* Change the display location of A11yFirst version to `About A11yFirst`
+
 ## v1.0.0 – 5 Sep 2018
 
 ### Updates
