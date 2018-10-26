@@ -187,12 +187,14 @@
 				}
 
 				this.listeners.push( {
-					selector: 'nav li',
+					selector: 'nav',
 					event: 'click',
 					listener: function( event ) {
-						var nodeArr = this.blockElement.find( 'nav li' ).toArray(),
-							activeElement = event.sender;
-						arrTools.forEach( nodeArr, function( node ) {
+						var activeElement = event.data.getTarget().getAscendant( 'li', true );
+						if ( activeElement ) {
+							return;
+						}
+						arrTools.forEach( this.elements.navigationItems.toArray(), function( node ) {
 							if ( node.equals( activeElement ) ) {
 								node.addClass( 'active' );
 							} else {
@@ -203,7 +205,7 @@
 				} );
 
 				this.listeners.push( {
-					selector: 'nav li',
+					selector: 'nav',
 					event: 'click',
 					listener: this.clearSearchAndMoveFocus
 				} );
@@ -444,12 +446,15 @@
 				this.elements.statusName.setText( '' );
 			},
 			clearSearchAndMoveFocus: function( event ) {
+				var element = event.data.getTarget().getAscendant( 'li', true );
+				if ( !element ) {
+					return;
+				}
 				this.clearSearchInput();
-				this.moveFocus( event );
+				this.moveFocus( element.data( 'cke-emoji-group' ) );
 			},
-			moveFocus: function( event ) {
-				var groupName = event.data.getTarget().getAscendant( 'li', true ).data( 'cke-emoji-group' ),
-					firstSectionItem = this.blockElement.findOne( 'a[data-cke-emoji-group="' + htmlEncode( groupName ) + '"]' ),
+			moveFocus: function( groupName ) {
+				var firstSectionItem = this.blockElement.findOne( 'a[data-cke-emoji-group="' + htmlEncode( groupName ) + '"]' ),
 					itemIndex;
 
 				if ( !firstSectionItem ) {
