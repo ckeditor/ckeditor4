@@ -1,3 +1,8 @@
+.cke_emoji {
+	overflow-y: hidden;
+	height: 100%;
+}
+
 .cke_emoji-suggestion_item {
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -198,17 +203,14 @@
 .cke_emoji-status_icon {
 	font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	font-size: 2.2em;
+	float: left;
+	margin-right: 10px;
 }
 
-div.cke_emoji-status_description {
-	vertical-align: top;
-	padding-left: 10px;
-	padding-right: 0;
-}
-
-.cke_rtl div.cke_emoji-status_description {
-	padding-left: 0;
-	padding-right: 10px;
+.cke_rtl .cke_emoji-status_icon {
+	float: right;
+	margin-right: 0px;
+	margin-left: 10px;
 }
 
 .cke_emoji-panel_block p {
@@ -222,10 +224,6 @@ p.cke_emoji-status_description {
 p.cke_emoji-status_full_name {
 	font-size: 0.8em;
 	color: #d1d1d1;
-}
-
-.cke_emoji {
-	height: 100%;
 }
 
 .cke_emoji-inner_panel a:focus, .cke_emoji-inner_panel input:focus {

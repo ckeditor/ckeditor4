@@ -274,7 +274,7 @@
 			createStatusBar: function() {
 				return '<div class="cke_emoji-status_bar">' +
 					'<div class="cke_emoji-status_icon"></div>' +
-					'<div class="cke_emoji-status_description"><p class="cke_emoji-status_description"></p><p class="cke_emoji-status_full_name"></p></div>' +
+					'<p class="cke_emoji-status_description"></p><p class="cke_emoji-status_full_name"></p>' +
 					'</div>';
 			},
 			getLoupeIcon: function() {
