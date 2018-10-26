@@ -85,29 +85,11 @@ The following are based on <a href="https://webaim.org/">WebAIM's</a> guidelines
 
 * **Do NOT include file names or sizes** as part of the short description.
 
-### Summary
-
-The following is some general guidance on writing short text descriptions and providing longer, more detailed descriptions:
-
-* Simple images, photos and logos often can be described in less than 100 characters.
-
-* More complex images like graphs, diagrams and charts need both a short description and a longer, more detailed description, which is typically included in the same document as the image.
-
-* Purely decorative images do not need an accessible text description.
-
-* Best practices for describing a complex image prescribe that the long description be placed within the document, usually just before or after the image.
-
-* The type of long description you provide for a complex image is dependent on the context of the image in the document.
-
-* Many authors find it both natural and necessary to describe the informational content of a complex image within the document itself, using expository prose or tabular data.
-
-* For example, images of charts can be described by adding a table of the data used to generate the chart.
-
 ### More about captions
 
-* In some cases, where the *caption* sufficiently describes the purpose of the image, it may not be necessary to provide a *short description*. Alternatively, it may be useful to use the *short description* to provide a slightly more detailed description than the *caption*.
+* In some cases, where the caption sufficiently describes the purpose of the image, it may not be necessary to provide a short description. Alternatively, it may be useful to use the short description to provide a slightly more detailed description than the caption.
 
-* In other cases the *caption* may be providing detailed information about an image (e.g. the names and rows of people in a group picture), whereby the *short description* should provide a shorter text description of the purpose of the image (e.g. group picture of..).
+* In other cases the caption may be providing detailed information about an image (e.g. the names of people listed by row in a group picture), whereby the short description should provide a shorter text description of the purpose of the image (e.g. group picture of ...).
 
 ### More information
 
