@@ -168,7 +168,7 @@
 					svgUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.svg' );
 					// iOS has problem with reading `href` attribute, that's why,
 					// its necessary to use `xlink:href` even its deprecated: https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/xlink:href
-					useAttr = CKEDITOR.env.iOS ? 'xlink:href="' + svgUrl + '#{svgId}"' : 'href="' + svgUrl + '#{svgId}"';
+					useAttr = CKEDITOR.env.safari ? 'xlink:href="' + svgUrl + '#{svgId}"' : 'href="' + svgUrl + '#{svgId}"';
 
 					itemTemplate = new CKEDITOR.template(
 						'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="#{href}" title="{name}" draggable="false" _cke_focus="1">' +
@@ -287,7 +287,7 @@
 				if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 					return '<span class="cke_emoji-search_loupe" aria-hidden="true" style="background-image:url(' + loupePngUrl + ');"></span>';
 				} else {
-					useAttr = CKEDITOR.env.iOS ? 'xlink:href="' + loupeSvgUrl + '#cke4-icon-emoji-10"' : 'href="' + loupeSvgUrl + '#cke4-icon-emoji-10"';
+					useAttr = CKEDITOR.env.safari ? 'xlink:href="' + loupeSvgUrl + '#cke4-icon-emoji-10"' : 'href="' + loupeSvgUrl + '#cke4-icon-emoji-10"';
 					return '<svg viewBox="0 0 34 34" role="img" aria-hidden="true" class="cke_emoji-search_loupe"><use ' + useAttr + '></use></svg>';
 				}
 			},
