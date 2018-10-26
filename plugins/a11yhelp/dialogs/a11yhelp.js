@@ -106,6 +106,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 			return CKEDITOR.tools.array.map( keystrokeCodes, representKeyStroke ).join( ' / ' );
 		}
 
+		// Leave match untouched if there's no keystroke for such command.
 		return match;
 	}
 
