@@ -7,113 +7,151 @@
 	'use strict';
 
 	var stylesLoaded = false,
-		emojiDropdown;
+		arrTools = CKEDITOR.tools.array,
+		htmlEncode = CKEDITOR.tools.htmlEncode;
 
-	CKEDITOR.plugins.add( 'emoji', {
-		requires: 'autocomplete,textmatch,ajax,panelbutton,floatpanel',
-		lang: 'en', // %REMOVE_LINE_CORE%
-		icons: 'emojipanel',
-		beforeInit: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
-				return;
-			}
-			if ( !stylesLoaded ) {
-				CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
-				stylesLoaded = true;
-			}
-		},
+	var emojiDropdown = CKEDITOR.tools.createClass( {
+		$: function( editor, plugin ) {
+			var lang = this.lang = editor.lang.emoji,
+				self = this,
+				ICON_SIZE = 21;
 
-		init: function( editor ) {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
-				return;
-			}
-
-			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
-				arrTools = CKEDITOR.tools.array;
-
-
-			CKEDITOR.ajax.load( CKEDITOR.getUrl( emojiListUrl ), function( data ) {
-				if ( data === null ) {
-					return;
-				}
-				if ( editor._.emoji === undefined ) {
-					editor._.emoji = {};
-				}
-
-				if ( editor._.emoji.list === undefined ) {
-					editor._.emoji.list = JSON.parse( data );
-				}
-
-				var emojiList = editor._.emoji.list,
-					charactersToStart = editor.config.emoji_minChars === undefined ? 2 : editor.config.emoji_minChars;
-
-				if ( editor.status !== 'ready' ) {
-					editor.once( 'instanceReady', initPlugin );
-				} else {
-					initPlugin();
-				}
-
-				// HELPER FUNCTIONS:
-
-				function initPlugin() {
-					editor._.emoji.autocomplete = new CKEDITOR.plugins.autocomplete( editor, {
-						textTestCallback: getTextTestCallback(),
-						dataCallback: dataCallback,
-						itemTemplate: '<li data-id="{id}" class="cke_emoji-suggestion_item">{symbol} {id}</li>',
-						outputTemplate: '{symbol}'
-					} );
-				}
-
-				function getTextTestCallback() {
-					return function( range ) {
-						if ( !range.collapsed ) {
-							return null;
+			this.listeners = [];
+			this.plugin = plugin;
+			this.editor = editor;
+			this.GROUPS = [
+					{
+						name: 'people',
+						sectionName: lang.groups.people,
+						svgId: 'cke4-icon-emoji-2',
+						position: {
+							x: -1 * ICON_SIZE,
+							y: 0
 						}
-						return CKEDITOR.plugins.textMatch.match( range, matchCallback );
-					};
-				}
-
-				function matchCallback( text, offset ) {
-					var left = text.slice( 0, offset ),
-						// Emoji should be started with space or newline, but space shouldn't leak to output, hence it is in non captured group (#2195).
-						match = left.match( new RegExp( '(?:\\s\|^)(:\\S{' + charactersToStart + '}\\S*)$' ) );
-
-					if ( !match ) {
-						return null;
+					},
+					{
+						name: 'nature',
+						sectionName: lang.groups.nature,
+						svgId: 'cke4-icon-emoji-3',
+						position: {
+							x: -2 * ICON_SIZE,
+							y: 0
+						}
+					},
+					{
+						name: 'food',
+						sectionName: lang.groups.food,
+						svgId: 'cke4-icon-emoji-4',
+						position: {
+							x: -3 * ICON_SIZE,
+							y: 0
+						}
+					},
+					{
+						name: 'travel',
+						sectionName: lang.groups.travel,
+						svgId: 'cke4-icon-emoji-6',
+						position: {
+							x: -2 * ICON_SIZE,
+							y: -1 * ICON_SIZE
+						}
+					},
+					{
+						name: 'activities',
+						sectionName: lang.groups.activities,
+						svgId: 'cke4-icon-emoji-5',
+						position: {
+							x: -4 * ICON_SIZE,
+							y: 0
+						}
+					},
+					{
+						name: 'objects',
+						sectionName: lang.groups.objects,
+						svgId: 'cke4-icon-emoji-7',
+						position: {
+							x: 0,
+							y: -1 * ICON_SIZE
+						}
+					},
+					{
+						name: 'symbols',
+						sectionName: lang.groups.symbols,
+						svgId: 'cke4-icon-emoji-8',
+						position: {
+							x: -1 * ICON_SIZE,
+							y: -1 * ICON_SIZE
+						}
+					},
+					{
+						name: 'flags',
+						sectionName: lang.groups.flags,
+						svgId: 'cke4-icon-emoji-9',
+						position: {
+							x: -3 * ICON_SIZE,
+							y: -1 * ICON_SIZE
+						}
 					}
+				];
+			this.elements = {};
 
-					// In case of space preceding colon we need to return the last index (#2394) of capturing grup.
-					return { start: left.lastIndexOf( match[ 1 ] ), end: offset };
-				}
+			// Below line might be removable
+			editor.ui.addToolbarGroup( 'emoji', 'insert' );
+			// Name is responsible for icon name also.
+			editor.ui.add( 'emojiPanel', CKEDITOR.UI_PANELBUTTON, {
+				label: 'emoji',
+				title: lang.title,
+				modes: { wysiwyg: 1 },
+				editorFocus: 0,
+				toolbar: 'insert',
+				panel: {
+					css: [ CKEDITOR.skin.getPath( 'editor' ), plugin.path + 'skins/default.css' ],
+					attributes: {
+						role: 'listbox',
+						'aria-label': lang.title
+					},
+					markFirst: false
+				},
 
-				function dataCallback( matchInfo, callback ) {
-					var emojiName = matchInfo.query.substr( 1 ).toLowerCase(),
-						data = arrTools.filter( emojiList, function( item ) {
-							// Comparing lowercased strings, because emoji should be case insensitive (#2167).
-							return item.id.toLowerCase().indexOf( emojiName ) !== -1;
-						} );
-					callback( data );
-				}
+				onBlock: function( panel, block ) {
+					var keys = block.keys,
+						rtl = editor.lang.dir === 'rtl';
+
+					keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
+					keys[ 40 ] = 'next'; // ARROW-DOWN
+					keys[ 9 ] = 'next'; // TAB
+					keys[ rtl ? 39 : 37 ] = 'prev'; // ARROW-LEFT
+					keys[ 38 ] = 'prev'; // ARROW-UP
+					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
+					keys[ 32 ] = 'click'; // SPACE
+					self.blockElement = block.element;
+					block.element.getAscendant( 'html' ).addClass( 'cke_emoji' );
+					block.element.getDocument().appendStyleSheet( CKEDITOR.getUrl( CKEDITOR.basePath + 'contents.css' ) );
+					block.element.addClass( 'cke_emoji-panel_block' );
+					block.element.setHtml( self.createEmojiBlock() );
+					block.element.removeAttribute( 'title' );
+					panel.element.addClass( 'cke_emoji-panel' );
+
+					self.items = block._.getItems();
+
+					self.blockObject = block;
+					self.elements.emojiItems = block.element.find( '.cke_emoji-outer_emoji_block li > a' );
+					self.elements.sectionHeaders = block.element.find( '.cke_emoji-outer_emoji_block h2' );
+					self.elements.input = block.element.findOne( 'input' );
+					self.inputIndex = self.getItemIndex( self.items, self.elements.input );
+					self.elements.emojiBlock = block.element.findOne( '.cke_emoji-outer_emoji_block' );
+					self.elements.navigationItems = block.element.find( 'nav li' );
+					self.elements.statusIcon = block.element.findOne( '.cke_emoji-status_icon' );
+					self.elements.statusDescription = block.element.findOne( 'p.cke_emoji-status_description' );
+					self.elements.statusName = block.element.findOne( 'p.cke_emoji-status_full_name' );
+					self.elements.sections = block.element.find( 'section' );
+					self.registerListeners();
+				},
+
+				onOpen: self.openReset()
 			} );
-
-			editor.addCommand( 'insertEmoji', {
-				exec: function( editor, data ) {
-					editor.insertHtml( data.emojiText );
-				}
-			} );
-
-			if ( editor.plugins.toolbar ) {
-				emojiDropdown.init( editor, this );
-			}
-
-		}
-	} );
-
-	emojiDropdown = ( function() {
-		var arrTools = CKEDITOR.tools.array,
-			htmlEncode = CKEDITOR.tools.htmlEncode;
-
-		return {
+		},
+		proto: {
 			registerListeners: function() {
 				arrTools.forEach( this.listeners, function( item ) {
 					var root = this.blockElement,
@@ -469,151 +507,110 @@
 				return arrTools.indexOf( nodeList.toArray(), function( element ) {
 					return element.equals( item );
 				} );
-			},
-			init: function( editor, plugin ) {
-				var lang = this.lang = editor.lang.emoji,
-					self = this,
-					ICON_SIZE = 21;
-
-				this.listeners = [];
-				this.plugin = plugin;
-				this.editor = editor;
-				this.GROUPS = [
-						{
-							name: 'people',
-							sectionName: lang.groups.people,
-							svgId: 'cke4-icon-emoji-2',
-							position: {
-								x: -1 * ICON_SIZE,
-								y: 0
-							}
-						},
-						{
-							name: 'nature',
-							sectionName: lang.groups.nature,
-							svgId: 'cke4-icon-emoji-3',
-							position: {
-								x: -2 * ICON_SIZE,
-								y: 0
-							}
-						},
-						{
-							name: 'food',
-							sectionName: lang.groups.food,
-							svgId: 'cke4-icon-emoji-4',
-							position: {
-								x: -3 * ICON_SIZE,
-								y: 0
-							}
-						},
-						{
-							name: 'travel',
-							sectionName: lang.groups.travel,
-							svgId: 'cke4-icon-emoji-6',
-							position: {
-								x: -2 * ICON_SIZE,
-								y: -1 * ICON_SIZE
-							}
-						},
-						{
-							name: 'activities',
-							sectionName: lang.groups.activities,
-							svgId: 'cke4-icon-emoji-5',
-							position: {
-								x: -4 * ICON_SIZE,
-								y: 0
-							}
-						},
-						{
-							name: 'objects',
-							sectionName: lang.groups.objects,
-							svgId: 'cke4-icon-emoji-7',
-							position: {
-								x: 0,
-								y: -1 * ICON_SIZE
-							}
-						},
-						{
-							name: 'symbols',
-							sectionName: lang.groups.symbols,
-							svgId: 'cke4-icon-emoji-8',
-							position: {
-								x: -1 * ICON_SIZE,
-								y: -1 * ICON_SIZE
-							}
-						},
-						{
-							name: 'flags',
-							sectionName: lang.groups.flags,
-							svgId: 'cke4-icon-emoji-9',
-							position: {
-								x: -3 * ICON_SIZE,
-								y: -1 * ICON_SIZE
-							}
-						}
-					];
-				this.elements = {};
-
-				// Below line might be removable
-				editor.ui.addToolbarGroup( 'emoji', 'insert' );
-				// Name is responsible for icon name also.
-				editor.ui.add( 'emojiPanel', CKEDITOR.UI_PANELBUTTON, {
-					label: 'emoji',
-					title: lang.title,
-					modes: { wysiwyg: 1 },
-					editorFocus: 0,
-					toolbar: 'insert',
-					panel: {
-						css: [ CKEDITOR.skin.getPath( 'editor' ), plugin.path + 'skins/default.css' ],
-						attributes: {
-							role: 'listbox',
-							'aria-label': lang.title
-						},
-						markFirst: false
-					},
-
-					onBlock: function( panel, block ) {
-						var keys = block.keys,
-							rtl = editor.lang.dir === 'rtl';
-
-						keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
-						keys[ 40 ] = 'next'; // ARROW-DOWN
-						keys[ 9 ] = 'next'; // TAB
-						keys[ rtl ? 39 : 37 ] = 'prev'; // ARROW-LEFT
-						keys[ 38 ] = 'prev'; // ARROW-UP
-						keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
-						keys[ 32 ] = 'click'; // SPACE
-						self.blockElement = block.element;
-						block.element.getAscendant( 'html' ).addClass( 'cke_emoji' );
-						block.element.getDocument().appendStyleSheet( CKEDITOR.getUrl( CKEDITOR.basePath + 'contents.css' ) );
-						block.element.addClass( 'cke_emoji-panel_block' );
-						block.element.setHtml( self.createEmojiBlock() );
-						block.element.removeAttribute( 'title' );
-						panel.element.addClass( 'cke_emoji-panel' );
-
-						self.items = block._.getItems();
-
-						self.blockObject = block;
-						self.elements.emojiItems = block.element.find( '.cke_emoji-outer_emoji_block li > a' );
-						self.elements.sectionHeaders = block.element.find( '.cke_emoji-outer_emoji_block h2' );
-						self.elements.input = block.element.findOne( 'input' );
-						self.inputIndex = self.getItemIndex( self.items, self.elements.input );
-						self.elements.emojiBlock = block.element.findOne( '.cke_emoji-outer_emoji_block' );
-						self.elements.navigationItems = block.element.find( 'nav li' );
-						self.elements.statusIcon = block.element.findOne( '.cke_emoji-status_icon' );
-						self.elements.statusDescription = block.element.findOne( 'p.cke_emoji-status_description' );
-						self.elements.statusName = block.element.findOne( 'p.cke_emoji-status_full_name' );
-						self.elements.sections = block.element.find( 'section' );
-						self.registerListeners();
-					},
-
-					onOpen: self.openReset()
-				} );
 			}
-		};
-	} )();
+		}
+	} );
 
 
+	CKEDITOR.plugins.add( 'emoji', {
+		requires: 'autocomplete,textmatch,ajax,panelbutton,floatpanel',
+		lang: 'en', // %REMOVE_LINE_CORE%
+		icons: 'emojipanel',
+		beforeInit: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				return;
+			}
+			if ( !stylesLoaded ) {
+				CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
+				stylesLoaded = true;
+			}
+		},
+
+		init: function( editor ) {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				return;
+			}
+
+			var emojiListUrl = editor.config.emoji_emojiListUrl || 'plugins/emoji/emoji.json',
+				arrTools = CKEDITOR.tools.array;
+
+
+			CKEDITOR.ajax.load( CKEDITOR.getUrl( emojiListUrl ), function( data ) {
+				if ( data === null ) {
+					return;
+				}
+				if ( editor._.emoji === undefined ) {
+					editor._.emoji = {};
+				}
+
+				if ( editor._.emoji.list === undefined ) {
+					editor._.emoji.list = JSON.parse( data );
+				}
+
+				var emojiList = editor._.emoji.list,
+					charactersToStart = editor.config.emoji_minChars === undefined ? 2 : editor.config.emoji_minChars;
+
+				if ( editor.status !== 'ready' ) {
+					editor.once( 'instanceReady', initPlugin );
+				} else {
+					initPlugin();
+				}
+
+				// HELPER FUNCTIONS:
+
+				function initPlugin() {
+					editor._.emoji.autocomplete = new CKEDITOR.plugins.autocomplete( editor, {
+						textTestCallback: getTextTestCallback(),
+						dataCallback: dataCallback,
+						itemTemplate: '<li data-id="{id}" class="cke_emoji-suggestion_item">{symbol} {id}</li>',
+						outputTemplate: '{symbol}'
+					} );
+				}
+
+				function getTextTestCallback() {
+					return function( range ) {
+						if ( !range.collapsed ) {
+							return null;
+						}
+						return CKEDITOR.plugins.textMatch.match( range, matchCallback );
+					};
+				}
+
+				function matchCallback( text, offset ) {
+					var left = text.slice( 0, offset ),
+						// Emoji should be started with space or newline, but space shouldn't leak to output, hence it is in non captured group (#2195).
+						match = left.match( new RegExp( '(?:\\s\|^)(:\\S{' + charactersToStart + '}\\S*)$' ) );
+
+					if ( !match ) {
+						return null;
+					}
+
+					// In case of space preceding colon we need to return the last index (#2394) of capturing grup.
+					return { start: left.lastIndexOf( match[ 1 ] ), end: offset };
+				}
+
+				function dataCallback( matchInfo, callback ) {
+					var emojiName = matchInfo.query.substr( 1 ).toLowerCase(),
+						data = arrTools.filter( emojiList, function( item ) {
+							// Comparing lowercased strings, because emoji should be case insensitive (#2167).
+							return item.id.toLowerCase().indexOf( emojiName ) !== -1;
+						} );
+					callback( data );
+				}
+			} );
+
+			editor.addCommand( 'insertEmoji', {
+				exec: function( editor, data ) {
+					editor.insertHtml( data.emojiText );
+				}
+			} );
+
+			if ( editor.plugins.toolbar ) {
+				new emojiDropdown( editor, this );
+			}
+
+		}
+	} );
 } )();
 
 /**
