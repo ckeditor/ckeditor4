@@ -19,7 +19,7 @@
 			this.listeners = [];
 			this.plugin = plugin;
 			this.editor = editor;
-			this.GROUPS = [
+			this.groups = [
 					{
 						name: 'people',
 						sectionName: lang.groups.people,
@@ -27,7 +27,8 @@
 						position: {
 							x: -1 * ICON_SIZE,
 							y: 0
-						}
+						},
+						items: []
 					},
 					{
 						name: 'nature',
@@ -36,7 +37,8 @@
 						position: {
 							x: -2 * ICON_SIZE,
 							y: 0
-						}
+						},
+						items: []
 					},
 					{
 						name: 'food',
@@ -45,7 +47,8 @@
 						position: {
 							x: -3 * ICON_SIZE,
 							y: 0
-						}
+						},
+						items: []
 					},
 					{
 						name: 'travel',
@@ -54,7 +57,8 @@
 						position: {
 							x: -2 * ICON_SIZE,
 							y: -1 * ICON_SIZE
-						}
+						},
+						items: []
 					},
 					{
 						name: 'activities',
@@ -63,7 +67,8 @@
 						position: {
 							x: -4 * ICON_SIZE,
 							y: 0
-						}
+						},
+						items: []
 					},
 					{
 						name: 'objects',
@@ -72,7 +77,8 @@
 						position: {
 							x: 0,
 							y: -1 * ICON_SIZE
-						}
+						},
+						items: []
 					},
 					{
 						name: 'symbols',
@@ -81,7 +87,8 @@
 						position: {
 							x: -1 * ICON_SIZE,
 							y: -1 * ICON_SIZE
-						}
+						},
+						items: []
 					},
 					{
 						name: 'flags',
@@ -90,9 +97,12 @@
 						position: {
 							x: -3 * ICON_SIZE,
 							y: -1 * ICON_SIZE
-						}
+						},
+						items: []
 					}
 				];
+
+			// Keeps html elements references to not find them again.
 			this.elements = {};
 
 			// Below line might be removable
@@ -124,7 +134,12 @@
 					keys[ 38 ] = 'prev'; // ARROW-UP
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 					keys[ 32 ] = 'click'; // SPACE
+
 					self.blockElement = block.element;
+					self.emojiList = self.editor._.emoji.list;
+
+					self.addEmojiToGroups();
+
 					block.element.getAscendant( 'html' ).addClass( 'cke_emoji' );
 					block.element.getDocument().appendStyleSheet( CKEDITOR.getUrl( CKEDITOR.basePath + 'contents.css' ) );
 					block.element.addClass( 'cke_emoji-panel_block' );
@@ -146,6 +161,7 @@
 					self.elements.statusName = block.element.findOne( 'p.cke_emoji-status_full_name' );
 					self.elements.sections = block.element.find( 'section' );
 					self.registerListeners();
+
 				},
 
 				onOpen: self.openReset()
@@ -193,14 +209,18 @@
 						'</a></li>'
 					);
 
-					items = arrTools.reduce( this.GROUPS, function( acc, item ) {
-						return acc + itemTemplate.output( {
-							group: htmlEncode( item.name ),
-							href: htmlEncode( item.name.toLowerCase() ),
-							name: htmlEncode( item.sectionName ),
-							positionX: item.position.x,
-							positionY: item.position.y
-						} );
+					items = arrTools.reduce( this.groups, function( acc, item ) {
+						if ( !item.items.length ) {
+							return acc;
+						} else {
+							return acc + itemTemplate.output( {
+								group: htmlEncode( item.name ),
+								href: htmlEncode( item.name.toLowerCase() ),
+								name: htmlEncode( item.sectionName ),
+								positionX: item.position.x,
+								positionY: item.position.y
+							} );
+						}
 					}, '' );
 				} else {
 					svgUrl = CKEDITOR.getUrl( this.plugin.path + 'assets/iconsall.svg' );
@@ -214,13 +234,17 @@
 						'<title id="{svgId}-title">{name}</title><use ' + useAttr + '></use></svg></a></li>'
 					);
 
-					items = arrTools.reduce( this.GROUPS, function( acc, item ) {
-						return acc + itemTemplate.output( {
-							group: htmlEncode( item.name ),
-							href: htmlEncode( item.name.toLowerCase() ),
-							name: htmlEncode( item.sectionName ),
-							svgId: htmlEncode( item.svgId )
-						} );
+					items = arrTools.reduce( this.groups, function( acc, item ) {
+						if ( !item.items.length ) {
+							return acc;
+						} else {
+							return acc + itemTemplate.output( {
+								group: htmlEncode( item.name ),
+								href: htmlEncode( item.name.toLowerCase() ),
+								name: htmlEncode( item.sectionName ),
+								svgId: htmlEncode( item.svgId )
+							} );
+						}
 					}, '' );
 				}
 
@@ -330,31 +354,30 @@
 				}
 			},
 			getEmojiSections: function() {
-				return arrTools.reduce( this.GROUPS, function( acc, item ) {
-					return acc + this.getEmojiSection( item );
+				return arrTools.reduce( this.groups, function( acc, item ) {
+					// If group is empty skip it.
+					if ( !item.items.length ) {
+						return acc;
+					} else {
+						return acc + this.getEmojiSection( item );
+					}
 				}, '', this );
 			},
 			getEmojiSection: function( item ) {
 				var groupName = htmlEncode( item.name ),
 					sectionName = htmlEncode( item.sectionName ),
-					group = this.getEmojiListGroup( groupName );
+					group = this.getEmojiListGroup( item.items );
 
 				return '<section data-cke-emoji-group="' + groupName + '" ><h2 id="' + groupName + '">' + sectionName + '</h2><ul>' + group + '</ul></section>';
 			},
-			getEmojiListGroup: function( groupName ) {
-				var emojiList = this.editor._.emoji.list,
-					emojiTpl = new CKEDITOR.template( '<li class="cke_emoji-item">' +
+			getEmojiListGroup: function( items ) {
+				var emojiTpl = new CKEDITOR.template( '<li class="cke_emoji-item">' +
 					'<a draggable="false" data-cke-emoji-full-name="{id}" data-cke-emoji-name="{name}" data-cke-emoji-symbol="{symbol}" data-cke-emoji-group="{group}" ' +
 					'data-cke-emoji-keywords="{keywords}" title="{name}" href="#" _cke_focus="1">{symbol}</a>' +
 					'</li>' );
 
 				return arrTools.reduce(
-					arrTools.filter(
-						emojiList,
-						function( item ) {
-							return item.group === groupName;
-						}
-					),
+					items,
 					function( acc, item ) {
 						return acc + emojiTpl.output( {
 								symbol: htmlEncode( item.symbol ),
@@ -364,7 +387,8 @@
 								keywords: htmlEncode( ( item.keywords || [] ).join( ',' ) )
 							} );
 					},
-					''
+					'',
+					this
 				);
 			},
 			filter: function( evt ) {
@@ -507,6 +531,16 @@
 				return arrTools.indexOf( nodeList.toArray(), function( element ) {
 					return element.equals( item );
 				} );
+			},
+			addEmojiToGroups: function() {
+				var groupObj = {};
+				arrTools.forEach( this.groups, function( group ) {
+					groupObj[ group.name ] = group.items;
+				}, this );
+
+				arrTools.forEach( this.emojiList, function( emojiObj ) {
+					groupObj[ emojiObj.group ].push( emojiObj );
+				}, this );
 			}
 		}
 	} );
