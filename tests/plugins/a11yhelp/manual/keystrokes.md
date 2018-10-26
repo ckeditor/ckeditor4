@@ -10,18 +10,18 @@
 
 ### Windows/Linux
 
-Link command is described by two keystrokes: `CTRL + L / CTRL + K`.
+Link command is described by two keystrokes: `CTRL+L / CTRL+K`.
 
 ### MacOS
 
-Link command is described by two keystrokes: `Command + L / Command + K`.
+Link command is described by two keystrokes: `Command+L / Command+K`.
 
 ## Unexpected
 
 ### Windows/Linux
 
-Link command is described by a single keystroke: `CTRL + L`.
+Link command is described by a single keystroke: `CTRL+L`.
 
 ### MacOS
 
-Link command is described by a single keystroke: `Command + L`.
+Link command is described by a single keystroke: `Command+L`.
