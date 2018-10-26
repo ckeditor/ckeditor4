@@ -7,7 +7,7 @@
 	'use strict';
 
 	var stylesLoaded = false,
-		emojiDropdow;
+		emojiDropdown;
 
 	CKEDITOR.plugins.add( 'emoji', {
 		requires: 'autocomplete,textmatch,ajax,panelbutton,floatpanel',
@@ -103,13 +103,13 @@
 			} );
 
 			if ( editor.plugins.toolbar ) {
-				emojiDropdow.init( editor, this );
+				emojiDropdown.init( editor, this );
 			}
 
 		}
 	} );
 
-	emojiDropdow = ( function() {
+	emojiDropdown = ( function() {
 		var arrTools = CKEDITOR.tools.array,
 			htmlEncode = CKEDITOR.tools.htmlEncode;
 
