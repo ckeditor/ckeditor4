@@ -460,8 +460,8 @@
 				firstSectionItem.focus( true );
 				this.blockObject._.markItem( itemIndex );
 			},
-			getItemIndex: function( list, item ) {
-				return arrTools.indexOf( list, function( element ) {
+			getItemIndex: function( nodeList, item ) {
+				return arrTools.indexOf( nodeList.toArray(), function( element ) {
 					return element.equals( item );
 				} );
 			},
@@ -586,7 +586,7 @@
 						block.element.removeAttribute( 'title' );
 						panel.element.addClass( 'cke_emoji-panel' );
 
-						self.items = block._.getItems().toArray();
+						self.items = block._.getItems();
 
 						self.blockObject = block;
 						self.elements.emojiItems = block.element.find( '.cke_emoji-outer_emoji_block li > a' );
