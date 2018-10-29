@@ -393,8 +393,8 @@
 			},
 			filter: function( evt ) {
 				// Apply filters to emoji items in dropdown.
-				// Hidding not searched one.
-				// Can accpet input event or string
+				// Hiding not searched one.
+				// Can accept input event or string
 				var groups = {},
 					query = typeof evt === 'string' ? evt : evt.sender.getValue();
 
@@ -619,7 +619,7 @@
 						return null;
 					}
 
-					// In case of space preceding colon we need to return the last index (#2394) of capturing grup.
+					// In case of space preceding colon we need to return the last index (#2394) of capturing group.
 					return { start: left.lastIndexOf( match[ 1 ] ), end: offset };
 				}
 
