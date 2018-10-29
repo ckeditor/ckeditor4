@@ -1,5 +1,6 @@
 /* bender-tags: tableselection */
 /* bender-ckeditor-plugins: tableselection */
+/* bender-ckeditor-remove-plugins: undo */
 /* bender-include: _helpers/tableselection.js */
 /* global tableSelectionHelpers, mockMouseSelection */
 
