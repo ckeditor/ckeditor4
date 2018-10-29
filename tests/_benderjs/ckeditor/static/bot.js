@@ -121,9 +121,9 @@
 		return function( name, callback ) {
 
 			var editor = this.editor,
-			btn = editor.ui.get( name ),
-			tc = this.testCase,
-			btnEl;
+				btn = editor.ui.get( name ),
+				tc = this.testCase,
+				btnEl;
 
 			editor.once( 'panelShow', function() {
 				// Make sure resume comes after wait.

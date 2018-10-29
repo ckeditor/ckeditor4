@@ -114,7 +114,10 @@
 					editorFocus: 0,
 					toolbar: 'insert',
 					panel: {
-						css: [ CKEDITOR.skin.getPath( 'editor' ), plugin.path + 'skins/default.css' ],
+						css: [
+							CKEDITOR.skin.getPath( 'editor' ),
+							plugin.path + 'skins/default.css'
+						],
 						attributes: {
 							role: 'listbox',
 							'aria-label': lang.title

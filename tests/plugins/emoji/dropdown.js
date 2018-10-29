@@ -55,7 +55,7 @@
 						bot.panel( 'EmojiPanel', function() {
 							CKEDITOR.tools.setTimeout( function() {
 								resume( function() {
-									assert.areSame( '', input.getValue(), 'Search value should be reset after hidding panel.' );
+									assert.areSame( '', input.getValue(), 'Search value should be reset after hiding panel.' );
 									assert.areSame( 0, doc.find( 'li.cke_emoji-item.hidden' ).count(), 'All emoji items should be reset to visible state after closing panel.' );
 									panel.hide();
 								} );
@@ -114,7 +114,7 @@
 			} );
 		},
 
-		'test navigation higlights proper section when scrolls': function() {
+		'test navigation highlights proper section when scrolls': function() {
 			var bot = this.editorBot;
 			bot.panel( 'EmojiPanel', function( panel ) {
 				var doc = panel._.iframe.getFrameDocument(),
@@ -244,7 +244,7 @@
 				var doc = panel._.iframe.getFrameDocument(),
 					input = doc.findOne( 'input' );
 
-				// Input is focused asynchrnously, that's why we need to run test asynchronously.
+				// Input is focused asynchronously, that's why we need to run test asynchronously.
 				CKEDITOR.tools.setTimeout( function() {
 					resume( function() {
 						try {
@@ -252,13 +252,13 @@
 								target: input.$,
 								keyCode: 37
 							} ) );
-							assert.isTrue( input.equals( new CKEDITOR.dom.element( doc.$.activeElement ), 'Input shoudl be focused after pressing left arrow.' ) );
+							assert.isTrue( input.equals( new CKEDITOR.dom.element( doc.$.activeElement ), 'Input should be focused after pressing left arrow.' ) );
 
 							doc.fire( 'keydown', new CKEDITOR.dom.event( {
 								target: input.$,
 								keyCode: 39
 							} ) );
-							assert.isTrue( input.equals( new CKEDITOR.dom.element( doc.$.activeElement ), 'Input shoudl be focused after pressing right arrow.' ) );
+							assert.isTrue( input.equals( new CKEDITOR.dom.element( doc.$.activeElement ), 'Input should be focused after pressing right arrow.' ) );
 						}
 						finally {
 							panel.hide();
