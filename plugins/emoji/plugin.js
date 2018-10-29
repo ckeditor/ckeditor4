@@ -108,7 +108,7 @@
 			// Below line might be removable
 			editor.ui.addToolbarGroup( 'emoji', 'insert' );
 			// Name is responsible for icon name also.
-			editor.ui.add( 'emojiPanel', CKEDITOR.UI_PANELBUTTON, {
+			editor.ui.add( 'EmojiPanel', CKEDITOR.UI_PANELBUTTON, {
 				label: 'emoji',
 				title: lang.title,
 				modes: { wysiwyg: 1 },

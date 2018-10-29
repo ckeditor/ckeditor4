@@ -17,7 +17,7 @@
 		},
 		'test emoji dropdown has proper components': function() {
 			var bot = this.editorBot;
-			bot.panel( 'emojiPanel', function( panel ) {
+			bot.panel( 'EmojiPanel', function( panel ) {
 				try {
 					var doc = panel._.iframe.getFrameDocument();
 					assert.areNotSame( 0, doc.find( '.cke_emoji-navigation_item' ).count(), 'There is no navigation in Emoji Panel.' );
@@ -39,7 +39,7 @@
 
 		'test emoji dropdown filter search results': function() {
 			var bot = this.editorBot;
-			bot.panel( 'emojiPanel', function( panel ) {
+			bot.panel( 'EmojiPanel', function( panel ) {
 				var doc = panel._.iframe.getFrameDocument(),
 					input = doc.findOne( 'input' );
 
@@ -52,7 +52,7 @@
 					resume( function() {
 						assert.areSame( 2, doc.find( 'li.cke_emoji-item :not(.hidden)' ).count(), 'There should be returned 2 values for kebab `keyword`' );
 						panel.hide();
-						bot.panel( 'emojiPanel', function() {
+						bot.panel( 'EmojiPanel', function() {
 							CKEDITOR.tools.setTimeout( function() {
 								resume( function() {
 									assert.areSame( '', input.getValue(), 'Search value should be reset after hidding panel.' );
@@ -70,7 +70,7 @@
 
 		'test emoji dropdown update status': function() {
 			var bot = this.editorBot;
-			bot.panel( 'emojiPanel', function( panel ) {
+			bot.panel( 'EmojiPanel', function( panel ) {
 				try {
 					var doc = panel._.iframe.getFrameDocument(),
 						statusBarIcon = doc.findOne( '.cke_emoji-status_icon' ),
@@ -97,7 +97,7 @@
 
 		'test emoji list scrolls when navigation is clicked': function() {
 			var bot = this.editorBot;
-			bot.panel( 'emojiPanel', function( panel ) {
+			bot.panel( 'EmojiPanel', function( panel ) {
 				try {
 					var doc = panel._.iframe.getFrameDocument(),
 						emojiBlock = doc.findOne( '.cke_emoji-outer_emoji_block' );
@@ -116,7 +116,7 @@
 
 		'test navigation higlights proper section when scrolls': function() {
 			var bot = this.editorBot;
-			bot.panel( 'emojiPanel', function( panel ) {
+			bot.panel( 'EmojiPanel', function( panel ) {
 				var doc = panel._.iframe.getFrameDocument(),
 					testElement = doc.findOne( 'a[data-cke-emoji-name="star"]' );
 
@@ -136,7 +136,7 @@
 
 		'test input is focused element when dropdown opens': function() {
 			var bot = this.editorBot;
-			bot.panel( 'emojiPanel', function( panel ) {
+			bot.panel( 'EmojiPanel', function( panel ) {
 				var doc = panel._.iframe.getFrameDocument(),
 					inputElement = doc.findOne( 'input' ),
 					panelBlock = emojiTools.getEmojiPanelBlock( panel ),
@@ -160,7 +160,7 @@
 			var bot = this.editorBot,
 				editor = this.editor;
 			bot.setData( '', function() {
-				bot.panel( 'emojiPanel', function( panel ) {
+				bot.panel( 'EmojiPanel', function( panel ) {
 					try {
 						var doc = panel._.iframe.getFrameDocument(),
 							testElement = doc.findOne( 'a[data-cke-emoji-name="star"]' );
@@ -190,7 +190,7 @@
 			var bot = this.editorBot,
 				editor = this.editor;
 			bot.setData( '', function() {
-				bot.panel( 'emojiPanel', function( panel ) {
+				bot.panel( 'EmojiPanel', function( panel ) {
 					try {
 						var doc = panel._.iframe.getFrameDocument(),
 							testElement = doc.findOne( 'a[data-cke-emoji-name="star"]' ),
@@ -224,7 +224,7 @@
 
 		'test clicking into navigation list item does not throw an error': function() {
 			var bot = this.editorBot;
-			bot.panel( 'emojiPanel', function( panel ) {
+			bot.panel( 'EmojiPanel', function( panel ) {
 				try {
 					var doc = panel._.iframe.getFrameDocument(),
 						focusedElement = doc.findOne( 'a[data-cke-emoji-group="flags"' );
@@ -240,7 +240,7 @@
 
 		'test left and right arrow does not change focus on input element': function() {
 			var bot = this.editorBot;
-			bot.panel( 'emojiPanel', function( panel ) {
+			bot.panel( 'EmojiPanel', function( panel ) {
 				var doc = panel._.iframe.getFrameDocument(),
 					input = doc.findOne( 'input' );
 
