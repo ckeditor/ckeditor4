@@ -59,11 +59,11 @@
 									assert.areSame( 0, doc.find( 'li.cke_emoji-item.hidden' ).count(), 'All emoji items should be reset to visible state after closing panel.' );
 									panel.hide();
 								} );
-							}, 10 );
+							}, 200 );
 							wait();
 						} );
 					} );
-				}, 10 );
+				}, 200 );
 				wait();
 			} );
 		},
