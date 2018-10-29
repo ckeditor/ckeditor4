@@ -107,6 +107,11 @@ a.cke_button
 	position: relative;
 }
 
+/* #2483 */
+a.cke_button_expandable {
+	padding: 4px 5px;
+}
+
 .cke_rtl a.cke_button
 {
 	float: right;
@@ -136,6 +141,12 @@ a.cke_button_on
 	padding: 3px 5px;
 }
 
+/* #2483 */
+a.cke_button_expandable.cke_button_on
+{
+	padding: 3px 4px;
+}
+
 
 /* Button states. */
 a.cke_button_off:hover,
@@ -146,6 +157,14 @@ a.cke_button_off:active
 	border: 1px #bcbcbc solid;
 	/* Compensate the border change */
 	padding: 3px 5px;
+}
+
+/* Expandable button states (#2483). */
+a.cke_button_expandable.cke_button_off:hover,
+a.cke_button_expandable.cke_button_off:focus,
+a.cke_button_expandable.cke_button_off:active
+{
+	padding: 3px 4px;
 }
 
 .cke_hc a.cke_button_on,
@@ -170,9 +189,21 @@ a.cke_button_disabled:active
 	background-color: transparent;
 }
 
+/* Expandable disabled Button states (#2483). */
+a.cke_button_expandable.cke_button_disabled:hover,
+a.cke_button_expandable.cke_button_disabled:active
+{
+	padding: 4px 5px;
+}
+
 a.cke_button_disabled:focus {
 	border: 1px #bcbcbc solid;
 	padding: 3px 5px;
+}
+
+/* #2483 */
+a.cke_button_expandable.cke_button_disabled:focus {
+	padding: 3px 4px;
 }
 
 .cke_hc a.cke_button_disabled:hover,
@@ -362,7 +393,7 @@ a.cke_button_disabled .cke_button_arrow
 {
 	/* Arrow in CSS */
 	display: inline-block;
-	margin: 8px 0 0 1px;
+	margin: 8px 0 0 3px;
 	width: 0;
 	height: 0;
 	cursor: default;

@@ -56,7 +56,7 @@
 				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 				assert.areSame( ':dagg', autocomplete.model.query, 'Model keeps wrong query' );
 				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result' );
-				objectAssert.areEqual( { id: ':dagger:', symbol: '🗡' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+				objectAssert.areEqual( { id: ':dagger:', symbol: '🗡' }, { id: autocomplete.model.data[ 0 ].id, symbol: autocomplete.model.data[ 0 ].symbol }, 'Emoji result contains wrong result' );
 				autocomplete.close();
 			} );
 		}
@@ -113,7 +113,7 @@
 				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 				assert.areSame( ':bug', autocomplete.model.query, 'Model keeps wrong query' );
 				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result' );
-				objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+				objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, { id: autocomplete.model.data[ 0 ].id, symbol: autocomplete.model.data[ 0 ].symbol }, 'Emoji result contains wrong result' );
 			} );
 		},
 
@@ -140,7 +140,7 @@
 					bot.setHtmlWithSelection( '<p>foo ' + query + '^</p>' );
 					editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-					objectAssert.areEqual( { id: ':ok_hand:', symbol: '👌' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+					objectAssert.areEqual( { id: ':ok_hand:', symbol: '👌' }, { id: autocomplete.model.data[ 0 ].id, symbol: autocomplete.model.data[ 0 ].symbol }, 'Emoji result contains wrong result' );
 				} );
 			} );
 		},
@@ -168,7 +168,7 @@
 
 				bot.setHtmlWithSelection( '<p>foo</p><p>:bug^</p>' );
 				editable.fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-				objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+				objectAssert.areEqual( { id: ':bug:', symbol: '🐛' }, { id: autocomplete.model.data[ 0 ].id, symbol: autocomplete.model.data[ 0 ].symbol }, 'Emoji result contains wrong result' );
 			} );
 		},
 
@@ -181,7 +181,7 @@
 				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 				assert.areSame( ':collision', autocomplete.model.query, 'Model keeps wrong query' );
 				assert.areSame( 1, autocomplete.model.data.length, 'Emoji result contains more than one result' );
-				objectAssert.areEqual( { id: ':collision:', symbol: '💥' }, autocomplete.model.data[ 0 ], 'Emoji result contains wrong result' );
+				objectAssert.areEqual( { id: ':collision:', symbol: '💥' }, { id: autocomplete.model.data[ 0 ].id, symbol: autocomplete.model.data[ 0 ].symbol }, 'Emoji result contains wrong result' );
 			} );
 		}
 	};

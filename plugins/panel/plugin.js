@@ -137,9 +137,16 @@
 							var keystroke = evt.data.getKeystroke(),
 								dir = this.document.getById( this.id ).getAttribute( 'dir' );
 
+							// Arrow left and right should use native behaviour inside input element
+							if ( evt.data.getTarget().getName() === 'input' && ( keystroke === 37 || keystroke === 39 ) ) {
+								return;
+							}
 							// Delegate key processing to block.
 							if ( this._.onKeyDown && this._.onKeyDown( keystroke ) === false ) {
-								evt.data.preventDefault();
+								if ( !( evt.data.getTarget().getName() === 'input' && keystroke === 32 ) ) {
+									// Don't prevent space when is pressed on a input filed.
+									evt.data.preventDefault();
+								}
 								return;
 							}
 
@@ -390,7 +397,7 @@
 							// width).
 							if ( focusable.getAttribute( '_cke_focus' ) && focusable.$.offsetWidth ) {
 								this._.focusIndex = index;
-								focusable.focus();
+								focusable.focus( true );
 								break;
 							}
 						}
@@ -414,7 +421,7 @@
 							// width).
 							if ( focusable.getAttribute( '_cke_focus' ) && focusable.$.offsetWidth ) {
 								this._.focusIndex = index;
-								focusable.focus();
+								focusable.focus( true );
 								break;
 							}
 

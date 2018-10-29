@@ -25,6 +25,10 @@
 		assertIsNullOrUndefined: function( value ) {
 			assert.isTrue( value === undefined || value === null );
 		},
+		getEmojiPanelBlock: function( panel ) {
+			var keys = CKEDITOR.tools.objectKeys( panel._.panel._.blocks );
+			return keys.length === 1 ? panel._.panel._.blocks[ keys[ 0 ] ] : null;
+		},
 		notSupportedEnvironment: CKEDITOR.env.ie && CKEDITOR.env.version < 11
 	};
 } )();
