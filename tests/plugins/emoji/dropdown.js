@@ -10,6 +10,17 @@
 	bender.editor = true;
 
 	bender.test( {
+		_should: {
+			ignore: {
+				// (#2528).
+				'test click inserts emoji to editor and has proper focus': CKEDITOR.env.safari,
+				'test keyboard event should inserts emoji to editor and had proper focus': CKEDITOR.env.safari,
+				'test clicking into navigation list item does not throw an error': CKEDITOR.env.safari,
+				'test input is focused element when dropdown opens': CKEDITOR.env.safari,
+				'test navigation highlights proper section when scrolls': CKEDITOR.env.safari
+			}
+		},
+
 		setUp: function() {
 			if ( emojiTools.notSupportedEnvironment ) {
 				assert.ignore();
