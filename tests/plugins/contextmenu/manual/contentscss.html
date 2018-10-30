@@ -3,6 +3,9 @@
 </div>
 
 <script>
+	// Avoiding error on built version (#2533).
+	CKEDITOR.skinName = 'moono-lisa';
+
 	CKEDITOR.replace( 'editor', {
 		contextmenu_contentsCss: [
 			CKEDITOR.skin.getPath( 'editor' ),
