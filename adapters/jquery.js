@@ -42,10 +42,8 @@
 	 * @cfg {Boolean} [jqueryOverrideVal=true]
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.jqueryOverrideVal = typeof CKEDITOR.config.jqueryOverrideVal == 'undefined'  ?
-				true
-			:
-				CKEDITOR.config.jqueryOverrideVal;
+	CKEDITOR.config.jqueryOverrideVal =
+		typeof CKEDITOR.config.jqueryOverrideVal == 'undefined' ? true : CKEDITOR.config.jqueryOverrideVal;
 
 	if ( typeof $ == 'undefined' )
 		return;

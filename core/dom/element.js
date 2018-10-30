@@ -243,10 +243,11 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *		// Result: '<p>This is some text</p>'
 		 *
 		 * @param {String} text The text to be appended.
-		 * @returns {CKEDITOR.dom.node} The appended node.
 		 */
 		appendText: function( text ) {
-			if ( this.$.text != null )
+			// On IE8 it is impossible to append node to script tag, so we use its text.
+			// On the contrary, on Safari the text property is unpredictable in links. (#13232)
+			if ( this.$.text != null && CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 				this.$.text += text;
 			else
 				this.append( new CKEDITOR.dom.text( text ) );
@@ -419,45 +420,43 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @returns {String} The inserted HTML.
 		 */
 		setHtml: ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ?
-				// old IEs throws error on HTML manipulation (through the "innerHTML" property)
-				// on the element which resides in an DTD invalid position,  e.g. <span><div></div></span>
-				// fortunately it can be worked around with DOM manipulation.
-				function( html ) {
-					try {
-						var $ = this.$;
+			// old IEs throws error on HTML manipulation (through the "innerHTML" property)
+			// on the element which resides in an DTD invalid position,  e.g. <span><div></div></span>
+			// fortunately it can be worked around with DOM manipulation.
+			function( html ) {
+				try {
+					var $ = this.$;
 
-						// Fix the case when setHtml is called on detached element.
-						// HTML5 shiv used for document in which this element was created
-						// won't affect that detached element. So get document fragment with
-						// all HTML5 elements enabled and set innerHTML while this element is appended to it.
-						if ( this.getParent() )
-							return ( $.innerHTML = html );
-						else {
-							var $frag = this.getDocument()._getHtml5ShivFrag();
-							$frag.appendChild( $ );
-							$.innerHTML = html;
-							$frag.removeChild( $ );
-
-							return html;
-						}
-					}
-					catch ( e ) {
-						this.$.innerHTML = '';
-
-						var temp = new CKEDITOR.dom.element( 'body', this.getDocument() );
-						temp.$.innerHTML = html;
-
-						var children = temp.getChildren();
-						while ( children.count() )
-							this.append( children.getItem( 0 ) );
+					// Fix the case when setHtml is called on detached element.
+					// HTML5 shiv used for document in which this element was created
+					// won't affect that detached element. So get document fragment with
+					// all HTML5 elements enabled and set innerHTML while this element is appended to it.
+					if ( this.getParent() )
+						return ( $.innerHTML = html );
+					else {
+						var $frag = this.getDocument()._getHtml5ShivFrag();
+						$frag.appendChild( $ );
+						$.innerHTML = html;
+						$frag.removeChild( $ );
 
 						return html;
 					}
 				}
-			:
-				function( html ) {
-					return ( this.$.innerHTML = html );
-				},
+				catch ( e ) {
+					this.$.innerHTML = '';
+
+					var temp = new CKEDITOR.dom.element( 'body', this.getDocument() );
+					temp.$.innerHTML = html;
+
+					var children = temp.getChildren();
+					while ( children.count() )
+						this.append( children.getItem( 0 ) );
+
+					return html;
+				}
+			} : function( html ) {
+				return ( this.$.innerHTML = html );
+			},
 
 		/**
 		 * Sets the element contents as plain text.
@@ -1398,7 +1397,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				y = 0,
 				doc = this.getDocument(),
 				body = doc.getBody(),
-				quirks = CKEDITOR.env.quirks;
+				quirks = doc.$.compatMode == 'BackCompat';
 
 			if ( document.documentElement.getBoundingClientRect ) {
 				var box = this.$.getBoundingClientRect(),

@@ -398,6 +398,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				focusList[ i ].focusIndex = i;
 		}
 
+		// Expects 1 or -1 as an offset, meaning direction of the offset change.
 		function changeFocus( offset ) {
 			var focusList = me._.focusList;
 			offset = offset || 0;
@@ -405,21 +406,42 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( focusList.length < 1 )
 				return;
 
-			var current = me._.currentFocusIndex;
+			var startIndex = me._.currentFocusIndex;
+
+			if ( me._.tabBarMode && offset < 0 ) {
+				// If we are in tab mode, we need to mimic that we started tabbing back from the first
+				// focusList (so it will go to the last one).
+				startIndex = 0;
+			}
 
 			// Trigger the 'blur' event of  any input element before anything,
 			// since certain UI updates may depend on it.
 			try {
-				focusList[ current ].getInputElement().$.blur();
+				focusList[ startIndex ].getInputElement().$.blur();
 			} catch ( e ) {}
 
-			var startIndex = ( current + offset + focusList.length ) % focusList.length,
-				currentIndex = startIndex;
-			while ( offset && !focusList[ currentIndex ].isFocusable() ) {
-				currentIndex = ( currentIndex + offset + focusList.length ) % focusList.length;
-				if ( currentIndex == startIndex )
+			var currentIndex = startIndex,
+				hasTabs = me._.pageCount > 1;
+
+			do {
+				currentIndex = currentIndex + offset;
+
+				if ( hasTabs && !me._.tabBarMode && ( currentIndex == focusList.length || currentIndex == -1 ) ) {
+					// If the dialog was not in tab mode, then focus the first tab (#13027).
+					me._.tabBarMode = true;
+					me._.tabs[ me._.currentTabId ][ 0 ].focus();
+					me._.currentFocusIndex = -1;
+
+					// Early return, in order to avoid accessing focusList[ -1 ].
+					return;
+				}
+
+				currentIndex = ( currentIndex + focusList.length ) % focusList.length;
+
+				if ( currentIndex == startIndex ) {
 					break;
-			}
+				}
+			} while ( offset && !focusList[ currentIndex ].isFocusable() );
 
 			focusList[ currentIndex ].focus();
 
@@ -438,33 +460,31 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			var keystroke = evt.data.getKeystroke(),
 				rtl = editor.lang.dir == 'rtl',
+				arrowKeys = [ 37, 38, 39, 40 ],
 				button;
 
 			processed = stopPropagation = 0;
 
 			if ( keystroke == 9 || keystroke == CKEDITOR.SHIFT + 9 ) {
 				var shiftPressed = ( keystroke == CKEDITOR.SHIFT + 9 );
-
-				// Handling Tab and Shift-Tab.
-				if ( me._.tabBarMode ) {
-					// Change tabs.
-					var nextId = shiftPressed ? getPreviousVisibleTab.call( me ) : getNextVisibleTab.call( me );
-					me.selectPage( nextId );
-					me._.tabs[ nextId ][ 0 ].focus();
-				} else {
-					// Change the focus of inputs.
-					changeFocus( shiftPressed ? -1 : 1 );
-				}
-
+				changeFocus( shiftPressed ? -1 : 1 );
 				processed = 1;
 			} else if ( keystroke == CKEDITOR.ALT + 121 && !me._.tabBarMode && me.getPageCount() > 1 ) {
 				// Alt-F10 puts focus into the current tab item in the tab bar.
 				me._.tabBarMode = true;
 				me._.tabs[ me._.currentTabId ][ 0 ].focus();
+				me._.currentFocusIndex = -1;
 				processed = 1;
-			} else if ( ( keystroke == 37 || keystroke == 39 ) && me._.tabBarMode ) {
-				// Arrow keys - used for changing tabs.
-				nextId = ( keystroke == ( rtl ? 39 : 37 ) ? getPreviousVisibleTab.call( me ) : getNextVisibleTab.call( me ) );
+			} else if ( CKEDITOR.tools.indexOf( arrowKeys, keystroke ) != -1 && me._.tabBarMode ) {
+				// Array with key codes that activate previous tab.
+				var prevKeyCodes = [
+						// Depending on the lang dir: right or left key
+						rtl ? 39 : 37,
+						// Top/bot arrow: actually for both cases it's the same.
+						38
+					],
+					nextId = CKEDITOR.tools.indexOf( prevKeyCodes, keystroke ) != -1 ? getPreviousVisibleTab.call( me ) : getNextVisibleTab.call( me );
+
 				me.selectPage( nextId );
 				me._.tabs[ nextId ][ 0 ].focus();
 				processed = 1;
@@ -545,11 +565,15 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// to allow dynamic tab order happen in dialog definition.
 			setupFocus();
 
-			if ( editor.config.dialog_startupFocusTab && me._.pageCount > 1 ) {
+			var hasTabs = me._.pageCount > 1;
+
+			if ( editor.config.dialog_startupFocusTab && hasTabs ) {
 				me._.tabBarMode = true;
 				me._.tabs[ me._.currentTabId ][ 0 ].focus();
+				me._.currentFocusIndex = -1;
 			} else if ( !this._.hasFocus ) {
-				this._.currentFocusIndex = -1;
+				// http://dev.ckeditor.com/ticket/13114#comment:4.
+				this._.currentFocusIndex = hasTabs ? -1 : this._.focusList.length - 1;
 
 				// Decide where to put the initial focus.
 				if ( definition.onFocus ) {

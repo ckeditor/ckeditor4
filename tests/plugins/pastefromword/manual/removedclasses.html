@@ -1,0 +1,18 @@
+<textarea cols="80" id="editor1" name="editor1" rows="10">
+	&lt;p&gt;&lt;b&gt;Apollo 11&lt;/b&gt; was the spaceflight that landed the first humans, Americans &lt;a href=&quot;http://en.wikipedia.org/wiki/Neil_Armstrong&quot; title=&quot;Neil Armstrong&quot;&gt;Neil Armstrong&lt;/a&gt; and &lt;a href=&quot;http://en.wikipedia.org/wiki/Buzz_Aldrin&quot; title=&quot;Buzz Aldrin&quot;&gt;Buzz Aldrin&lt;/a&gt;, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.&lt;/p&gt;
+</textarea>
+<script>
+	var editor = CKEDITOR.replace( 'editor1', {
+		coreStyles_bold: {
+			element: 'span',
+			attributes: { 'class': 'myboldclass' },
+			overrides: [ 'strong', 'b' ]
+		},
+		contentsCss: '_assets/removedclasses.css',
+		allowedContent: true
+	} );
+
+	editor.on( 'paste', function( evt ) {
+		console.log( evt.data.dataValue );
+	} );
+</script>

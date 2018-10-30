@@ -146,6 +146,16 @@
 			htmlTools.compareInnerHtml( 'a', 'a', opts );
 
 			assert.areSame( strOpts, JSON.stringify( opts ), 'options object has not been modified' );
+		},
+
+		'test on IE8 expando attributes are removed': function() {
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 ) {
+				assert.ignore();
+			}
+
+			assert.isTrue( htmlTools.compareInnerHtml(
+				'<p>foo<i bar="2" foo="1">bar</i></p>',
+				'<p data-cke-expando="123ok">foo<i foo="1" data-cke-expando="" bar="2">bar</i></p>' ) );
 		}
 	} );
 } )();

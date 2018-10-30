@@ -43,10 +43,7 @@
 					this.allowedContent.div = true;
 
 				this.requiredContent = ( this.enterBr ? 'div' : 'p' ) +
-					( classes ?
-							'(' + classes.join( ',' ) + ')'
-						:
-							'{margin-left}' );
+					( classes ? '(' + classes.join( ',' ) + ')' : '{margin-left}' );
 
 				this.jobs = {
 					'20': {
@@ -56,7 +53,9 @@
 							// Switch context from somewhere inside list item to list item,
 							// if not found just assign self (doing nothing).
 							if ( !firstBlock.is( $listItem ) ) {
-								firstBlock = firstBlock.getAscendant( $listItem ) || firstBlock;
+								var ascendant = firstBlock.getAscendant( $listItem );
+
+								firstBlock = ( ascendant && path.contains( ascendant ) ) || firstBlock;
 							}
 
 							// Switch context from list item to list
@@ -123,10 +122,8 @@
 
 								else {
 									return CKEDITOR[
-										( getIndent( firstBlock ) || 0 ) <= 0 ?
-												'TRISTATE_DISABLED'
-											:
-												'TRISTATE_OFF' ];
+										( getIndent( firstBlock ) || 0 ) <= 0 ? 'TRISTATE_DISABLED' : 'TRISTATE_OFF'
+									];
 								}
 							}
 						},
@@ -170,10 +167,7 @@
 
 				// A regex built on config#indentClasses to detect whether an
 				// element has some indentClass or not.
-				classNameRegex: classes ?
-					new RegExp( '(?:^|\\s+)(' + classes.join( '|' ) + ')(?=$|\\s)' )
-						:
-					null
+				classNameRegex: classes ? new RegExp( '(?:^|\\s+)(' + classes.join( '|' ) + ')(?=$|\\s)' ) : null
 			} );
 		}
 	} );
@@ -224,10 +218,10 @@
 			currentOffset = Math.max( currentOffset, 0 );
 			currentOffset = Math.ceil( currentOffset / indentOffset ) * indentOffset;
 
-			element.setStyle( indentCssProperty, currentOffset ?
-					currentOffset + ( editor.config.indentUnit || 'px' )
-				:
-					'' );
+			element.setStyle(
+				indentCssProperty,
+				currentOffset ? currentOffset + ( editor.config.indentUnit || 'px' ) : ''
+			);
 
 			if ( element.getAttribute( 'style' ) === '' )
 				element.removeAttribute( 'style' );

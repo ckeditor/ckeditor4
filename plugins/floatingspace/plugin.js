@@ -21,11 +21,11 @@
             var pageOffset = side == 'left' ? 'pageXOffset' : 'pageYOffset',
                 docScrollOffset = side == 'left' ? 'scrollLeft' : 'scrollTop';
 
-            return (pageOffset in win.$) ? win.$[ pageOffset ] : CKEDITOR.document.$.documentElement[ docScrollOffset ];
-        }
+		return ( pageOffset in win.$ ) ? win.$[ pageOffset ] : CKEDITOR.document.$.documentElement[ docScrollOffset ];
+	}
 
         function attach(editor){
-            
+
             var config = editor.config,
                 //config of the plugin
                 floatSpaceConfig = config.floatSpace || {on : {}},
@@ -170,13 +170,14 @@
                     else
                         changeMode('bottom');
 
-                    var mid = viewRect.width / 2,
-                        alignSide =
-                        (editorRect.left > 0 && editorRect.right < viewRect.width && editorRect.width > spaceRect.width) ?
-                        (editor.config.contentsLangDirection == 'rtl' ? 'right' : 'left')
-                        :
-                        (mid - editorRect.left > editorRect.right - mid ? 'left' : 'right'),
-                        offset;
+					var mid = viewRect.width / 2,
+						alignSide =
+							( editorRect.left > 0 && editorRect.right < viewRect.width && editorRect.width > spaceRect.width ) ? (
+									editor.config.contentsLangDirection == 'rtl' ? 'right' : 'left'
+								) : (
+									mid - editorRect.left > editorRect.right - mid ? 'left' : 'right'
+								),
+						offset;
 
                     // (#9769) If viewport width is less than space width,
                     // make sure space never cross the left boundary of the viewport.
@@ -276,12 +277,9 @@
                         }
                     }
 
-                    // Pin mode is fixed, so don't include scroll-x.
-                    // (#9903) For mode is "top" or "bottom", add opposite scroll-x for right-aligned space.
-                    var scroll = mode == 'pin' ?
-                        0
-                        :
-                        alignSide == 'left' ? pageScrollX : -pageScrollX;
+					// Pin mode is fixed, so don't include scroll-x.
+					// (#9903) For mode is "top" or "bottom", add opposite scroll-x for right-aligned space.
+					var scroll = mode == 'pin' ? 0 : alignSide == 'left' ? pageScrollX : -pageScrollX;
 
                     floatSpace.setStyle(alignSide, pixelate((mode == 'pin' ? pinnedOffsetX : dockedOffsetX) + offset + scroll));
                 };
