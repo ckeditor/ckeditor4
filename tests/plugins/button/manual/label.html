@@ -5,6 +5,7 @@
 	var results = CKEDITOR.document.getById( 'results' ),
 		editor = CKEDITOR.replace( 'editor', {
 			language: 'en',
+			toolbar: [ [ 'Language' ] ],
 			on: {
 				instanceReady: function() {
 					var toolbox = editor.ui.space( 'toolbox' ),
