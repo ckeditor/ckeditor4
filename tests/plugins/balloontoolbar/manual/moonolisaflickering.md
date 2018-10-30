@@ -9,9 +9,10 @@
 
 * Balloon option hovers smoothly.
 * Hovered option has equal left and right margin.
+* Options separator is hidden under hover style.
 
 ## Unexpected
 
 * Visible flickering occurs on the right edge of the balloon panel.
 * Hovered option has bigger right margin compared to left margin.
-* Options separator is hidden under hover style.
+* Options separator is visible under hover style.
