@@ -5,6 +5,9 @@
 <div id="inline" contenteditable="true"></div>
 
 <script>
+	if ( emojiTools.notSupportedEnvironment ) {
+		bender.ignore();
+	}
 	CKEDITOR.replace( 'classic' );
 	CKEDITOR.inline( 'inline' );
 </script>
