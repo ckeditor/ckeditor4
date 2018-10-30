@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea,toolbar,balloontoolbar,image,stylescombo
 
 1. Focus the image.
-1. Hover over balloon both options.
+1. Hover over balloon options.
 
 ## Expected
 
