@@ -84,7 +84,7 @@
 /* SEARCHBOX */
 .cke_emoji-search {
 	position: relative;
-	height: 21px;
+	height: 25px;
 	display: block;
 	border: 1px solid #d1d1d1;
 	margin-left: 10px;
@@ -92,18 +92,18 @@
 }
 
 .cke_emoji-search .cke_emoji-search_loupe {
-	position: relative;
-	top: 3px;
-	left: 5px;
+	position: absolute;
+	top: 6px;
+	left: 6px;
 	display: inline-block;
-	width: 15px;
-	height: 15px;
+	width: 14px;
+	height: 14px;
 	opacity: 0.4;
 }
 
 .cke_rtl .cke_emoji-search .cke_emoji-search_loupe {
 	left: auto;
-	right: 5px;
+	right: 6px;
 }
 
 .cke_emoji-search span {
@@ -113,23 +113,19 @@
 }
 
 .cke_emoji-search input {
-	margin-left: 10px;
-	margin-right: 0px;
-	border: 0;
-	width: 263px;
+	-webkit-appearance: none;
+	border: none;
+	width: 100%;
 	height: 100%;
-	padding-left: 3px;
-	padding-right: 3px;
+	padding-left: 25px;
+	padding-right: 10px;
+	margin-left: 0
 }
 
 .cke_rtl .cke_emoji-search input {
-	margin-left: 0px;
-	margin-right: 10px;
-}
-
-.cke_browser_ie .cke_emoji-search input {
-	width: 255px;
-	height: auto;
+	padding-left: 10px;
+	padding-right: 25px;
+	margin-right: 0;
 }
 
 /* EMOJI */
@@ -147,7 +143,7 @@
 .cke_emoji-outer_emoji_block h2 {
 	font-size: 1.3em;
 	font-weight: 600;
-	margin: 5px 0 3px 8px;
+	margin: 5px 0 3px 0;
 }
 
 .cke_emoji-outer_emoji_block ul {
