@@ -3,6 +3,8 @@
 @bender-ui: collapsed
 @bender-include: ../../_helpers/tools.js
 
+For both editors:
+
 1. Open emoji dropdown.
 2. Inspect emoji search field.
 
