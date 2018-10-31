@@ -574,7 +574,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
   var hasLongDescriptionCheckbox = {
     type: 'vbox',
     padding: 0,
-    style: 'margin-top: 3px',
+    // style: 'margin-top: 3px',
     children: [
       {
         id: 'hasDescription',
