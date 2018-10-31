@@ -9,7 +9,7 @@
 			extraPlugins: 'test1'
 		} ),
 		widgetId = 0,
-		button = document.getElementById( 'button' ),
+		button = CKEDITOR.document.getById( 'button' ),
 		info = document.getElementById( 'info' );
 
 	CKEDITOR.plugins.add( 'test1', {
@@ -47,7 +47,7 @@
 	} );
 
 	editor.once( 'instanceReady', function() {
-		( new CKEDITOR.dom.element( button ) ).on( 'click', function() {
+		button.on( 'click', function() {
 			var widget = editor.widgets.instances[ widgetId++ ];
 
 			if ( widget ) {
