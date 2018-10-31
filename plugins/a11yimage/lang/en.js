@@ -39,8 +39,8 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	locationBothTitle: 'Long description is located before and after the image',
 
 	// descriptionHelp: 'More information on text alternatives for images',
-	// descriptionHelp: 'More information on short and long descriptions',
-	descriptionHelp: 'When is a long description required?',
+	descriptionHelp: 'More information on short and long descriptions',
+	// descriptionHelp: 'When is a long description required?',
 
 	// Image Caption
 	captionFieldsetLabel: 'Caption',
