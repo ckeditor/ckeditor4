@@ -2,6 +2,19 @@
 
 All notable changes to the A11yFirst project will be documented in this file.
 
+## v1.0.2 – 2 Nov 2018
+
+### Updates
+
+* Design modifications of Image plugin dialog
+  * Replace label text `A long description is included in the document`
+    with `Long description required within the document`
+  * Update the tooltip for the `Long description required` label
+  * Change link text in `Text Alternatives` from `More information on text
+    alternatives` to `More information on short and long descriptions`
+  * Move `Insert caption` checkbox into a fieldset labeled `Caption` for
+    improved labeling and findability of dialog elements
+
 ## v1.0.1 – 26 Oct 2018
 
 ### Updates
