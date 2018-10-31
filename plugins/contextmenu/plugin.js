@@ -49,7 +49,8 @@ CKEDITOR.plugins.add( 'contextmenu', {
 				 * <kbd>Ctrl</kbd> key is held on opening the context menu. See {@link CKEDITOR.config#browserContextMenuOnCtrl}.
 				 */
 				addTarget: function( element, nativeContextMenuOnCtrl ) {
-					var keystrokeActive;
+					var holdCtrlKey,
+						keystrokeActive;
 
 					element.on( 'contextmenu', function( event ) {
 						var domEvent = event.data,
@@ -97,8 +98,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 					}, this );
 
 					if ( CKEDITOR.env.webkit ) {
-						var holdCtrlKey,
-							onKeyDown = function( event ) {
+						var onKeyDown = function( event ) {
 								holdCtrlKey = CKEDITOR.env.mac ? event.data.$.metaKey : event.data.$.ctrlKey;
 							},
 							resetOnKeyUp = function() {
