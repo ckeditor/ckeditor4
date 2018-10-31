@@ -122,8 +122,8 @@
 }
 
 .cke_rtl .cke_emoji-search input {
-	margin-left: 0px;
-	margin-right: 10px;
+	padding-left: 3px;
+	padding-right: 30px;
 }
 
 /* EMOJI */
