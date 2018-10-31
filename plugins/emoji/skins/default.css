@@ -84,7 +84,7 @@
 /* SEARCHBOX */
 .cke_emoji-search {
 	position: relative;
-	height: 21px;
+	height: 25px;
 	display: block;
 	border: 1px solid #d1d1d1;
 	margin-left: 10px;
@@ -92,8 +92,8 @@
 }
 
 .cke_emoji-search .cke_emoji-search_loupe {
-	position: relative;
-	top: 3px;
+	position: absolute;
+	top: 5px;
 	left: 5px;
 	display: inline-block;
 	width: 15px;
@@ -113,23 +113,17 @@
 }
 
 .cke_emoji-search input {
-	margin-left: 10px;
-	margin-right: 0px;
-	border: 0;
-	width: 263px;
+	-webkit-appearance: none;
+	border: none;
+	width: 100%;
 	height: 100%;
-	padding-left: 3px;
+	padding-left: 30px;
 	padding-right: 3px;
 }
 
 .cke_rtl .cke_emoji-search input {
 	margin-left: 0px;
 	margin-right: 10px;
-}
-
-.cke_browser_ie .cke_emoji-search input {
-	width: 255px;
-	height: auto;
 }
 
 /* EMOJI */
