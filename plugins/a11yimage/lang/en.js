@@ -19,8 +19,10 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	alt: 'Short description (required)',
 	altTooltip: 'The \'alt text\' announced by a screen reader application',
 
-	hasDescription: 'A long description is included in the document',
-	hasDescriptionTooltip: 'Enables a screen reader to indicate the existence and location of a long description within the document',
+	// hasDescription: 'A long description is included in the document',
+	hasDescription: 'Long description required within the document',
+	// hasDescriptionTooltip: 'Enables a screen reader to indicate the existence and location of a long description within the document',
+	hasDescriptionTooltip: 'Due to the complexity of the informational content, the image cannot be described adequately by only a short description',
 
 	descriptionLocation: 'Location of long description',
 
@@ -36,9 +38,12 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	locationBothHelp:   'Screen reader: \'A long description is located in the document before and after the image\'',
 	locationBothTitle: 'Long description is located before and after the image',
 
-	descriptionHelp: 'More information on text alternatives for images',
+	// descriptionHelp: 'More information on text alternatives for images',
+	// descriptionHelp: 'More information on short and long descriptions',
+	descriptionHelp: 'When is a long description required?',
 
 	// Image Caption
+	captionFieldsetLabel: 'Caption',
 	captioned: 'Insert an editable caption below the image',
 	captionedHelp: 'The caption text is editable within the document',
 	captionPlaceholder: 'Caption',

@@ -819,25 +819,34 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
   /* ---------------------------------------------------------------- */
 
-  var hasCaptionCheckbox = {
-    type: 'vbox',
-    padding: 0,
-    style: 'margin-top: 10px',
+  var captionFieldset = {
+    id: 'captionFieldset',
+    type: 'fieldset',
+    style: 'margin-top: 7px',
+    label: lang.captionFieldsetLabel,
     children: [
       {
-        id: 'hasCaption',
-        type: 'checkbox',
-        label: lang.captioned,
-        title: lang.captionedHelp,
-        requiredContent: features.caption.requiredContent,
+        type: 'vbox',
+        padding: 0,
+        style: 'margin-top: -5px',
+        children: [
+          {
+            id: 'hasCaption',
+            type: 'checkbox',
+            style: 'margin-top: 0',
+            label: lang.captioned,
+            title: lang.captionedHelp,
+            requiredContent: features.caption.requiredContent,
 
-        setup: function ( widget ) {
-          this.setValue( widget.data.hasCaption );
-        },
+            setup: function ( widget ) {
+              this.setValue( widget.data.hasCaption );
+            },
 
-        commit: function ( widget ) {
-          widget.setData( 'hasCaption', this.getValue() );
-        }
+            commit: function ( widget ) {
+              widget.setData( 'hasCaption', this.getValue() );
+            }
+          }
+        ]
       }
     ]
   };
@@ -891,7 +900,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
           imageDescFieldset,
 
-          hasCaptionCheckbox,
+          captionFieldset,
 
           // URL field
           {
