@@ -23,7 +23,7 @@
 	Emoji gets inserted into the first editor.
 
 1. Use **Editor two**.
-1. Open the emoji dropdown in the first editor.
+1. Open the emoji dropdown in the editor.
 
 	### Expected
 

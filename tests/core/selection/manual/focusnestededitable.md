@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: divarea, toolbar, basicstyles, elementspath
 
 1. Put selection inside text with normal font style i.e. `You can ^type here`
-2. Put selection inside text text with italic font style i.e. *`and you can ^type again inside this editable part`*
+2. Put selection inside text with italic font style i.e. *`and you can ^type again inside this editable part`*
 
 ## Expected
 
