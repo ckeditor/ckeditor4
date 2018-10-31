@@ -16,9 +16,16 @@
 
 	bender.test( {
 		'test create table': function() {
-			var bot = this.editorBots.editor;
+			var bot = this.editorBots.editor,
+				editable = bot.editor.editable(),
+				spy = sinon.stub( editable, 'getSize' );
+
+			// Dialog width is set to 100% whenever editable width is lower than 500px.
+			// This happens on mobile devices when run from dashboard.
+			spy.withArgs( 'width' ).returns( 500 );
 
 			bot.dialog( 'tableProperties', function( dialog ) {
+				spy.restore();
 				// Check defaults.
 				assert.areSame( '500px', dialog.getValueOf( 'info', 'txtWidth' ) );
 				assert.areSame( '3', dialog.getValueOf( 'info', 'txtRows' ) );
