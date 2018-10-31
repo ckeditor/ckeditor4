@@ -49,6 +49,8 @@ CKEDITOR.plugins.add( 'contextmenu', {
 				 * <kbd>Ctrl</kbd> key is held on opening the context menu. See {@link CKEDITOR.config#browserContextMenuOnCtrl}.
 				 */
 				addTarget: function( element, nativeContextMenuOnCtrl ) {
+					var keystrokeActive;
+
 					element.on( 'contextmenu', function( event ) {
 						var domEvent = event.data,
 							isCtrlKeyDown =
@@ -61,6 +63,11 @@ CKEDITOR.plugins.add( 'contextmenu', {
 
 						// Cancel the browser context menu.
 						domEvent.preventDefault();
+
+						// Do not react to this event (#2548).
+						if ( keystrokeActive ) {
+							return;
+						}
 
 						// Fix selection when non-editable element in Webkit/Blink (Mac) (https://dev.ckeditor.com/ticket/11306).
 						if ( CKEDITOR.env.mac && CKEDITOR.env.webkit ) {
@@ -101,6 +108,22 @@ CKEDITOR.plugins.add( 'contextmenu', {
 						element.on( 'keydown', onKeyDown );
 						element.on( 'keyup', resetOnKeyUp );
 						element.on( 'contextmenu', resetOnKeyUp );
+					}
+
+					// Block subsequent contextmenu event, when Shift + F10 is pressed (#2548).
+					if ( CKEDITOR.env.gecko && !CKEDITOR.env.mac ) {
+						element.on( 'keydown', function( evt ) {
+							if ( evt.data.$.shiftKey && evt.data.$.keyCode === 121 ) {
+								keystrokeActive = true;
+							}
+						}, null, null, 0 );
+
+						element.on( 'keyup', resetKeystrokeState );
+						element.on( 'contextmenu', resetKeystrokeState );
+					}
+
+					function resetKeystrokeState() {
+						keystrokeActive = false;
 					}
 				},
 
