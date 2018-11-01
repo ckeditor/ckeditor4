@@ -1,4 +1,3 @@
-
 @bender-tags: 4.11.0, bug, emoji, 2561
 @bender-ckeditor-plugins: wysiwygarea, toolbar, emoji
 @bender-ui: collapsed
