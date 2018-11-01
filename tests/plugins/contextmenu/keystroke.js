@@ -16,6 +16,11 @@
 
 	var tests = {
 		'test opening context menu with keystroke': function( editor ) {
+			// Test with inline editor fails because of the #549 issue.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && editor.editable().isInline() ) {
+				assert.ignore();
+			}
+
 			var range = new CKEDITOR.dom.range( editor.document ),
 				selectionRect,
 				frame = CKEDITOR.document.getWindow().getFrame();
