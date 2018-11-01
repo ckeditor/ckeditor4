@@ -186,6 +186,7 @@
 	padding-top: 3px;
 	margin-top: 5px;
 	border-top: 1px solid #d1d1d1;
+	line-height: 1;
 }
 
 .cke_emoji-status_bar p {
