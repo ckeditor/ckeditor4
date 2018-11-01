@@ -552,6 +552,8 @@
 		requires: 'autocomplete,textmatch,ajax,panelbutton,floatpanel',
 		lang: 'en', // %REMOVE_LINE_CORE%
 		icons: 'emojipanel',
+		hidpi: true,
+
 		beforeInit: function() {
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 				return;
