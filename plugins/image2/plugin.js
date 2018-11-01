@@ -555,7 +555,7 @@
 					// Finally set display for figure.
 					if ( !alignClasses && el.is( 'figure' ) ) {
 						if ( newValue == 'center' )
-							el.setStyle( 'display', 'inline-block' );
+							el.setStyle( 'margin-left:auto;margin-right:auto;' );
 						else
 							el.removeStyle( 'display' );
 					}
