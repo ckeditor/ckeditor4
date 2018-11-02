@@ -18,13 +18,17 @@
 
 	bender.test( {
 		'test regular case': function() {
-			var editor = this.editor;
+			var editor = this.editor,
+				editable = editor.editable(),
+				// The default width of inserted table is dependent on editable viewport, mock it to
+				// keep consistent results.
+				stub = sinon.stub( editable, 'getSize' ).returns( 1080 );
 
 			this.editorBot.setHtmlWithSelection( '<ol><li>[aaaaaaaaaaaaaaaa</li><li>&nbsp;]</li></ol>' );
 
 			this.editorBot.dialog( 'table', function( dialog ) {
-				assert.isTrue( true );
 				dialog.getButton( 'ok' ).click();
+				stub.restore();
 
 				assert.isInnerHtmlMatching(
 					// jscs:disable maximumLineLength
