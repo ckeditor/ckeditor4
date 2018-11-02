@@ -135,7 +135,7 @@
 					'(<br />)?' +
 				'</figure>' ),
 			captionedCentered: new RegExp(
-				'<figure class="image"( data-cke-widget-upcasted="1")?( style="display:inline-block;")?>' +
+				'<figure class="image"( data-cke-widget-upcasted="1")?( style="margin-left:auto;margin-right:auto;")?>' +
 					'<span class="cke_image_resizer_wrapper">' +
 						'<img alt="" data-cke-saved-src="_assets/foo.png"( data-cke-widget-upcasted="1")? id="x" src="_assets/foo.png" />' +
 						'<span class="cke_image_resizer( cke_image_resizer_left)?"></span>' +

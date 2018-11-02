@@ -152,7 +152,7 @@
 		} ),
 		newWidgetPattern:
 			'<div style="text-align:center">' +
-				'<figure class="image" style="display:inline-block">' +
+				'<figure class="image" style="margin-left:auto; margin-right:auto">' +
 					'<img alt="bar" height="250" src="_assets/bar.png" width="200" />' +
 					'<figcaption>Caption</figcaption>' +
 				'</figure>' +

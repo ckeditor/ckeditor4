@@ -554,10 +554,13 @@
 
 					// Finally set display for figure.
 					if ( !alignClasses && el.is( 'figure' ) ) {
-						if ( newValue == 'center' )
-							el.setStyle( 'margin-left:auto;margin-right:auto;' );
-						else
-							el.removeStyle( 'display' );
+						if ( newValue == 'center' ) {
+							el.setStyle('margin-left', 'auto');
+							el.setStyle('margin-right', 'auto');
+						} else {
+							el.removeStyle('margin-left');
+							el.removeStyle('margin-right');
+						}
 					}
 				},
 
