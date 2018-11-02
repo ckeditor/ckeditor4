@@ -20,16 +20,15 @@
 		'test regular case': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
-				// Dialog width is set to 100% whenever editable width is lower than 500px.
-				// This happens on mobile devices when run from dashboard.
-				spy = sinon.stub( editable, 'getSize' );
+				// The default width of inserted table is dependent on editable viewport, mock it to
+				// keep consistent results.
+				stub = sinon.stub( editable, 'getSize' ).returns( 1080 );
 
 			this.editorBot.setHtmlWithSelection( '<ol><li>[aaaaaaaaaaaaaaaa</li><li>&nbsp;]</li></ol>' );
 
 			this.editorBot.dialog( 'table', function( dialog ) {
-				assert.isTrue( true );
 				dialog.getButton( 'ok' ).click();
-				spy.restore();
+				stub.restore();
 
 				assert.isInnerHtmlMatching(
 					// jscs:disable maximumLineLength
