@@ -65,7 +65,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 						// Cancel the browser context menu.
 						domEvent.preventDefault();
 
-						// Do not react to this event (#2548).
+						// Do not react to this event, as it might open context menu in wrong position (#2548).
 						if ( keystrokeActive ) {
 							return;
 						}
