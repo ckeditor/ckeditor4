@@ -22,11 +22,16 @@ var initSample = ( function() {
 			stylesSet: [
 				{ name : 'dasdf', element : 'p', styles: { 'color': 'red' } },
 				{ name: 'My Div Class', element: 'div'}
-			],
-			// defaultStyles: {
-			// 	'font-size': '20pt',
-			// 	'font-weight': 'bold'
-			// },
+      ],
+      smartFields: [1,2,3,4,5].map(item => ({
+        id: item,
+        name: 'Custom field' + item
+      })),
+			defaultStyles: {
+				'font-size': '20pt',
+        'font-weight': 'bold',
+        'font-family': 'Lato'
+			},
 			//singleParagraphEdit: true,
 			toolbar: [
 				{name: 'font', items: ['Styles', 'Font', 'FontSize']},
@@ -44,7 +49,8 @@ var initSample = ( function() {
 				{name: 'tabletools', items: ['tabledelete', 'tableproperties', 'tablerowinsertbefore',
 					'tablerowinsertafter', 'tablerowdelete', 'tablecolumninsertbefore', 'tablecolumninsertafter',
 					'tablecolumndelete', 'tablecellinsertbefore', 'tablecellinsertafter', 'tablecelldelete',
-					'tablecellproperties', 'tablecellsmerge', 'tablecellmergedown', 'tablecellsplithorizontal', 'tablecellsplitvertical']}
+          'tablecellproperties', 'tablecellsmerge', 'tablecellmergedown', 'tablecellsplithorizontal', 'tablecellsplitvertical']},
+        {name: 'poh', items: ['smartfields']},
 			]
 		} );
 

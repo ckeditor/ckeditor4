@@ -31,9 +31,8 @@
 	CKEDITOR.plugins.pastefromword = {};
 
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
-
-		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
-
+    var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
+    
 		// Sometimes Word malforms the comments.
 		mswordHtml = mswordHtml.replace( /<!\[/g, '<!--[' ).replace( /\]>/g, ']-->' );
 
@@ -226,10 +225,14 @@
 							occurences = element._tdBorders[ border ];
 							borderStyle = border;
 						}
-					}
+          }
+          
+          if (!borderStyle && element.attributes && element.attributes.border === '1') {
+            borderStyle = '1px solid #aaa'
+            Style.setStyle( element, 'border-collapse', 'collapse' );
+          }
 
 					Style.setStyle( element, 'border', borderStyle );
-
 				},
 				'td': function( element ) {
 					var ascendant = element.getAscendant( 'table' ),
@@ -254,7 +257,7 @@
 						var temp = styles[ style ];
 						delete styles[ style ];
 						styles[ style.toLowerCase() ] = temp;
-					}
+          }
 
 					// Count all border styles that occur in the table.
 					for ( var i = 0; i < borderStyles.length; i++ ) {
@@ -265,7 +268,8 @@
 					}
 
 					Style.pushStylesLower( element, {
-						'background': true
+            'background': true,
+            'padding': true
 					} );
 				},
 				'v:imagedata': remove,

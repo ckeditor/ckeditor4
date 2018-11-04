@@ -54,7 +54,8 @@ CKEDITOR.editorConfig = function( config ) {
 		'table,' +
 		'tabletools,' +
 		'tabletoolstoolbar,' +
-		'toolbar,' +
+    'toolbar,' +
+    // 'smartfields,' +
 		'undo';
 	config.languages = {
 		en : 1
@@ -133,7 +134,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'Times;' +
 		'Trebuchet MS;' +
     'Verdana;' + 
-    'Lato';
+    'Lato;';
 
 	config.font_style = {
 		element: 'span',
