@@ -18,22 +18,22 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sq', {
 			{
 			name: 'Dialogu i Redaktuesit',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'Në brendi të dialogut, shtyp TAB për të kaluar tek elementi tjetër i dialogut, shtyp SHIFT+TAB për të kaluar tek elementi paraprak i dialogut, shtyp ENTER për të shtuar dialogun, shtyp ESC për të anuluar dialogun.  Kur një dialog ka më shumë fletë, lista e fletëve mund të hapet përmes ALT+F10 ose përmes TAB si pjesë e radhitjes së fletëve të dialogut. Me listën e fokusuar të fletëve,kalo tek fleta paraprake dhe pasuese përmes SHIGJETËS MAJSA ose DJATHTAS.' 
 		},
 
 			{
 			name: 'Menyja Kontestuese e Redaktorit',
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			legend: 'Shtyp ${contextMenu} ose APPLICATION KEY për të hapur menynë kontekstuale. Pastaj kalo tek mundësia tjetër e menysë përmes TAB ose SHIGJETËS POSHTË. Kalo tek mundësia paraprake përmes SHIFT+TAB ose SHIGJETA SIPËR. Shtyp SPACE ose ENTER për të përzgjedhur mundësinë e menysë. Hape nënmenynë e mundësisë aktuale përmes tastës HAPËSIRË ose ENTER ose SHIGJETËS DJATHTAS. Kalo prapa tek artikulli i menysë prind përmes ESC ose SHIGJETËS MAJTAS. Mbylle menynë kontekstuale përmes ESC.'
 		},
 
 			{
 			name: 'Kutiza e Listës së Redaktuesit',
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			legend: 'Brenda kutisë së listës, kalo tek artikulli pasues i listës përmes TAB ose SHIGJETËS POSHTË. Kalo tek artikulli paraprak i listës përmes SHIFT+TAB ose SHIGJETËS SIPËR. Shtyp tastën HAPËSIRË ose ENTER për të përzgjedhur mundësitë e listës. Shtyp ESC për të mbyllur kutinë e listës.'
 		},
 
 			{
 			name: 'Shiriti i Rrugës së Elementeve të Redaktorit',
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			legend: 'Shtyp ${elementsPathFocus} për të lëvizur tek shiriti i elementeve. Kalo tek pulla pasuese e elementit përmes TAB ose SHIGJETËS DJATHTAS. Kalo tek pulla paraprake përmes SHIFT+TAB ose SHIGJETËS MAJTAS. Shtyp tastën HAPËSIRË ose ENTER për të përzgjedhur elementin tek redaktuesi.'
 		}
 		]
 	},
@@ -69,36 +69,36 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sq', {
 			legend: 'Shtyp ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Qasu komandës paraprake të hapësirës së fokusimit',
+			legend: 'Shtyp ${accessPreviousSpace} për t\'iu qasur hapësirës më të afërt të paarritshme të fokusimit para simbolit ^, për shembull: dy elemente të afërt  HR. Përsërit kombinacionin e tasteve për të arritur hapësirë të largët fokusimi.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Qasu komandës pasuese të hapësirës së fokusimit',
+			legend: 'Shtyp ${accessNextSpace} për t\'iu qasur hapësirës më të afërt të paarritshme të fokusimit pas shenjës ^, për shembull: dy elemente të afërt HR. Përsërit kombinacionin e tasteve për të arritur hapësirën e largët të fokusimit.'
 		},
 			{
 			name: 'Ndihmë Qasjeje',
 			legend: 'Shtyp ${a11yHelp}'
 		},
 			{
-			name: 'Hidhe tërë tekstin e thjeshtë',
+			name: 'Hidhe si tekst të thjeshtë',
 			legend: 'Shtyp ${pastetext}',
 			legendEdge: 'Shtyp ${pastetext}, pasuar nga ${paste}'
 		}
 		]
 	}
 	],
-	tab: 'Fletë',
+	tab: 'Tab',
 	pause: 'Pause',
 	capslock: 'Caps Lock',
 	escape: 'Escape',
-	pageUp: 'Page Up',
-	pageDown: 'Page Down',
-	leftArrow: 'Shenja majtas',
-	upArrow: 'Shenja sipër',
-	rightArrow: 'Shenja djathtas',
-	downArrow: 'Shenja poshtë',
-	insert: 'Shto',
+	pageUp: 'Faqja sipër',
+	pageDown: 'Faqja poshtë',
+	leftArrow: 'Shigjeta majtas',
+	upArrow: 'Shigjeta sipër',
+	rightArrow: 'Shigjeta djathtas',
+	downArrow: 'Shigjeta poshtë',
+	insert: 'Insert',
 	leftWindowKey: 'Pulla Majtas e Windows-it',
 	rightWindowKey: 'Pulla Djathtas e Windows-it',
 	selectKey: 'Pulla Përzgjedhëse',
@@ -131,15 +131,15 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sq', {
 	f12: 'F12',
 	numLock: 'Num Lock',
 	scrollLock: 'Scroll Lock',
-	semiColon: 'Semicolon',
+	semiColon: 'Pikëpresje',
 	equalSign: 'Shenja e Barazimit',
 	comma: 'Presje',
-	dash: 'vizë',
+	dash: 'minus',
 	period: 'Pikë',
-	forwardSlash: 'Forward Slash', // MISSING
-	graveAccent: 'Grave Accent', // MISSING
+	forwardSlash: 'Vija e pjerrët përpara',
+	graveAccent: 'Shenja e theksit',
 	openBracket: 'Hape kllapën',
-	backSlash: 'Backslash', // MISSING
+	backSlash: 'Vija e pjerrët prapa',
 	closeBracket: 'Mbylle kllapën',
 	singleQuote: 'Thonjëz e vetme'
 } );
