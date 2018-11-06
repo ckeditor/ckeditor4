@@ -283,7 +283,7 @@
 			} );
 
 			/**
-			 * The [jQuery Promise object]((http://api.jquery.com/promise/)) that handles the asynchronous constructor.
+			 * The [jQuery Promise object](http://api.jquery.com/promise/) that handles the asynchronous constructor.
 			 * This promise will be resolved after **all** of the constructors.
 			 *
 			 * @property {Function} promise
