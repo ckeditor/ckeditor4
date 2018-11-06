@@ -20,13 +20,13 @@
 CKEDITOR.lang[ 'hu' ] = {
 	// ARIA description.
 	editor: 'HTML szerkesztő',
-	editorPanel: 'Rich Text szerkesztő panel',
+	editorPanel: 'HTML szerkesztő panel',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Segítségért nyomjon ALT 0',
+		editorHelp: 'Segítségért nyomjon ALT 0-t',
 
 		browseServer: 'Böngészés a szerveren',
 		url: 'Hivatkozás',
@@ -40,7 +40,7 @@ CKEDITOR.lang[ 'hu' ] = {
 		radio: 'Választógomb',
 		textField: 'Szövegmező',
 		textarea: 'Szövegterület',
-		hiddenField: 'Rejtettmező',
+		hiddenField: 'Rejtett mező',
 		button: 'Gomb',
 		select: 'Legördülő lista',
 		imageButton: 'Képgomb',
@@ -52,7 +52,7 @@ CKEDITOR.lang[ 'hu' ] = {
 		langDirRtl: 'Jobbról balra',
 		langCode: 'Nyelv kódja',
 		longDescr: 'Részletes leírás webcíme',
-		cssClass: 'Stíluskészlet',
+		cssClass: 'CSS osztályok',
 		advisoryTitle: 'Súgócimke',
 		cssStyle: 'Stílus',
 		ok: 'Rendben',
@@ -64,7 +64,7 @@ CKEDITOR.lang[ 'hu' ] = {
 		advancedTab: 'További opciók',
 		validateNumberFailed: 'A mezőbe csak számokat írhat.',
 		confirmNewPage: 'Minden nem mentett változás el fog veszni! Biztosan be szeretné tölteni az oldalt?',
-		confirmCancel: 'Az űrlap tartalma megváltozott, ám a változásokat nem rögzítette. Biztosan be szeretné zárni az űrlapot?',
+		confirmCancel: 'Pár beállítást megváltoztatott. Biztosan be szeretné zárni az ablakot?',
 		options: 'Beállítások',
 		target: 'Cél',
 		targetNew: 'Új ablak (_blank)',

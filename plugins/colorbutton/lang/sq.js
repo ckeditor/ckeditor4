@@ -1,4 +1,5 @@
 ﻿/*
+/*
 Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
@@ -29,7 +30,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'sq', {
 		'0FF': 'Cyan',
 		'00F': 'E Kaltër',
 		EE82EE: 'Vjollcë',
-		A9A9A9: 'Gri e Zbehtë',
+		A9A9A9: 'Gri e Errët',
 		FFA07A: 'Salmon i Ndritur',
 		FFA500: 'E Portokalltë',
 		FFFF00: 'E Verdhë',
