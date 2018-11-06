@@ -1,6 +1,16 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.1
+
+Fixed Issues:
+
+* [#2560](https://github.com/ckeditor/ckeditor-dev/issues/2560): [Firefox] Fixed: Visible focus jumping when changing [Emoji](https://ckeditor.com/cke4/addon/emoji) panel categories.
+
+API Changes:
+
+* [#2560](https://github.com/ckeditor/ckeditor-dev/issues/2560): [`panel.block.markItem`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_panel_block.html#method-markItem) accepts additional parameter allowing to asynchronously defer function execution.
+
 ## CKEditor 4.11
 
 New Features:
