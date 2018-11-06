@@ -464,10 +464,8 @@
 						self.clearSearchInput();
 
 						// Reset focus:
-						CKEDITOR.tools.setTimeout( function() {
-							self.elements.input.focus( true );
-							self.blockObject._.markItem( self.inputIndex );
-						}, 0, self );
+						self.elements.input.focus( true );
+						self.blockObject._.markItem( self.inputIndex, true );
 
 						// Remove statusbar icons:
 						self.clearStatusbar();
@@ -518,16 +516,13 @@
 					this.moveFocus( element.data( 'cke-emoji-group' ) );
 				},
 				moveFocus: function( groupName ) {
-					var firstSectionItem = this.blockElement.findOne( 'a[data-cke-emoji-group="' + htmlEncode( groupName ) + '"]' ),
-						itemIndex;
+					var firstSectionItem = this.blockElement.findOne( 'a[data-cke-emoji-group="' + htmlEncode( groupName ) + '"]' );
 
 					if ( !firstSectionItem ) {
 						return;
 					}
 
-					itemIndex = this.getItemIndex( this.items, firstSectionItem );
-					firstSectionItem.focus( true );
-					this.blockObject._.markItem( itemIndex );
+					this.blockObject._.markItem( this.getItemIndex( this.items, firstSectionItem ), true );
 				},
 				getItemIndex: function( nodeList, item ) {
 					return arrTools.indexOf( nodeList.toArray(), function( element ) {
