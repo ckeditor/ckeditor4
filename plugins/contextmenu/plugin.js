@@ -220,7 +220,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
  */
 
 /**
- * The CSS file(s) to be used to apply style to the context menu content.
+ * The CSS file(s) to be used to apply the style to the context menu content.
  *
  * ```javascript
  * config.contextmenu_contentsCss = '/css/myfile.css';

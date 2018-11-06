@@ -580,9 +580,9 @@
 		},
 
 		/**
-		 * Creates {@link CKEDITOR.tools.buffers.throttle throttle buffer} instance.
+		 * Creates a {@link CKEDITOR.tools.buffers.throttle throttle buffer} instance.
 		 *
-		 * See {@link CKEDITOR.tools.buffers.throttle#method-input input method's} docs for example listings.
+		 * See the {@link CKEDITOR.tools.buffers.throttle#method-input input method's} documentation for example listings.
 		 *
 		 * @since 4.10.0
 		 * @inheritdoc CKEDITOR.tools.buffers.throttle#method-constructor
@@ -869,13 +869,13 @@
 		/**
 		 * Converts the specified CSS length value to the calculated pixel length inside this page.
 		 *
-		 * Since 4.11.0 it returns also negative values.
+		 * Since 4.11.0 it also returns negative values.
 		 *
 		 * **Note:** Percentage-based value is left intact.
 		 *
 		 * @method
 		 * @param {String} cssLength CSS length value.
-		 * @returns {Number/String} number representing length in pixels or string with percentage value.
+		 * @returns {Number/String} A number representing the length in pixels or a string with a percentage value.
 		 */
 		convertToPx: ( function() {
 			var calculator;
@@ -1214,9 +1214,9 @@
 		},
 
 		/**
-		 * Creates {@link CKEDITOR.tools.buffers.event events buffer} instance.
+		 * Creates an {@link CKEDITOR.tools.buffers.event events buffer} instance.
 		 *
-		 * See {@link CKEDITOR.tools.buffers.event#method-input input method's} docs for example code listings.
+		 * See the {@link CKEDITOR.tools.buffers.event#method-input input method's} documentation for example code listings.
 		 *
 		 * @since 4.2.1
 		 * @inheritdoc CKEDITOR.tools.buffers.event#method-constructor
@@ -2208,14 +2208,14 @@
 	 * @since 4.11.0
 	 * @class CKEDITOR.tools.buffers.event
 	 * @member CKEDITOR.tools.buffers
-	 * @constructor Creates a new instance of buffer.
+	 * @constructor Creates a new instance of the buffer.
 	 * @param {Number} minInterval The minimum interval between `output` calls in milliseconds.
 	 * @param {Function} output The function that will be executed as `output`.
 	 * @param {Object} [contextObj] The object used as context to the listener call (the `this` object).
 	 */
 	function EventsBuffer( minInterval, output, context ) {
 		/**
-		 * Minimal interval (in milliseconds) between the calls.
+		 * The minimal interval (in milliseconds) between the calls.
 		 *
 		 * @private
 		 * @readonly
@@ -2224,7 +2224,7 @@
 		this._minInterval = minInterval;
 
 		/**
-		 * Variable to be used as a context for the output calls.
+		 * The variable to be used as a context for the output calls.
 		 *
 		 * @private
 		 * @readonly
@@ -2233,7 +2233,7 @@
 		this._context = context;
 
 		/**
-		 * ID of a delayed function call that will be called after current interval frame.
+		 * The ID of a delayed function call that will be called after the current interval frame.
 		 *
 		 * @private
 		 */
@@ -2248,7 +2248,7 @@
 		/**
 		 * Acts as a proxy to the `output` function given in the consturctor, providing function throttling.
 		 *
-		 * Guarantees that `output` function doesn't get called more often than
+		 * Guarantees that the `output` function does not get called more often than
 		 * indicated by the {@link #_minInterval}.
 		 *
 		 * The first `input` call is always executed asynchronously which means that the `output`
@@ -2276,7 +2276,7 @@
 		 *	} );
 		 *
 		 *	editor.on( 'key', buffer.input );
-		 *	// Note: There is no need to bind buffer as a context.
+		 *	// Note: There is no need to bind the buffer as a context.
 		 * ```
 		 *
 		 * @method
@@ -2318,10 +2318,10 @@
 			this._clearTimer();
 		},
 		/**
-		 * Called once function call should be rescheduled.
+		 * Called when the function call should be rescheduled.
 		 *
 		 * @private
-		 * @returns {Boolean/undefined} If returns `false` the parent call will be stopped.
+		 * @returns {Boolean/undefined} If it returns `false`, the the parent call will be stopped.
 		 */
 		_reschedule: function() {
 			return false;
@@ -2351,8 +2351,8 @@
 	/**
 	 * Throttles `input` events (or any `input` calls) and triggers `output` not more often than once per `minInterval`.
 	 *
-	 * Unlike {@link CKEDITOR.tools.buffers.event} this class allows passing custom parameters into {@link #input}
-	 * function. For more information see
+	 * Unlike {@link CKEDITOR.tools.buffers.event} this class allows passing custom parameters into the {@link #input}
+	 * function. For more information see the
 	 * [Throttling function issue](https://github.com/ckeditor/ckeditor-dev/issues/1993).
 	 *
 	 * @since 4.11.0
@@ -2373,9 +2373,9 @@
 		var that = this;
 
 		/**
-		 * Acts as a proxy to the `output` function given in the consturctor, providing function throttling.
+		 * Acts as a proxy to the `output` function given in the constructor, providing function throttling.
 		 *
-		 * Guarantees that `output` function doesn't get called more often than
+		 * Guarantees that the `output` function does not get called more often than
 		 * indicated by the {@link #_minInterval}.
 		 *
 		 * If multiple calls occur within a single `minInterval` time,

@@ -107,12 +107,12 @@ CKEDITOR.plugins.add( 'richcombo', {
 			},
 
 			/**
-			 * Renders the combo.
+			 * Renders the rich combo.
 			 *
 			 * @param {CKEDITOR.editor} editor The editor instance which this button is
 			 * to be used by.
-			 * @param {Array} output The output array to which append the HTML relative
-			 * to this button.
+			 * @param {Array} output The output array that the HTML relative
+			 * to this button will be appended to.
 			 */
 			render: function( editor, output ) {
 				var env = CKEDITOR.env;
@@ -385,7 +385,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 			},
 
 			/**
-			 * Removes all listeners from richCombo element.
+			 * Removes all listeners from a rich combo element.
 			 *
 			 * @since 4.11.0
 			 */
@@ -398,7 +398,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 		},
 
 		/**
-		 * Represents richCombo handler object.
+		 * Represents a rich combo handler object.
 		 *
 		 * @class CKEDITOR.ui.richCombo.handler
 		 * @singleton
@@ -407,7 +407,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 		statics: {
 			handler: {
 				/**
-				 * Transforms a richCombo definition in a {@link CKEDITOR.ui.richCombo} instance.
+				 * Transforms a rich combo definition into a {@link CKEDITOR.ui.richCombo} instance.
 				 *
 				 * @param {Object} definition
 				 * @returns {CKEDITOR.ui.richCombo}
