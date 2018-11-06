@@ -116,9 +116,11 @@
 	 * Open a menu button drop down.
 	 * @param {String} name Name of the panel button.
 	 * @param {Function} callback The function invoked when panel is opened.
+	 * @param {Number} [delay=0] Delays callback execution when panel is opened.
 	 */
 	function menuOrPanel( isPanel ) {
-		return function( name, callback ) {
+		return function( name, callback, delay ) {
+			delay = delay || 0;
 
 			var editor = this.editor,
 				btn = editor.ui.get( name ),
@@ -133,7 +135,7 @@
 							callback.call( tc, isPanel ? btn._.panel : btn._.menu );
 						}
 						);
-				} );
+				}, delay );
 			} );
 
 			btnEl = CKEDITOR.document.getById( btn._.id );
@@ -234,6 +236,7 @@
 		 * Open a menu button drop down.
 		 * @param {String} name Name of the panel button.
 		 * @param {Function} callback The function invoked when panel is opened.
+		 * @param {Number} [delay=0] Delays callback execution when panel is opened.
 		 */
 		menu: menuOrPanel( false ),
 
@@ -241,6 +244,7 @@
 		 * Open a menu button drop down.
 		 * @param {String} name Name of the panel button.
 		 * @param {Function} callback The function invoked when panel is opened.
+		 * @param {Number} [delay=0] Delays callback execution when panel is opened.
 		 */
 		panel: menuOrPanel( true ),
 
