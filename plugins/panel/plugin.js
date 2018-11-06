@@ -300,21 +300,39 @@
 
 			/**
 			 * Mark the item specified by the index as current activated.
+			 *
+			 * @param {Number} index
+			 * @param  {Boolean} [defer=false] Whether to asynchronously defer the
+			 * execution by 100 ms. Available since 4.11.0.
 			 */
-			markItem: function( index ) {
-				if ( index == -1 )
-					return;
-				var focusables = this._.getItems();
-				var item = focusables.getItem( this._.focusIndex = index );
+			markItem: ( function() {
+				function exec( index ) {
+					if ( index == -1 ) {
+						return;
+					}
 
-				// Safari need focus on the iframe window first(https://dev.ckeditor.com/ticket/3389), but we need
-				// lock the blur to avoid hiding the panel.
-				if ( CKEDITOR.env.webkit )
-					item.getDocument().getWindow().focus();
-				item.focus();
+					var focusables = this._.getItems();
+					this._.focusIndex = index;
+					var item = focusables.getItem( index );
 
-				this.onMark && this.onMark( item );
-			},
+					// Safari need focus on the iframe window first(https://dev.ckeditor.com/ticket/3389), but we need
+					// lock the blur to avoid hiding the panel.
+					if ( CKEDITOR.env.webkit ) {
+						item.getDocument().getWindow().focus();
+					}
+					item.focus();
+
+					this.onMark && this.onMark( item );
+				}
+
+				return function( index, defer ) {
+					if ( defer ) {
+						CKEDITOR.tools.setTimeout( exec, 100, this, index );
+					} else {
+						exec.call( this, index );
+					}
+				};
+			} )(),
 
 			/**
 			 * Marks the first visible item or the one whose `aria-selected` attribute is set to `true`.
