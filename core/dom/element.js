@@ -464,9 +464,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 
 					if ( scrollables && CKEDITOR.env.ie ) {
 						var listener = CKEDITOR.document.getWindow().once( 'scroll', function() {
-							CKEDITOR.tools.array.forEach( scrollables, function( item ) {
-								item.element.$.scrollTop = item.scrollTop;
-							} );
+							restoreScrollPosition( scrollables );
 						} );
 
 						// Clean listener to not break user scroll.
@@ -486,9 +484,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					}
 
 					if ( scrollables && !CKEDITOR.env.ie ) {
-						CKEDITOR.tools.array.forEach( scrollables, function( item ) {
-							item.element.$.scrollTop = item.scrollTop;
-						} );
+						restoreScrollPosition( scrollables );
 					}
 				} catch ( e ) {
 					// IE throws unspecified error when focusing editable after closing dialog opened on nested editable.
@@ -500,11 +496,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				function storeScrollPosition( element, lastElement ) {
 					scrollables = [];
 					while ( element ) {
-						var isElementScrollable = element.$.scrollHeight > element.$.clientHeight;
-
-						if ( element.getName() == 'body' ) {
-							isElementScrollable = true;
-						}
+						var isElementScrollable = element.$.scrollHeight > element.$.clientHeight || element.getName() == 'body';
 
 						if ( isElementScrollable ) {
 							scrollables.push( {
@@ -525,6 +517,12 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					}
 
 					return scrollables;
+				}
+
+				function restoreScrollPosition( scrollables ) {
+					CKEDITOR.tools.array.forEach( scrollables, function( item ) {
+						item.element.$.scrollTop = item.scrollTop;
+					} );
 				}
 			}
 		},
