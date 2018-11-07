@@ -163,10 +163,6 @@ CKEDITOR.htmlParser.cssStyle = function() {
 
 			context = element.getFilterContext( context );
 
-			// Do not process elements with data-cke-processor attribute set to off.
-			if ( context.off )
-				return true;
-
 			// Filtering if it's the root node.
 			if ( !element.parent )
 				filter.onRoot( context, element );
@@ -532,14 +528,10 @@ CKEDITOR.htmlParser.cssStyle = function() {
 
 			if ( !ctx ) {
 				ctx = {
-					off: false,
 					nonEditable: false,
 					nestedEditable: false
 				};
 			}
-
-			if ( !ctx.off && this.attributes[ 'data-cke-processor' ] == 'off' )
-				changes.push( 'off', true );
 
 			if ( !ctx.nonEditable && this.attributes.contenteditable == 'false' )
 				changes.push( 'nonEditable', true );
