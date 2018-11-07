@@ -283,21 +283,29 @@
 		'test navigation click scrolls entire page': function() {
 			var bot = this.editorBot,
 				win = CKEDITOR.document.getWindow(),
-				body = CKEDITOR.document.getBody();
+				body = CKEDITOR.document.getBody(),
+				parentIframe = win.getFrame(),
+				parentHeight;
+
+			// There is need to resize iframe with test run from dashboard. To prevent situation,
+			// where foccusing element will additionaly scroll page
+			if ( parentIframe ) {
+				parentHeight = parentIframe.getStyle( 'height' );
+				parentIframe.setStyle( 'height', '1000px' );
+			}
 
 			body.setStyle( 'height', '10000px' );
 			bot.panel( 'EmojiPanel', function( panel ) {
 				try {
-
 					var doc = panel._.iframe.getFrameDocument();
 
-					assert.areEqual( 0, win.getScrollPosition().y, 'Window should not be scrolled down' );
-
 					doc.findOne( 'a[title="Flags"]' ).$.click();
-
 					assert.areEqual( 0, win.getScrollPosition().y, 'Window should not be scrolled down after clicking into navigation' );
 				}
 				finally {
+					if ( parentHeight ) {
+						parentIframe.setStyle( 'height', parentHeight );
+					}
 					body.removeStyle( 'height' );
 					panel.hide();
 				}
