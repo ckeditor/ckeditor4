@@ -4,5 +4,5 @@
  */
 CKEDITOR.plugins.setLang( 'widget', 'sq', {
 	'move': 'Kliko dhe tërhiqe për ta lëvizur',
-	'label': '%1 widget' // MISSING
+	'label': '%1 vegël'
 } );

@@ -133,10 +133,10 @@
 	} );
 
 	/**
-	 * The [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin keystrokes used to finish link completion.
+	 * The [Auto Link](https://ckeditor.com/cke4/addon/autolink) plugin keystrokes used to finish link completion.
 	 *
 	 * ```javascript
-	 * // Default config (13 = enter, 32 = space).
+	 * // Default configuration (13 = Enter, 32 = space).
 	 * config.autolink_commitKeystrokes = [ 9, 13 ];
 	 * ```
 	 *
@@ -154,7 +154,7 @@
 	CKEDITOR.config.autolink_commitKeystrokes = [ 13, 32 ];
 
 	/**
-	 * Regex used by [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin to match URL adresses.
+	 * Regex used by the [Auto Link](https://ckeditor.com/cke4/addon/autolink) plugin to match URL adresses.
 	 *
 	 * @cfg {RegExp} [autolink_urlRegex]
 	 * @since 4.11.0
@@ -164,7 +164,7 @@
 	// Regex by Imme Emosol.
 
 	/**
-	 * Regex used by [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin to match email adresses.
+	 * Regex used by the [Auto Link](https://ckeditor.com/cke4/addon/autolink) plugin to match email adresses.
 	 *
 	 * @cfg {RegExp} [autolink_emailRegex]
 	 * @since 4.11.0

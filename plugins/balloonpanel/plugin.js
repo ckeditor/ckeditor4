@@ -315,8 +315,8 @@
 		},
 
 		/**
-		 * Places the balloon panel next to a specified element or selection so the tip of the balloon's triangle
-		 * touches that element or center of selection. Once the panel is attached it gains focus.
+		 * Places the balloon panel next to a specified element or a selection so the tip of the balloon's triangle
+		 * touches that element or the center of the selection. Once the panel is attached it gains focus.
 		 *
 		 * @method attach
 		 * @param {CKEDITOR.dom.element/CKEDITOR.dom.selection} elementOrSelection The element or selection to which the panel is attached.
@@ -327,7 +327,7 @@
 		 * @param {CKEDITOR.dom.element/Boolean} [options.focusElement] The element to be focused after the panel
 		 * is attached. By default the `panel` property of {@link #parts} will be focused. You might specify the element
 		 * to be focused by passing any {@link CKEDITOR.dom.element} instance.
-		 * You can also prevent changing focus at all by setting it to `false`.
+		 * You can also prevent changing the focus at all by setting it to `false`.
 		 * @param {Boolean} [options.show=true] Defines if the balloon panel should be shown after being attached.
 		 */
 		attach: ( function() {

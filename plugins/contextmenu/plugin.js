@@ -30,6 +30,8 @@ CKEDITOR.plugins.add( 'contextmenu', {
 			$: function( editor ) {
 				this.base.call( this, editor, {
 					panel: {
+						// Allow adding custom CSS (#2202).
+						css: editor.config.contextmenu_contentsCss,
 						className: 'cke_menu_panel',
 						attributes: {
 							'aria-label': editor.lang.contextmenu.options
@@ -47,6 +49,9 @@ CKEDITOR.plugins.add( 'contextmenu', {
 				 * <kbd>Ctrl</kbd> key is held on opening the context menu. See {@link CKEDITOR.config#browserContextMenuOnCtrl}.
 				 */
 				addTarget: function( element, nativeContextMenuOnCtrl ) {
+					var holdCtrlKey,
+						keystrokeActive;
+
 					element.on( 'contextmenu', function( event ) {
 						var domEvent = event.data,
 							isCtrlKeyDown =
@@ -59,6 +64,11 @@ CKEDITOR.plugins.add( 'contextmenu', {
 
 						// Cancel the browser context menu.
 						domEvent.preventDefault();
+
+						// Do not react to this event, as it might open context menu in wrong position (#2548).
+						if ( keystrokeActive ) {
+							return;
+						}
 
 						// Fix selection when non-editable element in Webkit/Blink (Mac) (https://dev.ckeditor.com/ticket/11306).
 						if ( CKEDITOR.env.mac && CKEDITOR.env.webkit ) {
@@ -88,8 +98,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 					}, this );
 
 					if ( CKEDITOR.env.webkit ) {
-						var holdCtrlKey,
-							onKeyDown = function( event ) {
+						var onKeyDown = function( event ) {
 								holdCtrlKey = CKEDITOR.env.mac ? event.data.$.metaKey : event.data.$.ctrlKey;
 							},
 							resetOnKeyUp = function() {
@@ -99,6 +108,22 @@ CKEDITOR.plugins.add( 'contextmenu', {
 						element.on( 'keydown', onKeyDown );
 						element.on( 'keyup', resetOnKeyUp );
 						element.on( 'contextmenu', resetOnKeyUp );
+					}
+
+					// Block subsequent contextmenu event, when Shift + F10 is pressed (#2548).
+					if ( CKEDITOR.env.gecko && !CKEDITOR.env.mac ) {
+						element.on( 'keydown', function( evt ) {
+							if ( evt.data.$.shiftKey && evt.data.$.keyCode === 121 ) {
+								keystrokeActive = true;
+							}
+						}, null, null, 0 );
+
+						element.on( 'keyup', resetKeystrokeState );
+						element.on( 'contextmenu', resetKeystrokeState );
+					}
+
+					function resetKeystrokeState() {
+						keystrokeActive = false;
 					}
 				},
 
@@ -172,7 +197,9 @@ CKEDITOR.plugins.add( 'contextmenu', {
  * <kbd>Meta</kbd> (Mac) key is pressed on opening the context menu with the
  * right mouse button click or the <kbd>Menu</kbd> key.
  *
- *		config.browserContextMenuOnCtrl = false;
+ * ```javascript
+ * config.browserContextMenuOnCtrl = false;
+ * ```
  *
  * @since 3.0.2
  * @cfg {Boolean} [browserContextMenuOnCtrl=true]
@@ -183,9 +210,24 @@ CKEDITOR.plugins.add( 'contextmenu', {
  * Whether to enable the context menu. Regardless of the setting the [Context Menu](https://ckeditor.com/cke4/addon/contextmenu)
  * plugin is still loaded.
  *
- *		config.enableContextMenu = false;
+ * ```javascript
+ * config.enableContextMenu = false;
+ * ```
  *
  * @since 4.7.0
  * @cfg {Boolean} [enableContextMenu=true]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * The CSS file(s) to be used to apply the style to the context menu content.
+ *
+ * ```javascript
+ * config.contextmenu_contentsCss = '/css/myfile.css';
+ * config.contextmenu_contentsCss = [ '/css/myfile.css', '/css/anotherfile.css' ];
+ * ```
+ *
+ * @since 4.11.0
+ * @cfg {String/String[]} [contextmenu_contentsCss=CKEDITOR.skin.getPath( 'editor' )]
  * @member CKEDITOR.config
  */

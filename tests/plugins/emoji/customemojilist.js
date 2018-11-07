@@ -35,7 +35,7 @@
 			var editor = this.editors.classic;
 			emojiTools.runAfterInstanceReady( editor, null, function( editor ) {
 				assert.areSame( 1, editor._.emoji.list.length );
-				objectAssert.areEqual( { id: ':star:', symbol: '⭐' }, editor._.emoji.list[ 0 ] );
+				objectAssert.areDeepEqual( { id: ':star:', symbol: '⭐', group: 'travel', keywords: [ 'star' ] }, editor._.emoji.list[ 0 ] );
 			} );
 		},
 

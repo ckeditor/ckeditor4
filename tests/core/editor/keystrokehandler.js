@@ -21,6 +21,42 @@ bender.test(
 		delete keystrokes[ keyCombo2 ];
 		delete commands[ command1 ];
 		delete commands[ command2 ];
+
+		this.editor.addCommand( 'command_with_keystrokes', {
+			exec: function() {}
+		} );
+
+		this.editor.addCommand( 'command_with_fake_keystrokes', {
+			exec: function() {},
+			fakeKeystroke: 77
+		} );
+
+		this.editor.setKeystroke( 75, 'command_with_keystrokes' );
+		this.editor.setKeystroke( 76, 'command_with_keystrokes' );
+
+		this.editor.addCommand( 'command_without_keystrokes', {
+			exec: function() {}
+		} );
+	},
+
+	'test getCommandKeystroke': function() {
+		assert.isNull( this.editor.getCommandKeystroke( 'command_without_keystrokes' ), 'Command without keystroke' );
+		assert.areEqual( 75, this.editor.getCommandKeystroke( 'command_with_keystrokes' ), 'Command with keystroke.' );
+	},
+
+	// (#2493)
+	'test getCommandKeystroke multiple keystrokes': function() {
+		arrayAssert.isEmpty( this.editor.getCommandKeystroke( 'command_without_keystrokes', true ), 'Command without keystrokes.' );
+		arrayAssert.itemsAreEqual( [ 75, 76 ], this.editor.getCommandKeystroke( 'command_with_keystrokes', true ), 'Command with keystrokes.' );
+	},
+
+	'test getCommandKeystroke in commands with fake keystrokes': function() {
+		assert.areSame( 77, this.editor.getCommandKeystroke( 'command_with_fake_keystrokes' ), 'Single keystroke result.' );
+
+		// (#2493)
+		var ret = this.editor.getCommandKeystroke( 'command_with_fake_keystrokes', true );
+		assert.isInstanceOf( Array, ret, 'Return type.' );
+		arrayAssert.itemsAreEqual( [ 77 ], ret, 'Multiple keystrokes result.' );
 	},
 
 	'test keystroke assignment': function() {

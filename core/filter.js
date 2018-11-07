@@ -53,9 +53,9 @@
 	 *	* `'div'` &ndash; for {@link CKEDITOR#ENTER_DIV},
 	 *	* `'br'` &ndash; for {@link CKEDITOR#ENTER_BR}.
 	 *
-	 * **Read more** about the Advanced Content Filter in {@glink guide/dev_advanced_content_filter guides}.
+	 * **Read more** about Advanced Content Filter in {@glink guide/dev_advanced_content_filter guides}.
 	 *
-	 * Filter may also be used as a standalone instance by passing
+	 * A filter may also be used as a standalone instance by passing
 	 * {@link CKEDITOR.filter.allowedContentRules} instead of {@link CKEDITOR.editor}
 	 * to the constructor:
 	 *
@@ -68,12 +68,12 @@
 	 * filter.check( 'i' ); // -> true
 	 * ```
 	 *
-	 * If filter is only used by a single editor instance, you should pass editor instance alongside with the rules.
-	 * Passing editor as a first parameter binds it with the filter so the filter can be removed
-	 * with {@link CKEDITOR.editor#destroy} method to prevent memory leaks.
+	 * If the filter is only used by a single editor instance, you should pass the editor instance alongside with the rules.
+	 * Passing the editor as the first parameter binds it with the filter so the filter can be removed
+	 * with the {@link CKEDITOR.editor#method-destroy} method to prevent memory leaks.
 	 *
 	 * ```javascript
-	 * // In both cases filter will be removed during {@link CKEDITOR.editor#destroy} function execution.
+	 * // In both cases the filter will be removed during the {@link CKEDITOR.editor#method-destroy} function execution.
 	 * var filter1 = new CKEDITOR.filter( editor );
 	 * var filter2 = new CKEDITOR.filter( editor, 'b' );
 	 * ```

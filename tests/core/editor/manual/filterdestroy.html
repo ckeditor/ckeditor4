@@ -1,10 +1,9 @@
-<button id="rebuild">Rebuild editor</button>
+<button id="rebuild" onclick="rebuildEditor()">Rebuild editor</button>
 <span id="counter"></span>
 <textarea id="editor">
 </textarea>
 <script>
 	var counter = document.getElementById( 'counter' );
-	document.getElementById( 'rebuild' ).addEventListener( 'click', rebuildEditor );
 
 	// Global filter.
 	new CKEDITOR.filter( 'br' );

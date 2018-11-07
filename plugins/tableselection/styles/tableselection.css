@@ -25,9 +25,9 @@
 	background: transparent;
 }
 
-/* Change cursor when selecting cells (#706).
+/* Change the cursor when selecting cells (#706).
  *
- * This solution doesn't work in IE/Edge and Safari due to upstream isues:
+ * This solution does not work in IE, Edge and Safari due to upstream isues:
  * https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/3419602/
  * https://bugs.webkit.org/show_bug.cgi?id=53341
  */

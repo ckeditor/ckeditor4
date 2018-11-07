@@ -289,7 +289,8 @@
 				name: name,
 				iconName: iconName,
 				label: this.label,
-				cls: this.className || '',
+				// .cke_button_expandable enables additional styling for popup buttons (#2483).
+				cls:  ( this.hasArrow ? 'cke_button_expandable ' : '' ) + ( this.className || '' ),
 				state: stateName,
 				ariaDisabled: stateName == 'disabled' ? 'true' : 'false',
 				title: this.title + ( shortcut ? ' (' + shortcut.display + ')' : '' ),
@@ -427,8 +428,8 @@
 	 * 		editor.ui.addButton( 'my_button', {
 	 * 			iconHiDpi: 'assets/icons/my_button.hidpi.png'
 	 * 		} )
-	 * @param {String/Boolean} definition.hasArrow If boolean, indicates if button should have a dropdown. If string, acts as a value of button's aria-haspopup attribute.
-	 * Since **4.11.0** it supports string as value.
+	 * @param {String/Boolean} definition.hasArrow If Boolean, it indicates whether the button should have a dropdown. If a string, it acts
+	 * as a value of the button's `aria-haspopup` attribute. Since **4.11.0** it supports the string as a value.
 	 */
 	CKEDITOR.ui.prototype.addButton = function( name, definition ) {
 		this.add( name, CKEDITOR.UI_BUTTON, definition );

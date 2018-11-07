@@ -69,6 +69,9 @@
 			return '';
 		} );
 
+		// Drop trailing comma (#2448).
+		entities = entities.replace( /,$/, '' );
+
 		if ( !reverse && entities ) {
 			// Transforms the entities string into an array.
 			entities = entities.split( ',' );

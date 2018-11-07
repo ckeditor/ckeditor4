@@ -885,7 +885,7 @@
 		 */
 
 		/**
-		 * Optional JavaScript Regular Expression whenever phone numbers in Link dialog should be validated.
+		 * Optional JavaScript regular expression used whenever phone numbers in the Link dialog should be validated.
 		 *
 		 *		config.linkPhoneRegExp = /^[0-9]{9}$/;
 		 *
@@ -895,7 +895,7 @@
 		 */
 
 		/**
-		 * Optional message for alert popup when phone number in Link dialog doesn't pass validation.
+		 * Optional message for the alert popup used when the phone number in the Link dialog does not pass the validation.
 		 *
 		 *		config.linkPhoneMsg = "Invalid number";
 		 *
