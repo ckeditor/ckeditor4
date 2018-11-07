@@ -22,7 +22,7 @@
  * element.focus(); // Focuses without preventing scroll.
  * ```
  *
- * @class CKEDITOR.dom.focusOptions.
+ * @class CKEDITOR.dom.focusOptions
  * @abstract
  */
 
