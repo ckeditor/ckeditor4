@@ -297,10 +297,11 @@
 			body.setStyle( 'height', '10000px' );
 			bot.panel( 'EmojiPanel', function( panel ) {
 				try {
-					var doc = panel._.iframe.getFrameDocument();
+					var doc = panel._.iframe.getFrameDocument(),
+						scrollPosition = win.getScrollPosition().y;
 
 					doc.findOne( 'a[title="Flags"]' ).$.click();
-					assert.areEqual( 0, win.getScrollPosition().y, 'Window should not be scrolled down after clicking into navigation' );
+					assert.areEqual( scrollPosition, win.getScrollPosition().y, 'Window should not be scrolled down after clicking into navigation' );
 				}
 				finally {
 					if ( parentHeight ) {
