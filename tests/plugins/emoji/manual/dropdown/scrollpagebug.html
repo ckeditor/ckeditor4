@@ -1,0 +1,37 @@
+<style>
+body {
+	height: 3000px;
+}
+.hov {
+	width: 100px;
+	height: 100px;
+	border: 1px solid black;
+	float:right;
+}
+</style>
+<h1>Classic editor</h1>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Insert here some emoji from toolbar.</p>
+</textarea>
+<div class="hov"></div>
+
+<script>
+	if ( emojiTools.notSupportedEnvironment) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1' );
+
+	document.getElementsByClassName( 'hov' )[ 0 ].addEventListener( 'mouseover', function( evt ) {
+		const panelDoc = document.querySelector( '.cke_emoji-panel > iframe' ).contentWindow.document;
+		if ( !panelDoc ) {
+			return;
+		}
+		const element = panelDoc.querySelector( 'a[data-cke-emoji-full-name=":atm_sign:"]' );
+		element.focus();
+	} );
+	window.addEventListener( 'scroll', function( evt ) {
+		console.log( window.scrollY );
+	} )
+</script>
