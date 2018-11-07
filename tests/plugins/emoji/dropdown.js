@@ -115,7 +115,7 @@
 
 					assert.areSame( 0, emojiBlock.$.scrollTop, 'Emoji elements should be scrolled to the top.' );
 
-					doc.findOne( 'a[href="#flags"]' ).$.click();
+					doc.findOne( 'a[title="Flags"]' ).$.click();
 
 					assert.areNotSame( 0, emojiBlock.$.scrollTop, 'Emoji elements should be scrolled somewhere down.' );
 				}
@@ -240,7 +240,7 @@
 					var doc = panel._.iframe.getFrameDocument(),
 						focusedElement = doc.findOne( 'a[data-cke-emoji-group="flags"' );
 
-					doc.findOne( 'a[href="#flags"]' ).getAscendant( 'li' ).$.click();
+					doc.findOne( 'a[title="Flags"]' ).getAscendant( 'li' ).$.click();
 					assert.isTrue( focusedElement.equals( new CKEDITOR.dom.element( doc.$.activeElement ) ), 'First flag should be focused.' );
 				}
 				finally {

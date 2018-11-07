@@ -231,7 +231,7 @@
 						useAttr = CKEDITOR.env.safari ? 'xlink:href="' + svgUrl + '#{svgId}"' : 'href="' + svgUrl + '#{svgId}"';
 
 						itemTemplate = new CKEDITOR.template(
-							'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="#{href}" title="{name}" draggable="false" _cke_focus="1">' +
+							'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a title="{name}" draggable="false" _cke_focus="1">' +
 							'<svg viewBox="0 0 34 34" aria-labelledby="{svgId}-title">' +
 							'<title id="{svgId}-title">{name}</title><use ' + useAttr + '></use></svg></a></li>'
 						);
@@ -242,7 +242,6 @@
 							} else {
 								return acc + itemTemplate.output( {
 									group: htmlEncode( item.name ),
-									href: htmlEncode( item.name.toLowerCase() ),
 									name: htmlEncode( item.sectionName ),
 									svgId: htmlEncode( item.svgId )
 								} );
@@ -527,6 +526,7 @@
 
 					itemIndex = this.getItemIndex( this.items, firstSectionItem );
 					firstSectionItem.focus( true );
+					firstSectionItem.getAscendant( 'section' ).getFirst().scrollIntoView( true );
 					this.blockObject._.markItem( itemIndex );
 				},
 				getItemIndex: function( nodeList, item ) {
