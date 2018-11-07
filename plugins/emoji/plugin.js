@@ -205,7 +205,7 @@
 
 						itemTemplate = new CKEDITOR.template(
 							'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}">' +
-							'<a href="#{href}" draggable="false" _cke_focus="1" title="{name}">' +
+							'<a draggable="false" _cke_focus="1" title="{name}">' +
 							'<span style="background-image:url(' + imgUrl + ');' +
 							'background-repeat:no-repeat;background-position:{positionX}px {positionY}px;"></span>' +
 							'</a></li>'
@@ -217,7 +217,6 @@
 							} else {
 								return acc + itemTemplate.output( {
 									group: htmlEncode( item.name ),
-									href: htmlEncode( item.name.toLowerCase() ),
 									name: htmlEncode( item.sectionName ),
 									positionX: item.position.x,
 									positionY: item.position.y
