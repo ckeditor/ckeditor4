@@ -5,7 +5,7 @@
 
 /**
  * @fileOverview Defines the "virtual" {@link CKEDITOR.dom.focusOptions} class
- * that contains the options that can be added to {@link CKEDITOR.dom.element.prototype.focus}
+ * that contains the options that can be added to {@link CKEDITOR.dom.element.focus}
  * or other methods inheriting from it. This file is for documentation purposes only.
  */
 
@@ -27,13 +27,13 @@
  */
 
 /**
- * Whenever any browser scroll should be prevented upon focusing.
+ * Whether any browser scroll should be prevented upon focusing.
  *
- * @property {Boolean} preventScroll
+ * @property {Boolean} [preventScroll=false]
  */
 
 /**
- * Whenever focus should be deferred by 100ms.
+ * Whether focus should be deferred by 100ms.
  *
- * @property {Boolean} defer
+ * @property {Boolean} [defer=false]
  */
