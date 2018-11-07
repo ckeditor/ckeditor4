@@ -451,21 +451,15 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				try {
 					var isScrollLockFallbackNeeded = !CKEDITOR.env.chrome,
 						element = this,
-						isInline,
+						editable = this instanceof CKEDITOR.editable ? this : this.getAscendant( '.cke_editable' ),
+						isInline = editable && editable.isInline(),
 						scrollables;
-
-					if ( this instanceof CKEDITOR.editable ) {
-						isInline = this.isInline();
-					} else {
-						var editable = this.getAscendant( '.cke_editable' );
-						isInline = editable ? editable.isInline() : null;
-					}
 
 					if ( isScrollLockFallbackNeeded && focusOptions && focusOptions.preventScroll ) {
 						scrollables = storeScrollPosition( element );
 					} else if ( !isInline && CKEDITOR.env.chrome && ( !focusOptions || !focusOptions.preventScroll ) ) {
 						// Prevent editable scroll in Chrome.
-						scrollables = storeScrollPosition( element, true );
+						scrollables = storeScrollPosition( element, editable && editable.getParent() );
 					}
 
 					if ( scrollables && CKEDITOR.env.ie ) {
@@ -503,7 +497,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					}
 				}
 
-				function storeScrollPosition( element, preventEditorScroll ) {
+				function storeScrollPosition( element, lastElement ) {
 					scrollables = [];
 					while ( element ) {
 						var isElementScrollable = element.$.scrollHeight > element.$.clientHeight;
@@ -519,7 +513,11 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 							} );
 						}
 
-						if ( !element.getParent() && !preventEditorScroll ) {
+						if ( element === lastElement ) {
+							break;
+						}
+
+						if ( !element.getParent() ) {
 							element = element.getWindow().getFrame();
 						} else {
 							element = element.getParent();
