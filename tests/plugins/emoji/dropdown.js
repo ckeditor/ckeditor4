@@ -278,6 +278,30 @@
 				}, 100 );
 				wait();
 			} );
+		},
+
+		'test navigation click scrolls entire page': function() {
+			var bot = this.editorBot,
+				win = CKEDITOR.document.getWindow(),
+				body = CKEDITOR.document.getBody();
+
+			body.setStyle( 'height', '10000px' );
+			bot.panel( 'EmojiPanel', function( panel ) {
+				try {
+
+					var doc = panel._.iframe.getFrameDocument();
+
+					assert.areEqual( 0, win.getScrollPosition().y, 'Window should not be scrolled down' );
+
+					doc.findOne( 'a[title="Flags"]' ).$.click();
+
+					assert.areEqual( 0, win.getScrollPosition().y, 'Window should not be scrolled down after clicking into navigation' );
+				}
+				finally {
+					body.removeStyle( 'height' );
+					panel.hide();
+				}
+			} );
 		}
 	} );
 
