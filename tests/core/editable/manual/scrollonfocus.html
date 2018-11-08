@@ -1,65 +1,23 @@
 <textarea name="editor1">
 	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
+	<div style="background:lightblue;height:1000px"></div>
 </textarea>
 <button class="focus" data-editor-name="editor1">Focus first editor</button>
-<hr />
+<hr/>
 <textarea name="editor2">
 	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
-	<p>Test</p>
+	<div style="background:lightblue;height:1000px"></div>
 </textarea>
 <button class="focus" data-editor-name="editor2">Focus second editor</button>
 <script>
-	if ( !CKEDITOR.env.chrome ) {
-		bender.ignore();
-	}
-
-	CKEDITOR.replace( 'editor1' );
-	CKEDITOR.replace( 'editor2' );
-
 	CKEDITOR.tools.array.forEach( CKEDITOR.document.find( '.focus' ).toArray(), function( button ) {
-		button.on( 'click', function( evt ) {
-			var editorName = evt.data.getTarget().getAttribute( 'data-editor-name' ),
-				editor = CKEDITOR.instances[ editorName ];
 
+		var editorName = button.getAttribute( 'data-editor-name' ),
+			editor = CKEDITOR.replace( editorName, {
+				allowedContent: true
+			} );
+
+		button.on( 'click', function() {
 			if ( editor ) {
 				editor.focus();
 			}
