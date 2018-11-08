@@ -45,8 +45,7 @@
 					assert.isTrue( doc.findOne( '.cke_emoji-outer_emoji_block' ).hasListeners( 'click' ), 'Emoji block should have click listener.' );
 					assert.isTrue( doc.findOne( '.cke_emoji-outer_emoji_block' ).hasListeners( 'scroll' ), 'Emoji block should have scroll listener.' );
 					assert.isTrue( doc.findOne( 'nav' ).hasListeners( 'click' ), 'Navigation element should have click listener.' );
-				}
-				finally {
+				} finally {
 					panel.hide();
 				}
 			} );
@@ -103,8 +102,7 @@
 
 					assert.areSame( '⭐', statusBarIcon.getText(), 'Status bar icon should contain star after mouseover event.' );
 					assert.areSame( 'star', statusBarDescription.getText(), 'Status bar description should contain "star" name after mouseover.' );
-				}
-				finally {
+				} finally {
 					panel.hide();
 				}
 			} );
@@ -122,8 +120,7 @@
 					doc.findOne( 'a[title="Flags"]' ).$.click();
 
 					assert.areNotSame( 0, emojiBlock.$.scrollTop, 'Emoji elements should be scrolled somewhere down.' );
-				}
-				finally {
+				} finally {
 					panel.hide();
 				}
 			} );
@@ -184,9 +181,7 @@
 							target: testElement.$
 						} ) );
 						assert.areSame( '<p>⭐</p>', bot.getData(), 'Star should be inserted in editor after click.' );
-
-					}
-					finally {
+					} finally {
 						panel.hide();
 					}
 
@@ -221,8 +216,7 @@
 						} ) );
 
 						assert.areSame( '<p>⭐</p>', bot.getData(), 'Star should be inserted in editor after pressing space.' );
-					}
-					finally {
+					} finally {
 						panel.hide();
 					}
 
@@ -246,8 +240,7 @@
 
 					doc.findOne( 'a[title="Flags"]' ).getAscendant( 'li' ).$.click();
 					assert.isTrue( focusedElement.equals( new CKEDITOR.dom.element( doc.$.activeElement ) ), 'First flag should be focused.' );
-				}
-				finally {
+				} finally {
 					panel.hide();
 				}
 			} );
@@ -274,8 +267,7 @@
 								keyCode: 39
 							} ) );
 							assert.isTrue( input.equals( new CKEDITOR.dom.element( doc.$.activeElement ), 'Input should be focused after pressing right arrow.' ) );
-						}
-						finally {
+						} finally {
 							panel.hide();
 						}
 					} );
@@ -292,7 +284,7 @@
 				parentHeight;
 
 			// There is need to resize iframe with test run from dashboard. To prevent situation,
-			// where foccusing element will additionaly scroll page
+			// where focusing element will additionally scroll page
 			if ( parentIframe ) {
 				parentHeight = parentIframe.getStyle( 'height' );
 				parentIframe.setStyle( 'height', '1000px' );
@@ -306,8 +298,7 @@
 
 					doc.findOne( 'a[title="Flags"]' ).$.click();
 					assert.areEqual( scrollPosition, win.getScrollPosition().y, 'Window should not be scrolled down after clicking into navigation' );
-				}
-				finally {
+				} finally {
 					if ( parentHeight ) {
 						parentIframe.setStyle( 'height', parentHeight );
 					}
