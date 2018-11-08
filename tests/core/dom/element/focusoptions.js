@@ -6,7 +6,7 @@
 		// Failing test means we should update `CKEDITOR.dom.element.prototype.focus` to drop usage of fallback for this browser.
 		// (#2420)
 		'test native focus options': function() {
-			if ( !CKEDITOR.env.gecko && !CKEDITOR.env.safari ) {
+			if ( CKEDITOR.env.chrome || CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 				assert.ignore();
 			}
 			var document = CKEDITOR.document,
