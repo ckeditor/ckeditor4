@@ -205,7 +205,7 @@
 
 						itemTemplate = new CKEDITOR.template(
 							'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}">' +
-							'<a href="#{href}" draggable="false" _cke_focus="1" title="{name}">' +
+							'<a href="#" draggable="false" _cke_focus="1" title="{name}">' +
 							'<span style="background-image:url(' + imgUrl + ');' +
 							'background-repeat:no-repeat;background-position:{positionX}px {positionY}px;"></span>' +
 							'</a></li>'
@@ -217,7 +217,6 @@
 							} else {
 								return acc + itemTemplate.output( {
 									group: htmlEncode( item.name ),
-									href: htmlEncode( item.name.toLowerCase() ),
 									name: htmlEncode( item.sectionName ),
 									positionX: item.position.x,
 									positionY: item.position.y
@@ -231,7 +230,7 @@
 						useAttr = CKEDITOR.env.safari ? 'xlink:href="' + svgUrl + '#{svgId}"' : 'href="' + svgUrl + '#{svgId}"';
 
 						itemTemplate = new CKEDITOR.template(
-							'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="#{href}" title="{name}" draggable="false" _cke_focus="1">' +
+							'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="#" title="{name}" draggable="false" _cke_focus="1">' +
 							'<svg viewBox="0 0 34 34" aria-labelledby="{svgId}-title">' +
 							'<title id="{svgId}-title">{name}</title><use ' + useAttr + '></use></svg></a></li>'
 						);
@@ -242,7 +241,6 @@
 							} else {
 								return acc + itemTemplate.output( {
 									group: htmlEncode( item.name ),
-									href: htmlEncode( item.name.toLowerCase() ),
 									name: htmlEncode( item.sectionName ),
 									svgId: htmlEncode( item.svgId )
 								} );
@@ -255,7 +253,7 @@
 						event: 'click',
 						listener: function( event ) {
 							var activeElement = event.data.getTarget().getAscendant( 'li', true );
-							if ( activeElement ) {
+							if ( !activeElement ) {
 								return;
 							}
 							arrTools.forEach( this.elements.navigationItems.toArray(), function( node ) {
@@ -265,13 +263,11 @@
 									node.removeClass( 'active' );
 								}
 							} );
-						}
-					} );
 
-					this.listeners.push( {
-						selector: 'nav',
-						event: 'click',
-						listener: this.clearSearchAndMoveFocus
+							this.clearSearchAndMoveFocus( event );
+
+							event.data.preventDefault();
+						}
 					} );
 
 					return '<nav aria-label="' + htmlEncode( this.lang.navigationLabel ) + '"><ul>' + items + '</ul></nav>';
@@ -527,6 +523,7 @@
 
 					itemIndex = this.getItemIndex( this.items, firstSectionItem );
 					firstSectionItem.focus( true );
+					firstSectionItem.getAscendant( 'section' ).getFirst().scrollIntoView( true );
 					this.blockObject._.markItem( itemIndex );
 				},
 				getItemIndex: function( nodeList, item ) {
