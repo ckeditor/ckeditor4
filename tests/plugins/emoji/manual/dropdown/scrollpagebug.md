@@ -5,7 +5,7 @@
 
 1. Open emoji dropdown.
 2. Click into emoji group.
-### Expected:
+### Expected
 Page is not scrolled down.
-### Unexpected:
+### Unexpected
 Page scrolls down.
