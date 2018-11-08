@@ -1,21 +1,29 @@
-<textarea name="editor1">
+<h1>Classic editor:</h1>
+<textarea name="classic">
 	<p>Test</p>
 	<div style="background:lightblue;height:1000px"></div>
 </textarea>
-<button class="focus" data-editor-name="editor1">Focus first editor</button>
-<hr/>
-<textarea name="editor2">
+<button class="focus" data-editor-name="classic">Focus classic editor</button>
+
+<h1>Divarea editor:</h1>
+<textarea name="divarea">
 	<p>Test</p>
 	<div style="background:lightblue;height:1000px"></div>
 </textarea>
-<button class="focus" data-editor-name="editor2">Focus second editor</button>
+<button class="focus" data-editor-name="divarea">Focus divarea editor</button>
+
 <script>
 	CKEDITOR.tools.array.forEach( CKEDITOR.document.find( '.focus' ).toArray(), function( button ) {
 
-		var editorName = button.getAttribute( 'data-editor-name' ),
-			editor = CKEDITOR.replace( editorName, {
-				allowedContent: true
-			} );
+		var config = { allowedContent: true },
+			editorName = button.getAttribute( 'data-editor-name' ),
+			editor;
+
+		if ( editorName === 'divarea' ) {
+			config.extraPlugins = 'divarea'
+		}
+
+		editor = CKEDITOR.replace( editorName, config );
 
 		button.on( 'click', function() {
 			if ( editor ) {
