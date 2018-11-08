@@ -452,25 +452,39 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					var isScrollLockFallbackNeeded = !CKEDITOR.env.chrome,
 						element = this,
 						editable = this instanceof CKEDITOR.editable ? this : this.getAscendant( '.cke_editable' ),
-						isFramedEditable = editable && !editable.isInline(),
 						scrollables;
 
 					if ( isScrollLockFallbackNeeded && focusOptions && focusOptions.preventScroll ) {
 						scrollables = storeScrollPosition( element );
-					} else if ( CKEDITOR.env.chrome && isFramedEditable ) {
-						// Prevent editable scroll in Chrome.
-						scrollables = storeScrollPosition( element, editable.getParent() );
+					} else if ( CKEDITOR.env.chrome || CKEDITOR.env.ie ) {
+						scrollables = storeScrollPosition( element, !editable || editable.isInline() ? element : editable.getParent() );
 					}
 
 					if ( scrollables && CKEDITOR.env.ie ) {
-						var listener = CKEDITOR.document.getWindow().once( 'scroll', function() {
-							restoreScrollPosition( scrollables );
-						} );
+						var scrolledElements = [ CKEDITOR.document.getWindow(), element ];
 
-						// Clean listener to not break user scroll.
-						setTimeout( function() {
-							listener.removeListener();
-						}, 50 );
+						if ( scrolledElements[ 0 ] !== element.getWindow() ) {
+							scrolledElements.push( element.getWindow() );
+						}
+
+						CKEDITOR.tools.array.forEach( scrolledElements, function( element ) {
+							var listener = element.once( 'scroll', function() {
+								if ( CKEDITOR.env.version < 9 ) {
+									setTimeout( function() {
+										restoreScrollPosition( scrollables );
+										scrollables = [];
+									} );
+								} else {
+									restoreScrollPosition( scrollables );
+									scrollables = [];
+								}
+							} );
+
+							// Clean listener to not break user scroll.
+							setTimeout( function() {
+								listener.removeListener();
+							}, 50 );
+						} );
 					}
 
 					// [IE] Use instead "setActive" method to focus the editable if it belongs to the host page document,
