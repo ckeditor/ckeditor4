@@ -452,14 +452,14 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					var isScrollLockFallbackNeeded = !CKEDITOR.env.chrome,
 						element = this,
 						editable = this instanceof CKEDITOR.editable ? this : this.getAscendant( '.cke_editable' ),
-						isInline = editable && editable.isInline(),
+						isFramedEditable = editable && !editable.isInline(),
 						scrollables;
 
 					if ( isScrollLockFallbackNeeded && focusOptions && focusOptions.preventScroll ) {
 						scrollables = storeScrollPosition( element );
-					} else if ( !isInline && CKEDITOR.env.chrome && ( !focusOptions || !focusOptions.preventScroll ) ) {
+					} else if ( CKEDITOR.env.chrome && isFramedEditable ) {
 						// Prevent editable scroll in Chrome.
-						scrollables = storeScrollPosition( element, editable && editable.getParent() );
+						scrollables = storeScrollPosition( element, editable.getParent() );
 					}
 
 					if ( scrollables && CKEDITOR.env.ie ) {
