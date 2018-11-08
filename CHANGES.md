@@ -4,7 +4,8 @@
 ## CKEditor 4.11.1
 
 Fixed Issues:
-* [#2571](https://github.com/ckeditor/ckeditor-dev/issues/2571): Fixed: Click into emoji groups in emoji dropdown panel scrolled entire page.
+
+* [#2571](https://github.com/ckeditor/ckeditor-dev/issues/2571): Fixed: Clicking into groups in the [Emoji](https://ckeditor.com/cke4/addon/emoji) dropdown panel scrolls entire page.
 
 ## CKEditor 4.11
 
