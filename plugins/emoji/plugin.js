@@ -37,7 +37,10 @@
 								x: -2 * ICON_SIZE,
 								y: 0
 							},
-							items: []
+							items: [],
+							translate: {
+								x: 1.945
+							}
 						},
 						{
 							name: 'food',
@@ -47,7 +50,10 @@
 								x: -3 * ICON_SIZE,
 								y: 0
 							},
-							items: []
+							items: [],
+							translate: {
+								y: 0.725
+							}
 						},
 						{
 							name: 'travel',
@@ -57,7 +63,10 @@
 								x: -2 * ICON_SIZE,
 								y: -1 * ICON_SIZE
 							},
-							items: []
+							items: [],
+							translate: {
+								y: 1.675
+							}
 						},
 						{
 							name: 'activities',
@@ -77,7 +86,10 @@
 								x: 0,
 								y: -1 * ICON_SIZE
 							},
-							items: []
+							items: [],
+							translate: {
+								y: 2.61
+							}
 						},
 						{
 							name: 'symbols',
@@ -87,7 +99,10 @@
 								x: -1 * ICON_SIZE,
 								y: -1 * ICON_SIZE
 							},
-							items: []
+							items: [],
+							translate: {
+								y: 0.95
+							}
 						},
 						{
 							name: 'flags',
@@ -97,7 +112,10 @@
 								x: -3 * ICON_SIZE,
 								y: -1 * ICON_SIZE
 							},
-							items: []
+							items: [],
+							translate: {
+								x: 1.55
+							}
 						}
 					];
 
@@ -232,7 +250,7 @@
 						itemTemplate = new CKEDITOR.template(
 							'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="#" title="{name}" draggable="false" _cke_focus="1">' +
 							'<svg viewBox="0 0 34 34" aria-labelledby="{svgId}-title">' +
-							'<title id="{svgId}-title">{name}</title><use ' + useAttr + '></use></svg></a></li>'
+							'<title id="{svgId}-title">{name}</title><use ' + useAttr + ' transform="translate( {translateX}, {translateY} )"></use></svg></a></li>'
 						);
 
 						items = arrTools.reduce( this.groups, function( acc, item ) {
@@ -242,7 +260,9 @@
 								return acc + itemTemplate.output( {
 									group: htmlEncode( item.name ),
 									name: htmlEncode( item.sectionName ),
-									svgId: htmlEncode( item.svgId )
+									svgId: htmlEncode( item.svgId ),
+									translateX: item.translate && item.translate.x ? htmlEncode( item.translate.x ) : 0,
+									translateY: item.translate && item.translate.y ? htmlEncode( item.translate.y ) : 0
 								} );
 							}
 						}, '' );
