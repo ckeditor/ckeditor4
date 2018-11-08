@@ -15,6 +15,9 @@
 	};
 
 	var tests = {
+		tearDown: function() {
+			CKEDITOR.document.findOne( '.focusable' ).focus();
+		},
 		// (#2420)
 		'test editable focus': function( editor ) {
 			var spy = sinon.spy( CKEDITOR.dom.element.prototype, 'focus' ),
@@ -31,9 +34,6 @@
 			spy.restore();
 		},
 		// (#2420)
-		tearDown: function() {
-			CKEDITOR.document.findOne( '.focusable' ).focus();
-		},
 		'test scroll position doesn\'t change when preventScroll is set to true': function( editor ) {
 			var editable = editor.editable(),
 				body = CKEDITOR.document.getBody(),
