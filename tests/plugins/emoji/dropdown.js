@@ -7,7 +7,11 @@
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			language: 'en'
+		}
+	};
 
 	bender.test( {
 		_should: {
