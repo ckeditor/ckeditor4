@@ -4,9 +4,15 @@
 	}
 </style>
 <div class="spacer"></div>
+<h1>Left to right editor:</h1>
 <textarea id="editor"></textarea>
+<h1>Right to left editor:</h1>
+<textarea id="editor_rtl"></textarea>
 <div class="spacer"></div>
 
 <script>
 	CKEDITOR.replace( 'editor' );
+	CKEDITOR.replace( 'editor_rtl', {
+		language: 'he'
+	} );
 </script>
