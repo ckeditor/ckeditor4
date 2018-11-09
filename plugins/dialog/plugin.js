@@ -2123,8 +2123,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}
 	}
 
-	// Caching reusable covers and allowing only one cover
-	// on screen.
+	// Caching reusable covers and allowing only one cover on screen.
 	var covers = {},
 		currentCover;
 
