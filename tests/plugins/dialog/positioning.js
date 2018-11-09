@@ -150,12 +150,21 @@
 			this.editorBot.dialog( 'link', function( dialog ) {
 				var dialogSize = dialog.getSize(),
 					resizer = dialog._.element.findOne( '.cke_resizer' ),
+					evt = {
+						screenX: 0,
+						screenY: 0
+					},
 					sizeChange;
 
-				resizer.$.onmousedown( {
-					screenX: 0,
-					screenY: 0
-				} );
+				// IE8 doesn't pass fake evt when manually calling resizer.$.onmousedown.
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+					var str = resizer.$.onmousedown.toString();
+					str = str.match( /[(](.*?),/ )[ 1 ];
+
+					CKEDITOR.tools.callFunction( Number( str ), evt );
+				} else {
+					resizer.$.onmousedown( evt );
+				}
 
 				CKEDITOR.document.fire( 'mousemove', {
 					$: {
