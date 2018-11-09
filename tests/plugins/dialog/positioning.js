@@ -85,18 +85,11 @@
 		// +----------------------------------+
 		//
 		'test dialog move': function() {
-			var window = CKEDITOR.document.getWindow(),
-				viewPaneSize = {
+			var viewPaneSize = {
 					width: 1000,
 					height: 1000
 				},
-				stubs = {
-					getWindow: sinon.stub( CKEDITOR.document, 'getWindow' ),
-					getViewPane: sinon.stub( window, 'getViewPaneSize' )
-				};
-
-			stubs.getWindow.returns( window );
-			stubs.getViewPane.returns( viewPaneSize );
+				stubs = mockWindowGetViewPaneSize( viewPaneSize );
 
 			this.editorBot.dialog( 'link', function( dialog ) {
 				var element = dialog._.element.getFirst(),
@@ -144,6 +137,12 @@
 
 		// (#2395)
 		'test dialog resize': function() {
+			var viewPaneSize = {
+					width: 1000,
+					height: 1000
+				},
+				stubs = mockWindowGetViewPaneSize( viewPaneSize );
+
 			this.editorBot.dialog( 'link', function( dialog ) {
 				var dialogSize = dialog.getSize(),
 					resizer = dialog._.element.findOne( '.cke_resizer' ),
@@ -169,10 +168,27 @@
 					height: dialog.getSize().height - dialogSize.height
 				};
 
+				for ( var key in stubs ) {
+					stubs[ key ].restore();
+				}
+
 				// When resizing some floats might be rounded.
 				assert.isNumberInRange( 10, sizeChange.width - 1, sizeChange.width );
 				assert.isNumberInRange( 10, sizeChange.height - 1, sizeChange.height );
 			} );
 		}
 	} );
+
+	function mockWindowGetViewPaneSize( viewPaneSize ) {
+		var window = CKEDITOR.document.getWindow(),
+			stubs = {
+				getWindow: sinon.stub( CKEDITOR.document, 'getWindow' ),
+				getViewPane: sinon.stub( window, 'getViewPaneSize' )
+			};
+
+		stubs.getWindow.returns( window );
+		stubs.getViewPane.returns( viewPaneSize );
+
+		return stubs;
+	}
 } )();
