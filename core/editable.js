@@ -1197,13 +1197,14 @@
 							range = sel.getRanges()[ 0 ],
 							startPath = range.startPath();
 
-						if ( range.collapsed ) {
-							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) )
-								return;
-						} else {
-							if ( !mergeBlocksNonCollapsedSelection( editor, range, startPath ) )
-								return;
-						}
+		    			if ( range.collapsed ) {
+	    					if ( CKEDITOR.tools.trim( editor.element.getText() ).length > 0 && 
+								!mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) )
+    							return;
+   						} else {
+						    if ( !mergeBlocksNonCollapsedSelection( editor, range, startPath ) )
+					    		return;
+				    	}
 
 						// Scroll to the new position of the caret (https://dev.ckeditor.com/ticket/11960).
 						editor.getSelection().scrollIntoView();
