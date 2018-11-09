@@ -142,6 +142,7 @@
 			} );
 		},
 
+		// (#2395)
 		'test dialog resize': function() {
 			this.editorBot.dialog( 'link', function( dialog ) {
 				var dialogSize = dialog.getSize(),
