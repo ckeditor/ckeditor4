@@ -9,20 +9,6 @@
 
 ## Things to check:
 
-### Touch devices:
-
-- Play around focusing and blurring inputs, zooming and scrolling page.
-
-#### Expected:
-
-- When opening dialog or focusing input caret page should be scrolled in a way caret is visible.
-
-#### Unexpected
-
-- Caret is outside of current viewport.
-
-### Desktop computers:
-
 - Resize browser window.
 - Resize dialog window.
 - Drag dialog window.
