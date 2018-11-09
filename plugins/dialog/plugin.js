@@ -258,6 +258,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			contents: {},
 			buttons: {},
 			accessKeyMap: {},
+			viewportRatio: {},
 
 			// Initialize the tab and page map.
 			tabs: {},
@@ -717,8 +718,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		} );
 	}
 
-	var dialogViewportRatio = {};
-
 	CKEDITOR.dialog.prototype = {
 		destroy: function() {
 			this.hide();
@@ -811,11 +810,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				};
 			if ( this._.position && this._.position.x == x && this._.position.y == y ) {
 				// If position didn't change window might have been resized.
-				x = freeSpace.width * dialogViewportRatio.width;
-				y = freeSpace.height * dialogViewportRatio.height;
+				x = freeSpace.width * this._.viewportRatio.width;
+				y = freeSpace.height * this._.viewportRatio.height;
 			} else {
-				dialogViewportRatio.width = x / freeSpace.width;
-				dialogViewportRatio.height = y / freeSpace.height;
+				this._.viewportRatio.width = x / freeSpace.width;
+				this._.viewportRatio.height = y / freeSpace.height;
 			}
 			// Save the current position.
 			this._.position = { x: x, y: y };
