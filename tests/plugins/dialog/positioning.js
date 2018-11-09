@@ -137,6 +137,10 @@
 
 		// (#2395)
 		'test dialog resize': function() {
+			// Mobile browsers doesn't support dialog resize.
+			if ( bender.tools.env.mobile ) {
+				assert.ignore();
+			}
 			var viewPaneSize = {
 					width: 1000,
 					height: 1000
