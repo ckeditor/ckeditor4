@@ -7,7 +7,11 @@
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			language: 'en'
+		}
+	};
 
 	bender.test( {
 		_should: {
@@ -41,8 +45,7 @@
 					assert.isTrue( doc.findOne( '.cke_emoji-outer_emoji_block' ).hasListeners( 'click' ), 'Emoji block should have click listener.' );
 					assert.isTrue( doc.findOne( '.cke_emoji-outer_emoji_block' ).hasListeners( 'scroll' ), 'Emoji block should have scroll listener.' );
 					assert.isTrue( doc.findOne( 'nav' ).hasListeners( 'click' ), 'Navigation element should have click listener.' );
-				}
-				finally {
+				} finally {
 					panel.hide();
 				}
 			} );
@@ -99,8 +102,7 @@
 
 					assert.areSame( '⭐', statusBarIcon.getText(), 'Status bar icon should contain star after mouseover event.' );
 					assert.areSame( 'star', statusBarDescription.getText(), 'Status bar description should contain "star" name after mouseover.' );
-				}
-				finally {
+				} finally {
 					panel.hide();
 				}
 			} );
@@ -115,11 +117,10 @@
 
 					assert.areSame( 0, emojiBlock.$.scrollTop, 'Emoji elements should be scrolled to the top.' );
 
-					doc.findOne( 'a[href="#flags"]' ).$.click();
+					doc.findOne( 'a[title="Flags"]' ).$.click();
 
 					assert.areNotSame( 0, emojiBlock.$.scrollTop, 'Emoji elements should be scrolled somewhere down.' );
-				}
-				finally {
+				} finally {
 					panel.hide();
 				}
 			} );
@@ -180,9 +181,7 @@
 							target: testElement.$
 						} ) );
 						assert.areSame( '<p>⭐</p>', bot.getData(), 'Star should be inserted in editor after click.' );
-
-					}
-					finally {
+					} finally {
 						panel.hide();
 					}
 
@@ -217,8 +216,7 @@
 						} ) );
 
 						assert.areSame( '<p>⭐</p>', bot.getData(), 'Star should be inserted in editor after pressing space.' );
-					}
-					finally {
+					} finally {
 						panel.hide();
 					}
 
@@ -240,10 +238,9 @@
 					var doc = panel._.iframe.getFrameDocument(),
 						focusedElement = doc.findOne( 'a[data-cke-emoji-group="flags"' );
 
-					doc.findOne( 'a[href="#flags"]' ).getAscendant( 'li' ).$.click();
+					doc.findOne( 'a[title="Flags"]' ).getAscendant( 'li' ).$.click();
 					assert.isTrue( focusedElement.equals( new CKEDITOR.dom.element( doc.$.activeElement ) ), 'First flag should be focused.' );
-				}
-				finally {
+				} finally {
 					panel.hide();
 				}
 			} );
@@ -270,13 +267,44 @@
 								keyCode: 39
 							} ) );
 							assert.isTrue( input.equals( new CKEDITOR.dom.element( doc.$.activeElement ), 'Input should be focused after pressing right arrow.' ) );
-						}
-						finally {
+						} finally {
 							panel.hide();
 						}
 					} );
 				}, 100 );
 				wait();
+			} );
+		},
+
+		'test navigation click scrolls entire page': function() {
+			var bot = this.editorBot,
+				win = CKEDITOR.document.getWindow(),
+				body = CKEDITOR.document.getBody(),
+				parentIframe = win.getFrame(),
+				parentHeight;
+
+			// There is need to resize iframe with test run from dashboard. To prevent situation,
+			// where focusing element will additionally scroll page
+			if ( parentIframe ) {
+				parentHeight = parentIframe.getStyle( 'height' );
+				parentIframe.setStyle( 'height', '1000px' );
+			}
+
+			body.setStyle( 'height', '10000px' );
+			bot.panel( 'EmojiPanel', function( panel ) {
+				try {
+					var doc = panel._.iframe.getFrameDocument(),
+						scrollPosition = win.getScrollPosition().y;
+
+					doc.findOne( 'a[title="Flags"]' ).$.click();
+					assert.areEqual( scrollPosition, win.getScrollPosition().y, 'Window should not be scrolled down after clicking into navigation' );
+				} finally {
+					if ( parentHeight ) {
+						parentIframe.setStyle( 'height', parentHeight );
+					}
+					body.removeStyle( 'height' );
+					panel.hide();
+				}
 			} );
 		}
 	} );

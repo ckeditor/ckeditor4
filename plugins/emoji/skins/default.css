@@ -52,6 +52,7 @@
 	height: auto;
 	margin: 0 6px;
 	text-align: center;
+	cursor: pointer;
 }
 
 .cke_browser_ie .cke_emoji-inner_panel > nav li {

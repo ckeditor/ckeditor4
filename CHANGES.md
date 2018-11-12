@@ -1,6 +1,14 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.2
+
+## CKEditor 4.11.1
+
+Fixed Issues:
+
+* [#2571](https://github.com/ckeditor/ckeditor-dev/issues/2571): Fixed: Clicking the categories in the [Emoji](https://ckeditor.com/cke4/addon/emoji) dropdown panel scrolls the entire page.
+
 ## CKEditor 4.11
 
 **Security Updates:**
