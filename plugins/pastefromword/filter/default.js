@@ -467,8 +467,7 @@
 				'br': function( element ) {
 					var styles = tools.parseCssText( element.attributes.style );
 
-					if ( CKEDITOR.plugins.pagebreak &&
-						styles[ 'page-break-before' ] === 'always' ) {
+					if ( editor.plugins.pagebreak && styles[ 'page-break-before' ] === 'always' ) {
 
 						var pagebreakEl = CKEDITOR.plugins.pagebreak.createElement( editor );
 						return CKEDITOR.htmlParser.fragment.fromHtml( pagebreakEl.getOuterHtml() ).children[ 0 ];
