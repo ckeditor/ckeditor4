@@ -27,8 +27,7 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	hasDescription: 'Long description required within the document',
 	// hasDescriptionTooltip: 'Enables a screen reader to indicate the existence \
 	// and location of a long description within the document',
-	hasDescriptionTooltip: 'Required when the complexity of the information conveyed \
-by the image cannot be adequately described by the alternative text',
+	hasDescriptionTooltip: 'Required for a complex image that cannot be adequately described by the alternative text',
 
 	descriptionLocation: 'Location of long description',
 
