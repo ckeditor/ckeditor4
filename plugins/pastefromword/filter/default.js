@@ -461,6 +461,18 @@
 					// 		Address of the resource as a valid URL. At least one of data and type must be defined.
 					// If there is not `data`, skip the object element. (https://dev.ckeditor.com/ticket/17001)
 					return !!( element.attributes && element.attributes.data );
+				},
+
+				// Integrate page breaks with `pagebreak` plugin (#2598).
+				'br': function( element ) {
+					var styles = tools.parseCssText( element.attributes.style );
+
+					if ( CKEDITOR.plugins.pagebreak &&
+						styles[ 'page-break-before' ] === 'always' ) {
+
+						var pagebreakEl = CKEDITOR.plugins.pagebreak.createElement( editor );
+						return CKEDITOR.htmlParser.fragment.fromHtml( pagebreakEl.getOuterHtml() ).children[ 0 ];
+					}
 				}
 			},
 			attributes: {
