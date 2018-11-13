@@ -30,6 +30,22 @@
 			} );
 		},
 
+		// (#2598)
+		'test createElement': function() {
+			var expected = '<div ' +
+					'aria-label="Page Break" ' +
+					'class="cke_pagebreak" ' +
+					'contenteditable="false" ' +
+					'data-cke-display-name="pagebreak" ' +
+					'data-cke-pagebreak="1" ' +
+					'style="page-break-after: always" ' +
+					'title="Page Break">' +
+				'</div>',
+				element = CKEDITOR.plugins.pagebreak.createElement( this.editor );
+
+			assert.beautified.html( expected, element.getOuterHtml() );
+		},
+
 		'test paste': function() {
 			var bot = this.editorBot,
 				editor = this.editor,

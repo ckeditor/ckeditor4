@@ -121,12 +121,7 @@
 	// TODO Much probably there's no need to expose this object as public object.
 	CKEDITOR.plugins.pagebreakCmd = {
 		exec: function( editor ) {
-			// Create read-only element that represents a print break.
-			var pagebreak = editor.document.createElement( 'div', {
-				attributes: attributesSet( editor.lang.pagebreak.alt )
-			} );
-
-			editor.insertElement( pagebreak );
+			editor.insertElement( CKEDITOR.plugins.pagebreak.createElement( editor ) );
 		},
 		context: 'div',
 		allowedContent: {
@@ -142,6 +137,26 @@
 			}
 		},
 		requiredContent: 'div{page-break-after}'
+	};
+
+	/**
+	 * The namespace containing a set of [Page Break](https://ckeditor.com/cke4/addon/pagebreak) plugin helpers.
+	 *
+	 * @member CKEDITOR.plugins
+	 */
+	CKEDITOR.plugins.pagebreak = {
+		/**
+		 * Creates a read-only {@link CKEDITOR.dom.element} instance that represents a print break.
+		 *
+		 * @since 4.12.0
+		 * @member CKEDITOR.plugins.pagebreak
+		 * @param {CKEDITOR.editor} editor
+		 */
+		createElement: function( editor ) {
+			return editor.document.createElement( 'div', {
+				attributes: attributesSet( editor.lang.pagebreak.alt )
+			} );
+		}
 	};
 
 	// Returns an object representing all the attributes
