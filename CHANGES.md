@@ -3,11 +3,16 @@
 
 ## CKEditor 4.12
 
+New Features:
+
+* [#2598](https://github.com/ckeditor/ckeditor-dev/issues/2598): [Page Break](https://ckeditor.com/cke4/addon/pagebreak) feature support for [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
+
 API Changes:
 
 * [#1496](https://github.com/ckeditor/ckeditor-dev/issues/1496): [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) exposed methods [`CKEDITOR.ui.balloonToolbar.reposition`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_balloonToolbar.html#reposition) and [`CKEDITOR.ui.balloonToolbarView.reposition`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_balloonToolbarView.html#reposition).
 * [#2021](https://github.com/ckeditor/ckeditor-dev/issues/2021): Add [`CKEDITOR.dom.documentFragment.find`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_documentFragment.html#method-find) and [`CKEDITOR.dom.documentFragment.findOne`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_documentFragment.html#method-findOne) methods.
 * [#2700](https://github.com/ckeditor/ckeditor-dev/issues/2700): Added the [`CKEDITOR.tools.array.find`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_array.html#method-find) function.
+* [#2598](https://github.com/ckeditor/ckeditor-dev/issues/2598): Added [`CKEDITOR.plugins.pagebreak.createElement`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_pagebreak.html#method-createElement) method allowing to create [Page Break](https://ckeditor.com/cke4/addon/pagebreak) plugin [`CKEDITOR.dom.element`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_element.html) instance.
 
 ## CKEditor 4.11.3
 
