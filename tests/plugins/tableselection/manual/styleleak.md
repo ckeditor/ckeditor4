@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: bug, 4.11.0, 2403
+@bender-tags: bug, 4.11.2, 2403
 @bender-ckeditor-plugins: wysiwygarea, tableselection, basicstyles, floatingspace
 
 1. Select text inside the editor.
