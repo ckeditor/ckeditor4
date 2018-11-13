@@ -8,21 +8,27 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	typeOfImage: 'Type of Image',
 
 	typeInformative: 'Informative',
-	typeInformativeHelp: 'Image conveys information and requires text alternative(s)',
+	typeInformativeHelp: 'Image adds information to the document',
 
 	typeDecorative: 'Decorative',
-	typeDecorativeHelp: 'Image adds no additional information to the document',
+	typeDecorativeHelp: 'Image does not add information to the document',
+
+	typeMessage1: 'If the image adds any information to the document, it is',
+	typeMessage2: 'important for accessibility to select \'Informative\' as the',
+	typeMessage3: 'image type.',
 
 	// Accessible Descriptions
-	imageDesc: 'Text Alternatives',
+	imageDesc: 'Accessible Descriptions',
 
-	alt: 'Short description (required)',
-	altTooltip: 'The \'alt text\' announced by a screen reader application',
+	alt: 'Alternative text (required)',
+	altTooltip: 'The short description announced by a screen reader application',
 
 	// hasDescription: 'A long description is included in the document',
 	hasDescription: 'Long description required within the document',
-	// hasDescriptionTooltip: 'Enables a screen reader to indicate the existence and location of a long description within the document',
-	hasDescriptionTooltip: 'Due to the complexity of the informational content, the image cannot be described adequately by only a short description',
+	// hasDescriptionTooltip: 'Enables a screen reader to indicate the existence \
+	// and location of a long description within the document',
+	hasDescriptionTooltip: 'Required when the complexity of the information conveyed \
+by the image cannot be adequately described by the alternative text',
 
 	descriptionLocation: 'Location of long description',
 
@@ -39,8 +45,9 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	locationBothTitle: 'Long description is located before and after the image',
 
 	// descriptionHelp: 'More information on text alternatives for images',
-	descriptionHelp: 'More information on short and long descriptions',
+	// descriptionHelp: 'More information on short and long descriptions',
 	// descriptionHelp: 'When is a long description required?',
+	descriptionHelp: 'More information on accessible descriptions',
 
 	// Image Caption
 	captionFieldsetLabel: 'Caption',
@@ -70,16 +77,18 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 
 	// Validation constraints and messaging
 	alternativeTextMaxLength: 100,
-	altContainsFilename: ['.tif', '.tiff','.gif','.jpeg', '.jpg', '.jif', '.jfif', '.jp2', '.jpx', '.j2k', '.j2c', '.fpx', '.pcd', '.png', '.pdf'],
+	altContainsFilename: ['.tif', '.tiff','.gif','.jpeg', '.jpg', '.jif', '.jfif', '.jp2',
+	'.jpx', '.j2k', '.j2c', '.fpx', '.pcd', '.png', '.pdf'],
 	altIsInvalid: ['photo', 'spacer', 'separator', 'nbsp', 'image'],
 	altStartsWithInvalid: ['image of', 'graphic of'],
 	altEndsWithInvalid: ['bytes'],
-	msgAltEmpty: 'Please provide the short description for the image',
-	msgAltToLong: 'The short description is %s1 characters, which is longer than the recommended maximum length of %s2 characters.\n\nAre you sure you want to continue?',
-	msgAltPrefix: 'The short description should succinctly describe the content of the image.',
-	msgAltContainsFilename: 'Please remove the filename with the extension "%s" from the short description.',
-	msgAltIsInvalid: 'Please remove "%s" from the short description.',
-	msgAltStartsWithInvalid: 'Please remove "%s" from the short description.',
-	msgAltEndsWithInvalid: 'Please do not include the size of the image in the short description.',
+	msgAltEmpty: 'Please provide the alternative text for the image',
+	msgAltToLong: 'The alternative text is %s1 characters, which is longer than the recommended \
+maximum length of %s2 characters.\n\nAre you sure you want to continue?',
+	msgAltPrefix: 'The alternative text should succinctly describe the content of the image.',
+	msgAltContainsFilename: 'Please remove the filename with the extension "%s" from the alternative text.',
+	msgAltIsInvalid: 'Please remove "%s" from the alternative text.',
+	msgAltStartsWithInvalid: 'Please remove "%s" from the alternative text.',
+	msgAltEndsWithInvalid: 'Please do not include the size of the image in the alternative text.',
 	msgChooseLocation: 'Please select the location of the long description within the document relative to the image.'
 } );

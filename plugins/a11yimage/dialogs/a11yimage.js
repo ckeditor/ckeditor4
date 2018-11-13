@@ -475,6 +475,23 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
   /* ---------------------------------------------------------------- */
 
+  var imageTypeMessageBox = {
+    type: 'hbox',
+    children: [
+      {
+        type: 'html',
+        style: 'padding: 0.75em 1em; background-color: #f8f8f8',
+        html: '<div>' +
+              lang.typeMessage1 + '<br>' +
+              lang.typeMessage2 + '<br>' +
+              lang.typeMessage3 +
+              '</div>'
+      }
+    ]
+  };
+
+  /* ---------------------------------------------------------------- */
+
   var shortDescriptionTextbox = {
     type: 'hbox',
     align: 'bottom',
@@ -897,6 +914,8 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         elements: [
 
           imageTypeFieldset,
+
+          imageTypeMessageBox,
 
           imageDescFieldset,
 
