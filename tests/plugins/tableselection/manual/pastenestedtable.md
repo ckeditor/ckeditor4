@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: bug, 4.11.0, 2514
+@bender-tags: bug, 4.11.2, 2514
 @bender-ckeditor-plugins: wysiwygarea, tableselection, basicstyles, floatingspace
 
 1. Copy table cells using table above the editor.
