@@ -14,7 +14,7 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	typeDecorativeHelp: 'Image does not add information to the document',
 
 	typeMessage1: 'If the image adds any information to the document, it is',
-	typeMessage2: 'important for accessibility to select \'Informative\' as the',
+	typeMessage2: 'important for accessibility to select ‘Informative’ as the',
 	typeMessage3: 'image type.',
 
 	// Accessible Descriptions
