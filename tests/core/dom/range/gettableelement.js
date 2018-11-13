@@ -21,8 +21,8 @@
 		playground.setHtml( html.join( '\n' ) );
 	}
 
-	function createRange( options, root ) {
-		var range = new CKEDITOR.dom.range( root || doc );
+	function createRange( options ) {
+		var range = new CKEDITOR.dom.range( options.root || doc );
 
 		if ( options.element ) {
 			range.setStartBefore( options.element );
@@ -246,7 +246,10 @@
 		// (#2403)
 		'get cell from outer scope': function() {
 			var root = doc.getById( 'inner' ),
-				range = createRange( { element: root.getChild( 0 ) }, root );
+				range = createRange( {
+					element: root.getChild( 0 ),
+					root: root
+				} );
 
 			assertElements( null, range );
 		},
