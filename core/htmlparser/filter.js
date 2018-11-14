@@ -412,7 +412,7 @@
  */
 
 /**
- * @property {Array<String,RegExp>[]} elementNames An array of rules for element names transformation.
+ * @property {CKEDITOR.htmlParser.nameFilterRule[]} elementNames An array of rules for element names transformation.
  * Every rule match will be replaced by the given string.
  *
  * Examples:
@@ -427,7 +427,7 @@
  */
 
 /**
- * @property {Array<String,RegExp>[]} attributeNames An array of rules for attribute names transformation.
+ * @property {CKEDITOR.htmlParser.nameFilterRule[]} attributeNames An array of rules for attribute names transformation.
  * Every matching string from the first item will be converted into a second.
  *
  * Examples:
@@ -542,4 +542,19 @@
  * }
  * ```
  *
+ */
+
+/**
+ * Abstract class describing the definition of {@link CKEDITOR.htmlParser.filterRulesDefinition} `elementNames` and `attributesNames` filtering rules.
+ *
+ * @class CKEDITOR.htmlParser.nameFilterRule
+ * @abstract
+ */
+
+/**
+ * @property {RegExp} 0 A regular expression to match element name or attribute.
+ */
+
+/**
+ * @property {String} 1 A string used to replace the match.
  */
