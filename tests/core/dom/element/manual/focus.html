@@ -1,0 +1,40 @@
+<style>
+	.scrollable {
+		padding: 3px;
+		border: solid 1px gray;
+		height: 150px;
+		max-width: 150px;
+		overflow: scroll;
+	}
+
+	.filler {
+		height: 200px;
+		margin: 5px;
+		background: lightblue;
+	}
+
+	.editable {
+		border: solid 1px black;
+	}
+</style>
+
+<div class="scrollable">
+	<div class="filler"></div>
+	<div class="scrollable">
+		<div class="filler"></div>
+		<div class="editable" contenteditable="true">Editable</div>
+		<div class="filler"></div>
+	</div>
+	<div class="filler"></div>
+</div>
+
+<button class="focus">Focus editable.</button>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+	CKEDITOR.document.findOne( '.focus' ).on( 'click', function() {
+		CKEDITOR.document.findOne( '.editable' ).focus( { preventScroll: true } );
+	} );
+</script>
