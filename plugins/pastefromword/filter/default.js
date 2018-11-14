@@ -465,10 +465,13 @@
 
 				// Integrate page breaks with `pagebreak` plugin (#2598).
 				'br': function( element ) {
+					if ( !editor.plugins.pagebreak ) {
+						return;
+					}
+
 					var styles = tools.parseCssText( element.attributes.style );
 
-					if ( editor.plugins.pagebreak && styles[ 'page-break-before' ] === 'always' ) {
-
+					if ( styles[ 'page-break-before' ] === 'always' ) {
 						var pagebreakEl = CKEDITOR.plugins.pagebreak.createElement( editor );
 						return CKEDITOR.htmlParser.fragment.fromHtml( pagebreakEl.getOuterHtml() ).children[ 0 ];
 					}
