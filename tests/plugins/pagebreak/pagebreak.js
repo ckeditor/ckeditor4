@@ -7,7 +7,8 @@
 	bender.editor = {
 		creator: 'inline', // Speeeeeed...
 		config: {
-			pasteFilter: null
+			pasteFilter: null,
+			language: 'en'
 		}
 	};
 
