@@ -142,6 +142,7 @@
 	/**
 	 * The namespace containing a set of [Page Break](https://ckeditor.com/cke4/addon/pagebreak) plugin helpers.
 	 *
+	 * @since 4.12.0
 	 * @member CKEDITOR.plugins
 	 */
 	CKEDITOR.plugins.pagebreak = {
@@ -151,6 +152,7 @@
 		 * @since 4.12.0
 		 * @member CKEDITOR.plugins.pagebreak
 		 * @param {CKEDITOR.editor} editor
+		 * @returns {CKEDITOR.dom.element} Print break element.
 		 */
 		createElement: function( editor ) {
 			return editor.document.createElement( 'div', {
