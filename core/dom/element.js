@@ -452,12 +452,15 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					var isScrollLockFallbackNeeded = !CKEDITOR.env.chrome,
 						element = this,
 						editable = this instanceof CKEDITOR.editable ? this : this.getAscendant( '.cke_editable' ),
+						forEach = CKEDITOR.tools.array.forEach,
+						lastElement,
 						scrollables;
 
 					if ( isScrollLockFallbackNeeded && focusOptions && focusOptions.preventScroll ) {
 						scrollables = storeScrollPosition( element );
 					} else if ( CKEDITOR.env.chrome || CKEDITOR.env.ie ) {
-						scrollables = storeScrollPosition( element, !editable || editable.isInline() ? element : editable.getParent() );
+						lastElement = !editable || editable.isInline() ? element : editable.getParent();
+						scrollables = storeScrollPosition( element, lastElement );
 					}
 
 					if ( scrollables && CKEDITOR.env.ie ) {
@@ -467,16 +470,14 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 							scrolledElements.push( element.getWindow() );
 						}
 
-						CKEDITOR.tools.array.forEach( scrolledElements, function( element ) {
+						forEach( scrolledElements, function( element ) {
 							var listener = element.once( 'scroll', function() {
 								if ( CKEDITOR.env.version < 9 ) {
 									setTimeout( function() {
-										restoreScrollPosition( scrollables );
-										scrollables = [];
+										restoreScrollAndCleanScrollables( scrollables );
 									} );
 								} else {
-									restoreScrollPosition( scrollables );
-									scrollables = [];
+									restoreScrollAndCleanScrollables( scrollables );
 								}
 							} );
 
@@ -491,8 +492,6 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					// to avoid bringing an unexpected scroll.
 					if ( CKEDITOR.env.ie && !( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) && this.getDocument().equals( CKEDITOR.document ) ) {
 						this.$.setActive();
-					} else if ( isScrollLockFallbackNeeded ) {
-						this.$.focus();
 					} else {
 						this.$.focus( focusOptions );
 					}
@@ -508,7 +507,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				}
 
 				function storeScrollPosition( element, lastElement ) {
-					scrollables = [];
+					var scrollables = [];
 					while ( element ) {
 						var isElementScrollable = element.$.scrollHeight > element.$.clientHeight || element.getName() == 'body';
 
@@ -519,24 +518,25 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 							} );
 						}
 
-						if ( element === lastElement ) {
+						if ( element.equals( lastElement ) ) {
 							break;
 						}
 
-						if ( !element.getParent() ) {
-							element = element.getWindow().getFrame();
-						} else {
-							element = element.getParent();
-						}
+						element = element.getParent() || element.getWindow().getFrame();
 					}
 
 					return scrollables;
 				}
 
 				function restoreScrollPosition( scrollables ) {
-					CKEDITOR.tools.array.forEach( scrollables, function( item ) {
+					forEach( scrollables, function( item ) {
 						item.element.$.scrollTop = item.scrollTop;
 					} );
+				}
+
+				function restoreScrollAndCleanScrollables( scrollables ) {
+					restoreScrollPosition( scrollables );
+					scrollables = [];
 				}
 			}
 		},
