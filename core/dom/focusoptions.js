@@ -5,8 +5,11 @@
 
 /**
  * @fileOverview Defines the "virtual" {@link CKEDITOR.dom.focusOptions} class
- * that contains the options that can be added to {@link CKEDITOR.dom.element.focus}
- * or other methods inheriting from it. This file is for documentation purposes only.
+ * that contains the options that can be used with:
+ * - {@link CKEDITOR.dom.element.focus},
+ * - {@link CKEDITOR.editor.focus},
+ * - {@link CKEDITOR.editable.focus},
+ * This file is for documentation purposes only.
  */
 
 /**
@@ -18,7 +21,7 @@
  * var element = CKEDITOR.document.getById( 'myTextarea' );
  * element.focus( { preventScroll: true } ); // Focuses but prevents scrolling.
  * element.focus( { preventScroll: false } ); // Focuses without preventing scroll.
- * element.focus( { defer: false } ); // Focuses after 100ms.
+ * element.focus( { defer: true } ); // Focuses after 100ms.
  * element.focus(); // Focuses without preventing scroll.
  * ```
  *
