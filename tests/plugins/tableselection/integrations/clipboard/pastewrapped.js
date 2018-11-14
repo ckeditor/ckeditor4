@@ -9,6 +9,7 @@
 	'use strict';
 
 	var tests = {
+		// (#2403)
 		'test pasting table': function() {
 			var editor = CKEDITOR.inline( CKEDITOR.document.getById( 'wrapped' ), {
 					allowedContent: true
