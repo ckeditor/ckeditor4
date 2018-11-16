@@ -548,6 +548,10 @@
 /**
  * Abstract class describing the definition of {@link CKEDITOR.htmlParser.filterRulesDefinition} `elementNames` and `attributesNames` filtering rules.
  *
+ * ```javascript
+ *  var rule = [ /^div$/, 'p' ];
+ * ```
+ *
  * @class CKEDITOR.htmlParser.nameFilterRule
  * @abstract
  */
