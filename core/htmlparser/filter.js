@@ -449,14 +449,15 @@
  * @property {Object.<String, Function>} elements An object containing pairs of element selectors
  * and functions used upon element filtering and transformation.
  *
- * A selector can be either element name or one of following: '^', '$'.
+ * A selector can be either element name or one of following: `^`, `$`.
  *
- * '^' and '$' is to be applied on every filtered element. The first is applied before element specific filter,
+ * `^` and `$` is to be applied on every filtered element. The first is applied before element specific filter,
  * and second is applied after element specific filter.
  *
  * Function can contain return statement:
- * - If `false` is returned the element is removed.
- * - If an other element is returned it overwrites the original element.
+ *
+ * * If `false` is returned the element is removed.
+ * * If another element is returned it overwrites the original element.
  *
  * Examples:
  *
@@ -485,7 +486,7 @@
  * @property {Object.<String, Function>} attributes An object containing pairs of element attribute names
  * and functions used upon attribute filtering and transformation.
  *
- * Returning false removes attribute.
+ * Returning `false` removes attribute.
  *
  * Examples:
  *
@@ -519,7 +520,7 @@
 
 /**
  * @property {Function} comment Function for comments filtering and transforming. Returned value replaces comment text.
- * If 'false' is returned comment is removed.
+ * If `false` is returned comment is removed.
  *
  * Examples:
  *
