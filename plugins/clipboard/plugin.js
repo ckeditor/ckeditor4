@@ -1547,6 +1547,9 @@
 					dragRange = data.dragRange,
 					dataTransfer = data.dataTransfer;
 
+				// Include inline element if possible.
+				dragRange.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
+
 				if ( dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
 					// Execute drop with a timeout because otherwise selection, after drop,
 					// on IE is in the drag position, instead of drop position.
