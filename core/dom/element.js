@@ -536,7 +536,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 
 				function restoreScrollAndCleanScrollables( scrollables ) {
 					restoreScrollPosition( scrollables );
-					scrollables = [];
+					scrollables.length = 0;
 				}
 			}
 		},
