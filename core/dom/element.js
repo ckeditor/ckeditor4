@@ -425,7 +425,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *
 		 * @method
 		 * @param  {CKEDITOR.dom.focusOptions/Boolean} [focusOptionsOrDefer] Whether to asynchronously defer the execution by 100 ms.
-		 * Since **4.11.0** can be object with the options to be applied upon focus.
+		 * Since **4.12.0** can be object with the options to be applied upon focus.
 		 */
 		focus: function( focusOptionsOrDefer ) {
 
@@ -536,7 +536,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 
 				function restoreScrollAndCleanScrollables( scrollables ) {
 					restoreScrollPosition( scrollables );
-					scrollables.length = 0;
+					scrollables.length = 0c
 				}
 			}
 		},

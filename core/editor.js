@@ -1316,7 +1316,7 @@
 		/**
 		 * Moves the selection focus to the editing area space in the editor.
 		 *
-		 * @param {CKEDITOR.dom.focusOptions} [focusOptions] Since **4.11.0** the options to be applied upon focus.
+		 * @param {CKEDITOR.dom.focusOptions} [focusOptions] Since **4.12.0** the options to be applied upon focus.
 		 */
 		focus: function( focusOptions ) {
 			this.fire( 'beforeFocus', { focusOptions: focusOptions } );
