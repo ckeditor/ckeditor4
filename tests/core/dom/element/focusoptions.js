@@ -15,7 +15,12 @@
 
 			editable.$.focus( { preventScroll: true } );
 
-			assert.isFalse( container.$.scrollTop === 0 );
+			setTimeout( function() {
+				resume( function() {
+					assert.isFalse( container.$.scrollTop === 0 );
+				} );
+			} );
+			wait();
 		}
 	} );
 
