@@ -329,6 +329,7 @@
 					// In case parent div has only align attr, move it to the table element (https://dev.ckeditor.com/ticket/16811).
 					if ( parent.name && parent.name === 'div' && parent.attributes.align &&
 						tools.objectKeys( parent.attributes ).length === 1 && parent.children.length === 1 ) {
+
 						// If align is the only attribute of parent.
 						element.attributes.align = parent.attributes.align;
 
