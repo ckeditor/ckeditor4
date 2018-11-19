@@ -378,8 +378,16 @@
 						Style.setStyle( element, 'border-' + modifier, '' );
 					} );
 
+					Style.setStyle( element, 'width', convertToPx( styles.width ) );
+					Style.setStyle( element, 'height', convertToPx( styles.height ) );
+
 					Style.createStyleStack( element, filter, editor,
 						/margin|text\-align|padding|list\-style\-type|width|height|border|white\-space|vertical\-align|background/i );
+
+					function convertToPx( style ) {
+						// Style may be set to some string value e.g. `inherit`.
+						return parseFloat( style ) ? CKEDITOR.tools.convertToPx( style ) + 'px' : style;
+					}
 
 					function mergeBorderStyles( borderType, borderValue ) {
 						var currentBorder = borderValue ? CKEDITOR.tools.style.parse.border( borderValue ) : {},
@@ -407,10 +415,7 @@
 							width: '0'
 						}, borderObj );
 
-						// Width may be set to some string value e.g. `inherit`.
-						borderObj.width = parseFloat( borderObj.width ) ?
-							CKEDITOR.tools.convertToPx( borderObj.width ) + 'px'
-							: borderObj.width;
+						borderObj.width = convertToPx( borderObj.width );
 
 						return borderObj.width + ' ' +
 							borderObj.style + ' ' +
@@ -625,7 +630,7 @@
 				return;
 			}
 
-			if ( value === '' ) {
+			if ( value === '' || value == null ) {
 				delete styles[ key ];
 			} else {
 				styles[ key ] = value;
