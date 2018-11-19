@@ -1,4 +1,4 @@
-@bender-tags: 4.7.0, bug, trac14894, 4.11.0, 1429
+@bender-tags: 4.7.0, bug, trac14894, 4.12.0, 1429
 @bender-ui: collapsed
 @bender-ckeditor-plugins: clipboard, contextmenu, toolbar, wysiwygarea, link
 

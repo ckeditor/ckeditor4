@@ -1,4 +1,4 @@
-@bender-tags: 4.11.0, feature, 2420
+@bender-tags: 4.12.0, feature, 2420
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, floatingspace, toolbar, easyimage
 
