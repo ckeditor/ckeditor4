@@ -1,0 +1,79 @@
+<style>
+	#loading-placeholder {
+		font-size: 2em;
+		text-align: center;
+	}
+
+	#react-app {
+		visibility: hidden;
+	}
+
+</style>
+
+<script>
+	if ( ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
+
+</script>
+
+<div id="loading-placeholder">Loading editors…</div>
+<div id="react-app"></div>
+
+<!-- Polyfill for IE11 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.0.0/polyfill.min.js"></script>
+
+<script src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/react-router-dom@4.3.1/umd/react-router-dom.min.js"></script>
+<script src="../_assets/dist/ckeditor.js"></script>
+
+<script>
+	var defaultValue = '<p>Hi, I\'m CKEditor 4 instance!</p>',
+		config = {
+			toolbarGroups: [ {
+					name: 'mode',
+				},
+				{
+					name: 'clipboard',
+					groups: [ 'clipboard', 'undo' ]
+				},
+				{
+					name: 'basicstyles',
+				},
+				{
+					name: 'links'
+				}
+			]
+		},
+		loadedEditorsCount = 0;
+
+	ReactDOM.render( [ React.createElement( 'h2', {}, 'Classic editor' ),
+			React.createElement( CKEditor, {
+				data: defaultValue,
+				config: config,
+				onInstanceReady: editorReady
+			} ),
+			React.createElement( 'h2', {}, 'Inline editor' ),
+			React.createElement( CKEditor, {
+				data: defaultValue,
+				config: CKEDITOR.tools.extend( {
+					extraPlugins: 'sourcedialog'
+				}, config ),
+				type: 'inline',
+				onInstanceReady: editorReady
+			} )
+		],
+		window.document.getElementById( 'react-app' )
+	);
+
+	function editorReady( evt ) {
+		loadedEditorsCount++;
+
+		if ( loadedEditorsCount == 2 ) {
+			CKEDITOR.document.getById( 'loading-placeholder' ).hide();
+			CKEDITOR.document.getById( 'react-app' ).setStyle( 'visibility', 'visible' );
+		}
+	}
+
+</script>
