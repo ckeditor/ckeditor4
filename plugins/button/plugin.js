@@ -286,25 +286,25 @@
 			}
 			var iconStyle = CKEDITOR.skin.getIconStyle( iconPath, ( editor.lang.dir == 'rtl' ), overridePath, this.iconOffset ),
 				params = {
-				id: id,
-				name: name,
-				iconName: iconName,
-				label: this.label,
-				// .cke_button_expandable enables additional styling for popup buttons (#2483).
-				cls:  ( this.hasArrow ? 'cke_button_expandable ' : '' ) + ( this.className || '' ),
-				state: stateName,
-				style: this.style ? ( ' style="' + this.style + '"' ) : '',
-				ariaDisabled: stateName == 'disabled' ? 'true' : 'false',
-				title: this.title + ( shortcut ? ' (' + shortcut.display + ')' : '' ),
-				ariaShortcut: shortcut ? editor.lang.common.keyboardShortcut + ' ' + shortcut.aria : '',
-				titleJs: env.gecko && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
-				hasArrow: typeof this.hasArrow === 'string' && this.hasArrow || ( this.hasArrow ? 'true' : 'false' ),
-				keydownFn: keydownFn,
-				focusFn: focusFn,
-				clickFn: clickFn,
-				icon: ( this.icon == false ? '' : '<span class="cke_button_icon cke_button__' + iconName + '_icon" style="' + iconStyle + '">&nbsp;</span>' ),
-				arrowHtml: this.hasArrow ? btnArrowTpl.output() : ''
-			};
+					id: id,
+					name: name,
+					iconName: iconName,
+					label: this.label,
+					// .cke_button_expandable enables additional styling for popup buttons (#2483).
+					cls:  ( this.hasArrow ? 'cke_button_expandable ' : '' ) + ( this.className || '' ),
+					state: stateName,
+					style: this.style ? ( ' style="' + this.style + '"' ) : '',
+					ariaDisabled: stateName == 'disabled' ? 'true' : 'false',
+					title: this.title + ( shortcut ? ' (' + shortcut.display + ')' : '' ),
+					ariaShortcut: shortcut ? editor.lang.common.keyboardShortcut + ' ' + shortcut.aria : '',
+					titleJs: env.gecko && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
+					hasArrow: typeof this.hasArrow === 'string' && this.hasArrow || ( this.hasArrow ? 'true' : 'false' ),
+					keydownFn: keydownFn,
+					focusFn: focusFn,
+					clickFn: clickFn,
+					icon: ( this.icon == false ? '' : '<span class="cke_button_icon cke_button__' + iconName + '_icon" style="' + iconStyle + '">&nbsp;</span>' ),
+					arrowHtml: this.hasArrow ? btnArrowTpl.output() : ''
+				};
 
 			btnTpl.output( params, output );
 
