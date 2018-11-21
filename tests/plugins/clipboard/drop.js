@@ -1201,7 +1201,7 @@ var testsForMultipleEditor = {
 
 			editor.editable().fire( 'dragover', data );
 
-			assert.isFalse( spy.called, 'preventDefault not called.' );
+			assert.isTrue( spy.called, 'preventDefault called.' );
 		}
 	};
 

@@ -1471,6 +1471,11 @@
 			// we drop image it will overwrite document.
 
 			editable.attachListener( dropTarget, 'dragover', function( evt ) {
+				// Edge requires this handler to have `preventDefault()` regardless of the situation.
+				if ( CKEDITOR.env.edge ) {
+					evt.data.preventDefault();
+					return;
+				}
 
 				var target = evt.data.getTarget();
 				// Prevent reloading page when dragging image on empty document (https://dev.ckeditor.com/ticket/12619).
