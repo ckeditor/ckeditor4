@@ -1,4 +1,4 @@
-@bender-tags: 4.10.2, 1943, 2303
+@bender-tags: 4.11.2, 1943, 2303
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, clipboard
 
