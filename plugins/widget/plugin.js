@@ -9,6 +9,8 @@
 
 'use strict';
 
+/* global Promise */
+
 ( function() {
 	var DRAG_HANDLER_SIZE = 15;
 
@@ -1007,16 +1009,25 @@
 
 		setupWidget( this, widgetDef );
 
-		this.init && this.init();
+		var initRet;
+
+		this.init && ( initRet = this.init() );
 
 		// Finally mark widget as inited.
 		this.inited = true;
 
 		setupWidgetData( this, startupData );
 
-		// If at some point (e.g. in #data listener) widget hasn't been destroyed
-		// and widget is already attached to document then fire #ready.
-		if ( this.isInited() && editor.editable().contains( this.wrapper ) ) {
+		if ( initRet instanceof Promise ) {
+			// Asynchronous path: dev is responsible for resolving promise once widget is ready.
+			initRet.then( CKEDITOR.tools.bind( markWidgetReady, this ) );
+		} else if ( this.isInited() && editor.editable().contains( this.wrapper ) ) {
+			// Synchronous path: If at some point (e.g. in #data listener) widget hasn't been destroyed
+			// and widget is already attached to document then fire #ready.
+			markWidgetReady.call( this );
+		}
+
+		function markWidgetReady() {
 			this.ready = true;
 			this.fire( 'ready' );
 		}
@@ -4018,14 +4029,20 @@
  * use the `init` method to populate widget data with information loaded from
  * the DOM, like for exmaple:
  *
- *		init: function() {
- *			this.setData( 'width', this.element.getStyle( 'width' ) );
+ *	```js
+ *	init: function() {
+ *		this.setData( 'width', this.element.getStyle( 'width' ) );
  *
- *			if ( this.parts.caption.getStyle( 'display' ) != 'none' )
- *				this.setData( 'showCaption', true );
- *		}
+ *		if ( this.parts.caption.getStyle( 'display' ) != 'none' )
+ *			this.setData( 'showCaption', true );
+ *	}
+ * ```
+ *
+ * Since **CKEditor 4.12.0** this function might return a `Promise` in which case
+ * it will trigger {@link #ready} event only once the promise is resolved.
  *
  * @property {Function} init
+ * @returns {null/Promise}
  */
 
 /**
