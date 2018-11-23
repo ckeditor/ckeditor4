@@ -469,7 +469,7 @@
 						return;
 					}
 
-					var styles = tools.parseCssText( element.attributes.style );
+					var styles = tools.parseCssText( element.attributes.style, true );
 
 					if ( styles[ 'page-break-before' ] === 'always' ) {
 						var pagebreakEl = CKEDITOR.plugins.pagebreak.createElement( editor );

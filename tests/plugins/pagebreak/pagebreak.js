@@ -44,7 +44,7 @@
 				'</div>',
 				element = CKEDITOR.plugins.pagebreak.createElement( this.editor );
 
-			assert.beautified.html( expected, element.getOuterHtml() );
+			assert.beautified.html( expected, element.getOuterHtml(), { fixStyles: true } );
 		},
 
 		'test paste': function() {
