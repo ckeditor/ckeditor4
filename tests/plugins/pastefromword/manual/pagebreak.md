@@ -1,4 +1,4 @@
-@bender-tags: feature, 4.12.0, pastefromword
+@bender-tags: feature, 4.12.0, pastefromword, 2598
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromword, sourcearea, elementspath, list, pagebreak, table, image, div
 
