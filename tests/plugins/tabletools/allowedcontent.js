@@ -25,7 +25,9 @@
 					rng.select();
 
 					bot.contextmenu( function( menu ) {
-						var items = menu.items[ 0 ].getItems();
+						var tableCellItem = getTableCellItem( menu.items ),
+							items = tableCellItem.getItems();
+
 						assert[ editor.name === 'editor' ? 'isFalse' : 'isTrue' ]( 'tablecell_properties' in items );
 						menu.hide();
 
@@ -121,4 +123,10 @@
 		};
 	} );
 	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
+
+	function getTableCellItem( items ) {
+		return CKEDITOR.tools.array.filter( items, function( item ) {
+			return item.className === 'cke_menubutton__tablecell';
+		} )[ 0 ];
+	}
 } )();
