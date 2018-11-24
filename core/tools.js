@@ -1464,17 +1464,18 @@
 		 * Detects which mouse button generated a given DOM event.
 		 *
 		 * @since 4.7.3
-		 * @param {CKEDITOR.dom.event} evt DOM event.
+		 * @param {CKEDITOR.dom.event/MouseEvent} evt DOM event. Since 4.11.2 native DOM event can be passed.
 		 * @returns {Number|Boolean} Returns a number indicating the mouse button or `false`
 		 * if the mouse button cannot be determined.
 		 */
 		getMouseButton: function( evt ) {
-			var evtData = evt.data,
-				domEvent = evtData && evtData.$;
+			var domEvent = evt.data && evt.data.$;
 
-			if ( !( evtData && domEvent ) ) {
-				// Added in case when there's no data available. That's the case in some unit test in built version which
-				// mock event but doesn't put data object.
+			if ( evt instanceof Event ) {
+				domEvent = evt;
+			}
+
+			if ( !domEvent ) {
 				return false;
 			}
 
