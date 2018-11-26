@@ -9,6 +9,10 @@ Fixed Issues:
 * [#2527](https://github.com/ckeditor/ckeditor-dev/issues/2527): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) autocomplete order now prioritize emojis with name started from used string.
 * [#1268](https://github.com/ckeditor/ckeditor-dev/issues/1268): Fixed: Dropdown doesn't show hover state inside [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar).
 
+API Changes:
+
+* [#1268](https://github.com/ckeditor/ckeditor-dev/issues/1268): Exposed the [`CKEDITOR.ui.richCombo.updateState`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_richCombo.html#method-updateState) method.
+
 ## CKEditor 4.11.2
 
 Fixed Issues:
