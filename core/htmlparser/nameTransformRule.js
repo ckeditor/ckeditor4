@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Defines the "virtual" {@link CKEDITOR.htmlParser.nameFilterRule} class
+ * @fileOverview Defines the "virtual" {@link CKEDITOR.htmlParser.nameTransformRule} class
  * that contains the definition of rule for filtering element names or attribute names. This file is for
  * documentation purposes only.
  */
@@ -16,7 +16,7 @@
  *  var rule = [ /^div$/, 'p' ];
  * ```
  *
- * @class CKEDITOR.htmlParser.nameFilterRule
+ * @class CKEDITOR.htmlParser.nameTransformRule
  * @abstract
  */
 

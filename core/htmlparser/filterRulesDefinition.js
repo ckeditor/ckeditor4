@@ -22,7 +22,7 @@
  */
 
 /**
- * @property {CKEDITOR.htmlParser.nameFilterRule[]} elementNames An array of rules for element names transformation.
+ * @property {CKEDITOR.htmlParser.nameTransformRule[]} elementNames An array of rules for element names transformation.
  * Every rule match will be replaced by the given string.
  *
  * Examples:
@@ -37,7 +37,7 @@
  */
 
 /**
- * @property {CKEDITOR.htmlParser.nameFilterRule[]} attributeNames An array of rules for attribute names transformation.
+ * @property {CKEDITOR.htmlParser.nameTransformRule[]} attributeNames An array of rules for attribute names transformation.
  * Every matching string from the first item will be converted into a second.
  *
  * Examples:
