@@ -15,6 +15,8 @@
  * Definition object represents rules as a set of properties with callback functions
  * to be applied for transforming and filtering content upon data processing.
  *
+ * Can be used with {@link CKEDITOR.htmlParser.filter} and {@link CKEDITOR.htmlParser.filter.addRules}.
+ *
  * @class CKEDITOR.htmlParser.filterRulesDefinition
  * @abstract
  */
