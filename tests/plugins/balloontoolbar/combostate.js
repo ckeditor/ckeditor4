@@ -8,12 +8,11 @@
 	bender.editor = {};
 
 	var tests = {
-		init: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 || bender.tools.env.mobile ) {
-				bender.ignore();
-			}
-		},
 		'test stylescombo state': function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 || bender.tools.env.mobile ) {
+				assert.ignore();
+			}
+
 			var editor = this.editor,
 				panel,
 				comboButton;
