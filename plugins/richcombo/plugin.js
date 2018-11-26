@@ -110,7 +110,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 			 * Updates state of the combo.
 			 *
 			 * @since 4.11.2
-			 * @param {CKEDITOR.editor} editor The editor instance which this rich combo is to be used by.
+			 * @param {CKEDITOR.editor} editor The editor instance, which owns this rich combo.
 			 */
 			updateState: function( editor ) {
 				// Don't change state while richcombo is active (https://dev.ckeditor.com/ticket/11793).
