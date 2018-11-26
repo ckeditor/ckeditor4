@@ -32,6 +32,7 @@ bender.test( {
 		assert.isTrue( btnEl.hasClass( 'cke_combo__custom_combo' ), 'check named ui type class name' );
 		assert.isTrue( btnEl.hasClass( customCls ), 'check ui item custom class name' );
 	},
+
 	// WAI-ARIA 1.1 has added new values for aria-haspopup property (#2072).
 	'test aria-haspopup': function() {
 		var combo = this.editor.ui.get( 'custom_combo' ),
@@ -59,53 +60,81 @@ bender.test( {
 	},
 
 	// (#1268)
-	'test updatestate': testUpdateState(),
+	'test combo state when editor is read only': testComboState( {
+		readOnly: true,
+		expected: CKEDITOR.TRISTATE_DISABLED
+	} ),
 
 	// (#1268)
-	'test updatestate read only editor': testUpdateState( { readOnly: true } ),
+	'test combo state when editor mode changes': testComboState( {
+		mode: 'source',
+		expected: CKEDITOR.TRISTATE_DISABLED
+	} ),
 
 	// (#1268)
-	'test updatestate source mode': testUpdateState( { mode: 'source' } ),
-
-	// (#1268)
-	'test updatestate combo on': testUpdateState( { comboOn: true } )
+	'test combo state when combo is on': testComboState( {
+		comboOn: true,
+		expected: CKEDITOR.TRISTATE_ON
+	} )
 } );
 
-function testUpdateState( options ) {
+function testComboState( options ) {
 	return function() {
 		var editor = this.editor,
 			combo = editor.ui.get( 'custom_combo' ),
-			spy = sinon.spy( combo, 'setState' ),
-			expected = { callCount: 1, state: CKEDITOR.TRISTATE_OFF },
+			expected = options.expected,
 			originalMode;
 
-		options = options || {};
-
-		if ( options.mode && options.mode !== editor.mode ) {
-			originalMode = editor.mode;
-			editor.setMode( options.mode );
-		}
-
-		if ( options.readOnly || originalMode ) {
-			editor.setReadOnly( true );
-			expected.state = CKEDITOR.TRISTATE_DISABLED;
-		}
+		assert.areEqual( CKEDITOR.TRISTATE_OFF, combo.getState() );
 
 		if ( options.comboOn ) {
+			assertComboStateWhenComboIsOn( expected );
+		}
+
+		if ( options.readOnly ) {
+			assertComboStateWhenReadOnly( expected );
+		}
+
+		if ( options.mode && options.mode !== editor.mode ) {
+			assertComboStateWhenEditorModeChanges( expected );
+		}
+
+		function assertComboStateWhenComboIsOn( expected ) {
 			combo.setState( CKEDITOR.TRISTATE_ON );
-			spy.reset();
-			expected = { callCount: 0, state: CKEDITOR.TRISTATE_ON };
+			assertComboState( expected );
+
+			combo.setState( CKEDITOR.TRISTATE_OFF );
+			assertComboState( CKEDITOR.TRISTATE_OFF );
 		}
 
-		combo.updateState( editor );
+		function assertComboStateWhenReadOnly( expected ) {
+			editor.setReadOnly( true );
+			assertComboState( expected );
 
-		spy.restore();
-
-		if ( originalMode ) {
-			editor.setMode( originalMode );
+			editor.setReadOnly( false );
+			assertComboState( CKEDITOR.TRISTATE_OFF );
 		}
 
-		assert.areEqual( expected.callCount, spy.callCount );
-		assert.areEqual( expected.state, combo.getState() );
+		function assertComboStateWhenEditorModeChanges( expected ) {
+			originalMode = editor.mode;
+			editor.setMode( options.mode, function() {
+				resume( function() {
+					assertComboState( expected );
+
+					editor.setMode( 'wysiwyg', function() {
+						resume( function() {
+							assertComboState( CKEDITOR.TRISTATE_OFF );
+						} );
+					} );
+					wait();
+				} );
+			} );
+			wait();
+		}
+
+		function assertComboState( expected ) {
+			combo.updateState( editor );
+			assert.areEqual( expected, combo.getState() );
+		}
 	};
 }
