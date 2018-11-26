@@ -83,7 +83,7 @@ function testUpdateState( options ) {
 
 		if ( options.mode && options.mode !== editor.mode ) {
 			originalMode = editor.mode;
-			editor.mode = options.mode;
+			editor.setMode( options.mode );
 		}
 
 		if ( options.readOnly || originalMode ) {
@@ -102,7 +102,7 @@ function testUpdateState( options ) {
 		spy.restore();
 
 		if ( originalMode ) {
-			editor.mode = originalMode;
+			editor.setMode( originalMode );
 		}
 
 		assert.areEqual( expected[ 0 ], spy.callCount );
