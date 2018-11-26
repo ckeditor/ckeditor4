@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: richcombo,toolbar */
+/* bender-ckeditor-plugins: richcombo,toolbar,sourcearea */
 
 var customCls = 'my_combo';
 bender.editor = {
