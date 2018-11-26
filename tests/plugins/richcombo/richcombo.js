@@ -76,7 +76,7 @@ function testUpdateState( options ) {
 		var editor = this.editor,
 			combo = editor.ui.get( 'custom_combo' ),
 			spy = sinon.spy( combo, 'setState' ),
-			expected = [ 1, CKEDITOR.TRISTATE_OFF ],
+			expected = { callCount: 1, state: CKEDITOR.TRISTATE_OFF },
 			originalMode;
 
 		options = options || {};
@@ -88,13 +88,13 @@ function testUpdateState( options ) {
 
 		if ( options.readOnly || originalMode ) {
 			editor.setReadOnly( true );
-			expected[ 1 ] = CKEDITOR.TRISTATE_DISABLED;
+			expected.state = CKEDITOR.TRISTATE_DISABLED;
 		}
 
 		if ( options.comboOn ) {
 			combo.setState( CKEDITOR.TRISTATE_ON );
 			spy.reset();
-			expected = [ 0, CKEDITOR.TRISTATE_ON ];
+			expected = { callCount: 0, state: CKEDITOR.TRISTATE_ON };
 		}
 
 		combo.updateState( editor );
@@ -105,7 +105,7 @@ function testUpdateState( options ) {
 			editor.setMode( originalMode );
 		}
 
-		assert.areEqual( expected[ 0 ], spy.callCount );
-		assert.areEqual( expected[ 1 ], combo.getState() );
+		assert.areEqual( expected.callCount, spy.callCount );
+		assert.areEqual( expected.state, combo.getState() );
 	};
 }
