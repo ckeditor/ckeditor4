@@ -108,7 +108,9 @@ CKEDITOR.plugins.removeformat = {
 							// Cache the next node to be processed. Do it now, because
 							// currentNode may be removed.
 							var nextNode = currentNode.getNextSourceNode( false, CKEDITOR.NODE_ELEMENT ),
-								isFakeElement = ( currentNode.getName() == 'img' && currentNode.data( 'cke-realelement' ) ) || currentNode.hasAttribute( 'data-cke-bookmark' );
+								isFakeElement =
+									( currentNode.getName() == 'img' && currentNode.data( 'cke-realelement' ) ) ||
+									currentNode.hasAttribute( 'data-cke-bookmark' );
 
 							// This node must not be a fake element, and must not be read-only.
 							if ( !isFakeElement && filter( editor, currentNode ) ) {
