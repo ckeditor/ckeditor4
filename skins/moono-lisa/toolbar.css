@@ -297,6 +297,7 @@ a.cke_button_disabled .cke_button_arrow
 
 /* Adjust separator position on button hover. */
 .cke_toolgroup a.cke_button:hover:last-child:after,
+.cke_toolgroup a.cke_button:focus:last-child:after,
 .cke_toolgroup a.cke_button.cke_button_on:last-child:after
 {
 	top: -1px;
@@ -304,6 +305,7 @@ a.cke_button_disabled .cke_button_arrow
 }
 
 .cke_rtl .cke_toolgroup a.cke_button:hover:last-child:after,
+.cke_rtl .cke_toolgroup a.cke_button:focus:last-child:after,
 .cke_rtl .cke_toolgroup a.cke_button.cke_button_on:last-child:after
 {
 	top: -1px;
