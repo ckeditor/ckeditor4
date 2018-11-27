@@ -2,8 +2,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, elementspath, format, list, removeformat
 
-1. Select whole editor content.
 1. Press `numbered list` button.
+1. Select `h1` with elements path.
 1. Press `remove format` button.
 
 ## Expected
