@@ -7,6 +7,6 @@ CKEDITOR.plugins.setLang( 'templates', 'tr', {
 	emptyListMsg: '(Belirli bir şablon seçilmedi)',
 	insertOption: 'Mevcut içerik ile değiştir',
 	options: 'Şablon Seçenekleri',
-	selectPromptMsg: 'Düzenleyicide açmak için lütfen bir şablon seçin.<br>(hali hazırdaki içerik kaybolacaktır.):',
+	selectPromptMsg: 'Düzenleyicide açmak için lütfen bir şablon seçin:',
 	title: 'İçerik Şablonları'
 } );
