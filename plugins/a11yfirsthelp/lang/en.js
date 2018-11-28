@@ -157,11 +157,11 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
 \n\
 * A **decorative** image does not add information to the document, and therefore does not require a text alternative.\n\
 \n\
-### Text Alternatives\n\
+### Accessible Descriptions\n\
 \n\
-A text alternative for an image is an accessible text description that accurately presents the informational content of the image.\n\
+An accessible description for an image is a text alternative that accurately presents the informational content of the image.\n\
 \n\
-There are two types of text alternatives:\n\
+There are two types of accessible descriptions:\n\
 \n\
 1. A **short description** briefly describes the main purpose or content of an informative image.\n\
 1. A **long description** provides a more detailed description of the information or data contained in a complex image.\n\
@@ -170,7 +170,7 @@ There are two types of text alternatives:\n\
 \n\
 * Each informative image, regardless of its complexity, requires a short description, which you provide in the **Short description** field.\n\
 \n\
-* The short description is added to the `alt` attribute of the `img` element.\n\
+* The short description is added to the `alt` attribute of the `img` element. Its length is typically no more than 100 characters.\n\
 \n\
 * There is more information below on writing an effective short description.\n\
 \n\
@@ -182,7 +182,7 @@ There are two types of text alternatives:\n\
 \n\
 * A complex image needs both a short description and a longer, more detailed description.\n\
 \n\
-* If an image is informationally complex, accessibility requirements mandate that the additional long description be placed within the document just before or after the image.\n\
+* If an image is informationally complex, accessibility requirements mandate that the additional long description be placed within the document adjacent to the image.\n\
 \n\
 ### Adding a long description\n\
 \n\

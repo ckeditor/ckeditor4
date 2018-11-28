@@ -12,11 +12,11 @@
 
 * A **decorative** image does not add information to the document, and therefore does not require a text alternative.
 
-### Text Alternatives
+### Accessible Descriptions
 
-A text alternative for an image is an accessible text description that accurately presents the informational content of the image.
+An accessible description for an image is a text alternative that accurately presents the informational content of the image.
 
-There are two types of text alternatives:
+There are two types of accessible descriptions:
 
 1. A **short description** briefly describes the main purpose or content of an informative image.
 1. A **long description** provides a more detailed description of the information or data contained in a complex image.
@@ -25,7 +25,7 @@ There are two types of text alternatives:
 
 * Each informative image, regardless of its complexity, requires a short description, which you provide in the **Short description** field.
 
-* The short description is added to the `alt` attribute of the `img` element.
+* The short description is added to the `alt` attribute of the `img` element. Its length is typically no more than 100 characters.
 
 * There is more information below on writing an effective short description.
 
@@ -37,7 +37,7 @@ There are two types of text alternatives:
 
 * A complex image needs both a short description and a longer, more detailed description.
 
-* If an image is informationally complex, accessibility requirements mandate that the additional long description be placed within the document just before or after the image.
+* If an image is informationally complex, accessibility requirements mandate that the additional long description be placed within the document adjacent to the image.
 
 ### Adding a long description
 

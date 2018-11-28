@@ -393,6 +393,45 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
   /*   UI components for return object's contents / elements array    */
   /* ---------------------------------------------------------------- */
 
+  var imageTypeMessageBox = {
+    type: 'hbox',
+    children: [
+      {
+        type: 'html',
+        style: 'padding: 0.5em 0 0 2px',
+        html: '<details>' +
+              '<summary>' + lang.typeSummary + '</summary>' +
+              '<br>' +
+              lang.typeDetails1 + '<br>' +
+              lang.typeDetails2 + '<br>' +
+              lang.typeDetails3 +
+              '</details>'
+      }
+    ]
+  };
+
+  /* ---------------------------------------------------------------- */
+
+  var longDescriptionMessageBox = {
+    type: 'hbox',
+    children: [
+      {
+        type: 'html',
+        style: 'padding: 0.5em 0 0.5em 2px',
+        html: '<details>' +
+              '<summary>' + lang.longDescSummary + '</summary>' +
+              '<br>' +
+              lang.longDescDetails1 + '<br>' +
+              lang.longDescDetails2 + '<br>' +
+              lang.longDescDetails3 + '<br>' +
+              lang.longDescDetails4 + '<br>' +
+              lang.longDescDetails5 +
+              '</details>'
+      }
+    ]
+  };
+
+  /* ---------------------------------------------------------------- */
   var imageTypeFieldset = {
     id: 'imageTypeFieldset',
     type: 'fieldset',
@@ -469,24 +508,10 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
             }
           }
         ]
-      }
-    ]
-  };
+      },
 
-  /* ---------------------------------------------------------------- */
+      imageTypeMessageBox
 
-  var imageTypeMessageBox = {
-    type: 'hbox',
-    children: [
-      {
-        type: 'html',
-        style: 'padding: 0.75em 1em; background-color: #f8f8f8',
-        html: '<div>' +
-              lang.typeMessage1 + '<br>' +
-              lang.typeMessage2 + '<br>' +
-              lang.typeMessage3 +
-              '</div>'
-      }
     ]
   };
 
@@ -828,6 +853,8 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
       hasLongDescriptionCheckbox,
 
+      longDescriptionMessageBox,
+
       descriptionLocationFieldset,
 
       infoDetailDescLink
@@ -915,7 +942,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
           imageTypeFieldset,
 
-          imageTypeMessageBox,
+          // imageTypeMessageBox,
 
           imageDescFieldset,
 
