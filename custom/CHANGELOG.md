@@ -2,7 +2,7 @@
 
 All notable changes to the A11yFirst project will be documented in this file.
 
-## v1.0.2 – 2 Nov 2018
+## v1.0.2 – 28 Nov 2018
 
 ### Updates
 
