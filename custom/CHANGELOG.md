@@ -7,19 +7,19 @@ All notable changes to the A11yFirst project will be documented in this file.
 ### Updates
 
 * Design modifications of Image plugin dialog
-  * Add summary/details box underneath Image Type radio buttons with summary
-    label `How to choose the image type?`
-  * Revert `Text Alternatives` label to `Accessible Descriptions`
-  * Replace label text `A long description is included in the document`
-    with `Long description required within the document`
-  * Update the tooltip for the `Long description required` label
-  * Add summary/details box underneath `Long description required` label with
-    summary label `When is a long description required?`
-  * Change link text in `Accessible Descriptions` from `More information on
-    text alternatives` to `More information on short and long descriptions`
-  * Move `Insert caption` checkbox into a fieldset labeled `Caption` for
+  * Add summary/details box underneath ‘Image Type’ radio buttons with summary
+    label ‘How to choose the image type?’
+  * Revert ‘Text Alternatives’ label to ‘Accessible Descriptions’
+  * Replace label text ‘A long description is included in the document’
+    with ‘Long description required within the document’
+  * Update the tooltip for the ‘Long description required’ label
+  * Add summary/details box underneath ‘Long description required’ label with
+    summary label ‘When is a long description required?’
+  * Change link text in ‘Accessible Descriptions’ from ‘More information on
+    text alternatives’ to ‘More information on short and long descriptions’
+  * Move ‘Insert caption’ checkbox into a fieldset labeled ‘Caption’ for
     improved labeling and findability of dialog elements
-  * Update Image Help  to sync with updated labeling in the Image dialog
+  * Update Image Help to sync with updated labeling in the Image dialog
 
 ## v1.0.1 – 26 Oct 2018
 
