@@ -77,7 +77,13 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				children: [],
 				dir: editor.lang.dir,
 				showBlockParams: null,
-				markFirst: definition.markFirst !== undefined ? definition.markFirst : true
+				markFirst: definition.markFirst !== undefined ? definition.markFirst : true,
+				blockRect: null,
+				rectOffset: null,
+				getShowBlockParams: getShowBlockParams.bind( this ),
+				getPositionedAncestorPosition: getPositionedAncestorPosition.bind( this ),
+				getInitialPosition: getInitialPosition.bind( this ),
+				calculateElementPosition: calculateElementPosition.bind( this )
 			};
 
 			editor.on( 'mode', hide );
@@ -154,26 +160,13 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				this._.returnFocus = editable.hasFocus ? editable : new CKEDITOR.dom.element( CKEDITOR.document.$.activeElement );
 				this._.hideTimeout = 0;
 
-				var element = this.element,
-					iframe = this._.iframe,
-					// Edge prefers iframe's window to the iframe, just like the rest of the browsers (https://dev.ckeditor.com/ticket/13143).
+				var iframe = this._.iframe,
 					focused = CKEDITOR.env.ie && !CKEDITOR.env.edge ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow ),
-					doc = element.getDocument(),
-					positionedAncestor = this._.parentElement.getPositionedAncestor(),
-					position = offsetParent.getDocumentPosition( doc ),
-					positionedAncestorPosition = positionedAncestor ? positionedAncestor.getDocumentPosition( doc ) : { x: 0, y: 0 },
+					element = this.element,
 					rtl = this._.dir == 'rtl',
-					left = position.x + ( offsetX || 0 ) - positionedAncestorPosition.x,
-					top = position.y + ( offsetY || 0 ) - positionedAncestorPosition.y;
-
-				// Floating panels are off by (-1px, 0px) in RTL mode. (https://dev.ckeditor.com/ticket/3438)
-				if ( rtl && ( corner == 1 || corner == 4 ) )
-					left += offsetParent.$.offsetWidth;
-				else if ( !rtl && ( corner == 2 || corner == 3 ) )
-					left += offsetParent.$.offsetWidth - 1;
-
-				if ( corner == 3 || corner == 4 )
-					top += offsetParent.$.offsetHeight - 1;
+					position = this._.getInitialPosition( rtl ),
+					top = position.top,
+					left = position.left;
 
 				// Memorize offsetParent by it's ID.
 				this._.panel._.offsetParentId = offsetParent.getId();
@@ -207,15 +200,17 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						// the blur event may get fired even when focusing
 						// inside the window itself, so we must ensure the
 						// target is out of it.
-						if ( !this.allowBlur() || ev.data.getPhase() != CKEDITOR.EVENT_PHASE_AT_TARGET )
+						if ( !this.allowBlur() || ev.data.getPhase() != CKEDITOR.EVENT_PHASE_AT_TARGET ) {
 							return;
+						}
 
 						if ( this.visible && !this._.activeChild ) {
 							// [iOS] Allow hide to be prevented if touch is bound
 							// to any parent of the iframe blur happens before touch (https://dev.ckeditor.com/ticket/10714).
 							if ( CKEDITOR.env.iOS ) {
-								if ( !this._.hideTimeout )
+								if ( !this._.hideTimeout ) {
 									this._.hideTimeout = CKEDITOR.tools.setTimeout( doHide, 0, this );
+								}
 							} else {
 								doHide.call( this );
 							}
@@ -302,95 +297,25 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						}
 
 						// Flip panel layout horizontally in RTL with known width.
-						if ( rtl )
+						if ( rtl ) {
 							left -= element.$.offsetWidth;
+						}
 
 						// Pop the style now for measurement.
 						element.setStyle( 'left', left + 'px' );
 
-						/* panel layout smartly fit the viewport size. */
-						var panelElement = panel.element,
-							panelWindow = panelElement.getWindow(),
-							rect = element.$.getBoundingClientRect(),
-							viewportSize = panelWindow.getViewPaneSize();
+						position = this._.calculateElementPosition( left, top );
 
-						// Compensation for browsers that dont support "width" and "height".
-						var rectWidth = rect.width || rect.right - rect.left,
-							rectHeight = rect.height || rect.bottom - rect.top;
-
-						// Check if default horizontal layout is impossible.
-						var spaceAfter = rtl ? rect.right : viewportSize.width - rect.left,
-							spaceBefore = rtl ? viewportSize.width - rect.right : rect.left;
-
-						if ( rtl ) {
-							if ( spaceAfter < rectWidth ) {
-								// Flip to show on right.
-								if ( spaceBefore > rectWidth )
-									left += rectWidth;
-								// Align to window left.
-								else if ( viewportSize.width > rectWidth )
-									left = left - rect.left;
-								// Align to window right, never cutting the panel at right.
-								else
-									left = left - rect.right + viewportSize.width;
-							}
-						} else if ( spaceAfter < rectWidth ) {
-							// Flip to show on left.
-							if ( spaceBefore > rectWidth )
-								left -= rectWidth;
-							// Align to window right.
-							else if ( viewportSize.width > rectWidth )
-								left = left - rect.right + viewportSize.width;
-							// Align to window left, never cutting the panel at left.
-							else
-								left = left - rect.left;
-						}
-
-
-						// Check if the default vertical layout is possible.
-						var spaceBelow = viewportSize.height - rect.top,
-							spaceAbove = rect.top;
-
-						if ( spaceBelow < rectHeight ) {
-							// Flip to show above.
-							if ( spaceAbove > rectHeight )
-								top -= rectHeight;
-							// Align to window bottom.
-							else if ( viewportSize.height > rectHeight )
-								top = top - rect.bottom + viewportSize.height;
-							// Align to top, never cutting the panel at top.
-							else
-								top = top - rect.top;
-						}
-
-						// If IE is in RTL, we have troubles with absolute
-						// position and horizontal scrolls. Here we have a
-						// series of hacks to workaround it. (https://dev.ckeditor.com/ticket/6146)
-						if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-							var offsetParent = new CKEDITOR.dom.element( element.$.offsetParent ),
-								scrollParent = offsetParent;
-
-							// Quirks returns <body>, but standards returns <html>.
-							if ( scrollParent.getName() == 'html' ) {
-								scrollParent = scrollParent.getDocument().getBody();
-							}
-
-							if ( scrollParent.getComputedStyle( 'direction' ) == 'rtl' ) {
-								// For IE8, there is not much logic on this, but it works.
-								if ( CKEDITOR.env.ie8Compat ) {
-									left -= element.getDocument().getDocumentElement().$.scrollLeft * 2;
-								} else {
-									left -= ( offsetParent.$.scrollWidth - offsetParent.$.clientWidth );
-								}
-							}
-						}
+						left = position.left;
+						top = position.top;
 
 						// Trigger the onHide event of the previously active panel to prevent
 						// incorrect styles from being applied (https://dev.ckeditor.com/ticket/6170)
 						var innerElement = element.getFirst(),
 							activePanel;
-						if ( ( activePanel = innerElement.getCustomData( 'activePanel' ) ) )
+						if ( ( activePanel = innerElement.getCustomData( 'activePanel' ) ) ) {
 							activePanel.onHide && activePanel.onHide.call( this, 1 );
+						}
 						innerElement.setCustomData( 'activePanel', this );
 
 						element.setStyles( {
@@ -414,8 +339,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						block.element.focus();
 
 						// https://dev.ckeditor.com/ticket/10623, https://dev.ckeditor.com/ticket/10951 - restore the viewport's scroll position after focusing list element.
-						if ( CKEDITOR.env.webkit )
+						if ( CKEDITOR.env.webkit ) {
 							CKEDITOR.document.getBody().$.scrollTop = scrollTop;
+						}
 
 						// We need this get fired manually because of unfired focus() function.
 						this.allowBlur( true );
@@ -436,8 +362,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				}, CKEDITOR.env.air ? 200 : 0, this );
 				this.visible = 1;
 
-				if ( this.onShow )
+				if ( this.onShow ) {
 					this.onShow.call( this );
+				}
 			},
 
 			/**
@@ -446,11 +373,20 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			 * @since 4.5.4
 			 */
 			reposition: function() {
-				var blockParams = this._.showBlockParams;
+				var element = this.element,
+					left = CKEDITOR.tools.convertToPx( this.element.getStyle( 'left' ) ),
+					top = CKEDITOR.tools.convertToPx( this.element.getStyle( 'top' ) );
 
-				if ( this.visible && this._.showBlockParams ) {
-					this.hide();
-					this.showBlock.apply( this, blockParams );
+				if ( this.visible ) {
+					var initialPos = this._.getInitialPosition(  this._.dir == 'rtl' ),
+						position = this._.calculateElementPosition( initialPos.left, initialPos.top, true );
+
+					if ( position.left !== left || position.top !== top ) {
+						element.setStyles( {
+							left: position.left + 'px',
+							top: position.top + 'px'
+						} );
+					}
 				}
 			},
 
@@ -506,6 +442,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 					delete this._.lastFocused;
 					this._.showBlockParams = null;
+					this._.blockRect = null;
+					this._.blockPosition = null;
 
 					this._.editor.fire( 'panelHide', this );
 				}
@@ -610,4 +548,153 @@ CKEDITOR.plugins.add( 'floatpanel', {
 		isLastInstance && ( panels = {} );
 
 	} );
+
+
+	function getShowBlockParams() {
+		var params = this._.showBlockParams;
+		return {
+			name: params[ 0 ],
+			offsetParent: params[ 1 ],
+			corner: params[ 2 ],
+			offsetX: params[ 3 ],
+			offsetY: params[ 4 ],
+			callback: params[ 5 ]
+		};
+	}
+
+	function getPositionedAncestorPosition() {
+		var positionedAncestor = this._.parentElement.getPositionedAncestor(),
+			doc = CKEDITOR.document;
+		return positionedAncestor ? positionedAncestor.getDocumentPosition( doc ) : { x: 0, y: 0 };
+	}
+
+	function getInitialPosition( rtl ) {
+		var element = this.element,
+			doc = element.getDocument(),
+			showBlockParams = this._.getShowBlockParams(),
+			offsetParent = showBlockParams.offsetParent,
+			corner = showBlockParams.corner,
+			offsetX = showBlockParams.offsetX,
+			offsetY = showBlockParams.offsetY,
+			position = offsetParent.getDocumentPosition( doc ),
+			positionedAncestorPosition = this._.getPositionedAncestorPosition(),
+			left = position.x + ( offsetX || 0 ) - positionedAncestorPosition.x,
+			top = position.y + ( offsetY || 0 ) - positionedAncestorPosition.y;
+
+		if ( rtl && ( corner == 1 || corner == 4 ) ) {
+			left += offsetParent.$.offsetWidth;
+		} else if ( !rtl && ( corner == 2 || corner == 3 ) ) {
+			left += offsetParent.$.offsetWidth - 1;
+		}
+
+		if ( corner == 3 || corner == 4 ) {
+			top += offsetParent.$.offsetHeight - 1;
+		}
+
+		return {
+			left: left, top: top
+		};
+	}
+
+	function calculateElementPosition( left, top, reposition ) {
+		/* panel layout smartly fit the viewport size. */
+		var panel = this._.panel,
+			element = this.element,
+			rtl = this._.dir == 'rtl',
+			panelElement = panel.element,
+			panelWindow = panelElement.getWindow(),
+			rect = this._.blockRect || element.$.getBoundingClientRect(),
+			viewportSize = panelWindow.getViewPaneSize(),
+			positionedAncestorPosition = this._.getPositionedAncestorPosition();
+
+		if ( reposition && rtl ) {
+			left -= element.$.offsetWidth;
+		}
+
+		// Compensation for browsers that dont support "width" and "height".
+		var rectWidth = rect.width || rect.right - rect.left,
+			rectHeight = rect.height || rect.bottom - rect.top;
+
+		if ( this._.blockRect ) {
+			rect.left = left + positionedAncestorPosition.x;
+			rect.right = rect.left + rect.width;
+			rect.top = top + positionedAncestorPosition.y;
+			rect.bottom = rect.top + rect.height;
+		} else {
+			// Store rect to use it for repositioning.
+			this._.blockRect = CKEDITOR.tools.copy( rect );
+		}
+
+		// Check if default horizontal layout is impossible.
+		var spaceAfter = rtl ? rect.right : viewportSize.width - rect.left,
+			spaceBefore = rtl ? viewportSize.width - rect.right : rect.left;
+
+		if ( rtl ) {
+			if ( spaceAfter < rectWidth ) {
+				// Flip to show on right.
+				if ( spaceBefore > rectWidth ) {
+					left += rectWidth;
+					// Align to window left.
+				} else if ( viewportSize.width > rectWidth ) {
+					left = left - rect.left;
+					// Align to window right, never cutting the panel at right.
+				} else {
+					left = left - rect.right + viewportSize.width;
+				}
+			}
+		} else if ( spaceAfter < rectWidth ) {
+			// Flip to show on left.
+			if ( spaceBefore > rectWidth ) {
+				left -= rectWidth;
+				// Align to window right.
+			} else if ( viewportSize.width > rectWidth ) {
+				left = left - rect.right + viewportSize.width;
+				// Align to window left, never cutting the panel at left.
+			} else {
+				left = left - rect.left;
+			}
+		}
+
+
+		// Check if the default vertical layout is possible.
+		var spaceBelow = viewportSize.height - rect.top,
+			spaceAbove = rect.top;
+
+		if ( spaceBelow < rectHeight ) {
+			// Flip to show above.
+			if ( spaceAbove > rectHeight ) {
+				top -= rectHeight;
+				// Align to window bottom.
+			} else if ( viewportSize.height > rectHeight ) {
+				top = top - rect.bottom + viewportSize.height;
+				// Align to top, never cutting the panel at top.
+			} else {
+				top = top - rect.top;
+			}
+		}
+
+		// If IE is in RTL, we have troubles with absolute
+		// position and horizontal scrolls. Here we have a
+		// series of hacks to workaround it. (https://dev.ckeditor.com/ticket/6146)
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+			var offsetParent = new CKEDITOR.dom.element( element.$.offsetParent ),
+				scrollParent = offsetParent;
+
+			// Quirks returns <body>, but standards returns <html>.
+			if ( scrollParent.getName() == 'html' ) {
+				scrollParent = scrollParent.getDocument().getBody();
+			}
+
+			if ( scrollParent.getComputedStyle( 'direction' ) == 'rtl' ) {
+				// For IE8, there is not much logic on this, but it works.
+				if ( CKEDITOR.env.ie8Compat ) {
+					left -= element.getDocument().getDocumentElement().$.scrollLeft * 2;
+				} else {
+					left -= ( offsetParent.$.scrollWidth - offsetParent.$.clientWidth );
+				}
+			}
+		}
+
+		return { left: left, top: top };
+	}
 } )();
