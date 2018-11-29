@@ -1,0 +1,22 @@
+<textarea id="editor_ltr"></textarea>
+<textarea id="editor_rtl"></textarea>
+<script>
+	if ( emojiTools.notSupportedEnvironment) {
+		bender.ignore();
+	}
+
+	var toolbar = [];
+
+	toolbar.length = 20;
+	toolbar.fill( 'Redo' );
+	toolbar.push( 'EmojiPanel' );
+
+	CKEDITOR.replace( 'editor_ltr', {
+		toolbar: [ toolbar ]
+	} );
+
+	CKEDITOR.replace( 'editor_rtl', {
+		toolbar: [ toolbar ],
+		language: 'he'
+	} );
+</script>
