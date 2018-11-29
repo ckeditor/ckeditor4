@@ -76,7 +76,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				iframe: iframe,
 				children: [],
 				dir: editor.lang.dir,
-				showBlockParams: null
+				showBlockParams: null,
+				markFirst: definition.markFirst !== undefined ? definition.markFirst : true
 			};
 
 			editor.on( 'mode', hide );
@@ -365,20 +366,22 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						// If IE is in RTL, we have troubles with absolute
 						// position and horizontal scrolls. Here we have a
 						// series of hacks to workaround it. (https://dev.ckeditor.com/ticket/6146)
-						if ( CKEDITOR.env.ie ) {
+						if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 							var offsetParent = new CKEDITOR.dom.element( element.$.offsetParent ),
 								scrollParent = offsetParent;
 
 							// Quirks returns <body>, but standards returns <html>.
-							if ( scrollParent.getName() == 'html' )
+							if ( scrollParent.getName() == 'html' ) {
 								scrollParent = scrollParent.getDocument().getBody();
+							}
 
 							if ( scrollParent.getComputedStyle( 'direction' ) == 'rtl' ) {
 								// For IE8, there is not much logic on this, but it works.
-								if ( CKEDITOR.env.ie8Compat )
+								if ( CKEDITOR.env.ie8Compat ) {
 									left -= element.getDocument().getDocumentElement().$.scrollLeft * 2;
-								else
+								} else {
 									left -= ( offsetParent.$.scrollWidth - offsetParent.$.clientWidth );
+								}
 							}
 						}
 
@@ -418,12 +421,14 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						this.allowBlur( true );
 
 						// Ensure that the first item is focused (https://dev.ckeditor.com/ticket/16804).
-						if ( CKEDITOR.env.ie ) {
-							CKEDITOR.tools.setTimeout( function() {
+						if ( this._.markFirst ) {
+							if ( CKEDITOR.env.ie ) {
+								CKEDITOR.tools.setTimeout( function() {
+									block.markFirstDisplayed ? block.markFirstDisplayed() : block._.markFirstDisplayed();
+								}, 0 );
+							} else {
 								block.markFirstDisplayed ? block.markFirstDisplayed() : block._.markFirstDisplayed();
-							}, 0 );
-						} else {
-							block.markFirstDisplayed ? block.markFirstDisplayed() : block._.markFirstDisplayed();
+							}
 						}
 
 						this._.editor.fire( 'panelShow', this );

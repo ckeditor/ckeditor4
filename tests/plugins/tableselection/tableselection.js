@@ -1,5 +1,6 @@
 /* bender-tags: tableselection */
 /* bender-ckeditor-plugins: tableselection */
+/* bender-ckeditor-remove-plugins: undo */
 /* bender-include: _helpers/tableselection.js */
 /* global tableSelectionHelpers, mockMouseSelection */
 
@@ -172,6 +173,30 @@
 
 				assert.areSame( ranges, editor.getSelection().getRanges(), 'Selected ranges should be unchanged' );
 			} );
+		},
+
+		// (#1489)
+		'test random keys are not removing readonly selection': function( editor ) {
+			var selection = editor.getSelection(),
+				editable = editor.editable(),
+				table = CKEDITOR.document.getById( 'simpleTable' ).getHtml();
+
+			editor.setReadOnly( true );
+
+			bender.tools.setHtmlWithSelection( editor, table );
+
+			var row = editor.editable().findOne( 'tr' );
+			selection.selectElement( row );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 8 } ) ); // backspace
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) ); // delete
+
+			editable.fire( 'keypress', new CKEDITOR.dom.event( { keyCode: 65, charCode: 65 } ) ); // `a`
+			editable.fire( 'keypress', new CKEDITOR.dom.event( { keyCode: 93, charCode: 93 } ) ); // `t`
+
+			editor.setReadOnly( false );
+
+			assert.areSame( bender.tools.compatHtml( table ), editor.getData(), 'Editor data' );
 		}
 	};
 

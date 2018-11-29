@@ -21,7 +21,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 			' hidefocus="true"' +
 			' role="button"' +
 			' aria-labelledby="{id}_label"' +
-			' aria-haspopup="true"';
+			' aria-haspopup="listbox"';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -94,7 +94,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 			this._ = {
 				panelDefinition: panelDefinition,
-				items: {}
+				items: {},
+				listeners: []
 			};
 		},
 
@@ -106,12 +107,12 @@ CKEDITOR.plugins.add( 'richcombo', {
 			},
 
 			/**
-			 * Renders the combo.
+			 * Renders the rich combo.
 			 *
 			 * @param {CKEDITOR.editor} editor The editor instance which this button is
 			 * to be used by.
-			 * @param {Array} output The output array to which append the HTML relative
-			 * to this button.
+			 * @param {Array} output The output array that the HTML relative
+			 * to this button will be appended to.
 			 */
 			render: function( editor, output ) {
 				var env = CKEDITOR.env;
@@ -178,11 +179,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 				}
 
 				// Update status when activeFilter, mode, selection or readOnly changes.
-				editor.on( 'activeFilterChange', updateState, this );
-				editor.on( 'mode', updateState, this );
-				editor.on( 'selectionChange', updateState, this );
+				this._.listeners.push( editor.on( 'activeFilterChange', updateState, this ) );
+				this._.listeners.push( editor.on( 'mode', updateState, this ) );
+				this._.listeners.push( editor.on( 'selectionChange', updateState, this ) );
 				// If this combo is sensitive to readOnly state, update it accordingly.
-				!this.readOnly && editor.on( 'readOnly', updateState, this );
+				!this.readOnly && this._.listeners.push( editor.on( 'readOnly', updateState, this ) );
 
 				var keyDownFn = CKEDITOR.tools.addFunction( function( ev, element ) {
 					ev = new CKEDITOR.dom.event( ev );
@@ -381,11 +382,23 @@ CKEDITOR.plugins.add( 'richcombo', {
 					this._.lastState = this._.state;
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				}
+			},
+
+			/**
+			 * Removes all listeners from a rich combo element.
+			 *
+			 * @since 4.11.0
+			 */
+			destroy: function() {
+				CKEDITOR.tools.array.forEach( this._.listeners, function( listener ) {
+					listener.removeListener();
+				} );
+				this._.listeners = [];
 			}
 		},
 
 		/**
-		 * Represents richCombo handler object.
+		 * Represents a rich combo handler object.
 		 *
 		 * @class CKEDITOR.ui.richCombo.handler
 		 * @singleton
@@ -394,7 +407,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 		statics: {
 			handler: {
 				/**
-				 * Transforms a richCombo definition in a {@link CKEDITOR.ui.richCombo} instance.
+				 * Transforms a rich combo definition into a {@link CKEDITOR.ui.richCombo} instance.
 				 *
 				 * @param {Object} definition
 				 * @returns {CKEDITOR.ui.richCombo}

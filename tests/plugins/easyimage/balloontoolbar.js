@@ -119,8 +119,8 @@
 									// We care only about y axis.
 									var actual = moveSpy.args[ 0 ][ 0 ];
 
-									if ( CKEDITOR.env.ie && CKEDITOR.env.ie <= 11 ) {
-										// IE11 tends to be off by a fraction of a pixel on high DPI displays.
+									if ( CKEDITOR.env.ie && CKEDITOR.env.ie <= 11 || CKEDITOR.env.iOS ) {
+										// IE11 and Safari tends to be off by a fraction of a pixel on high DPI displays.
 										assert.isNumberInRange( actual, expectedY - 1, expectedY + 1, 'Balloon y position' );
 									} else {
 										assert.areSame( expectedY, actual, 'Balloon y position' );

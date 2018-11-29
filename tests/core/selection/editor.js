@@ -149,6 +149,14 @@ bender.test( {
 		}, 200 );
 	},
 
+	// (#2276)
+	'test "selectionCheck" fires for mouse, key and touch events': function() {
+		testSelectionCheck( this.editors.editor, 'touchstart' );
+		testSelectionCheck( this.editors.editor, 'touchend' );
+		testSelectionCheck( this.editors.editor, 'keyup' );
+		testSelectionCheck( this.editors.editor, 'mouseup' );
+	},
+
 	'test "selectionChange" not fired when editor selection is locked': function() {
 		var ed = this.editors.editor, editable = ed.editable();
 
@@ -732,6 +740,47 @@ bender.test( {
 			assert.isFalse( !!sel.isLocked, 'selection is not locked' );
 			assert.areNotSame( 'bar', sel.getSelectedText(), 'selection was reset' );
 		} );
-	}
+	},
 
+	// (#1113)
+	'test "selectionChange" fires properly with nested contentEditable': function() {
+		var editor = this.editors.editorInline,
+			editable = editor.editable(),
+			stub = sinon.stub( editor, 'selectionChange' );
+
+		bender.tools.setHtmlWithSelection( editor, '<div contenteditable=true><div contenteditable=false><div contenteditable=true id="nested">xxx</div></div></div>' );
+
+		var event = CKEDITOR.env.webkit && 'DOMFocusIn' || CKEDITOR.env.gecko && 'focusin' || 'focus';
+		editable.fire( event, new CKEDITOR.dom.event( { target: editable.findOne( '#nested' ) } ) );
+
+		assert.isTrue( stub.called );
+	},
+
+	// (#1113)
+	'test focused nested editable changes elementPath': function() {
+		var editor = this.editors.editorInline;
+
+		bender.tools.setHtmlWithSelection( editor, '<div contenteditable=true>^xxx<div contenteditable=false><em contenteditable=true id="nested">xxx</em></div></div>' );
+
+		assert.areEqual( 'div', editor.elementPath().blockLimit.getName() );
+
+		editor.editable().findOne( '#nested' ).focus();
+
+		assert.areEqual( 'em', editor.elementPath().blockLimit.getName() );
+	}
 } );
+
+function testSelectionCheck( editor, event ) {
+	var onSelectionChange = sinon.spy();
+
+	bender.tools.setHtmlWithSelection( editor, '<p>[test]</p>' );
+
+	editor.on( 'selectionCheck', onSelectionChange );
+	editor.editable().fire( event );
+
+	// selection change has a 200ms delay.
+	wait( function() {
+		editor.removeListener( 'selectionCheck', onSelectionChange );
+		assert.isTrue( onSelectionChange.calledOnce, 'selectionCheck not fired on ' + event );
+	}, 200 );
+}

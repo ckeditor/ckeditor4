@@ -746,22 +746,22 @@
 		 */
 		plugins: {
 			/**
-			 * Checks for conflicting plugins with the given one.
+			 * Checks the plugin for conflicts with other plugins.
 			 *
-			 * If conflict occurs this function will send {@link CKEDITOR#warn console warning}
-			 * with `editor-plugin-conflict` error code. Order of a `conflicted` names is respected
+			 * If a conflict occurs, this function will send a {@link CKEDITOR#warn console warning}
+			 * with the `editor-plugin-conflict` error code. The order of the `conflicted` names is respected
 			 * where the first conflicted plugin has the highest priority and will be used in a warning
 			 * message.
 			 *
-			 * ```javascript
+			 * ```js
 			 * editor.plugins.detectConflict( 'image', [ 'image2', 'easyimage' ] );
 			 * ```
 			 *
 			 * @member CKEDITOR.editor.plugins
 			 * @since 4.10.1
 			 * @param {String} plugin Current plugin name.
-			 * @param {String[]} conflicted Names of plugins that are conflicted with a current plugin.
-			 * @return {Boolean} Returns true, if there is some conflict. Returns false otherwise.
+			 * @param {String[]} conflicted Names of plugins that conflict with the current plugin.
+			 * @return {Boolean} Returns `true` if there is a conflict. Returns `false` otherwise.
 			 */
 			detectConflict: function( plugin, conflicted ) {
 				for ( var i = 0; i < conflicted.length; i++ ) {
@@ -886,6 +886,9 @@
 		 * element with the instance content.
 		 */
 		destroy: function( noUpdate ) {
+			var filters = CKEDITOR.filter.instances,
+				self = this;
+
 			this.fire( 'beforeDestroy' );
 
 			!noUpdate && updateEditorElement.call( this );
@@ -893,9 +896,16 @@
 			this.editable( null );
 
 			if ( this.filter ) {
-				this.filter.destroy();
 				delete this.filter;
 			}
+
+			// Destroy filters attached to the editor (#1722).
+			CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( filters ), function( id ) {
+				var filter = filters[ id ];
+				if ( self === filter.editor ) {
+					filter.destroy();
+				}
+			} );
 
 			delete this.activeFilter;
 
@@ -1420,28 +1430,35 @@
 		 *
 		 * @since 4.6.0
 		 * @param {CKEDITOR.command/String} command The {@link CKEDITOR.command} instance or a string with the command name.
-		 * @returns {Number/null} The keystroke assigned to the provided command or `null` if there is no keystroke.
+		 * @param {Boolean} [all=false] If `true`, the function will return an array of assigned keystrokes.
+		 * Available since 4.11.0.
+		 * @returns {Number/Number[]/null} Depending on the `all` parameter value:
+		 *
+		 * * `false` &ndash; The first keystroke assigned to the provided command or `null` if there is no keystroke.
+		 * * `true` &ndash; An array of all assigned keystrokes or an empty array if there is no keystroke.
 		 */
-		getCommandKeystroke: function( command ) {
-			var commandInstance = ( typeof command === 'string' ? this.getCommand( command ) : command );
+		getCommandKeystroke: function( command, all ) {
+			var commandInstance = ( typeof command === 'string' ? this.getCommand( command ) : command ),
+				ret = [];
 
 			if ( commandInstance ) {
 				var commandName = CKEDITOR.tools.object.findKey( this.commands, commandInstance ),
-					keystrokes = this.keystrokeHandler.keystrokes,
-					key;
+					keystrokes = this.keystrokeHandler.keystrokes;
 
 				// Some commands have a fake keystroke - for example CUT/COPY/PASTE commands are handled natively.
+				// If fake key was used, the regular keystrokes should be skipped.
 				if ( commandInstance.fakeKeystroke ) {
-					return commandInstance.fakeKeystroke;
-				}
-
-				for ( key in keystrokes ) {
-					if ( keystrokes.hasOwnProperty( key ) && keystrokes[ key ] == commandName ) {
-						return key;
+					ret.push( commandInstance.fakeKeystroke );
+				} else {
+					for ( var i in keystrokes ) {
+						if ( keystrokes[ i ] === commandName ) {
+							ret.push( i );
+						}
 					}
 				}
 			}
-			return null;
+
+			return all ? ret : ( ret[ 0 ] || null );
 		},
 
 		/**

@@ -20,6 +20,7 @@ a.cke_dialog_ui_button {
 
 input.cke_dialog_ui_input_text,
 input.cke_dialog_ui_input_password,
+input.cke_dialog_ui_input_tel,
 textarea.cke_dialog_ui_input_textarea
 {
 	min-height: 18px;
@@ -27,6 +28,7 @@ textarea.cke_dialog_ui_input_textarea
 
 input.cke_dialog_ui_input_text:focus,
 input.cke_dialog_ui_input_password:focus,
+input.cke_dialog_ui_input_tel:focus,
 textarea.cke_dialog_ui_input_textarea:focus
 {
 	padding-top: 4px;

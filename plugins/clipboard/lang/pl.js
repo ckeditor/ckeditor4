@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pl', {
 	paste: 'Wklej',
 	pasteNotification: 'Naciśnij %1 by wkleić tekst. Twoja przeglądarka nie pozwala na wklejanie za pomocą przycisku paska narzędzi lub opcji menu kontekstowego.',
 	pasteArea: 'Miejsce do wklejenia treści',
-	pasteMsg: 'Wklej treść do obszaru poniżej i naciśnij OK.',
-	title: 'Wklej'
+	pasteMsg: 'Wklej treść do obszaru poniżej i naciśnij OK.'
 } );

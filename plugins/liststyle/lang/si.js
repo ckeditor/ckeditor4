@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'si', {
-	armenian: 'Armenian numbering', // MISSING
 	bulletedTitle: 'Bulleted List Properties', // MISSING
 	circle: 'Circle', // MISSING
 	decimal: 'Decimal (1, 2, 3, etc.)', // MISSING
-	decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)', // MISSING
 	disc: 'Disc', // MISSING
-	georgian: 'Georgian numbering (an, ban, gan, etc.)', // MISSING
 	lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)', // MISSING
-	lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)', // MISSING
 	lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
 	none: 'කිසිවක්ම නොවේ',
 	notset: '<යොදා >',

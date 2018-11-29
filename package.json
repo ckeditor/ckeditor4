@@ -1,6 +1,6 @@
 {
 	"name": "ckeditor-dev",
-	"version": "4.10.1",
+	"version": "4.11.2",
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
 		"benderjs": "^0.4.2",
@@ -26,8 +26,18 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
+	"keywords": [
+		"ckeditor",
+		"fckeditor",
+		"editor",
+		"wysiwyg",
+		"html",
+		"richtext",
+		"text",
+		"javascript"
+	],
 	"author": "CKSource (https://cksource.com/)",
-	"license": "(GPL-2.0 OR LGPL-2.1 OR MPL-1.1)",
+	"license": "(GPL-2.0-or-later OR LGPL-2.1 OR MPL-1.1)",
 	"bugs": "https://github.com/ckeditor/ckeditor-dev/issues",
 	"homepage": "https://ckeditor.com",
 	"repository": {

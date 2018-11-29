@@ -209,17 +209,7 @@ bender.test( {
 		var ctx = el.getFilterContext( undefined );
 
 		assert.isTypeOf( 'object', ctx );
-		assert.isFalse( ctx.off, 'off' );
 		assert.isFalse( ctx.nonEditable, 'nonEditable' );
-	},
-
-	'test getFilterContext - new with property': function() {
-		var el = new CKEDITOR.htmlParser.fragment.fromHtml( '<p data-cke-processor="off">foo</p>' ).children[ 0 ];
-
-		var ctx = el.getFilterContext( undefined );
-
-		assert.isTypeOf( 'object', ctx );
-		assert.isTrue( ctx.off );
 	},
 
 	'test getFilterContext - no changes': function() {
@@ -229,17 +219,6 @@ bender.test( {
 			ctx = el.getFilterContext( ctxOld );
 
 		assert.areSame( ctx, ctxOld, 'ctx was not modified' );
-	},
-
-	'test getFilterContext - data-cke-processor': function() {
-		var el = new CKEDITOR.htmlParser.fragment.fromHtml( '<p data-cke-processor="off">foo</p>' ).children[ 0 ];
-
-		var ctxOld = {},
-			ctx = el.getFilterContext( ctxOld );
-
-		assert.isTypeOf( 'object', ctx );
-		assert.isTrue( ctx.off );
-		assert.areNotSame( ctx, ctxOld, 'ctx was cloned' );
 	},
 
 	'test getFilterContext - non-editable': function() {
@@ -257,26 +236,11 @@ bender.test( {
 		var el = new CKEDITOR.htmlParser.fragment.fromHtml( '<p>foo</p>' ).children[ 0 ];
 
 		var ctxOld = {
-				off: true,
 				nonEditable: true
 			},
 			ctx = el.getFilterContext( ctxOld );
 
 		assert.areSame( ctx, ctxOld, 'ctx was not modified' );
-		assert.isTrue( ctx.off, 'off' );
-		assert.isTrue( ctx.nonEditable, 'nonEditable' );
-	},
-
-	'test getFilterContext - change - non empty context': function() {
-		var el = new CKEDITOR.htmlParser.fragment.fromHtml( '<p data-cke-processor="off">foo</p>' ).children[ 0 ];
-
-		var ctxOld = {
-				nonEditable: true
-			},
-			ctx = el.getFilterContext( ctxOld );
-
-		assert.areNotSame( ctx, ctxOld, 'ctx was cloned' );
-		assert.isTrue( ctx.off, 'off' );
 		assert.isTrue( ctx.nonEditable, 'nonEditable' );
 	},
 

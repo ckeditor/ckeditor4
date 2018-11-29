@@ -82,8 +82,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'hu', {
 		},
 			{
 			name: 'Beillesztés egyszerű szövegként',
-			legend: 'Nyomd meg: ${pastetext}',
-			legendEdge: 'Nyomj ${pastetext}, majd ${paste}'
+			legend: 'Nyomja meg: ${pastetext}',
+			legendEdge: 'Nyomjon ${pastetext}-t, majd ${paste}-t'
 		}
 		]
 	}

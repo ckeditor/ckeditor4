@@ -20,7 +20,7 @@ CKEDITOR.plugins.setLang( 'link', 'fa', {
 	charset: 'نویسه​گان منبع پیوند شده',
 	cssClasses: 'کلاس​های شیوه​نامه(Stylesheet)',
 	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	displayText: 'نمایش متن',
 	emailAddress: 'نشانی پست الکترونیکی',
 	emailBody: 'متن پیام',
 	emailSubject: 'موضوع پیام',
@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'fa', {
 	noAnchors: '(در این سند لنگری دردسترس نیست)',
 	noEmail: 'لطفا نشانی پست الکترونیکی را بنویسید',
 	noUrl: 'لطفا URL پیوند را بنویسید',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<سایر>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'وابسته (Netscape)',
 	popupFeatures: 'ویژگی​های پنجرهٴ پاپاپ',
 	popupFullScreen: 'تمام صفحه (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'fa', {
 	toAnchor: 'لنگر در همین صفحه',
 	toEmail: 'پست الکترونیکی',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'گنجاندن/ویرایش پیوند',
 	type: 'نوع پیوند',
 	unlink: 'برداشتن پیوند',

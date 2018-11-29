@@ -195,6 +195,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * A text input with a label. This UI element class represents both the
 			 * single-line text inputs and password inputs in dialog boxes.
 			 *
+			 * Since 4.11.0 it also represents the phone number input.
+			 *
 			 * @class CKEDITOR.ui.dialog.textInput
 			 * @extends CKEDITOR.ui.dialog.labeledElement
 			 * @constructor Creates a textInput class instance.
@@ -1508,6 +1510,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 		CKEDITOR.dialog.addUIElement( 'text', textBuilder );
 		CKEDITOR.dialog.addUIElement( 'password', textBuilder );
+		CKEDITOR.dialog.addUIElement( 'tel', textBuilder );
 		CKEDITOR.dialog.addUIElement( 'textarea', commonBuilder );
 		CKEDITOR.dialog.addUIElement( 'checkbox', commonBuilder );
 		CKEDITOR.dialog.addUIElement( 'radio', commonBuilder );

@@ -532,8 +532,12 @@
 		},
 
 		'test eventsBuffer': function() {
+			assert.isTrue( CKEDITOR.tools.eventsBuffer( 200, function() {} ) instanceof CKEDITOR.tools.buffers.event );
+		},
+
+		'test buffers.event': function() {
 			var output = 0,
-				buffer = CKEDITOR.tools.eventsBuffer( 200, function() {
+				buffer = new CKEDITOR.tools.buffers.event( 200, function() {
 					output++;
 				} );
 
@@ -578,9 +582,9 @@
 			}, 100 );
 		},
 
-		'test eventsBuffer.reset': function() {
+		'test buffers.event.reset': function() {
 			var output = 0,
-				buffer = CKEDITOR.tools.eventsBuffer( 100, function() {
+				buffer = new CKEDITOR.tools.buffers.event( 100, function() {
 					output++;
 				} );
 
@@ -602,10 +606,10 @@
 			}, 110 );
 		},
 
-		'test eventsBuffer context': function() {
+		'test buffers.event context': function() {
 			var spy = sinon.spy(),
 				ctxObj = {},
-				buffer = CKEDITOR.tools.eventsBuffer( 100, spy, ctxObj );
+				buffer = new CKEDITOR.tools.buffers.event( 100, spy, ctxObj );
 
 			buffer.input();
 
@@ -629,10 +633,14 @@
 		},
 
 		'test throttle': function() {
+			assert.isTrue( CKEDITOR.tools.throttle( 200, function() {} ) instanceof CKEDITOR.tools.buffers.throttle );
+		},
+
+		'test buffers.throttle': function() {
 			var foo = 'foo',
 				baz = 'baz',
 				inputSpy = sinon.spy(),
-				buffer = CKEDITOR.tools.throttle( 200, inputSpy );
+				buffer = new CKEDITOR.tools.buffers.throttle( 200, inputSpy );
 
 			buffer.input( foo );
 
@@ -675,9 +683,9 @@
 			}, 100 );
 		},
 
-		'test throttle always uses the most recent argument': function() {
+		'test buffers.throttle always uses the most recent argument': function() {
 			var input = sinon.stub(),
-				buffer = CKEDITOR.tools.throttle( 50, input );
+				buffer = new CKEDITOR.tools.buffers.throttle( 50, input );
 
 			buffer.input( 'first' );
 
@@ -694,9 +702,9 @@
 			}, 100 );
 		},
 
-		'test throttle.reset': function() {
+		'test buffers.throttle.reset': function() {
 			var inputSpy = sinon.spy(),
-				buffer = CKEDITOR.tools.throttle( 100, inputSpy );
+				buffer = new CKEDITOR.tools.buffers.throttle( 100, inputSpy );
 
 			assert.areSame( 0, inputSpy.callCount, 'Initial call count' );
 
@@ -714,10 +722,10 @@
 			assert.areSame( 2, inputSpy.callCount, 'Call count after the second call' );
 		},
 
-		'test throttle context': function() {
+		'test buffers.throttle context': function() {
 			var spy = sinon.spy(),
 				ctxObj = {},
-				buffer = CKEDITOR.tools.throttle( 100, spy, ctxObj );
+				buffer = new CKEDITOR.tools.buffers.throttle( 100, spy, ctxObj );
 
 			buffer.input();
 
@@ -951,6 +959,36 @@
 
 			CKEDITOR.tools.array.forEach( testCases, function( test ) {
 				assert.areSame( test.base64, CKEDITOR.tools.convertBytesToBase64( test.bytes ) );
+			} );
+		},
+
+		// (#2224)
+		'test convertToPx': function() {
+			var conversionArray = [ {
+				input: '10px',
+				output: 10
+			}, {
+				input: '-15px',
+				output: -15
+			}, {
+				input: '10pt',
+				output: 13
+			}, {
+				input: '-20px',
+				output: -20
+			}, {
+				input: '.25in',
+				output: 24
+			}, {
+				input: '-.5in',
+				output: -48
+			}, {
+				input: '50%',
+				output: '50%'
+			} ];
+
+			CKEDITOR.tools.array.forEach( conversionArray, function( item ) {
+				assert.areSame( item.output, CKEDITOR.tools.convertToPx( item.input ), 'Value ' + item.input + ' should be converted to ' + item.output );
 			} );
 		}
 	} );

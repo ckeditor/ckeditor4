@@ -78,7 +78,7 @@
 				window.scrollTo( 0, 0 );
 
 				if ( !this._getFrameMethodReplaced ) {
-					// The problem is also window.getFrame().getClientRect() as it retursn different results from dashboard and directly.
+					// The problem is also window.getFrame().getClientRect() as it returns different results from dashboard and directly.
 					this._getFrameMethodReplaced = true;
 					var orig = this.editor.window.getFrame;
 
@@ -101,8 +101,8 @@
 				this.balloon = null;
 			},
 
-			'test classic - out of view - right': function() {
-				// Check balloon position if the elemnt outside of right border of the editor.
+			'test classic - out of view - right - attached to an element': function() {
+				// Check balloon position if the element outside of right border of the editor.
 				//
 				// +-------------------------+
 				// |                         |
@@ -112,67 +112,148 @@
 				// |                         |
 				// +-------------------------+
 				// Position acts as if the editor viewport was at position x: 0, 305.
-				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 390, bottom: 454.34375, right: 415, top: 439.34375 } );
-				var moveSpy = spy( this.balloon, 'move' );
-				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
-
-				balloonTestsTools.assertMoveTo( moveSpy, 180, 346.84375 );
-
-				moveSpy.restore();
+				var rect = { height: 15, width: 25, left: 390, bottom: 454.34375, right: 415, top: 439.34375 };
+				this._testBalloonPanelPosition( rect, 180, 346.84375 );
 			},
 
-			'test classic - out of view - bottom center': function() {
+			'test classic - out of view - bottom center - attached to an element': function() {
 				// Position acts as if the editor viewport was at position x: 260, 0.
-				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 130, bottom: 759.34375, right: 155, top: 744.34375 } );
-				var moveSpy = spy( this.balloon, 'move' );
-				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
-
-				balloonTestsTools.assertMoveTo( moveSpy, 92.5, 422 );
-
-				moveSpy.restore();
+				var rect = { height: 15, width: 25, left: 130, bottom: 759.34375, right: 155, top: 744.34375 };
+				this._testBalloonPanelPosition( rect, 92.5, 422 );
 			},
 
-			'test classic - out of view - left vcenter': function() {
+			'test classic - out of view - left vcenter - attached to an element': function() {
 				// Position acts as if the editor viewport was at position x: 420, 260.
-				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: -30, bottom: 499.34375, right: -5, top: 484.34375 } );
-				var moveSpy = spy( this.balloon, 'move' );
-				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
-
-				balloonTestsTools.assertMoveTo( moveSpy, 21, 391.84375 );
-
-				moveSpy.restore();
+				var rect = { height: 15, width: 25, left: -30, bottom: 499.34375, right: -5, top: 484.34375 };
+				this._testBalloonPanelPosition( rect, 21, 391.84375 );
 			},
 
-			'test classic - out of view - hcenter top': function() {
+			'test classic - out of view - hcenter top - attached to an element': function() {
 				// Position acts as if the editor viewport was at position x: 260, 500.
-				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 130, bottom: 267.34375, right: 155, top: 252.3475 } );
-				var moveSpy = spy( this.balloon, 'move' );
-				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
-
-				balloonTestsTools.assertMoveTo( moveSpy, 92.5, 363 );
-
-				moveSpy.restore();
+				var rect = { height: 15, width: 25, left: 130, bottom: 267.34375, right: 155, top: 252.3475 };
+				this._testBalloonPanelPosition( rect, 92.5, 363 );
 			},
 
-			'test classic - inside viewport - left top': function() {
+			'test classic - inside viewport - left top - attached to an element': function() {
 				// Position acts as if the editor viewport was at position x: 388, 400.
-				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 2, bottom: 359.34375, right: 27, top: 344.34375 } );
-				var moveSpy = spy( this.balloon, 'move' );
-				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
-
-				// Most likely we'll have to work on this case, since balloon is cropped.
-				balloonTestsTools.assertMoveTo( moveSpy, -25.5, 379.34375 );
-
-				moveSpy.restore();
+				var rect = { height: 15, width: 25, left: 2, bottom: 359.34375, right: 27, top: 344.34375 };
+				this._testBalloonPanelPosition( rect, -25.5, 379.34375 );
 			},
 
-			'test classic - inside viewport - right bottom': function() {
+			'test classic - inside viewport - right bottom - attached to an element': function() {
 				// Position acts as if the editor viewport was at position x: 114, 101.
-				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 276, bottom: 658.34375, right: 301, top: 643.34375 } );
-				var moveSpy = spy( this.balloon, 'move' );
-				balloonTestsTools.attachBalloon( this.balloon, this.markerElement );
+				var rect = { height: 15, width: 25, left: 276, bottom: 658.34375, right: 301, top: 643.34375 };
+				this._testBalloonPanelPosition( rect, 228.5, 422 );
+			},
 
-				balloonTestsTools.assertMoveTo( moveSpy, 228.5, 422 );
+			'test classic - top center - attached to a selection - single rect': function() {
+				// Tested scheme:
+				//
+				//           +-------+
+				//           | panel |
+				//           +-------+
+				//               V
+				//     <[       rect      ]>
+				// '<' - represents beginning of range, and '>' represents end of range.
+				var rect = { height: 15, width: 25, left: 130, bottom: 759.34375, right: 155, top: 744.34375 };
+				this._testBalloonPanelPosition( rect, 92.5, 422, true );
+			},
+
+			'test classic - top center - attached to a selection - many rects not aligned': function() {
+				// Tested scheme:
+				//
+				//           +-------+
+				//           | panel |
+				//           +-------+
+				//               V
+				//     <[       rect      ]
+				//              [       rect      ]>
+				//
+				// '<' - represents beginning of range, and '>' represents end of range.
+				var rects = [
+					{ height: 15, width: 25, left: 130, bottom: 759.34375, right: 155, top: 744.34375 },
+					{ height: 15, width: 25, left: 140, bottom: 779.34375, right: 165, top: 764.34375 } ];
+				this._testBalloonPanelPosition( rects, 92.5, 422, true );
+			},
+
+			'test classic - top center - attached to a selection - many rects aligned': function() {
+				// Tested scheme:
+				//
+				//           +-------+
+				//           | panel |
+				//           +-------+
+				//               V
+				//     <[  rect ] [  rect ]>
+				//
+				// '<' - represents beginning of range, and '>' represents end of range.
+				var rects = [
+					{ height: 15, width: 25, left: 130, bottom: 759.34375, right: 140, top: 744.34375 },
+					{ height: 15, width: 25, left: 145, bottom: 759.34375, right: 155, top: 744.34375 } ];
+				this._testBalloonPanelPosition( rects, 92.5, 422, true );
+			},
+
+			'test classic - top center - attached to a selection - many ranges and rects': function() {
+				// Tested scheme:
+				//
+				//           +-------+
+				//           | panel |
+				//           +-------+
+				//               V
+				//     <[  rect ] [  rect ]>
+				//     <[  rect ] [  rect ]>
+				//
+				// '<' - represents beginning of range, and '>' represents end of range.
+				var ranges = {
+					ranges: [
+						[
+							{ height: 15, width: 25, left: 130, bottom: 759.34375, right: 140, top: 744.34375 },
+							{ height: 15, width: 25, left: 145, bottom: 759.34375, right: 155, top: 744.34375 }
+						], [
+							{ height: 15, width: 25, left: 130, bottom: 759.34375, right: 140, top: 744.34375 },
+							{ height: 15, width: 25, left: 145, bottom: 759.34375, right: 155, top: 744.34375 }
+						]
+					] };
+				this._testBalloonPanelPosition( ranges, 92.5, 422, true );
+			},
+
+			_createSelectionForTests: function( input ) {
+				var selection = new CKEDITOR.dom.selection( this.editor.editable() ),
+					ranges;
+
+				if ( 'ranges' in input ) {
+					ranges = CKEDITOR.tools.array.map( input.ranges, function( item ) {
+						return mockRange( item );
+					} );
+				} else {
+					ranges = [ mockRange( input ) ];
+				}
+
+				selection.getRanges = function() {
+					return ranges;
+				};
+
+				return selection;
+
+				function mockRange( input ) {
+					var rects = input instanceof Array ? input : [ input ];
+					return { getClientRects: sinon.stub().returns( rects ) };
+				}
+			},
+
+			_testBalloonPanelPosition: function( input, expectedX, expectedY, testSelection ) {
+				var moveSpy = spy( this.balloon, 'move' ),
+					target = testSelection ? this._createSelectionForTests( input ) : this.markerElement;
+
+				if ( !testSelection ) {
+					this.markerElement.getClientRect = sinon.stub().returns( input );
+				}
+
+				balloonTestsTools.attachBalloon( this.balloon, target );
+				balloonTestsTools.assertMoveTo( {
+					moveMethod: moveSpy,
+					expectedX: expectedX,
+					expectedY: expectedY
+				} );
 
 				moveSpy.restore();
 			}

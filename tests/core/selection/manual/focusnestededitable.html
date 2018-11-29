@@ -1,0 +1,18 @@
+<div id="square" style="width: 50px; height: 50px; background-color: yellow; margin: 10px 50% 10px 50%;"></div>
+
+<div id="editor" contenteditable="true">
+	<p>You can type here <strong contenteditable="false">This is uneditable part <em contenteditable="true">and you can type again inside this editable part.</em></strong></p>
+</div>
+
+<script>
+	var square = document.getElementById( 'square' ),
+		editor = CKEDITOR.replace( 'editor', {
+			allowedContent: true,
+			on: {
+				selectionChange: function() {
+					var element = editor.elementPath().blockLimit.getName();
+					square.style.backgroundColor = element === 'em' ? 'red' : 'blue';
+				}
+			}
+		} );
+</script>

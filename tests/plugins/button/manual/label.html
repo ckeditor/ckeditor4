@@ -1,0 +1,29 @@
+<span id="results"></span>
+<div id="editor"></div>
+
+<script>
+	var results = CKEDITOR.document.getById( 'results' ),
+		editor = CKEDITOR.replace( 'editor', {
+			language: 'en',
+			toolbar: [ [ 'Language' ] ],
+			on: {
+				instanceReady: function() {
+					var toolbox = editor.ui.space( 'toolbox' ),
+						langBtn = toolbox.findOne( '.cke_button__language' );
+
+					setInterval( updateResults, 250 );
+
+					updateResults();
+
+					function updateResults() {
+						var ariaExpanded = langBtn.getAttribute( 'aria-expanded' ),
+							label = langBtn.findOne( '.cke_button_label' );
+
+						results.setHtml( '<b>aria-expanded: </b> ' + ariaExpanded +
+							'</br><b>label: </b>' + label.getText()
+						);
+					}
+				}
+			}
+		} );
+</script>

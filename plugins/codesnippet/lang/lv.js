@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'lv', {
 	button: 'Ievietot koda fragmentu',
-	codeContents: 'Code content', // MISSING
-	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
-	language: 'Language', // MISSING
-	title: 'Code snippet', // MISSING
-	pathName: 'code snippet' // MISSING
+	codeContents: 'Koda saturs',
+	emptySnippetError: 'Koda fragments nevar būt tukšs.',
+	language: 'Valoda',
+	title: 'Koda fragments',
+	pathName: 'koda fragments'
 } );

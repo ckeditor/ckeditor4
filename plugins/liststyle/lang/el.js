@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'el', {
-	armenian: 'Αρμενική αρίθμηση',
 	bulletedTitle: 'Ιδιότητες Λίστας Σημείων',
 	circle: 'Κύκλος',
 	decimal: 'Δεκαδική (1, 2, 3, κτλ)',
-	decimalLeadingZero: 'Δεκαδική με αρχικό μηδεν (01, 02, 03, κτλ)',
 	disc: 'Δίσκος',
-	georgian: 'Γεωργιανή αρίθμηση (ა, ბ, გ, κτλ)',
 	lowerAlpha: 'Μικρά Λατινικά (a, b, c, d, e, κτλ.)',
-	lowerGreek: 'Μικρά Ελληνικά (α, β, γ, κτλ)',
 	lowerRoman: 'Μικρά Ρωμαϊκά (i, ii, iii, iv, v, κτλ)',
 	none: 'Καμία',
 	notset: '<δεν έχει οριστεί>',

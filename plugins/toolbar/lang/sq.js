@@ -6,17 +6,17 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sq', {
 	toolbarCollapse: 'Zvogëlo Shiritin',
 	toolbarExpand: 'Zgjero Shiritin',
 	toolbarGroups: {
-		document: 'Dokument',
+		document: 'Dokumenti',
 		clipboard: 'Tabela Punës/Ribëje',
 		editing: 'Duke Redaktuar',
-		forms: 'Formular',
-		basicstyles: 'Stili Bazë',
-		paragraph: 'Paragraf',
-		links: 'Nyjet',
+		forms: 'Formularët',
+		basicstyles: 'Stilet Bazë',
+		paragraph: 'Paragrafi',
+		links: 'Nyjat',
 		insert: 'Shto',
-		styles: 'Stil',
+		styles: 'Stilet',
 		colors: 'Ngjyrat',
 		tools: 'Mjetet'
 	},
-	toolbars: 'Shiritet e Redaktuesit'
+	toolbars: 'Shiritat e Redaktuesit'
 } );

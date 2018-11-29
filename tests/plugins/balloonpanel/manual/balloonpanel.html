@@ -28,8 +28,8 @@
 			strong.setStyle( 'background', 'pink' );
 			strong.setStyle( 'outline', '4px solid red' );
 			strong.on( 'click', function() {
-				panel.attach( this );
 				panel.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + this.getName() + ' ("' + this.getText() + '")</p>' );
+				panel.attach( this );
 			} );
 		}
 	}

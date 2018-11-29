@@ -13,7 +13,7 @@ Supports a broad range of browsers, including legacy ones.
 
 **Note: This is a developer version.** Use the  [CKEditor 4 optimized package](https://www.npmjs.com/package/ckeditor) for production environment.
 
-![CKEditor 4 screenshot](assets/ckeditor4.png)
+![CKEditor 4 screenshot](https://c.cksource.com/a/1/img/npm/ckeditor4.png)
 
 ## Getting Started
 

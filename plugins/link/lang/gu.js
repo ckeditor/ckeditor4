@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'gu', {
 	noAnchors: '(ડૉક્યુમન્ટમાં ઍંકરની સંખ્યા)',
 	noEmail: 'ઈ-મેલ સરનામું ટાઇપ કરો',
 	noUrl: 'લિંક  URL ટાઇપ કરો',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<other> <અન્ય>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'ડિપેન્ડન્ટ (Netscape)',
 	popupFeatures: 'પૉપ-અપ વિન્ડો ફીચરસૅ',
 	popupFullScreen: 'ફુલ સ્ક્રીન (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'gu', {
 	toAnchor: 'આ પેજનો ઍંકર',
 	toEmail: 'ઈ-મેલ',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'લિંક ઇન્સર્ટ/દાખલ કરવી',
 	type: 'લિંક પ્રકાર',
 	unlink: 'લિંક કાઢવી',

@@ -53,25 +53,38 @@
 	 *	* `'div'` &ndash; for {@link CKEDITOR#ENTER_DIV},
 	 *	* `'br'` &ndash; for {@link CKEDITOR#ENTER_BR}.
 	 *
-	 * **Read more** about the Advanced Content Filter in {@glink guide/dev_advanced_content_filter guides}.
+	 * **Read more** about Advanced Content Filter in {@glink guide/dev_advanced_content_filter guides}.
 	 *
-	 * Filter may also be used as a standalone instance by passing
+	 * A filter may also be used as a standalone instance by passing
 	 * {@link CKEDITOR.filter.allowedContentRules} instead of {@link CKEDITOR.editor}
 	 * to the constructor:
 	 *
-	 *		var filter = new CKEDITOR.filter( 'b' );
+	 * ```javascript
+	 * var filter = new CKEDITOR.filter( 'b' );
 	 *
-	 *		filter.check( 'b' ); // -> true
-	 *		filter.check( 'i' ); // -> false
-	 *		filter.allow( 'i' );
-	 *		filter.check( 'i' ); // -> true
+	 * filter.check( 'b' ); // -> true
+	 * filter.check( 'i' ); // -> false
+	 * filter.allow( 'i' );
+	 * filter.check( 'i' ); // -> true
+	 * ```
+	 *
+	 * If the filter is only used by a single editor instance, you should pass the editor instance alongside with the rules.
+	 * Passing the editor as the first parameter binds it with the filter so the filter can be removed
+	 * with the {@link CKEDITOR.editor#method-destroy} method to prevent memory leaks.
+	 *
+	 * ```javascript
+	 * // In both cases the filter will be removed during the {@link CKEDITOR.editor#method-destroy} function execution.
+	 * var filter1 = new CKEDITOR.filter( editor );
+	 * var filter2 = new CKEDITOR.filter( editor, 'b' );
+	 * ```
 	 *
 	 * @since 4.1
 	 * @class
 	 * @constructor Creates a filter class instance.
 	 * @param {CKEDITOR.editor/CKEDITOR.filter.allowedContentRules} editorOrRules
+	 * @param {CKEDITOR.filter.allowedContentRules} [rules] This parameter is available since 4.11.0.
 	 */
-	CKEDITOR.filter = function( editorOrRules ) {
+	CKEDITOR.filter = function( editorOrRules, rules ) {
 		/**
 		 * Whether custom {@link CKEDITOR.config#allowedContent} was set.
 		 *
@@ -165,8 +178,9 @@
 		// Register filter instance.
 		CKEDITOR.filter.instances[ this.id ] = this;
 
-		if ( editorOrRules instanceof CKEDITOR.editor ) {
-			var editor = this.editor = editorOrRules;
+		var editor = this.editor = editorOrRules instanceof CKEDITOR.editor ? editorOrRules : null;
+
+		if ( editor && !rules ) {
 			this.customConfig = true;
 
 			var allowedContent = editor.config.allowedContent;
@@ -191,7 +205,7 @@
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
 			this.customConfig = false;
-			this.allow( editorOrRules, 'default', 1 );
+			this.allow( rules || editorOrRules, 'default', 1 );
 		}
 	};
 
@@ -686,12 +700,12 @@
 		 *
 		 * Second `check()` call returned `false` because `src` is required.
 		 *
-		 * When an array of rules is passed as the `test` argument the filter
-		 * returns `true` if at least one of passed rules is allowed.
+		 * When an array of rules is passed as the `test` argument, the filter
+		 * returns `true` if at least one of the passed rules is allowed.
 		 *
 		 * For example:
 		 *
-		 * ```javascript
+		 * ```js
 		 * // Rule: 'img'
 		 * filter.check( [ 'img', 'div' ] ) // -> true
 		 * filter.check( [ 'p', 'div' ] ) // -> false

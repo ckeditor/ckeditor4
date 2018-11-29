@@ -1,4 +1,4 @@
-@bender-tags: bug, 4.5.2, trac13532
+@bender-tags: bug, 4.5.2, 4.11.0, trac13532, 2340
 @bender-include: ../../embedbase/_helpers/tools.js
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,sourcearea,htmlwriter,entities,toolbar,elementspath,undo,clipboard,format,basicstyles,autolink,autoembed,link

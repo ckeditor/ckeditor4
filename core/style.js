@@ -878,8 +878,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 					nodeIsReadonly = nodeName && ( currentNode.getAttribute( 'contentEditable' ) == 'false' ),
 					nodeIsNoStyle = nodeName && currentNode.getAttribute( 'data-nostyle' );
 
-				// Skip bookmarks.
-				if ( nodeName && currentNode.data( 'cke-bookmark' ) ) {
+				// Skip bookmarks or comments.
+				if ( ( nodeName && currentNode.data( 'cke-bookmark' ) ) || currentNode.type === CKEDITOR.NODE_COMMENT ) {
 					currentNode = currentNode.getNextSourceNode( true );
 					continue;
 				}
@@ -910,9 +910,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 							var includedNode = currentNode;
 							var parentNode;
 
-							// This node is about to be included completelly, but,
+							// This node is about to be included completely, but,
 							// if this is the last node in its parent, we must also
-							// check if the parent itself can be added completelly
+							// check if the parent itself can be added completely
 							// to the range, otherwise apply the style immediately.
 							while (
 								( applyStyle = !includedNode.getNext( notBookmark ) ) &&

@@ -3,15 +3,11 @@ Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'lt', {
-	armenian: 'Armėniški skaitmenys',
 	bulletedTitle: 'Ženklelinio sąrašo nustatymai',
 	circle: 'Apskritimas',
 	decimal: 'Dešimtainis (1, 2, 3, t.t)',
-	decimalLeadingZero: 'Dešimtainis su nuliu priekyje (01, 02, 03, t.t)',
 	disc: 'Diskas',
-	georgian: 'Gruziniški skaitmenys (an, ban, gan, t.t)',
 	lowerAlpha: 'Mažosios Alpha (a, b, c, d, e, t.t)',
-	lowerGreek: 'Mažosios Graikų (alpha, beta, gamma, t.t)',
 	lowerRoman: 'Mažosios Romėnų (i, ii, iii, iv, v, t.t)',
 	none: 'Niekas',
 	notset: '<nenurodytas>',

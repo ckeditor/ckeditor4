@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'fo', {
 	noAnchors: '(Eingir marknasteinar eru í hesum dokumentið)',
 	noEmail: 'Vinarliga skriva teldupost-adressu',
 	noUrl: 'Vinarliga skriva tilknýti (URL)',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<annað>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Bundið (Netscape)',
 	popupFeatures: 'Popup vindeygans víðkaðu eginleikar',
 	popupFullScreen: 'Fullur skermur (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'fo', {
 	toAnchor: 'Tilknýti til marknastein í tekstinum',
 	toEmail: 'Teldupostur',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Ger/broyt tilknýti',
 	type: 'Tilknýtisslag',
 	unlink: 'Strika tilknýti',

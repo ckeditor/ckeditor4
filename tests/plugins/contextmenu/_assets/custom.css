@@ -1,0 +1,7 @@
+.cke_menubutton,
+.cke_menubutton:hover,
+.cke_menubutton:focus,
+.cke_menubutton:active
+{
+	background-color: blue;
+}

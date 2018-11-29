@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'th', {
 	noAnchors: '(ยังไม่มีจุดเชื่อมโยงภายในหน้าเอกสารนี้)',
 	noEmail: 'กรุณาระบุอีเมล์ (E-mail)',
 	noUrl: 'กรุณาระบุที่อยู่อ้างอิงออนไลน์ (URL)',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<อื่น ๆ>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'แสดงเต็มหน้าจอ (Netscape)',
 	popupFeatures: 'คุณสมบัติของหน้าจอเล็ก (Pop-up)',
 	popupFullScreen: 'แสดงเต็มหน้าจอ (IE5.5++ เท่านั้น)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'th', {
 	toAnchor: 'จุดเชื่อมโยง (Anchor)',
 	toEmail: 'ส่งอีเมล์ (E-Mail)',
 	toUrl: 'ที่อยู่อ้างอิง URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'แทรก/แก้ไข ลิงค์',
 	type: 'ประเภทของลิงค์',
 	unlink: 'ลบ ลิงค์',

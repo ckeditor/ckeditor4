@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'ar', {
 	noAnchors: '(لا توجد علامات مرجعية في هذا المستند)',
 	noEmail: 'الرجاء كتابة الريد الإلكتروني',
 	noUrl: 'الرجاء كتابة رابط الموقع',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<أخرى>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'تابع (Netscape)',
 	popupFeatures: 'خصائص النافذة المنبثقة',
 	popupFullScreen: 'ملئ الشاشة (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'ar', {
 	toAnchor: 'مكان في هذا المستند',
 	toEmail: 'بريد إلكتروني',
 	toUrl: 'الرابط',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'رابط',
 	type: 'نوع الربط',
 	unlink: 'إزالة رابط',

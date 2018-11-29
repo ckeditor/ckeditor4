@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'cs', {
 	noAnchors: '(Ve stránce není definována žádná kotva!)',
 	noEmail: 'Zadejte prosím e-mailovou adresu',
 	noUrl: 'Zadejte prosím URL odkazu',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<jiný>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Závislost (Netscape)',
 	popupFeatures: 'Vlastnosti vyskakovacího okna',
 	popupFullScreen: 'Celá obrazovka (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'cs', {
 	toAnchor: 'Kotva v této stránce',
 	toEmail: 'E-mail',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Odkaz',
 	type: 'Typ odkazu',
 	unlink: 'Odstranit odkaz',

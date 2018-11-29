@@ -1115,11 +1115,42 @@
 		 * @param {Boolean} [offline] See {@link #method-destroy} method.
 		 */
 		destroyEditable: function( editableName, offline ) {
-			var editable = this.editables[ editableName ];
+			var editable = this.editables[ editableName ],
+				canDestroyFilter = true;
 
 			editable.removeListener( 'focus', onEditableFocus );
 			editable.removeListener( 'blur', onEditableBlur );
 			this.editor.focusManager.remove( editable );
+
+			// Destroy filter if it's no longer used by other editables (#1722).
+			if ( editable.filter ) {
+				for ( var widgetName in this.repository.instances ) {
+					var widget = this.repository.instances[ widgetName ];
+
+					if ( !widget.editables ) {
+						continue;
+					}
+
+					var widgetEditable = widget.editables[ editableName ];
+
+					if ( !widgetEditable || widgetEditable === editable ) {
+						continue;
+					}
+
+					if ( editable.filter === widgetEditable.filter ) {
+						canDestroyFilter = false;
+					}
+				}
+
+				if ( canDestroyFilter ) {
+					editable.filter.destroy();
+
+					var filters = this.repository._.filters[ this.name ];
+					if ( filters ) {
+						delete filters[ editableName ];
+					}
+				}
+			}
 
 			if ( !offline ) {
 				this.repository.destroyAll( false, editable );
@@ -1902,15 +1933,17 @@
 		editor.addCommand( widgetDef.name, {
 			exec: function( editor, commandData ) {
 				var focused = editor.widgets.focused;
-				// If a widget of the same type is focused, start editing.
-				if ( focused && focused.name == widgetDef.name )
+				if ( focused && focused.name == widgetDef.name ) {
+					// If a widget of the same type is focused, start editing.
 					focused.edit();
-				// Otherwise...
-				// ... use insert method is was defined.
-				else if ( widgetDef.insert )
-					widgetDef.insert();
-				// ... or create a brand-new widget from template.
-				else if ( widgetDef.template ) {
+				} else if ( widgetDef.insert ) {
+					// ... use insert method is was defined.
+					widgetDef.insert( {
+						editor: editor,
+						commandData: commandData
+					} );
+				} else if ( widgetDef.template ) {
+					// ... or create a brand-new widget from template.
 					var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
 						element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
 						instance,
@@ -4041,6 +4074,9 @@
  * * The widget element will be inserted into DOM.
  *
  * @property {Function} insert
+ * @param {Object} options Options object added in **4.11.0**.
+ * @param {CKEDITOR.editor} options.editor The editor where the widget is going to be inserted to.
+ * @param {Object} [options.commandData] Command data passed to the invoking command, if any.
  */
 
 /**

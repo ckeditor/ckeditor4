@@ -5,8 +5,8 @@
 
 /**
  * DocumentFragment is a "lightweight" or "minimal" Document object. It is
- * commonly used to extract a portion of a document's tree or to create a new
- * fragment of a document. Various operations may take document fragment objects
+ * commonly used to extract a portion of the document's tree or to create a new
+ * fragment of the document. Various operations may take document fragment objects
  * as arguments and result in all the child nodes of the document fragment being
  * moved to the child list of this node.
  *
@@ -43,7 +43,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.ele
 	},
 
 	/**
-	 * Gets HTML of this document fragment's children.
+	 * Gets the HTML of this document fragment's children.
 	 *
 	 * @since 4.5
 	 * @returns {String} The HTML of this document fragment's children.

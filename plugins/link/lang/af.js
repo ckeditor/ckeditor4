@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'af', {
 	noAnchors: '(Geen ankers beskikbaar in dokument)',
 	noEmail: 'Gee die e-posadres',
 	noUrl: 'Gee die skakel se URL',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<ander>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Afhanklik (Netscape)',
 	popupFeatures: 'Eienskappe van opspringvenster',
 	popupFullScreen: 'Volskerm (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'af', {
 	toAnchor: 'Anker in bladsy',
 	toEmail: 'E-pos',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Skakel invoeg/wysig',
 	type: 'Skakelsoort',
 	unlink: 'Verwyder skakel',

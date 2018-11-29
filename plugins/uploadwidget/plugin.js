@@ -7,7 +7,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'uploadwidget', {
-		lang: 'az,bg,ca,cs,da,de,de-ch,el,en,en-au,eo,es,es-mx,et,eu,fa,fr,gl,hr,hu,id,it,ja,km,ko,ku,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sq,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'az,bg,ca,cs,da,de,de-ch,el,en,en-au,eo,es,es-mx,et,eu,fa,fr,gl,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sq,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		requires: 'widget,clipboard,filetools,notificationaggregator',
 
 		init: function( editor ) {
@@ -252,6 +252,13 @@
 					oldStyle, newStyle;
 
 				loader.on( 'update', function( evt ) {
+					// (#1454)
+					if ( loader.status === 'abort' ) {
+						if ( typeof widget.onAbort === 'function' ) {
+							widget.onAbort( loader );
+						}
+					}
+
 					// Abort if widget was removed.
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
 						// Uploading should be aborted if the editor is already destroyed (#966) or the upload widget was removed.
@@ -268,7 +275,7 @@
 					// `onUploaded` method will be called, if exists.
 					var methodName = 'on' + capitalize( loader.status );
 
-					if ( typeof widget[ methodName ] === 'function' ) {
+					if ( loader.status !== 'abort' && typeof widget[ methodName ] === 'function' ) {
 						if ( widget[ methodName ]( loader ) === false ) {
 							editor.fire( 'unlockSnapshot' );
 							return;

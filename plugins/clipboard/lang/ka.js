@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ka', {
 	paste: 'ჩასმა',
 	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
 	pasteArea: 'ჩასმის არე',
-	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
-	title: 'ჩასმა'
+	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
 } );

@@ -8,8 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fr', {
 	cut: 'Couper',
 	cutError: 'Les paramètres de sécurité de votre navigateur n\'autorisent pas l\'éditeur à exécuter automatiquement l\'opération « Couper ». Veuillez utiliser le raccourci clavier à cet effet (Ctrl/Cmd+X).',
 	paste: 'Coller',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteNotification: 'Utilisez le raccourci %1 pour coller. Votre navigateur n\'accepte pas de coller à l\'aide du bouton ou du menu contextuel.',
 	pasteArea: 'Coller la zone',
-	pasteMsg: 'Paste your content inside the area below and press OK.', // MISSING
-	title: 'Coller'
+	pasteMsg: 'Collez votre contenu dans la zone de saisie ci-dessous et cliquez OK.'
 } );

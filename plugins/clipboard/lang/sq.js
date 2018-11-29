@@ -10,6 +10,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sq', {
 	paste: 'Hidhe',
 	pasteNotification: 'Shtyp %1 për të hedhur tekstin. Shfletuesi juaj nuk mbështetë hedhjen me pullë shiriti ose alternativën e menysë kontekstuale.',
 	pasteArea: 'Hapësira e Hedhjes',
-	pasteMsg: 'Hidh përmbajtjen brenda hapësirës më poshtë dhe shtyp OK.',
-	title: 'Hidhe'
+	pasteMsg: 'Hidh përmbajtjen brenda hapësirës më poshtë dhe shtyp MIRË.'
 } );

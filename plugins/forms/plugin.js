@@ -277,3 +277,24 @@ CKEDITOR.plugins.add( 'forms', {
 		}
 	}
 } );
+
+/**
+ * Namespace containing helper functions for the Forms plugin.
+ *
+ * @since 4.11.0
+ * @singleton
+ * @class CKEDITOR.plugins.forms
+ */
+CKEDITOR.plugins.forms = {
+	/**
+	* Sets the dialog's `required` value to match the presence of the `required` attribute on an element.
+	* Based on the [algorithm described in the HTML specification](https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attribute).
+	*
+	* @since 4.11.0
+	* @private
+	* @param {CKEDITOR.dom.element} element An element whose `required` attribute is checked.
+	*/
+	_setupRequiredAttribute: function( element ) {
+		this.setValue( element.hasAttribute( 'required' ) );
+	}
+};

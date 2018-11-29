@@ -142,7 +142,8 @@
 	};
 
 	function createPattern( marker, minChars ) {
-		var pattern = '\\' + marker + '\\w';
+		// Match also diacritic characters (#2491).
+		var pattern = '\\' + marker + '[_a-zA-Z0-9À-ž]';
 
 		if ( minChars ) {
 			pattern += '{' + minChars + ',}';

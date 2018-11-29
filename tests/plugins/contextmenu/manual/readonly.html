@@ -1,0 +1,13 @@
+<div id="editor">
+	<p>I am a sample content with <a href="https://ckeditor.com">link</a>.</p>
+</div>
+
+<script>
+	if ( CKEDITOR.env.mobile || !CKEDITOR.env.chrome ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		readOnly: true
+	} );
+</script>

@@ -1,5 +1,9 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: forms,toolbar */
+/* bender-include: _helpers/tools.js */
+/* global formsTools */
+
+var assertRequiredAttribute = formsTools.assertRequiredAttribute;
 
 bender.editor = {
 	config: {
@@ -88,5 +92,35 @@ bender.test( {
 
 		// Start testing.
 		testValue.call( this, 0 );
-	}
+	},
+
+	'test required attribute collapsed': assertRequiredAttribute( {
+		html: '[<textarea required></textarea>]',
+		type: 'textarea',
+		expected: true
+	} ),
+
+	'test required attribute without value': assertRequiredAttribute( {
+		html: '[<textarea required=""></textarea>]',
+		type: 'textarea',
+		expected: true
+	} ),
+
+	'test required attribute with value `required`': assertRequiredAttribute( {
+		html: '[<textarea required="required"></textarea>]',
+		type: 'textarea',
+		expected: true
+	} ),
+
+	'test required attribute absent': assertRequiredAttribute( {
+		html: '[<textarea></textarea>]',
+		type: 'textarea',
+		expected: false
+	} ),
+
+	'test required attribute with invalid value': assertRequiredAttribute( {
+		html: '[<textarea required="any value other than empty string or required"></textarea>]',
+		type: 'textarea',
+		expected: true
+	} )
 } );

@@ -35,7 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'es-mx', {
 	noAnchors: '(No hay anclas disponibles en el documento)',
 	noEmail: 'Escriba la dirección de correo electrónico',
 	noUrl: 'Escriba la URL del enlace',
+	noTel: 'Please type the phone number', // MISSING
 	other: '<other>',
+	phoneNumber: 'Phone number', // MISSING
 	popupDependent: 'Dependiente (Netscape)',
 	popupFeatures: 'Ventana emergente',
 	popupFullScreen: 'Pantalla completa (IE)',
@@ -60,6 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'es-mx', {
 	toAnchor: 'Enlace al ancla en el texto',
 	toEmail: 'Correo electrónico',
 	toUrl: 'URL',
+	toPhone: 'Phone', // MISSING
 	toolbar: 'Enlace',
 	type: 'Tipo de enlace',
 	unlink: 'Desconectar',

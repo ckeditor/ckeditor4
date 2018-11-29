@@ -11,15 +11,20 @@ bender.test(
 	assertCommandState: function( left, right, center, justify, editor ) {
 		editor = editor || this.editor;
 
-		var leftCmd = editor.getCommand( 'justifyleft' );
-		var rightCmd = editor.getCommand( 'justifyright' );
-		var centerCmd = editor.getCommand( 'justifycenter' );
-		var justifyCmd = editor.getCommand( 'justifyblock' );
+		setTimeout( function() {
+			resume( function() {
+				var leftCmd = editor.getCommand( 'justifyleft' );
+				var rightCmd = editor.getCommand( 'justifyright' );
+				var centerCmd = editor.getCommand( 'justifycenter' );
+				var justifyCmd = editor.getCommand( 'justifyblock' );
 
-		assert.areSame( left, leftCmd.state, 'leftCmd.state' );
-		assert.areSame( right, rightCmd.state, 'rightCmd.state' );
-		assert.areSame( center, centerCmd.state, 'centerCmd.state' );
-		assert.areSame( justify, justifyCmd.state, 'justifyCmd.state' );
+				assert.areSame( left, leftCmd.state, 'leftCmd.state' );
+				assert.areSame( right, rightCmd.state, 'rightCmd.state' );
+				assert.areSame( center, centerCmd.state, 'centerCmd.state' );
+				assert.areSame( justify, justifyCmd.state, 'justifyCmd.state' );
+			} );
+		} );
+		wait();
 	},
 
 	// Justify should align selected image.
