@@ -411,27 +411,6 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
   };
 
   /* ---------------------------------------------------------------- */
-
-  var longDescriptionMessageBox = {
-    type: 'hbox',
-    children: [
-      {
-        type: 'html',
-        style: 'padding: 0.5em 0 0.5em 2px',
-        html: '<details>' +
-              '<summary>' + lang.longDescSummary + '</summary>' +
-              '<br>' +
-              lang.longDescDetails1 + '<br>' +
-              lang.longDescDetails2 + '<br>' +
-              lang.longDescDetails3 + '<br>' +
-              lang.longDescDetails4 + '<br>' +
-              lang.longDescDetails5 +
-              '</details>'
-      }
-    ]
-  };
-
-  /* ---------------------------------------------------------------- */
   var imageTypeFieldset = {
     id: 'imageTypeFieldset',
     type: 'fieldset',
@@ -648,6 +627,27 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         commit: function ( widget ) {
         }
       },
+    ]
+  };
+
+  /* ---------------------------------------------------------------- */
+
+  var longDescriptionMessageBox = {
+    type: 'hbox',
+    children: [
+      {
+        type: 'html',
+        style: 'padding: 0.5em 0 0.5em 2px',
+        html: '<details>' +
+              '<summary>' + lang.longDescSummary + '</summary>' +
+              '<br>' +
+              lang.longDescDetails1 + '<br>' +
+              lang.longDescDetails2 + '<br>' +
+              lang.longDescDetails3 + '<br>' +
+              lang.longDescDetails4 + '<br>' +
+              lang.longDescDetails5 +
+              '</details>'
+      }
     ]
   };
 
