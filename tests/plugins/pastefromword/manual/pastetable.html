@@ -1,5 +1,34 @@
+<h2>Editor</h2>
 <div id="editor"></div>
+<h2>Clipboard dump</h2>
+<label for="input">Paste clibpoard data</label>
+<input id="input" name="input" />
+<div id="result"></div>
 
 <script>
+	var input = document.getElementById( 'input' ),
+		result = document.getElementById( 'result' );
+
+	input.addEventListener( 'paste', function( evt ) {
+		var html;
+
+		if ( !evt.clipboardData || !evt.clipboardData.getData ) {
+			html = "Looks like your browser doesn't support clipbaordData :(";
+		} else if ( evt.clipboardData.getData('text/html') ) {
+			html = evt.clipboardData.getData('text/html');
+		} else {
+			html = 'Your clipboard did not contain any text/html :(('
+		}
+
+		var iframe = document.createElement( 'iframe' );
+		iframe.width = 600;
+		iframe.height = 400;
+
+		result.innerHTML = '';
+		result.appendChild( iframe );
+
+		iframe.contentWindow.document.write( html );
+	} );
+
 	CKEDITOR.replace( 'editor' );
 </script>
