@@ -24,8 +24,7 @@
 				canUndo: false,
 				async: true,
 				allowedContent: 'table{border-collapse};' +
-					'td{border*,background-color,background,white-space,vertical-align,text-align,width,height}[colspan,rowspan];' +
-					'td span{*};',
+					'td{border*,background-color,background,white-space,vertical-align,text-align,width,height}[colspan,rowspan];',
 
 				/**
 				 * The Paste from Word command. It will determine its pasted content from Word automatically if possible.
