@@ -30,7 +30,7 @@
 		],
 		links = {},
 		inComment = 0,
-		convertToPxRegex = /\d+(\.\d+)pt/g;
+		convertToPxRegex = /\d+(\.\d+)?pt/g;
 
 	/**
 	 * Set of Paste from Word plugin helpers.
