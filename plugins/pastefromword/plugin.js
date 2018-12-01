@@ -23,7 +23,9 @@
 				// Snapshots are done manually by editable.insertXXX methods.
 				canUndo: false,
 				async: true,
-				allowedContent: 'td{border*,background-color,white-space,vertical-align,text-align,width,height}[colspan,rowspan]',
+				allowedContent: 'table{border-collapse};' +
+					'td{border*,background-color,background,white-space,vertical-align,text-align,width,height}[colspan,rowspan];' +
+					'td span{*};',
 
 				/**
 				 * The Paste from Word command. It will determine its pasted content from Word automatically if possible.
