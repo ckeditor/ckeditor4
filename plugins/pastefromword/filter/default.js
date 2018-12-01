@@ -29,7 +29,8 @@
 			'v:group'
 		],
 		links = {},
-		inComment = 0;
+		inComment = 0,
+		convertToPxRegex = /\d+(\.\d+)pt/g;
 
 	/**
 	 * Set of Paste from Word plugin helpers.
@@ -104,15 +105,6 @@
 					Style.createStyleStack( element, filter, editor );
 				},
 				'img': function( element ) {
-					var attributeStyleMap = {
-						width: function( value ) {
-							Style.setStyle( element, 'width', value + 'px' );
-						},
-						height: function( value ) {
-							Style.setStyle( element, 'height', value + 'px' );
-						}
-					};
-
 					// If the parent is DocumentFragment it does not have any attributes. (https://dev.ckeditor.com/ticket/16912)
 					if ( element.parent && element.parent.attributes ) {
 						var attrs = element.parent.attributes,
@@ -122,7 +114,7 @@
 						}
 					}
 
-					Style.mapStyles( element, attributeStyleMap );
+					Style.mapCommonStyles( element );
 
 					if ( element.attributes.src && element.attributes.src.match( /^file:\/\// ) &&
 						element.attributes.alt && element.attributes.alt.match( /^https?:\/\// ) ) {
@@ -342,11 +334,11 @@
 						parent.remove();
 					}
 
+					Style.convertStyleToPx( element );
+
 				},
 				'td': function( element ) {
 					var ascendant = element.getAscendant( 'table' ),
-						allowedBorderTypes = [ 'border-top', 'border-right', 'border-bottom', 'border-left' ],
-						borderModifiers = [ 'style', 'width', 'color' ],
 						ascendantStyle = tools.parseCssText( ascendant.attributes.style, true );
 
 					// Sometimes the background is set for the whole table - move it to individual cells.
@@ -361,116 +353,24 @@
 					}
 
 					var styles = tools.parseCssText( element.attributes.style, true ),
-						borderStyles = styles.border ? CKEDITOR.tools.style.parse.border( styles.border ) : {};
+						borderStyles = styles.border ? CKEDITOR.tools.style.parse.border( styles.border ) : {},
+						borders = tools.style.parse.splitBorderStyles( styles, borderStyles );
 
-					for ( var i = 0; i < allowedBorderTypes.length; i++ ) {
-						var borderType = allowedBorderTypes[ i ],
-							borderValue = mergeBorderStyles( borderType, styles[ borderType ] );
-
-						if ( borderValue ) {
-							Style.setStyle( element, borderType, borderValue );
-						}
+					for ( var border in borders ) {
+						var value = styles[ border ] || borders[ border ];
+						Style.setStyle( element, border, value );
 					}
 
-					// Remove unused styles.
-					Style.setStyle( element, 'border', '' );
-					CKEDITOR.tools.array.forEach( borderModifiers, function( modifier ) {
-						Style.setStyle( element, 'border-' + modifier, '' );
-					} );
+					Style.mapCommonStyles( element );
 
-					Style.setStyle( element, 'width', convertToPx( styles.width ) );
-					Style.setStyle( element, 'height', convertToPx( styles.height ) );
+					// These styles have to be removed explicitly before table plugin transformations.
+					// Otherwise they will be used to produce border shorthands.
+					Style.removeStyles( element, [ 'border', 'border-color', 'border-width', 'border-style' ] );
+
+					Style.convertStyleToPx( element );
 
 					Style.createStyleStack( element, filter, editor,
 						/margin|text\-align|padding|list\-style\-type|width|height|border|white\-space|vertical\-align|background/i );
-
-					function convertToPx( style ) {
-						// Style may be set to some string value e.g. `inherit`.
-						return parseFloat( style ) ? CKEDITOR.tools.convertToPx( style ) + 'px' : style;
-					}
-
-					function mergeBorderStyles( borderType, borderValue ) {
-						var currentBorder = borderValue ? CKEDITOR.tools.style.parse.border( borderValue ) : {},
-							borderObj = CKEDITOR.tools.array.reduce( borderModifiers, function( current, modifier ) {
-
-								if ( !current[ modifier ] ) {
-									var style = getBorderStyle( modifier, borderType );
-
-									if ( style ) {
-										current[ modifier ] = style;
-									}
-								}
-
-								return current;
-							}, currentBorder );
-
-						// Use parent styles if required `style` property is `none`.
-						if ( borderObj.style === 'none' ) {
-							return null;
-						}
-
-						// Set default cell style properties.
-						borderObj = CKEDITOR.tools.object.merge( {
-							color: 'black',
-							width: '0'
-						}, borderObj );
-
-						borderObj.width = convertToPx( borderObj.width );
-
-						return borderObj.width + ' ' +
-							borderObj.style + ' ' +
-							// Replace old CSS2 `windowtext` color with `black`.
-							borderObj.color.replace( 'windowtext', 'black' );
-					}
-
-					function getBorderStyle( modifier, borderType ) {
-						var borderStyle = styles[ 'border-' + modifier ];
-
-						if ( !borderStyle ) {
-							return borderStyles[ modifier ];
-						}
-
-						var stylesParts = borderStyle.split( /\s+/ ),
-							partsLength = stylesParts.length,
-							stylesObj = {};
-
-						// Resolve correct border style depending on styles format.
-						// E.g. for `border-style: solid dotted` it creates:
-						// {
-						// 		'border-top': 'solid',
-						// 		'border-bottom': 'solid',
-						// 		'border-left': 'dotted',
-						// 		'border-right': 'dotted'
-						// }
-						CKEDITOR.tools.array.forEach( allowedBorderTypes, function( borderType, idx ) {
-							var borderIndex;
-
-							switch ( partsLength ) {
-								// E.g. border-style: solid
-								case 1:
-									borderIndex = 0;
-									break;
-
-								// E.g. border-style: solid dotted
-								case 2:
-									borderIndex = idx % 2;
-									break;
-
-								// E.g. border-style: solid dotted solid
-								case 3:
-									borderIndex = idx == 3 ? 1 : idx;
-									break;
-
-								// E.g. border-style: solid dotted dotted solid
-								default:
-									borderIndex = idx;
-							}
-
-							stylesObj[ borderType ] = stylesParts[ borderIndex ];
-						} );
-
-						return stylesObj[ borderType ];
-					}
 				},
 				'v:imagedata': remove,
 				// This is how IE8 presents images.
@@ -639,6 +539,24 @@
 			element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 		},
 
+		removeStyles: function( element, styles ) {
+			CKEDITOR.tools.array.forEach( styles, function( style ) {
+				Style.setStyle( element, style, null );
+			} );
+		},
+
+		convertStyleToPx: function( element ) {
+			var style = element.attributes.style;
+
+			if ( !style ) {
+				return;
+			}
+
+			element.attributes.style = style.replace( convertToPxRegex, function( match ) {
+				return CKEDITOR.tools.convertToPx( match ) + 'px';
+			} );
+		},
+
 		// Map attributes to styles.
 		mapStyles: function( element, attributeStyleMap ) {
 			for ( var attribute in attributeStyleMap ) {
@@ -651,6 +569,21 @@
 					delete element.attributes[ attribute ];
 				}
 			}
+		},
+
+		// Maps common attributes to styles.
+		mapCommonStyles: function( element ) {
+			return Style.mapStyles( element, {
+				vAlign: function( value ) {
+					Style.setStyle( element, 'vertical-align', value );
+				},
+				width: function( value ) {
+					Style.setStyle( element, 'width', value + 'px' );
+				},
+				height: function( value ) {
+					Style.setStyle( element, 'height', value + 'px' );
+				}
+			} );
 		},
 
 		/**
