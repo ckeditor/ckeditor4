@@ -1813,21 +1813,25 @@
 				 * Parses the CSS property shorthand format of all `top`, `right`, `bottom`, `left` sides.
 				 *
 				 * ```javascript
-				 *	var borderStyle = CKEDITOR.tools.style.parse.shorthand( 'solid dotted' );
-				 *	console.log( borderStyle );
-				 *	// Logs: { top: "solid", right: "dotted", bottom: "solid", left: "dotted" }
+				 *	console.log( CKEDITOR.tools.style.parse.shorthand( 'solid dotted' ) );
+				 *	// Logs: { top: 'solid', right: 'dotted', bottom: 'solid', left: 'dotted' }
 				 *
-				 *	var borderStyle = CKEDITOR.tools.style.parse.shorthand( 'some invalid property value', function( value ) {
-				 *		return value.match( (?:\-?[\.\d]+(?:%|\w*))/g ) || [ 'none' ]
-				 *	} );
-				 *	console.log( borderStyle );
-				 *	// Logs: { top: "none", right: "none", bottom: "none", left: "none" }
+				 * console.log( CKEDITOR.tools.style.parse.shorthand( 'foo baz', split ) );
+				 * // Logs: { top: 'foo', right: 'baz', bottom: 'foo', left: 'baz' }
+				 *
+				 * console.log( CKEDITOR.tools.style.parse.shorthand( 'something else', split ) );
+				 * // Logs: { top: 'bar', right: 'quix', bottom: 'bar', left: 'quix' }
+				 *
+				 * function split( value ) {
+				 *  	return value.match( /(foo|baz)/g ) || [ 'bar', 'quix' ];
+				 * }
 				 * ```
 				 *
 				 * @since 4.12.0
 				 * @param {String} value The shorthand property value.
 				 * @param {Function} [split] Function used to split `value`.
 				 * If not set, property value will be splitted by spaces.
+				 * @param {String[]} split.return Splitted shorthand value.
 				 * @returns {Object}
 				 * @returns {Number} return.top Top value.
 				 * @returns {Number} return.right Right value.
@@ -1878,26 +1882,26 @@
 				 * console.log( CKEDITOR.tools.style.parse.splitBorderStyles( styles ) );
 				 * // Logs:
 				 * // {
-				 * // 	'border-top': "1px solid red",
-				 * // 	'border-right': "2px dotted blue",
-				 * // 	'border-bottom': "3px solid red",
-				 * // 	'border-left': "4px dotted blue"
+				 * // 	'border-top': '1px solid red',
+				 * // 	'border-right': '2px dotted blue',
+				 * // 	'border-bottom': '3px solid red',
+				 * // 	'border-left': '4px dotted blue'
 				 * // }
 				 *
 				 * // Use fallback to fill up missing style:
 				 * var missingColorStyles = {
 				 * 		'border-style': 'solid',
 				 * 		'border-width': '2px'
-				 * },
-				 * fallback = { color: 'red' };
+				 * 	},
+				 * 	fallback = { color: 'red' };
 				 *
 				 * console.log( CKEDITOR.tools.style.parse.splitBorderStyles( missingColorStyles, fallback ) );
 				 * // Logs:
 				 * // {
-				 * // 	'border-top': "2px solid red",
-				 * // 	'border-right': "2px solid red",
-				 * // 	'border-bottom': "2px solid red",
-				 * // 	'border-left': "2px solid red"
+				 * // 	'border-top': '2px solid red',
+				 * // 	'border-right': '2px solid red',
+				 * // 	'border-bottom': '2px solid red',
+				 * // 	'border-left': '2px solid red'
 				 * // }
 				 * ```
 				 * @since 4.12.0
