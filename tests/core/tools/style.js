@@ -168,6 +168,38 @@
 			objectAssert.areEqual( { top: '1px', right: '2px', bottom: '3px', left: '4px' }, CKEDITOR.tools.style.parse.shorthand( '1px 2px 3px 4px' ) );
 		},
 
+		// (#1490)
+		'test style.parse.splitBorderStyles docs sample': function() {
+			var styles = {
+				'border-color': 'red blue',
+				'border-style': 'solid dotted solid',
+				'border-width': '1px 2px 3px 4px'
+			};
+
+			objectAssert.areEqual( {
+				'border-top': '1px solid red',
+				'border-right': '2px dotted blue',
+				'border-bottom': '3px solid red',
+				'border-left': '4px dotted blue'
+			}, CKEDITOR.tools.style.parse.splitBorderStyles( styles ) );
+		},
+
+		// (#1490)
+		'test style.parse.splitBorderStyles docs sample with fallback': function() {
+			var styles = {
+					'border-style': 'solid',
+					'border-width': '2px'
+				},
+				fallback = { color: 'red' };
+
+			objectAssert.areEqual( {
+				'border-top': '2px solid red',
+				'border-right': '2px solid red',
+				'border-bottom': '2px solid red',
+				'border-left': '2px solid red'
+			}, CKEDITOR.tools.style.parse.splitBorderStyles( styles, fallback ) );
+		},
+
 		'test style.parse.border docs sample': function() {
 			objectAssert.areEqual( { width: '3px', style: 'solid', color: '#ffeedd' }, CKEDITOR.tools.style.parse.border( '3px solid #ffeedd' ) );
 		},
