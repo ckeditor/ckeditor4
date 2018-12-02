@@ -130,6 +130,44 @@
 			objectAssert.areEqual( { top: '3px', right: '0', bottom: '2', left: '0' }, CKEDITOR.tools.style.parse.margin( '3px 0 2' ) );
 		},
 
+		// (#1490)
+		'test style.parse.shorthand docs sample': function() {
+			objectAssert.areEqual( { top: 'solid', right: 'dotted', bottom: 'solid', left: 'dotted' }, CKEDITOR.tools.style.parse.shorthand( 'solid dotted' ) );
+		},
+
+		// (#1490)
+		'test style.parse.shorthand docs sample with split function': function() {
+			objectAssert.areEqual( { top: 'foo', right: 'baz', bottom: 'foo', left: 'baz' },
+				CKEDITOR.tools.style.parse.shorthand( 'foo baz', split ), 'foo baz' );
+
+			objectAssert.areEqual( { top: 'bar', right: 'quix', bottom: 'bar', left: 'quix' },
+				CKEDITOR.tools.style.parse.shorthand( 'something else', split ), 'something else' );
+
+			function split( value ) {
+				return value.match( /(foo|baz)/g ) || [ 'bar', 'quix' ];
+			}
+		},
+
+		// (#1490)
+		'test style.parse.shorthand 1 member': function() {
+			objectAssert.areEqual( { top: '1px', right: '1px', bottom: '1px', left: '1px' }, CKEDITOR.tools.style.parse.shorthand( '1px' ) );
+		},
+
+		// (#1490)
+		'test style.parse.shorthand 2 members': function() {
+			objectAssert.areEqual( { top: '1px', right: '2px', bottom: '1px', left: '2px' }, CKEDITOR.tools.style.parse.shorthand( '1px 2px' ) );
+		},
+
+		// (#1490)
+		'test style.parse.shorthand 3 members': function() {
+			objectAssert.areEqual( { top: '1px', right: '2px', bottom: '3px', left: '2px' }, CKEDITOR.tools.style.parse.shorthand( '1px 2px 3px' ) );
+		},
+
+		// (#1490)
+		'test style.parse.shorthand 4 members': function() {
+			objectAssert.areEqual( { top: '1px', right: '2px', bottom: '3px', left: '4px' }, CKEDITOR.tools.style.parse.shorthand( '1px 2px 3px 4px' ) );
+		},
+
 		'test style.parse.border docs sample': function() {
 			objectAssert.areEqual( { width: '3px', style: 'solid', color: '#ffeedd' }, CKEDITOR.tools.style.parse.border( '3px solid #ffeedd' ) );
 		},
