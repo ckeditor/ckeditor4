@@ -14,7 +14,7 @@
 ### Expected
 
 - The panel should move around together with button.
-- When the panel doesn't fit on the right side of button it should flip to the left.
+- When the panel doesn't fit on one side of button (vertical or horizontal) it flips to the other side.
 
 ### Unexpected
 
