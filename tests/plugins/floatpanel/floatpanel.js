@@ -122,8 +122,6 @@
 			editor.once( 'panelShow', function() {
 				resume( function() {
 					spies.showBlock.reset();
-					// Mock resize event and check if panel was repositioned by calling reposition() and
-					// showBlock() for the second time.
 					if ( document.createEvent ) {
 						var e = document.createEvent( 'HTMLEvents' );
 						e.initEvent( 'resize', true, false );
