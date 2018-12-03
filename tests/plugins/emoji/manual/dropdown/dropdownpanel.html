@@ -14,7 +14,7 @@
 	var toolbar = [];
 
 	toolbar.length = 20;
-	toolbar.fill( 'Redo' );
+	fill( toolbar, 'Redo' );
 	toolbar.push( 'EmojiPanel' );
 
 	CKEDITOR.replace( 'editor_ltr', {
@@ -25,4 +25,12 @@
 		toolbar: [ toolbar ],
 		language: 'he'
 	} );
+
+	function fill( arr, content ) {
+		var i = 0;
+		while( i < arr.length ) {
+			arr[ i ] = content;
+			i++;
+		}
+	}
 </script>
