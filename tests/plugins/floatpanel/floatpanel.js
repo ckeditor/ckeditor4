@@ -105,35 +105,44 @@
 			} );
 		},
 
+		// #2594
 		'test panel reposition on window resize': function() {
 			// IE7-8 can't fire custom event on DOM object.
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 				assert.ignore();
 
 			var editor = this.editor,
-				showBlockSpy = sinon.spy( panel, 'showBlock' ),
-				repositionSpy = sinon.spy( panel, 'reposition' ),
-				args;
+				spies = {
+					showBlock: sinon.spy( panel, 'showBlock' ),
+					reposition: sinon.spy( panel, 'reposition' ),
+					getInitialPosition: sinon.spy( panel._, 'getInitialPosition' ),
+					calculateElementPosition: sinon.spy( panel._, 'calculateElementPosition' )
+				};
+
+			editor.once( 'panelShow', function() {
+				resume( function() {
+					spies.showBlock.reset();
+					// Mock resize event and check if panel was repositioned by calling reposition() and
+					// showBlock() for the second time.
+					if ( document.createEvent ) {
+						var e = document.createEvent( 'HTMLEvents' );
+						e.initEvent( 'resize', true, false );
+						document.body.dispatchEvent( e );
+					} else {
+						document.body.fireEvent( 'onresize' );
+					}
+
+					assert.isFalse( !!spies.showBlock.callCount, 'panel.showBlock shouldn\'t be called.' );
+					assert.isTrue( spies.reposition.calledOnce, 'panel.reposition should be called once.' );
+					assert.isTrue( spies.getInitialPosition.calledTwice, 'panel._.getInitialPosition should be called twice.' );
+					assert.isTrue( spies.calculateElementPosition.calledTwice, 'panel._.calculateElementPosition should be called twice.' );
+				} );
+			} );
 
 			// Show panel for the first time.
 			panel.showBlock( 'testBlock2', editor.editable(), 1 );
 
-			// Mock resize event and check if panel was repositioned by calling reposition() and
-			// showBlock() for the second time.
-			if ( document.createEvent ) {
-				var e = document.createEvent( 'HTMLEvents' );
-				e.initEvent( 'resize', true, false );
-				document.body.dispatchEvent( e );
-			} else {
-				document.body.fireEvent( 'onresize' );
-			}
-
-			assert.isTrue( showBlockSpy.calledTwice, 'panel.showBlock should be called twice' );
-			assert.isTrue( repositionSpy.calledOnce, 'panel.reposition should be called once' );
-
-			// Check if showBlock is called second time with same parameters.
-			args = showBlockSpy.firstCall.args;
-			assert.isTrue( showBlockSpy.secondCall.calledWith( args[0], args[1], args[2] ), 'Second showBlock() call should use same arguments as first call.' );
+			wait();
 		},
 
 		// https://dev.ckeditor.com/ticket/9800. Scenario:
