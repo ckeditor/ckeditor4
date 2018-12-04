@@ -8,13 +8,14 @@
 ## Desktop browsers
 
 1. Open The Emoji Panel.
-1. Resize browser horizontally.
+1. Resize browser horizontally. Check expected before going to step 3.
 1. Press button `X` on side panel. Next to `Test steps` and repeat steps 1-2.
 
 ### Expected
 
 - The panel should move around together with button.
 - When the panel doesn't fit on one side of button (vertical or horizontal) it flips to the other side.
+- On Edge and IE resizing browser blurs panel, so you need to reopen after each resize.
 
 ### Unexpected
 
