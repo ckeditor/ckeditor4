@@ -123,5 +123,36 @@ bender.test( {
 				assert.areSame( resizeData[ 0 ].outerHeight, resizeData[ 2 ].outerHeight, 'Height should properly restore to same value.' );
 			}
 		);
-	}
+	},
+
+	'test Alt+F10 keystroke': assertKeystroke(),
+
+	// (#2618)
+	'test Shift+Alt+F10 keystroke': assertKeystroke( true )
 } );
+
+function assertKeystroke( withShift ) {
+	return function() {
+		bender.editorBot.create( {
+			name: 'test_keystroke_' + Number( withShift )
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			editor.on( 'afterCommandExec', function( evt ) {
+				resume( function() {
+					if ( evt.data.name === 'toolbarFocus' ) {
+						assert.pass();
+					}
+				} );
+			}, 100 );
+
+			editor.focus();
+			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
+				keyCode: 121,
+				altKey: true,
+				shiftKey: !!withShift
+			} ) );
+			wait();
+		} );
+	};
+}
