@@ -3,9 +3,14 @@
 
 ## CKEditor 4.11.2
 
+New Features:
+
+* [#2618](https://github.com/ckeditor/ckeditor-dev/issues/2618): [Toolbar](https://ckeditor.com/cke4/addon/toolbar) can be focused using the <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>F10</kbd> keystroke.
+
 Fixed Issues:
 
 * [#1986](https://github.com/ckeditor/ckeditor-dev/issues/1986): Fixed: Cell Properties dialog from [Table Tools](https://ckeditor.com/cke4/addon/tabletools) plugin shows styles that are not allowed through [`config.allowedContent`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-allowedContent).
+* [#2618](https://github.com/ckeditor/ckeditor-dev/issues/2618): Fixed: [Toolbar](https://ckeditor.com/cke4/addon/toolbar) can't be focused on Linux Mint.
 
 Other Changes:
 
