@@ -406,6 +406,8 @@
 
 			editor.addCommand( 'toolbarFocus', commands.toolbarFocus );
 			editor.setKeystroke( CKEDITOR.ALT + 121 /*F10*/, 'toolbarFocus' );
+			// Adding alternative keystroke for some OS-es (#2618).
+			editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 121 /*F10*/, 'toolbarFocus' );
 
 			editor.ui.add( '-', CKEDITOR.UI_SEPARATOR, {} );
 			editor.ui.addHandler( CKEDITOR.UI_SEPARATOR, {
