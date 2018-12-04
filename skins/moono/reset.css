@@ -19,7 +19,7 @@ editors:
 	* .cke_reset_all: Intended to reset not only the element holding it, but
 	   also its child elements.
 
-To understand why "reset" is needed, check the CKEditor Skin SDK:
+To understand why "reset" is needed, check the CKEditor Skin Example:
 https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_reset.html
 */
 

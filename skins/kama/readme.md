@@ -4,7 +4,7 @@
 "Kama" is the default skin of CKEditor 3.x.
 It's been ported to CKEditor 4 and fully featured.
 
-For more information about skins, please check the [CKEditor Skin SDK](https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_intro.html)
+For more information about skins, please check the [CKEditor Skin Example(https://ckeditor.com/docs/ckeditor4/latest/guide/skin_sdk_intro.html)
 documentation.
 
 Directory Structure
