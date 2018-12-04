@@ -2363,7 +2363,7 @@
  * editor features. To do that, use the {@link #disallowedContent} option.
  *
  * Read more in the {@glink guide/dev_acf documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/acf.html).
+ * and see the {@glink examples/acf example}.
  *
  * @since 4.1
  * @cfg {CKEDITOR.filter.allowedContentRules/Boolean} [allowedContent=null]
@@ -2394,7 +2394,7 @@
  *		} );
  *
  * Read more in the [documentation](#!/guide/dev_acf-section-automatic-mode-and-allow-additional-tagsproperties)
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/acf.html).
+ * and see the {@glink examples/acf example}.
  * See also {@link CKEDITOR.config#allowedContent} for more details.
  *
  * @since 4.1
@@ -2407,7 +2407,7 @@
  * Read more in the {@glink guide/dev_disallowed_content Disallowed Content guide}.
  *
  * Read more in the [documentation](#!/guide/dev_acf-section-automatic-mode-but-disallow-certain-tagsproperties)
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/acf.html).
+ * and see the {@glink examples/acf example}.
  * See also {@link CKEDITOR.config#allowedContent} and {@link CKEDITOR.config#extraAllowedContent}.
  *
  * @since 4.4

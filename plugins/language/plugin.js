@@ -166,7 +166,7 @@
  * * _textDirection_: (optional) One of the following values: `rtl` or `ltr`,
  * 	indicating the reading direction of the language. Defaults to `ltr`.
  *
- * See the [SDK sample](https://sdk.ckeditor.com/samples/language.html).
+ * See the {@glink examples/language example}.
  *
  *		config.language_list = [ 'he:Hebrew:rtl', 'pt:Portuguese', 'de:German' ];
  *
