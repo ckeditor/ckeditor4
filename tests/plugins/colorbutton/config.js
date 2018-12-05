@@ -74,7 +74,8 @@
 			colorSquare.$.onclick();
 
 			assert.beautified.html( bender.tools.selection.getWithHtml( editor ), '<p><span style="background-color:#ff9900;">[foo]</span></p>', {
-				customFilters: [ filter ]
+				customFilters: [ filter ],
+				fixStyles: true
 			} );
 		}
 	} );
