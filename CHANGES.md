@@ -6,6 +6,8 @@
 Fixed Issues:
 
 * [#1986](https://github.com/ckeditor/ckeditor-dev/issues/1986): Fixed: Cell Properties dialog from [Table Tools](https://ckeditor.com/cke4/addon/tabletools) plugin shows styles that are not allowed through [`config.allowedContent`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-allowedContent).
+* [#2403](https://github.com/ckeditor/ckeditor-dev/issues/2403): Fixed: Styling inline editor initialized inside a table with [Table Selection](https://ckeditor.com/cke4/addon/tabletools) plugin is causing style leaks.
+* [#2514](https://github.com/ckeditor/ckeditor-dev/issues/2403): Fixed: Pasting table data into inline editor initialized inside a table with [Table Selection](https://ckeditor.com/cke4/addon/tabletools) plugin inserts pasted content into a wrapping table.
 
 Other Changes:
 

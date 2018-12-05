@@ -1,0 +1,17 @@
+<table width="600"  border="1" cellpadding="0" cellspacing="0">
+	<tbody>
+		<tr>
+			<td>
+				<div id="editor"  contenteditable="true">select me</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<script>
+	if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.inline( 'editor' );
+</script>
