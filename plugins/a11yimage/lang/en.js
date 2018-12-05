@@ -14,9 +14,9 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	typeDecorativeHelp: 'Image does not add information to the document',
 
 	typeSummary: 'How to choose the image type?',
-	typeDetails1: 'If the image adds any information to the document, it is',
-	typeDetails2: 'important for accessibility to select ‘Informative’ and then',
-	typeDetails3: 'provide the appropriate accessible descriptions.',
+	typeDetails: 'If the image adds any information to the document, it is \
+	important for accessibility to select ‘Informative’ and then provide the \
+	appropriate accessible descriptions.',
 
 	// Accessible Descriptions
 	imageDesc: 'Accessible Descriptions',
@@ -31,11 +31,11 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	hasDescriptionTooltip: 'Required for a complex image that cannot be adequately described by the short description',
 
 	longDescSummary: 'When is a long description required?',
-	longDescDetails1: 'If the image is complex, i.e. contains more information',
-	longDescDetails2: 'than can be adequately described in the short description,',
-	longDescDetails3: 'it is important to add a long description in the body of the',
-	longDescDetails4: 'document in order to make that information accessible by',
-	longDescDetails5: 'people with visual or cognitive impairments.',
+	longDescDetails: 'If the image is complex, that is, it contains more \
+	information than can be adequately described in the short description, it \
+	is important to add a long description in the body of the document in order \
+	to make that information accessible by people with visual or cognitive \
+	impairments.',
 
 	descriptionLocation: 'Location of long description',
 

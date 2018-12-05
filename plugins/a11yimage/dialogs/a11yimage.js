@@ -398,13 +398,11 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     children: [
       {
         type: 'html',
-        style: 'padding: 0.5em 0 0 2px',
+        style: 'padding: 0.5em 0 0 2px; white-space: normal',
         html: '<details>' +
-              '<summary>' + lang.typeSummary + '</summary>' +
-              '<br>' +
-              lang.typeDetails1 + '<br>' +
-              lang.typeDetails2 + '<br>' +
-              lang.typeDetails3 +
+                '<summary>' + lang.typeSummary + '</summary>' +
+                '<br>' +
+                lang.typeDetails +
               '</details>'
       }
     ]
@@ -637,15 +635,11 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     children: [
       {
         type: 'html',
-        style: 'padding: 0.5em 0 0.5em 2px',
+        style: 'padding: 0.5em 0 0.5em 2px; white-space: normal',
         html: '<details>' +
-              '<summary>' + lang.longDescSummary + '</summary>' +
-              '<br>' +
-              lang.longDescDetails1 + '<br>' +
-              lang.longDescDetails2 + '<br>' +
-              lang.longDescDetails3 + '<br>' +
-              lang.longDescDetails4 + '<br>' +
-              lang.longDescDetails5 +
+                '<summary>' + lang.longDescSummary + '</summary>' +
+                '<br>' +
+                lang.longDescDetails +
               '</details>'
       }
     ]
