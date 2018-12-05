@@ -37,7 +37,7 @@
 				name: 'enterP',
 				data: '<p style="text-align:center">' +
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
-				'</p>'
+					'</p>'
 			}, function( editor ) {
 				var instances = objToArray( editor.widgets.instances ),
 					widget = instances[ 0 ];
@@ -53,7 +53,7 @@
 				data: '<p style="text-align:center">' +
 					'<span>sibling</span>' +
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
-				'</p>'
+					'</p>'
 			}, function( editor ) {
 				var instances = objToArray( editor.widgets.instances ),
 					widget = instances[ 0 ];
@@ -69,7 +69,7 @@
 				name: 'enterP',
 				data: '<div style="text-align:center">' +
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
-				'</div>'
+					'</div>'
 			}, function( editor ) {
 				var instances = objToArray( editor.widgets.instances ),
 					widget = instances[ 0 ];
@@ -85,7 +85,7 @@
 				name: 'enterBR',
 				data: '<div style="text-align:center">' +
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
-				'</div>'
+					'</div>'
 			}, function( editor ) {
 				var instances = objToArray( editor.widgets.instances ),
 					widget = instances[ 0 ];
@@ -102,7 +102,7 @@
 				data: '<div style="text-align:center">' +
 					'sibling' +
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
-				'</div>'
+					'</div>'
 			}, function( editor ) {
 				var instances = objToArray( editor.widgets.instances ),
 					widget = instances[ 0 ];
@@ -119,7 +119,7 @@
 				data: '<div style="text-align:center">' +
 					'sibling' +
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
-				'</div>'
+					'</div>'
 			}, function( editor ) {
 				var instances = objToArray( editor.widgets.instances ),
 					widget = instances[ 0 ],
@@ -128,6 +128,17 @@
 
 				assert.areSame( expectedLabel, widget.getLabel(), 'getLabel() return value' );
 				assert.areSame( expectedLabel, widget.wrapper.getAttribute( 'aria-label' ), 'widget aria-label value' );
+			} );
+		},
+
+		// #2506
+		'test upcast: empty figure with class="image"': function() {
+			assertUpcast( {
+				name: 'enterP',
+				data: '<figure class="image"></figure>'
+			}, function( editor ) {
+				var instances = objToArray( editor.widgets.instances );
+				assert.areEqual( instances.length, 0, 'Element shouldn\'t be upcasted as widget.' );
 			} );
 		}
 	} );
