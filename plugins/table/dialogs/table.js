@@ -34,7 +34,7 @@
 	function validatorNum( msg ) {
 		return function() {
 			var value = this.getValue(),
-				pass = !!( CKEDITOR.dialog.validate.integer()( value ) && value > 0 );
+				pass = !!( CKEDITOR.dialog.validate.integer().call( this, value ) && value > 0 );
 
 			if ( !pass ) {
 				alert( msg ); // jshint ignore:line
