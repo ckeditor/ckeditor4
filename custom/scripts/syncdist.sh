@@ -87,3 +87,22 @@ CMD="$RSYNC $SRCPATH $DISTPATH/$PARENT"
 echo
 echo "$COUNT. $SRCPATH"
 eval $CMD
+
+# Change RSYNC to target specific files instead of folders
+
+RSYNC="rsync -ptgov"
+
+FILES=(
+  .gitlab-ci.yml
+  index.html
+)
+
+SRCPATH="$SRC/custom/gitlab"
+for FILE in "${FILES[@]}"
+do
+  COUNT=$((COUNT + 1))
+  CMD="$RSYNC $SRCPATH/$FILE $DISTPATH"
+  echo
+  echo "$COUNT. $SRCPATH/$FILE"
+  eval $CMD
+done
