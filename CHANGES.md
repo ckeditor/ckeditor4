@@ -10,6 +10,7 @@ Fixed Issues:
 * [#2514](https://github.com/ckeditor/ckeditor-dev/issues/2403): Fixed: Pasting table data into inline editor initialized inside a table with [Table Selection](https://ckeditor.com/cke4/addon/tabletools) plugin inserts pasted content into a wrapping table.
 * [#2451](https://github.com/ckeditor/ckeditor-dev/issues/2451): Fixed: The [Remove Format](https://ckeditor.com/cke4/addon/removeformat) changes selection.
 * [#2546](https://github.com/ckeditor/ckeditor-dev/issues/2546): Fixed: Separator in toolbar moves when buttons are focused.
+* [#2506](https://github.com/ckeditor/ckeditor-dev/issues/2506): Fixed: [Enhanced Image](https://ckeditor.com/cke4/addon/image2) throws type error when empty figure tag with 'image' class is upcasted.
 
 Other Changes:
 
