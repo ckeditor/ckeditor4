@@ -3,6 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog, sourcearea
 
 1. Select first word.
+1. Press on text color button.
 1. Hover over red square.
 
 	### Expected:
