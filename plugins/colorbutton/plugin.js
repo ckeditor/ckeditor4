@@ -235,7 +235,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					editor.focus();
 					if ( color ) {
-						editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
+						editor.applyStyle( new CKEDITOR.style( colorStyle, { color: '#' + color } ) );
 					}
 					editor.fire( 'saveSnapshot' );
 				}
@@ -286,7 +286,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						' title="', colorLabel, '"' +
 						' draggable="false"' +
 						' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'#', colorCode, '\',\'', type, '\'); return false;"' +
+						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorCode, '\',\'', type, '\'); return false;"' +
 						' href="javascript:void(\'', colorCode, '\')"' +
 						' data-value="' + colorCode + '"' +
 						' role="option" aria-posinset="', ( i + 2 ), '" aria-setsize="', total, '">' +
