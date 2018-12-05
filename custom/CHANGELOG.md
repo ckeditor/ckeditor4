@@ -2,6 +2,25 @@
 
 All notable changes to the A11yFirst project will be documented in this file.
 
+## v1.0.3 – 5 Dec 2018
+
+### Updates
+
+* `custom/testdrive.html`: Replace ‘Getting Started with A11yFirst’ with new
+  summary/details section entitled ‘Inclusive Authoring: Creating Accessible
+  Documents’
+
+* `custom/gitlab` folder: Add GitLab files, used for publishing the mirrored
+  GitHub `a11yfirst/distribution` repository at `https://a11yfirst.gitlab.io`
+
+* `custom/scripts/syncdist.sh`: Add sync of `custom/gitlab` files to root
+  folder of `distribution` repository
+
+### Fixes
+
+* `a11yimage` dialog: Fix line wrapping in summary/details messages ‘How to
+  choose the image type?’ and ‘When is a long description required?’
+
 ## v1.0.2 – 28 Nov 2018
 
 ### Updates
