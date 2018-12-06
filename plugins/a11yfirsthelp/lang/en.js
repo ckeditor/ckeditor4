@@ -455,13 +455,13 @@ understood by all readers.\n\
 \n\
 ### Contributors\n\
 \n\
-* Lucy Chang     (Usability Testing)\n\
+* Lucy Chang     (UX, Usability Testing)\n\
 * Jon Gunderson  (Requirements, Development)\n\
-* Nicholas Hoyt  (Design, Development)\n\
-* JaEun Jemma Ku (Requirements, Design)\n\
-* Mark McCarthy  (Usability Testing)\n\
+* Nicholas Hoyt  (UX, UI Design, Development)\n\
+* JaEun Jemma Ku (Requirements)\n\
+* Mark McCarthy  (UX, Usability Testing)\n\
 * Robert Slater  (Requirements)\n\
-* Dena Strong    (Usability Testing)\n\
+* Dena Strong    (UX, Usability Testing)\n\
 '
   }
 

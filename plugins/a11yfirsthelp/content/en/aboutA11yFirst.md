@@ -30,10 +30,10 @@ understood by all readers.
 
 ### Contributors
 
-* Lucy Chang     (Usability Testing)
+* Lucy Chang     (UX, Usability Testing)
 * Jon Gunderson  (Requirements, Development)
-* Nicholas Hoyt  (Design, Development)
-* JaEun Jemma Ku (Requirements, Design)
-* Mark McCarthy  (Usability Testing)
+* Nicholas Hoyt  (UX, UI Design, Development)
+* JaEun Jemma Ku (Requirements)
+* Mark McCarthy  (UX, Usability Testing)
 * Robert Slater  (Requirements)
-* Dena Strong    (Usability Testing)
+* Dena Strong    (UX, Usability Testing)
