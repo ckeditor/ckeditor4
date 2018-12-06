@@ -3,12 +3,23 @@
 ( function() {
 	'use strict';
 
-	var tests = {
+	var scrollPositionMock,
+		windowMock,
+		tests = {
 		setUp: function() {
+			var window = CKEDITOR.document.getWindow();
+
+			windowMock = sinon.stub( CKEDITOR.document, 'getWindow' );
+			windowMock.returns( window );
+
 			CKEDITOR.document.getBody().setStyle( 'height', '5000px' );
+
+			scrollPositionMock = sinon.stub( window, 'getScrollPosition' );
+			scrollPositionMock.returns( { x: 0, y: 0 } );
 		},
 		tearDown: function() {
-			window.scrollBy( 0, -CKEDITOR.document.getWindow().getScrollPosition().y );
+			scrollPositionMock.restore();
+			windowMock.restore();
 		},
 		'test absolute rect inline': function() {
 			var rect = {
@@ -32,7 +43,7 @@
 
 			assertRect( absoluteRect, expected );
 
-			window.scrollBy( 0, 100 );
+			scrollPositionMock.returns( { x: 0, y: 100 } );
 			// We are adjusting the rect, as an element would move when scrolling.
 			updateVerticalRectParts( rect, -100 );
 			absoluteRect = CKEDITOR.tools.getAbsoluteRectPosition( mockedWindow, rect );
@@ -89,7 +100,7 @@
 
 			assertRect( absoluteRect, expected );
 
-			window.scrollBy( 0, 100 );
+			scrollPositionMock.returns( { x: 0, y: 100 } );
 			// We need to change frameRect as it would be scrolled.
 			updateVerticalRectParts( frameRect, -100 );
 			absoluteRect = CKEDITOR.tools.getAbsoluteRectPosition( mockedWindow, rect );
