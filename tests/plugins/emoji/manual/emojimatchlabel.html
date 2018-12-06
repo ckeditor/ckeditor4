@@ -1,0 +1,12 @@
+<h1>Classic editor</h1>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Foo!</p>
+</textarea>
+
+<script>
+	if ( emojiTools.notSupportedEnvironment) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor1' );
+</script>
