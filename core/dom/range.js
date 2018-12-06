@@ -208,7 +208,8 @@ CKEDITOR.dom.range = function( root ) {
 		// We need to handle situation when selection startNode is type of NODE_ELEMENT (#426).
 		if ( isClone &&
 			endNode.type == CKEDITOR.NODE_TEXT &&
-			( startNode.equals( endNode ) || ( startNode.type === CKEDITOR.NODE_ELEMENT && startNode.getFirst().equals( endNode ) ) ) ) {
+			( startNode.equals( endNode ) || ( startNode.type === CKEDITOR.NODE_ELEMENT &&
+				( startNode.getFirst() && startNode.getFirst().equals( endNode ) ) ) ) ) {
 
 			// Here we should always be inside one text node.
 			docFrag.append( range.document.createText( endNode.substring( startOffset, endOffset ) ) );
