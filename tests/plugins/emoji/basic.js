@@ -212,6 +212,19 @@
 				arrayAssert.itemsAreSame( expected, actual );
 				assert.areSame( '😻 :smiling_cat_face_with_heart-eyes:', autocomplete.view.element.getChild( 0 ).getText(), 'First element in view should start from "smiling".' );
 			} );
+		},
+
+		// (#2583)
+		'test emoji autocomplete panel displays name': function( editor, bot ) {
+			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
+				bot.setHtmlWithSelection( '<p>foo :collision:^</p>' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+				var element = CKEDITOR.document.findOne( '.cke_emoji-suggestion_item' );
+
+				assert.areEqual( element.$.innerText, '💥 collision' );
+
+			} );
 		}
 	};
 
