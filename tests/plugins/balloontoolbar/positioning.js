@@ -27,19 +27,14 @@
 
 	var parentFrame = window.frameElement,
 		originalHeight = parentFrame && parentFrame.style.height;
-	function makeExpectedLeft( data ) {
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 9 ) {
-			return data.toFixed( 0 ) + '.00';
-		} else {
-			return data.toFixed( 2 );
-		}
-	}
 
 	var tests = {
 		setUp: function() {
 			if ( parentFrame ) {
 				parentFrame.style.height = '900px';
 			}
+
+			CKEDITOR.document.$.documentElement.scrollTop = 0;
 		},
 
 		tearDown: function() {
@@ -49,10 +44,6 @@
 		},
 
 		'test divaera - out of view - bottom center': function( editor ) {
-			// Due to a high instability of this test, that fails on mobile devices, small screens
-			// and when devtools are open, it's disabled for 4.8.0 release (#1295).
-			assert.ignore();
-
 			if ( editor.name == 'divarea' ) {
 				// divarea tests are failing, it's an upstream issue from balloonpanel (#1064).
 				assert.ignore();
@@ -65,25 +56,31 @@
 				markerElement = editor.editable().findOne( '#marker' ),
 				frame = editor.editable().isInline() ? editor.editable().getClientRect() : editor.window.getFrame().getClientRect(),
 				elementFrame = markerElement.getClientRect(),
+				// When window is so small editor is out of view panel might be rendered below editor.
+				// Mock view pane size to prevent that.
+				viewPaneMock = mockWindowViewPaneSize( { width: 1000, height: 1000 } ),
+				scrollTop,
 				balloonToolbarRect;
 
 			balloonToolbar.attach( markerElement );
 			balloonToolbarRect = balloonToolbar.parts.panel.getClientRect();
 
+			viewPaneMock.restore();
+
+			// When browser window is so small that panel doesn't fit, window will be scrolled into panel view.
+			// Use scroll position to adjust expected result.
+			scrollTop = CKEDITOR.document.getWindow().getScrollPosition().y.toFixed( 2 );
+
 			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
 			assert.areEqual( expectedLeft, balloonToolbarRect.left.toFixed( 2 ), 'left align' );
 			// We have to add 1px because of border.
-			assert.areEqual( ( balloonToolbarRect.top + balloonToolbar.height + balloonToolbar.triangleHeight + 1 ).toFixed( 2 ),
-				( frame.top + frame.height ).toFixed( 2 ), 'top align' );
+			assert.areEqual( ( frame.top + frame.height - scrollTop ).toFixed( 2 ),
+				( balloonToolbarRect.top + balloonToolbar.height + balloonToolbar.triangleHeight + 1 ).toFixed( 2 ), 'top align' );
 			balloonToolbar.destroy();
 			balloonToolbar = null;
 		},
 
 		'test divaera - out of view - hcenter top': function( editor ) {
-			// Due to a high instability of this test, that fails on mobile devices, small screens
-			// and when devtools are open, it's disabled for 4.8.0 release (#1295).
-			assert.ignore();
-
 			if ( editor.name == 'divarea' ) {
 				// divarea tests are failing, it's an upstream issue from balloonpanel (#1064).
 				assert.ignore();
@@ -96,15 +93,20 @@
 				markerElement = editor.editable().findOne( '#marker' ),
 				frame = editor.editable().isInline() ? editor.editable().getClientRect() : editor.window.getFrame().getClientRect(),
 				elementFrame = markerElement.getClientRect(),
+				scrollTop,
 				balloonToolbarRect;
 
 			markerElement.getParent().getNext().scrollIntoView( true );
 			balloonToolbar.attach( markerElement );
 			balloonToolbarRect = balloonToolbar.parts.panel.getClientRect();
 
+			// When browser window is so small that panel doesn't fit, window will be scrolled into panel view.
+			// We need to use scroll position to adjust expected result.
+			scrollTop = CKEDITOR.document.getWindow().getScrollPosition().y;
+
 			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
 			assert.areEqual( expectedLeft, balloonToolbarRect.left.toFixed( 2 ), 'left align' );
-			assert.areEqual( frame.top.toFixed( 2 ), ( balloonToolbarRect.top - balloonToolbar.triangleHeight ).toFixed( 2 ), 'top align' );
+			assert.areEqual( ( frame.top - scrollTop ).toFixed( 2 ), ( balloonToolbarRect.top - balloonToolbar.triangleHeight ).toFixed( 2 ), 'top align' );
 			balloonToolbar.destroy();
 			balloonToolbar = null;
 		},
@@ -166,4 +168,28 @@
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
 	ignoreUnsupportedEnvironment( tests );
 	bender.test( tests );
+
+
+	function makeExpectedLeft( data ) {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 9 ) {
+			return data.toFixed( 0 ) + '.00';
+		} else {
+			return data.toFixed( 2 );
+		}
+	}
+
+	function mockWindowViewPaneSize( size ) {
+		var window = CKEDITOR.document.getWindow(),
+			winSpy = sinon.stub( CKEDITOR.document, 'getWindow' ),
+			viewPaneSpy = sinon.stub( window, 'getViewPaneSize' );
+
+		winSpy.returns( window );
+		viewPaneSpy.returns( size );
+		return {
+			restore: function() {
+				winSpy.restore();
+				viewPaneSpy.restore();
+			}
+		};
+	}
 } )();
