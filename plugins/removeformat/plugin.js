@@ -36,9 +36,6 @@ CKEDITOR.plugins.removeformat = {
 					range;
 
 				while ( ( range = iterator.getNextRange() ) ) {
-					// if ( !range.collapsed )
-					// 	range.enlarge( CKEDITOR.ENLARGE_INLINE );
-
 					var bookmarkForRangeRecreation = range.createBookmark();
 					range = editor.createRange();
 					range.setStartBefore( bookmarkForRangeRecreation.startNode );
