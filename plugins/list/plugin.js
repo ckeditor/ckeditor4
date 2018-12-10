@@ -592,7 +592,8 @@
 
 				while ( ( block = iterator.getNextParagraph() ) ) {
 					// Avoid duplicate blocks get processed across ranges.
-					if ( block.getCustomData( 'list_block' ) )
+					// Avoid processing comments, we don't want to touch it.
+					if ( block.getCustomData( 'list_block' ) || hasCommentsChildOnly( block ) )
 						continue;
 					else
 						CKEDITOR.dom.element.setMarker( database, block, 'list_block', 1 );
@@ -675,6 +676,20 @@
 				// If list is without any li item, then ignore such element from transformation, becasue it throws errors in console.
 				// Hack for situation described in #2411, #2438.
 				return listNodeNames[ groupObj.root.getName() ] && !CKEDITOR.tools.childCountWithoutComments( groupObj.root );
+			}
+
+			function hasCommentsChildOnly( element ) {
+				var ret = true;
+				if ( element.getChildCount() === 0 ) {
+					return false;
+				}
+				element.forEach( function( node ) {
+					if ( node.type !== CKEDITOR.NODE_COMMENT ) {
+						ret = false;
+						return false;
+					}
+				}, null, true );
+				return ret;
 			}
 		},
 
