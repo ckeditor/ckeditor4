@@ -152,6 +152,26 @@ bender.test(
 			bot.editor.execCommand( 'removeFormat' );
 			assert.areEqual( '<p>foo <b>bar</b></p>', bot.getData() );
 		} );
-	}
+	},
 
+	// #2451
+	'test remove format keeps selection': function() {
+		var editor = this.editor,
+			html = '<ol><li><h1>[Test]</h1></li></ol>',
+			filter = new CKEDITOR.htmlParser.filter( {
+				text: function( value ) {
+					return value.replace( '{', '[' ).replace( '}', ']' );
+				},
+				elements: {
+					br: function() {
+						return false;
+					}
+				}
+			} );
+
+		bender.tools.selection.setWithHtml( editor, html );
+		editor.execCommand( 'removeFormat' );
+
+		assert.beautified.html( html, bender.tools.selection.getWithHtml( editor ), { customFilters: [ filter ] } );
+	}
 } );

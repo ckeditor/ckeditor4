@@ -32,9 +32,15 @@ CKEDITOR.plugins.removeformat = {
 					isElement = function( element ) {
 						return element.type == CKEDITOR.NODE_ELEMENT;
 					},
+					newRanges = [],
 					range;
 
 				while ( ( range = iterator.getNextRange() ) ) {
+					var bookmarkForRangeRecreation = range.createBookmark();
+					range = editor.createRange();
+					range.setStartBefore( bookmarkForRangeRecreation.startNode );
+					bookmarkForRangeRecreation.endNode && range.setEndAfter( bookmarkForRangeRecreation.endNode );
+
 					if ( !range.collapsed )
 						range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
@@ -99,7 +105,9 @@ CKEDITOR.plugins.removeformat = {
 							// Cache the next node to be processed. Do it now, because
 							// currentNode may be removed.
 							var nextNode = currentNode.getNextSourceNode( false, CKEDITOR.NODE_ELEMENT ),
-								isFakeElement = currentNode.getName() == 'img' && currentNode.data( 'cke-realelement' );
+								isFakeElement =
+									( currentNode.getName() == 'img' && currentNode.data( 'cke-realelement' ) ) ||
+									currentNode.hasAttribute( 'data-cke-bookmark' );
 
 							// This node must not be a fake element, and must not be read-only.
 							if ( !isFakeElement && filter( editor, currentNode ) ) {
@@ -116,13 +124,16 @@ CKEDITOR.plugins.removeformat = {
 						}
 					}
 
-					range.moveToBookmark( bookmark );
+					bookmark.startNode.remove();
+					bookmark.endNode && bookmark.endNode.remove();
+					range.moveToBookmark( bookmarkForRangeRecreation );
+					newRanges.push( range );
 				}
 
 				// The selection path may not changed, but we should force a selection
 				// change event to refresh command states, due to the above attribution change. (https://dev.ckeditor.com/ticket/9238)
 				editor.forceNextSelectionCheck();
-				editor.getSelection().selectRanges( ranges );
+				editor.getSelection().selectRanges( newRanges );
 			}
 		}
 	},
