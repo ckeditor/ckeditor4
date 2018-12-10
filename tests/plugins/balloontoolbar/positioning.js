@@ -52,7 +52,7 @@
 			}
 		},
 
-		'test divaera - out of view - bottom center': function( editor ) {
+		'test panel - out of view - bottom center': function( editor ) {
 			if ( editor.name == 'divarea' ) {
 				// divarea tests are failing, it's an upstream issue from balloonpanel (#1064).
 				assert.ignore();
@@ -91,7 +91,7 @@
 			balloonToolbar = null;
 		},
 
-		'test divaera - out of view - hcenter top': function( editor ) {
+		'test panel - out of view - hcenter top': function( editor ) {
 			if ( editor.name == 'divarea' ) {
 				// divarea tests are failing, it's an upstream issue from balloonpanel (#1064).
 				assert.ignore();
