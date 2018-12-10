@@ -34,7 +34,16 @@
 				parentFrame.style.height = '900px';
 			}
 
-			CKEDITOR.document.$.documentElement.scrollTop = 0;
+			var doc = CKEDITOR.document.getDocumentElement(),
+				body = CKEDITOR.document.getBody();
+
+			if ( doc.$.scrollTop ) {
+				doc.$.scrollTop = 0;
+			}
+
+			if ( body.$.scrollTop ) {
+				body.$.scrollTop = 0;
+			}
 		},
 
 		tearDown: function() {
@@ -60,10 +69,12 @@
 				// Mock view pane size to prevent that.
 				viewPaneMock = mockWindowViewPaneSize( { width: 1000, height: 1000 } ),
 				scrollTop,
-				balloonToolbarRect;
+				balloonToolbarRect,
+				rectTop;
 
 			balloonToolbar.attach( markerElement );
 			balloonToolbarRect = balloonToolbar.parts.panel.getClientRect();
+			rectTop = CKEDITOR.env.ie || !CKEDITOR.env.edge ? Math.round( balloonToolbarRect.top ) : balloonToolbarRect.top;
 
 			viewPaneMock.restore();
 
@@ -75,7 +86,7 @@
 			assert.areEqual( expectedLeft, balloonToolbarRect.left.toFixed( 2 ), 'left align' );
 			// We have to add 1px because of border.
 			assert.areEqual( ( frame.top + frame.height - scrollTop ).toFixed( 2 ),
-				( balloonToolbarRect.top + balloonToolbar.height + balloonToolbar.triangleHeight + 1 ).toFixed( 2 ), 'top align' );
+				( rectTop + balloonToolbar.height + balloonToolbar.triangleHeight + 1 ).toFixed( 2 ), 'top align' );
 			balloonToolbar.destroy();
 			balloonToolbar = null;
 		},
@@ -94,19 +105,23 @@
 				frame = editor.editable().isInline() ? editor.editable().getClientRect() : editor.window.getFrame().getClientRect(),
 				elementFrame = markerElement.getClientRect(),
 				scrollTop,
-				balloonToolbarRect;
+				balloonToolbarRect,
+				rectTop,
+				expectedLeft;
 
 			markerElement.getParent().getNext().scrollIntoView( true );
 			balloonToolbar.attach( markerElement );
 			balloonToolbarRect = balloonToolbar.parts.panel.getClientRect();
+			rectTop = CKEDITOR.env.ie || !CKEDITOR.env.edge ? Math.round( balloonToolbarRect.top ) : balloonToolbarRect.top;
 
 			// When browser window is so small that panel doesn't fit, window will be scrolled into panel view.
 			// We need to use scroll position to adjust expected result.
 			scrollTop = CKEDITOR.document.getWindow().getScrollPosition().y;
 
-			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
+			expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
+
 			assert.areEqual( expectedLeft, balloonToolbarRect.left.toFixed( 2 ), 'left align' );
-			assert.areEqual( ( frame.top - scrollTop ).toFixed( 2 ), ( balloonToolbarRect.top - balloonToolbar.triangleHeight ).toFixed( 2 ), 'top align' );
+			assert.areEqual( ( frame.top - scrollTop ).toFixed( 2 ), ( rectTop - balloonToolbar.triangleHeight ).toFixed( 2 ), 'top align' );
 			balloonToolbar.destroy();
 			balloonToolbar = null;
 		},
