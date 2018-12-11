@@ -306,6 +306,60 @@
 					panel.hide();
 				}
 			} );
+		},
+
+		// (#2572)
+		'test translations are added to svg elements group navigation': function() {
+			var bot = this.editorBot;
+			bot.panel( 'EmojiPanel', function( panel ) {
+				try {
+					var doc = panel._.iframe.getFrameDocument(),
+						listItems = doc.find( '.cke_emoji-navigation_item' ),
+						translations = {
+							people: {},
+							nature: {
+								x: 3.5
+							},
+							food: {
+								y: 1
+							},
+							travel: {
+								y: 2
+							},
+							activities: {
+								x: 0.531250
+							},
+							objects: {
+								y: 2
+							},
+							symbols: {
+								y: 1
+							},
+							flags: {
+								x: 2.1933548
+							}
+						};
+
+					if ( !listItems.count() ) {
+						assert.ignore();
+					}
+
+					for ( var i = 0; i < listItems.count(); i++ ) {
+						var li = listItems.getItem( i ),
+							transformation = li.findOne( 'use' ).getAttribute( 'transform' ) || '',
+							values = transformation.match( /translate\(\s?(\d+(?:\.\d+)?),\s?(\d+(?:\.\d+)?)\s?\)/ );
+						if ( !values ) {
+							assert.fail( 'There is no "transform" attribute in svg -> use element.' );
+						}
+						assert.areSame( translations[ li.data( 'cke-emoji-group' ) ].x || 0, parseFloat( values[ 1 ] ),
+							'Translation in X axis for group: "' + li.data( 'cke-emoji-group' ) + '" is incorrect.' );
+						assert.areSame( translations[ li.data( 'cke-emoji-group' ) ].y || 0, parseFloat( values[ 2 ] ),
+							'Translation in Y axis for group: "' + li.data( 'cke-emoji-group' ) + '" is incorrect.' );
+					}
+				} finally {
+					panel.hide();
+				}
+			} );
 		}
 	} );
 
