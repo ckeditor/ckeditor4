@@ -294,14 +294,8 @@
 						// If widget begins with incomplete image, make sure to refresh balloon toolbar (if present)
 						// once the image size is available.
 						getNaturalWidth( imagePart, function() {
-							// Currently we're breaking encapsulation, once #1496 is fixed, we could use a proper method to
-							// update the position.
-							var contextView = editor._.easyImageToolbarContext.toolbar._view;
-
-							if ( contextView.rect.visible ) {
-								// We have to disable focusing balloon toolbar to prevent loosing focus by an image (#1529).
-								contextView.attach( contextView._pointedElement, { focusElement: false } );
-							}
+							// We have to disable focusing balloon toolbar to prevent loosing focus by an image (#1529).
+							editor._.easyImageToolbarContext.toolbar.reposition();
 						} );
 					}
 
