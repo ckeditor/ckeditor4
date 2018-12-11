@@ -198,6 +198,7 @@
 
 .cke_emoji-status_bar > div {
 	display: inline-block;
+	margin-top: 3px;
 }
 
 .cke_emoji-status_icon {
