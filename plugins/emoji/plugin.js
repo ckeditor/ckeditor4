@@ -39,7 +39,7 @@
 							},
 							items: [],
 							translate: {
-								x: 1.945
+								x: 3.5
 							}
 						},
 						{
@@ -52,7 +52,7 @@
 							},
 							items: [],
 							translate: {
-								y: 0.725
+								y: 1
 							}
 						},
 						{
@@ -65,7 +65,7 @@
 							},
 							items: [],
 							translate: {
-								y: 1.675
+								y: 2
 							}
 						},
 						{
@@ -76,7 +76,10 @@
 								x: -4 * ICON_SIZE,
 								y: 0
 							},
-							items: []
+							items: [],
+							translate: {
+								x: 0.531250
+							}
 						},
 						{
 							name: 'objects',
@@ -88,7 +91,7 @@
 							},
 							items: [],
 							translate: {
-								y: 2.61
+								y: 2
 							}
 						},
 						{
@@ -101,7 +104,7 @@
 							},
 							items: [],
 							translate: {
-								y: 0.95
+								y: 1
 							}
 						},
 						{
@@ -114,7 +117,7 @@
 							},
 							items: [],
 							translate: {
-								x: 1.55
+								x: 2.1933548
 							}
 						}
 					];
