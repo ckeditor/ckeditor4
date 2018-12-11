@@ -1,4 +1,4 @@
-@bender-tags: bug, 4.10.1, 724
+@bender-tags: bug, 4.11.2, 724
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, sourcearea, elementspath, clipboard, basicstyles
 
