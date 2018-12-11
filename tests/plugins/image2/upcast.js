@@ -36,7 +36,7 @@
 			assertUpcast( {
 				name: 'enterP',
 				data: '<p style="text-align:center">' +
-					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
+						'<img id="w1" src="_assets/foo.png" alt="foo" />' +
 					'</p>'
 			}, function( editor ) {
 				var instances = objToArray( editor.widgets.instances ),
@@ -51,8 +51,8 @@
 			assertUpcast( {
 				name: 'enterP',
 				data: '<p style="text-align:center">' +
-					'<span>sibling</span>' +
-					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
+						'<span>sibling</span>' +
+						'<img id="w1" src="_assets/foo.png" alt="foo" />' +
 					'</p>'
 			}, function( editor ) {
 				var instances = objToArray( editor.widgets.instances ),
@@ -68,7 +68,7 @@
 			assertUpcast( {
 				name: 'enterP',
 				data: '<div style="text-align:center">' +
-					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
+						'<img id="w1" src="_assets/foo.png" alt="foo" />' +
 					'</div>'
 			}, function( editor ) {
 				var instances = objToArray( editor.widgets.instances ),
@@ -84,7 +84,7 @@
 			assertUpcast( {
 				name: 'enterBR',
 				data: '<div style="text-align:center">' +
-					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
+						'<img id="w1" src="_assets/foo.png" alt="foo" />' +
 					'</div>'
 			}, function( editor ) {
 				var instances = objToArray( editor.widgets.instances ),
@@ -100,8 +100,8 @@
 			assertUpcast( {
 				name: 'enterBR',
 				data: '<div style="text-align:center">' +
-					'sibling' +
-					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
+						'sibling' +
+						'<img id="w1" src="_assets/foo.png" alt="foo" />' +
 					'</div>'
 			}, function( editor ) {
 				var instances = objToArray( editor.widgets.instances ),
@@ -117,8 +117,8 @@
 			assertUpcast( {
 				name: 'enterP',
 				data: '<div style="text-align:center">' +
-					'sibling' +
-					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
+						'sibling' +
+						'<img id="w1" src="_assets/foo.png" alt="foo" />' +
 					'</div>'
 			}, function( editor ) {
 				var instances = objToArray( editor.widgets.instances ),
