@@ -942,8 +942,10 @@
 
 			// No center wrapper has been found.
 			else if ( name == 'figure' && el.hasClass( captionedClass ) ) {
-				var anchor = el.getFirst( 'a' );
-				image = el.getFirst( 'img' ) || ( anchor && anchor.getFirst( 'img' ) );
+				image = el.find( function( child ) {
+					return child.name === 'img' &&
+						CKEDITOR.tools.array.indexOf( [ 'figure', 'a' ], child.parent.name ) !== -1;
+				}, true )[ 0 ];
 
 				// Upcast linked image like <a><img/></a>.
 			} else if ( isLinkedOrStandaloneImage( el ) ) {
