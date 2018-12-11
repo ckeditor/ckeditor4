@@ -1572,7 +1572,7 @@
 		/**
 		 * Counts childes of given {@link CKEDITOR.dom.element} omitting {@link CKEDITOR.dom.comment}.
 		 *
-		 * @since 4.10.2
+		 * @since 4.11.2
 		 * @param {CKEDITOR.dom.element} node Element whos children will be counted.
 		 * @returns {Number} Amount of node's children without counting comments.
 		 */
