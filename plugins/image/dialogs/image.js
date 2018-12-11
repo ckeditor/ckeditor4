@@ -224,6 +224,52 @@
 					if ( loader )
 						loader.setStyle( 'display', 'none' );
 
+					// The image has been loaded but no size information is available.
+					// SVG files not specifying a width/height have a width/height of
+					// zero in some browsers and are not be previewed correctly.
+					// Determine the aspect ratio and make an educated guess about its
+					// size, since the file does not provide any.
+					if ( original.$.width  === 0 || original.$.height === 0 ) {
+						// Temporarily attach the image to the document to render it and
+						// determine the aspect ratio. Make it invisible to prevent flashing.
+						var maxDisplaySize = 150;
+						original.setStyles( {
+							'position': 'absolute',
+							'top': 0,
+							'zIndex': -9999,
+							'width': maxDisplaySize + 'px',
+							'height': 'auto',
+							'visibility': 'hidden'
+						} );
+						document.body.insertBefore( original.$, null );
+
+						if ( original.$.width > 0 && original.$.height > 0 ) {
+							// The svg file does not provide display size information. Define
+							// a max. dimension and compute the other using the aspect ratio.
+							var w, h;
+							if ( original.$.width > original.$.height ) {
+								w = maxDisplaySize;
+								h = original.$.height / original.$.width * maxDisplaySize;
+							}
+							else {
+								h = maxDisplaySize;
+								w = original.$.width / original.$.height * maxDisplaySize;
+							}
+							original.$.width = Math.round( w );
+							original.$.height = Math.round( h );
+						}
+
+						// Reset the image to the original state.
+						original.setStyles( {
+							'position': '',
+							'top': '',
+							'zIndex': '',
+							'width': '',
+							'height': '',
+							'visibility': ''
+						} );
+						document.body.removeChild(original.$);
+					}
 					// New image -> new dimensions
 					if ( !this.dontResetSize ) {
 						resetSize( this, editor.config.image_prefillDimensions === false );

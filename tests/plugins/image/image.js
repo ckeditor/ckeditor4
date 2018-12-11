@@ -509,6 +509,50 @@
 				txtHeight: 10,
 				txtWidth: 10
 			} );
+		},
+
+		'test inserting svg image with dimensions': function() {
+			var imgUrl = '%BASE_PATH%_assets/svg-with-dimensions.svg';
+			var expectedOutput = '<p><img alt="" src="' + imgUrl + '" style="height:129px;width:443px;" /></p>';
+			var bot = this.editorBot,
+				editor = bot.editor;
+
+			bot.setHtmlWithSelection( '<p>[]</p>' );
+			bot.dialog( 'image', function( dialog ) {
+
+				dialog.setValueOf( 'info', 'txtUrl', imgUrl );
+
+				downloadImage( imgUrl, function() {
+					dialog.getButton( 'ok' ).click();
+					resume( function() {
+						assert.areEqual( expectedOutput.toLowerCase(), bot.getData( true ) );
+					} );
+				} );
+
+				wait();
+			} );
+		},
+
+		'test inserting svg image without dimensions': function() {
+			var imgUrl = '%BASE_PATH%_assets/svg-without-dimensions.svg';
+			var expectedOutput = '<p><img alt="" src="' + imgUrl + '" style="height:44px;width:150px;" /></p>';
+			var bot = this.editorBot,
+				editor = bot.editor;
+
+			bot.setHtmlWithSelection( '<p>[]</p>' );
+			bot.dialog( 'image', function( dialog ) {
+
+				dialog.setValueOf( 'info', 'txtUrl', imgUrl );
+
+				downloadImage( imgUrl, function() {
+					dialog.getButton( 'ok' ).click();
+					resume( function() {
+						assert.areEqual( expectedOutput.toLowerCase(), bot.getData( true ) );
+					} );
+				} );
+
+				wait();
+			} );
 		}
 	} );
 } )();
