@@ -215,7 +215,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						}
 					} );
 				} else {
-					return setColor( color );
+					return setColor( color && '#' + color );
 				}
 
 				function setColor( color ) {
@@ -235,7 +235,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					editor.focus();
 					if ( color ) {
-						editor.applyStyle( new CKEDITOR.style( colorStyle, { color: '#' + color } ) );
+						editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
 					}
 					editor.fire( 'saveSnapshot' );
 				}
