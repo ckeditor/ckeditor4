@@ -1,0 +1,22 @@
+<div id="editor1" contenteditable="true">
+	<img src="%BASE_PATH%/_assets/logo.png" />
+</div>
+<div id="editor2" contenteditable="true">
+	<img src="%BASE_PATH%/_assets/logo.png" />
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		image2_maxSize: {
+			width: 350,
+			height: 350
+		}
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		image2_maxSize: {
+			width: 'naturalWidth',
+			height: 'naturalHeight'
+		}
+	} );
+</script>
