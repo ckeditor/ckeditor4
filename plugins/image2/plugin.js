@@ -1160,6 +1160,15 @@
 		resizer.on( 'mousedown', function( evt ) {
 			var image = widget.parts.image,
 
+				// Don't update attributes if less than 15.
+				// This is to prevent images to visually disappear.
+				min = {
+					width: 15,
+					height: 15
+				},
+
+				max = getMaxSize(),
+
 				// "factor" can be either 1 or -1. I.e.: For right-aligned images, we need to
 				// subtract the difference to get proper width, etc. Without "factor",
 				// resizer starts working the opposite way.
@@ -1315,13 +1324,9 @@
 					}
 				}
 
-				// Don't update attributes if less than 10.
-				// This is to prevent images to visually disappear.
-				if ( newWidth >= 15 && newHeight >= 15 ) {
-					image.setAttributes( { width: newWidth, height: newHeight } );
-					updateData = true;
-				} else {
-					updateData = false;
+				if ( isAllowedSize() ) {
+					updateData = { width: newWidth, height: newHeight };
+					image.setAttributes( updateData );
 				}
 			}
 
@@ -1338,7 +1343,7 @@
 				resizer.removeClass( 'cke_image_resizing' );
 
 				if ( updateData ) {
-					widget.setData( { width: newWidth, height: newHeight } );
+					widget.setData( updateData );
 
 					// Save another undo snapshot: after resizing.
 					editor.fire( 'saveSnapshot' );
@@ -1346,6 +1351,27 @@
 
 				// Don't update data twice or more.
 				updateData = false;
+			}
+
+			function getMaxSize() {
+				var maxSize = editor.config.image2_maxSize,
+					natural;
+
+				if ( !maxSize ) {
+					return null;
+				}
+
+				maxSize = CKEDITOR.tools.copy( maxSize );
+				natural = CKEDITOR.plugins.image2.getNatural( image );
+
+				maxSize.width = Math.max( maxSize.width === 'naturalWidth' ? natural.width : maxSize.width, min.width );
+				maxSize.height = Math.max( maxSize.height === 'naturalHeight' ? natural.height : maxSize.height, min.width );
+
+				return maxSize;
+			}
+
+			function isAllowedSize() {
+				return newWidth >= min.width && newWidth <= max.width && newHeight >= min.height && newHeight <= max.height;
 			}
 		} );
 
