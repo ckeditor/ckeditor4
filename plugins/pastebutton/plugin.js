@@ -102,8 +102,10 @@
 					var data = evt.data.dataTransfer;
 
 					editor.once( 'insertHtml', function( evt ) {
-						evt.data.dataValue = '<span data-cke-pastebutton-marker="1">&nbsp</span>' + evt.data.dataValue +
-							'<span data-cke-pastebutton-marker="2">&nbsp</span>';
+						var space = '\u200b';
+						evt.data.dataValue = '<span data-cke-pastebutton-marker="1">' + space + '</span>' +
+							evt.data.dataValue +
+							'<span data-cke-pastebutton-marker="2">' + space + '</span>';
 					}, null, null, 9 );
 
 					editor._.pasteButtonCache = {
