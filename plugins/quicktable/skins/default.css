@@ -1,0 +1,26 @@
+.cke_quicktable {
+	padding: 10px;
+	font-size: 11px;
+	text-align: center;
+}
+
+.cke_quicktable_row {
+	width: 140px;
+	display: block;
+	padding: 0;
+	margin: 0;
+}
+
+.cke_quicktable_row > div {
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 1px;
+	height: 10px;
+	width: 10px;
+	margin: 0 1px;
+}
+
+div.cke_quicktable_selected {
+	border-color: #53a0e4;
+	background-color: #c7e5ff;
+}
