@@ -16,7 +16,8 @@
 			editor.once( 'instanceReady', function() {
 				var lang = editor.lang.pastebutton,
 					toolbar = new CKEDITOR.ui.balloonToolbar( editor ),
-					menuItems;
+					menuItems,
+					listener;
 
 				editor._.pasteButtonCache = {};
 
@@ -98,6 +99,14 @@
 
 				toolbar.addItem( 'pastebutton', editor.ui.create( 'PasteButton' ) );
 
+				editor.on( 'beforePaste', function() {
+					resetButtonState();
+
+					editor._.pasteButtonCache = {
+						currentMethod: 'html'
+					};
+				}, null, null, 9999 );
+
 				editor.on( 'paste', function( evt ) {
 					var data = evt.data.dataTransfer;
 
@@ -108,12 +117,8 @@
 							'<span data-cke-pastebutton-marker="2">' + space + '</span>';
 					}, null, null, 9 );
 
-					editor._.pasteButtonCache = {
-						currentMethod: 'html',
-
-						html: data.getData( 'text/html' ),
-						text: data.getData( 'text/plain' )
-					};
+					editor._.pasteButtonCache.html = data.getData( 'text/html' );
+					editor._.pasteButtonCache.text = data.getData( 'text/plain' );
 				}, null, null, 999 );
 
 				editor.on( 'afterPasteFromWord', function( evt ) {
@@ -122,29 +127,33 @@
 				}, null, null, 9999 );
 
 				editor.on( 'afterPaste', function() {
-					var endMarker = editor.editable().findOne( '[data-cke-pastebutton-marker="2"]' ),
-						listener;
+					var endMarker = editor.editable().findOne( '[data-cke-pastebutton-marker="2"]' );
 
 					toolbar.attach( endMarker );
 
 					listener = editor.on( 'change', function() {
-						var cache = editor._.pasteButtonCache,
-							markers = editor.editable().find( '[data-cke-pastebutton-marker]' ).toArray();
-
-						if ( cache.lock ) {
+						if ( editor._.pasteButtonCache.lock ) {
 							return;
 						}
 
-						toolbar.hide();
-						editor._.pasteButtonCache = {};
-
-						CKEDITOR.tools.array.forEach( markers, function( marker ) {
-							marker.remove();
-						} );
-
-						listener.removeListener();
+						resetButtonState();
 					} );
 				} );
+
+				function resetButtonState() {
+					var markers = editor.editable().find( '[data-cke-pastebutton-marker]' ).toArray();
+
+					toolbar.hide();
+					editor._.pasteButtonCache = {};
+
+					CKEDITOR.tools.array.forEach( markers, function( marker ) {
+						marker.remove();
+					} );
+
+					if ( listener ) {
+						listener.removeListener();
+					}
+				}
 			} );
 		}
 	} );
