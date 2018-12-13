@@ -7,7 +7,7 @@
 	'use strict';
 
 	CKEDITOR.plugins.add( 'pastebutton', {
-		requires: 'clipboard,pastefromword,pastetext,balloontoolbar,menubutton',
+		requires: 'undo,clipboard,pastefromword,pastetext,balloontoolbar,menubutton',
 		lang: 'en', // %REMOVE_LINE_CORE%
 		icons: 'paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -18,9 +18,33 @@
 					menuItems,
 					toolbarContext;
 
-				editor.addCommand( 'pastebutton', {
-					exec: function() {
+				editor._.pasteButtonCache = {};
 
+				editor.addCommand( 'pastebutton', {
+					exec: function( editor, method ) {
+						var cache = editor._.pasteButtonCache,
+							editable = editor.editable(),
+							start = editable.findOne( '[data-cke-pastebutton-marker="1"]' ),
+							end = editable.findOne( '[data-cke-pastebutton-marker="2"]' ),
+							range = editor.createRange();
+
+						if ( !cache[ method ] || !start || !end ) {
+							return;
+						}
+
+						cache.currentMethod = method;
+
+						cache.lock = true;
+						editor.fire( 'lockSnapshot' );
+
+						range.setStartAfter( start );
+						range.setEndBefore( end );
+						range.select();
+						range.deleteContents();
+						editor.insertHtml( cache[ method ], 'html', range );
+
+						editor.fire( 'unlockSnapshot' );
+						cache.lock = false;
 					}
 				} );
 
@@ -65,27 +89,78 @@
 					command: 'pastebutton',
 					onMenu: function() {
 						return {
-							pasteButton_text: CKEDITOR.TRISTATE_ON,
-							pasteButton_html: CKEDITOR.TRISTATE_ON,
-							pasteButton_word: CKEDITOR.TRISTATE_ON
+							pasteButton_html: getButtonState( editor, 'html' ),
+							pasteButton_text: getButtonState( editor, 'text' ),
+							pasteButton_word: getButtonState( editor, 'word' )
 						};
 					}
 				} );
 
 				toolbarContext = editor.balloonToolbars.create( {
-					buttons: 'PasteButton'
+					buttons: 'PasteButton',
+					cssSelector: '[data-cke-pastebutton-marker="2"]'
 				} );
 
+				editor.on( 'paste', function( evt ) {
+					var data = evt.data.dataTransfer;
+
+					editor.once( 'insertHtml', function( evt ) {
+						evt.data.dataValue = '<span data-cke-pastebutton-marker="1">&nbsp</span>' + evt.data.dataValue +
+							'<span data-cke-pastebutton-marker="2">&nbsp</span>';
+					}, null, null, 9 );
+
+					editor._.pasteButtonCache = {
+						currentMethod: 'html',
+
+						html: data.getData( 'text/html' ),
+						text: data.getData( 'text/plain' )
+					};
+				}, null, null, 999 );
+
+				editor.on( 'afterPasteFromWord', function( evt ) {
+					editor._.pasteButtonCache.word = evt.data.dataValue;
+					editor._.pasteButtonCache.currentMethod = 'word';
+				}, null, null, 9999 );
+
 				editor.on( 'afterPaste', function() {
-					var selection = editor.getSelection();
+					var endMarker = editor.editable().findOne( '[data-cke-pastebutton-marker="2"]' ),
+						listener;
 
-					toolbarContext.show( selection );
+					toolbarContext.show( endMarker );
 
-					editor.once( 'selectionChange', function() {
+					listener = editor.on( 'change', function() {
+						var cache = editor._.pasteButtonCache,
+							markers = editor.editable().find( '[data-cke-pastebutton-marker]' ).toArray();
+
+						if ( cache.lock ) {
+							return;
+						}
+
 						toolbarContext.hide();
+						editor._.pasteButtonCache = {};
+
+						CKEDITOR.tools.array.forEach( markers, function( marker ) {
+							marker.remove();
+						} );
+
+						listener.removeListener();
 					} );
 				} );
 			} );
 		}
 	} );
+
+	function getButtonState( editor, button ) {
+		var cache = editor._.pasteButtonCache;
+
+		if ( !cache[ button ] ) {
+			return CKEDITOR.TRISTATE_DISABLED;
+		}
+
+		if ( cache.currentMethod === button ) {
+			return CKEDITOR.TRISTATE_ON;
+		}
+
+		return CKEDITOR.TRISTATE_OFF;
+	}
 }() );
