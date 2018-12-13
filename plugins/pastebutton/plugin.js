@@ -15,8 +15,8 @@
 		init: function( editor ) {
 			editor.once( 'instanceReady', function() {
 				var lang = editor.lang.pastebutton,
-					menuItems,
-					toolbarContext;
+					toolbar = new CKEDITOR.ui.balloonToolbar( editor ),
+					menuItems;
 
 				editor._.pasteButtonCache = {};
 
@@ -96,10 +96,7 @@
 					}
 				} );
 
-				toolbarContext = editor.balloonToolbars.create( {
-					buttons: 'PasteButton',
-					cssSelector: '[data-cke-pastebutton-marker="2"]'
-				} );
+				toolbar.addItem( 'pastebutton', editor.ui.create( 'PasteButton' ) );
 
 				editor.on( 'paste', function( evt ) {
 					var data = evt.data.dataTransfer;
@@ -126,7 +123,7 @@
 					var endMarker = editor.editable().findOne( '[data-cke-pastebutton-marker="2"]' ),
 						listener;
 
-					toolbarContext.show( endMarker );
+					toolbar.attach( endMarker );
 
 					listener = editor.on( 'change', function() {
 						var cache = editor._.pasteButtonCache,
@@ -136,7 +133,7 @@
 							return;
 						}
 
-						toolbarContext.hide();
+						toolbar.hide();
 						editor._.pasteButtonCache = {};
 
 						CKEDITOR.tools.array.forEach( markers, function( marker ) {
