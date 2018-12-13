@@ -40,6 +40,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'justify,' +
 		'language,' +
 		'link,' +
+		'easylink,' +
 		'list,' +
 		'liststyle,' +
 		'magicline,' +

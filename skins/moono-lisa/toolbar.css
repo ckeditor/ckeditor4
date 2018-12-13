@@ -518,3 +518,19 @@ a.cke_toolbox_collapser
 	border: 0;
 	margin-top: 0;
 }
+
+.cke_balloon_input {
+	height: 24px;
+	border: 1px solid #d1d1d1;
+	background: white;
+	float: left;
+	cursor: text;
+}
+
+a.cke_link_preview {
+	float: left;
+	text-decoration: underline;
+	line-height: 24px;
+	color: blue;
+	cursor: pointer;
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+
+<textarea id="editor">
+	<p>Foo bar baz faz</p>
+</textarea>
+<script src="../../../ckeditor.js"></script>
+<script>
+	CKEDITOR.replace( 'editor', {
+		plugins: 'wysiwygarea,sourcearea,toolbar,easylink,link,dialog'
+	} );
+</script>
+</body>
+</html>
