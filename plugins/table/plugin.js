@@ -127,6 +127,14 @@ CKEDITOR.plugins.add( 'table', {
 				evt.data.dialog = 'tableProperties';
 		} );
 
+		editor.on( 'insertTable', function( evt ) {
+			var table = evt.data.returnValue;
+
+			table.setAttribute( 'cellspacing', 1 );
+			table.setAttribute( 'border', 1 );
+			table.setStyle( 'width', '500px' );
+		} );
+
 		// If the "contextmenu" plugin is loaded, register the listeners.
 		if ( editor.contextMenu ) {
 			editor.contextMenu.addListener( function() {
