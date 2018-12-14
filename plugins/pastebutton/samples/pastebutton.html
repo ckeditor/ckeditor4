@@ -77,14 +77,14 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 </footer>
 <script>
 CKEDITOR.replace( 'editor', {
-	plugins: 'autogrow,image2,sourcearea,toolbar,undo,wysiwygarea,list,liststyle,format,link,basicstyles,pastebutton',
+	plugins: 'autogrow,image2,sourcearea,toolbar,undo,wysiwygarea,list,liststyle,format,link,basicstyles,colorbutton,pastebutton',
 	toolbar: [
 		{ name: 'document', items: [ 'Source', 'Undo', 'Redo' ] },
 		{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ] },
 		{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList' ] },
 		{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
 		{ name: 'insert', items: [ 'Image' ] },
-		{ name: 'styles', items: [ 'Format' ] }
+		{ name: 'styles', items: [ 'Format', 'TextColor', 'BGColor' ] }
 	],
 	autoGrow_onStartup: true
 } );
