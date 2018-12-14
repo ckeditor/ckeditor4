@@ -19,33 +19,33 @@
 					menuItems,
 					listener;
 
-				editor._.pasteButtonCache = {};
+				editor._.pasteButtonModel = {};
 
 				editor.addCommand( 'pastebutton', {
 					exec: function( editor, method ) {
-						var cache = editor._.pasteButtonCache,
+						var model = editor._.pasteButtonModel,
 							editable = editor.editable(),
 							start = editable.findOne( '[data-cke-pastebutton-marker="1"]' ),
 							end = editable.findOne( '[data-cke-pastebutton-marker="2"]' ),
 							range = editor.createRange();
 
-						if ( !cache[ method ] || !start || !end ) {
+						if ( !model[ method ] || !start || !end ) {
 							return;
 						}
 
-						cache.currentMethod = method;
+						model.currentMethod = method;
 
-						cache.lock = true;
+						model.lock = true;
 						editor.fire( 'lockSnapshot' );
 
 						range.setStartAfter( start );
 						range.setEndBefore( end );
 						range.select();
 						range.deleteContents();
-						editor.insertHtml( cache[ method ], 'html', range );
+						editor.insertHtml( model[ method ], 'html', range );
 
 						editor.fire( 'unlockSnapshot' );
-						cache.lock = false;
+						model.lock = false;
 					}
 				} );
 
@@ -102,7 +102,7 @@
 				editor.on( 'beforePaste', function() {
 					resetButtonState();
 
-					editor._.pasteButtonCache = {
+					editor._.pasteButtonModel = {
 						currentMethod: 'html'
 					};
 				}, null, null, 9999 );
@@ -117,13 +117,13 @@
 							'<span data-cke-pastebutton-marker="2">' + space + '</span>';
 					}, null, null, 9 );
 
-					editor._.pasteButtonCache.html = data.getData( 'text/html' );
-					editor._.pasteButtonCache.text = data.getData( 'text/plain' );
+					editor._.pasteButtonModel.html = data.getData( 'text/html' );
+					editor._.pasteButtonModel.text = data.getData( 'text/plain' );
 				}, null, null, 999 );
 
 				editor.on( 'afterPasteFromWord', function( evt ) {
-					editor._.pasteButtonCache.word = evt.data.dataValue;
-					editor._.pasteButtonCache.currentMethod = 'word';
+					editor._.pasteButtonModel.word = evt.data.dataValue;
+					editor._.pasteButtonModel.currentMethod = 'word';
 				}, null, null, 9999 );
 
 				editor.on( 'afterPaste', function() {
@@ -132,7 +132,7 @@
 					toolbar.attach( endMarker );
 
 					listener = editor.on( 'change', function() {
-						if ( editor._.pasteButtonCache.lock ) {
+						if ( editor._.pasteButtonModel.lock ) {
 							return;
 						}
 
@@ -144,7 +144,7 @@
 					var markers = editor.editable().find( '[data-cke-pastebutton-marker]' ).toArray();
 
 					toolbar.hide();
-					editor._.pasteButtonCache = {};
+					editor._.pasteButtonModel = {};
 
 					CKEDITOR.tools.array.forEach( markers, function( marker ) {
 						marker.remove();
@@ -159,13 +159,13 @@
 	} );
 
 	function getButtonState( editor, button ) {
-		var cache = editor._.pasteButtonCache;
+		var model = editor._.pasteButtonModel;
 
-		if ( !cache[ button ] ) {
+		if ( !model[ button ] ) {
 			return CKEDITOR.TRISTATE_DISABLED;
 		}
 
-		if ( cache.currentMethod === button ) {
+		if ( model.currentMethod === button ) {
 			return CKEDITOR.TRISTATE_ON;
 		}
 
