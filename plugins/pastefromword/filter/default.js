@@ -471,7 +471,7 @@
 
 					var styles = tools.parseCssText( element.attributes.style, true );
 
-					if ( styles[ 'page-break-before' ] === 'always' ) {
+					if ( styles[ 'page-break-before' ] === 'always' || styles[ 'break-before' ] === 'page' ) {
 						var pagebreakEl = CKEDITOR.plugins.pagebreak.createElement( editor );
 						return CKEDITOR.htmlParser.fragment.fromHtml( pagebreakEl.getOuterHtml() ).children[ 0 ];
 					}
