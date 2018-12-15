@@ -471,6 +471,7 @@
 
 					var styles = tools.parseCssText( element.attributes.style, true );
 
+					// Safari uses `break-before` instead of `page-break-before` to recognize page breaks.
 					if ( styles[ 'page-break-before' ] === 'always' || styles[ 'break-before' ] === 'page' ) {
 						var pagebreakEl = CKEDITOR.plugins.pagebreak.createElement( editor );
 						return CKEDITOR.htmlParser.fragment.fromHtml( pagebreakEl.getOuterHtml() ).children[ 0 ];
