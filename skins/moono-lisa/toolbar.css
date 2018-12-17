@@ -523,14 +523,17 @@ a.cke_toolbox_collapser
 	height: 24px;
 	border: 1px solid #d1d1d1;
 	background: white;
+	width: 300px;
+	padding: 0 5px;
 	float: left;
 	cursor: text;
 }
 
 a.cke_link_preview {
+	padding: 0 5px;
 	float: left;
 	text-decoration: underline;
-	line-height: 24px;
+	line-height: 28px;
 	color: blue;
 	cursor: pointer;
 }
