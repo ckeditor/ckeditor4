@@ -206,14 +206,28 @@ CKEDITOR.dom.range = function( root ) {
 		// and hence we can easily handle this case as many others.
 
 		// We need to handle situation when selection startNode is type of NODE_ELEMENT (#426).
-		if ( isClone &&
-			endNode.type == CKEDITOR.NODE_TEXT &&
-			( startNode.equals( endNode ) || ( startNode.type === CKEDITOR.NODE_ELEMENT &&
-				( startNode.getFirst() && startNode.getFirst().equals( endNode ) ) ) ) ) {
-
+		if ( shouldAppend() ) {
 			// Here we should always be inside one text node.
 			docFrag.append( range.document.createText( endNode.substring( startOffset, endOffset ) ) );
 			return;
+		}
+
+		function shouldAppend() {
+			if ( !isClone ) {
+				return false;
+			}
+
+			if ( endNode.type != CKEDITOR.NODE_TEXT ) {
+				return false;
+			}
+
+			if ( startNode.equals( endNode ) ) {
+				return true;
+			}
+
+			var firstChild = startNode.type === CKEDITOR.NODE_ELEMENT && startNode.getFirst();
+
+			return firstChild && firstChild.equals( endNode );
 		}
 
 		// For text containers, we must simply split the node and point to the
