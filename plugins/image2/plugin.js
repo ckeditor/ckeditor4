@@ -1371,7 +1371,9 @@
 			}
 
 			function isAllowedSize() {
-				return newWidth >= min.width && newWidth <= max.width && newHeight >= min.height && newHeight <= max.height;
+				var isTooSmall = newWidth < min.width || newHeight < min.height,
+					isTooBig = max && ( ( max.width && newWidth > max.width ) || ( max.height && newHeight > max.height ) );
+				return !isTooSmall && !isTooBig;
 			}
 		} );
 
