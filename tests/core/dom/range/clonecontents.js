@@ -629,6 +629,31 @@
 		'test cloneContents - multiple nested elements': function() {
 			this.assertHtmlFragment( this.editors.classic, '<p>fo[o <strong>bar <em>baz</em></strong></p><table><tbody><tr><td>hello</td></tr><tr><td>world</td></tr></tbody></table><p>fo]o</p>',
 			'<p>o <strong>bar <em>baz</em></strong>@</p><table><tbody><tr><td>hello</td></tr><tr><td>world</td></tr></tbody></table><p>fo</p>' );
+		},
+
+		// In some cases of selection typeError was thrown (#2534).
+		'test cloneContents - start at empty element end at text node': function() {
+			this.editorBots.classic.setData( '<p></p><p>foo</p>', function() {
+				var editor = this.editors.classic,
+					paragraphs = editor.editable().find( 'p' ).toArray(),
+					start = paragraphs[ 0 ],
+					end = paragraphs[ 1 ].getFirst(),
+					range = editor.createRange(),
+					spy = sinon.stub( start, 'getFirst' );
+
+				spy.returns( false );
+				range.setStart( start, 0 );
+				range.setEnd( end, 1 );
+
+				try {
+					range.cloneContents();
+					spy.restore();
+					assert.isTrue( true, 'Test passes without errors.' );
+				}
+				catch ( err ) {
+					assert.isTrue( false, 'Error thrown!' );
+				}
+			} );
 		}
 	} );
 } )();
