@@ -102,13 +102,18 @@
 			} );
 
 			var acceptLinkBtn = new CKEDITOR.ui.button( {
-				label: 'acceptlink',
-				icon: 'link',
-				command: 'acceptlink'
-			} );
+					label: 'acceptlink',
+					icon: 'link',
+					command: 'acceptlink'
+				} ),
+				editLinkToolbar;
 
 			editor.addCommand( 'easylink', {
 				exec: function( editor ) {
+					if ( editLinkToolbar ) {
+						editLinkToolbar.destroy();
+					}
+
 					insertLinkToolbar = new CKEDITOR.ui.balloonToolbar( editor, {
 						width: 'auto',
 						height: 38
@@ -159,9 +164,9 @@
 				toolbar: 'blocks,10'
 			} );
 
-			var editLinkToolbar;
+			editor.on( 'selectionChange', openLinkBalloon );
 
-			editor.on( 'selectionChange', function() {
+			function openLinkBalloon() {
 				var link = CKEDITOR.plugins.link.getSelectedLink( this );
 
 				if ( editLinkToolbar ) {
@@ -175,6 +180,10 @@
 				editLinkToolbar = new CKEDITOR.ui.balloonToolbar( editor, {
 					width: 'auto',
 					height: 38
+				} );
+
+				editLinkToolbar._view.once( 'destroy', function() {
+					editLinkToolbar = null;
 				} );
 
 				var url = link.getAttribute( 'href' ),
@@ -192,7 +201,7 @@
 				} );
 
 				editLinkToolbar.attach( editor.getSelection() );
-			} );
+			}
 		}
 	} );
 
