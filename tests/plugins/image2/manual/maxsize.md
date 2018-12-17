@@ -2,30 +2,30 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, image2, sourcearea
 
+# For first editor:
+
 1. Use resize handler to shrink image to minimum size.
 
 1. Open dialog for this image.
 
-	## Expected:
+## Expected:
 
-	Dialog fields are populated with correct width/height.
+Dialog fields are populated with correct width/height.
 
-	## Unexpected:
+## Unexpected:
 
-	Dialog fields have wrong values.
+Dialog fields have wrong values.
 
-1. Close dialog.
+# For each editors
 
 1. Use resize handler to increase image to maximum size.
 
 ## Expected:
 
-- Images can't be resized beyond maximum values:
+- Editor 1, Editor 2: Images can't be resized beyond maximum values.
 
-	- First editor: width/height: `350px`
-
-	- Second editor: width/height: `image natural size`. This means image can't be bigger than it is at start.
+- Editor 3: Image can be resized to any size.
 
 ## Unexpected:
 
-- Images can be resized beyond maximum values.
+- Editor 1, Editor 2: Images can be resized beyond maximum values.
