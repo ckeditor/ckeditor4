@@ -13,6 +13,7 @@
 		requires: 'balloontoolbar,button,widget',
 		init: function( editor ) {
 
+			// @todo Extract to separate plugin.
 			CKEDITOR.ui.linkPreview = function( definition ) {
 				CKEDITOR.tools.extend( this, definition );
 				this._ = {};
@@ -39,6 +40,7 @@
 				}
 			};
 
+			// @todo Extract to separate plugin.
 			CKEDITOR.ui.input = function( definition ) {
 				CKEDITOR.tools.extend( this, definition );
 				this._ = {};
@@ -194,7 +196,7 @@
 		}
 	} );
 
-	// Link dialog copypasta.
+	// @todo this is copied from link dialog. It should be published as method in CKEDITOR.plugins.link namespace.
 	function insertLinksIntoSelection( editor, data ) {
 		var linkPlugin = CKEDITOR.plugins.link,
 			attributes = linkPlugin.getLinkAttributes( editor, data ),
