@@ -54,7 +54,6 @@
 	height: auto;
 	margin: 0 6px;
 	text-align: center;
-	cursor: pointer;
 }
 
 .cke_browser_ie .cke_emoji-inner_panel > nav li {
@@ -159,7 +158,6 @@
 	font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	list-style-type: none;
 	display: inline-table;
-	cursor: pointer;
 	width: 36px;
 	height: 36px;
 	font-size: 1.8em;
