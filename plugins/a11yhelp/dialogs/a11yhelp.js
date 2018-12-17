@@ -103,6 +103,13 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 		// Display multiple command keystrokes (#2519).
 		if ( keystrokeCodes.length ) {
+			if ( CKEDITOR.env.safari ) {
+				// Prevent of display shortcut Command + L on Safari browser, where it doesn't work (#2200).
+				keystrokeCodes = CKEDITOR.tools.array.filter( keystrokeCodes, function( keystrokeCode ) {
+					return parseInt( keystrokeCode, 10 ) !== CKEDITOR.CTRL + 76; /* L */
+				} );
+			}
+
 			return CKEDITOR.tools.array.map( keystrokeCodes, representKeyStroke ).join( ' / ' );
 		}
 
