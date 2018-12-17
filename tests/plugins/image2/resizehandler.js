@@ -1,5 +1,7 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: image2,toolbar */
+/* bender-include: %BASE_PATH%/plugins/uploadfile/_helpers/waitForImage.js */
+/* global waitForImage */
 
 ( function() {
 	'use strict';
@@ -25,7 +27,7 @@
 
 	var tests = {
 		//2672
-		'test resize close to minimum size': assertResize( {
+		'test resize close to minimum size': testResize( {
 			data: {
 				screenX: 40,
 				screenY: 15
@@ -37,7 +39,7 @@
 		} ),
 
 		//2672
-		'test resize lower than minimum size': assertResize( {
+		'test resize lower than minimum size': testResize( {
 			data: {
 				screenX: 14,
 				screenY: 14
@@ -49,7 +51,7 @@
 		} ),
 
 		//2048
-		'test resize close to maximum size': assertResize( {
+		'test resize close to maximum size': testResize( {
 			limitedSize: {
 				data: {
 					screenX: 350,
@@ -73,7 +75,7 @@
 		} ),
 
 		//2048
-		'test resize above maximum size': assertResize( {
+		'test resize above maximum size': testResize( {
 			limitedSize: {
 				data: {
 					screenX: 351,
@@ -99,34 +101,44 @@
 
 	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
 
-	function assertResize( options ) {
+	function testResize( options ) {
 		return function( editor, bot ) {
 			bot.setData( '<img src="%BASE_PATH%/_assets/logo.png">', function() {
-				editor.widgets.instances[ editor.widgets._.nextId - 1 ].resizer.fire( 'mousedown', {
-					$: {
-						screenX: 163,
-						screenY: 61
-					}
-				} );
+				var image = editor.editable().findOne( 'img' );
 
-				var doc = CKEDITOR.document,
-					image = editor.editable().findOne( 'img' ),
-					data = options[ editor.name ] ? options[ editor.name ].data : options.data,
-					expected = options[ editor.name ] ? options[ editor.name ].expected : options.expected,
-					actual;
+				if ( CKEDITOR.env.chrome ) {
+					assertResize();
+				} else {
+					waitForImage( image, assertResize );
+				}
 
-				doc.fire( 'mousemove', {
-					$: data
-				} );
+				function assertResize() {
+					editor.widgets.instances[ editor.widgets._.nextId - 1 ].resizer.fire( 'mousedown', {
+						$: {
+							screenX: 163,
+							screenY: 61
+						}
+					} );
 
-				doc.fire( 'mouseup' );
+					var doc = CKEDITOR.document,
+						image = editor.editable().findOne( 'img' ),
+						data = options[ editor.name ] ? options[ editor.name ].data : options.data,
+						expected = options[ editor.name ] ? options[ editor.name ].expected : options.expected,
+						actual;
 
-				actual = {
-					width: image.getAttribute( 'width' ),
-					height: image.getAttribute( 'height' )
-				};
+					doc.fire( 'mousemove', {
+						$: data
+					} );
 
-				assert.isTrue( CKEDITOR.tools.objectCompare( actual, expected ) );
+					doc.fire( 'mouseup' );
+
+					actual = {
+						width: image.getAttribute( 'width' ),
+						height: image.getAttribute( 'height' )
+					};
+
+					assert.isTrue( CKEDITOR.tools.objectCompare( actual, expected ) );
+				}
 			} );
 		};
 	}
