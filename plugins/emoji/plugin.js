@@ -629,6 +629,21 @@
 						data = arrTools.filter( emojiList, function( item ) {
 							// Comparing lowercased strings, because emoji should be case insensitive (#2167).
 							return item.id.toLowerCase().indexOf( emojiName ) !== -1;
+						} ).sort( function( a, b ) {
+							var aIndex = a.id.indexOf( emojiName ),
+								bIndex = b.id.indexOf( emojiName );
+
+							if ( aIndex === bIndex ) {
+								if ( a.id === b.id ) {
+									return 0;
+								} else if ( a.id > b.id ) {
+									return 1;
+								} else {
+									return -1;
+								}
+							} else {
+								return aIndex - bIndex;
+							}
 						} );
 					callback( data );
 				}
