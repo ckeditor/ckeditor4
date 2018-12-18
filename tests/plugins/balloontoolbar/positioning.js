@@ -171,17 +171,15 @@
 						height: 200
 					} ),
 					markerElement = editor.editable().findOne( 'img' ),
-					options = { foo: 'bar' },
 					spy;
 
 				balloonToolbar.attach( markerElement );
 
 				spy = sinon.spy( balloonToolbar, 'attach' );
 
-				balloonToolbar.reposition( options );
+				balloonToolbar.reposition();
 
-				assert.areSame( markerElement, spy.args[ 0 ][ 0 ] );
-				assert.areSame( options, spy.args[ 0 ][ 1 ] );
+				assert.isTrue( markerElement.equals( spy.args[ 0 ][ 0 ] ) );
 			} );
 		}
 	};
