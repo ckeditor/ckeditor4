@@ -174,10 +174,10 @@
 					spy;
 
 				balloonToolbar.attach( markerElement );
-
 				spy = sinon.spy( balloonToolbar, 'attach' );
 
 				balloonToolbar.reposition();
+				spy.restore();
 
 				assert.isTrue( markerElement.equals( spy.args[ 0 ][ 0 ] ) );
 			} );
