@@ -113,6 +113,7 @@
 		 * @inheritdoc CKEDITOR.plugins.autocomplete#followingSpace
 		 * @property {Boolean} [followingSpace]
 		 * @readonly
+		 * @since 4.12.0
 		 */
 		this.followingSpace = config.followingSpace;
 
