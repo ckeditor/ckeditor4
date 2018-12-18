@@ -1,6 +1,12 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.11.3
+
+Fixed Issues:
+
+* [#2527](https://github.com/ckeditor/ckeditor-dev/issues/2527): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) autocomplete order now prioritize emojis with name started from used string.
+
 ## CKEditor 4.11.2
 
 Fixed Issues:
