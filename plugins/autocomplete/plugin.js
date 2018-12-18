@@ -1538,8 +1538,8 @@
 	function removeLeadingSpace( editor ) {
 		var selection = editor.getSelection(),
 			nextNode = selection.getRanges()[ 0 ].getNextNode( function( node ) {
-			return Boolean( node.type == CKEDITOR.NODE_TEXT && node.getText() );
-		} );
+				return Boolean( node.type == CKEDITOR.NODE_TEXT && node.getText() );
+			} );
 
 		if ( nextNode && nextNode.getText().match( /^\s+/ ) ) {
 			var range = editor.createRange();
