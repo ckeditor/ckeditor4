@@ -1,0 +1,10 @@
+<textarea id="editor" cols="10" rows="10">
+	<p></p>
+</textarea>
+
+<script>
+	if ( emojiTools.notSupportedEnvironment) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor' );
+</script>
