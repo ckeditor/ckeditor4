@@ -8,8 +8,8 @@
 
 ## Expected:
 
-Panel appears with match: `💥 collision`
+Emoji suggestion box appears with match: `💥 collision`
 
 ## Unexpected:
 
-Panel appears with match: `💥 :collision:`
+Emoji suggestion box appears with match: `💥 :collision:`
