@@ -49,7 +49,8 @@
 				panel.attach( square );
 
 				CKEDITOR.tools.array.forEach( CKEDITOR.document.find( '.control' ).toArray(), function( input ) {
-					input.on( 'change', function() {
+					var evtName = CKEDITOR.env.ie && !CKEDITOR.env.edge ? 'change' : 'input';
+					input.on( evtName, function() {
 						square.setStyle( input.getAttribute( 'data-style-name' ), input.getValue() + 'px' );
 						panel.reposition();
 					} );
