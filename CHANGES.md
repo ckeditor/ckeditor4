@@ -5,7 +5,8 @@
 
 New features:
 
-* [#2008](https://github.com/ckeditor/ckeditor-dev/pull/2008): The [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) and [Mentions](https://ckeditor.com/cke4/addon/mentions) plugins exposes `followingSpace` configuration option allowing to put space after inserted match. See `followingSpace` configuration option for [Autocomplete](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_autocomplete_configDefinition.html#property-followingSpace) and [Mentions](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_mentions_configDefinition.html#property-followingSpace).
+* [#2008](https://github.com/ckeditor/ckeditor-dev/pull/2008): The [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) plugin exposes [`followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_autocomplete_configDefinition.html#property-followingSpace) configuration option allowing to put space after inserted match.
+* [#2008](https://github.com/ckeditor/ckeditor-dev/pull/2008): The [Mentions](https://ckeditor.com/cke4/addon/mentions) plugin exposes [`followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_mentions_configDefinition.html#property-followingSpace) configuration option allowing to put space after inserted match.
 
 ## CKEditor 4.11.2
 
