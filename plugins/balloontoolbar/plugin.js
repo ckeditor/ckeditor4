@@ -675,7 +675,7 @@
 				this._detachListeners();
 
 				function attachListener() {
-					this.reposition( { focusElement: false } );
+					this.reposition();
 				}
 
 				this._listeners.push( this.editor.on( 'change', attachListener, this ) );
