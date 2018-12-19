@@ -1171,15 +1171,15 @@
 		},
 
 		removeSymbolText: function( element ) { // ...from a list element.
-			var removed,
-				match,
-				symbol = element.attributes[ 'cke-symbol' ];
+			var symbol = element.attributes[ 'cke-symbol' ],
+				removed,
+				matched;
 
 			element.forEach( function( node ) {
 				// Since symbol may contains special characters we use `indexOf` (instead of RegExp) which is sufficient (#877).
 				// Stop after after first replaced string (#2690).
-				if ( !match && node.value.indexOf( symbol ) > -1 ) {
-					match = true;
+				if ( !matched && node.value.indexOf( symbol ) > -1 ) {
+					matched = true;
 					node.value = node.value.replace( symbol, '' );
 
 					if ( node.parent.getHtml().match( /^(\s|&nbsp;)*$/ ) ) {
