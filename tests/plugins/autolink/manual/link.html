@@ -1,5 +1,9 @@
 <div id="editor"></div>
 
 <script>
+	if ( !CKEDITOR.plugins.registered.autolink.isSupportedEnvironment() ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor' );
 </script>
