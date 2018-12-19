@@ -1174,16 +1174,20 @@
 
 		removeSymbolText: function( element ) { // ...from a list element.
 			var removed,
+				match,
 				symbol = element.attributes[ 'cke-symbol' ];
 
 			element.forEach( function( node ) {
 				// Since symbol may contains special characters we use `indexOf` (instead of RegExp) which is sufficient (#877).
-				if ( !removed && node.value.indexOf( symbol ) > -1 ) {
-
+				// Stop after after first replaced string (#2690).
+				if ( !match && node.value.indexOf( symbol ) > -1 ) {
+					match = true;
 					node.value = node.value.replace( symbol, '' );
 
 					if ( node.parent.getHtml().match( /^(\s|&nbsp;)*$/ ) ) {
 						removed = node.parent !== element ? node.parent : null;
+					} else if ( node.value === '' ) {
+						removed = node;
 					}
 				}
 			}, CKEDITOR.NODE_TEXT );
