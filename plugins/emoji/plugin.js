@@ -379,10 +379,11 @@
 					return arrTools.reduce(
 						items,
 						function( acc, item ) {
+							addEncodedName( item );
 							return acc + emojiTpl.output( {
 									symbol: htmlEncode( item.symbol ),
 									id: htmlEncode( item.id ),
-									name: getEncodedName( item ),
+									name: item._name,
 									group: htmlEncode( item.group ),
 									keywords: htmlEncode( ( item.keywords || [] ).join( ',' ) )
 								} );
@@ -599,7 +600,7 @@
 					editor._.emoji.autocomplete = new CKEDITOR.plugins.autocomplete( editor, {
 						textTestCallback: getTextTestCallback(),
 						dataCallback: dataCallback,
-						itemTemplate: '<li data-id="{id}" class="cke_emoji-suggestion_item"><span>{symbol}</span> {name}</li>',
+						itemTemplate: '<li data-id="{id}" class="cke_emoji-suggestion_item"><span>{symbol}</span> {_name}</li>',
 						outputTemplate: '{symbol}'
 					} );
 				}
@@ -642,9 +643,8 @@
 							}
 						} );
 					data = arrTools.map( data, function( item ) {
-						return CKEDITOR.tools.extend( {}, item, {
-							name: getEncodedName( item )
-						} );
+						addEncodedName( item );
+						return item;
 					} );
 					callback( data );
 				}
@@ -663,9 +663,10 @@
 		}
 	} );
 
-	function getEncodedName( item ) {
-		item._name = item._name || htmlEncode( item.id.replace( /::.*$/, ':' ).replace( /^:|:$/g, '' ).replace( /_/g, ' ' ) );
-		return item._name;
+	function addEncodedName( item ) {
+		if ( !item._name ) {
+			item._name = htmlEncode( item.id.replace( /::.*$/, ':' ).replace( /^:|:$/g, '' ).replace( /_/g, ' ' ) );
+		}
 	}
 } )();
 
