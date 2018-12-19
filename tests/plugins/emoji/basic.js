@@ -237,8 +237,7 @@
 
 				var element = CKEDITOR.document.findOne( '.cke_emoji-suggestion_item' );
 
-				assert.areEqual( element.$.innerText, '💥 collision' );
-
+				assert.areEqual( element.getText(), '💥 collision' );
 			} );
 		}
 	};
