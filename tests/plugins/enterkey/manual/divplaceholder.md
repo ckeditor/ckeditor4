@@ -1,6 +1,6 @@
 @bender-tags: 4.11.0, bug, 2205
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, enterkey, list
+@bender-ckeditor-plugins: wysiwygarea, toolbar, enterkey, list, div
 
 1. Place a cursor right under list item.
 
