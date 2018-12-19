@@ -12,6 +12,12 @@
 		requires: 'clipboard,textmatch',
 
 		init: function( editor ) {
+
+			// (#2208)
+			if ( !this.isSupportedEnvironment() ) {
+				return;
+			}
+
 			var urlTemplate = new CKEDITOR.template( '<a href="{link}">{text}</a>' ),
 				emailTemplate = new CKEDITOR.template( '<a href="mailto:{link}">{text}</a>' );
 
@@ -127,6 +133,10 @@
 				return query.match( editor.config.autolink_urlRegex ) ||
 					query.match( editor.config.autolink_emailRegex );
 			}
+		},
+
+		isSupportedEnvironment: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.edge;
 		}
 	} );
 
