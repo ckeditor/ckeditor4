@@ -24,9 +24,13 @@ input[type=text] { width: 450px }
 </textarea>
 
 <script>
-	if ( !CKEDITOR.plugins.registered.autolink.isSupportedEnvironment() ) {
-		bender.ignore();
-	}
-
-	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor1', {
+		on: {
+			pluginsLoaded: function() {
+				if ( !CKEDITOR.plugins.registered.autolink.isSupportedEnvironment() ) {
+					bender.ignore();
+				}
+			}
+		}
+	} );
 </script>
