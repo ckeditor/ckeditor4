@@ -1163,8 +1163,6 @@
 				if ( element.name == 'cke:li' ) {
 					element.name = 'li';
 
-					//List.removeSymbolText( element );
-
 					listElements.push( element );
 				}
 			}, CKEDITOR.NODE_ELEMENT, false );
