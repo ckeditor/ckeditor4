@@ -6,5 +6,7 @@
 	if ( emojiTools.notSupportedEnvironment) {
 		bender.ignore();
 	}
-	CKEDITOR.replace( 'editor' );
+	CKEDITOR.replace( 'editor', {
+		removeButtons: 'EmojiPanel'
+	} );
 </script>
