@@ -203,10 +203,10 @@
  *
  * ```javascript
  * CKEDITOR.plugins.add( 'sample', {
- *	isEnvironmentSupported: function() {
- *		// Plugin supported only on modern browsers.
- *		return !CKEDITOR.env.ie || CKEDITOR.env.edge;
- *	}
+ *		isEnvironmentSupported: function() {
+ *			// Plugin supported only on modern browsers.
+ *			return !CKEDITOR.env.ie || CKEDITOR.env.edge;
+ *		}
  * } );
  * ```
  *
