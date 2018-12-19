@@ -1184,7 +1184,7 @@
 
 					if ( node.parent.getHtml().match( /^(\s|&nbsp;)*$/ ) ) {
 						removed = node.parent !== element ? node.parent : null;
-					} else if ( node.value === '' ) {
+					} else if ( !node.value ) {
 						removed = node;
 					}
 				}
