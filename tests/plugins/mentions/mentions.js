@@ -466,7 +466,9 @@
 				config = {
 					followingSpace: true,
 					itemsLimit: 12,
-					throttle: 120
+					throttle: 120,
+					outputTemplate: '<strong>{name}</name>',
+					itemTemplate: '<li data-id={id}>{name}</li>'
 				};
 
 			this.createMentionsInstance( config );
