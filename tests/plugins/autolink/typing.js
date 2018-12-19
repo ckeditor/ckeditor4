@@ -52,7 +52,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+			if ( !CKEDITOR.plugins.registered.autolink.isSupportedEnvironment() ) {
 				assert.ignore();
 			}
 		},

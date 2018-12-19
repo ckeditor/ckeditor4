@@ -21,5 +21,9 @@ input[type=text] { width: 450px }
 </textarea>
 
 <script>
+	if ( !CKEDITOR.plugins.registered.autolink.isSupportedEnvironment() ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor' );
 </script>
