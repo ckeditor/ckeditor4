@@ -122,6 +122,7 @@ Fixed Issues:
 * [#2205](https://github.com/ckeditor/ckeditor-dev/issues/2205): Fixed: It is not possible to add new list items under an item containing a block element.
 * [#2411](https://github.com/ckeditor/ckeditor-dev/issues/2411), [#2438](https://github.com/ckeditor/ckeditor-dev/issues/2438) Fixed: Apply numbered list option throws a console error for a specific markup.
 * [#2430](https://github.com/ckeditor/ckeditor-dev/issues/2430) Fixed: [Color Button](https://ckeditor.com/cke4/addon/colorbutton) and [List Block](https://ckeditor.com/cke4/addon/listblock) items are draggable.
+* [#2208](https://github.com/ckeditor/ckeditor-dev/issues/2208): [IE8-11] Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) plugin duplicated with native browser implementation.
 
 Other Changes:
 
