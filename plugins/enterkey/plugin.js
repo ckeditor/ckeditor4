@@ -65,8 +65,8 @@
 			if ( block && atBlockStart && atBlockEnd ) {
 				var blockParent = block.getParent();
 
-				// Block placeholder breaks list structure (#2005).
-				if ( block.is( blockTag ) && blockParent.is( 'li' ) && blockParent.getChildCount() > 1 ) {
+				// Block placeholder breaks list structure (#2205).
+				if ( blockParent.is( 'li' ) && blockParent.getChildCount() > 1 ) {
 					var placeholder = new CKEDITOR.dom.element( 'li' ),
 						newRange = editor.createRange();
 
