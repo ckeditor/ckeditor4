@@ -41,6 +41,12 @@
 
 	bender.test( {
 
+		setUp: function() {
+			if ( !CKEDITOR.plugins.registered.autolink.isSupportedEnvironment() ) {
+				assert.ignore();
+			}
+		},
+
 		'test URL link with HTML tags': function() {
 			var pastedTexts = [
 				'https://<br>placekitten.com/g/200/301',

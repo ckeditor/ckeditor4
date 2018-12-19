@@ -2,7 +2,7 @@
 
 <script>
 
-	if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+	if ( !CKEDITOR.plugins.registered.autolink.isSupportedEnvironment() ) {
 		bender.ignore();
 	}
 
