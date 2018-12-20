@@ -133,15 +133,15 @@
 			arrayAssert.itemsAreEqual( [ 'bottom hcenter', 'top hcenter' ], CKEDITOR.tools.objectKeys( res ) );
 		},
 
-		// #1342
+		// #1342, #1496
 		'test panel refresh position': function( editor, bot ) {
-
 			bot.setData( '<img src="' + bender.basePath + '/_assets/lena.jpg">', function() {
 				var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
 						width: 100,
 						height: 200
 					} ),
 					markerElement = editor.editable().findOne( 'img' ),
+					spy = sinon.spy( balloonToolbar, 'reposition' ),
 					initialPosition,
 					currentPosition;
 
@@ -152,6 +152,7 @@
 					resume( function() {
 						currentPosition = balloonToolbar.parts.panel.getClientRect();
 						assert.areNotSame( initialPosition.left, currentPosition.left, 'position of toolbar' );
+						assert.areEqual( 1, spy.callCount );
 					} );
 				} );
 
@@ -159,6 +160,26 @@
 				editor.fire( 'change' );
 
 				wait();
+			} );
+		},
+
+		// #1496
+		'test panel reposition': function( editor, bot ) {
+			bot.setData( '<img src="' + bender.basePath + '/_assets/lena.jpg">', function() {
+				var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+						width: 100,
+						height: 200
+					} ),
+					markerElement = editor.editable().findOne( 'img' ),
+					spy;
+
+				balloonToolbar.attach( markerElement );
+				spy = sinon.spy( balloonToolbar, 'attach' );
+
+				balloonToolbar.reposition();
+				spy.restore();
+
+				assert.isTrue( markerElement.equals( spy.args[ 0 ][ 0 ] ) );
 			} );
 		}
 	};

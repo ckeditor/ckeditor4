@@ -125,6 +125,16 @@
 	};
 
 	/**
+	 * Repositions the balloon toolbar, pointing to the previously attached `element`.
+	 *
+	 * @since 4.12.0
+	 * @member CKEDITOR.ui.balloonToolbar
+	 */
+	CKEDITOR.ui.balloonToolbar.prototype.reposition = function() {
+		this._view.reposition();
+	};
+
+	/**
 	 * Adds an item to the balloon toolbar.
 	 *
 	 * @param {String} name The menu item name.
@@ -665,9 +675,7 @@
 				this._detachListeners();
 
 				function attachListener() {
-					this.attach( this._pointedElement, {
-						focusElement: false
-					} );
+					this.reposition();
 				}
 
 				this._listeners.push( this.editor.on( 'change', attachListener, this ) );
@@ -676,6 +684,17 @@
 				this._listeners.push( editable.attachListener( editable.getDocument(), 'scroll', attachListener, this ) );
 
 				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
+			};
+
+			/**
+			 * @inheritdoc CKEDITOR.ui.balloonToolbar#reposition
+			 * @since 4.12.0
+			 * @member CKEDITOR.ui.balloonToolbarView
+			 */
+			CKEDITOR.ui.balloonToolbarView.prototype.reposition = function() {
+				if ( this.rect.visible ) {
+					this.attach( this._pointedElement, { focusElement: false } );
+				}
 			};
 
 			CKEDITOR.ui.balloonToolbarView.prototype.hide = function() {
