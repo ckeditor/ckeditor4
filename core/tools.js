@@ -1804,7 +1804,7 @@
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				margin: function( value ) {
-					return CKEDITOR.tools.style.parse.shorthand( value, function( width ) {
+					return CKEDITOR.tools.style.parse.sideShorthand( value, function( width ) {
 						return width.match( /(?:\-?[\.\d]+(?:%|\w*)|auto|inherit|initial|unset)/g ) || [ '0px' ];
 					} );
 				},
@@ -1813,13 +1813,13 @@
 				 * Parses the CSS property shorthand format of all `top`, `right`, `bottom`, `left` sides.
 				 *
 				 * ```javascript
-				 *	console.log( CKEDITOR.tools.style.parse.shorthand( 'solid dotted' ) );
+				 *	console.log( CKEDITOR.tools.style.parse.sideShorthand( 'solid dotted' ) );
 				 *	// Logs: { top: 'solid', right: 'dotted', bottom: 'solid', left: 'dotted' }
 				 *
-				 * console.log( CKEDITOR.tools.style.parse.shorthand( 'foo baz', split ) );
+				 * console.log( CKEDITOR.tools.style.parse.sideShorthand( 'foo baz', split ) );
 				 * // Logs: { top: 'foo', right: 'baz', bottom: 'foo', left: 'baz' }
 				 *
-				 * console.log( CKEDITOR.tools.style.parse.shorthand( 'something else', split ) );
+				 * console.log( CKEDITOR.tools.style.parse.sideShorthand( 'something else', split ) );
 				 * // Logs: { top: 'bar', right: 'quix', bottom: 'bar', left: 'quix' }
 				 *
 				 * function split( value ) {
@@ -1839,7 +1839,7 @@
 				 * @returns {Number} return.left Left value.
 				 * @member CKEDITOR.tools.style.parse
 				 */
-				shorthand: function( value, split ) {
+				sideShorthand: function( value, split ) {
 					var ret = {},
 						parts = split ? split( value ) : value.split( /\s+/ );
 
@@ -1927,7 +1927,7 @@
 
 					var stylesMap = CKEDITOR.tools.array.map( types, function( type ) {
 						var style = styles[ 'border-' + type ] || fallback[ type ];
-						return style ? CKEDITOR.tools.style.parse.shorthand( style ) : null;
+						return style ? CKEDITOR.tools.style.parse.sideShorthand( style ) : null;
 					} );
 
 					return CKEDITOR.tools.array.reduce( stylesMap, function( acc, style ) {

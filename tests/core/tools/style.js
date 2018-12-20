@@ -131,17 +131,17 @@
 		},
 
 		// (#1490)
-		'test style.parse.shorthand docs sample': function() {
-			objectAssert.areEqual( { top: 'solid', right: 'dotted', bottom: 'solid', left: 'dotted' }, CKEDITOR.tools.style.parse.shorthand( 'solid dotted' ) );
+		'test style.parse.sideShorthand docs sample': function() {
+			objectAssert.areEqual( { top: 'solid', right: 'dotted', bottom: 'solid', left: 'dotted' }, CKEDITOR.tools.style.parse.sideShorthand( 'solid dotted' ) );
 		},
 
 		// (#1490)
-		'test style.parse.shorthand docs sample with split function': function() {
+		'test style.parse.sideShorthand docs sample with split function': function() {
 			objectAssert.areEqual( { top: 'foo', right: 'baz', bottom: 'foo', left: 'baz' },
-				CKEDITOR.tools.style.parse.shorthand( 'foo baz', split ), 'foo baz' );
+				CKEDITOR.tools.style.parse.sideShorthand( 'foo baz', split ), 'foo baz' );
 
 			objectAssert.areEqual( { top: 'bar', right: 'quix', bottom: 'bar', left: 'quix' },
-				CKEDITOR.tools.style.parse.shorthand( 'something else', split ), 'something else' );
+				CKEDITOR.tools.style.parse.sideShorthand( 'something else', split ), 'something else' );
 
 			function split( value ) {
 				return value.match( /(foo|baz)/g ) || [ 'bar', 'quix' ];
@@ -149,23 +149,23 @@
 		},
 
 		// (#1490)
-		'test style.parse.shorthand 1 member': function() {
-			objectAssert.areEqual( { top: '1px', right: '1px', bottom: '1px', left: '1px' }, CKEDITOR.tools.style.parse.shorthand( '1px' ) );
+		'test style.parse.sideShorthand 1 member': function() {
+			objectAssert.areEqual( { top: '1px', right: '1px', bottom: '1px', left: '1px' }, CKEDITOR.tools.style.parse.sideShorthand( '1px' ) );
 		},
 
 		// (#1490)
-		'test style.parse.shorthand 2 members': function() {
-			objectAssert.areEqual( { top: '1px', right: '2px', bottom: '1px', left: '2px' }, CKEDITOR.tools.style.parse.shorthand( '1px 2px' ) );
+		'test style.parse.sideShorthand 2 members': function() {
+			objectAssert.areEqual( { top: '1px', right: '2px', bottom: '1px', left: '2px' }, CKEDITOR.tools.style.parse.sideShorthand( '1px 2px' ) );
 		},
 
 		// (#1490)
-		'test style.parse.shorthand 3 members': function() {
-			objectAssert.areEqual( { top: '1px', right: '2px', bottom: '3px', left: '2px' }, CKEDITOR.tools.style.parse.shorthand( '1px 2px 3px' ) );
+		'test style.parse.sideShorthand 3 members': function() {
+			objectAssert.areEqual( { top: '1px', right: '2px', bottom: '3px', left: '2px' }, CKEDITOR.tools.style.parse.sideShorthand( '1px 2px 3px' ) );
 		},
 
 		// (#1490)
-		'test style.parse.shorthand 4 members': function() {
-			objectAssert.areEqual( { top: '1px', right: '2px', bottom: '3px', left: '4px' }, CKEDITOR.tools.style.parse.shorthand( '1px 2px 3px 4px' ) );
+		'test style.parse.sideShorthand 4 members': function() {
+			objectAssert.areEqual( { top: '1px', right: '2px', bottom: '3px', left: '4px' }, CKEDITOR.tools.style.parse.sideShorthand( '1px 2px 3px 4px' ) );
 		},
 
 		// (#1490)
