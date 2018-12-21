@@ -4,10 +4,10 @@
 
 ----
 
-## Test indentation of pasted text
+## Test preserving content of pasted list:
 
 1. Paste content from given Word file:
- [Paragraph_indentation.docx](../generated/_fixtures/Ordered_list_symbol_in_text/Ordered_list_symbol_in_text.docx).
+ [Ordered_list_symbol_in_text.docx](../generated/_fixtures/Ordered_list_symbol_in_text/Ordered_list_symbol_in_text.docx).
 
 1. Compare pasted text with what was copied.
 
