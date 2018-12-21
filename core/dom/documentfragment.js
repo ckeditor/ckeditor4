@@ -178,3 +178,17 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.doc
  * @method getChildren
  * @inheritdoc CKEDITOR.dom.element#getChildren
  */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method find
+ * @since 4.12.0
+ * @inheritdoc CKEDITOR.dom.document#find
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method findOne
+ * @since 4.12.0
+ * @inheritdoc CKEDITOR.dom.document#findOne
+ */
