@@ -1298,7 +1298,10 @@
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data ),
 			writer = new CKEDITOR.htmlParser.basicWriter();
 
-		filter.applyTo( fragment, true, false, editor.activeEnterMode );
+		if (filter) {
+			filter.applyTo( fragment, true, false, editor.activeEnterMode );
+		}
+			
 		fragment.writeHtml( writer );
 
 		return writer.getHtml();
