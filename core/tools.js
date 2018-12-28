@@ -1951,6 +1951,40 @@
 			},
 
 			/**
+			 * Returns the first element in the array for which the given callback `fn` returns true.
+			 * If there is no such element `undefined` is returned.
+			 *
+			 * ```javascript
+			 * var array = [ 'foo', 'bar', 'baz', 'faz' ];
+			 *
+			 * CKEDITOR.tools.array.find( array, function( item ) {
+			 *     return item.indexOf( 'az' ) > -1;
+			 * } ); // returns 'baz'.
+			 *
+			 * ```
+			 *
+			 * @param {Array} array An array to be iterated over.
+			 * @param {Function} fn A function with the signature `(a, index, array) -> b`.
+			 * @param [thisArg=undefined] The context object for `fn`.
+			 * @return {*}
+			 * @member CKEDITOR.tools.array
+			 * @since 4.12.0
+			 */
+			find: function( array, fn, thisArg ) {
+				var length = array.length,
+					i = 0;
+
+				while ( i < length ) {
+					if ( fn.call( thisArg, array[ i ], i, array ) ) {
+						return array[ i ];
+					}
+					i++;
+				}
+
+				return undefined;
+			},
+
+			/**
 			 * Iterates over every element in the `array`.
 			 *
 			 * @param {Array} array An array to be iterated over.
