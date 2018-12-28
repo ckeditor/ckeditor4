@@ -192,7 +192,7 @@
 
 							inheritInlineStyles( li, child );
 
-							className && child.addClass( className );
+							className && child.setAttribute( 'class', className );
 
 							// Close the block which we started for inline content.
 							block = null;
