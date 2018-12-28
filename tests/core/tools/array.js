@@ -151,8 +151,35 @@
 				assert.areSame( 0, index );
 				arrayAssert.itemsAreSame( [ 1234 ], array );
 			} );
-		}
+		},
 
+		'test array.find': function() {
+			var arr = [ 'foo', 'bar', 'baz', 1, 2, 3 ],
+				results = [],
+				ret;
+
+			ret = this.array.find( arr, function( item, index ) {
+				results.push( item );
+
+				assert.areSame( arr.indexOf( item ), index, 'Index argument should match item index.' );
+
+				return false;
+			} );
+
+			assert.isUndefined( ret, 'Undefined should be returned.' );
+
+			assert.isTrue( CKEDITOR.tools.objectCompare( arr, results ), 'Each array item should be iterated.' );
+
+			ret = this.array.find( arr, function( item, index, array ) {
+				assert.areSame( arr, array, 'Array argument should match given array.' );
+
+				assert.areSame( window, this, 'thisArg should match given object.' );
+
+				return item === 'baz';
+			}, window );
+
+			assert.areSame( 'baz', ret );
+		}
 	} );
 
 } )();
