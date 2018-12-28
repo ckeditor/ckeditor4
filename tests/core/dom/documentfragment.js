@@ -223,8 +223,8 @@
 
 			found = frag.find( 'b' );
 			assert.areEqual( 2, found.count() );
-			assert.isTrue( b1.equals( found.getItem( 0 ) ) );
-			assert.isTrue( b2.equals( found.getItem( 1 ) ) );
+			assert.areEqual( b1, found.getItem( 0 ), 'Found item #1' );
+			assert.areEqual( b2, found.getItem( 1 ), 'Found item #2' );
 		},
 
 		// (#2021)
@@ -232,15 +232,13 @@
 			var frag = new CKEDITOR.dom.documentFragment( CKEDITOR.document ),
 				b1 = new CKEDITOR.dom.element( 'b' ),
 				b2 = new CKEDITOR.dom.element( 'b' ),
-				em = new CKEDITOR.dom.element( 'em' ),
-				found;
+				em = new CKEDITOR.dom.element( 'em' );
 
 			frag.append( b1 );
 			frag.append( b2 );
 			frag.append( em );
 
-			found = frag.findOne( 'b' );
-			assert.isTrue( b1.equals( found ) );
+			assert.areEqual( b1, frag.findOne( 'b' ) );
 		},
 
 		test_getDocument: function() {
