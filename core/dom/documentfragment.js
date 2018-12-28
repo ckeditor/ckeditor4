@@ -61,6 +61,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.ele
 	'ltrim': 1, 'rtrim': 1, 'getDocument': 1, 'getChildCount': 1, 'getChild': 1, 'getChildren': 1
 } );
 
+CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.document.prototype, true, {
+	'find': 1, 'findOne': 1
+} );
+
 /**
  * @member CKEDITOR.dom.documentFragment
  * @method append
@@ -173,4 +177,18 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.ele
  * @member CKEDITOR.dom.documentFragment
  * @method getChildren
  * @inheritdoc CKEDITOR.dom.element#getChildren
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method find
+ * @since 4.12.0
+ * @inheritdoc CKEDITOR.dom.document#find
+ */
+
+/**
+ * @member CKEDITOR.dom.documentFragment
+ * @method findOne
+ * @since 4.12.0
+ * @inheritdoc CKEDITOR.dom.document#findOne
  */

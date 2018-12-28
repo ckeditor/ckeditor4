@@ -2918,7 +2918,7 @@ CKEDITOR.dom.range = function( root ) {
 				documentFragment = context.cloneContents();
 
 				// Find all widget elements.
-				widgetElements = CKEDITOR.dom.document.prototype.find.call( documentFragment, '[data-cke-widget-id]' ).toArray();
+				widgetElements = documentFragment.find( '[data-cke-widget-id]' ).toArray();
 				widgetElements = CKEDITOR.tools.array.map( widgetElements, function( item ) {
 					var editor = context.root.editor,
 						id = item.getAttribute( 'data-cke-widget-id' );
