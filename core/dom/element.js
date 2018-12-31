@@ -428,11 +428,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * Since **4.12.0** can be object with the options to be applied upon focus.
 		 */
 		focus: function( focusOptionsOrDefer ) {
-
 			if ( focusOptionsOrDefer && ( typeof focusOptionsOrDefer !== 'object' || focusOptionsOrDefer.defer ) ) {
-
 				CKEDITOR.tools.setTimeout( function() {
-
 					if ( focusOptionsOrDefer.defer ) {
 						delete focusOptionsOrDefer.defer;
 						exec.call( this, focusOptionsOrDefer );
@@ -441,7 +438,6 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 						exec.call( this );
 					}
 				}, 100, this );
-
 			} else {
 				exec.call( this, focusOptionsOrDefer );
 			}
