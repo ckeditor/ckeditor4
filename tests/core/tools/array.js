@@ -34,8 +34,8 @@
 
 		'test array.filter context and arguments': function() {
 			var context = {
-					foo: 'bar'
-				};
+				foo: 'bar'
+			};
 
 			this.array.filter( [ 'a', 'b', 'c' ], function( elem, index ) {
 				assert.isString( elem, 'Element type' );
@@ -59,8 +59,8 @@
 
 		'test array.forEach context': function() {
 			var context = {
-					foo: 'bar'
-				};
+				foo: 'bar'
+			};
 
 			this.array.forEach( [ 1, 1 ], function() {
 				assert.areSame( context, this, 'Context object' );
@@ -156,15 +156,13 @@
 		'test array.find no match': function() {
 			var arr = [ 'foo', 'bar', 'baz', 1, 2, 3 ],
 				results = [],
-				ret;
+				ret = this.array.find( arr, function( item, index ) {
+					results.push( item );
 
-			ret = this.array.find( arr, function( item, index ) {
-				results.push( item );
+					arrayAssert.indexOf( item, arr, index, 'Index argument should match item index.' );
 
-				arrayAssert.indexOf( item, arr, index, 'Index argument should match item index.' );
-
-				return false;
-			}, this );
+					return false;
+				}, this );
 
 			assert.isUndefined( ret, 'Returned value.' );
 
@@ -173,15 +171,13 @@
 
 		'test array.find match': function() {
 			var arr = [ 'foo', 'bar', 'baz', 1, 2, 3 ],
-				ret;
+				ret = this.array.find( arr, function( item, index, array ) {
+					assert.areSame( arr, array, 'Array argument should match given array.' );
 
-			ret = this.array.find( arr, function( item, index, array ) {
-				assert.areSame( arr, array, 'Array argument should match given array.' );
+					assert.areSame( window, this, 'thisArg should match given object.' );
 
-				assert.areSame( window, this, 'thisArg should match given object.' );
-
-				return item === 'baz';
-			}, window );
+					return item === 'baz';
+				}, window );
 
 			assert.areSame( 'baz', ret );
 		}
