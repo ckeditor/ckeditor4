@@ -17,7 +17,7 @@ Fixed Issues:
 
 API Changes:
 
-* [#2420](https://github.com/ckeditor/ckeditor-dev/issues/2420): Methods `CKEDITOR.editor.focus`, `CKEDITOR.editable.focus`, `CKEDITOR.dom.element.focus` can now be called with `focusOptions` which hold `preventScroll` option.
+* [#2420](https://github.com/ckeditor/ckeditor-dev/issues/2420): Methods [`CKEDITOR.editor.focus`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-focus), [`CKEDITOR.editable.focus`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editable.html#method-focus), [`CKEDITOR.dom.element.focus`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_element.html#method-focus) can now be called with `focusOptions` which hold `preventScroll` option.
 
 
 ## CKEditor 4.11.2
