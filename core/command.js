@@ -47,12 +47,14 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		if ( this.state == CKEDITOR.TRISTATE_DISABLED || !this.checkAllowed() )
 			return false;
 
-		if ( this.editorFocus ) // Give editor focus if necessary (https://dev.ckeditor.com/ticket/4355).
+		if ( this.editorFocus ) { // Give editor focus if necessary (https://dev.ckeditor.com/ticket/4355).
 			// Prevent scroll for dialog commands (#748).
 			editor.focus( { preventScroll: !!this.dialogName } );
+		}
 
-		if ( this.fire( 'exec' ) === false )
+		if ( this.fire( 'exec' ) === false ) {
 			return true;
+		}
 
 		return ( commandDefinition.exec.call( this, editor, data ) !== false );
 	};
