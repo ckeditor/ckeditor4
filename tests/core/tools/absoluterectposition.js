@@ -4,22 +4,15 @@
 	'use strict';
 
 	var scrollPositionMock,
-		windowMock,
 		tests = {
 		setUp: function() {
-			var window = CKEDITOR.document.getWindow();
-
-			windowMock = sinon.stub( CKEDITOR.document, 'getWindow' );
-			windowMock.returns( window );
-
 			CKEDITOR.document.getBody().setStyle( 'height', '5000px' );
 
-			scrollPositionMock = sinon.stub( window, 'getScrollPosition' );
+			scrollPositionMock = sinon.stub( CKEDITOR.dom.window.prototype, 'getScrollPosition' );
 			scrollPositionMock.returns( { x: 0, y: 0 } );
 		},
 		tearDown: function() {
 			scrollPositionMock.restore();
-			windowMock.restore();
 		},
 		'test absolute rect inline': function() {
 			var rect = {
