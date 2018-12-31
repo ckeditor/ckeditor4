@@ -153,7 +153,7 @@
 			} );
 		},
 
-		'test array.find': function() {
+		'test array.find no match': function() {
 			var arr = [ 'foo', 'bar', 'baz', 1, 2, 3 ],
 				results = [],
 				ret;
@@ -161,14 +161,19 @@
 			ret = this.array.find( arr, function( item, index ) {
 				results.push( item );
 
-				assert.areSame( arr.indexOf( item ), index, 'Index argument should match item index.' );
+				arrayAssert.indexOf( item, arr, index, 'Index argument should match item index.' );
 
 				return false;
-			} );
+			}, this );
 
-			assert.isUndefined( ret, 'Undefined should be returned.' );
+			assert.isUndefined( ret, 'Returned value.' );
 
-			assert.isTrue( CKEDITOR.tools.objectCompare( arr, results ), 'Each array item should be iterated.' );
+			arrayAssert.itemsAreSame( arr, results, 'Each array item should be iterated.' );
+		},
+
+		'test array.find match': function() {
+			var arr = [ 'foo', 'bar', 'baz', 1, 2, 3 ],
+				ret;
 
 			ret = this.array.find( arr, function( item, index, array ) {
 				assert.areSame( arr, array, 'Array argument should match given array.' );
