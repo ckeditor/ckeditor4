@@ -424,7 +424,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * If object is passed it works as {@link CKEDITOR.dom.focusOptions}.
 		 *
 		 * @method
-		 * @param  {CKEDITOR.dom.focusOptions/Boolean} [focusOptionsOrDefer] Whether to asynchronously defer the execution by 100 ms.
+		 * @param  {CKEDITOR.dom.focusOptions/Boolean} [focusOptionsOrDefer=false] Whether to asynchronously defer the execution by 100 ms.
 		 * Since **4.12.0** can be object with the options to be applied upon focus.
 		 */
 		focus: function( focusOptionsOrDefer ) {
