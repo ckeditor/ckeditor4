@@ -7,14 +7,16 @@
 		tests = {
 		setUp: function() {
 			CKEDITOR.document.getBody().setStyle( 'height', '5000px' );
-
-			scrollPositionMock = sinon.stub( CKEDITOR.dom.window.prototype, 'getScrollPosition' );
-			scrollPositionMock.returns( { x: 0, y: 0 } );
 		},
 		tearDown: function() {
-			scrollPositionMock.restore();
+			if ( scrollPositionMock ) {
+				scrollPositionMock.restore();
+				scrollPositionMock = null;
+			}
 		},
 		'test absolute rect inline': function() {
+			scrollPositionMock = sinon.stub( CKEDITOR.dom.window.prototype, 'getScrollPosition' ).returns( { x: 0, y: 0 } );
+
 			var rect = {
 					bottom: 10,
 					height: 10,
@@ -44,6 +46,8 @@
 			assertRect( absoluteRect, expected );
 		},
 		'test absolute rect classic': function() {
+			scrollPositionMock = sinon.stub( CKEDITOR.dom.window.prototype, 'getScrollPosition' ).returns( { x: 0, y: 0 } );
+
 			var rect = {
 					bottom: 10,
 					height: 10,
