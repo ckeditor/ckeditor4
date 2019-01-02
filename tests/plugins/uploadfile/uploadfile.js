@@ -226,5 +226,20 @@ bender.test( {
 		loader.abort();
 
 		assert.areSame( 'abort', loader.status, 'Loader status' );
+	},
+
+	'test waitForImage when image is loaded': function() {
+		if ( CKEDITOR.env.ie ) {
+			assert.ignore();
+		}
+
+		var callback = sinon.spy(),
+			imageMock = {
+				$: { complete: true }
+			};
+
+		waitForImage( imageMock, callback );
+
+		assert.isTrue( callback.called );
 	}
 } );
