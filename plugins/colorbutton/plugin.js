@@ -374,9 +374,15 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * **Since 3.3:** A color name may optionally be defined by prefixing the entries with
  * a name and the slash character. For example, `'FontColor1/FF9900'` will be
  * displayed as the color `#FF9900` in the selector, but will be output as `'FontColor1'`.
+ * **This behaviour has been altered in 4.11.2**
  *
  * **Since 4.6.2:** The default color palette has changed. It contains fewer colors in more
  * pastel shades than the previous one.
+ *
+ * **Since 4.11.2:** Changed how defining colors with names works. Colors names can be defined
+ * by `colorName/colorCode`. A color name is used only in tooltip. Output will now use a color code.
+ * For example, `FontColor/FF9900` will be displayed as a color `#FF9900` in the selector, and will
+ * be output as `#FF9900`.
  *
  * Read more in the {@glink guide/dev_colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
