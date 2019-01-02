@@ -1372,7 +1372,7 @@
 
 			function isAllowedSize( width, height ) {
 				var isTooSmall = width < min.width || height < min.height,
-					isTooBig = max && ( ( max.width && width > max.width ) || ( max.height && height > max.height ) );
+					isTooBig = max && ( width > max.width || height > max.height );
 				return !isTooSmall && !isTooBig;
 			}
 		} );
