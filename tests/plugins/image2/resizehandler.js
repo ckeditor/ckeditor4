@@ -115,7 +115,6 @@
 					} );
 
 					var doc = CKEDITOR.document,
-						image = editor.editable().findOne( 'img' ),
 						data = options[ editor.name ] ? options[ editor.name ].data : options.data,
 						expected = options[ editor.name ] ? options[ editor.name ].expected : options.expected,
 						actual;
