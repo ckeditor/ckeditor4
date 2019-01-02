@@ -3,7 +3,6 @@
 
 ## CKEditor 4.12
 
-
 API Changes:
 
 * [#1496](https://github.com/ckeditor/ckeditor-dev/issues/1496): [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) exposed methods [CKEDITOR.ui.balloonToolbar.repositon](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_balloonToolbar.html#reposition) and [CKEDITOR.ui.balloonToolbarView.reposition](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_balloonToolbarView.html#reposition).
