@@ -470,14 +470,27 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			return ret;
 		},
 
+		/**
+		 * Searches through the current element children to find the first child matching the `criteria`.
+		 *
+		 * ```javascript
+		 * element.findOne( function( child ) {
+		 *     return child.name === 'span' || child.name === 'strong';
+		 * } ); // Will return first child which is a span or a strong.
+		 * ```
+		 *
+		 * @param {String/Function} criteria Tag name or evaluator function.
+		 * @param {CKEDITOR.htmlParser.node} criteria.child The currently iterated child.
+		 * @returns {CKEDITOR.htmlParser.node} First matched child, `undefined` otherwise.
+		 */
 		findOne: function( criteria ) {
 			var findMethod = typeof criteria === 'function' ? criteria : findByName,
 				nestedMatch,
-				match = CKEDITOR.tools.array.find( this.children, function( item ) {
-					if ( findMethod( item ) ) {
+				match = CKEDITOR.tools.array.find( this.children, function( child ) {
+					if ( findMethod( child ) ) {
 						return true;
-					} else if ( item.children && item.findOne ) {
-						nestedMatch = item.findOne( criteria );
+					} else if ( child.children && child.findOne ) {
+						nestedMatch = child.findOne( criteria );
 					}
 					return !!nestedMatch;
 				} );
