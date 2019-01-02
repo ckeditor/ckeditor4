@@ -18,8 +18,8 @@
 		naturalSize: {
 			config: {
 				image2_maxSize: {
-					width: 'naturalWidth',
-					height: 'naturalHeight'
+					width: 'natural',
+					height: 'natural'
 				}
 			}
 		}

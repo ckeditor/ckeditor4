@@ -1324,7 +1324,7 @@
 					}
 				}
 
-				if ( isAllowedSize() ) {
+				if ( isAllowedSize( newWidth, newHeight ) ) {
 					updateData = { width: newWidth, height: newHeight };
 					image.setAttributes( updateData );
 				}
@@ -1364,15 +1364,15 @@
 				maxSize = CKEDITOR.tools.copy( maxSize );
 				natural = CKEDITOR.plugins.image2.getNatural( image );
 
-				maxSize.width = Math.max( maxSize.width === 'naturalWidth' ? natural.width : maxSize.width, min.width );
-				maxSize.height = Math.max( maxSize.height === 'naturalHeight' ? natural.height : maxSize.height, min.width );
+				maxSize.width = Math.max( maxSize.width === 'natural' ? natural.width : maxSize.width, min.width );
+				maxSize.height = Math.max( maxSize.height === 'natural' ? natural.height : maxSize.height, min.width );
 
 				return maxSize;
 			}
 
-			function isAllowedSize() {
-				var isTooSmall = newWidth < min.width || newHeight < min.height,
-					isTooBig = max && ( ( max.width && newWidth > max.width ) || ( max.height && newHeight > max.height ) );
+			function isAllowedSize( width, height ) {
+				var isTooSmall = width < min.width || height < min.height,
+					isTooBig = max && ( ( max.width && width > max.width ) || ( max.height && height > max.height ) );
 				return !isTooSmall && !isTooBig;
 			}
 		} );
@@ -1768,8 +1768,8 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *
  * ```javascript
  *	config.image2_maxSize = {
- *		height: 'naturalHeight',
- *		width: 'naturalWidth'
+ *		height: 'natural',
+ *		width: 'natural'
  *	}
  * ```
  *
