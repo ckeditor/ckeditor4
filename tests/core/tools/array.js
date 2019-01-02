@@ -159,22 +159,22 @@
 				ret = this.array.find( arr, function( item, index ) {
 					results.push( item );
 
-					arrayAssert.indexOf( item, arr, index, 'Index argument should match item index.' );
+					arrayAssert.indexOf( item, arr, index, 'Index argument should match item index' );
 
 					return false;
 				}, this );
 
-			assert.isUndefined( ret, 'Returned value.' );
+			assert.isUndefined( ret, 'Returned value' );
 
-			arrayAssert.itemsAreSame( arr, results, 'Each array item should be iterated.' );
+			arrayAssert.itemsAreSame( arr, results, 'Each array item should be iterated' );
 		},
 
 		'test array.find match': function() {
 			var arr = [ 'foo', 'bar', 'baz', 1, 2, 3 ],
 				ret = this.array.find( arr, function( item, index, array ) {
-					assert.areSame( arr, array, 'Array argument should match given array.' );
+					assert.areSame( arr, array, 'Array argument should match given array' );
 
-					assert.areSame( window, this, 'thisArg should match given object.' );
+					assert.areSame( window, this, 'thisArg should match given object' );
 
 					return item === 'baz';
 				}, window );
