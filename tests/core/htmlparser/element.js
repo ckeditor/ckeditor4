@@ -287,5 +287,52 @@ bender.test( {
 		el.setHtml( '' );
 		assert.areSame( '', el.getHtml() );
 		assert.areSame( 0, el.children.length );
+	},
+
+	'test findOne by tag name': function() {
+		var el = CKEDITOR.htmlParser.fragment.fromHtml(
+			'<body>' +
+				'<p>Foo' +
+					'<div>Baz' +
+						'<span class="faz">Faz</span>' +
+					'</div>' +
+				'Bar</p>' +
+			'</body>'
+		).children[ 0 ];
+
+		assert.areSame( el.children[ 1 ], el.findOne( 'div' ) );
+	},
+
+	'test findOne by function': function() {
+		var el = CKEDITOR.htmlParser.fragment.fromHtml(
+				'<body>' +
+					'<p>Foo' +
+						'<div>Baz' +
+							'<span class="faz">Faz</span>' +
+						'</div>' +
+					'Bar</p>' +
+				'</body>'
+			).children[ 0 ],
+			result = el.findOne( function( element ) {
+				return element.attributes && element.attributes[ 'class' ] === 'faz';
+			} );
+
+		assert.areSame( el.children[ 1 ].children[ 1 ], result );
+	},
+
+	'test findOne no match': function() {
+		var el = CKEDITOR.htmlParser.fragment.fromHtml(
+			'<body>' +
+				'<p>Foo' +
+					'<div>Baz' +
+						'<span class="faz">Faz</span>' +
+					'</div>' +
+				'Bar</p>' +
+			'</body>'
+		).children[ 0 ];
+
+		assert.isUndefined( el.findOne( function() {
+			return false;
+		} ) );
 	}
 } );
