@@ -470,6 +470,25 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			return ret;
 		},
 
+		findOne: function( criteria ) {
+			var findMethod = typeof criteria === 'function' ? criteria : findByName,
+				nestedMatch,
+				match = CKEDITOR.tools.array.find( this.children, function( item ) {
+					if ( findMethod( item ) ) {
+						return true;
+					} else if ( item.children && item.findOne ) {
+						nestedMatch = item.findOne( criteria );
+					}
+					return !!nestedMatch;
+				} );
+
+			return nestedMatch || match;
+
+			function findByName( item ) {
+				return item.name === criteria;
+			}
+		},
+
 		/**
 		 * Adds a class name to the list of classes.
 		 *
