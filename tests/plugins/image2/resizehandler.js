@@ -106,13 +106,7 @@
 			bot.setData( '<img src="%BASE_PATH%/_assets/logo.png">', function() {
 				var image = editor.editable().findOne( 'img' );
 
-				if ( CKEDITOR.env.chrome ) {
-					assertResize();
-				} else {
-					waitForImage( image, assertResize );
-				}
-
-				function assertResize() {
+				waitForImage( image, function() {
 					editor.widgets.instances[ editor.widgets._.nextId - 1 ].resizer.fire( 'mousedown', {
 						$: {
 							screenX: 163,
@@ -138,7 +132,7 @@
 					};
 
 					assert.isTrue( CKEDITOR.tools.objectCompare( actual, expected ) );
-				}
+				} );
 			} );
 		};
 	}
