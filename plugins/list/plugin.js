@@ -673,8 +673,7 @@
 			editor.focus();
 
 			function isEmptyList( groupObj ) {
-				// If list is without any li item, then ignore such element from transformation, becasue it throws errors in console.
-				// Hack for situation described in #2411, #2438.
+				// If list is without any li item, then ignore such element from transformation, because it throws errors in console (#2411, #2438).
 				return listNodeNames[ groupObj.root.getName() ] && !CKEDITOR.tools.childCountWithoutComments( groupObj.root );
 			}
 
