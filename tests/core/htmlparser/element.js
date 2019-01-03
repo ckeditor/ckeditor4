@@ -16,6 +16,14 @@ function write( el ) {
 	return writer.getHtml();
 }
 
+var testHtml = '<body>' +
+		'<p>Foo' +
+			'<div>Baz' +
+				'<span class="faz">Faz</span>' +
+			'</div>' +
+		'Bar</p>' +
+	'</body>';
+
 bender.test( {
 	'test replaceWithChildren': function() {
 		var el = parse( '<p>A<i>X<b>Y</b>Z</i>B</p>' );
@@ -290,29 +298,13 @@ bender.test( {
 	},
 
 	'test findOne by tag name': function() {
-		var el = CKEDITOR.htmlParser.fragment.fromHtml(
-			'<body>' +
-				'<p>Foo' +
-					'<div>Baz' +
-						'<span class="faz">Faz</span>' +
-					'</div>' +
-				'Bar</p>' +
-			'</body>'
-		).children[ 0 ];
+		var el = CKEDITOR.htmlParser.fragment.fromHtml( testHtml ).children[ 0 ];
 
 		assert.areSame( el.children[ 1 ], el.findOne( 'div' ) );
 	},
 
 	'test findOne by function': function() {
-		var el = CKEDITOR.htmlParser.fragment.fromHtml(
-				'<body>' +
-					'<p>Foo' +
-						'<div>Baz' +
-							'<span class="faz">Faz</span>' +
-						'</div>' +
-					'Bar</p>' +
-				'</body>'
-			).children[ 0 ],
+		var el = CKEDITOR.htmlParser.fragment.fromHtml( testHtml ).children[ 0 ],
 			result = el.findOne( function( element ) {
 				return element.attributes && element.attributes[ 'class' ] === 'faz';
 			} );
@@ -321,15 +313,7 @@ bender.test( {
 	},
 
 	'test findOne no match': function() {
-		var el = CKEDITOR.htmlParser.fragment.fromHtml(
-			'<body>' +
-				'<p>Foo' +
-					'<div>Baz' +
-						'<span class="faz">Faz</span>' +
-					'</div>' +
-				'Bar</p>' +
-			'</body>'
-		).children[ 0 ];
+		var el = CKEDITOR.htmlParser.fragment.fromHtml( testHtml ).children[ 0 ];
 
 		assert.isUndefined( el.findOne( function() {
 			return false;
