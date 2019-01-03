@@ -47,9 +47,9 @@
 			editor.once( 'panelShow', function( evt ) {
 				resume( function() {
 					var block = stylesCombo._.panel.getBlock( stylesCombo.id ).element,
-						anchors = block.find( 'a' ).toArray();
+						items = block.find( 'a' ).toArray().concat( block.find( 'h1' ).toArray() );
 
-					CKEDITOR.tools.array.forEach( anchors, function( element ) {
+					CKEDITOR.tools.array.forEach( items, function( element ) {
 						assert.areEqual( 'false', element.getAttribute( 'draggable' ), 'Draggable attribute value should be "false".' );
 						assert.areEqual( 'return false;', element.getAttribute( 'ondragstart' ), 'ondragstart value should be "return false;".' );
 					} );
