@@ -1187,25 +1187,21 @@
 
 		removeSymbolText: function( element ) { // ...from a list element.
 			var symbol = element.attributes[ 'cke-symbol' ],
-				removed,
-				matched;
+				node = element.findOne( function( node ) {
+					return node.value && node.value.indexOf( symbol ) > -1;
+				} ),
+				parent;
 
-			element.forEach( function( node ) {
-				// Since symbol may contains special characters we use `indexOf` (instead of RegExp) which is sufficient (#877).
-				// Stop after after first replaced string (#2690).
-				if ( !matched && node.value.indexOf( symbol ) > -1 ) {
-					matched = true;
-					node.value = node.value.replace( symbol, '' );
+			if ( node ) {
+				node.value = node.value.replace( symbol, '' );
+				parent = node.parent;
 
-					if ( node.parent.getHtml().match( /^(\s|&nbsp;)*$/ ) ) {
-						removed = node.parent !== element ? node.parent : null;
-					} else if ( !node.value ) {
-						removed = node;
-					}
+				if ( parent.getHtml().match( /^(\s|&nbsp;)*$/ ) && parent !== element ) {
+					parent.remove();
+				} else if ( !node.value ) {
+					node.remove();
 				}
-			}, CKEDITOR.NODE_TEXT );
-
-			removed && removed.remove();
+			}
 		},
 
 		setListSymbol: function( list, symbol, level ) {
