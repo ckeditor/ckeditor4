@@ -674,7 +674,13 @@
 
 			function isEmptyList( groupObj ) {
 				// If list is without any li item, then ignore such element from transformation, because it throws errors in console (#2411, #2438).
-				return listNodeNames[ groupObj.root.getName() ] && !CKEDITOR.tools.childCountWithoutComments( groupObj.root );
+				return listNodeNames[ groupObj.root.getName() ] && !getChildCount( groupObj.root, [ CKEDITOR.NODE_COMMENT ] );
+			}
+
+			function getChildCount( element, excludeTypes ) {
+				return CKEDITOR.tools.array.filter( element.getChildren().toArray(), function( node ) {
+					return CKEDITOR.tools.array.indexOf( excludeTypes, node.type ) === -1;
+				} ).length;
 			}
 
 			function hasCommentsChildOnly( element ) {
