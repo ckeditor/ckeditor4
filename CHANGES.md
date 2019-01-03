@@ -18,6 +18,8 @@ Fixed Issues:
 
 Other Changes:
 
+* Updated [WebSpellChecker](https://ckeditor.com/cke4/addon/wsc) (WSC) plugin:
+	* [#52](https://github.com/WebSpellChecker/ckeditor-plugin-wsc/issues/52) Fixed: issue where clicking "Finish Checking" without prior action would hang the Spell Checking dialog.
 * [#2603](https://github.com/ckeditor/ckeditor-dev/issues/2603): Corrected GPL license entry in the `package.json` file.
 
 ## CKEditor 4.11.1
