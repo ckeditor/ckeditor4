@@ -22,7 +22,7 @@
 	}
 
 	function createRange( options ) {
-		var range = new CKEDITOR.dom.range( doc );
+		var range = new CKEDITOR.dom.range( options.root || doc );
 
 		if ( options.element ) {
 			range.setStartBefore( options.element );
@@ -241,6 +241,17 @@
 			range = createRange( { element: table } );
 
 			assertElements( cell, range, 'td' );
+		},
+
+		// (#2403)
+		'get cell from outer scope': function() {
+			var root = doc.getById( 'inner' ),
+				range = createRange( {
+					element: root.getChild( 0 ),
+					root: root
+				} );
+
+			assertElements( null, range );
 		},
 
 		'multi-table range': function() {

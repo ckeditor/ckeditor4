@@ -1,0 +1,27 @@
+<textarea id="editor"></textarea>
+<div class="buttons">
+	<button data-empty-figure="true">
+		Insert empty figure element.
+	</button>
+	<button data-empty-figure="false">
+		Insert figure element containing anchor element.
+	</button>
+</div>
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+	var editor = CKEDITOR.replace( 'editor', { allowedContent: true } ),
+		emptyFigure = '<figure class="image"></figure>',
+		figureWithAnchor = '<figure class="image"><a href="#">Foo</a></figure>';
+
+	CKEDITOR.document.findOne( '.buttons' ).on( 'click', function( evt ) {
+		var target = evt.data.getTarget();
+
+		if ( !target.hasAttribute( 'data-empty-figure' ) ) {
+			return;
+		}
+
+		editor.setData( target.getAttribute( 'data-empty-figure' ) === 'true' ? emptyFigure : figureWithAnchor );
+	} );
+</script>

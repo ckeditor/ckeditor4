@@ -1,0 +1,493 @@
+<textarea id="test_single_0">
+	<ul>
+		<li>
+			<div>
+				<div>^test</div>
+			</div>
+		</li>
+	</ul>
+=>
+	<ul>
+		<li>
+			<div>
+				<ol>
+					<li>test</li>
+				</ol>
+			</div>
+		</li>
+	</ul>
+</textarea>
+
+<textarea id="test_single_1">
+	<p>[test</p>
+
+	<ul>
+		<li>foo</li>
+		<li>bar</li>
+	</ul>
+
+	<p>test]</p>
+
+=>
+	<ol>
+		<li>test</li>
+		<li>foo</li>
+		<li>bar</li>
+		<li>test</li>
+	</ol>
+</textarea>
+
+<textarea id="test_single_2">
+	<p>test</p>
+
+	<ul>
+		<li>foo</li>
+		<li>[bar</li>
+	</ul>
+
+	<p>test]</p>
+
+=>
+	<p>test</p>
+
+	<ul>
+		<li>foo</li>
+	</ul>
+	<ol>
+		<li>bar</li>
+		<li>test</li>
+	</ol>
+</textarea>
+
+<textarea id="test_single_3">
+	<ul>
+		<li>foo</li>
+		<li>[bar</li>
+		<li><input name="baz" type="button" value="baz" />]</li>
+	</ul>
+=>
+	<ul>
+		<li>foo</li>
+	</ul>
+	<ol>
+		<li>bar</li>
+		<li><input name="baz" type="button" value="baz" /></li>
+	</ol>
+</textarea>
+
+<textarea id="test_single_4">
+	<table border="1" cellpadding="1" cellspacing="1">
+		<tbody>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>
+				<ul>
+					<li>foo</li>
+					<li>[bar</li>
+				</ul>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>baz]</p>
+=>
+	<table border="1" cellpadding="1" cellspacing="1">
+		<tbody>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>
+				<ul>
+					<li>foo</li>
+				</ul>
+				<ol>
+					<li>bar</li>
+				</ol>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<ol>
+		<li>baz</li>
+	</ol>
+</textarea>
+
+<textarea id="test_single_5">
+	<table border="1" cellpadding="1" cellspacing="1">
+		<tbody>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>
+				<table border="1" cellpadding="1" cellspacing="1">
+					<tbody>
+						<tr>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td>
+							<table border="1" cellpadding="1" cellspacing="1">
+								<tbody>
+									<tr>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td>
+										<ul>
+											<li>[test -2</li>
+											<li>test -1</li>
+										</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							</td>
+							<td>
+							<ul>
+								<li>test1</li>
+								<li>test2</li>
+							</ul>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</td>
+				<td>
+				<ul>
+					<li>test3</li>
+				</ul>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<ul>
+		<li>test4]</li>
+	</ul>
+=>
+	<table border="1" cellpadding="1" cellspacing="1">
+		<tbody>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>
+				<table border="1" cellpadding="1" cellspacing="1">
+					<tbody>
+						<tr>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td>
+							<table border="1" cellpadding="1" cellspacing="1">
+								<tbody>
+									<tr>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td>
+										<ol>
+											<li>test -2</li>
+											<li>test -1</li>
+										</ol>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							</td>
+							<td>
+							<ol>
+								<li>test1</li>
+								<li>test2</li>
+							</ol>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</td>
+				<td>
+				<ol>
+					<li>test3</li>
+				</ol>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<ol>
+		<li>test4</li>
+	</ol>
+</textarea>
+
+<textarea id="test_single_6">
+	<table border="1" cellpadding="1" cellspacing="1">
+		<tbody>
+			<tr>
+				<td>foo</td>
+				<td>[bar</td>
+			</tr>
+			<tr>
+				<td>baz</td>
+				<td><input name="test" type="button" value="test" />]</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>foo</p>
+=>
+	<table border="1" cellpadding="1" cellspacing="1">
+		<tbody>
+			<tr>
+				<td>foo</td>
+				<td>
+					<ol>
+						<li>bar</li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<ol>
+						<li>baz</li>
+					</ol>
+				</td>
+				<td>
+					<ol>
+						<li><input name="test" type="button" value="test" /></li>
+					</ol>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>foo</p>
+</textarea>
+
+<textarea id="test_single_7">
+	<table border="1" cellpadding="1" cellspacing="1">
+		<tbody>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>
+				<div>
+				<div>t[est</div>
+
+				<ul>
+					<li>foo</li>
+				</ul>
+				</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<ul>
+		<li>b]ar</li>
+	</ul>
+
+=>
+	<table border="1" cellpadding="1" cellspacing="1">
+		<tbody>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>
+				<div>
+				<ol>
+					<li>test</li>
+					<li>foo</li>
+				</ol>
+				</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<ol>
+		<li>bar</li>
+	</ol>
+
+</textarea>
+
+<textarea id="test_single_8">
+	<ul>
+		<li>
+		<div>[foo
+		<ul>
+			<li>test</li>
+		</ul>
+		</div>
+		</li>
+		<li>bar]</li>
+	</ul>
+=>
+	<ul>
+		<li>
+		<div>
+		<ol>
+			<li>foo</li>
+		</ol>
+		<ol>
+			<li>test</li>
+		</ol>
+		</div>
+		</li>
+	</ul>
+
+	<ol>
+		<li>bar</li>
+	</ol>
+
+</textarea>
+
+<textarea id="test_double_0">
+	<ul>
+		<li>
+			<div>
+				<div>^test</div>
+			</div>
+		</li>
+	</ul>
+=>
+	<ul>
+		<li>
+			<div>
+				<p>test</p>
+			</div>
+		</li>
+	</ul>
+</textarea>
+
+<textarea id="test_errors_0">
+	<p>&nbsp;</p>
+	<ul>
+		<li>
+		<div>[test
+		<ul>
+		</ul>
+		</div>
+		</li>
+		<li>test]</li>
+	</ul>
+	<p>&nbsp;</p>
+=>
+	<p>&nbsp;</p>
+	<ul>
+		<li>
+		<div>
+		<ol>
+			<li>test</li>
+		</ol>
+		<ul>
+		</ul>
+		</div>
+		</li>
+	</ul>
+
+	<ol>
+		<li>test</li>
+	</ol>
+	<p>&nbsp;</p>
+
+</textarea>
+
+<textarea id="test_errors_1">
+	<p>[&nbsp;</p>
+
+	<ul>
+	</ul>
+
+	<ul>
+		<li><a href="https://example.com">Register</a></li>
+		<li>&nbsp;</li>
+		<li>&middot;</li>
+		<li>&nbsp;</li>
+		<li><a href="https://example.com">Sign In</a></li>
+		<li>&nbsp;</li>
+		<li>&middot;</li>
+		<li>&nbsp;</li>
+		<li><a href="https://example.com">Help</a></li>
+	</ul>
+
+	<p>&nbsp;]</p>
+
+=>
+<ol>
+	<li>&nbsp;</li>
+</ol>
+
+<ul>
+</ul>
+
+<ol>
+	<li><a href="https://example.com">Register</a></li>
+	<li>&nbsp;</li>
+	<li>&middot;</li>
+	<li>&nbsp;</li>
+	<li><a href="https://example.com">Sign In</a></li>
+	<li>&nbsp;</li>
+	<li>&middot;</li>
+	<li>&nbsp;</li>
+	<li><a href="https://example.com">Help</a></li>
+	<li>&nbsp;</li>
+</ol>
+
+</textarea>
+
+<textarea id="test_errors_2">
+	<p>&nbsp;</p>
+	<ul>
+		<li>
+		<div>[test
+		<ul><!-- sneaky comment -->
+		</ul>
+		</div>
+		</li>
+		<li>test]</li>
+	</ul>
+	<p>&nbsp;</p>
+=>
+	<p>&nbsp;</p>
+	<ul>
+		<li>
+		<div>
+		<ol>
+			<li>test</li>
+		</ol>
+		<ul><p><!-- sneaky comment --></p>
+		</ul>
+		</div>
+		</li>
+	</ul>
+
+	<ol>
+		<li>test</li>
+	</ol>
+	<p>&nbsp;</p>
+
+</textarea>

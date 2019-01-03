@@ -14,6 +14,15 @@ API Changes:
 Fixed Issues:
 
 * [#1986](https://github.com/ckeditor/ckeditor-dev/issues/1986): Fixed: Cell Properties dialog from [Table Tools](https://ckeditor.com/cke4/addon/tabletools) plugin shows styles that are not allowed through [`config.allowedContent`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-allowedContent).
+* [#2403](https://github.com/ckeditor/ckeditor-dev/issues/2403): Fixed: Styling inline editor initialized inside a table with [Table Selection](https://ckeditor.com/cke4/addon/tabletools) plugin is causing style leaks.
+* [#2514](https://github.com/ckeditor/ckeditor-dev/issues/2403): Fixed: Pasting table data into inline editor initialized inside a table with [Table Selection](https://ckeditor.com/cke4/addon/tabletools) plugin inserts pasted content into a wrapping table.
+* [#2451](https://github.com/ckeditor/ckeditor-dev/issues/2451): Fixed: The [Remove Format](https://ckeditor.com/cke4/addon/removeformat) changes selection.
+* [#2546](https://github.com/ckeditor/ckeditor-dev/issues/2546): Fixed: Separator in toolbar moves when buttons are focused.
+* [#2506](https://github.com/ckeditor/ckeditor-dev/issues/2506): Fixed: [Enhanced Image](https://ckeditor.com/cke4/addon/image2) throws type error when empty figure tag with 'image' class is upcasted.
+* [#2650](https://github.com/ckeditor/ckeditor-dev/issues/2650): Fixed: [Table](https://ckeditor.com/cke4/addon/table) dialog validator fails when function `getValue` is defined in global scope.
+* [#2690](https://github.com/ckeditor/ckeditor-dev/issues/2690): Fixed: Decimal characters removed from inside ordered lists when pasting content using [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
+* [#2205](https://github.com/ckeditor/ckeditor-dev/issues/2205): Fixed: It is not possible to add new list items under an item containing block element.
+* [#2411](https://github.com/ckeditor/ckeditor-dev/issues/2411), [#2438](https://github.com/ckeditor/ckeditor-dev/issues/2438) Fixed: Apply numbered list option throw console error for speciffic markup.
 
 Other Changes:
 

@@ -39,6 +39,13 @@
 			config: {
 				enterMode: CKEDITOR.ENTER_BR
 			}
+		},
+		enterDIV: {
+			name: 'enterDIV',
+			config: {
+				enterMode: CKEDITOR.ENTER_P,
+				extraPlugins: 'div'
+			}
 		}
 	};
 
@@ -622,6 +629,86 @@
 						'<ul>' +
 							'<li>bar</li>' +
 						'</ul>' +
+					'</li>' +
+					'<li>^&nbsp;</li>' +
+				'</ul>',
+
+				true, 'New item should be added to the list.', true );
+		},
+
+		// (#2205)
+		'test enterkey: block p placeholder at the end': function() {
+			assertEnter( 'enterP',
+				'<ul>' +
+					'<li>' +
+						'foo' +
+						'<p>^</p>' +
+					'</li>' +
+				'</ul>',
+
+				'<ul>' +
+					'<li>' +
+						'foo' +
+					'</li>' +
+					'<li>^&nbsp;</li>' +
+				'</ul>',
+
+				true, 'New item should be added to the list.', true );
+		},
+
+		// (#2205)
+		'test enterkey: block p placeholder at the beginning': function() {
+			assertEnter( 'enterP',
+				'<ul>' +
+					'<li>' +
+						'<p>^</p>' +
+						'foo' +
+					'</li>' +
+				'</ul>',
+
+				'<ul>' +
+					'<li>' +
+						'foo' +
+					'</li>' +
+					'<li>^&nbsp;</li>' +
+				'</ul>',
+
+				true, 'New item should be added to the list.', true );
+		},
+
+		// (#2205)
+		'test enterkey: block div placeholder at the beginning': function() {
+			assertEnter( 'enterP',
+				'<ul>' +
+					'<li>' +
+						'<div>^</div>' +
+						'foo' +
+					'</li>' +
+				'</ul>',
+
+				'<ul>' +
+					'<li>' +
+						'foo' +
+					'</li>' +
+					'<li>^&nbsp;</li>' +
+				'</ul>',
+
+				true, 'New item should be added to the list.', true );
+		},
+
+		// (#2205)
+		'test enterkey: block div placeholder at the end': function() {
+			assertEnter( 'enterP',
+				'<ul>' +
+					'<li>' +
+						'foo' +
+						'<div>^</div>' +
+					'</li>' +
+				'</ul>',
+
+				'<ul>' +
+					'<li>' +
+						'foo' +
 					'</li>' +
 					'<li>^&nbsp;</li>' +
 				'</ul>',
