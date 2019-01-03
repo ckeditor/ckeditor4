@@ -19,7 +19,7 @@ CKEDITOR.plugins.add( 'listblock', {
 					'{text}' +
 				'</a>' +
 				'</li>' ),
-			listGroup = CKEDITOR.addTemplate( 'panel-list-group', '<h1 id="{id}" class="cke_panel_grouptitle" role="presentation" >{label}</h1>' ),
+			listGroup = CKEDITOR.addTemplate( 'panel-list-group', '<h1 id="{id}" draggable="false" ondragstart="return false;" class="cke_panel_grouptitle" role="presentation" >{label}</h1>' ),
 			reSingleQuote = /\'/g,
 			escapeSingleQuotes = function( str ) {
 				return str.replace( reSingleQuote, '\\\'' );
