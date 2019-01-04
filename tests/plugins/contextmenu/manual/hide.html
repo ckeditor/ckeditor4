@@ -1,0 +1,24 @@
+<style>
+	.marker {
+		width: 50px;
+		height: 50px;
+		background: blue;
+		margin: 5px;
+	}
+</style>
+<textarea id="editor"></textarea>
+<div class="marker"></div>
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor', {
+		on: {
+			instanceReady: function() {
+				this.contextMenu.once( 'hide', function() {
+					CKEDITOR.document.findOne( '.marker' ).setStyle( 'background', 'green' );
+				} );
+			}
+		}
+	} );
+</script>
