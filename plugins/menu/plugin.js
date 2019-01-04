@@ -218,6 +218,7 @@ CKEDITOR.plugins.add( 'menu', {
 			},
 
 			onHide: function() {
+				this.fire( 'hide', undefined, this.editor );
 				this.onHide && this.onHide();
 			},
 
@@ -471,6 +472,8 @@ CKEDITOR.plugins.add( 'menu', {
 		}
 	} );
 
+	CKEDITOR.event.implementOn( CKEDITOR.menu.prototype );
+
 	function sortItems( items ) {
 		items.sort( function( itemA, itemB ) {
 			if ( itemA.group < itemB.group )
@@ -597,6 +600,39 @@ CKEDITOR.plugins.add( 'menu', {
  * @cfg {String} [menu_groups=see source]
  * @member CKEDITOR.config
  */
+
+/**
+ * Optional callback function that is called when menu is hidden.
+ *
+ * @member CKEDITOR.menu
+ * @method onHide
+ */
+
+/**
+ * @inheritDoc CKEDITOR.event#fire
+ * @member CKEDITOR.menu
+ * @method fire
+ */
+
+/**
+ * @inheritDoc CKEDITOR.event#on
+ * @member CKEDITOR.menu
+ * @method on
+ */
+
+/**
+ * @inheritDoc CKEDITOR.event#once
+ * @member CKEDITOR.menu
+ * @method once
+ */
+
+/**
+ * Fired when a menu is hidden.
+ *
+ * @event hide
+ * @member CKEDITOR.menu
+ */
+
 CKEDITOR.config.menu_groups = 'clipboard,' +
 	'form,' +
 	'tablecell,tablecellproperties,tablerow,tablecolumn,table,' +
