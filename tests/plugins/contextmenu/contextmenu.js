@@ -152,6 +152,22 @@
 			}, function( bot ) {
 				assert.areEqual( customStyle, bot.editor.contextMenu._.panelDefinition.css );
 			} );
+		},
+
+		// (#2307)
+		'test context menu hide event': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			editor.focus();
+			bot.contextmenu( function( menu ) {
+				var spy = sinon.spy();
+
+				menu.once( 'hide', spy );
+				menu.hide();
+
+				assert.isTrue( spy.called );
+			} );
 		}
 	} );
 } )();

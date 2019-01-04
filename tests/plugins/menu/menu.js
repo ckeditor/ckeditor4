@@ -41,6 +41,19 @@
 				assert.isTrue( menuItemEl.hasClass( 'cke_menubutton' ), 'check ui type class name' );
 				assert.isTrue( menuItemEl.hasClass( 'cke_menubutton__custom_menuitem' ), 'check named ui type class name' );
 				assert.isTrue( menuItemEl.hasClass( customCls ), 'check ui item custom class name' );
+
+				menu.hide();
+			} );
+		},
+
+		'test menu hide event': function() {
+			this.editorBot.menu( 'custom_menubutton', function( menu ) {
+				var spy = sinon.spy();
+
+				menu.once( 'hide', spy );
+				menu.hide();
+
+				assert.isTrue( spy.called );
 			} );
 		}
 	} );
