@@ -1,5 +1,6 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: list,justify,bidi,table,forms,toolbar */
+/* bender-ckeditor-remove-plugins: entities */
 
 bender.editors = {
 	classic: {
