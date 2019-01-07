@@ -212,5 +212,18 @@ bender.test( {
 		bot.setHtmlWithSelection( '<ul><li><table><tr><td>^foo</td></tr></table></li></ul>' );
 		var bList = ed.getCommand( 'bulletedlist' );
 		assert.areSame( CKEDITOR.TRISTATE_OFF, bList.state, 'check numbered list inactive' );
+	},
+
+	// #2721
+	'test sublist order after removing higher order sublist': function() {
+		var bot = this.editorBots.editor1,
+			editor = bot.editor;
+
+		bot.setHtmlWithSelection( '<ol><li>test<ol><li>^<ol><li>a</li><li>b</li><li>c</li></ol></li></ol></li></ol>' );
+		editor.fire( 'key', {
+			domEvent: new CKEDITOR.dom.event( { keyCode: 8 } )
+		} );
+
+		assert.areSame( '<ol><li>test<ol><li>a</li><li>b</li><li>c</li></ol></li></ol>', bender.tools.compatHtml( editor.getData() ) );
 	}
 } );
