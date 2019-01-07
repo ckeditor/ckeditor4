@@ -85,8 +85,8 @@
 			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
 			assert.areEqual( expectedLeft, balloonToolbarRect.left.toFixed( 2 ), 'left align' );
 			// We have to add 1px because of border.
-			assert.areEqual( ( frame.top + frame.height - scrollTop ).toFixed( 2 ),
-				( rectTop + balloonToolbar.height + balloonToolbar.triangleHeight + 1 ).toFixed( 2 ), 'top align' );
+			assert.areEqual( Math.round( ( frame.top + frame.height - scrollTop ) ),
+				Math.round( rectTop + balloonToolbar.height + balloonToolbar.triangleHeight + 1 ), 'top align' );
 			balloonToolbar.destroy();
 			balloonToolbar = null;
 		},
@@ -121,7 +121,7 @@
 			expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
 
 			assert.areEqual( expectedLeft, balloonToolbarRect.left.toFixed( 2 ), 'left align' );
-			assert.areEqual( ( frame.top - scrollTop ).toFixed( 2 ), ( rectTop - balloonToolbar.triangleHeight ).toFixed( 2 ), 'top align' );
+			assert.areEqual( Math.round( frame.top - scrollTop ), Math.round( rectTop - balloonToolbar.triangleHeight ), 'top align' );
 			balloonToolbar.destroy();
 			balloonToolbar = null;
 		},
