@@ -769,10 +769,7 @@
 
 		init: function( editor ) {
 			var lang = editor.lang.table,
-				styleParse = CKEDITOR.tools.style.parse,
-				requiredContent = [
-					'td{width}', 'td{height}', 'td{border-color}', 'td{background-color}', 'td{white-space}', 'td{vertical-align}', 'td{text-align}',
-					'td[colspan]', 'td[rowspan]', 'th' ];
+				styleParse = CKEDITOR.tools.style.parse;
 
 			function createDef( def ) {
 				return CKEDITOR.tools.extend( def || {}, {
@@ -789,7 +786,7 @@
 
 			addCmd( 'cellProperties', new CKEDITOR.dialogCommand( 'cellProperties', createDef( {
 				allowedContent: 'td th{width,height,border-color,background-color,white-space,vertical-align,text-align}[colspan,rowspan]',
-				requiredContent: requiredContent,
+				requiredContent: 'table',
 				contentTransformations: [ [ {
 						element: 'td',
 						left: function( element ) {
@@ -991,23 +988,18 @@
 						order: 1,
 						getItems: function() {
 							var selection = editor.getSelection(),
-								cells = getSelectedCells( selection ),
-								items = {
-									tablecell_insertBefore: CKEDITOR.TRISTATE_OFF,
-									tablecell_insertAfter: CKEDITOR.TRISTATE_OFF,
-									tablecell_delete: CKEDITOR.TRISTATE_OFF,
-									tablecell_merge: mergeCells( selection, null, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-									tablecell_merge_right: mergeCells( selection, 'right', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-									tablecell_merge_down: mergeCells( selection, 'down', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-									tablecell_split_vertical: verticalSplitCell( selection, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-									tablecell_split_horizontal: horizontalSplitCell( selection, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED
-								};
-
-							if ( editor.filter.check( requiredContent ) ) {
-								items.tablecell_properties = cells.length > 0 ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
-							}
-
-							return items;
+								cells = getSelectedCells( selection );
+							return {
+								tablecell_insertBefore: CKEDITOR.TRISTATE_OFF,
+								tablecell_insertAfter: CKEDITOR.TRISTATE_OFF,
+								tablecell_delete: CKEDITOR.TRISTATE_OFF,
+								tablecell_merge: mergeCells( selection, null, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_merge_right: mergeCells( selection, 'right', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_merge_down: mergeCells( selection, 'down', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_split_vertical: verticalSplitCell( selection, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_split_horizontal: horizontalSplitCell( selection, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_properties: cells.length > 0 ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED
+							};
 						}
 					},
 
