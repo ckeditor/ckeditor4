@@ -634,9 +634,7 @@
 								bIndex = b.id.indexOf( emojiName );
 
 							if ( aIndex === bIndex ) {
-								if ( a.id === b.id ) {
-									return 0;
-								} else if ( a.id > b.id ) {
+								if ( a.id > b.id ) {
 									return 1;
 								} else {
 									return -1;
