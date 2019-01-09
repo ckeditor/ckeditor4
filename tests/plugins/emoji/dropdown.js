@@ -310,6 +310,10 @@
 
 		// (#2572)
 		'test translations are added to svg elements group navigation': function() {
+			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+				// Ignore test on browser which doesn't support svg.
+				assert.ignore();
+			}
 			var bot = this.editorBot;
 			bot.panel( 'EmojiPanel', function( panel ) {
 				try {
@@ -344,16 +348,22 @@
 						assert.ignore();
 					}
 
+					if ( CKEDITOR.env.edge ) {
+						// Edge round translation to 5 digits after comma (#2572).
+						translations.flags.x = Math.round( translations.flags.x * 1e5 ) / 1e5;
+					}
+
 					for ( var i = 0; i < listItems.count(); i++ ) {
 						var li = listItems.getItem( i ),
 							transformation = li.findOne( 'use' ).getAttribute( 'transform' ) || '',
-							values = transformation.match( /translate\(\s?(\d+(?:\.\d+)?),\s?(\d+(?:\.\d+)?)\s?\)/ );
+							values = transformation.match( /translate\(\s?(\d+(?:\.\d+)?)\s?(?:,?\s?(\d+(?:\.\d+)?))?\s?\)/ );
+
 						if ( !values ) {
 							assert.fail( 'There is no "transform" attribute in svg -> use element.' );
 						}
-						assert.areSame( translations[ li.data( 'cke-emoji-group' ) ].x || 0, parseFloat( values[ 1 ] ),
+						assert.areSame( translations[ li.data( 'cke-emoji-group' ) ].x || 0, parseFloat( values[ 1 ] || 0 ),
 							'Translation in X axis for group: "' + li.data( 'cke-emoji-group' ) + '" is incorrect.' );
-						assert.areSame( translations[ li.data( 'cke-emoji-group' ) ].y || 0, parseFloat( values[ 2 ] ),
+						assert.areSame( translations[ li.data( 'cke-emoji-group' ) ].y || 0, parseFloat( values[ 2 ] || 0 ),
 							'Translation in Y axis for group: "' + li.data( 'cke-emoji-group' ) + '" is incorrect.' );
 					}
 				} finally {
