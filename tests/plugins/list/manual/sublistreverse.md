@@ -4,9 +4,11 @@
 
 1. Place caret in list after dollar symbol (`$`).
 1. Press backspace two times (once in IE).
+
 ## Expected
 
 Sublist is ordered alphabetically:
+
 ```
 1. Test
 	1. a
@@ -17,6 +19,7 @@ Sublist is ordered alphabetically:
 ## Unexpected
 
 Sublist order is reversed:
+
 ```
 1. Test
 	1. c
