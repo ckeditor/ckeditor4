@@ -481,21 +481,27 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 *
 		 * @param {String/Function} criteria Tag name or evaluator function.
 		 * @param {CKEDITOR.htmlParser.node} criteria.child The currently iterated child.
-		 * @returns {CKEDITOR.htmlParser.node} First matched child, `undefined` otherwise.
+		 * @param {Boolean} [recursive=false] If set to `true` will iterate all descendants, otherwise only direct children.
+		 * @returns {CKEDITOR.htmlParser.node} First matched child, `null` otherwise.
 		 */
-		findOne: function( criteria ) {
+		findOne: function( criteria, recursive ) {
 			var findMethod = typeof criteria === 'function' ? criteria : findByName,
-				nestedMatch,
+				nestedMatch = null,
 				match = CKEDITOR.tools.array.find( this.children, function( child ) {
-					if ( findMethod( child ) ) {
-						return true;
-					} else if ( child.children && child.findOne ) {
-						nestedMatch = child.findOne( criteria );
+					var ret = findMethod( child );
+
+					if ( ret || !recursive ) {
+						return ret;
 					}
+
+					if ( child.children && child.findOne ) {
+						nestedMatch = child.findOne( criteria, true );
+					}
+
 					return !!nestedMatch;
 				} );
 
-			return nestedMatch || match;
+			return nestedMatch || match || null;
 
 			function findByName( item ) {
 				return item.name === criteria;
