@@ -3,8 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, list,sourcearea, undo, elementspath
 
 1. Place caret in list after dollar symbol (`$`).
-1. Press backspace two times.
-
+1. Press backspace two times (once in IE).
 ## Expected
 
 Sublist is ordered alphabetically:
