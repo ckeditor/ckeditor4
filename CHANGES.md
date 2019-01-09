@@ -5,7 +5,7 @@
 
 Fixed Issues:
 
-* [#2721](https://github.com/ckeditor/ckeditor-dev/issues/2721): Fixed: Sublist items are reversed when higher order list is removed.
+* [#2721](https://github.com/ckeditor/ckeditor-dev/issues/2721): Fixed: Sublist items are reversed when higher level list item is removed.
 
 ## CKEditor 4.11.2
 
