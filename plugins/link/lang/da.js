@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'da', {
 	anchorName: 'Efter ankernavn',
 	charset: 'Tegnsæt',
 	cssClasses: 'Typografiark',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'Tving Download',
+	displayText: 'Vis tekst',
 	emailAddress: 'E-mailadresse',
 	emailBody: 'Besked',
 	emailSubject: 'Emne',

@@ -83,7 +83,7 @@ CKEDITOR.lang[ 'ku' ] = {
 		justify: 'هاوستوونی',
 		alignLeft: 'بەهێڵ کردنی چەپ',
 		alignRight: 'بەهێڵ کردنی ڕاست',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'بەهێڵ کردنی ناوەڕاست',
 		alignTop: 'سەرەوە',
 		alignMiddle: 'ناوەند',
 		alignBottom: 'ژێرەوە',
