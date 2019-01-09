@@ -15,5 +15,9 @@
 </textarea>
 
 <script>
+	// Ignore until #2737 is resolved.
+	if ( CKEDITOR.env.edge ) {
+		bender.ignore();
+	}
 	CKEDITOR.replace( 'editor' );
 </script>
