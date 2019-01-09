@@ -17,6 +17,7 @@
 				dialog.hide();
 			}
 		},
+
 		// (#2395).
 		'test body has hidden scrollbars when dialog is opened': function() {
 			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
@@ -33,6 +34,7 @@
 				assert.isFalse( body.hasClass( 'cke_dialog_open' ), 'Body shouldn\'t have class.' );
 			} );
 		},
+
 		// (#2395).
 		'test dialog is initially centered': function() {
 			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
@@ -47,6 +49,7 @@
 				assert.areEqual( element.getStyle( 'margin' ), 'auto', 'Dialog element should have `margin:auto`.' );
 			} );
 		},
+
 		// (#2395).
 		'test dialog cover styles': function() {
 			this.editorBot.dialog( 'link', function() {
@@ -56,6 +59,7 @@
 				assert.areEqual( cover.getStyle( 'height' ), '100%', 'Dialog element should have `height:100%`.' );
 			} );
 		},
+
 		// When drag starts, dialog becomes centered with `position:absolute`, then it moves together with mouse (#2395).
 		//
 		// A - mouse cursor
