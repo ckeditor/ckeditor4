@@ -2,20 +2,13 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, link
 
-## Test both editors:
+1. Scroll down until editor is visible and press link button.
+1. Focus other input in dialog.
 
-1. Scroll down until editor is visible.
-1. Press link button.
+## Expected:
 
-## Things to check:
+- After each step page should be scrolled in a way caret is visible.
 
-
-- Play around focusing and blurring inputs, zooming and scrolling page.
-
-#### Expected:
-
-- When opening dialog or focusing input caret page should be scrolled in a way caret is visible.
-
-#### Unexpected
+## Unexpected
 
 - Caret is outside of current viewport.

@@ -2,19 +2,15 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, link
 
-## Test both editors:
-
+1. Read expected.
 1. Scroll down until editor is visible.
 1. Press link button.
+1. Resize browser window.
+1. Resize dialog window.
+1. Drag dialog window.
+1. Close and reopen dialog.
 
-## Things to check:
-
-- Resize browser window.
-- Resize dialog window.
-- Drag dialog window.
-- Close and reopen dialog.
-
-#### Expected:
+## Expected
 
 - When dialog is shown scrollbars are invisible.
 - When resizing browser window dialog is still horizontally and vertically centered.
