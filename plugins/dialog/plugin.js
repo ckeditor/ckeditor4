@@ -135,33 +135,34 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		input && input.removeAttribute( 'aria-invalid' );
 	}
 
-	var templateSource = '<div class="cke_reset_all cke_dialog_container {editorId} {editorDialogClass} {hidpi}' +
-		'" dir="{langDir}"' +
-		' style="' + ( !CKEDITOR.env.ie || CKEDITOR.env.edge ? 'display:flex' : '' ) + '"' +
-		' lang="{langCode}"' +
-		' role="dialog"' +
-		' aria-labelledby="cke_dialog_title_{id}"' +
-		'>' +
-		'<table class="cke_dialog ' + CKEDITOR.env.cssClass + ' cke_{langDir}"' +
-			' style="' + ( !CKEDITOR.env.ie || CKEDITOR.env.edge ? 'margin:auto' : 'position:absolute' ) + '"' +
-			' role="presentation">' +
-			'<tr><td role="presentation">' +
-			'<div class="cke_dialog_body" role="presentation">' +
-				'<div id="cke_dialog_title_{id}" class="cke_dialog_title" role="presentation"></div>' +
-				'<a id="cke_dialog_close_button_{id}" class="cke_dialog_close_button" href="javascript:void(0)" title="{closeTitle}" role="button"><span class="cke_label">X</span></a>' +
-				'<div id="cke_dialog_tabs_{id}" class="cke_dialog_tabs" role="tablist"></div>' +
-				'<table class="cke_dialog_contents" role="presentation">' +
-				'<tr>' +
-					'<td id="cke_dialog_contents_{id}" class="cke_dialog_contents_body" role="presentation"></td>' +
-				'</tr>' +
-				'<tr>' +
-					'<td id="cke_dialog_footer_{id}" class="cke_dialog_footer" role="presentation"></td>' +
-				'</tr>' +
-				'</table>' +
-			'</div>' +
-			'</td></tr>' +
-		'</table>' +
-		'</div>';
+	var useFlex = !CKEDITOR.env.ie || CKEDITOR.env.edge,
+		templateSource = '<div class="cke_reset_all cke_dialog_container {editorId} {editorDialogClass} {hidpi}' +
+			'" dir="{langDir}"' +
+			' style="' + ( useFlex ? 'display:flex' : '' ) + '"' +
+			' lang="{langCode}"' +
+			' role="dialog"' +
+			' aria-labelledby="cke_dialog_title_{id}"' +
+			'>' +
+			'<table class="cke_dialog ' + CKEDITOR.env.cssClass + ' cke_{langDir}"' +
+				' style="' + ( useFlex ? 'margin:auto' : 'position:absolute' ) + '"' +
+				' role="presentation">' +
+				'<tr><td role="presentation">' +
+				'<div class="cke_dialog_body" role="presentation">' +
+					'<div id="cke_dialog_title_{id}" class="cke_dialog_title" role="presentation"></div>' +
+					'<a id="cke_dialog_close_button_{id}" class="cke_dialog_close_button" href="javascript:void(0)" title="{closeTitle}" role="button"><span class="cke_label">X</span></a>' +
+					'<div id="cke_dialog_tabs_{id}" class="cke_dialog_tabs" role="tablist"></div>' +
+					'<table class="cke_dialog_contents" role="presentation">' +
+					'<tr>' +
+						'<td id="cke_dialog_contents_{id}" class="cke_dialog_contents_body" role="presentation"></td>' +
+					'</tr>' +
+					'<tr>' +
+						'<td id="cke_dialog_footer_{id}" class="cke_dialog_footer" role="presentation"></td>' +
+					'</tr>' +
+					'</table>' +
+				'</div>' +
+				'</td></tr>' +
+			'</table>' +
+			'</div>';
 
 	function buildDialog( editor ) {
 		var element = CKEDITOR.dom.element.createFromHtml( CKEDITOR.addTemplate( 'dialog', templateSource ).output( {
@@ -963,7 +964,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		layout: function() {
 			var el = this.parts.dialog;
 
-			if ( !this._.moved && ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) ) {
+			if ( !this._.moved && ( useFlex ) ) {
 				return;
 			}
 
