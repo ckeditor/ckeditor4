@@ -358,7 +358,7 @@
 
 					var styles = tools.parseCssText( element.attributes.style, true ),
 						borderStyles = styles.border ? CKEDITOR.tools.style.parse.border( styles.border ) : {},
-						borders = tools.style.parse.splitBorderStyles( styles, borderStyles );
+						borders = tools.style.parse.splitBorder( styles, borderStyles );
 
 					for ( var border in borders ) {
 						var value = styles[ border ] || borders[ border ];

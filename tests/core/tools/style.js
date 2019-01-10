@@ -169,7 +169,7 @@
 		},
 
 		// (#1490)
-		'test style.parse.splitBorderStyles docs sample': function() {
+		'test style.parse.splitBorder docs sample': function() {
 			var styles = {
 				'border-color': 'red blue',
 				'border-style': 'solid dotted solid',
@@ -181,11 +181,11 @@
 				'border-right': '2px dotted blue',
 				'border-bottom': '3px solid red',
 				'border-left': '4px dotted blue'
-			}, CKEDITOR.tools.style.parse.splitBorderStyles( styles ) );
+			}, CKEDITOR.tools.style.parse.splitBorder( styles ) );
 		},
 
 		// (#1490)
-		'test style.parse.splitBorderStyles docs sample with fallback': function() {
+		'test style.parse.splitBorder docs sample with fallback': function() {
 			var styles = {
 					'border-style': 'solid',
 					'border-width': '2px'
@@ -197,7 +197,7 @@
 				'border-right': '2px solid red',
 				'border-bottom': '2px solid red',
 				'border-left': '2px solid red'
-			}, CKEDITOR.tools.style.parse.splitBorderStyles( styles, fallback ) );
+			}, CKEDITOR.tools.style.parse.splitBorder( styles, fallback ) );
 		},
 
 		'test style.parse.border docs sample': function() {
