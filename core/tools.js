@@ -1883,10 +1883,10 @@
 				 * console.log( CKEDITOR.tools.style.parse.splitBorder( styles ) );
 				 * // Logs:
 				 * // {
-				 * // 	'border-top': '1px solid red',
-				 * // 	'border-right': '2px dotted blue',
-				 * // 	'border-bottom': '3px solid red',
-				 * // 	'border-left': '4px dotted blue'
+				 * // 	'border-top': BorderStyle { width: '1px', style: 'solid', color: 'red' },
+				 * // 	'border-right': BorderStyle { width: '2px', style: 'dotted', color: 'blue'},
+				 * // 	'border-bottom': BorderStyle { width: '3px', style: 'solid', color: 'red' },
+				 * // 	'border-left': BorderStyle { width: '4px', style: 'dotted', color: 'blue' }
 				 * // }
 				 *
 				 * // Use fallback to fill up missing style:
@@ -1899,10 +1899,10 @@
 				 * console.log( CKEDITOR.tools.style.parse.splitBorder( missingColorStyles, fallback ) );
 				 * // Logs:
 				 * // {
-				 * // 	'border-top': '2px solid red',
-				 * // 	'border-right': '2px solid red',
-				 * // 	'border-bottom': '2px solid red',
-				 * // 	'border-left': '2px solid red'
+				 * // 	'border-top': BorderStyle { width: '2px', style: 'solid', color: 'red' },
+				 * // 	'border-right': BorderStyle { width: '2px', style: 'solid', color: 'red' },
+				 * // 	'border-bottom': BorderStyle { width: '2px', style: 'solid', color: 'red' },
+				 * // 	'border-left': BorderStyle { width: '2px', style: 'solid', color: 'red' }
 				 * // }
 				 * ```
 				 * @since 4.12.0
@@ -1952,8 +1952,10 @@
 				 * Parses the `border` CSS property shorthand format.
 				 * This CSS property does not support inheritance (https://www.w3.org/TR/css3-background/#the-border-shorthands).
 				 *
-				 *		console.log( CKEDITOR.tools.style.parse.border( '3px solid #ffeedd' ) );
-				 *		// Logs: { width: "3px", style: "solid", color: "#ffeedd" }
+				 * ```javascript
+				 *	console.log( CKEDITOR.tools.style.parse.border( '3px solid #ffeedd' ) );
+				 *	// Logs: BorderStyle { width: '3px', style: 'solid', color: '#ffeedd' }
+				 * ```
 				 *
 				 * @param {String} value The `border` property value.
 				 * @returns {CKEDITOR.tools.style.borderStyle} Border style.
@@ -2587,9 +2589,6 @@
 	/**
 	 * Contains information about border styles.
 	 *
-	 * Styles will be normalized using
-	 * {@link CKEDITOR.tools.style.borderStyle#normalizeMap border style mapping.}
-	 *
 	 * @since 4.12.0
 	 * @class CKEDITOR.tools.style.borderStyle
 	 * @member CKEDITOR.tools.style
@@ -2608,23 +2607,18 @@
 	}
 
 	BorderStyle.prototype = {
-		/*
-		 * Contains border style normalization rules.
-		 *
-		 * @property {Object}
-		 */
-		normalizeMap: {
+		_normalizeMap: {
 			color: [
 				[ /windowtext/g, 'black' ]
 			]
 		},
 
 		_normalize: function() {
-			for ( var propName in this.normalizeMap ) {
+			for ( var propName in this._normalizeMap ) {
 				var val = this[ propName ];
 
 				if ( val ) {
-					this[propName] = CKEDITOR.tools.array.reduce( this.normalizeMap[ propName ], function( cur, rule ) {
+					this[propName] = CKEDITOR.tools.array.reduce( this._normalizeMap[ propName ], function( cur, rule ) {
 						return cur.replace( rule[ 0 ], rule[ 1 ] );
 					}, val );
 				}
