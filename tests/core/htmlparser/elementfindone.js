@@ -29,7 +29,6 @@
 					return element.attributes && element.attributes[ 'class' ] === 'faz';
 				} )
 			);
-
 			assert.areSame( testElement.children[ 0 ].children[ 1 ].children[ 1 ],
 				testElement.findOne( function( element ) {
 					return element.attributes && element.attributes[ 'class' ] === 'faz';
