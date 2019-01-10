@@ -162,6 +162,7 @@
 			} );
 		},
 
+		// #1986 and #2732
 		'test dialog definition': function() {
 			bender.editorBot.create( {
 				name: 'definition',
