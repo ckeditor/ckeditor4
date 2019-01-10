@@ -1189,7 +1189,7 @@
 			var symbol = element.attributes[ 'cke-symbol' ],
 				node = element.findOne( function( node ) {
 					return node.value && node.value.indexOf( symbol ) > -1;
-				} ),
+				}, true ),
 				parent;
 
 			if ( node ) {
