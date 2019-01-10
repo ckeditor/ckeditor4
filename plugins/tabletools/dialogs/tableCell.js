@@ -291,95 +291,107 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 			padding: 0,
 			widths: colorDialog ? [ '60%', '40%' ] : [ '100%' ],
 			requiredContent: 'td{background-color}',
-			children: [ {
-				type: 'text',
-				id: 'bgColor',
-				label: langCell.bgColor,
-				'default': '',
-				setup: setupCells( function( element ) {
-					var bgColorAttr = element.getAttribute( 'bgColor' ),
-						bgColorStyle = element.getStyle( 'background-color' );
+			children: ( function() {
+				var children = [ {
+					type: 'text',
+					id: 'bgColor',
+					label: langCell.bgColor,
+					'default': '',
+					setup: setupCells( function( element ) {
+						var bgColorAttr = element.getAttribute( 'bgColor' ),
+							bgColorStyle = element.getStyle( 'background-color' );
 
-					return bgColorStyle || bgColorAttr;
-				} ),
-				commit: function( selectedCell ) {
-					var value = this.getValue();
+						return bgColorStyle || bgColorAttr;
+					} ),
+					commit: function( selectedCell ) {
+						var value = this.getValue();
 
-					if ( value ) {
-						selectedCell.setStyle( 'background-color', this.getValue() );
-					} else {
-						selectedCell.removeStyle( 'background-color' );
+						if ( value ) {
+							selectedCell.setStyle( 'background-color', this.getValue() );
+						} else {
+							selectedCell.removeStyle( 'background-color' );
+						}
+
+						selectedCell.removeAttribute( 'bgColor' );
 					}
+				} ];
 
-					selectedCell.removeAttribute( 'bgColor' );
+				if ( colorDialog ) {
+					children.push( {
+						type: 'button',
+						id: 'bgColorChoose',
+						'class': 'colorChooser', // jshint ignore:line
+						label: langCell.chooseColor,
+						onLoad: function() {
+							// Stick the element to the bottom (https://dev.ckeditor.com/ticket/5587)
+							this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
+						},
+						onClick: function() {
+							editor.getColorFromDialog( function( color ) {
+								if ( color ) {
+									this.getDialog().getContentElement( 'info', 'bgColor' ).setValue( color );
+								}
+								this.focus();
+							}, this );
+						}
+					} );
 				}
-			},
-				colorDialog ? {
-					type: 'button',
-					id: 'bgColorChoose',
-					'class': 'colorChooser', // jshint ignore:line
-					label: langCell.chooseColor,
-					onLoad: function() {
-						// Stick the element to the bottom (https://dev.ckeditor.com/ticket/5587)
-						this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
-					},
-					onClick: function() {
-						editor.getColorFromDialog( function( color ) {
-							if ( color ) {
-								this.getDialog().getContentElement( 'info', 'bgColor' ).setValue( color );
-							}
-							this.focus();
-						}, this );
-					}
-				} : null ]
+				return children;
+			} )()
 		},
 		{
 			type: 'hbox',
 			padding: 0,
 			widths: colorDialog ? [ '60%', '40%' ] : [ '100%' ],
 			requiredContent: 'td{border-color}',
-			children: [ {
-				type: 'text',
-				id: 'borderColor',
-				label: langCell.borderColor,
-				'default': '',
-				setup: setupCells( function( element ) {
-					var borderColorAttr = element.getAttribute( 'borderColor' ),
-						borderColorStyle = element.getStyle( 'border-color' );
+			children: ( function() {
+				var children = [ {
+					type: 'text',
+					id: 'borderColor',
+					label: langCell.borderColor,
+					'default': '',
+					setup: setupCells( function( element ) {
+						var borderColorAttr = element.getAttribute( 'borderColor' ),
+							borderColorStyle = element.getStyle( 'border-color' );
 
-					return borderColorStyle || borderColorAttr;
-				} ),
-				commit: function( selectedCell ) {
-					var value = this.getValue();
-					if ( value ) {
-						selectedCell.setStyle( 'border-color', this.getValue() );
-					} else {
-						selectedCell.removeStyle( 'border-color' );
-					}
-
-					selectedCell.removeAttribute( 'borderColor' );
-				}
-			},
-
-			colorDialog ? {
-				type: 'button',
-				id: 'borderColorChoose',
-				'class': 'colorChooser', // jshint ignore:line
-				label: langCell.chooseColor,
-				style: ( rtl ? 'margin-right' : 'margin-left' ) + ': 10px',
-				onLoad: function() {
-					// Stick the element to the bottom (https://dev.ckeditor.com/ticket/5587)
-					this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
-				},
-				onClick: function() {
-					editor.getColorFromDialog( function( color ) {
-						if ( color ) {
-							this.getDialog().getContentElement( 'info', 'borderColor' ).setValue( color );
+						return borderColorStyle || borderColorAttr;
+					} ),
+					commit: function( selectedCell ) {
+						var value = this.getValue();
+						if ( value ) {
+							selectedCell.setStyle( 'border-color', this.getValue() );
+						} else {
+							selectedCell.removeStyle( 'border-color' );
 						}
-						this.focus();
-					}, this );
+
+						selectedCell.removeAttribute( 'borderColor' );
+					}
+				} ];
+
+				if ( colorDialog ) {
+					children.push( {
+						type: 'button',
+						id: 'borderColorChoose',
+						'class': 'colorChooser', // jshint ignore:line
+						label: langCell.chooseColor,
+						style: ( rtl ? 'margin-right' : 'margin-left' ) + ': 10px',
+						onLoad: function() {
+							// Stick the element to the bottom (https://dev.ckeditor.com/ticket/5587)
+							this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
+						},
+						onClick: function() {
+							editor.getColorFromDialog( function( color ) {
+								if ( color ) {
+									this.getDialog().getContentElement( 'info', 'borderColor' ).setValue( color );
+								}
+								this.focus();
+							}, this );
+						}
+					} );
 				}
-			} : null ]
+
+				return children;
+			} )()
 		} ],
 	itemsCount = 0,
 	index = -1,
