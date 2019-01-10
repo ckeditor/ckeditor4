@@ -626,24 +626,46 @@
 
 				function dataCallback( matchInfo, callback ) {
 					var emojiName = matchInfo.query.substr( 1 ).toLowerCase(),
-						data = arrTools.filter( emojiList, function( item ) {
-							// Comparing lowercased strings, because emoji should be case insensitive (#2167).
-							return item.id.toLowerCase().indexOf( emojiName ) !== -1;
-						} ).sort( function( a, b ) {
-							var aIndex = a.id.indexOf( emojiName ),
-								bIndex = b.id.indexOf( emojiName );
+						data = [],
+						extraData = [];
 
-							if ( aIndex === bIndex ) {
-								if ( a.id > b.id ) {
-									return 1;
-								} else {
-									return -1;
-								}
+					arrTools.forEach( emojiList, function( item ) {
+						var emojiStr = item.id.toLowerCase(),
+							words;
+						// Comparing lowercased strings, because emoji should be case insensitive (#2167).
+						if ( emojiStr.indexOf( emojiName ) !== -1 ) {
+							words = emojiStr.split( '_' );
+							if ( arrTools.find( words, function( string ) {
+								return string.indexOf( emojiName ) === 0;
+							} ) ) {
+								data.push( item );
 							} else {
-								return aIndex - bIndex;
+								extraData.push( item );
 							}
-						} );
+						}
+					} );
+
+					data = data.sort( emojiSortFn );
+					extraData = extraData.sort( emojiSortFn );
+
+					data = data.concat( extraData );
+
 					callback( data );
+
+					function emojiSortFn( a, b ) {
+						var aIndex = a.id.indexOf( emojiName ),
+							bIndex = b.id.indexOf( emojiName );
+
+						if ( aIndex === bIndex ) {
+							if ( a.id > b.id ) {
+								return 1;
+							} else {
+								return -1;
+							}
+						} else {
+							return aIndex - bIndex;
+						}
+					}
 				}
 			} );
 
