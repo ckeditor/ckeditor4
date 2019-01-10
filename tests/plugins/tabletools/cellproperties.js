@@ -160,6 +160,27 @@
 					assert.isTrue( dialog.getContentElement( 'info', 'htmlHeightType' ).isVisible() );
 				} );
 			} );
+		},
+
+		'test dialog definition': function() {
+			bender.editorBot.create( {
+				name: 'definition',
+				removePlugins: 'colordialog'
+			}, function( bot ) {
+				bot.setHtmlWithSelection( '<table><tr><td>Te^st</td></tr></table>' );
+				bot.dialog( 'cellProperties', function( dialog ) {
+					assertChildren( dialog.definition.contents[ 0 ].elements[ 0 ].children );
+				} );
+			} );
 		}
 	} );
+
+	function assertChildren( children ) {
+		CKEDITOR.tools.array.forEach( children, function( item ) {
+			assert.isObject( item );
+			if ( item.children ) {
+				assertChildren( item.children );
+			}
+		} );
+	}
 } )();
