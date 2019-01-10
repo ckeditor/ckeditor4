@@ -361,8 +361,11 @@
 						borders = tools.style.parse.splitBorder( styles, borderStyles );
 
 					for ( var border in borders ) {
-						var value = styles[ border ] || borders[ border ];
-						Style.setStyle( element, border, value );
+						var borderStyle = styles[ border ] ?
+							CKEDITOR.tools.style.parse.border( styles[ border ] )
+							: borders[ border ];
+
+						Style.setStyle( element, border, borderStyle.toString() );
 					}
 
 					Style.mapCommonStyles( element );
