@@ -1924,7 +1924,8 @@
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				splitBorderStyles: function( styles, fallback ) {
-					var types = [ 'width', 'style', 'color' ];
+					var types = [ 'width', 'style', 'color' ],
+						ret = {};
 
 					fallback = fallback || {};
 
@@ -1933,21 +1934,11 @@
 						return style ? CKEDITOR.tools.style.parse.shorthand( style ) : null;
 					} );
 
-					return CKEDITOR.tools.array.reduce( stylesMap, function( acc, style ) {
-						if ( !style ) {
-							return acc;
-						}
+					for ( var side in stylesMap[ 0 ] ) {
+						ret[ 'border-' + side ] = new BorderStyle( stylesMap[ 0 ][ side ], stylesMap[ 1 ][ side ], stylesMap[ 2 ][ side ] );
+					}
 
-						for ( var side in style ) {
-							var border = 'border-' + side,
-								value = acc[ border ];
-
-							acc[ border ] = value ? ( value + ' ' + style[ side ] ) : style[ side ];
-						}
-
-						return acc;
-					}, {} );
-
+					return ret;
 				},
 
 				/**
@@ -2547,6 +2538,20 @@
 
 	ThrottleBuffer.prototype._call = function() {
 		this._output.apply( this._context, this._args );
+	};
+
+	function BorderStyle( width, style, color ) {
+		this.width = width;
+		this.style = style;
+		this.color = color;
+	}
+
+	BorderStyle.prototype = {
+		toString: function() {
+			return CKEDITOR.tools.array.filter( [ this.width, this.style, this.color ], function( item ) {
+				return !!item;
+			} ).join( ' ' );
+		}
 	};
 
 	CKEDITOR.tools.buffers = {};
