@@ -1951,6 +1951,41 @@
 			},
 
 			/**
+			 * Returns the first element in the array for which the given callback `fn` returns `true`.
+			 *
+			 * ```javascript
+			 * var array = [ 1, 2, 3, 4 ];
+			 *
+			 * CKEDITOR.tools.array.find( array, function( item ) {
+			 *     return item > 2;
+			 * } ); // returns 3.
+			 * ```
+			 *
+			 * @param {Array} array An array to be iterated over.
+			 * @param {Function} fn A function called for every `array` element, until it returns `true`.
+			 * @param {Mixed} fn.value The currently iterated array value.
+			 * @param {Number} fn.index The index of the currently iterated value in an array.
+			 * @param {Array} fn.array The original array passed as an `array` variable.
+			 * @param {Mixed} [thisArg=undefined] The context object for `fn`.
+			 * @returns {*} First matched value, `undefined` otherwise.
+			 * @member CKEDITOR.tools.array
+			 * @since 4.12.0
+			 */
+			find: function( array, fn, thisArg ) {
+				var length = array.length,
+					i = 0;
+
+				while ( i < length ) {
+					if ( fn.call( thisArg, array[ i ], i, array ) ) {
+						return array[ i ];
+					}
+					i++;
+				}
+
+				return undefined;
+			},
+
+			/**
 			 * Iterates over every element in the `array`.
 			 *
 			 * @param {Array} array An array to be iterated over.
