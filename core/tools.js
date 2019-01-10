@@ -1935,7 +1935,10 @@
 					} );
 
 					for ( var side in stylesMap[ 0 ] ) {
-						ret[ 'border-' + side ] = new BorderStyle( stylesMap[ 0 ][ side ], stylesMap[ 1 ][ side ], stylesMap[ 2 ][ side ] );
+						ret[ 'border-' + side ] = new BorderStyle(
+							stylesMap[ 0 ] && stylesMap[ 0 ][ side ] || '',
+							stylesMap[ 1 ] && stylesMap[ 1 ][ side ] || '',
+							stylesMap[ 2 ] && stylesMap[ 2 ][ side ] || '' );
 					}
 
 					return ret;
