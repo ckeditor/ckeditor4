@@ -179,9 +179,10 @@
 
 	function assertChildren( children ) {
 		CKEDITOR.tools.array.forEach( children, function( item ) {
-			assert.isObject( item );
 			if ( item.children ) {
 				assertChildren( item.children );
+			} else {
+				assert.isObject( item );
 			}
 		} );
 	}
