@@ -30,6 +30,14 @@
 			} );
 		},
 
+		tearDown: function() {
+			var dialog = CKEDITOR.dialog.getCurrent();
+
+			if ( dialog ) {
+				dialog.hide();
+			}
+		},
+
 		'test cell properties dialog (text selection)': function() {
 			this.doTest( 'table-1', function( dialog ) {
 				dialog.setValueOf( 'info', 'width', 100 );
