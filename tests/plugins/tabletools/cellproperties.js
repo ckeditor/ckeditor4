@@ -162,7 +162,8 @@
 			} );
 		},
 
-		// #1986 and #2732
+		// Changes to cell properties dialog (#1986) caused regression (#2732).
+		// Dialog definition had `null` items. Each item should be an object.
 		'test dialog definition': function() {
 			bender.editorBot.create( {
 				name: 'definition',
