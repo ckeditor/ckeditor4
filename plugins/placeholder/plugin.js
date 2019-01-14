@@ -47,10 +47,12 @@
 				},
 
 				data: function() {
-          var cpAttr = this.data.party === 'counterparty' ? ' data-placeholder-counterparty' : '';
-          var html = '<span class="cke_placeholder"' + cpAttr + '>[[' + this.data.name + ']]</span>';
-					this.element.setHtml(html);
-					// this.element.setText( '[[' + this.data.name + ']]' );
+          if (this.data.party === 'counterparty') {
+            this.element.addClass('cke_placeholder_counterparty')
+          } else {
+            this.element.removeClass('cke_placeholder_counterparty')
+          }
+					this.element.setText( '[[' + this.data.name + ']]' );
 				},
 
 				getLabel: function() {
