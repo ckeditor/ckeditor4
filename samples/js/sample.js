@@ -44,13 +44,13 @@ var initSample = ( function() {
 				{name: 'find', items: ['Find', 'Replace']},
 				{name: 'insert', items: ['Table', 'base64image']},
 				{name: 'pagebreak', items: ['PageBreak']},
-				{name: 'placeholder', items: ['CreatePlaceholder', 'CreateCpPlaceholder']},
+				{name: 'placeholder', items: ['CreatePlaceholder', 'CreateCpPlaceholder', 'CreateAutoSequence']},
 				{name: 'helpers', items: ['Undo', 'Redo']},
 				{name: 'tabletools', items: ['tabledelete', 'tableproperties', 'tablerowinsertbefore',
 					'tablerowinsertafter', 'tablerowdelete', 'tablecolumninsertbefore', 'tablecolumninsertafter',
 					'tablecolumndelete', 'tablecellinsertbefore', 'tablecellinsertafter', 'tablecelldelete',
           'tablecellproperties', 'tablecellsmerge', 'tablecellmergedown', 'tablecellsplithorizontal', 'tablecellsplitvertical']},
-        {name: 'poh', items: ['smartfields']},
+        // {name: 'poh', items: ['smartfields']},
 			]
 		} );
 
