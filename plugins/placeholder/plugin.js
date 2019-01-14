@@ -47,7 +47,10 @@
 				},
 
 				data: function() {
-					this.element.setText( '[[' + this.data.name + ']]' );
+          var cpAttr = this.data.party === 'counterparty' ? ' data-placeholder-counterparty' : '';
+          var html = '<span class="cke_placeholder"' + cpAttr + '>[[' + this.data.name + ']]</span>';
+					this.element.setHtml(html);
+					// this.element.setText( '[[' + this.data.name + ']]' );
 				},
 
 				getLabel: function() {
@@ -56,14 +59,19 @@
 			} );
 
 			editor.addCommand('cpplaceholder', {
-				exec: function(e) {
-					var fragment = editor.getSelection().getRanges()[0].extractContents();
-					var container = CKEDITOR.dom.element.createFromHtml('<span class="cke_placeholder" ' +
-						'>[[Company name]]</span>', editor.document);
+				exec: function(editor) {
+					// var fragment = editor.getSelection().getRanges()[0].extractContents();
+					// var container = CKEDITOR.dom.element.createFromHtml('<span class="cke_placeholder" ' +
+					// 	'>[[Company name]]</span>', editor.document);
 
-					fragment.appendTo(container);
-					editor.insertElement(container);
-					editor.widgets.initOn( container, 'placeholder' );
+					// fragment.appendTo(container);
+					// editor.insertElement(container);
+          // editor.widgets.initOn( container, 'placeholder' );
+          editor.commands.placeholder.exec({
+            startupData: {
+              party: 'counterparty'
+            }
+          });
 				}
       });
       editor.addCommand('autosequence', {
@@ -106,7 +114,7 @@
 					var dtd = node.parent && CKEDITOR.dtd[ node.parent.name ];
 
 					// Skip the case when placeholder is in elements like <title> or <textarea>
-					// but upcast placeholder in custom elements (no DTD).
+          // but upcast placeholder in custom elements (no DTD).
 					if ( dtd && !dtd.span )
 						return;
 
