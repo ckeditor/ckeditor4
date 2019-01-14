@@ -195,10 +195,10 @@
 
 			// #455
 			// 1. Check if we are directly in editbale. Justification should be always allowed, and not highlighted.
-			//    Checking path.elements.length is required to filter out situation `body > ul` where ul is selected and path.blockLimit returns editable.
+			//    Checking situation `body > ul` where ul is selected and path.blockLimit returns editable.
 			// 2. Check if current element can have applied specific class.
 			// 3. Check if current element can have applied text-align style.
-			if (  isEditable && path.elements.length === 1 ) {
+			if ( isEditable && path.lastElement.getName() !== 'ul' ) {
 				this.setState( CKEDITOR.TRISTATE_OFF );
 			} else if ( !isEditable && isStylable ) {
 				// 2 & 3 in one condition.
