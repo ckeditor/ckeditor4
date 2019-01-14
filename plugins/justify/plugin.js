@@ -198,7 +198,7 @@
 			//    Checking situation `body > ul` where ul is selected and path.blockLimit returns editable.
 			// 2. Check if current element can have applied specific class.
 			// 3. Check if current element can have applied text-align style.
-			if ( isEditable && path.lastElement.getName() !== 'ul' ) {
+			if ( isEditable && !CKEDITOR.dtd.$list[ path.lastElement.getName() ] ) {
 				this.setState( CKEDITOR.TRISTATE_OFF );
 			} else if ( !isEditable && isStylable ) {
 				// 2 & 3 in one condition.
