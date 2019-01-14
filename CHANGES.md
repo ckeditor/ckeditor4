@@ -6,6 +6,7 @@
 Fixed Issues:
 
 * [#1397](https://github.com/ckeditor/ckeditor-dev/issues/1397): Fixed: Using dialog to remove headers from the [table](https://ckeditor.com/cke4/addon/table) with one headers row only throws an error.
+* [#1479](https://github.com/ckeditor/ckeditor-dev/issues/1479): Fixed: Justification for styled content in BR mode was disabled.
 
 ## CKEditor 4.11.3
 
