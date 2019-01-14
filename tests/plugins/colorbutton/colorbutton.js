@@ -184,7 +184,13 @@
 		'test changing text color to automatic': testAutomaticColor(),
 
 		// (#1084)
-		'test changing background color to automatic': testAutomaticColor( true )
+		'test changing background color to automatic': testAutomaticColor( true ),
+
+		// (#2430)
+		'test text color items not draggable': testElementsNotDraggable( 'TextColor' ),
+
+		// (#2430)
+		'test background color items not draggable': testElementsNotDraggable( 'BGColor' )
 	} );
 
 	function testAutomaticColor( isBackgroundColor ) {
@@ -201,6 +207,31 @@
 
 					assert.areEqual( '<p>Foo bar</p>', editor.getData() );
 				} );
+			} );
+
+			colorBtn.click( editor );
+
+			wait();
+		};
+	}
+
+	function testElementsNotDraggable( button ) {
+		return function() {
+			var editor = this.editor,
+				colorBtn = editor.ui.get( button );
+
+			editor.once( 'panelShow', function( evt ) {
+				resume( function() {
+					var block = colorBtn._.panel.getBlock( colorBtn._.id ).element,
+						anchors = block.find( 'a' ).toArray();
+
+					CKEDITOR.tools.array.forEach( anchors, function( element ) {
+						assert.areEqual( 'false', element.getAttribute( 'draggable' ), 'Draggable attribute value should be "false".' );
+						assert.areEqual( 'return false;', element.getAttribute( 'ondragstart' ), 'ondragstart value should be "return false;".' );
+					} );
+				} );
+
+				evt.data.hide();
 			} );
 
 			colorBtn.click( editor );
