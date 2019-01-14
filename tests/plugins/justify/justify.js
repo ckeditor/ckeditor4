@@ -581,5 +581,26 @@ bender.test(
 				tc.assertCommandState( 0,0,0,0, editor );
 			} );
 		} );
+	},
+
+	'test alignment on styled elements in br mode': function() {
+		var tc = this;
+		bender.editorBot.create( {
+			name: 'editor_br_2',
+			config: {
+				plugins: 'justify,toolbar',
+				enterMode: CKEDITOR.ENTER_BR
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			bot.setHtmlWithSelection( '<span style="font-family:Arial,Helvetica,sans-serif">[Foo bar baz]</span>' );
+			tc.assertCommandState( 2,2,2,2, editor );
+
+			bot.execCommand( 'justifycenter' );
+			tc.assertCommandState( 2,2,1,2, editor );
+
+			assert.beautified.html( '<div style="text-align: center;"><span style="font-family:Arial,Helvetica,sans-serif">Foo bar baz</span></div>', editor.getData() );
+		} );
 	}
 } );
