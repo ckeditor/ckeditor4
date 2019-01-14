@@ -8,7 +8,7 @@ bender.editor = {
 
 bender.test(
 {
-	assertCommandState: function( left, right, center, justify, editor ) {
+	assertCommandState: function( left, right, center, justify, editor, cb ) {
 		editor = editor || this.editor;
 
 		setTimeout( function() {
@@ -22,6 +22,10 @@ bender.test(
 				assert.areSame( right, rightCmd.state, 'rightCmd.state' );
 				assert.areSame( center, centerCmd.state, 'centerCmd.state' );
 				assert.areSame( justify, justifyCmd.state, 'justifyCmd.state' );
+
+				if ( typeof cb === 'function' ) {
+					cb();
+				}
 			} );
 		} );
 		wait();
@@ -109,35 +113,36 @@ bender.test(
 			bot.setHtmlWithSelection( '<p>[<img src="http://tests/404"/>bar]</p>' );
 
 			// Check commands state, all commands should be enabled, left should be turned on.
-			tc.assertCommandState( 1, 2, 2, 2, editor );
+			tc.assertCommandState( 1, 2, 2, 2, editor, function() {
+				// Align paragraph right;
+				bot.execCommand( 'justifyright' );
+				assert.areSame( '<p class="alignright"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
-			// Align paragraph right;
-			bot.execCommand( 'justifyright' );
-			assert.areSame( '<p class="alignright"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
+				// Right on.
+				tc.assertCommandState( 2, 1, 2, 2, editor, function() {
+					// Align paragraph center;
+					bot.execCommand( 'justifycenter' );
+					assert.areSame( '<p class="aligncenter"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
-			// Right on.
-			tc.assertCommandState( 2, 1, 2, 2, editor );
+					// Center on.
+					tc.assertCommandState( 2, 2, 1, 2, editor, function() {
+						// Align paragraph left;
+						bot.execCommand( 'justifyleft' );
+						assert.areSame( '<p><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
-			// Align paragraph center;
-			bot.execCommand( 'justifycenter' );
-			assert.areSame( '<p class="aligncenter"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
+						// Left on.
+						tc.assertCommandState( 1, 2, 2, 2, editor, function() {
+							// Align paragraph justify
+							bot.execCommand( 'justifyblock' );
+							assert.areSame( '<p class="alignjustify"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
-			// Center on.
-			tc.assertCommandState( 2, 2, 1, 2, editor );
+							// Justify on.
+							tc.assertCommandState( 2, 2, 2, 1, editor );
+						} );
 
-			// Align paragraph left;
-			bot.execCommand( 'justifyleft' );
-			assert.areSame( '<p><img src="http://tests/404" />bar</p>', bot.getData( true ) );
-
-			// Left on.
-			tc.assertCommandState( 1, 2, 2, 2, editor );
-
-			// Align paragraph justify
-			bot.execCommand( 'justifyblock' );
-			assert.areSame( '<p class="alignjustify"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
-
-			// Justify on.
-			tc.assertCommandState( 2, 2, 2, 1, editor );
+					} );
+				} );
+			} );
 		} );
 	},
 
@@ -159,21 +164,21 @@ bender.test(
 			bot.setHtmlWithSelection( '<p>[<img src="http://tests/404"/>bar]</p>' );
 
 			// Check commands state, left should be turned on, right disabled and the rest off.
-			tc.assertCommandState( 1, 0, 2, 2, editor );
+			tc.assertCommandState( 1, 0, 2, 2, editor, function() {
+				// Align paragraph right;
+				bot.execCommand( 'justifyright' );
+				assert.areSame( '<p><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
-			// Align paragraph right;
-			bot.execCommand( 'justifyright' );
-			assert.areSame( '<p><img src="http://tests/404" />bar</p>', bot.getData( true ) );
+				// Check commands state, left should be turned on, right disabled and the rest off.
+				tc.assertCommandState( 1, 0, 2, 2, editor, function() {
+					// Align paragraph center;
+					bot.execCommand( 'justifycenter' );
+					assert.areSame( '<p class="aligncenter"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
-			// Check commands state, left should be turned on, right disabled and the rest off.
-			tc.assertCommandState( 1, 0, 2, 2, editor );
-
-			// Align paragraph center;
-			bot.execCommand( 'justifycenter' );
-			assert.areSame( '<p class="aligncenter"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
-
-			// Check commands state, left should be turned on, right disabled and the rest off.
-			tc.assertCommandState( 2, 0, 1, 2, editor );
+					// Check commands state, left should be turned on, right disabled and the rest off.
+					tc.assertCommandState( 2, 0, 1, 2, editor );
+				} );
+			} );
 		} );
 	},
 
@@ -192,23 +197,23 @@ bender.test(
 			bot.setHtmlWithSelection( 'foo^bar<br />bom' );
 
 			// None on.
-			tc.assertCommandState( 2, 2, 2, 2, editor );
+			tc.assertCommandState( 2, 2, 2, 2, editor, function() {
+				// Align paragraph right;
+				bot.execCommand( 'justifyright' );
+				assert.areSame( '<div style="text-align:right;">foobar</div>bom', bot.getData( true ) );
 
-			// Align paragraph right;
-			bot.execCommand( 'justifyright' );
-			assert.areSame( '<div style="text-align:right;">foobar</div>bom', bot.getData( true ) );
+				// Right on.
+				tc.assertCommandState( 2, 1, 2, 2, editor, function() {
+					// Align paragraph center;
+					bot.execCommand( 'justifyleft' );
+					assert.areSame( '<div>foobar</div>bom', bot.getData( true ) );
 
-			// Right on.
-			tc.assertCommandState( 2, 1, 2, 2, editor );
-
-			// Align paragraph center;
-			bot.execCommand( 'justifyleft' );
-			assert.areSame( '<div>foobar</div>bom', bot.getData( true ) );
-
-			// None on.
-			tc.assertCommandState( 1, 2, 2, 2, editor );
-
-			assert.isTrue( editor.filter.check( 'div{text-align}' ), 'Check whether justify allows div in br mode' );
+					// None on.
+					tc.assertCommandState( 1, 2, 2, 2, editor, function() {
+						assert.isTrue( editor.filter.check( 'div{text-align}' ), 'Check whether justify allows div in br mode' );
+					} );
+				} );
+			} );
 		} );
 	},
 
@@ -229,21 +234,19 @@ bender.test(
 			bot.setHtmlWithSelection( '<div>foo^bar</div>' );
 
 			// None on.
-			tc.assertCommandState( 1, 2, 2, 2, editor );
-
-			// Align paragraph right;
-			bot.execCommand( 'justifyright' );
-			assert.areSame( '<div class="alignright">foobar</div>', bot.getData( true ) );
-
-			// Right on.
-			tc.assertCommandState( 2, 1, 2, 2, editor );
-
-			// Align paragraph center;
-			bot.execCommand( 'justifyleft' );
-			assert.areSame( '<div>foobar</div>', bot.getData( true ) );
-
-			// None on.
-			tc.assertCommandState( 1, 2, 2, 2, editor );
+			tc.assertCommandState( 1, 2, 2, 2, editor, function() {
+				// Align paragraph right;
+				bot.execCommand( 'justifyright' );
+				assert.areSame( '<div class="alignright">foobar</div>', bot.getData( true ) );
+				// Right on.
+				tc.assertCommandState( 2, 1, 2, 2, editor, function() {
+					// Align paragraph center;
+					bot.execCommand( 'justifyleft' );
+					assert.areSame( '<div>foobar</div>', bot.getData( true ) );
+					// None on.
+					tc.assertCommandState( 1, 2, 2, 2, editor );
+				} );
+			} );
 		} );
 	},
 
@@ -271,10 +274,10 @@ bender.test(
 		}, function( bot ) {
 			var editor = bot.editor;
 			bot.setHtmlWithSelection( '<p>Foo</p><ul><li>on^e</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 0,0,0,0, editor );
-
-			bot.setHtmlWithSelection( '<p>Fo^o</p><ul><li>one</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 1,2,2,2, editor );
+			tc.assertCommandState( 0,0,0,0, editor, function() {
+				bot.setHtmlWithSelection( '<p>Fo^o</p><ul><li>one</li><li>two</li><li>three</li></ul>' );
+				tc.assertCommandState( 1,2,2,2, editor );
+			} );
 		} );
 	},
 
@@ -292,10 +295,10 @@ bender.test(
 		}, function( bot ) {
 			var editor = bot.editor;
 			bot.setHtmlWithSelection( '<p>Foo</p><ul><li>on^e</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 0,0,0,0, editor );
-
-			bot.setHtmlWithSelection( '<p>Fo^o</p><ul><li>one</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 1,2,2,2, editor );
+			tc.assertCommandState( 0,0,0,0, editor, function() {
+				bot.setHtmlWithSelection( '<p>Fo^o</p><ul><li>one</li><li>two</li><li>three</li></ul>' );
+				tc.assertCommandState( 1,2,2,2, editor );
+			} );
 		} );
 	},
 
@@ -313,10 +316,10 @@ bender.test(
 		}, function( bot ) {
 			var editor = bot.editor;
 			bot.setHtmlWithSelection( '<div>Foo</div><ul><li>on^e</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 0,0,0,0, editor );
-
-			bot.setHtmlWithSelection( '<div>F^oo</div><ul><li>one</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 1,2,2,2, editor );
+			tc.assertCommandState( 0,0,0,0, editor, function() {
+				bot.setHtmlWithSelection( '<div>F^oo</div><ul><li>one</li><li>two</li><li>three</li></ul>' );
+				tc.assertCommandState( 1,2,2,2, editor );
+			} );
 		} );
 	},
 
@@ -335,10 +338,10 @@ bender.test(
 		}, function( bot ) {
 			var editor = bot.editor;
 			bot.setHtmlWithSelection( '<div>Foo</div><ul><li>on^e</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 0,0,0,0, editor );
-
-			bot.setHtmlWithSelection( '<div>F^oo</div><ul><li>one</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 1,2,2,2, editor );
+			tc.assertCommandState( 0,0,0,0, editor, function() {
+				bot.setHtmlWithSelection( '<div>F^oo</div><ul><li>one</li><li>two</li><li>three</li></ul>' );
+				tc.assertCommandState( 1,2,2,2, editor );
+			} );
 		} );
 	},
 
@@ -356,15 +359,15 @@ bender.test(
 			var editor = bot.editor;
 
 			bot.setHtmlWithSelection( 'foo<ul><li>on^e</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 0,0,0,0, editor );
-
-			bot.setHtmlWithSelection( 'f^oo<ul><li>one</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 2,2,2,2, editor );
-
-			bot.execCommand( 'justifyblock' );
-			tc.assertCommandState( 2,2,2,1, editor );
-
-			assert.isInnerHtmlMatching( '<div style="text-align:justify;">foo</div><ul><li>one</li><li>two</li><li>three</li></ul>', bot.getData( true ) );
+			tc.assertCommandState( 0,0,0,0, editor, function() {
+				bot.setHtmlWithSelection( 'f^oo<ul><li>one</li><li>two</li><li>three</li></ul>' );
+				tc.assertCommandState( 2,2,2,2, editor, function() {
+					bot.execCommand( 'justifyblock' );
+					tc.assertCommandState( 2,2,2,1, editor, function() {
+						assert.isInnerHtmlMatching( '<div style="text-align:justify;">foo</div><ul><li>one</li><li>two</li><li>three</li></ul>', bot.getData( true ) );
+					} );
+				} );
+			} );
 		} );
 	},
 
@@ -382,15 +385,15 @@ bender.test(
 		}, function( bot ) {
 			var editor = bot.editor;
 			bot.setHtmlWithSelection( 'foo<ul><li>on^e</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 0,0,0,0, editor );
-
-			bot.setHtmlWithSelection( 'f^oo<ul><li>one</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 2,2,2,2, editor );
-
-			bot.execCommand( 'justifyblock' );
-			tc.assertCommandState( 2,2,2,1, editor );
-
-			assert.isInnerHtmlMatching( '<div class="alignJustify">foo</div><ul><li>one</li><li>two</li><li>three</li></ul>', bot.getData() );
+			tc.assertCommandState( 0,0,0,0, editor, function() {
+				bot.setHtmlWithSelection( 'f^oo<ul><li>one</li><li>two</li><li>three</li></ul>' );
+				tc.assertCommandState( 2,2,2,2, editor, function() {
+					bot.execCommand( 'justifyblock' );
+					tc.assertCommandState( 2,2,2,1, editor, function() {
+						assert.isInnerHtmlMatching( '<div class="alignJustify">foo</div><ul><li>one</li><li>two</li><li>three</li></ul>', bot.getData() );
+					} );
+				} );
+			} );
 		} );
 	},
 
@@ -407,12 +410,12 @@ bender.test(
 			var editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p>F[oo</p><ul><li>one</li><li>two</li><li>three</li></ul><p>B]ar</p>' );
-			tc.assertCommandState( 1,2,2,2, editor );
-
-			bot.execCommand( 'justifycenter' );
-			tc.assertCommandState( 2,2,1,2, editor );
-
-			assert.areSame( '<p style="text-align:center;">foo</p><ul><li>one</li><li>two</li><li>three</li></ul><p style="text-align:center;">bar</p>', bot.getData( true ) );
+			tc.assertCommandState( 1,2,2,2, editor, function() {
+				bot.execCommand( 'justifycenter' );
+				tc.assertCommandState( 2,2,1,2, editor, function() {
+					assert.areSame( '<p style="text-align:center;">foo</p><ul><li>one</li><li>two</li><li>three</li></ul><p style="text-align:center;">bar</p>', bot.getData( true ) );
+				} );
+			} );
 		} );
 	},
 
@@ -431,12 +434,12 @@ bender.test(
 			var editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p>f[oo</p><ul><li>one</li><li>two</li><li>three</li></ul><p>b]ar</p>' );
-			tc.assertCommandState( 1,2,2,2, editor );
-
-			bot.execCommand( 'justifycenter' );
-			tc.assertCommandState( 2,2,1,2, editor );
-
-			assert.areSame( '<p class="alignCenter">foo</p><ul><li>one</li><li>two</li><li>three</li></ul><p class="alignCenter">bar</p>', bot.getData() );
+			tc.assertCommandState( 1,2,2,2, editor, function() {
+				bot.execCommand( 'justifycenter' );
+				tc.assertCommandState( 2,2,1,2, editor, function() {
+					assert.areSame( '<p class="alignCenter">foo</p><ul><li>one</li><li>two</li><li>three</li></ul><p class="alignCenter">bar</p>', bot.getData() );
+				} );
+			} );
 		} );
 	},
 
@@ -460,12 +463,12 @@ bender.test(
 			var editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p>fo[o</p><h1>bar</h1><p>foooos</p><h1>b]az</p>' );
-			tc.assertCommandState( 1,2,2,2, editor );
-
-			bot.execCommand( 'justifyright' );
-			tc.assertCommandState( 2,1,2,2, editor );
-
-			assert.areSame( '<p style="text-align:right;">foo</p><h1>bar</h1><p style="text-align:right;">foooos</p><h1>baz</h1>', bot.getData( true ) );
+			tc.assertCommandState( 1,2,2,2, editor, function() {
+				bot.execCommand( 'justifyright' );
+				tc.assertCommandState( 2,1,2,2, editor, function() {
+					assert.areSame( '<p style="text-align:right;">foo</p><h1>bar</h1><p style="text-align:right;">foooos</p><h1>baz</h1>', bot.getData( true ) );
+				} );
+			} );
 		} );
 	},
 
@@ -491,12 +494,12 @@ bender.test(
 			var editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p>fo[o</p><h1>bar</h1><p>foooos</p><h1>b]az</p>' );
-			tc.assertCommandState( 1,2,2,2, editor );
-
-			bot.execCommand( 'justifyright' );
-			tc.assertCommandState( 2,1,2,2, editor );
-
-			assert.areSame( '<p class="alignRight">foo</p><h1>bar</h1><p class="alignRight">foooos</p><h1>baz</h1>', bot.getData() );
+			tc.assertCommandState( 1,2,2,2, editor, function() {
+				bot.execCommand( 'justifyright' );
+				tc.assertCommandState( 2,1,2,2, editor, function() {
+					assert.areSame( '<p class="alignRight">foo</p><h1>bar</h1><p class="alignRight">foooos</p><h1>baz</h1>', bot.getData() );
+				} );
+			} );
 		} );
 	},
 
@@ -520,12 +523,12 @@ bender.test(
 		}, function( bot ) {
 			var editor = bot.editor;
 			bot.setHtmlWithSelection( '<p>f[oo</p><h1>bar</h1><p>ba]z</p>' );
-			tc.assertCommandState( 1,2,2,2, editor );
-
-			bot.execCommand( 'justifycenter' );
-			tc.assertCommandState( 2,2,1,2, editor );
-
-			assert.areSame( '<p style="text-align:center;">foo</p><h1>bar</h1><p style="text-align:center;">baz</p>', bot.getData( true ) );
+			tc.assertCommandState( 1,2,2,2, editor, function() {
+				bot.execCommand( 'justifycenter' );
+				tc.assertCommandState( 2,2,1,2, editor, function() {
+					assert.areSame( '<p style="text-align:center;">foo</p><h1>bar</h1><p style="text-align:center;">baz</p>', bot.getData( true ) );
+				} );
+			} );
 		} );
 	},
 
@@ -551,12 +554,12 @@ bender.test(
 		}, function( bot ) {
 			var editor = bot.editor;
 			bot.setHtmlWithSelection( '<p>f[oo</p><h1>bar</h1><p>ba]z</p>' );
-			tc.assertCommandState( 1,2,2,2, editor );
-
-			bot.execCommand( 'justifycenter' );
-			tc.assertCommandState( 2,2,1,2, editor );
-
-			assert.areSame( '<p class="alignCenter">foo</p><h1>bar</h1><p class="alignCenter">baz</p>', bot.getData() );
+			tc.assertCommandState( 1,2,2,2, editor, function() {
+				bot.execCommand( 'justifycenter' );
+				tc.assertCommandState( 2,2,1,2, editor, function() {
+					assert.areSame( '<p class="alignCenter">foo</p><h1>bar</h1><p class="alignCenter">baz</p>', bot.getData() );
+				} );
+			} );
 		} );
 	},
 
@@ -594,13 +597,13 @@ bender.test(
 		}, function( bot ) {
 			var editor = bot.editor;
 
-			bot.setHtmlWithSelection( '<span style="font-family:Arial,Helvetica,sans-serif">[Foo bar baz]</span>' );
-			tc.assertCommandState( 2,2,2,2, editor );
-
-			bot.execCommand( 'justifycenter' );
-			tc.assertCommandState( 2,2,1,2, editor );
-
-			assert.beautified.html( '<div style="text-align: center;"><span style="font-family:Arial,Helvetica,sans-serif">Foo bar baz</span></div>', editor.getData() );
+			bot.setHtmlWithSelection( '<span class="marker">[Foo bar baz]</span>' );
+			tc.assertCommandState( 2,2,2,2, editor, function() {
+				bot.execCommand( 'justifycenter' );
+				tc.assertCommandState( 2,2,1,2, editor, function() {
+					assert.isInnerHtmlMatching( '<div style="text-align:center"><span class="marker">Foo bar baz</span></div>', editor.getData(), { fixStyles: true } );
+				} );
+			} );
 		} );
 	}
 } );
