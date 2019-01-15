@@ -630,17 +630,14 @@
 							// Comparing lowercased strings, because emoji should be case insensitive (#2167).
 							return item.id.toLowerCase().indexOf( emojiName ) !== -1;
 						} ).sort( function( a, b ) {
-							var aIndex = a.id.indexOf( emojiName ),
-								bIndex = b.id.indexOf( emojiName );
+							var aIndex = a.id.substr( 1 ).indexOf( emojiName ),
+								bIndex = b.id.substr( 1 ).indexOf( emojiName );
 
-							if ( aIndex === bIndex ) {
-								if ( a.id > b.id ) {
-									return 1;
-								} else {
-									return -1;
-								}
+							// True when left and right side are oposite.
+							if ( aIndex === 0 ^ bIndex === 0 ) {
+								return aIndex === 0 ? -1 : 1;
 							} else {
-								return aIndex - bIndex;
+								return a.id > b.id ? 1 : -1;
 							}
 						} );
 					callback( data );
