@@ -45,7 +45,8 @@
 						return;
 					}
 
-					var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], matchCallback );
+					var selection = editor.getSelection();
+					var matched = selection && CKEDITOR.plugins.textMatch.match( selection.getRanges()[ 0 ], matchCallback );
 
 					if ( matched ) {
 						insertLink( matched );
