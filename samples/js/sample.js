@@ -52,7 +52,11 @@ var initSample = ( function() {
           'tablecellproperties', 'tablecellsmerge', 'tablecellmergedown', 'tablecellsplithorizontal', 'tablecellsplitvertical']},
         // {name: 'poh', items: ['smartfields']},
 			]
-		} );
+    } );
+    
+    editor.on('change', function(e) {
+      console.log('change', editor.getData())
+    })
 
 		// editor.on('lite:init', function(event) {
 		// 	this._lite = event.data.lite;
