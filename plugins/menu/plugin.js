@@ -142,8 +142,12 @@ CKEDITOR.plugins.add( 'menu', {
 		menuShortcutTpl = CKEDITOR.addTemplate( 'menuShortcut', menuShortcutSource );
 
 	/**
+	 * Represents menu element.
+	 *
+	 * **Since 4.12.0** implements {@link CKEDITOR.event}.
+	 *
 	 * @class
-	 * @todo
+	 * @mixins CKEDITOR.event
 	 */
 	CKEDITOR.menu = CKEDITOR.tools.createClass( {
 		/**
@@ -606,24 +610,6 @@ CKEDITOR.plugins.add( 'menu', {
  *
  * @member CKEDITOR.menu
  * @method onHide
- */
-
-/**
- * @inheritDoc CKEDITOR.event#fire
- * @member CKEDITOR.menu
- * @method fire
- */
-
-/**
- * @inheritDoc CKEDITOR.event#on
- * @member CKEDITOR.menu
- * @method on
- */
-
-/**
- * @inheritDoc CKEDITOR.event#once
- * @member CKEDITOR.menu
- * @method once
  */
 
 /**
