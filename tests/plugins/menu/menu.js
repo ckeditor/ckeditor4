@@ -46,6 +46,7 @@
 			} );
 		},
 
+		// #2307
 		'test menu hide event': function() {
 			this.editorBot.menu( 'custom_menubutton', function( menu ) {
 				var spy = sinon.spy();
