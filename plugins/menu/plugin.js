@@ -222,7 +222,7 @@ CKEDITOR.plugins.add( 'menu', {
 			},
 
 			onHide: function() {
-				this.fire( 'hide', undefined, this.editor );
+				this.fire( 'hide', [ this._.panel ], this.editor );
 				this.onHide && this.onHide();
 			},
 
