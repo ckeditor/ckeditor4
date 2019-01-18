@@ -6,18 +6,21 @@
 		margin: 5px;
 	}
 </style>
-<textarea id="editor"></textarea>
+<textarea id="editor"><div style="width:100%;height:200px;"></div></textarea>
+<button data-menu="true">Open context menu</button>
 <div class="marker"></div>
 <script>
-	if ( bender.tools.env.mobile ) {
-		bender.ignore();
-	}
 	CKEDITOR.replace( 'editor', {
+		allowedContent: 'div{width,height}',
 		on: {
 			instanceReady: function() {
 				this.contextMenu.once( 'hide', function() {
 					CKEDITOR.document.findOne( '.marker' ).setStyle( 'background', 'green' );
 				} );
+				CKEDITOR.document.findOne( 'button[data-menu]' ).on( 'click', function() {
+					this.focus();
+					this.execCommand( 'contextMenu' );
+				}, this );
 			}
 		}
 	} );
