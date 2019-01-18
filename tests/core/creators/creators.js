@@ -162,6 +162,31 @@ bender.test( {
 		wait();
 	},
 
+	'test creator replace on bogus DOM element': function() {
+		try {
+			CKEDITOR.replace( 'editorBogus', {
+				on: {
+					instanceReady: function() {
+						resume( function() {
+							assert.fail( 'Creation should fail on bogus DOM elements.' );
+						} );
+					}
+				}
+			} );
+		} catch ( e ) {
+			resume( function() {
+				if ( e.toString().indexOf( 'The provided element' ) >= 0 ) {
+					assert.isTrue( true );
+				}
+				else {
+					assert.fail( 'Error message should be friendly and helpful.' );
+				}
+			} );
+		}
+
+		wait();
+	},
+
 	'test creator appendTo': function() {
 		var tc = this,
 			container = CKEDITOR.dom.element.createFromHtml( '<div id="foo"></div>' );
@@ -223,6 +248,31 @@ bender.test( {
 
 		var checkEvents = this.checkEditorEvents( editor, [ 'configLoaded', 'langLoaded', 'pluginsLoaded', 'loaded', 'stylesSet', 'uiReady', 'setData', 'contentDom', 'mode', 'instanceReady' ] ),
 			checkStatuses = this.checkEditorStatuses( editor );
+
+		wait();
+	},
+
+	'test creator inline on bogus DOM element': function() {
+		try {
+			CKEDITOR.inline( 'editorBogus', {
+				on: {
+					instanceReady: function() {
+						resume( function() {
+							assert.fail( 'Creation should fail on bogus DOM elements.' );
+						} );
+					}
+				}
+			} );
+		} catch ( e ) {
+			resume( function() {
+				if ( e.toString().indexOf( 'The provided element' ) >= 0 ) {
+					assert.isTrue( true );
+				}
+				else {
+					assert.fail( 'Error message should be friendly and helpful.' );
+				}
+			} );
+		}
 
 		wait();
 	},
