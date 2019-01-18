@@ -31,7 +31,13 @@
 		if ( !CKEDITOR.env.isCompatible )
 			return null;
 
+		var elementArg = element;
+
 		element = CKEDITOR.dom.element.get( element );
+
+		// Throw error on missing target element.
+		if ( !element )
+			throw 'The provided element, "' + elementArg + '", is missing from the DOM.';
 
 		// Avoid multiple inline editor instances on the same element.
 		if ( element.getEditor() )
