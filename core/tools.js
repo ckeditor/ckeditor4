@@ -1922,30 +1922,7 @@
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				splitBorder: function( styles, fallback ) {
-					var types = [ 'width', 'style', 'color' ],
-						sides = [ 'top', 'right', 'bottom', 'left' ];
-
-					fallback = fallback || {};
-
-					var stylesMap = CKEDITOR.tools.array.reduce( types, function( cur, type ) {
-						var style = styles[ 'border-' + type ] || fallback[ type ];
-
-						cur[ type ] = style ? CKEDITOR.tools.style.parse.sideShorthand( style ) : null;
-
-						return cur;
-					}, {} );
-
-					return CKEDITOR.tools.array.reduce( sides, function( cur, side ) {
-						var map = {};
-
-						for ( var style in stylesMap ) {
-							map[ style ] = stylesMap[ style ] && stylesMap[ style ][ side ];
-						}
-
-						cur[ 'border-' + side ] = new BorderStyle( map );
-
-						return cur;
-					}, {} );
+					return CKEDITOR.tools.style.borderStyle.parse.splitBorder( styles, fallback );
 				},
 
 				/**
@@ -1962,32 +1939,7 @@
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				border: function( value ) {
-					var props = {},
-						input = value.split( /\s+/g ),
-						parseColor = CKEDITOR.tools.style.parse._findColor( value );
-
-					if ( parseColor.length ) {
-						props.color = parseColor[ 0 ];
-					}
-
-					CKEDITOR.tools.array.forEach( input, function( val ) {
-						if ( !props.style ) {
-							if ( CKEDITOR.tools.indexOf( CKEDITOR.tools.style.parse._borderStyle, val ) !== -1 ) {
-								props.style = val;
-								return;
-							}
-						}
-
-						if ( !props.width ) {
-							if ( CKEDITOR.tools.style.parse._widthRegExp.test( val ) ) {
-								props.width = val;
-								return;
-							}
-						}
-
-					} );
-
-					return new BorderStyle( props );
+					return CKEDITOR.tools.style.borderStyle.parse.border( value );
 				},
 
 				/**
@@ -2591,53 +2543,178 @@
 	 *
 	 * @since 4.12.0
 	 * @class CKEDITOR.tools.style.borderStyle
-	 * @member CKEDITOR.tools.style
-	 * @constructor Creates a new instance of the border style.
-	 * @param {Object} props Style-related properties.
-	 * @param {String} props.color Border color.
-	 * @param {String} props.style Border style.
-	 * @param {String} props.width Border width.
 	 */
-	function BorderStyle( props ) {
-		this.width = props.width;
-		this.style = props.style;
-		this.color = props.color;
+	CKEDITOR.tools.style.borderStyle = CKEDITOR.tools.createClass( {
 
-		this._normalize();
-	}
+		/**
+		 * Creates a new instance of the border style.
+		 * @constructor
+		 * @param {Object} props Style-related properties.
+		 * @param {String} props.color Border color.
+		 * @param {String} props.style Border style.
+		 * @param {String} props.width Border width.
+		 */
+		$: function( props ) {
+			props = props || {};
 
-	BorderStyle.prototype = {
-		_normalizeMap: {
-			color: [
-				[ /windowtext/g, 'black' ]
-			]
+			this.width = props.width;
+			this.style = props.style;
+			this.color = props.color;
+
+			this._.normalize();
 		},
 
-		_normalize: function() {
-			for ( var propName in this._normalizeMap ) {
-				var val = this[ propName ];
+		_: {
+			normalizeMap: {
+				color: [
+					[ /windowtext/g, 'black' ]
+				]
+			},
 
-				if ( val ) {
-					this[propName] = CKEDITOR.tools.array.reduce( this._normalizeMap[ propName ], function( cur, rule ) {
-						return cur.replace( rule[ 0 ], rule[ 1 ] );
-					}, val );
+			normalize: function() {
+				for ( var propName in this._.normalizeMap ) {
+					var val = this[ propName ];
+
+					if ( val ) {
+						this[propName] = CKEDITOR.tools.array.reduce( this._.normalizeMap[ propName ], function( cur, rule ) {
+							return cur.replace( rule[ 0 ], rule[ 1 ] );
+						}, val );
+					}
 				}
 			}
 		},
 
-		/**
-		 * Serializes CSS border style to string.
-		 *
-		 * @return {String} CSS border style.
-		 */
-		toString: function() {
-			return CKEDITOR.tools.array.filter( [ this.width, this.style, this.color ], function( item ) {
-				return !!item;
-			} ).join( ' ' );
-		}
-	};
+		proto: {
+			toString: function() {
+				return CKEDITOR.tools.array.filter( [ this.width, this.style, this.color ], function( item ) {
+					return !!item;
+				} ).join( ' ' );
+			}
+		},
 
-	CKEDITOR.tools.style.borderStyle = BorderStyle;
+		statics: {
+			parse: {
+				/**
+				 * Parses the `border` CSS property shorthand format.
+				 * This CSS property does not support inheritance (https://www.w3.org/TR/css3-background/#the-border-shorthands).
+				 *
+				 * ```javascript
+				 *	console.log( CKEDITOR.tools.style.borderStyle.parse.border( '3px solid #ffeedd' ) );
+				 *	// Logs: BorderStyle { width: '3px', style: 'solid', color: '#ffeedd' }
+				 * ```
+				 *
+				 * @param {String} value The `border` property value.
+				 * @returns {CKEDITOR.tools.style.borderStyle} Border style.
+				 */
+				border: function( value ) {
+					var props = {},
+						input = value.split( /\s+/g ),
+						parseColor = CKEDITOR.tools.style.parse._findColor( value );
+
+					if ( parseColor.length ) {
+						props.color = parseColor[ 0 ];
+					}
+
+					CKEDITOR.tools.array.forEach( input, function( val ) {
+						if ( !props.style ) {
+							if ( CKEDITOR.tools.indexOf( CKEDITOR.tools.style.parse._borderStyle, val ) !== -1 ) {
+								props.style = val;
+								return;
+							}
+						}
+
+						if ( !props.width ) {
+							if ( CKEDITOR.tools.style.parse._widthRegExp.test( val ) ) {
+								props.width = val;
+								return;
+							}
+						}
+
+					} );
+
+					return new CKEDITOR.tools.style.borderStyle( props );
+				},
+
+				/**
+				 * Parses `border-style`, `border-width` and `border-color` shorthand styles into
+				 * border side shorthand styles.
+				 *
+				 * ```javascript
+				 * var styles = {
+				 *		'border-color': 'red blue',
+				 *		'border-style': 'solid dotted solid',
+				 *		'border-width': '1px 2px 3px 4px'
+				 * };
+				 *
+				 * console.log( CKEDITOR.tools.style.borderStyle.parse.splitBorder( styles ) );
+				 * // Logs:
+				 * // {
+				 * // 	'border-top': BorderStyle { width: '1px', style: 'solid', color: 'red' },
+				 * // 	'border-right': BorderStyle { width: '2px', style: 'dotted', color: 'blue'},
+				 * // 	'border-bottom': BorderStyle { width: '3px', style: 'solid', color: 'red' },
+				 * // 	'border-left': BorderStyle { width: '4px', style: 'dotted', color: 'blue' }
+				 * // }
+				 *
+				 * // Use fallback to fill up missing style:
+				 * var missingColorStyles = {
+				 * 		'border-style': 'solid',
+				 * 		'border-width': '2px'
+				 * 	},
+				 * 	fallback = { color: 'red' };
+				 *
+				 * console.log( CKEDITOR.tools.style.borderStyle.parse.splitBorder( missingColorStyles, fallback ) );
+				 * // Logs:
+				 * // {
+				 * // 	'border-top': BorderStyle { width: '2px', style: 'solid', color: 'red' },
+				 * // 	'border-right': BorderStyle { width: '2px', style: 'solid', color: 'red' },
+				 * // 	'border-bottom': BorderStyle { width: '2px', style: 'solid', color: 'red' },
+				 * // 	'border-left': BorderStyle { width: '2px', style: 'solid', color: 'red' }
+				 * // }
+				 * ```
+				 * @since 4.12.0
+				 * @param {Object} styles Border styles shorthand object.
+				 * @param {Object} [styles.border-color] Border color shorthand.
+				 * @param {Object} [styles.border-style] Border style shorthand.
+				 * @param {Object} [styles.border-width] Border width shorthand.
+				 * @param {Object} [fallback] Fallback object used to fill up missing style.
+				 * @param {Object} [fallback.color] Color CSS style used in absence of `border-color` style.
+				 * @param {Object} [fallback.style] Style CSS style used in absence of `border-style` style.
+				 * @param {Object} [fallback.width] Width CSS style used in absence of `border-width` style.
+				 * @returns {Object}
+				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-top Border top style.
+				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-right Border right style.
+				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-bottom Border bottom style.
+				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-left Border left style.
+				 */
+				splitBorder: function( styles, fallback ) {
+					var types = [ 'width', 'style', 'color' ],
+						sides = [ 'top', 'right', 'bottom', 'left' ];
+
+					fallback = fallback || {};
+
+					var stylesMap = CKEDITOR.tools.array.reduce( types, function( cur, type ) {
+						var style = styles[ 'border-' + type ] || fallback[ type ];
+
+						cur[ type ] = style ? CKEDITOR.tools.style.parse.sideShorthand( style ) : null;
+
+						return cur;
+					}, {} );
+
+					return CKEDITOR.tools.array.reduce( sides, function( cur, side ) {
+						var map = {};
+
+						for ( var style in stylesMap ) {
+							map[ style ] = stylesMap[ style ] && stylesMap[ style ][ side ];
+						}
+
+						cur[ 'border-' + side ] = new CKEDITOR.tools.style.borderStyle( map );
+
+						return cur;
+					}, {} );
+				}
+			}
+		}
+	} );
 
 	/**
 	 * @member CKEDITOR.tools.array
