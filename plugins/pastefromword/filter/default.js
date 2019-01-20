@@ -29,8 +29,7 @@
 			'v:group'
 		],
 		links = {},
-		inComment = 0,
-		convertToPxRegex = /\d+(\.\d+)?pt/g;
+		inComment = 0;
 
 	/**
 	 * Set of Paste from Word plugin helpers.
@@ -559,7 +558,7 @@
 				return;
 			}
 
-			element.attributes.style = style.replace( convertToPxRegex, function( match ) {
+			element.attributes.style = style.replace( /\d+(\.\d+)?pt/g, function( match ) {
 				return CKEDITOR.tools.convertToPx( match ) + 'px';
 			} );
 		},
