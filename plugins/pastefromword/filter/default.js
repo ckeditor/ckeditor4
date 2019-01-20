@@ -357,12 +357,12 @@
 					}
 
 					var styles = tools.parseCssText( element.attributes.style, true ),
-						borderStyles = styles.border ? CKEDITOR.tools.style.parse.border( styles.border ) : {},
-						borders = tools.style.parse.splitBorder( styles, borderStyles );
+						borderStyles = styles.border ? CKEDITOR.tools.style.borderStyle.parse.border( styles.border ) : {},
+						borders = tools.style.borderStyle.parse.splitBorder( styles, borderStyles );
 
 					for ( var border in borders ) {
 						var borderStyle = styles[ border ] ?
-							CKEDITOR.tools.style.parse.border( styles[ border ] )
+							CKEDITOR.tools.style.borderStyle.parse.border( styles[ border ] )
 							: borders[ border ];
 
 						Style.setStyle( element, border, borderStyle.toString() );
