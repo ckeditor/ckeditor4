@@ -1870,69 +1870,7 @@
 				},
 
 				/**
-				 * Parses `border-style`, `border-width` and `border-color` shorthand styles into
-				 * border side shorthand styles.
-				 *
-				 * ```javascript
-				 * var styles = {
-				 *		'border-color': 'red blue',
-				 *		'border-style': 'solid dotted solid',
-				 *		'border-width': '1px 2px 3px 4px'
-				 * };
-				 *
-				 * console.log( CKEDITOR.tools.style.parse.splitBorder( styles ) );
-				 * // Logs:
-				 * // {
-				 * // 	'border-top': BorderStyle { width: '1px', style: 'solid', color: 'red' },
-				 * // 	'border-right': BorderStyle { width: '2px', style: 'dotted', color: 'blue'},
-				 * // 	'border-bottom': BorderStyle { width: '3px', style: 'solid', color: 'red' },
-				 * // 	'border-left': BorderStyle { width: '4px', style: 'dotted', color: 'blue' }
-				 * // }
-				 *
-				 * // Use fallback to fill up missing style:
-				 * var missingColorStyles = {
-				 * 		'border-style': 'solid',
-				 * 		'border-width': '2px'
-				 * 	},
-				 * 	fallback = { color: 'red' };
-				 *
-				 * console.log( CKEDITOR.tools.style.parse.splitBorder( missingColorStyles, fallback ) );
-				 * // Logs:
-				 * // {
-				 * // 	'border-top': BorderStyle { width: '2px', style: 'solid', color: 'red' },
-				 * // 	'border-right': BorderStyle { width: '2px', style: 'solid', color: 'red' },
-				 * // 	'border-bottom': BorderStyle { width: '2px', style: 'solid', color: 'red' },
-				 * // 	'border-left': BorderStyle { width: '2px', style: 'solid', color: 'red' }
-				 * // }
-				 * ```
-				 * @since 4.12.0
-				 * @param {Object} styles Border styles shorthand object.
-				 * @param {Object} [styles.border-color] Border color shorthand.
-				 * @param {Object} [styles.border-style] Border style shorthand.
-				 * @param {Object} [styles.border-width] Border width shorthand.
-				 * @param {Object} [fallback] Fallback object used to fill up missing style.
-				 * @param {Object} [fallback.color] Color CSS style used in absence of `border-color` style.
-				 * @param {Object} [fallback.style] Style CSS style used in absence of `border-style` style.
-				 * @param {Object} [fallback.width] Width CSS style used in absence of `border-width` style.
-				 * @returns {Object}
-				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-top Border top style.
-				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-right Border right style.
-				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-bottom Border bottom style.
-				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-left Border left style.
-				 * @member CKEDITOR.tools.style.parse
-				 */
-				splitBorder: function( styles, fallback ) {
-					return CKEDITOR.tools.style.borderStyle.parse.splitBorder( styles, fallback );
-				},
-
-				/**
-				 * Parses the `border` CSS property shorthand format.
-				 * This CSS property does not support inheritance (https://www.w3.org/TR/css3-background/#the-border-shorthands).
-				 *
-				 * ```javascript
-				 *	console.log( CKEDITOR.tools.style.parse.border( '3px solid #ffeedd' ) );
-				 *	// Logs: BorderStyle { width: '3px', style: 'solid', color: '#ffeedd' }
-				 * ```
+				 * See {@link CKEDITOR.tools.style.borderStyle.parse#border}.
 				 *
 				 * @param {String} value The `border` property value.
 				 * @returns {CKEDITOR.tools.style.borderStyle} Border style.
@@ -2593,6 +2531,12 @@
 		},
 
 		statics: {
+			/**
+			 * Methods to parse miscellaneous CSS properties into unified border object.
+			 *
+			 * @property {CKEDITOR.tools.style.borderStyle.parse}
+			 * @member CKEDITOR.tools.style.borderStyle
+			 */
 			parse: {
 				/**
 				 * Parses the `border` CSS property shorthand format.
@@ -2605,6 +2549,7 @@
 				 *
 				 * @param {String} value The `border` property value.
 				 * @returns {CKEDITOR.tools.style.borderStyle} Border style.
+				 * @member CKEDITOR.tools.style.borderStyle.parse
 				 */
 				border: function( value ) {
 					var props = {},
@@ -2671,7 +2616,6 @@
 				 * // 	'border-left': BorderStyle { width: '2px', style: 'solid', color: 'red' }
 				 * // }
 				 * ```
-				 * @since 4.12.0
 				 * @param {Object} styles Border styles shorthand object.
 				 * @param {Object} [styles.border-color] Border color shorthand.
 				 * @param {Object} [styles.border-style] Border style shorthand.
@@ -2685,6 +2629,7 @@
 				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-right Border right style.
 				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-bottom Border bottom style.
 				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-left Border left style.
+				 * @member CKEDITOR.tools.style.borderStyle.parse
 				 */
 				splitBorder: function( styles, fallback ) {
 					var types = [ 'width', 'style', 'color' ],
