@@ -1832,7 +1832,7 @@
 				 * @param {String} value The shorthand property value.
 				 * @param {Function} [split] Function used to split `value`.
 				 * If not set, property value will be splitted by spaces.
-				 * @param {String[]} split.return Splitted shorthand value.
+				 * @param split.return String[] Splitted shorthand value.
 				 * @returns {Object}
 				 * @returns {Number} return.top Top value.
 				 * @returns {Number} return.right Right value.
@@ -2624,7 +2624,7 @@
 				 * @param {Object} [fallback.color] Color CSS style used in absence of `border-color` style.
 				 * @param {Object} [fallback.style] Style CSS style used in absence of `border-style` style.
 				 * @param {Object} [fallback.width] Width CSS style used in absence of `border-width` style.
-				 * @returns {Object}
+				 * @returns {Object.<String, CKEDITOR.tools.style.borderStyle}
 				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-top Border top style.
 				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-right Border right style.
 				 * @returns {CKEDITOR.tools.style.borderStyle} return.border-bottom Border bottom style.
