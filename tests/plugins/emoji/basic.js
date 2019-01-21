@@ -188,12 +188,30 @@
 		// (#2527)
 		'test emoji autocomplete is sorted in proper order': function( editor, bot ) {
 			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
-				var autocomplete = editor._.emoji.autocomplete;
+				var autocomplete = editor._.emoji.autocomplete,
+					expected = [ ':smiling_cat_face_with_heart-eyes:',
+						':smiling_face:',
+						':smiling_face_with_halo:',
+						':smiling_face_with_heart-eyes:',
+						':smiling_face_with_horns:',
+						':smiling_face_with_smiling_eyes:',
+						':smiling_face_with_sunglasses:',
+						':beaming_face_with_smiling_eyes:',
+						':grinning_cat_face_with_smiling_eyes:',
+						':grinning_face_with_smiling_eyes:',
+						':kissing_face_with_smiling_eyes:',
+						':slightly_smiling_face:'
+					],
+					actual;
 
 				bot.setHtmlWithSelection( '<p>foo :smiling^</p>' );
 				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-				assert.areSame( ':smiling_cat_face_with_heart-eyes:', autocomplete.model.data[ 0 ].id, 'First element in data should start from "smiling".' );
+				actual = CKEDITOR.tools.array.map( autocomplete.model.data, function( el ) {
+					return el.id;
+				} );
+
+				arrayAssert.itemsAreSame( expected, actual );
 				assert.areSame( '😻 :smiling_cat_face_with_heart-eyes:', autocomplete.view.element.getChild( 0 ).getText(), 'First element in view should start from "smiling".' );
 			} );
 		}
