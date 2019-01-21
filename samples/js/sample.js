@@ -24,8 +24,8 @@ var initSample = ( function() {
 				{ name: 'My Div Class', element: 'div'}
       ],
       smartFields: [1,2,3,4,5].map(item => ({
-        id: item,
-        name: 'Custom field' + item
+        value: 'field-' + item,
+        label: 'Custom field ' + item
       })),
 			defaultStyles: {
 				'font-size': '20pt',
@@ -44,20 +44,20 @@ var initSample = ( function() {
 				{name: 'find', items: ['Find', 'Replace']},
 				{name: 'insert', items: ['Table', 'base64image']},
 				{name: 'pagebreak', items: ['PageBreak']},
-				{name: 'placeholder', items: ['CreatePlaceholder', 'CreateCpPlaceholder', 'CreateAutoSequence']},
+        {name: 'placeholder', items: ['CreatePlaceholder', 'CreateCpPlaceholder', 'CreateAutoSequence']},
+        {name: 'smartfields', items: ['smartfields']},
 				{name: 'helpers', items: ['Undo', 'Redo']},
 				{name: 'tabletools', items: ['tabledelete', 'tableproperties', 'tablerowinsertbefore',
 					'tablerowinsertafter', 'tablerowdelete', 'tablecolumninsertbefore', 'tablecolumninsertafter',
 					'tablecolumndelete', 'tablecellinsertbefore', 'tablecellinsertafter', 'tablecelldelete',
           'tablecellproperties', 'tablecellsmerge', 'tablecellmergedown', 'tablecellsplithorizontal', 'tablecellsplitvertical']},
-        // {name: 'poh', items: ['smartfields']},
 			]
     } );
-    
-    editor.on('change', function(e) {
-      console.log('change', editor.getData())
-    })
 
+    editor.on('change', function() {
+      // console.log('change', editor.getData())
+    })
+    
 		// editor.on('lite:init', function(event) {
 		// 	this._lite = event.data.lite;
 		// 	this._lite.toggleTracking(true);

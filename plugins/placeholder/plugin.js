@@ -47,7 +47,7 @@
 					return new CKEDITOR.htmlParser.text(
             '[[' + JSON.stringify(params) + ']]'
           );
-				},
+				}, 
 
 				init: function() {
 					// Note that placeholder markup characters are stripped for the name.

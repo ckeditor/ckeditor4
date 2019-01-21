@@ -55,7 +55,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'tabletools,' +
 		'tabletoolstoolbar,' +
     'toolbar,' +
-    // 'smartfields,' +
+    'smartfields,' +
 		'undo';
 	config.languages = {
 		en : 1
