@@ -4,7 +4,7 @@ dist: trusty
 language: node_js
 
 node_js:
-  - 4
+  - 8
 
 env:
   - BUILD=0 BROWSER=Chrome
