@@ -490,10 +490,10 @@ CKEDITOR.htmlParser.cssStyle = function() {
 				},
 				nestedMatch = null,
 				match = CKEDITOR.tools.array.find( this.children, function( child ) {
-					var ret = findMethod( child );
+					var isMatching = findMethod( child );
 
-					if ( ret || !recursive ) {
-						return ret;
+					if ( isMatching || !recursive ) {
+						return isMatching;
 					}
 
 					if ( child.children && child.findOne ) {
