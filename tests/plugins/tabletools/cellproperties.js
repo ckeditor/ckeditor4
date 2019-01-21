@@ -171,6 +171,7 @@
 		},
 
 		// Changes to cell properties dialog (#1986) caused regression (#2732).
+		// Opening dialog shouldn't cause an error.
 		// Dialog definition had `null` items. Each item should be an object.
 		'test dialog definition': function() {
 			bender.editorBot.create( {
@@ -178,9 +179,13 @@
 				removePlugins: 'colordialog'
 			}, function( bot ) {
 				bot.setHtmlWithSelection( '<table><tr><td>Te^st</td></tr></table>' );
-				bot.dialog( 'cellProperties', function( dialog ) {
-					assertChildren( dialog.definition.contents[ 0 ].elements[ 0 ].children );
-				} );
+				try {
+					bot.dialog( 'cellProperties', function( dialog ) {
+						assertChildren( dialog.definition.contents[ 0 ].elements[ 0 ].children );
+					} );
+				} catch ( err ) {
+					assert.fail( err );
+				}
 			} );
 		}
 	} );
