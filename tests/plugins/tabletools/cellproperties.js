@@ -180,9 +180,16 @@
 				}
 			}, function( bot ) {
 				bot.setHtmlWithSelection( '<table><tr><td>Te^st</td></tr></table>' );
-				bot.dialog( 'cellProperties', function( dialog ) {
-					assertChildren( dialog.definition.contents[ 0 ].elements[ 0 ].children );
-				} );
+
+				CKEDITOR.once( 'dialogDefinition', function( evt ) {
+					resume( function() {
+						assertChildren( evt.data.definition.contents[ 0 ].elements[ 0 ].children );
+					} );
+				}, null, null, 0 );
+
+				bot.editor.execCommand( 'cellProperties' );
+
+				wait();
 			} );
 		},
 
@@ -223,7 +230,7 @@
 
 	function assertChildren( children ) {
 		CKEDITOR.tools.array.forEach( children, function( item ) {
-			if ( item.children ) {
+			if ( item && item.children ) {
 				assertChildren( item.children );
 			} else {
 				assert.isObject( item );
