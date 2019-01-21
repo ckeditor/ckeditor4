@@ -171,21 +171,52 @@
 		},
 
 		// Changes to cell properties dialog (#1986) caused regression (#2732).
-		// Opening dialog shouldn't cause an error.
 		// Dialog definition had `null` items. Each item should be an object.
-		'test dialog definition': function() {
+		'test dialog definition doesn\'t have empty contnets': function() {
 			bender.editorBot.create( {
-				name: 'definition',
-				removePlugins: 'colordialog'
+				name: 'nocolordialog',
+				config: {
+					removePlugins: 'colordialog'
+				}
 			}, function( bot ) {
 				bot.setHtmlWithSelection( '<table><tr><td>Te^st</td></tr></table>' );
-				try {
-					bot.dialog( 'cellProperties', function( dialog ) {
-						assertChildren( dialog.definition.contents[ 0 ].elements[ 0 ].children );
-					} );
-				} catch ( err ) {
-					assert.fail( err );
+				bot.dialog( 'cellProperties', function( dialog ) {
+					assertChildren( dialog.definition.contents[ 0 ].elements[ 0 ].children );
+				} );
+			} );
+		},
+
+		// Changes to cell properties dialog (#1986) caused regression (#2732).
+		// Opening dialog shouldn't cause an error in filebrowser plugin.
+		'test opening dialog doesn\'t throw error': function() {
+			bender.editorBot.create( {
+				name: 'filebrowser',
+				config: {
+					removePlugins: 'colordialog',
+					extraPlugins: 'filebrowser'
 				}
+			}, function( bot ) {
+				bot.setHtmlWithSelection( '<table><tr><td>Te^st</td></tr></table>' );
+				var listeners = CKEDITOR._.events.dialogDefinition.listeners,
+					listener = listeners.pop();
+
+				listeners.push( function() {
+					var args = arguments;
+					resume( function() {
+						try {
+							listener.apply( null, args );
+							assert.pass( 'Passed with no errors.' );
+						} catch ( err ) {
+							assert.fail( err );
+						} finally {
+							listeners[ 0 ] = listener;
+						}
+					} );
+				} );
+
+				bot.editor.execCommand( 'cellProperties' );
+
+				wait();
 			} );
 		}
 	} );
