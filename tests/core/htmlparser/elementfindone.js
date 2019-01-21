@@ -3,36 +3,33 @@
 ( function() {
 	'use strict';
 
-	var testElement = CKEDITOR.htmlParser.fragment.fromHtml(
-		'<body>' +
-			'<div>' +
-				'Foo' +
-				'<p>' +
-					'Baz' +
-					'<span class="faz">Faz</span>' +
-				'</p>' +
-				'Bar' +
-			'</div>' +
-			'<div class="faz">Faz</div>' +
-		'</body>'
-	).children[ 0 ];
+	var testElement = CKEDITOR.htmlParser.fragment.fromHtml( CKEDITOR.document.findOne( '#test-html' ).getOuterHtml() ).children[ 0 ];
 
 	bender.test( {
 		'test findOne by tag name': function() {
-			assert.areSame( testElement.children[ 0 ], testElement.findOne( 'div' ) );
-			assert.areSame( testElement.children[ 0 ].children[ 1 ], testElement.findOne( 'p', true ) );
+			assert.areSame( testElement.children[ 0 ], testElement.findOne( 'div' ), 'testElement.children[ 0 ]' );
+			assert.areSame( testElement.children[ 0 ].children[ 1 ], testElement.findOne( 'p', true ),
+				'testElement.children[ 0 ].children[ 1 ]'
+			);
 		},
 
 		'test findOne by function': function() {
 			assert.areSame( testElement.children[ 1 ],
 				testElement.findOne( function( element ) {
 					return element.attributes && element.attributes[ 'class' ] === 'faz';
-				} )
+				}, 'testElement.children[ 1 ]' )
 			);
 			assert.areSame( testElement.children[ 0 ].children[ 1 ].children[ 1 ],
 				testElement.findOne( function( element ) {
 					return element.attributes && element.attributes[ 'class' ] === 'faz';
-				}, true )
+				}, true ),
+				'testElement.children[ 0 ].children[ 1 ].children[ 1 ]'
+			);
+		},
+
+		'test findOne deep nested child': function() {
+			assert.areSame( testElement.children[ 0 ].children [ 1 ].children[ 3 ].children[ 1 ], testElement.findOne( 'strong', true ),
+				'testElement.children[ 0 ].children [ 1 ].children[ 3 ].children[ 1 ]'
 			);
 		},
 
