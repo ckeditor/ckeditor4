@@ -69,9 +69,9 @@
 						bot.panel( 'EmojiPanel', function() {
 							CKEDITOR.tools.setTimeout( function() {
 								resume( function() {
+									panel.hide();
 									assert.areSame( '', input.getValue(), 'Search value should be reset after hiding panel.' );
 									assert.areSame( 0, doc.find( 'li.cke_emoji-item.hidden' ).count(), 'All emoji items should be reset to visible state after closing panel.' );
-									panel.hide();
 								} );
 							}, 200 );
 							wait();
@@ -138,8 +138,8 @@
 				// Scroll event is throttled that's why we need wait a little bit.
 				CKEDITOR.tools.setTimeout( function() {
 					resume( function() {
-						assert.isTrue( doc.findOne( 'li[data-cke-emoji-group="travel"]' ).hasClass( 'active' ), 'Travel item in navigation should be highlighted' );
 						panel.hide();
+						assert.isTrue( doc.findOne( 'li[data-cke-emoji-group="travel"]' ).hasClass( 'active' ), 'Travel item in navigation should be highlighted' );
 					} );
 				}, 160 );
 				wait();
@@ -160,8 +160,11 @@
 				assert.areSame( inputIndex, panelBlock._.focusIndex, 'First selected item should be input.' );
 				CKEDITOR.tools.setTimeout( function() {
 					resume( function() {
-						assert.isTrue( inputElement.equals( new CKEDITOR.dom.element( doc.$.activeElement ) ), 'Input should be focused element.' );
-						panel.hide();
+						try {
+							assert.isTrue( inputElement.equals( new CKEDITOR.dom.element( doc.$.activeElement ) ), 'Input should be focused element.' );
+						} finally {
+							panel.hide();
+						}
 					} );
 				}, 100 );
 				wait();
@@ -316,58 +319,55 @@
 			}
 			var bot = this.editorBot;
 			bot.panel( 'EmojiPanel', function( panel ) {
-				try {
-					var doc = panel._.iframe.getFrameDocument(),
-						listItems = doc.find( '.cke_emoji-navigation_item' ),
-						translations = {
-							people: {},
-							nature: {
-								x: 3.5
-							},
-							food: {
-								y: 1
-							},
-							travel: {
-								y: 2
-							},
-							activities: {
-								x: 0.531250
-							},
-							objects: {
-								y: 2
-							},
-							symbols: {
-								y: 1
-							},
-							flags: {
-								x: 2.1933548
-							}
-						};
-
-					if ( !listItems.count() ) {
-						assert.ignore();
-					}
-
-					if ( CKEDITOR.env.edge ) {
-						// Edge round translation to 5 digits after comma (#2572).
-						translations.flags.x = Math.round( translations.flags.x * 1e5 ) / 1e5;
-					}
-
-					for ( var i = 0; i < listItems.count(); i++ ) {
-						var li = listItems.getItem( i ),
-							transformation = li.findOne( 'use' ).getAttribute( 'transform' ) || '',
-							values = transformation.match( /translate\(\s?(\d+(?:\.\d+)?)\s?(?:,?\s?(\d+(?:\.\d+)?))?\s?\)/ );
-
-						if ( !values ) {
-							assert.fail( 'There is no "transform" attribute in svg -> use element.' );
+				var doc = panel._.iframe.getFrameDocument(),
+					listItems = doc.find( '.cke_emoji-navigation_item' ),
+					translations = {
+						people: {},
+						nature: {
+							x: 3.5
+						},
+						food: {
+							y: 1
+						},
+						travel: {
+							y: 2
+						},
+						activities: {
+							x: 0.531250
+						},
+						objects: {
+							y: 2
+						},
+						symbols: {
+							y: 1
+						},
+						flags: {
+							x: 2.1933548
 						}
-						assert.areSame( translations[ li.data( 'cke-emoji-group' ) ].x || 0, parseFloat( values[ 1 ] || 0 ),
-							'Translation in X axis for group: "' + li.data( 'cke-emoji-group' ) + '" is incorrect.' );
-						assert.areSame( translations[ li.data( 'cke-emoji-group' ) ].y || 0, parseFloat( values[ 2 ] || 0 ),
-							'Translation in Y axis for group: "' + li.data( 'cke-emoji-group' ) + '" is incorrect.' );
+					};
+
+				panel.hide();
+
+				if ( !listItems.count() ) {
+					assert.ignore();
+				}
+
+				if ( CKEDITOR.env.edge ) {
+					// Edge round translation to 5 digits after comma (#2572).
+					translations.flags.x = Math.round( translations.flags.x * 1e5 ) / 1e5;
+				}
+				for ( var i = 0; i < listItems.count(); i++ ) {
+					var li = listItems.getItem( i ),
+						transformation = li.findOne( 'use' ).getAttribute( 'transform' ) || '',
+						values = transformation.match( /translate\(\s?(\d+(?:\.\d+)?)\s?(?:,?\s?(\d+(?:\.\d+)?))?\s?\)/ );
+
+					if ( !values ) {
+						assert.fail( 'There is no "transform" attribute in svg -> use element.' );
 					}
-				} finally {
-					panel.hide();
+					assert.areSame( translations[ li.data( 'cke-emoji-group' ) ].x || 0, parseFloat( values[ 1 ] || 0 ),
+						'Translation in X axis for group: "' + li.data( 'cke-emoji-group' ) + '" is incorrect.' );
+					assert.areSame( translations[ li.data( 'cke-emoji-group' ) ].y || 0, parseFloat( values[ 2 ] || 0 ),
+						'Translation in Y axis for group: "' + li.data( 'cke-emoji-group' ) + '" is incorrect.' );
 				}
 			} );
 		}
