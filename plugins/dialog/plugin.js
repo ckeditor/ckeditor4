@@ -1562,7 +1562,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * A function returning the dialog's definition, or the URL to the `.js` file holding the function.
 		 * The function should accept an argument `editor` which is the current editor instance, and
 		 * return an object conforming to {@link CKEDITOR.dialog.definition}.
-		 * @see CKEDITOR.dialog.definition
 		 */
 		add: function( name, dialogDefinition ) {
 			// Avoid path registration from multiple instances override definition.
