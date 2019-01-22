@@ -485,12 +485,9 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * @returns {CKEDITOR.htmlParser.node|null} First matched child, `null` otherwise.
 		 */
 		findOne: function( criteria, recursive ) {
-			var findMethod = typeof criteria === 'function' ? criteria : function( item ) {
-					return item.name === criteria;
-				},
-				nestedMatch = null,
+			var nestedMatch = null,
 				match = CKEDITOR.tools.array.find( this.children, function( child ) {
-					var isMatching = findMethod( child );
+					var isMatching = typeof criteria === 'function' ? criteria( child ) : child.name === criteria;
 
 					if ( isMatching || !recursive ) {
 						return isMatching;
