@@ -1189,12 +1189,12 @@
 			var symbol = element.attributes[ 'cke-symbol' ],
 				// Find the first element which contains symbol to be replaced (#2690).
 				node = element.findOne( function( node ) {
+						// Since symbol may contains special characters we use `indexOf` (instead of RegExp) which is sufficient (#877).
 						return node.value && node.value.indexOf( symbol ) > -1;
 					}, true ),
 				parent;
 
 			if ( node ) {
-				// Since symbol may contains special characters we use `indexOf` (instead of RegExp) which is sufficient (#877).
 				node.value = node.value.replace( symbol, '' );
 				parent = node.parent;
 
