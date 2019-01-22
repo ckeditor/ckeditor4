@@ -482,7 +482,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * @param {String/Function} criteria Tag name or evaluator function.
 		 * @param {CKEDITOR.htmlParser.node} criteria.child The currently iterated child.
 		 * @param {Boolean} [recursive=false] If set to `true` will iterate all descendants, otherwise only direct children.
-		 * @returns {CKEDITOR.htmlParser.node} First matched child, `null` otherwise.
+		 * @returns {CKEDITOR.htmlParser.node|null} First matched child, `null` otherwise.
 		 */
 		findOne: function( criteria, recursive ) {
 			var findMethod = typeof criteria === 'function' ? criteria : function( item ) {
