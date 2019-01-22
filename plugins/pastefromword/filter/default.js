@@ -1189,8 +1189,8 @@
 			var symbol = element.attributes[ 'cke-symbol' ],
 				// Find the first element which contains symbol to be replaced (#2690).
 				node = element.findOne( function( node ) {
-					return node.value && node.value.indexOf( symbol ) > -1;
-				}, true ),
+						return node.value && node.value.indexOf( symbol ) > -1;
+					}, true ),
 				parent;
 
 			if ( node ) {
