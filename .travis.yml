@@ -4,7 +4,7 @@ dist: trusty
 language: node_js
 
 node_js:
-  - 8
+  - 10
 
 env:
   - BUILD=0 BROWSER=Chrome
@@ -14,17 +14,14 @@ env:
 
 addons:
   firefox: "latest"
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
+  chrome: stable
 
 before_script:
   # Prepare environment.
   - 'npm install benderjs-cli -g'
-  - 'sh -e /etc/init.d/xvfb start'
   - 'export DISPLAY=:99.0'
+  - 'sh -e /etc/init.d/xvfb start'
+  - 'sleep 3'
 
   # The $TRAVIS_BRANCH points to target branch for PRs and for other branches it is the current branch name.
   - 'BUILD_PATH=0'
