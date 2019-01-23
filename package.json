@@ -4,7 +4,7 @@
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
 		"benderjs": "0.4.3",
-		"benderjs-coverage": "https://github.com/benderjs/benderjs-coverage.git#t/ci-fix",
+		"benderjs-coverage": "https://github.com/benderjs/benderjs-coverage.git#master",
 		"benderjs-jquery": "^0.3.0",
 		"benderjs-sinon": "^0.3.1",
 		"benderjs-yui": "^0.3.2",
