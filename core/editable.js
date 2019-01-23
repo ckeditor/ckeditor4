@@ -1889,7 +1889,8 @@
 
 					// Find the first ancestor that can contain current node.
 					// This one won't be split.
-					while ( insertionContainer && ( !DTD[ insertionContainer.getName() ][ nodeData.name ] || preventInsertingDiv( nodeData.name, insertionContainer, that.editor ) ) ) {
+					while ( insertionContainer && ( !DTD[ insertionContainer.getName() ][ nodeData.name ] ||
+						preventInsertingDiv( nodeData.name, insertionContainer, that.editor ) ) ) {
 						if ( insertionContainer.equals( blockLimit ) ) {
 							insertionContainer = null;
 							break;
