@@ -8,7 +8,7 @@
 
 	bender.editor = {};
 
-	CKEDITOR.skinName = 'kama,/apps/ckeditor/skins/kama/';
+	CKEDITOR.skinName = 'kama,%BASE_PATH%../apps/ckeditor/skins/kama/';
 	var spy = sinon.spy( CKEDITOR.dom.document.prototype, 'appendStyleSheet' );
 
 	bender.test( {
@@ -22,8 +22,8 @@
 		},
 
 		'test loading css with path': function() {
-			assert.areSame( 'kama,/apps/ckeditor/skins/kama/', CKEDITOR.skinName, 'config skinName should be with path' );
-			sinon.assert.calledWith( spy, balloonTestsTools.getDocumentOrigin() + '/apps/ckeditor/plugins/balloonpanel/skins/kama/balloonpanel.css' );
+			assert.areSame( 'kama,%BASE_PATH%../apps/ckeditor/skins/kama/', CKEDITOR.skinName, 'config skinName should be with path' );
+			sinon.assert.calledWith( spy, balloonTestsTools.getDocumentOrigin() + '%BASE_PATH%../apps/ckeditor/plugins/balloonpanel/skins/kama/balloonpanel.css' );
 		}
 	} );
 
