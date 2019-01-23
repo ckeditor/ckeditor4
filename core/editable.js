@@ -1889,7 +1889,7 @@
 
 					// Find the first ancestor that can contain current node.
 					// This one won't be split.
-					while ( insertionContainer && !DTD[ insertionContainer.getName() ][ nodeData.name ] ) {
+					while ( insertionContainer && ( !DTD[ insertionContainer.getName() ][ nodeData.name ] || preventInsertingDiv( nodeData.name, insertionContainer, that.editor ) ) ) {
 						if ( insertionContainer.equals( blockLimit ) ) {
 							insertionContainer = null;
 							break;
@@ -2055,7 +2055,7 @@
 						continue;
 					}
 
-					allowed = !!allowedNames[ nodeName ];
+					allowed = !!allowedNames[ nodeName ] && !preventInsertingDiv( nodeName, startContainer, that.editor );
 
 					// Mark <brs data-cke-eol="1"> at the beginning and at the end.
 					if ( nodeName == 'br' && node.data( 'cke-eol' ) && ( !nodeIndex || nodeIndex == nodesCount - 1 ) ) {
@@ -2097,6 +2097,17 @@
 				nodesData[ lastNotAllowed ].lastNotAllowed = 1;
 
 			return nodesData;
+		}
+
+		// Prevent inserting div into div when Editor is in ENTER_DIV mode, and target element is an empty div.
+		function preventInsertingDiv( nodeName, element, editor ) {
+			if ( nodeName !== 'div' || editor.enterMode !== CKEDITOR.ENTER_DIV || element.getName() !== 'div' ) {
+				return false;
+			}
+			if ( element.getHtml() === '' ) {
+				return true;
+			}
+			return element.getChildCount() === 1 && element.getFirst().getName && element.getFirst().getName() === 'br';
 		}
 
 		// TODO: Review content transformation rules on filtering element.
