@@ -92,6 +92,7 @@ Fixed Issues:
     * [#2780](https://github.com/ckeditor/ckeditor-dev/issues/2780): Fixed: Undo steps disappear after multiple changes of selection.
     * [#2470](https://github.com/ckeditor/ckeditor-dev/issues/2470): [Firefox] Fixed: Widget's nested editable gets blurred upon focus.
     * [#2655](https://github.com/ckeditor/ckeditor-dev/issues/2655): [Chrome, Safari] Fixed: Widget's nested editable cannot be focused under certain circumstances.
+* [#2751](https://github.com/ckeditor/ckeditor-dev/issues/2751): Fixed: Editor with [enterMode](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-enterMode) set to [ENTER_DIV](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#property-ENTER_DIV) alters pasted content.
 
 ## CKEditor 4.11.2
 
