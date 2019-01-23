@@ -393,6 +393,22 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
   /*   UI components for return object's contents / elements array    */
   /* ---------------------------------------------------------------- */
 
+  var urlField = {
+    type: 'vbox',
+    padding: 0,
+    style: 'margin-top: -3px',
+    children: [
+      {
+        type: 'hbox',
+        widths: [ '100%' ],
+        className: 'cke_dialog_image_url',
+        children: srcBoxChildren
+      }
+    ]
+  };
+
+  /* ---------------------------------------------------------------- */
+
   var imageTypeMessageBox = {
     type: 'hbox',
     children: [
@@ -409,6 +425,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
   };
 
   /* ---------------------------------------------------------------- */
+
   var imageTypeFieldset = {
     id: 'imageTypeFieldset',
     type: 'fieldset',
@@ -497,12 +514,13 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
   var shortDescriptionTextbox = {
     type: 'hbox',
     align: 'bottom',
+    style: 'margin-top: 7px',
     children: [
       {
         id: 'altText',
         type: 'text',
-        label: lang.alt,
-        title: lang.altTooltip,
+        label: lang.altTextLabel,
+        title: lang.altTextTitle,
 
         setup: function ( widget ) {
           this.getDialog().getContentElement( 'info', 'imageDescFieldset').getElement().addClass('a11yfirst_fieldset');
@@ -545,7 +563,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
             // Testing for long text alternative
             if (alt.trim().length > lang.alternativeTextMaxLength) {
-              return confirm(lang.msgAltToLong.replace('%s1', alt.trim().length).replace('%s2', lang.alternativeTextMaxLength));
+              return confirm(lang.msgAltTooLong.replace('%s1', alt.trim().length).replace('%s2', lang.alternativeTextMaxLength));
             }
 
             // Testing for file names in alternative text
@@ -586,6 +604,42 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         }
       }
     ]
+  };
+
+  /* ---------------------------------------------------------------- */
+
+  var longDescriptionSelect = {
+    id: 'longDescriptionSelect',
+    type: 'hbox',
+    title: lang.longDescTitle,
+    style: 'margin-top: 7px;',
+    children: [ {
+      type: 'select',
+      id: 'longDescOptions',
+      label: lang.longDescLabel,
+      'default': 'nodesc',
+      style: 'width : 100%;',
+      'items': [
+        [ lang.longDescOptionNo, 'nodesc' ],
+        [ lang.longDescOptionYesBefore, 'before' ],
+        [ lang.longDescOptionYesAfter, 'after' ],
+        [ lang.longDescOptionYesBoth, 'both' ]
+      ]
+      /*,
+      onChange: targetChanged,
+      setup: function( data ) {
+        if ( data.target )
+          this.setValue( data.target.type || 'notSet' );
+        targetChanged.call( this );
+      },
+      commit: function( data ) {
+        if ( !data.target )
+          data.target = {};
+
+        data.target.type = this.getValue();
+      }
+      */
+    } ]
   };
 
   /* ---------------------------------------------------------------- */
@@ -872,8 +926,41 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
             id: 'hasCaption',
             type: 'checkbox',
             style: 'margin-top: 0',
-            label: lang.captioned,
-            title: lang.captionedHelp,
+            label: lang.captionLabel,
+            title: lang.captionTitle,
+            requiredContent: features.caption.requiredContent,
+
+            setup: function ( widget ) {
+              this.setValue( widget.data.hasCaption );
+            },
+
+            commit: function ( widget ) {
+              widget.setData( 'hasCaption', this.getValue() );
+            }
+          }
+        ]
+      }
+    ]
+  };
+
+  /* ---------------------------------------------------------------- */
+
+  var captionCheckbox = {
+    id: 'captionCheckbox',
+    type: 'hbox',
+    style: 'margin-top: 7px',
+    children: [
+      {
+        type: 'vbox',
+        padding: 0,
+        style: 'margin-top: 5px',
+        children: [
+          {
+            id: 'hasCaption',
+            type: 'checkbox',
+            style: 'margin-top: 0',
+            label: lang.captionLabel,
+            title: lang.captionTitle,
             requiredContent: features.caption.requiredContent,
 
             setup: function ( widget ) {
@@ -934,28 +1021,18 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         label: lang.infoTab,
         elements: [
 
-          imageTypeFieldset,
+          urlField,
 
-          // imageTypeMessageBox,
+          // imageTypeFieldset,
 
-          imageDescFieldset,
+          // imageDescFieldset,
 
-          captionFieldset,
+          shortDescriptionTextbox,
 
-          // URL field
-          {
-            type: 'vbox',
-            padding: 0,
-            style: 'margin-top: 5px',
-            children: [
-              {
-                type: 'hbox',
-                widths: [ '100%' ],
-                className: 'cke_dialog_image_url',
-                children: srcBoxChildren
-              }
-            ]
-          },
+          longDescriptionSelect,
+
+          // captionFieldset,
+          captionCheckbox,
 
           // image dimension widgets
           {
@@ -1027,7 +1104,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           {
             id: 'imageAlignFieldset',
             type: 'fieldset',
-            style: 'margin-top: 7px; margin-bottom: 3px',
+            style: 'margin-top: 7px; margin-bottom: 3px; padding-top: 0',
             label: commonLang.align,
             children: [
               {
@@ -1038,6 +1115,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
                   {
                     id: 'align',
                     type: 'radio',
+                    style: 'margin-top: 0',
                     items: [
                       [ lang.alignNone, 'none' ],
                       [ lang.alignLeft, 'left' ],

@@ -21,8 +21,19 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	// Accessible Descriptions
 	imageDesc: 'Accessible Descriptions',
 
-	alt: 'Short description (required)',
-	altTooltip: 'The ‘alt text’ announced by a screen reader application but not visible in the document',
+	altTextLabel: 'Alternative text',
+	// Note: The max. length in the following message should match the
+	// value of the alternativeTextMaxLength property defined below.
+	altTextTitle: 'A short description of the content and function of the image, with recommended max. length of 100 characters',
+
+	longDescLegend: 'Long Description',
+	longDescLabel: 'Is there a long description of this image in the document?',
+	longDescTitle: 'For a complex image that cannot be adequately described by the alternative text',
+
+	longDescOptionNo: 'No',
+	longDescOptionYesBefore: 'Yes, before the image',
+	longDescOptionYesAfter: 'Yes, after the image',
+	longDescOptionYesBoth: 'Yes, before and after the image',
 
 	// hasDescription: 'A long description is included in the document',
 	hasDescription: 'Long description required within the document',
@@ -58,8 +69,9 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 
 	// Image Caption
 	captionFieldsetLabel: 'Caption',
-	captioned: 'Insert an editable caption below the image',
-	captionedHelp: 'The caption text is editable within the document',
+	// captioned: 'Insert an editable caption text box below the image',
+	captionLabel: 'Insert a caption text box below the image',
+	captionTitle: 'The caption text is editable within the document',
 	captionPlaceholder: 'Caption',
 
 	// Miscellaneous
@@ -73,8 +85,9 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	resizer: 'Click and drag to resize',
 	title: 'Image Properties',
 	uploadTab: 'Upload',
+	urlLabel: 'Image URL',
 	urlMissing: 'Please provide the URL for the image',
-	urlTitle: 'Image source file URL',
+	urlTitle: 'URL of the image source file',
 
 	// Additional properties used in a11yimage
 	alignNone: 'None',
@@ -90,7 +103,7 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	altStartsWithInvalid: ['image of', 'graphic of'],
 	altEndsWithInvalid: ['bytes'],
 	msgAltEmpty: 'Please provide the alternative text for the image',
-	msgAltToLong: 'The alternative text is %s1 characters, which is longer than the recommended \
+	msgAltTooLong: 'The alternative text is %s1 characters, which is longer than the recommended \
 maximum length of %s2 characters.\n\nAre you sure you want to continue?',
 	msgAltPrefix: 'The alternative text should succinctly describe the content of the image.',
 	msgAltContainsFilename: 'Please remove the filename with the extension "%s" from the alternative text.',
