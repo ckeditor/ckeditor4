@@ -37,10 +37,7 @@
 								x: -2 * ICON_SIZE,
 								y: 0
 							},
-							items: [],
-							translate: {
-								x: 3.5
-							}
+							items: []
 						},
 						{
 							name: 'food',
@@ -50,10 +47,7 @@
 								x: -3 * ICON_SIZE,
 								y: 0
 							},
-							items: [],
-							translate: {
-								y: 1
-							}
+							items: []
 						},
 						{
 							name: 'travel',
@@ -63,10 +57,7 @@
 								x: -2 * ICON_SIZE,
 								y: -1 * ICON_SIZE
 							},
-							items: [],
-							translate: {
-								y: 2
-							}
+							items: []
 						},
 						{
 							name: 'activities',
@@ -76,10 +67,7 @@
 								x: -4 * ICON_SIZE,
 								y: 0
 							},
-							items: [],
-							translate: {
-								x: 0.531250
-							}
+							items: []
 						},
 						{
 							name: 'objects',
@@ -89,10 +77,7 @@
 								x: 0,
 								y: -1 * ICON_SIZE
 							},
-							items: [],
-							translate: {
-								y: 2
-							}
+							items: []
 						},
 						{
 							name: 'symbols',
@@ -102,10 +87,7 @@
 								x: -1 * ICON_SIZE,
 								y: -1 * ICON_SIZE
 							},
-							items: [],
-							translate: {
-								y: 1
-							}
+							items: []
 						},
 						{
 							name: 'flags',
@@ -115,10 +97,7 @@
 								x: -3 * ICON_SIZE,
 								y: -1 * ICON_SIZE
 							},
-							items: [],
-							translate: {
-								x: 2.1933548
-							}
+							items: []
 						}
 					];
 
@@ -253,7 +232,7 @@
 						itemTemplate = new CKEDITOR.template(
 							'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="#" title="{name}" draggable="false" _cke_focus="1">' +
 							'<svg viewBox="0 0 34 34" aria-labelledby="{svgId}-title">' +
-							'<title id="{svgId}-title">{name}</title><use ' + useAttr + ' transform="translate( {translateX}, {translateY} )"></use></svg></a></li>'
+							'<title id="{svgId}-title">{name}</title><use ' + useAttr + '"></use></svg></a></li>'
 						);
 
 						items = arrTools.reduce( this.groups, function( acc, item ) {
