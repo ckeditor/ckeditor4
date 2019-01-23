@@ -1,6 +1,6 @@
 @bender-tags: 4.11.3, bug, 2751
 @bender-ui: collapsed
-@bender-ckeditor-plugins: clipboard, toolbar, wysiwygarea, sourcearea, div, selectall
+@bender-ckeditor-plugins: clipboard, toolbar, wysiwygarea, sourcearea, div, selectall, elementspath
 
 1. Select all.
 1. Copy.
