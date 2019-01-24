@@ -23,7 +23,7 @@ var initSample = ( function() {
 				{ name : 'dasdf', element : 'p', styles: { 'color': 'red' } },
 				{ name: 'My Div Class', element: 'div'}
       ],
-      smartFields: [1,2,3,4,5].map(item => ({
+      smartFields: [1,2,3,4,5,6,7,8,9,10].map(item => ({
         value: 'field-' + item,
         label: 'Custom field ' + item
       })),

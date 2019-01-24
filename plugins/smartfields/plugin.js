@@ -14,6 +14,11 @@
         title: 'Add a smart field',
         toolbar: 'insert,5',
 
+        panel: {
+          css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( editor.config.contentsCss ),
+          multiSelect: false
+        },
+
         init: function() {
             var self = this;    
             // this.startGroup( 'My Dropdown Group #1' );
@@ -24,6 +29,9 @@
         },
 
         onClick: function( id ) {
+          editor.focus();
+          editor.fire( 'saveSnapshot' );
+
           var fragment = editor.getSelection().getRanges()[0].extractContents();
 					var container = CKEDITOR.dom.element.createFromHtml('<span class="cke_placeholder" ' +
 						'>[[' + id + ']]</span>', editor.document);
