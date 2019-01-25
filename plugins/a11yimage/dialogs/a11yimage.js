@@ -361,14 +361,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         widget.setData( 'src', this.getValue() );
       },
       validate: function( widget ) {
-
-        var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
-        var hasDescValue      = this.getDialog().getContentElement( 'info', 'hasDescription').getValue();
-        var descLocValue      = this.getDialog().getContentElement( 'info', 'descriptionLocationRadioGroup').getValue();
-
-        if (!((imageTypeValue === 'informative') && hasDescValue && !descLocValue)) {
           CKEDITOR.dialog.validate.notEmpty( lang.urlMissing );
-        }
       }
     }
   ];
@@ -407,107 +400,6 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     ]
   };
 
-  /* ---------------------------------------------------------------- */
-
-  var imageTypeMessageBox = {
-    type: 'hbox',
-    children: [
-      {
-        type: 'html',
-        style: 'padding: 0.5em 0 0 2px; white-space: normal',
-        html: '<details>' +
-                '<summary>' + lang.typeSummary + '</summary>' +
-                '<br>' +
-                lang.typeDetails +
-              '</details>'
-      }
-    ]
-  };
-
-  /* ---------------------------------------------------------------- */
-
-  var imageTypeFieldset = {
-    id: 'imageTypeFieldset',
-    type: 'fieldset',
-    label: lang.typeOfImage,
-    title: lang.typeOfImageTitle,
-    style: 'margin-top: 3px',
-    children: [
-      {
-        type: 'hbox',
-        children: [
-          {
-            id: 'imageType',
-            type: 'radio',
-            'default': 'informative',
-
-            items: [
-              [ lang.typeInformative, 'informative' ],
-              [ lang.typeDecorative,  'decorative'  ]
-            ],
-
-            onChange: function () {
-              var value = this.getValue();
-
-              var imageDescFSElem  = this.getDialog().getContentElement( 'info', 'imageDescFieldset' ).getElement().getParent();
-              var altTextElem      = this.getDialog().getContentElement( 'info', 'altText' ).getElement();
-              var hasDescElem      = this.getDialog().getContentElement( 'info', 'hasDescription').getElement();
-              var descLocFSElem    = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset').getElement();
-
-              switch (value) {
-                case 'decorative':
-                  imageDescFSElem.hide();
-                  altTextElem.hide();
-                  hasDescElem.hide();
-                  descLocFSElem.hide();
-                  break;
-
-                default:
-                  imageDescFSElem.show();
-                  altTextElem.show();
-                  hasDescElem.show();
-                  descLocFSElem.show();
-                  break;
-              }
-            },
-
-            setup: function ( widget ) {
-              this.getElement().addClass('a11yfirst_no_label');
-
-              var elems = this.getElement().find('input');
-
-              elems.$.forEach( function(item) {
-                var title = 'no title';
-                switch (item.value) {
-
-                  case 'informative':
-                    title = lang.typeInformativeHelp;
-                    break;
-
-                  case 'decorative':
-                    title = lang.typeDecorativeHelp;
-                    break;
-
-                }
-                item.title = title
-                if (item.nextElementSibling) {
-                  item.nextElementSibling.title = title;
-                }
-              });
-
-              this.onChange();
-            },
-
-            commit: function ( data ) {
-            }
-          }
-        ]
-      },
-
-      imageTypeMessageBox
-
-    ]
-  };
 
   /* ---------------------------------------------------------------- */
 
@@ -523,81 +415,93 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         title: lang.altTextTitle,
 
         setup: function ( widget ) {
-          this.getDialog().getContentElement( 'info', 'imageDescFieldset').getElement().addClass('a11yfirst_fieldset');
 
-          var imageType = this.getDialog().getContentElement( 'info', 'imageType' );
+          var parts = widget.data.alt.split('; ');
 
-          this.setValue( widget.data.alt );
-
-          if ( widget.data.hasAlt && widget.data.alt === '' && widget.data.src.length ) {
-            imageType.setValue( 'decorative' );
+          if (parts.length > 1) {
+            this.setValue( parts[0] );
+          } else {
+            this.setValue( widget.data.alt );
           }
 
         },
 
         commit: function ( widget ) {
-          var imageType = this.getDialog().getContentElement( 'info', 'imageType' ).getValue();
 
-          if (imageType === 'informative') {
-            widget.setData( 'alt', this.getValue() );
+          var longDescSelectValue = this.getDialog().getContentElement( 'info', 'longDescriptionSelect').getValue();
+
+          var alt = this.getValue();
+
+          switch (longDescSelectValue) {
+
+            case 'before':
+              alt += '; ' + lang.locationBeforeTitle;
+              break;
+
+            case 'after':
+              alt += '; ' + lang.locationAfterTitle;
+              break;
+
+            case 'both':
+              alt += '; ' + lang.locationBothTitle;
+              break;
+
+            default:
+              break;
           }
-          else {
-            widget.setData( 'alt', '' );
-          }
+
+          widget.setData( 'alt', alt );
         },
 
         validate: function ( widget) {
 
-          var i, s, imageTypeValue = this.getDialog().getContentElement( 'info', 'imageType' ).getValue();
+          var i;
 
-          if (imageTypeValue !== 'decorative') {
-            var alt = this.getValue();
-            var altNormalized = alt.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "");
-            var altLength = altNormalized.length;
+          var alt = this.getValue();
+          var altNormalized = alt.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "");
+          var altLength = altNormalized.length;
 
-            // Testing for empty alt
-            if (altNormalized.length === 0) {
-              alert(lang.msgAltEmpty);
+          // Testing for empty alt
+          if (altNormalized.length === 0) {
+            return !confirm(lang.msgAltEmpty);
+          }
+
+          // Testing for long text alternative
+          if (alt.trim().length > lang.alternativeTextMaxLength) {
+            return confirm(lang.msgAltTooLong.replace('%s1', alt.trim().length).replace('%s2', lang.alternativeTextMaxLength));
+          }
+
+          // Testing for file names in alternative text
+          for (i = 0; i < lang.altContainsFilename.length; i++) {
+            s = lang.altContainsFilename[i];
+            if (altNormalized.indexOf(s) >= 0) {
+              alert(lang.msgAltPrefix + ' ' + lang.msgAltContainsFilename.replace('%s', s));
               return false;
             }
+          }
 
-            // Testing for long text alternative
-            if (alt.trim().length > lang.alternativeTextMaxLength) {
-              return confirm(lang.msgAltTooLong.replace('%s1', alt.trim().length).replace('%s2', lang.alternativeTextMaxLength));
+          // Testing for common cases of invalid alternative text
+          for (i = 0; i < lang.altIsInvalid.length; i++) {
+            if (altNormalized === lang.altIsInvalid[i]) {
+              alert(lang.msgAltPrefix + ' ' + lang.msgAltIsInvalid.replace('%s', alt));
+              return false;
             }
+          }
 
-            // Testing for file names in alternative text
-            for (i = 0; i < lang.altContainsFilename.length; i++) {
-              s = lang.altContainsFilename[i];
-              if (altNormalized.indexOf(s) >= 0) {
-                alert(lang.msgAltPrefix + ' ' + lang.msgAltContainsFilename.replace('%s', s));
-                return false;
-              }
+          // Testing for alternative text starting with "image",...
+          for (i = 0; i < lang.altStartsWithInvalid.length; i++) {
+            if (altNormalized.indexOf(lang.altStartsWithInvalid[i]) === 0) {
+              alert(lang.msgAltPrefix + ' ' + lang.msgAltStartsWithInvalid.replace('%s', alt.substring(0,lang.altStartsWithInvalid[i].length)));
+              return false;
             }
+          }
 
-            // Testing for common cases of invalid alternative text
-            for (i = 0; i < lang.altIsInvalid.length; i++) {
-              if (altNormalized === lang.altIsInvalid[i]) {
-                alert(lang.msgAltPrefix + ' ' + lang.msgAltIsInvalid.replace('%s', alt));
-                return false;
-              }
-            }
-
-            // Testing for alternative text starting with "image",...
-            for (i = 0; i < lang.altStartsWithInvalid.length; i++) {
-              if (altNormalized.indexOf(lang.altStartsWithInvalid[i]) === 0) {
-                alert(lang.msgAltPrefix + ' ' + lang.msgAltStartsWithInvalid.replace('%s', alt.substring(0,lang.altStartsWithInvalid[i].length)));
-                return false;
-              }
-            }
-
-            // Testing for alternative text ending with with "bytes",...
-            for (i = 0; i < lang.altEndsWithInvalid.length; i++) {
-              var s = lang.altEndsWithInvalid[i];
-              if (altNormalized.substring((altLength-s.length),altLength) === s) {
-                alert(lang.msgAltPrefix + ' ' + lang.msgAltEndsWithInvalid);
-                return false;
-              }
+          // Testing for alternative text ending with with "bytes",...
+          for (i = 0; i < lang.altEndsWithInvalid.length; i++) {
+            var s = lang.altEndsWithInvalid[i];
+            if (altNormalized.substring((altLength-s.length),altLength) === s) {
+              alert(lang.msgAltPrefix + ' ' + lang.msgAltEndsWithInvalid);
+              return false;
             }
           }
           return true;
@@ -617,7 +521,6 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
       type: 'select',
       id: 'longDescOptions',
       label: lang.longDescLabel,
-      'default': 'nodesc',
       style: 'width : 100%;',
       'items': [
         [ lang.longDescOptionNo, 'nodesc' ],
@@ -625,322 +528,47 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         [ lang.longDescOptionYesAfter, 'after' ],
         [ lang.longDescOptionYesBoth, 'both' ]
       ]
-      /*,
-      onChange: targetChanged,
-      setup: function( data ) {
-        if ( data.target )
-          this.setValue( data.target.type || 'notSet' );
-        targetChanged.call( this );
-      },
-      commit: function( data ) {
-        if ( !data.target )
-          data.target = {};
+    } ],
 
-        data.target.type = this.getValue();
-      }
-      */
-    } ]
-  };
+    setup: function ( widget ) {
 
-  /* ---------------------------------------------------------------- */
-
-  var hasLongDescriptionCheckbox = {
-    type: 'vbox',
-    padding: 0,
-    // style: 'margin-top: 3px',
-    children: [
-      {
-        id: 'hasDescription',
-        type: 'checkbox',
-        label: lang.hasDescription,
-        title: lang.hasDescriptionTooltip,
-
-        onClick: function () {
-          var descLocFS = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset');
-
-          if (this.getValue()) {
-            descLocFS.enable();
-          }
-          else {
-            descLocFS.disable();
-          }
-        },
-
-        validate: function ( widget ) {
-          var imageTypeElem     = this.getDialog().getContentElement( 'info', 'imageType');
-          var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
-          var hasDescValue      = this.getValue();
-
-          var srcElem           = this.getDialog().getContentElement( 'info', 'src');
-          var srcValue          = this.getDialog().getContentElement( 'info', 'src').getValue();
-
-        },
-
-        commit: function ( widget ) {
-        }
-      },
-    ]
-  };
-
-  /* ---------------------------------------------------------------- */
-
-  var longDescriptionMessageBox = {
-    type: 'hbox',
-    children: [
-      {
-        type: 'html',
-        style: 'padding: 0.5em 0 0.5em 2px; white-space: normal',
-        html: '<details>' +
-                '<summary>' + lang.longDescSummary + '</summary>' +
-                '<br>' +
-                lang.longDescDetails +
-              '</details>'
-      }
-    ]
-  };
-
-  /* ---------------------------------------------------------------- */
-
-  var descriptionLocationFieldset = {
-    id: 'descriptionLocationFieldset',
-    type: 'fieldset',
-    label: lang.descriptionLocation,
-    style: 'margin-top: 3px',
-    children: [
-      {
-        type: 'hbox',
-        children: [
-          {
-            id: 'descriptionLocationRadioGroup',
-            type: 'radio',
-            items: [
-              [ lang.locationBefore, 'before' ],
-              [ lang.locationAfter,  'after' ],
-              [ lang.locationBoth,   'both' ]
-            ],
-
-            setup: function ( widget ) {
-              this.getElement().addClass('a11yfirst_no_label');
-
-              var elems = this.getElement().find('input');
-
-              elems.$.forEach( function (item) {
-                var title = 'no title';
-                switch (item.value) {
-
-                  case 'before':
-                    title = lang.locationBeforeHelp;
-                    break;
-
-                  case 'after':
-                    title = lang.locationAfterHelp;
-                    break;
-
-                  case 'both':
-                    title = lang.locationBothHelp;
-                    break;
-
-                }
-                item.title = title
-                if (item.nextElementSibling) {
-                  item.nextElementSibling.title = title;
-                }
-              });
+      var parts = widget.data.alt.split('; ');
 
 
-              var descLocFS      = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset');
-              var descLocFSElem  = this.getDialog().getContentElement( 'info', 'descriptionLocationFieldset').getElement();
+      var node = this.getInputElement().findOne('select').$;
 
-              descLocFS.disable();
-              descLocFSElem.addClass('a11yfirst_fieldset');
+      if (parts.length > 1) {
+        var desc = parts[1];
+        console.log('[desc]: ' + desc);
 
-              var hasDesc      = this.getDialog().getContentElement( 'info', 'hasDescription');
-              var hasDescElem  = this.getDialog().getContentElement( 'info', 'hasDescription').getElement();
-
-              if (widget.data.title && widget.data.title.length) {
-
-                var imageType = this.getDialog().getContentElement( 'info', 'imageType' );
-
-                var title = widget.data.title.toLowerCase();
-                var hasBefore = title.indexOf(lang.locationBeforeTitle.toLowerCase()) >= 0;
-                var hasAfter  = title.indexOf(lang.locationAfterTitle.toLowerCase()) >= 0;
-                var hasBoth   = title.indexOf(lang.locationBothTitle.toLowerCase()) >= 0;
-
-                this.enable();
-                imageType.setValue('informative');
-                hasDesc.setValue(true);
-                descLocFS.enable();
-
-                if (hasBoth || (hasBefore && hasAfter)) {
-                  this.setValue( 'both' );
-                }
-                else {
-                  if (hasBefore) {
-                    this.setValue( 'before' );
-                  }
-                  else {
-                    if (hasAfter) {
-                      this.setValue( 'after' );
-                    }
-                  }
-                }
-              }
-              else {
-                hasDesc.setValue(false);
-              }
-            },
-
-            validate: function ( widget ) {
-              var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
-              var hasDescValue      = this.getDialog().getContentElement( 'info', 'hasDescription').getValue();
-              var locDescValue      = this.getValue();
-              var srcElem           = this.getDialog().getContentElement( 'info', 'src');
-              var srcValue          = this.getDialog().getContentElement( 'info', 'src').getValue();
-
-              // Testing for empty
-              if (imageTypeValue === 'informative' && hasDescValue && !locDescValue) {
-                alert(lang.msgChooseLocation);
-                this.getElement().focusNext();
-                return false;
-              }
-              else {
-                if (srcValue.length === 0) {
-                  alert(lang.urlMissing);
-                  srcElem.focus();
-                  return false;
-                }
-              }
-            },
-
-            commit: function ( widget ) {
-              var imageTypeValue    = this.getDialog().getContentElement( 'info', 'imageType').getValue();
-              var hasDescValue      = this.getDialog().getContentElement( 'info', 'hasDescription').getValue();
-              var locDescValue      = this.getValue();
-
-              if (imageTypeValue === 'informative' && hasDescValue && locDescValue) {
-                var value = this.getValue();
-
-                if (value === 'before') {
-                  widget.setData( 'title', lang.locationBeforeTitle );
-                }
-
-                if (value === 'after') {
-                  widget.setData( 'title', lang.locationAfterTitle );
-                }
-
-                if (value === 'both') {
-                  widget.setData( 'title', lang.locationBothTitle );
-                }
-              }
-              else {
-                widget.setData( 'title', '' );
-              }
-            },
-
-            onKeyDown: function ( event ) {
-              if (event.data.$.keyCode === 9 && event.data.$.shiftKey) {
-                this.getDialog().getContentElement( 'info', 'infoDetailDescLinkId').focus();
-                event.data.$.stopPropagation();
-                event.data.$.preventDefault();
-              }
-            }
-          }
-        ]
-      }
-    ]
-  };
-
-  /* ---------------------------------------------------------------- */
-
-  var infoDetailDescLink = {
-    id: 'infoDetailDescLink',
-    type: 'html',
-    html: '<div style="margin-top: 1em; margin-bottom: 0.5em;margin-left: 3px;"><a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline">' + lang.descriptionHelp + '</a></div>',
-
-    onClick: function () {
-      editor.a11yfirst.helpOption = 'ImageHelp';
-      editor.execCommand('a11yFirstHelpDialog');
-    },
-
-    onKeyDown: function ( event ) {
-      if (event.data.$.keyCode === 13) {
-        editor.a11yfirst.helpOption = 'ImageHelp';
-        editor.execCommand('a11yFirstHelpDialog');
-        event.data.$.stopPropagation();
-        event.data.$.preventDefault();
-      }
-
-      if (event.data.$.keyCode === 9) {
-        if (event.data.$.shiftKey) {
-          this.getDialog().getContentElement( 'info', 'hasDescription').focus();
+        if (desc === lang.locationBeforeTitle) {
+          node.value = 'before';
         }
         else {
-          if (this.getDialog().getContentElement( 'info', 'hasDescription').getValue()) {
-            this.getDialog().getContentElement( 'info', 'descriptionLocationRadioGroup').focus();
+          if (desc === lang.locationAfterTitle) {
+            node.value = 'after';
           }
           else {
-            this.getDialog().getContentElement( 'info', 'hasCaption').focus();
-          }
-        }
-        event.data.$.stopPropagation();
-        event.data.$.preventDefault();
-      }
-    }
-  };
-
-  /* ---------------------------------------------------------------- */
-
-  var imageDescFieldset = {
-    id: 'imageDescFieldset',
-    type: 'fieldset',
-    label: lang.imageDesc,
-    style: 'margin-top: 7px;',
-    children: [
-
-      shortDescriptionTextbox,
-
-      hasLongDescriptionCheckbox,
-
-      longDescriptionMessageBox,
-
-      descriptionLocationFieldset,
-
-      infoDetailDescLink
-    ]
-  };
-
-  /* ---------------------------------------------------------------- */
-
-  var captionFieldset = {
-    id: 'captionFieldset',
-    type: 'fieldset',
-    style: 'margin-top: 7px',
-    label: lang.captionFieldsetLabel,
-    children: [
-      {
-        type: 'vbox',
-        padding: 0,
-        style: 'margin-top: -5px',
-        children: [
-          {
-            id: 'hasCaption',
-            type: 'checkbox',
-            style: 'margin-top: 0',
-            label: lang.captionLabel,
-            title: lang.captionTitle,
-            requiredContent: features.caption.requiredContent,
-
-            setup: function ( widget ) {
-              this.setValue( widget.data.hasCaption );
-            },
-
-            commit: function ( widget ) {
-              widget.setData( 'hasCaption', this.getValue() );
+            if (desc === lang.locationBothTitle) {
+              node.value = 'both';
+            }
+            else {
+              node.value = 'nodesc';
             }
           }
-        ]
+        }
       }
-    ]
+      else {
+        node.value = 'nodesc';
+      }
+
+    },
+    onChange: function( widget ) {
+        // this = CKEDITOR.ui.dialog.select
+      var node = this.getInputElement().findOne('select').$;
+      console.log('[longDescriptionSelect][change][value]' + node.value );
+      this.setValue(node.value);
+    }
   };
 
   /* ---------------------------------------------------------------- */
@@ -1023,15 +651,10 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
           urlField,
 
-          // imageTypeFieldset,
-
-          // imageDescFieldset,
-
           shortDescriptionTextbox,
 
           longDescriptionSelect,
 
-          // captionFieldset,
           captionCheckbox,
 
           // image dimension widgets
@@ -1104,7 +727,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           {
             id: 'imageAlignFieldset',
             type: 'fieldset',
-            style: 'margin-top: 7px; margin-bottom: 3px; padding-top: 0',
+            style: 'margin-top: 7px; margin-bottom: 3px; padding-top: 15px',
             label: commonLang.align,
             children: [
               {
@@ -1125,7 +748,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
                     setup: function ( widget ) {
                       this.setValue( widget.data.align );
-                      this.getElement().addClass('a11yfirst_no_label');
+                      this.getElement().addClass( 'a11yfirst_no_label' );
                       this.getDialog().getContentElement( 'info', 'imageAlignFieldset').getElement().addClass('a11yfirst_fieldset');
                     },
 

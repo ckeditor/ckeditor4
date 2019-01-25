@@ -7,7 +7,7 @@
 
 ( function() {
 
-	var template = '<img alt="" src="" title=""/>',
+	var template = '<img alt="" src=""/>',
 		templateBlock = new CKEDITOR.template(
 			'<figure class="{captionedClass}">' +
 				template +
@@ -271,7 +271,7 @@
 		return {
 			allowedContent: getWidgetAllowedContent( editor ),
 
-			requiredContent: 'img[src,alt,title]',
+			requiredContent: 'img[src,alt]',
 
 			features: getWidgetFeatures( editor ),
 
@@ -339,8 +339,7 @@
 					// This internal is required by the editor.
 					'data-cke-saved-src': this.data.src,
 
-					alt: this.data.alt,
-					title: this.data.title
+					alt: this.data.alt
 				} );
 
 				// If shifting non-captioned -> captioned, remove classes
@@ -371,7 +370,6 @@
 						src:    image.getAttribute( 'src' ),
 						hasAlt: image.hasAttribute( 'alt' ),
 						alt:    image.getAttribute( 'alt' ) || '',
-						title:  image.getAttribute( 'title' ) || '',
 						width:  image.getAttribute( 'width' ) || '',
 						height: image.getAttribute( 'height' ) || '',
 
@@ -1548,7 +1546,7 @@
 					match: centerWrapperChecker( editor )
 				},
 				img: {
-					attributes: '!src,alt,title,width,height'
+					attributes: '!src,alt,width,height'
 				},
 				figure: {
 					classes: '!' + editor.config.image2_captionedClass
