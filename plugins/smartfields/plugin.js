@@ -20,12 +20,14 @@
         },
 
         init: function() {
-            var self = this;    
-            // this.startGroup( 'My Dropdown Group #1' );
-            var smartFields = editor.config.smartFields || [];
-            smartFields.forEach(function(smartField) {
-              self.add( smartField.value, smartField.label );          
-            })
+          this.startGroup( 'Smart Fields' ); 
+
+          var self = this;    
+          // this.startGroup( 'My Dropdown Group #1' );
+          var smartFields = editor.config.smartFields || [];
+          smartFields.forEach(function(smartField) {
+            self.add( smartField.value, smartField.label );          
+          })
         },
 
         onClick: function( id ) {
