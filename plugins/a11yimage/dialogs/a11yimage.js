@@ -463,7 +463,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
           // Testing for empty alt
           if (altNormalized.length === 0) {
-            return !confirm(lang.msgAltEmpty);
+            return confirm(lang.msgAltEmpty);
           }
 
           // Testing for long text alternative
