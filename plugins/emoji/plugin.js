@@ -627,15 +627,14 @@
 				function dataCallback( matchInfo, callback ) {
 					var emojiName = matchInfo.query.substr( 1 ).toLowerCase(),
 						data = arrTools.filter( emojiList, function( item ) {
-							// Comparing lowercased strings, because emoji should be case insensitive (#2167).
+							// Comparing lowercase strings, because emoji should be case insensitive (#2167).
 							return item.id.toLowerCase().indexOf( emojiName ) !== -1;
 						} ).sort( function( a, b ) {
-							var aIndex = a.id.substr( 1 ).indexOf( emojiName ),
-								bIndex = b.id.substr( 1 ).indexOf( emojiName );
+							var aStartsWithEmojiName = !a.id.substr( 1 ).indexOf( emojiName ),
+								bStartsWithEmojiName = !b.id.substr( 1 ).indexOf( emojiName );
 
-							// True when left and right side are oposite.
-							if ( aIndex === 0 ^ bIndex === 0 ) {
-								return aIndex === 0 ? -1 : 1;
+							if ( aStartsWithEmojiName != bStartsWithEmojiName ) {
+								return aStartsWithEmojiName ? -1 : 1;
 							} else {
 								return a.id > b.id ? 1 : -1;
 							}
