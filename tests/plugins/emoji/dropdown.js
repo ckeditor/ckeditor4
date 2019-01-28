@@ -309,67 +309,6 @@
 					panel.hide();
 				}
 			} );
-		},
-
-		// (#2572)
-		'test translations are added to svg elements group navigation': function() {
-			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-				// Ignore test on browser which doesn't support svg.
-				assert.ignore();
-			}
-			var bot = this.editorBot;
-			bot.panel( 'EmojiPanel', function( panel ) {
-				var doc = panel._.iframe.getFrameDocument(),
-					listItems = doc.find( '.cke_emoji-navigation_item' ),
-					translations = {
-						people: {},
-						nature: {
-							x: 3.5
-						},
-						food: {
-							y: 1
-						},
-						travel: {
-							y: 2
-						},
-						activities: {
-							x: 0.531250
-						},
-						objects: {
-							y: 2
-						},
-						symbols: {
-							y: 1
-						},
-						flags: {
-							x: 2.1933548
-						}
-					};
-
-				panel.hide();
-
-				if ( !listItems.count() ) {
-					assert.ignore();
-				}
-
-				if ( CKEDITOR.env.edge ) {
-					// Edge round translation to 5 digits after comma (#2572).
-					translations.flags.x = Math.round( translations.flags.x * 1e5 ) / 1e5;
-				}
-				for ( var i = 0; i < listItems.count(); i++ ) {
-					var li = listItems.getItem( i ),
-						transformation = li.findOne( 'use' ).getAttribute( 'transform' ) || '',
-						values = transformation.match( /translate\(\s?(\d+(?:\.\d+)?)\s?(?:,?\s?(\d+(?:\.\d+)?))?\s?\)/ );
-
-					if ( !values ) {
-						assert.fail( 'There is no "transform" attribute in svg -> use element.' );
-					}
-					assert.areSame( translations[ li.data( 'cke-emoji-group' ) ].x || 0, parseFloat( values[ 1 ] || 0 ),
-						'Translation in X axis for group: "' + li.data( 'cke-emoji-group' ) + '" is incorrect.' );
-					assert.areSame( translations[ li.data( 'cke-emoji-group' ) ].y || 0, parseFloat( values[ 2 ] || 0 ),
-						'Translation in Y axis for group: "' + li.data( 'cke-emoji-group' ) + '" is incorrect.' );
-				}
-			} );
 		}
 	} );
 
