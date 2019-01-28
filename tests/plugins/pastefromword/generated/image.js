@@ -1,6 +1,6 @@
 /* bender-tags: clipboard,pastefromword */
 /* bender-ckeditor-plugins: pastefromword,ajax,indentblock,image,table */
-/* bender-include: ./_lib/q.js,./_helpers/promisePasteEvent.js,./_helpers/assertWordFilter.js,./_helpers/createTestCase.js */
+/* bender-include: ./../../../_lib/q.js,./_helpers/promisePasteEvent.js,./_helpers/assertWordFilter.js,./_helpers/createTestCase.js */
 /* bender-include: ./_helpers/createTestSuite.js,./_helpers/pfwTools.js */
 /* global pfwTools,createTestSuite */
 
