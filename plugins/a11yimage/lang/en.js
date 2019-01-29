@@ -21,14 +21,16 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	// Accessible Descriptions
 	imageDesc: 'Accessible Descriptions',
 
-	altTextLabel: 'Alternative text',
+	altTextLabel: 'Alternative text (spoken by screen reader)',
 	// Note: The max. length in the following message should match the
 	// value of the alternativeTextMaxLength property defined below.
 	altTextTitle: 'A short description of the content and function of the image, with recommended max. length of 100 characters',
+	altTextNotRequiredLabel: 'Image does not require alternative text',
 
 	longDescLegend: 'Long Description',
-	longDescLabel: 'Is there a long description of this image in the document?',
-	longDescTitle: 'For a complex image that cannot be adequately described by the alternative text',
+	longDescLabel: 'Is there an adjacent detailed description of the image in the document?',
+	// longDescTitle: 'For a complex image that cannot be adequately described by the alternative text',
+	longDescTitle: 'Many people benefit from a more detailed description of a complex image, including, but not limited to, people with visual impairments',
 
 	longDescOptionNo: 'No',
 	longDescOptionYesBefore: 'Yes, before the image',

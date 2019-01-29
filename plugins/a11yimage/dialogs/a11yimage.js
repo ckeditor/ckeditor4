@@ -403,7 +403,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
   /* ---------------------------------------------------------------- */
 
-  var shortDescriptionTextbox = {
+  var alternativeTextField = {
     type: 'hbox',
     align: 'bottom',
     style: 'margin-top: 7px',
@@ -508,6 +508,19 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         }
       }
     ]
+  };
+
+  /* ---------------------------------------------------------------- */
+
+  var altTextNotRequiredCheckbox = {
+    id: 'altTextNotRequired',
+    type: 'hbox',
+    style: 'margin-top: -5px',
+    children: [ {
+      type: 'checkbox',
+      id:  'altTextNotRequiredCheckbox',
+      label: lang.altTextNotRequiredLabel
+    } ]
   };
 
   /* ---------------------------------------------------------------- */
@@ -651,7 +664,9 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
           urlField,
 
-          shortDescriptionTextbox,
+          alternativeTextField,
+
+          altTextNotRequiredCheckbox,
 
           longDescriptionSelect,
 
