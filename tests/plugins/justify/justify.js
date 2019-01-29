@@ -16,10 +16,10 @@ bender.test(
 
 			// editor = editor || this.editor;
 			CKEDITOR.tools.setTimeout( function() {
-				var leftCmd = editor.getCommand( 'justifyleft' );
-				var rightCmd = editor.getCommand( 'justifyright' );
-				var centerCmd = editor.getCommand( 'justifycenter' );
-				var justifyCmd = editor.getCommand( 'justifyblock' );
+				var leftCmd = editor.getCommand( 'justifyleft' ),
+					rightCmd = editor.getCommand( 'justifyright' ),
+					centerCmd = editor.getCommand( 'justifycenter' ),
+					justifyCmd = editor.getCommand( 'justifyblock' );
 
 				assert.areSame( left, leftCmd.state, 'leftCmd.state' );
 				assert.areSame( right, rightCmd.state, 'rightCmd.state' );
