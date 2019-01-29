@@ -13,7 +13,7 @@ Justification icons are disabled
 3. Move cursor to list item.
 4. Select `<ul>` tag from elementspath
 ## Expected:
-Justification is disabled when `<ul>` tag is selected from.
+Justification is disabled when `<ul>` tag is selected.
 
 
 5. Repeat steps 1-4 for second editor.
