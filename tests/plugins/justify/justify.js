@@ -11,7 +11,7 @@ bender.editor = {
 function wrapPromises( promises ) {
 	Q( promises )
 		.then( resume )
-		.fail( function( e ) {
+		.fail( function( e ) { // This same as catch for non-ES5 browsers (IE8) https://github.com/kriskowal/q/wiki/API-Reference#promisecatchonrejected
 			resume( function() {
 				throw e;
 			} );
