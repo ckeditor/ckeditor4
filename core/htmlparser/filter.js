@@ -400,8 +400,3 @@
 	}
 
 } )();
-
-/**
- * @class CKEDITOR.htmlParser.filterRulesDefinition
- * @abstract
- */
