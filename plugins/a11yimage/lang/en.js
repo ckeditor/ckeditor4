@@ -104,7 +104,8 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	altIsInvalid: ['photo', 'spacer', 'separator', 'nbsp', 'image'],
 	altStartsWithInvalid: ['image of', 'graphic of'],
 	altEndsWithInvalid: ['bytes'],
-	msgAltEmpty: 'Images require alternative text (e.g. short description) for people using screen readers, are you sure you want to continue?',
+	msgAltTextNotRequired: 'Images typically require alternative text (e.g. short description) for people with visual impairments using screen readers, are you sure you want to continue?',
+	msgAltEmpty: 'Images require alternative text (e.g. short description) for people with visual impairments using screen readers.',
 	msgAltTooLong: 'The alternative text is %s1 characters, which is longer than the recommended \
 maximum length of %s2 characters.\n\nAre you sure you want to continue?',
 	msgAltPrefix: 'The alternative text should succinctly describe the content of the image.',

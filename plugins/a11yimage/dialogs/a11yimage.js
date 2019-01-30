@@ -361,7 +361,11 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         widget.setData( 'src', this.getValue() );
       },
       validate: function( widget ) {
-          CKEDITOR.dialog.validate.notEmpty( lang.urlMissing );
+        if (this.getValue().length === 0) {
+          alert( lang.urlMissing );
+          return false;
+        }
+//        CKEDITOR.dialog.validate.notEmpty( lang.urlMissing );
       }
     }
   ];
@@ -426,6 +430,20 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
         },
 
+
+        onKeyUp: function (event) {
+          var altTextNotRequired = this.getDialog().getContentElement( 'info', 'altTextNotRequiredCheckbox');
+          var value = this.getValue();
+
+          if (value.length) {
+            altTextNotRequired.setValue(false);
+            altTextNotRequired.disable()
+          }
+          else {
+            altTextNotRequired.enable()
+          }
+        },
+
         commit: function ( widget ) {
 
           var longDescSelectValue = this.getDialog().getContentElement( 'info', 'longDescriptionSelect').getValue();
@@ -461,9 +479,23 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           var altNormalized = alt.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "");
           var altLength = altNormalized.length;
 
+          var altTextNotRequiredValue = this.getDialog().getContentElement( 'info', 'altTextNotRequiredCheckbox').getValue();
+          var srcValue = this.getDialog().getContentElement( 'info', 'src').getValue();
+
+          // Testing for empty src attribute, let is validate
+          if (srcValue.length === 0) {
+            return true;
+          }
+
           // Testing for empty alt
           if (altNormalized.length === 0) {
-            return confirm(lang.msgAltEmpty);
+            if (altTextNotRequiredValue) {
+              return confirm(lang.msgAltTextNotRequired);
+            }
+            else {
+              alert(lang.msgAltEmpty);
+              return false;
+            }
           }
 
           // Testing for long text alternative
@@ -519,7 +551,21 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     children: [ {
       type: 'checkbox',
       id:  'altTextNotRequiredCheckbox',
-      label: lang.altTextNotRequiredLabel
+      label: lang.altTextNotRequiredLabel,
+
+      setup: function ( widget ) {
+        if (typeof widget.data.src === 'string' && 
+            widget.data.src.length > 0 &&
+            typeof widget.data.alt === 'string') {
+
+          if (widget.data.alt.length === 0) {
+            this.setValue( true);
+          }
+          else {
+            this.disable();
+          }  
+        }
+      }
     } ]
   };
 
