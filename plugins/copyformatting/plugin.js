@@ -98,17 +98,16 @@
 					// clicking the whole document messes the focus.
 					mouseupHost = editable.isInline() ? editable : editor.document,
 					copyFormattingButton = editor.ui.get( 'CopyFormatting' ),
-					copyFormattingButtonEl;
+					copyFormattingButtonEl,
+					cmd = editor.getCommand( 'copyFormatting' );
 
 				editable.attachListener( mouseupHost, 'mouseup', function( evt ) {
-					if ( getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT ) {
+					if ( getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT && cmd.state === CKEDITOR.TRISTATE_ON ) {
 						editor.execCommand( 'applyFormatting' );
 					}
 				} );
 
 				editable.attachListener( CKEDITOR.document, 'mouseup', function( evt ) {
-					var cmd = editor.getCommand( 'copyFormatting' );
-
 					if ( getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT && cmd.state === CKEDITOR.TRISTATE_ON &&
 						!editable.contains( evt.data.getTarget() ) ) {
 						editor.execCommand( 'copyFormatting' );
