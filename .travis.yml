@@ -9,12 +9,16 @@ node_js:
 env:
   - BUILD=0 BROWSER=Chrome
   - BUILD=1 BROWSER=Chrome
-  - BUILD=0 BROWSER=Firefox
-  - BUILD=1 BROWSER=Firefox
+  - BUILD=0 BROWSER=Firefox MOZ_HEADLESS=1
+  - BUILD=1 BROWSER=Firefox MOZ_HEADLESS=1
 
 addons:
   firefox: "latest"
   chrome: stable
+
+before_install:
+  - # start your web application and listen on `localhost`
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
 before_script:
   # Prepare environment.
