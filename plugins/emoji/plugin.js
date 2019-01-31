@@ -232,7 +232,7 @@
 						itemTemplate = new CKEDITOR.template(
 							'<li class="cke_emoji-navigation_item" data-cke-emoji-group="{group}"><a href="#" title="{name}" draggable="false" _cke_focus="1">' +
 							'<svg viewBox="0 0 34 34" aria-labelledby="{svgId}-title">' +
-							'<title id="{svgId}-title">{name}</title><use ' + useAttr + '"></use></svg></a></li>'
+							'<title id="{svgId}-title">{name}</title><use ' + useAttr + '></use></svg></a></li>'
 						);
 
 						items = arrTools.reduce( this.groups, function( acc, item ) {
