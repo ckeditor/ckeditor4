@@ -554,7 +554,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
       label: lang.altTextNotRequiredLabel,
 
       setup: function ( widget ) {
-        if (typeof widget.data.src === 'string' && 
+        if (typeof widget.data.src === 'string' &&
             widget.data.src.length > 0 &&
             typeof widget.data.alt === 'string') {
 
@@ -563,7 +563,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           }
           else {
             this.disable();
-          }  
+          }
         }
       }
     } ]
@@ -627,6 +627,45 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
       var node = this.getInputElement().findOne('select').$;
       console.log('[longDescriptionSelect][change][value]' + node.value );
       this.setValue(node.value);
+    }
+  };
+
+
+  /* ---------------------------------------------------------------- */
+
+  var imageDescriptionHelpLink = {
+    id: 'imageDescHelpLink',
+    type: 'html',
+    html: '<div style="margin-top: 7px; margin-bottom: 0; margin-left: 3px;"><a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline">' + lang.descriptionHelp + '</a></div>',
+
+    onClick: function () {
+      editor.a11yfirst.helpOption = 'ImageHelp';
+      editor.execCommand('a11yFirstHelpDialog');
+    },
+
+    onKeyDown: function ( event ) {
+      if (event.data.$.keyCode === 13) {
+        editor.a11yfirst.helpOption = 'ImageHelp';
+        editor.execCommand('a11yFirstHelpDialog');
+        event.data.$.stopPropagation();
+        event.data.$.preventDefault();
+      }
+
+      if (event.data.$.keyCode === 9) {
+        if (event.data.$.shiftKey) {
+          this.getDialog().getContentElement( 'info', 'hasDescription').focus();
+        }
+        else {
+          if (this.getDialog().getContentElement( 'info', 'hasDescription').getValue()) {
+            this.getDialog().getContentElement( 'info', 'descriptionLocationRadioGroup').focus();
+          }
+          else {
+            this.getDialog().getContentElement( 'info', 'hasCaption').focus();
+          }
+        }
+        event.data.$.stopPropagation();
+        event.data.$.preventDefault();
+      }
     }
   };
 
@@ -715,6 +754,8 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           altTextNotRequiredCheckbox,
 
           longDescriptionSelect,
+
+          imageDescriptionHelpLink,
 
           captionCheckbox,
 

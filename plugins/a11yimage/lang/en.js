@@ -5,32 +5,36 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 
 	// Type of Image
-	typeOfImage: 'Type of Image',
+	// typeOfImage: 'Type of Image',
 
-	typeInformative: 'Informative',
-	typeInformativeHelp: 'Image adds information to the document',
+	// typeInformative: 'Informative',
+	// typeInformativeHelp: 'Image adds information to the document',
 
-	typeDecorative: 'Decorative',
-	typeDecorativeHelp: 'Image does not add information to the document',
+	// typeDecorative: 'Decorative',
+	// typeDecorativeHelp: 'Image does not add information to the document',
 
-	typeSummary: 'How to choose the image type?',
-	typeDetails: 'If the image adds any information to the document, it is \
-	important for accessibility to select ‘Informative’ and then provide the \
-	appropriate accessible descriptions.',
+	// typeSummary: 'How to choose the image type?',
+	// typeDetails: 'If the image adds any information to the document, it is \
+	// important for accessibility to select ‘Informative’ and then provide the \
+	// appropriate accessible descriptions.',
 
 	// Accessible Descriptions
-	imageDesc: 'Accessible Descriptions',
+	// imageDesc: 'Accessible Descriptions',
+
+	// Alternative text
 
 	altTextLabel: 'Alternative text (spoken by screen reader)',
 	// Note: The max. length in the following message should match the
 	// value of the alternativeTextMaxLength property defined below.
-	altTextTitle: 'A short description of the content and function of the image, with recommended max. length of 100 characters',
+	altTextTitle: 'A short description of the content and function of the image, \
+with recommended max. length of 100 characters',
 	altTextNotRequiredLabel: 'Image does not require alternative text',
 
-	longDescLegend: 'Long Description',
+	// Long Description
+
 	longDescLabel: 'Is there an adjacent detailed description of the image in the document?',
-	// longDescTitle: 'For a complex image that cannot be adequately described by the alternative text',
-	longDescTitle: 'Many people benefit from a more detailed description of a complex image, including, but not limited to, people with visual impairments',
+	longDescTitle: 'Many people benefit from a more detailed description of a \
+complex image, including, but not limited to, people with visual impairments',
 
 	longDescOptionNo: 'No',
 	longDescOptionYesBefore: 'Yes, before the image',
@@ -38,39 +42,41 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	longDescOptionYesBoth: 'Yes, before and after the image',
 
 	// hasDescription: 'A long description is included in the document',
-	hasDescription: 'Long description required within the document',
+	// hasDescription: 'Long description required within the document',
 	// hasDescriptionTooltip: 'Enables a screen reader to indicate the existence \
 	// and location of a long description within the document',
-	hasDescriptionTooltip: 'Required for a complex image that cannot be adequately described by the short description',
+	// hasDescriptionTooltip: 'Required for a complex image that cannot be adequately described by the short description',
 
-	longDescSummary: 'When is a long description required?',
-	longDescDetails: 'If the image is complex, that is, it contains more \
-	information than can be adequately described in the short description, it \
-	is important to add a long description in the body of the document in order \
-	to make that information accessible by people with visual or cognitive \
-	impairments.',
+	// longDescSummary: 'When is a long description required?',
+	// longDescDetails: 'If the image is complex, that is, it contains more \
+	// information than can be adequately described in the short description, it \
+	// is important to add a long description in the body of the document in order \
+	// to make that information accessible by people with visual or cognitive \
+	// impairments.',
 
-	descriptionLocation: 'Location of long description',
+	// descriptionLocation: 'Location of long description',
 
-	locationBefore: 'Before image',
-	locationBeforeHelp: 'Screen reader: \'A long description is located in the document just before the image\'',
-	locationBeforeTitle: 'Long description is located just before the image',
+	// locationBefore: 'Before image',
+	// locationBeforeHelp: 'Screen reader: \'A long description is located in the document just before the image\'',
+	// locationBeforeTitle: 'Long description is located just before the image',
 
-	locationAfter:  'After image',
-	locationAfterHelp:  'Screen reader: \'A long description is located in the document just after the image\'',
-	locationAfterTitle: 'Long description is located just after the image',
+	// locationAfter:  'After image',
+	// locationAfterHelp:  'Screen reader: \'A long description is located in the document just after the image\'',
+	// locationAfterTitle: 'Long description is located just after the image',
 
-	locationBoth:   'Before &amp; after',
-	locationBothHelp:   'Screen reader: \'A long description is located in the document before and after the image\'',
-	locationBothTitle: 'Long description is located before and after the image',
+	// locationBoth:   'Before &amp; after',
+	// locationBothHelp:   'Screen reader: \'A long description is located in the document before and after the image\'',
+	// locationBothTitle: 'Long description is located before and after the image',
 
 	// descriptionHelp: 'More information on text alternatives for images',
 	// descriptionHelp: 'More information on short and long descriptions',
 	// descriptionHelp: 'When is a long description required?',
-	descriptionHelp: 'More information on accessible descriptions',
+	// descriptionHelp: 'More information on accessible descriptions',
+	// descriptionHelp: 'More information on describing images for the blind',
+	descriptionHelp: 'Describing images for people with visual impairments',
 
 	// Image Caption
-	captionFieldsetLabel: 'Caption',
+	// captionFieldsetLabel: 'Caption',
 	// captioned: 'Insert an editable caption text box below the image',
 	captionLabel: 'Insert a caption text box below the image',
 	captionTitle: 'The caption text is editable within the document',
@@ -104,8 +110,9 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	altIsInvalid: ['photo', 'spacer', 'separator', 'nbsp', 'image'],
 	altStartsWithInvalid: ['image of', 'graphic of'],
 	altEndsWithInvalid: ['bytes'],
-	msgAltTextNotRequired: 'Images typically require alternative text (e.g. short description) for people with visual impairments using screen readers, are you sure you want to continue?',
-	msgAltEmpty: 'Images require alternative text (e.g. short description) for people with visual impairments using screen readers.',
+	msgAltTextNotRequired: 'An image typically requires alternative text (i.e. a short description) for people with visual impairments using screen readers.\n\nAre you sure you want to continue?',
+	msgAltEmpty: 'Please provide alternative text (i.e. a short description of the image) for \
+people with visual impairments using screen readers.',
 	msgAltTooLong: 'The alternative text is %s1 characters, which is longer than the recommended \
 maximum length of %s2 characters.\n\nAre you sure you want to continue?',
 	msgAltPrefix: 'The alternative text should succinctly describe the content of the image.',
