@@ -18,9 +18,16 @@
 	 *		var tpl = new CKEDITOR.template( '<div class="{cls}">{label}</div>' );
 	 *		alert( tpl.output( { cls: 'cke-label', label: 'foo'} ) ); // '<div class="cke-label">foo</div>'
 	 *
+	 *		// Function that returns a template.
+	 *		var tpl2 = new CKEDITOR.template(function(data) {
+	 *			return data.image ? '<img src="{image}" alt="{label}"/>' : '<div class="{cls}">{label}</div>'
+	 *		});
+	 *		alert( tpl2.output( { cls: 'cke-label', label: 'foo'} ) ); // '<div class="cke-label">foo</div>'
+	 *		alert( tpl2.output( { image: '/some-image.jpg', label: 'foo'} ) ); // <img src="/some-image.jpg" alt="foo"/>
+	 *
 	 * @class
 	 * @constructor Creates a template class instance.
-	 * @param {String} source The template source.
+	 * @param {String|Function} source The template source - string or function that returns a template.
 	 */
 	CKEDITOR.template = function( source ) {
 		/**
@@ -28,9 +35,13 @@
 		 *
 		 * @readonly
 		 * @member CKEDITOR.template
-		 * @property {String}
+		 * @property {String|Function}
 		 */
-		this.source = String( source );
+		if (typeof source === 'function') {
+			this.source = source;
+		} else {
+			this.source = String(source);
+		}
 	};
 
 	/**
@@ -48,7 +59,16 @@
 	 * template output data; otherwise the new length of `buffer`.
 	 */
 	CKEDITOR.template.prototype.output = function( data, buffer ) {
-		var output = this.source.replace( rePlaceholder, function( fullMatch, dataKey ) {
+
+		var template;
+
+		if (typeof this.source === 'function') {
+			template = this.source(data);
+		} else {
+			template = this.source;
+		}
+
+		var output = template.replace( rePlaceholder, function( fullMatch, dataKey ) {
 			return data[ dataKey ] !== undefined ? data[ dataKey ] : fullMatch;
 		} );
 
