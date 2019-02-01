@@ -147,88 +147,126 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
 \n\
 ### Overview\n\
 \n\
-* People with visual impairments or visual processing disorders need accessible text descriptions of\n\
-  informative images.\n\
+* People with visual impairments or visual processing disorders need\n\
+  accessible text descriptions of informative images.\n\
 \n\
-* Effective text descriptions of images can determine the extent to which readers comprehend your document.\n\
+* Effective text descriptions of images can determine the extent to which\n\
+  readers comprehend your document.\n\
 \n\
-### Alternative text description\n\
+### Alternative text\n\
 \n\
-* Alternative text, which is required for all informative images, succinctly describes the main content\n\
-  and function of the image.\n\
+* Alternative text is required for all informative images and succinctly\n\
+  describes the main content and function of the image.\n\
 \n\
 * The length of the alternative text should be no more than 100 characters.\n\
 \n\
-* The description is added to the `alt` attribute of the `img` element.\n\
+* This description is added to the `alt` attribute of the `img` element.\n\
 \n\
-* There is more information below on writing effective alternative text descriptions.\n\
+* There is more information below on writing effective alternative text\n\
+  descriptions.\n\
 \n\
 ### Detailed descriptions for complex images\n\
 \n\
-* A complex image has informational content that cannot be described adequately by a short alternative\n\
-  text description.\n\
+* A complex image has informational content that cannot be described adequately\n\
+  by alternative text of 100 characters or less.\n\
 \n\
-* Examples of complex images include charts, graphs, diagrams, scientific photographs and works of art.\n\
+* Examples of complex images include charts, graphs, diagrams, scientific\n\
+  photographs and works of art.\n\
 \n\
-* A complex image needs both an alternative text description and a longer, more detailed description.\n\
+* A complex image needs both a concise alternative text description and a\n\
+  longer, more detailed description.\n\
 \n\
-* If an image is informationally complex, accessibility requirements mandate that the additional long\n\
-  description be placed within the document adjacent to the image.\n\
+* Accessibility requirements mandate that the additional long description of\n\
+  a complex image be placed within the document adjacent to the image.\n\
 \n\
-### Adding a longer, detailed description\n\
+### Adding a longer, detailed description in the document\n\
 \n\
-Follow these steps when adding an adjacent detailed description of a complex image:\n\
+Follow these steps when adding an adjacent detailed description of a complex\n\
+image:\n\
 \n\
-1. Add an adequately detailed description of the image within the document, either just before or after the image (or both).\n\
+1. Add an adequately detailed description of the image within the document,\n\
+   either just before or after the image (or both).\n\
 \n\
-1. In answer to the question \'Is there an adjacent detailed description of the image within the document,\' select one of the\n\
-   following:\n\
+1. In answer to the question \'Is there an adjacent detailed description of the\n\
+   image in the document,\' select one of the following:\n\
        * \'Yes, before the image\'\n\
        * \'Yes, after the image\'\n\
        * \'Yes, before and after the image\'\n\
 \n\
-By specifying the location of the detailed description relative to the image, screen reader users can be made aware that a\n\
-long description exists, and where it is located.\n\
+By specifying the location of the detailed description relative to the image,\n\
+screen reader users can be made aware of the existence and location of the\n\
+long description.\n\
 \n\
 ### Insert an editable caption below the image\n\
 \n\
-* A **caption** is an optional visual label supported by CKEditor for an image. It provides an additional way to describe an image that is immediately below and proximate to the image.\n\
+* A **caption** is an optional visual label supported by CKEditor for an image.\n\
+  It provides an additional way to describe an image that is immediately below\n\
+  and proximate to the image.\n\
 \n\
-* The caption content is specified and is editable in the text box just below the image, once it has been inserted in the document.\n\
+* The caption content is specified and is editable in the text box just below\n\
+  the image, once it has been inserted in the document.\n\
 \n\
-* From an accessibility perspective the *caption* and the *short description* should not be the same, but instead should complement each other.\n\
+* From an accessibility perspective the *caption* and the *short description*\n\
+  should not be the same, but instead should complement each other.\n\
 \n\
-* Using the caption creates a `figcaption` element contained in a `figure` element.  The `figure` element also contains the `img` element.\n\
+* Using the caption creates a `figcaption` element contained in a `figure`\n\
+  element. The `figure` element also contains the `img` element.\n\
 \n\
 ### Why image descriptions are important\n\
 \n\
-Adding accessible text descriptions of images, a.k.a. text alternatives, is an important part of making documents accessible to the visually impaired who use assistive devices such as screen readers and magnifiers, and to people with visual processing disorders, which make especially complex images more difficult to understand.\n\
+Adding accessible text descriptions of images, a.k.a. text alternatives, is an\n\
+important part of making documents accessible to the visually impaired who use\n\
+assistive devices such as screen readers and magnifiers, and to people with\n\
+visual processing disorders, which make especially complex images more\n\
+difficult to understand.\n\
 \n\
-When the user cannot see all or part of the image, assistive technologies will read or display the short text description associated with the image. This is especially important when the image conveys information that is required for the user to fully understand the information in the document.\n\
+When the user cannot see all or part of the image, assistive technologies will\n\
+read or display the short text description associated with the image. This is\n\
+especially important when the image conveys information that is required for\n\
+the user to fully understand the information in the document.\n\
 \n\
-For people with visual processing disorders, the long description of a complex image helps them to more quickly or completely understand the information being conveyed by the image.\n\
+For people with visual processing disorders, the long description of a complex\n\
+image helps them to more quickly or completely understand the information\n\
+being conveyed by the image.\n\
 \n\
-### Tips for writing an effective short description\n\
+### Tips for writing effective alternative text descriptions\n\
 \n\
-The following are based on <a href="https://webaim.org/">WebAIM\'s</a> guidelines for writing effective short descriptions:\n\
+The following are based on <a href="https://webaim.org">WebAIM</a>\'s\n\
+guidelines for writing effective alternative text:\n\
 \n\
-* **Be accurate and equivalent** in presenting the same *content* and *function* of the image.\n\
+* **Be accurate and equivalent** in presenting the same *content* and\n\
+  *function* of the image.\n\
 \n\
-* When **images are used as links** the short description should describe the target of the link.\n\
+* When **images are used as links**, the alternative text should describe the\n\
+  target of the link.\n\
 \n\
-* **Be succinct.** This means the correct content and function of the image should be presented as succinctly as is appropriate. Typically no more than a few words are necessary, though rarely a short sentence or two may be appropriate. The length should not exceed 100 characters.\n\
+* **Be succinct.** This means the correct content and function of the image\n\
+  should be presented as succinctly as is appropriate. Typically no more than\n\
+  a few words are necessary, though rarely a short sentence or two may be\n\
+  appropriate. The length should not exceed 100 characters.\n\
 \n\
-* **Do NOT be redundant** or provide the same information as text that is already part of the document.\n\
+* **Do NOT be redundant** or provide the same information as text that is\n\
+  already part of the document.\n\
 \n\
-* **Do NOT use the phrases "image of ..." or "graphic of ..."** to describe the image. Assistive technologies notify the user of the image.  It is your job to describe the purpose or the content of the image.  If the image is a photograph or illustration, etc. of important content, it may be useful to include this in the short description.\n\
+* **Do NOT use the phrases "image of ..." or "graphic of ..."** to describe\n\
+  the image. Assistive technologies notify the user of the image.  It is your\n\
+  job to describe the purpose or the content of the image.  If the image is a\n\
+  photograph or illustration, etc. of important content, it may be useful to\n\
+  include this in the alternative text.\n\
 \n\
-* **Do NOT include file names or sizes** as part of the short description.\n\
+* **Do NOT include file names or sizes** as part of the alternative text.\n\
 \n\
 ### More about captions\n\
 \n\
-* In some cases, where the caption sufficiently describes the purpose of the image, it may not be necessary to provide a short description. Alternatively, it may be useful to use the short description to provide a slightly more detailed description than the caption.\n\
+* In some cases, where the caption sufficiently describes the purpose of the\n\
+  image, it may not be necessary to provide a short description. Alternatively,\n\
+  it may be useful to use the short description to provide a slightly more\n\
+  detailed description than the caption.\n\
 \n\
-* In other cases the caption may be providing detailed information about an image (e.g. the names of people listed by row in a group picture), whereby the short description should provide a shorter text description of the purpose of the image (e.g. group picture of ...).\n\
+* In other cases the caption may be providing detailed information about an\n\
+  image (e.g. the names of people listed by row in a group picture), whereby\n\
+  the short description should provide a shorter text description of the\n\
+  purpose of the image (e.g. group picture of ...).\n\
 \n\
 ### More information\n\
 \n\
