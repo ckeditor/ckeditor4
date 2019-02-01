@@ -163,8 +163,32 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
 * Alternative text is not visible in the document; it is spoken by screen\n\
   reader applications, via the *alt* attribute of the *img* element.\n\
 \n\
-* There is more information below on writing effective alternative text\n\
-  descriptions.\n\
+### Writing effective alternative text\n\
+\n\
+The following are based on <a href="https://webaim.org">WebAIM</a>\'s\n\
+guidelines for alternative text:\n\
+\n\
+* **Be accurate and equivalent** in presenting the same *content* and\n\
+  *function* of the image.\n\
+\n\
+* When **images are used as links**, the alternative text should describe the\n\
+  target of the link.\n\
+\n\
+* **Be succinct.** This means the correct content and function of the image\n\
+  should be presented as succinctly as is appropriate. Typically no more than\n\
+  a few words are necessary, though rarely a short sentence or two may be\n\
+  appropriate. The length should not exceed 100 characters.\n\
+\n\
+* **Do NOT be redundant** or provide the same information as text that is\n\
+  already part of the document.\n\
+\n\
+* **Do NOT use the phrases "image of ..." or "graphic of ..."** to describe\n\
+  the image. Assistive technologies notify the user of the image.  It is your\n\
+  job to describe the purpose or the content of the image.  If the image is a\n\
+  photograph or illustration, etc. of important content, it may be useful to\n\
+  include this in the alternative text.\n\
+\n\
+* **Do NOT include file names or sizes** as part of the alternative text.\n\
 \n\
 ### Detailed descriptions for complex images\n\
 \n\
@@ -228,45 +252,6 @@ understand the information in the document.\n\
 For people with visual processing disorders, a detailed description of a\n\
 complex image helps them to more quickly or completely understand the\n\
 information being conveyed by the image.\n\
-\n\
-### Tips for writing effective alternative text descriptions\n\
-\n\
-The following are based on <a href="https://webaim.org">WebAIM</a>\'s\n\
-guidelines for writing effective alternative text:\n\
-\n\
-* **Be accurate and equivalent** in presenting the same *content* and\n\
-  *function* of the image.\n\
-\n\
-* When **images are used as links**, the alternative text should describe the\n\
-  target of the link.\n\
-\n\
-* **Be succinct.** This means the correct content and function of the image\n\
-  should be presented as succinctly as is appropriate. Typically no more than\n\
-  a few words are necessary, though rarely a short sentence or two may be\n\
-  appropriate. The length should not exceed 100 characters.\n\
-\n\
-* **Do NOT be redundant** or provide the same information as text that is\n\
-  already part of the document.\n\
-\n\
-* **Do NOT use the phrases "image of ..." or "graphic of ..."** to describe\n\
-  the image. Assistive technologies notify the user of the image.  It is your\n\
-  job to describe the purpose or the content of the image.  If the image is a\n\
-  photograph or illustration, etc. of important content, it may be useful to\n\
-  include this in the alternative text.\n\
-\n\
-* **Do NOT include file names or sizes** as part of the alternative text.\n\
-\n\
-### More about captions\n\
-\n\
-* In some cases, where the caption sufficiently describes the purpose of the\n\
-  image, it may not be necessary to provide a short description. Alternatively,\n\
-  it may be useful to use the short description to provide a slightly more\n\
-  detailed description than the caption.\n\
-\n\
-* In other cases the caption may be providing detailed information about an\n\
-  image (e.g. the names of people listed by row in a group picture), whereby\n\
-  the short description should provide a shorter text description of the\n\
-  purpose of the image (e.g. group picture of ...).\n\
 \n\
 ### More information\n\
 \n\
