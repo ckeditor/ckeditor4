@@ -145,7 +145,7 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
     'content' : '\
 ## Image\n\
 \n\
-### Overview\n\
+### Describing images for people with visual impairments\n\
 \n\
 * People with visual impairments or visual processing disorders need\n\
   accessible text descriptions of informative images.\n\
@@ -160,7 +160,8 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
 \n\
 * The length of the alternative text should be no more than 100 characters.\n\
 \n\
-* This description is added to the `alt` attribute of the `img` element.\n\
+* Alternative text is not visible in the document; it is spoken by screen\n\
+  reader applications, via the *alt* attribute of the *img* element.\n\
 \n\
 * There is more information below on writing effective alternative text\n\
   descriptions.\n\
@@ -176,8 +177,8 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
 * A complex image needs both a concise alternative text description and a\n\
   longer, more detailed description.\n\
 \n\
-* Accessibility requirements mandate that the additional long description of\n\
-  a complex image be placed within the document adjacent to the image.\n\
+* Accessibility requirements mandate that the long description of a complex\n\
+  image be placed within the document adjacent to the image.\n\
 \n\
 ### Adding a longer, detailed description in the document\n\
 \n\
@@ -187,15 +188,15 @@ image:\n\
 1. Add an adequately detailed description of the image within the document,\n\
    either just before or after the image (or both).\n\
 \n\
-1. In answer to the question \'Is there an adjacent detailed description of the\n\
-   image in the document,\' select one of the following:\n\
-       * \'Yes, before the image\'\n\
-       * \'Yes, after the image\'\n\
-       * \'Yes, before and after the image\'\n\
+1. In answer to the question \'**Is there an adjacent detailed description of the\n\
+   image in the document**\', select one of the following:\n\
+       * Yes, before the image\n\
+       * Yes, after the image\n\
+       * Yes, before and after the image\n\
 \n\
 By specifying the location of the detailed description relative to the image,\n\
-screen reader users can be made aware of the existence and location of the\n\
-long description.\n\
+screen reader users can be informed of the existence and location of the\n\
+description in the document.\n\
 \n\
 ### Insert a caption text box below the image\n\
 \n\

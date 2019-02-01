@@ -1,6 +1,6 @@
 ## Image
 
-### Overview
+### Describing images for people with visual impairments
 
 * People with visual impairments or visual processing disorders need
   accessible text descriptions of informative images.
@@ -15,7 +15,8 @@
 
 * The length of the alternative text should be no more than 100 characters.
 
-* This description is added to the `alt` attribute of the `img` element.
+* Alternative text is not visible in the document; it is spoken by screen
+  reader applications, via the *alt* attribute of the *img* element.
 
 * There is more information below on writing effective alternative text
   descriptions.
@@ -31,8 +32,8 @@
 * A complex image needs both a concise alternative text description and a
   longer, more detailed description.
 
-* Accessibility requirements mandate that the additional long description of
-  a complex image be placed within the document adjacent to the image.
+* Accessibility requirements mandate that the long description of a complex
+  image be placed within the document adjacent to the image.
 
 ### Adding a longer, detailed description in the document
 
@@ -42,15 +43,15 @@ image:
 1. Add an adequately detailed description of the image within the document,
    either just before or after the image (or both).
 
-1. In answer to the question 'Is there an adjacent detailed description of the
-   image in the document,' select one of the following:
-       * 'Yes, before the image'
-       * 'Yes, after the image'
-       * 'Yes, before and after the image'
+1. In answer to the question '**Is there an adjacent detailed description of the
+   image in the document**', select one of the following:
+       * Yes, before the image
+       * Yes, after the image
+       * Yes, before and after the image
 
 By specifying the location of the detailed description relative to the image,
-screen reader users can be made aware of the existence and location of the
-long description.
+screen reader users can be informed of the existence and location of the
+description in the document.
 
 ### Insert a caption text box below the image
 
