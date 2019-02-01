@@ -2980,16 +2980,33 @@
 		}, null, null, 8 );
 
 		editor.on( 'dataReady', function() {
-			// Clean up all widgets loaded from snapshot.
+			var container = editor.editable();
+
 			if ( snapshotLoaded )
-				cleanUpAllWidgetElements( widgetsRepo, editor.editable() );
+				cleanUpAllWidgetElements( widgetsRepo, container );
 			snapshotLoaded = 0;
 
 			// Some widgets were destroyed on contentDomUnload,
 			// some on loadSnapshot, but that does not include
 			// e.g. setHtml on inline editor or widgets removed just
 			// before setting data.
-			widgetsRepo.destroyAll( true );
+
+			var instances = editor.widgets.instances;
+			for ( var id in instances ) {
+				var widget = instances[ id ];
+
+				// Try to restore widget instead of destroying it if it's marked `keepAlive`.
+				if ( container && widget.keepAlive ) {
+					var restoreElement = container.findOne( '[data-cke-widget-restore-id="' + widget.id + '"]' );
+
+					if ( restoreElement ) {
+						widget.wrapper.replace( restoreElement );
+					}
+				} else {
+					editor.widgets.destroy( widget, true );
+				}
+			}
+
 			widgetsRepo.initOnAll();
 		} );
 
@@ -3000,8 +3017,6 @@
 			// heavier cleanUpAllWidgetElements if not needed.
 			if ( ( /data-cke-widget/ ).test( evt.data ) )
 				snapshotLoaded = 1;
-
-			widgetsRepo.destroyAll( true );
 		}, null, null, 9 );
 
 		// Handle pasted single widget.

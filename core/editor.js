@@ -1050,13 +1050,16 @@
 		 *
 		 * * {@link CKEDITOR.editor#method-getData}.
 		 *
+		 * @param {CKEDITOR.htmlParser.filter} filter
+		 *
 		 * @returns {String} Editor "raw data".
 		 */
-		getSnapshot: function() {
+		getSnapshot: function( filter ) {
 			var data = this.fire( 'getSnapshot' );
 
 			if ( typeof data != 'string' ) {
 				var element = this.element;
+
 
 				if ( element && this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 					data = element.is( 'textarea' ) ? element.getValue() : element.getHtml();
@@ -1066,6 +1069,15 @@
 					// as this method is expected to return a string. (https://dev.ckeditor.com/ticket/13385)
 					data = '';
 				}
+			}
+
+			if ( filter ) {
+				var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data ),
+					writer = new CKEDITOR.htmlParser.basicWriter();
+
+				filter.applyTo( fragment );
+				fragment.writeHtml( writer );
+				data = writer.getHtml();
 			}
 
 			return data;

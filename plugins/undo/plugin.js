@@ -251,6 +251,11 @@
 	};
 
 	UndoManager.prototype = {
+
+		createImage: function( contentsOnly, filter ) {
+			return new Image( this.editor, contentsOnly, filter );
+		},
+
 		/**
 		 * Handles keystroke support for the undo manager. It is called on `keyup` event for
 		 * keystrokes that can change the editor content.
@@ -364,7 +369,7 @@
 
 			// Get a content image.
 			if ( !image )
-				image = new Image( editor );
+				image = this.createImage();
 
 			// Do nothing if it was not possible to retrieve an image.
 			if ( image.contents === false )
@@ -397,6 +402,7 @@
 
 			if ( autoFireChange !== false )
 				this.refreshState();
+
 			return true;
 		},
 
@@ -405,36 +411,12 @@
 		 *
 		 * @param {CKEDITOR.plugins.undo.Image} image
 		 */
-		restoreImage: function( image ) {
+		restoreImage: function( image, isUndo ) {
 			// Bring editor focused to restore selection.
 			var editor = this.editor,
 				sel;
 
-			if ( image.bookmarks ) {
-				editor.focus();
-				// Retrieve the selection beforehand. (https://dev.ckeditor.com/ticket/8324)
-				sel = editor.getSelection();
-			}
-
-			// Start transaction - do not allow any mutations to the
-			// snapshots stack done when selecting bookmarks (much probably
-			// by selectionChange listener).
-			this.locked = { level: 999 };
-
-			this.editor.loadSnapshot( image.contents );
-
-			if ( image.bookmarks )
-				sel.selectBookmarks( image.bookmarks );
-			else if ( CKEDITOR.env.ie ) {
-				// IE BUG: If I don't set the selection to *somewhere* after setting
-				// document contents, then IE would create an empty paragraph at the bottom
-				// the next time the document is modified.
-				var $range = this.editor.document.getBody().$.createTextRange();
-				$range.collapse( true );
-				$range.select();
-			}
-
-			this.locked = null;
+			image.applyTo( this, isUndo );
 
 			this.index = image.index;
 			this.currentImage = this.snapshots[ this.index ];
@@ -509,7 +491,7 @@
 
 				var image = this.getNextImage( true );
 				if ( image )
-					return this.restoreImage( image ), true;
+					return this.restoreImage( image, true ), true;
 			}
 
 			return false;
@@ -547,7 +529,7 @@
 				return;
 
 			if ( !newImage )
-				newImage = new Image( this.editor );
+				newImage = this.createImage();
 
 			var i = this.index,
 				snapshots = this.snapshots;
@@ -626,7 +608,7 @@
 						// * there's a chance that DOM has been changed since
 						// locked (e.g. fake) selection was made, so createBookmark2 could fail.
 						// https://dev.ckeditor.com/ticket/11027#comment:3
-						var imageBefore = new Image( this.editor, true );
+						var imageBefore = this.createImage( true );
 
 						// If current editor content matches the tip of snapshot stack,
 						// the stack tip must be updated by unlock, to include any changes made
@@ -664,7 +646,7 @@
 						this.update();
 					// update is instance of Image.
 					else if ( update ) {
-						var newImage = new Image( this.editor, true );
+						var newImage = this.createImage( true );
 
 						if ( !update.equalsContent( newImage ) )
 							this.update();
@@ -780,12 +762,12 @@
 	 * @param {CKEDITOR.editor} editor The editor instance on which the image is created.
 	 * @param {Boolean} [contentsOnly] If set to `true`, the image will only contain content without the selection.
 	 */
-	var Image = CKEDITOR.plugins.undo.Image = function( editor, contentsOnly ) {
+	var Image = CKEDITOR.plugins.undo.Image = function( editor, contentsOnly, filter ) {
 			this.editor = editor;
 
 			editor.fire( 'beforeUndoImage' );
 
-			var contents = editor.getSnapshot();
+			var contents = editor.getSnapshot( filter );
 
 			// In IE, we need to remove the expando attributes.
 			if ( CKEDITOR.env.ie && contents )
@@ -805,6 +787,35 @@
 	var protectedAttrs = /\b(?:href|src|name)="[^"]*?"/gi;
 
 	Image.prototype = {
+		applyTo: function( undoManager ) {
+			var sel;
+
+			if ( this.bookmarks ) {
+				this.editor.focus();
+				// Retrieve the selection beforehand. (https://dev.ckeditor.com/ticket/8324)
+				sel = this.editor.getSelection();
+			}
+
+			// Start transaction - do not allow any mutations to the
+			// snapshots stack done when selecting bookmarks (much probably
+			// by selectionChange listener).
+			undoManager.locked = { level: 999 };
+
+			this.editor.loadSnapshot( this.contents );
+
+			if ( this.bookmarks )
+				sel.selectBookmarks( this.bookmarks );
+			else if ( CKEDITOR.env.ie ) {
+				// IE BUG: If I don't set the selection to *somewhere* after setting
+				// document contents, then IE would create an empty paragraph at the bottom
+				// the next time the document is modified.
+				var $range = this.editor.document.getBody().$.createTextRange();
+				$range.collapse( true );
+				$range.select();
+			}
+
+			undoManager.locked = null;
+		},
 		/**
 		 * @param {CKEDITOR.plugins.undo.Image} otherImage Image to compare to.
 		 * @returns {Boolean} Returns `true` if content in `otherImage` is the same.
@@ -951,7 +962,7 @@
 
 			// We need to store an image which will be used in case of key group
 			// change.
-			this.lastKeydownImage = new Image( undoManager.editor );
+			this.lastKeydownImage = undoManager.createImage();
 
 			if ( UndoManager.isNavigationKey( keyCode ) || this.undoManager.keyGroupChanged( keyCode ) ) {
 				if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
@@ -1009,7 +1020,7 @@
 			// changed because we blindly mocked the keypress event.
 			// Also we need to be aware that lastKeydownImage might not be available (https://dev.ckeditor.com/ticket/12327).
 			if ( UndoManager.ieFunctionalKeysBug( keyCode ) && this.lastKeydownImage &&
-				this.lastKeydownImage.equalsContent( new Image( undoManager.editor, true ) ) ) {
+				this.lastKeydownImage.equalsContent( undoManager.createImage( true ) ) ) {
 				return;
 			}
 
@@ -1037,7 +1048,7 @@
 			// We attempt to save content snapshot, if content didn't change, we'll
 			// only amend selection.
 			if ( skipContentCompare || !undoManager.save( true, null, false ) )
-				undoManager.updateSelection( new Image( undoManager.editor ) );
+				undoManager.updateSelection( undoManager.createImage() );
 
 			undoManager.resetType();
 		},
