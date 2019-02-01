@@ -210,8 +210,8 @@ description in the document.\n\
 * From an accessibility perspective the *caption* and the *alternative text*\n\
   should not be the same, but instead should complement each other.\n\
 \n\
-* Using the caption creates a `figcaption` element contained in a `figure`\n\
-  element. The `figure` element also contains the `img` element.\n\
+* Using the caption creates a *figcaption* element contained in a *figure*\n\
+  element. The *figure* element also contains the *img* element.\n\
 \n\
 ### Why image descriptions are important\n\
 \n\

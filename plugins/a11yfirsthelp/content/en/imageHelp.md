@@ -65,8 +65,8 @@ description in the document.
 * From an accessibility perspective the *caption* and the *alternative text*
   should not be the same, but instead should complement each other.
 
-* Using the caption creates a `figcaption` element contained in a `figure`
-  element. The `figure` element also contains the `img` element.
+* Using the caption creates a *figcaption* element contained in a *figure*
+  element. The *figure* element also contains the *img* element.
 
 ### Why image descriptions are important
 
