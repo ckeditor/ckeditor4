@@ -160,7 +160,8 @@ a.cke_dialog_ui_button.a11yfirsthelp:hover
   padding: 8px;
 }
 
-.cke_dialog_ui_fieldset .cke_disabled label {
+.cke_dialog_ui_fieldset .cke_disabled label,
+.cke_dialog_ui_checkbox.cke_disabled label {
   color: gray;
 }
 

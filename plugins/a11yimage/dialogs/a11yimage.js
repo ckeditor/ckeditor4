@@ -85,6 +85,14 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     return isValid;
   }
 
+
+  //  Trim leading and trailing whitespace and condense all
+  //  interal sequences of whitespace to a single space
+  function normalize (s) {
+    let rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+    return s.replace(rtrim, '').replace(/\s+/g, ' ');
+  }
+
   // Creates a function that pre-loads images. The callback function passes
   // [image, width, height] or null if loading failed.
   //
@@ -361,7 +369,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         widget.setData( 'src', this.getValue() );
       },
       validate: function( widget ) {
-        if (this.getValue().length === 0) {
+        if (normalize(this.getValue()).length === 0) {
           alert( lang.urlMissing );
           return false;
         }
@@ -476,7 +484,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           var i;
 
           var alt = this.getValue();
-          var altNormalized = alt.trim().toLowerCase().replace(/^\s*|\s(?=\s)|\s*$/g, "");
+          var altNormalized = normalize(alt).toLowerCase();
           var altLength = altNormalized.length;
 
           var altTextNotRequiredValue = this.getDialog().getContentElement( 'info', 'altTextNotRequiredCheckbox').getValue();
@@ -499,7 +507,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           }
 
           // Testing for long text alternative
-          if (alt.trim().length > lang.alternativeTextMaxLength) {
+          if (altLength > lang.alternativeTextMaxLength) {
             return confirm(lang.msgAltTooLong.replace('%s1', alt.trim().length).replace('%s2', lang.alternativeTextMaxLength));
           }
 
@@ -554,15 +562,23 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
       label: lang.altTextNotRequiredLabel,
 
       setup: function ( widget ) {
+
+        var src = normalize(widget.data.src);
+        var alt = normalize(widget.data.alt);
+
         if (typeof widget.data.src === 'string' &&
-            widget.data.src.length > 0 &&
             typeof widget.data.alt === 'string') {
 
-          if (widget.data.alt.length === 0) {
-            this.setValue( true);
-          }
-          else {
-            this.disable();
+          var src = normalize(widget.data.src);
+          var alt = normalize(widget.data.alt);
+
+          if (src.length > 0 ) {
+            if (widget.data.alt.length === 0) {
+              this.setValue( true );
+            }
+            else {
+              this.disable();
+            }
           }
         }
       }
