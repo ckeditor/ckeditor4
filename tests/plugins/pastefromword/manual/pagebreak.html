@@ -1,0 +1,11 @@
+<h2>Editor with Page Break plugin</h2>
+<div id="editor1"></div>
+<h2>Editor without Page Break plugin</h2>
+<div id="editor2"></div>
+
+<script>
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor2', {
+		removePlugins: 'pagebreak'
+	} );
+</script>

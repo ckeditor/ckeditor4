@@ -1,0 +1,11 @@
+<div id="editor"></div>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor', {
+		on: {
+			instanceReady: function() {
+				editor.insertElement( CKEDITOR.plugins.pagebreak.createElement( editor ) );
+			}
+		}
+	} );
+</script>
