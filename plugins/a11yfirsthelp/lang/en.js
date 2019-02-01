@@ -197,7 +197,7 @@ By specifying the location of the detailed description relative to the image,\n\
 screen reader users can be made aware of the existence and location of the\n\
 long description.\n\
 \n\
-### Insert an editable caption below the image\n\
+### Insert a caption text box below the image\n\
 \n\
 * A **caption** is an optional visual label supported by CKEditor for an image.\n\
   It provides an additional way to describe an image that is immediately below\n\
@@ -206,7 +206,7 @@ long description.\n\
 * The caption content is specified and is editable in the text box just below\n\
   the image, once it has been inserted in the document.\n\
 \n\
-* From an accessibility perspective the *caption* and the *short description*\n\
+* From an accessibility perspective the *caption* and the *alternative text*\n\
   should not be the same, but instead should complement each other.\n\
 \n\
 * Using the caption creates a `figcaption` element contained in a `figure`\n\
