@@ -147,54 +147,48 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
 \n\
 ### Overview\n\
 \n\
-* People with visual impairments or visual processing disorders need accessible text descriptions of informative images.\n\
+* People with visual impairments or visual processing disorders need accessible text descriptions of\n\
+  informative images.\n\
 \n\
-* Effective text descriptions of informative images can determine the extent to which readers comprehend your document.\n\
+* Effective text descriptions of images can determine the extent to which readers comprehend your document.\n\
 \n\
-### Type of Image\n\
+### Alternative text description\n\
 \n\
-* An **informative** image adds informational content to the document, and therefore requires at least a short text alternative.\n\
+* Alternative text, which is required for all informative images, succinctly describes the main content\n\
+  and function of the image.\n\
 \n\
-* A **decorative** image does not add information to the document, and therefore does not require a text alternative.\n\
+* The length of the alternative text should be no more than 100 characters.\n\
 \n\
-### Accessible Descriptions\n\
+* The description is added to the `alt` attribute of the `img` element.\n\
 \n\
-An accessible description for an image is a text alternative that accurately presents the informational content of the image.\n\
+* There is more information below on writing effective alternative text descriptions.\n\
 \n\
-There are two types of accessible descriptions:\n\
+### Detailed descriptions for complex images\n\
 \n\
-1. A **short description** briefly describes the main purpose or content of an informative image.\n\
-1. A **long description** provides a more detailed description of the information or data contained in a complex image.\n\
-\n\
-### Short description\n\
-\n\
-* Each informative image, regardless of its complexity, requires a short description, which you provide in the **Short description** field.\n\
-\n\
-* The short description is added to the `alt` attribute of the `img` element. Its length is typically no more than 100 characters.\n\
-\n\
-* There is more information below on writing an effective short description.\n\
-\n\
-### Long descriptions for complex images\n\
-\n\
-* A complex image has informational content that cannot be described adequately with a short description.\n\
+* A complex image has informational content that cannot be described adequately by a short alternative\n\
+  text description.\n\
 \n\
 * Examples of complex images include charts, graphs, diagrams, scientific photographs and works of art.\n\
 \n\
-* A complex image needs both a short description and a longer, more detailed description.\n\
+* A complex image needs both an alternative text description and a longer, more detailed description.\n\
 \n\
-* If an image is informationally complex, accessibility requirements mandate that the additional long description be placed within the document adjacent to the image.\n\
+* If an image is informationally complex, accessibility requirements mandate that the additional long\n\
+  description be placed within the document adjacent to the image.\n\
 \n\
-### Adding a long description\n\
+### Adding a longer, detailed description\n\
 \n\
-Follow these three steps when adding a long description of an image:\n\
+Follow these steps when adding an adjacent detailed description of a complex image:\n\
 \n\
 1. Add an adequately detailed description of the image within the document, either just before or after the image (or both).\n\
 \n\
-1. Select the checkbox labeled **A long description is included in the document**.\n\
+1. In answer to the question \'Is there an adjacent detailed description of the image within the document,\' select one of the\n\
+   following:\n\
+       * \'Yes, before the image\'\n\
+       * \'Yes, after the image\'\n\
+       * \'Yes, before and after the image\'\n\
 \n\
-1. Select the appropriate option for **Location of long description**.\n\
-\n\
-By specifying the location of the long description relative to the image, this information can be made available to screen reader users.\n\
+By specifying the location of the detailed description relative to the image, screen reader users can be made aware that a\n\
+long description exists, and where it is located.\n\
 \n\
 ### Insert an editable caption below the image\n\
 \n\

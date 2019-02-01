@@ -2,54 +2,48 @@
 
 ### Overview
 
-* People with visual impairments or visual processing disorders need accessible text descriptions of informative images.
+* People with visual impairments or visual processing disorders need accessible text descriptions of
+  informative images.
 
-* Effective text descriptions of informative images can determine the extent to which readers comprehend your document.
+* Effective text descriptions of images can determine the extent to which readers comprehend your document.
 
-### Type of Image
+### Alternative text description
 
-* An **informative** image adds informational content to the document, and therefore requires at least a short text alternative.
+* Alternative text, which is required for all informative images, succinctly describes the main content
+  and function of the image.
 
-* A **decorative** image does not add information to the document, and therefore does not require a text alternative.
+* The length of the alternative text should be no more than 100 characters.
 
-### Accessible Descriptions
+* The description is added to the `alt` attribute of the `img` element.
 
-An accessible description for an image is a text alternative that accurately presents the informational content of the image.
+* There is more information below on writing effective alternative text descriptions.
 
-There are two types of accessible descriptions:
+### Detailed descriptions for complex images
 
-1. A **short description** briefly describes the main purpose or content of an informative image.
-1. A **long description** provides a more detailed description of the information or data contained in a complex image.
-
-### Short description
-
-* Each informative image, regardless of its complexity, requires a short description, which you provide in the **Short description** field.
-
-* The short description is added to the `alt` attribute of the `img` element. Its length is typically no more than 100 characters.
-
-* There is more information below on writing an effective short description.
-
-### Long descriptions for complex images
-
-* A complex image has informational content that cannot be described adequately with a short description.
+* A complex image has informational content that cannot be described adequately by a short alternative
+  text description.
 
 * Examples of complex images include charts, graphs, diagrams, scientific photographs and works of art.
 
-* A complex image needs both a short description and a longer, more detailed description.
+* A complex image needs both an alternative text description and a longer, more detailed description.
 
-* If an image is informationally complex, accessibility requirements mandate that the additional long description be placed within the document adjacent to the image.
+* If an image is informationally complex, accessibility requirements mandate that the additional long
+  description be placed within the document adjacent to the image.
 
-### Adding a long description
+### Adding a longer, detailed description
 
-Follow these three steps when adding a long description of an image:
+Follow these steps when adding an adjacent detailed description of a complex image:
 
 1. Add an adequately detailed description of the image within the document, either just before or after the image (or both).
 
-1. Select the checkbox labeled **A long description is included in the document**.
+1. In answer to the question 'Is there an adjacent detailed description of the image within the document,' select one of the
+   following:
+       * 'Yes, before the image'
+       * 'Yes, after the image'
+       * 'Yes, before and after the image'
 
-1. Select the appropriate option for **Location of long description**.
-
-By specifying the location of the long description relative to the image, this information can be made available to screen reader users.
+By specifying the location of the detailed description relative to the image, screen reader users can be made aware that a
+long description exists, and where it is located.
 
 ### Insert an editable caption below the image
 
