@@ -27,7 +27,7 @@ CKEDITOR.plugins.setLang( 'a11yimage', 'en', {
 	// Note: The max. length in the following message should match the
 	// value of the alternativeTextMaxLength property defined below.
 	altTextTitle: 'A short description of the content and function of the image, \
-with recommended max. length of 100 characters',
+no longer than 100 characters',
 	altTextNotRequiredLabel: 'Image does not require alternative text',
 
 	// Long Description
