@@ -214,20 +214,19 @@ long description.\n\
 \n\
 ### Why image descriptions are important\n\
 \n\
-Adding accessible text descriptions of images, a.k.a. text alternatives, is an\n\
-important part of making documents accessible to the visually impaired who use\n\
-assistive devices such as screen readers and magnifiers, and to people with\n\
-visual processing disorders, which make especially complex images more\n\
-difficult to understand.\n\
+Adding text descriptions of images is an important part of making documents\n\
+accessible to the visually impaired who use assistive devices such as screen\n\
+readers and magnifiers, and to people with visual processing disorders, which\n\
+make especially complex images more difficult to understand.\n\
 \n\
-When the user cannot see all or part of the image, assistive technologies will\n\
-read or display the short text description associated with the image. This is\n\
-especially important when the image conveys information that is required for\n\
-the user to fully understand the information in the document.\n\
+When the user cannot see all or part of an image, assistive technologies will\n\
+read or display its alternative text description. This is especially important\n\
+when the image conveys information that is required for the user to fully\n\
+understand the information in the document.\n\
 \n\
-For people with visual processing disorders, the long description of a complex\n\
-image helps them to more quickly or completely understand the information\n\
-being conveyed by the image.\n\
+For people with visual processing disorders, a detailed description of a\n\
+complex image helps them to more quickly or completely understand the\n\
+information being conveyed by the image.\n\
 \n\
 ### Tips for writing effective alternative text descriptions\n\
 \n\
