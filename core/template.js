@@ -27,7 +27,7 @@
 	 *
 	 * @class
 	 * @constructor Creates a template class instance.
-	 * @param {String|Function} source The template source - string or function that returns a template.
+	 * @param {String|Function} source The template source - string or callback function that returns a string.
 	 */
 	CKEDITOR.template = function( source ) {
 		/**
