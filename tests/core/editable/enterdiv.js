@@ -7,10 +7,10 @@ bender.editor = {
 };
 
 var tests = {
-	// 2751
+	// (#2751)
 	'insert div': testInsertHtml( '<div>foo</div>' ),
 
-	// 2751
+	// (#2751)
 	'insert two divs': testInsertHtml( '<div>foo</div><div>bar</div>' )
 };
 
