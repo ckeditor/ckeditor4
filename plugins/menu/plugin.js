@@ -615,6 +615,7 @@ CKEDITOR.plugins.add( 'menu', {
 /**
  * Fired when a menu is hidden.
  *
+ * @since 4.12.0
  * @event hide
  * @member CKEDITOR.menu
  */
