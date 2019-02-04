@@ -172,7 +172,7 @@
 
 		// Changes to cell properties dialog (#1986) caused regression (#2732).
 		// Dialog definition had `null` items. Each item should be an object.
-		'test dialog definition doesn\'t have empty contnets': function() {
+		'test dialog definition doesn\'t have empty contents': function() {
 			bender.editorBot.create( {
 				name: 'nocolordialog',
 				config: {
