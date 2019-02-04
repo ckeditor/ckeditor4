@@ -17,8 +17,7 @@
 			assert.areSame( testElement.children[ 1 ],
 				testElement.findOne( function( element ) {
 					return element.attributes && element.attributes[ 'class' ] === 'faz';
-				}, 'testElement.children[ 1 ]' )
-			);
+				} ), 'testElement.children[ 1 ]' );
 			assert.areSame( testElement.children[ 0 ].children[ 1 ].children[ 1 ],
 				testElement.findOne( function( element ) {
 					return element.attributes && element.attributes[ 'class' ] === 'faz';
