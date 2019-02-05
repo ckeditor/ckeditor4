@@ -1652,6 +1652,10 @@
 
 			prepareRangeToDataInsertion( that );
 
+			if ( editor.getData() === '' && editor.enterMode === CKEDITOR.ENTER_DIV ) {
+				clearEditable( editable, range );
+			}
+
 			// DATA PROCESSING
 
 			// Select range and stop execution.
@@ -1666,6 +1670,12 @@
 			// Set final range position and clean up.
 
 			cleanupAfterInsertion( that );
+		}
+
+		function clearEditable( editable, range ) {
+			editable.getFirst().remove();
+			range.setStartAt( editable, CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
 		}
 
 		// Prepare range to its data deletion.
@@ -1889,8 +1899,7 @@
 
 					// Find the first ancestor that can contain current node.
 					// This one won't be split.
-					while ( insertionContainer && ( !DTD[ insertionContainer.getName() ][ nodeData.name ] ||
-						preventInsertingDiv( nodeData.name, insertionContainer, that.editor ) ) ) {
+					while ( insertionContainer && !DTD[ insertionContainer.getName() ][ nodeData.name ] ) {
 						if ( insertionContainer.equals( blockLimit ) ) {
 							insertionContainer = null;
 							break;
@@ -2056,7 +2065,7 @@
 						continue;
 					}
 
-					allowed = !!allowedNames[ nodeName ] && !preventInsertingDiv( nodeName, startContainer, that.editor );
+					allowed = !!allowedNames[ nodeName ];
 
 					// Mark <brs data-cke-eol="1"> at the beginning and at the end.
 					if ( nodeName == 'br' && node.data( 'cke-eol' ) && ( !nodeIndex || nodeIndex == nodesCount - 1 ) ) {
@@ -2098,17 +2107,6 @@
 				nodesData[ lastNotAllowed ].lastNotAllowed = 1;
 
 			return nodesData;
-		}
-
-		// Prevent inserting div into div when Editor is in ENTER_DIV mode, and target element is an empty div.
-		function preventInsertingDiv( nodeName, element, editor ) {
-			if ( nodeName !== 'div' || editor.enterMode !== CKEDITOR.ENTER_DIV || element.getName() !== 'div' ) {
-				return false;
-			}
-			if ( element.getHtml() === '' ) {
-				return true;
-			}
-			return element.getChildCount() === 1 && element.getFirst().getName && element.getFirst().getName() === 'br';
 		}
 
 		// TODO: Review content transformation rules on filtering element.
