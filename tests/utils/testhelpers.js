@@ -11,13 +11,20 @@ bender.test( {
 			assert.ignore();
 		}
 
-		var callback = sinon.spy(),
+		var called = false,
 			imageMock = {
 				$: { complete: true }
 			};
 
-		waitForImage( imageMock, callback );
+		setTimeout( function() {
+			resume( function() {
+				assert.isTrue( called, 'waitForImage callback called' );
+			} );
+		}, 100 );
 
-		assert.isTrue( callback.called );
+		waitForImage( imageMock, function() {
+			called = true;
+			wait();
+		} );
 	}
 } );
