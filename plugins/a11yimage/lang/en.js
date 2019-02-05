@@ -41,6 +41,10 @@ complex image, including, but not limited to, people with visual impairments',
 	longDescOptionYesAfter: 'Yes, after the image',
 	longDescOptionYesBoth: 'Yes, before and after the image',
 
+	longDescBefore: 'Long description is located just before the image',
+	longDescAfter: 'Long description is located just after the image',
+	longDescBoth: 'Long description is located before and after the image',
+
 	// hasDescription: 'A long description is included in the document',
 	// hasDescription: 'Long description required within the document',
 	// hasDescriptionTooltip: 'Enables a screen reader to indicate the existence \

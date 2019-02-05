@@ -88,9 +88,8 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
   //  Trim leading and trailing whitespace and condense all
   //  interal sequences of whitespace to a single space
-  function normalize (s) {
-    let rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
-    return s.replace(rtrim, '').replace(/\s+/g, ' ');
+  function trimAndNormalizeWhitespace (s) {
+    return s.trim().replace(/\s+/g, ' ');
   }
 
   // Creates a function that pre-loads images. The callback function passes
@@ -365,16 +364,23 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
       setup: function( widget ) {
         this.setValue( widget.data.src );
       },
-      commit: function( widget ) {
-        widget.setData( 'src', this.getValue() );
-      },
-      validate: function( widget ) {
-        if (normalize(this.getValue()).length === 0) {
-          alert( lang.urlMissing );
-          return false;
+
+      // Filter out leading spaces from the src textbox
+      onKeyUp: function (event) {
+        var value = this.getValue();
+
+        if ( value.length && value[0] === ' ') {
+          value = value.trim();
+          this.setValue(value);
         }
-//        CKEDITOR.dialog.validate.notEmpty( lang.urlMissing );
-      }
+
+      },
+
+      // trim source value before returning value document
+      commit: function( widget ) {
+        widget.setData( 'src', this.getValue().trim() );
+      },
+      validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
     }
   ];
 
@@ -438,10 +444,15 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
         },
 
-
+        // trim leading spaces and update whether checkbox should be disabled
         onKeyUp: function (event) {
           var altTextNotRequired = this.getDialog().getContentElement( 'info', 'altTextNotRequiredCheckbox');
           var value = this.getValue();
+
+          if ( value.length && value[0] === ' ') {
+            value = value.trim();
+            this.setValue(value);
+          }
 
           if (value.length) {
             altTextNotRequired.setValue(false);
@@ -452,39 +463,12 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           }
         },
 
-        commit: function ( widget ) {
-
-          var longDescSelectValue = this.getDialog().getContentElement( 'info', 'longDescriptionSelect').getValue();
-
-          var alt = this.getValue();
-
-          switch (longDescSelectValue) {
-
-            case 'before':
-              alt += '; ' + lang.locationBeforeTitle;
-              break;
-
-            case 'after':
-              alt += '; ' + lang.locationAfterTitle;
-              break;
-
-            case 'both':
-              alt += '; ' + lang.locationBothTitle;
-              break;
-
-            default:
-              break;
-          }
-
-          widget.setData( 'alt', alt );
-        },
-
         validate: function ( widget) {
 
           var i;
 
           var alt = this.getValue();
-          var altNormalized = normalize(alt).toLowerCase();
+          var altNormalized = trimAndNormalizeWhitespace(alt).toLowerCase();
           var altLength = altNormalized.length;
 
           var altTextNotRequiredValue = this.getDialog().getContentElement( 'info', 'altTextNotRequiredCheckbox').getValue();
@@ -496,7 +480,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           }
 
           // Testing for empty alt
-          if (altNormalized.length === 0) {
+          if (altLength === 0) {
             if (altTextNotRequiredValue) {
               return confirm(lang.msgAltTextNotRequired);
             }
@@ -545,6 +529,40 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
             }
           }
           return true;
+        },
+
+        // trim alternative text before returning value to the document
+        commit: function ( widget ) {
+
+          var longDescValue = this.getDialog().getContentElement( 'info', 'longDescOptions').getValue();
+
+          console.log('[commit][longDescValue]: ' + longDescValue);
+
+          var alt = this.getValue().trim();
+
+          if ( alt.length ) {
+            // If alt empty ignore long description options
+            switch (longDescValue) {
+
+              case 'before':
+                alt += '; ' + lang.longDescBefore;
+                break;
+
+              case 'after':
+                alt += '; ' + lang.longDescAfter;
+                break;
+
+              case 'both':
+                alt += '; ' + lang.longDescBoth;
+                break;
+
+              default:
+                break;
+            }
+
+          }
+
+          widget.setData( 'alt', alt );
         }
       }
     ]
@@ -563,14 +581,14 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
       setup: function ( widget ) {
 
-        var src = normalize(widget.data.src);
-        var alt = normalize(widget.data.alt);
+        var src = widget.data.src;
+        var alt = widget.data.alt;
 
         if (typeof widget.data.src === 'string' &&
             typeof widget.data.alt === 'string') {
 
-          var src = normalize(widget.data.src);
-          var alt = normalize(widget.data.alt);
+          var src = trimAndNormalizeWhitespace(widget.data.src);
+          var alt = trimAndNormalizeWhitespace(widget.data.alt);
 
           if (src.length > 0 ) {
             if (widget.data.alt.length === 0) {
@@ -616,15 +634,15 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         var desc = parts[1];
         console.log('[desc]: ' + desc);
 
-        if (desc === lang.locationBeforeTitle) {
+        if (desc === lang.longDescBefore) {
           node.value = 'before';
         }
         else {
-          if (desc === lang.locationAfterTitle) {
+          if (desc === lang.longDescAfter) {
             node.value = 'after';
           }
           else {
-            if (desc === lang.locationBothTitle) {
+            if (desc === lang.longDescBoth) {
               node.value = 'both';
             }
             else {
