@@ -379,7 +379,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * **Since 4.6.2:** The default color palette has changed. It contains fewer colors in more
  * pastel shades than the previous one.
  *
- * **Since 4.11.2:** Changed how defining colors with names works. Colors names can be defined
+ * **Since 4.12.0:** Changed how defining colors with names works. Colors names can be defined
  * by `colorName/colorCode`. A color name is used only in tooltip. Output will now use a color code.
  * For example, `FontColor/FF9900` will be displayed as a color `#FF9900` in the selector, and will
  * be output as `#FF9900`.
