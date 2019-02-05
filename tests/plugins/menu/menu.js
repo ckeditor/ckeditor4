@@ -38,11 +38,11 @@
 			this.editorBot.menu( 'custom_menubutton', function( menu ) {
 				var panelDoc = menu._.panel._.iframe.getFrameDocument();
 				var menuItemEl = panelDoc.getById( menu.id + 0 );
+				menu.hide();
+
 				assert.isTrue( menuItemEl.hasClass( 'cke_menubutton' ), 'check ui type class name' );
 				assert.isTrue( menuItemEl.hasClass( 'cke_menubutton__custom_menuitem' ), 'check named ui type class name' );
 				assert.isTrue( menuItemEl.hasClass( customCls ), 'check ui item custom class name' );
-
-				menu.hide();
 			} );
 		},
 
