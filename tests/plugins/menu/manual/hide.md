@@ -1,14 +1,17 @@
 @bender-tags: bug, 4.12.0, 2307
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea,toolbar,contextmenu,clipboard
+@bender-ckeditor-plugins: wysiwygarea,toolbar,contextmenu,clipboard,language,notification
 
-- Open context menu with right click or button below editor.
-- Close context menu by clicking somewhere else.
+1. Perform following steps for `Language` menu button, and for context menu (you can use button under editor to open context menu).
+
+1. Open menu.
+
+1. Close menu by clicking somewhere else.
 
 ## Expected
 
-Blue square turns green.
+Notification appears with message: 'Menu hide event fired'.
 
 ## Unexpected
 
-Square remains blue.
+Nothing happens.

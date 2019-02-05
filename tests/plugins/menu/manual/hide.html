@@ -1,26 +1,19 @@
-<style>
-	.marker {
-		width: 50px;
-		height: 50px;
-		background: blue;
-		margin: 5px;
-	}
-</style>
 <textarea id="editor"><div style="width:100%;height:200px;"></div></textarea>
 <button data-menu="true">Open context menu</button>
-<div class="marker"></div>
 <script>
 	CKEDITOR.replace( 'editor', {
-		allowedContent: 'div{width,height}',
+		extraAllowedContent: 'div{width,height}',
 		on: {
 			instanceReady: function() {
-				this.contextMenu.once( 'hide', function() {
-					CKEDITOR.document.findOne( '.marker' ).setStyle( 'background', 'green' );
-				} );
 				CKEDITOR.document.findOne( 'button[data-menu]' ).on( 'click', function() {
 					this.focus();
 					this.execCommand( 'contextMenu' );
 				}, this );
+			},
+			menuShow: function( evt ) {
+				evt.data[ 0 ].menu.once( 'hide', function() {
+					evt.editor.showNotification( 'Menu hide event fired' );
+				} );
 			}
 		}
 	} );
