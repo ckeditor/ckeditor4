@@ -26,7 +26,7 @@
 	};
 
 	var tests = {
-		//2672
+		// (#2672)
 		'test resize close to minimum size': testResize( {
 			data: {
 				screenX: 40,
@@ -38,7 +38,7 @@
 			}
 		} ),
 
-		//2672
+		// (#2672)
 		'test resize lower than minimum size': testResize( {
 			data: {
 				screenX: 14,
@@ -50,7 +50,7 @@
 			}
 		} ),
 
-		//2048
+		// (#2048)
 		'test resize close to maximum size': testResize( {
 			limitedSize: {
 				data: {
@@ -74,7 +74,7 @@
 			}
 		} ),
 
-		//2048
+		// (#2048)
 		'test resize above maximum size': testResize( {
 			limitedSize: {
 				data: {
