@@ -46,7 +46,7 @@
 			} );
 		},
 
-		// #2307
+		// (#2307)
 		'test menu hide event': function() {
 			this.editorBot.menu( 'custom_menubutton', function( menu ) {
 				var spy = sinon.spy();
@@ -55,6 +55,15 @@
 				menu.hide();
 
 				assert.isTrue( spy.called );
+			} );
+		},
+
+		// (#2307)
+		'test panel references menu': function() {
+			this.editorBot.menu( 'custom_menubutton', function( menu ) {
+				menu.hide();
+
+				assert.areSame( menu, menu._.panel.menu );
 			} );
 		}
 	} );
