@@ -5,6 +5,9 @@
 	Height: <span class="height"></span>
 </p>
 <script>
+	if ( bender.env.mobile ) {
+		bender.ignore();
+	}
 	CKEDITOR.replace( 'editor', {
 		on: {
 			change: function() {
