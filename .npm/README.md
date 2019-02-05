@@ -58,7 +58,7 @@ The CKEditor 4 dev npm package comes in the `full-all` preset, so it includes al
 * [Documentation](https://ckeditor.com/docs/ckeditor4/latest/)
 * [API documentation](https://ckeditor.com/docs/ckeditor4/latest/api/index.html)
 * [Configuration reference](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html)
-* [CKEditor Examples with more samples](https://ckeditor.com/docs/ckeditor4/latest/examples/index.html)
+* [CKEditor Examples](https://ckeditor.com/docs/ckeditor4/latest/examples/index.html)
 
 If you are looking for CKEditor 5, here's a link to the relevant npm package: <https://www.npmjs.com/package/ckeditor5>
 
