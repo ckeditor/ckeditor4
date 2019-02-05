@@ -622,6 +622,14 @@ CKEDITOR.plugins.add( 'menu', {
  * @member CKEDITOR.menu
  */
 
+/**
+ * Parent menu of this panel.
+ *
+ * @since 4.12.0
+ * @member CKEDITOR.ui.panel
+ * @property {CKEDITOR.menu} [menu]
+ */
+
 CKEDITOR.config.menu_groups = 'clipboard,' +
 	'form,' +
 	'tablecell,tablecellproperties,tablerow,tablecolumn,table,' +
