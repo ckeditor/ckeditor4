@@ -233,8 +233,8 @@
 								curExpectedRect = Math.floor( curExpectedRect * 10 ) / 10;
 							}
 						}
-
-						assert.areEqual( expectedRects[ index ][ key ], curExpectedRect, 'rect[ ' + index + ' ].' + key );
+						debugger;
+						assert.areEqual( expectedRects[ index ][ key ], curExpectedRect, fixtureId + ': rect[ ' + index + ' ].' + key );
 					}
 				}
 			}

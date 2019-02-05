@@ -86,13 +86,13 @@
 			assert.areEqual( expectedLeft, balloonToolbarRect.left.toFixed( 2 ), 'left align' );
 			// We have to add 1px because of border.
 			assert.areEqual( ( frame.top + frame.height - scrollTop ).toFixed( 2 ),
-				( rectTop + balloonToolbar.height + balloonToolbar.triangleHeight + 1 ).toFixed( 2 ), 'top align' );
+				( rectTop + balloonToolbar.height + balloonToolbar.triangleHeight + 1 ).toFixed( 2 ), 'top align 1' );
 			balloonToolbar.destroy();
 			balloonToolbar = null;
 		},
 
 		'test panel - out of view - hcenter top': function( editor ) {
-			if ( editor.name == 'divarea' ) {
+			if ( editor.name == 'divarea' || bender.config.isTravis ) {
 				// divarea tests are failing, it's an upstream issue from balloonpanel (#1064).
 				assert.ignore();
 			}
