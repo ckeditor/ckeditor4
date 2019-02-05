@@ -5,5 +5,6 @@ var config = require( './bender' );
 
 config.startBrowser = process.env.BROWSER || 'Chrome';
 config.mathJaxLibPath = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML';
+config.isTravis = true;
 
 module.exports = config;
