@@ -536,9 +536,9 @@
 		},
 
 		'test buffers.event': function() {
-			if ( bender.config.isTravis && CKEDITOR.revision !== '%REV%' ) {
-				assert.ignore();
-			}
+			// if ( bender.config.isTravis && CKEDITOR.revision !== '%REV%' ) {
+			// 	assert.ignore();
+			// }
 			var output = 0,
 				buffer = new CKEDITOR.tools.buffers.event( 200, function() {
 					output++;
