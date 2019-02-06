@@ -39,6 +39,7 @@ CKEDITOR.document = new CKEDITOR.dom.document( document );
  *
  * @private
  * @since 4.12.0
+ * @returns {CKEDITOR.dom.element/null}
  */
 CKEDITOR.getEditorElement = function( elementOrId ) {
 	var element;
@@ -55,7 +56,7 @@ CKEDITOR.getEditorElement = function( elementOrId ) {
 			element: elementOrId
 		} );
 
-		return;
+		return null;
 	}
 
 	// Avoid multiple inline editor instances on the same element.
@@ -64,7 +65,7 @@ CKEDITOR.getEditorElement = function( elementOrId ) {
 			editorName: element.getEditor().name
 		} );
 
-		return;
+		return null;
 	}
 
 	return element;
