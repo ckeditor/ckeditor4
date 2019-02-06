@@ -30,6 +30,10 @@
 	CKEDITOR.inline = function( element, instanceConfig ) {
 		element = CKEDITOR.getEditorElement( element );
 
+		if ( !element ) {
+			return null;
+		}
+
 		var editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE ),
 			textarea = element.is( 'textarea' ) ? element : null;
 

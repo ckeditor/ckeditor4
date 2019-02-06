@@ -51,12 +51,20 @@ CKEDITOR.getEditorElement = function( elementOrId ) {
 
 	// Throw error on missing target element.
 	if ( !element ) {
-		throw 'The provided element, "' + elementOrId + '", is missing from the DOM.';
+		CKEDITOR.error( 'editor-incorrect-element', {
+			element: elementOrId
+		} );
+
+		return;
 	}
 
 	// Avoid multiple inline editor instances on the same element.
 	if ( element.getEditor() ) {
-		throw 'The editor instance "' + element.getEditor().name + '" is already attached to the provided element.';
+		CKEDITOR.error( 'editor-element-conflict', {
+			editorName: element.getEditor().name
+		} );
+
+		return;
 	}
 
 	return element;

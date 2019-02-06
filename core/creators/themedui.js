@@ -322,6 +322,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 	function createInstance( element, config, data, mode ) {
 		element = CKEDITOR.getEditorElement( element );
 
+		if ( !element ) {
+			return null;
+		}
+
 		// Create the editor instance.
 		var editor = new CKEDITOR.editor( config, element, mode );
 
