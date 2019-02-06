@@ -365,21 +365,11 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         this.setValue( widget.data.src );
       },
 
-      // Filter out leading spaces from the src textbox
-      onKeyUp: function (event) {
-        var value = this.getValue();
-
-        if ( value.length && value[0] === ' ') {
-          value = value.trim();
-          this.setValue(value);
-        }
-
-      },
-
       // trim source value before returning value document
       commit: function( widget ) {
         widget.setData( 'src', this.getValue().trim() );
       },
+
       validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
     }
   ];
@@ -449,12 +439,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           var altTextNotRequired = this.getDialog().getContentElement( 'info', 'altTextNotRequiredCheckbox');
           var value = this.getValue();
 
-          if ( value.length && value[0] === ' ') {
-            value = value.trim();
-            this.setValue(value);
-          }
-
-          if (value.length) {
+          if (value.match(/\S/g)) {
             altTextNotRequired.setValue(false);
             altTextNotRequired.disable()
           }
@@ -474,7 +459,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           var altTextNotRequiredValue = this.getDialog().getContentElement( 'info', 'altTextNotRequiredCheckbox').getValue();
           var srcValue = this.getDialog().getContentElement( 'info', 'src').getValue();
 
-          // Testing for empty src attribute, let is validate
+          // Testing for empty src attribute, if empty let it validate first
           if (srcValue.length === 0) {
             return true;
           }
@@ -535,8 +520,6 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         commit: function ( widget ) {
 
           var longDescValue = this.getDialog().getContentElement( 'info', 'longDescOptions').getValue();
-
-          console.log('[commit][longDescValue]: ' + longDescValue);
 
           var alt = this.getValue().trim();
 
@@ -627,12 +610,10 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
       var parts = widget.data.alt.split('; ');
 
-
       var node = this.getInputElement().findOne('select').$;
 
       if (parts.length > 1) {
         var desc = parts[1];
-        console.log('[desc]: ' + desc);
 
         if (desc === lang.longDescBefore) {
           node.value = 'before';
@@ -659,7 +640,6 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     onChange: function( widget ) {
         // this = CKEDITOR.ui.dialog.select
       var node = this.getInputElement().findOne('select').$;
-      console.log('[longDescriptionSelect][change][value]' + node.value );
       this.setValue(node.value);
     }
   };
