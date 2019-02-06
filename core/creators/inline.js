@@ -28,20 +28,7 @@
 	 * @returns {CKEDITOR.editor} The editor instance created.
 	 */
 	CKEDITOR.inline = function( element, instanceConfig ) {
-		if ( !CKEDITOR.env.isCompatible )
-			return null;
-
-		var elementArg = element;
-
-		element = CKEDITOR.dom.element.get( element );
-
-		// Throw error on missing target element.
-		if ( !element )
-			throw 'The provided element, "' + elementArg + '", is missing from the DOM.';
-
-		// Avoid multiple inline editor instances on the same element.
-		if ( element.getEditor() )
-			throw 'The editor instance "' + element.getEditor().name + '" is already attached to the provided element.';
+		element = CKEDITOR.getEditorElement( element );
 
 		var editor = new CKEDITOR.editor( instanceConfig, element, CKEDITOR.ELEMENT_MODE_INLINE ),
 			textarea = element.is( 'textarea' ) ? element : null;

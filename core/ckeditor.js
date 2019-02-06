@@ -34,6 +34,35 @@ CKEDITOR.instances = {};
 CKEDITOR.document = new CKEDITOR.dom.document( document );
 
 /**
+ * Gets the element from DOM and checks if the editor can be instantiated on it.
+ * This function is available for internal use only.
+ *
+ * @private
+ * @since 4.12.0
+ */
+CKEDITOR.getEditorElement = function( elementOrId ) {
+	var element;
+
+	if ( !CKEDITOR.env.isCompatible ) {
+		return null;
+	}
+
+	element = CKEDITOR.dom.element.get( elementOrId );
+
+	// Throw error on missing target element.
+	if ( !element ) {
+		throw 'The provided element, "' + elementOrId + '", is missing from the DOM.';
+	}
+
+	// Avoid multiple inline editor instances on the same element.
+	if ( element.getEditor() ) {
+		throw 'The editor instance "' + element.getEditor().name + '" is already attached to the provided element.';
+	}
+
+	return element;
+};
+
+/**
  * Adds an editor instance to the global {@link CKEDITOR} object. This function
  * is available for internal use mainly.
  *

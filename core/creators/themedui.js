@@ -320,20 +320,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	};
 
 	function createInstance( element, config, data, mode ) {
-		if ( !CKEDITOR.env.isCompatible )
-			return null;
-
-		var elementArg = element;
-
-		element = CKEDITOR.dom.element.get( element );
-
-		// Throw error on missing target element.
-		if ( !element )
-			throw 'The provided element, "' + elementArg + '", is missing from the DOM.';
-
-		// Avoid multiple inline editor instances on the same element.
-		if ( element.getEditor() )
-			throw 'The editor instance "' + element.getEditor().name + '" is already attached to the provided element.';
+		element = CKEDITOR.getEditorElement( element );
 
 		// Create the editor instance.
 		var editor = new CKEDITOR.editor( config, element, mode );
