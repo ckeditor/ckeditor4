@@ -6,6 +6,7 @@
 New Features:
 
 * [#2598](https://github.com/ckeditor/ckeditor-dev/issues/2598): [Page Break](https://ckeditor.com/cke4/addon/pagebreak) feature support for [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
+* [#2748](https://github.com/ckeditor/ckeditor-dev/issues/2748): Enhance errors thrown while creating editor on a nonexistent element or while trying to instantiate second editor on the same element. Thanks to [Byran Zaugg](https://github.com/blzaugg)!
 
 API Changes:
 
