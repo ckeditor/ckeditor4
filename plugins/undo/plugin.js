@@ -487,11 +487,24 @@
 		 */
 		undo: function() {
 			if ( this.undoable() ) {
+				var continueAction = this.editor.fire( 'beforeUndo', this );
+
+
+				if ( continueAction === false  ) {
+					return false;
+				}
+
 				this.save( true );
 
 				var image = this.getNextImage( true );
-				if ( image )
-					return this.restoreImage( image, true ), true;
+
+				if ( image ) {
+					this.editor.fire( 'afterUndo', this );
+
+					this.restoreImage( image, true );
+
+					return true;
+				}
 			}
 
 			return false;
@@ -502,6 +515,13 @@
 		 */
 		redo: function() {
 			if ( this.redoable() ) {
+				var continueAction = this.editor.fire( 'beforeRedo', this );
+
+
+				if ( continueAction === false  ) {
+					return false;
+				}
+
 				// Try to save. If no changes have been made, the redo stack
 				// will not change, so it will still be redoable.
 				this.save( true );
@@ -509,8 +529,14 @@
 				// If instead we had changes, we can't redo anymore.
 				if ( this.redoable() ) {
 					var image = this.getNextImage( false );
-					if ( image )
-						return this.restoreImage( image ), true;
+
+					if ( image ) {
+						this.editor.fire( 'afterRedo' );
+
+						this.restoreImage( image );
+
+						return true;
+					}
 				}
 			}
 
