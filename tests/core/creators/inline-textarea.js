@@ -63,45 +63,9 @@
 			} );
 		},
 
-		'test create concurrent editor: framed on bound textarea': function() {
-			try {
-				CKEDITOR.replace( 'editor1', {
-					on: {
-						instanceReady: function() {
-							resume( function() {
-								assert.fail( 'This textarea is already bound to some instance!' );
-							} );
-						}
-					}
-				} );
-			} catch ( e ) {
-				resume( function() {
-					assert.isTrue( true );
-				} );
-			}
+		'test create concurrent editor: framed on bound textarea': createConcurrentEditorTest( 'replace', 'editor1' ),
 
-			wait();
-		},
-
-		'test create concurrent editor: inline on bound textarea': function() {
-			try {
-				CKEDITOR.inline( 'editor1', {
-					on: {
-						instanceReady: function() {
-							resume( function() {
-								assert.fail( 'This textarea is already bound to some instance!' );
-							} );
-						}
-					}
-				} );
-			} catch ( e ) {
-				resume( function() {
-					assert.isTrue( true );
-				} );
-			}
-
-			wait();
-		},
+		'test create concurrent editor: inline on bound textarea': createConcurrentEditorTest( 'inline', 'editor1' ),
 
 		'test update data on submit': function() {
 			var editor = this.editor,
@@ -147,4 +111,16 @@
 			} );
 		}
 	} );
+
+	function createConcurrentEditorTest( creator, element ) {
+		return function() {
+			var spy = sinon.spy( CKEDITOR, 'error' );
+
+			CKEDITOR[ creator ]( element );
+
+			spy.restore();
+			assert.areSame( 1, spy.callCount, 'Error was thrown' );
+			assert.areSame( 'editor-element-conflict', spy.args[ 0 ][ 0 ], 'Appropriate error code was used' );
+		};
+	}
 } )();
