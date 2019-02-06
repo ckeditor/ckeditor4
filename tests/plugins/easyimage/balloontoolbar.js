@@ -96,7 +96,7 @@
 
 			'test balloontoolbar positioning': function( editor, bot ) {
 				// Ignore test with builded editor in travis.
-				if ( bender.config.isTravis && CKEDITOR.revision !== '%REV%' ) {
+				if ( bender.config.isTravis && bender.tools.isBuild() ) {
 					assert.ignore();
 				}
 				// Force toolbar to always appear under the widget.

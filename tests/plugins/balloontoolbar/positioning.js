@@ -92,7 +92,7 @@
 		},
 
 		'test panel - out of view - hcenter top': function( editor ) {
-			if ( editor.name == 'divarea' || ( bender.config.isTravis && CKEDITOR.revision !== '%REV%' ) ) {
+			if ( editor.name == 'divarea' || ( bender.config.isTravis && bender.tools.isBuild() ) ) {
 				// divarea tests are failing, it's an upstream issue from balloonpanel (#1064).ga
 				// Ignore test with builded editor in travis.
 				assert.ignore();

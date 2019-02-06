@@ -18,7 +18,7 @@
 				// Our release version is built with moono-lisa skin inlined, thus we can't
 				// test it against other skin. We don't have straight way to recognise editor's
 				// built version, such trick must be used (#1251).
-				'test loading CSS with path': CKEDITOR.revision !== '%REV%' ||
+				'test loading CSS with path': bender.tools.isBuild() ||
 					( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 			}
 		},

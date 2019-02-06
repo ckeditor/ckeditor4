@@ -91,6 +91,10 @@
 			return bender.tools.fixHtml( html, stripLineBreaks );
 		},
 
+		isBuild: function() {
+			return CKEDITOR.revision !== '%REV%';
+		},
+
 		env: {
 			/*
 			 * Tells whether current environment is running on a mobile browser.
