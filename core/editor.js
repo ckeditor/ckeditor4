@@ -1586,6 +1586,7 @@
 	 * @private
 	 * @since 4.12.0
 	 * @static
+	 * @param {String/CKEDITOR.dom.element} elementOrId
 	 * @member CKEDITOR.editor
 	 * @returns {CKEDITOR.dom.element/null}
 	 */
