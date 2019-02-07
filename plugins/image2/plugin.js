@@ -1160,6 +1160,15 @@
 		resizer.on( 'mousedown', function( evt ) {
 			var image = widget.parts.image,
 
+				// Don't update attributes if less than 15.
+				// This is to prevent images to visually disappear.
+				min = {
+					width: 15,
+					height: 15
+				},
+
+				max = getMaxSize(),
+
 				// "factor" can be either 1 or -1. I.e.: For right-aligned images, we need to
 				// subtract the difference to get proper width, etc. Without "factor",
 				// resizer starts working the opposite way.
@@ -1315,13 +1324,9 @@
 					}
 				}
 
-				// Don't update attributes if less than 10.
-				// This is to prevent images to visually disappear.
-				if ( newWidth >= 15 && newHeight >= 15 ) {
-					image.setAttributes( { width: newWidth, height: newHeight } );
-					updateData = true;
-				} else {
-					updateData = false;
+				if ( isAllowedSize( newWidth, newHeight ) ) {
+					updateData = { width: newWidth, height: newHeight };
+					image.setAttributes( updateData );
 				}
 			}
 
@@ -1338,7 +1343,7 @@
 				resizer.removeClass( 'cke_image_resizing' );
 
 				if ( updateData ) {
-					widget.setData( { width: newWidth, height: newHeight } );
+					widget.setData( updateData );
 
 					// Save another undo snapshot: after resizing.
 					editor.fire( 'saveSnapshot' );
@@ -1346,6 +1351,29 @@
 
 				// Don't update data twice or more.
 				updateData = false;
+			}
+
+			function getMaxSize() {
+				var maxSize = editor.config.image2_maxSize,
+					natural;
+
+				if ( !maxSize ) {
+					return null;
+				}
+
+				maxSize = CKEDITOR.tools.copy( maxSize );
+				natural = CKEDITOR.plugins.image2.getNatural( image );
+
+				maxSize.width = Math.max( maxSize.width === 'natural' ? natural.width : maxSize.width, min.width );
+				maxSize.height = Math.max( maxSize.height === 'natural' ? natural.height : maxSize.height, min.width );
+
+				return maxSize;
+			}
+
+			function isAllowedSize( width, height ) {
+				var isTooSmall = width < min.width || height < min.height,
+					isTooBig = max && ( width > max.width || height > max.height );
+				return !isTooSmall && !isTooBig;
 			}
 		} );
 
@@ -1719,5 +1747,35 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *
  * @since 4.6.0
  * @cfg {Boolean} [image2_altRequired=false]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Determines maximum size that image can be resized to with resize handler.
+ *
+ * It holds two properties: `width` and `height`, which can be set with one of two types:
+ *
+ * A number representing value that limits max size in pixel units:
+ *
+ * ```javascript
+ *	config.image2_maxSize = {
+ *		height: 300,
+ *		width: 250
+ *	};
+ * ```
+ *
+ * A string representing image natural size, so each image resize is limited to it's own natural height/width:
+ *
+ * ```javascript
+ *	config.image2_maxSize = {
+ *		height: 'natural',
+ *		width: 'natural'
+ *	}
+ * ```
+ *
+ * Note: Image can still be resized to bigger dimensions, when using image dialog.
+ *
+ * @since 4.12.0
+ * @cfg {Object.<String, Number/String>} [image2_maxSize]
  * @member CKEDITOR.config
  */
