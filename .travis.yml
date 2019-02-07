@@ -16,9 +16,6 @@ addons:
   firefox: "latest"
   chrome: stable
 
-before_install:
-  - google-chrome-stable --headless --disable-gpu &
-
 before_script:
   # Prepare environment.
   - 'npm install benderjs-cli -g'
