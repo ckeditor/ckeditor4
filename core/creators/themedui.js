@@ -320,14 +320,11 @@ CKEDITOR.replaceClass = 'ckeditor';
 	};
 
 	function createInstance( element, config, data, mode ) {
-		if ( !CKEDITOR.env.isCompatible )
+		element = CKEDITOR.editor._getEditorElement( element );
+
+		if ( !element ) {
 			return null;
-
-		element = CKEDITOR.dom.element.get( element );
-
-		// Avoid multiple inline editor instances on the same element.
-		if ( element.getEditor() )
-			throw 'The editor instance "' + element.getEditor().name + '" is already attached to the provided element.';
+		}
 
 		// Create the editor instance.
 		var editor = new CKEDITOR.editor( config, element, mode );

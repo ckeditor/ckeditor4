@@ -1578,6 +1578,45 @@
 			alert( message ); // jshint ignore:line
 		}
 	} );
+
+	/**
+	 * Gets the element from DOM and checks if the editor can be instantiated on it.
+	 * This function is available for internal use only.
+	 *
+	 * @private
+	 * @since 4.12.0
+	 * @static
+	 * @param {String/CKEDITOR.dom.element} elementOrId
+	 * @member CKEDITOR.editor
+	 * @returns {CKEDITOR.dom.element/null}
+	 */
+	CKEDITOR.editor._getEditorElement = function( elementOrId ) {
+		if ( !CKEDITOR.env.isCompatible ) {
+			return null;
+		}
+
+		var element = CKEDITOR.dom.element.get( elementOrId );
+
+		// Throw error on missing target element.
+		if ( !element ) {
+			CKEDITOR.error( 'editor-incorrect-element', {
+				element: elementOrId
+			} );
+
+			return null;
+		}
+
+		// Avoid multiple inline editor instances on the same element.
+		if ( element.getEditor() ) {
+			CKEDITOR.error( 'editor-element-conflict', {
+				editorName: element.getEditor().name
+			} );
+
+			return null;
+		}
+
+		return element;
+	};
 } )();
 
 /**
