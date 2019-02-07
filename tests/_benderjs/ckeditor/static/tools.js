@@ -91,12 +91,8 @@
 			return bender.tools.fixHtml( html, stripLineBreaks );
 		},
 
-		isBuild: function() {
-			return CKEDITOR.revision !== '%REV%';
-		},
-
 		env: {
-			/*
+			/**
 			 * Tells whether current environment is running on a mobile browser.
 			 *
 			 * It's different from deprecated {@link CKEDITOR.env.mobile} in a way that we are just
@@ -104,15 +100,20 @@
 			 */
 			mobile: CKEDITOR.env.iOS || navigator.userAgent.toLowerCase().indexOf( 'android' ) !== -1,
 
-			/*
+			/**
 			 * Whether current OS is a Linux environment.
 			 */
 			linux: navigator.userAgent.toLowerCase().indexOf( 'linux' ) !== -1,
 
-			/*
+			/**
 			 * Whether current environment is Opera browser.
 			 */
-			opera: navigator.userAgent.toLowerCase().indexOf( ' opr/' ) !== -1
+			opera: navigator.userAgent.toLowerCase().indexOf( ' opr/' ) !== -1,
+
+			/**
+			 * Whether current environment is run as build version of CKEditor.
+			 */
+			isBuild: CKEDITOR.revision !== '%REV%'
 		},
 
 		fixHtml: function( html, stripLineBreaks, toLowerCase ) {
