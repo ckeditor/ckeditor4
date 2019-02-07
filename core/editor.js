@@ -1631,7 +1631,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * if the linked `<textarea>` element has the `disabled` attribute.
  *
  * Read more in the {@glink guide/dev_readonly documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/readonly.html).
+ * and see the {@glink examples/readonly example}.
  *
  *		config.readOnly = true;
  *

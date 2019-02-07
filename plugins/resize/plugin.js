@@ -115,7 +115,7 @@ CKEDITOR.plugins.add( 'resize', {
  * Note: It falls back to editor's actual width if it is smaller than the default value.
  *
  * Read more in the {@glink guide/dev_resize documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/resize.html).
+ * and see the {@glink examples/resize example}.
  *
  *		config.resize_minWidth = 500;
  *
@@ -128,7 +128,7 @@ CKEDITOR.plugins.add( 'resize', {
  * Note: It falls back to editor's actual height if it is smaller than the default value.
  *
  * Read more in the {@glink guide/dev_resize documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/resize.html).
+ * and see the {@glink examples/resize example}.
  *
  *		config.resize_minHeight = 600;
  *
@@ -140,7 +140,7 @@ CKEDITOR.plugins.add( 'resize', {
  * The maximum editor width, in pixels, when resizing the editor interface by using the resize handle.
  *
  * Read more in the {@glink guide/dev_resize documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/resize.html).
+ * and see the {@glink examples/resize example}.
  *
  *		config.resize_maxWidth = 750;
  *
@@ -152,7 +152,7 @@ CKEDITOR.plugins.add( 'resize', {
  * The maximum editor height, in pixels, when resizing the editor interface by using the resize handle.
  *
  * Read more in the {@glink guide/dev_resize documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/resize.html).
+ * and see the {@glink examples/resize example}.
  *
  *		config.resize_maxHeight = 600;
  *
@@ -164,7 +164,7 @@ CKEDITOR.plugins.add( 'resize', {
  * Whether to enable the resizing feature. If this feature is disabled, the resize handle will not be visible.
  *
  * Read more in the {@glink guide/dev_resize documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/resize.html).
+ * and see the {@glink examples/resize example}.
  *
  *		config.resize_enabled = false;
  *
@@ -177,7 +177,7 @@ CKEDITOR.plugins.add( 'resize', {
  * are `both`, `vertical`, and `horizontal`.
  *
  * Read more in the {@glink guide/dev_resize documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/resize.html).
+ * and see the {@glink examples/resize example}.
  *
  *		config.resize_dir = 'both';
  *

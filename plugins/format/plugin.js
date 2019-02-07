@@ -142,7 +142,7 @@ CKEDITOR.plugins.add( 'format', {
  * definition taken from [config.format_p](#!/api/CKEDITOR.config-cfg-format_p).
  *
  * Read more in the {@glink guide/dev_format documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/format.html).
+ * and see the {@glink examples/format example}.
  *
  *		config.format_tags = 'p;h2;h3;pre';
  *
@@ -155,7 +155,7 @@ CKEDITOR.config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre;address;div';
  * The style definition to be used to apply the `Normal` format.
  *
  * Read more in the {@glink guide/dev_format documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/format.html).
+ * and see the {@glink examples/format example}.
  *
  *		config.format_p = { element: 'p', attributes: { 'class': 'normalPara' } };
  *
@@ -168,7 +168,7 @@ CKEDITOR.config.format_p = { element: 'p' };
  * The style definition to be used to apply the `Normal (DIV)` format.
  *
  * Read more in the {@glink guide/dev_format documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/format.html).
+ * and see the {@glink examples/format example}.
  *
  *		config.format_div = { element: 'div', attributes: { 'class': 'normalDiv' } };
  *
@@ -181,7 +181,7 @@ CKEDITOR.config.format_div = { element: 'div' };
  * The style definition to be used to apply the `Formatted` format.
  *
  * Read more in the {@glink guide/dev_format documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/format.html).
+ * and see the {@glink examples/format example}.
  *
  *		config.format_pre = { element: 'pre', attributes: { 'class': 'code' } };
  *
@@ -194,7 +194,7 @@ CKEDITOR.config.format_pre = { element: 'pre' };
  * The style definition to be used to apply the `Address` format.
  *
  * Read more in the {@glink guide/dev_format documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/format.html).
+ * and see the {@glink examples/format example}.
  *
  *		config.format_address = { element: 'address', attributes: { 'class': 'styledAddress' } };
  *
@@ -207,7 +207,7 @@ CKEDITOR.config.format_address = { element: 'address' };
  * The style definition to be used to apply the `Heading 1` format.
  *
  * Read more in the {@glink guide/dev_format documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/format.html).
+ * and see the {@glink examples/format example}.
  *
  *		config.format_h1 = { element: 'h1', attributes: { 'class': 'contentTitle1' } };
  *
@@ -220,7 +220,7 @@ CKEDITOR.config.format_h1 = { element: 'h1' };
  * The style definition to be used to apply the `Heading 2` format.
  *
  * Read more in the {@glink guide/dev_format documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/format.html).
+ * and see the {@glink examples/format example}.
  *
  *		config.format_h2 = { element: 'h2', attributes: { 'class': 'contentTitle2' } };
  *
@@ -233,7 +233,7 @@ CKEDITOR.config.format_h2 = { element: 'h2' };
  * The style definition to be used to apply the `Heading 3` format.
  *
  * Read more in the {@glink guide/dev_format documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/format.html).
+ * and see the {@glink examples/format example}.
  *
  *		config.format_h3 = { element: 'h3', attributes: { 'class': 'contentTitle3' } };
  *
@@ -246,7 +246,7 @@ CKEDITOR.config.format_h3 = { element: 'h3' };
  * The style definition to be used to apply the `Heading 4` format.
  *
  * Read more in the {@glink guide/dev_format documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/format.html).
+ * and see the {@glink examples/format example}.
  *
  *		config.format_h4 = { element: 'h4', attributes: { 'class': 'contentTitle4' } };
  *
@@ -259,7 +259,7 @@ CKEDITOR.config.format_h4 = { element: 'h4' };
  * The style definition to be used to apply the `Heading 5` format.
  *
  * Read more in the {@glink guide/dev_format documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/format.html).
+ * and see the {@glink examples/format example}.
  *
  *		config.format_h5 = { element: 'h5', attributes: { 'class': 'contentTitle5' } };
  *
@@ -272,7 +272,7 @@ CKEDITOR.config.format_h5 = { element: 'h5' };
  * The style definition to be used to apply the `Heading 6` format.
  *
  * Read more in the {@glink guide/dev_format documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/format.html).
+ * and see the {@glink examples/format example}.
  *
  *		config.format_h6 = { element: 'h6', attributes: { 'class': 'contentTitle6' } };
  *
