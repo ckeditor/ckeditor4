@@ -275,7 +275,9 @@
 
 			spy.restore();
 			assert.areSame( 1, spy.callCount, 'Error was thrown' );
-			assert.areSame( 'editor-incorrect-element', spy.args[ 0 ][ 0 ], 'Appropriate error code was used' );
+			assert.isTrue( spy.calledWithExactly( 'editor-incorrect-element', sinon.match( {
+				element: 'editorBogus'
+			} ) ), 'Appropriate error code and additional data were used' );
 		};
 	}
 }() );

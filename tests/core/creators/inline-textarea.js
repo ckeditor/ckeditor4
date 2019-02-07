@@ -120,7 +120,9 @@
 
 			spy.restore();
 			assert.areSame( 1, spy.callCount, 'Error was thrown' );
-			assert.areSame( 'editor-element-conflict', spy.args[ 0 ][ 0 ], 'Appropriate error code was used' );
+			assert.isTrue( spy.calledWithExactly( 'editor-element-conflict', sinon.match( {
+				editorName: element
+			} ) ), 'Appropriate error code and additional data were used' );
 		};
 	}
 } )();
