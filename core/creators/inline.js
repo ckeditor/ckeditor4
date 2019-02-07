@@ -28,7 +28,7 @@
 	 * @returns {CKEDITOR.editor} The editor instance created.
 	 */
 	CKEDITOR.inline = function( element, instanceConfig ) {
-		element = CKEDITOR.getEditorElement( element );
+		element = CKEDITOR.editor._getEditorElement( element );
 
 		if ( !element ) {
 			return null;

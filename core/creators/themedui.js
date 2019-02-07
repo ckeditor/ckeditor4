@@ -320,7 +320,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	};
 
 	function createInstance( element, config, data, mode ) {
-		element = CKEDITOR.getEditorElement( element );
+		element = CKEDITOR.editor._getEditorElement( element );
 
 		if ( !element ) {
 			return null;
