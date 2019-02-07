@@ -34,7 +34,8 @@
 			This is why there have to be relative URL. However 'appendStyleSheet' receive final URL which does not contain dots in address.
 			It's necessary to adapt URL address to be properly compared in assertion.
 			*/
-			sinon.assert.calledWith( spy, balloonTestsTools.getDocumentOrigin() + balloonTestsTools.removeDotsFromUrl( '%BASE_PATH%../../apps/ckeditor/plugins/balloontoolbar/skins/kama/balloontoolbar.css' ) );
+			sinon.assert.calledWith( spy, balloonTestsTools.getDocumentOrigin() +
+				balloonTestsTools.removeDotsFromUrl( '%BASE_PATH%../../apps/ckeditor/plugins/balloontoolbar/skins/kama/balloontoolbar.css' ) );
 		}
 	} );
 } )();
