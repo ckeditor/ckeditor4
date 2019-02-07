@@ -3020,7 +3020,9 @@
 					var restoreElement = container.findOne( '[data-cke-widget-restore-id="' + widget.id + '"]' );
 
 					if ( restoreElement ) {
+						var revId = restoreElement.getAttribute( 'data-cke-widget-rev' );
 						widget.wrapper.replace( restoreElement );
+						widget.fire( 'revisionChange', revId );
 					}
 				} else {
 					editor.widgets.destroy( widget, true );

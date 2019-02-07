@@ -197,6 +197,7 @@
 	 * @param {CKEDITOR.editor} editor
 	 */
 	var UndoManager = CKEDITOR.plugins.undo.UndoManager = function( editor ) {
+		this.filter = new CKEDITOR.htmlParser.filter();
 		/**
 		 * An array storing the number of key presses, count in a row. Use {@link #keyGroups} members as index.
 		 *
@@ -251,11 +252,6 @@
 	};
 
 	UndoManager.prototype = {
-
-		createImage: function( contentsOnly, filter ) {
-			return new Image( this.editor, contentsOnly, filter );
-		},
-
 		/**
 		 * Handles keystroke support for the undo manager. It is called on `keyup` event for
 		 * keystrokes that can change the editor content.
@@ -369,7 +365,7 @@
 
 			// Get a content image.
 			if ( !image )
-				image = this.createImage();
+				image = new Image( editor );
 
 			// Do nothing if it was not possible to retrieve an image.
 			if ( image.contents === false )
@@ -402,7 +398,6 @@
 
 			if ( autoFireChange !== false )
 				this.refreshState();
-
 			return true;
 		},
 
@@ -411,12 +406,36 @@
 		 *
 		 * @param {CKEDITOR.plugins.undo.Image} image
 		 */
-		restoreImage: function( image, isUndo ) {
+		restoreImage: function( image ) {
 			// Bring editor focused to restore selection.
 			var editor = this.editor,
 				sel;
 
-			image.applyTo( this, isUndo );
+			if ( image.bookmarks ) {
+				editor.focus();
+				// Retrieve the selection beforehand. (https://dev.ckeditor.com/ticket/8324)
+				sel = editor.getSelection();
+			}
+
+			// Start transaction - do not allow any mutations to the
+			// snapshots stack done when selecting bookmarks (much probably
+			// by selectionChange listener).
+			this.locked = { level: 999 };
+
+			this.editor.loadSnapshot( image.contents );
+
+			if ( image.bookmarks )
+				sel.selectBookmarks( image.bookmarks );
+			else if ( CKEDITOR.env.ie ) {
+				// IE BUG: If I don't set the selection to *somewhere* after setting
+				// document contents, then IE would create an empty paragraph at the bottom
+				// the next time the document is modified.
+				var $range = this.editor.document.getBody().$.createTextRange();
+				$range.collapse( true );
+				$range.select();
+			}
+
+			this.locked = null;
 
 			this.index = image.index;
 			this.currentImage = this.snapshots[ this.index ];
@@ -487,24 +506,11 @@
 		 */
 		undo: function() {
 			if ( this.undoable() ) {
-				var continueAction = this.editor.fire( 'beforeUndo', this );
-
-
-				if ( continueAction === false  ) {
-					return false;
-				}
-
 				this.save( true );
 
 				var image = this.getNextImage( true );
-
-				if ( image ) {
-					this.editor.fire( 'afterUndo', this );
-
-					this.restoreImage( image, true );
-
-					return true;
-				}
+				if ( image )
+					return this.restoreImage( image ), true;
 			}
 
 			return false;
@@ -515,13 +521,6 @@
 		 */
 		redo: function() {
 			if ( this.redoable() ) {
-				var continueAction = this.editor.fire( 'beforeRedo', this );
-
-
-				if ( continueAction === false  ) {
-					return false;
-				}
-
 				// Try to save. If no changes have been made, the redo stack
 				// will not change, so it will still be redoable.
 				this.save( true );
@@ -529,14 +528,8 @@
 				// If instead we had changes, we can't redo anymore.
 				if ( this.redoable() ) {
 					var image = this.getNextImage( false );
-
-					if ( image ) {
-						this.editor.fire( 'afterRedo' );
-
-						this.restoreImage( image );
-
-						return true;
-					}
+					if ( image )
+						return this.restoreImage( image ), true;
 				}
 			}
 
@@ -555,7 +548,7 @@
 				return;
 
 			if ( !newImage )
-				newImage = this.createImage();
+				newImage = new Image( this.editor );
 
 			var i = this.index,
 				snapshots = this.snapshots;
@@ -634,7 +627,7 @@
 						// * there's a chance that DOM has been changed since
 						// locked (e.g. fake) selection was made, so createBookmark2 could fail.
 						// https://dev.ckeditor.com/ticket/11027#comment:3
-						var imageBefore = this.createImage( true );
+						var imageBefore = new Image( this.editor, true );
 
 						// If current editor content matches the tip of snapshot stack,
 						// the stack tip must be updated by unlock, to include any changes made
@@ -672,7 +665,7 @@
 						this.update();
 					// update is instance of Image.
 					else if ( update ) {
-						var newImage = this.createImage( true );
+						var newImage = new Image( this.editor, true );
 
 						if ( !update.equalsContent( newImage ) )
 							this.update();
@@ -788,12 +781,12 @@
 	 * @param {CKEDITOR.editor} editor The editor instance on which the image is created.
 	 * @param {Boolean} [contentsOnly] If set to `true`, the image will only contain content without the selection.
 	 */
-	var Image = CKEDITOR.plugins.undo.Image = function( editor, contentsOnly, filter ) {
+	var Image = CKEDITOR.plugins.undo.Image = function( editor, contentsOnly ) {
 			this.editor = editor;
 
 			editor.fire( 'beforeUndoImage' );
 
-			var contents = editor.getSnapshot( filter );
+			var contents = editor.getSnapshot( editor.undoManager.filter );
 
 			// In IE, we need to remove the expando attributes.
 			if ( CKEDITOR.env.ie && contents )
@@ -813,35 +806,6 @@
 	var protectedAttrs = /\b(?:href|src|name)="[^"]*?"/gi;
 
 	Image.prototype = {
-		applyTo: function( undoManager ) {
-			var sel;
-
-			if ( this.bookmarks ) {
-				this.editor.focus();
-				// Retrieve the selection beforehand. (https://dev.ckeditor.com/ticket/8324)
-				sel = this.editor.getSelection();
-			}
-
-			// Start transaction - do not allow any mutations to the
-			// snapshots stack done when selecting bookmarks (much probably
-			// by selectionChange listener).
-			undoManager.locked = { level: 999 };
-
-			this.editor.loadSnapshot( this.contents );
-
-			if ( this.bookmarks )
-				sel.selectBookmarks( this.bookmarks );
-			else if ( CKEDITOR.env.ie ) {
-				// IE BUG: If I don't set the selection to *somewhere* after setting
-				// document contents, then IE would create an empty paragraph at the bottom
-				// the next time the document is modified.
-				var $range = this.editor.document.getBody().$.createTextRange();
-				$range.collapse( true );
-				$range.select();
-			}
-
-			undoManager.locked = null;
-		},
 		/**
 		 * @param {CKEDITOR.plugins.undo.Image} otherImage Image to compare to.
 		 * @returns {Boolean} Returns `true` if content in `otherImage` is the same.
@@ -988,7 +952,7 @@
 
 			// We need to store an image which will be used in case of key group
 			// change.
-			this.lastKeydownImage = undoManager.createImage();
+			this.lastKeydownImage = new Image( undoManager.editor );
 
 			if ( UndoManager.isNavigationKey( keyCode ) || this.undoManager.keyGroupChanged( keyCode ) ) {
 				if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
@@ -1046,7 +1010,7 @@
 			// changed because we blindly mocked the keypress event.
 			// Also we need to be aware that lastKeydownImage might not be available (https://dev.ckeditor.com/ticket/12327).
 			if ( UndoManager.ieFunctionalKeysBug( keyCode ) && this.lastKeydownImage &&
-				this.lastKeydownImage.equalsContent( undoManager.createImage( true ) ) ) {
+				this.lastKeydownImage.equalsContent( new Image( undoManager.editor, true ) ) ) {
 				return;
 			}
 
@@ -1074,7 +1038,7 @@
 			// We attempt to save content snapshot, if content didn't change, we'll
 			// only amend selection.
 			if ( skipContentCompare || !undoManager.save( true, null, false ) )
-				undoManager.updateSelection( undoManager.createImage() );
+				undoManager.updateSelection( new Image( undoManager.editor ) );
 
 			undoManager.resetType();
 		},
