@@ -484,7 +484,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           for (i = 0; i < lang.altContainsFilename.length; i++) {
             s = lang.altContainsFilename[i];
             if (altNormalized.indexOf(s) >= 0) {
-              alert(lang.msgAltPrefix + ' ' + lang.msgAltContainsFilename.replace('%s', s));
+              alert(lang.msgAltPrefix + '\n\n' + lang.msgAltContainsFilename.replace('%s', s));
               return false;
             }
           }
@@ -492,7 +492,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           // Testing for common cases of invalid alternative text
           for (i = 0; i < lang.altIsInvalid.length; i++) {
             if (altNormalized === lang.altIsInvalid[i]) {
-              alert(lang.msgAltPrefix + ' ' + lang.msgAltIsInvalid.replace('%s', alt));
+              alert(lang.msgAltPrefix + '\n\n' + lang.msgAltIsInvalid.replace('%s', alt));
               return false;
             }
           }
@@ -500,7 +500,8 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           // Testing for alternative text starting with "image",...
           for (i = 0; i < lang.altStartsWithInvalid.length; i++) {
             if (altNormalized.indexOf(lang.altStartsWithInvalid[i]) === 0) {
-              alert(lang.msgAltPrefix + ' ' + lang.msgAltStartsWithInvalid.replace('%s', alt.substring(0,lang.altStartsWithInvalid[i].length)));
+              alert(lang.msgAltPrefix + '\n\n' +
+                lang.msgAltStartsWithInvalid.replace('%s', alt.substring(0,lang.altStartsWithInvalid[i].length)));
               return false;
             }
           }
@@ -509,7 +510,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           for (i = 0; i < lang.altEndsWithInvalid.length; i++) {
             var s = lang.altEndsWithInvalid[i];
             if (altNormalized.substring((altLength-s.length),altLength) === s) {
-              alert(lang.msgAltPrefix + ' ' + lang.msgAltEndsWithInvalid);
+              alert(lang.msgAltPrefix + '\n\n' + lang.msgAltEndsWithInvalid);
               return false;
             }
           }
@@ -650,7 +651,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
   var imageDescriptionHelpLink = {
     id: 'imageDescHelpLink',
     type: 'html',
-    html: '<div style="margin-top: 7px; margin-bottom: 0; margin-left: 3px;"><a href="javascript:void(0)"  id="infoDetailDescLinkidId" style="color: blue; text-decoration: underline">' + lang.descriptionHelp + '</a></div>',
+    html: '<div style="margin-top: 7px; margin-bottom: 0; margin-left: 3px;"><a href="javascript:void(0)"  id="imageDescHelpLinkId" style="color: blue; text-decoration: underline">' + lang.imageDescHelpLinkText + '</a></div>',
 
     onClick: function () {
       editor.a11yfirst.helpOption = 'ImageHelp';
