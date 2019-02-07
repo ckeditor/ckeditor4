@@ -6,6 +6,7 @@
 	'use strict';
 
 	var doc = CKEDITOR.document,
+		isTravisAndFirefox = bender.config.isTravis && CKEDITOR.env.gecko,
 
 	tests = {
 		setUp: function() {
@@ -15,10 +16,10 @@
 		_should: {
 			ignore: {
 				// Tests randomly fails on FF in Travis
-				'test only element selection': bender.config.isTravis && CKEDITOR.env.gecko,
-				'test last element selection': bender.config.isTravis && CKEDITOR.env.gecko,
-				'test two line selection': bender.config.isTravis && CKEDITOR.env.gecko,
-				'test three line selection': bender.config.isTravis && CKEDITOR.env.gecko
+				'test only element selection': isTravisAndFirefox,
+				'test last element selection': isTravisAndFirefox,
+				'test two line selection': isTravisAndFirefox,
+				'test three line selection': isTravisAndFirefox
 			}
 		},
 
