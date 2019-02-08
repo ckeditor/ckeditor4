@@ -95,6 +95,10 @@
 			},
 
 			'test balloontoolbar positioning': function( editor, bot ) {
+				// Ignore test with builded editor in travis.
+				if ( bender.config.isTravis && bender.tools.env.isBuild ) {
+					assert.ignore();
+				}
 				// Force toolbar to always appear under the widget.
 				editor.container.getWindow().$.scroll( 0, editor.container.getDocumentPosition().y );
 

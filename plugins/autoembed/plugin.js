@@ -209,7 +209,7 @@
 	 * For example, there is the `embedsemantic` plugin and the `embedSemantic` widget.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_media_embed-section-automatic-embedding-on-paste)
-	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/mediaembed.html).
+	 * and see the {@glink examples/mediaembed example}.
 	 *
 	 * @since 4.5
 	 * @cfg {String/Function} [autoEmbed_widget='embed,embedSemantic']

@@ -35,7 +35,7 @@ Additionally, all releases have their respective tags in the following form: 4.4
 ## Samples
 
 The `samples/` folder contains some examples that can be used to test your
-installation. Visit [CKEditor 4 SDK](https://sdk.ckeditor.com/) for plenty of samples
+installation. Visit [CKEditor 4 Examples](https://ckeditor.com/docs/ckeditor4/latest/examples/index.html) for plenty of samples
 showcasing numerous editor features, with source code readily available to view, copy
 and use in your own solution.
 

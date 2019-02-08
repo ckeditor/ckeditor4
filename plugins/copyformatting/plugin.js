@@ -1110,7 +1110,7 @@
 	 *		config.copyFormatting_outerCursor = false;
 	 *
 	 * Read more in the {@glink guide/dev_copyformatting documentation}
-	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the {@glink examples/copyformatting example}.
 	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_outerCursor=true]
@@ -1130,7 +1130,7 @@
 	 *
 	 *
 	 * Read more in the {@glink guide/dev_copyformatting documentation}
-	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the {@glink examples/copyformatting example}.
 	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_allowRules='b; s; u; strong; span; p; div; table; thead; tbody; ' +
@@ -1149,7 +1149,7 @@
 	 *
 	 *
 	 * Read more in the {@glink guide/dev_copyformatting documentation}
-	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the {@glink examples/copyformatting example}.
 	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_disallowRules='*[data-cke-widget*,data-widget*,data-cke-realelement](cke_widget*)']
@@ -1173,7 +1173,7 @@
 	 *		config.copyFormatting_allowedContexts = true;
 	 *
 	 * Read more in the {@glink guide/dev_copyformatting documentation}
-	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the {@glink examples/copyformatting example}.
 	 *
 	 * @since 4.6.0
 	 * @cfg {Boolean/String[]} [copyFormatting_allowedContexts=true]
@@ -1191,7 +1191,7 @@
 	 *		config.copyFormatting_keystrokeCopy = false;
 	 *
 	 * Read more in the {@glink guide/dev_copyformatting documentation}
-	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the {@glink examples/copyformatting example}.
 	 *
 	 * @since 4.6.0
 	 * @cfg {Number} [copyFormatting_keystrokeCopy=CKEDITOR.CTRL + CKEDITOR.SHIFT + 67]
@@ -1209,7 +1209,7 @@
 	 *		config.copyFormatting_keystrokePaste = false;
 	 *
 	 * Read more in the {@glink guide/dev_copyformatting documentation}
-	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/copyformatting.html).
+	 * and see the {@glink examples/copyformatting example}.
 	 *
 	 * @since 4.6.0
 	 * @cfg {Number} [copyFormatting_keystrokePaste=CKEDITOR.CTRL + CKEDITOR.SHIFT + 86]
