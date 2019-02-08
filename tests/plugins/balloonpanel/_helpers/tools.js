@@ -121,6 +121,7 @@ var balloonTestsTools = {
 		return pos;
 	},
 
+	// (#2796)
 	removeDotsFromUrl: function( expectedPath ) {
 		var parts = expectedPath.split( '/' ),
 			amountToRemove = 0;
