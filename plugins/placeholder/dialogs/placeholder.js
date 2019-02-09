@@ -27,19 +27,19 @@ CKEDITOR.dialog.add( 'placeholder', function( editor ) {
 				title: generalLabel,
 				elements: [
           // Dialog window UI elements.
-          {
-            type: 'radio',
-            id: 'party',
-            label: null,
-            items: [ [ 'My Team', 'team' ], [ 'Counterparty', 'counterparty' ] ],
-            style: '',
-            setup: function( widget ) {
-							this.setValue( widget.data.party || 'team' );
-						},
-						commit: function( widget ) {
-							widget.setData( 'party', this.getValue() );
-						}
-          },
+          // {
+          //   type: 'radio',
+          //   id: 'party',
+          //   label: null,
+          //   items: [ [ 'My Team', 'team' ], [ 'Counterparty', 'counterparty' ] ],
+          //   style: '',
+          //   setup: function( widget ) {
+					// 		this.setValue( widget.data.party || 'team' );
+					// 	},
+					// 	commit: function( widget ) {
+					// 		widget.setData( 'party', this.getValue() );
+					// 	}
+          // },
 					{
 						id: 'name',
 						type: 'text',

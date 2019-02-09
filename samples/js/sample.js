@@ -44,7 +44,11 @@ var initSample = ( function() {
 				{name: 'find', items: ['Find', 'Replace']},
 				{name: 'insert', items: ['Table', 'base64image']},
 				{name: 'pagebreak', items: ['PageBreak']},
-        {name: 'placeholder', items: ['CreatePlaceholder', 'CreateCpPlaceholder', 'CreateAutoSequence']},
+        {name: 'placeholder', items: [
+          'CreatePlaceholder',
+          // 'CreateCpPlaceholder',
+          'CreateAutoSequence'
+        ]},
         {name: 'smartfields', items: ['smartfields']},
 				{name: 'helpers', items: ['Undo', 'Redo']},
 				{name: 'tabletools', items: ['tabledelete', 'tableproperties', 'tablerowinsertbefore',
