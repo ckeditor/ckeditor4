@@ -1614,7 +1614,7 @@
  * A CSS class applied to the `<figure>` element of a captioned image.
  *
  * Read more in the [documentation](#!/guide/dev_image2) and see the
- * [SDK sample](https://sdk.ckeditor.com/samples/image2.html).
+ * {@glink examples/image2 example}.
  *
  *		// Changes the class to "captionedImage".
  *		config.image2_captionedClass = 'captionedImage';
@@ -1629,7 +1629,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  * plugin dialog window.
  *
  * Read more in the [documentation](#!/guide/dev_image2) and see the
- * [SDK sample](https://sdk.ckeditor.com/samples/image2.html).
+ * {@glink examples/image2 example}.
  *
  *		config.image2_prefillDimensions = false;
  *
@@ -1642,7 +1642,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  * Disables the image resizer. By default the resizer is enabled.
  *
  * Read more in the [documentation](#!/guide/dev_image2) and see the
- * [SDK sample](https://sdk.ckeditor.com/samples/image2.html).
+ * {@glink examples/image2 example}.
  *
  *		config.image2_disableResizer = true;
  *
@@ -1702,7 +1702,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *		}
  *
  * Read more in the [documentation](#!/guide/dev_image2) and see the
- * [SDK sample](https://sdk.ckeditor.com/samples/image2.html).
+ * {@glink examples/image2 example}.
  *
  * @since 4.4
  * @cfg {String[]} [image2_alignClasses=null]
@@ -1715,7 +1715,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *		config.image2_altRequired = true;
  *
  * Read more in the [documentation](#!/guide/dev_image2) and see the
- * [SDK sample](https://sdk.ckeditor.com/samples/image2.html).
+ * {@glink examples/image2 example}.
  *
  * @since 4.6.0
  * @cfg {Boolean} [image2_altRequired=false]

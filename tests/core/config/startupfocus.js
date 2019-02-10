@@ -85,7 +85,7 @@
 			assertStartupFocus( {
 				name: 'editor_img',
 				startupFocus: 'end',
-				expected: '<p>foo@</p><p><img alt="Saturn V" data-cke-saved-src="/tests/_assets/logo.png" src="%BASE_PATH%_assets/logo.png" style="width:200px" />^@</p>',
+				expected: '<p>foo@</p><p><img alt="Saturn V" data-cke-saved-src="%BASE_PATH%_assets/logo.png" src="%BASE_PATH%_assets/logo.png" style="width:200px" />^@</p>',
 				extraConfig: {
 					extraPlugins: 'image'
 				}

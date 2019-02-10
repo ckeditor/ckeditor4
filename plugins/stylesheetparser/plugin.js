@@ -129,7 +129,7 @@
  * in the Styles drop-down list.
  *
  * Read more in the [documentation](#!/guide/dev_styles-section-the-stylesheet-parser-plugin)
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/styles.html).
+ * and see the {@glink examples/styles example}.
  *
  *		// Ignore rules for body and caption elements, classes starting with "high", and any class defined for no specific element.
  *		config.stylesheetParser_skipSelectors = /(^body\.|^caption\.|\.high|^\.)/i;
@@ -146,7 +146,7 @@
  * expression will be available in the Styles drop-down list.
  *
  * Read more in the [documentation](#!/guide/dev_styles-section-the-stylesheet-parser-plugin)
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/styles.html).
+ * and see the {@glink examples/styles example}.
  *
  *		// Only add rules for p and span elements.
  *		config.stylesheetParser_validSelectors = /\^(p|span)\.\w+/;

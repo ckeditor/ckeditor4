@@ -119,6 +119,24 @@ var balloonTestsTools = {
 				break;
 		}
 		return pos;
+	},
+
+	// (#2796)
+	removeDotsFromUrl: function( expectedPath ) {
+		var parts = expectedPath.split( '/' ),
+			amountToRemove = 0;
+		for ( var i = parts.length - 1; i; i-- ) {
+			if ( parts[ i ] === '..' ) {
+				amountToRemove++;
+				parts.splice( i, 1 );
+				continue;
+			}
+			if ( amountToRemove ) {
+				parts.splice( i, 1 );
+				amountToRemove--;
+			}
+		}
+		return parts.join( '/' );
 	}
 
 };
