@@ -2843,6 +2843,13 @@
 		var editor = widgetsRepo.editor,
 			downcastingSessions = {};
 
+		// editor.on( 'getSnapshot', function( evt ) {
+		// 	var instances = widgetsRepo.instances;
+		// 	for ( var id in instances ) {
+		// 		instances[ id ].fire( 'getSnapshot', evt );
+		// 	}
+		// } );
+
 		// Listen before htmlDP#htmlFilter is applied to cache all widgets, because we'll
 		// loose data-cke-* attributes.
 		editor.on( 'toDataFormat', function( evt ) {
@@ -2982,29 +2989,22 @@
 		editor.on( 'dataReady', function() {
 			var container = editor.editable();
 
-			if ( snapshotLoaded )
+			if ( snapshotLoaded ) {
 				cleanUpAllWidgetElements( widgetsRepo, container );
+			}
+
 			snapshotLoaded = 0;
 
 			// Some widgets were destroyed on contentDomUnload,
 			// some on loadSnapshot, but that does not include
 			// e.g. setHtml on inline editor or widgets removed just
 			// before setting data.
-
 			var instances = editor.widgets.instances;
 			for ( var id in instances ) {
 				var widget = instances[ id ];
 
-				// Try to restore widget instead of destroying it if it's marked `keepAlive`.
-				if ( container && widget.keepAlive ) {
-					var restoreElement = container.findOne( '[data-cke-widget-restore-id="' + widget.id + '"]' );
-
-					if ( restoreElement ) {
-						var revId = restoreElement.getAttribute( 'data-cke-widget-rev' );
-						widget.wrapper.replace( restoreElement );
-						widget.fire( 'revisionChange', revId );
-					}
-				} else {
+				// Delegate widget lifecycle if it has its own revision system.
+				if ( widget.fire( 'beforeReload', container ) !== false ) {
 					editor.widgets.destroy( widget, true );
 				}
 			}

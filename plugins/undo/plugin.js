@@ -197,7 +197,6 @@
 	 * @param {CKEDITOR.editor} editor
 	 */
 	var UndoManager = CKEDITOR.plugins.undo.UndoManager = function( editor ) {
-		this.filter = new CKEDITOR.htmlParser.filter();
 		/**
 		 * An array storing the number of key presses, count in a row. Use {@link #keyGroups} members as index.
 		 *
@@ -786,7 +785,7 @@
 
 			editor.fire( 'beforeUndoImage' );
 
-			var contents = editor.getSnapshot( editor.undoManager.filter );
+			var contents = editor.getSnapshot();
 
 			// In IE, we need to remove the expando attributes.
 			if ( CKEDITOR.env.ie && contents )
