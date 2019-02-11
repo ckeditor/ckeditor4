@@ -192,9 +192,9 @@ guidelines for alternative text:\n\
 \n\
 ### Requirement exception for alternative text\n\
 \n\
-* When an image is purely decorative, i.e., it adds no additional information\n\
-  to the document, select the **‘Image does not require alternative text’**\n\
-  checkbox and leave the alternative text field blank.\n\
+* When an image adds no additional information to the document, select the\n\
+  **‘Image does not require alternative text’** checkbox and leave the\n\
+  alternative text field blank.\n\
 \n\
 * In all other cases, alternative text is required.\n\
 \n\
