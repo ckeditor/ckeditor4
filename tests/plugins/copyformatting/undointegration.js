@@ -12,6 +12,7 @@
 	};
 
 	bender.test( {
+		// (#2780)
 		'test undo integration': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
