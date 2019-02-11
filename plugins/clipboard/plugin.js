@@ -1975,6 +1975,10 @@
 
 			// ...and paste content into the drop position.
 			dropRange = editor.createRange();
+			// Refresh range if drop bookmarks are not in editable any longer.
+			if ( !dropBookmark.startNode.getCommonAncestor( editable ) ) {
+				dropBookmark = editor.getSelection().createBookmarks()[ 0 ];
+			}
 			dropRange.moveToBookmark( dropBookmark );
 
 			// We do not select drop range, because of may be in the place we can not set the selection
