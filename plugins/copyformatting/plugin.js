@@ -423,10 +423,7 @@
 						documentElement = CKEDITOR.document.getDocumentElement(),
 						isApplied;
 
-					if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON ) {
-						return;
-
-					} else if ( isFromKeystroke && !copyFormatting.styles ) {
+					if ( isFromKeystroke && !copyFormatting.styles ) {
 						plugin._putScreenReaderMessage( editor, 'failed' );
 						plugin._detachPasteKeystrokeHandler( editor );
 						return false;
