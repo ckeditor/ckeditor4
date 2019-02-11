@@ -13,7 +13,7 @@
 
 	bender.test( {
 		// (#2780)
-		'test undo integration': function() {
+		'test basic undo integration': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
 				sel = editor.getSelection(),
@@ -39,7 +39,21 @@
 
 			assert.areSame( 1, editor.undoManager.index, 'There shouldn\'t be new undo steps.' );
 			assert.isTrue( editor.undoManager.undoable(), 'Editor should has possibility to undo.' );
+		},
+		// (#2780)
+		'test basic redo integration': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
 
+			bot.setHtmlWithSelection( '<p><span id="one">foo</span> []bar <span id="two">baz</span></p>' );
+			editor.insertText( '1' );
+			bot.execCommand( 'undo' );
+
+			editor.document.fire( 'mouseup', new CKEDITOR.dom.event( {
+				button: CKEDITOR.MOUSE_BUTTON_LEFT
+			} ) );
+
+			assert.isTrue( editor.undoManager.redoable(), 'Editor should has possibility to red.' );
 		}
 	} );
 
