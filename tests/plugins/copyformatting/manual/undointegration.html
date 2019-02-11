@@ -1,18 +1,37 @@
 <h2>First editor</h2>
-
+<p style="border: 1px solid black; padding: 2px;" >Current snapshot index: <strong id="ed1-current">0</strong>.<br><em>(Value is refreshed exclusively on "mouseup" event from editable.)</em></p>
 <div id="editor1" contenteditable="true">
 	<p><strong><u><span style="color: #f00;" class="important">Apollo 11</span></u></strong> <s>was the</s> <span style="color: #f00;" class="important">spaceflight</span> that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. <span style="background-color: #f00;" bogus-attr="2">Armstrong</span> became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
 </div>
 
 <h2>Second editor</h2>
-
+<p style="border: 1px solid black; padding: 2px;" >Current snapshot index: <strong id="ed2-current">0</strong>.<br><em>(Value is refreshed exclusively on "mouseup" event from editable.)</em></p>
 <div id="editor2" contenteditable="true">
 	<p><strong><u><span style="color: #f00;" class="important">Apollo 11</span></u></strong> <s>was the</s> <span style="color: #f00;" class="important">spaceflight</span> that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. <span style="background-color: #f00;" bogus-attr="2">Armstrong</span> became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
 </div>
 
 <script>
-	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor1', {
+		on: {
+			instanceReady: function( evt ) {
+				var editor = evt.editor;
+				var currentIndicator = CKEDITOR.document.findOne( '#ed1-current' );
+				editor.editable().on( 'mouseup', function( evt ) {
+					currentIndicator.setText( editor.undoManager.index );
+				} );
+			}
+		}
+	} );
 	CKEDITOR.replace( 'editor2', {
-		extraPlugins: 'divarea'
+		extraPlugins: 'divarea',
+		on: {
+			instanceReady: function( evt ) {
+				var editor = evt.editor;
+				var currentIndicator = CKEDITOR.document.findOne( '#ed2-current' );
+				editor.editable().on( 'mouseup', function( evt ) {
+					currentIndicator.setText( editor.undoManager.index );
+				} );
+			}
+		}
 	} );
 </script>
