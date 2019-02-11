@@ -10,8 +10,8 @@
 
 ### Alternative text
 
-* Alternative text is required for all informative images and succinctly
-  describes the main content and function of the image.
+* Alternative text is required for all informative images and should
+  succinctly describe the main content and function of the image.
 
 * The length of the alternative text should be no more than 100 characters.
 
@@ -37,13 +37,21 @@ guidelines for alternative text:
 * **Do NOT be redundant** or provide the same information as text that is
   already part of the document.
 
-* **Do NOT use the phrases "image of ..." or "graphic of ..."** to describe
+* **Do NOT use the phrases “image of ...” or “graphic of ...”** to describe
   the image. Assistive technologies notify the user of the image.  It is your
   job to describe the purpose or the content of the image.  If the image is a
   photograph or illustration, etc. of important content, it may be useful to
   include this in the alternative text.
 
 * **Do NOT include file names or sizes** as part of the alternative text.
+
+### Requirement exception for alternative text
+
+* When an image is purely decorative, i.e., it adds no additional information
+  to the document, select the **‘Image does not require alternative text’**
+  checkbox and leave the alternative text field blank.
+
+* In all other cases, alternative text is required.
 
 ### Detailed descriptions for complex images
 
@@ -67,8 +75,8 @@ image:
 1. Add an adequately detailed description of the image within the document,
    either just before or after the image (or both).
 
-1. In answer to the question '**Is there an adjacent detailed description of the
-   image in the document**', select one of the following:
+1. In answer to the question **‘Is there an adjacent detailed description of the
+   image in the document’**, select one of the following:
        * Yes, before the image
        * Yes, after the image
        * Yes, before and after the image

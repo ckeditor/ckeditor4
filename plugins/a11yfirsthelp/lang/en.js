@@ -155,8 +155,8 @@ The context menu can be invoked by positioning the cursor in a list item and:\n\
 \n\
 ### Alternative text\n\
 \n\
-* Alternative text is required for all informative images and succinctly\n\
-  describes the main content and function of the image.\n\
+* Alternative text is required for all informative images and should\n\
+  succinctly describe the main content and function of the image.\n\
 \n\
 * The length of the alternative text should be no more than 100 characters.\n\
 \n\
@@ -182,13 +182,21 @@ guidelines for alternative text:\n\
 * **Do NOT be redundant** or provide the same information as text that is\n\
   already part of the document.\n\
 \n\
-* **Do NOT use the phrases "image of ..." or "graphic of ..."** to describe\n\
+* **Do NOT use the phrases “image of ...” or “graphic of ...”** to describe\n\
   the image. Assistive technologies notify the user of the image.  It is your\n\
   job to describe the purpose or the content of the image.  If the image is a\n\
   photograph or illustration, etc. of important content, it may be useful to\n\
   include this in the alternative text.\n\
 \n\
 * **Do NOT include file names or sizes** as part of the alternative text.\n\
+\n\
+### Requirement exception for alternative text\n\
+\n\
+* When an image is purely decorative, i.e., it adds no additional information\n\
+  to the document, select the **‘Image does not require alternative text’**\n\
+  checkbox and leave the alternative text field blank.\n\
+\n\
+* In all other cases, alternative text is required.\n\
 \n\
 ### Detailed descriptions for complex images\n\
 \n\
@@ -212,8 +220,8 @@ image:\n\
 1. Add an adequately detailed description of the image within the document,\n\
    either just before or after the image (or both).\n\
 \n\
-1. In answer to the question \'**Is there an adjacent detailed description of the\n\
-   image in the document**\', select one of the following:\n\
+1. In answer to the question **‘Is there an adjacent detailed description of the\n\
+   image in the document’**, select one of the following:\n\
        * Yes, before the image\n\
        * Yes, after the image\n\
        * Yes, before and after the image\n\
