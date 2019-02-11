@@ -49,7 +49,8 @@
 			for ( var i = 0; i < editor.undoManager.limit; i++ ) {
 				sel.selectElement( i % 2 ? el1 : el2 );
 				editor.document.fire( 'mouseup', new CKEDITOR.dom.event( {
-					button: CKEDITOR.MOUSE_BUTTON_LEFT
+					button: CKEDITOR.MOUSE_BUTTON_LEFT,
+					target: editor.editable()
 				} ) );
 			}
 
@@ -68,7 +69,8 @@
 
 			sel.selectElement( editor.editable().findOne( '#one' ) );
 			editor.document.fire( 'mouseup', new CKEDITOR.dom.event( {
-				button: CKEDITOR.MOUSE_BUTTON_LEFT
+				button: CKEDITOR.MOUSE_BUTTON_LEFT,
+				target: editor.editable()
 			} ) );
 
 			assert.isTrue( editor.undoManager.redoable(), 'Editor should has possibility to redo.' );
