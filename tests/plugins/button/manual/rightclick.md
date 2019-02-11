@@ -1,4 +1,4 @@
-@bender-tags: 4.11.2, 2565, bug, button
+@bender-tags: 4.11.3, 2565, bug, button
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, language
 
