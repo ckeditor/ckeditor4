@@ -3,7 +3,22 @@
 ( function() {
 	'use strict';
 
-	var testElement = CKEDITOR.htmlParser.fragment.fromHtml( CKEDITOR.document.findOne( '#test-html' ).getOuterHtml() ).children[ 0 ];
+	var htmlString =
+		'<div id="test-html">' +
+			'<div>' +
+				'Foo' +
+				'<p>' +
+					'Baz' +
+					'<span class="faz">Faz</span>' +
+					'<span class="baz">' +
+					'<strong>Baz</strong>' +
+				'</span>' +
+				'</p>' +
+				'Bar' +
+			'</div>' +
+			'<div class="faz">Faz</div>' +
+		'</div>',
+		testElement = CKEDITOR.htmlParser.fragment.fromHtml( htmlString ).children[ 0 ];
 
 	bender.test( {
 		'test findOne by tag name': function() {
@@ -27,7 +42,7 @@
 		},
 
 		'test findOne deep nested child': function() {
-			assert.areSame( testElement.children[ 0 ].children[ 1 ].children[ 3 ].children[ 1 ], testElement.findOne( 'strong', true ),
+			assert.areSame( testElement.children[ 0 ].children[ 1 ].children[ 2 ].children[ 0 ], testElement.findOne( 'strong', true ),
 				'testElement.children[ 0 ].children [ 1 ].children[ 3 ].children[ 1 ]'
 			);
 		},
