@@ -1870,10 +1870,9 @@
 				},
 
 				/**
-				 * See {@link CKEDITOR.tools.style.border#fromCssRule}.
-				 *
 				 * @param {String} value The `border` property value.
 				 * @returns {CKEDITOR.tools.style.border} Border style.
+				 * @deprecated 4.12.0 Use {@link CKEDITOR.tools.style.border#fromCssRule} instead.
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				border: function( value ) {
