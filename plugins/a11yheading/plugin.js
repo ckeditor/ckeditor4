@@ -40,9 +40,6 @@
       // Initialize formatTags array
       formatTags = config.format_tags.split( ';' );
 
-      // Load the override script to change behavior of menubutton with text label
-      CKEDITOR.scriptLoader.load( this.path + 'js/override.js' );
-
       // Register heading command
       editor.addCommand( 'heading', {
         allowedContent: allowedContent,
