@@ -1797,11 +1797,11 @@
 				 * ```
 				 *
 				 * @param {String} value The `margin` property value.
-				 * @returns {Object}
-				 * @returns {Number} return.top Top margin.
-				 * @returns {Number} return.right Right margin.
-				 * @returns {Number} return.bottom Bottom margin.
-				 * @returns {Number} return.left Left margin.
+				 * @returns {Object.<String, String>}
+				 * @returns {String} return.top Top margin.
+				 * @returns {String} return.right Right margin.
+				 * @returns {String} return.bottom Bottom margin.
+				 * @returns {String} return.left Left margin.
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				margin: function( value ) {
@@ -1833,11 +1833,11 @@
 				 * @param {Function} [split] Function used to split `value`.
 				 * If not set, property value will be splitted by spaces.
 				 * @param split.return String[] Splitted shorthand value.
-				 * @returns {Object}
-				 * @returns {Number} return.top Top value.
-				 * @returns {Number} return.right Right value.
-				 * @returns {Number} return.bottom Bottom value.
-				 * @returns {Number} return.left Left value.
+				 * @returns {Object.<String, String>}
+				 * @returns {String} return.top Top value.
+				 * @returns {String} return.right Right value.
+				 * @returns {String} return.bottom Bottom value.
+				 * @returns {String} return.left Left value.
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				sideShorthand: function( value, split ) {
