@@ -1,10 +1,18 @@
-<textarea id="editor">
+<textarea id="editor1">
+	<div>This is some sample text.</div>
+	<div>New line.</div>
+</textarea>
+<textarea id="editor2">
 	<div>This is some sample text.</div>
 	<div>New line.</div>
 </textarea>
 
 <script>
-	CKEDITOR.replace( 'editor', {
+	CKEDITOR.replace( 'editor1', {
+		enterMode: CKEDITOR.ENTER_DIV
+	} );
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'divarea',
 		enterMode: CKEDITOR.ENTER_DIV
 	} );
 </script>
