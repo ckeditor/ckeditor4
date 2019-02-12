@@ -658,7 +658,7 @@ var testsForMultipleEditor = {
 				assert.areSame( '<p class="p">^foo</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 			} );
 		},
-
+		// #(2292)
 		'test internal drag and drop on editors margin': function( editor ) {
 			var evt = bender.tools.mockDropEvent();
 
