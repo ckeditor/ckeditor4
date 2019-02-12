@@ -27,7 +27,7 @@
 		},
 
 		'test findOne deep nested child': function() {
-			assert.areSame( testElement.children[ 0 ].children [ 1 ].children[ 3 ].children[ 1 ], testElement.findOne( 'strong', true ),
+			assert.areSame( testElement.children[ 0 ].children[ 1 ].children[ 3 ].children[ 1 ], testElement.findOne( 'strong', true ),
 				'testElement.children[ 0 ].children [ 1 ].children[ 3 ].children[ 1 ]'
 			);
 		},
