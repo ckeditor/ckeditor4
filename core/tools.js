@@ -2533,7 +2533,7 @@
 		statics: {
 			/**
 			 * Parses the `border` CSS property shorthand format.
-			 * This CSS property does not support inheritance (https://www.w3.org/TR/css3-background/#the-border-shorthands).
+			 * This CSS property [does not support inheritance](https://www.w3.org/TR/css3-background/#the-border-shorthands).
 			 *
 			 * ```javascript
 			 *	console.log( CKEDITOR.tools.style.border.fromCssRule( '3px solid #ffeedd' ) );
