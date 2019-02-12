@@ -2843,13 +2843,6 @@
 		var editor = widgetsRepo.editor,
 			downcastingSessions = {};
 
-		// editor.on( 'getSnapshot', function( evt ) {
-		// 	var instances = widgetsRepo.instances;
-		// 	for ( var id in instances ) {
-		// 		instances[ id ].fire( 'getSnapshot', evt );
-		// 	}
-		// } );
-
 		// Listen before htmlDP#htmlFilter is applied to cache all widgets, because we'll
 		// loose data-cke-* attributes.
 		editor.on( 'toDataFormat', function( evt ) {
