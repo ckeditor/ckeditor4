@@ -4,18 +4,12 @@
 
 /* Styling of the selected button */
 
-.cke_dialog_ui_button.selected {
+.cke_dialog_ui_button.a11yfirsthelp.selected {
   background-color: #d1d1d1;
 }
 
-.cke_dialog_ui_button > span {
-  padding-left: 16px;
-}
-
-.cke_dialog_ui_button.selected > span:before {
-  background-image: url('images/right-arrow.png');
-  background-repeat: no-repeat;
-  background-position: left center;
+.cke_dialog_ui_button.a11yfirsthelp > span {
+  padding-left: 6px;
 }
 
 /* Changes to button styling from default moono-lisa */
