@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
+/* global Q */
+
 ( function( bender ) {
 	'use strict';
 
@@ -110,6 +112,21 @@
 		if ( bender.runner._inTest ) {
 			tc.wait();
 		}
+	};
+
+	bender.editorBot.promiseCreate = function( profile ) {
+		if ( typeof Q !== 'function' ) {
+			throw new Error( 'Q library is not available in this test case.' );
+		}
+		var deferred = Q.defer();
+		try {
+			bender.editorBot.create( profile, function( bot ) {
+				deferred.resolve( bot );
+			} );
+		} catch ( e ) {
+			deferred.reject( e );
+		}
+		return deferred.promise;
 	};
 
 	/**

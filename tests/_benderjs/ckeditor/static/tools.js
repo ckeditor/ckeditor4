@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
+/* global Q */
+
 ( function( bender ) {
 	'use strict';
 
@@ -1204,6 +1206,27 @@
 			} else {
 				element[ eventName ]( evt );
 			}
+		},
+
+		promisifyTestCase: function( promise ) {
+			return function() {
+				if ( typeof Q !== 'function' ) {
+					throw new Error( 'Q library is not available in this test case.' );
+				}
+				if ( !Q.isPromise( promise ) ) {
+					throw new Error( 'You passed non-promise object to \'promisifyCase\' funciton.' );
+				}
+				Q( promise )
+				.then( function() {
+					resume();
+				} )
+				.fail( function( e ) { // This same as catch for non-ES5 browsers (IE8) https://github.com/kriskowal/q/wiki/API-Reference#promisecatchonrejected
+					resume( function() {
+						throw e;
+					} );
+				} );
+				wait();
+			};
 		}
 
 	};
