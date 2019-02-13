@@ -109,7 +109,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 			/**
 			 * Updates state of the combo.
 			 *
-			 * @since 4.11.2
+			 * @since 4.11.3
 			 * @param {CKEDITOR.editor} editor The editor instance, which owns this rich combo.
 			 */
 			updateState: function( editor ) {
