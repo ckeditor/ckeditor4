@@ -60,73 +60,77 @@ bender.test( {
 	},
 
 	// (#1268)
-	'test combo state when editor is read only': testComboState( {
-		readOnly: true,
-		expected: CKEDITOR.TRISTATE_DISABLED
-	} ),
+	'test combo initial state': testComboState( [ {
+		expected: CKEDITOR.TRISTATE_OFF
+	} ] ),
 
 	// (#1268)
-	'test combo state when editor mode changes': testComboState( {
-		mode: 'source',
-		expected: CKEDITOR.TRISTATE_DISABLED
-	} ),
+	'test combo state when editor is read only': testComboState( [
+		{
+			callback: function( combo ) {
+				combo.setState( CKEDITOR.TRISTATE_ON );
+			},
+			expected: CKEDITOR.TRISTATE_ON
+		}, {
+			callback: function( combo ) {
+				combo.setState( CKEDITOR.TRISTATE_OFF );
+			},
+			expected: CKEDITOR.TRISTATE_OFF
+		}
+	] ),
 
 	// (#1268)
-	'test combo state when combo is on': testComboState( {
-		comboOn: true,
-		expected: CKEDITOR.TRISTATE_ON
-	} )
+	'test combo state when editor mode changes': testComboState( [
+		{
+			callback: function( combo, editor, next ) {
+				editor.setMode( 'source', next );
+			},
+			expected: CKEDITOR.TRISTATE_DISABLED
+		}, {
+			callback: function( combo, editor, next ) {
+				editor.setMode( 'wysiwyg', next );
+			},
+			expected: CKEDITOR.TRISTATE_OFF
+		}
+	], true ),
+
+	// (#1268)
+	'test combo state when combo is on': testComboState( [
+		{
+			callback: function( combo ) {
+				combo.setState( CKEDITOR.TRISTATE_ON );
+			},
+			expected: CKEDITOR.TRISTATE_ON
+		}, {
+			callback: function( combo ) {
+				combo.setState( CKEDITOR.TRISTATE_OFF );
+			},
+			expected: CKEDITOR.TRISTATE_OFF
+		}
+	] )
 } );
 
-function testComboState( options ) {
+function testComboState( steps, async ) {
 	return function() {
 		var editor = this.editor,
-			combo = editor.ui.get( 'custom_combo' ),
-			expected = options.expected,
-			originalMode;
+			combo = editor.ui.get( 'custom_combo' );
 
-		assert.areEqual( CKEDITOR.TRISTATE_OFF, combo.getState() );
+		var i = 0;
 
-		if ( options.comboOn ) {
-			assertComboStateWhenComboIsOn( expected );
+		if ( async ) {
+			performAsyncSteps();
+		} else {
+			CKEDITOR.tools.array.forEach( steps, function( step ) {
+				step.callback && step.callback( combo, editor, assertComboState );
+				step.expected && assertComboState( step.expected );
+			} );
 		}
 
-		if ( options.readOnly ) {
-			assertComboStateWhenReadOnly( expected );
-		}
-
-		if ( options.mode && options.mode !== editor.mode ) {
-			assertComboStateWhenEditorModeChanges( expected );
-		}
-
-		function assertComboStateWhenComboIsOn( expected ) {
-			combo.setState( CKEDITOR.TRISTATE_ON );
-			assertComboState( expected );
-
-			combo.setState( CKEDITOR.TRISTATE_OFF );
-			assertComboState( CKEDITOR.TRISTATE_OFF );
-		}
-
-		function assertComboStateWhenReadOnly( expected ) {
-			editor.setReadOnly( true );
-			assertComboState( expected );
-
-			editor.setReadOnly( false );
-			assertComboState( CKEDITOR.TRISTATE_OFF );
-		}
-
-		function assertComboStateWhenEditorModeChanges( expected ) {
-			originalMode = editor.mode;
-			editor.setMode( options.mode, function() {
+		function performAsyncSteps() {
+			steps[ i ].callback( combo, editor, function() {
 				resume( function() {
-					assertComboState( expected );
-
-					editor.setMode( 'wysiwyg', function() {
-						resume( function() {
-							assertComboState( CKEDITOR.TRISTATE_OFF );
-						} );
-					} );
-					wait();
+					assertComboState( steps[ i ].expected );
+					steps[ ++i ] && performAsyncSteps();
 				} );
 			} );
 			wait();
