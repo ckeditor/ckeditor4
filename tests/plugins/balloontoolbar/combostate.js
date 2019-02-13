@@ -27,7 +27,6 @@
 			} );
 			balloonToolbar.attach( editor.editable() );
 			comboButton = balloonToolbar._view.parts.content.findOne( '.cke_combo_button' );
-			assert.isNotNull( balloonToolbar._view.parts.content.findOne( '.cke_combo_off' ) );
 			assert.isTrue( balloonToolbar._items.Styles.getState() === 2 );
 
 			// On Edge and IE the button element has 'onmouseup' instead of 'onclick' so calling `$.click()` will not work there.
@@ -36,7 +35,6 @@
 			} else {
 				comboButton.$.click();
 			}
-			assert.isNotNull( balloonToolbar._view.parts.content.findOne( '.cke_combo_on' ) );
 			assert.isTrue( balloonToolbar._items.Styles.getState() === 1 );
 		}
 	};
