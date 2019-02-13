@@ -242,7 +242,9 @@
 								return acc + itemTemplate.output( {
 									group: htmlEncode( item.name ),
 									name: htmlEncode( item.sectionName ),
-									svgId: htmlEncode( item.svgId )
+									svgId: htmlEncode( item.svgId ),
+									translateX: item.translate && item.translate.x ? htmlEncode( item.translate.x ) : 0,
+									translateY: item.translate && item.translate.y ? htmlEncode( item.translate.y ) : 0
 								} );
 							}
 						}, '' );
@@ -627,8 +629,17 @@
 				function dataCallback( matchInfo, callback ) {
 					var emojiName = matchInfo.query.substr( 1 ).toLowerCase(),
 						data = arrTools.filter( emojiList, function( item ) {
-							// Comparing lowercased strings, because emoji should be case insensitive (#2167).
+							// Comparing lowercase strings, because emoji should be case insensitive (#2167).
 							return item.id.toLowerCase().indexOf( emojiName ) !== -1;
+						} ).sort( function( a, b ) {
+							var aStartsWithEmojiName = !a.id.substr( 1 ).indexOf( emojiName ),
+								bStartsWithEmojiName = !b.id.substr( 1 ).indexOf( emojiName );
+
+							if ( aStartsWithEmojiName != bStartsWithEmojiName ) {
+								return aStartsWithEmojiName ? -1 : 1;
+							} else {
+								return a.id > b.id ? 1 : -1;
+							}
 						} );
 					callback( data );
 				}
