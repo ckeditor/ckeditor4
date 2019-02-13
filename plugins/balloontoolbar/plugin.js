@@ -773,7 +773,7 @@
 						if ( items[ itemKey ] instanceof CKEDITOR.ui.richCombo ) {
 							items[ itemKey ].updateState( editor );
 						}
-					}, this );
+					} );
 				}
 			};
 
