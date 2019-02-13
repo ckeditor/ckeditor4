@@ -14,21 +14,21 @@
 			}
 
 			var editor = this.editor,
-				panel,
+				balloonToolbar,
 				comboButton;
 			this.editorBot.setHtmlWithSelection( '<div><p>[Test]</p></div>' );
-			panel = new CKEDITOR.ui.balloonToolbar( this.editor, {
+			balloonToolbar = new CKEDITOR.ui.balloonToolbar( this.editor, {
 				width: 'auto',
 				height: 40
 			} );
 
-			panel.addItems( {
+			balloonToolbar.addItems( {
 				Styles: editor.ui.create( 'Styles' )
 			} );
-			panel.attach( editor.editable() );
-			comboButton = panel._view.parts.content.findOne( '.cke_combo_button' );
-			assert.isNotNull( panel._view.parts.content.findOne( '.cke_combo_off' ) );
-			assert.isTrue( panel._items.Styles.getState() === 2 );
+			balloonToolbar.attach( editor.editable() );
+			comboButton = balloonToolbar._view.parts.content.findOne( '.cke_combo_button' );
+			assert.isNotNull( balloonToolbar._view.parts.content.findOne( '.cke_combo_off' ) );
+			assert.isTrue( balloonToolbar._items.Styles.getState() === 2 );
 
 			// On Edge and IE the button element has 'onmouseup' instead of 'onclick' so calling `$.click()` will not work there.
 			if ( CKEDITOR.env.ie || CKEDITOR.env.edge ) {
@@ -36,8 +36,8 @@
 			} else {
 				comboButton.$.click();
 			}
-			assert.isNotNull( panel._view.parts.content.findOne( '.cke_combo_on' ) );
-			assert.isTrue( panel._items.Styles.getState() === 1 );
+			assert.isNotNull( balloonToolbar._view.parts.content.findOne( '.cke_combo_on' ) );
+			assert.isTrue( balloonToolbar._items.Styles.getState() === 1 );
 		}
 	};
 
