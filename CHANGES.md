@@ -11,6 +11,7 @@ New Features:
 Fixed Issues:
 
 * [#2672](https://github.com/ckeditor/ckeditor-dev/issues/2672): Fixed: When resizing [Enhanced Image](https://ckeditor.com/cke4/addon/image2) to minimum size with a resizer the image dialog doesn't show actual values.
+* [#438](https://github.com/ckeditor/ckeditor-dev/pull/438): Fixed: Impossible to navigate between editor, [Toolbar](https://ckeditor.com/cke4/addon/toolbar) and [Elements Path](https://ckeditor.com/cke4/addon/elementspath) using keyboard.
 
 API Changes:
 
@@ -115,10 +116,6 @@ API Changes:
 Other Changes:
 
 * [#1713](https://github.com/ckeditor/ckeditor-dev/issues/1713): Removed the redundant `lang.title` entry from the [Clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin.
-
-Fixed Issues:
-
-* [#438](https://github.com/ckeditor/ckeditor-dev/pull/438): Fixed: Impossible to navigate between Editor, [Toolbar](https://ckeditor.com/cke4/addon/toolbar) and [Elements Path](https://ckeditor.com/cke4/addon/elementspath) using keyboard.
 
 ## CKEditor 4.10.1
 
