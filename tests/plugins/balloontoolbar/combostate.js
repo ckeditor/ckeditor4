@@ -14,13 +14,13 @@
 			}
 
 			var editor = this.editor,
-				balloonToolbar,
+				balloonToolbar = new CKEDITOR.ui.balloonToolbar( this.editor, {
+						width: 'auto',
+						height: 40
+					} ),
 				comboButton;
+
 			this.editorBot.setHtmlWithSelection( '<div><p>[Test]</p></div>' );
-			balloonToolbar = new CKEDITOR.ui.balloonToolbar( this.editor, {
-				width: 'auto',
-				height: 40
-			} );
 
 			balloonToolbar.addItems( {
 				Styles: editor.ui.create( 'Styles' )
