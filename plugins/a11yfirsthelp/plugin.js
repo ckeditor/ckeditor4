@@ -9,6 +9,10 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
   // jscs:enable maximumLineLength
 
+  onLoad: function () {
+    CKEDITOR.document.appendStyleSheet( this.path + 'styles/a11yfirsthelp.css' );
+  },
+
   init: function( editor ) {
     if ( editor.blockless )
       return;

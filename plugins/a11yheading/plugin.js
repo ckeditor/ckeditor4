@@ -20,6 +20,10 @@
     lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
     // jscs:enable maximumLineLength
 
+    onLoad: function () {
+      CKEDITOR.document.appendStyleSheet( this.path + 'styles/a11yheading.css' );
+    },
+
     init: function( editor ) {
       if ( editor.blockless )
         return;
