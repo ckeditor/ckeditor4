@@ -5,7 +5,11 @@
 
 1. Open emoji dropdown.
 2. Click into emoji group.
-### Unexpected
-Page is not scrolled down.
+
 ### Expected
+
 Page scrolls down. First emoji in group is selected.
+
+### Unexpected
+
+Page is not scrolled down.
