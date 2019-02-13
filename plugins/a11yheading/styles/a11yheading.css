@@ -1,0 +1,13 @@
+/* ---------------------------------------------------------------- */
+/*         Heading/Paragraph toolbar button with text label         */
+/* ---------------------------------------------------------------- */
+
+.cke_button.cke_button__heading .cke_button_arrow {
+  margin-left: 10px;
+}
+.cke_button_icon.cke_button__heading_icon {
+  display: none;
+}
+.cke_button_label.cke_button__heading_label {
+  display: inline;
+}

@@ -1,0 +1,32 @@
+/* ---------------------------------------------------------------- */
+/*                   richcombo.css modifications                    */
+/* ---------------------------------------------------------------- */
+
+/* Override truncation of richcombo button labels */
+.cke_combo_text.cke_combo_inlinelabel {
+  width: auto !important;
+}
+
+/* ---------------------------------------------------------------- */
+/*                     dialog.css modifications                     */
+/* ---------------------------------------------------------------- */
+
+/* Add border to dialog box */
+.cke_dialog
+{
+  border: 1px solid #d1d1d1 !important;
+}
+
+/* Make the title larger */
+.cke_dialog_title
+{
+  font-size: 15px !important;
+}
+
+/* ---------------------------------------------------------------- */
+/*                Help button in the a11ylink dialog                */
+/* ---------------------------------------------------------------- */
+
+.cke_dialog_ui_vbox table[align=bottom] td.cke_dialog_ui_hbox_last {
+  vertical-align: bottom;
+}
