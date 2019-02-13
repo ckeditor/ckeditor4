@@ -7,6 +7,7 @@ Fixed Issues:
 
 * [#2721](https://github.com/ckeditor/ckeditor-dev/issues/2721): Fixed: Sublist items are reversed when higher level list item is removed.
 * [#2527](https://github.com/ckeditor/ckeditor-dev/issues/2527): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) autocomplete order now prioritize emojis with name started from used string.
+* [#2572](https://github.com/ckeditor/ckeditor-dev/issues/2572): Fixed: Icons in [Emoji](https://ckeditor.com/cke4/addon/emoji) dropdown navigation groups are not centered.
 
 ## CKEditor 4.11.2
 

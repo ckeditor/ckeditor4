@@ -69,9 +69,9 @@
 						bot.panel( 'EmojiPanel', function() {
 							CKEDITOR.tools.setTimeout( function() {
 								resume( function() {
+									panel.hide();
 									assert.areSame( '', input.getValue(), 'Search value should be reset after hiding panel.' );
 									assert.areSame( 0, doc.find( 'li.cke_emoji-item.hidden' ).count(), 'All emoji items should be reset to visible state after closing panel.' );
-									panel.hide();
 								} );
 							}, 200 );
 							wait();
@@ -138,8 +138,8 @@
 				// Scroll event is throttled that's why we need wait a little bit.
 				CKEDITOR.tools.setTimeout( function() {
 					resume( function() {
-						assert.isTrue( doc.findOne( 'li[data-cke-emoji-group="travel"]' ).hasClass( 'active' ), 'Travel item in navigation should be highlighted' );
 						panel.hide();
+						assert.isTrue( doc.findOne( 'li[data-cke-emoji-group="travel"]' ).hasClass( 'active' ), 'Travel item in navigation should be highlighted' );
 					} );
 				}, 160 );
 				wait();
@@ -160,8 +160,11 @@
 				assert.areSame( inputIndex, panelBlock._.focusIndex, 'First selected item should be input.' );
 				CKEDITOR.tools.setTimeout( function() {
 					resume( function() {
-						assert.isTrue( inputElement.equals( new CKEDITOR.dom.element( doc.$.activeElement ) ), 'Input should be focused element.' );
-						panel.hide();
+						try {
+							assert.isTrue( inputElement.equals( new CKEDITOR.dom.element( doc.$.activeElement ) ), 'Input should be focused element.' );
+						} finally {
+							panel.hide();
+						}
 					} );
 				}, 100 );
 				wait();

@@ -242,7 +242,9 @@
 								return acc + itemTemplate.output( {
 									group: htmlEncode( item.name ),
 									name: htmlEncode( item.sectionName ),
-									svgId: htmlEncode( item.svgId )
+									svgId: htmlEncode( item.svgId ),
+									translateX: item.translate && item.translate.x ? htmlEncode( item.translate.x ) : 0,
+									translateY: item.translate && item.translate.y ? htmlEncode( item.translate.y ) : 0
 								} );
 							}
 						}, '' );
