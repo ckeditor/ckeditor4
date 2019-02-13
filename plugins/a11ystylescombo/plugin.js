@@ -3,7 +3,7 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.add( 'a11ystylescombo', {
-  requires: 'a11yfirsthelp,richcombo,removeformat',
+  requires: 'removeformat,richcombo',
   // jscs:disable maximumLineLength
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
   // jscs:enable maximumLineLength
@@ -118,8 +118,14 @@ CKEDITOR.plugins.add( 'a11ystylescombo', {
         }
 
         if ( value == helpValue ) {
-          editor.a11yfirst.helpOption = 'InlineStyleHelp';
-          editor.execCommand('a11yFirstHelpDialog');
+          var helpPlugin = CKEDITOR.plugins.get( 'a11yfirsthelp' );
+          if (helpPlugin) {
+            editor.a11yfirst.helpOption = 'InlineStyleHelp';
+            editor.execCommand('a11yFirstHelpDialog');
+          }
+          else {
+            alert(lang.helpNotFound)
+          }
           return;
         }
 

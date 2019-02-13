@@ -7,7 +7,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'a11ylink', {
-		requires: 'dialog,fakeobjects,a11yfirsthelp',
+		requires: 'dialog,fakeobjects',
 		// jscs:disable maximumLineLength
 		lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength

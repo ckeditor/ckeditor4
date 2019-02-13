@@ -70,6 +70,8 @@ CKEDITOR.plugins.setLang( 'a11ylink', 'en', {
 	displayTextTitle: 'Use \'Help\' to learn more about accessible links',
 	a11yfirstHelp: 'Help',
 	a11yfirstHelpTitle: 'Learn about accessible links',
+  helpNotFound: 'The A11yFirst Help system is not installed. Please contact \
+your CMS or CKEditor administrator for more information.',
 	msgInvalidStartText: 'Please remove "%s" from the display text',
 	msgInvalidDisplayText: 'Please replace "%s" with text that describes the target of the link',
 	msgUrlDisplayText: 'For accessibility reasons the URL is considered a poor choice as the display text for the link.\n\nAre you sure you want to continue?',

@@ -357,8 +357,14 @@
 									label: linkLang.a11yfirstHelp,
 									title: linkLang.a11yfirstHelpTitle,
 									onClick: function() {
-					          editor.a11yfirst.helpOption = 'LinkHelp';
-					          editor.execCommand('a11yFirstHelpDialog');
+					          var helpPlugin = CKEDITOR.plugins.get( 'a11yfirsthelp' );
+					          if (helpPlugin) {
+						          editor.a11yfirst.helpOption = 'LinkHelp';
+						          editor.execCommand('a11yFirstHelpDialog');
+						        }
+					          else {
+					            alert(linkLang.helpNotFound)
+					          }
 									}
 								}
 							]

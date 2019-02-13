@@ -654,8 +654,14 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     html: '<div style="margin-top: 7px; margin-bottom: 0; margin-left: 3px;"><a href="javascript:void(0)"  id="imageDescHelpLinkId" style="color: blue; text-decoration: underline">' + lang.imageDescHelpLinkText + '</a></div>',
 
     onClick: function () {
-      editor.a11yfirst.helpOption = 'ImageHelp';
-      editor.execCommand('a11yFirstHelpDialog');
+      var helpPlugin = CKEDITOR.plugins.get( 'a11yfirsthelp' );
+      if (helpPlugin) {
+        editor.a11yfirst.helpOption = 'ImageHelp';
+        editor.execCommand('a11yFirstHelpDialog');
+      }
+      else {
+        alert(lang.helpNotFound)
+      }
     },
 
     onKeyDown: function ( event ) {

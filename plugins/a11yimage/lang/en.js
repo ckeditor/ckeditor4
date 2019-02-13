@@ -47,6 +47,8 @@ complex image, including, but not limited to, people with visual impairments',
   resizer: 'Click and drag to resize',
   title: 'Image Properties',
   uploadTab: 'Upload',
+  helpNotFound: 'The A11yFirst Help system is not installed. Please contact \
+your CMS or CKEditor administrator for more information.',
 
   // Additional properties used in a11yimage
   alignNone: 'None',

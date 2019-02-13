@@ -20,7 +20,7 @@
 		// jscs:disable maximumLineLength
 		lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
-		requires: 'widget,dialog,a11yfirsthelp',
+		requires: 'dialog,widget',
 		icons: 'image',
 		hidpi: true,
 

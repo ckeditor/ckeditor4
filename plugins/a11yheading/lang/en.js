@@ -15,5 +15,7 @@ CKEDITOR.plugins.setLang( 'a11yheading', 'en', {
   format_pre:     'Preformatted text',
   format_address: 'Address line',
   format_div:     'Normal (DIV)',
-  helpLabel:      'Help'
+  helpLabel:      'Help',
+  helpNotFound:   'The A11yFirst Help system is not installed. Please contact \
+your CMS or CKEditor administrator for more information.'
 } );

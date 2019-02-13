@@ -9,5 +9,7 @@ CKEDITOR.plugins.setLang( 'a11ystylescombo', 'en', {
   panelTitle:        'Select character style',
   panelTitle1:       'Block Styles',
   panelTitle2:       'Inline Styles',
-  panelTitle3:       'Object Styles'
+  panelTitle3:       'Object Styles',
+  helpNotFound:      'The A11yFirst Help system is not installed. Please contact \
+your CMS or CKEditor administrator for more information.'
 } );

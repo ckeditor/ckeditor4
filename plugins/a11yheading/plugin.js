@@ -14,7 +14,7 @@
     endIndex;
 
   CKEDITOR.plugins.add( 'a11yheading', {
-    requires: 'a11yfirsthelp,menubutton',
+    requires: 'menubutton',
 
     // jscs:disable maximumLineLength
     lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
@@ -132,8 +132,14 @@
         group: 'help_items',
         order: headings.length + formatTags.length + 1,
         onClick: function() {
-          editor.a11yfirst.helpOption = 'HeadingHelp';
-          editor.execCommand('a11yFirstHelpDialog');
+          var helpPlugin = CKEDITOR.plugins.get( 'a11yfirsthelp' );
+          if (helpPlugin) {
+            editor.a11yfirst.helpOption = 'HeadingHelp';
+            editor.execCommand('a11yFirstHelpDialog');
+          }
+          else {
+            alert(lang.helpNotFound)
+          }
         }
       };
 
