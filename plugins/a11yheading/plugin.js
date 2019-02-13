@@ -24,9 +24,37 @@
       CKEDITOR.document.appendStyleSheet( this.path + 'styles/a11yheading.css' );
     },
 
-    init: function( editor ) {
+    init: function ( editor ) {
       if ( editor.blockless )
         return;
+
+      var panelShow = function ( event ) {
+        var panel = event.data[ 0 ] || event.data;
+        var iframe = panel.element.getElementsByTag( 'iframe' ).getItem( 0 ).getFrameDocument();
+        var head = iframe.getElementsByTag( 'head' ).getItem( 0 );
+        var cssRules =
+          '.cke_menubutton_on .cke_menubutton_icon::after { ' +
+            'content: \'✓\'; ' +
+            'font-weight: bold; ' +
+            'font-size: 110%; ' +
+            'position: relative; ' +
+            'left: -0.9em; ' +
+            'top: .05em; ' +
+          '} ' +
+          '.cke_menubutton_disabled .cke_menubutton_label { ' +
+            'opacity: 0.4; ' +
+            'filter: alpha(opacity=40); ' +
+          '}';
+
+        if (head.$.querySelectorAll('#a11yheading_menubutton').length === 0) {
+          var style = document.createElement( 'style' );;
+          style.setAttribute('type', 'text/css');
+          style.setAttribute('id', 'a11yheading_menubutton');
+          style.innerHTML = cssRules;
+          head.$.appendChild(style);
+        }
+      }
+      editor.on( 'panelShow', panelShow );
 
       var config = editor.config,
         lang = editor.lang.a11yheading,
