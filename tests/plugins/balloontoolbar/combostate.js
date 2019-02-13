@@ -27,12 +27,12 @@
 			} );
 			balloonToolbar.attach( editor.editable() );
 			comboButton = balloonToolbar._view.parts.content.findOne( '.cke_combo_button' );
-			assert.isTrue( balloonToolbar._items.Styles.getState() === 2 );
+			assert.areSame( CKEDITOR.TRISTATE_OFF, balloonToolbar._items.Styles.getState(), 'State at the beginning' );
 
 			// On Edge and IE the button element has 'onmouseup' instead of 'onclick' so calling `$.click()` will not work there.
 			comboButton.$[ CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ]();
 
-			assert.isTrue( balloonToolbar._items.Styles.getState() === 1 );
+			assert.areSame( CKEDITOR.TRISTATE_ON, balloonToolbar._items.Styles.getState(), 'State after opening' );
 		}
 	};
 
