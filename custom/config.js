@@ -63,7 +63,7 @@
 
 CKEDITOR.editorConfig = function ( config ) {
   config.height = 480;
-  config.skin = 'a11yfirst';
+  config.skin = 'moono-lisa';
   config.startupFocus = true;
 
   config.plugins =
