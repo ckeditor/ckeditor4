@@ -1830,9 +1830,9 @@
 				 *
 				 * @since 4.12.0
 				 * @param {String} value The shorthand property value.
-				 * @param {Function} [split] Function used to split `value`.
+				 * @param {Function} [split] Function used to split CSS property shorthand.
+				 * It should return an array of side shorthand parts (see `split` function in the code listing).
 				 * If not set, property value will be splitted by spaces.
-				 * @param split.return String[] Splitted shorthand value.
 				 * @returns {Object.<String, String>}
 				 * @returns {String} return.top Top value.
 				 * @returns {String} return.right Right value.
@@ -2476,7 +2476,7 @@
 	CKEDITOR.tools.buffers.throttle = ThrottleBuffer;
 
 	/**
-	 * Contains information about border styles.
+	 * Represents CSS border style.
 	 *
 	 * @since 4.12.0
 	 * @class CKEDITOR.tools.style.border
