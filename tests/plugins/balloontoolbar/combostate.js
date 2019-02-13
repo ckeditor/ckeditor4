@@ -30,11 +30,8 @@
 			assert.isTrue( balloonToolbar._items.Styles.getState() === 2 );
 
 			// On Edge and IE the button element has 'onmouseup' instead of 'onclick' so calling `$.click()` will not work there.
-			if ( CKEDITOR.env.ie || CKEDITOR.env.edge ) {
-				comboButton.$.onmouseup();
-			} else {
-				comboButton.$.click();
-			}
+			comboButton.$[ CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ]();
+
 			assert.isTrue( balloonToolbar._items.Styles.getState() === 1 );
 		}
 	};
