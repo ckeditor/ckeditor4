@@ -18,6 +18,8 @@
 				return;
 			}
 
+			this._loaded = true;
+
 			var urlTemplate = new CKEDITOR.template( '<a href="{link}">{text}</a>' ),
 				emailTemplate = new CKEDITOR.template( '<a href="mailto:{link}">{text}</a>' );
 
