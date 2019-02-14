@@ -49,11 +49,7 @@
 					'position:absolute;' +
 					'width:' + DRAG_HANDLER_SIZE + 'px;' +
 					'height:0;' +
-					// Initially drag handler should not be visible, until its position will be
-					// calculated (https://dev.ckeditor.com/ticket/11177).
-					// We need to hide unpositined handlers, so they don't extend
-					// widget's outline far to the left (https://dev.ckeditor.com/ticket/12024).
-					'display:none;' +
+					'display:block;' +
 					'opacity:0.75;' +
 					'transition:height 0s 0.2s;' + // Delay hiding drag handler.
 					// Prevent drag handler from being misplaced (https://dev.ckeditor.com/ticket/11198).
@@ -65,6 +61,16 @@
 				'}' +
 				'.cke_widget_drag_handler_container:hover{' +
 					'opacity:1' +
+				'}' +
+				'.cke_widget_drag_handler_container_hidden{' +
+					// Initially drag handler should not be visible, until its position will be
+					// calculated (https://dev.ckeditor.com/ticket/11177).
+					// We need to hide unpositined handlers, so they don't extend
+					// widget's outline far to the left (https://dev.ckeditor.com/ticket/12024).
+					'display:none;' +
+				'}' +
+				'.cke_editable[contenteditable="false"] .cke_widget_drag_handler_container{' +
+					'display:none;' +
 				'}' +
 				'img.cke_widget_drag_handler{' +
 					'cursor:move;' +
@@ -1534,9 +1540,9 @@
 			editor.fire( 'lockSnapshot' );
 			this.dragHandlerContainer.setStyles( {
 				top: newPos.y + 'px',
-				left: newPos.x + 'px',
-				display: 'block'
+				left: newPos.x + 'px'
 			} );
+			this.dragHandlerContainer.removeClass( '.cke_widget_drag_handler_container_hidden' );
 			editor.fire( 'unlockSnapshot' );
 			!initialDirty && editor.resetDirty();
 
