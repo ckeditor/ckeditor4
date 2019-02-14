@@ -12,6 +12,8 @@
 		// Assertion picked from elementspathTestsTools.
 		assertPath: elementspathTestsTools.assertPath,
 
+		fireElementEventHandler: elementspathTestsTools.fireElementEventHandler,
+
 		'test elements path on selection change': function() {
 			var bot = this.editorBot;
 			bot.setHtmlWithSelection( '<table><tr><td><p>^</p></td></tr></table>' );
@@ -37,8 +39,10 @@
 
 			this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
 
-			editor.ui.space( 'path' ).getFirst().$
-				.onkeydown( { keyCode: 121, altKey: true } ); // ALT + F10
+			this.fireElementEventHandler( editor.ui.space( 'path' ).getFirst(), 'onkeydown', {
+				keyCode: 121,
+				altKey: true
+			} );
 
 			commandSpy.restore();
 			assert.isTrue( commandSpy.calledWith( 'toolbarFocus' ) );
@@ -50,12 +54,14 @@
 
 			this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
 
-			editor.ui.space( 'path' ).getFirst().$
-				.onkeydown( { keyCode: 27 } ); // ESC
+			this.fireElementEventHandler( editor.ui.space( 'path' ).getFirst(), 'onkeydown', {
+				keyCode: 27
+			} );
 
 			focusSpy.restore();
 			assert.isTrue( focusSpy.calledOnce );
 		}
 
 	} );
+
 } )();

@@ -1,5 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: floatingspace,toolbar,basicstyles,list,link,about,elementspath */
+/* bender-include: ../elementspath/_helpers/tools.js */
+/* global elementspathTestsTools */
 
 function testToolbarExpanded( bot ) {
 	var editor = bot.editor,
@@ -34,6 +36,8 @@ bender.editor = {
 };
 
 bender.test( {
+	fireElementEventHandler: elementspathTestsTools.fireElementEventHandler,
+
 	'test toolbar': function() {
 		assert.isNotNull( this.editor.ui.space( 'toolbox' ) );
 
@@ -132,8 +136,11 @@ bender.test( {
 
 		this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
 
-		editor.ui.space( 'toolbox' ).findOne( '.cke_button' ).$
-			.onkeydown( { keyCode: 122, altKey: true } ); // ALT + F11
+		// ALT + F11
+		this.fireElementEventHandler( editor.ui.space( 'toolbox' ).findOne( '.cke_button' ), 'onkeydown', {
+			keyCode: 122,
+			altKey: true
+		} );
 
 		commandSpy.restore();
 		assert.isTrue( commandSpy.calledWith( 'elementsPathFocus' ) );
@@ -145,8 +152,10 @@ bender.test( {
 
 		this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
 
-		editor.ui.space( 'toolbox' ).findOne( '.cke_button' ).$
-			.onkeydown( { keyCode: 27 } ); // ESC
+		// ESC
+		this.fireElementEventHandler( editor.ui.space( 'toolbox' ).findOne( '.cke_button' ), 'onkeydown', {
+			keyCode: 27
+		} );
 
 		focusSpy.restore();
 		assert.isTrue( focusSpy.calledOnce );
