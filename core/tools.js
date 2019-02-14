@@ -1464,7 +1464,7 @@
 		 * Detects which mouse button generated a given DOM event.
 		 *
 		 * @since 4.7.3
-		 * @param {CKEDITOR.dom.event/MouseEvent} evt DOM event. Since 4.11.2 native DOM event can be passed.
+		 * @param {CKEDITOR.dom.event/MouseEvent} evt DOM event. Since 4.11.3 native DOM event can be passed.
 		 * @returns {Number|Boolean} Returns a number indicating the mouse button or `false`
 		 * if the mouse button cannot be determined.
 		 */
