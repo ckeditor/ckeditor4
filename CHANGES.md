@@ -11,7 +11,7 @@ New Features:
 Fixed Issues:
 
 * [#2672](https://github.com/ckeditor/ckeditor-dev/issues/2672): Fixed: When resizing [Enhanced Image](https://ckeditor.com/cke4/addon/image2) to minimum size with a resizer the image dialog doesn't show actual values.
-* [#438](https://github.com/ckeditor/ckeditor-dev/pull/438): Fixed: Impossible to navigate between editor, [Toolbar](https://ckeditor.com/cke4/addon/toolbar) and [Elements Path](https://ckeditor.com/cke4/addon/elementspath) using keyboard.
+* [#438](https://github.com/ckeditor/ckeditor-dev/pull/438): Fixed: Impossible to navigate between [Toolbar](https://ckeditor.com/cke4/addon/toolbar) and [Elements Path](https://ckeditor.com/cke4/addon/elementspath) using keyboard.
 
 API Changes:
 
