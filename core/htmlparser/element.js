@@ -471,6 +471,38 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		},
 
 		/**
+		 * Searches through the current element children to find the first child matching the `criteria`.
+		 *
+		 * ```javascript
+		 * element.findOne( function( child ) {
+		 *     return child.name === 'span' || child.name === 'strong';
+		 * } ); // Will return first child which is a span or a strong.
+		 * ```
+		 *
+		 * @param {String/Function} criteria Tag name or evaluator function.
+		 * @param {Boolean} [recursive=false] If set to `true` will iterate all descendants, otherwise only direct children.
+		 * @returns {CKEDITOR.htmlParser.node/null} First matched child, `null` otherwise.
+		 */
+		findOne: function( criteria, recursive ) {
+			var nestedMatch = null,
+				match = CKEDITOR.tools.array.find( this.children, function( child ) {
+					var isMatching = typeof criteria === 'function' ? criteria( child ) : child.name === criteria;
+
+					if ( isMatching || !recursive ) {
+						return isMatching;
+					}
+
+					if ( child.children && child.findOne ) {
+						nestedMatch = child.findOne( criteria, true );
+					}
+
+					return !!nestedMatch;
+				} );
+
+			return nestedMatch || match || null;
+		},
+
+		/**
 		 * Adds a class name to the list of classes.
 		 *
 		 * @since 4.4
