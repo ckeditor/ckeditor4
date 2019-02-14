@@ -14,6 +14,8 @@ Fixed Issues:
 * [#1986](https://github.com/ckeditor/ckeditor-dev/issues/1986): Fixed: Cell Properties dialog from [Table Tools](https://ckeditor.com/cke4/addon/tabletools) plugin shows styles that are not allowed through [`config.allowedContent`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-allowedContent).
 * [#2565](https://github.com/ckeditor/ckeditor-dev/issues/2565): [IE, Edge] Fixed: Buttons in the [Editor Toolbar](https://ckeditor.com/cke4/addon/toolbar) are activated by clicking them with right mouse button.
 * [#2780](https://github.com/ckeditor/ckeditor-dev/issues/2721): Fixed: Undo steps disappears after multiple change of selection.
+* [#2470](https://github.com/ckeditor/ckeditor-dev/issues/2470): [Firefox] Fixed: Widget's nested editable blurred upon focus.
+* [#2655](https://github.com/ckeditor/ckeditor-dev/issues/2655): [Chrome, Safari] Fixed: Widget's nested editable can't be focused under certain circumstances.
 
 ## CKEditor 4.11.2
 
