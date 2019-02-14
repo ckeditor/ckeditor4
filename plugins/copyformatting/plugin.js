@@ -101,7 +101,8 @@
 					copyFormattingButtonEl;
 
 				editable.attachListener( mouseupHost, 'mouseup', function( evt ) {
-					if ( getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT ) {
+					// Apply formatting only if any styles are copied (#2655).
+					if ( editor.copyFormatting.styles && getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT ) {
 						editor.execCommand( 'applyFormatting' );
 					}
 				} );
