@@ -76,7 +76,7 @@ function dispatchMouseEvent( element, type, button ) {
 	var ie8ButtonMap = {
 			0: 1, // CKEDITOR.MOUSE_BUTTON_LEFT
 			1: 4, // CKEDITOR.MOUSE_BUTTON_MIDDLE
-			2: 2 // // CKEDITOR.MOUSE_BUTTON_RIGHT
+			2: 2 // CKEDITOR.MOUSE_BUTTON_RIGHT
 		},
 		mouseEvent;
 	element = element.$;
