@@ -44,7 +44,6 @@
 			assert.isTrue( commandSpy.calledWith( 'toolbarFocus' ) );
 		},
 
-		// (#438)
 		'test focusing editor': function() {
 			var editor = this.editor,
 				focusSpy = sinon.spy( editor, 'focus' );
@@ -52,7 +51,7 @@
 			this.editorBot.setHtmlWithSelection( '<b>f^oo</b>' );
 
 			editor.ui.space( 'path' ).getFirst().$
-				.onkeydown( { keyCode: 122, altKey: true } ); // ALT + F11
+				.onkeydown( { keyCode: 27 } ); // ESC
 
 			focusSpy.restore();
 			assert.isTrue( focusSpy.calledOnce );
