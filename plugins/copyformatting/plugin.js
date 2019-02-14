@@ -91,15 +91,15 @@
 			} );
 
 			editor.on( 'contentDom', function() {
-				var editable = editor.editable(),
+				var cmd = editor.getCommand( 'copyFormatting' ),
+					editable = editor.editable(),
 					// Host element for apply formatting click. In case of classic element it needs to be entire
 					// document, otherwise clicking in body margins would not trigger the event.
 					// Editors with divarea plugin enabled should be treated like inline one – otherwise
 					// clicking the whole document messes the focus.
 					mouseupHost = editable.isInline() ? editable : editor.document,
 					copyFormattingButton = editor.ui.get( 'CopyFormatting' ),
-					copyFormattingButtonEl,
-					cmd = editor.getCommand( 'copyFormatting' );
+					copyFormattingButtonEl;
 
 				editable.attachListener( mouseupHost, 'mouseup', function( evt ) {
 					// Apply formatting only if any styles are copied (#2780, #2655, #2470).
