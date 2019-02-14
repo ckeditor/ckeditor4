@@ -21,7 +21,7 @@
  */
 
 /**
- * @property {RegExp} 0 A regular expression to match element name or attribute.
+ * @property {RegExp} 0 A regular expression to match the element name or attribute.
  */
 
 /**
