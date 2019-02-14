@@ -9,6 +9,8 @@ Fixed Issues:
 * [#2527](https://github.com/ckeditor/ckeditor-dev/issues/2527): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) autocomplete order now prioritize emojis with name started from used string.
 * [#2572](https://github.com/ckeditor/ckeditor-dev/issues/2572): Fixed: Icons in [Emoji](https://ckeditor.com/cke4/addon/emoji) dropdown navigation groups are not centered.
 * [#1191](https://github.com/ckeditor/ckeditor-dev/issues/1191): Fixed: Elements in elements path are draggable.
+* [#2470](https://github.com/ckeditor/ckeditor-dev/issues/2470): [Firefox] Fixed: Widget's nested editable blurred upon focus.
+* [#2655](https://github.com/ckeditor/ckeditor-dev/issues/2655): [Chrome, Safari] Fixed: Widget's nested editable can't be focused under certain circumstances.
 
 ## CKEditor 4.11.2
 
