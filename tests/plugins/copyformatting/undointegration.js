@@ -6,9 +6,11 @@
 ( function() {
 	'use strict';
 
+	var leftMouseButton = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? 1 : CKEDITOR.MOUSE_BUTTON_LEFT;
+
 	bender.editor = {
 		config: {
-			allowedcontent: true
+			allowedContent: true
 		}
 	};
 
@@ -30,7 +32,7 @@
 			for ( var i = 0; i < editor.undoManager.limit; i++ ) {
 				sel.selectElement( i % 2 ? el1 : el2 );
 				editor.document.fire( 'mouseup', new CKEDITOR.dom.event( {
-					button: CKEDITOR.MOUSE_BUTTON_LEFT,
+					button: leftMouseButton,
 					target: editor.editable()
 				} ) );
 			}
@@ -50,7 +52,7 @@
 
 			sel.selectElement( editor.editable().findOne( '#one' ) );
 			editor.document.fire( 'mouseup', new CKEDITOR.dom.event( {
-				button: CKEDITOR.MOUSE_BUTTON_LEFT,
+				button: leftMouseButton,
 				target: editor.editable()
 			} ) );
 
