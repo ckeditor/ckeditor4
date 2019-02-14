@@ -1,4 +1,4 @@
-@bender-tags: bug, 4.11.3, 2655
+@bender-tags: bug, 4.11.3, 2655, 2470
 @bender-ui: collapsed
 @bender-ckeditor-plugins: widget, wysiwygarea, copyformatting
 
@@ -8,8 +8,10 @@
 
 ## Expected
 
-Focus is moved into nested editable and stays there.
+* Focus is moved into nested editable and stays there.
+* Square under the editor is green.
 
 ## Unexpected
 
-Focus is moved into nested editable for a fraction of second and then disappears.
+* Focus is moved into nested editable for a fraction of second and then disappears.
+* Square under the editor is red.
