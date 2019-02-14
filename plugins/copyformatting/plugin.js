@@ -102,6 +102,7 @@
 					cmd = editor.getCommand( 'copyFormatting' );
 
 				editable.attachListener( mouseupHost, 'mouseup', function( evt ) {
+					// Apply formatting only if any styles are copied (#2780, #2655, #2470).
 					if ( getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT && cmd.state === CKEDITOR.TRISTATE_ON ) {
 						editor.execCommand( 'applyFormatting' );
 					}

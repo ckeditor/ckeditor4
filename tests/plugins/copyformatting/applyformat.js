@@ -439,7 +439,7 @@
 			assert.areSame( tableConstant, determineContext(), 'Selection within two rows' );
 		},
 
-		// (#2655, #2470)
+		// (#2780, #2655, #2470)
 		'test applyFormat not fired without copied styles': function() {
 			var editor = this.editor,
 				spy = sinon.spy( editor, 'execCommand' ),
