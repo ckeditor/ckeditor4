@@ -30,7 +30,7 @@
 			this.assertPath( 'div,figcaption' );
 		},
 
-		// (1191)
+		// (#1191)
 		'test elements path items not draggable': function() {
 			this.editorBot.setHtmlWithSelection( '<ul><li>^</li></ul>' );
 
@@ -38,8 +38,8 @@
 				elements = path.getElementsByTag( 'a' ).toArray();
 
 			CKEDITOR.tools.array.forEach( elements, function( element ) {
-				assert.areEqual( 'false', element.getAttribute( 'draggable' ), 'Element draggable attribute value should be "false".' );
-				assert.areEqual( 'return false;', element.getAttribute( 'ondragstart' ), 'ondragstart value should be "return false;"' );
+				assert.areEqual( 'false', element.getAttribute( 'draggable' ), 'Element draggable attribute value.' );
+				assert.areEqual( 'return false;', element.getAttribute( 'ondragstart' ), 'Element ondragstart attribute value.' );
 			} );
 		}
 	} );
