@@ -21,7 +21,6 @@ var elementspathTestsTools = ( function() {
 		assert.areEqual( expected, list.join( ',' ), 'Invalid elements path.' );
 	}
 
-
 	/*
 	 * Fires element event handler attribute e.g.
 	 * ```html
