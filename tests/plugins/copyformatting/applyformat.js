@@ -446,7 +446,8 @@
 				isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
 			editor.document.fire( 'mouseup', new CKEDITOR.dom.event( {
-				button: isIe8 ? 1 : CKEDITOR.MOUSE_BUTTON_LEFT
+				button: isIe8 ? 1 : CKEDITOR.MOUSE_BUTTON_LEFT,
+				target: editor.editable()
 			} ) );
 			spy.restore();
 
