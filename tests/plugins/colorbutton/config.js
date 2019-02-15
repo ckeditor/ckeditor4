@@ -48,7 +48,7 @@
 			} );
 		},
 
-		// #1478
+		// (#1478)
 		'test config.colorButton_colors applies color': function() {
 			var editor = this.editors.colorLabels,
 				bgColorBtn = editor.ui.get( 'BGColor' ),
