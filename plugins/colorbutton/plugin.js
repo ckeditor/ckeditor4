@@ -215,7 +215,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						}
 					} );
 				} else {
-					return setColor( color );
+					return setColor( color && '#' + color );
 				}
 
 				function setColor( color ) {
@@ -276,7 +276,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				// Additionally, if the data is a single color code then let's try to translate it or fallback on the
 				// color code. If the data is a color name/code, then use directly the color name provided.
 				if ( !parts[ 1 ] ) {
-					colorName = '#' + colorName.replace( /^(.)(.)(.)$/, '$1$1$2$2$3$3' );
 					colorLabel = editor.lang.colorbutton.colors[ colorCode ] || colorCode;
 				} else {
 					colorLabel = colorName;
@@ -287,8 +286,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						' title="', colorLabel, '"' +
 						' draggable="false"' +
 						' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorName, '\',\'', type, '\'); return false;"' +
-						' href="javascript:void(\'', colorLabel, '\')"' +
+						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorCode, '\',\'', type, '\'); return false;"' +
+						' href="javascript:void(\'', colorCode, '\')"' +
 						' data-value="' + colorCode + '"' +
 						' role="option" aria-posinset="', ( i + 2 ), '" aria-setsize="', total, '">' +
 						'<span class="cke_colorbox" style="background-color:#', colorCode, '"></span>' +
@@ -375,9 +374,15 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * **Since 3.3:** A color name may optionally be defined by prefixing the entries with
  * a name and the slash character. For example, `'FontColor1/FF9900'` will be
  * displayed as the color `#FF9900` in the selector, but will be output as `'FontColor1'`.
+ * **This behaviour has been altered in 4.12.0**
  *
  * **Since 4.6.2:** The default color palette has changed. It contains fewer colors in more
  * pastel shades than the previous one.
+ *
+ * **Since 4.12.0:** Changed how defining colors with names works. Colors names can be defined
+ * by `colorName/colorCode`. A color name is used only in tooltip. Output will now use a color code.
+ * For example, `FontColor/FF9900` will be displayed as a color `#FF9900` in the selector, and will
+ * be output as `#FF9900`.
  *
  * Read more in the {@glink guide/dev_colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
