@@ -4,6 +4,10 @@
 </div>
 
 <script>
+	if ( bender.env.mobile ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor', {
 		readOnly: true
 	} );
