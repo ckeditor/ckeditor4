@@ -2,6 +2,60 @@
 
 All notable changes to the A11yFirst project will be documented in this file.
 
+## v1.1.0 – 15 Feb 2019
+
+### Updates
+
+* Image plugin: design modifications
+  * Remove the `Image Type` fieldset and its constituent radio buttons. We are
+    no longer requiring a selection between `Informative` and `Decorative` as
+    it is felt that adding decorative images is an atypical use case.
+  * Remove the fieldset grouping that was labeled `Accessible Descriptions`,
+    and briefly `Text Alternatives`, but keep it constituent elements.
+  * Rename the `Short description` label to `Alternative text` to align with
+    the terminology used in standards specifications and much of the a11y
+    community's articles, as well as the `alt` attribute in HTML. Also, as
+    part of the new label, append `(spoken by screen reader)`.
+  * Add a checkbox just below the `Alternative text` text field with label
+    `Image does not require alternative text`.
+  * Replace the long description checkbox and radio button fieldset with a
+    select box with label `Is there an adjacent detailed description of the
+    image in the document?`.
+  * Remove the fieldset labeled `Caption` that enclosed the caption checkbox
+    and change its label to 'Insert a caption text box below the image'.
+  * Update tooltip text for text alternative, long description and caption.
+
+* A11yFirst Help
+  * Update the Image content to sync with new terminology and messaging in
+    the Image plugin.
+  * Add a test for each plugin such that when Help is invoked, a test is run
+    to determine whether the `A11yFirst Help` plugin is installed. If it is
+    not installed, an alert box message is displayed.
+
+* Reorganize CSS to eliminate the need for a separate `a11yfirst` skin
+  * What had been an insoluble problem of applying CSS styles to menubuttons
+    by methods other than relying on a separate a11yfirst skin, was resolved
+    by utilizing code in `core/skin.js`. The problem involved applying CSS
+    styles to the contents of an iframe, which is now solved in a11yheading.
+  * There is now a global CSS file named `a11yfirst.css` that should/must be
+    loaded by each HTML page that hosts an A11yFirst editor instance.
+  * Also from `core/skin.js`, we use the appendStyleSheet method of CKEDITOR
+    to load/apply CSS styles that are a11yfirst-plugin-specific (e.g. in
+    a11yfirsthelp and a11yheading)
+  * The main configuration file for a11yfirst, `config.js`, now loads the
+    default `moono-lisa` skin.
+  * This removes barriers that were making it logistically difficult to
+    submit the A11yFirst plugins to the CKSource Add-ons repository.
+  * Another result of these modifications: it is no longer necessary to
+    maintain a separate a11yfirst folder within the balloonpanel plugin.
+
+* Remove the override.js script that modified the behavior of toolbar buttons
+  with text labels
+  * The default behavior appended the string '(Selected)' to indicate which
+    menu item was selected, which we show within the menu using a checkmark
+  * A CKSource update to the setState method for the button widget, defined
+    in plugins/button/plugin.js, obviates the need for override.js
+
 ## v1.0.3 – 5 Dec 2018
 
 ### Updates
