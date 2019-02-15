@@ -695,7 +695,7 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				dropContainer: editor.editable().getParent(),
+				dropContainer: editor.editable(),
 				dropOffset: 0,
 				expectedPasteEventCount: 0,
 				expectedDropPrevented: true
