@@ -225,7 +225,7 @@
 		return {
 			title: linkLang.title,
 			minWidth: ( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ? 450 : 350,
-			minHeight: 240,
+			minHeight: 220,
 			contents: [ {
 				id: 'info',
 				label: linkLang.info,
@@ -375,11 +375,13 @@
 					id: 'linkTypeFieldset',
 					type: 'fieldset',
 					label: linkLang.type,
+					style: 'margin-top: 7px; margin-bottom: 3px; padding-top: 0px',
 					children: [
 						{
 							id: 'linkType',
 							type: 'radio',
 							'default': 'url',
+							style: 'margin-top: 0px',
 							items: [
 								[ linkLang.toUrl, 'url' ],
 								[ linkLang.toEmail, 'email' ],
@@ -477,7 +479,6 @@
 								this.allowOnChange = false;
 								if ( data.url ) {
 									this.setValue( data.url.url );
-//									console.log('[setup]: ' + data.url.url);
 								}
 
 								this.allowOnChange = true;
