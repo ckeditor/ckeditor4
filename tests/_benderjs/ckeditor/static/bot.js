@@ -79,7 +79,7 @@
 
 			// Allow all instantiation tasks to complete.
 			setTimeout( function() {
-				if ( bender.runner._inTest ) {
+				if ( bender.runner._inTest && !profile.ignoreEditorWaits ) {
 					resume( function() {
 						callback( bot );
 					} );
@@ -109,7 +109,7 @@
 
 		CKEDITOR[ creator ]( element, profile.config );
 
-		if ( bender.runner._inTest ) {
+		if ( bender.runner._inTest && !profile.ignoreEditorWaits ) {
 			tc.wait();
 		}
 	};
@@ -119,6 +119,9 @@
 			throw new Error( 'Q library is not available in this test case.' );
 		}
 		var deferred = Q.defer();
+		// By default this editor, should be surrounded with `promisifyCase`, so wait statements are generated inside this function,
+		// and shouldn't be call inside creation of new editor.
+		profile.ignoreEditorWaits = profile.ignoreEditorWaits === undefined ? true : profile.ignoreEditorWaits;
 		try {
 			bender.editorBot.create( profile, function( bot ) {
 				deferred.resolve( bot );
