@@ -13,12 +13,26 @@
 	CKEDITOR.replace( 'editor', {
 		on: {
 			instanceReady: function() {
-				var readonlyCheckBox = CKEDITOR.document.findOne( '#readonly' );
+				var readonlyCheckBox = CKEDITOR.document.findOne( '#readonly' ),
+					editor = this;
 
-				this.setReadOnly( readonlyCheckBox.$.checked );
-				readonlyCheckBox.on( CKEDITOR.env.ie ? 'input' : 'change', function() {
-					this.setReadOnly( readonlyCheckBox.$.checked );
-				}, this );
+				setReadOnly();
+
+				if ( CKEDITOR.env.ie ) {
+					setInterval( function() {
+						setReadOnly();
+					}, 150 );
+				} else {
+					readonlyCheckBox.on( 'change', function() {
+						setReadOnly( readonlyCheckBox.$.checked );
+					} );
+				}
+
+				function setReadOnly() {
+					if ( editor.readOnly !== readonlyCheckBox.$.checked ) {
+						editor.setReadOnly( readonlyCheckBox.$.checked );
+					}
+				}
 			}
 		}
 	} );
