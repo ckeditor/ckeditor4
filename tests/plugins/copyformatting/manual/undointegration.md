@@ -4,10 +4,10 @@
 
 ## Test both editors
 1. Add some content to editor (e.g. new line), to "activate" undo step.
-2. Start to click around editor to change selection inside editor (20-25 times). Selection have to differ between adjacent steps.
+2. Start to click around editor to change selection inside editor (20-25 times). Selection **have to differ** between adjacent steps.
 
 ### Expected:
-Undo UI button is active. Current snapshot index does equals 1 and doesn't change with selection change.
+Undo UI button is active.
 ### Unexpected:
 Undo UI became disabled.
 
