@@ -1,13 +1,5 @@
 <div id="editor"></div>
 
 <script>
-	CKEDITOR.replace( 'editor', {
-		on: {
-			pluginsLoaded: function() {
-				if ( !CKEDITOR.plugins.registered.autolink.isSupportedEnvironment() ) {
-					bender.ignore();
-				}
-			}
-		}
-	} );
+	ignoreUnsupportedEnvironment( CKEDITOR.replace( 'editor' ) );
 </script>
