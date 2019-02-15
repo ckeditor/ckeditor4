@@ -1180,15 +1180,14 @@
 			img.setAttribute( 'src', src + '?' + Math.random().toString( 16 ).substring( 2 ) );
 		},
 
-		promisifyTestCase: function( promise ) {
-			return function() {
-				if ( typeof Q !== 'function' ) {
-					throw new Error( 'Q library is not available in this test case.' );
-				}
-				if ( !Q.isPromise( promise ) ) {
-					throw new Error( 'You passed non-promise object to \'promisifyCase\' funciton.' );
-				}
-				Q( promise )
+		promisifyCase: function( promise ) {
+			if ( typeof Q !== 'function' ) {
+				throw new Error( 'Q library is not available in this test case.' );
+			}
+			if ( !Q.isPromise( promise ) ) {
+				throw new Error( 'You passed non-promise object to \'promisifyCase\' funciton.' );
+			}
+			Q( promise )
 				.then( function() {
 					resume();
 				} )
@@ -1197,8 +1196,7 @@
 						throw e;
 					} );
 				} );
-				wait();
-			};
+			wait();
 		}
 	};
 
