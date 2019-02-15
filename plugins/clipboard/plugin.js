@@ -1976,7 +1976,7 @@
 			// ...and paste content into the drop position.
 			dropRange = editor.createRange();
 			// Get actual selection with bookmarks if drop's bookmark are not in editable any longer.
-			// This might happen after extracting content from range. (#2292)
+			// This might happen after extracting content from range (#2292).
 			if ( !dropBookmark.startNode.getCommonAncestor( editable ) ) {
 				dropBookmark = editor.getSelection().createBookmarks()[ 0 ];
 			}
