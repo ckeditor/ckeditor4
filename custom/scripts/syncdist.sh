@@ -25,8 +25,6 @@
 # 4. plugins/a11yimage
 # 5. plugins/a11ylink
 # 6. plugins/a11ystylescombo
-# 7. plugins/balloonpanel/skins/a11yfirst
-# 8. skins/a11yfirst
 
 if [ $# -eq 0 ]; then
   echo "Syntax:"
@@ -72,23 +70,7 @@ do
   eval $CMD
 done
 
-COUNT=$((COUNT + 1))
-PARENT="plugins/balloonpanel/skins"
-SRCPATH="$SRC/$PARENT/a11yfirst"
-CMD="$RSYNC $SRCPATH $DISTPATH/$PARENT"
-echo
-echo "$COUNT. $SRCPATH"
-eval $CMD
-
-COUNT=$((COUNT + 1))
-PARENT="skins"
-SRCPATH="$SRC/$PARENT/a11yfirst"
-CMD="$RSYNC $SRCPATH $DISTPATH/$PARENT"
-echo
-echo "$COUNT. $SRCPATH"
-eval $CMD
-
-# Change RSYNC to target specific files instead of folders
+# Change RSYNC command to target specific files instead of folders
 
 RSYNC="rsync -ptgov"
 
