@@ -41,7 +41,7 @@
 			editor.on( 'contentDom', function() {
 				var commitKeystrokes = editor.config.autolink_commitKeystrokes || CKEDITOR.config.autolink_commitKeystrokes;
 				editor.on( 'key', function( evt ) {
-					if ( CKEDITOR.tools.indexOf( commitKeystrokes, evt.data.keyCode ) == -1 ) {
+					if ( editor.mode === 'source' || CKEDITOR.tools.indexOf( commitKeystrokes, evt.data.keyCode ) == -1 ) {
 						return;
 					}
 
