@@ -3,7 +3,8 @@
 @bender-ckeditor-plugins: autolink,sourcearea,wysiwygarea
 
 1. Open editor console.
-1. Focus editor source and press <kbd>Enter</kbd>.
+1. Go to source mode.
+1. Focus editor and press <kbd>Enter</kbd>.
 
 ## Expected
 
