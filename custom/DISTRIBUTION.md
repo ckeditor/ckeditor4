@@ -1,5 +1,12 @@
 # Creating a new distribution
 
+1. Depending on the time since the last distribution, it may be desirable to
+   merge in all changes from the upstream repository from which plugins-dev
+   was forked, nameley `https://github.com/ckeditor/ckeditor-dev`. Roughly
+   speaking, this involves the following two steps:
+   1. merge the upstream/master branch into the local master branch
+   1. merge the local master branch into the a11yfirst branch
+
 1. Use the [CKEditor Builder](https://ckeditor.com/cke4/builder) app to create
    a new build, following the instructions in `config.js`.
 
