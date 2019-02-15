@@ -850,7 +850,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           {
             id: 'imageAlignFieldset',
             type: 'fieldset',
-            style: 'margin-top: 7px; margin-bottom: 3px; padding-top: 15px',
+            style: 'margin-top: 7px; margin-bottom: 3px; padding-top: 0px',
             label: commonLang.align,
             children: [
               {
