@@ -2,10 +2,30 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, widget, clipboard, image2
 
-1. Mouse hover on widget.
+## Scenario 1:
 
-## Expected
+Mouse hover on widget.
+
+### Expected
+
+Drag handler appears.
+
+### Unexpected
+
 Drag handler doesn't appear.
 
-## Unexpected
+---
+
+## Scenario 2:
+
+1. Make editor readonly with checkbox.
+
+1. Mouse hover on widget.
+
+### Expected
+
+Drag handler doesn't appear.
+
+### Unexpected
+
 Drag handler appears.
