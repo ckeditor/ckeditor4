@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -115,7 +115,7 @@
  * will be displayed.
  *
  * Read more in the {@glink guide/dev_sharedspace documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/sharedspace.html).
+ * and see the {@glink examples/sharedspace example}.
  *
  *		// Place the toolbar inside the element with an ID of "someElementId" and the
  *		// elements path into the element with an  ID of "anotherId".

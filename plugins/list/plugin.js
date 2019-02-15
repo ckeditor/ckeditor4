@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -533,6 +533,7 @@
 			child.remove();
 
 			refNode ? child[ forward ? 'insertBefore' : 'insertAfter' ]( refNode ) : into.append( child, forward );
+			refNode = child;
 		}
 	}
 
@@ -592,7 +593,8 @@
 
 				while ( ( block = iterator.getNextParagraph() ) ) {
 					// Avoid duplicate blocks get processed across ranges.
-					if ( block.getCustomData( 'list_block' ) )
+					// Avoid processing comments, we don't want to touch it.
+					if ( block.getCustomData( 'list_block' ) || hasCommentsChildOnly( block ) )
 						continue;
 					else
 						CKEDITOR.dom.element.setMarker( database, block, 'list_block', 1 );
@@ -650,11 +652,14 @@
 			while ( listGroups.length > 0 ) {
 				groupObj = listGroups.shift();
 				if ( this.state == CKEDITOR.TRISTATE_OFF ) {
-					if ( listNodeNames[ groupObj.root.getName() ] )
+					if ( isEmptyList( groupObj ) ) {
+						continue;
+					} else if ( listNodeNames[ groupObj.root.getName() ] ) {
 						changeListType.call( this, editor, groupObj, database, listsCreated );
-					else
+					} else {
 						createList.call( this, editor, groupObj, listsCreated );
-				} else if ( this.state == CKEDITOR.TRISTATE_ON && listNodeNames[ groupObj.root.getName() ] ) {
+					}
+				} else if ( this.state == CKEDITOR.TRISTATE_ON && listNodeNames[ groupObj.root.getName() ] && !isEmptyList( groupObj ) ) {
 					removeList.call( this, editor, groupObj, database );
 				}
 			}
@@ -667,6 +672,31 @@
 			CKEDITOR.dom.element.clearAllMarkers( database );
 			selection.selectBookmarks( bookmarks );
 			editor.focus();
+
+			function isEmptyList( groupObj ) {
+				// If list is without any li item, then ignore such element from transformation, because it throws errors in console (#2411, #2438).
+				return listNodeNames[ groupObj.root.getName() ] && !getChildCount( groupObj.root, [ CKEDITOR.NODE_COMMENT ] );
+			}
+
+			function getChildCount( element, excludeTypes ) {
+				return CKEDITOR.tools.array.filter( element.getChildren().toArray(), function( node ) {
+					return CKEDITOR.tools.array.indexOf( excludeTypes, node.type ) === -1;
+				} ).length;
+			}
+
+			function hasCommentsChildOnly( element ) {
+				var ret = true;
+				if ( element.getChildCount() === 0 ) {
+					return false;
+				}
+				element.forEach( function( node ) {
+					if ( node.type !== CKEDITOR.NODE_COMMENT ) {
+						ret = false;
+						return false;
+					}
+				}, null, true );
+				return ret;
+			}
 		},
 
 		refresh: function( editor, path ) {

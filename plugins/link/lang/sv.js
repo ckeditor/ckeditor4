@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'sv', {
@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	noAnchors: '(Inga ankare kunde hittas)',
 	noEmail: 'Var god ange e-postadress',
 	noUrl: 'Var god ange länkens URL',
-	noTel: 'Please type the phone number', // MISSING
+	noTel: 'Var god ange telefonnummer',
 	other: '<annan>',
-	phoneNumber: 'Phone number', // MISSING
+	phoneNumber: 'Telefonnummer',
 	popupDependent: 'Beroende (endast Netscape)',
 	popupFeatures: 'Popup-fönstrets egenskaper',
 	popupFullScreen: 'Helskärm (endast IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	toAnchor: 'Länk till ankare i texten',
 	toEmail: 'E-post',
 	toUrl: 'URL',
-	toPhone: 'Phone', // MISSING
+	toPhone: 'Telefon',
 	toolbar: 'Infoga/Redigera länk',
 	type: 'Länktyp',
 	unlink: 'Radera länk',

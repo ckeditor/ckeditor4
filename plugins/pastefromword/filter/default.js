@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -1163,8 +1163,6 @@
 				if ( element.name == 'cke:li' ) {
 					element.name = 'li';
 
-					//List.removeSymbolText( element );
-
 					listElements.push( element );
 				}
 			}, CKEDITOR.NODE_ELEMENT, false );
@@ -1173,17 +1171,21 @@
 		},
 
 		removeSymbolText: function( element ) { // ...from a list element.
-			var removed,
-				symbol = element.attributes[ 'cke-symbol' ];
+			var symbol = element.attributes[ 'cke-symbol' ],
+				removed,
+				matched;
 
 			element.forEach( function( node ) {
 				// Since symbol may contains special characters we use `indexOf` (instead of RegExp) which is sufficient (#877).
-				if ( !removed && node.value.indexOf( symbol ) > -1 ) {
-
+				// Stop after after first replaced string (#2690).
+				if ( !matched && node.value.indexOf( symbol ) > -1 ) {
+					matched = true;
 					node.value = node.value.replace( symbol, '' );
 
 					if ( node.parent.getHtml().match( /^(\s|&nbsp;)*$/ ) ) {
 						removed = node.parent !== element ? node.parent : null;
+					} else if ( !node.value ) {
+						removed = node;
 					}
 				}
 			}, CKEDITOR.NODE_TEXT );

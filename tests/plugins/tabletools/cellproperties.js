@@ -141,9 +141,10 @@
 			}, function( bot ) {
 				bot.setHtmlWithSelection( '<table><tr><td>Te^st</td></tr></table>' );
 				bot.dialog( 'cellProperties', function( dialog ) {
-					assert.isUndefined( dialog.getContentElement( 'info', 'width' ) );
-					assert.isUndefined( dialog.getContentElement( 'info', 'height' ) );
-					assert.isUndefined( dialog.getContentElement( 'info', 'htmlHeightType' ) );
+					assert.isFalse( dialog.getContentElement( 'info', 'width' ).isVisible() );
+					assert.isFalse( dialog.getContentElement( 'info', 'height' ).isVisible() );
+					assert.isFalse( dialog.getContentElement( 'info', 'htmlHeightType' ).isVisible() );
+					assert.isFalse( dialog.getContentElement( 'info', 'hiddenSpacer' ).isVisible() );
 				} );
 			} );
 		},
@@ -158,6 +159,7 @@
 					assert.isTrue( dialog.getContentElement( 'info', 'width' ).isVisible() );
 					assert.isTrue( dialog.getContentElement( 'info', 'height' ).isVisible() );
 					assert.isTrue( dialog.getContentElement( 'info', 'htmlHeightType' ).isVisible() );
+					assert.isTrue( dialog.getContentElement( 'info', 'hiddenSpacer' ).isVisible() );
 				} );
 			} );
 		}

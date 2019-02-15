@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -47,6 +47,8 @@
 		' title="{label}"' +
 		extra +
 		' hidefocus="true" ' +
+		' draggable="false" ' +
+		' ondragstart="return false;"' + // Required by Firefox (#1191).
 		' onkeydown="return CKEDITOR.tools.callFunction({keyDownFn},{index}, event );"' +
 		' onclick="CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
 		' role="button" aria-label="{label}">' +

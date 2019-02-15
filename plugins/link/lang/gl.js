@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'gl', {
@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'gl', {
 	noAnchors: '(Non hai ancoraxes dispoñíbeis no documento)',
 	noEmail: 'Escriba o enderezo de correo',
 	noUrl: 'Escriba a ligazón URL',
-	noTel: 'Please type the phone number', // MISSING
-	other: '<outro>',
-	phoneNumber: 'Phone number', // MISSING
+	noTel: 'Escriba o número de teléfono',
+	other: '<other>',
+	phoneNumber: 'Número de teléfono',
 	popupDependent: 'Dependente (Netscape)',
 	popupFeatures: 'Características da xanela emerxente',
 	popupFullScreen: 'Pantalla completa (IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'gl', {
 	toAnchor: 'Ligar coa ancoraxe no testo',
 	toEmail: 'Correo',
 	toUrl: 'URL',
-	toPhone: 'Phone', // MISSING
+	toPhone: 'Teléfono',
 	toolbar: 'Ligazón',
 	type: 'Tipo de ligazón',
 	unlink: 'Eliminar a ligazón',

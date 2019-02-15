@@ -35,7 +35,7 @@ Additionally, all releases have their respective tags in the following form: 4.4
 ## Samples
 
 The `samples/` folder contains some examples that can be used to test your
-installation. Visit [CKEditor 4 SDK](https://sdk.ckeditor.com/) for plenty of samples
+installation. Visit [CKEditor 4 Examples](https://ckeditor.com/docs/ckeditor4/latest/examples/index.html) for plenty of samples
 showcasing numerous editor features, with source code readily available to view, copy
 and use in your own solution.
 
@@ -72,6 +72,6 @@ Please use the [CKEditor 4 GitHub issue page](https://github.com/ckeditor/ckedit
 
 ## License
 
-Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 
 For licensing, see LICENSE.md or [https://ckeditor.com/legal/ckeditor-oss-license](https://ckeditor.com/legal/ckeditor-oss-license)

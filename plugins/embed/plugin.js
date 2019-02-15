@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -92,7 +92,7 @@
  * better control over embedded content.
  *
  * Read more in the {@glink guide/dev_media_embed documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/mediaembed.html).
+ * and see the {@glink examples/mediaembed example}.
  *
  * Refer to {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl} for more information about content providers.
  *

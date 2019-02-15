@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -246,6 +246,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				// Render the "Automatic" button.
 				output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
 					' title="', lang.auto, '"' +
+					' draggable="false"' +
+					' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
 					' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');return false;"' +
 					' href="javascript:void(\'', lang.auto, '\')"' +
 					' role="option" aria-posinset="1" aria-setsize="', total, '">' +
@@ -283,6 +285,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				output.push( '<td>' +
 					'<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
 						' title="', colorLabel, '"' +
+						' draggable="false"' +
+						' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
 						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorName, '\',\'', type, '\'); return false;"' +
 						' href="javascript:void(\'', colorLabel, '\')"' +
 						' data-value="' + colorCode + '"' +
@@ -299,6 +303,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						'<td colspan="' + colorsPerRow + '" align="center">' +
 							'<a class="cke_colormore" _cke_focus=1 hidefocus=true' +
 								' title="', lang.more, '"' +
+								' draggable="false"' +
+								' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
 								' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'?\',\'', type, '\');return false;"' +
 								' href="javascript:void(\'', lang.more, '\')"', ' role="option" aria-posinset="', total, '" aria-setsize="', total, '">', lang.more, '</a>' +
 						'</td>' ); // tr is later in the code.
@@ -354,7 +360,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * Whether to enable the **More Colors** button in the color selectors.
  *
  * Read more in the {@glink guide/dev_colorbutton documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
+ * and see the {@glink examples/colorbutton example}.
  *
  *		config.colorButton_enableMore = false;
  *
@@ -374,7 +380,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * pastel shades than the previous one.
  *
  * Read more in the {@glink guide/dev_colorbutton documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
+ * and see the {@glink examples/colorbutton example}.
  *
  *		// Brazil colors only.
  *		config.colorButton_colors = '00923E,F8C100,28166F';
@@ -401,7 +407,7 @@ CKEDITOR.config.colorButton_colors = '1ABC9C,2ECC71,3498DB,9B59B6,4E5F70,F1C40F,
  * Stores the style definition that applies the text foreground color.
  *
  * Read more in the {@glink guide/dev_colorbutton documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
+ * and see the {@glink examples/colorbutton example}.
  *
  *		// This is actually the default value.
  *		config.colorButton_foreStyle = {
@@ -424,7 +430,7 @@ CKEDITOR.config.colorButton_foreStyle = {
  * Stores the style definition that applies the text background color.
  *
  * Read more in the {@glink guide/dev_colorbutton documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
+ * and see the {@glink examples/colorbutton example}.
  *
  *		// This is actually the default value.
  *		config.colorButton_backStyle = {
@@ -444,7 +450,7 @@ CKEDITOR.config.colorButton_backStyle = {
  * Whether to enable the **Automatic** button in the color selectors.
  *
  * Read more in the {@glink guide/dev_colorbutton documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
+ * and see the {@glink examples/colorbutton example}.
  *
  *		config.colorButton_enableAutomatic = false;
  *
@@ -456,7 +462,7 @@ CKEDITOR.config.colorButton_backStyle = {
  * Defines how many colors will be shown per row in the color selectors.
  *
  * Read more in the {@glink guide/dev_colorbutton documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/colorbutton.html).
+ * and see the {@glink examples/colorbutton example}.
  *
  *		config.colorButton_colorsPerRow = 8;
  *

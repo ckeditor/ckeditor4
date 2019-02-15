@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -2092,7 +2092,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * to prevent loading any styles set.
  *
  * Read more in the {@glink guide/dev_styles documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/styles.html).
+ * and see the {@glink examples/styles example}.
  *
  *		// Do not load any file. The styles set is empty.
  *		config.stylesSet = false;

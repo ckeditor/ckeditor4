@@ -1,10 +1,10 @@
 ﻿/**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
- * @fileOverview Undo/Redo system for saving a shapshot for document modification
+ * @fileOverview Undo/Redo system for saving a snapshot for document modification
  *		and other recordable changes.
  */
 
@@ -152,7 +152,7 @@
 			 * Locks the undo manager to prevent any save/update operations.
 			 *
 			 * It is convenient to lock the undo manager before performing DOM operations
-			 * that should not be recored (e.g. auto paragraphing).
+			 * that should not be recorded (e.g. auto paragraphing).
 			 *
 			 * See {@link CKEDITOR.plugins.undo.UndoManager#lock} for more details.
 			 *
@@ -283,7 +283,7 @@
 
 			// Store recorded strokes count.
 			this.strokesRecorded[ keyGroup ] = strokesRecorded;
-			// This prop will tell in next itaration what kind of group was processed previously.
+			// This prop will tell in next iteration what kind of group was processed previously.
 			this.previousKeyGroup = keyGroup;
 		},
 
@@ -440,7 +440,7 @@
 			this.currentImage = this.snapshots[ this.index ];
 
 			// Update current image with the actual editor
-			// content, since actualy content may differ from
+			// content, since actually content may differ from
 			// the original snapshot due to dom change. (https://dev.ckeditor.com/ticket/4622)
 			this.update();
 			this.refreshState();
@@ -881,7 +881,7 @@
 	 */
 	var NativeEditingHandler = CKEDITOR.plugins.undo.NativeEditingHandler = function( undoManager ) {
 		// We'll use keyboard + input events to determine if snapshot should be created.
-		// Since `input` event is fired before `keyup`. We can tell in `keyup` event if input occured.
+		// Since `input` event is fired before `keyup`. We can tell in `keyup` event if input occurred.
 		// That will tell us if any printable data was inserted.
 		// On `input` event we'll increase input fired counter for proper key code.
 		// Eventually it might be canceled by paste/drop using `ignoreInputEvent` flag.

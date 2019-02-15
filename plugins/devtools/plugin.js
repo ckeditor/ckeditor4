@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -115,7 +115,7 @@ CKEDITOR.plugins.add( 'devtools', {
  * tooltip when hovering over a dialog UI element.
  *
  * Read more in the {@glink guide/dev_devtools documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/devtools.html).
+ * and see the {@glink examples/devtools example}.
  *
  *		// This is actually the default value.
  *		// Show dialog window name, tab ID, and element ID.
@@ -151,7 +151,7 @@ CKEDITOR.plugins.add( 'devtools', {
  * A setting that stores CSS rules to be injected into the page with styles to be applied to the tooltip element.
  *
  * Read more in the {@glink guide/dev_devtools documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/devtools.html).
+ * and see the {@glink examples/devtools example}.
  *
  *		// This is actually the default value.
  *		CKEDITOR.config.devtools_styles =

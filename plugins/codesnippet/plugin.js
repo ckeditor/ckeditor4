@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -242,7 +242,7 @@
 		 *		}
 		 *
 		 * More information on how to change the list of languages is available
-		 * in the [Code Snippet documentation](#!/guide/dev_codesnippet-section-changing-languages-list).
+		 * in the {@glink guide/dev_codesnippet#changing-supported-languages Code Snippet documentation}.
 		 *
 		 * @property {Object} languages
 		 */
@@ -431,7 +431,7 @@
  * See {@link CKEDITOR.plugins.codesnippet.highlighter} to read more.
  *
  * Read more in the {@glink guide/dev_codesnippet documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/codesnippet.html).
+ * and see the {@glink examples/codesnippet example}.
  *
  * @since 4.4
  * @cfg {String} [codeSnippet_codeClass='hljs']
@@ -447,7 +447,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * you may need to refer to external documentation to set `config.codeSnippet_languages` properly.
  *
  * Read more in the [documentation](#!/guide/dev_codesnippet-section-changing-supported-languages)
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/codesnippet.html).
+ * and see the {@glink examples/codesnippet example}.
  *
  *		// Restricts languages to JavaScript and PHP.
  *		config.codeSnippet_languages = {
@@ -467,7 +467,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * ([highlight.js](http://highlightjs.org/static/test.html)).
  *
  * Read more in the [documentation](#!/guide/dev_codesnippet-section-changing-highlighter-theme)
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/codesnippet.html).
+ * and see the {@glink examples/codesnippet example}.
  *
  *		// Changes the theme to "pojoaque".
  *		config.codeSnippet_theme = 'pojoaque';

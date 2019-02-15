@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -666,7 +666,7 @@ CKEDITOR.UI_SEPARATOR = 'separator';
  * position is set dynamically depending on the position of the editable element on the screen.
  *
  * Read more in the {@glink guide/dev_toolbarlocation documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/toolbarlocation.html).
+ * and see the {@glink examples/toolbarlocation example}.
  *
  *		config.toolbarLocation = 'bottom';
  *

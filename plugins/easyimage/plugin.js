@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -586,7 +586,7 @@
 
 	/**
 	 * Custom styles that could be applied to the Easy Image widget.
-	 * All styles must be [valid style definitions](#!/guide/dev_howtos_styles-section-how-do-i-customize-the-styles-drop-down-list%3F).
+	 * All styles must be {@glink guide/dev_howtos_styles#how-do-i-customize-the-styles-drop-down-list valid style definitions}.
 	 * There are three additional properties for each style definition:
 	 *
 	 * * `label` &ndash; A string used as a button label in the balloon toolbar for the widget.

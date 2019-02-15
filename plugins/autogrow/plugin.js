@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -166,7 +166,7 @@
  * feature. This option accepts a value in pixels, without the unit (for example: `300`).
  *
  * Read more in the {@glink guide/dev_autogrow documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/autogrow.html).
+ * and see the {@glink examples/autogrow example}.
  *
  *		config.autoGrow_minHeight = 300;
  *
@@ -181,7 +181,7 @@
  * Zero (`0`) means that the maximum height is not limited and the editor will expand infinitely.
  *
  * Read more in the {@glink guide/dev_autogrow documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/autogrow.html).
+ * and see the {@glink examples/autogrow example}.
  *
  *		config.autoGrow_maxHeight = 400;
  *
@@ -195,7 +195,7 @@
  * editor creation.
  *
  * Read more in the {@glink guide/dev_autogrow documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/autogrow.html).
+ * and see the {@glink examples/autogrow example}.
  *
  *		config.autoGrow_onStartup = true;
  *
@@ -210,7 +210,7 @@
  * without the unit (for example: `50`).
  *
  * Read more in the {@glink guide/dev_autogrow documentation}
- * and see the [SDK sample](https://sdk.ckeditor.com/samples/autogrow.html).
+ * and see the {@glink examples/autogrow example}.
  *
  *		config.autoGrow_bottomSpace = 50;
  *

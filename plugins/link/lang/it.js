@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'it', {
@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'it', {
 	noAnchors: '(Nessuna ancora disponibile nel documento)',
 	noEmail: 'Devi inserire un\'indirizzo e-mail',
 	noUrl: 'Devi inserire l\'URL del collegamento',
-	noTel: 'Please type the phone number', // MISSING
+	noTel: 'Inserire il numero di telefono',
 	other: '<altro>',
-	phoneNumber: 'Phone number', // MISSING
+	phoneNumber: 'Numero di telefono',
 	popupDependent: 'Dipendente (Netscape)',
 	popupFeatures: 'Caratteristiche finestra popup',
 	popupFullScreen: 'A tutto schermo (IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'it', {
 	toAnchor: 'Ancora nel testo',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
-	toPhone: 'Phone', // MISSING
+	toPhone: 'Telefono',
 	toolbar: 'Collegamento',
 	type: 'Tipo di Collegamento',
 	unlink: 'Elimina collegamento',

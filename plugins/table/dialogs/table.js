@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -34,7 +34,7 @@
 	function validatorNum( msg ) {
 		return function() {
 			var value = this.getValue(),
-				pass = !!( CKEDITOR.dialog.validate.integer()( value ) && value > 0 );
+				pass = !!( CKEDITOR.dialog.validate.integer().call( this, value ) && value > 0 );
 
 			if ( !pass ) {
 				alert( msg ); // jshint ignore:line
