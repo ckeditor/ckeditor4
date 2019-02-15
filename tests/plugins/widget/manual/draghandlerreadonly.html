@@ -18,7 +18,7 @@
 
 				setReadOnly();
 
-				if ( CKEDITOR.env.ie ) {
+				if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 					setInterval( function() {
 						setReadOnly();
 					}, 150 );
