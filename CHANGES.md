@@ -3,6 +3,10 @@
 
 ## CKEditor 4.13
 
+Fixed Issues:
+
+* [#808](https://github.com/ckeditor/ckeditor-dev/issues/808): Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) disappears on drag and drop in [Read-Only Mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_readonly.html).
+
 ## CKEditor 4.12.1
 
 Fixed Issues:
