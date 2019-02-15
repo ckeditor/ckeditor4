@@ -3,12 +3,23 @@
 	<p>Some text</p>
 </div>
 
+<label><input id="readonly" type="checkbox">Editor readonly</label>
+
 <script>
 	if ( bender.env.mobile ) {
 		bender.ignore();
 	}
 
 	CKEDITOR.replace( 'editor', {
-		readOnly: true
+		on: {
+			instanceReady: function() {
+				var readonlyCheckBox = CKEDITOR.document.findOne( '#readonly' );
+
+				this.setReadOnly( readonlyCheckBox.$.checked );
+				readonlyCheckBox.on( CKEDITOR.env.ie ? 'input' : 'change', function() {
+					this.setReadOnly( readonlyCheckBox.$.checked );
+				}, this );
+			}
+		}
 	} );
 </script>
