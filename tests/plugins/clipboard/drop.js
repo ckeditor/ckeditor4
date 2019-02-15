@@ -686,6 +686,7 @@ var testsForMultipleEditor = {
 			} );
 		},
 
+		// (#808)
 		'test drop after range end in readOnlyMode': function( editor, bot ) {
 			var evt = bender.tools.mockDropEvent();
 
