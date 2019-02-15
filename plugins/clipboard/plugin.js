@@ -2700,17 +2700,16 @@
 		 */
 		_getImageFromClipboard: function() {
 			var file;
-
-			if ( this.$ && this.$.items && this.$.items[ 0 ] ) {
-				try {
+			try {
+				if ( this.$ && this.$.items && this.$.items[ 0 ] ) {
 					file = this.$.items[ 0 ].getAsFile();
 					// Duck typing
 					if ( file && file.type ) {
 						return file;
 					}
-				} catch ( err ) {
-					// noop
 				}
+			} catch ( err ) {
+			// noop
 			}
 
 			return undefined;

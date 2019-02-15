@@ -678,10 +678,10 @@ var testsForMultipleEditor = {
 				expectedPasteEventCount: 1,
 				expectedDropPrevented: false,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
-				expectedText: 'one\ntwo\nthree\nfour',
-				expectedHtml: '<ol><li><a href="http://test.com">one</a></li><li>two</li><li>three</li><li>four</li></ol>',
+				expectedText: CKEDITOR.env.edge ? 'onetwothreefour' : 'one\ntwo\nthree\nfour',
+				expectedHtml: '<ol><li><a href="http://test.com">one</a>@</li><li>two</li><li>three</li><li>four</li></ol>',
 				expectedDataType: 'html',
-				expectedDataValue: '<ol><li><a href="http://test.com">one</a></li><li>two</li><li>three</li><li>four</li></ol>'
+				expectedDataValue: '<ol><li><a href="http://test.com">one</a>@</li><li>two</li><li>three</li><li>four</li></ol>'
 			} );
 
 		}
