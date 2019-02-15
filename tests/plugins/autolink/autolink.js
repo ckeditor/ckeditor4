@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: autolink,clipboard,link */
+/* bender-ckeditor-plugins: autolink,clipboard,link,sourcearea */
 /* bender-include: ../clipboard/_helpers/pasting.js */
 /* global assertPasteEvent */
 
@@ -276,6 +276,25 @@
 				assert.areEqual( 'html', data.type );
 				assert.areEqual( expected, bender.tools.compatHtml( data.dataValue ) );
 			} );
+		},
+
+		// (#2756)
+		'test commit keys inactive in source mode': function() {
+			var editor = this.editors.classic;
+
+			editor.setMode( 'source', function() {
+				resume( function() {
+					try {
+						editor.fire( 'key', { keyCode: CKEDITOR.config.autolink_commitKeystrokes[ 0 ] } );
+					} catch ( e ) {
+						assert.fail( 'Error thrown' );
+					} finally {
+						assert.pass( 'Passed without errors' );
+					}
+				} );
+			} );
+
+			wait();
 		}
 	} );
 
