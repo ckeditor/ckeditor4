@@ -4,7 +4,7 @@
 */
 CKEDITOR.plugins.setLang( 'a11yheading', 'en', {
   label:          'Heading / Paragraph',
-  panelTitle:     'Select heading level',
+  panelTitle:     'Select heading/paragraph format',
   level_h1:       'H1 – Document title',
   level_h2:       'H2 – Section title',
   level_h3:       'H3 – Subsection title',

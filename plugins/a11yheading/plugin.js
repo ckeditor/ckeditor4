@@ -151,6 +151,7 @@
 
       editor.ui.add( 'Heading', CKEDITOR.UI_MENUBUTTON, {
         label: lang.label,
+        title: lang.panelTitle,
         allowedContent: allowedContent,
         toolbar: 'heading',
         command: 'heading',
