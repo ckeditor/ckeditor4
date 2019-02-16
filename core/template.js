@@ -18,21 +18,23 @@
 	 *		var tpl = new CKEDITOR.template( '<div class="{cls}">{label}</div>' );
 	 *		alert( tpl.output( { cls: 'cke-label', label: 'foo'} ) ); // '<div class="cke-label">foo</div>'
 	 *
-	 *		// Function that returns a template.
-	 *		var tpl2 = new CKEDITOR.template(function(data) {
-	 *			return data.image ? '<img src="{image}" alt="{label}"/>' : '<div class="{cls}">{label}</div>'
-	 *		});
-	 *		alert( tpl2.output( { cls: 'cke-label', label: 'foo'} ) ); // '<div class="cke-label">foo</div>'
+	 *		// Since 4.12 it is possible to pass a callback Function that returns a template.
+	 * 		var tpl2 = new CKEDITOR.template( function( data ) {
+	 * 			return data.image ? '<img src="{image}" alt="{label}"/>' : '{label}';
+	 * 		} );
+	 *		alert( tpl2.output( { image: null, label: 'foo'} ) ); // 'foo'
 	 *		alert( tpl2.output( { image: '/some-image.jpg', label: 'foo'} ) ); // <img src="/some-image.jpg" alt="foo"/>
 	 *
+	 * @since 4.12
 	 * @class
 	 * @constructor Creates a template class instance.
-	 * @param {String/Function} source The template source - string or callback function that returns a string.
+	 * @param {String/Function} source The template source - string or callback Function that returns a string.
 	 */
 	CKEDITOR.template = function( source ) {
 		/**
 		 * The current template source.
 		 *
+		 * @since 4.12
 		 * @readonly
 		 * @member CKEDITOR.template
 		 * @property {String/Function} source
