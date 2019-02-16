@@ -94,11 +94,11 @@
 		'supports source as a function': function() {
 			// Returns a template for following tests
 			// @param {Object} data
-			function getTemplate(data) {
-				return data.image ? '<img src="{image}" alt="{label}"/>' : '<span>{label}</span>';
+			function getTemplate( data ) {
+				return data.image ? '<img src="{image}" alt="{label}"/>' : '{label}';
 			}
+			this.assertTemplateOutput( 'bar', getTemplate, { image: null, label: 'bar' } );
 			this.assertTemplateOutput( '<img src="/foo.jpg" alt="bar"/>', getTemplate, { image: '/foo.jpg', label: 'bar' } );
-			this.assertTemplateOutput( '<span>bar</span>', getTemplate, { image: null, label: 'bar' } );
 		},
 
 		// Creates a template for given string and checks its output
