@@ -35,7 +35,7 @@
 		 *
 		 * @readonly
 		 * @member CKEDITOR.template
-		 * @property {String/Function}
+		 * @property {String/Function} source
 		 */
 		if ( typeof source === 'function' ) {
 			this.source = source;
