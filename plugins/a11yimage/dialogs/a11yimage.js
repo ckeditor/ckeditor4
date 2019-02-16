@@ -362,6 +362,8 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
       onKeyup: onChangeSrc,
       onChange: onChangeSrc,
       setup: function( widget ) {
+        var srcUrl = this.getDialog().getContentElement( 'info', 'src' );
+        srcUrl.getElement().addClass( 'a11yimage_src_url' );
         this.setValue( widget.data.src );
       },
 
@@ -397,7 +399,6 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
   var urlField = {
     type: 'vbox',
     padding: 0,
-    style: 'margin-top: -3px',
     children: [
       {
         type: 'hbox',
@@ -414,7 +415,6 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
   var alternativeTextField = {
     type: 'hbox',
     align: 'bottom',
-    style: 'margin-top: 7px',
     children: [
       {
         id: 'altText',
@@ -423,6 +423,8 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         title: lang.altTextTitle,
 
         setup: function ( widget ) {
+          var altText = this.getDialog().getContentElement( 'info', 'altText' );
+          altText.getElement().addClass( 'a11yimage_alt_text' );
 
           var parts = widget.data.alt.split('; ');
 
@@ -557,13 +559,14 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
   var altTextNotRequiredCheckbox = {
     id: 'altTextNotRequired',
     type: 'hbox',
-    style: 'margin-top: -5px',
     children: [ {
       type: 'checkbox',
       id:  'altTextNotRequiredCheckbox',
       label: lang.altTextNotRequiredLabel,
 
       setup: function ( widget ) {
+        var checkbox = this.getDialog().getContentElement( 'info', 'altTextNotRequired' );
+        checkbox.getElement().addClass( 'a11yimage_alt_text_not_required' );
 
         var src = widget.data.src;
         var alt = widget.data.alt;
@@ -590,10 +593,9 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
   /* ---------------------------------------------------------------- */
 
   var longDescriptionSelect = {
-    id: 'longDescriptionSelect',
+    id: 'longDescription',
     type: 'hbox',
     title: lang.longDescTitle,
-    style: 'margin-top: 7px;',
     children: [ {
       type: 'select',
       id: 'longDescOptions',
@@ -608,6 +610,8 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     } ],
 
     setup: function ( widget ) {
+      var longDesc = this.getDialog().getContentElement( 'info', 'longDescription' );
+      longDesc.getElement().addClass( 'a11yimage_long_description' );
 
       var parts = widget.data.alt.split('; ');
 
@@ -651,7 +655,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
   var imageDescriptionHelpLink = {
     id: 'imageDescHelpLink',
     type: 'html',
-    html: '<div style="margin-top: 7px; margin-bottom: 0; margin-left: 3px;"><a href="javascript:void(0)"  id="imageDescHelpLinkId" style="color: blue; text-decoration: underline">' + lang.imageDescHelpLinkText + '</a></div>',
+    html: '<div style="margin-top: 7px; margin-bottom: 0; margin-left: 3px;"><a href="javascript:void(0)" id="imageDescHelpLinkId" style="color: blue; text-decoration: underline">' + lang.imageDescHelpLinkText + '</a></div>',
 
     onClick: function () {
       var helpPlugin = CKEDITOR.plugins.get( 'a11yfirsthelp' );
@@ -666,12 +670,19 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
     onKeyDown: function ( event ) {
       if (event.data.$.keyCode === 13) {
-        editor.a11yfirst.helpOption = 'ImageHelp';
-        editor.execCommand('a11yFirstHelpDialog');
-        event.data.$.stopPropagation();
-        event.data.$.preventDefault();
+        var helpPlugin = CKEDITOR.plugins.get( 'a11yfirsthelp' );
+        if (helpPlugin) {
+          editor.a11yfirst.helpOption = 'ImageHelp';
+          editor.execCommand('a11yFirstHelpDialog');
+          event.data.$.stopPropagation();
+          event.data.$.preventDefault();
+        }
+        else {
+          alert(lang.helpNotFound)
+        }
       }
 
+      // TODO: This code block needs to be updated
       if (event.data.$.keyCode === 9) {
         if (event.data.$.shiftKey) {
           this.getDialog().getContentElement( 'info', 'hasDescription').focus();
@@ -695,22 +706,22 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
   var captionCheckbox = {
     id: 'captionCheckbox',
     type: 'hbox',
-    style: 'margin-top: 7px',
     children: [
       {
         type: 'vbox',
         padding: 0,
-        style: 'margin-top: 5px',
         children: [
           {
             id: 'hasCaption',
             type: 'checkbox',
-            style: 'margin-top: 0',
             label: lang.captionLabel,
             title: lang.captionTitle,
             requiredContent: features.caption.requiredContent,
 
             setup: function ( widget ) {
+              var caption = this.getDialog().getContentElement( 'info', 'captionCheckbox' );
+              caption.getElement().addClass( 'a11yimage_caption_checkbox' );
+
               this.setValue( widget.data.hasCaption );
             },
 
@@ -736,6 +747,8 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
       // Create a pre-loader used for determining dimensions of new images.
       preLoader = createPreLoader();
+
+      this.getElement().addClass( 'a11yimage_dialog' );
     },
 
     onShow: function() {
@@ -850,7 +863,6 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           {
             id: 'imageAlignFieldset',
             type: 'fieldset',
-            style: 'margin-top: 7px; margin-bottom: 3px; padding-top: 0px',
             label: commonLang.align,
             children: [
               {
@@ -861,7 +873,6 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
                   {
                     id: 'align',
                     type: 'radio',
-                    style: 'margin-top: 0',
                     items: [
                       [ lang.alignNone, 'none' ],
                       [ lang.alignLeft, 'left' ],
@@ -871,8 +882,6 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
                     setup: function ( widget ) {
                       this.setValue( widget.data.align );
-                      this.getElement().addClass( 'a11yfirst_no_label' );
-                      this.getDialog().getContentElement( 'info', 'imageAlignFieldset').getElement().addClass('a11yfirst_fieldset');
                     },
 
                     commit: function ( widget ) {
