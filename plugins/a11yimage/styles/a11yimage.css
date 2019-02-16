@@ -24,3 +24,7 @@
 .a11yimage_dialog .cke_dialog_ui_radio {
   margin-top: -3px;
 }
+
+.a11yimage_dialog a:hover {
+  cursor: pointer;
+}
