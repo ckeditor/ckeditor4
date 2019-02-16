@@ -22,11 +22,3 @@
 {
   font-size: 15px !important;
 }
-
-/* ---------------------------------------------------------------- */
-/*                Help button in the a11ylink dialog                */
-/* ---------------------------------------------------------------- */
-
-.cke_dialog_ui_vbox table[align=bottom] td.cke_dialog_ui_hbox_last {
-  vertical-align: bottom;
-}
