@@ -4,6 +4,7 @@
 
 .cke_button.cke_button__heading .cke_button_arrow {
   margin-left: 10px;
+  margin-right: 4px;
 }
 .cke_button_icon.cke_button__heading_icon {
   display: none;
