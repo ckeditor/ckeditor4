@@ -823,7 +823,9 @@
 				}, this );
 
 				this.attachListener( editor, 'getSnapshot', function( evt ) {
-					evt.data = this.getData( 1 );
+					if ( !evt.data ) {
+						evt.data = this.getData( 1 );
+					}
 				}, this );
 
 				this.attachListener( editor, 'afterSetData', function() {

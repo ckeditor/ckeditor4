@@ -195,7 +195,8 @@
 			nextId: 0,
 			upcasts: [],
 			upcastCallbacks: [],
-			filters: {}
+			filters: {},
+			snapshotCache: {}
 		};
 
 		setupWidgetsLifecycle( this );
@@ -2837,6 +2838,36 @@
 
 		widgetsRepo.on( 'checkWidgets', checkWidgets );
 		widgetsRepo.editor.on( 'contentDomInvalidated', widgetsRepo.checkWidgets, widgetsRepo );
+
+		delegateSnapshotsCreation( widgetsRepo );
+	}
+
+	function delegateSnapshotsCreation( widgetsRepo ) {
+		var editor = widgetsRepo.editor;
+
+		editor.on( 'getSnapshot', function( evt ) {
+			var originalHtml = editor.editable().getHtml(),
+				cache = this._.snapshotCache;
+
+			// Huge performance gain. Do nothing if HTML didn't change.
+			if ( cache.originalHtml === originalHtml ) {
+				evt.data = cache.html;
+				return;
+			}
+
+			var html = cache.originalHtml = originalHtml;
+
+			for ( var id in this.instances ) {
+				var widget = this.instances[ id ];
+
+				// Replace widget with custom snapshot representation.
+				if ( widget.getSnapshot ) {
+					html = html.replace( widget.wrapper.getOuterHtml(), widget.getSnapshot() );
+				}
+			}
+
+			evt.data = cache.html = html;
+		}, widgetsRepo );
 	}
 
 	function setupWidgetsLifecycleEnd( widgetsRepo ) {
@@ -3965,7 +3996,6 @@
 				}
 			}
 		}
-
 	}
 
 	//
