@@ -60,13 +60,7 @@
 	 */
 	CKEDITOR.template.prototype.output = function( data, buffer ) {
 
-		var template;
-
-		if ( typeof this.source === 'function' ) {
-			template = this.source( data );
-		} else {
-			template = this.source;
-		}
+		var template = typeof this.source === 'function' ? this.source( data ) : this.source;
 
 		var output = template.replace( rePlaceholder, function( fullMatch, dataKey ) {
 			return data[ dataKey ] !== undefined ? data[ dataKey ] : fullMatch;
