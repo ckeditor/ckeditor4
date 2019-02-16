@@ -27,7 +27,7 @@
 	 *
 	 * @class
 	 * @constructor Creates a template class instance.
-	 * @param {String|Function} source The template source - string or callback function that returns a string.
+	 * @param {String/Function} source The template source - string or callback function that returns a string.
 	 */
 	CKEDITOR.template = function( source ) {
 		/**
@@ -35,12 +35,12 @@
 		 *
 		 * @readonly
 		 * @member CKEDITOR.template
-		 * @property {String|Function}
+		 * @property {String/Function}
 		 */
-		if (typeof source === 'function') {
+		if ( typeof source === 'function' ) {
 			this.source = source;
 		} else {
-			this.source = String(source);
+			this.source = String( source );
 		}
 	};
 
@@ -62,8 +62,8 @@
 
 		var template;
 
-		if (typeof this.source === 'function') {
-			template = this.source(data);
+		if ( typeof this.source === 'function' ) {
+			template = this.source( data );
 		} else {
 			template = this.source;
 		}
