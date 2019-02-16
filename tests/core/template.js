@@ -91,23 +91,19 @@
 			this.assertTemplateOutput( 'alert("foo!")', '{code}', { code: 'alert("foo!")' } );
 		},
 
-		// Returns a template for following tests
-		// @param {Object} data
-		getTemplate: function(data) {
-			return data.image ? '<img src="{image}" alt="{label}"/>' : '<span>{label}</span>';
-		},
-
-		'callback function case 1': function() {
-			this.assertTemplateOutput( '<img src="/foo.jpg" alt="bar"/>', this.getTemplate, { image: '/foo.jpg', label: 'bar' } );
-		},
-
-		'callback function case 2': function() {
-			this.assertTemplateOutput( '<span>bar</span>', this.getTemplate, { image: null, label: 'bar' } );
+		'supports source as a function': function() {
+			// Returns a template for following tests
+			// @param {Object} data
+			function getTemplate(data) {
+				return data.image ? '<img src="{image}" alt="{label}"/>' : '<span>{label}</span>';
+			}
+			this.assertTemplateOutput( '<img src="/foo.jpg" alt="bar"/>', getTemplate, { image: '/foo.jpg', label: 'bar' } );
+			this.assertTemplateOutput( '<span>bar</span>', getTemplate, { image: null, label: 'bar' } );
 		},
 
 		// Creates a template for given string and checks its output
 		// @param {String} expected Expected template output.
-		// @param {String|Function} templateString Template input string or callback function that returns a string.
+		// @param {String/Function} templateString Template input string or callback Function that returns a string.
 		// @param {Object} replacementObject Optional object containing variables.
 		assertTemplateOutput: function( expected, templateString, replacementObject ) {
 			var tpl = new CKEDITOR.template( templateString );
