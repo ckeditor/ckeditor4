@@ -1,0 +1,14 @@
+.a11ylink_dialog .cke_dialog_ui_fieldset {
+  margin-top: 8px;
+  margin-bottom: 3px;
+  padding-top: 0px;
+}
+
+.a11ylink_dialog .cke_dialog_ui_radio {
+  margin-top: -3px;
+}
+
+/* Help button */
+.a11ylink_dialog .cke_dialog_ui_vbox table[align=bottom] td.cke_dialog_ui_hbox_last {
+  vertical-align: bottom;
+}
