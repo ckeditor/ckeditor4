@@ -263,11 +263,11 @@ information being conveyed by the image.\n\
 \n\
 ### More information\n\
 \n\
-* <a href="http://accessibility.psu.edu/images/alttext/" target="_resource">Penn State: Image ALT Text</a>\n\
+* <a href="https://accessibility.psu.edu/images/alttext/" target="_resource">Penn State: Image ALT Text</a>\n\
 \n\
 * <a href="https://webaim.org/techniques/alttext/" target="_resource">WebAIM: Alternative Text</a>\n\
 \n\
-* <a href="https://www.w3.org/WAI/tutorials/images/">W3C Web Accessibility Image Tutorial</a>\n\
+* <a href="https://www.w3.org/WAI/tutorials/images/" target="_resource">W3C Web Accessibility Image Tutorial</a>\n\
 \n\
 * <a href="http://diagramcenter.org/" target="_resource">Diagram Center</a>\n\
 '

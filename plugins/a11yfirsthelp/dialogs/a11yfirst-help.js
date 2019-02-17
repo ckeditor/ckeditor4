@@ -89,6 +89,10 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
 
     minHeight: 360,
 
+    onLoad: function() {
+      this.getElement().addClass( 'a11yfirsthelp_dialog' );
+    },
+
     onShow: function( event ) {
       var key, contentId, node, html;
 

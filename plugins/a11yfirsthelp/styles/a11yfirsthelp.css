@@ -64,3 +64,9 @@ a.cke_dialog_ui_button.a11yfirsthelp:hover
 .cke_dialog_ui_hbox .a11yfirsthelpcontent em {
   font-style: italic;
 }
+
+/* Links */
+
+.a11yfirsthelp_dialog a:hover {
+  cursor: pointer;
+}
