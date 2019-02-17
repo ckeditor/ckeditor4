@@ -370,9 +370,9 @@ screen reader users to find and follow links of interest to them.\n\
 \n\
 * <a href="https://www.nngroup.com/articles/writing-links/" target="_resource">NNG: Writing Hyperlinks: Salient, Descriptive, Start with Keyword</a>\n\
 \n\
-* <a href="https://www.nomensa.com/blog/2011/writing-good-link-text" target="_resource">NOMENSA: Writing good link text</a>\n\
+* <a href="https://www.nomensa.com/blog/2011/writing-good-link-text" target="_resource">Nomensa: How to write good link text</a>\n\
 \n\
-* <a href="http://accessibility.umn.edu/core-skills/hyperlinks" target="_resource">Accessible U: Hyperlinks (Good ad Bad Examples)</a>\n\
+* <a href="https://accessibility.umn.edu/core-skills/hyperlinks" target="_resource">Accessible U: Hyperlinks (Good and Bad Examples)</a>\n\
 '
   },
 

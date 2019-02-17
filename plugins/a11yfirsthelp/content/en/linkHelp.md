@@ -42,6 +42,6 @@ screen reader users to find and follow links of interest to them.
 
 * <a href="https://www.nngroup.com/articles/writing-links/" target="_resource">NNG: Writing Hyperlinks: Salient, Descriptive, Start with Keyword</a>
 
-* <a href="https://www.nomensa.com/blog/2011/writing-good-link-text" target="_resource">NOMENSA: Writing good link text</a>
+* <a href="https://www.nomensa.com/blog/2011/writing-good-link-text" target="_resource">Nomensa: How to write good link text</a>
 
-* <a href="http://accessibility.umn.edu/core-skills/hyperlinks" target="_resource">Accessible U: Hyperlinks (Good ad Bad Examples)</a>
+* <a href="https://accessibility.umn.edu/core-skills/hyperlinks" target="_resource">Accessible U: Hyperlinks (Good and Bad Examples)</a>
