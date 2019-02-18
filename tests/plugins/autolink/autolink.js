@@ -284,7 +284,15 @@
 
 			editor.setMode( 'source', function() {
 				resume( function() {
-					editor.fire( 'key', { keyCode: CKEDITOR.config.autolink_commitKeystrokes[ 0 ] } );
+					var keyCode = CKEDITOR.config.autolink_commitKeystrokes[ 0 ];
+					editor.fire( 'key', {
+						keyCode: keyCode,
+						domEvent: {
+							getKey: function() {
+								return keyCode;
+							}
+						}
+					} );
 					assert.pass( 'Passed without errors' );
 				} );
 			} );
