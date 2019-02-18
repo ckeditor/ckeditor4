@@ -25,7 +25,11 @@
 					rng.select();
 
 					bot.contextmenu( function( menu ) {
-						var items = menu.items[ 0 ].getItems();
+						var tableCellSubmenu = CKEDITOR.tools.array.filter( menu.items, function( item ) {
+								return item.name === 'tablecell';
+							} )[ 0 ],
+							items = tableCellSubmenu.getItems();
+
 						assert[ editor.name === 'editor' ? 'isFalse' : 'isTrue' ]( 'tablecell_properties' in items );
 						menu.hide();
 
