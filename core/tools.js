@@ -1469,11 +1469,7 @@
 		 * if the mouse button cannot be determined.
 		 */
 		getMouseButton: function( evt ) {
-			var domEvent = evt.data && evt.data.$;
-
-			if ( !( evt instanceof CKEDITOR.dom.event ) ) {
-				domEvent = evt;
-			}
+			var domEvent = evt.data ? evt.data.$ : evt;
 
 			if ( !domEvent ) {
 				return false;
