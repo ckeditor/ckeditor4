@@ -214,7 +214,7 @@
 							listener.apply( null, args );
 							assert.pass( 'Passed with no errors.' );
 						} catch ( err ) {
-							assert.fail( err );
+							assert.fail( 'Error occured.' );
 						} finally {
 							listeners[ 0 ] = listener;
 						}
