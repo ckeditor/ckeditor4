@@ -284,13 +284,8 @@
 
 			editor.setMode( 'source', function() {
 				resume( function() {
-					try {
-						editor.fire( 'key', { keyCode: CKEDITOR.config.autolink_commitKeystrokes[ 0 ] } );
-					} catch ( e ) {
-						assert.fail( 'Error thrown' );
-					} finally {
-						assert.pass( 'Passed without errors' );
-					}
+					editor.fire( 'key', { keyCode: CKEDITOR.config.autolink_commitKeystrokes[ 0 ] } );
+					assert.pass( 'Passed without errors' );
 				} );
 			} );
 
