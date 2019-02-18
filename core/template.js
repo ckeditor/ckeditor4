@@ -19,31 +19,28 @@
 	 *		alert( tpl.output( { cls: 'cke-label', label: 'foo'} ) ); // '<div class="cke-label">foo</div>'
 	 *
 	 *		// Since 4.12 it is possible to pass a callback Function that returns a template.
-	 * 		var tpl2 = new CKEDITOR.template( function( data ) {
-	 * 			return data.image ? '<img src="{image}" alt="{label}"/>' : '{label}';
-	 * 		} );
+	 *		var tpl2 = new CKEDITOR.template( function( data ) {
+	 *			return data.image ? '<img src="{image}" alt="{label}"/>' : '{label}';
+	 *		} );
 	 *		alert( tpl2.output( { image: null, label: 'foo'} ) ); // 'foo'
 	 *		alert( tpl2.output( { image: '/some-image.jpg', label: 'foo'} ) ); // <img src="/some-image.jpg" alt="foo"/>
 	 *
-	 * @since 4.12
 	 * @class
 	 * @constructor Creates a template class instance.
-	 * @param {String/Function} source The template source - string or callback Function that returns a string.
+	 * @param {String/Function} source String with template source or a callback that will return such string.
+	 * Handling of `Function` type has been added in the 4.12.0 version.
 	 */
 	CKEDITOR.template = function( source ) {
 		/**
 		 * The current template source.
 		 *
-		 * @since 4.12
+		 * Note that support for `Function` type has been added in the 4.12.0 version.
+		 *
 		 * @readonly
 		 * @member CKEDITOR.template
 		 * @property {String/Function} source
 		 */
-		if ( typeof source === 'function' ) {
-			this.source = source;
-		} else {
-			this.source = String( source );
-		}
+		this.source = typeof source === 'function' ? source : String( source );
 	};
 
 	/**
@@ -62,11 +59,10 @@
 	 */
 	CKEDITOR.template.prototype.output = function( data, buffer ) {
 
-		var template = typeof this.source === 'function' ? this.source( data ) : this.source;
-
-		var output = template.replace( rePlaceholder, function( fullMatch, dataKey ) {
-			return data[ dataKey ] !== undefined ? data[ dataKey ] : fullMatch;
-		} );
+		var template = typeof this.source === 'function' ? this.source( data ) : this.source,
+			output = template.replace( rePlaceholder, function( fullMatch, dataKey ) {
+				return data[ dataKey ] !== undefined ? data[ dataKey ] : fullMatch;
+			} );
 
 		return buffer ? buffer.push( output ) : output;
 	};
