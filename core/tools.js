@@ -1471,7 +1471,7 @@
 		getMouseButton: function( evt ) {
 			var domEvent = evt.data && evt.data.$;
 
-			if ( evt instanceof Event ) {
+			if ( !( evt instanceof CKEDITOR.dom.event ) ) {
 				domEvent = evt;
 			}
 
