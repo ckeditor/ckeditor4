@@ -211,8 +211,7 @@
 							{ height: 15, width: 25, left: 130, bottom: 759.34375, right: 140, top: 744.34375 },
 							{ height: 15, width: 25, left: 145, bottom: 759.34375, right: 155, top: 744.34375 }
 						]
-					]
-				};
+					] };
 				this._testBalloonPanelPosition( ranges, 92.5, 422, true );
 			},
 
