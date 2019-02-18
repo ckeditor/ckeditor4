@@ -15,7 +15,7 @@
  * Definition object represents rules as a set of properties with callback functions
  * to be applied for transforming and filtering content upon data processing.
  *
- * Can be used with {@link CKEDITOR.htmlParser.filter} and {@link CKEDITOR.htmlParser.filter#addRules}.
+ * It can be used with {@link CKEDITOR.htmlParser.filter} and {@link CKEDITOR.htmlParser.filter#addRules}.
  *
  * @class CKEDITOR.htmlParser.filterRulesDefinition
  * @abstract
@@ -38,18 +38,18 @@
 
 /**
  * @property {CKEDITOR.htmlParser.nameTransformRule[]} attributeNames An array of rules for attribute names transformation.
- * Every matching string from the first item will be converted into a second.
+ * Every matching string from the first item will be converted into the second.
  *
  * Examples:
  *
  * ```javascript
  * attributeNames: [
  * 		[ 'data-foo', 'data-bar' ],
- * 		// Converts string in attribute name from 'data-foo' into 'data-bar'
- * 		// Note that attribute 'data-foo-baz' will be converted into 'data-bar-baz'.
+ * 		// Converts the string in the attribute name from 'data-foo' into 'data-bar'.
+ * 		// Note that the 'data-foo-baz' attribute will be converted into 'data-bar-baz'.
  *
  * 		[ /^data-custom$/, 'data-cke' ]
- * 		// Converts attribute 'data-custom' into 'data-cke'.
+ * 		// Converts the 'data-custom' attribute into 'data-cke'.
  * ]
  * ```
  *
@@ -59,15 +59,15 @@
  * @property {Object.<String, Function>} elements An object containing pairs of element selectors
  * and functions used upon element filtering and transformation.
  *
- * A selector can be either element name or one of following: `^`, `$`.
+ * A selector can be either an element name or one of the following: `^`, `$`.
  *
- * `^` and `$` is to be applied on every filtered element. The first is applied before element specific filter,
- * and second is applied after element specific filter.
+ * `^` and `$` are to be applied on every filtered element. The first is applied before the element-specific filter,
+ * and the second is applied after the element-specific filter.
  *
- * Function can contain return statement:
+ * The function can contain a return statement:
  *
- * * If `false` is returned the element is removed.
- * * If another element is returned it overwrites the original element.
+ * * If `false` is returned, the element is removed.
+ * * If another element is returned, it overwrites the original element.
  *
  * Examples:
  *
@@ -96,7 +96,7 @@
  * @property {Object.<String, Function>} attributes An object containing pairs of element attribute names
  * and functions used upon attribute filtering and transformation.
  *
- * Returning `false` removes attribute.
+ * Returning `false` removes the attribute.
  *
  * Examples:
  *
@@ -104,11 +104,11 @@
  * attributes: {
  * 		'class': function( value, element ) {
  * 			if ( element.name === 'div' ) {
- * 				return value + ' cke_div' // Adds class 'cke_div' to every filtered div element.
+ * 				return value + ' cke_div' // Adds the 'cke_div' class to every filtered div element.
  * 			}
  * 		},
  * 		id: function() {
- * 			return false; // Removes 'id' attribute from every filtered element.
+ * 			return false; // Removes the 'id' attribute from every filtered element.
  * 		}
  * }
  * ```
@@ -130,13 +130,13 @@
 
 /**
  * @property {Function} comment Function for comments filtering and transforming. Returned value replaces comment text.
- * If `false` is returned comment is removed.
+ * If `false` is returned, the comment is removed.
  *
  * Examples:
  *
  * ```javascript
  * comment: function( value, element ) {
- * 		return false; // Removes comment.
+ * 		return false; // Removes the comment.
  * }
  * ```
  *
@@ -149,7 +149,7 @@
  *
  * ```javascript
  * root: function( element ) {
- * 		element.children.push( someElement ); // Appends child to root element.
+ * 		element.children.push( someElement ); // Appends a child to the root element.
  * }
  * ```
  *

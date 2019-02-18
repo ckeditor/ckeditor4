@@ -1,11 +1,15 @@
-@bender-tags: 4.11.1, bug, emoji, 2571
+@bender-tags: 4.11.1, bug, emoji, 2571, 4.11.3, 2592
 @bender-ckeditor-plugins: wysiwygarea, toolbar, emoji
 @bender-ui: collapsed
 @bender-include: ../../_helpers/tools.js
 
 1. Open emoji dropdown.
 2. Click into emoji group.
+
 ### Expected
-Page is not scrolled down.
+
+Page scrolls down. First emoji in group is selected.
+
 ### Unexpected
-Page scrolls down.
+
+Page is not scrolled down.

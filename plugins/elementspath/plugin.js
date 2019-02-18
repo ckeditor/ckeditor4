@@ -47,6 +47,8 @@
 		' title="{label}"' +
 		extra +
 		' hidefocus="true" ' +
+		' draggable="false" ' +
+		' ondragstart="return false;"' + // Required by Firefox (#1191).
 		' onkeydown="return CKEDITOR.tools.callFunction({keyDownFn},{index}, event );"' +
 		' onclick="CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
 		' role="button" aria-label="{label}">' +

@@ -266,7 +266,7 @@
 								}
 							} );
 
-							this.clearSearchAndMoveFocus( event );
+							this.clearSearchAndMoveFocus( activeElement );
 
 							event.data.preventDefault();
 						}
@@ -507,13 +507,9 @@
 					this.elements.statusDescription.setText( '' );
 					this.elements.statusName.setText( '' );
 				},
-				clearSearchAndMoveFocus: function( event ) {
-					var element = event.data.getTarget().getAscendant( 'li', true );
-					if ( !element ) {
-						return;
-					}
+				clearSearchAndMoveFocus: function( activeElement ) {
 					this.clearSearchInput();
-					this.moveFocus( element.data( 'cke-emoji-group' ) );
+					this.moveFocus( activeElement.data( 'cke-emoji-group' ) );
 				},
 				moveFocus: function( groupName ) {
 					var firstSectionItem = this.blockElement.findOne( 'a[data-cke-emoji-group="' + htmlEncode( groupName ) + '"]' ),

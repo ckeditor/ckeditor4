@@ -38,20 +38,18 @@
 				return;
 			}
 
-			editor.on( 'contentDom', function() {
-				var commitKeystrokes = editor.config.autolink_commitKeystrokes || CKEDITOR.config.autolink_commitKeystrokes;
-				editor.on( 'key', function( evt ) {
-					if ( CKEDITOR.tools.indexOf( commitKeystrokes, evt.data.keyCode ) == -1 ) {
-						return;
-					}
+			var commitKeystrokes = editor.config.autolink_commitKeystrokes || CKEDITOR.config.autolink_commitKeystrokes;
+			editor.on( 'key', function( evt ) {
+				if ( editor.mode !== 'wysiwyg' || CKEDITOR.tools.indexOf( commitKeystrokes, evt.data.keyCode ) == -1 ) {
+					return;
+				}
 
-					var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], matchCallback );
+				var matched = CKEDITOR.plugins.textMatch.match( editor.getSelection().getRanges()[ 0 ], matchCallback );
 
-					if ( matched ) {
-						insertLink( matched );
-					}
+				if ( matched ) {
+					insertLink( matched );
+				}
 
-				} );
 			} );
 
 			function insertLink( match ) {
