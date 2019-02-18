@@ -18,7 +18,7 @@
 	 *		var tpl = new CKEDITOR.template( '<div class="{cls}">{label}</div>' );
 	 *		alert( tpl.output( { cls: 'cke-label', label: 'foo'} ) ); // '<div class="cke-label">foo</div>'
 	 *
-	 *		// Since 4.12 it is possible to pass a callback Function that returns a template.
+	 *		// Since 4.12.0 it is possible to pass a callback Function that returns a template.
 	 *		var tpl2 = new CKEDITOR.template( function( data ) {
 	 *			return data.image ? '<img src="{image}" alt="{label}"/>' : '{label}';
 	 *		} );
