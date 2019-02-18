@@ -62,13 +62,6 @@
 				'.cke_widget_drag_handler_container:hover{' +
 					'opacity:1' +
 				'}' +
-				'.cke_widget_drag_handler_container_hidden{' +
-					// Initially drag handler should not be visible, until its position will be
-					// calculated (https://dev.ckeditor.com/ticket/11177).
-					// We need to hide unpositined handlers, so they don't extend
-					// widget's outline far to the left (https://dev.ckeditor.com/ticket/12024).
-					'display:none;' +
-				'}' +
 				'.cke_editable[contenteditable="false"] .cke_widget_drag_handler_container{' +
 					'display:none;' +
 				'}' +
@@ -1542,7 +1535,8 @@
 				top: newPos.y + 'px',
 				left: newPos.x + 'px'
 			} );
-			this.dragHandlerContainer.removeClass( '.cke_widget_drag_handler_container_hidden' );
+			this.dragHandlerContainer.removeStyle( 'display' );
+
 			editor.fire( 'unlockSnapshot' );
 			!initialDirty && editor.resetDirty();
 
@@ -3352,7 +3346,12 @@
 			container.setAttributes( {
 				'class': 'cke_reset cke_widget_drag_handler_container',
 				// Split background and background-image for IE8 which will break on rgba().
-				style: 'background:rgba(220,220,220,0.5);background-image:url(' + editor.plugins.widget.path + 'images/handle.png)'
+				// Initially drag handler should not be visible, until its position will be
+				// calculated (https://dev.ckeditor.com/ticket/11177).
+				// We need to hide unpositined handlers, so they don't extend
+				// widget's outline far to the left (https://dev.ckeditor.com/ticket/12024).
+				style: 'background:rgba(220,220,220,0.5);background-image:url(' + editor.plugins.widget.path + 'images/handle.png);' +
+					'display:none;'
 			} );
 
 			img = new CKEDITOR.dom.element( 'img', editor.document );
