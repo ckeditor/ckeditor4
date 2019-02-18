@@ -1,0 +1,18 @@
+<textarea id="editor"><table border="1">
+	<tbody>
+		<tr>
+			<td>Table cell</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		removePlugins: 'colorDialog'
+	} );
+</script>

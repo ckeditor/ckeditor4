@@ -30,6 +30,14 @@
 			} );
 		},
 
+		tearDown: function() {
+			var dialog = CKEDITOR.dialog.getCurrent();
+
+			if ( dialog ) {
+				dialog.hide();
+			}
+		},
+
 		'test cell properties dialog (text selection)': function() {
 			this.doTest( 'table-1', function( dialog ) {
 				dialog.setValueOf( 'info', 'width', 100 );
@@ -141,10 +149,9 @@
 			}, function( bot ) {
 				bot.setHtmlWithSelection( '<table><tr><td>Te^st</td></tr></table>' );
 				bot.dialog( 'cellProperties', function( dialog ) {
-					assert.isFalse( dialog.getContentElement( 'info', 'width' ).isVisible() );
-					assert.isFalse( dialog.getContentElement( 'info', 'height' ).isVisible() );
-					assert.isFalse( dialog.getContentElement( 'info', 'htmlHeightType' ).isVisible() );
-					assert.isFalse( dialog.getContentElement( 'info', 'hiddenSpacer' ).isVisible() );
+					assert.isUndefined( dialog.getContentElement( 'info', 'width' ) );
+					assert.isUndefined( dialog.getContentElement( 'info', 'height' ) );
+					assert.isUndefined( dialog.getContentElement( 'info', 'htmlHeightType' ) );
 				} );
 			} );
 		},
@@ -159,9 +166,75 @@
 					assert.isTrue( dialog.getContentElement( 'info', 'width' ).isVisible() );
 					assert.isTrue( dialog.getContentElement( 'info', 'height' ).isVisible() );
 					assert.isTrue( dialog.getContentElement( 'info', 'htmlHeightType' ).isVisible() );
-					assert.isTrue( dialog.getContentElement( 'info', 'hiddenSpacer' ).isVisible() );
 				} );
+			} );
+		},
+
+		// Changes to cell properties dialog (#1986) caused regression (#2732).
+		// Dialog definition had `null` items. Each item should be an object.
+		'test dialog definition doesn\'t have empty contents': function() {
+			bender.editorBot.create( {
+				name: 'nocolordialog',
+				config: {
+					removePlugins: 'colordialog'
+				}
+			}, function( bot ) {
+				bot.setHtmlWithSelection( '<table><tr><td>Te^st</td></tr></table>' );
+
+				CKEDITOR.once( 'dialogDefinition', function( evt ) {
+					resume( function() {
+						assertChildren( evt.data.definition.contents[ 0 ].elements[ 0 ].children );
+					} );
+				}, null, null, 0 );
+
+				bot.editor.execCommand( 'cellProperties' );
+
+				wait();
+			} );
+		},
+
+		// Changes to cell properties dialog (#1986) caused regression (#2732).
+		// Opening dialog shouldn't cause an error in filebrowser plugin.
+		'test opening dialog doesn\'t throw error': function() {
+			bender.editorBot.create( {
+				name: 'filebrowser',
+				config: {
+					removePlugins: 'colordialog',
+					extraPlugins: 'filebrowser'
+				}
+			}, function( bot ) {
+				bot.setHtmlWithSelection( '<table><tr><td>Te^st</td></tr></table>' );
+				var listeners = CKEDITOR._.events.dialogDefinition.listeners,
+					listener = listeners.pop();
+
+				listeners.push( function() {
+					var args = arguments;
+					resume( function() {
+						try {
+							listener.apply( null, args );
+							assert.pass( 'Passed with no errors.' );
+						} catch ( err ) {
+							assert.fail( 'Error occured.' );
+						} finally {
+							listeners[ 0 ] = listener;
+						}
+					} );
+				} );
+
+				bot.editor.execCommand( 'cellProperties' );
+
+				wait();
 			} );
 		}
 	} );
+
+	function assertChildren( children ) {
+		CKEDITOR.tools.array.forEach( children, function( item ) {
+			if ( item && item.children ) {
+				assertChildren( item.children );
+			} else {
+				assert.isObject( item );
+			}
+		} );
+	}
 } )();
