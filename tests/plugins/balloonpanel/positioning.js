@@ -82,16 +82,15 @@
 					this._getFrameMethodReplaced = true;
 					var editor = this.editor,
 						rect = { height: 300, width: 300, left: 1, bottom: 643, right: 301, top: 343 },
-						orig;
+						frame = editor.window.getFrame(),
+						container = frame.getParent();
 
-					orig = CKEDITOR.env.safari ? editor.container.findOne( '.cke_contents' ) : editor.window.getFrame();
-
-					sinon.stub( orig, 'getClientRect' ).returns( rect );
+					sinon.stub( editor.window, 'getFrame' ).returns( frame );
+					sinon.stub( CKEDITOR.env.safari ? container : frame, 'getClientRect' ).returns( rect );
 
 					if ( CKEDITOR.env.safari ) {
-						sinon.stub( editor.container, 'findOne' ).withArgs( '.cke_contents' ).returns( orig );
-					} else {
-						sinon.stub( editor.window, 'getFrame' ).returns( orig );
+						// Override container because iframe has wrong rect values in mobile Safari (#1076).
+						sinon.stub( frame, 'getParent' ).returns( container );
 					}
 				}
 			},

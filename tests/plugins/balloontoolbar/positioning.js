@@ -210,13 +210,13 @@
 	}
 
 	function getFrameRect( editor ) {
-		var frame;
+		var frame = editor.window.getFrame();
+
 		if ( editor.editable().isInline() ) {
 			frame = editor.editable();
 		} else if ( CKEDITOR.env.safari ) {
-			frame = editor.container.findOne( '.cke_contents' );
-		} else {
-			frame = editor.window.getFrame();
+			// Use container because iframe has wrong rect values in mobile Safari (#1076).
+			frame = frame.getParent();
 		}
 
 		return frame.getClientRect();
