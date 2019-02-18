@@ -14,7 +14,7 @@ var promisifyCase = bender.tools.promisifyCase;
 bender.test(
 {
 	// Justify should align selected image.
-	'test aligment command on selected image': function() {
+	'test alignment command on selected image': function() {
 		var tc = this;
 		promisifyCase(
 			Q.promise( function( resolve ) {
@@ -39,7 +39,7 @@ bender.test(
 		);
 	},
 
-	'test aligment command on selected image (align attribute)': function() {
+	'test alignment command on selected image (align attribute)': function() {
 		var tc = this;
 		promisifyCase(
 			Q.promise( function( resolve ) {
@@ -62,7 +62,7 @@ bender.test(
 	},
 
 	// Justify should align paragraph.
-	'test aligment command on paragraph': function() {
+	'test alignment command on paragraph': function() {
 		var tc = this;
 		promisifyCase(
 			Q.promise( function( resolve ) {
