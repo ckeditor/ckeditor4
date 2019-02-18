@@ -455,7 +455,7 @@
 
 				if ( !isInline && CKEDITOR.env.safari ) {
 					// Overwrite frame with editor iframe closest parent, because iframe has wrong rect values in mobile Safari (#1076).
-					frame = this.editor.container.findOne( '.cke_contents' );
+					frame = frame.getParent();
 				}
 
 				var panelWidth = this.getWidth(),
