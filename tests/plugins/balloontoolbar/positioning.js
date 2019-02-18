@@ -63,7 +63,7 @@
 					height: 200
 				} ),
 				markerElement = editor.editable().findOne( '#marker' ),
-				frame = editor.editable().isInline() ? editor.editable().getClientRect() : editor.window.getFrame().getClientRect(),
+				frame = getFrameRect( editor ),
 				elementFrame = markerElement.getClientRect(),
 				// When window is so small editor is out of view panel might be rendered below editor.
 				// Mock view pane size to prevent that.
@@ -103,7 +103,7 @@
 					height: 200
 				} ),
 				markerElement = editor.editable().findOne( '#marker' ),
-				frame = editor.editable().isInline() ? editor.editable().getClientRect() : editor.window.getFrame().getClientRect(),
+				frame = getFrameRect( editor ),
 				elementFrame = markerElement.getClientRect(),
 				scrollTop,
 				balloonToolbarRect,
@@ -207,5 +207,18 @@
 				viewPaneSpy.restore();
 			}
 		};
+	}
+
+	function getFrameRect( editor ) {
+		var frame;
+		if ( editor.editable().isInline() ) {
+			frame = editor.editable();
+		} else if ( CKEDITOR.env.safari ) {
+			frame = editor.container.findOne( '.cke_contents' );
+		} else {
+			frame = editor.window.getFrame();
+		}
+
+		return frame.getClientRect();
 	}
 } )();

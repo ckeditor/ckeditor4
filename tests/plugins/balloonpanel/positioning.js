@@ -80,19 +80,19 @@
 				if ( !this._getFrameMethodReplaced ) {
 					// The problem is also window.getFrame().getClientRect() as it returns different results from dashboard and directly.
 					this._getFrameMethodReplaced = true;
-					var orig = this.editor.window.getFrame;
+					var editor = this.editor,
+						rect = { height: 300, width: 300, left: 1, bottom: 643, right: 301, top: 343 },
+						orig;
 
-					this.editor.window.getFrame = function() {
-						var ret = orig.call( this );
+					orig = CKEDITOR.env.safari ? editor.container.findOne( '.cke_contents' ) : editor.window.getFrame();
 
-						if ( ret ) {
-							ret.getClientRect = function() {
-								return { height: 300, width: 300, left: 1, bottom: 643, right: 301, top: 343 };
-							};
-						}
+					sinon.stub( orig, 'getClientRect' ).returns( rect );
 
-						return ret;
-					};
+					if ( CKEDITOR.env.safari ) {
+						sinon.stub( editor.container, 'findOne' ).withArgs( '.cke_contents' ).returns( orig );
+					} else {
+						sinon.stub( editor.window, 'getFrame' ).returns( orig );
+					}
 				}
 			},
 
@@ -212,7 +212,8 @@
 							{ height: 15, width: 25, left: 130, bottom: 759.34375, right: 140, top: 744.34375 },
 							{ height: 15, width: 25, left: 145, bottom: 759.34375, right: 155, top: 744.34375 }
 						]
-					] };
+					]
+				};
 				this._testBalloonPanelPosition( ranges, 92.5, 422, true );
 			},
 
