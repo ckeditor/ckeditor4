@@ -74,13 +74,13 @@
 
 			balloonToolbar.attach( markerElement );
 			balloonToolbarRect = balloonToolbar.parts.panel.getClientRect();
-			rectTop = CKEDITOR.env.ie || !CKEDITOR.env.edge ? Math.round( balloonToolbarRect.top ) : balloonToolbarRect.top;
+			rectTop = CKEDITOR.env.ie && !CKEDITOR.env.edge ? Math.round( balloonToolbarRect.top ) : balloonToolbarRect.top;
 
 			viewPaneMock.restore();
 
 			// When browser window is so small that panel doesn't fit, window will be scrolled into panel view.
 			// Use scroll position to adjust expected result.
-			scrollTop = CKEDITOR.document.getWindow().getScrollPosition().y.toFixed( 2 );
+			scrollTop = CKEDITOR.document.getWindow().getScrollPosition().y;
 
 			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
 			assert.areEqual( expectedLeft, balloonToolbarRect.left.toFixed( 2 ), 'left align' );
@@ -113,7 +113,7 @@
 			markerElement.getParent().getNext().scrollIntoView( true );
 			balloonToolbar.attach( markerElement );
 			balloonToolbarRect = balloonToolbar.parts.panel.getClientRect();
-			rectTop = CKEDITOR.env.ie || !CKEDITOR.env.edge ? Math.round( balloonToolbarRect.top ) : balloonToolbarRect.top;
+			rectTop = CKEDITOR.env.ie && !CKEDITOR.env.edge ? Math.round( balloonToolbarRect.top ) : balloonToolbarRect.top;
 
 			// When browser window is so small that panel doesn't fit, window will be scrolled into panel view.
 			// We need to use scroll position to adjust expected result.
