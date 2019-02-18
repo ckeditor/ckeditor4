@@ -237,7 +237,7 @@ bender.test(
 		assert.areSame( '<p style="text-align:right;"><span contenteditable="false">foo</span></p>', bot.getData( true ) );
 	},
 
-	// #455
+	// (#455)
 	'test alignment on disabled elements paragraph': function() {
 		promisifyCase(
 			createPromisedEditor( {
@@ -258,7 +258,7 @@ bender.test(
 		);
 	},
 
-	// #455
+	// (#455)
 	'test alignment on disabled elements paragraph (class)': function() {
 		promisifyCase(
 			createPromisedEditor( {
@@ -281,7 +281,7 @@ bender.test(
 		);
 	},
 
-	// #455
+	// (#455)
 	'test alignment on disabled elements div mode': function() {
 		promisifyCase(
 			createPromisedEditor( {
@@ -304,7 +304,7 @@ bender.test(
 		);
 	},
 
-	// #455
+	// (#455)
 	'test alignment on disabled elements div mode (class)': function() {
 		promisifyCase(
 			createPromisedEditor( {
@@ -328,7 +328,7 @@ bender.test(
 		);
 	},
 
-	// #455
+	// (#455)
 	'test alignment on disabled elements br mode': function() {
 		promisifyCase(
 			createPromisedEditor( {
@@ -357,7 +357,7 @@ bender.test(
 		);
 	},
 
-	// #455
+	// (#455)
 	'test alignment on disabled elements br mode (class)': function() {
 		promisifyCase(
 			createPromisedEditor( {
@@ -387,7 +387,7 @@ bender.test(
 		);
 	},
 
-	// #455
+	// (#455)
 	'test alignment on multi-element non-collapsed selection': function() {
 		promisifyCase(
 			createPromisedEditor( {
@@ -411,7 +411,7 @@ bender.test(
 		);
 	},
 
-	// #455
+	// (#455)
 	'test alignment on multi-element non-collapsed selection (class)': function() {
 		promisifyCase(
 			createPromisedEditor( {
@@ -437,7 +437,7 @@ bender.test(
 		);
 	},
 
-	// #455
+	// (#455)
 	'test alignment on multi-element with disallowContent': function() {
 		promisifyCase(
 			createPromisedEditor( {
@@ -468,7 +468,7 @@ bender.test(
 		);
 	},
 
-	// #455
+	// (#455)
 	'test alignment on multi-element with disallowContent (class)': function() {
 		promisifyCase(
 			createPromisedEditor( {
@@ -501,7 +501,7 @@ bender.test(
 		);
 	},
 
-	// #455
+	// (#455)
 	'test alignment div-type editor': function() {
 		promisifyCase(
 			createPromisedEditor( {
@@ -533,7 +533,7 @@ bender.test(
 		);
 	},
 
-	// #455
+	// (#455)
 	'test alignment div-type editor (class)': function() {
 		promisifyCase(
 			createPromisedEditor( {
@@ -567,7 +567,7 @@ bender.test(
 		);
 	},
 
-	// #455
+	// (#455)
 	'test alignment on disabled elements block type under editable': function() {
 		promisifyCase(
 			createPromisedEditor( {
