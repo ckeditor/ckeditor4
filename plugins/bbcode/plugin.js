@@ -414,6 +414,22 @@
 			currentNode = parent;
 		}
 
+
+		var entities = {
+			'&#91;': '[',
+			'&#93;': ']'
+		};
+
+		var filter = new CKEDITOR.htmlParser.filter( {
+			text: function( value ) {
+				return value.replace( /(&amp;#91;|&amp;#93;)/g, function( match ) {
+					return entities[ match.replace( '&amp;', '&' ) ];
+				} );
+			}
+		} );
+
+		fragment.filterChildren( filter );
+
 		return fragment;
 	};
 
@@ -651,7 +667,17 @@
 				}
 			} );
 
+			var entities = {
+				'[': '&#91;',
+				']': '&#93;'
+			};
+
 			editor.dataProcessor.htmlFilter.addRules( {
+				text: function( value ) {
+					return value.replace( /(\[|\])/g, function( match ) {
+						return entities[ match ];
+					} );
+				},
 				elements: {
 					$: function( element ) {
 						var attributes = element.attributes,
