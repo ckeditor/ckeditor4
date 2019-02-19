@@ -414,7 +414,6 @@
 			currentNode = parent;
 		}
 
-
 		var entities = {
 				'&#91;': '[',
 				'&#93;': ']'
