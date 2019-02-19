@@ -116,6 +116,16 @@ bender.test( {
 		editor.execCommand( 'enter' );
 
 		assert.areSame( 'foo\nbar', editor.getData() );
+	},
+
+	// (#2782)
+	'test escape square brackets': function() {
+		this.assertToHtml( '[]', '&#91;&#93;' );
+		this.assertToHtml( '[[][/url]', '&#91;&#91;&#93;&#91;/url&#93;' );
+		this.assertToHtml( '<strong>foo</strong>[foo]bar[/foo]', '[b]foo[/b]&#91;foo&#93;bar&#91;/foo&#93;' );
+		this.assertToBBCode( '&#91;&#93;', '[]' );
+		this.assertToBBCode( '&#91;&#91;&#93;&#91;/url&#93;', '[[][/url]' );
+		this.assertToBBCode( '[b]foo[/b]&#91;foo&#93;bar&#91;/foo&#93;', '<strong>foo</strong>[foo]bar[/foo]' );
 	}
 } );
 
