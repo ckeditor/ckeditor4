@@ -2102,7 +2102,7 @@
 		// Remove widgets which have no corresponding elements in DOM.
 		for ( i in instances ) {
 			// https://dev.ckeditor.com/ticket/13410 Remove widgets that are ready. This prevents from destroying widgets that are during loading process.
-			if ( instances[ i ].isReady() && !editable.contains( instances[ i ].wrapper ) && !widget.preventCleanup )
+			if ( instances[ i ].isReady() && !editable.contains( instances[ i ].wrapper ) && !instances[ i ].preventCleanup )
 				this.destroy( instances[ i ], true );
 		}
 
