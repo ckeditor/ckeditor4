@@ -8,9 +8,6 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       version = '1.1.0',
       dialogObj;
 
-  var buttonStyleNormal         = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 0';
-  var buttonStyleExtraMarginTop = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 1.5em';
-
   var basePathExt = {
     type: 'lang',
     regex: /basePath\//g,
@@ -38,7 +35,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
     var buttonObj = {
       type: 'button',
       id: 'button' + option,
-      style: (i == helpTopicKeys.length - offset) ? buttonStyleExtraMarginTop: buttonStyleNormal,
+      style: (i == helpTopicKeys.length - offset) ? 'margin-top: 1.5em': undefined,
       label: lang[ key ].label,
       title: lang[ key ].title,
       option: option,
@@ -69,7 +66,6 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
         if (option == value) {
           node.style.display = 'block';
           buttonElement.addClass( 'selected' );
-          // buttonElement.focus();
         }
         else {
           node.style.display = 'none';

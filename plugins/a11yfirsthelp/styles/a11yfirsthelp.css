@@ -2,17 +2,22 @@
 /*                        a11yfirsthelp.css                         */
 /* ---------------------------------------------------------------- */
 
-/* Styling of the selected button */
+/* Button rules */
 
-.cke_dialog_ui_button.a11yfirsthelp.selected {
-  background-color: #d1d1d1;
+.cke_dialog_ui_button.a11yfirsthelp {
+  width: 11em;
+  margin-bottom: 0;
+  margin-top: 0;
+  text-align: left;
 }
 
 .cke_dialog_ui_button.a11yfirsthelp > span {
   padding-left: 6px;
 }
 
-/* Changes to button styling from default moono-lisa */
+.cke_dialog_ui_button.a11yfirsthelp.selected {
+  background-color: #d1d1d1;
+}
 
 a.cke_dialog_ui_button.a11yfirsthelp:hover
 {
@@ -22,6 +27,8 @@ a.cke_dialog_ui_button.a11yfirsthelp:hover
 .cke_dialog_ui_vbox_child.a11yfirsthelp {
   padding: 3px 0px;
 }
+
+/* Content rules */
 
 .cke_dialog_ui_hbox .a11yfirsthelpcontent * {
   white-space: normal;
