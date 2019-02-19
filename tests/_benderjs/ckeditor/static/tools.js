@@ -1224,7 +1224,7 @@
 					return function() {
 						var promise = test.apply( this );
 
-						if ( promise ) {
+						if ( Q.isPromise( promise ) ) {
 							promise.then( function() {
 									resume();
 								} )
