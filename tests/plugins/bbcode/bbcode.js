@@ -128,5 +128,3 @@ bender.test( {
 		this.assertToBBCode( '[b]foo[/b]&#91;foo&#93;bar&#91;/foo&#93;', '<strong>foo</strong>[foo]bar[/foo]' );
 	}
 } );
-
-//]]>
