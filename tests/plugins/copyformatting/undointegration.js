@@ -1,6 +1,5 @@
 /* bender-tags: copyformatting */
 /* bender-ckeditor-plugins: wysiwygarea, toolbar, copyformatting, undo */
-/* bender-include: _helpers/tools.js*/
 /* bender-ui: collapsed */
 
 ( function() {
@@ -21,16 +20,13 @@
 			var editor = this.editor,
 				bot = this.editorBot,
 				sel = editor.getSelection(),
-				el1,
-				el2;
+				spans;
 
 			resetUndoAndCreateFirstSnapshot( bot );
 
-			el1 = editor.editable().findOne( '#one' );
-			el2 = editor.editable().findOne( '#two' );
-
+			spans = editor.editable().find( 'span' );
 			for ( var i = 0; i < editor.undoManager.limit; i++ ) {
-				sel.selectElement( i % 2 ? el1 : el2 );
+				sel.selectElement( spans.getItem( i % 2 ) );
 				editor.document.fire( 'mouseup', new CKEDITOR.dom.event( {
 					button: leftMouseButton,
 					target: editor.editable()
@@ -50,7 +46,7 @@
 
 			bot.execCommand( 'undo' );
 
-			sel.selectElement( editor.editable().findOne( '#one' ) );
+			sel.selectElement( editor.editable().find( 'span' ).getItem( 0 ) );
 			editor.document.fire( 'mouseup', new CKEDITOR.dom.event( {
 				button: leftMouseButton,
 				target: editor.editable()
@@ -63,7 +59,7 @@
 	function resetUndoAndCreateFirstSnapshot( bot ) {
 		var editor = bot.editor;
 
-		bot.setHtmlWithSelection( '<p><span id="one">foo</span> []bar <span id="two">baz</span></p>' );
+		bot.setHtmlWithSelection( '<p><span>foo</span> []bar <span>baz</span></p>' );
 
 		editor.undoManager.reset();
 		editor.fire( 'saveSnapshot' );
