@@ -24,7 +24,7 @@
 				el1,
 				el2;
 
-			resetEditorStatusAndCheckBasicAsserts( bot );
+			resetUndoAndCreateFirstSnapshot( bot );
 
 			el1 = editor.editable().findOne( '#one' );
 			el2 = editor.editable().findOne( '#two' );
@@ -46,7 +46,7 @@
 				bot = this.editorBot,
 				sel = editor.getSelection();
 
-			resetEditorStatusAndCheckBasicAsserts( bot );
+			resetUndoAndCreateFirstSnapshot( bot );
 
 			bot.execCommand( 'undo' );
 
@@ -60,7 +60,7 @@
 		}
 	} );
 
-	function resetEditorStatusAndCheckBasicAsserts( bot ) {
+	function resetUndoAndCreateFirstSnapshot( bot ) {
 		var editor = bot.editor;
 
 		bot.setHtmlWithSelection( '<p><span id="one">foo</span> []bar <span id="two">baz</span></p>' );
@@ -68,16 +68,8 @@
 		editor.undoManager.reset();
 		editor.fire( 'saveSnapshot' );
 
-		assert.areSame( 0, editor.undoManager.index, 'There shouldn\'t be any undo steps.' );
-		assert.isFalse( editor.undoManager.undoable(), 'Editor should not have possibility to undo.' );
-		assert.isFalse( editor.undoManager.redoable(), 'Editor should not have possibility to redo.' );
-
 		editor.insertText( '1' );
 		editor.fire( 'saveSnapshot' );
-
-		assert.areSame( 1, editor.undoManager.index, 'There should be only 1 undo step, which is currently active.' );
-		assert.isTrue( editor.undoManager.undoable(), 'Editor should have possibility to undo.' );
-		assert.isFalse( editor.undoManager.redoable(), 'Editor should not have possibility to redo.' );
 	}
 
 } )();
