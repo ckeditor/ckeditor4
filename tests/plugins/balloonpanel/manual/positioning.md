@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.9.0, bug, balloonpanel
+@bender-tags: 4.9.0, 4.11.3, bug, balloonpanel
 @bender-ckeditor-plugins: wysiwygarea,toolbar,undo,basicstyles,notification,balloonpanel,sourcearea,list,link,justify
 
 ----
