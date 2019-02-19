@@ -416,11 +416,10 @@
 
 
 		var entities = {
-			'&#91;': '[',
-			'&#93;': ']'
-		};
-
-		var filter = new CKEDITOR.htmlParser.filter( {
+				'&#91;': '[',
+				'&#93;': ']'
+			},
+		filter = new CKEDITOR.htmlParser.filter( {
 			text: function( value ) { // Replace entities with square brackets (#2782).
 				return value.replace( /(&amp;#91;|&amp;#93;)/g, function( match ) {
 					return entities[ match.replace( '&amp;', '&' ) ];
