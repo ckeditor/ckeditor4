@@ -3,6 +3,10 @@
 
 ## CKEditor 4.11.4
 
+Fixed Issues:
+
+* [#2782](https://github.com/ckeditor/ckeditor-dev/issues/2782): Fixed: [BBCode](https://ckeditor.com/cke4/addon/bbcode) plugin doesn't escape square brackets when switching editor to [Source Mode](https://ckeditor.com/cke4/addon/sourcearea).
+
 ## CKEditor 4.11.3
 
 Fixed Issues:
