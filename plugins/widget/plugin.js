@@ -195,8 +195,7 @@
 			nextId: 0,
 			upcasts: [],
 			upcastCallbacks: [],
-			filters: {},
-			snapshotCache: {}
+			filters: {}
 		};
 
 		setupWidgetsLifecycle( this );
@@ -2103,7 +2102,7 @@
 		// Remove widgets which have no corresponding elements in DOM.
 		for ( i in instances ) {
 			// https://dev.ckeditor.com/ticket/13410 Remove widgets that are ready. This prevents from destroying widgets that are during loading process.
-			if ( instances[ i ].isReady() && !editable.contains( instances[ i ].wrapper ) )
+			if ( instances[ i ].isReady() && !editable.contains( instances[ i ].wrapper ) && !widget.preventCleanup )
 				this.destroy( instances[ i ], true );
 		}
 
@@ -2838,36 +2837,6 @@
 
 		widgetsRepo.on( 'checkWidgets', checkWidgets );
 		widgetsRepo.editor.on( 'contentDomInvalidated', widgetsRepo.checkWidgets, widgetsRepo );
-
-		delegateSnapshotsCreation( widgetsRepo );
-	}
-
-	function delegateSnapshotsCreation( widgetsRepo ) {
-		var editor = widgetsRepo.editor;
-
-		editor.on( 'getSnapshot', function( evt ) {
-			var originalHtml = editor.editable().getHtml(),
-				cache = this._.snapshotCache;
-
-			// Huge performance gain. Do nothing if HTML didn't change.
-			if ( cache.originalHtml === originalHtml ) {
-				evt.data = cache.html;
-				return;
-			}
-
-			var html = cache.originalHtml = originalHtml;
-
-			for ( var id in this.instances ) {
-				var widget = this.instances[ id ];
-
-				// Replace widget with custom snapshot representation.
-				if ( widget.getSnapshot ) {
-					html = html.replace( widget.wrapper.getOuterHtml(), widget.getSnapshot() );
-				}
-			}
-
-			evt.data = cache.html = html;
-		}, widgetsRepo );
 	}
 
 	function setupWidgetsLifecycleEnd( widgetsRepo ) {
@@ -3011,10 +2980,8 @@
 		}, null, null, 8 );
 
 		editor.on( 'dataReady', function() {
-			var container = editor.editable();
-
 			if ( snapshotLoaded ) {
-				cleanUpAllWidgetElements( widgetsRepo, container );
+				cleanUpAllWidgetElements( widgetsRepo, editor.editable() );
 			}
 
 			snapshotLoaded = 0;
@@ -3027,8 +2994,7 @@
 			for ( var id in instances ) {
 				var widget = instances[ id ];
 
-				// Delegate widget lifecycle if it has its own revision system.
-				if ( widget.fire( 'beforeReload', container ) !== false ) {
+				if ( !widget.preventCleanup ) {
 					editor.widgets.destroy( widget, true );
 				}
 			}
@@ -3996,6 +3962,7 @@
 				}
 			}
 		}
+
 	}
 
 	//
