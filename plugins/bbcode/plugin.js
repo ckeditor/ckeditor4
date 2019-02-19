@@ -421,7 +421,7 @@
 		};
 
 		var filter = new CKEDITOR.htmlParser.filter( {
-			text: function( value ) {
+			text: function( value ) { // Replace entities with square brackets (#2782).
 				return value.replace( /(&amp;#91;|&amp;#93;)/g, function( match ) {
 					return entities[ match.replace( '&amp;', '&' ) ];
 				} );
@@ -673,7 +673,7 @@
 			};
 
 			editor.dataProcessor.htmlFilter.addRules( {
-				text: function( value ) {
+				text: function( value ) { // Replace square brackets with entities (#2782).
 					return value.replace( /(\[|\])/g, function( match ) {
 						return entities[ match ];
 					} );
