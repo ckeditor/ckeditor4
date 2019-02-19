@@ -1208,23 +1208,39 @@
 			}
 		},
 
-		promisifyCase: function( promise ) {
-			if ( typeof Q !== 'function' ) {
-				throw new Error( 'Q library is not available in this test case.' );
+		promise: function( fn ) {
+			var defered = Q.defer();
+
+			fn( defered.resolve.bind( defered ), defered.reject.bind( defered ) );
+
+			return defered.promise;
+		},
+
+		createAsyncTests: function( tests ) {
+			var tmp = {};
+
+			for ( var testName in tests ) {
+				tmp[ testName ] = ( function( test ) {
+					return function() {
+						var promise = test.apply( this );
+
+						if ( promise ) {
+							promise.then( function() {
+									resume();
+								} )
+								.fail( function( err ) {
+									resume( function() {
+										throw err;
+									} );
+								} );
+
+							wait();
+						}
+					};
+				} )( tests[ testName ] );
 			}
-			if ( !Q.isPromise( promise ) ) {
-				throw new Error( 'You passed non-promise object to \'promisifyCase\' funciton.' );
-			}
-			Q( promise )
-				.then( function() {
-					resume();
-				} )
-				.fail( function( e ) { // This same as catch for non-ES5 browsers (IE8) https://github.com/kriskowal/q/wiki/API-Reference#promisecatchonrejected
-					resume( function() {
-						throw e;
-					} );
-				} );
-			wait();
+
+			return tmp;
 		}
 
 	};
@@ -1235,7 +1251,7 @@
 		 *
 		 * This method supports range markers of two different types:
 		 * * Text markers `{` and `}`, which indicate that range should be anchored in a text node.
-		 * * Element markers `[` and `]`, which indicate that range should be anchored in an element.
+		 * * Element markers `[ ` and `]`, which indicate that range should be anchored in an element.
 		 *
 		 * Examples:
 		 *

@@ -115,21 +115,19 @@
 	};
 
 	bender.editorBot.promiseCreate = function( profile ) {
-		if ( typeof Q !== 'function' ) {
-			throw new Error( 'Q library is not available in this test case.' );
-		}
-		var deferred = Q.defer();
-		// By default this editor, should be surrounded with `promisifyCase`, so wait statements are generated inside this function,
-		// and shouldn't be call inside creation of new editor.
-		profile.ignoreEditorWaits = profile.ignoreEditorWaits === undefined ? true : profile.ignoreEditorWaits;
-		try {
-			bender.editorBot.create( profile, function( bot ) {
-				deferred.resolve( bot );
-			} );
-		} catch ( e ) {
-			deferred.reject( e );
-		}
-		return deferred.promise;
+		return bender.tools.promise( function( resolve, reject ) {
+			// By default this editor, should be surrounded with `promisifyCase`, so wait statements are generated inside this function,
+			// and shouldn't be call inside creation of new editor.
+			profile.ignoreEditorWaits = profile.ignoreEditorWaits === undefined ? true : profile.ignoreEditorWaits;
+
+			try {
+				bender.editorBot.create( profile, function( bot ) {
+					resolve( bot );
+				} );
+			} catch ( e ) {
+				reject( e );
+			}
+		} );
 	};
 
 	/**
