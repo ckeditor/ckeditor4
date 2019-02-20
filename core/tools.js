@@ -715,12 +715,14 @@
 		 *
 		 * @param {Function} func The function to be executed.
 		 * @param {Object} obj The object to which the execution context will be bound.
+		 * @param {*} [args] Other arguments passed after object, will be bind to executed function.
 		 * @returns {Function} The function that can be used to execute the
 		 * `func` function in the context of `obj`.
 		 */
 		bind: function( func, obj ) {
+			var args = Array.prototype.slice.call( arguments, 2 );
 			return function() {
-				return func.apply( obj, arguments );
+				return func.apply( obj, args.concat( Array.prototype.slice.call( arguments ) ) );
 			};
 		},
 
