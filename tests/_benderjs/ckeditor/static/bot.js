@@ -124,7 +124,7 @@
 				btn = editor.ui.get( name ),
 				tc = this.testCase,
 				btnEl,
-				leftMouseButton = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? 1 : 0;
+				leftMouseButton = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? 1 : CKEDITOR.MOUSE_LEFT_BUTTON;
 
 			editor.once( 'panelShow', function() {
 				// Make sure resume comes after wait.
