@@ -137,7 +137,7 @@
 			} );
 
 			btnEl = CKEDITOR.document.getById( btn._.id );
-			btnEl.$[ CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ]();
+			btnEl.$[ CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ]( { button: CKEDITOR.MOUSE_BUTTON_LEFT } );
 
 			// combo panel opening is synchronous.
 			tc.wait();
