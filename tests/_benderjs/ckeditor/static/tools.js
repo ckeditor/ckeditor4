@@ -1176,7 +1176,36 @@
 
 			// Add random string to be sure that the image will be downloaded, not taken from cache.
 			img.setAttribute( 'src', src + '?' + Math.random().toString( 16 ).substring( 2 ) );
+		},
+
+		/*
+		* Fires element event handler attribute e.g.
+		* ```html
+		* <button onkeydown="return customFn( event )">x</button>
+		* ```
+		*
+		* @param {CKEDITOR.dom.element/HTMLElement} element Element with attached event handler attribute.
+		* @param {String} eventName Event handler attribute name.
+		* @param {Object} evt Event payload.
+		*/
+		fireElementEventHandler: function( element, eventName, evt ) {
+			if ( element.$ ) {
+				element = element.$;
+			}
+
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				var nativeEvent = CKEDITOR.document.$.createEventObject();
+
+				for ( var key in evt ) {
+					nativeEvent[ key ] = evt[ key ];
+				}
+
+				element.fireEvent( eventName, nativeEvent );
+			} else {
+				element[ eventName ]( evt );
+			}
 		}
+
 	};
 
 	bender.tools.range = {
