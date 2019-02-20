@@ -1209,11 +1209,11 @@
 		},
 
 		promise: function( fn ) {
-			var defered = Q.defer();
+			var deferred = Q.defer();
 
-			fn( defered.resolve.bind( defered ), defered.reject.bind( defered ) );
+			fn( CKEDITOR.tools.bind( deferred.resolve, deferred ), CKEDITOR.tools.bind( deferred.reject, deferred ) );
 
-			return defered.promise;
+			return deferred.promise;
 		},
 
 		createAsyncTests: function( tests ) {
