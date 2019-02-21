@@ -649,7 +649,6 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     }
   };
 
-
   /* ---------------------------------------------------------------- */
 
   var imageDescriptionHelpLink = {
@@ -674,26 +673,20 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
         if (helpPlugin) {
           editor.a11yfirst.helpOption = 'ImageHelp';
           editor.execCommand('a11yFirstHelpDialog');
-          event.data.$.stopPropagation();
-          event.data.$.preventDefault();
         }
         else {
           alert(lang.helpNotFound)
         }
+        event.data.$.stopPropagation();
+        event.data.$.preventDefault();
       }
 
-      // TODO: This code block needs to be updated
       if (event.data.$.keyCode === 9) {
         if (event.data.$.shiftKey) {
-          this.getDialog().getContentElement( 'info', 'hasDescription').focus();
+          this.getDialog().getContentElement( 'info', 'longDescription').focus();
         }
         else {
-          if (this.getDialog().getContentElement( 'info', 'hasDescription').getValue()) {
-            this.getDialog().getContentElement( 'info', 'descriptionLocationRadioGroup').focus();
-          }
-          else {
-            this.getDialog().getContentElement( 'info', 'hasCaption').focus();
-          }
+          this.getDialog().getContentElement( 'info', 'captionCheckbox').focus();
         }
         event.data.$.stopPropagation();
         event.data.$.preventDefault();
