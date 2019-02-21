@@ -85,7 +85,6 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     return isValid;
   }
 
-
   //  Trim leading and trailing whitespace and condense all
   //  interal sequences of whitespace to a single space
   function trimAndNormalizeWhitespace (s) {
