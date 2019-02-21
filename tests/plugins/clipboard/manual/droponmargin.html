@@ -8,5 +8,8 @@
 </div>
 
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
 	CKEDITOR.replace( 'classic' );
 </script>
