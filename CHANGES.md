@@ -7,15 +7,15 @@ Fixed Issues:
 
 * [#2721](https://github.com/ckeditor/ckeditor-dev/issues/2721), [#487](https://github.com/ckeditor/ckeditor-dev/issues/487): Fixed: The order of sublist items is reversed when a higher level list item is removed.
 * [#2527](https://github.com/ckeditor/ckeditor-dev/issues/2527): Fixed: [Emoji](https://ckeditor.com/cke4/addon/emoji) autocomplete order does not prioritize emojis with the name starting from the used string.
-* [#2572](https://github.com/ckeditor/ckeditor-dev/issues/2572): Fixed: Icons in [Emoji](https://ckeditor.com/cke4/addon/emoji) dropdown navigation groups are not centered.
+* [#2572](https://github.com/ckeditor/ckeditor-dev/issues/2572): Fixed: Icons in the [Emoji](https://ckeditor.com/cke4/addon/emoji) dropdown navigation groups are not centered.
 * [#1191](https://github.com/ckeditor/ckeditor-dev/issues/1191): Fixed: Items in the [elements path](https://ckeditor.com/cke4/addon/elementspath) are draggable.
-* [#2292](https://github.com/ckeditor/ckeditor-dev/issues/2292): Fixed: Dropping list with link on editor's margin cause console error and removing dragged text from editor.
-* [#2756](https://github.com/ckeditor/ckeditor-dev/issues/2756): Fixed: The [Auto Link](https://ckeditor.com/cke4/addon/autolink) plugin causes an error when typing in [Source Editing Mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_sourcearea.html).
-* [#1986](https://github.com/ckeditor/ckeditor-dev/issues/1986): Fixed: Cell Properties dialog from [Table Tools](https://ckeditor.com/cke4/addon/tabletools) plugin shows styles that are not allowed through [`config.allowedContent`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-allowedContent).
-* [#2565](https://github.com/ckeditor/ckeditor-dev/issues/2565): [IE, Edge] Fixed: Buttons in the [Editor Toolbar](https://ckeditor.com/cke4/addon/toolbar) are activated by clicking them with right mouse button.
-* [#2780](https://github.com/ckeditor/ckeditor-dev/issues/2780): Fixed: Undo steps disappears after multiple change of selection.
-* [#2470](https://github.com/ckeditor/ckeditor-dev/issues/2470): [Firefox] Fixed: Widget's nested editable blurred upon focus.
-* [#2655](https://github.com/ckeditor/ckeditor-dev/issues/2655): [Chrome, Safari] Fixed: Widget's nested editable can't be focused under certain circumstances.
+* [#2292](https://github.com/ckeditor/ckeditor-dev/issues/2292): Fixed: Dropping a list with a link on the editor's margin causes a console error and removes the dragged text from editor.
+* [#2756](https://github.com/ckeditor/ckeditor-dev/issues/2756): Fixed: The [Auto Link](https://ckeditor.com/cke4/addon/autolink) plugin causes an error when typing in the [source editing mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_sourcearea.html).
+* [#1986](https://github.com/ckeditor/ckeditor-dev/issues/1986): Fixed: The Cell Properties dialog from the [Table Tools](https://ckeditor.com/cke4/addon/tabletools) plugin shows styles that are not allowed through [`config.allowedContent`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-allowedContent).
+* [#2565](https://github.com/ckeditor/ckeditor-dev/issues/2565): [IE, Edge] Fixed: Buttons in the [editor toolbar](https://ckeditor.com/cke4/addon/toolbar) are activated by clicking them with the right mouse button.
+* [#2780](https://github.com/ckeditor/ckeditor-dev/issues/2780): Fixed: Undo steps disappear after multiple changes of selection.
+* [#2470](https://github.com/ckeditor/ckeditor-dev/issues/2470): [Firefox] Fixed: Widget's nested editable gets blurred upon focus.
+* [#2655](https://github.com/ckeditor/ckeditor-dev/issues/2655): [Chrome, Safari] Fixed: Widget's nested editable cannot be focused under certain circumstances.
 
 ## CKEditor 4.11.2
 
