@@ -56,6 +56,73 @@
       }
       editor.on( 'panelShow', panelShow );
 
+      // compareVersions: returns -1 when (v1 < v2), 0 when (v1 == v2),
+      // 1 when (v1 > v2) or NaN when there exists a part that is NaN
+
+      function compareVersions( v1, v2 ) {
+        var v1parts = v1.split( '.' ),
+            v2parts = v2.split( '.' );
+
+        // Ensure both arrays are the same length by padding with zeroes
+        while ( v1parts.length < v2parts.length ) v1parts.push( '0' );
+        while ( v2parts.length < v1parts.length ) v2parts.push( '0' );
+
+        // Convert all of the parts to numbers
+        CKEDITOR.tools.array.map( v1parts, Number );
+        CKEDITOR.tools.array.map( v2parts, Number );
+
+        function isValidPart( x ) {
+          return ( !isNaN( x ) );
+        }
+
+        // Return if not all of the parts are valid
+        if ( !CKEDITOR.tools.array.every( v1parts, isValidPart ) ||
+             !CKEDITOR.tools.array.every( v2parts, isValidPart ) ) {
+          return NaN;
+        }
+
+        // Do the comparison
+        for ( var i = 0; i < v1parts.length; i++ ) {
+          if ( v1parts[i] == v2parts[i] ) {
+            continue;
+          }
+          if ( v1parts[i] > v2parts[i] ) {
+            return 1;
+          }
+          else {
+            return -1;
+          }
+        }
+        return 0;
+      }
+
+      function incompatibleVersionOfButtonPlugin () {
+        var  minVersion = '4.11';
+        return (compareVersions( CKEDITOR.version, minVersion ) === -1);
+      }
+
+      if ( incompatibleVersionOfButtonPlugin() ) {
+        // Load the override script to change behavior of menubutton with text label
+        CKEDITOR.scriptLoader.load( this.path + 'js/override.js' );
+        console.log( 'Loaded override.js' );
+      }
+
+      // temporary test
+      function testCompareVersions () {
+        var  minVersion = '4.11';
+        // CKEDITOR.version = '4.10.1';
+        var cmp = compareVersions( CKEDITOR.version, minVersion );
+        if (cmp === -1)
+          console.log( CKEDITOR.version + ' is less than ' + minVersion );
+        else if (cmp === 0)
+          console.log( 'The versions are the same!' );
+        else if (cmp === 1)
+          console.log( CKEDITOR.version + ' is greater than ' + minVersion );
+        else if (isNaN(cmp))
+          console.log( CKEDITOR.version + ' contains a part that is is not a number!' );
+      }
+      // testCompareVersions();
+
       var config = editor.config,
         lang = editor.lang.a11yheading,
         oneLevel1 = typeof config.oneLevel1 === 'undefined' ? true : config.oneLevel1,
