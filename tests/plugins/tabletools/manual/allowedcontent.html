@@ -58,7 +58,8 @@
 		editor;
 
 	for ( var key in cellPropMap ) {
-		var name = cellPropMap[ key ];
+		var name = cellPropMap[ key ],
+			additionalInfo = name === 'colordialog' ? '<br> Adds button for picking color next to border and background color options.' : '';
 
 		if ( key === 'Color Dialog' ) {
 			options.appendHtml(
@@ -67,7 +68,7 @@
 		}
 
 		options.appendHtml(
-			'<label><input type="checkbox" name="' + name + '">' + key + '</label>'
+			'<label><input type="checkbox" name="' + name + '">' + key + additionalInfo + '</label>'
 		);
 	}
 
