@@ -28,6 +28,9 @@
       if ( editor.blockless )
         return;
 
+      // panelShow: injects the CSS rules and properties needed for proper
+      // styling of menubuttons, including the checkmark to show selection
+
       var panelShow = function ( event ) {
         var panel = event.data[ 0 ] || event.data;
         var iframe = panel.element.getElementsByTag( 'iframe' ).getItem( 0 ).getFrameDocument();
@@ -97,8 +100,8 @@
       }
 
       function incompatibleVersionOfButtonPlugin () {
-        var  minVersion = '4.11';
-        return (compareVersions( CKEDITOR.version, minVersion ) === -1);
+        var minVersion = '4.11';
+        return ( compareVersions( CKEDITOR.version, minVersion ) === -1 );
       }
 
       if ( incompatibleVersionOfButtonPlugin() ) {
