@@ -1475,7 +1475,7 @@
 				return false;
 			}
 
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			if ( CKEDITOR.env.ie && ( CKEDITOR.env.version < 9 || CKEDITOR.env.ie6Compat ) ) {
 				if ( domEvent.button === 4 ) {
 					return CKEDITOR.MOUSE_BUTTON_MIDDLE;
 				} else if ( domEvent.button === 1 ) {
