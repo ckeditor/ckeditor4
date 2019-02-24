@@ -1483,16 +1483,23 @@
 
 		/**
 		 * Fires element event handler attribute e.g.
+		 *
 		 * ```html
 		 * <button onkeydown="return customFn( event )">x</button>
 		 * ```
 		 *
+		 * ```javascript
+		 * CKEDITOR.tools.fireElementEventHandler( buttonEl, 'onkeydown', {
+		 * 	keyCode: 13 // Enter
+		 * } );
+		 * ```
+		 *
 		 * @since 4.11.4
 		 * @param {CKEDITOR.dom.element/HTMLElement} element Element with attached event handler attribute.
-		 * @param {String} eventName Event handler attribute name.
+		 * @param {String} handlerName Event handler attribute name (basically `on` + event name).
 		 * @param {Object} evt Event payload.
 		 */
-		fireElementEventHandler: function( element, eventName, evt ) {
+		fireElementEventHandler: function( element, handlerName, evt ) {
 			if ( element.$ ) {
 				element = element.$;
 			}
@@ -1504,9 +1511,9 @@
 					nativeEvent[ key ] = evt[ key ];
 				}
 
-				element.fireEvent( eventName, nativeEvent );
+				element.fireEvent( handlerName, nativeEvent );
 			} else {
-				element[ eventName ]( evt );
+				element[ handlerName ]( evt );
 			}
 		},
 
