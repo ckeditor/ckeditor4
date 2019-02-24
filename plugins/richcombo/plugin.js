@@ -35,7 +35,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 	if ( CKEDITOR.env.gecko )
 		template += ' onblur="this.style.cssText = this.style.cssText;"';
 
-	// In IE/Edge right click opens rich combo (#2845)
+	// In IE/Edge right click opens rich combo (#2845).
 	if ( CKEDITOR.env.ie ) {
 		specialClickHandler = 'return false;" onmouseup="CKEDITOR.tools.getMouseButton(event)==CKEDITOR.MOUSE_BUTTON_LEFT&&';
 	}
