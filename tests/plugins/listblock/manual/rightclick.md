@@ -4,13 +4,24 @@
 
 ## Procedure
 
-1. Open "Styles" combo.
-2. Right click any option.
+1. Open console.
+2. Open "Styles" combo.
+3. Right click any option.
 
-### Expected result:
+	### Expected result:
 
-Focus is moved to the clicked option.
+	Focus is moved to the clicked option.
 
-### Unexpected result
+	### Unexpected result:
 
-Clicked style is applied to the editor.
+	Clicked style is applied to the editor.
+4. Press `Space`/`Enter`.
+
+	### Expected result:
+
+	Focused option is applied to the editor.
+
+	### Unexpected result:
+
+	* Nothing happens.
+	* There is error in the console.
