@@ -924,6 +924,18 @@
 			}
 		},
 
+		// (#2857)
+		'test fireElementEventHandler with onmouseup': function() {
+			var link = CKEDITOR.dom.element.createFromHtml(
+				'<a href="#" onmouseup="this.setAttribute(\'data-button\',event.button);return false;">Link</a>' );
+
+			CKEDITOR.tools.fireElementEventHandler( link, 'onmouseup', {
+				button: 2
+			} );
+
+			assert.areSame( '2', link.getAttribute( 'data-button' ), 'Proper event data was passed' );
+		},
+
 		// #662
 		'test hexstring to bytes converter': function() {
 			var testCases = [
