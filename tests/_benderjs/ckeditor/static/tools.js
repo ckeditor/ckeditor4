@@ -1247,6 +1247,39 @@
 		},
 
 		/**
+		 * Creates a promise from the given function. It works in a similar way as a promise constructor
+		 * (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise),
+		 * with support for IE8 browser.
+		 *
+		 * ```js
+		 *	bender.tools.promise( function( resolve, reject ) {
+		 *		setTimeout( function() {
+		 *			var timestamp;
+		 *			try {
+		 *				timestamp = ( new Date() ).getTime();
+		 *			} catch ( e ) {
+		 *				reject( e );
+		 *			}
+		 *			resolve( timestamp );
+		 *		}, 5000 );
+		 *	} )
+		 * ```
+		 *
+		 * @param {Function} executor Initialization function executed immediately by the Promise implementation.
+		 * @param {Function} executor.resolve Function which should be called when promise is fulfilled.
+		 * @param {Function} executor.reject Function which should be called when promise is rejected.
+		 * @returns {Promise}
+		 */
+
+		promise: function( fn ) {
+			var deferred = Q.defer();
+
+			fn( CKEDITOR.tools.bind( deferred.resolve, deferred ), CKEDITOR.tools.bind( deferred.reject, deferred ) );
+
+			return deferred.promise;
+		},
+
+		/**
 		 * Creates test suite object for `bender.test` method from synchronous and asynchronous test cases.
 		 * Asynchronous test must be a function which returns a promise and cannot poses wait-resume statements.
 		 *
@@ -1280,8 +1313,37 @@
 			}
 
 			return tmp;
-		}
+		},
 
+		/*
+		 * Fires specified mouse event on given element
+		 *
+		 * @param {CKEDITOR.dom.element/HTMLElement} element Element with attached event handler attribute.
+		 * @param {String} eventName Event handler attribute name.
+		 * @param {Number} button Mouse button to be used.
+		*/
+		dispatchMouseEvent: function( element, type, button ) {
+			var ie8ButtonMap = {
+					0: 1, // CKEDITOR.MOUSE_BUTTON_LEFT
+					1: 4, // CKEDITOR.MOUSE_BUTTON_MIDDLE
+					2: 2 // CKEDITOR.MOUSE_BUTTON_RIGHT
+				},
+				mouseEvent;
+			element = element.$;
+
+			// Thanks to http://help.dottoro.com/ljhlvomw.php
+			if ( document.createEventObject ) {
+				mouseEvent = document.createEventObject();
+
+				mouseEvent.button = ie8ButtonMap[ button ];
+				element.fireEvent( 'on' + type, mouseEvent );
+			} else {
+				mouseEvent = document.createEvent( 'MouseEvent' );
+
+				mouseEvent.initMouseEvent( type, true, true, window, 0, 0, 0, 80, 20, false, false, false, false, button, null );
+				element.dispatchEvent( mouseEvent );
+			}
+		}
 	};
 
 	bender.tools.range = {

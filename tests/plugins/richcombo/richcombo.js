@@ -71,32 +71,9 @@ bender.test( {
 
 		combo.createPanel( editor );
 		spy = sinon.spy( combo._.panel, 'onShow' );
-		dispatchMouseEvent( comboBtn, 'mouseup', CKEDITOR.MOUSE_BUTTON_RIGHT );
+		bender.tools.dispatchMouseEvent( comboBtn, 'mouseup', CKEDITOR.MOUSE_BUTTON_RIGHT );
 		spy.restore();
 
 		assert.areSame( 0, spy.callCount, 'rich combo was no opened' );
 	}
 } );
-
-function dispatchMouseEvent( element, type, button ) {
-	var ie8ButtonMap = {
-			0: 1, // CKEDITOR.MOUSE_BUTTON_LEFT
-			1: 4, // CKEDITOR.MOUSE_BUTTON_MIDDLE
-			2: 2 // CKEDITOR.MOUSE_BUTTON_RIGHT
-		},
-		mouseEvent;
-	element = element.$;
-
-	// Thanks to http://help.dottoro.com/ljhlvomw.php
-	if ( document.createEventObject ) {
-		mouseEvent = document.createEventObject();
-
-		mouseEvent.button = ie8ButtonMap[ button ];
-		element.fireEvent( 'on' + type, mouseEvent );
-	} else {
-		mouseEvent = document.createEvent( 'MouseEvent' );
-
-		mouseEvent.initMouseEvent( type, true, true, window, 0, 0, 0, 80, 20, false, false, false, false, button, null );
-		element.dispatchEvent( mouseEvent );
-	}
-}
