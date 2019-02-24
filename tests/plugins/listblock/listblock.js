@@ -70,6 +70,7 @@
 
 				dispatchMouseEvent( item, 'mouseup', CKEDITOR.MOUSE_BUTTON_RIGHT );
 				spy.restore();
+				combo._.panel.hide();
 				assert.areSame( 0, spy.callCount, 'onClick not fired' );
 			} );
 		},
