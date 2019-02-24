@@ -443,8 +443,13 @@
 						index = this._.focusIndex;
 						focusable = index >= 0 && this._.getItems().getItem( index );
 
-						if ( focusable )
-							focusable.$[ keyAction ] ? focusable.$[ keyAction ]() : focusable.$[ 'on' + keyAction ]();
+						if ( focusable ) {
+							focusable.$[ keyAction ] ? focusable.$[ keyAction ]() :
+							// We must pass info about clicked button (#2857).
+							CKEDITOR.tools.fireElementEventHandler( focusable, 'on' + keyAction, {
+								button: CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? 1 : CKEDITOR.MOUSE_BUTTON_LEFT
+							} );
+						}
 
 						return false;
 				}
