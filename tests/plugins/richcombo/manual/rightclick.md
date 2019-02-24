@@ -12,5 +12,4 @@ Nothing happens.
 
 ### Unexpected result
 
-* Chrome/Safari: rich combo is highlighted, as after left click.
 * IE/Edge: rich combo becomes open.
