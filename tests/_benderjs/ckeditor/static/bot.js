@@ -243,7 +243,6 @@
 
 			item = CKEDITOR.document.getById( 'cke_' + combo.id );
 			item = item.getElementsByTag( 'a' ).getItem( 0 );
-			//item.$[ CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ]();
 			CKEDITOR.tools.fireElementEventHandler( item, CKEDITOR.env.ie ? 'onmouseup' : 'onclick', { button: leftMouseButton } );
 
 			// combo panel opening is synchronous.
