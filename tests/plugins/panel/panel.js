@@ -56,19 +56,18 @@
 		// (#2857)
 		'test keydown passes info about click': function() {
 			var block = createClickableBlock(),
-				items = block._.getItems(),
-				leftMouseButton = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? '1' : '0';
+				items = block._.getItems();
 
 			block._.markFirstDisplayed();
 
 			block.onKeyDown( 13 );
-			assert.areSame( leftMouseButton, items.getItem( block._.focusIndex ).getAttribute( 'data-button' ) );
+			assert.areSame( '0', items.getItem( block._.focusIndex ).getAttribute( 'data-button' ) );
 		}
 	} );
 
 	function createClickableBlock() {
 		var parent = new CKEDITOR.dom.element( 'div' ),
-			clickHandler = 'console.log(\'click\');this.setAttribute(\'data-button\', CKEDITOR.tools.getMouseButton(event));return false;';
+			clickHandler = 'this.setAttribute(\'data-button\', CKEDITOR.tools.getMouseButton(event));return false;';
 		CKEDITOR.document.getBody().append( parent );
 
 		var block = new CKEDITOR.ui.panel.block( parent, { attributes: {} } );
