@@ -1462,7 +1462,7 @@
 		 * if the mouse button cannot be determined.
 		 */
 		getMouseButton: function( evt ) {
-			var domEvent = evt.data ? evt.data.$ : evt;
+			var domEvent = evt && evt.data ? evt.data.$ : evt;
 
 			if ( !domEvent ) {
 				return false;
@@ -1498,7 +1498,7 @@
 			}
 
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				var nativeEvent = CKEDITOR.document.$.createEventObject();
+				var nativeEvent = element.ownerDocument.createEventObject();
 
 				for ( var key in evt ) {
 					nativeEvent[ key ] = evt[ key ];
