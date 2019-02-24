@@ -227,6 +227,7 @@
 			var editor = this.editor,
 				combo = editor.ui.get( name ),
 				tc = this.testCase,
+				leftMouseButton = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? 1 : CKEDITOR.MOUSE_BUTTON_LEFT,
 				item;
 
 			editor.once( 'panelShow', function() {
@@ -242,7 +243,8 @@
 
 			item = CKEDITOR.document.getById( 'cke_' + combo.id );
 			item = item.getElementsByTag( 'a' ).getItem( 0 );
-			item.$[ CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ]();
+			//item.$[ CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ]();
+			bender.tools.fireElementEventHandler( item, CKEDITOR.env.ie ? 'onmouseup' : 'onclick', { button: leftMouseButton } );
 
 			// combo panel opening is synchronous.
 			tc.wait();
