@@ -4,15 +4,25 @@
 
 ## Procedure
 
-1. Open editor's context menu.
-2. Right click any menu item.
+1. Open console.
+2. Open editor's context menu.
+3. Right click any menu item.
 
-### Expected result:
+	### Expected result:
 
-Focus is moved to the clicked item.
+	Focus is moved to the clicked item.
 
-### Unexpected result:
+	### Unexpected result:
 
-Action connected with clicked item is applied to the editor.
+	Action connected with clicked item is applied to the editor.
+4. Press `Space`/`Enter`.
+
+	### Expected result:
+
+	Action connected with clicked item is applied to the editor.
+
+	### Unexpected result:
+
+	Error is thrown.
 
 Repeat the procedure for the menu under "Language" button.
