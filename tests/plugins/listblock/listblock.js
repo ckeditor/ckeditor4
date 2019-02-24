@@ -63,6 +63,25 @@
 			wait();
 		},
 
+		// (#2857)
+		'test right clicking list block elements': function() {
+			if ( !CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
+			var bot = this.editorBot;
+
+			bot.combo( 'Styles', function( combo ) {
+				var block = combo._.panel.getBlock( combo.id ).element,
+					item = block.findOne( 'a' ),
+					spy = sinon.spy( combo, 'onClick' );
+
+				dispatchMouseEvent( item, 'mouseup', CKEDITOR.MOUSE_BUTTON_RIGHT );
+				spy.restore();
+				assert.areSame( 0, spy.callCount, 'onClick not fired' );
+			} );
+		},
+
 		// Expects both object to have following structure:
 		// { value: 'foo', html: 'bar', title: 'baz' }
 		//
@@ -119,4 +138,26 @@
 		}
 	} );
 
+	function dispatchMouseEvent( element, type, button ) {
+		var ie8ButtonMap = {
+				0: 1, // CKEDITOR.MOUSE_BUTTON_LEFT
+				1: 4, // CKEDITOR.MOUSE_BUTTON_MIDDLE
+				2: 2 // CKEDITOR.MOUSE_BUTTON_RIGHT
+			},
+			mouseEvent;
+		element = element.$;
+
+		// Thanks to http://help.dottoro.com/ljhlvomw.php
+		if ( document.createEventObject ) {
+			mouseEvent = document.createEventObject();
+
+			mouseEvent.button = ie8ButtonMap[ button ];
+			element.fireEvent( 'on' + type, mouseEvent );
+		} else {
+			mouseEvent = document.createEvent( 'MouseEvent' );
+
+			mouseEvent.initMouseEvent( type, true, true, window, 0, 0, 0, 80, 20, false, false, false, false, button, null );
+			element.dispatchEvent( mouseEvent );
+		}
+	}
 } )();
