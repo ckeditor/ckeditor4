@@ -1218,34 +1218,6 @@
 			img.setAttribute( 'src', src + '?' + Math.random().toString( 16 ).substring( 2 ) );
 		},
 
-		/*
-		* Fires element event handler attribute e.g.
-		* ```html
-		* <button onkeydown="return customFn( event )">x</button>
-		* ```
-		*
-		* @param {CKEDITOR.dom.element/HTMLElement} element Element with attached event handler attribute.
-		* @param {String} eventName Event handler attribute name.
-		* @param {Object} evt Event payload.
-		*/
-		fireElementEventHandler: function( element, eventName, evt ) {
-			if ( element.$ ) {
-				element = element.$;
-			}
-
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				var nativeEvent = CKEDITOR.document.$.createEventObject();
-
-				for ( var key in evt ) {
-					nativeEvent[ key ] = evt[ key ];
-				}
-
-				element.fireEvent( eventName, nativeEvent );
-			} else {
-				element[ eventName ]( evt );
-			}
-		},
-
 		/**
 		 * Creates a promise from the given function. It works in a similar way as a promise constructor
 		 * (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise),
