@@ -12,4 +12,4 @@ Nothing happens.
 
 ### Unexpected result
 
-* IE/Edge: rich combo becomes open.
+Rich combo becomes open.
