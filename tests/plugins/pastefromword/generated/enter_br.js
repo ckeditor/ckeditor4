@@ -2,7 +2,7 @@
 /* jshint ignore:start */
 /* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,toolbar */
 /* jshint ignore:end */
-/* bender-include: ../../../_lib/q.js,_helpers/promisePasteEvent.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js */
+/* bender-include: _helpers/promisePasteEvent.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js */
 /* bender-include: _helpers/createTestSuite.js */
 /* global createTestSuite */
 

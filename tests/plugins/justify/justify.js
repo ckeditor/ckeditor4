@@ -1,5 +1,4 @@
 /* bender-tags: editor */
-/* bender-include: ../../_lib/q.js */
 /* bender-ckeditor-plugins: justify,image,toolbar */
 /* bender-ui: collapsed */
 
