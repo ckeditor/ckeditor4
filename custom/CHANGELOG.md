@@ -2,11 +2,11 @@
 
 All notable changes to the A11yFirst project will be documented in this file.
 
-## v1.1.0 – 18 Feb 2019
+## v1.1.0 – 25 Feb 2019
 
 ### Updates
 
-* Image plugin: design modifications
+* A11yImage plugin: design modifications
   * Remove the `Image Type` fieldset and its constituent radio buttons. We are
     no longer requiring a selection between `Informative` and `Decorative` as
     it is felt that adding decorative images is an atypical use case.
@@ -49,12 +49,17 @@ All notable changes to the A11yFirst project will be documented in this file.
   * Another result of these modifications: it is no longer necessary to
     maintain a separate a11yfirst folder within the balloonpanel plugin.
 
-* Remove the override.js script that modified the behavior of toolbar buttons
-  with text labels
-  * The default behavior appended the string '(Selected)' to indicate which
-    menu item was selected, which we show within the menu using a checkmark
+* A11yHeading plugin
+  * Update the override.js script that modifies the behavior of toolbar buttons
+    with text labels by utilizing changes made in CKEditor 4.11
+  * The default behavior prior to version 4.11 appended the string '(Selected)'
+    to indicate which menu item was selected, which we show within the menu
+    using a checkmark
   * A CKSource update to the setState method for the button widget, defined
-    in plugins/button/plugin.js, obviates the need for override.js
+    in plugins/button/plugin.js fixes this problem
+  * The `plugin.js` file contains a `compareVersions` function that is used
+    to conditionally load the `override.js` script for versions of CKEditor
+    earlier than 4.11.
 
 ## v1.0.3 – 5 Dec 2018
 
