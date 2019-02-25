@@ -23,23 +23,23 @@
 				initial: '<div contenteditable="false"><div>FakeWidget</div>[</div>foo]',
 				expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]'
 			} ),
-		'test widget reation when selection starts at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test widget creation when selection starts at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
 				initial: '<div contenteditable="false">[<div>FakeWidget</div></div>foo]',
 				expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]'
 			} ),
-		'test widget reation when selection ends at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test widget creation when selection ends at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
 				initial: '[foo<div contenteditable="false">]<div>FakeWidget</div></div>',
 				expected: '[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
 			} ),
-		'test widget reation when selection ends at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test widget creation when selection ends at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
 				initial: '[foo<div contenteditable="false"><div>FakeWidget</div>]</div>',
 				expected: '[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
 			} ),
-		'test widget reation when selection starts at the end and ends at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test widget creation when selection starts at the end and ends at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
 				initial: '<div contenteditable="false"><div>FakeWidget</div>[</div>foo<div contenteditable="false">]<div>FakeWidget</div></div>',
 				expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
 			} ),
-		'test widget reation when selection starts at the beginning and ends at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test widget creation when selection starts at the beginning and ends at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
 				initial: '<div contenteditable="false">[<div>FakeWidget</div></div>foo<div contenteditable="false"><div>FakeWidget</div>]</div>',
 				expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
 			} )
