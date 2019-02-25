@@ -74,7 +74,7 @@
 		},
 
 		'test alignment commands with justifyClasses': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 				name: 'editor_classes',
 				config: {
 					justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
@@ -114,7 +114,7 @@
 		},
 
 		'test alignment commands with justifyClasses - one disallowed': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 				name: 'editor_classes2',
 				config: {
 					justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
@@ -145,7 +145,7 @@
 		},
 
 		'test alignment commands in br mode': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 				name: 'editor_enter_br',
 				config: {
 					plugins: 'justify,toolbar',
@@ -174,7 +174,7 @@
 		},
 
 		'test alignment commands in div mode and with justifyClasses': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 				name: 'editor_enter_div',
 				config: {
 					plugins: 'justify,toolbar',
@@ -214,7 +214,7 @@
 
 		// (#455)
 		'test alignment on disabled elements paragraph': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 					name: 'editor_p_1',
 					config: {
 						plugins: 'justify,toolbar,wysiwygarea',
@@ -233,7 +233,7 @@
 
 		// (#455)
 		'test alignment on disabled elements paragraph (class)': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 					name: 'editor_p_1_class',
 					config: {
 						plugins: 'justify,toolbar,wysiwygarea',
@@ -254,7 +254,7 @@
 
 		// (#455)
 		'test alignment on disabled elements div mode': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 				name: 'editor_div_1',
 				creator: 'inline',
 				config: {
@@ -275,7 +275,7 @@
 
 		// (#455)
 		'test alignment on disabled elements div mode (class)': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 				name: 'editor_div_1_class',
 				creator: 'inline',
 				config: {
@@ -297,7 +297,7 @@
 
 		// (#455)
 		'test alignment on disabled elements br mode': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 					name: 'editor_br_1',
 					config: {
 						plugins: 'justify,toolbar,divarea',
@@ -324,7 +324,7 @@
 
 		// (#455)
 		'test alignment on disabled elements br mode (class)': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 					name: 'editor_br_1_class',
 					config: {
 						plugins: 'justify,toolbar,divarea',
@@ -352,7 +352,7 @@
 
 		// (#455)
 		'test alignment on multi-element non-collapsed selection': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 				name: 'editor_p_2',
 				config: {
 					plugins: 'justify,toolbar,wysiwygarea',
@@ -374,7 +374,7 @@
 
 		// (#455)
 		'test alignment on multi-element non-collapsed selection (class)': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 					name: 'editor_p_2_class',
 					config: {
 						plugins: 'justify,toolbar,wysiwygarea',
@@ -398,7 +398,7 @@
 
 		// (#455)
 		'test alignment on multi-element with disallowContent': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 					name: 'editor_p_3',
 					config: {
 						allowedContent: {
@@ -427,7 +427,7 @@
 
 		// (#455)
 		'test alignment on multi-element with disallowContent (class)': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 					name: 'editor_p_3_class',
 					config: {
 						allowedContent: {
@@ -458,7 +458,7 @@
 
 		// (#455)
 		'test alignment div-type editor': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 					name: 'editor_div_2',
 					creator: 'inline',
 					config: {
@@ -488,7 +488,7 @@
 
 		// (#455)
 		'test alignment div-type editor (class)': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 					name: 'editor_div_2_class',
 					creator: 'inline',
 					config: {
@@ -520,7 +520,7 @@
 
 		// (#455)
 		'test alignment on disabled elements block type under editable': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 					name: 'editor_div_3',
 					config: {
 						plugins: 'justify,toolbar,divarea',
@@ -541,7 +541,7 @@
 		},
 
 		'test alignment on styled elements in br mode': function() {
-			return bender.editorBot.promiseCreate( {
+			return bender.editorBot.createAsync( {
 					name: 'editor_br_2',
 					config: {
 						plugins: 'justify,toolbar',

@@ -3,8 +3,6 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
-/* global Q */
-
 ( function( bender ) {
 	'use strict';
 
@@ -114,7 +112,7 @@
 		}
 	};
 
-	bender.editorBot.promiseCreate = function( profile ) {
+	bender.editorBot.createAsync = function( profile ) {
 		return bender.tools.promise( function( resolve, reject ) {
 			// By default this editor, should be surrounded with `promisifyCase`, so wait statements are generated inside this function,
 			// and shouldn't be call inside creation of new editor.
