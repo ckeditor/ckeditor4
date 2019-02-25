@@ -112,17 +112,17 @@
 
       // temporary test
       function testCompareVersions () {
-        var  minVersion = '4.11';
-        // CKEDITOR.version = '4.10.1';
-        var cmp = compareVersions( CKEDITOR.version, minVersion );
-        if (cmp === -1)
-          console.log( CKEDITOR.version + ' is less than ' + minVersion );
-        else if (cmp === 0)
+        var  ckeVersion = CKEDITOR.version,
+             minVersion = '4.11';
+        var value = compareVersions( ckeVersion, minVersion );
+        if (value === -1)
+          console.log( ckeVersion + ' is less than ' + minVersion );
+        else if (value === 0)
           console.log( 'The versions are the same!' );
-        else if (cmp === 1)
-          console.log( CKEDITOR.version + ' is greater than ' + minVersion );
-        else if (isNaN(cmp))
-          console.log( CKEDITOR.version + ' contains a part that is is not a number!' );
+        else if (value === 1)
+          console.log( ckeVersion + ' is greater than ' + minVersion );
+        else if (isNaN(value))
+          console.log( ckeVersion + ' contains a part that is is not a number!' );
       }
       // testCompareVersions();
 
