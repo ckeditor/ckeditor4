@@ -63,13 +63,16 @@
 				filter = new CKEDITOR.htmlParser.filter( {
 					text: function( value ) {
 						return value.replace( '{', '[' ).replace( '}', ']' );
-					},
-					elements: {
-						br: function() {
-							return false;
-						}
 					}
 				} );
+
+			filter.addRules( {
+				elements: {
+					br: function() {
+						return false;
+					}
+				}
+			}, { applyToAll: true } ); // Options can be added only via `addRules`.
 
 			editor.widgets.finalizeCreation( fakeWidgetContainer );
 			mocks.getByElement.restore();
