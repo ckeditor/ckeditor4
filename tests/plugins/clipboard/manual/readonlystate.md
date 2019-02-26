@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, clipboard, toolbar, divarea, pastetext
 
-1. Click with mouse on checkbox.
+Click or touch on checkbox.
 
 ## Expected
 
