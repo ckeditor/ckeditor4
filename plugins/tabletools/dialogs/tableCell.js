@@ -518,14 +518,14 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		};
 	}
 
-	// Returns a function, which runs regular "setup" for all selected cells to find out
+	// Returns a function that runs a regular "setup" for all selected cells to find out
 	// whether the initial value of the field would be the same for all cells. If so,
 	// the value is displayed just as if a regular "setup" was executed. Otherwise,
-	// i.e. when there are several cells of different value of the property, a field
-	// gets empty value.
+	// when there are several cells with a different value of the property, a field
+	// gets an empty value.
 	//
 	// * @param {Function} setup Setup function which returns a value instead of setting it.
-	// * @returns {Function} A function to be used in dialog definition.
+	// * @returns {Function} A function to be used in the dialog definition.
 	function setupCells( setup ) {
 		return function( cells ) {
 			var fieldValue = setup( cells[ 0 ] );
@@ -556,7 +556,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 
 	// Reads the unit of width property of the table cell.
 	//
-	// * @param {CKEDITOR.dom.element} cell An element representing table cell.
+	// * @param {CKEDITOR.dom.element} cell An element representing the table cell.
 	// * @returns {String} A unit of width: 'px', '%' or undefined if none.
 	function getCellWidthType( cell ) {
 		var match = widthPattern.exec(

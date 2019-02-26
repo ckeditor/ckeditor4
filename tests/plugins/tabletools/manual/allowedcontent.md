@@ -1,6 +1,5 @@
 @bender-tags: 4.11.3, 1986, bug
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, sourcearea
 
 # Test scenario
 

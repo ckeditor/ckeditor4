@@ -437,6 +437,21 @@
 
 			bender.tools.selection.setWithHtml( editor, '<table><tr><td>Ce{ll 1</td></tr><tr><td>Ce}ll 2</td></tr></table>' );
 			assert.areSame( tableConstant, determineContext(), 'Selection within two rows' );
+		},
+
+		// (#2780, #2655, #2470)
+		'test applyFormat not fired without copied styles': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor, 'execCommand' ),
+				isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
+
+			editor.document.fire( 'mouseup', new CKEDITOR.dom.event( {
+				button: isIe8 ? 1 : CKEDITOR.MOUSE_BUTTON_LEFT,
+				target: editor.editable()
+			} ) );
+			spy.restore();
+
+			assert.areSame( 0, spy.callCount );
 		}
 	} );
 }() );

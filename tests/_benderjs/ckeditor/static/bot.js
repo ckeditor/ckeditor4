@@ -123,7 +123,8 @@
 			var editor = this.editor,
 				btn = editor.ui.get( name ),
 				tc = this.testCase,
-				btnEl;
+				btnEl,
+				leftMouseButton = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? 1 : CKEDITOR.MOUSE_BUTTON_LEFT;
 
 			editor.once( 'panelShow', function() {
 				// Make sure resume comes after wait.
@@ -137,7 +138,8 @@
 			} );
 
 			btnEl = CKEDITOR.document.getById( btn._.id );
-			btnEl.$[ CKEDITOR.env.ie ? 'onmouseup' : 'onclick' ]();
+
+			bender.tools.fireElementEventHandler( btnEl, CKEDITOR.env.ie ? 'onmouseup' : 'onclick', { button: leftMouseButton } );
 
 			// combo panel opening is synchronous.
 			tc.wait();

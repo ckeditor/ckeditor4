@@ -1,0 +1,64 @@
+<style>
+#square {
+	margin-top: 20px;
+	width: 100px;
+	height: 100px;
+	border: 1px #000 solid;
+	background-color: red;
+}
+</style>
+<h2>Classic editor</h2>
+<div id="classic">
+		<div class="test1">x<div class="content">Widget1</div>y</div>
+</div>
+
+<div id="square"></div>
+
+<script>
+	CKEDITOR.addCss( '.cke_editable { margin: 0; padding: 50px; }' +
+		'.test1 { border: 1px #000 solid; }' );
+	CKEDITOR.replace( 'classic', {
+		extraPlugins: 'test1'
+	} );
+
+	CKEDITOR.plugins.add( 'test1', {
+		requires: 'widget',
+		init: function( editor ) {
+			editor.widgets.add( 'test1', {
+				button: 'Create autoparagraph test',
+				pathName: 'test-widget',
+
+				template:
+					'<div class="test1">' +
+						'<div class="content"></div>' +
+					'</div>',
+
+				editables: {
+					content: {
+						selector: '.content',
+						allowedContent: 'br'
+					}
+				},
+
+				allowedContent: 'div(test1,content)',
+				requiredContent: 'div(test1)',
+
+				upcast: function( element ) {
+					return element.name == 'div' && element.hasClass( 'test1' );
+				},
+
+				init: function() {
+					var square = CKEDITOR.document.getById( 'square' );
+
+					this.editables.content.on( 'focus', function() {
+						square.setStyle( 'background-color', 'green' );
+					} );
+					this.editables.content.on( 'blur', function() {
+						square.setStyle( 'background-color', 'red' );
+					} );
+				}
+
+			} );
+		}
+	} );
+</script>

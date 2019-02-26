@@ -858,27 +858,61 @@
 		'test getMouseButton': function() {
 			var isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
-			function generateMouseButtonAsserts( inputs ) {
-				function generateEvent( button ) {
-					return {
-						data: {
-							$: {
-								button: button
-							}
-						}
-					};
-				}
+			generateMouseButtonAsserts( [
+				[ CKEDITOR.MOUSE_BUTTON_LEFT, 1 ],
+				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, 4 ],
+				[ CKEDITOR.MOUSE_BUTTON_RIGHT, 2 ]
+			] );
 
+			function generateMouseButtonAsserts( inputs ) {
 				CKEDITOR.tools.array.forEach( inputs, function( input ) {
-					assert.areSame( input[ 0 ], CKEDITOR.tools.getMouseButton( generateEvent( input[ 1 ] ) ) );
+					assert.areSame( input[ 0 ],
+						CKEDITOR.tools.getMouseButton( generateEvent( input[ isIe8 ? 1 : 0 ] ) ) );
 				} );
 			}
 
+			function generateEvent( button ) {
+				return {
+					data: {
+						$: {
+							button: button
+						}
+					}
+				};
+			}
+		},
+
+		// (#2565)
+		'test getMouseButton with native DOM event': function() {
+			var isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
+
 			generateMouseButtonAsserts( [
-				[ CKEDITOR.MOUSE_BUTTON_LEFT, isIe8 ? 1 : CKEDITOR.MOUSE_BUTTON_LEFT ],
-				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, isIe8 ? 4 : CKEDITOR.MOUSE_BUTTON_MIDDLE ],
-				[ CKEDITOR.MOUSE_BUTTON_RIGHT, isIe8 ? 2 : CKEDITOR.MOUSE_BUTTON_RIGHT ]
+				[ CKEDITOR.MOUSE_BUTTON_LEFT, 1 ],
+				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, 4 ],
+				[ CKEDITOR.MOUSE_BUTTON_RIGHT, 2 ]
 			] );
+
+			function generateMouseButtonAsserts( inputs ) {
+				CKEDITOR.tools.array.forEach( inputs, function( input ) {
+					assert.areSame( input[ 0 ],
+						CKEDITOR.tools.getMouseButton( generateEvent( input[ isIe8 ? 1 : 0 ] ) ) );
+				} );
+			}
+
+			function generateEvent( button ) {
+				var event;
+
+				if ( document.createEventObject ) {
+					event = document.createEventObject();
+					event.button = button;
+				} else {
+					event = document.createEvent( 'MouseEvent' );
+					event.initMouseEvent( 'click', true, true, window, 0, 0, 0, 80, 20,
+						false, false, false, false, button, null );
+				}
+
+				return event;
+			}
 		},
 
 		// #662

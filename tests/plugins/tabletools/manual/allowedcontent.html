@@ -53,15 +53,13 @@
 				attributes: []
 			}
 		},
-		extraPlugins = '',
-		editor = CKEDITOR.replace( 'editor1', {
-			allowedContent: allowedContent
-		} ),
 		// 'change' event doesn't work in IE8.
-		eventName = CKEDITOR.env.ie && CKEDITOR.env.version === 8 ? 'click' : 'change';
+		eventName = CKEDITOR.env.ie && CKEDITOR.env.version === 8 ? 'click' : 'change',
+		editor;
 
 	for ( var key in cellPropMap ) {
-		var name = cellPropMap[ key ];
+		var name = cellPropMap[ key ],
+			additionalInfo = name === 'colordialog' ? '<br> Adds button for picking color next to border and background color options.' : '';
 
 		if ( key === 'Color Dialog' ) {
 			options.appendHtml(
@@ -70,11 +68,27 @@
 		}
 
 		options.appendHtml(
-			'<label><input type="checkbox" name="' + name + '">' + key + '</label>'
+			'<label><input type="checkbox" name="' + name + '">' + key + additionalInfo + '</label>'
 		);
 	}
 
+	editor = createEditor();
+
 	options.on( eventName, inputListener );
+
+	function createEditor() {
+		var config = {
+			allowedContent: allowedContent,
+			plugins: 'wysiwygarea,toolbar,table,tabletools,sourcearea',
+			extraPlugins: []
+		};
+
+		if ( CKEDITOR.document.findOne( 'input[name="colordialog"]' ).$.checked ) {
+			config.extraPlugins.push( 'colordialog' );
+		}
+
+		return CKEDITOR.replace( 'editor1', config );
+	}
 
 	function inputListener( e ) {
 		var target = e.data.getTarget(),
@@ -98,19 +112,13 @@
 			case 'colspan':
 				addRemoveRule( rule, state, attributes );
 				break;
-			case 'colordialog':
-				extraPlugins = state ? 'colordialog' : '';
-				break;
 			default:
 				addRemoveRule( rule, state, styles );
 		}
 
 		editor.once( 'destroy', function() {
 			setTimeout( function() {
-				editor = CKEDITOR.replace( 'editor1', {
-					allowedContent: allowedContent,
-					extraPlugins: extraPlugins
-				} );
+				editor = createEditor();
 
 				// Calling destroy on editor removes listener.
 				options.on( eventName, inputListener );
