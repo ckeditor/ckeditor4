@@ -557,6 +557,14 @@
 				setToolbarStates();
 			} );
 
+			// We need to correctly update toolbar states on readOnly.(#2775).
+			editor.on( 'readOnly', function() {
+				var selection = this.getSelection(),
+					range = selection && selection.getRanges()[ 0 ];
+
+				inReadOnly = this.readOnly || ( range ? range.checkReadOnly() : false );
+			} );
+
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
 				editor.contextMenu.addListener( function( element, selection ) {
