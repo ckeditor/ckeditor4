@@ -557,14 +557,6 @@
 				setToolbarStates();
 			} );
 
-			// We need to correctly update toolbar states on readOnly.(#2775).
-			editor.on( 'readOnly', function() {
-				var selection = this.getSelection(),
-					range = selection && selection.getRanges()[ 0 ];
-
-				inReadOnly = this.readOnly || ( range ? range.checkReadOnly() : false );
-			} );
-
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
 				editor.contextMenu.addListener( function( element, selection ) {
@@ -1230,11 +1222,14 @@
 		}
 
 		function stateFromNamedCommand( command ) {
-			if ( inReadOnly && command in { paste: 1, cut: 1 } )
+			// We need to correctly update toolbar states on readOnly.(#2775).
+			if ( ( inReadOnly || editor.readOnly ) && command in { paste: 1, cut: 1 } ) {
 				return CKEDITOR.TRISTATE_DISABLED;
+			}
 
-			if ( command == 'paste' )
+			if ( command == 'paste' ) {
 				return CKEDITOR.TRISTATE_OFF;
+			}
 
 			// Cut, copy - check if the selection is not empty.
 			var sel = editor.getSelection(),
