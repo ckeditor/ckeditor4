@@ -170,7 +170,7 @@
 			// some heavy tests. It causes "wait() called but resume() never called"
 			// sort of errors because it takes longer to fire `dialogShow` than 1000ms,
 			// especially in build version of CKEditor (https://dev.ckeditor.com/ticket/13920).
-			tc.wait( 2000 );
+			tc.wait();
 		},
 
 		getData: function( fixHtml, compatHtml ) {
