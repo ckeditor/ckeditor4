@@ -1208,6 +1208,27 @@
 			}
 		},
 
+		/**
+		 * Method makes promise from given function. It works in similar way as promise constructor (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise),
+		 * with support for IE8 browser.
+		 * ```js
+		 * 	bender.tools.promise( function( resolve, reject ) {
+		 * 		setTimeout( function() {
+		 * 			var timestamp;
+		 * 			try {
+		 * 				timestamp = ( new Date() ).getTime();
+		 * 			} catch ( e ) {
+		 * 				reject( e );
+		 * 			}
+		 * 			resolve( timestamp );
+		 * 		}, 5000 );
+		 * 	} )
+		 * ```
+		 *
+		 * @param {Function} fn Function which has 2 arguments `resolve` and `reject`. Resolve should be called when promise is fulfilled and reject when promise is rejected.
+		 * @returns {deferred} deferred promise, which should be in pending state. More details: (https://github.com/kriskowal/q/wiki/API-Reference#qdefer)
+		 */
+
 		promise: function( fn ) {
 			var deferred = Q.defer();
 
