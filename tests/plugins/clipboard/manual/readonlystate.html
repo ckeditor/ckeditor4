@@ -1,0 +1,10 @@
+<textarea id="editor"></textarea>
+<label><input id="readonly" type="checkbox">Readonly</label>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor' );
+
+	CKEDITOR.document.findOne( '#readonly' ).on( 'click', function() {
+		editor.setReadOnly( this.$.checked );
+	} );
+</script>
