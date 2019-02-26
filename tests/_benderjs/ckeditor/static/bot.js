@@ -114,7 +114,7 @@
 
 	bender.editorBot.createAsync = function( profile ) {
 		return bender.tools.promise( function( resolve, reject ) {
-			// By default this editor, should be surrounded with `promisifyCase`, so wait statements are generated inside this function,
+			// By default this editor, should be surrounded with `promise`, so wait statements are generated inside that function,
 			// and shouldn't be call inside creation of new editor.
 			profile.ignoreEditorWaits = profile.ignoreEditorWaits === undefined ? true : profile.ignoreEditorWaits;
 
