@@ -75,14 +75,14 @@
 
 		'test alignment commands with justifyClasses': function() {
 			return bender.editorBot.createAsync( {
-				name: 'editor_classes',
-				config: {
-					justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
-					plugins: 'justify,toolbar',
-					extraAllowedContent: 'img[src]',
-					contentsCss: '_assets/styles.css'
-				}
-			} )
+					name: 'editor_classes',
+					config: {
+						justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
+						plugins: 'justify,toolbar',
+						extraAllowedContent: 'img[src]',
+						contentsCss: '_assets/styles.css'
+					}
+				} )
 				.then( function( bot ) {
 					bot.setHtmlWithSelection( '<p>[<img src="http://tests/404"/>bar]</p>' );
 					return assertCommandState( 1, 2, 2, 2, bot );
@@ -115,15 +115,15 @@
 
 		'test alignment commands with justifyClasses - one disallowed': function() {
 			return bender.editorBot.createAsync( {
-				name: 'editor_classes2',
-				config: {
-					justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
-					plugins: 'justify,toolbar',
-					// Note: alignRight is not allowed.
-					allowedContent: 'p(alignLeft,alignCenter,alignJustify); img[src]',
-					contentsCss: '_assets/styles.css'
-				}
-			} )
+					name: 'editor_classes2',
+					config: {
+						justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
+						plugins: 'justify,toolbar',
+						// Note: alignRight is not allowed.
+						allowedContent: 'p(alignLeft,alignCenter,alignJustify); img[src]',
+						contentsCss: '_assets/styles.css'
+					}
+				} )
 				.then( function( bot ) {
 					bot.setHtmlWithSelection( '<p>[<img src="http://tests/404"/>bar]</p>' );
 					return assertCommandState( 1, 0, 2, 2, bot );
@@ -146,12 +146,12 @@
 
 		'test alignment commands in br mode': function() {
 			return bender.editorBot.createAsync( {
-				name: 'editor_enter_br',
-				config: {
-					plugins: 'justify,toolbar',
-					enterMode: CKEDITOR.ENTER_BR
-				}
-			} )
+					name: 'editor_enter_br',
+					config: {
+						plugins: 'justify,toolbar',
+						enterMode: CKEDITOR.ENTER_BR
+					}
+				} )
 				.then( function( bot ) {
 					bot.setHtmlWithSelection( 'foo^bar<br />bom' );
 					return assertCommandState( 2, 2, 2, 2, bot );
@@ -175,14 +175,14 @@
 
 		'test alignment commands in div mode and with justifyClasses': function() {
 			return bender.editorBot.createAsync( {
-				name: 'editor_enter_div',
-				config: {
-					plugins: 'justify,toolbar',
-					enterMode: CKEDITOR.ENTER_DIV,
-					justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
-					contentsCss: '_assets/styles.css'
-				}
-			} )
+					name: 'editor_enter_div',
+					config: {
+						plugins: 'justify,toolbar',
+						enterMode: CKEDITOR.ENTER_DIV,
+						justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
+						contentsCss: '_assets/styles.css'
+					}
+				} )
 				.then( function( bot ) {
 					bot.setHtmlWithSelection( '<div>foo^bar</div>' );
 					return assertCommandState( 1, 2, 2, 2, bot );
@@ -255,14 +255,14 @@
 		// (#455)
 		'test alignment on disabled elements div mode': function() {
 			return bender.editorBot.createAsync( {
-				name: 'editor_div_1',
-				creator: 'inline',
-				config: {
-					plugins: 'justify,toolbar,divarea',
-					allowedContent: 'div ul{text-align};li;',
-					enterMode: CKEDITOR.ENTER_DIV
-				}
-			} )
+					name: 'editor_div_1',
+					creator: 'inline',
+					config: {
+						plugins: 'justify,toolbar,divarea',
+						allowedContent: 'div ul{text-align};li;',
+						enterMode: CKEDITOR.ENTER_DIV
+					}
+				} )
 				.then( function( bot ) {
 					bot.setHtmlWithSelection( '<div>Foo</div><ul><li>on^e</li><li>two</li><li>three</li></ul>' );
 					return assertCommandState( 0, 0, 0, 0, bot );
@@ -276,15 +276,15 @@
 		// (#455)
 		'test alignment on disabled elements div mode (class)': function() {
 			return bender.editorBot.createAsync( {
-				name: 'editor_div_1_class',
-				creator: 'inline',
-				config: {
-					plugins: 'justify,toolbar,divarea',
-					allowedContent: 'div ul(align*);li;',
-					justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
-					enterMode: CKEDITOR.ENTER_DIV
-				}
-			} )
+					name: 'editor_div_1_class',
+					creator: 'inline',
+					config: {
+						plugins: 'justify,toolbar,divarea',
+						allowedContent: 'div ul(align*);li;',
+						justifyClasses: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ],
+						enterMode: CKEDITOR.ENTER_DIV
+					}
+				} )
 				.then( function( bot ) {
 					bot.setHtmlWithSelection( '<div>Foo</div><ul><li>on^e</li><li>two</li><li>three</li></ul>' );
 					return assertCommandState( 0, 0, 0, 0, bot );
@@ -353,12 +353,12 @@
 		// (#455)
 		'test alignment on multi-element non-collapsed selection': function() {
 			return bender.editorBot.createAsync( {
-				name: 'editor_p_2',
-				config: {
-					plugins: 'justify,toolbar,wysiwygarea',
-					allowedContent: 'p ul{text-align};li;'
-				}
-			} )
+					name: 'editor_p_2',
+					config: {
+						plugins: 'justify,toolbar,wysiwygarea',
+						allowedContent: 'p ul{text-align};li;'
+					}
+				} )
 				.then( function( bot ) {
 					bot.setHtmlWithSelection( '<p>F[oo</p><ul><li>one</li><li>two</li><li>three</li></ul><p>B]ar</p>' );
 					return assertCommandState( 1, 2, 2, 2, bot );
