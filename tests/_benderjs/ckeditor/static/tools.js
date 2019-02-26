@@ -1281,7 +1281,7 @@
 		 *
 		 * This method supports range markers of two different types:
 		 * * Text markers `{` and `}`, which indicate that range should be anchored in a text node.
-		 * * Element markers `[ ` and `]`, which indicate that range should be anchored in an element.
+		 * * Element markers `[` and `]`, which indicate that range should be anchored in an element.
 		 *
 		 * Examples:
 		 *
