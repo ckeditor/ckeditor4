@@ -49,6 +49,11 @@
 
 	function assertEditorSelectionOnWidgetsCreation( options ) {
 		return function( editor, bot ) {
+			if ( !CKEDITOR.env.chrome && !CKEDITOR.env.gecko ) {
+				// Such selection might be not possible to recreate in some browsers, test only where it can be reproduced.
+				assert.ignore();
+			}
+
 			bot.setHtmlWithSelection( options.initial );
 			var htmlString = '<div><div contenteditable="false" data-cke-widget-wrapper="true"><div>FakierWidget</div></div></div>',
 				fakeWidgetContainer = CKEDITOR.dom.element.createFromHtml( htmlString ),
