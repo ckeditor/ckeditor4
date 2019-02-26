@@ -1209,7 +1209,7 @@
 		},
 
 		/**
-		 * Method makes promise from given function. It works in similar way as promise constructor (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise),
+		 * Method creates promise from given function. It works in similar way as promise constructor (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise),
 		 * with support for IE8 browser.
 		 * ```js
 		 * 	bender.tools.promise( function( resolve, reject ) {
@@ -1237,6 +1237,15 @@
 			return deferred.promise;
 		},
 
+		/**
+		 * Method creates test suite object for bender, which can poses synchronous and asynchronous test cases.
+		 * Asynchronous tests cases must be function which returns promise. Promised tests cases will be surrounded with code, for catching errors in a proper way for bender.
+		 * Asynchronous tests cannot poses wait-resume statements.
+		 * Please notice that currently this method doesn't support special methods ( `setUp`, `tearDown`, etc. ), which might be passed to `bender.test`.
+		 *
+		 * @param {Object} tests object
+		 *
+		 */
 		createAsyncTests: function( tests ) {
 			var tmp = {};
 
