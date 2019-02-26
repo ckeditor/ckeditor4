@@ -1,5 +1,5 @@
 /* bender-tags: editor, clipboard, 13872 */
-/* bender-ckeditor-plugins: toolbar, clipboard */
+/* bender-ckeditor-plugins: toolbar, clipboard, pastetext */
 
 'use strict';
 
@@ -57,5 +57,48 @@ var tests = {
 };
 
 tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+
+tests = CKEDITOR.tools.object.merge( tests, {
+	// (#2775)
+	'test paste command state in divarea editor': function() {
+		bender.editorBot.create( {
+			name: 'divarea',
+			creator: 'replace',
+			config: {
+				extraPlugins: 'divarea'
+			}
+		}, function( bot ) {
+			var editor = bot.editor,
+				commandNames = [ 'paste', 'pastetext' ],
+				target = CKEDITOR.env.ie ? editor.editable() : editor.document.getDocumentElement();
+
+			target.fire( 'mouseup', new CKEDITOR.dom.event( {
+				button: CKEDITOR.MOUSE_BUTTON_LEFT,
+				target: editor.editable()
+			} ) );
+
+			editor.setReadOnly( true );
+
+			// mouseup listener updates state in timeout, so we need to make test asynchronous.
+			setTimeout( function() {
+				resume( function() {
+					assertCommands( CKEDITOR.TRISTATE_DISABLED, 'true' );
+
+					editor.setReadOnly( false );
+					assertCommands( CKEDITOR.TRISTATE_OFF, 'false.' );
+				} );
+			} );
+
+			wait();
+
+			function assertCommands( expected, msg ) {
+				CKEDITOR.tools.array.forEach( commandNames, function( commandName ) {
+					var state = editor.getCommand( commandName ).state;
+					assert.areSame( expected, state, commandName + ' state when readonly=' + msg );
+				} );
+			}
+		} );
+	}
+} );
 
 bender.test( tests );
