@@ -74,7 +74,7 @@ tests = CKEDITOR.tools.object.merge( tests, {
 
 			target.fire( 'mouseup', new CKEDITOR.dom.event( {
 				button: CKEDITOR.MOUSE_BUTTON_LEFT,
-				target: editor.editable()
+				target: null
 			} ) );
 
 			editor.setReadOnly( true );
