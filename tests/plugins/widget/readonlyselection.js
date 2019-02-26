@@ -61,6 +61,7 @@
 			}
 
 			bot.setHtmlWithSelection( options.initial );
+
 			var htmlString = '<div><div contenteditable="false" data-cke-widget-wrapper="true"><div>FakierWidget</div></div></div>',
 				fakeWidgetContainer = CKEDITOR.dom.element.createFromHtml( htmlString ),
 				fakeWidget = {
