@@ -1,0 +1,10 @@
+<textarea id="editor">
+	<figure class="image" style="float:left"><img src="../../../_assets/lena.jpg" /><figcaption>Caption</figcaption></figure><p>Foo</p>
+</textarea>
+
+<script>
+	if ( !CKEDITOR.env.chrome && !CKEDITOR.env.gecko ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor' );
+</script>
