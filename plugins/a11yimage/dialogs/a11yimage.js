@@ -263,7 +263,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     if ( lockButton ) {
       // Consider that there's an additional focusable field
       // in the dialog when the "browse" button is visible.
-      dialog.addFocusable( lockButton, 4 + hasFileBrowser );
+      dialog.addFocusable( lockButton, 8 + hasFileBrowser );
 
       lockButton.on( 'click', function( evt ) {
         toggleLockRatio();
@@ -277,7 +277,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     if ( resetButton ) {
       // Consider that there's an additional focusable field
       // in the dialog when the "browse" button is visible.
-      dialog.addFocusable( resetButton, 5 + hasFileBrowser );
+      dialog.addFocusable( resetButton, 9 + hasFileBrowser );
 
       // Fills width and height fields with the original dimensions of the
       // image (stored in widget#data since widget#init).
@@ -652,41 +652,40 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
   var imageDescriptionHelpLink = {
     id: 'imageDescHelpLink',
-    type: 'html',
-    html: '<div style="margin-top: 7px; margin-bottom: 0; margin-left: 3px;"><a href="javascript:void(0)" id="imageDescHelpLinkId" style="color: blue; text-decoration: underline">' + lang.imageDescHelpLinkText + '</a></div>',
+    type: 'button',
+    label: lang.imageDescHelpLinkText,
+
+    setup: function () {
+      var elem = this.getElement();
+
+      this.buttonStyle = elem.$.style;
+      this.buttonStyle.borderColor = 'transparent';
+      this.buttonStyle.backgroundColor = 'white';
+
+      this.spanStyle = elem.getFirst().$.style;
+      this.spanStyle.color = 'blue';
+      this.spanStyle.paddingLeft = '2px';
+      this.spanStyle.paddingRight = '2px';
+      this.spanStyle.textDecoration = 'underline';
+    },
+
+    onFocus: function () {
+      this.buttonStyle.borderColor = 'rgb(19, 159, 247)';
+    },
+
+    onBlur: function () {
+      this.buttonStyle.borderColor = 'transparent';
+    },
 
     onClick: function () {
-      var helpPlugin = CKEDITOR.plugins.get( 'a11yfirsthelp' );
-      if (helpPlugin) {
-        editor.a11yfirst.helpOption = 'ImageHelp';
-        editor.execCommand('a11yFirstHelpDialog');
-      }
-      else {
-        alert(lang.helpNotFound)
-      }
+      editor.a11yfirst.helpOption = 'ImageHelp';
+      editor.execCommand('a11yFirstHelpDialog');
     },
 
     onKeyDown: function ( event ) {
       if (event.data.$.keyCode === 13) {
-        var helpPlugin = CKEDITOR.plugins.get( 'a11yfirsthelp' );
-        if (helpPlugin) {
-          editor.a11yfirst.helpOption = 'ImageHelp';
-          editor.execCommand('a11yFirstHelpDialog');
-        }
-        else {
-          alert(lang.helpNotFound)
-        }
-        event.data.$.stopPropagation();
-        event.data.$.preventDefault();
-      }
-
-      if (event.data.$.keyCode === 9) {
-        if (event.data.$.shiftKey) {
-          this.getDialog().getContentElement( 'info', 'longDescription').focus();
-        }
-        else {
-          this.getDialog().getContentElement( 'info', 'captionCheckbox').focus();
-        }
+        editor.a11yfirst.helpOption = 'ImageHelp';
+        editor.execCommand('a11yFirstHelpDialog');
         event.data.$.stopPropagation();
         event.data.$.preventDefault();
       }
