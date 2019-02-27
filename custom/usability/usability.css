@@ -65,7 +65,7 @@ main h1 {
 main h2 {
   margin: 0.5em 0;
   padding: 0;
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: bold;
   color: #526d44;
 }
@@ -84,10 +84,6 @@ main h3 {
 
 main .content {
   margin-top: 1em;
-}
-
-main .inclusive {
-  font-size: 1.125em;
 }
 
 main .inclusive h2{
