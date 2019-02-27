@@ -1,0 +1,167 @@
+nav a,
+nav a:visited {
+  color: black;
+}
+
+nav a.active {
+  color: #526d44;
+}
+
+nav a:focus {
+  text-decoration: underline !important;
+}
+
+header,
+footer {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  background-color: #526d44;
+  border: #94b66c 1px solid;
+  border-radius: 5px;
+  letter-spacing: 0.1em;
+  color: white;
+}
+
+header {
+  padding: .5em;
+}
+
+header button {
+  position: relative;
+  top: 0.5em;
+  left: -.75em;
+  border: 1px solid white;
+  width: 4em;
+}
+
+footer {
+  margin-top: 1em;
+  width: 100%;
+}
+
+main {
+  border: 1px solid gray;
+  padding: 0.5em;
+  background-color: #f8f8f8;
+  border: #94b66c 1px solid;
+  border-radius: 5px;
+  min-height: 30em;
+}
+
+main {
+  margin-top: 1em;
+  padding: 1em;
+}
+
+main h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #526d44;
+}
+
+main .col h2 {
+  margin-top: 2em;
+}
+
+main h3 {
+  margin: 0;
+  padding: 0;
+  margin-top: 1em;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+main .content {
+  margin-top: 1em;
+}
+
+main .inclusive {
+  font-size: 1.125em;
+}
+
+main .inclusive h2{
+  font-size: 1.25em;
+}
+
+main .image_resources figure {
+  margin: 1em;
+  padding: 4px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+  text-align: center;
+}
+
+main .image_resources figure.focus {
+  padding: 2px;
+  border-width: 3px;
+  border-color: #526d44;
+}
+
+main .image_resources p {
+  margin-top: 1em;
+}
+
+main .image_resources .center {
+  margin: auto;
+  width: 20%;
+  height: 56px;
+}
+
+main .image_resources input {
+  outline: none;
+  border: 2px solid #94b66c;
+  margin: 2px;
+  padding: 4px;
+  border-radius: 5px;
+  height: 40px;
+}
+
+main .image_resources input:hover {
+  border-width: 4px;
+  margin: 0;
+  height: 44px;
+}
+
+main .image_resources input:focus {
+  border-color: #526d44 !important;
+  border-width: 4px;
+  margin: 0;
+  height: 44px;
+}
+
+main .image_resources figure img {
+  width: 100%;
+}
+
+main .image_resources figure figcaption {
+  text-align: center;
+}
+
+main .image_resources .center {
+  margin: auto;
+  width: 20%;
+}
+
+main .image_resources .message {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border: 1px solid #94b66c;
+  border-radius: 3px;
+  height: 4em;
+  background-color: white;
+}
+
+footer {
+  padding: 0.5em;
+  background-color: #526d44;
+  border: #94b66c 1px solid;
+  border-radius: 5px;
+  font-size: 11pt;
+  font-style: italic;
+  color: white;
+}

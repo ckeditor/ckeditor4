@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2018 University of Illinois - Jon Gunderson and Nicholas Hoyt. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+-->
+<html lang="en-us">
+
+<head>
+  <meta charset="utf-8">
+  <title>Inclusive Authoring: Recipes and Nutrition Blog</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="../a11yfirst.css">
+  <link rel="stylesheet" href="usability.css">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</head>
+
+<body id="main">
+
+<div class="container">
+
+  <nav>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-ref="introduction" href="#">Introduction</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-ref="page1" href="#">Page 1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-ref="page2" href="#">Page 2</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div id="introduction">
+
+    <header>
+      <div class="row">
+
+        <div class="col title">
+          <h1>A11yFirst Introduction</h1>
+        </div>
+
+      </div>
+    </header>
+
+    <main>
+
+      <section  class="inclusive">
+
+        <div class="row">
+
+          <div class="col-12">
+
+             <h1>Inclusive Authoring: Creating Accessible Documents</h1>
+
+              <h2>What is accessibility?</h2>
+
+              <p>Accessibility, as it relates to a web document, is a set of features or qualities that enables all of the information contained in the document to be perceivable and understandable by all readers, including people with disabilities.</p>
+
+              <p><strong>Important concept:</strong> <em>all</em> of the information -> <em>all</em> readers</p>
+
+              <h2>Who benefits from accessibility?</h2>
+
+              <p>In general, all readers of your document. Importantly, this includes people with disabilities such as:</p>
+
+              <ul>
+                <li>blindness, other visual impairments</li>
+                <li>deafness, hard of hearing</li>
+                <li>cognitive impairments</li>
+                <li>learning disabilities</li>
+              </ul>
+
+              <h2>Who is responsible for the accessibility of a web document?</h2>
+
+              <p>The author! Only you know what you are trying to communicate.</p>
+
+              <h2>What makes a web document accessible?</h2>
+
+              <p>Some of the more important features include:</p>
+
+              <ol>
+                <li>Well-defined structure: use of headings and subheadings; appropriate use of lists and tables</li>
+                <li>Text equivalents for images, audio, video</li>
+                <li>Avoidance of using visual styling alone to convey structure or meaning</li>
+              </ol>
+
+              <h2>What is a text equivalent?</h2>
+
+              <p>When a reader of your document is unable to see or hear non-text content such as an image or audio clip, a text equivalent provides an accessible description that conveys <em>all of the pertinent information that the visual or audio content would convey</em> to readers that do not have that particular disability.</p>
+
+              <p><strong>Important concept:</strong> <em>equivalency</em> between the image or audio content and its text description</p>
+
+              <h2>How to think about whether your document is accessible?</h2>
+
+              <p>A couple of simple tests/thought experiments:</p>
+
+              <ol>
+                <li>Turn off your monitor and imagine that you are relying on a screen reader<sup>[1]</sup> to understand what the document, including all of its images, communicates to its readers. Are you getting <em>all</em> of the information?</li>
+                <li>Turn off your speakers and imagine that you are relying on captioning or a text transcript of the audio content to understand what the document communicates to its readers. Again, are you getting <em>all</em> of the information?</li>
+              </ol>
+
+              <p><sup>[1]</sup> A screen reader is an assistive technology that enables a person who is blind or visually impaired to obtain and interactively utilize an audio (via speech synthesis) or braille rendering of a document.</p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <div id="page1" class="blog" hidden>
+    <header>
+      <div class="row">
+
+        <div class="col-8">
+          <h1>Recipes and Nutrition Blog</h1>
+        </div>
+
+        <div class="col">
+            <button
+              type="button"
+              onclick="edit(event)"
+              class="btn btn-light float-right">
+              Edit
+            </button>
+        </div>
+
+      </div>
+    </header>
+
+    <main>
+        <div class="row">
+          <div class="col-12">
+            <div class="content">
+              <div id="page1_content">
+                <h1>Page 1</h1>
+                <p><em>press the edit button to change the content on this page</em></p>
+              </div>
+
+              <div class="editor" hidden>
+                  <div id="page1_editor"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row image_resources" hidden>
+          <div class="col">
+            <h2>Image Resources</h2>
+            <p><em>Select button below the image to copy image URL to clipboard.</em></p>
+          </div>
+        </div>
+
+        <div class="row image_resources" hidden>
+          <div class="col-3">
+              <figure>
+                  <img src="images/fruit.jpg">
+                  <figcaption>Image 1</figcaption>
+              </figure>
+              <div class="center"><input type="image" src="images/copy-to-clipboard.png" title="Copy Image 1 URL to clipboard"/></div>
+          </div>
+
+          <div class="col-3">
+            <figure>
+              <img src="images/nutrition-facts.jpg">
+              <figcaption>Image 2</figcaption>
+            </figure>
+              <div class="center"><input type="image" src="images/copy-to-clipboard.png" title="Copy Image 2 URL to clipboard"/></div>
+          </div>
+
+          <div class="col-3">
+            <figure>
+              <img src="images/nutrition-graph.png">
+              <figcaption>Image 3</figcaption>
+            </figure>
+            <div class="center"><input type="image" src="images/copy-to-clipboard.png" title="Copy Image 3 URL to clipboard"/></div>
+          </div>
+
+          <div class="col-3">
+            <figure>
+              <img src="images/strawberry.png">
+              <figcaption>Image 4</figcaption>
+            </figure>
+            <div class="center"><input type="image" src="images/copy-to-clipboard.png" title="Copy Image 4 URL to clipboard"/></div>
+          </div>
+    </main>
+  </div>
+
+  <div id="page2" class="blog" hidden>
+    <header>
+      <div class="row">
+
+        <div class="col-8">
+          <h1>Complex Image</h1>
+        </div>
+
+        <div class="col">
+            <button
+              type="button"
+              onclick="edit(event)"
+              class="btn btn-light float-right">
+              Edit
+            </button>
+        </div>
+
+      </div>
+    </header>
+
+    <main>
+        <div class="row">
+          <div class="col-12">
+            <div class="content">
+              <div id="page2_content">
+                <h1>Page 2</h1>
+
+                <p><em>press the edit button to change the content on this page</em></p>
+              </div>
+
+              <div class="editor" hidden>
+                  <div id="page2_editor"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row image_resources" hidden>
+          <div class="col">
+            <h2>Image Resources</h2>
+            <p><em>Select button below the image to copy image URL to clipboard.</em></p>
+          </div>
+        </div>
+
+        <div class="row image_resources" hidden>
+          <div class="col-3">
+              <figure>
+                  <img src="images/fruit.jpg">
+                  <figcaption>Image 1</figcaption>
+              </figure>
+              <div class="center"><input type="image" src="images/copy-to-clipboard.png" title="Copy Image 1 URL to clipboard"/></div>
+          </div>
+
+          <div class="col-3">
+            <figure>
+              <img src="images/nutrition-facts.jpg">
+              <figcaption>Image 2</figcaption>
+            </figure>
+              <div class="center"><input type="image" src="images/copy-to-clipboard.png" title="Copy Image 2 URL to clipboard"/></div>
+          </div>
+
+          <div class="col-3">
+            <figure>
+              <img src="images/nutrition-graph.png">
+              <figcaption>Image 3</figcaption>
+            </figure>
+            <div class="center"><input type="image" src="images/copy-to-clipboard.png" title="Copy Image 3 URL to clipboard"/></div>
+          </div>
+
+          <div class="col-3">
+            <figure>
+              <img src="images/strawberry.png">
+              <figcaption>Image 4</figcaption>
+            </figure>
+            <div class="center"><input type="image" src="images/copy-to-clipboard.png" title="Copy Image 4 URL to clipboard"/></div>
+          </div>
+        </div>
+    </main>
+  </div>
+
+  <footer>
+    <div>
+      A11yFirst Project Usability Testing 2019
+   </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+  <script src="../../ckeditor.js"></script>
+  <script src="usability.js"></script>
+</body>
+</html>
