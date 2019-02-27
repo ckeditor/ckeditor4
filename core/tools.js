@@ -1806,7 +1806,7 @@
 				 */
 				margin: function( value ) {
 					return CKEDITOR.tools.style.parse.sideShorthand( value, function( width ) {
-						return width.match( /(?:\-?[\.\d]+(?:%|\w*)|auto|inherit|initial|unset)/g ) || [ '0px' ];
+						return width.match( /(?:\-?[\.\d]+(?:%|\w*)|auto|inherit|initial|unset|revert)/g ) || [ '0px' ];
 					} );
 				},
 
