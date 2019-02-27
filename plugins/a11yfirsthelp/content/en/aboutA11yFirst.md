@@ -31,9 +31,9 @@ understood by all readers.
 ### Contributors
 
 * Lucy Chang     (UX, Usability Testing)
-* Jon Gunderson  (Requirements, Development)
-* Nicholas Hoyt  (UX, UI Design, Development)
-* JaEun Jemma Ku (Requirements)
+* Jon Gunderson  (Requirements, Development, Usability Testing, Project Management)
+* Nicholas Hoyt  (Requirements, UX, UI Design Lead, Development, Usability Testing, Project Management)
+* JaEun Jemma Ku (Requirements, Usability Testing, UI Design, Procured Initial Seed Funding, Project Management)
 * Mark McCarthy  (UX, Usability Testing)
 * Robert Slater  (Requirements)
 * Dena Strong    (UX, Usability Testing)
