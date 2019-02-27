@@ -18,6 +18,12 @@ All notable changes to the A11yFirst project will be documented in this file.
 
 * Move development test pages and images to `custom/archive` folder
 
+* Update A11yImage dialog
+  * Make the Help link focusable
+  * Fix problems with tab order and keyboard navigation
+
+* Update A11yFirst Help: About A11yFirst: Contributors
+
 ## v1.1.0 – 25 Feb 2019
 
 ### Updates
