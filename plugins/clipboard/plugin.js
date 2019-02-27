@@ -1222,7 +1222,7 @@
 		}
 
 		function stateFromNamedCommand( command ) {
-			// We need to correctly update toolbar states on readOnly.(#2775).
+			// We need to correctly update toolbar states on readOnly (#2775).
 			if ( ( inReadOnly || editor.readOnly ) && command in { paste: 1, cut: 1 } ) {
 				return CKEDITOR.TRISTATE_DISABLED;
 			}
