@@ -126,7 +126,7 @@
 			},
 
 			setUp: function() {
-				if ( easyImageTools.isUnsupportedEnvironment() ) {
+				if ( easyImageTools.isUnsupportedEnvironment() || ( bender.config.isTravis && CKEDITOR.env.gecko ) ) {
 					assert.ignore();
 				}
 
