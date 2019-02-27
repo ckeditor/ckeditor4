@@ -15,25 +15,27 @@ header,
 footer {
   margin-top: 0.25em;
   margin-bottom: 0.25em;
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
   background-color: #526d44;
   border: #94b66c 1px solid;
   border-radius: 5px;
-  letter-spacing: 0.1em;
   color: white;
 }
 
 header {
-  padding: .5em;
+  padding: 0.5em 1em 0.25em;
+}
+
+header h1 {
+  font-size: 1.8em;
 }
 
 header button {
   position: relative;
-  top: 0.5em;
+  top: 0;
   left: -.75em;
   border: 1px solid white;
   width: 4em;
+  padding: 4px;
 }
 
 footer {
@@ -43,20 +45,25 @@ footer {
 
 main {
   border: 1px solid gray;
-  padding: 0.5em;
+  margin-top: 1em;
+  padding: 1em;
   background-color: #f8f8f8;
   border: #94b66c 1px solid;
   border-radius: 5px;
   min-height: 30em;
 }
 
-main {
-  margin-top: 1em;
-  padding: 1em;
+main.editor_page {
+  padding-top: 0.2em;
+}
+
+main h1 {
+  font-size: 1.8em;
+  margin-bottom: 0.5em;
 }
 
 main h2 {
-  margin: 0;
+  margin: 0.5em 0;
   padding: 0;
   font-size: 1.5em;
   font-weight: bold;
