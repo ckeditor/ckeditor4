@@ -29,11 +29,9 @@
 
    `git rm -r *`
 
-1. Commit and push the changes:
+1. Commit the changes, but do not push them:
 
    `git commit -am "Delete all files in preparation for new distribution"`
-
-   `git push`
 
 1. Copy all files from the new build folder to the working copy folder, for
    example:
@@ -56,7 +54,7 @@
 
    `git add -A`
 
-   `git commit -m "Initial commit for new distribution"`
+   `git commit -m "Initial commit for version <N.N.N>"`
 
    `git push`
 

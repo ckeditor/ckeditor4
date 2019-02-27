@@ -2,6 +2,22 @@
 
 All notable changes to the A11yFirst project will be documented in this file.
 
+## v1.1.1 – 27 Feb 2019
+
+### Updates
+
+* Add Usability Test Pages
+  * New test pages were created that make it easier for usability test
+    subjects to:
+    * Find the Introductory material they are asked to read
+    * Find the images they are asked to add to documents
+    * Copy the image URLs to the clipboard so that they can be pasted into
+      the URL field in the image dialog
+  * The new pages also add a consistent look and feel to the pages by
+    incorporating stylized headers and footers and a tab interface.
+
+* Move development test pages and images to `custom/archive` folder
+
 ## v1.1.0 – 25 Feb 2019
 
 ### Updates
