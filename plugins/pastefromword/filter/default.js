@@ -359,6 +359,19 @@
 						borderStyles = styles.border ? CKEDITOR.tools.style.border.fromCssRule( styles.border ) : {},
 						borders = tools.style.border.splitCssValues( styles, borderStyles );
 
+					// Drop all border styles before continue,
+					// so there are no leftovers which may conflict with
+					// new border styles.
+					var tmpStyles = CKEDITOR.tools.clone( styles );
+
+					for ( var key in tmpStyles ) {
+						if ( key.indexOf( 'border' ) == 0 ) {
+							delete tmpStyles[ key ];
+						}
+					}
+
+					element.attributes.style = CKEDITOR.tools.writeCssText( tmpStyles );
+
 					for ( var border in borders ) {
 						var borderStyle = styles[ border ] ?
 							CKEDITOR.tools.style.border.fromCssRule( styles[ border ] )
@@ -368,10 +381,6 @@
 					}
 
 					Style.mapCommonStyles( element );
-
-					// These styles have to be removed explicitly before table plugin transformations.
-					// Otherwise they will be used to produce border shorthands.
-					Style.removeStyles( element, [ 'border', 'border-color', 'border-width', 'border-style' ] );
 
 					Style.convertStyleToPx( element );
 
@@ -543,12 +552,6 @@
 			}
 
 			element.attributes.style = CKEDITOR.tools.writeCssText( styles );
-		},
-
-		removeStyles: function( element, styles ) {
-			CKEDITOR.tools.array.forEach( styles, function( style ) {
-				Style.setStyle( element, style, '' );
-			} );
 		},
 
 		convertStyleToPx: function( element ) {
