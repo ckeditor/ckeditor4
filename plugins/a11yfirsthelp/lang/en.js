@@ -482,11 +482,25 @@ understood by all readers.\n\
 \n\
 * Lucy Chang     (UX, Usability Testing)\n\
 * Jon Gunderson  (Requirements, Development, Usability Testing, Project Management)\n\
-* Nicholas Hoyt  (Requirements, UX, UI Design Lead, Development, Usability Testing, Project Management)\n\
-* JaEun Jemma Ku (Requirements, Usability Testing, UI Design, Procured Initial Seed Funding, Project Management)\n\
+* Nicholas Hoyt  (UX, UI Design, Development, Usability Testing, Project Management)\n\
+* JaEun Jemma Ku (Requirements, Usability Testing, UI Design, Project Management)\n\
+* Eileen Lopez   (UX, Usability Testing)\n\
 * Mark McCarthy  (UX, Usability Testing)\n\
 * Robert Slater  (Requirements)\n\
 * Dena Strong    (UX, Usability Testing)\n\
+\n\
+### Sponsors\n\
+\n\
+* Disability Resources and Educational Services (DRES), College of Applied\n\
+  Health Sciences (AHS), University of Illinois at Urbana-Champaign\n\
+* Illinois Extension, College of Agricultural, Consumer and Environmental\n\
+  Sciences (ACES), University of Illinois at Urbana-Champaign\n\
+* The University Library, Innovation Fund (Jemma Ku, P.I.), University of\n\
+  Illinois at Urbana-Champaign\n\
+* Administrative Information Technology Services (AITS), University of\n\
+  Illinois at Urbana-Champaign\n\
+* School of Information Sciences (iSchool), University of Illinois at\n\
+  Urbana-Champaign\n\
 '
   }
 
