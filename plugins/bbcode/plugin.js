@@ -673,7 +673,7 @@
 			editor.dataProcessor.htmlFilter.addRules( {
 				text: function( value ) { // Replace square brackets with entities (#2782).
 					return value.replace( /(\[|\])/g, function( match ) {
-						return entities[ match ];
+						return '&#' + match.charCodeAt( 0 ) + ';';
 					} );
 				},
 				elements: {
