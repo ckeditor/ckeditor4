@@ -414,14 +414,10 @@
 			currentNode = parent;
 		}
 
-		var entities = {
-				'&#91;': '[',
-				'&#93;': ']'
-			},
-		filter = new CKEDITOR.htmlParser.filter( {
+		var filter = new CKEDITOR.htmlParser.filter( {
 			text: function( value ) { // Replace entities with square brackets (#2782).
-				return value.replace( /(&amp;#91;|&amp;#93;)/g, function( match ) {
-					return entities[ match.replace( '&amp;', '&' ) ];
+				return value.replace( /&amp;#(91|93);/g, function( match, entity ) {
+					return String.fromCharCode( entity );
 				} );
 			}
 		} );
