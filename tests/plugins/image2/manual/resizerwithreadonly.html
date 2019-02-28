@@ -4,10 +4,18 @@
 <div id="editor2" contenteditable="true">
 	<img src="%BASE_PATH%/_assets/logo.png" />
 </div>
+<div id="editor3" contenteditable="true">
+	<img src="%BASE_PATH%/_assets/logo.png" />
+</div>
 
 <script>
 	CKEDITOR.replace( 'editor1' );
 	CKEDITOR.replace( 'editor2', {
 		readOnly: true
 	} );
+	CKEDITOR.replace( 'editor3' );
+
+	CKEDITOR.instances.editor3.on( 'instanceReady', function( ev ) {
+		ev.editor.setReadOnly( true );
+	});
 </script>
