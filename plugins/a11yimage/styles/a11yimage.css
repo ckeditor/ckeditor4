@@ -1,18 +1,44 @@
+/* a11yimage.css */
+
 .a11yimage_dialog .cke_dialog_ui_text.a11yimage_src_url {
   margin-top: 0;
 }
 
-.a11yimage_dialog .cke_dialog_ui_text.a11yimage_alt_text,
-.a11yimage_dialog .cke_dialog_ui_hbox.a11yimage_caption_checkbox {
+.a11yimage_dialog .cke_dialog_ui_text.a11yimage_alt_text {
   margin-top: 10px;
-}
-
-.a11yimage_dialog .cke_dialog_ui_hbox.a11yimage_long_description {
-  margin-top: 5px;
 }
 
 .a11yimage_dialog .cke_dialog_ui_hbox.a11yimage_alt_text_not_required {
   margin-top: -5px;
+}
+
+/* Long description */
+.a11yimage_dialog .cke_dialog_ui_select {
+  margin-top: 0 !important;
+}
+
+.a11yimage_dialog .cke_dialog_ui_hbox.a11yimage_long_description {
+  margin-top: 8px;
+}
+
+/* Help link button */
+.a11yimage_dialog .cke_dialog_ui_button.a11yimage_desc_help {
+  margin-top: 12px;
+}
+
+.a11yimage_dialog .cke_dialog_ui_button.a11yimage_desc_help > span {
+  padding: 0 8px;
+}
+
+/*
+.a11yimage_dialog .cke_dialog_ui_button.a11yimage_desc_help:hover > span {
+  color: blue;
+  text-decoration: underline;
+}
+*/
+
+.a11yimage_dialog .cke_dialog_ui_hbox.a11yimage_caption_checkbox {
+  margin-top: 10px;
 }
 
 .a11yimage_dialog .cke_dialog_ui_fieldset {

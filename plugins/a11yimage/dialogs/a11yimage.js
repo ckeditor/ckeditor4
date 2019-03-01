@@ -656,6 +656,10 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     label: lang.imageDescHelpLinkText,
 
     setup: function () {
+      var button = this.getDialog().getContentElement( 'info', 'imageDescHelpLink' );
+      button.getElement().addClass( 'a11yimage_desc_help' );
+
+      /*
       var elem = this.getElement();
 
       this.buttonStyle = elem.$.style;
@@ -667,8 +671,10 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
       this.spanStyle.paddingLeft = '2px';
       this.spanStyle.paddingRight = '2px';
       this.spanStyle.textDecoration = 'underline';
+      */
     },
 
+    /*
     onFocus: function () {
       this.buttonStyle.borderColor = 'rgb(19, 159, 247)';
     },
@@ -676,6 +682,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     onBlur: function () {
       this.buttonStyle.borderColor = 'transparent';
     },
+    */
 
     onClick: function () {
       editor.a11yfirst.helpOption = 'ImageHelp';

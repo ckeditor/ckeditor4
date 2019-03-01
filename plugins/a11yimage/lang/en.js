@@ -29,7 +29,7 @@ complex image, including, but not limited to, people with visual impairments',
   longDescAfter: 'Long description is located just after the image',
   longDescBoth: 'Long description is located before and after the image',
 
-  imageDescHelpLinkText: 'Describing images for people with visual impairments',
+  imageDescHelpLinkText: 'Help: Describing images for people with visual impairments',
 
   // Caption
   captionLabel: 'Insert a caption text box below the image',
