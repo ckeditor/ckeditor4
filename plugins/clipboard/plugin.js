@@ -421,8 +421,7 @@
 	function initPasteClipboard( editor ) {
 		var clipboard = CKEDITOR.plugins.clipboard,
 			preventBeforePasteEvent = 0,
-			preventPasteEvent = 0,
-			inReadOnly = 0;
+			preventPasteEvent = 0;
 
 		addListeners();
 		addButtonsCommands();
@@ -553,14 +552,12 @@
 
 			// For improved performance, we're checking the readOnly state on selectionChange instead of hooking a key event for that.
 			editor.on( 'selectionChange', function( evt ) {
-				inReadOnly = evt.data.selection.getRanges()[ 0 ].checkReadOnly();
 				setToolbarStates();
 			} );
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
 				editor.contextMenu.addListener( function( element, selection ) {
-					inReadOnly = selection.getRanges()[ 0 ].checkReadOnly();
 					return {
 						cut: stateFromNamedCommand( 'cut' ),
 						copy: stateFromNamedCommand( 'copy' ),
@@ -1222,8 +1219,12 @@
 		}
 
 		function stateFromNamedCommand( command ) {
-			// We need to correctly update toolbar states on readOnly (#2775).
-			if ( ( inReadOnly || editor.readOnly ) && command in { paste: 1, cut: 1 } ) {
+			var selection = editor.getSelection(),
+				range = selection && selection.getRanges()[ 0 ],
+				// We need to correctly update toolbar states on readOnly (#2775).
+				inReadOnly = editor.readOnly || ( range && range.checkReadOnly() );
+
+			if ( inReadOnly && command in { paste: 1, cut: 1 } ) {
 				return CKEDITOR.TRISTATE_DISABLED;
 			}
 
