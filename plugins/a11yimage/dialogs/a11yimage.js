@@ -650,27 +650,24 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
   /* ---------------------------------------------------------------- */
 
-  var imageDescriptionHelpLink = {
-    id: 'imageDescHelpLink',
+  var imageDescriptionHelp = {
+    id: 'imageDescHelp',
     type: 'button',
-    label: lang.imageDescHelpLinkText,
+    label: lang.imageDescHelpLabel,
 
     setup: function () {
-      var button = this.getDialog().getContentElement( 'info', 'imageDescHelpLink' );
+      var button = this.getDialog().getContentElement( 'info', 'imageDescHelp' );
       button.getElement().addClass( 'a11yimage_desc_help' );
     },
 
     onClick: function () {
-      editor.a11yfirst.helpOption = 'ImageHelp';
-      editor.execCommand('a11yFirstHelpDialog');
-    },
-
-    onKeyDown: function ( event ) {
-      if (event.data.$.keyCode === 13) {
+      var helpPlugin = CKEDITOR.plugins.get( 'a11yfirsthelp' );
+      if ( helpPlugin ) {
         editor.a11yfirst.helpOption = 'ImageHelp';
-        editor.execCommand('a11yFirstHelpDialog');
-        event.data.$.stopPropagation();
-        event.data.$.preventDefault();
+        editor.execCommand( 'a11yFirstHelpDialog' );
+      }
+      else {
+        alert( lang.helpNotFound );
       }
     }
   };
@@ -763,7 +760,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
 
           longDescriptionSelect,
 
-          imageDescriptionHelpLink,
+          imageDescriptionHelp,
 
           captionCheckbox,
 
