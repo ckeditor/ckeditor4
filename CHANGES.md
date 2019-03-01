@@ -25,6 +25,10 @@ API Changes:
 
 ## CKEditor 4.11.4
 
+Other Changes:
+
+* [#2741](https://github.com/ckeditor/ckeditor-dev/issues/2721): Replaced deprecated [arguments.callee](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments/callee#Why_was_arguments.callee_removed_from_ES5_strict_mode) code.
+
 ## CKEditor 4.11.3
 
 Fixed Issues:
