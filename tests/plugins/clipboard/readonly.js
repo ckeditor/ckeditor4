@@ -80,10 +80,10 @@ tests[ 'test paste command state in divarea editor' ] = function() {
 		// mouseup listener updates state in timeout, so we need to make test asynchronous.
 		setTimeout( function() {
 			resume( function() {
-				assertCommands( CKEDITOR.TRISTATE_DISABLED, 'true' );
+				assertCommands( CKEDITOR.TRISTATE_DISABLED, 'state when readOnly="true"' );
 
 				editor.setReadOnly( false );
-				assertCommands( CKEDITOR.TRISTATE_OFF, 'false.' );
+				assertCommands( CKEDITOR.TRISTATE_OFF, 'state when readOnly="false"' );
 			} );
 		} );
 
@@ -92,11 +92,10 @@ tests[ 'test paste command state in divarea editor' ] = function() {
 		function assertCommands( expected, msg ) {
 			CKEDITOR.tools.array.forEach( commandNames, function( commandName ) {
 				var state = editor.getCommand( commandName ).state;
-				assert.areSame( expected, state, commandName + ' state when readonly=' + msg );
+				assert.areSame( expected, state, commandName + msg );
 			} );
 		}
 	} );
 };
-
 
 bender.test( tests );
