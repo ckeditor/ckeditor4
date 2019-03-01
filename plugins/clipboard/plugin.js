@@ -551,13 +551,11 @@
 			editor.on( 'contentDom', addPasteListenersToEditable );
 
 			// For improved performance, we're checking the readOnly state on selectionChange instead of hooking a key event for that.
-			editor.on( 'selectionChange', function( evt ) {
-				setToolbarStates();
-			} );
+			editor.on( 'selectionChange', setToolbarStates );
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
-				editor.contextMenu.addListener( function( element, selection ) {
+				editor.contextMenu.addListener( function() {
 					return {
 						cut: stateFromNamedCommand( 'cut' ),
 						copy: stateFromNamedCommand( 'copy' ),
@@ -735,9 +733,7 @@
 			// since editable won't fire the event if selection process started within
 			// iframe and ended out of the editor (https://dev.ckeditor.com/ticket/9851).
 			editable.attachListener( CKEDITOR.env.ie ? editable : editor.document.getDocumentElement(), 'mouseup', function() {
-				mouseupTimeout = setTimeout( function() {
-					setToolbarStates();
-				}, 0 );
+				mouseupTimeout = setTimeout( setToolbarStates, 0 );
 			} );
 
 			// Make sure that deferred mouseup callback isn't executed after editor instance
