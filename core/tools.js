@@ -773,10 +773,11 @@
 				$.base = baseClass;
 				$.baseProto = baseClass.prototype;
 				// Super constructor.
-				$.prototype.base = function() {
+				$.prototype.base = function baseClassConstructor() {
 					this.base = baseClass.prototype.base;
 					baseClass.apply( this, arguments );
-					this.base = arguments.callee;
+					// Replaced arguments.callee (#2741)
+					this.base = baseClassConstructor;
 				};
 			}
 

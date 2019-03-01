@@ -451,7 +451,8 @@
 				if ( matchCyclic && !cyclicRerun ) {
 					this.searchRange = getSearchRange( 1 );
 					this.matchRange = null;
-					return arguments.callee.apply( this, Array.prototype.slice.call( arguments ).concat( [ true ] ) );
+					// Replaced arguments.callee (#2741)
+					return finder.find.apply( this, Array.prototype.slice.call( arguments ).concat( [ true ] ) );
 				}
 
 				return false;
