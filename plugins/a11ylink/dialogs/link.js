@@ -358,12 +358,12 @@
                   title: linkLang.a11yfirstHelpTitle,
                   onClick: function() {
                     var helpPlugin = CKEDITOR.plugins.get( 'a11yfirsthelp' );
-                    if (helpPlugin) {
+                    if ( helpPlugin ) {
                       editor.a11yfirst.helpOption = 'LinkHelp';
-                      editor.execCommand('a11yFirstHelpDialog');
+                      editor.execCommand( 'a11yFirstHelpDialog' );
                     }
                     else {
-                      alert(linkLang.helpNotFound)
+                      alert( linkLang.helpNotFound );
                     }
                   }
                 }
