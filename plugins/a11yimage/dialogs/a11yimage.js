@@ -641,8 +641,8 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
       }
 
     },
+
     onChange: function( widget ) {
-        // this = CKEDITOR.ui.dialog.select
       var node = this.getInputElement().findOne('select').$;
       this.setValue(node.value);
     }
@@ -658,31 +658,7 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
     setup: function () {
       var button = this.getDialog().getContentElement( 'info', 'imageDescHelpLink' );
       button.getElement().addClass( 'a11yimage_desc_help' );
-
-      /*
-      var elem = this.getElement();
-
-      this.buttonStyle = elem.$.style;
-      this.buttonStyle.borderColor = 'transparent';
-      this.buttonStyle.backgroundColor = 'white';
-
-      this.spanStyle = elem.getFirst().$.style;
-      this.spanStyle.color = 'blue';
-      this.spanStyle.paddingLeft = '2px';
-      this.spanStyle.paddingRight = '2px';
-      this.spanStyle.textDecoration = 'underline';
-      */
     },
-
-    /*
-    onFocus: function () {
-      this.buttonStyle.borderColor = 'rgb(19, 159, 247)';
-    },
-
-    onBlur: function () {
-      this.buttonStyle.borderColor = 'transparent';
-    },
-    */
 
     onClick: function () {
       editor.a11yfirst.helpOption = 'ImageHelp';
