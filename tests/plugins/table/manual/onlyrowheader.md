@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea,toolbar,table,sourcearea,dialogadvtab,contextmenu
 
 # Test steps
-1. Rightclick on table, open table properties from context menu.
+1. Open context menu on table and choose table properties.
 1. Change headers to none and press ok.
 
 ## Expected
