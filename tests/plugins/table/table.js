@@ -155,6 +155,7 @@
 			assert.isTrue( /border="1"/.test( bot.editor.getData() ), 'Border attribute should be one' );
 		},
 
+		// (#1397)
 		'test table dialog error when only row is header': function() {
 			var bot = this.editorBots.editor;
 
