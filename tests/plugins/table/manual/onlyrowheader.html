@@ -13,5 +13,8 @@
 </textarea>
 
 <script>
+	if ( bender.env.mobile ) {
+		bender.ignore();
+	}
 	CKEDITOR.replace( 'editor1' );
 </script>
