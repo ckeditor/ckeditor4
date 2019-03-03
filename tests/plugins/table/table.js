@@ -157,7 +157,6 @@
 
 		'test table dialog error when only row is header': function() {
 			var bot = this.editorBots.editor;
-			var editor = bot.editor;
 
 			bot.setHtmlWithSelection(
 				'<table border="1" cellspacing="1" cellpadding="1" style="width:500px;">' +
@@ -172,7 +171,7 @@
 				'</table>'
 			);
 
-			bot.dialog( 'tableProperties', function( dialog, editor ) {
+			bot.dialog( 'tableProperties', function( dialog ) {
 				dialog.setValueOf( 'info', 'selHeaders', 'none' );
 
 				dialog.fire( 'ok' );
