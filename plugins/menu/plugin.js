@@ -416,8 +416,6 @@ CKEDITOR.plugins.add( 'menu', {
 					panel.showBlock( this.id, offsetParent, corner, offsetX, offsetY );
 				}
 
-				panel.menu = this;
-
 				var data = [ panel ];
 				editor.fire( 'menuShow', data );
 			},
