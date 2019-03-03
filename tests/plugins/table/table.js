@@ -172,8 +172,6 @@
 				'</table>'
 			);
 
-
-
 			bot.dialog( 'tableProperties', function( dialog, editor ) {
 				dialog.setValueOf( 'info', 'selHeaders', 'none' );
 
