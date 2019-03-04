@@ -66,7 +66,7 @@ var config = {
 		'benderjs-jquery',
 		'tests/_benderjs/ckeditor',
 		'benderjs-yui-beautified',
-		'../bender-pfw'
+		'../benderjs-pfw'
 	],
 
 	tests: {
