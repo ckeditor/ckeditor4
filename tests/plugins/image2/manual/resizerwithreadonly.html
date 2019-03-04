@@ -13,9 +13,11 @@
 	CKEDITOR.replace( 'editor2', {
 		readOnly: true
 	} );
-	CKEDITOR.replace( 'editor3' );
-
-	CKEDITOR.instances.editor3.on( 'instanceReady', function( ev ) {
-		ev.editor.setReadOnly( true );
-	});
+	var editor3 = CKEDITOR.replace( 'editor3', {
+		on: {
+			instanceReady: function() {
+				editor3.setReadOnly( true );
+			}
+		}
+	} );
 </script>
