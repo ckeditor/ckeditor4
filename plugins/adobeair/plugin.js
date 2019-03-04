@@ -151,11 +151,11 @@
 					var panel = ui._.panel._.panel,
 						holder;
 
-					( function addListeners() {
+					( function waitForPanel() {
 						// Adding dom event listeners off-line are not supported in AIR,
 						// waiting for panel iframe loaded.
 						if ( !panel.isLoaded ) {
-							setTimeout( addListeners, 30 );
+							setTimeout( waitForPanel, 30 );
 							return;
 						}
 						holder = panel._.holder;
