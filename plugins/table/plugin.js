@@ -21,7 +21,7 @@ CKEDITOR.plugins.add( 'table', {
 			allowedContent: 'table{width,height,border-collapse}[align,border,cellpadding,cellspacing,summary];' +
 				'caption tbody thead tfoot;' +
 				'th td tr[scope];' +
-				'td{border*,background-color,background,vertical-align,width,height}[colspan,rowspan];' +
+				'td{border*,background-color,vertical-align,width,height}[colspan,rowspan];' +
 				( editor.plugins.dialogadvtab ? 'table' + editor.plugins.dialogadvtab.allowedContent() : '' ),
 			requiredContent: 'table',
 			contentTransformations: [

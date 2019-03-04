@@ -357,13 +357,12 @@
 
 					var styles = tools.parseCssText( element.attributes.style, true ),
 						borderStyles = styles.border ? CKEDITOR.tools.style.border.fromCssRule( styles.border ) : {},
-						borders = tools.style.border.splitCssValues( styles, borderStyles );
+						borders = tools.style.border.splitCssValues( styles, borderStyles ),
+						tmpStyles = CKEDITOR.tools.clone( styles );
 
 					// Drop all border styles before continue,
 					// so there are no leftovers which may conflict with
 					// new border styles.
-					var tmpStyles = CKEDITOR.tools.clone( styles );
-
 					for ( var key in tmpStyles ) {
 						if ( key.indexOf( 'border' ) == 0 ) {
 							delete tmpStyles[ key ];
@@ -372,6 +371,17 @@
 
 					element.attributes.style = CKEDITOR.tools.writeCssText( tmpStyles );
 
+					// Unify background color property.
+					if ( styles.background ) {
+						var bg = CKEDITOR.tools.style.parse.background( styles.background );
+
+						if ( bg.color ) {
+							Style.setStyle( element, 'background-color', bg.color, true );
+							Style.setStyle( element, 'background', '' );
+						}
+					}
+
+					// Unify border properties.
 					for ( var border in borders ) {
 						var borderStyle = styles[ border ] ?
 							CKEDITOR.tools.style.border.fromCssRule( styles[ border ] )
