@@ -74,7 +74,7 @@
 					left: '7px'
 				};
 
-			objectAssert.areEqual( expected, ret );
+			assertObject( expected, ret );
 		},
 
 		'test style.parse.margin 2 members': function() {
@@ -87,7 +87,7 @@
 					left: '20px'
 				};
 
-			objectAssert.areEqual( expected, ret );
+			assertObject( expected, ret );
 		},
 
 		'test style.parse.margin 3 members': function() {
@@ -99,7 +99,7 @@
 					left: '0'
 				};
 
-			objectAssert.areEqual( expected, ret );
+			assertObject( expected, ret );
 		},
 
 		'test style.parse.margin 4 members': function() {
@@ -111,7 +111,7 @@
 					left: 'auto'
 				};
 
-			objectAssert.areEqual( expected, ret );
+			assertObject( expected, ret );
 		},
 
 		'test style.parse.margin percentage': function() {
@@ -123,24 +123,24 @@
 					left: '5%'
 				};
 
-			objectAssert.areEqual( expected, ret );
+			assertObject( expected, ret );
 		},
 
 		'test style.parse.margin docs sample': function() {
-			objectAssert.areEqual( { top: '3px', right: '0', bottom: '2', left: '0' }, CKEDITOR.tools.style.parse.margin( '3px 0 2' ) );
+			assertObject( { top: '3px', right: '0', bottom: '2', left: '0' }, CKEDITOR.tools.style.parse.margin( '3px 0 2' ) );
 		},
 
 		// (#1490)
 		'test style.parse.sideShorthand docs sample': function() {
-			objectAssert.areEqual( { top: 'solid', right: 'dotted', bottom: 'solid', left: 'dotted' }, CKEDITOR.tools.style.parse.sideShorthand( 'solid dotted' ) );
+			assertObject( { top: 'solid', right: 'dotted', bottom: 'solid', left: 'dotted' }, CKEDITOR.tools.style.parse.sideShorthand( 'solid dotted' ) );
 		},
 
 		// (#1490)
 		'test style.parse.sideShorthand docs sample with split function': function() {
-			objectAssert.areEqual( { top: 'foo', right: 'baz', bottom: 'foo', left: 'baz' },
+			assertObject( { top: 'foo', right: 'baz', bottom: 'foo', left: 'baz' },
 				CKEDITOR.tools.style.parse.sideShorthand( 'foo baz', split ), 'foo baz' );
 
-			objectAssert.areEqual( { top: 'bar', right: 'quix', bottom: 'bar', left: 'quix' },
+			assertObject( { top: 'bar', right: 'quix', bottom: 'bar', left: 'quix' },
 				CKEDITOR.tools.style.parse.sideShorthand( 'something else', split ), 'something else' );
 
 			function split( value ) {
@@ -150,23 +150,27 @@
 
 		// (#1490)
 		'test style.parse.sideShorthand 1 member': function() {
-			objectAssert.areEqual( { top: '1px', right: '1px', bottom: '1px', left: '1px' }, CKEDITOR.tools.style.parse.sideShorthand( '1px' ) );
+			assertObject( { top: '1px', right: '1px', bottom: '1px', left: '1px' }, CKEDITOR.tools.style.parse.sideShorthand( '1px' ) );
 		},
 
 		// (#1490)
 		'test style.parse.sideShorthand 2 members': function() {
-			objectAssert.areEqual( { top: '1px', right: '2px', bottom: '1px', left: '2px' }, CKEDITOR.tools.style.parse.sideShorthand( '1px 2px' ) );
+			assertObject( { top: '1px', right: '2px', bottom: '1px', left: '2px' }, CKEDITOR.tools.style.parse.sideShorthand( '1px 2px' ) );
 		},
 
 		// (#1490)
 		'test style.parse.sideShorthand 3 members': function() {
-			objectAssert.areEqual( { top: '1px', right: '2px', bottom: '3px', left: '2px' }, CKEDITOR.tools.style.parse.sideShorthand( '1px 2px 3px' ) );
+			assertObject( { top: '1px', right: '2px', bottom: '3px', left: '2px' }, CKEDITOR.tools.style.parse.sideShorthand( '1px 2px 3px' ) );
 		},
 
 		// (#1490)
 		'test style.parse.sideShorthand 4 members': function() {
-			objectAssert.areEqual( { top: '1px', right: '2px', bottom: '3px', left: '4px' }, CKEDITOR.tools.style.parse.sideShorthand( '1px 2px 3px 4px' ) );
+			assertObject( { top: '1px', right: '2px', bottom: '3px', left: '4px' }, CKEDITOR.tools.style.parse.sideShorthand( '1px 2px 3px 4px' ) );
 		},
+
+		// // (#1490)
+		// 'test style.border init': function() {
+		// },
 
 		// (#1490)
 		'test style.border.splitCssValues docs sample': function() {
@@ -176,7 +180,7 @@
 				'border-width': '1px 2px 3px 4px'
 			};
 
-			objectAssert.areEqual( {
+			assertObject( {
 				'border-top': '1px solid red',
 				'border-right': '2px dotted blue',
 				'border-bottom': '3px solid red',
@@ -192,7 +196,7 @@
 				},
 				fallback = { color: 'red' };
 
-			objectAssert.areEqual( {
+			assertObject( {
 				'border-top': '2px solid red',
 				'border-right': '2px solid red',
 				'border-bottom': '2px solid red',
@@ -212,7 +216,7 @@
 				'border-top-color': 'green'
 			};
 
-			objectAssert.areEqual( {
+			assertObject( {
 				'border-top': '2px dotted green',
 				'border-right': '10px solid red',
 				'border-bottom': '2px solid red',
@@ -234,7 +238,7 @@
 					color: 'red'
 				};
 
-			objectAssert.areEqual( {
+			assertObject( {
 				'border-top': '2px dotted green',
 				'border-right': '10px solid red',
 				'border-bottom': '2px solid red',
@@ -255,62 +259,62 @@
 
 		// (#1490)
 		'test style.border.fromCssRule docs sample': function() {
-			assertBorder( { width: '3px', style: 'solid', color: '#ffeedd' }, CKEDITOR.tools.style.border.fromCssRule( '3px solid #ffeedd' ) );
+			assertObject( { width: '3px', style: 'solid', color: '#ffeedd' }, CKEDITOR.tools.style.border.fromCssRule( '3px solid #ffeedd' ) );
 		},
 
 		// (#1490)
 		'test style.border.fromCssRule only with width': function() {
-			assertBorder( { width: '0%', style: null, color: null }, CKEDITOR.tools.style.border.fromCssRule( '0%' ) );
+			assertObject( { width: '0%', style: null, color: null }, CKEDITOR.tools.style.border.fromCssRule( '0%' ) );
 		},
 
 		// (#1490)
 		'test style.border.fromCssRule only with zero width': function() {
-			assertBorder( { width: '0', style: null, color: null }, CKEDITOR.tools.style.border.fromCssRule( '0' ) );
+			assertObject( { width: '0', style: null, color: null }, CKEDITOR.tools.style.border.fromCssRule( '0' ) );
 		},
 
 		// (#1490)
 		'test style.border.fromCssRule only with zero width with dot': function() {
-			assertBorder( { width: null, style: null, color: null }, CKEDITOR.tools.style.border.fromCssRule( '0.' ) );
+			assertObject( { width: null, style: null, color: null }, CKEDITOR.tools.style.border.fromCssRule( '0.' ) );
 		},
 
 		// (#1490)
 		'test style.border.fromCssRule with width and style': function() {
-			assertBorder( { width: '0%', style: 'groove', color: null }, CKEDITOR.tools.style.border.fromCssRule( '0% groove' ) );
+			assertObject( { width: '0%', style: 'groove', color: null }, CKEDITOR.tools.style.border.fromCssRule( '0% groove' ) );
 		},
 
 		// (#1490)
 		'test style.border.fromCssRule with mixed color and style': function() {
-			assertBorder( { color: '#ff0000', style: 'dotted', width: null }, CKEDITOR.tools.style.border.fromCssRule( '#ff0000 dotted' ) );
+			assertObject( { color: '#ff0000', style: 'dotted', width: null }, CKEDITOR.tools.style.border.fromCssRule( '#ff0000 dotted' ) );
 		},
 
 		// (#1490)
 		'test style.border.fromCssRule with mixed color, style and width': function() {
-			assertBorder( { width: '7.5em', color: '#ff0000', style: 'dotted' }, CKEDITOR.tools.style.border.fromCssRule( '#ff0000 dotted 7.5em' ) );
+			assertObject( { width: '7.5em', color: '#ff0000', style: 'dotted' }, CKEDITOR.tools.style.border.fromCssRule( '#ff0000 dotted 7.5em' ) );
 		},
 
 		// (#1490)
 		'test style.border.fromCssRule with style only': function() {
-			assertBorder( { width: null, style: 'dotted', color: null }, CKEDITOR.tools.style.border.fromCssRule( 'dotted' ) );
+			assertObject( { width: null, style: 'dotted', color: null }, CKEDITOR.tools.style.border.fromCssRule( 'dotted' ) );
 		},
 
 		// (#1490)
 		'test style.border.fromCssRule with style and rgba color': function() {
-			assertBorder( { width: null, style: 'dotted', color: 'rgba(0,0,0,0)' }, CKEDITOR.tools.style.border.fromCssRule( 'dotted rgba(0,0,0,0)' ) );
+			assertObject( { width: null, style: 'dotted', color: 'rgba(0,0,0,0)' }, CKEDITOR.tools.style.border.fromCssRule( 'dotted rgba(0,0,0,0)' ) );
 		},
 
 		// (#1490)
 		'test style.border.fromCssRule with style and hsla color': function() {
-			assertBorder( { style: 'dotted', color: 'hsla(10,30%,30%,1)' }, CKEDITOR.tools.style.border.fromCssRule( 'dotted hsla(10,30%,30%,1)' ) );
+			assertObject( { style: 'dotted', color: 'hsla(10,30%,30%,1)' }, CKEDITOR.tools.style.border.fromCssRule( 'dotted hsla(10,30%,30%,1)' ) );
 		},
 
 		// (#1490)
 		'test style.border.fromCssRule with color white spaces': function() {
-			assertBorder( { style: 'solid', color: 'rgba(10,  20, 30,  .75)', width: '1px' },
+			assertObject( { style: 'solid', color: 'rgba(10,  20, 30,  .75)', width: '1px' },
 				CKEDITOR.tools.style.border.fromCssRule( '1px solid rgba(10,  20, 30,  .75)' ) );
 		}
 	} );
 
-	function assertBorder( expected, actual ) {
+	function assertObject( expected, actual ) {
 		for ( var key in expected ) {
 			assert.areEqual( expected[ key ], actual[ key ], 'Property "' + key + '" should have correct value.' );
 		}
