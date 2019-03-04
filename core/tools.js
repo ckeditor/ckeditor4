@@ -2494,8 +2494,25 @@
 		$: function( props ) {
 			props = props || {};
 
+			/**
+			 * Width CSS property value.
+			 *
+			 * @property {String} [width]
+			 */
 			this.width = props.width;
+
+			/**
+			 * Style CSS property value.
+			 *
+			 * @property {String} [style]
+			 */
 			this.style = props.style;
+
+			/**
+			 * Color CSS property value.
+			 *
+			 * @property {String} [color]
+			 */
 			this.color = props.color;
 
 			this._.normalize();
@@ -2594,13 +2611,13 @@
 			 * // }
 			 *
 			 * // Use fallback to fill up missing style:
-			 * var styles = {
+			 * var partialStyles = {
 			 * 		'border-style': 'solid',
 			 * 		'border-width': '2px'
 			 * 	},
 			 * 	fallback = { color: 'red' };
 			 *
-			 * console.log( CKEDITOR.tools.style.border.splitCssValues( styles, fallback ) );
+			 * console.log( CKEDITOR.tools.style.border.splitCssValues( partialStyles, fallback ) );
 			 * // Logs:
 			 * // {
 			 * // 	'border-top': Border { width: '2px', style: 'solid', color: 'red' },
@@ -2608,10 +2625,12 @@
 			 * // 	'border-bottom': Border { width: '2px', style: 'solid', color: 'red' },
 			 * // 	'border-left': Border { width: '2px', style: 'solid', color: 'red' }
 			 * // }
+			 * ```
 			 *
 			 * Border side shorthands with greater style property specificity are prefered
 			 * over more general shorthands.
 			 *
+			 * ```
 			 * var styles = {
 			 * 		'border-style': 'solid',
 			 * 		'border-width': '2px',
