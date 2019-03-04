@@ -4,6 +4,4 @@
 
 Only **first** editor should have enabled mouse resizer on image.
 
-The **second** one is initialized in read-only mode.
-
-The **third** one is turned into read-only mode after initialization.
+Then click the toggle button. The image in **second** editor should be resizable.
