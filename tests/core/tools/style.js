@@ -130,6 +130,12 @@
 			assertObject( { top: '3px', right: '0', bottom: '2', left: '0' }, CKEDITOR.tools.style.parse.margin( '3px 0 2' ) );
 		},
 
+
+		// (#2923)
+		'test recognize `windowtext` as a color': function() {
+			assertObject( { color: 'windowtext' }, CKEDITOR.tools.style.parse.background( 'windowtext' ) );
+		},
+
 		// (#1490)
 		'test style.parse.sideShorthand docs sample': function() {
 			assertObject( { top: 'solid', right: 'dotted', bottom: 'solid', left: 'dotted' }, CKEDITOR.tools.style.parse.sideShorthand( 'solid dotted' ) );
