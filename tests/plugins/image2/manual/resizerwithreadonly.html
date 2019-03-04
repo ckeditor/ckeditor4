@@ -7,6 +7,7 @@
 <h2>
 	Initialized as read-only
 </h2>
+<button id="disable">Toggle editor2 read-only mode</button>
 <div id="editor2" contenteditable="true">
 	<img src="%BASE_PATH%/_assets/logo.png" />
 </div>
@@ -18,9 +19,17 @@
 </div>
 
 <script>
-	CKEDITOR.replace( 'editor1' );
-	CKEDITOR.replace( 'editor2', {
-		readOnly: true
+	CKEDITOR.replace( 'editor1' );	
+	var editor2 = CKEDITOR.replace( 'editor2', {
+		readOnly: true,
+		on: {
+			instanceReady: function() {
+			CKEDITOR.document.getById( 'disable' ).on( 'click', function() {
+				editor2.setReadOnly( !editor2.readOnly );
+
+				} )
+			}
+		}
 	} );
 	var editor3 = CKEDITOR.replace( 'editor3', {
 		on: {
