@@ -2486,10 +2486,10 @@
 		/**
 		 * Creates a new instance of the border style.
 		 * @constructor
-		 * @param {Object} props Style-related properties.
-		 * @param {String} props.color Border color.
-		 * @param {String} props.style Border style.
-		 * @param {String} props.width Border width.
+		 * @param {Object} [props] Style-related properties.
+		 * @param {String} [props.color] Border color.
+		 * @param {String} [props.style] Border style.
+		 * @param {String} [props.width] Border width.
 		 */
 		$: function( props ) {
 			props = props || {};
@@ -2574,7 +2574,7 @@
 			},
 
 			/**
-			 * Parses `border-style`, `border-width` and `border-color` shorthand styles into
+			 * Parses `style`, `width` and `color` shorthand styles into
 			 * border side shorthand styles.
 			 *
 			 * ```javascript
@@ -2594,13 +2594,13 @@
 			 * // }
 			 *
 			 * // Use fallback to fill up missing style:
-			 * var missingColorStyles = {
+			 * var styles = {
 			 * 		'border-style': 'solid',
 			 * 		'border-width': '2px'
 			 * 	},
 			 * 	fallback = { color: 'red' };
 			 *
-			 * console.log( CKEDITOR.tools.style.border.splitCssValues( missingColorStyles, fallback ) );
+			 * console.log( CKEDITOR.tools.style.border.splitCssValues( styles, fallback ) );
 			 * // Logs:
 			 * // {
 			 * // 	'border-top': Border { width: '2px', style: 'solid', color: 'red' },
@@ -2608,7 +2608,30 @@
 			 * // 	'border-bottom': Border { width: '2px', style: 'solid', color: 'red' },
 			 * // 	'border-left': Border { width: '2px', style: 'solid', color: 'red' }
 			 * // }
+			 *
+			 * Border side shorthands with greater style property specificity are prefered
+			 * over more general shorthands.
+			 *
+			 * var styles = {
+			 * 		'border-style': 'solid',
+			 * 		'border-width': '2px',
+			 * 		'border-color': 'red',
+			 * 		'border-left-color': 'blue',
+			 * 		'border-right-width': '10px',
+			 * 		'border-top-style': 'dotted',
+			 * 		'border-top-color': 'green'
+			 * };
+			 *
+			 * console.log( CKEDITOR.tools.style.border.splitCssValues( styles ) );
+			 * // Logs:
+			 * // {
+			 * // 	'border-top': Border { width: '2px', style: 'dotted', color: 'green' },
+			 * // 	'border-right': Border { width: '10px', style: 'solid', color: 'red'},
+			 * // 	'border-bottom': Border { width: '2px', style: 'solid', color: 'red' },
+			 * // 	'border-left': Border { width: '2px', style: 'solid', color: 'blue' }
+			 * // }
 			 * ```
+			 *
 			 * @static
 			 * @param {Object} styles Border styles shorthand object.
 			 * @param {Object} [styles.border-color] Border color shorthand.
@@ -2643,7 +2666,14 @@
 					var map = {};
 
 					for ( var style in stylesMap ) {
-						map[ style ] = stylesMap[ style ] && stylesMap[ style ][ side ];
+						// Prefer property with greater specificity e.g
+						// `border-top-color` over `border-color`.
+						var sideProperty = styles[ 'border-' + side + '-' + style ];
+						if ( sideProperty ) {
+							map[ style ] = sideProperty;
+						} else {
+							map[ style ] = stylesMap[ style ] && stylesMap[ style ][ side ];
+						}
 					}
 
 					cur[ 'border-' + side ] = new CKEDITOR.tools.style.border( map );
