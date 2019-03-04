@@ -168,9 +168,23 @@
 			assertObject( { top: '1px', right: '2px', bottom: '3px', left: '4px' }, CKEDITOR.tools.style.parse.sideShorthand( '1px 2px 3px 4px' ) );
 		},
 
-		// // (#1490)
-		// 'test style.border init': function() {
-		// },
+		// (#1490)
+		'test style.border init': function() {
+			var expected = { width: '10px', color: 'red', style: 'solid' };
+			assertObject( expected, new CKEDITOR.tools.style.border( expected ) );
+		},
+
+		// (#1490)
+		'test style.border color normalization': function() {
+			assertObject( { color: 'black', width: null, style: null }, new CKEDITOR.tools.style.border( { color: 'windowtext' } ) );
+		},
+
+		// (#1490)
+		'test style.border.toString is overwriten': function() {
+			assert.areEqual( '1px solid red', new CKEDITOR.tools.style.border( { color: 'red', width: '1px', style: 'solid' } ) );
+			assert.areEqual( '10px dotted', new CKEDITOR.tools.style.border( { width: '10px', style: 'dotted' } ) );
+			assert.areEqual( 'solid blue', new CKEDITOR.tools.style.border( { style: 'solid', color: 'blue' } ) );
+		},
 
 		// (#1490)
 		'test style.border.splitCssValues docs sample': function() {
