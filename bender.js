@@ -65,8 +65,7 @@ var config = {
 		'benderjs-sinon',
 		'benderjs-jquery',
 		'tests/_benderjs/ckeditor',
-		'benderjs-yui-beautified',
-		'../benderjs-pfw'
+		'benderjs-yui-beautified'
 	],
 
 	tests: {
