@@ -776,7 +776,6 @@
 				$.prototype.base = function baseClassConstructor() {
 					this.base = baseClass.prototype.base;
 					baseClass.apply( this, arguments );
-					// Replaced arguments.callee (#2741)
 					this.base = baseClassConstructor;
 				};
 			}

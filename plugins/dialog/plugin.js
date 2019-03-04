@@ -2210,7 +2210,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			// So we need to invent a really funny way to make it work.
 			var myScrollHandler = function() {
 					scrollFunc();
-					// Replaced arguments.callee (#2741)
 					myScrollHandler.prevScrollHandler.apply( this, arguments );
 				};
 			win.$.setTimeout( function() {

@@ -268,7 +268,6 @@
 						setTimeout( function integrateWithjQuery() {
 							// Delay bit more if editor is still not ready.
 							if ( !editor.element ) {
-								// Replaced arguments.callee (#2741)
 								setTimeout( integrateWithjQuery, 100 );
 								return;
 							}

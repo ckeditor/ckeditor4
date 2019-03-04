@@ -155,7 +155,6 @@
 						// Adding dom event listeners off-line are not supported in AIR,
 						// waiting for panel iframe loaded.
 						if ( !panel.isLoaded ) {
-							// Replaced arguments.callee (#2741)
 							setTimeout( addListeners, 30 );
 							return;
 						}
