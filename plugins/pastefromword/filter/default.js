@@ -387,7 +387,13 @@
 							CKEDITOR.tools.style.border.fromCssRule( styles[ border ] )
 							: borders[ border ];
 
-						Style.setStyle( element, border, borderStyle.toString() );
+						// No need for redundant shorthand properties if style is disabled.
+						if ( borderStyle.style === 'none' ) {
+							Style.setStyle( element, border, 'none' );
+						} else {
+							Style.setStyle( element, border, borderStyle.toString() );
+						}
+
 					}
 
 					Style.mapCommonStyles( element );
