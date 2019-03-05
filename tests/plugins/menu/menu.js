@@ -47,23 +47,19 @@
 		},
 
 		// (#2307)
-		'test menu hide event': function() {
+		'test menu events': function() {
+			var menu = this.editorBot.editor.ui.get( 'custom_menubutton' ).getMenu(),
+				spy = sinon.spy();
+
+			menu.once( 'show', spy );
 			this.editorBot.menu( 'custom_menubutton', function( menu ) {
-				var spy = sinon.spy();
+				assert.isTrue( spy.called );
+				spy.reset();
 
 				menu.once( 'hide', spy );
 				menu.hide();
 
 				assert.isTrue( spy.called );
-			} );
-		},
-
-		// (#2307)
-		'test panel references menu': function() {
-			this.editorBot.menu( 'custom_menubutton', function( menu ) {
-				menu.hide();
-
-				assert.areSame( menu, menu._.panel.menu );
 			} );
 		}
 	} );
