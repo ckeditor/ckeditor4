@@ -418,6 +418,7 @@ CKEDITOR.plugins.add( 'menu', {
 
 				var data = [ panel ];
 				editor.fire( 'menuShow', data );
+				this.fire( 'show', data );
 			},
 
 			/**
@@ -613,19 +614,19 @@ CKEDITOR.plugins.add( 'menu', {
  */
 
 /**
+ * Fired when a menu is shown.
+ *
+ * @since 4.12.0
+ * @event show
+ * @member CKEDITOR.menu
+ */
+
+/**
  * Fired when a menu is hidden.
  *
  * @since 4.12.0
  * @event hide
  * @member CKEDITOR.menu
- */
-
-/**
- * Parent menu of this panel.
- *
- * @since 4.12.0
- * @member CKEDITOR.ui.panel
- * @property {CKEDITOR.menu} [menu]
  */
 
 CKEDITOR.config.menu_groups = 'clipboard,' +
