@@ -22,8 +22,7 @@ API Changes:
 * [#2598](https://github.com/ckeditor/ckeditor-dev/issues/2598): Added [`CKEDITOR.plugins.pagebreak.createElement`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_pagebreak.html#method-createElement) method allowing to create [Page Break](https://ckeditor.com/cke4/addon/pagebreak) plugin [`CKEDITOR.dom.element`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_element.html) instance.
 * [#2748](https://github.com/ckeditor/ckeditor-dev/issues/2748): Enhance errors thrown while creating editor on a nonexistent element or while trying to instantiate second editor on the same element. Thanks to [Byran Zaugg](https://github.com/blzaugg)!
 * [#2698](https://github.com/ckeditor/ckeditor-dev/issues/2698): Added the [`CKEDITOR.htmlParser.element.findOne`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_htmlParser_element.html#method-findOne) method.
-* [#2307](https://github.com/ckeditor/ckeditor-dev/issues/2307): Implemented [CKEDITOR.event](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_event.html) support on [Menu](https:/
-
+* [#2307](https://github.com/ckeditor/ckeditor-dev/issues/2307): Implemented [CKEDITOR.event](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_event.html) support on [Menu](https://ckeditor.com/cke4/addon/menu) plugin. Additionally menu added `show` and `hide` events.
 ## CKEditor 4.11.4
 
 ## CKEditor 4.11.3
