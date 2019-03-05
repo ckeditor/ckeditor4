@@ -23,11 +23,12 @@ API Changes:
 * [#2748](https://github.com/ckeditor/ckeditor-dev/issues/2748): Enhance errors thrown while creating editor on a nonexistent element or while trying to instantiate second editor on the same element. Thanks to [Byran Zaugg](https://github.com/blzaugg)!
 * [#2698](https://github.com/ckeditor/ckeditor-dev/issues/2698): Added the [`CKEDITOR.htmlParser.element.findOne`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_htmlParser_element.html#method-findOne) method.
 
-## CKEditor 4.11.4
-
 Other Changes:
 
-* [#2741](https://github.com/ckeditor/ckeditor-dev/issues/2721): Replaced deprecated [arguments.callee](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments/callee#Why_was_arguments.callee_removed_from_ES5_strict_mode) code.
+* [#2741](https://github.com/ckeditor/ckeditor-dev/issues/2721): Replaced deprecated `arguments.callee` calls with named function expressions.
+
+
+## CKEditor 4.11.4
 
 ## CKEditor 4.11.3
 
