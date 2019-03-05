@@ -27,7 +27,6 @@ Other Changes:
 
 * [#2741](https://github.com/ckeditor/ckeditor-dev/issues/2721): Replaced deprecated `arguments.callee` calls with named function expressions.
 
-
 ## CKEditor 4.11.4
 
 ## CKEditor 4.11.3
