@@ -2,6 +2,18 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, image2
 
-Only **first** editor should have enabled mouse resizer on image.
+## Classic Editor
 
-Then click the toggle button. The image in **second** editor should be resizable.
+1. Focus the image.
+
+**Expected:** The image has enabled mouse resizer.
+
+## ReadOnly Editor
+
+1. Focus the image.
+
+**Expected:** The image doesn't have enabled mouse resizer.
+
+2. Click `Toggle read-only mode` multiple times focusing image every time after button click.
+
+**Expected:** The image mouse resizer is enabled and disabled depending on the read-only mode state.

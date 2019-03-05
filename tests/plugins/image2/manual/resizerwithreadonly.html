@@ -1,20 +1,14 @@
 <h2>
-	Classic editor
+	Classic Editor
 </h2>
 <div id="editor1" contenteditable="true">
 	<img src="%BASE_PATH%/_assets/logo.png" />
 </div>
 <h2>
-	Initialized as read-only
+	ReadOnly Editor
 </h2>
-<button id="disable">Toggle editor2 read-only mode</button>
+<button id="disable">Toggle read-only mode</button>
 <div id="editor2" contenteditable="true">
-	<img src="%BASE_PATH%/_assets/logo.png" />
-</div>
-<h2>
-	Read-only after initialization
-</h2>
-<div id="editor3" contenteditable="true">
 	<img src="%BASE_PATH%/_assets/logo.png" />
 </div>
 
@@ -27,13 +21,6 @@
 				CKEDITOR.document.getById( 'disable' ).on( 'click', function() {
 					editor2.setReadOnly( !editor2.readOnly );
 				} );
-			}
-		}
-	} );
-	var editor3 = CKEDITOR.replace( 'editor3', {
-		on: {
-			instanceReady: function() {
-				editor3.setReadOnly( true );
 			}
 		}
 	} );
