@@ -163,8 +163,8 @@
 				'<table border="1" cellspacing="1" cellpadding="1" style="width:500px;">' +
 					'<thead>' +
 						'<tr>' +
-							'<th scope="row">^<br></th>' +
-							'<th scope="col"><br></th>' +
+							'<th>^<br></th>' +
+							'<th><br></th>' +
 						'</tr>' +
 					'</thead>' +
 					'<tbody>' +
@@ -191,12 +191,12 @@
 				'<table border="1" cellspacing="1" cellpadding="1" style="width:500px;">' +
 					'<thead>' +
 						'<tr>' +
-							'<th scope="row">^Foo</th>' +
+							'<th>^Foo</th>' +
 						'</tr>' +
 					'</thead>' +
 					'<tbody>' +
 						'<tr>' +
-							'<td scope="row">Bar</td>' +
+							'<td>Bar</td>' +
 						'</tr>' +
 					'</tbody>' +
 				'</table>'
@@ -215,7 +215,7 @@
 								'<td>Foo</td>' +
 							'</tr>' +
 							'<tr>' +
-								'<td scope="row">Bar</td>' +
+								'<td>Bar</td>' +
 							'</tr>' +
 						'</tbody>' +
 					'</table>',
