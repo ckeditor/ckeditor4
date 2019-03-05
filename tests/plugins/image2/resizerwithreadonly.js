@@ -73,6 +73,6 @@
 				editor.setData( '<img src="_assets/foo.png" alt="" />' );
 				wait();
 			} );
-		}		
+		}
 	} );
 }() );

@@ -19,15 +19,14 @@
 </div>
 
 <script>
-	CKEDITOR.replace( 'editor1' );	
+	CKEDITOR.replace( 'editor1' );
 	var editor2 = CKEDITOR.replace( 'editor2', {
 		readOnly: true,
 		on: {
 			instanceReady: function() {
-			CKEDITOR.document.getById( 'disable' ).on( 'click', function() {
-				editor2.setReadOnly( !editor2.readOnly );
-
-				} )
+				CKEDITOR.document.getById( 'disable' ).on( 'click', function() {
+					editor2.setReadOnly( !editor2.readOnly );
+				} );
 			}
 		}
 	} );
