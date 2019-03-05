@@ -6,6 +6,14 @@
 
 1. Open menu.
 
+	### Expected
+
+	Notification appears with message: 'Menu show event fired'.
+
+	### Unexpected
+
+	Nothing happens.
+
 1. Close menu by clicking somewhere else.
 
 ## Expected

@@ -9,11 +9,17 @@
 					this.focus();
 					this.execCommand( 'contextMenu' );
 				}, this );
-			},
-			menuShow: function( evt ) {
-				evt.data[ 0 ].menu.once( 'hide', function() {
-					evt.editor.showNotification( 'Menu hide event fired' );
-				} );
+				var editor = this,
+					languageMenu = this.ui.get( 'Language' ).getMenu();
+
+				languageMenu.on( 'show', menuListener );
+				languageMenu.on( 'hide', menuListener );
+				this.contextMenu.on( 'show', menuListener );
+				this.contextMenu.on( 'hide', menuListener );
+
+				function menuListener( evt ) {
+					editor.showNotification( 'Menu ' + evt.name + ' event fired' );
+				}
 			}
 		}
 	} );
