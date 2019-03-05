@@ -10,11 +10,36 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   <title>Inclusive Authoring: Recipes and Nutrition Blog</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-
   <link rel="stylesheet" href="../a11yfirst.css">
   <link rel="stylesheet" href="usability.css">
-
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+  <style>
+    table {
+      table-layout: fixed;
+      width: 50%;
+      border: 1px solid grey;
+      border-collapse: collapse;
+    }
+    table th, table td {
+      border: 1px solid grey;
+      padding: 0 0.25em;
+    }
+    table th:nth-child(1) {
+      width: 45%;
+    }
+    table th:nth-child(2) {
+      width: 25%;
+      text-align: center;
+    }
+    table th:nth-child(3) {
+      width: 30%;
+      text-align: right;
+    }
+    table td:nth-child(2), table td:nth-child(3) {
+      text-align: right;
+    }
+  </style>
 
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </head>
@@ -143,7 +168,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
                 <p>One variation is a Waldorf-style fruit salad, which uses a mayonnaise-based sauce. Other recipes use sour cream (such as in ambrosia), yogurt or even mustard as the primary sauce ingredient. A variation on fruit salad uses whipped cream mixed in with many varieties of fruits (usually a mixture of berries), and also often include miniature marshmallows. Rojak, a Malaysian fruit salad, uses a spicy sauce with peanuts and shrimp paste. In the Philippines, fruit salads are popular party and holiday fare, usually made with buko, or young coconut, and condensed milk in addition to other canned or fresh fruit.</p>
 
-                <p>Mexico has a popular variation of the fruit salad called Bionico which consists various fruits drenched in condensed milk and sour cream mix.</p>
+                <p>Mexico has a popular variation of the fruit salad called Bionico which consists of various fruits drenched in condensed milk and sour cream mix.</p>
 
                 <p>There is also an extended variety of fruit salads in Moroccan cuisine, often as part of a kemia, a selection of appetizers or small dishes analogous to Spanish tapas or eastern Mediterranean mezze.</p>
 
@@ -153,28 +178,24 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
                 <p>[[Hey Bob, fill this in when we get the nutritional analysis back--Jane]]</p>
 
-                <table width="51%" border="1">
-                  <caption>
-                    Nutrition Information
-                  </caption>
+                <table width="50%" style="border: 1px solid grey; border-collapse: collapse;">
+                  <caption>Nutrition Facts</caption>
                   <tbody>
                     <tr>
-                      <th width="32%" scope="col">Item</th>
-                      <th width="32%" scope="col">Amount</th>
-                      <th width="36%" scope="col">% Daily Value</th>
+                      <th>Serving size</th>
+                      <td colspan="2">2 (250 g)</td>
                     </tr>
                     <tr>
-                      <td>Serving size</td>
-                      <td>2 (250 g)</td>
-                      <td>Not applicable</td>
+                      <th>Amount per serving</th>
+                      <td colspan="2">300 calories</td>
                     </tr>
                     <tr>
-                      <td>Amount per serving</td>
-                      <td>300 calories</td>
-                      <td>Not applicable</td>
+                      <th scope="col">Item</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">% Daily Value</th>
                     </tr>
                     <tr>
-                      <td>Total fat</td>
+                      <td><strong>Total fat</strong></td>
                       <td>2 g</td>
                       <td>3%</td>
                     </tr>
@@ -189,17 +210,17 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
                       <td>0%</td>
                     </tr>
                     <tr>
-                      <td>Cholesterol</td>
+                      <td><strong>Cholesterol</strong></td>
                       <td>0 mg</td>
                       <td>0%</td>
                     </tr>
                     <tr>
-                      <td>Sodium</td>
+                      <td><strong>Sodium</strong></td>
                       <td>40 mg</td>
                       <td>2%</td>
                     </tr>
                     <tr>
-                      <td>Total carbohydrate</td>
+                      <td><strong>Total carbohydrate</strong></td>
                       <td>75 g</td>
                       <td>27%</td>
                     </tr>
@@ -211,7 +232,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
                     <tr>
                       <td>Total sugars</td>
                       <td>70 g</td>
-                      <td>Undefined</td>
+                      <td>n/a</td>
                     </tr>
                     <tr>
                       <td>Includes 0 g added sugars</td>
@@ -221,10 +242,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
                     <tr>
                       <td>Sugar alcohol</td>
                       <td>1 g</td>
-                      <td>Undefined</td>
+                      <td>n/a</td>
                     </tr>
                     <tr>
-                      <td>Protein</td>
+                      <td><strong>Protein</strong></td>
                       <td>3 g</td>
                       <td>6%</td>
                     </tr>
