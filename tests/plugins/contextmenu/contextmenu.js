@@ -155,18 +155,20 @@
 		},
 
 		// (#2307)
-		'test context menu hide event': function() {
+		'test context menu events': function() {
 			var editor = this.editor,
-				bot = this.editorBot;
+				menu = editor.contextMenu,
+				spy = sinon.spy();
 
-			editor.focus();
-			bot.contextmenu( function( menu ) {
-				var spy = sinon.spy();
+			menu.once( 'show', spy );
+			this.editorBot.contextmenu( function( menu ) {
+				assert.isTrue( spy.called, 'menu show listener called' );
+				spy.reset();
 
 				menu.once( 'hide', spy );
 				menu.hide();
 
-				assert.isTrue( spy.called );
+				assert.isTrue( spy.called, 'menu hide listener called' );
 			} );
 		}
 	} );
