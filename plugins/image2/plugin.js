@@ -438,9 +438,6 @@
 
 				// Setup dynamic image resizing with mouse.
 				// Don't initialize resizer when dimensions are disallowed (https://dev.ckeditor.com/ticket/11004).
-				// Don't initialize resizer when editor.readOnly is set to true (#719).
-				// Condition added for #719 caused #2874 (resized does not appear if you set editor.readOnly to false manually).
-				// Removed that condition as change made for #2816 fixed both cases.
 				if ( editor.filter.checkFeature( this.features.dimension ) && editor.config.image2_disableResizer !== true ) {
 					setupResizer( this );
 				}
