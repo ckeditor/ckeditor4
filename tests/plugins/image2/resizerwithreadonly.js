@@ -19,10 +19,9 @@
 					dialog.setValueOf( 'info', 'src', '_assets/foo.png' );
 					dialog.getButton( 'ok' ).click();
 
-					assert.sameData(
-						'cke_image_resizer',
-						editor.editable().getElementsByTag( 'span' ).$[ 2 ].outerHTML.match( /(cke_image_resizer)/g )[ 0 ]
-					);
+					var resizer = editor.editable().findOne( '.cke_widget_image .cke_image_resizer' );
+					assert.isTrue( Boolean( resizer ), 'Resizer should be enabled'  );
+
 				} );
 			} );
 		},
@@ -42,7 +41,8 @@
 					listener.removeListener();
 
 					resume( function() {
-						assert.areSame( 3, editor.editable().getElementsByTag( 'span' ).$.length );
+						var resizer = editor.editable().findOne( '.cke_widget_image .cke_image_resizer' );
+						assert.isTrue( Boolean( resizer ), 'Resizer should be enabled'  );
 					} );
 				} );
 
@@ -66,7 +66,8 @@
 					listener.removeListener();
 
 					resume( function() {
-						assert.areSame( 3, editor.editable().getElementsByTag( 'span' ).$.length );
+						var resizer = editor.editable().findOne( '.cke_widget_image .cke_image_resizer' );
+						assert.isTrue( Boolean( resizer ), 'Resizer should be enabled'  );
 					} );
 				} );
 
