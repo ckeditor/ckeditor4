@@ -62,9 +62,9 @@
 				'display:block' +
 			'}' +
 			// Hide resizer in read only mode (#2816).
-			'.cke_editable[contenteditable="false"] .cke_image_resizer{' + 
-                'display:none;' +
-            '}' +
+			'.cke_editable[contenteditable="false"] .cke_image_resizer{' +
+				'display:none;' +
+			'}' +
 			// Expand widget wrapper when linked inline image.
 			'.cke_widget_wrapper>a{' +
 				'display:inline-block' +
