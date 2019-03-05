@@ -53,13 +53,13 @@
 
 			menu.once( 'show', spy );
 			this.editorBot.menu( 'custom_menubutton', function( menu ) {
-				assert.isTrue( spy.called );
+				assert.isTrue( spy.called, 'menu show listener called' );
 				spy.reset();
 
 				menu.once( 'hide', spy );
 				menu.hide();
 
-				assert.isTrue( spy.called );
+				assert.isTrue( spy.called, 'menu hide listener called' );
 			} );
 		}
 	} );
