@@ -1136,11 +1136,16 @@
 				// Hacky way to get rid of margin left.
 				// @todo: we should gather all css cleanup here, and consider bidi. Eventually we might put a config variable to
 				// to enable it.
-				var styles = tools.parseCssText( element.attributes.style );
+				var styles = tools.parseCssText( element.attributes.style ),
+					marginLeft = styles[ 'margin-left' ];
 
-				if ( styles[ 'margin-left' ] ) {
+				if ( marginLeft ) {
 					delete styles[ 'margin-left' ];
+					element.attributes[ 'cke-margin-left' ] = CKEDITOR.tools.convertToPx( marginLeft ) + CKEDITOR.tools.convertToPx( styles[ 'text-indent' ] );
 					element.attributes.style =  CKEDITOR.tools.writeCssText( styles );
+				} else {
+					// Default Word list would have 24px default margin, but it isn't outputted.
+					element.attributes[ 'cke-margin-left' ] = 24;
 				}
 			}
 
@@ -1435,6 +1440,8 @@
 				return [];
 			}
 
+			mergeParagraphsIntoLists( root );
+
 			// Chop data into continuous lists.
 			var lists = List.groupLists( listElements );
 
@@ -1527,6 +1534,63 @@
 			}
 
 			return listElements;
+
+			function mergeParagraphsIntoLists( container ) {
+				var index = 1,
+					element,
+					previous;
+
+				while ( index < container.children.length ) {
+					element = container.children[ index ];
+					previous = element.previous;
+
+					if ( previous.name !== 'li' || element instanceof CKEDITOR.htmlParser.text ) {
+						index++;
+						continue;
+					}
+
+					var margin = List.getElementIndentation( element ),
+						listMargin = previous.attributes[ 'cke-margin-left' ];
+
+					if ( margin >= listMargin ) {
+						insertParagraphIntoList();
+					} else {
+						index++;
+					}
+				}
+
+				function insertParagraphIntoList() {
+					element.remove();
+					previous.add( element );
+
+					var style = CKEDITOR.tools.parseCssText( element.attributes.style ),
+						fakeEl = {
+							styles: style
+						},
+						marginLeft;
+
+					CKEDITOR.filter.transformationsTools.splitMarginShorthand( fakeEl );
+
+					marginLeft = CKEDITOR.tools.convertToPx( fakeEl.styles[ 'margin-left' ] );
+					// Lists default styles includes 40px left padding, but bullet starts at 24px, so we need to remove 16px more.
+					// Note: value can be negative up to -16, so paragraph is aligned with list bullet.
+					marginLeft -= listMargin + 16;
+
+					if ( marginLeft ) {
+						fakeEl.styles[ 'margin-left' ] = marginLeft + 'px';
+					} else {
+						delete fakeEl.styles[ 'margin-left' ];
+					}
+
+					style = CKEDITOR.tools.writeCssText( fakeEl.styles );
+
+					if ( style ) {
+						element.attributes.style = style;
+					} else {
+						delete element.attributes.style;
+					}
+				}
+			}
 		},
 
 		/**
