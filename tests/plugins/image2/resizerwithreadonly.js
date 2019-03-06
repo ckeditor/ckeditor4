@@ -10,19 +10,16 @@
 			bender.editorBot.create( {
 				name: 'editor1'
 			}, function( bot ) {
-				var editor = bot.editor,
-					listener;
+				var editor = bot.editor;
 
-				listener = editor.on( 'dataReady', function() {
-					listener.removeListener();
-
+				editor.setData( '<img src="_assets/foo.png" alt="" />', function() {
 					resume( function() {
+						editor.setReadOnly( true );
 						var resizer = editor.editable().findOne( '.cke_widget_image .cke_image_resizer' );
 						assert.isTrue( Boolean( resizer ), 'Resizer should be enabled'  );
 					} );
 				} );
 
-				editor.setData( '<img src="_assets/foo.png" alt="" />' );
 				wait();
 			} );
 		},
@@ -35,19 +32,15 @@
 					readOnly: true
 				}
 			}, function( bot ) {
-				var editor = bot.editor,
-					listener;
+				var editor = bot.editor;
 
-				listener = editor.on( 'dataReady', function() {
-					listener.removeListener();
-
+				editor.setData( '<img src="_assets/foo.png" alt="" />', function() {
 					resume( function() {
 						var resizer = editor.editable().findOne( '.cke_widget_image .cke_image_resizer' );
 						assert.isTrue( Boolean( resizer ), 'Resizer should be enabled'  );
 					} );
 				} );
 
-				editor.setData( '<img src="_assets/foo.png" alt="" />' );
 				wait();
 			} );
 		},
@@ -57,20 +50,16 @@
 			bender.editorBot.create( {
 				name: 'editor3'
 			}, function( bot ) {
-				var editor = bot.editor,
-					listener;
+				var editor = bot.editor;
 
-				listener = editor.on( 'dataReady', function() {
-					editor.setReadOnly( true );
-					listener.removeListener();
-
+				editor.setData( '<img src="_assets/foo.png" alt="" />', function() {
 					resume( function() {
+						editor.setReadOnly( true );
 						var resizer = editor.editable().findOne( '.cke_widget_image .cke_image_resizer' );
 						assert.isTrue( Boolean( resizer ), 'Resizer should be enabled'  );
 					} );
 				} );
 
-				editor.setData( '<img src="_assets/foo.png" alt="" />' );
 				wait();
 			} );
 		}
