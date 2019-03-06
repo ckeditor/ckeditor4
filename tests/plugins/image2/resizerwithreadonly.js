@@ -54,15 +54,13 @@
 		// #719, #2816
 		'test readOnly set to true after initialization': function() {
 			bender.editorBot.create( {
-				name: 'editor3',
-				config: {
-					readOnly: true
-				}
+				name: 'editor3'
 			}, function( bot ) {
 				var editor = bot.editor,
 					listener;
 
 				listener = editor.on( 'dataReady', function() {
+					editor.setReadOnly( true );
 					listener.removeListener();
 
 					resume( function() {
