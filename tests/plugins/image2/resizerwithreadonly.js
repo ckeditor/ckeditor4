@@ -8,21 +8,22 @@
 		// #719, #2816, #2874
 		'test readOnly set to false': function() {
 			bender.editorBot.create( {
-				name: 'editor1',
-				config: {
-					language: 'en'
-				}
+				name: 'editor1'
 			}, function( bot ) {
-				var editor = bot.editor;
+				var editor = bot.editor,
+					listener;
 
-				bot.dialog( 'image', function( dialog ) {
-					dialog.setValueOf( 'info', 'src', '_assets/foo.png' );
-					dialog.getButton( 'ok' ).click();
+				listener = editor.on( 'dataReady', function() {
+					listener.removeListener();
 
-					var resizer = editor.editable().findOne( '.cke_widget_image .cke_image_resizer' );
-					assert.isTrue( Boolean( resizer ), 'Resizer should be enabled'  );
-
+					resume( function() {
+						var resizer = editor.editable().findOne( '.cke_widget_image .cke_image_resizer' );
+						assert.isTrue( Boolean( resizer ), 'Resizer should be enabled'  );
+					} );
 				} );
+
+				editor.setData( '<img src="_assets/foo.png" alt="" />' );
+				wait();
 			} );
 		},
 
