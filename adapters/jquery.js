@@ -157,10 +157,10 @@
 					editor.on( 'instanceReady', function( evt ) {
 						var editor = evt.editor;
 
-						setTimeout( function() {
+						setTimeout( function delayEditor() {
 							// Delay bit more if editor is still not ready.
 							if ( !editor.element ) {
-								setTimeout( arguments.callee, 100 );
+								setTimeout( delayEditor, 100 );
 								return;
 							}
 
