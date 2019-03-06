@@ -4,18 +4,18 @@
 
 /* Button rules */
 
-.cke_dialog_ui_button.a11yfirsthelp {
+a.cke_dialog_ui_button.a11yfirsthelp {
   width: 11em;
   margin-bottom: 0;
   margin-top: 0;
   text-align: left;
 }
 
-.cke_dialog_ui_button.a11yfirsthelp > span {
+a.cke_dialog_ui_button.a11yfirsthelp > span {
   padding-left: 6px;
 }
 
-.cke_dialog_ui_button.a11yfirsthelp.selected {
+a.cke_dialog_ui_button.a11yfirsthelp.selected {
   background-color: #d1d1d1;
 }
 
@@ -29,6 +29,16 @@ a.cke_dialog_ui_button.a11yfirsthelp:hover
 }
 
 /* Content rules */
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent {
+  margin: 0;
+  margin-top: -1em;
+  margin-left: -5.5em;
+  padding-left: 1em;
+  border-left: 2px solid #ddd;
+  height: 400px;
+  overflow: auto
+}
 
 .cke_dialog_ui_hbox .a11yfirsthelpcontent * {
   white-space: normal;
