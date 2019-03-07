@@ -25,8 +25,7 @@
 		],
 		wordVersions: [
 			'word2007',
-			'word2013',
-			'word2016'
+			'word2013'
 		],
 		tests: {
 			'Bold': true,
@@ -41,7 +40,6 @@
 			'Ordered_list': true,
 			'Ordered_list_multiple': true,
 			'Ordered_list_multiple_edgy': true,
-			'Paragraph_in_list': true,
 			'Paragraphs_with_headers': true,
 			'Simple_table': true,
 			'Spacing': true,
