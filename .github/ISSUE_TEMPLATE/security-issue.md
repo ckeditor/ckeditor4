@@ -1,6 +1,6 @@
 ---
 name: "\U0001F6A8 Security issue"
-about: If you want to report a security issue.
+about: Report a security issue.
 title: ''
 labels: ''
 assignees: ''

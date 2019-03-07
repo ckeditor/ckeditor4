@@ -1,6 +1,6 @@
 ---
 name: "⭐ Feature request"
-about: If you want to propose something new.
+about: Propose something new.
 title: ''
 labels: ''
 assignees: ''
