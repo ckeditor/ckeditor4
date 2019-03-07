@@ -1544,7 +1544,7 @@
 					element = container.children[ index ];
 					previous = element.previous;
 
-					if ( previous.name !== 'li' || element instanceof CKEDITOR.htmlParser.text ) {
+					if ( previous.name !== 'li' || element.name !== 'p' ) {
 						index++;
 						continue;
 					}
