@@ -16,6 +16,41 @@ CKEDITOR.plugins.colordialog = {
 
 		CKEDITOR.dialog.add( 'colordialog', this.path + 'dialogs/colordialog.js' );
 
+		editor.setDefaultColor = function( color ) {
+			var onShow,
+				bindToDialog;
+
+			onShow = function() {
+				this.getContentElement( 'picker', 'selectedColor' ).setValue( color );
+			};
+
+			bindToDialog = function( dialog ) {
+				dialog.on( 'show', onShow );
+			};
+
+			if ( editor._.storedDialogs && editor._.storedDialogs.colordialog )
+				bindToDialog( editor._.storedDialogs.colordialog );
+			else {
+				CKEDITOR.on( 'dialogDefinition', function( e ) {
+					if ( e.data.name != 'colordialog' )
+						return;
+
+					var definition = e.data.definition;
+
+					e.removeListener();
+					definition.onLoad = CKEDITOR.tools.override( definition.onLoad,
+						function( orginal ) {
+							return function() {
+								bindToDialog( this );
+								definition.onLoad = orginal;
+								if ( typeof orginal == 'function' )
+									orginal.call( this );
+							};
+						} );
+				} );
+			}
+		};
+
 		/**
 		 * Open up color dialog and to receive the selected color.
 		 *
@@ -71,8 +106,6 @@ CKEDITOR.plugins.colordialog = {
 				} );
 			}
 		};
-
-
 	}
 };
 

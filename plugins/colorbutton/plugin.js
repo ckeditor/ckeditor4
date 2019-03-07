@@ -209,6 +209,34 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				editor.fire( 'saveSnapshot' );
 
 				if ( color == '?' ) {
+					var selection = editor.getSelection();
+					var range = selection && selection.getRanges()[ 0 ];
+
+					if ( range ) {
+						var walker = new CKEDITOR.dom.walker( range ),
+							element = range.collapsed ? range.startContainer : walker.next(),
+							finalColor = '',
+							currentColor;
+
+						while ( element ) {
+							// (#2296)
+							if ( element.type !== CKEDITOR.NODE_ELEMENT ) {
+								element = element.getParent();
+							}
+
+							currentColor = normalizeColor( element.getComputedStyle( type == 'back' ? 'background-color' : 'color'  ) );
+							finalColor = finalColor || currentColor;
+
+							if ( finalColor !== currentColor ) {
+								finalColor = '';
+								break;
+							}
+
+							element = walker.next();
+						}
+					}
+
+					editor.setDefaultColor( '#' + finalColor );
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
 							return setColor( color );
