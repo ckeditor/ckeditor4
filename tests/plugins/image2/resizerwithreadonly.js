@@ -1,5 +1,5 @@
 /* bender-tags: editor,widget */
-/* bender-ckeditor-plugins: image2,toolbar */
+/* bender-ckeditor-plugins: image2 */
 
 ( function() {
 	'use strict';
