@@ -3,6 +3,8 @@
 
 ## CKEditor 4.11.4
 
+* [#2871](https://github.com/ckeditor/ckeditor-dev/issues/2871): Fixed: Paragraph under list items with the same indentation level should breaks list continuity when pasted with [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
+
 ## CKEditor 4.11.3
 
 Fixed Issues:
