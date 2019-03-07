@@ -9,8 +9,22 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
   // jscs:enable maximumLineLength
 
+  // Test if CKEditor is installed in Drupal by looking at path
+  // information specific to the Drupal A11yFirst Module
+  isDrupal: function() {
+    return this.path.toLowerCase().indexOf('/a11yfirst/js/plugins/') > 0;
+  },
+
   onLoad: function () {
     CKEDITOR.document.appendStyleSheet( this.path + 'styles/a11yfirsthelp.css' );
+
+    // Check to see if drupal stylesheet needs to be loaded
+    if (this.isDrupal()) {
+      // save path location of use with image references in the help dialog
+      CKEDITOR.drupalA11yFirstPath = this.path.split('plugins')[0];
+      console.log('loading: ' + this.path + 'styles/a11yfirsthelp-drupal.css');
+      CKEDITOR.document.appendStyleSheet( this.path + 'styles/a11yfirsthelp-drupal.css' );
+    }
   },
 
   init: function( editor ) {

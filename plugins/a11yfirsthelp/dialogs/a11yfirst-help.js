@@ -11,7 +11,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
   var basePathExt = {
     type: 'lang',
     regex: /basePath\//g,
-    replace: CKEDITOR.basePath
+    replace: typeof CKEDITOR.drupalA11yFirstPath === 'string' ? CKEDITOR.drupalA11yFirstPath : CKEDITOR.basePath
   };
 
   // Register the showdown extension
@@ -118,12 +118,11 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
         elements: [
           {
             type: 'hbox',
-            widths: [ '10%', '90%' ],
+            widths: [ '35%', '65%' ],
             children: [
               {
                 type: 'vbox',
                 align: 'left',
-                width: '200px',
                 children: dialogMenuButtons
               },
               {
@@ -133,10 +132,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                   this.getElement().focus();
                 },
                 html:
-                  '<div tabindex="-1" class="a11yfirsthelpcontent" style="\
-                  margin: 0; margin-top: -1em; margin-left: -5.5em; \
-                  padding-left: 1em; border-left: 2px solid #ddd; \
-                  height: 400px; overflow: auto">\
+                  '<div tabindex="-1" class="a11yfirsthelpcontent">\
                     <div id="contentHeadingHelp"></div>\
                     <div id="contentListHelp"></div>\
                     <div id="contentImageHelp"></div>\

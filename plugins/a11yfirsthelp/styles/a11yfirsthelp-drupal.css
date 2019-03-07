@@ -1,0 +1,26 @@
+/* ---------------------------------------------------------------- */
+/*                    a11yfirsthelp-drupal.css                      */
+/* ---------------------------------------------------------------- */
+
+.cke_dialog_body {
+  font-size: 12px;
+}
+
+a.cke_dialog_ui_button.a11yfirsthelp {
+  font-size: 9pt;
+  padding-left: 1px !important;
+  border-radius: 5px;
+  position: relative;
+  left: -5px;
+}
+
+a.cke_dialog_ui_button.a11yfirsthelp span.cke_dialog_ui_button {
+  font-size: 8pt;
+  font-weight: bold;
+}
+
+a.cke_dialog_ui_button.a11yfirsthelp.selected {
+  background-image: linear-gradient(to bottom,#d6d6d6,#c7c7cf) !important;
+  border-color: black;
+}
+}
