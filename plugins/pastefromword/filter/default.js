@@ -1634,10 +1634,11 @@
 
 			var assumedValue = this.calculateValue(  element ),
 				cleanSymbol = element.attributes[ 'cke-symbol' ].match( /[a-z0-9]+/gi ),
+				isAsssumed = element.attributes[ 'cke-start-assumed' ],
 				computedValue,
 				listType;
 
-			if ( cleanSymbol ) {
+			if ( !isAsssumed && cleanSymbol ) {
 				// Note that we always want to use last match, just because of markers like "1.1.4" "1.A.a.IV" etc.
 				cleanSymbol = cleanSymbol[ cleanSymbol.length - 1 ];
 
@@ -1722,7 +1723,7 @@
 
 			arrayTools.forEach( lists, function( list ) {
 				var type = list.attributes.type,
-					start = parseInt( list.attributes.start, 10 ) || 1,
+					start = parseInt( list.attributes.start, 10 ) || null,
 					level = countParents( isList, list ) + 1;
 
 				if ( !type ) {
@@ -1731,7 +1732,12 @@
 				}
 
 				arrayTools.forEach( arrayTools.filter( list.children, nameIs( 'li' ) ), function( child, index ) {
-					var symbol;
+					var symbol = start;
+
+					if ( !symbol ) {
+						symbol = 1;
+						child.attributes[ 'cke-start-assumed' ] = true;
+					}
 
 					switch ( type ) {
 						case 'disc':
@@ -1745,26 +1751,26 @@
 							break;
 						case '1':
 						case 'decimal':
-							symbol = ( start + index ) + '.';
+							symbol = ( symbol + index ) + '.';
 							break;
 						case 'a':
 						case 'lower-alpha':
-							symbol = String.fromCharCode( 'a'.charCodeAt( 0 ) + start - 1 + index ) + '.';
+							symbol = String.fromCharCode( 'a'.charCodeAt( 0 ) + symbol - 1 + index ) + '.';
 							break;
 						case 'A':
 						case 'upper-alpha':
-							symbol = String.fromCharCode( 'A'.charCodeAt( 0 ) + start - 1 + index ) + '.';
+							symbol = String.fromCharCode( 'A'.charCodeAt( 0 ) + symbol - 1 + index ) + '.';
 							break;
 						case 'i':
 						case 'lower-roman':
-							symbol = toRoman( start + index ) + '.';
+							symbol = toRoman( symbol + index ) + '.';
 							break;
 						case 'I':
 						case 'upper-roman':
-							symbol = toRoman( start + index ).toUpperCase() + '.';
+							symbol = toRoman( symbol + index ).toUpperCase() + '.';
 							break;
 						default:
-							symbol = list.name == 'ul' ? '·' : ( start + index ) + '.';
+							symbol = list.name == 'ul' ? '·' : ( symbol + index ) + '.';
 					}
 
 					child.attributes[ 'cke-symbol' ] = symbol;
