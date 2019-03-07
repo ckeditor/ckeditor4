@@ -14,7 +14,6 @@
 
 				editor.setData( '<img src="_assets/foo.png" alt="" />', function() {
 					resume( function() {
-						editor.setReadOnly( true );
 						var resizer = editor.editable().findOne( '.cke_widget_image .cke_image_resizer' );
 						assert.isTrue( Boolean( resizer ), 'Resizer should be enabled'  );
 					} );
