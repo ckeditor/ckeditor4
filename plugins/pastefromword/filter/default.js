@@ -1606,7 +1606,9 @@
 					'cke-symbol',
 					'cke-list-id',
 					'cke-indentation',
-					'cke-dissolved'
+					'cke-dissolved',
+					'cke-margin-left',
+					'cke-start-assumed'
 				],
 				i,
 				j;
