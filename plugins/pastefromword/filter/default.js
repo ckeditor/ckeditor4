@@ -1740,6 +1740,7 @@
 
 					if ( !symbol ) {
 						symbol = 1;
+						// We need to mark value as assumed, so it can be updated after merging lists.
 						child.attributes[ 'cke-start-assumed' ] = true;
 					}
 
