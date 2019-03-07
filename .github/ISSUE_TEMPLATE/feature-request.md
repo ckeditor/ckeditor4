@@ -1,6 +1,10 @@
 ---
-name: ⭐ Feature request
+name: "⭐ Feature request"
 about: If you want to propose something new.
+title: ''
+labels: ''
+assignees: ''
+
 ---
 
 ## Type of report
