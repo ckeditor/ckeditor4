@@ -1,0 +1,49 @@
+.a11yimage_dialog  .cke_dialog_body {
+  font-size: 12px !important;
+}
+
+.a11yimage_dialog .cke_dialog_ui_fieldset {
+  padding-top: 0px;
+}
+
+.a11yimage_dialog .cke_dialog_ui_fieldset legend {
+  position: relative;
+  top: 0;
+}
+
+.a11yimage_dialog  .cke_dialog_body label {
+  font-weight: normal !important;
+  display: inline;
+}
+
+.a11yimage_dialog .cke_dialog_ui_text.a11yimage_src_url {
+  margin: 0;
+  padding: 0;
+}
+
+.a11yimage_dialog .cke_dialog_ui_text.a11yimage_alt_text,
+.a11yimage_dialog .cke_dialog_ui_hbox.a11yimage_caption_checkbox {
+  margin: 0;
+  padding: 0;
+}
+
+.a11yimage_dialog .cke_dialog_ui_hbox.a11yimage_long_description {
+  margin: 0;
+  padding: 0;
+}
+
+.a11yimage_dialog .cke_dialog_ui_hbox.a11yimage_alt_text_not_required {
+  margin: 0;
+  padding: 0;
+}
+
+.a11yimage_dialog .cke_dialog_ui_fieldset {
+  margin: 0;
+  padding: 0;
+  height: 150px;
+}
+
+.a11yimage_dialog .cke_dialog_ui_radio {
+  margin: 0;
+  padding: 0;
+}

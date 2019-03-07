@@ -24,8 +24,20 @@
     icons: 'image',
     hidpi: true,
 
+    // Test if CKEditor is installed in Drupal by looking at path
+    // information specific to the Drupal A11yFirst Module
+    isDrupal: function() {
+      return this.path.toLowerCase().indexOf('/a11yfirst/js/plugins/') > 0;
+    },
+
     onLoad: function() {
       CKEDITOR.document.appendStyleSheet( this.path + 'styles/a11yimage.css' );
+
+      // Check to see if drupal stylesheet needs to be loaded
+      if (this.isDrupal()) {
+        console.log('loading: ' + this.path + 'styles/a11yimage-drupal.css');
+        CKEDITOR.document.appendStyleSheet( this.path + 'styles/a11yimage-drupal.css' );
+      }
 
       CKEDITOR.addCss(
       '.cke_image_nocaption{' +

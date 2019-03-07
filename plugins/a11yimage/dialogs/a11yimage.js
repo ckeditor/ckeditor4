@@ -833,13 +833,13 @@ CKEDITOR.dialog.add( 'a11yimage', function ( editor ) {
           // image alignment fieldset
           {
             id: 'imageAlignFieldset',
+            requiredContent: features.align.requiredContent,
             type: 'fieldset',
             label: commonLang.align,
             children: [
               {
                 type: 'hbox',
                 id: 'alignment',
-                requiredContent: features.align.requiredContent,
                 children: [
                   {
                     id: 'align',
