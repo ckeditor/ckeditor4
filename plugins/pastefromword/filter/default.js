@@ -1552,7 +1552,9 @@
 					var margin = List.getElementIndentation( element ),
 						listMargin = previous.attributes[ 'cke-margin-left' ];
 
-					if ( margin >= listMargin ) {
+					// Don't merge paragraph without margin. List can have removed indentation in Word.
+					// In such situation it might not always be expected to merge paragraphs, so ignore this case.
+					if ( margin && margin >= listMargin ) {
 						insertParagraphIntoList();
 					} else {
 						index++;
