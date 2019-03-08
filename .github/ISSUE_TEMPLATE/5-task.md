@@ -1,8 +1,8 @@
 ---
 name: "\U0001F477 Task"
-about: If your issue is neither a bug nor feature request.
+about: It's neither a bug nor feature request.
 title: ''
-labels: ''
+labels: type:task
 assignees: ''
 
 ---
