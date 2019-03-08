@@ -1209,20 +1209,22 @@
 		},
 
 		/**
-		 * Creates a promise from the given function. It works in a similar way as a promise constructor (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise),
+		 * Creates a promise from the given function. It works in a similar way as a promise constructor
+		 * (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise),
 		 * with support for IE8 browser.
+		 *
 		 * ```js
-		 * 	bender.tools.promise( function( resolve, reject ) {
-		 * 		setTimeout( function() {
-		 * 			var timestamp;
-		 * 			try {
-		 * 				timestamp = ( new Date() ).getTime();
-		 * 			} catch ( e ) {
-		 * 				reject( e );
-		 * 			}
-		 * 			resolve( timestamp );
-		 * 		}, 5000 );
-		 * 	} )
+		 *	bender.tools.promise( function( resolve, reject ) {
+		 *		setTimeout( function() {
+		 *			var timestamp;
+		 *			try {
+		 *				timestamp = ( new Date() ).getTime();
+		 *			} catch ( e ) {
+		 *				reject( e );
+		 *			}
+		 *			resolve( timestamp );
+		 *		}, 5000 );
+		 *	} )
 		 * ```
 		 *
 		 * @param {Function} fn Function which has 2 arguments `resolve` and `reject`. Resolve should be called when promise is fulfilled and reject when promise is rejected.
@@ -1239,10 +1241,9 @@
 
 		/**
 		 * Creates test suite object for `bender.test` method from synchronous and asynchronous test cases.
-		 * Asynchronous test must be a function which returns a promise.
-		 * Asynchronous tests cannot poses wait-resume statements.
+		 * Asynchronous test must be a function which returns a promise and cannot poses wait-resume statements.
 		 *
-		 * Please notice that currently this method doesn't support special test methods ( `setUp`, `tearDown`, etc. ),
+		 * Please notice that currently this method doesn't support special test methods (`setUp`, `tearDown`, etc.),
 		 * which might be passed to the `bender.test` function.
 		 *
 		 * @param {Object} tests object
