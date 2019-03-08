@@ -1,7 +1,7 @@
 ---
 name: "\U0001F4DA Docs issue"
 about: Report an issue related to documentation.
-title: "\U0001F4DA Docs issue"
+title: ''
 labels: type:docs
 assignees: ''
 
