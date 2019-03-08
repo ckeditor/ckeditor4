@@ -3,6 +3,10 @@
 
 ## CKEditor 4.11.4
 
+Fixed Issues:
+
+* [#1397](https://github.com/ckeditor/ckeditor-dev/issues/1397): Fixed: Using dialog to remove headers from the [table](https://ckeditor.com/cke4/addon/table) with one headers row only throws an error.
+
 ## CKEditor 4.11.3
 
 Fixed Issues:
