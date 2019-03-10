@@ -86,6 +86,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function addButton( name, type, title, order, options ) {
 			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
+				colorData = {},
 				panelBlock;
 
 			options = options || {};
@@ -110,7 +111,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
-					block.element.setHtml( renderColors( panel, type, colorBoxId ) );
+					block.element.setHtml( renderColors( panel, type, colorBoxId, colorData ) );
 					// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
 					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 
@@ -185,7 +186,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							element = walker.next();
 						}
 
+						colorData.selectedColor = finalColor;
 						selectColor( panelBlock, finalColor );
+					}
+
+					if ( !colorData.selectedColor ) {
+						colorData.selectedColor = automaticColor;
 					}
 
 					return automaticColor;
@@ -193,7 +199,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 		}
 
-		function renderColors( panel, type, colorBoxId ) {
+		function renderColors( panel, type, colorBoxId, colorData ) {
 			var output = [],
 				colors = config.colorButton_colors.split( ',' ),
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
@@ -213,7 +219,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						if ( color ) {
 							return setColor( color );
 						}
-					} );
+					}, null, colorData );
 				} else {
 					return setColor( color );
 				}

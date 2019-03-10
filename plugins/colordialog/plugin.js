@@ -24,8 +24,9 @@ CKEDITOR.plugins.colordialog = {
 		 * @param [scope] The scope in which the callback will be bound.
 		 * @member CKEDITOR.editor
 		 */
-		editor.getColorFromDialog = function( callback, scope ) {
+		editor.getColorFromDialog = function( callback, scope, options ) {
 			var onClose,
+				onShow,
 				releaseHandlers,
 				bindToDialog;
 
@@ -38,13 +39,23 @@ CKEDITOR.plugins.colordialog = {
 				}
 				callback.call( scope, color );
 			};
+
+			onShow = function( evt ) {
+				if ( options && options.selectedColor ) {
+					evt.data.colordialog = evt.data.colordialog || {};
+					evt.data.colordialog.selectedColor = options.selectedColor;
+				}
+			};
+
 			releaseHandlers = function( dialog ) {
 				dialog.removeListener( 'ok', onClose );
 				dialog.removeListener( 'cancel', onClose );
+				dialog.removeListener( 'show', onShow );
 			};
 			bindToDialog = function( dialog ) {
 				dialog.on( 'ok', onClose );
 				dialog.on( 'cancel', onClose );
+				dialog.on( 'show', onShow, null, null, 5 );
 			};
 
 			editor.execCommand( 'colordialog' );

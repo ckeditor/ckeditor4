@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
+/* global console */
+
 CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 	// Define some shorthands.
 	var $el = CKEDITOR.dom.element,
@@ -276,6 +278,12 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		title: lang.title,
 		minWidth: 360,
 		minHeight: 220,
+		onShow: function( evt ) {
+			if ( evt.data.colordialog && evt.data.colordialog.selectedColor ) {
+				// Normalize color and select it in the dialog.
+				console.log( evt.data.colordialog.selectedColor );
+			}
+		},
 		onLoad: function() {
 			// Update reference.
 			dialog = this;
