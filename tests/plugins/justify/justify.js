@@ -540,6 +540,7 @@
 				} );
 		},
 
+		// (#1479)
 		'test alignment on styled elements in br mode': function() {
 			return bender.editorBot.createAsync( {
 					name: 'editor_br_2',

@@ -1227,8 +1227,10 @@
 		 *	} )
 		 * ```
 		 *
-		 * @param {Function} fn Function which has 2 arguments `resolve` and `reject`. Resolve should be called when promise is fulfilled and reject when promise is rejected.
-		 * @returns {deferred} deferred promise, which should be in pending state. More details: (https://github.com/kriskowal/q/wiki/API-Reference#qdefer)
+		 * @param {Function} executor Initialization function executed immediately by the Promise implementation.
+		 * @param {Function} executor.resolve Function which should be called when promise is fulfilled.
+		 * @param {Function} executor.reject Function which should be called when promise is rejected.
+		 * @returns {Promise}
 		 */
 
 		promise: function( fn ) {
