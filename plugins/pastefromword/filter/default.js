@@ -42,6 +42,7 @@
 
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
 		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
+			keepEmptyMargins = editor && editor.config.pasteFromWord_keepEmptyMargins,
 			shapesIds = [];
 
 		function shapeTagging( element ) {
@@ -54,7 +55,7 @@
 		// Before filtering inline all the styles to allow because some of them are available only in style
 		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (https://dev.ckeditor.com/ticket/16847)
 		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
-			mswordHtml = CKEDITOR.plugins.pastefromword.styles.inliner.inline( mswordHtml ).getBody().getHtml();
+			mswordHtml = CKEDITOR.plugins.pastefromword.styles.inliner.inline( mswordHtml, keepEmptyMargins ).getBody().getHtml();
 		}
 
 		// Sometimes Word malforms the comments.
@@ -649,8 +650,9 @@
 				}
 			}
 
+			var keepEmptyMargins = editor && editor.config.pasteFromWord_keepEmptyMargins;
 			// Still some elements might have shorthand margins or longhand with zero values.
-			parseShorthandMargins( styles );
+			parseShorthandMargins( styles, keepEmptyMargins );
 			normalizeMargins();
 
 			return CKEDITOR.tools.writeCssText( styles );
@@ -659,10 +661,16 @@
 				var keys = [ 'top', 'right', 'bottom', 'left' ];
 				CKEDITOR.tools.array.forEach( keys, function( key ) {
 					key = 'margin-' + key;
-					if ( !parseFloat( styles[ key ] ) ) {
-						delete styles[ key ];
+					if ( !( key in styles ) ) {
+						return;
+					}
+
+					var value = CKEDITOR.tools.convertToPx( styles[ key ] );
+					// We need to get rid of margins, unless they are allowed in config (#2935).
+					if ( value || keepEmptyMargins ) {
+						styles[ key ] = value ? value + 'px' : 0;
 					} else {
-						styles[ key ] = CKEDITOR.tools.convertToPx( styles[ key ] ) + 'px';
+						delete styles[ key ];
 					}
 				} );
 			}
@@ -999,12 +1007,13 @@
 			 * into a generic style sheet.
 			 *
 			 * @param {String} html An HTML string to be parsed.
+			 * @param {Boolean} [keepEmptyMargins=false] When set to `true` removing margins which equals to 0 will be prevented. **Since 4.12.0**.
 			 * @returns {CKEDITOR.dom.document}
 			 * @since 4.7.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
 			 */
-			inline: function( html ) {
+			inline: function( html, keepEmptyMargins ) {
 				var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
 					sortStyles = CKEDITOR.plugins.pastefromword.styles.inliner.sort,
 					document = createTempDocument( html ),
@@ -1036,14 +1045,14 @@
 						newStyle,
 						i;
 
-					parseShorthandMargins( style );
+					parseShorthandMargins( style, keepEmptyMargins );
 
 					for ( i = 0; i < elements.count(); i++ ) {
 						element = elements.getItem( i );
 
 						oldStyle = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ) );
 
-						parseShorthandMargins( oldStyle );
+						parseShorthandMargins( oldStyle, keepEmptyMargins );
 						// The styles are applied with decreasing priority so we do not want
 						// to overwrite the existing properties.
 						newStyle = CKEDITOR.tools.extend( {}, oldStyle, style );
@@ -2447,16 +2456,18 @@
 		}
 	}
 
-	function parseShorthandMargins( style ) {
+	function parseShorthandMargins( style, keepEmptyMargins ) {
 		var marginCase = style.margin ? 'margin' : style.MARGIN ? 'MARGIN' : false,
 			key, margin;
 		if ( marginCase ) {
 			margin = CKEDITOR.tools.style.parse.margin( style[ marginCase ] );
 			for ( key in margin ) {
 				var currMargin = margin[ key ];
-				// skip zeros.
-				if ( parseFloat( currMargin ) ) {
+				// We need to get rid of margins, unless they are allowed in config (#2935).
+				if ( keepEmptyMargins || CKEDITOR.tools.convertToPx( margin[ key ] ) ) {
 					style[ 'margin-' + key ] = currMargin;
+				} else if ( style[ 'margin-' + key ] ) {
+					delete style[ 'margin-' + key ];
 				}
 			}
 			delete style[ marginCase ];

@@ -234,6 +234,17 @@
  */
 
 /**
+ * Flag decides whether pasted elements style `margin` which equals to 0 should be removed.
+ *
+ *		// Disable removing `margin:0`, `margin-left:0`, etc.
+ *		config.pasteFromWord_keepEmptyMargins = true;
+ *
+ * @since 4.12.0
+ * @cfg {Boolean} [pasteFromWord_keepEmptyMargins=false]
+ * @member CKEDITOR.config
+ */
+
+/**
  * Fired when the pasted content was recognized as Microsoft Word content.
  *
  * This event is cancellable. If canceled, it will prevent Paste from Word processing.
