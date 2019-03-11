@@ -1,0 +1,14 @@
+<p>Empty margins allowed:</p>
+<textarea id="editor1"></textarea>
+<p>No empty margins allowed:</p>
+<textarea id="editor2"></textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true,
+		pasteFromWord_keepEmptyMargins: true
+	} );
+	CKEDITOR.replace( 'editor2', {
+		allowedContent: true
+	} );
+</script>
