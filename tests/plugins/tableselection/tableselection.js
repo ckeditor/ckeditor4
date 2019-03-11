@@ -148,6 +148,25 @@
 			} );
 		},
 
+		// (#2945)
+		'test simulating mouse events while the table is ignored': function( editor ) {
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			var table = editor.editable().findOne( 'table' ),
+				cells = table.find( 'td' );
+
+			CKEDITOR.plugins.tableselection.addIgnoredElement( editor, table );
+
+			mockMouseSelection( editor, [ cells.getItem( 1 ), cells.getItem( 2 ) ], function() {
+				var selection = editor.getSelection();
+
+				CKEDITOR.plugins.tableselection.removeIgnoredElement( editor, table );
+
+				assert.isFalse( selection.isInTable(), 'Selection is not in table' );
+				assert.isFalse( !!selection.isFake, 'Selection is not faked' );
+			} );
+		},
+
 		// (#2003)
 		'test right-click in cell with empty paragraph': function( editor, bot ) {
 			if ( !CKEDITOR.env.gecko ) {

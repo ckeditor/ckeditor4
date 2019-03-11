@@ -900,7 +900,6 @@
 	 * @class CKEDITOR.plugins.tableselection
 	 */
 	CKEDITOR.plugins.tableselection = {
-
 		/**
 		 * Fetches all cells between cells passed as parameters, including these cells.
 		 *
