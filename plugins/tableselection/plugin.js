@@ -766,7 +766,8 @@
 			selection = editor.getSelection();
 
 		// (#2945)
-		if ( editor.plugins.tableselection.isElementIgnored( selection.getRanges()[ 0 ].startContainer ) ) {
+		if ( selection &&
+			editor.plugins.tableselection.isElementIgnored( selection.getRanges()[ 0 ].startContainer ) ) {
 			return;
 		}
 
