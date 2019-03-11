@@ -236,6 +236,11 @@
 			return;
 		}
 
+		// (#2945)
+		if ( this.isElementIgnored( ranges[ 0 ].startContainer ) ) {
+			return;
+		}
+
 		clearFakeCellSelection( editor );
 
 		if ( !selection.isInTable() || !selection.isFake ) {
@@ -274,6 +279,12 @@
 		if ( !evt.data.getTarget().getName ) {
 			return;
 		}
+
+		// (#2945)
+		if ( this.isElementIgnored( evt.data.getTarget() ) ) {
+			return;
+		}
+
 		// Prevent applying table selection when widget is selected.
 		// Mouseup remains a possibility to finish table selection when user release mouse button above widget in table.
 		if ( evt.name !== 'mouseup' && isWidget( evt.data.getTarget() ) ) {
@@ -333,7 +344,7 @@
 			fakeSelection = { active: true };
 
 			// This listener covers case when mouse button is released outside the editor.
-			CKEDITOR.document.on( 'mouseup', fakeSelectionMouseHandler, null, { editor: editor } );
+			CKEDITOR.document.on( 'mouseup', fakeSelectionMouseHandler, this, { editor: editor } );
 		}
 
 		// The separate condition for table handles cases when user starts/stop dragging from/in
@@ -358,6 +369,11 @@
 	}
 
 	function fakeSelectionDragHandler( evt ) {
+		// (#2945)
+		if ( this.isElementIgnored( evt.data.getTarget() ) ) {
+			return;
+		}
+
 		var cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true );
 
 		if ( !cell || cell.hasClass( fakeSelectedClass ) ) {
@@ -454,6 +470,11 @@
 	}
 
 	function fakeSelectionCopyCutHandler( evt ) {
+		// (#2945)
+		if ( this.isElementIgnored( evt.data.getTarget() ) ) {
+			return;
+		}
+
 		var editor = evt.editor || evt.sender.editor,
 			selection = editor.getSelection();
 
@@ -742,8 +763,14 @@
 
 	function pasteListener( evt ) {
 		var editor = evt.editor,
-			selection = editor.getSelection(),
-			selectedCells = getSelectedCells( selection ),
+			selection = editor.getSelection();
+
+		// (#2945)
+		if ( editor.plugins.tableselection.isElementIgnored( selection.getRanges()[ 0 ].startContainer ) ) {
+			return;
+		}
+
+		var selectedCells = getSelectedCells( selection ),
 			pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue ),
 			boundarySelection = selection.isInTable( true ) && this.isBoundarySelection( selection ),
 			tableSel,
@@ -872,6 +899,7 @@
 	 * @class CKEDITOR.plugins.tableselection
 	 */
 	CKEDITOR.plugins.tableselection = {
+
 		/**
 		 * Fetches all cells between cells passed as parameters, including these cells.
 		 *
@@ -991,6 +1019,12 @@
 					}
 
 					ranges = selection.getRanges();
+
+					// (#2945)
+					if ( this.isElementIgnored( ranges[ 0 ].startContainer ) ) {
+						return;
+					}
+
 					firstCell = ranges[ 0 ]._getTableElement();
 					lastCell = ranges[ ranges.length - 1 ]._getTableElement();
 
@@ -1042,6 +1076,11 @@
 			}
 
 			function tableKeyPressListener( evt ) {
+				// (#2945)
+				if ( this.isElementIgnored( evt.data.getTarget() ) ) {
+					return;
+				}
+
 				var selection = editor.getSelection(),
 					// Enter key also produces character, but Firefox doesn't think so (gh#415).
 					isCharKey = evt.data.$.charCode || ( evt.data.getKey() === 13 ),
@@ -1095,8 +1134,8 @@
 			// Automatically select non-editable element when navigating into
 			// it by left/right or backspace/del keys.
 			var editable = editor.editable();
-			editable.attachListener( editable, 'keydown', getTableOnKeyDownListener( editor ), null, null, -1 );
-			editable.attachListener( editable, 'keypress', tableKeyPressListener, null, null, -1 );
+			editable.attachListener( editable, 'keydown', getTableOnKeyDownListener( editor ), editor.plugins.tableselection, null, -1 );
+			editable.attachListener( editable, 'keypress', tableKeyPressListener, editor.plugins.tableselection, null, -1 );
 		},
 
 		/**
@@ -1105,7 +1144,24 @@
 		 * @property {Boolean}
 		 * @private
 		 */
-		isSupportedEnvironment: !( CKEDITOR.env.ie && CKEDITOR.env.version < 11 )
+		isSupportedEnvironment: !( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ),
+
+		addIgnoredElement: function( editor, element ) {
+			var tableselection = editor.plugins.tableselection;
+
+			if ( tableselection ) {
+				tableselection._ignoredElements.push( element );
+			}
+		},
+
+		removeIgnoredElement: function( editor, element ) {
+			var tableselection = editor.plugins.tableselection;
+
+			tableselection._ignoredElements = CKEDITOR.tools.array.filter( tableselection._ignoredElements,
+				function( ignored ) {
+					return !ignored.equals( element );
+				} );
+		}
 	};
 
 	CKEDITOR.plugins.add( 'tableselection', {
@@ -1122,11 +1178,27 @@
 			CKEDITOR.document.appendStyleSheet( this.path + 'styles/tableselection.css' );
 		},
 
+		isElementIgnored: function( target ) {
+			if ( !target ) {
+				return false;
+			}
+
+			for ( var i = 0; i < this._ignoredElements.length; i++ ) {
+				if ( this._ignoredElements[ i ].contains( target ) ) {
+					return true;
+				}
+			}
+
+			return false;
+		},
+
 		init: function( editor ) {
 			// Disable unsupported browsers.
 			if ( !CKEDITOR.plugins.tableselection.isSupportedEnvironment ) {
 				return;
 			}
+
+			this._ignoredElements = [];
 
 			// Add styles for fake visual selection.
 			if ( editor.addContentsCss ) {
@@ -1139,12 +1211,12 @@
 					evtInfo = { editor: editor };
 
 				// Explicitly set editor as DOM events generated on document does not convey information about it.
-				editable.attachListener( mouseHost, 'mousedown', fakeSelectionMouseHandler, null, evtInfo );
-				editable.attachListener( mouseHost, 'mousemove', fakeSelectionMouseHandler, null, evtInfo );
-				editable.attachListener( mouseHost, 'mouseup', fakeSelectionMouseHandler, null, evtInfo );
+				editable.attachListener( mouseHost, 'mousedown', fakeSelectionMouseHandler, this, evtInfo );
+				editable.attachListener( mouseHost, 'mousemove', fakeSelectionMouseHandler, this, evtInfo );
+				editable.attachListener( mouseHost, 'mouseup', fakeSelectionMouseHandler, this, evtInfo );
 
-				editable.attachListener( editable, 'dragstart', fakeSelectionDragHandler );
-				editable.attachListener( editor, 'selectionCheck', fakeSelectionChangeHandler );
+				editable.attachListener( editable, 'dragstart', fakeSelectionDragHandler, this );
+				editable.attachListener( editor, 'selectionCheck', fakeSelectionChangeHandler, this );
 
 				CKEDITOR.plugins.tableselection.keyboardIntegration( editor );
 
@@ -1153,7 +1225,7 @@
 					editable.attachListener( editable, 'cut', fakeSelectionCopyCutHandler );
 					editable.attachListener( editable, 'copy', fakeSelectionCopyCutHandler );
 				}
-			} );
+			}, this );
 
 			editor.on( 'paste', fakeSelectionPasteHandler.onPaste, fakeSelectionPasteHandler );
 
