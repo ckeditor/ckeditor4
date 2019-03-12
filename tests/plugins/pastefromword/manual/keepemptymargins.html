@@ -4,6 +4,9 @@
 <textarea id="editor2"></textarea>
 
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
 	CKEDITOR.replace( 'editor1', {
 		allowedContent: true,
 		pasteFromWord_keepEmptyMargins: true
