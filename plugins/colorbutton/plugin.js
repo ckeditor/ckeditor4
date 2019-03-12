@@ -86,6 +86,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function addButton( name, type, title, order, options ) {
 			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
+				colorData = {},
 				panelBlock;
 
 			options = options || {};
@@ -110,7 +111,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
-					block.element.setHtml( renderColors( panel, type, colorBoxId ) );
+					block.element.setHtml( renderColors( panel, type, colorBoxId, colorData ) );
 					// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
 					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 
@@ -185,6 +186,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							element = walker.next();
 						}
 
+						colorData.selectionColor = finalColor ? '#' + finalColor : '';
 						selectColor( panelBlock, finalColor );
 					}
 
@@ -193,7 +195,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 		}
 
-		function renderColors( panel, type, colorBoxId ) {
+		function renderColors( panel, type, colorBoxId, colorData ) {
 			var output = [],
 				colors = config.colorButton_colors.split( ',' ),
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
@@ -209,39 +211,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				editor.fire( 'saveSnapshot' );
 
 				if ( color == '?' ) {
-					var selection = editor.getSelection();
-					var range = selection && selection.getRanges()[ 0 ];
-
-					if ( range ) {
-						var walker = new CKEDITOR.dom.walker( range ),
-							element = range.collapsed ? range.startContainer : walker.next(),
-							finalColor = '',
-							currentColor;
-
-						while ( element ) {
-							// (#2296)
-							if ( element.type !== CKEDITOR.NODE_ELEMENT ) {
-								element = element.getParent();
-							}
-
-							currentColor = normalizeColor( element.getComputedStyle( type == 'back' ? 'background-color' : 'color'  ) );
-							finalColor = finalColor || currentColor;
-
-							if ( finalColor !== currentColor ) {
-								finalColor = '';
-								break;
-							}
-
-							element = walker.next();
-						}
-					}
-
-					editor.setDefaultColor( '#' + finalColor );
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
 							return setColor( color );
 						}
-					} );
+					}, null, colorData );
 				} else {
 					return setColor( color && '#' + color );
 				}

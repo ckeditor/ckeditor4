@@ -276,6 +276,22 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		title: lang.title,
 		minWidth: 360,
 		minHeight: 220,
+		onShow: function( evt ) {
+			if ( evt.data.colordialog && evt.data.colordialog.selectionColor ) {
+				var selectionColor = evt.data.colordialog.selectionColor;
+				var colors = evt.sender.parts.contents.getElementsByTag( 'td' );
+
+				dialog.getContentElement( 'picker', 'selectedColor' ).setValue( selectionColor );
+
+				for ( var i = 0; i < colors.count(); i++ ) {
+					var paletteItem = colors.getItem( i );
+					var itemColor = CKEDITOR.tools.convertRgbToHex( paletteItem.getStyle( 'background-color' ) );
+					if ( ( selectionColor ) == itemColor ) {
+						paletteItem.focus();
+					}
+				}
+			}
+		},
 		onLoad: function() {
 			// Update reference.
 			dialog = this;
