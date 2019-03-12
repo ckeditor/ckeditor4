@@ -28,6 +28,7 @@
 			'ie11'
 		],
 		wordVersions: [
+			'Word2013',
 			'Word2016'
 		],
 		tests: {
