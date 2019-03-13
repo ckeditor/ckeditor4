@@ -1211,8 +1211,8 @@
 
 				// Setup copybin.
 				if ( CKEDITOR.plugins.clipboard && !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
-					editable.attachListener( editable, 'cut', fakeSelectionCopyCutHandler );
-					editable.attachListener( editable, 'copy', fakeSelectionCopyCutHandler );
+					editable.attachListener( editable, 'cut', fakeSelectionCopyCutHandler, this );
+					editable.attachListener( editable, 'copy', fakeSelectionCopyCutHandler, this );
 				}
 			}, this );
 

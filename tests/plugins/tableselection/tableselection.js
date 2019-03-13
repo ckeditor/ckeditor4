@@ -1,5 +1,5 @@
 /* bender-tags: tableselection */
-/* bender-ckeditor-plugins: tableselection */
+/* bender-ckeditor-plugins: tableselection, clipboard */
 /* bender-ckeditor-remove-plugins: undo */
 /* bender-include: _helpers/tableselection.js */
 /* global tableSelectionHelpers, mockMouseSelection */
@@ -216,6 +216,59 @@
 			editor.setReadOnly( false );
 
 			assert.areSame( bender.tools.compatHtml( table ), editor.getData(), 'Editor data' );
+		},
+
+		// (#2945)
+		'test drag handler event is not prevented for ignored element': function( editor ) {
+			var editable = editor.editable(),
+				preventDefaultCallCount = 0;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			var table = editable.findOne( 'table' );
+
+			CKEDITOR.plugins.tableselection.addIgnoredElement( editor, table );
+
+			var result = editable.fire( 'dragstart', {
+				getTarget: function() {
+					return table.findOne( 'td' );
+				},
+				preventDefault: function() {
+					preventDefaultCallCount++;
+				}
+			} );
+
+			assert.areEqual( 0, preventDefaultCallCount, 'Event should not be prevented' );
+			assert.isTrue( Boolean( result ), 'Event should not be canceled' );
+		},
+
+		// (#2945)
+		'test handling copy&cut events for ignored element': function( editor ) {
+			if ( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+				assert.ignore();
+			}
+
+			var editable = editor.editable();
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			var table = editable.findOne( 'table' ),
+				cell = table.findOne( 'td' ),
+				evt = {
+					getTarget: function() {
+						return cell;
+					}
+				};
+
+			CKEDITOR.plugins.tableselection.addIgnoredElement( editor, table );
+
+			editor.getSelection().selectElement( cell );
+
+			editable.fire( 'copy', evt );
+			assert.isNull( editable.findOne( '#cke_table_copybin' ), 'Copy event should be ignored' );
+
+			editable.fire( 'cut', evt );
+			assert.isNull( editable.findOne( '#cke_table_copybin' ), 'Cut event should be ignored' );
 		}
 	};
 
