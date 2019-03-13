@@ -1136,11 +1136,11 @@
 		isSupportedEnvironment: !( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ),
 
 		/**
-		 * Blacklist table child nodes of the given element to disable table selection feature
-		 * for this table.
+		 * Ignore table child nodes of the given element to disable table selection feature
+		 * for these nodes.
 		 *
-		 * @param {CKEDITOR.editor} editor Editor instance containing blacklisted element.
-		 * @param {CKEDITOR.dom.element} element Blacklisted element.
+		 * @param {CKEDITOR.editor} editor Editor instance containing ignored element.
+		 * @param {CKEDITOR.dom.element} element Ignored element.
 		 */
 		addIgnoredElement: function( editor, element ) {
 			var tableselection = editor.plugins.tableselection;
@@ -1151,11 +1151,11 @@
 		},
 
 		/**
-		 * Remove blacklisted element by {@link #addIgnoredElement} function, so it will use
+		 * Remove ignored element by {@link #addIgnoredElement} function, so it will use
 		 * table selection feature again.
 		 *
-		 * @param {CKEDITOR.editor} editor Editor instance containing blacklisted element.
-		 * @param {CKEDITOR.dom.element} element Blacklisted element.
+		 * @param {CKEDITOR.editor} editor Editor instance containing ignored element.
+		 * @param {CKEDITOR.dom.element} element Ignored element.
 		 */
 		removeIgnoredElement: function( editor, element ) {
 			var tableselection = editor.plugins.tableselection;
