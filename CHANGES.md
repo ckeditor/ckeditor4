@@ -28,6 +28,7 @@ API Changes:
 * [#2935](https://github.com/ckeditor/ckeditor-dev/issues/2935): Introduced [`CKEDITOR.config.pasteFromWord_keepZeroMargins`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-pasteFromWord_keepZeroMargins) config option, that allows keeping any `margin-*: 0` style that would be otherwise removed when pasting content with [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
 * [#2962](https://github.com/ckeditor/ckeditor-dev/issues/2962): Added the [`CKEDITOR.tools.promise`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_promise.html) class.
 * [#2924](https://github.com/ckeditor/ckeditor-dev/issues/2924): Added the [`CKEDITOR.tools.style.border`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_style_border.html) object wrapping CSS border style helpers under single type.
+* [#2495](https://github.com/ckeditor/ckeditor-dev/issues/2495): Added the [`CKEDITOR.plugins.tableselection`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_tableselection.html#method-addIgnoredElement) and [`CKEDITOR.plugins.tableselection`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_tableselection.html#method-removeIgnoredElement) methods.
 
 Other Changes:
 
