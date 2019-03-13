@@ -236,6 +236,11 @@
 			return;
 		}
 
+		// (#2945)
+		if ( this.isElementIgnored( ranges[ 0 ].startContainer ) ) {
+			return;
+		}
+
 		clearFakeCellSelection( editor );
 
 		if ( !selection.isInTable() || !selection.isFake ) {

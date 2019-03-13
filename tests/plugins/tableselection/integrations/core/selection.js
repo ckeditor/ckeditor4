@@ -41,7 +41,7 @@
 		return start.getAscendant( tableElements, true );
 	}
 
-	function getRangesForCells( editor, table, indexes ) {
+	function getRangesForCells( editor, table, indexes, skipClass ) {
 		var ranges = [],
 			range,
 			cell,
@@ -51,7 +51,9 @@
 			cell = table.find( 'td' ).getItem( indexes[ i ] );
 			range = editor.createRange();
 
-			cell.addClass( selectedClass );
+			if ( !skipClass ) {
+				cell.addClass( selectedClass );
+			}
 
 			range.setStartBefore( cell );
 			range.setEndAfter( cell );
@@ -297,6 +299,32 @@
 			assert.isFalse( editor.getSelection().isInTable(), 'Selection is not in table' );
 
 			clearTableSelection( editor.editable() );
+		},
+
+		// (#2945)
+		'Test selecting ignored element': function() {
+			var editor = this.editor,
+				selection = editor.getSelection();
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			var table = editor.editable().findOne( 'table' ),
+				ranges = getRangesForCells( editor, table, [ 0, 1 ], true );
+
+			CKEDITOR.plugins.tableselection.addIgnoredElement( editor, table );
+
+			selection.selectRanges( ranges );
+
+			assert.areEqual( 0, selection.isFake, 'Selection is not fake' );
+
+			assert.isTrue( selection.isInTable(), 'isInTable is true' );
+			assert.areEqual( 1, selection.getRanges().length, 'Single range is selected' );
+			assert.isNotNull( selection.getNative(), 'getNative() should be available' );
+			assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
+
+			assert.areSame( CKEDITOR.SELECTION_ELEMENT, selection.getType(), 'Element type selection' );
+			assert.isTrue( _getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
+				'Selected element equals to the first selected cell' );
 		},
 
 		'Change selection': function() {
