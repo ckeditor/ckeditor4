@@ -236,11 +236,6 @@
 			return;
 		}
 
-		// (#2945)
-		if ( this.isElementIgnored( ranges[ 0 ].startContainer ) ) {
-			return;
-		}
-
 		clearFakeCellSelection( editor );
 
 		if ( !selection.isInTable() || !selection.isFake ) {
@@ -1019,12 +1014,6 @@
 					}
 
 					ranges = selection.getRanges();
-
-					// (#2945)
-					if ( this.isElementIgnored( ranges[ 0 ].startContainer ) ) {
-						return;
-					}
-
 					firstCell = ranges[ 0 ]._getTableElement();
 					lastCell = ranges[ ranges.length - 1 ]._getTableElement();
 
@@ -1076,11 +1065,6 @@
 			}
 
 			function tableKeyPressListener( evt ) {
-				// (#2945)
-				if ( this.isElementIgnored( evt.data.getTarget() ) ) {
-					return;
-				}
-
 				var selection = editor.getSelection(),
 					// Enter key also produces character, but Firefox doesn't think so (gh#415).
 					isCharKey = evt.data.$.charCode || ( evt.data.getKey() === 13 ),
@@ -1134,8 +1118,8 @@
 			// Automatically select non-editable element when navigating into
 			// it by left/right or backspace/del keys.
 			var editable = editor.editable();
-			editable.attachListener( editable, 'keydown', getTableOnKeyDownListener( editor ), editor.plugins.tableselection, null, -1 );
-			editable.attachListener( editable, 'keypress', tableKeyPressListener, editor.plugins.tableselection, null, -1 );
+			editable.attachListener( editable, 'keydown', getTableOnKeyDownListener( editor ), null, null, -1 );
+			editable.attachListener( editable, 'keypress', tableKeyPressListener, null, null, -1 );
 		},
 
 		/**
