@@ -225,21 +225,31 @@
 
 			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
 
-			var table = editable.findOne( 'table' );
+			var table = editable.findOne( 'table' ),
+				evt = {
+					getTarget: function() {
+						return table.findOne( 'td' );
+					},
+					preventDefault: function() {
+						preventDefaultCallCount++;
+					}
+				};
 
 			CKEDITOR.plugins.tableselection.addIgnoredElement( editor, table );
 
-			var result = editable.fire( 'dragstart', {
-				getTarget: function() {
-					return table.findOne( 'td' );
-				},
-				preventDefault: function() {
-					preventDefaultCallCount++;
-				}
-			} );
+			var result = editable.fire( 'dragstart', evt );
 
 			assert.areEqual( 0, preventDefaultCallCount, 'Event should not be prevented' );
 			assert.isTrue( Boolean( result ), 'Event should not be canceled' );
+
+			// Check if removing element from ignored list reverses event flow.
+			CKEDITOR.plugins.tableselection.removeIgnoredElement( editor, table );
+
+			result = editable.fire( 'dragstart', evt );
+
+			assert.areEqual( 1, preventDefaultCallCount, 'Event should be prevented' );
+			assert.isFalse( result, 'Event should be canceled' );
+
 		},
 
 		// (#2945)
@@ -248,27 +258,43 @@
 				assert.ignore();
 			}
 
-			var editable = editor.editable();
+			testTableCopying( 'copy' );
 
-			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+			// Give some time `copy` event to finish to avoid concurrency issue.
+			setTimeout( function() {
+				resume( function() {
+					testTableCopying( 'cut' );
+				} );
+			}, 100 );
 
-			var table = editable.findOne( 'table' ),
-				cell = table.findOne( 'td' ),
-				evt = {
-					getTarget: function() {
-						return cell;
-					}
-				};
+			wait();
 
-			CKEDITOR.plugins.tableselection.addIgnoredElement( editor, table );
+			function testTableCopying( eventName ) {
+				var editable = editor.editable();
 
-			editor.getSelection().selectElement( cell );
+				bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
 
-			editable.fire( 'copy', evt );
-			assert.isNull( editable.findOne( '#cke_table_copybin' ), 'Copy event should be ignored' );
+				var table = editable.findOne( 'table' ),
+					cell = table.findOne( 'td' ),
+					evt = {
+						getTarget: function() {
+							return cell;
+						}
+					};
 
-			editable.fire( 'cut', evt );
-			assert.isNull( editable.findOne( '#cke_table_copybin' ), 'Cut event should be ignored' );
+				CKEDITOR.plugins.tableselection.addIgnoredElement( editor, table );
+
+				editor.getSelection().selectElement( cell );
+
+				editable.fire( eventName, evt );
+				assert.isNull( editable.findOne( '#cke_table_copybin' ), eventName + ' event should be ignored' );
+
+				// Check if removing element from ignored list reverses event flow.
+				CKEDITOR.plugins.tableselection.removeIgnoredElement( editor, table );
+
+				editable.fire( eventName, evt );
+				assert.isNotNull( editable.findOne( '#cke_table_copybin' ), eventName + ' event should not be ignored' );
+			}
 		}
 	};
 
