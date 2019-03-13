@@ -2018,6 +2018,7 @@
 
 			// Handle special case - fake selection of table cells.
 			if ( editor && editor.plugins.tableselection &&
+				// (#2945)
 				!editor.plugins.tableselection.isElementIgnored( ranges[ 0 ] && ranges[ 0 ].startContainer ) &&
 				CKEDITOR.plugins.tableselection.isSupportedEnvironment &&
 				isTableSelection( ranges ) && !isSelectingTable
