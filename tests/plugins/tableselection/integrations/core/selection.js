@@ -316,15 +316,9 @@
 			selection.selectRanges( ranges );
 
 			assert.areEqual( 0, selection.isFake, 'Selection is not fake' );
-
 			assert.isTrue( selection.isInTable(), 'isInTable is true' );
-			assert.areEqual( 1, selection.getRanges().length, 'Single range is selected' );
 			assert.isNotNull( selection.getNative(), 'getNative() should be available' );
 			assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
-
-			assert.areSame( CKEDITOR.SELECTION_ELEMENT, selection.getType(), 'Element type selection' );
-			assert.isTrue( _getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
-				'Selected element equals to the first selected cell' );
 		},
 
 		'Change selection': function() {
