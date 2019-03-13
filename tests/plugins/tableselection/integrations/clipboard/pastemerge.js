@@ -24,6 +24,32 @@
 			wait();
 		},
 
+		// (#2945)
+		'test paste into ignored table': function( editor, bot ) {
+			var table;
+
+			bender.tools.testInputOut( 'ignored', function( source, expected ) {
+				editor.once( 'afterPaste', function() {
+					resume( function() {
+						CKEDITOR.plugins.tableselection.removeIgnoredElement( editor, table );
+
+						bender.assert.beautified.html( expected, bender.tools.getHtmlWithSelection( editor ) );
+					} );
+				}, null, null, 999 );
+
+				bot.setHtmlWithSelection( source );
+
+				table = editor.editable().findOne( 'table' );
+
+				CKEDITOR.plugins.tableselection.addIgnoredElement( editor, table );
+
+				// Use clone, so that pasted table does not have an ID.
+				bender.tools.emulatePaste( editor, CKEDITOR.document.getById( '2cells1row' ).clone( true ).getOuterHtml() );
+
+				wait();
+			} );
+		},
+
 		'test merge row after': createPasteTestCase( 'merge-row-after', '2cells1row' ),
 
 		'test merge row before': createPasteTestCase( 'merge-row-before', '2cells1row' ),
