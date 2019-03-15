@@ -87,67 +87,67 @@
 	}
 
 	bender.test( {
-		'1 row, 1 col, none -> none': function() {
+		'2 rows, 1 col, none -> none': function() {
 			compareInputOutput( headerNone( 'input' ), headerNone(), 'none' );
 		},
 
-		'1 row, 1 col, none -> col': function() {
+		'2 rows, 1 col, none -> col': function() {
 			compareInputOutput( headerNone( 'input' ), headerCol(), 'col' );
 		},
 
-		'1 row, 1 col, none -> row': function() {
+		'2 rows, 1 col, none -> row': function() {
 			compareInputOutput( headerNone( 'input' ), headerRow(), 'row' );
 		},
 
-		'1 row, 1 col, none -> both': function() {
+		'2 rows, 1 col, none -> both': function() {
 			compareInputOutput( headerNone( 'input' ), headerBoth(), 'both' );
 		},
 
-		'1 row, 1 col, col -> none': function() {
+		'2 rows, 1 col, col -> none': function() {
 			compareInputOutput( headerCol( 'input' ), headerNone(), 'none' );
 		},
 
-		'1 row, 1 col, col -> col': function() {
+		'2 rows, 1 col, col -> col': function() {
 			compareInputOutput( headerCol( 'input' ), headerCol(), 'col' );
 		},
 
-		'1 row, 1 col, col -> row': function() {
+		'2 rows, 1 col, col -> row': function() {
 			compareInputOutput( headerCol( 'input' ), headerRow(), 'row' );
 		},
 
-		'1 row, 1 col, col -> both': function() {
+		'2 rows, 1 col, col -> both': function() {
 			compareInputOutput( headerCol( 'input' ), headerBoth(), 'both' );
 		},
 
-		'1 row, 1 col, row -> none': function() {
+		'2 rows, 1 col, row -> none': function() {
 			compareInputOutput( headerRow( 'input' ), headerNone(), 'none' );
 		},
 
-		'1 row, 1 col, row -> col': function() {
+		'2 rows, 1 col, row -> col': function() {
 			compareInputOutput( headerRow( 'input' ), headerCol(), 'col' );
 		},
 
-		'1 row, 1 col, row -> row': function() {
+		'2 rows, 1 col, row -> row': function() {
 			compareInputOutput( headerRow( 'input' ), headerRow(), 'row' );
 		},
 
-		'1 row, 1 col, row -> both': function() {
+		'2 rows, 1 col, row -> both': function() {
 			compareInputOutput( headerRow( 'input' ), headerBoth(), 'both' );
 		},
 
-		'1 row, 1 col, both -> none': function() {
+		'2 rows, 1 col, both -> none': function() {
 			compareInputOutput( headerBoth( 'input' ), headerNone(), 'none' );
 		},
 
-		'1 row, 1 col, both -> col': function() {
+		'2 rows, 1 col, both -> col': function() {
 			compareInputOutput( headerBoth( 'input' ), headerCol(), 'col' );
 		},
 
-		'1 row, 1 col, both -> row': function() {
+		'2 rows, 1 col, both -> row': function() {
 			compareInputOutput( headerBoth( 'input' ), headerRow(), 'row' );
 		},
 
-		'1 row, 1 col, both -> both': function() {
+		'2 rows, 1 col, both -> both': function() {
 			compareInputOutput( headerBoth( 'input' ), headerBoth(), 'both' );
 		}
 	} );
