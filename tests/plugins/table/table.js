@@ -181,46 +181,6 @@
 				assert.isNull( dialog.parts.dialog.findOne( 'th' ) );
 				assert.isTrue( !!dialog.parts.dialog.findOne( 'td' ) );
 			} );
-		},
-
-		// (#1397)
-		'test table remove headers': function() {
-			var bot = this.editorBots.editor;
-
-			bot.setHtmlWithSelection(
-				'<table border="1" cellspacing="1" cellpadding="1" style="width:500px;">' +
-					'<thead>' +
-						'<tr>' +
-							'<th>^Foo</th>' +
-						'</tr>' +
-					'</thead>' +
-					'<tbody>' +
-						'<tr>' +
-							'<td>Bar</td>' +
-						'</tr>' +
-					'</tbody>' +
-				'</table>'
-			);
-
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', 'none' );
-
-				dialog.fire( 'ok' );
-				dialog.hide();
-
-				assert.beautified.html(
-					'<table border="1" cellspacing="1" cellpadding="1" style="width:500px">' +
-						'<tbody>' +
-							'<tr>' +
-								'<td>Foo</td>' +
-							'</tr>' +
-							'<tr>' +
-								'<td>Bar</td>' +
-							'</tr>' +
-						'</tbody>' +
-					'</table>',
-					dialog.getParentEditor().getData() );
-			} );
 		}
 	} );
 } )();
