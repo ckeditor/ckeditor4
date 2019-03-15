@@ -14,397 +14,129 @@
 		}
 	};
 
-	bender.test( {
-		'1 row, 1 col, none -> none': function() {
-			var bot = this.editorBots.editor;
+	function compareInputOutput( input, output, headers ) {
+		var bot = bender.editorBots.editor;
 
-			bot.setHtmlWithSelection(
-				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
+		bot.setHtmlWithSelection( input	);
+
+		bot.dialog( 'tableProperties', function( dialog ) {
+			dialog.setValueOf( 'info', 'selHeaders', headers );
+
+			dialog.fire( 'ok' );
+			dialog.hide();
+
+			assert.beautified.html( output,
+				dialog.getParentEditor().getData() );
+		} );
+	}
+
+	function headerNone( role ) {
+		return '<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
 					'<tbody>' +
 						'<tr>' +
-							'<td>^&nbsp;</td>' +
+							'<td>' + ( role == 'input' ? '^' : '' ) + '&nbsp;</td>' +
 						'</tr>' +
 					'</tbody>' +
-				'</table>'
-			);
+				'</table>';
+	}
 
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', 'none' );
+	function headerCol( role ) {
+		return '<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
+					'<tbody>' +
+						'<tr>' +
+							'<th scope="row">' + ( role == 'input' ? '^' : '' ) + '&nbsp;</th>' +
+						'</tr>' +
+					'</tbody>' +
+				'</table>';
+	}
 
-				dialog.fire( 'ok' );
-				dialog.hide();
+	function headerRow( role ) {
+		return '<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
+					'<thead>' +
+						'<tr>' +
+							'<th scope="col">' + ( role == 'input' ? '^' : '' ) + '&nbsp;</th>' +
+						'</tr>' +
+					'</thead>' +
+					'<tbody>' +
+					'</tbody>' +
+				'</table>';
+	}
 
-				assert.beautified.html(
-					'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-						'<tbody>' +
-							'<tr>' +
-								'<td>&nbsp;</td>' +
-							'</tr>' +
-						'</tbody>' +
-					'</table>',
-					dialog.getParentEditor().getData() );
-			} );
+	function headerBoth( role ) {
+		return '<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
+					'<thead>' +
+						'<tr>' +
+							'<th scope="row">' + ( role == 'input' ? '^' : '' ) + '&nbsp;</th>' +
+						'</tr>' +
+					'</thead>' +
+					'<tbody>' +
+					'</tbody>' +
+				'</table>';
+	}
+
+	bender.test( {
+		'1 row, 1 col, none -> none': function() {
+			compareInputOutput( headerNone( 'input' ), headerNone(), 'none' );
 		},
 
 		'1 row, 1 col, none -> col': function() {
-			var bot = this.editorBots.editor;
-
-			bot.setHtmlWithSelection(
-				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<tbody>' +
-						'<tr>' +
-							'<td>^&nbsp;</td>' +
-						'</tr>' +
-					'</tbody>' +
-				'</table>'
-			);
-
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', 'col' );
-
-				dialog.fire( 'ok' );
-				dialog.hide();
-
-				assert.beautified.html(
-					'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-						'<tbody>' +
-							'<tr>' +
-								'<th scope="row">&nbsp;</th>' +
-							'</tr>' +
-						'</tbody>' +
-					'</table>',
-					dialog.getParentEditor().getData() );
-			} );
+			compareInputOutput( headerNone( 'input' ), headerCol(), 'col' );
 		},
 
 		'1 row, 1 col, none -> row': function() {
-			var bot = this.editorBots.editor;
-
-			bot.setHtmlWithSelection(
-				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<tbody>' +
-						'<tr>' +
-							'<td>^&nbsp;</td>' +
-						'</tr>' +
-					'</tbody>' +
-				'</table>'
-			);
-
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', 'row' );
-
-				dialog.fire( 'ok' );
-				dialog.hide();
-
-				assert.beautified.html(
-					'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-						'<thead>' +
-							'<tr>' +
-								'<th scope="col">&nbsp;</th>' +
-							'</tr>' +
-						'</thead>' +
-						'<tbody>' +
-						'</tbody>' +
-					'</table>',
-					dialog.getParentEditor().getData() );
-			} );
+			compareInputOutput( headerNone( 'input' ), headerRow(), 'row' );
 		},
 
 		'1 row, 1 col, none -> both': function() {
-			var bot = this.editorBots.editor;
-
-			bot.setHtmlWithSelection(
-				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<tbody>' +
-						'<tr>' +
-							'<td>^&nbsp;</td>' +
-						'</tr>' +
-					'</tbody>' +
-				'</table>'
-			);
-
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', 'both' );
-
-				dialog.fire( 'ok' );
-				dialog.hide();
-
-				assert.beautified.html(
-					'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-						'<thead>' +
-							'<tr>' +
-								'<th scope="row">&nbsp;</th>' +
-							'</tr>' +
-						'</thead>' +
-						'<tbody>' +
-						'</tbody>' +
-					'</table>',
-					dialog.getParentEditor().getData() );
-			} );
+			compareInputOutput( headerNone( 'input' ), headerBoth(), 'both' );
 		},
 
 		'1 row, 1 col, col -> none': function() {
-			var bot = this.editorBots.editor;
-
-			bot.setHtmlWithSelection(
-				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<tbody>' +
-						'<tr>' +
-							'<th scope="row">^&nbsp;</th>' +
-						'</tr>' +
-					'</tbody>' +
-				'</table>'
-			);
-
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', 'none' );
-
-				dialog.fire( 'ok' );
-				dialog.hide();
-
-				assert.beautified.html(
-					'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-						'<tbody>' +
-							'<tr>' +
-								'<td>&nbsp;</td>' +
-							'</tr>' +
-						'</tbody>' +
-					'</table>',
-					dialog.getParentEditor().getData() );
-			} );
+			compareInputOutput( headerCol( 'input' ), headerNone(), 'none' );
 		},
 
 		'1 row, 1 col, col -> col': function() {
-			var bot = this.editorBots.editor;
-
-			bot.setHtmlWithSelection(
-				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<tbody>' +
-						'<tr>' +
-							'<th scope="row">^&nbsp;</th>' +
-						'</tr>' +
-					'</tbody>' +
-				'</table>'
-			);
-
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', 'col' );
-
-				dialog.fire( 'ok' );
-				dialog.hide();
-
-				assert.beautified.html(
-					'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-						'<tbody>' +
-							'<tr>' +
-								'<th scope="row">&nbsp;</th>' +
-							'</tr>' +
-						'</tbody>' +
-					'</table>',
-					dialog.getParentEditor().getData() );
-			} );
+			compareInputOutput( headerCol( 'input' ), headerCol(), 'col' );
 		},
 
 		'1 row, 1 col, col -> row': function() {
-			var bot = this.editorBots.editor;
-
-			bot.setHtmlWithSelection(
-				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<tbody>' +
-						'<tr>' +
-							'<th scope="row">^&nbsp;</th>' +
-						'</tr>' +
-					'</tbody>' +
-				'</table>'
-			);
-
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', 'row' );
-
-				dialog.fire( 'ok' );
-				dialog.hide();
-
-				assert.beautified.html(
-					'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-						'<thead>' +
-							'<tr>' +
-								'<th scope="col">&nbsp;</th>' +
-							'</tr>' +
-						'</thead>' +
-						'<tbody>' +
-						'</tbody>' +
-					'</table>',
-					dialog.getParentEditor().getData() );
-			} );
+			compareInputOutput( headerCol( 'input' ), headerRow(), 'row' );
 		},
 
 		'1 row, 1 col, col -> both': function() {
-			var bot = this.editorBots.editor;
-
-			bot.setHtmlWithSelection(
-				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<tbody>' +
-						'<tr>' +
-							'<th scope="row">^&nbsp;</th>' +
-						'</tr>' +
-					'</tbody>' +
-				'</table>'
-			);
-
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', 'both' );
-
-				dialog.fire( 'ok' );
-				dialog.hide();
-
-				assert.beautified.html(
-					'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-						'<thead>' +
-							'<tr>' +
-								'<th scope="row">&nbsp;</th>' +
-							'</tr>' +
-						'</thead>' +
-						'<tbody>' +
-						'</tbody>' +
-					'</table>',
-					dialog.getParentEditor().getData() );
-			} );
+			compareInputOutput( headerCol( 'input' ), headerBoth(), 'both' );
 		},
 
 		'1 row, 1 col, row -> none': function() {
-			var bot = this.editorBots.editor;
-
-			bot.setHtmlWithSelection(
-				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<thead>' +
-						'<tr>' +
-							'<th scope="col">^&nbsp;</th>' +
-						'</tr>' +
-					'</thead>' +
-					'<tbody>' +
-					'</tbody>' +
-				'</table>'
-			);
-
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', 'none' );
-
-				dialog.fire( 'ok' );
-				dialog.hide();
-
-				assert.beautified.html(
-					'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-						'<tbody>' +
-							'<tr>' +
-								'<td>&nbsp;</td>' +
-							'</tr>' +
-						'</tbody>' +
-					'</table>',
-					dialog.getParentEditor().getData() );
-			} );
+			compareInputOutput( headerRow( 'input' ), headerNone(), 'none' );
 		},
 
 		'1 row, 1 col, row -> col': function() {
-			var bot = this.editorBots.editor;
-
-			bot.setHtmlWithSelection(
-				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<thead>' +
-						'<tr>' +
-							'<th scope="col">^&nbsp;</th>' +
-						'</tr>' +
-					'</thead>' +
-					'<tbody>' +
-					'</tbody>' +
-				'</table>'
-			);
-
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', 'col' );
-
-				dialog.fire( 'ok' );
-				dialog.hide();
-
-				assert.beautified.html(
-					'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-						'<tbody>' +
-							'<tr>' +
-								'<th scope="row">&nbsp;</th>' +
-							'</tr>' +
-						'</tbody>' +
-					'</table>',
-					dialog.getParentEditor().getData() );
-			} );
+			compareInputOutput( headerRow( 'input' ), headerCol(), 'col' );
 		},
 
 		'1 row, 1 col, row -> row': function() {
-			var bot = this.editorBots.editor;
-
-			bot.setHtmlWithSelection(
-				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<thead>' +
-						'<tr>' +
-							'<th scope="col">^&nbsp;</th>' +
-						'</tr>' +
-					'</thead>' +
-					'<tbody>' +
-					'</tbody>' +
-				'</table>'
-			);
-
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', 'row' );
-
-				dialog.fire( 'ok' );
-				dialog.hide();
-
-				assert.beautified.html(
-					'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-						'<thead>' +
-							'<tr>' +
-								'<th scope="col">&nbsp;</th>' +
-							'</tr>' +
-						'</thead>' +
-						'<tbody>' +
-						'</tbody>' +
-					'</table>',
-					dialog.getParentEditor().getData() );
-			} );
+			compareInputOutput( headerRow( 'input' ), headerRow(), 'row' );
 		},
 
 		'1 row, 1 col, row -> both': function() {
-			var bot = this.editorBots.editor;
+			compareInputOutput( headerRow( 'input' ), headerBoth(), 'both' );
+		},
 
-			bot.setHtmlWithSelection(
-				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<thead>' +
-						'<tr>' +
-							'<th scope="col">^&nbsp;</th>' +
-						'</tr>' +
-					'</thead>' +
-					'<tbody>' +
-					'</tbody>' +
-				'</table>'
-			);
+		'1 row, 1 col, both -> none': function() {
+			compareInputOutput( headerBoth( 'input' ), headerNone(), 'none' );
+		},
 
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', 'both' );
+		'1 row, 1 col, both -> col': function() {
+			compareInputOutput( headerBoth( 'input' ), headerCol(), 'col' );
+		},
 
-				dialog.fire( 'ok' );
-				dialog.hide();
+		'1 row, 1 col, both -> row': function() {
+			compareInputOutput( headerBoth( 'input' ), headerRow(), 'row' );
+		},
 
-				assert.beautified.html(
-					'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-						'<thead>' +
-							'<tr>' +
-								'<th scope="row">&nbsp;</th>' +
-							'</tr>' +
-						'</thead>' +
-						'<tbody>' +
-						'</tbody>' +
-					'</table>',
-					dialog.getParentEditor().getData() );
-			} );
+		'1 row, 1 col, both -> both': function() {
+			compareInputOutput( headerBoth( 'input' ), headerBoth(), 'both' );
 		}
 	} );
 } )();
