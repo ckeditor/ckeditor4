@@ -1,6 +1,6 @@
 @bender-tags: 4.11.4, bug, 1901, widget, accessibility
 @bender-ui: collapsed
-@bender-ckeditor-plugins: widget, wysiwygarea, contextmenu
+@bender-ckeditor-plugins: widget, wysiwygarea, contextmenu, placeholder
 
 ## Keyboard shortcuts for widgets' context menu
 
