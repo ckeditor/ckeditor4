@@ -340,7 +340,7 @@
 
 			// This one allows testing and debugging. It reveals some
 			// inner methods to the world.
-			this.backdoor = {
+			editor._.magiclineBackdoor = {
 				accessFocusSpace: accessFocusSpace,
 				boxTrigger: boxTrigger,
 				isLine: isLine,
