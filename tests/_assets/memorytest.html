@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Memory usage test</title>
+	<script src="../../ckeditor.js"></script>
+	<style>
+		.button {
+			margin: 5px;
+		}
+		.editor {
+			display: block;
+		}
+	</style>
+</head>
+<body>
+<button id="create" class="button">Create editor</button>
+<button id="create-destroy-many" class="button">Create and destroy editor 100 times</button>
+<textarea id="editor" class="editor"></textarea>
+
+<script>
+	( function() {
+		let editor = null,
+			button = document.querySelector( '#create' ),
+			buttonMany = document.querySelector( '#create-destroy-many' );
+
+		button.addEventListener( 'click', () => {
+			button.innerText = editor ? 'Create editor' : 'Destroy editor';
+			editor = editor ? ( editor.destroy(), null ) : CKEDITOR.replace( 'editor' );
+		} );
+
+		buttonMany.addEventListener( 'click', async() => {
+			if( editor ) {
+				await destroyEditor( editor );
+			}
+			for( let i = 0; i < 100; i++ ) {
+				let editor = await createEditor();
+				await destroyEditor( editor );
+			}
+		} );
+
+		function destroyEditor( editor ) {
+			return new Promise( res => {
+				editor.on( 'destroy', res );
+				editor.destroy();
+				editor = null;
+			} );
+		}
+
+		function createEditor() {
+			return new Promise( res => {
+				CKEDITOR.replace( 'editor', {
+					on: {
+						instanceReady: function() {
+							res( this );
+						}
+					}
+				} );
+			} );
+		}
+	} )();
+</script>
+</body>
+</html>
