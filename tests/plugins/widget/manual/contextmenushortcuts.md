@@ -6,10 +6,10 @@
 
 ### Scenario 1: `SHIFT + F10`
 
-1. Select widget in editor by left-click.
-1. Press `SHIFT + F10`. **Expected:** Custom CKEditor contect menu opens.
+1. Focus widget in editor.
+1. Press `SHIFT + F10`. **Expected:** Custom CKEditor context menu opens.
 
 ### Scenario 2: `CTRL + SHIFT + F10`
 
-1. Select widget in editor by left-click.
-1. Press `CTRL + SHIFT + F10`. **Expected:** Custom CKEditor contect menu opens.
+1. Focus widget in editor.
+1. Press `CTRL + SHIFT + F10`. **Expected:** Custom CKEditor context menu opens.
