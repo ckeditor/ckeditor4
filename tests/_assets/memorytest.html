@@ -20,28 +20,31 @@
 
 <script>
 	( function() {
-		let editor = null,
-			button = document.querySelector( '#create' ),
-			buttonMany = document.querySelector( '#create-destroy-many' );
+		let button = document.querySelector( '#create' ),
+			buttonMany = document.querySelector( '#create-destroy-many' ),
+			promise = Promise.resolve();
 
 		button.addEventListener( 'click', () => {
-			button.innerText = editor ? 'Create editor' : 'Destroy editor';
-			editor = editor ? ( editor.destroy(), null ) : CKEDITOR.replace( 'editor' );
+			promise = promise.then( editor => {
+				button.innerText = editor ? 'Create editor' : 'Destroy editor';
+				return editor ? destroyEditor(  editor ) : createEditor();
+			} );
 		} );
 
-		buttonMany.addEventListener( 'click', async() => {
-			if( editor ) {
-				await destroyEditor( editor );
-			}
-			for( let i = 0; i < 100; i++ ) {
-				let editor = await createEditor();
-				await destroyEditor( editor );
-			}
+		buttonMany.addEventListener( 'click', () => {
+			promise.then( editor => {
+				if ( editor ) {
+					promise = promise.then( destroyEditor );
+				}
+				for ( let i = 0; i < 100; i++ ) {
+					promise = promise.then( createEditor ).then( destroyEditor );
+				}
+			} );
 		} );
 
 		function destroyEditor( editor ) {
 			return new Promise( res => {
-				editor.on( 'destroy', res );
+				editor.on( 'destroy', () => { res() } );
 				editor.destroy();
 				editor = null;
 			} );
