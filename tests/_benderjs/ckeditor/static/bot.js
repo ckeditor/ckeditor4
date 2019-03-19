@@ -77,7 +77,7 @@
 
 			// Allow all instantiation tasks to complete.
 			setTimeout( function() {
-				if ( bender.runner._inTest ) {
+				if ( bender.runner._inTest && !profile.ignoreEditorWaits ) {
 					resume( function() {
 						callback( bot );
 					} );
@@ -107,9 +107,25 @@
 
 		CKEDITOR[ creator ]( element, profile.config );
 
-		if ( bender.runner._inTest ) {
+		if ( bender.runner._inTest && !profile.ignoreEditorWaits ) {
 			tc.wait();
 		}
+	};
+
+	bender.editorBot.createAsync = function( profile ) {
+		return bender.tools.promise( function( resolve, reject ) {
+			// By default this editor, should be surrounded with `promise`, so wait statements are generated inside that function,
+			// and shouldn't be call inside creation of new editor.
+			profile.ignoreEditorWaits = profile.ignoreEditorWaits === undefined ? true : profile.ignoreEditorWaits;
+
+			try {
+				bender.editorBot.create( profile, function( bot ) {
+					resolve( bot );
+				} );
+			} catch ( e ) {
+				reject( e );
+			}
+		} );
 	};
 
 	/**

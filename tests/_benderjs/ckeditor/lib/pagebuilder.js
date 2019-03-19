@@ -9,9 +9,10 @@
 
 var path = require( 'path' ),
 	files = [
-		path.join( __dirname, '/../static/tools.js' ),
-		path.join( __dirname, '/../static/bot.js' ),
-		path.join( __dirname, '/../static/extensions.js' )
+		path.join( __dirname, '..', 'static', 'tools.js' ),
+		path.join( __dirname, '..', 'static', 'bot.js' ),
+		path.join( __dirname, '..', 'static', 'extensions.js' ),
+		path.join( __dirname, 'q.js' )
 	];
 
 module.exports = {
