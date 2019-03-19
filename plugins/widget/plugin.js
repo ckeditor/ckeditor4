@@ -3638,7 +3638,8 @@
 
 	function addCustomStyleHandler() {
 		// Styles categorized by group. It is used to prevent applying styles for the same group being used together.
-		var styleGroups = {};
+		var styleGroups = {},
+			styleDefinitions = [];
 
 		/**
 		 * The class representing a widget style. It is an {@link CKEDITOR#STYLE_OBJECT object} like
@@ -3875,7 +3876,7 @@
 		// Save and categorize style by its group.
 		function saveStyleGroup( style ) {
 			var widgetName = style.widget,
-				group;
+				group, styleDef;
 
 			if ( !styleGroups[ widgetName ] ) {
 				styleGroups[ widgetName ] = {};
@@ -3887,7 +3888,13 @@
 					styleGroups[ widgetName ][ group ] = [];
 				}
 
-				styleGroups[ widgetName ][ group ].push( style );
+				styleDef = style.getDefinition();
+
+				// Don't push style if it's already stored (#589).
+				if ( CKEDITOR.tools.indexOf( styleDefinitions, styleDef ) === -1 ) {
+					styleDefinitions.push( styleDef );
+					styleGroups[ widgetName ][ group ].push( style );
+				}
 			}
 		}
 
