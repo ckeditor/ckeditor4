@@ -277,20 +277,19 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		minWidth: 360,
 		minHeight: 220,
 		onShow: function( evt ) {
-			if ( evt.data.colordialog && evt.data.colordialog.selectionColor ) {
-				var selectionColor = evt.data.colordialog.selectionColor;
-				var colors = evt.sender.parts.contents.getElementsByTag( 'td' );
-
-				dialog.getContentElement( 'picker', 'selectedColor' ).setValue( selectionColor );
-
-				for ( var i = 0; i < colors.count(); i++ ) {
-					var paletteItem = colors.getItem( i );
-					var itemColor = CKEDITOR.tools.convertRgbToHex( paletteItem.getStyle( 'background-color' ) );
-					if ( ( selectionColor ) == itemColor ) {
-						paletteItem.focus();
-					}
-				}
+			if ( !evt.data.colordialog || !evt.data.colordialog.selectionColor ) {
+				return;
 			}
+			var selectionColor = evt.data.colordialog.selectionColor,
+				colorPalette = this.parts.contents.getElementsByTag( 'td' ).toArray();
+
+			dialog.getContentElement( 'picker', 'selectedColor' ).setValue( selectionColor );
+			CKEDITOR.tools.array.forEach( colorPalette, function( paletteItem ) {
+				var itemColor = CKEDITOR.tools.convertRgbToHex( paletteItem.getStyle( 'background-color' ) );
+				if ( selectionColor === itemColor ) {
+					paletteItem.focus();
+				}
+			} );
 		},
 		onLoad: function() {
 			// Update reference.
