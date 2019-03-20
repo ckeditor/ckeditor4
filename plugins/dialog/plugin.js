@@ -2228,6 +2228,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		editor.focusManager.remove( currentCover );
 		var win = CKEDITOR.document.getWindow();
 		currentCover.hide();
+
+		// Remove current cover reference once it's removed (#589).
+		currentCover = null;
 		win.removeListener( 'resize', resizeCover );
 
 		if ( CKEDITOR.env.ie6Compat ) {
