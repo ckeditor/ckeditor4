@@ -239,6 +239,8 @@
 				this.attach();
 			}, this );
 		}
+
+		editor.on( 'destroy', this.destroy, this );
 	}
 
 	Autocomplete.prototype = {
