@@ -1,6 +1,8 @@
 @bender-tags: memory
 @bender-ui: collapsed
 
+## Testing
+
 1. To start test you need to open Chrome with given flags:
 	`--enable-precise-memory-info`, `--disable-extensions`, `--disable-plugins`, `--incognito`
 
@@ -27,3 +29,17 @@
 1. Force garbage collection - trash icon in dev tools. Take another snapshot.
 
 1. Repeat above two steps few times.
+
+## Options
+
+You can force editor to do simple actions after initialisation, by adding hash to site url.
+
+- Open and close dialog
+```memorytest.html#dialog-${dialogName}```
+E.g. `memorytest.html#dialog-table`
+
+- Open colorbutton
+```memorytest.html#colorbutton```
+
+- Open stylescombo
+```memorytest.html#combo```
