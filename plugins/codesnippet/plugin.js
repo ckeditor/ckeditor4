@@ -46,6 +46,11 @@
 				editor._.codesnippet.langsRegex = new RegExp( '(?:^|\\s)language-(' +
 					CKEDITOR.tools.objectKeys( langs ).join( '|' ) + ')(?:\\s|$)' );
 			};
+
+			editor.once( 'instanceReady', function() {
+				// Remove method once it can't be used, because it leaks editor reference (#589).
+				this.setHighlighter = null;
+			}, this );
 		},
 
 		onLoad: function() {
