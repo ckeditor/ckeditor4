@@ -563,6 +563,25 @@
 			} );
 
 			wait();
+		},
+
+		// (#589)
+		'test autocomplete is destroyed with editor': function() {
+			var editor = CKEDITOR.replace( 'destroy' ),
+				ac = new CKEDITOR.plugins.autocomplete( editor, configDefinition ),
+				spy = sinon.spy( ac, 'destroy' );
+
+			editor.on( 'destroy', function() {
+				setTimeout( function() {
+					resume( function() {
+						assert.isTrue( spy.called );
+					} );
+				} );
+			} );
+
+			editor.destroy();
+
+			wait();
 		}
 	} );
 
