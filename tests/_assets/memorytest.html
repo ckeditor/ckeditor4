@@ -44,7 +44,9 @@
 
 		function destroyEditor( editor ) {
 			return new Promise( res => {
-				editor.on( 'destroy', () => { res() } );
+				editor.on( 'destroy', function() {
+					res();
+				} );
 				editor.destroy();
 				editor = null;
 			} );
@@ -55,7 +57,28 @@
 				CKEDITOR.replace( 'editor', {
 					on: {
 						instanceReady: function() {
-							res( this );
+							let hash = window.location.hash;
+
+							if ( hash === '#combo' ) {
+								this.once( 'panelShow', function() {
+									res( this );
+								}, this );
+								CKEDITOR.document.findOne( '#cke_' + this.ui.get( 'Styles' ).id ).findOne( 'a' ).$.onclick();
+							} else if ( hash === '#colorbutton' ) {
+								CKEDITOR.document.findOne( '#' + this.ui.get( 'TextColor' )._.id ).$.click();
+								res( this );
+							} else if ( hash.indexOf( '#dialog-' ) > -1 ) {
+								hash = hash.replace( '#dialog-', '' );
+								this.once( 'dialogShow', function( evt ) {
+									evt.data.hide();
+								} );
+								this.once( 'dialogHide', function() {
+									res( this );
+								}, this );
+								this.execCommand( hash );
+							} else {
+								res( this );
+							}
 						}
 					}
 				} );
