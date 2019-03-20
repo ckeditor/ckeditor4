@@ -47,7 +47,7 @@
 					CKEDITOR.tools.objectKeys( langs ).join( '|' ) + ')(?:\\s|$)' );
 			};
 
-			editor.once( 'instanceReady', function() {
+			editor.once( 'pluginsLoaded', function() {
 				// Remove method once it can't be used, because it leaks editor reference (#589).
 				this.setHighlighter = null;
 			}, this );
