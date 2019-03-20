@@ -240,7 +240,9 @@
 			}, this );
 		}
 
-		editor.on( 'destroy', this.destroy, this );
+		editor.on( 'destroy', function() {
+			this.destroy();
+		}, this );
 	}
 
 	Autocomplete.prototype = {
@@ -361,7 +363,7 @@
 
 			this._listeners = [];
 
-			this.view.element.remove();
+			this.view.element && this.view.element.remove();
 		},
 
 		/**
