@@ -481,5 +481,84 @@ bender.test(
 
 		testObject.fire( 'evt' );
 		assert.areSame( 1, evtCouter, 'After removeAllListeners.' );
+	},
+
+	test_on_removeListener: function() {
+		// Create a testObject and implement CKEDITOR.event on it.
+		var testObject = {};
+		CKEDITOR.event.implementOn( testObject );
+
+		var counter = 0;
+
+		var onResult = testObject.on( 'someEvent', function listener() {
+			counter++;
+		} );
+
+		testObject.fire( 'someEvent' );
+		assert.areSame( 1, counter, '"someEvent" calls doesn\'t match before removing listener' );
+
+		onResult.removeListener();
+		counter = 0;
+
+		testObject.fire( 'someEvent' );
+		assert.areSame( 0, counter, '"someEvent" fired after removing listener' );
+	},
+
+	test_duplicateListeners: function() {
+		// Create a testObject and implement CKEDITOR.event on it.
+		var testObject = {};
+		CKEDITOR.event.implementOn( testObject );
+
+		var counter = 0;
+
+		function listener() {
+			counter++;
+		}
+
+		testObject.on( 'someEvent', listener );
+		testObject.on( 'someEvent', listener );
+
+		testObject.fire( 'someEvent' );
+		assert.areSame( 1, counter, '"someEvent" calls doesn\'t match' );
+	},
+
+	test_duplicateListeners_removeListener_1: function() {
+		// Create a testObject and implement CKEDITOR.event on it.
+		var testObject = {};
+		CKEDITOR.event.implementOn( testObject );
+
+		var counter = 0;
+
+		function listener() {
+			counter++;
+		}
+
+		var firstResult = testObject.on( 'someEvent', listener );
+		testObject.on( 'someEvent', listener );
+
+		firstResult.removeListener();
+
+		testObject.fire( 'someEvent' );
+		assert.areSame( 0, counter, '"someEvent" fired after removing listener' );
+	},
+
+	test_duplicateListeners_removeListener_2: function() {
+		// Create a testObject and implement CKEDITOR.event on it.
+		var testObject = {};
+		CKEDITOR.event.implementOn( testObject );
+
+		var counter = 0;
+
+		function listener() {
+			counter++;
+		}
+
+		testObject.on( 'someEvent', listener );
+		var secondResult = testObject.on( 'someEvent', listener );
+
+		secondResult.removeListener();
+
+		testObject.fire( 'someEvent' );
+		assert.areSame( 0, counter, '"someEvent" fired after removing listener' );
 	}
 } );
