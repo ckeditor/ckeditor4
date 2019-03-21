@@ -277,15 +277,18 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		minWidth: 360,
 		minHeight: 220,
 		onShow: function( evt ) {
-			if ( !evt.data.colordialog || !evt.data.colordialog.selectionColor ) {
+			if ( !evt.data.selectionColor ) {
 				return;
 			}
-			var selectionColor = evt.data.colordialog.selectionColor,
-				colorPalette = this.parts.contents.getElementsByTag( 'td' ).toArray();
+
+			var selectionColor = evt.data.selectionColor,
+				colorPalette = this.parts.contents.getElementsByTag( 'td' ).toArray(),
+				itemColor;
 
 			dialog.getContentElement( 'picker', 'selectedColor' ).setValue( selectionColor );
+
 			CKEDITOR.tools.array.forEach( colorPalette, function( paletteItem ) {
-				var itemColor = CKEDITOR.tools.convertRgbToHex( paletteItem.getStyle( 'background-color' ) );
+				itemColor = CKEDITOR.tools.convertRgbToHex( paletteItem.getStyle( 'background-color' ) );
 				if ( selectionColor === itemColor ) {
 					paletteItem.focus();
 				}

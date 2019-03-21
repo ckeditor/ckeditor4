@@ -40,9 +40,8 @@ CKEDITOR.plugins.colordialog = {
 				callback.call( scope, color );
 			};
 			onShow = function( evt ) {
-				if ( options && options.selectionColor ) {
-					evt.data.colordialog = evt.data.colordialog || {};
-					evt.data.colordialog.selectionColor = options.selectionColor;
+				if ( options ) {
+					evt.data = options;
 				}
 			};
 
