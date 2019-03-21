@@ -1,0 +1,9 @@
+<textarea id="editor"></textarea>
+<script>
+	if ( bender.tools.env.mobile || ( CKEDITOR.env.in && !CKEDITOR.env.edge ) ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'li{margin-left}'
+	} );
+</script>
