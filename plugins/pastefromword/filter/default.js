@@ -1194,16 +1194,22 @@
 				List.removeSymbolText( element );
 			}
 
-			if ( element.attributes.style ) {
-				// Hacky way to get rid of margin left.
-				// @todo: we should gather all css cleanup here, and consider bidi. Eventually we might put a config variable to
-				// to enable it.
-				var styles = tools.parseCssText( element.attributes.style );
+			var styles = element.attributes && tools.parseCssText( element.attributes.style );
 
-				if ( styles[ 'margin-left' ] ) {
+			// Default list in Word output has no margin-left or 48px. To have correct indentation we need to reduce margin-left by 48px for each list level.
+			if ( styles[ 'margin-left' ] ) {
+				var margin = styles[ 'margin-left' ],
+					level = element.attributes[ 'cke-list-level' ];
+
+				margin = CKEDITOR.tools.convertToPx( margin ) - 48 * level;
+
+				if ( margin ) {
+					styles[ 'margin-left' ] = margin + 'px';
+				} else {
 					delete styles[ 'margin-left' ];
-					element.attributes.style =  CKEDITOR.tools.writeCssText( styles );
 				}
+
+				element.attributes.style =  CKEDITOR.tools.writeCssText( styles );
 			}
 
 			// Converting to a normal list item would implicitly wrap the element around an <ul>.
