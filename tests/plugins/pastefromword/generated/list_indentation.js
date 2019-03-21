@@ -26,7 +26,8 @@
 			'edge'
 		],
 		wordVersions: [
-			'word2016'
+			'word2016',
+			'word2013'
 		],
 		tests: {
 			'List_indentation': true
