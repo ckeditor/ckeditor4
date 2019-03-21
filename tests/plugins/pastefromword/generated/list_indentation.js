@@ -12,10 +12,8 @@
 
 	var config = pfwTools.defaultConfig;
 
-	// Removing `indent` plugin, because of (#1330).
-	// config.removePlugins = 'indent';
-	config.extraAllowedContent = 'li{margin,margin-top,margin-right,margin-bottom,margin-left};';
-	config.disallowedContent = 'span{font-family}';
+	config.extraAllowedContent = 'li{margin-left};';
+	config.disallowedContent = 'span';
 
 	bender.editor = {
 		config: pfwTools.defaultConfig
@@ -23,12 +21,11 @@
 
 	bender.test( createTestSuite( {
 		browsers: [
-			'chrome'
-			// 'firefox',
-			// 'edge'
+			'chrome',
+			'firefox',
+			'edge'
 		],
 		wordVersions: [
-			// 'Word2013',
 			'word2016'
 		],
 		tests: {
