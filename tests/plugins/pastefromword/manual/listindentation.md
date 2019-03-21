@@ -1,4 +1,4 @@
-@bender-tags: bug, 4.11.4, 2870, pastefromword
+@bender-tags: bug, 4.12.0, 2870, pastefromword
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, pastefromword, sourcearea, list
 
