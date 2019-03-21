@@ -5,6 +5,7 @@
 
 Fixed Issues:
 
+* [#589](https://github.com/ckeditor/ckeditor-dev/issues/589): Fixed: Editor has many sources of potential memory leaks.
 * [#1397](https://github.com/ckeditor/ckeditor-dev/issues/1397): Fixed: Using dialog to remove headers from the [table](https://ckeditor.com/cke4/addon/table) with one headers row only throws an error.
 * [#1479](https://github.com/ckeditor/ckeditor-dev/issues/1479): Fixed: [Justification](https://ckeditor.com/cke4/addon/justify) for styled content in BR mode is disabled.
 * [#2816](https://github.com/ckeditor/ckeditor-dev/issues/2816): Fixed: [Enhanced Image](https://ckeditor.com/cke4/addon/image2) resize handler is visible in [read-only mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_readonly.html).
