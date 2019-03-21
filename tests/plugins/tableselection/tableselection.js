@@ -155,12 +155,10 @@
 			var table = editor.editable().findOne( 'table' ),
 				cells = table.find( 'td' );
 
-			CKEDITOR.plugins.tableselection.addIgnoredElement( editor, table );
+			table.data( 'cke-tableselection-ignored', 1 );
 
 			mockMouseSelection( editor, [ cells.getItem( 1 ), cells.getItem( 2 ) ], function() {
 				var selection = editor.getSelection();
-
-				CKEDITOR.plugins.tableselection.removeIgnoredElement( editor, table );
 
 				assert.isFalse( selection.isInTable(), 'Selection is not in table' );
 				assert.isFalse( !!selection.isFake, 'Selection is not faked' );
@@ -235,21 +233,12 @@
 					}
 				};
 
-			CKEDITOR.plugins.tableselection.addIgnoredElement( editor, table );
+			table.data( 'cke-tableselection-ignored', 1 );
 
 			var result = editable.fire( 'dragstart', evt );
 
 			assert.areEqual( 0, preventDefaultCallCount, 'Event should not be prevented' );
 			assert.isTrue( Boolean( result ), 'Event should not be canceled' );
-
-			// Check if removing element from ignored list reverses event flow.
-			CKEDITOR.plugins.tableselection.removeIgnoredElement( editor, table );
-
-			result = editable.fire( 'dragstart', evt );
-
-			assert.areEqual( 1, preventDefaultCallCount, 'Event should be prevented' );
-			assert.isFalse( result, 'Event should be canceled' );
-
 		},
 
 		// (#2945)
@@ -282,18 +271,12 @@
 						}
 					};
 
-				CKEDITOR.plugins.tableselection.addIgnoredElement( editor, table );
+				table.data( 'cke-tableselection-ignored', 1 );
 
 				editor.getSelection().selectElement( cell );
 
 				editable.fire( eventName, evt );
 				assert.isNull( editable.findOne( '#cke_table_copybin' ), eventName + ' event should be ignored' );
-
-				// Check if removing element from ignored list reverses event flow.
-				CKEDITOR.plugins.tableselection.removeIgnoredElement( editor, table );
-
-				editable.fire( eventName, evt );
-				assert.isNotNull( editable.findOne( '#cke_table_copybin' ), eventName + ' event should not be ignored' );
 			}
 		}
 	};

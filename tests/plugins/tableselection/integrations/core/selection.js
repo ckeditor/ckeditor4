@@ -311,7 +311,7 @@
 			var table = editor.editable().findOne( 'table' ),
 				ranges = getRangesForCells( editor, table, [ 0, 1 ], true );
 
-			CKEDITOR.plugins.tableselection.addIgnoredElement( editor, table );
+			table.data( 'cke-tableselection-ignored', 1 );
 
 			selection.selectRanges( ranges );
 
@@ -319,16 +319,6 @@
 			assert.isTrue( selection.isInTable(), 'isInTable is true' );
 			assert.isNotNull( selection.getNative(), 'getNative() should be available' );
 			assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
-
-			// Remove blacklisted element to check if funciton is working correctly.
-			CKEDITOR.plugins.tableselection.removeIgnoredElement( editor, table );
-
-			selection.selectRanges( ranges );
-
-			assert.areEqual( 1, selection.isFake, 'Selection is fake' );
-			assert.isTrue( selection.isInTable(), 'isInTable is true' );
-			assert.isNull( selection.getNative(), 'getNative() should be null' );
-			assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should be null' );
 		},
 
 		'Change selection': function() {

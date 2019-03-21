@@ -31,8 +31,6 @@
 			bender.tools.testInputOut( 'ignored', function( source, expected ) {
 				editor.once( 'afterPaste', function() {
 					resume( function() {
-						CKEDITOR.plugins.tableselection.removeIgnoredElement( editor, table );
-
 						bender.assert.beautified.html( expected, bender.tools.getHtmlWithSelection( editor ) );
 					} );
 				}, null, null, 999 );
@@ -41,7 +39,7 @@
 
 				table = editor.editable().findOne( 'table' );
 
-				CKEDITOR.plugins.tableselection.addIgnoredElement( editor, table );
+				table.data( 'cke-tableselection-ignored', 1 );
 
 				// Use clone, so that pasted table does not have an ID.
 				bender.tools.emulatePaste( editor, CKEDITOR.document.getById( '2cells1row' ).clone( true ).getOuterHtml() );
