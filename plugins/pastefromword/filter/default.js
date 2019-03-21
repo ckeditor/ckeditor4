@@ -1196,7 +1196,8 @@
 
 			var styles = element.attributes && tools.parseCssText( element.attributes.style );
 
-			// Default list in Word output has no margin-left or 48px. To have correct indentation we need to reduce margin-left by 48px for each list level.
+			// Default list in Word output has no margin-left or 48px. To have correct indentation we need to reduce margin-left by 48px for each list level (#2870).
+			// Note margin left is absent in IE pasted content.
 			if ( styles[ 'margin-left' ] ) {
 				var margin = styles[ 'margin-left' ],
 					level = element.attributes[ 'cke-list-level' ];
