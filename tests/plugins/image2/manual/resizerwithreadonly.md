@@ -6,14 +6,14 @@
 
 1. Focus the image.
 
-**Expected:** The image has enabled mouse resizer.
+**Expected:** The image resize handler is visible.
 
 ## ReadOnly Editor
 
 1. Focus the image.
 
-**Expected:** The image doesn't have enabled mouse resizer.
+**Expected:** The image resize handler is not visible.
 
 2. Click `Toggle read-only mode` multiple times focusing image every time after button click.
 
-**Expected:** The image mouse resizer is enabled and disabled depending on the read-only mode state.
+**Expected:** The image resize handler is enabled/disabled depending on the read-only mode state.
