@@ -1,6 +1,6 @@
 <textarea id="editor"></textarea>
 <script>
-	if ( bender.tools.env.mobile || ( CKEDITOR.env.in && !CKEDITOR.env.edge ) ) {
+	if ( bender.tools.env.mobile || ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ) {
 		bender.ignore();
 	}
 	CKEDITOR.replace( 'editor', {
