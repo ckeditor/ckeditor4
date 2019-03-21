@@ -308,6 +308,25 @@
 
 			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
 
+			var table = editor.editable().findOne( 'table' );
+
+			table.data( 'cke-tableselection-ignored', 1 );
+
+			selection.selectElement( table.findOne( 'td' ) );
+
+			assert.areEqual( 0, selection.isFake, 'Selection is not fake' );
+			assert.isTrue( selection.isInTable(), 'isInTable is true' );
+			assert.isNotNull( selection.getNative(), 'getNative() should be available' );
+			assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
+		},
+
+		// (#2945)
+		'Test selecting ignored element (ranges)': function() {
+			var editor = this.editor,
+				selection = editor.getSelection();
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
 			var table = editor.editable().findOne( 'table' ),
 				ranges = getRangesForCells( editor, table, [ 0, 1 ], true );
 
