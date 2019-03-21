@@ -43,3 +43,6 @@ E.g. `memorytest.html#dialog-table`
 
 - Open stylescombo
 ```memorytest.html#combo```
+
+- Open emoji dropdown
+```memorytest.html#emoji```

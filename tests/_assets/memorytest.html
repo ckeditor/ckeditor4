@@ -17,6 +17,7 @@
 <button id="create" class="button">Create editor</button>
 <button id="create-destroy-many" class="button">Create and destroy editor 100 times</button>
 <textarea id="editor" class="editor"></textarea>
+<p>Don't hover editor when create-destroy cyclces are running. Else mouse listener timeout will blow editor.</p>
 
 <script>
 	( function() {
@@ -26,21 +27,36 @@
 
 		button.addEventListener( 'click', () => {
 			promise = promise.then( editor => {
-				button.innerText = editor ? 'Create editor' : 'Destroy editor';
-				return editor ? destroyEditor(  editor ) : createEditor();
-			} );
+				disableEnableButtons( true );
+				return ( editor ? destroyEditor(  editor ) : createEditor() );
+			} )
+				.then( editor => {
+					button.innerText = editor ? 'Destroy editor' : 'Create editor';
+					disableEnableButtons();
+					return editor;
+				} );
 		} );
 
 		buttonMany.addEventListener( 'click', () => {
 			promise.then( editor => {
+				disableEnableButtons( true );
+
 				if ( editor ) {
 					promise = promise.then( destroyEditor );
 				}
 				for ( let i = 0; i < 100; i++ ) {
 					promise = promise.then( createEditor ).then( destroyEditor );
 				}
+
+				promise.then( () => {
+					disableEnableButtons();
+				} );
 			} );
 		} );
+
+		function disableEnableButtons( disable ) {
+			[ button, buttonMany ].forEach( button => button[ disable ? 'setAttribute' : 'removeAttribute' ]( 'disabled', 'true' ) );
+		}
 
 		function destroyEditor( editor ) {
 			return new Promise( res => {
@@ -64,9 +80,11 @@
 									res( this );
 								}, this );
 								CKEDITOR.document.findOne( '#cke_' + this.ui.get( 'Styles' ).id ).findOne( 'a' ).$.onclick();
+
 							} else if ( hash === '#colorbutton' ) {
 								CKEDITOR.document.findOne( '#' + this.ui.get( 'TextColor' )._.id ).$.click();
 								res( this );
+
 							} else if ( hash.indexOf( '#dialog-' ) > -1 ) {
 								hash = hash.replace( '#dialog-', '' );
 								this.once( 'dialogShow', function( evt ) {
@@ -76,12 +94,19 @@
 									res( this );
 								}, this );
 								this.execCommand( hash );
+
+							} else if ( hash === '#emoji' ) {
+								this.once( 'panelShow', function() {
+									res( this );
+								}, this );
+								CKEDITOR.document.findOne( '#' + this.ui.get( 'EmojiPanel' )._.id ).$.onclick();
+
 							} else {
 								res( this );
 							}
 						}
 					},
-					extraPlugins: 'codesnippet',
+					extraPlugins: 'codesnippet,emoji',
 					startupFocus: true
 				} );
 			} );
