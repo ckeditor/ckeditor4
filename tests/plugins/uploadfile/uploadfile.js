@@ -103,7 +103,12 @@ bender.test( {
 	},
 
 	'test with uploadfile plugin': function() {
-		var editor = this.editors.uploadfile;
+		var editor = this.editors.uploadfile,
+			rng = editor.createRange();
+
+		// Fix possible case, when there might be no ranges in Firefox 66 (#2971).
+		rng.setStartAt( editor.editable().getFirst(), CKEDITOR.POSITION_AFTER_START );
+		rng.select();
 
 		pasteFiles( editor, [ bender.tools.getTestTxtFile() ] );
 
