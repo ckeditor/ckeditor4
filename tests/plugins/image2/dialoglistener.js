@@ -10,11 +10,11 @@
 				on: {
 					instanceReady: function() {
 						var listeners = CKEDITOR._.events.dialogDefinition.listeners,
-							listener = listeners[ 0 ];
+							listener = listeners[ listeners.length - 1 ];
 
 						this.on( 'destroy', function() {
 							resume( function() {
-								assert.areNotSame( listeners[ 0 ], listener, 'Listener is removed.' );
+								arrayAssert.doesNotContain( listener, listeners, 'Listener is removed' );
 							} );
 						} );
 
