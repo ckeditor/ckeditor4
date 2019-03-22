@@ -899,6 +899,15 @@
 	 * Namespace providing a set of helper functions for working with tables, exposed by
 	 * [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
 	 *
+	 * **NOTE** Since 4.12.0 you can use `cke-tableselection-ignored` attribute to disable
+	 * table selection feature for the given table.
+	 *
+	 * ```javascript
+	 * var table = new CKEDITOR.dom.element( 'table' );
+	 *
+	 * table.data( 'cke-tableselection-ignored', 1 );
+	 * ```
+	 *
 	 * @since 4.7.0
 	 * @singleton
 	 * @class CKEDITOR.plugins.tableselection
