@@ -3891,9 +3891,24 @@
 				group = styleGroups[ widgetName ][ groupName ];
 
 				// Don't push style if it's already stored (#589).
-				if ( !CKEDITOR.tools.array.find( group, getCompareFn( style ) ) ) {
+				if ( !find( group, getCompareFn( style ) ) ) {
 					group.push( style );
 				}
+			}
+
+			// Copied `CKEDITOR.tools.array` from major branch.
+			function find( array, fn, thisArg ) {
+				var length = array.length,
+					i = 0;
+
+				while ( i < length ) {
+					if ( fn.call( thisArg, array[ i ], i, array ) ) {
+						return array[ i ];
+					}
+					i++;
+				}
+
+				return undefined;
 			}
 
 			function getCompareFn( left ) {
