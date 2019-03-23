@@ -1489,20 +1489,30 @@
 		 * +--------------+------+----------------+
 		 * ```
 		 *
-		 * Thererore value returned by IE 8 is converted to value present in other browsers.
+		 * Thererore value returned by IE 8 is converted to value present in other browsers,
+		 * unless second parameter is set to `true`.
 		 *
 		 * @since 4.11.4
 		 * @param {Number} button Mouse button identifier.
+		 * @param {Boolean} [reverse=false] If set to true, the conversion is reversed: values
+		 * returned by other browsers are converted to IE 8 values.
 		 * @returns {Number} Normalized mouse button identifier.
 		 */
-		normalizeMouseButton: function( button ) {
+		normalizeMouseButton: function( button, reverse ) {
+			var mappings = [
+					[ CKEDITOR.MOUSE_BUTTON_LEFT, 1 ],
+					[ CKEDITOR.MOUSE_BUTTON_MIDDLE, 4 ],
+					[ CKEDITOR.MOUSE_BUTTON_RIGHT, 2 ]
+				];
+
 			if ( CKEDITOR.env.ie && ( CKEDITOR.env.version < 9 || CKEDITOR.env.ie6Compat ) ) {
-				if ( button === 4 ) {
-					return CKEDITOR.MOUSE_BUTTON_MIDDLE;
-				} else if ( button === 1 ) {
-					return CKEDITOR.MOUSE_BUTTON_LEFT;
-				} else {
-					return CKEDITOR.MOUSE_BUTTON_RIGHT;
+				for ( var i = 0; i < mappings.length; i++ ) {
+					var mapping = mappings[ i ];
+					if ( mapping[ 0 ] === button && reverse ) {
+						return mapping[ 1 ];
+					} else if ( !reverse && mapping[ 1 ] === button ) {
+						return mapping[ 0 ];
+					}
 				}
 			}
 
