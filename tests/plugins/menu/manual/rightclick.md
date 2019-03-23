@@ -5,7 +5,7 @@
 ## Procedure
 
 1. Open console.
-2. Open editor's context menu.
+2. Open editor's context menu by right-clicking its content.
 3. Right click any menu item.
 
 	### Expected result:
