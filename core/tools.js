@@ -1459,7 +1459,7 @@
 		 * @since 4.7.3
 		 * @param {CKEDITOR.dom.event/Event} evt DOM event. Since 4.11.3 a native `MouseEvent` instance can be passed.
 		 * @returns {Number|Boolean} Returns a number indicating the mouse button or `false`
-		 * if the mouse button cannot be determined.
+		 * if the mouse button cannot be determined. The mouse button is normalizes using {@link CKEDITOR.tools.normalizeMouseButton}.
 		 */
 		getMouseButton: function( evt ) {
 			var domEvent = evt && evt.data ? evt.data.$ : evt;
@@ -1468,17 +1468,45 @@
 				return false;
 			}
 
+			return CKEDITOR.tools.normalizeMouseButton( domEvent.button );
+		},
+
+		/**
+		 * Normalizes mouse buttons across browsers.
+		 *
+		 * Notably only Internet Explorer < 9 has different buttons mappings
+		 * than other browsers:
+		 *
+		 * ```
+		 * +--------------+------+----------------+
+		 * | Mouse button | IE 8 | Other browsers |
+		 * +--------------+------+----------------+
+		 * | Left         |   1  |        0       |
+		 * +--------------+------+----------------+
+		 * | Middle       |   4  |        1       |
+		 * +--------------+------+----------------+
+		 * | Right        |   2  |        2       |
+		 * +--------------+------+----------------+
+		 * ```
+		 *
+		 * Thererore value returned by IE 8 is converted to value present in other browsers.
+		 *
+		 * @since 4.11.4
+		 * @param {Number} button Mouse button identifier.
+		 * @returns {Number} Normalized mouse button identifier.
+		 */
+		normalizeMouseButton: function( button ) {
 			if ( CKEDITOR.env.ie && ( CKEDITOR.env.version < 9 || CKEDITOR.env.ie6Compat ) ) {
-				if ( domEvent.button === 4 ) {
+				if ( button === 4 ) {
 					return CKEDITOR.MOUSE_BUTTON_MIDDLE;
-				} else if ( domEvent.button === 1 ) {
+				} else if ( button === 1 ) {
 					return CKEDITOR.MOUSE_BUTTON_LEFT;
 				} else {
 					return CKEDITOR.MOUSE_BUTTON_RIGHT;
 				}
 			}
 
-			return domEvent.button;
+			return button;
 		},
 
 		/**
