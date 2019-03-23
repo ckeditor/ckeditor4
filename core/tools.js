@@ -1459,7 +1459,7 @@
 		 * @since 4.7.3
 		 * @param {CKEDITOR.dom.event/Event} evt DOM event. Since 4.11.3 a native `MouseEvent` instance can be passed.
 		 * @returns {Number|Boolean} Returns a number indicating the mouse button or `false`
-		 * if the mouse button cannot be determined. The mouse button is normalizes using {@link CKEDITOR.tools.normalizeMouseButton}.
+		 * if the mouse button cannot be determined. The mouse button is normalized using {@link CKEDITOR.tools#normalizeMouseButton}.
 		 */
 		getMouseButton: function( evt ) {
 			var domEvent = evt && evt.data ? evt.data.$ : evt;
@@ -1474,12 +1474,12 @@
 		/**
 		 * Normalizes mouse buttons across browsers.
 		 *
-		 * Notably only Internet Explorer < 9 has different buttons mappings
-		 * than other browsers:
+		 * Noticeably only Internet Explorer 8 and IE 9 in Quirks Mode/Compatibility View have different
+		 * buttons mappings than other browsers:
 		 *
 		 * ```
 		 * +--------------+------+----------------+
-		 * | Mouse button | IE 8 | Other browsers |
+		 * | Mouse button |  IE  | Other browsers |
 		 * +--------------+------+----------------+
 		 * | Left         |   1  |        0       |
 		 * +--------------+------+----------------+
@@ -1489,8 +1489,15 @@
 		 * +--------------+------+----------------+
 		 * ```
 		 *
-		 * Thererore value returned by IE 8 is converted to value present in other browsers,
-		 * unless second parameter is set to `true`.
+		 * Therefore value returned by IE < 9 is converted to value present in other browsers,
+		 * unless second parameter is set to `true`. In such case the normalization is reversed.
+		 * The normalization is conducted only in browsers that use non-standard button mappings,
+		 * returning passed parameter in every other browser;
+		 *
+		 * ```javascript
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 1 ) ); // Returns 0 in IE8, 1 in all other browsers.
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 0, true ) ); // Returns 1 in IE8, 0 in all other browsers.
+		 * ```
 		 *
 		 * @since 4.11.4
 		 * @param {Number} button Mouse button identifier.
