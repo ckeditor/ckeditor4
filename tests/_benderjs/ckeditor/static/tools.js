@@ -1301,7 +1301,7 @@
 
 			// Thanks to http://help.dottoro.com/ljhlvomw.php
 			if ( document.createEventObject ) {
-				mouseEvent = document.createEventObject();
+				mouseEvent = element.ownerDocument.createEventObject();
 
 				mouseEvent.button = button;
 				element.fireEvent( 'on' + type, mouseEvent );
