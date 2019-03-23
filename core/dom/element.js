@@ -2113,6 +2113,41 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				else if ( !type || node.type == type )
 					callback( node );
 			}
+		},
+
+		/**
+		 * Fires element event handler attribute e.g.
+		 *
+		 * ```html
+		 * <button onkeydown="return customFn( event )">x</button>
+		 * ```
+		 *
+		 * ```javascript
+		 * buttonEl.fireEventHandler( 'keydown', {
+		 * 	keyCode: 13 // Enter
+		 * } );
+		 * ```
+		 *
+		 * @since 4.11.4
+		 * @param {CKEDITOR.dom.element/HTMLElement} element Element with attached event handler attribute.
+		 * @param {String} eventName Event name.
+		 * @param {Object} evt Event payload.
+		 */
+		fireEventHandler: function( eventName, evt ) {
+			var handlerName = 'on' + eventName,
+				element = this.$;
+
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				var nativeEvent = element.ownerDocument.createEventObject();
+
+				for ( var key in evt ) {
+					nativeEvent[ key ] = evt[ key ];
+				}
+
+				element.fireEvent( handlerName, nativeEvent );
+			} else {
+				element[ handlerName ]( evt );
+			}
 		}
 	} );
 

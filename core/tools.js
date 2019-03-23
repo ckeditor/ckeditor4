@@ -1482,42 +1482,6 @@
 		},
 
 		/**
-		 * Fires element event handler attribute e.g.
-		 *
-		 * ```html
-		 * <button onkeydown="return customFn( event )">x</button>
-		 * ```
-		 *
-		 * ```javascript
-		 * CKEDITOR.tools.fireElementEventHandler( buttonEl, 'onkeydown', {
-		 * 	keyCode: 13 // Enter
-		 * } );
-		 * ```
-		 *
-		 * @since 4.11.4
-		 * @param {CKEDITOR.dom.element/HTMLElement} element Element with attached event handler attribute.
-		 * @param {String} handlerName Event handler attribute name (basically `on` + event name).
-		 * @param {Object} evt Event payload.
-		 */
-		fireElementEventHandler: function( element, handlerName, evt ) {
-			if ( element.$ ) {
-				element = element.$;
-			}
-
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				var nativeEvent = element.ownerDocument.createEventObject();
-
-				for ( var key in evt ) {
-					nativeEvent[ key ] = evt[ key ];
-				}
-
-				element.fireEvent( handlerName, nativeEvent );
-			} else {
-				element[ handlerName ]( evt );
-			}
-		},
-
-		/**
 		 * Convert hex string to array containing 1 byte in each cell. Bytes are represented as Integer numbers.
 		 *
 		 * @since 4.8.0

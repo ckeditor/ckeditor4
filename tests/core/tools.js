@@ -924,43 +924,6 @@
 			}
 		},
 
-		// (#2857)
-		'test fireElementEventHandler with onmouseup': function() {
-			var link = CKEDITOR.dom.element.createFromHtml(
-				'<a href="#" onmouseup="this.setAttribute(\'data-button\',event.button);return false;">Link</a>' );
-
-			CKEDITOR.tools.fireElementEventHandler( link, 'onmouseup', {
-				button: 2
-			} );
-
-			assert.areSame( '2', link.getAttribute( 'data-button' ), 'Proper event data was passed' );
-		},
-
-		// (#2857)
-		'test fireElementEventHandler with onmouseup in iframe': function() {
-			var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="about:blank"></iframe>' );
-
-			iframe.once( 'load', function() {
-				resume( function() {
-					var document = new CKEDITOR.dom.document( iframe.$.contentWindow.document ),
-						link = new CKEDITOR.dom.element( 'a', document );
-
-					link.setAttribute( 'onmouseup',
-						'this.setAttribute(\'data-button\',event.button);return false;' );
-					document.getBody().append( link );
-
-					CKEDITOR.tools.fireElementEventHandler( link, 'onmouseup', {
-						button: 2
-					} );
-
-					assert.areSame( '2', link.getAttribute( 'data-button' ), 'Proper event data was passed' );
-				} );
-			} );
-
-			CKEDITOR.document.getBody().append( iframe );
-			wait();
-		},
-
 		// #662
 		'test hexstring to bytes converter': function() {
 			var testCases = [

@@ -155,7 +155,7 @@
 
 			btnEl = CKEDITOR.document.getById( btn._.id );
 
-			CKEDITOR.tools.fireElementEventHandler( btnEl, CKEDITOR.env.ie ? 'onmouseup' : 'onclick', { button: leftMouseButton } );
+			btnEl.fireEventHandler( CKEDITOR.env.ie ? 'mouseup' : 'click', { button: leftMouseButton } );
 
 			// combo panel opening is synchronous.
 			tc.wait();
@@ -243,7 +243,7 @@
 
 			item = CKEDITOR.document.getById( 'cke_' + combo.id );
 			item = item.getElementsByTag( 'a' ).getItem( 0 );
-			CKEDITOR.tools.fireElementEventHandler( item, CKEDITOR.env.ie ? 'onmouseup' : 'onclick', { button: leftMouseButton } );
+			item.fireEventHandler( CKEDITOR.env.ie ? 'mouseup' : 'click', { button: leftMouseButton } );
 
 			// combo panel opening is synchronous.
 			tc.wait();
