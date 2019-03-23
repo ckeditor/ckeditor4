@@ -1512,18 +1512,19 @@
 					[ CKEDITOR.MOUSE_BUTTON_RIGHT, 2 ]
 				];
 
-			if ( CKEDITOR.env.ie && ( CKEDITOR.env.version < 9 || CKEDITOR.env.ie6Compat ) ) {
-				for ( var i = 0; i < mappings.length; i++ ) {
-					var mapping = mappings[ i ];
-					if ( mapping[ 0 ] === button && reverse ) {
-						return mapping[ 1 ];
-					} else if ( !reverse && mapping[ 1 ] === button ) {
-						return mapping[ 0 ];
-					}
-				}
+			if ( !CKEDITOR.env.ie || ( CKEDITOR.env.version >= 9 && !CKEDITOR.env.ie6Compat ) ) {
+				return button;
 			}
 
-			return button;
+			for ( var i = 0; i < mappings.length; i++ ) {
+				var mapping = mappings[ i ];
+
+				if ( mapping[ 0 ] === button && reverse ) {
+					return mapping[ 1 ];
+				} else if ( !reverse && mapping[ 1 ] === button ) {
+					return mapping[ 0 ];
+				}
+			}
 		},
 
 		/**
