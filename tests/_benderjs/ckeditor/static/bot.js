@@ -227,7 +227,7 @@
 			var editor = this.editor,
 				combo = editor.ui.get( name ),
 				tc = this.testCase,
-				leftMouseButton = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? 1 : CKEDITOR.MOUSE_BUTTON_LEFT,
+				leftMouseButton = CKEDITOR.tools.normalizeMouseButton( CKEDITOR.MOUSE_BUTTON_LEFT, true ),
 				item;
 
 			editor.once( 'panelShow', function() {

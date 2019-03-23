@@ -1295,19 +1295,15 @@
 		 * @param {Number} button Mouse button to be used.
 		*/
 		dispatchMouseEvent: function( element, type, button ) {
-			var ie8ButtonMap = {
-					0: 1, // CKEDITOR.MOUSE_BUTTON_LEFT
-					1: 4, // CKEDITOR.MOUSE_BUTTON_MIDDLE
-					2: 2 // CKEDITOR.MOUSE_BUTTON_RIGHT
-				},
-				mouseEvent;
+			var mouseEvent;
+			button = CKEDITOR.tools.normalizeMouseButton( button, true );
 			element = element.$;
 
 			// Thanks to http://help.dottoro.com/ljhlvomw.php
 			if ( document.createEventObject ) {
 				mouseEvent = document.createEventObject();
 
-				mouseEvent.button = ie8ButtonMap[ button ];
+				mouseEvent.button = button;
 				element.fireEvent( 'on' + type, mouseEvent );
 			} else {
 				mouseEvent = document.createEvent( 'MouseEvent' );

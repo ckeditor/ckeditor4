@@ -446,8 +446,7 @@
 						if ( focusable ) {
 							// We must pass info about clicked button (#2857).
 							focusable.fireEventHandler( keyAction, {
-								button: ( CKEDITOR.env.ie && ( CKEDITOR.env.version < 9 || CKEDITOR.env.ie6Compat ) ) ?
-									1 : CKEDITOR.MOUSE_BUTTON_LEFT
+								button: CKEDITOR.tools.normalizeMouseButton( CKEDITOR.MOUSE_BUTTON_LEFT, true )
 							} );
 						}
 

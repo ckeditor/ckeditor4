@@ -60,7 +60,7 @@
 
 			block._.markFirstDisplayed();
 
-			block.onKeyDown( 13 );
+			block.onKeyDown( 13 ); // Enter
 			assert.areSame( '0', items.getItem( block._.focusIndex ).getAttribute( 'data-button' ) );
 		}
 	} );
