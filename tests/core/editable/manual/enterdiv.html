@@ -21,9 +21,31 @@
 
 <script>
 	for ( var i = 1; i < 5; i++ ) {
+		// Hide editors for which test would fail on Chrome & Safari because of a browser upstream issue
+		// https://github.com/ckeditor/ckeditor-dev/pull/2776#issuecomment-463144905
+		if ( CKEDITOR.env.webkit && !(i%2) ) {
+			CKEDITOR.document.findOne( '#editor' + i ).remove();
+			continue;
+		}
 		CKEDITOR.replace( 'editor' + i, {
 			extraPlugins: i > 2 ? 'divarea' : '',
-			enterMode: CKEDITOR.ENTER_DIV
+			enterMode: CKEDITOR.ENTER_DIV,
+			on: {
+				instanceReady: function() {
+					var textarea = new CKEDITOR.dom.element( 'textarea' );
+					textarea.setValue( this.getData() );
+					textarea.setAttributes( {
+						readonly: true,
+						rows: 2,
+						cols: 80
+					} );
+					textarea.insertBefore( this.element );
+
+					var p = new CKEDITOR.dom.element( 'p' );
+					p.setText( 'Expected editor content:' );
+					p.insertBefore( textarea );
+				}
+			}
 		} );
 	}
 </script>
