@@ -80,19 +80,18 @@
 				if ( !this._getFrameMethodReplaced ) {
 					// The problem is also window.getFrame().getClientRect() as it returns different results from dashboard and directly.
 					this._getFrameMethodReplaced = true;
-					var orig = this.editor.window.getFrame;
+					var editor = this.editor,
+						rect = { height: 300, width: 300, left: 1, bottom: 643, right: 301, top: 343 },
+						frame = editor.window.getFrame(),
+						container = frame.getParent();
 
-					this.editor.window.getFrame = function() {
-						var ret = orig.call( this );
+					sinon.stub( editor.window, 'getFrame' ).returns( frame );
+					sinon.stub( CKEDITOR.env.safari ? container : frame, 'getClientRect' ).returns( rect );
 
-						if ( ret ) {
-							ret.getClientRect = function() {
-								return { height: 300, width: 300, left: 1, bottom: 643, right: 301, top: 343 };
-							};
-						}
-
-						return ret;
-					};
+					if ( CKEDITOR.env.safari ) {
+						// Override container because iframe has wrong rect values in mobile Safari (#1076).
+						sinon.stub( frame, 'getParent' ).returns( container );
+					}
 				}
 			},
 

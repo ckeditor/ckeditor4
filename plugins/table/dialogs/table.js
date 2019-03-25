@@ -183,7 +183,6 @@
 						thead = new CKEDITOR.dom.element( table.$.tHead );
 						tbody = table.getElementsByTag( 'tbody' ).getItem( 0 );
 
-						var previousFirstRow = tbody.getFirst();
 						while ( thead.getChildCount() > 0 ) {
 							theRow = thead.getFirst();
 							for ( i = 0; i < theRow.getChildCount(); i++ ) {
@@ -193,7 +192,9 @@
 									newCell.removeAttribute( 'scope' );
 								}
 							}
-							theRow.insertBefore( previousFirstRow );
+
+							// Append the row to the start (#1397).
+							tbody.append( theRow, true );
 						}
 						thead.remove();
 					}

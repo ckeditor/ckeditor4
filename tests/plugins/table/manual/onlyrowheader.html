@@ -1,0 +1,20 @@
+<textarea id="editor1">
+	<table border="1" cellspacing="1" cellpadding="1" style="width:500px;">
+		<thead>
+			<tr>
+				<th scope="row"><br></th>
+				<th scope="col"><br></th>
+			</tr>
+		</thead>
+		<tbody>
+
+		</tbody>
+	</table>
+</textarea>
+
+<script>
+	if ( bender.env.mobile ) {
+		bender.ignore();
+	}
+	CKEDITOR.replace( 'editor1' );
+</script>

@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
+/* global Q */
+
 ( function( bender ) {
 	'use strict';
 
@@ -1204,6 +1206,75 @@
 			} else {
 				element[ eventName ]( evt );
 			}
+		},
+
+		/**
+		 * Creates a promise from the given function. It works in a similar way as a promise constructor
+		 * (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise),
+		 * with support for IE8 browser.
+		 *
+		 * ```js
+		 *	bender.tools.promise( function( resolve, reject ) {
+		 *		setTimeout( function() {
+		 *			var timestamp;
+		 *			try {
+		 *				timestamp = ( new Date() ).getTime();
+		 *			} catch ( e ) {
+		 *				reject( e );
+		 *			}
+		 *			resolve( timestamp );
+		 *		}, 5000 );
+		 *	} )
+		 * ```
+		 *
+		 * @param {Function} executor Initialization function executed immediately by the Promise implementation.
+		 * @param {Function} executor.resolve Function which should be called when promise is fulfilled.
+		 * @param {Function} executor.reject Function which should be called when promise is rejected.
+		 * @returns {Promise}
+		 */
+
+		promise: function( fn ) {
+			var deferred = Q.defer();
+
+			fn( CKEDITOR.tools.bind( deferred.resolve, deferred ), CKEDITOR.tools.bind( deferred.reject, deferred ) );
+
+			return deferred.promise;
+		},
+
+		/**
+		 * Creates test suite object for `bender.test` method from synchronous and asynchronous test cases.
+		 * Asynchronous test must be a function which returns a promise and cannot poses wait-resume statements.
+		 *
+		 * Please notice that currently this method doesn't support special test methods (`setUp`, `tearDown`, etc.),
+		 * which might be passed to the `bender.test` function.
+		 *
+		 * @param {Object} tests object
+		 */
+		createAsyncTests: function( tests ) {
+			var tmp = {};
+
+			for ( var testName in tests ) {
+				tmp[ testName ] = ( function( test ) {
+					return function() {
+						var promise = test.apply( this );
+
+						if ( Q.isPromise( promise ) ) {
+							promise.then( function() {
+									resume();
+								} )
+								.fail( function( err ) {
+									resume( function() {
+										throw err;
+									} );
+								} );
+
+							wait();
+						}
+					};
+				} )( tests[ testName ] );
+			}
+
+			return tmp;
 		}
 
 	};
