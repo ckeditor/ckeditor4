@@ -129,9 +129,9 @@
 
 		'test panel adds cke_balloontoolbar class': function( editor ) {
 			var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
-				width: 100,
-				height: 200
-			} ),
+					width: 100,
+					height: 200
+				} ),
 				markerElement = editor.editable().findOne( '#marker' );
 			balloonToolbar.attach( markerElement );
 
@@ -195,15 +195,11 @@
 	}
 
 	function mockWindowViewPaneSize( size ) {
-		var window = CKEDITOR.document.getWindow(),
-			winSpy = sinon.stub( CKEDITOR.document, 'getWindow' ),
-			viewPaneSpy = sinon.stub( window, 'getViewPaneSize' );
-
-		winSpy.returns( window );
+		var viewPaneSpy = sinon.stub( CKEDITOR.dom.window.prototype, 'getViewPaneSize' );
 		viewPaneSpy.returns( size );
+
 		return {
 			restore: function() {
-				winSpy.restore();
 				viewPaneSpy.restore();
 			}
 		};
