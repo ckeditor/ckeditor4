@@ -2146,7 +2146,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 
 				element.fireEvent( handlerName, nativeEvent );
 			} else {
-				element[ handlerName ]( evt );
+				element[ element[ eventName ] ? eventName : handlerName ]( evt );
 			}
 		}
 	} );

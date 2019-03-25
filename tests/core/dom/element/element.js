@@ -1212,6 +1212,24 @@ bender.test( appendDomObjectTests(
 
 			CKEDITOR.document.getBody().append( iframe );
 			wait();
+		},
+
+		// (#2975)
+		'test fireEventHandler with click on element without onclick': function() {
+			var link = CKEDITOR.dom.element.createFromHtml(
+				'<a href="#">Link</a>' ),
+				leftMouseButton = CKEDITOR.tools.normalizeMouseButton( CKEDITOR.MOUSE_BUTTON_LEFT, true );
+
+			link.once( 'click', function( evt ) {
+				this.setAttribute( 'data-button', evt.data.$.button );
+				evt.data.preventDefault();
+			} );
+			link.fireEventHandler( 'click', {
+				button: leftMouseButton
+			} );
+
+			assert.areSame( String( leftMouseButton ), link.getAttribute( 'data-button' ),
+				'Proper event data was passed' );
 		}
 	}
 ) );
