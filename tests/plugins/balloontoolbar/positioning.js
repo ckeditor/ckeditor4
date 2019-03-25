@@ -67,16 +67,18 @@
 				elementFrame = markerElement.getClientRect(),
 				// When window is so small editor is out of view panel might be rendered below editor.
 				// Mock view pane size to prevent that.
-				viewPaneMock = mockWindowViewPaneSize( { width: 1000, height: 1000 } ),
+				viewPaneSpy = sinon.stub( CKEDITOR.dom.window.prototype, 'getViewPaneSize' ),
 				scrollTop,
 				balloonToolbarRect,
 				rectTop;
+
+			viewPaneSpy.returns( { width: 1000, height: 1000 } );
 
 			balloonToolbar.attach( markerElement );
 			balloonToolbarRect = balloonToolbar.parts.panel.getClientRect();
 			rectTop = CKEDITOR.env.ie && !CKEDITOR.env.edge ? Math.round( balloonToolbarRect.top ) : balloonToolbarRect.top;
 
-			viewPaneMock.restore();
+			viewPaneSpy.restore();
 
 			// When browser window is so small that panel doesn't fit, window will be scrolled into panel view.
 			// Use scroll position to adjust expected result.
@@ -192,17 +194,6 @@
 		} else {
 			return data.toFixed( 2 );
 		}
-	}
-
-	function mockWindowViewPaneSize( size ) {
-		var viewPaneSpy = sinon.stub( CKEDITOR.dom.window.prototype, 'getViewPaneSize' );
-		viewPaneSpy.returns( size );
-
-		return {
-			restore: function() {
-				viewPaneSpy.restore();
-			}
-		};
 	}
 
 	function getFrameRect( editor ) {
