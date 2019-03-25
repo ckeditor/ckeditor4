@@ -12,13 +12,13 @@
 		},
 
 		// #719, #2874
-		'test resizer creation without readOnly': testResizerVisibility( { name: 'editor1' } ),
+		'test resizer creation without readOnly': testResizerPresence( { name: 'editor1' } ),
 
 		// #719, #2874
-		'test resizer creation with readOnly at initialization': testResizerVisibility( { name: 'editor2', config: { readOnly: true } } ),
+		'test resizer creation with readOnly at initialization': testResizerPresence( { name: 'editor2', config: { readOnly: true } } ),
 
 		// #719, #2874
-		'test resizer creation with readOnly after initialization': testResizerVisibility( { name: 'editor3' }, true ),
+		'test resizer creation with readOnly after initialization': testResizerPresence( { name: 'editor3' }, true ),
 
 		// #719, #2816
 		'test hovering in read-only': function() {
@@ -27,9 +27,10 @@
 				editor.setData( '<img src="_assets/foo.png" alt="" />', function() {
 					resume( function() {
 						var wrapper = editor.editable().findOne( '.cke_widget_wrapper' ),
-							resizer = editor.editable().findOne( '.cke_widget_image .cke_image_resizer' );
+							resizer = wrapper.findOne( '.cke_image_resizer' );
+
 						wrapper.addClass( 'hover' );
-						assert.isTrue( Boolean( !resizer.isVisible() ) );
+						assert.isTrue( !resizer.isVisible() );
 					} );
 				} );
 				wait();
@@ -45,7 +46,7 @@
 						var wrapper = editor.editable().findOne( '.cke_widget_wrapper' ),
 							resizer = editor.editable().findOne( '.cke_widget_image .cke_image_resizer' );
 						wrapper.addClass( 'hover' );
-						assert.isTrue( Boolean( resizer.isVisible() ) );
+						assert.isTrue( resizer.isVisible() );
 					} );
 				} );
 				wait();
@@ -54,7 +55,7 @@
 	} );
 }() );
 
-function testResizerVisibility( profile, readOnly ) {
+function testResizerPresence( profile, readOnly ) {
 	return function() {
 		bender.editorBot.create( profile, function( bot ) {
 			var editor = bot.editor;
@@ -64,11 +65,9 @@ function testResizerVisibility( profile, readOnly ) {
 					if ( readOnly ) {
 						editor.setReadOnly( readOnly );
 					}
-					var resizer = editor.editable().findOne( '.cke_widget_image .cke_image_resizer' );
-					assert.isTrue( Boolean( resizer ), 'Resizer should be created'  );
+					assert.isNotNull( editor.editable().findOne( '.cke_widget_image .cke_image_resizer' ), 'Resizer should be created'  );
 				} );
 			} );
-
 			wait();
 		} );
 	};
