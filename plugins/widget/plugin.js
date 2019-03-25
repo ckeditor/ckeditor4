@@ -3570,16 +3570,16 @@
 			// ENTER.
 			if ( keyCode == 13 ) {
 				widget.edit();
-				// CTRL+C or CTRL+X.
+			// CTRL+C or CTRL+X.
 			} else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
 				copySingleWidget( widget, keyCode == CKEDITOR.CTRL + 88 );
 				return; // Do not preventDefault.
+			// Pass chosen keystrokes to other plugins or default fake sel handlers.
+			// Pass all CTRL/ALT/SHIFT keystrokes.
 			} else if ( keyCode in keystrokesNotBlockedByWidget ||
 				( CKEDITOR.CTRL & keyCode ) ||
 				( CKEDITOR.ALT & keyCode ) ||
 				( CKEDITOR.SHIFT & keyCode ) ) {
-				// Pass chosen keystrokes to other plugins or default fake sel handlers.
-				// Pass all CTRL/ALT/SHIFT keystrokes.
 				return;
 			}
 
