@@ -67,12 +67,10 @@
 				elementFrame = markerElement.getClientRect(),
 				// When window is so small editor is out of view panel might be rendered below editor.
 				// Mock view pane size to prevent that.
-				viewPaneSpy = sinon.stub( CKEDITOR.dom.window.prototype, 'getViewPaneSize' ),
+				viewPaneSpy = sinon.stub( CKEDITOR.dom.window.prototype, 'getViewPaneSize' ).returns( { width: 1000, height: 1000 } ),
 				scrollTop,
 				balloonToolbarRect,
 				rectTop;
-
-			viewPaneSpy.returns( { width: 1000, height: 1000 } );
 
 			balloonToolbar.attach( markerElement );
 			balloonToolbarRect = balloonToolbar.parts.panel.getClientRect();
