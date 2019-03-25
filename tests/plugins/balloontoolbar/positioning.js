@@ -63,24 +63,24 @@
 					height: 200
 				} ),
 				markerElement = editor.editable().findOne( '#marker' ),
-				frame = editor.editable().isInline() ? editor.editable().getClientRect() : editor.window.getFrame().getClientRect(),
+				frame = getFrameRect( editor ),
 				elementFrame = markerElement.getClientRect(),
 				// When window is so small editor is out of view panel might be rendered below editor.
 				// Mock view pane size to prevent that.
-				viewPaneMock = mockWindowViewPaneSize( { width: 1000, height: 1000 } ),
+				viewPaneSpy = sinon.stub( CKEDITOR.dom.window.prototype, 'getViewPaneSize' ).returns( { width: 1000, height: 1000 } ),
 				scrollTop,
 				balloonToolbarRect,
 				rectTop;
 
 			balloonToolbar.attach( markerElement );
 			balloonToolbarRect = balloonToolbar.parts.panel.getClientRect();
-			rectTop = CKEDITOR.env.ie || !CKEDITOR.env.edge ? Math.round( balloonToolbarRect.top ) : balloonToolbarRect.top;
+			rectTop = CKEDITOR.env.ie && !CKEDITOR.env.edge ? Math.round( balloonToolbarRect.top ) : balloonToolbarRect.top;
 
-			viewPaneMock.restore();
+			viewPaneSpy.restore();
 
 			// When browser window is so small that panel doesn't fit, window will be scrolled into panel view.
 			// Use scroll position to adjust expected result.
-			scrollTop = CKEDITOR.document.getWindow().getScrollPosition().y.toFixed( 2 );
+			scrollTop = CKEDITOR.document.getWindow().getScrollPosition().y;
 
 			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
 			assert.areEqual( expectedLeft, balloonToolbarRect.left.toFixed( 2 ), 'left align' );
@@ -103,7 +103,7 @@
 					height: 200
 				} ),
 				markerElement = editor.editable().findOne( '#marker' ),
-				frame = editor.editable().isInline() ? editor.editable().getClientRect() : editor.window.getFrame().getClientRect(),
+				frame = getFrameRect( editor ),
 				elementFrame = markerElement.getClientRect(),
 				scrollTop,
 				balloonToolbarRect,
@@ -113,7 +113,7 @@
 			markerElement.getParent().getNext().scrollIntoView( true );
 			balloonToolbar.attach( markerElement );
 			balloonToolbarRect = balloonToolbar.parts.panel.getClientRect();
-			rectTop = CKEDITOR.env.ie || !CKEDITOR.env.edge ? Math.round( balloonToolbarRect.top ) : balloonToolbarRect.top;
+			rectTop = CKEDITOR.env.ie && !CKEDITOR.env.edge ? Math.round( balloonToolbarRect.top ) : balloonToolbarRect.top;
 
 			// When browser window is so small that panel doesn't fit, window will be scrolled into panel view.
 			// We need to use scroll position to adjust expected result.
@@ -129,9 +129,9 @@
 
 		'test panel adds cke_balloontoolbar class': function( editor ) {
 			var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
-				width: 100,
-				height: 200
-			} ),
+					width: 100,
+					height: 200
+				} ),
 				markerElement = editor.editable().findOne( '#marker' );
 			balloonToolbar.attach( markerElement );
 
@@ -194,18 +194,16 @@
 		}
 	}
 
-	function mockWindowViewPaneSize( size ) {
-		var window = CKEDITOR.document.getWindow(),
-			winSpy = sinon.stub( CKEDITOR.document, 'getWindow' ),
-			viewPaneSpy = sinon.stub( window, 'getViewPaneSize' );
+	function getFrameRect( editor ) {
+		var frame = editor.window.getFrame();
 
-		winSpy.returns( window );
-		viewPaneSpy.returns( size );
-		return {
-			restore: function() {
-				winSpy.restore();
-				viewPaneSpy.restore();
-			}
-		};
+		if ( editor.editable().isInline() ) {
+			frame = editor.editable();
+		} else if ( CKEDITOR.env.safari ) {
+			// Use container because iframe has wrong rect values in mobile Safari (#1076).
+			frame = frame.getParent();
+		}
+
+		return frame.getClientRect();
 	}
 } )();

@@ -453,6 +453,11 @@
 				editable = this.editor.editable();
 				isInline = editable.isInline();
 
+				if ( !isInline && CKEDITOR.env.safari ) {
+					// Overwrite frame with editor iframe closest parent, because iframe has wrong rect values in mobile Safari (#1076).
+					frame = frame.getParent();
+				}
+
 				var panelWidth = this.getWidth(),
 					panelHeight = this.getHeight(),
 
