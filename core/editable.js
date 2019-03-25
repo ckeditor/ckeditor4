@@ -1673,7 +1673,8 @@
 		}
 
 		function clearEditable( editable, range ) {
-			editable.getFirst().remove();
+			var first = editable.getFirst();
+			first && first.remove();
 			range.setStartAt( editable, CKEDITOR.POSITION_AFTER_START );
 			range.collapse( true );
 		}
