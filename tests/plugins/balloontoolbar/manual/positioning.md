@@ -11,3 +11,5 @@ The balloon toolbar is located inside the editable.
 ## Unexpected
 
 The balloon toolbar is located outside the editable.
+
+**Note**: When editor is loaded outside of the browser viewport the balloon toolbar may be positioned incorrectly (see [#2978](https://github.com/ckeditor/ckeditor-dev/issues/2978)).
