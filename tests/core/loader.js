@@ -20,9 +20,9 @@
 
 			loader.load( scriptName, false );
 
-			getScript().on( 'load', function() {
-				var script = this;
+			var script = getScript();
 
+			script.on( script.$.onload ? 'load' : 'readystatechange', function() {
 				setTimeout( function() {
 					resume( function() {
 						assert.isFalse( !!script.$.onreadystatechange );
@@ -32,6 +32,7 @@
 			} );
 
 			wait();
+
 			function getScript() {
 				return CKEDITOR.document.findOne( 'script[src="' + CKEDITOR.getUrl( 'core/' + scriptName + '.js' ) + '"]' );
 			}
