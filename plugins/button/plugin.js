@@ -27,16 +27,9 @@
 	if ( CKEDITOR.env.gecko )
 		template += ' onblur="this.style.cssText = this.style.cssText;"';
 
-	// IE and Edge needs special click handler based on mouseup event with additional check
-	// of which mouse button was clicked (https://dev.ckeditor.com/ticket/188, #2565).
-	var specialClickHandler = '';
-	if ( CKEDITOR.env.ie ) {
-		specialClickHandler = 'return false;" onmouseup="CKEDITOR.tools.getMouseButton(event)==CKEDITOR.MOUSE_BUTTON_LEFT&&';
-	}
-
 	template += ' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event);"' +
 		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
-		'onclick="' + specialClickHandler + 'CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
+		'onclick="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
 		'<span class="cke_button_icon cke_button__{iconName}_icon" style="{style}"';
 
 

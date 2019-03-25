@@ -37,8 +37,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 	template +=
 		' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event,this);"' +
 		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
-			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // https://dev.ckeditor.com/ticket/188
-				'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
+			'onclick="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
 			'<span id="{id}_text" class="cke_combo_text cke_combo_inlinelabel">{label}</span>' +
 			'<span class="cke_combo_open">' +
 				'<span class="cke_combo_arrow">' +

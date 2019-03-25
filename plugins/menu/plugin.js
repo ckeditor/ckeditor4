@@ -111,8 +111,7 @@ CKEDITOR.plugins.add( 'menu', {
 	// https://dev.ckeditor.com/ticket/188
 	menuItemSource += ' onmouseover="CKEDITOR.tools.callFunction({hoverFn},{index});"' +
 			' onmouseout="CKEDITOR.tools.callFunction({moveOutFn},{index});" ' +
-			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) +
-				'="CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
+			'onclick="CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
 			'>';
 
 	menuItemSource +=
@@ -340,9 +339,8 @@ CKEDITOR.plugins.add( 'menu', {
 					keys[ 9 ] = 'next'; // TAB
 					keys[ 38 ] = 'prev'; // ARROW-UP
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
-					keys[ ( editor.lang.dir == 'rtl' ? 37 : 39 ) ] = CKEDITOR.env.ie ? 'mouseup' : 'click'; // ARROW-RIGHT/ARROW-LEFT(rtl)
-					keys[ 32 ] = CKEDITOR.env.ie ? 'mouseup' : 'click'; // SPACE
-					CKEDITOR.env.ie && ( keys[ 13 ] = 'mouseup' ); // Manage ENTER, since onclick is blocked in IE (https://dev.ckeditor.com/ticket/8041).
+					keys[ ( editor.lang.dir == 'rtl' ? 37 : 39 ) ] = 'click'; // ARROW-RIGHT/ARROW-LEFT(rtl)
+					keys[ 32 ] = 'click'; // SPACE
 
 					element = this._.element = block.element;
 
