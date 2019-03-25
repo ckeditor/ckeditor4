@@ -22,6 +22,55 @@
 	var getWidgetById = widgetTestsTools.getWidgetById;
 
 	bender.test( {
+		// #1901
+		'test SHIFT + F10 shortcut upon widget focus': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testevent', {
+				editables: {
+					foo: '.foo'
+				}
+			} );
+
+			this.editorBot.setData(
+				'<p id="p1">foo</p><div data-widget="testevent" id="w1"><p class="foo">foo</p></div>',
+				function() {
+					var w1 = getWidgetById( editor, 'w1' ),
+						opened = 0;
+					w1.on( 'contextMenu', function() {
+						opened += 1;
+					} );
+					w1.focus();
+					editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.SHIFT + 121 } ) );
+					assert.areSame( opened, 1, 'context menu did not open' );
+				}
+			);
+		},
+
+		// #1901
+		'test CTRL + SHIFT + F10 shortcut upon widget focus': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testevent', {
+				editables: {
+					foo: '.foo'
+				}
+			} );
+
+			this.editorBot.setData(
+				'<p id="p1">foo</p><div data-widget="testevent" id="w1"><p class="foo">foo</p></div>',
+				function() {
+					var w1 = getWidgetById( editor, 'w1' ),
+						opened = 0;
+					w1.on( 'contextMenu', function() {
+						opened += 1;
+					} );
+					w1.focus();
+					editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 } ) );
+					assert.areSame( opened, 1, 'context menu did not open' );
+				}
+			);
+		},
 
 		'test contextMenu event firing': function() {
 			var editor = this.editor;
