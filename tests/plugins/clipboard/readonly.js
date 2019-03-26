@@ -67,7 +67,6 @@ tests[ 'test paste command state in divarea editor' ] = function() {
 		}
 	}, function( bot ) {
 		var editor = bot.editor,
-			commandNames = [ 'paste', 'pastetext' ],
 			target = CKEDITOR.env.ie ? editor.editable() : editor.document.getDocumentElement();
 
 		target.fire( 'mouseup', new CKEDITOR.dom.event( {
@@ -77,7 +76,7 @@ tests[ 'test paste command state in divarea editor' ] = function() {
 
 		editor.setReadOnly( true );
 
-		// mouseup listener updates state in timeout, so we need to make test asynchronous.
+		// The mouseup listener updates state in timeout, so we need to make test asynchronous.
 		setTimeout( function() {
 			resume( function() {
 				assertCommands( CKEDITOR.TRISTATE_DISABLED, 'state when readOnly="true"' );
@@ -90,10 +89,8 @@ tests[ 'test paste command state in divarea editor' ] = function() {
 		wait();
 
 		function assertCommands( expected, msg ) {
-			CKEDITOR.tools.array.forEach( commandNames, function( commandName ) {
-				var state = editor.getCommand( commandName ).state;
-				assert.areSame( expected, state, commandName + msg );
-			} );
+			assert.areSame( expected, editor.getCommand( 'paste' ).state, 'paste ' + msg );
+			assert.areSame( expected, editor.getCommand( 'pastetext' ).state, 'pastetext ' + msg );
 		}
 	} );
 };
