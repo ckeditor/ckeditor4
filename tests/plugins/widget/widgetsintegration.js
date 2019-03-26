@@ -69,8 +69,9 @@
 
 			this.editorBot.setData( '<p id="p1">foo</p><div data-widget="testevent" id="w1"><p class="foo">foo</p></div>', function() {
 				var widget = getWidgetById( editor, 'w1' );
+
 				widget.focus();
-				assert.isObject( widget.fire( 'key', { keyCode: CKEDITOR.SHIFT + 121 } ) );
+				assert.isNotNull( widget.fire( 'key', { keyCode: CKEDITOR.SHIFT + 121 } ) );
 			} );
 		},
 
@@ -86,8 +87,9 @@
 
 			this.editorBot.setData( '<p id="p1">foo</p><div data-widget="testevent" id="w1"><p class="foo">foo</p></div>', function() {
 				var widget = getWidgetById( editor, 'w1' );
+
 				widget.focus();
-				assert.isObject( widget.fire( 'key', { keyCode: CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 } ) );
+				assert.isNotNull( widget.fire( 'key', { keyCode: CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 } ) );
 			} );
 		},
 

@@ -38,8 +38,10 @@
 					var widget = getWidgetById( editor, 'w1' ),
 						spy = sinon.spy();
 					widget.on( 'contextMenu', spy );
+
 					widget.focus();
 					editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.SHIFT + 121 } ) );
+
 					assert.isTrue( spy.calledOnce );
 				}
 			);
@@ -61,8 +63,10 @@
 					var widget = getWidgetById( editor, 'w1' ),
 						spy = sinon.spy();
 					widget.on( 'contextMenu', spy );
+
 					widget.focus();
 					editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 } ) );
+
 					assert.isTrue( spy.calledOnce );
 				}
 			);
