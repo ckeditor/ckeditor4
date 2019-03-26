@@ -3638,7 +3638,8 @@
 
 	function addCustomStyleHandler() {
 		// Styles categorized by group. It is used to prevent applying styles for the same group being used together.
-		var styleGroups = {};
+		var styleGroups = {},
+			styleDefinitions = [];
 
 		/**
 		 * The class representing a widget style. It is an {@link CKEDITOR#STYLE_OBJECT object} like
@@ -3875,19 +3876,64 @@
 		// Save and categorize style by its group.
 		function saveStyleGroup( style ) {
 			var widgetName = style.widget,
-				group;
+				groupName, group;
 
 			if ( !styleGroups[ widgetName ] ) {
 				styleGroups[ widgetName ] = {};
 			}
 
 			for ( var i = 0, l = style.group.length; i < l; i++ ) {
-				group = style.group[ i ];
-				if ( !styleGroups[ widgetName ][ group ] ) {
-					styleGroups[ widgetName ][ group ] = [];
+				groupName = style.group[ i ];
+				if ( !styleGroups[ widgetName ][ groupName ] ) {
+					styleGroups[ widgetName ][ groupName ] = [];
 				}
 
-				styleGroups[ widgetName ][ group ].push( style );
+				group = styleGroups[ widgetName ][ groupName ];
+
+				// Don't push style if it's already stored (#589).
+				if ( !find( group, getCompareFn( style ) ) ) {
+					group.push( style );
+				}
+			}
+
+			// Copied `CKEDITOR.tools.array` from major branch.
+			function find( array, fn, thisArg ) {
+				var length = array.length,
+					i = 0;
+
+				while ( i < length ) {
+					if ( fn.call( thisArg, array[ i ], i, array ) ) {
+						return array[ i ];
+					}
+					i++;
+				}
+
+				return undefined;
+			}
+
+			function getCompareFn( left ) {
+				return function( right ) {
+					return deepCompare( left.getDefinition(), right.getDefinition() );
+				};
+
+				function deepCompare( left, right ) {
+					var leftKeys = CKEDITOR.tools.objectKeys( left ),
+						rightKeys = CKEDITOR.tools.objectKeys( right );
+
+					if ( leftKeys.length !== rightKeys.length ) {
+						return false;
+					}
+
+					for ( var key in left ) {
+						var areSameObjects = typeof left[ key ] === 'object' && typeof right[ key ] === 'object' && deepCompare( left[ key ], right[ key ] );
+
+						if ( !areSameObjects && left[ key ] !== right[ key ] ) {
+							return false;
+						}
+					}
+
+					return true;
+				}
 			}
 		}
 

@@ -104,6 +104,21 @@ var tests = {
 		] );
 
 		this.wait();
+	},
+
+	// Script listeners should be removed because it might cause memory leaks (#589).
+	'test script listeners removed when loaded': function() {
+		CKEDITOR.scriptLoader.load( '../_assets/sample.js', function() {
+			resume( function() {
+				var script = CKEDITOR.document.findOne( 'script[src="../_assets/sample.js"]' );
+
+				assert.isFalse( !!script.$.onreadystatechange );
+				assert.isFalse( !!script.$.onload );
+				assert.isFalse( !!script.$.onerror );
+			} );
+		} );
+
+		wait();
 	}
 };
 

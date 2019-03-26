@@ -149,7 +149,7 @@
 			editor = this.editorBot.editor;
 			doc = editor.document;
 
-			var backdoor = editor.plugins.magicline.backdoor;
+			var backdoor = editor._.magiclineBackdoor;
 
 			this.editorBot.setData( html, function() {
 				if ( cfg.that.element )
@@ -184,7 +184,7 @@
 			editor = this.editorBot.editor;
 			doc = editor.document;
 
-			var backdoor = editor.plugins.magicline.backdoor;
+			var backdoor = editor._.magiclineBackdoor;
 
 			this.editorBot.setData( html, function() {
 				var widget = cfg.widget();
