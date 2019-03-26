@@ -22,7 +22,7 @@
 	var getWidgetById = widgetTestsTools.getWidgetById;
 
 	bender.test( {
-		// #1901
+		// (#1901)
 		'test SHIFT + F10 shortcut upon widget focus': function() {
 			var editor = this.editor;
 
@@ -47,7 +47,7 @@
 			);
 		},
 
-		// #1901
+		// (#1901)
 		'test CTRL + SHIFT + F10 shortcut upon widget focus': function() {
 			var editor = this.editor;
 
