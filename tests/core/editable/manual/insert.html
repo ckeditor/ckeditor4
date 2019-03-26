@@ -1,0 +1,24 @@
+<textarea id="editor"><p><span>Foo bar</span></p></textarea>
+<p id="controls">
+	<button data-button="insert-html">Insert html</button>
+	<button data-button="insert-text">Insert text</button>
+	<button data-button="reset">Reset editor</button>
+</p>
+<script>
+	var editor = CKEDITOR.replace( 'editor', {
+		allowedContent: true
+	} );
+
+	CKEDITOR.addCss( 'span{padding:10px;border:solid 1px red}' );
+
+	CKEDITOR.document.findOne( '#controls' ).on( 'click', function( evt ) {
+		switch( evt.data.getTarget().getAttribute( 'data-button' ) ) {
+			case 'insert-html':
+				return editor.insertHtml( '<div>div</div>' );
+			case 'insert-text':
+				return editor.insertText( 'text' );
+			case 'reset':
+				editor.setData( '<p><span>Foo bar</span></p>' );
+		}
+	} );
+</script>
