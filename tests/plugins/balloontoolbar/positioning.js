@@ -160,6 +160,14 @@
 					} ),
 					markerElement = editor.editable().findOne( 'img' ),
 					spy = sinon.spy( balloonToolbar, 'reposition' ),
+					// This test randomly fails when run from dashboard. That's because balloon toolbar
+					// uses also other listeners to reposition, which might be fired before `change`.
+					// Prevent all other event's for this TC check if it's correctly repositions on `change` #(2979).
+					listeners = [
+							editor.on( 'resize', cancelEvent ),
+							CKEDITOR.document.getWindow().on( 'resize', cancelEvent ),
+							editor.editable().getDocument().on( 'scroll', cancelEvent )
+						],
 					initialPosition,
 					currentPosition;
 
@@ -168,6 +176,10 @@
 
 				editor.once( 'change', function() {
 					resume( function() {
+						CKEDITOR.tools.array.forEach( listeners, function( listener ) {
+							listener.removeListener();
+						} );
+
 						currentPosition = balloonToolbar.parts.panel.getClientRect();
 						assert.areNotSame( initialPosition.left, currentPosition.left, 'position of toolbar' );
 						assert.areEqual( 1, spy.callCount );
@@ -178,6 +190,10 @@
 				editor.fire( 'change' );
 
 				wait();
+
+				function cancelEvent( evt ) {
+					evt.cancel();
+				}
 			} );
 		},
 
