@@ -42,10 +42,29 @@
 	 * See [MDN Promise documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) for
 	 * more details how to work with promises.
 	 *
-	 * @property promise
+	 * @since 4.12.0
+	 * @class CKEDITOR.tools.promise
+	 */
+
+	/**
+	 * Creates a new instance of Promise.
+	 *
+	 * ```js
+	 *	CKEDITOR.tools.promise( function( resolve, reject ) {
+	 *		setTimeout( function() {
+	 *			var timestamp;
+	 *			try {
+	 *				timestamp = ( new Date() ).getTime();
+	 *			} catch ( e ) {
+	 *				reject( e );
+	 *			}
+	 *			resolve( timestamp );
+	 *		}, 5000 );
+	 *	} )
+	 * ```
+	 *
 	 * @param {Function} resolver
-	 * @member CKEDITOR.tools
-	 * @returns {Promise}
+	 * @constructor
 	 */
 
 } )();
