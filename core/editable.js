@@ -1664,6 +1664,7 @@
 		function prepareRangeToDataInsertion( that ) {
 			var range = that.range,
 				mergeCandidates = that.mergeCandidates,
+				isHtml = that.type === 'html',
 				node, marker, path, startPath, endPath, previous, bm;
 
 			// If range starts in inline element then insert a marker, so empty
@@ -1713,11 +1714,11 @@
 				range.collapse();
 				marker.remove();
 			}
-
+			var clone;
 			// Split inline elements so HTML will be inserted with its own styles.
 			path = range.startPath();
 			if ( ( node = path.contains( isInline, false, 1 ) ) ) {
-				range.splitElement( node );
+				clone = range.splitElement( node );
 				that.inlineStylesRoot = node;
 				that.inlineStylesPeak = path.lastElement;
 			}
@@ -1725,16 +1726,28 @@
 			// Record inline merging candidates for later cleanup in place.
 			bm = range.createBookmark();
 
+			// Remove empty element created after splitting.
+			if ( isHtml && clone && clone.isEmptyInlineRemoveable() ) {
+				clone.remove();
+			}
+
+			// Remove empty element after splitting.
+			if ( isHtml && node && node.isEmptyInlineRemoveable() ) {
+				node.remove();
+			}
+
 			// 1. Inline siblings.
 			node = bm.startNode.getPrevious( isNotEmpty );
+
 			node && checkIfElement( node ) && isInline( node ) && mergeCandidates.push( node );
 			node = bm.startNode.getNext( isNotEmpty );
 			node && checkIfElement( node ) && isInline( node ) && mergeCandidates.push( node );
 
 			// 2. Inline parents.
 			node = bm.startNode;
-			while ( ( node = node.getParent() ) && isInline( node ) )
+			while ( ( node = node.getParent() ) && isInline( node ) ) {
 				mergeCandidates.push( node );
+			}
 
 			range.moveToBookmark( bm );
 		}
@@ -2273,7 +2286,7 @@
 				wrapper = doc.createText( '{cke-peak}' ),
 				limit = that.inlineStylesRoot.getParent();
 
-			while ( !element.equals( limit ) ) {
+			while ( element && !element.equals( limit ) ) {
 				wrapper = wrapper.appendTo( element.clone() );
 				element = element.getParent();
 			}
