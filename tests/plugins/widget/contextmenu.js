@@ -35,12 +35,12 @@
 			this.editorBot.setData(
 				'<p id="p1">foo</p><div data-widget="testevent" id="w1"><p class="foo">foo</p></div>',
 				function() {
-					var w1 = getWidgetById( editor, 'w1' ),
+					var widget = getWidgetById( editor, 'w1' ),
 						opened = 0;
-					w1.on( 'contextMenu', function() {
+					widget.on( 'contextMenu', function() {
 						opened += 1;
 					} );
-					w1.focus();
+					widget.focus();
 					editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.SHIFT + 121 } ) );
 					assert.areSame( opened, 1, 'context menu did not open' );
 				}
