@@ -8,7 +8,7 @@
 
 	## Expected
 
-	There is one red border is on the left to the inserted `div`.
+	There is one red border on the left of inserted `div`.
 
 	## Unexpected
 
