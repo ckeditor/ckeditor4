@@ -1738,7 +1738,6 @@
 
 			// 1. Inline siblings.
 			node = bm.startNode.getPrevious( isNotEmpty );
-
 			node && checkIfElement( node ) && isInline( node ) && mergeCandidates.push( node );
 			node = bm.startNode.getNext( isNotEmpty );
 			node && checkIfElement( node ) && isInline( node ) && mergeCandidates.push( node );
