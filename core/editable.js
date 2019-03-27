@@ -1665,7 +1665,7 @@
 			var range = that.range,
 				mergeCandidates = that.mergeCandidates,
 				isHtml = that.type === 'html',
-				node, marker, path, startPath, endPath, previous, bm;
+				node, marker, path, startPath, endPath, previous, bm, clone;
 
 			// If range starts in inline element then insert a marker, so empty
 			// inline elements won't be removed while range.deleteContents
@@ -1714,7 +1714,7 @@
 				range.collapse();
 				marker.remove();
 			}
-			var clone;
+
 			// Split inline elements so HTML will be inserted with its own styles.
 			path = range.startPath();
 			if ( ( node = path.contains( isInline, false, 1 ) ) ) {
