@@ -22,4 +22,4 @@
 
 ## Expected
 
-Inserted word `text` replaces selected word - inside border.
+Inserted word `text` replaces selected word inside border.
