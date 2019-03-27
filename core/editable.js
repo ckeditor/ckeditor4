@@ -1726,12 +1726,12 @@
 			// Record inline merging candidates for later cleanup in place.
 			bm = range.createBookmark();
 
-			// Remove empty element created after splitting.
+			// When called by insertHtml remove empty element created after splitting (#2813).
 			if ( isHtml && clone && clone.isEmptyInlineRemoveable() ) {
 				clone.remove();
 			}
 
-			// Remove empty element after splitting.
+			// When called by insertHtml remove empty element after splitting (#2813).
 			if ( isHtml && node && node.isEmptyInlineRemoveable() ) {
 				node.remove();
 			}
