@@ -37,9 +37,10 @@
 				function() {
 					var widget = getWidgetById( editor, 'w1' ),
 						spy = sinon.spy();
-					widget.on( 'contextMenu', spy );
 
+					widget.on( 'contextMenu', spy );
 					widget.focus();
+
 					editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.SHIFT + 121 } ) );
 
 					assert.isTrue( spy.calledOnce );
@@ -47,7 +48,6 @@
 			);
 		},
 
-		// (#1901)
 		'test CTRL + SHIFT + F10 shortcut upon widget focus': function() {
 			var editor = this.editor;
 
@@ -62,9 +62,10 @@
 				function() {
 					var widget = getWidgetById( editor, 'w1' ),
 						spy = sinon.spy();
-					widget.on( 'contextMenu', spy );
 
+					widget.on( 'contextMenu', spy );
 					widget.focus();
+
 					editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 } ) );
 
 					assert.isTrue( spy.calledOnce );
