@@ -50,7 +50,7 @@
 	 * Creates a new instance of Promise.
 	 *
 	 * ```js
-	 *	CKEDITOR.tools.promise( function( resolve, reject ) {
+	 *	new CKEDITOR.tools.promise( function( resolve, reject ) {
 	 *		setTimeout( function() {
 	 *			var timestamp;
 	 *			try {
@@ -60,7 +60,7 @@
 	 *			}
 	 *			resolve( timestamp );
 	 *		}, 5000 );
-	 *	} )
+	 *	} );
 	 * ```
 	 *
 	 * @param {Function} resolver
