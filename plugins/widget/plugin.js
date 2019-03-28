@@ -2585,6 +2585,11 @@
 								ret = CKEDITOR.LINEUTILS_INSIDE;
 							}
 
+							// Allow line only on one side of fake paragraph.
+							if ( el.hasClass( 'cke_fake-paragraph' ) ) {
+								ret = el.getAttribute( 'data-cke-fake-paragraph' );
+							}
+
 							if ( el.is( CKEDITOR.dtd.$listItem ) )
 								return;
 
@@ -3422,21 +3427,8 @@
 			fakeParagraphHtml = '<p class="cke_fake-paragraph" style="height:0;margin:0;padding:0"></p>';
 
 		CKEDITOR.tools.array.forEach( cells, function( cell ) {
-			var first = cell.getFirst(),
-				last = cell.getLast(),
-				fakeParagraph;
-
-			if ( first && first.type === CKEDITOR.NODE_TEXT ) {
-				fakeParagraph = CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml );
-				cell.append( fakeParagraph, true );
-				fakeParagraphs.push( fakeParagraph );
-			}
-
-			if ( last && last.type === CKEDITOR.NODE_TEXT ) {
-				fakeParagraph = new CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml );
-				cell.append( fakeParagraph );
-				fakeParagraphs.push( fakeParagraph );
-			}
+			addFakeParagraph( cell, true );
+			addFakeParagraph( cell );
 		} );
 
 		// Harvest all possible relations and display some closest.
@@ -3466,6 +3458,24 @@
 
 		// Fire drag start as it happens during the native D&D.
 		editor.fire( 'dragstart', { target: evt.sender } );
+
+		function addFakeParagraph( cell, before ) {
+			var element = before ? cell.getFirst() : cell.getLast();
+
+			if ( element ) {
+				var isText = element.type === CKEDITOR.NODE_TEXT,
+					isInline = element.is && element.is( CKEDITOR.dtd.$inline ),
+					isBr = element.getName && element.getName() === 'br',
+					fakeParagraph;
+
+				if ( isText || isInline && !isBr ) {
+					fakeParagraph = CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml );
+					fakeParagraph.setAttribute( 'data-cke-fake-paragraph', before ? CKEDITOR.LINEUTILS_BEFORE : CKEDITOR.LINEUTILS_AFTER );
+					cell.append( fakeParagraph, before );
+					fakeParagraphs.push( fakeParagraph );
+				}
+			}
+		}
 
 		/**
 		 * Sorts relations by actual distance.
