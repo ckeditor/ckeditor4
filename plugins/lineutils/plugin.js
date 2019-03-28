@@ -170,18 +170,25 @@
 			}
 
 			return function( el, type ) {
-				var alt;
+				var alt, shouldNormalize;
+
+				shouldNormalize = is( type, CKEDITOR.LINEUTILS_AFTER ) && isStatic( alt = el.getNext() ) && alt.isVisible();
 
 				// Normalization to avoid duplicates:
 				// CKEDITOR.LINEUTILS_AFTER becomes CKEDITOR.LINEUTILS_BEFORE of el.getNext().
-				if ( is( type, CKEDITOR.LINEUTILS_AFTER ) && isStatic( alt = el.getNext() ) && alt.isVisible() ) {
+				if ( shouldNormalize ) {
 					merge( alt, CKEDITOR.LINEUTILS_BEFORE, this.relations );
 					type ^= CKEDITOR.LINEUTILS_AFTER;
 				}
 
+				shouldNormalize = is( type, CKEDITOR.LINEUTILS_INSIDE ) && isStatic( alt = el.getFirst() ) && alt.isVisible();
+
+				// `br` can't be used for creating line, because it has 0 width (#1648).
+				shouldNormalize = shouldNormalize && !( alt.getName && alt.getName() === 'br' );
+
 				// Normalization to avoid duplicates:
 				// CKEDITOR.LINEUTILS_INSIDE becomes CKEDITOR.LINEUTILS_BEFORE of el.getFirst().
-				if ( is( type, CKEDITOR.LINEUTILS_INSIDE ) && isStatic( alt = el.getFirst() ) && alt.isVisible() ) {
+				if ( shouldNormalize ) {
 					merge( alt, CKEDITOR.LINEUTILS_BEFORE, this.relations );
 					type ^= CKEDITOR.LINEUTILS_INSIDE;
 				}

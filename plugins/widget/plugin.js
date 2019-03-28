@@ -2580,10 +2580,15 @@
 					lookups: {
 						// Element is block but not list item and not in nested editable.
 						'default': function( el ) {
+							var ret;
+							if ( el.getName() in { td: 1, th: 1 } ) {
+								ret = CKEDITOR.LINEUTILS_INSIDE;
+							}
+
 							if ( el.is( CKEDITOR.dtd.$listItem ) )
 								return;
 
-							if ( !el.is( CKEDITOR.dtd.$block ) )
+							if ( !ret && !el.is( CKEDITOR.dtd.$block ) )
 								return;
 
 							// Allow drop line inside, but never before or after nested editable (https://dev.ckeditor.com/ticket/12006).
@@ -2613,7 +2618,7 @@
 									return;
 							}
 
-							return CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
+							return ret || CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
 						}
 					}
 				} ),
@@ -3406,7 +3411,7 @@
 			listeners = [],
 			sorted = [],
 			locations,
-			y;
+			y, x;
 
 		// Mark dragged widget for repository#finder.
 		this.repository._.draggedWidget = this;
@@ -3417,8 +3422,7 @@
 			buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
 				locations = locator.locate( relations );
 
-				// There's only a single line displayed for D&D.
-				sorted = locator.sort( y, 1 );
+				sorted = sortByDistance( relations, locations, { x: x, y: y } );
 
 				if ( sorted.length ) {
 					liner.prepare( relations, locations );
@@ -3433,12 +3437,96 @@
 		// Cache mouse position so it is re-used in events buffer.
 		listeners.push( editable.on( 'mousemove', function( evt ) {
 			y = evt.data.$.clientY;
+			x = evt.data.$.clientX;
 			buffer.input();
 		} ) );
 
 		// Fire drag start as it happens during the native D&D.
 		editor.fire( 'dragstart', { target: evt.sender } );
 
+		/**
+		 * Sorts relations by actual distance.
+		 *
+		 * @param {Object} relations {@link CKEDITOR.plugins.lineutils.finder#relations}
+		 * @param {Object} locations {@link CKEDITOR.plugins.lineutils.locator}
+		 * @param {Object} coordinates
+		 * @param {Number} coordinates.x horizontal coordinate
+		 * @param {Number} coordinates.y vertical coordinate
+		 * @returns [Array] Sorted array representation of relations {@link CKEDITOR.plugins.lineutils.finder#relations}
+		 */
+		function sortByDistance( relations, locations, coordinates ) {
+			var x = coordinates.x,
+				y = coordinates.y,
+				sorted = [];
+
+			for ( var id in locations ) {
+				var relation = relations[ id ],
+					rect = relation.elementRect,
+					type = relation.type,
+					verticalDistance, horizontalDistance, isStored, distanceBefore, distanceAfter;
+
+				if ( relation.type === CKEDITOR.LINEUTILS_INSIDE ) {
+					horizontalDistance = getDistance( y, rect.top, rect.bottom );
+				} else {
+					rect = relation.element.getParent().getClientRect();
+
+					distanceBefore = getDistance( y, locations[ id ][ 1 ] );
+					distanceAfter = getDistance( y, locations[ id ][ 2 ] );
+
+					distanceBefore = distanceBefore && Math.abs( distanceBefore );
+					distanceAfter = distanceAfter && Math.abs( distanceAfter );
+
+					if ( distanceAfter === null ) {
+						horizontalDistance = distanceBefore;
+						type = CKEDITOR.LINEUTILS_BEFORE;
+					} else if ( distanceBefore === null ) {
+						horizontalDistance = distanceAfter;
+						type = CKEDITOR.LINEUTILS_AFTER;
+					} else {
+						horizontalDistance = Math.min( distanceBefore, distanceAfter );
+						type = horizontalDistance === distanceBefore ? CKEDITOR.LINEUTILS_BEFORE : CKEDITOR.LINEUTILS_AFTER;
+					}
+				}
+
+				verticalDistance = getDistance( x, rect.left, rect.right );
+
+				relation = {
+					uid: id,
+					type: type,
+					dist: Math.sqrt( Math.pow( verticalDistance, 2 ) + Math.pow( horizontalDistance, 2 ) )
+				};
+
+				isStored = !!CKEDITOR.tools.array.find( sorted, function( item, index ) {
+					if ( relation.dist < item.dist ) {
+						sorted.splice( index, 0, relation );
+						return true;
+					}
+				} );
+
+				if ( !isStored ) {
+					sorted.push( relation );
+				}
+			}
+
+			return sorted;
+
+			function getDistance( coordinate, start, end ) {
+				if ( start === undefined ) {
+					return null;
+				}
+
+				if ( end === undefined || coordinate < start ) {
+					return start - coordinate;
+				}
+
+				if ( coordinate > end ) {
+					return coordinate - end;
+				}
+
+				return 0;
+			}
+
+		}
 
 		function onMouseUp() {
 			var l;
