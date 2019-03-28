@@ -175,3 +175,15 @@
  * @since 4.2
  * @property {Boolean} hidpi
  */
+
+/**
+ * The list of icons available for this plugin. These files are stored inside
+ * the `icons` directory in the plugin directory, follow the name
+ * pattern of `name.png`.
+ *
+ *		CKEDITOR.plugins.add( 'sample', {
+ *			icons: 'first.png,second.png'
+ *		} );
+ *
+ * @property {String} [icons]
+ */
