@@ -15,19 +15,21 @@
 	};
 
 	function compareInputOutput( input, output, headers ) {
-		var bot = bender.editorBots.editor;
+		return function() {
+			var bot = bender.editorBots.editor;
 
-		bot.setHtmlWithSelection( input	);
+			bot.setHtmlWithSelection( input	);
 
-		bot.dialog( 'tableProperties', function( dialog ) {
-			dialog.setValueOf( 'info', 'selHeaders', headers );
+			bot.dialog( 'tableProperties', function( dialog ) {
+				dialog.setValueOf( 'info', 'selHeaders', headers );
 
-			dialog.fire( 'ok' );
-			dialog.hide();
+				dialog.fire( 'ok' );
+				dialog.hide();
 
-			assert.beautified.html( output,
-				dialog.getParentEditor().getData() );
-		} );
+				assert.beautified.html( output,
+					dialog.getParentEditor().getData() );
+			} );
+		};
 	}
 
 	function headerNone( role ) {
@@ -81,7 +83,7 @@
 		return '<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
 					'<thead>' +
 						'<tr>' +
-							'<th scope="row">' + ( role == 'input' ? '^' : '' ) + '&nbsp;</th>' +
+							'<th scope="col">' + ( role == 'input' ? '^' : '' ) + '&nbsp;</th>' +
 							'<th scope="col">&nbsp;</th>' +
 						'</tr>' +
 					'</thead>' +
@@ -95,68 +97,36 @@
 	}
 
 	bender.test( {
-		'2 rows, 2 cols, none -> none': function() {
-			compareInputOutput( headerNone( 'input' ), headerNone(), 'none' );
-		},
+		'2 rows, 2 cols, none -> none': compareInputOutput( headerNone( 'input' ), headerNone(), 'none' ),
 
-		'2 rows, 2 cols, none -> col': function() {
-			compareInputOutput( headerNone( 'input' ), headerCol(), 'col' );
-		},
+		'2 rows, 2 cols, none -> col': compareInputOutput( headerNone( 'input' ), headerCol(), 'col' ),
 
-		'2 rows, 2 cols, none -> row': function() {
-			compareInputOutput( headerNone( 'input' ), headerRow(), 'row' );
-		},
+		'2 rows, 2 cols, none -> row': compareInputOutput( headerNone( 'input' ), headerRow(), 'row' ),
 
-		'2 rows, 2 cols, none -> both': function() {
-			compareInputOutput( headerNone( 'input' ), headerBoth(), 'both' );
-		},
+		'2 rows, 2 cols, none -> both': compareInputOutput( headerNone( 'input' ), headerBoth(), 'both' ),
 
-		'2 rows, 2 cols, col -> none': function() {
-			compareInputOutput( headerCol( 'input' ), headerNone(), 'none' );
-		},
+		'2 rows, 2 cols, col -> none': compareInputOutput( headerCol( 'input' ), headerNone(), 'none' ),
 
-		'2 rows, 2 cols, col -> col': function() {
-			compareInputOutput( headerCol( 'input' ), headerCol(), 'col' );
-		},
+		'2 rows, 2 cols, col -> col': compareInputOutput( headerCol( 'input' ), headerCol(), 'col' ),
 
-		'2 rows, 2 cols, col -> row': function() {
-			compareInputOutput( headerCol( 'input' ), headerRow(), 'row' );
-		},
+		'2 rows, 2 cols, col -> row': compareInputOutput( headerCol( 'input' ), headerRow(), 'row' ),
 
-		'2 rows, 2 cols, col -> both': function() {
-			compareInputOutput( headerCol( 'input' ), headerBoth(), 'both' );
-		},
+		'2 rows, 2 cols, col -> both': compareInputOutput( headerCol( 'input' ), headerBoth(), 'both' ),
 
-		'2 rows, 2 cols, row -> none': function() {
-			compareInputOutput( headerRow( 'input' ), headerNone(), 'none' );
-		},
+		'2 rows, 2 cols, row -> none': compareInputOutput( headerRow( 'input' ), headerNone(), 'none' ),
 
-		'2 rows, 2 cols, row -> col': function() {
-			compareInputOutput( headerRow( 'input' ), headerCol(), 'col' );
-		},
+		'2 rows, 2 cols, row -> col': compareInputOutput( headerRow( 'input' ), headerCol(), 'col' ),
 
-		'2 rows, 2 cols, row -> row': function() {
-			compareInputOutput( headerRow( 'input' ), headerRow(), 'row' );
-		},
+		'2 rows, 2 cols, row -> row': compareInputOutput( headerRow( 'input' ), headerRow(), 'row' ),
 
-		'2 rows, 2 cols, row -> both': function() {
-			compareInputOutput( headerRow( 'input' ), headerBoth(), 'both' );
-		},
+		'2 rows, 2 cols, row -> both': compareInputOutput( headerRow( 'input' ), headerBoth(), 'both' ),
 
-		'2 rows, 2 cols, both -> none': function() {
-			compareInputOutput( headerBoth( 'input' ), headerNone(), 'none' );
-		},
+		'2 rows, 2 cols, both -> none': compareInputOutput( headerBoth( 'input' ), headerNone(), 'none' ),
 
-		'2 rows, 2 cols, both -> col': function() {
-			compareInputOutput( headerBoth( 'input' ), headerCol(), 'col' );
-		},
+		'2 rows, 2 cols, both -> col': compareInputOutput( headerBoth( 'input' ), headerCol(), 'col' ),
 
-		'2 rows, 2 cols, both -> row': function() {
-			compareInputOutput( headerBoth( 'input' ), headerRow(), 'row' );
-		},
+		'2 rows, 2 cols, both -> row': compareInputOutput( headerBoth( 'input' ), headerRow(), 'row' ),
 
-		'2 rows, 2 cols, both -> both': function() {
-			compareInputOutput( headerBoth( 'input' ), headerBoth(), 'both' );
-		}
+		'2 rows, 2 cols, both -> both': compareInputOutput( headerBoth( 'input' ), headerBoth(), 'both' )
 	} );
 } )();
