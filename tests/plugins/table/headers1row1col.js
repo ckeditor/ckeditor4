@@ -48,7 +48,7 @@
 		return function() {
 			var bot = bender.editorBots.editor;
 
-			bot.setHtmlWithSelection( input	);
+			bot.setHtmlWithSelection( input );
 
 			bot.dialog( 'tableProperties', function( dialog ) {
 				dialog.setValueOf( 'info', 'selHeaders', headerType );
