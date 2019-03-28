@@ -66,8 +66,8 @@
 		return '<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
 					'<tbody>' +
 						'<tr>' +
-							'<td>^&nbsp;</td>' +
-							'<td>&nbsp;</td>' +
+							'<td>^cell 1.1</td>' +
+							'<td>cell 1.2</td>' +
 						'</tr>' +
 					'</tbody>' +
 				'</table>';
@@ -77,8 +77,8 @@
 		return '<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
 					'<tbody>' +
 						'<tr>' +
-							'<th scope="row">^&nbsp;</th>' +
-							'<td>&nbsp;</td>' +
+							'<th scope="row">^cell 1.1</th>' +
+							'<td>cell 1.2</td>' +
 						'</tr>' +
 					'</tbody>' +
 				'</table>';
@@ -88,8 +88,8 @@
 		return '<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
 					'<thead>' +
 						'<tr>' +
-							'<th scope="col">^&nbsp;</th>' +
-							'<th scope="col">&nbsp;</th>' +
+							'<th scope="col">^cell 1.1</th>' +
+							'<th scope="col">cell 1.2</th>' +
 						'</tr>' +
 					'</thead>' +
 					'<tbody>' +
@@ -101,8 +101,8 @@
 		return '<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
 					'<thead>' +
 						'<tr>' +
-							'<th scope="col">^&nbsp;</th>' +
-							'<th scope="col">&nbsp;</th>' +
+							'<th scope="col">^cell 1.1</th>' +
+							'<th scope="col">cell 1.2</th>' +
 						'</tr>' +
 					'</thead>' +
 					'<tbody>' +
