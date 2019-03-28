@@ -3397,6 +3397,8 @@
 		widget.dragHandlerContainer = container;
 	}
 
+	var fakeParagraphs = [];
+
 	function onBlockWidgetDrag( evt ) {
 		// Allow to drag widget only with left mouse button (#711).
 		if ( CKEDITOR.tools.getMouseButton( evt ) !== CKEDITOR.MOUSE_BUTTON_LEFT ) {
@@ -3415,6 +3417,27 @@
 
 		// Mark dragged widget for repository#finder.
 		this.repository._.draggedWidget = this;
+
+		var cells = editable.find( 'td' ).toArray().concat( editable.find( 'th' ).toArray() ),
+			fakeParagraphHtml = '<p class="cke_fake-paragraph" style="height:0;margin:0;padding:0"></p>';
+
+		CKEDITOR.tools.array.forEach( cells, function( cell ) {
+			var first = cell.getFirst(),
+				last = cell.getLast(),
+				fakeParagraph;
+
+			if ( first && first.type === CKEDITOR.NODE_TEXT ) {
+				fakeParagraph = CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml );
+				cell.append( fakeParagraph, true );
+				fakeParagraphs.push( fakeParagraph );
+			}
+
+			if ( last && last.type === CKEDITOR.NODE_TEXT ) {
+				fakeParagraph = new CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml );
+				cell.append( fakeParagraph );
+				fakeParagraphs.push( fakeParagraph );
+			}
+		} );
 
 		// Harvest all possible relations and display some closest.
 		var relations = finder.greedySearch(),
@@ -3561,7 +3584,17 @@
 
 		if ( !CKEDITOR.tools.isEmpty( liner.visible ) ) {
 			// Retrieve range for the closest location.
-			var dropRange = finder.getRange( sorted[ 0 ] );
+			var dropRange = finder.getRange( sorted[ 0 ] ),
+				bookmark = dropRange.createBookmark();
+
+			CKEDITOR.tools.array.forEach( fakeParagraphs, function( fakeParagraph ) {
+				fakeParagraph.remove();
+			} );
+
+			// Remove any references to temporary elements.
+			fakeParagraphs.length = 0;
+
+			dropRange.moveToBookmark( bookmark );
 
 			// Focus widget (it could lost focus after mousedown+mouseup)
 			// and save this state as the one where we want to be taken back when undoing.
