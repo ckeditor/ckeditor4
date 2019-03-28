@@ -7,10 +7,6 @@
 	bender.editors = {
 		editor: {
 			name: 'editor1'
-		},
-		inline: {
-			name: 'editor2',
-			creator: 'inline'
 		}
 	};
 
