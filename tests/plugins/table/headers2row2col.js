@@ -15,52 +15,52 @@
 	};
 
 	bender.test( {
-		'2 rows, 2 cols, none -> none': compareInputOutput( headerNone( 'input' ), headerNone(), 'none' ),
+		'2 rows, 2 cols, none -> none': assertHeadersCorrectnesssAfterManipulation( headerNone( 'input' ), headerNone(), 'none' ),
 
-		'2 rows, 2 cols, none -> col': compareInputOutput( headerNone( 'input' ), headerCol(), 'col' ),
+		'2 rows, 2 cols, none -> col': assertHeadersCorrectnesssAfterManipulation( headerNone( 'input' ), headerCol(), 'col' ),
 
-		'2 rows, 2 cols, none -> row': compareInputOutput( headerNone( 'input' ), headerRow(), 'row' ),
+		'2 rows, 2 cols, none -> row': assertHeadersCorrectnesssAfterManipulation( headerNone( 'input' ), headerRow(), 'row' ),
 
-		'2 rows, 2 cols, none -> both': compareInputOutput( headerNone( 'input' ), headerBoth(), 'both' ),
+		'2 rows, 2 cols, none -> both': assertHeadersCorrectnesssAfterManipulation( headerNone( 'input' ), headerBoth(), 'both' ),
 
-		'2 rows, 2 cols, col -> none': compareInputOutput( headerCol( 'input' ), headerNone(), 'none' ),
+		'2 rows, 2 cols, col -> none': assertHeadersCorrectnesssAfterManipulation( headerCol( 'input' ), headerNone(), 'none' ),
 
-		'2 rows, 2 cols, col -> col': compareInputOutput( headerCol( 'input' ), headerCol(), 'col' ),
+		'2 rows, 2 cols, col -> col': assertHeadersCorrectnesssAfterManipulation( headerCol( 'input' ), headerCol(), 'col' ),
 
-		'2 rows, 2 cols, col -> row': compareInputOutput( headerCol( 'input' ), headerRow(), 'row' ),
+		'2 rows, 2 cols, col -> row': assertHeadersCorrectnesssAfterManipulation( headerCol( 'input' ), headerRow(), 'row' ),
 
-		'2 rows, 2 cols, col -> both': compareInputOutput( headerCol( 'input' ), headerBoth(), 'both' ),
+		'2 rows, 2 cols, col -> both': assertHeadersCorrectnesssAfterManipulation( headerCol( 'input' ), headerBoth(), 'both' ),
 
-		'2 rows, 2 cols, row -> none': compareInputOutput( headerRow( 'input' ), headerNone(), 'none' ),
+		'2 rows, 2 cols, row -> none': assertHeadersCorrectnesssAfterManipulation( headerRow( 'input' ), headerNone(), 'none' ),
 
-		'2 rows, 2 cols, row -> col': compareInputOutput( headerRow( 'input' ), headerCol(), 'col' ),
+		'2 rows, 2 cols, row -> col': assertHeadersCorrectnesssAfterManipulation( headerRow( 'input' ), headerCol(), 'col' ),
 
-		'2 rows, 2 cols, row -> row': compareInputOutput( headerRow( 'input' ), headerRow(), 'row' ),
+		'2 rows, 2 cols, row -> row': assertHeadersCorrectnesssAfterManipulation( headerRow( 'input' ), headerRow(), 'row' ),
 
-		'2 rows, 2 cols, row -> both': compareInputOutput( headerRow( 'input' ), headerBoth(), 'both' ),
+		'2 rows, 2 cols, row -> both': assertHeadersCorrectnesssAfterManipulation( headerRow( 'input' ), headerBoth(), 'both' ),
 
-		'2 rows, 2 cols, both -> none': compareInputOutput( headerBoth( 'input' ), headerNone(), 'none' ),
+		'2 rows, 2 cols, both -> none': assertHeadersCorrectnesssAfterManipulation( headerBoth( 'input' ), headerNone(), 'none' ),
 
-		'2 rows, 2 cols, both -> col': compareInputOutput( headerBoth( 'input' ), headerCol(), 'col' ),
+		'2 rows, 2 cols, both -> col': assertHeadersCorrectnesssAfterManipulation( headerBoth( 'input' ), headerCol(), 'col' ),
 
-		'2 rows, 2 cols, both -> row': compareInputOutput( headerBoth( 'input' ), headerRow(), 'row' ),
+		'2 rows, 2 cols, both -> row': assertHeadersCorrectnesssAfterManipulation( headerBoth( 'input' ), headerRow(), 'row' ),
 
-		'2 rows, 2 cols, both -> both': compareInputOutput( headerBoth( 'input' ), headerBoth(), 'both' )
+		'2 rows, 2 cols, both -> both': assertHeadersCorrectnesssAfterManipulation( headerBoth( 'input' ), headerBoth(), 'both' )
 	} );
 
-	function compareInputOutput( input, output, headers ) {
+	function assertHeadersCorrectnesssAfterManipulation( input, expected, headerType ) {
 		return function() {
 			var bot = bender.editorBots.editor;
 
 			bot.setHtmlWithSelection( input	);
 
 			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', headers );
+				dialog.setValueOf( 'info', 'selHeaders', headerType );
 
 				dialog.fire( 'ok' );
 				dialog.hide();
 
-				assert.beautified.html( output,
+				assert.beautified.html( expected,
 					dialog.getParentEditor().getData() );
 			} );
 		};
