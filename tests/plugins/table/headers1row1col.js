@@ -11,44 +11,43 @@
 	};
 
 	bender.test( {
-		'1 row, 1 col, none -> none': assertHeadersCorrectnesssAfterManipulation( headerNone(), headerNone(), 'none' ),
+		'1 row, 1 col, none -> none': assertHeadersCorrectnesssAfterManipulation( 'header-none', 'header-none', 'none' ),
 
-		'1 row, 1 col, none -> col': assertHeadersCorrectnesssAfterManipulation( headerNone(), headerCol(), 'col' ),
+		'1 row, 1 col, none -> col': assertHeadersCorrectnesssAfterManipulation( 'header-none', 'header-col', 'col' ),
 
-		'1 row, 1 col, none -> row': assertHeadersCorrectnesssAfterManipulation( headerNone(), headerRow(), 'row' ),
+		'1 row, 1 col, none -> row': assertHeadersCorrectnesssAfterManipulation( 'header-none', 'header-row', 'row' ),
 
-		'1 row, 1 col, none -> both': assertHeadersCorrectnesssAfterManipulation( headerNone(), headerBoth(), 'both' ),
+		'1 row, 1 col, none -> both': assertHeadersCorrectnesssAfterManipulation( 'header-none', 'header-both', 'both' ),
 
-		'1 row, 1 col, col -> none': assertHeadersCorrectnesssAfterManipulation( headerCol(), headerNone(), 'none' ),
+		'1 row, 1 col, col -> none': assertHeadersCorrectnesssAfterManipulation( 'header-col', 'header-none', 'none' ),
 
-		'1 row, 1 col, col -> col': assertHeadersCorrectnesssAfterManipulation( headerCol(), headerCol(), 'col' ),
+		'1 row, 1 col, col -> col': assertHeadersCorrectnesssAfterManipulation( 'header-col', 'header-col', 'col' ),
 
-		'1 row, 1 col, col -> row': assertHeadersCorrectnesssAfterManipulation( headerCol(), headerRow(), 'row' ),
+		'1 row, 1 col, col -> row': assertHeadersCorrectnesssAfterManipulation( 'header-col', 'header-row', 'row' ),
 
-		'1 row, 1 col, col -> both': assertHeadersCorrectnesssAfterManipulation( headerCol(), headerBoth(), 'both' ),
+		'1 row, 1 col, col -> both': assertHeadersCorrectnesssAfterManipulation( 'header-col', 'header-both', 'both' ),
 
-		'1 row, 1 col, row -> none': assertHeadersCorrectnesssAfterManipulation( headerRow(), headerNone(), 'none' ),
+		'1 row, 1 col, row -> none': assertHeadersCorrectnesssAfterManipulation( 'header-row', 'header-none', 'none' ),
 
-		'1 row, 1 col, row -> col': assertHeadersCorrectnesssAfterManipulation( headerRow(), headerCol(), 'col' ),
+		'1 row, 1 col, row -> col': assertHeadersCorrectnesssAfterManipulation( 'header-row', 'header-col', 'col' ),
 
-		'1 row, 1 col, row -> row': assertHeadersCorrectnesssAfterManipulation( headerRow(), headerRow(), 'row' ),
+		'1 row, 1 col, row -> row': assertHeadersCorrectnesssAfterManipulation( 'header-row', 'header-row', 'row' ),
 
-		'1 row, 1 col, row -> both': assertHeadersCorrectnesssAfterManipulation( headerRow(), headerBoth(), 'both' ),
+		'1 row, 1 col, row -> both': assertHeadersCorrectnesssAfterManipulation( 'header-row', 'header-both', 'both' ),
 
-		'1 row, 1 col, both -> none': assertHeadersCorrectnesssAfterManipulation( headerBoth(), headerNone(), 'none' ),
+		'1 row, 1 col, both -> none': assertHeadersCorrectnesssAfterManipulation( 'header-both', 'header-none', 'none' ),
 
-		'1 row, 1 col, both -> col': assertHeadersCorrectnesssAfterManipulation( headerBoth(), headerCol(), 'col' ),
+		'1 row, 1 col, both -> col': assertHeadersCorrectnesssAfterManipulation( 'header-both', 'header-col', 'col' ),
 
-		'1 row, 1 col, both -> row': assertHeadersCorrectnesssAfterManipulation( headerBoth(), headerRow(), 'row' ),
+		'1 row, 1 col, both -> row': assertHeadersCorrectnesssAfterManipulation( 'header-both', 'header-row', 'row' ),
 
-		'1 row, 1 col, both -> both': assertHeadersCorrectnesssAfterManipulation( headerBoth(), headerBoth(), 'both' )
+		'1 row, 1 col, both -> both': assertHeadersCorrectnesssAfterManipulation( 'header-both', 'header-both', 'both' )
 	} );
 
 	function assertHeadersCorrectnesssAfterManipulation( input, expected, headerType ) {
 		return function() {
 			var bot = bender.editorBots.editor;
-
-			bot.setHtmlWithSelection( input );
+			bot.setHtmlWithSelection( bender.tools.getValueAsHtml( input ).replace( ';', '' ) );
 
 			bot.dialog( 'tableProperties', function( dialog ) {
 				dialog.setValueOf( 'info', 'selHeaders', headerType );
@@ -56,54 +55,12 @@
 				dialog.fire( 'ok' );
 				dialog.hide();
 
-				assert.beautified.html( expected.replace( '^', '' ),
+				var exp = bender.tools.getValueAsHtml( expected ).replace( ';', '' );
+
+				assert.beautified.html( exp.replace( '^', '' ),
 					dialog.getParentEditor().getData() );
 			} );
 		};
-	}
-
-	function headerNone() {
-		return '<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<tbody>' +
-						'<tr>' +
-							'<td>^cell 1.1</td>' +
-						'</tr>' +
-					'</tbody>' +
-				'</table>';
-	}
-
-	function headerCol() {
-		return '<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<tbody>' +
-						'<tr>' +
-							'<th scope="row">^cell 1.1</th>' +
-						'</tr>' +
-					'</tbody>' +
-				'</table>';
-	}
-
-	function headerRow() {
-		return '<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<thead>' +
-						'<tr>' +
-							'<th scope="col">^cell 1.1</th>' +
-						'</tr>' +
-					'</thead>' +
-					'<tbody>' +
-					'</tbody>' +
-				'</table>';
-	}
-
-	function headerBoth() {
-		return '<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
-					'<thead>' +
-						'<tr>' +
-							'<th scope="col">^cell 1.1</th>' +
-						'</tr>' +
-					'</thead>' +
-					'<tbody>' +
-					'</tbody>' +
-				'</table>';
 	}
 
 } )();
