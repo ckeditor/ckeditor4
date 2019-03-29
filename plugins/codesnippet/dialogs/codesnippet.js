@@ -43,33 +43,28 @@
 							type: 'select',
 							label: lang.language,
 							items: langSelectItems,
-							setup: function() {
-								var dialog = this.getDialog(),
-									widget = dialog.getModel( editor );
-
-								if ( dialog.isEditing( editor ) && widget.data.lang ) {
+							setup: function( widget ) {
+								if ( widget.ready && widget.data.lang )
 									this.setValue( widget.data.lang );
-								}
 
 								// The only way to have an empty select value in Firefox is
 								// to set a negative selectedIndex.
-								if ( CKEDITOR.env.gecko && ( !dialog.isEditing( editor ) || !widget.data.lang ) ) {
+								if ( CKEDITOR.env.gecko && ( !widget.data.lang || !widget.ready ) )
 									this.getInputElement().$.selectedIndex = -1;
-								}
 							},
-							commit: function() {
-								this.getDialog().getModel( editor ).setData( 'lang', this.getValue() );
+							commit: function( widget ) {
+								widget.setData( 'lang', this.getValue() );
 							}
 						},
 						{
 							id: 'code',
 							type: 'textarea',
 							label: lang.codeContents,
-							setup: function() {
-								this.setValue( this.getDialog().getModel( editor ).data.code );
+							setup: function( widget ) {
+								this.setValue( widget.data.code );
 							},
-							commit: function() {
-								this.getDialog().getModel( editor ).setData( 'code', this.getValue() );
+							commit: function( widget ) {
+								widget.setData( 'code', this.getValue() );
 							},
 							required: true,
 							validate: CKEDITOR.dialog.validate.notEmpty( lang.emptySnippetError ),
