@@ -7,6 +7,8 @@ Play around with dragging widget into and out of table.
 ## Expected
 
 - Widget can be dragged to any table cell.
+- When dragging into empty cell line appears in the middle of cell.
+- When dragging into cell with text line appears at the top or at the bottom of cell.
 
 ## Unexpected
 
