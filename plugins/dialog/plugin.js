@@ -1516,8 +1516,15 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		/**
 		 * Method tells whether the dialog is editing an existing element or adding a new one.
 		 *
-		 * In case if dialog definition didn't define {@link CKEDITOR.plugins.dialog.definition#isEditing}
-		 * function, it will use {@link #getModel} method to recognize editing mode.
+		 * In case if dialog definition didn't define {@link CKEDITOR.dialog.definition#isEditing}
+		 * function, it will use {@link #getModel} method to recognize editing mode:
+		 *
+		 * Truthy for:
+		 *
+		 * * {@link CKEDITOR.dom.element} attached to the DOM
+		 * * {@link CKEDITOR.plugins.widget} instance
+		 *
+		 * otherwise `false`.
 		 *
 		 * @since 4.12.0
 		 * @param {CKEDITOR.editor} editor
@@ -1528,7 +1535,18 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				return this.definition.isEditing( editor );
 			}
 
-			return !!this.getModel( editor );
+			var model = this.getModel( editor );
+
+			if ( !model ) {
+				return false;
+			}
+
+			// Element in detached mode.
+			if ( model instanceof CKEDITOR.dom.element && !model.getParent() ) {
+				return false;
+			}
+
+			return true;
 		}
 	};
 
