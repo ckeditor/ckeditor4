@@ -56,6 +56,10 @@
 
 	function assertDragLine( selector, position ) {
 		return function() {
+			// Ignore IE8 (#3004).
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
 			this.editorBot.setData( CKEDITOR.document.findOne( '#editor-content' ).getHtml(), function() {
 				var editor = this.editor,
 					editable = editor.editable(),
