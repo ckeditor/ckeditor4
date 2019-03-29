@@ -46,12 +46,12 @@
 		'test drag into table left top cell - empty': assertDragLine( 'table tr:nth-child(1) th:nth-child(1)', 'inside' ),
 		'test drag into table middle cell - empty': assertDragLine( 'table tr:nth-child(1) td:nth-child(2)', 'inside' ),
 		'test drag into table right bottom cell - empty': assertDragLine( 'table tr:nth-child(2) td:nth-child(3)', 'inside' ),
-		'test drag into table middle top cell - empty': assertDragLine( 'table tr:nth-child(1) th:nth-child(2)', 'before' ),
-		'test drag into table right middle cell - empty': assertDragLine( 'table tr:nth-child(1) td:nth-child(3)', 'after' ),
-		'test drag into table left bottom  cell - empty': assertDragLine( 'table tr:nth-child(2) td:nth-child(1)', 'before' ),
-		'test drag into table right top cell - empty': assertDragLine( 'table tr:nth-child(1) th:nth-child(3)', 'after' ),
-		'test drag into table left middle cell - empty': assertDragLine( 'table tr:nth-child(1) td:nth-child(1)', 'before' ),
-		'test drag into table middle bottom cell - empty': assertDragLine( 'table tr:nth-child(2) td:nth-child(2)', 'after' )
+		'test drag into table middle top cell - text': assertDragLine( 'table tr:nth-child(1) th:nth-child(2)', 'before' ),
+		'test drag into table right middle cell - text': assertDragLine( 'table tr:nth-child(1) td:nth-child(3)', 'after' ),
+		'test drag into table left bottom  cell - text': assertDragLine( 'table tr:nth-child(2) td:nth-child(1)', 'before' ),
+		'test drag into table right top cell - inline element': assertDragLine( 'table tr:nth-child(1) th:nth-child(3)', 'after' ),
+		'test drag into table left middle cell - inline element': assertDragLine( 'table tr:nth-child(1) td:nth-child(1)', 'before' ),
+		'test drag into table middle bottom cell - inline element': assertDragLine( 'table tr:nth-child(2) td:nth-child(2)', 'after' )
 	} );
 
 	function assertDragLine( selector, position ) {
