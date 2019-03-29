@@ -859,15 +859,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * Shows the dialog box.
 		 *
 		 *		dialogObj.show();
-		 *
-		 * @param {Function} [callback] Callback to be executed after the dialog DOM is created, but before the dialog is displayed.
-		 * This parameter has been added in version **4.11.0**.
 		 */
-		show: function( callback ) {
-			if ( callback ) {
-				callback();
-			}
-
+		show: function() {
 			// Insert the dialog's element to the root document.
 			var element = this._.element;
 			var definition = this.definition;
@@ -3419,12 +3412,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 				dialog = storedDialogs[ dialogName ] || ( storedDialogs[ dialogName ] = new CKEDITOR.dialog( this, dialogName ) );
 
-				// Set model if it exists, or set it to null meaning that it does not support models.
-				dialog.setModel( model || null );
+				dialog.setModel( model);
 
-				dialog.show( function() {
-					callback && callback.call( dialog, dialog );
-				} );
+				callback && callback.call( dialog, dialog );
+				dialog.show();
 
 			} else if ( dialogDefinitions == 'failed' ) {
 				hideCover( this );
