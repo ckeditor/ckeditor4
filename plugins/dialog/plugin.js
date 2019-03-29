@@ -936,8 +936,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				this.fireOnce( 'load', {} );
 				CKEDITOR.ui.fire( 'ready', this );
 
-				this.getModel( this._.editor );
-
 				this.fire( 'show', {} );
 				this._.editor.fire( 'dialogShow', this );
 
@@ -1499,24 +1497,12 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @inheritdoc CKEDITOR.dialog.modeledDialog#getModel
 		 */
 		getModel: function( editor ) {
-			var ret = this._.model;
-
-			// Always return cached model instance.
-			if ( this._.model ) {
-				return this._.model;
-			}
-
+			// Prioritize custom model definition.
 			if ( this.definition.getModel ) {
-				ret = this.definition.getModel( editor ) || null;
+				return this.definition.getModel( editor );
 			}
 
-			if ( !ret ) {
-				ret = this.fire( 'getModel', {
-					model: ret
-				}, editor ).model;
-			}
-
-			return ret || null;
+			return this._.model || null;
 		},
 
 		/**
@@ -1530,26 +1516,19 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		/**
 		 * Method tells whether the dialog is editing an existing element or adding a new one.
 		 *
-		 * In case if dialog does not
+		 * In case if dialog definition didn't define {@link CKEDITOR.plugins.dialog.definition#isEditing}
+		 * function, it will use {@link #getModel} method to recognize editing mode.
 		 *
 		 * @since 4.11.0
 		 * @param {CKEDITOR.editor} editor
 		 * @returns {Boolean} Returns `true` if dialog is editing content that already exists in the editor.
 		 */
 		isEditing: function( editor ) {
-			var model = this.getModel( editor ),
-				ret = null;
-
-			if ( model && model instanceof CKEDITOR.dom.node ) {
-				ret = !!model.getParent();
+			if ( this.definition.isEditing ) {
+				return this.definition.isEditing( editor );
 			}
 
-			ret = this.fire( 'isEditing', {
-				returnValue: ret,
-				model: model
-			} ).returnValue;
-
-			return ret || false;
+			return !!this.getModel( editor );
 		}
 	};
 
