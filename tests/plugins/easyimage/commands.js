@@ -86,6 +86,10 @@
 
 							assert.areSame( 'bar', editor.editable().findOne( 'img' ).getAttribute( 'alt' ),
 								'Alt text of image is changed' );
+
+							// (#2423)
+							assert.areSame( widget, dialog.getModel( editor ), 'Dialog model should point at widget' );
+							assert.isTrue( dialog.isEditing( editor ), 'Dialog should be in editing mode' );
 						} );
 					} );
 

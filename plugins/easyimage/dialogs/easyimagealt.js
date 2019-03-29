@@ -14,6 +14,8 @@ CKEDITOR.dialog.add( 'easyimageAlt', function( editor ) {
 			if ( focused && focused.name == 'easyimage' ) {
 				return focused;
 			}
+
+			return null;
 		},
 		onOk: function() {
 			var newAlt = CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtAlt' ) ),
@@ -24,18 +26,11 @@ CKEDITOR.dialog.add( 'easyimageAlt', function( editor ) {
 			}
 		},
 
-		onHide: function() {
-			delete this._.selectedImage;
-		},
-
 		onShow: function() {
 			var altField = this.getContentElement( 'info', 'txtAlt' ),
 				model = this.getModel( editor );
 
 			if ( model ) {
-				// Left for backwards compatibility (#2423).
-				this._.selectedImage = model.parts.image;
-
 				altField.setValue( model.parts.image.getAttribute( 'alt' ) );
 			}
 
