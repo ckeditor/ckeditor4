@@ -55,7 +55,7 @@
 					element = editable.findOne( selector ),
 					coordinates = getPoint( element.getClientRect(), 'inside' );
 
-				// Adjust mouse position closer to tested edge of cell.
+				// Adjust mouse position closer to the tested edge of cell.
 				if ( position in { before: 1 , after: 1 } ) {
 					coordinates.y += position === 'before' ? -1 : 1;
 				}
