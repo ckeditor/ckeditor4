@@ -118,6 +118,14 @@
  */
 
 /**
+ * Method tells whether the dialog is editing an existing element or adding a new one.
+ *
+ * @method isEditing
+ * @param {CKEDITOR.editor} editor
+ * @returns {Boolean} Returns `true` if dialog is editing content that already exists in the editor.
+ */
+
+/**
  * The function to execute when OK is pressed.
  *
  * @property {Function} onOk
