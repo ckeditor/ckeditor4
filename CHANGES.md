@@ -7,6 +7,7 @@ New Features:
 
 * [#2598](https://github.com/ckeditor/ckeditor-dev/issues/2598): [Page Break](https://ckeditor.com/cke4/addon/pagebreak) feature support for [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
 * [#2048](https://github.com/ckeditor/ckeditor-dev/issues/2048): [Enhanced Image](https://ckeditor.com/cke4/addon/image2) added config option [CKEDITOR.config.image2_maxSize](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-image2_maxSize) that allows setting a maximum size that image can be resized to with resizer.
+* [#1648](https://github.com/ckeditor/ckeditor-dev/issues/1648): [Widget](https://ckeditor.com/cke4/addon/widget) added support for [dragging](https://ckeditor.com/docs/ckeditor4/latest/examples/draganddrop.html) into [tables](https://ckeditor.com/cke4/addon/table).
 
 Fixed Issues:
 
