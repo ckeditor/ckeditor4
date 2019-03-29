@@ -34,7 +34,15 @@
 		tearDown: function() {
 			overlay.setStyle( 'display', 'none' );
 		},
+		// When dragging into table cell drag line should appear in right place, and widget should be pasted in right place.
+		// Cases covered by tests:
+		// 	- Cell is empty. Line should appear in the middle of cell. Widget is pasted into cell.
+		// 	- Cell has text node. Line should appear at the position of of hovered temporary fake paragraph.
+		// 	There are two such paragraphs, one at the start of cell and one at the end of cell. Widget should replace hovered temporary paragraph.
+		// 	- Cell has inline element. Line should appear at the top or at the bottom edge of inline element depending on which edge is hovered.
+		// 	Widget should be pasted before or after inline element depending on which end is hovered.
 		// (#1648)
+
 		'test drag into table left top cell - empty': assertDragLine( 'table tr:nth-child(1) th:nth-child(1)', 'inside' ),
 		'test drag into table middle cell - empty': assertDragLine( 'table tr:nth-child(1) td:nth-child(2)', 'inside' ),
 		'test drag into table right bottom cell - empty': assertDragLine( 'table tr:nth-child(2) td:nth-child(3)', 'inside' ),
