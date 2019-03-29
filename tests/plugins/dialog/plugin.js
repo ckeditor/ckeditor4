@@ -66,23 +66,6 @@
 	bender.editor = {};
 
 	bender.test( {
-		_disposableListeners: [],
-
-		tearDown: function() {
-			var curDialog = CKEDITOR.dialog.getCurrent();
-
-			if ( curDialog ) {
-				curDialog.hide();
-			}
-
-			CKEDITOR.tools.array.filter( this._disposableListeners, function( listener ) {
-				listener.removeListener();
-				return false;
-			} );
-
-			dialogDefinitions.testGetModel.getModel.reset();
-		},
-
 		'test open dialog from local': function() {
 			var ed = this.editor, tc = this;
 			ed.openDialog( 'testDialog1', function( dialog ) {
@@ -456,29 +439,6 @@
 
 				assert.isInstanceOf( CKEDITOR.dom.element, ret, 'Return value type.' );
 				assert.areSame( 'span', ret.getName(), 'Returned tag name.' );
-			} );
-		},
-
-		'test dialog fires getModel event if no getModel function is provided': function() {
-			var getModelListener = sinon.stub(),
-				disposableListeners = this._disposableListeners;
-
-			disposableListeners.push( CKEDITOR.ui.on( 'ready', function( evt ) {
-				if ( evt.data._.name == 'testDialog1' ) {
-					disposableListeners.push( evt.data.on( 'getModel', getModelListener ) );
-				}
-			} ) );
-
-			this.editorBot.dialog( 'testDialog1', function( dialog ) {
-				var expectedData = {
-						model: null
-					};
-
-				assert.areSame( 1, getModelListener.callCount, 'getModel events count.' );
-				sinon.assert.calledOn( getModelListener, dialog );
-				sinon.assert.calledOn( getModelListener, dialog );
-				sinon.assert.calledWith( getModelListener, sinon.match.has( 'editor', this.editor ) );
-				sinon.assert.calledWith( getModelListener, sinon.match.has( 'data', expectedData ) );
 			} );
 		},
 
