@@ -11,6 +11,15 @@
 	};
 
 	bender.test( {
+		_should: {
+			ignore: {
+				// (#2881), (#2996).
+				'1 row, 2 cols, none -> both': true,
+				'1 row, 2 cols, row -> col': true,
+				'1 row, 2 cols, both -> col': true
+			}
+		},
+
 		'1 row, 2 cols, none -> none': assertHeadersCorrectnesssAfterManipulation( 'header-none', 'header-none', 'none' ),
 
 		'1 row, 2 cols, none -> col': assertHeadersCorrectnesssAfterManipulation( 'header-none', 'header-col', 'col' ),
