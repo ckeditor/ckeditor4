@@ -35,11 +35,11 @@
 			overlay.setStyle( 'display', 'none' );
 		},
 		// (#1648)
-		'test drag into table left top cell': assertDragLine( 'table tr:nth-child(1) th:nth-child(1)' ),
+		'test drag into table left top cell - empty': assertDragLine( 'table tr:nth-child(1) th:nth-child(1)' ),
 		// (#1648)
-		'test drag into table middle cell': assertDragLine( 'table tr:nth-child(1) td:nth-child(2)' ),
+		'test drag into table middle cell - empty': assertDragLine( 'table tr:nth-child(1) td:nth-child(2)' ),
 		// (#1648)
-		'test drag into table right bottom cell': assertDragLine( 'table tr:nth-child(2) td:nth-child(3)' )
+		'test drag into table right bottom cell - empty': assertDragLine( 'table tr:nth-child(2) td:nth-child(3)' )
 	} );
 
 	function assertDragLine( selector ) {
