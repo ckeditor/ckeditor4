@@ -61,14 +61,12 @@
 				}
 
 				handler.once( 'mousedown', function() {
-
 					editable.fire( 'mousemove', {
 						$: {
 							clientX: coordinates.x,
 							clientY: coordinates.y
 						}
 					} );
-
 				}, null, null, 9999 );
 
 				editable.once( 'mousemove', function() {
