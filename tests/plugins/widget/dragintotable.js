@@ -102,6 +102,7 @@
 								resume( function() {
 									var widget = editable.findOne( 'figure' );
 									assert.isTrue( element[ position === 'after' ? 'getLast' : 'getFirst' ]().contains( widget ), 'Widget in cell' );
+									arrayAssert.isEmpty( editable.find( '.cke_fake-paragraph' ).toArray(), 'Temporary fake paragraphs removed.' );
 								} );
 							}, null, null, 999 );
 
