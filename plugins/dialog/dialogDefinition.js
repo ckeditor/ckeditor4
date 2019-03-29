@@ -105,6 +105,19 @@
  */
 
 /**
+ * Returns the subject of the dialog.
+ *
+ * For the most plugins like `table` / `link` plugin it should return a
+ * {@link CKEDITOR.dom.element DOM element instance} if there's a related element to it.
+ * For widget plugins (`image2`, `placeholder`) it should return a widget instance that
+ * is a subject of this dialog.
+ *
+ * @method getModel
+ * @param {CKEDITOR.editor} editor
+ * @returns {CKEDITOR.dom.element/CKEDITOR.plugins.widget/null} Returns `null` if dialog does not use model.
+ */
+
+/**
  * The function to execute when OK is pressed.
  *
  * @property {Function} onOk
