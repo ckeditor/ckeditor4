@@ -91,8 +91,8 @@
 								actual = getPoint( lineRect, position ),
 								expected = getPoint( elementRect, position );
 
-							assert.isNumberInRange( expected.x, actual.x - 1, actual.x + 1, 'Line vertical position' );
-							assert.isNumberInRange( expected.y, actual.y - 1, actual.y + 1, 'Line horizontal position' );
+							assert.isNumberInRange( Math.round( expected.x ), Math.round( actual.x - 1 ), Math.round( actual.x + 1 ), 'Line vertical position' );
+							assert.isNumberInRange( Math.round( expected.y ), Math.round( actual.y - 1 ), Math.round( actual.y + 1 ), 'Line horizontal position' );
 
 							editor.once( 'paste', function() {
 								resume( function() {
