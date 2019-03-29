@@ -3554,7 +3554,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * @param {CKEDITOR.dialog.definition} data.definition The dialog definition that
  * is being loaded.
  * @param {CKEDITOR.dialog} data.dialog Dialog instance that the definition is loaded
- * for. Introduced in **CKEditor 4.11.0**.
+ * for. Introduced in **CKEditor 4.12.0**.
  * @param {CKEDITOR.editor} editor The editor instance that will use the dialog.
  */
 
