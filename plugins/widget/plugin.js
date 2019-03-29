@@ -3597,9 +3597,7 @@
 			var dropRange = finder.getRange( sorted[ 0 ] ),
 				bookmark = dropRange.createBookmark();
 
-			CKEDITOR.tools.array.forEach( fakeParagraphs, function( fakeParagraph ) {
-				fakeParagraph.remove();
-			} );
+			cleanFakeParagraphs();
 
 			// Remove any references to temporary elements.
 			fakeParagraphs.length = 0;
@@ -3615,6 +3613,8 @@
 				dropRange: dropRange,
 				target: dropRange.startContainer
 			} );
+		} else {
+			cleanFakeParagraphs();
 		}
 
 		// Clean-up custom cursor for editable.
@@ -3625,6 +3625,15 @@
 
 		// Clean-up drag & drop.
 		editor.fire( 'dragend', { target: dragTarget } );
+	}
+
+	function cleanFakeParagraphs() {
+		CKEDITOR.tools.array.forEach( fakeParagraphs, function( fakeParagraph ) {
+			fakeParagraph.remove();
+		} );
+
+		// Remove any references to temporary elements.
+		fakeParagraphs.length = 0;
 	}
 
 	function setupEditables( widget ) {
