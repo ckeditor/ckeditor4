@@ -1520,7 +1520,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		},
 
 		/**
-		 * @inheritdoc CKEDITOR.dialog.modeledDialog#getModel
+		 * @inheritdoc CKEDITOR.dialog.definition#getModel
 		 */
 		getModel: function( editor ) {
 			// Prioritize custom model definition.
@@ -1532,8 +1532,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		},
 
 		/**
-		 * @since 4.11.0
-		 * @param {CKEDITOR.dom.element/CKEDIOTR.plugins.widget/*} newModel Model to be set.
+		 * @since 4.12.0
+		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget} newModel Model to be set.
 		 */
 		setModel: function( newModel ) {
 			this._.model = newModel;
@@ -1545,7 +1545,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * In case if dialog definition didn't define {@link CKEDITOR.plugins.dialog.definition#isEditing}
 		 * function, it will use {@link #getModel} method to recognize editing mode.
 		 *
-		 * @since 4.11.0
+		 * @since 4.12.0
 		 * @param {CKEDITOR.editor} editor
 		 * @returns {Boolean} Returns `true` if dialog is editing content that already exists in the editor.
 		 */
@@ -3435,31 +3435,6 @@ CKEDITOR.plugins.add( 'dialog', {
 		}, null, null, 999 );
 	}
 } );
-
-/**
- * Interface to be implemented by any dialogs that can insert or edit any data into
- * the editor.
- *
- * This class is here for documentation purposes only and is not really part of
- * the API. It serves as the base ("interface") for data processor implementations.
- *
- * @since 4.11.0
- * @class CKEDITOR.dialog.modeledDialog
- * @abstract
- */
-
-/**
- * Returns the subject of the dialog.
- *
- * For the most plugins like `table` / `link` plugin it should return a
- * {@link CKEDITOR.dom.element DOM element instance} if there's a related element to it.
- * For widget plugins (`image2`, `placeholder`) it should return a widget instance that
- * is a subject of this dialog.
- *
- * @method getModel
- * @param {CKEDITOR.editor} editor
- * @returns {Object/null} Returns `null` if dialog does not use model.
- */
 
 // Dialog related configurations.
 
