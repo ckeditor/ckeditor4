@@ -22,7 +22,7 @@
 			]
 		},
 		testGetModel: {
-			title: 'Test Get Model',
+			title: 'Test getModel',
 			contents: [
 				{
 					id: 'info',
@@ -32,8 +32,19 @@
 			],
 			getModel: sinon.stub().returns( new CKEDITOR.dom.element( 'span' ) )
 		},
+		testIsEditing: {
+			title: 'Test isEditing',
+			contents: [
+				{
+					id: 'info',
+					label: 'Test',
+					elements: []
+				}
+			],
+			isEditing: sinon.stub().returns( true )
+		},
 		testDialogDefinitionEvent: {
-			title: 'Dialog def event',
+			title: 'Test dialogDefinition event',
 			contents: [
 				{
 					id: 'info',
@@ -53,6 +64,9 @@
 		CKEDITOR.dialog.add( 'testGetModel', function() {
 			return dialogDefinitions.testGetModel;
 		} );
+		CKEDITOR.dialog.add( 'testIsEditing', function() {
+			return dialogDefinitions.testIsEditing;
+		} );
 		CKEDITOR.dialog.add( 'testDialogDefinitionEvent', function() {
 			return dialogDefinitions.testDialogDefinitionEvent;
 		} );
@@ -60,6 +74,7 @@
 		evt.editor.addCommand( 'testDialog1', new CKEDITOR.dialogCommand( 'testDialog1' ) );
 		evt.editor.addCommand( 'testDialog2', new CKEDITOR.dialogCommand( 'testDialog2' ) );
 		evt.editor.addCommand( 'testGetModel', new CKEDITOR.dialogCommand( 'testGetModel' ) );
+		evt.editor.addCommand( 'testIsEditing', new CKEDITOR.dialogCommand( 'testIsEditing' ) );
 		evt.editor.addCommand( 'testDialogDefinitionEvent', new CKEDITOR.dialogCommand( 'testDialogDefinitionEvent' ) );
 	} );
 
@@ -421,12 +436,14 @@
 			wait();
 		},
 
+		// (#2423)
 		'test dialog has getModel() method by default': function() {
 			this.editorBot.dialog( 'testDialog1', function( dialog ) {
 				assert.isNull( dialog.getModel( this.editor ) );
 			} );
 		},
 
+		// (#2423)
 		'test dialog definition allows for overwriting returned model': function() {
 			this.editorBot.dialog( 'testGetModel', function( dialog ) {
 				// Get model may be called during the initialization, that's not a concern of this TC.
@@ -442,18 +459,36 @@
 			} );
 		},
 
+		// (#2423)
+		'test dialog definition allows for overwriting isEditing': function() {
+			this.editorBot.dialog( 'testIsEditing', function( dialog ) {
+				// Get model may be called during the initialization, that's not a concern of this TC.
+				dialogDefinitions.testGetModel.getModel.reset();
+
+				var ret = dialog.isEditing( this.editor );
+
+				sinon.assert.calledOnce( dialogDefinitions.testIsEditing.isEditing );
+				sinon.assert.calledWithExactly( dialogDefinitions.testIsEditing.isEditing, this.editor );
+
+				assert.isTrue( ret );
+			} );
+		},
+
+		// (#2423)
 		'test dialog.isEditing': function() {
 			this.editorBot.dialog( 'testDialog1', function( dialog ) {
 				assert.isFalse( dialog.isEditing() );
 			} );
 		},
 
+		// (#2423)
 		'test dialog.isEditing with dettached DOM model': function() {
 			this.editorBot.dialog( 'testGetModel', function( dialog ) {
 				assert.isFalse( dialog.isEditing() );
 			} );
 		},
 
+		// (#2423)
 		'test dialog.isEditing with attached DOM element model': function() {
 			this.editorBot.setHtmlWithSelection( '<p><em>[foo]</em></p>' );
 
@@ -468,6 +503,7 @@
 			} );
 		},
 
+		// (#2423)
 		'test dialog.isEditing with attached DOM text node model': function() {
 			this.editorBot.setHtmlWithSelection( '<p>{foo}</p>' );
 
@@ -481,6 +517,7 @@
 			} );
 		},
 
+		// (#2423)
 		'test dialog dialogDefinition event data': function() {
 			var stub = sinon.stub();
 
