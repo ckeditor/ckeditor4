@@ -58,6 +58,7 @@
 			} );
 		},
 
+		// (#2423)
 		'test getting model from dialog in edit mode': function() {
 			var editor = this.editor,
 				bot = this.editorBot;
@@ -80,6 +81,7 @@
 			} );
 		},
 
+		// (#2423)
 		'test getting model from dialog in add mode': function() {
 			var bot = this.editorBot;
 
@@ -100,6 +102,7 @@
 			wait();
 		},
 
+		// (#2423)
 		'test isEditing return value when no widget is edited': function() {
 			var bot = this.editorBot;
 
@@ -120,6 +123,7 @@
 			wait();
 		},
 
+		// (#2423)
 		'test isEditing return value when a widget is edited': function() {
 			var editor = this.editor,
 				bot = this.editorBot;
@@ -144,6 +148,7 @@
 			} );
 		},
 
+		// (#2423)
 		'test isEditing return value with offline widget': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
