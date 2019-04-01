@@ -45,6 +45,42 @@
 			} );
 		},
 
+		// (#2423)
+		'test model for newly created table': function() {
+			var editor = this.editors.editor,
+				bot = this.editorBots.editor;
+
+			bot.setData( '', function() {
+				bot.dialog( 'tableProperties', function( dialog ) {
+					var model = dialog.getModel( editor );
+
+					dialog.hide();
+
+					assert.isNull( model );
+				} );
+			} );
+		},
+
+		// (#2423)
+		'test model for existing table': function() {
+			var editor = this.editors.editor,
+				bot = this.editorBots.editor;
+
+			bot.setData( '<table><tr><td>1</td></tr><tr><td>2</td></tr></table>', function() {
+				var table = editor.editable().findOne( 'table' );
+
+				editor.getSelection().selectElement( table );
+
+				bot.dialog( 'tableProperties', function( dialog ) {
+					var model = dialog.getModel( editor );
+
+					dialog.hide();
+
+					assert.areEqual( table, model );
+				} );
+			} );
+		},
+
 		'test add caption/summary': function() {
 			var bot = this.editorBots.editor;
 			bender.tools.testInputOut( 'add-caption', function( source, expected ) {
