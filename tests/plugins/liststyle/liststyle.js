@@ -11,6 +11,15 @@
 		orderedListHtml = '<ol><li>foo</li><li>bar</li><li>buz</li>';
 
 	bender.test( {
+
+		tearDown: function() {
+			var dialog = CKEDITOR.dialog.getCurrent();
+
+			if ( dialog ) {
+				dialog.hide();
+			}
+		},
+
 		'test unordered list opens with correct context menu': function() {
 			this.editorBot.setData( unorderedListHtml, function() {
 				var editor = this.editor,
@@ -30,6 +39,34 @@
 				editor.getSelection().selectElement( list );
 
 				testContextMenuOptions( editor, [ 'numberedListStyle' ] );
+			} );
+		},
+
+		// (#2423)
+		'test unordered list dialog model': function() {
+			this.editorBot.setData( unorderedListHtml, function() {
+				var editor = this.editor,
+					list = editor.editable().findOne( 'ul' );
+
+				editor.getSelection().selectElement( list );
+
+				this.editorBot.dialog( 'bulletedListStyle', function( dialog ) {
+					assert.areEqual( list, dialog.getModel( editor ) );
+				} );
+			} );
+		},
+
+		// (#2423)
+		'test ordered list dialog model': function() {
+			this.editorBot.setData( orderedListHtml, function() {
+				var editor = this.editor,
+					list = editor.editable().findOne( 'ol' );
+
+				editor.getSelection().selectElement( list );
+
+				this.editorBot.dialog( 'numberedListStyle', function( dialog ) {
+					assert.areEqual( list, dialog.getModel( editor ) );
+				} );
 			} );
 		}
 	} );
