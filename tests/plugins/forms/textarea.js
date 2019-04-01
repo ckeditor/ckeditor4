@@ -94,6 +94,40 @@ bender.test( {
 		testValue.call( this, 0 );
 	},
 
+	// (#2423)
+	'test dialog model during textarea creation': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '', function() {
+			bot.dialog( 'textarea', function( dialog ) {
+				assert.isNull( dialog.getModel( editor ) );
+				assert.isFalse( dialog.isEditing( editor ) );
+
+				dialog.hide();
+			} );
+		} );
+	},
+
+	// (#2423)
+	'test dialog model with existing textarea': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '<textarea>test</textarea>', function() {
+			bot.dialog( 'textarea', function( dialog ) {
+				var textarea = editor.editable().findOne( 'textarea' );
+
+				editor.getSelection().selectElement( textarea );
+
+				assert.areEqual( textarea, dialog.getModel( editor ) );
+				assert.isTrue( dialog.isEditing( editor ) );
+
+				dialog.hide();
+			} );
+		} );
+	},
+
 	'test required attribute collapsed': assertRequiredAttribute( {
 		html: '[<textarea required></textarea>]',
 		type: 'textarea',

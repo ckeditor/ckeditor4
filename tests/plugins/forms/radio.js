@@ -12,6 +12,15 @@ bender.editor = {
 };
 
 bender.test( {
+
+	tearDown: function() {
+		var dialog = CKEDITOR.dialog.getCurrent();
+
+		if ( dialog ) {
+			dialog.hide();
+		}
+	},
+
 	'test fill fields': function() {
 		var bot = this.editorBot;
 
@@ -24,6 +33,36 @@ bender.test( {
 			dialog.getButton( 'ok' ).click();
 
 			assert.areSame( '<input checked="checked" name="name" required="required" type="radio" value="value" />', bot.getData( false, true ) );
+		} );
+	},
+
+	// (#2423)
+	'test dialog model during radio creation': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '', function() {
+			bot.dialog( 'radio', function( dialog ) {
+				assert.isNull( dialog.getModel( editor ) );
+				assert.isFalse( dialog.isEditing( editor ) );
+			} );
+		} );
+	},
+
+	// (#2423)
+	'test dialog model with existing radio': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '<input type="radio" />', function() {
+			bot.dialog( 'radio', function( dialog ) {
+				var radio = editor.editable().findOne( 'input' );
+
+				editor.getSelection().selectElement( radio );
+
+				assert.areEqual( radio, dialog.getModel( editor ) );
+				assert.isTrue( dialog.isEditing( editor ) );
+			} );
 		} );
 	},
 

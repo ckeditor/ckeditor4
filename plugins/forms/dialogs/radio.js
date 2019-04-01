@@ -8,22 +8,26 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 		title: editor.lang.forms.checkboxAndRadio.radioTitle,
 		minWidth: 350,
 		minHeight: 140,
-		onShow: function() {
-			delete this.radioButton;
+		getModel: function( editor ) {
+			var element = editor.getSelection().getSelectedElement();
 
-			var element = this.getParentEditor().getSelection().getSelectedElement();
 			if ( element && element.getName() == 'input' && element.getAttribute( 'type' ) == 'radio' ) {
-				this.radioButton = element;
+				return element;
+			}
+
+			return null;
+		},
+		onShow: function() {
+			var element = this.getModel( this.getParentEditor() );
+			if ( element ) {
 				this.setupContent( element );
 			}
 		},
 		onOk: function() {
-			var editor,
-				element = this.radioButton,
-				isInsertMode = !element;
+			var editor = this.getParentEditor(),
+				element = this.getModel( editor );
 
-			if ( isInsertMode ) {
-				editor = this.getParentEditor();
+			if ( !element ) {
 				element = editor.document.createElement( 'input' );
 				element.setAttribute( 'type', 'radio' );
 				editor.insertElement( element );
