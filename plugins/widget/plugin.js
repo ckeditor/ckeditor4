@@ -3641,8 +3641,7 @@
 
 	function addCustomStyleHandler() {
 		// Styles categorized by group. It is used to prevent applying styles for the same group being used together.
-		var styleGroups = {},
-			styleDefinitions = [];
+		var styleGroups = {};
 
 		/**
 		 * The class representing a widget style. It is an {@link CKEDITOR#STYLE_OBJECT object} like
