@@ -106,6 +106,44 @@
 	}
 
 	bender.test( {
+		tearDown: function() {
+			var dialog = CKEDITOR.dialog.getCurrent();
+
+			if ( dialog ) {
+				dialog.hide();
+			}
+		},
+
+		// (#2423)
+		'test image dialog model during image creation': function() {
+			var bot = this.editorBot,
+				editor = this.editor;
+
+			bot.setData( '', function() {
+				bot.dialog( 'image', function( dialog ) {
+					assert.isNull( dialog.getModel( editor ) );
+					assert.isFalse( dialog.isEditing( editor ) );
+				} );
+			} );
+		},
+
+		// (#2423)
+		'test dialog model with existing image': function() {
+			var bot = this.editorBot,
+				editor = this.editor;
+
+			bot.setData( '<image src="' + SRC + '"/>', function() {
+				bot.dialog( 'image', function( dialog ) {
+					var img = editor.editable().findOne( 'img' );
+
+					editor.getSelection().selectElement( img );
+
+					assert.areEqual( img, dialog.getModel( editor ) );
+					assert.isTrue( dialog.isEditing( editor ) );
+				} );
+			} );
+		},
+
 		'test read image (inline styles)': function() {
 			var htmlWithSelection = '[<img src="' + SRC + '" style="border:solid 2px;height:86px;margin:10px 5px;float:right;width:414px;">]';
 
