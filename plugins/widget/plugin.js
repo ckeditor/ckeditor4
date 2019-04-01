@@ -3104,6 +3104,9 @@
 	// LEFT, RIGHT, UP, DOWN, DEL, BACKSPACE - unblock default fake sel handlers.
 	var keystrokesNotBlockedByWidget = { 37: 1, 38: 1, 39: 1, 40: 1, 8: 1, 46: 1 };
 
+	// Do not block SHIFT + F10 which opens context menu (#1901).
+	keystrokesNotBlockedByWidget[ CKEDITOR.SHIFT + 121 ] = 1;
+
 	// Applies or removes style's classes from widget.
 	// @param {CKEDITOR.style} style Custom widget style.
 	// @param {Boolean} apply Whether to apply or remove style.
@@ -3575,9 +3578,8 @@
 				copySingleWidget( widget, keyCode == CKEDITOR.CTRL + 88 );
 				return; // Do not preventDefault.
 			// Pass chosen keystrokes to other plugins or default fake sel handlers.
-			// Pass all CTRL/ALT and SHIFT + F10 keystrokes.
+			// Pass all CTRL/ALT keystrokes.
 			} else if ( keyCode in keystrokesNotBlockedByWidget ||
-				( keyCode == CKEDITOR.SHIFT + 121 ) ||
 				( CKEDITOR.CTRL & keyCode ) ||
 				( CKEDITOR.ALT & keyCode ) ) {
 				return;

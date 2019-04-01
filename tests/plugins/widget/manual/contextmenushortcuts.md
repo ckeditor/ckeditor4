@@ -6,6 +6,8 @@
 
 Please do each test for both **inline** (first editor) and **block** (second editor) widget.
 
+Test should be performed with browser dev tools opened.
+
 ### Scenario 1: `SHIFT + F10`
 
 1. Focus widget in editor.
@@ -24,18 +26,16 @@ Please do each test for both **inline** (first editor) and **block** (second edi
 
 1. Focus widget in editor.
 1. Press `SHIFT + LEFT`.
-1. Open console.
 
-**Expected:** There should be no error in console.
+**Expected:** There should be no error in browser console.
 
 ### Scenario 4: `SHIFT + ENTER`
 
 1. Focus widget in editor.
 1. Press `SHIFT + ENTER` twice.
 1. Click `Undo` button.
-1. Open console.
 
-**Expected:** New line should not be inserted and console should remain clean.
+**Expected:** New line should not be inserted and browser console should remain clean.
 
 ### Scenario 5: `SHIFT + Tab`
 
