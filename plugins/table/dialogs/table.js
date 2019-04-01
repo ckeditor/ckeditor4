@@ -62,14 +62,13 @@
 			getModel: function( editor ) {
 				var selection = editor.getSelection(),
 					ranges = selection.getRanges(),
-					dialog = this.dialog,
-					ret;
+					dialog = this.dialog;
 
 				if ( dialog.getName() === 'tableProperties' ) {
 					var selected = selection.getSelectedElement();
 
 					if ( selected && selected.is( 'table' ) ) {
-						ret = selected;
+						return selected;
 					} else if ( ranges.length > 0 ) {
 						// Webkit could report the following range on cell selection (https://dev.ckeditor.com/ticket/4948):
 						// <table><tr><td>[&nbsp;</td></tr></table>]
@@ -77,11 +76,11 @@
 							ranges[ 0 ].shrink( CKEDITOR.NODE_ELEMENT );
 						}
 
-						ret = editor.elementPath( ranges[ 0 ].getCommonAncestor( true ) ).contains( 'table', 1 );
+						return editor.elementPath( ranges[ 0 ].getCommonAncestor( true ) ).contains( 'table', 1 );
 					}
 				}
 
-				return ret || null;
+				return null;
 			},
 
 			onLoad: function() {
