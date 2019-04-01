@@ -12,6 +12,44 @@ bender.editor = {
 };
 
 bender.test( {
+	tearDown: function() {
+		var dialog = CKEDITOR.dialog.getCurrent();
+
+		if ( dialog ) {
+			dialog.hide();
+		}
+	},
+
+	// (#2423)
+	'test dialog model during select creation': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '', function() {
+			bot.dialog( 'select', function( dialog ) {
+				assert.isNull( dialog.getModel( editor ) );
+				assert.isFalse( dialog.isEditing( editor ) );
+			} );
+		} );
+	},
+
+	// (#2423)
+	'test dialog model with existing select': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '<select name="name" />', function() {
+			bot.dialog( 'select', function( dialog ) {
+				var button = editor.editable().findOne( 'select' );
+
+				editor.getSelection().selectElement( button );
+
+				assert.areEqual( button, dialog.getModel( editor ) );
+				assert.isTrue( dialog.isEditing( editor ) );
+			} );
+		} );
+	},
+
 	'test fill basic fields': function() {
 		var bot = this.editorBot;
 

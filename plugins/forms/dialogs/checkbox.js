@@ -8,27 +8,32 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 		title: editor.lang.forms.checkboxAndRadio.checkboxTitle,
 		minWidth: 350,
 		minHeight: 140,
-		onShow: function() {
-			delete this.checkbox;
-
-			var element = this.getParentEditor().getSelection().getSelectedElement();
+		getModel: function( editor ) {
+			var element = editor.getSelection().getSelectedElement();
 
 			if ( element && element.getAttribute( 'type' ) == 'checkbox' ) {
-				this.checkbox = element;
+				return element;
+			}
+
+			return null;
+		},
+		onShow: function() {
+			var element = this.getModel( this.getParentEditor() );
+
+			if ( element ) {
 				this.setupContent( element );
 			}
 		},
 		onOk: function() {
-			var editor,
-				element = this.checkbox,
-				isInsertMode = !element;
+			var editor = this.getParentEditor(),
+				element = this.getModel( editor );
 
-			if ( isInsertMode ) {
-				editor = this.getParentEditor();
+			if ( !element ) {
 				element = editor.document.createElement( 'input' );
 				element.setAttribute( 'type', 'checkbox' );
 				editor.insertElement( element );
 			}
+
 			this.commitContent( { element: element } );
 		},
 		contents: [ {
