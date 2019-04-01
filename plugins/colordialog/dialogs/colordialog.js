@@ -277,7 +277,9 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		minWidth: 360,
 		minHeight: 220,
 		onShow: function( evt ) {
-			if ( !evt.data.selectionColor ) {
+			if ( !evt.data.selectionColor ||
+				( evt.data.selectionColor == '#333333' && evt.data.type == 'fore' ) ||
+				( evt.data.selectionColor == '#rgba(0, 0, 0, 0)' && evt.data.type == 'back' ) ) {
 				return;
 			}
 

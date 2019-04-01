@@ -86,7 +86,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function addButton( name, type, title, order, options ) {
 			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
-				colorData = {},
+				colorData = { type: type },
 				panelBlock;
 
 			options = options || {};
