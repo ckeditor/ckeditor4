@@ -48,6 +48,15 @@
 		'test widget creation when selection starts at the beginning and ends at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
 				initial: '<div contenteditable="false">[<div>FakeWidget</div></div>foo<div contenteditable="false"><div>FakeWidget</div>]</div>',
 				expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
+			} ),
+		// (#2517)
+		'test widget creation when selection starts in the drag handler': assertEditorSelectionOnWidgetsCreation( {
+				initial: '<div contenteditable="false">' +
+					'<figure><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs="><figcaption>caption</figcaption></figure>' +
+					'<span><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=">[<span></span></span></div>foo]',
+				expected: '<div contenteditable="false">' +
+					'<figure><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs="><figcaption>caption</figcaption></figure>' +
+					'<span><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs="><span></span></span></div>[foo]'
 			} )
 	};
 
