@@ -3575,11 +3575,11 @@
 				copySingleWidget( widget, keyCode == CKEDITOR.CTRL + 88 );
 				return; // Do not preventDefault.
 			// Pass chosen keystrokes to other plugins or default fake sel handlers.
-			// Pass all CTRL/ALT/SHIFT keystrokes.
+			// Pass all CTRL/ALT and SHIFT + F10 keystrokes.
 			} else if ( keyCode in keystrokesNotBlockedByWidget ||
+				( keyCode == CKEDITOR.SHIFT + 121 ) ||
 				( CKEDITOR.CTRL & keyCode ) ||
-				( CKEDITOR.ALT & keyCode ) ||
-				( CKEDITOR.SHIFT & keyCode ) ) {
+				( CKEDITOR.ALT & keyCode ) ) {
 				return;
 			}
 
