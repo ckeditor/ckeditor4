@@ -3104,6 +3104,9 @@
 	// LEFT, RIGHT, UP, DOWN, DEL, BACKSPACE - unblock default fake sel handlers.
 	var keystrokesNotBlockedByWidget = { 37: 1, 38: 1, 39: 1, 40: 1, 8: 1, 46: 1 };
 
+	// Do not block SHIFT + F10 which opens context menu (#1901).
+	keystrokesNotBlockedByWidget[ CKEDITOR.SHIFT + 121 ] = 1;
+
 	// Applies or removes style's classes from widget.
 	// @param {CKEDITOR.style} style Custom widget style.
 	// @param {Boolean} apply Whether to apply or remove style.
@@ -3570,13 +3573,15 @@
 			// ENTER.
 			if ( keyCode == 13 ) {
 				widget.edit();
-				// CTRL+C or CTRL+X.
+			// CTRL+C or CTRL+X.
 			} else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
 				copySingleWidget( widget, keyCode == CKEDITOR.CTRL + 88 );
 				return; // Do not preventDefault.
-			} else if ( keyCode in keystrokesNotBlockedByWidget || ( CKEDITOR.CTRL & keyCode ) || ( CKEDITOR.ALT & keyCode ) ) {
-				// Pass chosen keystrokes to other plugins or default fake sel handlers.
-				// Pass all CTRL/ALT keystrokes.
+			// Pass chosen keystrokes to other plugins or default fake sel handlers.
+			// Pass all CTRL/ALT keystrokes.
+			} else if ( keyCode in keystrokesNotBlockedByWidget ||
+				( CKEDITOR.CTRL & keyCode ) ||
+				( CKEDITOR.ALT & keyCode ) ) {
 				return;
 			}
 
@@ -3638,8 +3643,7 @@
 
 	function addCustomStyleHandler() {
 		// Styles categorized by group. It is used to prevent applying styles for the same group being used together.
-		var styleGroups = {},
-			styleDefinitions = [];
+		var styleGroups = {};
 
 		/**
 		 * The class representing a widget style. It is an {@link CKEDITOR#STYLE_OBJECT object} like

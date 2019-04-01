@@ -22,6 +22,57 @@
 	var getWidgetById = widgetTestsTools.getWidgetById;
 
 	bender.test( {
+		// (#1901)
+		'test SHIFT + F10 shortcut upon widget focus': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testevent', {
+				editables: {
+					foo: '.foo'
+				}
+			} );
+
+			this.editorBot.setData(
+				'<p id="p1">foo</p><div data-widget="testevent" id="w1"><p class="foo">foo</p></div>',
+				function() {
+					var widget = getWidgetById( editor, 'w1' ),
+						spy = sinon.spy();
+
+					widget.on( 'contextMenu', spy );
+					widget.focus();
+
+					editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.SHIFT + 121 } ) );
+
+					assert.isTrue( spy.calledOnce );
+				}
+			);
+		},
+
+		'test CTRL + SHIFT + F10 shortcut upon widget focus': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testevent', {
+				editables: {
+					foo: '.foo'
+				}
+			} );
+
+			this.editorBot.setData(
+				'<p id="p1">foo</p><div data-widget="testevent" id="w1"><p class="foo">foo</p></div>',
+				function() {
+					var widget = getWidgetById( editor, 'w1' ),
+						spy = sinon.spy();
+
+					widget.on( 'contextMenu', spy );
+					widget.focus();
+
+					editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 } ) );
+
+					assert.isTrue( spy.calledOnce );
+				}
+			);
+		},
+
 		'test contextMenu event firing': function() {
 			var editor = this.editor;
 
