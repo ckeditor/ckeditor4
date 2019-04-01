@@ -14,20 +14,17 @@ CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 				element = selection.getSelectedElement();
 
 			if ( element && element.data( 'cke-real-element-type' ) && element.data( 'cke-real-element-type' ) == 'hiddenfield' ) {
-				return editor.restoreRealElement( element );
+				return element;
 			}
 
 			return null;
-		},
-		isEditing: function( editor ) {
-			return !!this.getModel( editor );
 		},
 		onShow: function() {
 			var editor = this.getParentEditor(),
 				element = this.getModel( editor );
 
 			if ( element ) {
-				this.setupContent( element );
+				this.setupContent( editor.restoreRealElement( element ) );
 				editor.getSelection().selectElement( element );
 			}
 		},

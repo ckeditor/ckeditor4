@@ -41,14 +41,7 @@
 
 					editor.getSelection().selectElement( fakeInput );
 
-					var model = dialog.getModel( editor );
-
-					assert.areEqual( 'input', model.getName(), 'Model is input element' );
-
-					assert.areEqual( 'hidden', model.getAttribute( 'type' ), 'Model has correct type' );
-					assert.areEqual( 'test', model.getAttribute( 'name' ), 'Model has correct name' );
-					assert.areEqual( 'test', model.getAttribute( 'value' ), 'Model has correct value' );
-
+					assert.areEqual( fakeInput, dialog.getModel( editor ) );
 					assert.isTrue( dialog.isEditing( editor ), 'Dialog is in editing mode' );
 				} );
 			} );
