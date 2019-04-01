@@ -26,7 +26,6 @@
 	}
 
 	function assertLinkDialog( options ) {
-		// Funny thing is that I had to do setData here to remove junk from potentially previous test runs.
 		options.bot.setData( options.input, function() {
 			options.bot.setHtmlWithSelection( options.input );
 
