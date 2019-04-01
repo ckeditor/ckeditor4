@@ -26,6 +26,35 @@ bender.test( {
 			assert.areSame( '<input checked="checked" name="name" required="required" type="checkbox" value="value" />', bot.getData( false, true ) );
 		} );
 	},
+	// (#2423)
+	'test dialog model during checkbox creation': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '', function() {
+			bot.dialog( 'checkbox', function( dialog ) {
+				assert.isNull( dialog.getModel( editor ) );
+				assert.isFalse( dialog.isEditing( editor ) );
+			} );
+		} );
+	},
+
+	// (#2423)
+	'test dialog model with existing checkbox': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '<input type="checkbox" value="value" />', function() {
+			bot.dialog( 'checkbox', function( dialog ) {
+				var button = editor.editable().findOne( 'input' );
+
+				editor.getSelection().selectElement( button );
+
+				assert.areEqual( button, dialog.getModel( editor ) );
+				assert.isTrue( dialog.isEditing( editor ) );
+			} );
+		} );
+	},
 
 	'test empty fields': function() {
 		var bot = this.editorBot;
