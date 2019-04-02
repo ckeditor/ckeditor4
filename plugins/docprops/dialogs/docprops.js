@@ -160,9 +160,6 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 		getModel: function() {
 			return editor.document;
 		},
-		isEditing: function() {
-			return true;
-		},
 		onShow: function() {
 			var doc = editor.document,
 				html = doc.getElementsByTag( 'html' ).getItem( 0 ),

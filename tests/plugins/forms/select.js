@@ -40,11 +40,11 @@ bender.test( {
 
 		bot.setData( '<select name="name" />', function() {
 			bot.dialog( 'select', function( dialog ) {
-				var button = editor.editable().findOne( 'select' );
+				var select = editor.editable().findOne( 'select' );
 
-				editor.getSelection().selectElement( button );
+				editor.getSelection().selectElement( select );
 
-				assert.areEqual( button, dialog.getModel( editor ) );
+				assert.areEqual( select, dialog.getModel( editor ) );
 				assert.isTrue( dialog.isEditing( editor ) );
 			} );
 		} );
