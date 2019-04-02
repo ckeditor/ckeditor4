@@ -1,3 +1,4 @@
+@bender-include: ../../dialog/manual/_helpers/tools.js
 @bender-tags: dialog, 4.12.0, 2423, feature
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, image, toolbar
@@ -7,17 +8,22 @@
 
 ## Expected
 
-**editing:** `false`
+Dialog name: **image** in **editor** editor.
 
-**model:** `false`
+Dialog is in **creation** mode.
 
+Currently editing: null
 
-3. Fill up missing fields and click `OK`.
+---
+
+3. Fill image URL field and click `Ok`.
 4. Double click `image` to open dialog again.
-5. Verify image status above the editor.
+5. Verify status above the editor.
 
 ## Expected
 
-**editing:** `true`
+Dialog name: **image** in **editor** editor.
 
-**model:** `true`
+Dialog is in **editing** mode.
+
+Currently editing: `[element HTML]`

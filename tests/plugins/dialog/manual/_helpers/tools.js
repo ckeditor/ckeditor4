@@ -59,30 +59,49 @@
 
 	function dialogShowListener( evt ) {
 		var dialog = evt.data,
-			isEditMode = dialog.isEditing( evt.editor );
+			editor = evt.editor,
+			isEditMode = dialog.isEditing( editor );
 
 		doc.getById( 'dialog-status' ).addClass( 'active' );
 		doc.getById( 'dialog-name' ).setText( dialog.getName() );
 		doc.getById( 'dialog-type' ).setText( isEditMode ? 'editing' : 'creation' );
-		doc.getById( 'dialog-model' ).setText( stringifyModel( dialog.getModel( evt.editor ) ) );
-		doc.getById( 'editor-name' ).setText( evt.editor.name );
+		doc.getById( 'dialog-model' ).setText( stringifyModel( editor, dialog.getModel( editor ) ) );
+		doc.getById( 'editor-name' ).setText( editor.name );
 
 		dialog.once( 'hide', function() {
 			doc.getById( 'dialog-status' ).removeClass( 'active' );
 		} );
 	}
 
-	function stringifyModel( val ) {
+	function stringifyModel( editor, val ) {
 		if ( !val ) {
 			return String( val );
 		}
 
 		if ( val instanceof CKEDITOR.dom.element ) {
+			// Some elements may be faked, output real element
+			// for simplification.
+			if ( val.data( 'cke-real-element-type' ) ) {
+				val = editor.restoreRealElement( val );
+			}
+
 			return val.getOuterHtml();
 		}
 
-		if ( val instanceof CKEDITOR.plugins.widget ) {
-			return 'Widget (' + val.name + '): ' + JSON.stringify( val.data );
+		if ( val instanceof CKEDITOR.dom.document ) {
+			return 'document';
+		}
+
+		if ( CKEDITOR.plugins.widget && val instanceof CKEDITOR.plugins.widget ) {
+			return 'Widget (' + val.name + ')';
+		}
+
+		if ( CKEDITOR.tools.isArray( val ) ) {
+			var html = '';
+			for ( var i = 0; i < val.length; i++ ) {
+				html += stringifyModel( editor, val[ i ] );
+			}
+			return html;
 		}
 
 		return String( val );
