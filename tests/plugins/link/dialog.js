@@ -93,6 +93,7 @@
 				assertAnchorDiscovery( bot, anchorsMapping[ editor.name ].expectedIds, anchorsMapping[ editor.name ].expectedNames );
 			},
 
+			// (#2423)
 			'test dialog returns a proper model (whole link selected)': function( editor, bot ) {
 				assertLinkDialog( {
 					bot: bot,
@@ -106,6 +107,7 @@
 				} );
 			},
 
+			// (#2423)
 			'test dialog returns a proper model (collapsed selection)': function( editor, bot ) {
 				assertLinkDialog( {
 					bot: bot,
