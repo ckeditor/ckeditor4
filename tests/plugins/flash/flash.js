@@ -22,6 +22,15 @@
 			}
 		},
 
+		'test allowed content filter': function() {
+			this.editorBot.assertInputOutput(
+				flashHtml,
+				// jscs:disable maximumLineLength
+				/<p><img align="left" alt="[^"]+" class="cke_flash" data-cke-real-element-type="flash" data-cke-real-node-type="1" data-cke-realelement="[^"]+" data-cke-resizable="true" src="[^"]+" style="width:\s?100px;\s?height:\s?50px;?" title="[^"]+" \/><\/p>/i
+				// jscs:enable maximumLineLength
+			);
+		},
+
 		// (#2423)
 		'test dialog model during flash creation': function() {
 			var bot = this.editorBot,
@@ -50,15 +59,6 @@
 					assert.isTrue( dialog.isEditing( editor ) );
 				} );
 			} );
-		},
-
-		'test allowed content filter': function() {
-			this.editorBot.assertInputOutput(
-				flashHtml,
-				// jscs:disable maximumLineLength
-				/<p><img align="left" alt="[^"]+" class="cke_flash" data-cke-real-element-type="flash" data-cke-real-node-type="1" data-cke-realelement="[^"]+" data-cke-resizable="true" src="[^"]+" style="width:\s?100px;\s?height:\s?50px;?" title="[^"]+" \/><\/p>/i
-				// jscs:enable maximumLineLength
-			);
 		}
 
 	} );
