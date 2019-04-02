@@ -460,12 +460,16 @@
 							( dtd = CKEDITOR.dtd[ current.getName() ] ) &&
 							!( dtd && dtd[ elementName ] ) ) {
 						// Split up inline elements.
-						if ( current.getName() in CKEDITOR.dtd.span )
-							range.splitElement( current );
+						if ( current.getName() in CKEDITOR.dtd.span ) {
+							var endNode = range.splitElement( current );
 
-						// If we're in an empty block which indicate a new paragraph,
-						// simply replace it with the inserting block.(https://dev.ckeditor.com/ticket/3664)
-						else if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
+							// Remove empty element created after splitting (#2813).
+							removeEmptyInline( current );
+							removeEmptyInline( endNode );
+
+							// If we're in an empty block which indicate a new paragraph,
+							// simply replace it with the inserting block.(https://dev.ckeditor.com/ticket/3664)
+						} else if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
 							range.setStartBefore( current );
 							range.collapse( true );
 							current.remove();
@@ -1727,13 +1731,9 @@
 			bm = range.createBookmark();
 
 			// When called by insertHtml remove empty element created after splitting (#2813).
-			if ( isHtml && endNode && endNode.isEmptyInlineRemoveable() ) {
-				endNode.remove();
-			}
-
-			// When called by insertHtml remove empty element after splitting (#2813).
-			if ( isHtml && node && node.isEmptyInlineRemoveable() ) {
-				node.remove();
+			if ( isHtml ) {
+				removeEmptyInline( node );
+				removeEmptyInline( endNode );
 			}
 
 			// 1. Inline siblings.
@@ -2297,6 +2297,10 @@
 
 		return insert;
 	} )();
+
+	function removeEmptyInline( element ) {
+		element && element.isEmptyInlineRemoveable() && element.remove();
+	}
 
 	function afterInsert( editable ) {
 		var editor = editable.editor;
