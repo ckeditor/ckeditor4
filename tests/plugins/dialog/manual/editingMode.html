@@ -1,14 +1,3 @@
-<div id="dialog-status">
-	<div id="dialog-summary">
-		<div>Dialog name: <strong id="dialog-name"></strong> in <strong id="editor-name"></strong> editor.</div>
-		<div>Dialog is in <strong id="dialog-type"></strong> mode.</div>
-		<div>Currently editing: <span id="dialog-model"></span></div>
-	</div>
-	<div id="missing-dialog-info">
-		Once you open any dialog this box will contain helper information.
-	</div>
-</div>
-
 <h2>Classic editor</h2>
 
 <textarea cols="80" id="classic" name="classic" rows="10">
@@ -52,77 +41,16 @@
 	</table>
 </div>
 
-<style>
-	#dialog-status {
-		border: 2px solid orange;
-		margin-right: 3em;
-	}
-
-	#dialog-status #missing-dialog-info{
-		text-align: center;
-		font-size: 2em;
-	}
-
-	#dialog-status.active #missing-dialog-info {
-		display: none;
-	}
-
-	#dialog-status.active #dialog-summary {
-		display: block;
-	}
-
-	#dialog-status #dialog-summary {
-		display: none;
-	}
-</style>
-
 <script>
-	var doc = CKEDITOR.document;
-
 	CKEDITOR.replace( 'classic', {
 		plugins: [ 'wysiwygarea', 'toolbar', 'link', 'list', 'liststyle', 'widget', 'table', 'tabletools', 'placeholder', 'image', 'forms', 'flash', 'docprops' ],
-		fullPage: true,
-		on: {
-			dialogShow: dialogShowListener
-		}
+		fullPage: true
 	} );
 
 	CKEDITOR.inline( 'inline', {
-		plugins: [ 'floatingspace', 'link', 'list', 'liststyle', 'widget', 'table', 'tabletools', 'placeholder', 'image', 'forms', 'flash' ],
-		on: {
-			dialogShow: dialogShowListener
-		}
+		plugins: [ 'floatingspace', 'link', 'list', 'liststyle', 'widget', 'table', 'tabletools', 'placeholder', 'image', 'forms', 'flash' ]
 	} );
 
-	function dialogShowListener( evt ) {
-		var dialog = evt.data,
-			isEditMode = dialog.isEditing( evt.editor );
-
-		doc.getById( 'dialog-status' ).addClass( 'active' );
-		doc.getById( 'dialog-name' ).setText( dialog.getName() );
-		doc.getById( 'dialog-type' ).setText( isEditMode ? 'editing' : 'creation' );
-		doc.getById( 'dialog-model' ).setText( stringifyModel( dialog.getModel( evt.editor ) ) );
-		doc.getById( 'editor-name' ).setText( evt.editor.name );
-
-		dialog.once( 'hide', function() {
-			doc.getById( 'dialog-status' ).removeClass( 'active' );
-		} );
-	}
-
-	function stringifyModel( val ) {
-		var ret;
-
-		if ( !val ) {
-			ret = String( val );
-		} else if ( val instanceof CKEDITOR.dom.element ) {
-			ret = val.getOuterHtml();
-		} else if ( val instanceof CKEDITOR.plugins.widget ) {
-			ret = 'Widget (' + val.name + '): ' + JSON.stringify( val.data );
-		} else {
-			ret = String( val );
-		}
-
-		return ret;
-	}
+	dialogTools.initDialogEditingModeTest( CKEDITOR.instances );
 
 </script>
