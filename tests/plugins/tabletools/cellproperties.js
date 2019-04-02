@@ -138,6 +138,21 @@
 			}
 		),
 
+		// (#2423)
+		'test dialog model': function() {
+			var editor = this.editor;
+			this.doTest( 'table-12', function( dialog ) {
+				var cells = editor.editable().find( 'td' ).toArray(),
+					model = dialog.getModel( editor );
+
+				for ( var i = 0; i < cells.length; i++ ) {
+					assert.areEqual( cells[ i ], model[ i ], 'Cells at index "' + i + '" should be equal' );
+				}
+
+				assert.isTrue( dialog.isEditing( editor ), 'Dialog is in editing mode' );
+			} );
+		},
+
 		// https://dev.ckeditor.com/ticket/16893
 		'test allowedContent rule': function() {
 			bender.editorBot.create( {
