@@ -347,22 +347,26 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				children: children
 			} ]
 		} ],
+		getModel: function( editor ) {
+			return CKEDITOR.plugins.tabletools.getSelectedCells( editor.getSelection() );
+		},
 		onShow: function() {
-			this.cells = CKEDITOR.plugins.tabletools.getSelectedCells( this._.editor.getSelection() );
-			this.setupContent( this.cells );
+			var cells = this.getModel( this.getParentEditor() );
+			this.setupContent( cells );
 		},
 		onOk: function() {
 			var selection = this._.editor.getSelection(),
-				bookmarks = selection.createBookmarks();
+				bookmarks = selection.createBookmarks(),
+				editor = this.getParentEditor(),
+				cells = this.getModel( editor );
 
-			var cells = this.cells;
 			for ( var i = 0; i < cells.length; i++ ) {
 				this.commitContent( cells[ i ] );
 			}
 
-			this._.editor.forceNextSelectionCheck();
+			editor.forceNextSelectionCheck();
 			selection.selectBookmarks( bookmarks );
-			this._.editor.selectionChange();
+			editor.selectionChange();
 		},
 		onLoad: function() {
 			var saved = {};
