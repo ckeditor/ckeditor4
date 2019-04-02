@@ -1,4 +1,4 @@
-/* bender-tags: editor */
+/* bender-tags: editor,dialog */
 /* bender-ckeditor-plugins: entities,dialog,tabletools,toolbar */
 /* bender-include: ./_helpers/cellproperties.js */
 /* global doTest, assertChildren */

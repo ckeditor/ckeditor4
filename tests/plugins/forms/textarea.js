@@ -1,4 +1,4 @@
-/* bender-tags: editor */
+/* bender-tags: editor,dialog */
 /* bender-ckeditor-plugins: forms,toolbar */
 /* bender-include: _helpers/tools.js */
 /* global formsTools */
