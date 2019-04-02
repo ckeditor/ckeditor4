@@ -28,7 +28,7 @@
 					}
 				};
 			} else {
-				script.$.onload = script.$.onreadystatechange = function() {
+				script.$.onload = function() {
 					CKEDITOR.tools.promise = ES6Promise;
 				};
 			}
