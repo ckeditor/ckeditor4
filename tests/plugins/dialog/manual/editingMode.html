@@ -80,14 +80,15 @@
 	var doc = CKEDITOR.document;
 
 	CKEDITOR.replace( 'classic', {
-		plugins: [ 'wysiwygarea', 'toolbar', 'link', 'list', 'liststyle', 'widget', 'table', 'tabletools', 'placeholder' ],
+		plugins: [ 'wysiwygarea', 'toolbar', 'link', 'list', 'liststyle', 'widget', 'table', 'tabletools', 'placeholder', 'image', 'forms', 'flash', 'docprops' ],
+		fullPage: true,
 		on: {
 			dialogShow: dialogShowListener
 		}
 	} );
 
 	CKEDITOR.inline( 'inline', {
-		plugins: [ 'floatingspace', 'link', 'list', 'liststyle', 'widget', 'table', 'tabletools', 'placeholder' ],
+		plugins: [ 'floatingspace', 'link', 'list', 'liststyle', 'widget', 'table', 'tabletools', 'placeholder', 'image', 'forms', 'flash' ],
 		on: {
 			dialogShow: dialogShowListener
 		}
