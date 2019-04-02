@@ -1,4 +1,4 @@
-/* bender-tags: editor */
+/* bender-tags: editor, dialog */
 /* bender-ckeditor-plugins: wysiwygarea,sourcearea,dialog,toolbar,docprops */
 
 bender.editor = { config: { fullPage: 1 } };

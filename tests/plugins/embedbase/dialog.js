@@ -1,3 +1,4 @@
+/* bender-tags: dialog */
 /* bender-ckeditor-plugins: embedbase,toolbar */
 
 'use strict';
