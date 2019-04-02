@@ -461,11 +461,14 @@
 							!( dtd && dtd[ elementName ] ) ) {
 						// Split up inline elements.
 						if ( current.getName() in CKEDITOR.dtd.span ) {
-							var endNode = range.splitElement( current );
+							var endNode = range.splitElement( current ),
+								bookmark = range.createBookmark();
 
 							// Remove empty element created after splitting (#2813).
 							removeEmptyInline( current );
 							removeEmptyInline( endNode );
+
+							range.moveToBookmark( bookmark );
 
 							// If we're in an empty block which indicate a new paragraph,
 							// simply replace it with the inserting block.(https://dev.ckeditor.com/ticket/3664)
