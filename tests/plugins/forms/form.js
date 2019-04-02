@@ -1,4 +1,4 @@
-/* bender-tags: editor */
+/* bender-tags: editor,dialog */
 /* bender-ckeditor-plugins: dialog,forms,htmlwriter,toolbar */
 /* bender-include: _helpers/tools.js */
 

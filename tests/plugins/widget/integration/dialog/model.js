@@ -1,3 +1,4 @@
+/* bender-tags: editor,dialog */
 /* bender-ckeditor-plugins: widget,wysiwygarea,dialog,toolbar */
 /* bender-include: ../../_helpers/tools.js */
 /* global widgetTestsTools */

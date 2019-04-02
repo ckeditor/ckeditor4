@@ -114,7 +114,7 @@
  *
  * @method getModel
  * @param {CKEDITOR.editor} editor
- * @returns {CKEDITOR.dom.element/CKEDITOR.plugins.widget/null} Returns `null` if dialog does not use model.
+ * @returns {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} Returns `null` if dialog does not use model.
  */
 
 /**
