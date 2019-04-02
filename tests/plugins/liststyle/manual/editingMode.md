@@ -1,15 +1,25 @@
+@bender-include: ../../dialog/manual/_helpers/tools.js
 @bender-tags: dialog, 4.12.0, 2423, feature
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, list, liststyle
 
-1. Focus unordred list.
-2. Open context menu over the list.
-3. Verify status above the editor.
+1. Open context menu over the unordered list and click properties option.
+2. Verify status above the editor.
 
 ## Expected
 
-**editing:** `true`
+Dialog name: **bulletedListStyle** in **editor** editor.
 
-**model:** `true`
+Dialog is in **editing** mode.
 
-4. Repeat 1-3 for ordered list.
+Currently editing: `[element HTML]`
+
+4. Repeat 1-2 for ordered list.
+
+## Expected
+
+Dialog name: **numberedListStyle** in **editor** editor.
+
+Dialog is in **editing** mode.
+
+Currently editing: `[element HTML]`

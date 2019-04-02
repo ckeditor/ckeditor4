@@ -1,14 +1,3 @@
-<strong>Status</strong>
-<div>
-	<label>editing:</label>
-	<strong id="isEditing">-</strong>
-</div>
-
-<div>
-	<label>model:</label>
-	<strong id="model">-</strong>
-</div>
-
 <div id="editor">
 	<p>Focus here ^</p>
 	<table border="1">
@@ -47,14 +36,5 @@
 </div>
 
 <script>
-	var editor = CKEDITOR.replace( 'editor' ),
-		isEditingEl = CKEDITOR.document.getById( 'isEditing' ),
-		modelEl = CKEDITOR.document.getById( 'model' );
-
-	editor.on( 'dialogShow', function( evt ) {
-		var dialog = evt.data;
-
-		isEditingEl.setText( dialog.isEditing( editor ) );
-		modelEl.setText( Boolean( dialog.getModel( editor ) ) );
-	} );
+	dialogTools.initDialogEditingModeTest( CKEDITOR.replace( 'editor' ) );
 </script>

@@ -1,12 +1,15 @@
+@bender-include: ../../dialog/manual/_helpers/tools.js
 @bender-tags: dialog, 4.12.0, 2423, feature, dialog
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, docprops, toolbar
 
 1. Click `docprops` button.
-2. Verify link status above the editor.
+2. Verify status above the editor.
 
 ## Expected
 
-**editing:** `true`
+Dialog name: **docProps** in **editor** editor.
 
-**model:** `true`
+Dialog is in **editing** mode.
+
+Currently editing: document
