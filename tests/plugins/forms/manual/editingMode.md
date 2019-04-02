@@ -1,3 +1,4 @@
+@bender-include: ../../dialog/manual/_helpers/tools.js
 @bender-tags: dialog, 4.12.0, 2423, feature
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, forms, toolbar
@@ -7,20 +8,25 @@
 
 ## Expected
 
-**editing:** `false`
+Dialog name: **form** in **editor** editor.
 
-**model:** `false`
+Dialog is in **creation** mode.
 
+Currently editing: null
 
-3. Fill empty fields and click `ok`.
-4. Double click inserted form element to open dialog again.
+---
+
+3. Fill empty fields and click `Ok`.
+4. Double click `form` to open dialog again.
 5. Verify status above the editor.
 
 ## Expected
 
-**editing:** `true`
+Dialog name: **form** in **editor** editor.
 
-**model:** `true`
+Dialog is in **editing** mode.
+
+Currently editing: `[element HTML]`
 
 6. Repeat 1-5 for the rest of the form controls, i.e.:
 
