@@ -23,7 +23,7 @@
 		},
 
 		// (#2423)
-		'test dialog model during button creation': function() {
+		'test dialog model during flash creation': function() {
 			var bot = this.editorBot,
 				editor = this.editor;
 
@@ -36,7 +36,7 @@
 		},
 
 		// (#2423)
-		'test dialog model with existing button': function() {
+		'test dialog model with existing flash': function() {
 			var bot = this.editorBot,
 				editor = this.editor;
 

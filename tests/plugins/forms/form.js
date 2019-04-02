@@ -23,7 +23,7 @@
 				editor = this.editor;
 
 			bot.setData( '', function() {
-				bot.dialog( 'button', function( dialog ) {
+				bot.dialog( 'form', function( dialog ) {
 					assert.isNull( dialog.getModel( editor ) );
 					assert.isFalse( dialog.isEditing( editor ) );
 				} );
@@ -37,11 +37,11 @@
 
 			bot.setData( '<form name="test" action="index.html" method="get"></form>', function() {
 				bot.dialog( 'form', function( dialog ) {
-					var button = editor.editable().findOne( 'form' );
+					var form = editor.editable().findOne( 'form' );
 
-					editor.getSelection().selectElement( button );
+					editor.getSelection().selectElement( form );
 
-					assert.areEqual( button, dialog.getModel( editor ) );
+					assert.areEqual( form, dialog.getModel( editor ) );
 					assert.isTrue( dialog.isEditing( editor ) );
 				} );
 			} );
