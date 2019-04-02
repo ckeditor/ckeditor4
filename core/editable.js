@@ -1665,7 +1665,7 @@
 			var range = that.range,
 				mergeCandidates = that.mergeCandidates,
 				isHtml = that.type === 'html',
-				node, marker, path, startPath, endPath, previous, bm, clone;
+				node, marker, path, startPath, endPath, previous, bm, endNode;
 
 			// If range starts in inline element then insert a marker, so empty
 			// inline elements won't be removed while range.deleteContents
@@ -1718,7 +1718,7 @@
 			// Split inline elements so HTML will be inserted with its own styles.
 			path = range.startPath();
 			if ( ( node = path.contains( isInline, false, 1 ) ) ) {
-				clone = range.splitElement( node );
+				endNode = range.splitElement( node );
 				that.inlineStylesRoot = node;
 				that.inlineStylesPeak = path.lastElement;
 			}
@@ -1727,8 +1727,8 @@
 			bm = range.createBookmark();
 
 			// When called by insertHtml remove empty element created after splitting (#2813).
-			if ( isHtml && clone && clone.isEmptyInlineRemoveable() ) {
-				clone.remove();
+			if ( isHtml && endNode && endNode.isEmptyInlineRemoveable() ) {
+				endNode.remove();
 			}
 
 			// When called by insertHtml remove empty element after splitting (#2813).
