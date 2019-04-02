@@ -54,31 +54,31 @@
 			var bot = this.editorBots.editor,
 				editable = bot.editor.editable();
 
-			bot.setData( '', function() {
-				bot.dialog( 'tableProperties', function( dialog ) {
-					var isSmallViewport = editable.getSize( 'width' ) < 500;
-					// Check defaults.
-					assert.areSame( '3', dialog.getValueOf( 'info', 'txtRows' ) );
-					assert.areSame( '2', dialog.getValueOf( 'info', 'txtCols' ) );
-					// Table width is set either to 100% or 500px depending on the editable size.
-					assert.areSame( isSmallViewport ? '100%' : '500px', dialog.getValueOf( 'info', 'txtWidth' ) );
+			bot.editor.setData( '' );
 
-					dialog.fire( 'ok' );
-					dialog.hide();
+			bot.dialog( 'tableProperties', function( dialog ) {
+				var isSmallViewport = editable.getSize( 'width' ) < 500;
+				// Check defaults.
+				assert.areSame( '3', dialog.getValueOf( 'info', 'txtRows' ) );
+				assert.areSame( '2', dialog.getValueOf( 'info', 'txtCols' ) );
+				// Table width is set either to 100% or 500px depending on the editable size.
+				assert.areSame( isSmallViewport ? '100%' : '500px', dialog.getValueOf( 'info', 'txtWidth' ) );
 
-					wait( function() {
-						// https://dev.ckeditor.com/ticket/8337: check cursor position after hand.
-						var output = bender.tools.getHtmlWithSelection( bot.editor );
-						output = bender.tools.fixHtml( bender.tools.compatHtml( output ) );
-						var expected = bender.tools.compatHtml( bender.tools.getValueAsHtml( 'create-table' ) );
+				dialog.fire( 'ok' );
+				dialog.hide();
 
-						if ( isSmallViewport ) {
-							expected = expected.replace( /500\s*px/, '100%' );
-						}
+				wait( function() {
+					// https://dev.ckeditor.com/ticket/8337: check cursor position after hand.
+					var output = bender.tools.getHtmlWithSelection( bot.editor );
+					output = bender.tools.fixHtml( bender.tools.compatHtml( output ) );
+					var expected = bender.tools.compatHtml( bender.tools.getValueAsHtml( 'create-table' ) );
 
-						assert.areSame( expected, output );
-					}, 0 );
-				} );
+					if ( isSmallViewport ) {
+						expected = expected.replace( /500\s*px/, '100%' );
+					}
+
+					assert.areSame( expected, output );
+				}, 0 );
 			} );
 		},
 
