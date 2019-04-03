@@ -1,0 +1,19 @@
+#dialog-status {
+	border: 2px solid orange;
+	margin-right: 3em;
+}
+#dialog-status #missing-dialog-info{
+	text-align: center;
+	font-size: 2em;
+}
+
+#dialog-status.active #missing-dialog-info {
+	display: none;
+}
+#dialog-status.active #dialog-summary {
+	display: block;
+}
+
+#dialog-status #dialog-summary {
+	display: none;
+}

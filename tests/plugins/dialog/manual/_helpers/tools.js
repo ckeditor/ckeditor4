@@ -2,18 +2,6 @@
 	'use strict';
 
 	var doc = CKEDITOR.document,
-		dialogStatusStyle =
-			'<style>' +
-				'#dialog-status { border: 2px solid orange; margin-right: 3em; }' +
-
-				'#dialog-status #missing-dialog-info{ text-align: center; font-size: 2em; }' +
-
-				'#dialog-status.active #missing-dialog-info { display: none; }' +
-				'#dialog-status.active #dialog-summary { display: block; }' +
-
-				'#dialog-status #dialog-summary { display: none; }' +
-			'</style>',
-
 		dialogStatusHtml =
 			'<div id="dialog-status">' +
 			'<div id="dialog-summary">' +
@@ -42,9 +30,9 @@
 		 */
 		initDialogEditingModeTest: function( editors ) {
 			if ( !doc.getById( 'dialog-status' ) ) {
-				var body = doc.getBody();
-				body.append( CKEDITOR.dom.element.createFromHtml( dialogStatusStyle ), true );
-				body.append( CKEDITOR.dom.element.createFromHtml( dialogStatusHtml ), true );
+
+				doc.appendStyleSheet( CKEDITOR.getUrl( bender.basePath + '/plugins/dialog/manual/_helpers/style.css' ) );
+				doc.getBody().append( CKEDITOR.dom.element.createFromHtml( dialogStatusHtml ), true );
 			}
 
 			if ( editors instanceof CKEDITOR.editor ) {
