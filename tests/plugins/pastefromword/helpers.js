@@ -1,6 +1,7 @@
 /* bender-tags: editor,pastefromword */
 /* bender-ckeditor-plugins: pastefromword,ajax */
-/* bender-include: ../../../plugins/pastefromword/filter/default.js */
+/* bender-include: ../../../plugins/pastefromword/filter/default.js, generated/_helpers/pfwTools.js */
+/* global pfwTools */
 
 ( function() {
 	'use strict';
@@ -68,5 +69,9 @@
 		}
 	};
 
-	bender.test( CKEDITOR.tools.extend( tests, extractImagesTestsGenerator() ) );
+	tests = CKEDITOR.tools.extend( tests, extractImagesTestsGenerator() );
+
+	pfwTools.ignoreTestsOnMobiles( tests );
+
+	bender.test( tests );
 } )();

@@ -30,6 +30,6 @@
 		customFilters: [
 			pfwTools.filters.style
 		],
-		ignoreAll: CKEDITOR.env.ie
+		ignoreAll: CKEDITOR.env.ie || bender.tools.env.mobile
 	} ) );
 } )();

@@ -28,6 +28,7 @@
 		tests: {
 			'Multi_dig_list': [ 'word2013' ],
 			'List_skipped_numbering': [ 'word2013' ]
-		}
+		},
+		ignoreAll: bender.tools.env.mobile
 	} ) );
 } )();

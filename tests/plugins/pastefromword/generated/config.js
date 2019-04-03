@@ -32,6 +32,7 @@
 		tests: {
 			'Config_remove_font_styles': true
 		},
-		compareRawData: true
+		compareRawData: true,
+		ignoreAll: bender.tools.env.mobile
 	} ) );
 } )();

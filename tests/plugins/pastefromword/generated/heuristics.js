@@ -10,7 +10,7 @@
 		config: pfwTools.defaultConfig
 	};
 
-	bender.test( {
+	var tests = {
 		setUp: function(  ) {
 			// Map PFW namespaces, so it's more convenient to use them.
 			this.pastefromword = CKEDITOR.plugins.pastefromword;
@@ -92,5 +92,9 @@
 			fragment.writeHtml( writer );
 			return writer.getHtml();
 		}
-	} );
+	};
+
+	pfwTools.ignoreTestsOnMobiles( tests );
+
+	bender.test( tests );
 } )();

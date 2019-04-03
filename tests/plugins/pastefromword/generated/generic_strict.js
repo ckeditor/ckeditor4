@@ -36,6 +36,7 @@
 		customFilters: [
 			pfwTools.filters.font
 		],
-		compareRawData: true
+		compareRawData: true,
+		ignoreAll: bender.tools.env.mobile
 	} ) );
 } )();

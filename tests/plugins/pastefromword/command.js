@@ -1,7 +1,7 @@
 /* bender-tags: editor,clipboard */
 /* bender-ckeditor-plugins: link, pastefromword */
-/* bender-include: ../clipboard/_helpers/pasting.js */
-/* global createFixtures, getDefaultNotification, assertPasteNotification */
+/* bender-include: ../clipboard/_helpers/pasting.js, generated/_helpers/pfwTools.js */
+/* global createFixtures, getDefaultNotification, assertPasteNotification, pfwTools */
 
 ( function() {
 	'use strict';
@@ -95,6 +95,8 @@
 		};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+
+	pfwTools.ignoreTestsOnMobiles( tests );
 
 	bender.test( tests );
 } )();

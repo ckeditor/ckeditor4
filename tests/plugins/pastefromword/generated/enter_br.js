@@ -34,6 +34,7 @@
 			'Enter_BR': true
 		},
 
-		compareRawData: false
+		compareRawData: false,
+		ignoreAll: bender.tools.env.mobile
 	} ) );
 } )();
