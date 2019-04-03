@@ -71,7 +71,7 @@ tests[ 'test paste command state in divarea editor' ] = function() {
 
 		target.fire( 'mouseup', new CKEDITOR.dom.event( {
 			button: CKEDITOR.MOUSE_BUTTON_LEFT,
-			target: null
+			target: target.$
 		} ) );
 
 		editor.setReadOnly( true );
