@@ -16,9 +16,9 @@
 
 1. Press `Reset editor` button.
 
-1. Select word `bar`.
+1. Repeat with `insert element` button. Same expected
 
-1. Press `Insert text` button.
+1. Reset and repeat with `Insert text`.
 
 ## Expected
 
