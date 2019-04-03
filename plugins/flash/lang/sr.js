@@ -3,41 +3,41 @@ Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'flash', 'sr', {
-	access: 'Script Access', // MISSING
-	accessAlways: 'Always', // MISSING
-	accessNever: 'Never', // MISSING
-	accessSameDomain: 'Same domain', // MISSING
+	access: 'Приступ скрипти',
+	accessAlways: 'Увек',
+	accessNever: 'Никада',
+	accessSameDomain: 'Са истог домена',
 	alignAbsBottom: 'Abs доле',
 	alignAbsMiddle: 'Abs средина',
 	alignBaseline: 'Базно',
 	alignTextTop: 'Врх текста',
 	bgcolor: 'Боја позадине',
-	chkFull: 'Allow Fullscreen', // MISSING
-	chkLoop: 'Понављај',
+	chkFull: 'Омогући цео екран',
+	chkLoop: 'Непрекидно',
 	chkMenu: 'Укључи флеш мени',
-	chkPlay: 'Аутоматски старт',
-	flashvars: 'Variables for Flash', // MISSING
-	hSpace: 'HSpace',
+	chkPlay: 'Аутоматско покретање',
+	flashvars: 'Флеш варијабле',
+	hSpace: 'Водоравна раздалјина',
 	properties: 'Особине Флеша',
-	propertiesTab: 'Properties', // MISSING
-	quality: 'Quality', // MISSING
-	qualityAutoHigh: 'Auto High', // MISSING
-	qualityAutoLow: 'Auto Low', // MISSING
-	qualityBest: 'Best', // MISSING
-	qualityHigh: 'High', // MISSING
-	qualityLow: 'Low', // MISSING
-	qualityMedium: 'Medium', // MISSING
-	scale: 'Скалирај',
+	propertiesTab: 'Особине',
+	quality: 'Квалитет',
+	qualityAutoHigh: 'Аутоматски добро',
+	qualityAutoLow: 'Аутоматски слабо',
+	qualityBest: 'Најбоље',
+	qualityHigh: 'Добро',
+	qualityLow: 'Слабо',
+	qualityMedium: 'Средње',
+	scale: 'Мерење',
 	scaleAll: 'Прикажи све',
-	scaleFit: 'Попуни површину',
+	scaleFit: 'Попуни све',
 	scaleNoBorder: 'Без ивице',
 	title: 'Особине флеша',
-	vSpace: 'VSpace',
-	validateHSpace: 'HSpace must be a number.', // MISSING
+	vSpace: 'Усправ. раздаљина',
+	validateHSpace: 'У поље водоравна раздаљина мођете унети само бројеве.',
 	validateSrc: 'Унесите УРЛ линка',
-	validateVSpace: 'VSpace must be a number.', // MISSING
-	windowMode: 'Window mode', // MISSING
-	windowModeOpaque: 'Opaque', // MISSING
-	windowModeTransparent: 'Transparent', // MISSING
-	windowModeWindow: 'Window' // MISSING
+	validateVSpace: 'У поље усправна површина можете унети само бројеве.',
+	windowMode: 'Прозор мод',
+	windowModeOpaque: 'Непровидан',
+	windowModeTransparent: 'Провидан',
+	windowModeWindow: 'Прозор'
 } );

@@ -4,26 +4,26 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'sr', {
 	button: {
-		title: 'Особине дугмета',
+		title: 'Особине тастера',
 		text: 'Текст (вредност)',
 		type: 'Tип',
-		typeBtn: 'Button',
-		typeSbm: 'Submit',
-		typeRst: 'Reset'
+		typeBtn: 'Тастер',
+		typeSbm: 'Слање',
+		typeRst: 'Ресет'
 	},
 	checkboxAndRadio: {
 		checkboxTitle: 'Особине поља за потврду',
-		radioTitle: 'Особине радио-дугмета',
+		radioTitle: 'Особине радио-тастера',
 		value: 'Вредност',
-		selected: 'Означено',
-		required: 'Required' // MISSING
+		selected: 'Одабран',
+		required: 'Обавезно'
 	},
 	form: {
-		title: 'Особине форме',
-		menu: 'Особине форме',
-		action: 'Aкција',
-		method: 'Mетода',
-		encoding: 'Encoding'
+		title: 'Особине образца',
+		menu: 'Особине образца',
+		action: 'Референца обраде података',
+		method: 'Mетод слања',
+		encoding: 'Кодирање'
 	},
 	hidden: {
 		title: 'Особине скривеног поља',
@@ -31,35 +31,35 @@ CKEDITOR.plugins.setLang( 'forms', 'sr', {
 		value: 'Вредност'
 	},
 	select: {
-		title: 'Особине изборног поља',
-		selectInfo: 'Инфо',
+		title: 'Особине падајућег поља',
+		selectInfo: 'Основне карактеристике',
 		opAvail: 'Доступне опције',
 		value: 'Вредност',
 		size: 'Величина',
-		lines: 'линија',
+		lines: 'ред',
 		chkMulti: 'Дозволи вишеструку селекцију',
-		required: 'Required', // MISSING
+		required: 'Обавезно',
 		opText: 'Текст',
 		opValue: 'Вредност',
 		btnAdd: 'Додај',
 		btnModify: 'Измени',
 		btnUp: 'Горе',
 		btnDown: 'Доле',
-		btnSetValue: 'Подеси као означену вредност',
+		btnSetValue: 'Подеси као подразумевану вредност',
 		btnDelete: 'Обриши'
 	},
 	textarea: {
 		title: 'Особине зоне текста',
-		cols: 'Број колона',
+		cols: 'Број карактера у реду',
 		rows: 'Број редова'
 	},
 	textfield: {
 		title: 'Особине текстуалног поља',
 		name: 'Назив',
 		value: 'Вредност',
-		charWidth: 'Ширина (карактера)',
+		charWidth: 'Број приказаних карактера',
 		maxChars: 'Максимално карактера',
-		required: 'Required', // MISSING
+		required: 'Обавезно',
 		type: 'Тип',
 		typeText: 'Текст',
 		typePass: 'Лозинка',

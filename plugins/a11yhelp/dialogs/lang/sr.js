@@ -4,142 +4,142 @@
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'sr', {
-	title: 'Accessibility Instructions', // MISSING
-	contents: 'Help Contents. To close this dialog press ESC.', // MISSING
+	title: 'Упутства за помоћ',
+	contents: 'Садржаји за помоћ. Да би сте затворили дијалог притисните ЕСЦ',
 	legend: [
 		{
 		name: 'Опште',
 		items: [
 			{
-			name: 'Editor Toolbar', // MISSING
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT+TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			name: 'Алатке за преуређиванје',
+			legend: 'Притисните ${toolbarFocus} да би означили алатке. До следеће и претходне групе алатки можете дићи тастером  TAB и SHIFT+TAB. До тастера следеће и претходне групе алатки можете доћи са тастерима СТРЕЛИЦА ЛЕВО и СТРЕЛИЦА ДЕСНО. Притисните СПАЦЕ и ЕНТЕР да би активирали тастер алатки.'
 		},
 
 			{
-			name: 'Editor Dialog', // MISSING
+			name: 'Уређивач дијалога',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'У прозору дијалог притисните ТАБ да би дошли до следећег поља дијалога, притисните ЕНТЕР за прихватање дијалога, притисните ЕСЦ за одбијање дијалога. Када дијалог има више картица, до њих можете доћи притиском на АЛТ+Ф10 или ТАБ. Затим са ТАБ или СТРЕЛИЦА ДЕСНО долазите до наредне картице.' 
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			name: 'Уређивач локалног менија.',
+			legend: 'Притисните ${contextMenu} или APPLICATION ТАСТЕР за отварање локалног менија. Затим са ТАБ или СТРЕЛИЦА ДОЛЕ можете прећи на следећу зачку менија. Претходну опцију можете постићи са ШХИФТ+ТАБ или СТРЕЛИЦА ГОРЕ. Притисните СПАЦЕ или ЕНТЕР за одабир тачке менија. Притисните СПАЦЕ или ЕНТЕР да би се отворио подмени тренутне ставке менија. За повратак у главни мени притисмите ЕСЦ или СТРЕЛИЦА ДЕСНО. Затворите локални мени помоћу тастера ЕСЦ.'
 		},
 
 			{
-			name: 'Editor List Box', // MISSING
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			name: 'Уређивач листе',
+			legend: 'До следећег елемента листе можете дочи са ТАБ или СТРЕЛИЦА ДОЛЕ. За одабир петходног елемента притисните СХИФТ+TAБ или  СТРЕЛИЦА ДОЛЕ. За одабир елемента притисните СПАЦЕ или ЕНТЕР. Са притиско ЕСЦ затварате листу. '
 		},
 
 			{
-			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			name: 'Уређивач траке пута елемената',
+			legend: 'Притисни ${elementsPathFocus} да би означили траку пута елемената. До следећег елемента можете доћи са TAБ или СТРЕЛИЦА ДЕСНО. До претходног долазите са СХИФТ+TAБ или СТРЕЛИЦА ДЕСНО. Са  СПАЦЕ или ЕНТЕР можете одабрати елемент у уређивачу.'
 		}
 		]
 	},
 		{
-		name: 'Commands', // MISSING
+		name: 'Команда',
 		items: [
 			{
-			name: ' Undo command', // MISSING
-			legend: 'Press ${undo}' // MISSING
+			name: 'Откажи команду',
+			legend: 'Притисни ${undo}'
 		},
 			{
-			name: ' Redo command', // MISSING
-			legend: 'Press ${redo}' // MISSING
+			name: 'Понови команду',
+			legend: 'Притисни ${redo}'
 		},
 			{
-			name: ' Bold command', // MISSING
-			legend: 'Press ${bold}' // MISSING
+			name: 'Подебљана команда',
+			legend: 'Притисни ${bold}'
 		},
 			{
-			name: ' Italic command', // MISSING
-			legend: 'Press ${italic}' // MISSING
+			name: 'Курзив команда',
+			legend: 'Притисни ${italic}'
 		},
 			{
-			name: ' Underline command', // MISSING
-			legend: 'Press ${underline}' // MISSING
+			name: 'Прецтрана команда',
+			legend: 'Притисни ${underline}'
 		},
 			{
-			name: ' Link command', // MISSING
-			legend: 'Press ${link}' // MISSING
+			name: 'Линк команда',
+			legend: 'Притисни ${link}'
 		},
 			{
-			name: ' Toolbar Collapse command', // MISSING
-			legend: 'Press ${toolbarCollapse}' // MISSING
+			name: 'Затвори траку уређивача команда',
+			legend: 'Притисни ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Приступ претходном фокус месту команда',
+			legend: 'Притисни ${accessNextSpace} да би приступио најближем недоступном фокус месту пре знака  hiányjel, на пример: дав сусаедна ХР елемента. Понови комбинацију тастера да пронађеш фокус место које се налази даље.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Приступ следећем фокус  месту команда ',
+			legend: 'Притисни ${accessNextSpace} да би приступио најближем недоступном фокус месту после знака hiányjel, на пример: дав сусаедна ХР елемента. Понови комбинацију тастера да пронађеш фокус место које се налази даље.'
 		},
 			{
-			name: ' Accessibility Help', // MISSING
-			legend: 'Press ${a11yHelp}' // MISSING
+			name: 'Помоћ приступачнсти',
+			legend: 'Притисни ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: ' Налепи као обичан текст',
+			legend: 'Притисните: ${pastetext}',
+			legendEdge: 'Притисните ${pastetext}, затим ${paste}'
 		}
 		]
 	}
 	],
-	tab: 'Tab', // MISSING
-	pause: 'Pause', // MISSING
-	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
-	insert: 'Insert', // MISSING
-	leftWindowKey: 'Left Windows key', // MISSING
-	rightWindowKey: 'Right Windows key', // MISSING
-	selectKey: 'Select key', // MISSING
-	numpad0: 'Numpad 0', // MISSING
-	numpad1: 'Numpad 1', // MISSING
-	numpad2: 'Numpad 2', // MISSING
-	numpad3: 'Numpad 3', // MISSING
-	numpad4: 'Numpad 4', // MISSING
-	numpad5: 'Numpad 5', // MISSING
-	numpad6: 'Numpad 6', // MISSING
-	numpad7: 'Numpad 7', // MISSING
-	numpad8: 'Numpad 8', // MISSING
-	numpad9: 'Numpad 9', // MISSING
-	multiply: 'Multiply', // MISSING
-	add: 'Add', // MISSING
-	subtract: 'Subtract', // MISSING
-	decimalPoint: 'Decimal Point', // MISSING
-	divide: 'Divide', // MISSING
-	f1: 'F1', // MISSING
-	f2: 'F2', // MISSING
-	f3: 'F3', // MISSING
-	f4: 'F4', // MISSING
-	f5: 'F5', // MISSING
-	f6: 'F6', // MISSING
-	f7: 'F7', // MISSING
-	f8: 'F8', // MISSING
-	f9: 'F9', // MISSING
-	f10: 'F10', // MISSING
-	f11: 'F11', // MISSING
-	f12: 'F12', // MISSING
-	numLock: 'Num Lock', // MISSING
-	scrollLock: 'Scroll Lock', // MISSING
-	semiColon: 'Semicolon', // MISSING
-	equalSign: 'Equal Sign', // MISSING
-	comma: 'Comma', // MISSING
-	dash: 'Dash', // MISSING
-	period: 'Period', // MISSING
-	forwardSlash: 'Forward Slash', // MISSING
-	graveAccent: 'Grave Accent', // MISSING
-	openBracket: 'Open Bracket', // MISSING
-	backSlash: 'Backslash', // MISSING
-	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	tab: 'Tab',
+	pause: 'Pause',
+	capslock: 'Caps Lock',
+	escape: 'Escape',
+	pageUp: 'Page Up',
+	pageDown: 'Page Down',
+	leftArrow: 'Стрелица лево',
+	upArrow: 'Стрелица горе',
+	rightArrow: 'Стрелица десно',
+	downArrow: 'Стрелица доле',
+	insert: 'Insert',
+	leftWindowKey: 'леви Windows-тастер',
+	rightWindowKey: 'десни Windows-тастер',
+	selectKey: 'Одабир тастера',
+	numpad0: 'Тастери са бројевима 0',
+	numpad1: 'Тастери са бројевима 1',
+	numpad2: 'Тастери са бројевима 2',
+	numpad3: 'Тастери са бројевима 3',
+	numpad4: 'Тастери са бројевима 4',
+	numpad5: 'Тастери са бројевима 5',
+	numpad6: 'Тастери са бројевима 6',
+	numpad7: 'Тастери са бројевима 7',
+	numpad8: 'Тастери са бројевима 8',
+	numpad9: ' Тастери са бројевима 9',
+	multiply: 'Множење',
+	add: 'Сабирање',
+	subtract: 'Одузимање',
+	decimalPoint: 'Децимална тачка',
+	divide: 'Дељење',
+	f1: 'Ф1',
+	f2: 'Ф2',
+	f3: 'Ф3',
+	f4: 'Ф4',
+	f5: 'Ф5',
+	f6: 'Ф6',
+	f7: 'Ф7',
+	f8: 'Ф8',
+	f9: 'Ф9',
+	f10: 'Ф10',
+	f11: 'Ф11',
+	f12: 'Ф12',
+	numLock: 'Num Lock',
+	scrollLock: 'Scroll Lock',
+	semiColon: 'Тачка зарез',
+	equalSign: 'Знак једнакости',
+	comma: 'Зарез',
+	dash: 'Цртица',
+	period: 'Тачка',
+	forwardSlash: 'Коса црта',
+	graveAccent: 'Обрнути знак акцента',
+	openBracket: 'Отворена ћошкаста заграда',
+	backSlash: 'обрнута коса црта',
+	closeBracket: 'Затворена ћошкаста заграда',
+	singleQuote: 'Симпли знак навода'
 } );

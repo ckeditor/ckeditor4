@@ -6,70 +6,70 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'sr-latn', {
 	auto: 'Automatski',
 	bgColorTitle: 'Boja pozadine',
 	colors: {
-		'000': 'Black',
-		'800000': 'Maroon',
-		'8B4513': 'Saddle Brown',
-		'2F4F4F': 'Dark Slate Gray',
-		'008080': 'Teal',
-		'000080': 'Navy',
-		'4B0082': 'Indigo',
-		'696969': 'Dark Gray',
-		B22222: 'Fire Brick',
-		A52A2A: 'Brown',
-		DAA520: 'Golden Rod',
-		'006400': 'Dark Green',
-		'40E0D0': 'Turquoise',
-		'0000CD': 'Medium Blue',
-		'800080': 'Purple',
-		'808080': 'Gray',
-		F00: 'Red',
-		FF8C00: 'Dark Orange',
-		FFD700: 'Gold',
-		'008000': 'Green',
-		'0FF': 'Cyan',
-		'00F': 'Blue',
-		EE82EE: 'Violet',
-		A9A9A9: 'Dim Gray',
-		FFA07A: 'Light Salmon',
-		FFA500: 'Orange',
-		FFFF00: 'Yellow',
-		'00FF00': 'Lime',
-		AFEEEE: 'Pale Turquoise',
-		ADD8E6: 'Light Blue',
-		DDA0DD: 'Plum',
-		D3D3D3: 'Light Grey',
-		FFF0F5: 'Lavender Blush',
-		FAEBD7: 'Antique White',
-		FFFFE0: 'Light Yellow',
-		F0FFF0: 'Honeydew',
-		F0FFFF: 'Azure',
-		F0F8FF: 'Alice Blue',
-		E6E6FA: 'Lavender',
-		FFF: 'White',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'000': 'Crno',
+		'800000': 'Bordo',
+		'8B4513': 'Braon',
+		'2F4F4F': 'Tamno tirkizno',
+		'008080': 'Tirkizno',
+		'000080': 'Kraljevsko plavo',
+		'4B0082': 'Indigo plavo',
+		'696969': 'Sivo',
+		B22222: 'Cigla crveno',
+		A52A2A: 'Bakarno',
+		DAA520: 'Zlatno žuto',
+		'006400': 'Tamno zeleno',
+		'40E0D0': 'Tirkizno',
+		'0000CD': 'Plavo',
+		'800080': 'Ljubičasto',
+		'808080': 'Sivo',
+		F00: 'Crveno',
+		FF8C00: 'Tamno narandžasto',
+		FFD700: 'Zlatno',
+		'008000': 'Zeleno',
+		'0FF': 'Cian',
+		'00F': 'Plavo',
+		EE82EE: 'Roze',
+		A9A9A9: 'Tamno sivo',
+		FFA07A: 'Losos',
+		FFA500: 'Narandžasto',
+		FFFF00: 'Žuto',
+		'00FF00': 'Neon zeleno',
+		AFEEEE: 'Svetlo tirkizno',
+		ADD8E6: 'Svetlo plavo',
+		DDA0DD: 'Svetlo ljubičasto',
+		D3D3D3: 'Svetlo sivo',
+		FFF0F5: 'Lavande',
+		FAEBD7: 'Prljavo belo',
+		FFFFE0: 'Svetlo žuto',
+		F0FFF0: 'Мentа',
+		F0FFFF: 'Azurno plavo',
+		F0F8FF: 'Svetlo plavo',
+		E6E6FA: 'Lavanda',
+		FFF: 'Belo',
+		'1ABC9C': 'Tamno cian',
+		'2ECC71': 'Smaragdno',
+		'3498DB': 'Sjajno plavo',
+		'9B59B6': 'Аmetist',
+		'4E5F70': 'Sivkasto plavo',
+		'F1C40F': 'Svetlo žuto',
+		'16A085': 'Tamno cian',
+		'27AE60': 'Tamno smaragdno',
+		'2980B9': 'Tamno plavo',
+		'8E44AD': 'Tamno ljubočasto',
+		'2C3E50': 'Svetlo plavo',
+		'F39C12': 'Narandžasto',
+		'E67E22': 'Šargarepa',
+		'E74C3C': 'Svetlo bakarno',
+		'ECF0F1': 'Sjajno strebrno',
+		'95A5A6': 'Svetlo sivkasto cian',
+		'DDD': 'Svetlo sivo',
+		'D35400': 'Bundeva',
+		'C0392B': 'Tamno crveno',
+		'BDC3C7': 'Srebrno',
+		'7F8C8D': 'Sivkasto cian',
+		'999': 'Tamno siv'
 	},
 	more: 'Više boja...',
-	panelTitle: 'Colors',
+	panelTitle: 'Boje',
 	textColorTitle: 'Boja teksta'
 } );

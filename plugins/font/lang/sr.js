@@ -4,11 +4,11 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'font', 'sr', {
 	fontSize: {
-		label: 'Величина фонта',
-		voiceLabel: 'Font Size',
-		panelTitle: 'Величина фонта'
+		label: 'Величина',
+		voiceLabel: 'Величина слова',
+		panelTitle: 'Величина слова'
 	},
 	label: 'Фонт',
-	panelTitle: 'Фонт',
+	panelTitle: 'Назиб фонта',
 	voiceLabel: 'Фонт'
 } );

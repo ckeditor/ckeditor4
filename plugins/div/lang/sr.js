@@ -3,17 +3,17 @@ Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'div', 'sr', {
-	IdInputLabel: 'Id', // MISSING
-	advisoryTitleInputLabel: 'Advisory Title', // MISSING
-	cssClassInputLabel: 'Stylesheet Classes', // MISSING
-	edit: 'Edit Div', // MISSING
-	inlineStyleInputLabel: 'Inline Style', // MISSING
-	langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-	langDirLabel: 'Language Direction', // MISSING
-	langDirRTLLabel: 'Right to Left (RTL)', // MISSING
-	languageCodeInputLabel: ' Language Code', // MISSING
-	remove: 'Remove Div', // MISSING
-	styleSelectLabel: 'Style', // MISSING
-	title: 'Create Div Container', // MISSING
-	toolbar: 'Create Div Container' // MISSING
+	IdInputLabel: 'Ид',
+	advisoryTitleInputLabel: 'Савет',
+	cssClassInputLabel: 'ЦСС класе',
+	edit: 'ДИВ уређивач',
+	inlineStyleInputLabel: 'Инлине стил',
+	langDirLTRLabel: 'С лева на десно (LTR)',
+	langDirLabel: 'Смер језика',
+	langDirRTLLabel: 'С десна на лево (RTL)',
+	languageCodeInputLabel: 'Код језика',
+	remove: 'Уклони Див',
+	styleSelectLabel: 'Стил',
+	title: 'Креирање ДИВ спремишта',
+	toolbar: 'Креирање ДИВ спремишта'
 } );
