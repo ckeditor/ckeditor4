@@ -99,7 +99,7 @@ CKEDITOR.lang[ 'sr-latn' ] = {
 		cssLengthTooltip: 'Odredite broj u pixeima ili u validnim CSS vrednostima (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class=\\\\"cke_accessibility\\\\">, unavailable</span>',
+		unavailable: '%1<span class="cke_accessibility">, unavailable</span>',
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
