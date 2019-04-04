@@ -278,12 +278,12 @@
 				var panel = event.data[ 0 ] || event.data,
 					iframe = panel.element.getElementsByTag( 'iframe' ).getItem( 0 ).getFrameDocument();
 
-				// Add stylesheet if missing.
+				// Add the stylesheet if missing.
 				if ( !iframe.getById( 'cke_ui_color' ) ) {
 					var node = getStylesheet( iframe );
 					uiColorMenus.push( node );
 
-					// Cleanup after destroying editor (#589).
+					// Cleanup after destroying the editor (#589).
 					editor.on( 'destroy', function() {
 						uiColorMenus = CKEDITOR.tools.array.filter( uiColorMenus, function( storedNode ) {
 							return node !== storedNode;
@@ -291,7 +291,7 @@
 					} );
 
 					var color = editor.getUiColor();
-					// Set uiColor for new panel.
+					// Set uiColor for the new panel.
 					if ( color ) {
 						updateStylesheets( [ node ], CKEDITOR.skin.chameleon( editor, 'panel' ), [ [ uiColorRegexp, color ] ] );
 					}

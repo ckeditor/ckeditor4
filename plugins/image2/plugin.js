@@ -1483,12 +1483,12 @@
 				};
 			}
 		} );
-		// Listener has to be removed due to leaking editor reference (#589).
+		// Listener has to be removed due to leaking the editor reference (#589).
 		editor.on( 'destroy', function() {
 			listener.removeListener();
 		} );
 
-		// Overwrite default behaviour of unlink command.
+		// Overwrite the default behavior of unlink command.
 		editor.getCommand( 'unlink' ).on( 'exec', function( evt ) {
 			var widget = getFocusedWidget( editor );
 

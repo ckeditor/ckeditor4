@@ -48,7 +48,7 @@
 			};
 
 			editor.once( 'pluginsLoaded', function() {
-				// Remove method once it can't be used, because it leaks editor reference (#589).
+				// Remove the method once it cannot be used, because it leaks the editor reference (#589).
 				this.setHighlighter = null;
 			}, this );
 		},

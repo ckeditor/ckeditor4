@@ -13,7 +13,7 @@ if ( typeof CKEDITOR == 'undefined' )
 
 if ( !CKEDITOR.loader ) {
 	/**
-	 * Load core scripts and their dependencies from _source.
+	 * Load core scripts and their dependencies from `_source`.
 	 *
 	 * @class
 	 * @singleton
@@ -158,7 +158,7 @@ if ( !CKEDITOR.loader ) {
 						// Some browsers, such as Safari, may call the onLoad function
 						// immediately. Which will break the loading sequence. (https://dev.ckeditor.com/ticket/3661)
 						setTimeout( function() {
-							// Once script loaded remove listener, which might lead to memory leaks (#589).
+							// Once the script is loaded, remove the listener as this might lead to memory leaks (#589).
 							script.onload = null;
 							onScriptLoaded( scriptName );
 						}, 0 );
@@ -169,8 +169,8 @@ if ( !CKEDITOR.loader ) {
 			},
 
 			/**
-			 * Loads a specific script, including its dependencies. This is not a
-			 * synchronous loading, which means that the code to be loaded will
+			 * Loads a specific script, including its dependencies. The loading process
+			 * is not synchronous, which means that the code to be loaded will
 			 * not necessarily be available after this call.
 			 *
 			 *		CKEDITOR.loader.load( 'dom/element' );

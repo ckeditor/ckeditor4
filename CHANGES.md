@@ -5,13 +5,13 @@
 
 Fixed Issues:
 
-* [#589](https://github.com/ckeditor/ckeditor-dev/issues/589): Fixed: Editor causes memory leaks in create / destroy cycles.
-* [#1397](https://github.com/ckeditor/ckeditor-dev/issues/1397): Fixed: Using dialog to remove headers from the [table](https://ckeditor.com/cke4/addon/table) with one headers row only throws an error.
+* [#589](https://github.com/ckeditor/ckeditor-dev/issues/589): Fixed: The editor causes memory leaks in create and destroy cycles.
+* [#1397](https://github.com/ckeditor/ckeditor-dev/issues/1397): Fixed: Using the dialog to remove headers from a [table](https://ckeditor.com/cke4/addon/table) with one header row only throws an error.
 * [#1479](https://github.com/ckeditor/ckeditor-dev/issues/1479): Fixed: [Justification](https://ckeditor.com/cke4/addon/justify) for styled content in BR mode is disabled.
 * [#2816](https://github.com/ckeditor/ckeditor-dev/issues/2816): Fixed: [Enhanced Image](https://ckeditor.com/cke4/addon/image2) resize handler is visible in [read-only mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_readonly.html).
-* [#2874](https://github.com/ckeditor/ckeditor-dev/issues/2874): Fixed: [Enhanced Image](https://ckeditor.com/cke4/addon/image2) resize handler is not added when editor is initialized in [read-only mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_readonly.html).
-* [#2775](https://github.com/ckeditor/ckeditor-dev/issues/2775): Fixed: [Clipboard](https://ckeditor.com/cke4/addon/clipboard) paste buttons have wrong state when [read-only](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_readonly.html) mode is set by mouse event listener with [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) plugin.
-* [#1901](https://github.com/ckeditor/ckeditor-dev/issues/1901): Fixed: Can't open a context menu with keyboard shortcut <kbd>Shift</kbd>+<kbd>F10</kbd> over a [Widget](https://ckeditor.com/cke4/addon/widget).
+* [#2874](https://github.com/ckeditor/ckeditor-dev/issues/2874): Fixed: [Enhanced Image](https://ckeditor.com/cke4/addon/image2) resize handler is not created when the editor is initialized in [read-only mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_readonly.html).
+* [#2775](https://github.com/ckeditor/ckeditor-dev/issues/2775): Fixed: [Clipboard](https://ckeditor.com/cke4/addon/clipboard) paste buttons have wrong state when [read-only](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_readonly.html) mode is set by the mouse event listener with the [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) plugin.
+* [#1901](https://github.com/ckeditor/ckeditor-dev/issues/1901): Fixed: Cannot open the context menu over a [Widget](https://ckeditor.com/cke4/addon/widget) with the <kbd>Shift</kbd>+<kbd>F10</kbd> keyboard shortcut.
 
 ## CKEditor 4.11.3
 

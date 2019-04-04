@@ -3894,7 +3894,7 @@
 
 				group = styleGroups[ widgetName ][ groupName ];
 
-				// Don't push style if it's already stored (#589).
+				// Don't push the style if it's already stored (#589).
 				if ( !find( group, getCompareFn( style ) ) ) {
 					group.push( style );
 				}
