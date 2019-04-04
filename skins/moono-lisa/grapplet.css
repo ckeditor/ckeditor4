@@ -1,0 +1,128 @@
+.cke_reset_all, .cke_reset_all *,
+.cke_reset_all a, .cke_reset_all textarea, .cke_colorblock {
+    font-family: "Roboto", "Raleway", "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 14px;
+    color: #828891;
+}
+
+.cke_dialog {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.cke_dialog .cke_dialog_title, .cke_dialog .cke_dialog_footer {
+    background-color: transparent;
+    padding: 20px;
+}
+
+.cke_dialog .cke_dialog_title {
+    font-family: "Montserrat", "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 18px;
+    font-weight: 500;
+    color: #1a77ff !important;
+    border-bottom-color: #dbe2e7;
+}
+
+.cke_dialog .cke_dialog_footer {
+    border: none;
+}
+
+.cke_dialog .cke_dialog_contents_body {
+    padding: 20px 20px 0 20px;
+}
+
+.cke_dialog_background_cover {
+    opacity: 0.4;
+}
+
+.cke_dialog_ui_button, .cke_colormore {
+    font-weight: 500;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+.cke_dialog_footer a.cke_dialog_ui_button {
+    font-size: 13px !important;
+    padding: 13px 22px !important;
+}
+
+.cke_dialog_footer a.cke_dialog_ui_button, .cke_colormore {
+    color: white !important;
+    background-color: #828891;
+}
+
+.cke_dialog_footer a.cke_dialog_ui_button:hover, .cke_colormore:hover {
+    background-color: #9da1a6 !important;
+}
+
+.cke_dialog_footer a.cke_dialog_ui_button:active, .cke_colormore:active {
+    background-color: #474e56 !important;
+}
+
+.cke_dialog_footer a.cke_dialog_ui_button.cke_dialog_ui_button_ok {
+    background-color: #1a77ff !important;
+}
+
+.cke_dialog_footer a.cke_dialog_ui_button.cke_dialog_ui_button_ok:hover {
+    background-color: #3889ff !important;
+}
+
+.cke_dialog_footer a.cke_dialog_ui_button.cke_dialog_ui_button_ok:active {
+    background-color: #005ee6 !important;
+}
+
+span.cke_dialog_ui_button {
+    background-color: transparent !important;
+}
+
+.cke_colormore {
+    font-weight: 500 !important;
+    color: white !important;
+}
+
+.cke_dialog_close_button {
+    top: 24px !important;
+    right: 30px !important;
+    font-family: "GrappletIcons" !important;
+    font-size: 2.25rem !important;
+    line-height: 1.3125rem !important;
+    color: #1a77ff !important;
+    background: none !important;
+}
+
+.cke_dialog_close_button:before {
+    content: "\e9ed";
+}
+
+.cke_dialog_close_button span {
+    display: none;
+}
+
+.cke_colorauto {
+    border: none !important;
+}
+
+.cke_colorauto:hover {
+    color: #474e56 !important;
+}
+
+input, button, select:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+input {
+    border-top: none !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-bottom: 1px solid #828891 !important;
+    background-color: white;
+}
+
+.cke_colorblock, .cke_colorblock a {
+    color: #828891;
+}
+
+.cke_resizer {
+    display: none;
+}
+
