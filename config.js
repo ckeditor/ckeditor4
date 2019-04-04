@@ -11,7 +11,8 @@ CKEDITOR.editorConfig = function( config ) {
 	config.plugins =
 		'about,' +
 		'a11yhelp,' +
-		'basicstyles,' +
+		//'basicstyles,' +
+		'computedstyles,' +
 		'bidi,' +
 		'blockquote,' +
 		'clipboard,' +
@@ -28,7 +29,8 @@ CKEDITOR.editorConfig = function( config ) {
 		'find,' +
 		'flash,' +
 		'floatingspace,' +
-		'font,' +
+		//'font,' +
+		'computedfont,' +
 		'format,' +
 		'forms,' +
 		'horizontalrule,' +
@@ -54,6 +56,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'resize,' +
 		'save,' +
 		'selectall,' +
+		'spacingsliders,' +
 		'showblocks,' +
 		'showborders,' +
 		'smiley,' +
