@@ -689,7 +689,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					];
 
 					// Support for custom document.domain on IE. (https://dev.ckeditor.com/ticket/10165)
-					html.push( CKEDITOR.env.ie ?
+					html.push( ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ?
 						'(function(){' + encodeURIComponent(
 							'document.open();' +
 							'(' + CKEDITOR.tools.fixDomain + ')();' +
@@ -1442,7 +1442,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 						'</body></html>',
 						'<script>',
 							// Support for custom document.domain in IE.
-							CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '',
+						( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? '(' + CKEDITOR.tools.fixDomain + ')();' : '',
 
 							'window.parent.CKEDITOR.tools.callFunction(' + callNumber + ');',
 							'window.onbeforeunload = function() {window.parent.CKEDITOR.tools.callFunction(' + unloadNumber + ')}',

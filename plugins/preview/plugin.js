@@ -64,7 +64,7 @@
 			var sOpenUrl = '',
 				ieLocation;
 
-			if ( CKEDITOR.env.ie ) {
+			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 				window._cke_htmlToLoad = eventData.dataValue;
 				ieLocation = 'javascript:void( (function(){' + // jshint ignore:line
 					'document.open();' +

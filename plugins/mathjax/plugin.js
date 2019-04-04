@@ -165,7 +165,7 @@
 		// In Firefox src must exist and be different than about:blank to emit load event.
 		CKEDITOR.env.gecko ? 'javascript:true' : // jshint ignore:line
 		// Support for custom document.domain in IE.
-		CKEDITOR.env.ie ? 'javascript:' + // jshint ignore:line
+		( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'javascript:' + // jshint ignore:line
 						'void((function(){' + encodeURIComponent(
 							'document.open();' +
 							'(' + CKEDITOR.tools.fixDomain + ')();' +

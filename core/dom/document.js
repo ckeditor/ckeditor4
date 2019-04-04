@@ -270,7 +270,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 		// The script must be appended because if placed before the
 		// doctype, IE will go into quirks mode and mess with
 		// the editable, e.g. by changing its default height.
-		if ( CKEDITOR.env.ie )
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge )
 			html = html.replace( /(?:^\s*<!DOCTYPE[^>]*?>)|^/i, '$&\n<script data-cke-temp="1">(' + CKEDITOR.tools.fixDomain + ')();</script>' );
 
 		this.$.write( html );
