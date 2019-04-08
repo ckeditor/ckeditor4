@@ -1,5 +1,5 @@
 /* bender-tags: widgetcore */
-/* bender-ckeditor-plugins: widget,toolbar,clipboard */
+/* bender-ckeditor-plugins: widget,widgetselection,toolbar,clipboard */
 
 ( function() {
 	'use strict';
@@ -20,43 +20,43 @@
 
 	var tests = {
 		// (#2517)
-		'test widget creation when selection starts at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when starts at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
 				initial: '<div contenteditable="false"><div>FakeWidget</div>[</div>foo]',
 				expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]'
 			} ),
 		// (#2517)
-		'test widget creation when selection starts at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when starts at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
 				initial: '<div contenteditable="false">[<div>FakeWidget</div></div>foo]',
-				expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]'
+				expected: '[<div contenteditable="false"><div>FakeWidget</div></div>foo]'
 			} ),
 		// (#2517)
-		'test widget creation when selection ends at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when ends at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
 				initial: '[foo<div contenteditable="false">]<div>FakeWidget</div></div>',
 				expected: '[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
 			} ),
 		// (#2517)
-		'test widget creation when selection ends at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when ends at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
 				initial: '[foo<div contenteditable="false"><div>FakeWidget</div>]</div>',
-				expected: '[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
+				expected: '[foo<div contenteditable="false"><div>FakeWidget</div></div>]'
 			} ),
 		// (#2517)
-		'test widget creation when selection starts at the end and ends at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when starts at the end and ends at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
 				initial: '<div contenteditable="false"><div>FakeWidget</div>[</div>foo<div contenteditable="false">]<div>FakeWidget</div></div>',
 				expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
 			} ),
 		// (#2517)
-		'test widget creation when selection starts at the beginning and ends at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when starts at the beginning and ends at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
 				initial: '<div contenteditable="false">[<div>FakeWidget</div></div>foo<div contenteditable="false"><div>FakeWidget</div>]</div>',
-				expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
+				expected: '[<div contenteditable="false"><div>FakeWidget</div></div>foo<div contenteditable="false"><div>FakeWidget</div></div>]'
 			} ),
 		// (#2517)
-		'test widget creation when selection starts in the drag handler': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when starts in the drag handler': assertEditorSelectionOnWidgetsCreation( {
 				initial: '<div contenteditable="false">' +
-					'<figure><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs="><figcaption>caption</figcaption></figure>' +
-					'<span><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=">[<span></span></span></div>foo]',
+					'<figure><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" /><figcaption>caption</figcaption></figure>' +
+					'<span><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" />[</span></div>foo]',
 				expected: '<div contenteditable="false">' +
-					'<figure><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs="><figcaption>caption</figcaption></figure>' +
-					'<span><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs="><span></span></span></div>[foo]'
+					'<figure><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" /><figcaption>caption</figcaption></figure>' +
+					'<span><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" /></span></div>[foo]'
 			} )
 	};
 
@@ -64,42 +64,77 @@
 
 	function assertEditorSelectionOnWidgetsCreation( options ) {
 		return function( editor, bot ) {
-			if ( !CKEDITOR.env.chrome && !CKEDITOR.env.gecko ) {
-				// Such selection might be not possible to recreate in some browsers, test only where it can be reproduced.
-				assert.ignore();
-			}
-
 			bot.setHtmlWithSelection( options.initial );
 
-			var htmlString = '<div><div contenteditable="false" data-cke-widget-wrapper="true"><div>FakierWidget</div></div></div>',
-				fakeWidgetContainer = CKEDITOR.dom.element.createFromHtml( htmlString ),
-				fakeWidget = {
-					fire: function() {},
-					focus: function() {}
-				},
-				mocks = {
-					getByElement: sinon.stub( editor.widgets, 'getByElement' ).returns( fakeWidget ),
-					insertElement: sinon.stub( editor, 'insertElement' )
-				},
-				filter = new CKEDITOR.htmlParser.filter( {
-					text: function( value ) {
-						return value.replace( '{', '[' ).replace( '}', ']' );
-					}
-				} );
+			var filter = new CKEDITOR.htmlParser.filter( {
+						text: function( value ) {
+							return value.replace( '{', '[' ).replace( '}', ']' );
+						}
+					} ),
+				elements = [],
+				wrappers = [],
+				current, fakeWidget;
 
 			filter.addRules( {
 				elements: {
-					br: function() {
-						return false;
-					}
+					br: remove
+				},
+				attributes: {
+					'class': remove,
+					'data-cke-widget': remove,
+					'data-cke-widget-wrapper': remove,
+					'data-cke-widget-id': remove
 				}
+
 			}, { applyToAll: true } ); // Options can be added only via `addRules`.
 
-			editor.widgets.finalizeCreation( fakeWidgetContainer );
-			mocks.getByElement.restore();
-			mocks.insertElement.restore();
+			current = bender.tools.compatHtml( bender.tools.selection.getWithHtml( editor ), true, true, true, true, true, true, [ filter ] );
+
+			if ( current !== options.initial ) {
+				// Browser can't create tested selection.
+				assert.ignore();
+			}
+
+			editor.editable().forEach( function( node ) {
+				if ( node.type === CKEDITOR.NODE_TEXT ) {
+					return;
+				}
+				if ( node.getHtml().replace( '<br>', '' ) === 'FakeWidget' ) {
+					node.data( 'cke-widget', 'true' );
+					elements.push( node );
+				} else if ( node.getAttribute( 'contenteditable' ) === 'false' ) {
+					node.data( 'cke-widget-wrapper', 'true' );
+					node.data( 'cke-widget-id', wrappers.length + 1 );
+					wrappers.push( node );
+				}
+			} );
+
+			createFakeWidget( 0 );
+			editor.widgets.instances = {
+				1: fakeWidget
+			};
+
+			if ( elements[ 1 ] ) {
+				createFakeWidget( 1 );
+				editor.widgets.instances[ 2 ] = fakeWidget;
+			}
+
+			editor.fire( 'selectionChange', {
+				selection: editor.getSelection(),
+				path: editor.elementPath()
+			} );
 
 			assert.beautified.html( options.expected, bender.tools.selection.getWithHtml( editor ), { customFilters: [ filter ] } );
+
+			function createFakeWidget( index ) {
+				fakeWidget = CKEDITOR.tools.copy( CKEDITOR.plugins.widget.prototype );
+				fakeWidget.element = elements[ index ];
+				fakeWidget.wrapper = wrappers[ index ];
+			}
+
+			function remove() {
+				return false;
+			}
 		};
 	}
 } )();
