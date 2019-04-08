@@ -25,6 +25,25 @@
 			wait();
 		},
 
+		assertColorAtDialogShow: function( expectedColor, html, button ) {
+			var editor = this.editor,
+				bot = this.editorBot,
+				toolbarButton = editor.ui.get( button );
+
+			bot.setHtmlWithSelection( html );
+			editor.once( 'dialogShow', function( evt ) {
+				resume( function() {
+					var dialog = evt.data,
+						selectedColor = dialog.getValueOf( 'picker', 'selectedColor' );
+					dialog.getButton( 'ok' ).click();
+					assert.areSame( expectedColor, selectedColor );
+				} );
+			} );
+
+			toolbarButton.click( editor );
+			openColorDialog( toolbarButton );
+		},
+
 		'test colordialog add hash to color\'s values with 6 hexadecimal digits': function() {
 			this.assertColor( '123456', '#123456' );
 		},
@@ -55,69 +74,24 @@
 
 		// (#2639)
 		'test colordialog setting current text color on opening': function() {
-			var editor = this.editor,
-				bot = this.editorBot,
-				txtColorBtn = editor.ui.get( 'TextColor' ),
-				textColor = '#ff0000';
-
-			bot.setHtmlWithSelection( '[<h1 style="color:' + textColor + '">Foo</h1>]' );
-			assertColorAtDialogShow( editor, textColor );
-
-			txtColorBtn.click( editor );
-			openColorDialog( txtColorBtn );
+			this.assertColorAtDialogShow( '#ff0000', '[<h1 style="color:#ff0000">Foo</h1>]', 'TextColor' );
 		},
 
 		// (#2639)
 		'test colordialog setting current background color on opening': function() {
-			var editor = this.editor,
-				bot = this.editorBot,
-				bgColorBtn = editor.ui.get( 'BGColor' ),
-				backgroundColor = '#0000ff';
-
-			bot.setHtmlWithSelection( '[<h1 style="background:' + backgroundColor + '">Foo</h1>]' );
-			assertColorAtDialogShow( editor, backgroundColor );
-
-			bgColorBtn.click( editor );
-			openColorDialog( bgColorBtn );
+			this.assertColorAtDialogShow( '#0000ff', '[<h1 style="background:#0000ff">Foo</h1>]', 'BGColor' );
 		},
 
 		// (#2639)
 		'test omitting default text color': function() {
-			var editor = this.editor,
-				bot = this.editorBot,
-				txtColorBtn = editor.ui.get( 'TextColor' );
-
-			bot.setHtmlWithSelection( '[<h1>Foo</h1>]' );
-			assertColorAtDialogShow( editor, '' );
-
-			txtColorBtn.click( editor );
-			openColorDialog( txtColorBtn );
+			this.assertColorAtDialogShow( '', '[<h1>Foo</h1>]', 'TextColor' );
 		},
 
 		// (#2639)
 		'test omitting default background color': function() {
-			var editor = this.editor,
-				bot = this.editorBot,
-				bgColorBtn = editor.ui.get( 'BGColor' );
-
-			bot.setHtmlWithSelection( '[<h1>Foo</h1>]' );
-			assertColorAtDialogShow( editor, '' );
-
-			bgColorBtn.click( editor );
-			openColorDialog( bgColorBtn );
+			this.assertColorAtDialogShow( '', '[<h1>Foo</h1>]', 'BGColor' );
 		}
 	} );
-
-	function assertColorAtDialogShow( editor, target ) {
-		editor.once( 'dialogShow', function( evt ) {
-			resume( function() {
-				var dialog = evt.data,
-					test = dialog.getValueOf( 'picker', 'selectedColor' );
-				dialog.getButton( 'ok' ).click();
-				assert.areSame( target, test );
-			} );
-		} );
-	}
 
 	function openColorDialog( button ) {
 		setTimeout( function() {
