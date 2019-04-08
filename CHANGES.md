@@ -7,10 +7,9 @@ New Features:
 
 * [#2598](https://github.com/ckeditor/ckeditor-dev/issues/2598): [Page Break](https://ckeditor.com/cke4/addon/pagebreak) feature support for [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
 * [#2048](https://github.com/ckeditor/ckeditor-dev/issues/2048): [Enhanced Image](https://ckeditor.com/cke4/addon/image2) added config option [CKEDITOR.config.image2_maxSize](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-image2_maxSize) that allows setting a maximum size that image can be resized to with resizer.
+* [#2639](https://github.com/ckeditor/ckeditor-dev/issues/2639): [Color Dialog](https://ckeditor.com/cke4/addon/colordialog) plugin now shows current selection's color when opened.
 * [#1490](https://github.com/ckeditor/ckeditor-dev/issues/1490): Improved [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin to retain table cell borders.
 * [#2870](https://github.com/ckeditor/ckeditor-dev/issues/2870): Added support for preserving positive `margin-left` values in list items for lists pasted with [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
-* [#2639](https://github.com/ckeditor/ckeditor-dev/issues/2639): [Color Dialog](https://ckeditor.com/cke4/addon/colordialog) plugin now uses current selection's color by default.
-
 Fixed Issues:
 
 * [#2672](https://github.com/ckeditor/ckeditor-dev/issues/2672): Fixed: When resizing [Enhanced Image](https://ckeditor.com/cke4/addon/image2) to minimum size with a resizer the image dialog doesn't show actual values.
