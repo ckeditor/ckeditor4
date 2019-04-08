@@ -6,17 +6,6 @@
 
 	bender.editor = true;
 
-	function openColorDialog() {
-		setTimeout( function() {
-			document.querySelector( '.cke_panel_frame' )
-				.contentDocument
-				.querySelector( '.cke_colormore' )
-				.click();
-		}, 0 );
-
-		wait();
-	}
-
 	bender.test( {
 		assertColor: function( inputColor, outputColor ) {
 			var editor = this.editor;
@@ -72,17 +61,47 @@
 				customColor = '#ff0000';
 
 			bot.setHtmlWithSelection( '[<h1 style="color:' + customColor + '">Foo</h1>]' );
-			editor.on( 'dialogShow', function( evt ) {
+			editor.once( 'dialogShow', function( evt ) {
 				resume( function() {
 					var dialog = evt.data,
 						test = dialog.getValueOf( 'picker', 'selectedColor' );
-
+					dialog.getButton( 'ok' ).click();
 					assert.areSame( customColor, test );
 				} );
 			} );
 
 			txtColorBtn.click( editor );
-			openColorDialog( editor );
+			openColorDialog( txtColorBtn );
+		},
+
+		'test colordialog setting current color on opening2': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				bgColorBtn = editor.ui.get( 'BGColor' ),
+				backgroundColor = '#0000ff';
+
+			bot.setHtmlWithSelection( '[<h1 style="background:' + backgroundColor + '">Foo</h1>]' );
+			editor.once( 'dialogShow', function( evt ) {
+				resume( function() {
+					var dialog = evt.data,
+						test = dialog.getValueOf( 'picker', 'selectedColor' );
+					dialog.getButton( 'ok' ).click();
+					assert.areSame( backgroundColor, test );
+				} );
+			} );
+
+			bgColorBtn.click( editor );
+			openColorDialog( bgColorBtn );
 		}
+
 	} );
+
+	function openColorDialog( button ) {
+		setTimeout( function() {
+			button._.panel.getBlock( button._.id ).element.findOne( '.cke_colormore' ).$.click();
+		}, 0 );
+
+		wait();
+	}
+
 } )();
