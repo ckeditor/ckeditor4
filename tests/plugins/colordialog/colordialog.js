@@ -54,7 +54,7 @@
 		},
 
 		// (#2639)
-		'test colordialog setting current color on opening': function() {
+		'test colordialog setting current text color on opening': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
 				txtColorBtn = editor.ui.get( 'TextColor' ),
@@ -74,7 +74,7 @@
 			openColorDialog( txtColorBtn );
 		},
 
-		'test colordialog setting current color on opening2': function() {
+		'test colordialog setting current background color on opening': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
 				bgColorBtn = editor.ui.get( 'BGColor' ),
