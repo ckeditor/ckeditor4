@@ -58,15 +58,15 @@
 			var editor = this.editor,
 				bot = this.editorBot,
 				txtColorBtn = editor.ui.get( 'TextColor' ),
-				customColor = '#ff0000';
+				textColor = '#ff0000';
 
-			bot.setHtmlWithSelection( '[<h1 style="color:' + customColor + '">Foo</h1>]' );
+			bot.setHtmlWithSelection( '[<h1 style="color:' + textColor + '">Foo</h1>]' );
 			editor.once( 'dialogShow', function( evt ) {
 				resume( function() {
 					var dialog = evt.data,
 						test = dialog.getValueOf( 'picker', 'selectedColor' );
 					dialog.getButton( 'ok' ).click();
-					assert.areSame( customColor, test );
+					assert.areSame( textColor, test );
 				} );
 			} );
 
