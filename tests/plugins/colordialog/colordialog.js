@@ -61,14 +61,7 @@
 				textColor = '#ff0000';
 
 			bot.setHtmlWithSelection( '[<h1 style="color:' + textColor + '">Foo</h1>]' );
-			editor.once( 'dialogShow', function( evt ) {
-				resume( function() {
-					var dialog = evt.data,
-						test = dialog.getValueOf( 'picker', 'selectedColor' );
-					dialog.getButton( 'ok' ).click();
-					assert.areSame( textColor, test );
-				} );
-			} );
+			assertColorAtDialogShow( editor, textColor );
 
 			txtColorBtn.click( editor );
 			openColorDialog( txtColorBtn );
@@ -81,14 +74,7 @@
 				backgroundColor = '#0000ff';
 
 			bot.setHtmlWithSelection( '[<h1 style="background:' + backgroundColor + '">Foo</h1>]' );
-			editor.once( 'dialogShow', function( evt ) {
-				resume( function() {
-					var dialog = evt.data,
-						test = dialog.getValueOf( 'picker', 'selectedColor' );
-					dialog.getButton( 'ok' ).click();
-					assert.areSame( backgroundColor, test );
-				} );
-			} );
+			assertColorAtDialogShow( editor, backgroundColor );
 
 			bgColorBtn.click( editor );
 			openColorDialog( bgColorBtn );
@@ -100,14 +86,7 @@
 				txtColorBtn = editor.ui.get( 'TextColor' );
 
 			bot.setHtmlWithSelection( '[<h1>Foo</h1>]' );
-			editor.once( 'dialogShow', function( evt ) {
-				resume( function() {
-					var dialog = evt.data,
-						test = dialog.getValueOf( 'picker', 'selectedColor' );
-					dialog.getButton( 'ok' ).click();
-					assert.areSame( '', test );
-				} );
-			} );
+			assertColorAtDialogShow( editor, '' );
 
 			txtColorBtn.click( editor );
 			openColorDialog( txtColorBtn );
@@ -119,19 +98,23 @@
 				bgColorBtn = editor.ui.get( 'BGColor' );
 
 			bot.setHtmlWithSelection( '[<h1>Foo</h1>]' );
-			editor.once( 'dialogShow', function( evt ) {
-				resume( function() {
-					var dialog = evt.data,
-						test = dialog.getValueOf( 'picker', 'selectedColor' );
-					dialog.getButton( 'ok' ).click();
-					assert.areSame( '', test );
-				} );
-			} );
+			assertColorAtDialogShow( editor, '' );
 
 			bgColorBtn.click( editor );
 			openColorDialog( bgColorBtn );
 		}
 	} );
+
+	function assertColorAtDialogShow( editor, target ) {
+		editor.once( 'dialogShow', function( evt ) {
+			resume( function() {
+				var dialog = evt.data,
+					test = dialog.getValueOf( 'picker', 'selectedColor' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( target, test );
+			} );
+		} );
+	}
 
 	function openColorDialog( button ) {
 		setTimeout( function() {
