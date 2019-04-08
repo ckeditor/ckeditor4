@@ -144,7 +144,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					if ( !path )
 						return;
 
-					// Find the closest block element.
+						// Find the closest block element.
 					block = path.block || path.blockLimit || editor.document.getBody();
 
 					// The background color might be transparent. In that case, look up the color in the DOM tree.
@@ -187,6 +187,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						}
 
 						colorData.selectionColor = finalColor ? '#' + finalColor : '';
+						if ( type == 'fore' ) {
+							colorData.automaticTextColor = CKEDITOR.tools.convertRgbToHex( automaticColor );
+						}
 						selectColor( panelBlock, finalColor );
 					}
 
