@@ -69,17 +69,18 @@
 			var editor = this.editor,
 				bot = this.editorBot,
 				txtColorBtn = editor.ui.get( 'TextColor' ),
-				customColor = '#ff2321';
-			bot.setHtmlWithSelection( '[<h1 style="color:' + customColor + '">Foo</h1>]' );
+				customColor = '#ff0000';
 
+			bot.setHtmlWithSelection( '[<h1 style="color:' + customColor + '">Foo</h1>]' );
 			editor.on( 'dialogShow', function( evt ) {
 				resume( function() {
 					var dialog = evt.data,
 						test = dialog.getValueOf( 'picker', 'selectedColor' );
-					dialog.getButton( 'ok' ).click();
+
 					assert.areSame( customColor, test );
 				} );
 			} );
+
 			txtColorBtn.click( editor );
 			openColorDialog( editor );
 		}
