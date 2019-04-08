@@ -67,6 +67,7 @@
 			openColorDialog( txtColorBtn );
 		},
 
+		// (#2639)
 		'test colordialog setting current background color on opening': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
@@ -80,6 +81,7 @@
 			openColorDialog( bgColorBtn );
 		},
 
+		// (#2639)
 		'test omitting default text color': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
@@ -92,6 +94,7 @@
 			openColorDialog( txtColorBtn );
 		},
 
+		// (#2639)
 		'test omitting default background color': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
