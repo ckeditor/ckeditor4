@@ -1,10 +1,21 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: colordialog,wysiwygarea */
+/* bender-ckeditor-plugins: colordialog,wysiwygarea,toolbar,colorbutton */
 
 ( function() {
 	'use strict';
 
 	bender.editor = true;
+
+	function openColorDialog() {
+		setTimeout( function() {
+			document.querySelector( '.cke_panel_frame' )
+				.contentDocument
+				.querySelector( '.cke_colormore' )
+				.click();
+		}, 0 );
+
+		wait();
+	}
 
 	bender.test( {
 		assertColor: function( inputColor, outputColor ) {
@@ -51,6 +62,26 @@
 
 		'test colordialog does not add hash to empty value ': function() {
 			this.assertColor( '', '' );
+		},
+
+		// (#2639)
+		'test colors': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				txtColorBtn = editor.ui.get( 'TextColor' ),
+				customColor = '#ff2321';
+			bot.setHtmlWithSelection( '[<h1 style="color:' + customColor + '">Foo</h1>]' );
+
+			editor.on( 'dialogShow', function( evt ) {
+				resume( function() {
+					var dialog = evt.data,
+						test = dialog.getValueOf( 'picker', 'selectedColor' );
+					dialog.getButton( 'ok' ).click();
+					assert.areSame( customColor, test );
+				} );
+			} );
+			txtColorBtn.click( editor );
+			openColorDialog( editor );
 		}
 	} );
 } )();
