@@ -92,8 +92,45 @@
 
 			bgColorBtn.click( editor );
 			openColorDialog( bgColorBtn );
-		}
+		},
 
+		'test omitting default text color': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				txtColorBtn = editor.ui.get( 'TextColor' );
+
+			bot.setHtmlWithSelection( '[<h1>Foo</h1>]' );
+			editor.once( 'dialogShow', function( evt ) {
+				resume( function() {
+					var dialog = evt.data,
+						test = dialog.getValueOf( 'picker', 'selectedColor' );
+					dialog.getButton( 'ok' ).click();
+					assert.areSame( '', test );
+				} );
+			} );
+
+			txtColorBtn.click( editor );
+			openColorDialog( txtColorBtn );
+		},
+
+		'test omitting default background color': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				bgColorBtn = editor.ui.get( 'BGColor' );
+
+			bot.setHtmlWithSelection( '[<h1>Foo</h1>]' );
+			editor.once( 'dialogShow', function( evt ) {
+				resume( function() {
+					var dialog = evt.data,
+						test = dialog.getValueOf( 'picker', 'selectedColor' );
+					dialog.getButton( 'ok' ).click();
+					assert.areSame( '', test );
+				} );
+			} );
+
+			bgColorBtn.click( editor );
+			openColorDialog( bgColorBtn );
+		}
 	} );
 
 	function openColorDialog( button ) {
