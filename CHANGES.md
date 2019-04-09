@@ -12,6 +12,8 @@ Fixed Issues:
 
 * [#2672](https://github.com/ckeditor/ckeditor-dev/issues/2672): Fixed: When resizing [Enhanced Image](https://ckeditor.com/cke4/addon/image2) to minimum size with a resizer the image dialog doesn't show actual values.
 * [#1478](https://github.com/ckeditor/ckeditor-dev/issues/1478): Fixed: Custom colors added to [Color Button](https://ckeditor.com/cke4/addon/colorbutton) via [`config.colorButton_colors`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-colorButton_colors) in form label/code don't work correctly.
+* [#2517](https://github.com/ckeditor/ckeditor-dev/issues/2517), [#3007](https://github.com/ckeditor/ckeditor-dev/issues/3007), [#3008](https://github.com/ckeditor/ckeditor-dev/issues/3008): Fixed: various issues when widget is partially selected by prohibiting such selection with the [Widget Selection](https://ckeditor.com/cke4/addon/widgetselection) plugin.
+* [#3041](https://github.com/ckeditor/ckeditor-dev/issues/3041): Fixed: [`range.deleteContents( true )`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_range.html#method-deleteContents) throws an error.
 
 API Changes:
 
