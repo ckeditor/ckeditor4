@@ -1,5 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: table*/
+/* bender-include: ./_helpers/headersCorrectness.js */
+/* global assertHeadersCorrectnesssAfterManipulation */
 
 ( function() {
 	'use strict';
@@ -52,24 +54,5 @@
 
 		'2 rows, 2 cols, both -> both': assertHeadersCorrectnesssAfterManipulation( 'header-both', 'header-both', 'both' )
 	} );
-
-	function assertHeadersCorrectnesssAfterManipulation( input, expected, headerType ) {
-		return function() {
-			var bot = bender.editorBots.editor;
-			bot.setHtmlWithSelection( bender.tools.getValueAsHtml( input ).replace( ';', '' ) );
-
-			bot.dialog( 'tableProperties', function( dialog ) {
-				dialog.setValueOf( 'info', 'selHeaders', headerType );
-
-				dialog.fire( 'ok' );
-				dialog.hide();
-
-				var exp = bender.tools.getValueAsHtml( expected ).replace( ';', '' );
-
-				assert.beautified.html( exp.replace( '^', '' ),
-					bender.tools.fixHtml( dialog.getParentEditor().getData() ).replace( ';', '' ) );
-			} );
-		};
-	}
 
 } )();
