@@ -71,25 +71,25 @@
 		 * to the {@link CKEDITOR.pluginDefinition#isSupportedEnvironment} method.
 		 */
 		ignoreUnsupportedEnvironment: function( pluginName, editor ) {
-			if ( !editor && !CKEDITOR.plugins.registered[ pluginName ].isSupportedEnvironment() ) {
-				ignoreTest();
-			} else if ( editor.status === 'ready' ) {
+			if ( editor && editor.status === 'ready' || CKEDITOR.plugins.registered[ pluginName ] ) {
 				ignoreUnsupportedEnvironment();
 			} else {
-				editor.once( 'instanceReady', ignoreUnsupportedEnvironment );
-			}
-
-			function ignoreUnsupportedEnvironment() {
-				if ( !editor.plugins[ pluginName ].isSupportedEnvironment( editor ) ) {
-					ignoreTest();
+				if ( editor ) {
+					editor.once( 'instanceReady', ignoreUnsupportedEnvironment );
+				} else {
+					CKEDITOR.once( pluginName + 'PluginReady', ignoreUnsupportedEnvironment );
 				}
 			}
 
-			function ignoreTest() {
-				if ( bender.testData.manual ) {
-					bender.ignore();
-				} else {
-					assert.ignore();
+			function ignoreUnsupportedEnvironment() {
+				var plugin = editor ? editor.plugins[ pluginName ] : CKEDITOR.plugins.registered[ pluginName ];
+
+				if ( !plugin.isSupportedEnvironment( editor ) ) {
+					if ( bender.testData.manual ) {
+						bender.ignore();
+					} else {
+						assert.ignore();
+					}
 				}
 			}
 		},
