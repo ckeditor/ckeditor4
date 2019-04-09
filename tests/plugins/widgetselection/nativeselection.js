@@ -20,37 +20,37 @@
 
 	var tests = {
 		// (#2517)
-		'test selection when starts at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when starts at the end of a widget': assertSelection( {
 				initial: '<div contenteditable="false"><div>FakeWidget</div>[</div>foo]',
 				expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]'
 			} ),
 		// (#2517)
-		'test selection when starts at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when starts at the beginning of a widget': assertSelection( {
 				initial: '<div contenteditable="false">[<div>FakeWidget</div></div>foo]',
 				expected: '[<div contenteditable="false"><div>FakeWidget</div></div>foo]'
 			} ),
 		// (#2517)
-		'test selection when ends at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when ends at the beginning of a widget': assertSelection( {
 				initial: '[foo<div contenteditable="false">]<div>FakeWidget</div></div>',
 				expected: '[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
 			} ),
 		// (#2517)
-		'test selection when ends at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when ends at the end of a widget': assertSelection( {
 				initial: '[foo<div contenteditable="false"><div>FakeWidget</div>]</div>',
 				expected: '[foo<div contenteditable="false"><div>FakeWidget</div></div>]'
 			} ),
 		// (#2517)
-		'test selection when starts at the end and ends at the beginning of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when starts at the end and ends at the beginning of a widget': assertSelection( {
 				initial: '<div contenteditable="false"><div>FakeWidget</div>[</div>foo<div contenteditable="false">]<div>FakeWidget</div></div>',
 				expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
 			} ),
 		// (#2517)
-		'test selection when starts at the beginning and ends at the end of a widget': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when starts at the beginning and ends at the end of a widget': assertSelection( {
 				initial: '<div contenteditable="false">[<div>FakeWidget</div></div>foo<div contenteditable="false"><div>FakeWidget</div>]</div>',
 				expected: '[<div contenteditable="false"><div>FakeWidget</div></div>foo<div contenteditable="false"><div>FakeWidget</div></div>]'
 			} ),
 		// (#2517)
-		'test selection when starts in the drag handler': assertEditorSelectionOnWidgetsCreation( {
+		'test selection when starts in the drag handler': assertSelection( {
 				initial: '<div contenteditable="false">' +
 					'<figure><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" /><figcaption>caption</figcaption></figure>' +
 					'<span><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" />[</span></div>foo]',
@@ -62,7 +62,7 @@
 
 	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
 
-	function assertEditorSelectionOnWidgetsCreation( options ) {
+	function assertSelection( options ) {
 		return function( editor, bot ) {
 			bot.setHtmlWithSelection( options.initial );
 
