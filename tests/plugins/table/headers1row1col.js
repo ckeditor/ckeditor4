@@ -67,7 +67,7 @@
 				var exp = bender.tools.getValueAsHtml( expected ).replace( ';', '' );
 
 				assert.beautified.html( exp.replace( '^', '' ),
-					dialog.getParentEditor().getData() );
+					bender.tools.fixHtml( dialog.getParentEditor().getData() ).replace( ';', '' ) );
 			} );
 		};
 	}
