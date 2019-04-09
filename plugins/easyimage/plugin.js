@@ -494,10 +494,6 @@
 		}
 	};
 
-	function isSupportedBrowser() {
-		return !CKEDITOR.env.ie || CKEDITOR.env.version >= 11;
-	}
-
 	function addUploadButtonToToolbar( editor ) {
 		editor.ui.addButton( BUTTON_PREFIX + 'Upload', {
 			label: editor.lang.easyimage.commands.upload,
@@ -535,8 +531,12 @@
 			CKEDITOR.dialog.add( 'easyimageAlt', this.path + 'dialogs/easyimagealt.js' );
 		},
 
+		isSupportedEnvironment: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.version >= 11;
+		},
+
 		init: function( editor ) {
-			if ( !isSupportedBrowser() ) {
+			if ( !this.isSupportedEnvironment() ) {
 				return;
 			}
 			loadStyles( editor, this );
@@ -545,7 +545,7 @@
 		// Widget must be registered after init in case that link plugin is dynamically loaded e.g. via
 		// `config.extraPlugins`.
 		afterInit: function( editor ) {
-			if ( !isSupportedBrowser() ) {
+			if ( !this.isSupportedEnvironment() ) {
 				return;
 			}
 			var styles = getStylesForEditor( editor );
