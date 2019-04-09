@@ -2302,7 +2302,9 @@
 	} )();
 
 	function removeEmptyInline( element ) {
-		element && element.isEmptyInlineRemoveable() && element.remove();
+		if ( element && element.isEmptyInlineRemoveable() ) {
+			element.remove();
+		}
 	}
 
 	function afterInsert( editable ) {
