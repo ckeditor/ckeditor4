@@ -1,24 +1,34 @@
 <textarea id="editor"><p><span>Foo bar</span></p></textarea>
 <p id="controls">
 	<button data-button="insert-html">Insert html</button>
+	<button data-button="insert-html-range">Insert html into range</button>
 	<button data-button="insert-element">Insert element</button>
+	<button data-button="insert-element-range">Insert element into range</button>
 	<button data-button="insert-text">Insert text</button>
 	<button data-button="reset">Reset editor</button>
 </p>
 <script>
 	var editor = CKEDITOR.replace( 'editor', {
-			allowedContent: true
-		} ),
+				allowedContent: true
+			} ),
 		elementHtml = '<div>div</div>';
 
 	CKEDITOR.addCss( 'span{padding:10px;border:solid 1px red}' );
 
 	CKEDITOR.document.findOne( '#controls' ).on( 'click', function( evt ) {
+		var editable = editor.editable(),
+			range = editor.getSelection().getRanges()[ 0 ],
+			element = CKEDITOR.dom.element.createFromHtml( elementHtml );
+
 		switch( evt.data.getTarget().getAttribute( 'data-button' ) ) {
 			case 'insert-html':
 				return editor.insertHtml( elementHtml );
+			case 'insert-html-range':
+				return editable.insertHtmlIntoRange( elementHtml, range );
 			case 'insert-element':
-				return editor.insertElement( CKEDITOR.dom.element.createFromHtml( elementHtml ) );
+				return editor.insertElement( element );
+			case 'insert-element-range':
+				return editable.insertElementIntoRange( element, range );
 			case 'insert-text':
 				return editor.insertText( 'text' );
 			case 'reset':
