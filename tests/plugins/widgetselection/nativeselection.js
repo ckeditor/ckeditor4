@@ -95,6 +95,7 @@
 				assert.ignore();
 			}
 
+			// Mock widgets.
 			editor.editable().forEach( function( node ) {
 				if ( node.type === CKEDITOR.NODE_TEXT ) {
 					return;
