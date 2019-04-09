@@ -9,6 +9,7 @@
 
 	- ## Expected
 		- Selected text is removed.
+		- [IE]: whole content is removed.
 
 	- ## Unexpected
 		- The widget caption is removed.
