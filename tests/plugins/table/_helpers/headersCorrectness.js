@@ -13,9 +13,9 @@ function assertHeadersCorrectnesssAfterManipulation( input, expected ) {
 			dialog.fire( 'ok' );
 			dialog.hide();
 
-			var exp = bender.tools.getValueAsHtml( expected ).replace( ';', '' );
+			expected = bender.tools.getValueAsHtml( expected ).replace( ';', '' );
 
-			assert.beautified.html( exp.replace( '^', '' ),
+			assert.beautified.html( expected.replace( '^', '' ),
 				bender.tools.fixHtml( dialog.getParentEditor().getData() ).replace( ';', '' ) );
 		} );
 	};
