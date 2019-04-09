@@ -84,9 +84,9 @@ CKEDITOR.lang[ 'pt' ] = {
 		justify: 'Justificado',
 		alignLeft: 'Alinhar à esquerda',
 		alignRight: 'Alinhar à direita',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'Centrado',
 		alignTop: 'Topo',
-		alignMiddle: 'Centro',
+		alignMiddle: 'Meio',
 		alignBottom: 'Base',
 		alignNone: 'Nenhum',
 		invalidValue: 'Valor inválido.',
@@ -96,7 +96,7 @@ CKEDITOR.lang[ 'pt' ] = {
 		invalidCssLength: 'O valor especificado para o campo "1%" deve ser um número positivo, com ou sem uma unidade de medida CSS válida (px, %, in, cm, mm, em, ex, pt, ou pc).',
 		invalidHtmlLength: 'O valor especificado para o campo "1%" deve ser um número positivo, com ou sem uma unidade de medida HTML válida (px ou %).',
 		invalidInlineStyle: 'O valor especificado para o estilo em linha deve constituir um ou mais conjuntos de valores com o formato de "nome : valor", separados por ponto e vírgula.',
-		cssLengthTooltip: 'Insira um número para um valor em pontos ou um número com uma unidade CSS válida (px, %, in, cm, mm, em, ex, pt, ou pc).',
+		cssLengthTooltip: 'Insira um número para um valor em píxeis ou um número com uma unidade CSS válida (px, %, in, cm, mm, em, ex, pt, ou pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, indisponível</span>',
@@ -142,6 +142,6 @@ CKEDITOR.lang[ 'pt' ] = {
 		// Prepended to ARIA labels with shortcuts.
 		keyboardShortcut: 'Keyboard shortcut', // MISSING
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'Padrão'
 	}
 };

@@ -421,8 +421,7 @@
 	function initPasteClipboard( editor ) {
 		var clipboard = CKEDITOR.plugins.clipboard,
 			preventBeforePasteEvent = 0,
-			preventPasteEvent = 0,
-			inReadOnly = 0;
+			preventPasteEvent = 0;
 
 		addListeners();
 		addButtonsCommands();
@@ -552,15 +551,11 @@
 			editor.on( 'contentDom', addPasteListenersToEditable );
 
 			// For improved performance, we're checking the readOnly state on selectionChange instead of hooking a key event for that.
-			editor.on( 'selectionChange', function( evt ) {
-				inReadOnly = evt.data.selection.getRanges()[ 0 ].checkReadOnly();
-				setToolbarStates();
-			} );
+			editor.on( 'selectionChange', setToolbarStates );
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
-				editor.contextMenu.addListener( function( element, selection ) {
-					inReadOnly = selection.getRanges()[ 0 ].checkReadOnly();
+				editor.contextMenu.addListener( function() {
 					return {
 						cut: stateFromNamedCommand( 'cut' ),
 						copy: stateFromNamedCommand( 'copy' ),
@@ -738,9 +733,7 @@
 			// since editable won't fire the event if selection process started within
 			// iframe and ended out of the editor (https://dev.ckeditor.com/ticket/9851).
 			editable.attachListener( CKEDITOR.env.ie ? editable : editor.document.getDocumentElement(), 'mouseup', function() {
-				mouseupTimeout = setTimeout( function() {
-					setToolbarStates();
-				}, 0 );
+				mouseupTimeout = setTimeout( setToolbarStates, 0 );
 			} );
 
 			// Make sure that deferred mouseup callback isn't executed after editor instance
@@ -1222,11 +1215,18 @@
 		}
 
 		function stateFromNamedCommand( command ) {
-			if ( inReadOnly && command in { paste: 1, cut: 1 } )
-				return CKEDITOR.TRISTATE_DISABLED;
+			var selection = editor.getSelection(),
+				range = selection && selection.getRanges()[ 0 ],
+				// We need to correctly update toolbar states on readOnly (#2775).
+				inReadOnly = editor.readOnly || ( range && range.checkReadOnly() );
 
-			if ( command == 'paste' )
+			if ( inReadOnly && command in { paste: 1, cut: 1 } ) {
+				return CKEDITOR.TRISTATE_DISABLED;
+			}
+
+			if ( command == 'paste' ) {
 				return CKEDITOR.TRISTATE_OFF;
+			}
 
 			// Cut, copy - check if the selection is not empty.
 			var sel = editor.getSelection(),

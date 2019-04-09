@@ -61,6 +61,10 @@
 			'.cke_image_resizer.cke_image_resizing{' +
 				'display:block' +
 			'}' +
+			// Hide resizer in read only mode (#2816).
+			'.cke_editable[contenteditable="false"] .cke_image_resizer{' +
+				'display:none;' +
+			'}' +
 			// Expand widget wrapper when linked inline image.
 			'.cke_widget_wrapper>a{' +
 				'display:inline-block' +
@@ -434,8 +438,7 @@
 
 				// Setup dynamic image resizing with mouse.
 				// Don't initialize resizer when dimensions are disallowed (https://dev.ckeditor.com/ticket/11004).
-				// Don't initialize resizer when editor.readOnly is set to true (#719).
-				if ( editor.filter.checkFeature( this.features.dimension ) && editor.config.image2_disableResizer !== true && editor.readOnly != true ) {
+				if ( editor.filter.checkFeature( this.features.dimension ) && editor.config.image2_disableResizer !== true ) {
 					setupResizer( this );
 				}
 
@@ -1457,7 +1460,7 @@
 		if ( !editor.plugins.link )
 			return;
 
-		CKEDITOR.on( 'dialogDefinition', function( evt ) {
+		var listener = CKEDITOR.on( 'dialogDefinition', function( evt ) {
 			var dialog = evt.data;
 
 			if ( dialog.name == 'link' ) {
@@ -1508,8 +1511,12 @@
 				};
 			}
 		} );
+		// Listener has to be removed due to leaking the editor reference (#589).
+		editor.on( 'destroy', function() {
+			listener.removeListener();
+		} );
 
-		// Overwrite default behaviour of unlink command.
+		// Overwrite the default behavior of unlink command.
 		editor.getCommand( 'unlink' ).on( 'exec', function( evt ) {
 			var widget = getFocusedWidget( editor );
 

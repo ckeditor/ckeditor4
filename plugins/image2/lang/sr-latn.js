@@ -5,17 +5,17 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 CKEDITOR.plugins.setLang( 'image2', 'sr-latn', {
 	alt: 'Alternativni tekst',
 	btnUpload: 'Pošalji na server',
-	captioned: 'Captioned image', // MISSING
-	captionPlaceholder: 'Caption', // MISSING
-	infoTab: 'Info slike',
-	lockRatio: 'Zaključaj odnos',
-	menu: 'Osobine slika',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
-	resetSize: 'Resetuj veličinu',
-	resizer: 'Click and drag to resize', // MISSING
+	captioned: 'Slika sa natpisom',
+	captionPlaceholder: 'Natpis',
+	infoTab: 'Osnovne karakteristike',
+	lockRatio: 'Zadrži odnos',
+	menu: 'Osobine slike',
+	pathName: 'Slika',
+	pathNameCaption: 'Natpis',
+	resetSize: 'Original  veličina',
+	resizer: 'Kliknite i povucite da bi ste promenili veličinu',
 	title: 'Osobine slika',
-	uploadTab: 'Pošalji',
-	urlMissing: 'Image source URL is missing.', // MISSING
-	altMissing: 'Alternative text is missing.' // MISSING
+	uploadTab: 'Postavi',
+	urlMissing: 'Nedostaje URL slike',
+	altMissing: 'Nedostaje alternativni tekst'
 } );

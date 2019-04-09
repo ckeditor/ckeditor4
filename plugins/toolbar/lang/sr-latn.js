@@ -3,20 +3,20 @@ Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'sr-latn', {
-	toolbarCollapse: 'Suzi alatnu traku',
-	toolbarExpand: 'Proširi alatnu traku',
+	toolbarCollapse: 'Zatvori alatnu traku',
+	toolbarExpand: 'Otvori alatnu traku',
 	toolbarGroups: {
-		document: 'Document',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		document: 'Dokument',
+		clipboard: 'Clipboard/Vrati',
+		editing: 'Uredi',
+		forms: 'Obrasci',
+		basicstyles: 'Osnovni stilovi',
+		paragraph: 'Pasus',
+		links: 'Linkovi',
+		insert: 'Dodaj',
+		styles: 'Stilovi',
+		colors: 'Boje',
+		tools: 'Alatke'
 	},
-	toolbars: 'Alatne trake'
+	toolbars: 'Uredjivač alatne trake'
 } );

@@ -3,6 +3,6 @@ Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'maximize', 'sr-latn', {
-	maximize: 'Maximize', // MISSING
-	minimize: 'Minimize' // MISSING
+	maximize: 'Maksimalna veličina',
+	minimize: 'Minimalna veličina'
 } );

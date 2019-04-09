@@ -69,6 +69,6 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 	title: 'Propriedades da tabela',
 	toolbar: 'Tabela',
 	widthPc: 'percentagem',
-	widthPx: 'pixéis',
+	widthPx: 'píxeis',
 	widthUnit: 'unidade da largura'
 } );

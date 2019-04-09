@@ -269,24 +269,32 @@
 
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {
 		// The chameleon feature is not for IE quirks.
-		if ( CKEDITOR.env.ie && CKEDITOR.env.quirks )
+		if ( CKEDITOR.env.ie && CKEDITOR.env.quirks ) {
 			return;
+		}
 
 		var editor = evt.editor,
 			showCallback = function( event ) {
-				var panel = event.data[ 0 ] || event.data;
-				var iframe = panel.element.getElementsByTag( 'iframe' ).getItem( 0 ).getFrameDocument();
+				var panel = event.data[ 0 ] || event.data,
+					iframe = panel.element.getElementsByTag( 'iframe' ).getItem( 0 ).getFrameDocument();
 
-				// Add stylesheet if missing.
+				// Add the stylesheet if missing.
 				if ( !iframe.getById( 'cke_ui_color' ) ) {
 					var node = getStylesheet( iframe );
 					uiColorMenus.push( node );
 
-					var color = editor.getUiColor();
-					// Set uiColor for new panel.
-					if ( color )
-						updateStylesheets( [ node ], CKEDITOR.skin.chameleon( editor, 'panel' ), [ [ uiColorRegexp, color ] ] );
+					// Cleanup after destroying the editor (#589).
+					editor.on( 'destroy', function() {
+						uiColorMenus = CKEDITOR.tools.array.filter( uiColorMenus, function( storedNode ) {
+							return node !== storedNode;
+						} );
+					} );
 
+					var color = editor.getUiColor();
+					// Set uiColor for the new panel.
+					if ( color ) {
+						updateStylesheets( [ node ], CKEDITOR.skin.chameleon( editor, 'panel' ), [ [ uiColorRegexp, color ] ] );
+					}
 				}
 			};
 

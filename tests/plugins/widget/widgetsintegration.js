@@ -57,6 +57,30 @@
 			this.editor.setReadOnly( false );
 		},
 
+		// (#1901)
+		'test modifier keystrokes upon widget focus': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testevent', {
+				editables: {
+					foo: '.foo'
+				}
+			} );
+
+			this.editorBot.setData( '<p id="p1">foo</p><div data-widget="testevent" id="w1"><p class="foo">foo</p></div>', function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				widget.focus();
+				assert.areNotEqual( false, widget.fire( 'key', { keyCode: CKEDITOR.SHIFT + 121 } ), 'Shift should not be canceled' ); // SHIFT + F10
+
+				widget.focus();
+				assert.areNotEqual( false, widget.fire( 'key', { keyCode: CKEDITOR.CTRL + 121 } ), 'Ctrl should not be canceled' ); // CTRL + F10
+
+				widget.focus();
+				assert.areNotEqual( false, widget.fire( 'key', { keyCode: CKEDITOR.ALT + 121 } ), 'Alt should not be canceled' ); // ALT + F10
+			} );
+		},
+
 		'test initializing widgets': function() {
 			var editor = this.editor;
 

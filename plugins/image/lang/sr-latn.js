@@ -6,20 +6,20 @@ CKEDITOR.plugins.setLang( 'image', 'sr-latn', {
 	alt: 'Alternativni tekst',
 	border: 'Okvir',
 	btnUpload: 'Pošalji na server',
-	button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-	hSpace: 'HSpace',
-	img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
-	infoTab: 'Info slike',
+	button2Img: 'Želite napraviti od odabrane slike tastera običnu sliku?',
+	hSpace: 'Vodoravna razdaljina',
+	img2Button: 'Želite od izabrane slike napraviti sliku tastera?',
+	infoTab: 'Osnovne karakteristike',
 	linkTab: 'Link',
-	lockRatio: 'Zaključaj odnos',
-	menu: 'Osobine slika',
-	resetSize: 'Resetuj veličinu',
-	title: 'Osobine slika',
-	titleButton: 'Osobine dugmeta sa slikom',
-	upload: 'Pošalji',
-	urlMissing: 'Image source URL is missing.', // MISSING
-	vSpace: 'VSpace',
-	validateBorder: 'Border must be a whole number.', // MISSING
-	validateHSpace: 'HSpace must be a whole number.', // MISSING
-	validateVSpace: 'VSpace must be a whole number.' // MISSING
+	lockRatio: 'Zadrži odnos',
+	menu: 'Osobine slike',
+	resetSize: 'Originalna veličina',
+	title: 'Osobine slike',
+	titleButton: 'Osobine tastera sa slikom',
+	upload: 'Postavi',
+	urlMissing: 'Nedostaje URL slike.',
+	vSpace: 'Uzdužna razdaljina',
+	validateBorder: 'Veličina okvira mora biti celi broj!',
+	validateHSpace: 'Vodoravna razdaljina mora bili celi broj!',
+	validateVSpace: 'Uzdužna razdaljina mora bili celi broj!'
 } );

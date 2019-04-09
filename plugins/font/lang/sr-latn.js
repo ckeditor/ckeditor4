@@ -4,11 +4,11 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'font', 'sr-latn', {
 	fontSize: {
-		label: 'Veličina fonta',
-		voiceLabel: 'Font Size',
-		panelTitle: 'Veličina fonta'
+		label: 'Veličina ',
+		voiceLabel: 'Veličina slova',
+		panelTitle: 'Veličina slova'
 	},
 	label: 'Font',
-	panelTitle: 'Font',
+	panelTitle: 'Naziv fonta',
 	voiceLabel: 'Font'
 } );

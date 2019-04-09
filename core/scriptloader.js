@@ -20,7 +20,7 @@ CKEDITOR.scriptLoader = ( function() {
 
 	return {
 		/**
-		 * Loads one or more external script checking if not already loaded
+		 * Loads one or more external scripts checking if it has not been loaded
 		 * previously by this function.
 		 *
 		 *		CKEDITOR.scriptLoader.load( '/myscript.js' );
@@ -40,9 +40,9 @@ CKEDITOR.scriptLoader = ( function() {
 		 * scripts to be loaded.
 		 * @param {Function} [callback] A function to be called when the script
 		 * is loaded and executed. If a string is passed to `scriptUrl`, a
-		 * boolean parameter is passed to the callback, indicating the
-		 * success of the load. If an array is passed instead, two arrays
-		 * parameters are passed to the callback - the first contains the
+		 * Boolean parameter is passed to the callback, indicating the
+		 * success of the load. If an array is passed instead, two array
+		 * parameters are passed to the callback: the first contains the
 		 * URLs that have been properly loaded and the second the failed ones.
 		 * @param {Object} [scope] The scope (`this` reference) to be used for
 		 * the callback call. Defaults to {@link CKEDITOR}.
@@ -130,13 +130,15 @@ CKEDITOR.scriptLoader = ( function() {
 						} else {
 							script.$.onload = function() {
 								// Some browsers, such as Safari, may call the onLoad function
-								// immediately. Which will break the loading sequence. (https://dev.ckeditor.com/ticket/3661)
+								// immediately. This will break the loading sequence. (https://dev.ckeditor.com/ticket/3661)
 								setTimeout( function() {
+									removeListeners( script );
 									onLoad( url, true );
 								}, 0 );
 							};
 
 							script.$.onerror = function() {
+								removeListeners( script );
 								onLoad( url, false );
 							};
 						}
@@ -146,11 +148,18 @@ CKEDITOR.scriptLoader = ( function() {
 					script.appendTo( CKEDITOR.document.getHead() );
 
 					CKEDITOR.fire( 'download', url ); // %REMOVE_LINE%
+
 				};
 
 			showBusy && CKEDITOR.document.getDocumentElement().setStyle( 'cursor', 'wait' );
 			for ( var i = 0; i < scriptCount; i++ ) {
 				loadScript( scriptUrl[ i ] );
+			}
+
+			function removeListeners( script ) {
+				// Once the script loaded or failed to load, remove listeners as this might lead to memory leaks (#589).
+				script.$.onload = null;
+				script.$.onerror = null;
 			}
 		},
 
@@ -158,9 +167,9 @@ CKEDITOR.scriptLoader = ( function() {
 		 * Loads a script in a queue, so only one is loaded at the same time.
 		 *
 		 * @since 4.1.2
-		 * @param {String} scriptUrl URL pointing to the script to be loaded.
+		 * @param {String} scriptUrl The URL pointing to the script to be loaded.
 		 * @param {Function} [callback] A function to be called when the script
-		 * is loaded and executed. A boolean parameter is passed to the callback,
+		 * is loaded and executed. A Boolean parameter is passed to the callback,
 		 * indicating the success of the load.
 		 *
 		 * @see CKEDITOR.scriptLoader#load

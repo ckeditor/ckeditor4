@@ -3,41 +3,41 @@ Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'flash', 'sr-latn', {
-	access: 'Script Access', // MISSING
-	accessAlways: 'Always', // MISSING
-	accessNever: 'Never', // MISSING
-	accessSameDomain: 'Same domain', // MISSING
+	access: 'Pristup skripti',
+	accessAlways: 'Uvek',
+	accessNever: 'Nikada',
+	accessSameDomain: 'Sa istog domena',
 	alignAbsBottom: 'Abs dole',
 	alignAbsMiddle: 'Abs sredina',
 	alignBaseline: 'Bazno',
 	alignTextTop: 'Vrh teksta',
 	bgcolor: 'Boja pozadine',
-	chkFull: 'Allow Fullscreen', // MISSING
-	chkLoop: 'Ponavljaj',
+	chkFull: 'Omogući ceo ekran',
+	chkLoop: 'Neprekidno',
 	chkMenu: 'Uključi fleš meni',
-	chkPlay: 'Automatski start',
-	flashvars: 'Variables for Flash', // MISSING
-	hSpace: 'HSpace',
+	chkPlay: 'Automatsko pokretanje',
+	flashvars: 'Fleš varijable',
+	hSpace: 'Vodorav.razdaljina',
 	properties: 'Osobine fleša',
-	propertiesTab: 'Properties', // MISSING
-	quality: 'Quality', // MISSING
-	qualityAutoHigh: 'Auto High', // MISSING
-	qualityAutoLow: 'Auto Low', // MISSING
-	qualityBest: 'Best', // MISSING
-	qualityHigh: 'High', // MISSING
-	qualityLow: 'Low', // MISSING
-	qualityMedium: 'Medium', // MISSING
-	scale: 'Skaliraj',
+	propertiesTab: 'Osobine',
+	quality: 'Kvalitet',
+	qualityAutoHigh: 'Automatski dobro',
+	qualityAutoLow: 'Automatski slabo',
+	qualityBest: 'Najbolje',
+	qualityHigh: 'Dobro',
+	qualityLow: 'Slabo',
+	qualityMedium: 'Srednje',
+	scale: 'Merenje',
 	scaleAll: 'Prikaži sve',
-	scaleFit: 'Popuni površinu',
+	scaleFit: 'Popuni sve',
 	scaleNoBorder: 'Bez ivice',
 	title: 'Osobine fleša',
-	vSpace: 'VSpace',
-	validateHSpace: 'HSpace must be a number.', // MISSING
+	vSpace: 'Usprav. razdaljina',
+	validateHSpace: 'U polje vodoravna razdaljina možete uneti samo brojeve.',
 	validateSrc: 'Unesite URL linka',
-	validateVSpace: 'VSpace must be a number.', // MISSING
-	windowMode: 'Window mode', // MISSING
-	windowModeOpaque: 'Opaque', // MISSING
-	windowModeTransparent: 'Transparent', // MISSING
-	windowModeWindow: 'Window' // MISSING
+	validateVSpace: 'U polje uspravna razdaljina možete uneti samo brojeve.',
+	windowMode: 'Prozor mod',
+	windowModeOpaque: 'Neprovidan',
+	windowModeTransparent: 'Providan',
+	windowModeWindow: 'Prozor'
 } );

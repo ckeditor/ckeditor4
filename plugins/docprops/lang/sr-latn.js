@@ -6,20 +6,20 @@ CKEDITOR.plugins.setLang( 'docprops', 'sr-latn', {
 	bgColor: 'Boja pozadine',
 	bgFixed: 'Fiksirana pozadina',
 	bgImage: 'URL pozadinske slike',
-	charset: 'Kodiranje skupa karaktera',
-	charsetASCII: 'ASCII', // MISSING
-	charsetCE: 'Central European', // MISSING
-	charsetCR: 'Cyrillic', // MISSING
-	charsetCT: 'Chinese Traditional (Big5)', // MISSING
-	charsetGR: 'Greek', // MISSING
-	charsetJP: 'Japanese', // MISSING
-	charsetKR: 'Korean', // MISSING
-	charsetOther: 'Ostala kodiranja skupa karaktera',
-	charsetTR: 'Turkish', // MISSING
-	charsetUN: 'Unicode (UTF-8)', // MISSING
-	charsetWE: 'Western European', // MISSING
-	chooseColor: 'Choose',
-	design: 'Design', // MISSING
+	charset: 'Kodiranje karaktera',
+	charsetASCII: 'ASCII',
+	charsetCE: 'Srednje-evropski',
+	charsetCR: 'Ćirilični',
+	charsetCT: 'Tradicionalno Kineski (Big5)',
+	charsetGR: 'Grčki',
+	charsetJP: 'Japanski',
+	charsetKR: 'Koreanski',
+	charsetOther: 'Drugo kodiranje karaktera',
+	charsetTR: 'Turski',
+	charsetUN: 'Unicode (UTF-8)',
+	charsetWE: 'Zapadno-evropski',
+	chooseColor: 'Izaberite',
+	design: 'Dizajn',
 	docTitle: 'Naslov stranice',
 	docType: 'Zaglavlje tipa dokumenta',
 	docTypeOther: 'Ostala zaglavlja tipa dokumenta',
@@ -34,9 +34,9 @@ CKEDITOR.plugins.setLang( 'docprops', 'sr-latn', {
 	metaCopyright: 'Autorska prava',
 	metaDescription: 'Opis dokumenta',
 	metaKeywords: 'Ključne reci za indeksiranje dokumenta (razdvojene zarezima)',
-	other: '<остало>',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
+	other: 'Drugo...',
+	previewHtml: '<p>Ovo je jedan <strong>primer</strong>. Koristite <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'Osobine dokumenta',
 	txtColor: 'Boja teksta',
-	xhtmlDec: 'Ukljuci XHTML deklaracije'
+	xhtmlDec: 'Nalepi XHTML deklaracije'
 } );

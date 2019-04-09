@@ -4,26 +4,26 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'forms', 'sr-latn', {
 	button: {
-		title: 'Osobine dugmeta',
+		title: 'Osobine tastera',
 		text: 'Tekst (vrednost)',
 		type: 'Tip',
-		typeBtn: 'Button',
-		typeSbm: 'Submit',
+		typeBtn: 'Taster',
+		typeSbm: 'Poslati',
 		typeRst: 'Reset'
 	},
 	checkboxAndRadio: {
 		checkboxTitle: 'Osobine polja za potvrdu',
-		radioTitle: 'Osobine radio-dugmeta',
+		radioTitle: 'Osobine radio-tastera',
 		value: 'Vrednost',
-		selected: 'Označeno',
-		required: 'Required' // MISSING
+		selected: 'Odabran',
+		required: 'Obavezno'
 	},
 	form: {
-		title: 'Osobine forme',
-		menu: 'Osobine forme',
-		action: 'Akcija',
-		method: 'Metoda',
-		encoding: 'Encoding'
+		title: 'Osobine obrazca',
+		menu: 'Osobine obrazca',
+		action: 'Referenca obrade podataka',
+		method: 'Metoda slanja podataka',
+		encoding: 'Kodiranje'
 	},
 	hidden: {
 		title: 'Osobine skrivenog polja',
@@ -31,35 +31,35 @@ CKEDITOR.plugins.setLang( 'forms', 'sr-latn', {
 		value: 'Vrednost'
 	},
 	select: {
-		title: 'Osobine izbornog polja',
-		selectInfo: 'Info',
+		title: 'Osobine padjuće liste',
+		selectInfo: 'Osnovne karakteristike',
 		opAvail: 'Dostupne opcije',
 		value: 'Vrednost',
 		size: 'Veličina',
-		lines: 'linija',
-		chkMulti: 'Dozvoli višestruku selekciju',
-		required: 'Required', // MISSING
+		lines: 'red',
+		chkMulti: 'dozvoli višestruku selekciju',
+		required: 'Obavezno',
 		opText: 'Tekst',
 		opValue: 'Vrednost',
 		btnAdd: 'Dodaj',
 		btnModify: 'Izmeni',
 		btnUp: 'Gore',
 		btnDown: 'Dole',
-		btnSetValue: 'Podesi kao označenu vrednost',
+		btnSetValue: 'Podesi kao podrazumevanu vrednost',
 		btnDelete: 'Obriši'
 	},
 	textarea: {
 		title: 'Osobine zone teksta',
-		cols: 'Broj kolona',
+		cols: 'Broj karaktera u redu',
 		rows: 'Broj redova'
 	},
 	textfield: {
 		title: 'Osobine tekstualnog polja',
 		name: 'Naziv',
 		value: 'Vrednost',
-		charWidth: 'Širina (karaktera)',
+		charWidth: 'Broj prikazanih karaktera',
 		maxChars: 'Maksimalno karaktera',
-		required: 'Required', // MISSING
+		required: 'Obavezno',
 		type: 'Tip',
 		typeText: 'Tekst',
 		typePass: 'Lozinka',

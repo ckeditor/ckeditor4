@@ -44,7 +44,7 @@
 					);
 
 					tc.resume( function() {
-						callback( editor, editable, editor.plugins.magicline.backdoor );
+						callback( editor, editable, editor._.magiclineBackdoor );
 					} );
 				}
 			}

@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sr-latn', {
 	cut: 'Iseci',
 	cutError: 'Sigurnosna podešavanja Vašeg pretraživača ne dozvoljavaju operacije automatskog isecanja teksta. Molimo Vas da koristite prečicu sa tastature (Ctrl/Cmd+X).',
 	paste: 'Zalepi',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteNotification: '"Pritisnite taster %1 za lepljenje. Vaš pretraživač ne dozvoljava lepljenje iz alatne trake ili menia.',
 	pasteArea: 'Prostor za lepljenje',
-	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
+	pasteMsg: 'Nalepite sadržaj u sledeći prostor i pritisnite taster OK.'
 } );
