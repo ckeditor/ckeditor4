@@ -29,6 +29,9 @@
 		removedAnchoredTable = CKEDITOR.document.getById( 'table-with-anchors-removed' ).findOne( 'table' );
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
 		'test create link': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
@@ -243,8 +246,6 @@
 			} );
 		}
 	};
-
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
 
 	bender.test( tests );
 } )();

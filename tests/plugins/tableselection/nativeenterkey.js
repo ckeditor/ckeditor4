@@ -1,7 +1,6 @@
 /* bender-tags: editor,unit,tableselection */
 /* bender-ckeditor-plugins: table,tableselection,wysiwygarea,undo */
 /* bender-include: ./_helpers/tableselection.js */
-/* global tableSelectionHelpers */
 
 ( function() {
 	'use strict';
@@ -38,6 +37,9 @@
 	};
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
 		'test tableselection without enterkey plugin': function( editor, bot ) {
 			var expectedResult = TABLE_WITH_SELECTION.replace( /(\[|\])/g, '' ).replace( 'BB', '&nbsp;' ).replace( 'YY', '&nbsp;' );
 			bot.setHtmlWithSelection( TABLE_WITH_SELECTION );
@@ -66,6 +68,5 @@
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
 	bender.test( tests );
 } )();

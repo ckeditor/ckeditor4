@@ -25,10 +25,6 @@
 </textarea>
 
 <script>
+	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
 	CKEDITOR.replace( 'editor1' );
-	CKEDITOR.on( 'instanceLoaded', function() {
-		if ( !CKEDITOR.plugins.tableselection.isSupportedEnvironment ) {
-			bender.ignore();
-		}
-	});
 </script>

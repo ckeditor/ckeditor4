@@ -8,12 +8,12 @@
 
 	bender.test( {
 
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
+
 		// #579
 		'test advance table dialog for ignorig selection class': function() {
-			if ( !CKEDITOR.plugins.tableselection.isSupportedEnvironment ) {
-				assert.ignore();
-			}
-
 			var bot = this.editorBot;
 
 			// Add table with fake selection.

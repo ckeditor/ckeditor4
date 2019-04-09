@@ -1,7 +1,7 @@
 /* bender-tags: tableselection, clipboard */
 /* bender-ckeditor-plugins: undo,tableselection */
 /* bender-include: ../../_helpers/tableselection.js */
-/* global tableSelectionHelpers, createPasteTestCase */
+/* global createPasteTestCase */
 
 ( function() {
 	'use strict';
@@ -11,6 +11,10 @@
 	};
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
+
 		'test doesnt break regular paste': function( editor ) {
 			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
 			bender.tools.emulatePaste( editor, '<p>bam</p>' );
@@ -71,8 +75,6 @@
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
-
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
 
 	bender.test( tests );
 } )();
