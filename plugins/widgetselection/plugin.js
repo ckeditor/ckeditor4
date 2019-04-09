@@ -94,17 +94,17 @@
 						range.select();
 					}
 
-					function fixSelectionInWidget( widget, edgePrefix ) {
+					function fixSelectionInWidget( widget, prefix ) {
 						if ( widget ) {
 							var widgetOuter = widget.wrapper || widget.element,
-								container = range[ edgePrefix + 'Container' ],
-								offset = range[ edgePrefix + 'Offset' ],
-								limit = edgePrefix === 'start' ? 0 : container.getChildCount();
+								container = range[ prefix + 'Container' ],
+								offset = range[ prefix + 'Offset' ],
+								limit = prefix === 'start' ? 0 : container.getChildCount();
 
 							if ( widgetOuter.equals( container ) && offset === limit ) {
-								range[ edgePrefix === 'start' ? 'setStartBefore' : 'setEndAfter' ]( widgetOuter );
+								range[ prefix === 'start' ? 'setStartBefore' : 'setEndAfter' ]( widgetOuter );
 							} else {
-								range[ edgePrefix === 'start' ? 'setStartAfter' : 'setEndBefore' ]( widgetOuter );
+								range[ prefix === 'start' ? 'setStartAfter' : 'setEndBefore' ]( widgetOuter );
 							}
 						}
 					}
