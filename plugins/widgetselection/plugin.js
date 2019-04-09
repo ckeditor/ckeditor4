@@ -54,7 +54,6 @@
 					}
 				}
 
-
 				// Normalize selection when only one end of range is in widget (#2517) (#3007) (#3008).
 				var selectionChangeListener = editor.on( 'selectionChange', selectionChangeCallback );
 
