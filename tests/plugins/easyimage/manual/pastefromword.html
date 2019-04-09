@@ -16,9 +16,11 @@
 
 <script>
 	// Ignore on mobiles due to lack of support for Paste from Word.
-	if ( easyImageTools.isUnsupportedEnvironment() || CKEDITOR.env.safari || bender.tools.env.mobile ) {
+	if ( CKEDITOR.env.safari || bender.tools.env.mobile ) {
 		bender.ignore();
 	}
+	
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 	var commonConfig = {
 			cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,

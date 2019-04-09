@@ -26,9 +26,12 @@
 
 <script>
 	// Ignore on mobiles due to lack of support for files drag and drop.
-	if ( easyImageTools.isUnsupportedEnvironment() || bender.tools.env.mobile ) {
+	if ( bender.tools.env.mobile ) {
 		bender.ignore();
 	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
 
 	var IMG_URL = '%BASE_PATH%_assets/logo.png',
 		commonConfig = {

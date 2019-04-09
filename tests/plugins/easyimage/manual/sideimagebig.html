@@ -81,9 +81,11 @@
 
 <script>
 	// Ignore on mobiles due to very poor support for editor / table cells resizing.
-	if ( easyImageTools.isUnsupportedEnvironment() || bender.tools.env.mobile ) {
+	if ( bender.tools.env.mobile ) {
 		bender.ignore();
 	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 	var config = {
 		cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,
