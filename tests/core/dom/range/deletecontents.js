@@ -212,7 +212,6 @@
 				range = new CKEDITOR.dom.range( doc );
 
 			root.setAttribute( 'contenteditable', 'true' );
-
 			root.setHtml( '<p>foo</p><p>bar</p>' );
 
 			range.setStartAt( root, CKEDITOR.POSITION_AFTER_START );
