@@ -204,6 +204,26 @@
 			range.deleteContents();
 
 			assert.isInnerHtmlMatching( '<h1></h1>[]<h2><br /></h2>', bender.tools.range.getWithHtml( root, range ) );
+		},
+
+		// (#3041)
+		'test deleteContents - range starts in wrapper, ends in second paragraph': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setAttribute( 'contenteditable', 'true' );
+
+			root.setHtml( '<p>foo</p><p>bar</p>' );
+
+			range.setStartAt( root, CKEDITOR.POSITION_AFTER_START );
+			range.setEndAt( root.getLast(), CKEDITOR.POSITION_BEFORE_END );
+
+			try {
+				range.deleteContents( true );
+				assert.pass();
+			} catch ( e ) {
+				assert.fail( e.message );
+			}
 		}
 	};
 
