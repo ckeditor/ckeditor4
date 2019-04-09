@@ -1,0 +1,33 @@
+<textarea id="editor">
+	<p>Foo</p>
+	<p>Bar</p>
+</textarea>
+<p id="controls">
+<button data-button-action="select">Create range</button>
+<button data-button-action="delete">Delete range contents</button>
+<button data-button-action="restore">Restore editor</button>
+</p>
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+	var editor = CKEDITOR.replace( 'editor' );
+
+	CKEDITOR.document.findOne( '#controls' ).on( 'click', function( evt ) {
+		switch ( evt.data.getTarget().data( 'button-action' ) ) {
+			case 'select': return select();
+			case 'delete': return editor.getSelection().getRanges()[ 0 ].deleteContents( true );
+			case 'restore': editor.setData( '<p>Foo</p><p>Bar</p>' );
+		}
+
+		function select() {
+			var rng = editor.createRange(),
+				editable = editor.editable();
+
+			rng.setStartAt( editable, CKEDITOR.POSITION_AFTER_START );
+			rng.setEndAt( editable.getLast(), CKEDITOR.POSITION_BEFORE_END );
+			editor.focus();
+			rng.select();
+		}
+	} );
+</script>
