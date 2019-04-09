@@ -22,37 +22,37 @@
 			}
 		},
 
-		'1 row, 2 cols, none -> none': assertHeadersCorrectnesssAfterManipulation( 'header-none', 'header-none', 'none' ),
+		'1 row, 2 cols, none -> none': assertHeadersCorrectnesssAfterManipulation( 'none', 'none', 'none' ),
 
-		'1 row, 2 cols, none -> col': assertHeadersCorrectnesssAfterManipulation( 'header-none', 'header-col', 'col' ),
+		'1 row, 2 cols, none -> col': assertHeadersCorrectnesssAfterManipulation( 'none', 'col', 'col' ),
 
-		'1 row, 2 cols, none -> row': assertHeadersCorrectnesssAfterManipulation( 'header-none', 'header-row', 'row' ),
+		'1 row, 2 cols, none -> row': assertHeadersCorrectnesssAfterManipulation( 'none', 'row', 'row' ),
 
-		'1 row, 2 cols, none -> both': assertHeadersCorrectnesssAfterManipulation( 'header-none', 'header-both', 'both' ),
+		'1 row, 2 cols, none -> both': assertHeadersCorrectnesssAfterManipulation( 'none', 'both', 'both' ),
 
-		'1 row, 2 cols, col -> none': assertHeadersCorrectnesssAfterManipulation( 'header-col', 'header-none', 'none' ),
+		'1 row, 2 cols, col -> none': assertHeadersCorrectnesssAfterManipulation( 'col', 'none', 'none' ),
 
-		'1 row, 2 cols, col -> col': assertHeadersCorrectnesssAfterManipulation( 'header-col', 'header-col', 'col' ),
+		'1 row, 2 cols, col -> col': assertHeadersCorrectnesssAfterManipulation( 'col', 'col', 'col' ),
 
-		'1 row, 2 cols, col -> row': assertHeadersCorrectnesssAfterManipulation( 'header-col', 'header-row', 'row' ),
+		'1 row, 2 cols, col -> row': assertHeadersCorrectnesssAfterManipulation( 'col', 'row', 'row' ),
 
-		'1 row, 2 cols, col -> both': assertHeadersCorrectnesssAfterManipulation( 'header-col', 'header-both', 'both' ),
+		'1 row, 2 cols, col -> both': assertHeadersCorrectnesssAfterManipulation( 'col', 'both', 'both' ),
 
-		'1 row, 2 cols, row -> none': assertHeadersCorrectnesssAfterManipulation( 'header-row', 'header-none', 'none' ),
+		'1 row, 2 cols, row -> none': assertHeadersCorrectnesssAfterManipulation( 'row', 'none', 'none' ),
 
-		'1 row, 2 cols, row -> col': assertHeadersCorrectnesssAfterManipulation( 'header-row', 'header-col', 'col' ),
+		'1 row, 2 cols, row -> col': assertHeadersCorrectnesssAfterManipulation( 'row', 'col', 'col' ),
 
-		'1 row, 2 cols, row -> row': assertHeadersCorrectnesssAfterManipulation( 'header-row', 'header-row', 'row' ),
+		'1 row, 2 cols, row -> row': assertHeadersCorrectnesssAfterManipulation( 'row', 'row', 'row' ),
 
-		'1 row, 2 cols, row -> both': assertHeadersCorrectnesssAfterManipulation( 'header-row', 'header-both', 'both' ),
+		'1 row, 2 cols, row -> both': assertHeadersCorrectnesssAfterManipulation( 'row', 'both', 'both' ),
 
-		'1 row, 2 cols, both -> none': assertHeadersCorrectnesssAfterManipulation( 'header-both', 'header-none', 'none' ),
+		'1 row, 2 cols, both -> none': assertHeadersCorrectnesssAfterManipulation( 'both', 'none', 'none' ),
 
-		'1 row, 2 cols, both -> col': assertHeadersCorrectnesssAfterManipulation( 'header-both', 'header-col', 'col' ),
+		'1 row, 2 cols, both -> col': assertHeadersCorrectnesssAfterManipulation( 'both', 'col', 'col' ),
 
-		'1 row, 2 cols, both -> row': assertHeadersCorrectnesssAfterManipulation( 'header-both', 'header-row', 'row' ),
+		'1 row, 2 cols, both -> row': assertHeadersCorrectnesssAfterManipulation( 'both', 'row', 'row' ),
 
-		'1 row, 2 cols, both -> both': assertHeadersCorrectnesssAfterManipulation( 'header-both', 'header-both', 'both' )
+		'1 row, 2 cols, both -> both': assertHeadersCorrectnesssAfterManipulation( 'both', 'both', 'both' )
 	} );
 
 } )();

@@ -1,6 +1,6 @@
 /* exported assertHeadersCorrectnesssAfterManipulation */
 
-function assertHeadersCorrectnesssAfterManipulation( input, expected, headerType ) {
+function assertHeadersCorrectnesssAfterManipulation( input, expected ) {
 	'use strict';
 
 	return function() {
@@ -8,7 +8,7 @@ function assertHeadersCorrectnesssAfterManipulation( input, expected, headerType
 		bot.setHtmlWithSelection( bender.tools.getValueAsHtml( input ).replace( ';', '' ) );
 
 		bot.dialog( 'tableProperties', function( dialog ) {
-			dialog.setValueOf( 'info', 'selHeaders', headerType );
+			dialog.setValueOf( 'info', 'selHeaders', expected );
 
 			dialog.fire( 'ok' );
 			dialog.hide();
