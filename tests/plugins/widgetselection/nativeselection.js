@@ -18,56 +18,57 @@
 		}
 	};
 
-	var tests = {
-		// (#2517) (#3007)
-		'test selection when starts at the end of a widget': assertSelection( {
-				initial: '<div contenteditable="false"><div>FakeWidget</div>[</div>foo]',
-				expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]'
-			} ),
-		// (#2517) (#3007)
-		'test selection when starts at the beginning of a widget': assertSelection( {
-				initial: '<div contenteditable="false">[<div>FakeWidget</div></div>foo]',
-				expected: '[<div contenteditable="false"><div>FakeWidget</div></div>foo]'
-			} ),
-		// (#2517) (#3007)
-		'test selection when ends at the beginning of a widget': assertSelection( {
-				initial: '[foo<div contenteditable="false">]<div>FakeWidget</div></div>',
-				expected: '[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
-			} ),
-		// (#2517) (#3007)
-		'test selection when ends at the end of a widget': assertSelection( {
-				initial: '[foo<div contenteditable="false"><div>FakeWidget</div>]</div>',
-				expected: '[foo<div contenteditable="false"><div>FakeWidget</div></div>]'
-			} ),
-		// (#2517) (#3007)
-		'test selection when starts at the end and ends at the beginning of a widget': assertSelection( {
-				initial: '<div contenteditable="false"><div>FakeWidget</div>[</div>foo<div contenteditable="false">]<div>FakeWidget</div></div>',
-				expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
-			} ),
-		// (#2517) (#3007)
-		'test selection when starts at the beginning and ends at the end of a widget': assertSelection( {
-				initial: '<div contenteditable="false">[<div>FakeWidget</div></div>foo<div contenteditable="false"><div>FakeWidget</div>]</div>',
-				expected: '[<div contenteditable="false"><div>FakeWidget</div></div>foo<div contenteditable="false"><div>FakeWidget</div></div>]'
-			} ),
-		// (#2517) (#3007)
-		'test selection when starts in the drag handler': assertSelection( {
-				initial: '<div contenteditable="false">' +
-					'<figure><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" /><figcaption>caption</figcaption></figure>' +
-					'<span><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" />[</span></div>foo]',
-				expected: '<div contenteditable="false">' +
-					'<figure><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" /><figcaption>caption</figcaption></figure>' +
-					'<span><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" /></span></div>[foo]'
-			} ),
-		// (#3008)
-		'test selection when starts in the nested editable': assertSelection( {
-				initial: '<div contenteditable="false">' +
-					'<figure><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" /><figcaption contenteditable="true">[caption</figcaption></figure>' +
-					'</div>foo]',
-				expected: '<div contenteditable="false">' +
-					'<figure><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" /><figcaption contenteditable="true">caption</figcaption></figure>' +
-					'</div>[foo]'
-			} )
-	};
+	var imageHtml = '<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" />',
+		tests = {
+			// (#2517) (#3007)
+			'test selection when starts at the end of a widget': assertSelection( {
+					initial: '<div contenteditable="false"><div>FakeWidget</div>[</div>foo]',
+					expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]'
+				} ),
+			// (#2517) (#3007)
+			'test selection when starts at the beginning of a widget': assertSelection( {
+					initial: '<div contenteditable="false">[<div>FakeWidget</div></div>foo]',
+					expected: '[<div contenteditable="false"><div>FakeWidget</div></div>foo]'
+				} ),
+			// (#2517) (#3007)
+			'test selection when ends at the beginning of a widget': assertSelection( {
+					initial: '[foo<div contenteditable="false">]<div>FakeWidget</div></div>',
+					expected: '[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
+				} ),
+			// (#2517) (#3007)
+			'test selection when ends at the end of a widget': assertSelection( {
+					initial: '[foo<div contenteditable="false"><div>FakeWidget</div>]</div>',
+					expected: '[foo<div contenteditable="false"><div>FakeWidget</div></div>]'
+				} ),
+			// (#2517) (#3007)
+			'test selection when starts at the end and ends at the beginning of a widget': assertSelection( {
+					initial: '<div contenteditable="false"><div>FakeWidget</div>[</div>foo<div contenteditable="false">]<div>FakeWidget</div></div>',
+					expected: '<div contenteditable="false"><div>FakeWidget</div></div>[foo]<div contenteditable="false"><div>FakeWidget</div></div>'
+				} ),
+			// (#2517) (#3007)
+			'test selection when starts at the beginning and ends at the end of a widget': assertSelection( {
+					initial: '<div contenteditable="false">[<div>FakeWidget</div></div>foo<div contenteditable="false"><div>FakeWidget</div>]</div>',
+					expected: '[<div contenteditable="false"><div>FakeWidget</div></div>foo<div contenteditable="false"><div>FakeWidget</div></div>]'
+				} ),
+			// (#2517) (#3007)
+			'test selection when starts in the drag handler': assertSelection( {
+					initial: '<div contenteditable="false">' +
+						'<figure>' + imageHtml + '<figcaption>caption</figcaption></figure>' +
+						'<span>' + imageHtml + '[</span></div>foo]',
+					expected: '<div contenteditable="false">' +
+						'<figure>'  + imageHtml + '<figcaption>caption</figcaption></figure>' +
+						'<span>'  + imageHtml + '</span></div>[foo]'
+				} ),
+			// (#3008)
+			'test selection when starts in the nested editable': assertSelection( {
+					initial: '<div contenteditable="false">' +
+						'<figure>'  + imageHtml + '<figcaption contenteditable="true">[caption</figcaption></figure>' +
+						'</div>foo]',
+					expected: '<div contenteditable="false">' +
+						'<figure>'  + imageHtml + '<figcaption contenteditable="true">caption</figcaption></figure>' +
+						'</div>[foo]'
+				} )
+		};
 
 	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
 
@@ -86,15 +87,14 @@
 
 			filter.addRules( {
 				elements: {
-					br: remove
-				},
+						br: remove
+					},
 				attributes: {
-					'class': remove,
-					'data-cke-widget': remove,
-					'data-cke-widget-wrapper': remove,
-					'data-cke-widget-id': remove
-				}
-
+						'class': remove,
+						'data-cke-widget': remove,
+						'data-cke-widget-wrapper': remove,
+						'data-cke-widget-id': remove
+					}
 			}, { applyToAll: true } ); // Options can be added only via `addRules`.
 
 			current = bender.tools.compatHtml( bender.tools.selection.getWithHtml( editor ), true, true, true, true, true, true, [ filter ] );
