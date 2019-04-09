@@ -95,17 +95,18 @@
 					}
 
 					function fixSelectionInWidget( widget, prefix ) {
-						if ( widget ) {
-							var widgetOuter = widget.wrapper || widget.element,
-								container = range[ prefix + 'Container' ],
-								offset = range[ prefix + 'Offset' ],
-								limit = prefix === 'start' ? 0 : container.getChildCount();
+						if ( !widget ) {
+							return;
+						}
+						var widgetOuter = widget.wrapper || widget.element,
+							container = range[ prefix + 'Container' ],
+							offset = range[ prefix + 'Offset' ],
+							limit = prefix === 'start' ? 0 : container.getChildCount();
 
-							if ( widgetOuter.equals( container ) && offset === limit ) {
-								range[ prefix === 'start' ? 'setStartBefore' : 'setEndAfter' ]( widgetOuter );
-							} else {
-								range[ prefix === 'start' ? 'setStartAfter' : 'setEndBefore' ]( widgetOuter );
-							}
+						if ( widgetOuter.equals( container ) && offset === limit ) {
+							range[ prefix === 'start' ? 'setStartBefore' : 'setEndAfter' ]( widgetOuter );
+						} else {
+							range[ prefix === 'start' ? 'setStartAfter' : 'setEndBefore' ]( widgetOuter );
 						}
 					}
 				}
