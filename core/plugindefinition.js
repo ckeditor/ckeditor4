@@ -191,7 +191,7 @@
  */
 
 /**
- * A virtual function which should be implemented if a plugin is not supported on every
+ * A function which should be implemented if a plugin is not supported on every
  * available environment according to
  * [Browser Compatibility](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_browsers.html)
  * or specific editor configuration.
@@ -203,14 +203,15 @@
  *
  * ```javascript
  * CKEDITOR.plugins.add( 'sample', {
- *		isEnvironmentSupported: function() {
+ *		isSupportedEnvironment: function( editor ) {
  *			// Plugin supported only on modern browsers.
  *			return !CKEDITOR.env.ie || CKEDITOR.env.edge;
  *		}
  * } );
  * ```
  *
- * @since 4.11.2
- * @method isEnvironmentSupported
+ * @since 4.12.0
+ * @method isSupportedEnvironment
+ * @param {CKEDITOR.editor} editor
  * @returns {Boolean} An information if the plugin is supported on the existing environment.
  */
