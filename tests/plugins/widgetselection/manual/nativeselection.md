@@ -1,6 +1,6 @@
 @bender-tags: 4.11.4, bug, 2517
 @bender-ui: collapsed
-@bender-ckeditor-plugins: widget, wysiwygarea, toolbar, sourcearea, image2, elementspath
+@bender-ckeditor-plugins: widget, wysiwygarea, toolbar, sourcearea, image2, elementspath, undo, resize
 
 1. Open browser console.
 1. Start selecting text from right with mouse.
