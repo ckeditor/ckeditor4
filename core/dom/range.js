@@ -504,7 +504,7 @@ CKEDITOR.dom.range = function( root ) {
 					var topLeft = startParents[ commonLevel + 1 ];
 
 					// TopLeft may simply not exist if commonLevel == maxLevel or may be a text node.
-					if ( topLeft && topLeft.type == CKEDITOR.NODE_ELEMENT ) {
+					if ( topLeft && topLeft.type == CKEDITOR.NODE_ELEMENT && range.document.getDocumentElement().contains( topLeft ) ) {
 						var span = CKEDITOR.dom.element.createFromHtml( '<span ' +
 							'data-cke-bookmark="1" style="display:none">&nbsp;</span>', range.document );
 						span.insertAfter( topLeft );
