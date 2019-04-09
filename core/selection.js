@@ -2020,9 +2020,8 @@
 
 			// Handle special case - fake selection of table cells.
 			if ( editor && editor.plugins.tableselection &&
-				CKEDITOR.plugins.tableselection.isSupportedEnvironment &&
-				isTableSelection( ranges ) &&
-				!isSelectingTable &&
+				editor.plugins.tableselection.isSupportedEnvironment() &&
+				isTableSelection( ranges ) && !isSelectingTable &&
 				!ranges[ 0 ]._getTableElement( { table: 1 } ).hasAttribute( 'data-cke-tableselection-ignored' )
 			) {
 				performFakeTableSelection.call( this, ranges );
