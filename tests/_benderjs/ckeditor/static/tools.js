@@ -60,6 +60,41 @@
 
 	bender.tools = {
 		/**
+		 * Ignores test case when the given plugin is not supported on the testing
+		 * environment. Uses {@link CKEDITOR.pluginDefinition#isSupportedEnvironment} to
+		 * verify if plugin is supported.
+		 *
+		 * Works for both manual and unit tests.
+		 *
+		 * @param pluginName pluginName Plugin name to check.
+		 * @param CKEDITOR.editor [editor] Editor instance passsed as an argument
+		 * to the {@link CKEDITOR.pluginDefinition#isSupportedEnvironment} method.
+		 */
+		ignoreUnsupportedEnvironment: function( pluginName, editor ) {
+			if ( !editor && !CKEDITOR.plugins.registered[ pluginName ].isSupportedEnvironment() ) {
+				ignoreTest();
+			} else if ( editor.status === 'ready' ) {
+				ignoreUnsupportedEnvironment();
+			} else {
+				editor.once( 'instanceReady', ignoreUnsupportedEnvironment );
+			}
+
+			function ignoreUnsupportedEnvironment() {
+				if ( !editor.plugins[ pluginName ].isSupportedEnvironment( editor ) ) {
+					ignoreTest();
+				}
+			}
+
+			function ignoreTest() {
+				if ( bender.testData.manual ) {
+					bender.ignore();
+				} else {
+					assert.ignore();
+				}
+			}
+		},
+
+		/**
 		 * Creates an array from an object.
 		 *
 		 * @param  {Object} obj
