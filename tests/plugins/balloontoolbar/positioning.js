@@ -1,7 +1,6 @@
 /* bender-tags: balloontoolbar */
 /* bender-ckeditor-plugins: toolbar,link,balloontoolbar */
 /* bender-include: _helpers/default.js */
-/* global ignoreUnsupportedEnvironment */
 
 ( function() {
 	'use strict';
@@ -30,6 +29,8 @@
 
 	var tests = {
 		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
 			if ( parentFrame ) {
 				parentFrame.style.height = '900px';
 			}
@@ -219,7 +220,6 @@
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
-	ignoreUnsupportedEnvironment( tests );
 	bender.test( tests );
 
 

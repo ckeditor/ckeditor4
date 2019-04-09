@@ -614,6 +614,10 @@
 	CKEDITOR.plugins.add( 'balloontoolbar', {
 		requires: 'balloonpanel',
 
+		isSupportedEnvironment: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
+		},
+
 		beforeInit: function( editor ) {
 			if ( !cssLoaded ) {
 				// Load fallback styles.
