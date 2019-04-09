@@ -24,10 +24,8 @@
 1. Enter any image source (may be fake) and press `OK`.
 
 ## Expected
-
 - Image is inserted.
 
 ## Unexpected
-
 - Image isn't inserted.
 - Error is thrown.
