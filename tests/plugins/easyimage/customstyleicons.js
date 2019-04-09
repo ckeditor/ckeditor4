@@ -19,9 +19,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( easyImageTools.isUnsupportedEnvironment() ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 			var addButton = CKEDITOR.ui.prototype.addButton;
 			this.addButtonStub = sinon.stub( CKEDITOR.ui.prototype, 'addButton', function( name, definition ) {

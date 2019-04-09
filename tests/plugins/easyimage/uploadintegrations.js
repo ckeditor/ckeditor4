@@ -27,7 +27,7 @@
 		tests = {
 			init: function() {
 				// We need to ignore entire test suit to prevent of fireing init, which breaks test suit on IE8-IE10.
-				if ( easyImageTools.isUnsupportedEnvironment() ) {
+				if ( !this.editor.plugins.easyimage.isSupportedEnvironment() ) {
 					bender.ignore();
 				}
 

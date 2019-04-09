@@ -12,9 +12,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( easyImageTools.isUnsupportedEnvironment() ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 			tools = CKEDITOR.plugins.easyimage;
 		},
 

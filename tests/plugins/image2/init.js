@@ -8,9 +8,7 @@
 	bender.test( {
 		// (#1791)
 		'test plugin init when easyimage is active': function() {
-			if ( easyImageTools.isUnsupportedEnvironment() ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 			var spy = sinon.spy( CKEDITOR, 'warn' );
 
@@ -23,6 +21,8 @@
 				var editor = bot.editor;
 
 				spy.restore();
+
+				bender.tools.ignoreUnsupportedEnvironment( 'easyimage', editor );
 
 				assert.isTrue( spy.calledWith( 'editor-plugin-conflict', { plugin: 'image2', replacedWith: 'easyimage' } ) );
 				assert.isUndefined( editor.commands.image, 'Command' );
