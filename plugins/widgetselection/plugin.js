@@ -16,13 +16,14 @@
 	CKEDITOR.plugins.add( 'widgetselection', {
 
 		init: function( editor ) {
-			if ( CKEDITOR.env.webkit ) {
-				var widgetselection = CKEDITOR.plugins.widgetselection;
 
-				editor.on( 'contentDom', function( evt ) {
+			editor.on( 'contentDom', function( evt ) {
 
-					var editor = evt.editor,
-						editable = editor.editable();
+				var editor = evt.editor,
+					editable = editor.editable();
+
+				if ( CKEDITOR.env.webkit ) {
+					var widgetselection = CKEDITOR.plugins.widgetselection;
 
 					editable.attachListener( editable, 'keydown', function( evt ) {
 						// Ctrl/Cmd + A
@@ -51,8 +52,64 @@
 					if ( 'selectall' in editor.plugins ) {
 						widgetselection.addSelectAllIntegration( editor );
 					}
+				}
+
+
+				// Normalize selection when only one end of range is in widget (#2517) (#3007) (#3008).
+				var selectionChangeListener = editor.on( 'selectionChange', selectionChangeCallback );
+
+				editable.getParent().getDocument().on( 'mousedown', function() {
+					selectionChangeListener.removeListener();
+
+					var mouseupListener = this.once( 'mouseup', function() {
+							fixRangesInWidgets();
+							mouseupListener.removeListener();
+							selectionChangeListener = editor.on( 'selectionChange', selectionChangeCallback );
+						} );
 				} );
-			}
+
+				function selectionChangeCallback( evt ) {
+					fixRangesInWidgets();
+					evt.cancel();
+				}
+
+				function fixRangesInWidgets() {
+					var selection = editor.getSelection(),
+						range = selection.getRanges()[ 0 ],
+						widget = CKEDITOR.plugins.widget,
+						isWidget = widget.isDomWidget.bind( widget ),
+						getByElement = editor.widgets.getByElement.bind( editor.widgets );
+
+					if ( selection.isFake || !range || selection.isCollapsed() ) {
+						return;
+					}
+
+					var startWidget = getByElement( range.startContainer.getAscendant( isWidget, true ) ),
+						endWidget = getByElement( range.endContainer.getAscendant( isWidget, true ) );
+
+					if ( startWidget !== endWidget ) {
+						fixSelectionInWidget( startWidget, 'start' );
+						fixSelectionInWidget( endWidget, 'end' );
+
+						range.select();
+					}
+
+					function fixSelectionInWidget( widget, edgePrefix ) {
+						if ( widget ) {
+							var widgetOuter = widget.wrapper || widget.element,
+								container = range[ edgePrefix + 'Container' ],
+								offset = range[ edgePrefix + 'Offset' ],
+								limit = edgePrefix === 'start' ? 0 : container.getChildCount();
+
+							if ( widgetOuter.equals( container ) && offset === limit ) {
+								range[ edgePrefix === 'start' ? 'setStartBefore' : 'setEndAfter' ]( widgetOuter );
+							} else {
+								range[ edgePrefix === 'start' ? 'setStartAfter' : 'setEndBefore' ]( widgetOuter );
+							}
+						}
+					}
+				}
+			} );
 		}
 	} );
 
