@@ -1,4 +1,4 @@
-/* bender-tags: clipboard,pastefromword */
+/* bender-tags: clipboard,pastefromword, 2870 */
 /* jshint ignore:start */
 /* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,bidi,font,link,toolbar,colorbutton,image */
 /* bender-ckeditor-plugins: list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,div,dialog */
