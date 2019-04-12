@@ -1196,7 +1196,7 @@
 
 			var styles = element.attributes && tools.parseCssText( element.attributes.style );
 
-			// Default list 40px padding. To have correct indentation we need to reduce margin-left by 40px for each list level.
+			// Default list has 40px padding. To correct indentation we need to reduce margin-left by 40px for each list level.
 			// Additionally margin has to be reduced by sum of margins of each parent, however it can't be done until list are structured in a tree (#2870).
 			// Note margin left is absent in IE pasted content.
 			if ( styles[ 'margin-left' ] ) {
