@@ -2463,7 +2463,7 @@
 			margin = CKEDITOR.tools.style.parse.margin( style[ marginCase ] );
 			for ( key in margin ) {
 				var currMargin = margin[ key ];
-				// We need to get rid of margins, unless they are allowed in config (#2935).
+				// We need to get rid of zero margins, unless they are allowed in config (#2935).
 				if ( keepEmptyMargins || CKEDITOR.tools.convertToPx( margin[ key ] ) ) {
 					style[ 'margin-' + key ] = currMargin;
 				} else if ( style[ 'margin-' + key ] ) {
