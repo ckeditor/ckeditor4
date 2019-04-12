@@ -652,7 +652,7 @@
 
 			var keepZeroMargins = editor && editor.config.pasteFromWord_keepZeroMargins;
 			// Still some elements might have shorthand margins or longhand with zero values.
-			parseShorthandMargins( styles, keepZeroMargins );
+			parseShorthandMargins( styles );
 			normalizeMargins();
 
 			return CKEDITOR.tools.writeCssText( styles );
@@ -1045,14 +1045,14 @@
 						newStyle,
 						i;
 
-					parseShorthandMargins( style, keepZeroMargins );
+					parseShorthandMargins( style );
 
 					for ( i = 0; i < elements.count(); i++ ) {
 						element = elements.getItem( i );
 
 						oldStyle = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ) );
 
-						parseShorthandMargins( oldStyle, keepZeroMargins );
+						parseShorthandMargins( oldStyle );
 						// The styles are applied with decreasing priority so we do not want
 						// to overwrite the existing properties.
 						newStyle = CKEDITOR.tools.extend( {}, oldStyle, style );
@@ -2456,19 +2456,13 @@
 		}
 	}
 
-	function parseShorthandMargins( style, keepZeroMargins ) {
+	function parseShorthandMargins( style ) {
 		var marginCase = style.margin ? 'margin' : style.MARGIN ? 'MARGIN' : false,
 			key, margin;
 		if ( marginCase ) {
 			margin = CKEDITOR.tools.style.parse.margin( style[ marginCase ] );
 			for ( key in margin ) {
-				var currMargin = margin[ key ];
-				// We need to get rid of zero margins, unless they are allowed in config (#2935).
-				if ( keepZeroMargins || CKEDITOR.tools.convertToPx( margin[ key ] ) ) {
-					style[ 'margin-' + key ] = currMargin;
-				} else if ( style[ 'margin-' + key ] ) {
-					delete style[ 'margin-' + key ];
-				}
+				style[ 'margin-' + key ] = margin[ key ];
 			}
 			delete style[ marginCase ];
 		}
