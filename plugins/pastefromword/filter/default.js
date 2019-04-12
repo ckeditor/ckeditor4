@@ -1202,7 +1202,7 @@
 				var margin = styles[ 'margin-left' ],
 					level = element.attributes[ 'cke-list-level' ];
 
-				margin = CKEDITOR.tools.convertToPx( margin ) - 48 * level;
+				margin = CKEDITOR.tools.convertToPx( margin ) - 40 * level;
 
 				if ( margin ) {
 					styles[ 'margin-left' ] = margin + 'px';
@@ -1592,6 +1592,59 @@
 					this.determineListItemValue( list[ j ] );
 				}
 			}
+
+			// Adjust left margin based on parents sum of parents left margin (#2870).
+			CKEDITOR.tools.array.forEach( listElements, function( element ) {
+				var listParents = CKEDITOR.tools.array.filter( getParents( element ), function( element ) {
+							return element.name === 'li';
+						} ),
+					leftOffset = CKEDITOR.tools.array.reduce( listParents, function( total, element ) {
+							if ( element.attributes && element.attributes.style ) {
+								var marginLeft = CKEDITOR.tools.parseCssText( element.attributes.style )[ 'margin-left' ];
+							}
+							return marginLeft ? total + parseInt( marginLeft, 10 ) : total;
+						}, 0 ),
+					styles = element.attributes && element.attributes.style,
+					marginLeft;
+
+				if ( !leftOffset ) {
+					return;
+				}
+
+				if ( styles ) {
+					styles = CKEDITOR.tools.parseCssText( styles );
+				} else {
+					styles = {
+						'margin-left': 0
+					};
+				}
+
+				marginLeft = parseInt( styles[ 'margin-left' ], 10 ) - leftOffset;
+
+				if ( marginLeft ) {
+					styles[ 'margin-left' ] = marginLeft + 'px';
+				} else {
+					delete styles[ 'margin-left' ];
+				}
+
+				if ( !element.attributes ) {
+					element.attributes = {};
+				}
+
+				element.attributes.style = CKEDITOR.tools.writeCssText( styles );
+
+				function getParents( element ) {
+					var parents = [],
+						parent = element.parent;
+
+					while( parent ) {
+						parents.push( parent );
+						parent = parent.parent;
+					}
+
+					return parents;
+				}
+			} );
 
 			return listElements;
 		},
