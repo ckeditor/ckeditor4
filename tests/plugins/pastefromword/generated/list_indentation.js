@@ -21,8 +21,7 @@
 
 	bender.test( createTestSuite( {
 		browsers: [
-			'chrome',
-			'firefox',
+			'chrome', // Chrome fixtures are identical to Firefox.
 			'edge',
 			'safari'
 		],
