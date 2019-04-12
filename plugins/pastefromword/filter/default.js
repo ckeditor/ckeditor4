@@ -1196,7 +1196,8 @@
 
 			var styles = element.attributes && tools.parseCssText( element.attributes.style );
 
-			// Default list in Word output has no margin-left or 48px. To have correct indentation we need to reduce margin-left by 48px for each list level (#2870).
+			// Default list 40px padding. To have correct indentation we need to reduce margin-left by 40px for each list level.
+			// Additionally margin has to be reduced by sum of margins of each parent, however it can't be done until list are structured in a tree (#2870).
 			// Note margin left is absent in IE pasted content.
 			if ( styles[ 'margin-left' ] ) {
 				var margin = styles[ 'margin-left' ],
