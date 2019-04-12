@@ -1007,7 +1007,7 @@
 			 * into a generic style sheet.
 			 *
 			 * @param {String} html An HTML string to be parsed.
-			 * @param {Boolean} [keepEmptyMargins=false] When set to `true` removing margins which equals to 0 will be prevented. **Since 4.12.0**.
+			 * @param {Boolean} [keepEmptyMargins=false] When `true`, margins which equals to 0 will be preserved. **Since 4.12.0**.
 			 * @returns {CKEDITOR.dom.document}
 			 * @since 4.7.0
 			 * @private
