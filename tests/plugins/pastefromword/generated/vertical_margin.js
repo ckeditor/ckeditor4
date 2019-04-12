@@ -13,7 +13,7 @@
 		allowedContent: true,
 		language: 'en',
 		removePlugins: pfwTools.defaultConfig.removePlugins,
-		pasteFromWord_keepEmptyMargins: true
+		pasteFromWord_keepZeroMargins: true
 	};
 
 	bender.editor = {

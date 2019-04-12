@@ -237,10 +237,10 @@
  * Flag decides whether pasted elements style `margin` which equals to 0 should be removed.
  *
  *		// Disable removing `margin:0`, `margin-left:0`, etc.
- *		config.pasteFromWord_keepEmptyMargins = true;
+ *		config.pasteFromWord_keepZeroMargins = true;
  *
  * @since 4.12.0
- * @cfg {Boolean} [pasteFromWord_keepEmptyMargins=false]
+ * @cfg {Boolean} [pasteFromWord_keepZeroMargins=false]
  * @member CKEDITOR.config
  */
 
