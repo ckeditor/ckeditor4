@@ -204,7 +204,7 @@
 					'<p style="margin-left:24px"><span lang="EN-GB" style="font-size:8.0pt"></span></p>' +
 					'<p style="margin-left:24px"><span lang="EN-GB" style="font-size:8.0pt"></span></p>' +
 					'<ul style="list-style-type:circle">' +
-					'<li><span style="tab-stops:list .5in"><span lang="EN-GB" style="font-size:8.0pt"></span>' +
+					'<li style="margin-left:8px"><span style="tab-stops:list .5in"><span lang="EN-GB" style="font-size:8.0pt"></span>' +
 					'<span lang="EN-GB" style="font-size:8.0pt">This line is size 8, TNR</span></span></li>' +
 					'<li ><span style="tab-stops:list .5in"><span lang="EN-GB" style="font-size:10.0pt">' +
 					'<span style="font-family:&quot;Georgia&quot;,serif">This one is size 10, <st1:country-region w:st="on"><st1:place w:st="on">Georgia</st1:place></st1:country-region>' +
