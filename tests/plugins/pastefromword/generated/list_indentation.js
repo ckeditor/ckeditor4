@@ -23,7 +23,8 @@
 		browsers: [
 			'chrome',
 			'firefox',
-			'edge'
+			'edge',
+			'safari'
 		],
 		wordVersions: [
 			'word2016',
