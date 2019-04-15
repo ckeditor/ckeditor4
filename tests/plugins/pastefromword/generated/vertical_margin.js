@@ -25,6 +25,7 @@
 			'chrome',
 			'edge',
 			'firefox',
+			'safari',
 			'ie11'
 		],
 		wordVersions: [
