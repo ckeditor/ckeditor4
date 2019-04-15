@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -485,6 +485,21 @@
 						// 		Address of the resource as a valid URL. At least one of data and type must be defined.
 						// If there is not `data`, skip the object element. (https://dev.ckeditor.com/ticket/17001)
 						return !!( element.attributes && element.attributes.data );
+					},
+
+					// Integrate page breaks with `pagebreak` plugin (#2598).
+					'br': function( element ) {
+						if ( !editor.plugins.pagebreak ) {
+							return;
+						}
+
+						var styles = CKEDITOR.tools.parseCssText( element.attributes.style, true );
+
+						// Safari uses `break-before` instead of `page-break-before` to recognize page breaks.
+						if ( styles[ 'page-break-before' ] === 'always' || styles[ 'break-before' ] === 'page' ) {
+							var pagebreakEl = CKEDITOR.plugins.pagebreak.createElement( editor );
+							return CKEDITOR.htmlParser.fragment.fromHtml( pagebreakEl.getOuterHtml() ).children[ 0 ];
+						}
 					}
 				},
 				attributes: {
@@ -1265,8 +1280,6 @@
 				if ( element.name == 'cke:li' ) {
 					element.name = 'li';
 
-					//plug.lists.removeSymbolText( element );
-
 					listElements.push( element );
 				}
 			}, CKEDITOR.NODE_ELEMENT, false );
@@ -1275,22 +1288,24 @@
 		},
 
 		removeSymbolText: function( element ) { // ...from a list element.
-			var removed,
-				symbol = element.attributes[ 'cke-symbol' ];
+			var symbol = element.attributes[ 'cke-symbol' ],
+				// Find the first element which contains symbol to be replaced (#2690).
+				node = element.findOne( function( node ) {
+						// Since symbol may contains special characters we use `indexOf` (instead of RegExp) which is sufficient (#877).
+						return node.value && node.value.indexOf( symbol ) > -1;
+					}, true ),
+				parent;
 
-			element.forEach( function( node ) {
-				// Since symbol may contains special characters we use `indexOf` (instead of RegExp) which is sufficient (#877).
-				if ( !removed && node.value.indexOf( symbol ) > -1 ) {
+			if ( node ) {
+				node.value = node.value.replace( symbol, '' );
+				parent = node.parent;
 
-					node.value = node.value.replace( symbol, '' );
-
-					if ( node.parent.getHtml().match( /^(\s|&nbsp;)*$/ ) ) {
-						removed = node.parent !== element ? node.parent : null;
-					}
+				if ( parent.getHtml().match( /^(\s|&nbsp;)*$/ ) && parent !== element ) {
+					parent.remove();
+				} else if ( !node.value ) {
+					node.remove();
 				}
-			}, CKEDITOR.NODE_TEXT );
-
-			removed && removed.remove();
+			}
 		},
 
 		setListSymbol: function( list, symbol, level ) {
