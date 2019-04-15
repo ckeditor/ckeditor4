@@ -10,6 +10,7 @@
 
 - The first editor: the first `p` element has styles:
 ```margin-right:0; margin-bottom:0; margin-left:0;```
+or on IE: ```margin: 16px 0px 0px```
 
 - The second editor: none of elements have any margin with value of `0`, or `0+unit`.
 
