@@ -8,34 +8,15 @@
 ( function() {
 	'use strict';
 
-	CKEDITOR.domReady( function() {
-		if ( window.Promise ) {
-			CKEDITOR.tools.promise = Promise;
-		} else {
-			var script = new CKEDITOR.dom.element( 'script' );
-
-			script.setAttributes( {
-				type: 'text/javascript',
-				src: CKEDITOR.getUrl( 'vendor/promise.js' )
-			} );
-
-			if ( script.$.onreadystatechange !== undefined ) {
-				script.$.onreadystatechange = function() {
-					var readyState = script.$.readyState;
-
-					if ( readyState === 'loaded' || readyState === 'complete' ) {
-						CKEDITOR.tools.promise = ES6Promise;
-					}
-				};
-			} else {
-				script.$.onload = function() {
-					CKEDITOR.tools.promise = ES6Promise;
-				};
+	if ( window.Promise ) {
+		CKEDITOR.tools.promise = Promise;
+	} else {
+		CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'vendor/promise.js' ), function( success ) {
+			if ( success ) {
+				CKEDITOR.tools.promise = ES6Promise;
 			}
-
-			CKEDITOR.document.getBody().append( script );
-		}
-	} );
+		} );
+	}
 
 	/**
 	 * Alias for [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
@@ -69,6 +50,8 @@
 	 * ```
 	 *
 	 * @param {Function} resolver
+	 * @param {Function} resolver.resolve
+	 * @param {Function} resolver.reject
 	 * @constructor
 	 */
 

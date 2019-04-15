@@ -61,7 +61,7 @@ The following libraries are included only in the development version of CKEditor
 * CKBuilder - Copyright (c) 2012-2019, CKSource - Frederico Knabben.
 * CKLangTool - Copyright (c) 2012-2019, CKSource - Frederico Knabben.
 * Optimist - Copyright 2010 James Halliday (mail@substack.net).
-* Q - Copyright 2009–2014 Kristopher Michael Kowal.
+* ES6Promise - Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors.
 * Tmp - Copyright (c) 2014 KARASZI István.
 * Mkdirp - Copyright 2010 James Halliday (mail@substack.net).
 * Bender.js - Copyright (c) 2014-2019, CKSource - Frederico Knabben.
