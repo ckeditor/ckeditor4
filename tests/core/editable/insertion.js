@@ -163,25 +163,25 @@
 		}
 	};
 
-	// Add tests for (#2813).
+	// (#2813)
 	addInsertionTests( [
 		{
-			name: 'test insert when selection starts at the beginning of span',
+			name: 'when selection starts at the beginning of span',
 			initial: '<span>{foo}bar</span>',
 			data: '<div>div</div>',
 			expected: '<div>div</div><span>bar</span>'
 		}, {
-			name: 'test insert when selection ends at the end of span',
+			name: 'when selection ends at the end of span',
 			initial: '<span>foo{bar}</span>',
 			data: '<div>div</div>',
 			expected: '<span>foo</span><div>div</div>'
 		}, {
-			name: 'test insert when selection covers span',
+			name: 'when selection covers span',
 			initial: '<span>{foobar}</span>',
 			data: '<div>div</div>',
 			expected: '<div>div</div>'
 		}, {
-			name: 'test insert when selection is in the middle of span',
+			name: 'when selection is in the middle of span',
 			initial: '<span>foo{bar}&nbsp;</span>',
 			data: '<div>div</div>',
 			expected: '<span>foo</span><div>div</div><span>&nbsp;</span>'
@@ -190,15 +190,15 @@
 
 	bender.test( tests );
 
-	function addInsertionTests( tests ) {
-		CKEDITOR.tools.array.forEach( tests, addInsertionTest );
+	function addInsertionTests( insertionTests ) {
+		CKEDITOR.tools.array.forEach( insertionTests, addInsertionTest );
 	}
 
 	function addInsertionTest( options ) {
 		var methods = [ 'insertHtml', 'insertHtmlIntoRange', 'insertElement', 'insertElementIntoRange', 'insertText' ];
 
 		CKEDITOR.tools.array.forEach( methods, function( methodName ) {
-			tests[ options.name.replace( 'insert', methodName ) ] = function() {
+			tests[ 'test ' + methodName + ' ' + options.name ] = function() {
 				var editor = this.editorBot.editor;
 
 				tools.selection.setWithHtml( editor, options.initial );
@@ -213,9 +213,21 @@
 	}
 
 	function assertInsertionMethod( editor, expected, methodName, html ) {
-		var useRange = methodName.indexOf( 'Range' ) >= 0,
-			useElement = methodName.indexOf( 'Element' ) >= 0,
-			data = useElement ? CKEDITOR.dom.element.createFromHtml( html ) : html;
+		var useRange, useElement, data;
+
+		switch ( methodName ) {
+			case 'insertHtmlIntoRange':
+				useRange = true;
+				break;
+			case 'insertElement':
+				useElement = true;
+				break;
+			case 'insertElementIntoRange':
+				useRange = true;
+				useElement = true;
+		}
+
+		data = useElement ? CKEDITOR.dom.element.createFromHtml( html ) : html;
 
 		if ( useRange ) {
 			editor.editable()[ methodName ]( data, editor.getSelection().getRanges()[ 0 ] );
