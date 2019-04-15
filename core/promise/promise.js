@@ -16,7 +16,7 @@
 
 			script.setAttributes( {
 				type: 'text/javascript',
-				src: CKEDITOR.getUrl( 'core/promise/polyfill.js' )
+				src: CKEDITOR.getUrl( 'vendor/promise.js' )
 			} );
 
 			if ( script.$.onreadystatechange !== undefined ) {
