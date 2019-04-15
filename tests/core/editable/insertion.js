@@ -180,6 +180,11 @@
 			initial: '<span>{foobar}</span>',
 			data: '<div>div</div>',
 			expected: '<div>div</div>'
+		}, {
+			name: 'test insert when selection is in the middle of span',
+			initial: '<span>foo{bar}&nbsp;</span>',
+			data: '<div>div</div>',
+			expected: '<span>foo</span><div>div</div><span>&nbsp;</span>'
 		}
 	] );
 
