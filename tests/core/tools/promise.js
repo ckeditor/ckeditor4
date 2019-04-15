@@ -9,6 +9,7 @@
 			if ( window.Promise ) {
 				assert.areSame( window.Promise, CKEDITOR.tools.promise, 'Native Promise should be enabled' );
 			} else {
+				assert.isNotUndefined( window.ES6Promise, 'Polyfill Promise should be loaded' );
 				assert.areSame( window.ES6Promise, CKEDITOR.tools.promise, 'Polyfill Promise should be enabled' );
 			}
 		}
