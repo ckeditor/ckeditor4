@@ -75,7 +75,7 @@
 
 					return true;
 				}
-			} );
+			} ).register();
 
 			new PasteParser( editor, {
 				cleanFn: function() {
@@ -86,7 +86,7 @@
 					return evt.dataValue.match( /id=(\"|\')docs\-internal\-guid\-/ );
 				}
 
-			} );
+			} ).register();
 
 		}
 
@@ -95,30 +95,29 @@
 	function PasteParser( editor, strategy ) {
 		this.editor = editor;
 		this.strategy = strategy;
-
-		// Note: CKEditor's event system has a limitation that one function
-		// cannot be used as listener for the same event more than once. Hence, wrapper functions.
-		//
-		// Listen with high priority (3), so clean up is done before content
-		// type sniffing (priority = 6).
-		editor.on( 'paste', function( evt ) {
-			this.pasteListener( evt );
-		}, this, null, 3 );
-
-		if ( this.requiresImagesProcessing ) {
-			editor.on( 'afterPasteFromWord', function( evt ) {
-				this.imagePastingListener( evt );
-			}, this );
-		}
 	}
 
 	PasteParser.prototype = {
+
+		register: function() {
+			// Listen with high priority (3), so clean up is done before content
+			// type sniffing (priority = 6).
+			this.editor.on( 'paste', function( evt ) {
+				this.pasteListener( evt );
+			}, this, null, 3 );
+
+			if ( this.requiresImagesProcessing() ) {
+				this.editor.on( 'afterPasteFromWord', function( evt ) {
+					this.imagePastingListener( evt );
+				}, this );
+			}
+		},
 
 		// Paste From Word Image:
 		// RTF clipboard is required for embedding images.
 		// If img tags are not allowed there is no point to process images.
 		requiresImagesProcessing: function() {
-			return this.editor.config.pasteFromWord_inlineImages === undefined ? true : this.editor.config.pasteFromWord_inlineImages;
+			return this.editor.config.pasteFromWord_inlineImages === undefined || this.editor.config.pasteFromWord_inlineImages;
 		},
 
 		loadFilterRules: function( callback ) {
