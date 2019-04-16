@@ -28,10 +28,10 @@
 			return false;
 		}
 		// Also it's not table selection when image is selected (#2235).
-		if ( ranges[ 0 ].getEnclosedNode() && ranges[ 0 ].getEnclosedNode().type == CKEDITOR.NODE_ELEMENT ) {
-			if ( ranges[ 0 ].getEnclosedNode().is( 'img' ) ) {
-				return false;
-			}
+		if ( ranges[ 0 ].getEnclosedNode() &&
+			ranges[ 0 ].getEnclosedNode().type == CKEDITOR.NODE_ELEMENT &&
+			ranges[ 0 ].getEnclosedNode().is( 'img' ) ) {
+			return false;
 		}
 
 		var node,
