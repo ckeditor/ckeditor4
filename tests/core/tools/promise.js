@@ -44,7 +44,7 @@
 					loaderStub.restore();
 					errorStub.restore();
 
-					assert.isTrue( errorStub.calledWith( 'no-vendor-lib', { path: 'vendor/promise.js' } ) );
+					assert.isTrue( errorStub.calledWith( 'no-vendor-lib', { path: CKEDITOR.getUrl( 'vendor/promise.js' ) } ) );
 				} );
 			}, 100 );
 

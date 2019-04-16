@@ -11,12 +11,14 @@
 	if ( window.Promise ) {
 		CKEDITOR.tools.promise = Promise;
 	} else {
-		CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'vendor/promise.js' ), function( success ) {
+		var polyfillURL = CKEDITOR.getUrl( 'vendor/promise.js' );
+
+		CKEDITOR.scriptLoader.load( polyfillURL, function( success ) {
 			if ( success ) {
 				CKEDITOR.tools.promise = ES6Promise;
 			} else {
 				CKEDITOR.error( 'no-vendor-lib', {
-					path: 'vendor/promise.js'
+					path: polyfillURL
 				} );
 			}
 		} );
