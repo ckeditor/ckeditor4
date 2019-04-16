@@ -1,6 +1,6 @@
-/* exported assertHeadersCorrectnesssAfterManipulation */
+/* exported testHeadersManipulation */
 
-function assertHeadersCorrectnesssAfterManipulation( input, expected ) {
+function testHeadersManipulation( input, expected ) {
 	'use strict';
 
 	return function() {

@@ -1,7 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: table*/
-/* bender-include: ./_helpers/headersCorrectness.js */
-/* global assertHeadersCorrectnesssAfterManipulation */
+/* bender-include: ./_helpers/testheadersmanipulation.js */
+/* global testHeadersManipulation */
 
 ( function() {
 	'use strict';
@@ -22,37 +22,37 @@
 			}
 		},
 
-		'2 rows, 1 col, none -> none': assertHeadersCorrectnesssAfterManipulation( 'none', 'none', 'none' ),
+		'2 rows, 1 col, none -> none': testHeadersManipulation( 'none', 'none', 'none' ),
 
-		'2 rows, 1 col, none -> col': assertHeadersCorrectnesssAfterManipulation( 'none', 'col', 'col' ),
+		'2 rows, 1 col, none -> col': testHeadersManipulation( 'none', 'col', 'col' ),
 
-		'2 rows, 1 col, none -> row': assertHeadersCorrectnesssAfterManipulation( 'none', 'row', 'row' ),
+		'2 rows, 1 col, none -> row': testHeadersManipulation( 'none', 'row', 'row' ),
 
-		'2 rows, 1 col, none -> both': assertHeadersCorrectnesssAfterManipulation( 'none', 'both', 'both' ),
+		'2 rows, 1 col, none -> both': testHeadersManipulation( 'none', 'both', 'both' ),
 
-		'2 rows, 1 col, col -> none': assertHeadersCorrectnesssAfterManipulation( 'col', 'none', 'none' ),
+		'2 rows, 1 col, col -> none': testHeadersManipulation( 'col', 'none', 'none' ),
 
-		'2 rows, 1 col, col -> col': assertHeadersCorrectnesssAfterManipulation( 'col', 'col', 'col' ),
+		'2 rows, 1 col, col -> col': testHeadersManipulation( 'col', 'col', 'col' ),
 
-		'2 rows, 1 col, col -> row': assertHeadersCorrectnesssAfterManipulation( 'col', 'row', 'row' ),
+		'2 rows, 1 col, col -> row': testHeadersManipulation( 'col', 'row', 'row' ),
 
-		'2 rows, 1 col, col -> both': assertHeadersCorrectnesssAfterManipulation( 'col', 'both', 'both' ),
+		'2 rows, 1 col, col -> both': testHeadersManipulation( 'col', 'both', 'both' ),
 
-		'2 rows, 1 col, row -> none': assertHeadersCorrectnesssAfterManipulation( 'row', 'none', 'none' ),
+		'2 rows, 1 col, row -> none': testHeadersManipulation( 'row', 'none', 'none' ),
 
-		'2 rows, 1 col, row -> col': assertHeadersCorrectnesssAfterManipulation( 'row', 'col', 'col' ),
+		'2 rows, 1 col, row -> col': testHeadersManipulation( 'row', 'col', 'col' ),
 
-		'2 rows, 1 col, row -> row': assertHeadersCorrectnesssAfterManipulation( 'row', 'row', 'row' ),
+		'2 rows, 1 col, row -> row': testHeadersManipulation( 'row', 'row', 'row' ),
 
-		'2 rows, 1 col, row -> both': assertHeadersCorrectnesssAfterManipulation( 'row', 'both', 'both' ),
+		'2 rows, 1 col, row -> both': testHeadersManipulation( 'row', 'both', 'both' ),
 
-		'2 rows, 1 col, both -> none': assertHeadersCorrectnesssAfterManipulation( 'both', 'none', 'none' ),
+		'2 rows, 1 col, both -> none': testHeadersManipulation( 'both', 'none', 'none' ),
 
-		'2 rows, 1 col, both -> col': assertHeadersCorrectnesssAfterManipulation( 'both', 'col', 'col' ),
+		'2 rows, 1 col, both -> col': testHeadersManipulation( 'both', 'col', 'col' ),
 
-		'2 rows, 1 col, both -> row': assertHeadersCorrectnesssAfterManipulation( 'both', 'row', 'row' ),
+		'2 rows, 1 col, both -> row': testHeadersManipulation( 'both', 'row', 'row' ),
 
-		'2 rows, 1 col, both -> both': assertHeadersCorrectnesssAfterManipulation( 'both', 'both', 'both' )
+		'2 rows, 1 col, both -> both': testHeadersManipulation( 'both', 'both', 'both' )
 	} );
 
 } )();
