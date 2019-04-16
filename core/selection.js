@@ -27,7 +27,7 @@
 		if ( isWidget( ranges[ 0 ].getEnclosedNode() ) ) {
 			return false;
 		}
-		// Also it's not table selection when image is selected. (#2235).
+		// Also it's not table selection when image is selected (#2235).
 		if ( ranges[ 0 ].getEnclosedNode() && ranges[ 0 ].getEnclosedNode().type == CKEDITOR.NODE_ELEMENT ) {
 			if ( ranges[ 0 ].getEnclosedNode().is( 'img' ) ) {
 				return false;
