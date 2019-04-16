@@ -14,5 +14,9 @@
 </div>
 
 <script>
+	// Table Selection plugin doesn't work on IE < 11 so ignore test for that browsers.
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
 	CKEDITOR.replace( 'editor' );
 </script>
