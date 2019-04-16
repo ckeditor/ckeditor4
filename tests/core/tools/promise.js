@@ -25,6 +25,11 @@
 
 		// (#2962)
 		'test missing promise polyfill': function() {
+			// Bundled CKEditor is missing loader.
+			if ( !CKEDITOR.loader ) {
+				assert.ignore();
+			}
+
 			var loaderStub = sinon.stub( CKEDITOR.scriptLoader, 'load', function( url, callback ) {
 					callback( false );
 				} ),
