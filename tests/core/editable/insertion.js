@@ -4,7 +4,8 @@
 	'use strict';
 
 	var doc = CKEDITOR.document,
-		tools = bender.tools;
+		tools = bender.tools,
+		space = CKEDITOR.env.ie ? ' ' : '&nbsp;';
 
 	bender.editor = {
 		config: {
@@ -182,9 +183,10 @@
 			expected: '<div>div</div>'
 		}, {
 			name: 'when selection is in the middle of span',
-			initial: '<span>foo{bar}&nbsp;</span>',
+			initial: '<span>foo{bar}' + space + '</span>',
 			data: '<div>div</div>',
-			expected: '<span>foo</span><div>div</div><span>&nbsp;</span>'
+			expected: '<span>foo</span><div>div</div><span>' + space + '</span>',
+			ignore: CKEDITOR.env.ie && !CKEDITOR.env.edge // (#3061)
 		}
 	] );
 
@@ -199,6 +201,10 @@
 
 		CKEDITOR.tools.array.forEach( methods, function( methodName ) {
 			tests[ 'test ' + methodName + ' ' + options.name ] = function() {
+				if ( options.ignore ) {
+					assert.ignore();
+				}
+
 				var editor = this.editorBot.editor;
 
 				tools.selection.setWithHtml( editor, options.initial );
@@ -206,7 +212,7 @@
 				if ( methodName === 'insertText' ) {
 					assertInsertText( editor, options.initial.replace( /{.*}/, 'text' ), 'text' );
 				} else {
-					assertInsertionMethod( editor, options.expected, methodName, options.data  );
+					assertInsertionMethod( editor, options.expected, methodName, options.data );
 				}
 			};
 		} );
