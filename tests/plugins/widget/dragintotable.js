@@ -12,7 +12,7 @@
 
 	var overlay;
 
-	bender.test( {
+	var tests = {
 		// Hide editor under an overlay, to prevent accidental mouse move which might break TC.
 		setUp: function() {
 			if ( !overlay ) {
@@ -33,34 +33,44 @@
 		},
 		tearDown: function() {
 			overlay.setStyle( 'display', 'none' );
-		},
-		// When dragging into table cell drag line should appear in right place, and widget should be pasted in right place.
-		// Cases covered by tests:
-		// 	- Cell is empty. Line should appear in the middle of cell. Widget is pasted into cell.
-		// 	- Cell has text node. Line should appear at the position of of hovered temporary fake paragraph.
-		// 	There are two such paragraphs, one at the start of cell and one at the end of cell. Widget should replace hovered temporary paragraph.
-		// 	- Cell has inline element. Line should appear at the top or at the bottom edge of inline element depending on which edge is hovered.
-		// 	Widget should be pasted before or after inline element depending on which end is hovered.
-		// (#1648)
+		}
+	};
 
-		'test drag into table left top cell - empty': assertDragLine( 'table tr:nth-child(1) th:nth-child(1)', 'inside' ),
-		'test drag into table middle cell - empty': assertDragLine( 'table tr:nth-child(1) td:nth-child(2)', 'inside' ),
-		'test drag into table right bottom cell - empty': assertDragLine( 'table tr:nth-child(2) td:nth-child(3)', 'inside' ),
-		'test drag into table middle top cell - text': assertDragLine( 'table tr:nth-child(1) th:nth-child(2)', 'before' ),
-		'test drag into table right middle cell - text': assertDragLine( 'table tr:nth-child(1) td:nth-child(3)', 'after' ),
-		'test drag into table left bottom  cell - text': assertDragLine( 'table tr:nth-child(2) td:nth-child(1)', 'before' ),
-		'test drag into table right top cell - inline element': assertDragLine( 'table tr:nth-child(1) th:nth-child(3)', 'after' ),
-		'test drag into table left middle cell - inline element': assertDragLine( 'table tr:nth-child(1) td:nth-child(1)', 'before' ),
-		'test drag into table middle bottom cell - inline element': assertDragLine( 'table tr:nth-child(2) td:nth-child(2)', 'after' )
-	} );
+	addTests();
+	addTests( true );
 
-	function assertDragLine( selector, position ) {
+	bender.test( tests );
+
+	// When dragging into table cell drag line should appear in right place, and widget should be pasted in right place.
+	// Cases covered by tests:
+	// 	- Cell is empty. Line should appear in the middle of cell. Widget is pasted into cell.
+	// 	- Cell has text node. Line should appear at the position of of hovered temporary fake paragraph.
+	// 	There are two such paragraphs, one at the start of cell and one at the end of cell. Widget should replace hovered temporary paragraph.
+	// 	- Cell has inline element. Line should appear at the top or at the bottom edge of inline element depending on which edge is hovered.
+	// 	Widget should be pasted before or after inline element depending on which end is hovered.
+	// Additionally editable contains tables with more that 100 cells total lines will be created asynchronously when cell is hovered.
+	// (#1648)
+	function addTests( asyncLines ) {
+		var msgStart = 'test drag into table with ' + ( asyncLines ? 'asynchronous' : 'synchronous' + 'lines creation ' );
+
+		tests[ msgStart + 'left top cell - empty' ] = assertDragLine( 'table tr:nth-child(1) th:nth-child(1)', 'inside', asyncLines );
+		tests[ msgStart + 'middle cell - empty' ] = assertDragLine( 'table tr:nth-child(1) td:nth-child(2)', 'inside', asyncLines );
+		tests[ msgStart + 'right bottom cell - empty' ] = assertDragLine( 'table tr:nth-child(2) td:nth-child(3)', 'inside', asyncLines );
+		tests[ msgStart + 'middle top cell - text' ] = assertDragLine( 'table tr:nth-child(1) th:nth-child(2)', 'before', asyncLines );
+		tests[ msgStart + 'right middle cell - text' ] = assertDragLine( 'table tr:nth-child(1) td:nth-child(3)', 'after', asyncLines );
+		tests[ msgStart + 'left bottom  cell - text' ] = assertDragLine( 'table tr:nth-child(2) td:nth-child(1)', 'before', asyncLines );
+		tests[ msgStart + 'right top cell - inline element' ] = assertDragLine( 'table tr:nth-child(1) th:nth-child(3)', 'after', asyncLines );
+		tests[ msgStart + 'left middle cell - inline element' ] = assertDragLine( 'table tr:nth-child(1) td:nth-child(1)', 'before', asyncLines );
+		tests[ msgStart + 'middle bottom cell - inline element' ] = assertDragLine( 'table tr:nth-child(2) td:nth-child(2)', 'after', asyncLines );
+	}
+
+	function assertDragLine( selector, position, asyncLines ) {
 		return function() {
 			// Ignore IE8 (#3004).
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				assert.ignore();
 			}
-			this.editorBot.setData( CKEDITOR.document.findOne( '#editor-content' ).getHtml(), function() {
+			this.editorBot.setData( CKEDITOR.document.findOne( asyncLines ? '#asynchronous-lines' : '#synchronous-lines' ).getHtml(), function() {
 				var editor = this.editor,
 					editable = editor.editable(),
 					handler = editable.findOne( '.cke_widget_drag_handler' ),
@@ -77,6 +87,9 @@
 						$: {
 							clientX: coordinates.x,
 							clientY: coordinates.y
+						},
+						getTarget: function() {
+							return element;
 						}
 					} );
 				}, null, null, 9999 );
