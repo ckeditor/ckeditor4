@@ -1,4 +1,4 @@
-<textarea id="editor">
+<textarea id="editor1">
 	<table border="1" cellspacing="1" cellpadding="1">
 		<thead>
 		<tr>
@@ -26,13 +26,47 @@
 	</figure>
 </textarea>
 
+<textarea id="editor2">
+	<figure class="image">
+		<img width="60" src="/tests/_assets/lena.jpg"/>
+		<figcaption>Caption</figcaption>
+	</figure>
+
+	<table border="1" cellspacing="1" cellpadding="1" width="500">
+		<tbody></tbody>
+	</table>
+</textarea>
+
 <script>
 	// Ignore IE8 (#3004).
 	if ( bender.tools.env.mobile || ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ) {
 		bender.ignore();
 	}
-	CKEDITOR.replace( 'editor', {
+
+	CKEDITOR.replace( 'editor1', {
 		height: 400,
-		allowedContent: true
+		extraAllowedContent: 'td[width];th[width]'
 	} );
+
+	CKEDITOR.replace( 'editor2', {
+		height: 400,
+		extraAllowedContent: 'td[width];th[width]',
+		on: {
+			instanceReady: function() {
+				var tBody = this.editable().findOne( 'tbody' );
+
+				for ( var i = 0; i < 25; i++ ) {
+					var tr = new CKEDITOR.dom.element( 'tr' );
+
+					for ( var j = 0; j < 5; j++ ) {
+						var td = new CKEDITOR.dom.element( 'td' );
+						td.setText( 'foo' );
+						tr.append( td );
+					}
+
+					tBody.append( tr );
+				}
+			}
+		}
+	} )
 </script>

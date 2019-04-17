@@ -2,6 +2,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, image2, table, undo, sourcearea, basicstyles
 
+# For both editors
+
 Play around with dragging widget into and out of table.
 
 ## Expected
