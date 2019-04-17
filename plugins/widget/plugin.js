@@ -2582,6 +2582,11 @@
 						'default': function( el ) {
 							var isCell = el.getName() in { td: 1, th: 1 };
 
+							// Ignore not empty cells, fake paragraphs will be added later (#1648).
+							if ( isCell && el.getText().replace( /\n/, '' ) !== '' ) {
+								return;
+							}
+
 							if ( el.is( CKEDITOR.dtd.$listItem ) ) {
 								return;
 							}
@@ -3420,33 +3425,43 @@
 			listeners = [],
 			sorted = [],
 			locations,
-			y, x;
+			y, x, target;
 
 		// Mark dragged widget for repository#finder.
 		this.repository._.draggedWidget = this;
 
-		var cells = editable.find( 'td' ).toArray().concat( editable.find( 'th' ).toArray() ),
-			fakeParagraphHtml = '<p class="cke_fake-paragraph" style="height:0;margin:0;padding:0"></p>';
+		var cellCount = CKEDITOR.tools.array.reduce( editable.find( 'tr' ).toArray(), function( total, element ) {
+					return total + element.getChildCount();
+				}, 0 ),
+			fakeParagraphHtml = '<p class="cke_fake-paragraph" style="height:0;margin:0;padding:0"></p>',
+			// To be adjusted. Higher value could be used for newer browsers and lower for older browsers.
+			limit = 0,
+			relations;
 
-		CKEDITOR.tools.array.forEach( cells, function( cell ) {
-			addFakeParagraph( cell, true );
-			addFakeParagraph( cell );
-		} );
+		if ( cellCount <= limit ) {
+			var cells = editable.find( 'td' ).toArray().concat( editable.find( 'th' ).toArray() );
+			addFakeParagraphs( cells );
+		}
 
 		// Harvest all possible relations and display some closest.
-		var relations = finder.greedySearch(),
+		relations = finder.greedySearch();
 
-			buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
-				locations = locator.locate( relations );
+		var buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
+			if ( cellCount > limit && target.getName() in { td:1, th:1 } ) {
+				storeFakeParagraph( addFakeParagraph( target ) );
+				storeFakeParagraph( addFakeParagraph( target, true ) );
+			}
 
-				sorted = sortByDistance( relations, locations, { x: x, y: y } );
+			locations = locator.locate( relations );
 
-				if ( sorted.length ) {
-					liner.prepare( relations, locations );
-					liner.placeLine( sorted[ 0 ] );
-					liner.cleanup();
-				}
-			} );
+			sorted = sortByDistance( relations, locations, { x: x, y: y } );
+
+			if ( sorted.length ) {
+				liner.prepare( relations, locations );
+				liner.placeLine( sorted[ 0 ] );
+				liner.cleanup();
+			}
+		} );
 
 		// Let's have the "dragging cursor" over entire editable.
 		editable.addClass( 'cke_widget_dragging' );
@@ -3455,28 +3470,48 @@
 		listeners.push( editable.on( 'mousemove', function( evt ) {
 			y = evt.data.$.clientY;
 			x = evt.data.$.clientX;
+			target = evt.data.getTarget();
 			buffer.input();
 		} ) );
 
 		// Fire drag start as it happens during the native D&D.
 		editor.fire( 'dragstart', { target: evt.sender } );
 
+		function storeFakeParagraph( fakeParagraph ) {
+			if ( fakeParagraph ) {
+				finder.store( fakeParagraph, Number( fakeParagraph.data( 'cke-fake-paragraph' ) ) );
+			}
+		}
+
+		function addFakeParagraphs( cells ) {
+			CKEDITOR.tools.array.forEach( cells, function( cell ) {
+				addFakeParagraph( cell, true );
+				addFakeParagraph( cell );
+			} );
+		}
+
 		function addFakeParagraph( cell, before ) {
 			var element = before ? cell.getFirst() : cell.getLast();
 
-			if ( element ) {
-				var isText = element.type === CKEDITOR.NODE_TEXT,
-					isInline = element.is && element.is( CKEDITOR.dtd.$inline ),
-					isBr = element.getName && element.getName() === 'br',
-					fakeParagraph;
-
-				if ( isText || isInline && !isBr ) {
-					fakeParagraph = CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml );
-					fakeParagraph.setAttribute( 'data-cke-fake-paragraph', before ? CKEDITOR.LINEUTILS_BEFORE : CKEDITOR.LINEUTILS_AFTER );
-					cell.append( fakeParagraph, before );
-					fakeParagraphs.push( fakeParagraph );
-				}
+			if ( !element ) {
+				return null;
 			}
+
+			var isText = element.type === CKEDITOR.NODE_TEXT,
+				isInline = element.is && element.is( CKEDITOR.dtd.$inline ),
+				isBr = element.getName && element.getName() === 'br',
+				fakeParagraph;
+
+			if ( !isText && !isInline || isBr ) {
+				return null;
+			}
+
+			fakeParagraph = CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml );
+			fakeParagraph.data( 'cke-fake-paragraph', before ? CKEDITOR.LINEUTILS_BEFORE : CKEDITOR.LINEUTILS_AFTER );
+			cell.append( fakeParagraph, before );
+			fakeParagraphs.push( fakeParagraph );
+
+			return fakeParagraph;
 		}
 
 		/**
