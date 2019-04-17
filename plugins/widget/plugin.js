@@ -2580,27 +2580,22 @@
 					lookups: {
 						// Element is block but not list item and not in nested editable.
 						'default': function( el ) {
-							var ret;
-							if ( el.getName() in { td: 1, th: 1 } ) {
-								ret = CKEDITOR.LINEUTILS_INSIDE;
+							var isCell = el.getName() in { td: 1, th: 1 };
+
+							if ( el.is( CKEDITOR.dtd.$listItem ) ) {
+								return;
 							}
 
-							// Allow line only on one side of fake paragraph.
-							if ( el.hasClass( 'cke_fake-paragraph' ) ) {
-								ret = el.getAttribute( 'data-cke-fake-paragraph' );
+							if ( !isCell && !el.is( CKEDITOR.dtd.$block ) ) {
+								return;
 							}
-
-							if ( el.is( CKEDITOR.dtd.$listItem ) )
-								return;
-
-							if ( !ret && !el.is( CKEDITOR.dtd.$block ) )
-								return;
 
 							// Allow drop line inside, but never before or after nested editable (https://dev.ckeditor.com/ticket/12006).
-							if ( Widget.isDomNestedEditable( el ) )
+							if ( Widget.isDomNestedEditable( el ) ) {
 								return;
+							}
 
-							// Do not allow droping inside the widget being dragged (https://dev.ckeditor.com/ticket/13397).
+							// Do not allow dropping inside the widget being dragged (https://dev.ckeditor.com/ticket/13397).
 							if ( widgetsRepo._.draggedWidget.wrapper.contains( el ) ) {
 								return;
 							}
@@ -2611,19 +2606,26 @@
 								var draggedWidget = widgetsRepo._.draggedWidget;
 
 								// Don't let the widget to be dropped into its own nested editable.
-								if ( widgetsRepo.getByElement( nestedEditable ) == draggedWidget )
+								if ( widgetsRepo.getByElement( nestedEditable ) == draggedWidget ) {
 									return;
+								}
 
 								var filter = CKEDITOR.filter.instances[ nestedEditable.data( 'cke-filter' ) ],
 									draggedRequiredContent = draggedWidget.requiredContent;
 
 								// There will be no relation if the filter of nested editable does not allow
 								// requiredContent of dragged widget.
-								if ( filter && draggedRequiredContent && !filter.check( draggedRequiredContent ) )
+								if ( filter && draggedRequiredContent && !filter.check( draggedRequiredContent ) ) {
 									return;
+								}
 							}
 
-							return ret || CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
+							// Allow line only on one side of fake paragraph.
+							if ( el.hasClass( 'cke_fake-paragraph' ) ) {
+								return el.getAttribute( 'data-cke-fake-paragraph' );
+							}
+
+							return isCell ? CKEDITOR.LINEUTILS_INSIDE : CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
 						}
 					}
 				} ),
