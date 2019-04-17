@@ -170,30 +170,29 @@
 			}
 
 			return function( el, type ) {
-				var alt, shouldNormalize;
-
-				shouldNormalize = is( type, CKEDITOR.LINEUTILS_AFTER ) && isStatic( alt = el.getNext() ) && alt.isVisible();
+				var alt;
 
 				// Normalization to avoid duplicates:
 				// CKEDITOR.LINEUTILS_AFTER becomes CKEDITOR.LINEUTILS_BEFORE of el.getNext().
-				if ( shouldNormalize ) {
+				if ( shouldNormalize( CKEDITOR.LINEUTILS_AFTER ) ) {
 					merge( alt, CKEDITOR.LINEUTILS_BEFORE, this.relations );
 					type ^= CKEDITOR.LINEUTILS_AFTER;
 				}
 
-				shouldNormalize = is( type, CKEDITOR.LINEUTILS_INSIDE ) && isStatic( alt = el.getFirst() ) && alt.isVisible();
-
-				// `br` can't be used for creating line, because it has 0 width (#1648).
-				shouldNormalize = shouldNormalize && !( alt.getName && alt.getName() === 'br' );
-
 				// Normalization to avoid duplicates:
 				// CKEDITOR.LINEUTILS_INSIDE becomes CKEDITOR.LINEUTILS_BEFORE of el.getFirst().
-				if ( shouldNormalize ) {
+				if ( shouldNormalize( CKEDITOR.LINEUTILS_INSIDE ) ) {
 					merge( alt, CKEDITOR.LINEUTILS_BEFORE, this.relations );
 					type ^= CKEDITOR.LINEUTILS_INSIDE;
 				}
 
 				merge( el, type, this.relations );
+
+				function shouldNormalize( expectedType ) {
+					alt = expectedType === CKEDITOR.LINEUTILS_AFTER ? el.getNext() : el.getFirst();
+					// `br` can't be used for creating line, because it has 0 width (#1648).
+					return is( type, expectedType ) && isStatic( alt ) && alt.isVisible() && !( alt.getName && alt.getName() === 'br' );
+				}
 			};
 		} )(),
 
