@@ -5,7 +5,7 @@ function testHeadersManipulation( input, expected ) {
 
 	return function() {
 		var bot = bender.editorBots.editor;
-		bot.setHtmlWithSelection( bender.tools.getValueAsHtml( input ).replace( ';', '' ) );
+		bot.setHtmlWithSelection( CKEDITOR.document.findOne( '.' + input ).getValue().replace( ';', '' ) );
 
 		bot.dialog( 'tableProperties', function( dialog ) {
 			dialog.setValueOf( 'info', 'selHeaders', expected );
@@ -13,7 +13,7 @@ function testHeadersManipulation( input, expected ) {
 			dialog.fire( 'ok' );
 			dialog.hide();
 
-			expected = bender.tools.getValueAsHtml( expected ).replace( ';', '' );
+			expected = CKEDITOR.document.findOne( '.' + expected ).getValue().replace( ';', '' );
 
 			assert.beautified.html( expected.replace( '^', '' ),
 				bender.tools.fixHtml( dialog.getParentEditor().getData() ).replace( ';', '' ) );
