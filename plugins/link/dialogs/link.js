@@ -873,11 +873,17 @@
 
 						},
 						{
-							type: 'text',
-							label: linkLang.advisoryContentType,
-							requiredContent: 'a[type]',
-							'default': '',
+							type: 'select',
 							id: 'advContentType',
+							requiredContent: 'a[dir]',
+							label: linkLang.advisoryContentType,
+							'default': '',
+							style: 'width:110px',
+							items: [
+								[ commonLang.notSet, '' ],
+								[ linkLang.langDirLTR, 'External Link' ],
+								[ linkLang.langDirRTL, 'Internal Link' ]
+							],
 							setup: setupAdvParams,
 							commit: commitAdvParams
 
