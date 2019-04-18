@@ -3435,8 +3435,7 @@
 				}, 0 ),
 			fakeParagraphHtml = '<p class="cke_fake-paragraph" style="height:0;margin:0;padding:0"></p>',
 			// To be adjusted. Higher value could be used for newer browsers and lower for older browsers.
-			limit = 100,
-			relations;
+			limit = 100;
 
 		if ( cellCount <= limit ) {
 			var cells = editable.find( 'td' ).toArray().concat( editable.find( 'th' ).toArray() );
@@ -3444,24 +3443,23 @@
 		}
 
 		// Harvest all possible relations and display some closest.
-		relations = finder.greedySearch();
+		var relations = finder.greedySearch(),
+			buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
+				if ( cellCount > limit && target.getName() in { td:1, th:1 } ) {
+					storeFakeParagraph( addFakeParagraph( target ) );
+					storeFakeParagraph( addFakeParagraph( target, true ) );
+				}
 
-		var buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
-			if ( cellCount > limit && target.getName() in { td:1, th:1 } ) {
-				storeFakeParagraph( addFakeParagraph( target ) );
-				storeFakeParagraph( addFakeParagraph( target, true ) );
-			}
+				locations = locator.locate( relations );
 
-			locations = locator.locate( relations );
+				sorted = sortByDistance( relations, locations, { x: x, y: y } );
 
-			sorted = sortByDistance( relations, locations, { x: x, y: y } );
-
-			if ( sorted.length ) {
-				liner.prepare( relations, locations );
-				liner.placeLine( sorted[ 0 ] );
-				liner.cleanup();
-			}
-		} );
+				if ( sorted.length ) {
+					liner.prepare( relations, locations );
+					liner.placeLine( sorted[ 0 ] );
+					liner.cleanup();
+				}
+			} );
 
 		// Let's have the "dragging cursor" over entire editable.
 		editable.addClass( 'cke_widget_dragging' );
