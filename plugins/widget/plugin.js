@@ -3435,7 +3435,7 @@
 				}, 0 ),
 			fakeParagraphHtml = '<p class="cke_fake-paragraph" style="height:0;margin:0;padding:0"></p>',
 			// To be adjusted. Higher value could be used for newer browsers and lower for older browsers.
-			limit = 0,
+			limit = 100,
 			relations;
 
 		if ( cellCount <= limit ) {
