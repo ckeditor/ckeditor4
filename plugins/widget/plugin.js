@@ -2627,7 +2627,7 @@
 
 							// Allow line only on one side of fake paragraph.
 							if ( el.hasClass( 'cke_fake-paragraph' ) ) {
-								return el.getAttribute( 'data-cke-fake-paragraph' );
+								return el.data( 'cke-fake-paragraph' );
 							}
 
 							return isCell ? CKEDITOR.LINEUTILS_INSIDE : CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
