@@ -53,18 +53,19 @@ CKEDITOR.plugins.colordialog = {
 			bindToDialog = function( dialog ) {
 				dialog.on( 'ok', onClose );
 				dialog.on( 'cancel', onClose );
+				// Priority is set here to pass the data before actual dialog display.
 				dialog.on( 'show', onShow, null, null, 5 );
 			};
 
 			editor.execCommand( 'colordialog' );
 
-			if ( editor._.storedDialogs && editor._.storedDialogs.colordialog )
+			if ( editor._.storedDialogs && editor._.storedDialogs.colordialog ) {
 				bindToDialog( editor._.storedDialogs.colordialog );
-			else {
+			} else {
 				CKEDITOR.on( 'dialogDefinition', function( e ) {
-					if ( e.data.name != 'colordialog' )
+					if ( e.data.name != 'colordialog' ) {
 						return;
-
+					}
 					var definition = e.data.definition;
 
 					e.removeListener();
@@ -73,8 +74,9 @@ CKEDITOR.plugins.colordialog = {
 							return function() {
 								bindToDialog( this );
 								definition.onLoad = orginal;
-								if ( typeof orginal == 'function' )
+								if ( typeof orginal == 'function' ) {
 									orginal.call( this );
+								}
 							};
 						} );
 				} );

@@ -5,7 +5,6 @@ function assertColor( editor, inputColor, outputColor ) {
 		var dialog = evt.data;
 		dialog.setValueOf( 'picker', 'selectedColor', inputColor );
 		dialog.getButton( 'ok' ).click();
-
 	} );
 
 	editor.getColorFromDialog( function( color ) {
@@ -18,13 +17,13 @@ function assertColor( editor, inputColor, outputColor ) {
 
 function assertColorAtDialogShow( editor, expectedColor, html, button ) {
 	var toolbarButton = editor.ui.get( button );
-
 	editor.insertHtml( html );
 	editor.once( 'dialogShow', function( evt ) {
 		resume( function() {
 			var dialog = evt.data,
 				selectedColor = dialog.getValueOf( 'picker', 'selectedColor' );
 			dialog.getButton( 'ok' ).click();
+
 			assert.areSame( expectedColor, selectedColor );
 		} );
 	} );

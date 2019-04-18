@@ -129,8 +129,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				refresh: function() {
-					if ( !editor.activeFilter.check( style ) )
+					if ( !editor.activeFilter.check( style ) ) {
 						this.setState( CKEDITOR.TRISTATE_DISABLED );
+					}
 				},
 
 				// The automatic colorbox should represent the real color (https://dev.ckeditor.com/ticket/6010)
@@ -141,10 +142,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						path = editor.elementPath( block ),
 						automaticColor;
 
-					if ( !path )
+					if ( !path ) {
 						return;
+					}
 
-						// Find the closest block element.
+					// Find the closest block element.
 					block = path.block || path.blockLimit || editor.document.getBody();
 
 					// The background color might be transparent. In that case, look up the color in the DOM tree.
@@ -154,8 +156,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					while ( type == 'back' && automaticColor == 'transparent' && block && ( block = block.getParent() ) );
 
 					// The box should never be transparent.
-					if ( !automaticColor || automaticColor == 'transparent' )
+					if ( !automaticColor || automaticColor == 'transparent' ) {
 						automaticColor = '#ffffff';
+					}
 
 					if ( config.colorButton_enableAutomatic !== false ) {
 						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', automaticColor );
