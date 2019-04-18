@@ -483,7 +483,8 @@
 				var sib = rel.element[ type === CKEDITOR.LINEUTILS_BEFORE ? 'getPrevious' : 'getNext' ]();
 
 				// Return the middle point between siblings.
-				if ( sib && isStatic( sib ) ) {
+				// Ignore elements that are not visible (#1648).
+				if ( sib && isStatic( sib ) && sib.isVisible() ) {
 					rel.siblingRect = sib.getClientRect();
 
 					if ( type == CKEDITOR.LINEUTILS_BEFORE ) {
