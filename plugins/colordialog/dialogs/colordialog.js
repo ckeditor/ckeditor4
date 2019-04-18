@@ -280,6 +280,8 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 			if ( !evt.data.selectionColor ||
 				( evt.data.selectionColor == evt.data.automaticTextColor ) ||
 				( evt.data.selectionColor == '#rgba(0, 0, 0, 0)' && evt.data.type == 'back' ) ) {
+				// Fallback for IE.
+				dialog.getContentElement( 'picker', 'selectedColor' ).setValue( '' );
 				return;
 			}
 

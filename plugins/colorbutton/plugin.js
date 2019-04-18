@@ -186,10 +186,14 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							element = walker.next();
 						}
 
-						colorData.selectionColor = finalColor ? '#' + finalColor : '';
-						if ( type == 'fore' ) {
-							colorData.automaticTextColor = CKEDITOR.tools.convertRgbToHex( automaticColor );
+						if ( finalColor == 'transparent' ) {
+							finalColor = '';
 						}
+						if ( type == 'fore' ) {
+							colorData.automaticTextColor = '#' + normalizeColor( automaticColor );
+						}
+						colorData.selectionColor = finalColor ? '#' + finalColor : '';
+
 						selectColor( panelBlock, finalColor );
 					}
 
