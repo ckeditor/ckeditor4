@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
- 'use strict';
+'use strict';
 
 /**
  * A lightweight representation of an HTML comment.
@@ -39,7 +39,7 @@ CKEDITOR.htmlParser.comment.prototype = CKEDITOR.tools.extend( new CKEDITOR.html
 	/**
 	 * Filter this comment with given filter.
 	 *
-	 * @since 4.1
+	 * @since 4.1.0
 	 * @param {CKEDITOR.htmlParser.filter} filter
 	 * @returns {Boolean} Method returns `false` when this comment has
 	 * been removed or replaced with other node. This is an information for

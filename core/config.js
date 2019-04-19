@@ -225,7 +225,7 @@ CKEDITOR.config = {
 	 *
 	 *		config.bodyId = 'contents_id';
 	 *
-	 * @since 3.1
+	 * @since 3.1.0
 	 * @cfg
 	 */
 	bodyId: '',
@@ -245,7 +245,7 @@ CKEDITOR.config = {
 	 *
 	 * **Note:** This setting only applies to {@glink guide/dev_framed classic editor} (the one that uses `iframe`).
 	 *
-	 * @since 3.1
+	 * @since 3.1.0
 	 * @cfg
 	 */
 	bodyClass: '',
@@ -261,7 +261,7 @@ CKEDITOR.config = {
 	 *
 	 *		config.fullPage = true;
 	 *
-	 * @since 3.1
+	 * @since 3.1.0
 	 * @cfg
 	 */
 	fullPage: false,
@@ -428,7 +428,7 @@ CKEDITOR.config = {
  *
  *		config.useComputedState = false;
  *
- * @since 3.4
+ * @since 3.4.0
  * @cfg {Boolean} [useComputedState=true]
  */
 

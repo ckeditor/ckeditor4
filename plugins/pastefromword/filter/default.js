@@ -2586,7 +2586,7 @@
 	 *
 	 * @deprecated 4.6.0 Either configure proper {@glink guide/dev_advanced_content_filter Advanced Content Filter} for the editor
 	 * or use the {@link CKEDITOR.editor#afterPasteFromWord} event.
-	 * @since 3.1
+	 * @since 3.1.0
 	 * @cfg {Boolean} [pasteFromWordRemoveFontStyles=false]
 	 * @member CKEDITOR.config
 	 */
@@ -2597,7 +2597,7 @@
 	 *		config.pasteFromWordNumberedHeadingToList = true;
 	 *
 	 * @removed 4.6.0
-	 * @since 3.1
+	 * @since 3.1.0
 	 * @cfg {Boolean} [pasteFromWordNumberedHeadingToList=false]
 	 * @member CKEDITOR.config
 	 */
@@ -2610,7 +2610,7 @@
 	 *		config.pasteFromWordRemoveStyles = false;
 	 *
 	 * @removed 4.6.0
-	 * @since 3.1
+	 * @since 3.1.0
 	 * @cfg {Boolean} [pasteFromWordRemoveStyles=true]
 	 * @member CKEDITOR.config
 	 */

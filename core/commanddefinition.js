@@ -147,7 +147,7 @@
 /**
  * Whether the command should be enabled in the {@link CKEDITOR.editor#setReadOnly read-only mode}.
  *
- * @since 4.0
+ * @since 4.0.0
  * @property {Boolean} [readOnly=false]
  */
 

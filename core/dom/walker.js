@@ -475,7 +475,7 @@
 	 * Returns a function which checks whether the node is a temporary element
 	 * (element with the `data-cke-temp` attribute) or its child.
 	 *
-	 * @since 4.3
+	 * @since 4.3.0
 	 * @static
 	 * @param {Boolean} [isReject=false] Whether to return `false` for the
 	 * temporary element instead of `true` (default).
@@ -511,7 +511,7 @@
 	 * * bookmarks (see {@link CKEDITOR.dom.walker#bookmark}),
 	 * * temporary elements (see {@link CKEDITOR.dom.walker#temp}).
 	 *
-	 * @since 4.3
+	 * @since 4.3.0
 	 * @static
 	 * @param {Boolean} [isReject=false] Whether to return `false` for the
 	 * ignored element instead of `true` (default).
@@ -530,7 +530,7 @@
 	/**
 	 * Returns a function which checks whether the node is empty.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @static
 	 * @param {Boolean} [isReject=false] Whether to return `false` for the
 	 * ignored element instead of `true` (default).
@@ -568,7 +568,7 @@
 	 * A hash of element names which in browsers that {@link CKEDITOR.env#needsBrFiller do not need `<br>` fillers}
 	 * can be selection containers despite being empty.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @static
 	 * @property {Object} validEmptyBlockContainers
 	 */
@@ -617,7 +617,7 @@
 	 * * empty {@link #validEmptyBlockContainers blocks} which can contain text
 	 * ({@link CKEDITOR.env#needsBrFiller old IEs only}).
 	 *
-	 * @since 4.3
+	 * @since 4.3.0
 	 * @static
 	 * @param {Boolean} [isReject=false] Whether to return `false` for the
 	 * ignored element instead of `true` (default).

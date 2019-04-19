@@ -104,7 +104,7 @@
 	 *
 	 *		editor.addContentsCss( 'assets/contents.css' );
 	 *
-	 * @since 4.4
+	 * @since 4.4.0
 	 * @param {String} cssPath The path to the stylesheet file which should be added.
 	 * @member CKEDITOR.editor
 	 */
@@ -700,7 +700,7 @@ CKEDITOR.config.disableNativeSpellChecker = true;
  *		config.autoParagraph = false;
  *
  * @deprecated
- * @since 3.6
+ * @since 3.6.0
  * @cfg {Boolean} [autoParagraph=true]
  * @member CKEDITOR.config
  */

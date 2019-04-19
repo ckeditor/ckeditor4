@@ -43,7 +43,7 @@ if ( !CKEDITOR.env ) {
 			 *
 			 * See also {@link #ie}.
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @property {Boolean}
 			 */
 			edge: !!edge,
@@ -313,7 +313,7 @@ if ( !CKEDITOR.env ) {
 		 * Indicates that CKEditor is running in a browser which uses a bogus
 		 * `<br>` filler in order to correctly display caret in empty blocks.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @property {Boolean}
 		 */
 		env.needsBrFiller = env.gecko || env.webkit || ( env.ie && version > 10 );
@@ -322,7 +322,7 @@ if ( !CKEDITOR.env ) {
 		 * Indicates that CKEditor is running in a browser which needs a
 		 * non-breaking space filler in order to correctly display caret in empty blocks.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @property {Boolean}
 		 */
 		env.needsNbspFiller = env.ie && version < 11;

@@ -181,7 +181,7 @@ CKEDITOR.plugins.add( 'resize', {
  *
  *		config.resize_dir = 'both';
  *
- * @since 3.3
+ * @since 3.3.0
  * @cfg {String} [resize_dir='vertical']
  * @member CKEDITOR.config
  */

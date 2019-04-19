@@ -448,7 +448,7 @@
  * **Note:** Since CKEditor 4.5 this option does not have a default value, so it must
  * be set in order to enable the MathJax plugin.
  *
- * @since 4.3
+ * @since 4.3.0
  * @cfg {String} mathJaxLib
  * @member CKEDITOR.config
  */

@@ -374,7 +374,7 @@
 		 *
 		 * This method implements the {@link CKEDITOR.feature#toFeature} interface method.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {CKEDITOR.editor} Editor instance.
 		 * @returns {CKEDITOR.feature} The feature.
 		 */

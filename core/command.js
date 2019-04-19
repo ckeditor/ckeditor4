@@ -105,7 +105,7 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	 * that if command implements {@link CKEDITOR.feature} interface it will be tested
 	 * by the {@link CKEDITOR.filter#checkFeature} method.
 	 *
-	 * @since 4.1
+	 * @since 4.1.0
 	 * @param {Boolean} [noCache] Skip cache for example due to active filter change. Since CKEditor 4.2.
 	 * @returns {Boolean} Whether this command is allowed.
 	 */
@@ -269,7 +269,7 @@ CKEDITOR.event.implementOn( CKEDITOR.command.prototype );
  * @event state
  */
 
- /**
+/**
  * @event refresh
  * @todo
  */

@@ -179,7 +179,7 @@ CKEDITOR.event.implementOn( CKEDITOR.ui );
  *		var editor = CKEDITOR.instances.editor1;
  *		console.log( editor.ui.contentsElement.getName() ); // 'div'
  *
- * @since 4.5
+ * @since 4.5.0
  * @readonly
  * @property {CKEDITOR.dom.element} contentsElement
  */

@@ -170,7 +170,7 @@
  *
  *		config.autoGrow_minHeight = 300;
  *
- * @since 3.4
+ * @since 3.4.0
  * @cfg {Number} [autoGrow_minHeight=200]
  * @member CKEDITOR.config
  */
@@ -185,7 +185,7 @@
  *
  *		config.autoGrow_maxHeight = 400;
  *
- * @since 3.4
+ * @since 3.4.0
  * @cfg {Number} [autoGrow_maxHeight=0]
  * @member CKEDITOR.config
  */

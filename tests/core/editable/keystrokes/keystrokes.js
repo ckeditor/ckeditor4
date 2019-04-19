@@ -170,12 +170,12 @@ bender.test( {
 	},
 
 	// https://dev.ckeditor.com/ticket/13096
-    'test deleting text without selection with DEL key': function() {
+	'test deleting text without selection with DEL key': function() {
 		var editor = this.editor,
 			bot = this.editorBot;
 		editor.focus();
 
-		bot.setHtmlWithSelection('<p>^Foo</p>');
+		bot.setHtmlWithSelection( '<p>^Foo</p>' );
 		editor.getSelection().removeAllRanges();
 		editor.fire( 'key', {
 			domEvent: {
@@ -192,7 +192,7 @@ bender.test( {
 			bot = this.editorBot;
 
 		editor.focus();
-		bot.setHtmlWithSelection('<p>^Foo</p>');
+		bot.setHtmlWithSelection( '<p>^Foo</p>' );
 		editor.getSelection().removeAllRanges();
 		editor.fire( 'key', {
 			domEvent: {

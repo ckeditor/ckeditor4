@@ -104,7 +104,7 @@
 			 *
 			 *		editor.widgets.registered.someName; // -> Widget definition
 			 *
-			 * @since 4.3
+			 * @since 4.3.0
 			 * @readonly
 			 * @property {CKEDITOR.plugins.widget.repository} widgets
 			 * @member CKEDITOR.editor
@@ -564,7 +564,7 @@
 		 *			// Event `action` occurs on `image` widget.
 		 *		} );
 		 *
-		 * @since 4.5
+		 * @since 4.5.0
 		 * @param {String} widgetName
 		 * @param {String} eventName
 		 * @param {Function} listenerFunction
@@ -601,7 +601,7 @@
 		 * This method is used by the {@link CKEDITOR.plugins.widget#getClasses} method and
 		 * may be used when overriding that method.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @param {String} classes String (value of `class` attribute).
 		 * @returns {Object} Object containing classes or `null` if no classes found.
 		 */
@@ -817,7 +817,7 @@
 	 *		editor.insertElement( element );
 	 *		var widget = editor.widgets.initOn( element, 'simplebox' );
 	 *
-	 * @since 4.3
+	 * @since 4.3.0
 	 * @class CKEDITOR.plugins.widget
 	 * @mixins CKEDITOR.event
 	 * @extends CKEDITOR.plugins.widget.definition
@@ -1017,7 +1017,7 @@
 		 *
 		 * See also: {@link #removeClass}, {@link #hasClass}, {@link #getClasses}.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @param {String} className The class name to be added.
 		 */
 		addClass: function( className ) {
@@ -1043,7 +1043,7 @@
 		 *
 		 * See also: {@link #checkStyleActive}, {@link #removeStyle}.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @param {CKEDITOR.style} style The custom widget style to be applied.
 		 */
 		applyStyle: function( style ) {
@@ -1061,7 +1061,7 @@
 		 *
 		 * See also: {@link #applyStyle}, {@link #removeStyle}.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @param {CKEDITOR.style} style The custom widget style to be checked.
 		 * @returns {Boolean} Whether the style is applied to this widget.
 		 */
@@ -1234,7 +1234,7 @@
 		 *
 		 * See also: {@link #removeClass}, {@link #addClass}, {@link #hasClass}.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @returns {Object}
 		 */
 		getClasses: function() {
@@ -1248,7 +1248,7 @@
 		 *
 		 * See also: {@link #removeClass}, {@link #addClass}, {@link #getClasses}.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @param {String} className The class to be checked.
 		 * @param {Boolean} Whether a widget has specified class.
 		 */
@@ -1312,7 +1312,7 @@
 		 * Looks inside wrapper element to find a node that
 		 * matches given selector and is not nested in other widget. (https://dev.ckeditor.com/ticket/13334)
 		 *
-		 * @since 4.5
+		 * @since 4.5.0
 		 * @private
 		 * @param {String} selector Selector to match.
 		 * @returns {CKEDITOR.dom.element} Matched element or `null` if a node has not been found.
@@ -1389,7 +1389,7 @@
 		 *
 		 * See also: {@link #hasClass}, {@link #addClass}.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @param {String} className The class to be removed.
 		 */
 		removeClass: function( className ) {
@@ -1407,7 +1407,7 @@
 		 *
 		 * See also {@link #checkStyleActive}, {@link #applyStyle}, {@link #getClasses}.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @param {CKEDITOR.style} style The custom widget style to be removed.
 		 */
 		removeStyle: function( style ) {
@@ -1551,7 +1551,7 @@
 	 * (returned as a {@link CKEDITOR.dom.element}, not as a {@link CKEDITOR.plugins.widget.nestedEditable})
 	 * closest to the `node` or the `node` if it is a nested editable itself.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @static
 	 * @param {CKEDITOR.dom.element} guard Stop ancestor search on this node (usually editor's editable).
 	 * @param {CKEDITOR.dom.node} node Start the search from this node.
@@ -1570,7 +1570,7 @@
 	/**
 	 * Checks whether the `node` is a widget's drag handle element.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @static
 	 * @param {CKEDITOR.dom.node} node
 	 * @returns {Boolean}
@@ -1582,7 +1582,7 @@
 	/**
 	 * Checks whether the `node` is a container of the widget's drag handle element.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @static
 	 * @param {CKEDITOR.dom.node} node
 	 * @returns {Boolean}
@@ -1596,7 +1596,7 @@
 	 * Note that this function only checks whether it is the right element, not whether
 	 * the passed `node` is an instance of {@link CKEDITOR.plugins.widget.nestedEditable}.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @static
 	 * @param {CKEDITOR.dom.node} node
 	 * @returns {Boolean}
@@ -1608,7 +1608,7 @@
 	/**
 	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#element widget element}.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @static
 	 * @param {CKEDITOR.dom.node} node
 	 * @returns {Boolean}
@@ -1620,7 +1620,7 @@
 	/**
 	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#wrapper widget wrapper}.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @static
 	 * @param {CKEDITOR.dom.element} node
 	 * @returns {Boolean}
@@ -1644,7 +1644,7 @@
 	/**
 	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#element widget element}.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @static
 	 * @param {CKEDITOR.htmlParser.node} node
 	 * @returns {Boolean}
@@ -1656,7 +1656,7 @@
 	/**
 	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#wrapper widget wrapper}.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @static
 	 * @param {CKEDITOR.htmlParser.element} node
 	 * @returns {Boolean}
@@ -3656,7 +3656,7 @@
 		 * **Note:** This custom style handler does not support all methods of the {@link CKEDITOR.style} class.
 		 * Not supported methods: {@link #applyToRange}, {@link #removeFromRange}, {@link #applyToObject}.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @class CKEDITOR.style.customHandlers.widget
 		 * @extends CKEDITOR.style
 		 */
@@ -4056,7 +4056,7 @@
  * The {@link #upcast} method(s) priority. The upcast with a lower priority number will be called before
  * the one with a higher number. The default priority is `10`.
  *
- * @since 4.5
+ * @since 4.5.0
  * @property {Number} [upcastPriority=10]
  */
 
@@ -4270,7 +4270,7 @@
  * If you need to have more freedom when transforming widget style to allowed content rules,
  * you can use the {@link #styleToAllowedContentRules} callback.
  *
- * @since 4.4
+ * @since 4.4.0
  * @property {String} styleableElements
  */
 
@@ -4308,7 +4308,7 @@
  *			}
  *		} );
  *
- * @since 4.4
+ * @since 4.4.0
  * @property {Function} styleToAllowedContentRules
  * @param {CKEDITOR.style.customHandlers.widget} style The style to be transformed.
  * @returns {CKEDITOR.filter.allowedContentRules}

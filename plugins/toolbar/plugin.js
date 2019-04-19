@@ -769,7 +769,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  *
  *		config.toolbarGroupCycling = false;
  *
- * @since 3.6
+ * @since 3.6.0
  * @cfg {Boolean} [toolbarGroupCycling=true]
  * @member CKEDITOR.config
  */

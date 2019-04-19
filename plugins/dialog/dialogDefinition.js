@@ -1033,6 +1033,6 @@
  *
  * This marker allows for restoring the same text direction upon the next dialog opening.
  *
- * @since 4.5
+ * @since 4.5.0
  * @property {Boolean} bidi
  */

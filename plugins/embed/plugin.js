@@ -99,7 +99,7 @@
  * **Important note:** Prior to version 4.7 this configuration option defaulted to the
  * `//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}` string.
  *
- * @since 4.5
+ * @since 4.5.0
  * @cfg {String} [embed_provider='']
  * @member CKEDITOR.config
  */

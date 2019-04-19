@@ -2028,7 +2028,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *			Method:		div.find( 'body i' ) // ->					[]
 		 *						div.find( 'i' ) // ->						[ <i>foo</i> ]
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {String} selector A valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 		 * @returns {CKEDITOR.dom.nodeList}
 		 */
@@ -2056,7 +2056,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *			Method:		div.findOne( 'body i' ) // ->				null
 		 *						div.findOne( 'i' ) // ->					<i>foo</i>
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {String} selector A valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 		 * @returns {CKEDITOR.dom.element}
 		 */
@@ -2085,7 +2085,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *		// 5. "bar" text node,
 		 *		// 6. "bom" text node.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {Function} callback Function to be executed on every node.
 		 * If `callback` returns `false` descendants of the node will be ignored.
 		 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as argument.

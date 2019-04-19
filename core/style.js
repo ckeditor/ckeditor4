@@ -522,7 +522,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		/**
 		 * Returns the style definition.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @returns {Object}
 		 */
 		getDefinition: function() {
@@ -536,7 +536,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 *
 		 * **Note:** This method is not defined in the {@link CKEDITOR.style} class.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @method toAllowedContentRules
 		 * @param {CKEDITOR.editor} [editor] The editor instance.
 		 * @returns {CKEDITOR.filter.allowedContentRules} The rules that should represent this style in the {@link CKEDITOR.filter}.
@@ -590,7 +590,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	/**
 	 * Namespace containing custom style handlers added with {@link CKEDITOR.style#addCustomHandler}.
 	 *
-	 * @since 4.4
+	 * @since 4.4.0
 	 * @class
 	 * @singleton
 	 */
@@ -692,7 +692,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * * {@link CKEDITOR.style#toAllowedContentRules toAllowedContentRules} &ndash; Not required, but very useful in
 	 * case of a custom style that has to notify the {@link CKEDITOR.filter} which rules it allows when registered.
 	 *
-	 * @since 4.4
+	 * @since 4.4.0
 	 * @static
 	 * @member CKEDITOR.style
 	 * @param definition The style class definition.
@@ -1911,7 +1911,7 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
  *			}
  *		] );
  *
- * @since 3.2
+ * @since 3.2.0
  * @class
  * @singleton
  * @extends CKEDITOR.resourceManager
@@ -2052,7 +2052,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * Indicates that fully selected read-only elements will be included when
  * applying the style (for inline styles only).
  *
- * @since 3.5
+ * @since 3.5.0
  * @property {Boolean} [includeReadonly=false]
  * @member CKEDITOR.style
  */
@@ -2061,7 +2061,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * Indicates that any matches element of this style will be eventually removed
  * when calling {@link CKEDITOR.editor#removeStyle}.
  *
- * @since 4.0
+ * @since 4.0.0
  * @property {Boolean} [alwaysRemoveElement=false]
  * @member CKEDITOR.style
  */
@@ -2069,7 +2069,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 /**
  * Disables inline styling on read-only elements.
  *
- * @since 3.5
+ * @since 3.5.0
  * @cfg {Boolean} [disableReadonlyStyling=false]
  * @member CKEDITOR.config
  */
@@ -2113,7 +2113,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  *			...
  *		];
  *
- * @since 3.3
+ * @since 3.3.0
  * @cfg {String/Array/Boolean} [stylesSet='default']
  * @member CKEDITOR.config
  */
