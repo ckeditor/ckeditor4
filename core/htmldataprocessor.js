@@ -212,7 +212,7 @@
 		 * This method fires the {@link CKEDITOR.editor#toHtml} event which makes it possible
 		 * to hook into the process at various stages.
 		 *
-		 * **Note:** Since CKEditor 4.3 the signature of this method changed and all options
+		 * **Note:** Since CKEditor 4.3.0 the signature of this method changed and all options
 		 * are now grouped in one `options` object. Previously `context`, `fixForBody` and `dontFilter`
 		 * were passed separately.
 		 *
@@ -245,7 +245,7 @@
 				enterMode = options.enterMode;
 				protectedWhitespaces = options.protectedWhitespaces;
 			}
-			// Backward compatibility. Since CKEDITOR 4.3 every option was a separate argument.
+			// Backward compatibility. Since CKEDITOR 4.3.0 every option was a separate argument.
 			else {
 				context = options;
 			}

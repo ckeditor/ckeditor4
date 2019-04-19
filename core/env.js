@@ -276,7 +276,7 @@ if ( !CKEDITOR.env ) {
 		env.version = version;
 
 		/**
-		 * Since CKEditor 4.5 this property is a blacklist of browsers incompatible with CKEditor. It means that it is
+		 * Since CKEditor 4.5.0 this property is a blacklist of browsers incompatible with CKEditor. It means that it is
 		 * set to `false` only in browsers that are known to be incompatible. Before CKEditor 4.5 this
 		 * property was a whitelist of browsers that were known to be compatible with CKEditor.
 		 *

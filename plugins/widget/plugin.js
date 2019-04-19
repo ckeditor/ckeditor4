@@ -803,7 +803,7 @@
 	 *		// insert a new simplebox widget or edit the one currently focused.
 	 *		editor.execCommand( 'simplebox' );
 	 *
-	 * Note: Since CKEditor 4.5 widget's `startupData` can be passed as the command argument:
+	 * Note: Since CKEditor 4.5.0 widget's `startupData` can be passed as the command argument:
 	 *
 	 *		editor.execCommand( 'simplebox', {
 	 *			startupData: {

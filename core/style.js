@@ -193,7 +193,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * @param {CKEDITOR.editor/CKEDITOR.dom.document} editor The editor instance in which
 		 * the style will be applied.
 		 * A {@link CKEDITOR.dom.document} instance is accepted for backward compatibility
-		 * reasons, although since CKEditor 4.4 this type of argument is deprecated. Read more about
+		 * reasons, although since CKEditor 4.4.0 this type of argument is deprecated. Read more about
 		 * the signature change in the {@link CKEDITOR.style} documentation.
 		 */
 		apply: function( editor ) {
@@ -223,7 +223,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * @param {CKEDITOR.editor/CKEDITOR.dom.document} editor The editor instance in which
 		 * the style will be removed.
 		 * A {@link CKEDITOR.dom.document} instance is accepted for backward compatibility
-		 * reasons, although since CKEditor 4.4 this type of argument is deprecated. Read more about
+		 * reasons, although since CKEditor 4.4.0 this type of argument is deprecated. Read more about
 		 * the signature change in the {@link CKEDITOR.style} documentation.
 		 */
 		remove: function( editor ) {
@@ -234,9 +234,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 			if ( this.checkApplicable( editor.elementPath(), editor ) ) {
 				var initialEnterMode = this._.enterMode;
 
-				// Before CKEditor 4.4 style knew nothing about editor, so in order to provide enterMode
+				// Before CKEditor 4.4.0 style knew nothing about editor, so in order to provide enterMode
 				// which should be used developers were forced to hack the style object (see https://dev.ckeditor.com/ticket/10190).
-				// Since CKEditor 4.4 style knows about editor (at least when it's being applied/removed), but we
+				// Since CKEditor 4.4.0 style knows about editor (at least when it's being applied/removed), but we
 				// use _.enterMode for backward compatibility with those hacks.
 				// Note: we should not change style's enter mode if it was already set.
 				if ( !initialEnterMode )

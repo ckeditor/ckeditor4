@@ -106,7 +106,7 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	 * by the {@link CKEDITOR.filter#checkFeature} method.
 	 *
 	 * @since 4.1.0
-	 * @param {Boolean} [noCache] Skip cache for example due to active filter change. Since CKEditor 4.2.
+	 * @param {Boolean} [noCache] Skip cache for example due to active filter change. Since CKEditor 4.2.0.
 	 * @returns {Boolean} Whether this command is allowed.
 	 */
 	this.checkAllowed = function( noCache ) {

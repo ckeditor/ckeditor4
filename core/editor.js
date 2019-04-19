@@ -1511,7 +1511,7 @@
 		 *
 		 * Prior to CKEditor 4.3 Enter modes were static and it was enough to check {@link CKEDITOR.config#enterMode}
 		 * and {@link CKEDITOR.config#shiftEnterMode} when implementing a feature which should depend on the Enter modes.
-		 * Since CKEditor 4.3 these options are source of initial:
+		 * Since CKEditor 4.3.0 these options are source of initial:
 		 *
 		 * * static {@link #enterMode} and {@link #shiftEnterMode} values,
 		 * * dynamic {@link #activeEnterMode} and {@link #activeShiftEnterMode} values.
