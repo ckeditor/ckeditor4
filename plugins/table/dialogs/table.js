@@ -341,29 +341,7 @@
 								else
 									selectedTable.removeAttribute( 'border' );
 							}
-						},
-						{
-							id: 'cmbAlign',
-							type: 'select',
-							requiredContent: 'table[align]',
-							'default': '',
-							label: editor.lang.common.align,
-							items: [
-								[ editor.lang.common.notSet, '' ],
-								[ editor.lang.common.alignLeft, 'left' ],
-								[ editor.lang.common.alignCenter, 'center' ],
-								[ editor.lang.common.alignRight, 'right' ]
-							],
-							setup: function( selectedTable ) {
-								this.setValue( selectedTable.getAttribute( 'align' ) || '' );
-							},
-							commit: function( data, selectedTable ) {
-								if ( this.getValue() )
-									selectedTable.setAttribute( 'align', this.getValue() );
-								else
-									selectedTable.removeAttribute( 'align' );
-							}
-						} ]
+						}]
 					},
 					{
 						type: 'vbox',
