@@ -249,6 +249,9 @@
 			}
 
 			var selectionRange = sel.getRanges()[ 0 ];
+			// when use mention, if typing korean for the text search on the IE 11, need this line.
+			selectionRange.collapse();
+
 			if ( !selectionRange ) {
 				return;
 			}
