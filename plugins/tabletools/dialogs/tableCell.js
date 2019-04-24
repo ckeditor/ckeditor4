@@ -76,9 +76,8 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 			children: [ {
 				type: 'text',
 				id: 'height',
-				label: langCommon.height,
 				width: '100px',
-				'default': '',
+				label: langCommon.height,
 				validate: validate.number( langCell.invalidHeight ),
 
 				// Extra labelling of height unit type.
@@ -87,11 +86,6 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						labelElement = heightType.getElement(),
 						inputElement = this.getInputElement(),
 						ariaLabelledByAttr = inputElement.getAttribute( 'aria-labelledby' );
-
-					if ( this.getDialog().getContentElement( 'info', 'height' ).isVisible() ) {
-						labelElement.setHtml( '<br />' + langTable.widthPx );
-						labelElement.setStyle( 'display', 'block' );
-					}
 
 					inputElement.setAttribute( 'aria-labelledby', [ ariaLabelledByAttr, labelElement.$.id ].join( ' ' ) );
 				},
@@ -103,22 +97,31 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					return !isNaN( heightStyle ) ? heightStyle :
 						!isNaN( heightAttr ) ? heightAttr : '';
 				} ),
+
 				commit: function( element ) {
-					var value = parseInt( this.getValue(), 10 );
+					var value = parseInt( this.getValue(), 10 ),
+						unit = this.getDialog().getValueOf( 'info', 'htmlHeightType' ) || getCellHeightType( element );
 
 					if ( !isNaN( value ) ) {
-						element.setStyle( 'height', CKEDITOR.tools.cssLength( value ) );
+						element.setStyle( 'height', value + unit );
 					} else {
 						element.removeStyle( 'height' );
 					}
 
 					element.removeAttribute( 'height' );
-				}
+				},
+				'default': ''
 			}, {
+				type: 'select',
 				id: 'htmlHeightType',
-				type: 'html',
-				html: '',
-				style: 'display: none'
+				label: editor.lang.table.heightUnit,
+				labelStyle: 'visibility:hidden',
+				'default': 'px',
+				items: [
+					[ langTable.widthPx, 'px' ],
+					[ langTable.widthPc, '%' ]
+				],
+				setup: setupCells( getCellHeightType )
 			} ]
 		},
 		createSpacer( [ 'td{width}', 'td{height}' ] ),
@@ -561,6 +564,19 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 	function getCellWidthType( cell ) {
 		var match = widthPattern.exec(
 			cell.getStyle( 'width' ) || cell.getAttribute( 'width' ) );
+
+		if ( match ) {
+			return match[ 2 ];
+		}
+	}
+
+	// Reads the unit of height property of the table cell.
+	//
+	// * @param {CKEDITOR.dom.element} cell An element representing the table cell.
+	// * @returns {String} A unit of width: 'px', '%' or undefined if none.
+	function getCellHeightType( cell ) {
+		var match = widthPattern.exec(
+			cell.getStyle( 'height' ) || cell.getAttribute( 'height' ) );
 
 		if ( match ) {
 			return match[ 2 ];
