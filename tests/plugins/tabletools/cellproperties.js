@@ -139,6 +139,48 @@
 			} );
 		},
 
+		// (#2084)
+		'test load and update field values (#11)': function() {
+			this.doTest( 'table-12', function( dialog ) {
+				assert.areSame( '60', dialog.getValueOf( 'info', 'height' ) );
+				assert.areSame( '%', dialog.getValueOf( 'info', 'htmlHeightType' ) );
+
+				dialog.setValueOf( 'info', 'height', 20 );
+				dialog.setValueOf( 'info', 'htmlHeightType', '%' );
+			} );
+		},
+
+		// (#2084)
+		'test load and update field values (#12)': function() {
+			this.doTest( 'table-13', function( dialog ) {
+				assert.areSame( '60', dialog.getValueOf( 'info', 'height' ) );
+				assert.areSame( '', dialog.getValueOf( 'info', 'htmlHeightType' ) );
+
+				dialog.setValueOf( 'info', 'height', 20 );
+			} );
+		},
+
+		// (#2084)
+		'test load and update field values (#13)': function() {
+			this.doTest( 'table-14', function( dialog ) {
+				assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
+				assert.areSame( '', dialog.getValueOf( 'info', 'htmlHeightType' ) );
+
+				dialog.setValueOf( 'info', 'height', 20 );
+			} );
+		},
+
+		// (#2084)
+		'test load and update field values (#14)': function() {
+			this.doTest( 'table-15', function( dialog ) {
+				assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
+				assert.areSame( '', dialog.getValueOf( 'info', 'htmlHeightType' ) );
+
+				dialog.setValueOf( 'info', 'height', 20 );
+				dialog.setValueOf( 'info', 'htmlHeightType', 'px' );
+			} );
+		},
+
 		// https://dev.ckeditor.com/ticket/16893
 		'test allowedContent rule': function() {
 			bender.editorBot.create( {
