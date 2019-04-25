@@ -15,8 +15,9 @@
 
 				bot.dialog( 'cellProperties', function( dialog ) {
 					try {
-						if ( dialogCallback )
+						if ( dialogCallback ) {
 							dialogCallback( dialog );
+						}
 
 						dialog.getButton( 'ok' ).click();
 					} catch ( e ) {

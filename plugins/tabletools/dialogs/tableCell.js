@@ -100,6 +100,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 
 				commit: function( element ) {
 					var value = parseInt( this.getValue(), 10 ),
+
+						// There might be no htmlHeightType value, i.e. when multiple cells are
+						// selected but some of them have width expressed in pixels and some
+						// of them in percent. Try to re-read the unit from the cell in such
+						// case.
 						unit = this.getDialog().getValueOf( 'info', 'htmlHeightType' ) || getCellHeightType( element );
 
 					if ( !isNaN( value ) ) {
@@ -466,8 +471,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				bookmarks = selection.createBookmarks();
 
 			var cells = this.cells;
-			for ( var i = 0; i < cells.length; i++ )
+			for ( var i = 0; i < cells.length; i++ ) {
 				this.commitContent( cells[ i ] );
+			}
 
 			this._.editor.forceNextSelectionCheck();
 			selection.selectBookmarks( bookmarks );
