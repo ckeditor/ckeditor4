@@ -5,7 +5,7 @@
 
 	var doc = CKEDITOR.document,
 		tools = bender.tools,
-		space = CKEDITOR.env.ie ? ' ' : '&nbsp;';
+		space = CKEDITOR.env.ie && !CKEDITOR.env.edge ? ' ' : '&nbsp;';
 
 	bender.editor = {
 		config: {
