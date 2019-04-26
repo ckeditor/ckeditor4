@@ -3506,30 +3506,31 @@
 			cell.append( fakeParagraph, before );
 		}
 
-		/**
-		 * Sorts relations by actual distance.
-		 *
-		 * @param {Object} relations {@link CKEDITOR.plugins.lineutils.finder#relations}
-		 * @param {Object} locations {@link CKEDITOR.plugins.lineutils.locator}
-		 * @param {Object} coordinates
-		 * @param {Number} coordinates.x horizontal coordinate
-		 * @param {Number} coordinates.y vertical coordinate
-		 * @returns [Array] Sorted array representation of relations {@link CKEDITOR.plugins.lineutils.finder#relations}
-		 */
+		// Sorts the relations by the actual distance.
+		//
+		// @param {Object} relations {@link CKEDITOR.plugins.lineutils.finder#relations}
+		// @param {Object} locations {@link CKEDITOR.plugins.lineutils.locator}
+		// @param {Object} coordinates
+		// @param {Number} coordinates.x horizontal coordinate
+		// @param {Number} coordinates.y vertical coordinate
+		// @returns [Array] Sorted array representation of relations {@link CKEDITOR.plugins.lineutils.finder#relations}
 		function sortByDistance( relations, locations, coordinates ) {
 			var x = coordinates.x,
 				y = coordinates.y,
 				sorted = [];
 
 			for ( var id in locations ) {
+				// The calculations are split for horizontal and vertical value, then the Pythagorean Theorem is used to calculate the actual distance.
 				var relation = relations[ id ],
 					rect = relation.elementRect,
 					type = relation.type,
 					verticalDistance, horizontalDistance, isStored, distanceBefore, distanceAfter;
 
 				if ( relation.type === CKEDITOR.LINEUTILS_INSIDE ) {
+					// Calculate the distance for the elements top and the bottom, and store the lower value.
 					horizontalDistance = getDistance( y, rect.top, rect.bottom );
 				} else {
+					// Calculate the distance for the elements before and after positions. Store the lower value, and it's type.
 					rect = relation.element.getParent().getClientRect();
 
 					distanceBefore = getDistance( y, locations[ id ][ 1 ] );
@@ -3550,12 +3551,13 @@
 					}
 				}
 
+				// Calculate the distance for the elements left and the right, and store the lowest.
 				verticalDistance = getDistance( x, rect.left, rect.right );
 
 				relation = {
 					uid: id,
 					type: type,
-					dist: Math.sqrt( Math.pow( verticalDistance, 2 ) + Math.pow( horizontalDistance, 2 ) )
+					dist: Math.sqrt( Math.pow( verticalDistance, 2 ) + Math.pow( horizontalDistance, 2 ) ) // Pythagorean Theorem
 				};
 
 				isStored = !!CKEDITOR.tools.array.find( sorted, function( item, index ) {
