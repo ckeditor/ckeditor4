@@ -49,13 +49,5 @@ function testScenario( scenario, filterPath ) {
 		}
 	};
 
-	tests._should = tests._should || { ignore: {} };
-
-	if ( bender.tools.env.mobile ) {
-		CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( tests ), function( tcName ) {
-			tests._should.ignore[ tcName ] = true;
-		} );
-	}
-
-	bender.test( tests );
+	return tests;
 }
