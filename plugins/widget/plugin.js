@@ -3430,24 +3430,17 @@
 		// Mark dragged widget for repository#finder.
 		this.repository._.draggedWidget = this;
 
-		var cellCount = CKEDITOR.tools.array.reduce( editable.find( 'tr' ).toArray(), function( total, element ) {
-					return total + element.getChildCount();
-				}, 0 ),
-			fakeParagraphHtml = '<p class="cke_fake-paragraph" style="height:0;margin:0;padding:0"></p>',
-			// To be adjusted. Higher value could be used for newer browsers and lower for older browsers.
-			limit = 100;
+		var fakeParagraphHtml = '<p class="cke_fake-paragraph" style="height:0;margin:0;padding:0"></p>';
 
-		if ( cellCount <= limit ) {
-			var cells = editable.find( 'td' ).toArray().concat( editable.find( 'th' ).toArray() );
-			addFakeParagraphs( cells );
-		}
+		fakeParagraphs.push( CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml ) );
+		fakeParagraphs.push( CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml ) );
 
 		// Harvest all possible relations and display some closest.
 		var relations = finder.greedySearch(),
 			buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
-				if ( cellCount > limit && target.getName() in { td:1, th:1 } ) {
-					storeFakeParagraph( addFakeParagraph( target ) );
-					storeFakeParagraph( addFakeParagraph( target, true ) );
+				if (  target.getName() in { td: 1, th: 1 } ) {
+					placeFakeParagraph( target );
+					placeFakeParagraph( target, true );
 				}
 
 				locations = locator.locate( relations );
@@ -3460,6 +3453,9 @@
 					liner.cleanup();
 				}
 			} );
+
+		fakeParagraphs[ 0 ].data( 'cke-fake-paragraph', CKEDITOR.LINEUTILS_BEFORE );
+		fakeParagraphs[ 1 ].data( 'cke-fake-paragraph', CKEDITOR.LINEUTILS_AFTER );
 
 		// Let's have the "dragging cursor" over entire editable.
 		editable.addClass( 'cke_widget_dragging' );
@@ -3475,41 +3471,39 @@
 		// Fire drag start as it happens during the native D&D.
 		editor.fire( 'dragstart', { target: evt.sender } );
 
-		function storeFakeParagraph( fakeParagraph ) {
-			if ( fakeParagraph ) {
-				finder.store( fakeParagraph, Number( fakeParagraph.data( 'cke-fake-paragraph' ) ) );
-			}
+		// Mouseup means "drop". This is when the widget is being detached
+		// from DOM and placed at range determined by the line (location).
+		listeners.push( editor.document.once( 'mouseup', onMouseUp, this ) );
+
+		// Prevent calling 'onBlockWidgetDrop' twice in the inline editor.
+		// `removeListener` does not work if it is called at the same time event is fired.
+		if ( !editable.isInline() ) {
+			// Mouseup may occur when user hovers the line, which belongs to
+			// the outer document. This is, of course, a valid listener too.
+			listeners.push( CKEDITOR.document.once( 'mouseup', onMouseUp, this ) );
 		}
 
-		function addFakeParagraphs( cells ) {
-			CKEDITOR.tools.array.forEach( cells, function( cell ) {
-				addFakeParagraph( cell, true );
-				addFakeParagraph( cell );
-			} );
-		}
+		function placeFakeParagraph( cell, before ) {
+			var node = before ? cell.getFirst() : cell.getLast();
 
-		function addFakeParagraph( cell, before ) {
-			var element = before ? cell.getFirst() : cell.getLast();
-
-			if ( !element ) {
+			if ( !node ) {
 				return null;
 			}
 
-			var isText = element.type === CKEDITOR.NODE_TEXT,
-				isInline = element.is && element.is( CKEDITOR.dtd.$inline ),
-				isBr = element.getName && element.getName() === 'br',
+			var isText = node.type === CKEDITOR.NODE_TEXT,
+				isInline = node.is && node.is( CKEDITOR.dtd.$inline ),
+				isBr = node.getName && node.getName() === 'br',
 				fakeParagraph;
 
 			if ( !isText && !isInline || isBr ) {
 				return null;
 			}
 
-			fakeParagraph = CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml );
-			fakeParagraph.data( 'cke-fake-paragraph', before ? CKEDITOR.LINEUTILS_BEFORE : CKEDITOR.LINEUTILS_AFTER );
-			cell.append( fakeParagraph, before );
-			fakeParagraphs.push( fakeParagraph );
+			fakeParagraph = fakeParagraphs[ before ? 0 : 1 ];
 
-			return fakeParagraph;
+			finder.store( fakeParagraph, before ? CKEDITOR.LINEUTILS_BEFORE : CKEDITOR.LINEUTILS_AFTER );
+
+			cell.append( fakeParagraph, before );
 		}
 
 		/**
@@ -3607,18 +3601,6 @@
 
 			onBlockWidgetDrop.call( this, sorted, evt.sender );
 		}
-
-		// Mouseup means "drop". This is when the widget is being detached
-		// from DOM and placed at range determined by the line (location).
-		listeners.push( editor.document.once( 'mouseup', onMouseUp, this ) );
-
-		// Prevent calling 'onBlockWidgetDrop' twice in the inline editor.
-		// `removeListener` does not work if it is called at the same time event is fired.
-		if ( !editable.isInline() ) {
-			// Mouseup may occur when user hovers the line, which belongs to
-			// the outer document. This is, of course, a valid listener too.
-			listeners.push( CKEDITOR.document.once( 'mouseup', onMouseUp, this ) );
-		}
 	}
 
 	function onBlockWidgetDrop( sorted, dragTarget ) {
@@ -3633,9 +3615,6 @@
 				bookmark = dropRange.createBookmark();
 
 			cleanFakeParagraphs();
-
-			// Remove any references to temporary elements.
-			fakeParagraphs.length = 0;
 
 			dropRange.moveToBookmark( bookmark );
 
@@ -3666,9 +3645,6 @@
 		CKEDITOR.tools.array.forEach( fakeParagraphs, function( fakeParagraph ) {
 			fakeParagraph.remove();
 		} );
-
-		// Remove any references to temporary elements.
-		fakeParagraphs.length = 0;
 	}
 
 	function setupEditables( widget ) {
