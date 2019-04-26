@@ -182,10 +182,16 @@
 			data: '<div>div</div>',
 			expected: '<div>div</div>'
 		}, {
-			name: 'when selection is in the middle of span',
+			name: 'when selection is followed by space',
 			initial: '<span>foo{bar}' + space + '</span>',
 			data: '<div>div</div>',
 			expected: '<span>foo</span><div>div</div><span>' + space + '</span>',
+			ignore: CKEDITOR.env.ie && !CKEDITOR.env.edge // (#3061)
+		}, {
+			name: 'when selection is preceded by space',
+			initial: '<span>' + space + '{foo}bar</span>',
+			data: '<div>div</div>',
+			expected: '<span>' + space + '</span><div>div</div><span>bar</span>',
 			ignore: CKEDITOR.env.ie && !CKEDITOR.env.edge // (#3061)
 		}
 	] );
