@@ -2627,7 +2627,7 @@
 
 							// Allow line only on one side of fake paragraph.
 							if ( el.hasClass( 'cke_fake-paragraph' ) ) {
-								return el.data( 'cke-fake-paragraph' );
+								return el.getIndex() === 0 ? CKEDITOR.LINEUTILS_BEFORE : CKEDITOR.LINEUTILS_AFTER;
 							}
 
 							return isCell ? CKEDITOR.LINEUTILS_INSIDE : CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
@@ -3453,9 +3453,6 @@
 					liner.cleanup();
 				}
 			} );
-
-		fakeParagraphs[ 0 ].data( 'cke-fake-paragraph', CKEDITOR.LINEUTILS_BEFORE );
-		fakeParagraphs[ 1 ].data( 'cke-fake-paragraph', CKEDITOR.LINEUTILS_AFTER );
 
 		// Let's have the "dragging cursor" over entire editable.
 		editable.addClass( 'cke_widget_dragging' );
