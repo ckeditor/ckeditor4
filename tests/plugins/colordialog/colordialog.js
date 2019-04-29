@@ -1,7 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: colordialog,wysiwygarea,toolbar,colorbutton */
 /* bender-include: _helpers/tools.js */
-/* global assertColor, assertColorAtDialogShow */
+/* global assertColor, openDialogManually, openDialogAutomatically */
 
 ( function() {
 	'use strict';
@@ -39,14 +39,35 @@
 		},
 
 		// (#2639)
-		'test colordialog setting current text color on opening': function() {
-			assertColorAtDialogShow( this.editor, '#ff0000', '<h1><span style="color:#ff0000">Foo</span></h1>', 'TextColor' );
+		'test colordialog setting text color by clicking on UI buttons': function() {
+			openDialogManually( this.editor, '#ff0000', '<h1>[<span style="color:#ff0000">Foo</span>]</h1>', 'TextColor' );
 		},
 
 		// (#2639)
-		'test colordialog setting current background color on opening': function() {
-			assertColorAtDialogShow( this.editor, '#0000ff', '<h1><span style="background:#0000ff">Foo</span></h1>', 'BGColor' );
+		'test colordialog setting background color by clicking on UI buttons': function() {
+			openDialogManually( this.editor, '#0000ff', '<h1>[<span style="background:#0000ff">Foo</span>]</h1>', 'BGColor' );
+		},
+
+		// (#2639)
+		'test colordialog setting text color using API': function() {
+			openDialogAutomatically( this.editor, '#ff0000', '<h1>[<span style="color:#ff0000">Foo</span>]</h1>', 'fore' );
+		},
+
+		// (#2639)
+		'test colordialog setting background color using API': function() {
+			openDialogAutomatically( this.editor, '#0000ff', '<h1><span style="background:#0000ff">Foo</span></h1>', 'back' );
+		},
+
+		// (#2639)
+		'test omitting default text color': function() {
+			openDialogManually( this.editor, '', '<h1>[Foo]</h1>', 'TextColor' );
+		},
+
+		// (#2639)
+		'test omitting default background color': function() {
+			openDialogManually( this.editor, '', '<h1>[Foo]</h1>', 'BGColor' );
 		}
+
 	} );
 
 } )();

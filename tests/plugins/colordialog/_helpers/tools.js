@@ -1,4 +1,4 @@
-/* exported assertColor, assertColorAtDialogShow */
+/* exported assertColor, openDialogManually, openDialogAutomatically */
 
 function assertColor( editor, inputColor, outputColor ) {
 	editor.once( 'dialogShow', function( evt ) {
@@ -15,9 +15,9 @@ function assertColor( editor, inputColor, outputColor ) {
 	wait();
 }
 
-function assertColorAtDialogShow( editor, expectedColor, html, button ) {
+function openDialogManually( editor, expectedColor, html, button ) {
 	var toolbarButton = editor.ui.get( button );
-	editor.insertHtml( html );
+	bender.tools.setHtmlWithSelection( editor, html );
 	editor.once( 'dialogShow', function( evt ) {
 		resume( function() {
 			var dialog = evt.data,
@@ -36,5 +36,25 @@ function openColorDialog( button ) {
 	setTimeout( function() {
 		button._.panel.getBlock( button._.id ).element.findOne( '.cke_colormore' ).$.click();
 	}, 0 );
+	wait();
+}
+
+function openDialogAutomatically( editor, expectedColor, html, type ) {
+	bender.tools.setHtmlWithSelection( editor, html );
+	var colorData = {
+		selectionColor: expectedColor,
+		type: type
+	};
+
+	editor.once( 'dialogShow', function( evt ) {
+		var dialog = evt.data;
+		dialog.getButton( 'ok' ).click();
+	} );
+
+	editor.getColorFromDialog( function( color ) {
+		resume( function() {
+			assert.areSame( expectedColor, color );
+		} );
+	}, null, colorData );
 	wait();
 }

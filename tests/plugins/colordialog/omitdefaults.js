@@ -1,7 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: colordialog,wysiwygarea,toolbar,colorbutton */
 /* bender-include: _helpers/tools.js */
-/* global assertColorAtDialogShow */
+/* global openDialogManually */
 
 ( function() {
 	'use strict';
@@ -11,12 +11,12 @@
 	bender.test( {
 		// (#2639)
 		'test omitting default text color': function() {
-			assertColorAtDialogShow( this.editor, '', '<h1>Foo</h1>', 'TextColor' );
+			openDialogManually( this.editor, '', '<h1>Foo</h1>', 'TextColor' );
 		},
 
 		// (#2639)
 		'test omitting default background color': function() {
-			assertColorAtDialogShow( this.editor, '', '<h1>Foo</h1>', 'BGColor' );
+			openDialogManually( this.editor, '', '<h1>Foo</h1>', 'BGColor' );
 		}
 	} );
 
