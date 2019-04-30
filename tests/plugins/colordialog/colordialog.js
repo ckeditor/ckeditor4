@@ -1,7 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: colordialog,wysiwygarea,toolbar,colorbutton */
 /* bender-include: _helpers/tools.js */
-/* global assertColor, openDialogManually, openDialogAutomatically */
+/* global assertColor, openDialogManually */
 
 ( function() {
 	'use strict';
@@ -46,16 +46,6 @@
 		// (#2639)
 		'test colordialog setting background color by clicking on UI buttons': function() {
 			openDialogManually( this.editor, '#0000ff', '<h1>[<span style="background-color:#0000ff">Foo</span>]</h1>', 'BGColor' );
-		},
-
-		// (#2639)
-		'test colordialog setting text color using API': function() {
-			openDialogAutomatically( this.editor, '#ff0000', '<h1>[<span style="color:#ff0000">Foo</span>]</h1>', 'fore' );
-		},
-
-		// (#2639)
-		'test colordialog setting background color using API': function() {
-			openDialogAutomatically( this.editor, '#0000ff', '<h1>[<span style="background-color:#0000ff">Foo</span>]</h1>', 'back' );
 		},
 
 		// (#2639)

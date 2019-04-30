@@ -1,4 +1,4 @@
-/* exported assertColor, openDialogManually, openDialogAutomatically */
+/* exported assertColor, openDialogManually */
 
 function assertColor( editor, inputColor, outputColor ) {
 	editor.once( 'dialogShow', function( evt ) {
@@ -38,21 +38,3 @@ function openColorDialog( button ) {
 	wait();
 }
 
-function openDialogAutomatically( editor, expectedColor, html, type ) {
-	var colorData = {
-		selectionColor: expectedColor,
-		type: type
-	};
-	bender.tools.setHtmlWithSelection( editor, html );
-	editor.once( 'dialogShow', function( evt ) {
-		var dialog = evt.data;
-		dialog.getButton( 'ok' ).click();
-	} );
-
-	editor.getColorFromDialog( function( color ) {
-		resume( function() {
-			assert.areSame( expectedColor, color );
-		} );
-	}, null, colorData );
-	wait();
-}
