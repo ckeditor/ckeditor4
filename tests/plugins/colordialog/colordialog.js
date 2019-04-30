@@ -45,7 +45,7 @@
 
 		// (#2639)
 		'test colordialog setting background color by clicking on UI buttons': function() {
-			openDialogManually( this.editor, '#0000ff', '<h1>[<span style="background:#0000ff">Foo</span>]</h1>', 'BGColor' );
+			openDialogManually( this.editor, '#0000ff', '<h1>[<span style="background-color:#0000ff">Foo</span>]</h1>', 'BGColor' );
 		},
 
 		// (#2639)
@@ -55,7 +55,7 @@
 
 		// (#2639)
 		'test colordialog setting background color using API': function() {
-			openDialogAutomatically( this.editor, '#0000ff', '<h1><span style="background:#0000ff">Foo</span></h1>', 'back' );
+			openDialogAutomatically( this.editor, '#0000ff', '<h1>[<span style="background-color:#0000ff">Foo</span>]</h1>', 'back' );
 		},
 
 		// (#2639)
@@ -66,6 +66,16 @@
 		// (#2639)
 		'test omitting default background color': function() {
 			openDialogManually( this.editor, '', '<h1>[Foo]</h1>', 'BGColor' );
+		},
+
+		// (#2639)
+		'test text color of mixed selection': function() {
+			openDialogManually( this.editor, '', '<h1>[<span style="color:#0000ff">Foo</span>bar]</h1>', 'TextColor' );
+		},
+
+		// (#2639)
+		'test background color of mixed selection': function() {
+			openDialogManually( this.editor, '', '<h1>[<span style="background-color:#0000ff">Foo</span>bar]</h1>', 'BGColor' );
 		}
 
 	} );
