@@ -23,7 +23,6 @@ function openDialogManually( editor, expectedColor, html, button ) {
 			var dialog = evt.data,
 				selectedColor = dialog.getValueOf( 'picker', 'selectedColor' );
 			dialog.getButton( 'ok' ).click();
-
 			assert.areSame( expectedColor, selectedColor );
 		} );
 	} );
@@ -40,12 +39,11 @@ function openColorDialog( button ) {
 }
 
 function openDialogAutomatically( editor, expectedColor, html, type ) {
-	bender.tools.setHtmlWithSelection( editor, html );
 	var colorData = {
 		selectionColor: expectedColor,
 		type: type
 	};
-
+	bender.tools.setHtmlWithSelection( editor, html );
 	editor.once( 'dialogShow', function( evt ) {
 		var dialog = evt.data;
 		dialog.getButton( 'ok' ).click();
