@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'nl', {
 	border: 'Randdikte',
-	caption: 'Titel',
+	caption: 'Bijschrift',
 	cell: {
 		menu: 'Cel',
 		insertBefore: 'Voeg cel in voor',
