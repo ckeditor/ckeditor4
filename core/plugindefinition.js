@@ -177,15 +177,15 @@
  */
 
 /**
- * The list of icon files available for this plugin. These files are stored inside
+ * The list of icon files registered by this plugin. These files are stored inside
  * the `icons` directory in the plugin directory, follow the name
  * pattern of `name.png`.
  *
- * Usage:
- *
- *		CKEDITOR.plugins.add( 'sample', {
- *			icons: 'first,second'
- *		} );
+ * ```javascript
+ *	CKEDITOR.plugins.add( 'sample', {
+ *		icons: 'first,second'
+ *	} );
+ * ```
  *
  * @property {String} [icons]
  */
