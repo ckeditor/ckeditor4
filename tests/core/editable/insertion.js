@@ -4,8 +4,7 @@
 	'use strict';
 
 	var doc = CKEDITOR.document,
-		tools = bender.tools,
-		space = CKEDITOR.env.ie && !CKEDITOR.env.edge ? ' ' : '&nbsp;';
+		tools = bender.tools;
 
 	bender.editor = {
 		config: {
@@ -183,15 +182,15 @@
 			expected: '<div>div</div>'
 		}, {
 			name: 'when selection is followed by space',
-			initial: '<span>foo{bar}' + space + '</span>',
+			initial: '<span>foo{bar}&nbsp;</span>',
 			data: '<div>div</div>',
-			expected: '<span>foo</span><div>div</div><span>' + space + '</span>',
+			expected: '<span>foo</span><div>div</div><span>&nbsp;</span>',
 			ignore: CKEDITOR.env.ie && !CKEDITOR.env.edge // (#3061)
 		}, {
 			name: 'when selection is preceded by space',
-			initial: '<span>' + space + '{foo}bar</span>',
+			initial: '<span>&nbsp;{foo}bar</span>',
 			data: '<div>div</div>',
-			expected: '<span>' + space + '</span><div>div</div><span>bar</span>',
+			expected: '<span>&nbsp;</span><div>div</div><span>bar</span>',
 			ignore: CKEDITOR.env.ie && !CKEDITOR.env.edge // (#3061)
 		}
 	] );
