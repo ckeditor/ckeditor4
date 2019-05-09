@@ -31,6 +31,7 @@
 		tests: {
 			'Tickets/16826OrderedList': true
 		},
-		compareRawData: true
+		compareRawData: true,
+		ignoreAll: bender.tools.env.mobile
 	} ) );
 } )();

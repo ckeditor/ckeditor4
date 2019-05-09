@@ -11,7 +11,7 @@ function testScenario( scenario, filterPath ) {
 		}
 	};
 
-	bender.test( {
+	var tests = {
 		// https://dev.ckeditor.com/ticket/10032
 		'test reset forceFromWord': function() {
 			var editor = this.editor,
@@ -47,5 +47,7 @@ function testScenario( scenario, filterPath ) {
 				}
 			}
 		}
-	} );
+	};
+
+	return tests;
 }

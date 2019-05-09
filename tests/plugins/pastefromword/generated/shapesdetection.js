@@ -35,6 +35,6 @@
 			'Shapes/Canvas': true
 		},
 
-		ignoreAll: CKEDITOR.env.ie
+		ignoreAll: CKEDITOR.env.ie || bender.tools.env.mobile
 	} ) );
 } )();

@@ -31,6 +31,7 @@
 			'Unordered_nested_list': true
 		},
 
-		compareRawData: false
+		compareRawData: false,
+		ignoreAll: bender.tools.env.mobile
 	} ) );
 } )();

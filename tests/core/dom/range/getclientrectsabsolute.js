@@ -76,6 +76,8 @@
 							} else if ( rectKey === 'height' || rectKey === 'top' ) {
 								continue;
 							}
+						} else if ( bender.tools.env.mobile ) {
+							actual = Math.round( actual );
 						}
 						assert.areEqual( expected[ index ][ rectKey ], actual, 'rect[' + index + '].' + rectKey );
 					}

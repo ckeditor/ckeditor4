@@ -56,6 +56,6 @@
 		customFilters: [
 			pfwTools.filters.span
 		],
-		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version <= 11
+		ignoreAll: ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) || bender.tools.env.mobile
 	} ) );
 } )();

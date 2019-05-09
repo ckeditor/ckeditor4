@@ -1,5 +1,7 @@
 /* bender-tags: editor,clipboard,pastefromword */
 /* bender-ckeditor-plugins: pastefromword */
+/* bender-include: generated/_helpers/pfwTools.js */
+/* global pfwTools */
 
 ( function() {
 	'use strict';
@@ -13,7 +15,7 @@
 	}
 
 	CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( '/plugins/pastefromword/filter/default.js' ), function() {
-		bender.test( {
+		var tests = {
 			init: function() {
 				this.isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported;
 			},
@@ -26,6 +28,10 @@
 			'test nested image': function() {
 				testOutput( this.isCustomDataTypesSupported ? 'nested-image' : 'nested-image-simple', this.editor );
 			}
-		} );
+		};
+
+		pfwTools.ignoreTestsOnMobiles( tests );
+
+		bender.test( tests );
 	}, null, true );
 } )();

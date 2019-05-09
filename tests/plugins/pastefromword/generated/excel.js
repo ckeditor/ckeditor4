@@ -55,7 +55,7 @@
 				}
 			}
 		},
-		ignoreAll: CKEDITOR.env.edge,
+		ignoreAll: CKEDITOR.env.edge || bender.tools.env.mobile,
 		customFilters: [ pfwTools.filters.style ]
 	} ) );
 } )();
