@@ -192,6 +192,12 @@
 			data: '<div>div</div>',
 			expected: '<span>&nbsp;</span><div>div</div><span>bar</span>',
 			ignore: CKEDITOR.env.ie && !CKEDITOR.env.edge // (#3061)
+		}, {
+			name: 'when empty element is inserted ad the end of span',
+			initial: '<span>foo{bar}</span>',
+			data: '<div></div>',
+			expected: '<span>foo</span><div></div>',
+			ignore: CKEDITOR.env.ie && CKEDITOR.env.version < 9 // IE8 fills empty element with `&nbsp;`, so we can skip this test.
 		}
 	] );
 
