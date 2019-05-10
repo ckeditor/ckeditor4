@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: bug, 2235, 4.11.5
-@bender-ckeditor-plugins: wysiwygarea, tableselection, image
+@bender-ckeditor-plugins: wysiwygarea, tableselection, image, undo
 
 ## Context menu for image in table
 
@@ -14,3 +14,14 @@ URL field should be filled and image should be visible in the preview.
 **Unexpected result:**
 
 URL field is empty or image isn't visible in the preview.
+
+3. Select first row of the outer table and delete it.
+4. Click on the image again.
+
+**Expected result:**
+
+Image is selected.
+
+**Unexpected result:**
+
+Image can't be selected.

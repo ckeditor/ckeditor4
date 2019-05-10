@@ -2,11 +2,25 @@
 	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
 		<tbody>
 			<tr>
-				<td><img alt="" src="https://cdn.emojics.com/v1.0.0/emojis/like/symbols/1f60a-color.png" style="height:50px; width:50px" /></td>
+				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td>&nbsp;</td>
+				<td>
+				<table border="1" cellpadding="1" cellspacing="1" style="width:300px">
+					<tbody>
+						<tr>
+							<td><img alt="" src="https://cdn.emojics.com/v1.0.0/emojis/like/symbols/1f60a-color.png" style="height:100px; width:100px" /></td>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>&nbsp;</p>
+				</td>
 				<td>&nbsp;</td>
 			</tr>
 		</tbody>
@@ -18,5 +32,5 @@
 	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 		bender.ignore();
 	}
-	CKEDITOR.replace( 'editor' );
+	CKEDITOR.replace( 'editor', { height: 300 } );
 </script>
