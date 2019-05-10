@@ -119,6 +119,7 @@
 
 	function clearFakeCellSelection( editor, reset ) {
 		var selectedCells = editor.editable().find( '.' + fakeSelectedClass ),
+			selectedTable = editor.editable().findOne( '[data-' + fakeSelectedTableDataAttribute + ']' ),
 			i;
 
 		editor.fire( 'lockSnapshot' );
@@ -129,8 +130,9 @@
 			selectedCells.getItem( i ).removeClass( fakeSelectedClass );
 		}
 
-		if ( selectedCells.count() > 0 ) {
-			selectedCells.getItem( 0 ).getAscendant( 'table' ).data( fakeSelectedTableDataAttribute, false );
+		// Table may be selected even though no cells are selected (e.g. after deleting cells.)
+		if ( selectedTable ) {
+			selectedTable.data( fakeSelectedTableDataAttribute, false );
 		}
 
 		editor.fire( 'unlockSnapshot' );
@@ -262,9 +264,6 @@
 		// Don't perform fake selection when selected node is a widget (#1027).
 		// Also don't perform fake selection when image is selected (#2235).
 		if ( isWidget( enclosedNode ) || isEnclosedNodeAnImage ) {
-			// Table isn't fake selected when selection is just widget or image.
-			// This is necessary to be able to select them after deleting some cells as it doesn't change table class.
-			cells[ 0 ].getAscendant( 'table' ).data( fakeSelectedTableDataAttribute, false );
 			return;
 		}
 
