@@ -262,6 +262,9 @@
 		// Don't perform fake selection when selected node is a widget (#1027).
 		// Also don't perform fake selection when image is selected (#2235).
 		if ( isWidget( enclosedNode ) || isEnclosedNodeAnImage ) {
+			// Table isn't fake selected when selection is just widget or image.
+			// This is necessary to be able to select them after deleting some cells as it doesn't change table class.
+			cells[ 0 ].getAscendant( 'table' ).data( fakeSelectedTableDataAttribute, false );
 			return;
 		}
 
