@@ -23,16 +23,6 @@
 		if ( ranges.length === 0 ) {
 			return false;
 		}
-		// It's not table selection when selected node is a widget (#1027).
-		if ( isWidget( ranges[ 0 ].getEnclosedNode() ) ) {
-			return false;
-		}
-		// Also it's not table selection when image is selected (#2235).
-		if ( ranges[ 0 ].getEnclosedNode() &&
-			ranges[ 0 ].getEnclosedNode().type == CKEDITOR.NODE_ELEMENT &&
-			ranges[ 0 ].getEnclosedNode().is( 'img' ) ) {
-			return false;
-		}
 
 		var node,
 			i;
