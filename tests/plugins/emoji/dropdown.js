@@ -203,7 +203,7 @@
 							doc.findOne( '.cke_emoji-outer_emoji_block' ).fire( 'click', new CKEDITOR.dom.event( {
 								target: testElement.$
 							} ) );
-							assert.areSame( '<p>⭐</p>', bot.getData(), 'Star should be inserted in editor after click.' );
+							assert.areSame( '<p>⭐</p>', bot.getData().replace( /<p>\s<\/p>/, '' ), 'Star should be inserted in editor after click.' );
 						} finally {
 							panel.hide();
 						}
@@ -241,7 +241,7 @@
 								keyCode: 32
 							} ) );
 
-							assert.areSame( '<p>⭐</p>', bot.getData(), 'Star should be inserted in editor after pressing space.' );
+							assert.areSame( '<p>⭐</p>', bot.getData().replace( /<p>\s<\/p>/, '' ), 'Star should be inserted in editor after pressing space.' );
 						} finally {
 							panel.hide();
 						}
