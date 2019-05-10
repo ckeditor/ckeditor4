@@ -148,7 +148,6 @@
 
 					testElement.scrollIntoView( true );
 
-					doc.findOne( '.cke_emoji-outer_emoji_block' ).fire( 'scroll', new CKEDITOR.dom.event() );
 					// Scroll event is throttled that's why we need wait a little bit.
 					CKEDITOR.tools.setTimeout( function() {
 						resume( function() {
