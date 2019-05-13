@@ -1597,32 +1597,20 @@
 
 			// Adjust left margin based on parents sum of parents left margin (#2870).
 			CKEDITOR.tools.array.forEach( listElements, function( element ) {
-				var listParents = CKEDITOR.tools.array.filter( getParents( element ), function( element ) {
-							return element.name === 'li';
-						} ),
-					leftOffset = CKEDITOR.tools.array.reduce( listParents, function( total, element ) {
-							if ( element.attributes && element.attributes.style ) {
-								var marginLeft = CKEDITOR.tools.parseCssText( element.attributes.style )[ 'margin-left' ];
-							}
-							return marginLeft ? total + parseInt( marginLeft, 10 ) : total;
-						}, 0 ),
-					styles = element.attributes && element.attributes.style,
-					marginLeft;
+				var listParents = getParentListItems( element ),
+					leftOffset = getTotalMarginLeft( listParents ),
+					styles, marginLeft;
 
 				if ( !leftOffset ) {
 					return;
 				}
 
-				if ( styles ) {
-					styles = CKEDITOR.tools.parseCssText( styles );
-				} else {
-					styles = {
-						'margin-left': 0
-					};
-				}
+				element.attributes = element.attributes || {};
 
-				// Ignore negative margins (#2870).
-				marginLeft = Math.max( parseInt( styles[ 'margin-left' ], 10 ) - leftOffset, 0 );
+				styles = CKEDITOR.tools.parseCssText( element.attributes.style );
+
+				marginLeft = styles[ 'margin-left' ] || 0;
+				marginLeft = Math.max( parseInt( marginLeft, 10 ) - leftOffset, 0 );
 
 				if ( marginLeft ) {
 					styles[ 'margin-left' ] = marginLeft + 'px';
@@ -1630,25 +1618,32 @@
 					delete styles[ 'margin-left' ];
 				}
 
-				if ( !element.attributes ) {
-					element.attributes = {};
-				}
-
 				element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 			} );
 
 			return listElements;
 
-			function getParents( element ) {
+			function getParentListItems( element ) {
 				var parents = [],
 					parent = element.parent;
 
 				while( parent ) {
-					parents.push( parent );
+					if ( parent.name === 'li' ) {
+						parents.push( parent );
+					}
 					parent = parent.parent;
 				}
 
 				return parents;
+			}
+
+			function getTotalMarginLeft( elements ) {
+				return CKEDITOR.tools.array.reduce( elements, function( total, element ) {
+					if ( element.attributes && element.attributes.style ) {
+						var marginLeft = CKEDITOR.tools.parseCssText( element.attributes.style )[ 'margin-left' ];
+					}
+					return marginLeft ? total + parseInt( marginLeft, 10 ) : total;
+				}, 0 );
 			}
 		},
 
