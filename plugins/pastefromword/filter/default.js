@@ -1203,6 +1203,7 @@
 				var margin = styles[ 'margin-left' ],
 					level = element.attributes[ 'cke-list-level' ];
 
+				// Ignore negative margins (#2870).
 				margin = Math.max( CKEDITOR.tools.convertToPx( margin ) - 40 * level, 0 );
 
 				if ( margin ) {
@@ -1620,6 +1621,7 @@
 					};
 				}
 
+				// Ignore negative margins (#2870).
 				marginLeft = Math.max( parseInt( styles[ 'margin-left' ], 10 ) - leftOffset, 0 );
 
 				if ( marginLeft ) {
