@@ -11,4 +11,4 @@ Paste text from Word with indented lists. You can use example file: [List_indent
 
 ## Unexpected
 
-Text has no indentation.
+Additional positive margin is not preserved (`margin-left`). Any element has negative `margin-left` values.
