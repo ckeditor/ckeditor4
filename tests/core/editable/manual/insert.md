@@ -6,13 +6,18 @@
 
 1. After each case use `reset editor` button.
 
-1. Select word `bar`.
+1. Select the word `bar`.
 
 1. Press button.
 
 ## Expected
-- `Insert text` button: Inserted word `text` replaces selected word inside border.
-- Any other button : there is one red border on the left of inserted `div`.
+
+- `Insert text` button: `text` replaces selected word inside the rectangle.
+
+- Any other button: `div` replaces selected word outside the rectangle.
 
 ## Unexpected
-- There are two red borders, one on the left and another on the right of inserted content.
+
+Clicked button causes the creation of an additional rectangle
+
+**NOTE:** Insert HTML functions inserts `div` element as a plain text. Caused by [#3042](https://github.com/ckeditor/ckeditor-dev/issues/3042) issue.
