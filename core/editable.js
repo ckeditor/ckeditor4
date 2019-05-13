@@ -2288,7 +2288,7 @@
 				wrapper = doc.createText( '{cke-peak}' ),
 				limit = that.inlineStylesRoot.getParent();
 
-			while ( element && !element.equals( limit ) ) {
+			while ( !element.equals( limit ) ) {
 				wrapper = wrapper.appendTo( element.clone() );
 				element = element.getParent();
 			}
