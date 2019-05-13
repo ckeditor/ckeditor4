@@ -42,7 +42,6 @@
 
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
 		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
-			keepZeroMargins = editor && editor.config.pasteFromWord_keepZeroMargins,
 			shapesIds = [];
 
 		function shapeTagging( element ) {
@@ -55,7 +54,7 @@
 		// Before filtering inline all the styles to allow because some of them are available only in style
 		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (https://dev.ckeditor.com/ticket/16847)
 		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
-			mswordHtml = CKEDITOR.plugins.pastefromword.styles.inliner.inline( mswordHtml, keepZeroMargins ).getBody().getHtml();
+			mswordHtml = CKEDITOR.plugins.pastefromword.styles.inliner.inline( mswordHtml ).getBody().getHtml();
 		}
 
 		// Sometimes Word malforms the comments.
