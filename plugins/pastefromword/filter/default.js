@@ -1007,13 +1007,12 @@
 			 * into a generic style sheet.
 			 *
 			 * @param {String} html An HTML string to be parsed.
-			 * @param {Boolean} [keepZeroMargins=false] When `true`, margins which equals to 0 will be preserved. **Since 4.12.0**.
 			 * @returns {CKEDITOR.dom.document}
 			 * @since 4.7.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
 			 */
-			inline: function( html, keepZeroMargins ) {
+			inline: function( html ) {
 				var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
 					sortStyles = CKEDITOR.plugins.pastefromword.styles.inliner.sort,
 					document = createTempDocument( html ),
