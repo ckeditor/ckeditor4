@@ -1635,21 +1635,21 @@
 				}
 
 				element.attributes.style = CKEDITOR.tools.writeCssText( styles );
-
-				function getParents( element ) {
-					var parents = [],
-						parent = element.parent;
-
-					while( parent ) {
-						parents.push( parent );
-						parent = parent.parent;
-					}
-
-					return parents;
-				}
 			} );
 
 			return listElements;
+
+			function getParents( element ) {
+				var parents = [],
+					parent = element.parent;
+
+				while( parent ) {
+					parents.push( parent );
+					parent = parent.parent;
+				}
+
+				return parents;
+			}
 		},
 
 		/**
