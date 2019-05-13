@@ -6,8 +6,9 @@ Paste text from Word with indented lists. You can use example file: [List_indent
 
 ## Expected:
 
-- When list item is indented more than default (to the right in LTR) it's indentation should be preserved as `margin-left` on `<li>`.
-- When list item is indented less than default (to the left in LTR) it's indentation shouldn't be preserved, no `margin-left` on `<li>`.
+- List indentation is preserved by `margin-left` style. Following point is an exception.
+- `margin-left` values lower than zero are disallowed, so items with decreased indentation won't the look same as in Word.
+- Word list item with default indentation will have `margin-left:8px` when pasted into the editor.
 
 ## Unexpected
 
