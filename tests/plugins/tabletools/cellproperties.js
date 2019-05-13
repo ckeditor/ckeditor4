@@ -141,7 +141,7 @@
 		},
 
 		// (#2084)
-		'test load and update field values (#11)': function() {
+		'test load and update field values - same unit and value, change value (#11)': function() {
 			this.doTest( 'table-12', function( dialog ) {
 				assert.areSame( '60', dialog.getValueOf( 'info', 'height' ) );
 				assert.areSame( '%', dialog.getValueOf( 'info', 'htmlHeightType' ) );
@@ -152,7 +152,7 @@
 		},
 
 		// (#2084)
-		'test load and update field values (#12)': function() {
+		'test load and update field values - different unit, same value, change value (#12)': function() {
 			this.doTest( 'table-13', function( dialog ) {
 				assert.areSame( '60', dialog.getValueOf( 'info', 'height' ) );
 				assert.areSame( '', dialog.getValueOf( 'info', 'htmlHeightType' ) );
@@ -162,7 +162,7 @@
 		},
 
 		// (#2084)
-		'test load and update field values (#13)': function() {
+		'test load and update field values - different unit and value, change value (#13)': function() {
 			this.doTest( 'table-14', function( dialog ) {
 				assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
 				assert.areSame( '', dialog.getValueOf( 'info', 'htmlHeightType' ) );
@@ -172,7 +172,7 @@
 		},
 
 		// (#2084)
-		'test load and update field values (#14)': function() {
+		'test load and update field values - different unit and value, change unit and value (#14)': function() {
 			this.doTest( 'table-15', function( dialog ) {
 				assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
 				assert.areSame( '', dialog.getValueOf( 'info', 'htmlHeightType' ) );
