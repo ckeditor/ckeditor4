@@ -10,7 +10,7 @@ New Features:
 * [#2639](https://github.com/ckeditor/ckeditor-dev/issues/2639): [Color Dialog](https://ckeditor.com/cke4/addon/colordialog) plugin now shows current selection's color when opened.
 * [#1490](https://github.com/ckeditor/ckeditor-dev/issues/1490): Improved [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin to retain table cell borders.
 * [#2870](https://github.com/ckeditor/ckeditor-dev/issues/2870): Added support for preserving positive `margin-left` values in list items for lists pasted with [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
-* [#2084](https://github.com/ckeditor/ckeditor-dev/issues/2084): [Table Tools plugin](https://ckeditor.com/cke4/addon/table) now allows to change cell height unit type to either pixels or percents.
+* [#2084](https://github.com/ckeditor/ckeditor-dev/issues/2084): [Table Tools plugin](https://ckeditor.com/cke4/addon/tabletools) now allows to change cell height unit type to either pixels or percents.
 
 Fixed Issues:
 
