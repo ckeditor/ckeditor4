@@ -1034,6 +1034,23 @@
 	}
 
 	Widget.prototype = {
+
+		/**
+		 * Returns HTML of the widget. Can be overridden to customize HTML copied to the clipboard
+		 * during copy&cut and drag&drop events.
+		 *
+		 * @since 4.12.0
+		 * @returns {String} Widget HTML.
+		 */
+		getClipboardHtml: function() {
+			var range = this.editor.createRange();
+
+			range.setStartBefore( this.wrapper );
+			range.setEndAfter( this.wrapper );
+
+			return this.editor.editable().getHtmlFromRange( range ).getHtml();
+		},
+
 		/**
 		 * Adds a class to the widget element. This method is used by
 		 * the {@link #applyStyle} method and should be overridden by widgets
@@ -2598,7 +2615,7 @@
 			delete CKEDITOR.plugins.clipboard.dragStartContainerChildCount;
 			delete CKEDITOR.plugins.clipboard.dragEndContainerChildCount;
 
-			evt.data.dataTransfer.setData( 'text/html', editor.editable().getHtmlFromRange( dragRange ).getHtml() );
+			evt.data.dataTransfer.setData( 'text/html', sourceWidget.getClipboardHtml() );
 			editor.widgets.destroy( sourceWidget, true );
 		} );
 
@@ -3221,13 +3238,9 @@
 
 		copybin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-5000px' );
 
-		var range = editor.createRange();
-		range.setStartBefore( widget.wrapper );
-		range.setEndAfter( widget.wrapper );
-
 		copybin.setHtml(
 			'<span data-cke-copybin-start="1">\u200b</span>' +
-			editor.editable().getHtmlFromRange( range ).getHtml() +
+			widget.getClipboardHtml() +
 			'<span data-cke-copybin-end="1">\u200b</span>' );
 
 		// Save snapshot with the current state.
@@ -3250,7 +3263,7 @@
 		// Once the clone of the widget is inside of copybin, select
 		// the entire contents. This selection will be copied by the
 		// native browser's clipboard system.
-		range = editor.createRange();
+		var range = editor.createRange();
 		range.selectNodeContents( copybin );
 		range.select();
 
