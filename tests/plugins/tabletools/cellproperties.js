@@ -144,10 +144,10 @@
 		'test load and update field values - same unit and value, change value (#11)': function() {
 			this.doTest( 'table-12', function( dialog ) {
 				assert.areSame( '60', dialog.getValueOf( 'info', 'height' ) );
-				assert.areSame( '%', dialog.getValueOf( 'info', 'htmlHeightType' ) );
+				assert.areSame( '%', dialog.getValueOf( 'info', 'heightType' ) );
 
 				dialog.setValueOf( 'info', 'height', 20 );
-				dialog.setValueOf( 'info', 'htmlHeightType', '%' );
+				dialog.setValueOf( 'info', 'heightType', '%' );
 			} );
 		},
 
@@ -155,7 +155,7 @@
 		'test load and update field values - different unit, same value, change value (#12)': function() {
 			this.doTest( 'table-13', function( dialog ) {
 				assert.areSame( '60', dialog.getValueOf( 'info', 'height' ) );
-				assert.areSame( '', dialog.getValueOf( 'info', 'htmlHeightType' ) );
+				assert.areSame( '', dialog.getValueOf( 'info', 'heightType' ) );
 
 				dialog.setValueOf( 'info', 'height', 20 );
 			} );
@@ -165,7 +165,7 @@
 		'test load and update field values - different unit and value, change value (#13)': function() {
 			this.doTest( 'table-14', function( dialog ) {
 				assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
-				assert.areSame( '', dialog.getValueOf( 'info', 'htmlHeightType' ) );
+				assert.areSame( '', dialog.getValueOf( 'info', 'heightType' ) );
 
 				dialog.setValueOf( 'info', 'height', 20 );
 			} );
@@ -175,10 +175,10 @@
 		'test load and update field values - different unit and value, change unit and value (#14)': function() {
 			this.doTest( 'table-15', function( dialog ) {
 				assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
-				assert.areSame( '', dialog.getValueOf( 'info', 'htmlHeightType' ) );
+				assert.areSame( '', dialog.getValueOf( 'info', 'heightType' ) );
 
 				dialog.setValueOf( 'info', 'height', 20 );
-				dialog.setValueOf( 'info', 'htmlHeightType', 'px' );
+				dialog.setValueOf( 'info', 'heightType', 'px' );
 			} );
 		},
 
@@ -194,7 +194,7 @@
 				bot.dialog( 'cellProperties', function( dialog ) {
 					assert.isUndefined( dialog.getContentElement( 'info', 'width' ) );
 					assert.isUndefined( dialog.getContentElement( 'info', 'height' ) );
-					assert.isUndefined( dialog.getContentElement( 'info', 'htmlHeightType' ) );
+					assert.isUndefined( dialog.getContentElement( 'info', 'heightType' ) );
 				} );
 			} );
 		},
@@ -208,7 +208,7 @@
 				bot.dialog( 'cellProperties', function( dialog ) {
 					assert.isTrue( dialog.getContentElement( 'info', 'width' ).isVisible() );
 					assert.isTrue( dialog.getContentElement( 'info', 'height' ).isVisible() );
-					assert.isTrue( dialog.getContentElement( 'info', 'htmlHeightType' ).isVisible() );
+					assert.isTrue( dialog.getContentElement( 'info', 'heightType' ).isVisible() );
 				} );
 			} );
 		},
