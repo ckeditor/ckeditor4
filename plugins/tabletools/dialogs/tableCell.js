@@ -8,7 +8,6 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		langCell = langTable.cell,
 		langCommon = editor.lang.common,
 		validate = CKEDITOR.dialog.validate,
-		widthPattern = /^(\d+(?:\.\d+)?)(px|%)$/,
 		rtl = editor.lang.dir == 'rtl',
 		colorDialog = editor.plugins.colordialog,
 		items = [
@@ -449,8 +448,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						// selected but some of them have size expressed in pixels and some
 						// of them in percent. Try to re-read the unit from the cell in such
 						// case (https://dev.ckeditor.com/ticket/11439).
-						unit = this.getDialog().getValueOf( 'info', fieldName + 'Type' ) ||
-							( fieldName == 'width' ? getCellWidthType( element ) : getCellHeightType( element ) );
+						unit = this.getDialog().getValueOf( 'info', fieldName + 'Type' ) || getCellSizeUnitType( element, fieldName );
 
 					if ( !isNaN( value ) ) {
 						element.setStyle( fieldName, value + unit );
@@ -472,7 +470,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					[ langTable.widthPx, 'px' ],
 					[ langTable.widthPc, '%' ]
 				],
-				setup: setupCells( fieldName == 'width' ? getCellWidthType : getCellHeightType )
+				setup: setupCells( function( element ) {
+					return getCellSizeUnitType( element, fieldName );
+				} )
 			} ]
 		};
 	}
@@ -513,26 +513,15 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		};
 	}
 
-	// Reads the unit of width property of the table cell.
+	// Reads the unit of target property of the table cell.
 	//
 	// * @param {CKEDITOR.dom.element} cell An element representing the table cell.
-	// * @returns {String} A unit of width: 'px', '%' or undefined if none.
-	function getCellWidthType( cell ) {
-		var match = widthPattern.exec(
-			cell.getStyle( 'width' ) || cell.getAttribute( 'width' ) );
-
-		if ( match ) {
-			return match[ 2 ];
-		}
-	}
-
-	// Reads the unit of height property of the table cell.
-	//
-	// * @param {CKEDITOR.dom.element} cell An element representing the table cell.
-	// * @returns {String} A unit of width: 'px', '%' or undefined if none.
-	function getCellHeightType( cell ) {
-		var match = widthPattern.exec(
-			cell.getStyle( 'height' ) || cell.getAttribute( 'height' ) );
+	// * @returns {String} Current unit: 'px', '%' or undefined if none.
+	function getCellSizeUnitType( cell, field ) {
+		var unitPattern = /^(\d+(?:\.\d+)?)(px|%)$/,
+			match = unitPattern.exec(
+				cell.getStyle( field ) || cell.getAttribute( field )
+			);
 
 		if ( match ) {
 			return match[ 2 ];
