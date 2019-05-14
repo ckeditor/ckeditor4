@@ -18,6 +18,6 @@
 
 ## Unexpected
 
-Clicked button causes the creation of an additional rectangle
+Clicked button causes the creation of an additional rectangle.
 
 **NOTE:** Insert HTML functions inserts `div` element as a plain text. Caused by [#3042](https://github.com/ckeditor/ckeditor-dev/issues/3042) issue.
