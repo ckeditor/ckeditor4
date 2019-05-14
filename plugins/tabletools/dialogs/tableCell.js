@@ -436,14 +436,14 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				},
 
 				setup: setupCells( function( element ) {
-					var attr = parseInt( element.getAttribute( fieldName ), 10 ),
-						style = parseInt( element.getStyle( fieldName ), 10 );
+					var attr = parseFloat( element.getAttribute( fieldName ), 10 ),
+						style = parseFloat( element.getStyle( fieldName ), 10 );
 
 					return !isNaN( style ) ? style :
 						!isNaN( attr ) ? attr : '';
 				} ),
 				commit: function( element ) {
-					var value = parseInt( this.getValue(), 10 ),
+					var value = parseFloat( this.getValue(), 10 ),
 
 						// There might be no unit type, i.e. when multiple cells are
 						// selected but some of them have size expressed in pixels and some
