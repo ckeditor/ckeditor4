@@ -66,7 +66,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 *
 	 * Three default style types are available: {@link CKEDITOR#STYLE_BLOCK STYLE_BLOCK}, {@link CKEDITOR#STYLE_INLINE STYLE_INLINE},
 	 * and {@link CKEDITOR#STYLE_OBJECT STYLE_OBJECT}. Based on its type, a style heavily changes its behavior.
-	 * You can read more about style types in the [Style Types section of the Styles guide](#!/guide/dev_styles-section-style-types).
+	 * You can read more about style types in the {@glink features/styles#style-types Style Types section of the Styles guide}.
 	 *
 	 * It is possible to define a custom style type by subclassing this class by using the {@link #addCustomHandler} method.
 	 * However, because of great complexity of the styles handling job, it is only possible in very specific cases.
@@ -678,7 +678,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * reusing them.
 	 *
 	 * The only style handler which can be implemented from scratch without huge effort is a style
-	 * applicable to objects ([read more about types](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_styles.html#style-types)).
+	 * applicable to objects ({@glink features/styles#style-types read more about types}).
 	 * Such style can only be applied when a specific object is selected. An example implementation can
 	 * be found in the [widget plugin](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/widget/plugin.js).
 	 *
@@ -2091,7 +2091,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * **Note**: Since 4.1.0 it is possible to set `stylesSet` to `false`
  * to prevent loading any styles set.
  *
- * Read more in the {@glink guide/dev_styles documentation}
+ * Read more in the {@glink features/styles documentation}
  * and see the {@glink examples/styles example}.
  *
  *		// Do not load any file. The styles set is empty.
@@ -2157,7 +2157,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * Plugins may define {@link CKEDITOR.style.customHandlers special style handlers} to customize style operations.
  * To use a special style handler, the `type` property should be set to the name of the style handler, e.g. `widget`.
  *
- * Refer to the [Style Types section of the Applying Styles to Editor Content guide](#!/guide/dev_styles-section-style-types) for more information about style types.
+ * Refer to the {@glink features/styles#style-types Style Types section of the Applying Styles to Editor Content guide} for more information about style types.
  *
  * ```javascript
  * { type: CKEDITOR.STYLE_INLINE }
@@ -2167,7 +2167,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  */
 
 /**
- * A unique style definition name. It can be used to differentiate style definitions, like in the {@glink guide/dev_styles Styles Combo} plugin
+ * A unique style definition name. It can be used to differentiate style definitions, like in the {@glink features/styles Styles Combo} plugin
  * drop-down where it represents item labels.
  *
  * ```javascript

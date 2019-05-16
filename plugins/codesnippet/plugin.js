@@ -137,7 +137,7 @@
 	/**
 	 * Global helpers and classes of the Code Snippet plugin.
 	 *
-	 * For more information see the {@glink guide/dev_codesnippet Code Snippet Guide}.
+	 * For more information see the {@glink features/codesnippet Code Snippet Guide}.
 	 *
 	 * @class
 	 * @singleton
@@ -249,7 +249,7 @@
 		 *		}
 		 *
 		 * More information on how to change the list of languages is available
-		 * in the {@glink guide/dev_codesnippet#changing-supported-languages Code Snippet documentation}.
+		 * in the {@glink features/codesnippet#changing-supported-languages Code Snippet documentation}.
 		 *
 		 * @property {Object} languages
 		 */
@@ -437,7 +437,7 @@
  * highlighter (the default is [highlight.js](http://highlightjs.org)).
  * See {@link CKEDITOR.plugins.codesnippet.highlighter} to read more.
  *
- * Read more in the {@glink guide/dev_codesnippet documentation}
+ * Read more in the {@glink features/codesnippet documentation}
  * and see the {@glink examples/codesnippet example}.
  *
  * @since 4.4.0
@@ -453,7 +453,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * **Note**: If using a custom highlighter library (the default is [highlight.js](http://highlightjs.org)),
  * you may need to refer to external documentation to set `config.codeSnippet_languages` properly.
  *
- * Read more in the [documentation](#!/guide/dev_codesnippet-section-changing-supported-languages)
+ * Read more in the {@glink features/codesnippet#changing-supported-languages documentation}
  * and see the {@glink examples/codesnippet example}.
  *
  *		// Restricts languages to JavaScript and PHP.
@@ -473,7 +473,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * **Note**: This will only work with the default highlighter
  * ([highlight.js](http://highlightjs.org/static/test.html)).
  *
- * Read more in the [documentation](#!/guide/dev_codesnippet-section-changing-highlighter-theme)
+ * Read more in the {@glink features/codesnippet#changing-highlighter-theme documentation}
  * and see the {@glink examples/codesnippet example}.
  *
  *		// Changes the theme to "pojoaque".

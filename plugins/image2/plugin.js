@@ -1648,7 +1648,7 @@
 /**
  * A CSS class applied to the `<figure>` element of a captioned image.
  *
- * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * Read more in the {@glink features/image2 documentation} and see the
  * {@glink examples/image2 example}.
  *
  *		// Changes the class to "captionedImage".
@@ -1663,7 +1663,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  * Determines whether dimension inputs should be automatically filled when the image URL changes in the Enhanced Image
  * plugin dialog window.
  *
- * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * Read more in the {@glink features/image2 documentation} and see the
  * {@glink examples/image2 example}.
  *
  *		config.image2_prefillDimensions = false;
@@ -1676,7 +1676,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
 /**
  * Disables the image resizer. By default the resizer is enabled.
  *
- * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * Read more in the {@glink features/image2 documentation} and see the
  * {@glink examples/image2 example}.
  *
  *		config.image2_disableResizer = true;
@@ -1736,7 +1736,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *			display: inline-block;
  *		}
  *
- * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * Read more in the {@glink features/image2 documentation} and see the
  * {@glink examples/image2 example}.
  *
  * @since 4.4.0
@@ -1749,7 +1749,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *
  *		config.image2_altRequired = true;
  *
- * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * Read more in the {@glink features/image2 documentation} and see the
  * {@glink examples/image2 example}.
  *
  * @since 4.6.0

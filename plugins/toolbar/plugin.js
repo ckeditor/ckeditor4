@@ -665,7 +665,7 @@ CKEDITOR.UI_SEPARATOR = 'separator';
  * (`iframe`-based) editor. In case of {@glink guide/dev_inline inline} editor the toolbar
  * position is set dynamically depending on the position of the editable element on the screen.
  *
- * Read more in the {@glink guide/dev_toolbarlocation documentation}
+ * Read more in the {@glink features/toolbarlocation documentation}
  * and see the {@glink examples/toolbarlocation example}.
  *
  *		config.toolbarLocation = 'bottom';
@@ -682,8 +682,8 @@ CKEDITOR.config.toolbarLocation = 'top';
  * If set to `null`, the toolbar will be generated automatically using all available buttons
  * and {@link #toolbarGroups} as a toolbar groups layout.
  *
- * In CKEditor 4.5.0+ you can generate your toolbar customization code by using the [visual
- * toolbar configurator](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_toolbar.html).
+ * In CKEditor 4.5.0+ you can generate your toolbar customization code by using the {@glink features/toolbar visual
+ * toolbar configurator}.
  *
  *		// Defines a toolbar with only one strip containing the "Source" button, a
  *		// separator, and the "Bold" and "Italic" buttons.

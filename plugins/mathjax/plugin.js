@@ -444,7 +444,7 @@
  *
  * Please note that this must be a full or absolute path.
  *
- * Read more in the {@glink guide/dev_mathjax documentation}
+ * Read more in the {@glink features/mathjax documentation}
  * and see the {@glink examples/mathjax example}.
  *
  *		config.mathJaxLib = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML';
@@ -470,7 +470,7 @@
  *
  *		<span class="my-math">\( \sqrt{4} = 2 \)</span>
  *
- * Read more in the {@glink guide/dev_mathjax documentation}
+ * Read more in the {@glink features/mathjax documentation}
  * and see the {@glink examples/mathjax example}.
  *
  * @cfg {String} [mathJaxClass='math-tex']

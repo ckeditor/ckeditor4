@@ -370,7 +370,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 /**
  * Whether to enable the **More Colors** button in the color selectors.
  *
- * Read more in the {@glink guide/dev_colorbutton documentation}
+ * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
  *		config.colorButton_enableMore = false;
@@ -396,7 +396,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * For example, `FontColor/FF9900` will be displayed as a color `#FF9900` in the selector, and will
  * be output as `#FF9900`.
  *
- * Read more in the {@glink guide/dev_colorbutton documentation}
+ * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
  *		// Brazil colors only.
@@ -423,7 +423,7 @@ CKEDITOR.config.colorButton_colors = '1ABC9C,2ECC71,3498DB,9B59B6,4E5F70,F1C40F,
 /**
  * Stores the style definition that applies the text foreground color.
  *
- * Read more in the {@glink guide/dev_colorbutton documentation}
+ * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
  *		// This is actually the default value.
@@ -446,7 +446,7 @@ CKEDITOR.config.colorButton_foreStyle = {
 /**
  * Stores the style definition that applies the text background color.
  *
- * Read more in the {@glink guide/dev_colorbutton documentation}
+ * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
  *		// This is actually the default value.
@@ -466,7 +466,7 @@ CKEDITOR.config.colorButton_backStyle = {
 /**
  * Whether to enable the **Automatic** button in the color selectors.
  *
- * Read more in the {@glink guide/dev_colorbutton documentation}
+ * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
  *		config.colorButton_enableAutomatic = false;
@@ -478,7 +478,7 @@ CKEDITOR.config.colorButton_backStyle = {
 /**
  * Defines how many colors will be shown per row in the color selectors.
  *
- * Read more in the {@glink guide/dev_colorbutton documentation}
+ * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
  *		config.colorButton_colorsPerRow = 8;
