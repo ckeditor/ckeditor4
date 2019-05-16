@@ -8,8 +8,10 @@
 <script>
 	CKEDITOR.replace( 'editor', {
 		on: {
-			selectionChange: function( evt ) {
-				evt.editor.widgets.instances[ 0 ].editables.caption.getData();
+			selectionChange: function() {
+				for ( var key in this.widgets.instances ) {
+					this.widgets.instances[ key ].editables.caption.getData();
+				}
 			}
 		}
 	} );
