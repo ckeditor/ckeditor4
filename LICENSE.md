@@ -40,6 +40,7 @@ The following libraries are included in CKEditor under the MIT license (see Appe
 * CKSource Samples Framework (included in the samples) - Copyright (c) 2014-2019, CKSource - Frederico Knabben.
 * PicoModal (included in `samples/js/sf.js`) - Copyright (c) 2012 James Frasca.
 * CodeMirror (included in the samples) - Copyright (C) 2014 by Marijn Haverbeke <marijnh@gmail.com> and others.
+* ES6Promise - Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors.
 
 Parts of code taken from the following libraries are included in CKEditor under the MIT license (see Appendix D):
 
@@ -61,7 +62,6 @@ The following libraries are included only in the development version of CKEditor
 * CKBuilder - Copyright (c) 2012-2019, CKSource - Frederico Knabben.
 * CKLangTool - Copyright (c) 2012-2019, CKSource - Frederico Knabben.
 * Optimist - Copyright 2010 James Halliday (mail@substack.net).
-* ES6Promise - Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors.
 * Tmp - Copyright (c) 2014 KARASZI István.
 * Mkdirp - Copyright 2010 James Halliday (mail@substack.net).
 * Bender.js - Copyright (c) 2014-2019, CKSource - Frederico Knabben.
