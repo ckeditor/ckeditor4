@@ -1,5 +1,7 @@
 /* bender-tags: editor,clipboard */
 /* bender-ckeditor-plugins: pastefromword */
+/* bender-include: generated/_helpers/pfwTools.js */
+/* global pfwTools */
 
 ( function() {
 	'use strict';
@@ -10,7 +12,7 @@
 		}
 	};
 
-	bender.test( {
+	var tests = {
 		'test detecting excel': function() {
 			testMetaDetection( this.editor, true, 'Microsoft Excel 15' );
 		},
@@ -38,7 +40,11 @@
 		'test generator attribute inside content': function() {
 			testMetaDetection( this.editor, false, '', '<p name="generator" content="microsoft">Tets</p>' );
 		}
-	} );
+	};
+
+	pfwTools.ignoreTestsOnMobiles( tests );
+
+	bender.test( tests );
 
 	function testMetaDetection( editor, success, generatorValue, content ) {
 		editor.once( 'paste', function( evt ) {

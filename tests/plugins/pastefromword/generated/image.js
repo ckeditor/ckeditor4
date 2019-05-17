@@ -32,7 +32,7 @@
 			'PFW_image/Image_reflection': true,
 			'PFW_image/Image_rotation': true
 		},
-		ignoreAll: CKEDITOR.env.ie,
+		ignoreAll: CKEDITOR.env.ie || bender.tools.env.mobile,
 		includeRTF: true
 	} ) );
 } )();

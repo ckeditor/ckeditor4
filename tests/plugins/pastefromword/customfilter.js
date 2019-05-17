@@ -1,5 +1,7 @@
 /* bender-tags: editor,clipboard */
 /* bender-ckeditor-plugins: pastefromword */
+/* bender-include: generated/_helpers/pfwTools.js */
+/* global pfwTools */
 
 ( function() {
 	'use strict';
@@ -10,7 +12,7 @@
 		}
 	};
 
-	bender.test( {
+	var tests = {
 		'test whether custom filter is loaded': function() {
 			var editor = this.editor;
 
@@ -29,6 +31,9 @@
 
 			wait();
 		}
-	} );
+	};
 
+	pfwTools.ignoreTestsOnMobiles( tests );
+
+	bender.test( tests );
 } )();
