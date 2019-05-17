@@ -28,10 +28,12 @@
 	 * Alias for [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 	 * object representing asynchronous operation.
 	 *
-	 * Uses [ES6-Promise](https://github.com/stefanpenner/es6-promise) as a polyfill.
-	 * Note that the polyfill won't be loaded if a browser supports native Promise object.
+	 * Uses native Promise browser implementation if available. For older browsers with lack of Promise support
+	 * [ES6-Promise](https://github.com/stefanpenner/es6-promise) polyfill will be used.
+	 * Visit [Promise Browser Compatibility](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#Browser_compatibility)
+	 * to learn more.
 	 *
-	 * See [MDN Promise documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) for
+	 * See [MDN Using Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises) guide for
 	 * more details how to work with promises.
 	 *
 	 * @since 4.12.0
