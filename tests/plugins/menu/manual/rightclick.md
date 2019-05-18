@@ -10,7 +10,9 @@
 
 	### Expected result:
 
-	Focus is moved to the clicked item.
+	Focus remains on the first option.
+
+	WARNING: it's best to check it using arrow keys, as visible focus indicator (background + outline) can be in fact moved to the clicked option.
 
 	### Unexpected result:
 
@@ -19,7 +21,7 @@
 
 	### Expected result:
 
-	Action connected with clicked item is applied to the editor.
+	Action connected with focused item is applied to the editor.
 
 	### Unexpected result:
 

@@ -10,7 +10,9 @@
 
 	### Expected result:
 
-	Focus is moved to the clicked option.
+	Focus remains on the first option.
+
+	WARNING: it's best to check it using arrow keys, as visible focus indicator (background + outline) can be in fact moved to the clicked option.
 
 	### Unexpected result:
 
