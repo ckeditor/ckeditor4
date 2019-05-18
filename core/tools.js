@@ -1459,7 +1459,7 @@
 		 * @since 4.7.3
 		 * @param {CKEDITOR.dom.event/Event} evt DOM event. Since 4.11.3 a native `MouseEvent` instance can be passed.
 		 * @returns {Number|Boolean} Returns a number indicating the mouse button or `false`
-		 * if the mouse button cannot be determined. The mouse button is normalized using {@link CKEDITOR.tools#normalizeMouseButton}.
+		 * if the mouse button cannot be determined.
 		 */
 		getMouseButton: function( evt ) {
 			var domEvent = evt && evt.data ? evt.data.$ : evt;
@@ -1478,15 +1478,15 @@
 		 * buttons mappings than other browsers:
 		 *
 		 * ```
-		 * +--------------+------+----------------+
-		 * | Mouse button |  IE  | Other browsers |
-		 * +--------------+------+----------------+
-		 * | Left         |   1  |        0       |
-		 * +--------------+------+----------------+
-		 * | Middle       |   4  |        1       |
-		 * +--------------+------+----------------+
-		 * | Right        |   2  |        2       |
-		 * +--------------+------+----------------+
+		 * +--------------+--------------------------+----------------+
+		 * | Mouse button | IE 8 / IE 9 CM / IE 9 QM | Other browsers |
+		 * +--------------+--------------------------+----------------+
+		 * | Left         |             1            |        0       |
+		 * +--------------+--------------------------+----------------+
+		 * | Middle       |             4            |        1       |
+		 * +--------------+--------------------------+----------------+
+		 * | Right        |             2            |        2       |
+		 * +--------------+--------------------------+----------------+
 		 * ```
 		 *
 		 * Therefore value returned by IE < 9 is converted to value present in other browsers,
