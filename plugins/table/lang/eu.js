@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'eu', {
 	headersColumn: 'Lehen zutabea',
 	headersNone: 'Bat ere ez',
 	headersRow: 'Lehen errenkada',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Ertzaren tamaina zenbaki bat izan behar da.',
 	invalidCellPadding: 'Gelaxken betegarria zenbaki bat izan behar da.',
 	invalidCellSpacing: 'Gelaxka arteko tartea zenbaki bat izan behar da.',

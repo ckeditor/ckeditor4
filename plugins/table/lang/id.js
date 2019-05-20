@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'id', {
 	headersColumn: 'Kolom pertama',
 	headersNone: 'Tidak ada',
 	headersRow: 'Baris Pertama',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Ukuran batasan harus sebuah angka',
 	invalidCellPadding: '\'Spasi dalam\' sel harus angka positif.',
 	invalidCellSpacing: 'Spasi antar sel harus angka positif.',

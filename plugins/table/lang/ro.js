@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'ro', {
 	headersColumn: 'Prima coloană',
 	headersNone: 'Nimic',
 	headersRow: 'Primul rând',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Dimensiunea bordurii trebuie să aibe un număr.',
 	invalidCellPadding: 'Spațierea celulei trebuie sa fie un număr pozitiv',
 	invalidCellSpacing: 'Spațierea celului trebuie să fie un număr pozitiv.',

@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'tt', {
 	headersColumn: 'Беренче багана',
 	headersNone: 'Һичбер',
 	headersRow: 'Беренче юл',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Чик киңлеге сан булырга тиеш.',
 	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
 	invalidCellSpacing: 'Күзәнәкләр аралары уңай сан булырга тиеш.',

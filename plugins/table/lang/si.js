@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'si', {
 	headersColumn: 'පළමූ සිරස් තීරුව',
 	headersNone: 'කිසිවක්ම නොවේ',
 	headersRow: 'පළමූ පේළිය',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Border size must be a number.', // MISSING
 	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
 	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING

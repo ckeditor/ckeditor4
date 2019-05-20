@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'th', {
 	headersColumn: 'คอลัมน์แรก',
 	headersNone: 'None',
 	headersRow: 'แถวแรก',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'ขนาดเส้นกรอบต้องเป็นจำนวนตัวเลข',
 	invalidCellPadding: 'ช่องว่างภายในเซลล์ต้องเลขจำนวนบวก',
 	invalidCellSpacing: 'ช่องว่างภายในเซลล์ต้องเป็นเลขจำนวนบวก',

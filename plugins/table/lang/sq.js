@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'sq', {
 	headersColumn: 'Kolona e parë',
 	headersNone: 'Asnjë',
 	headersRow: 'Rreshti i Parë',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Madhësia e kufinjve duhet të jetë numër.',
 	invalidCellPadding: 'Mbushja e qelisë duhet të jetë numër pozitiv.',
 	invalidCellSpacing: 'Hapësira e qelisë duhet të jetë numër pozitiv.',

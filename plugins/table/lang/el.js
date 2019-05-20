@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'el', {
 	headersColumn: 'Πρώτη στήλη',
 	headersNone: 'Κανένα',
 	headersRow: 'Πρώτη Γραμμή',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Το πάχος του περιγράμματος πρέπει να είναι ένας αριθμός.',
 	invalidCellPadding: 'Η αναπλήρωση των κελιών πρέπει να είναι θετικός αριθμός.',
 	invalidCellSpacing: 'Η απόσταση μεταξύ των κελιών πρέπει να είναι ένας θετικός αριθμός.',
