@@ -4,24 +4,28 @@
 
 ## Context menu for image in table
 
+### Scenario 1:
+
 1. Open context menu for image by right-clicking it.
 2. Choose `Image properties`.
 
-**Expected result:**
+	**Expected result:**
 
-URL field should be filled and image should be visible in the preview.
+	URL field should be filled and image should be visible in the preview.
 
-**Unexpected result:**
+	**Unexpected result:**
 
-URL field is empty or image isn't visible in the preview.
+	URL field is empty or image isn't visible in the preview.
 
-3. Select first row of the outer table and delete it.
-4. Click on the image again.
+### Scenario 2:
 
-**Expected result:**
+1. Select first row of the outer table and delete it.
+2. Click on the image again.
 
-Image is selected.
+	**Expected result:**
 
-**Unexpected result:**
+	Image is selected.
 
-Image can't be selected.
+	**Unexpected result:**
+
+	Image can't be selected.
