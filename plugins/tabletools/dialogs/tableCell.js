@@ -468,7 +468,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				type: 'select',
 				id: fieldName + 'Type',
 				label: editor.lang.table[ fieldName + 'Unit' ],
-				labelStyle: 'visibility:hidden',
+				labelStyle: 'visibility:hidden;display:block;width:0;',
 				'default': 'px',
 				items: [
 					// 'widthPx' and 'widthPc' are also used for height to avoid additional translations.
