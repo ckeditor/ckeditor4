@@ -1,4 +1,4 @@
-@bender-tags: 4.12.0
+@bender-tags: 4.12.0, 2084, 3098
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, undo, colordialog
 
