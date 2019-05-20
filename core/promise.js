@@ -36,6 +36,18 @@
 	 * See [MDN Using Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises) guide for
 	 * more details how to work with promises.
 	 *
+	 * **NOTE:** `catch` and `finally` are reserved keywords for IE < 9. Use bracket notation instead:
+	 *
+	 * ```javascript
+	 * promise[ 'catch' ]( function( err ) {
+	 * 		// ...
+	 * } );
+	 *
+	 * promise[ 'finally' ]( function() {
+	 *		// ...
+	 * } );
+	 * ```
+	 *
 	 * @since 4.12.0
 	 * @class CKEDITOR.tools.promise
 	 */
