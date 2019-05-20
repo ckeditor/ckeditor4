@@ -2,22 +2,32 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, undo
 
-## Test scenario
-
 1. Open the cell properties dialog.
 
-#### Expected:
+	#### Expected:
 
-Cell height unit is changeable (pixels or percents).
+	Cell height unit is changeable (pixels or percents).
+
+	#### Unexpected:
+
+	Cell height unit is not changeable.
 
 2. Change cell height to 20px.
 
-#### Expected:
+	#### Expected:
 
-First row is lower than second one.
+	First row is lower than second one.
+
+	#### Unexpected:
+
+	Row height didn't change.
 
 3. Change cell height to 70 percent.
 
-#### Expected:
+	#### Expected:
 
-First row is higher than second one.
+	First row is higher than second one.
+
+	#### Unexpected:
+
+	Row height didn't change.
