@@ -438,8 +438,13 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					var attr = parseFloat( element.getAttribute( fieldName ), 10 ),
 						style = parseFloat( element.getStyle( fieldName ), 10 );
 
-					return !isNaN( style ) ? style :
-						!isNaN( attr ) ? attr : '';
+					if ( !isNaN( style ) ) {
+						return style;
+					} else if ( !isNaN( attr ) ) {
+						return attr;
+					} else {
+						return;
+					}
 				} ),
 				commit: function( element ) {
 					var value = parseFloat( this.getValue(), 10 ),
