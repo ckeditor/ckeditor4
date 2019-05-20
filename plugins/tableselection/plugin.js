@@ -261,9 +261,8 @@
 
 		cells = getSelectedCells( selection, table );
 
-		// Don't perform fake selection when selected node is a widget (#1027).
-		// Also don't perform fake selection when image is selected (#2235).
-		if ( isWidget( enclosedNode ) || isEnclosedNodeAnImage ) {
+		// Don't perform fake selection when image is selected (#2235).
+		if ( isEnclosedNodeAnImage ) {
 			return;
 		}
 
