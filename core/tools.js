@@ -1139,9 +1139,30 @@
 		 * @returns {Array} Object's keys.
 		 */
 		objectKeys: function( obj ) {
-			var keys = [];
-			for ( var i in obj )
-				keys.push( i );
+			var hasOwnProperty = Object.prototype.hasOwnProperty,
+				dontEnums = [
+					'toString',
+					'toLocaleString',
+					'valueOf',
+					'hasOwnProperty',
+					'isPrototypeOf',
+					'propertyIsEnumerable',
+					'constructor'
+				],
+				keys = [];
+
+			for ( var prop in obj ) {
+				keys.push( prop );
+			}
+
+			// Fix don't enum bug for IE < 9 browsers (#3120).
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				for ( var i = 0; i < dontEnums.length; i++ ) {
+					if ( hasOwnProperty.call( obj, dontEnums[ i ] ) )
+						keys.push( dontEnums[ i ] );
+
+				}
+			}
 
 			return keys;
 		},
