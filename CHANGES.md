@@ -23,6 +23,7 @@ API Changes:
 * [#2748](https://github.com/ckeditor/ckeditor-dev/issues/2748): Enhance errors thrown while creating editor on a nonexistent element or while trying to instantiate second editor on the same element. Thanks to [Byran Zaugg](https://github.com/blzaugg)!
 * [#2698](https://github.com/ckeditor/ckeditor-dev/issues/2698): Added the [`CKEDITOR.htmlParser.element.findOne`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_htmlParser_element.html#method-findOne) method.
 * [#2935](https://github.com/ckeditor/ckeditor-dev/issues/2935): Introduced [`CKEDITOR.config.pasteFromWord_keepZeroMargins`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-pasteFromWord_keepZeroMargins) config option, that allows keeping any `margin-*: 0` style that would be otherwise removed when pasting content with [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
+* [#2962](https://github.com/ckeditor/ckeditor-dev/issues/2962): Added the [`CKEDITOR.tools.promise`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_promise.html) class.
 
 Other Changes:
 

@@ -11,6 +11,7 @@ module.exports = function( grunt ) {
 		// Automatically loaded from .gitignore. Add more if necessary.
 
 		'lang/**',
+		'vendor/**',
 		'plugins/*/lib/**',
 		'plugins/**/lang/**',
 		'plugins/uicolor/yui/**',
@@ -18,8 +19,7 @@ module.exports = function( grunt ) {
 		'samples/toolbarconfigurator/lib/**',
 		'tests/adapters/jquery/_assets/**',
 		'tests/core/dom/_assets/**',
-		'tests/core/selection/_helpers/rangy.js',
-		'tests/plugins/pastefromword/generated/_lib/q.js'
+		'tests/core/selection/_helpers/rangy.js'
 	];
 
 	// Basic configuration which will be overloaded by the tasks.

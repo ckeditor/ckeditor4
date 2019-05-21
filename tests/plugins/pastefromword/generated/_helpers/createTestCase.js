@@ -1,4 +1,4 @@
-/* global assertWordFilter,Q,console */
+/* global assertWordFilter,console */
 /* exported createTestCase */
 
 /**
@@ -30,13 +30,11 @@ function createTestCase( options ) {
 			load = function( path ) {
 				assert.isObject( CKEDITOR.ajax, 'Ajax plugin is required' );
 
-				var deferred = Q.defer();
-
-				CKEDITOR.ajax.load( path, function( data ) {
-					deferred.resolve( data );
+				return new CKEDITOR.tools.promise( function( resolve ) {
+					CKEDITOR.ajax.load( path, function( data ) {
+						resolve( data );
+					} );
 				} );
-
-				return deferred.promise;
 			},
 			loadQueue = [
 				load( inputPathHtml + deCasher ),
@@ -48,7 +46,7 @@ function createTestCase( options ) {
 		}
 
 
-		Q.all( loadQueue ).done( function( values ) {
+		CKEDITOR.tools.promise.all( loadQueue ).then( function( values ) {
 			var inputFixtureHtml = values[ 0 ],
 				inputFixtureRtf = options.includeRTF ? values[ 3 ] : null ,
 				// If browser-customized expected result was found, use it. Otherwise go with the regular expected.
