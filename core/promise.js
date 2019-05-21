@@ -28,15 +28,15 @@
 	 * Alias for [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 	 * object representing asynchronous operation.
 	 *
-	 * Uses native Promise browser implementation if available. For older browsers with lack of Promise support
-	 * [ES6-Promise](https://github.com/stefanpenner/es6-promise) polyfill will be used.
-	 * Visit [Promise Browser Compatibility](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#Browser_compatibility)
+	 * Uses native `Promise` browser implementation if available. For older browsers with lack of `Promise` support, the
+	 * [ES6-Promise](https://github.com/stefanpenner/es6-promise) polyfill is used.
+	 * See [Promise Browser Compatibility table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#Browser_compatibility)
 	 * to learn more.
 	 *
-	 * See [MDN Using Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises) guide for
+	 * Refer to [MDN Using Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises) guide for
 	 * more details how to work with promises.
 	 *
-	 * **NOTE:** `catch` and `finally` are reserved keywords for IE < 9. Use bracket notation instead:
+	 * **NOTE:** `catch` and `finally` are reserved keywords in IE < 9 browsers. Use bracket notation instead:
 	 *
 	 * ```javascript
 	 * promise[ 'catch' ]( function( err ) {
@@ -53,7 +53,7 @@
 	 */
 
 	/**
-	 * Creates a new instance of Promise.
+	 * Creates new `Promise` instance.
 	 *
 	 * ```js
 	 *	new CKEDITOR.tools.promise( function( resolve, reject ) {
