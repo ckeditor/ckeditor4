@@ -1203,8 +1203,10 @@
 		}
 
 		function setToolbarStates() {
-			if ( editor.mode != 'wysiwyg' )
+			if ( editor.mode != 'wysiwyg' || editor.status === 'destroyed' || editor.container.isDetached() ) {
+				editor.destroy();
 				return;
+			}
 
 			var pasteState = stateFromNamedCommand( 'paste' );
 

@@ -603,9 +603,19 @@
 						if ( m === 0 && languageCodes[ i ] && plugin.lang && plugin.langEntries )
 							editor.lang[ plugin.name ] = plugin.langEntries[ languageCodes[ i ] ];
 
+						if ( editor.status === 'destroyed' ) {
+							return;
+						}
+
+						if ( editor.container && editor.container.isDetached() ) {
+							editor.destroy();
+							return;
+						}
+
 						// Call the plugin method (beforeInit and init).
-						if ( plugin[ methods[ m ] ] )
+						if ( plugin[ methods[ m ] ] ) {
 							plugin[ methods[ m ] ]( editor );
+						}
 					}
 				}
 

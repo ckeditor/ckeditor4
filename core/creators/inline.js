@@ -95,7 +95,7 @@
 		editor.on( 'destroy', function() {
 			// Remove container from DOM if inline-textarea editor.
 			// Show <textarea> back again.
-			if ( textarea ) {
+			if ( textarea && !textarea.isDetached() ) {
 				editor.container.clearCustomData();
 				editor.container.remove();
 				textarea.show();

@@ -89,6 +89,12 @@
 
 				function onLoad( evt ) {
 					evt && evt.removeListener();
+
+					if ( editor.status === 'destroyed' || editor.container.isDetached() ) {
+						editor.destroy();
+						return;
+					}
+
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
 					editor.setData( editor.getData( 1 ), callback );
 				}
@@ -123,6 +129,13 @@
 		var editor = this.editor,
 			doc = win.document,
 			body = doc.body;
+
+		if ( !editor ) {
+			return;
+		} else if ( editor.container.isDetached() ) {
+			editor.destroy();
+			return;
+		}
 
 		// Remove helper scripts from the DOM.
 		var script = doc.getElementById( 'cke_actscrpt' );
@@ -515,14 +528,8 @@
 			detach: function() {
 				var editor = this.editor,
 					doc = editor.document,
-					iframe,
+					iframe = editor.container.findOne( 'iframe' ),
 					onResize;
-
-				// Trying to access window's frameElement property on Edge throws an exception
-				// when frame was already removed from DOM. (https://dev.ckeditor.com/ticket/13850, https://dev.ckeditor.com/ticket/13790)
-				try {
-					iframe =  editor.window.getFrame();
-				} catch ( e ) {}
 
 				framedWysiwyg.baseProto.detach.call( this );
 
@@ -533,7 +540,7 @@
 
 				// On IE, iframe is returned even after remove() method is called on it.
 				// Checking if parent is present fixes this issue. (https://dev.ckeditor.com/ticket/13850)
-				if ( iframe && iframe.getParent() ) {
+				if ( iframe ) {
 					iframe.clearCustomData();
 					onResize = iframe.removeCustomData( 'onResize' );
 					onResize && onResize.removeListener();
@@ -541,7 +548,9 @@
 					// IE BUG: When destroying editor DOM with the selection remains inside
 					// editing area would break IE7/8's selection system, we have to put the editing
 					// iframe offline first. (https://dev.ckeditor.com/ticket/3812 and https://dev.ckeditor.com/ticket/5441)
-					iframe.remove();
+					if ( iframe.getParent() ) {
+						iframe.remove();
+					}
 				} else {
 					CKEDITOR.warn( 'editor-destroy-iframe' );
 				}
