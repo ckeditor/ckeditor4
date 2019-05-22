@@ -1,0 +1,91 @@
+<style>
+	.component {
+		padding: 5px;
+		background: yellow;
+	}
+
+	.cke_editable_inline {
+		background: white;
+	}
+
+	.button {
+		padding: 5px;
+		margin: 3px;
+	}
+
+	.wide {
+		padding: 5px 150px ;
+	}
+
+	.create, .remove {
+		margin: 0;
+		padding: 0;
+	}
+</style>
+
+<div id="controls">
+	<p class="create">
+		<button class="button" onclick="create(event)" data-action="classic">Create classic editor</button>
+		<button class="button" onclick="create(event)" data-action="inline">Create inline editor</button>
+		<button class="button" onclick="create(event)" data-action="divarea">Create divarea editor</button>
+	</p>
+	<p class="remove">
+		<button class="wide" onclick="detach()" data-action="detach" disabled>Detach and destroy editor</button>
+	</p>
+</div>
+
+<div id="container"></div>
+
+<script>
+	if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	var container = CKEDITOR.document.findOne( '#container' ),
+		createButtons = CKEDITOR.document.find( '[data-action]:not([data-action="detach"])' ).toArray(),
+		detachButton = CKEDITOR.document.findOne( '[data-action="detach"]' ),
+		component, editor;
+
+	function create( evt ) {
+		var target = new CKEDITOR.dom.element( evt.target ),
+			type = target.data( 'action' ),
+			config = {};
+
+		component = CKEDITOR.dom.element.createFromHtml(
+			'<div class="component">' +
+			'<textarea id="editor">Hello world!</textarea>' +
+			'</div>' );
+
+		container.append( component );
+
+		switch( type ) {
+			case 'divarea':
+				config.extraPlugins = 'divarea';
+			case 'classic':
+				editor = CKEDITOR.replace( 'editor', config );
+				break;
+			case 'inline':
+				editor = CKEDITOR.inline( 'editor' );
+		}
+
+		detachButton.removeAttribute( 'disabled' );
+
+		CKEDITOR.tools.array.forEach( createButtons, function( button ) {
+			button.setAttribute( 'disabled' );
+		} );
+	}
+
+	function detach() {
+		component.remove();
+		component = null;
+
+		editor.destroy();
+		editor = null;
+
+		detachButton.setAttribute( 'disabled' );
+
+		CKEDITOR.tools.array.forEach( createButtons, function( button ) {
+			button.removeAttribute( 'disabled' );
+		} );
+	}
+</script>
