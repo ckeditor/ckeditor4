@@ -465,6 +465,9 @@
 								bookmark = range.createBookmark();
 
 							// Remove empty element created after splitting (#2813).
+							// The range.splitElement() method splits the given element in two and places the selection
+							// in-between in such way that <div>F^oo</div> becomes <div>F</div>^<div>oo</div>.
+							// Then `removeEmptyInline()` method removes any of these elements if they are empty.
 							removeEmptyInline( current );
 							removeEmptyInline( endNode );
 
