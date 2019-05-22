@@ -51,7 +51,7 @@
         },
 
         downcast: function() {
-          return new CKEDITOR.htmlParser.text( '[[' + this.data.name + ']]' );
+          return new CKEDITOR.htmlParser.text( '{{' + this.data.name + '}}' );
         },
 
         init: function() {
@@ -60,7 +60,7 @@
         },
 
         data: function() {
-          this.element.setText( '[[' + this.data.name + ']]' );
+          this.element.setText( '{{' + this.data.name + '}}' );
         },
 
         getLabel: function() {

@@ -8,6 +8,11 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	// %REMOVE_START%
+	config.placeholder = 'Custom Message (to be added before standard email content)';
+  config.placeholder_select = {
+      placeholders: ['Candidate Name', 'Recruiter Name'],
+      format: '[[%placeholder%]]'
+    };
 	config.plugins =
 		'about,' +
 		'a11yhelp,' +
@@ -68,7 +73,8 @@ CKEDITOR.editorConfig = function( config ) {
 		'toolbar,' +
 		'undo,' +
 		'uploadimage,' +
-		'wysiwygarea';
+		'wysiwygarea,'+
+		'placeholder';
 	// %REMOVE_END%
 };
 
