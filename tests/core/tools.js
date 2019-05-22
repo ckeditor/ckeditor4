@@ -4,12 +4,26 @@
 	'use strict';
 
 	var vendorPrefix = CKEDITOR.env.gecko ? '-moz-' :
-			CKEDITOR.env.webkit ? '-webkit-' :
-			CKEDITOR.env.ie ? '-ms-' :
-			'';
+		CKEDITOR.env.webkit ? '-webkit-' :
+		CKEDITOR.env.ie ? '-ms-' :
+		'',
 
-	var htmlEncode = CKEDITOR.tools.htmlEncode,
-		htmlDecode = CKEDITOR.tools.htmlDecode;
+		htmlEncode = CKEDITOR.tools.htmlEncode,
+		htmlDecode = CKEDITOR.tools.htmlDecode,
+
+		dontEnums = [
+			'toString',
+			'toLocaleString',
+			'valueOf',
+			'hasOwnProperty',
+			'isPrototypeOf',
+			'propertyIsEnumerable',
+			'constructor'
+		],
+		dontEnumObj = CKEDITOR.tools.array.reduce( dontEnums, function( acc, key ) {
+			acc[ key ] = 1;
+			return acc;
+		}, {} );
 
 	bender.editor = {
 		config: {
@@ -50,6 +64,16 @@
 			assert.areSame( fakeArray	, target.prop5, 'prop5 doesn\'t match' );
 			assert.areSame( 'Good'		, target.prop6, 'prop6 doesn\'t match' );
 			assert.areSame( fakeArray	, target.prop7, 'prop7 doesn\'t match' );
+		},
+
+		// (#3123)
+		'test extend dont enum attribute': function() {
+			var target = {};
+
+			CKEDITOR.tools.extend( target, dontEnumObj, true );
+
+			// hasOwnProperty function is shadowed, so objectAssert.areEqual assertion will fail.
+			arrayAssert.containsItems( dontEnums, CKEDITOR.tools.objectKeys( target ) );
 		},
 
 		test_isArray1: function() {
@@ -513,6 +537,11 @@
 
 			arrayAssert.itemsAreEqual( [ 'foo', 'bar', '$ x !/', 'bom' ], keys( { foo: 1, bar: 'a', '$ x !/': false, bom: undefined } ) );
 			arrayAssert.itemsAreEqual( [], keys( {} ) );
+		},
+
+		// (#3120)
+		'test objectKeys dont enum attribute': function() {
+			arrayAssert.itemsAreEqual( dontEnums, CKEDITOR.tools.objectKeys( dontEnumObj ) );
 		},
 
 		'test convertArrayToObject': function() {
