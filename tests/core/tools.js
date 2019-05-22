@@ -66,7 +66,7 @@
 			assert.areSame( fakeArray	, target.prop7, 'prop7 doesn\'t match' );
 		},
 
-		// (#3123)
+		// (#3120)
 		'test extend dont enum attribute': function() {
 			var target = {};
 
