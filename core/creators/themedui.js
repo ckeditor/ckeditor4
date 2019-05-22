@@ -240,7 +240,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 			// Delay to avoid race conditions (setMode inside setMode).
 			setTimeout( function() {
 				if ( editor.status === 'destroyed' || editor.container.isDetached() ) {
-					editor.destroy();
 					return;
 				}
 				editor.fire( 'mode' );
@@ -348,7 +347,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// Once the editor is loaded, start the UI.
 		editor.on( 'loaded', function() {
 			if ( editor.status === 'destroyed' || editor.element.isDetached() ) {
-				editor.destroy();
 				return;
 			}
 

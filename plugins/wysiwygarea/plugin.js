@@ -91,7 +91,6 @@
 					evt && evt.removeListener();
 
 					if ( editor.status === 'destroyed' || editor.container.isDetached() ) {
-						editor.destroy();
 						return;
 					}
 
@@ -126,16 +125,14 @@
 	};
 
 	function onDomReady( win ) {
-		var editor = this.editor,
-			doc = win.document,
-			body = doc.body;
+		var editor = this.editor;
 
-		if ( !editor ) {
-			return;
-		} else if ( editor.container.isDetached() ) {
-			editor.destroy();
+		if ( !editor || editor.container.isDetached() ) {
 			return;
 		}
+
+		var doc = win.document,
+			body = doc.body;
 
 		// Remove helper scripts from the DOM.
 		var script = doc.getElementById( 'cke_actscrpt' );
