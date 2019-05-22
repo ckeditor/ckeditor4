@@ -73,7 +73,7 @@
 			CKEDITOR.tools.extend( target, dontEnumObj, true );
 
 			// hasOwnProperty function is shadowed, so objectAssert.areEqual assertion will fail.
-			arrayAssert.containsItems( dontEnums, CKEDITOR.tools.objectKeys( target ) );
+			arrayAssert.itemsAreEqual( dontEnums, CKEDITOR.tools.objectKeys( target ) );
 		},
 
 		test_isArray1: function() {
