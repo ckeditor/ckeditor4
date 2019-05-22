@@ -193,11 +193,21 @@
 			expected: '<span>&nbsp;</span><div>div</div><span>bar</span>',
 			ignore: CKEDITOR.env.ie && !CKEDITOR.env.edge // (#3061)
 		}, {
-			name: 'when empty element is inserted ad the end of span',
+			name: 'when empty element is inserted at the end of span',
 			initial: '<span>foo{bar}</span>',
 			data: '<div></div>',
 			expected: '<span>foo</span><div></div>',
 			ignore: CKEDITOR.env.ie && CKEDITOR.env.version < 9 // IE8 fills empty element with `&nbsp;`, so we can skip this test.
+		}, {
+			name: 'when selection covers nested span',
+			initial: '<p><span>{foobar}</span></p>',
+			data: '<div>div</div>',
+			expected: '<div>div</div>'
+		}, {
+			name: 'when selection covers span with empty spans on boundaries',
+			initial: '<span></span><span>{foobar}</span><span></span>',
+			data: '<div>div</div>',
+			expected: '<span></span><div>div</div><span></span>'
 		}
 	] );
 
