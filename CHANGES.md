@@ -16,6 +16,7 @@ Fixed Issues:
 * [#1478](https://github.com/ckeditor/ckeditor-dev/issues/1478): Fixed: Custom colors added to [Color Button](https://ckeditor.com/cke4/addon/colorbutton) via [`config.colorButton_colors`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-colorButton_colors) in form label/code don't work correctly.
 * [#1469](https://github.com/ckeditor/ckeditor-dev/issues/1469): Fixed: Trying to get data from nested editable inside freshly pasted widget throws an error.
 * [#2923](https://github.com/ckeditor/ckeditor-dev/issues/2923): Fixed: CSS `windowtext` color is not correctly recognized by [`CKEDITOR.tools.style.parse`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_style_parse.html) functions.
+* [#2235](https://github.com/ckeditor/ckeditor-dev/issues/2235): Fixed: [Image](https://ckeditor.com/cke4/addon/image) in table cell has an empty URL field when edited from context menu opened by right-click when [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin is in use.
 
 API Changes:
 
@@ -35,10 +36,6 @@ Other Changes:
 
 * [#2741](https://github.com/ckeditor/ckeditor-dev/issues/2721): Replaced deprecated `arguments.callee` calls with named function expressions.
 * [#2924](https://github.com/ckeditor/ckeditor-dev/issues/2924): Marked [`CKEDITOR.tools.style.parse.border`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_style_border.html) as deprecated in favor of [`CKEDITOR.tools.style.border.fromCssRule`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_style_border.html#static-method-fromCssRule) function.
-
-Fixed Issues:
-
-* [#2235](https://github.com/ckeditor/ckeditor-dev/issues/2235): Fixed: [Image](https://ckeditor.com/cke4/addon/image) in table cell has an empty URL field when edited from context menu opened by right-click when [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin is in use.
 
 ## CKEditor 4.11.4
 
