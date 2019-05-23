@@ -1160,9 +1160,9 @@
 			// Fix don't enum bug for IE < 9 browsers (#3120).
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				for ( var i = 0; i < dontEnums.length; i++ ) {
-					if ( hasOwnProperty.call( obj, dontEnums[ i ] ) )
+					if ( hasOwnProperty.call( obj, dontEnums[ i ] ) ) {
 						keys.push( dontEnums[ i ] );
-
+					}
 				}
 			}
 
