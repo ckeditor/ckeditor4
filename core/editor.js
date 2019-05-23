@@ -585,11 +585,6 @@
 				// language has been resolved to this plugin.
 				languageCodes.push( lang );
 
-				// Plugin is supported by default (#2692).
-				plugin.isSupportedEnvironment = plugin.isSupportedEnvironment || function() {
-					return true;
-				};
-
 				pluginsArray.push( plugin );
 			}
 
