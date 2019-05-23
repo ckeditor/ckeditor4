@@ -159,6 +159,37 @@
 		 * @param {Number} type Relation, one of `CKEDITOR.LINEUTILS_AFTER`, `CKEDITOR.LINEUTILS_BEFORE`, `CKEDITOR.LINEUTILS_INSIDE`.
 		 */
 		store: ( function() {
+			return function( el, type ) {
+				var alt = getAlternative( el, CKEDITOR.LINEUTILS_AFTER );
+
+				// Normalization to avoid duplicates:
+				// CKEDITOR.LINEUTILS_AFTER becomes CKEDITOR.LINEUTILS_BEFORE of el.getNext().
+				if ( shouldNormalize( alt, type, CKEDITOR.LINEUTILS_AFTER ) ) {
+					merge( alt, CKEDITOR.LINEUTILS_BEFORE, this.relations );
+					type ^= CKEDITOR.LINEUTILS_AFTER;
+				}
+
+				alt = getAlternative( el, CKEDITOR.LINEUTILS_INSIDE );
+
+				// Normalization to avoid duplicates:
+				// CKEDITOR.LINEUTILS_INSIDE becomes CKEDITOR.LINEUTILS_BEFORE of el.getFirst().
+				if ( shouldNormalize( alt, CKEDITOR.LINEUTILS_INSIDE ) ) {
+					merge( alt, CKEDITOR.LINEUTILS_BEFORE, this.relations );
+					type ^= CKEDITOR.LINEUTILS_INSIDE;
+				}
+
+				merge( el, type, this.relations );
+			};
+
+			function getAlternative( el, expectedType ) {
+				return expectedType === CKEDITOR.LINEUTILS_AFTER ? el.getNext() : el.getFirst();
+			}
+
+			function shouldNormalize( alt, type, expectedType ) {
+				// `br` can't be used for creating line, because it has 0 width (#1648).
+				return is( type, expectedType ) && isStatic( alt ) && alt.isVisible() && !( alt.getName && alt.getName() === 'br' );
+			}
+
 			function merge( el, type, relations ) {
 				var uid = el.getUniqueId();
 
@@ -168,32 +199,6 @@
 					relations[ uid ] = { element: el, type: type };
 				}
 			}
-
-			return function( el, type ) {
-				var alt;
-
-				// Normalization to avoid duplicates:
-				// CKEDITOR.LINEUTILS_AFTER becomes CKEDITOR.LINEUTILS_BEFORE of el.getNext().
-				if ( shouldNormalize( CKEDITOR.LINEUTILS_AFTER ) ) {
-					merge( alt, CKEDITOR.LINEUTILS_BEFORE, this.relations );
-					type ^= CKEDITOR.LINEUTILS_AFTER;
-				}
-
-				// Normalization to avoid duplicates:
-				// CKEDITOR.LINEUTILS_INSIDE becomes CKEDITOR.LINEUTILS_BEFORE of el.getFirst().
-				if ( shouldNormalize( CKEDITOR.LINEUTILS_INSIDE ) ) {
-					merge( alt, CKEDITOR.LINEUTILS_BEFORE, this.relations );
-					type ^= CKEDITOR.LINEUTILS_INSIDE;
-				}
-
-				merge( el, type, this.relations );
-
-				function shouldNormalize( expectedType ) {
-					alt = expectedType === CKEDITOR.LINEUTILS_AFTER ? el.getNext() : el.getFirst();
-					// `br` can't be used for creating line, because it has 0 width (#1648).
-					return is( type, expectedType ) && isStatic( alt ) && alt.isVisible() && !( alt.getName && alt.getName() === 'br' );
-				}
-			};
 		} )(),
 
 		/**
