@@ -53,46 +53,37 @@
 	function addTests( asyncLines ) {
 		var msgStart = 'test drag into table with ' + ( asyncLines ? 'asynchronous' : 'synchronous' + 'lines creation ' );
 
-		tests[ msgStart + 'left top cell - empty' ] = assertDragLine( 'table tr:nth-child(1) th:nth-child(1)', 'inside', asyncLines );
-		tests[ msgStart + 'middle cell - empty' ] = assertDragLine( 'table tr:nth-child(1) td:nth-child(2)', 'inside', asyncLines );
-		tests[ msgStart + 'right bottom cell - empty' ] = assertDragLine( 'table tr:nth-child(2) td:nth-child(3)', 'inside', asyncLines );
-		tests[ msgStart + 'middle top cell - text' ] = assertDragLine( 'table tr:nth-child(1) th:nth-child(2)', 'before', asyncLines );
-		tests[ msgStart + 'right middle cell - text' ] = assertDragLine( 'table tr:nth-child(1) td:nth-child(3)', 'after', asyncLines );
-		tests[ msgStart + 'left bottom  cell - text' ] = assertDragLine( 'table tr:nth-child(2) td:nth-child(1)', 'before', asyncLines );
-		tests[ msgStart + 'right top cell - inline element' ] = assertDragLine( 'table tr:nth-child(1) th:nth-child(3)', 'after', asyncLines );
-		tests[ msgStart + 'left middle cell - inline element' ] = assertDragLine( 'table tr:nth-child(1) td:nth-child(1)', 'before', asyncLines );
-		tests[ msgStart + 'middle bottom cell - inline element' ] = assertDragLine( 'table tr:nth-child(2) td:nth-child(2)', 'after', asyncLines );
+		tests[ msgStart + 'left top cell - empty' ] = testDragLine( 'table tr:nth-child(1) th:nth-child(1)', 'inside', asyncLines );
+		tests[ msgStart + 'middle cell - empty' ] = testDragLine( 'table tr:nth-child(1) td:nth-child(2)', 'inside', asyncLines );
+		tests[ msgStart + 'right bottom cell - empty' ] = testDragLine( 'table tr:nth-child(2) td:nth-child(3)', 'inside', asyncLines );
+		tests[ msgStart + 'middle top cell - text' ] = testDragLine( 'table tr:nth-child(1) th:nth-child(2)', 'before', asyncLines );
+		tests[ msgStart + 'right middle cell - text' ] = testDragLine( 'table tr:nth-child(1) td:nth-child(3)', 'after', asyncLines );
+		tests[ msgStart + 'left bottom  cell - text' ] = testDragLine( 'table tr:nth-child(2) td:nth-child(1)', 'before', asyncLines );
+		tests[ msgStart + 'right top cell - inline element' ] = testDragLine( 'table tr:nth-child(1) th:nth-child(3)', 'after', asyncLines );
+		tests[ msgStart + 'left middle cell - inline element' ] = testDragLine( 'table tr:nth-child(1) td:nth-child(1)', 'before', asyncLines );
+		tests[ msgStart + 'middle bottom cell - inline element' ] = testDragLine( 'table tr:nth-child(2) td:nth-child(2)', 'after', asyncLines );
 	}
 
-	function assertDragLine( selector, position, asyncLines ) {
+	function testDragLine( selector, position, asyncLines ) {
 		return function() {
 			// Ignore IE8 (#3004).
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				assert.ignore();
 			}
+
 			this.editorBot.setData( CKEDITOR.document.findOne( asyncLines ? '#asynchronous-lines' : '#synchronous-lines' ).getHtml(), function() {
 				var editor = this.editor,
 					editable = editor.editable(),
 					handler = editable.findOne( '.cke_widget_drag_handler' ),
 					element = editable.findOne( selector ),
-					coordinates = getPoint( element.getClientRect(), 'inside' );
+					coordinates = getCoordinates( element.getClientRect(), 'inside' );
 
 				// Adjust mouse position closer to the tested edge of cell.
 				if ( position in { before: 1 , after: 1 } ) {
 					coordinates.y += position === 'before' ? -1 : 1;
 				}
 
-				handler.once( 'mousedown', function() {
-					editable.fire( 'mousemove', {
-						$: {
-							clientX: coordinates.x,
-							clientY: coordinates.y
-						},
-						getTarget: function() {
-							return element;
-						}
-					} );
-				}, null, null, 9999 );
+				handler.once( 'mousedown', fakeMouseMove( coordinates.x, coordinates.y, editable, element ), null, null, 9999 );
 
 				editable.once( 'mousemove', function() {
 					// Wait for event buffer which is 50ms.
@@ -105,19 +96,13 @@
 							var elementRect = ( referenceElement || element ).getClientRect( true ),
 								visible = editor.widgets.liner.visible,
 								lineRect = visible[ CKEDITOR.tools.objectKeys( visible )[ 0 ] ].getClientRect( true ),
-								actual = getPoint( lineRect, position ),
-								expected = getPoint( elementRect, position );
+								actual = getCoordinates( lineRect, position ),
+								expected = getCoordinates( elementRect, position );
 
-							assert.isNumberInRange( Math.round( expected.x ), Math.round( actual.x - 1 ), Math.round( actual.x + 1 ), 'Line vertical position' );
-							assert.isNumberInRange( Math.round( expected.y ), Math.round( actual.y - 1 ), Math.round( actual.y + 1 ), 'Line horizontal position' );
+							assertRoundedNumber( expected.x, actual.x, 'Line vertical position' );
+							assertRoundedNumber( expected.y, actual.y, 'Line horizontal position' );
 
-							editor.once( 'paste', function() {
-								resume( function() {
-									var widget = editable.findOne( 'figure' );
-									assert.isTrue( element[ position === 'after' ? 'getLast' : 'getFirst' ]().contains( widget ), 'Widget in cell' );
-									arrayAssert.isEmpty( editable.find( '.cke_fake-paragraph' ).toArray(), 'Temporary fake paragraphs removed.' );
-								} );
-							}, null, null, 999 );
+							editor.once( 'paste', assertOnPaste( editable, element, position ) , null, null, 999 );
 
 							CKEDITOR.document.fire( 'mouseup', {
 								button: CKEDITOR.MOUSE_BUTTON_LEFT,
@@ -141,7 +126,7 @@
 		};
 	}
 
-	function getPoint( rect, position ) {
+	function getCoordinates( rect, position ) {
 		var y;
 
 		if ( position in { before: 1 , after: 1 } ) {
@@ -153,6 +138,42 @@
 		return {
 			x: ( rect.right + rect.left ) / 2,
 			y: y
+		};
+	}
+
+	function fakeMouseMove( clientX, clientY, eventHost, eventTarget ) {
+		return function() {
+			eventHost.fire( 'mousemove', {
+				$: {
+					clientX: clientX,
+					clientY: clientY
+				},
+				getTarget: function() {
+					return eventTarget;
+				}
+			} );
+		};
+	}
+
+	function assertRoundedNumber( expected, actual, message ) {
+		assert.isNumberInRange( Math.round( expected ), Math.round( actual - 1 ), Math.round( actual + 1 ), message );
+	}
+
+	function assertOnPaste( editable, element, position ) {
+		return function() {
+			resume( function() {
+				var widget = editable.findOne( 'figure' );
+
+				assert.isTrue(
+					element[ position === 'after' ? 'getLast' : 'getFirst' ]()
+						.contains( widget ),
+					'Widget in cell' );
+
+				arrayAssert.isEmpty(
+					editable.find( '.cke_fake-paragraph' )
+						.toArray(),
+					'Temporary fake paragraphs removed.' );
+			} );
 		};
 	}
 } )();
