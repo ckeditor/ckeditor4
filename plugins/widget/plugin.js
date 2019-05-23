@@ -3525,44 +3525,28 @@
 
 				if ( relation.type === CKEDITOR.LINEUTILS_INSIDE ) {
 					// Calculate the distance for the elements top and the bottom, and store the lower value.
-					horizontalDistance = getDistance( y, rect.top, rect.bottom );
+					horizontalDistance = getClosestDistance( y, rect.top, rect.bottom );
 				} else {
 					// Calculate the distance for the elements before and after positions. Store the lower value, and it's type.
 					rect = relation.element.getParent().getClientRect();
 
-					distanceBefore = getDistance( y, locations[ id ][ 1 ] );
-					distanceAfter = getDistance( y, locations[ id ][ 2 ] );
+					distanceBefore = getClosestDistance( y, locations[ id ][ 1 ] );
+					distanceAfter = getClosestDistance( y, locations[ id ][ 2 ] );
 
-					distanceBefore = distanceBefore && Math.abs( distanceBefore );
-					distanceAfter = distanceAfter && Math.abs( distanceAfter );
-
-					if ( distanceAfter === null ) {
-						horizontalDistance = distanceBefore;
-						type = CKEDITOR.LINEUTILS_BEFORE;
-					} else if ( distanceBefore === null ) {
-						horizontalDistance = distanceAfter;
-						type = CKEDITOR.LINEUTILS_AFTER;
-					} else {
-						horizontalDistance = Math.min( distanceBefore, distanceAfter );
-						type = horizontalDistance === distanceBefore ? CKEDITOR.LINEUTILS_BEFORE : CKEDITOR.LINEUTILS_AFTER;
-					}
+					horizontalDistance = getLowestHorizontalDistance( distanceBefore, distanceAfter );
+					type = getUpdatedType( distanceBefore, distanceAfter, horizontalDistance );
 				}
 
 				// Calculate the distance for the elements left and the right, and store the lowest.
-				verticalDistance = getDistance( x, rect.left, rect.right );
+				verticalDistance = getClosestDistance( x, rect.left, rect.right );
 
 				relation = {
 					uid: id,
 					type: type,
-					dist: Math.sqrt( Math.pow( verticalDistance, 2 ) + Math.pow( horizontalDistance, 2 ) ) // Pythagorean Theorem
+					dist: getHypotenuse( horizontalDistance, verticalDistance )
 				};
 
-				isStored = !!CKEDITOR.tools.array.find( sorted, function( item, index ) {
-					if ( relation.dist < item.dist ) {
-						sorted.splice( index, 0, relation );
-						return true;
-					}
-				} );
+				isStored = !!CKEDITOR.tools.array.find( sorted, getRelationSortingFn( relation ) );
 
 				if ( !isStored ) {
 					sorted.push( relation );
@@ -3571,22 +3555,60 @@
 
 			return sorted;
 
-			function getDistance( coordinate, start, end ) {
-				if ( start === undefined ) {
+			function getClosestDistance( testedCoordinate, precedingCoordinate, succeedingCoordinate ) {
+				if ( precedingCoordinate === undefined ) {
 					return null;
 				}
 
-				if ( end === undefined || coordinate < start ) {
-					return start - coordinate;
+				if ( succeedingCoordinate === undefined || testedCoordinate < precedingCoordinate ) {
+					return Math.abs( precedingCoordinate - testedCoordinate );
 				}
 
-				if ( coordinate > end ) {
-					return coordinate - end;
+				if ( testedCoordinate > succeedingCoordinate ) {
+					return Math.abs( testedCoordinate - succeedingCoordinate );
 				}
 
 				return 0;
 			}
 
+			function getRelationSortingFn( relation ) {
+				return function( item, index, array ) {
+					if ( relation.dist < item.dist ) {
+						array.splice( index, 0, relation );
+						return true;
+					}
+				};
+			}
+
+			function getLowestHorizontalDistance( distanceBefore, distanceAfter ) {
+				if ( distanceAfter === null ) {
+					return distanceBefore;
+				}
+
+				if ( distanceBefore === null ) {
+					return distanceAfter;
+				}
+
+				return horizontalDistance = Math.min( distanceBefore, distanceAfter );
+			}
+
+			function getUpdatedType( distanceBefore, distanceAfter, horizontalDistance ) {
+				if ( distanceAfter === null ) {
+					return CKEDITOR.LINEUTILS_BEFORE;
+				}
+
+				if ( distanceBefore === null ) {
+					return CKEDITOR.LINEUTILS_AFTER;
+				}
+
+				return horizontalDistance === distanceBefore ? CKEDITOR.LINEUTILS_BEFORE : CKEDITOR.LINEUTILS_AFTER;
+
+			}
+
+			// Pythagorean Theorem
+			function getHypotenuse( leftCathetus, rightCathetus ) {
+				return Math.sqrt( Math.pow( leftCathetus, 2 ) + Math.pow( rightCathetus, 2 ) )
+			}
 		}
 
 		function onMouseUp() {
