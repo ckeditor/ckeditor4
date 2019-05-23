@@ -1,8 +1,8 @@
 @bender-tags: bug, 4.12.0, 2813
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, sourcearea
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, sourcearea, list, table
 
-## For each insert button
+## For each insert button and for each element
 
 1. After each case use `reset editor` button.
 
@@ -20,4 +20,4 @@
 
 Clicked button causes the creation of an additional rectangle.
 
-**NOTE:** Insert HTML functions inserts `div` element as a plain text. Caused by [#3042](https://github.com/ckeditor/ckeditor-dev/issues/3042) issue.
+**NOTE:** Because of [#3042](https://github.com/ckeditor/ckeditor-dev/issues/3042) two nested divs are used for insertion.
