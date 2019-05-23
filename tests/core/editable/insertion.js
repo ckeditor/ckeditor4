@@ -271,6 +271,6 @@
 	}
 
 	function normalizeHtml( html ) {
-		return html.toLowerCase().replace( /(<p><br><\/p>|<br>|\s|\u200B)/g, '' );
+		return html.toLowerCase().replace( /(<p>(<br>|&nbsp;)<\/p>|<br>|\s|\u200B)/g, '' );
 	}
 } )();
