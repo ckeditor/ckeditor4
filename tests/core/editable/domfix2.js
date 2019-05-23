@@ -7,6 +7,12 @@ bender.test( {
 	'async:init': function() {
 		var tc = this;
 		var editor = new CKEDITOR.editor();
+
+		editor.element = {
+			isDetached: function() {},
+			getAttribute: function() {}
+		};
+
 		editor.on( 'loaded', function() {
 			editor.editable( doc.getById( 'editor' ) );
 			editor.mode = 'wysiwyg';

@@ -8,6 +8,12 @@ bender.test( {
 	'async:init': function() {
 		var tc = this;
 		var editor = new CKEDITOR.editor();
+
+		editor.element = {
+			isDetached: function() {},
+			getAttribute: function() {}
+		};
+
 		editor.on( 'loaded', function() {
 			var innerDoc = doc.getById( 'editable_frame' ).getFrameDocument();
 			var body = innerDoc.getBody();
