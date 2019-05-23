@@ -9,7 +9,7 @@
 	bender.editor = true;
 
 	var tests =  {
-		'is cell fake selected when img inside is selected': function() {
+		'Is whole cell fake selected when img inside is selected': function() {
 			var editor = this.editor,
 				bot = this.editorBot;
 
