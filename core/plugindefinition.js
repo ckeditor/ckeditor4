@@ -196,10 +196,10 @@
  * [Browser Compatibility](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_browsers.html)
  * or specific editor configuration.
  *
- * This function won't be called by plugin loader itself and it's not required for a proper
+ * This function won't be called by the plugin loader itself and it's not required for a proper
  * plugin initialization. However, it's recommended to implement the function if a plugin
  * has environment requirements. This information may be important for related features
- * or testing environment.
+ * and testing environment.
  *
  * ```javascript
  * CKEDITOR.plugins.add( 'sample', {
@@ -213,5 +213,5 @@
  * @since 4.12.0
  * @method isSupportedEnvironment
  * @param {CKEDITOR.editor} editor
- * @returns {Boolean} An information if the plugin is supported on the existing environment.
+ * @returns {Boolean} Information if the plugin is supported in the current environment.
  */
