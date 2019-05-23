@@ -98,7 +98,6 @@
 			if ( textarea ) {
 				editor.container.clearCustomData();
 				editor.container.remove();
-
 				textarea.show();
 			}
 
