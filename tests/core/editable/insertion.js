@@ -168,29 +168,29 @@
 		{
 			name: 'when selection starts at the beginning of span',
 			initial: '<span>{foo}bar</span>',
-			data: '<div>div</div>',
-			expected: '<div>div</div><span>bar</span>'
+			data: '<div><div>div</div></div>',
+			expected: '<div><div>div</div></div><span>bar</span>'
 		}, {
 			name: 'when selection ends at the end of span',
 			initial: '<span>foo{bar}</span>',
-			data: '<div>div</div>',
-			expected: '<span>foo</span><div>div</div>'
+			data: '<div><div>div</div></div>',
+			expected: '<span>foo</span><div><div>div</div></div>'
 		}, {
 			name: 'when selection covers span',
 			initial: '<span>{foobar}</span>',
-			data: '<div>div</div>',
-			expected: '<div>div</div>'
+			data: '<div><div>div</div></div>',
+			expected: '<div><div>div</div></div>'
 		}, {
 			name: 'when selection is followed by space',
 			initial: '<span>foo{bar}&nbsp;</span>',
-			data: '<div>div</div>',
-			expected: '<span>foo</span><div>div</div><span>&nbsp;</span>',
+			data: '<div><div>div</div></div>',
+			expected: '<span>foo</span><div><div>div</div></div><span>&nbsp;</span>',
 			ignore: CKEDITOR.env.ie && !CKEDITOR.env.edge // (#3061)
 		}, {
 			name: 'when selection is preceded by space',
 			initial: '<span>&nbsp;{foo}bar</span>',
-			data: '<div>div</div>',
-			expected: '<span>&nbsp;</span><div>div</div><span>bar</span>',
+			data: '<div><div>div</div></div>',
+			expected: '<span>&nbsp;</span><div><div>div</div></div><span>bar</span>',
 			ignore: CKEDITOR.env.ie && !CKEDITOR.env.edge // (#3061)
 		}, {
 			name: 'when empty element is inserted at the end of span',
@@ -201,13 +201,13 @@
 		}, {
 			name: 'when selection covers nested span',
 			initial: '<p><span>{foobar}</span></p>',
-			data: '<div>div</div>',
-			expected: '<div>div</div>'
+			data: '<div><div>div</div></div>',
+			expected: '<div><div>div</div></div>'
 		}, {
 			name: 'when selection covers span with empty spans on boundaries',
 			initial: '<span></span><span>{foobar}</span><span></span>',
-			data: '<div>div</div>',
-			expected: '<span></span><div>div</div><span></span>'
+			data: '<div><div>div</div></div>',
+			expected: '<span></span><div><div>div</div></div><span></span>'
 		}
 	] );
 
@@ -271,6 +271,6 @@
 	}
 
 	function normalizeHtml( html ) {
-		return html.toLowerCase().replace( /(<br>|\s|\u200B|<p>.*<\/p>)/g, '' );
+		return html.toLowerCase().replace( /(<p><br><\/p>|<br>|\s|\u200B)/g, '' );
 	}
 } )();
