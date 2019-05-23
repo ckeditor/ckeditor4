@@ -6,7 +6,7 @@
 ( function() {
 	var fakeComponent = CKEDITOR.document.findOne( '#fake-component' ),
 		container = CKEDITOR.document.findOne( '#container' ),
-		currentError;
+		editor, currentError;
 
 	window.onerror = function( error ) {
 		currentError = error;
@@ -16,40 +16,51 @@
 	fakeComponent = fakeComponent.getOuterHtml();
 
 	bender.test( {
+		tearDown: function() {
+			editor.destroy();
+			editor = null;
+		},
 		// (#3115)
-		'test detach and destroy after 0ms': test( 0 ),
+		'test detach and destroy after 0ms': testTimedDetach( 0 ),
 		// (#3115)
-		'test detach and destroy after 15ms': test( 15 ),
+		'test detach and destroy after 15ms': testTimedDetach( 15 ),
 		// (#3115)
-		'test detach and destroy after 30ms': test( 35 ),
+		'test detach and destroy after 30ms': testTimedDetach( 35 ),
 		// (#3115)
-		'test detach and destroy after 50ms': test( 50 ),
+		'test detach and destroy after 50ms': testTimedDetach( 50 ),
 		// (#3115)
-		'test detach and destroy after 75ms': test( 75 ),
+		'test detach and destroy after 75ms': testTimedDetach( 75 ),
 		// (#3115)
-		'test detach and destroy after 100ms': test( 100 ),
+		'test detach and destroy after 100ms': testTimedDetach( 100 ),
 		// (#3115)
-		'test detach and destroy after 150ms': test( 150 ),
+		'test detach and destroy after 150ms': testTimedDetach( 150 ),
 		// (#3115)
-		'test detach and destroy after 200ms': test( 200 ),
+		'test detach and destroy after 200ms': testTimedDetach( 200 ),
 		// (#3115)
-		'test detach and destroy after 250ms': test( 250 ),
+		'test detach and destroy after 250ms': testTimedDetach( 250 ),
 		// (#3115)
-		'test detach and destroy after 400ms': test( 400 ),
+		'test detach and destroy after 400ms': testTimedDetach( 400 ),
 		// (#3115)
-		'test detach and destroy after 600ms': test( 600 ),
+		'test detach and destroy after 600ms': testTimedDetach( 600 ),
 		// (#3115)
-		'test detach and destroy after 900ms': test( 900 )
+		'test detach and destroy after 900ms': testTimedDetach( 900 ),
+		// (#3115)
+		'test editor set mode when editor is detached': testSetMode( function( editor ) {
+			sinon.stub( editor.container, 'isDetached' ).returns( true );
+		} ),
+		// (#3115)
+		'test editor set mode when editor is destroyed': testSetMode( function( editor ) {
+			editor.status = 'destroyed';
+		} )
 	} );
 
-	function test( time ) {
+	function testTimedDetach( time ) {
 		return function() {
 			// IE & Edge throws `Permission Denied` sometimes, but debugger won't break on that error, so can't fix it.
 			if ( CKEDITOR.env.ie ) {
 				assert.ignore();
 			}
-			var component = CKEDITOR.dom.element.createFromHtml( fakeComponent ),
-				editor;
+			var component = CKEDITOR.dom.element.createFromHtml( fakeComponent );
 
 			container.append( component );
 
@@ -80,6 +91,32 @@
 				} );
 				editor.destroy();
 			}
+		};
+	}
+
+	function testSetMode( callback ) {
+		return function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				assert.ignore();
+			}
+			bender.editorBot.create( {}, function( bot ) {
+				editor = bot.editor;
+
+				callback( editor );
+
+				var spy = sinon.spy();
+
+				editor.on( 'mode', spy );
+				editor.setMode( 'testmode', spy );
+
+				setTimeout( function() {
+					resume( function() {
+						assert.isFalse( spy.called );
+					} );
+				}, 30 );
+
+				wait();
+			} );
 		};
 	}
 } )();
