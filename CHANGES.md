@@ -22,7 +22,7 @@ Fixed Issues:
 * [#2235](https://github.com/ckeditor/ckeditor-dev/issues/2235): Fixed: [Image](https://ckeditor.com/cke4/addon/image) in table cell has an empty URL field when edited from context menu opened by right-click when [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin is in use.
 * [#3120](https://github.com/ckeditor/ckeditor-dev/issues/3120): [IE8] Fixed: [`CKEDITOR.tools.extend`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tool.html#method-extend) function doesn't work with [`DontEnum`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Properties) object property attribute.
 * [#3098](https://github.com/ckeditor/ckeditor-dev/issues/3098): Fixed: Unit pickers for table cell width and height in [Table Tools](https://ckeditor.com/cke4/addon/tabletools) plugin have different width.
-* [#2813](https://github.com/ckeditor/ckeditor-dev/issues/2813): Fixed: Editor HTML insertion methods pollute the content with empty spans.
+* [#2813](https://github.com/ckeditor/ckeditor-dev/issues/2813): Fixed: [editor.insertHtml](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-insertHtml) and [editor.insertelement](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-insertElement) pollutes editable with empty spans.
 
 API Changes:
 
