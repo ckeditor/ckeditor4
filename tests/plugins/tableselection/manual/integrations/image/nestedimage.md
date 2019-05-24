@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: bug, 2235, 4.11.5
+@bender-tags: bug, 2235, 4.12.0
 @bender-ckeditor-plugins: wysiwygarea, tableselection, image, undo
 
 ## Context menu for image in table
