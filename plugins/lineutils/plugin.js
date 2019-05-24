@@ -187,7 +187,23 @@
 
 			function shouldNormalize( alt, type, expectedType ) {
 				// `br` can't be used for creating line, because it has 0 width (#1648).
-				return is( type, expectedType ) && isStatic( alt ) && alt.isVisible() && !( alt.getName && alt.getName() === 'br' );
+				if ( !is( type, expectedType ) ) {
+					return false;
+				}
+
+				if ( !is( type, expectedType ) ) {
+					return false;
+				}
+
+				if ( !isStatic( alt ) ) {
+					return false;
+				}
+
+				if ( !alt.isVisible() ) {
+					return false;
+				}
+
+				return !alt.getName && alt.getName() !== 'br';
 			}
 
 			function merge( el, type, relations ) {
