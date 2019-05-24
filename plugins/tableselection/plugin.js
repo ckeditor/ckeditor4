@@ -235,7 +235,7 @@
 			isEnclosedNodeAnImage = enclosedNode && ( enclosedNode.type == CKEDITOR.NODE_ELEMENT ) && enclosedNode.is( 'img' ),
 			cells,
 			table,
-			i;
+			iterator;
 
 		if ( !selection ) {
 			return;
@@ -244,6 +244,11 @@
 		clearFakeCellSelection( editor );
 
 		if ( !selection.isInTable() || !selection.isFake ) {
+			return;
+		}
+
+		// Don't perform fake selection when image is selected (#2235).
+		if ( isEnclosedNodeAnImage ) {
 			return;
 		}
 
@@ -261,15 +266,10 @@
 
 		cells = getSelectedCells( selection, table );
 
-		// Don't perform fake selection when image is selected (#2235).
-		if ( isEnclosedNodeAnImage ) {
-			return;
-		}
-
 		editor.fire( 'lockSnapshot' );
 
-		for ( i = 0; i < cells.length; i++ ) {
-			cells[ i ].addClass( fakeSelectedClass );
+		for ( iterator = 0; iterator < cells.length; iterator++ ) {
+			cells[ iterator ].addClass( fakeSelectedClass );
 		}
 
 		if ( cells.length > 0 ) {
