@@ -66,8 +66,8 @@
 
 	function testDragLine( selector, position, asyncLines ) {
 		return function() {
-			// Ignore IE8 (#3004).
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			// Ignore older IEs, also on IE8 there is an issue with drag line placement (#3004).
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 				assert.ignore();
 			}
 
