@@ -58,6 +58,11 @@
 
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
+			// Also if CKEDITOR.config.allowDangerousProtectedSource is enabled
+			// display warning inside the console
+			if ( editor.config.allowDangerousProtectedSource === true ) {
+				console.warn( 'Flag CKEDITOR.config.allowDangerousProtectedSource is set to true. This can potentially allow execution of malicious scripts inside the editor. Use with caution.' );
+			}
 			data = protectSource( data, editor );
 
 			// Protect content of textareas. (https://dev.ckeditor.com/ticket/9995)
@@ -961,17 +966,20 @@
 			store = editor._.dataStore || ( editor._.dataStore = { id: 1 } ),
 			tempRegex = /<\!--\{cke_temp(comment)?\}(\d*?)-->/g;
 
-		var regexes = [
-			// Script tags will also be forced to be protected, otherwise
-			// IE will execute them.
-			( /<script[\s\S]*?(<\/script>|$)/gi ),
+		var regexes = [ protectRegexes ];
+		if ( editor.config.allowDangerousProtectedSource !== true ) {
+			regexes.concat( [
+				// Script tags will also be forced to be protected, otherwise
+				// IE will execute them.
+				( /<script[\s\S]*?(<\/script>|$)/gi ),
 
-			// <noscript> tags (get lost in IE and messed up in FF).
-			/<noscript[\s\S]*?<\/noscript>/gi,
+				// <noscript> tags (get lost in IE and messed up in FF).
+				/<noscript[\s\S]*?<\/noscript>/gi,
 
-			// Avoid meta tags being stripped (https://dev.ckeditor.com/ticket/8117).
-			/<meta[\s\S]*?\/?>/gi
-		].concat( protectRegexes );
+				// Avoid meta tags being stripped (https://dev.ckeditor.com/ticket/8117).
+				/<meta[\s\S]*?\/?>/gi
+			] );
+		}
 
 		// First of any other protection, we must protect all comments
 		// to avoid loosing them (of course, IE related).

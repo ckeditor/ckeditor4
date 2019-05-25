@@ -357,6 +357,17 @@ CKEDITOR.config = {
 	protectedSource: [],
 
 	/**
+	 * If set to true, **disables** CKEditor.protectedSource default restrictions
+	 * for tags like script, noscript and other. **This can potentially allow execution
+	 * of malicious scripts inside the editor**. Use with caution.
+	 *
+	 *		config.allowDangerousProtectedSoruce = true;
+	 *
+	 * @cfg
+	 */
+	allowDangerousProtectedSource: false,
+
+	/**
 	 * The editor `tabindex` value.
 	 *
 	 * Read more in the {@glink guide/dev_tabindex documentation} and see the
