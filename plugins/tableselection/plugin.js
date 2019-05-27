@@ -244,7 +244,6 @@
 		clearFakeCellSelection( editor );
 
 		if ( !selection.isInTable() || !selection.isFake ) {
-			editor.getSelection().reset();
 			return;
 		}
 
