@@ -10,13 +10,15 @@
 'use strict';
 
 ( function() {
-	var isBrowserSupported = !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
-
 	CKEDITOR.plugins.add( 'codesnippet', {
 		requires: 'widget,dialog',
 		lang: 'ar,az,bg,ca,cs,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'codesnippet', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
+
+		isSupportedEnvironment: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
+		},
 
 		beforeInit: function( editor ) {
 			editor._.codesnippet = {};
@@ -105,7 +107,7 @@
 					init: function( callback ) {
 						var that = this;
 
-						if ( isBrowserSupported ) {
+						if ( editor.plugins.codesnippet.isSupportedEnvironment() ) {
 							CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js', function() {
 								that.hljs = window.hljs;
 								callback();
@@ -313,7 +315,7 @@
 					callback = function( formatted ) {
 						// IE8 (not supported browser) have issue with new line chars, when using innerHTML.
 						// It will simply strip it.
-						that.parts.code.setHtml( isBrowserSupported ?
+						that.parts.code.setHtml( editor.plugins.codesnippet.isSupportedEnvironment() ?
 							formatted : formatted.replace( newLineRegex, '<br>' ) );
 					};
 
