@@ -1532,8 +1532,18 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		},
 
 		/**
+		 * Sets the given model as the subject of the dialog.
+		 *
+		 * For the most plugins like `table` / `link` plugin the given model should be a
+		 * {@link CKEDITOR.dom.element DOM element instance} if there's a related element to it.
+		 * For widget plugins (`image2`, `placeholder`) you should provide a {@link CKEDITOR.plugins.widget} instance that
+		 * is a subject of this dialog.
+		 *
+		 * **NOTE:** {@link #getModel} method will prioritize {@link CKEDITOR.dialog.definition#getModel} if set. Use this
+		 * method only if you didn't overwritten definition member.
+		 *
 		 * @since 4.12.0
-		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget} newModel Model to be set.
+		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} newModel Model to be set.
 		 */
 		setModel: function( newModel ) {
 			this._.model = newModel;
@@ -3393,6 +3403,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @member CKEDITOR.editor
 		 * @param {String} dialogName The registered name of the dialog.
 		 * @param {Function} callback The function to be invoked after dialog instance created.
+		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} newModel Model to be set. See {@link CKEDITOR.dialog#setModel}.
 		 * @returns {CKEDITOR.dialog} The dialog object corresponding to the dialog displayed.
 		 * `null` if the dialog name is not registered.
 		 * @see CKEDITOR.dialog#add
@@ -3409,7 +3420,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 				dialog = storedDialogs[ dialogName ] || ( storedDialogs[ dialogName ] = new CKEDITOR.dialog( this, dialogName ) );
 
-				dialog.setModel( model);
+				dialog.setModel( model );
 
 				callback && callback.call( dialog, dialog );
 				dialog.show();
