@@ -3,6 +3,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, link, toolbar
 
+**NOTE:** For modern browsers you will see "real" HTML in **expected** results instead of `[element HTML]` string.
+
 1. Click `link` button.
 2. Verify link above the editor.
 

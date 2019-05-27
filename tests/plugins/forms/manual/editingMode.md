@@ -3,6 +3,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, forms, toolbar
 
+**NOTE:** For modern browsers you will see "real" HTML in **expected** results instead of `[element HTML]` string.
+
 1. Click `form` button.
 2. Verify status above the editor.
 
