@@ -3,6 +3,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, table, toolbar
 
+**NOTE:** For modern browsers you will see "real" HTML in **expected** results instead of `[element HTML]` string.
+
 1. Place focus at the first editor paragraph.
 2. Click the table button.
 3. Verify status above the editor.
@@ -28,6 +30,6 @@ Dialog name: **table** in **editor** editor.
 
 Dialog is in **editing** mode.
 
-Currently editing: `[table HTML]`
+Currently editing: `[element HTML]`
 
 ---

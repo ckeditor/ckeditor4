@@ -3,6 +3,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, image, toolbar
 
+**NOTE:** For modern browsers you will see "real" HTML in **expected** results instead of `[element HTML]` string.
+
 1. Click `image` button.
 2. Verify image status above the editor.
 
