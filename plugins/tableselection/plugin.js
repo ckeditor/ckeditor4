@@ -244,11 +244,13 @@
 		clearFakeCellSelection( editor );
 
 		if ( !selection.isInTable() || !selection.isFake ) {
+			editor.getSelection().reset();
 			return;
 		}
 
 		// Don't perform fake selection when image is selected (#2235).
 		if ( isEnclosedNodeAnImage ) {
+			editor.getSelection().reset();
 			return;
 		}
 
