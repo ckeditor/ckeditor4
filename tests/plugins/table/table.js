@@ -68,6 +68,18 @@
 			} );
 		},
 
+		// (#2423)
+		'test model for table dialog': function() {
+			var bot = this.editorBots.editor;
+
+			bot.dialog( 'table', function( dialog ) {
+				assert.isNull( dialog.getModel( bot.editor ) );
+				assert.isFalse( dialog.isEditing( bot.editor ) );
+
+				dialog.hide();
+			} );
+		},
+
 		'test add caption/summary': function() {
 			var bot = this.editorBots.editor;
 			bender.tools.testInputOut( 'add-caption', function( source, expected ) {

@@ -60,6 +60,10 @@
 			minHeight: CKEDITOR.env.ie ? 310 : 280,
 
 			getModel: function( editor ) {
+				if ( this.dialog.getName() !== 'tableProperties' ) {
+					return null;
+				}
+
 				var selection = editor.getSelection(),
 					range = selection && selection.getRanges()[ 0 ];
 
