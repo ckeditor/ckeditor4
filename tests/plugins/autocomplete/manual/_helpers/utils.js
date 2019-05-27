@@ -17,10 +17,6 @@
 
 	window.autocompleteUtils = {
 
-		isUnsupportedEnvironment: function() {
-			return CKEDITOR.env.ie && CKEDITOR.env.version < 9;
-		},
-
 		getTextTestCallback: function( config ) {
 			config = config || {};
 			return function( range ) {
