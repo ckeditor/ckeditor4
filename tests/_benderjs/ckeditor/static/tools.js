@@ -71,14 +71,19 @@
 		 * to the {@link CKEDITOR.pluginDefinition#isSupportedEnvironment} method.
 		 */
 		ignoreUnsupportedEnvironment: function( pluginName, editor ) {
-			if ( editor && editor.status === 'ready' || CKEDITOR.plugins.registered[ pluginName ] ) {
+			if ( editor ) {
+				if ( editor.status === 'ready' ) {
+					ignoreUnsupportedEnvironment();
+				} else {
+					editor.once( 'instanceReady', ignoreUnsupportedEnvironment );
+				}
+				return;
+			}
+
+			if ( CKEDITOR.plugins.registered[ pluginName ] ) {
 				ignoreUnsupportedEnvironment();
 			} else {
-				if ( editor ) {
-					editor.once( 'instanceReady', ignoreUnsupportedEnvironment );
-				} else {
-					CKEDITOR.once( pluginName + 'PluginReady', ignoreUnsupportedEnvironment );
-				}
+				CKEDITOR.once( pluginName + 'PluginReady', ignoreUnsupportedEnvironment );
 			}
 
 			function ignoreUnsupportedEnvironment() {

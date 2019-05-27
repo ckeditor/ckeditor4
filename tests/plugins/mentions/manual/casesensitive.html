@@ -4,12 +4,7 @@
 </textarea>
 
 <script>
-
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-		bender.ignore();
-	}
-
-	CKEDITOR.replace( 'editor', {
+	var editor = CKEDITOR.replace( 'editor', {
 		width: 600,
 		mentions: [
 			{
@@ -19,4 +14,6 @@
 			}
 		]
 	} );
+
+	bender.tools.ignoreUnsupportedEnvironment( 'mentions', editor );
 </script>
