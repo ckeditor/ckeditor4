@@ -64,9 +64,7 @@
 
 	var tests = {
 		setUp: function() {
-			if ( emojiTools.notSupportedEnvironment ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
 
 			// Fallback in case where ajax couldn't load before tests.
 			var data = JSON.stringify( [

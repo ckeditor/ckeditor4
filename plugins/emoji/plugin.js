@@ -549,8 +549,12 @@
 		icons: 'emojipanel',
 		hidpi: true,
 
+		isSupportedEnvironment: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.version >= 11;
+		},
+
 		beforeInit: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+			if ( !this.isSupportedEnvironment() ) {
 				return;
 			}
 			if ( !stylesLoaded ) {
@@ -560,7 +564,7 @@
 		},
 
 		init: function( editor ) {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+			if ( !this.isSupportedEnvironment() ) {
 				return;
 			}
 

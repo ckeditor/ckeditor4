@@ -1,7 +1,6 @@
 @bender-tags: 4.11.3, bug, emoji, 2527
 @bender-ckeditor-plugins: wysiwygarea, sourcearea, emoji
 @bender-ui: collapsed
-@bender-include: ../_helpers/tools.js
 
 ## For both editors:
 
