@@ -3,6 +3,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, list, liststyle
 
+**NOTE:** For modern browsers you will see "real" HTML in **expected** results instead of `[element HTML]` string.
+
 1. Open context menu over the unordered list and click properties option.
 2. Verify status above the editor.
 
