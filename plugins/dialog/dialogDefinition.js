@@ -109,7 +109,7 @@
  *
  * For the most plugins like `table` / `link` plugin it should return a
  * {@link CKEDITOR.dom.element DOM element instance} if there's a related element to it.
- * For widget plugins (`image2`, `placeholder`) it should return a widget instance that
+ * For widget plugins (`image2`, `placeholder`) it should return a {@link CKEDITOR.plugins.widget} instance that
  * is a subject of this dialog.
  *
  * @method getModel
