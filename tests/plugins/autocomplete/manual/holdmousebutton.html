@@ -21,9 +21,7 @@
 
 <script>
 
-	if ( autocompleteUtils.isUnsupportedEnvironment() ) {
-		bender.ignore();
-	}
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
 
 	var config = {
 		width: 600,

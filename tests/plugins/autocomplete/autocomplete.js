@@ -33,9 +33,7 @@
 	bender.test( {
 
 		setUp: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
 		},
 
 		'test API exists': function() {
