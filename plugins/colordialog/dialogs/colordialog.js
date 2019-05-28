@@ -283,6 +283,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				( evt.data.selectionColor == '#rgba(0, 0, 0, 0)' && evt.data.type == 'back' ) ) {
 				// Fallback for IE.
 				clearSelected();
+				clearHighlight();
 				return;
 			}
 
