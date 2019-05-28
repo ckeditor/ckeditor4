@@ -53,7 +53,7 @@ CKEDITOR.plugins.colordialog = {
 			bindToDialog = function( dialog ) {
 				dialog.on( 'ok', onClose );
 				dialog.on( 'cancel', onClose );
-				// Priority is set here to pass the data before actual dialog display.
+				// Priority is set here to pass the data before actually displaying the dialog.
 				dialog.on( 'show', onShow, null, null, 5 );
 			};
 
