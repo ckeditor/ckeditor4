@@ -296,6 +296,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				itemColor = CKEDITOR.tools.convertRgbToHex( paletteItem.getStyle( 'background-color' ) );
 				if ( selectionColor === itemColor ) {
 					paletteItem.focus();
+					focused = paletteItem;
 				}
 			} );
 		},
