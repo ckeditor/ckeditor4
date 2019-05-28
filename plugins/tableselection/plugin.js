@@ -9,7 +9,7 @@
 	var fakeSelectedClass = 'cke_table-faked-selection',
 		fakeSelectedEditorClass = fakeSelectedClass + '-editor',
 		fakeSelectedTableDataAttribute = 'cke-table-faked-selection-table',
-		ignoredTableAttribute = 'cke-tableselection-ignored',
+		ignoredTableAttribute = 'data-cke-tableselection-ignored',
 		fakeSelection = { active: false },
 		tabletools,
 		getSelectedCells,
@@ -244,7 +244,7 @@
 		}
 
 		// (#2945)
-		if ( ranges[ 0 ]._getTableElement( { table: 1 } ).data( ignoredTableAttribute ) ) {
+		if ( ranges[ 0 ]._getTableElement( { table: 1 } ).hasAttribute( ignoredTableAttribute ) ) {
 			return;
 		}
 
@@ -295,7 +295,7 @@
 			tableElements = { table: 1, thead: 1, tbody: 1, tfoot: 1, tr: 1, td: 1, th: 1 };
 
 		// (#2945)
-		if ( table && !!table.data( ignoredTableAttribute ) ) {
+		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
 			return;
 		}
 
@@ -372,7 +372,7 @@
 		var table = evt.data.getTarget().getAscendant( 'table', true );
 
 		// (#2945)
-		if ( table && table.data( ignoredTableAttribute ) ) {
+		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
 			return;
 		}
 
@@ -480,7 +480,7 @@
 		}
 
 		// (#2945)
-		if ( selection.getRanges()[ 0 ]._getTableElement( { table: 1 } ).data( ignoredTableAttribute ) ) {
+		if ( selection.getRanges()[ 0 ]._getTableElement( { table: 1 } ).hasAttribute( ignoredTableAttribute ) ) {
 			return;
 		}
 
@@ -771,7 +771,7 @@
 			table = ranges.length && ranges[ 0 ]._getTableElement( { table: 1 } );
 
 		// (#2945)
-		if ( table && table.data( ignoredTableAttribute ) ) {
+		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
 			return;
 		}
 
@@ -913,6 +913,7 @@
 	 * @class CKEDITOR.plugins.tableselection
 	 */
 	CKEDITOR.plugins.tableselection = {
+
 		/**
 		 * Fetches all cells between cells passed as parameters, including these cells.
 		 *

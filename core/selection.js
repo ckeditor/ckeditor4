@@ -2021,7 +2021,7 @@
 				CKEDITOR.plugins.tableselection.isSupportedEnvironment &&
 				isTableSelection( ranges ) &&
 				!isSelectingTable &&
-				!ranges[ 0 ]._getTableElement( { table: 1 } ).data( 'cke-tableselection-ignored' )
+				!ranges[ 0 ]._getTableElement( { table: 1 } ).hasAttribute( 'data-cke-tableselection-ignored' )
 			) {
 				performFakeTableSelection.call( this, ranges );
 				return;
