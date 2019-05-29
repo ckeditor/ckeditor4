@@ -988,29 +988,26 @@
 
 		setupWidget( this, widgetDef );
 
-		var asyncInit;
-
-		if ( this.init ) {
-			asyncInit = this.init();
-		}
-
-		// Finally mark widget as inited.
-		this.inited = true;
-
-		setupWidgetData( this, startupData );
+		var asyncInit = this.init && this.init();
 
 		if ( asyncInit instanceof CKEDITOR.tools.promise ) {
-			// Asynchronous path: dev is responsible for resolving widget once promise is fullfilled.
-			asyncInit.then( markWidgetReady );
-		} else if ( this.isInited() && editor.editable().contains( this.wrapper ) ) {
-			// Synchronous path: If at some point (e.g. in #data listener) widget hasn't been destroyed
-			// and widget is already attached to document then fire #ready.
-			markWidgetReady( this );
+			asyncInit.then( CKEDITOR.tools.bind( initWidget, this ) );
+		} else {
+			initWidget.call( this );
 		}
 
-		function markWidgetReady( widget ) {
-			widget.ready = true;
-			widget.fire( 'ready' );
+		function initWidget() {
+			// Finally mark widget as inited.
+			this.inited = true;
+
+			setupWidgetData( this, startupData );
+
+			// If at some point (e.g. in #data listener) widget hasn't been destroyed
+			// and widget is already attached to document then fire #ready.
+			if ( this.isInited() && editor.editable().contains( this.wrapper ) ) {
+				this.ready = true;
+				this.fire( 'ready' );
+			}
 		}
 	}
 
@@ -4014,7 +4011,21 @@
  * ```
  *
  * Since **CKEditor 4.12.0** this function might return a `Promise` in which case
- * it will trigger {@link #ready} event only once the promise is resolved.
+ * it will trigger {@link #ready} event only once the promise is fullfilled.
+ *
+ *	```js
+ *	init: function() {
+ * 		return new CKEDITOR.tools.promise( function( resolve ) {
+ * 			CKEDITOR.ajax.load( 'notification.txt', function( data ) {
+ *				if ( data ) {
+ *					that.setData( 'notification', data );
+ *				}
+ *
+ *				resolve();
+ * 			} );
+ * 		} );
+ *	}
+ * ```
  *
  * @property {Function} init
  * @returns {null/Promise}
