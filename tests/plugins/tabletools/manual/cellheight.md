@@ -17,18 +17,18 @@
 
   #### Expected:
 
-  First row is lower than second one.
+  - First row is lower than second one.
 
   #### Unexpected:
 
-  Row height didn't change.
+  - Row height didn't change.
 
 3. Change cell height to 70 percent.
 
   #### Expected:
 
-  First row is higher than second one.
+  - First row is higher than second one.
 
   #### Unexpected:
 
-  Row height didn't change.
+  - Row height didn't change.
