@@ -440,11 +440,13 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 
 					if ( !isNaN( style ) ) {
 						return style;
-					} else if ( !isNaN( attr ) ) {
-						return attr;
-					} else {
-						return;
 					}
+					if ( !isNaN( attr ) ) {
+						return attr;
+					}
+
+					return;
+
 				} ),
 				commit: function( element ) {
 					var value = parseFloat( this.getValue(), 10 ),
