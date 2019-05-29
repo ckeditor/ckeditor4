@@ -4,31 +4,31 @@
 
 1. Open the cell properties dialog.
 
-	#### Expected:
+  #### Expected:
 
-	Cell height unit is changeable (pixels or percents).
-	Unit fields for `Width` and `Height` are the same width.
+  - Cell height unit is changeable (pixels or percent).
+  - Unit fields for `Width` and `Height` are the same width.
 
-	#### Unexpected:
+  #### Unexpected:
 
-	Cell height unit is not changeable or unit fields are not equally wide.
+  - Cell height unit is not changeable or unit fields are not equally wide.
 
 2. Change cell height to 20px.
 
-	#### Expected:
+  #### Expected:
 
-	First row is lower than second one.
+  First row is lower than second one.
 
-	#### Unexpected:
+  #### Unexpected:
 
-	Row height didn't change.
+  Row height didn't change.
 
 3. Change cell height to 70 percent.
 
-	#### Expected:
+  #### Expected:
 
-	First row is higher than second one.
+  First row is higher than second one.
 
-	#### Unexpected:
+  #### Unexpected:
 
-	Row height didn't change.
+  Row height didn't change.
