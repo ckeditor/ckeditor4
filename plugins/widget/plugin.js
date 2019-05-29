@@ -990,6 +990,9 @@
 
 		var asyncInit = this.init && this.init();
 
+		// Finally mark widget as inited.
+		this.inited = true;
+
 		if ( asyncInit instanceof CKEDITOR.tools.promise ) {
 			asyncInit.then( CKEDITOR.tools.bind( initWidget, this ) );
 		} else {
@@ -997,9 +1000,6 @@
 		}
 
 		function initWidget() {
-			// Finally mark widget as inited.
-			this.inited = true;
-
 			setupWidgetData( this, startupData );
 
 			// If at some point (e.g. in #data listener) widget hasn't been destroyed
