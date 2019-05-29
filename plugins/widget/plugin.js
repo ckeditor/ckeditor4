@@ -9,8 +9,6 @@
 
 'use strict';
 
-/* global Promise */
-
 ( function() {
 	var DRAG_HANDLER_SIZE = 15;
 
@@ -990,27 +988,29 @@
 
 		setupWidget( this, widgetDef );
 
-		var initRet;
+		var asyncInit;
 
-		this.init && ( initRet = this.init() );
+		if ( this.init ) {
+			asyncInit = this.init();
+		}
 
 		// Finally mark widget as inited.
 		this.inited = true;
 
 		setupWidgetData( this, startupData );
 
-		if ( initRet instanceof Promise ) {
-			// Asynchronous path: dev is responsible for resolving promise once widget is ready.
-			initRet.then( CKEDITOR.tools.bind( markWidgetReady, this ) );
+		if ( asyncInit instanceof CKEDITOR.tools.promise ) {
+			// Asynchronous path: dev is responsible for resolving widget once promise is fullfilled.
+			asyncInit.then( markWidgetReady );
 		} else if ( this.isInited() && editor.editable().contains( this.wrapper ) ) {
 			// Synchronous path: If at some point (e.g. in #data listener) widget hasn't been destroyed
 			// and widget is already attached to document then fire #ready.
-			markWidgetReady.call( this );
+			markWidgetReady( this );
 		}
 
-		function markWidgetReady() {
-			this.ready = true;
-			this.fire( 'ready' );
+		function markWidgetReady( widget ) {
+			widget.ready = true;
+			widget.fire( 'ready' );
 		}
 	}
 
