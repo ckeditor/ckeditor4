@@ -2101,6 +2101,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				right = rtl && element.getComputedStyle( 'right' ),
 				position = dialog.getPosition();
 
+			position.x = position.x || 0;
+			position.y = position.y || 0;
+
 			if ( position.y + internalHeight > viewSize.height ) {
 				internalHeight = viewSize.height - position.y;
 			}
