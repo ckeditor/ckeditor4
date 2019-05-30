@@ -55,7 +55,6 @@ Comments in this file will give more details about each of the above blocks.
 	padding: 5px;
 	background-color: #fff;
 	border-radius: 5px;
-	position: relative;
 }
 
 /* Due to our reset we have to recover the styles of some elements. */
