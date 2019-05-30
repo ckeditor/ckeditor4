@@ -2087,18 +2087,22 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				right = rtl && element.getComputedStyle( 'right' ),
 				position = dialog.getPosition();
 
-			if ( position.y + internalHeight > viewSize.height )
+			if ( position.y + internalHeight > viewSize.height ) {
 				internalHeight = viewSize.height - position.y;
+			}
 
-			if ( ( rtl ? right : position.x ) + internalWidth > viewSize.width )
+			if ( ( rtl ? right : position.x ) + internalWidth > viewSize.width ) {
 				internalWidth = viewSize.width - ( rtl ? right : position.x );
+			}
 
 			// Make sure the dialog will not be resized to the wrong side when it's in the leftmost position for RTL.
-			if ( ( resizable == CKEDITOR.DIALOG_RESIZE_WIDTH || resizable == CKEDITOR.DIALOG_RESIZE_BOTH ) )
+			if ( resizable == CKEDITOR.DIALOG_RESIZE_WIDTH || resizable == CKEDITOR.DIALOG_RESIZE_BOTH ) {
 				width = Math.max( def.minWidth || 0, internalWidth - wrapperWidth );
+			}
 
-			if ( resizable == CKEDITOR.DIALOG_RESIZE_HEIGHT || resizable == CKEDITOR.DIALOG_RESIZE_BOTH )
+			if ( resizable == CKEDITOR.DIALOG_RESIZE_HEIGHT || resizable == CKEDITOR.DIALOG_RESIZE_BOTH ) {
 				height = Math.max( def.minHeight || 0, internalHeight - wrapperHeight );
+			}
 
 			dialog.resize( width, height );
 
