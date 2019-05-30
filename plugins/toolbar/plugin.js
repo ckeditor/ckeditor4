@@ -682,7 +682,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  * If set to `null`, the toolbar will be generated automatically using all available buttons
  * and {@link #toolbarGroups} as a toolbar groups layout.
  *
- * In CKEditor 4.5+ you can generate your toolbar customization code by using the [visual
+ * In CKEditor 4.5.0+ you can generate your toolbar customization code by using the [visual
  * toolbar configurator](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_toolbar.html).
  *
  *		// Defines a toolbar with only one strip containing the "Source" button, a

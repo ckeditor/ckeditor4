@@ -2422,7 +2422,7 @@
  * {@link CKEDITOR.editor#method-insertHtml} method).
  *
  * This event is useful when testing whether the {@link CKEDITOR.config#allowedContent}
- * setting is sufficient and correct for a system that is migrating to CKEditor 4.1
+ * setting is sufficient and correct for a system that is migrating to CKEditor 4.1.0
  * (where the {@glink guide/dev_advanced_content_filter Advanced Content Filter} was introduced).
  *
  * @since 4.1.0

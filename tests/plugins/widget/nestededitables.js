@@ -1467,7 +1467,7 @@
 			} );
 		},
 
-		// Behaviour has been changed in 4.5 (https://dev.ckeditor.com/ticket/12112), so we're leaving this
+		// Behaviour has been changed in 4.5.0 (https://dev.ckeditor.com/ticket/12112), so we're leaving this
 		// test as a validation of this change.
 		'test widgets\' commands are enabled in nested editable': function() {
 			var editor = this.editor,

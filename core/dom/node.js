@@ -866,7 +866,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 *
 	 * @since 3.5.0
 	 * @param {Boolean} [checkOnlyAttributes=false] If `true`, only attributes will be checked, native methods will not
-	 * be used. This parameter needs to be `true` to check hidden or detached elements. Introduced in 4.5.
+	 * be used. This parameter needs to be `true` to check hidden or detached elements. Introduced in 4.5.0.
 	 * @returns {Boolean}
 	 */
 	isReadOnly: function( checkOnlyAttributes ) {

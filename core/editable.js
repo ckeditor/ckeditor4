@@ -295,7 +295,7 @@
 			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
 			 * @param {CKEDITOR.dom.range} [range] If specified, the HTML will be inserted into the range
 			 * instead of into the selection. The selection will be placed at the end of the insertion (like in the normal case).
-			 * Introduced in CKEditor 4.5.
+			 * Introduced in CKEditor 4.5.0.
 			 */
 			insertHtml: function( data, mode, range ) {
 				var editor = this.editor;
