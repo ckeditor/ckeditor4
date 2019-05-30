@@ -259,7 +259,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			contents: {},
 			buttons: {},
 			accessKeyMap: {},
-			viewportRatio: {},
+			// Default value is 0.5 which means centered dialog.
+			viewportRatio: {
+				width: 0.5,
+				height: 0.5
+			},
 
 			// Initialize the tab and page map.
 			tabs: {},
@@ -806,17 +810,19 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 			var viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize(),
 				dialogSize = this.getSize(),
+				ratios = this._.viewportRatio,
 				freeSpace = {
 					width: Math.max( viewPaneSize.width - dialogSize.width, 0 ),
 					height: Math.max( viewPaneSize.height - dialogSize.height, 0 )
 				};
 			if ( this._.position && this._.position.x == x && this._.position.y == y ) {
 				// If position didn't change window might have been resized.
-				x = freeSpace.width * this._.viewportRatio.width;
-				y = freeSpace.height * this._.viewportRatio.height;
+				x = freeSpace.width * ratios.width;
+				y = freeSpace.height * ratios.height;
 			} else {
-				this._.viewportRatio.width = x / freeSpace.width;
-				this._.viewportRatio.height = y / freeSpace.height;
+				// When no free space don't divide by zero, use previous value.
+				ratios.width = freeSpace.width ? ( x / freeSpace.width ) : ratios.width;
+				ratios.height = freeSpace.height ? ( y / freeSpace.height ) : ratios.height;
 			}
 			// Save the current position.
 			this._.position = { x: x, y: y };
