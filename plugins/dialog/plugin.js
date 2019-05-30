@@ -734,35 +734,36 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @param {Number} width The width of the dialog in pixels.
 		 * @param {Number} height The height of the dialog in pixels.
 		 */
-		resize: ( function() {
-			return function( width, height ) {
-				if ( this._.contentSize && this._.contentSize.width == width && this._.contentSize.height == height )
-					return;
+		resize: function( width, height ) {
+			if ( this._.contentSize && this._.contentSize.width == width && this._.contentSize.height == height )
+				return;
 
-				CKEDITOR.dialog.fire( 'resize', {
-					dialog: this,
-					width: width,
-					height: height
-				}, this._.editor );
+			CKEDITOR.dialog.fire( 'resize', {
+				dialog: this,
+				width: width,
+				height: height
+			}, this._.editor );
 
-				this.fire( 'resize', {
-					width: width,
-					height: height
-				}, this._.editor );
+			this.fire( 'resize', {
+				width: width,
+				height: height
+			}, this._.editor );
 
-				var contents = this.parts.contents;
-				contents.setStyles( {
-					width: width + 'px',
-					height: height + 'px'
-				} );
+			var contents = this.parts.contents;
+			contents.setStyles( {
+				width: width + 'px',
+				height: height + 'px'
+			} );
 
-				// Update dialog position when dimension get changed in RTL.
-				if ( this._.editor.lang.dir == 'rtl' && this._.position )
-					this._.position.x = CKEDITOR.document.getWindow().getViewPaneSize().width - this._.contentSize.width - parseInt( this._.element.getFirst().getStyle( 'right' ), 10 );
+			// Update dialog position when dimension get changed in RTL.
+			if ( this._.editor.lang.dir == 'rtl' && this._.position ) {
+				var viewPaneWidth = CKEDITOR.document.getWindow().getViewPaneSize().width;
 
-				this._.contentSize = { width: width, height: height };
-			};
-		} )(),
+				this._.position.x = viewPaneWidth - this._.contentSize.width - parseInt( this._.element.getFirst().getStyle( 'right' ), 10 );
+			}
+
+			this._.contentSize = { width: width, height: height };
+		},
 
 		/**
 		 * Gets the current size of the dialog in pixels.
