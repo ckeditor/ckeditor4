@@ -357,15 +357,14 @@ CKEDITOR.config = {
 	protectedSource: [],
 
 	/**
-	 * If set to true, **disables** CKEditor.protectedSource default restrictions
-	 * for tags like script, noscript and other. **This can potentially allow execution
-	 * of malicious scripts inside the editor**. Use with caution.
+	 * If set to true, **disables** default protected tags restrictions allowing `script`, `noscript` and `meta` tags.
+     * **This can potentially allow execution of malicious scripts inside the editor**. Use with caution.
 	 *
 	 *		config.allowDangerousProtectedSoruce = true;
 	 *
 	 * @cfg
 	 */
-	allowDangerousProtectedSource: false,
+	allowDangerousTags: false,
 
 	/**
 	 * The editor `tabindex` value.

@@ -58,10 +58,10 @@
 
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
-			// Also if CKEDITOR.config.allowDangerousProtectedSource is enabled
+			// Also if CKEDITOR.config.allowDangerousTags is enabled
 			// display warning inside the console
-			if ( editor.config.allowDangerousProtectedSource === true ) {
-				console.warn( 'Flag CKEDITOR.config.allowDangerousProtectedSource is set to true. This can potentially allow execution of malicious scripts inside the editor. Use with caution.' );
+			if ( editor.config.allowDangerousTags === true ) {
+				console.warn( 'Flag CKEDITOR.config.allowDangerousTags is set to true. This can potentially allow execution of malicious scripts inside the editor. Use with caution.' );
 			}
 			data = protectSource( data, editor );
 
@@ -967,7 +967,7 @@
 			tempRegex = /<\!--\{cke_temp(comment)?\}(\d*?)-->/g;
 
 		var regexes = [ protectRegexes ];
-		if ( editor.config.allowDangerousProtectedSource !== true ) {
+		if ( editor.config.allowDangerousTags !== true ) {
 			regexes.concat( [
 				// Script tags will also be forced to be protected, otherwise
 				// IE will execute them.
