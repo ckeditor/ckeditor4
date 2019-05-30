@@ -987,6 +987,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				el.removeStyle( 'margin' );
 			}
 
+			posX = Math.floor( posX );
+			posY = Math.floor( posY );
+
 			this.move( posX, posY );
 		},
 
@@ -1953,19 +1956,24 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			abstractDialogCoords.x += dx;
 			abstractDialogCoords.y += dy;
 
-			if ( abstractDialogCoords.x + margins[ 3 ] < magnetDistance )
+			if ( abstractDialogCoords.x + margins[ 3 ] < magnetDistance ) {
 				realX = -margins[ 3 ];
-			else if ( abstractDialogCoords.x - margins[ 1 ] > viewPaneSize.width - dialogSize.width - magnetDistance )
+			} else if ( abstractDialogCoords.x - margins[ 1 ] > viewPaneSize.width - dialogSize.width - magnetDistance ) {
 				realX = viewPaneSize.width - dialogSize.width + ( editor.lang.dir == 'rtl' ? 0 : margins[ 1 ] );
-			else
+			} else {
 				realX = abstractDialogCoords.x;
+			}
 
-			if ( abstractDialogCoords.y + margins[ 0 ] < magnetDistance )
+			if ( abstractDialogCoords.y + margins[ 0 ] < magnetDistance ) {
 				realY = -margins[ 0 ];
-			else if ( abstractDialogCoords.y - margins[ 2 ] > viewPaneSize.height - dialogSize.height - magnetDistance )
+			} else if ( abstractDialogCoords.y - margins[ 2 ] > viewPaneSize.height - dialogSize.height - magnetDistance ) {
 				realY = viewPaneSize.height - dialogSize.height + margins[ 2 ];
-			else
+			} else {
 				realY = abstractDialogCoords.y;
+			}
+
+			realX = Math.floor( realX );
+			realY = Math.floor( realY );
 
 			dialog.move( realX, realY, 1 );
 
@@ -2033,9 +2041,15 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				content.append( dialogCover );
 			}
 
+			var isBorderBox = !( CKEDITOR.env.gecko || CKEDITOR.env.ie && CKEDITOR.env.quirks ),
+				heightStyle = content.getStyle( 'height' ),
+				widthStyle = content.getStyle( 'width' ),
+				toPx = CKEDITOR.tools.convertToPx;
+
 			// Calculate the offset between content and chrome size.
-			wrapperHeight = startSize.height - dialog.parts.contents.getSize( 'height', !( CKEDITOR.env.gecko || CKEDITOR.env.ie && CKEDITOR.env.quirks ) );
-			wrapperWidth = startSize.width - dialog.parts.contents.getSize( 'width', 1 );
+			// Use inline style, because of (#3144), fallback to `element.getSize`.
+			wrapperHeight = startSize.height - ( heightStyle ? toPx( heightStyle ) : content.getSize( 'height', isBorderBox ) );
+			wrapperWidth = startSize.width - ( widthStyle ? toPx( widthStyle ) : content.getSize( 'width', 1 ) );
 
 			origin = { x: $event.screenX, y: $event.screenY };
 
@@ -2094,6 +2108,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			if ( ( rtl ? right : position.x ) + internalWidth > viewSize.width ) {
 				internalWidth = viewSize.width - ( rtl ? right : position.x );
 			}
+
+			internalHeight = Math.floor( internalHeight );
+			internalWidth = Math.floor( internalWidth );
 
 			// Make sure the dialog will not be resized to the wrong side when it's in the leftmost position for RTL.
 			if ( resizable == CKEDITOR.DIALOG_RESIZE_WIDTH || resizable == CKEDITOR.DIALOG_RESIZE_BOTH ) {
