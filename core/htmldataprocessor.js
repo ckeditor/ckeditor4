@@ -966,9 +966,9 @@
 			store = editor._.dataStore || ( editor._.dataStore = { id: 1 } ),
 			tempRegex = /<\!--\{cke_temp(comment)?\}(\d*?)-->/g;
 
-		var regexes = [ protectRegexes ];
+		var regexes = protectRegexes;
 		if ( editor.config.allowDangerousTags !== true ) {
-			regexes.concat( [
+			regexes = regexes.concat( [
 				// Script tags will also be forced to be protected, otherwise
 				// IE will execute them.
 				( /<script[\s\S]*?(<\/script>|$)/gi ),
