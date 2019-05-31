@@ -971,7 +971,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		layout: function() {
 			var el = this.parts.dialog;
 
-			if ( !this._.moved && ( useFlex ) ) {
+			if ( !this._.moved && useFlex ) {
 				return;
 			}
 
