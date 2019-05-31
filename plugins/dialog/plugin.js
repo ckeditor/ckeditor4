@@ -2234,40 +2234,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 		currentCover = coverElement;
 
-		var scrollFunc = function() {
-				var pos = win.getScrollPosition(),
-					cursor = CKEDITOR.dialog._.currentTop;
-				coverElement.setStyles( {
-					left: pos.x + 'px',
-					top: pos.y + 'px'
-				} );
-
-				if ( cursor ) {
-					do {
-						var dialogPos = cursor.getPosition();
-						cursor.move( dialogPos.x, dialogPos.y );
-					} while ( ( cursor = cursor._.parentDialog ) );
-				}
-			};
-
 		// Using Safari/Mac, focus must be kept where it is (https://dev.ckeditor.com/ticket/7027)
 		if ( !( CKEDITOR.env.mac && CKEDITOR.env.webkit ) )
 			coverElement.focus();
-
-		if ( CKEDITOR.env.ie6Compat ) {
-			// IE BUG: win.$.onscroll assignment doesn't work.. it must be window.onscroll.
-			// So we need to invent a really funny way to make it work.
-			var myScrollHandler = function() {
-					scrollFunc();
-					myScrollHandler.prevScrollHandler.apply( this, arguments );
-				};
-			win.$.setTimeout( function() {
-				myScrollHandler.prevScrollHandler = window.onscroll ||
-				function() {};
-				window.onscroll = myScrollHandler;
-			}, 0 );
-			scrollFunc();
-		}
 	}
 
 	function hideCover( editor ) {
@@ -2278,13 +2247,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		editor.focusManager.remove( currentCover );
 		var win = CKEDITOR.document.getWindow();
 		currentCover.hide();
-
-		if ( CKEDITOR.env.ie6Compat ) {
-			win.$.setTimeout( function() {
-				var prevScrollHandler = window.onscroll && window.onscroll.prevScrollHandler;
-				window.onscroll = prevScrollHandler || null;
-			}, 0 );
-		}
 	}
 
 	function removeCovers() {
