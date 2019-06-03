@@ -146,19 +146,18 @@
 					var doc = panel._.iframe.getFrameDocument(),
 						testElement = doc.findOne( 'a[data-cke-emoji-name="star"]' );
 
-					if ( CKEDITOR.env.gecko ) {
-						testElement.$.scrollIntoView( true );
-					} else {
-						testElement.scrollIntoView( true );
-					}
-
-					// Scroll event is throttled that's why we need wait a little bit.
 					CKEDITOR.tools.setTimeout( function() {
-						resume( function() {
-							panel.hide();
-							assert.isTrue( doc.findOne( 'li[data-cke-emoji-group="travel"]' ).hasClass( 'active' ), 'Travel item in navigation should be highlighted' );
-						} );
-					}, 160 );
+						testElement.scrollIntoView( true );
+
+						// Scroll event is throttled that's why we need wait a little bit.
+						CKEDITOR.tools.setTimeout( function() {
+							resume( function() {
+								panel.hide();
+								assert.isTrue( doc.findOne( 'li[data-cke-emoji-group="travel"]' ).hasClass( 'active' ), 'Travel item in navigation should be highlighted' );
+							} );
+						}, 160 );
+					} );
+
 					wait();
 				} );
 			} );
