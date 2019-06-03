@@ -23,6 +23,7 @@ Fixed Issues:
 * [#3120](https://github.com/ckeditor/ckeditor-dev/issues/3120): [IE8] Fixed: [`CKEDITOR.tools.extend`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tool.html#method-extend) function doesn't work with [`DontEnum`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Properties) object property attribute.
 * [#3098](https://github.com/ckeditor/ckeditor-dev/issues/3098): Fixed: Unit pickers for table cell width and height in [Table Tools](https://ckeditor.com/cke4/addon/tabletools) plugin have different width.
 * [#2813](https://github.com/ckeditor/ckeditor-dev/issues/2813): Fixed: Editor HTML insertion methods ([`editor.insertHtml`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-insertHtml), [`editor.insertHtmlIntoRange`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-insertHtmlIntoRange), [`editor.insertElement`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-insertElement) and [`editor.insertElementIntoRange`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-insertElementIntoRange)) pollutes editable with empty spans.
+* [#2751](https://github.com/ckeditor/ckeditor-dev/issues/2751): Fixed: Editor with [enterMode](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-enterMode) set to [ENTER_DIV](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#property-ENTER_DIV) alters pasted content.
 
 API Changes:
 
@@ -92,7 +93,6 @@ Fixed Issues:
     * [#2780](https://github.com/ckeditor/ckeditor-dev/issues/2780): Fixed: Undo steps disappear after multiple changes of selection.
     * [#2470](https://github.com/ckeditor/ckeditor-dev/issues/2470): [Firefox] Fixed: Widget's nested editable gets blurred upon focus.
     * [#2655](https://github.com/ckeditor/ckeditor-dev/issues/2655): [Chrome, Safari] Fixed: Widget's nested editable cannot be focused under certain circumstances.
-* [#2751](https://github.com/ckeditor/ckeditor-dev/issues/2751): Fixed: Editor with [enterMode](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-enterMode) set to [ENTER_DIV](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR.html#property-ENTER_DIV) alters pasted content.
 
 ## CKEditor 4.11.2
 
