@@ -104,15 +104,6 @@
 					Style.createStyleStack( element, filter, editor );
 				},
 				'img': function( element ) {
-					var attributeStyleMap = {
-						width: function( value ) {
-							Style.setStyle( element, 'width', value + 'px' );
-						},
-						height: function( value ) {
-							Style.setStyle( element, 'height', value + 'px' );
-						}
-					};
-
 					// If the parent is DocumentFragment it does not have any attributes. (https://dev.ckeditor.com/ticket/16912)
 					if ( element.parent && element.parent.attributes ) {
 						var attrs = element.parent.attributes,
@@ -122,7 +113,7 @@
 						}
 					}
 
-					Style.mapStyles( element, attributeStyleMap );
+					Style.mapCommonStyles( element );
 
 					if ( element.attributes.src && element.attributes.src.match( /^file:\/\// ) &&
 						element.attributes.alt && element.attributes.alt.match( /^https?:\/\// ) ) {
@@ -319,18 +310,7 @@
 					Style.createStyleStack( element, filter, editor );
 				},
 				'table': function( element ) {
-					element._tdBorders = {};
 					element.filterChildren( filter );
-
-					var borderStyle, occurences = 0;
-					for ( var border in element._tdBorders ) {
-						if ( element._tdBorders[ border ] > occurences ) {
-							occurences = element._tdBorders[ border ];
-							borderStyle = border;
-						}
-					}
-
-					Style.setStyle( element, 'border', borderStyle );
 
 					var parent = element.parent,
 						root = parent && parent.parent,
@@ -340,6 +320,7 @@
 					// In case parent div has only align attr, move it to the table element (https://dev.ckeditor.com/ticket/16811).
 					if ( parent.name && parent.name === 'div' && parent.attributes.align &&
 						tools.objectKeys( parent.attributes ).length === 1 && parent.children.length === 1 ) {
+
 						// If align is the only attribute of parent.
 						element.attributes.align = parent.attributes.align;
 
@@ -352,40 +333,72 @@
 						parent.remove();
 					}
 
+					Style.convertStyleToPx( element );
+
+				},
+				'tr': function( element ) {
+					// Attribues are moved to 'td' elements.
+					element.attributes = {};
 				},
 				'td': function( element ) {
-
 					var ascendant = element.getAscendant( 'table' ),
-						tdBorders =  ascendant._tdBorders,
-						borderStyles = [ 'border', 'border-top', 'border-right', 'border-bottom', 'border-left' ],
-						ascendantStyle = tools.parseCssText( ascendant.attributes.style );
+						ascendantStyle = tools.parseCssText( ascendant.attributes.style, true );
 
 					// Sometimes the background is set for the whole table - move it to individual cells.
-					var background = ascendantStyle.background || ascendantStyle.BACKGROUND;
+					var background = ascendantStyle.background;
 					if ( background ) {
 						Style.setStyle( element, 'background', background, true );
 					}
 
-					var backgroundColor = ascendantStyle[ 'background-color' ] || ascendantStyle[ 'BACKGROUND-COLOR' ];
+					var backgroundColor = ascendantStyle[ 'background-color' ];
 					if ( backgroundColor ) {
 						Style.setStyle( element, 'background-color', backgroundColor, true );
 					}
 
-					var styles = tools.parseCssText( element.attributes.style );
+					var styles = tools.parseCssText( element.attributes.style, true ),
+						borderStyles = styles.border ? CKEDITOR.tools.style.border.fromCssRule( styles.border ) : {},
+						borders = tools.style.border.splitCssValues( styles, borderStyles ),
+						tmpStyles = CKEDITOR.tools.clone( styles );
 
-					for ( var style in styles ) {
-						var temp = styles[ style ];
-						delete styles[ style ];
-						styles[ style.toLowerCase() ] = temp;
-					}
-
-					// Count all border styles that occur in the table.
-					for ( var i = 0; i < borderStyles.length; i++ ) {
-						if ( styles[ borderStyles[ i ] ] ) {
-							var key = styles[ borderStyles[ i ] ];
-							tdBorders[ key ] = tdBorders[ key ] ? tdBorders[ key ] + 1 : 1;
+					// Drop all border styles before continue,
+					// so there are no leftovers which may conflict with
+					// new border styles.
+					for ( var key in tmpStyles ) {
+						if ( key.indexOf( 'border' ) == 0 ) {
+							delete tmpStyles[ key ];
 						}
 					}
+
+					element.attributes.style = CKEDITOR.tools.writeCssText( tmpStyles );
+
+					// Unify background color property.
+					if ( styles.background ) {
+						var bg = CKEDITOR.tools.style.parse.background( styles.background );
+
+						if ( bg.color ) {
+							Style.setStyle( element, 'background-color', bg.color, true );
+							Style.setStyle( element, 'background', '' );
+						}
+					}
+
+					// Unify border properties.
+					for ( var border in borders ) {
+						var borderStyle = styles[ border ] ?
+							CKEDITOR.tools.style.border.fromCssRule( styles[ border ] )
+							: borders[ border ];
+
+						// No need for redundant shorthand properties if style is disabled.
+						if ( borderStyle.style === 'none' ) {
+							Style.setStyle( element, border, 'none' );
+						} else {
+							Style.setStyle( element, border, borderStyle.toString() );
+						}
+
+					}
+
+					Style.mapCommonStyles( element );
+
+					Style.convertStyleToPx( element );
 
 					Style.createStyleStack( element, filter, editor,
 						/margin|text\-align|padding|list\-style\-type|width|height|border|white\-space|vertical\-align|background/i );
@@ -557,6 +570,18 @@
 			element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 		},
 
+		convertStyleToPx: function( element ) {
+			var style = element.attributes.style;
+
+			if ( !style ) {
+				return;
+			}
+
+			element.attributes.style = style.replace( /\d+(\.\d+)?pt/g, function( match ) {
+				return CKEDITOR.tools.convertToPx( match ) + 'px';
+			} );
+		},
+
 		// Map attributes to styles.
 		mapStyles: function( element, attributeStyleMap ) {
 			for ( var attribute in attributeStyleMap ) {
@@ -569,6 +594,21 @@
 					delete element.attributes[ attribute ];
 				}
 			}
+		},
+
+		// Maps common attributes to styles.
+		mapCommonStyles: function( element ) {
+			return Style.mapStyles( element, {
+				vAlign: function( value ) {
+					Style.setStyle( element, 'vertical-align', value );
+				},
+				width: function( value ) {
+					Style.setStyle( element, 'width', value + 'px' );
+				},
+				height: function( value ) {
+					Style.setStyle( element, 'height', value + 'px' );
+				}
+			} );
 		},
 
 		/**
