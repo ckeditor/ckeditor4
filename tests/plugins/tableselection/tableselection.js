@@ -1,5 +1,5 @@
 /* bender-tags: tableselection */
-/* bender-ckeditor-plugins: tableselection */
+/* bender-ckeditor-plugins: tableselection, clipboard */
 /* bender-ckeditor-remove-plugins: undo */
 /* bender-include: _helpers/tableselection.js */
 /* global tableSelectionHelpers, mockMouseSelection */
@@ -148,6 +148,23 @@
 			} );
 		},
 
+		// (#2945)
+		'test simulating mouse events while the table is ignored': function( editor ) {
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			var table = editor.editable().findOne( 'table' ),
+				cells = table.find( 'td' );
+
+			table.data( 'cke-tableselection-ignored', 1 );
+
+			mockMouseSelection( editor, [ cells.getItem( 1 ), cells.getItem( 2 ) ], function() {
+				var selection = editor.getSelection();
+
+				assert.isFalse( selection.isInTable(), 'Selection is not in table' );
+				assert.isFalse( !!selection.isFake, 'Selection is not faked' );
+			} );
+		},
+
 		// (#2003)
 		'test right-click in cell with empty paragraph': function( editor, bot ) {
 			if ( !CKEDITOR.env.gecko ) {
@@ -197,6 +214,70 @@
 			editor.setReadOnly( false );
 
 			assert.areSame( bender.tools.compatHtml( table ), editor.getData(), 'Editor data' );
+		},
+
+		// (#2945)
+		'test drag handler event is not prevented for ignored element': function( editor ) {
+			var editable = editor.editable(),
+				preventDefaultCallCount = 0;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			var table = editable.findOne( 'table' ),
+				evt = {
+					getTarget: function() {
+						return table.findOne( 'td' );
+					},
+					preventDefault: function() {
+						preventDefaultCallCount++;
+					}
+				};
+
+			table.data( 'cke-tableselection-ignored', 1 );
+
+			var result = editable.fire( 'dragstart', evt );
+
+			assert.areEqual( 0, preventDefaultCallCount, 'Event should not be prevented' );
+			assert.isTrue( Boolean( result ), 'Event should not be canceled' );
+		},
+
+		// (#2945)
+		'test handling copy&cut events for ignored element': function( editor ) {
+			if ( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+				assert.ignore();
+			}
+
+			testTableCopying( 'copy' );
+
+			// Give some time `copy` event to finish to avoid concurrency issue.
+			setTimeout( function() {
+				resume( function() {
+					testTableCopying( 'cut' );
+				} );
+			}, 100 );
+
+			wait();
+
+			function testTableCopying( eventName ) {
+				var editable = editor.editable();
+
+				bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+				var table = editable.findOne( 'table' ),
+					cell = table.findOne( 'td' ),
+					evt = {
+						getTarget: function() {
+							return cell;
+						}
+					};
+
+				table.data( 'cke-tableselection-ignored', 1 );
+
+				editor.getSelection().selectElement( cell );
+
+				editable.fire( eventName, evt );
+				assert.isNull( editable.findOne( '#cke_table_copybin' ), eventName + ' event should be ignored' );
+			}
 		}
 	};
 

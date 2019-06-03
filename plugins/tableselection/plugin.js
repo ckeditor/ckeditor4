@@ -9,6 +9,7 @@
 	var fakeSelectedClass = 'cke_table-faked-selection',
 		fakeSelectedEditorClass = fakeSelectedClass + '-editor',
 		fakeSelectedTableDataAttribute = 'cke-table-faked-selection-table',
+		ignoredTableAttribute = 'data-cke-tableselection-ignored',
 		fakeSelection = { active: false },
 		tabletools,
 		getSelectedCells,
@@ -242,6 +243,11 @@
 			return;
 		}
 
+		// (#2945)
+		if ( ranges[ 0 ]._getTableElement( { table: 1 } ).hasAttribute( ignoredTableAttribute ) ) {
+			return;
+		}
+
 		// In case of whole nested table selection, getSelectedCells returns also
 		// cell which contains the table. We should filter it.
 		if ( ranges.length === 1 && ranges[ 0 ]._getTableElement() &&
@@ -287,6 +293,11 @@
 			cell = target && target.getAscendant( { td: 1, th: 1 }, true ),
 			table = target && target.getAscendant( 'table', true ),
 			tableElements = { table: 1, thead: 1, tbody: 1, tfoot: 1, tr: 1, td: 1, th: 1 };
+
+		// (#2945)
+		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
+			return;
+		}
 
 		// Nested tables should be treated as the same one (e.g. user starts dragging from outer table
 		// and ends in inner one).
@@ -358,6 +369,13 @@
 	}
 
 	function fakeSelectionDragHandler( evt ) {
+		var table = evt.data.getTarget().getAscendant( 'table', true );
+
+		// (#2945)
+		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
+			return;
+		}
+
 		var cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true );
 
 		if ( !cell || cell.hasClass( fakeSelectedClass ) ) {
@@ -460,6 +478,12 @@
 		if ( !selection.isInTable() ) {
 			return;
 		}
+
+		// (#2945)
+		if ( selection.getRanges()[ 0 ]._getTableElement( { table: 1 } ).hasAttribute( ignoredTableAttribute ) ) {
+			return;
+		}
+
 
 		copyTable( editor, evt.name === 'cut' );
 	}
@@ -743,7 +767,15 @@
 	function pasteListener( evt ) {
 		var editor = evt.editor,
 			selection = editor.getSelection(),
-			selectedCells = getSelectedCells( selection ),
+			ranges = selection.getRanges(),
+			table = ranges.length && ranges[ 0 ]._getTableElement( { table: 1 } );
+
+		// (#2945)
+		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
+			return;
+		}
+
+		var selectedCells = getSelectedCells( selection ),
 			pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue ),
 			boundarySelection = selection.isInTable( true ) && this.isBoundarySelection( selection ),
 			tableSel,
@@ -867,11 +899,21 @@
 	 * Namespace providing a set of helper functions for working with tables, exposed by
 	 * [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
 	 *
+	 * **NOTE** Since 4.12.0 you can use `cke-tableselection-ignored` attribute to disable
+	 * table selection feature for the given table.
+	 *
+	 * ```javascript
+	 * var table = new CKEDITOR.dom.element( 'table' );
+	 *
+	 * table.data( 'cke-tableselection-ignored', 1 );
+	 * ```
+	 *
 	 * @since 4.7.0
 	 * @singleton
 	 * @class CKEDITOR.plugins.tableselection
 	 */
 	CKEDITOR.plugins.tableselection = {
+
 		/**
 		 * Fetches all cells between cells passed as parameters, including these cells.
 		 *
