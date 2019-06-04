@@ -102,7 +102,7 @@ bender.test( {
 		bot.setData( '', function() {
 			bot.dialog( 'textarea', function( dialog ) {
 				assert.isNull( dialog.getModel( editor ) );
-				assert.isFalse( dialog.isEditing( editor ) );
+				assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( editor ) );
 
 				dialog.hide();
 			} );
@@ -121,7 +121,7 @@ bender.test( {
 				editor.getSelection().selectElement( textarea );
 
 				assert.areEqual( textarea, dialog.getModel( editor ) );
-				assert.isTrue( dialog.isEditing( editor ) );
+				assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ) );
 
 				dialog.hide();
 			} );

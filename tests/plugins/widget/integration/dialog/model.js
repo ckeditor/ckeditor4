@@ -104,7 +104,7 @@
 		},
 
 		// (#2423)
-		'test isEditing return value when no widget is edited': function() {
+		'test getMode return value when no widget is edited': function() {
 			var bot = this.editorBot;
 
 			bot.setHtmlWithSelection( '<p>^</p>' );
@@ -114,7 +114,7 @@
 
 				if ( dialog.getName() === 'dialog1' ) {
 					resume( function() {
-						assert.isFalse( dialog.isEditing() );
+						assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode() );
 					} );
 				}
 			} ) );
@@ -125,7 +125,7 @@
 		},
 
 		// (#2423)
-		'test isEditing return value when a widget is edited': function() {
+		'test getMode return value when a widget is edited': function() {
 			var editor = this.editor,
 				bot = this.editorBot;
 
@@ -137,7 +137,7 @@
 
 					if ( dialog.getName() === 'dialog1' ) {
 						resume( function() {
-							assert.isTrue( dialog.isEditing() );
+							assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode() );
 						} );
 					}
 				} ) );
@@ -150,7 +150,7 @@
 		},
 
 		// (#2423)
-		'test isEditing return value with offline widget': function() {
+		'test getMode return value with offline widget': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
 				div = new CKEDITOR.dom.element( 'div' ),
@@ -170,7 +170,7 @@
 						resume( function() {
 							getModelStub.restore();
 
-							assert.isFalse( dialog.isEditing() );
+							assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode() );
 						} );
 					}
 				} ) );

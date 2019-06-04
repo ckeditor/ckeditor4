@@ -238,16 +238,17 @@
 
 			this.registered[ name ] = widgetDef;
 
-			// Define default `isEditing` member for widget dialog definition (#2423).
+			// Define default `getMode` member for widget dialog definition (#2423).
 			if ( widgetDef.dialog && editor.plugins.dialog ) {
 				var dialogListener = CKEDITOR.on( 'dialogDefinition', function( evt ) {
 					var definition = evt.data.definition,
 						dialog = definition.dialog;
 
-					if ( !definition.isEditing && dialog.getName() === widgetDef.dialog ) {
-						definition.isEditing = function() {
+					if ( !definition.getMode && dialog.getName() === widgetDef.dialog ) {
+						definition.getMode = function() {
 							var model = dialog.getModel( editor );
-							return model && model instanceof CKEDITOR.plugins.widget && model.ready;
+							return model && model instanceof CKEDITOR.plugins.widget && model.ready ?
+								CKEDITOR.dialog.EDITING_MODE : CKEDITOR.dialog.CREATION_MODE;
 						};
 					}
 

@@ -26,7 +26,7 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 		onOk: function() {
 			var editor = this.getParentEditor(),
 				element = this.getModel( editor ),
-				isInsertMode = !this.isEditing( editor );
+				isInsertMode = this.getMode( editor ) == CKEDITOR.dialog.CREATION_MODE;
 
 			if ( isInsertMode ) {
 				element = editor.document.createElement( 'textarea' );
