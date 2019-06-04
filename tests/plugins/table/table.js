@@ -29,7 +29,7 @@
 
 				// (#2423)
 				assert.isNull( dialog.getModel( bot.editor ) );
-				assert.isFalse( dialog.isEditing( bot.editor ) );
+				assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( bot.editor ) );
 
 				dialog.fire( 'ok' );
 				dialog.hide();
@@ -61,7 +61,7 @@
 
 				bot.dialog( 'tableProperties', function( dialog ) {
 					assert.areEqual( table, dialog.getModel( editor ) );
-					assert.isTrue( dialog.isEditing( editor ) );
+					assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ) );
 
 					dialog.hide();
 				} );
@@ -74,7 +74,7 @@
 
 			bot.dialog( 'table', function( dialog ) {
 				assert.isNull( dialog.getModel( bot.editor ) );
-				assert.isFalse( dialog.isEditing( bot.editor ) );
+				assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( bot.editor ) );
 
 				dialog.hide();
 			} );

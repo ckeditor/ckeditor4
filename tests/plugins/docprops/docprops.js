@@ -43,7 +43,7 @@ bender.test( {
 			tc.resume( function() {
 				bot.dialog( 'docProps', function( dialog ) {
 					assert.areEqual( dialog.getModel( editor ), editor.document, 'Dialog model should point at document' );
-					assert.isTrue( dialog.isEditing( editor ), 'Dialog model is in editing state by default' );
+					assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ), 'Dialog model is in editing mode by default' );
 				} );
 			} );
 		} );

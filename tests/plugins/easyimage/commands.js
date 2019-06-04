@@ -89,7 +89,7 @@
 
 							// (#2423)
 							assert.areSame( widget, dialog.getModel( editor ), 'Dialog model should point at widget' );
-							assert.isTrue( dialog.isEditing( editor ), 'Dialog should be in editing mode' );
+							assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ), 'Dialog should be in editing mode' );
 						} );
 					} );
 

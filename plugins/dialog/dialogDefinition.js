@@ -120,7 +120,7 @@
 /**
  * Method tells whether the dialog is editing an existing element or adding a new one.
  *
- * @method isEditing
+ * @method getMode
  * @param {CKEDITOR.editor} editor
  * @returns {Boolean} Returns `true` if dialog is editing content that already exists in the editor.
  */
