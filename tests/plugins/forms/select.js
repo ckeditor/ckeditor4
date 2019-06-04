@@ -28,7 +28,7 @@ bender.test( {
 		bot.setData( '', function() {
 			bot.dialog( 'select', function( dialog ) {
 				assert.isNull( dialog.getModel( editor ) );
-				assert.isFalse( dialog.isEditing( editor ) );
+				assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( editor ) );
 			} );
 		} );
 	},
@@ -45,7 +45,7 @@ bender.test( {
 				editor.getSelection().selectElement( select );
 
 				assert.areEqual( select, dialog.getModel( editor ) );
-				assert.isTrue( dialog.isEditing( editor ) );
+				assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ) );
 			} );
 		} );
 	},

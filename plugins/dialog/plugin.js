@@ -1550,43 +1550,62 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		},
 
 		/**
-		 * Method tells whether the dialog is editing an existing element or adding a new one.
+		 * Returns current dialog mode based on the state of the feature used with this dialog.
 		 *
-		 * In case if dialog definition didn't define {@link CKEDITOR.dialog.definition#isEditing}
+		 * In case if dialog definition didn't define {@link CKEDITOR.dialog.definition#getMode}
 		 * function, it will use {@link #getModel} method to recognize editing mode:
 		 *
-		 * Truthy for:
+		 * {@link CKEDITOR.dialog.EDITING_MODE Editing mode} for:
 		 *
 		 * * {@link CKEDITOR.dom.element} attached to the DOM
 		 * * {@link CKEDITOR.plugins.widget} instance
 		 *
-		 * otherwise `false`.
+		 * otherwise {@link CKEDITOR.dialog.CREATION_MODE creation mode}.
 		 *
 		 * @since 4.12.0
 		 * @param {CKEDITOR.editor} editor
-		 * @returns {Boolean} Returns `true` if dialog is editing content that already exists in the editor.
+		 * @returns {CKEDITOR.dialog.CREATION_MODE/CKEDITOR.dialog.EDITING_MODE} Dialog mode.
 		 */
-		isEditing: function( editor ) {
-			if ( this.definition.isEditing ) {
-				return this.definition.isEditing( editor );
+		getMode: function( editor ) {
+			if ( this.definition.getMode ) {
+				return this.definition.getMode( editor );
 			}
 
 			var model = this.getModel( editor );
 
 			if ( !model ) {
-				return false;
+				return CKEDITOR.dialog.CREATION_MODE;
 			}
 
 			// Element in detached mode.
 			if ( model instanceof CKEDITOR.dom.element && !model.getParent() ) {
-				return false;
+				return CKEDITOR.dialog.CREATION_MODE;
 			}
 
-			return true;
+			return CKEDITOR.dialog.EDITING_MODE;
 		}
 	};
 
 	CKEDITOR.tools.extend( CKEDITOR.dialog, {
+
+		/**
+		 * Indicates that the dialog is introducing new changes to the editor like inserting
+		 * newly created element as a part of a feature used with this dialog.
+		 *
+		 * @static
+		 * @since 4.12.0
+		 */
+		CREATION_MODE: 1,
+
+		/**
+		 * Indicates that the dialog is modifying existing editor state like updating
+		 * existing element as a part of a feature used with this dialog.
+		 *
+		 * @static
+		 * @since 4.12.0
+		 */
+		EDITING_MODE: 2,
+
 		/**
 		 * Registers a dialog.
 		 *

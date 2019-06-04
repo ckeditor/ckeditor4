@@ -43,7 +43,7 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 		onOk: function() {
 			var editor = this.getParentEditor(),
 				element = this.getModel( editor ),
-				isInsertMode = !this.isEditing( editor );
+				isInsertMode = this.getMode( editor ) == CKEDITOR.dialog.CREATION_MODE;
 
 			var fake = element ? CKEDITOR.htmlParser.fragment.fromHtml( element.getOuterHtml() ).children[ 0 ] : new CKEDITOR.htmlParser.element( 'input' );
 			this.commitContent( fake );

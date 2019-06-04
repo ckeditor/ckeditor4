@@ -25,7 +25,7 @@
 			bot.setData( '', function() {
 				bot.dialog( 'button', function( dialog ) {
 					assert.isNull( dialog.getModel( editor ) );
-					assert.isFalse( dialog.isEditing( editor ) );
+					assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( editor ) );
 				} );
 			} );
 		},
@@ -42,7 +42,7 @@
 					editor.getSelection().selectElement( button );
 
 					assert.areEqual( button, dialog.getModel( editor ) );
-					assert.isTrue( dialog.isEditing( editor ) );
+					assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ) );
 				} );
 			} );
 		}

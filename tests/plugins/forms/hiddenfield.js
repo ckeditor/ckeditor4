@@ -25,7 +25,7 @@
 			bot.setData( '', function() {
 				bot.dialog( 'hiddenfield', function( dialog ) {
 					assert.isNull( dialog.getModel( editor ) );
-					assert.isFalse( dialog.isEditing( editor ) );
+					assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( editor ) );
 				} );
 			} );
 		},
@@ -42,7 +42,7 @@
 					editor.getSelection().selectElement( fakeInput );
 
 					assert.areEqual( fakeInput, dialog.getModel( editor ) );
-					assert.isTrue( dialog.isEditing( editor ), 'Dialog is in editing mode' );
+					assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ), 'Dialog is in editing mode' );
 				} );
 			} );
 		}

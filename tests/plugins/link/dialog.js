@@ -102,7 +102,7 @@
 						var link = editor.editable().findOne( 'a' );
 
 						assert.areSame( link, dialog.getModel( editor ), 'Dialog model' );
-						assert.isTrue( dialog.isEditing( editor ), 'Dialog editing mode' );
+						assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ), 'Dialog is in editing mode' );
 					}
 				} );
 			},
@@ -116,7 +116,7 @@
 						var link = editor.editable().findOne( 'a' );
 
 						assert.areSame( link, dialog.getModel( editor ), 'Dialog model' );
-						assert.isTrue( dialog.isEditing( editor ), 'Dialog editing mode' );
+						assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ), 'Dialog is in editing mode' );
 					}
 				} );
 			},
@@ -127,7 +127,7 @@
 					input: '<p>foo {bar} baz<p>',
 					callback: function( dialog ) {
 						assert.isNull( dialog.getModel( editor ), 'Dialog model' );
-						assert.isFalse( dialog.isEditing( editor ), 'Dialog editing mode' );
+						assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( editor ), 'Dialog is in creation mode' );
 					}
 				} );
 			}

@@ -48,11 +48,11 @@
 	function dialogShowListener( evt ) {
 		var dialog = evt.data,
 			editor = evt.editor,
-			isEditMode = dialog.isEditing( editor );
+			mode = dialog.getMode( editor );
 
 		doc.getById( 'dialog-status' ).addClass( 'active' );
 		doc.getById( 'dialog-name' ).setText( dialog.getName() );
-		doc.getById( 'dialog-type' ).setText( isEditMode ? 'editing' : 'creation' );
+		doc.getById( 'dialog-type' ).setText( mode == CKEDITOR.dialog.EDITING_MODE ? 'editing' : 'creation' );
 		doc.getById( 'dialog-model' ).setText( stringifyModel( editor, dialog.getModel( editor ) ) );
 		doc.getById( 'editor-name' ).setText( editor.name );
 

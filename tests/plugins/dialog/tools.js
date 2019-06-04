@@ -9,7 +9,7 @@
 
 			bot.dialog( dialogName, function( dialog ) {
 				assert.isNull( dialog.getModel( editor ) );
-				assert.isFalse( dialog.isEditing( editor ) );
+				assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( editor ) );
 			} );
 		}
 	};
