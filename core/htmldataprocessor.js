@@ -61,7 +61,7 @@
 			// Also if CKEDITOR.config.allowDangerousTags is enabled
 			// display warning inside the console
 			if ( editor.config.allowDangerousTags === true ) {
-				console.warn( 'Flag CKEDITOR.config.allowDangerousTags is set to true. This can potentially allow execution of malicious scripts inside the editor. Use with caution.' );
+				CKEDITOR.warn('dangerous-tags-allowed')
 			}
 			data = protectSource( data, editor );
 
