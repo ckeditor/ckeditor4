@@ -3409,7 +3409,7 @@
 		widget.dragHandlerContainer = container;
 	}
 
-	var fakeParagraphs = [];
+	var fakeParagraphs;
 
 	function onBlockWidgetDrag( evt ) {
 		// Allow to drag widget only with left mouse button (#711).
@@ -3432,8 +3432,10 @@
 
 		var fakeParagraphHtml = '<p class="cke_fake-paragraph" style="height:0;margin:0;padding:0"></p>';
 
-		fakeParagraphs.push( CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml ) );
-		fakeParagraphs.push( CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml ) );
+		fakeParagraphs = {
+			before: CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml ),
+			after: CKEDITOR.dom.element.createFromHtml( fakeParagraphHtml )
+		};
 
 		// Harvest all possible relations and display some closest.
 		var relations = finder.greedySearch(),
@@ -3490,13 +3492,14 @@
 			var isText = node.type === CKEDITOR.NODE_TEXT,
 				isInline = node.is && node.is( CKEDITOR.dtd.$inline ),
 				isBr = node.getName && node.getName() === 'br',
+				position = before ? 'before' : 'after',
 				fakeParagraph;
 
 			if ( !isText && !isInline || isBr ) {
 				return null;
 			}
 
-			fakeParagraph = fakeParagraphs[ before ? 0 : 1 ];
+			fakeParagraph = fakeParagraphs[ position ];
 
 			finder.store( fakeParagraph, before ? CKEDITOR.LINEUTILS_BEFORE : CKEDITOR.LINEUTILS_AFTER );
 
@@ -3663,11 +3666,9 @@
 	}
 
 	function cleanFakeParagraphs() {
-		CKEDITOR.tools.array.forEach( fakeParagraphs, function( fakeParagraph ) {
-			fakeParagraph.remove();
-		} );
-
-		fakeParagraphs.length = 0;
+		fakeParagraphs.before.remove();
+		fakeParagraphs.after.remove();
+		fakeParagraphs = null;
 	}
 
 	function setupEditables( widget ) {
