@@ -109,6 +109,27 @@
 					assert.isNull( editor.container.getCustomData( 'x' ), 'Custom data purged' );
 				} );
 			} );
+		},
+
+		'test destroy when editor.container is absent': function() {
+			bender.editorBot.create( {
+				creator: 'inline',
+				name: 'editor4'
+			}, function( bot ) {
+				var editor = bot.editor,
+					container = editor.container;
+
+				delete editor.container;
+				container.clearCustomData();
+				container.remove();
+
+				try {
+					editor.destroy();
+					assert.pass( 'Passed without errors' );
+				} catch ( err ) {
+					assert.fail( err.toString() );
+				}
+			} );
 		}
 	} );
 
