@@ -109,6 +109,27 @@
 			tc.wait();
 		},
 
+		// (#2423)
+		'test open dialog forces model': function() {
+			var tc = this,
+				editor = this.editor,
+				model = {};
+
+			editor.openDialog( 'testGetModel', function( dialog1 ) {
+				assert.areSame( model, dialog1.getModel() );
+
+				dialog1.hide();
+
+				editor.openDialog( 'testGetModel', function( dialog2 ) {
+					tc.resume( function() {
+						assert.areNotSame( model, dialog2.getModel() );
+					} );
+				} );
+			}, model );
+
+			tc.wait();
+		},
+
 		// Code of this test is poor (checking isVisible and operations on DOM), but that's caused
 		// by very closed and poor dialog API.
 		'test dialog\'s field are disabled when not allowed': function() {
