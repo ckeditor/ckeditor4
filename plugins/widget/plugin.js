@@ -3440,7 +3440,7 @@
 		// Harvest all possible relations and display some closest.
 		var relations = finder.greedySearch(),
 			buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
-				if ( target.getName() in { td: 1, th: 1 } ) {
+				if ( target.is( 'td', 'th') ) {
 					placeFakeParagraph( target );
 					placeFakeParagraph( target, true );
 				}
