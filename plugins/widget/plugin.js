@@ -3605,7 +3605,6 @@
 				}
 
 				return horizontalDistance === distanceBefore ? CKEDITOR.LINEUTILS_BEFORE : CKEDITOR.LINEUTILS_AFTER;
-
 			}
 
 			// Pythagorean Theorem
