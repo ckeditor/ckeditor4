@@ -191,10 +191,6 @@
 					return false;
 				}
 
-				if ( !is( type, expectedType ) ) {
-					return false;
-				}
-
 				if ( !isStatic( alt ) ) {
 					return false;
 				}
