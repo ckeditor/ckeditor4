@@ -1557,16 +1557,16 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * In case if dialog definition didn't define {@link CKEDITOR.dialog.definition#getMode}
 		 * function, it will use {@link #getModel} method to recognize editing mode:
 		 *
-		 * {@link CKEDITOR.dialog.EDITING_MODE Editing mode} for:
+		 * {@link CKEDITOR.dialog#EDITING_MODE Editing mode} for:
 		 *
 		 * * {@link CKEDITOR.dom.element} attached to the DOM
 		 * * {@link CKEDITOR.plugins.widget} instance
 		 *
-		 * otherwise {@link CKEDITOR.dialog.CREATION_MODE creation mode}.
+		 * otherwise {@link CKEDITOR.dialog#CREATION_MODE creation mode}.
 		 *
 		 * @since 4.12.0
 		 * @param {CKEDITOR.editor} editor
-		 * @returns {CKEDITOR.dialog.CREATION_MODE/CKEDITOR.dialog.EDITING_MODE} Dialog mode.
+		 * @returns {Number} Dialog mode.
 		 */
 		getMode: function( editor ) {
 			if ( this.definition.getMode ) {

@@ -112,17 +112,21 @@
  * For widget plugins (`image2`, `placeholder`) it should return a {@link CKEDITOR.plugins.widget} instance that
  * is a subject of this dialog.
  *
+ * @since 4.12.0
  * @method getModel
  * @param {CKEDITOR.editor} editor
  * @returns {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} Returns `null` if dialog does not use model.
  */
 
 /**
- * Method tells whether the dialog is editing an existing element or adding a new one.
+ * Returns current dialog mode based on the state of the feature used with this dialog.
  *
+ * See {@link CKEDITOR.dialog#EDITING_MODE} and {@link CKEDITOR.dialog#CREATION_MODE}.
+ *
+ * @since 4.12.0
  * @method getMode
  * @param {CKEDITOR.editor} editor
- * @returns {Boolean} Returns `true` if dialog is editing content that already exists in the editor.
+ * @returns {Number} Dialog mode.
  */
 
 /**
