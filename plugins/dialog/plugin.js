@@ -1497,12 +1497,16 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @inheritdoc CKEDITOR.dialog.definition#getModel
 		 */
 		getModel: function( editor ) {
-			// Prioritize custom model definition.
+			// Prioritize forced model.
+			if ( this._.model ) {
+				return this._.model;
+			}
+
 			if ( this.definition.getModel ) {
 				return this.definition.getModel( editor );
 			}
 
-			return this._.model || null;
+			return null;
 		},
 
 		/**
@@ -1513,10 +1517,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * For widget plugins (`image2`, `placeholder`) you should provide a {@link CKEDITOR.plugins.widget} instance that
 		 * is a subject of this dialog.
 		 *
-		 * **NOTE:** {@link #getModel} method will prioritize {@link CKEDITOR.dialog.definition#getModel} if set. Use this
-		 * method only if you didn't overwritten definition member.
-		 *
 		 * @since 4.12.0
+		 * @private
 		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} newModel Model to be set.
 		 */
 		setModel: function( newModel ) {
@@ -3397,12 +3399,14 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @member CKEDITOR.editor
 		 * @param {String} dialogName The registered name of the dialog.
 		 * @param {Function} callback The function to be invoked after dialog instance created.
-		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} newModel Model to be set. See {@link CKEDITOR.dialog#setModel}.
+		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} forceModel Forces opening dialog
+		 * using the given model as a subject. Forced model will take precedence before
+		 * {@link CKEDITOR.dialog.definition#getModel} method.
 		 * @returns {CKEDITOR.dialog} The dialog object corresponding to the dialog displayed.
 		 * `null` if the dialog name is not registered.
 		 * @see CKEDITOR.dialog#add
 		 */
-		openDialog: function( dialogName, callback, model ) {
+		openDialog: function( dialogName, callback, forceModel ) {
 			var dialog = null, dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
 
 			if ( CKEDITOR.dialog._.currentTop === null )
@@ -3414,7 +3418,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 				dialog = storedDialogs[ dialogName ] || ( storedDialogs[ dialogName ] = new CKEDITOR.dialog( this, dialogName ) );
 
-				dialog.setModel( model );
+				dialog.setModel( forceModel );
 
 				callback && callback.call( dialog, dialog );
 				dialog.show();
@@ -3431,11 +3435,19 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 						if ( typeof dialogDefinition != 'function' )
 							CKEDITOR.dialog._.dialogDefinitions[ dialogName ] = 'failed';
 
-						this.openDialog( dialogName, callback, model );
+						this.openDialog( dialogName, callback, forceModel );
 					}, this, 0, 1 );
 			}
 
 			CKEDITOR.skin.loadPart( 'dialog' );
+
+			// Dissolve model, so `definition.getModel` can take precedence
+			// in the next dialog opening (#2423).
+			if ( dialog ) {
+				dialog.once( 'hide', function() {
+					dialog.setModel( null );
+				} );
+			}
 
 			return dialog;
 		}
