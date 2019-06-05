@@ -186,7 +186,6 @@
 			}
 
 			function shouldNormalize( alt, type, expectedType ) {
-				// `br` can't be used for creating line, because it has 0 width (#1648).
 				if ( !is( type, expectedType ) ) {
 					return false;
 				}
@@ -199,6 +198,7 @@
 					return false;
 				}
 
+				// `br` can't be used for creating line, because it has 0 width (#1648).
 				return !alt.getName && alt.getName() !== 'br';
 			}
 
