@@ -160,7 +160,7 @@
 		 */
 		store: ( function() {
 			return function( el, type ) {
-				var alt = getAlternative( el, CKEDITOR.LINEUTILS_AFTER );
+				var alt = el.getNext();
 
 				// Normalization to avoid duplicates:
 				// CKEDITOR.LINEUTILS_AFTER becomes CKEDITOR.LINEUTILS_BEFORE of el.getNext().
@@ -169,21 +169,17 @@
 					type ^= CKEDITOR.LINEUTILS_AFTER;
 				}
 
-				alt = getAlternative( el, CKEDITOR.LINEUTILS_INSIDE );
+				alt = el.getFirst();
 
 				// Normalization to avoid duplicates:
 				// CKEDITOR.LINEUTILS_INSIDE becomes CKEDITOR.LINEUTILS_BEFORE of el.getFirst().
-				if ( shouldNormalize( alt, CKEDITOR.LINEUTILS_INSIDE ) ) {
+				if ( shouldNormalize( alt, type, CKEDITOR.LINEUTILS_INSIDE ) ) {
 					merge( alt, CKEDITOR.LINEUTILS_BEFORE, this.relations );
 					type ^= CKEDITOR.LINEUTILS_INSIDE;
 				}
 
 				merge( el, type, this.relations );
 			};
-
-			function getAlternative( el, expectedType ) {
-				return expectedType === CKEDITOR.LINEUTILS_AFTER ? el.getNext() : el.getFirst();
-			}
 
 			function shouldNormalize( alt, type, expectedType ) {
 				if ( !is( type, expectedType ) ) {
@@ -199,7 +195,7 @@
 				}
 
 				// `br` can't be used for creating line, because it has 0 width (#1648).
-				return !alt.getName && alt.getName() !== 'br';
+				return !alt.is || !alt.is( 'br' );
 			}
 
 			function merge( el, type, relations ) {
