@@ -180,6 +180,33 @@
 				}, window );
 
 			assert.areSame( 'baz', ret );
+		},
+
+		// (3154)
+		'test array.some method': function() {
+			var testArray = [ 1234 ],
+				testThis = {};
+
+			assert.isFalse( this.array.some( [], function() {} ) );
+
+			assert.isTrue( this.array.some( [ 11, 12, 34, 35, 546546 ], function( item ) {
+				return item > 10;
+			} ) );
+
+			assert.isTrue( this.array.some( [ 10, 12, 1, 4, 8 ], function( item ) {
+				return item > 10;
+			} ) );
+
+			assert.isFalse( this.array.some( [ 1, 4, 5, 6, 10 ], function( item ) {
+				return item > 10;
+			} ) );
+
+			this.array.some( testArray, function( item, index, array ) {
+				assert.areSame( 1234, item );
+				assert.areSame( 0, index );
+				assert.areSame( testArray, array );
+				assert.areSame( testThis, this );
+			}, testThis );
 		}
 	} );
 
