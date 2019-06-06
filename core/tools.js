@@ -2044,11 +2044,13 @@
 			 * Tests whether all elements in an array pass the test implemented by the provided function.
 			 * Returns `true` if the provided array is empty.
 			 *
-			 *		var every = this.array.every( [ 11, 22, 33, 44 ], function( value ) {
-			 *			return value > 10;
-			 *		} );
-			 *		console.log( every );
-			 *		// Logs: true
+			 * ```javascript
+			 * var every = CKEDITOR.tools.array.every( [ 11, 22, 33, 44 ], function( value ) {
+			 * 	return value > 10;
+			 * } );
+			 * console.log( every );
+			 * // Logs: true
+			 *```
 			 *
 			 * @param {Array} array
 			 * @param {Function} fn A function that gets called with each `array` item.
