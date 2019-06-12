@@ -1131,8 +1131,9 @@
 		},
 
 		/**
+		 * @inheritdoc CKEDITOR.tools.object#keys
 		 * @since 4.1
-		 * @deprecated 4.12.0 Use {@link CKEDITOR.tools.object.keys} instead.
+		 * @deprecated 4.12.0 Use {@link CKEDITOR.tools.object#keys} instead.
 		 */
 		objectKeys: function( obj ) {
 			return CKEDITOR.tools.object.keys( obj );
@@ -2085,7 +2086,6 @@
 			 * attribute.
 			 *
 			 * @private
-			 * @static
 			 * @since 4.12.0
 			 */
 			DONT_ENUMS: [
