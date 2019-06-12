@@ -39,8 +39,8 @@
 					} );
 
 					marginPreview.setHtml(
-						'Hovered element: ' + target.getName() + '<br>' +
-						'margin-left: ' + target.getStyle( 'margin-left' )
+						'element: ' + target.getName() + '<br>' +
+						'margin-left: ' + ( target.getStyle( 'margin-left' ) || '-' )
 					);
 				} );
 
