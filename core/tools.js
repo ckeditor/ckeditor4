@@ -213,12 +213,12 @@
 			for ( var i = 1; i < argsLength; i++ ) {
 				var source = arguments[ i ] || {};
 
-				CKEDITOR.tools.object.forEach( source, function( propertyValue, propertyName ) {
+				CKEDITOR.tools.array.forEach( CKEDITOR.tools.object.keys( source ), function( propertyName ) {
 					// Only copy existed fields if in overwrite mode.
 					if ( overwrite === true || target[ propertyName ] == null ) {
 						// Only copy specified fields if list is provided.
 						if ( !propertiesList || ( propertyName in propertiesList ) )
-							target[ propertyName ] = propertyValue;
+							target[ propertyName ] = source[ propertyName ];
 					}
 
 				} );
@@ -2129,55 +2129,6 @@
 				}
 
 				return keys;
-			},
-
-			/**
-			 * Iterates over every property in the `object`.
-			 *
-			 * @param {Object} object An object to be iterated over.
-			 * @param {Function} fn The function called for every `object` property.
-			 * @param {Mixed} fn.value The currently iterated object property value.
-			 * @param {String} fn.key The currently iterated object property key.
-			 * @param {Object} fn.obj The original object passed as an `object` variable.
-			 * @param {Mixed} [thisArg=undefined] The context object for `fn`.
-			 * @member CKEDITOR.tools.object
-			 * @since 4.12.0
-			 */
-			forEach: function( obj, fn, thisArg ) {
-				var keys = CKEDITOR.tools.object.keys( obj );
-
-				for ( var i = 0; i < keys.length; i++ ) {
-					var key = keys[ i ],
-						value = obj[ key ];
-
-					fn.call( thisArg, value, key, obj );
-				}
-			},
-
-			/**
-			 * Applies a function against each value-key pair in an object storing the result in an accumulator passed to the next iteration.
-			 * Note the order of the parameters.
-			 *
-			 * @param {Object} object An object of value-key pair that `fn` is applied on.
-			 * @param {Function} fn A function with the signature `(accumulator, value, key, object) -> b`.
-			 * @param {Mixed} initial Initial value of the accumulator.
-			 * @param {Mixed} [thisArg=undefined] The context object for `fn`.
-			 * @returns {Mixed} The final value of the accumulator.
-			 * @member CKEDITOR.tools.object
-			 * @since 4.12.0
-			*/
-			reduce: function( obj, fn, initial, thisArg ) {
-				var keys = CKEDITOR.tools.object.keys( obj ),
-					acc = initial;
-
-				for ( var i = 0; i < keys.length; i++ ) {
-					var key = keys[ i ],
-						value = obj[ key ];
-
-					acc = fn.call( thisArg, acc, value, key, obj );
-				}
-
-				return acc;
 			},
 
 			/**

@@ -22,54 +22,6 @@
 				CKEDITOR.tools.object.keys( target ) );
 		},
 
-		// (#3123)
-		'test object.forEach': function() {
-			var input = {
-					foo: 'foo',
-					bar: 'bar',
-					baz: 'baz'
-				},
-				output = {};
-
-			this.object.forEach( input, function( value, key ) {
-				output[ key ] = value;
-			} );
-
-			objectAssert.areEqual( input, output );
-		},
-
-		// (#3123)
-		'test object.forEach context': function() {
-			var context = {};
-
-			this.object.forEach( { foo: 'foo' }, function() {
-				assert.areSame( context, this, 'Context object' );
-			}, context );
-		},
-
-
-		// (#3123)
-		'test object.reduce': function() {
-			var res = this.object.reduce( { foo: 'foo' }, function( acc, value, key ) {
-				acc[ key ] = value;
-				return acc;
-			}, { bar: 'bar' } );
-
-			objectAssert.areEqual( {
-				foo: 'foo',
-				bar: 'bar'
-			}, res );
-		},
-
-		// (#3123)
-		'test object.reduce context': function() {
-			var context = {};
-
-			this.object.reduce( { foo: 'foo' }, function() {
-				assert.areSame( context, this, 'Context object' );
-			}, {}, context );
-		},
-
 		'test object.findKey': function() {
 			var inputObject = {
 				'a': 1,
