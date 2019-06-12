@@ -1131,42 +1131,11 @@
 		},
 
 		/**
-		 * Returns an array of passed object's keys.
-		 *
-		 *		console.log( CKEDITOR.tools.objectKeys( { foo: 1, bar: false } );
-		 *		// -> [ 'foo', 'bar' ]
-		 *
 		 * @since 4.1
-		 * @param {Object} obj
-		 * @returns {Array} Object's keys.
+		 * @deprecated 4.12.0 Use {@link CKEDITOR.tools.object.keys} instead.
 		 */
 		objectKeys: function( obj ) {
-			var hasOwnProperty = Object.prototype.hasOwnProperty,
-				dontEnums = [
-					'toString',
-					'toLocaleString',
-					'valueOf',
-					'hasOwnProperty',
-					'isPrototypeOf',
-					'propertyIsEnumerable',
-					'constructor'
-				],
-				keys = [];
-
-			for ( var prop in obj ) {
-				keys.push( prop );
-			}
-
-			// Fix don't enum bug for IE < 9 browsers (#3120).
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				for ( var i = 0; i < dontEnums.length; i++ ) {
-					if ( hasOwnProperty.call( obj, dontEnums[ i ] ) ) {
-						keys.push( dontEnums[ i ] );
-					}
-				}
-			}
-
-			return keys;
+			return CKEDITOR.tools.object.keys( obj );
 		},
 
 		/**
@@ -2109,6 +2078,48 @@
 		 * @member CKEDITOR.tools
 		 */
 		object: {
+
+			/**
+			 * Returns an array of passed object's keys.
+			 *
+			 * ```javascript
+			 *	console.log( CKEDITOR.tools.object.keys( { foo: 1, bar: false } );
+			 *	// -> [ 'foo', 'bar' ]
+			 * ```
+			 *
+			 * @since 4.12.0
+			 * @member CKEDITOR.tools.object
+			 * @param {Object} obj
+			 * @returns {Array} Object's keys.
+			 */
+			keys: function( obj ) {
+				var hasOwnProperty = Object.prototype.hasOwnProperty,
+					dontEnums = [
+						'toString',
+						'toLocaleString',
+						'valueOf',
+						'hasOwnProperty',
+						'isPrototypeOf',
+						'propertyIsEnumerable',
+						'constructor'
+					],
+					keys = [];
+
+				for ( var prop in obj ) {
+					keys.push( prop );
+				}
+
+				// Fix don't enum bug for IE < 9 browsers (#3120).
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+					for ( var i = 0; i < dontEnums.length; i++ ) {
+						if ( hasOwnProperty.call( obj, dontEnums[ i ] ) ) {
+							keys.push( dontEnums[ i ] );
+						}
+					}
+				}
+
+				return keys;
+			},
 
 			/**
 			 * Iterates over every property in the `object`.
