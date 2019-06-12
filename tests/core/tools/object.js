@@ -22,6 +22,34 @@
 				CKEDITOR.tools.object.keys( target ) );
 		},
 
+		// (#3123)
+		'test object.entries': function() {
+			var obj = {
+					a: 1,
+					b: 2,
+					c: 3
+				},
+
+			result = CKEDITOR.tools.object.entries( obj );
+
+			assert.areEqual( 3, result.length );
+
+			arrayAssert.itemsAreEqual( [ 'a', 1 ], result [0] );
+			arrayAssert.itemsAreEqual( [ 'b', 2 ], result [1] );
+			arrayAssert.itemsAreEqual( [ 'c', 3 ], result [2] );
+		},
+
+		// (#3123)
+		'test object.values': function() {
+			var obj = {
+				a: 1,
+				b: 2,
+				c: 3
+			};
+
+			arrayAssert.itemsAreEqual( [ 1, 2, 3 ], CKEDITOR.tools.object.values( obj ) );
+		},
+
 		'test object.findKey': function() {
 			var inputObject = {
 				'a': 1,

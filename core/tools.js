@@ -2099,6 +2099,45 @@
 			],
 
 			/**
+			 * Returns an array of key-value pairs using enumerable string-keyed
+			 * object properties.
+			 *
+			 * ```javascript
+			 *	console.log( CKEDITOR.tools.object.entries( { foo: 1, bar: false } );
+			 *	// -> [ [ 'foo', 1 ], [ 'bar', false ] ]
+			 * ```
+			 *
+			 * @since 4.12.0
+			 * @member CKEDITOR.tools.object
+			 * @param {Object} obj
+			 * @returns {Array} Object's key-value pairs.
+			 */
+			entries: function( obj ) {
+				return CKEDITOR.tools.array.map( CKEDITOR.tools.object.keys( obj ), function( key ) {
+					return [ key, obj[ key ] ];
+				} );
+			},
+
+			/**
+			 * Returns an array of object enumerable values.
+			 *
+			 * ```javascript
+			 *	console.log( CKEDITOR.tools.object.values( { foo: 1, bar: false } );
+			 *	// -> [ 1, false ]
+			 * ```
+			 *
+			 * @since 4.12.0
+			 * @member CKEDITOR.tools.object
+			 * @param {Object} obj
+			 * @returns {Array} Object's values.
+			 */
+			values: function( obj ) {
+				return CKEDITOR.tools.array.map( CKEDITOR.tools.object.keys( obj ), function( key ) {
+					return obj[ key ];
+				} );
+			},
+
+			/**
 			 * Returns an array of passed object's keys.
 			 *
 			 * ```javascript
