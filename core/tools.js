@@ -2080,6 +2080,25 @@
 		object: {
 
 			/**
+			 * List of ECMA3 object properties with obsolete
+			 * [DontEnum](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Properties)
+			 * attribute.
+			 *
+			 * @private
+			 * @static
+			 * @since 4.12.0
+			 */
+			DONT_ENUMS: [
+				'toString',
+				'toLocaleString',
+				'valueOf',
+				'hasOwnProperty',
+				'isPrototypeOf',
+				'propertyIsEnumerable',
+				'constructor'
+			],
+
+			/**
 			 * Returns an array of passed object's keys.
 			 *
 			 * ```javascript
@@ -2094,15 +2113,6 @@
 			 */
 			keys: function( obj ) {
 				var hasOwnProperty = Object.prototype.hasOwnProperty,
-					dontEnums = [
-						'toString',
-						'toLocaleString',
-						'valueOf',
-						'hasOwnProperty',
-						'isPrototypeOf',
-						'propertyIsEnumerable',
-						'constructor'
-					],
 					keys = [];
 
 				for ( var prop in obj ) {
@@ -2111,9 +2121,9 @@
 
 				// Fix don't enum bug for IE < 9 browsers (#3120).
 				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-					for ( var i = 0; i < dontEnums.length; i++ ) {
-						if ( hasOwnProperty.call( obj, dontEnums[ i ] ) ) {
-							keys.push( dontEnums[ i ] );
+					for ( var i = 0; i < this.DONT_ENUMS.length; i++ ) {
+						if ( hasOwnProperty.call( obj, this.DONT_ENUMS[ i ] ) ) {
+							keys.push( this.DONT_ENUMS[ i ] );
 						}
 					}
 				}
@@ -2134,7 +2144,7 @@
 			 * @since 4.12.0
 			 */
 			forEach: function( obj, fn, thisArg ) {
-				var keys = CKEDITOR.tools.objectKeys( obj );
+				var keys = CKEDITOR.tools.object.keys( obj );
 
 				for ( var i = 0; i < keys.length; i++ ) {
 					var key = keys[ i ],
@@ -2157,7 +2167,7 @@
 			 * @since 4.12.0
 			*/
 			reduce: function( obj, fn, initial, thisArg ) {
-				var keys = CKEDITOR.tools.objectKeys( obj ),
+				var keys = CKEDITOR.tools.object.keys( obj ),
 					acc = initial;
 
 				for ( var i = 0; i < keys.length; i++ ) {
@@ -2237,7 +2247,7 @@
 					copy1 = tools.clone( obj1 ),
 					copy2 = tools.clone( obj2 );
 
-				tools.array.forEach( tools.objectKeys( copy2 ), function( key ) {
+				tools.array.forEach( tools.object.keys( copy2 ), function( key ) {
 					if ( typeof copy2[ key ] === 'object' && typeof copy1[ key ] === 'object' ) {
 						copy1[ key ] = tools.object.merge( copy1[ key ], copy2[ key ] );
 					} else {

@@ -742,7 +742,7 @@
 
 			return {
 				set: set,
-				removed: CKEDITOR.tools.objectKeys( removed )
+				removed: CKEDITOR.tools.object.keys( removed )
 			};
 		},
 

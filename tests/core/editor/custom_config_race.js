@@ -6,7 +6,7 @@ var assetsPath = '%TEST_DIR%_assets/',
 		var count = 0;
 
 		return function( editors, callback ) {
-			var total = CKEDITOR.tools.objectKeys( editors ).length;
+			var total = CKEDITOR.tools.object.keys( editors ).length;
 
 			for ( var e in editors ) {
 				instances[ e ] = CKEDITOR.replace( e,

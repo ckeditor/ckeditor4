@@ -180,7 +180,7 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	tests[ 'test override default styles' ] = function() {
 		return bender.editorBot.create( {

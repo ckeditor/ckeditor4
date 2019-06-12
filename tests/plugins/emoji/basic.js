@@ -217,8 +217,8 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
-	CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( singleTests ), function( key ) {
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
+	CKEDITOR.tools.array.forEach( CKEDITOR.tools.object.keys( singleTests ), function( key ) {
 		if ( tests[ key ] === undefined ) {
 			tests[ key ] = singleTests[ key ];
 		}

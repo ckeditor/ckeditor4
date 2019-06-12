@@ -144,7 +144,7 @@ var widgetTestsTools = ( function() {
 	}
 
 	function classes2Array( classesObj ) {
-		return CKEDITOR.tools.objectKeys( classesObj ).sort();
+		return CKEDITOR.tools.object.keys( classesObj ).sort();
 	}
 
 	function fixHtml( html, ignoreStyle ) {

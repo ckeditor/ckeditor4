@@ -7,6 +7,20 @@
 			this.object = CKEDITOR.tools.object;
 		},
 
+		'test object.keys': function() {
+			var keys = CKEDITOR.tools.object.keys;
+
+			arrayAssert.itemsAreEqual( [ 'foo', 'bar', '$ x !/', 'bom' ], keys( { foo: 1, bar: 'a', '$ x !/': false, bom: undefined } ) );
+			arrayAssert.itemsAreEqual( [], keys( {} ) );
+		},
+
+		// (#3120)
+		'test object.keys dont enum attribute': function() {
+			var target = CKEDITOR.tools.convertArrayToObject( CKEDITOR.tools.object.DONT_ENUMS, 1 );
+
+			arrayAssert.itemsAreEqual( CKEDITOR.tools.object.DONT_ENUMS,
+				CKEDITOR.tools.object.keys( target ) );
+		},
 
 		// (#3123)
 		'test object.forEach': function() {

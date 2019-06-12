@@ -60,7 +60,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								var background = tools.style.parse.background( element.styles.background );
 
 								// We return true only if background specifies **only** color property, and there's only one background directive.
-								return background.color && tools.objectKeys( background ).length === 1;
+								return background.color && tools.object.keys( background ).length === 1;
 							},
 							right: function( element ) {
 								var style = new CKEDITOR.style( editor.config.colorButton_backStyle, {

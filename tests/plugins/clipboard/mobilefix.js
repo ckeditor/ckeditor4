@@ -104,7 +104,7 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	tests[ 'test add custom paste button' ] = function() {
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {

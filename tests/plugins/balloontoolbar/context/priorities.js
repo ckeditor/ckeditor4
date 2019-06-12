@@ -151,7 +151,7 @@
 				ret = {},
 				i;
 
-			whitelist = CKEDITOR.tools.isArray( whitelist ) ? whitelist : CKEDITOR.tools.objectKeys( optionsMapping );
+			whitelist = CKEDITOR.tools.isArray( whitelist ) ? whitelist : CKEDITOR.tools.object.keys( optionsMapping );
 
 			// Eventually one might provide even more mappings.
 			if ( additionalMappings ) {

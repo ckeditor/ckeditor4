@@ -67,7 +67,7 @@
 		 */
 		objToArray: function( obj ) {
 			var tools = CKEDITOR.tools;
-			return tools.array.map( tools.objectKeys( obj ), function( key ) {
+			return tools.array.map( tools.object.keys( obj ), function( key ) {
 				return obj[ key ];
 			} );
 		},

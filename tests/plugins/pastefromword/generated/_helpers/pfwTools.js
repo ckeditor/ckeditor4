@@ -73,7 +73,7 @@
 							attributes;
 
 						function needSorting( element ) {
-							var keys = CKEDITOR.tools.objectKeys,
+							var keys = CKEDITOR.tools.object.keys,
 								parent = element.parent,
 								parentAttrs = keys( parent.attributes ),
 								elementAttrs = keys( element.attributes );
@@ -118,7 +118,7 @@
 			tests._should = tests._should || { ignore: {} };
 
 			if ( bender.tools.env.mobile ) {
-				CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( tests ), function( tcName ) {
+				CKEDITOR.tools.array.forEach( CKEDITOR.tools.object.keys( tests ), function( tcName ) {
 					tests._should.ignore[ tcName ] = true;
 				} );
 			}

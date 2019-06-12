@@ -70,7 +70,7 @@
 		'test paste smaller table into a bigger selection edge case': createPasteTestCase( 'merge-smaller-table-edge', '3cells3rows' )
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
 

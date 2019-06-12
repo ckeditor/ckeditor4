@@ -56,7 +56,7 @@ var tests = {
 	}
 };
 
-tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 tests[ 'test paste command state in divarea editor' ] = function() {
 	bender.editorBot.create( {

@@ -322,7 +322,7 @@
 					// NOTE: data-cke-* assigned elements are preserved only when filter is used with
 					//       htmlDataProcessor.toHtml because we don't want to protect them when outputting data
 					//       (toDataFormat).
-					if ( toHtml && el.name == 'span' && ~CKEDITOR.tools.objectKeys( el.attributes ).join( '|' ).indexOf( 'data-cke-' ) )
+					if ( toHtml && el.name == 'span' && ~CKEDITOR.tools.object.keys( el.attributes ).join( '|' ).indexOf( 'data-cke-' ) )
 						return;
 
 					processRetVal = processElement( that, el, toBeRemoved, filterOpts );
@@ -1061,7 +1061,7 @@
 
 		rules[ styleDef.element ] = rule = {
 			styles: styleDef.styles,
-			requiredStyles: styleDef.styles && CKEDITOR.tools.objectKeys( styleDef.styles )
+			requiredStyles: styleDef.styles && CKEDITOR.tools.object.keys( styleDef.styles )
 		};
 
 		if ( attrs ) {
@@ -1070,7 +1070,7 @@
 			rule.requiredClasses = rule.classes;
 			delete attrs[ 'class' ];
 			rule.attributes = attrs;
-			rule.requiredAttributes = attrs && CKEDITOR.tools.objectKeys( attrs );
+			rule.requiredAttributes = attrs && CKEDITOR.tools.object.keys( attrs );
 		}
 
 		return rules;

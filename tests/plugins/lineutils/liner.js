@@ -45,8 +45,8 @@
 			for ( i = lines.length; i--; )
 				liner[ i % 2 ? 'visible' : 'hidden' ][ lines[ i ].getUniqueId() ] = lines[ i ];
 
-			assert.areSame( 5, CKEDITOR.tools.objectKeys( liner.visible ).length );
-			assert.areSame( 5, CKEDITOR.tools.objectKeys( liner.hidden ).length );
+			assert.areSame( 5, CKEDITOR.tools.object.keys( liner.visible ).length );
+			assert.areSame( 5, CKEDITOR.tools.object.keys( liner.hidden ).length );
 
 			bot.editor.destroy();
 
@@ -108,7 +108,7 @@
 
 			assert.isTrue( CKEDITOR.tools.isEmpty( liner.visible ), 'Line removed from visible.' );
 			assert.isFalse( line2.isVisible(), 'Line hidden in DOM.' );
-			assert.areSame( 2, CKEDITOR.tools.objectKeys( liner.hidden ).length, 'Line moved to hidden.' );
+			assert.areSame( 2, CKEDITOR.tools.object.keys( liner.hidden ).length, 'Line moved to hidden.' );
 		},
 
 		// https://dev.ckeditor.com/ticket/12812

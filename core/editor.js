@@ -900,7 +900,7 @@
 			}
 
 			// Destroy filters attached to the editor (#1722).
-			CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( filters ), function( id ) {
+			CKEDITOR.tools.array.forEach( CKEDITOR.tools.object.keys( filters ), function( id ) {
 				var filter = filters[ id ];
 				if ( self === filter.editor ) {
 					filter.destroy();

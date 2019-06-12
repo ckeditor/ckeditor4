@@ -2659,7 +2659,7 @@
 				return false;
 			}
 
-			CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( this._.data ), function( type ) {
+			CKEDITOR.tools.array.forEach( CKEDITOR.tools.object.keys( this._.data ), function( type ) {
 				typesToCheck[ type ] = 1;
 			} );
 
@@ -3073,7 +3073,7 @@
 		 */
 		_applyDataComment: function( content, data ) {
 			var customData = '';
-			if ( data && CKEDITOR.tools.objectKeys( data ).length ) {
+			if ( data && CKEDITOR.tools.object.keys( data ).length ) {
 				customData = '<!--cke-data:' + encodeURIComponent( JSON.stringify( data ) ) + '-->';
 			}
 			return customData + ( content && content.length ? content : '' );

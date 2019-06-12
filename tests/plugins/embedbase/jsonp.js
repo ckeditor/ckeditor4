@@ -14,7 +14,7 @@ bender.test( {
 
 		// Trick to execute the right callback even though _assets/twitter1.js always calls the 0th.
 		callbacks[ 0 ] = function( response ) {
-			var lastKey = CKEDITOR.tools.objectKeys( callbacks )[ 1 ];
+			var lastKey = CKEDITOR.tools.object.keys( callbacks )[ 1 ];
 			callbacks[ lastKey ]( response );
 		};
 	},
@@ -29,7 +29,7 @@ bender.test( {
 
 	assertCleanup: function( url ) {
 		// 1, because we set the 0th callback in the init().
-		assert.areSame( 1, CKEDITOR.tools.objectKeys( CKEDITOR._.jsonpCallbacks ).length, 'callback was removed' );
+		assert.areSame( 1, CKEDITOR.tools.object.keys( CKEDITOR._.jsonpCallbacks ).length, 'callback was removed' );
 
 		assert.areSame(
 			-1,
@@ -87,11 +87,11 @@ bender.test( {
 
 		assert.isFunction( jsonpRequest.cancel );
 
-		var jsonpCallbacksNumberPre = CKEDITOR.tools.objectKeys( CKEDITOR._.jsonpCallbacks ).length;
+		var jsonpCallbacksNumberPre = CKEDITOR.tools.object.keys( CKEDITOR._.jsonpCallbacks ).length;
 
 		jsonpRequest.cancel();
 
-		var jsonpCallbacksNumberPost = CKEDITOR.tools.objectKeys( CKEDITOR._.jsonpCallbacks ).length;
+		var jsonpCallbacksNumberPost = CKEDITOR.tools.object.keys( CKEDITOR._.jsonpCallbacks ).length;
 
 		assert.isFalse( successCallback.called, 'success callback was not executed' );
 		assert.areSame( jsonpCallbacksNumberPre - 1, jsonpCallbacksNumberPost, 'callback has been removed on cancel()' );

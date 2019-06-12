@@ -13,7 +13,7 @@
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
-					plugins = CKEDITOR.tools.objectKeys( editor.plugins );
+					plugins = CKEDITOR.tools.object.keys( editor.plugins );
 
 				assert.isTrue( contains( plugins, 'basicstyles' ) );
 				assert.isTrue( contains( plugins, 'image2' ) );
@@ -30,7 +30,7 @@
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
-					plugins = CKEDITOR.tools.objectKeys( editor.plugins );
+					plugins = CKEDITOR.tools.object.keys( editor.plugins );
 
 				assert.isTrue( contains( plugins, 'basicstyles' ) );
 				assert.isTrue( contains( plugins, 'image2' ) );
@@ -47,7 +47,7 @@
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
-					plugins = CKEDITOR.tools.objectKeys( editor.plugins );
+					plugins = CKEDITOR.tools.object.keys( editor.plugins );
 
 				assert.isFalse( contains( plugins, 'basicstyles' ) );
 				assert.isFalse( contains( plugins, 'image2' ) );
@@ -95,7 +95,7 @@
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
-					plugins = CKEDITOR.tools.objectKeys( editor.plugins );
+					plugins = CKEDITOR.tools.object.keys( editor.plugins );
 
 				assert.isTrue( contains( plugins, 'basicstyles' ) );
 				assert.isTrue( contains( plugins, 'image2' ) );
@@ -112,7 +112,7 @@
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
-					plugins = CKEDITOR.tools.objectKeys( editor.plugins );
+					plugins = CKEDITOR.tools.object.keys( editor.plugins );
 
 				assert.isTrue( contains( plugins, 'basicstyles' ) );
 				assert.isTrue( contains( plugins, 'image2' ) );
@@ -130,7 +130,7 @@
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
-					plugins = CKEDITOR.tools.objectKeys( editor.plugins );
+					plugins = CKEDITOR.tools.object.keys( editor.plugins );
 
 				assert.isFalse( contains( plugins, 'basicstyles' ) );
 				assert.isFalse( contains( plugins, 'image2' ) );

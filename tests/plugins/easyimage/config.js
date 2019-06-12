@@ -72,7 +72,7 @@
 		return function() {
 			var editor = bender.editors[ editorName ],
 				balloonToolbar = editor.balloonToolbars._contexts[ 0 ].toolbar,
-				items = CKEDITOR.tools.objectKeys( balloonToolbar._items );
+				items = CKEDITOR.tools.object.keys( balloonToolbar._items );
 
 			assert.areSame( expectedItems.length, items.length, 'Buttons count' );
 			arrayAssert.containsItems( expectedItems, items, 'Buttons type' );

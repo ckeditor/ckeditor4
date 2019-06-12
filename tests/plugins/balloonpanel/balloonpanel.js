@@ -110,23 +110,23 @@
 				};
 			} );
 
-			assert.areSame( 1, CKEDITOR.tools.objectKeys( panel.showListeners ).length, 'Before #show: Registered one listener' );
-			assert.areSame( 0, CKEDITOR.tools.objectKeys( panel.activeShowListeners ).length, 'Before #show: No active listeners' );
+			assert.areSame( 1, CKEDITOR.tools.object.keys( panel.showListeners ).length, 'Before #show: Registered one listener' );
+			assert.areSame( 0, CKEDITOR.tools.object.keys( panel.activeShowListeners ).length, 'Before #show: No active listeners' );
 			assert.isFalse( listenerRemoved, 'Before #show: Listener not removed yet.' );
 			panel.show();
 
-			assert.areSame( 1, CKEDITOR.tools.objectKeys( panel.showListeners ).length, 'After #show: Registered one listener' );
-			assert.areSame( 1, CKEDITOR.tools.objectKeys( panel.activeShowListeners ).length, 'After #show: Listener activated on show' );
+			assert.areSame( 1, CKEDITOR.tools.object.keys( panel.showListeners ).length, 'After #show: Registered one listener' );
+			assert.areSame( 1, CKEDITOR.tools.object.keys( panel.activeShowListeners ).length, 'After #show: Listener activated on show' );
 			assert.isFalse( listenerRemoved, 'After #show: Listener not removed yet.' );
 
 			panel.show();
-			assert.areSame( 1, CKEDITOR.tools.objectKeys( panel.showListeners ).length, 'After another #show: Registered one listener' );
-			assert.areSame( 1, CKEDITOR.tools.objectKeys( panel.activeShowListeners ).length, 'After another #show: Listener activated on show' );
+			assert.areSame( 1, CKEDITOR.tools.object.keys( panel.showListeners ).length, 'After another #show: Registered one listener' );
+			assert.areSame( 1, CKEDITOR.tools.object.keys( panel.activeShowListeners ).length, 'After another #show: Listener activated on show' );
 			assert.isFalse( listenerRemoved, 'After another #show: Listener not removed yet.' );
 
 			panel.hide();
-			assert.areSame( 1, CKEDITOR.tools.objectKeys( panel.showListeners ).length, 'After #hide: Registered one listener' );
-			assert.areSame( 0, CKEDITOR.tools.objectKeys( panel.activeShowListeners ).length, 'After #hide: Deactivated listener' );
+			assert.areSame( 1, CKEDITOR.tools.object.keys( panel.showListeners ).length, 'After #hide: Registered one listener' );
+			assert.areSame( 0, CKEDITOR.tools.object.keys( panel.activeShowListeners ).length, 'After #hide: Deactivated listener' );
 			assert.isTrue( listenerRemoved, 'After #hide: Listener removed.' );
 
 			panels.push( panel );
@@ -202,7 +202,7 @@
 
 			var p;
 			while ( ( p = panels.pop() ) ) {
-				assert.areSame( 0, CKEDITOR.tools.objectKeys( p.activeShowListeners ).length, p.title + ': no active listeners once panel is destroyed' );
+				assert.areSame( 0, CKEDITOR.tools.object.keys( p.activeShowListeners ).length, p.title + ': no active listeners once panel is destroyed' );
 				assert.isNull( p.parts.panel.getParent(), p.title + ': panel out of DOM' );
 			}
 		}
