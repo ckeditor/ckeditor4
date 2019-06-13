@@ -192,7 +192,7 @@
 
 		// Return the editor instance immediately to enable early stage event registrations.
 		CKEDITOR.tools.setTimeout( function() {
-			if ( this.status !== 'destroyed' && !this.element.isDetached() ) {
+			if ( !this._shouldPreventInit() ) {
 				initConfig( this, instanceConfig );
 			} else {
 				CKEDITOR.warn( 'editor-incorrect-destroy' );
@@ -1588,6 +1588,21 @@
 		 */
 		showNotification: function( message ) {
 			alert( message ); // jshint ignore:line
+		},
+
+		/**
+		 * Returns boolean whether editor is destroyed or detached.
+		 *
+		 * @since 4.12.0
+		 * @private
+		 * @return {boolean}
+		 */
+		_shouldPreventInit: function() {
+			if ( this.container && this.container.isDetached() ) {
+				return true;
+			}
+
+			return this.status === 'destroyed';
 		}
 	} );
 

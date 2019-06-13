@@ -90,7 +90,7 @@
 				function onLoad( evt ) {
 					evt && evt.removeListener();
 
-					if ( editor.status === 'destroyed' || editor.container.isDetached() ) {
+					if ( editor._shouldPreventInit() ) {
 						return;
 					}
 

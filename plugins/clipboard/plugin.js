@@ -1203,7 +1203,7 @@
 		}
 
 		function setToolbarStates() {
-			if ( editor.mode != 'wysiwyg' || editor.status === 'destroyed' || editor.container.isDetached() ) {
+			if ( editor.mode != 'wysiwyg' || editor._shouldPreventInit() ) {
 				editor.destroy();
 				return;
 			}
