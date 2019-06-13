@@ -1,7 +1,6 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: floatingspace,easyimage,toolbar */
 /* bender-include: ./_helpers/tools.js */
-/* global easyImageTools */
 
 ( function() {
 	'use strict';

@@ -1,6 +1,5 @@
 /* bender-tags: editor,widget */
 /* bender-include: ../easyimage/_helpers/tools.js */
-/* global easyImageTools */
 
 ( function() {
 	'use strict';

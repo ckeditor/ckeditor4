@@ -2,7 +2,7 @@
 /* bender-ckeditor-plugins: sourcearea, wysiwygarea, easyimage */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, %BASE_PATH%/plugins/imagebase/features/_helpers/tools.js */
 /* bender-include: ./_helpers/tools.js */
-/* global imageBaseFeaturesTools, pasteFiles, assertPasteEvent, easyImageTools */
+/* global imageBaseFeaturesTools, pasteFiles, assertPasteEvent */
 
 ( function() {
 	'use strict';
