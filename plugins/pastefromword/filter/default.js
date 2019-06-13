@@ -1194,16 +1194,25 @@
 				List.removeSymbolText( element );
 			}
 
-			if ( element.attributes.style ) {
-				// Hacky way to get rid of margin left.
-				// @todo: we should gather all css cleanup here, and consider bidi. Eventually we might put a config variable to
-				// to enable it.
-				var styles = tools.parseCssText( element.attributes.style );
+			var styles = element.attributes && tools.parseCssText( element.attributes.style );
 
-				if ( styles[ 'margin-left' ] ) {
+			// Default list has 40px padding. To correct indentation we need to reduce margin-left by 40px for each list level.
+			// Additionally margin has to be reduced by sum of margins of each parent, however it can't be done until list are structured in a tree (#2870).
+			// Note margin left is absent in IE pasted content.
+			if ( styles[ 'margin-left' ] ) {
+				var margin = styles[ 'margin-left' ],
+					level = element.attributes[ 'cke-list-level' ];
+
+				// Ignore negative margins (#2870).
+				margin = Math.max( CKEDITOR.tools.convertToPx( margin ) - 40 * level, 0 );
+
+				if ( margin ) {
+					styles[ 'margin-left' ] = margin + 'px';
+				} else {
 					delete styles[ 'margin-left' ];
-					element.attributes.style =  CKEDITOR.tools.writeCssText( styles );
 				}
+
+				element.attributes.style =  CKEDITOR.tools.writeCssText( styles );
 			}
 
 			// Converting to a normal list item would implicitly wrap the element around an <ul>.
@@ -1586,7 +1595,56 @@
 				}
 			}
 
+			// Adjust left margin based on parents sum of parents left margin (#2870).
+			CKEDITOR.tools.array.forEach( listElements, function( element ) {
+				var listParents = getParentListItems( element ),
+					leftOffset = getTotalMarginLeft( listParents ),
+					styles, marginLeft;
+
+				if ( !leftOffset ) {
+					return;
+				}
+
+				element.attributes = element.attributes || {};
+
+				styles = CKEDITOR.tools.parseCssText( element.attributes.style );
+
+				marginLeft = styles[ 'margin-left' ] || 0;
+				marginLeft = Math.max( parseInt( marginLeft, 10 ) - leftOffset, 0 );
+
+				if ( marginLeft ) {
+					styles[ 'margin-left' ] = marginLeft + 'px';
+				} else {
+					delete styles[ 'margin-left' ];
+				}
+
+				element.attributes.style = CKEDITOR.tools.writeCssText( styles );
+			} );
+
 			return listElements;
+
+			function getParentListItems( element ) {
+				var parents = [],
+					parent = element.parent;
+
+				while ( parent ) {
+					if ( parent.name === 'li' ) {
+						parents.push( parent );
+					}
+					parent = parent.parent;
+				}
+
+				return parents;
+			}
+
+			function getTotalMarginLeft( elements ) {
+				return CKEDITOR.tools.array.reduce( elements, function( total, element ) {
+					if ( element.attributes && element.attributes.style ) {
+						var marginLeft = CKEDITOR.tools.parseCssText( element.attributes.style )[ 'margin-left' ];
+					}
+					return marginLeft ? total + parseInt( marginLeft, 10 ) : total;
+				}, 0 );
+			}
 		},
 
 		/**

@@ -1,0 +1,54 @@
+<style>
+	.margin-preview {
+		padding: 5px;
+		border: solid 1px dimgray;
+		display: none;
+		position: fixed;
+		background: white;
+	}
+</style>
+
+<textarea id="editor"></textarea>
+
+<div class="margin-preview"></div>
+
+<script>
+	if ( bender.tools.env.mobile || ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ) {
+		bender.ignore();
+	}
+
+	var marginPreview = CKEDITOR.document.findOne( '.margin-preview' ),
+		target;
+
+	CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'li{margin-left}',
+		height: 1000,
+		on: {
+			instanceReady: function() {
+				this.editable().on( 'mouseover', function( evt ) {
+					target && target.removeStyle( 'background' );
+					target = evt.data.getTarget();
+					target.setStyle( 'background', 'yellow' );
+
+					var rect = target.getClientRect( true ),
+						scrollPosition = CKEDITOR.document.getWindow().getScrollPosition();
+
+					marginPreview.setStyles( {
+						display: 'inline-block',
+						left: rect.left + 5 + 'px',
+						top: rect.bottom + 15 - scrollPosition.y + 'px'
+					} );
+
+					marginPreview.setHtml(
+						'element: ' + target.getName() + '<br>' +
+						'margin-left: ' + ( target.getStyle( 'margin-left' ) || '-' )
+					);
+				} );
+
+				this.editable().on( 'mouseleave', function() {
+					marginPreview.setStyle( 'display', 'none' );
+				} );
+			}
+		}
+	} );
+</script>
