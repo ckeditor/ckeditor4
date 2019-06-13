@@ -603,11 +603,7 @@
 						if ( m === 0 && languageCodes[ i ] && plugin.lang && plugin.langEntries )
 							editor.lang[ plugin.name ] = plugin.langEntries[ languageCodes[ i ] ];
 
-						if ( editor.status === 'destroyed' ) {
-							return;
-						}
-
-						if ( editor.container && editor.container.isDetached() ) {
+						if ( editor._shouldPreventInit() ) {
 							return;
 						}
 
