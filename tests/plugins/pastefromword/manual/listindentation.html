@@ -30,12 +30,13 @@
 					target = evt.data.getTarget();
 					target.setStyle( 'background', 'yellow' );
 
-					var rect = target.getClientRect( true );
+					var rect = target.getClientRect( true ),
+						scrollPosition = CKEDITOR.document.getWindow().getScrollPosition();
 
 					marginPreview.setStyles( {
 						display: 'inline-block',
 						left: rect.left + 5 + 'px',
-						top: rect.bottom + 15 + 'px'
+						top: rect.bottom + 15 - scrollPosition.y + 'px'
 					} );
 
 					marginPreview.setHtml(
