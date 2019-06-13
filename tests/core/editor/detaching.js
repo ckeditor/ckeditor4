@@ -21,29 +21,31 @@
 			editor = null;
 		},
 		// (#3115)
-		'test detach and destroy after 0ms': testTimedDetach( 0 ),
+		'test detach and destroy synchronously': testDetach(),
 		// (#3115)
-		'test detach and destroy after 15ms': testTimedDetach( 15 ),
+		'test detach and destroy after 0ms': testDetach( 0 ),
 		// (#3115)
-		'test detach and destroy after 30ms': testTimedDetach( 35 ),
+		'test detach and destroy after 15ms': testDetach( 15 ),
 		// (#3115)
-		'test detach and destroy after 50ms': testTimedDetach( 50 ),
+		'test detach and destroy after 30ms': testDetach( 35 ),
 		// (#3115)
-		'test detach and destroy after 75ms': testTimedDetach( 75 ),
+		'test detach and destroy after 50ms': testDetach( 50 ),
 		// (#3115)
-		'test detach and destroy after 100ms': testTimedDetach( 100 ),
+		'test detach and destroy after 75ms': testDetach( 75 ),
 		// (#3115)
-		'test detach and destroy after 150ms': testTimedDetach( 150 ),
+		'test detach and destroy after 100ms': testDetach( 100 ),
 		// (#3115)
-		'test detach and destroy after 200ms': testTimedDetach( 200 ),
+		'test detach and destroy after 150ms': testDetach( 150 ),
 		// (#3115)
-		'test detach and destroy after 250ms': testTimedDetach( 250 ),
+		'test detach and destroy after 200ms': testDetach( 200 ),
 		// (#3115)
-		'test detach and destroy after 400ms': testTimedDetach( 400 ),
+		'test detach and destroy after 250ms': testDetach( 250 ),
 		// (#3115)
-		'test detach and destroy after 600ms': testTimedDetach( 600 ),
+		'test detach and destroy after 400ms': testDetach( 400 ),
 		// (#3115)
-		'test detach and destroy after 900ms': testTimedDetach( 900 ),
+		'test detach and destroy after 600ms': testDetach( 600 ),
+		// (#3115)
+		'test detach and destroy after 900ms': testDetach( 900 ),
 		// (#3115)
 		'test editor set mode when editor is detached': testSetMode( function( editor ) {
 			sinon.stub( editor.container, 'isDetached' ).returns( true );
@@ -54,7 +56,7 @@
 		} )
 	} );
 
-	function testTimedDetach( time ) {
+	function testDetach( time ) {
 		return function() {
 			// IE & Edge throws `Permission Denied` sometimes, but debugger won't break on that error, so can't fix it.
 			if ( CKEDITOR.env.ie ) {
@@ -66,7 +68,11 @@
 
 			editor = CKEDITOR.replace( 'editor' );
 
-			setTimeout( detach, time );
+			if ( time !== undefined ) {
+				setTimeout( detach, time );
+			} else {
+				detach();
+			}
 
 			wait();
 
