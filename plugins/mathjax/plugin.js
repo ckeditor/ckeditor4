@@ -18,6 +18,10 @@
 		icons: 'mathjax',
 		hidpi: true, // %REMOVE_LINE_CORE%
 
+		isSupportedEnvironment: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
+		},
+
 		init: function( editor ) {
 			var cls = editor.config.mathJaxClass || 'math-tex';
 

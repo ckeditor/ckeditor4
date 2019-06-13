@@ -51,9 +51,7 @@
 		},
 
 		'async:init': function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'mathjax' );
 
 			var tc = this;
 
