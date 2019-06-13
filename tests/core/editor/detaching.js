@@ -113,7 +113,7 @@
 				var spy = sinon.spy();
 
 				editor.on( 'mode', spy );
-				editor.setMode( 'testmode', spy );
+				editor.setMode( 'source', spy );
 
 				setTimeout( function() {
 					resume( function() {
