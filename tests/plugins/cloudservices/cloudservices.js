@@ -1,6 +1,5 @@
-/* bender-ckeditor-plugins: cloudservices */
+/* bender-ckeditor-plugins: cloudservices,easyimage */
 /* bender-include: %BASE_PATH%/plugins/easyimage/_helpers/tools.js*/
-/* global easyImageTools */
 
 ( function() {
 	var TOKEN_VALUE = 'sample-token-value',
@@ -42,9 +41,8 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( easyImageTools.isUnsupportedEnvironment() ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
 			this.cloudservices = CKEDITOR.plugins.cloudservices;
 
 			incrementalTokenCount = 0;

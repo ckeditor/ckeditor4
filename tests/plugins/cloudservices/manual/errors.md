@@ -1,7 +1,6 @@
 @bender-tags: 4.9.0, feature, 932
 @bender-ui: collapsed
-@bender-ckeditor-plugins: sourcearea, wysiwygarea, toolbar, cloudservices
-@bender-include: ../../easyimage/_helpers/tools.js
+@bender-ckeditor-plugins: sourcearea, wysiwygarea, toolbar, cloudservices, easyimage
 
 1. Open browser console.
 
