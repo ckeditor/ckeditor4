@@ -1,6 +1,5 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: easyimage,toolbar */
-/* bender-include: ./_helpers/tools.js */
 
 ( function() {
 	'use strict';

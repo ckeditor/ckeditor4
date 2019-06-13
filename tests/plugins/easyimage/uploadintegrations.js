@@ -1,7 +1,6 @@
 /* bender-tags: editor, clipboard, upload */
 /* bender-ckeditor-plugins: sourcearea, wysiwygarea, easyimage */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, %BASE_PATH%/plugins/imagebase/features/_helpers/tools.js */
-/* bender-include: ./_helpers/tools.js */
 /* global imageBaseFeaturesTools, pasteFiles, assertPasteEvent */
 
 ( function() {
@@ -26,11 +25,6 @@
 	var assertPasteFiles = imageBaseFeaturesTools.assertPasteFiles,
 		tests = {
 			init: function() {
-				// We need to ignore entire test suit to prevent of fireing init, which breaks test suit on IE8-IE10.
-				if ( !this.editor.plugins.easyimage.isSupportedEnvironment() ) {
-					bender.ignore();
-				}
-
 				var sampleCloudServicesResponse = {
 						210: '%BASE_PATH%/_assets/logo.png?w=210',
 						420: '%BASE_PATH%/_assets/logo.png?w=420',
@@ -129,6 +123,9 @@
 				if ( bender.config.isTravis && CKEDITOR.env.gecko ) {
 					assert.ignore();
 				}
+
+				bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
 				this.sandbox.stub( window, 'alert' );
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
