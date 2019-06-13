@@ -69,9 +69,7 @@
 
 <script src="../features/_helpers/tools.js"></script>
 <script>
-	if ( easyImageTools.isUnsupportedEnvironment() ) {
-		bender.ignore();
-	}
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 	function runSampleCode( editor, easyImagePlugin ) {
 		window.recreateProgress = function() {
