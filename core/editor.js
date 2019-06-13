@@ -593,6 +593,10 @@
 
 			// Load all plugin specific language files in a row.
 			CKEDITOR.scriptLoader.load( languageFiles, function() {
+				if ( editor._shouldPreventInit()  ) {
+					return;
+				}
+
 				// Initialize all plugins that have the "beforeInit" and "init" methods defined.
 				var methods = [ 'beforeInit', 'init', 'afterInit' ];
 				for ( var m = 0; m < methods.length; m++ ) {
@@ -602,10 +606,6 @@
 						// Uses the first loop to update the language entries also.
 						if ( m === 0 && languageCodes[ i ] && plugin.lang && plugin.langEntries )
 							editor.lang[ plugin.name ] = plugin.langEntries[ languageCodes[ i ] ];
-
-						if ( editor._shouldPreventInit() ) {
-							return;
-						}
 
 						// Call the plugin method (beforeInit and init).
 						if ( plugin[ methods[ m ] ] ) {
