@@ -21,7 +21,12 @@
 
 	var tests = {
 		setUp: function() {
+			if ( !CKEDITOR.env.ie && !CKEDITOR.env.iOS ) {
+				assert.ignore();
+			}
+
 			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
 			window.attack = sinon.spy();
 		},
 

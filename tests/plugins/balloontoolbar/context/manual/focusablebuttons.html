@@ -20,6 +20,11 @@
 </div>
 
 <script>
+	// Ignore on mobiles due to 'mousedown' event.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {

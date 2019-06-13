@@ -8,8 +8,6 @@
 	bender.test( {
 		// (#1791)
 		'test plugin init when easyimage is active': function() {
-			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
-
 			var spy = sinon.spy( CKEDITOR, 'warn' );
 
 			bender.editorBot.create( {

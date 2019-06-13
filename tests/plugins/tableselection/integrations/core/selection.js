@@ -93,7 +93,6 @@
 
 	var tests =  {
 		setUp: function() {
-			assert.ignore();
 			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
 		},
 		tearDown: function() {
