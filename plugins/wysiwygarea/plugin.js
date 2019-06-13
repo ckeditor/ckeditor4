@@ -525,7 +525,7 @@
 			detach: function() {
 				var editor = this.editor,
 					doc = editor.document,
-					iframe = editor.container.findOne( 'iframe' ),
+					iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' ),
 					onResize;
 
 				framedWysiwyg.baseProto.detach.call( this );
