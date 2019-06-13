@@ -21,31 +21,23 @@
 			editor = null;
 		},
 		// (#3115)
-		'test detach and destroy synchronously': testDetach(),
+		'test detach and destroy synchronously': testDetach( function( editor, detach ) {
+			detach();
+		} ),
 		// (#3115)
-		'test detach and destroy after 0ms': testDetach( 0 ),
+		'test detach and destroy asynchronously': testDetach( function( editor, detach ) {
+			setTimeout( detach );
+		} ),
 		// (#3115)
-		'test detach and destroy after 15ms': testDetach( 15 ),
-		// (#3115)
-		'test detach and destroy after 30ms': testDetach( 35 ),
-		// (#3115)
-		'test detach and destroy after 50ms': testDetach( 50 ),
-		// (#3115)
-		'test detach and destroy after 75ms': testDetach( 75 ),
-		// (#3115)
-		'test detach and destroy after 100ms': testDetach( 100 ),
-		// (#3115)
-		'test detach and destroy after 150ms': testDetach( 150 ),
-		// (#3115)
-		'test detach and destroy after 200ms': testDetach( 200 ),
-		// (#3115)
-		'test detach and destroy after 250ms': testDetach( 250 ),
-		// (#3115)
-		'test detach and destroy after 400ms': testDetach( 400 ),
-		// (#3115)
-		'test detach and destroy after 600ms': testDetach( 600 ),
-		// (#3115)
-		'test detach and destroy after 900ms': testDetach( 900 ),
+		'test detach before firing editor#loaded event': testDetach( function( editor, detach) {
+			var mock, spy;
+
+			editor.on( 'loaded', function() {
+				mock = sinon.stub( this, '_shouldPreventInit' ).returns( true );
+				spy = sinon.spy( this, 'setMode' );
+				detach();
+			}, null, null, -9999 );
+		} ),
 		// (#3115)
 		'test editor set mode when editor is detached': testSetMode( function( editor ) {
 			sinon.stub( editor.container, 'isDetached' ).returns( true );
@@ -56,7 +48,7 @@
 		} )
 	} );
 
-	function testDetach( time ) {
+	function testDetach( callback ) {
 		return function() {
 			// IE & Edge throws `Permission Denied` sometimes, but debugger won't break on that error, so can't fix it.
 			if ( CKEDITOR.env.ie ) {
@@ -68,11 +60,7 @@
 
 			editor = CKEDITOR.replace( 'editor' );
 
-			if ( time !== undefined ) {
-				setTimeout( detach, time );
-			} else {
-				detach();
-			}
+			callback( editor, detach );
 
 			wait();
 
@@ -112,7 +100,7 @@
 
 				var spy = sinon.spy();
 
-				editor.on( 'mode', spy );
+				editor.once( 'mode', spy );
 				editor.setMode( 'source', spy );
 
 				setTimeout( function() {
