@@ -128,12 +128,12 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 	}
 
 	function onKeyStrokes( evt ) {
-		var domEvt = evt.data;
-
-		var element = domEvt.getTarget();
-		var relative, nodeToMove;
-		var keystroke = domEvt.getKeystroke(),
-			rtl = editor.lang.dir == 'rtl';
+		var domEvt = evt.data,
+			element = domEvt.getTarget(),
+			keystroke = domEvt.getKeystroke(),
+			rtl = editor.lang.dir == 'rtl',
+			relative,
+			nodeToMove;
 
 		switch ( keystroke ) {
 			// UP-ARROW
@@ -145,14 +145,15 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				}
 				domEvt.preventDefault();
 				break;
+
 			// DOWN-ARROW
 			case 40:
 				// relative is TR
 				if ( ( relative = element.getParent().getNext() ) ) {
 					nodeToMove = relative.getChild( [ element.getIndex() ] );
-					if ( nodeToMove && nodeToMove.type == 1 )
+					if ( nodeToMove && nodeToMove.type == 1 ) {
 						nodeToMove.focus();
-
+					}
 				}
 				domEvt.preventDefault();
 				break;
@@ -230,7 +231,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 			}
 		}
 
-		// This function create a single color cell in the color table.
+		// This function creates a single color cell in the color table.
 		function appendColorCell( targetRow, color ) {
 			var cell = new $el( targetRow.insertCell( -1 ) );
 			cell.setAttribute( 'class', 'ColorCell ' + colorCellCls );
@@ -276,6 +277,30 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		title: lang.title,
 		minWidth: 360,
 		minHeight: 220,
+		onShow: function( evt ) {
+			if ( !evt.data.selectionColor ||
+				( evt.data.selectionColor == evt.data.automaticTextColor ) ||
+				( evt.data.selectionColor == '#rgba(0, 0, 0, 0)' && evt.data.type == 'back' ) ) {
+				// Fallback for IE.
+				clearSelected();
+				clearHighlight();
+				return;
+			}
+
+			var selectionColor = evt.data.selectionColor,
+				colorPalette = this.parts.contents.getElementsByTag( 'td' ).toArray(),
+				itemColor;
+
+			dialog.getContentElement( 'picker', 'selectedColor' ).setValue( selectionColor );
+
+			CKEDITOR.tools.array.forEach( colorPalette, function( paletteItem ) {
+				itemColor = CKEDITOR.tools.convertRgbToHex( paletteItem.getStyle( 'background-color' ) );
+				if ( selectionColor === itemColor ) {
+					paletteItem.focus();
+					focused = paletteItem;
+				}
+			} );
+		},
 		onLoad: function() {
 			// Update reference.
 			dialog = this;
