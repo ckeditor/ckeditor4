@@ -859,23 +859,6 @@
 
 		// Extend this widget with widgetDef-specific methods and properties.
 		CKEDITOR.tools.extend( this, widgetDef, {
-
-			/**
-			 * Returns HTML of the widget. Can be overridden to customize HTML copied to the clipboard
-			 * during copy&cut and drag&drop events.
-			 *
-			 * @since 4.12.0
-			 * @returns {String} Widget HTML.
-			 */
-			getClipboardHtml: function() {
-				var range = this.editor.createRange();
-
-				range.setStartBefore( this.wrapper );
-				range.setEndAfter( this.wrapper );
-
-				return this.editor.editable().getHtmlFromRange( range ).getHtml();
-			},
-
 			/**
 			 * The editor instance.
 			 *
@@ -1280,6 +1263,22 @@
 		 */
 		getClasses: function() {
 			return this.repository.parseElementClasses( this.element.getAttribute( 'class' ) );
+		},
+
+		/**
+		 * Returns HTML of the widget. Can be overridden to customize HTML copied to the clipboard
+		 * during copy&cut and drag&drop events.
+		 *
+		 * @since 4.12.0
+		 * @returns {String} Widget HTML.
+		 */
+		getClipboardHtml: function() {
+			var range = this.editor.createRange();
+
+			range.setStartBefore( this.wrapper );
+			range.setEndAfter( this.wrapper );
+
+			return this.editor.editable().getHtmlFromRange( range ).getHtml();
 		},
 
 		/**
