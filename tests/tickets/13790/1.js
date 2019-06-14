@@ -22,7 +22,6 @@ bender.test( {
 		destroySpy.restore();
 
 		assert.isFalse( destroySpy.threw(), 'Editor.destroy() method should not throw an exception when iframe is already removed.' );
-		assert.isTrue( warnSpy.calledOnce, 'CKEDITOR.warn should be called once.' );
-		assert.areEqual( 'editor-destroy-iframe', warnSpy.firstCall.args[ 0 ], 'CKEDITOR.warn function should be called with error code: "editor-destroy-iframe".' );
+		assert.isFalse( warnSpy.called, 'CKEDITOR.warn shouldn\'t be called.' );
 	}
 } );
