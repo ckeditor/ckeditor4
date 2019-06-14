@@ -2120,7 +2120,7 @@
 			},
 
 			/**
-			 * Returns an array of object enumerable values.
+			 * Returns an array of passed object enumerable values.
 			 *
 			 * ```javascript
 			 *	console.log( CKEDITOR.tools.object.values( { foo: 1, bar: false } );
@@ -2139,7 +2139,7 @@
 			},
 
 			/**
-			 * Returns an array of passed object's keys.
+			 * Returns an array of passed object keys.
 			 *
 			 * ```javascript
 			 *	console.log( CKEDITOR.tools.object.keys( { foo: 1, bar: false } );
