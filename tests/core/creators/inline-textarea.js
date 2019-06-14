@@ -111,6 +111,7 @@
 			} );
 		},
 
+		// (#3115)
 		'test destroy when editor.container is absent': function() {
 			bender.editorBot.create( {
 				creator: 'inline',
