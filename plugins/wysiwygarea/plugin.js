@@ -45,7 +45,6 @@
 				var contentSpace = editor.ui.space( 'contents' );
 				contentSpace.append( iframe );
 
-
 				// Asynchronous iframe loading is only required in IE>8 and Gecko (other reasons probably).
 				// Do not use it on WebKit as it'll break the browser-back navigation.
 				var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
