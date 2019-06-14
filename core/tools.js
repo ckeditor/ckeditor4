@@ -2153,7 +2153,8 @@
 			 */
 			keys: function( obj ) {
 				var hasOwnProperty = Object.prototype.hasOwnProperty,
-					keys = [];
+					keys = [],
+					dontEnums = CKEDITOR.tools.object.DONT_ENUMS;
 
 				for ( var prop in obj ) {
 					keys.push( prop );
@@ -2161,9 +2162,9 @@
 
 				// Fix don't enum bug for IE < 9 browsers (#3120).
 				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-					for ( var i = 0; i < this.DONT_ENUMS.length; i++ ) {
-						if ( hasOwnProperty.call( obj, this.DONT_ENUMS[ i ] ) ) {
-							keys.push( this.DONT_ENUMS[ i ] );
+					for ( var i = 0; i < dontEnums.length; i++ ) {
+						if ( hasOwnProperty.call( obj, dontEnums[ i ] ) ) {
+							keys.push( dontEnums[ i ] );
 						}
 					}
 				}
