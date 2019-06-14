@@ -28,13 +28,7 @@
 
 		// (#3115)
 		'test detach before firing editor#loaded event': testDetach( function( editor, detach ) {
-			var mock, spy;
-
-			editor.on( 'loaded', function() {
-				mock = sinon.stub( this, '_shouldPreventInit' ).returns( true );
-				spy = sinon.spy( this, 'setMode' );
-				detach();
-			}, null, null, -9999 );
+			editor.on( 'loaded', detach, null, null, -9999 );
 		} ),
 
 		// (#3115)
@@ -49,15 +43,7 @@
 				CKEDITOR.scriptLoader.load = function() {
 					CKEDITOR.scriptLoader.load = scriptLoaderLoad;
 
-					var spy = sinon.spy();
-
-					editor.once( 'loaded', spy );
-					editor.once( 'pluginsLoaded', spy );
-					editor.once( 'instanceLoaded', spy );
-
-					detach( function() {
-						assert.isFalse( spy.called, 'load events shouldn\'t be fired.' );
-					} );
+					detach();
 
 					scriptLoaderLoad.apply( this, arguments );
 				};
@@ -88,28 +74,8 @@
 				function modeHandler() {
 					originalModeHandler.apply( this, arguments );
 
-					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' ),
-						spies;
-
-					iframe.on( 'load', function() {
-						spies = {
-							editable: sinon.spy( editor, 'editable' ),
-							setData: sinon.spy( editor, 'setData' )
-						};
-
-						detach( function() {
-							// editor.editable is called on destroy. Let's make sure that's is the case and not iframe#load.
-							assert.areEqual( 1, spies.editable.callCount, 'editor.editable be called once' );
-							assert.areEqual( null, spies.editable.lastCall.args[ 0 ], 'editor.editable should be called only on destroy' );
-							assert.isFalse( spies.setData.called, 'editor.setData shouldn\'t be called' );
-						} );
-					}, null, null, -9999 );
-
-					// We need to restore spies, so other calls won't break test.
-					iframe.on( 'load', function() {
-						spies.editable.restore();
-						spies.setData.restore();
-					}, null, null, 9999 );
+					editor.container.findOne( 'iframe.cke_wysiwyg_frame' )
+						.on( 'load', detach, null, null, -9999 );
 				}
 			};
 		} ),
@@ -141,19 +107,13 @@
 
 			wait();
 
-			function detach( callback ) {
+			function detach() {
 				component.remove();
 
 				editor.once( 'destroy', function() {
 					// Wait for async callbacks.
 					setTimeout( function() {
-						resume( function() {
-							if ( callback ) {
-								callback();
-							}
-
-							assertErrors();
-						} );
+						resume( assertErrors );
 					}, 100 );
 				} );
 
