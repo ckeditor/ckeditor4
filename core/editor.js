@@ -194,8 +194,6 @@
 		CKEDITOR.tools.setTimeout( function() {
 			if ( !this._shouldPreventInit() ) {
 				initConfig( this, instanceConfig );
-			} else {
-				CKEDITOR.warn( 'editor-incorrect-destroy' );
 			}
 		}, 0, this );
 	}
