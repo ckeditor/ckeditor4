@@ -71,6 +71,54 @@
 		} ),
 
 		// (#3115)
+		'test detach before iframe#onload': testDetach( function( editor, detach ) {
+			// Test only environments which uses iframe#load event.
+			// Sync calls to load helper in setMode can be omitted,
+			// because setMode wont be ever called in detached editor.
+			if ( ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) && !CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
+			var addMode = editor.addMode;
+
+			editor.addMode = function( mode, originalModeHandler ) {
+				if ( mode === 'wysiwyg' ) {
+					editor.addMode = addMode;
+					addMode.call( this, mode, modeHandler );
+				} else {
+					addMode.apply( this, arguments );
+				}
+
+				function modeHandler() {
+					originalModeHandler.apply( this, arguments );
+
+					var iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' ),
+						spies;
+
+					iframe.on( 'load', function() {
+						spies = {
+							editable: sinon.spy( editor, 'editable' ),
+							setData: sinon.spy( editor, 'setData' )
+						};
+
+						detach( function() {
+							// editor.editable is called on destroy. Let's make sure that's is the case and not iframe#load.
+							assert.areEqual( 1, spies.editable.callCount, 'editor.editable be called once' );
+							assert.areEqual( null, spies.editable.lastCall.args[ 0 ], 'editor.editable should be called only on destroy' );
+							assert.isFalse( spies.setData.called, 'editor.setData shouldn\'t be called' );
+						} );
+					}, null, null, -9999 );
+
+					// We need to restore spies, so other calls won't break test.
+					iframe.on( 'load', function() {
+						spies.editable.restore();
+						spies.setData.restore();
+					}, null, null, 9999 );
+				}
+			};
+		} ),
+
+		// (#3115)
 		'test editor set mode when editor is detached': testSetMode( function( editor ) {
 			sinon.stub( editor.container, 'isDetached' ).returns( true );
 		} ),
