@@ -12,7 +12,7 @@ Fixed Issues:
 
 API Changes:
 
-* [#3138](https://github.com/ckeditor/ckeditor-dev/issues/3138): Use [`widgetDefinition.getClipboardHtml`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#method-getClipboardHtml) to customize [Widget](https://ckeditor.com/cke4/addon/widget) HTML during copy, cut and dragging operations.
+* [#3138](https://github.com/ckeditor/ckeditor-dev/issues/3138): Use [`widgetDefinition.getClipboardHtml`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#method-getClipboardHtml) method to customize [Widget](https://ckeditor.com/cke4/addon/widget) HTML during copy, cut and dragging operations.
 
 ## CKEditor 4.12.1
 
