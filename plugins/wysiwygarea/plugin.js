@@ -547,8 +547,6 @@
 					if ( iframe.getParent() ) {
 						iframe.remove();
 					}
-				} else {
-					CKEDITOR.warn( 'editor-destroy-iframe' );
 				}
 			}
 		}
