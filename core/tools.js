@@ -2085,6 +2085,7 @@
 			 * [DontEnum](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Properties)
 			 * attribute.
 			 *
+			 * @member CKEDITOR.tools.object
 			 * @private
 			 * @since 4.12.0
 			 */
