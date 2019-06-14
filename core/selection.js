@@ -23,10 +23,12 @@
 		if ( ranges.length === 0 ) {
 			return false;
 		}
+
 		// It's not table selection when selected node is a widget (#1027).
 		if ( isWidget( ranges[ 0 ].getEnclosedNode() ) ) {
 			return false;
 		}
+
 		var node,
 			i;
 
