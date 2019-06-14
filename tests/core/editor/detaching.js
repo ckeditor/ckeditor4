@@ -16,10 +16,6 @@
 	fakeComponent = fakeComponent.getOuterHtml();
 
 	bender.test( {
-		tearDown: function() {
-			editor.destroy();
-			editor = null;
-		},
 		// (#3115)
 		'test detach and destroy synchronously': testDetach( function( editor, detach ) {
 			detach();
@@ -161,7 +157,7 @@
 					}, 100 );
 				} );
 
-				editor.destroy();
+				destroyEditor();
 			}
 		};
 	}
@@ -170,6 +166,10 @@
 		return function() {
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 				assert.ignore();
+			}
+
+			if ( editor ) {
+				destroyEditor();
 			}
 
 			bender.editorBot.create( {}, function( bot ) {
@@ -205,5 +205,10 @@
 		} else {
 			assert.pass( 'Passed without errors.' );
 		}
+	}
+
+	function destroyEditor() {
+		editor.destroy();
+		editor = null;
 	}
 } )();
