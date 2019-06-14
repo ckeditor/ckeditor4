@@ -10,7 +10,8 @@ New Features:
 * [#2639](https://github.com/ckeditor/ckeditor-dev/issues/2639): [Color Dialog](https://ckeditor.com/cke4/addon/colordialog) plugin now shows current selection's color when opened.
 * [#1490](https://github.com/ckeditor/ckeditor-dev/issues/1490): Improved [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin to retain table cell borders.
 * [#2870](https://github.com/ckeditor/ckeditor-dev/issues/2870): Added support for preserving positive `margin-left` values in list items for lists pasted with [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
-* [#2084](https://github.com/ckeditor/ckeditor-dev/issues/2084): [Table Tools plugin](https://ckeditor.com/cke4/addon/tabletools) now allows to change cell height unit type to either pixels or percents.
+* [#2084](https://github.com/ckeditor/ckeditor-dev/issues/2084): [Table Tools](https://ckeditor.com/cke4/addon/tabletools) plugin now allows to change cell height unit type to either pixels or percents.
+* [#3164](https://github.com/ckeditor/ckeditor-dev/issues/3164): [Table Tools](https://ckeditor.com/cke4/addon/tabletools) plugin now accepts floating point values as table cell width and height.
 
 Fixed Issues:
 
@@ -20,6 +21,7 @@ Fixed Issues:
 * [#2923](https://github.com/ckeditor/ckeditor-dev/issues/2923): Fixed: CSS `windowtext` color is not correctly recognized by [`CKEDITOR.tools.style.parse`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_style_parse.html) functions.
 * [#2235](https://github.com/ckeditor/ckeditor-dev/issues/2235): Fixed: [Image](https://ckeditor.com/cke4/addon/image) in table cell has an empty URL field when edited from context menu opened by right-click when [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin is in use.
 * [#3120](https://github.com/ckeditor/ckeditor-dev/issues/3120): [IE8] Fixed: [`CKEDITOR.tools.extend`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tool.html#method-extend) function doesn't work with [`DontEnum`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Properties) object property attribute.
+* [#3098](https://github.com/ckeditor/ckeditor-dev/issues/3098): Fixed: Unit pickers for table cell width and height in [Table Tools](https://ckeditor.com/cke4/addon/tabletools) plugin have different width.
 
 API Changes:
 
@@ -43,6 +45,7 @@ Other Changes:
 * [#2741](https://github.com/ckeditor/ckeditor-dev/issues/2721): Replaced deprecated `arguments.callee` calls with named function expressions.
 * [#2924](https://github.com/ckeditor/ckeditor-dev/issues/2924): Marked [`CKEDITOR.tools.style.parse.border`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_style_border.html) as deprecated in favor of [`CKEDITOR.tools.style.border.fromCssRule`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_style_border.html#static-method-fromCssRule) function.
 * [#3132](https://github.com/ckeditor/ckeditor-dev/issues/2924): Marked [`CKEDITOR.tools.objectKeys`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tool.html#method-objectKeys) as deprecated in favor of [`CKEDITOR.tools.object.keys`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_object.html#method-keys).
+
 
 ## CKEditor 4.11.4
 
