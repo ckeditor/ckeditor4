@@ -1,0 +1,32 @@
+<div id="editor">
+	<p>Adipisicing corporis rem repellendus vel mollitia vero?</p>
+	<div data-widget="customwidget">Widget</div>
+	<p>Consectetur dolores voluptatibus illo ipsam eveniet?</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'span',
+		extraPlugins: 'customwidget',
+		allowedContent: true
+	} );
+
+	CKEDITOR.plugins.add( 'customwidget', {
+		requires: 'widget',
+		allowedContent: 'div(copied)',
+
+		init: function ( editor )	{
+			var counter = 0;
+
+			editor.widgets.add( 'customwidget', {
+				button: 'Add widget',
+				template: '<div>Widget</div>',
+
+				getClipboardHtml: function() {
+					counter++;
+					return '<div data-widget="customwidget">Widget copied ' + counter + ' times!</div>';
+				}
+			} );
+		}
+	} );
+</script>
