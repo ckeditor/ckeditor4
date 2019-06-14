@@ -112,17 +112,29 @@
 		},
 
 		// (#3115)
-		'test destroy when editor.container is absent': function() {
+		'test destroy when editor.container is absent': testDestroy( function( editor ) {
+			var container = editor.container;
+
+			delete editor.container;
+			container.clearCustomData();
+			container.remove();
+		} ),
+
+		// (#3115)
+		'test destroy when editor.container is detached': testDestroy( function( editor ) {
+			editor.container.remove();
+		} )
+	} );
+
+	function testDestroy( callback ) {
+		return function() {
 			bender.editorBot.create( {
 				creator: 'inline',
 				name: 'editor4'
 			}, function( bot ) {
-				var editor = bot.editor,
-					container = editor.container;
+				var editor = bot.editor;
 
-				delete editor.container;
-				container.clearCustomData();
-				container.remove();
+				callback( editor );
 
 				try {
 					editor.destroy();
@@ -131,8 +143,8 @@
 					assert.fail( err.toString() );
 				}
 			} );
-		}
-	} );
+		};
+	}
 
 	function createConcurrentEditorTest( creator, element ) {
 		return function() {
