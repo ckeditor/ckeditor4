@@ -3,6 +3,7 @@
 
 ## CKEditor 4.13
 
+
 Fixed Issues:
 
 * [#808](https://github.com/ckeditor/ckeditor-dev/issues/808): Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) and other content disappear on drag and drop in [read-only mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_readonly.html).
@@ -24,6 +25,10 @@ API Changes:
 * [#2975](https://github.com/ckeditor/ckeditor-dev/issues/2975): Added the [`CKEDITOR.dom.element#fireEventHandler()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_element.html#method-fireEventHandler) method.
 * [#3247](https://github.com/ckeditor/ckeditor-dev/issues/3247): Extended [`CKEDITOR.tools.bind()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-bind) method to accept arguments for bound functions.
 * [#3326](https://github.com/ckeditor/ckeditor-dev/issues/3326): Added [`CKEDITOR.dom.text#isEmpty()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_text.html#method-isEmpty) method.
+
+API Changes:
+
+* [#3138](https://github.com/ckeditor/ckeditor-dev/issues/3138): Use [`widgetDefinition.getClipboardHtml`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#method-getClipboardHtml) to customize [Widget](https://ckeditor.com/cke4/addon/widget) HTML during copy, cut and dragging operations.
 
 ## CKEditor 4.12.1
 
