@@ -10,6 +10,7 @@ New Features:
 * [#2639](https://github.com/ckeditor/ckeditor-dev/issues/2639): [Color Dialog](https://ckeditor.com/cke4/addon/colordialog) plugin now shows current selection's color when opened.
 * [#1490](https://github.com/ckeditor/ckeditor-dev/issues/1490): Improved [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin to retain table cell borders.
 * [#2870](https://github.com/ckeditor/ckeditor-dev/issues/2870): Added support for preserving positive `margin-left` values in list items for lists pasted with [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
+
 Fixed Issues:
 
 * [#2672](https://github.com/ckeditor/ckeditor-dev/issues/2672): Fixed: When resizing [Enhanced Image](https://ckeditor.com/cke4/addon/image2) to minimum size with a resizer the image dialog doesn't show actual values.
