@@ -6,7 +6,8 @@
 	'use strict';
 
 	var sampleWidget = '<figure data-widget="test" foo="Value1"><span>Value2</span></figure>',
-		sampleWidget2 = '<h1 data-widget="test2">TEST2</h1>';
+		sampleWidget2 = '<h1 data-widget="test2">TEST2</h1>',
+		sampleWidget3ClipboardHtml = '<div data-cke-test3-widget>test3</div>';
 
 	var editorConfig = {
 		plugins: 'wysiwygarea,sourcearea,widget,clipboard',
@@ -22,7 +23,22 @@
 						bar: 'span'
 					}
 				} );
+
 				evt.editor.widgets.add( 'test2', {} );
+
+				evt.editor.widgets.add( 'test3', {
+					getClipboardHtml: function() {
+						return sampleWidget3ClipboardHtml;
+					},
+
+					upcast: function( el ) {
+						if ( el.attributes[ 'data-test3-widget' ] ) {
+							return el.wrapWith( new CKEDITOR.htmlParser.element( 'div' ) );
+						}
+
+						return false;
+					}
+				} );
 			}
 		}
 	};
@@ -786,6 +802,57 @@
 					assert.areSame( 'b', range.startContainer.getName(), 'startContainer' );
 					assert.areSame( 'b', range.endContainer.getName(), 'endContainer' );
 					assert.isTrue( range.startContainer.getChild( 0 ).hasClass( 'cke_widget_wrapper' ) );
+				}, 150 );
+			} );
+		},
+
+		// (#3138)
+		'test widget clipboard html can be shadowed': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<div id="w1" data-widget="test3">test3</div>', function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				assert.areEqual( sampleWidget3ClipboardHtml, widget.getClipboardHtml() );
+			} );
+		},
+
+		// (#3138)
+		'test shadowed clipboard HTML is used for copying': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<div id="w1" data-widget="test3">test3</div>', function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				widget.focus();
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + 67 } ) ); // CTRL + C
+
+				// At this point copybin is selected.
+				var clipboardHtml = editor.getSelectedHtml( true );
+
+				wait( function() {
+					assert.isMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
+				}, 150 );
+			} );
+		},
+
+		// (#3138)
+		'test shadowed clipboard HTML is used for cutting': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<div id="w1" data-widget="test3">test3</div>', function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				widget.focus();
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + 88 } ) ); // CTRL + X
+
+				// At this point copybin is selected.
+				var clipboardHtml = editor.getSelectedHtml( true );
+
+				wait( function() {
+					assert.isMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
 				}, 150 );
 			} );
 		},
