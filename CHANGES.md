@@ -46,7 +46,6 @@ Other Changes:
 * [#2924](https://github.com/ckeditor/ckeditor-dev/issues/2924): Marked [`CKEDITOR.tools.style.parse.border`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_style_border.html) as deprecated in favor of [`CKEDITOR.tools.style.border.fromCssRule`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_style_border.html#static-method-fromCssRule) function.
 * [#3132](https://github.com/ckeditor/ckeditor-dev/issues/2924): Marked [`CKEDITOR.tools.objectKeys`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tool.html#method-objectKeys) as deprecated in favor of [`CKEDITOR.tools.object.keys`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_object.html#method-keys).
 
-
 ## CKEditor 4.11.4
 
 Fixed Issues:
