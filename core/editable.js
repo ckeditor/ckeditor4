@@ -467,14 +467,14 @@
 							// Remove empty element created after splitting (#2813).
 							// The range.splitElement() method splits the given element in two and places the selection
 							// in-between in such way that <div>F^oo</div> becomes <div>F</div>^<div>oo</div>.
-							// Then `removeEmptyInline()` method removes any of these elements if they are empty.
-							removeEmptyInline( current );
-							removeEmptyInline( endNode );
+							// Then removeEmptyInlineElement() method removes any of these elements if they are empty.
+							removeEmptyInlineElement( current );
+							removeEmptyInlineElement( endNode );
 
 							range.moveToBookmark( bookmark );
 
-							// If we're in an empty block which indicate a new paragraph,
-							// simply replace it with the inserting block.(https://dev.ckeditor.com/ticket/3664)
+						// If we're in an empty block which indicate a new paragraph,
+						// simply replace it with the inserting block (https://dev.ckeditor.com/ticket/3664).
 						} else if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
 							range.setStartBefore( current );
 							range.collapse( true );
@@ -1738,8 +1738,8 @@
 
 			// When called by insertHtml remove empty element created after splitting (#2813).
 			if ( isHtml ) {
-				removeEmptyInline( node );
-				removeEmptyInline( endNode );
+				removeEmptyInlineElement( node );
+				removeEmptyInlineElement( endNode );
 			}
 
 			// 1. Inline siblings.
@@ -2304,7 +2304,7 @@
 		return insert;
 	} )();
 
-	function removeEmptyInline( element ) {
+	function removeEmptyInlineElement( element ) {
 		if ( element && element.isEmptyInlineRemoveable() ) {
 			element.remove();
 		}
