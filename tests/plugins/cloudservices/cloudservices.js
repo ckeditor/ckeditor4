@@ -1,5 +1,4 @@
 /* bender-ckeditor-plugins: cloudservices,easyimage */
-/* bender-include: %BASE_PATH%/plugins/easyimage/_helpers/tools.js*/
 
 ( function() {
 	var TOKEN_VALUE = 'sample-token-value',
