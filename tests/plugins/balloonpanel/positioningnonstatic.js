@@ -105,7 +105,7 @@ obtain negative `top` and `y` value, which is propagate to test result.
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	bender.test( tests );
 } )();

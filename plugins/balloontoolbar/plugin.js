@@ -754,7 +754,7 @@
 			 */
 			CKEDITOR.ui.balloonToolbarView.prototype.renderItems = function( items ) {
 				var output = [],
-					keys = CKEDITOR.tools.objectKeys( items ),
+					keys = CKEDITOR.tools.object.keys( items ),
 					groupStarted = false;
 
 				// When we rerender toolbar we want to clear focusable in case of removing some items.

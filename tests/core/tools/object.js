@@ -7,6 +7,49 @@
 			this.object = CKEDITOR.tools.object;
 		},
 
+		'test object.keys': function() {
+			var keys = CKEDITOR.tools.object.keys;
+
+			arrayAssert.itemsAreEqual( [ 'foo', 'bar', '$ x !/', 'bom' ], keys( { foo: 1, bar: 'a', '$ x !/': false, bom: undefined } ) );
+			arrayAssert.itemsAreEqual( [], keys( {} ) );
+		},
+
+		// (#3120)
+		'test object.keys dont enum attribute': function() {
+			var target = CKEDITOR.tools.convertArrayToObject( CKEDITOR.tools.object.DONT_ENUMS, 1 );
+
+			arrayAssert.itemsAreEqual( CKEDITOR.tools.object.DONT_ENUMS,
+				CKEDITOR.tools.object.keys( target ) );
+		},
+
+		// (#3123)
+		'test object.entries': function() {
+			var obj = {
+					a: 1,
+					b: 2,
+					c: 3
+				},
+
+			result = CKEDITOR.tools.object.entries( obj );
+
+			assert.areEqual( 3, result.length );
+
+			arrayAssert.itemsAreEqual( [ 'a', 1 ], result [0] );
+			arrayAssert.itemsAreEqual( [ 'b', 2 ], result [1] );
+			arrayAssert.itemsAreEqual( [ 'c', 3 ], result [2] );
+		},
+
+		// (#3123)
+		'test object.values': function() {
+			var obj = {
+				a: 1,
+				b: 2,
+				c: 3
+			};
+
+			arrayAssert.itemsAreEqual( [ 1, 2, 3 ], CKEDITOR.tools.object.values( obj ) );
+		},
+
 		'test object.findKey': function() {
 			var inputObject = {
 				'a': 1,

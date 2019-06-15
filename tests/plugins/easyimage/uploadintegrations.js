@@ -355,7 +355,7 @@
 						}, function() {
 							assert.isTrue( true );
 							var widgets = editor.widgets.instances,
-								keys = CKEDITOR.tools.objectKeys( widgets );
+								keys = CKEDITOR.tools.object.keys( widgets );
 
 							assert.areSame( '%BASE_PATH%/_assets/logo.png', widgets[ keys[ 0 ] ].parts.image.getAttribute( 'src' ), 'Widget#0 src' );
 							assert.areSame( '%BASE_PATH%/_assets/logo.png', widgets[ keys[ 1 ] ].parts.image.getAttribute( 'src' ), 'Widget#1 src' );

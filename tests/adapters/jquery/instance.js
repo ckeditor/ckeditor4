@@ -20,7 +20,7 @@ bender.test( {
 	},
 
 	assertEditorInstances: function( expected ) {
-		arrayAssert.itemsAreEqual( expected, CKEDITOR.tools.objectKeys( CKEDITOR.instances ), 'Editors instances list should match with expected.' );
+		arrayAssert.itemsAreEqual( expected, CKEDITOR.tools.object.keys( CKEDITOR.instances ), 'Editors instances list should match with expected.' );
 	},
 
 	destroyAll: function() {

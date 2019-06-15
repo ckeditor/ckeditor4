@@ -568,7 +568,7 @@
 						// listeners **after** the DOM is inserted, which is too late.
 						assertPasteEvent( editor, evt, function() {
 							var widgets = editor.widgets.instances,
-								keys = CKEDITOR.tools.objectKeys( widgets );
+								keys = CKEDITOR.tools.object.keys( widgets );
 
 							assert.areSame( 2, keys.length, 'Widgets count' );
 							assert.areSame( 2, doneEventSpy.callCount, 'uploadDone events count' );

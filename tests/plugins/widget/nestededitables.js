@@ -43,7 +43,7 @@
 		getWidgetById = widgetTestsTools.getWidgetById;
 
 	function keysLength( obj ) {
-		return CKEDITOR.tools.objectKeys( obj ).length;
+		return CKEDITOR.tools.object.keys( obj ).length;
 	}
 
 	function testDelKey( editor, keyName, range, shouldBeBlocked, msg ) {

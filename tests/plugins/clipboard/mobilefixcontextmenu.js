@@ -115,5 +115,5 @@
 		};
 
 	bender.test(
-		bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
+		bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests ) );
 }() );

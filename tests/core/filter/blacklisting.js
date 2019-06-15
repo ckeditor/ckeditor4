@@ -41,8 +41,8 @@
 	};
 
 	function ruleSortCompare( ruleA, ruleB ) {
-		var elementsA = CKEDITOR.tools.objectKeys( ruleA.elements ).sort().join( ',' ),
-			elementsB = CKEDITOR.tools.objectKeys( ruleB.elements ).sort().join( ',' );
+		var elementsA = CKEDITOR.tools.object.keys( ruleA.elements ).sort().join( ',' ),
+			elementsB = CKEDITOR.tools.object.keys( ruleB.elements ).sort().join( ',' );
 
 		return elementsA == elementsB ? 0 :
 			elementsA > elementsB ? 1 : -1;

@@ -3925,8 +3925,8 @@
 				};
 
 				function deepCompare( left, right ) {
-					var leftKeys = CKEDITOR.tools.objectKeys( left ),
-						rightKeys = CKEDITOR.tools.objectKeys( right );
+					var leftKeys = CKEDITOR.tools.object.keys( left ),
+						rightKeys = CKEDITOR.tools.object.keys( right );
 
 					if ( leftKeys.length !== rightKeys.length ) {
 						return false;

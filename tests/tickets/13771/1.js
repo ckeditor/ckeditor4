@@ -44,7 +44,7 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	bender.test( tests );
 

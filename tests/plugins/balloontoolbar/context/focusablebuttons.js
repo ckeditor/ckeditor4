@@ -16,7 +16,7 @@
 	// @param {CKEDITOR.dom.element} needle
 	// @returns {string/undefined}
 	function indexOfElement( dict, needle ) {
-		return CKEDITOR.tools.array.filter( CKEDITOR.tools.objectKeys( dict ), function( key ) {
+		return CKEDITOR.tools.array.filter( CKEDITOR.tools.object.keys( dict ), function( key ) {
 			return needle.equals( dict[ key ] );
 		} )[ 0 ];
 	}

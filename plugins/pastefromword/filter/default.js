@@ -237,7 +237,7 @@
 					// Create style stack for td/th > font if only class
 					// and style attributes are present. Such markup is produced by Excel.
 					if ( CKEDITOR.dtd.tr[ element.parent.name ] &&
-						CKEDITOR.tools.arrayCompare( CKEDITOR.tools.objectKeys( element.attributes ), [ 'class', 'style' ] ) ) {
+						CKEDITOR.tools.arrayCompare( CKEDITOR.tools.object.keys( element.attributes ), [ 'class', 'style' ] ) ) {
 
 						Style.createStyleStack( element, filter, editor );
 					} else {
@@ -319,7 +319,7 @@
 
 					// In case parent div has only align attr, move it to the table element (https://dev.ckeditor.com/ticket/16811).
 					if ( parent.name && parent.name === 'div' && parent.attributes.align &&
-						tools.objectKeys( parent.attributes ).length === 1 && parent.children.length === 1 ) {
+						tools.object.keys( parent.attributes ).length === 1 && parent.children.length === 1 ) {
 
 						// If align is the only attribute of parent.
 						element.attributes.align = parent.attributes.align;
@@ -669,7 +669,7 @@
 				delete styles[ 'text-indent' ];
 			}
 
-			var keys = tools.objectKeys( styles );
+			var keys = tools.object.keys( styles );
 
 			for ( var i = 0; i < keys.length; i++ ) {
 				var styleName = keys[ i ].toLowerCase(),
@@ -787,7 +787,7 @@
 					'background'
 				],
 				style = tools.parseCssText( element.attributes.style ),
-				keys = tools.objectKeys( style ),
+				keys = tools.object.keys( style ),
 				sortedKeys = [],
 				nonSortedKeys = [];
 

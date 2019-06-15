@@ -463,6 +463,6 @@
 	};
 
 	// We have to run tests in isolation when using IE browsers (#1552) and EDGE (#1686).
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests, CKEDITOR.env.ie );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests, CKEDITOR.env.ie );
 	bender.test( tests );
 } )();

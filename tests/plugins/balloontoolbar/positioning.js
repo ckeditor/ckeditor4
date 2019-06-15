@@ -148,7 +148,7 @@
 				} ),
 				res = balloonToolbar._getAlignments( editor.editable().getFirst().getClientRect(), 10, 10 );
 
-			arrayAssert.itemsAreEqual( [ 'bottom hcenter', 'top hcenter' ], CKEDITOR.tools.objectKeys( res ) );
+			arrayAssert.itemsAreEqual( [ 'bottom hcenter', 'top hcenter' ], CKEDITOR.tools.object.keys( res ) );
 		},
 
 		// #1342, #1496
@@ -218,7 +218,7 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 	ignoreUnsupportedEnvironment( tests );
 	bender.test( tests );
 

@@ -225,7 +225,7 @@
 					existing3: 'moo',
 					existing4: 'boo'
 				},
-				names = CKEDITOR.tools.objectKeys( tcs );
+				names = CKEDITOR.tools.object.keys( tcs );
 
 			function next() {
 				var name = names.shift();

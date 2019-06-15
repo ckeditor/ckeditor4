@@ -165,6 +165,6 @@
 		};
 
 	// Force Edge to run every test in new CKEditor's instance.
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests, CKEDITOR.env.edge );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests, CKEDITOR.env.edge );
 	bender.test( tests );
 } )();

@@ -12,7 +12,7 @@
 		plugins: 'wysiwygarea,toolbar',
 		on: {
 			instanceReady: function() {
-				this.setData( '<p>I have following plugins loaded: ' + CKEDITOR.tools.objectKeys( this.plugins ) + '</p>' );
+				this.setData( '<p>I have following plugins loaded: ' + CKEDITOR.tools.object.keys( this.plugins ) + '</p>' );
 			}
 		}
 	}

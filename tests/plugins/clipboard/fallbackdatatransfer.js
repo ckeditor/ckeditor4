@@ -442,7 +442,7 @@ bender.test( {
 		fallbackDataTransfer.isRequired();
 
 		assert.isTrue( nativeData.types.length === 0, 'dataTransfer.types should be empty' );
-		assert.isTrue( CKEDITOR.tools.objectKeys( nativeData._data ).length === 0, 'dataTransfer should be empty' );
+		assert.isTrue( CKEDITOR.tools.object.keys( nativeData._data ).length === 0, 'dataTransfer should be empty' );
 	},
 
 	'test if isRequired does not remove other MIME types': function() {
@@ -456,8 +456,8 @@ bender.test( {
 		fallbackDataTransfer.isRequired();
 
 		assert.areSame( 1, nativeData.types.length, 'dataTransfer.types should only contain one type' );
-		assert.areSame( 1, CKEDITOR.tools.objectKeys( nativeData._data ).length, 'dataTransfer should only contain one type' );
-		arrayAssert.itemsAreEqual( CKEDITOR.tools.objectKeys( nativeData._data ), [ 'text/html' ], 'dataTransfer should only contain text/html' );
+		assert.areSame( 1, CKEDITOR.tools.object.keys( nativeData._data ).length, 'dataTransfer should only contain one type' );
+		arrayAssert.itemsAreEqual( CKEDITOR.tools.object.keys( nativeData._data ), [ 'text/html' ], 'dataTransfer should only contain text/html' );
 	},
 
 	'test getFallbackTypeContent prioritize cache': function() {
