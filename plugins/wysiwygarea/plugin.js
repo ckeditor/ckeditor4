@@ -89,7 +89,7 @@
 				function onLoad( evt ) {
 					evt && evt.removeListener();
 
-					if ( editor._shouldPreventInit() ) {
+					if ( editor.shouldPreventInitialization() ) {
 						return;
 					}
 

@@ -192,7 +192,7 @@
 
 		// Return the editor instance immediately to enable early stage event registrations.
 		CKEDITOR.tools.setTimeout( function() {
-			if ( !this._shouldPreventInit() ) {
+			if ( !this.shouldPreventInitialization() ) {
 				initConfig( this, instanceConfig );
 			}
 		}, 0, this );
@@ -591,7 +591,7 @@
 
 			// Load all plugin specific language files in a row.
 			CKEDITOR.scriptLoader.load( languageFiles, function() {
-				if ( editor._shouldPreventInit()  ) {
+				if ( editor.shouldPreventInitialization()  ) {
 					return;
 				}
 
@@ -1588,10 +1588,9 @@
 		 * Returns boolean whether editor is destroyed or detached.
 		 *
 		 * @since 4.12.0
-		 * @private
 		 * @return {boolean}
 		 */
-		_shouldPreventInit: function() {
+		shouldPreventInitialization: function() {
 			return this.status === 'destroyed' || this.container && this.container.isDetached();
 		}
 	} );
