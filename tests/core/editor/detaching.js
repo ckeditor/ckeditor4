@@ -38,7 +38,13 @@
 		'test detach before scriptLoader.load fires it\'s callback': testDetach( detachWhenScriptLoaded ),
 
 		// (#3115)
-		'test detach before iframe#onload': testDetach( detachBeforeIframeLoad ),
+		'test detach before iframe#onload': testDetach( function( detach, editor ) {
+			if ( ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) && !CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
+			detachBeforeIframeLoad( detach, editor );
+		} ),
 
 		// (#3115)
 		'test editor set mode when editor is detached': testSetMode( function( editor ) {
