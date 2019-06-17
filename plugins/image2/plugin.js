@@ -1668,7 +1668,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *
  *		config.image2_prefillDimensions = false;
  *
- * @since 4.5
+ * @since 4.5.0
  * @cfg {Boolean} [image2_prefillDimensions=true]
  * @member CKEDITOR.config
  */
@@ -1681,7 +1681,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *
  *		config.image2_disableResizer = true;
  *
- * @since 4.5
+ * @since 4.5.0
  * @cfg {Boolean} [image2_disableResizer=false]
  * @member CKEDITOR.config
  */
@@ -1739,7 +1739,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  * Read more in the [documentation](#!/guide/dev_image2) and see the
  * {@glink examples/image2 example}.
  *
- * @since 4.4
+ * @since 4.4.0
  * @cfg {String[]} [image2_alignClasses=null]
  * @member CKEDITOR.config
  */

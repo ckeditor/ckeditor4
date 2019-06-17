@@ -172,7 +172,7 @@
  * will automatically detect the HiDPI environment and attempt to load the
  * high-resolution resources.
  *
- * @since 4.2
+ * @since 4.2.0
  * @property {Boolean} hidpi
  */
 

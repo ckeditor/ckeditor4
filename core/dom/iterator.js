@@ -70,7 +70,7 @@
 	/**
 	 * Default iterator's filter. It is set only for nested iterators.
 	 *
-	 * @since 4.3
+	 * @since 4.3.0
 	 * @readonly
 	 * @property {CKEDITOR.filter} filter
 	 */
@@ -79,7 +79,7 @@
 	 * Iterator's active filter. It is set by the {@link #getNextParagraph} method
 	 * when it enters a nested editable.
 	 *
-	 * @since 4.3
+	 * @since 4.3.0
 	 * @readonly
 	 * @property {CKEDITOR.filter} activeFilter
 	 */

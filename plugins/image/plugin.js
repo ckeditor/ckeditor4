@@ -159,7 +159,7 @@
  *
  *		config.image_prefillDimensions = false;
  *
- * @since 4.5
+ * @since 4.5.0
  * @cfg {Boolean} [image_prefillDimensions=true]
  * @member CKEDITOR.config
  */

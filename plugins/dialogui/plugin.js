@@ -1082,7 +1082,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Sets the text direction marker and the `dir` attribute of the input element.
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @param {String} dir The text direction. Pass `null` to reset.
 			 */
 			setDirectionMarker: function( dir ) {
@@ -1103,7 +1103,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Gets the value of the text direction marker.
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @returns {String} `'ltr'`, `'rtl'` or `null` if the marker is not set.
 			 */
 			getDirectionMarker: function() {

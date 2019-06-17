@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
- /**
+/**
  * @fileOverview Rich code snippets for CKEditor.
  */
 
@@ -31,7 +31,7 @@
 			 * the three callbacks).
 			 * * This method is accessible through the `editor.plugins.codesnippet` namespace only.
 			 *
-			 * @since 4.4
+			 * @since 4.4.0
 			 * @member CKEDITOR.plugins.codesnippet
 			 * @param {CKEDITOR.plugins.codesnippet.highlighter} highlighter
 			 */
@@ -181,7 +181,7 @@
 	 *			}
 	 *		} );
 	 *
-	 * @since 4.4
+	 * @since 4.4.0
 	 * @class CKEDITOR.plugins.codesnippet.highlighter
 	 * @extends CKEDITOR.plugins.codesnippet
 	 * @param {Object} def Highlighter definition. See {@link #highlighter}, {@link #init} and {@link #languages}.
@@ -438,7 +438,7 @@
  * Read more in the {@glink guide/dev_codesnippet documentation}
  * and see the {@glink examples/codesnippet example}.
  *
- * @since 4.4
+ * @since 4.4.0
  * @cfg {String} [codeSnippet_codeClass='hljs']
  * @member CKEDITOR.config
  */
@@ -460,7 +460,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  *			php: 'PHP'
  *		};
  *
- * @since 4.4
+ * @since 4.4.0
  * @cfg {Object} [codeSnippet_languages=null]
  * @member CKEDITOR.config
  */
@@ -477,7 +477,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  *		// Changes the theme to "pojoaque".
  *		config.codeSnippet_theme = 'pojoaque';
  *
- * @since 4.4
+ * @since 4.4.0
  * @cfg {String} [codeSnippet_theme='default']
  * @member CKEDITOR.config
  */

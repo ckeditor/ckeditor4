@@ -112,9 +112,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 *		// Will give:
 	 *		// <p>[<img src="bar.png" alt="" class="foo" />]Foo</p>
 	 *
-	 * ### API changes introduced in CKEditor 4.4
+	 * ### API changes introduced in CKEditor 4.4.0
 	 *
-	 * Before CKEditor 4.4 all style instances had no access at all to the {@link CKEDITOR.editor editor instance}
+	 * Before CKEditor 4.4.0 all style instances had no access at all to the {@link CKEDITOR.editor editor instance}
 	 * within which the style is used. Neither the style constructor, nor style methods were requiring
 	 * passing the editor instance which made styles independent of the editor and hence its settings and state.
 	 * This design decision came from CKEditor 3; it started causing problems and became an unsolvable obstacle for
@@ -129,7 +129,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * implemented {@link CKEDITOR.style.customHandlers.widget widget style handler}'s methods will not fail,
 	 * although they will also not work by aborting at an early stage.
 	 *
-	 * Therefore, you can safely upgrade to CKEditor 4.4 even if you use style methods without providing
+	 * Therefore, you can safely upgrade to CKEditor 4.4.0 even if you use style methods without providing
 	 * the editor instance. You must only align your code if your implementation should handle widget styles
 	 * or any other custom style handler. Of course, we recommend doing this in any case to avoid potential
 	 * problems in the future.
@@ -193,7 +193,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * @param {CKEDITOR.editor/CKEDITOR.dom.document} editor The editor instance in which
 		 * the style will be applied.
 		 * A {@link CKEDITOR.dom.document} instance is accepted for backward compatibility
-		 * reasons, although since CKEditor 4.4 this type of argument is deprecated. Read more about
+		 * reasons, although since CKEditor 4.4.0 this type of argument is deprecated. Read more about
 		 * the signature change in the {@link CKEDITOR.style} documentation.
 		 */
 		apply: function( editor ) {
@@ -223,7 +223,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * @param {CKEDITOR.editor/CKEDITOR.dom.document} editor The editor instance in which
 		 * the style will be removed.
 		 * A {@link CKEDITOR.dom.document} instance is accepted for backward compatibility
-		 * reasons, although since CKEditor 4.4 this type of argument is deprecated. Read more about
+		 * reasons, although since CKEditor 4.4.0 this type of argument is deprecated. Read more about
 		 * the signature change in the {@link CKEDITOR.style} documentation.
 		 */
 		remove: function( editor ) {
@@ -234,9 +234,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 			if ( this.checkApplicable( editor.elementPath(), editor ) ) {
 				var initialEnterMode = this._.enterMode;
 
-				// Before CKEditor 4.4 style knew nothing about editor, so in order to provide enterMode
+				// Before CKEditor 4.4.0 style knew nothing about editor, so in order to provide enterMode
 				// which should be used developers were forced to hack the style object (see https://dev.ckeditor.com/ticket/10190).
-				// Since CKEditor 4.4 style knows about editor (at least when it's being applied/removed), but we
+				// Since CKEditor 4.4.0 style knows about editor (at least when it's being applied/removed), but we
 				// use _.enterMode for backward compatibility with those hacks.
 				// Note: we should not change style's enter mode if it was already set.
 				if ( !initialEnterMode )
@@ -522,7 +522,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		/**
 		 * Returns the style definition.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @returns {Object}
 		 */
 		getDefinition: function() {
@@ -536,7 +536,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 *
 		 * **Note:** This method is not defined in the {@link CKEDITOR.style} class.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @method toAllowedContentRules
 		 * @param {CKEDITOR.editor} [editor] The editor instance.
 		 * @returns {CKEDITOR.filter.allowedContentRules} The rules that should represent this style in the {@link CKEDITOR.filter}.
@@ -590,7 +590,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	/**
 	 * Namespace containing custom style handlers added with {@link CKEDITOR.style#addCustomHandler}.
 	 *
-	 * @since 4.4
+	 * @since 4.4.0
 	 * @class
 	 * @singleton
 	 */
@@ -692,7 +692,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * * {@link CKEDITOR.style#toAllowedContentRules toAllowedContentRules} &ndash; Not required, but very useful in
 	 * case of a custom style that has to notify the {@link CKEDITOR.filter} which rules it allows when registered.
 	 *
-	 * @since 4.4
+	 * @since 4.4.0
 	 * @static
 	 * @member CKEDITOR.style
 	 * @param definition The style class definition.
@@ -1911,7 +1911,7 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
  *			}
  *		] );
  *
- * @since 3.2
+ * @since 3.2.0
  * @class
  * @singleton
  * @extends CKEDITOR.resourceManager
@@ -2052,7 +2052,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * Indicates that fully selected read-only elements will be included when
  * applying the style (for inline styles only).
  *
- * @since 3.5
+ * @since 3.5.0
  * @property {Boolean} [includeReadonly=false]
  * @member CKEDITOR.style
  */
@@ -2061,7 +2061,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * Indicates that any matches element of this style will be eventually removed
  * when calling {@link CKEDITOR.editor#removeStyle}.
  *
- * @since 4.0
+ * @since 4.0.0
  * @property {Boolean} [alwaysRemoveElement=false]
  * @member CKEDITOR.style
  */
@@ -2069,7 +2069,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 /**
  * Disables inline styling on read-only elements.
  *
- * @since 3.5
+ * @since 3.5.0
  * @cfg {Boolean} [disableReadonlyStyling=false]
  * @member CKEDITOR.config
  */
@@ -2088,7 +2088,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * Note that the `name` has to be equal to the name used in
  * {@link CKEDITOR.stylesSet#add} while registering the styles set.
  *
- * **Note**: Since 4.1 it is possible to set `stylesSet` to `false`
+ * **Note**: Since 4.1.0 it is possible to set `stylesSet` to `false`
  * to prevent loading any styles set.
  *
  * Read more in the {@glink guide/dev_styles documentation}
@@ -2113,7 +2113,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  *			...
  *		];
  *
- * @since 3.3
+ * @since 3.3.0
  * @cfg {String/Array/Boolean} [stylesSet='default']
  * @member CKEDITOR.config
  */

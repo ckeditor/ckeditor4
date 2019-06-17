@@ -950,7 +950,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		/**
 		 * Rearrange the dialog to its previous position or the middle of the window.
 		 *
-		 * @since 3.5
+		 * @since 3.5.0
 		 */
 		layout: function() {
 			var el = this.parts.dialog;
@@ -1443,7 +1443,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		/**
 		 * Sets the dialog {@link #property-state}.
 		 *
-		 * @since 4.5
+		 * @since 4.5.0
 		 * @param {Number} state Either {@link CKEDITOR#DIALOG_STATE_IDLE} or {@link CKEDITOR#DIALOG_STATE_BUSY}.
 		 */
 		setState: function( state ) {
@@ -1589,7 +1589,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		/**
 		 * Check whether tab wasn't removed by {@link CKEDITOR.config#removeDialogTabs}.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @static
 		 * @param {CKEDITOR.editor} editor
 		 * @param {String} dialogName
@@ -3410,7 +3410,7 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  *		config.dialog_buttonsOrder = 'rtl';
  *
- * @since 3.5
+ * @since 3.5.0
  * @cfg {String} [dialog_buttonsOrder='OS']
  * @member CKEDITOR.config
  */
@@ -3427,7 +3427,7 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  *		config.removeDialogTabs = 'flash:advanced;image:Link';
  *
- * @since 3.5
+ * @since 3.5.0
  * @cfg {String} [removeDialogTabs='']
  * @member CKEDITOR.config
  */
@@ -3438,7 +3438,7 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  *		config.dialog_noConfirmCancel = true;
  *
- * @since 4.3
+ * @since 4.3.0
  * @cfg {Boolean} [dialog_noConfirmCancel=false]
  * @member CKEDITOR.config
  */
@@ -3540,7 +3540,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * both the {@link CKEDITOR.dialog} object and the dialog instance
  * since 3.5.3, previously it was only available in the global object.
  *
- * @since 3.5
+ * @since 3.5.0
  * @event resize
  * @member CKEDITOR.dialog
  * @param data
@@ -3551,7 +3551,7 @@ CKEDITOR.plugins.add( 'dialog', {
 /**
  * Event fired when the dialog state changes, usually by {@link CKEDITOR.dialog#setState}.
  *
- * @since 4.5
+ * @since 4.5.0
  * @event state
  * @member CKEDITOR.dialog
  * @param data

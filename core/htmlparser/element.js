@@ -150,7 +150,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Filters this element and its children with the given filter.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 * @returns {Boolean} The method returns `false` when this element has
 		 * been removed or replaced with another. This information means that
@@ -315,7 +315,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Replaces this element with its children.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 */
 		replaceWithChildren: function() {
 			var children = this.children;
@@ -342,7 +342,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 *		// 5. "bar" text node,
 		 *		// 6. "bom" text node.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {Function} callback Function to be executed on every node.
 		 * **Since 4.3**: If `callback` returned `false`, the descendants of the current node will be ignored.
 		 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as an argument.
@@ -355,7 +355,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * Gets this element's first child. If `condition` is given, this method returns
 		 * the first child which satisfies that condition.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {String/Object/Function} condition Name of a child, a hash of names, or a validator function.
 		 * @returns {CKEDITOR.htmlParser.node}
 		 */
@@ -376,7 +376,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Gets this element's inner HTML.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @returns {String}
 		 */
 		getHtml: function() {
@@ -388,7 +388,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Sets this element's inner HTML.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {String} html
 		 */
 		setHtml: function( html ) {
@@ -401,7 +401,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Gets this element's outer HTML.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @returns {String}
 		 */
 		getOuterHtml: function() {
@@ -413,7 +413,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Splits this element at the given index.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {Number} index Index at which the element will be split &mdash; `0` means the beginning,
 		 * `1` after the first child node, etc.
 		 * @returns {CKEDITOR.htmlParser.element} The new element following this one.
@@ -505,7 +505,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Adds a class name to the list of classes.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @param {String} className The class name to be added.
 		 */
 		addClass: function( className ) {
@@ -520,7 +520,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Removes a class name from the list of classes.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {String} className The class name to be removed.
 		 */
 		removeClass: function( className ) {
@@ -542,7 +542,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		/**
 		 * Checkes whether this element has a class name.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {String} className The class name to be checked.
 		 * @returns {Boolean} Whether this element has a `className`.
 		 */

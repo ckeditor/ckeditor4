@@ -268,7 +268,7 @@
 			/**
 			 * Transforms plain text to HTML based on current selection and {@link CKEDITOR.editor#activeEnterMode}.
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @param {String} text Text to transform.
 			 * @returns {String} HTML generated from the text.
 			 */
@@ -295,7 +295,7 @@
 			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
 			 * @param {CKEDITOR.dom.range} [range] If specified, the HTML will be inserted into the range
 			 * instead of into the selection. The selection will be placed at the end of the insertion (like in the normal case).
-			 * Introduced in CKEditor 4.5.
+			 * Introduced in CKEditor 4.5.0.
 			 */
 			insertHtml: function( data, mode, range ) {
 				var editor = this.editor;
@@ -329,7 +329,7 @@
 			 *
 			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @param {String} data HTML code to be inserted into the editor.
 			 * @param {CKEDITOR.dom.range} range The range as a place of insertion.
 			 * @param {String} [mode='html'] Mode in which HTML will be inserted.
@@ -652,7 +652,7 @@
 			/**
 			 * The base of the {@link CKEDITOR.editor#getSelectedHtml} method.
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @method getHtmlFromRange
 			 * @param {CKEDITOR.dom.range} range
 			 * @returns {CKEDITOR.dom.documentFragment}
@@ -687,7 +687,7 @@
 			 * **Note:** The range is modified so it matches the desired selection after extraction
 			 * even though the selection is not made.
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @param {CKEDITOR.dom.range} range
 			 * @param {Boolean} [removeEmptyBlock=false] See {@link CKEDITOR.editor#extractSelectedHtml}'s parameter.
 			 * Note that the range will not be modified if this parameter is set to `true`.

@@ -45,7 +45,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.ele
 	/**
 	 * Gets the HTML of this document fragment's children.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @returns {String} The HTML of this document fragment's children.
 	 */
 	getHtml: function() {

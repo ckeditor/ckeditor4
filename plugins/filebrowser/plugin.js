@@ -472,7 +472,7 @@
  *
  *		config.filebrowserBrowseUrl = '/browser/browse.php';
  *
- * @since 3.0
+ * @since 3.0.0
  * @cfg {String} [filebrowserBrowseUrl='' (empty string = disabled)]
  * @member CKEDITOR.config
  */
@@ -491,7 +491,7 @@
  * To configure {@glink guide/dev_file_upload uploading dropped or pasted files} use the {@link CKEDITOR.config#uploadUrl}
  * configuration option.
  *
- * @since 3.0
+ * @since 3.0.0
  * @cfg {String} [filebrowserUploadUrl='' (empty string = disabled)]
  * @member CKEDITOR.config
  */
@@ -507,7 +507,7 @@
  *
  *		config.filebrowserImageBrowseUrl = '/browser/browse.php?type=Images';
  *
- * @since 3.0
+ * @since 3.0.0
  * @cfg {String} [filebrowserImageBrowseUrl='' (empty string = disabled)]
  * @member CKEDITOR.config
  */
@@ -523,7 +523,7 @@
  *
  *		config.filebrowserFlashBrowseUrl = '/browser/browse.php?type=Flash';
  *
- * @since 3.0
+ * @since 3.0.0
  * @cfg {String} [filebrowserFlashBrowseUrl='' (empty string = disabled)]
  * @member CKEDITOR.config
  */
@@ -542,7 +542,7 @@
  * To configure {@glink guide/dev_file_upload uploading dropped or pasted files} use the {@link CKEDITOR.config#uploadUrl}
  * or {@link CKEDITOR.config#imageUploadUrl} configuration option.
  *
- * @since 3.0
+ * @since 3.0.0
  * @cfg {String} [filebrowserImageUploadUrl='' (empty string = disabled)]
  * @member CKEDITOR.config
  */
@@ -557,7 +557,7 @@
  *
  *		config.filebrowserFlashUploadUrl = '/uploader/upload.php?type=Flash';
  *
- * @since 3.0
+ * @since 3.0.0
  * @cfg {String} filebrowserFlashUploadUrl='' (empty string = disabled)]
  * @member CKEDITOR.config
  */
@@ -573,7 +573,7 @@
  *
  *		config.filebrowserImageBrowseLinkUrl = '/browser/browse.php';
  *
- * @since 3.2
+ * @since 3.2.0
  * @cfg {String} [filebrowserImageBrowseLinkUrl='' (empty string = disabled)]
  * @member CKEDITOR.config
  */

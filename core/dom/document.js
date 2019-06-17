@@ -258,7 +258,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 *			'</html>'
 	 *		);
 	 *
-	 * @since 3.5
+	 * @since 3.5.0
 	 * @param {String} html The HTML defining the document content.
 	 */
 	write: function( html ) {
@@ -283,7 +283,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 *
 	 * **Note:** The returned list is not a live collection (like the result of native `querySelectorAll`).
 	 *
-	 * @since 4.3
+	 * @since 4.3.0
 	 * @param {String} selector A valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 	 * @returns {CKEDITOR.dom.nodeList}
 	 */
@@ -295,7 +295,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * Wrapper for `querySelector`. Returns the first element within this document that matches
 	 * the specified `selector`.
 	 *
-	 * @since 4.3
+	 * @since 4.3.0
 	 * @param {String} selector A valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 	 * @returns {CKEDITOR.dom.element}
 	 */
@@ -308,7 +308,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	/**
 	 * Internet Explorer 8 only method. It returns a document fragment which has all HTML5 elements enabled.
 	 *
-	 * @since 4.3
+	 * @since 4.3.0
 	 * @private
 	 * @returns DocumentFragment
 	 */

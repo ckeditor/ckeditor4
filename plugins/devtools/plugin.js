@@ -138,7 +138,7 @@ CKEDITOR.plugins.add( 'devtools', {
  *			return str + '</ul>';
  *		};
  *
- * @since 3.6
+ * @since 3.6.0
  * @cfg {Function} [devtools_textCallback=see example]
  * @member CKEDITOR.config
  * @param {CKEDITOR.editor} editor
@@ -159,7 +159,7 @@ CKEDITOR.plugins.add( 'devtools', {
  *			'#cke_tooltip h2 { font-size: 1.1em; border-bottom: 1px solid; margin: 0; padding: 1px; }' +
  *			'#cke_tooltip ul { padding: 0pt; list-style-type: none; }';
  *
- * @since 3.6
+ * @since 3.6.0
  * @cfg {String} [devtools_styles=see example]
  * @member CKEDITOR.config
  */

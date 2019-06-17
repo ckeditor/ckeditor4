@@ -143,7 +143,7 @@
 	/**
 	 * The URL where images should be uploaded.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @cfg {String} [imageUploadUrl='' (empty string = disabled)]
 	 * @member CKEDITOR.config
 	 */

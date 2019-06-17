@@ -15,7 +15,7 @@
 	 * @private
 	 * @extends CKEDITOR.ui.balloonPanel
 	 * @constructor Creates a balloon toolbar view instance.
-	 * @since 4.8
+	 * @since 4.8.0
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
 	 * @param {Object} definition An object containing the toolbar definition. See {@link CKEDITOR.ui.balloonPanel}
 	 * documentation for an example definition.
@@ -68,7 +68,7 @@
 	 *
 	 * @class
 	 * @constructor Creates a balloon toolbar instance.
-	 * @since 4.8
+	 * @since 4.8.0
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
 	 * @param {Object} definition An object containing the panel definition. See {@link CKEDITOR.ui.balloonPanel}
 	 * documentation for an example definition.
@@ -215,7 +215,7 @@
 	 *
 	 * @class CKEDITOR.plugins.balloontoolbar.context
 	 * @constructor Creates a balloon toolbar context instance.
-	 * @since 4.8
+	 * @since 4.8.0
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
 	 * @param {CKEDITOR.plugins.balloontoolbar.contextDefinition} options A set of options defining the context behavior.
 	 */
@@ -384,7 +384,7 @@
 	 *
 	 * @class CKEDITOR.plugins.balloontoolbar.contextManager
 	 * @constructor
-	 * @since 4.8
+	 * @since 4.8.0
 	 * @param {CKEDITOR.editor} editor The editor instance which the toolbar is created for.
 	 */
 	function ContextManager( editor ) {
@@ -639,7 +639,7 @@
 			 *			cssSelector: 'a[href], img'
 			 *		} );
 			 *
-			 * @since 4.8
+			 * @since 4.8.0
 			 * @readonly
 			 * @property {CKEDITOR.plugins.balloontoolbar.contextManager} balloonToolbars
 			 * @member CKEDITOR.editor

@@ -90,7 +90,7 @@
 		 *			return el >= 3;
 		 *		} ); // 2
 		 *
-		 * @since 4.5
+		 * @since 4.5.0
 		 * @param {Array} array Array to search in.
 		 * @param {Function} compareFunction Compare function.
 		 * @returns {Number} The index of the first matching element or `-1` if none matches.
@@ -248,7 +248,7 @@
 		 * This method is faster than {@link #clone} which does
 		 * a deep copy of an object (including arrays).
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {Object} source The object to be copied.
 		 * @returns {Object} Copy of `source`.
 		 */
@@ -416,7 +416,7 @@
 		 *
 		 *		alert( CKEDITOR.tools.htmlDecodeAttr( '&lt;a &quot; b&gt;' ) ); // '<a " b>'
 		 *
-		 * Since CKEditor 4.5 this method simply executes {@link #htmlDecode} which covers
+		 * Since CKEditor 4.5.0 this method simply executes {@link #htmlDecode} which covers
 		 * all necessary entities.
 		 *
 		 * @param {String} text The text to be decoded.
@@ -429,7 +429,7 @@
 		/**
 		 * Transforms text to valid HTML: creates paragraphs, replaces tabs with non-breaking spaces etc.
 		 *
-		 * @since 4.5
+		 * @since 4.5.0
 		 * @param {String} text Text to transform.
 		 * @param {Number} enterMode Editor {@link CKEDITOR.config#enterMode Enter mode}.
 		 * @returns {String} HTML generated from the text.
@@ -1077,7 +1077,7 @@
 		 *		CKEDITOR.tools.writeCssText( styleObj ); // -> 'color:red; border:none'
 		 *		CKEDITOR.tools.writeCssText( styleObj, true ); // -> 'border:none; color:red'
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {Object} styles The object contaning style properties.
 		 * @param {Boolean} [sort] Whether to sort CSS properties.
 		 * @returns {String} The serialized style text.
@@ -1100,7 +1100,7 @@
 		 *
 		 * **Note:** This method performs shallow, non-strict comparison.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {Object} left
 		 * @param {Object} right
 		 * @param {Boolean} [onlyLeft] Check only the properties that are present in the `left` object.
@@ -1132,7 +1132,7 @@
 
 		/**
 		 * @inheritdoc CKEDITOR.tools.object#keys
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @deprecated 4.12.0 Use {@link CKEDITOR.tools.object#keys} instead.
 		 */
 		objectKeys: function( obj ) {
@@ -1149,7 +1149,7 @@
 		 *		console.log( CKEDITOR.tools.convertArrayToObject( arr, 1 ) );
 		 *		// -> { foo: 1, bar: 1 }
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {Array} arr The array to be converted to an object.
 		 * @param [fillWith=true] Set each property of an object to `fillWith` value.
 		 */
@@ -1226,7 +1226,7 @@
 		 *
 		 * **Note:** This method has to be used in the `<head>` section of the document.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {Object} doc Native `Document` or `DocumentFragment` in which the elements will be enabled.
 		 * @param {Boolean} [withAppend] Whether to append created elements to the `doc`.
 		 */
@@ -1248,7 +1248,7 @@
 		 * @param {Array} arr The array whose items will be checked.
 		 * @param {RegExp} regexp The regular expression.
 		 * @returns {Boolean} Returns `true` for the first occurrence of the search pattern.
-		 * @since 4.4
+		 * @since 4.4.0
 		 */
 		checkIfAnyArrayItemMatches: function( arr, regexp ) {
 			for ( var i = 0, l = arr.length; i < l; ++i ) {
@@ -1264,7 +1264,7 @@
 		 * @param obj The object whose properties will be checked.
 		 * @param {RegExp} regexp The regular expression.
 		 * @returns {Boolean} Returns `true` for the first occurrence of the search pattern.
-		 * @since 4.4
+		 * @since 4.4.0
 		 */
 		checkIfAnyObjectPropertyMatches: function( obj, regexp ) {
 			for ( var i in obj ) {
@@ -1367,7 +1367,7 @@
 		/**
 		 * The data URI of a transparent image. May be used e.g. in HTML as an image source or in CSS in `url()`.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @readonly
 		 */
 		transparentImageData: 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==',

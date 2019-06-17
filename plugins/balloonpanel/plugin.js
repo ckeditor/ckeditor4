@@ -38,7 +38,7 @@
 	 *		panel.attach( domElement );
 	 *
 	 * @class
-	 * @since 4.6
+	 * @since 4.6.0
 	 * @param {CKEDITOR.editor} editor The editor instance for which the panel is created.
 	 * @param {Object} definition An object containing the panel definition.
 	 */

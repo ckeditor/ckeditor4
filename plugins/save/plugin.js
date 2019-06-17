@@ -61,7 +61,7 @@
  * Fired when the user clicks the Save button on the editor toolbar.
  * This event allows to overwrite the default Save button behavior.
  *
- * @since 4.2
+ * @since 4.2.0
  * @event save
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.

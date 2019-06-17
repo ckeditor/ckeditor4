@@ -445,10 +445,10 @@
  *
  *		config.mathJaxLib = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML';
  *
- * **Note:** Since CKEditor 4.5 this option does not have a default value, so it must
+ * **Note:** Since CKEditor 4.5.0 this option does not have a default value, so it must
  * be set in order to enable the MathJax plugin.
  *
- * @since 4.3
+ * @since 4.3.0
  * @cfg {String} mathJaxLib
  * @member CKEDITOR.config
  */
