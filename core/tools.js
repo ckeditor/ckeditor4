@@ -1491,8 +1491,10 @@
 		 *
 		 * Therefore value returned by IE < 9 is converted to value present in other browsers,
 		 * unless second parameter is set to `true`. In such case the normalization is reversed.
+		 * Reversed normalization allows to use standard buttons value while writing code for IE < 9.
+		 *
 		 * The normalization is conducted only in browsers that use non-standard button mappings,
-		 * returning passed parameter in every other browser;
+		 * returning passed parameter in every other browser:
 		 *
 		 * ```javascript
 		 * console.log( CKEDITOR.tools.normalizeMouseButton( 1 ) ); // Returns 0 in IE8, 1 in all other browsers.

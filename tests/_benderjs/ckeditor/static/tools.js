@@ -1287,8 +1287,8 @@
 			return tmp;
 		},
 
-		/*
-		 * Fires specified mouse event on given element
+		/**
+		 * Fires specified mouse event on the given element.
 		 *
 		 * @param {CKEDITOR.dom.element/HTMLElement} element Element with attached event handler attribute.
 		 * @param {String} eventName Event handler attribute name.
