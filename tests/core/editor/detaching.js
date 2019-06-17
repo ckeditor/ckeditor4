@@ -20,12 +20,12 @@
 
 	bender.test( {
 		// (#3115)
-		'test detach and destroy synchronously': testDetach( function( detach, editor ) {
+		'test detach and destroy synchronously': testDetach( function( detach ) {
 			detach();
 		} ),
 
 		// (#3115)
-		'test detach and destroy asynchronously': testDetach( function( detach, editor ) {
+		'test detach and destroy asynchronously': testDetach( function( detach ) {
 			setTimeout( detach );
 		} ),
 
