@@ -21,12 +21,15 @@
 
 <script>
 	for ( var i = 1; i < 5; i++ ) {
-		// Hide editors for which test would fail on Chrome & Safari because of a browser upstream issue
+		// Hide editors for which test would fail on Chrome, Safari or IE<9 because of a browser upstream issue
 		// https://github.com/ckeditor/ckeditor-dev/pull/2776#issuecomment-463144905
-		if ( CKEDITOR.env.webkit && !(i%2) ) {
+		var isIgnoredBrowser = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.webkit;
+
+		if ( isIgnoredBrowser && !(i%2) ) {
 			CKEDITOR.document.findOne( '#editor' + i ).remove();
 			continue;
 		}
+
 		CKEDITOR.replace( 'editor' + i, {
 			extraPlugins: i > 2 ? 'divarea' : '',
 			enterMode: CKEDITOR.ENTER_DIV,
