@@ -16,3 +16,12 @@ Editor content looks same as before pasting which is listed above editor.
 ## Unexpected
 
 Pasted content is wrapped with an extra `div` element.
+
+## Note
+
+There is an upstream issue caused by buggy selection. It occurs when div is nested in another div.
+So these cases are excluded from test on following browsers:
+
+- IE8
+- Chrome
+- Safari
