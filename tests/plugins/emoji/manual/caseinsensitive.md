@@ -1,7 +1,6 @@
 @bender-tags: 4.10.1, bug, emoji, 2167
 @bender-ckeditor-plugins: wysiwygarea, toolbar, elementspath, sourcearea, emoji, clipboard, undo
 @bender-ui: collapsed
-@bender-include: ../_helpers/tools.js
 
 Type in editor various upper and lower-cased combinations:
 1. `:OK`,

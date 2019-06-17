@@ -47,6 +47,12 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 										'.png' );
 								}
 							}
+
+							// Plugin is supported by default (#2692).
+							plugin.isSupportedEnvironment = plugin.isSupportedEnvironment || function() {
+								return true;
+							};
+
 							initialized[ pluginName ] = 1;
 						}
 

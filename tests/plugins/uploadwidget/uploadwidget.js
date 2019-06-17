@@ -93,9 +93,7 @@
 		},
 
 		setUp: function() {
-			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget' );
 
 			fileTools = CKEDITOR.fileTools;
 			resumeAfter = bender.tools.resumeAfter;

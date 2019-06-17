@@ -2,9 +2,7 @@
 
 <script>
 
-	if( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
-		bender.ignore();
-	}
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
 
 	CKEDITOR.replace( 'editor', {
 		on: {

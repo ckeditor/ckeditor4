@@ -1,7 +1,5 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: floatingspace,easyimage,toolbar */
-/* bender-include: ./_helpers/tools.js */
-/* global easyImageTools */
 
 ( function() {
 	'use strict';
@@ -19,9 +17,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( easyImageTools.isUnsupportedEnvironment() ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 			var addButton = CKEDITOR.ui.prototype.addButton;
 			this.addButtonStub = sinon.stub( CKEDITOR.ui.prototype, 'addButton', function( name, definition ) {

@@ -23,6 +23,8 @@
 </form>
 
 <script>
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
 	CKEDITOR.addCss( '.square{background:indianred;position:absolute}' );
 
 	editor = CKEDITOR.replace( 'editor', {

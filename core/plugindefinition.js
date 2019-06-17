@@ -189,3 +189,29 @@
  *
  * @property {String} [icons]
  */
+
+/**
+ * A function which should be implemented if a plugin is not supported on every
+ * available environment according to
+ * [Browser Compatibility](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_browsers.html)
+ * or specific editor configuration.
+ *
+ * This function won't be called by the plugin loader itself and it's not required for a proper
+ * plugin initialization. However, it's recommended to implement the function if a plugin
+ * has environment requirements. This information may be important for related features
+ * and testing environment.
+ *
+ * ```javascript
+ * CKEDITOR.plugins.add( 'sample', {
+ *		isSupportedEnvironment: function( editor ) {
+ *			// Plugin supported only on modern browsers.
+ *			return !CKEDITOR.env.ie || CKEDITOR.env.edge;
+ *		}
+ * } );
+ * ```
+ *
+ * @since 4.12.0
+ * @method isSupportedEnvironment
+ * @param {CKEDITOR.editor} editor
+ * @returns {Boolean} Information if the plugin is supported in the current environment.
+ */

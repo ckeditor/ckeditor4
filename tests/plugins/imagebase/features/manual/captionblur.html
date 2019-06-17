@@ -24,9 +24,8 @@
 	</div>
 
 	<script>
-		if ( easyImageTools.isUnsupportedEnvironment() ) {
-			bender.ignore();
-		}
+		bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
 		var config = {
 			on: {
 				pluginsLoaded: function( evt ) {

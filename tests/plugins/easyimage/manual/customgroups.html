@@ -18,9 +18,7 @@
 
 <script>
 	( function() {
-		if ( easyImageTools.isUnsupportedEnvironment() ) {
-			bender.ignore();
-		}
+		bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 		var commonConfig = {
 			easyimage_styles: {

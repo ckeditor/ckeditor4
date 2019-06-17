@@ -12,8 +12,7 @@
 
 	bender.test( {
 		checkIFrame: function( config ) {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
-				assert.ignore();
+			bender.tools.ignoreUnsupportedEnvironment( 'mathjax' );
 
 			CKEDITOR.document.getById( 'playground' ).setHtml( config.html );
 

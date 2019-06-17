@@ -1,6 +1,5 @@
 /* bender-tags: editor,widget */
 /* bender-include: ../easyimage/_helpers/tools.js */
-/* global easyImageTools */
 
 ( function() {
 	'use strict';
@@ -8,10 +7,6 @@
 	bender.test( {
 		// (#1791)
 		'test plugin init when easyimage is active': function() {
-			if ( easyImageTools.isUnsupportedEnvironment() ) {
-				assert.ignore();
-			}
-
 			var spy = sinon.spy( CKEDITOR, 'warn' );
 
 			bender.editorBot.create( {
@@ -21,8 +16,9 @@
 				}
 			}, function( bot ) {
 				var editor = bot.editor;
-
 				spy.restore();
+
+				bender.tools.ignoreUnsupportedEnvironment( 'easyimage', editor );
 
 				assert.isTrue( spy.calledWith( 'editor-plugin-conflict', { plugin: 'image', replacedWith: 'easyimage' } ) );
 				assert.isUndefined( editor.commands.image, 'Command: Image' );

@@ -21,6 +21,9 @@
 	}
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
 		// (#tp2247)
 		'test overriding cell background': function( editor ) {
 			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'cellBackground' ).getValue() );
@@ -84,6 +87,11 @@
 		},
 
 		'test simulating merge cells from context menu ': function( editor ) {
+			// Ignores for Edge (#1944).
+			if ( CKEDITOR.env.edge ) {
+				assert.ignore();
+			}
+
 			var selection = editor.getSelection(),
 				expected = '<table><tbody><tr><td>Cell 1.1</td><td rowspan="2">Cell 1.2<br />Cell 2.2</td>' +
 					'<td>Cell 1.3</td></tr><tr><td>Cell 2.1</td><td>Cell 2.3</td></tr></tbody></table>',
@@ -285,13 +293,6 @@
 	prepareFocusFrame();
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
-
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
-
-	// Ignores for Edge (#1944).
-	var shouldIgnore = !tableSelectionHelpers.isSupportedEnvironment || CKEDITOR.env.edge;
-	tests._should.ignore[ 'test simulating merge cells from context menu  (classic)' ] = shouldIgnore;
-	tests._should.ignore[ 'test simulating merge cells from context menu  (inline)' ] = shouldIgnore;
 
 	bender.test( tests );
 } )();

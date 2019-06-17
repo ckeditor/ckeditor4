@@ -5,9 +5,8 @@
 </div>
 
 	<script>
-		if ( easyImageTools.isUnsupportedEnvironment() ) {
-			bender.ignore();
-		}
+		bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
 		CKEDITOR.replace( 'editor1', {
 			on: {
 				pluginsLoaded: function( evt ) {

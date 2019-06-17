@@ -43,9 +43,7 @@
 
 	var tests = {
 		setUp: function() {
-			if ( easyImageTools.isUnsupportedEnvironment() ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 		},
 
 		'test style is integrated with ACF': function( editor ) {

@@ -103,5 +103,32 @@ bender.test(
 
 		assert.isFalse( result, 'Conflicts not detected.' );
 		assert.isFalse( spy.called );
+	},
+
+	// (#2692)
+	'test supported environment': function() {
+		CKEDITOR.plugins.add( 'envdefault', {} );
+		CKEDITOR.plugins.add( 'envcustom', {
+			isSupportedEnvironment: function() {
+				return false;
+			}
+		} );
+
+		var editor = CKEDITOR.replace( 'env', {
+			plugins: 'wysiwygarea,envdefault,envcustom',
+			on: {
+				instanceReady: function() {
+					resume( function() {
+						assert.isTrue( editor.plugins.envdefault.isSupportedEnvironment(),
+							'Plugin should be supported by default' );
+
+						assert.isFalse( editor.plugins.envcustom.isSupportedEnvironment(),
+							'Plugin should allow for custom isSupportedEnvironment implementation' );
+					} );
+				}
+			}
+		} );
+
+		wait();
 	}
 } );

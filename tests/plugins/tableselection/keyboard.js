@@ -16,6 +16,9 @@
 	var getRangesForCells = tableSelectionHelpers.getRangesForCells;
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
 		'test backspace in the middle': function( editor, bot ) {
 			bender.tools.testInputOut( 'emptyTable', function( source, expected ) {
 				bender.tools.setHtmlWithSelection( editor, source );
@@ -204,8 +207,6 @@
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
-
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
 
 	bender.test( tests );
 } )();

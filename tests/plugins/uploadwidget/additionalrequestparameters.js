@@ -104,9 +104,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget' );
 
 			// IE doesn't support File constructor, so there is a need to mimic it.
 			if ( typeof MSBlobBuilder === 'function' )

@@ -1,7 +1,6 @@
 /* bender-tags: tableselection, clipboard */
 /* bender-ckeditor-plugins: undo,tableselection */
 /* bender-include: ../../_helpers/tableselection.js */
-/* global tableSelectionHelpers */
 
 ( function() {
 	'use strict';
@@ -22,6 +21,12 @@
 
 	var tests = {
 		setUp: function() {
+			if ( !CKEDITOR.env.ie && !CKEDITOR.env.iOS ) {
+				assert.ignore();
+			}
+
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
 			window.attack = sinon.spy();
 		},
 
@@ -44,8 +49,6 @@
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
-
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests, !CKEDITOR.env.ie && !CKEDITOR.env.iOS );
 
 	bender.test( tests );
 } )();

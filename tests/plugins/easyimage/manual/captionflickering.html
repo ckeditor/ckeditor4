@@ -41,9 +41,7 @@
 </div>
 
 <script>
-	if ( easyImageTools.isUnsupportedEnvironment() ) {
-		bender.ignore();
-	}
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 	CKEDITOR.replace( 'classic' );
 	CKEDITOR.replace( 'divarea', {
 		extraPlugins: 'divarea'

@@ -7,9 +7,7 @@
 </div>
 
 <script>
-	if ( easyImageTools.isUnsupportedEnvironment() ) {
-		bender.ignore();
-	}
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 	CKEDITOR.addCss( '.progress-wrapper { outline: 2px solid green; position: relative; background: #000; color: #fff; }' );
 

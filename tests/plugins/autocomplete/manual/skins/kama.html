@@ -28,9 +28,7 @@
 		skin: 'kama'
 	};
 
-	if ( autocompleteUtils.isUnsupportedEnvironment() ) {
-		bender.ignore();
-	}
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
 
 	CKEDITOR.replace( 'editor1', cfg );
 	CKEDITOR.inline( 'editor2', cfg );

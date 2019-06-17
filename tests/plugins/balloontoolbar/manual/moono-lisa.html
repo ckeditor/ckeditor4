@@ -30,9 +30,7 @@
 
 <script>
 	// Currently balloon toolbar is not integrated with old IE browsers.
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-		bender.ignore();
-	}
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
 	CKEDITOR.disableAutoInline = true;
 
 	function instanceReadyListener( evt ) {

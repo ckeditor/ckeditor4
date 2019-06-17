@@ -26,6 +26,9 @@
 					self.instances.push( new Mentions( editor, config ) );
 				} );
 			} );
+		},
+		isSupportedEnvironment: function( editor ) {
+			return editor.plugins.autocomplete.isSupportedEnvironment( editor );
 		}
 	} );
 

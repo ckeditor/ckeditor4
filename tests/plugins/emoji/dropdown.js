@@ -26,9 +26,7 @@
 		},
 
 		setUp: function() {
-			if ( emojiTools.notSupportedEnvironment ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
 		},
 		'test emoji dropdown has proper components': function() {
 			var bot = this.editorBot;

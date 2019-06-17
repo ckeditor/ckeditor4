@@ -10,7 +10,7 @@
 		requires: 'uploadwidget,link',
 		init: function( editor ) {
 			// Do not execute this paste listener if it will not be possible to upload file.
-			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+			if ( !this.isSupportedEnvironment() ) {
 				return;
 			}
 
@@ -37,6 +37,10 @@
 					this.replaceWith( '<a href="' + upload.url + '" target="_blank">' + upload.fileName + '</a>' );
 				}
 			} );
+		},
+
+		isSupportedEnvironment: function() {
+			return CKEDITOR.plugins.clipboard.isFileApiSupported;
 		}
 	} );
 } )();

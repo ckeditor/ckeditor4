@@ -1,7 +1,6 @@
 /* bender-tags: emoji */
 /* bender-ckeditor-plugins: emoji */
 /* bender-include: _helpers/tools.js */
-/* global emojiTools */
 
 ( function() {
 	'use strict';
@@ -15,9 +14,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( emojiTools.notSupportedEnvironment ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
 		},
 		'test emoji does not throw error without toolbar plugin': function() {
 			assert.pass();

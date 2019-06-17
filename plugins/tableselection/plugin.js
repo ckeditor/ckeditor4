@@ -1149,19 +1149,15 @@
 			var editable = editor.editable();
 			editable.attachListener( editable, 'keydown', getTableOnKeyDownListener( editor ), null, null, -1 );
 			editable.attachListener( editable, 'keypress', tableKeyPressListener, null, null, -1 );
-		},
-
-		/**
-		 * Determines whether table selection is supported in the current environment.
-		 *
-		 * @property {Boolean}
-		 * @private
-		 */
-		isSupportedEnvironment: !( CKEDITOR.env.ie && CKEDITOR.env.version < 11 )
+		}
 	};
 
 	CKEDITOR.plugins.add( 'tableselection', {
 		requires: 'clipboard,tabletools',
+
+		isSupportedEnvironment: function() {
+			return !( CKEDITOR.env.ie && CKEDITOR.env.version < 11 );
+		},
 
 		onLoad: function() {
 			// We can't alias these features earlier, as they could be still not loaded.
@@ -1176,7 +1172,7 @@
 
 		init: function( editor ) {
 			// Disable unsupported browsers.
-			if ( !CKEDITOR.plugins.tableselection.isSupportedEnvironment ) {
+			if ( !this.isSupportedEnvironment() ) {
 				return;
 			}
 

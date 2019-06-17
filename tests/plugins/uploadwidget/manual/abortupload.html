@@ -5,9 +5,11 @@
 		uploadUrl: '%BASE_PATH%',
 		on: {
 			instanceReady: function( evt ) {
-				if ( !CKEDITOR.fileTools.isFileUploadSupported || bender.tools.env.mobile ) {
+				if ( bender.tools.env.mobile ) {
 					return bender.ignore();
 				}
+
+				bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget' );
 
 				var editor = evt.editor;
 				editor.widgets.registered.uploadimage.onAbort = function() {

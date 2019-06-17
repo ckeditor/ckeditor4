@@ -22,6 +22,9 @@
 	};
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
 		// #515
 		'test mouseover on scrollbar': function( editor, bot ) {
 			var editable = editor.editable();

@@ -15,6 +15,10 @@
 			// because otherwise wrong widget may handle upload placeholder element (e.g. image2 plugin would handle image).
 			// `data-widget` attribute is allowed only in the elements which has also `data-cke-upload-id` attribute.
 			editor.filter.allow( '*[!data-widget,!data-cke-upload-id]' );
+		},
+
+		isSupportedEnvironment: function() {
+			return CKEDITOR.plugins.clipboard.isFileApiSupported;
 		}
 	} );
 

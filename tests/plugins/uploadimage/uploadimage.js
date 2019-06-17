@@ -71,9 +71,7 @@
 		},
 
 		setUp: function() {
-			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'uploadimage' );
 
 			var editorName;
 

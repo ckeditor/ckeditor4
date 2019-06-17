@@ -2,13 +2,15 @@
 /* bender-ckeditor-plugins: tableselection */
 /* bender-ckeditor-remove-plugins: dialogadvtab */
 /* bender-include: ../../_helpers/tableselection.js */
-/* global tableSelectionHelpers */
 
 ( function() {
 
 	'use strict';
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
 		// (#2403)
 		'test pasting table': function() {
 			var editor = CKEDITOR.inline( CKEDITOR.document.getById( 'wrapped' ), {
@@ -30,8 +32,6 @@
 			wait();
 		}
 	};
-
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
 
 	bender.test( tests );
 

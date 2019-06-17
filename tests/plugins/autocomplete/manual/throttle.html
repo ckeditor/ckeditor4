@@ -1,9 +1,7 @@
 <div id="editor1" ></div>
 <script>
 
-	if ( autocompleteUtils.isUnsupportedEnvironment() ) {
-		bender.ignore();
-	}
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
 
 	CKEDITOR.replace( 'editor1', {
 		width: 600,
