@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'af', {
 	headersColumn: 'Eerste kolom',
 	headersNone: 'Geen',
 	headersRow: 'Eerste ry',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Randbreedte moet \'n getal wees.',
 	invalidCellPadding: 'Sel-spasie moet \'n getal wees.',
 	invalidCellSpacing: 'Sel-afstand moet \'n getal wees.',

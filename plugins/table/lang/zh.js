@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'zh', {
 	headersColumn: '第一行',
 	headersNone: '無',
 	headersRow: '第一列',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: '框線大小必須是整數。',
 	invalidCellPadding: '儲存格邊距必須為正數。',
 	invalidCellSpacing: '儲存格間距必須為正數。',

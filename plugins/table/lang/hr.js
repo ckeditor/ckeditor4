@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'hr', {
 	headersColumn: 'Prva kolona',
 	headersNone: 'Ništa',
 	headersRow: 'Prvi red',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Debljina ruba mora biti broj.',
 	invalidCellPadding: 'Razmak ćelija mora biti broj.',
 	invalidCellSpacing: 'Prostornost ćelija mora biti broj.',

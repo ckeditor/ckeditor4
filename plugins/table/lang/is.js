@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'is', {
 	headersColumn: 'Fyrsti dálkur',
 	headersNone: 'Engar',
 	headersRow: 'Fyrsta röð',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Border size must be a number.', // MISSING
 	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
 	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING

@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'fi', {
 	headersColumn: 'Ensimmäinen sarake',
 	headersNone: 'Ei',
 	headersRow: 'Ensimmäinen rivi',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Reunan koon täytyy olla numero.',
 	invalidCellPadding: 'Solujen sisennyksen täytyy olla numero.',
 	invalidCellSpacing: 'Solujen välin täytyy olla numero.',

@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'gu', {
 	headersColumn: 'પહેલી ઊભી કટાર',
 	headersNone: 'નથી ',
 	headersRow: 'પહેલી  કટાર',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'બોર્ડર એક આંકડો હોવો જોઈએ',
 	invalidCellPadding: 'સેલની અંદરની જગ્યા સુન્ય કરતા વધારે હોવી જોઈએ.',
 	invalidCellSpacing: 'સેલ વચ્ચેની જગ્યા સુન્ય કરતા વધારે હોવી જોઈએ.',

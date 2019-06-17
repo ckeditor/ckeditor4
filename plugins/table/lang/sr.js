@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'sr', {
 	headersColumn: 'Прва колона',
 	headersNone: 'Нема',
 	headersRow: 'Први ред',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Величина ивице треба да буде цифра.',
 	invalidCellPadding: 'Пуњење ћелије треба да буде позитивна цифра.',
 	invalidCellSpacing: 'Размак ћелије треба да буде позитивна цифра.',

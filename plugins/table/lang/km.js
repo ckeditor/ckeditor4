@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'km', {
 	headersColumn: 'ជួរ​ឈរ​ដំបូង',
 	headersNone: 'មិន​មាន',
 	headersRow: 'ជួរ​ដេក​ដំបូង',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'ទំហំ​បន្ទាត់​ស៊ុម​ត្រូវ​តែ​ជា​លេខ។',
 	invalidCellPadding: 'ចន្លោះ​ក្រឡា​ត្រូវ​តែជា​លេខ​វិជ្ជមាន។',
 	invalidCellSpacing: 'គម្លាត​ក្រឡា​ត្រូវ​តែ​ជា​លេខ​វិជ្ជមាន។',

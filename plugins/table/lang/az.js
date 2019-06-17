@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'az', {
 	headersColumn: 'Birinci sütun',
 	headersNone: 'yox',
 	headersRow: 'Birinci sətir',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Sərhədlərin eni müsbət rəqəm olmalıdır.',
 	invalidCellPadding: 'Xanalardakı kənar boşluqlar müsbət rəqəm olmalıdır.',
 	invalidCellSpacing: 'Xanalararası interval müsbət rəqəm olmalıdır.',

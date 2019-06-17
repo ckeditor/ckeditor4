@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'eo', {
 	headersColumn: 'Unua kolumno',
 	headersNone: 'Neniu',
 	headersRow: 'Unua linio',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'La bordergrando devas esti nombro.',
 	invalidCellPadding: 'La interna marĝeno en la ĉeloj devas esti pozitiva nombro.',
 	invalidCellSpacing: 'La spaco inter la ĉeloj devas esti pozitiva nombro.',

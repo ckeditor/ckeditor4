@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'vi', {
 	headersColumn: 'Cột đầu tiên',
 	headersNone: 'Không có',
 	headersRow: 'Hàng đầu tiên',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Kích cỡ của đường biên phải là một số nguyên.',
 	invalidCellPadding: 'Khoảng đệm giữa ô và nội dung phải là một số nguyên.',
 	invalidCellSpacing: 'Khoảng cách giữa các ô phải là một số nguyên.',

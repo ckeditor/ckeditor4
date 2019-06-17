@@ -12,7 +12,7 @@ All dialog elements are properly aligned (no gap at the top in one of the column
 
 #### Editor 1:
 
-Cell width and height fields are not visible. 
+Cell width and height fields are not visible.
 
 #### Editor 2:
 
