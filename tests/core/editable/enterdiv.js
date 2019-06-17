@@ -1,8 +1,16 @@
 /* bender-tags: editor */
 
-bender.editor = {
-	config: {
-		enterMode: CKEDITOR.ENTER_DIV
+bender.editors = {
+	classic: {
+		config: {
+			enterMode: CKEDITOR.ENTER_DIV
+		}
+	},
+	divarea: {
+		config: {
+			enterMode: CKEDITOR.ENTER_DIV,
+			extraPlugins: 'divarea'
+		}
 	}
 };
 
@@ -11,16 +19,22 @@ var tests = {
 	'insert div': testInsertHtml( '<div>foo</div>' ),
 
 	// (#2751)
-	'insert two divs': testInsertHtml( '<div>foo</div><div>bar</div>' )
+	'insert div wrapped in another div': testInsertHtml( '<div><div>foo</div></div>' ),
+
+	// (#2751)
+	'insert two divs': testInsertHtml( '<div>foo</div><div>bar</div>' ),
+
+	// (#2751)
+	'insert two divs wrapped in another div': testInsertHtml( '<div><div>foo</div><div>bar</div></div>' )
 };
+
+tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 bender.test( tests );
 
 function testInsertHtml( htmlString ) {
-	return function() {
-		this.editorBot.setData( '', function() {
-			var editor = this.editor;
-
+	return function( editor, bot ) {
+		bot.setData( '', function() {
 			editor.insertHtml( htmlString );
 			assert.areSame( htmlString, editor.getData() );
 		} );
