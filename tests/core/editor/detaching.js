@@ -1,10 +1,13 @@
 /* bender-tags: editor */
+/* bender-include: _helpers/tools.js */
 // jscs:disable maximumLineLength
 /* bender-ckeditor-plugins: about,a11yhelp,basicstyles,bidi,blockquote,clipboard,colorbutton,colordialog,copyformatting,contextmenu,dialogadvtab,div,elementspath,enterkey,entities,filebrowser,find,flash,floatingspace,font,format,forms,horizontalrule,htmlwriter,image,iframe,indentlist,indentblock,justify,language,link,list,liststyle,magicline,maximize,newpage,pagebreak,pastefromword,pastetext,preview,print,removeformat,resize,save,selectall,showblocks,showborders,smiley,sourcearea,specialchar,stylescombo,tab,table,tableselection,tabletools,templates,toolbar,undo,uploadimage,wysiwygarea */
 // jscs:enable maximumLineLength
 
 ( function() {
-	var fakeComponent = CKEDITOR.document.findOne( '#fake-component' ),
+	var detachWhenScriptLoaded = detachingTools.detachWhenScriptLoaded,
+		detachBeforeIframeLoad = detachingTools.detachBeforeIframeLoad,
+		fakeComponent = CKEDITOR.document.findOne( '#fake-component' ),
 		container = CKEDITOR.document.findOne( '#container' ),
 		editor, currentError;
 
@@ -17,68 +20,25 @@
 
 	bender.test( {
 		// (#3115)
-		'test detach and destroy synchronously': testDetach( function( editor, detach ) {
+		'test detach and destroy synchronously': testDetach( function( detach, editor ) {
 			detach();
 		} ),
 
 		// (#3115)
-		'test detach and destroy asynchronously': testDetach( function( editor, detach ) {
+		'test detach and destroy asynchronously': testDetach( function( detach, editor ) {
 			setTimeout( detach );
 		} ),
 
 		// (#3115)
-		'test detach before firing editor#loaded event': testDetach( function( editor, detach ) {
+		'test detach before firing editor#loaded event': testDetach( function( detach, editor ) {
 			editor.on( 'loaded', detach, null, null, -9999 );
 		} ),
 
 		// (#3115)
-		'test detach before scriptLoader.load fires it\'s callback': testDetach( function( editor, detach ) {
-			var pluginsLoad = CKEDITOR.plugins.load;
-
-			CKEDITOR.plugins.load = function() {
-				CKEDITOR.plugins.load = pluginsLoad;
-
-				var scriptLoaderLoad = CKEDITOR.scriptLoader.load;
-
-				CKEDITOR.scriptLoader.load = function() {
-					CKEDITOR.scriptLoader.load = scriptLoaderLoad;
-
-					detach();
-
-					scriptLoaderLoad.apply( this, arguments );
-				};
-
-				pluginsLoad.apply( this, arguments );
-			};
-		} ),
+		'test detach before scriptLoader.load fires it\'s callback': testDetach( detachWhenScriptLoaded ),
 
 		// (#3115)
-		'test detach before iframe#onload': testDetach( function( editor, detach ) {
-			// Test only environments which uses iframe#load event.
-			// Sync calls to load helper in setMode can be omitted,
-			// because setMode wont be ever called in detached editor.
-			if ( ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) && !CKEDITOR.env.gecko ) {
-				assert.ignore();
-			}
-
-			var addMode = editor.addMode;
-
-			editor.addMode = function( mode, originalModeHandler ) {
-				if ( mode === 'wysiwyg' ) {
-					editor.addMode = addMode;
-					addMode.call( this, mode, modeHandler );
-				} else {
-					addMode.apply( this, arguments );
-				}
-
-				function modeHandler() {
-					originalModeHandler.apply( this, arguments );
-
-					editor.container.findOne( 'iframe.cke_wysiwyg_frame' )
-						.on( 'load', detach, null, null, -9999 );
-				}
-			};
-		} ),
+		'test detach before iframe#onload': testDetach( detachBeforeIframeLoad ),
 
 		// (#3115)
 		'test editor set mode when editor is detached': testSetMode( function( editor ) {
@@ -103,7 +63,7 @@
 
 			editor = CKEDITOR.replace( 'editor' );
 
-			callback( editor, detach );
+			callback( detach, editor );
 
 			wait();
 
