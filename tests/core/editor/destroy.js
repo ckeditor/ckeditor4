@@ -58,7 +58,7 @@
 			// initConfig is called asynchronously.
 			wait( function() {
 				warnStub.restore();
-				assert.isTrue( warnStub.called, 'CKEDITOR.warn shouldn\'t be called.' );
+				assert.isFalse( warnStub.called, 'CKEDITOR.warn shouldn\'t be called.' );
 			}, 0 );
 		},
 
