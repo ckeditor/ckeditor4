@@ -15,11 +15,6 @@
 			var tc = this;
 			var editor = new CKEDITOR.editor( { autoParagraph: false } );
 
-			editor.element = {
-				isDetached: function() {},
-				getAttribute: function() {}
-			};
-
 			editor.on( 'loaded', function() {
 				tc.editor = editor;
 				tc.callback();

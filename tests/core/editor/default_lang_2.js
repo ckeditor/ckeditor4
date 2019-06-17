@@ -10,11 +10,6 @@ bender.test( {
 			defaultLanguage: 'fr'
 		} );
 
-		editor.element = {
-			isDetached: function() {},
-			getAttribute: function() {}
-		};
-
 		editor.on( 'loaded', function( evt ) {
 			evt.removeListener();
 			tc.resume( function() {
