@@ -1523,7 +1523,9 @@
 
 				if ( mapping[ 0 ] === button && reverse ) {
 					return mapping[ 1 ];
-				} else if ( !reverse && mapping[ 1 ] === button ) {
+				}
+
+				if ( !reverse && mapping[ 1 ] === button ) {
 					return mapping[ 0 ];
 				}
 			}
