@@ -55,12 +55,6 @@ bender.test( {
 		var skin = CKEDITOR.skin;
 
 		var editor = new CKEDITOR.editor();
-
-		editor.element = {
-			isDetached: function() {},
-			getAttribute: function() {}
-		};
-
 		editor.on( 'loaded', function() {
 			// Make sure css parts are all loaded.
 			tc.checkPartLoaded( 'editor', function() {
