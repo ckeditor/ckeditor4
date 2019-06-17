@@ -112,9 +112,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 *		// Will give:
 	 *		// <p>[<img src="bar.png" alt="" class="foo" />]Foo</p>
 	 *
-	 * ### API changes introduced in CKEditor 4.4
+	 * ### API changes introduced in CKEditor 4.4.0
 	 *
-	 * Before CKEditor 4.4 all style instances had no access at all to the {@link CKEDITOR.editor editor instance}
+	 * Before CKEditor 4.4.0 all style instances had no access at all to the {@link CKEDITOR.editor editor instance}
 	 * within which the style is used. Neither the style constructor, nor style methods were requiring
 	 * passing the editor instance which made styles independent of the editor and hence its settings and state.
 	 * This design decision came from CKEditor 3; it started causing problems and became an unsolvable obstacle for
@@ -129,7 +129,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * implemented {@link CKEDITOR.style.customHandlers.widget widget style handler}'s methods will not fail,
 	 * although they will also not work by aborting at an early stage.
 	 *
-	 * Therefore, you can safely upgrade to CKEditor 4.4 even if you use style methods without providing
+	 * Therefore, you can safely upgrade to CKEditor 4.4.0 even if you use style methods without providing
 	 * the editor instance. You must only align your code if your implementation should handle widget styles
 	 * or any other custom style handler. Of course, we recommend doing this in any case to avoid potential
 	 * problems in the future.
@@ -2088,7 +2088,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * Note that the `name` has to be equal to the name used in
  * {@link CKEDITOR.stylesSet#add} while registering the styles set.
  *
- * **Note**: Since 4.1 it is possible to set `stylesSet` to `false`
+ * **Note**: Since 4.1.0 it is possible to set `stylesSet` to `false`
  * to prevent loading any styles set.
  *
  * Read more in the {@glink guide/dev_styles documentation}

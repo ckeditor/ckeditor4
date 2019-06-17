@@ -3691,7 +3691,7 @@
 			apply: function( editor ) {
 				var widget;
 
-				// Before CKEditor 4.4 wasn't a required argument, so we need to
+				// Before CKEditor 4.4.0 wasn't a required argument, so we need to
 				// handle a case when it wasn't provided.
 				if ( !( editor instanceof CKEDITOR.editor ) )
 					return;
@@ -3713,7 +3713,7 @@
 			},
 
 			remove: function( editor ) {
-				// Before CKEditor 4.4 wasn't a required argument, so we need to
+				// Before CKEditor 4.4.0 wasn't a required argument, so we need to
 				// handle a case when it wasn't provided.
 				if ( !( editor instanceof CKEDITOR.editor ) )
 					return;
@@ -3736,7 +3736,7 @@
 					path,
 					removed = false;
 
-				// Before CKEditor 4.4 wasn't a required argument, so we need to
+				// Before CKEditor 4.4.0 wasn't a required argument, so we need to
 				// handle a case when it wasn't provided.
 				if ( !( editor instanceof CKEDITOR.editor ) )
 					return false;
@@ -3764,7 +3764,7 @@
 			},
 
 			checkApplicable: function( elementPath, editor ) {
-				// Before CKEditor 4.4 wasn't a required argument, so we need to
+				// Before CKEditor 4.4.0 wasn't a required argument, so we need to
 				// handle a case when it wasn't provided.
 				if ( !( editor instanceof CKEDITOR.editor ) )
 					return false;
@@ -3869,7 +3869,7 @@
 
 		// @context style
 		function checkElementMatch( element, fullMatch, editor ) {
-			// Before CKEditor 4.4 wasn't a required argument, so we need to
+			// Before CKEditor 4.4.0 wasn't a required argument, so we need to
 			// handle a case when it wasn't provided.
 			if ( !editor )
 				return false;
