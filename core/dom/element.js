@@ -2128,7 +2128,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * } );
 		 * ```
 		 *
-		 * @since 4.11.4
+		 * @since 4.12.0
 		 * @param {CKEDITOR.dom.element/HTMLElement} element Element with attached event handler attribute.
 		 * @param {String} eventName Event name.
 		 * @param {Object} evt Event payload.
