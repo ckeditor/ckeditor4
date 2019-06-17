@@ -544,7 +544,7 @@
 					// IE BUG: When destroying editor DOM with the selection remains inside
 					// editing area would break IE7/8's selection system, we have to put the editing
 					// iframe offline first. (https://dev.ckeditor.com/ticket/3812 and https://dev.ckeditor.com/ticket/5441)
-					if ( iframe.getParent() ) {
+					if ( iframe.isDetached() ) {
 						iframe.remove();
 					}
 				}
