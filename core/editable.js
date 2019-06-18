@@ -1652,6 +1652,10 @@
 
 			prepareRangeToDataInsertion( that );
 
+			if ( editor.getData() === '' && editor.enterMode === CKEDITOR.ENTER_DIV ) {
+				clearEditable( editable, range );
+			}
+
 			// DATA PROCESSING
 
 			// Select range and stop execution.
@@ -1666,6 +1670,13 @@
 			// Set final range position and clean up.
 
 			cleanupAfterInsertion( that );
+		}
+
+		function clearEditable( editable, range ) {
+			var first = editable.getFirst();
+			first && first.remove();
+			range.setStartAt( editable, CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
 		}
 
 		// Prepare range to its data deletion.
