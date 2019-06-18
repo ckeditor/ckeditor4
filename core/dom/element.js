@@ -2135,18 +2135,18 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 */
 		fireEventHandler: function( eventName, evt ) {
 			var handlerName = 'on' + eventName,
-				element = this.$;
+				nativeElement = this.$;
 
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				var nativeEvent = element.ownerDocument.createEventObject();
+				var nativeEvent = nativeElement.ownerDocument.createEventObject();
 
 				for ( var key in evt ) {
 					nativeEvent[ key ] = evt[ key ];
 				}
 
-				element.fireEvent( handlerName, nativeEvent );
+				nativeElement.fireEvent( handlerName, nativeEvent );
 			} else {
-				element[ element[ eventName ] ? eventName : handlerName ]( evt );
+				nativeElement[ nativeElement[ eventName ] ? eventName : handlerName ]( evt );
 			}
 		}
 	} );
