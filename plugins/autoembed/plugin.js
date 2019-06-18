@@ -208,7 +208,7 @@
 	 * **Note:** Plugin names are always lower case, while widget names are not, so widget names do not have to equal plugin names.
 	 * For example, there is the `embedsemantic` plugin and the `embedSemantic` widget.
 	 *
-	 * Read more in the [documentation](#!/guide/dev_media_embed-section-automatic-embedding-on-paste)
+	 * Read more in the {@glink features/media_embed#automatic-embedding-on-paste documentation}
 	 * and see the {@glink examples/mediaembed example}.
 	 *
 	 * @since 4.5.0

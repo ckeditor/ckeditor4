@@ -1669,7 +1669,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * If `true`, makes the editor start in read-only state. Otherwise, it will check
  * if the linked `<textarea>` element has the `disabled` attribute.
  *
- * Read more in the {@glink guide/dev_readonly documentation}
+ * Read more in the {@glink features/readonly documentation}
  * and see the {@glink examples/readonly example}.
  *
  *		config.readOnly = true;
