@@ -460,12 +460,22 @@
 							( dtd = CKEDITOR.dtd[ current.getName() ] ) &&
 							!( dtd && dtd[ elementName ] ) ) {
 						// Split up inline elements.
-						if ( current.getName() in CKEDITOR.dtd.span )
-							range.splitElement( current );
+						if ( current.getName() in CKEDITOR.dtd.span ) {
+							var endNode = range.splitElement( current ),
+								bookmark = range.createBookmark();
+
+							// Remove empty element created after splitting (#2813).
+							// The range.splitElement() method splits the given element in two and places the selection
+							// in-between in such way that <div>F^oo</div> becomes <div>F</div>^<div>oo</div>.
+							// Then removeEmptyInlineElement() method removes any of these elements if they are empty.
+							removeEmptyInlineElement( current );
+							removeEmptyInlineElement( endNode );
+
+							range.moveToBookmark( bookmark );
 
 						// If we're in an empty block which indicate a new paragraph,
-						// simply replace it with the inserting block.(https://dev.ckeditor.com/ticket/3664)
-						else if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
+						// simply replace it with the inserting block (https://dev.ckeditor.com/ticket/3664).
+						} else if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
 							range.setStartBefore( current );
 							range.collapse( true );
 							current.remove();
@@ -1664,7 +1674,8 @@
 		function prepareRangeToDataInsertion( that ) {
 			var range = that.range,
 				mergeCandidates = that.mergeCandidates,
-				node, marker, path, startPath, endPath, previous, bm;
+				isHtml = that.type === 'html',
+				node, marker, path, startPath, endPath, previous, bm, endNode;
 
 			// If range starts in inline element then insert a marker, so empty
 			// inline elements won't be removed while range.deleteContents
@@ -1717,13 +1728,19 @@
 			// Split inline elements so HTML will be inserted with its own styles.
 			path = range.startPath();
 			if ( ( node = path.contains( isInline, false, 1 ) ) ) {
-				range.splitElement( node );
+				endNode = range.splitElement( node );
 				that.inlineStylesRoot = node;
 				that.inlineStylesPeak = path.lastElement;
 			}
 
 			// Record inline merging candidates for later cleanup in place.
 			bm = range.createBookmark();
+
+			// When called by insertHtml remove empty element created after splitting (#2813).
+			if ( isHtml ) {
+				removeEmptyInlineElement( node );
+				removeEmptyInlineElement( endNode );
+			}
 
 			// 1. Inline siblings.
 			node = bm.startNode.getPrevious( isNotEmpty );
@@ -1733,8 +1750,9 @@
 
 			// 2. Inline parents.
 			node = bm.startNode;
-			while ( ( node = node.getParent() ) && isInline( node ) )
+			while ( ( node = node.getParent() ) && isInline( node ) ) {
 				mergeCandidates.push( node );
+			}
 
 			range.moveToBookmark( bm );
 		}
@@ -2285,6 +2303,12 @@
 
 		return insert;
 	} )();
+
+	function removeEmptyInlineElement( element ) {
+		if ( element && element.isEmptyInlineRemoveable() ) {
+			element.remove();
+		}
+	}
 
 	function afterInsert( editable ) {
 		var editor = editable.editor;

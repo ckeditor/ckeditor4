@@ -1,0 +1,76 @@
+<textarea id="editor">
+	<p>
+		<span>Foo bar</span>
+	</p>
+	<ul>
+		<li>
+			<span>Foo bar</span>
+			<ul>
+				<li>
+					<span>Foo bar</span>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	<div>
+		<table border="1" cellspacing="1" cellpadding="1" style="width: 500px;">
+			<tbody>
+			<tr>
+				<td>
+					<span>Foo bar</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span>Foo bar</span>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</textarea>
+
+<p id="controls">
+	<button data-button="insert-html">Insert html</button>
+	<button data-button="insert-html-range">Insert html into range</button>
+	<button data-button="insert-element">Insert element</button>
+	<button data-button="insert-element-range">Insert element into range</button>
+	<button data-button="insert-text">Insert text</button>
+	<button data-button="reset">Reset editor</button>
+</p>
+
+<script>
+	var initialData = CKEDITOR.document.findOne( '#editor' ).getValue(),
+		editor = CKEDITOR.replace( 'editor', {
+			allowedContent: true,
+			height: 500
+		} ),
+		elementHtml = '<div><div>div</div></div>';
+
+	CKEDITOR.addCss(
+		'span{padding:10px;border:solid 1px red;}' +
+		'li,div{margin:20px 0;}' +
+		'td{padding:20px 0;}'
+	);
+
+	CKEDITOR.document.findOne( '#controls' ).on( 'click', function( evt ) {
+		var editable = editor.editable(),
+			range = editor.getSelection().getRanges()[ 0 ],
+			element = CKEDITOR.dom.element.createFromHtml( elementHtml );
+
+		switch ( evt.data.getTarget().getAttribute( 'data-button' ) ) {
+			case 'insert-html':
+				return editor.insertHtml( elementHtml );
+			case 'insert-html-range':
+				return editable.insertHtmlIntoRange( elementHtml, range );
+			case 'insert-element':
+				return editor.insertElement( element );
+			case 'insert-element-range':
+				return editable.insertElementIntoRange( element, range );
+			case 'insert-text':
+				return editor.insertText( 'text' );
+			case 'reset':
+				editor.setData( initialData );
+		}
+	} );
+</script>

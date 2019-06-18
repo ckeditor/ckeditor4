@@ -13,18 +13,18 @@
 		}
 	};
 
-	bender.test( {
+	var tests = {
 		testInsertElement: function() {
 			var editor = this.editor;
 
 			// When editor has focus.
 			var ins = CKEDITOR.dom.element.createFromHtml( '<strong>baz</strong>', editor.document );
-			bender.tools.setHtmlWithSelection( editor, 'foo^bar' );
+			tools.setHtmlWithSelection( editor, 'foo^bar' );
 			editor.insertElement( ins );
 			assert.areSame( 'foo<strong>baz</strong>bar', tools.compatHtml( editor.getData() ), 'insert element with existing selection, editor focused' );
 
 			// When editor loose focus.
-			bender.tools.setHtmlWithSelection( editor, 'foo^bar' );
+			tools.setHtmlWithSelection( editor, 'foo^bar' );
 			ins = CKEDITOR.dom.element.createFromHtml( '<strong>baz</strong>', editor.document );
 			doc.getById( 'text_input' ).focus();
 			editor.insertElement( ins );
@@ -35,12 +35,12 @@
 			var editor = this.editor;
 
 			// When editor has focus.
-			bender.tools.setHtmlWithSelection( editor, 'foo^bar' );
+			tools.setHtmlWithSelection( editor, 'foo^bar' );
 			editor.insertHtml( 'baz' );
 			assert.areSame( 'foobazbar', tools.compatHtml( editor.getData() ), 'insert html with existing selection, editor focused' );
 
 			// When editor loose focus.
-			bender.tools.setHtmlWithSelection( editor, 'foo^bar' );
+			tools.setHtmlWithSelection( editor, 'foo^bar' );
 			doc.getById( 'text_input' ).focus();
 			editor.insertHtml( 'baz' );
 			assert.areSame( 'foobazbar', tools.compatHtml( editor.getData() ), 'insert html with existing selection, editor blurred' );
@@ -50,12 +50,12 @@
 			var editor = this.editor;
 
 			// When editor has focus.
-			bender.tools.setHtmlWithSelection( editor, 'foo^bar' );
+			tools.setHtmlWithSelection( editor, 'foo^bar' );
 			editor.insertText( 'baz' );
 			assert.areSame( 'foobazbar', tools.compatHtml( editor.getData() ), 'insert text with existing selection, editor focused' );
 
 			// When editor loose focus.
-			bender.tools.setHtmlWithSelection( editor, 'foo^bar' );
+			tools.setHtmlWithSelection( editor, 'foo^bar' );
 			doc.getById( 'text_input' ).focus();
 			editor.insertText( 'baz' );
 			assert.areSame( 'foobazbar', tools.compatHtml( editor.getData() ), 'insert text with existing selection, editor blurred' );
@@ -159,7 +159,118 @@
 			editor.insertHtml( '<p>bam</p>', 'html', range );
 
 			assert.isInnerHtmlMatching( '<p id="p1">foo</p><p>bam^@</p><p>bar@</p>',
-				bender.tools.selection.getWithHtml( editor ), { compareSelection: true, normalizeSelection: true } );
+				tools.selection.getWithHtml( editor ), { compareSelection: true, normalizeSelection: true } );
 		}
-	} );
+	};
+
+	// (#2813)
+	addInsertionTests( [
+		{
+			name: 'when selection starts at the beginning of span',
+			initial: '<span>{foo}bar</span>',
+			data: '<div><div>div</div></div>',
+			expected: '<div><div>div</div></div><span>bar</span>'
+		}, {
+			name: 'when selection ends at the end of span',
+			initial: '<span>foo{bar}</span>',
+			data: '<div><div>div</div></div>',
+			expected: '<span>foo</span><div><div>div</div></div>'
+		}, {
+			name: 'when selection covers span',
+			initial: '<span>{foobar}</span>',
+			data: '<div><div>div</div></div>',
+			expected: '<div><div>div</div></div>'
+		}, {
+			name: 'when selection is followed by space',
+			initial: '<span>foo{bar}&nbsp;</span>',
+			data: '<div><div>div</div></div>',
+			expected: '<span>foo</span><div><div>div</div></div><span>&nbsp;</span>',
+			ignore: CKEDITOR.env.ie && !CKEDITOR.env.edge // (#3061)
+		}, {
+			name: 'when selection is preceded by space',
+			initial: '<span>&nbsp;{foo}bar</span>',
+			data: '<div><div>div</div></div>',
+			expected: '<span>&nbsp;</span><div><div>div</div></div><span>bar</span>',
+			ignore: CKEDITOR.env.ie && !CKEDITOR.env.edge // (#3061)
+		}, {
+			name: 'when empty element is inserted at the end of span',
+			initial: '<span>foo{bar}</span>',
+			data: '<div></div>',
+			expected: '<span>foo</span><div></div>',
+			ignore: CKEDITOR.env.ie && CKEDITOR.env.version < 9 // IE8 fills empty element with `&nbsp;`, so we can skip this test.
+		}, {
+			name: 'when selection covers nested span',
+			initial: '<p><span>{foobar}</span></p>',
+			data: '<div><div>div</div></div>',
+			expected: '<div><div>div</div></div>'
+		}, {
+			name: 'when selection covers span with empty spans on boundaries',
+			initial: '<span></span><span>{foobar}</span><span></span>',
+			data: '<div><div>div</div></div>',
+			expected: '<span></span><div><div>div</div></div><span></span>'
+		}
+	] );
+
+	bender.test( tests );
+
+	function addInsertionTests( insertionTests ) {
+		CKEDITOR.tools.array.forEach( insertionTests, addInsertionTest );
+	}
+
+	function addInsertionTest( options ) {
+		var methods = [ 'insertHtml', 'insertHtmlIntoRange', 'insertElement', 'insertElementIntoRange', 'insertText' ];
+
+		CKEDITOR.tools.array.forEach( methods, function( methodName ) {
+			tests[ 'test ' + methodName + ' ' + options.name ] = function() {
+				if ( options.ignore ) {
+					assert.ignore();
+				}
+
+				var editor = this.editorBot.editor;
+
+				tools.selection.setWithHtml( editor, options.initial );
+
+				if ( methodName === 'insertText' ) {
+					assertInsertText( editor, options.initial.replace( /{.*}/, 'text' ), 'text' );
+				} else {
+					assertInsertionMethod( editor, options.expected, methodName, options.data );
+				}
+			};
+		} );
+	}
+
+	function assertInsertionMethod( editor, expected, methodName, html ) {
+		var useRange, useElement, data;
+
+		switch ( methodName ) {
+			case 'insertHtmlIntoRange':
+				useRange = true;
+				break;
+			case 'insertElement':
+				useElement = true;
+				break;
+			case 'insertElementIntoRange':
+				useRange = true;
+				useElement = true;
+		}
+
+		data = useElement ? CKEDITOR.dom.element.createFromHtml( html ) : html;
+
+		if ( useRange ) {
+			editor.editable()[ methodName ]( data, editor.getSelection().getRanges()[ 0 ] );
+		} else {
+			editor[ methodName ]( data );
+		}
+
+		assert.areSame( expected, normalizeHtml( editor.editable().getHtml() ) );
+	}
+
+	function assertInsertText( editor, expected, string ) {
+		editor.insertText( string );
+		assert.areSame( expected, normalizeHtml( editor.editable().getHtml() ) );
+	}
+
+	function normalizeHtml( html ) {
+		return html.toLowerCase().replace( /(<p>(<br>|&nbsp;)<\/p>|<p><\/p>$|<br>|\s|\u200B)/g, '' );
+	}
 } )();
