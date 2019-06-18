@@ -23,5 +23,5 @@ There is an upstream issue caused by buggy selection. It occurs when div is nest
 So these cases are excluded from test on following browsers:
 
 - IE8
-- Chrome
-- Safari
+- [Chrome](https://bugs.chromium.org/p/chromium/issues/detail?id=931285)
+- [Safari](https://bugs.webkit.org/show_bug.cgi?id=198603)
