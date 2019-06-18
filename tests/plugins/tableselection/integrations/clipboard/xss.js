@@ -21,7 +21,7 @@
 
 	var tests = {
 		setUp: function() {
-			if ( !CKEDITOR.env.ie && !CKEDITOR.env.iOS ) {
+			if ( CKEDITOR.env.ie || CKEDITOR.env.iOS ) {
 				assert.ignore();
 			}
 
