@@ -25,7 +25,8 @@
 	};
 
 	var parentFrame = window.frameElement,
-		originalHeight = parentFrame && parentFrame.style.height;
+		originalHeight = parentFrame && parentFrame.style.height,
+		balloonToolbar;
 
 	var tests = {
 		setUp: function() {
@@ -51,6 +52,12 @@
 			if ( parentFrame ) {
 				parentFrame.style.height = originalHeight;
 			}
+
+			// Cleanup balloontoolbar to prevent 'Permission Denied' IE error.
+			if ( balloonToolbar ) {
+				balloonToolbar.destroy();
+				balloonToolbar = null;
+			}
 		},
 
 		'test panel - out of view - bottom center': function( editor ) {
@@ -59,11 +66,7 @@
 				assert.ignore();
 			}
 
-			var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
-					width: 100,
-					height: 200
-				} ),
-				markerElement = editor.editable().findOne( '#marker' ),
+			var markerElement = editor.editable().findOne( '#marker' ),
 				frame = getFrameRect( editor ),
 				elementFrame = markerElement.getClientRect(),
 				// When window is so small editor is out of view panel might be rendered below editor.
@@ -72,6 +75,12 @@
 				scrollTop,
 				balloonToolbarRect,
 				rectTop;
+
+
+			balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+				width: 100,
+				height: 200
+			} );
 
 			balloonToolbar.attach( markerElement );
 			balloonToolbarRect = balloonToolbar.parts.panel.getClientRect();
@@ -88,8 +97,6 @@
 			// We have to add 1px because of border.
 			assert.areEqual( ( frame.top + frame.height - scrollTop ).toFixed( 2 ),
 				( rectTop + balloonToolbar.height + balloonToolbar.triangleHeight + 1 ).toFixed( 2 ), 'top align' );
-			balloonToolbar.destroy();
-			balloonToolbar = null;
 		},
 
 		'test panel - out of view - hcenter top': function( editor ) {
@@ -99,17 +106,18 @@
 				assert.ignore();
 			}
 
-			var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
-					width: 100,
-					height: 200
-				} ),
-				markerElement = editor.editable().findOne( '#marker' ),
+			var markerElement = editor.editable().findOne( '#marker' ),
 				frame = getFrameRect( editor ),
 				elementFrame = markerElement.getClientRect(),
 				scrollTop,
 				balloonToolbarRect,
 				rectTop,
 				expectedLeft;
+
+			balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+				width: 100,
+				height: 200
+			} );
 
 			markerElement.getParent().getNext().scrollIntoView( true );
 			balloonToolbar.attach( markerElement );
@@ -129,11 +137,13 @@
 		},
 
 		'test panel adds cke_balloontoolbar class': function( editor ) {
-			var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
-					width: 100,
-					height: 200
-				} ),
-				markerElement = editor.editable().findOne( '#marker' );
+			var markerElement = editor.editable().findOne( '#marker' );
+
+			balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+				width: 100,
+				height: 200
+			} );
+
 			balloonToolbar.attach( markerElement );
 
 			assert.isTrue( balloonToolbar.parts.panel.hasClass( 'cke_balloontoolbar' ), 'Panel has a cke_balloontoolbar class' );
@@ -143,11 +153,12 @@
 		},
 
 		'test panel prefers bottom positioning': function( editor ) {
-			var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
-					width: 100,
-					height: 200
-				} ),
-				res = balloonToolbar._getAlignments( editor.editable().getFirst().getClientRect(), 10, 10 );
+			balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+				width: 100,
+				height: 200
+			} );
+
+			var res = balloonToolbar._getAlignments( editor.editable().getFirst().getClientRect(), 10, 10 );
 
 			arrayAssert.itemsAreEqual( [ 'bottom hcenter', 'top hcenter' ], CKEDITOR.tools.object.keys( res ) );
 		},
@@ -155,11 +166,12 @@
 		// #1342, #1496
 		'test panel refresh position': function( editor, bot ) {
 			bot.setData( '<img src="' + bender.basePath + '/_assets/lena.jpg">', function() {
-				var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
-						width: 100,
-						height: 200
-					} ),
-					markerElement = editor.editable().findOne( 'img' ),
+				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+					width: 100,
+					height: 200
+				} );
+
+				var markerElement = editor.editable().findOne( 'img' ),
 					spy = sinon.spy( balloonToolbar, 'reposition' ),
 					// This test randomly fails when run from dashboard. That's because balloon toolbar
 					// uses also other listeners to reposition, which might be fired before `change`.
@@ -201,12 +213,13 @@
 		// #1496
 		'test panel reposition': function( editor, bot ) {
 			bot.setData( '<img src="' + bender.basePath + '/_assets/lena.jpg">', function() {
-				var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
-						width: 100,
-						height: 200
-					} ),
-					markerElement = editor.editable().findOne( 'img' ),
+				var markerElement = editor.editable().findOne( 'img' ),
 					spy;
+
+				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+					width: 100,
+					height: 200
+				} );
 
 				balloonToolbar.attach( markerElement );
 				spy = sinon.spy( balloonToolbar, 'attach' );
