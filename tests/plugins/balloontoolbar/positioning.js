@@ -53,8 +53,7 @@
 				parentFrame.style.height = originalHeight;
 			}
 
-			// Cleanup balloontoolbar to prevent
-			// 'Permission Denied' IE error.
+			// Cleanup balloontoolbar to prevent 'Permission Denied' IE error.
 			if ( balloonToolbar ) {
 				balloonToolbar.destroy();
 				balloonToolbar = null;
