@@ -36,6 +36,10 @@
 			'Vertical_margin': true
 		},
 
-		ignoreAll: CKEDITOR.env.ie
+		ignoreAll: CKEDITOR.env.ie,
+
+		customFilters: [
+			pfwTools.filters.font
+		]
 	} ) );
 } )();
