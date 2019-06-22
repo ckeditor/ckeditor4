@@ -29,8 +29,8 @@
 			'ie11'
 		],
 		wordVersions: [
-			'Word2013',
-			'Word2016'
+			'word2013',
+			'word2016'
 		],
 		tests: {
 			'Vertical_margin': true
