@@ -1,0 +1,14 @@
+<textarea id="editor">
+<ol>
+	<li>This is list item</li>
+</ol>
+<p>This is paragraph</p>
+</textarea>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor' );
+</script>
