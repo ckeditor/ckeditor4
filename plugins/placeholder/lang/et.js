@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'et', {
 	title: 'Kohahoidja omadused',
 	toolbar: 'Kohahoidja loomine',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Kohahoidja nimi',
+	invalidName: 'Kohahoidja ei saa olla tühi ega sisaldada ühtegi järgnevatest märkidest: [, ], <, >',
+	pathName: 'kohahoidja'
 } );

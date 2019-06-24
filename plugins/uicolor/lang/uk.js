@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'uk', {
 	title: 'Color Picker Інтерфейс',
-	options: 'Color Options', // MISSING
-	highlight: 'Highlight', // MISSING
-	selected: 'Selected Color', // MISSING
+	options: 'Параметри кольору',
+	highlight: 'Попередній перегляд',
+	selected: 'Обраний колір',
 	predefined: 'Стандартний набір кольорів',
 	config: 'Вставте цей рядок у файл config.js'
 } );

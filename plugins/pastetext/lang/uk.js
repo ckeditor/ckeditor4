@@ -4,6 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'uk', {
 	button: 'Вставити тільки текст',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteNotification: 'Натисніть %1, щоб вставити. Ваш браузер не підтримує вставку за допомогою кнопки панелі інструментів або пункту контекстного меню.',
 	title: 'Вставити тільки текст'
 } );

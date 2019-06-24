@@ -81,19 +81,19 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'no', {
 			legend: 'Trykk ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
+			name: 'Lim inn som ren tekst',
 			legend: 'Press ${pastetext}', // MISSING
 			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}
 		]
 	}
 	],
-	tab: 'Tab', // MISSING
-	pause: 'Pause', // MISSING
-	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
+	tab: 'Tab',
+	pause: 'Pause',
+	capslock: 'Caps Lock',
+	escape: 'Escape',
+	pageUp: 'Page Up',
+	pageDown: 'Page Down',
 	leftArrow: 'Left Arrow', // MISSING
 	upArrow: 'Up Arrow', // MISSING
 	rightArrow: 'Right Arrow', // MISSING
@@ -117,29 +117,29 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'no', {
 	subtract: 'Subtract', // MISSING
 	decimalPoint: 'Decimal Point', // MISSING
 	divide: 'Divide', // MISSING
-	f1: 'F1', // MISSING
-	f2: 'F2', // MISSING
-	f3: 'F3', // MISSING
-	f4: 'F4', // MISSING
-	f5: 'F5', // MISSING
-	f6: 'F6', // MISSING
-	f7: 'F7', // MISSING
-	f8: 'F8', // MISSING
-	f9: 'F9', // MISSING
-	f10: 'F10', // MISSING
-	f11: 'F11', // MISSING
-	f12: 'F12', // MISSING
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
 	numLock: 'Num Lock', // MISSING
 	scrollLock: 'Scroll Lock', // MISSING
-	semiColon: 'Semicolon', // MISSING
-	equalSign: 'Equal Sign', // MISSING
-	comma: 'Comma', // MISSING
-	dash: 'Dash', // MISSING
-	period: 'Period', // MISSING
+	semiColon: 'Semikolon',
+	equalSign: 'Likhetstegn',
+	comma: 'Komma',
+	dash: 'Bindestrek',
+	period: 'Punktum',
 	forwardSlash: 'Forward Slash', // MISSING
 	graveAccent: 'Grave Accent', // MISSING
 	openBracket: 'Open Bracket', // MISSING
 	backSlash: 'Backslash', // MISSING
 	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	singleQuote: 'Enkelt anførselstegn'
 } );

@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'no' ] = {
 		justify: 'Blokkjuster',
 		alignLeft: 'Venstrejuster',
 		alignRight: 'Høyrejuster',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'Midtjustér',
 		alignTop: 'Topp',
 		alignMiddle: 'Midten',
 		alignBottom: 'Bunn',
@@ -92,7 +92,7 @@ CKEDITOR.lang[ 'no' ] = {
 		invalidValue: 'Ugyldig verdi.',
 		invalidHeight: 'Høyde må være et tall.',
 		invalidWidth: 'Bredde må være et tall.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
+		invalidLength: 'Verdien i "%1"-feltet må være et positivt tall med eller uten en gyldig måleenhet (%2).',
 		invalidCssLength: 'Den angitte verdien for feltet "%1" må være et positivt tall med eller uten en gyldig CSS-målingsenhet (px, %, in, cm, mm, em, ex, pt, eller pc).',
 		invalidHtmlLength: 'Den angitte verdien for feltet "%1" må være et positivt tall med eller uten en gyldig HTML-målingsenhet (px eller %).',
 		invalidInlineStyle: 'Verdi angitt for inline stil må bestå av en eller flere sett med formatet "navn : verdi", separert med semikolon',
@@ -108,7 +108,7 @@ CKEDITOR.lang[ 'no' ] = {
 			16: 'Shift',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Mellomrom',
 			35: 'End',
 			36: 'Home',
 			46: 'Delete',
@@ -136,12 +136,12 @@ CKEDITOR.lang[ 'no' ] = {
 			133: 'F22',
 			134: 'F23',
 			135: 'F24',
-			224: 'Command' // MISSING
+			224: 'Kommando'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut', // MISSING
+		keyboardShortcut: 'Hurtigtast',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'Standard'
 	}
 };

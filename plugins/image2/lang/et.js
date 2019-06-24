@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'image2', 'et', {
 	pathName: 'pilt',
 	pathNameCaption: 'pealkiri',
 	resetSize: 'Lähtesta suurus',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'Suuruse muutmiseks klõpsa ja lohista',
 	title: 'Pildi omadused',
 	uploadTab: 'Lae üles',
 	urlMissing: 'Pildi lähte-URL on puudu.',

@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'no', {
 	title: 'Fargevelger for brukergrensesnitt',
-	options: 'Color Options', // MISSING
+	options: 'Fargevalg',
 	highlight: 'Highlight', // MISSING
-	selected: 'Selected Color', // MISSING
+	selected: 'Valgt farge',
 	predefined: 'Forhåndsdefinerte fargesett',
 	config: 'Lim inn følgende tekst i din config.js-fil'
 } );

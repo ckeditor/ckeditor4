@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 	noAnchors: '(Әлеге документта якорьләр табылмады)',
 	noEmail: 'Электрон почта адресын языгыз',
 	noUrl: 'Сылталаманы языгыз',
-	noTel: 'Please type the phone number', // MISSING
+	noTel: 'Телефон номерыгызны языгыз',
 	other: '<бүтән>',
-	phoneNumber: 'Phone number', // MISSING
+	phoneNumber: 'Телефон номеры',
 	popupDependent: 'Бәйле (Netscape)',
 	popupFeatures: 'Popup Window Features', // MISSING
 	popupFullScreen: 'Тулы экран (IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 	toAnchor: 'Якорьне текст белән бәйләү',
 	toEmail: 'Электрон почта',
 	toUrl: 'Сылталама',
-	toPhone: 'Phone', // MISSING
+	toPhone: 'Телефон',
 	toolbar: 'Сылталама',
 	type: 'Сылталама төре',
 	unlink: 'Сылталаманы бетерү',

@@ -4,9 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'uploadwidget', 'et', {
-	abort: 'Upload aborted by the user.', // MISSING
+	abort: 'Kasutaja katkestas üleslaadimise.',
 	doneOne: 'Fail on üles laaditud.',
-	doneMany: 'Successfully uploaded %1 files.', // MISSING
-	uploadOne: 'Uploading file ({percentage}%)...', // MISSING
-	uploadMany: 'Uploading files, {current} of {max} done ({percentage}%)...' // MISSING
+	doneMany: '%1 faili laaditi edukalt üles.',
+	uploadOne: 'Faili üleslaadimine ({percentage}%)...',
+	uploadMany: 'Failide üleslaadimine, {current} fail {max}-st üles laaditud ({percentage}%)...'
 } );

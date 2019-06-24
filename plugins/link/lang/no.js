@@ -35,9 +35,9 @@ CKEDITOR.plugins.setLang( 'link', 'no', {
 	noAnchors: '(Ingen anker i dokumentet)',
 	noEmail: 'Vennligst skriv inn e-postadressen',
 	noUrl: 'Vennligst skriv inn lenkens URL',
-	noTel: 'Please type the phone number', // MISSING
+	noTel: 'Skriv inn telefonnummer',
 	other: '<annen>',
-	phoneNumber: 'Phone number', // MISSING
+	phoneNumber: 'Telefonnummer',
 	popupDependent: 'Avhenging (Netscape)',
 	popupFeatures: 'Egenskaper for popup-vindu',
 	popupFullScreen: 'Fullskjerm (IE)',
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'link', 'no', {
 	toAnchor: 'Lenke til anker i teksten',
 	toEmail: 'E-post',
 	toUrl: 'URL',
-	toPhone: 'Phone', // MISSING
+	toPhone: 'Telefon',
 	toolbar: 'Sett inn/Rediger lenke',
 	type: 'Lenketype',
 	unlink: 'Fjern lenke',

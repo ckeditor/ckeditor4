@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'lt', {
 	cut: 'Iškirpti',
 	cutError: 'Jūsų naršyklės saugumo nustatymai neleidžia redaktoriui automatiškai įvykdyti iškirpimo operacijų. Tam prašome naudoti klaviatūrą (Ctrl/Cmd+X).',
 	paste: 'Įdėti',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteNotification: 'Spauskite %1 kad įkliuotumėte. Jūsų naršyklė nepalaiko įklijavimo paspaudus mygtuką arba kontekstinio menių galimybės.',
 	pasteArea: 'Įkelti dalį',
-	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
+	pasteMsg: 'Įklijuokite savo turinį į žemiau esantį lauką ir paspauskite OK.'
 } );

@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'nl', {
 	title: 'UI Kleurenkiezer',
-	options: 'Color Options', // MISSING
+	options: 'Kleurinstellingen',
 	highlight: 'Highlight', // MISSING
-	selected: 'Selected Color', // MISSING
+	selected: 'Geselecteerde kleur',
 	predefined: 'Voorgedefinieerde kleurensets',
 	config: 'Plak deze tekst in jouw config.js bestand'
 } );
