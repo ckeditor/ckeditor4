@@ -1580,7 +1580,7 @@
 	} );
 
 	/**
-	 * Gets the element from DOM and checks if the editor can be instantiated on it.
+	 * Gets the element from the DOM and checks if the editor can be instantiated on it.
 	 * This function is available for internal use only.
 	 *
 	 * @private

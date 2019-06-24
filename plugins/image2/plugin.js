@@ -1758,29 +1758,29 @@ CKEDITOR.config.image2_captionedClass = 'image';
  */
 
 /**
- * Determines maximum size that image can be resized to with resize handler.
+ * Determines the maximum size that an image can be resized to with the resize handle.
  *
- * It holds two properties: `width` and `height`, which can be set with one of two types:
+ * It stores two properties: `width` and `height`. They can be set with one of the two types:
  *
- * A number representing value that limits max size in pixel units:
+ * * A number representing a value that limits the maximum size in pixel units:
  *
- * ```javascript
+ * ```js
  *	config.image2_maxSize = {
  *		height: 300,
  *		width: 250
  *	};
  * ```
  *
- * A string representing image natural size, so each image resize is limited to it's own natural height/width:
+ * * A string representing the natural image size, so each image resize operation is limited to its own natural height or width:
  *
- * ```javascript
+ * ```js
  *	config.image2_maxSize = {
  *		height: 'natural',
  *		width: 'natural'
  *	}
  * ```
  *
- * Note: Image can still be resized to bigger dimensions, when using image dialog.
+ * Note: An image can still be resized to bigger dimensions when using the image dialog.
  *
  * @since 4.12.0
  * @cfg {Object.<String, Number/String>} [image2_maxSize]

@@ -1823,9 +1823,9 @@
 				 *
 				 * @since 4.12.0
 				 * @param {String} value The shorthand property value.
-				 * @param {Function} [split] Function used to split CSS property shorthand.
-				 * It should return an array of side shorthand parts (see `split` function in the code listing).
-				 * If not set, property value will be splitted by spaces.
+				 * @param {Function} [split] The function used to split the CSS property shorthand.
+				 * It should return an array of side shorthand parts (see the `split` function in the code listing).
+				 * If not set, the property value will be split by spaces.
 				 * @returns {Object.<String, String>}
 				 * @returns {String} return.top Top value.
 				 * @returns {String} return.right Right value.
@@ -1949,7 +1949,7 @@
 			/**
 			 * Returns the first element in the array for which the given callback `fn` returns `true`.
 			 *
-			 * ```javascript
+			 * ```js
 			 * var array = [ 1, 2, 3, 4 ];
 			 *
 			 * CKEDITOR.tools.array.find( array, function( item ) {
@@ -1958,12 +1958,12 @@
 			 * ```
 			 *
 			 * @param {Array} array An array to be iterated over.
-			 * @param {Function} fn A function called for every `array` element, until it returns `true`.
+			 * @param {Function} fn A function called for every `array` element until it returns `true`.
 			 * @param {Mixed} fn.value The currently iterated array value.
 			 * @param {Number} fn.index The index of the currently iterated value in an array.
 			 * @param {Array} fn.array The original array passed as an `array` variable.
 			 * @param {Mixed} [thisArg=undefined] The context object for `fn`.
-			 * @returns {*} First matched value, `undefined` otherwise.
+			 * @returns {*} The first matched value or `undefined` otherwise.
 			 * @member CKEDITOR.tools.array
 			 * @since 4.12.0
 			 */
@@ -2562,7 +2562,7 @@
 	CKEDITOR.tools.buffers.throttle = ThrottleBuffer;
 
 	/**
-	 * Represents CSS border style.
+	 * Represents the CSS border style.
 	 *
 	 * @since 4.12.0
 	 * @class CKEDITOR.tools.style.border
@@ -2581,21 +2581,21 @@
 			props = props || {};
 
 			/**
-			 * Width CSS property value.
+			 * Represents the value of the CSS `width` property.
 			 *
 			 * @property {String} [width]
 			 */
 			this.width = props.width;
 
 			/**
-			 * Style CSS property value.
+			 * Represents the value of the CSS `style` property.
 			 *
 			 * @property {String} [style]
 			 */
 			this.style = props.style;
 
 			/**
-			 * Color CSS property value.
+			 * Represents the value of the CSS `color` property.
 			 *
 			 * @property {String} [color]
 			 */
@@ -2634,7 +2634,7 @@
 
 		statics: {
 			/**
-			 * Parses the `border` CSS property shorthand format.
+			 * Parses the CSS `border` property shorthand format.
 			 * This CSS property [does not support inheritance](https://www.w3.org/TR/css3-background/#the-border-shorthands).
 			 *
 			 * ```javascript
@@ -2677,7 +2677,7 @@
 			},
 
 			/**
-			 * Parses `style`, `width` and `color` shorthand styles into
+			 * Parses the `style`, `width` and `color` shorthand styles into
 			 * border side shorthand styles.
 			 *
 			 * ```javascript
@@ -2713,7 +2713,7 @@
 			 * // }
 			 * ```
 			 *
-			 * Border side shorthands with greater style property specificity are prefered
+			 * Border side shorthands with greater style property specificity are preferred
 			 * over more general shorthands.
 			 *
 			 * ```
@@ -2743,9 +2743,9 @@
 			 * @param {Object} [styles.border-style] Border style shorthand.
 			 * @param {Object} [styles.border-width] Border width shorthand.
 			 * @param {Object} [fallback] Fallback object used to fill up missing style.
-			 * @param {Object} [fallback.color] Color CSS style used in absence of `border-color` style.
-			 * @param {Object} [fallback.style] Style CSS style used in absence of `border-style` style.
-			 * @param {Object} [fallback.width] Width CSS style used in absence of `border-width` style.
+			 * @param {Object} [fallback.color] Color CSS style used in absence of the `border-color` style.
+			 * @param {Object} [fallback.style] Style CSS style used in absence of the `border-style` style.
+			 * @param {Object} [fallback.width] Width CSS style used in absence of the `border-width` style.
 			 * @returns {Object.<String, CKEDITOR.tools.style.border>}
 			 * @returns {CKEDITOR.tools.style.border} return.border-top Border top style.
 			 * @returns {CKEDITOR.tools.style.border} return.border-right Border right style.

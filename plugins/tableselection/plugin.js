@@ -906,11 +906,11 @@
 	}
 
 	/**
-	 * Namespace providing a set of helper functions for working with tables, exposed by
+	 * Namespace providing a set of helper functions for working with tables, exposed by the
 	 * [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
 	 *
-	 * **NOTE** Since 4.12.0 you can use `cke-tableselection-ignored` attribute to disable
-	 * table selection feature for the given table.
+	 * **Note:** Since 4.12.0 you can use the `cke-tableselection-ignored` attribute to disable
+	 * the table selection feature for the given table.
 	 *
 	 * ```javascript
 	 * var table = new CKEDITOR.dom.element( 'table' );

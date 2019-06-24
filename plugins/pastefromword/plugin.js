@@ -234,7 +234,7 @@
  */
 
 /**
- * Whether pasted elements `margin` style which equals to 0 should be removed.
+ * Whether pasted element `margin` style that equals to 0 should be removed.
  *
  *		// Disable removing `margin:0`, `margin-left:0`, etc.
  *		config.pasteFromWord_keepZeroMargins = true;

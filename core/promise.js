@@ -25,20 +25,20 @@
 	}
 
 	/**
-	 * Alias for [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
-	 * object representing asynchronous operation.
+	 * An alias for the [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+	 * object representing an asynchronous operation.
 	 *
-	 * Uses native `Promise` browser implementation if available. For older browsers with lack of `Promise` support, the
-	 * [ES6-Promise](https://github.com/stefanpenner/es6-promise) polyfill is used.
-	 * See [Promise Browser Compatibility table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#Browser_compatibility)
+	 * It uses the native `Promise` browser implementation if it is available. For older browsers with lack of `Promise` support,
+	 * the [`ES6-Promise`](https://github.com/stefanpenner/es6-promise) polyfill is used.
+	 * See the [Promise Browser Compatibility table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#Browser_compatibility)
 	 * to learn more.
 	 *
 	 * Refer to [MDN Using Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises) guide for
-	 * more details how to work with promises.
+	 * more details on how to work with promises.
 	 *
-	 * **NOTE:** `catch` and `finally` are reserved keywords in IE < 9 browsers. Use bracket notation instead:
+	 * **NOTE:** `catch` and `finally` are reserved keywords in IE<9 browsers. Use bracket notation instead:
 	 *
-	 * ```javascript
+	 * ```js
 	 * promise[ 'catch' ]( function( err ) {
 	 * 		// ...
 	 * } );
@@ -53,7 +53,7 @@
 	 */
 
 	/**
-	 * Creates new `Promise` instance.
+	 * Creates a new `Promise` instance.
 	 *
 	 * ```js
 	 *	new CKEDITOR.tools.promise( function( resolve, reject ) {

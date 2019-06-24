@@ -147,12 +147,12 @@
 	 */
 	CKEDITOR.plugins.pagebreak = {
 		/**
-		 * Creates a read-only {@link CKEDITOR.dom.element} instance that represents a print break.
+		 * Creates a read-only {@link CKEDITOR.dom.element} instance that represents a page break.
 		 *
 		 * @since 4.12.0
 		 * @member CKEDITOR.plugins.pagebreak
 		 * @param {CKEDITOR.editor} editor
-		 * @returns {CKEDITOR.dom.element} Print break element.
+		 * @returns {CKEDITOR.dom.element} A page break element.
 		 */
 		createElement: function( editor ) {
 			return editor.document.createElement( 'div', {
