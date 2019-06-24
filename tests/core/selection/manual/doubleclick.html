@@ -1,0 +1,25 @@
+<textarea id="editor">
+	<ul><li><span>Foo</span></li></ul>
+	<div>This is div</div>
+</textarea>
+
+<button id="insert">Insert</button>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.addCss( 'span{padding:10px;border:solid 1px red;}' );
+
+	var editor = CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'span'
+	} );
+
+	CKEDITOR.document.findOne( '#insert' ).on( 'click', function() {
+		var div = new CKEDITOR.dom.element( 'div' );
+		div.setHtml( 'This is div' );
+
+		editor.insertElement( div );
+	} );
+</script>
