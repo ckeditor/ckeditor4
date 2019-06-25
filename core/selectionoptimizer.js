@@ -21,7 +21,7 @@
 		range.select();
 	};
 
-	// Returns whether at any condition is met:
+	// Returns whether any condition is met:
 	// - range starts at the end of an element.
 	// - range ends at the beginning of an element.
 	// - one end of range is in text, and another is not.
