@@ -1,4 +1,4 @@
-@bender-tags: selection, 4.12.1, bug, 3118
+@bender-tags: selection, 4.12.1, bug, 3118, 3175
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, list, format, sourcearea, undo
 
