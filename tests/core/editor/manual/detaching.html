@@ -1,64 +1,72 @@
 <style>
-	.component {
-		padding: 5px;
-		background: yellow;
+	form ul {
+		list-style: none;
 	}
-
-	.cke_editable_inline {
-		background: white;
-	}
-
-	.button {
-		padding: 5px;
-		margin: 3px;
-	}
-
-	.wide {
-		padding: 5px 150px ;
-	}
-
-	.create, .remove {
-		margin: 0;
-		padding: 0;
+	input[disabled]+label {
+		text-decoration: line-through;
 	}
 </style>
 
-<div id="controls">
-	<p class="create">
-		<button class="button" onclick="create(event)" data-action="classic">Create classic editor</button>
-		<button class="button" onclick="create(event)" data-action="inline">Create inline editor</button>
-		<button class="button" onclick="create(event)" data-action="divarea">Create divarea editor</button>
-	</p>
-	<p class="remove">
-		<button class="wide" onclick="detach()" data-action="detach" disabled>Detach and destroy editor</button>
-	</p>
-</div>
+<form id="controls" oninput="updateFormControlsDisableState()">
+	<section id="type">
+		<h2>Editor type:</h2>
+		<ul>
+			<li><input type="radio" name="editor" value="classic" checked><label>Classic</label></li>
+			<li><input type="radio" name="editor" value="inline"><label>Inline </label></li>
+			<li><input type="radio" name="editor" value="divarea"><label>Divarea</label></li>
+		</ul>
+	</section>
+	<section id="element">
+		<h2>Editor element:</h2>
+		<ul>
+			<li><input type="radio" name="element" value="textarea" checked><label>Textarea</label></li>
+			<li><input type="radio" name="element" value="div"><label>Div</label></li>
+		</ul>
+	</section>
+	<section id="destroy">
+		<h2>Destroy:</h2>
+		<ul>
+			<li><input type="radio" name="destroy" value="0" checked><label>synchronously</label></li>
+			<li><input type="radio" name="destroy" value="1"><label>async with 0 timeout</label></li>
+			<li><input type="radio" name="destroy" value="2"><label>before 'loaded' event</label></li>
+			<li><input type="radio" name="destroy" value="3"><label>before 'scriptLoader.load' callback called</label></li>
+			<li><input type="radio" name="destroy" value="4"><label>before iframe#onload</label></li>
+		</ul>
+	</section>
+	<section>
+		<button type="submit" onclick="createDestroyEditor( event )">Create editor</button>
+	</section>
+</form>
 
 <div id="container"></div>
 
 <script>
-	if ( CKEDITOR.env.ie || bender.tools.env.mobile ) {
+	if ( bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 
-	var container = CKEDITOR.document.findOne( '#container' ),
-		createButtons = CKEDITOR.document.find( '[data-action]:not([data-action="detach"])' ).toArray(),
-		detachButton = CKEDITOR.document.findOne( '[data-action="detach"]' ),
+	var detachWhenScriptLoaded = detachingTools.detachWhenScriptLoaded,
+		detachBeforeIframeLoad = detachingTools.detachBeforeIframeLoad,
+		container = CKEDITOR.document.findOne( '#container' ),
 		component, editor;
 
-	function create( evt ) {
-		var target = new CKEDITOR.dom.element( evt.target ),
-			type = target.data( 'action' ),
+	updateFormControlsDisableState();
+
+	function createDestroyEditor( event ) {
+		event.preventDefault();
+
+		var options = getSelectedInputs(),
+			element = options.element,
 			config = {};
 
 		component = CKEDITOR.dom.element.createFromHtml(
 			'<div class="component">' +
-			'<textarea id="editor">Hello world!</textarea>' +
+			'<' + element + ' id="editor">Hello world!</' + element + '>' +
 			'</div>' );
 
 		container.append( component );
 
-		switch( type ) {
+		switch ( options.type ) {
 			case 'divarea':
 				config.extraPlugins = 'divarea';
 			case 'classic':
@@ -68,11 +76,25 @@
 				editor = CKEDITOR.inline( 'editor' );
 		}
 
-		detachButton.removeAttribute( 'disabled' );
+		switch( options.destroyCase ) {
+			case "0":
+				detach();
+				break;
+			case "1":
+				setTimeout( detach );
+				break;
+			case "2":
+				editor.on( 'loaded', detach, null, null, -9999 );
+				break;
+			case "3":
+				detachWhenScriptLoaded( detach );
+				break;
+			case "4":
+				detachBeforeIframeLoad( detach, editor );
+				break;
+		}
 
-		CKEDITOR.tools.array.forEach( createButtons, function( button ) {
-			button.setAttribute( 'disabled' );
-		} );
+		updateButtonDisabledState();
 	}
 
 	function detach() {
@@ -81,11 +103,56 @@
 
 		editor.destroy();
 		editor = null;
+		updateButtonDisabledState();
+	}
 
-		detachButton.setAttribute( 'disabled' );
+	function getSelectedInputs() {
+		return {
+			type: getSelectedInputValue( '#type' ),
+			element: getSelectedInputValue( '#element' ),
+			destroyCase: getSelectedInputValue( '#destroy' )
+		};
+	}
 
-		CKEDITOR.tools.array.forEach( createButtons, function( button ) {
+	function getSelectedInputValue( parentSelector ) {
+		return findOne( parentSelector + ' input:checked' ).getValue();
+	}
+
+	function findOne( selector ) {
+		return CKEDITOR.document.findOne( selector );
+	}
+
+	function updateFormControlsDisableState() {
+		var input = findOne( '#destroy input[value="4"]' );
+
+		if ( shouldDisable() ) {
+			input.setAttribute( 'disabled' );
+
+			if ( input.$.checked ) {
+				input.$.checked = false;
+			}
+		} else {
+			input.removeAttribute( 'disabled' );
+		}
+
+		updateButtonDisabledState();
+
+		function shouldDisable() {
+			if ( !CKEDITOR.env.gecko && !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
+				return true;
+			}
+
+			return !findOne( '#type input[value="classic"]' ).$.checked;
+		}
+	}
+
+	function updateButtonDisabledState() {
+		var button = findOne( '#controls button' );
+
+		if ( CKEDITOR.document.find( '#controls input:checked' ).toArray().length < 3 || editor ) {
+			button.setAttribute( 'disabled' );
+		} else {
 			button.removeAttribute( 'disabled' );
-		} );
+		}
 	}
 </script>
