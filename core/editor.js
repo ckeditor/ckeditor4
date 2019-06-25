@@ -168,6 +168,12 @@
 		} );
 		this.on( 'mode', updateCommands );
 
+		this.on( 'selectionCheck', function( evt ) {
+			var selection = evt.data;
+
+			selection && selection.optimizeInElementEnds();
+		} );
+
 		// Handle startup focus.
 		this.on( 'instanceReady', function() {
 			if ( this.config.startupFocus ) {
