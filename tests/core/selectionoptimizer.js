@@ -15,31 +15,31 @@
 
 	// (#3175)
 	var tests = {
-		'tc 1': testSelection( {
+		'test selection optimization case 1': testSelection( {
 			initial: '<p>foo</p><p>[bar</p><p>]baz</p>',
 			expected: '<p>foo</p><p>[bar]</p><p>baz</p>'
 		} ),
-		'tc 2': testSelection( {
+		'test selection optimization case 2': testSelection( {
 			initial: '<p>foo[</p><p>bar]</p><p>baz</p>',
 			expected: '<p>foo</p><p>[bar]</p><p>baz</p>'
 		} ),
-		'tc 3': testSelection( {
+		'test selection optimization case 3': testSelection( {
 			initial: '<p>foo[</p><p>bar</p><p>]baz</p>',
 			expected: '<p>foo</p><p>[bar]</p><p>baz</p>'
 		} ),
-		'tc 4': testSelection( {
+		'test selection optimization case 4': testSelection( {
 			initial: '<p>foo</p><p>[bar</p><p>b]az</p>',
 			expected: '<p>foo</p><p>[bar</p><p>b]az</p>'
 		} ),
-		'tc 5': testSelection( {
+		'test selection optimization case 5': testSelection( {
 			initial: '<p>fo[o</p><p>bar]</p><p>baz</p>',
 			expected: '<p>fo[o</p><p>bar]</p><p>baz</p>'
 		} ),
-		'tc 6': testSelection( {
+		'test selection optimization case 6': testSelection( {
 			initial: '<p>foo</p><p>[bar</p><p>]baz</p>',
 			expected: '<p>foo</p><p>[bar]</p><p>baz</p>'
 		} ),
-		'tc 7': testSelection( {
+		'test selection optimization case 7': testSelection( {
 			initial: '<p>foo</p><p>[]bar</p><p>baz</p>',
 			expected: '<p>foo</p><p>[]bar</p><p>baz</p>'
 		} )
