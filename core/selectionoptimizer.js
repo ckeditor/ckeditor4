@@ -1,5 +1,9 @@
 ( function() {
 	CKEDITOR.dom.selection.prototype.optimizeInElementEnds = function() {
+		if ( this.isFake ) {
+			return;
+		}
+
 		var range = this.getRanges()[ 0 ];
 
 		if ( range.isCollapsed ) {
