@@ -18,58 +18,89 @@
 	fakeComponent.remove();
 	fakeComponent = fakeComponent.getOuterHtml();
 
-	bender.test( {
-		_should: {
-			ignore: {
-				// onload listener is used only for Firefox and IE.
-				'test detach before iframe#onload': !CKEDITOR.env.gecko && !CKEDITOR.env.ie || CKEDITOR.env.edge
+	// (#3115)
+	var tests = createDetatchTests(
+		[ {
+			name: 'test detach and destroy synchronously',
+			callback: function( detach ) {
+				detach();
 			}
-		},
-		// (#3115)
-		'test detach and destroy synchronously': testDetach( function( detach ) {
-			detach();
-		} ),
-
-		// (#3115)
-		'test detach and destroy asynchronously': testDetach( function( detach ) {
-			setTimeout( detach );
-		} ),
-
-		// (#3115)
-		'test detach before firing editor#loaded event': testDetach( function( detach, editor ) {
-			editor.once( 'loaded', detach, null, null, -9999 );
-		} ),
-
-		// (#3115)
-		'test detach before scriptLoader.load fires it\'s callback': testDetach( detachWhenScriptLoaded ),
-
-		// (#3115)
-		'test detach before iframe#onload': testDetach( function( detach, editor ) {
-			if ( ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) && !CKEDITOR.env.gecko ) {
-				assert.ignore();
+		}, {
+			name: 'test detach and destroy asynchronously',
+			callback: function( detach ) {
+				setTimeout( detach );
 			}
+		}, {
+			name: 'test detach before firing editor#loaded event',
+			callback: function( detach, editor ) {
+				editor.once( 'loaded', detach, null, null, -9999 );
+			}
+		}, {
+			name: 'test detach before scriptLoader.load fires it\'s callback',
+			callback: detachWhenScriptLoaded
+		}, {
+			name: 'test detach before iframe#onload',
+			callback: function( detach, editor ) {
+				detachBeforeIframeLoad( detach, editor );
+			},
+			ignore: !CKEDITOR.env.gecko && !CKEDITOR.env.ie || CKEDITOR.env.edge,
+			editor: 'classic'
+		} ]
+	);
 
-			detachBeforeIframeLoad( detach, editor );
-		} ),
-
-		// (#3115)
-		'test editor set mode when editor is detached': testSetMode( function( editor ) {
-			sinon.stub( editor.container, 'isDetached' ).returns( true );
-		} ),
-
-		// (#3115)
-		'test editor set mode when editor is destroyed': testSetMode( function( editor ) {
-			editor.status = 'destroyed';
-		} )
+	// (#3115)
+	tests[ 'test editor set mode when editor is detached' ] = testSetMode( function( editor ) {
+		sinon.stub( editor.container, 'isDetached' ).returns( true );
 	} );
 
-	function testDetach( callback ) {
+	// (#3115)
+	tests[ 'test editor set mode when editor is destroyed' ] = testSetMode( function( editor ) {
+		editor.status = 'destroyed';
+	} );
+
+	bender.test( tests );
+
+	function createDetatchTests( tests ) {
+		var editors = [ 'classic', 'inline', 'divarea' ],
+			newTests = {};
+
+		forEach( tests, function( testOptions ) {
+			forEach( editors, function( editorName ) {
+				var tcName = testOptions.name + ' (' + editorName + ', ';
+
+				if ( testOptions.ignore ) {
+					return;
+				}
+
+				if ( testOptions.editor && testOptions.editor !== editorName ) {
+					return;
+				}
+
+				newTests[ tcName + 'div)' ] = testDetach( testOptions.callback, editorName, 'div' );
+				newTests[ tcName + 'textarea)' ] = testDetach( testOptions.callback, editorName, 'textarea' );
+			} );
+		} );
+
+		return newTests;
+	}
+
+	function testDetach( callback, editorName, elementName ) {
 		return function() {
-			var component = CKEDITOR.dom.element.createFromHtml( fakeComponent );
+			var html = elementName === 'div' ? fakeComponent.replace( /textarea/g, 'div' ) : fakeComponent,
+				component = CKEDITOR.dom.element.createFromHtml( html ),
+				config = {};
 
 			container.append( component );
 
-			editor = CKEDITOR.replace( 'editor' );
+			switch ( editorName ) {
+				case 'divarea':
+					config.extraPlugins = 'divarea';
+				case 'classic':
+					editor = CKEDITOR.replace( 'editor', config );
+					break;
+				case 'inline':
+					editor = CKEDITOR.inline( 'editor' );
+			}
 
 			callback( detach, editor );
 
@@ -134,5 +165,9 @@
 	function destroyEditor() {
 		editor.destroy();
 		editor = null;
+	}
+
+	function forEach() {
+		return CKEDITOR.tools.array.forEach.apply( null, arguments );
 	}
 } )();
