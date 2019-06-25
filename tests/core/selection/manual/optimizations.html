@@ -1,8 +1,8 @@
 <textarea id="editor">
 	<ul>
 		<li>
-			<span>Foo</span>
-			<ol><li><span>Bar</span></li></ol>
+			<span class="bordered">Foo</span>
+			<ol><li><span class="bordered">Bar</span></li></ol>
 		</li>
 	</ul>
 	<div>This is div</div>
@@ -16,11 +16,11 @@
 		bender.ignore();
 	}
 
-	CKEDITOR.addCss( 'span{padding:10px;border:solid 1px red;}' +
+	CKEDITOR.addCss( 'span.bordered{padding:10px;border:solid 1px red;}' +
 		'li,div{margin:20px 0;}' );
 
 	var editor = CKEDITOR.replace( 'editor', {
-			extraAllowedContent: 'span'
+			extraAllowedContent: 'span(bordered)'
 		} ),
 		initialData = editor.getData();
 
@@ -34,5 +34,4 @@
 	CKEDITOR.document.findOne( '#reset' ).on( 'click', function() {
 		editor.setData( initialData );
 	} );
-
 </script>
