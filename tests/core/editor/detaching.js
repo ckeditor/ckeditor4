@@ -19,6 +19,12 @@
 	fakeComponent = fakeComponent.getOuterHtml();
 
 	bender.test( {
+		_should: {
+			ignore: {
+				// onload listener is used only for Firefox and IE.
+				'test detach before iframe#onload': !CKEDITOR.env.gecko && !CKEDITOR.env.ie || CKEDITOR.env.edge
+			}
+		},
 		// (#3115)
 		'test detach and destroy synchronously': testDetach( function( detach ) {
 			detach();
@@ -31,7 +37,7 @@
 
 		// (#3115)
 		'test detach before firing editor#loaded event': testDetach( function( detach, editor ) {
-			editor.on( 'loaded', detach, null, null, -9999 );
+			editor.once( 'loaded', detach, null, null, -9999 );
 		} ),
 
 		// (#3115)
@@ -59,10 +65,6 @@
 
 	function testDetach( callback ) {
 		return function() {
-			// IE & Edge throws `Permission Denied` sometimes, but debugger won't break on that error, so can't fix it.
-			if ( CKEDITOR.env.ie ) {
-				assert.ignore();
-			}
 			var component = CKEDITOR.dom.element.createFromHtml( fakeComponent );
 
 			container.append( component );
@@ -90,10 +92,6 @@
 
 	function testSetMode( callback ) {
 		return function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
-				assert.ignore();
-			}
-
 			if ( editor ) {
 				destroyEditor();
 			}
