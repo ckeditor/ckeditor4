@@ -84,7 +84,7 @@
 				setTimeout( detach );
 				break;
 			case "2":
-				editor.on( 'loaded', detach, null, null, -9999 );
+				editor.once( 'loaded', detach, null, null, -9999 );
 				break;
 			case "3":
 				detachWhenScriptLoaded( detach );
