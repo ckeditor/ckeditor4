@@ -1,4 +1,4 @@
-/* exported easyImageTools */
+/* exported detachingTools */
 
 var detachingTools = ( function() {
 	function detachWhenScriptLoaded( detach ) {
