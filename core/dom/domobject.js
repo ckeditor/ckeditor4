@@ -62,10 +62,11 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 		 * @returns {Object} The private object.
 		 */
 		getPrivate: function() {
-			var priv;
+			var expandoNumber = this._ && this._.expandoNumber,
+				priv;
 
 			// Get the main private object from the custom data. Create it if not defined.
-			if ( !( priv = this.getCustomData( '_' ) ) )
+			if ( !( priv = this.getCustomData( '_', expandoNumber ) ) )
 				this.setCustomData( '_', ( priv = {} ) );
 
 			return priv;
@@ -126,15 +127,21 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 		 * references left after the object is no longer needed.
 		 */
 		removeAllListeners: function() {
-			var nativeListeners = this.getCustomData( '_cke_nativeListeners' );
-			for ( var eventName in nativeListeners ) {
-				var listener = nativeListeners[ eventName ];
-				if ( this.$.detachEvent )
-					this.$.detachEvent( 'on' + eventName, listener );
-				else if ( this.$.removeEventListener )
-					this.$.removeEventListener( eventName, listener, false );
+			try {
+				var nativeListeners = this.getCustomData( '_cke_nativeListeners' );
+				for ( var eventName in nativeListeners ) {
+					var listener = nativeListeners[ eventName ];
+					if ( this.$.detachEvent )
+						this.$.detachEvent( 'on' + eventName, listener );
+					else if ( this.$.removeEventListener )
+						this.$.removeEventListener( eventName, listener, false );
 
-				delete nativeListeners[ eventName ];
+					delete nativeListeners[ eventName ];
+				}
+			} catch ( error ) {
+				if ( !CKEDITOR.env.edge || error.number !== -2146828218 ) {
+					throw( error );
+				}
 			}
 
 			// Remove events from events object so fire() method will not call
@@ -206,11 +213,12 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	 *		alert( element.getCustomData( 'nonExistingKey' ) );		// null
 	 *
 	 * @param {String} key The key used to identify the data slot.
+	 * @param {Number} [expandoNumber] when provided will be used instead of native element 'data-cke-expando' attribute.
 	 * @returns {Object} This value set to the data slot.
 	 */
-	domObjectProto.getCustomData = function( key ) {
-		var expandoNumber = this.$[ 'data-cke-expando' ],
-			dataSlot = expandoNumber && customData[ expandoNumber ];
+	domObjectProto.getCustomData = function( key, expandoNumber ) {
+		expandoNumber = expandoNumber || this.$[ 'data-cke-expando' ];
+		var dataSlot = expandoNumber && customData[ expandoNumber ];
 
 		return ( dataSlot && key in dataSlot ) ? dataSlot[ key ] : null;
 	};
@@ -239,12 +247,13 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	 * Removes any data stored in this object.
 	 * To avoid memory leaks we must assure that there are no
 	 * references left after the object is no longer needed.
+	 * @param {Number} [expandoNumber] when provided will be used instead of native element 'data-cke-expando' attribute.
 	 */
-	domObjectProto.clearCustomData = function() {
+	domObjectProto.clearCustomData = function( expandoNumber ) {
 		// Clear all event listeners
 		this.removeAllListeners();
 
-		var expandoNumber = this.$[ 'data-cke-expando' ];
+		expandoNumber = expandoNumber || this.$[ 'data-cke-expando' ];
 		expandoNumber && delete customData[ expandoNumber ];
 	};
 

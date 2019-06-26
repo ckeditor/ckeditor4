@@ -535,7 +535,9 @@
 			 */
 			detach: function() {
 				// Cleanup the element.
-				this.removeClass( 'cke_editable' );
+				catchEdgePermissionDenied( function() {
+					this.removeClass( 'cke_editable' );
+				}.bind( this ) );
 
 				this.status = 'detached';
 
@@ -1231,30 +1233,34 @@
 				this.editor.setData( this.editor.getData(), 0, 1 );
 
 				this.clearListeners();
-				this.restoreAttrs();
 
-				// Cleanup our custom classes.
-				var classes;
-				if ( ( classes = this.removeCustomData( 'classes' ) ) ) {
-					while ( classes.length )
-						this.removeClass( classes.pop() );
-				}
+				catchEdgePermissionDenied( function() {
+					// Cleanup the element.
+					this.restoreAttrs();
 
-				// Remove contents stylesheet from document if it's the last usage.
-				if ( !this.is( 'textarea' ) ) {
-					var doc = this.getDocument(),
-						head = doc.getHead();
-					if ( head.getCustomData( 'stylesheet' ) ) {
-						var refs = doc.getCustomData( 'stylesheet_ref' );
-						if ( !( --refs ) ) {
-							doc.removeCustomData( 'stylesheet_ref' );
-							var sheet = head.removeCustomData( 'stylesheet' );
-							sheet.remove();
-						} else {
-							doc.setCustomData( 'stylesheet_ref', refs );
+					// Cleanup our custom classes.
+					var classes;
+					if ( ( classes = this.removeCustomData( 'classes' ) ) ) {
+						while ( classes.length )
+							this.removeClass( classes.pop() );
+					}
+
+					// Remove contents stylesheet from document if it's the last usage.
+					if ( !this.is( 'textarea' ) ) {
+						var doc = this.getDocument(),
+							head = doc.getHead();
+						if ( head.getCustomData( 'stylesheet' ) ) {
+							var refs = doc.getCustomData( 'stylesheet_ref' );
+							if ( !( --refs ) ) {
+								doc.removeCustomData( 'stylesheet_ref' );
+								var sheet = head.removeCustomData( 'stylesheet' );
+								sheet.remove();
+							} else {
+								doc.setCustomData( 'stylesheet_ref', refs );
+							}
 						}
 					}
-				}
+				}.bind( this ) );
 
 				this.editor.fire( 'contentDomUnload' );
 
@@ -1263,6 +1269,17 @@
 			}
 		}
 	} );
+
+	function catchEdgePermissionDenied( callback ) {
+		// Edge randomly throws permission denied when trying to access native elements of detached editor (#3115).
+		try {
+			callback();
+		} catch ( error ) {
+			if ( !CKEDITOR.env.edge || error.number !== -2146828218 ) {
+				throw( error );
+			}
+		}
+	}
 
 	/**
 	 * Creates, retrieves or detaches an editable element of the editor.
@@ -1282,14 +1299,22 @@
 		if ( editable && element )
 			return 0;
 
-		if ( arguments.length ) {
-			editable = this._.editable = element ? ( element instanceof CKEDITOR.editable ? element : new CKEDITOR.editable( this, element ) ) :
-			// Detach the editable from editor.
-			( editable && editable.detach(), null );
+		if ( !arguments.length ) {
+			return editable;
 		}
 
-		// Just retrieve the editable.
-		return editable;
+		if ( element ) {
+			editable = element instanceof CKEDITOR.editable ? element : new CKEDITOR.editable( this, element );
+			// Editable is cached unlike other elements, so we can use it to store expando number.
+			// We need it to properly cleanup custom data in case of permission denied
+			// thrown by Edge when accessing native element of detached editable (#3115).
+			editable._.expandoNumber = editable.$[ 'data-cke-expando' ];
+		} else {
+			editable && editable.detach();
+			editable = null;
+		}
+
+		return this._.editable = editable;
 	};
 
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {

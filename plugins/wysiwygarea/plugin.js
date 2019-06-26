@@ -530,7 +530,7 @@
 				framedWysiwyg.baseProto.detach.call( this );
 
 				// Memory leak proof.
-				this.clearCustomData();
+				this.clearCustomData( this._.expandoNumber );
 				doc.getDocumentElement().clearCustomData();
 				CKEDITOR.tools.removeFunction( this._.frameLoadedHandler );
 
