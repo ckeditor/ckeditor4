@@ -131,10 +131,11 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 				var nativeListeners = this.getCustomData( '_cke_nativeListeners' );
 				for ( var eventName in nativeListeners ) {
 					var listener = nativeListeners[ eventName ];
-					if ( this.$.detachEvent )
+					if ( this.$.detachEvent ) {
 						this.$.detachEvent( 'on' + eventName, listener );
-					else if ( this.$.removeEventListener )
+					} else if ( this.$.removeEventListener ) {
 						this.$.removeEventListener( eventName, listener, false );
+					}
 
 					delete nativeListeners[ eventName ];
 				}
