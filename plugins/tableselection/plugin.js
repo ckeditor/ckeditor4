@@ -379,22 +379,18 @@
 	}
 
 	function fakeSelectionDragHandler( evt ) {
-		var table = evt.data.getTarget().getAscendant( 'table', true );
+		var table = evt.data.getTarget().getAscendant( 'table', true ),
+			editor = evt.editor || evt.sender.editor;
 
-		// (#2945)
-		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
+		// (#547)
+		if ( table && evt.name == 'dragstart' ) {
+			table.data( ignoredTableAttribute, '' );
 			return;
+		} else if ( table && evt.name == 'drop' ) {
+			table.data( ignoredTableAttribute, false );
 		}
-
-		var cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true );
-
-		if ( !cell || cell.hasClass( fakeSelectedClass ) ) {
-			return;
-		}
-
-		// We're not supporting dragging in our table selection for the time being.
-		evt.cancel();
-		evt.data.preventDefault();
+		editor.getSelection().reset();
+		clearFakeCellSelection( editor, true );
 	}
 
 	function copyTable( editor, isCut ) {
@@ -1192,6 +1188,7 @@
 				editable.attachListener( mouseHost, 'mouseup', fakeSelectionMouseHandler, null, evtInfo );
 
 				editable.attachListener( editable, 'dragstart', fakeSelectionDragHandler );
+				editable.attachListener( editable, 'drop', fakeSelectionDragHandler );
 				editable.attachListener( editor, 'selectionCheck', fakeSelectionChangeHandler );
 
 				CKEDITOR.plugins.tableselection.keyboardIntegration( editor );
