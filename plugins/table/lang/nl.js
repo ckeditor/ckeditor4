@@ -14,7 +14,7 @@ CKEDITOR.plugins.setLang( 'table', 'nl', {
 		mergeRight: 'Voeg samen naar rechts',
 		mergeDown: 'Voeg samen naar beneden',
 		splitHorizontal: 'Splits cel horizontaal',
-		splitVertical: 'Splits cel vertikaal',
+		splitVertical: 'Splits cel verticaal',
 		title: 'Celeigenschappen',
 		cellType: 'Celtype',
 		rowSpan: 'Rijen samenvoegen',
