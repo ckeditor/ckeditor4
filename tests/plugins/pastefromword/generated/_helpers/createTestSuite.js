@@ -30,7 +30,7 @@ function createTestSuite( options ) {
 	} );
 
 	var testData = options.testData,
-		testsKeys = CKEDITOR.tools.objectKeys( options.tests ),
+		testsKeys = CKEDITOR.tools.object.keys( options.tests ),
 		wordVersion, testKey, testName, i, j, k;
 
 	if ( testsKeys.length ) {

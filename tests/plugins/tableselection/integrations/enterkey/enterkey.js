@@ -2,7 +2,6 @@
 /* bender-ckeditor-plugins: table,tableselection,wysiwygarea,enterkey,undo */
 /* bender-ckeditor-remove-plugins: entities */
 /* bender-include: ../../_helpers/tableselection.js */
-/* global tableSelectionHelpers */
 
 ( function() {
 	'use strict';
@@ -84,6 +83,9 @@
 
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
 		'test press enter key in selected table': function( editor, bot ) {
 			var expectedResult = prepareEditorAndGetExpectedResult( editor, bot );
 			editor.fire( 'saveSnapshot' );
@@ -107,7 +109,6 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 	bender.test( tests );
 } )();

@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'ca', {
 	headersColumn: 'Primera columna',
 	headersNone: 'Cap',
 	headersRow: 'Primera fila',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'El gruix de la vora ha de ser un nombre.',
 	invalidCellPadding: 'L\'encoixinament de cel·la  ha de ser un nombre.',
 	invalidCellSpacing: 'L\'espaiat de cel·la  ha de ser un nombre.',

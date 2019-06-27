@@ -11,6 +11,9 @@
 		requires: 'textwatcher',
 		onLoad: function() {
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
+		},
+		isSupportedEnvironment: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
 		}
 	} );
 
@@ -1342,7 +1345,7 @@
 	}
 
 	function encodeItem( item ) {
-		return CKEDITOR.tools.array.reduce( CKEDITOR.tools.objectKeys( item ), function( cur, key ) {
+		return CKEDITOR.tools.array.reduce( CKEDITOR.tools.object.keys( item ), function( cur, key ) {
 			cur[ key ] = CKEDITOR.tools.htmlEncode( item[ key ] );
 			return cur;
 		}, {} );

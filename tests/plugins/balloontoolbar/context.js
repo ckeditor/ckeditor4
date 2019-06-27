@@ -1,7 +1,6 @@
 /* bender-tags: balloontoolbar, context */
 /* bender-ckeditor-plugins: balloontoolbar */
 /* bender-include: _helpers/default.js */
-/* global ignoreUnsupportedEnvironment */
 
 ( function() {
 	'use strict';
@@ -9,6 +8,10 @@
 	bender.editor = {};
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+		},
+
 		tearDown: function() {
 			this.editor.balloonToolbars._clear();
 		},
@@ -30,6 +33,5 @@
 		}
 	};
 
-	ignoreUnsupportedEnvironment( tests );
 	bender.test( tests );
 } )();

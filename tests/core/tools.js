@@ -4,11 +4,11 @@
 	'use strict';
 
 	var vendorPrefix = CKEDITOR.env.gecko ? '-moz-' :
-			CKEDITOR.env.webkit ? '-webkit-' :
-			CKEDITOR.env.ie ? '-ms-' :
-			'';
+		CKEDITOR.env.webkit ? '-webkit-' :
+		CKEDITOR.env.ie ? '-ms-' :
+		'',
 
-	var htmlEncode = CKEDITOR.tools.htmlEncode,
+		htmlEncode = CKEDITOR.tools.htmlEncode,
 		htmlDecode = CKEDITOR.tools.htmlDecode;
 
 	bender.editor = {
@@ -50,6 +50,17 @@
 			assert.areSame( fakeArray	, target.prop5, 'prop5 doesn\'t match' );
 			assert.areSame( 'Good'		, target.prop6, 'prop6 doesn\'t match' );
 			assert.areSame( fakeArray	, target.prop7, 'prop7 doesn\'t match' );
+		},
+
+		// (#3120)
+		'test extend dont enum attribute': function() {
+			var dontEnumObj = CKEDITOR.tools.convertArrayToObject( CKEDITOR.tools.object.DONT_ENUMS, 1 ),
+				target = {};
+
+			CKEDITOR.tools.extend( target, dontEnumObj, true );
+
+			// hasOwnProperty function is shadowed, so objectAssert.areEqual assertion will fail.
+			arrayAssert.itemsAreEqual( CKEDITOR.tools.object.DONT_ENUMS, CKEDITOR.tools.object.keys( target ) );
 		},
 
 		test_isArray1: function() {
@@ -508,13 +519,6 @@
 			assert.areSame( copy.d, orig.d );
 		},
 
-		'test objectKeys': function() {
-			var keys = CKEDITOR.tools.objectKeys;
-
-			arrayAssert.itemsAreEqual( [ 'foo', 'bar', '$ x !/', 'bom' ], keys( { foo: 1, bar: 'a', '$ x !/': false, bom: undefined } ) );
-			arrayAssert.itemsAreEqual( [], keys( {} ) );
-		},
-
 		'test convertArrayToObject': function() {
 			var arr = [ 'foo', 'bar', 'foo' ],
 				obj;
@@ -522,13 +526,13 @@
 			obj = CKEDITOR.tools.convertArrayToObject( arr );
 			assert.isTrue( obj.foo );
 			assert.isTrue( obj.bar );
-			arrayAssert.itemsAreEqual( [ 'foo', 'bar' ], CKEDITOR.tools.objectKeys( obj ) );
+			arrayAssert.itemsAreEqual( [ 'foo', 'bar' ], CKEDITOR.tools.object.keys( obj ) );
 
 			obj = CKEDITOR.tools.convertArrayToObject( arr, 1 );
 			assert.areSame( 1, obj.foo );
 			assert.areSame( 1, obj.bar );
 
-			arrayAssert.itemsAreEqual( [], CKEDITOR.tools.objectKeys( CKEDITOR.tools.convertArrayToObject( {} ) ) );
+			arrayAssert.itemsAreEqual( [], CKEDITOR.tools.object.keys( CKEDITOR.tools.convertArrayToObject( {} ) ) );
 		},
 
 		'test eventsBuffer': function() {
@@ -748,7 +752,7 @@
 
 			assert.isFalse( c( {}, r1 ) );
 			assert.isFalse( c( { bar: 1 }, r1 ) );
-			assert.isFalse( c( { bar: 1, f: 1, oo: 1 }, r2 ) ); // Ekhem, don't try to objectKeys().join();
+			assert.isFalse( c( { bar: 1, f: 1, oo: 1 }, r2 ) ); // Ekhem, don't try to object.keys().join();
 		},
 
 		'test checkIfAnyArrayItemMatches': function() {

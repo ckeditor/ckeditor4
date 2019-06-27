@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'uk', {
 	cut: 'Вирізати',
 	cutError: 'Налаштування безпеки Вашого браузера не дозволяють редактору автоматично виконувати операції вирізування. Будь ласка, використовуйте клавіатуру для цього (Ctrl/Cmd+X)',
 	paste: 'Вставити',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteNotification: 'Натисніть %1, щоб вставити. Ваш браузер не підтримує вставку за допомогою кнопки панелі інструментів або пункту контекстного меню.',
 	pasteArea: 'Область вставки',
-	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
+	pasteMsg: 'Вставте вміст у область нижче та натисніть OK.'
 } );

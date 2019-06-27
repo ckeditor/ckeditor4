@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'no', {
 	button: 'Sett inn kodesnutt',
-	codeContents: 'Code content', // MISSING
-	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
-	language: 'Language', // MISSING
-	title: 'Code snippet', // MISSING
-	pathName: 'code snippet' // MISSING
+	codeContents: 'Kode',
+	emptySnippetError: 'En kodesnutt kan ikke være tom.',
+	language: 'Språk',
+	title: 'Kodesnutt',
+	pathName: 'kodesnutt'
 } );

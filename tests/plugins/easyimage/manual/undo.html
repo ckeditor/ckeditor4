@@ -23,9 +23,11 @@
 
 <script>
 	// Ignore on Android mobiles due to lack of support for pasting images from clipboard.
-	if ( easyImageTools.isUnsupportedEnvironment() || ( bender.tools.env.mobile && !CKEDITOR.env.iOS ) ) {
+	if ( bender.tools.env.mobile && !CKEDITOR.env.iOS ) {
 		bender.ignore();
 	}
+	
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 	var commonConfig = {
 			cloudServices_uploadUrl: easyImageTools.CLOUD_SERVICES_UPLOAD_GATEWAY,

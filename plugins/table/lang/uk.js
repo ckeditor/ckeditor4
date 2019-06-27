@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'uk', {
 	headersColumn: 'Стовбці',
 	headersNone: 'Без заголовків',
 	headersRow: 'Рядки',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Розмір рамки повинен бути цілим числом.',
 	invalidCellPadding: 'Внутр. відступ комірки повинен бути цілим числом.',
 	invalidCellSpacing: 'Проміжок між комірками повинен бути цілим числом.',

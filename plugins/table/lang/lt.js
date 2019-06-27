@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'lt', {
 	headersColumn: 'Pirmas stulpelis',
 	headersNone: 'Nėra',
 	headersRow: 'Pirma eilutė',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Reikšmė turi būti nurodyta skaičiumi.',
 	invalidCellPadding: 'Reikšmė turi būti nurodyta skaičiumi.',
 	invalidCellSpacing: 'Reikšmė turi būti nurodyta skaičiumi.',

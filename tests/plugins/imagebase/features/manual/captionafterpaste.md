@@ -1,7 +1,6 @@
 @bender-tags: 4.10.0, bug, 1592
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, imagebase
-@bender-include: %BASE_PATH%/plugins/easyimage/_helpers/tools.js
+@bender-ckeditor-plugins: wysiwygarea, toolbar, imagebase, easyimage
 
 1. Focus the image.
 2. Cut the image using `ctrl/cmd + x`.

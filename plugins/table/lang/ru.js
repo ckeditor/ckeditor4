@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'ru', {
 	headersColumn: 'Левая колонка',
 	headersNone: 'Без заголовков',
 	headersRow: 'Верхняя строка',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Размер границ должен быть числом.',
 	invalidCellPadding: 'Внутренний отступ ячеек (cellpadding) должен быть числом.',
 	invalidCellSpacing: 'Внешний отступ ячеек (cellspacing) должен быть числом.',

@@ -1,8 +1,7 @@
 /* bender-tags: editor, clipboard, upload */
 /* bender-ckeditor-plugins: sourcearea, wysiwygarea, easyimage */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, %BASE_PATH%/plugins/imagebase/features/_helpers/tools.js */
-/* bender-include: ./_helpers/tools.js */
-/* global imageBaseFeaturesTools, pasteFiles, assertPasteEvent, easyImageTools */
+/* global imageBaseFeaturesTools, pasteFiles, assertPasteEvent */
 
 ( function() {
 	'use strict';
@@ -27,7 +26,7 @@
 		tests = {
 			init: function() {
 				// We need to ignore entire test suit to prevent of fireing init, which breaks test suit on IE8-IE10.
-				if ( easyImageTools.isUnsupportedEnvironment() ) {
+				if ( !this.editor.plugins.easyimage.isSupportedEnvironment() ) {
 					bender.ignore();
 				}
 
@@ -355,7 +354,7 @@
 						}, function() {
 							assert.isTrue( true );
 							var widgets = editor.widgets.instances,
-								keys = CKEDITOR.tools.objectKeys( widgets );
+								keys = CKEDITOR.tools.object.keys( widgets );
 
 							assert.areSame( '%BASE_PATH%/_assets/logo.png', widgets[ keys[ 0 ] ].parts.image.getAttribute( 'src' ), 'Widget#0 src' );
 							assert.areSame( '%BASE_PATH%/_assets/logo.png', widgets[ keys[ 1 ] ].parts.image.getAttribute( 'src' ), 'Widget#1 src' );

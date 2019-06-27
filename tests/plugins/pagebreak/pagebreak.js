@@ -7,7 +7,8 @@
 	bender.editor = {
 		creator: 'inline', // Speeeeeed...
 		config: {
-			pasteFilter: null
+			pasteFilter: null,
+			language: 'en'
 		}
 	};
 
@@ -28,6 +29,22 @@
 			this.editorBot.setData( '<p>x</p><div style="page-break-after:always"><span style="display:none">&nbsp;</span></div><p>x</p>', function() {
 				assert.isMatching( /^<p>x<\/p><div style="page-break-after: ?always;?"><span style="display: ?none;?">&nbsp;<\/span><\/div><p>x<\/p>$/, editor.getData() );
 			} );
+		},
+
+		// (#2598)
+		'test createElement': function() {
+			var expected = '<div ' +
+					'aria-label="Page Break" ' +
+					'class="cke_pagebreak" ' +
+					'contenteditable="false" ' +
+					'data-cke-display-name="pagebreak" ' +
+					'data-cke-pagebreak="1" ' +
+					'style="page-break-after: always" ' +
+					'title="Page Break">' +
+				'</div>',
+				element = CKEDITOR.plugins.pagebreak.createElement( this.editor );
+
+			assert.beautified.html( expected, element.getOuterHtml(), { fixStyles: true } );
 		},
 
 		'test paste': function() {

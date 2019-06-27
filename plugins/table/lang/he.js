@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'he', {
 	headersColumn: 'עמודה ראשונה',
 	headersNone: 'אין',
 	headersRow: 'שורה ראשונה',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'שדה גודל המסגרת חייב להיות מספר.',
 	invalidCellPadding: 'שדה ריפוד התאים חייב להיות מספר חיובי.',
 	invalidCellSpacing: 'שדה ריווח התאים חייב להיות מספר חיובי.',

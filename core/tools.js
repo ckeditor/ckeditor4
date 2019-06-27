@@ -90,7 +90,7 @@
 		 *			return el >= 3;
 		 *		} ); // 2
 		 *
-		 * @since 4.5
+		 * @since 4.5.0
 		 * @param {Array} array Array to search in.
 		 * @param {Function} compareFunction Compare function.
 		 * @returns {Number} The index of the first matching element or `-1` if none matches.
@@ -209,17 +209,19 @@
 				propertiesList = arguments[ argsLength - 1 ];
 				argsLength -= 2;
 			}
+
 			for ( var i = 1; i < argsLength; i++ ) {
-				var source = arguments[ i ];
-				for ( var propertyName in source ) {
+				var source = arguments[ i ] || {};
+
+				CKEDITOR.tools.array.forEach( CKEDITOR.tools.object.keys( source ), function( propertyName ) {
 					// Only copy existed fields if in overwrite mode.
 					if ( overwrite === true || target[ propertyName ] == null ) {
-						// Only copy  specified fields if list is provided.
+						// Only copy specified fields if list is provided.
 						if ( !propertiesList || ( propertyName in propertiesList ) )
 							target[ propertyName ] = source[ propertyName ];
-
 					}
-				}
+
+				} );
 			}
 
 			return target;
@@ -246,7 +248,7 @@
 		 * This method is faster than {@link #clone} which does
 		 * a deep copy of an object (including arrays).
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {Object} source The object to be copied.
 		 * @returns {Object} Copy of `source`.
 		 */
@@ -414,7 +416,7 @@
 		 *
 		 *		alert( CKEDITOR.tools.htmlDecodeAttr( '&lt;a &quot; b&gt;' ) ); // '<a " b>'
 		 *
-		 * Since CKEditor 4.5 this method simply executes {@link #htmlDecode} which covers
+		 * Since CKEditor 4.5.0 this method simply executes {@link #htmlDecode} which covers
 		 * all necessary entities.
 		 *
 		 * @param {String} text The text to be decoded.
@@ -427,7 +429,7 @@
 		/**
 		 * Transforms text to valid HTML: creates paragraphs, replaces tabs with non-breaking spaces etc.
 		 *
-		 * @since 4.5
+		 * @since 4.5.0
 		 * @param {String} text Text to transform.
 		 * @param {Number} enterMode Editor {@link CKEDITOR.config#enterMode Enter mode}.
 		 * @returns {String} HTML generated from the text.
@@ -773,10 +775,10 @@
 				$.base = baseClass;
 				$.baseProto = baseClass.prototype;
 				// Super constructor.
-				$.prototype.base = function() {
+				$.prototype.base = function baseClassConstructor() {
 					this.base = baseClass.prototype.base;
 					baseClass.apply( this, arguments );
-					this.base = arguments.callee;
+					this.base = baseClassConstructor;
 				};
 			}
 
@@ -1075,7 +1077,7 @@
 		 *		CKEDITOR.tools.writeCssText( styleObj ); // -> 'color:red; border:none'
 		 *		CKEDITOR.tools.writeCssText( styleObj, true ); // -> 'border:none; color:red'
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {Object} styles The object contaning style properties.
 		 * @param {Boolean} [sort] Whether to sort CSS properties.
 		 * @returns {String} The serialized style text.
@@ -1098,7 +1100,7 @@
 		 *
 		 * **Note:** This method performs shallow, non-strict comparison.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {Object} left
 		 * @param {Object} right
 		 * @param {Boolean} [onlyLeft] Check only the properties that are present in the `left` object.
@@ -1129,21 +1131,12 @@
 		},
 
 		/**
-		 * Returns an array of passed object's keys.
-		 *
-		 *		console.log( CKEDITOR.tools.objectKeys( { foo: 1, bar: false } );
-		 *		// -> [ 'foo', 'bar' ]
-		 *
-		 * @since 4.1
-		 * @param {Object} obj
-		 * @returns {Array} Object's keys.
+		 * @inheritdoc CKEDITOR.tools.object#keys
+		 * @since 4.1.0
+		 * @deprecated 4.12.0 Use {@link CKEDITOR.tools.object#keys} instead.
 		 */
 		objectKeys: function( obj ) {
-			var keys = [];
-			for ( var i in obj )
-				keys.push( i );
-
-			return keys;
+			return CKEDITOR.tools.object.keys( obj );
 		},
 
 		/**
@@ -1156,7 +1149,7 @@
 		 *		console.log( CKEDITOR.tools.convertArrayToObject( arr, 1 ) );
 		 *		// -> { foo: 1, bar: 1 }
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {Array} arr The array to be converted to an object.
 		 * @param [fillWith=true] Set each property of an object to `fillWith` value.
 		 */
@@ -1233,7 +1226,7 @@
 		 *
 		 * **Note:** This method has to be used in the `<head>` section of the document.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {Object} doc Native `Document` or `DocumentFragment` in which the elements will be enabled.
 		 * @param {Boolean} [withAppend] Whether to append created elements to the `doc`.
 		 */
@@ -1255,7 +1248,7 @@
 		 * @param {Array} arr The array whose items will be checked.
 		 * @param {RegExp} regexp The regular expression.
 		 * @returns {Boolean} Returns `true` for the first occurrence of the search pattern.
-		 * @since 4.4
+		 * @since 4.4.0
 		 */
 		checkIfAnyArrayItemMatches: function( arr, regexp ) {
 			for ( var i = 0, l = arr.length; i < l; ++i ) {
@@ -1271,7 +1264,7 @@
 		 * @param obj The object whose properties will be checked.
 		 * @param {RegExp} regexp The regular expression.
 		 * @returns {Boolean} Returns `true` for the first occurrence of the search pattern.
-		 * @since 4.4
+		 * @since 4.4.0
 		 */
 		checkIfAnyObjectPropertyMatches: function( obj, regexp ) {
 			for ( var i in obj ) {
@@ -1374,7 +1367,7 @@
 		/**
 		 * The data URI of a transparent image. May be used e.g. in HTML as an image source or in CSS in `url()`.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @readonly
 		 */
 		transparentImageData: 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==',
@@ -1724,6 +1717,7 @@
 					tomato: '#FF6347',
 					turquoise: '#40E0D0',
 					violet: '#EE82EE',
+					windowtext: 'windowtext',
 					wheat: '#F5DEB3',
 					white: '#FFFFFF',
 					whitesmoke: '#F5F5F5',
@@ -1790,23 +1784,60 @@
 				/**
 				 * Parses the `margin` CSS property shorthand format.
 				 *
-				 *		console.log( CKEDITOR.tools.parse.margin( '3px 0 2' ) );
-				 *		// Logs: { top: "3px", right: "0", bottom: "2", left: "0" }
+				 * ```javascript
+				 *	console.log( CKEDITOR.tools.parse.margin( '3px 0 2' ) );
+				 *	// Logs: { top: "3px", right: "0", bottom: "2", left: "0" }
+				 * ```
 				 *
 				 * @param {String} value The `margin` property value.
-				 * @returns {Object}
-				 * @returns {Number} return.top Top margin.
-				 * @returns {Number} return.right Right margin.
-				 * @returns {Number} return.bottom Bottom margin.
-				 * @returns {Number} return.left Left margin.
+				 * @returns {Object.<String, String>}
+				 * @returns {String} return.top Top margin.
+				 * @returns {String} return.right Right margin.
+				 * @returns {String} return.bottom Bottom margin.
+				 * @returns {String} return.left Left margin.
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				margin: function( value ) {
-					var ret = {};
+					return CKEDITOR.tools.style.parse.sideShorthand( value, function( width ) {
+						return width.match( /(?:\-?[\.\d]+(?:%|\w*)|auto|inherit|initial|unset|revert)/g ) || [ '0px' ];
+					} );
+				},
 
-					var widths = value.match( /(?:\-?[\.\d]+(?:%|\w*)|auto|inherit|initial|unset)/g ) || [ '0px' ];
+				/**
+				 * Parses the CSS property shorthand format of all `top`, `right`, `bottom`, `left` sides.
+				 *
+				 * ```javascript
+				 *	console.log( CKEDITOR.tools.style.parse.sideShorthand( 'solid dotted' ) );
+				 *	// Logs: { top: 'solid', right: 'dotted', bottom: 'solid', left: 'dotted' }
+				 *
+				 * console.log( CKEDITOR.tools.style.parse.sideShorthand( 'foo baz', split ) );
+				 * // Logs: { top: 'foo', right: 'baz', bottom: 'foo', left: 'baz' }
+				 *
+				 * console.log( CKEDITOR.tools.style.parse.sideShorthand( 'something else', split ) );
+				 * // Logs: { top: 'bar', right: 'quix', bottom: 'bar', left: 'quix' }
+				 *
+				 * function split( value ) {
+				 *  	return value.match( /(foo|baz)/g ) || [ 'bar', 'quix' ];
+				 * }
+				 * ```
+				 *
+				 * @since 4.12.0
+				 * @param {String} value The shorthand property value.
+				 * @param {Function} [split] The function used to split the CSS property shorthand.
+				 * It should return an array of side shorthand parts (see the `split` function in the code listing).
+				 * If not set, the property value will be split by spaces.
+				 * @returns {Object.<String, String>}
+				 * @returns {String} return.top Top value.
+				 * @returns {String} return.right Right value.
+				 * @returns {String} return.bottom Bottom value.
+				 * @returns {String} return.left Left value.
+				 * @member CKEDITOR.tools.style.parse
+				 */
+				sideShorthand: function( value, split ) {
+					var ret = {},
+						parts = split ? split( value ) : value.split( /\s+/ );
 
-					switch ( widths.length ) {
+					switch ( parts.length ) {
 						case 1:
 							mapStyles( [ 0, 0, 0, 0 ] );
 							break;
@@ -1822,55 +1853,23 @@
 					}
 
 					function mapStyles( map ) {
-						ret.top = widths[ map[ 0 ] ];
-						ret.right = widths[ map[ 1 ] ];
-						ret.bottom = widths[ map[ 2 ] ];
-						ret.left = widths[ map[ 3 ] ];
+						ret.top = parts[ map[ 0 ] ];
+						ret.right = parts[ map[ 1 ] ];
+						ret.bottom = parts[ map[ 2 ] ];
+						ret.left = parts[ map[ 3 ] ];
 					}
 
 					return ret;
 				},
 
 				/**
-				 * Parses the `border` CSS property shorthand format.
-				 * This CSS property does not support inheritance (https://www.w3.org/TR/css3-background/#the-border-shorthands).
-				 *
-				 *		console.log( CKEDITOR.tools.style.parse.border( '3px solid #ffeedd' ) );
-				 *		// Logs: { width: "3px", style: "solid", color: "#ffeedd" }
-				 *
 				 * @param {String} value The `border` property value.
-				 * @returns {Object}
-				 * @returns {String} return.width The border-width attribute.
-				 * @returns {String} return.style The border-style attribute.
-				 * @returns {String} return.color The border-color attribute.
+				 * @returns {CKEDITOR.tools.style.border} Border style.
+				 * @deprecated 4.12.0 Use {@link CKEDITOR.tools.style.border#fromCssRule} instead.
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				border: function( value ) {
-					var ret = {},
-						input = value.split( /\s+/g ),
-						parseColor = CKEDITOR.tools.style.parse._findColor( value );
-
-					if ( parseColor.length ) {
-						ret.color = parseColor[ 0 ];
-					}
-
-					CKEDITOR.tools.array.forEach( input, function( val ) {
-						if ( !ret.style ) {
-							if ( CKEDITOR.tools.indexOf( CKEDITOR.tools.style.parse._borderStyle, val ) !== -1 ) {
-								ret.style = val;
-								return;
-							}
-						}
-
-						if ( !ret.width ) {
-							if ( CKEDITOR.tools.style.parse._widthRegExp.test( val ) ) {
-								ret.width = val;
-								return;
-							}
-						}
-
-					} );
-					return ret;
+					return CKEDITOR.tools.style.border.fromCssRule( value );
 				},
 
 				/**
@@ -1945,6 +1944,41 @@
 				} );
 
 				return ret;
+			},
+
+			/**
+			 * Returns the first element in the array for which the given callback `fn` returns `true`.
+			 *
+			 * ```js
+			 * var array = [ 1, 2, 3, 4 ];
+			 *
+			 * CKEDITOR.tools.array.find( array, function( item ) {
+			 *     return item > 2;
+			 * } ); // returns 3.
+			 * ```
+			 *
+			 * @param {Array} array An array to be iterated over.
+			 * @param {Function} fn A function called for every `array` element until it returns `true`.
+			 * @param {Mixed} fn.value The currently iterated array value.
+			 * @param {Number} fn.index The index of the currently iterated value in an array.
+			 * @param {Array} fn.array The original array passed as an `array` variable.
+			 * @param {Mixed} [thisArg=undefined] The context object for `fn`.
+			 * @returns {*} The first matched value or `undefined` otherwise.
+			 * @member CKEDITOR.tools.array
+			 * @since 4.12.0
+			 */
+			find: function( array, fn, thisArg ) {
+				var length = array.length,
+					i = 0;
+
+				while ( i < length ) {
+					if ( fn.call( thisArg, array[ i ], i, array ) ) {
+						return array[ i ];
+					}
+					i++;
+				}
+
+				return undefined;
 			},
 
 			/**
@@ -2045,6 +2079,99 @@
 		 * @member CKEDITOR.tools
 		 */
 		object: {
+
+			/**
+			 * List of ECMA3 object properties with obsolete
+			 * [DontEnum](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Properties)
+			 * attribute.
+			 *
+			 * @member CKEDITOR.tools.object
+			 * @private
+			 * @since 4.12.0
+			 */
+			DONT_ENUMS: [
+				'toString',
+				'toLocaleString',
+				'valueOf',
+				'hasOwnProperty',
+				'isPrototypeOf',
+				'propertyIsEnumerable',
+				'constructor'
+			],
+
+			/**
+			 * Returns an array of key-value pairs using enumerable string-keyed
+			 * object properties.
+			 *
+			 * ```javascript
+			 *	console.log( CKEDITOR.tools.object.entries( { foo: 1, bar: false } );
+			 *	// -> [ [ 'foo', 1 ], [ 'bar', false ] ]
+			 * ```
+			 *
+			 * @since 4.12.0
+			 * @member CKEDITOR.tools.object
+			 * @param {Object} obj
+			 * @returns {Array} Object's key-value pairs.
+			 */
+			entries: function( obj ) {
+				return CKEDITOR.tools.array.map( CKEDITOR.tools.object.keys( obj ), function( key ) {
+					return [ key, obj[ key ] ];
+				} );
+			},
+
+			/**
+			 * Returns an array of passed object enumerable values.
+			 *
+			 * ```javascript
+			 *	console.log( CKEDITOR.tools.object.values( { foo: 1, bar: false } );
+			 *	// -> [ 1, false ]
+			 * ```
+			 *
+			 * @since 4.12.0
+			 * @member CKEDITOR.tools.object
+			 * @param {Object} obj
+			 * @returns {Array} Object's values.
+			 */
+			values: function( obj ) {
+				return CKEDITOR.tools.array.map( CKEDITOR.tools.object.keys( obj ), function( key ) {
+					return obj[ key ];
+				} );
+			},
+
+			/**
+			 * Returns an array of passed object keys.
+			 *
+			 * ```javascript
+			 *	console.log( CKEDITOR.tools.object.keys( { foo: 1, bar: false } );
+			 *	// -> [ 'foo', 'bar' ]
+			 * ```
+			 *
+			 * @since 4.12.0
+			 * @member CKEDITOR.tools.object
+			 * @param {Object} obj
+			 * @returns {Array} Object's keys.
+			 */
+			keys: function( obj ) {
+				var hasOwnProperty = Object.prototype.hasOwnProperty,
+					keys = [],
+					dontEnums = CKEDITOR.tools.object.DONT_ENUMS;
+
+				for ( var prop in obj ) {
+					keys.push( prop );
+				}
+
+				// Fix don't enum bug for IE < 9 browsers (#3120).
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+					for ( var i = 0; i < dontEnums.length; i++ ) {
+						if ( hasOwnProperty.call( obj, dontEnums[ i ] ) ) {
+							keys.push( dontEnums[ i ] );
+						}
+					}
+				}
+
+				return keys;
+			},
+
 			/**
 			 * Returns the first key from `obj` which has a given `value`.
 			 *
@@ -2112,7 +2239,7 @@
 					copy1 = tools.clone( obj1 ),
 					copy2 = tools.clone( obj2 );
 
-				tools.array.forEach( tools.objectKeys( copy2 ), function( key ) {
+				tools.array.forEach( tools.object.keys( copy2 ), function( key ) {
 					if ( typeof copy2[ key ] === 'object' && typeof copy1[ key ] === 'object' ) {
 						copy1[ key ] = tools.object.merge( copy1[ key ], copy2[ key ] );
 					} else {
@@ -2433,6 +2560,234 @@
 	CKEDITOR.tools.buffers = {};
 	CKEDITOR.tools.buffers.event = EventsBuffer;
 	CKEDITOR.tools.buffers.throttle = ThrottleBuffer;
+
+	/**
+	 * Represents the CSS border style.
+	 *
+	 * @since 4.12.0
+	 * @class CKEDITOR.tools.style.border
+	 */
+	CKEDITOR.tools.style.border = CKEDITOR.tools.createClass( {
+
+		/**
+		 * Creates a new instance of the border style.
+		 * @constructor
+		 * @param {Object} [props] Style-related properties.
+		 * @param {String} [props.color] Border color.
+		 * @param {String} [props.style] Border style.
+		 * @param {String} [props.width] Border width.
+		 */
+		$: function( props ) {
+			props = props || {};
+
+			/**
+			 * Represents the value of the CSS `width` property.
+			 *
+			 * @property {String} [width]
+			 */
+			this.width = props.width;
+
+			/**
+			 * Represents the value of the CSS `style` property.
+			 *
+			 * @property {String} [style]
+			 */
+			this.style = props.style;
+
+			/**
+			 * Represents the value of the CSS `color` property.
+			 *
+			 * @property {String} [color]
+			 */
+			this.color = props.color;
+
+			this._.normalize();
+		},
+
+		_: {
+			normalizeMap: {
+				color: [
+					[ /windowtext/g, 'black' ]
+				]
+			},
+
+			normalize: function() {
+				for ( var propName in this._.normalizeMap ) {
+					var val = this[ propName ];
+
+					if ( val ) {
+						this[propName] = CKEDITOR.tools.array.reduce( this._.normalizeMap[ propName ], function( cur, rule ) {
+							return cur.replace( rule[ 0 ], rule[ 1 ] );
+						}, val );
+					}
+				}
+			}
+		},
+
+		proto: {
+			toString: function() {
+				return CKEDITOR.tools.array.filter( [ this.width, this.style, this.color ], function( item ) {
+					return !!item;
+				} ).join( ' ' );
+			}
+		},
+
+		statics: {
+			/**
+			 * Parses the CSS `border` property shorthand format.
+			 * This CSS property [does not support inheritance](https://www.w3.org/TR/css3-background/#the-border-shorthands).
+			 *
+			 * ```javascript
+			 *	console.log( CKEDITOR.tools.style.border.fromCssRule( '3px solid #ffeedd' ) );
+			 *	// Logs: Border { width: '3px', style: 'solid', color: '#ffeedd' }
+			 * ```
+			 *
+			 * @static
+			 * @param {String} value The `border` property value.
+			 * @returns {CKEDITOR.tools.style.border} Border style.
+			 * @member CKEDITOR.tools.style.border
+			 */
+			fromCssRule: function( value ) {
+				var props = {},
+					input = value.split( /\s+/g ),
+					parseColor = CKEDITOR.tools.style.parse._findColor( value );
+
+				if ( parseColor.length ) {
+					props.color = parseColor[ 0 ];
+				}
+
+				CKEDITOR.tools.array.forEach( input, function( val ) {
+					if ( !props.style ) {
+						if ( CKEDITOR.tools.indexOf( CKEDITOR.tools.style.parse._borderStyle, val ) !== -1 ) {
+							props.style = val;
+							return;
+						}
+					}
+
+					if ( !props.width ) {
+						if ( CKEDITOR.tools.style.parse._widthRegExp.test( val ) ) {
+							props.width = val;
+							return;
+						}
+					}
+
+				} );
+
+				return new CKEDITOR.tools.style.border( props );
+			},
+
+			/**
+			 * Parses the `style`, `width` and `color` shorthand styles into
+			 * border side shorthand styles.
+			 *
+			 * ```javascript
+			 * var styles = {
+			 *		'border-color': 'red blue',
+			 *		'border-style': 'solid dotted solid',
+			 *		'border-width': '1px 2px 3px 4px'
+			 * };
+			 *
+			 * console.log( CKEDITOR.tools.style.border.splitCssValues( styles ) );
+			 * // Logs:
+			 * // {
+			 * // 	'border-top': Border { width: '1px', style: 'solid', color: 'red' },
+			 * // 	'border-right': Border { width: '2px', style: 'dotted', color: 'blue'},
+			 * // 	'border-bottom': Border { width: '3px', style: 'solid', color: 'red' },
+			 * // 	'border-left': Border { width: '4px', style: 'dotted', color: 'blue' }
+			 * // }
+			 *
+			 * // Use fallback to fill up missing style:
+			 * var partialStyles = {
+			 * 		'border-style': 'solid',
+			 * 		'border-width': '2px'
+			 * 	},
+			 * 	fallback = { color: 'red' };
+			 *
+			 * console.log( CKEDITOR.tools.style.border.splitCssValues( partialStyles, fallback ) );
+			 * // Logs:
+			 * // {
+			 * // 	'border-top': Border { width: '2px', style: 'solid', color: 'red' },
+			 * // 	'border-right': Border { width: '2px', style: 'solid', color: 'red' },
+			 * // 	'border-bottom': Border { width: '2px', style: 'solid', color: 'red' },
+			 * // 	'border-left': Border { width: '2px', style: 'solid', color: 'red' }
+			 * // }
+			 * ```
+			 *
+			 * Border side shorthands with greater style property specificity are preferred
+			 * over more general shorthands.
+			 *
+			 * ```
+			 * var styles = {
+			 * 		'border-style': 'solid',
+			 * 		'border-width': '2px',
+			 * 		'border-color': 'red',
+			 * 		'border-left-color': 'blue',
+			 * 		'border-right-width': '10px',
+			 * 		'border-top-style': 'dotted',
+			 * 		'border-top-color': 'green'
+			 * };
+			 *
+			 * console.log( CKEDITOR.tools.style.border.splitCssValues( styles ) );
+			 * // Logs:
+			 * // {
+			 * // 	'border-top': Border { width: '2px', style: 'dotted', color: 'green' },
+			 * // 	'border-right': Border { width: '10px', style: 'solid', color: 'red'},
+			 * // 	'border-bottom': Border { width: '2px', style: 'solid', color: 'red' },
+			 * // 	'border-left': Border { width: '2px', style: 'solid', color: 'blue' }
+			 * // }
+			 * ```
+			 *
+			 * @static
+			 * @param {Object} styles Border styles shorthand object.
+			 * @param {Object} [styles.border-color] Border color shorthand.
+			 * @param {Object} [styles.border-style] Border style shorthand.
+			 * @param {Object} [styles.border-width] Border width shorthand.
+			 * @param {Object} [fallback] Fallback object used to fill up missing style.
+			 * @param {Object} [fallback.color] Color CSS style used in absence of the `border-color` style.
+			 * @param {Object} [fallback.style] Style CSS style used in absence of the `border-style` style.
+			 * @param {Object} [fallback.width] Width CSS style used in absence of the `border-width` style.
+			 * @returns {Object.<String, CKEDITOR.tools.style.border>}
+			 * @returns {CKEDITOR.tools.style.border} return.border-top Border top style.
+			 * @returns {CKEDITOR.tools.style.border} return.border-right Border right style.
+			 * @returns {CKEDITOR.tools.style.border} return.border-bottom Border bottom style.
+			 * @returns {CKEDITOR.tools.style.border} return.border-left Border left style.
+			 * @member CKEDITOR.tools.style.border
+			 */
+			splitCssValues: function( styles, fallback ) {
+				var types = [ 'width', 'style', 'color' ],
+					sides = [ 'top', 'right', 'bottom', 'left' ];
+
+				fallback = fallback || {};
+
+				var stylesMap = CKEDITOR.tools.array.reduce( types, function( cur, type ) {
+					var style = styles[ 'border-' + type ] || fallback[ type ];
+
+					cur[ type ] = style ? CKEDITOR.tools.style.parse.sideShorthand( style ) : null;
+
+					return cur;
+				}, {} );
+
+				return CKEDITOR.tools.array.reduce( sides, function( cur, side ) {
+					var map = {};
+
+					for ( var style in stylesMap ) {
+						// Prefer property with greater specificity e.g
+						// `border-top-color` over `border-color`.
+						var sideProperty = styles[ 'border-' + side + '-' + style ];
+						if ( sideProperty ) {
+							map[ style ] = sideProperty;
+						} else {
+							map[ style ] = stylesMap[ style ] && stylesMap[ style ][ side ];
+						}
+					}
+
+					cur[ 'border-' + side ] = new CKEDITOR.tools.style.border( map );
+
+					return cur;
+				}, {} );
+			}
+		}
+	} );
 
 	/**
 	 * @member CKEDITOR.tools.array

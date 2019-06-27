@@ -1,7 +1,5 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2,undo,tableselection */
-/* bender-include: ../../_helpers/tableselection.js */
-/* global tableSelectionHelpers */
 
 ( function() {
 	'use strict';
@@ -63,7 +61,10 @@
 	}
 
 	var tests = {
-			'the copied image to table shoud be initialized (collapsed selection)': function( editor, bot ) {
+			setUp: function() {
+				bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+			},
+			'test the copied image to table shoud be initialized (collapsed selection)': function( editor, bot ) {
 				bot.setHtmlWithSelection( '<table border="1"><tbody><tr><td>Cel^l</td></tr></tbody></table>' );
 
 				editor.undoManager.reset();
@@ -72,7 +73,7 @@
 				} );
 			},
 
-			'the copied image to table shoud be initialized (multiple selection)': function( editor, bot ) {
+			'test the copied image to table shoud be initialized (multiple selection)': function( editor, bot ) {
 				bot.setHtmlWithSelection( '<table border="1"><tbody><tr>[<td>Cell 1</td>][<td>Cell 2</td>]</tr></tbody></table>' );
 
 				editor.undoManager.reset();
@@ -82,9 +83,7 @@
 			}
 		};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
-
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	bender.test( tests );
 } )();

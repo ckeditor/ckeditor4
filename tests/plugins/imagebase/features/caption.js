@@ -1,7 +1,7 @@
 /* bender-tags: editor,widget */
-/* bender-ckeditor-plugins: imagebase,toolbar */
-/* bender-include: ../../widget/_helpers/tools.js, %BASE_PATH%/plugins/easyimage/_helpers/tools.js */
-/* global widgetTestsTools, easyImageTools */
+/* bender-ckeditor-plugins: imagebase,toolbar,easyimage */
+/* bender-include: ../../widget/_helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -220,11 +220,9 @@
 	}
 
 	var tests = {
-		init: function() {
-			// Test suit is unstable on IE8-IE10. That's why entire suit is ignored.
-			if ( easyImageTools.isUnsupportedEnvironment() ) {
-				bender.ignore();
-			}
+
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 		},
 
 		'test upcasting widget without figcaption element': function( editor, bot ) {
@@ -470,7 +468,7 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	tests[ 'test integration with ACF' ] = function() {
 		bender.editorBot.create( {

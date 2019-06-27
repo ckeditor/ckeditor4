@@ -91,15 +91,15 @@
  * It is recommended to set up an account on the [Iframely](https://iframely.com/) service for
  * better control over embedded content.
  *
- * Read more in the {@glink guide/dev_media_embed documentation}
+ * Read more in the {@glink features/media_embed documentation}
  * and see the {@glink examples/mediaembed example}.
  *
  * Refer to {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl} for more information about content providers.
  *
- * **Important note:** Prior to version 4.7 this configuration option defaulted to the
+ * **Important note:** Prior to version 4.7.0 this configuration option defaulted to the
  * `//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}` string.
  *
- * @since 4.5
+ * @since 4.5.0
  * @cfg {String} [embed_provider='']
  * @member CKEDITOR.config
  */

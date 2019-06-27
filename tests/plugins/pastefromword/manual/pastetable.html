@@ -1,0 +1,29 @@
+<h2>Editor</h2>
+<div id="editor"></div>
+<h2>Clipboard dump</h2>
+<label for="input">Paste clibpoard data</label>
+<input id="input" name="input" />
+<div id="result"></div>
+
+<script>
+	var input = document.getElementById( 'input' ),
+		result = document.getElementById( 'result' );
+
+	if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 11 ) {
+		input.addEventListener( 'paste', function( evt ) {
+			var html = evt.clipboardData.getData('text/html');
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.width = 600;
+			iframe.height = 400;
+
+			result.innerHTML = '';
+			result.appendChild( iframe );
+
+			iframe.contentWindow.document.write( html );
+		} );
+	} else {
+		result.innerHTML = "Looks like your browser doesn't support clipboardData :(";
+	}
+	CKEDITOR.replace( 'editor' );
+</script>

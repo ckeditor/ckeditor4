@@ -1,7 +1,7 @@
 /* bender-tags: balloontoolbar */
 /* bender-ckeditor-plugins: toolbar,balloontoolbar,basicstyles */
 /* bender-include: ./_helpers/default.js */
-/* global ignoreUnsupportedEnvironment, convertRgbaToRgb */
+/* global convertRgbaToRgb */
 
 ( function() {
 	'use strict';
@@ -38,6 +38,10 @@
 	CKEDITOR.skinName = 'moono';
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+		},
+
 		'test check moono skin usage': function( editor ) {
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 				assert.ignore();
@@ -58,7 +62,6 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
-	ignoreUnsupportedEnvironment( tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 	bender.test( tests );
 } )();

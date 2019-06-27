@@ -66,7 +66,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 *
 	 * Three default style types are available: {@link CKEDITOR#STYLE_BLOCK STYLE_BLOCK}, {@link CKEDITOR#STYLE_INLINE STYLE_INLINE},
 	 * and {@link CKEDITOR#STYLE_OBJECT STYLE_OBJECT}. Based on its type, a style heavily changes its behavior.
-	 * You can read more about style types in the [Style Types section of the Styles guide](#!/guide/dev_styles-section-style-types).
+	 * You can read more about style types in the {@glink features/styles#style-types Style Types section of the Styles guide}.
 	 *
 	 * It is possible to define a custom style type by subclassing this class by using the {@link #addCustomHandler} method.
 	 * However, because of great complexity of the styles handling job, it is only possible in very specific cases.
@@ -112,9 +112,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 *		// Will give:
 	 *		// <p>[<img src="bar.png" alt="" class="foo" />]Foo</p>
 	 *
-	 * ### API changes introduced in CKEditor 4.4
+	 * ### API changes introduced in CKEditor 4.4.0
 	 *
-	 * Before CKEditor 4.4 all style instances had no access at all to the {@link CKEDITOR.editor editor instance}
+	 * Before CKEditor 4.4.0 all style instances had no access at all to the {@link CKEDITOR.editor editor instance}
 	 * within which the style is used. Neither the style constructor, nor style methods were requiring
 	 * passing the editor instance which made styles independent of the editor and hence its settings and state.
 	 * This design decision came from CKEditor 3; it started causing problems and became an unsolvable obstacle for
@@ -129,7 +129,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * implemented {@link CKEDITOR.style.customHandlers.widget widget style handler}'s methods will not fail,
 	 * although they will also not work by aborting at an early stage.
 	 *
-	 * Therefore, you can safely upgrade to CKEditor 4.4 even if you use style methods without providing
+	 * Therefore, you can safely upgrade to CKEditor 4.4.0 even if you use style methods without providing
 	 * the editor instance. You must only align your code if your implementation should handle widget styles
 	 * or any other custom style handler. Of course, we recommend doing this in any case to avoid potential
 	 * problems in the future.
@@ -193,7 +193,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * @param {CKEDITOR.editor/CKEDITOR.dom.document} editor The editor instance in which
 		 * the style will be applied.
 		 * A {@link CKEDITOR.dom.document} instance is accepted for backward compatibility
-		 * reasons, although since CKEditor 4.4 this type of argument is deprecated. Read more about
+		 * reasons, although since CKEditor 4.4.0 this type of argument is deprecated. Read more about
 		 * the signature change in the {@link CKEDITOR.style} documentation.
 		 */
 		apply: function( editor ) {
@@ -223,7 +223,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * @param {CKEDITOR.editor/CKEDITOR.dom.document} editor The editor instance in which
 		 * the style will be removed.
 		 * A {@link CKEDITOR.dom.document} instance is accepted for backward compatibility
-		 * reasons, although since CKEditor 4.4 this type of argument is deprecated. Read more about
+		 * reasons, although since CKEditor 4.4.0 this type of argument is deprecated. Read more about
 		 * the signature change in the {@link CKEDITOR.style} documentation.
 		 */
 		remove: function( editor ) {
@@ -234,9 +234,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 			if ( this.checkApplicable( editor.elementPath(), editor ) ) {
 				var initialEnterMode = this._.enterMode;
 
-				// Before CKEditor 4.4 style knew nothing about editor, so in order to provide enterMode
+				// Before CKEditor 4.4.0 style knew nothing about editor, so in order to provide enterMode
 				// which should be used developers were forced to hack the style object (see https://dev.ckeditor.com/ticket/10190).
-				// Since CKEditor 4.4 style knows about editor (at least when it's being applied/removed), but we
+				// Since CKEditor 4.4.0 style knows about editor (at least when it's being applied/removed), but we
 				// use _.enterMode for backward compatibility with those hacks.
 				// Note: we should not change style's enter mode if it was already set.
 				if ( !initialEnterMode )
@@ -522,7 +522,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		/**
 		 * Returns the style definition.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @returns {Object}
 		 */
 		getDefinition: function() {
@@ -536,7 +536,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 *
 		 * **Note:** This method is not defined in the {@link CKEDITOR.style} class.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @method toAllowedContentRules
 		 * @param {CKEDITOR.editor} [editor] The editor instance.
 		 * @returns {CKEDITOR.filter.allowedContentRules} The rules that should represent this style in the {@link CKEDITOR.filter}.
@@ -590,7 +590,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	/**
 	 * Namespace containing custom style handlers added with {@link CKEDITOR.style#addCustomHandler}.
 	 *
-	 * @since 4.4
+	 * @since 4.4.0
 	 * @class
 	 * @singleton
 	 */
@@ -678,7 +678,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * reusing them.
 	 *
 	 * The only style handler which can be implemented from scratch without huge effort is a style
-	 * applicable to objects ([read more about types](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_styles.html#style-types)).
+	 * applicable to objects ({@glink features/styles#style-types read more about types}).
 	 * Such style can only be applied when a specific object is selected. An example implementation can
 	 * be found in the [widget plugin](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/widget/plugin.js).
 	 *
@@ -692,7 +692,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * * {@link CKEDITOR.style#toAllowedContentRules toAllowedContentRules} &ndash; Not required, but very useful in
 	 * case of a custom style that has to notify the {@link CKEDITOR.filter} which rules it allows when registered.
 	 *
-	 * @since 4.4
+	 * @since 4.4.0
 	 * @static
 	 * @member CKEDITOR.style
 	 * @param definition The style class definition.
@@ -1911,7 +1911,7 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
  *			}
  *		] );
  *
- * @since 3.2
+ * @since 3.2.0
  * @class
  * @singleton
  * @extends CKEDITOR.resourceManager
@@ -2052,7 +2052,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * Indicates that fully selected read-only elements will be included when
  * applying the style (for inline styles only).
  *
- * @since 3.5
+ * @since 3.5.0
  * @property {Boolean} [includeReadonly=false]
  * @member CKEDITOR.style
  */
@@ -2061,7 +2061,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * Indicates that any matches element of this style will be eventually removed
  * when calling {@link CKEDITOR.editor#removeStyle}.
  *
- * @since 4.0
+ * @since 4.0.0
  * @property {Boolean} [alwaysRemoveElement=false]
  * @member CKEDITOR.style
  */
@@ -2069,7 +2069,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 /**
  * Disables inline styling on read-only elements.
  *
- * @since 3.5
+ * @since 3.5.0
  * @cfg {Boolean} [disableReadonlyStyling=false]
  * @member CKEDITOR.config
  */
@@ -2088,10 +2088,10 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * Note that the `name` has to be equal to the name used in
  * {@link CKEDITOR.stylesSet#add} while registering the styles set.
  *
- * **Note**: Since 4.1 it is possible to set `stylesSet` to `false`
+ * **Note**: Since 4.1.0 it is possible to set `stylesSet` to `false`
  * to prevent loading any styles set.
  *
- * Read more in the {@glink guide/dev_styles documentation}
+ * Read more in the {@glink features/styles documentation}
  * and see the {@glink examples/styles example}.
  *
  *		// Do not load any file. The styles set is empty.
@@ -2113,7 +2113,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  *			...
  *		];
  *
- * @since 3.3
+ * @since 3.3.0
  * @cfg {String/Array/Boolean} [stylesSet='default']
  * @member CKEDITOR.config
  */
@@ -2157,7 +2157,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * Plugins may define {@link CKEDITOR.style.customHandlers special style handlers} to customize style operations.
  * To use a special style handler, the `type` property should be set to the name of the style handler, e.g. `widget`.
  *
- * Refer to the [Style Types section of the Applying Styles to Editor Content guide](#!/guide/dev_styles-section-style-types) for more information about style types.
+ * Refer to the {@glink features/styles#style-types Style Types section of the Applying Styles to Editor Content guide} for more information about style types.
  *
  * ```javascript
  * { type: CKEDITOR.STYLE_INLINE }
@@ -2167,7 +2167,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  */
 
 /**
- * A unique style definition name. It can be used to differentiate style definitions, like in the {@glink guide/dev_styles Styles Combo} plugin
+ * A unique style definition name. It can be used to differentiate style definitions, like in the {@glink features/styles Styles Combo} plugin
  * drop-down where it represents item labels.
  *
  * ```javascript

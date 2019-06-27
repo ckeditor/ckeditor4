@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'table', 'nl', {
 	border: 'Randdikte',
-	caption: 'Titel',
+	caption: 'Bijschrift',
 	cell: {
 		menu: 'Cel',
 		insertBefore: 'Voeg cel in voor',
@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'nl', {
 	headersColumn: 'Eerste kolom',
 	headersNone: 'Geen',
 	headersRow: 'Eerste rij',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'De randdikte moet een getal zijn.',
 	invalidCellPadding: 'Celopvulling moet een getal zijn.',
 	invalidCellSpacing: 'Celafstand moet een getal zijn.',

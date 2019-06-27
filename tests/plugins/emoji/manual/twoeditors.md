@@ -1,7 +1,6 @@
 @bender-tags: 4.11.0, feature, emoji, 2062
 @bender-ckeditor-plugins: wysiwygarea, toolbar, sourcearea, emoji, clipboard, undo
 @bender-ui: collapsed
-@bender-include: ../_helpers/tools.js
 
 1. Open the emoji dropdown in the first editor.
 

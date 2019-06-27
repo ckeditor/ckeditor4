@@ -4,9 +4,7 @@
 
 <script>
 	// Currently balloon toolbar is not integrated with old IE browsers.
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-		bender.ignore();
-	}
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
 
 	function instanceReadyListener( evt ) {
 		var image = this.editable().findOne( 'img' ),

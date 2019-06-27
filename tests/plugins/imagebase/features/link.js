@@ -1,7 +1,7 @@
 /* bender-tags: editor,widget */
-/* bender-ckeditor-plugins: imagebase,link,toolbar,contextmenu */
-/* bender-include: ../../widget/_helpers/tools.js, ../../easyimage/_helpers/tools.js */
-/* global widgetTestsTools, easyImageTools */
+/* bender-ckeditor-plugins: imagebase,link,toolbar,contextmenu,easyimage */
+/* bender-include: ../../widget/_helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -169,9 +169,7 @@
 	var tests = {
 
 		setUp: function() {
-			if ( easyImageTools.isUnsupportedEnvironment() ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 		},
 
 		'test adding image widget with link feature': function( editor ) {
@@ -463,6 +461,6 @@
 	};
 
 	// We have to run tests in isolation when using IE browsers (#1552) and EDGE (#1686).
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests, CKEDITOR.env.ie );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests, CKEDITOR.env.ie );
 	bender.test( tests );
 } )();

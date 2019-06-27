@@ -568,7 +568,7 @@
 	bender.test( tests );
 
 	function assertCommandState( left, right, center, justify, bot ) {
-		return bender.tools.promise( function( resolve, reject ) {
+		return new CKEDITOR.tools.promise( function( resolve, reject ) {
 			var editor = bot.editor;
 
 			CKEDITOR.tools.setTimeout( function() {

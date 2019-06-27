@@ -3,20 +3,22 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
- /**
+/**
  * @fileOverview Rich code snippets for CKEditor.
  */
 
 'use strict';
 
 ( function() {
-	var isBrowserSupported = !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
-
 	CKEDITOR.plugins.add( 'codesnippet', {
 		requires: 'widget,dialog',
 		lang: 'ar,az,bg,ca,cs,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'codesnippet', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
+
+		isSupportedEnvironment: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
+		},
 
 		beforeInit: function( editor ) {
 			editor._.codesnippet = {};
@@ -31,7 +33,7 @@
 			 * the three callbacks).
 			 * * This method is accessible through the `editor.plugins.codesnippet` namespace only.
 			 *
-			 * @since 4.4
+			 * @since 4.4.0
 			 * @member CKEDITOR.plugins.codesnippet
 			 * @param {CKEDITOR.plugins.codesnippet.highlighter} highlighter
 			 */
@@ -44,7 +46,7 @@
 				// We might escape special regex chars below, but we expect that there
 				// should be no crazy values used as lang keys.
 				editor._.codesnippet.langsRegex = new RegExp( '(?:^|\\s)language-(' +
-					CKEDITOR.tools.objectKeys( langs ).join( '|' ) + ')(?:\\s|$)' );
+					CKEDITOR.tools.object.keys( langs ).join( '|' ) + ')(?:\\s|$)' );
 			};
 
 			editor.once( 'pluginsLoaded', function() {
@@ -105,7 +107,7 @@
 					init: function( callback ) {
 						var that = this;
 
-						if ( isBrowserSupported ) {
+						if ( editor.plugins.codesnippet.isSupportedEnvironment() ) {
 							CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js', function() {
 								that.hljs = window.hljs;
 								callback();
@@ -135,7 +137,7 @@
 	/**
 	 * Global helpers and classes of the Code Snippet plugin.
 	 *
-	 * For more information see the {@glink guide/dev_codesnippet Code Snippet Guide}.
+	 * For more information see the {@glink features/codesnippet Code Snippet Guide}.
 	 *
 	 * @class
 	 * @singleton
@@ -181,7 +183,7 @@
 	 *			}
 	 *		} );
 	 *
-	 * @since 4.4
+	 * @since 4.4.0
 	 * @class CKEDITOR.plugins.codesnippet.highlighter
 	 * @extends CKEDITOR.plugins.codesnippet
 	 * @param {Object} def Highlighter definition. See {@link #highlighter}, {@link #init} and {@link #languages}.
@@ -247,7 +249,7 @@
 		 *		}
 		 *
 		 * More information on how to change the list of languages is available
-		 * in the {@glink guide/dev_codesnippet#changing-supported-languages Code Snippet documentation}.
+		 * in the {@glink features/codesnippet#changing-supported-languages Code Snippet documentation}.
 		 *
 		 * @property {Object} languages
 		 */
@@ -313,7 +315,7 @@
 					callback = function( formatted ) {
 						// IE8 (not supported browser) have issue with new line chars, when using innerHTML.
 						// It will simply strip it.
-						that.parts.code.setHtml( isBrowserSupported ?
+						that.parts.code.setHtml( editor.plugins.codesnippet.isSupportedEnvironment() ?
 							formatted : formatted.replace( newLineRegex, '<br>' ) );
 					};
 
@@ -435,10 +437,10 @@
  * highlighter (the default is [highlight.js](http://highlightjs.org)).
  * See {@link CKEDITOR.plugins.codesnippet.highlighter} to read more.
  *
- * Read more in the {@glink guide/dev_codesnippet documentation}
+ * Read more in the {@glink features/codesnippet documentation}
  * and see the {@glink examples/codesnippet example}.
  *
- * @since 4.4
+ * @since 4.4.0
  * @cfg {String} [codeSnippet_codeClass='hljs']
  * @member CKEDITOR.config
  */
@@ -451,7 +453,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * **Note**: If using a custom highlighter library (the default is [highlight.js](http://highlightjs.org)),
  * you may need to refer to external documentation to set `config.codeSnippet_languages` properly.
  *
- * Read more in the [documentation](#!/guide/dev_codesnippet-section-changing-supported-languages)
+ * Read more in the {@glink features/codesnippet#changing-supported-languages documentation}
  * and see the {@glink examples/codesnippet example}.
  *
  *		// Restricts languages to JavaScript and PHP.
@@ -460,7 +462,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  *			php: 'PHP'
  *		};
  *
- * @since 4.4
+ * @since 4.4.0
  * @cfg {Object} [codeSnippet_languages=null]
  * @member CKEDITOR.config
  */
@@ -471,13 +473,13 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * **Note**: This will only work with the default highlighter
  * ([highlight.js](http://highlightjs.org/static/test.html)).
  *
- * Read more in the [documentation](#!/guide/dev_codesnippet-section-changing-highlighter-theme)
+ * Read more in the {@glink features/codesnippet#changing-highlighter-theme documentation}
  * and see the {@glink examples/codesnippet example}.
  *
  *		// Changes the theme to "pojoaque".
  *		config.codeSnippet_theme = 'pojoaque';
  *
- * @since 4.4
+ * @since 4.4.0
  * @cfg {String} [codeSnippet_theme='default']
  * @member CKEDITOR.config
  */

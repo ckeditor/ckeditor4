@@ -1,7 +1,6 @@
 /* bender-tags: balloontoolbar */
 /* bender-ckeditor-plugins: balloontoolbar,button,richcombo */
 /* bender-include: _helpers/default.js */
-/* global ignoreUnsupportedEnvironment */
 
 ( function() {
 	'use strict';
@@ -9,6 +8,10 @@
 	bender.editor = {};
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+		},
+
 		'test adding buttion': function() {
 			var panel = new CKEDITOR.ui.balloonToolbar( this.editor );
 			panel.addItems( {
@@ -114,6 +117,5 @@
 		}
 	};
 
-	ignoreUnsupportedEnvironment( tests );
 	bender.test( tests );
 } )();

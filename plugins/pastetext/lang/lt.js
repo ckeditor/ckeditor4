@@ -4,6 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'lt', {
 	button: 'Įdėti kaip gryną tekstą',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteNotification: 'Spauskite %1 kad įklijuotumėte. Jūsų naršyklė nepalaiko įklijavimo mygtuko arba kontekstinio meniu šiam veiksmui.',
 	title: 'Įdėti kaip gryną tekstą'
 } );

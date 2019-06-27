@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'de-ch', {
 	headersColumn: 'Erste Spalte',
 	headersNone: 'Keine',
 	headersRow: 'Erste Zeile',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Die Rahmenbreite muss eine Zahl sein.',
 	invalidCellPadding: 'Der Zellenabstand innen muss eine positive Zahl sein.',
 	invalidCellSpacing: 'Der Zellenabstand aussen muss eine positive Zahl sein.',

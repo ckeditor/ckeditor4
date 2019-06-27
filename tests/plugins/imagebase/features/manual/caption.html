@@ -72,11 +72,10 @@
 	</div>
 
 	<script>
-		if ( easyImageTools.isUnsupportedEnvironment() ) {
-			bender.ignore();
-		}
 		( function() {
 			'use strict';
+
+			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 			var commonConfig = {
 				on: {

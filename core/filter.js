@@ -22,7 +22,7 @@
 	 *
 	 * See {@link CKEDITOR.filter#addElementCallback} for more details.
 	 *
-	 * @since 4.4
+	 * @since 4.4.0
 	 * @readonly
 	 * @property {Number} [=2]
 	 * @member CKEDITOR
@@ -78,7 +78,7 @@
 	 * var filter2 = new CKEDITOR.filter( editor, 'b' );
 	 * ```
 	 *
-	 * @since 4.1
+	 * @since 4.1.0
 	 * @class
 	 * @constructor Creates a filter class instance.
 	 * @param {CKEDITOR.editor/CKEDITOR.filter.allowedContentRules} editorOrRules
@@ -117,7 +117,7 @@
 		 * This property is useful for debugging issues with rules string parsing
 		 * or for checking which rules were automatically added by editor features.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @readonly
 		 */
 		this.disallowedContent = [];
@@ -152,7 +152,7 @@
 		 * Filter's unique id. It can be used to find filter instance in
 		 * {@link CKEDITOR.filter#instances CKEDITOR.filter.instance} object.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @readonly
 		 * @property {Number} id
 		 */
@@ -216,7 +216,7 @@
 	 *		var filter = new CKEDITOR.filter( 'p' );
 	 *		filter === CKEDITOR.filter.instances[ filter.id ];
 	 *
-	 * @since 4.3
+	 * @since 4.3.0
 	 * @static
 	 * @property instances
 	 */
@@ -322,7 +322,7 @@
 					// NOTE: data-cke-* assigned elements are preserved only when filter is used with
 					//       htmlDataProcessor.toHtml because we don't want to protect them when outputting data
 					//       (toDataFormat).
-					if ( toHtml && el.name == 'span' && ~CKEDITOR.tools.objectKeys( el.attributes ).join( '|' ).indexOf( 'data-cke-' ) )
+					if ( toHtml && el.name == 'span' && ~CKEDITOR.tools.object.keys( el.attributes ).join( '|' ).indexOf( 'data-cke-' ) )
 						return;
 
 					processRetVal = processElement( that, el, toBeRemoved, filterOpts );
@@ -443,7 +443,7 @@
 		 *		// Disallow all span and div elements.
 		 *		editor.filter.disallow( 'span div' );
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @param {CKEDITOR.filter.disallowedContentRules} newRules Rule(s) to be added.
 		 */
 		disallow: function( newRules ) {
@@ -531,7 +531,7 @@
 		 * temporarily on later stages of the filtering process. Therefore you need to
 		 *  use the pure {@link CKEDITOR.htmlParser.element} interface.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @param {Function} callback The callback to be executed.
 		 */
 		addElementCallback: function( callback ) {
@@ -804,7 +804,7 @@
 		 * Returns first enter mode allowed by this filter rules. Modes are checked in `p`, `div`, `br` order.
 		 * If none of tags is allowed this method will return {@link CKEDITOR#ENTER_BR}.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {Number} defaultMode The default mode which will be checked as the first one.
 		 * @param {Boolean} [reverse] Whether to check modes in reverse order (used for shift enter mode).
 		 * @returns {Number} Allowed enter mode.
@@ -1061,7 +1061,7 @@
 
 		rules[ styleDef.element ] = rule = {
 			styles: styleDef.styles,
-			requiredStyles: styleDef.styles && CKEDITOR.tools.objectKeys( styleDef.styles )
+			requiredStyles: styleDef.styles && CKEDITOR.tools.object.keys( styleDef.styles )
 		};
 
 		if ( attrs ) {
@@ -1070,7 +1070,7 @@
 			rule.requiredClasses = rule.classes;
 			delete attrs[ 'class' ];
 			rule.attributes = attrs;
-			rule.requiredAttributes = attrs && CKEDITOR.tools.objectKeys( attrs );
+			rule.requiredAttributes = attrs && CKEDITOR.tools.object.keys( attrs );
 		}
 
 		return rules;
@@ -2365,7 +2365,7 @@
  * Read more in the {@glink guide/dev_acf documentation}
  * and see the {@glink examples/acf example}.
  *
- * @since 4.1
+ * @since 4.1.0
  * @cfg {CKEDITOR.filter.allowedContentRules/Boolean} [allowedContent=null]
  * @member CKEDITOR.config
  */
@@ -2397,7 +2397,7 @@
  * and see the {@glink examples/acf example}.
  * See also {@link CKEDITOR.config#allowedContent} for more details.
  *
- * @since 4.1
+ * @since 4.1.0
  * @cfg {Object/String} extraAllowedContent
  * @member CKEDITOR.config
  */
@@ -2410,7 +2410,7 @@
  * and see the {@glink examples/acf example}.
  * See also {@link CKEDITOR.config#allowedContent} and {@link CKEDITOR.config#extraAllowedContent}.
  *
- * @since 4.4
+ * @since 4.4.0
  * @cfg {CKEDITOR.filter.disallowedContentRules} disallowedContent
  * @member CKEDITOR.config
  */
@@ -2422,10 +2422,10 @@
  * {@link CKEDITOR.editor#method-insertHtml} method).
  *
  * This event is useful when testing whether the {@link CKEDITOR.config#allowedContent}
- * setting is sufficient and correct for a system that is migrating to CKEditor 4.1
+ * setting is sufficient and correct for a system that is migrating to CKEditor 4.1.0
  * (where the {@glink guide/dev_advanced_content_filter Advanced Content Filter} was introduced).
  *
- * @since 4.1
+ * @since 4.1.0
  * @event dataFiltered
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -2441,7 +2441,7 @@
  *	* a {@link CKEDITOR.style} instance &ndash; used mainly for integrating plugins with Advanced Content Filter,
  *	* an array of the above formats.
  *
- * @since 4.1
+ * @since 4.1.0
  * @class CKEDITOR.filter.allowedContentRules
  * @abstract
  */
@@ -2456,7 +2456,7 @@
  *
  * Read more in the {@glink guide/dev_disallowed_content Disallowed Content guide}.
  *
- * @since 4.4
+ * @since 4.4.0
  * @class CKEDITOR.filter.disallowedContentRules
  * @abstract
  */
@@ -2475,7 +2475,7 @@
  *		'ol, ul(!foo)'		// Incorrect rule. Multiple elements and required
  *							// properties are not supported.
  *
- * @since 4.1
+ * @since 4.1.0
  * @class CKEDITOR.filter.contentRule
  * @abstract
  */
@@ -2509,11 +2509,11 @@
  * then it registers allowed content rules required by this feature (see {@link #allowedContent}) along
  * with two kinds of transformations: {@link #contentForms} and {@link #contentTransformations}.
  *
- * By default all buttons that are included in {@glink guide/dev_toolbar toolbar layout configuration}
+ * By default all buttons that are included in {@glink features/toolbar toolbar layout configuration}
  * are checked and registered with {@link CKEDITOR.editor#addFeature}, all styles available in the
  * 'Format' and 'Styles' drop-down lists are checked and registered too and so on.
  *
- * @since 4.1
+ * @since 4.1.0
  * @class CKEDITOR.feature
  * @abstract
  */

@@ -1,7 +1,6 @@
 @bender-tags: 4.10.0, bug, 1776
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, imagebase
-@bender-include: %BASE_PATH%/plugins/easyimage/_helpers/tools.js
+@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, imagebase, easyimage
 
 1. Focus first image.
 1. Focus second image.

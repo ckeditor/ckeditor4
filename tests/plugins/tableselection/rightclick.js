@@ -1,7 +1,6 @@
 /* bender-tags: tableselection */
 /* bender-ckeditor-plugins: tableselection */
 /* bender-include: ./_helpers/tableselection.js */
-/* global tableSelectionHelpers */
 
 ( function() {
 	'use strict';
@@ -14,6 +13,9 @@
 	};
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
 		'test select inner cells right click unselected inner cell': test( {
 			select: {
 				inner: true,
@@ -34,7 +36,7 @@
 				index: 1
 			}
 		} ),
-		'select outer cells right click unselected outer cell': test( {
+		'test select outer cells right click unselected outer cell': test( {
 			select: {
 				inner: false,
 				indexes: [ 1, 2, 3 ]
@@ -76,8 +78,7 @@
 		} )
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	bender.test( tests );
 

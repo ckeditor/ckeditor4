@@ -388,7 +388,7 @@
  *
  *		config.floatSpacePreferRight = true;
  *
- * @since 4.5
+ * @since 4.5.0
  * @cfg {Boolean} [floatSpacePreferRight=false]
  * @member CKEDITOR.config
  */
@@ -397,7 +397,7 @@
  * Fired when the viewport or editor parameters change and the floating space needs to check and
  * eventually update its position and dimensions.
  *
- * @since 4.5
+ * @since 4.5.0
  * @event floatingSpaceLayout
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor The editor instance.

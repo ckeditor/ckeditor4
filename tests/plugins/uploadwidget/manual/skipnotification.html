@@ -7,6 +7,10 @@
 		uploadUrl: '%BASE_PATH%'
 	} );
 
+	editor.once( 'instanceReady', function() {
+		bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget' );
+	} );
+
 	editor.on( 'widgetDefinition', function( evt ) {
 		var definition = evt.data;
 
@@ -14,8 +18,4 @@
 			definition.skipNotifications = true;
 		}
 	} );
-
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-		bender.ignore();
-	}
 </script>

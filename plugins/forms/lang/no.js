@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'no', {
 		radioTitle: 'Egenskaper for alternativknapp',
 		value: 'Verdi',
 		selected: 'Valgt',
-		required: 'Required' // MISSING
+		required: 'Obligatorisk'
 	},
 	form: {
 		title: 'Egenskaper for skjema',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'no', {
 		size: 'Størrelse',
 		lines: 'Linjer',
 		chkMulti: 'Tillat flervalg',
-		required: 'Required', // MISSING
+		required: 'Obligatorisk',
 		opText: 'Tekst',
 		opValue: 'Verdi',
 		btnAdd: 'Legg til',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'no', {
 		value: 'Verdi',
 		charWidth: 'Tegnbredde',
 		maxChars: 'Maks antall tegn',
-		required: 'Required', // MISSING
+		required: 'Obligatorisk',
 		type: 'Type',
 		typeText: 'Tekst',
 		typePass: 'Passord',

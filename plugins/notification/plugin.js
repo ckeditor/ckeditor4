@@ -13,7 +13,7 @@
 ( function() {
 
 	CKEDITOR.plugins.add( 'notification', {
-		lang: 'az,bg,ca,cs,da,de,de-ch,en,en-au,eo,es,es-mx,et,eu,fa,fr,gl,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'az,bg,ca,cs,da,de,de-ch,en,en-au,eo,es,es-mx,et,eu,fa,fr,gl,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
 			editor._.notificationArea = new Area( editor );
@@ -106,7 +106,7 @@
 	 *
 	 * Refer to the [Notifications](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_notifications.html) article for more information about this feature.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @class CKEDITOR.plugins.notification
 	 * @constructor Create a notification object. Call {@link #show} to show the created notification.
 	 * @param {CKEDITOR.editor} editor The editor instance.
@@ -435,7 +435,7 @@
 	 * When the first notification is added, the area is shown and all listeners are added.
 	 * When the last notification is removed, the area is hidden and all listeners are removed.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @private
 	 * @class CKEDITOR.plugins.notification.area
 	 * @constructor
@@ -876,7 +876,7 @@
 	 * Refer to the [Notifications](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_notifications.html) article
 	 * for more information about this feature.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @cfg {Number} [notification_duration=5000]
 	 * @member CKEDITOR.config
 	 */
@@ -888,7 +888,7 @@
 	 * Using this event allows you to fully customize how a notification will be shown. It may be used to integrate
 	 * the CKEditor notification system with your web page notifications.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @event notificationShow
 	 * @member CKEDITOR.editor
 	 * @param data
@@ -905,7 +905,7 @@
 	 * Using this event allows you to fully customize how a notification will be updated. It may be used to integrate
 	 * the CKEditor notification system with your web page notifications.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @event notificationUpdate
 	 * @member CKEDITOR.editor
 	 * @param data
@@ -922,7 +922,7 @@
 	 * Using this event allows you to fully customize how a notification will be hidden. It may be used to integrate
 	 * the CKEditor notification system with your web page notifications.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @event notificationHide
 	 * @member CKEDITOR.editor
 	 * @param data

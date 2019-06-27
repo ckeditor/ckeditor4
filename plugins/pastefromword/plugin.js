@@ -194,7 +194,7 @@
  *
  *		config.pasteFromWordPromptCleanup = true;
  *
- * @since 3.1
+ * @since 3.1.0
  * @cfg {Boolean} [pasteFromWordPromptCleanup=false]
  * @member CKEDITOR.config
  */
@@ -214,7 +214,7 @@
  *		// Load custom.js file from the 'customFilters' folder (located in server's root) using the full URL.
  *		CKEDITOR.config.pasteFromWordCleanupFile = 'http://my.example.com/customFilters/custom.js';
  *
- * @since 3.1
+ * @since 3.1.0
  * @cfg {String} [pasteFromWordCleanupFile=<plugin path> + 'filter/default.js']
  * @member CKEDITOR.config
  */
@@ -230,6 +230,17 @@
  *
  * @since 4.8.0
  * @cfg {Boolean} [pasteFromWord_inlineImages=true]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Whether pasted element `margin` style that equals to 0 should be removed.
+ *
+ *		// Disable removing `margin:0`, `margin-left:0`, etc.
+ *		config.pasteFromWord_keepZeroMargins = true;
+ *
+ * @since 4.12.0
+ * @cfg {Boolean} [pasteFromWord_keepZeroMargins=false]
  * @member CKEDITOR.config
  */
 

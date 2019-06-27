@@ -1,12 +1,16 @@
 /* bender-tags: editor, clipboard, upload */
-/* bender-ckeditor-plugins: imagebase */
-/* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, _helpers/tools.js, %BASE_PATH%/plugins/easyimage/_helpers/tools.js */
-/* global imageBaseFeaturesTools, assertPasteEvent, easyImageTools */
+/* bender-ckeditor-plugins: imagebase,easyimage */
+/* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js, _helpers/tools.js */
+/* global imageBaseFeaturesTools, assertPasteEvent */
 
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			removePlugins: 'easyimage'
+		}
+	};
 
 	function getTestHtmlFile( fileName ) {
 		var file = bender.tools.srcToFile( 'data:text/html;base64,Zm9v' );
@@ -126,9 +130,11 @@
 			},
 
 			setUp: function() {
-				if ( easyImageTools.isUnsupportedEnvironment() || ( bender.config.isTravis && CKEDITOR.env.gecko ) ) {
+				if ( bender.config.isTravis && CKEDITOR.env.gecko ) {
 					assert.ignore();
 				}
+
+				bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 				this.editorBot.setHtmlWithSelection( '<p>^</p>' );
 			},
@@ -568,7 +574,7 @@
 						// listeners **after** the DOM is inserted, which is too late.
 						assertPasteEvent( editor, evt, function() {
 							var widgets = editor.widgets.instances,
-								keys = CKEDITOR.tools.objectKeys( widgets );
+								keys = CKEDITOR.tools.object.keys( widgets );
 
 							assert.areSame( 2, keys.length, 'Widgets count' );
 							assert.areSame( 2, doneEventSpy.callCount, 'uploadDone events count' );

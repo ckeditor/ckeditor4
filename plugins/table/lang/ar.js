@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'ar', {
 	headersColumn: 'العمود الأول',
 	headersNone: 'بدون',
 	headersRow: 'الصف الأول',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'حجم الحد يجب أن يكون عدداً.',
 	invalidCellPadding: 'المسافة البادئة يجب أن تكون عدداً',
 	invalidCellSpacing: 'المسافة بين الخلايا يجب أن تكون عدداً.',

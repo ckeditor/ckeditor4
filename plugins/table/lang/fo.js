@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'fo', {
 	headersColumn: 'Fyrsta kolonna',
 	headersNone: 'Eingin',
 	headersRow: 'Fyrsta rað',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Borda-stødd má vera eitt tal.',
 	invalidCellPadding: 'Cell padding má vera eitt tal.',
 	invalidCellSpacing: 'Cell spacing má vera eitt tal.',

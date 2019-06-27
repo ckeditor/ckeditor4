@@ -1,10 +1,11 @@
 <textarea id="editor1" cols="10" rows="10"></textarea>
 <script>
-	// Currently balloon toolbar is not integrated with old IE browsers.
 	// Ignore on mobiles due to browser dev console requirement.
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 || bender.tools.env.mobile ) {
+	if ( bender.tools.env.mobile ) {
 		bender.ignore();
 	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
 
 	CKEDITOR.plugins.add( 'testplugin', {
 		requires: 'balloontoolbar',

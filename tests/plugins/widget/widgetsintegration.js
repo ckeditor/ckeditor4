@@ -341,12 +341,12 @@
 			this.editorBot.setData( sampleWidget2 + '<p>foo</p>' + sampleWidget2, function() {
 				var widgets = editor.widgets;
 
-				assert.areEqual( 2, CKEDITOR.tools.objectKeys( widgets.instances ).length, 'Two widgets instances are present at the beginning' );
+				assert.areEqual( 2, CKEDITOR.tools.object.keys( widgets.instances ).length, 'Two widgets instances are present at the beginning' );
 
 				// Ensure async.
 				wait( function() {
 					editor.setMode( 'source', function() {
-						var sourceWidgetsLength = CKEDITOR.tools.objectKeys( widgets.instances ).length,
+						var sourceWidgetsLength = CKEDITOR.tools.object.keys( widgets.instances ).length,
 							sourceData = editor.getData();
 
 						editor.setMode( 'wysiwyg', function() {
@@ -355,7 +355,7 @@
 								assert.areEqual( sampleWidget2 + '<p>foo</p>' + sampleWidget2, sourceData,
 									'In source mode widgets are in output format' );
 
-								assert.areEqual( 2, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length,
+								assert.areEqual( 2, CKEDITOR.tools.object.keys( editor.widgets.instances ).length,
 									'Two instances has been initialized after switching back to wysiwyg' );
 								assert.areEqual( 2, editor.editable().find( '.cke_widget_wrapper' ).count(),
 									'Two widget wrappers are present' );
@@ -412,7 +412,7 @@
 					'<p><i class="autodata" data-widget="autodata1">A</i><i class="autodata">B</i>' +
 					'<b class="autodata" data-widget="autodata2">C</b><b class="autodata">D</b></p>',
 					function() {
-						assert.areSame( 4, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length, '4 widgets are upcasted' );
+						assert.areSame( 4, CKEDITOR.tools.object.keys( editor.widgets.instances ).length, '4 widgets are upcasted' );
 						assert.areSame( '<p><i class="autodata" data-widget="autodata1">A</i><i class="autodata">B</i>' +
 							'<b class="autodata" data-widget="autodata2" foo="1">C</b><b class="autodata" foo="1">D</b></p>', editor.getData() );
 					}
@@ -424,7 +424,7 @@
 			var editor = this.editor;
 
 			this.editorBot.setData( '<p>X</p>' + sampleWidget + '<p>X</p>' + sampleWidget2 + '<p id="x">X</p>', function() {
-				assert.areEqual( 2, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length, 'instances after setData' );
+				assert.areEqual( 2, CKEDITOR.tools.object.keys( editor.widgets.instances ).length, 'instances after setData' );
 
 				// Set selection after last "X".
 				var p = editor.document.getById( 'x' ),
@@ -437,7 +437,7 @@
 
 				editor.once( 'afterPaste', function() {
 					resume( function() {
-						assert.areEqual( 4, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length, 'instances afterPaste' );
+						assert.areEqual( 4, CKEDITOR.tools.object.keys( editor.widgets.instances ).length, 'instances afterPaste' );
 
 						assert.areEqual( 4, editor.document.find( '.cke_widget_wrapper' ).count(), 'wrappers afterPaste' );
 
@@ -492,13 +492,13 @@
 				var html = editor.editable().getHtml();
 
 				assert.isMatching( pattern, fixHtml( html ), 'HTML after loading element to be upcasted' );
-				assert.areSame( 1, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length, '1 widget instance after setData' );
+				assert.areSame( 1, CKEDITOR.tools.object.keys( editor.widgets.instances ).length, '1 widget instance after setData' );
 
 				bot.setData( '<p>X</p>', function() {
 					editor.once( 'afterPaste', function() {
 						resume( function() {
 							assert.isMatching( pattern, fixHtml( editor.editable().getHtml() ), 'HTML after pasting element' );
-							assert.areSame( 1, CKEDITOR.tools.objectKeys( editor.widgets.instances ).length, '1 widget instance after paste' );
+							assert.areSame( 1, CKEDITOR.tools.object.keys( editor.widgets.instances ).length, '1 widget instance after paste' );
 						} );
 					} );
 

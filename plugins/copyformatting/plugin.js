@@ -1106,7 +1106,7 @@
 	 *
 	 *		config.copyFormatting_outerCursor = false;
 	 *
-	 * Read more in the {@glink guide/dev_copyformatting documentation}
+	 * Read more in the {@glink features/copyformatting documentation}
 	 * and see the {@glink examples/copyformatting example}.
 	 *
 	 * @since 4.6.0
@@ -1126,7 +1126,7 @@
 	 *		config.copyFormatting_allowRules = true; // Disables filtering.
 	 *
 	 *
-	 * Read more in the {@glink guide/dev_copyformatting documentation}
+	 * Read more in the {@glink features/copyformatting documentation}
 	 * and see the {@glink examples/copyformatting example}.
 	 *
 	 * @since 4.6.0
@@ -1145,7 +1145,7 @@
 	 *		config.copyFormatting_disallowRules = 'span(important)'; // Disallows spans with "important" class.
 	 *
 	 *
-	 * Read more in the {@glink guide/dev_copyformatting documentation}
+	 * Read more in the {@glink features/copyformatting documentation}
 	 * and see the {@glink examples/copyformatting example}.
 	 *
 	 * @since 4.6.0
@@ -1169,7 +1169,7 @@
 	 *		// If set to "true", enables all contexts.
 	 *		config.copyFormatting_allowedContexts = true;
 	 *
-	 * Read more in the {@glink guide/dev_copyformatting documentation}
+	 * Read more in the {@glink features/copyformatting documentation}
 	 * and see the {@glink examples/copyformatting example}.
 	 *
 	 * @since 4.6.0
@@ -1187,7 +1187,7 @@
 	 *
 	 *		config.copyFormatting_keystrokeCopy = false;
 	 *
-	 * Read more in the {@glink guide/dev_copyformatting documentation}
+	 * Read more in the {@glink features/copyformatting documentation}
 	 * and see the {@glink examples/copyformatting example}.
 	 *
 	 * @since 4.6.0
@@ -1205,7 +1205,7 @@
 	 *
 	 *		config.copyFormatting_keystrokePaste = false;
 	 *
-	 * Read more in the {@glink guide/dev_copyformatting documentation}
+	 * Read more in the {@glink features/copyformatting documentation}
 	 * and see the {@glink examples/copyformatting example}.
 	 *
 	 * @since 4.6.0

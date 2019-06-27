@@ -15,6 +15,10 @@ in the official CKEditor documentation.
 - [ ] Unit tests
 - [ ] Manual tests
 
+## What is the proposed changelog entry for this pull request?
+
+*Describe the purpose of the pull request in a few simple sentences.*
+
 ## What changes did you make?
 
 *Give an overview…*

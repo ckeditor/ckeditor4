@@ -1,7 +1,6 @@
 @bender-tags: 4.11.3, bug, emoji, 2572
 @bender-ckeditor-plugins: wysiwygarea, toolbar, elementspath, sourcearea, emoji, clipboard, undo, stylescombo, format
 @bender-ui: collapsed
-@bender-include: ../../_helpers/tools.js
 
 1. Open emoji dropdown.
 2. Search for `wastebasket` emoji.

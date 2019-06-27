@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		justify: 'По ширині',
 		alignLeft: 'По лівому краю',
 		alignRight: 'По правому краю',
-		alignCenter: 'Align Center', // MISSING
+		alignCenter: 'По центру',
 		alignTop: 'По верхньому краю',
 		alignMiddle: 'По середині',
 		alignBottom: 'По нижньому краю',
@@ -92,7 +92,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		invalidValue: 'Невірне значення.',
 		invalidHeight: 'Висота повинна бути цілим числом.',
 		invalidWidth: 'Ширина повинна бути цілим числом.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
+		invalidLength: 'Вказане значення для поля "%1" має бути позитивним числом без або з коректним символом одиниці виміру (%2).',
 		invalidCssLength: 'Значення, вказане для "%1" в полі повинно бути позитивним числом або без дійсного виміру CSS блоку (px, %, in, cm, mm, em, ex, pt або pc).',
 		invalidHtmlLength: 'Значення, вказане для "%1" в полі повинно бути позитивним числом або без дійсного виміру HTML блоку (px або %).',
 		invalidInlineStyle: 'Значення, вказане для вбудованого стилю повинне складатися з одного чи кількох кортежів у форматі "ім\'я : значення", розділених крапкою з комою.',
@@ -108,40 +108,40 @@ CKEDITOR.lang[ 'uk' ] = {
 			16: 'Shift',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Пробіл',
 			35: 'End',
 			36: 'Home',
 			46: 'Видалити',
-			112: 'F1', // MISSING
-			113: 'F2', // MISSING
-			114: 'F3', // MISSING
-			115: 'F4', // MISSING
-			116: 'F5', // MISSING
-			117: 'F6', // MISSING
-			118: 'F7', // MISSING
-			119: 'F8', // MISSING
-			120: 'F9', // MISSING
-			121: 'F10', // MISSING
-			122: 'F11', // MISSING
-			123: 'F12', // MISSING
-			124: 'F13', // MISSING
-			125: 'F14', // MISSING
-			126: 'F15', // MISSING
-			127: 'F16', // MISSING
-			128: 'F17', // MISSING
-			129: 'F18', // MISSING
-			130: 'F19', // MISSING
-			131: 'F20', // MISSING
-			132: 'F21', // MISSING
-			133: 'F22', // MISSING
-			134: 'F23', // MISSING
-			135: 'F24', // MISSING
-			224: 'Command' // MISSING
+			112: 'F1',
+			113: 'F2',
+			114: 'F3',
+			115: 'F4',
+			116: 'F5',
+			117: 'F6',
+			118: 'F7',
+			119: 'F8',
+			120: 'F9',
+			121: 'F10',
+			122: 'F11',
+			123: 'F12',
+			124: 'F13',
+			125: 'F14',
+			126: 'F15',
+			127: 'F16',
+			128: 'F17',
+			129: 'F18',
+			130: 'F19',
+			131: 'F20',
+			132: 'F21',
+			133: 'F22',
+			134: 'F23',
+			135: 'F24',
+			224: 'Command'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut', // MISSING
+		keyboardShortcut: 'Сполучення клавіш',
 
-		optionDefault: 'Default' // MISSING
+		optionDefault: 'Типово'
 	}
 };

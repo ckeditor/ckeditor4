@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'ku', {
 	headersColumn: 'یەکەم ئەستوون',
 	headersNone: 'هیچ',
 	headersRow: 'یەکەم ڕیز',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'ژمارەی پەراوێز دەبێت تەنها ژماره بێت.',
 	invalidCellPadding: 'ناوپۆشی خانه دەبێت ژمارەکی درووست بێت.',
 	invalidCellSpacing: 'بۆشایی خانه دەبێت ژمارەکی درووست بێت.',

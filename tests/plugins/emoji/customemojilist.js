@@ -25,9 +25,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( emojiTools.notSupportedEnvironment ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
 		},
 
 		// (#2036)

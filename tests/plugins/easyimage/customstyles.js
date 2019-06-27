@@ -43,9 +43,7 @@
 
 	var tests = {
 		setUp: function() {
-			if ( easyImageTools.isUnsupportedEnvironment() ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 		},
 
 		'test style is integrated with ACF': function( editor ) {
@@ -180,7 +178,7 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	tests[ 'test override default styles' ] = function() {
 		return bender.editorBot.create( {

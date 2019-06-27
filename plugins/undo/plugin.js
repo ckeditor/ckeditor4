@@ -159,7 +159,7 @@
 			 * **Note:** In order to unlock the undo manager, {@link #unlockSnapshot} has to be fired
 			 * the same number of times that `lockSnapshot` has been fired.
 			 *
-			 * @since 4.0
+			 * @since 4.0.0
 			 * @event lockSnapshot
 			 * @member CKEDITOR.editor
 			 * @param {CKEDITOR.editor} editor This editor instance.
@@ -177,7 +177,7 @@
 			/**
 			 * Unlocks the undo manager and updates the latest snapshot.
 			 *
-			 * @since 4.0
+			 * @since 4.0.0
 			 * @event unlockSnapshot
 			 * @member CKEDITOR.editor
 			 * @param {CKEDITOR.editor} editor This editor instance.
@@ -598,7 +598,7 @@
 		 *
 		 * **Note:** For every `lock` call you must call {@link #unlock} once to unlock the undo manager.
 		 *
-		 * @since 4.0
+		 * @since 4.0.0
 		 * @param {Boolean} [dontUpdate] When set to `true`, the last snapshot will not be updated
 		 * with current content and selection. By default, if undo manager was up to date when the lock started,
 		 * the last snapshot will be updated to the current state when unlocking. This means that all changes
@@ -649,7 +649,7 @@
 		 *
 		 * See {@link #lock} for more details.
 		 *
-		 * @since 4.0
+		 * @since 4.0.0
 		 */
 		unlock: function() {
 			if ( this.locked ) {
@@ -1332,7 +1332,7 @@
  *			}
  *		} );
  *
- * @since 4.2
+ * @since 4.2.0
  * @event change
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.

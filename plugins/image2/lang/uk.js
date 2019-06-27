@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'uk', {
 	title: 'Властивості зображення',
 	uploadTab: 'Надіслати',
 	urlMissing: 'Вкажіть URL зображення.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'Альтернативний текст відсутній.'
 } );

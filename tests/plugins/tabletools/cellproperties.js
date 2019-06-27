@@ -1,5 +1,7 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: entities,dialog,tabletools,toolbar */
+/* bender-include: ./_helpers/cellproperties.js */
+/* global doTest, assertChildren */
 
 ( function() {
 	'use strict';
@@ -7,75 +9,39 @@
 	bender.editor = true;
 
 	bender.test( {
-		doTest: function( name, dialogCallback ) {
-			var bot = this.editorBot;
 
-			bender.tools.testInputOut( name, function( source, expected ) {
-				bot.setHtmlWithSelection( source );
-
-				bot.dialog( 'cellProperties', function( dialog ) {
-					try {
-						if ( dialogCallback )
-							dialogCallback( dialog );
-
-						dialog.getButton( 'ok' ).click();
-					} catch ( e ) {
-						throw e;
-					} finally {
-						dialog.hide();
-					}
-
-					assert.areSame( bender.tools.compatHtml( expected ), bot.getData( true ) );
-				} );
-			} );
-		},
-
-		tearDown: function() {
-			var dialog = CKEDITOR.dialog.getCurrent();
-
-			if ( dialog ) {
-				dialog.hide();
-			}
-		},
-
-		'test cell properties dialog (text selection)': function() {
-			this.doTest( 'table-1', function( dialog ) {
+		'test cell properties dialog (text selection)': doTest( 'table-1', function( dialog ) {
 				dialog.setValueOf( 'info', 'width', 100 );
 				dialog.setValueOf( 'info', 'height', 50 );
-			} );
-		},
+			}
+		),
 
 		// https://dev.ckeditor.com/ticket/11439
-		'test load and update field values (#1)': function() {
-			this.doTest( 'table-2', function( dialog ) {
+		'test load and update field values (#1)': doTest( 'table-2', function( dialog ) {
 				assert.areSame( '', dialog.getValueOf( 'info', 'rowSpan' ) );
-			} );
-		},
+			}
+		),
 
 		// https://dev.ckeditor.com/ticket/11439
-		'test load and update field values (#2)': function() {
-			this.doTest( 'table-3', function( dialog ) {
+		'test load and update field values (#2)': doTest( 'table-3', function( dialog ) {
 				assert.areSame( '', dialog.getValueOf( 'info', 'rowSpan' ) );
-			} );
-		},
+			}
+		),
 
 		// https://dev.ckeditor.com/ticket/11439
-		'test load and update field values (#3)': function() {
-			this.doTest( 'table-4', function( dialog ) {
+		'test load and update field values (#3)': doTest( 'table-4', function( dialog ) {
 				assert.areSame( '', dialog.getValueOf( 'info', 'colSpan' ) );
-			} );
-		},
+			}
+		),
 
 		// https://dev.ckeditor.com/ticket/11439
-		'test load and update field values (#4)': function() {
-			this.doTest( 'table-5', function( dialog ) {
+		'test load and update field values (#4)': doTest( 'table-5', function( dialog ) {
 				assert.areSame( '', dialog.getValueOf( 'info', 'colSpan' ) );
-			} );
-		},
+			}
+		),
 
 		// https://dev.ckeditor.com/ticket/11439
-		'test load and update field values (#5)': function() {
-			this.doTest( 'table-6', function( dialog ) {
+		'test load and update field values (#5)': doTest( 'table-6', function( dialog ) {
 				assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
 				assert.areSame( 'px', dialog.getValueOf( 'info', 'widthType' ) );
 				assert.areSame( '', dialog.getValueOf( 'info', 'wordWrap' ) );
@@ -84,60 +50,93 @@
 				dialog.setValueOf( 'info', 'width', 100 );
 				dialog.setValueOf( 'info', 'bgColor', 'red' );
 				dialog.setValueOf( 'info', 'hAlign', 'right' );
-			} );
-		},
+			}
+		),
 
 		// https://dev.ckeditor.com/ticket/11439
-		'test load and update field values (#6)': function() {
-			this.doTest( 'table-7', function( dialog ) {
+		'test load and update field values (#6)': doTest( 'table-7', function( dialog ) {
 				assert.areSame( '50', dialog.getValueOf( 'info', 'width' ) );
 				assert.areSame( 'px', dialog.getValueOf( 'info', 'widthType' ) );
 
 				dialog.setValueOf( 'info', 'width', 20 );
-			} );
-		},
+			}
+		),
 
 		// https://dev.ckeditor.com/ticket/11439
-		'test load and update field values (#7)': function() {
-			this.doTest( 'table-8', function( dialog ) {
+		'test load and update field values (#7)': doTest( 'table-8', function( dialog ) {
 				assert.areSame( '50', dialog.getValueOf( 'info', 'width' ) );
 				assert.areSame( '', dialog.getValueOf( 'info', 'widthType' ) );
 
 				dialog.setValueOf( 'info', 'width', 20 );
-			} );
-		},
+			}
+		),
 
 		// https://dev.ckeditor.com/ticket/11439
-		'test load and update field values (#8)': function() {
-			this.doTest( 'table-9', function( dialog ) {
+		'test load and update field values (#8)': doTest( 'table-9', function( dialog ) {
 				assert.areSame( '', dialog.getValueOf( 'info', 'cellType' ) );
 				assert.areSame( 'red', dialog.getValueOf( 'info', 'bgColor' ) );
 
 				dialog.setValueOf( 'info', 'cellType', 'td' );
 				dialog.setValueOf( 'info', 'bgColor', 'green' );
-			} );
-		},
+			}
+		),
 
 		// https://dev.ckeditor.com/ticket/11439
-		'test load and update field values (#9)': function() {
-			this.doTest( 'table-10', function( dialog ) {
+		'test load and update field values (#9)': doTest( 'table-10', function( dialog ) {
 				assert.areSame( '', dialog.getValueOf( 'info', 'width' ) );
 				assert.areSame( '', dialog.getValueOf( 'info', 'widthType' ) );
 
 				dialog.setValueOf( 'info', 'width', 10 );
-			} );
-		},
+			}
+		),
 
 		// https://dev.ckeditor.com/ticket/11439
-		'test load and update field values (#10)': function() {
-			this.doTest( 'table-11', function( dialog ) {
+		'test load and update field values (#10)': doTest( 'table-11', function( dialog ) {
 				assert.areSame( '', dialog.getValueOf( 'info', 'width' ) );
 				assert.areSame( '', dialog.getValueOf( 'info', 'widthType' ) );
 
 				dialog.setValueOf( 'info', 'width', 10 );
 				dialog.setValueOf( 'info', 'widthType', 'px' );
-			} );
-		},
+			}
+		),
+
+		// (#2084)
+		'test load and update field values - same unit and value, change value (#11)': doTest( 'table-12', function( dialog ) {
+				assert.areSame( '60', dialog.getValueOf( 'info', 'height' ) );
+				assert.areSame( '%', dialog.getValueOf( 'info', 'heightType' ) );
+
+				dialog.setValueOf( 'info', 'height', 20 );
+				dialog.setValueOf( 'info', 'heightType', '%' );
+			}
+		),
+
+		// (#2084)
+		'test load and update field values - different unit, same value, change value (#12)': doTest( 'table-13', function( dialog ) {
+				assert.areSame( '60', dialog.getValueOf( 'info', 'height' ) );
+				assert.areSame( '', dialog.getValueOf( 'info', 'heightType' ) );
+
+				dialog.setValueOf( 'info', 'height', 20 );
+			}
+		),
+
+		// (#2084)
+		'test load and update field values - different unit and value, change value (#13)': doTest( 'table-14', function( dialog ) {
+				assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
+				assert.areSame( '', dialog.getValueOf( 'info', 'heightType' ) );
+
+				dialog.setValueOf( 'info', 'height', 20 );
+			}
+		),
+
+		// (#2084)
+		'test load and update field values - different unit and value, change unit and value (#14)': doTest( 'table-15', function( dialog ) {
+				assert.areSame( '', dialog.getValueOf( 'info', 'height' ) );
+				assert.areSame( '', dialog.getValueOf( 'info', 'heightType' ) );
+
+				dialog.setValueOf( 'info', 'height', 20 );
+				dialog.setValueOf( 'info', 'heightType', 'px' );
+			}
+		),
 
 		// https://dev.ckeditor.com/ticket/16893
 		'test allowedContent rule': function() {
@@ -151,7 +150,7 @@
 				bot.dialog( 'cellProperties', function( dialog ) {
 					assert.isUndefined( dialog.getContentElement( 'info', 'width' ) );
 					assert.isUndefined( dialog.getContentElement( 'info', 'height' ) );
-					assert.isUndefined( dialog.getContentElement( 'info', 'htmlHeightType' ) );
+					assert.isUndefined( dialog.getContentElement( 'info', 'heightType' ) );
 				} );
 			} );
 		},
@@ -165,7 +164,7 @@
 				bot.dialog( 'cellProperties', function( dialog ) {
 					assert.isTrue( dialog.getContentElement( 'info', 'width' ).isVisible() );
 					assert.isTrue( dialog.getContentElement( 'info', 'height' ).isVisible() );
-					assert.isTrue( dialog.getContentElement( 'info', 'htmlHeightType' ).isVisible() );
+					assert.isTrue( dialog.getContentElement( 'info', 'heightType' ).isVisible() );
 				} );
 			} );
 		},
@@ -228,13 +227,4 @@
 		}
 	} );
 
-	function assertChildren( children ) {
-		CKEDITOR.tools.array.forEach( children, function( item ) {
-			if ( item && item.children ) {
-				assertChildren( item.children );
-			} else {
-				assert.isObject( item );
-			}
-		} );
-	}
 } )();

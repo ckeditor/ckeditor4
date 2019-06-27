@@ -12,7 +12,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'magicline', {
-		lang: 'af,ar,az,bg,ca,cs,cy,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,ca,cs,cy,da,de,de-ch,el,en,en-au,en-gb,eo,es,es-mx,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		init: initPlugin
 	} );
 
@@ -1775,7 +1775,7 @@
  * causes the magic line to appear. This option accepts a value in pixels, without the unit (for example:
  * `15` for 15 pixels).
  *
- * Read more in the {@glink guide/dev_magicline documentation}
+ * Read more in the {@glink features/magicline documentation}
  * and see the {@glink examples/magicline example}.
  *
  *		// Changes the offset to 15px.
@@ -1791,7 +1791,7 @@
  * which the magic line stays revealed and no other focus space is offered to be accessed.
  * This value is relative to {@link #magicline_triggerOffset}.
  *
- * Read more in the {@glink guide/dev_magicline documentation}
+ * Read more in the {@glink features/magicline documentation}
  * and see the {@glink examples/magicline example}.
  *
  *		// Increases the distance to 80% of CKEDITOR.config.magicline_triggerOffset.
@@ -1806,7 +1806,7 @@
  * Defines the default keystroke that accesses the closest unreachable focus space **before**
  * the caret (start of the selection). If there is no focus space available, the selection remains unchanged.
  *
- * Read more in the {@glink guide/dev_magicline documentation}
+ * Read more in the {@glink features/magicline documentation}
  * and see the {@glink examples/magicline example}.
  *
  *		// Changes the default keystroke to "Ctrl + ,".
@@ -1821,7 +1821,7 @@ CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + CKEDITOR.SHIFT + 5
  * Defines the default keystroke that accesses the closest unreachable focus space **after**
  * the caret (start of the selection). If there is no focus space available, the selection remains unchanged.
  *
- * Read more in the {@glink guide/dev_magicline documentation}
+ * Read more in the {@glink features/magicline documentation}
  * and see the {@glink examples/magicline example}.
  *
  *		// Changes keystroke to "Ctrl + .".
@@ -1836,7 +1836,7 @@ CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 52; /
  * Defines a list of attributes that, if assigned to some elements, prevent the magic line from being
  * used within these elements.
  *
- * Read more in the {@glink guide/dev_magicline documentation}
+ * Read more in the {@glink features/magicline documentation}
  * and see the {@glink examples/magicline example}.
  *
  *		// Adds the "data-tabu" attribute to the magic line tabu list.
@@ -1849,7 +1849,7 @@ CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 52; /
 /**
  * Defines the color of the magic line. The color may be adjusted to enhance readability.
  *
- * Read more in the {@glink guide/dev_magicline documentation}
+ * Read more in the {@glink features/magicline documentation}
  * and see the {@glink examples/magicline example}.
  *
  *		// Changes magic line color to blue.
@@ -1863,7 +1863,7 @@ CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 52; /
  * Activates the special all-encompassing mode that considers all focus spaces between
  * {@link CKEDITOR.dtd#$block} elements as accessible by the magic line.
  *
- * Read more in the {@glink guide/dev_magicline documentation}
+ * Read more in the {@glink features/magicline documentation}
  * and see the {@glink examples/magicline example}.
  *
  *		// Enables the greedy "put everywhere" mode.

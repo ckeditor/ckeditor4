@@ -22,7 +22,7 @@
 				button: 'Create Fancy widget',
 
 				getLabel: function() {
-					var classes = CKEDITOR.tools.objectKeys( this.getClasses() ) || [],
+					var classes = CKEDITOR.tools.object.keys( this.getClasses() ) || [],
 						ret = this.pathName;
 
 					if ( classes && classes.length ) {

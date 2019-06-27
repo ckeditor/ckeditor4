@@ -36,30 +36,7 @@
 			for ( i = 0; i < ranges.length; i++ ) {
 				ranges[ i ]._getTableElement().addClass( addSelected ? 'selected' : 'cke_marked' );
 			}
-		},
-
-		/*
-		 * Modifies testSuite by adding entries in `_should.ignore` object for each method/property, if
-		 * the current environment is not supported.
-		 *
-		 * @param {Object} testSuite
-		 * @param {Boolean} [check] Custom check to be considered in addition to the default one.
-		 */
-		ignoreUnsupportedEnvironment: function( testSuite, check ) {
-			testSuite._should = testSuite._should || {};
-			testSuite._should.ignore = testSuite._should.ignore || {};
-
-			for ( var key in testSuite ) {
-				if ( ( typeof check !== 'undefined' && !check ) || !this.isSupportedEnvironment ) {
-					testSuite._should.ignore[ key ] = true;
-				}
-			}
-		},
-
-		/*
-		 * @property {Boolean} isSupportedEnvironment Whether table selection supports current environment.
-		 */
-		isSupportedEnvironment: !( CKEDITOR.env.ie && CKEDITOR.env.version < 11 )
+		}
 	};
 
 	function shrinkSelections( editor ) {

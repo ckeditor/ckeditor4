@@ -114,7 +114,7 @@
  * instances. In that case only the blocks relevant to the active editor instance
  * will be displayed.
  *
- * Read more in the {@glink guide/dev_sharedspace documentation}
+ * Read more in the {@glink features/sharedspace documentation}
  * and see the {@glink examples/sharedspace example}.
  *
  *		// Place the toolbar inside the element with an ID of "someElementId" and the
@@ -130,7 +130,7 @@
  *			top: 'someElementId'
  *		};
  *
- *		// (Since 4.5)
+ *		// (Since 4.5.0)
  *		// Place the toolbar inside a DOM element passed by a reference. The
  *		// elements path will remain attached to the editor UI.
  *		var htmlElement = document.getElementById( 'someElementId' );

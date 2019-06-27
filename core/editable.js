@@ -268,7 +268,7 @@
 			/**
 			 * Transforms plain text to HTML based on current selection and {@link CKEDITOR.editor#activeEnterMode}.
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @param {String} text Text to transform.
 			 * @returns {String} HTML generated from the text.
 			 */
@@ -295,7 +295,7 @@
 			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
 			 * @param {CKEDITOR.dom.range} [range] If specified, the HTML will be inserted into the range
 			 * instead of into the selection. The selection will be placed at the end of the insertion (like in the normal case).
-			 * Introduced in CKEditor 4.5.
+			 * Introduced in CKEditor 4.5.0.
 			 */
 			insertHtml: function( data, mode, range ) {
 				var editor = this.editor;
@@ -329,7 +329,7 @@
 			 *
 			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @param {String} data HTML code to be inserted into the editor.
 			 * @param {CKEDITOR.dom.range} range The range as a place of insertion.
 			 * @param {String} [mode='html'] Mode in which HTML will be inserted.
@@ -460,12 +460,22 @@
 							( dtd = CKEDITOR.dtd[ current.getName() ] ) &&
 							!( dtd && dtd[ elementName ] ) ) {
 						// Split up inline elements.
-						if ( current.getName() in CKEDITOR.dtd.span )
-							range.splitElement( current );
+						if ( current.getName() in CKEDITOR.dtd.span ) {
+							var endNode = range.splitElement( current ),
+								bookmark = range.createBookmark();
+
+							// Remove empty element created after splitting (#2813).
+							// The range.splitElement() method splits the given element in two and places the selection
+							// in-between in such way that <div>F^oo</div> becomes <div>F</div>^<div>oo</div>.
+							// Then removeEmptyInlineElement() method removes any of these elements if they are empty.
+							removeEmptyInlineElement( current );
+							removeEmptyInlineElement( endNode );
+
+							range.moveToBookmark( bookmark );
 
 						// If we're in an empty block which indicate a new paragraph,
-						// simply replace it with the inserting block.(https://dev.ckeditor.com/ticket/3664)
-						else if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
+						// simply replace it with the inserting block (https://dev.ckeditor.com/ticket/3664).
+						} else if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
 							range.setStartBefore( current );
 							range.collapse( true );
 							current.remove();
@@ -652,7 +662,7 @@
 			/**
 			 * The base of the {@link CKEDITOR.editor#getSelectedHtml} method.
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @method getHtmlFromRange
 			 * @param {CKEDITOR.dom.range} range
 			 * @returns {CKEDITOR.dom.documentFragment}
@@ -687,7 +697,7 @@
 			 * **Note:** The range is modified so it matches the desired selection after extraction
 			 * even though the selection is not made.
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @param {CKEDITOR.dom.range} range
 			 * @param {Boolean} [removeEmptyBlock=false] See {@link CKEDITOR.editor#extractSelectedHtml}'s parameter.
 			 * Note that the range will not be modified if this parameter is set to `true`.
@@ -1642,6 +1652,10 @@
 
 			prepareRangeToDataInsertion( that );
 
+			if ( editor.getData() === '' && editor.enterMode === CKEDITOR.ENTER_DIV ) {
+				clearEditable( editable, range );
+			}
+
 			// DATA PROCESSING
 
 			// Select range and stop execution.
@@ -1658,13 +1672,21 @@
 			cleanupAfterInsertion( that );
 		}
 
+		function clearEditable( editable, range ) {
+			var first = editable.getFirst();
+			first && first.remove();
+			range.setStartAt( editable, CKEDITOR.POSITION_AFTER_START );
+			range.collapse( true );
+		}
+
 		// Prepare range to its data deletion.
 		// Delete its contents.
 		// Prepare it to insertion.
 		function prepareRangeToDataInsertion( that ) {
 			var range = that.range,
 				mergeCandidates = that.mergeCandidates,
-				node, marker, path, startPath, endPath, previous, bm;
+				isHtml = that.type === 'html',
+				node, marker, path, startPath, endPath, previous, bm, endNode;
 
 			// If range starts in inline element then insert a marker, so empty
 			// inline elements won't be removed while range.deleteContents
@@ -1717,13 +1739,19 @@
 			// Split inline elements so HTML will be inserted with its own styles.
 			path = range.startPath();
 			if ( ( node = path.contains( isInline, false, 1 ) ) ) {
-				range.splitElement( node );
+				endNode = range.splitElement( node );
 				that.inlineStylesRoot = node;
 				that.inlineStylesPeak = path.lastElement;
 			}
 
 			// Record inline merging candidates for later cleanup in place.
 			bm = range.createBookmark();
+
+			// When called by insertHtml remove empty element created after splitting (#2813).
+			if ( isHtml ) {
+				removeEmptyInlineElement( node );
+				removeEmptyInlineElement( endNode );
+			}
 
 			// 1. Inline siblings.
 			node = bm.startNode.getPrevious( isNotEmpty );
@@ -1733,8 +1761,9 @@
 
 			// 2. Inline parents.
 			node = bm.startNode;
-			while ( ( node = node.getParent() ) && isInline( node ) )
+			while ( ( node = node.getParent() ) && isInline( node ) ) {
 				mergeCandidates.push( node );
+			}
 
 			range.moveToBookmark( bm );
 		}
@@ -2285,6 +2314,12 @@
 
 		return insert;
 	} )();
+
+	function removeEmptyInlineElement( element ) {
+		if ( element && element.isEmptyInlineRemoveable() ) {
+			element.remove();
+		}
+	}
 
 	function afterInsert( editable ) {
 		var editor = editable.editor;

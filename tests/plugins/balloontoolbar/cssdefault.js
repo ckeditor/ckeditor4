@@ -1,7 +1,7 @@
 /* bender-tags: balloontoolbar */
 /* bender-ckeditor-plugins: toolbar,balloontoolbar,basicstyles */
 /* bender-include: ./_helpers/default.js */
-/* global ignoreUnsupportedEnvironment, stubAppendStyleSheet */
+/* global stubAppendStyleSheet */
 
 ( function() {
 	'use strict';
@@ -40,6 +40,10 @@
 	CKEDITOR.once( 'instanceReady', stub.restore );
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+		},
+
 		'test check default.css file usage when skin miss adequate css': function( editor ) {
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 				assert.ignore();
@@ -57,7 +61,6 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
-	ignoreUnsupportedEnvironment( tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 	bender.test( tests );
 } )();

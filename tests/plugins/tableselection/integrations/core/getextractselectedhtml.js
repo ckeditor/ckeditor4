@@ -19,6 +19,10 @@
 	}
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
+
 		// (https://dev.ckeditor.com/ticket/13884)
 		'test getSelectedHtml with multiple ranges': function( editor ) {
 			bender.tools.testInputOut( 'multipleRanges', function( input, expected ) {
@@ -89,9 +93,7 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
-
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	bender.test( tests );
 }() );

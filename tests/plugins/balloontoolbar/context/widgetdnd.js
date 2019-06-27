@@ -75,9 +75,7 @@
 		},
 
 		setUp: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
 
 			this.editor.getCommand( 'testcommand' ).setState( CKEDITOR.TRISTATE_DISABLED );
 		},

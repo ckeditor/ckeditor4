@@ -35,13 +35,6 @@ bender.test( {
 		assert.areSame( document.getElementById( 'editor5' ), CKEDITOR.instances.editor5.element.$, 'instance element doesn\'t match' );
 	},
 
-
-	test_replaceError: function() {
-		assert.throwsError( Error, function() {
-			CKEDITOR.replace( 'error' );
-		} );
-	},
-
 	test_replaceAll_Class: function() {
 		CKEDITOR.replaceAll( 'myclass' );
 

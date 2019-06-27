@@ -45,9 +45,7 @@ bender.test( {
 	},
 
 	setUp: function() {
-		if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
-			assert.ignore();
-		}
+		bender.tools.ignoreUnsupportedEnvironment( 'uploadwidget' );
 
 		notificationShowStub.reset();
 		notificationUpdateStub.reset();

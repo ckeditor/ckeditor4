@@ -24,9 +24,7 @@
 		widgetHtml = '<figure class="easyimage easyimage-full"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		tests = {
 			setUp: function() {
-				if ( easyImageTools.isUnsupportedEnvironment() ) {
-					assert.ignore();
-				}
+				bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 
 				if ( CKEDITOR.env.ie ) {
 					CKEDITOR.dom.element.prototype.getClientRect = function() {
@@ -165,6 +163,6 @@
 		};
 
 	// Force Edge to run every test in new CKEditor's instance.
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests, CKEDITOR.env.edge );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests, CKEDITOR.env.edge );
 	bender.test( tests );
 } )();

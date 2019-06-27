@@ -14,9 +14,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
 
 			this.editor.widgets.add( 'bar', {
 				editables: {
@@ -151,7 +149,7 @@
 				ret = {},
 				i;
 
-			whitelist = CKEDITOR.tools.isArray( whitelist ) ? whitelist : CKEDITOR.tools.objectKeys( optionsMapping );
+			whitelist = CKEDITOR.tools.isArray( whitelist ) ? whitelist : CKEDITOR.tools.object.keys( optionsMapping );
 
 			// Eventually one might provide even more mappings.
 			if ( additionalMappings ) {

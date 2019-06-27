@@ -7,7 +7,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'filetools', {
-		lang: 'az,bg,ca,cs,da,de,de-ch,en,en-au,eo,es,es-mx,et,eu,fa,fr,gl,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'az,bg,ca,cs,da,de,de-ch,en,en-au,eo,es,es-mx,et,eu,fa,fr,gl,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,oc,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 
 		beforeInit: function( editor ) {
 			/**
@@ -17,7 +17,7 @@
 			 *		var loader = editor.uploadRepository.create( file );
 			 *		loader.loadAndUpload( 'http://foo/bar' );
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @readonly
 			 * @property {CKEDITOR.fileTools.uploadRepository} uploadRepository
 			 * @member CKEDITOR.editor
@@ -29,7 +29,7 @@
 			 * {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled}, the default request
 			 * will be sent. Refer to the {@glink guide/dev_file_upload Uploading Dropped or Pasted Files} article for more information.
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @event fileUploadRequest
 			 * @member CKEDITOR.editor
 			 * @param data
@@ -81,7 +81,7 @@
 			 * the default response handler will be used. Refer to the
 			 * {@glink guide/dev_file_upload Uploading Dropped or Pasted Files} article for more information.
 			 *
-			 * @since 4.5
+			 * @since 4.5.0
 			 * @event fileUploadResponse
 			 * @member CKEDITOR.editor
 			 * @param data All data will be passed to {@link CKEDITOR.fileTools.fileLoader#responseData}.
@@ -133,7 +133,7 @@
 	 *
 	 * To find more information about handling files see the {@link CKEDITOR.fileTools.fileLoader} class.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @class CKEDITOR.fileTools.uploadRepository
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates an instance of the repository.
@@ -261,7 +261,7 @@
 	 *
 	 * Note that `FileLoader` uses the native file API which is supported **since Internet Explorer 10**.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @class CKEDITOR.fileTools.fileLoader
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates an instance of the class and sets initial values for all properties.
@@ -803,7 +803,7 @@
 		/**
 		 * Helpers to load and upload a file.
 		 *
-		 * @since 4.5
+		 * @since 4.5.0
 		 * @singleton
 		 * @class CKEDITOR.fileTools
 		 */
@@ -892,7 +892,7 @@
  *
  * An empty string means that the option is disabled.
  *
- * @since 4.5
+ * @since 4.5.0
  * @cfg {String} [uploadUrl='']
  * @member CKEDITOR.config
  */

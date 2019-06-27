@@ -1163,6 +1163,15 @@
 		resizer.on( 'mousedown', function( evt ) {
 			var image = widget.parts.image,
 
+				// Don't update attributes if less than 15.
+				// This is to prevent images to visually disappear.
+				min = {
+					width: 15,
+					height: 15
+				},
+
+				max = getMaxSize(),
+
 				// "factor" can be either 1 or -1. I.e.: For right-aligned images, we need to
 				// subtract the difference to get proper width, etc. Without "factor",
 				// resizer starts working the opposite way.
@@ -1318,13 +1327,9 @@
 					}
 				}
 
-				// Don't update attributes if less than 10.
-				// This is to prevent images to visually disappear.
-				if ( newWidth >= 15 && newHeight >= 15 ) {
-					image.setAttributes( { width: newWidth, height: newHeight } );
-					updateData = true;
-				} else {
-					updateData = false;
+				if ( isAllowedSize( newWidth, newHeight ) ) {
+					updateData = { width: newWidth, height: newHeight };
+					image.setAttributes( updateData );
 				}
 			}
 
@@ -1341,7 +1346,7 @@
 				resizer.removeClass( 'cke_image_resizing' );
 
 				if ( updateData ) {
-					widget.setData( { width: newWidth, height: newHeight } );
+					widget.setData( updateData );
 
 					// Save another undo snapshot: after resizing.
 					editor.fire( 'saveSnapshot' );
@@ -1349,6 +1354,29 @@
 
 				// Don't update data twice or more.
 				updateData = false;
+			}
+
+			function getMaxSize() {
+				var maxSize = editor.config.image2_maxSize,
+					natural;
+
+				if ( !maxSize ) {
+					return null;
+				}
+
+				maxSize = CKEDITOR.tools.copy( maxSize );
+				natural = CKEDITOR.plugins.image2.getNatural( image );
+
+				maxSize.width = Math.max( maxSize.width === 'natural' ? natural.width : maxSize.width, min.width );
+				maxSize.height = Math.max( maxSize.height === 'natural' ? natural.height : maxSize.height, min.width );
+
+				return maxSize;
+			}
+
+			function isAllowedSize( width, height ) {
+				var isTooSmall = width < min.width || height < min.height,
+					isTooBig = max && ( width > max.width || height > max.height );
+				return !isTooSmall && !isTooBig;
 			}
 		} );
 
@@ -1620,7 +1648,7 @@
 /**
  * A CSS class applied to the `<figure>` element of a captioned image.
  *
- * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * Read more in the {@glink features/image2 documentation} and see the
  * {@glink examples/image2 example}.
  *
  *		// Changes the class to "captionedImage".
@@ -1635,12 +1663,12 @@ CKEDITOR.config.image2_captionedClass = 'image';
  * Determines whether dimension inputs should be automatically filled when the image URL changes in the Enhanced Image
  * plugin dialog window.
  *
- * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * Read more in the {@glink features/image2 documentation} and see the
  * {@glink examples/image2 example}.
  *
  *		config.image2_prefillDimensions = false;
  *
- * @since 4.5
+ * @since 4.5.0
  * @cfg {Boolean} [image2_prefillDimensions=true]
  * @member CKEDITOR.config
  */
@@ -1648,12 +1676,12 @@ CKEDITOR.config.image2_captionedClass = 'image';
 /**
  * Disables the image resizer. By default the resizer is enabled.
  *
- * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * Read more in the {@glink features/image2 documentation} and see the
  * {@glink examples/image2 example}.
  *
  *		config.image2_disableResizer = true;
  *
- * @since 4.5
+ * @since 4.5.0
  * @cfg {Boolean} [image2_disableResizer=false]
  * @member CKEDITOR.config
  */
@@ -1708,10 +1736,10 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *			display: inline-block;
  *		}
  *
- * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * Read more in the {@glink features/image2 documentation} and see the
  * {@glink examples/image2 example}.
  *
- * @since 4.4
+ * @since 4.4.0
  * @cfg {String[]} [image2_alignClasses=null]
  * @member CKEDITOR.config
  */
@@ -1721,10 +1749,40 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *
  *		config.image2_altRequired = true;
  *
- * Read more in the [documentation](#!/guide/dev_image2) and see the
+ * Read more in the {@glink features/image2 documentation} and see the
  * {@glink examples/image2 example}.
  *
  * @since 4.6.0
  * @cfg {Boolean} [image2_altRequired=false]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Determines the maximum size that an image can be resized to with the resize handle.
+ *
+ * It stores two properties: `width` and `height`. They can be set with one of the two types:
+ *
+ * * A number representing a value that limits the maximum size in pixel units:
+ *
+ * ```js
+ *	config.image2_maxSize = {
+ *		height: 300,
+ *		width: 250
+ *	};
+ * ```
+ *
+ * * A string representing the natural image size, so each image resize operation is limited to its own natural height or width:
+ *
+ * ```js
+ *	config.image2_maxSize = {
+ *		height: 'natural',
+ *		width: 'natural'
+ *	}
+ * ```
+ *
+ * Note: An image can still be resized to bigger dimensions when using the image dialog.
+ *
+ * @since 4.12.0
+ * @cfg {Object.<String, Number/String>} [image2_maxSize]
  * @member CKEDITOR.config
  */

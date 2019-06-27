@@ -1,7 +1,6 @@
 @bender-tags: 4.9.0, bug, 932
 @bender-ui: collapsed
-@bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, imagebase, link, htmlwriter, elementspath
-@bender-include: %BASE_PATH%/plugins/easyimage/_helpers/tools.js
+@bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, imagebase, link, htmlwriter, elementspath, easyimage
 
 ## Caption - blurring widget
 

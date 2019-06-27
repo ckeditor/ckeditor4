@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'no', {
 	cut: 'Klipp ut',
 	cutError: 'Din nettlesers sikkerhetsinstillinger tillater ikke automatisk utklipping av tekst. Vennligst bruk snarveien (Ctrl/Cmd+X).',
 	paste: 'Lim inn',
-	pasteNotification: 'Press %1 to paste. Your browser doesn‘t support pasting with the toolbar button or context menu option.', // MISSING
+	pasteNotification: 'Trykk %1 for å lime inn. På grunn av manglende støtte i nettleseren din, kan du ikke lime inn via knapperaden eller kontekstmenyen.',
 	pasteArea: 'Innlimingsområde',
-	pasteMsg: 'Paste your content inside the area below and press OK.' // MISSING
+	pasteMsg: 'Lim inn innholdet i området nedenfor og trykk OK.'
 } );

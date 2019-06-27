@@ -8,9 +8,12 @@
 
 <script>
 	// Ignore on mobiles due to lack of support for widgets drag and drop.
-	if ( easyImageTools.isUnsupportedEnvironment() || bender.tools.env.mobile ) {
+	if ( bender.tools.env.mobile ) {
 		bender.ignore();
 	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
+
 
 	CKEDITOR.replace( 'classic' );
 </script>

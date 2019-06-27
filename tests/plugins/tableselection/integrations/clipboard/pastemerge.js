@@ -1,7 +1,7 @@
 /* bender-tags: tableselection, clipboard */
 /* bender-ckeditor-plugins: undo,tableselection */
 /* bender-include: ../../_helpers/tableselection.js */
-/* global tableSelectionHelpers, createPasteTestCase */
+/* global createPasteTestCase */
 
 ( function() {
 	'use strict';
@@ -11,6 +11,10 @@
 	};
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
+
 		'test doesnt break regular paste': function( editor ) {
 			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
 			bender.tools.emulatePaste( editor, '<p>bam</p>' );
@@ -22,6 +26,30 @@
 			} );
 
 			wait();
+		},
+
+		// (#2945)
+		'test paste into ignored table': function( editor, bot ) {
+			var table;
+
+			bender.tools.testInputOut( 'ignored', function( source, expected ) {
+				editor.once( 'afterPaste', function() {
+					resume( function() {
+						bender.assert.beautified.html( expected, bender.tools.getHtmlWithSelection( editor ) );
+					} );
+				}, null, null, 999 );
+
+				bot.setHtmlWithSelection( source );
+
+				table = editor.editable().findOne( 'table' );
+
+				table.data( 'cke-tableselection-ignored', 1 );
+
+				// Use clone, so that pasted table does not have an ID.
+				bender.tools.emulatePaste( editor, CKEDITOR.document.getById( '2cells1row' ).clone( true ).getOuterHtml() );
+
+				wait();
+			} );
 		},
 
 		'test merge row after': createPasteTestCase( 'merge-row-after', '2cells1row' ),
@@ -46,9 +74,7 @@
 		'test paste smaller table into a bigger selection edge case': createPasteTestCase( 'merge-smaller-table-edge', '3cells3rows' )
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
-
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	bender.test( tests );
 } )();

@@ -18,9 +18,7 @@
 
 	var tests = {
 		setUp: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
 		},
 
 		'test position not enough space between the caret and bottom viewport': function( editor ) {
@@ -157,7 +155,7 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	bender.test( tests );
 

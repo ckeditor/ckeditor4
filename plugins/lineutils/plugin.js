@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
- /**
+/**
  * @fileOverview A set of utilities to find and create horizontal spaces in edited content.
  */
 
@@ -49,7 +49,7 @@
 	 * @constructor Creates a Finder class instance.
 	 * @param {CKEDITOR.editor} editor Editor instance that the Finder belongs to.
 	 * @param {Object} def Finder's definition.
-	 * @since 4.3
+	 * @since 4.3.0
 	 */
 	function Finder( editor, def ) {
 		CKEDITOR.tools.extend( this, {
@@ -456,7 +456,7 @@
 	 * @class CKEDITOR.plugins.lineutils.locator
 	 * @constructor Creates a Locator class instance.
 	 * @param {CKEDITOR.editor} editor Editor instance that Locator belongs to.
-	 * @since 4.3
+	 * @since 4.3.0
 	 */
 	function Locator( editor, def ) {
 		CKEDITOR.tools.extend( this, def, {
@@ -630,7 +630,7 @@
 	 * @constructor Creates a Liner class instance.
 	 * @param {CKEDITOR.editor} editor Editor instance that Liner belongs to.
 	 * @param {Object} def Liner's definition.
-	 * @since 4.3
+	 * @since 4.3.0
 	 */
 	function Liner( editor, def ) {
 		var editable = editor.editable();
@@ -1008,7 +1008,7 @@
 	 * @private
 	 * @class
 	 * @singleton
-	 * @since 4.3
+	 * @since 4.3.0
 	 */
 	CKEDITOR.plugins.lineutils = {
 		finder: Finder,

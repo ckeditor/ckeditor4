@@ -1,6 +1,6 @@
 {
 	"name": "ckeditor-dev",
-	"version": "4.11.5",
+	"version": "4.12.0",
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
 		"benderjs": "0.4.3",

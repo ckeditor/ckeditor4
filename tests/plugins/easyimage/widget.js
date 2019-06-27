@@ -1,7 +1,7 @@
 ﻿/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: floatingspace,easyimage,toolbar */
-/* bender-include: ../widget/_helpers/tools.js,./_helpers/tools.js */
-/* global widgetTestsTools, easyImageTools */
+/* bender-include: ../widget/_helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -84,9 +84,7 @@
 		},
 
 		setUp: function() {
-			if ( easyImageTools.isUnsupportedEnvironment() ) {
-				assert.ignore();
-			}
+				bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 		},
 
 		'test upcasting image widget (figure)': function( editor, bot ) {
@@ -140,6 +138,6 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 	bender.test( tests );
 } )();

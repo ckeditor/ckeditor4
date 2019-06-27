@@ -20,6 +20,9 @@
 	};
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
 		'test insert row before': function( editor, bot ) {
 			doCommandTest( bot, 'rowInsertBefore', { 'case': 'add-row-before', cells: [ 0 ] } );
 			doCommandTest( bot, 'rowInsertBefore', { 'case': 'add-row-before-2', cells: [ 1 ] } );
@@ -177,12 +180,12 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
-
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	// Ignores for Edge (#1944).
-	var shouldIgnore = !tableSelectionHelpers.isSupportedEnvironment || CKEDITOR.env.edge;
+	var shouldIgnore = CKEDITOR.env.edge;
+	tests._should = tests._should || {};
+	tests._should.ignore = tests._should.ignore || {};
 	tests._should.ignore[ 'test merge cells (classic)' ] = shouldIgnore;
 	tests._should.ignore[ 'test merge cells (inline)' ] = shouldIgnore;
 	tests._should.ignore[ 'test merge one cell (classic)' ] = shouldIgnore;

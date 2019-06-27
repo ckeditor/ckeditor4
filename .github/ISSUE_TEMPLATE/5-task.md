@@ -1,6 +1,10 @@
 ---
-name: 👷 Task
-about: If your issue is neither a bug nor feature request.
+name: "\U0001F477 Task"
+about: It's neither a bug nor feature request.
+title: ''
+labels: type:task
+assignees: ''
+
 ---
 
 ## Type of report

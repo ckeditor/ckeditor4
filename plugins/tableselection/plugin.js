@@ -9,6 +9,7 @@
 	var fakeSelectedClass = 'cke_table-faked-selection',
 		fakeSelectedEditorClass = fakeSelectedClass + '-editor',
 		fakeSelectedTableDataAttribute = 'cke-table-faked-selection-table',
+		ignoredTableAttribute = 'data-cke-tableselection-ignored',
 		fakeSelection = { active: false },
 		tabletools,
 		getSelectedCells,
@@ -118,6 +119,7 @@
 
 	function clearFakeCellSelection( editor, reset ) {
 		var selectedCells = editor.editable().find( '.' + fakeSelectedClass ),
+			selectedTable = editor.editable().findOne( '[data-' + fakeSelectedTableDataAttribute + ']' ),
 			i;
 
 		editor.fire( 'lockSnapshot' );
@@ -128,8 +130,9 @@
 			selectedCells.getItem( i ).removeClass( fakeSelectedClass );
 		}
 
-		if ( selectedCells.count() > 0 ) {
-			selectedCells.getItem( 0 ).getAscendant( 'table' ).data( fakeSelectedTableDataAttribute, false );
+		// Table may be selected even though no cells are selected (e.g. after deleting cells.)
+		if ( selectedTable ) {
+			selectedTable.data( fakeSelectedTableDataAttribute, false );
 		}
 
 		editor.fire( 'unlockSnapshot' );
@@ -228,9 +231,11 @@
 		var editor = evt.editor || evt.sender.editor,
 			selection = editor && editor.getSelection(),
 			ranges = selection && selection.getRanges() || [],
+			enclosedNode = ranges && ranges[ 0 ].getEnclosedNode(),
+			isEnclosedNodeAnImage = enclosedNode && ( enclosedNode.type == CKEDITOR.NODE_ELEMENT ) && enclosedNode.is( 'img' ),
 			cells,
 			table,
-			i;
+			iterator;
 
 		if ( !selection ) {
 			return;
@@ -239,6 +244,17 @@
 		clearFakeCellSelection( editor );
 
 		if ( !selection.isInTable() || !selection.isFake ) {
+			return;
+		}
+
+		// Don't perform fake selection when image is selected (#2235).
+		if ( isEnclosedNodeAnImage ) {
+			editor.getSelection().reset();
+			return;
+		}
+
+		// (#2945)
+		if ( ranges[ 0 ]._getTableElement( { table: 1 } ).hasAttribute( ignoredTableAttribute ) ) {
 			return;
 		}
 
@@ -253,8 +269,8 @@
 
 		editor.fire( 'lockSnapshot' );
 
-		for ( i = 0; i < cells.length; i++ ) {
-			cells[ i ].addClass( fakeSelectedClass );
+		for ( iterator = 0; iterator < cells.length; iterator++ ) {
+			cells[ iterator ].addClass( fakeSelectedClass );
 		}
 
 		if ( cells.length > 0 ) {
@@ -287,6 +303,11 @@
 			cell = target && target.getAscendant( { td: 1, th: 1 }, true ),
 			table = target && target.getAscendant( 'table', true ),
 			tableElements = { table: 1, thead: 1, tbody: 1, tfoot: 1, tr: 1, td: 1, th: 1 };
+
+		// (#2945)
+		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
+			return;
+		}
 
 		// Nested tables should be treated as the same one (e.g. user starts dragging from outer table
 		// and ends in inner one).
@@ -358,6 +379,13 @@
 	}
 
 	function fakeSelectionDragHandler( evt ) {
+		var table = evt.data.getTarget().getAscendant( 'table', true );
+
+		// (#2945)
+		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
+			return;
+		}
+
 		var cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true );
 
 		if ( !cell || cell.hasClass( fakeSelectedClass ) ) {
@@ -460,6 +488,12 @@
 		if ( !selection.isInTable() ) {
 			return;
 		}
+
+		// (#2945)
+		if ( selection.getRanges()[ 0 ]._getTableElement( { table: 1 } ).hasAttribute( ignoredTableAttribute ) ) {
+			return;
+		}
+
 
 		copyTable( editor, evt.name === 'cut' );
 	}
@@ -743,7 +777,15 @@
 	function pasteListener( evt ) {
 		var editor = evt.editor,
 			selection = editor.getSelection(),
-			selectedCells = getSelectedCells( selection ),
+			ranges = selection.getRanges(),
+			table = ranges.length && ranges[ 0 ]._getTableElement( { table: 1 } );
+
+		// (#2945)
+		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
+			return;
+		}
+
+		var selectedCells = getSelectedCells( selection ),
 			pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue ),
 			boundarySelection = selection.isInTable( true ) && this.isBoundarySelection( selection ),
 			tableSel,
@@ -864,14 +906,24 @@
 	}
 
 	/**
-	 * Namespace providing a set of helper functions for working with tables, exposed by
+	 * Namespace providing a set of helper functions for working with tables, exposed by the
 	 * [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
+	 *
+	 * **Note:** Since 4.12.0 you can use the `cke-tableselection-ignored` attribute to disable
+	 * the table selection feature for the given table.
+	 *
+	 * ```javascript
+	 * var table = new CKEDITOR.dom.element( 'table' );
+	 *
+	 * table.data( 'cke-tableselection-ignored', 1 );
+	 * ```
 	 *
 	 * @since 4.7.0
 	 * @singleton
 	 * @class CKEDITOR.plugins.tableselection
 	 */
 	CKEDITOR.plugins.tableselection = {
+
 		/**
 		 * Fetches all cells between cells passed as parameters, including these cells.
 		 *
@@ -1097,19 +1149,15 @@
 			var editable = editor.editable();
 			editable.attachListener( editable, 'keydown', getTableOnKeyDownListener( editor ), null, null, -1 );
 			editable.attachListener( editable, 'keypress', tableKeyPressListener, null, null, -1 );
-		},
-
-		/**
-		 * Determines whether table selection is supported in the current environment.
-		 *
-		 * @property {Boolean}
-		 * @private
-		 */
-		isSupportedEnvironment: !( CKEDITOR.env.ie && CKEDITOR.env.version < 11 )
+		}
 	};
 
 	CKEDITOR.plugins.add( 'tableselection', {
 		requires: 'clipboard,tabletools',
+
+		isSupportedEnvironment: function() {
+			return !( CKEDITOR.env.ie && CKEDITOR.env.version < 11 );
+		},
 
 		onLoad: function() {
 			// We can't alias these features earlier, as they could be still not loaded.
@@ -1124,7 +1172,7 @@
 
 		init: function( editor ) {
 			// Disable unsupported browsers.
-			if ( !CKEDITOR.plugins.tableselection.isSupportedEnvironment ) {
+			if ( !this.isSupportedEnvironment() ) {
 				return;
 			}
 

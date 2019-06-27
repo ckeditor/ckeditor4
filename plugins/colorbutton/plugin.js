@@ -60,7 +60,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								var background = tools.style.parse.background( element.styles.background );
 
 								// We return true only if background specifies **only** color property, and there's only one background directive.
-								return background.color && tools.objectKeys( background ).length === 1;
+								return background.color && tools.object.keys( background ).length === 1;
 							},
 							right: function( element ) {
 								var style = new CKEDITOR.style( editor.config.colorButton_backStyle, {
@@ -86,6 +86,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function addButton( name, type, title, order, options ) {
 			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
+				colorData = { type: type },
 				panelBlock;
 
 			options = options || {};
@@ -110,7 +111,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
-					block.element.setHtml( renderColors( panel, type, colorBoxId ) );
+					block.element.setHtml( renderColors( panel, type, colorBoxId, colorData ) );
 					// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
 					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 
@@ -128,8 +129,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				refresh: function() {
-					if ( !editor.activeFilter.check( style ) )
+					if ( !editor.activeFilter.check( style ) ) {
 						this.setState( CKEDITOR.TRISTATE_DISABLED );
+					}
 				},
 
 				// The automatic colorbox should represent the real color (https://dev.ckeditor.com/ticket/6010)
@@ -140,8 +142,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						path = editor.elementPath( block ),
 						automaticColor;
 
-					if ( !path )
+					if ( !path ) {
 						return;
+					}
 
 					// Find the closest block element.
 					block = path.block || path.blockLimit || editor.document.getBody();
@@ -153,8 +156,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					while ( type == 'back' && automaticColor == 'transparent' && block && ( block = block.getParent() ) );
 
 					// The box should never be transparent.
-					if ( !automaticColor || automaticColor == 'transparent' )
+					if ( !automaticColor || automaticColor == 'transparent' ) {
 						automaticColor = '#ffffff';
+					}
 
 					if ( config.colorButton_enableAutomatic !== false ) {
 						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', automaticColor );
@@ -185,6 +189,14 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							element = walker.next();
 						}
 
+						if ( finalColor == 'transparent' ) {
+							finalColor = '';
+						}
+						if ( type == 'fore' ) {
+							colorData.automaticTextColor = '#' + normalizeColor( automaticColor );
+						}
+						colorData.selectionColor = finalColor ? '#' + finalColor : '';
+
 						selectColor( panelBlock, finalColor );
 					}
 
@@ -193,7 +205,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 		}
 
-		function renderColors( panel, type, colorBoxId ) {
+		function renderColors( panel, type, colorBoxId, colorData ) {
 			var output = [],
 				colors = config.colorButton_colors.split( ',' ),
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
@@ -213,9 +225,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						if ( color ) {
 							return setColor( color );
 						}
-					} );
+					}, null, colorData );
 				} else {
-					return setColor( color );
+					return setColor( color && '#' + color );
 				}
 
 				function setColor( color ) {
@@ -276,7 +288,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				// Additionally, if the data is a single color code then let's try to translate it or fallback on the
 				// color code. If the data is a color name/code, then use directly the color name provided.
 				if ( !parts[ 1 ] ) {
-					colorName = '#' + colorName.replace( /^(.)(.)(.)$/, '$1$1$2$2$3$3' );
 					colorLabel = editor.lang.colorbutton.colors[ colorCode ] || colorCode;
 				} else {
 					colorLabel = colorName;
@@ -287,8 +298,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						' title="', colorLabel, '"' +
 						' draggable="false"' +
 						' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorName, '\',\'', type, '\'); return false;"' +
-						' href="javascript:void(\'', colorLabel, '\')"' +
+						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorCode, '\',\'', type, '\'); return false;"' +
+						' href="javascript:void(\'', colorCode, '\')"' +
 						' data-value="' + colorCode + '"' +
 						' role="option" aria-posinset="', ( i + 2 ), '" aria-setsize="', total, '">' +
 						'<span class="cke_colorbox" style="background-color:#', colorCode, '"></span>' +
@@ -359,7 +370,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 /**
  * Whether to enable the **More Colors** button in the color selectors.
  *
- * Read more in the {@glink guide/dev_colorbutton documentation}
+ * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
  *		config.colorButton_enableMore = false;
@@ -375,11 +386,17 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * **Since 3.3:** A color name may optionally be defined by prefixing the entries with
  * a name and the slash character. For example, `'FontColor1/FF9900'` will be
  * displayed as the color `#FF9900` in the selector, but will be output as `'FontColor1'`.
+ * **This behaviour was altered in version 4.12.0.**
  *
  * **Since 4.6.2:** The default color palette has changed. It contains fewer colors in more
  * pastel shades than the previous one.
  *
- * Read more in the {@glink guide/dev_colorbutton documentation}
+ * **Since 4.12.0:** Defining colors with names works in a different way. Colors names can be defined
+ * by `colorName/colorCode`. The color name is only used in the tooltip. The output will now use the color code.
+ * For example, `FontColor/FF9900` will be displayed as the color `#FF9900` in the selector, and will
+ * be output as `#FF9900`.
+ *
+ * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
  *		// Brazil colors only.
@@ -406,7 +423,7 @@ CKEDITOR.config.colorButton_colors = '1ABC9C,2ECC71,3498DB,9B59B6,4E5F70,F1C40F,
 /**
  * Stores the style definition that applies the text foreground color.
  *
- * Read more in the {@glink guide/dev_colorbutton documentation}
+ * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
  *		// This is actually the default value.
@@ -429,7 +446,7 @@ CKEDITOR.config.colorButton_foreStyle = {
 /**
  * Stores the style definition that applies the text background color.
  *
- * Read more in the {@glink guide/dev_colorbutton documentation}
+ * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
  *		// This is actually the default value.
@@ -449,7 +466,7 @@ CKEDITOR.config.colorButton_backStyle = {
 /**
  * Whether to enable the **Automatic** button in the color selectors.
  *
- * Read more in the {@glink guide/dev_colorbutton documentation}
+ * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
  *		config.colorButton_enableAutomatic = false;
@@ -461,7 +478,7 @@ CKEDITOR.config.colorButton_backStyle = {
 /**
  * Defines how many colors will be shown per row in the color selectors.
  *
- * Read more in the {@glink guide/dev_colorbutton documentation}
+ * Read more in the {@glink features/colorbutton documentation}
  * and see the {@glink examples/colorbutton example}.
  *
  *		config.colorButton_colorsPerRow = 8;

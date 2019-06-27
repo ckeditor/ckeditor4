@@ -128,13 +128,13 @@
  * the regular expression will be ignored and will not be available
  * in the Styles drop-down list.
  *
- * Read more in the [documentation](#!/guide/dev_styles-section-the-stylesheet-parser-plugin)
+ * Read more in the {@glink features/styles#the-stylesheet-parser-plugin documentation}
  * and see the {@glink examples/styles example}.
  *
  *		// Ignore rules for body and caption elements, classes starting with "high", and any class defined for no specific element.
  *		config.stylesheetParser_skipSelectors = /(^body\.|^caption\.|\.high|^\.)/i;
  *
- * @since 3.6
+ * @since 3.6.0
  * @cfg {RegExp} [stylesheetParser_skipSelectors=/(^body\.|^\.)/i]
  * @member CKEDITOR.config
  * @see CKEDITOR.config#stylesheetParser_validSelectors
@@ -145,13 +145,13 @@
  * by the Stylesheet Parser plugin. A CSS rule matching the regular
  * expression will be available in the Styles drop-down list.
  *
- * Read more in the [documentation](#!/guide/dev_styles-section-the-stylesheet-parser-plugin)
+ * Read more in the {@glink features/styles#the-stylesheet-parser-plugin documentation}
  * and see the {@glink examples/styles example}.
  *
  *		// Only add rules for p and span elements.
  *		config.stylesheetParser_validSelectors = /\^(p|span)\.\w+/;
  *
- * @since 3.6
+ * @since 3.6.0
  * @cfg {RegExp} [stylesheetParser_validSelectors=/\w+\.\w+/]
  * @member CKEDITOR.config
  * @see CKEDITOR.config#stylesheetParser_skipSelectors

@@ -43,7 +43,7 @@
 		getWidgetById = widgetTestsTools.getWidgetById;
 
 	function keysLength( obj ) {
-		return CKEDITOR.tools.objectKeys( obj ).length;
+		return CKEDITOR.tools.object.keys( obj ).length;
 	}
 
 	function testDelKey( editor, keyName, range, shouldBeBlocked, msg ) {
@@ -1421,7 +1421,53 @@
 			} );
 		},
 
-		// Behaviour has been changed in 4.5 (https://dev.ckeditor.com/ticket/12112), so we're leaving this
+		// #1469
+		'test pasting widget into widget nested editable with selectionChange callback': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			editor.widgets.add( 'widget-pastenested', {
+				parts: {
+					label: 'p'
+				},
+
+				editables: {
+					nested: {
+						selector: '.widget-nested'
+					}
+				}
+			} );
+
+			bot.setData( '<div id="w1" data-widget="widget-pastenested"><p>Widget</p><div class="widget-nested">xx</div></div>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					nested = widget.editables.nested,
+					range = editor.createRange();
+
+				range.setStart( nested.getFirst(), 1 );
+				range.collapse( 1 );
+				range.select();
+				nested.focus();
+
+				editor.once( 'afterPaste', function() {
+					resume( function() {
+						try {
+							nested.getData();
+						} catch ( e ) {
+							assert.fail( 'Error was thrown: ' + e );
+						}
+
+						assert.pass( 'Everything worked' );
+					} );
+				} );
+
+				// Simulate pasting copied, upcasted widget.
+				bender.tools.emulatePaste( editor, '<div data-cke-widget-wrapper="1"><div data-cke-widget-upcasted="1" data-widget="pastenested"><div data-cke-widget-editable="nested">Test</div></div></div>' );
+
+				wait();
+			} );
+		},
+
+		// Behaviour has been changed in 4.5.0 (https://dev.ckeditor.com/ticket/12112), so we're leaving this
 		// test as a validation of this change.
 		'test widgets\' commands are enabled in nested editable': function() {
 			var editor = this.editor,

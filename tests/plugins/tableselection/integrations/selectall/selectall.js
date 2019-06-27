@@ -35,6 +35,9 @@
 	var getRangesForCells = tableSelectionHelpers.getRangesForCells,
 		table = CKEDITOR.document.findOne( '#table table' ),
 		tests = {
+			setUp: function() {
+				bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+			},
 			'test selectAll command after table selection (paragraph + table)': function( editor, bot ) {
 				var editable = editor.editable(),
 					ranges;
@@ -143,9 +146,7 @@
 			// }
 		};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
-
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 
 	bender.test( tests );
 } )();

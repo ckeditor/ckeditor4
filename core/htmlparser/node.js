@@ -9,7 +9,7 @@
 	/**
 	 * A lightweight representation of HTML node.
 	 *
-	 * @since 4.1
+	 * @since 4.1.0
 	 * @class
 	 * @constructor Creates a node class instance.
 	 */
@@ -19,7 +19,7 @@
 		/**
 		 * Remove this node from a tree.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 */
 		remove: function() {
 			var children = this.parent.children,
@@ -36,7 +36,7 @@
 		/**
 		 * Replace this node with given one.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {CKEDITOR.htmlParser.node} node The node that will replace this one.
 		 */
 		replaceWith: function( node ) {
@@ -57,7 +57,7 @@
 		/**
 		 * Insert this node after given one.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {CKEDITOR.htmlParser.node} node The node that will precede this element.
 		 */
 		insertAfter: function( node ) {
@@ -78,7 +78,7 @@
 		/**
 		 * Insert this node before given one.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {CKEDITOR.htmlParser.node} node The node that will follow this element.
 		 */
 		insertBefore: function( node ) {
@@ -98,7 +98,7 @@
 		/**
 		 * Gets the closest ancestor element of this element which satisfies given condition
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {String/Object/Function} condition Name of an ancestor, hash of names or validator function.
 		 * @returns {CKEDITOR.htmlParser.element} The closest ancestor which satisfies given condition or `null`.
 		 */
@@ -129,7 +129,7 @@
 		/**
 		 * Wraps this element with given `wrapper`.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {CKEDITOR.htmlParser.element} wrapper The element which will be this element's new parent.
 		 * @returns {CKEDITOR.htmlParser.element} Wrapper.
 		 */
@@ -142,7 +142,7 @@
 		/**
 		 * Gets this node's index in its parent's children array.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @returns {Number}
 		 */
 		getIndex: function() {

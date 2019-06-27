@@ -2,7 +2,9 @@
 
 <script>
 
-	if ( autocompleteUtils.isUnsupportedEnvironment() || bender.tools.env.mobile ) {
+	bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
+
+	if ( bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 

@@ -5,11 +5,6 @@
 </textarea>
 
 <script>
-
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-		bender.ignore();
-	}
-
 	var data = [
 			{ id: 1, name: 'john', fullName: 'John Doe' },
 			{ id: 2, name: 'thomas', fullName: 'Thomas Doe' },
@@ -19,7 +14,7 @@
 			{ id: 6, name: 'julia', fullName: 'Julia Doe' }
 		];
 
-	CKEDITOR.replace( 'editor', {
+	var editor = CKEDITOR.replace( 'editor', {
 		width: 600,
 		mentions: [
 			{
@@ -56,6 +51,8 @@
 			}
 		}
 	} );
+
+	bender.tools.ignoreUnsupportedEnvironment( 'mentions', editor );
 
 	function dataCallback( opts, callback ) {
 		setTimeout( function() {

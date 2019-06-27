@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'ka', {
 	headersColumn: 'პირველი სვეტი',
 	headersNone: 'არაფერი',
 	headersRow: 'პირველი სტრიქონი',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'ჩარჩოს ზომა რიცხვით უდნა იყოს წარმოდგენილი.',
 	invalidCellPadding: 'უჯრის კიდე (padding) რიცხვით უნდა იყოს წარმოდგენილი.',
 	invalidCellSpacing: 'უჯრის სივრცე (spacing) რიცხვით უნდა იყოს წარმოდგენილი.',

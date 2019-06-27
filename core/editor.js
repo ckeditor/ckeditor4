@@ -112,7 +112,7 @@
 		 *	* **ready**: The editor is fully initialized and ready &mdash; see the {@link CKEDITOR.editor#instanceReady} event.
 		 *	* **destroyed**: The editor was destroyed &mdash; see the {@link CKEDITOR.editor#method-destroy} method.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @readonly
 		 * @property {String}
 		 */
@@ -338,7 +338,7 @@
 		 * Indicates the read-only state of this editor. This is a read-only property.
 		 * See also {@link CKEDITOR.editor#setReadOnly}.
 		 *
-		 * @since 3.6
+		 * @since 3.6.0
 		 * @readonly
 		 * @property {Boolean}
 		 */
@@ -454,7 +454,7 @@
 			 * **Note:** Please do not confuse this property with {@link CKEDITOR.editor#name editor.name}
 			 * which identifies the instance in the {@link CKEDITOR#instances} literal.
 			 *
-			 * @since 4.2
+			 * @since 4.2.0
 			 * @readonly
 			 * @property {String/Boolean}
 			 */
@@ -900,7 +900,7 @@
 			}
 
 			// Destroy filters attached to the editor (#1722).
-			CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( filters ), function( id ) {
+			CKEDITOR.tools.array.forEach( CKEDITOR.tools.object.keys( filters ), function( id ) {
 				var filter = filters[ id ];
 				if ( self === filter.editor ) {
 					filter.destroy();
@@ -1154,7 +1154,7 @@
 		 *
 		 * **Note:** The current editing area will be reloaded.
 		 *
-		 * @since 3.6
+		 * @since 3.6.0
 		 * @param {Boolean} [isReadOnly] Indicates that the editor must go
 		 * read-only (`true`, default) or be restored and made editable (`false`).
 		 */
@@ -1215,7 +1215,7 @@
 		 * in the {@link #event-insertText} event's listener with a default priority (10) so you can add listeners with
 		 * lower or higher priorities in order to execute some code before or after the text is inserted.
 		 *
-		 * @since 3.5
+		 * @since 3.5.0
 		 * @param {String} text Text to be inserted into the editor.
 		 */
 		insertText: function( text ) {
@@ -1257,7 +1257,7 @@
 		 * * the {@link #extractSelectedHtml} method,
 		 * * the {@link CKEDITOR.editable#getHtmlFromRange} method.
 		 *
-		 * @since 4.5
+		 * @since 4.5.0
 		 * @param {Boolean} [toString] If `true`, then stringified HTML will be returned.
 		 * @returns {CKEDITOR.dom.documentFragment/String}
 		 */
@@ -1285,7 +1285,7 @@
 		 * * the {@link #getSelectedHtml} method,
 		 * * the {@link CKEDITOR.editable#extractHtmlFromRange} method.
 		 *
-		 * @since 4.5
+		 * @since 4.5.0
 		 * @param {Boolean} [toString] If `true`, then stringified HTML will be returned.
 		 * @param {Boolean} [removeEmptyBlock=false] Default `false` means that the function will keep an empty block (if the
 		 * entire content was removed) or it will create it (if a block element was removed) and set the selection in that block.
@@ -1396,7 +1396,7 @@
 		 *
 		 * You can then set new keystrokes using this method during the runtime.
 		 *
-		 * @since 4.0
+		 * @since 4.0.0
 		 * @param {Number/Array} keystroke A keystroke or an array of keystroke definitions.
 		 * @param {String/Boolean} [behavior] A command to be executed on the keystroke.
 		 */
@@ -1464,7 +1464,7 @@
 		/**
 		 * Shorthand for {@link CKEDITOR.filter#addFeature}.
 		 *
-		 * @since 4.1
+		 * @since 4.1.0
 		 * @param {CKEDITOR.feature} feature See {@link CKEDITOR.filter#addFeature}.
 		 * @returns {Boolean} See {@link CKEDITOR.filter#addFeature}.
 		 */
@@ -1483,7 +1483,7 @@
 		 * Setting a new filter will also change the {@link #setActiveEnterMode active Enter modes} to the first values
 		 * allowed by the new filter (see {@link CKEDITOR.filter#getAllowedEnterMode}).
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {CKEDITOR.filter} filter Filter instance or a falsy value (e.g. `null`) to reset to the default one.
 		 */
 		setActiveFilter: function( filter ) {
@@ -1509,9 +1509,9 @@
 		 * Sets the active Enter modes: ({@link #enterMode} and {@link #shiftEnterMode}).
 		 * Fires the {@link #activeEnterModeChange} event.
 		 *
-		 * Prior to CKEditor 4.3 Enter modes were static and it was enough to check {@link CKEDITOR.config#enterMode}
+		 * Prior to CKEditor 4.3.0 Enter modes were static and it was enough to check {@link CKEDITOR.config#enterMode}
 		 * and {@link CKEDITOR.config#shiftEnterMode} when implementing a feature which should depend on the Enter modes.
-		 * Since CKEditor 4.3 these options are source of initial:
+		 * Since CKEditor 4.3.0 these options are source of initial:
 		 *
 		 * * static {@link #enterMode} and {@link #shiftEnterMode} values,
 		 * * dynamic {@link #activeEnterMode} and {@link #activeShiftEnterMode} values.
@@ -1534,7 +1534,7 @@
 		 * **Note:** Changing the {@link #activeFilter active filter} may cause the Enter mode to change if default Enter modes
 		 * are not allowed by the new filter.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {Number} enterMode One of {@link CKEDITOR#ENTER_P}, {@link CKEDITOR#ENTER_DIV}, {@link CKEDITOR#ENTER_BR}.
 		 * Pass falsy value (e.g. `null`) to reset the Enter mode to the default value ({@link #enterMode} and/or {@link #shiftEnterMode}).
 		 * @param {Number} shiftEnterMode See the `enterMode` argument.
@@ -1563,7 +1563,7 @@
 		 *
 		 * See {@link CKEDITOR.plugins.notification}.
 		 *
-		 * @since 4.5
+		 * @since 4.5.0
 		 * @member CKEDITOR.editor
 		 * @param {String} message The message displayed in the notification.
 		 * @param {String} [type='info'] The type of the notification. Can be `'info'`, `'warning'`, `'success'` or `'progress'`.
@@ -1578,6 +1578,45 @@
 			alert( message ); // jshint ignore:line
 		}
 	} );
+
+	/**
+	 * Gets the element from the DOM and checks if the editor can be instantiated on it.
+	 * This function is available for internal use only.
+	 *
+	 * @private
+	 * @since 4.12.0
+	 * @static
+	 * @param {String/CKEDITOR.dom.element} elementOrId
+	 * @member CKEDITOR.editor
+	 * @returns {CKEDITOR.dom.element/null}
+	 */
+	CKEDITOR.editor._getEditorElement = function( elementOrId ) {
+		if ( !CKEDITOR.env.isCompatible ) {
+			return null;
+		}
+
+		var element = CKEDITOR.dom.element.get( elementOrId );
+
+		// Throw error on missing target element.
+		if ( !element ) {
+			CKEDITOR.error( 'editor-incorrect-element', {
+				element: elementOrId
+			} );
+
+			return null;
+		}
+
+		// Avoid multiple inline editor instances on the same element.
+		if ( element.getEditor() ) {
+			CKEDITOR.error( 'editor-element-conflict', {
+				editorName: element.getEditor().name
+			} );
+
+			return null;
+		}
+
+		return element;
+	};
 } )();
 
 /**
@@ -1621,7 +1660,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  *		config.htmlEncodeOutput = true;
  *
- * @since 3.1
+ * @since 3.1.0
  * @cfg {Boolean} [htmlEncodeOutput=false]
  * @member CKEDITOR.config
  */
@@ -1630,12 +1669,12 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * If `true`, makes the editor start in read-only state. Otherwise, it will check
  * if the linked `<textarea>` element has the `disabled` attribute.
  *
- * Read more in the {@glink guide/dev_readonly documentation}
+ * Read more in the {@glink features/readonly documentation}
  * and see the {@glink examples/readonly example}.
  *
  *		config.readOnly = true;
  *
- * @since 3.6
+ * @since 3.6.0
  * @cfg {Boolean} [readOnly=false]
  * @member CKEDITOR.config
  * @see CKEDITOR.editor#setReadOnly
@@ -1688,7 +1727,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * * CKEDITOR.editor#name
  * * CKEDITOR.editor#title
  *
- * @since 4.2
+ * @since 4.2.0
  * @cfg {String/Boolean} [title=based on editor.name]
  * @member CKEDITOR.config
  */
@@ -1764,7 +1803,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * It points to a {@link CKEDITOR.filter} instance set up based on
  * editor configuration.
  *
- * @since 4.1
+ * @since 4.1.0
  * @readonly
  * @property {CKEDITOR.filter} filter
  */
@@ -1785,7 +1824,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * See also the {@link #setActiveEnterMode} method for an explanation of dynamic settings.
  *
- * @since 4.3
+ * @since 4.3.0
  * @readonly
  * @property {CKEDITOR.filter} activeFilter
  */
@@ -1795,7 +1834,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * Currently only one rule exists &mdash; {@link #blockless blockless editors} may have
  * Enter modes set only to {@link CKEDITOR#ENTER_BR}.
  *
- * @since 4.3
+ * @since 4.3.0
  * @readonly
  * @property {Number} enterMode
  */
@@ -1803,7 +1842,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 /**
  * See the {@link #enterMode} property.
  *
- * @since 4.3
+ * @since 4.3.0
  * @readonly
  * @property {Number} shiftEnterMode
  */
@@ -1814,7 +1853,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * See also the {@link #setActiveEnterMode} method for an explanation of dynamic settings.
  *
- * @since 4.3
+ * @since 4.3.0
  * @readonly
  * @property {Number} activeEnterMode
  */
@@ -1822,7 +1861,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 /**
  * See the {@link #activeEnterMode} property.
  *
- * @since 4.3
+ * @since 4.3.0
  * @readonly
  * @property {Number} activeShiftEnterMode
  */
@@ -1830,7 +1869,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 /**
  * Event fired by the {@link #setActiveFilter} method when the {@link #activeFilter} is changed.
  *
- * @since 4.3
+ * @since 4.3.0
  * @event activeFilterChange
  */
 
@@ -1838,7 +1877,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * Event fired by the {@link #setActiveEnterMode} method when any of the active Enter modes is changed.
  * See also the {@link #activeEnterMode} and {@link #activeShiftEnterMode} properties.
  *
- * @since 4.3
+ * @since 4.3.0
  * @event activeEnterModeChange
  */
 
@@ -1900,7 +1939,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * by the `stylesheetparser` plugin. Thus, to be notified when all
  * styles are ready, you can listen on this event.
  *
- * @since 4.1
+ * @since 4.1.0
  * @event stylesSet
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param {Array} styles An array of styles definitions.
@@ -2076,7 +2115,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * Event fired after data insertion using the {@link #method-insertHtml}, {@link CKEDITOR.editable#insertHtml},
  * or {@link CKEDITOR.editable#insertHtmlIntoRange} methods.
  *
- * @since 4.5
+ * @since 4.5.0
  * @event afterInsertHtml
  * @param data
  * @param {CKEDITOR.dom.range} [data.intoRange] If set, the HTML was not inserted into the current selection, but into
@@ -2087,7 +2126,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 /**
  * Event fired after the {@link #property-readOnly} property changes.
  *
- * @since 3.6
+ * @since 3.6.0
  * @event readOnly
  * @param {CKEDITOR.editor} editor This editor instance.
  */
@@ -2154,7 +2193,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * This event is useful when it is important to keep track of references
  * to elements in the editable content from code.
  *
- * @since 4.3
+ * @since 4.3.0
  * @event contentDomInvalidated
  * @param {CKEDITOR.editor} editor This editor instance.
  */

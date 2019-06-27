@@ -15,7 +15,7 @@
 	 * @private
 	 * @extends CKEDITOR.ui.balloonPanel
 	 * @constructor Creates a balloon toolbar view instance.
-	 * @since 4.8
+	 * @since 4.8.0
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
 	 * @param {Object} definition An object containing the toolbar definition. See {@link CKEDITOR.ui.balloonPanel}
 	 * documentation for an example definition.
@@ -68,7 +68,7 @@
 	 *
 	 * @class
 	 * @constructor Creates a balloon toolbar instance.
-	 * @since 4.8
+	 * @since 4.8.0
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
 	 * @param {Object} definition An object containing the panel definition. See {@link CKEDITOR.ui.balloonPanel}
 	 * documentation for an example definition.
@@ -122,6 +122,16 @@
 	 */
 	CKEDITOR.ui.balloonToolbar.prototype.hide = function() {
 		this._view.hide();
+	};
+
+	/**
+	 * Repositions the balloon toolbar, pointing to the previously attached `element`.
+	 *
+	 * @since 4.12.0
+	 * @member CKEDITOR.ui.balloonToolbar
+	 */
+	CKEDITOR.ui.balloonToolbar.prototype.reposition = function() {
+		this._view.reposition();
 	};
 
 	/**
@@ -205,7 +215,7 @@
 	 *
 	 * @class CKEDITOR.plugins.balloontoolbar.context
 	 * @constructor Creates a balloon toolbar context instance.
-	 * @since 4.8
+	 * @since 4.8.0
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
 	 * @param {CKEDITOR.plugins.balloontoolbar.contextDefinition} options A set of options defining the context behavior.
 	 */
@@ -374,7 +384,7 @@
 	 *
 	 * @class CKEDITOR.plugins.balloontoolbar.contextManager
 	 * @constructor
-	 * @since 4.8
+	 * @since 4.8.0
 	 * @param {CKEDITOR.editor} editor The editor instance which the toolbar is created for.
 	 */
 	function ContextManager( editor ) {
@@ -604,6 +614,10 @@
 	CKEDITOR.plugins.add( 'balloontoolbar', {
 		requires: 'balloonpanel',
 
+		isSupportedEnvironment: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
+		},
+
 		beforeInit: function( editor ) {
 			if ( !cssLoaded ) {
 				// Load fallback styles.
@@ -629,7 +643,7 @@
 			 *			cssSelector: 'a[href], img'
 			 *		} );
 			 *
-			 * @since 4.8
+			 * @since 4.8.0
 			 * @readonly
 			 * @property {CKEDITOR.plugins.balloontoolbar.contextManager} balloonToolbars
 			 * @member CKEDITOR.editor
@@ -665,9 +679,7 @@
 				this._detachListeners();
 
 				function attachListener() {
-					this.attach( this._pointedElement, {
-						focusElement: false
-					} );
+					this.reposition();
 				}
 
 				this._listeners.push( this.editor.on( 'change', attachListener, this ) );
@@ -676,6 +688,17 @@
 				this._listeners.push( editable.attachListener( editable.getDocument(), 'scroll', attachListener, this ) );
 
 				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
+			};
+
+			/**
+			 * @inheritdoc CKEDITOR.ui.balloonToolbar#reposition
+			 * @since 4.12.0
+			 * @member CKEDITOR.ui.balloonToolbarView
+			 */
+			CKEDITOR.ui.balloonToolbarView.prototype.reposition = function() {
+				if ( this.rect.visible ) {
+					this.attach( this._pointedElement, { focusElement: false } );
+				}
 			};
 
 			CKEDITOR.ui.balloonToolbarView.prototype.hide = function() {
@@ -735,7 +758,7 @@
 			 */
 			CKEDITOR.ui.balloonToolbarView.prototype.renderItems = function( items ) {
 				var output = [],
-					keys = CKEDITOR.tools.objectKeys( items ),
+					keys = CKEDITOR.tools.object.keys( items ),
 					groupStarted = false;
 
 				// When we rerender toolbar we want to clear focusable in case of removing some items.

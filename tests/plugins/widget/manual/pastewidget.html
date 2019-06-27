@@ -1,0 +1,22 @@
+<div id="editor">
+	<figure class="image">
+		<img src="%BASE_PATH%_assets/logo.png" alt="CKSource">
+		<figcaption>Paste here</figcaption>
+	</figure>
+</div>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		on: {
+			selectionChange: function() {
+				for ( var key in this.widgets.instances ) {
+					this.widgets.instances[ key ].editables.caption.getData();
+				}
+			}
+		}
+	} );
+</script>

@@ -13,9 +13,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'autocomplete' );
 		},
 
 		'test preventDefault is called on mousedown': function() {

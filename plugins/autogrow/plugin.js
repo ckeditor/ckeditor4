@@ -165,12 +165,12 @@
  * The minimum height that the editor can assume when adjusting to content by using the Auto Grow
  * feature. This option accepts a value in pixels, without the unit (for example: `300`).
  *
- * Read more in the {@glink guide/dev_autogrow documentation}
+ * Read more in the {@glink features/autogrow documentation}
  * and see the {@glink examples/autogrow example}.
  *
  *		config.autoGrow_minHeight = 300;
  *
- * @since 3.4
+ * @since 3.4.0
  * @cfg {Number} [autoGrow_minHeight=200]
  * @member CKEDITOR.config
  */
@@ -180,12 +180,12 @@
  * feature. This option accepts a value in pixels, without the unit (for example: `600`).
  * Zero (`0`) means that the maximum height is not limited and the editor will expand infinitely.
  *
- * Read more in the {@glink guide/dev_autogrow documentation}
+ * Read more in the {@glink features/autogrow documentation}
  * and see the {@glink examples/autogrow example}.
  *
  *		config.autoGrow_maxHeight = 400;
  *
- * @since 3.4
+ * @since 3.4.0
  * @cfg {Number} [autoGrow_maxHeight=0]
  * @member CKEDITOR.config
  */
@@ -194,7 +194,7 @@
  * Whether automatic editor height adjustment brought by the Auto Grow feature should happen on
  * editor creation.
  *
- * Read more in the {@glink guide/dev_autogrow documentation}
+ * Read more in the {@glink features/autogrow documentation}
  * and see the {@glink examples/autogrow example}.
  *
  *		config.autoGrow_onStartup = true;
@@ -209,7 +209,7 @@
  * editor height to content by using the Auto Grow feature. This option accepts a value in pixels,
  * without the unit (for example: `50`).
  *
- * Read more in the {@glink guide/dev_autogrow documentation}
+ * Read more in the {@glink features/autogrow documentation}
  * and see the {@glink examples/autogrow example}.
  *
  *		config.autoGrow_bottomSpace = 50;

@@ -33,7 +33,7 @@
 
 
 			// Storing items from panel in another variable, because calling destroy() on panel will remove all item references.
-			items = CKEDITOR.tools.array.map( CKEDITOR.tools.objectKeys( panel._items ), function( key ) {
+			items = CKEDITOR.tools.array.map( CKEDITOR.tools.object.keys( panel._items ), function( key ) {
 				return panel._items[ key ];
 			} );
 

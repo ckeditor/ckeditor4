@@ -21,14 +21,11 @@
 
 </textarea>
 <script>
-	CKEDITOR.replace( 'editor', {
-		extraPlugins: 'image2',
-		on: {
-			pluginsLoaded: function() {
-				if ( !CKEDITOR.plugins.tableselection.isSupportedEnvironment ) {
-					bender.ignore();
-				}
-			}
-		}
-	} );
+	if ( bender.tools.env.mobile ) {
+	    bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+	
+	CKEDITOR.replace( 'editor', { extraPlugins: 'image2' } );
 </script>

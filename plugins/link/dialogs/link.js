@@ -1061,7 +1061,7 @@
  *		// href="javascript:mt('tester','ckeditor.com','subject','body')"
  *		config.emailProtection = 'mt(NAME,DOMAIN,SUBJECT,BODY)';
  *
- * @since 3.1
+ * @since 3.1.0
  * @cfg {String} [emailProtection='' (empty string = disabled)]
  * @member CKEDITOR.config
  */

@@ -10,7 +10,7 @@
 
 	CKEDITOR.plugins.add( 'autoembed', {
 		requires: 'autolink,undo',
-		lang: 'az,bg,ca,cs,da,de,de-ch,el,en,en-au,eo,es,es-mx,eu,fr,gl,hr,hu,it,ja,km,ko,ku,lv,mk,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'az,bg,ca,cs,da,de,de-ch,el,en,en-au,eo,es,es-mx,et,eu,fr,gl,hr,hu,it,ja,km,ko,ku,lt,lv,mk,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var currentId = 1,
 				embedCandidatePasted;
@@ -80,7 +80,7 @@
 		instance.loadContent( href, {
 			noNotifications: true,
 			callback: function() {
-					// DOM might be invalidated in the meantime, so find the anchor again.
+				// DOM might be invalidated in the meantime, so find the anchor again.
 				var anchor = editor.editable().findOne( 'a[data-cke-autoembed="' + id + '"]' );
 
 				// Anchor might be removed in the meantime.
@@ -152,7 +152,7 @@
 		 *
 		 * This method uses the value of the {@link CKEDITOR.config#autoEmbed_widget} option.
 		 *
-		 * @since 4.5
+		 * @since 4.5.0
 		 * @member CKEDITOR.plugins.autoEmbed
 		 * @param {CKEDITOR.editor} editor
 		 * @param {String} url The URL to be embedded.
@@ -208,10 +208,10 @@
 	 * **Note:** Plugin names are always lower case, while widget names are not, so widget names do not have to equal plugin names.
 	 * For example, there is the `embedsemantic` plugin and the `embedSemantic` widget.
 	 *
-	 * Read more in the [documentation](#!/guide/dev_media_embed-section-automatic-embedding-on-paste)
+	 * Read more in the {@glink features/media_embed#automatic-embedding-on-paste documentation}
 	 * and see the {@glink examples/mediaembed example}.
 	 *
-	 * @since 4.5
+	 * @since 4.5.0
 	 * @cfg {String/Function} [autoEmbed_widget='embed,embedSemantic']
 	 * @member CKEDITOR.config
 	 */

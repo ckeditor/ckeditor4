@@ -2574,7 +2574,7 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * See also: {@link #moveToElementEditablePosition}.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @param {CKEDITOR.dom.element} [element] The starting element. If not specified, the current range
 		 * position will be used.
 		 * @param {Boolean} [isMoveForward] Whether move to the end of editable. Otherwise, look back.
@@ -2710,7 +2710,7 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * Note: use this method on a collapsed range.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @returns {CKEDITOR.dom.element/CKEDITOR.dom.text}
 		 */
 		getNextEditableNode: getNextEditableNode(),
@@ -2718,7 +2718,7 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * See {@link #getNextEditableNode}.
 		 *
-		 * @since 4.3
+		 * @since 4.3.0
 		 * @returns {CKEDITOR.dom.element/CKEDITOR.dom.text}
 		 */
 		getPreviousEditableNode: getNextEditableNode( 1 ),
@@ -2729,7 +2729,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * table, but it cannot be two different tables on the same DOM level).
 		 *
 		 * @private
-		 * @since 4.7
+		 * @since 4.7.0
 		 * @param {Object} [tableElements] Mapping of element names that should be considered.
 		 * @returns {CKEDITOR.dom.element/null}
 		 */
@@ -2923,7 +2923,7 @@ CKEDITOR.dom.range = function( root ) {
 				documentFragment = context.cloneContents();
 
 				// Find all widget elements.
-				widgetElements = CKEDITOR.dom.document.prototype.find.call( documentFragment, '[data-cke-widget-id]' ).toArray();
+				widgetElements = documentFragment.find( '[data-cke-widget-id]' ).toArray();
 				widgetElements = CKEDITOR.tools.array.map( widgetElements, function( item ) {
 					var editor = context.root.editor,
 						id = item.getAttribute( 'data-cke-widget-id' );

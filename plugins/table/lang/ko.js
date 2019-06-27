@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'ko', {
 	headersColumn: '첫 열',
 	headersNone: '없음',
 	headersRow: '첫 행',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: '테두리 두께는 숫자여야 합니다.',
 	invalidCellPadding: '셀 여백은 0 이상이어야 합니다.',
 	invalidCellSpacing: '셀 간격은 0 이상이어야 합니다.',

@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'fa', {
 	headersColumn: 'اولین ستون',
 	headersNone: 'هیچ',
 	headersRow: 'اولین ردیف',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'مقدار اندازه خطوط باید یک عدد باشد.',
 	invalidCellPadding: 'بالشتک سلول باید یک عدد باشد.',
 	invalidCellSpacing: 'مقدار فاصلهگذاری سلول باید یک عدد باشد.',

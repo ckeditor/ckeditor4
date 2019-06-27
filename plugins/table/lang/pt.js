@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 	headersColumn: 'Primeira coluna',
 	headersNone: 'Nenhum',
 	headersRow: 'Primeira linha',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'O tamanho da margem tem de ser um número.',
 	invalidCellPadding: 'A criação do espaço na célula deve ser um número positivo.',
 	invalidCellSpacing: 'O espaçamento da célula deve ser um número positivo.',

@@ -23,10 +23,12 @@
 		if ( ranges.length === 0 ) {
 			return false;
 		}
+
 		// It's not table selection when selected node is a widget (#1027).
 		if ( isWidget( ranges[ 0 ].getEnclosedNode() ) ) {
 			return false;
 		}
+
 		var node,
 			i;
 
@@ -2018,8 +2020,9 @@
 
 			// Handle special case - fake selection of table cells.
 			if ( editor && editor.plugins.tableselection &&
-				CKEDITOR.plugins.tableselection.isSupportedEnvironment &&
-				isTableSelection( ranges ) && !isSelectingTable
+				editor.plugins.tableselection.isSupportedEnvironment() &&
+				isTableSelection( ranges ) && !isSelectingTable &&
+				!ranges[ 0 ]._getTableElement( { table: 1 } ).hasAttribute( 'data-cke-tableselection-ignored' )
 			) {
 				performFakeTableSelection.call( this, ranges );
 				return;
@@ -2470,7 +2473,7 @@
  * Selection's revision. This value is incremented every time new
  * selection is created or existing one is modified.
  *
- * @since 4.3
+ * @since 4.3.0
  * @readonly
  * @property {Number} rev
  */

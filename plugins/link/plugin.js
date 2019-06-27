@@ -449,7 +449,7 @@
 		 * **Note:** Data model format produced by the parser must be compatible with the Link
 		 * plugin dialog because it is passed directly to {@link CKEDITOR.dialog#setupContent}.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.dom.element} element
 		 * @returns {Object} An object of link data.
@@ -587,7 +587,7 @@
 		 * of attributes to be set (with their values) and an array of attributes to be removed.
 		 * This method can be used to compose or to update any link element with the given data.
 		 *
-		 * @since 4.4
+		 * @since 4.4.0
 		 * @param {CKEDITOR.editor} editor
 		 * @param {Object} data Data in {@link #parseLinkAttributes} format.
 		 * @returns {Object} An object consisting of two keys, i.e.:
@@ -742,7 +742,7 @@
 
 			return {
 				set: set,
-				removed: CKEDITOR.tools.objectKeys( removed )
+				removed: CKEDITOR.tools.object.keys( removed )
 			};
 		},
 

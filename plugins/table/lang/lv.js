@@ -50,6 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'lv', {
 	headersColumn: 'Pirmā kolona',
 	headersNone: 'Nekas',
 	headersRow: 'Pirmā rinda',
+	heightUnit: 'height unit', // MISSING
 	invalidBorder: 'Rāmju izmēram jābūt skaitlim',
 	invalidCellPadding: 'Šūnu atkāpēm jābūt pozitīvam skaitlim',
 	invalidCellSpacing: 'Šūnu atstarpēm jābūt pozitīvam skaitlim',
