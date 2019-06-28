@@ -101,6 +101,11 @@
 
 				},
 				'div': function( element ) {
+					// Don't allow to delete page break element (#3220).
+					if ( editor.plugins.pagebreak && element.attributes[ 'data-cke-pagebreak' ] ) {
+						return element;
+					}
+
 					Style.createStyleStack( element, filter, editor );
 				},
 				'img': function( element ) {
