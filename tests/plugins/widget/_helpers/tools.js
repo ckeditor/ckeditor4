@@ -18,6 +18,7 @@ var widgetTestsTools = ( function() {
 	//
 	// @param config.newData
 	// @param config.newWidgetPattern
+	// @param {Boolean/function} [config.ignoreStyle=false]
 	function addTests( tcs, config ) {
 		var editor,
 			editorBot,
@@ -32,7 +33,10 @@ var widgetTestsTools = ( function() {
 					loaded: function( evt ) {
 						editor = evt.editor;
 
-						initialData = fixHtml( editor.getData(), config.ignoreStyle );
+						var ignoreStyle = config.ignoreStyle;
+						ignoreStyle = typeof ignoreStyle === 'function' ? ignoreStyle( this ) : ignoreStyle;
+
+						initialData = fixHtml( editor.getData(), ignoreStyle );
 
 						editor.dataProcessor.writer.sortAttributes = true;
 					},
