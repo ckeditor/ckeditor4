@@ -169,7 +169,7 @@
 			[ 'info', 'equation', '2 + 2 = 4' ]
 		],
 		newWidgetPattern: /<span class="math-tex">\\\(2 \+ 2 = 4\\\)<\/span>/,
-		ignoreStyle: ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ? true : false
+		ignoreStyle: isSupportedEnvironment
 	} );
 
 	tools.addTests( tcs, {
@@ -188,7 +188,7 @@
 			[ 'info', 'equation', '2 + 2 = 4' ]
 		],
 		newWidgetPattern: /<span class="mjx">\\\(2 \+ 2 = 4\\\)<\/span>/,
-		ignoreStyle: ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ? true : false
+		ignoreStyle: isSupportedEnvironment
 	} );
 
 	tools.addTests( tcs, {
@@ -204,8 +204,12 @@
 			[ 'info', 'equation', '2 + 2 = 4' ]
 		],
 		newWidgetPattern: /<span class="math-tex">\\\(2 \+ 2 = 4\\\)<\/span>/,
-		ignoreStyle: ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ? true : false
+		ignoreStyle: isSupportedEnvironment
 	} );
 
 	bender.test( tcs );
+
+	function isSupportedEnvironment( editor ) {
+		return !editor.plugins.mathjax.isSupportedEnvironment();
+	}
 } )();
