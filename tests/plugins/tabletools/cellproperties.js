@@ -139,19 +139,17 @@
 		),
 
 		// (#2423)
-		'test dialog model': function() {
-			var editor = this.editor;
-			this.doTest( 'table-12', function( dialog ) {
-				var cells = editor.editable().find( 'td' ).toArray(),
-					model = dialog.getModel( editor );
+		'test dialog model': doTest( 'table-16', function( dialog ) {
+			var editor = dialog.getParentEditor(),
+				cells = CKEDITOR.plugins.tabletools.getSelectedCells( editor.getSelection() ),
+				model = dialog.getModel( editor );
 
-				for ( var i = 0; i < cells.length; i++ ) {
-					assert.areEqual( cells[ i ], model[ i ], 'Cells at index "' + i + '" should be equal' );
-				}
+			for ( var i = 0; i < cells.length; i++ ) {
+				assert.areEqual( cells[ i ], model[ i ], 'Cells at index "' + i + '" should be equal' );
+			}
 
-				assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ), 'Dialog is in editing mode.' );
-			} );
-		},
+			assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ), 'Dialog is in editing mode.' );
+		} ),
 
 		// https://dev.ckeditor.com/ticket/16893
 		'test allowedContent rule': function() {
