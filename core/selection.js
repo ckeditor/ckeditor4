@@ -1384,6 +1384,7 @@
 		if ( nativeSel ) {
 			if ( nativeSel.getRangeAt ) {
 				range = nativeSel.rangeCount && nativeSel.getRangeAt( 0 );
+				// Firefox throws an error here because it can't access ancestor (#2216).
 				try {
 					rangeParent = range && new CKEDITOR.dom.node( range.commonAncestorContainer );
 				} catch ( err ) {}
