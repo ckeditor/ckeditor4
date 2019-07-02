@@ -1384,7 +1384,9 @@
 		if ( nativeSel ) {
 			if ( nativeSel.getRangeAt ) {
 				range = nativeSel.rangeCount && nativeSel.getRangeAt( 0 );
-				rangeParent = range && new CKEDITOR.dom.node( range.commonAncestorContainer );
+				try {
+					rangeParent = range && new CKEDITOR.dom.node( range.commonAncestorContainer );
+				} catch ( err ) {}
 			}
 			// For old IEs.
 			else {
