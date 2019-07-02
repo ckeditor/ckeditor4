@@ -1203,8 +1203,9 @@
 		}
 
 		function setToolbarStates() {
-			if ( editor.mode != 'wysiwyg' )
+			if ( editor.mode != 'wysiwyg' ) {
 				return;
+			}
 
 			var pasteState = stateFromNamedCommand( 'paste' );
 
@@ -1229,9 +1230,8 @@
 			}
 
 			// Cut, copy - check if the selection is not empty.
-			var sel = editor.getSelection(),
-				ranges = sel.getRanges(),
-				selectionIsEmpty = sel.getType() == CKEDITOR.SELECTION_NONE || ( ranges.length == 1 && ranges[ 0 ].collapsed );
+			var ranges = selection.getRanges(),
+				selectionIsEmpty = selection.getType() == CKEDITOR.SELECTION_NONE || ( ranges.length == 1 && ranges[ 0 ].collapsed );
 
 			return selectionIsEmpty ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF;
 		}
