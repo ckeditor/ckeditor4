@@ -1,0 +1,14 @@
+<div>
+	<input type="number" value="3">
+	<textarea name="editor1" id="editor1" rows="10" cols="80"></textarea>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.gecko ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'divarea'
+	} );
+</script>
