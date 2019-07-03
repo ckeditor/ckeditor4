@@ -1897,8 +1897,9 @@
 		 * @todo
 		 */
 		unlock: function( restore ) {
-			if ( !this.isLocked )
+			if ( !this.isLocked ) {
 				return;
+			}
 
 			if ( restore ) {
 				var selectedElement = this.getSelectedElement(),
@@ -1909,23 +1910,39 @@
 			this.isLocked = 0;
 			this.reset();
 
-			if ( restore ) {
-				// Saved selection may be outdated (e.g. anchored in offline nodes).
-				// Avoid getting broken by such.
-				var common = selectedElement || ranges[ 0 ] && ranges[ 0 ].getCommonAncestor();
-				if ( !( common && common.getAscendant( 'body', 1 ) ) )
-					return;
-
-				if ( isTableSelection( ranges ) ) {
-					// Tables have it's own selection method.
-					performFakeTableSelection.call( this, ranges );
-				} else if ( faked )
-					this.fake( selectedElement );
-				else if ( selectedElement )
-					this.selectElement( selectedElement );
-				else
-					this.selectRanges( ranges );
+			if ( !restore ) {
+				return;
 			}
+
+			// Saved selection may be outdated (e.g. anchored in offline nodes).
+			// Avoid getting broken by such.
+			var common = selectedElement || ranges[ 0 ] && ranges[ 0 ].getCommonAncestor();
+
+			if ( !( common && common.getAscendant( 'body', 1 ) ) ) {
+				return;
+			}
+
+			var editor = this.root.editor;
+
+			// Use fake selection on tables only with tableselection plugin (#3136).
+			if ( editor.plugins.tableselection && isTableSelection( ranges ) ) {
+				// Tables have it's own selection method.
+				performFakeTableSelection.call( this, ranges );
+				return;
+			}
+
+			if ( faked ) {
+				this.fake( selectedElement );
+				return;
+			}
+
+			// When browser supports multi-range selection prioritize restoring ranges (#3136).
+			if ( selectedElement && ranges.length < 2 ) {
+				this.selectElement( selectedElement );
+				return;
+			}
+
+			this.selectRanges( ranges );
 		},
 
 		/**
