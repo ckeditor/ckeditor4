@@ -800,18 +800,25 @@
 			// Browsers could loose the selection once the editable lost focus,
 			// in such case we need to reproduce it by saving a locked selection
 			// and restoring it upon focus gain.
-			if ( CKEDITOR.env.ie || isInline ) {
+			// Firefox native selection is lost editor.focus is triggered by click (#3136).
+			if ( CKEDITOR.env.ie || CKEDITOR.env.gecko || isInline ) {
 				// For old IEs, we can retrieve the last correct DOM selection upon the "beforedeactivate" event.
 				// For the rest, a more frequent check is required for each selection change made.
-				if ( isMSSelection )
+				if ( isMSSelection ) {
 					editable.attachListener( editable, 'beforedeactivate', saveSel, null, null, -1 );
-				else
+				} else {
 					editable.attachListener( editor, 'selectionCheck', saveSel, null, null, -1 );
+				}
 
 				// Lock the selection and mark it to be restored.
 				// On Webkit&Gecko (#1113) we use focusout which is fired more often than blur. I.e. it will also be
 				// fired when nested editable is blurred.
 				editable.attachListener( editable, CKEDITOR.env.webkit || CKEDITOR.env.gecko ? 'focusout' : 'blur', function() {
+					// Ignore cases that doesn't produce issue in Firefox (#3136).
+					if ( CKEDITOR.env.gecko && !isInline && ( lastSel.isFake || lastSel.getRanges() < 2 ) ) {
+						return;
+					}
+
 					editor.lockSelection( lastSel );
 					restoreSel = 1;
 				}, null, null, -1 );
