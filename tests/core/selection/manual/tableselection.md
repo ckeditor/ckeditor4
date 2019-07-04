@@ -1,4 +1,4 @@
-@bender-tags: selection, 4.12.1, bug, 3136
+@bender-tags: selection, 4.12.2, bug, 3136
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, table, toolbar
 
