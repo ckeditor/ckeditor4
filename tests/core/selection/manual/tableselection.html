@@ -1,0 +1,73 @@
+<h2>Classic Editor</h2>
+<div id="classic">
+	Hello world
+	<table border=1>
+		<tr>
+			<td>foo</td>
+			<td>foo</td>
+			<td>foo</td>
+		</tr>
+		<tr>
+			<td>bar</td>
+			<td>bar</td>
+			<td>bar</td>
+		</tr>
+	</table>
+</div>
+
+<h2>Divarea Editor</h2>
+<div id="divarea">
+	Hello world
+	<table border=1>
+		<tr>
+			<td>foo</td>
+			<td>foo</td>
+			<td>foo</td>
+		</tr>
+		<tr>
+			<td>bar</td>
+			<td>bar</td>
+			<td>bar</td>
+		</tr>
+	</table>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.gecko ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.plugins.add( 'testplugin', {
+		requires: 'balloontoolbar',
+		icons: 'foo',
+		init: function( editor ) {
+			editor.addCommand( 'foo', {
+				exec: function() {}
+			} );
+
+			editor.ui.addButton( 'foo', {
+				label: 'foo',
+				command: 'foo',
+				toolbar: 'none,99'
+			} );
+
+		},
+
+		afterInit: function( editor ) {
+			editor.balloonToolbars.create( {
+				buttons: 'foo',
+				cssSelector: 'table'
+			} );
+		}
+	} );
+
+	CKEDITOR.replace( 'classic', {
+		extraPlugins: 'testplugin',
+		removePlugins: 'tableselection'
+	} );
+
+	CKEDITOR.replace( 'divarea', {
+		extraPlugins: 'testplugin,divarea',
+		removePlugins: 'tableselection'
+	} );
+</script>
