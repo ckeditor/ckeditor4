@@ -67,7 +67,7 @@
 
 	CKEDITOR.plugins.add( 'pastetools', {
 		requires: 'clipboard',
-		init: function( editor ) {
+		beforeInit: function( editor ) {
 			editor.pasteTools = new PasteTools();
 
 			editor.pasteTools.addPasteListener( editor );

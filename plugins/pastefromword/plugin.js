@@ -7,7 +7,7 @@
 	/* global confirm */
 
 	CKEDITOR.plugins.add( 'pastefromword', {
-		requires: 'clipboard',
+		requires: 'pastetools',
 		// jscs:disable maximumLineLength
 		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
@@ -59,43 +59,40 @@
 			// (e.g. from a Microsoft Word similar application.)
 			// 3. Listen with high priority (3), so clean up is done before content
 			// type sniffing (priority = 6).
-			editor.on( 'paste', function( evt ) {
-				var data = evt.data,
-					dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
-						data.dataTransfer.getData( 'text/html', true ) : null,
-					// Required in Paste from Word Image plugin (#662).
-					dataTransferRtf = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
-						data.dataTransfer.getData( 'text/rtf' ) : null,
-					// Some commands fire paste event without setting dataTransfer property. In such case
-					// dataValue should be used.
-					mswordHtml = dataTransferHtml || data.dataValue,
-					pfwEvtData = { dataValue: mswordHtml, dataTransfer: { 'text/rtf': dataTransferRtf } },
-					officeMetaRegexp = /<meta\s*name=(?:\"|\')?generator(?:\"|\')?\s*content=(?:\"|\')?microsoft/gi,
-					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
-					isOfficeContent = officeMetaRegexp.test( mswordHtml ) || wordRegexp.test( mswordHtml );
+			editor.pasteTools.register( {
+				filters: [ CKEDITOR.getUrl( editor.config.pasteFromWordCleanupFile || ( path + 'filter/default.js' ) ) ],
 
-				if ( !mswordHtml || !( forceFromWord || isOfficeContent ) ) {
-					return;
-				}
+				canHandle: function( evt ) {
+					var data = evt.data,
+						mswordHtml = data.dataValue,
+						officeMetaRegexp = /<meta\s*name=(?:\"|\')?generator(?:\"|\')?\s*content=(?:\"|\')?microsoft/gi,
+						wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
+						isOfficeContent = officeMetaRegexp.test( mswordHtml ) || wordRegexp.test( mswordHtml );
 
-				// PFW might still get prevented, if it's not forced.
-				if ( editor.fire( 'pasteFromWord', pfwEvtData ) === false && !forceFromWord ) {
-					return;
-				}
+					return mswordHtml && ( forceFromWord || isOfficeContent );
+				},
 
-				// Do not apply paste filter to data filtered by the Word filter (https://dev.ckeditor.com/ticket/13093).
-				data.dontFilter = true;
+				handle: function( evt ) {
+					var data = evt.data,
+						dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
+							data.dataTransfer.getData( 'text/html', true ) : null,
+						// Required in Paste from Word Image plugin (#662).
+						dataTransferRtf = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
+							data.dataTransfer.getData( 'text/rtf' ) : null,
+						// Some commands fire paste event without setting dataTransfer property. In such case
+						// dataValue should be used.
+						mswordHtml = dataTransferHtml || data.dataValue,
+						pfwEvtData = { dataValue: mswordHtml, dataTransfer: { 'text/rtf': dataTransferRtf } };
 
-				// If filter rules aren't loaded then cancel 'paste' event,
-				// load them and when they'll get loaded fire new paste event
-				// for which data will be filtered in second execution of
-				// this listener.
-				var isLazyLoad = loadFilterRules( editor, path, function() {
-					// Event continuation with the original data.
-					if ( isLazyLoad ) {
-						editor.fire( 'paste', data );
-					} else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) {
+					// PFW might still get prevented, if it's not forced.
+					if ( editor.fire( 'pasteFromWord', pfwEvtData ) === false && !forceFromWord ) {
+						return;
+					}
 
+					// Do not apply paste filter to data filtered by the Word filter (https://dev.ckeditor.com/ticket/13093).
+					data.dontFilter = true;
+
+					if (  forceFromWord || confirmCleanUp() ) {
 						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor );
 
 						editor.fire( 'afterPasteFromWord', pfwEvtData );
@@ -114,12 +111,13 @@
 
 					// Reset forceFromWord.
 					forceFromWord = 0;
-				} );
 
-				// The cleanup rules are to be loaded, we should just cancel
-				// this event.
-				isLazyLoad && evt.cancel();
-			}, null, null, 3 );
+					function confirmCleanUp() {
+						return !editor.config.pasteFromWordPromptCleanup ||
+							confirm( editor.lang.pastefromword.confirmCleanup );
+					}
+				}
+			} );
 
 			// Paste From Word Image:
 			// RTF clipboard is required for embedding images.
@@ -171,21 +169,6 @@
 		}
 
 	} );
-
-	function loadFilterRules( editor, path, callback ) {
-		var isLoaded = CKEDITOR.cleanWord;
-
-		if ( isLoaded )
-			callback();
-		else {
-			var filterFilePath = CKEDITOR.getUrl( editor.config.pasteFromWordCleanupFile || ( path + 'filter/default.js' ) );
-
-			// Load with busy indicator.
-			CKEDITOR.scriptLoader.load( filterFilePath, callback, null, true );
-		}
-
-		return !isLoaded;
-	}
 } )();
 
 
