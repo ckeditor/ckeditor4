@@ -97,7 +97,7 @@
 				if ( data.linkText && initialLinkText != data.linkText ) {
 					// Display text has been changed.
 					newText = data.linkText;
-				} else if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
+				} else if ( href == textView || ( data.type == 'email' && href == 'mailto:' + initialLinkText ) ) {
 					// Update text view when user changes protocol (https://dev.ckeditor.com/ticket/4612).
 					// Short mailto link text view (https://dev.ckeditor.com/ticket/5736).
 					newText = data.type == 'email' ? data.email.address : attributes.set[ 'data-cke-saved-href' ];
