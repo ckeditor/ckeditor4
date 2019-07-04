@@ -77,9 +77,11 @@
 		function editLinksInSelection( editor, selectedElements, data ) {
 			var attributes = plugin.getLinkAttributes( editor, data ),
 				ranges = [],
+				isDisplayChanged,
+				isEmailEqualDisplay,
+				isURLEqualDisplay,
 				element,
 				href,
-				textView,
 				newText,
 				i;
 
@@ -87,15 +89,17 @@
 				// We're only editing an existing link, so just overwrite the attributes.
 				element = selectedElements[ i ];
 				href = element.data( 'cke-saved-href' );
-				textView = element.getHtml();
+				isDisplayChanged = data.linkText && initialLinkText != data.linkText;
+				isURLEqualDisplay = ( href == initialLinkText );
+				isEmailEqualDisplay = ( data.type == 'email' && href == 'mailto:' + initialLinkText );
 
 				element.setAttributes( attributes.set );
 				element.removeAttributes( attributes.removed );
 
-				if ( data.linkText && initialLinkText != data.linkText ) {
+				if ( isDisplayChanged ) {
 					// Display text has been changed.
 					newText = data.linkText;
-				} else if ( href == textView || ( data.type == 'email' && href == 'mailto:' + initialLinkText ) ) {
+				} else if ( isURLEqualDisplay || isEmailEqualDisplay ) {
 					// Update text view when user changes protocol (https://dev.ckeditor.com/ticket/4612).
 					// Short mailto link text view (https://dev.ckeditor.com/ticket/5736).
 					newText = data.type == 'email' ? data.email.address : attributes.set[ 'data-cke-saved-href' ];
@@ -199,8 +203,9 @@
 		};
 
 		var commitParams = function( page, data ) {
-			if ( !data[ page ] )
+			if ( !data[ page ] ) {
 				data[ page ] = {};
+			}
 
 			data[ page ][ this.id ] = this.getValue() || '';
 		};
