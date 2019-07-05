@@ -118,7 +118,7 @@
 			}
 			addWidgetButtons( editor );
 			setupContextMenu( editor );
-			setupUndoFilters( editor.undoManager );
+			setupUndoFilter( editor.undoManager );
 		}
 	} );
 
@@ -3101,7 +3101,7 @@
 		};
 	}
 
-	function setupUndoFilters( undoManager ) {
+	function setupUndoFilter( undoManager ) {
 		if ( !undoManager ) {
 			return;
 		}
