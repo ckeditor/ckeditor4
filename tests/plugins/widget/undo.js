@@ -448,6 +448,24 @@
 				assert.areSame( 0, objToArray( editor.widgets.instances ).length, '0 widgets after redo' );
 				assertCommands( editor, true, false, 'after redo' );
 			} );
+		},
+
+		// (#3245)
+		'test undo steps': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( widgetData1, function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				editor.resetUndo();
+				editor.fire( 'blur' );
+
+				widget.focus();
+
+				editor.fire( 'saveSnapshot' );
+
+				assert.areEqual( 2, editor.undoManager.snapshots.length, 'UndoManager should have one snapshot' );
+			} );
 		}
 	} );
 } )();
