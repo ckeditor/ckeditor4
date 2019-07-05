@@ -1071,7 +1071,6 @@
 			} );
 		},
 
-		// (#3247)
 		'test bind without context and without arguments': function() {
 			var testSpy = sinon.spy(),
 				bindedFn = CKEDITOR.tools.bind( testSpy );
@@ -1085,7 +1084,6 @@
 			assert.isTrue( testSpy.calledWithExactly( 'bar' ) );
 		},
 
-		// (#3247)
 		'text bind with context and without arguments': function() {
 			var testSpy = sinon.spy(),
 				testObj = {},
