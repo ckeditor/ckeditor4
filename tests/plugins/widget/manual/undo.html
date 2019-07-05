@@ -1,0 +1,19 @@
+<textarea id="editor">
+	<img src="../../../_assets/lena.jpg">
+</textarea>
+
+<p>Undo steps count: <span id="counter"></span></p>
+
+<script>
+	var counter = CKEDITOR.document.findOne( '#counter' ),
+		editor = CKEDITOR.replace( 'editor', {
+			height: 300,
+			on: {
+				instanceReady: function() {
+					setInterval( function() {
+						counter.setText( editor.undoManager.snapshots.length );
+					}, 50 );
+				}
+			}
+		} );
+</script>
