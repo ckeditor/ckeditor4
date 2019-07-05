@@ -188,6 +188,45 @@
 
 	CKEDITOR.plugins.undo = {};
 
+	var UndoFilter = CKEDITOR.tools.createClass( {
+		/**
+		 * Filter class which stores and applies rules to filter Undo snapshot data.
+		 *
+		 * @since 4.12.2
+		 * @class
+		 * @constructor
+		 */
+		$: function() {
+			this.rules = [];
+		},
+
+		proto: {
+			/**
+			 * Adds new rule to filter.
+			 *
+			 * @since 4.12.2
+			 * @param {function} rule Callback function that returns filtered data..
+			 * @param {String} rule.data Data passed to callback.
+			 */
+			addRule: function( rule ) {
+				this.rules.push( rule );
+			},
+
+			/**
+			 * Filters given data with all saved rules.
+			 *
+			 * @since 4.12.2
+			 * @param data Data which is to be filtered.
+			 * @returns {String} Filtered data.
+			 */
+			filterData: function( data ) {
+				return CKEDITOR.tools.array.reduce( this.rules, function( currentData, rule ) {
+					return rule( currentData );
+				}, data );
+			}
+		}
+	} );
+
 	/**
 	 * Main logic for the Redo/Undo feature.
 	 *
@@ -243,6 +282,14 @@
 		 * @readonly
 		 */
 		this.strokesLimit = 25;
+
+		/**
+		 * {@link CKEDITOR.plugins.undo.UndoManager.filter} instance.
+		 *
+		 * @since 4.12.2
+		 * @property
+		 */
+		this.filter = new UndoFilter();
 
 		this.editor = editor;
 
@@ -791,7 +838,7 @@
 			if ( CKEDITOR.env.ie && contents )
 				contents = contents.replace( /\s+data-cke-expando=".*?"/g, '' );
 
-			this.contents = contents;
+			this.contents = editor.undoManager.filter.filterData( contents );
 
 			if ( !contentsOnly ) {
 				var selection = contents && editor.getSelection();
