@@ -1069,6 +1069,68 @@
 			CKEDITOR.tools.array.forEach( conversionArray, function( item ) {
 				assert.areSame( item.output, CKEDITOR.tools.convertToPx( item.input ), 'Value ' + item.input + ' should be converted to ' + item.output );
 			} );
+		},
+
+		// (#3247)
+		'test bind without context and without arguments': function() {
+			var testSpy = sinon.spy(),
+				bindedFn = CKEDITOR.tools.bind( testSpy );
+
+			bindedFn( 'foo' );
+			assert.areSame( 1, testSpy.callCount );
+			assert.isTrue( testSpy.calledWithExactly( 'foo' ) );
+
+			bindedFn( 'bar' );
+			assert.areSame( 2, testSpy.callCount );
+			assert.isTrue( testSpy.calledWithExactly( 'bar' ) );
+		},
+
+		// (#3247)
+		'text bind with context and without arguments': function() {
+			var testSpy = sinon.spy(),
+				testObj = {},
+				bindedFn = CKEDITOR.tools.bind( testSpy, testObj );
+
+			bindedFn( 'foo' );
+			assert.areSame( 1, testSpy.callCount );
+			assert.areSame( testObj, testSpy.getCall( 0 ).thisValue );
+			assert.isTrue( testSpy.calledWithExactly( 'foo' ) );
+
+			bindedFn( 'bar' );
+			assert.areSame( 2, testSpy.callCount );
+			assert.areSame( testObj, testSpy.getCall( 1 ).thisValue );
+			assert.isTrue( testSpy.calledWithExactly( 'bar' ) );
+		},
+
+		// (#3247)
+		'test bind without context and with arguments': function() {
+			var testSpy = sinon.spy(),
+				bindedFn = CKEDITOR.tools.bind( testSpy, null, 'baz', 100 );
+
+			bindedFn( 'foo' );
+			assert.areSame( 1, testSpy.callCount );
+			assert.isTrue( testSpy.calledWithExactly( 'baz', 100, 'foo' ) );
+
+			bindedFn( 'bar' );
+			assert.areSame( 2, testSpy.callCount );
+			assert.isTrue( testSpy.calledWithExactly( 'baz', 100, 'bar' ) );
+		},
+
+		// (#3247)
+		'text bind with context and with arguments': function() {
+			var testSpy = sinon.spy(),
+				testObj = {},
+				bindedFn = CKEDITOR.tools.bind( testSpy, testObj, 'baz', 100 );
+
+			bindedFn( 'foo' );
+			assert.areSame( 1, testSpy.callCount );
+			assert.areSame( testObj, testSpy.getCall( 0 ).thisValue );
+			assert.isTrue( testSpy.calledWithExactly( 'baz', 100, 'foo' ) );
+
+			bindedFn( 'bar' );
+			assert.areSame( 2, testSpy.callCount );
+			assert.areSame( testObj, testSpy.getCall( 0 ).thisValue );
+			assert.isTrue( testSpy.calledWithExactly( 'baz', 100, 'bar' ) );
 		}
 	} );
 } )();
