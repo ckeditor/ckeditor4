@@ -118,6 +118,7 @@
 			}
 			addWidgetButtons( editor );
 			setupContextMenu( editor );
+			setupUndoFilters( editor.undoManager );
 		}
 	} );
 
@@ -3100,6 +3101,17 @@
 		};
 	}
 
+	function setupUndoFilters( undoManager ) {
+		if ( !undoManager ) {
+			return;
+		}
+
+		undoManager.filter.addRule( function( data ) {
+			return data.replace( /\s*cke_widget_selected/g, '' )
+				.replace( /\s*cke_widget_focused/g, '' )
+				.replace( /<span[^>]*cke_widget_drag_handler_container[^>]*.*?<\/span>/gmi, '' );
+		} );
+	}
 
 	//
 	// WIDGET helpers ---------------------------------------------------------
