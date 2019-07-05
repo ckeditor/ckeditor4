@@ -188,12 +188,18 @@
 
 	CKEDITOR.plugins.undo = {};
 
-	var UndoFilter = CKEDITOR.tools.createClass( {
+	/**
+	 * Filter class which stores and applies rules to filter Undo snapshot data.
+	 *
+	 * @class CKEDITOR.plugins.undo.UndoFilter
+	 * @since 4.12.2
+	 * @class
+	 */
+	var UndoFilter = CKEDITOR.plugins.undo.UndoFilter = CKEDITOR.tools.createClass( {
 		/**
-		 * Filter class which stores and applies rules to filter Undo snapshot data.
+		 * Creates UndoFilter instance.
 		 *
 		 * @since 4.12.2
-		 * @class
 		 * @constructor
 		 */
 		$: function() {
@@ -284,7 +290,7 @@
 		this.strokesLimit = 25;
 
 		/**
-		 * {@link CKEDITOR.plugins.undo.UndoManager.filter} instance.
+		 * {@link CKEDITOR.plugins.undo.UndoFilter} instance.
 		 *
 		 * @since 4.12.2
 		 * @property
