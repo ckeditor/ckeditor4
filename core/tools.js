@@ -717,7 +717,7 @@
 		 *
 		 * @param {Function} func The function to be executed.
 		 * @param {Object} obj The object to which the execution context will be bound.
-		 * @param {*} [args] Other arguments passed after object, will be bind to executed function.
+		 * @param {*} [args] Arguments provided to the bound function when invoking the target function. Available since 4.13.0.
 		 * @returns {Function} The function that can be used to execute the
 		 * `func` function in the context of `obj`.
 		 */
