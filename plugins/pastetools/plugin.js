@@ -44,7 +44,9 @@
 		} );
 
 	function loadFilters( filters, callback ) {
-		var toLoad;
+		var loaded = 0,
+			toLoad,
+			i;
 
 		if ( !CKEDITOR.tools.array.isArray( filters ) || filters.length === 0 ) {
 			return true;
@@ -55,11 +57,19 @@
 		} );
 
 		if ( toLoad.length > 0 ) {
-			CKEDITOR.scriptLoader.load( toLoad, function( loaded ) {
-				loadedFilters.push.apply( loadedFilters, loaded );
+			for ( i = 0; i < toLoad.length; i++ ) {
+				( function( current ) {
+					CKEDITOR.scriptLoader.queue( current, function( isLoaded ) {
+						if ( isLoaded ) {
+							loadedFilters.push( current );
+						}
 
-				callback();
-			} );
+						if ( ++loaded === toLoad.length ) {
+							callback();
+						}
+					} );
+				}( toLoad[ i ] ) );
+			}
 		}
 
 		return toLoad.length === 0;

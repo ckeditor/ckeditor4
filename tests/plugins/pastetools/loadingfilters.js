@@ -51,8 +51,13 @@
 								handle: handleStub
 							} );
 
+							// It should simulate unpredictable nature of async requests.
 							scriptLoaderStub = sinon.stub( CKEDITOR.scriptLoader, 'load', function( urls, callback ) {
-								callback( urls );
+								var randomTime = Math.floor( Math.random() * 10 ) + 1;
+
+								setTimeout( function() {
+									callback( urls );
+								}, randomTime );
 							} );
 						}
 					}
@@ -62,28 +67,38 @@
 
 				editor.on( 'paste', eventsSpy, null, null, 2 );
 				editor.on( 'paste', function() {
-					var expectedOrder = [ handleStub ];
+					resume( function() {
+						var expectedOrder = [ handleStub ],
+							i;
 
-					if ( loaded.length > 0 ) {
-						expectedOrder.unshift( scriptLoaderStub );
-					}
+						if ( loaded.length > 0 ) {
+							for ( i = 0; i < loaded.length; i++ ) {
+								expectedOrder.unshift( scriptLoaderStub );
+							}
+						}
 
-					scriptLoaderStub.restore();
+						scriptLoaderStub.restore();
 
-					try {
-						assert.isUndefined( sinon.assert.callOrder.apply( null, expectedOrder ) );
-					} catch ( e ) {
-						assert.fail( 'Correct functions order: ' + e.message );
-					}
-					assert.areSame( expectedEvents, eventsSpy.callCount, 'Correct amount of paste events' );
+						try {
+							assert.isUndefined( sinon.assert.callOrder.apply( null, expectedOrder ) );
+						} catch ( e ) {
+							assert.fail( 'Correct functions order: ' + e.message );
+						}
+						assert.areSame( expectedEvents, eventsSpy.callCount, 'Correct amount of paste events' );
 
-					if ( loaded.length > 0 ) {
-						assert.areSame( 1, scriptLoaderStub.callCount, 'Correct amount of script loading' );
-						assert.isTrue( scriptLoaderStub.calledWith( loaded ) );
-					}
+						if ( loaded.length > 0 ) {
+							assert.areSame( loaded.length, scriptLoaderStub.callCount, 'Correct amount of script loading' );
+
+							for ( i = 0; i < loaded.length; i++ ) {
+								assert.isTrue( scriptLoaderStub.getCall( i ).calledWith( loaded[ i ] ),
+									loaded[ i ] + ' was loaded as #' + i );
+							}
+						}
+					} );
 				}, null, null, 999 );
 
 				paste( editor, { dataValue: '<p>Test</p>' } );
+				wait();
 			} );
 		};
 	}
