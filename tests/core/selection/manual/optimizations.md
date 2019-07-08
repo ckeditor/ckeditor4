@@ -24,7 +24,7 @@
 
 ## Expected
 
-No red boarder is visible.
+No red border is visible.
 
 ## Unexpected
 
