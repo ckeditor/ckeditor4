@@ -16,8 +16,13 @@
 		init: function( editor ) {
 			// Flag indicate this command is actually been asked instead of a generic pasting.
 			var forceFromWord = 0,
+				pastetoolsPath = CKEDITOR.plugins.getPath( 'pastetools' ),
 				path = this.path,
-				configInlineImages = editor.config.pasteFromWord_inlineImages === undefined ? true : editor.config.pasteFromWord_inlineImages;
+				configInlineImages = editor.config.pasteFromWord_inlineImages === undefined ? true : editor.config.pasteFromWord_inlineImages,
+				defaultFilters = [
+					CKEDITOR.getUrl( pastetoolsPath + 'filter/common.js' ),
+					CKEDITOR.getUrl(  path + 'filter/default.js' )
+				];
 
 			editor.addCommand( 'pastefromword', {
 				// Snapshots are done manually by editable.insertXXX methods.
@@ -60,7 +65,8 @@
 			// 3. Listen with high priority (3), so clean up is done before content
 			// type sniffing (priority = 6).
 			editor.pasteTools.register( {
-				filters: [ CKEDITOR.getUrl( editor.config.pasteFromWordCleanupFile || ( path + 'filter/default.js' ) ) ],
+				filters: editor.config.pasteFromWordCleanupFile ? [ editor.config.pasteFromWordCleanupFile ] :
+					defaultFilters,
 
 				canHandle: function( evt ) {
 					var data = evt.data,

@@ -83,4 +83,55 @@
 			editor.pasteTools.addPasteListener( editor );
 		}
 	} );
+
+	/**
+	 * Set of pastetools helpers.
+	 *
+	 * @since 4.13.0
+	 */
+	CKEDITOR.plugins.pastetools = {
+		/**
+		 * Collection of available filters
+		 *
+		 * @var {Object[]}
+		 */
+		filters: {},
+
+		/**
+		 * Creates filter based on passed rules.
+		 *
+		 * @param options {Object}
+		 * @param options.rules {Function} Function returning filter's rules.
+		 * @param options.additionalTransforms {Function} Function transforming HTML before passing it to the filter.
+		 * @returns {Function} Function that wraps filter invocation.
+		 * @member CKEDITOR.plugins.pastetools
+		 */
+		createFilter: function( options ) {
+			var rules = CKEDITOR.tools.array.isArray( options.rules ) ? options.rules : [ options.rules ],
+				additionalTransforms = options.additionalTransforms;
+
+			return function( html, editor ) {
+				var writer = new CKEDITOR.htmlParser.basicWriter(),
+					filter = new CKEDITOR.htmlParser.filter(),
+					fragment;
+
+				if ( additionalTransforms ) {
+					html = additionalTransforms( html, editor );
+				}
+
+				CKEDITOR.tools.array.forEach( rules, function( rule ) {
+					filter.addRules( rule( html, editor, filter ) );
+				} );
+
+				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html );
+
+				filter.applyTo( fragment );
+				fragment.writeHtml( writer );
+
+				return writer.getHtml();
+			};
+		}
+	};
+
+	CKEDITOR.pasteFilters = {};
 } )();
