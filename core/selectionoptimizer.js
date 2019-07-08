@@ -41,7 +41,9 @@
 			return true;
 		}
 
-		return startsInText ^ range.endContainer.type === CKEDITOR.NODE_TEXT;
+		var endsInText = range.endContainer.type === CKEDITOR.NODE_TEXT;
+
+		return startsInText ^ endsInText;
 	}
 
 	// Prevent infinite recurrency when browser doesn't allow expected selection.
