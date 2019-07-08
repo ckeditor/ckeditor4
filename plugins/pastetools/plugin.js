@@ -43,38 +43,6 @@
 			}
 		} );
 
-	function loadFilters( filters, callback ) {
-		var loaded = 0,
-			toLoad,
-			i;
-
-		if ( !CKEDITOR.tools.array.isArray( filters ) || filters.length === 0 ) {
-			return true;
-		}
-
-		toLoad = CKEDITOR.tools.array.filter( filters, function( filter ) {
-			return CKEDITOR.tools.array.indexOf( loadedFilters, filter ) === -1;
-		} );
-
-		if ( toLoad.length > 0 ) {
-			for ( i = 0; i < toLoad.length; i++ ) {
-				( function( current ) {
-					CKEDITOR.scriptLoader.queue( current, function( isLoaded ) {
-						if ( isLoaded ) {
-							loadedFilters.push( current );
-						}
-
-						if ( ++loaded === toLoad.length ) {
-							callback();
-						}
-					} );
-				}( toLoad[ i ] ) );
-			}
-		}
-
-		return toLoad.length === 0;
-	}
-
 	CKEDITOR.plugins.add( 'pastetools', {
 		requires: 'clipboard',
 		beforeInit: function( editor ) {
@@ -96,6 +64,14 @@
 		 * @var {Object[]}
 		 */
 		filters: {},
+
+		/**
+		 * Load external scripts, containing filters' definitions, in given order.
+		 *
+		 * @param filters {String[]} Array of filters' URLs.
+		 * @param callback {Function} Callback that will be invoked after loading all scripts.
+		 */
+		loadFilters: loadFilters,
 
 		/**
 		 * Creates filter based on passed rules.
@@ -132,6 +108,38 @@
 			};
 		}
 	};
+
+	function loadFilters( filters, callback ) {
+		var loaded = 0,
+			toLoad,
+			i;
+
+		if ( !CKEDITOR.tools.array.isArray( filters ) || filters.length === 0 ) {
+			return true;
+		}
+
+		toLoad = CKEDITOR.tools.array.filter( filters, function( filter ) {
+			return CKEDITOR.tools.array.indexOf( loadedFilters, filter ) === -1;
+		} );
+
+		if ( toLoad.length > 0 ) {
+			for ( i = 0; i < toLoad.length; i++ ) {
+				( function( current ) {
+					CKEDITOR.scriptLoader.queue( current, function( isLoaded ) {
+						if ( isLoaded ) {
+							loadedFilters.push( current );
+						}
+
+						if ( ++loaded === toLoad.length ) {
+							callback();
+						}
+					} );
+				}( toLoad[ i ] ) );
+			}
+		}
+
+		return toLoad.length === 0;
+	}
 
 	CKEDITOR.pasteFilters = {};
 } )();
