@@ -2,21 +2,9 @@
 	var preventListener = true;
 
 	CKEDITOR.dom.selection.prototype.optimizeInElementEnds = function() {
-		if ( this.isFake ) {
-			return;
-		}
-
 		var range = this.getRanges()[ 0 ];
 
-		if ( range.isCollapsed ) {
-			return;
-		}
-
-		if ( range.startContainer.equals( range.endContainer ) ) {
-			return;
-		}
-
-		if ( !shouldOptimize( range ) ) {
+		if ( !shouldOptimize( range, this ) ) {
 			return;
 		}
 
@@ -35,7 +23,11 @@
 	// - range starts at the end of an element.
 	// - range ends at the beginning of an element.
 	// - one end of range is in text, and another is not.
-	function shouldOptimize( range ) {
+	function shouldOptimize( range, selection ) {
+		if ( selection.isFake || range.isCollapsed || range.startContainer.equals( range.endContainer ) ) {
+			return false;
+		}
+
 		if ( range.endOffset === 0 ) {
 			return true;
 		}
