@@ -169,9 +169,9 @@
 		this.on( 'mode', updateCommands );
 
 		this.on( 'selectionCheck', function( evt ) {
-			var selection = evt.data;
-
-			selection && selection.optimizeInElementEnds();
+			if ( evt.data ) {
+				evt.data.optimizeInElementEnds();
+			}
 		} );
 
 		// Handle startup focus.
