@@ -58,6 +58,6 @@ var manualPlayground = {
 };
 
 function logEvent( evt ) {
-	// `console` may be unavailable on older IEs when console closed.
+	// `console` may be unavailable on older IEs when browser dev tools closed.
 	console && console.log( evt );
 }
