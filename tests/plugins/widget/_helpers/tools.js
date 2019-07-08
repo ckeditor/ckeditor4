@@ -18,7 +18,7 @@ var widgetTestsTools = ( function() {
 	//
 	// @param config.newData
 	// @param config.newWidgetPattern
-	// @param {Boolean/function} [config.ignoreStyle=false]
+	// @param {Boolean/Function} [config.ignoreStyle=false]
 	function addTests( tcs, config ) {
 		var editor,
 			editorBot,
