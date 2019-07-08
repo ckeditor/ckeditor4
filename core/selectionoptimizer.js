@@ -1,4 +1,6 @@
 ( function() {
+	var preventListener = true;
+
 	CKEDITOR.dom.selection.prototype.optimizeInElementEnds = function() {
 		if ( this.isFake ) {
 			return;
@@ -20,9 +22,13 @@
 
 		range.shrink( CKEDITOR.SHRINK_TEXT );
 
+		preventListener = false;
+
 		preventRecurrency( this.root.editor, range );
 
 		range.select();
+
+		preventListener = true;
 	};
 
 	// Returns whether any condition is met:
@@ -49,6 +55,10 @@
 	// Prevent infinite recurrency when browser doesn't allow expected selection.
 	function preventRecurrency( editor, range ) {
 		editor.once( 'selectionCheck', function( evt ) {
+			if ( preventListener ) {
+				return;
+			}
+
 			var newRange = evt.data.getRanges()[ 0 ];
 
 			if ( !CKEDITOR.tools.objectCompare( newRange, range ) ) {
