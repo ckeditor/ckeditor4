@@ -34,7 +34,7 @@ var widgetTestsTools = ( function() {
 						editor = evt.editor;
 
 						var ignoreStyle = config.ignoreStyle;
-						ignoreStyle = typeof ignoreStyle === 'function' ? ignoreStyle( this ) : ignoreStyle;
+						ignoreStyle = typeof ignoreStyle === 'function' ? ignoreStyle( editor ) : ignoreStyle;
 
 						initialData = fixHtml( editor.getData(), ignoreStyle );
 
