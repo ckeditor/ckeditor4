@@ -168,6 +168,7 @@
 		} );
 		this.on( 'mode', updateCommands );
 
+		// (#3175)
 		this.on( 'selectionCheck', function( evt ) {
 			if ( evt.data ) {
 				evt.data.optimizeInElementEnds();
