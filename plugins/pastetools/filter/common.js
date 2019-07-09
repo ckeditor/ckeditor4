@@ -708,6 +708,30 @@
 		}
 	};
 
+	/**
+	 * Namespace containing all the helper functions to work with elements.
+	 *
+	 * @private
+	 * @since 4.11.0
+	 * @member CKEDITOR.plugins.uberpaste
+	 */
+	plug.elements = {
+		/**
+		 * Replaces element with its children.
+		 *
+		 * This function is customized to work inside filters.
+		 *
+		 * @private
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @member CKEDITOR.plugins.uberpaste.elements
+		 */
+		replaceWithChildren: function( element ) {
+			for ( var i = element.children.length - 1; i >= 0; i-- ) {
+				element.children[ i ].insertAfter( element );
+			}
+		}
+	};
+
 	plug.createAttributeStack = createAttributeStack;
 
 	plug.parseShorthandMargins = parseShorthandMargins;
