@@ -211,7 +211,7 @@
 			 * Adds new rule to filter.
 			 *
 			 * @since 4.12.2
-			 * @param {function} rule Callback function that returns filtered data.
+			 * @param {Function} rule Callback function that returns filtered data.
 			 * @param {String} rule.data Data passed to callback.
 			 */
 			addRule: function( rule ) {
