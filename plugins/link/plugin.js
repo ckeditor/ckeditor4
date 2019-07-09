@@ -218,7 +218,7 @@
 
 	// Loads the parameters in a selected link to the link dialog fields.
 	var javascriptProtocolRegex = /^javascript:/,
-		emailRegex = /^mailto:(.+)(?:\?(.+))?$/,
+		emailRegex = /^(?:mailto)(?:(?!\?(subject|body)=).)+/i,
 		emailSubjectRegex = /subject=([^;?:@&=$,\/]*)/i,
 		emailBodyRegex = /body=([^;?:@&=$,\/]*)/i,
 		anchorRegex = /^#(.*)$/,
@@ -528,7 +528,7 @@
 						email = ( retval.email = {} );
 
 					retval.type = 'email';
-					email.address = emailMatch[ 1 ];
+					email.address = emailMatch[ 0 ].replace( 'mailto:', '' );
 					subjectMatch && ( email.subject = decodeURIComponent( subjectMatch[ 1 ] ) );
 					bodyMatch && ( email.body = decodeURIComponent( bodyMatch[ 1 ] ) );
 				}
