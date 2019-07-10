@@ -62,7 +62,7 @@
 				'.cke_widget_drag_handler_container:hover{' +
 					'opacity:1' +
 				'}' +
-				'.cke_editable[contenteditable="false"] .cke_widget_drag_handler_container{' + // Hide drag handler in read only mode (#808).
+				'.cke_editable[contenteditable="false"] .cke_widget_drag_handler_container{' + // Hide drag handler in read only mode (#3260).
 					'display:none;' +
 				'}' +
 				'img.cke_widget_drag_handler{' +
