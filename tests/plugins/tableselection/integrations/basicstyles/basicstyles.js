@@ -1,7 +1,5 @@
 /* bender-tags: editor, tableselection */
 /* bender-ckeditor-plugins: basicstyles,tabletools,toolbar,tableselection */
-/* bender-include: ../../_helpers/tableselection.js */
-/* global tableSelectionHelpers */
 
 ( function() {
 	'use strict';
@@ -9,6 +7,10 @@
 	bender.editor = {};
 
 	var tests = {
+		setUp: function() {
+			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+		},
+
 		// (#941)
 		'test toggle style': function() {
 			var editor = this.editor;
@@ -32,8 +34,6 @@
 			assert.areEqual( CKEDITOR.NODE_TEXT, cell.getFirst().type, 'Cell should be unbolded' );
 		}
 	};
-
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
 
 	bender.test( tests );
 
