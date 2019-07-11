@@ -3,5 +3,8 @@
 	if ( bender.tools.env.mobile ) {
 		bender.ignore();
 	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'autolink' );
+
 	CKEDITOR.replace( 'editor' );
 </script>
