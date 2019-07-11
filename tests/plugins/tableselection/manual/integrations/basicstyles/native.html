@@ -1,0 +1,48 @@
+<div id="editor1">
+	<p>Some text</p>
+
+	<table border="1">
+		<tr>
+			<td>Cell 1.1</td>
+			<td>Cell 1.2</td>
+			<td>Cell 1.3</td>
+			<td>Cell 1.4</td>
+		</tr>
+		<tr>
+			<td>Cell 2.1</td>
+			<td>Cell 2.2</td>
+			<td>Cell 2.3</td>
+			<td>Cell 2.4</td>
+		</tr>
+		<tr>
+			<td>Cell 3.1</td>
+			<td>Cell 3.2</td>
+			<td>Cell 3.3</td>
+			<td>Cell 3.4</td>
+		</tr>
+		<tr>
+			<td>Cell 4.1</td>
+			<td>Cell 4.2</td>
+			<td>Cell 4.3</td>
+			<td>Cell 4.4</td>
+		</tr>
+		<tr>
+			<td>Cell 5.1</td>
+			<td>Cell 5.2</td>
+			<td>Cell 5.3</td>
+			<td>Cell 5.4</td>
+		</tr>
+	</table>
+
+	<p>Some text</p>
+</div>
+
+<script>
+	if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		autoGrow_onStartup: true
+	} );
+</script>
