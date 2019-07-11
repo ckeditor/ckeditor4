@@ -2093,7 +2093,7 @@
 			 * @param {Mixed} [thisArg=undefined] A context object for `fn`.
 			 * @returns {Boolean} Information whether any element pass the test.
 			 * @member CKEDITOR.tools.array
-			 * @since 4.12.0
+			 * @since 4.13.0
 			 */
 			some: function( array, fn, thisArg ) {
 				// Empty arrays always return false.
