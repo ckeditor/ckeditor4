@@ -7,6 +7,7 @@ Fixed Issues:
 
 * [#808](https://github.com/ckeditor/ckeditor-dev/issues/808): Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) and other content disappear on drag and drop in [read-only mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_readonly.html).
 * [#3260](https://github.com/ckeditor/ckeditor-dev/issues/3260): Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) drag handler is visible in [read-only mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_readonly.html).
+* [#941](https://github.com/ckeditor/ckeditor-dev/issues/941): Fixed: Error is thrown after styling the text table cell selected using native selection when [Table Selection](https://ckeditor.com/cke4/addon/tableselection) is enabled.
 
 ## CKEditor 4.12.1
 
