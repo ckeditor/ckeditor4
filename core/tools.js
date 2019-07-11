@@ -2096,11 +2096,6 @@
 			 * @since 4.13.0
 			 */
 			some: function( array, fn, thisArg ) {
-				// Empty arrays always return false.
-				if ( array.length === 0 ) {
-					return false;
-				}
-
 				for ( var i = 0; i < array.length; i++ ) {
 					if ( fn.call( thisArg, array[ i ], i, array ) ) {
 						return true;
