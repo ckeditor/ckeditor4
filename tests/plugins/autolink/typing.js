@@ -52,9 +52,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( !CKEDITOR.plugins.registered.autolink.isSupportedEnvironment() ) {
-				assert.ignore();
-			}
+			bender.tools.ignoreUnsupportedEnvironment( 'autolink' );
 		},
 
 		// (#1815)

@@ -24,5 +24,6 @@ input[type=text] { width: 450px }
 </textarea>
 
 <script>
-	ignoreUnsupportedEnvironment( CKEDITOR.replace( 'editor1' ) );
+	bender.tools.ignoreUnsupportedEnvironment( 'autolink' );
+	CKEDITOR.replace( 'editor1' );
 </script>
