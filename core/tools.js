@@ -1501,7 +1501,7 @@
 		 * console.log( CKEDITOR.tools.normalizeMouseButton( 0, true ) ); // Returns 1 in IE8, 0 in all other browsers.
 		 * ```
 		 *
-		 * @since 4.12.0
+		 * @since 4.13.0
 		 * @param {Number} button Mouse button identifier.
 		 * @param {Boolean} [reverse=false] If set to true, the conversion is reversed: values
 		 * returned by other browsers are converted to IE 8 values.
