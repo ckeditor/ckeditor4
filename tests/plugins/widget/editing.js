@@ -443,7 +443,6 @@
 			} );
 		},
 
-
 		// (#3261)
 		'test widget document': function() {
 			var editor = this.editor;
