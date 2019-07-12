@@ -453,7 +453,7 @@
 					dialog: 'foo',
 					template: '<b>foo</b>',
 					init: function() {
-						assert.areSame( editor.document.$, this.wrapper.getDocument().$ );
+						assert.isTrue( this.wrapper.getDocument().equals( editor.document ) );
 					}
 				} );
 
