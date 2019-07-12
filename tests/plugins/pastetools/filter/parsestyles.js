@@ -109,7 +109,7 @@
 
 	ptTools.ignoreTestsOnMobiles( tests );
 
-	CKEDITOR.plugins.pastetools.loadFilters( [
+	ptTools.loadFilters( [
 		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js' ),
 		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastefromword' ) + 'filter/default.js' )
 	], function() {
