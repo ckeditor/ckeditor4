@@ -11,7 +11,7 @@ Fixed Issues:
 
 API Changes:
 
-* [#3154](https://github.com/ckeditor/ckeditor-dev/issues/3154): Added the [`CKEDITOR.tools.array.some`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_array.html#method-some) function.
+* [#3154](https://github.com/ckeditor/ckeditor-dev/issues/3154): Added the [`CKEDITOR.tools.array.some()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_array.html#method-some) method.
 
 ## CKEditor 4.12.1
 

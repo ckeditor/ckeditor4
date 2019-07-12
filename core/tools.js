@@ -2055,7 +2055,7 @@
 			 * @param {Array} array
 			 * @param {Function} fn A function that gets called with each `array` item.
 			 * @param {Mixed} fn.value The currently iterated array value.
-			 * @param {Number} fn.index The index of the currently iterated value in an array.
+			 * @param {Number} fn.index The index of the currently iterated array value.
 			 * @param {Array} fn.array The original array passed as the `array` variable.
 			 * @param {Mixed} [thisArg=undefined] A context object for `fn`.
 			 * @returns {Boolean} Information whether all elements pass the test.
@@ -2074,7 +2074,7 @@
 			},
 
 			/**
-			 * Tests whether any element in an array pass the test implemented by the provided function.
+			 * Tests whether any element in an array passes the test implemented by the provided function.
 			 * Returns `false` if the provided array is empty.
 			 *
 			 * ```javascript
@@ -2088,10 +2088,10 @@
 			 * @param {Array} array
 			 * @param {Function} fn A function that gets called with each `array` item.
 			 * @param {Mixed} fn.value The currently iterated array value.
-			 * @param {Number} fn.index The index of the currently iterated value in an array.
+			 * @param {Number} fn.index The index of the currently iterated array value.
 			 * @param {Array} fn.array The original array passed as the `array` variable.
 			 * @param {Mixed} [thisArg=undefined] A context object for `fn`.
-			 * @returns {Boolean} Information whether any element pass the test.
+			 * @returns {Boolean} Information whether any element passes the test.
 			 * @member CKEDITOR.tools.array
 			 * @since 4.13.0
 			 */
