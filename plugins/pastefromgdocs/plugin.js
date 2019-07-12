@@ -18,7 +18,9 @@
 				],
 
 				canHandle: function( evt ) {
-					return evt.data.dataValue.match( /id=(\"|\')docs\-internal\-guid\-/ );
+					var detectGDocsRegex = /id=(\"|\')docs\-internal\-guid\-/;
+
+					return detectGDocsRegex.test( evt.data.dataValue );
 				},
 
 				handle: function( evt, next ) {
