@@ -78,7 +78,7 @@
 					return mswordHtml && ( forceFromWord || isOfficeContent );
 				},
 
-				handle: function( evt ) {
+				handle: function( evt, next ) {
 					var data = evt.data,
 						dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
 							data.dataTransfer.getData( 'text/html', true ) : null,
@@ -117,6 +117,8 @@
 
 					// Reset forceFromWord.
 					forceFromWord = 0;
+
+					next();
 
 					function confirmCleanUp() {
 						return !editor.config.pasteFromWordPromptCleanup ||

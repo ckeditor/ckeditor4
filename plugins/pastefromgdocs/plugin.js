@@ -21,7 +21,7 @@
 					return evt.data.dataValue.match( /id=(\"|\')docs\-internal\-guid\-/ );
 				},
 
-				handle: function( evt ) {
+				handle: function( evt, next ) {
 					var data = evt.data,
 						dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
 							data.dataTransfer.getData( 'text/html', true ) : null,
@@ -39,6 +39,8 @@
 						// by 'pastetext' plugin to 'text'. We need to restore 'html' type (#1013) and (#1638).
 						data.type = 'html';
 					}
+
+					next();
 				}
 			} );
 		}
