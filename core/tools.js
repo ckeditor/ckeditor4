@@ -2044,16 +2044,18 @@
 			 * Tests whether all elements in an array pass the test implemented by the provided function.
 			 * Returns `true` if the provided array is empty.
 			 *
-			 *		var every = this.array.every( [ 11, 22, 33, 44 ], function( value ) {
-			 *			return value > 10;
-			 *		} );
-			 *		console.log( every );
-			 *		// Logs: true
+			 * ```javascript
+			 * var every = CKEDITOR.tools.array.every( [ 11, 22, 33, 44 ], function( value ) {
+			 * 	return value > 10;
+			 * } );
+			 * console.log( every );
+			 * // Logs: true
+			 *```
 			 *
 			 * @param {Array} array
 			 * @param {Function} fn A function that gets called with each `array` item.
 			 * @param {Mixed} fn.value The currently iterated array value.
-			 * @param {Number} fn.index The index of the currently iterated value in an array.
+			 * @param {Number} fn.index The index of the currently iterated array value.
 			 * @param {Array} fn.array The original array passed as the `array` variable.
 			 * @param {Mixed} [thisArg=undefined] A context object for `fn`.
 			 * @returns {Boolean} Information whether all elements pass the test.
@@ -2069,6 +2071,38 @@
 				var ret = this.filter( array, fn, thisArg );
 
 				return array.length === ret.length;
+			},
+
+			/**
+			 * Tests whether any element in an array passes the test implemented by the provided function.
+			 * Returns `false` if the provided array is empty.
+			 *
+			 * ```javascript
+			 * var some = CKEDITOR.tools.array.some( [ 11, 2, 3, 4 ], function( value ) {
+			 * 	return value > 10;
+			 * } );
+			 * console.log( some );
+			 * // Logs: true
+			 * ```
+			 *
+			 * @param {Array} array
+			 * @param {Function} fn A function that gets called with each `array` item.
+			 * @param {Mixed} fn.value The currently iterated array value.
+			 * @param {Number} fn.index The index of the currently iterated array value.
+			 * @param {Array} fn.array The original array passed as the `array` variable.
+			 * @param {Mixed} [thisArg=undefined] A context object for `fn`.
+			 * @returns {Boolean} Information whether any element passes the test.
+			 * @member CKEDITOR.tools.array
+			 * @since 4.13.0
+			 */
+			some: function( array, fn, thisArg ) {
+				for ( var i = 0; i < array.length; i++ ) {
+					if ( fn.call( thisArg, array[ i ], i, array ) ) {
+						return true;
+					}
+				}
+
+				return false;
 			}
 		},
 
