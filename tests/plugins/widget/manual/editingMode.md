@@ -1,5 +1,5 @@
 @bender-include: ../../dialog/manual/_helpers/tools.js
-@bender-tags: widget, dialog, 4.12.0, 2423, feature
+@bender-tags: widget, dialog, 4.13.0, 2423, feature
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, placeholder
 

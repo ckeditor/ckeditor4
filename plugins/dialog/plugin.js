@@ -1543,7 +1543,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * For widget plugins (`image2`, `placeholder`) you should provide a {@link CKEDITOR.plugins.widget} instance that
 		 * is a subject of this dialog.
 		 *
-		 * @since 4.12.0
+		 * @since 4.13.0
 		 * @private
 		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} newModel Model to be set.
 		 */
@@ -1564,7 +1564,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 *
 		 * otherwise {@link CKEDITOR.dialog#CREATION_MODE creation mode}.
 		 *
-		 * @since 4.12.0
+		 * @since 4.13.0
 		 * @param {CKEDITOR.editor} editor
 		 * @returns {Number} Dialog mode.
 		 */
@@ -1595,7 +1595,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * newly created element as a part of a feature used with this dialog.
 		 *
 		 * @static
-		 * @since 4.12.0
+		 * @since 4.13.0
 		 */
 		CREATION_MODE: 1,
 
@@ -1604,7 +1604,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * existing element as a part of a feature used with this dialog.
 		 *
 		 * @static
-		 * @since 4.12.0
+		 * @since 4.13.0
 		 */
 		EDITING_MODE: 2,
 
@@ -3426,7 +3426,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @param {Function} callback The function to be invoked after dialog instance created.
 		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} forceModel Forces opening dialog
 		 * using the given model as a subject. Forced model will take precedence before
-		 * {@link CKEDITOR.dialog.definition#getModel} method.
+		 * {@link CKEDITOR.dialog.definition#getModel} method. Available since 4.13.0.
 		 * @returns {CKEDITOR.dialog} The dialog object corresponding to the dialog displayed.
 		 * `null` if the dialog name is not registered.
 		 * @see CKEDITOR.dialog#add
@@ -3596,7 +3596,7 @@ CKEDITOR.plugins.add( 'dialog', {
  * @param {CKEDITOR.dialog.definition} data.definition The dialog definition that
  * is being loaded.
  * @param {CKEDITOR.dialog} data.dialog Dialog instance that the definition is loaded
- * for. Introduced in **CKEditor 4.12.0**.
+ * for. Introduced in **CKEditor 4.13.0**.
  * @param {CKEDITOR.editor} editor The editor instance that will use the dialog.
  */
 
