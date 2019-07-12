@@ -13,26 +13,35 @@
 
 		'test basic loading filters': createLoaderTest( {
 			name: 'basic',
-			filters: [ 'test1', 'test2' ],
+			filters: [ [ 'test1', 'test2' ] ],
 			loaded: [ 'test1', 'test2' ]
 		} ),
 
 		'test loading one cached, one fresh': createLoaderTest( {
 			name: 'one-cached',
-			filters: [ 'test2', 'test3' ],
+			filters: [ [ 'test2', 'test3' ] ],
 			loaded: [ 'test3' ]
 		} ),
 
 		'test loading all cached': createLoaderTest( {
 			name: 'all-cached',
-			filters: [ 'test1', 'test2', 'test3' ]
+			filters: [ [ 'test1', 'test2', 'test3' ] ]
+		} ),
+
+		'test loading multiple handlers': createLoaderTest( {
+			name: 'multiple',
+			loaded: [ 'test4', 'test5', 'test6' ],
+			filters: [ [ 'test4', 'test5' ], [ 'test5', 'test6' ] ]
 		} )
 	} );
 
 	function createLoaderTest( options ) {
 		return function() {
 			var loaded = options.loaded || [],
-				handleStub = sinon.spy(),
+				// Please, forgive me this ugly hack.
+				handleStub = sinon.stub( { a: function() {} }, 'a', function( evt, next ) {
+					next();
+				} ),
 				expectedEvents = loaded.length > 0 ? 2 : 1,
 				eventsSpy = sinon.spy(),
 				scriptLoaderStub;
@@ -42,13 +51,17 @@
 				config: {
 					on: {
 						pluginsLoaded: function( evt ) {
-							evt.editor.pasteTools.register( {
-								filters: options.filters,
-								canHandle: function() {
-									return true;
-								},
+							var editor = evt.editor;
 
-								handle: handleStub
+							CKEDITOR.tools.array.forEach( options.filters || [], function( filters ) {
+								editor.pasteTools.register( {
+									filters: filters,
+									canHandle: function() {
+										return true;
+									},
+
+									handle: handleStub
+								} );
 							} );
 
 							// It should simulate unpredictable nature of async requests.
@@ -68,12 +81,18 @@
 				editor.on( 'paste', eventsSpy, null, null, 2 );
 				editor.on( 'paste', function() {
 					resume( function() {
-						var expectedOrder = [ handleStub ],
+						var expectedOrder = [],
 							i;
 
 						if ( loaded.length > 0 ) {
 							for ( i = 0; i < loaded.length; i++ ) {
-								expectedOrder.unshift( scriptLoaderStub );
+								expectedOrder.push( scriptLoaderStub );
+							}
+						}
+
+						if ( options.filters && options.filters.length > 0 ) {
+							for ( i = 0; i < options.filters.length; i++ ) {
+								expectedOrder.push( handleStub );
 							}
 						}
 
