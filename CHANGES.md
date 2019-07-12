@@ -43,6 +43,10 @@ API Changes:
 * [#3247](https://github.com/ckeditor/ckeditor-dev/issues/3247): Extended [`CKEDITOR.tools.bind()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-bind) method to accept arguments for bound functions.
 * [#3326](https://github.com/ckeditor/ckeditor-dev/issues/3326): Added [`CKEDITOR.dom.text#isEmpty()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_text.html#method-isEmpty) method.
 
+API Changes:
+
+* [#2423](https://github.com/ckeditor/ckeditor-dev/issues/2423): Added the [`CKEDITOR.plugins.dialog.getModel`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#method-getModel) and [`CKEDITOR.plugins.dialog.getMode`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#method-getMode) methods with their [`CKEDITOR.plugin.definition`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_definition.html) counterparts allowing to get dialog subject of change.
+
 ## CKEditor 4.12.1
 
 Fixed Issues:
@@ -90,7 +94,6 @@ API Changes:
 * [#2924](https://github.com/ckeditor/ckeditor-dev/issues/2924): Added the [`CKEDITOR.tools.style.border`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_style_border.html) object wrapping CSS border style helpers under a single type.
 * [#2495](https://github.com/ckeditor/ckeditor-dev/issues/2495): The [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin can now be disabled for the given table with the `data-cke-tableselection-ignored` attribute.
 * [#2692](https://github.com/ckeditor/ckeditor-dev/issues/2692): Plugins can now expose information about the supported environment by implementing the [`pluginDefinition.isSupportedEnvironment()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_pluginDefinition.html#method-isSupportedEnvironment) method.
-* [#2423](https://github.com/ckeditor/ckeditor-dev/issues/2423): Added the [`CKEDITOR.plugins.dialog.getModel`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#method-getModel) and [`CKEDITOR.plugins.dialog.getMode`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog.html#method-getMode) methods with their [`CKEDITOR.plugin.definition`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_definition.html) counterparts allowing to get dialog subject of change.
 
 Other Changes:
 
