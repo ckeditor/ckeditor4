@@ -16,20 +16,26 @@
 
 			proto: {
 				register: function( definition ) {
+					if ( typeof definition.priority !== 'number' ) {
+						definition.priority = 10;
+					}
+
 					this.handlers.push( definition );
 				},
 
 				addPasteListener: function( editor ) {
 					editor.on( 'paste', function( evt ) {
-						var handler = CKEDITOR.tools.array.find( this.handlers, function( handler ) {
-							return handler.canHandle( evt );
-						} );
+						var handlers = getMatchingHandlers( this.handlers, evt ),
+							filters,
+							isLoaded;
 
-						if ( !handler ) {
+						if ( handlers.length === 0 ) {
 							return;
 						}
 
-						var isLoaded = loadFilters( handler.filters, function() {
+						filters = getFilters( handlers );
+
+						isLoaded = loadFilters( filters, function() {
 							return editor.fire( 'paste', evt.data );
 						} );
 
@@ -37,7 +43,7 @@
 							return evt.cancel();
 						}
 
-						handler.handle( evt );
+						handlePaste( handlers, evt );
 					}, this, null, 3 );
 				}
 			}
@@ -108,6 +114,45 @@
 			};
 		}
 	};
+
+	function getMatchingHandlers( handlers, evt ) {
+		return CKEDITOR.tools.array.filter( handlers, function( handler ) {
+			return handler.canHandle( evt );
+		} ).sort( function( handler1, handler2 ) {
+			if ( handler1.priority === handler2.priority ) {
+				return 0;
+			}
+
+			return handler1.priority > handler2.priority ? 1 : -1;
+		} );
+	}
+
+	function handlePaste( handlers, evt ) {
+		var handler = handlers.shift();
+
+		if ( !handler ) {
+			return;
+		}
+
+		handler.handle( evt, function() {
+			handlePaste( handlers, evt );
+		} );
+	}
+
+	// Join all filters in one big array and then filter out duplicates.
+	function getFilters( handlers ) {
+		var filters = CKEDITOR.tools.array.reduce( handlers, function( filters, handler ) {
+			if ( !CKEDITOR.tools.array.isArray( handler.filters ) ) {
+				return filters;
+			}
+
+			return filters.concat( handler.filters );
+		}, [] );
+
+		return CKEDITOR.tools.array.filter( filters, function( filter, i ) {
+			return CKEDITOR.tools.array.indexOf( filters, filter ) === i;
+		} );
+	}
 
 	function loadFilters( filters, callback ) {
 		var loaded = 0,
