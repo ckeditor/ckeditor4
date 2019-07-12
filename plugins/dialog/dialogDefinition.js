@@ -112,7 +112,7 @@
  * For widget plugins (`image2`, `placeholder`) it should return a {@link CKEDITOR.plugins.widget} instance that
  * is a subject of this dialog.
  *
- * @since 4.12.0
+ * @since 4.13.0
  * @method getModel
  * @param {CKEDITOR.editor} editor
  * @returns {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} Returns `null` if dialog does not use model.
@@ -123,7 +123,7 @@
  *
  * See {@link CKEDITOR.dialog#EDITING_MODE} and {@link CKEDITOR.dialog#CREATION_MODE}.
  *
- * @since 4.12.0
+ * @since 4.13.0
  * @method getMode
  * @param {CKEDITOR.editor} editor
  * @returns {Number} Dialog mode.
