@@ -98,16 +98,6 @@
 		rules: [
 			commonFilter.rules,
 			plug.rules
-		]/* ,
-		additionalTransforms: function( html ) {
-			// Before filtering inline all the styles to allow because some of them are available only in style
-			// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (https://dev.ckeditor.com/ticket/16847)
-			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
-				html = commonFilter.styles.inliner.inline( html ).getBody().getHtml();
-			}
-
-			// Sometimes Word malforms the comments.
-			return html.replace( /<!\[/g, '<!--[' ).replace( /\]>/g, ']-->' );
-		} */
+		]
 	} );
 } )();
