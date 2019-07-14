@@ -34,6 +34,11 @@
 			],
 
 			attributes: {
+				'id': function( value ) {
+					var gDocsIdRegex = /^docs\-internal\-guid\-/;
+
+					return !gDocsIdRegex.test( value );
+				},
 				'dir': function( value ) {
 					return value === 'ltr' ? false : value;
 				},
@@ -47,14 +52,6 @@
 			},
 
 			elements: {
-				'$': function( element ) {
-					// Some elements are wrapped with gdocs specific element. It can be safely replaced with children.
-					if ( element.attributes.id && element.attributes.id.match( /^docs\-internal\-guid\-/  ) ) {
-						commonFilter.elements.replaceWithChildren( element );
-						return false;
-					}
-				},
-
 				'span': function( element ) {
 					Style.createStyleStack( element, filter, editor, /vertical-align|white-space|font-variant/ );
 				},
