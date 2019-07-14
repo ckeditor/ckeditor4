@@ -1,10 +1,10 @@
 @bender-tags: feature, 4.13.0, 835, pastetools
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromgdocs, sourcearea, elementspath, basicstyles, format, link, image2, autolink, colorbutton, stylescombo, font, justify, pagebreak, list
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromgdocs, sourcearea, elementspath, basicstyles, format, link, image2, autolink, colorbutton, stylescombo, font, justify, pagebreak, list, tabletools, floatingspace
 
 Perform these steps for every editor:
 
-1. Copy some GDocs document.
+1. Copy some GDocs document ([sample one](https://docs.google.com/document/d/14AzrpfBqjAVDCpVAGdOusz2QE8rFR48-dgLMryFm024/edit?usp=sharing)).
 2. Paste it into the editor.
 
 ### Expected
