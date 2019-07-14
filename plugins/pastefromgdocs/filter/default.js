@@ -33,6 +33,10 @@
 				[ /^meta/, '' ]
 			],
 
+			comment: function() {
+				return false;
+			},
+
 			attributes: {
 				'id': function( value ) {
 					var gDocsIdRegex = /^docs\-internal\-guid\-/;
