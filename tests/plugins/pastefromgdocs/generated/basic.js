@@ -48,6 +48,33 @@
 			'Basic': true
 		},
 
+		customFilters: [
+			new CKEDITOR.htmlParser.filter( {
+				elements: {
+					br: function() {
+						return false;
+					},
+
+					p: function sortStyles( element ) {
+						if ( element.children.length === 0 || isBogus( element.children ) ) {
+							return false;
+						}
+
+						function isBogus( children ) {
+							var child = children[ 0 ],
+								emptySpaceRegex = /^(\s+|&nbsp;)$/;
+
+							if ( children.length > 1 ) {
+								return false;
+							}
+
+							return child.name === 'br' || emptySpaceRegex.test( child.value );
+						}
+					}
+				}
+			} )
+		],
+
 		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version < 11,
 		testData: {
 			_should: {
