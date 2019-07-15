@@ -254,7 +254,7 @@
 
 					if ( !definition.getModel && dialog.getName() === widgetDef.dialog ) {
 						definition.getModel = function( editor ) {
-							return editor.widgets.focused || editor.widgets.selected[ 0 ];
+							return getMatchingWidget( editor, widgetDef.name );
 						};
 					}
 
@@ -263,6 +263,32 @@
 			}
 
 			return widgetDef;
+
+			function getMatchingWidget( editor, name ) {
+				var widgets = editor.widgets,
+					focused = widgets.focused,
+					selected = widgets.selected,
+					created = widgets.instances,
+					i;
+
+				if ( focused && focused.name === name ) {
+					return focused;
+				}
+
+				for ( i = 0; i < selected.length; i++ ) {
+					if ( selected[ i ].name === name ) {
+						return selected[ i ];
+					}
+				}
+
+				for ( i in created ) {
+					if ( created[ i ].name === name && !created[ i ].ready ) {
+						return created[ i ];
+					}
+				}
+
+				return null;
+			}
 		},
 
 		/**
@@ -1245,7 +1271,7 @@
 					showListener.removeListener();
 					okListener.removeListener();
 				} );
-			} );
+			}, that );
 
 			return true;
 		},
