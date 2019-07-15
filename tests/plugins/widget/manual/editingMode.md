@@ -1,7 +1,7 @@
 @bender-include: ../../dialog/manual/_helpers/tools.js
 @bender-tags: widget, dialog, 4.13.0, 2423, feature
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, placeholder
+@bender-ckeditor-plugins: wysiwygarea, placeholder, image2
 
 1. Click `placeholder` widget button.
 2. Verify status above the editor.
