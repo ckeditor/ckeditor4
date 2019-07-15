@@ -252,6 +252,12 @@
 						};
 					}
 
+					if ( !definition.getModel && dialog.getName() === widgetDef.dialog ) {
+						definition.getModel = function( editor ) {
+							return editor.widgets.focused || editor.widgets.selected[ 0 ];
+						};
+					}
+
 					dialogListener.removeListener();
 				} );
 			}
@@ -1239,7 +1245,7 @@
 					showListener.removeListener();
 					okListener.removeListener();
 				} );
-			}, that );
+			} );
 
 			return true;
 		},
