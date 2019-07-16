@@ -87,8 +87,9 @@
 			CKEDITOR._.jsonpCallbacks = {};
 		},
 
-		init: function() {
+		init: function( editor ) {
 			CKEDITOR.dialog.add( 'embedBase', this.path + 'dialogs/embedbase.js' );
+			loadStyles( editor, this );
 		}
 	} );
 
@@ -649,4 +650,18 @@
 		_jsonp: Jsonp
 	};
 
+	var stylesLoaded;
+
+	function loadStyles( editor, plugin ) {
+		var localPath = 'styles/embedbase.css';
+
+		if ( !stylesLoaded ) {
+			CKEDITOR.document.appendStyleSheet( plugin.path + localPath );
+			stylesLoaded = true;
+		}
+
+		if ( editor.addContentsCss ) {
+			editor.addContentsCss( plugin.path + localPath );
+		}
+	}
 } )();
