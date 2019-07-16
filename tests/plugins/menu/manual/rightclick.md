@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 2858, 4.13.0, bug
-@bender-ckeditor-plugins: wysiwygarea, language, contextmenu, clipboard, toolbar
+@bender-ckeditor-plugins: wysiwygarea, language, contextmenu, clipboard, toolbar, sourcearea
 
 ## Procedure
 
