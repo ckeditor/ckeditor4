@@ -1489,17 +1489,28 @@
 		 * +--------------+--------------------------+----------------+
 		 * ```
 		 *
-		 * Therefore value returned by IE < 9 is converted to value present in other browsers,
-		 * unless second parameter is set to `true`. In such case the normalization is reversed.
-		 * Reversed normalization allows to use standard buttons value while writing code for IE < 9.
-		 *
 		 * The normalization is conducted only in browsers that use non-standard button mappings,
-		 * returning passed parameter in every other browser:
+		 * returning passed parameter in every other browser. Therefore values for IE < 9 are mapped
+		 * to values used in the rest of the browsers. For example the below code in IE8 will return results as follows:
 		 *
-		 * ```javascript
-		 * console.log( CKEDITOR.tools.normalizeMouseButton( 1 ) ); // Returns 0 in IE8, 1 in all other browsers.
-		 * console.log( CKEDITOR.tools.normalizeMouseButton( 0, true ) ); // Returns 1 in IE8, 0 in all other browsers.
+		 * ```js
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 1 ) ); // 0
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 4 ) ); // 1
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 2 ) ); // 2
 		 * ```
+		 *
+		 * While for the rest of the browsers it will simply return passed values.
+		 *
+		 * With the `reversed` parameter set to `true` values from the rest of the browsers
+		 * are mapped to IE < 9 values in IE < 9 browsers. This means IE8 will return results as follows:
+		 *
+		 * ```js
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 0, true ) ); // 1
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 1, true ) ); // 4
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 2, true ) ); // 2
+		 * ```
+		 *
+		 * While for the rest of the browsers it will simply return passed values.
 		 *
 		 * @since 4.13.0
 		 * @param {Number} button Mouse button identifier.
