@@ -213,6 +213,21 @@
 						evt.cancel();
 					}
 				}, this, null, 999 );
+
+				if ( !this.element.getAttribute( 'data-cke-get-response' ) ) {
+					return;
+				}
+
+				var url = this.element.data( 'oembed-url' );
+
+				if ( !url ) {
+					return;
+				}
+
+				// We need to send request, based on response widget might need to be updated (#2306).
+				this.loadContent( url, {
+					noNotifications: true
+				} );
 			},
 
 			/**
