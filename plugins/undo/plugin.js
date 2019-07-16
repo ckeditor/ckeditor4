@@ -189,51 +189,6 @@
 	CKEDITOR.plugins.undo = {};
 
 	/**
-	 * Filter class which stores and applies rules to filter Undo snapshot data.
-	 *
-	 * @class CKEDITOR.plugins.undo.UndoFilter
-	 * @since 4.12.2
-	 * @class
-	 */
-	var UndoFilter = CKEDITOR.plugins.undo.UndoFilter = CKEDITOR.tools.createClass( {
-		/**
-		 * Creates UndoFilter instance.
-		 *
-		 * @since 4.12.2
-		 * @constructor
-		 */
-		$: function() {
-			this.rules = [];
-		},
-
-		proto: {
-			/**
-			 * Adds new rule to filter.
-			 *
-			 * @since 4.12.2
-			 * @param {Function} rule Callback function that returns filtered data.
-			 * @param {String} rule.data Data passed to callback.
-			 */
-			addRule: function( rule ) {
-				this.rules.push( rule );
-			},
-
-			/**
-			 * Filters given data with all saved rules.
-			 *
-			 * @since 4.12.2
-			 * @param data Data which is to be filtered.
-			 * @returns {String} Filtered data.
-			 */
-			filterData: function( data ) {
-				return CKEDITOR.tools.array.reduce( this.rules, function( currentData, rule ) {
-					return rule( currentData );
-				}, data );
-			}
-		}
-	} );
-
-	/**
 	 * Main logic for the Redo/Undo feature.
 	 *
 	 * @private
@@ -289,18 +244,19 @@
 		 */
 		this.strokesLimit = 25;
 
-		/**
-		 * {@link CKEDITOR.plugins.undo.UndoFilter} instance.
-		 *
-		 * @since 4.12.2
-		 * @property
-		 */
-		this.filter = new UndoFilter();
-
 		this.editor = editor;
 
 		// Reset the undo stack.
 		this.reset();
+
+		/**
+		 * Array of filter rules.
+		 *
+		 * @since 4.13.0
+		 * @private
+		 * @property {Function[]}
+		 */
+		this._filterRules = [];
 	};
 
 	UndoManager.prototype = {
@@ -724,6 +680,17 @@
 					}
 				}
 			}
+		},
+
+		/**
+		 * Registers a filtering rule.
+		 *
+		 * @since 4.12.2
+		 * @param {Function} rule Callback function that returns filtered data.
+		 * @param {String} rule.data Data passed to callback.
+		 */
+		addFilterRule: function( rule ) {
+			this._filterRules.push( rule );
 		}
 	};
 
@@ -844,7 +811,7 @@
 			if ( CKEDITOR.env.ie && contents )
 				contents = contents.replace( /\s+data-cke-expando=".*?"/g, '' );
 
-			this.contents = editor.undoManager.filter.filterData( contents );
+			this.contents = applyRules( contents, editor.undoManager._filterRules );
 
 			if ( !contentsOnly ) {
 				var selection = contents && editor.getSelection();
@@ -856,6 +823,12 @@
 
 	// Attributes that browser may changing them when setting via innerHTML.
 	var protectedAttrs = /\b(?:href|src|name)="[^"]*?"/gi;
+
+	function applyRules( data, rules ) {
+		return CKEDITOR.tools.array.reduce( rules, function( currentData, rule ) {
+			return rule( currentData );
+		}, data );
+	}
 
 	Image.prototype = {
 		/**

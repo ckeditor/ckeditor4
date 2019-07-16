@@ -9,27 +9,32 @@
 	bender.test( {
 		// (#3245)
 		'test filter.addRule': function() {
-			var undoFilter = this.editor.undoManager.filter,
+			var undoManager = this.editor.undoManager,
 				rule = function() {};
 
-			undoFilter.addRule( rule );
+			undoManager.addFilterRule( rule );
 
-			assert.areSame( rule, undoFilter.rules.pop() );
+			assert.areSame( rule, undoManager._filterRules.pop() );
 		},
 		// (#3245)
 		'test filter.filterData': function() {
-			var undoFilter = this.editor.undoManager.filter,
+			var editor = this.editor,
+				undoManager = editor.undoManager,
 				data = 'foobarfoobazfoobar';
 
-			undoFilter.addRule( function( data ) {
+			undoManager.addFilterRule( function( data ) {
 				return data.replace( /foo/g, '' );
 			} );
 
-			undoFilter.addRule( function( data) {
+			undoManager.addFilterRule( function( data ) {
 				return data.replace( /bar/g, 'far' );
 			} );
 
-			var newData = undoFilter.filterData( data );
+			sinon.stub( editor, 'getSnapshot' ).returns( data );
+
+			var newData = new CKEDITOR.plugins.undo.Image( editor, true ).contents;
+
+			editor.getSnapshot.restore();
 
 			assert.areEqual( 'farbazfar', newData );
 		}
