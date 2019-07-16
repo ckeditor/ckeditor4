@@ -1519,15 +1519,15 @@
 		 * @returns {Number} Normalized mouse button identifier.
 		 */
 		normalizeMouseButton: function( button, reverse ) {
-			var mappings = [
-					[ CKEDITOR.MOUSE_BUTTON_LEFT, 1 ],
-					[ CKEDITOR.MOUSE_BUTTON_MIDDLE, 4 ],
-					[ CKEDITOR.MOUSE_BUTTON_RIGHT, 2 ]
-				];
-
 			if ( !CKEDITOR.env.ie || ( CKEDITOR.env.version >= 9 && !CKEDITOR.env.ie6Compat ) ) {
 				return button;
 			}
+
+			var mappings = [
+				[ CKEDITOR.MOUSE_BUTTON_LEFT, 1 ],
+				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, 4 ],
+				[ CKEDITOR.MOUSE_BUTTON_RIGHT, 2 ]
+			];
 
 			for ( var i = 0; i < mappings.length; i++ ) {
 				var mapping = mappings[ i ];
