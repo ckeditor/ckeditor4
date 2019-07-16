@@ -45,14 +45,40 @@
 				},
 
 				upcast: function( el, data ) {
-					if ( el.name == 'div' && el.attributes[ 'data-oembed-url' ] ) {
-						data.url = el.attributes[ 'data-oembed-url' ];
+					if ( el.name != 'div' || !el.attributes[ 'data-oembed-url' ] ) {
+						return;
+					}
 
+					data.url = el.attributes[ 'data-oembed-url' ];
+
+					var widetDef = editor.widgets.registered.embed,
+						cachedResponse = widetDef._getCachedResponse( data.url );
+
+					// We need response to create proper widget content. If it's not cached mark it, so we can get response later (#2306).
+					if ( !cachedResponse ) {
+						el.attributes[ 'data-cke-get-response' ] = 'true';
 						return true;
 					}
+
+					var content = widetDef._generateContent( cachedResponse );
+
+					if ( content ) {
+						el.setHtml( content );
+						// Mark that we need to restore response html on downcast (#2306).
+						el.attributes[ 'data-cke-restore-html' ] = 'true';
+					}
+
+					return true;
 				},
 
 				downcast: function( el ) {
+					// Restore html from response when content is recreated by us (#2306).
+					if ( el.attributes[ 'data-cke-restore-html' ] ) {
+						el.setHtml( this._getCachedResponse( this.data.url ).html );
+
+						delete el.attributes[ 'data-cke-restore-html' ];
+					}
+
 					el.attributes[ 'data-oembed-url' ] = this.data.url;
 				}
 			}, true );
