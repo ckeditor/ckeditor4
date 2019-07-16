@@ -430,7 +430,18 @@
 						request.task.done();
 					}
 
-					this._setContent( request.url, evtData.html );
+					// Try to recreate widget content when needed (#2306).
+					var content = this._generateContent( request.response );
+
+					if ( content ) {
+						// Mark that element html needs to be restored on downcast (#2306).
+						this.element.setAttribute( 'data-cke-restore-html', 'true' );
+					} else {
+						content = evtData.html;
+					}
+
+					this._setContent( request.url, content );
+
 					return true;
 				} else {
 					request.errorCallback( evtData.errorMessage );
