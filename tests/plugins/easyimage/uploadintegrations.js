@@ -258,8 +258,8 @@
 					files: [ bender.tools.getTestPngFile() ],
 					callback: function() {
 						var expected = CKEDITOR.document.getById( 'expected-progress-bar-downcast' ).getHtml(),
-							// In Edge 18 test callback is fired before image image width can be set.
-							// Remove it as it's irrelevant to this TC (#2057).
+							// In Edge 18 test callback is fired before image width can be set.
+							// Remove width attribute as it's irrelevant to this TC (#2057).
 							actual = editor.getData().replace( 'width="163"', '' );
 
 						assert.beautified.html( expected, actual );
