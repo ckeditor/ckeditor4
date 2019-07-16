@@ -1,0 +1,102 @@
+<style>
+	.container {
+		display: inline-block;
+		width:600px;
+		margin:10px;
+	}
+</style>
+<div class="container">
+	<textarea id="editor">
+		<div data-oembed-url="http://ckeditor.com">
+			<div class="iframely-embed">
+				<div class="iframely-responsive" style="padding-bottom: 52.4202%; padding-top: 120px;">
+					<a data-iframely-url="//if-cdn.com/fi35qP" href="https://ckeditor.com/">
+						CKEditor | Smart WYSIWYG HTML editor | Collaborative rich text editor
+					</a>
+				</div>
+			</div>
+			<script async="" charset="utf-8" src="//if-cdn.com/embed.js"></script>
+		</div>
+	</textarea>
+</div>
+
+<div class="container">
+	<strong style="font-size:16px">Widget preview:</strong>
+	<button id="request-preview">Get preview</button>
+	<div id="preview" style="height:560px"></div>
+</div>
+
+<script>
+	var preview = CKEDITOR.document.findOne( '#preview' );
+
+	CKEDITOR.document.findOne( '#request-preview' ).on( 'click', function() {
+		loadPreview( prompt( 'Enter url' ) );
+	} );
+
+	var editor = CKEDITOR.replace( 'editor', {
+		// Make them narrow so images don't take too much space.
+		embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
+		height: 560,
+		width: 600,
+		on: {
+			instanceReady: function() {
+				loadPreview( 'http://ckeditor.com' );
+			}
+		}
+	} );
+
+	function createIframe() {
+		var iframe = CKEDITOR.document.createElement( 'iframe' );
+
+		preview.setHtml( '' );
+		preview.append( iframe );
+
+		iframe.setStyles( {
+			width: '100%',
+			height: '100%',
+			border: 'none',
+			outline: 'none'
+		} );
+
+		// Firefox requirement to make iframe ready.
+		if ( CKEDITOR.env.gecko ) {
+			var doc = iframe.getFrameDocument();
+
+			doc.$.open();
+			doc.$.close();
+		}
+
+		return iframe.getFrameDocument().getBody();
+	}
+
+	function loadPreview( url ) {
+		var response = editor.widgets.registered.embed._getCachedResponse( url );
+
+		if ( response ) {
+			updatePreview( response );
+		} else {
+			url = encodeURIComponent( url );
+
+			CKEDITOR.plugins.embedBase._jsonp.sendRequest( new CKEDITOR.template( editor.config.embed_provider ), {
+				url: url
+			}, updatePreview );
+		}
+	}
+
+	function updatePreview( response ) {
+		var scriptUrl = /<script.*?src="(.*?)"/.exec( response.html );
+		scriptUrl = scriptUrl && scriptUrl[ 1 ];
+
+		var frameBody = createIframe();
+
+		frameBody.setHtml( response.html );
+
+		if ( scriptUrl ) {
+			var script = CKEDITOR.document.createElement( 'script' );
+
+			script.setAttribute( 'src', scriptUrl );
+
+			frameBody.append( script );
+		}
+	}
+</script>
