@@ -13,6 +13,8 @@
 
 	* Nothing happens.
 2. Repeat the same procedure for <kbd>Enter</kbd>.
+
+	Note: <kbd>Enter</kbd> does not work in Firefox on macOS – [#3271](https://github.com/ckeditor/ckeditor-dev/issues/3271).
 3. Repeat above steps also for Language button and Styles combo
 	### Expected
 
