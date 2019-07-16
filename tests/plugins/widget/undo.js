@@ -458,13 +458,14 @@
 				var widget = getWidgetById( editor, 'w1' );
 
 				editor.resetUndo();
+
 				editor.fire( 'blur' );
 
 				widget.focus();
 
 				editor.fire( 'saveSnapshot' );
 
-				assert.areEqual( 2, editor.undoManager.snapshots.length, 'UndoManager should have one snapshot' );
+				assert.isFalse( editor.undoManager.hasUndo, 'UndoManager.hasUndo' );
 			} );
 		}
 	} );
