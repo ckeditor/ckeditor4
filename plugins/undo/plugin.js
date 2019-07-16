@@ -257,6 +257,13 @@
 		 * @property {Function[]}
 		 */
 		this._filterRules = [];
+
+		// In IE, we need to remove the expando attributes.
+		if ( CKEDITOR.env.ie ) {
+			this.addFilterRule( function( data ) {
+				return data.replace( /\s+data-cke-expando=".*?"/g, '' );
+			} );
+		}
 	};
 
 	UndoManager.prototype = {
@@ -806,10 +813,6 @@
 			editor.fire( 'beforeUndoImage' );
 
 			var contents = editor.getSnapshot();
-
-			// In IE, we need to remove the expando attributes.
-			if ( CKEDITOR.env.ie && contents )
-				contents = contents.replace( /\s+data-cke-expando=".*?"/g, '' );
 
 			this.contents = applyRules( contents, editor.undoManager._filterRules );
 
