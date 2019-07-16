@@ -39,6 +39,9 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 							editor.widgets.finalizeCreation( that.widget.wrapper.getParent( true ) );
 						}
 
+						// Update attribute, as dialog can be opened on existing widget.
+						that.widget.element.setAttribute( 'data-oembed-url', url );
+
 						editor.fire( 'saveSnapshot' );
 
 						that.hide();
