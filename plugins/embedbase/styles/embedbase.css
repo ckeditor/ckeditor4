@@ -1,0 +1,96 @@
+/*
+Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+*/
+
+.cke_widget_embed_container {
+	background: inherit;
+	border: 1px solid rgb(222, 222, 222);
+	box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 3px 0px;
+	box-sizing: border-box;
+	font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	margin: 0;
+	outline: none;
+	overflow: hidden;
+	padding: 0;
+	display: block;
+}
+
+.cke_widget_embed_thumbnail {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.cke_widget_embed_compact {
+	float: left;
+	max-height: 160px;
+	max-width: 160px;
+}
+
+.cke_widget_embed_container, .cke_widget_embed_caption {
+	text-align: inherit;
+}
+
+.cke_widget_embed_caption {
+	box-sizing: border-box;
+	color: black;
+	line-height: 1.4;
+	overflow: hidden;
+	padding: 16px 20px;
+}
+
+.cke_widget_embed_compact + .cke_widget_embed_caption {
+	height: 160px;
+}
+
+.cke_widget_embed_title {
+	font-size: 17px;
+	font-weight: 700;
+	height: 23px;
+	margin: 0 0 0.5em;
+	overflow: hidden;
+}
+
+.cke_widget_embed_description {
+	box-sizing: border-box;
+	font-size: 15px;
+	font-weight: 400;
+	height: 128px;
+	margin: 0 0 0.7em;
+	overflow: hidden;
+}
+
+.cke_widget_embed_description:nth-child(2) {
+	height: 88px;
+}
+
+.cke_widget_embed_description:nth-last-child(2) {
+	height: 88px;
+	margin: 0 0 1.3em;
+}
+
+.cke_widget_embed_description:nth-child(2):nth-last-child(2) {
+	height: 63px;
+	margin: 0 0 1em;
+}
+
+.cke_widget_embed_provider {
+	align-items: center;
+	color: #999;
+	font-size: 14px;
+	font-weight: 400;
+	height: 20px;
+	margin: 0;
+	overflow: hidden;
+}
+
+.cke_widget_embed_favicon {
+	height: 1em;
+	margin-right: 6px;
+	min-height: 16px;
+	min-width: 16px;
+	vertical-align: middle;
+	width: 1em;
+}
