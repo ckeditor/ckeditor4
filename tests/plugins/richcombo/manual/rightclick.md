@@ -12,4 +12,4 @@ Nothing happens.
 
 ### Unexpected result
 
-Rich combo becomes open.
+Rich combo opens.
