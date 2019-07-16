@@ -116,8 +116,8 @@ CKEDITOR.plugins.add( 'menu', {
 
 	// https://dev.ckeditor.com/ticket/188
 	menuItemSource += ' onmouseover="CKEDITOR.tools.callFunction({hoverFn},{index});"' +
-			' onmouseout="CKEDITOR.tools.callFunction({moveOutFn},{index});" ' +
-			'onclick="' + specialClickHandler + 'CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
+			' onmouseout="CKEDITOR.tools.callFunction({moveOutFn},{index});"' +
+			' onclick="' + specialClickHandler + 'CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
 			'>';
 
 	menuItemSource +=

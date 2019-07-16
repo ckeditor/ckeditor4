@@ -42,8 +42,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 	template +=
 		' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event,this);"' +
-		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
-		'onclick="' + specialClickHandler + 'CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
+		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);"' +
+		' onclick="' + specialClickHandler + 'CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
 			'<span id="{id}_text" class="cke_combo_text cke_combo_inlinelabel">{label}</span>' +
 			'<span class="cke_combo_open">' +
 				'<span class="cke_combo_arrow">' +
