@@ -814,7 +814,9 @@
 
 			var contents = editor.getSnapshot();
 
-			this.contents = applyRules( contents, editor.undoManager._filterRules );
+			if ( contents ) {
+				this.contents = applyRules( contents, editor.undoManager._filterRules );
+			}
 
 			if ( !contentsOnly ) {
 				var selection = contents && editor.getSelection();
