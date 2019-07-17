@@ -451,7 +451,7 @@
 		},
 
 		// (#3245)
-		'test undo steps': function() {
+		'test undo when widget is focused and blurred': function() {
 			var editor = this.editor;
 
 			this.editorBot.setData( widgetData1, function() {
@@ -459,13 +459,18 @@
 
 				editor.resetUndo();
 
-				editor.fire( 'blur' );
-
 				widget.focus();
 
+				editor.fire( 'blur' );
 				editor.fire( 'saveSnapshot' );
 
-				assert.isFalse( editor.undoManager.hasUndo, 'UndoManager.hasUndo' );
+				setTimeout( function() {
+					resume( function() {
+						assert.isFalse( editor.undoManager.hasUndo, 'UndoManager.hasUndo' );
+					} );
+				} );
+
+				wait();
 			} );
 		}
 	} );
