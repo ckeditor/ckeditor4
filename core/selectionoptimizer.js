@@ -33,15 +33,10 @@
 		}
 
 		var startsInText = range.startContainer.type === CKEDITOR.NODE_TEXT,
+			endsInText = range.endContainer.type === CKEDITOR.NODE_TEXT,
 			limit = startsInText ? range.startContainer.getLength() : range.startContainer.getChildCount();
 
-		if ( range.startOffset === limit ) {
-			return true;
-		}
-
-		var endsInText = range.endContainer.type === CKEDITOR.NODE_TEXT;
-
-		return startsInText ^ endsInText;
+		return range.startOffset === limit || startsInText ^ endsInText;
 	}
 
 	// Prevent infinite recurrency when browser doesn't allow expected selection.
