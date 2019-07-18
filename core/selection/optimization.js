@@ -10,17 +10,19 @@
 	CKEDITOR.dom.selection.prototype.optimizeInElementEnds = function() {
 		var range = this.getRanges()[ 0 ],
 			editor = this.root.editor,
-			oldRange,
-			keyCode;
+			oldRange, key, keyCode;
 
 		if ( editor._lastKeystrokeSelection ) {
 			keyCode = editor._lastKeystrokeSelection.keyCode;
+
+			key = arrowKeyCodeMap[ keyCode ];
+
 			oldRange = editor._lastKeystrokeSelection.range;
 
 			editor._lastKeystrokeSelection = null;
 		}
 
-		if ( !shouldOptimize( range, this ) ) {
+		if ( !shouldOptimize( range, this, key ) ) {
 			return;
 		}
 
@@ -32,13 +34,12 @@
 
 		// Update range only if optimization restored previous range.
 		if ( keyCode && range.equals( oldRange ) ) {
-			var key =  arrowKeyCodeMap[ keyCode ];
 			// We need to move selection by one index to the right.
 			if ( key === 'left' || key === 'up' ) {
 				var prev = range.getPreviousNode( isText ),
 					offset = prev.getChildCount ? prev.getChildCount() : prev.getLength();
 
-				range.setStart( prev , --offset );
+				range.setStart( prev, --offset );
 			} else {
 				range.setEnd( range.getNextNode( isText ), 1 );
 			}
@@ -54,10 +55,15 @@
 	}
 
 	// Returns whether any condition is met:
+	// - selection change is triggered by shift+left or shift+up on Firefox/IE/Edge
 	// - range starts at the end of an element.
 	// - range ends at the beginning of an element.
 	// - one end of range is in text, and another is not.
-	function shouldOptimize( range, selection ) {
+	function shouldOptimize( range, selection, key ) {
+		if ( ( key === 'left' || key === 'up' ) && ( CKEDITOR.env.gecko || CKEDITOR.env.ie ) ) {
+			return false;
+		}
+
 		if ( selection.isFake || range.isCollapsed || range.startContainer.equals( range.endContainer ) ) {
 			return false;
 		}

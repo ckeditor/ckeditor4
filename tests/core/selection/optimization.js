@@ -138,14 +138,14 @@
 			keyCode: 37,
 			initial: '<p>foo[</p><p>bar]</p><p>baz</p>',
 			expected: '<p>fo[o</p><p>bar]@</p><p>baz</p>',
-			ignore: CKEDITOR.env.gecko
+			ignore: CKEDITOR.env.gecko || CKEDITOR.env.ie
 		} ),
 
 		'test selection optimization when up key stored': testSelectionWithKeystroke( {
 			keyCode: 38,
 			initial: '<p>foo[</p><p>bar]</p><p>baz</p>',
 			expected: '<p>fo[o</p><p>bar]@</p><p>baz</p>',
-			ignore: CKEDITOR.env.gecko
+			ignore: CKEDITOR.env.gecko || CKEDITOR.env.ie
 		} ),
 
 		'test selection optimization when right key stored': testSelectionWithKeystroke( {
