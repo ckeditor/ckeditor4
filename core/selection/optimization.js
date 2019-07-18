@@ -30,7 +30,7 @@
 
 		preventRecurrency( editor, range );
 
-		if ( keyCode && areSame( range, oldRange ) ) {
+		if ( keyCode && range.equals( oldRange ) ) {
 			var key =  arrowKeyCodeMap[ keyCode ];
 			// We need to move selection by one index to the right.
 			if ( key === 'left' || key === 'up' ) {
@@ -50,14 +50,6 @@
 
 	function isText( node ) {
 		return node.type === CKEDITOR.NODE_TEXT;
-	}
-
-	// Compares two ranges.
-	function areSame( r1, r2 ) {
-		return r1.startOffset === r2.startOffset &&
-			r1.endOffset === r2.endOffset &&
-			r1.startContainer.equals( r2.startContainer ) &&
-			r1.endContainer.equals( r2.endContainer );
 	}
 
 	// Returns whether any condition is met:
