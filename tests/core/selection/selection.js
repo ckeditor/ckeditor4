@@ -260,6 +260,11 @@ bender.test( {
 	'test getSelectedElement does not modify ranges': function() {
 		var editor = this.editor;
 
+		// Prevent selection optimizations from breaking tests (#3175).
+		editor.on( 'selectionCheck', function( evt ) {
+			evt.cancel();
+		}, null, null, -1000 );
+
 		this.editorBot.setData( '<div>foo</div><p>bar</p>', function() {
 			var elP = editor.editable().findOne( 'p' ),
 				elDiv = editor.editable().findOne( 'div' ),

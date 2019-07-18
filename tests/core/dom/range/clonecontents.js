@@ -22,6 +22,11 @@
 			var range,
 				clone;
 
+			// Prevent selection optimizations from breaking tests (#3175).
+			editor.on( 'selectionCheck', function( evt ) {
+				evt.cancel();
+			}, null, null, -1000 );
+
 			bender.tools.selection.setWithHtml( editor, innerHtmlWithSelection );
 
 			range = editor.getSelection().getRanges()[ 0 ];
