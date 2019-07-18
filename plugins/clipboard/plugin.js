@@ -2366,7 +2366,18 @@
 		if ( editor ) {
 			this.sourceEditor = editor;
 
-			this.setData( 'text/html', editor.getSelectedHtml( 1 ) );
+			var selection = editor.getSelection(),
+				ranges = selection.getRanges(),
+				table = ranges.length && ranges[ 0 ]._getTableElement( { table: 1 } ),
+				element = editor.getSelection().getSelectedElement();
+
+			// When element inside cell is copied or dragged with tableselection plugin turned on, it is sometimes
+			// nested in additional table. We want to filter only the content of a cell.
+			if ( editor.plugins.tableselection && table && element && element.$.draggable ) {
+				this.setData( 'text/html', element.$.outerHTML );
+			} else {
+				this.setData( 'text/html', editor.getSelectedHtml( 1 ) );
+			}
 
 			// Without setData( 'text', ... ) on dragstart there is no drop event in Safari.
 			// Also 'text' data is empty as drop to the textarea does not work if we do not put there text.
