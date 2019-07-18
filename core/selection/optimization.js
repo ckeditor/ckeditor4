@@ -13,11 +13,11 @@
 			oldRange,
 			keyCode;
 
-		if ( editor._lastKeyStrokeSelection ) {
-			keyCode = editor._lastKeyStrokeSelection.keyCode;
-			oldRange = editor._lastKeyStrokeSelection.range;
+		if ( editor._lastKeystrokeSelection ) {
+			keyCode = editor._lastKeystrokeSelection.keyCode;
+			oldRange = editor._lastKeystrokeSelection.range;
 
-			editor._lastKeyStrokeSelection = null;
+			editor._lastKeystrokeSelection = null;
 		}
 
 		if ( !shouldOptimize( range, this ) ) {
