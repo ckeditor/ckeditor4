@@ -30,6 +30,7 @@
 
 		preventRecurrency( editor, range );
 
+		// Update range only if optimization restored previous range.
 		if ( keyCode && range.equals( oldRange ) ) {
 			var key =  arrowKeyCodeMap[ keyCode ];
 			// We need to move selection by one index to the right.
