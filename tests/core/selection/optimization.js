@@ -116,13 +116,14 @@
 
 			testKeystroke( {
 				keyCode: 37,
+				stored: false,
 				callback: function( assertSoredKeystroke ) {
 					editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 					setTimeout( function() {
 						resume( function() {
 							mock.restore();
-							assertSoredKeystroke( false );
+							assertSoredKeystroke();
 						} );
 					}, 220 );
 
@@ -131,7 +132,31 @@
 			} )( editor );
 
 			mock.restore();
-		}
+		},
+
+		'test selection optimization when left key stored': testSelectionWithKeystroke( {
+			keyCode: 37,
+			initial: '<p>foo[</p><p>bar]</p><p>baz</p>',
+			expected: '<p>fo[o</p><p>bar]@</p><p>baz</p>'
+		} ),
+
+		'test selection optimization when up key stored': testSelectionWithKeystroke( {
+			keyCode: 38,
+			initial: '<p>foo[</p><p>bar]</p><p>baz</p>',
+			expected: '<p>fo[o</p><p>bar]@</p><p>baz</p>'
+		} ),
+
+		'test selection optimization when right key stored': testSelectionWithKeystroke( {
+			keyCode: 39,
+			initial: '<p>foo</p><p>[bar</p><p>]baz</p>',
+			expected: '<p>foo</p><p>[bar@</p><p>b]az</p>'
+		} ),
+
+		'test selection optimization when down key stored': testSelectionWithKeystroke( {
+			keyCode: 40,
+			initial: '<p>foo</p><p>[bar</p><p>]baz</p>',
+			expected: '<p>foo</p><p>[bar@</p><p>b]az</p>'
+		} )
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
@@ -142,14 +167,24 @@
 		return function( editor ) {
 			bender.tools.selection.setWithHtml( editor, options.initial );
 
-			var actual = bender.tools.selection.getWithHtml( editor );
+			if ( options.callback ) {
+				options.callback( editor, function() {
+					assertEditorHtml( options.expected );
+				} );
+			} else {
+				assertEditorHtml( options.expected );
+			}
 
-			assert.isInnerHtmlMatching( options.expected, actual, {
-				compareSelection: true,
-				normalizeSelection: true,
-				sortAttributes: true,
-				fixStyles: true
-			} );
+			function assertEditorHtml( expected ) {
+				var actual = bender.tools.selection.getWithHtml( editor );
+
+				assert.isInnerHtmlMatching( expected, actual, {
+					compareSelection: true,
+					normalizeSelection: true,
+					sortAttributes: true,
+					fixStyles: true
+				} );
+			}
 		};
 	}
 
@@ -173,7 +208,9 @@
 			} );
 
 			if ( options.callback ) {
-				options.callback( assertSoredKeystroke );
+				options.callback( function() {
+					assertSoredKeystroke( options.stored );
+				} );
 			} else {
 				assertSoredKeystroke( options.stored );
 			}
@@ -186,6 +223,36 @@
 					assert.isNull( editor._lastKeystrokeSelection, 'editor._lastKeystrokeSelection' );
 				}
 			}
+		};
+	}
+
+	function testSelectionWithKeystroke( options ) {
+		return function( editor ) {
+			// Prevent initial optimization.
+
+			var listener = editor.on( 'selectionCheck', function( evt ) {
+				evt.cancel();
+			}, null, null, -5 );
+
+			testSelection( {
+				initial: options.initial,
+				expected: options.expected,
+				callback: function( editor, assertEditorHtml ) {
+					var selection = editor.getSelection(),
+						range = selection.getRanges()[ 0 ];
+
+					editor._lastKeystrokeSelection = {
+						range: range,
+						keyCode: options.keyCode
+					};
+
+					listener.removeListener();
+
+					editor.fire( 'selectionCheck', selection );
+
+					assertEditorHtml();
+				}
+			} )( editor );
 		};
 	}
 } )();
