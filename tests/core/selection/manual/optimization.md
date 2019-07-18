@@ -22,10 +22,22 @@
 
 1. Press `insert` button.
 
+  ## Expected
+
+  No red border is visible.
+
+  ## Unexpected
+
+  Red border is visible.
+
+1. Place collapsed selection inside editor.
+
+1. Use keystroke <kbd>Shift</kbd> + <kbd>Arrow Key</kbd> to select few different elements.
+
 ## Expected
 
-No red border is visible.
+Anything can be selected.
 
 ## Unexpected
 
-Red border is visible.
+Range can't move past end of block.
