@@ -1,8 +1,24 @@
 ( function() {
-	var preventListener = true;
+	var preventListener = true,
+		arrowKeyCodeMap = {
+			37: 'left',
+			38: 'up',
+			39: 'right',
+			40: 'down'
+		};
 
 	CKEDITOR.dom.selection.prototype.optimizeInElementEnds = function() {
-		var range = this.getRanges()[ 0 ];
+		var range = this.getRanges()[ 0 ],
+			editor = this.root.editor,
+			oldRange,
+			keyCode;
+
+		if ( editor._lastKeyStrokeSelection ) {
+			keyCode = editor._lastKeyStrokeSelection.keyCode;
+			oldRange = editor._lastKeyStrokeSelection.range;
+
+			editor._lastKeyStrokeSelection = null;
+		}
 
 		if ( !shouldOptimize( range, this ) ) {
 			return;
@@ -12,12 +28,37 @@
 
 		preventListener = false;
 
-		preventRecurrency( this.root.editor, range );
+		preventRecurrency( editor, range );
+
+		if ( keyCode && areSame( range, oldRange ) ) {
+			var key =  arrowKeyCodeMap[ keyCode ];
+			// We need to move selection by one index to the right.
+			if ( key === 'left' || key === 'up' ) {
+				var prev = range.getPreviousNode( isText ),
+					offset = prev.getChildCount ? prev.getChildCount() : prev.getLength();
+
+				range.setStart( prev , --offset );
+			} else {
+				range.setEnd( range.getNextNode( isText ), 1 );
+			}
+		}
 
 		range.select();
 
 		preventListener = true;
 	};
+
+	function isText( node ) {
+		return node.type === CKEDITOR.NODE_TEXT;
+	}
+
+	// Compares two ranges.
+	function areSame( r1, r2 ) {
+		return r1.startOffset === r2.startOffset &&
+			r1.endOffset === r2.endOffset &&
+			r1.startContainer.equals( r2.startContainer ) &&
+			r1.endContainer.equals( r2.endContainer );
+	}
 
 	// Returns whether any condition is met:
 	// - range starts at the end of an element.
@@ -32,8 +73,8 @@
 			return true;
 		}
 
-		var startsInText = range.startContainer.type === CKEDITOR.NODE_TEXT,
-			endsInText = range.endContainer.type === CKEDITOR.NODE_TEXT,
+		var startsInText = isText( range.startContainer ),
+			endsInText = isText( range.endContainer ),
 			limit = startsInText ? range.startContainer.getLength() : range.startContainer.getChildCount();
 
 		return range.startOffset === limit || startsInText ^ endsInText;

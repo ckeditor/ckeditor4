@@ -169,6 +169,19 @@
 		this.on( 'mode', updateCommands );
 
 		// (#3175)
+		this.on( 'key', function( evt ) {
+			var keyCode = evt.data.keyCode - CKEDITOR.SHIFT;
+
+			// Arrow key codes are 37, 38, 39, 40, so we can just check if keyCode is in range.
+			if ( keyCode >= 37 && keyCode <= 40 ) {
+				this._lastKeyStrokeSelection = {
+					range: this.getSelection().getRanges()[ 0 ],
+					keyCode: keyCode
+				};
+			}
+		} );
+
+		// (#3175)
 		this.on( 'selectionCheck', function( evt ) {
 			if ( evt.data ) {
 				evt.data.optimizeInElementEnds();
