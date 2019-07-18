@@ -137,13 +137,15 @@
 		'test selection optimization when left key stored': testSelectionWithKeystroke( {
 			keyCode: 37,
 			initial: '<p>foo[</p><p>bar]</p><p>baz</p>',
-			expected: '<p>fo[o</p><p>bar]@</p><p>baz</p>'
+			expected: '<p>fo[o</p><p>bar]@</p><p>baz</p>',
+			ignore: CKEDITOR.env.gecko
 		} ),
 
 		'test selection optimization when up key stored': testSelectionWithKeystroke( {
 			keyCode: 38,
 			initial: '<p>foo[</p><p>bar]</p><p>baz</p>',
-			expected: '<p>fo[o</p><p>bar]@</p><p>baz</p>'
+			expected: '<p>fo[o</p><p>bar]@</p><p>baz</p>',
+			ignore: CKEDITOR.env.gecko
 		} ),
 
 		'test selection optimization when right key stored': testSelectionWithKeystroke( {
@@ -228,8 +230,9 @@
 
 	function testSelectionWithKeystroke( options ) {
 		return function( editor ) {
-			// Prevent initial optimization.
+			options.ignore && assert.ignore();
 
+			// Prevent initial optimization.
 			var listener = editor.on( 'selectionCheck', function( evt ) {
 				evt.cancel();
 			}, null, null, -5 );
