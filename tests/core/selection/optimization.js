@@ -76,40 +76,62 @@
 		'test selection optimization case 12': testSelection( {
 			initial:
 				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px"><tbody>' +
-					'<tr><td>foo</td><td>bar</td></tr>' +
-					'<tr><td>baz</td><td><span style="color:#e74c3c">[faz</span></td></tr>' +
+				'<tr><td>foo</td><td>bar</td></tr>' +
+				'<tr><td>baz</td><td><span style="color:#e74c3c">[faz</span></td></tr>' +
 				'</tbody></table><p>]Paragraph</p>',
 			expected:
 				'<table border="1" cellpadding="1" cellspacing="1" style="width:500px"><tbody>' +
-					'<tr><td>foo</td><td>bar</td></tr>' +
-					'<tr><td>baz</td><td><span style="color:#e74c3c">[faz]</span>@</td></tr>' +
+				'<tr><td>foo</td><td>bar</td></tr>' +
+				'<tr><td>baz</td><td><span style="color:#e74c3c">[faz]</span>@</td></tr>' +
 				'</tbody></table><p>Paragraph</p>'
 		} ),
 
 		'test keystroke and range are saved on shift+left': testKeystroke( {
 			keyCode: 37,
-			expected: true
+			stored: true
 		} ),
 
 		'test keystroke and range are saved on shift+up': testKeystroke( {
 			keyCode: 38,
-			expected: true
+			stored: true
 		} ),
 
 		'test keystroke and range are saved on shift+right': testKeystroke( {
 			keyCode: 39,
-			expected: true
+			stored: true
 		} ),
 
 		'test keystroke and range are saved on shift+down': testKeystroke( {
 			keyCode: 40,
-			expected: true
+			stored: true
 		} ),
 
-		'test keystroke and range are saved on shift+a': testKeystroke( {
+		'test keystroke and range are not saved on shift+a': testKeystroke( {
 			keyCode: 65,
-			expected: false
-		} )
+			stored: false
+		} ),
+
+		'test saved keystroke and range are cleaned when selectionCheck is prevented': function( editor ) {
+			var mock = sinon.stub( CKEDITOR.dom.selection.prototype, 'getType' ).returns( CKEDITOR.SELECTION_NONE );
+
+			testKeystroke( {
+				keyCode: 37,
+				callback: function( assertSoredKeystroke ) {
+					editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+					setTimeout( function() {
+						resume( function() {
+							mock.restore();
+							assertSoredKeystroke( false );
+						} );
+					}, 220 );
+
+					wait();
+				}
+			} )( editor );
+
+			mock.restore();
+		}
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
@@ -150,11 +172,19 @@
 				}
 			} );
 
-			if ( options.expected ) {
-				assert.areSame( keyCode, editor._lastKeystrokeSelection.keyCode, 'keyCode stored' );
-				assert.isTrue( range.equals( editor._lastKeystrokeSelection.range ), 'range stored' );
+			if ( options.callback ) {
+				options.callback( assertSoredKeystroke );
 			} else {
-				assert.isNull( editor._lastKeystrokeSelection, 'editor._lastKeystrokeSelection' );
+				assertSoredKeystroke( options.stored );
+			}
+
+			function assertSoredKeystroke( stored ) {
+				if ( stored ) {
+					assert.areSame( keyCode, editor._lastKeystrokeSelection.keyCode, 'keyCode stored' );
+					assert.isTrue( range.equals( editor._lastKeystrokeSelection.range ), 'range stored' );
+				} else {
+					assert.isNull( editor._lastKeystrokeSelection, 'editor._lastKeystrokeSelection' );
+				}
 			}
 		};
 	}
