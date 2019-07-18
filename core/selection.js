@@ -254,8 +254,15 @@
 			sel = realSel || this.getSelection( 1 );
 
 			// Editor may have no selection at all.
-			if ( !sel || sel.getType() == CKEDITOR.SELECTION_NONE )
+			if ( !sel ) {
 				return;
+			}
+
+			if ( sel.getType() == CKEDITOR.SELECTION_NONE ) {
+				// Remove stored keyCode ad range when `selectionCheck` event is not fired.
+				sel.root.editor._lastKeystrokeSelection = null;
+				return;
+			}
 		}
 
 		this.fire( 'selectionCheck', sel );
