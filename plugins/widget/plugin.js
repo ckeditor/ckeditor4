@@ -278,16 +278,25 @@
 			if ( !range || range.collapsed )
 				return updater.commit();
 
-			// Range is not empty, so create walker checking for wrappers.
+			CKEDITOR.tools.array.forEach( this.getSelectedWidgets( range ), function( widget ) {
+				updater.select( widget );
+			} );
+
+			updater.commit();
+		},
+
+		getSelectedWidgets: function( range ) {
 			var walker = new CKEDITOR.dom.walker( range ),
-				wrapper;
+			widgets = [],
+			wrapper;
 
 			walker.evaluator = Widget.isDomWidgetWrapper;
 
-			while ( ( wrapper = walker.next() ) )
-				updater.select( this.getByElement( wrapper ) );
+			while ( ( wrapper = walker.next() ) ) {
+				widgets.push( this.getByElement( wrapper ) );
+			}
 
-			updater.commit();
+			return widgets;
 		},
 
 		/**
@@ -440,6 +449,11 @@
 			}
 		},
 
+		getWidgetId: function( element ) {
+			var validWrapperElements = { div: 1, span: 1 };
+			return element.is( validWrapperElements ) && element.data( 'cke-widget-id' );
+		},
+
 		/**
 		 * Finds a widget instance which contains a given element. The element will be the {@link CKEDITOR.plugins.widget#wrapper wrapper}
 		 * of the returned widget or a descendant of this {@link CKEDITOR.plugins.widget#wrapper wrapper}.
@@ -455,31 +469,24 @@
 		 * @param {Boolean} [checkWrapperOnly] If set to `true`, the method will not check wrappers' descendants.
 		 * @returns {CKEDITOR.plugins.widget} The widget instance or `null`.
 		 */
-		getByElement: ( function() {
-			var validWrapperElements = { div: 1, span: 1 };
-			function getWidgetId( element ) {
-				return element.is( validWrapperElements ) && element.data( 'cke-widget-id' );
+		getByElement: function( element, checkWrapperOnly ) {
+			if ( !element )
+				return null;
+
+			var id = this.getWidgetId( element );
+
+			// There's no need to check element parents if element is a wrapper.
+			if ( !checkWrapperOnly && !id ) {
+				var limit = this.editor.editable();
+
+				// Try to find a closest ascendant which is a widget wrapper.
+				do {
+					element = element.getParent();
+				} while ( element && !element.equals( limit ) && !( id = this.getWidgetId( element ) ) );
 			}
 
-			return function( element, checkWrapperOnly ) {
-				if ( !element )
-					return null;
-
-				var id = getWidgetId( element );
-
-				// There's no need to check element parents if element is a wrapper.
-				if ( !checkWrapperOnly && !id ) {
-					var limit = this.editor.editable();
-
-					// Try to find a closest ascendant which is a widget wrapper.
-					do {
-						element = element.getParent();
-					} while ( element && !element.equals( limit ) && !( id = getWidgetId( element ) ) );
-				}
-
-				return this.instances[ id ] || null;
-			};
-		} )(),
+			return this.instances[ id ] || null;
+		},
 
 		/**
 		 * Initializes a widget on a given element if the widget has not been initialized on it yet.
@@ -2774,8 +2781,12 @@
 		} );
 
 		function eventListener( evt ) {
+			var isCut = evt.name === 'cut';
+
 			if ( widgetsRepo.focused ) {
-				copySingleWidget( widgetsRepo.focused, evt.name == 'cut' );
+				copySingleWidget( widgetsRepo.focused, isCut );
+			} else {
+				copyWidgets( editor, isCut );
 			}
 		}
 	}
@@ -3164,6 +3175,52 @@
 		evt.cancel();
 	}
 
+	function copyWidgets( editor, isCut ) {
+		var selection = editor.getSelection(),
+			range = selection && editor.getSelection().getRanges()[ 0 ];
+
+		if ( !range ) {
+			return;
+		}
+
+		var widgets = editor.widgets.getSelectedWidgets( range );
+
+		if ( !widgets.length ) {
+			return;
+		}
+
+		delegateToCopybin( editor, getClipboardHtml( editor, widgets ) )
+			.then( function( finished ) {
+				if ( !finished ) {
+					return;
+				}
+
+				if ( isCut ) {
+					range.deleteContents();
+				}
+
+				range.select();
+			} );
+	}
+
+	function getClipboardHtml( editor, widgets ) {
+		var fragment = editor.getSelectedHtml().clone( true ),
+			wrappers = fragment.find( '.cke_widget_wrapper' ).toArray();
+
+		CKEDITOR.tools.array.forEach( wrappers, function( wrapper ) {
+			var widget = CKEDITOR.tools.array.find( widgets, function( widget ) {
+				return editor.widgets.getWidgetId( wrapper ) == widget.id;
+			} );
+
+			if ( widget ) {
+				var el = CKEDITOR.dom.element.createFromHtml( widget.getClipboardHtml() );
+				el.replace( wrapper );
+			}
+		} );
+
+		return fragment.getHtml();
+	}
+
 	function copySingleWidget( widget, isCut ) {
 		var editor = widget.editor;
 
@@ -3236,7 +3293,7 @@
 				editor.fire( 'unlockSnapshot' );
 
 				resolve( true );
-			}, 100 ); // Use 100ms, so Chrome (@Mac) will be able to grab the content.
+			}, 0 ); // Use 100ms, so Chrome (@Mac) will be able to grab the content.
 		} );
 	}
 
