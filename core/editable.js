@@ -1305,10 +1305,6 @@
 
 		if ( element ) {
 			editable = element instanceof CKEDITOR.editable ? element : new CKEDITOR.editable( this, element );
-			// Editable is cached unlike other elements, so we can use it to store expando number.
-			// We need it to properly cleanup custom data in case of permission denied
-			// thrown by Edge when accessing native element of detached editable (#3115).
-			editable._.expandoNumber = editable.$[ 'data-cke-expando' ];
 		} else {
 			editable && editable.detach();
 			editable = null;

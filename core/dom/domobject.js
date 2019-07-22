@@ -62,11 +62,10 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 		 * @returns {Object} The private object.
 		 */
 		getPrivate: function() {
-			var expandoNumber = this._ && this._.expandoNumber,
-				priv;
+			var priv;
 
 			// Get the main private object from the custom data. Create it if not defined.
-			if ( !( priv = this.getCustomData( '_', expandoNumber ) ) )
+			if ( !( priv = this.getCustomData( '_' ) ) )
 				this.setCustomData( '_', ( priv = {} ) );
 
 			return priv;
@@ -214,12 +213,11 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	 *		alert( element.getCustomData( 'nonExistingKey' ) );		// null
 	 *
 	 * @param {String} key The key used to identify the data slot.
-	 * @param {Number} [expandoNumber] when provided will be used instead of native element 'data-cke-expando' attribute.
 	 * @returns {Object} This value set to the data slot.
 	 */
-	domObjectProto.getCustomData = function( key, expandoNumber ) {
-		expandoNumber = expandoNumber || this.$[ 'data-cke-expando' ];
-		var dataSlot = expandoNumber && customData[ expandoNumber ];
+	domObjectProto.getCustomData = function( key ) {
+		var expandoNumber = this.$[ 'data-cke-expando' ],
+			dataSlot = expandoNumber && customData[ expandoNumber ];
 
 		return ( dataSlot && key in dataSlot ) ? dataSlot[ key ] : null;
 	};
@@ -248,13 +246,12 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	 * Removes any data stored in this object.
 	 * To avoid memory leaks we must assure that there are no
 	 * references left after the object is no longer needed.
-	 * @param {Number} [expandoNumber] when provided will be used instead of native element 'data-cke-expando' attribute.
 	 */
-	domObjectProto.clearCustomData = function( expandoNumber ) {
+	domObjectProto.clearCustomData = function() {
 		// Clear all event listeners
 		this.removeAllListeners();
 
-		expandoNumber = expandoNumber || this.$[ 'data-cke-expando' ];
+		var expandoNumber = this.getUniqueId();
 		expandoNumber && delete customData[ expandoNumber ];
 	};
 
@@ -267,7 +264,22 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	 * @returns {Number} A unique ID.
 	 */
 	domObjectProto.getUniqueId = function() {
-		return this.$[ 'data-cke-expando' ] || ( this.$[ 'data-cke-expando' ] = CKEDITOR.tools.getNextNumber() );
+		var expandoNumber;
+
+		try {
+			expandoNumber = this.$[ 'data-cke-expando' ] || ( this.$[ 'data-cke-expando' ] = CKEDITOR.tools.getNextNumber() );
+
+			// Editable is cached unlike other elements, so we can use it to store expando number.
+			// We need it to properly cleanup custom data in case of permission denied
+			// thrown by Edge when accessing native element of detached editable (#3115).
+			if ( this instanceof CKEDITOR.editable ) {
+				this._.expandoNumber = expandoNumber;
+			}
+		} catch ( e ) {
+			expandoNumber = this._ && this._.expandoNumber;
+		}
+
+		return expandoNumber;
 	};
 
 	// Implement CKEDITOR.event.
