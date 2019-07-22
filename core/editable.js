@@ -535,9 +535,9 @@
 			 */
 			detach: function() {
 				// Cleanup the element.
-				catchEdgePermissionDenied( function() {
+				catchEdgePermissionDenied( CKEDITOR.tools.bind( function() {
 					this.removeClass( 'cke_editable' );
-				}.bind( this ) );
+				}, this ) );
 
 				this.status = 'detached';
 
@@ -1234,7 +1234,7 @@
 
 				this.clearListeners();
 
-				catchEdgePermissionDenied( function() {
+				catchEdgePermissionDenied( CKEDITOR.tools.bind( function() {
 					// Cleanup the element.
 					this.restoreAttrs();
 
@@ -1260,7 +1260,7 @@
 							}
 						}
 					}
-				}.bind( this ) );
+				}, this ) );
 
 				this.editor.fire( 'contentDomUnload' );
 
