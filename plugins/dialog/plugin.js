@@ -815,15 +815,17 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 					width: Math.max( viewPaneSize.width - dialogSize.width, 0 ),
 					height: Math.max( viewPaneSize.height - dialogSize.height, 0 )
 				};
+
 			if ( this._.position && this._.position.x == x && this._.position.y == y ) {
 				// If position didn't change window might have been resized.
-				x = freeSpace.width * ratios.width;
-				y = freeSpace.height * ratios.height;
+				x = Math.floor( freeSpace.width * ratios.width );
+				y = Math.floor( freeSpace.height * ratios.height );
 			} else {
 				// When no free space don't divide by zero, use previous value.
 				ratios.width = freeSpace.width ? ( x / freeSpace.width ) : ratios.width;
 				ratios.height = freeSpace.height ? ( y / freeSpace.height ) : ratios.height;
 			}
+
 			// Save the current position.
 			this._.position = { x: x, y: y };
 
