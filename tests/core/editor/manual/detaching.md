@@ -23,7 +23,7 @@
 ## Other browsers
 
 1. Open developer console.
-1. Perform create-destroy cycles for various editor types multiple times. Try to destroy editor **before** it is initialised.
+1. Perform create-destroy cycles for various editor types multiple times.
 
 ### Expected
 - No errors in console.
