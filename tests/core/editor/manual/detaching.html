@@ -38,6 +38,8 @@
 	</section>
 </form>
 
+<div id="status"></div>
+
 <div id="container"></div>
 
 <script>
@@ -48,6 +50,8 @@
 	var detachWhenScriptLoaded = detachingTools.detachWhenScriptLoaded,
 		detachBeforeIframeLoad = detachingTools.detachBeforeIframeLoad,
 		container = CKEDITOR.document.findOne( '#container' ),
+		editorStatus = CKEDITOR.document.findOne( '#status' ),
+		counter = 0,
 		component, editor;
 
 	updateFormControlsDisableState();
@@ -76,6 +80,8 @@
 				editor = CKEDITOR.inline( 'editor' );
 		}
 
+		editorStatus.setText( 'Creating editor ' + ++counter );
+
 		switch( options.destroyCase ) {
 			case "0":
 				detach();
@@ -100,6 +106,10 @@
 	function detach() {
 		component.remove();
 		component = null;
+
+		editor.once( 'destroy', function() {
+			editorStatus.setText( 'Editor ' + counter +  ' destroyed' );
+		} );
 
 		editor.destroy();
 		editor = null;
