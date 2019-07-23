@@ -2166,7 +2166,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		/**
 		 * Checks if element is not attached to DOM.
 		 *
-		 * @since 4.12.0
+		 * @since 4.13.0
 		 * @returns {Boolean} Whether element is detached from DOM.
 		 */
 		isDetached: function() {

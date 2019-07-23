@@ -1587,7 +1587,7 @@
 		/**
 		 * Returns boolean whether editor is destroyed or detached.
 		 *
-		 * @since 4.12.0
+		 * @since 4.13.0
 		 * @return {boolean}
 		 */
 		shouldPreventInitialization: function() {
