@@ -683,6 +683,19 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		},
 
 		/**
+		 * Gets the elements `clientWidth` and `clientHeight`.
+		 *
+		 * @since 4.13.0
+		 * @returns {Object} An object containing width and height values.
+		 */
+		getClientSize: function() {
+			return {
+				width: this.$.clientWidth,
+				height: this.$.clientHeight
+			};
+		},
+
+		/**
 		 * Gets the current computed value of one of the element CSS style
 		 * properties.
 		 *
