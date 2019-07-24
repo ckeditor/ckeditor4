@@ -764,7 +764,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 			// Update dialog position when dimension get changed in RTL.
 			if ( this._.editor.lang.dir == 'rtl' && this._.position ) {
-				var containerWidth = getContainerSize( this ).width;
+				var containerWidth = dialog.parts.dialog.getParent().getClientSize().width;
 
 				this._.position.x = containerWidth - this._.contentSize.width - parseInt( this._.element.getFirst().getStyle( 'right' ), 10 );
 			}
@@ -811,7 +811,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				element.setStyle( 'zoom', '100%' );
 			}
 
-			var containerSize = getContainerSize( this ),
+			var containerSize = this.parts.dialog.getParent().getClientSize(),
 				dialogSize = this.getSize(),
 				ratios = this._.viewportRatio,
 				freeSpace = {
@@ -1955,7 +1955,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 		function mouseMoveHandler( evt ) {
 			var dialogSize = dialog.getSize(),
-				containerSize = getContainerSize( dialog ),
+				containerSize = dialog.parts.dialog.getParent().getClientSize(),
 				x = evt.data.$.screenX,
 				y = evt.data.$.screenY,
 				dx = x - lastCoords.x,
@@ -2166,17 +2166,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}
 	}
 
-	function getContainerSize( dialog ) {
-		var container = dialog.parts.dialog.getParent();
-
-		return {
-			width: container.$.clientWidth,
-			height: container.$.clientHeight
-		}
-	}
-
 	function updateRatios( dialog, x, y ) {
-		var containerSize = getContainerSize( dialog ),
+		var containerSize = dialog.parts.dialog.getParent().getClientSize(),
 			dialogSize = dialog.getSize(),
 			ratios = dialog._.viewportRatio,
 			freeSpace = {
