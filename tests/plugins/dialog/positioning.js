@@ -200,12 +200,27 @@
 		var window = CKEDITOR.document.getWindow(),
 			stubs = {
 				getWindow: sinon.stub( CKEDITOR.document, 'getWindow' ),
-				getViewPane: sinon.stub( window, 'getViewPaneSize' )
+				getViewPane: sinon.stub( window, 'getViewPaneSize' ),
+				getContainerSize: mockDialogContainerSize( viewPaneSize )
 			};
 
 		stubs.getWindow.returns( window );
 		stubs.getViewPane.returns( viewPaneSize );
 
 		return stubs;
+	}
+
+	function mockDialogContainerSize( sizes ) {
+		var originalMethod = CKEDITOR.dom.element.prototype.getClientSize;
+
+		CKEDITOR.dom.element.prototype.getClientSize = function() {
+			return this.hasClass( 'cke_dialog_container' ) ? sizes :  originalMethod.call( this );
+		};
+
+		return {
+			restore: function() {
+				CKEDITOR.dom.element.prototype.getClientSize = originalMethod;
+			}
+		};
 	}
 } )();
