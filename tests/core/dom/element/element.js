@@ -1230,6 +1230,20 @@ bender.test( appendDomObjectTests(
 
 			assert.areSame( String( leftMouseButton ), link.getAttribute( 'data-button' ),
 				'Proper event data was passed' );
+		},
+
+		'test getClientSize': function() {
+			var element = new CKEDITOR.dom.element( 'div' );
+
+			element.$ = {
+				clientWidth: 100,
+				clientHeight: 100
+			};
+
+			var size = element.getClientSize();
+
+			assert.areSame( 100, size.width );
+			assert.areSame( 100, size.height );
 		}
 	}
 ) );
