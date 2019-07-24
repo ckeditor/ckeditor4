@@ -824,9 +824,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				x = Math.floor( freeSpace.width * ratios.width );
 				y = Math.floor( freeSpace.height * ratios.height );
 			} else {
-				// When no free space don't divide by zero, use previous value.
-				ratios.width = freeSpace.width ? ( x / freeSpace.width ) : ratios.width;
-				ratios.height = freeSpace.height ? ( y / freeSpace.height ) : ratios.height;
+				updateRatios( this, x, y );
 			}
 
 			// Save the current position.
@@ -871,7 +869,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			if ( !( element.getParent() && element.getParent().equals( CKEDITOR.document.getBody() ) ) ) {
 				element.appendTo( CKEDITOR.document.getBody() );
 			} else {
-				element.setStyle( 'display', CKEDITOR.env.ie && !CKEDITOR.env.edge ? 'block' : 'flex' );
+				element.setStyle( 'display', useFlex ? 'flex' :'block' );
 			}
 
 			// First, set the dialog to an appropriate size.
