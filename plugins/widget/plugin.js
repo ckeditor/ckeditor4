@@ -664,7 +664,7 @@
 					preserveSpaces( element );
 				}
 
-				wrapper = new CKEDITOR.dom.element( isInline ? 'span' : 'div' );
+				wrapper = new CKEDITOR.dom.element( isInline ? 'span' : 'div', element.getDocument() );
 				wrapper.setAttributes( getWrapperAttributes( isInline, widgetName ) );
 
 				wrapper.data( 'cke-display-name', widgetDef.pathName ? widgetDef.pathName : element.getName() );
@@ -1945,7 +1945,7 @@
 				} else if ( widgetDef.template ) {
 					// ... or create a brand-new widget from template.
 					var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
-						element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
+						element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ), editor.document ),
 						instance,
 						wrapper = editor.widgets.wrapElement( element, widgetDef.name ),
 						temp = new CKEDITOR.dom.documentFragment( wrapper.getDocument() );

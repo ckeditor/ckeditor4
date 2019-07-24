@@ -443,6 +443,24 @@
 			} );
 		},
 
+		// (#3261)
+		'test widget document': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p>x</p>', function() {
+				editor.widgets.add( 'insertingdocument', {
+					dialog: 'foo',
+					template: '<b>foo</b>',
+					init: function() {
+						assert.isTrue( this.wrapper.getDocument().equals( editor.document ) );
+					}
+				} );
+
+				editor.focus();
+				editor.execCommand( 'insertingdocument' );
+			} );
+		},
+
 		'test creating widget using command - no data-cke-widget attribute in template': function() {
 			var editor = this.editor,
 				editFired = 0;
