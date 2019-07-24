@@ -764,9 +764,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 			// Update dialog position when dimension get changed in RTL.
 			if ( this._.editor.lang.dir == 'rtl' && this._.position ) {
-				var viewPaneWidth = CKEDITOR.document.getWindow().getViewPaneSize().width;
+				var containerWidth = getContainerSize( this ).width;
 
-				this._.position.x = viewPaneWidth - this._.contentSize.width - parseInt( this._.element.getFirst().getStyle( 'right' ), 10 );
+				this._.position.x = containerWidth - this._.contentSize.width - parseInt( this._.element.getFirst().getStyle( 'right' ), 10 );
 			}
 
 			this._.contentSize = { width: width, height: height };
@@ -811,12 +811,12 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				element.setStyle( 'zoom', '100%' );
 			}
 
-			var viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize(),
+			var containerSize = getContainerSize( this ),
 				dialogSize = this.getSize(),
 				ratios = this._.viewportRatio,
 				freeSpace = {
-					width: Math.max( viewPaneSize.width - dialogSize.width, 0 ),
-					height: Math.max( viewPaneSize.height - dialogSize.height, 0 )
+					width: Math.max( containerSize.width - dialogSize.width, 0 ),
+					height: Math.max( containerSize.height - dialogSize.height, 0 )
 				};
 
 			if ( this._.position && this._.position.x == x && this._.position.y == y ) {
@@ -1955,7 +1955,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 		function mouseMoveHandler( evt ) {
 			var dialogSize = dialog.getSize(),
-				viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize(),
+				containerSize = getContainerSize( dialog ),
 				x = evt.data.$.screenX,
 				y = evt.data.$.screenY,
 				dx = x - lastCoords.x,
@@ -1968,16 +1968,16 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 			if ( abstractDialogCoords.x + margins[ 3 ] < magnetDistance ) {
 				realX = -margins[ 3 ];
-			} else if ( abstractDialogCoords.x - margins[ 1 ] > viewPaneSize.width - dialogSize.width - magnetDistance ) {
-				realX = viewPaneSize.width - dialogSize.width + ( editor.lang.dir == 'rtl' ? 0 : margins[ 1 ] );
+			} else if ( abstractDialogCoords.x - margins[ 1 ] > containerSize.width - dialogSize.width - magnetDistance ) {
+				realX = containerSize.width - dialogSize.width + ( editor.lang.dir == 'rtl' ? 0 : margins[ 1 ] );
 			} else {
 				realX = abstractDialogCoords.x;
 			}
 
 			if ( abstractDialogCoords.y + margins[ 0 ] < magnetDistance ) {
 				realY = -margins[ 0 ];
-			} else if ( abstractDialogCoords.y - margins[ 2 ] > viewPaneSize.height - dialogSize.height - magnetDistance ) {
-				realY = viewPaneSize.height - dialogSize.height + margins[ 2 ];
+			} else if ( abstractDialogCoords.y - margins[ 2 ] > containerSize.height - dialogSize.height - magnetDistance ) {
+				realY = containerSize.height - dialogSize.height + margins[ 2 ];
 			} else {
 				realY = abstractDialogCoords.y;
 			}
@@ -2166,13 +2166,22 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}
 	}
 
+	function getContainerSize( dialog ) {
+		var container = dialog.parts.dialog.getParent();
+
+		return {
+			width: container.$.clientWidth,
+			height: container.$.clientHeight
+		}
+	}
+
 	function updateRatios( dialog, x, y ) {
-		var viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize(),
+		var containerSize = getContainerSize( dialog ),
 			dialogSize = dialog.getSize(),
 			ratios = dialog._.viewportRatio,
 			freeSpace = {
-				width: Math.max( viewPaneSize.width - dialogSize.width, 0 ),
-				height: Math.max( viewPaneSize.height - dialogSize.height, 0 )
+				width: Math.max( containerSize.width - dialogSize.width, 0 ),
+				height: Math.max( containerSize.height - dialogSize.height, 0 )
 			};
 
 		ratios.width = freeSpace.width ? ( x / freeSpace.width ) : ratios.width;
@@ -2190,8 +2199,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	}
 
 	function showCover( editor ) {
-		var win = CKEDITOR.document.getWindow(),
-			config = editor.config,
+		var config = editor.config,
 			skinName = ( CKEDITOR.skinName || editor.config.skin ),
 			backgroundColorStyle = config.dialog_backgroundCoverColor || ( skinName == 'moono-lisa' ? 'black' : 'white' ),
 			backgroundCoverOpacity = config.dialog_backgroundCoverOpacity,
@@ -2271,7 +2279,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			return;
 
 		editor.focusManager.remove( currentCover );
-		var win = CKEDITOR.document.getWindow();
 		currentCover.hide();
 	}
 
