@@ -715,6 +715,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	function resizeWithWindow( dialog ) {
 		var win = CKEDITOR.document.getWindow();
 		function resizeHandler() {
+			if ( window.prev ) {
+				return;
+			}
 			dialog.layout();
 		}
 		win.on( 'resize', resizeHandler );
@@ -1187,6 +1190,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			// Create the HTML for the tab and the content block.
 			var page = CKEDITOR.dom.element.createFromHtml( pageHtml.join( '' ) );
 			page.setAttribute( 'role', 'tabpanel' );
+			page.setStyle( 'min-height', '100%' );
 
 			var env = CKEDITOR.env;
 			var tabId = 'cke_' + contents.id + '_' + CKEDITOR.tools.getNextNumber(),
@@ -2041,7 +2045,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			startSize = dialog.getSize();
 
 			var content = dialog.parts.contents,
-				iframeDialog = content.$.getElementsByTagName( 'iframe' ).length;
+				iframeDialog = content.$.getElementsByTagName( 'iframe' ).length,
+				isBorderBox = !( CKEDITOR.env.gecko || CKEDITOR.env.ie && CKEDITOR.env.quirks );
 
 			// Shim to help capturing "mousemove" over iframe.
 			if ( iframeDialog ) {
@@ -2049,15 +2054,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				content.append( dialogCover );
 			}
 
-			var isBorderBox = !( CKEDITOR.env.gecko || CKEDITOR.env.ie && CKEDITOR.env.quirks ),
-				heightStyle = content.getStyle( 'height' ),
-				widthStyle = content.getStyle( 'width' ),
-				toPx = CKEDITOR.tools.convertToPx;
-
 			// Calculate the offset between content and chrome size.
-			// Use inline style, because of (#3144), fallback to `element.getSize`.
-			wrapperHeight = startSize.height - ( heightStyle ? toPx( heightStyle ) : content.getSize( 'height', isBorderBox ) );
-			wrapperWidth = startSize.width - ( widthStyle ? toPx( widthStyle ) : content.getSize( 'width', 1 ) );
+			// Use size of current tab panel because we can't rely on size of contents container (#3144).
+			wrapperHeight = startSize.height - dialog.parts.contents.getFirst( isVisible ).getSize( 'height', isBorderBox );
+			wrapperWidth = startSize.width - dialog.parts.contents.getFirst( isVisible ).getSize( 'width', 1 );
 
 			origin = { x: $event.screenX, y: $event.screenY };
 
@@ -2073,6 +2073,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 
 			$event.preventDefault && $event.preventDefault();
+
+			function isVisible( el ) {
+				return el.isVisible();
+			}
 		} );
 
 		// Prepend the grip to the dialog.
@@ -2134,6 +2138,13 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 			dialog.resize( width, height );
 
+			if ( dialog._.moved ) {
+				var x = dialog._.position.x,
+					y = dialog._.position.y;
+
+				updateRatios( dialog, x, y );
+			}
+
 			if ( !dialog._.moved )
 				dialog.layout();
 
@@ -2155,6 +2166,21 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				coverDoc.removeListener( 'mousemove', mouseMoveHandler );
 			}
 		}
+	}
+
+	function updateRatios( dialog, x, y ) {
+		var viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize(),
+			dialogSize = dialog.getSize(),
+			ratios = dialog._.viewportRatio,
+			freeSpace = {
+				width: Math.max( viewPaneSize.width - dialogSize.width, 0 ),
+				height: Math.max( viewPaneSize.height - dialogSize.height, 0 )
+			};
+
+		ratios.width = freeSpace.width ? ( x / freeSpace.width ) : ratios.width;
+		ratios.height = freeSpace.height ? ( y / freeSpace.height ) : ratios.height;
+
+		dialog._.viewportRatio = ratios;
 	}
 
 	// Caching reusable covers and allowing only one cover on screen.
