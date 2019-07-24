@@ -18,4 +18,15 @@
 - Dialog window can be resized and dragged around.
 - When closing and reopening dialog it has same size and position as it had before when it was closed.
 
-Note: When you reposition dialog it won't be centered when resizing browser window.
+### Note
+When you reposition dialog it won't be centered when resizing browser window. Repositioned dialog will move in a way that it will have same percentage of free space on each side. E.g. Consider there is when there is free space around dialog:
+- on the left 10px
+- on the right 90px
+
+Then when window width is increased so that there will be 200px of free space around dialog now there will be:
+- on the left 20px
+- on the right 180px
+
+If instead window width is decreased so there is 50px free space then there will be:
+- on the left 5px
+- on the right 45px
