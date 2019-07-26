@@ -3466,7 +3466,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			if ( dialog ) {
 				dialog.once( 'hide', function() {
 					dialog.setModel( null );
-				} );
+				}, null, null, 999 );
 			}
 
 			return dialog;
