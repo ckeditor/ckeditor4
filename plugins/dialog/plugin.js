@@ -1575,12 +1575,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 			var model = this.getModel( editor );
 
-			if ( !model ) {
-				return CKEDITOR.dialog.CREATION_MODE;
-			}
-
-			// Element in detached mode.
-			if ( model instanceof CKEDITOR.dom.element && !model.getParent() ) {
+			if ( !model || model instanceof CKEDITOR.dom.element && !model.getParent() ) {
 				return CKEDITOR.dialog.CREATION_MODE;
 			}
 
