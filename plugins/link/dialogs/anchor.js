@@ -6,8 +6,6 @@
 CKEDITOR.dialog.add( 'anchor', function( editor ) {
 	// Function called in onShow to load selected element.
 	var loadElements = function( element ) {
-			this._.selectedElement = element;
-
 			var attributeValue = element.data( 'cke-saved-name' );
 			this.setValueOf( 'info', 'txtName', attributeValue || '' );
 		};
@@ -41,24 +39,25 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			return getSelectedAnchor( editor.getSelection() ) || null;
 		},
 		onOk: function() {
-			var name = CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtName' ) );
-			var attributes = {
-				id: name,
-				name: name,
-				'data-cke-saved-name': name
-			};
+			var name = CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtName' ) ),
+				attributes = {
+					id: name,
+					name: name,
+					'data-cke-saved-name': name
+				},
+				selectedElement = this.getModel( editor );
 
-			if ( this._.selectedElement ) {
-				if ( this._.selectedElement.data( 'cke-realelement' ) ) {
+			if ( selectedElement ) {
+				if ( selectedElement.data( 'cke-realelement' ) ) {
 					var newFake = createFakeAnchor( editor, attributes );
-					newFake.replace( this._.selectedElement );
+					newFake.replace( selectedElement );
 
 					// Selecting fake element for IE. (https://dev.ckeditor.com/ticket/11377)
 					if ( CKEDITOR.env.ie ) {
 						editor.getSelection().selectElement( newFake );
 					}
 				} else {
-					this._.selectedElement.setAttributes( attributes );
+					selectedElement.setAttributes( attributes );
 				}
 			} else {
 				var sel = editor.getSelection(),
@@ -80,13 +79,9 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			}
 		},
 
-		onHide: function() {
-			delete this._.selectedElement;
-		},
-
 		onShow: function() {
 			var sel = editor.getSelection(),
-				fullySelected = getSelectedAnchor( sel ),
+				fullySelected = this.getModel( editor ),
 				fakeSelected = fullySelected && fullySelected.data( 'cke-realelement' ),
 				linkElement = fakeSelected ?
 					CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, fullySelected ) :
@@ -95,10 +90,6 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			if ( linkElement ) {
 				loadElements.call( this, linkElement );
 				!fakeSelected && sel.selectElement( linkElement );
-
-				if ( fullySelected ) {
-					this._.selectedElement = fullySelected;
-				}
 			}
 
 			this.getContentElement( 'info', 'txtName' ).focus();

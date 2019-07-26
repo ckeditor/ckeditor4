@@ -39,7 +39,7 @@
 
 			bot.dialog( 'image', function( dialog ) {
 				try {
-					assert.isObject( dialog.widget, 'Dialog displayed in the context of the widget.' );
+					assert.isTrue( dialog.getModel() instanceof CKEDITOR.plugins.widget, 'Dialog displayed in the context of the widget.' );
 				} catch ( e ) {
 					throw e;
 				} finally {
