@@ -244,11 +244,6 @@
 		 */
 		this.strokesLimit = 25;
 
-		this.editor = editor;
-
-		// Reset the undo stack.
-		this.reset();
-
 		/**
 		 * Array of filter rules.
 		 *
@@ -257,6 +252,11 @@
 		 * @property {Function[]}
 		 */
 		this._filterRules = [];
+
+		this.editor = editor;
+
+		// Reset the undo stack.
+		this.reset();
 
 		// In IE, we need to remove the expando attributes.
 		if ( CKEDITOR.env.ie ) {
