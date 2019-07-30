@@ -436,6 +436,12 @@
 		},
 
 		'test if name of file is correctly attached (https://dev.ckeditor.com/ticket/13518)': function() {
+			// Ignore because of Edge upstream (#3184).
+			// developer.microsoft.com/en-us/microsoft-edge/platform/issues/22326784
+			if ( CKEDITOR.env.edge && CKEDITOR.env.version >= 18 ) {
+				assert.ignore();
+			}
+
 			var name = 'customName.png',
 				loader = new FileLoader( editorMock, pngBase64, name );
 
