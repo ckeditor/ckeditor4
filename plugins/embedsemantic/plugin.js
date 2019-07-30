@@ -38,7 +38,7 @@
 					origInit.call( this );
 
 					// Need to wait for #ready with the initial content loading, because on #init there's no data yet.
-					this.once( 'ready', function() {
+					CKEDITOR.env.ie && this.once( 'ready', function() {
 						// When widget is created using dialog, the dialog's code will handle loading the content
 						// (because it handles success and error), so do load the content only when loading data.
 						if ( this.data.loadOnReady ) {

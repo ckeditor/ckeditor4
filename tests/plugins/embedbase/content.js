@@ -55,12 +55,12 @@
 		} ),
 
 		//(#2306)
-		'test downcast element with "data-cke-restore-html" attribute': testDowncast( {
+		'test downcast element with "data-restore-html" attribute': testDowncast( {
 			restoreHtml: true
 		} ),
 
 		//(#2306)
-		'test downcast element without "data-cke-restore-html" attribute': testDowncast( {
+		'test downcast element without "data-restore-html" attribute': testDowncast( {
 			restoreHtml: false
 		} ),
 
@@ -249,7 +249,7 @@
 			generateContentStub.restore();
 			getCachedResponseStub.restore();
 
-			var getResponseAttr = element.attributes[ 'data-cke-get-response' ];
+			var getResponseAttr = element.attributes[ 'data-get-response' ];
 
 			assert.areSame( fakeUrl, data.url );
 
@@ -258,12 +258,12 @@
 			options.html ? assertWithHtml() : assertWithoutHtml();
 
 			function assertWithHtml() {
-				assert.areSame( 'true', element.attributes[ 'data-cke-restore-html' ] );
+				assert.areSame( 'true', element.attributes[ 'data-restore-html' ] );
 				assert.areSame( options.html, setHtmlSpy.lastCall.args[ 0 ] );
 			}
 
 			function assertWithoutHtml() {
-				assert.isUndefined( element.attributes[ 'data-cke-restore-html' ] );
+				assert.isUndefined( element.attributes[ 'data-restore-html' ] );
 				assert.areSame( 0, setHtmlSpy.callCount );
 			}
 
@@ -289,7 +289,7 @@
 				setHtmlSpy = element.setHtml = sinon.spy();
 
 			if ( options.restoreHtml ) {
-				element.attributes[ 'data-cke-restore-html' ] = 'true';
+				element.attributes[ 'data-restore-html' ] = 'true';
 			}
 
 			widgetDef.data = { url: 'http://fake.url' };
@@ -297,7 +297,7 @@
 
 			getCachedResponseStub.restore();
 
-			assert.isUndefined( element.attributes[ 'data-cke-restore-html' ] );
+			assert.isUndefined( element.attributes[ 'data-restore-html' ] );
 
 			if ( options.restoreHtml ) {
 				assert.areSame( mockResponse.html, setHtmlSpy.lastCall.args[ 0 ] );
@@ -333,7 +333,7 @@
 				getResponse = options.getResponse;
 
 			createWidget( editor, function( widget ) {
-				getResponse && widget.element.setAttribute( 'data-cke-get-response', 'true' );
+				getResponse && widget.element.setAttribute( 'data-get-response', 'true' );
 
 				widget.element.data( 'oembed-url', fakeUrl );
 				widget.loadContent = loadContentSpy;

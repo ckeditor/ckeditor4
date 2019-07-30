@@ -88,6 +88,8 @@
 		},
 
 		init: function( editor ) {
+			editor._.cachedFrameContents = {};
+
 			CKEDITOR.dialog.add( 'embedBase', this.path + 'dialogs/embedbase.js' );
 			loadStyles( editor, this );
 		}
@@ -214,20 +216,176 @@
 					}
 				}, this, null, 999 );
 
-				if ( !this.element.getAttribute( 'data-cke-get-response' ) ) {
-					return;
-				}
+				this.once( 'ready', function() {
+					var url = this.data.url;
 
-				var url = this.element.data( 'oembed-url' );
+					if ( !url ) {
+						return;
+					}
 
-				if ( !url ) {
-					return;
-				}
+					var that = this;
 
-				// We need to send request, based on response widget might need to be updated (#2306).
-				this.loadContent( url, {
-					noNotifications: true
+					if ( !CKEDITOR.env.ie ) {
+						this.appendIframe().then( function( iframe ) {
+							if ( !iframe.hasAttribute( 'src' ) ) {
+								var documentElement = iframe && iframe.getFrameDocument().getDocumentElement(),
+									contents = getCachedFrameContents( editor, url ),
+									response;
+
+								if ( contents ) {
+									cacheFrameContents( editor, url, documentElement );
+									that.element.setAttribute( 'data-restore-html', true );
+									restoreContents( documentElement, contents, that );
+								} else if ( response = that._getCachedResponse( url ) ) {
+									that.addContent( response.html );
+								} else {
+									that.loadContent( url, {
+										noNotifications: true
+									} );
+								}
+							}
+						} );
+					} else if ( this.element.hasAttribute( 'data-cke-get-responmse' ) ) {
+						that.loadContent( url, {
+							noNotifications: true
+						} );
+					}
 				} );
+			},
+
+			/**
+			 * Appends an iframe to this widget, and returns promise which resolves with the iframe.
+			 * Because some browsers needs iframe#onload, it's wrapped with the promise.
+			 *
+			 * @returns {CKEDITOR.tools.promise<CKEDITOR.dom.element>} Returns the promise wrapping iframe.
+			 */
+			appendIframe: function() {
+				var iframe = this.element.findOne( 'iframe' );
+
+				if ( !iframe ) {
+					iframe = this.editor.editable().getDocument().createElement( 'iframe' );
+
+					iframe.setAttributes( {
+						width: '100%',
+						height: '300',
+						frameborder: '0'
+					} );
+
+					this.editor.fire( 'lockSnapshot' );
+
+					this.element.setHtml( '' );
+					this.element.append( iframe );
+					this.setData( 'store-contents', true );
+
+					this.editor.fire( 'unlockSnapshot' );
+				}
+
+				var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
+
+				if ( !useOnloadEvent ) {
+					return CKEDITOR.tools.promise.resolve( iframe );
+				}
+
+				var promise = new CKEDITOR.tools.promise( function( res ) {
+					iframe.once( 'load', function() {
+						res( iframe );
+					} );
+				} );
+
+				return promise;
+			},
+
+			addContent: function( content ) {
+				var that = this;
+
+				this.appendIframe().then( function( iframe ) {
+					var frameDocument = iframe.getFrameDocument(),
+						frameBody = frameDocument.getBody(),
+						frameHead = frameDocument.getHead(),
+						scriptUrl = content.match( /<script.*src="([^"]*)/ ),
+						style = frameDocument.createElement( 'style' );
+
+					cacheFrameContents( editor, that.data.url, frameDocument.getDocumentElement() );
+
+					scriptUrl = scriptUrl && scriptUrl[ 1 ];
+
+					style.setHtml(
+						'html, body {' +
+						'height: 100%;' +
+						'}' +
+						'body {' +
+						'position: relative;' +
+						'display: block;' +
+						'margin: 0;' +
+						'background: none transparent;' +
+						'overflow: hidden;' +
+						'}' +
+						'object, embed, iframe {' +
+						'margin: 0;' +
+						'padding: 0;' +
+						'background: white;' +
+						'color: white;' +
+						'}'
+					);
+
+					frameHead.append( style );
+
+					content = content.replace( /<script(.|\n)*?<\/script>/gmi, '' );
+
+					var container = new CKEDITOR.dom.element( 'div', frameDocument ),
+						script = frameDocument.createElement( 'script' );
+
+					container.setHtml( content );
+
+					frameBody.append( container );
+
+					script.setAttribute( 'src', scriptUrl );
+
+					frameBody.append( script );
+
+					// Mark that element html needs to be restored on downcast (#2306).
+					that.element.setAttribute( 'data-restore-html', true );
+
+					that.addResizeListener();
+				} );
+			},
+
+			addResizeListener: function() {
+				var iframe = this.element.findOne( 'iframe' ),
+					frameDocument = iframe.getFrameDocument(),
+					frameBody = frameDocument.getBody(),
+					container = frameBody.findOne( 'div' ),
+					editor = this.editor,
+					lastContentElementHeight;
+
+				resize();
+
+				// When inverval is hosted in iframe window it will only last as long as window is attached, so no need for manual cleanup.
+				frameDocument.getWindow().$.setInterval( function() {
+					var elHeight = container.$.scrollHeight;
+
+					if ( elHeight != lastContentElementHeight ) {
+						lastContentElementHeight = elHeight;
+						resize();
+					}
+				}, 200 );
+
+				function resize() {
+					// Prevent editor from saving new snapshots each time iframe height is adjusted.
+					editor.fire( 'lockSnapshot' );
+
+					iframe.setAttribute( 'height', getHeight() );
+
+					editor.fire( 'unlockSnapshot' );
+					editor.fire( 'updateSnapshot' );
+
+				}
+
+				function getHeight() {
+					var elHeight = container.$.scrollHeight,
+						docHeight = frameBody.$.scrollHeight;
+					return ( elHeight < docHeight && elHeight > 0 ) ? elHeight : docHeight;
+				}
 			},
 
 			/**
@@ -320,6 +478,9 @@
 						that._cacheResponse( url, response );
 						if ( opts.callback ) {
 							opts.callback();
+						}
+						if ( !CKEDITOR.env.ie ) {
+							that.addContent( response.html );
 						}
 					}
 				}
@@ -445,12 +606,16 @@
 						request.task.done();
 					}
 
-					// Try to recreate widget content when needed (#2306).
-					var content = this._generateContent( request.response );
+					var content;
+
+					if ( CKEDITOR.env.ie ) {
+						// Try to recreate widget content when needed (#2306).
+						content = this._generateContent( request.response );
+					}
 
 					if ( content ) {
 						// Mark that element html needs to be restored on downcast (#2306).
-						this.element.setAttribute( 'data-cke-restore-html', 'true' );
+						this.element.setAttribute( 'data-restore-html', 'true' );
 					} else {
 						content = evtData.html;
 					}
@@ -762,5 +927,81 @@
 		if ( editor.addContentsCss ) {
 			editor.addContentsCss( plugin.path + localPath );
 		}
+	}
+
+	function cacheFrameContents( editor, url, element ) {
+		var cache = editor._.cachedFrameContents[ url ];
+
+		if ( !cache ) {
+			cache = editor._.cachedFrameContents[ url ] = [];
+		}
+
+		cache.push( element );
+	}
+
+	function getCachedFrameContents( editor, url ) {
+		var cache = editor._.cachedFrameContents[ url ];
+
+		if ( !cache ) {
+			return null;
+		}
+
+		var contents = CKEDITOR.tools.array.find( cache, isDetached );
+
+		if ( !contents ) {
+			return null;
+		}
+
+		var index = CKEDITOR.tools.array.indexOf( cache, contents );
+
+		// Contents must be used to create new cached element, so this one is removed from cache.
+		cache.splice( index, 1 );
+
+		return contents;
+	}
+
+	function restoreContents( parent, contents, widget ) {
+		removeChildren( parent );
+
+		CKEDITOR.tools.array.forEach( contents.getChildren().toArray(), function( element ) {
+			parent.append( element );
+		} );
+
+		// We can't check if widget is fully initialized before downcasting,
+		// so we need to restore scripts and resize listener, to let it finish loading.
+		restoreScripts( parent.getDocument().getBody() );
+
+		widget.addResizeListener();
+	}
+
+	function removeChildren( parent ) {
+		var child;
+		while ( child = parent.getFirst() ) {
+			child.remove();
+		}
+	}
+
+	function restoreScripts( element ) {
+		CKEDITOR.tools.array.forEach( element.find( 'script' ).toArray(), function( scriptEl ) {
+			var parent = scriptEl.getParent(),
+				src = scriptEl.getAttribute( 'src' );
+
+			scriptEl.remove();
+			scriptEl = new CKEDITOR.dom.element( 'script', parent.getDocument() );
+			scriptEl.setAttribute( 'src', src );
+
+			parent.append( scriptEl );
+		} );
+	}
+
+	function isDetached( element ) {
+		var window = !element.getDocument().getWindow();
+
+		if ( !window.$ ) {
+			return true;
+		}
+
+		var el = window.getFrame();
+		return el.getDocument().getDocumentElement().contains( el );
 	}
 } )();
