@@ -1474,8 +1474,8 @@
 		/**
 		 * Normalizes mouse buttons across browsers.
 		 *
-		 * Noticeably only Internet Explorer 8 and IE 9 in Quirks Mode/Compatibility View have different
-		 * buttons mappings than other browsers:
+		 * Noticeably only Internet Explorer 8 and Internet Explorer 9 in Quirks Mode / Compatibility View
+		 * have different buttons mappings than other browsers:
 		 *
 		 * ```
 		 * +--------------+--------------------------+----------------+
