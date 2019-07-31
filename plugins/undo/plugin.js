@@ -692,7 +692,7 @@
 		/**
 		 * Registers a filtering rule.
 		 *
-		 * @since 4.12.2
+		 * @since 4.13.0
 		 * @param {Function} rule Callback function that returns filtered data.
 		 * @param {String} rule.data Data passed to callback.
 		 */
