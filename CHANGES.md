@@ -21,6 +21,7 @@ API Changes:
 * [#3245](https://github.com/ckeditor/ckeditor-dev/issues/3245): Added the [`CKEDITOR.plugins.undo.UndoManager.addFilterRule()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_undo_UndoManager.html#method-addFilterRule) method which allows filtering undo snapshots contents.
 * [#2845](https://github.com/ckeditor/ckeditor-dev/issues/2845): Added the [`CKEDITOR.tools.normalizeMouseButton()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-normalizeMouseButton) method.
 * [#2975](https://github.com/ckeditor/ckeditor-dev/issues/2975): Added the [`CKEDITOR.dom.element#fireEventHandler()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_element.html#method-fireEventHandler) method.
+* [#3247](https://github.com/ckeditor/ckeditor-dev/issues/3247): Extended [`CKEDITOR.tools.bind()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-bind) method to accept arguments for bound functions.
 
 ## CKEditor 4.12.1
 

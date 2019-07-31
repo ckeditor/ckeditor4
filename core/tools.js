@@ -706,23 +706,40 @@
 		 * Creates a function that will always execute in the context of a
 		 * specified object.
 		 *
-		 *		var obj = { text: 'My Object' };
+		 * ```js
+		 * var obj = { text: 'My Object' };
 		 *
-		 *		function alertText() {
-		 *			alert( this.text );
-		 *		}
+		 * function alertText() {
+		 * 	alert( this.text );
+		 * }
 		 *
-		 *		var newFunc = CKEDITOR.tools.bind( alertText, obj );
-		 *		newFunc(); // Alerts 'My Object'.
+		 * var newFunc = CKEDITOR.tools.bind( alertText, obj );
+		 * newFunc(); // Alerts 'My Object'.
+		 * ```
+		 *
+		 * Since 4.13.0 additional arguments can be bound to a function.
+		 *
+		 * ```js
+		 * function logData( text, number1, number2 ) {
+		 * 	console.log( text, number1, number2 );
+		 * }
+		 *
+		 * var newFunc = CKEDITOR.tools.bind( logData, null, 'Foo', 1 );
+		 * newFunc(); // Logs: 'Foo', 1, undefined.
+		 * newFunc( 2 ); // Logs: 'Foo', 1, 2.
+		 *
+		 * ```
 		 *
 		 * @param {Function} func The function to be executed.
 		 * @param {Object} obj The object to which the execution context will be bound.
+		 * @param {*} [args] Arguments provided to the bound function when invoking the target function. Available since 4.13.0.
 		 * @returns {Function} The function that can be used to execute the
-		 * `func` function in the context of `obj`.
+		 * `func` function in the context of specified `obj` object.
 		 */
 		bind: function( func, obj ) {
+			var args = Array.prototype.slice.call( arguments, 2 );
 			return function() {
-				return func.apply( obj, arguments );
+				return func.apply( obj, args.concat( Array.prototype.slice.call( arguments ) ) );
 			};
 		},
 
