@@ -448,6 +448,30 @@
 				assert.areSame( 0, objToArray( editor.widgets.instances ).length, '0 widgets after redo' );
 				assertCommands( editor, true, false, 'after redo' );
 			} );
+		},
+
+		// (#3245)
+		'test undo when widget is focused and blurred': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( widgetData1, function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				editor.resetUndo();
+
+				widget.focus();
+
+				editor.fire( 'blur' );
+				editor.fire( 'saveSnapshot' );
+
+				setTimeout( function() {
+					resume( function() {
+						assert.isFalse( editor.undoManager.hasUndo, 'UndoManager.hasUndo' );
+					} );
+				} );
+
+				wait();
+			} );
 		}
 	} );
 } )();
