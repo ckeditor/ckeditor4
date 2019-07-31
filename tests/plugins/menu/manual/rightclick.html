@@ -1,0 +1,46 @@
+<h2>Classic editor</h2>
+<div id="classic">
+	<p>I'm CKEditor 4 instance.</p>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'classic', {
+		on: {
+			instanceReady: function( evt ) {
+				var editor = evt.editor;
+
+				editor.addMenuGroup( 'test' );
+				editor.addMenuItems( {
+					item1: {
+						label: 'Test 1',
+						group: 'test',
+						onClick: function() {
+							alert( 'Test 1' );
+						},
+						order: 1
+					},
+
+					item2: {
+						label: 'Test 2',
+						group: 'test',
+						onClick: function() {
+							alert( 'Test 2' );
+						},
+						order: 2
+					}
+				} );
+
+				editor.contextMenu.addListener( function() {
+					return {
+						item1: CKEDITOR.TRISTATE_OFF,
+						item2: CKEDITOR.TRISTATE_OFF
+					};
+				} );
+			}
+		}
+	} );
+</script>

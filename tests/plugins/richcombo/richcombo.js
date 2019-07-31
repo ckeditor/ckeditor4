@@ -56,5 +56,24 @@ bender.test( {
 
 		assert.areEqual( 0, combo._.listeners.length, 'Listeners array is empty.' );
 		assert.isTrue( listenersRemoved, 'All listeners are removed.' );
+	},
+
+	// (#2565)
+	'test right-clicking combo': function() {
+		if ( !CKEDITOR.env.ie ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor,
+			combo = editor.ui.get( 'custom_combo' ),
+			comboBtn = CKEDITOR.document.findOne( '#cke_' + combo.id + ' .cke_combo_button' ),
+			spy;
+
+		combo.createPanel( editor );
+		spy = sinon.spy( combo._.panel, 'onShow' );
+		bender.tools.dispatchMouseEvent( comboBtn, 'mouseup', CKEDITOR.MOUSE_BUTTON_RIGHT );
+		spy.restore();
+
+		assert.areSame( 0, spy.callCount, 'rich combo was no opened' );
 	}
 } );

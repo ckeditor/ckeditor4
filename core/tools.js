@@ -1462,23 +1462,84 @@
 		 * if the mouse button cannot be determined.
 		 */
 		getMouseButton: function( evt ) {
-			var domEvent = evt.data ? evt.data.$ : evt;
+			var domEvent = evt && evt.data ? evt.data.$ : evt;
 
 			if ( !domEvent ) {
 				return false;
 			}
 
-			if ( CKEDITOR.env.ie && ( CKEDITOR.env.version < 9 || CKEDITOR.env.ie6Compat ) ) {
-				if ( domEvent.button === 4 ) {
-					return CKEDITOR.MOUSE_BUTTON_MIDDLE;
-				} else if ( domEvent.button === 1 ) {
-					return CKEDITOR.MOUSE_BUTTON_LEFT;
-				} else {
-					return CKEDITOR.MOUSE_BUTTON_RIGHT;
-				}
+			return CKEDITOR.tools.normalizeMouseButton( domEvent.button );
+		},
+
+		/**
+		 * Normalizes mouse buttons across browsers.
+		 *
+		 * Noticeably only Internet Explorer 8 and Internet Explorer 9 in Quirks Mode / Compatibility View
+		 * have different buttons mappings than other browsers:
+		 *
+		 * ```
+		 * +--------------+--------------------------+----------------+
+		 * | Mouse button | IE 8 / IE 9 CM / IE 9 QM | Other browsers |
+		 * +--------------+--------------------------+----------------+
+		 * | Left         |             1            |        0       |
+		 * +--------------+--------------------------+----------------+
+		 * | Middle       |             4            |        1       |
+		 * +--------------+--------------------------+----------------+
+		 * | Right        |             2            |        2       |
+		 * +--------------+--------------------------+----------------+
+		 * ```
+		 *
+		 * The normalization is conducted only in browsers that use non-standard button mappings,
+		 * returning passed parameter in every other browser. Therefore values for IE < 9 are mapped
+		 * to values used in the rest of the browsers. For example the below code in IE8 will return results as follows:
+		 *
+		 * ```js
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 1 ) ); // 0
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 4 ) ); // 1
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 2 ) ); // 2
+		 * ```
+		 *
+		 * While for the rest of the browsers it will simply return passed values.
+		 *
+		 * With the `reversed` parameter set to `true` values from the rest of the browsers
+		 * are mapped to IE < 9 values in IE < 9 browsers. This means IE8 will return results as follows:
+		 *
+		 * ```js
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 0, true ) ); // 1
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 1, true ) ); // 4
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 2, true ) ); // 2
+		 * ```
+		 *
+		 * While for the rest of the browsers it will simply return passed values.
+		 *
+		 * @since 4.13.0
+		 * @param {Number} button Mouse button identifier.
+		 * @param {Boolean} [reverse=false] If set to true, the conversion is reversed: values
+		 * returned by other browsers are converted to IE 8 values.
+		 * @returns {Number} Normalized mouse button identifier.
+		 */
+		normalizeMouseButton: function( button, reverse ) {
+			if ( !CKEDITOR.env.ie || ( CKEDITOR.env.version >= 9 && !CKEDITOR.env.ie6Compat ) ) {
+				return button;
 			}
 
-			return domEvent.button;
+			var mappings = [
+				[ CKEDITOR.MOUSE_BUTTON_LEFT, 1 ],
+				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, 4 ],
+				[ CKEDITOR.MOUSE_BUTTON_RIGHT, 2 ]
+			];
+
+			for ( var i = 0; i < mappings.length; i++ ) {
+				var mapping = mappings[ i ];
+
+				if ( mapping[ 0 ] === button && reverse ) {
+					return mapping[ 1 ];
+				}
+
+				if ( !reverse && mapping[ 1 ] === button ) {
+					return mapping[ 0 ];
+				}
+			}
 		},
 
 		/**

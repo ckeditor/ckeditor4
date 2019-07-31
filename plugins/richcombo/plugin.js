@@ -21,7 +21,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 			' hidefocus="true"' +
 			' role="button"' +
 			' aria-labelledby="{id}_label"' +
-			' aria-haspopup="listbox"';
+			' aria-haspopup="listbox"',
+		specialClickHandler = '';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -34,11 +35,15 @@ CKEDITOR.plugins.add( 'richcombo', {
 	if ( CKEDITOR.env.gecko )
 		template += ' onblur="this.style.cssText = this.style.cssText;"';
 
+	// In IE/Edge right click opens rich combo (#2845).
+	if ( CKEDITOR.env.ie ) {
+		specialClickHandler = 'return false;" onmouseup="CKEDITOR.tools.getMouseButton(event)==CKEDITOR.MOUSE_BUTTON_LEFT&&';
+	}
+
 	template +=
 		' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event,this);"' +
-		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
-			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // https://dev.ckeditor.com/ticket/188
-				'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
+		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);"' +
+		' onclick="' + specialClickHandler + 'CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
 			'<span id="{id}_text" class="cke_combo_text cke_combo_inlinelabel">{label}</span>' +
 			'<span class="cke_combo_open">' +
 				'<span class="cke_combo_arrow">' +

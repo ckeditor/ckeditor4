@@ -14,7 +14,7 @@ CKEDITOR.plugins.add( 'listblock', {
 					' draggable="false"' +
 					' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
 					' href="javascript:void(\'{val}\')" ' +
-					' {onclick}="CKEDITOR.tools.callFunction({clickFn},\'{val}\'); return false;"' + // https://dev.ckeditor.com/ticket/188
+					' onclick="{onclick}CKEDITOR.tools.callFunction({clickFn},\'{val}\'); return false;"' + // https://dev.ckeditor.com/ticket/188
 						' role="option">' +
 					'{text}' +
 				'</a>' +
@@ -96,7 +96,9 @@ CKEDITOR.plugins.add( 'listblock', {
 					var data = {
 						id: id,
 						val: escapeSingleQuotes( CKEDITOR.tools.htmlEncodeAttr( value ) ),
-						onclick: CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick',
+						// Add check for left mouse button (#2857).
+						onclick: CKEDITOR.env.ie ?
+							'return false;" onmouseup="CKEDITOR.tools.getMouseButton(event)===CKEDITOR.MOUSE_BUTTON_LEFT&&' : '',
 						clickFn: this._.getClick(),
 						title: CKEDITOR.tools.htmlEncodeAttr( title || value ),
 						text: html || value

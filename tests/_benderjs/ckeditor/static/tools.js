@@ -1218,34 +1218,6 @@
 			img.setAttribute( 'src', src + '?' + Math.random().toString( 16 ).substring( 2 ) );
 		},
 
-		/*
-		* Fires element event handler attribute e.g.
-		* ```html
-		* <button onkeydown="return customFn( event )">x</button>
-		* ```
-		*
-		* @param {CKEDITOR.dom.element/HTMLElement} element Element with attached event handler attribute.
-		* @param {String} eventName Event handler attribute name.
-		* @param {Object} evt Event payload.
-		*/
-		fireElementEventHandler: function( element, eventName, evt ) {
-			if ( element.$ ) {
-				element = element.$;
-			}
-
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				var nativeEvent = CKEDITOR.document.$.createEventObject();
-
-				for ( var key in evt ) {
-					nativeEvent[ key ] = evt[ key ];
-				}
-
-				element.fireEvent( eventName, nativeEvent );
-			} else {
-				element[ eventName ]( evt );
-			}
-		},
-
 		/**
 		 * Creates test suite object for `bender.test` method from synchronous and asynchronous test cases.
 		 * Asynchronous test must be a function which returns a promise and cannot poses wait-resume statements.
@@ -1280,8 +1252,33 @@
 			}
 
 			return tmp;
-		}
+		},
 
+		/**
+		 * Fires specified mouse event on the given element.
+		 *
+		 * @param {CKEDITOR.dom.element/HTMLElement} element Element with attached event handler attribute.
+		 * @param {String} eventName Event handler attribute name.
+		 * @param {Number} button Mouse button to be used.
+		*/
+		dispatchMouseEvent: function( element, type, button ) {
+			var mouseEvent;
+			button = CKEDITOR.tools.normalizeMouseButton( button, true );
+			element = element.$;
+
+			// Thanks to http://help.dottoro.com/ljhlvomw.php
+			if ( document.createEventObject ) {
+				mouseEvent = element.ownerDocument.createEventObject();
+
+				mouseEvent.button = button;
+				element.fireEvent( 'on' + type, mouseEvent );
+			} else {
+				mouseEvent = document.createEvent( 'MouseEvent' );
+
+				mouseEvent.initMouseEvent( type, true, true, window, 0, 0, 0, 80, 20, false, false, false, false, button, null );
+				element.dispatchEvent( mouseEvent );
+			}
+		}
 	};
 
 	bender.tools.range = {

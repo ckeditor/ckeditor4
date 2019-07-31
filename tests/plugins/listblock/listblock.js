@@ -41,26 +41,38 @@
 
 		// (#2430)
 		'test list block elements not draggable': function() {
-			var editor = this.editor,
-				stylesCombo = editor.ui.get( 'Styles' );
+			var bot = this.editorBot;
 
-			editor.once( 'panelShow', function( evt ) {
-				resume( function() {
-					var block = stylesCombo._.panel.getBlock( stylesCombo.id ).element,
-						items = block.find( 'a' ).toArray().concat( block.find( 'h1' ).toArray() );
+			bot.combo( 'Styles', function( combo ) {
+				var block = combo._.panel.getBlock( combo.id ).element,
+					items = block.find( 'a' ).toArray().concat( block.find( 'h1' ).toArray() );
 
-					CKEDITOR.tools.array.forEach( items, function( element ) {
-						assert.areEqual( 'false', element.getAttribute( 'draggable' ), 'Draggable attribute value should be "false".' );
-						assert.areEqual( 'return false;', element.getAttribute( 'ondragstart' ), 'ondragstart value should be "return false;".' );
-					} );
+				combo._.panel.hide();
+				CKEDITOR.tools.array.forEach( items, function( element ) {
+					assert.areEqual( 'false', element.getAttribute( 'draggable' ), 'Draggable attribute value should be "false".' );
+					assert.areEqual( 'return false;', element.getAttribute( 'ondragstart' ), 'ondragstart value should be "return false;".' );
 				} );
-
-				evt.data.hide();
 			} );
+		},
 
-			CKEDITOR.document.findOne( '#cke_' + stylesCombo.id ).findOne( 'a' ).$[ CKEDITOR.env.ie ? 'onmouseup' : 'click' ]();
+		// (#2857)
+		'test right clicking list block elements': function() {
+			if ( !CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
 
-			wait();
+			var bot = this.editorBot;
+
+			bot.combo( 'Styles', function( combo ) {
+				var block = combo._.panel.getBlock( combo.id ).element,
+					item = block.findOne( 'a' ),
+					spy = sinon.spy( combo, 'onClick' );
+
+				bender.tools.dispatchMouseEvent( item, 'mouseup', CKEDITOR.MOUSE_BUTTON_RIGHT );
+				spy.restore();
+				combo._.panel.hide();
+				assert.areSame( 0, spy.callCount, 'onClick not fired' );
+			} );
 		},
 
 		// Expects both object to have following structure:
@@ -118,5 +130,4 @@
 			return str.replace( /\'/g, '\\\'' );
 		}
 	} );
-
 } )();
