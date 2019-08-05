@@ -8,8 +8,7 @@
 ( function() {
 	var pastetools = CKEDITOR.plugins.pastetools,
 		commonFilter = pastetools.filters.common,
-		Style = commonFilter.styles,
-		plug = {};
+		Style = commonFilter.styles;
 
 	/**
 	 * Set of Paste from Google Docs plugin helpers.
@@ -18,86 +17,89 @@
 	 * @private
 	 * @member CKEDITOR.plugins.pastetools.filters
 	 */
-	CKEDITOR.plugins.pastetools.filters.gdocs = plug;
+	CKEDITOR.plugins.pastetools.filters.gdocs = {
+		/**
+		 * Rules for Paste from GDocs filter.
+		 *
+		 * @since 4.13.0
+		 * @private
+		 * @member CKEDITOR.plugins.pastetools.filters.gdocs
+		 */
+		rules: function( html, editor, filter ) {
+			return {
+				elementNames: [
+					[ /^meta/, '' ]
+				],
 
-	/**
-	 * Rules for Paste from GDocs filter.
-	 *
-	 * @since 4.13.0
-	 * @private
-	 * @member CKEDITOR.plugins.pastetools.filters.gdocs
-	 */
-	plug.rules = function( html, editor, filter ) {
-		return {
-			elementNames: [
-				[ /^meta/, '' ]
-			],
-
-			comment: function() {
-				return false;
-			},
-
-			attributes: {
-				'id': function( value ) {
-					var gDocsIdRegex = /^docs\-internal\-guid\-/;
-
-					return !gDocsIdRegex.test( value );
-				},
-				'dir': function( value ) {
-					return value === 'ltr' ? false : value;
-				},
-				'style': function( styles, element ) {
-					return Style.normalizedStyles( element, editor ) || false;
-				},
-				'class': function( classes ) {
-					return falseIfEmpty( classes.replace( /kix-line-break/ig, '' ) );
-				}
-			},
-
-			elements: {
-				'span': function( element ) {
-					Style.createStyleStack( element, filter, editor, /vertical-align|white-space|font-variant/ );
-				},
-
-				'b': function( element ) {
-					// Google docs sometimes uses `b` as a wrapper without semantic value.
-					commonFilter.elements.replaceWithChildren( element );
+				comment: function() {
 					return false;
 				},
 
-				'p': function( element ) {
-					if ( element.parent.name === 'li' ) {
-						commonFilter.elements.replaceWithChildren( element );
-						return false;
+				attributes: {
+					'id': function( value ) {
+						var gDocsIdRegex = /^docs\-internal\-guid\-/;
+
+						return !gDocsIdRegex.test( value );
+					},
+					'dir': function( value ) {
+						return value === 'ltr' ? false : value;
+					},
+					'style': function( styles, element ) {
+						return falseIfEmpty( Style.normalizedStyles( element, editor ) );
+					},
+					'class': function( classes ) {
+						return falseIfEmpty( classes.replace( /kix-line-break/ig, '' ) );
 					}
 				},
 
-				'ul': function( element ) {
-					Style.pushStylesLower( element );
-				},
+				elements: {
+					'span': function( element ) {
+						Style.createStyleStack( element, filter, editor, /vertical-align|white-space|font-variant/ );
+					},
 
-				'ol': function( element ) {
-					Style.pushStylesLower( element );
-				},
+					'b': function( element ) {
+						// Google docs sometimes uses `b` as a wrapper without semantic value.
+						commonFilter.elements.replaceWithChildren( element );
 
-				'li': function( element ) {
-					Style.pushStylesLower( element );
+						return false;
+					},
+
+					'p': function( element ) {
+						if ( element.parent.name === 'li' ) {
+							commonFilter.elements.replaceWithChildren( element );
+
+							return false;
+						}
+					},
+
+					'ul': function( element ) {
+						Style.pushStylesLower( element );
+					},
+
+					'ol': function( element ) {
+						Style.pushStylesLower( element );
+					},
+
+					'li': function( element ) {
+						Style.pushStylesLower( element );
+					}
 				}
-			}
-		};
+			};
+		}
 	};
 
 	function falseIfEmpty( value ) {
 		if ( value === '' ) {
 			return false;
 		}
+
 		return value;
 	}
 
 	CKEDITOR.pasteFilters.gdocs = pastetools.createFilter( {
 		rules: [
 			commonFilter.rules,
-			plug.rules
+			CKEDITOR.plugins.pastetools.filters.gdocs.rules
 		]
 	} );
 } )();
