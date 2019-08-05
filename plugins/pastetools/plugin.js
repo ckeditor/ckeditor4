@@ -152,7 +152,7 @@
 				return 0;
 			}
 
-			return handler1.priority > handler2.priority ? 1 : -1;
+			return handler1.priority - handler2.priority;
 		} );
 	}
 
