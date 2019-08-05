@@ -66,6 +66,37 @@
 
 					assertPasteEvent( editor, { type: 'text', dataValue: 'foobar' }, pasteData );
 				} );
+			},
+
+			'test getting clipboard data': function( editor, bot ) {
+				if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+					assert.ignore();
+				}
+
+				bot.setData( '', function() {
+					var getClipboardData = CKEDITOR.plugins.pastetools.getClipboardData,
+						dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer(),
+						html = '<p>Test</p>',
+						custom = 'hublabubla',
+						fullHtml = '<meta charset="UTF-8">' + html;
+
+					dataTransfer.setData( 'text/html', fullHtml );
+					dataTransfer.setData( 'custom/type', custom );
+
+					editor.once( 'paste', function( evt ) {
+						resume( function() {
+							var data = evt.data,
+								actualHtml = getClipboardData( data, 'text/html' ),
+								actualCustom = getClipboardData( data, 'custom/type' );
+
+							assert.areSame( fullHtml, actualHtml, 'Correct HTML was returned' );
+							assert.areSame( custom, actualCustom, 'Correct custom data was returned' );
+						} );
+					}, null, null, 999 );
+
+					paste( editor, { dataTransfer: dataTransfer, dataValue: html } );
+					wait();
+				} );
 			}
 		};
 

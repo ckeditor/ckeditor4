@@ -29,9 +29,7 @@
 
 				handle: function( evt, next ) {
 					var data = evt.data,
-						dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
-							data.dataTransfer.getData( 'text/html', true ) : null,
-						gDocsHtml = dataTransferHtml || data.dataValue;
+						gDocsHtml = CKEDITOR.plugins.pastetools.getClipboardData( data, 'text/html' );
 
 					// Do not apply paste filter to data filtered by the GDocs filter (https://dev.ckeditor.com/ticket/13093).
 					data.dontFilter = true;

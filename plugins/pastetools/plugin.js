@@ -115,6 +115,32 @@
 
 				return writer.getHtml();
 			};
+		},
+
+		/**
+		 * Get clipboard data.
+		 *
+		 * @param data {Object} Paste event `data` property.
+		 * @param type {String} MIME type of requested data.
+		 * @returns {mixed} Raw clipboard data.
+		 * @member CKEDITOR.plugins.pastetools
+		 */
+		getClipboardData: function( data, type ) {
+			var dataTransfer;
+
+			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && type !== 'text/html' ) {
+				return null;
+			}
+
+			dataTransfer = data.dataTransfer.getData( type, true );
+
+			// Some commands fire paste event without setting dataTransfer property. In such case
+			// dataValue should be used for retrieving HTML.
+			if ( !dataTransfer && type === 'text/html' ) {
+				return data.dataValue;
+			}
+
+			return dataTransfer;
 		}
 	};
 

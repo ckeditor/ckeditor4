@@ -84,14 +84,9 @@
 
 				handle: function( evt, next ) {
 					var data = evt.data,
-						dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
-							data.dataTransfer.getData( 'text/html', true ) : null,
+						mswordHtml = CKEDITOR.plugins.pastetools.getClipboardData( data, 'text/html' ),
 						// Required in Paste from Word Image plugin (#662).
-						dataTransferRtf = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
-							data.dataTransfer.getData( 'text/rtf' ) : null,
-						// Some commands fire paste event without setting dataTransfer property. In such case
-						// dataValue should be used.
-						mswordHtml = dataTransferHtml || data.dataValue,
+						dataTransferRtf = CKEDITOR.plugins.pastetools.getClipboardData( data, 'text/rtf' ),
 						pfwEvtData = { dataValue: mswordHtml, dataTransfer: { 'text/rtf': dataTransferRtf } };
 
 					// PFW might still get prevented, if it's not forced.
