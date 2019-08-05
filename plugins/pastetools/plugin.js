@@ -61,13 +61,15 @@
 	/**
 	 * Set of pastetools helpers.
 	 *
+	 * @member CKEDITOR.plugins
 	 * @since 4.13.0
 	 */
 	CKEDITOR.plugins.pastetools = {
 		/**
 		 * Collection of available filters
 		 *
-		 * @var {Object[]}
+		 * @member CKEDITOR.plugins.pastetools
+		 * @property {Object.<String,Object>}
 		 */
 		filters: {},
 
@@ -76,6 +78,7 @@
 		 *
 		 * @param filters {String[]} Array of filters' URLs.
 		 * @param callback {Function} Callback that will be invoked after loading all scripts.
+		 * @member CKEDITOR.plugins.pastetools
 		 */
 		loadFilters: loadFilters,
 

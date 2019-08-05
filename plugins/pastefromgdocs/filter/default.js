@@ -12,7 +12,7 @@
 		plug = {};
 
 	/**
-	 * Set of Paste from Word plugin helpers.
+	 * Set of Paste from Google Docs plugin helpers.
 	 *
 	 * @since 4.13.0
 	 * @private
@@ -47,7 +47,6 @@
 					return value === 'ltr' ? false : value;
 				},
 				'style': function( styles, element ) {
-					// Returning false deletes the attribute.
 					return Style.normalizedStyles( element, editor ) || false;
 				},
 				'class': function( classes ) {

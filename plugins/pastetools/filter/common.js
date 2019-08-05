@@ -713,7 +713,7 @@
 	 *
 	 * @private
 	 * @since 4.11.0
-	 * @member CKEDITOR.plugins.uberpaste
+	 * @member CKEDITOR.plugins.pastetools.filters.common
 	 */
 	plug.elements = {
 		/**
@@ -723,7 +723,7 @@
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} element
-		 * @member CKEDITOR.plugins.uberpaste.elements
+		 * @member CKEDITOR.plugins.pastetools.filters.common.elements
 		 */
 		replaceWithChildren: function( element ) {
 			for ( var i = element.children.length - 1; i >= 0; i-- ) {

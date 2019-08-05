@@ -3,6 +3,10 @@
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
+/**
+ * @fileOverview This plugin handles pasting content from Google Docs.
+ */
+
 ( function() {
 	CKEDITOR.plugins.add( 'pastefromgdocs', {
 		requires: 'pastetools',
