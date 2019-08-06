@@ -2,12 +2,12 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: link, toolbar, wysiwygarea, sourcearea, undo
 
-* Open link dialog for link in editor.
+* Open link dialog for email link inside editor.
 
 **Expected:**
 
-E-Mail Address is ck?editor@cksource.com.
+`E-Mail Address` address input value is ck?editor@cksource.com.
 
 **Unexpected:**
 
-E-Mail Address changed to `ck`.
+`E-Mail Address` address input value changed to `ck`.
