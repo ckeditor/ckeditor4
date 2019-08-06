@@ -1,6 +1,6 @@
 @bender-tags: bug, link, 4.13.0, 2138
 @bender-ui: collapsed
-@bender-ckeditor-plugins: link, toolbar, wysiwygarea, sourcearea, basicstyles, undo
+@bender-ckeditor-plugins: link, toolbar, wysiwygarea, sourcearea, undo
 
 * Open link dialog for link in editor.
 
