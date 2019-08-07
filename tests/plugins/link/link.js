@@ -632,8 +632,59 @@
 
 				assert.areSame( '<h1>Mail to <a href="mailto:ck?editor@cksource.com">CKSource</a>!</h1>', bot.getData() );
 			} );
-		}
+		},
 
+		// (#2138)
+		'test email address with two "?"': function() {
+			var bot = this.editorBots.noValidation;
+
+			bot.setHtmlWithSelection( '<h1>Mail to <a href="mailto:ck?edi?tor@cksource.com">[CKSource]</a>!</h1>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				dialog.getButton( 'ok' ).click();
+
+				assert.areSame( '<h1>Mail to <a href="mailto:ck?edi?tor@cksource.com">CKSource</a>!</h1>', bot.getData() );
+			} );
+		},
+
+		// (#2138)
+		'test email address with "?" at the beginning': function() {
+			var bot = this.editorBots.noValidation;
+
+			bot.setHtmlWithSelection( '<h1>Mail to <a href="mailto:?ck?editor@cksource.com">[CKSource]</a>!</h1>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				dialog.getButton( 'ok' ).click();
+
+				assert.areSame( '<h1>Mail to <a href="mailto:?ck?editor@cksource.com">CKSource</a>!</h1>', bot.getData() );
+			} );
+		},
+
+		// (#2138)
+		'test email address with "?" in domain': function() {
+			var bot = this.editorBots.noValidation;
+
+			bot.setHtmlWithSelection( '<h1>Mail to <a href="mailto:?ck?editor@cksou?rce.com">[CKSource]</a>!</h1>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				dialog.getButton( 'ok' ).click();
+
+				assert.areSame( '<h1>Mail to <a href="mailto:?ck?editor@cksou?rce.com">CKSource</a>!</h1>', bot.getData() );
+			} );
+		},
+
+		// (#2138)
+		'test email address with "?" and arguments': function() {
+			var bot = this.editorBots.noValidation;
+
+			bot.setHtmlWithSelection( '<h1>Mail to <a href="mailto:ck?editor@cksource.com?subject=cke4&amp;body=hello">[CKSource]</a>!</h1>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				dialog.getButton( 'ok' ).click();
+
+				assert.areSame( '<h1>Mail to <a href="mailto:ck?editor@cksource.com?subject=cke4&amp;body=hello">CKSource</a>!</h1>', bot.getData() );
+			} );
+		}
 	} );
 
 	function assertKeystroke( key ) {
