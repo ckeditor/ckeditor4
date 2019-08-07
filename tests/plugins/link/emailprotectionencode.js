@@ -17,12 +17,13 @@ var protectedMailLink = '<a href=\"javascript:void(location.href=\'mailto:\'+Str
 bender.test( {
 	'test created protected mail link': function() {
 		var bot = this.editorBot;
+
 		bot.setHtmlWithSelection( '<a href="#">[AJD]</a>' );
 		bot.dialog( 'link', function( dialog ) {
 			var linkTypeField = dialog.getContentElement( 'info', 'linkType' ),
-			addressField = dialog.getContentElement( 'info', 'emailAddress' ),
-			subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
-			bodyField = dialog.getContentElement( 'info', 'emailBody' );
+				addressField = dialog.getContentElement( 'info', 'emailAddress' ),
+				subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
+				bodyField = dialog.getContentElement( 'info', 'emailBody' );
 
 			linkTypeField.setValue( 'email' );
 			addressField.setValue( 'job@cksource.com' );
@@ -38,12 +39,13 @@ bender.test( {
 
 	'test read from protected mail link': function() {
 		var bot = this.editorBot;
+
 		bot.setHtmlWithSelection( '[' + protectedMailLink + ']' );
 		bot.dialog( 'link', function( dialog ) {
 			var linkTypeField = dialog.getContentElement( 'info', 'linkType' ),
-			addressField = dialog.getContentElement( 'info', 'emailAddress' ),
-			subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
-			bodyField = dialog.getContentElement( 'info', 'emailBody' );
+				addressField = dialog.getContentElement( 'info', 'emailAddress' ),
+				subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
+				bodyField = dialog.getContentElement( 'info', 'emailBody' );
 
 			assert.areEqual( 'email', linkTypeField.getValue() );
 			assert.areEqual( 'job@cksource.com', addressField.getValue() );
@@ -60,7 +62,6 @@ bender.test( {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '[' + protectedMailLinkWithoutParams + ']' );
-
 		bot.dialog( 'link', function( dialog ) {
 			var linkTypeField = dialog.getContentElement( 'info', 'linkType' ),
 				addressField = dialog.getContentElement( 'info', 'emailAddress' ),
@@ -75,29 +76,5 @@ bender.test( {
 			dialog.fire( 'ok' );
 			dialog.hide();
 		} );
-	},
-
-	// https://dev.ckeditor.com/ticket/12189
-	'test read from mail link with Subject and Body parameters provided': function() {
-		var bot = this.editorBot;
-
-		bot.setHtmlWithSelection( '[<a href="mailto:job@cksource.com?Subject=Test%20subject&amp;Body=Test%20body">AJD</a>]' );
-
-		bot.dialog( 'link', function( dialog ) {
-			var linkTypeField = dialog.getContentElement( 'info', 'linkType' ),
-				addressField = dialog.getContentElement( 'info', 'emailAddress' ),
-				subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
-				bodyField = dialog.getContentElement( 'info', 'emailBody' );
-
-			assert.areEqual( 'email', linkTypeField.getValue() );
-			assert.areEqual( 'job@cksource.com', addressField.getValue() );
-			assert.areEqual( 'Test subject', subjectField.getValue() );
-			assert.areEqual( 'Test body', bodyField.getValue() );
-
-			dialog.fire( 'ok' );
-			dialog.hide();
-		} );
 	}
 } );
-
-//]]>

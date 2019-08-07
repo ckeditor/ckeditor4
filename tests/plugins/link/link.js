@@ -230,8 +230,8 @@
 			var bot = this.editorBots.noValidation,
 				expected = '<a href="http://ckeditor.com">&lt;img src="" onerror="alert( 1 );"&gt;</a>';
 
+			// If entities plugin is present (e.g. built version) also quotes will be encoded.
 			if ( bot.editor.plugins.entities ) {
-				// If entities plugin is present (e.g. built version) also quotes will be encoded.
 				expected = '<a href="http://ckeditor.com">&lt;img src=&quot;&quot; onerror=&quot;alert( 1 );&quot;&gt;</a>';
 			}
 
@@ -287,9 +287,8 @@
 		},
 
 		'test link with a nested anchors without text change': function() {
-
+			// https://dev.ckeditor.com/ticket/14848
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
-				// https://dev.ckeditor.com/ticket/14848
 				assert.ignore();
 			}
 
@@ -337,7 +336,6 @@
 
 			// When using getSelectedText() on multiline selection, it will contain new line chars. Text inputs used in dialog, can't contain
 			// new lines, so if our initial pattern would use text with new lines, those would always differ.
-
 			bot.setHtmlWithSelection( '<p>fo[o</p><h2>b]ar</h2>' );
 			bot.dialog( 'link', function( dialog ) {
 				dialog.setValueOf( 'info', 'url', 'aaa' );
@@ -559,7 +557,7 @@
 			assert.areSame( '<p>I am<a href="http://foo"> an </a>in<a href="http://bar">sta</a>nce of ^<s>CKEditor</s>.</p>', bot.htmlWithSelection() );
 		},
 
-		// 859
+		// (#859)
 		'test edit link with selection': function() {
 			var bot = this.editorBots.noValidation;
 
@@ -584,7 +582,6 @@
 			correctLinkAssertionCallback: assertCorrectLinks
 		} ),
 
-		// (#2154)
 		'test phone number link with validation': assertPhoneLinks( {
 			editorName: 'validation',
 			validate: true,
