@@ -597,7 +597,43 @@
 		// (#2478)
 		'test Ctrl+K keystroke': assertKeystroke( 75 ),
 
-		'test Ctrl+L keystroke': assertKeystroke( 76 )
+		'test Ctrl+L keystroke': assertKeystroke( 76 ),
+
+		// https://dev.ckeditor.com/ticket/12189
+		'test read from mail link with Subject and Body parameters provided': function() {
+			var bot = this.editorBots.noValidation;
+
+			bot.setHtmlWithSelection( '[<a href="mailto:job@cksource.com?Subject=Test%20subject&amp;Body=Test%20body">AJD</a>]' );
+
+			bot.dialog( 'link', function( dialog ) {
+				var linkTypeField = dialog.getContentElement( 'info', 'linkType' ),
+					addressField = dialog.getContentElement( 'info', 'emailAddress' ),
+					subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
+					bodyField = dialog.getContentElement( 'info', 'emailBody' );
+
+				assert.areEqual( 'email', linkTypeField.getValue() );
+				assert.areEqual( 'job@cksource.com', addressField.getValue() );
+				assert.areEqual( 'Test subject', subjectField.getValue() );
+				assert.areEqual( 'Test body', bodyField.getValue() );
+
+				dialog.fire( 'ok' );
+				dialog.hide();
+			} );
+		},
+
+		// (#2138)
+		'test email address with "?"': function() {
+			var bot = this.editorBots.noValidation;
+
+			bot.setHtmlWithSelection( '<h1>Mail to <a href="mailto:ck?editor@cksource.com">[CKSource]</a>!</h1>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				dialog.getButton( 'ok' ).click();
+
+				assert.areSame( '<h1>Mail to <a href="mailto:ck?editor@cksource.com">CKSource</a>!</h1>', bot.getData() );
+			} );
+		}
+
 	} );
 
 	function assertKeystroke( key ) {
