@@ -102,7 +102,18 @@
 			parent.getFirst().split( 2 );	// Right before "B"
 			parent.getChildren().getItem( 3 ).split( 2 );	// Right before "E"
 			assert.areSame( 5, parent.getChildren().count(), 'Child nodes num doesn\'t match after split' );
+		},
+
+		// (#3158)
+		'test isEmpty': function() {
+			assert.isFalse( isEmptyNode( 'foobar' ), 'Node should not be empty' );
+			assert.isTrue( isEmptyNode( '' ), 'Node should be empty when empty' );
+			assert.isTrue( isEmptyNode( CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE ), 'Node should be empty when filling char sequence' );
 		}
 	} );
+
+	function isEmptyNode( text ) {
+		return new CKEDITOR.dom.text( document.createTextNode( text ) ).isEmpty();
+	}
 
 } )();
