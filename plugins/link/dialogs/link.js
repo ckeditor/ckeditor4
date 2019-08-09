@@ -90,8 +90,8 @@
 				element = selectedElements[ i ];
 				href = element.data( 'cke-saved-href' );
 				isDisplayChanged = data.linkText && initialLinkText != data.linkText;
-				isURLEqualDisplay = ( href == initialLinkText );
-				isEmailEqualDisplay = ( data.type == 'email' && href == 'mailto:' + initialLinkText );
+				isURLEqualDisplay = href == initialLinkText;
+				isEmailEqualDisplay = data.type == 'email' && href == 'mailto:' + initialLinkText;
 
 				element.setAttributes( attributes.set );
 				element.removeAttributes( attributes.removed );
