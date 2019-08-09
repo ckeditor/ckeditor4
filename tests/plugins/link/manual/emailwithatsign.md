@@ -7,11 +7,11 @@
 1. Open link dialog for first link (@CKSource).
 1. Click OK.
 
-**Expected:**
+### Expected:
 
 Display text for link didn't change.
 
-**Unexpected:**
+### Unexpected:
 
 Display text change to link's href.
 
@@ -20,10 +20,10 @@ Display text change to link's href.
 1. Open link dialog for second link (Victoria@ckeditor.com).
 2. Change E-mail Address to whatever.
 
-**Expected:**
+### Expected:
 
 Display name changed alongside address.
 
-**Unexpected:**
+### Unexpected:
 
 Display name changed to something else or didn't change at all.
