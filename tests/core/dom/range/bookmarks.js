@@ -392,8 +392,12 @@ addBookmark2TCs( tcs, {
 		'tc 6': [ '<b>%(foo)<i>def</i></b>', { sc: 'b', so: 2, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
 		'tc 6b': [ '<b>%(foo)(bar)<i>def</i></b>', { sc: 'b', so: 2, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
 		'tc 6c': [ '<b>%(foo)(bar)<i>def</i></b>', { sc: '(bar)', so: 0, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
+
 		// between foo and bar.
-		'tc 6d': [ '<b>abc%(foo)(bar)cba<i>def</i></b>', { sc: 'b', so: 3, ec: '#def', eo: 1 }, { sc: '#abccba', so: 3, ec: '#def', eo: 1 } ]
+		'tc 6d': [ '<b>abc%(foo)(bar)cba<i>def</i></b>', { sc: 'b', so: 3, ec: '#def', eo: 1 }, { sc: '#abccba', so: 3, ec: '#def', eo: 1 } ],
+
+		// (#3158)
+		'tc 7a': [ '(foo)<b>a</b>%<b>b</b>', { sc: '%', so: 1 }, { sc: 'root', so: 1 } ]
 	}
 } );
 
