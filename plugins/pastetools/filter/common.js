@@ -232,7 +232,7 @@
 
 					return tools.indexOf( resetStyles, keys.join( ':' ) ) !== -1;
 				},
-				removeFontStyles = editor && editor.config.pasteFromWordRemoveFontStyles === true;
+				removeFontStyles = CKEDITOR.plugins.pastetools.getConfigValue( editor, 'removeFontStyles' ) === true;
 
 			var styles = tools.parseCssText( element.attributes.style );
 
@@ -270,7 +270,7 @@
 				}
 			}
 
-			var keepZeroMargins = editor && editor.config.pasteFromWord_keepZeroMargins;
+			var keepZeroMargins = CKEDITOR.plugins.pastetools.getConfigValue( editor, 'keepZeroMargins' );
 			// Still some elements might have shorthand margins or longhand with zero values.
 			parseShorthandMargins( styles );
 			normalizeMargins();

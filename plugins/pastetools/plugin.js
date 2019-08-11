@@ -141,6 +141,37 @@
 			}
 
 			return dataTransfer;
+		},
+
+		/**
+		 * Get config value.
+		 *
+		 * This function allows to get config value for Paste Tools from
+		 * legacy Paste from Word configuration.
+		 *
+		 * @param editor {CKEDITOR.editor} Editor's instance.
+		 * @param configVariable {string} Config variable name.
+		 * @returns {mixed} Config variable value;
+		 * @member CKEDITOR.plugins.pastetools
+		 */
+		getConfigValue: function( editor, configVariable ) {
+			if ( !editor || !editor.config ) {
+				return;
+			}
+
+			var tools = CKEDITOR.tools,
+				config = editor.config,
+				configVariables = tools.object.keys( config ),
+				names = [
+					'pasteTools_' + configVariable,
+					'pasteFromWord_' + configVariable,
+					'pasteFromWord' + tools.capitalize( configVariable, true )
+				],
+				found = tools.array.find( names, function( name ) {
+					return tools.array.indexOf( configVariables, name ) !== -1;
+				} );
+
+			return config[ found ];
 		}
 	};
 

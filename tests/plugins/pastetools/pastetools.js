@@ -227,5 +227,76 @@
 		} );
 	};
 
+	tests[ 'test getting config variables' ] = function() {
+		var cases = [
+			{
+				name: 'pasteTools one',
+				configVariable: 'someConfigVariable',
+				expected: 'whatever',
+				editor: {
+					config: {
+						pasteTools_someConfigVariable: 'whatever'
+					}
+				}
+			},
+
+			{
+				name: 'pasteFromWord one',
+				configVariable: 'someConfigVariable',
+				expected: 'whatever',
+				editor: {
+					config: {
+						pasteFromWord_someConfigVariable: 'whatever'
+					}
+				}
+			},
+
+			{
+				name: 'pasteFromWord one (without underscore)',
+				configVariable: 'someConfigVariable',
+				expected: 'whatever',
+				editor: {
+					config: {
+						pasteFromWordSomeConfigVariable: 'whatever'
+					}
+				}
+			},
+
+			{
+				name: 'overriding PfW value',
+				configVariable: 'someConfigVariable',
+				expected: 'whatever',
+				editor: {
+					config: {
+						pasteFromWord_someConfigVariable: 'whenever',
+						pasteTools_someConfigVariable: 'whatever',
+						pasteToolsSomeConfigVariable: 'wherever'
+					}
+				}
+			},
+
+			{
+				name: 'no variable',
+				configVariable: 'someConfigVariable',
+				expected: undefined,
+				editor: {
+					config: {}
+				}
+			},
+
+			{
+				name: 'no editor',
+				configVariable: 'someConfigVariable',
+				expected: undefined
+			}
+		];
+
+		CKEDITOR.tools.array.forEach( cases, function( testCase ) {
+			var value = CKEDITOR.plugins.pastetools.getConfigValue( testCase.editor, testCase.configVariable );
+
+			assert.areSame( testCase.expected, value, testCase.name );
+		} );
+	};
+
 	bender.test( tests );
 } )();
