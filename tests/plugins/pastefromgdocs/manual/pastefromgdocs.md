@@ -5,6 +5,8 @@
 Perform these steps for every editor:
 
 1. Copy some GDocs document ([sample one](https://docs.google.com/document/d/14AzrpfBqjAVDCpVAGdOusz2QE8rFR48-dgLMryFm024/edit?usp=sharing)).
+
+	**Note:** although older IEs (below version 11) are not supported by Google Docs, you can open the document in supported browser and copy the content from it.
 2. Paste it into the editor.
 
 ### Expected
