@@ -68,7 +68,7 @@
 				} );
 			},
 
-			'test getting clipboard data': function( editor, bot ) {
+			'test getting clipboard data (custom types)': function( editor, bot ) {
 				if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 					assert.ignore();
 				}
@@ -95,6 +95,32 @@
 					}, null, null, 999 );
 
 					paste( editor, { dataTransfer: dataTransfer, dataValue: html } );
+					wait();
+				} );
+			},
+
+			'test getting clipboard data (no custom types)': function( editor, bot ) {
+				if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+					assert.ignore();
+				}
+
+				bot.setData( '', function() {
+					var getClipboardData = CKEDITOR.plugins.pastetools.getClipboardData,
+						text = 'Test',
+						html = '<p>' + text + '</p>';
+
+					editor.once( 'paste', function( evt ) {
+						resume( function() {
+							var data = evt.data,
+								actualHtml = getClipboardData( data, 'text/html' ),
+								actualCustom = getClipboardData( data, 'custom/type' );
+
+							assert.areSame( html, actualHtml, 'Correct HTML was returned' );
+							assert.areSame( null, actualCustom, 'Correct custom data was returned' );
+						} );
+					}, null, null, 999 );
+
+					paste( editor, { dataValue: html } );
 					wait();
 				} );
 			}
