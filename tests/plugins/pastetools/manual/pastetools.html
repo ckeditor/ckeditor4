@@ -20,7 +20,7 @@
 
 					editor.pasteTools.register( {
 						canHandle: function( evt ) {
-							return evt.data.type === 'html';
+							return evt.data.type !== 'text';
 						},
 
 						handle: function( evt ) {
