@@ -1,8 +1,4 @@
 /* bender-tags: clipboard,pastefromword */
-/* jshint ignore:start */
-/* bender-ckeditor-plugins: pastefromgdocs,ajax,basicstyles,bidi,font,link,toolbar,colorbutton,image */
-/* bender-ckeditor-plugins: list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,indent,indentblock,div,dialog,pagebreak*/
-/* jshint ignore:end */
 /* bender-include: ../../pastefromword/generated/_helpers/promisePasteEvent.js,../../pastefromword/generated/_helpers/assertWordFilter.js,../../pastefromword/generated/_helpers/createTestCase.js */
 /* bender-include: ../../pastefromword/generated/_helpers/createTestSuite.js,../../pastefromword/generated/_helpers/pfwTools.js */
 /* global createTestSuite */
@@ -14,20 +10,28 @@
 		config: {
 			language: 'en',
 			plugins: [
-				'wysiwygarea',
-				'toolbar',
 				'pastefromgdocs',
-				'sourcearea',
-				'elementspath',
+				'ajax',
+				'basicstyles',
+				'bidi',
 				'font',
-				'format',
-				'stylescombo',
-				'justify',
+				'link',
+				'toolbar',
 				'colorbutton',
 				'image',
-				'link',
 				'list',
-				'tabletools'
+				'liststyle',
+				'sourcearea',
+				'format',
+				'justify',
+				'table',
+				'tableresize',
+				'tabletools',
+				'indent',
+				'indentblock',
+				'div',
+				'dialog',
+				'pagebreak'
 			],
 			disallowedContent: '*[data-cke-*];'
 		}
@@ -50,6 +54,11 @@
 
 		customFilters: [
 			new CKEDITOR.htmlParser.filter( {
+				attributes: {
+					href: function( value ) {
+						return value.replace( /\/$/, '' );
+					}
+				},
 				elements: {
 					br: function() {
 						return false;
@@ -82,8 +91,10 @@
 					'test Basic gdocs chrome': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
 					'test Basic gdocs firefox': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
 					'test Basic gdocs safari': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
-					'test Basic gdocs edge': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
-					'test Basic gdocs ie11': !CKEDITOR.env.ie || CKEDITOR.env.version > 11
+					// 'test Basic gdocs edge': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
+					// 'test Basic gdocs ie11': !CKEDITOR.env.ie || CKEDITOR.env.version > 11
+					'test Basic gdocs edge': true,
+					'test Basic gdocs ie11': true
 				}
 			}
 		}
