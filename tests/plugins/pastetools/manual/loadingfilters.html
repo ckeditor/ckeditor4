@@ -17,7 +17,7 @@
 						filters: [ '_assets/filter1.js', '_assets/filter2.js' ],
 
 						canHandle: function( evt ) {
-							return evt.data.type === 'html';
+							return evt.data.type !== 'text';
 						},
 
 						handle: function( evt ) {
