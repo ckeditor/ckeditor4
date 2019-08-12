@@ -1,6 +1,6 @@
 @bender-tags: feature, 4.13.0, 835, pastetools
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromgdocs, sourcearea, elementspath, basicstyles, format, link, image2, autolink, colorbutton, stylescombo, font, justify, pagebreak, list, tabletools, floatingspace
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromgdocs, sourcearea, elementspath, basicstyles, format, link, image2, autolink, colorbutton, stylescombo, font, justify, pagebreak, list, liststyle, tabletools, floatingspace
 
 Perform these steps for every editor:
 
