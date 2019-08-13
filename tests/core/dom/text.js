@@ -104,7 +104,7 @@
 			assert.areSame( 5, parent.getChildren().count(), 'Child nodes num doesn\'t match after split' );
 		},
 
-		// (#3158)
+		// (#3326)
 		'test isEmpty': function() {
 			var fillingCharSequence = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE;
 
@@ -117,7 +117,7 @@
 			assert.isTrue( isEmptyNode( fillingCharSequence ), 'Node should be empty when filling char sequence' );
 		},
 
-		// (#3158)
+		// (#3326)
 		'test isEmpty ignore white space': function() {
 			var fillingCharSequence = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE;
 
