@@ -17,15 +17,50 @@
 				return;
 
 			editor.on( 'instanceReady', function() {
-				// Simply set auto height with div wysiwyg.
+				// for editors with div editorarea
 				if ( editor.editable().isInline() )
-					editor.ui.space( 'contents' ).setStyle( 'height', 'auto' );
+					initAutogrow( editor );
 				// For classic (`iframe`-based) wysiwyg we need to resize the editor.
 				else
 					initIframeAutogrow( editor );
 			} );
 		}
 	} );
+	
+	/**
+     * autogrow options for div editorarea
+     * @param {type} editor
+     * @returns {undefined}
+     */
+    function initAutogrow(editor) {
+        var configBottomSpace = editor.config.autoGrow_bottomSpace || 0,
+			configTopSpace = editor.config.autoGrow_topSpace || 0,
+			configMaxHeight = editor.config.autoGrow_maxHeight || false,
+			autoGrowOnStartup = editor.config.autoGrow_onStartup,
+			configMinHeight = editor.config.autoGrow_minHeight;
+
+        editor.ui.space('contents').setStyle('min-height', configMinHeight !== undefined ? configMinHeight + "px" : '200px');
+        editor.ui.space('contents').setStyle('padding-bottom', configBottomSpace + "px");
+        editor.ui.space('contents').setStyle('padding-top', configTopSpace + "px");
+
+        if (configMaxHeight !== false) {
+            editor.ui.space('contents').setStyle('max-height', configMaxHeight + "px");
+        }
+
+        if (autoGrowOnStartup && editor.editable().isVisible()) {
+            editor.ui.space('contents').setStyle('height', 'auto');
+            editor.ui.space('contents').setStyle('height', document.getElementById(editor.id + '_contents').offsetHeight - configTopSpace - configBottomSpace + 'px');
+        }
+
+        editor.on('focus', function (evt) {
+            editor.ui.space('contents').setStyle('height', 'auto');
+        });
+        editor.on('blur', function (evt) {
+            console.log("height ckeditor:" + editor.id);
+            editor.ui.space('contents').setStyle('height', document.getElementById(editor.id + '_contents').offsetHeight - configTopSpace - configBottomSpace + 'px');
+        });
+
+    }
 
 	function initIframeAutogrow( editor ) {
 		var lastHeight,
