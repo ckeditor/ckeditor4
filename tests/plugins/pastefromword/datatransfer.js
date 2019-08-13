@@ -1,7 +1,7 @@
 /* bender-tags: editor,clipboard,pastefromword */
 /* bender-ckeditor-plugins: pastefromword */
-/* bender-include: generated/_helpers/pfwTools.js */
-/* global pfwTools */
+/* bender-include: generated/_helpers/pfwTools.js, ../pastetools/_helpers/ptTools.js */
+/* global ptTools */
 
 ( function() {
 	'use strict';
@@ -85,7 +85,7 @@
 		}
 	};
 
-	pfwTools.ignoreTestsOnMobiles( tests );
+	ptTools.ignoreTestsOnMobiles( tests );
 
 	bender.test( tests );
 

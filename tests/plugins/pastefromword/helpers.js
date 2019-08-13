@@ -1,7 +1,7 @@
 /* bender-tags: editor,pastefromword */
 /* bender-ckeditor-plugins: pastetools, pastefromword,ajax */
-/* bender-include: generated/_helpers/pfwTools.js */
-/* global pfwTools */
+/* bender-include: generated/_helpers/pfwTools.js, ../pastetools/_helpers/ptTools.js */
+/* global ptTools */
 
 ( function() {
 	'use strict';
@@ -71,9 +71,9 @@
 
 	tests = CKEDITOR.tools.extend( tests, extractImagesTestsGenerator() );
 
-	pfwTools.ignoreTestsOnMobiles( tests );
+	ptTools.ignoreTestsOnMobiles( tests );
 
-	pfwTools.loadFilters( [
+	ptTools.loadFilters( [
 		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js' ),
 		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastefromword' ) + 'filter/default.js' )
 	], function() {
