@@ -65,7 +65,7 @@
 					},
 
 					'p': function( element ) {
-						if ( element.parent.name === 'li' ) {
+						if ( element.parent && element.parent.name === 'li' ) {
 							commonFilter.elements.replaceWithChildren( element );
 
 							return false;
@@ -74,14 +74,20 @@
 
 					'ul': function( element ) {
 						Style.pushStylesLower( element );
+
+						return fixList( element );
 					},
 
 					'ol': function( element ) {
 						Style.pushStylesLower( element );
+
+						return fixList( element );
 					},
 
 					'li': function( element ) {
 						Style.pushStylesLower( element );
+
+						return unwrapList( element );
 					}
 				}
 			};
@@ -94,6 +100,31 @@
 		}
 
 		return value;
+	}
+
+	function fixList( element ) {
+		var listRegex = /(o|u)l/i;
+
+		if ( !listRegex.test( element.parent.name ) ) {
+			return element;
+		}
+
+		commonFilter.elements.replaceWithChildren( element );
+
+		return false;
+	}
+
+	function unwrapList( element ) {
+		var children = element.children,
+			listRegex = /(o|u)l/i;
+
+		if ( children.length !== 1 || !listRegex.test( children[ 0 ].name ) ) {
+			return element;
+		}
+
+		commonFilter.elements.replaceWithChildren( element );
+
+		return false;
 	}
 
 	CKEDITOR.pasteFilters.gdocs = pastetools.createFilter( {

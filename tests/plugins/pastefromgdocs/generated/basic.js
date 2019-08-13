@@ -49,7 +49,9 @@
 			'gdocs'
 		],
 		tests: {
-			'Basic': true
+			Basic: true,
+			NestedOrderedLists: true,
+			NestedUnorderedLists: true
 		},
 
 		customFilters: [
