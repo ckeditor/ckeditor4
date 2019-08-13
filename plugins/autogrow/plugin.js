@@ -56,10 +56,8 @@
             editor.ui.space('contents').setStyle('height', 'auto');
         });
         editor.on('blur', function (evt) {
-            console.log("height ckeditor:" + editor.id);
             editor.ui.space('contents').setStyle('height', document.getElementById(editor.id + '_contents').offsetHeight - configTopSpace - configBottomSpace + 'px');
         });
-
     }
 
 	function initIframeAutogrow( editor ) {
