@@ -25,4 +25,4 @@ Undo button undoes changes.
 ## Unexpected
 
 * Error thrown in a dev console.
-* Undo button is no longer responsive.
+* Undo button clicks produces errors in a console and no longer undoes changes.
