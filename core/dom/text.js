@@ -81,10 +81,17 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 	 * {@link CKEDITOR.dom.selection#FILLING_CHAR_SEQUENCE FILLING_CHAR_SEQUENCE} string.
 	 *
 	 * @since 4.13.0
+	 * @param {Boolean} ignoreWhiteSpace Only check non-whitespace characters.
 	 * @returns {Boolean}
 	 */
-	isEmpty: function() {
-		return !this.getText() || this.getText() === CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE;
+	isEmpty: function( ignoreWhiteSpace ) {
+		var text = this.getText();
+
+		if ( ignoreWhiteSpace ) {
+			text = CKEDITOR.tools.trim( text );
+		}
+
+		return !text || text === CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE;
 	},
 
 	/**
