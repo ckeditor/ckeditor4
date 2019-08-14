@@ -81,7 +81,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 	 * {@link CKEDITOR.dom.selection#FILLING_CHAR_SEQUENCE FILLING_CHAR_SEQUENCE} string.
 	 *
 	 * @since 4.13.0
-	 * @param {Boolean} ignoreWhiteSpace Only check non-whitespace characters.
+	 * @param {Boolean} [ignoreWhiteSpace] Specify whether content consists of only whitespace characters
+	 * should be treated as an empty one.
 	 * @returns {Boolean}
 	 */
 	isEmpty: function( ignoreWhiteSpace ) {
