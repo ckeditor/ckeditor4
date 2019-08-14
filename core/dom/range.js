@@ -839,7 +839,7 @@ CKEDITOR.dom.range = function( root ) {
 					var precedingLength = getLengthOfPrecedingTextNodes( container );
 
 					// Normal case - text node is not empty.
-					if ( container.getText() ) {
+					if ( !container.isEmpty() ) {
 						offset += precedingLength;
 
 					// Awful case - the text node is empty and thus will be totally lost.
