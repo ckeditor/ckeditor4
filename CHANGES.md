@@ -14,6 +14,7 @@ Fixed Issues:
 	* [#2845](https://github.com/ckeditor/ckeditor-dev/issues/2845): [Rich Combo](https://ckeditor.com/cke4/addon/richcombo).
 	* [#2857](https://github.com/ckeditor/ckeditor-dev/issues/2857): [List Block](https://ckeditor.com/cke4/addon/listblock).
 	* [#2858](https://github.com/ckeditor/ckeditor-dev/issues/2858): [Menu](https://ckeditor.com/cke4/addon/menu).
+* [#3158](https://github.com/ckeditor/ckeditor-dev/issues/3158): [Chrome, Safari] Fixed: [Undo](https://ckeditor.com/cke4/addon/undo) plugin breaks with filling character.
 
 API Changes:
 
@@ -22,6 +23,7 @@ API Changes:
 * [#2845](https://github.com/ckeditor/ckeditor-dev/issues/2845): Added the [`CKEDITOR.tools.normalizeMouseButton()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-normalizeMouseButton) method.
 * [#2975](https://github.com/ckeditor/ckeditor-dev/issues/2975): Added the [`CKEDITOR.dom.element#fireEventHandler()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_element.html#method-fireEventHandler) method.
 * [#3247](https://github.com/ckeditor/ckeditor-dev/issues/3247): Extended [`CKEDITOR.tools.bind()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-bind) method to accept arguments for bound functions.
+* [#3326](https://github.com/ckeditor/ckeditor-dev/issues/3326): Added [`CKEDITOR.dom.text#isEmpty()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_text.html#method-isEmpty) method.
 
 ## CKEditor 4.12.1
 
