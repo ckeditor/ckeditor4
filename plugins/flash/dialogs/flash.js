@@ -222,7 +222,7 @@
 			getModel: function( editor ) {
 				var element = editor.getSelection().getSelectedElement();
 
-				if ( element && element.data( 'cke-real-element-type' ) && element.data( 'cke-real-element-type' ) == 'flash' ) {
+				if ( element && element.data( 'cke-real-element-type' ) === 'flash' ) {
 					return element;
 				}
 
