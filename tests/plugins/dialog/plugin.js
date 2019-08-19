@@ -41,7 +41,7 @@
 					elements: []
 				}
 			],
-			getMode: sinon.stub().returns( 2 ) // Editing mode.
+			getMode: sinon.stub().returns( 1 ) // Editing mode.
 		},
 		testDialogDefinitionEvent: {
 			title: 'Test dialogDefinition event',
