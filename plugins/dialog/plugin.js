@@ -1555,9 +1555,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * Returns current dialog mode based on the state of the feature used with this dialog.
 		 *
 		 * In case if dialog definition didn't define {@link CKEDITOR.dialog.definition#getMode}
-		 * function, it will use {@link #getModel} method to recognize editing mode:
+		 * function, it will use {@link #getModel} method to recognize editor mode:
 		 *
-		 * {@link CKEDITOR.dialog#EDITING_MODE Editing mode} for:
+		 * {@link CKEDITOR.dialog#EDITING_MODE Editing mode} used when:
 		 *
 		 * * {@link CKEDITOR.dom.element} attached to the DOM
 		 * * {@link CKEDITOR.plugins.widget} instance
