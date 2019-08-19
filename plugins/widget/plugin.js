@@ -2800,8 +2800,11 @@
 		} );
 
 		function eventListener( evt ) {
-			if ( widgetsRepo.focused )
-				copySingleWidget( widgetsRepo.focused, evt.name == 'cut' );
+			if ( widgetsRepo.selected.length < 0 ) {
+				return;
+			}
+
+			copyWidgets( editor, evt.name === 'cut' );
 		}
 	}
 
@@ -3208,9 +3211,9 @@
 		evt.cancel();
 	}
 
-	function copySingleWidget( widget, isCut ) {
-		var editor = widget.editor,
-			doc = editor.document,
+	function copyWidgets( editor, isCut ) {
+		var doc = editor.document,
+			focused = editor.widgets.focused,
 			isEdge16 = CKEDITOR.env.edge && CKEDITOR.env.version >= 16;
 
 		// We're still handling previous copy/cut.
@@ -3248,7 +3251,7 @@
 
 		copybin.setHtml(
 			'<span data-cke-copybin-start="1">\u200b</span>' +
-			widget.getClipboardHtml() +
+			getClipboardHtml() +
 			'<span data-cke-copybin-end="1">\u200b</span>' );
 
 		// Save snapshot with the current state.
@@ -3261,7 +3264,7 @@
 		editor.editable().append( copybinContainer );
 
 		var listener1 = editor.on( 'selectionChange', cancel, null, null, 0 ),
-			listener2 = widget.repository.on( 'checkSelection', cancel, null, null, 0 );
+			listener2 = editor.widgets.on( 'checkSelection', cancel, null, null, 0 );
 
 		if ( needsScrollHack ) {
 			var docElement = doc.getDocumentElement().$,
@@ -3281,8 +3284,8 @@
 
 		setTimeout( function() {
 			// [IE] Focus widget before removing copybin to avoid scroll jump.
-			if ( !isCut ) {
-				widget.focus();
+			if ( !isCut && focused ) {
+				focused.focus();
 			}
 
 			copybinContainer.remove();
@@ -3293,11 +3296,21 @@
 			editor.fire( 'unlockSnapshot' );
 
 			// Prevent cutting in read-only editor (#1570).
-			if ( isCut && !editor.readOnly ) {
-				widget.repository.del( widget );
+			if ( isCut && focused && !editor.readOnly ) {
+				editor.widgets.del( focused );
 				editor.fire( 'saveSnapshot' );
 			}
 		}, 100 ); // Use 100ms, so Chrome (@Mac) will be able to grab the content.
+
+		function getClipboardHtml() {
+			var selectedHtml = editor.getSelectedHtml( true );
+
+			if ( editor.widgets.focused ) {
+				return editor.widgets.focused.getClipboardHtml();
+			}
+
+			return editor.dataProcessor.toDataFormat( selectedHtml );
+		}
 	}
 
 	// Extracts classes array from style instance.
@@ -3373,15 +3386,13 @@
 			// ENTER.
 			if ( keyCode == 13 ) {
 				widget.edit();
-			}
-			// CTRL+C or CTRL+X.
-			else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
-				copySingleWidget( widget, keyCode == CKEDITOR.CTRL + 88 );
+				// CTRL+C or CTRL+X.
+			} else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
+				copyWidgets( widget.editor, keyCode == CKEDITOR.CTRL + 88 );
 				return; // Do not preventDefault.
-			}
-			// Pass chosen keystrokes to other plugins or default fake sel handlers.
-			// Pass all CTRL/ALT keystrokes.
-			else if ( keyCode in keystrokesNotBlockedByWidget ||
+				// Pass chosen keystrokes to other plugins or default fake sel handlers.
+				// Pass all CTRL/ALT keystrokes.
+			} else if ( keyCode in keystrokesNotBlockedByWidget ||
 				( CKEDITOR.CTRL & keyCode ) ||
 				( CKEDITOR.ALT & keyCode ) ) {
 				return;
