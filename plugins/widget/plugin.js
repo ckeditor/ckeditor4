@@ -2955,12 +2955,19 @@
 				return;
 
 			var toBeDowncasted = downcastingSessions[ evt.data.downcastingSessionId ],
-				toBe, widget, widgetElement, retElement, editableElement, e;
+				toBe, widget, widgetElement, retElement, editableElement, e, parserFragment;
 
 			while ( ( toBe = toBeDowncasted.shift() ) ) {
 				widget = toBe.widget;
 				widgetElement = toBe.element;
 				retElement = widget._.downcastFn && widget._.downcastFn.call( widget, widgetElement );
+
+				// In case of copying widgets, we replace the widget with clipboard data (#3138).
+				if ( evt.data.widgetsCopy && widget.getClipboardHtml ) {
+					parserFragment = CKEDITOR.htmlParser.fragment.fromHtml( widget.getClipboardHtml() );
+
+					retElement = parserFragment.children[ 0 ];
+				}
 
 				// Replace nested editables' content with their output data.
 				for ( e in toBe.editables ) {
@@ -3308,6 +3315,10 @@
 			if ( editor.widgets.focused ) {
 				return editor.widgets.focused.getClipboardHtml();
 			}
+
+			editor.once( 'toDataFormat', function( evt ) {
+				evt.data.widgetsCopy = true;
+			}, null, null, -1 );
 
 			return editor.dataProcessor.toDataFormat( selectedHtml );
 		}
