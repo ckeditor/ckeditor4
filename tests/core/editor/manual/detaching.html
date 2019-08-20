@@ -30,7 +30,8 @@
 			<li><input type="radio" name="destroy" value="1"><label>async with 0 timeout</label></li>
 			<li><input type="radio" name="destroy" value="2"><label>before 'loaded' event</label></li>
 			<li><input type="radio" name="destroy" value="3"><label>before 'scriptLoader.load' callback called</label></li>
-			<li><input type="radio" name="destroy" value="4"><label>before iframe#onload</label></li>
+			<li><input type="radio" name="destroy" value="4"><label>before iframe#onload.
+			</label><em><strong>Note:</strong>this case should be tested only for IE and Firefox with classic editor! Otherwise editor won't be destroyed because iframe#onload listener is not used.</em></li>
 		</ul>
 	</div>
 </form>
