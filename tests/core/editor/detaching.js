@@ -96,6 +96,8 @@
 			switch ( editorName ) {
 				case 'divarea':
 					config.extraPlugins = 'divarea';
+					editor = CKEDITOR.replace( 'editor', config );
+					break;
 				case 'classic':
 					editor = CKEDITOR.replace( 'editor', config );
 					break;
