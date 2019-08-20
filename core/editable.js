@@ -1224,6 +1224,23 @@
 						return false;
 					}, this, null, 100 ); // Later is better – do not override existing listeners.
 				}
+			},
+
+			/**
+			 * @inheritdoc CKEDITOR.dom.domObject.getUniqueId
+			 */
+			getUniqueId: function() {
+				var expandoNumber;
+				// Editable is cached unlike other elements, so we can use it to store expando number.
+				// We need it to properly cleanup custom data in case of permission denied
+				// thrown by Edge when accessing native element of detached editable (#3115).
+				try {
+					this._.expandoNumber = expandoNumber = CKEDITOR.dom.domObject.prototype.getUniqueId.call( this );
+				} catch ( e ) {
+					expandoNumber = this._ && this._.expandoNumber;
+				}
+
+				return expandoNumber;
 			}
 		},
 

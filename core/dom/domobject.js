@@ -264,22 +264,7 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	 * @returns {Number} A unique ID.
 	 */
 	domObjectProto.getUniqueId = function() {
-		var expandoNumber;
-
-		try {
-			expandoNumber = this.$[ 'data-cke-expando' ] || ( this.$[ 'data-cke-expando' ] = CKEDITOR.tools.getNextNumber() );
-
-			// Editable is cached unlike other elements, so we can use it to store expando number.
-			// We need it to properly cleanup custom data in case of permission denied
-			// thrown by Edge when accessing native element of detached editable (#3115).
-			if ( this instanceof CKEDITOR.editable ) {
-				this._.expandoNumber = expandoNumber;
-			}
-		} catch ( e ) {
-			expandoNumber = this._ && this._.expandoNumber;
-		}
-
-		return expandoNumber;
+		return this.$[ 'data-cke-expando' ] || ( this.$[ 'data-cke-expando' ] = CKEDITOR.tools.getNextNumber() );
 	};
 
 	// Implement CKEDITOR.event.
