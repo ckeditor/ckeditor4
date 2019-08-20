@@ -534,21 +534,27 @@
 			 * Detaches this editable object from the DOM (removes classes, listeners, etc.)
 			 */
 			detach: function() {
-				// Cleanup the element.
-				catchEdgePermissionDenied( CKEDITOR.tools.bind( function() {
-					this.removeClass( 'cke_editable' );
-				}, this ) );
-
 				this.status = 'detached';
 
-				// Save the editor reference which will be lost after
-				// calling detach from super class.
-				var editor = this.editor;
+				// Update the editor cached data with current data.
+				this.editor.setData( this.editor.getData(), 0, 1 );
 
-				this._.detach();
+				this.clearListeners();
 
-				delete editor.document;
-				delete editor.window;
+				// Edge randomly throws permission denied when trying to access native elements of detached editor (#3115).
+				try {
+					this._.cleanCustomData();
+				} catch ( error ) {
+					if ( !CKEDITOR.env.edge || error.number !== -2146828218 ) {
+						throw( error );
+					}
+				}
+
+				this.editor.fire( 'contentDomUnload' );
+
+				delete this.editor.document;
+				delete this.editor.window;
+				delete this.editor;
 			},
 
 			/**
@@ -1245,58 +1251,41 @@
 		},
 
 		_: {
-			detach: function() {
+			cleanCustomData: function() {
 				// Update the editor cached data with current data.
-				this.editor.setData( this.editor.getData(), 0, 1 );
+				this.removeClass( 'cke_editable' );
+				this.restoreAttrs();
 
-				this.clearListeners();
+				// Cleanup our custom classes.
+				var classes = this.removeCustomData( 'classes' );
 
-				catchEdgePermissionDenied( CKEDITOR.tools.bind( function() {
-					// Cleanup the element.
-					this.restoreAttrs();
+				while ( classes && classes.length ) {
+					this.removeClass( classes.pop() );
+				}
 
-					// Cleanup our custom classes.
-					var classes;
-					if ( ( classes = this.removeCustomData( 'classes' ) ) ) {
-						while ( classes.length )
-							this.removeClass( classes.pop() );
-					}
+				if ( this.is( 'textarea' ) ) {
+					return;
+				}
 
-					// Remove contents stylesheet from document if it's the last usage.
-					if ( !this.is( 'textarea' ) ) {
-						var doc = this.getDocument(),
-							head = doc.getHead();
-						if ( head.getCustomData( 'stylesheet' ) ) {
-							var refs = doc.getCustomData( 'stylesheet_ref' );
-							if ( !( --refs ) ) {
-								doc.removeCustomData( 'stylesheet_ref' );
-								var sheet = head.removeCustomData( 'stylesheet' );
-								sheet.remove();
-							} else {
-								doc.setCustomData( 'stylesheet_ref', refs );
-							}
-						}
-					}
-				}, this ) );
+				var doc = this.getDocument(),
+					head = doc.getHead();
 
-				this.editor.fire( 'contentDomUnload' );
+				if ( !head.getCustomData( 'stylesheet' ) ) {
+					return;
+				}
 
-				// Free up the editor reference.
-				delete this.editor;
+				var refs = doc.getCustomData( 'stylesheet_ref' );
+
+				// Remove contents stylesheet from document if it's the last usage.
+				if ( !--refs ) {
+					doc.removeCustomData( 'stylesheet_ref' );
+					head.removeCustomData( 'stylesheet' ).remove();
+				} else {
+					doc.setCustomData( 'stylesheet_ref', refs );
+				}
 			}
 		}
 	} );
-
-	function catchEdgePermissionDenied( callback ) {
-		// Edge randomly throws permission denied when trying to access native elements of detached editor (#3115).
-		try {
-			callback();
-		} catch ( error ) {
-			if ( !CKEDITOR.env.edge || error.number !== -2146828218 ) {
-				throw( error );
-			}
-		}
-	}
 
 	/**
 	 * Creates, retrieves or detaches an editable element of the editor.
