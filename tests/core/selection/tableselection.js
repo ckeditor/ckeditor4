@@ -4,47 +4,60 @@
 ( function() {
 	'use strict';
 
-	bender.editor = {
-		name: 'editor',
-		creator: 'inline',
-		config: {
-			removePlugins: 'tableselection'
+	var config = { removePlugins: 'tableselection' };
+
+	bender.editors = {
+		classic: {
+			config: config
+		},
+		inline: {
+			creator: 'inline',
+			config: config
 		}
 	};
 
 	var selectionContainer = CKEDITOR.document.findOne( '#selection-container' );
 
-	bender.test( {
-		'test ranges are restored when editor is focused': function() {
+	var tests = {
+		// (#3136)
+		'test ranges are restored when editor is focused': function( editor, bot ) {
 			// Only Firefox has native table selection.
 			if ( !CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
 
-			var bot = this.editorBot,
-				editor = bot.editor,
-				ranges = getRangesContainingEachCell( editor ),
-				selection = editor.getSelection();
+			var content = CKEDITOR.document.findOne( '#content' ).getHtml();
 
-			selection.selectRanges( ranges );
+			bot.setData( content, function() {
+				var ranges = getRangesContainingEachCell( editor ),
+					selection = editor.getSelection();
 
-			assert.areSame( ranges.length, selection.getRanges().length, 'ranges selected' );
+				editor.focus();
+				selection.selectRanges( ranges );
 
-			selectionContainer.focus();
+				assert.areSame( ranges.length, selection.getRanges().length, 'ranges selected' );
 
-			editor.focus();
+				selectionContainer.focus();
 
-			var newRanges = selection.getRanges();
+				editor.focus();
 
-			assert.areSame( ranges.length, newRanges.length, 'ranges count' );
+				// Make sure we are comparing real selection.
+				var newRanges = editor.getSelection( true ).getRanges();
 
-			CKEDITOR.tools.array.forEach( ranges, function( range, index ) {
-				var newRange = newRanges[ index ];
+				assert.areSame( ranges.length, newRanges.length, 'ranges count' );
 
-				assertRange( range, newRange );
+				CKEDITOR.tools.array.forEach( ranges, function( range, index ) {
+					var newRange = newRanges[ index ];
+
+					assertRange( range, newRange );
+				} );
 			} );
 		}
-	} );
+	};
+
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
+
+	bender.test( tests );
 
 	function getRangesContainingEachCell( editor ) {
 		var cells = editor.editable().find( 'td' ).toArray();
@@ -57,7 +70,7 @@
 			var range = editor.createRange();
 
 			range.setStartBefore( element );
-			range.setEndBefore( element );
+			range.setEndAfter( element );
 
 			return range;
 		};
