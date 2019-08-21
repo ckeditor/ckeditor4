@@ -12,14 +12,14 @@
 			editor = this.root.editor,
 			oldRange, key, keyCode;
 
-		if ( editor._lastKeystrokeSelection ) {
-			keyCode = editor._lastKeystrokeSelection.keyCode;
+		if ( editor._.lastKeystrokeSelection ) {
+			keyCode = editor._.lastKeystrokeSelection.keyCode;
 
 			key = arrowKeyCodeMap[ keyCode ];
 
-			oldRange = editor._lastKeystrokeSelection.range;
+			oldRange = editor._.lastKeystrokeSelection.range;
 
-			editor._lastKeystrokeSelection = null;
+			editor._.lastKeystrokeSelection = null;
 		}
 
 		if ( !shouldOptimize( range, this, key ) ) {

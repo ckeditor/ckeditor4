@@ -174,7 +174,7 @@
 
 			// Arrow key codes are 37, 38, 39, 40, so we can just check if keyCode is in range.
 			if ( keyCode >= 37 && keyCode <= 40 ) {
-				this._lastKeystrokeSelection = {
+				this._.lastKeystrokeSelection = {
 					range: this.getSelection().getRanges()[ 0 ],
 					keyCode: keyCode
 				};

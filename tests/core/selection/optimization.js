@@ -192,7 +192,7 @@
 
 	function testKeystroke( options ) {
 		return function( editor ) {
-			editor._lastKeystrokeSelection = null;
+			editor._.lastKeystrokeSelection = null;
 
 			editor.focus();
 
@@ -219,10 +219,10 @@
 
 			function assertSoredKeystroke( stored ) {
 				if ( stored ) {
-					assert.areSame( keyCode, editor._lastKeystrokeSelection.keyCode, 'keyCode stored' );
-					assert.isTrue( range.equals( editor._lastKeystrokeSelection.range ), 'range stored' );
+					assert.areSame( keyCode, editor._.lastKeystrokeSelection.keyCode, 'keyCode stored' );
+					assert.isTrue( range.equals( editor._.lastKeystrokeSelection.range ), 'range stored' );
 				} else {
-					assert.isNull( editor._lastKeystrokeSelection, 'editor._lastKeystrokeSelection' );
+					assert.isNull( editor._.lastKeystrokeSelection, 'editor._.lastKeystrokeSelection' );
 				}
 			}
 		};
@@ -244,7 +244,7 @@
 					var selection = editor.getSelection(),
 						range = selection.getRanges()[ 0 ];
 
-					editor._lastKeystrokeSelection = {
+					editor._.lastKeystrokeSelection = {
 						range: range,
 						keyCode: options.keyCode
 					};
