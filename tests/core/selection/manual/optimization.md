@@ -40,4 +40,4 @@ Anything can be selected.
 
 ## Unexpected
 
-Range can't move past end of block.
+Range can't move past beginning/end of block elements.
