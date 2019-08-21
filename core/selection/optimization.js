@@ -55,11 +55,11 @@
 		return node.type === CKEDITOR.NODE_TEXT;
 	}
 
-	// Returns whether any condition is met:
-	// - selection change is triggered by shift+left or shift+up on Firefox/IE/Edge
+	// Returns true any condition is met:
 	// - range starts at the end of an element.
 	// - range ends at the beginning of an element.
 	// - one end of range is in text, and another is not.
+	// Exception: false is always returned when selection change is triggered by shift+left or shift+up on Firefox/IE/Edge.
 	function shouldOptimize( range, selection, key ) {
 		if ( ( key === 'left' || key === 'up' ) && ( CKEDITOR.env.gecko || CKEDITOR.env.ie ) ) {
 			return false;
