@@ -3221,13 +3221,20 @@
 	function copyWidgets( editor, isCut ) {
 		var doc = editor.document,
 			focused = editor.widgets.focused,
-			isEdge16 = CKEDITOR.env.edge && CKEDITOR.env.version >= 16;
+			isEdge16 = CKEDITOR.env.edge && CKEDITOR.env.version >= 16,
+			bookmarks;
 
 		// We're still handling previous copy/cut.
 		// When keystroke is used to copy/cut this will also prevent
 		// conflict with copySingleWidget called again for native copy/cut event.
 		if ( doc.getById( 'cke_copybin' ) ) {
 			return;
+		}
+
+		// When more than one widget is selected, we must save selection to restore it
+		// after destroying copybin (#3138).
+		if ( !focused && !isCut ) {
+			bookmarks = editor.getSelection().createBookmarks( true );
 		}
 
 		// [IE] Use span for copybin and its container to avoid bug with expanding
@@ -3293,6 +3300,10 @@
 			// [IE] Focus widget before removing copybin to avoid scroll jump.
 			if ( !isCut && focused ) {
 				focused.focus();
+			}
+
+			if ( bookmarks ) {
+				editor.getSelection().selectBookmarks( bookmarks );
 			}
 
 			copybinContainer.remove();
