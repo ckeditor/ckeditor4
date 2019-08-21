@@ -34,7 +34,8 @@
 
 		// Update range only if optimization restored previous range.
 		if ( keyCode && range.equals( oldRange ) ) {
-			// We need to move selection by one index to the right.
+			// It is possible that arrow key changed selection in a way that change is reverted by optimization.
+			// In this case we need to manually move cursor by one step to reach desired selection.
 			if ( key === 'left' || key === 'up' ) {
 				var prev = range.getPreviousNode( isText ),
 					offset = prev.getChildCount ? prev.getChildCount() : prev.getLength();
