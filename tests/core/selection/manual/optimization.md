@@ -8,7 +8,7 @@
 
   ## Expected
 
-  No red boarder is visible.
+  No red border over inserted text is visible.
 
   ## Unexpected
 
