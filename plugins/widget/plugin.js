@@ -79,6 +79,10 @@
 					'height:100%;' +
 					'display:block' +
 				'}' +
+				'.cke_widget_partial_mask{' +
+					'position:absolute;' +
+					'display:block' +
+				'}' +
 				'.cke_editable.cke_widget_dragging, .cke_editable.cke_widget_dragging *{' +
 					'cursor:move !important' +
 				'}'
@@ -3550,22 +3554,57 @@
 	}
 
 	function setupMask( widget ) {
-		if ( !widget.mask )
+		if ( !widget.mask ) {
 			return;
-
-		// Reuse mask if already exists (https://dev.ckeditor.com/ticket/11281).
-		var img = widget.wrapper.findOne( '.cke_widget_mask' );
-
-		if ( !img ) {
-			img = new CKEDITOR.dom.element( 'img', widget.editor.document );
-			img.setAttributes( {
-				src: CKEDITOR.tools.transparentImageData,
-				'class': 'cke_reset cke_widget_mask'
-			} );
-			widget.wrapper.append( img );
 		}
 
-		widget.mask = img;
+		var newMask,
+			oldMask;
+
+		if ( widget.mask === true ) {
+			// Reuse mask if already exists (https://dev.ckeditor.com/ticket/11281).
+			oldMask = widget.wrapper.findOne( '.cke_widget_mask' );
+
+			if ( !oldMask ) {
+				newMask = new CKEDITOR.dom.element( 'img', widget.editor.document );
+				newMask.setAttributes( {
+					src: CKEDITOR.tools.transparentImageData,
+					'class': 'cke_reset cke_widget_mask'
+				} );
+			} else {
+				newMask = oldMask;
+			}
+
+		} else {
+			var part = widget.parts[ widget.mask ],
+				parent = part.getParent();
+
+			newMask = new CKEDITOR.dom.element( 'img', widget.editor.document );
+			newMask.setAttributes( {
+				src: CKEDITOR.tools.transparentImageData,
+				'class': 'cke_reset cke_widget_partial_mask'
+			} );
+
+			// Enhanced Image plugin and it's resizer are messing with default widget structure, so
+			// it needs to be taken into account and moved a bit. The problem is visible after dragging the widget.
+			if ( !CKEDITOR.plugins.widget.isDomWidget( parent ) ) {
+				newMask.setStyles( {
+					top: part.$.offsetTop + parent.$.offsetTop + 'px',
+					left: part.$.offsetLeft + parent.$.offsetLeft + 'px',
+					width: part.$.offsetWidth + 'px',
+					height: part.$.offsetHeight + 'px'
+				} );
+			} else {
+				newMask.setStyles( {
+					top: part.$.offsetTop + 'px',
+					left: part.$.offsetLeft + 'px',
+					width: part.$.offsetWidth + 'px',
+					height: part.$.offsetHeight + 'px'
+				} );
+			}
+		}
+		widget.wrapper.append( newMask );
+		widget.mask = newMask;
 	}
 
 	// Replace parts object containing:
