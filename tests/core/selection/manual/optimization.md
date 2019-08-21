@@ -32,7 +32,7 @@
 
 1. Place collapsed selection inside editor.
 
-1. Use keystroke <kbd>Shift</kbd> + <kbd>Arrow Key</kbd> to select few different elements.
+1. Use keystroke <kbd>Shift</kbd> + <kbd>Arrow Key</kbd> to select multiline content.
 
 ## Expected
 
