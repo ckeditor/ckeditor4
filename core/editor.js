@@ -168,7 +168,7 @@
 		} );
 		this.on( 'mode', updateCommands );
 
-		// (#3175)
+		// Store last arrow key keycode so selection optimizations can alter its flow (#3175).
 		this.on( 'key', function( evt ) {
 			var keyCode = evt.data.keyCode - CKEDITOR.SHIFT;
 
