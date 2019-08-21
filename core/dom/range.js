@@ -693,7 +693,7 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * Whether this range is the same as other passed range.
 		 *
-		 * @sicne 4.13.0
+		 * @since 4.13.0
 		 * @param {CKEDITOR.dom.range} range Range to be compared with this range.
 		 * @returns {Boolean} Whether ranges are identical.
 		 */
