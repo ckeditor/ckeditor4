@@ -275,17 +275,15 @@
 					this.editor.fire( 'unlockSnapshot' );
 				}
 
-				if ( !CKEDITOR.env.gecko ) {
-					return CKEDITOR.tools.promise.resolve( iframe );
-				}
+				return CKEDITOR.env.gecko ?
+					new CKEDITOR.tools.promise( executor ) :
+					CKEDITOR.tools.promise.resolve( iframe );
 
-				var promise = new CKEDITOR.tools.promise( function( res ) {
+				function executor( res ) {
 					iframe.once( 'load', function() {
 						res( iframe );
 					} );
-				} );
-
-				return promise;
+				}
 			},
 
 			addContent: function( content ) {
