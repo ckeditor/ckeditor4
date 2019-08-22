@@ -22,22 +22,10 @@
 
 1. Press `insert` button.
 
-  ## Expected
-
-  No red border over inserted text is visible.
-
-  ## Unexpected
-
-  Red border is visible.
-
-1. Place collapsed selection inside editor.
-
-1. Use keystroke <kbd>Shift</kbd> + <kbd>Arrow Key</kbd> to select multiline content.
-
 ## Expected
 
-Anything can be selected.
+No red border over inserted text is visible.
 
 ## Unexpected
 
-Range can't move past beginning/end of block elements.
+Red border is visible.
