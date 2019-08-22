@@ -2,17 +2,18 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, elementspath, sourcearea, list, undo, div, table, image, basicstyles
 
-Play around with selection to check if there is no weird behaviours. Change selection with:
-- Collapsed selection with mouse click
-- Selection range with mouse
+Play around with selection to check if there are no weird behaviours.
+
+Check different ways to manipulate selection:
+- Collapsed and non-collapsed selection with mouse
 - Double click
 - Triple click
 - Arrow keys
-- Shift + Arrow
-- Shift + Home/End
-- Ctrl/Command + A
+- <kbd>Shift</kbd> + <kbd>Arrow</kbd>
+- <kbd>Shift</kbd> + <kbd>Home</kbd> / <kbd>End</kbd>
+- <kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>A</kbd>
 
 Things to test:
 - Single line selection
 - Multiline selection
-- Selection starts/ends at the start/end of an element and vice versa.
+- Selection that starts/ends at the start/end of element.
