@@ -259,8 +259,6 @@
 			}
 
 			if ( sel.getType() == CKEDITOR.SELECTION_NONE ) {
-				// Remove stored keyCode ad range when `selectionCheck` event is not fired.
-				sel.root.editor._.lastKeystrokeSelection = null;
 				return;
 			}
 		}

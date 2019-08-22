@@ -168,19 +168,6 @@
 		} );
 		this.on( 'mode', updateCommands );
 
-		// Store last arrow key keycode so selection optimizations can alter its flow (#3175).
-		this.on( 'key', function( evt ) {
-			var keyCode = evt.data.keyCode - CKEDITOR.SHIFT;
-
-			// Arrow key codes are 37, 38, 39, 40, so we can just check if keyCode is in range.
-			if ( keyCode >= 37 && keyCode <= 40 ) {
-				this._.lastKeystrokeSelection = {
-					range: this.getSelection().getRanges()[ 0 ],
-					keyCode: keyCode
-				};
-			}
-		} );
-
 		// (#3175)
 		this.on( 'selectionCheck', function( evt ) {
 			if ( evt.data ) {
@@ -190,6 +177,14 @@
 
 		// Handle startup focus.
 		this.on( 'instanceReady', function() {
+			this.editable().on( 'keydown', function( evt ) {
+				this._.shiftPressed = evt.data.$.shiftKey;
+			}, this );
+
+			this.editable().on( 'keyup', function( evt ) {
+				this._.shiftPressed = evt.data.$.shiftKey;
+			}, this );
+
 			if ( this.config.startupFocus ) {
 				if ( this.config.startupFocus === 'end' ) {
 					var range = this.createRange();
