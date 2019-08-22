@@ -86,78 +86,14 @@
 				'</tbody></table><p>Paragraph</p>'
 		} ),
 
-		'test keystroke and range are saved on shift+left': testKeystroke( {
-			keyCode: 37,
-			stored: true
-		} ),
-
-		'test keystroke and range are saved on shift+up': testKeystroke( {
-			keyCode: 38,
-			stored: true
-		} ),
-
-		'test keystroke and range are saved on shift+right': testKeystroke( {
-			keyCode: 39,
-			stored: true
-		} ),
-
-		'test keystroke and range are saved on shift+down': testKeystroke( {
-			keyCode: 40,
-			stored: true
-		} ),
-
-		'test keystroke and range are not saved on shift+a': testKeystroke( {
-			keyCode: 65,
-			stored: false
-		} ),
-
-		'test saved keystroke and range are cleaned when selectionCheck is prevented': function( editor ) {
-			var mock = sinon.stub( CKEDITOR.dom.selection.prototype, 'getType' ).returns( CKEDITOR.SELECTION_NONE );
-
-			testKeystroke( {
-				keyCode: 37,
-				stored: false,
-				callback: function( assertSoredKeystroke ) {
-					editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
-
-					setTimeout( function() {
-						resume( function() {
-							mock.restore();
-							assertSoredKeystroke();
-						} );
-					}, 220 );
-
-					wait();
-				}
-			} )( editor );
-
-			mock.restore();
-		},
-
-		'test selection optimization when left key stored': testSelectionWithKeystroke( {
-			keyCode: 37,
-			initial: '<p>foo[</p><p>bar]</p><p>baz</p>',
-			expected: '<p>fo[o</p><p>bar]@</p><p>baz</p>',
-			ignore: CKEDITOR.env.gecko || CKEDITOR.env.ie
-		} ),
-
-		'test selection optimization when up key stored': testSelectionWithKeystroke( {
-			keyCode: 38,
-			initial: '<p>foo[</p><p>bar]</p><p>baz</p>',
-			expected: '<p>fo[o</p><p>bar]@</p><p>baz</p>',
-			ignore: CKEDITOR.env.gecko || CKEDITOR.env.ie
-		} ),
-
-		'test selection optimization when right key stored': testSelectionWithKeystroke( {
-			keyCode: 39,
+		'test selection optimization is prevented when shift key is pressed': testSelection( {
 			initial: '<p>foo</p><p>[bar</p><p>]baz</p>',
-			expected: '<p>foo</p><p>[bar@</p><p>b]az</p>'
-		} ),
-
-		'test selection optimization when down key stored': testSelectionWithKeystroke( {
-			keyCode: 40,
-			initial: '<p>foo</p><p>[bar</p><p>]baz</p>',
-			expected: '<p>foo</p><p>[bar@</p><p>b]az</p>'
+			expected: '<p>foo</p><p>[bar@</p><p>]baz</p>',
+			callback: function( editor, assertEditorHtml ) {
+				editor._.shiftPressed = true;
+				assertEditorHtml();
+				editor._.shiftPressed = false;
+			}
 		} )
 	};
 
@@ -167,18 +103,17 @@
 
 	function testSelection( options ) {
 		return function( editor ) {
-			bender.tools.selection.setWithHtml( editor, options.initial );
-
 			if ( options.callback ) {
-				options.callback( editor, function() {
-					assertEditorHtml( options.expected );
-				} );
+				options.callback( editor, assertEditorHtml );
 			} else {
-				assertEditorHtml( options.expected );
+				assertEditorHtml();
 			}
 
-			function assertEditorHtml( expected ) {
-				var actual = bender.tools.selection.getWithHtml( editor );
+			function assertEditorHtml() {
+				bender.tools.selection.setWithHtml( editor, options.initial );
+
+				var expected = options.expected,
+					actual = bender.tools.selection.getWithHtml( editor );
 
 				assert.isInnerHtmlMatching( expected, actual, {
 					compareSelection: true,
@@ -187,75 +122,6 @@
 					fixStyles: true
 				} );
 			}
-		};
-	}
-
-	function testKeystroke( options ) {
-		return function( editor ) {
-			editor._.lastKeystrokeSelection = null;
-
-			editor.focus();
-
-			var range = editor.getSelection().getRanges()[ 0 ],
-				SHIFT = CKEDITOR.SHIFT,
-				keyCode = options.keyCode;
-
-			editor.fire( 'key', {
-				keyCode: keyCode + SHIFT,
-				domEvent: {
-					getKey: function() {
-						return keyCode + SHIFT;
-					}
-				}
-			} );
-
-			if ( options.callback ) {
-				options.callback( function() {
-					assertSoredKeystroke( options.stored );
-				} );
-			} else {
-				assertSoredKeystroke( options.stored );
-			}
-
-			function assertSoredKeystroke( stored ) {
-				if ( stored ) {
-					assert.areSame( keyCode, editor._.lastKeystrokeSelection.keyCode, 'keyCode stored' );
-					assert.isTrue( range.equals( editor._.lastKeystrokeSelection.range ), 'range stored' );
-				} else {
-					assert.isNull( editor._.lastKeystrokeSelection, 'editor._.lastKeystrokeSelection' );
-				}
-			}
-		};
-	}
-
-	function testSelectionWithKeystroke( options ) {
-		return function( editor ) {
-			options.ignore && assert.ignore();
-
-			// Prevent initial optimization.
-			var listener = editor.on( 'selectionCheck', function( evt ) {
-				evt.cancel();
-			}, null, null, -5 );
-
-			testSelection( {
-				initial: options.initial,
-				expected: options.expected,
-				callback: function( editor, assertEditorHtml ) {
-					var selection = editor.getSelection(),
-						range = selection.getRanges()[ 0 ];
-
-					editor._.lastKeystrokeSelection = {
-						range: range,
-						keyCode: options.keyCode
-					};
-
-					listener.removeListener();
-
-					editor.fire( 'selectionCheck', selection );
-
-					assertEditorHtml();
-				}
-			} )( editor );
 		};
 	}
 } )();
