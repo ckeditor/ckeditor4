@@ -275,9 +275,7 @@
 					this.editor.fire( 'unlockSnapshot' );
 				}
 
-				var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
-
-				if ( !useOnloadEvent ) {
+				if ( !CKEDITOR.env.gecko ) {
 					return CKEDITOR.tools.promise.resolve( iframe );
 				}
 
