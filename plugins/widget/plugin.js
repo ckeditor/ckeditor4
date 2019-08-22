@@ -3419,7 +3419,7 @@
 				widget.edit();
 				// CTRL+C or CTRL+X.
 			} else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
-				// copyWidgets( widget.editor, keyCode == CKEDITOR.CTRL + 88 );
+				copyWidgets( widget.editor, keyCode == CKEDITOR.CTRL + 88 );
 				return; // Do not preventDefault.
 				// Pass chosen keystrokes to other plugins or default fake sel handlers.
 				// Pass all CTRL/ALT keystrokes.
