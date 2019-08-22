@@ -24,14 +24,16 @@
 		return node.type === CKEDITOR.NODE_TEXT;
 	}
 
-	// Returns true any condition is met:
-	// - range starts at the end of an element.
-	// - range ends at the beginning of an element.
-	// - one end of range is in text, and another is not.
-	// Exceptions that will always return false:
-	// - shift key is pressed.
-	// - selection is fake.
-	// - range is collapsed or start and end container is same element.
+	// Returns true if any condition is met:
+	// - Range starts at the end of an element.
+	// - Range ends at the beginning of an element.
+	// - One end of range is in text, and another one is not.
+	//
+	// Always returns false when:
+	// - Shift key is pressed.
+	// - Selection is fake.
+	// - Range is collapsed.
+	// - Range start and end container is the same element.
 	function shouldOptimize( range, selection ) {
 		if ( selection.root.editor._.shiftPressed ) {
 			return false;
