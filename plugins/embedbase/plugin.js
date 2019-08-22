@@ -252,7 +252,7 @@
 			 * Appends an iframe to this widget, and returns promise which resolves with the iframe.
 			 * Because some browsers needs iframe#onload, it's wrapped with the promise.
 			 *
-			 * @returns {CKEDITOR.tools.promise<CKEDITOR.dom.element>} Returns the promise wrapping iframe.
+			 * @returns {CKEDITOR.tools.promise} Returns the promise wrapping an {@link CKEDITOR.dom.element iframe}.
 			 */
 			appendIframe: function() {
 				var iframe = this.element.findOne( 'iframe' );
