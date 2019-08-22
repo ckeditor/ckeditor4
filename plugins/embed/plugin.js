@@ -45,34 +45,10 @@
 				},
 
 				upcast: function( el, data ) {
-					if ( el.name != 'div' || !el.attributes[ 'data-oembed-url' ] ) {
-						return;
-					}
-
-					data.url = el.attributes[ 'data-oembed-url' ];
-
-					if ( !CKEDITOR.env.ie ) {
+					if ( el.name == 'div' && el.attributes[ 'data-oembed-url' ] ) {
+						data.url = el.attributes[ 'data-oembed-url' ];
 						return true;
 					}
-
-					var widetDef = editor.widgets.registered.embed,
-						cachedResponse = widetDef._getCachedResponse( data.url );
-
-					// We need response to create proper widget content. If it's not cached mark it, so we can get response later (#2306).
-					if ( !cachedResponse ) {
-						el.attributes[ 'data-get-response' ] = 'true';
-						return true;
-					}
-
-					var content = widetDef._generateContent( cachedResponse );
-
-					if ( content ) {
-						el.setHtml( content );
-						// Mark that we need to restore response html on downcast (#2306).
-						el.attributes[ 'data-restore-html' ] = 'true';
-					}
-
-					return true;
 				},
 
 				downcast: function( el ) {

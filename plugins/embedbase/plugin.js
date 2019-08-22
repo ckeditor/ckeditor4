@@ -91,7 +91,6 @@
 			editor._.cachedFrameContents = {};
 
 			CKEDITOR.dialog.add( 'embedBase', this.path + 'dialogs/embedbase.js' );
-			loadStyles( editor, this );
 		}
 	} );
 
@@ -244,10 +243,6 @@
 									} );
 								}
 							}
-						} );
-					} else if ( this.element.hasAttribute( 'data-cke-get-responmse' ) ) {
-						that.loadContent( url, {
-							noNotifications: true
 						} );
 					}
 				} );
@@ -606,21 +601,7 @@
 						request.task.done();
 					}
 
-					var content;
-
-					if ( CKEDITOR.env.ie ) {
-						// Try to recreate widget content when needed (#2306).
-						content = this._generateContent( request.response );
-					}
-
-					if ( content ) {
-						// Mark that element html needs to be restored on downcast (#2306).
-						this.element.setAttribute( 'data-restore-html', 'true' );
-					} else {
-						content = evtData.html;
-					}
-
-					this._setContent( request.url, content );
+					this._setContent( request.url, evtData.html );
 
 					return true;
 				} else {
@@ -680,79 +661,6 @@
 			_setContent: function( url, content ) {
 				this.setData( 'url', url );
 				this.element.setHtml( content );
-			},
-
-			/**
-			 * Given response returns html code that represents url card preview.
-			 *
-			 * @since 4.13.0
-			 * @static
-			 * @private
-			 * @param {Object} response Request response.
-			 * @returns {String} Html string to be inserted in widget.
-			 */
-			_generateContent: function( response ) {
-				var scriptUrl = /<script.*?src="(.*?)"/.exec( response.html );
-				scriptUrl = scriptUrl && scriptUrl[ 1 ];
-
-				var canUseOriginalContent = scriptUrl !== '//if-cdn.com/embed.js';
-
-				if ( canUseOriginalContent ) {
-					return null;
-				}
-
-				var providerName = response.provider_name;
-
-				// When there is no provider name, try to recreate it from an url.
-				// Example: 'http://wwww.some-site.example.com/subsite/document?query' extracted 'some-site.example.com'.
-				if ( !providerName ) {
-					providerName = /\/\/(www\.)?(.*?)(\/|$)/.exec( response.url );
-					providerName = providerName && providerName[ 2 ];
-				}
-
-				// Height style is present in response only for compact widgets.
-				var thumbnailClass = 'cke_widget_embed_thumbnail',
-					isCompact = /style="height/.test( response.html );
-
-				if ( isCompact ) {
-					thumbnailClass += ' cke_widget_embed_compact';
-				}
-
-				var captionContent = '';
-
-				captionContent += response.title ? '<p class="cke_widget_embed_title">' + response.title + '</p>' : '';
-
-				captionContent += response.description ? '<p class="cke_widget_embed_description">' + response.description + '</p>' : '';
-
-				captionContent += providerName ?
-					'<p class="cke_widget_embed_provider">' +
-						'<img class="cke_widget_embed_favicon" ' +
-							// Favicon is missing in response, with little help of Google we can retrieve it.
-							'src="https://www.google.com/s2/favicons?domain=' + encodeURIComponent( response.url ) + '" ' +
-							'onerror="this.style.display=\'none\'">' +
-						providerName +
-					'</p>' : '';
-
-				if ( captionContent ) {
-					var openingTag = response.thumbnail_url ?
-						'<figcaption class="cke_widget_embed_caption">' :
-						'<div class="cke_widget_embed_container cke_widget_embed_caption">';
-
-					captionContent = openingTag + captionContent;
-				}
-
-				var newContent = response.thumbnail_url ?
-					'<figure class="cke_widget_embed_container"><img class="' + thumbnailClass + '" src="' + response.thumbnail_url + '">' : '';
-
-				newContent += captionContent;
-
-				if ( captionContent ) {
-					newContent += response.thumbnail_url ? '</figcaption>' : '</div>';
-				}
-
-				newContent += response.thumbnail_url ? '</figure>' : '';
-
-				return newContent || null;
 			},
 
 			/**
@@ -913,21 +821,6 @@
 		createWidgetBaseDefinition: createWidgetBaseDefinition,
 		_jsonp: Jsonp
 	};
-
-	var stylesLoaded;
-
-	function loadStyles( editor, plugin ) {
-		var localPath = 'styles/embedbase.css';
-
-		if ( !stylesLoaded ) {
-			CKEDITOR.document.appendStyleSheet( plugin.path + localPath );
-			stylesLoaded = true;
-		}
-
-		if ( editor.addContentsCss ) {
-			editor.addContentsCss( plugin.path + localPath );
-		}
-	}
 
 	function cacheFrameContents( editor, url, element ) {
 		var cache = editor._.cachedFrameContents[ url ];
