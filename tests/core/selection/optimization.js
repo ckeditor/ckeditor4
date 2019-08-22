@@ -5,14 +5,22 @@
 	'use strict';
 
 	bender.editors = {
-		classic: {},
+		classic: {
+			config: {
+				removePlugins: 'tableselection'
+			}
+		},
 		divarea: {
 			config: {
-				extraPlugins: 'divarea'
+				extraPlugins: 'divarea',
+				removePlugins: 'tableselection'
 			}
 		},
 		inline: {
-			creator: 'inline'
+			creator: 'inline',
+			config: {
+				removePlugins: 'tableselection'
+			}
 		}
 	};
 
