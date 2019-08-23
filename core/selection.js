@@ -254,13 +254,8 @@
 			sel = realSel || this.getSelection( 1 );
 
 			// Editor may have no selection at all.
-			if ( !sel ) {
+			if ( !sel || sel.getType() == CKEDITOR.SELECTION_NONE )
 				return;
-			}
-
-			if ( sel.getType() == CKEDITOR.SELECTION_NONE ) {
-				return;
-			}
 		}
 
 		this.fire( 'selectionCheck', sel );
