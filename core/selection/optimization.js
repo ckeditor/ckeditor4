@@ -1,6 +1,56 @@
 ( function() {
 	var preventListener = true;
 
+	/**
+	 * Setups editor listeners to optimize selection.
+	 *
+	 * @since 4.13.0
+	 * @static
+	 * @see CKEDITOR.dom.selection.optimizeInElementEnds
+	 * @param editor
+	 */
+	CKEDITOR.dom.selection.prototype.setupEditorOptimization = function( editor ) {
+		// (#3175)
+		editor.on( 'selectionCheck', function( evt ) {
+			if ( evt.data ) {
+				evt.data.optimizeInElementEnds();
+			}
+		} );
+
+		editor.on( 'instanceReady', function() {
+			this.editable().on( 'keydown', function( evt ) {
+				this._.shiftPressed = evt.data.$.shiftKey;
+			}, this );
+
+			this.editable().on( 'keyup', function( evt ) {
+				this._.shiftPressed = evt.data.$.shiftKey;
+			}, this );
+		} );
+	};
+
+	/**
+	 * Checks if needed and performs optimization to selection.
+	 *
+	 * The general idea is to shrink range to text, when
+	 * - range starts at the end,
+	 * - range ends at the start of an element,
+	 * - one of range end is anchored in a text node and another in an element.
+	 *
+	 * Example:
+	 *
+	 * ```html
+	 * <p>{foo</p>
+	 * <p>]bar</p>
+	 * ```
+	 *
+	 * is optimized too
+	 * ```html
+	 * <p>{foo}</p>
+	 * <p>bar</p>
+	 * ```
+	 *
+	 * @since 4.13.0
+	 */
 	CKEDITOR.dom.selection.prototype.optimizeInElementEnds = function() {
 		var range = this.getRanges()[ 0 ],
 			editor = this.root.editor;

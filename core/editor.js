@@ -168,23 +168,10 @@
 		} );
 		this.on( 'mode', updateCommands );
 
-		// (#3175)
-		this.on( 'selectionCheck', function( evt ) {
-			if ( evt.data ) {
-				evt.data.optimizeInElementEnds();
-			}
-		} );
+		CKEDITOR.dom.selection.prototype.setupEditorOptimization( this );
 
 		// Handle startup focus.
 		this.on( 'instanceReady', function() {
-			this.editable().on( 'keydown', function( evt ) {
-				this._.shiftPressed = evt.data.$.shiftKey;
-			}, this );
-
-			this.editable().on( 'keyup', function( evt ) {
-				this._.shiftPressed = evt.data.$.shiftKey;
-			}, this );
-
 			if ( this.config.startupFocus ) {
 				if ( this.config.startupFocus === 'end' ) {
 					var range = this.createRange();
