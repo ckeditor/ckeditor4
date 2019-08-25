@@ -59,7 +59,7 @@
 			return;
 		}
 
-		range.shrink( CKEDITOR.SHRINK_TEXT );
+		range.shrink( CKEDITOR.SHRINK_TEXT, false, { skipBogus: true } );
 
 		preventListener = false;
 
