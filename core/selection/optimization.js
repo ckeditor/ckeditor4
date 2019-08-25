@@ -63,7 +63,7 @@
 
 			var newRange = evt.data.getRanges()[ 0 ];
 
-			if ( !CKEDITOR.tools.objectCompare( newRange, range ) ) {
+			if ( range.equals( newRange ) ) {
 				evt.cancel();
 			}
 		}, null, null, -1 );
