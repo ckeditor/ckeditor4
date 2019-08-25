@@ -1,6 +1,6 @@
 @bender-tags: selection, 4.12.1, bug, 3161, 3175
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, elementspath, sourcearea, list, undo, div, table, image, basicstyles
+@bender-ckeditor-plugins: wysiwygarea, toolbar, elementspath, sourcearea, list, undo, div, table, image, basicstyles, format
 
 Play around with selection to check if there are no weird behaviours.
 
