@@ -16,7 +16,7 @@
 
 1. Press `reset` button.
 
-1. Start selection word `Foo` by mouse from the left.
+1. Start selecting word `Foo` by mouse from the left.
 
 1. Release mouse over the bullet of sub list.
 
