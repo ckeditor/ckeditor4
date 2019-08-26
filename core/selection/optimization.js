@@ -1,5 +1,6 @@
 ( function() {
-	var preventListener = true;
+	var preventListener = true,
+		preventOptimization = false;
 
 	/**
 	 * Setups editor listeners to optimize selection.
@@ -14,8 +15,10 @@
 	CKEDITOR.dom.selection.prototype.setupEditorOptimization = function( editor ) {
 		// (#3175)
 		editor.on( 'selectionCheck', function( evt ) {
-			if ( evt.data ) {
+			if ( evt.data && !preventOptimization ) {
 				evt.data.optimizeInElementEnds();
+			} else {
+				preventOptimization = false;
 			}
 		} );
 
@@ -63,11 +66,13 @@
 			return;
 		}
 
+		var oldRange = range.clone();
+
 		range.shrink( CKEDITOR.SHRINK_TEXT, false, { skipBogus: true } );
 
 		preventListener = false;
 
-		preventRecurrency( editor, range );
+		preventRecurrency( editor, range, oldRange );
 
 		range.select();
 
@@ -109,7 +114,12 @@
 	}
 
 	// Prevent infinite recurrency when browser doesn't allow expected selection.
-	function preventRecurrency( editor, range ) {
+	// There are two cases to handle
+	// - When browser modified the range in a way that it is the same as before optimization.
+	// 		Second event is cancelled, we don't need to fire listeners two time with exact same selection.
+	// - When browser doesn't modify the range.
+	// 		Event is not cancelled, as selection changed, however next optimization is prevented.
+	function preventRecurrency( editor, targetRange, initialRange ) {
 		editor.once( 'selectionCheck', function( evt ) {
 			if ( preventListener ) {
 				return;
@@ -117,9 +127,12 @@
 
 			var newRange = evt.data.getRanges()[ 0 ];
 
-			if ( range.equals( newRange ) ) {
+			if ( initialRange.equals( newRange ) ) {
 				evt.cancel();
+			} else if ( targetRange.equals( newRange ) ) {
+				preventOptimization = true;
 			}
+
 		}, null, null, -1 );
 	}
 } )();
