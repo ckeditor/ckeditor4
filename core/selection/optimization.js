@@ -10,7 +10,7 @@
 	 * @since 4.13.0
 	 * @static
 	 * @see CKEDITOR.dom.selection.optimizeInElementEnds
-	 * @param editor
+	 * @param {CKEDITOR.editor} editor
 	 */
 	CKEDITOR.dom.selection.setupEditorOptimization = function( editor ) {
 		// (#3175)
