@@ -10,7 +10,7 @@
 		sampleWidget3ClipboardHtml = '<div data-cke-test3-widget>test3</div>';
 
 	var editorConfig = {
-		plugins: 'wysiwygarea,sourcearea,widget,clipboard',
+		plugins: 'wysiwygarea,sourcearea,widget,clipboard,undo',
 		allowedContent: true,
 		language: 'en',
 		on: {
@@ -1002,6 +1002,159 @@
 			assert: function( editor, clipboardHtml ) {
 				assert.isMatching( /(<div data-cke-nested-widget="true">Content<\/div>){2}/, clipboardHtml );
 				assert.isNotMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
+			}
+		} ),
+
+		// (#3138)
+		'test selection is restored after copying (single widget)': createCopyCutTest( {
+			event: 'copy',
+			html: '<div id="w1" data-widget="test3">test3</div>',
+
+			init: function( editor ) {
+				var widget = getWidgetById( editor, 'w1' );
+
+				widget.focus();
+			},
+
+			assert: function( editor ) {
+				var widget = getWidgetById( editor, 'w1' );
+
+				assert.areSame( widget, editor.widgets.focused );
+			}
+		} ),
+
+		// (#3138)
+		'test selection is restored after copying (multiple widgets)': createCopyCutTest( {
+			event: 'copy',
+			html: '<p>Lorem</p>' +
+			'<div id="w1" data-widget="test3">test3</div>' +
+			'<div id="w2" data-widget="test3">test3</div>' +
+			'<p>Ipsum</p>',
+
+			init: function( editor ) {
+				var range = editor.createRange(),
+					editable = editor.editable(),
+					startNode = editable.findOne( '#w1' ),
+					endNode = editable.findOne( '#w2' );
+
+				range.setStartBefore( startNode );
+				range.setEndAfter( endNode );
+				range.select();
+			},
+
+			// Different browsers anchor selection to different elements, that's why
+			// we use such logic to check if selection is inside widgets.
+			assert: function( editor ) {
+				var range = editor.getSelection().getRanges()[ 0 ],
+					startContainer = range.startContainer.getAscendant( findWrapper, true ),
+					endContainer = range.endContainer.getAscendant( findWrapper, true ),
+					widget1 = getWidgetById( editor, 'w1' ).wrapper,
+					widget2 = getWidgetById( editor, 'w2' ).wrapper;
+
+				assert.areSame( widget1, startContainer, 'start container' );
+				assert.areSame( widget2, endContainer, 'end container' );
+
+				function findWrapper( node ) {
+					return node.data && node.data( 'cke-widget-wrapper' );
+				}
+			}
+		} ),
+
+		// (#3138)
+		'test content is removed after cutting (single widget)': createCopyCutTest( {
+			event: 'cut',
+			html: '<div id="w1" data-widget="test3">test3</div>',
+
+			init: function( editor ) {
+				var widget = getWidgetById( editor, 'w1' );
+
+				widget.focus();
+			},
+
+			assert: function( editor ) {
+				assert.areSame( '', editor.getData() );
+				assert.isTrue( editor.getSelection().isCollapsed(), 'selection is collapsed' );
+			}
+		} ),
+
+		// (#3138)
+		'test content is removed after cutting (multiple widget)': createCopyCutTest( {
+			event: 'cut',
+			html: '<p>Lorem</p>' +
+			'<div id="w1" data-widget="test3">test3</div>' +
+			'<div id="w2" data-widget="test3">test3</div>' +
+			'<p>Ipsum</p>',
+
+			init: function( editor ) {
+				var range = editor.createRange(),
+					widget1 = getWidgetById( editor, 'w1' ),
+					widget2 = getWidgetById( editor, 'w2' );
+
+				range.setStartBefore( widget1.wrapper );
+				range.setEndAfter( widget2.wrapper );
+				range.select();
+			},
+
+			assert: function( editor ) {
+				var data = editor.getData();
+
+				assert.isNotMatching( /<div.+?>/, data, 'widgets are removed' );
+				assert.isTrue( editor.getSelection().isCollapsed(), 'selection is collapsed' );
+			}
+		} ),
+
+		// (#3138)
+		'test undo stack after copying (multiple widgets)': createCopyCutTest( {
+			event: 'copy',
+			html: '<p>Lorem</p>' +
+			'<div id="w1" data-widget="test3">test3</div>' +
+			'<div id="w2" data-widget="test3">test3</div>' +
+			'<p>Ipsum</p>',
+
+			init: function( editor ) {
+				var range = editor.createRange(),
+					editable = editor.editable(),
+					startNode = editable.findOne( '#w1' ),
+					endNode = editable.findOne( '#w2' );
+
+				range.setStartBefore( startNode );
+				range.setEndAfter( endNode );
+				range.select();
+
+				editor.resetUndo();
+			},
+
+			assert: function( editor ) {
+				assert.isFalse( editor.undoManager.undoable(), 'copy is not undoable' );
+			}
+		} ),
+
+		// (#3138)
+		'test undo stack after cutting (multiple widgets)': createCopyCutTest( {
+			event: 'cut',
+			html: '<p>Lorem</p>' +
+			'<div id="w1" data-widget="test3">test3</div>' +
+			'<div id="w2" data-widget="test3">test3</div>' +
+			'<p>Ipsum</p>',
+
+			init: function( editor ) {
+				var range = editor.createRange(),
+					editable = editor.editable(),
+					startNode = editable.findOne( '#w1' ),
+					endNode = editable.findOne( '#w2' );
+
+				range.setStartBefore( startNode );
+				range.setEndAfter( endNode );
+				range.select();
+
+				editor.resetUndo();
+			},
+
+			assert: function( editor ) {
+				var undoManager = editor.undoManager;
+
+				assert.isTrue( undoManager.undoable(), 'cut is undoable' );
+				assert.areSame( 2, undoManager.snapshots.length, 'Steps amount' );
 			}
 		} ),
 
