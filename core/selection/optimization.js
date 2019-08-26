@@ -12,7 +12,7 @@
 	 * @see CKEDITOR.dom.selection.optimizeInElementEnds
 	 * @param editor
 	 */
-	CKEDITOR.dom.selection.prototype.setupEditorOptimization = function( editor ) {
+	CKEDITOR.dom.selection.setupEditorOptimization = function( editor ) {
 		// (#3175)
 		editor.on( 'selectionCheck', function( evt ) {
 			if ( evt.data && !preventOptimization ) {

@@ -168,7 +168,7 @@
 		} );
 		this.on( 'mode', updateCommands );
 
-		CKEDITOR.dom.selection.prototype.setupEditorOptimization( this );
+		CKEDITOR.dom.selection.setupEditorOptimization( this );
 
 		// Handle startup focus.
 		this.on( 'instanceReady', function() {
