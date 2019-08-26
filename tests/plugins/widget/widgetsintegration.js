@@ -830,222 +830,180 @@
 		},
 
 		// (#3138)
-		'test shadowed clipboard HTML is used for copying (single widget)': function() {
-			var editor = this.editor;
+		'test shadowed clipboard HTML is used for copying (single widget)': createCopyCutTest( {
+			event: 'copy',
+			html: '<div id="w1" data-widget="test3">test3</div>',
 
-			this.editorBot.setData( '<div id="w1" data-widget="test3">test3</div>', function() {
+			init: function( editor ) {
 				var widget = getWidgetById( editor, 'w1' );
 
 				widget.focus();
+			},
 
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + 67 } ) ); // CTRL + C
-
-				// At this point copybin is selected.
-				var clipboardHtml = editor.getSelectedHtml( true );
-
-				wait( function() {
-					assert.isMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
-				}, 150 );
-			} );
-		},
+			assert: function( editor, clipboardHtml ) {
+				assert.isMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
+			}
+		} ),
 
 		// (#3138)
-		'test shadowed clipboard HTML is used for cutting (single widget)': function() {
-			var editor = this.editor;
+		'test shadowed clipboard HTML is used for cutting (single widget)': createCopyCutTest( {
+			event: 'cut',
+			html: '<div id="w1" data-widget="test3">test3</div>',
 
-			this.editorBot.setData( '<div id="w1" data-widget="test3">test3</div>', function() {
+			init: function( editor ) {
 				var widget = getWidgetById( editor, 'w1' );
 
 				widget.focus();
+			},
 
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + 88 } ) ); // CTRL + X
-
-				// At this point copybin is selected.
-				var clipboardHtml = editor.getSelectedHtml( true );
-
-				wait( function() {
-					assert.isMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
-				}, 150 );
-			} );
-		},
+			assert: function( editor, clipboardHtml ) {
+				assert.isMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
+			}
+		} ),
 
 		// (#3138)
-		'test shadowed clipboard HTML is used for copying (multiple widget)': function() {
-			var editor = this.editor;
+		'test shadowed clipboard HTML is used for copying (multiple widgets)': createCopyCutTest( {
+			event: 'copy',
+			html: '<p>Lorem</p>' +
+				'<div id="w1" data-widget="test3">test3</div>' +
+				'<div id="w2" data-widget="test3">test3</div>' +
+				'<p>Ipsum</p>',
 
-			this.editorBot.setData( '<p>Lorem</p><div id="w1" data-widget="test3">test3</div><div id="w2" data-widget="test3">test3</div><p>Ipsum</p>', function() {
+			init: function( editor ) {
 				var range = editor.createRange(),
 					editable = editor.editable(),
 					startNode = editable.findOne( '#w1' ),
-					endNode = editable.findOne( '#w2' ),
-					clipboardHtml;
+					endNode = editable.findOne( '#w2' );
 
 				range.setStartBefore( startNode );
 				range.setEndAfter( endNode );
 				range.select();
+			},
 
-				editor.editable().once( 'copy', function() {
-					clipboardHtml = editor.getSelectedHtml( true );
-				} );
-
-				editor.editable().fire( 'copy', new CKEDITOR.dom.event( {} ) );
-
-				wait( function() {
-					assert.isMatching( /(.*data-cke-test3-widget.*){2}/, clipboardHtml );
-				}, 150 );
-			} );
-		},
+			assert: function( editor, clipboardHtml ) {
+				assert.isMatching( /(.*data-cke-test3-widget.*){2}/, clipboardHtml );
+			}
+		} ),
 
 		// (#3138)
-		'test shadowed clipboard HTML is used for cutting (multiple widget)': function() {
-			var editor = this.editor;
+		'test shadowed clipboard HTML is used for cutting (multiple widgets)': createCopyCutTest( {
+			event: 'cut',
+			html: '<p>Lorem</p>' +
+				'<div id="w1" data-widget="test3">test3</div>' +
+				'<div id="w2" data-widget="test3">test3</div>' +
+				'<p>Ipsum</p>',
 
-			this.editorBot.setData( '<p>Lorem</p><div id="w1" data-widget="test3">test3</div><div id="w2" data-widget="test3">test3</div><p>Ipsum</p>', function() {
+			init: function( editor ) {
 				var range = editor.createRange(),
 					editable = editor.editable(),
 					startNode = editable.findOne( '#w1' ),
-					endNode = editable.findOne( '#w2' ),
-					clipboardHtml;
+					endNode = editable.findOne( '#w2' );
 
 				range.setStartBefore( startNode );
 				range.setEndAfter( endNode );
 				range.select();
+			},
 
-				editor.editable().once( 'cut', function() {
-					clipboardHtml = editor.getSelectedHtml( true );
-				} );
-
-				editor.editable().fire( 'cut', new CKEDITOR.dom.event( {} ) );
-
-				wait( function() {
-					assert.isMatching( /(.*data-cke-test3-widget.*){2}/, clipboardHtml );
-				}, 150 );
-			} );
-		},
+			assert: function( editor, clipboardHtml ) {
+				assert.isMatching( /(.*data-cke-test3-widget.*){2}/, clipboardHtml );
+			}
+		} ),
 
 		// (#3138)
-		'test shadowed clipboard HTML is used for copying (single nested widget)': function() {
-			var editor = this.editor,
-				html = '<div data-widget="test4" id="w1">' +
-					'<div class="ned">' +
-						'<div id="w2" data-widget="test3">test3</div>' +
-					'</div>' +
-				'</div>';
-
-			this.editorBot.setData( html, function() {
-				var widget = getWidgetById( editor, 'w1' ),
-					clipboardHtml;
-
-				widget.focus();
-
-				editor.editable().once( 'copy', function() {
-					clipboardHtml = editor.getSelectedHtml( true );
-				} );
-
-				editor.editable().fire( 'copy', new CKEDITOR.dom.event( {} ) );
-
-				wait( function() {
-					assert.isMatching( /<div data-cke-nested-widget="true">Content<\/div>/, clipboardHtml );
-					assert.isNotMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
-				}, 150 );
-			} );
-		},
-
-		// (#3138)
-		'test shadowed clipboard HTML is used for cutting (single nested widget)': function() {
-			var editor = this.editor,
-				html = '<div data-widget="test4" id="w1">' +
-					'<div class="ned">' +
-						'<div id="w2" data-widget="test3">test3</div>' +
-					'</div>' +
-				'</div>';
-
-			this.editorBot.setData( html, function() {
-				var widget = getWidgetById( editor, 'w1' ),
-					clipboardHtml;
-
-				widget.focus();
-
-				editor.editable().once( 'cut', function() {
-					clipboardHtml = editor.getSelectedHtml( true );
-				} );
-
-				editor.editable().fire( 'cut', new CKEDITOR.dom.event( {} ) );
-
-				wait( function() {
-					assert.isMatching( /<div data-cke-nested-widget="true">Content<\/div>/, clipboardHtml );
-					assert.isNotMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
-				}, 150 );
-			} );
-		},
-
-		// (#3138)
-		'test shadowed clipboard HTML is used for copying (multiple nested widgets)': function() {
-			var editor = this.editor,
-				html = '<div data-widget="test4" id="w1">' +
-					'<div class="ned">' +
-						'<div id="w2" data-widget="test3">test3</div>' +
-					'</div>' +
+		'test shadowed clipboard HTML is used for copying (single nested widget)': createCopyCutTest( {
+			event: 'copy',
+			html: '<div data-widget="test4" id="w1">' +
+				'<div class="ned">' +
+					'<div id="w2" data-widget="test3">test3</div>' +
 				'</div>' +
-				'<div data-widget="test4" id="w3">' +
-					'<div class="ned">' +
-						'<div id="w4" data-widget="test3">test3</div>' +
-					'</div>' +
-				'</div>';
+			'</div>',
 
-			this.editorBot.setData( html, function() {
-				var range = editor.createRange(),
-					clipboardHtml;
+			init: function( editor ) {
+				var widget = getWidgetById( editor, 'w1' );
+
+				widget.focus();
+			},
+
+			assert: function( editor, clipboardHtml ) {
+				assert.isMatching( /<div data-cke-nested-widget="true">Content<\/div>/, clipboardHtml );
+				assert.isNotMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
+			}
+		} ),
+
+		// (#3138)
+		'test shadowed clipboard HTML is used for cutting (single nested widget)': createCopyCutTest( {
+			event: 'cut',
+			html: '<div data-widget="test4" id="w1">' +
+				'<div class="ned">' +
+					'<div id="w2" data-widget="test3">test3</div>' +
+				'</div>' +
+			'</div>',
+
+			init: function( editor ) {
+				var widget = getWidgetById( editor, 'w1' );
+
+				widget.focus();
+			},
+
+			assert: function( editor, clipboardHtml ) {
+				assert.isMatching( /<div data-cke-nested-widget="true">Content<\/div>/, clipboardHtml );
+				assert.isNotMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
+			}
+		} ),
+
+		// (#3138)
+		'test shadowed clipboard HTML is used for copying (multiple nested widgets)': createCopyCutTest( {
+			event: 'copy',
+			html: '<div data-widget="test4" id="w1">' +
+				'<div class="ned">' +
+					'<div id="w2" data-widget="test3">test3</div>' +
+				'</div>' +
+			'</div>' +
+			'<div data-widget="test4" id="w3">' +
+				'<div class="ned">' +
+					'<div id="w4" data-widget="test3">test3</div>' +
+				'</div>' +
+			'</div>',
+
+			init: function( editor ) {
+				var range = editor.createRange();
 
 				range.selectNodeContents( editor.editable() );
 				range.select();
+			},
 
-				editor.editable().once( 'copy', function() {
-					clipboardHtml = editor.getSelectedHtml( true );
-				} );
-
-				editor.editable().fire( 'copy', new CKEDITOR.dom.event( {} ) );
-
-				wait( function() {
-					assert.isMatching( /(<div data-cke-nested-widget="true">Content<\/div>){2}/, clipboardHtml );
-					assert.isNotMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
-				}, 150 );
-			} );
-		},
+			assert: function( editor, clipboardHtml ) {
+				assert.isMatching( /(<div data-cke-nested-widget="true">Content<\/div>){2}/, clipboardHtml );
+				assert.isNotMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
+			}
+		} ),
 
 		// (#3138)
-		'test shadowed clipboard HTML is used for cutting (multiple nested widgets)': function() {
-			var editor = this.editor,
-				html = '<div data-widget="test4" id="w1">' +
-					'<div class="ned">' +
-						'<div id="w2" data-widget="test3">test3</div>' +
-					'</div>' +
+		'test shadowed clipboard HTML is used for cutting (multiple nested widgets)': createCopyCutTest( {
+			event: 'cut',
+			html: '<div data-widget="test4" id="w1">' +
+				'<div class="ned">' +
+					'<div id="w2" data-widget="test3">test3</div>' +
 				'</div>' +
-				'<div data-widget="test4" id="w3">' +
-					'<div class="ned">' +
-						'<div id="w4" data-widget="test3">test3</div>' +
-					'</div>' +
-				'</div>';
+			'</div>' +
+			'<div data-widget="test4" id="w3">' +
+				'<div class="ned">' +
+					'<div id="w4" data-widget="test3">test3</div>' +
+				'</div>' +
+			'</div>',
 
-			this.editorBot.setData( html, function() {
-				var range = editor.createRange(),
-					clipboardHtml;
+			init: function( editor ) {
+				var range = editor.createRange();
 
 				range.selectNodeContents( editor.editable() );
 				range.select();
+			},
 
-				editor.editable().once( 'cut', function() {
-					clipboardHtml = editor.getSelectedHtml( true );
-				} );
-
-				editor.editable().fire( 'cut', new CKEDITOR.dom.event( {} ) );
-
-				wait( function() {
-					assert.isMatching( /(<div data-cke-nested-widget="true">Content<\/div>){2}/, clipboardHtml );
-					assert.isNotMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
-				}, 150 );
-			} );
-		},
+			assert: function( editor, clipboardHtml ) {
+				assert.isMatching( /(<div data-cke-nested-widget="true">Content<\/div>){2}/, clipboardHtml );
+				assert.isNotMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
+			}
+		} ),
 
 		'test single inserted widget is focused': function() {
 			var editor = this.editor,
@@ -1317,4 +1275,29 @@
 			} );
 		}
 	} );
+
+	function createCopyCutTest( options ) {
+		return function() {
+			var evtName = options.event || 'copy',
+				editor = this.editor;
+
+			this.editorBot.setData( options.html, function() {
+				var clipboardHtml;
+
+				if ( options.init ) {
+					options.init( editor );
+				}
+
+				editor.editable().once( evtName, function() {
+					clipboardHtml = editor.getSelectedHtml( true );
+				} );
+
+				editor.editable().fire( evtName, new CKEDITOR.dom.event( {} ) );
+
+				wait( function() {
+					options.assert( editor, clipboardHtml );
+				}, 150 );
+			} );
+		};
+	}
 } )();
