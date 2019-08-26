@@ -271,7 +271,6 @@
 
 					this.element.setHtml( '' );
 					this.element.append( iframe );
-					this.setData( 'store-contents', true );
 
 					this.editor.fire( 'unlockSnapshot' );
 				}
