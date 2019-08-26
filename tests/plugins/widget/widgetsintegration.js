@@ -818,7 +818,7 @@
 		},
 
 		// (#3138)
-		'test shadowed clipboard HTML is used for copying': function() {
+		'test shadowed clipboard HTML is used for copying (single widget)': function() {
 			var editor = this.editor;
 
 			this.editorBot.setData( '<div id="w1" data-widget="test3">test3</div>', function() {
@@ -838,7 +838,7 @@
 		},
 
 		// (#3138)
-		'test shadowed clipboard HTML is used for cutting': function() {
+		'test shadowed clipboard HTML is used for cutting (single widget)': function() {
 			var editor = this.editor;
 
 			this.editorBot.setData( '<div id="w1" data-widget="test3">test3</div>', function() {
@@ -853,6 +853,60 @@
 
 				wait( function() {
 					assert.isMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
+				}, 150 );
+			} );
+		},
+
+		// (#3138)
+		'test shadowed clipboard HTML is used for copying (multiple widget)': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p>Lorem</p><div id="w1" data-widget="test3">test3</div><div id="w2" data-widget="test3">test3</div><p>Ipsum</p>', function() {
+				var range = editor.createRange(),
+					editable = editor.editable(),
+					startNode = editable.findOne( '#w1' ),
+					endNode = editable.findOne( '#w2' ),
+					clipboardHtml;
+
+				range.setStartBefore( startNode );
+				range.setEndAfter( endNode );
+				range.select();
+
+				editor.editable().once( 'copy', function() {
+					clipboardHtml = editor.getSelectedHtml( true );
+				} );
+
+				editor.editable().fire( 'copy', new CKEDITOR.dom.event( {} ) );
+
+				wait( function() {
+					assert.isMatching( /(.*data-cke-test3-widget.*){2}/, clipboardHtml );
+				}, 150 );
+			} );
+		},
+
+		// (#3138)
+		'test shadowed clipboard HTML is used for cutting (multiple widget)': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p>Lorem</p><div id="w1" data-widget="test3">test3</div><div id="w2" data-widget="test3">test3</div><p>Ipsum</p>', function() {
+				var range = editor.createRange(),
+					editable = editor.editable(),
+					startNode = editable.findOne( '#w1' ),
+					endNode = editable.findOne( '#w2' ),
+					clipboardHtml;
+
+				range.setStartBefore( startNode );
+				range.setEndAfter( endNode );
+				range.select();
+
+				editor.editable().once( 'cut', function() {
+					clipboardHtml = editor.getSelectedHtml( true );
+				} );
+
+				editor.editable().fire( 'cut', new CKEDITOR.dom.event( {} ) );
+
+				wait( function() {
+					assert.isMatching( /(.*data-cke-test3-widget.*){2}/, clipboardHtml );
 				}, 150 );
 			} );
 		},
