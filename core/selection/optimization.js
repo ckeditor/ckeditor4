@@ -4,6 +4,8 @@
 	/**
 	 * Setups editor listeners to optimize selection.
 	 *
+	 * **Note**: This method is called automatically during editor initialization and shouldn't be called manually.
+	 *
 	 * @since 4.13.0
 	 * @static
 	 * @see CKEDITOR.dom.selection.optimizeInElementEnds
@@ -29,24 +31,26 @@
 	};
 
 	/**
-	 * Checks if needed and performs optimization to selection.
+	 * Performs optimization on current selection if necessary.
 	 *
-	 * The general idea is to shrink range to text, when
-	 * - range starts at the end,
-	 * - range ends at the start of an element,
-	 * - one of range end is anchored in a text node and another in an element.
+	 * The general idea is to shrink range to text, when:
 	 *
-	 * Example:
+	 * - Range starts at the end of an element,
+	 * - Range ends at the start of an element,
+	 * - One of range ends is anchored in a text node and another in an element.
+	 *
+	 * For example:
 	 *
 	 * ```html
-	 * <p>{foo</p>
-	 * <p>]bar</p>
+	 *  <p>{foo</p>
+	 *  <p>]bar</p>
 	 * ```
 	 *
-	 * is optimized too
+	 * is optimized too:
+	 *
 	 * ```html
-	 * <p>{foo}</p>
-	 * <p>bar</p>
+	 *  <p>{foo}</p>
+	 *  <p>bar</p>
 	 * ```
 	 *
 	 * @since 4.13.0
