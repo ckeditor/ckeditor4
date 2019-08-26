@@ -1397,7 +1397,9 @@
 				blockNeedsFiller.appendBogus();
 				// IE tends to place selection after appended bogus, so we need to
 				// select the original range (placed before bogus).
-				selectionUpdateNeeded = CKEDITOR.env.ie;
+				// In Edge update selection only if editor has gained focus before (#504).
+				selectionUpdateNeeded = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ||
+					( CKEDITOR.env.edge && editor._.previousActive );
 			}
 		}
 
