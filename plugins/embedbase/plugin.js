@@ -237,6 +237,7 @@
 									restoreContents( documentElement, contents, that );
 								} else if ( response = that._getCachedResponse( url ) ) {
 									that.addContent( response.html );
+									that.element.setAttribute( 'data-restore-html', true );
 								} else {
 									that.loadContent( url, {
 										noNotifications: true
