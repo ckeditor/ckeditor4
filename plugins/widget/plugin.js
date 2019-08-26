@@ -3268,9 +3268,6 @@
 			getClipboardHtml() +
 			'<span data-cke-copybin-end="1">\u200b</span>' );
 
-		// Save snapshot with the current state.
-		editor.fire( 'saveSnapshot' );
-
 		// Ignore copybin.
 		editor.fire( 'lockSnapshot' );
 
