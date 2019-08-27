@@ -218,30 +218,30 @@
 				this.once( 'ready', function() {
 					var url = this.data.url;
 
-					if ( !url ) {
+					if ( !url || CKEDITOR.env.ie ) {
 						return;
 					}
 
-					var that = this;
+					var that = this,
+						contents = getCachedFrameContents( editor, url ),
+						response = that._getCachedResponse( url );
 
-					if ( !CKEDITOR.env.ie ) {
+					if ( !contents && !response ) {
+						this.loadContent( url, {
+							noNotifications: true
+						} );
+					} else {
 						this.appendIframe().then( function( iframe ) {
 							if ( !iframe.hasAttribute( 'src' ) ) {
-								var documentElement = iframe && iframe.getFrameDocument().getDocumentElement(),
-									contents = getCachedFrameContents( editor, url ),
-									response;
+								var documentElement = iframe && iframe.getFrameDocument().getDocumentElement();
 
 								if ( contents ) {
 									cacheFrameContents( editor, url, documentElement );
 									that.element.setAttribute( 'data-restore-html', true );
 									restoreContents( documentElement, contents, that );
-								} else if ( response = that._getCachedResponse( url ) ) {
+								} else {
 									that.addContent( response.html );
 									that.element.setAttribute( 'data-restore-html', true );
-								} else {
-									that.loadContent( url, {
-										noNotifications: true
-									} );
 								}
 							}
 						} );
