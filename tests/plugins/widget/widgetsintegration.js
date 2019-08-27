@@ -871,9 +871,8 @@
 
 			init: function( editor ) {
 				var range = editor.createRange(),
-					editable = editor.editable(),
-					startNode = editable.findOne( '#w1' ),
-					endNode = editable.findOne( '#w2' );
+					startNode = getWidgetById( editor, 'w1' ).wrapper,
+					endNode = getWidgetById( editor, 'w2' ).wrapper;
 
 				range.setStartBefore( startNode );
 				range.setEndAfter( endNode );
@@ -881,7 +880,10 @@
 			},
 
 			assert: function( editor, clipboardHtml ) {
-				assert.isMatching( /(.*data-cke-test3-widget.*){2}/, clipboardHtml );
+				// Due to weird HTML in IE8 we can't use assert.isMatching here.
+				var match = clipboardHtml.match( /.*?data-cke-test3-widget.*?/g );
+
+				assert.areSame( 2, match.length );
 			}
 		} ),
 
@@ -895,9 +897,8 @@
 
 			init: function( editor ) {
 				var range = editor.createRange(),
-					editable = editor.editable(),
-					startNode = editable.findOne( '#w1' ),
-					endNode = editable.findOne( '#w2' );
+					startNode = getWidgetById( editor, 'w1' ).wrapper,
+					endNode = getWidgetById( editor, 'w2' ).wrapper;
 
 				range.setStartBefore( startNode );
 				range.setEndAfter( endNode );
@@ -905,7 +906,10 @@
 			},
 
 			assert: function( editor, clipboardHtml ) {
-				assert.isMatching( /(.*data-cke-test3-widget.*){2}/, clipboardHtml );
+				// Due to weird HTML in IE8 we can't use assert.isMatching here.
+				var match = clipboardHtml.match( /.*?data-cke-test3-widget.*?/g );
+
+				assert.areSame( 2, match.length );
 			}
 		} ),
 
@@ -925,7 +929,7 @@
 			},
 
 			assert: function( editor, clipboardHtml ) {
-				assert.isMatching( /<div data-cke-nested-widget="true">Content<\/div>/, clipboardHtml );
+				assert.isMatching( /<div data-cke-nested-widget="true">Content<\/div>/i, clipboardHtml );
 				assert.isNotMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
 			}
 		} ),
@@ -946,7 +950,7 @@
 			},
 
 			assert: function( editor, clipboardHtml ) {
-				assert.isMatching( /<div data-cke-nested-widget="true">Content<\/div>/, clipboardHtml );
+				assert.isMatching( /<div data-cke-nested-widget="true">Content<\/div>/i, clipboardHtml );
 				assert.isNotMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
 			}
 		} ),
@@ -954,7 +958,8 @@
 		// (#3138)
 		'test shadowed clipboard HTML is used for copying (multiple nested widgets)': createCopyCutTest( {
 			event: 'copy',
-			html: '<div data-widget="test4" id="w1">' +
+			html: '<p>Lorem</p>' +
+			'<div data-widget="test4" id="w1">' +
 				'<div class="ned">' +
 					'<div id="w2" data-widget="test3">test3</div>' +
 				'</div>' +
@@ -963,25 +968,35 @@
 				'<div class="ned">' +
 					'<div id="w4" data-widget="test3">test3</div>' +
 				'</div>' +
-			'</div>',
+			'</div>' +
+			'<p>ipsum</p>',
 
+			// Safari has issues with selecting multiple nested widgets, so we must anchor
+			// selection in text before and after widgets.
 			init: function( editor ) {
-				var range = editor.createRange();
+				var range = editor.createRange(),
+					paragraphs = editor.editable().find( 'p' ).toArray(),
+					startNode = paragraphs[ 0 ].getChild( 0 ),
+					endNode = paragraphs[ 1 ].getChild( 0 );
 
-				range.selectNodeContents( editor.editable() );
+				range.setStart( startNode, 4 );
+				range.setEnd( endNode, 3 );
 				range.select();
 			},
 
 			assert: function( editor, clipboardHtml ) {
-				assert.isMatching( /(<div data-cke-nested-widget="true">Content<\/div>){2}/, clipboardHtml );
-				assert.isNotMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
+				// Due to weird HTML in IE8 we can't use assert.isMatching here.
+				var match = clipboardHtml.match( /<div data-cke-nested-widget="true">Content<\/div>/gi );
+
+				assert.areSame( 2, match.length );
 			}
 		} ),
 
 		// (#3138)
 		'test shadowed clipboard HTML is used for cutting (multiple nested widgets)': createCopyCutTest( {
 			event: 'cut',
-			html: '<div data-widget="test4" id="w1">' +
+			html: '<p>Lorem</p>' +
+			'<div data-widget="test4" id="w1">' +
 				'<div class="ned">' +
 					'<div id="w2" data-widget="test3">test3</div>' +
 				'</div>' +
@@ -990,18 +1005,27 @@
 				'<div class="ned">' +
 					'<div id="w4" data-widget="test3">test3</div>' +
 				'</div>' +
-			'</div>',
+			'</div>' +
+			'<p>ipsum</p>',
 
+			// Safari has issues with selecting multiple nested widgets, so we must anchor
+			// selection in text before and after widgets.
 			init: function( editor ) {
-				var range = editor.createRange();
+				var range = editor.createRange(),
+					paragraphs = editor.editable().find( 'p' ).toArray(),
+					startNode = paragraphs[ 0 ].getChild( 0 ),
+					endNode = paragraphs[ 1 ].getChild( 0 );
 
-				range.selectNodeContents( editor.editable() );
+				range.setStart( startNode, 4 );
+				range.setEnd( endNode, 3 );
 				range.select();
 			},
 
 			assert: function( editor, clipboardHtml ) {
-				assert.isMatching( /(<div data-cke-nested-widget="true">Content<\/div>){2}/, clipboardHtml );
-				assert.isNotMatching( /.*data-cke-test3-widget.*/, clipboardHtml );
+				// Due to weird HTML in IE8 we can't use assert.isMatching here.
+				var match = clipboardHtml.match( /<div data-cke-nested-widget="true">Content<\/div>/gi );
+
+				assert.areSame( 2, match.length );
 			}
 		} ),
 
@@ -1033,9 +1057,8 @@
 
 			init: function( editor ) {
 				var range = editor.createRange(),
-					editable = editor.editable(),
-					startNode = editable.findOne( '#w1' ),
-					endNode = editable.findOne( '#w2' );
+					startNode = getWidgetById( editor, 'w1' ).wrapper,
+					endNode = getWidgetById( editor, 'w2' ).wrapper;
 
 				range.setStartBefore( startNode );
 				range.setEndAfter( endNode );
@@ -1043,20 +1066,12 @@
 			},
 
 			// Different browsers anchor selection to different elements, that's why
-			// we use such logic to check if selection is inside widgets.
+			// we use such logic to check if selection contains widgets.
 			assert: function( editor ) {
 				var range = editor.getSelection().getRanges()[ 0 ],
-					startContainer = range.startContainer.getAscendant( findWrapper, true ),
-					endContainer = range.endContainer.getAscendant( findWrapper, true ),
-					widget1 = getWidgetById( editor, 'w1' ).wrapper,
-					widget2 = getWidgetById( editor, 'w2' ).wrapper;
+					widgets = range._find( '[data-widget]', true );
 
-				assert.areSame( widget1, startContainer, 'start container' );
-				assert.areSame( widget2, endContainer, 'end container' );
-
-				function findWrapper( node ) {
-					return node.data && node.data( 'cke-widget-wrapper' );
-				}
+				assert.areSame( 2, widgets.length );
 			}
 		} ),
 
@@ -1113,9 +1128,8 @@
 
 			init: function( editor ) {
 				var range = editor.createRange(),
-					editable = editor.editable(),
-					startNode = editable.findOne( '#w1' ),
-					endNode = editable.findOne( '#w2' );
+					startNode = getWidgetById( editor, 'w1' ).wrapper,
+					endNode = getWidgetById( editor, 'w2' ).wrapper;
 
 				range.setStartBefore( startNode );
 				range.setEndAfter( endNode );
@@ -1139,9 +1153,8 @@
 
 			init: function( editor ) {
 				var range = editor.createRange(),
-					editable = editor.editable(),
-					startNode = editable.findOne( '#w1' ),
-					endNode = editable.findOne( '#w2' );
+					startNode = getWidgetById( editor, 'w1' ).wrapper,
+					endNode = getWidgetById( editor, 'w2' ).wrapper;
 
 				range.setStartBefore( startNode );
 				range.setEndAfter( endNode );
