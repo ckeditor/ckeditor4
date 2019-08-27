@@ -283,18 +283,19 @@
 			},
 
 			addContent: function( content ) {
-				var that = this;
+				var that = this,
+					scriptUrl = content.match( /<script.*src="([^"]*)/ );
 
-				this.appendIframe().then( function( iframe ) {
+				scriptUrl = scriptUrl && scriptUrl[ 1 ];
+
+				scriptUrl && this.appendIframe().then( function( iframe ) {
 					var frameDocument = iframe.getFrameDocument(),
 						frameBody = frameDocument.getBody(),
 						frameHead = frameDocument.getHead(),
-						scriptUrl = content.match( /<script.*src="([^"]*)/ ),
+
 						style = frameDocument.createElement( 'style' );
 
 					cacheFrameContents( editor, that.data.url, frameDocument.getDocumentElement() );
-
-					scriptUrl = scriptUrl && scriptUrl[ 1 ];
 
 					style.setHtml(
 						'html, body {' +
