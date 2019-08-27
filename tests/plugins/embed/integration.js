@@ -29,9 +29,10 @@ var tcs = {
 	'test support for widget classes - from extraAC': function() {
 		var bot = this.editorBots.classic,
 			editor = bot.editor,
-			data = '<div class="a b c" data-oembed-url="http://foo.jpg">' +
-					'<img alt="image" src="//foo.jpg" style="max-width:100%;" />' +
-				'</div>';
+			responseHtml = '<img alt="image" src="//foo.jpg" style="max-width:100%;" />',
+			data = '<div class="a b c" data-oembed-url="http://foo.jpg">' + responseHtml + '</div>';
+
+		editor.widgets.registered.embed._cacheResponse( 'http://foo.jpg', { html: responseHtml } );
 
 		bot.setData( data, function() {
 			wait( function() {
