@@ -226,7 +226,7 @@
 						contents = getCachedFrameContents( editor, url ),
 						response = that._getCachedResponse( url );
 
-					if ( !contents && !response ) {
+					if ( !contents && !response && !this._loaded ) {
 						this.loadContent( url, {
 							noNotifications: true
 						} );
@@ -423,6 +423,7 @@
 			 * @returns {CKEDITOR.plugins.embedBase.request}
 			 */
 			loadContent: function( url, opts ) {
+				this._loaded = true;
 				opts = opts || {};
 
 				var that = this,
