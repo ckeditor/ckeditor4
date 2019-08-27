@@ -4,6 +4,26 @@
 	<p>Consectetur dolores voluptatibus illo ipsam eveniet?</p>
 	<div data-widget="customwidget">Widget</div>
 	<p>Lorem ipsum dolor sit amet.</p>
+	<div data-widget="customnestedwidget">
+		<p>Widget</p>
+		<div class="ned">
+			<div data-widget="customwidget">Nested widget</div>
+		</div>
+	</div>
+	<p>Many,</p>
+	<p>many,</p>
+	<p>many,</p>
+	<p>many,</p>
+	<p>many,</p>
+	<p>many,</p>
+	<p>many,</p>
+	<p>many,</p>
+	<p>many,</p>
+	<p>many,</p>
+	<p>many,</p>
+	<p>many,</p>
+	<p>many</p>
+	<p>lines to test scrollhack for IE.</p>
 </div>
 
 <script>
@@ -24,11 +44,24 @@
 				button: 'Add widget',
 				template: '<div>Widget</div>',
 
-				getClipboardHtml: function() {
-					counter++;
-					return '<div data-widget="customwidget">Widget copied ' + counter + ' times!</div>';
+				getClipboardHtml: getClipboardHtml
+			} );
+
+			editor.widgets.add( 'customnestedwidget', {
+				button: 'Add nested widget',
+				template: '<div><p>Widget</p><div class="ned"><div data-widget="customwidget">Nested widget</div></div></div>',
+				getClipboardHtml: getClipboardHtml,
+
+				editables: {
+					ned: '.ned'
 				}
 			} );
+
+			function getClipboardHtml() {
+				counter++;
+
+				return '<div data-widget="' + this.name + '">Widget copied ' + counter + ' times!</div>';
+			}
 		}
 	} );
 </script>
