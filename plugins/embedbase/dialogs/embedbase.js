@@ -35,6 +35,8 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 					noNotifications: true,
 
 					callback: function() {
+						that.widget._createdWithDialog = true;
+
 						if ( !that.widget.isReady() ) {
 							editor.widgets.finalizeCreation( that.widget.wrapper.getParent( true ) );
 						}

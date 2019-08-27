@@ -344,6 +344,7 @@
 					frameBody = frameDocument.getBody(),
 					container = frameBody.findOne( 'div' ),
 					editor = this.editor,
+					that = this,
 					lastContentElementHeight;
 
 				resize();
@@ -359,9 +360,10 @@
 				}, 200 );
 
 				function resize() {
-					if ( !shouldLockSnapshot ) {
+					if ( !shouldLockSnapshot && !that._createdWithDialog ) {
 						iframe.setAttribute( 'height', getHeight() );
 						shouldLockSnapshot = true;
+						delete that._createdWithDialog;
 						return;
 					}
 
