@@ -183,9 +183,9 @@
 			 *
 			 * Example value:
 			 *
-			 *		widgetDefinition.providerUrl = new CKEDITOR.template(
-			 *			'//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
-			 *		);
+			 *        widgetDefinition.providerUrl = new CKEDITOR.template(
+			 *            '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
+			 *        );
 			 *
 			 * @property {CKEDITOR.template} providerUrl
 			 */
@@ -337,7 +337,7 @@
 				} );
 			},
 
-			addResizeListener: function() {
+			addResizeListener: function( shouldLockSnapshot ) {
 				var iframe = this.element.findOne( 'iframe' ),
 					frameDocument = iframe.getFrameDocument(),
 					frameBody = frameDocument.getBody(),
@@ -356,8 +356,6 @@
 						resize();
 					}
 				}, 200 );
-
-				var shouldLockSnapshot = false;
 
 				function resize() {
 					if ( !shouldLockSnapshot ) {
@@ -400,8 +398,8 @@
 			 *
 			 * Example usage:
 			 *
-			 *		var url = 'https://twitter.com/reinmarpl/status/573118615274315776';
-			 *		widget.loadContent( url, {
+			 *        var url = 'https://twitter.com/reinmarpl/status/573118615274315776';
+			 *        widget.loadContent( url, {
 			 *			callback: function() {
 			 *				// Success. It is a good time to save a snapshot.
 			 *				editor.fire( 'saveSnapshot' );
@@ -514,7 +512,7 @@
 			 * While {@link #handleResponse handling the response} you can set an error message or its type. It will
 			 * be passed to this method later.
 			 *
-			 *		widget.on( 'handleResponse', function( evt ) {
+			 *        widget.on( 'handleResponse', function( evt ) {
 			 *			if ( evt.data.response.type != 'rich' ) {
 			 *				evt.data.errorMessage = '{url} cannot be embedded. Only rich type is supported.';
 			 *				evt.cancel();
@@ -527,15 +525,15 @@
 			 *
 			 * If you need to display your own error:
 			 *
-			 *		editor.showNotification(
-			 *			widget.getErrorMessage( '{url} cannot be embedded. Only rich type is supported.', wrongUrl )
-			 *		);
+			 *        editor.showNotification(
+			 *            widget.getErrorMessage( '{url} cannot be embedded. Only rich type is supported.', wrongUrl )
+			 *        );
 			 *
 			 * Or with a message type:
 			 *
-			 *		editor.showNotification(
-			 *			widget.getErrorMessage( 'unsupportedUrl', wrongUrl )
-			 *		);
+			 *        editor.showNotification(
+			 *            widget.getErrorMessage( 'unsupportedUrl', wrongUrl )
+			 *        );
 			 *
 			 * @param {String} messageTypeOrMessage
 			 * @param {String} [url]
@@ -718,7 +716,7 @@
 		 * By default, if the event is not stopped or canceled a request will be sent
 		 * using the JSONP technique.
 		 *
-		 *		widget.on( 'sendRequest', function( evt ) {
+		 *        widget.on( 'sendRequest', function( evt ) {
 		 *			var request = evt.data;
 		 *
 		 *			// Send the request using a technique of your choice (XHR with CORS for instance).
@@ -744,14 +742,14 @@
 		 * This event listener job is to turn the oEmbed response to embeddable HTML by setting
 		 * `evt.data.html`.
 		 *
-		 *		widget.on( 'handleReaponse', function( evt ) {
+		 *        widget.on( 'handleReaponse', function( evt ) {
 		 *			evt.data.html = customOembedToHtmlConverter( evt.data.response );
 		 *		} );
 		 *
 		 * This event can also be canceled to indicate that the response cannot be handled. In such
 		 * case the `evt.data.errorMessage` must be set (see {@link #getErrorMessage}).
 		 *
-		 *		widget.on( 'handleReaponse', function( evt ) {
+		 *        widget.on( 'handleReaponse', function( evt ) {
 		 *			if ( evt.data.response.type == 'photo' ) {
 		 *				// Will display the editor.lang.embedbase.unsupportedUrl(Given) message.
 		 *				evt.data.errorMessage = 'unsupportedUrl';
@@ -865,7 +863,7 @@
 		// so we need to restore scripts and resize listener, to let it finish loading.
 		restoreScripts( parent.getDocument().getBody() );
 
-		widget.addResizeListener();
+		widget.addResizeListener( true );
 	}
 
 	function removeChildren( parent ) {
