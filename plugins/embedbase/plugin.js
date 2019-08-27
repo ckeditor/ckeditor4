@@ -267,12 +267,8 @@
 						frameborder: '0'
 					} );
 
-					this.editor.fire( 'lockSnapshot' );
-
 					this.element.setHtml( '' );
 					this.element.append( iframe );
-
-					this.editor.fire( 'unlockSnapshot' );
 				}
 
 				return CKEDITOR.env.gecko ?
@@ -361,7 +357,15 @@
 					}
 				}, 200 );
 
+				var shouldLockSnapshot = false;
+
 				function resize() {
+					if ( !shouldLockSnapshot ) {
+						iframe.setAttribute( 'height', getHeight() );
+						shouldLockSnapshot = true;
+						return;
+					}
+
 					// Prevent editor from saving new snapshots each time iframe height is adjusted.
 					editor.fire( 'lockSnapshot' );
 
