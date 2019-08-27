@@ -303,9 +303,9 @@ bender.test( {
 				evt.data.response.html += '<p>customized</p>';
 			}, null, null, 9 ) );
 			// We want to check if our customization won't be overwritten
-			// if someone for some reason changed the default liteners priority to 10 (it should be 999).
+			// if someone for some reason changed the default listeners priority to 10 (it should be 999).
 			// The idea is that someone may add listeners on widgetRepo#instanceCreated and that listeners
-			// would be added before the deault ones.
+			// would be added before the default ones.
 
 			jsonpCallback = echoJsonpCallback;
 
