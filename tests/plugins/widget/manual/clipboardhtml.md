@@ -1,4 +1,4 @@
-@bender-tags: 4.12.0, feature, 3138
+@bender-tags: 4.13.0, feature, 3138
 @bender-ui: collapsed
 @bender-ckeditor-plugins: widget, undo, wysiwygarea, toolbar
 
@@ -14,7 +14,7 @@
 
 	## Expected
 
-	After each operation manipulated widget's content changes into `Widget has beed copied X times!` where `X` changes after every operation.
+	After each operation manipulated widget's content changes into `Widget copied X times!` where `X` changes after every operation.
 
 	## Unexpected
 
@@ -28,3 +28,7 @@
 	## Unexpected
 
 	Operations are broken into several steps.
+
+### Additional check for IE
+
+Check if selection is still visible on screen after copying and cutting.
