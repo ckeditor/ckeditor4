@@ -80,10 +80,11 @@
 
 				editor.setMode( 'source' );
 
-				assertIframeContents( editor, contents );
-
 				editor.setMode( 'wysiwyg' );
-				wait();
+
+				wait( function() {
+					assertIframeContents( editor, contents );
+				}, 50 );
 			} );
 		},
 
@@ -97,15 +98,15 @@
 			this.editorBot.setData( data, function() {
 				var contents = getIframeContents( editor.editable().findOne( 'iframe' ) );
 
-				whenDataReady( editor, function() {
+				wait( function() {
 					assertIframeContents( editor, contents );
 
 					editor.execCommand( 'redo' );
-				} );
 
-				editor.execCommand( 'undo' );
-
-				wait();
+					wait( function() {
+						assertIframeContents( editor, contents );
+					}, 50 );
+				}, 50 );
 			} );
 		},
 
@@ -123,30 +124,21 @@
 
 				editor.setData( '' );
 
-				assertIframeContents( editor, contents );
+				bot.setData( data, function() {
 
-				editor.setData( data );
-
-				wait();
+					wait( function() {
+						assertIframeContents( editor, contents );
+					}, 50 );
+				} );
 			} );
 		}
 	} );
 
 	function assertIframeContents( editor, contents ) {
-		whenDataReady( editor, function() {
-			resume( function() {
-				var newContents = getIframeContents( editor.editable().findOne( 'iframe' ) );
+		var newContents = getIframeContents( editor.editable().findOne( 'iframe' ) );
 
-				CKEDITOR.tools.array.forEach( newContents, function( item, index ) {
-					assert.isTrue( item.equals( contents[ index ] ) );
-				} );
-			} );
-		} );
-	}
-
-	function whenDataReady( editor, callback ) {
-		editor.once( 'dataReady', function() {
-			setTimeout( callback );
+		CKEDITOR.tools.array.forEach( newContents, function( item, index ) {
+			assert.isTrue( item.equals( contents[ index ] ) );
 		} );
 	}
 

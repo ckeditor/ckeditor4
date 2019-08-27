@@ -15,10 +15,12 @@ function createDef( editor ) {
 	return CKEDITOR.plugins.embedBase.createWidgetBaseDefinition( editor );
 }
 
+var responses = {};
+
 function echoJsonpCallback( urlTemplate, urlParams, callback ) {
 	callback( {
 		type: 'rich',
-		html: '<p>url:' + urlParams.url + '</p>'
+		html: responses[ urlParams.url ] || '<p>url:' + urlParams.url + '</p>'
 	} );
 }
 
@@ -40,6 +42,8 @@ bender.test( {
 	},
 
 	tearDown: function() {
+		responses = {};
+
 		var spy;
 
 		while ( spy = this.spies.pop() ) {
@@ -242,6 +246,8 @@ bender.test( {
 				data1;
 
 			jsonpCallback = echoJsonpCallback;
+
+			responses.foo = 'foo';
 
 			widget1.loadContent( '//caches/responses', {
 				callback: function() {

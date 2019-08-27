@@ -24,6 +24,10 @@ function createSuccessfulCommittingTest( isCreation ) {
 					}
 				},
 
+				element: {
+					setAttribute: function() {}
+				},
+
 				data: {
 					url: 'foo'
 				},
