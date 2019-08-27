@@ -300,7 +300,7 @@ bender.test( {
 			that.listeners.push( widget.on( 'handleResponse', function( evt ) {
 				eventsCount += 1;
 
-				evt.data.html = evt.data.response.html + '<p>customized</p>';
+				evt.data.response.html += '<p>customized</p>';
 			}, null, null, 9 ) );
 			// We want to check if our customization won't be overwritten
 			// if someone for some reason changed the default liteners priority to 10 (it should be 999).
