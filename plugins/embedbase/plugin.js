@@ -232,7 +232,9 @@
 						} );
 					} else {
 						this.appendIframe().then( function( iframe ) {
-							if ( !iframe.hasAttribute( 'src' ) ) {
+							var isAttached = iframe.getDocument().getDocumentElement().contains( iframe );
+
+							if ( isAttached && !iframe.hasAttribute( 'src' ) ) {
 								var documentElement = iframe && iframe.getFrameDocument().getDocumentElement();
 
 								if ( contents ) {
