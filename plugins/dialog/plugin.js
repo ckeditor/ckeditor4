@@ -764,7 +764,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 			// Update dialog position when dimension get changed in RTL.
 			if ( this._.editor.lang.dir == 'rtl' && this._.position ) {
-				var containerWidth = dialog.parts.dialog.getParent().getClientSize().width;
+				var containerWidth = this.parts.dialog.getParent().getClientSize().width;
 
 				this._.position.x = containerWidth - this._.contentSize.width - parseInt( this._.element.getFirst().getStyle( 'right' ), 10 );
 			}
