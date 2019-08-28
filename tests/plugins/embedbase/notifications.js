@@ -5,10 +5,22 @@
 
 'use strict';
 
+var loadContent;
+
 bender.editors = {
 	inline: {
 		name: 'editor_inline',
-		creator: 'inline'
+		creator: 'inline',
+		config: {
+			on: {
+				instanceReady: function() {
+					var embed = this.widgets.registered.embed;
+
+					loadContent = embed.loadContent;
+					embed.loadContent = function() {};
+				}
+			}
+		}
 	}
 };
 
@@ -21,7 +33,6 @@ embedTools.mockJsonp( function() {
 } );
 
 bender.test( {
-
 	'test if embedding shows notifications during successful request': function() {
 		var bot = this.editorBots.inline,
 			editor = bot.editor,
@@ -46,7 +57,7 @@ bender.test( {
 				} );
 			};
 
-			widget.loadContent( '//show/notification', {
+			loadContent.call( widget, '//show/notification', {
 				callback: successCallbackSpy,
 				errorCallback: errorCallbackSpy
 			} );
@@ -79,7 +90,7 @@ bender.test( {
 				} );
 			};
 
-			widget.loadContent( '//show/no-notification', {
+			loadContent.call( widget, '//show/no-notification', {
 				callback: successCallbackSpy,
 				errorCallback: errorCallbackSpy,
 				noNotifications: true
@@ -115,7 +126,7 @@ bender.test( {
 				} );
 			};
 
-			widget.loadContent( '//error/show/notification', {
+			loadContent.call( widget, '//error/show/notification', {
 				callback: successCallbackSpy,
 				errorCallback: errorCallbackSpy
 			} );
@@ -149,7 +160,7 @@ bender.test( {
 				} );
 			};
 
-			widget.loadContent( '//error/show/no-notification', {
+			loadContent.call( widget, '//error/show/no-notification', {
 				callback: successCallbackSpy,
 				errorCallback: errorCallbackSpy,
 				noNotifications: true
