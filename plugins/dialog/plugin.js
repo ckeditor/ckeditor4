@@ -2105,7 +2105,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				internalWidth = width + dx * ( dialog._.moved ? 1 : 2 ),
 				internalHeight = height + dy * ( dialog._.moved ? 1 : 2 ),
 				element = dialog._.element.getFirst(),
-				right = rtl && CKEDITOR.tools.convertToPx( element.getComputedStyle( 'right' ) ),
+				right = rtl && parseInt( element.getComputedStyle( 'right' ) ),
 				position = dialog.getPosition();
 
 			position.x = position.x || 0;
