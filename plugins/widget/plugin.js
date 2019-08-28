@@ -3554,39 +3554,46 @@
 	}
 
 	function setupMask( widget ) {
-		if ( !widget.mask ) {
+		if ( !widget.mask || !widget.wrapper ) {
 			return;
 		}
 
-		var newMask,
-			oldMask;
+		// The issue due to which mask reusage was introduced (https://dev.ckeditor.com/ticket/11281)
+		// is no longer reproducible, and for partial mask it couldn't work becasue of resizing possibility,
+		// so existing mask is now always removed instead.
+		var oldMask = widget.wrapper.findOne( '.cke_widget_mask' ) || widget.wrapper.findOne( '.cke_widget_partial_mask' ),
+			newMask = new CKEDITOR.dom.element( 'img', widget.editor.document ),
+			part,
+			parent;
 
-		if ( widget.mask === true ) {
-			// Reuse mask if already exists (https://dev.ckeditor.com/ticket/11281).
-			oldMask = widget.wrapper.findOne( '.cke_widget_mask' );
+		if ( oldMask ) {
+			oldMask.remove();
+		}
 
-			if ( !oldMask ) {
-				newMask = new CKEDITOR.dom.element( 'img', widget.editor.document );
-				newMask.setAttributes( {
-					src: CKEDITOR.tools.transparentImageData,
-					'class': 'cke_reset cke_widget_mask'
-				} );
-			} else {
-				newMask = oldMask;
-			}
-
+		// Added 'widget.maskType' property to be able to detect mask type after widget is moved or resized.
+		if ( widget.mask === true || widget.maskType == 'complete' ) {
+			widget.maskType = 'complete';
+			newMask.setAttributes( {
+				src: CKEDITOR.tools.transparentImageData,
+				'class': 'cke_reset cke_widget_mask'
+			} );
 		} else {
-			var part = widget.parts[ widget.mask ],
-				parent = part.getParent();
+			part = widget.parts[ widget.mask ];
 
-			newMask = new CKEDITOR.dom.element( 'img', widget.editor.document );
+			// If requested part is invalid, don't create mask.
+			if ( !part ) {
+				return;
+			}
+			widget.maskType = 'partial';
 			newMask.setAttributes( {
 				src: CKEDITOR.tools.transparentImageData,
 				'class': 'cke_reset cke_widget_partial_mask'
 			} );
 
-			// Enhanced Image plugin and it's resizer are messing with default widget structure, so
-			// it needs to be taken into account and moved a bit. The problem is visible after dragging the widget.
+			// Widgets with resize feature are messing with default widget structure,
+			// so it needs to be taken into account and mask will be moved a bit.
+			// The problem was visible after dragging the widget.
+			parent = part.getParent();
 			if ( !CKEDITOR.plugins.widget.isDomWidget( parent ) ) {
 				newMask.setStyles( {
 					top: part.$.offsetTop + parent.$.offsetTop + 'px',
@@ -3632,6 +3639,12 @@
 		setupDragHandler( widget );
 		setupDataClassesListener( widget );
 		setupA11yListener( widget );
+
+		// 'saveSnapshot' event is most reliably fired each time widget
+		// can possibly be resized and need a new (partial or not) mask (#3240).
+		widget.editor.on( 'saveSnapshot', function() {
+			setupMask( widget );
+		} );
 
 		// https://dev.ckeditor.com/ticket/11145: [IE8] Non-editable content of widget is draggable.
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
