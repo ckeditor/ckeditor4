@@ -237,11 +237,9 @@
 
 								if ( contents ) {
 									cacheFrameContents( editor, url, documentElement );
-									that.element.setAttribute( 'data-restore-html', true );
 									restoreContents( documentElement, contents, that );
 								} else {
 									that.addContent( response.html );
-									that.element.setAttribute( 'data-restore-html', true );
 								}
 							}
 						} );
@@ -269,6 +267,9 @@
 
 					this.element.setHtml( '' );
 					this.element.append( iframe );
+
+					// Mark that element html needs to be restored on downcast (#2306).
+					this.element.setAttribute( 'data-restore-html', true );
 				}
 
 				return CKEDITOR.env.gecko ?
@@ -330,9 +331,6 @@
 					script.setAttribute( 'src', scriptUrl );
 
 					frameBody.append( script );
-
-					// Mark that element html needs to be restored on downcast (#2306).
-					that.element.setAttribute( 'data-restore-html', true );
 
 					that.addResizeListener();
 				} );
