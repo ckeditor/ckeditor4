@@ -12,3 +12,6 @@
 ## Unexpected
 
 - Caret is outside of current viewport.
+
+## Note
+When testing with device which has small screen you should hide test steps with `X` button, so editor has enough space.
