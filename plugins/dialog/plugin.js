@@ -869,7 +869,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			if ( !( element.getParent() && element.getParent().equals( CKEDITOR.document.getBody() ) ) ) {
 				element.appendTo( CKEDITOR.document.getBody() );
 			} else {
-				element.setStyle( 'display', useFlex ? 'flex' :'block' );
+				element.setStyle( 'display', useFlex ? 'flex' : 'block' );
 			}
 
 			// First, set the dialog to an appropriate size.
