@@ -224,11 +224,15 @@
 
 					var that = this,
 						contents = getCachedFrameContents( editor, url ),
-						response = that._getCachedResponse( url );
+						response = that._getCachedResponse( url ),
+						shouldUpdateSnapshot = this.name === 'embedSemantic' && this.data.loadOnReady;
 
 					if ( !contents && !response && !this._loaded ) {
 						this.loadContent( url, {
-							noNotifications: true
+							noNotifications: true,
+							callback: function() {
+								shouldUpdateSnapshot && updateSnapshot();
+							}
 						} );
 					} else {
 						this.appendIframe().then( function( iframe ) {
@@ -243,8 +247,15 @@
 								} else {
 									that.addContent( response.html );
 								}
+
+								shouldUpdateSnapshot && updateSnapshot();
 							}
 						} );
+					}
+
+					function updateSnapshot() {
+						that.setData( 'loadOnReady', false );
+						editor.fire( 'updateSnapshot' );
 					}
 				} );
 			},
