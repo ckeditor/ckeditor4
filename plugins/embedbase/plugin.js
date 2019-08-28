@@ -215,10 +215,10 @@
 					}
 				}, this, null, 999 );
 
-				this.once( 'ready', function() {
+				!CKEDITOR.env.ie && this.once( 'ready', function() {
 					var url = this.data.url;
 
-					if ( !url || CKEDITOR.env.ie ) {
+					if ( !url ) {
 						return;
 					}
 

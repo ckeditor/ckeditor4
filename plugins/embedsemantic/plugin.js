@@ -37,6 +37,7 @@
 
 					origInit.call( this );
 
+					// This listener is needed only for IE/Edge. Other browser will load content for any media embed plugin, so it's handled in emedbase.
 					// Need to wait for #ready with the initial content loading, because on #init there's no data yet.
 					CKEDITOR.env.ie && this.once( 'ready', function() {
 						// When widget is created using dialog, the dialog's code will handle loading the content
