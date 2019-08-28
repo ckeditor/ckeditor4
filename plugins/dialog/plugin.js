@@ -715,9 +715,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	function resizeWithWindow( dialog ) {
 		var win = CKEDITOR.document.getWindow();
 		function resizeHandler() {
-			if ( window.prev ) {
-				return;
-			}
 			dialog.layout();
 		}
 		win.on( 'resize', resizeHandler );
