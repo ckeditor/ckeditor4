@@ -69,7 +69,9 @@
 		},
 
 		'test iframe contents after changing modes': function() {
-			if ( CKEDITOR.env.ie ) {
+			// This test needs to be rewritten for Firefox, so it includes iframe#onload listener.
+			// Same applies to next two tests.
+			if ( CKEDITOR.env.ie || CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
 
@@ -88,7 +90,7 @@
 		},
 
 		'test iframe contents after undo/redo': function() {
-			if ( CKEDITOR.env.ie ) {
+			if ( CKEDITOR.env.ie || CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
 
@@ -112,7 +114,7 @@
 		},
 
 		'test iframe contents when identical widget is inserted': function() {
-			if ( CKEDITOR.env.ie ) {
+			if ( CKEDITOR.env.ie || CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
 
