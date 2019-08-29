@@ -308,6 +308,22 @@
 				end: end.getChild( 0 ), endOffset: 3 } );
 
 			assertElements( null, range );
+		},
+
+		'get table with selection on the edge of it': function() {
+			var range,
+				table;
+
+			insertTable( [ 'paragraph', 'simple' ] );
+
+			table = playground.findOne( 'table' );
+
+			range = new CKEDITOR.dom.range( doc );
+
+			range.setStartBefore( table );
+			range.setEndAfter( table.findOne( 'td' ) );
+
+			assertElements( table, range );
 		}
 	} );
 } )();

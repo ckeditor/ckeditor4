@@ -2744,8 +2744,8 @@ CKEDITOR.dom.range = function( root ) {
 				table: 1
 			};
 
-			var start = this.startContainer,
-				end = this.endContainer,
+			var start = this.getTouchedStartNode(),
+				end = this.getTouchedEndNode(),
 				startTable = start.getAscendant( 'table', true ),
 				endTable = end.getAscendant( 'table', true );
 
