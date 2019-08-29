@@ -1,0 +1,31 @@
+<textarea id="editor" cols="30" rows="10">
+</textarea>
+<button onclick="selection()">Set editor data and get range result</button>
+<p id="rangeResult"></p>
+<script>
+	var editor = CKEDITOR.replace( 'editor' );
+	var resultElement = document.getElementById( 'rangeResult' )
+
+	function selection() {
+		editor.setData( '<table>' +
+				'<tr>' +
+					'<td>foo</td>' +
+					'<td>bar</td>' +
+				'</tr>' +
+			'</table>',
+			function() {
+				var range = editor.createRange(),
+					table = editor.editable().findOne( 'table' ),
+					tableElement,
+					tableElementName;
+
+				range.setStartBefore( table );
+				range.setEndAfter( table.findOne( 'td' ) );
+
+				tableElement = range._getTableElement();
+				tableElementName = tableElement instanceof CKEDITOR.dom.element ? tableElement.getName() : String( tableElement );
+
+				resultElement.innerText = 'Range contains "' + tableElementName + '" element';
+			} );
+	}
+</script>
