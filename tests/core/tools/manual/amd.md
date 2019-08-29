@@ -13,7 +13,7 @@
 
 	## Expected
 
-	There are no errors;
+	There are no errors.
 
 	## Unexpected
 
