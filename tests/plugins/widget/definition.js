@@ -638,8 +638,6 @@
 
 				assert.isTrue( !!widget.mask, 'mask is set' );
 				assert.areSame( widget.wrapper, widget.mask.getParent(), 'mask is a wrapper\'s child' );
-				assert.isTrue( widget.dragHandlerContainer.getIndex() > widget.mask.getIndex(), 'drag handler is placed over mask' );
-				// ... at least if styles do not change this.
 			} );
 		},
 
