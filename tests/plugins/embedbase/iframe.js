@@ -79,7 +79,6 @@
 				var contents = getIframeContents( editor.editable().findOne( 'iframe' ) );
 
 				editor.setMode( 'source' );
-
 				editor.setMode( 'wysiwyg' );
 
 				wait( function() {
@@ -99,13 +98,15 @@
 				var contents = getIframeContents( editor.editable().findOne( 'iframe' ) );
 
 				wait( function() {
-					assertIframeContents( editor, contents );
-
-					editor.execCommand( 'redo' );
+					editor.execCommand( 'undo' );
 
 					wait( function() {
-						assertIframeContents( editor, contents );
-					}, 50 );
+						editor.execCommand( 'redo' );
+
+						wait( function() {
+							assertIframeContents( editor, contents );
+						}, 50 );
+					}, 0 );
 				}, 50 );
 			} );
 		},
