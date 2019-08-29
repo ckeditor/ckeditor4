@@ -42,11 +42,11 @@
 		return range;
 	}
 
-	function assertElements( expected, range, selectors ) {
+	function assertElements( expected, range, selectors, message ) {
 		if ( !expected ) {
 			assert.isNull( range._getTableElement() );
 		} else {
-			assert.isTrue( expected.equals( range._getTableElement( selectors ) ), 'Correct element is returned' );
+			assert.isTrue( expected.equals( range._getTableElement( selectors ) ), message || 'Correct element is returned' );
 		}
 	}
 
@@ -310,20 +310,78 @@
 			assertElements( null, range );
 		},
 
-		'get table with selection on the edge of it': function() {
-			var range,
-				table;
+		// (#3101)
+		'should return table when range is just before or after table element': function() {
+			var range;
 
-			insertTable( [ 'paragraph', 'simple' ] );
+			range = bender.tools.range.setWithHtml( playground, '[<table>' +
+				'<tr>' +
+					'<td>foo</td>]' +
+					'<td>bar</td>' +
+				'</tr>' +
+			'</table>' );
+			assertElements( playground.findOne( 'table' ), range, null,
+				'Table element is returned when selection start just before table' );
 
-			table = playground.findOne( 'table' );
+			range = bender.tools.range.setWithHtml( playground, '<table>' +
+				'<tr>' +
+					'<td>foo</td>' +
+					'[<td id="_td2">bar</td>' +
+				'</tr>' +
+			'</table>]' );
+			assertElements( playground.findOne( '#_td2' ), range, null,
+				'First selected table cell element is returned when selection ends just after table' );
 
-			range = new CKEDITOR.dom.range( doc );
+			range = bender.tools.range.setWithHtml( playground, '[<table>' +
+				'<tr>' +
+					'<td>foo</td>' +
+					'<td>bar</td>' +
+				'</tr>' +
+			'</table>]' );
+			assertElements( playground.findOne( 'table' ), range, null,
+				'Table element is returned when selection wraps entire table just before and after table' );
 
-			range.setStartBefore( table );
-			range.setEndAfter( table.findOne( 'td' ) );
+			range = bender.tools.range.setWithHtml( playground, '<table>' +
+				'<tr>' +
+					'<td>foo</td>' +
+					'<td>[<table id="nested">' +
+						'<tr>' +
+							'<td>one</td>]' +
+							'<td>two</td>' +
+						'</tr>' +
+					'</table></td>' +
+				'</tr>' +
+			'</table>' );
+			assertElements( playground.findOne( 'table#nested' ), range, null,
+				'Nested table element is returned when selection start just before nested table' );
 
-			assertElements( table, range );
+			range = bender.tools.range.setWithHtml( playground, '<table>' +
+				'<tr>' +
+					'<td>foo</td>' +
+					'<td><table id="nested">' +
+						'<tr>' +
+							'<td>one</td>' +
+							'[<td id="_td2">two</td>' +
+						'</tr>' +
+					'</table>]</td>' +
+				'</tr>' +
+			'</table>' );
+			assertElements( playground.findOne( '#_td2' ), range, null,
+				'First selected nested table cell element is returned when selection start just after nested table' );
+
+			range = bender.tools.range.setWithHtml( playground, '<table>' +
+				'<tr>' +
+					'<td>foo</td>' +
+					'<td>[<table id="nested">' +
+						'<tr>' +
+							'<td>one</td>' +
+							'<td>two</td>' +
+						'</tr>' +
+					'</table>]</td>' +
+				'</tr>' +
+			'</table>' );
+			assertElements( playground.findOne( 'table#nested' ), range, null,
+				'Nested table element is returned when selection wraps entire table just before and after nested table' );
 		}
 	} );
 } )();
