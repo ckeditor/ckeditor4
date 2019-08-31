@@ -3559,9 +3559,10 @@
 		}
 
 		// The issue due to which mask reusage was introduced (https://dev.ckeditor.com/ticket/11281)
-		// is no longer reproducible, and for partial mask it couldn't work becasue of resizing possibility,
+		// is no longer reproducible, and for partial mask it wouldn't work anyway because of resizing possibility,
 		// so existing mask is now always removed instead.
-		var oldMask = widget.wrapper.findOne( '.cke_widget_mask' ) || widget.wrapper.findOne( '.cke_widget_partial_mask' ),
+		var oldMask = widget.wrapper.findOne( '.cke_widget_mask' ) ||
+				widget.wrapper.findOne( '.cke_widget_partial_mask' ),
 			newMask = new CKEDITOR.dom.element( 'img', widget.editor.document ),
 			part,
 			parent;
@@ -3570,21 +3571,29 @@
 			oldMask.remove();
 		}
 
-		// Added 'widget.maskType' property to be able to detect mask type after widget is moved or resized.
-		if ( widget.mask === true || widget.maskType == 'complete' ) {
-			widget.maskType = 'complete';
+		// Original value of 'widget.mask' is substituted with actual mask element, so
+		// 'widget.maskPart' property was added to be able to adjust partial mask e.g. after resizing.
+		// If mask is partial, the value is the name of part to be masked. Otherwise it's just 'complete'.
+		if ( widget.mask === true || widget.maskPart == 'complete' ) {
+			widget.maskPart = 'complete';
 			newMask.setAttributes( {
 				src: CKEDITOR.tools.transparentImageData,
 				'class': 'cke_reset cke_widget_mask'
 			} );
 		} else {
-			part = widget.parts[ widget.mask ];
+			// If mask has just been created, 'widget.mask' will be the name of the part.
+			// Later it will be the actual mask element.
+			if ( typeof widget.mask == 'string' ) {
+				widget.maskPart = widget.mask;
+			}
+
+			part = widget.parts[ widget.maskPart ];
 
 			// If requested part is invalid, don't create mask.
 			if ( !part ) {
 				return;
 			}
-			widget.maskType = 'partial';
+
 			newMask.setAttributes( {
 				src: CKEDITOR.tools.transparentImageData,
 				'class': 'cke_reset cke_widget_partial_mask'
@@ -3592,7 +3601,7 @@
 
 			// Widgets with resize feature are messing with default widget structure,
 			// so it needs to be taken into account and mask will be moved a bit.
-			// The problem was visible after dragging the widget.
+			// The problem was appearing after dragging the widget.
 			parent = part.getParent();
 			if ( !CKEDITOR.plugins.widget.isDomWidget( parent ) ) {
 				newMask.setStyles( {
