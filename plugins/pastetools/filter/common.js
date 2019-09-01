@@ -24,7 +24,7 @@
 	 *
 	 * @since 4.13.0
 	 * @private
-	 * @member CKEDITOR.plugins.pastetools.filters.word
+	 * @member CKEDITOR.plugins.pastetools.filters.common
 	 */
 	plug.rules = function( html, editor, filter ) {
 		return {

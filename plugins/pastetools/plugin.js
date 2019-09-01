@@ -76,8 +76,8 @@
 		/**
 		 * Load external scripts, containing filters' definitions, in given order.
 		 *
-		 * @param filters {String[]} Array of filters' URLs.
-		 * @param callback {Function} Callback that will be invoked after loading all scripts.
+		 * @param {String[]} filters Array of filters' URLs.
+		 * @param {Function} callback Callback that will be invoked after loading all scripts.
 		 * @member CKEDITOR.plugins.pastetools
 		 */
 		loadFilters: loadFilters,
@@ -85,9 +85,9 @@
 		/**
 		 * Creates filter based on passed rules.
 		 *
-		 * @param options {Object}
-		 * @param options.rules {Function} Function returning filter's rules.
-		 * @param options.additionalTransforms {Function} Function transforming HTML before passing it to the filter.
+		 * @param {Object} options
+		 * @param {Function} options.rules Function returning filter's rules.
+		 * @param {Function}options.additionalTransforms Function transforming HTML before passing it to the filter.
 		 * @returns {Function} Function that wraps filter invocation.
 		 * @member CKEDITOR.plugins.pastetools
 		 */
@@ -120,9 +120,9 @@
 		/**
 		 * Get clipboard data.
 		 *
-		 * @param data {Object} Paste event `data` property.
-		 * @param type {String} MIME type of requested data.
-		 * @returns {mixed} Raw clipboard data.
+		 * @param {Object} data Paste event `data` property.
+		 * @param {String} type MIME type of requested data.
+		 * @returns {String/Blob} Raw clipboard data.
 		 * @member CKEDITOR.plugins.pastetools
 		 */
 		getClipboardData: function( data, type ) {
@@ -149,9 +149,9 @@
 		 * This function allows to get config value for Paste Tools from
 		 * legacy Paste from Word configuration.
 		 *
-		 * @param editor {CKEDITOR.editor} Editor's instance.
-		 * @param configVariable {string} Config variable name.
-		 * @returns {mixed} Config variable value;
+		 * @param {CKEDITOR.editor} editor Editor's instance.
+		 * @param {String} configVariable Config variable name.
+		 * @returns {String/Boolean/Number/Object/Array} Config variable value;
 		 * @member CKEDITOR.plugins.pastetools
 		 */
 		getConfigValue: function( editor, configVariable ) {
