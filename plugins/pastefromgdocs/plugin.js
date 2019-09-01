@@ -22,7 +22,7 @@
 				],
 
 				canHandle: function( evt ) {
-					var detectGDocsRegex = /id=(\"|\')docs\-internal\-guid\-/;
+					var detectGDocsRegex = /id=(\"|\')?docs\-internal\-guid\-/;
 
 					return detectGDocsRegex.test( evt.data.dataValue );
 				},
