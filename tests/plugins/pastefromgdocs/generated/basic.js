@@ -93,10 +93,8 @@
 					'test Basic gdocs chrome': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
 					'test Basic gdocs firefox': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
 					'test Basic gdocs safari': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
-					// 'test Basic gdocs edge': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
-					// 'test Basic gdocs ie11': !CKEDITOR.env.ie || CKEDITOR.env.version > 11
-					'test Basic gdocs edge': true,
-					'test Basic gdocs ie11': true
+					'test Basic gdocs edge': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
+					'test Basic gdocs ie11': !CKEDITOR.env.ie || CKEDITOR.env.version > 11
 				}
 			}
 		}
