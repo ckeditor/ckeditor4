@@ -38,10 +38,6 @@
 					if ( editor.config.forcePasteAsPlainText === true ) {
 						// If `config.forcePasteAsPlainText` set to true, force plain text even on Word content (#1013).
 						data.type = 'text';
-					} else if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported && editor.config.forcePasteAsPlainText === 'allow-word' ) {
-						// In browsers using pastebin when pasting from Word, evt.data.type is 'auto' (not 'html') so it gets converted
-						// by 'pastetext' plugin to 'text'. We need to restore 'html' type (#1013) and (#1638).
-						data.type = 'html';
 					}
 
 					next();
