@@ -134,6 +134,7 @@
 		bender.editorBot.create( {
 			name: 'test_multiple-handlers1',
 			config: {
+				plugins: 'pastetools',
 				on: {
 					pluginsLoaded: function( evt ) {
 						var editor = evt.editor;
