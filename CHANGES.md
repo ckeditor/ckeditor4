@@ -3,6 +3,10 @@
 
 ## CKEditor 4.13
 
+New Features:
+
+* [#3315](https://github.com/ckeditor/ckeditor-dev/issues/3315): Added support for strikethrough in [BBCode](https://ckeditor.com/cke4/addon/bbcode) plugin. Thanks to [Alexander Kahl](https://github.com/akahl-owl)!
+
 Fixed Issues:
 
 * [#808](https://github.com/ckeditor/ckeditor-dev/issues/808): Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) and other content disappear on drag and drop in [read-only mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_readonly.html).
