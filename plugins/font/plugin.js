@@ -6,7 +6,8 @@
 ( function() {
 	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order ) {
 		var config = editor.config,
-			style = new CKEDITOR.style( styleDefinition );
+			style = new CKEDITOR.style( styleDefinition ),
+			commandName = comboName.slice( 0, 1 ).toLowerCase() + comboName.slice( 1 );
 
 		// Gets the list of fonts from the settings.
 		var names = entries.split( ';' ),
@@ -31,6 +32,74 @@
 				names.splice( i--, 1 );
 			}
 		}
+
+		editor.addCommand( commandName , {
+			exec: function( editor, data ) {
+				var value = data.value,
+					previousValue = data.previousValue,
+					styles = data.styles,
+					isRemove = data.isRemove,
+					range = data.range,
+					style = styles[ value ],
+					previousStyle = styles[ previousValue ];
+
+				// If the range is collapsed we can't simply use the editor.removeStyle method
+				// because it will remove the entire element and we want to split it instead.
+				if ( range.collapsed ) {
+					var path,
+						matching,
+						startBoundary,
+						endBoundary,
+						node,
+						bm;
+
+					path = editor.elementPath();
+					// Find the style element.
+					matching = path.contains( function( el ) {
+						return previousStyle.checkElementRemovable( el );
+					} );
+
+					if ( matching ) {
+						startBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.START );
+						endBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.END );
+
+						// If we are at both boundaries it means that the element is empty.
+						// Remove it but in a way that we won't lose other empty inline elements inside it.
+						// Example: <p>x<span style="font-size:48px"><em>[]</em></span>x</p>
+						// Result: <p>x<em>[]</em>x</p>
+						if ( startBoundary && endBoundary ) {
+							bm = range.createBookmark();
+							// Replace the element with its children (TODO element.replaceWithChildren).
+							while ( ( node = matching.getFirst() ) ) {
+								node.insertBefore( matching );
+							}
+							matching.remove();
+							range.moveToBookmark( bm );
+
+						// If we are at the boundary of the style element, move out and copy nested styles/elements.
+						} else if ( startBoundary || endBoundary ) {
+							range.moveToPosition( matching, startBoundary ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_END );
+							cloneSubtreeIntoRange( range, path.elements.slice(), matching );
+						} else {
+							// Split the element and clone the elements that were in the path
+							// (between the startContainer and the matching element)
+							// into the new place.
+							range.splitElement( matching );
+							range.moveToPosition( matching, CKEDITOR.POSITION_AFTER_END );
+							cloneSubtreeIntoRange( range, path.elements.slice(), matching );
+						}
+
+						editor.getSelection().selectRanges( [ range ] );
+					}
+				}
+
+				if ( isRemove ) {
+					editor.removeStyle( previousStyle );
+				} else {
+					editor.applyStyle( style );
+				}
+			}
+		} )
 
 		editor.ui.addRichCombo( comboName, {
 			label: lang.label,
@@ -103,83 +172,7 @@
 				}
 			},
 
-			onClick: function( value ) {
-				editor.focus();
-				editor.fire( 'saveSnapshot' );
-
-				var previousValue = this.getValue(),
-					style = styles[ value ],
-					previousStyle,
-					range,
-					path,
-					matching,
-					startBoundary,
-					endBoundary,
-					node,
-					bm;
-
-				// When applying one style over another, first remove the previous one (https://dev.ckeditor.com/ticket/12403).
-				// NOTE: This is only a temporary fix. It will be moved to the styles system (https://dev.ckeditor.com/ticket/12687).
-				if ( previousValue && value != previousValue ) {
-					previousStyle = styles[ previousValue ];
-					range = editor.getSelection().getRanges()[ 0 ];
-
-					// If the range is collapsed we can't simply use the editor.removeStyle method
-					// because it will remove the entire element and we want to split it instead.
-					if ( range.collapsed ) {
-						path = editor.elementPath();
-						// Find the style element.
-						matching = path.contains( function( el ) {
-							return previousStyle.checkElementRemovable( el );
-						} );
-
-						if ( matching ) {
-							startBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.START );
-							endBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.END );
-
-							// If we are at both boundaries it means that the element is empty.
-							// Remove it but in a way that we won't lose other empty inline elements inside it.
-							// Example: <p>x<span style="font-size:48px"><em>[]</em></span>x</p>
-							// Result: <p>x<em>[]</em>x</p>
-							if ( startBoundary && endBoundary ) {
-								bm = range.createBookmark();
-								// Replace the element with its children (TODO element.replaceWithChildren).
-								while ( ( node = matching.getFirst() ) ) {
-									node.insertBefore( matching );
-								}
-								matching.remove();
-								range.moveToBookmark( bm );
-
-							// If we are at the boundary of the style element, move out and copy nested styles/elements.
-							} else if ( startBoundary || endBoundary ) {
-								range.moveToPosition( matching, startBoundary ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_END );
-								cloneSubtreeIntoRange( range, path.elements.slice(), matching );
-							} else {
-								// Split the element and clone the elements that were in the path
-								// (between the startContainer and the matching element)
-								// into the new place.
-								range.splitElement( matching );
-								range.moveToPosition( matching, CKEDITOR.POSITION_AFTER_END );
-								cloneSubtreeIntoRange( range, path.elements.slice(), matching );
-							}
-
-							editor.getSelection().selectRanges( [ range ] );
-						}
-					} else {
-						editor.removeStyle( previousStyle );
-					}
-				}
-
-				if ( value === this.defaultValue ) {
-					if ( previousStyle ) {
-						editor.removeStyle( previousStyle );
-					}
-				} else {
-					editor.applyStyle( style );
-				}
-
-				editor.fire( 'saveSnapshot' );
-			},
+			onClick: onClickHandler,
 
 			onRender: function() {
 				editor.on( 'selectionChange', function( ev ) {
@@ -213,6 +206,79 @@
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
 		} );
+
+		function onClickHandler( value ) {
+			editor.focus();
+			editor.fire( 'saveSnapshot' );
+
+			var previousValue = this.getValue(),
+				style = styles[ value ],
+				previousStyle,
+				range = editor.getSelection().getRanges()[ 0 ];
+			var evaluator = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT );
+			var isRemove = value === this.defaultValue ? true : false;
+			var searchedStyle = 'font-' + styleType;
+
+			if ( isRemove && ( hasStyleToRemove( range ) || range.collapsed ) ) {
+				console.log( 'I found sth to remove!!!' );
+				editor.execCommand( commandName, { value, previousValue, styles, isRemove, range } )
+			} else if ( !isRemove && ( !hasAppliedNewStyle( range, style ) || range.collapsed ) ) {
+				console.log( 'There are nodes to apply new styles' );
+				editor.execCommand( commandName, { value, previousValue, styles, range } )
+			} else {
+				console.log( 'There is nothing to do. Super' );
+			}
+
+			editor.fire( 'saveSnapshot' );
+		}
+
+		function hasStyleToRemove( range ) {
+			var walker = new CKEDITOR.dom.walker( range ),
+				textNode,
+				styleName = 'font-' + styleType
+
+			walker.evaluator = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT );
+
+			textNode = walker.next();
+
+			while ( textNode ) {
+				if ( textNode.getAscendant( hasStyle( styleName ) ) ) {
+					return true;
+				}
+
+				textNode = walker.next();
+			}
+
+			return false;
+		}
+
+		function hasAppliedNewStyle( range, style ) {
+			var walker = new CKEDITOR.dom.walker( range ),
+				textNode,
+				styleName = 'font-' + styleType;
+
+			walker.evaluator = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT );
+
+			textNode= walker.next();
+
+			while ( textNode ) {
+				var ascendantNode = textNode.getAscendant( hasStyle( styleName ) );
+
+				if ( !ascendantNode || !style.checkElementRemovable( ascendantNode ) ) {
+					return false;
+				}
+
+				textNode = walker.next();
+			}
+
+			return true;
+		}
+
+		function hasStyle( styleName ) {
+			return function( el ) {
+				return el.type === CKEDITOR.NODE_ELEMENT && el.getStyle( styleName );
+			}
+		}
 	}
 
 	// Clones the subtree between subtreeStart (exclusive) and the
