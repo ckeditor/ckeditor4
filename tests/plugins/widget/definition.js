@@ -641,6 +641,41 @@
 			} );
 		},
 
+		// (#3240)
+		'test partial mask': function() {
+			var editor = this.editor;
+
+			var widgetDef = {
+				mask: 'bar',
+
+				parts: {
+					foo: '#foo',
+					bar: '#bar',
+					cksource: '#cksource'
+				},
+
+				editables: {
+					editable1: '#foo',
+					editable2: '#bar',
+					editable3: '#cksource'
+				}
+			};
+
+			editor.widgets.add( 'testPartialMask', widgetDef );
+
+			this.editorBot.setData( '<div data-widget="testPartialMask" id="widget">' +
+				'<p id="foo">foo</p><p id="bar">bar</p><p id="cksource">cksource</p></div>', function() {
+				var element = editor.document.getById( 'widget' ),
+					widget = editor.widgets.getByElement( element );
+
+				assert.isNull( widget.wrapper.findOne( '.cke_widget_mask' ), 'Complete mask was created instead of partial.' );
+				assert.isInstanceOf( CKEDITOR.dom.element, widget.wrapper.findOne( '.cke_widget_partial_mask' ), 'Mask element was not found.' );
+				assert.areSame( 'div', editor.document.$.elementFromPoint( 40, 45 ).localName, 'Mask covers the first editable instead of the second.' );
+				assert.areSame( 'img', editor.document.$.elementFromPoint( 40, 60 ).localName, 'Mask doesn\'t cover the second editable.' );
+				assert.areSame( 'div', editor.document.$.elementFromPoint( 40, 80 ).localName, 'Mask covers the third editable instead of the second.' );
+			} );
+		},
+
 		'test inline property - block case': function() {
 			var editor = this.editor;
 
