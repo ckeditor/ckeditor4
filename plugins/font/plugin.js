@@ -6,42 +6,21 @@
 ( function() {
 	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order ) {
 		var config = editor.config,
-			style = new CKEDITOR.style( styleDefinition ),
-			commandName = comboName.slice( 0, 1 ).toLowerCase() + comboName.slice( 1 );
-
-		// Gets the list of fonts from the settings.
-		var names = entries.split( ';' ),
-			values = [];
-
-		// Create style objects for all fonts.
-		var styles = {};
-		for ( var i = 0; i < names.length; i++ ) {
-			var parts = names[ i ];
-
-			if ( parts ) {
-				parts = parts.split( '/' );
-
-				var vars = {},
-					name = names[ i ] = parts[ 0 ];
-
-				vars[ styleType ] = values[ i ] = parts[ 1 ] || name;
-
-				styles[ name ] = new CKEDITOR.style( styleDefinition, vars );
-				styles[ name ]._.definition.name = name;
-			} else {
-				names.splice( i--, 1 );
-			}
-		}
+			allowedAndRequiredContent = new CKEDITOR.style( styleDefinition ),
+			commandName = comboName.slice( 0, 1 ).toLowerCase() + comboName.slice( 1 ),
+			preparedStylesAndNames = _prepareStylesAndNames( entries ),
+			styles = preparedStylesAndNames.styles,
+			names = preparedStylesAndNames.names,
+			defaultValue = 'cke-default';
 
 		editor.addCommand( commandName , {
 			exec: function( editor, data ) {
-				var value = data.value,
-					previousValue = data.previousValue,
-					styles = data.styles,
-					isRemove = data.isRemove,
+				var newValue = data.newValue,
+					oldValue = data.oldValue,
 					range = data.range,
-					style = styles[ value ],
-					previousStyle = styles[ previousValue ];
+					newStyle = styles[ newValue ],
+					oldStyle = styles[ oldValue ],
+					isRemove = newValue === defaultValue;
 
 				// If the range is collapsed we can't simply use the editor.removeStyle method
 				// because it will remove the entire element and we want to split it instead.
@@ -56,7 +35,7 @@
 					path = editor.elementPath();
 					// Find the style element.
 					matching = path.contains( function( el ) {
-						return previousStyle.checkElementRemovable( el );
+						return oldStyle.checkElementRemovable( el );
 					} );
 
 					if ( matching ) {
@@ -94,20 +73,20 @@
 				}
 
 				if ( isRemove ) {
-					editor.removeStyle( previousStyle );
+					editor.removeStyle( oldStyle );
 				} else {
-					editor.applyStyle( style );
+					editor.applyStyle( newStyle );
 				}
 			}
-		} )
+		} );
 
 		editor.ui.addRichCombo( comboName, {
 			label: lang.label,
 			title: lang.panelTitle,
 			toolbar: 'styles,' + order,
-			defaultValue: 'cke-default',
-			allowedContent: style,
-			requiredContent: style,
+			defaultValue: defaultValue,
+			allowedContent: allowedAndRequiredContent,
+			requiredContent: allowedAndRequiredContent,
 			contentTransformations: styleDefinition.element === 'span' ? [
 				[
 					{
@@ -202,47 +181,47 @@
 			},
 
 			refresh: function() {
-				if ( !editor.activeFilter.check( style ) )
+				if ( !editor.activeFilter.check( allowedAndRequiredContent ) )
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
 		} );
 
 		function onClickHandler( value ) {
 			editor.focus();
-			editor.fire( 'saveSnapshot' );
 
 			var previousValue = this.getValue(),
 				style = styles[ value ],
-				previousStyle,
-				range = editor.getSelection().getRanges()[ 0 ];
-			var evaluator = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT );
-			var isRemove = value === this.defaultValue ? true : false;
-			var searchedStyle = 'font-' + styleType;
+				range = editor.getSelection().getRanges()[ 0 ],
+				isRemove = value === this.defaultValue ? true : false;
 
-			if ( isRemove && ( hasStyleToRemove( range ) || range.collapsed ) ) {
-				console.log( 'I found sth to remove!!!' );
-				editor.execCommand( commandName, { value, previousValue, styles, isRemove, range } )
-			} else if ( !isRemove && ( !hasAppliedNewStyle( range, style ) || range.collapsed ) ) {
-				console.log( 'There are nodes to apply new styles' );
-				editor.execCommand( commandName, { value, previousValue, styles, range } )
-			} else {
-				console.log( 'There is nothing to do. Super' );
+			if (
+				range.collapsed ||
+				isRemove && _hasStyleToRemove( range ) ||
+				!isRemove && !_hasAppliedNewStyle( range, style )
+			) {
+				editor.fire( 'saveSnapshot' );
+
+				editor.execCommand( commandName, {
+					newValue: value,
+					oldValue: previousValue,
+					range: range
+				} );
+
+				editor.fire( 'saveSnapshot' );
 			}
-
-			editor.fire( 'saveSnapshot' );
 		}
 
-		function hasStyleToRemove( range ) {
+		function _hasStyleToRemove( range ) {
 			var walker = new CKEDITOR.dom.walker( range ),
 				textNode,
-				styleName = 'font-' + styleType
+				styleName = 'font-' + styleType;
 
 			walker.evaluator = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT );
 
 			textNode = walker.next();
 
 			while ( textNode ) {
-				if ( textNode.getAscendant( hasStyle( styleName ) ) ) {
+				if ( textNode.getAscendant( _hasStyle( styleName ) ) ) {
 					return true;
 				}
 
@@ -252,17 +231,17 @@
 			return false;
 		}
 
-		function hasAppliedNewStyle( range, style ) {
+		function _hasAppliedNewStyle( range, style ) {
 			var walker = new CKEDITOR.dom.walker( range ),
 				textNode,
 				styleName = 'font-' + styleType;
 
 			walker.evaluator = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT );
 
-			textNode= walker.next();
+			textNode = walker.next();
 
 			while ( textNode ) {
-				var ascendantNode = textNode.getAscendant( hasStyle( styleName ) );
+				var ascendantNode = textNode.getAscendant( _hasStyle( styleName ) );
 
 				if ( !ascendantNode || !style.checkElementRemovable( ascendantNode ) ) {
 					return false;
@@ -274,10 +253,38 @@
 			return true;
 		}
 
-		function hasStyle( styleName ) {
+		function _hasStyle( styleName ) {
 			return function( el ) {
 				return el.type === CKEDITOR.NODE_ELEMENT && el.getStyle( styleName );
+			};
+		}
+
+		function _prepareStylesAndNames( entries ) {
+			// Gets the list of fonts from the settings.
+			var names = entries.split( ';' ),
+				values = [];
+
+			// Create style objects for all fonts.
+			var styles = {};
+			for ( var i = 0; i < names.length; i++ ) {
+				var parts = names[ i ];
+
+				if ( parts ) {
+					parts = parts.split( '/' );
+
+					var vars = {},
+						name = names[ i ] = parts[ 0 ];
+
+					vars[ styleType ] = values[ i ] = parts[ 1 ] || name;
+
+					styles[ name ] = new CKEDITOR.style( styleDefinition, vars );
+					styles[ name ]._.definition.name = name;
+				} else {
+					names.splice( i--, 1 );
+				}
 			}
+
+			return { styles: styles, names: names };
 		}
 	}
 
