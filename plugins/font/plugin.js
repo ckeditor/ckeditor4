@@ -4,9 +4,9 @@
  */
 
 ( function() {
-	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order ) {
+	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, configStyleDefinition, order ) {
 		var config = editor.config,
-			allowedAndRequiredContent = new CKEDITOR.style( styleDefinition ),
+			allowedAndRequiredContent = new CKEDITOR.style( configStyleDefinition ),
 			commandName = comboName.slice( 0, 1 ).toLowerCase() + comboName.slice( 1 ),
 			preparedStylesAndNames = _prepareStylesAndNames( entries ),
 			styles = preparedStylesAndNames.styles,
@@ -17,9 +17,10 @@
 			exec: function( editor, data ) {
 				var newValue = data.newValue,
 					oldValue = data.oldValue,
-					range = data.range,
+					range = editor.getSelection().getRanges()[ 0 ],
 					isRemove = newValue === defaultValue,
-					oldStyle = styles[ oldValue ];
+					oldStyle = styles[ oldValue ],
+					newStyle = styles[ newValue ];
 
 				// If the range is collapsed we can't simply use the editor.removeStyle method
 				// because it will remove the entire element and we want to split it instead.
@@ -73,7 +74,7 @@
 
 				// Prevent of using remove multiple times
 				// This should be prevented before command
-				if ( isRemove && oldValue ) {
+				if ( isRemove ) {
 					editor.removeStyle( oldStyle );
 				}
 
@@ -81,7 +82,7 @@
 					if ( oldStyle ) {
 						editor.removeStyle( oldStyle );
 					}
-					editor.applyStyle( styles[ newValue ] );
+					editor.applyStyle( newStyle );
 				}
 			}
 		} );
@@ -93,7 +94,7 @@
 			defaultValue: defaultValue,
 			allowedContent: allowedAndRequiredContent,
 			requiredContent: allowedAndRequiredContent,
-			contentTransformations: styleDefinition.element === 'span' ? [
+			contentTransformations: configStyleDefinition.element === 'span' ? [
 				[
 					{
 						element: 'font',
@@ -202,14 +203,13 @@
 
 			if (
 				isRemove && _hasStyleToRemove( range ) ||
-				!isRemove && !_hasAppliedNewStyle( range, newStyle )
+				!isRemove && !_hasAlreadyAppliedNewStyle( range, newStyle )
 			) {
 				editor.fire( 'saveSnapshot' );
 
 				editor.execCommand( commandName, {
 					newValue: newValue,
-					oldValue: oldValue,
-					range: range
+					oldValue: oldValue
 				} );
 
 				editor.fire( 'saveSnapshot' );
@@ -244,7 +244,7 @@
 			return false;
 		}
 
-		function _hasAppliedNewStyle( range, style ) {
+		function _hasAlreadyAppliedNewStyle( range, style ) {
 			var walker,
 				textNode,
 				nodeWithStyle;
@@ -273,28 +273,28 @@
 		}
 
 		function _hasStyle() {
-			var styles = _getAvailableStyles();
+			var styleDefinitions = _getAvailableStyleDefinitions();
 
 			return function( el ) {
-				return el.type === CKEDITOR.NODE_ELEMENT && _matchElementToStyleDefinition( el, styles );
+				return el.type === CKEDITOR.NODE_ELEMENT && _matchElementToStyleDefinition( el, styleDefinitions );
 			};
 		}
 
-		function _getAvailableStyles() {
-			var foundStyleSets = [],
+		function _getAvailableStyleDefinitions() {
+			var styleDefinitions = [],
 				objKeys = CKEDITOR.tools.object.keys;
 
-			// default style
-			foundStyleSets.push( {
-				element: styleDefinition.element,
-				attributes: objKeys( styleDefinition.attributes ),
-				styles: objKeys( styleDefinition.styles )
+			// Default style types.
+			styleDefinitions.push( {
+				element: configStyleDefinition.element,
+				attributes: objKeys( configStyleDefinition.attributes ),
+				styles: objKeys( configStyleDefinition.styles )
 			} );
 
-			// override styles
-			if ( styleDefinition.overrides ) {
-				CKEDITOR.tools.array.forEach( styleDefinition.overrides, function( value ) {
-					foundStyleSets.push( {
+			// Style types from override.
+			if ( configStyleDefinition.overrides ) {
+				CKEDITOR.tools.array.forEach( configStyleDefinition.overrides, function( value ) {
+					styleDefinitions.push( {
 						element: value.element,
 						attributes: objKeys( value.attributes ),
 						styles: objKeys( value.styles )
@@ -302,22 +302,22 @@
 				} );
 			}
 
-			return foundStyleSets;
+			return styleDefinitions;
 		}
 
-		function _matchElementToStyleDefinition( el, availableStyles ) {
-			for ( var i = 0; i < availableStyles.length; i++ ) {
-				var currentStyleSet = availableStyles[ i ];
+		function _matchElementToStyleDefinition( el, availableStyleDefinitions ) {
+			for ( var i = 0; i < availableStyleDefinitions.length; i++ ) {
+				var currentStyleDefinition = availableStyleDefinitions[ i ];
 
-				if ( !_hasValidName( el, currentStyleSet ) ) {
+				if ( !_hasValidName( el, currentStyleDefinition ) ) {
 					continue;
 				}
 
-				if ( !_hasValidAttributes( el, currentStyleSet ) ) {
+				if ( !_hasValidAttributes( el, currentStyleDefinition ) ) {
 					continue;
 				}
 
-				if ( !_hasValidStyles( el, currentStyleSet ) ) {
+				if ( !_hasValidStyles( el, currentStyleDefinition ) ) {
 					continue;
 				}
 
@@ -327,13 +327,13 @@
 			return false;
 		}
 
-		function _hasValidName( el, styleSet ) {
-			return el.getName() === styleSet.element;
+		function _hasValidName( el, styleDefinition ) {
+			return el.getName() === styleDefinition.element;
 		}
 
-		function _hasValidAttributes( el, styleSet ) {
+		function _hasValidAttributes( el, styleDefinition ) {
 			var hasMatchingAttributes,
-				attributes = styleSet.attributes;
+				attributes = styleDefinition.attributes;
 
 			if ( !attributes.length ) {
 				return true;
@@ -346,9 +346,9 @@
 			return hasMatchingAttributes;
 		}
 
-		function _hasValidStyles( el, styleSet ) {
+		function _hasValidStyles( el, styleDefinition ) {
 			var hasMatchingStyles,
-				styles = styleSet.styles;
+				styles = styleDefinition.styles;
 
 			if ( !styles.length ) {
 				return true;
@@ -379,7 +379,7 @@
 
 					vars[ styleType ] = values[ i ] = parts[ 1 ] || name;
 
-					styles[ name ] = new CKEDITOR.style( styleDefinition, vars );
+					styles[ name ] = new CKEDITOR.style( configStyleDefinition, vars );
 					styles[ name ]._.definition.name = name;
 				} else {
 					names.splice( i--, 1 );
