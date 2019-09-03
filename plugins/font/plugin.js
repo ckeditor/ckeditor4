@@ -259,7 +259,7 @@
 			while ( textNode ) {
 				nodeWithStyle = textNode.getAscendant( _hasStyle() );
 
-				if ( !nodeWithStyle || !style.checkElementRemovable( nodeWithStyle ) ) {
+				if ( !nodeWithStyle || !style.checkElementMatch( nodeWithStyle ) ) {
 					return false;
 				}
 
