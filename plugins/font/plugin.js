@@ -8,7 +8,11 @@
 		var config = editor.config,
 			allowedAndRequiredContent = new CKEDITOR.style( configStyleDefinition ),
 			commandName = comboName.slice( 0, 1 ).toLowerCase() + comboName.slice( 1 ),
-			preparedStylesAndNames = _prepareStylesAndNames( entries ),
+			preparedStylesAndNames = _prepareStylesAndNames( {
+				entries: entries,
+				styleType: styleType,
+				configStyleDefinition: configStyleDefinition
+			} ),
 			styles = preparedStylesAndNames.styles,
 			names = preparedStylesAndNames.names,
 			defaultValue = 'cke-default';
@@ -199,12 +203,22 @@
 			var oldValue = this.getValue(),
 				newStyle = styles[ newValue ],
 				range = editor.getSelection().getRanges()[ 0 ],
-				isRemove = newValue === defaultValue;
+				isRemoveOperation = newValue === defaultValue,
+				hasStyleToRemove,
+				hasFragmentsWithoutNewStyle;
 
-			if (
-				isRemove && _hasStyleToRemove( range ) ||
-				!isRemove && !_hasAlreadyAppliedNewStyle( range, newStyle )
-			) {
+			hasStyleToRemove = isRemoveOperation && _hasStyleToRemove( {
+				range: range,
+				configStyleDefinition: configStyleDefinition
+			} );
+
+			hasFragmentsWithoutNewStyle = !isRemoveOperation && !_hasAlreadyAppliedNewStyle( {
+				range: range,
+				style: newStyle,
+				configStyleDefinition: configStyleDefinition
+			} );
+
+			if ( hasStyleToRemove || hasFragmentsWithoutNewStyle ) {
 				editor.fire( 'saveSnapshot' );
 
 				editor.execCommand( commandName, {
@@ -215,179 +229,184 @@
 				editor.fire( 'saveSnapshot' );
 			}
 		}
+	}
 
-		function _hasStyleToRemove( range ) {
-			var walker,
-				textNode,
-				nodeWithStyle;
+	function _hasStyleToRemove( config ) {
+		var range = config.range,
+			configStyleDefinition = config.configStyleDefinition,
+			walker,
+			textNode,
+			nodeWithStyle;
 
-			if ( range.collapsed ) {
-				nodeWithStyle = range.startContainer.getAscendant( _hasStyle(), true );
-				return !!nodeWithStyle;
-			}
-
-			walker = new CKEDITOR.dom.walker( range );
-			walker.evaluator = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT );
-
-			textNode = walker.next();
-
-			while ( textNode ) {
-				nodeWithStyle = textNode.getAscendant( _hasStyle() );
-
-				if ( nodeWithStyle ) {
-					return true;
-				}
-
-				textNode = walker.next();
-			}
-
-			return false;
+		if ( range.collapsed ) {
+			nodeWithStyle = range.startContainer.getAscendant( _hasStyle( configStyleDefinition ), true );
+			return !!nodeWithStyle;
 		}
 
-		function _hasAlreadyAppliedNewStyle( range, style ) {
-			var walker,
-				textNode,
-				nodeWithStyle;
+		walker = new CKEDITOR.dom.walker( range );
+		walker.evaluator = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT );
 
-			if ( range.collapsed ) {
-				nodeWithStyle = range.startContainer.getAscendant( _hasStyle(), true );
-				return !!( nodeWithStyle && style.checkElementRemovable( nodeWithStyle ) );
+		textNode = walker.next();
+
+		while ( textNode ) {
+			nodeWithStyle = textNode.getAscendant( _hasStyle( configStyleDefinition ) );
+
+			if ( nodeWithStyle ) {
+				return true;
 			}
 
-			walker = new CKEDITOR.dom.walker( range );
-			walker.evaluator = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT );
+			textNode = walker.next();
+		}
+
+		return false;
+	}
+
+	function _hasAlreadyAppliedNewStyle( config ) {
+		var range = config.range,
+			style = config.style,
+			configStyleDefinition = config.configStyleDefinition,
+			walker,
+			textNode,
+			nodeWithStyle;
+
+		if ( range.collapsed ) {
+			nodeWithStyle = range.startContainer.getAscendant( _hasStyle( configStyleDefinition ), true );
+			return !!( nodeWithStyle && style.checkElementRemovable( nodeWithStyle ) );
+		}
+
+		walker = new CKEDITOR.dom.walker( range );
+		walker.evaluator = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT );
+
+		textNode = walker.next();
+
+		while ( textNode ) {
+			nodeWithStyle = textNode.getAscendant( _hasStyle( configStyleDefinition ) );
+
+			if ( !nodeWithStyle || !style.checkElementMatch( nodeWithStyle ) ) {
+				return false;
+			}
 
 			textNode = walker.next();
+		}
 
-			while ( textNode ) {
-				nodeWithStyle = textNode.getAscendant( _hasStyle() );
+		return true;
+	}
 
-				if ( !nodeWithStyle || !style.checkElementMatch( nodeWithStyle ) ) {
-					return false;
-				}
+	function _hasStyle( configStyleDefinition ) {
+		var styleDefinitions = _getAvailableStyleDefinitions( configStyleDefinition );
 
-				textNode = walker.next();
+		return function( el ) {
+			return el.type === CKEDITOR.NODE_ELEMENT && _matchElementToStyleDefinition( el, styleDefinitions );
+		};
+	}
+
+	function _getAvailableStyleDefinitions( configStyleDefinition ) {
+		var styleDefinitions = [],
+			objKeys = CKEDITOR.tools.object.keys;
+
+		// Default style types.
+		styleDefinitions.push( {
+			element: configStyleDefinition.element,
+			attributes: objKeys( configStyleDefinition.attributes ),
+			styles: objKeys( configStyleDefinition.styles )
+		} );
+
+		// Style types from override.
+		if ( configStyleDefinition.overrides ) {
+			CKEDITOR.tools.array.forEach( configStyleDefinition.overrides, function( value ) {
+				styleDefinitions.push( {
+					element: value.element,
+					attributes: objKeys( value.attributes ),
+					styles: objKeys( value.styles )
+				} );
+			} );
+		}
+
+		return styleDefinitions;
+	}
+
+	function _matchElementToStyleDefinition( el, availableStyleDefinitions ) {
+		for ( var i = 0; i < availableStyleDefinitions.length; i++ ) {
+			var currentStyleDefinition = availableStyleDefinitions[ i ];
+
+			if ( !_hasValidName( el, currentStyleDefinition ) ) {
+				continue;
+			}
+
+			if ( !_hasValidAttributes( el, currentStyleDefinition ) ) {
+				continue;
+			}
+
+			if ( !_hasValidStyles( el, currentStyleDefinition ) ) {
+				continue;
 			}
 
 			return true;
 		}
 
-		function _hasStyle() {
-			var styleDefinitions = _getAvailableStyleDefinitions();
+		return false;
+	}
 
-			return function( el ) {
-				return el.type === CKEDITOR.NODE_ELEMENT && _matchElementToStyleDefinition( el, styleDefinitions );
-			};
+	function _hasValidName( el, styleDefinition ) {
+		return el.getName() === styleDefinition.element;
+	}
+
+	function _hasValidAttributes( el, styleDefinition ) {
+		var hasMatchingAttributes,
+			attributes = styleDefinition.attributes;
+
+		if ( !attributes.length ) {
+			return true;
 		}
 
-		function _getAvailableStyleDefinitions() {
-			var styleDefinitions = [],
-				objKeys = CKEDITOR.tools.object.keys;
+		hasMatchingAttributes = CKEDITOR.tools.array.every( attributes, function( value ) {
+			return el.hasAttribute( value );
+		} );
 
-			// Default style types.
-			styleDefinitions.push( {
-				element: configStyleDefinition.element,
-				attributes: objKeys( configStyleDefinition.attributes ),
-				styles: objKeys( configStyleDefinition.styles )
-			} );
+		return hasMatchingAttributes;
+	}
 
-			// Style types from override.
-			if ( configStyleDefinition.overrides ) {
-				CKEDITOR.tools.array.forEach( configStyleDefinition.overrides, function( value ) {
-					styleDefinitions.push( {
-						element: value.element,
-						attributes: objKeys( value.attributes ),
-						styles: objKeys( value.styles )
-					} );
-				} );
+	function _hasValidStyles( el, styleDefinition ) {
+		var hasMatchingStyles,
+			styles = styleDefinition.styles;
+
+		if ( !styles.length ) {
+			return true;
+		}
+
+		hasMatchingStyles = CKEDITOR.tools.array.every( styles, function( value ) {
+			return el.getStyle( value );
+		} );
+
+		return hasMatchingStyles;
+	}
+
+	function _prepareStylesAndNames( config ) {
+		// Gets the list of fonts from the settings.
+		var names = config.entries.split( ';' ),
+			values = [];
+
+		// Create style objects for all fonts.
+		var styles = {};
+		for ( var i = 0; i < names.length; i++ ) {
+			var parts = names[ i ];
+
+			if ( parts ) {
+				parts = parts.split( '/' );
+
+				var vars = {},
+					name = names[ i ] = parts[ 0 ];
+
+				vars[ config.styleType ] = values[ i ] = parts[ 1 ] || name;
+
+				styles[ name ] = new CKEDITOR.style( config.configStyleDefinition, vars );
+				styles[ name ]._.definition.name = name;
+			} else {
+				names.splice( i--, 1 );
 			}
-
-			return styleDefinitions;
 		}
 
-		function _matchElementToStyleDefinition( el, availableStyleDefinitions ) {
-			for ( var i = 0; i < availableStyleDefinitions.length; i++ ) {
-				var currentStyleDefinition = availableStyleDefinitions[ i ];
-
-				if ( !_hasValidName( el, currentStyleDefinition ) ) {
-					continue;
-				}
-
-				if ( !_hasValidAttributes( el, currentStyleDefinition ) ) {
-					continue;
-				}
-
-				if ( !_hasValidStyles( el, currentStyleDefinition ) ) {
-					continue;
-				}
-
-				return true;
-			}
-
-			return false;
-		}
-
-		function _hasValidName( el, styleDefinition ) {
-			return el.getName() === styleDefinition.element;
-		}
-
-		function _hasValidAttributes( el, styleDefinition ) {
-			var hasMatchingAttributes,
-				attributes = styleDefinition.attributes;
-
-			if ( !attributes.length ) {
-				return true;
-			}
-
-			hasMatchingAttributes = CKEDITOR.tools.array.every( attributes, function( value ) {
-				return el.hasAttribute( value );
-			} );
-
-			return hasMatchingAttributes;
-		}
-
-		function _hasValidStyles( el, styleDefinition ) {
-			var hasMatchingStyles,
-				styles = styleDefinition.styles;
-
-			if ( !styles.length ) {
-				return true;
-			}
-
-			hasMatchingStyles = CKEDITOR.tools.array.every( styles, function( value ) {
-				return el.getStyle( value );
-			} );
-
-			return hasMatchingStyles;
-		}
-
-		function _prepareStylesAndNames( entries ) {
-			// Gets the list of fonts from the settings.
-			var names = entries.split( ';' ),
-				values = [];
-
-			// Create style objects for all fonts.
-			var styles = {};
-			for ( var i = 0; i < names.length; i++ ) {
-				var parts = names[ i ];
-
-				if ( parts ) {
-					parts = parts.split( '/' );
-
-					var vars = {},
-						name = names[ i ] = parts[ 0 ];
-
-					vars[ styleType ] = values[ i ] = parts[ 1 ] || name;
-
-					styles[ name ] = new CKEDITOR.style( configStyleDefinition, vars );
-					styles[ name ]._.definition.name = name;
-				} else {
-					names.splice( i--, 1 );
-				}
-			}
-
-			return { styles: styles, names: names };
-		}
+		return { styles: styles, names: names };
 	}
 
 	// Clones the subtree between subtreeStart (exclusive) and the
