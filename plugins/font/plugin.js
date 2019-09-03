@@ -18,19 +18,18 @@
 				var newValue = data.newValue,
 					oldValue = data.oldValue,
 					range = data.range,
-					newStyle = styles[ newValue ],
-					oldStyle = styles[ oldValue ],
 					isRemove = newValue === defaultValue;
 
 				// If the range is collapsed we can't simply use the editor.removeStyle method
 				// because it will remove the entire element and we want to split it instead.
-				if ( range.collapsed ) {
+				if ( oldValue && range.collapsed ) {
 					var path,
 						matching,
 						startBoundary,
 						endBoundary,
 						node,
-						bm;
+						bm,
+						oldStyle = styles[ oldValue ];
 
 					path = editor.elementPath();
 					// Find the style element.
@@ -72,10 +71,14 @@
 					}
 				}
 
-				if ( isRemove ) {
-					editor.removeStyle( oldStyle );
-				} else {
-					editor.applyStyle( newStyle );
+				// Prevent of using remove multiple times
+				// This should be prevented before command
+				if ( isRemove && oldValue ) {
+					editor.removeStyle( styles[ oldValue ] );
+				}
+
+				if ( !isRemove ) {
+					editor.applyStyle( styles[ newValue ] );
 				}
 			}
 		} );
@@ -186,24 +189,23 @@
 			}
 		} );
 
-		function onClickHandler( value ) {
+		function onClickHandler( newValue ) {
 			editor.focus();
 
-			var previousValue = this.getValue(),
-				style = styles[ value ],
+			var oldValue = this.getValue(),
+				newStyle = styles[ newValue ],
 				range = editor.getSelection().getRanges()[ 0 ],
-				isRemove = value === this.defaultValue ? true : false;
+				isRemove = newValue === defaultValue;
 
 			if (
-				range.collapsed ||
 				isRemove && _hasStyleToRemove( range ) ||
-				!isRemove && !_hasAppliedNewStyle( range, style )
+				!isRemove && !_hasAppliedNewStyle( range, newStyle )
 			) {
 				editor.fire( 'saveSnapshot' );
 
 				editor.execCommand( commandName, {
-					newValue: value,
-					oldValue: previousValue,
+					newValue: newValue,
+					oldValue: oldValue,
 					range: range
 				} );
 
@@ -212,16 +214,24 @@
 		}
 
 		function _hasStyleToRemove( range ) {
-			var walker = new CKEDITOR.dom.walker( range ),
+			var walker,
 				textNode,
-				styleName = 'font-' + styleType;
+				nodeWithStyle;
 
+			if ( range.collapsed ) {
+				nodeWithStyle = range.startContainer.getAscendant( _hasStyle(), true );
+				return !!nodeWithStyle;
+			}
+
+			walker = new CKEDITOR.dom.walker( range );
 			walker.evaluator = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT );
 
 			textNode = walker.next();
 
 			while ( textNode ) {
-				if ( textNode.getAscendant( _hasStyle( styleName ) ) ) {
+				nodeWithStyle = textNode.getAscendant( _hasStyle() );
+
+				if ( nodeWithStyle ) {
 					return true;
 				}
 
@@ -232,18 +242,24 @@
 		}
 
 		function _hasAppliedNewStyle( range, style ) {
-			var walker = new CKEDITOR.dom.walker( range ),
+			var walker,
 				textNode,
-				styleName = 'font-' + styleType;
+				nodeWithStyle;
 
+			if ( range.collapsed ) {
+				nodeWithStyle = range.startContainer.getAscendant( _hasStyle(), true );
+				return !!( nodeWithStyle && style.checkElementRemovable( nodeWithStyle ) );
+			}
+
+			walker = new CKEDITOR.dom.walker( range );
 			walker.evaluator = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT );
 
 			textNode = walker.next();
 
 			while ( textNode ) {
-				var ascendantNode = textNode.getAscendant( _hasStyle( styleName ) );
+				nodeWithStyle = textNode.getAscendant( _hasStyle() );
 
-				if ( !ascendantNode || !style.checkElementRemovable( ascendantNode ) ) {
+				if ( !nodeWithStyle || !style.checkElementRemovable( nodeWithStyle ) ) {
 					return false;
 				}
 
@@ -253,10 +269,93 @@
 			return true;
 		}
 
-		function _hasStyle( styleName ) {
+		function _hasStyle() {
+			var styles = _getAvailableStyles();
+
 			return function( el ) {
-				return el.type === CKEDITOR.NODE_ELEMENT && el.getStyle( styleName );
+				return el.type === CKEDITOR.NODE_ELEMENT && _matchElementToStyleDefinition( el, styles );
 			};
+		}
+
+		function _getAvailableStyles() {
+			var foundStyleSets = [],
+				objKeys = CKEDITOR.tools.object.keys;
+
+			// default style
+			foundStyleSets.push( {
+				element: styleDefinition.element,
+				attributes: objKeys( styleDefinition.attributes ),
+				styles: objKeys( styleDefinition.styles )
+			} );
+
+			// override styles
+			if ( styleDefinition.overrides ) {
+				CKEDITOR.tools.array.forEach( styleDefinition.overrides, function( value ) {
+					foundStyleSets.push( {
+						element: value.element,
+						attributes: objKeys( value.attributes ),
+						styles: objKeys( value.styles )
+					} );
+				} );
+			}
+
+			return foundStyleSets;
+		}
+
+		function _matchElementToStyleDefinition( el, availableStyles ) {
+			for ( var i = 0; i < availableStyles.length; i++ ) {
+				var currentStyleSet = availableStyles[ i ];
+
+				if ( !_hasValidName( el, currentStyleSet ) ) {
+					continue;
+				}
+
+				if ( !_hasValidAttributes( el, currentStyleSet ) ) {
+					continue;
+				}
+
+				if ( !_hasValidStyles( el, currentStyleSet ) ) {
+					continue;
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
+		function _hasValidName( el, styleSet ) {
+			return el.getName() === styleSet.element;
+		}
+
+		function _hasValidAttributes( el, styleSet ) {
+			var hasMatchingAttributes,
+				attributes = styleSet.attributes;
+
+			if ( !attributes.length ) {
+				return true;
+			}
+
+			hasMatchingAttributes = CKEDITOR.tools.array.every( attributes, function( value ) {
+				return el.hasAttribute( value );
+			} );
+
+			return hasMatchingAttributes;
+		}
+
+		function _hasValidStyles( el, styleSet ) {
+			var hasMatchingStyles,
+				styles = styleSet.styles;
+
+			if ( !styles.length ) {
+				return true;
+			}
+
+			hasMatchingStyles = CKEDITOR.tools.array.every( styles, function( value ) {
+				return el.getStyle( value );
+			} );
+
+			return hasMatchingStyles;
 		}
 
 		function _prepareStylesAndNames( entries ) {
