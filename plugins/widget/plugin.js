@@ -4306,8 +4306,9 @@
  * If set to `true`, the widget's element will be covered with a transparent mask.
  * This will prevent its content from being clickable, which matters in case
  * of special elements like embedded Flash or iframes that generate a separate "context".
- *
- * @property {Boolean} mask
+ * If value is `string` type, then the partial mask covering only the given widget part
+ * is created instead.
+ * @property {Boolean/String} mask
  */
 
 /**
