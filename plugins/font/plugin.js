@@ -231,6 +231,10 @@
 		}
 	}
 
+	//  * @param {Object} config
+	//  * @param {CKEDITOR.dom.range} config.range
+	//  * @param {Object} config.configStyleDefinition object representing config option:
+	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
 	function _hasStyleToRemove( config ) {
 		var range = config.range,
 			configStyleDefinition = config.configStyleDefinition,
@@ -261,6 +265,13 @@
 		return false;
 	}
 
+
+	//  * @param {Object} config
+	//  * @param {CKEDITOR.dom.range} config.range,
+	//  * @param {CKEDITOR.style} config.style style which is going to be applied over given range
+	//  * @param {Object} config.configStyleDefinition object representing config option:
+	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
+	//  * @returns {Boolean}
 	function _hasAlreadyAppliedNewStyle( config ) {
 		var range = config.range,
 			style = config.style,
@@ -292,6 +303,9 @@
 		return true;
 	}
 
+	//  * @param {Object} configStyleDefinition object representing config option:
+	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
+	//  * @returns {Boolean}
 	function _hasStyle( configStyleDefinition ) {
 		var styleDefinitions = _getAvailableStyleDefinitions( configStyleDefinition );
 
@@ -300,6 +314,21 @@
 		};
 	}
 
+	//  * @param {Object} configStyleDefinition object representing config option:
+	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
+	//  * @returns {Object[]} Array with objects defining what attributes describe given style e.g.:
+	//  * 	[
+	//  * 		{
+	//  * 			element: 'span',
+	//  * 			attributes: [],
+	//  * 			styles: [ 'font-family' ]
+	//  * 		},
+	//  * 		{
+	//  * 			element: 'font',
+	//  * 			attributes: [ 'face' ],
+	//  * 			styles: []
+	//  * 		}
+	//  * 	]
 	function _getAvailableStyleDefinitions( configStyleDefinition ) {
 		var styleDefinitions = [],
 			objKeys = CKEDITOR.tools.object.keys;
@@ -325,6 +354,8 @@
 		return styleDefinitions;
 	}
 
+	//  * @param {CKEDITOR.dom.element} el
+	//  * @param {Object[]} availableStyleDefinitions - result from `_getAvailableStyleDefinitions()` function
 	function _matchElementToStyleDefinition( el, availableStyleDefinitions ) {
 		for ( var i = 0; i < availableStyleDefinitions.length; i++ ) {
 			var currentStyleDefinition = availableStyleDefinitions[ i ];
@@ -347,10 +378,14 @@
 		return false;
 	}
 
+	//  * @param {CKEDITOR.dom.element} el
+	//  * @param {Object} styleDefinition Single element from array obtained from `_getAvailableStyleDefinitions()`
 	function _hasValidName( el, styleDefinition ) {
 		return el.getName() === styleDefinition.element;
 	}
 
+	//  * @param {CKEDITOR.dom.element} el
+	//  * @param {Object} styleDefinition Single element from array obtained from `_getAvailableStyleDefinitions()`
 	function _hasValidAttributes( el, styleDefinition ) {
 		var hasMatchingAttributes,
 			attributes = styleDefinition.attributes;
@@ -366,6 +401,9 @@
 		return hasMatchingAttributes;
 	}
 
+
+	//  * @param {CKEDITOR.dom.element} el
+	//  * @param {Object} styleDefinition Single element from array obtained from `_getAvailableStyleDefinitions()`
 	function _hasValidStyles( el, styleDefinition ) {
 		var hasMatchingStyles,
 			styles = styleDefinition.styles;
@@ -381,6 +419,13 @@
 		return hasMatchingStyles;
 	}
 
+	//  * @param {Object} config
+	//  * @param {String} config.entries Entries from richcombo, came from {@link CKEDITOR.config#font_names} or {@link CKEDITOR.config#fontSize_sizes}
+	//  * @param {'family'|'size'} config.styleType string defined by `addCombo()` in this case its `family` or `size` string,
+	//  * @param {Object} config.configStyleDefinition object representing config option:
+	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
+	//  * @returns {Object} return.styles - object containing list of defined styles
+	//  * @returns {Array} return.names array with style names
 	function _prepareStylesAndNames( config ) {
 		// Gets the list of fonts from the settings.
 		var names = config.entries.split( ';' ),
