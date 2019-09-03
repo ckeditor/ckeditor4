@@ -29,55 +29,14 @@
 				// If the range is collapsed we can't simply use the editor.removeStyle method
 				// because it will remove the entire element and we want to split it instead.
 				if ( oldValue && range.collapsed ) {
-					var path,
-						matching,
-						startBoundary,
-						endBoundary,
-						node,
-						bm;
-
-					path = editor.elementPath();
-					// Find the style element.
-					matching = path.contains( function( el ) {
-						return oldStyle.checkElementRemovable( el );
+					_splitElementOnCollapsedRange( {
+						editor: editor,
+						range: range,
+						style: oldStyle
 					} );
-
-					if ( matching ) {
-						startBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.START );
-						endBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.END );
-
-						// If we are at both boundaries it means that the element is empty.
-						// Remove it but in a way that we won't lose other empty inline elements inside it.
-						// Example: <p>x<span style="font-size:48px"><em>[]</em></span>x</p>
-						// Result: <p>x<em>[]</em>x</p>
-						if ( startBoundary && endBoundary ) {
-							bm = range.createBookmark();
-							// Replace the element with its children (TODO element.replaceWithChildren).
-							while ( ( node = matching.getFirst() ) ) {
-								node.insertBefore( matching );
-							}
-							matching.remove();
-							range.moveToBookmark( bm );
-
-						// If we are at the boundary of the style element, move out and copy nested styles/elements.
-						} else if ( startBoundary || endBoundary ) {
-							range.moveToPosition( matching, startBoundary ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_END );
-							cloneSubtreeIntoRange( range, path.elements.slice(), matching );
-						} else {
-							// Split the element and clone the elements that were in the path
-							// (between the startContainer and the matching element)
-							// into the new place.
-							range.splitElement( matching );
-							range.moveToPosition( matching, CKEDITOR.POSITION_AFTER_END );
-							cloneSubtreeIntoRange( range, path.elements.slice(), matching );
-						}
-
-						editor.getSelection().selectRanges( [ range ] );
-					}
 				}
 
 				// Prevent of using remove multiple times
-				// This should be prevented before command
 				if ( isRemove ) {
 					editor.removeStyle( oldStyle );
 				}
@@ -452,6 +411,62 @@
 		}
 
 		return { styles: styles, names: names };
+	}
+
+
+	//  * @param {Object} config
+	//  * @param {CKEDITOR.editor} config.editor instance of the editor
+	//  * @param {CKEDITOR.dom.range} config.range analyzed range
+	//  * @param {CKEDITOR.style} config.style old style which might already exist on this range
+	function _splitElementOnCollapsedRange( config ) {
+		var editor = config.editor,
+			range = config.range,
+			style = config.style,
+			path,
+			matching,
+			startBoundary,
+			endBoundary,
+			node,
+			bm;
+
+		path = editor.elementPath();
+		// Find the style element.
+		matching = path.contains( function( el ) {
+			return style.checkElementRemovable( el );
+		} );
+
+		if ( matching ) {
+			startBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.START );
+			endBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.END );
+
+			// If we are at both boundaries it means that the element is empty.
+			// Remove it but in a way that we won't lose other empty inline elements inside it.
+			// Example: <p>x<span style="font-size:48px"><em>[]</em></span>x</p>
+			// Result: <p>x<em>[]</em>x</p>
+			if ( startBoundary && endBoundary ) {
+				bm = range.createBookmark();
+				// Replace the element with its children (TODO element.replaceWithChildren).
+				while ( ( node = matching.getFirst() ) ) {
+					node.insertBefore( matching );
+				}
+				matching.remove();
+				range.moveToBookmark( bm );
+
+			// If we are at the boundary of the style element, move out and copy nested styles/elements.
+			} else if ( startBoundary || endBoundary ) {
+				range.moveToPosition( matching, startBoundary ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_END );
+				cloneSubtreeIntoRange( range, path.elements.slice(), matching );
+			} else {
+				// Split the element and clone the elements that were in the path
+				// (between the startContainer and the matching element)
+				// into the new place.
+				range.splitElement( matching );
+				range.moveToPosition( matching, CKEDITOR.POSITION_AFTER_END );
+				cloneSubtreeIntoRange( range, path.elements.slice(), matching );
+			}
+
+			editor.getSelection().selectRanges( [ range ] );
+		}
 	}
 
 	// Clones the subtree between subtreeStart (exclusive) and the
