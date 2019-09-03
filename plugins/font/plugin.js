@@ -18,7 +18,8 @@
 				var newValue = data.newValue,
 					oldValue = data.oldValue,
 					range = data.range,
-					isRemove = newValue === defaultValue;
+					isRemove = newValue === defaultValue,
+					oldStyle = styles[ oldValue ];
 
 				// If the range is collapsed we can't simply use the editor.removeStyle method
 				// because it will remove the entire element and we want to split it instead.
@@ -28,8 +29,7 @@
 						startBoundary,
 						endBoundary,
 						node,
-						bm,
-						oldStyle = styles[ oldValue ];
+						bm;
 
 					path = editor.elementPath();
 					// Find the style element.
@@ -74,10 +74,13 @@
 				// Prevent of using remove multiple times
 				// This should be prevented before command
 				if ( isRemove && oldValue ) {
-					editor.removeStyle( styles[ oldValue ] );
+					editor.removeStyle( oldStyle );
 				}
 
 				if ( !isRemove ) {
+					if ( oldStyle ) {
+						editor.removeStyle( oldStyle );
+					}
 					editor.applyStyle( styles[ newValue ] );
 				}
 			}
