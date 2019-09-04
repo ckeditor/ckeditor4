@@ -16,16 +16,16 @@ bender.editors = {
 
 var tests = {
 	// (#2751)
-	'insert div': testInsertHtml( '<div>foo</div>' ),
+	'test insert div': testInsertHtml( '<div>foo</div>' ),
 
 	// (#2751)
-	'insert div wrapped in another div': testInsertHtml( '<div><div>foo</div></div>' ),
+	'test insert div wrapped in another div': testInsertHtml( '<div><div>foo</div></div>' ),
 
 	// (#2751)
-	'insert two divs': testInsertHtml( '<div>foo</div><div>bar</div>' ),
+	'test insert two divs': testInsertHtml( '<div>foo</div><div>bar</div>' ),
 
 	// (#2751)
-	'insert two divs wrapped in another div': testInsertHtml( '<div><div>foo</div><div>bar</div></div>' ),
+	'test insert two divs wrapped in another div': testInsertHtml( '<div><div>foo</div><div>bar</div></div>' ),
 
 	// (#3379)
 	'test getData call (div enter mode)': testGetData()
