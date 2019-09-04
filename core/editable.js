@@ -1654,7 +1654,9 @@
 
 			prepareRangeToDataInsertion( that );
 
-			if ( editor.getData() === '' && editor.enterMode === CKEDITOR.ENTER_DIV ) {
+			// When enter mode is set to div and content wrapped with div is pasted,
+			// we must ensure that no additional divs are created (#2751, #3379).
+			if ( editor.enterMode === CKEDITOR.ENTER_DIV && editor.getData( true ) === '' ) {
 				clearEditable( editable, range );
 			}
 
