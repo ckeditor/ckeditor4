@@ -19,6 +19,10 @@
 
 		editor.addCommand( commandName , {
 			exec: function( editor, data ) {
+				if ( editor.readOnly ) {
+					return;
+				}
+
 				var newValue = data.newValue,
 					oldValue = data.oldValue,
 					range = editor.getSelection().getRanges()[ 0 ],
