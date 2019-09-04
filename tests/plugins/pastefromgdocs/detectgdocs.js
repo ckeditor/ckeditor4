@@ -4,7 +4,11 @@
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			removePlugins: 'pastefromword'
+		}
+	};
 
 	var tests = {
 		'test detecting GDocs content': function() {
