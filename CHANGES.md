@@ -21,6 +21,7 @@ Fixed Issues:
 * [#3158](https://github.com/ckeditor/ckeditor-dev/issues/3158): [Chrome, Safari] Fixed: [Undo](https://ckeditor.com/cke4/addon/undo) plugin breaks with filling character.
 * [#504](https://github.com/ckeditor/ckeditor-dev/issues/504): [Edge] Fixed: Editor's selection is collapsed to the beginning of the content when focusing editor for the first time.
 * [#3101](https://github.com/ckeditor/ckeditor-dev/issues/3101): Fixed: [`CKEDITOR.dom.range#_getTableElement()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_range.html#method-_getTableElement) returns `null` instead of a table element for edge cases.
+* [#3287](https://github.com/ckeditor/ckeditor-dev/issues/3287) Fixed: [`CKEDITOR.tools.promise`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_promise.html) incorrectly initialized if an AMD loader is present.
 
 API Changes:
 
