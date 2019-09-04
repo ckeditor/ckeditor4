@@ -136,13 +136,20 @@ CKEDITOR.resourceManager.prototype = {
 	 * @param {String} names The resource names, separated by commas.
 	 * @param {String} path The path of the folder containing the resource.
 	 * @param {String} [fileName] The resource file name. If not provided, the
-	 * default name is used. If provided with a empty string, will implicitly indicates that `path` argument
+	 * default name is used. If provided with an empty string, will implicitly indicates that `path` argument
 	 * is already the full path.
 	 */
 	addExternal: function( names, path, fileName ) {
 		names = names.split( ',' );
 		for ( var i = 0; i < names.length; i++ ) {
 			var name = names[ i ];
+
+			// If there is no '/' at the end of path, but 'fileName' is anything different
+			// than an empty string (so either is not set at all or is a valid name), assume
+			// that path is a directory and concatenate '/' to it (#917).
+			if ( path.charAt( path.length - 1 ) != '/' && fileName !== '' ) {
+				path += '/';
+			}
 
 			// If "fileName" is not provided, we assume that it may be available
 			// in "path". Try to extract it in this case.
