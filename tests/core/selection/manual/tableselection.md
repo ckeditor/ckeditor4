@@ -1,10 +1,12 @@
 @bender-tags: selection, 4.13.0, bug, 3136
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, table, toolbar
+@bender-ckeditor-plugins: wysiwygarea, table, tabletools, toolbar
 
 ## For each editors
 
 1. Select few table cells, so that they have blue highlight.
+
+	**Note:** for better visibility, all cells, in which there is selection, has cyan backgrund.
 1. Press button in balloon toolbar.
 
 ## Expected
