@@ -72,7 +72,7 @@
 			bender.tools.selection.setWithHtml( editor, '<p><font face="Courier New, Courier, monospace">[foo]</font></p>' );
 			richComboTools.assertCombo( {
 				comboName: 'Font',
-				comboValue: 'cke-default',
+				comboValue: '',
 				collapsed: false,
 				bot: bot,
 				resultHtml: '<p>foo@</p>'
@@ -137,7 +137,7 @@
 			bender.tools.selection.setWithHtml( editor, '<p><font size="6">[foo]</font></p>' );
 			richComboTools.assertCombo( {
 				comboName: 'FontSize',
-				comboValue: 'cke-default',
+				comboValue: '',
 				collapsed: false,
 				bot: bot,
 				resultHtml: '<p>foo@</p>'

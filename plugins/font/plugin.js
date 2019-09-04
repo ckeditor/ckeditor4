@@ -15,7 +15,7 @@
 			} ),
 			styles = preparedStylesAndNames.styles,
 			names = preparedStylesAndNames.names,
-			defaultValue = 'cke-default';
+			defaultValue = '';
 
 		editor.addCommand( commandName , {
 			exec: function( editor, data ) {
