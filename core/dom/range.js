@@ -2744,21 +2744,14 @@ CKEDITOR.dom.range = function( root ) {
 				table: 1
 			};
 
-			var start = this.startContainer,
-				end = this.endContainer,
+			var start = this.getTouchedStartNode(),
+				end = this.getTouchedEndNode(),
 				startTable = start.getAscendant( 'table', true ),
 				endTable = end.getAscendant( 'table', true );
 
 			// Inline editor may be initialized inside a table (#2403).
 			if ( startTable && !this.root.contains( startTable ) ) {
 				return null;
-			}
-
-			// Super weird edge case in Safari: if there is a table with only one cell inside and that cell
-			// is selected, then the end boundary of the table is moved into editor's editable.
-			// That case is also present when selecting the last cell inside nested table.
-			if ( CKEDITOR.env.safari && startTable && end.equals( this.root ) ) {
-				return start.getAscendant( tableElements, true );
 			}
 
 			if ( this.getEnclosedNode() ) {
