@@ -1,3 +1,3 @@
 CKEDITOR.plugins.add( 'myplugin3', {
-	definition:  true
+	definition: true
 } );
