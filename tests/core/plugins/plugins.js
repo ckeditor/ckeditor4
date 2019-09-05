@@ -2,37 +2,15 @@
 
 bender.test(
 {
-	'test: Loading self defined external plugin file paths': function() {
-		CKEDITOR.plugins.addExternal( 'myplugin', '%TEST_DIR%_assets/myplugins/sample/', 'my_plugin.js' );
 
-		CKEDITOR.plugins.load( 'myplugin', function() {
-			this.resume( function() {
-				assert.isTrue( CKEDITOR.plugins.get( 'myplugin' ).definition );
-			} );
-		}, this );
-
-		this.wait();
-	},
+	'test: Loading self defined external plugin file paths': testExternal( { plugin: 'myplugin', path: '%TEST_DIR%_assets/myplugins/sample/', file: 'my_plugin.js' } ),
 
 	// (#917)
-	'test parameters for addExternal() method': function() {
-		CKEDITOR.plugins.addExternal( 'myplugin1', '%TEST_DIR%_assets/myplugins/myplugin1' );
-		assert.areEqual( '/tests/core/plugins/_assets/myplugins/myplugin1/', CKEDITOR.plugins.externals.myplugin1.dir, 'Path is incorrect.' );
-		assert.areEqual( 'plugin.js', CKEDITOR.plugins.externals.myplugin1.file, 'File name is incorrect' );
-
-		// This test case is a bit different - it should fail, so instead of 'assert.areEqual' there are 'assert.areNotEqual's.
-		CKEDITOR.plugins.addExternal( 'myplugin2', '%TEST_DIR%_assets/myplugins/myplugin2', '' );
-		assert.areNotEqual( '/tests/core/plugins/_assets/myplugins/myplugin2/', CKEDITOR.plugins.externals.myplugin2.dir, 'Path should be incorrect.' );
-		assert.areNotEqual( 'plugin.js', CKEDITOR.plugins.externals.myplugin2.file, 'File name should be incorrect' );
-
-		CKEDITOR.plugins.addExternal( 'myplugin3', '%TEST_DIR%_assets/myplugins/myplugin3/', '' );
-		assert.areEqual( '/tests/core/plugins/_assets/myplugins/myplugin3/', CKEDITOR.plugins.externals.myplugin3.dir, 'Path is incorrect.' );
-		assert.areEqual( 'plugin.js', CKEDITOR.plugins.externals.myplugin3.file, 'File name is incorrect' );
-
-		CKEDITOR.plugins.addExternal( 'myplugin4', '%TEST_DIR%_assets/myplugins/myplugin4', 'plugin.js' );
-		assert.areEqual( '/tests/core/plugins/_assets/myplugins/myplugin4/', CKEDITOR.plugins.externals.myplugin4.dir, 'Path is incorrect.' );
-		assert.areEqual( 'plugin.js', CKEDITOR.plugins.externals.myplugin4.file, 'File name is incorrect' );
-	},
+	'loading with slash and without fileName': testExternal( { plugin: 'myplugin1', path: '%TEST_DIR%_assets/myplugins/myplugin1' } ),
+	'loading with slash and empty fileName': testExternal( { plugin: 'myplugin3', path: '%TEST_DIR%_assets/myplugins/myplugin3/', file: '' } ),
+	'loading without slash and with fileName': testExternal( { plugin: 'myplugin4', path: '%TEST_DIR%_assets/myplugins/myplugin4', file: 'plugin.js' } ),
+	// This test ensures that the wrong parameter set will lead to the wrong file. Method 'addExternal()' will think here that 'myplugin2' is fileName.
+	'loading without slash and with empty fileName': testExternal( { plugin: 'myplugin2', path: '%TEST_DIR%_assets/myplugins/myplugin2', file: '', wrongFile: 'myplugin2' } ),
 
 	'errors thrown when required plugin specified in removePlugins list': function() {
 		var log = sinon.stub( CKEDITOR, 'error' );
@@ -152,3 +130,20 @@ bender.test(
 		wait();
 	}
 } );
+
+function testExternal( options ) {
+	return function() {
+		CKEDITOR.plugins.addExternal( options.plugin, options.path, options.file );
+
+		CKEDITOR.plugins.load( options.plugin, function() {
+			this.resume( function() {
+				if ( options.wrongFile ) {
+					assert.areEqual( options.wrongFile, CKEDITOR.plugins.externals[ options.plugin ].file );
+				}
+				assert.isTrue( CKEDITOR.plugins.get( options.plugin ).definition );
+			} );
+		}, this );
+
+		this.wait();
+	};
+}
