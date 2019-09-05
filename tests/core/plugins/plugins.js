@@ -20,26 +20,18 @@ bender.test(
 		assert.areEqual( '/tests/core/plugins/_assets/myplugins/myplugin1/', CKEDITOR.plugins.externals.myplugin1.dir, 'Path is incorrect.' );
 		assert.areEqual( 'plugin.js', CKEDITOR.plugins.externals.myplugin1.file, 'File name is incorrect' );
 
-		CKEDITOR.plugins.addExternal( 'myplugin2', '%TEST_DIR%_assets/myplugins/myplugin2/' );
-		assert.areEqual( '/tests/core/plugins/_assets/myplugins/myplugin2/', CKEDITOR.plugins.externals.myplugin2.dir, 'Path is incorrect.' );
-		assert.areEqual( 'plugin.js', CKEDITOR.plugins.externals.myplugin2.file, 'File name is incorrect' );
+		// This test case is a bit different - it should fail, so instead of 'assert.areEqual' there are 'assert.areNotEqual's.
+		CKEDITOR.plugins.addExternal( 'myplugin2', '%TEST_DIR%_assets/myplugins/myplugin2', '' );
+		assert.areNotEqual( '/tests/core/plugins/_assets/myplugins/myplugin2/', CKEDITOR.plugins.externals.myplugin2.dir, 'Path should be incorrect.' );
+		assert.areNotEqual( 'plugin.js', CKEDITOR.plugins.externals.myplugin2.file, 'File name should be incorrect' );
 
-		// This test case is a bit different - it should fail, so instead of 'assert.areEqual' there are 'assert.areNotEqual'.
-		CKEDITOR.plugins.addExternal( 'myplugin3', '%TEST_DIR%_assets/myplugins/myplugin3', '' );
-		assert.areNotEqual( '/tests/core/plugins/_assets/myplugins/myplugin3/', CKEDITOR.plugins.externals.myplugin3.dir, 'Path should be incorrect.' );
-		assert.areNotEqual( 'plugin.js', CKEDITOR.plugins.externals.myplugin3.file, 'File name should be incorrect' );
+		CKEDITOR.plugins.addExternal( 'myplugin3', '%TEST_DIR%_assets/myplugins/myplugin3/', '' );
+		assert.areEqual( '/tests/core/plugins/_assets/myplugins/myplugin3/', CKEDITOR.plugins.externals.myplugin3.dir, 'Path is incorrect.' );
+		assert.areEqual( 'plugin.js', CKEDITOR.plugins.externals.myplugin3.file, 'File name is incorrect' );
 
-		CKEDITOR.plugins.addExternal( 'myplugin4', '%TEST_DIR%_assets/myplugins/myplugin4/', '' );
+		CKEDITOR.plugins.addExternal( 'myplugin4', '%TEST_DIR%_assets/myplugins/myplugin4', 'plugin.js' );
 		assert.areEqual( '/tests/core/plugins/_assets/myplugins/myplugin4/', CKEDITOR.plugins.externals.myplugin4.dir, 'Path is incorrect.' );
 		assert.areEqual( 'plugin.js', CKEDITOR.plugins.externals.myplugin4.file, 'File name is incorrect' );
-
-		CKEDITOR.plugins.addExternal( 'myplugin5', '%TEST_DIR%_assets/myplugins/myplugin5', 'plugin.js' );
-		assert.areEqual( '/tests/core/plugins/_assets/myplugins/myplugin5/', CKEDITOR.plugins.externals.myplugin5.dir, 'Path is incorrect.' );
-		assert.areEqual( 'plugin.js', CKEDITOR.plugins.externals.myplugin5.file, 'File name is incorrect' );
-
-		CKEDITOR.plugins.addExternal( 'myplugin6', '%TEST_DIR%_assets/myplugins/myplugin6/', 'plugin.js' );
-		assert.areEqual( '/tests/core/plugins/_assets/myplugins/myplugin6/', CKEDITOR.plugins.externals.myplugin6.dir, 'Path is incorrect.' );
-		assert.areEqual( 'plugin.js', CKEDITOR.plugins.externals.myplugin6.file, 'File name is incorrect' );
 	},
 
 	'errors thrown when required plugin specified in removePlugins list': function() {
