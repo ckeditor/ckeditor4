@@ -160,6 +160,10 @@
 			}
 		} );
 
+		editor.once( 'instanceReady', function() {
+			_registerStateSyncronization( editor.getCommand( commandName ), editor.ui.get( comboName ) );
+		} );
+
 		function onClickHandler( newValue ) {
 			editor.focus();
 
@@ -192,6 +196,24 @@
 				editor.fire( 'saveSnapshot' );
 			}
 		}
+	}
+
+	function _registerStateSyncronization( command, richcombo ) {
+		command.on( 'state', function() {
+			if ( this.state !== richcombo.getState() ) {
+				richcombo.setState( this.state );
+			}
+		} );
+
+		// This method is overwritten here, because init is run only after opening richcombo panel.
+		// That's stata would remain desynchronized after editor's initialization.
+		richcombo.setState = function( state ) {
+			richcombo.constructor.prototype.setState.call( richcombo, state );
+
+			if ( command.state !== state ) {
+				command.setState( state );
+			}
+		};
 	}
 
 	//  * @param {Object} config
@@ -299,8 +321,8 @@
 		// Default style types.
 		styleDefinitions.push( {
 			element: configStyleDefinition.element,
-			attributes: objKeys( configStyleDefinition.attributes ),
-			styles: objKeys( configStyleDefinition.styles )
+			attributes: objKeys( configStyleDefinition.attributes || {} ),
+			styles: objKeys( configStyleDefinition.styles || {} )
 		} );
 
 		// Style types from override.
@@ -308,8 +330,8 @@
 			CKEDITOR.tools.array.forEach( configStyleDefinition.overrides, function( value ) {
 				styleDefinitions.push( {
 					element: value.element,
-					attributes: objKeys( value.attributes ),
-					styles: objKeys( value.styles )
+					attributes: objKeys( value.attributes || {} ),
+					styles: objKeys( value.styles || {} )
 				} );
 			} );
 		}
