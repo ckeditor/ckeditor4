@@ -14,8 +14,7 @@
 				configStyleDefinition: configStyleDefinition
 			} ),
 			styles = preparedStylesAndNames.styles,
-			names = preparedStylesAndNames.names,
-			defaultValue = '';
+			names = preparedStylesAndNames.names;
 
 		editor.addCommand( commandName , {
 			exec: function( editor, data ) {
@@ -61,7 +60,6 @@
 			label: lang.label,
 			title: lang.panelTitle,
 			toolbar: 'styles,' + order,
-			defaultValue: defaultValue,
 			allowedContent: allowedAndRequiredContent,
 			requiredContent: allowedAndRequiredContent,
 			contentTransformations: configStyleDefinition.element === 'span' ? [
@@ -119,7 +117,7 @@
 				this.startGroup( lang.panelTitle );
 
 				// Add `(Default)` item as a first element on the drop-down list.
-				this.add( this.defaultValue, defaultText, defaultText );
+				this.add( '', defaultText, defaultText );
 
 				for ( var i = 0; i < names.length; i++ ) {
 					name = names[ i ];
@@ -174,7 +172,7 @@
 				newStyle = styles[ newValue ],
 				oldStyle = styles[ oldValue ],
 				range = editor.getSelection().getRanges()[ 0 ],
-				isRemoveOperation = newValue === defaultValue,
+				isRemoveOperation = !newValue,
 				hasStyleToRemove,
 				hasFragmentsWithoutNewStyle;
 
