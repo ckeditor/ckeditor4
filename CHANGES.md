@@ -24,6 +24,7 @@ Fixed Issues:
 * [#3287](https://github.com/ckeditor/ckeditor-dev/issues/3287): Fixed: [`CKEDITOR.tools.promise`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_promise.html) incorrectly initialized if an AMD loader is present.
 * [#3379](https://github.com/ckeditor/ckeditor-dev/issues/3379): Fixed: Incorrect [`CKEDITOR.editor#getData`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-getData) call when inserting content into the editor.
 * [#3136](https://github.com/ckeditor/ckeditor-dev/issues/3136) [Firefox] Fixed: Clicking on [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) items removes native table selection.
+* [#3381](https://github.com/ckeditor/ckeditor-dev/issues/3381): [IE8] Fixed: [`CKEDITOR.tools.object.keys`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_object.html#method-keys) does not accept non-objects.
 
 API Changes:
 
