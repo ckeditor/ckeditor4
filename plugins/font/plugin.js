@@ -28,6 +28,10 @@
 					range = editor.getSelection().getRanges()[ 0 ],
 					isRemove = newStyle === undefined;
 
+				// Prevent of throw error when situation from this bug appear (#1116).
+				if ( !oldStyle && !newStyle ) {
+					return;
+				}
 
 				// If the range is collapsed we can't simply use the editor.removeStyle method
 				// because it will remove the entire element and we want to split it instead.

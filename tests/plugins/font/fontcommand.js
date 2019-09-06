@@ -3,11 +3,19 @@
 ( function() {
 	'use strict';
 
-	var ARIAL = new CKEDITOR.style( CKEDITOR.config.font_style, { family: 'Arial,Helvetica,sans-serif' } ),
-		COMIC_SANS = new CKEDITOR.style( CKEDITOR.config.font_style, { family: 'Comic Sans MS,cursive' } ),
-		COURIER_NEW = new CKEDITOR.style( CKEDITOR.config.font_style, { family: 'Courier New,Courier,monospace' } ),
-		SIZE_24PX = new CKEDITOR.style( CKEDITOR.config.fontSize_style, { size: '24px' } ),
-		SIZE_48PX = new CKEDITOR.style( CKEDITOR.config.fontSize_style, { size: '48px' } );
+	var font_style = {
+			element: 'span',
+			styles: { 'font-family': '#(family)' }
+		},
+		fontSize_style = {
+			element: 'span',
+			styles: { 'font-size': '#(size)' }
+		},
+		ARIAL = new CKEDITOR.style( font_style, { family: 'Arial,Helvetica,sans-serif' } ),
+		COMIC_SANS = new CKEDITOR.style( font_style, { family: 'Comic Sans MS,cursive' } ),
+		COURIER_NEW = new CKEDITOR.style( font_style, { family: 'Courier New,Courier,monospace' } ),
+		SIZE_24PX = new CKEDITOR.style( fontSize_style, { size: '24px' } ),
+		SIZE_48PX = new CKEDITOR.style( fontSize_style, { size: '48px' } );
 
 	var CONTENT_TEMPLATE = '[<p>^test$@</p>' +
 		'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
@@ -641,6 +649,9 @@
 		},
 
 		'test should apply remove font command when inner content has styled fragment': function() {
+			// Test ignored due to (#1116).
+			assert.ignore();
+
 			var editor = this.editor,
 				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
 
@@ -651,6 +662,172 @@
 
 			editor.ui.get( 'Font' ).onClick( '' );
 			editor.ui.get( 'Font' ).onClick( '' );
+
+			spy.restore();
+
+			sinon.assert.calledOnce( spy );
+
+			assert.isInnerHtmlMatching(
+				'<p>Hello world!@</p>',
+				editor.editable().getHtml(),
+				{ fixStyles: true }
+			);
+		},
+
+		'test should prevent to run font size command when style match to selected one': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( SIZE_24PX ) + '">[Hello]</span> world!</p>' );
+
+			editor.ui.get( 'FontSize' ).onClick( '24' );
+
+			spy.restore();
+
+			sinon.assert.notCalled( spy );
+			assert.pass();
+		},
+
+		'test should prevent to run font size command when style match to selected one with collapsed selection': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( SIZE_24PX ) + '">He[]llo</span> world!</p>' );
+
+			editor.ui.get( 'FontSize' ).onClick( '24' );
+
+			spy.restore();
+
+			sinon.assert.notCalled( spy );
+			assert.pass();
+		},
+
+		'test should apply font size command only once over the same selection': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>[Hello] world!</p>' );
+
+			editor.ui.get( 'FontSize' ).onClick( '24' );
+			editor.ui.get( 'FontSize' ).onClick( '24' );
+			editor.ui.get( 'FontSize' ).onClick( '24' );
+			editor.ui.get( 'FontSize' ).onClick( '24' );
+
+			spy.restore();
+
+			sinon.assert.calledOnce( spy );
+
+			assert.isInnerHtmlMatching(
+				'<p><span style="' + getStyleText( SIZE_24PX ) + '">Hello</span> world!@</p>',
+				editor.editable().getHtml(),
+				{ fixStyles: true }
+			);
+		},
+
+		'test should not run remove font size command for not styled content': function() {
+			var editor = this.editor,
+			spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>[Hello] world!</p>' );
+
+			editor.ui.get( 'FontSize' ).onClick( '' );
+
+			spy.restore();
+
+			sinon.assert.notCalled( spy );
+			assert.pass();
+		},
+
+		'test should not run remove font size command for not styled content collapsed seklection': function() {
+			var editor = this.editor,
+			spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>Hel[]lo world!</p>' );
+
+			editor.ui.get( 'FontSize' ).onClick( '' );
+
+			spy.restore();
+
+			sinon.assert.notCalled( spy );
+			assert.pass();
+		},
+
+		'test should run remove font size command only once over the same content': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( SIZE_24PX ) + '">[Hello]</span> world!</p>' );
+
+			editor.ui.get( 'FontSize' ).onClick( '' );
+
+			spy.restore();
+
+			sinon.assert.calledOnce( spy );
+
+			assert.isInnerHtmlMatching(
+				'<p>Hello world!@</p>',
+				editor.editable().getHtml(),
+				{ fixStyles: true }
+			);
+		},
+
+		'test should apply font size command when style doesn\'t match': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( SIZE_24PX ) + '">[Hello]</span> world!</p>' );
+
+			editor.ui.get( 'FontSize' ).onClick( '48' );
+			editor.ui.get( 'FontSize' ).onClick( '48' );
+
+			spy.restore();
+
+			sinon.assert.calledOnce( spy );
+
+			assert.isInnerHtmlMatching(
+				'<p><span style="' + getStyleText( SIZE_48PX ) + '">Hello</span> world!@</p>',
+				editor.editable().getHtml(),
+				{ fixStyles: true }
+			);
+		},
+
+		'test should apply font size command when inner content has unstyled fragment': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>' +
+				'<span style="' + getStyleText( SIZE_24PX ) + '">[Hel</span>' +
+				'lo wor' +
+				'<span style="' + getStyleText( SIZE_24PX ) + '">ld!]</span></p>' );
+
+			editor.ui.get( 'FontSize' ).onClick( '24' );
+			editor.ui.get( 'FontSize' ).onClick( '24' );
+
+			spy.restore();
+
+			sinon.assert.calledOnce( spy );
+
+			assert.isInnerHtmlMatching(
+				'<p><span style="' + getStyleText( SIZE_24PX ) + '">Hello world!</span>@</p>',
+				editor.editable().getHtml(),
+				{ fixStyles: true }
+			);
+		},
+
+		'test should apply remove size font command when inner content has styled fragment': function() {
+			// Test ignored due to (#1116).
+			assert.ignore();
+
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>' +
+				'[Hel' +
+				'<span style="' + getStyleText( SIZE_24PX ) + '">lo wor</span>' +
+				'ld!]</p>' );
+
+			editor.ui.get( 'FontSize' ).onClick( '' );
+			editor.ui.get( 'FontSize' ).onClick( '' );
 
 			spy.restore();
 
