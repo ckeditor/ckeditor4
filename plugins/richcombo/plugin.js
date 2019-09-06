@@ -399,6 +399,34 @@ CKEDITOR.plugins.add( 'richcombo', {
 					listener.removeListener();
 				} );
 				this._.listeners = [];
+			},
+
+			/**
+			 * Method expects that options object is provided with richcombo definitiont. Options should contain a key-value pairs mapping,
+			 * where key from mapping is a richcombo's value used to set its state and value from mapping is an entity related to it.
+			 * Most commonly as values will be stored CKEDITOR.styles definitions.
+			 * Callback function is used as a filter, which is run with each value as an argument, until it returns true. When matching value from mapping
+			 * is found, then related key is used to set up richcombo's value.
+			 * Function returns true if state of richcombo was set and false when matching wasn't found.
+			 *
+			 * @param {Function} callback function should return true if found matching element
+			 * @param {*} callback.value single element which is compared by this callback
+			 */
+			select: function( callback ) {
+				var property;
+
+				if ( !this.options || typeof this.options !== 'object' ) {
+					return;
+				}
+
+				for ( property in this.options ) {
+					if ( callback( this.options[ property ] ) ) {
+						this.setValue( property );
+						return true;
+					}
+				}
+
+				return false;
 			}
 		},
 
