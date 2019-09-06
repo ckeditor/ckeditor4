@@ -2270,7 +2270,7 @@
 					isNotObject = !obj || typeof obj !== 'object';
 
 				// We must handle non-object types differently in IE 8,
-				// due to the fact that it uses ES5 behaviour, not ES2015+ as others (#3381).
+				// due to the fact that it uses ES5 behaviour, not ES2015+ as other browsers (#3381).
 				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && isNotObject ) {
 					return createNonObjectKeys( obj );
 				}
