@@ -37,18 +37,6 @@
 			} );
 		},
 
-		clickCombo: function( config ) {
-			var comboName = config.comboName,
-				comboValue = config.comboValue,
-				callback = config.callback,
-				bot = config.bot;
-
-			bot.combo( comboName, function( combo ) {
-				combo.onClick( comboValue );
-				this.wait( callback.call( this, bot ), 0 );
-			} );
-		},
-
 		'test apply font size (collapsed selection)': function() {
 			var bot = this.editorBot,
 				editor = this.editor;

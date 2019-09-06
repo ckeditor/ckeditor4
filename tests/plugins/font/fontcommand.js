@@ -193,6 +193,11 @@
 		},
 
 		'test should merge nodes into one when multiple nodes are selected': function() {
+			// Safari doesn't merge nodes.
+			if ( CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
+
 			var editor = this.editor;
 
 			bender.tools.selection.setWithHtml( editor, '<p>' +
@@ -413,6 +418,11 @@
 		},
 
 		'test should merge nodes into one on font size command execution when multiple nodes are selected': function() {
+			// Safari doesn't merge nodes.
+			if ( CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
+
 			var editor = this.editor;
 
 			bender.tools.selection.setWithHtml( editor, '<p>' +
