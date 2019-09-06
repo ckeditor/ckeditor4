@@ -161,7 +161,7 @@
 		} );
 
 		editor.once( 'instanceReady', function() {
-			_registerStateSyncronization( editor.getCommand( commandName ), editor.ui.get( comboName ) );
+			_registerStateSynchronization( editor.getCommand( commandName ), editor.ui.get( comboName ) );
 		} );
 
 		function onClickHandler( newValue ) {
@@ -198,7 +198,7 @@
 		}
 	}
 
-	function _registerStateSyncronization( command, richcombo ) {
+	function _registerStateSynchronization( command, richcombo ) {
 		command.on( 'state', function() {
 			if ( this.state !== richcombo.getState() ) {
 				richcombo.setState( this.state );
