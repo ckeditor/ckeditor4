@@ -1,0 +1,28 @@
+<div id="editor">
+	<p>This is unstyled text.</p>
+
+	<p><span style="font-family:Courier New,Courier,monospace">This text has Courier New font family.</span></p>
+
+	<p><span style="font-size:20px">This text has font size set to 20.</span></p>
+</div>
+
+<script>
+	var index = 1;
+
+	CKEDITOR.replace( 'editor', {
+		height: 400,
+		on: {
+			'beforeCommandExec': function( evt ) {
+				if ( evt.data.name === 'font' || evt.data.name === 'fontSize' ) {
+					var message = index++ + '. "' + evt.data.name + '" command is executed.';
+
+					evt.editor.showNotification( message );
+
+					if ( console ) {
+						console.log( message );
+					}
+				}
+			}
+		}
+	} );
+</script>
