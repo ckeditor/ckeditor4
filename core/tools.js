@@ -2266,7 +2266,14 @@
 			keys: function( obj ) {
 				var hasOwnProperty = Object.prototype.hasOwnProperty,
 					keys = [],
-					dontEnums = CKEDITOR.tools.object.DONT_ENUMS;
+					dontEnums = CKEDITOR.tools.object.DONT_ENUMS,
+					isNotObject = !obj || typeof obj !== 'object';
+
+				// We must handle non-object types differently in IE 8,
+				// due to the fact that it uses ES5 behaviour, not ES2015+ as other browsers (#3381).
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && isNotObject ) {
+					return createNonObjectKeys( obj );
+				}
 
 				for ( var prop in obj ) {
 					keys.push( prop );
@@ -2282,6 +2289,21 @@
 				}
 
 				return keys;
+
+				function createNonObjectKeys( value ) {
+					var keys = [],
+						i;
+
+					if ( typeof value !== 'string' ) {
+						return keys;
+					}
+
+					for ( i = 0; i < value.length; i++ ) {
+						keys.push( String( i ) );
+					}
+
+					return keys;
+				}
 			},
 
 			/**
