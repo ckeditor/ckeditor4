@@ -23,16 +23,15 @@
 					return;
 				}
 
-				var newValue = data.newValue,
-					oldValue = data.oldValue,
+				var newStyle = data.newStyle,
+					oldStyle = data.oldStyle,
 					range = editor.getSelection().getRanges()[ 0 ],
-					isRemove = newValue === defaultValue,
-					oldStyle = styles[ oldValue ],
-					newStyle = styles[ newValue ];
+					isRemove = newStyle === undefined;
+
 
 				// If the range is collapsed we can't simply use the editor.removeStyle method
 				// because it will remove the entire element and we want to split it instead.
-				if ( oldValue && range.collapsed ) {
+				if ( oldStyle && range.collapsed ) {
 					_splitElementOnCollapsedRange( {
 						editor: editor,
 						range: range,
@@ -169,6 +168,7 @@
 
 			var oldValue = this.getValue(),
 				newStyle = styles[ newValue ],
+				oldStyle = styles[ oldValue ],
 				range = editor.getSelection().getRanges()[ 0 ],
 				isRemoveOperation = newValue === defaultValue,
 				hasStyleToRemove,
@@ -189,8 +189,8 @@
 				editor.fire( 'saveSnapshot' );
 
 				editor.execCommand( commandName, {
-					newValue: newValue,
-					oldValue: oldValue
+					newStyle: newStyle,
+					oldStyle: oldStyle
 				} );
 
 				editor.fire( 'saveSnapshot' );

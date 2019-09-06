@@ -3,15 +3,11 @@
 ( function() {
 	'use strict';
 
-	var ARIAL = 'Arial',
-		COMIC_SANS = 'Comic Sans MS',
-		COURIER_NEW = 'Courier New',
-		NONE = '',
-		fontFamily = {};
-
-	fontFamily[ ARIAL ] = 'Arial,Helvetica,sans-serif';
-	fontFamily[ COMIC_SANS ] = 'Comic Sans MS,cursive';
-	fontFamily[ COURIER_NEW ] = 'Courier New,Courier,monospace';
+	var ARIAL = new CKEDITOR.style( CKEDITOR.config.font_style, { family: 'Arial,Helvetica,sans-serif' } ),
+		COMIC_SANS = new CKEDITOR.style( CKEDITOR.config.font_style, { family: 'Comic Sans MS,cursive' } ),
+		COURIER_NEW = new CKEDITOR.style( CKEDITOR.config.font_style, { family: 'Courier New,Courier,monospace' } ),
+		SIZE_24PX = new CKEDITOR.style( CKEDITOR.config.fontSize_style, { size: '24px' } ),
+		SIZE_48PX = new CKEDITOR.style( CKEDITOR.config.fontSize_style, { size: '48px' } );
 
 	var CONTENT_TEMPLATE = '[<p>^test$@</p>' +
 		'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
@@ -34,18 +30,21 @@
 
 	bender.editor = {};
 
+	function getStyleText( style ) {
+		return CKEDITOR.style.getStyleText( style.getDefinition() ).replace( ';', '' );
+	}
 
 	function assertFontCommand( options ) {
 		var expected = options.expected,
 			editor = options.editor,
-			oldValue = options.oldValue || '',
-			newValue = options.newValue || '',
+			oldStyle = options.oldStyle,
+			newStyle = options.newStyle,
 			message = options.message,
 			collapsed = options.collapsed || false,
 			commandName = options.commandName;
 
 
-		editor.execCommand( commandName, { oldValue: oldValue, newValue: newValue } );
+		editor.execCommand( commandName, { oldStyle: oldStyle, newStyle: newStyle } );
 
 		if ( collapsed ) {
 			editor.insertText( 'ZWS' );
@@ -69,67 +68,67 @@
 			assertFontCommand( {
 				editor: editor,
 				commandName: 'font',
-				expected: '<p><span style="font-family:' + fontFamily[ ARIAL ] + '">foo</span>@</p>',
-				newValue: ARIAL
+				expected: '<p><span style="' + getStyleText( ARIAL ) + '">foo</span>@</p>',
+				newStyle: ARIAL
 			} );
 		},
 
 		'test should override existing font': function() {
 			var editor = this.editor;
 
-			bender.tools.selection.setWithHtml( editor, '<p><span style="font-family:' + fontFamily[ COMIC_SANS ] + '">{foo}</span></p>' );
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( COMIC_SANS ) + '">{foo}</span></p>' );
 
 			assertFontCommand( {
 				editor: editor,
 				commandName: 'font',
-				expected: '<p><span style="font-family:' + fontFamily[ ARIAL ] + '">foo</span>@</p>',
-				newValue: ARIAL,
-				oldValue: COMIC_SANS
+				expected: '<p><span style="' + getStyleText( ARIAL ) + '">foo</span>@</p>',
+				newStyle: ARIAL,
+				oldStyle: COMIC_SANS
 			} );
 		},
 
 		'test should split element and apply new font to current selection': function() {
 			var editor = this.editor;
 
-			bender.tools.selection.setWithHtml( editor, '<p><span style="font-family:' + fontFamily[ COMIC_SANS ] + '">fo{o}</span></p>' );
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( COMIC_SANS ) + '">fo{o}</span></p>' );
 
 			assertFontCommand( {
 				editor: editor,
 				commandName: 'font',
 				expected: '<p>' +
-						'<span style="font-family:' + fontFamily[ COMIC_SANS ] + '">fo</span>' +
-						'<span style="font-family:' + fontFamily[ ARIAL ] + '">o</span>@' +
+						'<span style="' + getStyleText( COMIC_SANS ) + '">fo</span>' +
+						'<span style="' + getStyleText( ARIAL ) + '">o</span>@' +
 					'</p>',
-				newValue: ARIAL,
-				oldValue: COMIC_SANS
+				newStyle: ARIAL,
+				oldStyle: COMIC_SANS
 			} );
 		},
 
-		'test should remove font when newValue is empty': function() {
+		'test should remove font when newStyle is empty': function() {
 			var editor = this.editor;
 
-			bender.tools.selection.setWithHtml( editor, '<p><span style="font-family:' + fontFamily[ COMIC_SANS ] + '">{foo}</span></p>' );
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( COMIC_SANS ) + '">{foo}</span></p>' );
 
 			assertFontCommand( {
 				editor: editor,
 				commandName: 'font',
 				expected: '<p>foo@</p>',
-				newValue: NONE,
-				oldValue: COMIC_SANS
+				newStyle: undefined,
+				oldStyle: COMIC_SANS
 			} );
 		},
 
-		'test should remove selected part when newValue is empty': function() {
+		'test should remove selected part when newStyle is empty': function() {
 			var editor = this.editor;
 
-			bender.tools.selection.setWithHtml( editor, '<p><span style="font-family:' + fontFamily[ COMIC_SANS ] + '">fo{o}</span></p>' );
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( COMIC_SANS ) + '">fo{o}</span></p>' );
 
 			assertFontCommand( {
 				editor: editor,
 				commandName: 'font',
-				expected: '<p><span style="font-family:' + fontFamily[ COMIC_SANS ] + '">fo</span>o@</p>',
-				newValue: NONE,
-				oldValue: COMIC_SANS
+				expected: '<p><span style="' + getStyleText( COMIC_SANS ) + '">fo</span>o@</p>',
+				newStyle: undefined,
+				oldStyle: COMIC_SANS
 			} );
 		},
 
@@ -141,27 +140,27 @@
 			assertFontCommand( {
 				editor: editor,
 				commandName: 'font',
-				expected: '<p>fo<span style="font-family:' + fontFamily[ COMIC_SANS ] + '">ZWS</span>o@</p>',
-				newValue: COMIC_SANS,
+				expected: '<p>fo<span style="' + getStyleText( COMIC_SANS ) + '">ZWS</span>o@</p>',
+				newStyle: COMIC_SANS,
 				collapsed: true
 			} );
 		},
 
-		'test should split nodes when newValue is empty': function() {
+		'test should split nodes when newStyle is empty': function() {
 			var editor = this.editor;
 
-			bender.tools.selection.setWithHtml( editor, '<p><span style="font-family:' + fontFamily[ ARIAL ] + '">f{}oo</span></p>' );
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( ARIAL ) + '">f{}oo</span></p>' );
 
 			assertFontCommand( {
 				editor: editor,
 				commandName: 'font',
 				expected: '<p>' +
-						'<span style="font-family:' + fontFamily[ ARIAL ] + '">f</span>' +
+						'<span style="' + getStyleText( ARIAL ) + '">f</span>' +
 						'ZWS' +
-						'<span style="font-family:' + fontFamily[ ARIAL ] + '">oo</span>@' +
+						'<span style="' + getStyleText( ARIAL ) + '">oo</span>@' +
 					'</p>',
-				newValue: NONE,
-				oldValue: ARIAL,
+				newStyle: undefined,
+				oldStyle: ARIAL,
 				collapsed: true
 			} );
 		},
@@ -169,18 +168,18 @@
 		'test should split node when new font is added in the middle of another': function() {
 			var editor = this.editor;
 
-			bender.tools.selection.setWithHtml( editor, '<p><span style="font-family:' + fontFamily[ ARIAL ] + '">f{}oo</span></p>' );
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( ARIAL ) + '">f{}oo</span></p>' );
 
 			assertFontCommand( {
 				editor: editor,
 				commandName: 'font',
 				expected: '<p>' +
-						'<span style="font-family:' + fontFamily[ ARIAL ] + '">f</span>' +
-						'<span style="font-family:' + fontFamily[ COURIER_NEW ] + '">ZWS</span>' +
-						'<span style="font-family:' + fontFamily[ ARIAL ] + '">oo</span>@' +
+						'<span style="' + getStyleText( ARIAL ) + '">f</span>' +
+						'<span style="' + getStyleText( COURIER_NEW ) + '">ZWS</span>' +
+						'<span style="' + getStyleText( ARIAL ) + '">oo</span>@' +
 					'</p>',
-				newValue: COURIER_NEW,
-				oldValue: ARIAL,
+				newStyle: COURIER_NEW,
+				oldStyle: ARIAL,
 				collapsed: true
 			} );
 		},
@@ -189,43 +188,43 @@
 			var editor = this.editor;
 
 			bender.tools.selection.setWithHtml( editor, '<p>' +
-					'<span style="font-family:' + fontFamily[ ARIAL ] + '">f</span>' +
+					'<span style="' + getStyleText( ARIAL ) + '">f</span>' +
 					'{o}' +
-					'<span style="font-family:' + fontFamily[ ARIAL ] + '">o</span>' +
+					'<span style="' + getStyleText( ARIAL ) + '">o</span>' +
 				'</p>'
 			);
 
 			assertFontCommand( {
 				editor: editor,
 				commandName: 'font',
-				expected: '<p><span style="font-family:' + fontFamily[ ARIAL ] + '">foo</span>@</p>',
-				newValue: ARIAL
+				expected: '<p><span style="' + getStyleText( ARIAL ) + '">foo</span>@</p>',
+				newStyle: ARIAL
 			} );
 		},
 
 		'test should merge nodes when selection start and ends outside of font': function() {
 			var editor = this.editor;
 
-			bender.tools.selection.setWithHtml( editor, '<p>{f<span style="font-family:' + fontFamily[ ARIAL ] + '">o</span>o}</p>' );
+			bender.tools.selection.setWithHtml( editor, '<p>{f<span style="' + getStyleText( ARIAL ) + '">o</span>o}</p>' );
 
 			assertFontCommand( {
 				editor: editor,
 				commandName: 'font',
-				expected: '<p><span style="font-family:' + fontFamily[ ARIAL ] + '">foo</span>@</p>',
-				newValue: ARIAL
+				expected: '<p><span style="' + getStyleText( ARIAL ) + '">foo</span>@</p>',
+				newStyle: ARIAL
 			} );
 		},
 
 		'test should merge and transform nodes when selection start and ends outside of font': function() {
 			var editor = this.editor;
 
-			bender.tools.selection.setWithHtml( editor, '<p>{f<span style="font-family:' + fontFamily[ ARIAL ] + '">o</span>o}</p>' );
+			bender.tools.selection.setWithHtml( editor, '<p>{f<span style="' + getStyleText( ARIAL ) + '">o</span>o}</p>' );
 
 			assertFontCommand( {
 				editor: editor,
 				commandName: 'font',
-				expected: '<p><span style="font-family:' + fontFamily[ COURIER_NEW ] + '">foo</span>@</p>',
-				newValue: COURIER_NEW
+				expected: '<p><span style="' + getStyleText( COURIER_NEW ) + '">foo</span>@</p>',
+				newStyle: COURIER_NEW
 			} );
 		},
 
@@ -246,7 +245,7 @@
 				editor: editor,
 				commandName: 'font',
 				expected: '<p>foo@</p>',
-				newValue: ARIAL
+				newStyle: ARIAL
 			} );
 		},
 
@@ -261,7 +260,7 @@
 				editor: editor,
 				commandName: 'font',
 				expected: '<p>foo@</p>',
-				newValue: ARIAL
+				newStyle: ARIAL
 			} );
 		},
 
@@ -275,9 +274,9 @@
 				commandName: 'font',
 				expected: CONTENT_TEMPLATE
 					.replace( /[\[\]]/g, '' )
-					.replace( /\^/g, '<span style="font-family:' + fontFamily[ ARIAL ] + '">' )
+					.replace( /\^/g, '<span style="' + getStyleText( ARIAL ) + '">' )
 					.replace( /\$/g, '</span>' ),
-				newValue: ARIAL
+				newStyle: ARIAL
 			} );
 		},
 
@@ -290,7 +289,7 @@
 				editor: editor,
 				commandName: 'fontSize',
 				expected: '<p><span style="font-size:24px">foo</span>@</p>',
-				newValue: 24
+				newStyle: SIZE_24PX
 			} );
 		},
 
@@ -303,8 +302,8 @@
 				editor: editor,
 				commandName: 'fontSize',
 				expected: '<p><span style="font-size:48px">foo</span>@</p>',
-				newValue: 48,
-				oldValue: 24
+				newStyle: SIZE_48PX,
+				oldStyle: SIZE_24PX
 			} );
 		},
 
@@ -320,12 +319,12 @@
 						'<span style="font-size:24px">fo</span>' +
 						'<span style="font-size:48px">o</span>@' +
 					'</p>',
-				newValue: 48,
-				oldValue: 24
+				newStyle: SIZE_48PX,
+				oldStyle: SIZE_24PX
 			} );
 		},
 
-		'test should remove font size when newValue is empty': function() {
+		'test should remove font size when newStyle is empty': function() {
 			var editor = this.editor;
 
 			bender.tools.selection.setWithHtml( editor, '<p><span style="font-size:24px">{foo}</span></p>' );
@@ -334,12 +333,12 @@
 				editor: editor,
 				commandName: 'fontSize',
 				expected: '<p>foo@</p>',
-				newValue: NONE,
-				oldValue: 24
+				newStyle: undefined,
+				oldStyle: SIZE_24PX
 			} );
 		},
 
-		'test should remove selected part with font size when newValue is empty': function() {
+		'test should remove selected part with font size when newStyle is empty': function() {
 			var editor = this.editor;
 
 			bender.tools.selection.setWithHtml( editor, '<p><span style="font-size:24px">fo{o}</span></p>' );
@@ -348,8 +347,8 @@
 				editor: editor,
 				commandName: 'fontSize',
 				expected: '<p><span style="font-size:24px">fo</span>o@</p>',
-				newValue: NONE,
-				oldValue: 24
+				newStyle: undefined,
+				oldStyle: SIZE_24PX
 			} );
 		},
 
@@ -362,12 +361,12 @@
 				editor: editor,
 				commandName: 'fontSize',
 				expected: '<p>fo<span style="font-size:48px">ZWS</span>o@</p>',
-				newValue: 48,
+				newStyle: SIZE_48PX,
 				collapsed: true
 			} );
 		},
 
-		'test should split nodes when newValue of font size is empty': function() {
+		'test should split nodes when newStyle of font size is empty': function() {
 			var editor = this.editor;
 
 			bender.tools.selection.setWithHtml( editor, '<p><span style="font-size:24px;">f{}oo</span></p>' );
@@ -380,8 +379,8 @@
 						'ZWS' +
 						'<span style="font-size:24px">oo</span>@' +
 					'</p>',
-				newValue: NONE,
-				oldValue: 24,
+				newStyle: undefined,
+				oldStyle: SIZE_24PX,
 				collapsed: true
 			} );
 		},
@@ -399,8 +398,8 @@
 						'<span style="font-size:48px">ZWS</span>' +
 						'<span style="font-size:24px">oo</span>@' +
 					'</p>',
-				newValue: 48,
-				oldValue: 24,
+				newStyle: SIZE_48PX,
+				oldStyle: SIZE_24PX,
 				collapsed: true
 			} );
 		},
@@ -419,7 +418,7 @@
 				editor: editor,
 				commandName: 'fontSize',
 				expected: '<p><span style="font-size:24px">foo</span>@</p>',
-				newValue: 24
+				newStyle: SIZE_24PX
 			} );
 		},
 
@@ -432,7 +431,7 @@
 				editor: editor,
 				commandName: 'fontSize',
 				expected: '<p><span style="font-size:24px">foo</span>@</p>',
-				newValue: 24
+				newStyle: SIZE_24PX
 			} );
 		},
 
@@ -445,7 +444,7 @@
 				editor: editor,
 				commandName: 'fontSize',
 				expected: '<p><span style="font-size:48px">foo</span>@</p>',
-				newValue: 48
+				newStyle: SIZE_48PX
 			} );
 		},
 
@@ -466,7 +465,7 @@
 				editor: editor,
 				commandName: 'fontSize',
 				expected: '<p>foo@</p>',
-				newValue: 24
+				newStyle: SIZE_24PX
 			} );
 		},
 
@@ -481,7 +480,7 @@
 				editor: editor,
 				commandName: 'fontSize',
 				expected: '<p>foo@</p>',
-				newValue: 24
+				newStyle: SIZE_24PX
 			} );
 		},
 
@@ -497,9 +496,171 @@
 					.replace( /[\[\]]/g, '' )
 					.replace( /\^/g, '<span style="font-size:24px">' )
 					.replace( /\$/g, '</span>' ),
-				newValue: 24
+				newStyle: SIZE_24PX
 			} );
-		}
+		},
 
+		'test should prevent to run font command when style match to selected one': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( COURIER_NEW ) + '">[Hello]</span> world!</p>' );
+
+			editor.ui.get( 'Font' ).onClick( 'Courier New' );
+
+			spy.restore();
+
+			sinon.assert.notCalled( spy );
+			assert.pass();
+		},
+
+		'test should prevent to run font command when style match to selected one with collapsed selection': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( COURIER_NEW ) + '">He[]llo</span> world!</p>' );
+
+			editor.ui.get( 'Font' ).onClick( 'Courier New' );
+
+			spy.restore();
+
+			sinon.assert.notCalled( spy );
+			assert.pass();
+		},
+
+		'test should apply font command only once over the same selection': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>[Hello] world!</p>' );
+
+			editor.ui.get( 'Font' ).onClick( 'Courier New' );
+			editor.ui.get( 'Font' ).onClick( 'Courier New' );
+			editor.ui.get( 'Font' ).onClick( 'Courier New' );
+			editor.ui.get( 'Font' ).onClick( 'Courier New' );
+
+			spy.restore();
+
+			sinon.assert.calledOnce( spy );
+
+			assert.isInnerHtmlMatching(
+				'<p><span style="' + getStyleText( COURIER_NEW ) + '">Hello</span> world!@</p>',
+				editor.editable().getHtml(),
+				{ fixStyles: true }
+			);
+		},
+
+		'test should not run remove font command for not styled content': function() {
+			var editor = this.editor,
+			spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>[Hello] world!</p>' );
+
+			editor.ui.get( 'Font' ).onClick( '' );
+
+			spy.restore();
+
+			sinon.assert.notCalled( spy );
+			assert.pass();
+		},
+
+		'test should not run remove font command for not styled content collapsed seklection': function() {
+			var editor = this.editor,
+			spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>Hel[]lo world!</p>' );
+
+			editor.ui.get( 'Font' ).onClick( '' );
+
+			spy.restore();
+
+			sinon.assert.notCalled( spy );
+			assert.pass();
+		},
+
+		'test should run remove font command only once over the same content': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( COURIER_NEW ) + '">[Hello]</span> world!</p>' );
+
+			editor.ui.get( 'Font' ).onClick( '' );
+
+			spy.restore();
+
+			sinon.assert.calledOnce( spy );
+
+			assert.isInnerHtmlMatching(
+				'<p>Hello world!@</p>',
+				editor.editable().getHtml(),
+				{ fixStyles: true }
+			);
+		},
+
+		'test should apply font command when style doesn\'t match': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( COURIER_NEW ) + '">[Hello]</span> world!</p>' );
+
+			editor.ui.get( 'Font' ).onClick( 'Arial' );
+			editor.ui.get( 'Font' ).onClick( 'Arial' );
+
+			spy.restore();
+
+			sinon.assert.calledOnce( spy );
+
+			assert.isInnerHtmlMatching(
+				'<p><span style="' + getStyleText( ARIAL ) + '">Hello</span> world!@</p>',
+				editor.editable().getHtml(),
+				{ fixStyles: true }
+			);
+		},
+
+		'test should apply font command when inner content has unstyled fragment': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>' +
+				'<span style="' + getStyleText( COURIER_NEW ) + '">[Hel</span>' +
+				'lo wor' +
+				'<span style="' + getStyleText( COURIER_NEW ) + '">ld!]</span></p>' );
+
+			editor.ui.get( 'Font' ).onClick( 'Courier New' );
+			editor.ui.get( 'Font' ).onClick( 'Courier New' );
+
+			spy.restore();
+
+			sinon.assert.calledOnce( spy );
+
+			assert.isInnerHtmlMatching(
+				'<p><span style="' + getStyleText( COURIER_NEW ) + '">Hello world!</span>@</p>',
+				editor.editable().getHtml(),
+				{ fixStyles: true }
+			);
+		},
+
+		'test should apply remove font command when inner content has styled fragment': function() {
+			var editor = this.editor,
+				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>' +
+				'[Hel' +
+				'<span style="' + getStyleText( COURIER_NEW ) + '">lo wor</span>' +
+				'ld!]</p>' );
+
+			editor.ui.get( 'Font' ).onClick( '' );
+			editor.ui.get( 'Font' ).onClick( '' );
+
+			spy.restore();
+
+			sinon.assert.calledOnce( spy );
+
+			assert.isInnerHtmlMatching(
+				'<p>Hello world!@</p>',
+				editor.editable().getHtml(),
+				{ fixStyles: true }
+			);
+		}
 	} );
 } )();
