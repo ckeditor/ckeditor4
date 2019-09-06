@@ -42,7 +42,6 @@
 					} );
 				}
 
-				// Prevent of using remove multiple times
 				if ( isRemove ) {
 					editor.removeStyle( oldStyle );
 				}
