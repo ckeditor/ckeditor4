@@ -161,7 +161,12 @@
 		} );
 
 		editor.once( 'instanceReady', function() {
-			_registerStateSynchronization( editor.getCommand( commandName ), editor.ui.get( comboName ) );
+			var richcombo = editor.ui.get( comboName ),
+				command = editor.getCommand( commandName );
+
+			if ( command && richcombo ) {
+				_registerStateSynchronization( command, richcombo );
+			}
 		} );
 
 		function onClickHandler( newValue ) {
