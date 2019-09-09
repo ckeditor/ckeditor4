@@ -402,21 +402,26 @@ CKEDITOR.plugins.add( 'richcombo', {
 			},
 
 			/**
-			 * Method expects that options object is provided with richcombo definitiont. Options should contain a key-value pairs mapping,
-			 * where key from mapping is a richcombo's value used to set its state and value from mapping is an entity related to it.
-			 * Most commonly as values will be stored CKEDITOR.styles definitions.
-			 * Callback function is used as a filter, which is run with each value as an argument, until it returns true. When matching value from mapping
-			 * is found, then related key is used to set up richcombo's value.
-			 * Function returns true if state of richcombo was set and false when matching wasn't found.
+			 * This method expects that the options object is provided with the richcombo definition. Options should contain a key-value pairs
+			 * mapping, where key from mapping is a richcombo's value used to set its state and value from mapping is an entity related to it.
+			 * Most commonly as this entity is stored {@link CKEDITOR.styles} definitions.
 			 *
-			 * @param {Function} callback function should return true if found matching element
-			 * @param {*} callback.value single element which is compared by this callback
+			 * The callback function is used as a filter, which is run with each entity as an argument until it returns the `true`.
+			 * When a matching entity is found, then the related key is used to set up the richcombo's value.
+			 *
+			 * The select method returns the `true` when matching is found and the value of a richcombo is set. The `false` is returned
+			 * when matching is not found. In case that richcombo already has set searching value `true` is returned as well.
+			 *
+			 * @since 4.13.0
+			 * @param {Function} callback function should return `true` if found matching element
+			 * @param {*} callback.value single entity which is compared by this callback
+			 * @returns {Boolean} Information if there is found matching and the value is set
 			 */
 			select: function( callback ) {
 				var property;
 
 				if ( !this.options || typeof this.options !== 'object' ) {
-					return;
+					return false;
 				}
 
 				for ( property in this.options ) {
