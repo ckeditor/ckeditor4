@@ -40,7 +40,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				]
 			} );
 
-			var  bgOptions = {},
+			var bgOptions = {},
 				normalizeBackground = editor.config.colorButton_normalizeBackground;
 
 			if ( normalizeBackground === undefined || normalizeBackground ) {
@@ -178,7 +178,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								element = element.getParent();
 							}
 
-							currentColor = normalizeColor( element.getComputedStyle( type == 'back' ? 'background-color' : 'color'  ) );
+							currentColor = normalizeColor( element.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) );
 							finalColor = finalColor || currentColor;
 
 							if ( finalColor !== currentColor ) {
