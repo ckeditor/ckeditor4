@@ -6,6 +6,10 @@
 New Features:
 
 * [#3315](https://github.com/ckeditor/ckeditor-dev/issues/3315): Added support for strikethrough in [BBCode](https://ckeditor.com/cke4/addon/bbcode) plugin. Thanks to [Alexander Kahl](https://github.com/akahl-owl)!
+* [#3175](https://github.com/ckeditor/ckeditor-dev/issues/3175): Introduced selection optimization mechanism for handling various browsers selection buggy behaviours:
+    * [#3256](https://github.com/ckeditor/ckeditor-dev/issues/3256): Triple-clicking in last table cell and deleting content no longer pulls content below into table.
+    * [#3118](https://github.com/ckeditor/ckeditor-dev/issues/3118): Selecting a paragraph with triple-click and applying heading applies heading only to selected paragraph.
+    * [#3161](https://github.com/ckeditor/ckeditor-dev/issues/3161): Double click on a `span` element containing one word only creates correct selection including clicked `span` only.
 
 Fixed Issues:
 
