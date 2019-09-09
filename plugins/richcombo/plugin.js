@@ -412,29 +412,23 @@ CKEDITOR.plugins.add( 'richcombo', {
 			 * The callback function is used as a filter, which is run with each entity as an argument until it returns the `true`.
 			 * When a matching entity is found, then the related key is used to set up the richcombo's value.
 			 *
-			 * The select method returns the `true` when matching is found and the value of a richcombo is set. The `false` is returned
-			 * when matching is not found. In case that richcombo already has set searching value `true` is returned as well.
-			 *
 			 * @since 4.13.0
 			 * @param {Function} callback function should return `true` if found matching element
 			 * @param {*} callback.value single entity which is compared by this callback
-			 * @returns {Boolean} Information if there is found matching and the value is set
 			 */
 			select: function( callback ) {
 				var property;
 
 				if ( !this.options || typeof this.options !== 'object' ) {
-					return false;
+					return;
 				}
 
 				for ( property in this.options ) {
 					if ( callback( this.options[ property ] ) ) {
 						this.setValue( property );
-						return true;
+						return;
 					}
 				}
-
-				return false;
 			}
 		},
 
