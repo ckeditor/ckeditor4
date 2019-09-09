@@ -278,6 +278,15 @@
 					assert.isInnerHtmlMatching( '<h1><span style="' + ffCourierNew + '">Hello</span> world!@</h1>', bot.editor.editable().getHtml(), htmlMatchingOpts );
 				}, 0 );
 			} );
+		},
+
+		// (#3306)
+		'test richcombo should have options object': function() {
+			var bot = this.editorBot;
+
+			bot.combo( 'Font', function( combo ) {
+				assert.isObject( combo.options );
+			} );
 		}
 	} );
 } )();
