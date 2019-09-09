@@ -145,12 +145,12 @@ function testExternal( options ) {
 		CKEDITOR.plugins.addExternal( options.plugin, options.path, options.file );
 
 		CKEDITOR.plugins.load( options.plugin, function() {
-			this.resume( function() {
+			resume( function() {
 				assert.areEqual( options.expectedFileName, CKEDITOR.plugins.externals[ options.plugin ].file );
 				assert.isTrue( CKEDITOR.plugins.get( options.plugin ).definition );
 			} );
 		}, this );
 
-		this.wait();
+		wait();
 	};
 }
