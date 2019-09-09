@@ -17,8 +17,14 @@
 			// Preventing removing empty <small> tag.
 			delete CKEDITOR.dtd.$removeEmpty.small;
 
-			if ( !CKEDITOR.env.webkit )
+			if ( !CKEDITOR.env.webkit ) {
 				assert.ignore();
+			}
+
+			// Prevent selection optimizations from breaking tests (#3175).
+			this.editor.on( 'selectionCheck', function( evt ) {
+				evt.cancel();
+			}, null, null, -1000 );
 		},
 
 		'test backspace records undo snapshots': function() {

@@ -168,6 +168,9 @@
 		} );
 		this.on( 'mode', updateCommands );
 
+		// Optimize selection starting/ending on element boundaries (#3175).
+		CKEDITOR.dom.selection.setupEditorOptimization( this );
+
 		// Handle startup focus.
 		this.on( 'instanceReady', function() {
 			if ( this.config.startupFocus ) {

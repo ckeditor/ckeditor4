@@ -58,6 +58,11 @@ bender.test( {
 	},
 
 	'test apply list (with text direction)': function() {
+		// Selection of rtl elements in IE8 is broken. Tested selection can't be achieved.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			assert.ignore();
+		}
+
 		var bot = this.editorBots.editor1;
 
 		bot.setHtmlWithSelection( '[<p dir="rtl">foo</p><p dir="rtl">bar</p><p dir="rtl">baz</p>]' );
@@ -71,7 +76,13 @@ bender.test( {
 
 	// https://dev.ckeditor.com/ticket/7657
 	'test apply list (with block styles)': function() {
+		// Selection of rtl elements in IE8 is broken. Tested selection can't be achieved.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			assert.ignore();
+		}
+
 		var bot = this.editorBots.editor1;
+
 		bot.setHtmlWithSelection( '[<p dir="rtl">Item 1</p><p dir="rtl" style="margin-right: 40px;">Item 2</p><p dir="rtl" style="margin-right: 80px;">Item 3</p>]' );
 		bot.execCommand( 'bulletedlist' );
 		assert.areSame( '<ul dir="rtl"><li>item 1</li><li style="margin-right:40px;">item 2</li><li style="margin-right:80px;">item 3</li></ul>', bot.getData( true ) );

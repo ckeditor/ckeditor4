@@ -146,6 +146,11 @@ var insertionDT = ( function() {
 				editor = this.editorsPool[ editableName ];
 				root = editor.editable();
 
+				// Prevent selection optimizations from breaking tests (#3175).
+				editor.on( 'selectionCheck', function( evt ) {
+					evt.cancel();
+				}, null, null, -1000 );
+
 				editor.on( 'afterInsertHtml', function( evt ) {
 					afterInsertCount++;
 					afterInsertData = evt.data;

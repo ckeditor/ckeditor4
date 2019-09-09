@@ -691,6 +691,20 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
+		 * Whether this range is the same as other passed range.
+		 *
+		 * @since 4.13.0
+		 * @param {CKEDITOR.dom.range} range Range to be compared with this range.
+		 * @returns {Boolean} Whether ranges are identical.
+		 */
+		equals: function( range ) {
+			return this.startOffset === range.startOffset &&
+				this.endOffset === range.endOffset &&
+				this.startContainer.equals( range.startContainer ) &&
+				this.endContainer.equals( range.endContainer );
+		},
+
+		/**
 		 * Creates a bookmark object, which can be later used to restore the
 		 * range by using the {@link #moveToBookmark} function.
 		 *

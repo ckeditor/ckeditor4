@@ -194,7 +194,7 @@
 				range.setStartAt( editor.editable().getChild( moveSelectionToElement ), CKEDITOR.POSITION_AFTER_START );
 				editor.getSelection().selectRanges( [ range ] );
 			}
-			editor.fire( 'selectionCheck', new CKEDITOR.dom.event( { editor: editor } ) );
+			editor.fire( 'selectionCheck' );
 		}
 	} );
 } )();

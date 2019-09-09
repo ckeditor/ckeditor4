@@ -634,12 +634,15 @@ bender.test( {
 			editor.getSelection().selectRanges( [ range ] );
 			assertNoFakeSelection( editor, el2, 'selectRanges el1 contents' );
 
-			range.setStartBefore( el1 );
-			range.setEndAfter( el1 );
-			range2.setStartBefore( el2 );
-			range2.setEndAfter( el2 );
-			editor.getSelection().selectRanges( [ range, range2 ] );
-			assertNoFakeSelection( editor, el2, 'selectRanges el1 & el2' );
+			// Safari modifies ranges, ignore this case.
+			if ( !CKEDITOR.env.safari ) {
+				range.setStartBefore( el1 );
+				range.setEndAfter( el1 );
+				range2.setStartBefore( el2 );
+				range2.setEndAfter( el2 );
+				editor.getSelection().selectRanges( [ range, range2 ] );
+				assertNoFakeSelection( editor, el2, 'selectRanges el1 & el2' );
+			}
 
 			range.setStartBefore( el1 );
 			range.setEndAfter( el2 );
