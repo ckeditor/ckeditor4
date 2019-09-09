@@ -10,6 +10,7 @@ New Features:
     * [#3256](https://github.com/ckeditor/ckeditor-dev/issues/3256): Triple-clicking in last table cell and deleting content no longer pulls content below into table.
     * [#3118](https://github.com/ckeditor/ckeditor-dev/issues/3118): Selecting a paragraph with triple-click and applying heading applies heading only to selected paragraph.
     * [#3161](https://github.com/ckeditor/ckeditor-dev/issues/3161): Double click on a `span` element containing one word only creates correct selection including clicked `span` only.
+* [#3359](https://github.com/ckeditor/ckeditor-dev/issues/3359): Improved [dialog](https://ckeditor.com/cke4/addon/dialog) positioning and behaviour when browser window is resized, dialog resized or moved.
 
 Fixed Issues:
 
@@ -27,8 +28,10 @@ Fixed Issues:
 * [#3101](https://github.com/ckeditor/ckeditor-dev/issues/3101): Fixed: [`CKEDITOR.dom.range#_getTableElement()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_range.html#method-_getTableElement) returns `null` instead of a table element for edge cases.
 * [#3287](https://github.com/ckeditor/ckeditor-dev/issues/3287): Fixed: [`CKEDITOR.tools.promise`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_promise.html) incorrectly initialized if an AMD loader is present.
 * [#3379](https://github.com/ckeditor/ckeditor-dev/issues/3379): Fixed: Incorrect [`CKEDITOR.editor#getData`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-getData) call when inserting content into the editor.
-* [#3136](https://github.com/ckeditor/ckeditor-dev/issues/3136) [Firefox] Fixed: Clicking on [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) items removes native table selection.
+* [#3136](https://github.com/ckeditor/ckeditor-dev/issues/3136): [Firefox] Fixed: Clicking on [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) items removes native table selection.
 * [#3381](https://github.com/ckeditor/ckeditor-dev/issues/3381): [IE8] Fixed: [`CKEDITOR.tools.object.keys`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_object.html#method-keys) does not accept non-objects.
+* [#2395](https://github.com/ckeditor/ckeditor-dev/issues/2395): [Android] Fixed: Focused input in [dialog](https://ckeditor.com/cke4/addon/dialog) is scrolled out of the viewport when soft keyboard appears.
+* [#453](https://github.com/ckeditor/ckeditor-dev/issues/453): Fixed: [Link](https://ckeditor.com/cke4/addon/link) dialog has invalid width when editor is maximized and browser window resized.
 
 API Changes:
 

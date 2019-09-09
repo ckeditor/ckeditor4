@@ -135,31 +135,34 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		input && input.removeAttribute( 'aria-invalid' );
 	}
 
-	var templateSource = '<div class="cke_reset_all {editorId} {editorDialogClass} {hidpi}' +
-		'" dir="{langDir}"' +
-		' lang="{langCode}"' +
-		' role="dialog"' +
-		' aria-labelledby="cke_dialog_title_{id}"' +
-		'>' +
-		'<table class="cke_dialog ' + CKEDITOR.env.cssClass + ' cke_{langDir}"' +
-			' style="position:absolute" role="presentation">' +
-			'<tr><td role="presentation">' +
-			'<div class="cke_dialog_body" role="presentation">' +
-				'<div id="cke_dialog_title_{id}" class="cke_dialog_title" role="presentation"></div>' +
-				'<a id="cke_dialog_close_button_{id}" class="cke_dialog_close_button" href="javascript:void(0)" title="{closeTitle}" role="button"><span class="cke_label">X</span></a>' +
-				'<div id="cke_dialog_tabs_{id}" class="cke_dialog_tabs" role="tablist"></div>' +
-				'<table class="cke_dialog_contents" role="presentation">' +
-				'<tr>' +
-					'<td id="cke_dialog_contents_{id}" class="cke_dialog_contents_body" role="presentation"></td>' +
-				'</tr>' +
-				'<tr>' +
-					'<td id="cke_dialog_footer_{id}" class="cke_dialog_footer" role="presentation"></td>' +
-				'</tr>' +
-				'</table>' +
-			'</div>' +
-			'</td></tr>' +
-		'</table>' +
-		'</div>';
+	var useFlex = !CKEDITOR.env.ie || CKEDITOR.env.edge,
+		templateSource = '<div class="cke_reset_all cke_dialog_container {editorId} {editorDialogClass} {hidpi}' +
+			'" dir="{langDir}"' +
+			' style="' + ( useFlex ? 'display:flex' : '' ) + '"' +
+			' lang="{langCode}"' +
+			' role="dialog"' +
+			' aria-labelledby="cke_dialog_title_{id}"' +
+			'>' +
+			'<table class="cke_dialog ' + CKEDITOR.env.cssClass + ' cke_{langDir}"' +
+				' style="' + ( useFlex ? 'margin:auto' : 'position:absolute' ) + '"' +
+				' role="presentation">' +
+				'<tr><td role="presentation">' +
+				'<div class="cke_dialog_body" role="presentation">' +
+					'<div id="cke_dialog_title_{id}" class="cke_dialog_title" role="presentation"></div>' +
+					'<a id="cke_dialog_close_button_{id}" class="cke_dialog_close_button" href="javascript:void(0)" title="{closeTitle}" role="button"><span class="cke_label">X</span></a>' +
+					'<div id="cke_dialog_tabs_{id}" class="cke_dialog_tabs" role="tablist"></div>' +
+					'<table class="cke_dialog_contents" role="presentation">' +
+					'<tr>' +
+						'<td id="cke_dialog_contents_{id}" class="cke_dialog_contents_body" role="presentation"></td>' +
+					'</tr>' +
+					'<tr>' +
+						'<td id="cke_dialog_footer_{id}" class="cke_dialog_footer" role="presentation"></td>' +
+					'</tr>' +
+					'</table>' +
+				'</div>' +
+				'</td></tr>' +
+			'</table>' +
+			'</div>';
 
 	function buildDialog( editor ) {
 		var element = CKEDITOR.dom.element.createFromHtml( CKEDITOR.addTemplate( 'dialog', templateSource ).output( {
@@ -256,6 +259,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			contents: {},
 			buttons: {},
 			accessKeyMap: {},
+			// Default value is 0.5 which means centered dialog.
+			viewportRatio: {
+				width: 0.5,
+				height: 0.5
+			},
 
 			// Initialize the tab and page map.
 			tabs: {},
@@ -281,10 +289,13 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		// Set the startup styles for the dialog, avoiding it enlarging the
 		// page size on the dialog creation.
 		var startStyles = {
-			position: CKEDITOR.env.ie6Compat ? 'absolute' : 'fixed',
 			top: 0,
 			visibility: 'hidden'
 		};
+
+		if ( CKEDITOR.env.ie6Compat ) {
+			startStyles.position = 'absolute';
+		}
 
 		startStyles[ dir == 'rtl' ? 'right' : 'left' ] = 0;
 		this.parts.dialog.setStyles( startStyles );
@@ -727,35 +738,36 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @param {Number} width The width of the dialog in pixels.
 		 * @param {Number} height The height of the dialog in pixels.
 		 */
-		resize: ( function() {
-			return function( width, height ) {
-				if ( this._.contentSize && this._.contentSize.width == width && this._.contentSize.height == height )
-					return;
+		resize: function( width, height ) {
+			if ( this._.contentSize && this._.contentSize.width == width && this._.contentSize.height == height )
+				return;
 
-				CKEDITOR.dialog.fire( 'resize', {
-					dialog: this,
-					width: width,
-					height: height
-				}, this._.editor );
+			CKEDITOR.dialog.fire( 'resize', {
+				dialog: this,
+				width: width,
+				height: height
+			}, this._.editor );
 
-				this.fire( 'resize', {
-					width: width,
-					height: height
-				}, this._.editor );
+			this.fire( 'resize', {
+				width: width,
+				height: height
+			}, this._.editor );
 
-				var contents = this.parts.contents;
-				contents.setStyles( {
-					width: width + 'px',
-					height: height + 'px'
-				} );
+			var contents = this.parts.contents;
+			contents.setStyles( {
+				width: width + 'px',
+				height: height + 'px'
+			} );
 
-				// Update dialog position when dimension get changed in RTL.
-				if ( this._.editor.lang.dir == 'rtl' && this._.position )
-					this._.position.x = CKEDITOR.document.getWindow().getViewPaneSize().width - this._.contentSize.width - parseInt( this._.element.getFirst().getStyle( 'right' ), 10 );
+			// Update dialog position when dimension get changed in RTL.
+			if ( this._.editor.lang.dir == 'rtl' && this._.position ) {
+				var containerWidth = this.parts.dialog.getParent().getClientSize().width;
 
-				this._.contentSize = { width: width, height: height };
-			};
-		} )(),
+				this._.position.x = containerWidth - this._.contentSize.width - parseInt( this._.element.getFirst().getStyle( 'right' ), 10 );
+			}
+
+			this._.contentSize = { width: width, height: height };
+		},
 
 		/**
 		 * Gets the current size of the dialog in pixels.
@@ -782,11 +794,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @param {Boolean} save Flag indicate whether the dialog position should be remembered on next open up.
 		 */
 		move: function( x, y, save ) {
-
-			// The dialog may be fixed positioned or absolute positioned. Ask the
-			// browser what is the current situation first.
 			var element = this._.element.getFirst(), rtl = this._.editor.lang.dir == 'rtl';
-			var isFixed = element.getComputedStyle( 'position' ) == 'fixed';
 
 			// (https://dev.ckeditor.com/ticket/8888) In some cases of a very small viewport, dialog is incorrectly
 			// positioned in IE7. It also happens that it remains sticky and user cannot
@@ -796,26 +804,32 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			// go back to see that dialog position is automagically fixed. No events,
 			// no style change - pure magic. This is a IE7 rendering issue, which can be
 			// fixed with dummy style redraw on each move.
-			if ( CKEDITOR.env.ie )
+			if ( CKEDITOR.env.ie ) {
 				element.setStyle( 'zoom', '100%' );
+			}
 
-			if ( isFixed && this._.position && this._.position.x == x && this._.position.y == y )
-				return;
+			var containerSize = this.parts.dialog.getParent().getClientSize(),
+				dialogSize = this.getSize(),
+				ratios = this._.viewportRatio,
+				freeSpace = {
+					width: Math.max( containerSize.width - dialogSize.width, 0 ),
+					height: Math.max( containerSize.height - dialogSize.height, 0 )
+				};
+
+			if ( this._.position && this._.position.x == x && this._.position.y == y ) {
+				// If position didn't change window might have been resized.
+				x = Math.floor( freeSpace.width * ratios.width );
+				y = Math.floor( freeSpace.height * ratios.height );
+			} else {
+				updateRatios( this, x, y );
+			}
 
 			// Save the current position.
 			this._.position = { x: x, y: y };
 
-			// If not fixed positioned, add scroll position to the coordinates.
-			if ( !isFixed ) {
-				var scrollPosition = CKEDITOR.document.getWindow().getScrollPosition();
-				x += scrollPosition.x;
-				y += scrollPosition.y;
-			}
-
 			// Translate coordinate for RTL.
 			if ( rtl ) {
-				var dialogSize = this.getSize(), viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize();
-				x = viewPaneSize.width - dialogSize.width - x;
+				x = freeSpace.width - x;
 			}
 
 			var styles = { 'top': ( y > 0 ? y : 0 ) + 'px' };
@@ -848,10 +862,12 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			// Insert the dialog's element to the root document.
 			var element = this._.element;
 			var definition = this.definition;
-			if ( !( element.getParent() && element.getParent().equals( CKEDITOR.document.getBody() ) ) )
+
+			if ( !( element.getParent() && element.getParent().equals( CKEDITOR.document.getBody() ) ) ) {
 				element.appendTo( CKEDITOR.document.getBody() );
-			else
-				element.setStyle( 'display', 'block' );
+			} else {
+				element.setStyle( 'display', useFlex ? 'flex' : 'block' );
+			}
 
 			// First, set the dialog to an appropriate size.
 			this.resize(
@@ -954,23 +970,33 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 */
 		layout: function() {
 			var el = this.parts.dialog;
-			var dialogSize = this.getSize();
-			var win = CKEDITOR.document.getWindow(),
-					viewSize = win.getViewPaneSize();
 
-			var posX = ( viewSize.width - dialogSize.width ) / 2,
-				posY = ( viewSize.height - dialogSize.height ) / 2;
-
-			// Switch to absolute position when viewport is smaller than dialog size.
-			if ( !CKEDITOR.env.ie6Compat ) {
-				if ( dialogSize.height + ( posY > 0 ? posY : 0 ) > viewSize.height || dialogSize.width + ( posX > 0 ? posX : 0 ) > viewSize.width ) {
-					el.setStyle( 'position', 'absolute' );
-				} else {
-					el.setStyle( 'position', 'fixed' );
-				}
+			if ( !this._.moved && useFlex ) {
+				return;
 			}
 
-			this.move( this._.moved ? this._.position.x : posX, this._.moved ? this._.position.y : posY );
+			var dialogSize = this.getSize(),
+				win = CKEDITOR.document.getWindow(),
+				viewSize = win.getViewPaneSize(),
+				posX, posY;
+
+			if ( this._.moved && this._.position ) {
+				posX = this._.position.x;
+				posY = this._.position.y;
+			} else {
+				posX = ( viewSize.width - dialogSize.width ) / 2;
+				posY = ( viewSize.height - dialogSize.height ) / 2;
+			}
+
+			if ( !CKEDITOR.env.ie6Compat ) {
+				el.setStyle( 'position', 'absolute' );
+				el.removeStyle( 'margin' );
+			}
+
+			posX = Math.floor( posX );
+			posY = Math.floor( posY );
+
+			this.move( posX, posY );
 		},
 
 		/**
@@ -1159,6 +1185,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			// Create the HTML for the tab and the content block.
 			var page = CKEDITOR.dom.element.createFromHtml( pageHtml.join( '' ) );
 			page.setAttribute( 'role', 'tabpanel' );
+			page.setStyle( 'min-height', '100%' );
 
 			var env = CKEDITOR.env;
 			var tabId = 'cke_' + contents.id + '_' + CKEDITOR.tools.getNextNumber(),
@@ -1925,7 +1952,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 		function mouseMoveHandler( evt ) {
 			var dialogSize = dialog.getSize(),
-				viewPaneSize = CKEDITOR.document.getWindow().getViewPaneSize(),
+				containerSize = dialog.parts.dialog.getParent().getClientSize(),
 				x = evt.data.$.screenX,
 				y = evt.data.$.screenY,
 				dx = x - lastCoords.x,
@@ -1936,19 +1963,24 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			abstractDialogCoords.x += dx;
 			abstractDialogCoords.y += dy;
 
-			if ( abstractDialogCoords.x + margins[ 3 ] < magnetDistance )
+			if ( abstractDialogCoords.x + margins[ 3 ] < magnetDistance ) {
 				realX = -margins[ 3 ];
-			else if ( abstractDialogCoords.x - margins[ 1 ] > viewPaneSize.width - dialogSize.width - magnetDistance )
-				realX = viewPaneSize.width - dialogSize.width + ( editor.lang.dir == 'rtl' ? 0 : margins[ 1 ] );
-			else
+			} else if ( abstractDialogCoords.x - margins[ 1 ] > containerSize.width - dialogSize.width - magnetDistance ) {
+				realX = containerSize.width - dialogSize.width + ( editor.lang.dir == 'rtl' ? 0 : margins[ 1 ] );
+			} else {
 				realX = abstractDialogCoords.x;
+			}
 
-			if ( abstractDialogCoords.y + margins[ 0 ] < magnetDistance )
+			if ( abstractDialogCoords.y + margins[ 0 ] < magnetDistance ) {
 				realY = -margins[ 0 ];
-			else if ( abstractDialogCoords.y - margins[ 2 ] > viewPaneSize.height - dialogSize.height - magnetDistance )
-				realY = viewPaneSize.height - dialogSize.height + margins[ 2 ];
-			else
+			} else if ( abstractDialogCoords.y - margins[ 2 ] > containerSize.height - dialogSize.height - magnetDistance ) {
+				realY = containerSize.height - dialogSize.height + margins[ 2 ];
+			} else {
 				realY = abstractDialogCoords.y;
+			}
+
+			realX = Math.floor( realX );
+			realY = Math.floor( realY );
 
 			dialog.move( realX, realY, 1 );
 
@@ -1967,6 +1999,17 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}
 
 		dialog.parts.title.on( 'mousedown', function( evt ) {
+			if ( !dialog._.moved ) {
+				var container = dialog._.element,
+					element = container.getFirst();
+
+				element.setStyle( 'position', 'absolute' );
+				container.removeStyle( 'display' );
+
+				dialog._.moved = true;
+				dialog.layout();
+			}
+
 			lastCoords = { x: evt.data.$.screenX, y: evt.data.$.screenY };
 
 			CKEDITOR.document.on( 'mousemove', mouseMoveHandler );
@@ -1997,17 +2040,19 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			startSize = dialog.getSize();
 
 			var content = dialog.parts.contents,
-				iframeDialog = content.$.getElementsByTagName( 'iframe' ).length;
+				iframeDialog = content.$.getElementsByTagName( 'iframe' ).length,
+				isBorderBox = !( CKEDITOR.env.gecko || CKEDITOR.env.ie && CKEDITOR.env.quirks );
 
 			// Shim to help capturing "mousemove" over iframe.
 			if ( iframeDialog ) {
-				dialogCover = CKEDITOR.dom.element.createFromHtml( '<div class="cke_dialog_resize_cover" style="height: 100%; position: absolute; width: 100%;"></div>' );
+				dialogCover = CKEDITOR.dom.element.createFromHtml( '<div class="cke_dialog_resize_cover" style="height: 100%; position: absolute; width: 100%; left:0; top:0;"></div>' );
 				content.append( dialogCover );
 			}
 
 			// Calculate the offset between content and chrome size.
-			wrapperHeight = startSize.height - dialog.parts.contents.getSize( 'height', !( CKEDITOR.env.gecko || CKEDITOR.env.ie && CKEDITOR.env.quirks ) );
-			wrapperWidth = startSize.width - dialog.parts.contents.getSize( 'width', 1 );
+			// Use size of current tab panel because we can't rely on size of contents container (#3144).
+			wrapperHeight = startSize.height - dialog.parts.contents.getFirst( isVisible ).getSize( 'height', isBorderBox );
+			wrapperWidth = startSize.width - dialog.parts.contents.getFirst( isVisible ).getSize( 'width', 1 );
 
 			origin = { x: $event.screenX, y: $event.screenY };
 
@@ -2023,6 +2068,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 
 			$event.preventDefault && $event.preventDefault();
+
+			function isVisible( el ) {
+				return el.isVisible();
+			}
 		} );
 
 		// Prepend the grip to the dialog.
@@ -2056,23 +2105,40 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				internalWidth = width + dx * ( dialog._.moved ? 1 : 2 ),
 				internalHeight = height + dy * ( dialog._.moved ? 1 : 2 ),
 				element = dialog._.element.getFirst(),
-				right = rtl && element.getComputedStyle( 'right' ),
+				right = rtl && parseInt( element.getComputedStyle( 'right' ) ),
 				position = dialog.getPosition();
 
-			if ( position.y + internalHeight > viewSize.height )
-				internalHeight = viewSize.height - position.y;
+			position.x = position.x || 0;
+			position.y = position.y || 0;
 
-			if ( ( rtl ? right : position.x ) + internalWidth > viewSize.width )
+			if ( position.y + internalHeight > viewSize.height ) {
+				internalHeight = viewSize.height - position.y;
+			}
+
+			if ( ( rtl ? right : position.x ) + internalWidth > viewSize.width ) {
 				internalWidth = viewSize.width - ( rtl ? right : position.x );
+			}
+
+			internalHeight = Math.floor( internalHeight );
+			internalWidth = Math.floor( internalWidth );
 
 			// Make sure the dialog will not be resized to the wrong side when it's in the leftmost position for RTL.
-			if ( ( resizable == CKEDITOR.DIALOG_RESIZE_WIDTH || resizable == CKEDITOR.DIALOG_RESIZE_BOTH ) )
+			if ( resizable == CKEDITOR.DIALOG_RESIZE_WIDTH || resizable == CKEDITOR.DIALOG_RESIZE_BOTH ) {
 				width = Math.max( def.minWidth || 0, internalWidth - wrapperWidth );
+			}
 
-			if ( resizable == CKEDITOR.DIALOG_RESIZE_HEIGHT || resizable == CKEDITOR.DIALOG_RESIZE_BOTH )
+			if ( resizable == CKEDITOR.DIALOG_RESIZE_HEIGHT || resizable == CKEDITOR.DIALOG_RESIZE_BOTH ) {
 				height = Math.max( def.minHeight || 0, internalHeight - wrapperHeight );
+			}
 
 			dialog.resize( width, height );
+
+			if ( dialog._.moved ) {
+				var x = dialog._.position.x,
+					y = dialog._.position.y;
+
+				updateRatios( dialog, x, y );
+			}
 
 			if ( !dialog._.moved )
 				dialog.layout();
@@ -2097,9 +2163,22 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}
 	}
 
-	var resizeCover;
-	// Caching resuable covers and allowing only one cover
-	// on screen.
+	function updateRatios( dialog, x, y ) {
+		var containerSize = dialog.parts.dialog.getParent().getClientSize(),
+			dialogSize = dialog.getSize(),
+			ratios = dialog._.viewportRatio,
+			freeSpace = {
+				width: Math.max( containerSize.width - dialogSize.width, 0 ),
+				height: Math.max( containerSize.height - dialogSize.height, 0 )
+			};
+
+		ratios.width = freeSpace.width ? ( x / freeSpace.width ) : ratios.width;
+		ratios.height = freeSpace.height ? ( y / freeSpace.height ) : ratios.height;
+
+		dialog._.viewportRatio = ratios;
+	}
+
+	// Caching reusable covers and allowing only one cover on screen.
 	var covers = {},
 		currentCover;
 
@@ -2108,8 +2187,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	}
 
 	function showCover( editor ) {
-		var win = CKEDITOR.document.getWindow(),
-			config = editor.config,
+		var config = editor.config,
 			skinName = ( CKEDITOR.skinName || editor.config.skin ),
 			backgroundColorStyle = config.dialog_backgroundCoverColor || ( skinName == 'moono-lisa' ? 'black' : 'white' ),
 			backgroundCoverOpacity = config.dialog_backgroundCoverOpacity,
@@ -2117,11 +2195,14 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			coverKey = CKEDITOR.tools.genKey( backgroundColorStyle, backgroundCoverOpacity, baseFloatZIndex ),
 			coverElement = covers[ coverKey ];
 
+		CKEDITOR.document.getBody().addClass( 'cke_dialog_open' );
+
 		if ( !coverElement ) {
 			var html = [
 				'<div tabIndex="-1" style="position: ', ( CKEDITOR.env.ie6Compat ? 'absolute' : 'fixed' ),
 				'; z-index: ', baseFloatZIndex,
 				'; top: 0px; left: 0px; ',
+				'; width: 100%; height: 100%;',
 				( !CKEDITOR.env.ie6Compat ? 'background-color: ' + backgroundColorStyle : '' ),
 				'" class="cke_dialog_background_cover">'
 			];
@@ -2174,72 +2255,19 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		editor.focusManager.add( coverElement );
 
 		currentCover = coverElement;
-		var resizeFunc = function() {
-				var size = win.getViewPaneSize();
-				coverElement.setStyles( {
-					width: size.width + 'px',
-					height: size.height + 'px'
-				} );
-			};
 
-		var scrollFunc = function() {
-				var pos = win.getScrollPosition(),
-					cursor = CKEDITOR.dialog._.currentTop;
-				coverElement.setStyles( {
-					left: pos.x + 'px',
-					top: pos.y + 'px'
-				} );
-
-				if ( cursor ) {
-					do {
-						var dialogPos = cursor.getPosition();
-						cursor.move( dialogPos.x, dialogPos.y );
-					} while ( ( cursor = cursor._.parentDialog ) );
-				}
-			};
-
-		resizeCover = resizeFunc;
-		win.on( 'resize', resizeFunc );
-		resizeFunc();
 		// Using Safari/Mac, focus must be kept where it is (https://dev.ckeditor.com/ticket/7027)
 		if ( !( CKEDITOR.env.mac && CKEDITOR.env.webkit ) )
 			coverElement.focus();
-
-		if ( CKEDITOR.env.ie6Compat ) {
-			// IE BUG: win.$.onscroll assignment doesn't work.. it must be window.onscroll.
-			// So we need to invent a really funny way to make it work.
-			var myScrollHandler = function() {
-					scrollFunc();
-					myScrollHandler.prevScrollHandler.apply( this, arguments );
-				};
-			win.$.setTimeout( function() {
-				myScrollHandler.prevScrollHandler = window.onscroll ||
-				function() {};
-				window.onscroll = myScrollHandler;
-			}, 0 );
-			scrollFunc();
-		}
 	}
 
 	function hideCover( editor ) {
+		CKEDITOR.document.getBody().removeClass( 'cke_dialog_open' );
 		if ( !currentCover )
 			return;
 
 		editor.focusManager.remove( currentCover );
-		var win = CKEDITOR.document.getWindow();
 		currentCover.hide();
-
-		// Remove the current cover reference once the cover is removed (#589).
-		currentCover = null;
-		win.removeListener( 'resize', resizeCover );
-
-		if ( CKEDITOR.env.ie6Compat ) {
-			win.$.setTimeout( function() {
-				var prevScrollHandler = window.onscroll && window.onscroll.prevScrollHandler;
-				window.onscroll = prevScrollHandler || null;
-			}, 0 );
-		}
-		resizeCover = null;
 	}
 
 	function removeCovers() {
@@ -3349,9 +3377,16 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	} );
 } )();
 
+var stylesLoaded = false;
+
 CKEDITOR.plugins.add( 'dialog', {
 	requires: 'dialogui',
 	init: function( editor ) {
+		if ( !stylesLoaded ) {
+			CKEDITOR.document.appendStyleSheet( this.path + 'styles/dialog.css' );
+			stylesLoaded = true;
+		}
+
 		editor.on( 'doubleclick', function( evt ) {
 			if ( evt.data.dialog )
 				editor.openDialog( evt.data.dialog );
