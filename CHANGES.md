@@ -32,6 +32,7 @@ Fixed Issues:
 * [#3381](https://github.com/ckeditor/ckeditor-dev/issues/3381): [IE8] Fixed: [`CKEDITOR.tools.object.keys`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_object.html#method-keys) does not accept non-objects.
 * [#2395](https://github.com/ckeditor/ckeditor-dev/issues/2395): [Android] Fixed: Focused input in [dialog](https://ckeditor.com/cke4/addon/dialog) is scrolled out of the viewport when soft keyboard appears.
 * [#453](https://github.com/ckeditor/ckeditor-dev/issues/453): Fixed: [Link](https://ckeditor.com/cke4/addon/link) dialog has invalid width when editor is maximized and browser window resized.
+* [#2138](https://github.com/ckeditor/ckeditor-dev/issues/2138): Fixed: Email address containing question mark is mishandled by [Link](https://ckeditor.com/cke4/addon/link) plugin.
 
 API Changes:
 
