@@ -2,15 +2,19 @@
 
 bender.test(
 {
-
 	'test: Loading self defined external plugin file paths': testExternal( { plugin: 'myplugin', path: '%TEST_DIR%_assets/myplugins/sample/', file: 'my_plugin.js' } ),
 
 	// (#917)
 	'test loading with slash and without fileName': testExternal( { plugin: 'myplugin1', path: '%TEST_DIR%_assets/myplugins/myplugin1' } ),
-	'test loading with slash and empty fileName': testExternal( { plugin: 'myplugin3', path: '%TEST_DIR%_assets/myplugins/myplugin3/', file: '' } ),
-	'test loading without slash and with fileName': testExternal( { plugin: 'myplugin4', path: '%TEST_DIR%_assets/myplugins/myplugin4', file: 'plugin.js' } ),
-	// This test ensures that the wrong parameter set will lead to the wrong file. Method 'addExternal()' will think here that 'myplugin2' is fileName.
-	'test loading without slash and with empty fileName': testExternal( { plugin: 'myplugin2', path: '%TEST_DIR%_assets/myplugins/myplugin2', file: '', wrongFile: 'myplugin2' } ),
+
+	// (#917)
+	'test loading with slash and empty fileName': testExternal( { plugin: 'myplugin2', path: '%TEST_DIR%_assets/myplugins/myplugin2/', file: '' } ),
+
+	// (#917)
+	'test loading without slash and with fileName': testExternal( { plugin: 'myplugin3', path: '%TEST_DIR%_assets/myplugins/myplugin3', file: 'plugin.js' } ),
+
+	// (#917) - This test ensures that the wrong parameter set will lead to the wrong file. Method 'addExternal()' will think here that 'myplugin4' is fileName.
+	'test loading without slash and with empty fileName': testExternal( { plugin: 'myplugin4', path: '%TEST_DIR%_assets/myplugins/myplugin4', file: '', wrongFile: 'myplugin4' } ),
 
 	'test errors thrown when required plugin specified in removePlugins list': function() {
 		var log = sinon.stub( CKEDITOR, 'error' );
