@@ -61,6 +61,7 @@
 			toolbar: 'styles,' + order,
 			allowedContent: allowedAndRequiredContent,
 			requiredContent: allowedAndRequiredContent,
+			options: _getOptions( styles ),
 			contentTransformations: configStyleDefinition.element === 'span' ? [
 				[
 					{
@@ -499,6 +500,19 @@
 
 			editor.getSelection().selectRanges( [ range ] );
 		}
+	}
+
+
+	//  * @param {Object} styles object containing all styles used by this rich combo.
+	//  * @returns {Object} simplified object with key-value pairs used to set up value of richcombo.
+	function _getOptions( styles ) {
+		var ret = {};
+
+		for ( var styleName in styles ) {
+			ret[ styleName ] = styles[ styleName ].getDefinition();
+		}
+
+		return ret;
 	}
 
 	// Clones the subtree between subtreeStart (exclusive) and the
