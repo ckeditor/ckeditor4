@@ -4,17 +4,49 @@
 var customCls = 'my_combo';
 bender.editor = {
 	config: {
-		toolbar: [ [ 'custom_combo' ] ],
+		toolbar: [ [ 'custom_combo', 'custom_combo_with_options' ] ],
 		on: {
 			pluginsLoaded: function( evt ) {
-				var ed = evt.editor;
+				var ed = evt.editor,
+					options = {
+						'one': {
+							style: 'one'
+						},
+						'two': {
+							style: 'two'
+						},
+						'three': {
+							style: 'three'
+						}
+					};
+
 				ed.ui.addRichCombo( 'custom_combo', {
 					className: customCls,
 					panel: {
 						css: [],
 						multiSelect: false
 					},
-					init: function() {},
+					init: function() {
+						for ( var key in options ) {
+							this.add( key, options[ key ].style );
+						}
+					},
+					onClick: function() {},
+					onRender: function() {}
+				} );
+
+				ed.ui.addRichCombo( 'custom_combo_with_options', {
+					className: customCls,
+					panel: {
+						css: [],
+						multiSelect: false
+					},
+					options: options,
+					init: function() {
+						for ( var key in options ) {
+							this.add( key, options[ key ].style );
+						}
+					},
 					onClick: function() {},
 					onRender: function() {}
 				} );
@@ -75,5 +107,42 @@ bender.test( {
 		spy.restore();
 
 		assert.areSame( 0, spy.callCount, 'rich combo was no opened' );
+	},
+
+	// (#3387)
+	'test richcombo.select() should select proper value in combo': function() {
+		var editor = this.editor,
+			combo = editor.ui.get( 'custom_combo_with_options' );
+
+		combo.createPanel( editor );
+
+		combo.setValue( 'one' );
+		assert.areEqual( 'one', combo.getValue() );
+
+		combo.select( function( option ) {
+			return option.style === 'three';
+		} );
+		assert.areEqual( 'three', combo.getValue() );
+
+		combo.select( function( option ) {
+			return option.style === 'three';
+		} );
+		assert.areEqual( 'three', combo.getValue() );
+	},
+
+	// (#3387)
+	'test richcombo.select() should do nothing for combo without options': function() {
+		var editor = this.editor,
+			combo = editor.ui.get( 'custom_combo' );
+
+		combo.createPanel( editor );
+
+		combo.setValue( 'one' );
+		assert.areEqual( 'one', combo.getValue() );
+
+		combo.select( function( option ) {
+			return option.style === 'three';
+		} );
+		assert.areEqual( 'one', combo.getValue() );
 	}
 } );
