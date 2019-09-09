@@ -147,7 +147,7 @@ CKEDITOR.resourceManager.prototype = {
 			// If there is no '/' at the end of path, but 'fileName' is anything different
 			// than an empty string (so either is not set at all or is a valid name), assume
 			// that path is a directory and concatenate '/' to it (#917).
-			if ( path.charAt( path.length - 1 ) != '/' && fileName !== '' ) {
+			if ( path[ path.length - 1 ] !== '/' && fileName !== '' ) {
 				path += '/';
 			}
 
