@@ -11,14 +11,14 @@
 	 * @static
 	 * @see CKEDITOR.dom.selection.optimizeInElementEnds
 	 * @param {CKEDITOR.editor} editor
+	 * @member CKEDITOR.dom.selection
 	 */
 	CKEDITOR.dom.selection.setupEditorOptimization = function( editor ) {
 		editor.on( 'selectionCheck', function( evt ) {
 			if ( evt.data && !preventOptimization ) {
 				evt.data.optimizeInElementEnds();
-			} else {
-				preventOptimization = false;
 			}
+			preventOptimization = false;
 		} );
 
 		editor.on( 'instanceReady', function() {
@@ -56,6 +56,7 @@
 	 * ```
 	 *
 	 * @since 4.13.0
+	 * @member CKEDITOR.dom.selection
 	 */
 	CKEDITOR.dom.selection.prototype.optimizeInElementEnds = function() {
 		var range = this.getRanges()[ 0 ],
@@ -113,9 +114,9 @@
 	}
 
 	// Prevent infinite recurrency when browser doesn't allow expected selection.
-	// There are two cases to handle
+	// There are two cases to handle:
 	// - When browser modified the range in a way that it is the same as before optimization.
-	// 		Second event is cancelled, we don't need to fire listeners two time with exact same selection.
+	// 		Second event is cancelled, we don't need to fire listeners two times with exact same selection.
 	// - When browser doesn't modify the range.
 	// 		Event is not cancelled, as selection changed, however next optimization is prevented.
 	function preventRecurrency( editor, targetRange, initialRange ) {
