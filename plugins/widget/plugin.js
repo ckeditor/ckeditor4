@@ -3573,16 +3573,16 @@
 		widget.mask = img;
 	}
 
-	function setupPartialMask( widget ) {
-		if ( !widget.wrapper ) {
+	function setupPartialMask() {
+		if ( !this.wrapper ) {
 			return;
 		}
 
 		// The issue due to which mask reusage was introduced (https://dev.ckeditor.com/ticket/11281)
 		// is no longer reproducible, and for partial mask it wouldn't work anyway because of resizing possibility,
 		// so existing mask is now always removed instead.
-		var oldMask = widget.wrapper.findOne( '.cke_widget_partial_mask' ),
-			newMask = new CKEDITOR.dom.element( 'img', widget.editor.document ),
+		var oldMask = this.wrapper.findOne( '.cke_widget_partial_mask' ),
+			newMask = new CKEDITOR.dom.element( 'img', this.editor.document ),
 			part,
 			parent;
 
@@ -3592,11 +3592,11 @@
 
 		// Original value of 'widget.mask' is substituted with actual mask element, so
 		// 'widget.maskPart' property was added to be able to adjust partial mask e.g. after resizing.
-		if ( typeof widget.mask == 'string' ) {
-			widget.maskPart = widget.mask;
+		if ( typeof this.mask == 'string' ) {
+			this.maskPart = this.mask;
 		}
 
-		part = widget.parts[ widget.maskPart ];
+		part = this.parts[ this.maskPart ];
 
 		// If requested part is invalid, don't create mask.
 		if ( !part ) {
@@ -3628,8 +3628,8 @@
 			} );
 		}
 
-		widget.wrapper.append( newMask );
-		widget.mask = newMask;
+		this.wrapper.append( newMask );
+		this.mask = newMask;
 	}
 
 	// Replace parts object containing:
@@ -3656,13 +3656,15 @@
 
 		if ( widget.mask == true ) {
 			setupFullMask( widget );
-		} else if ( typeof widget.mask == 'string' ) {
-			setupPartialMask( widget );
-			// 'saveSnapshot' event is most reliably fired each time widget
-			// can possibly be resized and need a new (partial or not) mask (#3240).
-			widget.editor.on( 'saveSnapshot', function() {
-				setupPartialMask( widget );
-			} );
+		} else if ( widget.mask ) {
+			// Buffer to limit number of separate calls to 'setupPartialMask', e.g. during writing.
+			var maskBuffer = new CKEDITOR.tools.buffers.throttle( 250, setupPartialMask, widget );
+			// 'saveSnapshot' and 'change' events are most reliably fired each time widget
+			// can possibly be resized and need a new partial mask (#3240).
+			widget.editor.on( 'saveSnapshot', maskBuffer.input );
+			widget.editor.on( 'change', maskBuffer.input );
+
+			maskBuffer.input();
 		}
 
 		setupDragHandler( widget );
