@@ -3587,18 +3587,16 @@
 			parent;
 
 		if ( oldMask ) {
+			// console.log( 'remove' );
 			oldMask.remove();
 		}
 
 		// Original value of 'widget.mask' is substituted with actual mask element, so
 		// 'widget.maskPart' property was added to be able to adjust partial mask e.g. after resizing.
-		if ( typeof this.mask == 'string' ) {
-			this.maskPart = this.mask;
-		}
-
-		part = this.parts[ this.maskPart ];
+		this.maskPart = this.maskPart || this.mask;
 
 		// If requested part is invalid, don't create mask.
+		part = this.parts[ this.maskPart ];
 		if ( !part ) {
 			return;
 		}
