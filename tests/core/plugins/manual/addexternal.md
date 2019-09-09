@@ -8,4 +8,4 @@
 Editor is loaded and `image2` plugin is working (image is visible, can be resized etc.)
 
 ### Unexpected result:
-Editor or image crushed.
+Editor or image crashed.
