@@ -20,9 +20,9 @@ Currently editing: null
 ---
 
 4. Cancel dialog.
-4. Place selection at the first table cell.
-5. Click the table button.
-6. Verify status above the editor.
+5. Place selection at the first table cell.
+6. Click the table button.
+7. Verify status above the editor.
 
 ## Expected
 
@@ -34,10 +34,10 @@ Currently editing: null
 
 ---
 
-7. Cancel dialog.
-8. Place selection at the first table cell.
-9. Open context menu and click `Table properties` option.
-10. Verify status above the editor.
+8. Cancel dialog.
+9. Place selection at the first table cell.
+10. Open context menu and click `Table properties` option.
+11. Verify status above the editor.
 
 ## Expected
 
