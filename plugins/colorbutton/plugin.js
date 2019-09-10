@@ -280,17 +280,16 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
 					};
 
-
 				if ( color == '?' ) {
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
-							colorStyle = new CKEDITOR.style( colorStyleTemplate, { color: color } );
+							colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
 
 							editor.execCommand( commandName, { newStyle: colorStyle } );
 						}
 					}, null, colorData );
 				} else {
-					colorStyle = new CKEDITOR.style( colorStyleTemplate, { color: color && '#' + color } );
+					colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: '#' + color } );
 
 					editor.execCommand( commandName, { newStyle: colorStyle } );
 				}
