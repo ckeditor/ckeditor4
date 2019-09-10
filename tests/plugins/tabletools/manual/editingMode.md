@@ -3,9 +3,9 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, table, toolbar, contextmenu, tabletools
 
-**NOTE:** For modern browsers you will see "real" HTML in **expected** results instead of `[element HTML]` string.
+**NOTE:** For modern browsers you will see "real" cells' HTML in **expected** results instead of `[cells HTML]` string.
 
-1. Focus the first table row.
+1. Select cells from the first table row.
 1. Open context menu over the table and select `Cell Properties` option.
 2. Verify status above the editor.
 
@@ -15,4 +15,4 @@ Dialog name: **cellProperties** in **editor** editor.
 
 Dialog is in **editing** mode.
 
-Currently editing: `[element HTML]`.
+Currently editing: `[cells HTML]`.
