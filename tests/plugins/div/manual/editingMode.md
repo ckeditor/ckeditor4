@@ -10,7 +10,7 @@
 
 ## Expected
 
-Dialog name: **div** in **editor** editor.
+Dialog name: **creatediv** in **editor** editor.
 
 Dialog is in **creation** mode.
 
@@ -25,7 +25,7 @@ Currently editing: null
 
 ## Expected
 
-Dialog name: **div** in **editor** editor.
+Dialog name: **editdiv** in **editor** editor.
 
 Dialog is in **editing** mode.
 
