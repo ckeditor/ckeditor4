@@ -141,33 +141,33 @@ CKEDITOR.resourceManager.prototype = {
 	 */
 	addExternal: function( names, path, fileName ) {
 		names = names.split( ',' );
-		for ( var i = 0; i < names.length; i++ ) {
-			var name = names[ i ];
 
-			// If there is no '/' at the end of path, but 'fileName' is anything different
-			// than an empty string (so either is not set at all or is a valid name), assume
-			// that path is a directory and concatenate '/' to it (#917).
-			if ( path[ path.length - 1 ] !== '/' && fileName !== '' ) {
-				path += '/';
-			}
+		// If there is no '/' at the end of path, but 'fileName' is anything different
+		// than an empty string (so either is not set at all or is a valid name), assume
+		// that path is a directory and concatenate '/' to it (#917).
+		if ( path[ path.length - 1 ] !== '/' && fileName !== '' ) {
+			path += '/';
+		}
 
-			// If "fileName" is not provided, we assume that it may be available
-			// in "path". Try to extract it in this case.
-			if ( !fileName ) {
-				path = path.replace( /[^\/]+$/, function( match ) {
-					fileName = match;
-					return '';
-				} );
-			}
+		// If "fileName" is not provided, we assume that it may be available
+		// in "path". Try to extract it in this case.
+		if ( !fileName ) {
+			path = path.replace( /[^\/]+$/, function( match ) {
+				fileName = match;
+				return '';
+			} );
+		}
 
+		// Use the default file name if there is no "fileName" and it
+		// was not found in "path".
+		fileName = fileName || ( this.fileName + '.js' );
+
+		CKEDITOR.tools.array.forEach( names, function( name ) {
 			this.externals[ name ] = {
 				dir: path,
-
-				// Use the default file name if there is no "fileName" and it
-				// was not found in "path".
-				file: fileName || ( this.fileName + '.js' )
+				file: fileName
 			};
-		}
+		}, this );
 	},
 
 	/**
