@@ -70,8 +70,9 @@ CKEDITOR.resourceManager.prototype = {
 	 * @see CKEDITOR.pluginDefinition
 	 */
 	add: function( name, definition ) {
-		if ( this.registered[ name ] )
+		if ( this.registered[ name ] ) {
 			throw new Error( '[CKEDITOR.resourceManager.add] The resource name "' + name + '" is already registered.' );
+		}
 
 		var resource = this.registered[ name ] = definition || {};
 		resource.name = name;
@@ -185,8 +186,9 @@ CKEDITOR.resourceManager.prototype = {
 	 */
 	load: function( names, callback, scope ) {
 		// Ensure that we have an array of names.
-		if ( !CKEDITOR.tools.isArray( names ) )
+		if ( !CKEDITOR.tools.isArray( names ) ) {
 			names = names ? [ names ] : [];
+		}
 
 		var loaded = this.loaded,
 			registered = this.registered,
@@ -198,15 +200,17 @@ CKEDITOR.resourceManager.prototype = {
 		for ( var i = 0; i < names.length; i++ ) {
 			var name = names[ i ];
 
-			if ( !name )
+			if ( !name ) {
 				continue;
+			}
 
 			// If not available yet.
 			if ( !loaded[ name ] && !registered[ name ] ) {
 				var url = this.getFilePath( name );
 				urls.push( url );
-				if ( !( url in urlsNames ) )
+				if ( !( url in urlsNames ) ) {
 					urlsNames[ url ] = [];
+				}
 				urlsNames[ url ].push( name );
 			} else {
 				resources[ name ] = this.get( name );
@@ -223,8 +227,8 @@ CKEDITOR.resourceManager.prototype = {
 				var nameList = urlsNames[ completed[ i ] ];
 				for ( var j = 0; j < nameList.length; j++ ) {
 					var name = nameList[ j ];
-					resources[ name ] = this.get( name );
 
+					resources[ name ] = this.get( name );
 					loaded[ name ] = 1;
 				}
 			}

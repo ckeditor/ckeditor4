@@ -2,7 +2,7 @@
 
 bender.test(
 {
-	'test: Loading self defined external plugin file paths': testExternal( { plugin: 'myplugin', path: '%TEST_DIR%_assets/myplugins/sample/', file: 'my_plugin.js',
+	'test loading self defined external plugin file paths': testExternal( { plugin: 'myplugin', path: '%TEST_DIR%_assets/myplugins/sample/', file: 'my_plugin.js',
 		expectedFileName: 'my_plugin.js' } ),
 
 	// (#917)
@@ -53,7 +53,6 @@ bender.test(
 				on: {
 					instanceReady: function( evt ) {
 						resume( function() {
-
 							log.restore();
 
 							// plugin 3 reqed by plugin 1 and plugins 4 & 3 reqed by plugin 2.
@@ -86,7 +85,6 @@ bender.test(
 				}
 			},
 			spy = sinon.spy( CKEDITOR, 'warn' ),
-
 			result = CKEDITOR.editor.prototype.plugins.detectConflict.call( editor.plugins,
 				'plugin', [ 'plugin1', 'plugin2' ] );
 
@@ -102,7 +100,6 @@ bender.test(
 				plugins: {}
 			},
 			spy = sinon.spy( CKEDITOR, 'warn' ),
-
 			result = CKEDITOR.editor.prototype.plugins.detectConflict.call( editor.plugins,
 				'plugin', [ 'plugin1', 'plugin2' ] );
 
