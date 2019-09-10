@@ -20,9 +20,8 @@ Currently editing: null
 ---
 
 4. Cancel dialog.
-5. Select the first table row using table selection again.
-6. Open context menu and click `Table properties` option.
-7. Verify status above the editor.
+5. Open context menu and click `Table properties` option.
+6. Verify status above the editor.
 
 ## Expected
 
@@ -30,4 +29,18 @@ Dialog name: **tableProperties** in **editor** editor.
 
 Dialog is in **editing** mode.
 
-Currently editing: `[element HTML]`
+Currently editing: `[table HTML]`
+
+---
+
+7. Cancel dialog.
+8. Open context menu and click `Cell Properties` option.
+9. Verify status above the editor.
+
+## Expected
+
+Dialog name: **cellProperties** in **editor** editor.
+
+Dialog is in **editing** mode.
+
+Currently editing: `[cells HTML]`.
