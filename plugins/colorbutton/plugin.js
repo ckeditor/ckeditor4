@@ -87,7 +87,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
 				colorData = { type: type },
-				panelBlock;
+				panelBlock,
+				commandName = name.slice( 0, 2 ).toLowerCase() + name.slice( 2 );
 
 			options = options || {};
 
@@ -111,7 +112,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
-					block.element.setHtml( renderColors( panel, type, colorBoxId, colorData ) );
+					block.element.setHtml( renderColors( {
+						type: type,
+						colorBoxId: colorBoxId,
+						colorData: colorData,
+						commandName: commandName
+					} ) );
 					// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
 					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 
@@ -203,10 +209,32 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					return automaticColor;
 				}
 			} );
+
+			editor.addCommand( commandName, {
+				exec: function( editor, data ) {
+					var newStyle = data.newStyle,
+						config = editor.config,
+						colorStyleTemplate = config[ 'colorButton_' + type + 'Style' ];
+
+					editor.removeStyle( new CKEDITOR.style( colorStyleTemplate, { color: 'inherit' } ) );
+
+					editor.focus();
+
+					if ( newStyle ) {
+						editor.applyStyle( newStyle );
+					}
+
+					editor.fire( 'saveSnapshot' );
+				}
+			} );
 		}
 
-		function renderColors( panel, type, colorBoxId, colorData ) {
-			var output = [],
+		function renderColors( options ) {
+			var type = options.type,
+				colorBoxId = options.colorBoxId,
+				colorData = options.colorData,
+				commandName = options.commandName,
+				output = [],
 				colors = config.colorButton_colors.split( ',' ),
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
 				// Tells if we should include "More Colors..." button.
@@ -220,22 +248,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				editor.focus();
 				editor.fire( 'saveSnapshot' );
 
-				if ( color == '?' ) {
-					editor.getColorFromDialog( function( color ) {
-						if ( color ) {
-							return setColor( color );
-						}
-					}, null, colorData );
-				} else {
-					return setColor( color && '#' + color );
-				}
+				var colorStyle,
+					colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
 
-				function setColor( color ) {
-					var colorStyle = config[ 'colorButton_' + type + 'Style' ];
-					// Clean up any conflicting style within the range.
-					editor.removeStyle( new CKEDITOR.style( colorStyle, { color: 'inherit' } ) );
-
-					colorStyle.childRule = type == 'back' ?
+				colorStyleTemplate.childRule = type == 'back' ?
 					function( element ) {
 						// It's better to apply background color as the innermost style. (https://dev.ckeditor.com/ticket/3599)
 						// Except for "unstylable elements". (https://dev.ckeditor.com/ticket/6103)
@@ -245,13 +261,20 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
 					};
 
-					editor.focus();
-					if ( color ) {
-						editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
-					}
-					editor.fire( 'saveSnapshot' );
-				}
 
+				if ( color == '?' ) {
+					editor.getColorFromDialog( function( color ) {
+						if ( color ) {
+							colorStyle = new CKEDITOR.style( colorStyleTemplate, { color: color } );
+
+							editor.execCommand( commandName, { newStyle: colorStyle } );
+						}
+					}, null, colorData );
+				} else {
+					colorStyle = new CKEDITOR.style( colorStyleTemplate, { color: color && '#' + color } );
+
+					editor.execCommand( commandName, { newStyle: colorStyle } );
+				}
 			} );
 
 			if ( config.colorButton_enableAutomatic !== false ) {
