@@ -419,7 +419,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 			select: function( callback ) {
 				var property;
 
-				if ( !this.options || typeof this.options !== 'object' ) {
+				if ( typeof this.options !== 'object' ) {
 					return;
 				}
 
