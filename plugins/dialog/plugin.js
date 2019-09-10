@@ -3419,7 +3419,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @member CKEDITOR.editor
 		 * @param {String} dialogName The registered name of the dialog.
 		 * @param {Function} callback The function to be invoked after dialog instance created.
-		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} forceModel Forces opening dialog
+		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object} [forceModel] Forces opening dialog
 		 * using the given model as a subject. Forced model will take precedence before
 		 * {@link CKEDITOR.dialog.definition#getModel} method. Available since 4.13.0.
 		 * @returns {CKEDITOR.dialog} The dialog object corresponding to the dialog displayed.
