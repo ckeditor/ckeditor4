@@ -212,6 +212,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			editor.addCommand( commandName, {
 				exec: function( editor, data ) {
+					if ( editor.readOnly ) {
+						return;
+					}
+
 					var newStyle = data.newStyle,
 						config = editor.config,
 						colorStyleTemplate = config[ 'colorButton_' + type + 'Style' ];
@@ -226,6 +230,21 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					editor.fire( 'saveSnapshot' );
 				}
+			} );
+
+			editor.once( 'instanceReady', function() {
+				var uiElement = editor.ui.get( name ),
+					command = editor.getCommand( commandName );
+
+				if ( !command || !uiElement ) {
+					return;
+				}
+
+				if ( uiElement.state !== command.state ) {
+					command.setState( uiElement.state );
+				}
+
+				_registerStateSynchronization( command, uiElement );
 			} );
 		}
 
@@ -386,6 +405,22 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function normalizeColor( color ) {
 			// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
 			return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
+		}
+
+		function _registerStateSynchronization( command, uiElement ) {
+			command.on( 'state', function() {
+				if ( this.state !== uiElement.getState() ) {
+					uiElement.setState( this.state );
+				}
+			} );
+
+			uiElement.setState = function( state ) {
+				uiElement.constructor.prototype.setState.call( uiElement, state );
+
+				if ( command.state !== state ) {
+					command.setState( state );
+				}
+			};
 		}
 	}
 } );
