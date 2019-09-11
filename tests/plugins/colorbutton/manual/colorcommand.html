@@ -1,0 +1,25 @@
+<div id="editor">
+	<p>This is unstyled text.</p>
+
+	<p><span style="color:#c0392b">This text has font color.</span></p>
+
+	<p><span style="background-color:#f39c12">This text has background color.</span></p>
+</div>
+
+<script>
+	var index = 1;
+	CKEDITOR.replace( 'editor', {
+		height: 400,
+		on: {
+			'beforeCommandExec': function( evt ) {
+				if ( evt.data.name === 'textColor' || evt.data.name === 'bgColor' ) {
+					var message = index++ + '. "' + evt.data.name + '" command is executed.';
+					evt.editor.showNotification( message );
+					if ( console ) {
+						console.log( message );
+					}
+				}
+			}
+		}
+	} );
+</script>
