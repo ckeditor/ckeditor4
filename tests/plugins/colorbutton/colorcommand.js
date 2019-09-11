@@ -62,6 +62,10 @@
 		}, message );
 	}
 
+	function getFirstColorElement( panel ) {
+		return panel._.panel._.currentBlock.element.findOne( '.cke_colorbox' );
+	}
+
 	bender.test( {
 		tearDown: function() {
 			this.editor.setReadOnly( false );
@@ -413,6 +417,100 @@
 					.replace( /\$/g, '</span>' ),
 				newStyle: RED_BG
 			} );
+		},
+
+		'test color button should exec text color command': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				spy = sinon.spy( editor.getCommand( 'textColor' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>{foo}</p>' );
+
+			bot.panel( 'TextColor', function( panel ) {
+				try {
+					var firstColorElement = getFirstColorElement( panel );
+
+					firstColorElement.$.click();
+
+					spy.restore();
+
+					sinon.assert.calledOnce( spy );
+					assert.pass();
+				} finally {
+					panel.hide();
+				}
+			} );
+		},
+
+		'test color button should exec background color command': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				spy = sinon.spy( editor.getCommand( 'bgColor' ), 'exec' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>{foo}</p>' );
+
+			bot.panel( 'BGColor', function( panel ) {
+				try {
+					var firstColorElement = getFirstColorElement( panel );
+
+					firstColorElement.$.click();
+
+					spy.restore();
+
+					sinon.assert.calledOnce( spy );
+					assert.pass();
+				} finally {
+					panel.hide();
+				}
+			} );
+		},
+
+		'test should synchronize state between text color command and text color panel': function() {
+			var editor = this.editor,
+				colorPanel = editor.ui.get( 'TextColor' ),
+				command = editor.getCommand( 'textColor' );
+
+			assert.areEqual( colorPanel.getState(), command.state, 'should have same initial state' );
+
+			colorPanel.setState( CKEDITOR.TRISTATE_DISABLED );
+			assert.areEqual( colorPanel.getState(), command.state, 'should have same state after disabling color panel' );
+			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, command.state, 'command should have disbled state' );
+
+			colorPanel.setState( CKEDITOR.TRISTATE_OFF );
+			assert.areEqual( colorPanel.getState(), command.state, 'should have same state after off color panel' );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, command.state, 'command should have off state' );
+
+			command.setState( CKEDITOR.TRISTATE_DISABLED );
+			assert.areEqual( command.state, colorPanel.getState(), 'should have same state after disabling command' );
+			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, colorPanel.getState(), 'color panel should have disable state' );
+
+			command.setState( CKEDITOR.TRISTATE_OFF );
+			assert.areEqual( command.state, colorPanel.getState(), 'should have same state after off command' );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, colorPanel.getState(), 'color panel should have off state' );
+		},
+
+		'test should synchronize state between background color command and background color panel': function() {
+			var editor = this.editor,
+				colorPanel = editor.ui.get( 'BGColor' ),
+				command = editor.getCommand( 'bgColor' );
+
+			assert.areEqual( colorPanel.getState(), command.state, 'should have same initial state' );
+
+			colorPanel.setState( CKEDITOR.TRISTATE_DISABLED );
+			assert.areEqual( colorPanel.getState(), command.state, 'should have same state after disabling color panel' );
+			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, command.state, 'command should have disbled state' );
+
+			colorPanel.setState( CKEDITOR.TRISTATE_OFF );
+			assert.areEqual( colorPanel.getState(), command.state, 'should have same state after off color panel' );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, command.state, 'command should have off state' );
+
+			command.setState( CKEDITOR.TRISTATE_DISABLED );
+			assert.areEqual( command.state, colorPanel.getState(), 'should have same state after disabling command' );
+			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, colorPanel.getState(), 'color panel should have disable state' );
+
+			command.setState( CKEDITOR.TRISTATE_OFF );
+			assert.areEqual( command.state, colorPanel.getState(), 'should have same state after off command' );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, colorPanel.getState(), 'color panel should have off state' );
 		}
 	} );
 } )();
