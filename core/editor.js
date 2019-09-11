@@ -1585,10 +1585,11 @@
 		},
 
 		/**
-		 * Returns boolean whether editor is destroyed or detached.
+		 * Provides information if editor's {@link CKEDITOR.editor#status staus} is 'destroyed' or editor's
+		 * {@link CKEDITOR.editor#container container} {@link CKEDITOR.dom.element#isDetached is detached}.
 		 *
 		 * @since 4.13.0
-		 * @return {boolean}
+		 * @return {Boolean} true if editor is destroyed or editor's contianer is detached.
 		 */
 		isDetachedOrDestroyed: function() {
 			return this.status === 'destroyed' || this.container && this.container.isDetached();
