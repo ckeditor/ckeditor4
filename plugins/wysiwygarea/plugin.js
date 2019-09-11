@@ -89,7 +89,7 @@
 				function onLoad( evt ) {
 					evt && evt.removeListener();
 
-					if ( editor.shouldPreventInitialization() ) {
+					if ( editor.status === 'destroyed' || editor.isDetached() ) {
 						return;
 					}
 
@@ -126,7 +126,7 @@
 	function onDomReady( win ) {
 		var editor = this.editor;
 
-		if ( !editor || editor.container.isDetached() ) {
+		if ( !editor || editor.isDetached() ) {
 			return;
 		}
 
