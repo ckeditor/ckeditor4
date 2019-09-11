@@ -221,7 +221,8 @@
 		// change should also alter inline-style text.
 		function commitInternally( targetFields ) {
 			var dialog = this.getDialog(),
-				element = dialog._element && dialog._element.clone() || new CKEDITOR.dom.element( 'div', editor.document );
+				model = dialog.getModel( editor ),
+				element = model && model.clone() || new CKEDITOR.dom.element( 'div', editor.document );
 
 			// Commit this field and broadcast to target fields.
 			this.commit( element, true );
@@ -356,6 +357,14 @@
 					} ] }
 				]
 			} ],
+
+			getModel: function( editor ) {
+				if ( command === 'editdiv' ) {
+					return CKEDITOR.plugins.div.getSurroundDiv( editor );
+				}
+
+				return null;
+			},
 			onLoad: function() {
 				setupFields.call( this );
 
@@ -390,7 +399,10 @@
 
 					// Now setup the field value manually if dialog was opened on element. (https://dev.ckeditor.com/ticket/9689)
 					setTimeout( function() {
-						dialog._element && stylesField.setup( dialog._element );
+						var model = dialog.getModel( editor );
+						if ( model ) {
+							stylesField.setup( model );
+						}
 					}, 0 );
 				} );
 			},
@@ -401,14 +413,15 @@
 					// Try to discover the containers that already existed in
 					// ranges
 					// update dialog field values
-					this.setupContent( this._element = CKEDITOR.plugins.div.getSurroundDiv( editor ) );
+					this.setupContent( this.getModel( editor ) );
 				}
 			},
 			onOk: function() {
-				if ( command == 'editdiv' )
-					containers = [ this._element ];
-				else
+				if ( command == 'editdiv' ) {
+					containers = [ this.getModel( editor ) ];
+				} else {
 					containers = createDiv( editor, true );
+				}
 
 				// Update elements attributes
 				var size = containers.length;
@@ -423,9 +436,9 @@
 			},
 			onHide: function() {
 				// Remove style only when editing existing DIV. (https://dev.ckeditor.com/ticket/6315)
-				if ( command == 'editdiv' )
-					this._element.removeCustomData( 'elementStyle' );
-				delete this._element;
+				if ( this.getMode( editor ) === CKEDITOR.dialog.EDITING_MODE ) {
+					this.getModel( editor ).removeCustomData( 'elementStyle' );
+				}
 			}
 		};
 	}

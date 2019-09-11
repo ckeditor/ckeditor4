@@ -125,12 +125,21 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 		title: editor.lang.forms.select.title,
 		minWidth: CKEDITOR.env.ie ? 460 : 395,
 		minHeight: CKEDITOR.env.ie ? 320 : 300,
-		onShow: function() {
-			delete this.selectBox;
-			this.setupContent( 'clear' );
-			var element = this.getParentEditor().getSelection().getSelectedElement();
+		getModel: function( editor ) {
+			var element = editor.getSelection().getSelectedElement();
+
 			if ( element && element.getName() == 'select' ) {
-				this.selectBox = element;
+				return element;
+			}
+
+			return null;
+
+		},
+		onShow: function() {
+			this.setupContent( 'clear' );
+
+			var element = this.getModel( this.getParentEditor() );
+			if ( element ) {
 				this.setupContent( element.getName(), element );
 
 				// Load Options into dialog.
@@ -141,11 +150,13 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 		},
 		onOk: function() {
 			var editor = this.getParentEditor(),
-				element = this.selectBox,
-				isInsertMode = !element;
+				element = this.getModel( editor ),
+				isInsertMode = this.getMode( editor ) == CKEDITOR.dialog.CREATION_MODE;
 
-			if ( isInsertMode )
+			if ( isInsertMode ) {
 				element = editor.document.createElement( 'select' );
+			}
+
 			this.commitContent( element );
 
 			if ( isInsertMode ) {

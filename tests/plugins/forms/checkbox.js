@@ -1,4 +1,4 @@
-/* bender-tags: editor */
+/* bender-tags: editor,dialog */
 /* bender-ckeditor-plugins: dialog,button,forms,htmlwriter,toolbar */
 /* bender-include: _helpers/tools.js */
 /* global formsTools */
@@ -24,6 +24,35 @@ bender.test( {
 			dialog.getButton( 'ok' ).click();
 
 			assert.areSame( '<input checked="checked" name="name" required="required" type="checkbox" value="value" />', bot.getData( false, true ) );
+		} );
+	},
+	// (#2423)
+	'test dialog model during checkbox creation': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '', function() {
+			bot.dialog( 'checkbox', function( dialog ) {
+				assert.isNull( dialog.getModel( editor ) );
+				assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( editor ) );
+			} );
+		} );
+	},
+
+	// (#2423)
+	'test dialog model with existing checkbox': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '<input type="checkbox" value="value" />', function() {
+			bot.dialog( 'checkbox', function( dialog ) {
+				var button = editor.editable().findOne( 'input' );
+
+				editor.getSelection().selectElement( button );
+
+				assert.areEqual( button, dialog.getModel( editor ) );
+				assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ) );
+			} );
 		} );
 	},
 

@@ -254,6 +254,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			editor: editor,
 			element: themeBuilt.element,
 			name: dialogName,
+			model: null,
 			contentSize: { width: 0, height: 0 },
 			size: { width: 0, height: 0 },
 			contents: {},
@@ -308,7 +309,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		// the dialog definition.
 		this.definition = definition = CKEDITOR.fire( 'dialogDefinition', {
 			name: dialogName,
-			definition: definition
+			definition: definition,
+			dialog: this
 		}, editor ).definition;
 
 		// Cache tabs that should be removed.
@@ -1515,10 +1517,92 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 
 			this.fire( 'state', state );
+		},
+
+		/**
+		 * @inheritdoc CKEDITOR.dialog.definition#getModel
+		 */
+		getModel: function( editor ) {
+			// Prioritize forced model.
+			if ( this._.model ) {
+				return this._.model;
+			}
+
+			if ( this.definition.getModel ) {
+				return this.definition.getModel( editor );
+			}
+
+			return null;
+		},
+
+		/**
+		 * Sets the given model as the subject of the dialog.
+		 *
+		 * For the most plugins like `table` / `link` plugin the given model should be a
+		 * {@link CKEDITOR.dom.element DOM element instance} if there's a related element to it.
+		 * For widget plugins (`image2`, `placeholder`) you should provide a {@link CKEDITOR.plugins.widget} instance that
+		 * is a subject of this dialog.
+		 *
+		 * @since 4.13.0
+		 * @private
+		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} newModel Model to be set.
+		 */
+		setModel: function( newModel ) {
+			this._.model = newModel;
+		},
+
+		/**
+		 * Returns current dialog mode based on the state of the feature used with this dialog.
+		 *
+		 * In case if dialog definition didn't define {@link CKEDITOR.dialog.definition#getMode}
+		 * function, it will use {@link #getModel} method to recognize editor mode:
+		 *
+		 * {@link CKEDITOR.dialog#EDITING_MODE Editing mode} used when:
+		 *
+		 * * {@link CKEDITOR.dom.element} attached to the DOM
+		 * * {@link CKEDITOR.plugins.widget} instance
+		 *
+		 * otherwise {@link CKEDITOR.dialog#CREATION_MODE creation mode}.
+		 *
+		 * @since 4.13.0
+		 * @param {CKEDITOR.editor} editor
+		 * @returns {Number} Dialog mode.
+		 */
+		getMode: function( editor ) {
+			if ( this.definition.getMode ) {
+				return this.definition.getMode( editor );
+			}
+
+			var model = this.getModel( editor );
+
+			if ( !model || ( model instanceof CKEDITOR.dom.element && !model.getParent() ) ) {
+				return CKEDITOR.dialog.CREATION_MODE;
+			}
+
+			return CKEDITOR.dialog.EDITING_MODE;
 		}
 	};
 
 	CKEDITOR.tools.extend( CKEDITOR.dialog, {
+
+		/**
+		 * Indicates that the dialog is introducing new changes to the editor like inserting
+		 * newly created element as a part of a feature used with this dialog.
+		 *
+		 * @static
+		 * @since 4.13.0
+		 */
+		CREATION_MODE: 0,
+
+		/**
+		 * Indicates that the dialog is modifying existing editor state like updating
+		 * existing element as a part of a feature used with this dialog.
+		 *
+		 * @static
+		 * @since 4.13.0
+		 */
+		EDITING_MODE: 1,
+
 		/**
 		 * Registers a dialog.
 		 *
@@ -3335,11 +3419,14 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @member CKEDITOR.editor
 		 * @param {String} dialogName The registered name of the dialog.
 		 * @param {Function} callback The function to be invoked after dialog instance created.
+		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object} [forceModel] Forces opening dialog
+		 * using the given model as a subject. Forced model will take precedence before
+		 * {@link CKEDITOR.dialog.definition#getModel} method. Available since 4.13.0.
 		 * @returns {CKEDITOR.dialog} The dialog object corresponding to the dialog displayed.
 		 * `null` if the dialog name is not registered.
 		 * @see CKEDITOR.dialog#add
 		 */
-		openDialog: function( dialogName, callback ) {
+		openDialog: function( dialogName, callback, forceModel ) {
 			var dialog = null, dialogDefinitions = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];
 
 			if ( CKEDITOR.dialog._.currentTop === null )
@@ -3350,6 +3437,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				var storedDialogs = this._.storedDialogs || ( this._.storedDialogs = {} );
 
 				dialog = storedDialogs[ dialogName ] || ( storedDialogs[ dialogName ] = new CKEDITOR.dialog( this, dialogName ) );
+
+				dialog.setModel( forceModel );
 
 				callback && callback.call( dialog, dialog );
 				dialog.show();
@@ -3366,11 +3455,19 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 						if ( typeof dialogDefinition != 'function' )
 							CKEDITOR.dialog._.dialogDefinitions[ dialogName ] = 'failed';
 
-						this.openDialog( dialogName, callback );
+						this.openDialog( dialogName, callback, forceModel );
 					}, this, 0, 1 );
 			}
 
 			CKEDITOR.skin.loadPart( 'dialog' );
+
+			// Dissolve model, so `definition.getModel` can take precedence
+			// in the next dialog opening (#2423).
+			if ( dialog ) {
+				dialog.once( 'hide', function() {
+					dialog.setModel( null );
+				}, null, null, 999 );
+			}
 
 			return dialog;
 		}
@@ -3489,8 +3586,12 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  * @event dialogDefinition
  * @member CKEDITOR
- * @param {CKEDITOR.dialog.definition} data The dialog defination that
+ * @param {Object} data
+ * @param {String} data.name Name of the dialog.
+ * @param {CKEDITOR.dialog.definition} data.definition The dialog definition that
  * is being loaded.
+ * @param {CKEDITOR.dialog} data.dialog Dialog instance that the definition is loaded
+ * for. Introduced in **CKEditor 4.13.0**.
  * @param {CKEDITOR.editor} editor The editor instance that will use the dialog.
  */
 

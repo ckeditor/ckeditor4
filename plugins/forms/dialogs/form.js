@@ -10,30 +10,26 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 		title: editor.lang.forms.form.title,
 		minWidth: 350,
 		minHeight: 200,
+		getModel: function( editor ) {
+			return editor.elementPath().contains( 'form', 1 ) || null;
+		},
 		onShow: function() {
-			delete this.form;
-
-			var path = this.getParentEditor().elementPath(),
-				form = path.contains( 'form', 1 );
+			var form = this.getModel( this.getParentEditor() );
 
 			if ( form ) {
-				this.form = form;
 				this.setupContent( form );
 			}
 		},
 		onOk: function() {
-			var editor,
-				element = this.form,
-				isInsertMode = !element;
+			var editor = this.getParentEditor(),
+				element = this.getModel( editor );
 
-			if ( isInsertMode ) {
-				editor = this.getParentEditor();
+			if ( !element ) {
 				element = editor.document.createElement( 'form' );
 				element.appendBogus();
+				editor.insertElement( element );
 			}
 
-			if ( isInsertMode )
-				editor.insertElement( element );
 			this.commitContent( element );
 		},
 		onLoad: function() {

@@ -23,11 +23,16 @@
 		},
 
 		'test create div': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBot,
+				editor = this.editor;
 
 			bender.tools.testInputOut( 'create', function( source, output ) {
 				bot.setHtmlWithSelection( source );
 				bot.dialog( 'creatediv', function( dialog ) {
+					// (#2423)
+					assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( editor ), 'Dialog should be in creation mode' );
+					assert.isNull( dialog.getModel( editor ), 'Model should not be defined' );
+
 					dialog.getButton( 'ok' ).click();
 					assert.areEqual( bender.tools.compatHtml( output ), bot.getData( 1 ) );
 				} );
@@ -63,11 +68,16 @@
 		},
 
 		'test edit div': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBot,
+				editor = this.editor;
 
 			bender.tools.testInputOut( 'edit', function( source, output ) {
 				bot.setHtmlWithSelection( source );
 				bot.dialog( 'editdiv', function( dialog ) {
+					// (#2423)
+					assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ), 'Dialog should be in editing mode' );
+					assert.areEqual( CKEDITOR.plugins.div.getSurroundDiv( editor ), dialog.getModel( editor ), 'Model should be defined' );
+
 					var styleField = dialog.getContentElement( 'info', 'elementStyle' ),
 					classField = dialog.getContentElement( 'info', 'class' );
 

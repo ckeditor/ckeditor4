@@ -1,4 +1,4 @@
-/* bender-tags: editor */
+/* bender-tags: editor,dialog */
 /* bender-ckeditor-plugins: forms,toolbar */
 /* bender-include: _helpers/tools.js */
 /* global formsTools */
@@ -92,6 +92,40 @@ bender.test( {
 
 		// Start testing.
 		testValue.call( this, 0 );
+	},
+
+	// (#2423)
+	'test dialog model during textarea creation': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '', function() {
+			bot.dialog( 'textarea', function( dialog ) {
+				assert.isNull( dialog.getModel( editor ) );
+				assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( editor ) );
+
+				dialog.hide();
+			} );
+		} );
+	},
+
+	// (#2423)
+	'test dialog model with existing textarea': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '<textarea>test</textarea>', function() {
+			bot.dialog( 'textarea', function( dialog ) {
+				var textarea = editor.editable().findOne( 'textarea' );
+
+				editor.getSelection().selectElement( textarea );
+
+				assert.areEqual( textarea, dialog.getModel( editor ) );
+				assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ) );
+
+				dialog.hide();
+			} );
+		} );
 	},
 
 	'test required attribute collapsed': assertRequiredAttribute( {

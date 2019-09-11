@@ -454,11 +454,6 @@
 					if ( this.parts.link || this.wrapper.getAscendant( 'a' ) )
 						evt.data.link = evt.data.unlink = CKEDITOR.TRISTATE_OFF;
 				} );
-
-				// Pass the reference to this widget to the dialog.
-				this.on( 'dialog', function( evt ) {
-					evt.data.widget = this;
-				}, this );
 			},
 
 			// Overrides default method to handle internal mutability of Image2.

@@ -193,11 +193,6 @@
 					this._sendRequest( evt.data );
 				}, this, null, 999 );
 
-				// Expose the widget in the dialog - needed to trigger loadContent() and do error handling.
-				this.on( 'dialog', function( evt ) {
-					evt.data.widget = this;
-				}, this );
-
 				this.on( 'handleResponse', function( evt ) {
 					if ( evt.data.html ) {
 						return;

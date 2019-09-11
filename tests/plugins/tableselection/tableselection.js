@@ -286,7 +286,63 @@
 				editable.fire( eventName, evt );
 				assert.isNull( editable.findOne( '#cke_table_copybin' ), eventName + ' event should be ignored' );
 			}
-		}
+		},
+
+		// (#2423)
+		'test dialog model for table properties': function( editor, bot ) {
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			var ranges = tableSelectionHelpers.getRangesForCells( editor, [ 1, 4 ] ),
+				table = editor.editable().findOne( 'table' );
+
+			editor.getSelection().selectRanges( ranges );
+
+			bot.dialog( 'tableProperties', function( dialog ) {
+				assert.areEqual( table, dialog.getModel( editor ) );
+				assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ) );
+
+				dialog.hide();
+			} );
+		},
+
+		// (#2423)
+		'test dialog model for table': function( editor, bot ) {
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			var ranges = tableSelectionHelpers.getRangesForCells( editor, [ 1, 4 ] );
+
+			editor.getSelection().selectRanges( ranges );
+
+			bot.dialog( 'table', function( dialog ) {
+				assert.isNull( dialog.getModel( editor ) );
+				assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( editor ) );
+
+				dialog.hide();
+			} );
+		},
+
+		// (#2423)
+		'test dialog model for cell properties': function( editor, bot ) {
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			var ranges = tableSelectionHelpers.getRangesForCells( editor, [ 1, 4 ] );
+
+			editor.getSelection().selectRanges( ranges );
+
+			bot.dialog( 'cellProperties', function( dialog ) {
+				var cells = CKEDITOR.plugins.tabletools.getSelectedCells( editor.getSelection() ),
+					model = dialog.getModel( editor );
+
+				for ( var i = 0; i < cells.length; i++ ) {
+					assert.areEqual( cells[ i ], model[ i ], 'Cells at index "' + i + '" should be equal' );
+				}
+
+				assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ) );
+
+				dialog.hide();
+			} );
+		},
+
 	};
 
 	// Prepare focus iframe before starting tests.

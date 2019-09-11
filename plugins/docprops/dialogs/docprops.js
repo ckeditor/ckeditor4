@@ -157,6 +157,9 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 		title: lang.title,
 		minHeight: 330,
 		minWidth: 500,
+		getModel: function() {
+			return editor.document;
+		},
 		onShow: function() {
 			var doc = editor.document,
 				html = doc.getElementsByTag( 'html' ).getItem( 0 ),

@@ -221,21 +221,41 @@
 		 * @returns {CKEDITOR.plugins.widget.definition}
 		 */
 		add: function( name, widgetDef ) {
+			var editor = this.editor;
+
 			// Create prototyped copy of original widget definition, so we won't modify it.
 			widgetDef = CKEDITOR.tools.prototypedCopy( widgetDef );
 			widgetDef.name = name;
 
 			widgetDef._ = widgetDef._ || {};
 
-			this.editor.fire( 'widgetDefinition', widgetDef );
+			editor.fire( 'widgetDefinition', widgetDef );
 
 			if ( widgetDef.template )
 				widgetDef.template = new CKEDITOR.template( widgetDef.template );
 
-			addWidgetCommand( this.editor, widgetDef );
+			addWidgetCommand( editor, widgetDef );
 			addWidgetProcessors( this, widgetDef );
 
 			this.registered[ name ] = widgetDef;
+
+			// Define default `getMode` member for widget dialog definition (#2423).
+			if ( widgetDef.dialog && editor.plugins.dialog ) {
+				var dialogListener = CKEDITOR.on( 'dialogDefinition', function( evt ) {
+					var definition = evt.data.definition,
+						dialog = definition.dialog;
+
+					if ( !definition.getMode && dialog.getName() === widgetDef.dialog ) {
+						definition.getMode = function() {
+							var model = dialog.getModel( editor );
+							return model && model instanceof CKEDITOR.plugins.widget && model.ready ?
+								CKEDITOR.dialog.EDITING_MODE : CKEDITOR.dialog.CREATION_MODE;
+						};
+					}
+
+					dialogListener.removeListener();
+				} );
+			}
 
 			return widgetDef;
 		},
@@ -1220,7 +1240,7 @@
 					showListener.removeListener();
 					okListener.removeListener();
 				} );
-			} );
+			}, that );
 
 			return true;
 		},

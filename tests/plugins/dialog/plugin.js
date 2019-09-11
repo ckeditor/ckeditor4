@@ -1,29 +1,81 @@
-/* bender-tags: editor */
+/* bender-tags: editor, dialog */
 /* bender-ckeditor-plugins: dialog */
 
 ( function() {
 	'use strict';
 
-	CKEDITOR.on( 'instanceLoaded', function() {
+	var dialogDefinitions = {
+		testDialog1: {
+			title: 'Test Dialog 1',
+			contents: [
+				{
+					id: 'info',
+					label: 'Test',
+					elements: [
+						{
+							type: 'text',
+							id: 'foo',
+							label: 'bar'
+						}
+					]
+				}
+			]
+		},
+		testGetModel: {
+			title: 'Test getModel',
+			contents: [
+				{
+					id: 'info',
+					label: 'Test',
+					elements: []
+				}
+			],
+			getModel: sinon.stub().returns( new CKEDITOR.dom.element( 'span' ) )
+		},
+		testGetMode: {
+			title: 'Test getMode',
+			contents: [
+				{
+					id: 'info',
+					label: 'Test',
+					elements: []
+				}
+			],
+			getMode: sinon.stub().returns( 1 ) // Editing mode.
+		},
+		testDialogDefinitionEvent: {
+			title: 'Test dialogDefinition event',
+			contents: [
+				{
+					id: 'info',
+					label: 'Test',
+					elements: []
+				}
+			],
+			getModel: sinon.stub().returns( new CKEDITOR.dom.element( 'span' ) )
+		}
+	};
+
+	CKEDITOR.on( 'instanceLoaded', function( evt ) {
 		CKEDITOR.dialog.add( 'testDialog1', function() {
-			return {
-				title: 'Test Dialog 1',
-				contents: [
-					{
-						id: 'info',
-						label: 'Test',
-						elements: [
-							{
-								type: 'text',
-								id: 'foo',
-								label: 'bar'
-							}
-						]
-					}
-				]
-			};
+			return dialogDefinitions.testDialog1;
 		} );
 		CKEDITOR.dialog.add( 'testDialog2', '%TEST_DIR%_assets/testdialog.js' );
+		CKEDITOR.dialog.add( 'testGetModel', function() {
+			return dialogDefinitions.testGetModel;
+		} );
+		CKEDITOR.dialog.add( 'testGetMode', function() {
+			return dialogDefinitions.testGetMode;
+		} );
+		CKEDITOR.dialog.add( 'testDialogDefinitionEvent', function() {
+			return dialogDefinitions.testDialogDefinitionEvent;
+		} );
+
+		evt.editor.addCommand( 'testDialog1', new CKEDITOR.dialogCommand( 'testDialog1' ) );
+		evt.editor.addCommand( 'testDialog2', new CKEDITOR.dialogCommand( 'testDialog2' ) );
+		evt.editor.addCommand( 'testGetModel', new CKEDITOR.dialogCommand( 'testGetModel' ) );
+		evt.editor.addCommand( 'testGetMode', new CKEDITOR.dialogCommand( 'testGetMode' ) );
+		evt.editor.addCommand( 'testDialogDefinitionEvent', new CKEDITOR.dialogCommand( 'testDialogDefinitionEvent' ) );
 	} );
 
 	bender.editor = {};
@@ -54,6 +106,27 @@
 					}, 100 );
 				} );
 			} );
+			tc.wait();
+		},
+
+		// (#2423)
+		'test open dialog forces model': function() {
+			var tc = this,
+				editor = this.editor,
+				model = {};
+
+			editor.openDialog( 'testGetModel', function( dialog1 ) {
+				assert.areSame( model, dialog1.getModel() );
+
+				dialog1.hide();
+
+				editor.openDialog( 'testGetModel', function( dialog2 ) {
+					tc.resume( function() {
+						assert.areNotSame( model, dialog2.getModel() );
+					} );
+				} );
+			}, model );
+
 			tc.wait();
 		},
 
@@ -285,59 +358,47 @@
 				var dialog = evt.data;
 
 				resume( function() {
-					try {
-						assert.isTrue( dialog.getButton( 'ok' ).isEnabled(), 'OK button is enabled.' );
-						assert.isUndefined( dialog.parts.spinner, 'By default dialog has no spinner' );
-						assert.areSame( CKEDITOR.DIALOG_STATE_IDLE, dialog.state, 'Default dialog state' );
+					assert.isTrue( dialog.getButton( 'ok' ).isEnabled(), 'OK button is enabled.' );
+					assert.isUndefined( dialog.parts.spinner, 'By default dialog has no spinner' );
+					assert.areSame( CKEDITOR.DIALOG_STATE_IDLE, dialog.state, 'Default dialog state' );
 
-						var stateListener = dialog.on( 'state', function( evt ) {
-							try {
-								assert.areSame( CKEDITOR.DIALOG_STATE_BUSY, dialog.state, 'New dialog state' );
-								assert.isFalse( dialog.getButton( 'ok' ).isEnabled(), 'OK button is disabled' );
-								assert.isObject( dialog.parts.spinner, 'Dialog has a spinner element' );
+					var stateListener = dialog.on( 'state', function( evt ) {
+						try {
+							assert.areSame( CKEDITOR.DIALOG_STATE_BUSY, dialog.state, 'New dialog state' );
+							assert.isFalse( dialog.getButton( 'ok' ).isEnabled(), 'OK button is disabled' );
+							assert.isObject( dialog.parts.spinner, 'Dialog has a spinner element' );
 
-								++stateEventFired;
-							} catch ( e ) {
-								evt.removeListener();
-								throw e;
-							}
+							++stateEventFired;
+						} catch ( e ) {
+							evt.removeListener();
+							throw e;
+						}
+					} );
+
+					// Change dialog's state and assert related properties.
+					dialog.setState( CKEDITOR.DIALOG_STATE_BUSY );
+
+					// Remove the listener because the dialog will be reopened and those assertions would be invalid.
+					stateListener.removeListener();
+
+					assert.areSame( 1, stateEventFired, 'State event has been fired' );
+
+					dialog.hide();
+
+					// Call the dialog again to tell what happens to the state and the UI once reopened.
+					editor.execCommand( 'testDialog5' );
+
+					editor.once( 'dialogShow', function( evt ) {
+						var dialog = evt.data;
+
+						resume( function() {
+							assert.areSame( CKEDITOR.DIALOG_STATE_IDLE, dialog.state, 'Default dialog state after re–open' );
+							assert.isTrue( dialog.getButton( 'ok' ).isEnabled(), 'OK button is enabled after re–open' );
+							assert.isObject( dialog.parts.spinner, 'Dialog has been given a spinner before' );
 						} );
+					} );
 
-						// Change dialog's state and assert related properties.
-						dialog.setState( CKEDITOR.DIALOG_STATE_BUSY );
-
-						// Remove the listener because the dialog will be reopened and those assertions would be invalid.
-						stateListener.removeListener();
-
-						assert.areSame( 1, stateEventFired, 'State event has been fired' );
-
-						dialog.hide();
-
-						// Call the dialog again to tell what happens to the state and the UI once reopened.
-						editor.execCommand( 'testDialog5' );
-
-						editor.once( 'dialogShow', function( evt ) {
-							var dialog = evt.data;
-
-							resume( function() {
-								try {
-									assert.areSame( CKEDITOR.DIALOG_STATE_IDLE, dialog.state, 'Default dialog state after re–open' );
-									assert.isTrue( dialog.getButton( 'ok' ).isEnabled(), 'OK button is enabled after re–open' );
-									assert.isObject( dialog.parts.spinner, 'Dialog has been given a spinner before' );
-								} catch ( e ) {
-									throw e;
-								} finally {
-									dialog.hide();
-								}
-							} );
-						} );
-
-						wait();
-					} catch ( e ) {
-						throw e;
-					} finally {
-						dialog.hide();
-					}
+					wait();
 				} );
 			} );
 
@@ -387,20 +448,111 @@
 
 			editor.once( 'dialogShow', function( evt ) {
 				resume( function() {
-					try {
-						var dialog = evt.data;
-						assert.areSame( 'tab2', dialog._.currentTabId );
-					} catch ( e ) {
-						throw e;
-					}
-					finally {
-						dialog.hide();
-					}
+					var dialog = evt.data;
+					assert.areSame( 'tab2', dialog._.currentTabId );
 				} );
 			} );
 
 			editor.execCommand( 'testDialog6' );
 			wait();
+		},
+
+		// (#2423)
+		'test dialog has getModel() method by default': function() {
+			this.editorBot.dialog( 'testDialog1', function( dialog ) {
+				assert.isNull( dialog.getModel( this.editor ) );
+			} );
+		},
+
+		// (#2423)
+		'test dialog definition allows for overwriting returned model': function() {
+			this.editorBot.dialog( 'testGetModel', function( dialog ) {
+				// Get model may be called during the initialization, that's not a concern of this TC.
+				dialogDefinitions.testGetModel.getModel.reset();
+
+				var ret = dialog.getModel( this.editor );
+
+				sinon.assert.calledOnce( dialogDefinitions.testGetModel.getModel );
+				sinon.assert.calledWithExactly( dialogDefinitions.testGetModel.getModel, this.editor );
+
+				assert.isInstanceOf( CKEDITOR.dom.element, ret, 'Return value type.' );
+				assert.areSame( 'span', ret.getName(), 'Returned tag name.' );
+			} );
+		},
+
+		// (#2423)
+		'test dialog definition allows for overwriting getMode': function() {
+			this.editorBot.dialog( 'testGetMode', function( dialog ) {
+				// Get model may be called during the initialization, that's not a concern of this TC.
+				dialogDefinitions.testGetModel.getModel.reset();
+
+				var ret = dialog.getMode( this.editor );
+
+				sinon.assert.calledOnce( dialogDefinitions.testGetMode.getMode );
+				sinon.assert.calledWithExactly( dialogDefinitions.testGetMode.getMode, this.editor );
+
+				assert.areEqual( CKEDITOR.dialog.EDITING_MODE, ret );
+			} );
+		},
+
+		// (#2423)
+		'test dialog.getMode': function() {
+			this.editorBot.dialog( 'testDialog1', function( dialog ) {
+				assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode() );
+			} );
+		},
+
+		// (#2423)
+		'test dialog.getMode with dettached DOM model': function() {
+			this.editorBot.dialog( 'testGetModel', function( dialog ) {
+				assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode() );
+			} );
+		},
+
+		// (#2423)
+		'test dialog.getMode with attached DOM element model': function() {
+			this.editorBot.setHtmlWithSelection( '<p><em>[foo]</em></p>' );
+
+			this.editorBot.dialog( 'testGetModel', function( dialog ) {
+				// Use element that is truly attached in DOM.
+				var getModelStub = sinon.stub( dialog, 'getModel' ).returns( this.editor.editable().findOne( 'em' ) ),
+					ret = dialog.getMode();
+
+				getModelStub.restore();
+
+				assert.areEqual( CKEDITOR.dialog.EDITING_MODE, ret );
+			} );
+		},
+
+		// (#2423)
+		'test dialog.getMode with attached DOM text node model': function() {
+			this.editorBot.setHtmlWithSelection( '<p>{foo}</p>' );
+
+			this.editorBot.dialog( 'testGetModel', function( dialog ) {
+				var getModelStub = sinon.stub( dialog, 'getModel' ).returns( this.editor.editable().findOne( 'p' ).getFirst() ),
+					ret = dialog.getMode();
+
+				getModelStub.restore();
+
+				assert.areEqual( CKEDITOR.dialog.EDITING_MODE, ret );
+			} );
+		},
+
+		// (#2423)
+		'test dialog dialogDefinition event data': function() {
+			var stub = sinon.stub();
+
+			CKEDITOR.once( 'dialogDefinition', stub );
+
+			this.editorBot.dialog( 'testDialogDefinitionEvent', function() {
+				assert.areSame( 1, stub.callCount, 'Event call count' );
+
+				sinon.assert.calledWith( stub, sinon.match.has( 'data', {
+					name: 'testDialogDefinitionEvent',
+					dialog: CKEDITOR.dialog.getCurrent(),
+					definition: sinon.match.instanceOf( Object )
+				} ) );
+			} );
 		}
 	} );
 
