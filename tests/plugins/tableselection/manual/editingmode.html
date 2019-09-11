@@ -35,5 +35,11 @@
 </div>
 
 <script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
+
 	dialogTools.initDialogEditingModeTest( CKEDITOR.replace( 'editor' ) );
 </script>
