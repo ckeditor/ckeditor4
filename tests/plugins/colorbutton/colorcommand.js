@@ -46,7 +46,6 @@
 		var expected = options.expected,
 			editor = options.editor,
 			newStyle = options.newStyle,
-			message = options.message,
 			collapsed = options.collapsed || false,
 			commandName = options.commandName;
 
@@ -59,7 +58,7 @@
 
 		assert.isInnerHtmlMatching( expected, editor.editable().getHtml(), {
 			fixStyles: true
-		}, message );
+		} );
 	}
 
 	function getFirstColorElement( panel ) {
