@@ -1590,7 +1590,7 @@
 		 * @since 4.13.0
 		 * @return {boolean}
 		 */
-		shouldPreventInitialization: function() {
+		isDetachedOrDestroyed: function() {
 			return this.status === 'destroyed' || this.container && this.container.isDetached();
 		}
 	} );

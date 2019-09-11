@@ -2170,7 +2170,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @returns {Boolean} Whether element is detached from DOM.
 		 */
 		isDetached: function() {
-			return !this.getDocument().getDocumentElement().contains( this );
+			return !this.getDocument().getDocumentElement().contains( this ) ||
+				( ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 ) && !this.getDocument().$.defaultView );
 		}
 	} );
 
