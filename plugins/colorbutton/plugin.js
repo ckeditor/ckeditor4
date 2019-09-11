@@ -88,7 +88,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
 				colorData = { type: type },
 				panelBlock,
-				commandName = name.slice( 0, 2 ).toLowerCase() + name.slice( 2 );
+				commandName = type === 'back' ? 'bgColor' : 'textColor';
 
 			options = options || {};
 
