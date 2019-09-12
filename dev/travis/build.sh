@@ -6,15 +6,15 @@
 
 BRANCH=$1
 
-# Clone and setup ckeditor-presets repository.
+# Clone and setup ckeditor4-presets repository.
 cd ..
-git clone https://github.com/ckeditor/ckeditor-presets.git
-cd ckeditor-presets
+git clone https://github.com/ckeditor/ckeditor4-presets.git
+cd ckeditor4-presets
 git fetch --all
 git checkout $BRANCH
 git reset --hard origin/$BRANCH
 
-# Remove ckeditor-dev submodule as the local one will be used.
+# Remove ckeditor4 submodule as the local one will be used.
 git submodule deinit ckeditor
 git rm ckeditor
 
@@ -25,13 +25,13 @@ sed -i "s/com:/com\//g" .gitmodules
 # Init submodules.
 git submodule update --init
 
-# Link to ckeditor-dev repository which triggered the build.
+# Link to ckeditor4 repository which triggered the build.
 rm -rf ckeditor
-ln -s ../ckeditor-dev/ ckeditor
+ln -s ../ckeditor4/ ckeditor
 
 # Build full preset.
 ./build.sh full all -t
 cd "./build/$(ls -1t ./build/ | head -n 1)/full-all/ckeditor/"
 
 # Copy bender.ci.js file as it is removed during build.
-cp ../../../../../ckeditor-dev/bender.ci.js bender.ci.js
+cp ../../../../../ckeditor4/bender.ci.js bender.ci.js

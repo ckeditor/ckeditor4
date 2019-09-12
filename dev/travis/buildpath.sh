@@ -4,4 +4,4 @@
 
 # Return CKEditor build path.
 
-echo "../ckeditor-presets/build/$(ls -1t ../ckeditor-presets/build/ | head -n 1)/full-all/ckeditor/"
+echo "../ckeditor4-presets/build/$(ls -1t ../ckeditor4-presets/build/ | head -n 1)/full-all/ckeditor/"
