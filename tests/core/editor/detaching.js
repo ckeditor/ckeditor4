@@ -59,7 +59,79 @@
 		editor.status = 'destroyed';
 	} );
 
-	bender.test( tests );
+	// bender.editor = true;
+
+	bender.test( {
+		init: function() {
+			this.wrapper = CKEDITOR.document.getById( 'wrapper' );
+		},
+
+		setUp: function() {
+			this.wrapper.setHtml( '' );
+		},
+
+		tearDown: function() {
+			CKEDITOR.removeAllListeners();
+			CKEDITOR.fire( 'reset' );
+		},
+
+		'test detach and destroy synchronously - classic editor in textarea': synchronousTestCase( 'classic', 'textarea' ),
+
+		'test detach and destroy synchronously - classic editor in div': synchronousTestCase( 'classic', 'div' ),
+
+		'test detach and destroy synchronously - divarea editor in textarea': synchronousTestCase( 'divarea', 'textarea' ),
+
+		'test detach and destroy synchronously - divarea editor in div': synchronousTestCase( 'divarea', 'div' ),
+
+		'test detach and destroy synchronously - inline editor in textarea': synchronousTestCase( 'inline', 'textarea' ),
+
+		'test detach and destroy synchronously - inline editor in div': synchronousTestCase( 'inline', 'div' )
+
+	} );
+
+
+	function addAsynchronousAsserts() {
+		CKEDITOR.on( 'instanceDestroyed', function() {
+			resume( function() {
+				assert.pass( 'Editor should be destroyed without errors.' );
+			} );
+		} );
+
+		CKEDITOR.on( 'instanceReady', function( evt ) {
+			resume( function() {
+				assert.fail( 'This editor: "' + evt.editor.name + '" should never be intialized.' );
+			} );
+		} );
+	}
+
+	function synchronousTestCase( editorType, elementName ) {
+		return function() {
+			var wrapper = this.wrapper,
+				editorContainer = elementName === 'div' ?
+				CKEDITOR.dom.element.createFromHtml( '<div contenteditable="true"></div>' ) :
+				CKEDITOR.dom.element.createFromHtml( '<textarea></textarea>' ),
+				createMethod = editorType === 'inline' ? 'inline' : 'replace',
+				config = {},
+				editor;
+
+			if ( editorType === 'divarea' ) {
+				config.extraPlugins = 'divarea';
+			} else if ( editorType === 'inline' ) {
+				config.extraPlugins = 'floatingspace';
+			}
+
+			wrapper.append( editorContainer );
+
+			addAsynchronousAsserts();
+
+			editor = CKEDITOR[ createMethod ]( editorContainer.$, config );
+
+			editorContainer.remove();
+			editor.destroy();
+			wait();
+		};
+	}
+
 
 	function createDetatchTests( tests ) {
 		var editors = [ 'classic', 'inline', 'divarea' ],
