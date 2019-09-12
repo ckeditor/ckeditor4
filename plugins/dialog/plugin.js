@@ -865,8 +865,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 */
 		show: function() {
 			// Insert the dialog's element to the root document.
-			var element = this._.element;
-			var definition = this.definition;
+			var element = this._.element,
+				definition = this.definition,
+				editor = this.getParentEditor();
 
 			if ( !( element.getParent() && element.getParent().equals( CKEDITOR.document.getBody() ) ) ) {
 				element.appendTo( CKEDITOR.document.getBody() );
@@ -880,8 +881,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				this._.contentSize && this._.contentSize.height || definition.height || definition.minHeight
 			);
 
-			// Reset all inputs back to their default value.
-			this.reset();
+			// (#2277)
+			if ( this.getMode( editor ) === CKEDITOR.dialog.CREATION_MODE ) {
+				this.reset();
+			}
 
 			// Selects the first tab if no tab is already selected.
 			if ( this._.currentTabId === null ) {
@@ -897,12 +900,12 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			if ( CKEDITOR.dialog._.currentTop === null ) {
 				CKEDITOR.dialog._.currentTop = this;
 				this._.parentDialog = null;
-				showCover( this._.editor );
+				showCover( editor );
 
 			} else {
 				this._.parentDialog = CKEDITOR.dialog._.currentTop;
 				var parentElement = this._.parentDialog.getElement().getFirst();
-				parentElement.$.style.zIndex -= Math.floor( this._.editor.config.baseFloatZIndex / 2 );
+				parentElement.$.style.zIndex -= Math.floor( editor.config.baseFloatZIndex / 2 );
 				CKEDITOR.dialog._.currentTop = this;
 			}
 
@@ -938,7 +941,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 					}
 				}
 
-				if ( !enableElements || ( requiredContent && !this._.editor.activeFilter.check( requiredContent ) ) )
+				if ( !enableElements || ( requiredContent && !editor.activeFilter.check( requiredContent ) ) )
 					tab[ 0 ].addClass( 'cke_dialog_tab_disabled' );
 				else
 					tab[ 0 ].removeClass( 'cke_dialog_tab_disabled' );
@@ -956,7 +959,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 				this.fire( 'show', {} );
 
-				this._.editor.fire( 'dialogShow', this );
+				editor.fire( 'dialogShow', this );
 
 				if ( !this._.parentDialog )
 					this._.editor.focusManager.lock();
