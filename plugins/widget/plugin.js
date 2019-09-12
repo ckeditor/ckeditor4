@@ -3553,11 +3553,23 @@
 		}
 	}
 
-	function setupFullMask( widget ) {
-		if ( !widget.mask ) {
-			return;
-		}
+	function setupMask( widget ) {
+		if ( widget.mask === true ) {
+			setupFullMask( widget );
+		} else if ( widget.mask ) {
+			// Buffer to limit number of separate calls to 'setupPartialMask', e.g. during writing.
+			var maskBuffer = new CKEDITOR.tools.buffers.throttle( 250, setupPartialMask, widget );
 
+			// 'saveSnapshot' and 'change' events are most reliably fired each time widget
+			// can possibly be resized and need a new partial mask (#3240).
+			widget.editor.on( 'saveSnapshot', maskBuffer.input );
+			widget.editor.on( 'change', maskBuffer.input );
+
+			maskBuffer.input();
+		}
+	}
+
+	function setupFullMask( widget ) {
 		// Reuse mask if already exists (https://dev.ckeditor.com/ticket/11281).
 		var img = widget.wrapper.findOne( '.cke_widget_mask' );
 
@@ -3578,56 +3590,71 @@
 			return;
 		}
 
-		// The issue due to which mask reusage was introduced (https://dev.ckeditor.com/ticket/11281)
-		// is no longer reproducible, and for partial mask it wouldn't work anyway because of resizing possibility,
-		// so existing mask is now always removed instead.
-		var oldMask = this.wrapper.findOne( '.cke_widget_partial_mask' ),
-			newMask = new CKEDITOR.dom.element( 'img', this.editor.document ),
-			part,
-			parent;
-
-		if ( oldMask ) {
-			// console.log( 'remove' );
-			oldMask.remove();
-		}
-
 		// Original value of 'widget.mask' is substituted with actual mask element, so
 		// 'widget.maskPart' property was added to be able to adjust partial mask e.g. after resizing.
 		this.maskPart = this.maskPart || this.mask;
 
+		var part = this.parts[ this.maskPart ],
+			mask;
+
 		// If requested part is invalid, don't create mask.
-		part = this.parts[ this.maskPart ];
 		if ( !part ) {
 			return;
 		}
 
-		newMask.setAttributes( {
+		mask = this.wrapper.findOne( '.cke_widget_partial_mask' );
+
+		if ( mask ) {
+			if ( !isMaskFitting( mask, part ) ) {
+				setMaskSizeAndPosition( mask, part );
+			}
+			return;
+		}
+
+		mask = new CKEDITOR.dom.element( 'img', this.editor.document );
+		mask.setAttributes( {
 			src: CKEDITOR.tools.transparentImageData,
 			'class': 'cke_reset cke_widget_partial_mask'
 		} );
+		setMaskSizeAndPosition( mask, part );
 
+		this.wrapper.append( mask );
+		this.mask = mask;
+	}
+
+	function isMaskFitting( oldElement, newElement ) {
+		var dimensionsChanged = !( oldElement.$.offsetWidth == newElement.$.offsetWidth &&
+				oldElement.$.offsetHeight == newElement.$.offsetHeight ),
+			positionChanged = !( oldElement.$.offsetTop == newElement.$.offsetTop &&
+				oldElement.$.offsetLeft == newElement.$.offsetLeft );
+
+		if ( dimensionsChanged || positionChanged ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	function setMaskSizeAndPosition( mask, maskedPart ) {
 		// Widgets with resize feature are messing with default widget structure,
-		// so it needs to be taken into account and mask will be moved a bit.
-		// The problem was appearing after dragging the widget.
-		parent = part.getParent();
+		// so it needs to be taken into account and mask's position will be adjusted.
+		// The problem was appearing after dragging the widget in FF.
+		var parent = maskedPart.getParent();
 		if ( !CKEDITOR.plugins.widget.isDomWidget( parent ) ) {
-			newMask.setStyles( {
-				top: part.$.offsetTop + parent.$.offsetTop + 'px',
-				left: part.$.offsetLeft + parent.$.offsetLeft + 'px',
-				width: part.$.offsetWidth + 'px',
-				height: part.$.offsetHeight + 'px'
+			mask.setStyles( {
+				top: maskedPart.$.offsetTop + parent.$.offsetTop + 'px',
+				left: maskedPart.$.offsetLeft + parent.$.offsetLeft + 'px',
+				width: maskedPart.$.offsetWidth + 'px',
+				height: maskedPart.$.offsetHeight + 'px'
 			} );
 		} else {
-			newMask.setStyles( {
-				top: part.$.offsetTop + 'px',
-				left: part.$.offsetLeft + 'px',
-				width: part.$.offsetWidth + 'px',
-				height: part.$.offsetHeight + 'px'
+			mask.setStyles( {
+				top: maskedPart.$.offsetTop + 'px',
+				left: maskedPart.$.offsetLeft + 'px',
+				width: maskedPart.$.offsetWidth + 'px',
+				height: maskedPart.$.offsetHeight + 'px'
 			} );
 		}
-
-		this.wrapper.append( newMask );
-		this.mask = newMask;
 	}
 
 	// Replace parts object containing:
@@ -3651,20 +3678,7 @@
 		setupWrapper( widget );
 		setupParts( widget );
 		setupEditables( widget );
-
-		if ( widget.mask == true ) {
-			setupFullMask( widget );
-		} else if ( widget.mask ) {
-			// Buffer to limit number of separate calls to 'setupPartialMask', e.g. during writing.
-			var maskBuffer = new CKEDITOR.tools.buffers.throttle( 250, setupPartialMask, widget );
-			// 'saveSnapshot' and 'change' events are most reliably fired each time widget
-			// can possibly be resized and need a new partial mask (#3240).
-			widget.editor.on( 'saveSnapshot', maskBuffer.input );
-			widget.editor.on( 'change', maskBuffer.input );
-
-			maskBuffer.input();
-		}
-
+		setupMask( widget );
 		setupDragHandler( widget );
 		setupDataClassesListener( widget );
 		setupA11yListener( widget );
