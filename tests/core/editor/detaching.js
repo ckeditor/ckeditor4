@@ -73,29 +73,71 @@
 			CKEDITOR.fire( 'reset' );
 		},
 
-		'test detach and destroy synchronously - classic editor in textarea': getSimpleTestCase( 'classic', 'textarea' ),
+		'test detach and destroy synchronously - classic editor in textarea': getSimpleTestCase( {
+			editorType: 'classic',
+			elementName: 'textarea'
+		} ),
 
-		'test detach and destroy synchronously - classic editor in div': getSimpleTestCase( 'classic', 'div' ),
+		'test detach and destroy synchronously - classic editor in div': getSimpleTestCase( {
+			editorType: 'classic',
+			elementName: 'div'
+		} ),
 
-		'test detach and destroy synchronously - divarea editor in textarea': getSimpleTestCase( 'divarea', 'textarea' ),
+		'test detach and destroy synchronously - divarea editor in textarea': getSimpleTestCase( {
+			editorType: 'divarea',
+			elementName: 'textarea'
+		} ),
 
-		'test detach and destroy synchronously - divarea editor in div': getSimpleTestCase( 'divarea', 'div' ),
+		'test detach and destroy synchronously - divarea editor in div': getSimpleTestCase( {
+			editorType: 'divarea',
+			elementName: 'div'
+		} ),
 
-		'test detach and destroy synchronously - inline editor in textarea': getSimpleTestCase( 'inline', 'textarea' ),
+		'test detach and destroy synchronously - inline editor in textarea': getSimpleTestCase( {
+			editorType: 'inline',
+			elementName: 'textarea'
+		} ),
 
-		'test detach and destroy synchronously - inline editor in div': getSimpleTestCase( 'inline', 'div' ),
+		'test detach and destroy synchronously - inline editor in div': getSimpleTestCase( {
+			editorType: 'inline',
+			elementName: 'div'
+		} ),
 
-		'test detach and destroy asynchronously - classic editor in textarea': getSimpleTestCase( 'classic', 'textarea', true ),
+		'test detach and destroy asynchronously - classic editor in textarea': getSimpleTestCase( {
+			editorType: 'classic',
+			elementName: 'textarea',
+			isAsynchronous: true
+		} ),
 
-		'test detach and destroy asynchronously - classic editor in div': getSimpleTestCase( 'classic', 'div', true ),
+		'test detach and destroy asynchronously - classic editor in div': getSimpleTestCase( {
+			editorType: 'classic',
+			elementName: 'div',
+			isAsynchronous: true
+		} ),
 
-		'test detach and destroy asynchronously - divarea editor in textarea': getSimpleTestCase( 'divarea', 'textarea', true ),
+		'test detach and destroy asynchronously - divarea editor in textarea': getSimpleTestCase( {
+			editorType: 'divarea',
+			elementName: 'textarea',
+			isAsynchronous: true
+		} ),
 
-		'test detach and destroy asynchronously - divarea editor in div': getSimpleTestCase( 'divarea', 'div', true ),
+		'test detach and destroy asynchronously - divarea editor in div': getSimpleTestCase( {
+			editorType: 'divarea',
+			elementName: 'div',
+			isAsynchronous: true
+		} ),
 
-		'test detach and destroy asynchronously - inline editor in textarea': getSimpleTestCase( 'inline', 'textarea', true ),
+		'test detach and destroy asynchronously - inline editor in textarea': getSimpleTestCase( {
+			editorType: 'inline',
+			elementName: 'textarea',
+			isAsynchronous: true
+		} ),
 
-		'test detach and destroy asynchronously - inline editor in div': getSimpleTestCase( 'inline', 'div', true )
+		'test detach and destroy asynchronously - inline editor in div': getSimpleTestCase( {
+			editorType: 'inline',
+			elementName: 'div',
+			isAsynchronous: true
+		} )
 	} );
 
 
@@ -116,10 +158,11 @@
 		} );
 	}
 
-	function getSimpleTestCase( editorType, elementName, isAsynchronous ) {
+	function getSimpleTestCase( options ) {
 		return function() {
-			var wrapper = this.wrapper,
-				editorContainer = CKEDITOR.dom.element.createFromHtml( elementName === 'textarea' ? '<textarea></textarea>' : '<div contenteditable="true"></div>' ),
+			var editorType = options.editorType,
+				wrapper = this.wrapper,
+				editorContainer = CKEDITOR.dom.element.createFromHtml( options.elementName === 'textarea' ? '<textarea></textarea>' : '<div contenteditable="true"></div>' ),
 				createMethod = editorType === 'inline' ? 'inline' : 'replace',
 				config = {},
 				editor;
@@ -136,7 +179,7 @@
 
 			editor = CKEDITOR[ createMethod ]( editorContainer.$, config );
 
-			if ( isAsynchronous ) {
+			if ( options.isAsynchronous ) {
 				setTimeout( function() {
 					editorContainer.remove();
 					editor.destroy();
