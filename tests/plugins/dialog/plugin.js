@@ -576,8 +576,8 @@
 		// (#2423)
 		'test dialog definition allows for overwriting getMode': function() {
 			this.editorBot.dialog( 'testGetMode', function( dialog ) {
-				// Get model may be called during the initialization, that's not a concern of this TC.
-				dialogDefinitions.testGetModel.getModel.reset();
+				// Get mode may be called during the initialization, that's not a concern of this TC.
+				dialogDefinitions.testGetMode.getMode.reset();
 
 				var ret = dialog.getMode( this.editor );
 
