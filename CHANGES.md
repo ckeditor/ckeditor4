@@ -33,6 +33,7 @@ Fixed Issues:
 * [#2395](https://github.com/ckeditor/ckeditor-dev/issues/2395): [Android] Fixed: Focused input in [dialog](https://ckeditor.com/cke4/addon/dialog) is scrolled out of the viewport when soft keyboard appears.
 * [#453](https://github.com/ckeditor/ckeditor-dev/issues/453): Fixed: [Link](https://ckeditor.com/cke4/addon/link) dialog has invalid width when editor is maximized and browser window resized.
 * [#2138](https://github.com/ckeditor/ckeditor-dev/issues/2138): Fixed: Email address containing question mark is mishandled by [Link](https://ckeditor.com/cke4/addon/link) plugin.
+* [#917](https://github.com/ckeditor/ckeditor-dev/issues/917): Fixed: [`CKEDITOR.plugins.addExternal`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins.html#method-addExternal) method does not load a plugin if the path does not contain slash at the end.
 
 API Changes:
 
