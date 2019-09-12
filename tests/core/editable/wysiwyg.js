@@ -14,7 +14,6 @@
 		'async:init': function() {
 			var tc = this;
 			var editor = new CKEDITOR.editor( { autoParagraph: false } );
-
 			editor.on( 'loaded', function() {
 				tc.editor = editor;
 				tc.callback();
