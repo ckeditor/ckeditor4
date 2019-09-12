@@ -4580,6 +4580,9 @@
  *
  * If not set, current widget HTML will be used instead.
  *
+ * Note: this method will overwrite HTML for the whole widget, **including**
+ * any nested widgets.
+ *
  * @method getClipboardHtml
  * @since 4.13.0
  * @returns {String} Widget HTML.
