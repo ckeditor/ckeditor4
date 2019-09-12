@@ -814,8 +814,10 @@
 				// On Webkit&Gecko (#1113) we use focusout which is fired more often than blur. I.e. it will also be
 				// fired when nested editable is blurred.
 				editable.attachListener( editable, CKEDITOR.env.webkit || CKEDITOR.env.gecko ? 'focusout' : 'blur', function() {
+					var isFakeOrSingleSelection = lastSel && ( lastSel.isFake || lastSel.getRanges() < 2 );
+
 					// Ignore cases that doesn't produce issue in Firefox (#3136).
-					if ( CKEDITOR.env.gecko && !isInline && ( lastSel.isFake || lastSel.getRanges() < 2 ) ) {
+					if ( CKEDITOR.env.gecko && !isInline && isFakeOrSingleSelection ) {
 						return;
 					}
 
