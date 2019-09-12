@@ -314,7 +314,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}, editor ).definition;
 
 		// (#2277)
-		this._setConfigDefaultValues();
+		this.setConfigDefaultValues();
 
 		// Cache tabs that should be removed.
 		if ( !( 'removeDialogTabs' in editor._ ) && editor.config.removeDialogTabs ) {
@@ -1592,15 +1592,15 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		/*
 		 * Overwrites dialog field default values with {@link CKEDITOR.config.dialog_defaultValues}.
 		 *
-		 * @since 4.11.0
+		 * @since 4.13.0
 		 * @private
 		 */
-		_setConfigDefaultValues: function() {
+		setConfigDefaultValues: function() {
 			var contents = this.definition.contents;
 			for ( var key in contents ) {
 				var contentObj = contents[ key ];
 				CKEDITOR.tools.array.forEach( contentObj.elements, function( element ) {
-					this._setFieldConfigDefaultValue( contentObj.id, element );
+					this.setFieldConfigDefaultValue( contentObj.id, element );
 				}, this );
 			}
 		},
@@ -1611,19 +1611,19 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 *
 		 * Field default value is left unchanged if configuration value doesn't exist.
 		 *
-		 * @since 4.11.0
+		 * @since 4.13.0
 		 * @private
 		 * @param {String} tabId
 		 * @param {CKEDITOR.ui.dialog.uiElement} element
 		 */
-		_setFieldConfigDefaultValue: function( tabId, element ) {
+		setFieldConfigDefaultValue: function( tabId, element ) {
 			if ( element.children ) {
 				return CKEDITOR.tools.array.forEach( element.children, function( child ) {
-					this._setFieldConfigDefaultValue( tabId, child );
+					this.setFieldConfigDefaultValue( tabId, child );
 				}, this );
 			}
 
-			var defaultValue = this._getFieldConfigDefaultValue( tabId, element.id );
+			var defaultValue = this.getFieldConfigDefaultValue( tabId, element.id );
 			if ( defaultValue !== null ) {
 				element[ 'default' ] = defaultValue;
 			}
@@ -1636,13 +1636,13 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 *
 		 * The value is retrieved only for the current dialog definition.
 		 *
-		 * @since 4.11.0
+		 * @since 4.13.0
 		 * @private
 		 * @param {String} tabId
 		 * @param {String} elementName
 		 * @returns {String} [defaultValue]
 		 */
-		_getFieldConfigDefaultValue: function( tabId, elementName ) {
+		getFieldConfigDefaultValue: function( tabId, elementName ) {
 			var defaultValues = this._.editor.config.dialog_defaultValues;
 
 			if ( !defaultValues ) {
@@ -3667,7 +3667,7 @@ CKEDITOR.plugins.add( 'dialog', {
  *  }
  * ```
  *
- * @since 4.11.0
+ * @since 4.13.0
  * @cfg {Object.<String, String>} [dialog_defaultValues]
  * @member CKEDITOR.config
  */
