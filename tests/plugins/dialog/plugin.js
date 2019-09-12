@@ -659,6 +659,17 @@
 		},
 
 		// (#2277)
+		'test default values are not reinitialized for editing mode': function() {
+			var spy = sinon.spy( CKEDITOR.dialog.prototype, 'reset' );
+
+			this.editorBot.dialog( 'testGetMode', function() {
+				spy.restore();
+
+				assert.isFalse( spy.called, 'Dialog values should remain' );
+			} );
+		},
+
+		// (#2277)
 		'test removing dialog value with config.dialog_defaultValues': function() {
 			this.editorBot.dialog( 'testDialogEmptyVal', function( dialog ) {
 				assert.areEqual( '', dialog.getContentElement( 'info', 'foo' ).getValue(), 'Field is empty.' );
