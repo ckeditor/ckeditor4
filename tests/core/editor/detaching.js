@@ -1,5 +1,6 @@
 /* bender-tags: editor */
 /* bender-include: _helpers/tools.js */
+/* bender-ui: collapsed */
 // jscs:disable maximumLineLength
 /* bender-ckeditor-plugins: about,a11yhelp,basicstyles,bidi,blockquote,clipboard,colorbutton,colordialog,copyformatting,contextmenu,dialogadvtab,div,elementspath,enterkey,entities,filebrowser,find,flash,floatingspace,font,format,forms,horizontalrule,htmlwriter,image,iframe,indentlist,indentblock,justify,language,link,list,liststyle,magicline,maximize,newpage,pagebreak,pastefromword,pastetext,preview,print,removeformat,resize,save,selectall,showblocks,showborders,smiley,sourcearea,specialchar,stylescombo,tab,table,tableselection,tabletools,templates,toolbar,undo,uploadimage,wysiwygarea */
 // jscs:enable maximumLineLength
@@ -66,50 +67,59 @@
 			this.wrapper = CKEDITOR.document.getById( 'wrapper' );
 		},
 
-		setUp: function() {
-			this.wrapper.setHtml( '' );
-		},
-
 		tearDown: function() {
+			this.wrapper.setHtml( '' );
 			CKEDITOR.removeAllListeners();
 			CKEDITOR.fire( 'reset' );
 		},
 
-		'test detach and destroy synchronously - classic editor in textarea': synchronousTestCase( 'classic', 'textarea' ),
+		'test detach and destroy synchronously - classic editor in textarea': getSimpleTestCase( 'classic', 'textarea' ),
 
-		'test detach and destroy synchronously - classic editor in div': synchronousTestCase( 'classic', 'div' ),
+		'test detach and destroy synchronously - classic editor in div': getSimpleTestCase( 'classic', 'div' ),
 
-		'test detach and destroy synchronously - divarea editor in textarea': synchronousTestCase( 'divarea', 'textarea' ),
+		'test detach and destroy synchronously - divarea editor in textarea': getSimpleTestCase( 'divarea', 'textarea' ),
 
-		'test detach and destroy synchronously - divarea editor in div': synchronousTestCase( 'divarea', 'div' ),
+		'test detach and destroy synchronously - divarea editor in div': getSimpleTestCase( 'divarea', 'div' ),
 
-		'test detach and destroy synchronously - inline editor in textarea': synchronousTestCase( 'inline', 'textarea' ),
+		'test detach and destroy synchronously - inline editor in textarea': getSimpleTestCase( 'inline', 'textarea' ),
 
-		'test detach and destroy synchronously - inline editor in div': synchronousTestCase( 'inline', 'div' )
+		'test detach and destroy synchronously - inline editor in div': getSimpleTestCase( 'inline', 'div' ),
 
+		'test detach and destroy asynchronously - classic editor in textarea': getSimpleTestCase( 'classic', 'textarea', true ),
+
+		'test detach and destroy asynchronously - classic editor in div': getSimpleTestCase( 'classic', 'div', true ),
+
+		'test detach and destroy asynchronously - divarea editor in textarea': getSimpleTestCase( 'divarea', 'textarea', true ),
+
+		'test detach and destroy asynchronously - divarea editor in div': getSimpleTestCase( 'divarea', 'div', true ),
+
+		'test detach and destroy asynchronously - inline editor in textarea': getSimpleTestCase( 'inline', 'textarea', true ),
+
+		'test detach and destroy asynchronously - inline editor in div': getSimpleTestCase( 'inline', 'div', true )
 	} );
 
 
 	function addAsynchronousAsserts() {
 		CKEDITOR.on( 'instanceDestroyed', function() {
 			resume( function() {
-				assert.pass( 'Editor should be destroyed without errors.' );
-			} );
-		} );
+				var failMsg = currentError;
 
-		CKEDITOR.on( 'instanceReady', function( evt ) {
-			resume( function() {
-				assert.fail( 'This editor: "' + evt.editor.name + '" should never be intialized.' );
+				if ( failMsg ) {
+					currentError = null;
+
+					assert.fail( failMsg );
+				} else {
+					assert.pass( 'Editor should be destroyed without errors.' );
+				}
+
 			} );
 		} );
 	}
 
-	function synchronousTestCase( editorType, elementName ) {
+	function getSimpleTestCase( editorType, elementName, isAsynchronous ) {
 		return function() {
 			var wrapper = this.wrapper,
-				editorContainer = elementName === 'div' ?
-				CKEDITOR.dom.element.createFromHtml( '<div contenteditable="true"></div>' ) :
-				CKEDITOR.dom.element.createFromHtml( '<textarea></textarea>' ),
+				editorContainer = CKEDITOR.dom.element.createFromHtml( elementName === 'textarea' ? '<textarea></textarea>' : '<div contenteditable="true"></div>' ),
 				createMethod = editorType === 'inline' ? 'inline' : 'replace',
 				config = {},
 				editor;
@@ -126,8 +136,15 @@
 
 			editor = CKEDITOR[ createMethod ]( editorContainer.$, config );
 
-			editorContainer.remove();
-			editor.destroy();
+			if ( isAsynchronous ) {
+				setTimeout( function() {
+					editorContainer.remove();
+					editor.destroy();
+				}, 30 );
+			} else {
+				editorContainer.remove();
+				editor.destroy();
+			}
 			wait();
 		};
 	}
