@@ -3570,9 +3570,13 @@
 				} );
 			} );
 
+			// Focusing editable doesn't trigger focus on widget, so listen to those events separately.
 			for ( var editable in widget.editables ) {
 				widget.editables[ editable ].on( 'focus', function() {
 					widget.editor.on( 'change', maskBuffer.input );
+					// If widget was focused before focusing editable, the 'blur' event has to be removed.
+					// Otherwise on Chrome it will trigger after the focus event and cancel listening to
+					// changes (on FF it works inversely).
 					if ( blurListener ) {
 						blurListener.removeListener();
 					}
@@ -3583,6 +3587,9 @@
 			}
 			maskBuffer.input();
 
+			// FF renders image-like widget very late (much after 'instanceReady') so mask creation
+			// has to be postponed. The same is true for switching between WYSIWYG and source mode,
+			// just different event and smaller delay are needed.
 			if ( CKEDITOR.env.gecko ) {
 				widget.editor.on( 'instanceReady', function() {
 					setTimeout( function() {
