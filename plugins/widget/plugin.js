@@ -2995,8 +2995,9 @@
 
 		editor.on( 'dataReady', function() {
 			// Clean up all widgets loaded from snapshot.
-			if ( snapshotLoaded )
+			if ( snapshotLoaded ) {
 				cleanUpAllWidgetElements( widgetsRepo, editor.editable() );
+			}
 			snapshotLoaded = 0;
 
 			// Some widgets were destroyed on contentDomUnload,
@@ -3012,8 +3013,9 @@
 		editor.on( 'loadSnapshot', function( evt ) {
 			// Primitive but sufficient check which will prevent from executing
 			// heavier cleanUpAllWidgetElements if not needed.
-			if ( ( /data-cke-widget/ ).test( evt.data ) )
+			if ( ( /data-cke-widget/ ).test( evt.data ) ) {
 				snapshotLoaded = 1;
+			}
 
 			widgetsRepo.destroyAll( true );
 		}, null, null, 9 );
@@ -3069,12 +3071,14 @@
 
 		return {
 			select: function( widget ) {
-				if ( CKEDITOR.tools.indexOf( currentlySelected, widget ) < 0 )
+				if ( CKEDITOR.tools.indexOf( currentlySelected, widget ) < 0 ) {
 					toBeSelected.push( widget );
+				}
 
 				var index = CKEDITOR.tools.indexOf( toBeDeselected, widget );
-				if ( index >= 0 )
+				if ( index >= 0 ) {
 					toBeDeselected.splice( index, 1 );
+				}
 
 				return this;
 			},
@@ -3090,8 +3094,9 @@
 
 				widgetsRepo.editor.fire( 'lockSnapshot' );
 
-				if ( focusedChanged && ( widget = widgetsRepo.focused ) )
+				if ( focusedChanged && ( widget = widgetsRepo.focused ) ) {
 					blurWidget( widgetsRepo, widget );
+				}
 
 				while ( ( widget = toBeDeselected.pop() ) ) {
 					currentlySelected.splice( CKEDITOR.tools.indexOf( currentlySelected, widget ), 1 );
@@ -3157,16 +3162,18 @@
 			cl;
 
 		// Ee... Something is wrong with this style.
-		if ( !classes )
+		if ( !classes ) {
 			return;
+		}
 
 		// Clone, because we need to break reference.
 		updatedClasses = CKEDITOR.tools.clone( updatedClasses );
 
 		while ( ( cl = classes.pop() ) ) {
 			if ( apply ) {
-				if ( !updatedClasses[ cl ] )
+				if ( !updatedClasses[ cl ] ) {
 					changed = updatedClasses[ cl ] = 1;
+				}
 			} else {
 				if ( updatedClasses[ cl ] ) {
 					delete updatedClasses[ cl ];
@@ -3174,8 +3181,9 @@
 				}
 			}
 		}
-		if ( changed )
+		if ( changed ) {
 			widget.setData( 'classes', updatedClasses );
+		}
 	}
 
 	function cancel( evt ) {
@@ -3190,8 +3198,9 @@
 		// We're still handling previous copy/cut.
 		// When keystroke is used to copy/cut this will also prevent
 		// conflict with copySingleWidget called again for native copy/cut event.
-		if ( doc.getById( 'cke_copybin' ) )
+		if ( doc.getById( 'cke_copybin' ) ) {
 			return;
+		}
 
 		// [IE] Use span for copybin and its container to avoid bug with expanding
 		// editable height by absolutely positioned element.
@@ -3252,13 +3261,15 @@
 		range.selectNodeContents( copybin );
 		range.select();
 
-		if ( needsScrollHack )
+		if ( needsScrollHack ) {
 			docElement.scrollTop = scrollTop;
+		}
 
 		setTimeout( function() {
 			// [IE] Focus widget before removing copybin to avoid scroll jump.
-			if ( !isCut )
+			if ( !isCut ) {
 				widget.focus();
+			}
 
 			copybinContainer.remove();
 
@@ -3293,8 +3304,9 @@
 
 		// If focus stays within editor override blur and set currentActive because it should be
 		// automatically changed to editable on editable#focus but it is not fired.
-		if ( ( editable.isInline() ? editable : editor.document.getWindow().getFrame() ).equals( active ) )
+		if ( ( editable.isInline() ? editable : editor.document.getWindow().getFrame() ).equals( active ) ) {
 			editor.focusManager.focus( editable );
+		}
 	}
 
 	// Force selectionChange when editable was focused.
@@ -3303,8 +3315,9 @@
 	function onEditableFocus() {
 		// Gecko does not support 'DOMFocusIn' event on which we unlock selection
 		// in selection.js to prevent selection locking when entering nested editables.
-		if ( CKEDITOR.env.gecko )
+		if ( CKEDITOR.env.gecko ) {
 			this.editor.unlockSelection();
+		}
 
 		// We don't need to force selectionCheck on Webkit, because on Webkit
 		// we do that on DOMFocusIn in selection.js.
@@ -3329,8 +3342,11 @@
 				var target = evt.data.getTarget();
 
 				// Allow text dragging inside nested editables or dragging inline widget's drag handler.
-				if ( !Widget.getNestedEditable( widget, target ) && !( widget.inline && Widget.isDomDragHandler( target ) ) )
+				if ( !Widget.getNestedEditable( widget, target ) &&
+					!( widget.inline &&
+					Widget.isDomDragHandler( target ) ) ) {
 					evt.data.preventDefault();
+				}
 			} );
 		}
 
@@ -3343,19 +3359,20 @@
 			// ENTER.
 			if ( keyCode == 13 ) {
 				widget.edit();
+				return false;
+			}
 			// CTRL+C or CTRL+X.
-			} else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
+			else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
 				copySingleWidget( widget, keyCode == CKEDITOR.CTRL + 88 );
-				return; // Do not preventDefault.
+			}
 			// Pass chosen keystrokes to other plugins or default fake sel handlers.
 			// Pass all CTRL/ALT keystrokes.
-			} else if ( keyCode in keystrokesNotBlockedByWidget ||
+			else if ( keyCode in keystrokesNotBlockedByWidget ||
 				( CKEDITOR.CTRL & keyCode ) ||
 				( CKEDITOR.ALT & keyCode ) ) {
-				return;
 			}
+			return; // Do not preventDefault.
 
-			return false;
 		}, null, null, 999 );
 		// Listen with high priority so it's possible
 		// to overwrite this callback.
@@ -3368,11 +3385,13 @@
 			}
 		} );
 
-		if ( widgetDef.data )
+		if ( widgetDef.data ) {
 			widget.on( 'data', widgetDef.data );
+		}
 
-		if ( widgetDef.edit )
+		if ( widgetDef.edit ) {
 			widget.on( 'edit', widgetDef.edit );
+		}
 	}
 
 	function setupWrapper( widget ) {
@@ -3388,7 +3407,8 @@
 	function setupParts( widget ) {
 		if ( widget.parts ) {
 			var parts = {},
-				el, partName;
+				el,
+				partName;
 
 			for ( partName in widget.parts ) {
 				el = widget.wrapper.findOne( widget.parts[ partName ] );
@@ -3399,14 +3419,15 @@
 	}
 
 	function setupEditables( widget ) {
-		var editableName,
-			editableDef,
-			definedEditables = widget.editables;
+		var definedEditables = widget.editables,
+			editableName,
+			editableDef;
 
 		widget.editables = {};
 
-		if ( !widget.editables )
+		if ( !widget.editables ) {
 			return;
+		}
 
 		for ( editableName in definedEditables ) {
 			editableDef = definedEditables[ editableName ];
@@ -3555,8 +3576,9 @@
 	}
 
 	function setupDragHandler( widget ) {
-		if ( !widget.draggable )
+		if ( !widget.draggable ) {
 			return;
+		}
 
 		var editor = widget.editor,
 			// Use getLast to find wrapper's direct descendant (https://dev.ckeditor.com/ticket/12022).
@@ -3564,9 +3586,9 @@
 			img;
 
 		// Reuse drag handler if already exists (https://dev.ckeditor.com/ticket/11281).
-		if ( container )
+		if ( container ) {
 			img = container.findOne( 'img' );
-		else {
+		} else {
 			container = new CKEDITOR.dom.element( 'span', editor.document );
 			container.setAttributes( {
 				'class': 'cke_reset cke_widget_drag_handler_container',
@@ -3643,7 +3665,6 @@
 
 		// Harvest all possible relations and display some closest.
 		var relations = finder.greedySearch(),
-
 			buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
 				locations = locator.locate( relations );
 
@@ -3668,7 +3689,6 @@
 
 		// Fire drag start as it happens during the native D&D.
 		editor.fire( 'dragstart', { target: evt.sender } );
-
 
 		function onMouseUp() {
 			var l;
@@ -3739,16 +3759,19 @@
 
 			// When setting new classes one need to remember
 			// that he must break reference.
-			if ( previousClasses == newClasses )
+			if ( previousClasses == newClasses ) {
 				return;
+			}
 
 			for ( cl in previousClasses ) {
 				// Avoid removing and adding classes again.
-				if ( !( newClasses && newClasses[ cl ] ) )
+				if ( !( newClasses && newClasses[ cl ] ) ) {
 					this.removeClass( cl );
+				}
 			}
-			for ( cl in newClasses )
+			for ( cl in newClasses ) {
 				this.addClass( cl );
+			}
 
 			previousClasses = newClasses;
 		} );
@@ -3780,14 +3803,17 @@
 	function setupWidgetData( widget, startupData ) {
 		var widgetDataAttr = widget.element.data( 'cke-widget-data' );
 
-		if ( widgetDataAttr )
+		if ( widgetDataAttr ) {
 			widget.setData( JSON.parse( decodeURIComponent( widgetDataAttr ) ) );
-		if ( startupData )
+		}
+		if ( startupData ) {
 			widget.setData( startupData );
+		}
 
 		// Populate classes if they are not preset.
-		if ( !widget.data.classes )
+		if ( !widget.data.classes ) {
 			widget.setData( 'classes', widget.getClasses() );
+		}
 
 		// Unblock data and...
 		widget.dataReady = true;
@@ -3855,8 +3881,9 @@
 
 				// Before CKEditor 4.4.0 wasn't a required argument, so we need to
 				// handle a case when it wasn't provided.
-				if ( !( editor instanceof CKEDITOR.editor ) )
+				if ( !( editor instanceof CKEDITOR.editor ) ) {
 					return;
+				}
 
 				// Theoretically we could bypass checkApplicable, get widget from
 				// widgets.focused and check its name, what would be faster, but then
@@ -3877,11 +3904,13 @@
 			remove: function( editor ) {
 				// Before CKEditor 4.4.0 wasn't a required argument, so we need to
 				// handle a case when it wasn't provided.
-				if ( !( editor instanceof CKEDITOR.editor ) )
+				if ( !( editor instanceof CKEDITOR.editor ) ) {
 					return;
+				}
 
-				if ( this.checkApplicable( editor.elementPath(), editor ) )
+				if ( this.checkApplicable( editor.elementPath(), editor ) ) {
 					editor.widgets.focused.removeStyle( this );
+				}
 			},
 
 			/**
@@ -3894,14 +3923,15 @@
 			 * @returns {Boolean}
 			 */
 			removeStylesFromSameGroup: function( editor ) {
-				var stylesFromSameGroup,
-					path,
-					removed = false;
+				var removed = false,
+					stylesFromSameGroup,
+					path;
 
 				// Before CKEditor 4.4.0 wasn't a required argument, so we need to
 				// handle a case when it wasn't provided.
-				if ( !( editor instanceof CKEDITOR.editor ) )
+				if ( !( editor instanceof CKEDITOR.editor ) ) {
 					return false;
+				}
 
 				path = editor.elementPath();
 				if ( this.checkApplicable( path, editor ) ) {
@@ -3928,8 +3958,9 @@
 			checkApplicable: function( elementPath, editor ) {
 				// Before CKEditor 4.4.0 wasn't a required argument, so we need to
 				// handle a case when it wasn't provided.
-				if ( !( editor instanceof CKEDITOR.editor ) )
+				if ( !( editor instanceof CKEDITOR.editor ) ) {
 					return false;
+				}
 
 				return this.checkElement( elementPath.lastElement );
 			},
@@ -3946,8 +3977,9 @@
 			 * @returns {Boolean}
 			 */
 			checkElement: function( element ) {
-				if ( !Widget.isDomWidgetWrapper( element ) )
+				if ( !Widget.isDomWidgetWrapper( element ) ) {
 					return false;
+				}
 
 				var widgetElement = element.getFirst( Widget.isDomWidgetElement );
 				return widgetElement && widgetElement.data( 'widget' ) == this.widget;
@@ -3968,20 +4000,23 @@
 			 * @returns {CKEDITOR.filter.allowedContentRules}
 			 */
 			toAllowedContentRules: function( editor ) {
-				if ( !editor )
+				if ( !editor ) {
 					return null;
+				}
 
 				var widgetDef = editor.widgets.registered[ this.widget ],
 					classes,
 					rule = {};
 
-				if ( !widgetDef )
+				if ( !widgetDef ) {
 					return null;
+				}
 
 				if ( widgetDef.styleableElements ) {
 					classes = this.getClassesArray();
-					if ( !classes )
+					if ( !classes ) {
 						return null;
+					}
 
 					rule[ widgetDef.styleableElements ] = {
 						classes: classes,
@@ -3989,8 +4024,10 @@
 					};
 					return rule;
 				}
-				if ( widgetDef.styleToAllowedContentRules )
+
+				if ( widgetDef.styleToAllowedContentRules ) {
 					return widgetDef.styleToAllowedContentRules( this );
+				}
 				return null;
 			},
 
@@ -4033,11 +4070,13 @@
 		function checkElementMatch( element, fullMatch, editor ) {
 			// Before CKEditor 4.4.0 wasn't a required argument, so we need to
 			// handle a case when it wasn't provided.
-			if ( !editor )
+			if ( !editor ) {
 				return false;
+			}
 
-			if ( !this.checkElement( element ) )
+			if ( !this.checkElement( element ) ) {
 				return false;
+			}
 
 			var widget = editor.widgets.getByElement( element, true );
 			return widget && widget.checkStyleActive( this );
@@ -4046,7 +4085,8 @@
 		// Save and categorize style by its group.
 		function saveStyleGroup( style ) {
 			var widgetName = style.widget,
-				groupName, group;
+				groupName,
+				group;
 
 			if ( !styleGroups[ widgetName ] ) {
 				styleGroups[ widgetName ] = {};
@@ -4054,6 +4094,7 @@
 
 			for ( var i = 0, l = style.group.length; i < l; i++ ) {
 				groupName = style.group[ i ];
+
 				if ( !styleGroups[ widgetName ][ groupName ] ) {
 					styleGroups[ widgetName ][ groupName ] = [];
 				}
