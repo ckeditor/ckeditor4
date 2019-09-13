@@ -131,7 +131,7 @@
 	 * Namespace containing all the helper functions to work with styles.
 	 *
 	 * @private
-	 * @since 4.6.0
+	 * @since 4.13.0
 	 * @member CKEDITOR.plugins.pastetools.filters.common
 	 */
 	plug.styles = {
@@ -197,6 +197,7 @@
 		 * based on the `editor` configuration.
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @param {CKEDITOR.editor} editor
 		 * @member CKEDITOR.plugins.pastetools.filters.common.styles
@@ -301,6 +302,7 @@
 		 * originally belonging to the element.
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 * @param {CKEDITOR.editor} editor
@@ -405,6 +407,8 @@
 		 * Moves the element's styles lower in the DOM hierarchy. If `wrapText==true` and the direct child of an element
 		 * is a text node it will be wrapped in a `span` element.
 		 *
+		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @param {Object} exceptions An object containing style names which should not be moved, e.g. `{ background: true }`.
 		 * @param {Boolean} [wrapText=false] Whether a direct text child of an element should be wrapped into a `span` tag
@@ -474,7 +478,7 @@
 		/**
 		 * Namespace containing the styles inliner.
 		 *
-		 * @since 4.6.0
+		 * @since 4.13.0
 		 * @private
 		 * @member CKEDITOR.plugins.pastetools.filters.common.styles
 		 */
@@ -485,6 +489,7 @@
 			 *
 			 * @property {String[]}
 			 * @private
+			 * @since 4.13.0
 			 * @member CKEDITOR.plugins.pastetools.filters.common.styles.inliner
 			 */
 			filtered: [
@@ -504,7 +509,7 @@
 			 * @returns {Array} An array containing parsed styles. Each item (style) is an object containing two properties:
 			 * 		selector &ndash; A string representing a CSS selector.
 			 * 		styles &ndash; An object containing a list of styles (e.g. `{ margin: 0, text-align: 'left' }`).
-			 * @since 4.7.0
+			 * @since 4.13.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastetools.filters.common.styles.inliner
 			 */
@@ -559,7 +564,7 @@
 			 * @param {Object} stylesObj An object containing parsed CSS declarations
 			 * as property/value pairs (see {@link CKEDITOR.plugins.pastetools.filters.common.styles.inliner#parse}).
 			 * @returns {Object} The `stylesObj` copy with specific styles filtered out.
-			 * @since 4.7.0
+			 * @since 4.13.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastetools.filters.common.styles.inliner
 			 */
@@ -585,7 +590,7 @@
 			 * @param {Array} stylesArray An array of styles as returned from
 			 * {@link CKEDITOR.plugins.pastetools.filters.common.styles.inliner#parse}.
 			 * @returns {Array} Sorted stylesArray.
-			 * @since 4.7.0
+			 * @since 4.13.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastetools.filters.common.styles.inliner
 			 */
@@ -628,7 +633,7 @@
 			 *
 			 * @param {String} html An HTML string to be parsed.
 			 * @returns {CKEDITOR.dom.document}
-			 * @since 4.7.0
+			 * @since 4.13.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastetools.filters.common.styles.inliner
 			 */
@@ -712,7 +717,7 @@
 	 * Namespace containing all the helper functions to work with elements.
 	 *
 	 * @private
-	 * @since 4.11.0
+	 * @since 4.13.0
 	 * @member CKEDITOR.plugins.pastetools.filters.common
 	 */
 	plug.elements = {
@@ -722,6 +727,7 @@
 		 * This function is customized to work inside filters.
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @member CKEDITOR.plugins.pastetools.filters.common.elements
 		 */
@@ -800,11 +806,12 @@
 	 *	config.pasteTools_removeFontStyles = true;
 	 * ```
 	 *
-	 * **Important note:** Prior to version 4.6.0 this configuration option defaulted to `true`.
-	 *
-	 * @deprecated 4.6.0 Either configure proper {@glink guide/dev_advanced_content_filter Advanced Content Filter} for the editor
+	 * **Important note:** This config option is deprecated.
+	 * Either configure proper {@glink guide/dev_advanced_content_filter Advanced Content Filter} for the editor
 	 * or use the {@link CKEDITOR.editor#afterPasteFromWord} event.
-	 * @since 3.1.0
+	 *
+	 * @deprecated 4.13.0
+	 * @since 4.13.0
 	 * @cfg {Boolean} [pasteTools_removeFontStyles=false]
 	 * @member CKEDITOR.config
 	 */
@@ -817,7 +824,7 @@
 	 *	config.pasteTools_keepZeroMargins = true;
 	 * ```
 	 *
-	 * @since 4.12.0
+	 * @since 4.13.0
 	 * @cfg {Boolean} [pasteTools_keepZeroMargins=false]
 	 * @member CKEDITOR.config
 	 */

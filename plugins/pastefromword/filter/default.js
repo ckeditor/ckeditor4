@@ -461,7 +461,7 @@
 	 * Namespace containing any list-oriented helper methods.
 	 *
 	 * @private
-	 * @since 4.6.0
+	 * @since 4.13.0
 	 * @member CKEDITOR.plugins.pastetools.filters.word
 	 */
 	plug.lists = {
@@ -469,6 +469,7 @@
 		 * Checks if a given element is a list item-alike.
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @returns {Boolean}
@@ -498,6 +499,7 @@
 		 * Converts an element to an element with the `cke:li` tag name.
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
@@ -572,6 +574,7 @@
 		 * Converts any fake list items contained within `root` into real `li` elements.
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} root
 		 * @returns {CKEDITOR.htmlParser.element[]} An array of converted elements.
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
@@ -691,6 +694,7 @@
 		/**
 		 * Numbering helper.
 		 *
+		 * @since 4.13.0
 		 * @member CKEDITOR.plugins.pastetools.filters.lists
 		 */
 		numbering: {
@@ -846,6 +850,7 @@
 
 		/**
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} root An element to be looked through for lists.
 		 * @returns {CKEDITOR.htmlParser.element[]} An array of created list items.
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
@@ -1005,6 +1010,7 @@
 		 * Final cleanup &mdash; removes all `cke-*` helper attributes.
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element[]} listElements
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
@@ -1031,6 +1037,7 @@
 		 * have a parent in order for this function to work properly.
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
@@ -1066,6 +1073,7 @@
 		 * attribute). It could also look at the list parent (`<ol>`) at its start attribute.
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} element The `<li>` element.
 		 * @returns {Number}
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
@@ -1104,6 +1112,7 @@
 
 		/**
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
@@ -1289,6 +1298,7 @@
 		 * will still be rendered as a list tree later.
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element[]} list An array containing list items.
 		 * @param {CKEDITOR.htmlParser.element[]} lists All the lists in the pasted content represented by an array of arrays
 		 * of list items. Modified by this method.
@@ -1358,6 +1368,7 @@
 		 * You can see fixtures from issue https://dev.ckeditor.com/ticket/7918 as an example.
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} listElement The list to be checked.
 		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
@@ -1403,6 +1414,7 @@
 		 * Returns an object describing the given `symbol`.
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {String} symbol
 		 * @param {String} type
 		 * @returns {Object} ret
@@ -1462,6 +1474,7 @@
 		 * list items as paragraphs.
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} list
 		 * @returns ret
 		 * @returns {String} ret.id List ID. Usually it is a decimal string.
@@ -1505,7 +1518,7 @@
 	 * Namespace containing a set of image helper methods.
 	 *
 	 * @private
-	 * @since 4.8.0
+	 * @since 4.13.0
 	 * @member CKEDITOR.plugins.pastetools.filters.word
 	 */
 	plug.images = {
@@ -1513,7 +1526,7 @@
 		 * Method parses RTF content to find embedded images. Please be aware that this method should only return `png` and `jpeg` images.
 		 *
 		 * @private
-		 * @since 4.8.0
+		 * @since 4.13.0
 		 * @param {String} rtfContent RTF content to be checked for images.
 		 * @returns {Object[]} An array of images found in the `rtfContent`.
 		 * @returns {String} return.hex Hexadecimal string of an image embedded in `rtfContent`.
@@ -1559,6 +1572,7 @@
 		 *		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
 		 *
 		 * @private
+		 * @since 4.13.0
 		 * @param {String} html String represent HTML code.
 		 * @returns {String[]} Array of strings represent src attribute of img tags found in `html`.
 		 * @member CKEDITOR.plugins.pastetools.filters.word.images
@@ -1580,7 +1594,7 @@
 	 * Namespace containing methods used to process the pasted content using heuristics.
 	 *
 	 * @private
-	 * @since 4.6.2
+	 * @since 4.13.0
 	 * @member CKEDITOR.plugins.pastetools.filters.word
 	*/
 	plug.heuristics = {
@@ -1897,6 +1911,8 @@
 
 	/**
 	 * See {@link #pasteTools_removeFontStyles}.
+	 *
+	 * **Important note:** Prior to version 4.6.0 this configuration option defaulted to `true`.
 	 *
 	 * @deprecated 4.13.0
 	 * @since 3.1.0
