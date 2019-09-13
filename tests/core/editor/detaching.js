@@ -266,7 +266,6 @@
 	//  * @param {Object} options
 	//  * @param {String} options.editorType one of the editor types: 'classic', 'divarea', 'inline'
 	//  * @param {String} options.elemntName name of an html element where editor is initialized: 'textarea' or 'div'
-	//  * @param {Boolean} options.isAsynchronous flag which run `editor.destroy()` method in setTimeout.
 	//  * @returns {Funciton}
 	function getBeforeLoadedTestCase( options ) {
 		return function() {
