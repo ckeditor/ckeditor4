@@ -1,5 +1,7 @@
 sudo: required
 dist: xenial
+services:
+  - xvfb
 
 language: node_js
 
@@ -20,7 +22,6 @@ before_script:
   # Prepare environment.
   - 'npm install benderjs-cli -g'
   - 'export DISPLAY=:99.0'
-  - 'sh -e /etc/init.d/xvfb start'
   - 'sleep 3'
 
   # The $TRAVIS_BRANCH points to target branch for PRs and for other branches it is the current branch name.
