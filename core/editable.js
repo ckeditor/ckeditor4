@@ -545,7 +545,8 @@
 				try {
 					this._.cleanCustomData();
 				} catch ( error ) {
-					if ( !CKEDITOR.env.edge || error.number !== -2146828218 ) {
+					var isMSBrowser = CKEDITOR.env.edge || CKEDITOR.env.ie;
+					if ( !isMSBrowser || error.number !== -2146828218 ) {
 						throw( error );
 					}
 				}
