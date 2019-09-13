@@ -3558,14 +3558,43 @@
 			setupFullMask( widget );
 		} else if ( widget.mask ) {
 			// Buffer to limit number of separate calls to 'setupPartialMask', e.g. during writing.
-			var maskBuffer = new CKEDITOR.tools.buffers.throttle( 250, setupPartialMask, widget );
+			var maskBuffer = new CKEDITOR.tools.buffers.throttle( 250, setupPartialMask, widget ),
+				changeListener,
+				blurListener;
 
-			// 'saveSnapshot' and 'change' events are most reliably fired each time widget
-			// can possibly be resized and need a new partial mask (#3240).
-			widget.editor.on( 'saveSnapshot', maskBuffer.input );
-			widget.editor.on( 'change', maskBuffer.input );
+			widget.on( 'focus', function() {
+				changeListener = widget.editor.on( 'change', maskBuffer.input );
+				blurListener = widget.on( 'blur', function() {
+					changeListener.removeListener();
+					blurListener.removeListener();
+				} );
+			} );
 
+			for ( var editable in widget.editables ) {
+				widget.editables[ editable ].on( 'focus', function() {
+					widget.editor.on( 'change', maskBuffer.input );
+					if ( blurListener ) {
+						blurListener.removeListener();
+					}
+				} );
+				widget.editables[ editable ].on( 'blur', function() {
+					widget.editor.removeListener( 'change', maskBuffer.input );
+				} );
+			}
 			maskBuffer.input();
+
+			if ( CKEDITOR.env.gecko ) {
+				widget.editor.on( 'instanceReady', function() {
+					setTimeout( function() {
+						maskBuffer.input();
+					}, 600 );
+				} );
+				widget.editor.on( 'mode', function() {
+					setTimeout( function() {
+						maskBuffer.input();
+					}, 100 );
+				} );
+			}
 		}
 	}
 
