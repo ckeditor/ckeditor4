@@ -6,9 +6,11 @@
 
 1. Manipulate the content by:
 
-	* copying and pasting
-	* cutting and pasting
-	* dragging and droping
+	copying and pasting,
+
+	cutting and pasting,
+
+	dragging and droping,
 
 	both with one widget and content containing more than one widget.
 
