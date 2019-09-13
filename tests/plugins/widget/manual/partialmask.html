@@ -1,11 +1,10 @@
 <div id="editor">
-
-	<figure class="image"><img alt="" height="180" src="%BASE_PATH%/_assets/lena.jpg" width="180" />
+	<p>foo</p>
+	<figure class="image"><img alt="" height="100" src="%BASE_PATH%/_assets/lena.jpg" width="100" />
 		<figcaption>Caption</figcaption>
 	</figure>
-
+	<p>bar</p>
 	<div class="partialMasked"><div class="notmasked">You can type here...</div><div class="content">...but not here</div></div>
-
 </div>
 
 <script>
@@ -15,7 +14,7 @@
 	}
 	var editor = CKEDITOR.replace( 'editor', {
 			extraPlugins: 'partialMasked,image3',
-			height: 400
+			height: 500
 		} ),
 		info = document.getElementById( 'info' );
 
@@ -23,7 +22,7 @@
 		requires: 'widget',
 		init: function( editor ) {
 			editor.widgets.add( 'partialMasked', {
-				button: 'Create autoparagraph test',
+				button: 'Partial mask widget',
 				pathName: 'test-widget',
 
 				template:
