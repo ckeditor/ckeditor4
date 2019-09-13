@@ -1,48 +1,48 @@
 /* exported detachingTools */
 
 var detachingTools = ( function() {
-	function detachWhenScriptLoaded( detach ) {
-		var pluginsLoad = CKEDITOR.plugins.load;
+	function runBeforeScriptLoaded( callback ) {
+		var oryginalPluginsLoad = CKEDITOR.plugins.load;
 
 		CKEDITOR.plugins.load = function() {
-			CKEDITOR.plugins.load = pluginsLoad;
+			CKEDITOR.plugins.load = oryginalPluginsLoad;
 
-			var scriptLoaderLoad = CKEDITOR.scriptLoader.load;
+			var oryginalScriptLoaderLoad = CKEDITOR.scriptLoader.load;
 
 			CKEDITOR.scriptLoader.load = function() {
-				CKEDITOR.scriptLoader.load = scriptLoaderLoad;
+				CKEDITOR.scriptLoader.load = oryginalScriptLoaderLoad;
 
-				detach();
+				callback();
 
-				scriptLoaderLoad.apply( this, arguments );
+				oryginalScriptLoaderLoad.apply( this, arguments );
 			};
 
-			pluginsLoad.apply( this, arguments );
+			oryginalPluginsLoad.apply( this, arguments );
 		};
 	}
 
-	function detachBeforeIframeLoad( detach, editor ) {
-		var addMode = editor.addMode;
+	function runAafterEditableIframeLoad( editor, callback ) {
+		var oryginalAddMode = editor.constructor.prototype.addMode;
 
-		editor.addMode = function( mode, originalModeHandler ) {
+		editor.addMode = function( mode, exec ) {
 			if ( mode === 'wysiwyg' ) {
-				editor.addMode = addMode;
-				addMode.call( this, mode, modeHandler );
+				delete editor.addMode;
+				oryginalAddMode.call( this, mode, modeHandler );
 			} else {
-				addMode.apply( this, arguments );
+				oryginalAddMode.call( this, mode, exec );
 			}
 
 			function modeHandler() {
-				originalModeHandler.apply( this, arguments );
+				exec.apply( this, arguments );
 
 				editor.container.findOne( 'iframe.cke_wysiwyg_frame' )
-					.on( 'load', detach, null, null, -9999 );
+					.on( 'load', callback, null, null, -100000 );
 			}
 		};
 	}
 
 	return {
-		detachWhenScriptLoaded: detachWhenScriptLoaded,
-		detachBeforeIframeLoad: detachBeforeIframeLoad
+		runBeforeScriptLoaded: runBeforeScriptLoaded,
+		runAafterEditableIframeLoad: runAafterEditableIframeLoad
 	};
 } )();
