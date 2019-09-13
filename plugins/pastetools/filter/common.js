@@ -788,4 +788,37 @@
 			delete style[ marginCase ];
 		}
 	}
+
+	/**
+	 * Whether to ignore all font-related formatting styles, including:
+	 *
+	 * * font size;
+	 * * font family;
+	 * * font foreground and background color.
+	 *
+	 * ```javascript
+	 *	config.pasteTools_removeFontStyles = true;
+	 * ```
+	 *
+	 * **Important note:** Prior to version 4.6.0 this configuration option defaulted to `true`.
+	 *
+	 * @deprecated 4.6.0 Either configure proper {@glink guide/dev_advanced_content_filter Advanced Content Filter} for the editor
+	 * or use the {@link CKEDITOR.editor#afterPasteFromWord} event.
+	 * @since 3.1.0
+	 * @cfg {Boolean} [pasteTools_removeFontStyles=false]
+	 * @member CKEDITOR.config
+	 */
+
+	/**
+	 * Whether pasted element `margin` style that equals to 0 should be removed.
+	 *
+	 * ```javascript
+	 *	// Disable removing `margin:0`, `margin-left:0`, etc.
+	 *	config.pasteTools_keepZeroMargins = true;
+	 * ```
+	 *
+	 * @since 4.12.0
+	 * @cfg {Boolean} [pasteTools_keepZeroMargins=false]
+	 * @member CKEDITOR.config
+	 */
 } )();

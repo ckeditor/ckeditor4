@@ -38,21 +38,23 @@
 	/**
 	 * Set of Paste from Word plugin helpers.
 	 *
-	 * @since 4.6.0
-	 * @deprecated
-	 * @private
-	 * @member CKEDITOR.plugins
-	 */
-	CKEDITOR.plugins.pastefromword = plug;
-
-	/**
-	 * Set of Paste from Word plugin helpers.
-	 *
 	 * @since 4.13.0
 	 * @private
 	 * @member CKEDITOR.plugins.pastetools.filters
 	 */
 	CKEDITOR.plugins.pastetools.filters.word = plug;
+
+	/**
+	 * Set of Paste from Word plugin helpers.
+	 *
+	 * See {@link CKEDITOR.plugins.pastetools.filters.word}.
+	 *
+	 * @since 4.6.0
+	 * @deprecated 4.13.0
+	 * @private
+	 * @member CKEDITOR.plugins
+	 */
+	CKEDITOR.plugins.pastefromword = plug;
 
 	/**
 	 * Rules for Paste from Word filter.
@@ -470,7 +472,7 @@
 		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @returns {Boolean}
-		 * @member CKEDITOR.plugins.pastefromword.lists
+		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		thisIsAListItem: function( editor, element ) {
 			if ( Heuristics.isEdgeListItem( editor, element ) ) {
@@ -498,7 +500,7 @@
 		 * @private
 		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} element
-		 * @member CKEDITOR.plugins.pastefromword.lists
+		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		convertToFakeListItem: function( editor, element ) {
 			if ( Heuristics.isDegenerateListItem( editor, element ) ) {
@@ -572,7 +574,7 @@
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} root
 		 * @returns {CKEDITOR.htmlParser.element[]} An array of converted elements.
-		 * @member CKEDITOR.plugins.pastefromword.lists
+		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		convertToRealListItems: function( root ) {
 			var listElements = [];
@@ -686,6 +688,11 @@
 			delete list.attributes[ 'cke-list-style-type' ];
 		},
 
+		/**
+		 * Numbering helper.
+		 *
+		 * @member CKEDITOR.plugins.pastetools.filters.lists
+		 */
 		numbering: {
 			/**
 			 * Converts the list marker value into a decimal number.
@@ -700,7 +707,7 @@
 			 * @param {String} marker
 			 * @param {String} markerType Marker type according to CSS `list-style-type` values.
 			 * @returns {Number}
-			 * @member CKEDITOR.plugins.pastefromword.lists.numbering
+			 * @member CKEDITOR.plugins.pastetools.filters.word.lists.numbering
 			 */
 			toNumber: function( marker, markerType ) {
 				// Functions copied straight from old PFW implementation, no need to reinvent the wheel.
@@ -772,7 +779,7 @@
 			 *
 			 * @param {String} marker Marker content retained from Word, e.g. `1`, `7`, `XI`, `b`.
 			 * @returns {String} Resolved marker type.
-			 * @member CKEDITOR.plugins.pastefromword.lists.numbering
+			 * @member CKEDITOR.plugins.pastetools.filters.word.lists.numbering
 			 */
 			getStyle: function( marker ) {
 				var typeMap = {
@@ -841,7 +848,7 @@
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} root An element to be looked through for lists.
 		 * @returns {CKEDITOR.htmlParser.element[]} An array of created list items.
-		 * @member CKEDITOR.plugins.pastefromword.lists
+		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		createLists: function( root ) {
 			var element, level, i, j,
@@ -999,7 +1006,7 @@
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element[]} listElements
-		 * @member CKEDITOR.plugins.pastefromword.lists
+		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		cleanup: function( listElements ) {
 			var tempAttributes = [
@@ -1025,7 +1032,7 @@
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} element
-		 * @member CKEDITOR.plugins.pastefromword.lists
+		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		determineListItemValue: function( element ) {
 			if ( element.parent.name !== 'ol' ) {
@@ -1061,7 +1068,7 @@
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} element The `<li>` element.
 		 * @returns {Number}
-		 * @member CKEDITOR.plugins.pastefromword.lists
+		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		calculateValue: function( element ) {
 			if ( !element.parent ) {
@@ -1098,7 +1105,7 @@
 		/**
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} element
-		 * @member CKEDITOR.plugins.pastefromword.lists
+		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		dissolveList: function( element ) {
 			var nameIs = function( name ) {
@@ -1285,7 +1292,7 @@
 		 * @param {CKEDITOR.htmlParser.element[]} list An array containing list items.
 		 * @param {CKEDITOR.htmlParser.element[]} lists All the lists in the pasted content represented by an array of arrays
 		 * of list items. Modified by this method.
-		 * @member CKEDITOR.plugins.pastefromword.lists
+		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		chopDiscontinuousLists: function( list, lists ) {
 			var levelSymbols = {};
@@ -1353,7 +1360,7 @@
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} listElement The list to be checked.
 		 * @returns {Boolean}
-		 * @member CKEDITOR.plugins.pastefromword.lists
+		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		isAListContinuation: function( listElement ) {
 			var prev = listElement;
@@ -1401,7 +1408,7 @@
 		 * @returns {Object} ret
 		 * @returns {Number} ret.index Identified numbering value
 		 * @returns {String} ret.type One of `decimal`, `disc`, `circle`, `square`, `roman`, `alpha`.
-		 * @member CKEDITOR.plugins.pastefromword.lists
+		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		getSymbolInfo: function( symbol, type ) {
 			var symbolCase = symbol.toUpperCase() == symbol ? 'upper-' : 'lower-',
@@ -1460,7 +1467,7 @@
 		 * @returns {String} ret.id List ID. Usually it is a decimal string.
 		 * @returns {String} ret.level List nesting level, `0` means it is the outermost list. Usually it is
 		 * a decimal string.
-		 * @member CKEDITOR.plugins.pastefromword.lists
+		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		getListItemInfo: function( list ) {
 			if ( list.attributes[ 'cke-list-id' ] !== undefined ) {
@@ -1511,7 +1518,7 @@
 		 * @returns {Object[]} An array of images found in the `rtfContent`.
 		 * @returns {String} return.hex Hexadecimal string of an image embedded in `rtfContent`.
 		 * @returns {String} return.type String represent type of image, allowed values: 'image/png', 'image/jpeg'.
-		 * @member CKEDITOR.plugins.pastefromword.images
+		 * @member CKEDITOR.plugins.pastetools.filters.word.images
 		 */
 		extractFromRtf: function( rtfContent ) {
 			var ret = [],
@@ -1554,7 +1561,7 @@
 		 * @private
 		 * @param {String} html String represent HTML code.
 		 * @returns {String[]} Array of strings represent src attribute of img tags found in `html`.
-		 * @member CKEDITOR.plugins.pastefromword.images
+		 * @member CKEDITOR.plugins.pastetools.filters.word.images
 		 */
 		extractTagsFromHtml: function( html ) {
 			var regexp = /<img[^>]+src="([^"]+)[^>]+/g,
@@ -1585,7 +1592,7 @@
 		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} item
 		 * @returns {Boolean}
-		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @member CKEDITOR.plugins.pastetools.filters.word.heuristics
 		 * @private
 		 */
 		isEdgeListItem: function( editor, item ) {
@@ -1613,7 +1620,7 @@
 		 *
 		 * @since 4.7.0
 		 * @param {CKEDITOR.htmlParser.element} item The pre-processed list-like item, like a paragraph.
-		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @member CKEDITOR.plugins.pastetools.filters.word.heuristics
 		 * @private
 		 */
 		cleanupEdgeListItem: function( item ) {
@@ -1640,7 +1647,7 @@
 		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} item
 		 * @returns {Boolean}
-		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @member CKEDITOR.plugins.pastetools.filters.word.heuristics
 		 * @private
 		 * */
 		isDegenerateListItem: function( editor, item ) {
@@ -1677,7 +1684,7 @@
 		 * @returns {Number[]} return.indents
 		 * @returns {Number[]} return.levels
 		 * @returns {Number[]} return.diffs
-		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @member CKEDITOR.plugins.pastetools.filters.word.heuristics
 		 * @private
 		 */
 		assignListLevels: function( editor, item ) {
@@ -1747,7 +1754,7 @@
 		 *
 		 * @param {Number[]} indentations An array of indentation sizes.
 		 * @returns {Number/null} A number or `null` if empty `indentations` was given.
-		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @member CKEDITOR.plugins.pastetools.filters.word.heuristics
 		 * @private
 		 */
 		guessIndentationStep: function( indentations ) {
@@ -1759,7 +1766,7 @@
 		 * so that the list structure matches the content copied from Word.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
-		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @member CKEDITOR.plugins.pastetools.filters.word.heuristics
 		 * @private
 		 * */
 		correctLevelShift: function( element ) {
@@ -1796,7 +1803,7 @@
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @returns {Boolean}
-		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @member CKEDITOR.plugins.pastetools.filters.word.heuristics
 		 * @private
 		 */
 		isShifted: function( element ) {
@@ -1859,25 +1866,39 @@
 	} );
 
 	/**
-	 * Numbering helper.
+	 * See {@link CKEDITOR.plugins.pastetools.filters.word.lists}.
 	 *
-	 * @property {CKEDITOR.plugins.pastefromword.lists.numbering} numbering
-	 * @member CKEDITOR.plugins.pastefromword.lists
+	 * @property {Object} lists
+	 * @private
+	 * @deprecated 4.13.0
+	 * @since 4.6.0
+	 * @member CKEDITOR.plugins.pastefromword
 	 */
 
 	/**
-	 * Whether to ignore all font-related formatting styles, including:
+	 * See {@link CKEDITOR.plugins.pastetools.filters.word.images}.
 	 *
-	 * * font size;
-	 * * font family;
-	 * * font foreground and background color.
+	 * @property {Object} images
+	 * @private
+	 * @deprecated 4.13.0
+	 * @since 4.8.0
+	 * @member CKEDITOR.plugins.pastefromword
+	 */
+
+	/**
+	 * See {@link CKEDITOR.plugins.pastetools.filters.word.heuristics}.
 	 *
-	 *		config.pasteFromWordRemoveFontStyles = true;
+	 * @property {Object} heuristics
+	 * @private
+	 * @deprecated 4.13.0
+	 * @since 4.6.2
+	 * @member CKEDITOR.plugins.pastefromword
+	*/
+
+	/**
+	 * See {@link #pasteTools_removeFontStyles}.
 	 *
-	 * **Important note:** Prior to version 4.6.0 this configuration option defaulted to `true`.
-	 *
-	 * @deprecated 4.6.0 Either configure proper {@glink guide/dev_advanced_content_filter Advanced Content Filter} for the editor
-	 * or use the {@link CKEDITOR.editor#afterPasteFromWord} event.
+	 * @deprecated 4.13.0
 	 * @since 3.1.0
 	 * @cfg {Boolean} [pasteFromWordRemoveFontStyles=false]
 	 * @member CKEDITOR.config
@@ -1897,7 +1918,7 @@
 	/**
 	 * Whether to remove element styles that cannot be managed with the editor. Note
 	 * that this option does not handle font-specific styles, which depend on the
-	 * {@link #pasteFromWordRemoveFontStyles} setting instead.
+	 * {@link #pasteTools_removeFontStyles} setting instead.
 	 *
 	 *		config.pasteFromWordRemoveStyles = false;
 	 *

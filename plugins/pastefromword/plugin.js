@@ -224,12 +224,9 @@
  */
 
 /**
- * Whether pasted element `margin` style that equals to 0 should be removed.
- *
- *		// Disable removing `margin:0`, `margin-left:0`, etc.
- *		config.pasteFromWord_keepZeroMargins = true;
- *
+ * See {@link #pasteTools_keepZeroMargins}.
  * @since 4.12.0
+ * @deprecated 4.13.0
  * @cfg {Boolean} [pasteFromWord_keepZeroMargins=false]
  * @member CKEDITOR.config
  */
