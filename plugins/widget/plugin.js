@@ -3314,55 +3314,244 @@
 		}
 	}
 
-	// Setup listener on widget#data which will update (remove/add) classes
-	// by comparing newly set classes with the old ones.
-	function setupDataClassesListener( widget ) {
-		// Note: previousClasses and newClasses may be null!
-		// Tip: for ( cl in null ) is correct.
-		var previousClasses = null;
+	function setupWidget( widget, widgetDef ) {
+		setupWrapper( widget );
+		setupParts( widget );
+		setupEditables( widget );
+		setupMask( widget );
+		setupDragHandler( widget );
+		setupDataClassesListener( widget );
+		setupA11yListener( widget );
 
-		widget.on( 'data', function() {
-			var newClasses = this.data.classes,
-				cl;
+		// https://dev.ckeditor.com/ticket/11145: [IE8] Non-editable content of widget is draggable.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			widget.wrapper.on( 'dragstart', function( evt ) {
+				var target = evt.data.getTarget();
 
-			// When setting new classes one need to remember
-			// that he must break reference.
-			if ( previousClasses == newClasses )
-				return;
-
-			for ( cl in previousClasses ) {
-				// Avoid removing and adding classes again.
-				if ( !( newClasses && newClasses[ cl ] ) )
-					this.removeClass( cl );
-			}
-			for ( cl in newClasses )
-				this.addClass( cl );
-
-			previousClasses = newClasses;
-		} );
-	}
-
-	// Add a listener to data event that will set/change widget's label (https://dev.ckeditor.com/ticket/14539).
-	function setupA11yListener( widget ) {
-		// Note, the function gets executed in a context of widget instance.
-		function getLabelDefault() {
-			return this.editor.lang.widget.label.replace( /%1/, this.pathName || this.element.getName() );
+				// Allow text dragging inside nested editables or dragging inline widget's drag handler.
+				if ( !Widget.getNestedEditable( widget, target ) && !( widget.inline && Widget.isDomDragHandler( target ) ) )
+					evt.data.preventDefault();
+			} );
 		}
 
-		// Setting a listener on data is enough, there's no need to perform it on widget initialization, as
-		// setupWidgetData fires this event anyway.
-		widget.on( 'data', function() {
-			// In some cases widget might get destroyed in an earlier data listener. For instance, image2 plugin, does
-			// so when changing its internal state.
-			if ( !widget.wrapper ) {
+		widget.wrapper.removeClass( 'cke_widget_new' );
+		widget.element.addClass( 'cke_widget_element' );
+
+		widget.on( 'key', function( evt ) {
+			var keyCode = evt.data.keyCode;
+
+			// ENTER.
+			if ( keyCode == 13 ) {
+				widget.edit();
+			// CTRL+C or CTRL+X.
+			} else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
+				copySingleWidget( widget, keyCode == CKEDITOR.CTRL + 88 );
+				return; // Do not preventDefault.
+			// Pass chosen keystrokes to other plugins or default fake sel handlers.
+			// Pass all CTRL/ALT keystrokes.
+			} else if ( keyCode in keystrokesNotBlockedByWidget ||
+				( CKEDITOR.CTRL & keyCode ) ||
+				( CKEDITOR.ALT & keyCode ) ) {
 				return;
 			}
 
-			var label = this.getLabel ? this.getLabel() : getLabelDefault.call( this );
+			return false;
+		}, null, null, 999 );
+		// Listen with high priority so it's possible
+		// to overwrite this callback.
 
-			widget.wrapper.setAttribute( 'role', 'region' );
-			widget.wrapper.setAttribute( 'aria-label', label );
-		}, null, null, 9999 );
+		widget.on( 'doubleclick', function( evt ) {
+			if ( widget.edit() ) {
+				// We have to cancel event if edit method opens a dialog, otherwise
+				// link plugin may open extra dialog (https://dev.ckeditor.com/ticket/12140).
+				evt.cancel();
+			}
+		} );
+
+		if ( widgetDef.data )
+			widget.on( 'data', widgetDef.data );
+
+		if ( widgetDef.edit )
+			widget.on( 'edit', widgetDef.edit );
+	}
+
+	function setupWrapper( widget ) {
+		// Retrieve widget wrapper. Assign an id to it.
+		var wrapper = widget.wrapper = widget.element.getParent();
+		wrapper.setAttribute( 'data-cke-widget-id', widget.id );
+	}
+
+	// Replace parts object containing:
+	// partName => selector pairs
+	// with:
+	// partName => element pairs
+	function setupParts( widget ) {
+		if ( widget.parts ) {
+			var parts = {},
+				el, partName;
+
+			for ( partName in widget.parts ) {
+				el = widget.wrapper.findOne( widget.parts[ partName ] );
+				parts[ partName ] = el;
+			}
+			widget.parts = parts;
+		}
+	}
+
+	function setupEditables( widget ) {
+		var editableName,
+			editableDef,
+			definedEditables = widget.editables;
+
+		widget.editables = {};
+
+		if ( !widget.editables )
+			return;
+
+		for ( editableName in definedEditables ) {
+			editableDef = definedEditables[ editableName ];
+			widget.initEditable( editableName, typeof editableDef == 'string' ? { selector: editableDef } : editableDef );
+		}
+	}
+
+	function setupMask( widget ) {
+		if ( widget.mask === true ) {
+			setupFullMask( widget );
+		} else if ( widget.mask ) {
+			// Buffer to limit number of separate calls to 'setupPartialMask', e.g. during writing.
+			var maskBuffer = new CKEDITOR.tools.buffers.throttle( 250, setupPartialMask, widget ),
+				changeListener,
+				blurListener;
+
+			widget.on( 'focus', function() {
+				changeListener = widget.editor.on( 'change', maskBuffer.input );
+				blurListener = widget.on( 'blur', function() {
+					changeListener.removeListener();
+					blurListener.removeListener();
+				} );
+			} );
+
+			// Focusing editable doesn't trigger focus on widget, so listen to those events separately.
+			for ( var editable in widget.editables ) {
+				widget.editables[ editable ].on( 'focus', function() {
+					widget.editor.on( 'change', maskBuffer.input );
+					// If widget was focused before focusing editable, the 'blur' event has to be removed.
+					// Otherwise on Chrome it will trigger after the focus event and cancel listening to
+					// changes (on FF it works inversely).
+					if ( blurListener ) {
+						blurListener.removeListener();
+					}
+				} );
+				widget.editables[ editable ].on( 'blur', function() {
+					widget.editor.removeListener( 'change', maskBuffer.input );
+				} );
+			}
+			maskBuffer.input();
+
+			// FF renders image-like widget very late (much after 'instanceReady') so mask creation
+			// has to be postponed. The same is true for switching between WYSIWYG and source mode,
+			// just different event and smaller delay are needed.
+			if ( CKEDITOR.env.gecko ) {
+				widget.editor.on( 'instanceReady', function() {
+					setTimeout( function() {
+						maskBuffer.input();
+					}, 600 );
+				} );
+				widget.editor.on( 'mode', function() {
+					setTimeout( function() {
+						maskBuffer.input();
+					}, 100 );
+				} );
+			}
+		}
+	}
+
+	function setupFullMask( widget ) {
+		// Reuse mask if already exists (https://dev.ckeditor.com/ticket/11281).
+		var img = widget.wrapper.findOne( '.cke_widget_mask' );
+
+		if ( !img ) {
+			img = new CKEDITOR.dom.element( 'img', widget.editor.document );
+			img.setAttributes( {
+				src: CKEDITOR.tools.transparentImageData,
+				'class': 'cke_reset cke_widget_mask'
+			} );
+			widget.wrapper.append( img );
+		}
+
+		widget.mask = img;
+	}
+
+	function setupPartialMask() {
+		if ( !this.wrapper ) {
+			return;
+		}
+
+		// Original value of 'widget.mask' is substituted with actual mask element, so
+		// 'widget.maskPart' property was added to be able to adjust partial mask e.g. after resizing.
+		this.maskPart = this.maskPart || this.mask;
+
+		var part = this.parts[ this.maskPart ],
+			mask;
+
+		// If requested part is invalid, don't create mask.
+		if ( !part ) {
+			return;
+		}
+
+		mask = this.wrapper.findOne( '.cke_widget_partial_mask' );
+
+		if ( mask ) {
+			if ( !isMaskFitting( mask, part ) ) {
+				setMaskSizeAndPosition( mask, part );
+			}
+			return;
+		}
+
+		mask = new CKEDITOR.dom.element( 'img', this.editor.document );
+		mask.setAttributes( {
+			src: CKEDITOR.tools.transparentImageData,
+			'class': 'cke_reset cke_widget_partial_mask'
+		} );
+		setMaskSizeAndPosition( mask, part );
+
+		this.wrapper.append( mask );
+		this.mask = mask;
+	}
+
+	function isMaskFitting( oldElement, newElement ) {
+		var dimensionsChanged = !( oldElement.$.offsetWidth == newElement.$.offsetWidth &&
+				oldElement.$.offsetHeight == newElement.$.offsetHeight ),
+			positionChanged = !( oldElement.$.offsetTop == newElement.$.offsetTop &&
+				oldElement.$.offsetLeft == newElement.$.offsetLeft );
+
+		if ( dimensionsChanged || positionChanged ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	function setMaskSizeAndPosition( mask, maskedPart ) {
+		// Widgets with resize feature are messing with default widget structure,
+		// so it needs to be taken into account and mask's position will be adjusted.
+		// The problem was appearing after dragging the widget in FF.
+		var parent = maskedPart.getParent();
+		if ( !CKEDITOR.plugins.widget.isDomWidget( parent ) ) {
+			mask.setStyles( {
+				top: maskedPart.$.offsetTop + parent.$.offsetTop + 'px',
+				left: maskedPart.$.offsetLeft + parent.$.offsetLeft + 'px',
+				width: maskedPart.$.offsetWidth + 'px',
+				height: maskedPart.$.offsetHeight + 'px'
+			} );
+		} else {
+			mask.setStyles( {
+				top: maskedPart.$.offsetTop + 'px',
+				left: maskedPart.$.offsetLeft + 'px',
+				width: maskedPart.$.offsetWidth + 'px',
+				height: maskedPart.$.offsetHeight + 'px'
+			} );
+		}
 	}
 
 	function setupDragHandler( widget ) {
@@ -3537,238 +3726,55 @@
 		editor.fire( 'dragend', { target: dragTarget } );
 	}
 
-	function setupEditables( widget ) {
-		var editableName,
-			editableDef,
-			definedEditables = widget.editables;
+	// Setup listener on widget#data which will update (remove/add) classes
+	// by comparing newly set classes with the old ones.
+	function setupDataClassesListener( widget ) {
+		// Note: previousClasses and newClasses may be null!
+		// Tip: for ( cl in null ) is correct.
+		var previousClasses = null;
 
-		widget.editables = {};
+		widget.on( 'data', function() {
+			var newClasses = this.data.classes,
+				cl;
 
-		if ( !widget.editables )
-			return;
+			// When setting new classes one need to remember
+			// that he must break reference.
+			if ( previousClasses == newClasses )
+				return;
 
-		for ( editableName in definedEditables ) {
-			editableDef = definedEditables[ editableName ];
-			widget.initEditable( editableName, typeof editableDef == 'string' ? { selector: editableDef } : editableDef );
-		}
-	}
-
-	function setupMask( widget ) {
-		if ( widget.mask === true ) {
-			setupFullMask( widget );
-		} else if ( widget.mask ) {
-			// Buffer to limit number of separate calls to 'setupPartialMask', e.g. during writing.
-			var maskBuffer = new CKEDITOR.tools.buffers.throttle( 250, setupPartialMask, widget ),
-				changeListener,
-				blurListener;
-
-			widget.on( 'focus', function() {
-				changeListener = widget.editor.on( 'change', maskBuffer.input );
-				blurListener = widget.on( 'blur', function() {
-					changeListener.removeListener();
-					blurListener.removeListener();
-				} );
-			} );
-
-			// Focusing editable doesn't trigger focus on widget, so listen to those events separately.
-			for ( var editable in widget.editables ) {
-				widget.editables[ editable ].on( 'focus', function() {
-					widget.editor.on( 'change', maskBuffer.input );
-					// If widget was focused before focusing editable, the 'blur' event has to be removed.
-					// Otherwise on Chrome it will trigger after the focus event and cancel listening to
-					// changes (on FF it works inversely).
-					if ( blurListener ) {
-						blurListener.removeListener();
-					}
-				} );
-				widget.editables[ editable ].on( 'blur', function() {
-					widget.editor.removeListener( 'change', maskBuffer.input );
-				} );
+			for ( cl in previousClasses ) {
+				// Avoid removing and adding classes again.
+				if ( !( newClasses && newClasses[ cl ] ) )
+					this.removeClass( cl );
 			}
-			maskBuffer.input();
+			for ( cl in newClasses )
+				this.addClass( cl );
 
-			// FF renders image-like widget very late (much after 'instanceReady') so mask creation
-			// has to be postponed. The same is true for switching between WYSIWYG and source mode,
-			// just different event and smaller delay are needed.
-			if ( CKEDITOR.env.gecko ) {
-				widget.editor.on( 'instanceReady', function() {
-					setTimeout( function() {
-						maskBuffer.input();
-					}, 600 );
-				} );
-				widget.editor.on( 'mode', function() {
-					setTimeout( function() {
-						maskBuffer.input();
-					}, 100 );
-				} );
-			}
-		}
-	}
-
-	function setupFullMask( widget ) {
-		// Reuse mask if already exists (https://dev.ckeditor.com/ticket/11281).
-		var img = widget.wrapper.findOne( '.cke_widget_mask' );
-
-		if ( !img ) {
-			img = new CKEDITOR.dom.element( 'img', widget.editor.document );
-			img.setAttributes( {
-				src: CKEDITOR.tools.transparentImageData,
-				'class': 'cke_reset cke_widget_mask'
-			} );
-			widget.wrapper.append( img );
-		}
-
-		widget.mask = img;
-	}
-
-	function setupPartialMask() {
-		if ( !this.wrapper ) {
-			return;
-		}
-
-		// Original value of 'widget.mask' is substituted with actual mask element, so
-		// 'widget.maskPart' property was added to be able to adjust partial mask e.g. after resizing.
-		this.maskPart = this.maskPart || this.mask;
-
-		var part = this.parts[ this.maskPart ],
-			mask;
-
-		// If requested part is invalid, don't create mask.
-		if ( !part ) {
-			return;
-		}
-
-		mask = this.wrapper.findOne( '.cke_widget_partial_mask' );
-
-		if ( mask ) {
-			if ( !isMaskFitting( mask, part ) ) {
-				setMaskSizeAndPosition( mask, part );
-			}
-			return;
-		}
-
-		mask = new CKEDITOR.dom.element( 'img', this.editor.document );
-		mask.setAttributes( {
-			src: CKEDITOR.tools.transparentImageData,
-			'class': 'cke_reset cke_widget_partial_mask'
+			previousClasses = newClasses;
 		} );
-		setMaskSizeAndPosition( mask, part );
-
-		this.wrapper.append( mask );
-		this.mask = mask;
 	}
 
-	function isMaskFitting( oldElement, newElement ) {
-		var dimensionsChanged = !( oldElement.$.offsetWidth == newElement.$.offsetWidth &&
-				oldElement.$.offsetHeight == newElement.$.offsetHeight ),
-			positionChanged = !( oldElement.$.offsetTop == newElement.$.offsetTop &&
-				oldElement.$.offsetLeft == newElement.$.offsetLeft );
-
-		if ( dimensionsChanged || positionChanged ) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	function setMaskSizeAndPosition( mask, maskedPart ) {
-		// Widgets with resize feature are messing with default widget structure,
-		// so it needs to be taken into account and mask's position will be adjusted.
-		// The problem was appearing after dragging the widget in FF.
-		var parent = maskedPart.getParent();
-		if ( !CKEDITOR.plugins.widget.isDomWidget( parent ) ) {
-			mask.setStyles( {
-				top: maskedPart.$.offsetTop + parent.$.offsetTop + 'px',
-				left: maskedPart.$.offsetLeft + parent.$.offsetLeft + 'px',
-				width: maskedPart.$.offsetWidth + 'px',
-				height: maskedPart.$.offsetHeight + 'px'
-			} );
-		} else {
-			mask.setStyles( {
-				top: maskedPart.$.offsetTop + 'px',
-				left: maskedPart.$.offsetLeft + 'px',
-				width: maskedPart.$.offsetWidth + 'px',
-				height: maskedPart.$.offsetHeight + 'px'
-			} );
-		}
-	}
-
-	// Replace parts object containing:
-	// partName => selector pairs
-	// with:
-	// partName => element pairs
-	function setupParts( widget ) {
-		if ( widget.parts ) {
-			var parts = {},
-				el, partName;
-
-			for ( partName in widget.parts ) {
-				el = widget.wrapper.findOne( widget.parts[ partName ] );
-				parts[ partName ] = el;
-			}
-			widget.parts = parts;
-		}
-	}
-
-	function setupWidget( widget, widgetDef ) {
-		setupWrapper( widget );
-		setupParts( widget );
-		setupEditables( widget );
-		setupMask( widget );
-		setupDragHandler( widget );
-		setupDataClassesListener( widget );
-		setupA11yListener( widget );
-
-		// https://dev.ckeditor.com/ticket/11145: [IE8] Non-editable content of widget is draggable.
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-			widget.wrapper.on( 'dragstart', function( evt ) {
-				var target = evt.data.getTarget();
-
-				// Allow text dragging inside nested editables or dragging inline widget's drag handler.
-				if ( !Widget.getNestedEditable( widget, target ) && !( widget.inline && Widget.isDomDragHandler( target ) ) )
-					evt.data.preventDefault();
-			} );
+	// Add a listener to data event that will set/change widget's label (https://dev.ckeditor.com/ticket/14539).
+	function setupA11yListener( widget ) {
+		// Note, the function gets executed in a context of widget instance.
+		function getLabelDefault() {
+			return this.editor.lang.widget.label.replace( /%1/, this.pathName || this.element.getName() );
 		}
 
-		widget.wrapper.removeClass( 'cke_widget_new' );
-		widget.element.addClass( 'cke_widget_element' );
-
-		widget.on( 'key', function( evt ) {
-			var keyCode = evt.data.keyCode;
-
-			// ENTER.
-			if ( keyCode == 13 ) {
-				widget.edit();
-			// CTRL+C or CTRL+X.
-			} else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
-				copySingleWidget( widget, keyCode == CKEDITOR.CTRL + 88 );
-				return; // Do not preventDefault.
-			// Pass chosen keystrokes to other plugins or default fake sel handlers.
-			// Pass all CTRL/ALT keystrokes.
-			} else if ( keyCode in keystrokesNotBlockedByWidget ||
-				( CKEDITOR.CTRL & keyCode ) ||
-				( CKEDITOR.ALT & keyCode ) ) {
+		// Setting a listener on data is enough, there's no need to perform it on widget initialization, as
+		// setupWidgetData fires this event anyway.
+		widget.on( 'data', function() {
+			// In some cases widget might get destroyed in an earlier data listener. For instance, image2 plugin, does
+			// so when changing its internal state.
+			if ( !widget.wrapper ) {
 				return;
 			}
 
-			return false;
-		}, null, null, 999 );
-		// Listen with high priority so it's possible
-		// to overwrite this callback.
+			var label = this.getLabel ? this.getLabel() : getLabelDefault.call( this );
 
-		widget.on( 'doubleclick', function( evt ) {
-			if ( widget.edit() ) {
-				// We have to cancel event if edit method opens a dialog, otherwise
-				// link plugin may open extra dialog (https://dev.ckeditor.com/ticket/12140).
-				evt.cancel();
-			}
-		} );
-
-		if ( widgetDef.data )
-			widget.on( 'data', widgetDef.data );
-
-		if ( widgetDef.edit )
-			widget.on( 'edit', widgetDef.edit );
+			widget.wrapper.setAttribute( 'role', 'region' );
+			widget.wrapper.setAttribute( 'aria-label', label );
+		}, null, null, 9999 );
 	}
 
 	function setupWidgetData( widget, startupData ) {
@@ -3791,12 +3797,6 @@
 
 		// Fire data event first time, because this was blocked when data wasn't ready.
 		widget.fire( 'data', widget.data );
-	}
-
-	function setupWrapper( widget ) {
-		// Retrieve widget wrapper. Assign an id to it.
-		var wrapper = widget.wrapper = widget.element.getParent();
-		wrapper.setAttribute( 'data-cke-widget-id', widget.id );
 	}
 
 	function writeDataToElement( widget ) {
