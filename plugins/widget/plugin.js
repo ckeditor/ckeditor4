@@ -3441,9 +3441,20 @@
 			setupFullMask( widget );
 		} else if ( widget.mask ) {
 			// Buffer to limit number of separate calls to 'setupPartialMask', e.g. during writing.
-			var maskBuffer = new CKEDITOR.tools.buffers.throttle( 250, setupPartialMask, widget ),
+			var maskBuffer = new CKEDITOR.tools.buffers.throttle( 250, refreshPartialMask, widget ),
 				changeListener,
 				blurListener;
+
+			// FF renders image-like widget very late, so mask has to be create asynchronously after
+			// image is loaded.
+			if ( CKEDITOR.env.gecko ) {
+				var imgs = widget.element.find( 'img' );
+				CKEDITOR.tools.array.forEach( imgs.toArray(), function( img ) {
+					img.on( 'load', function() {
+						maskBuffer.input();
+					} );
+				} );
+			}
 
 			widget.on( 'focus', function() {
 				changeListener = widget.editor.on( 'change', maskBuffer.input );
@@ -3469,42 +3480,26 @@
 				} );
 			}
 			maskBuffer.input();
-
-			// FF renders image-like widget very late (much after 'instanceReady') so mask creation
-			// has to be postponed. The same is true for switching between WYSIWYG and source mode,
-			// just different event and smaller delay are needed.
-			if ( CKEDITOR.env.gecko ) {
-				widget.editor.on( 'instanceReady', function() {
-					setTimeout( function() {
-						maskBuffer.input();
-					}, 600 );
-				} );
-				widget.editor.on( 'mode', function() {
-					setTimeout( function() {
-						maskBuffer.input();
-					}, 100 );
-				} );
-			}
 		}
 	}
 
 	function setupFullMask( widget ) {
 		// Reuse mask if already exists (https://dev.ckeditor.com/ticket/11281).
-		var img = widget.wrapper.findOne( '.cke_widget_mask' );
+		var mask = widget.wrapper.findOne( '.cke_widget_mask' );
 
-		if ( !img ) {
-			img = new CKEDITOR.dom.element( 'img', widget.editor.document );
-			img.setAttributes( {
+		if ( !mask ) {
+			mask = new CKEDITOR.dom.element( 'img', widget.editor.document );
+			mask.setAttributes( {
 				src: CKEDITOR.tools.transparentImageData,
 				'class': 'cke_reset cke_widget_mask'
 			} );
-			widget.wrapper.append( img );
+			widget.wrapper.append( mask );
 		}
 
-		widget.mask = img;
+		widget.mask = mask;
 	}
 
-	function setupPartialMask() {
+	function refreshPartialMask() {
 		if ( !this.wrapper ) {
 			return;
 		}
@@ -3523,57 +3518,44 @@
 
 		mask = this.wrapper.findOne( '.cke_widget_partial_mask' );
 
-		if ( mask ) {
-			if ( !isMaskFitting( mask, part ) ) {
-				setMaskSizeAndPosition( mask, part );
-			}
-			return;
+		if ( !mask ) {
+			mask = new CKEDITOR.dom.element( 'img', this.editor.document );
+			mask.setAttributes( {
+				src: CKEDITOR.tools.transparentImageData,
+				'class': 'cke_reset cke_widget_partial_mask'
+			} );
+			this.wrapper.append( mask );
 		}
 
-		mask = new CKEDITOR.dom.element( 'img', this.editor.document );
-		mask.setAttributes( {
-			src: CKEDITOR.tools.transparentImageData,
-			'class': 'cke_reset cke_widget_partial_mask'
-		} );
-		setMaskSizeAndPosition( mask, part );
-
-		this.wrapper.append( mask );
 		this.mask = mask;
+
+		if ( !isMaskFitting( mask, part ) ) {
+			setMaskSizeAndPosition( mask, part );
+		}
 	}
 
 	function isMaskFitting( oldElement, newElement ) {
-		var dimensionsChanged = !( oldElement.$.offsetWidth == newElement.$.offsetWidth &&
-				oldElement.$.offsetHeight == newElement.$.offsetHeight ),
-			positionChanged = !( oldElement.$.offsetTop == newElement.$.offsetTop &&
-				oldElement.$.offsetLeft == newElement.$.offsetLeft );
+		var oldEl = oldElement.$,
+			newEl = newElement.$,
+			dimensionsChanged = !( oldEl.offsetWidth == newEl.offsetWidth && oldEl.offsetHeight == newEl.offsetHeight ),
+			positionChanged = !( oldEl.offsetTop == newEl.offsetTop && oldEl.offsetLeft == newEl.offsetLeft );
 
-		if ( dimensionsChanged || positionChanged ) {
-			return false;
-		} else {
-			return true;
-		}
+		return !( dimensionsChanged || positionChanged );
 	}
 
 	function setMaskSizeAndPosition( mask, maskedPart ) {
 		// Widgets with resize feature are messing with default widget structure,
 		// so it needs to be taken into account and mask's position will be adjusted.
 		// The problem was appearing after dragging the widget in FF.
-		var parent = maskedPart.getParent();
-		if ( !CKEDITOR.plugins.widget.isDomWidget( parent ) ) {
-			mask.setStyles( {
-				top: maskedPart.$.offsetTop + parent.$.offsetTop + 'px',
-				left: maskedPart.$.offsetLeft + parent.$.offsetLeft + 'px',
-				width: maskedPart.$.offsetWidth + 'px',
-				height: maskedPart.$.offsetHeight + 'px'
-			} );
-		} else {
-			mask.setStyles( {
-				top: maskedPart.$.offsetTop + 'px',
-				left: maskedPart.$.offsetLeft + 'px',
-				width: maskedPart.$.offsetWidth + 'px',
-				height: maskedPart.$.offsetHeight + 'px'
-			} );
-		}
+		var parent = maskedPart.getParent(),
+			isDomWidget = CKEDITOR.plugins.widget.isDomWidget( parent );
+
+		mask.setStyles( {
+			top: maskedPart.$.offsetTop + ( !isDomWidget ? parent.$.offsetTop : 0 ) + 'px',
+			left: maskedPart.$.offsetLeft + ( !isDomWidget ? parent.$.offsetLeft : 0 ) + 'px',
+			width: maskedPart.$.offsetWidth + 'px',
+			height: maskedPart.$.offsetHeight + 'px'
+		} );
 	}
 
 	function setupDragHandler( widget ) {
