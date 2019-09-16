@@ -695,7 +695,7 @@
 		 * Numbering helper.
 		 *
 		 * @since 4.13.0
-		 * @member CKEDITOR.plugins.pastetools.filters.lists
+		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		numbering: {
 			/**
@@ -1908,6 +1908,16 @@
 	 * @since 4.6.2
 	 * @member CKEDITOR.plugins.pastefromword
 	*/
+
+	/**
+	 * See {@link CKEDITOR.plugins.pastetools.filters.common.styles}.
+	 *
+	 * @property {Object} styles
+	 * @private
+	 * @deprecated 4.13.0
+	 * @since 4.6.0
+	 * @member CKEDITOR.plugins.pastefromword
+	 */
 
 	/**
 	 * See {@link #pasteTools_removeFontStyles}.
