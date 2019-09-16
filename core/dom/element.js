@@ -2170,14 +2170,17 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @returns {Boolean} Whether element is detached from DOM.
 		 */
 		isDetached: function() {
+			var doc = this.getDocument(),
+				docEl = doc.getDocumentElement();
+
 			// It is not in the document.
-			if ( !this.getDocument().getDocumentElement().contains( this ) ) {
+			if ( !docEl.equals( this ) && !docEl.contains( this ) ) {
 				return true;
 			}
 
 			// Check if the `window` exists in this document. The `window` is null for detached documents.
 			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 ) {
-				return !this.getDocument().$.defaultView;
+				return !doc.$.defaultView;
 			}
 
 			return false;
