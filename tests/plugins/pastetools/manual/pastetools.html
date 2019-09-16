@@ -1,0 +1,35 @@
+<h2>Helpers</h2>
+<p><b>Some</b> <i>rich</i> <s>text</s> <sup>with</sup> <a href="http://cksource.com">link</a></p>
+
+<h2>Editor With Registered Handler</h2>
+<div contenteditable="true" id="registered">
+	<p>Paste inside me!</p>
+</div>
+
+<h2>Editor Without Registered Handler</h2>
+<div contenteditable="true" id="unregistered">
+	<p>Paste inside me!</p>
+</div>
+
+<script>
+	( function() {
+		CKEDITOR.replace( 'registered', {
+			on: {
+				pluginsLoaded: function( evt ) {
+					var editor = evt.editor;
+
+					editor.pasteTools.register( {
+						canHandle: function( evt ) {
+							return evt.data.type !== 'text';
+						},
+
+						handle: function( evt ) {
+							evt.data.dataValue = '<p><strong>SURPRISE!</strong></p>';
+						}
+					} );
+				}
+			}
+		} );
+		CKEDITOR.replace( 'unregistered' );
+	}() );
+</script>

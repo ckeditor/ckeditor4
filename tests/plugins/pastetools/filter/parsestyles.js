@@ -1,17 +1,16 @@
-/* bender-tags: editor,clipboard,pastefromword */
-/* bender-ckeditor-plugins: pastefromword */
-/* bender-include: ../copyformatting/_helpers/tools.js, generated/_helpers/pfwTools.js */
-/* global pfwTools */
+/* bender-tags: editor,clipboard,pastetools */
+/* bender-ckeditor-plugins: pastetools */
+/* bender-include: ../../copyformatting/_helpers/tools.js, ../_helpers/ptTools.js */
+/* global ptTools */
 
 ( function() {
 	'use strict';
-
 
 	bender.editor = {};
 
 	function testStyles( name ) {
 		bender.tools.testInputOut( name, function( styles, expected ) {
-			var tested = CKEDITOR.plugins.pastefromword.styles.inliner.parse( styles );
+			var tested = CKEDITOR.plugins.pastetools.filters.common.styles.inliner.parse( styles );
 
 			// In `CKEDITOR.plugins.pastefromword.styles.inliner.parse#createIsolatedStylesheet`
 			// function Edge camelcases the selectors so we need to lowercase them (#1042).
@@ -27,7 +26,7 @@
 
 	function testInlining( name ) {
 		bender.tools.testInputOut( name, function( input, output ) {
-			var parsed = CKEDITOR.plugins.pastefromword.styles.inliner.inline( input );
+			var parsed = CKEDITOR.plugins.pastetools.filters.common.styles.inliner.inline( input );
 
 			bender.assert.beautified.html( output, bender.tools.fixHtml( parsed.getBody().getHtml() ), name );
 		} );
@@ -35,7 +34,7 @@
 
 	function testFiltering( name ) {
 		bender.tools.testInputOut( name, function( styles, expected ) {
-			var tested = CKEDITOR.plugins.pastefromword.styles.inliner.filter( JSON.parse( styles ) );
+			var tested = CKEDITOR.plugins.pastetools.filters.common.styles.inliner.filter( JSON.parse( styles ) );
 
 			assert.beautified.js( expected, JSON.stringify( tested ), name );
 		} );
@@ -58,7 +57,7 @@
 		},
 
 		'test parsing styles from real style element': function() {
-			var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
+			var parseStyles = CKEDITOR.plugins.pastetools.filters.common.styles.inliner.parse,
 				expected = [ {
 					selector: '.MsoChpDefault',
 					styles: {
@@ -71,7 +70,7 @@
 		},
 
 		'test parsing styles from a fake style element': function() {
-			var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
+			var parseStyles = CKEDITOR.plugins.pastetools.filters.common.styles.inliner.parse,
 				expected = [ {
 					selector: '.MsoChpDefault',
 					styles: {
@@ -108,9 +107,12 @@
 
 	tests._should = tests._should || { ignore: {} };
 
-	pfwTools.ignoreTestsOnMobiles( tests );
+	ptTools.ignoreTestsOnMobiles( tests );
 
-	CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( '/plugins/pastefromword/filter/default.js' ), function() {
+	ptTools.loadFilters( [
+		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js' ),
+		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastefromword' ) + 'filter/default.js' )
+	], function() {
 		bender.test( tests );
-	}, null, true );
+	} );
 } )();

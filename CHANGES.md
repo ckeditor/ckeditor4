@@ -5,6 +5,7 @@
 
 New Features:
 
+* [#835](https://github.com/ckeditor/ckeditor-dev/issues/835): Added support for pasting rich content from Google Docs with [Paste from Google Docs](https://ckeditor.com/cke4/addon/pastefromgoogledocs) plugin.
 * [#3315](https://github.com/ckeditor/ckeditor-dev/issues/3315): Added support for strikethrough in [BBCode](https://ckeditor.com/cke4/addon/bbcode) plugin. Thanks to [Alexander Kahl](https://github.com/akahl-owl)!
 * [#3175](https://github.com/ckeditor/ckeditor-dev/issues/3175): Introduced selection optimization mechanism for handling various browsers selection buggy behaviours:
     * [#3256](https://github.com/ckeditor/ckeditor-dev/issues/3256): Triple-clicking in last table cell and deleting content no longer pulls content below into table.
@@ -37,6 +38,7 @@ Fixed Issues:
 
 API Changes:
 
+* [#3257](https://github.com/ckeditor/ckeditor-dev/issues/835): Added new [PasteTools](https://ckeditor.com/cke4/addon/pastetools) plugin for unified paste handling.
 * [#3154](https://github.com/ckeditor/ckeditor-dev/issues/3154): Added the [`CKEDITOR.tools.array.some()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_array.html#method-some) method.
 * [#3245](https://github.com/ckeditor/ckeditor-dev/issues/3245): Added the [`CKEDITOR.plugins.undo.UndoManager.addFilterRule()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_undo_UndoManager.html#method-addFilterRule) method which allows filtering undo snapshots contents.
 * [#2845](https://github.com/ckeditor/ckeditor-dev/issues/2845): Added the [`CKEDITOR.tools.normalizeMouseButton()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-normalizeMouseButton) method.

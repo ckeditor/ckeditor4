@@ -1,0 +1,48 @@
+<h2>Helpers</h2>
+<p><b>Some</b> <i>rich</i> <s>text</s> <sup>with</sup> <a href="http://cksource.com">link</a></p>
+
+<h2>Editor</h2>
+<div contenteditable="true" id="classic">
+	<p>Paste inside me!</p>
+</div>
+
+<script>
+	( function() {
+		if ( bender.env.mobile ) {
+			bender.ignore();
+		}
+
+		CKEDITOR.replace( 'classic', {
+			on: {
+				pluginsLoaded: function( evt ) {
+					var editor = evt.editor;
+
+					editor.pasteTools.register( {
+						priority: 999,
+						canHandle: function( evt ) {
+							return true;
+						},
+
+						handle: function( evt, next ) {
+							evt.data.dataValue = '<p><em>Oh yes!</em></p>';
+							console.log( 'Paste handler #1 activated' );
+							next();
+						}
+					} );
+
+					editor.pasteTools.register( {
+						canHandle: function( evt ) {
+							return true;
+						},
+
+						handle: function( evt, next ) {
+							evt.data.dataValue = '<p><strong>Oh no!</strong></p>';
+							console.log( 'Paste handler #2 activated' );
+							next();
+						}
+					} );
+				}
+			}
+		} );
+	}() );
+</script>
