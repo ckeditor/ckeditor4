@@ -377,5 +377,19 @@ bender.test( {
 		assert.areSame( 'foo', insertHtml.firstCall.args[ 0 ], 'insertHtml dataValue' );
 		assert.areSame( 'html', insertHtml.firstCall.args[ 1 ], 'insertHtml mode' );
 		assert.areSame( range, insertHtml.firstCall.args[ 2 ], 'insertHtml range' );
+	},
+
+	'test isDestroyed method should return proper value': function() {
+		bender.editorBot.create( {
+			name: 'test_isdestroyed'
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			assert.isFalse( editor.isDestroyed() );
+
+			editor.destroy();
+
+			assert.isTrue( editor.isDestroyed() );
+		} );
 	}
 } );

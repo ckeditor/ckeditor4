@@ -1589,10 +1589,20 @@
 		 * {@link CKEDITOR.dom.element#isDetached is detached}.
 		 *
 		 * @since 4.13.0
-		 * @return {Boolean} true if editor's container is detached
+		 * @returns {Boolean} true if editor's container is detached
 		 */
 		isDetached: function() {
 			return !!this.container && this.container.isDetached();
+		},
+
+		/**
+		 * Determins if current editor instance is destroyed.
+		 *
+		 * @since 4.13.0
+		 * @returns {Boolean} true if editor is destroyed
+		 */
+		isDestroyed: function() {
+			return this.status === 'destroyed';
 		}
 	} );
 
