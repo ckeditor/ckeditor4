@@ -3359,21 +3359,22 @@
 			// ENTER.
 			if ( keyCode == 13 ) {
 				widget.edit();
-				return false;
 			}
 			// CTRL+C or CTRL+X.
 			else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
 				copySingleWidget( widget, keyCode == CKEDITOR.CTRL + 88 );
+				return; // Do not preventDefault.
 			}
 			// Pass chosen keystrokes to other plugins or default fake sel handlers.
 			// Pass all CTRL/ALT keystrokes.
 			else if ( keyCode in keystrokesNotBlockedByWidget ||
 				( CKEDITOR.CTRL & keyCode ) ||
 				( CKEDITOR.ALT & keyCode ) ) {
+				return;
 			}
-			return; // Do not preventDefault.
-
+			return false;
 		}, null, null, 999 );
+
 		// Listen with high priority so it's possible
 		// to overwrite this callback.
 
