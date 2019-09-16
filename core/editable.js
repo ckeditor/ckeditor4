@@ -541,12 +541,11 @@
 
 				this.clearListeners();
 
-				// Edge randomly throws permission denied when trying to access native elements of detached editor (#3115).
+				// Edge randomly throws permission denied when trying to access native elements of detached editor (#3115, #3419).
 				try {
 					this._.cleanCustomData();
 				} catch ( error ) {
-					var isMSBrowser = CKEDITOR.env.edge || CKEDITOR.env.ie;
-					if ( !isMSBrowser || error.number !== -2146828218 ) {
+					if ( !CKEDITOR.env.ie || error.number !== -2146828218 ) {
 						throw( error );
 					}
 				}

@@ -139,7 +139,7 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 					delete nativeListeners[ eventName ];
 				}
 			// Catch Edge `Permission denied` error which occurs randomly. Since the error is quite
-			// random, catching allows to continue the code execution and cleanup.
+			// random, catching allows to continue the code execution and cleanup (#3419).
 			} catch ( error ) {
 				if ( !CKEDITOR.env.edge || error.number !== -2146828218 ) {
 					throw( error );
