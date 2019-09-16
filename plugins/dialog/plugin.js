@@ -1951,14 +1951,17 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	 * @constructor Creates a definitionObject class instance.
 	 */
 	var definitionObject = function( dialog, dialogDefinition ) {
-			// TODO : Check if needed.
 			this.dialog = dialog;
 
-			// Transform the contents entries in contentObjects.
-			var contents = dialogDefinition.contents;
-			for ( var i = 0, content;
-			( content = contents[ i ] ); i++ )
-				contents[ i ] = content && new contentObject( dialog, content );
+			// Make sure that there is no false value in contents property (#2277), otherwise
+			// following transformations like setting default field value may fail.
+			var contents = CKEDITOR.tools.array.filter( dialogDefinition.contents, Boolean );
+
+			contents = CKEDITOR.tools.array.map( contents, function( content ) {
+				return new contentObject( dialog, content );
+			} );
+
+			dialogDefinition.contents = contents;
 
 			CKEDITOR.tools.extend( this, dialogDefinition );
 		};
