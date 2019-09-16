@@ -5,7 +5,7 @@
 	'use strict';
 
 	bender.test( {
-		// (##718), (#2257)
+		// (#718, #2257)
 		'test destroy editor on instance created': function() {
 			var init = sinon.spy(),
 				editor;
