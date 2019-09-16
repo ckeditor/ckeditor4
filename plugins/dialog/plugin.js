@@ -1589,7 +1589,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			return CKEDITOR.dialog.EDITING_MODE;
 		},
 
-		/*
+		/**
 		 * Overwrites dialog field default values with {@link CKEDITOR.config.dialog_defaultValues}.
 		 *
 		 * @since 4.13.0
