@@ -537,7 +537,7 @@
 				this.status = 'detached';
 
 				// Update the editor cached data with current data.
-				this.editor.setData( this.editor.getData( true ), {
+				this.editor.setData( this.editor.getData(), {
 					internal: true
 				} );
 
