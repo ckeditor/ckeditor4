@@ -3351,6 +3351,7 @@
 
 	function copyWidgets( editor, isCut ) {
 		var focused = editor.widgets.focused,
+			isWholeSelection,
 			copyBin,
 			bookmarks;
 
@@ -3370,6 +3371,10 @@
 				if ( bookmarks ) {
 					editor.getSelection().selectBookmarks( bookmarks );
 				}
+
+				if ( isWholeSelection ) {
+					CKEDITOR.plugins.widgetselection.addFillers( editor.editable() );
+				}
 			},
 
 			afterDestroy: function() {
@@ -3381,9 +3386,11 @@
 		} );
 
 		// When more than one widget is selected, we must save selection to restore it
-		// after destroying copybin (#3138).
+		// after destroying copybin. Additionally we have to work around issue with selecting all in
+		// Blink and WebKit, when widgets are at the beginning and at the end of the content (#3138).
 		if ( !focused ) {
-			bookmarks = editor.getSelection().createBookmarks( true );
+			isWholeSelection = CKEDITOR.env.webkit && CKEDITOR.plugins.widgetselection.isWholeContentSelected( editor.editable() );
+			bookmarks = !isWholeSelection && editor.getSelection().createBookmarks( true );
 		}
 
 		copyBin.handle( getClipboardHtml() );
