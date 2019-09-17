@@ -29,7 +29,8 @@
 
 		_should: {
 			ignore: {
-				'test should not throw any error after detach and destroy after iframe "load" event - classic editor in div': CKEDITOR.env.edge,
+				'test should not throw any error after detach and destroy after iframe "load" event - classic editor in div': CKEDITOR.env.edge || CKEDITOR.env.safari, // (#3426)
+				'test should not throw any error after detach and destroy after iframe "load" event - classic editor in textarea': CKEDITOR.env.safari, // (#3426)
 				'test should not throw any error after detach and destroy asynchronously - classic editor in textarea': CKEDITOR.env.ie && CKEDITOR.env.version < 11,
 				'test should not throw any error after detach and destroy asynchronously - classic editor in div': CKEDITOR.env.ie && CKEDITOR.env.version < 11,
 				'test should not throw any error after detach and destroy asynchronously - divarea editor in textarea': CKEDITOR.env.ie && CKEDITOR.env.version < 11
