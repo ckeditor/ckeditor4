@@ -2,34 +2,34 @@
 
 var detachingTools = ( function() {
 	function runBeforeScriptLoaded( callback ) {
-		var oryginalPluginsLoad = CKEDITOR.plugins.load;
+		var originalPluginsLoad = CKEDITOR.plugins.load;
 
 		CKEDITOR.plugins.load = function() {
-			CKEDITOR.plugins.load = oryginalPluginsLoad;
+			CKEDITOR.plugins.load = originalPluginsLoad;
 
-			var oryginalScriptLoaderLoad = CKEDITOR.scriptLoader.load;
+			var originalScriptLoaderLoad = CKEDITOR.scriptLoader.load;
 
 			CKEDITOR.scriptLoader.load = function() {
-				CKEDITOR.scriptLoader.load = oryginalScriptLoaderLoad;
+				CKEDITOR.scriptLoader.load = originalScriptLoaderLoad;
 
 				callback();
 
-				oryginalScriptLoaderLoad.apply( this, arguments );
+				originalScriptLoaderLoad.apply( this, arguments );
 			};
 
-			oryginalPluginsLoad.apply( this, arguments );
+			originalPluginsLoad.apply( this, arguments );
 		};
 	}
 
-	function runAafterEditableIframeLoad( editor, callback ) {
-		var oryginalAddMode = editor.constructor.prototype.addMode;
+	function runAfterEditableIframeLoad( editor, callback ) {
+		var originalAddMode = editor.constructor.prototype.addMode;
 
 		editor.addMode = function( mode, exec ) {
 			if ( mode === 'wysiwyg' ) {
 				delete editor.addMode;
-				oryginalAddMode.call( this, mode, modeHandler );
+				originalAddMode.call( this, mode, modeHandler );
 			} else {
-				oryginalAddMode.call( this, mode, exec );
+				originalAddMode.call( this, mode, exec );
 			}
 
 			function modeHandler() {
@@ -43,6 +43,6 @@ var detachingTools = ( function() {
 
 	return {
 		runBeforeScriptLoaded: runBeforeScriptLoaded,
-		runAafterEditableIframeLoad: runAafterEditableIframeLoad
+		runAfterEditableIframeLoad: runAfterEditableIframeLoad
 	};
 } )();

@@ -7,7 +7,7 @@
 
 ( function() {
 	var runBeforeScriptLoaded = detachingTools.runBeforeScriptLoaded,
-		runAafterEditableIframeLoad = detachingTools.runAafterEditableIframeLoad,
+		runAfterEditableIframeLoad = detachingTools.runAfterEditableIframeLoad,
 		currentError;
 
 
@@ -368,7 +368,7 @@
 
 			editor = CKEDITOR[ createMethod ]( editorContainer.$, config );
 
-			runAafterEditableIframeLoad( editor, function() {
+			runAfterEditableIframeLoad( editor, function() {
 				editorContainer.remove();
 				editor.destroy();
 			} );
