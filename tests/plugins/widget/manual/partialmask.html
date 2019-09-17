@@ -19,7 +19,7 @@
 
 	// 'image2' plugin gets a partial mask on 'caption'.
 	editor.on( 'widgetDefinition', function( evt ) {
-		if (evt.data.name == 'image' ) {
+		if ( evt.data.name == 'image' ) {
 			evt.data.__proto__.mask = 'caption';
 		}
 	} );
