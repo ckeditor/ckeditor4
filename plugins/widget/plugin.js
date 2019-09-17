@@ -3448,6 +3448,10 @@
 
 			// First listener is the most obvious, refresh mask after every change that could affect widget.
 			widget.on( 'focus', function() {
+				// Refresh widget mask on initial focus. This handle cases when widget can be resized without
+				// being focused and is focused right after (e.g. `image2` on Edge/IE browsers).
+				maskBuffer.input();
+
 				changeListener = widget.editor.on( 'change', maskBuffer.input );
 				blurListener = widget.on( 'blur', function() {
 					changeListener.removeListener();
