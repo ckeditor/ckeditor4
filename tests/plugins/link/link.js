@@ -20,7 +20,7 @@
 		},
 		customProtocol: {
 			config: {
-				link_defaultProtocol: 'https://'
+				linkDefaultProtocol: 'https://'
 			}
 		}
 	};

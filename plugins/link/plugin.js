@@ -904,7 +904,7 @@
 		 * @member CKEDITOR.config
 		 * @since 4.13.0
 		 */
-		link_defaultProtocol: 'http://',
+		linkDefaultProtocol: 'http://',
 
 		/**
 		 * Whether JavaScript code is allowed as a `href` attribute in an anchor tag.
