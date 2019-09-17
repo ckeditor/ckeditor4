@@ -225,162 +225,134 @@
 		}
 	} );
 
-	//  * Function provides single test case function, which creates an editor according to provided options.
-	//  * Editor is imediately destroyed when creation function is called.
-	//  * `isAsynchronous` flags indicates, if destroy method should be run synchronously or asynchronoously in setTimout.
-	//  *
-	//  * @param {Object} options
-	//  * @param {String} options.editorType one of the editor types: 'classic', 'divarea', 'inline'
-	//  * @param {String} options.elemntName name of an html element where editor is initialized: 'textarea' or 'div'
-	//  * @param {Boolean} options.isAsynchronous flag which run `editor.destroy()` method in setTimeout.
-	//  * @returns {Funciton}
+	// Function provides a single test case function, which creates an editor according to provided options.
+	// Editor is immediately destroyed when creation function is called. The `isAsynchronous` flag indicates,
+	// if destroy method should be run synchronously or asynchronously in `setTimeout` function.
+	//
+	// @param {Object} options See `options` for `initializeEditor()` function below.
+	// @param {Boolean} options.isAsynchronous Whether to run `editor.destroy()` method in setTimeout.
+	// @returns {Function}
 	function getSimpleTestCase( options ) {
 		return function() {
-			var editorType = options.editorType,
-				editorContainer = CKEDITOR.dom.element.createFromHtml( options.elementName === 'textarea' ? '<textarea></textarea>' : '<div contenteditable="true"></div>' ),
-				createMethod = editorType === 'inline' ? 'inline' : 'replace',
-				config = {},
-				editor;
+			options.wrapper = this.wrapper;
 
-			if ( editorType === 'divarea' ) {
-				config.extraPlugins = 'divarea';
-			} else if ( editorType === 'inline' ) {
-				config.extraPlugins = 'floatingspace';
-			}
-
-			this.wrapper.append( editorContainer );
-
-			registerAsserts();
-
-			editor = CKEDITOR[ createMethod ]( editorContainer.$, config );
+			var data = initializeEditor( options );
 
 			if ( options.isAsynchronous ) {
 				setTimeout( function() {
-					editorContainer.remove();
-					editor.destroy();
+					data.editorContainer.remove();
+					data.editor.destroy();
 				}, 30 );
 			} else {
-				editorContainer.remove();
-				editor.destroy();
+				data.editorContainer.remove();
+				data.editor.destroy();
 			}
+
 			wait();
 		};
 	}
 
 
-	//  * Function provides single test case function, which creates an editor according to provided options.
-	//  * Editor is destroyed before `loaded` event.
-	//  *
-	//  * @param {Object} options
-	//  * @param {String} options.editorType one of the editor types: 'classic', 'divarea', 'inline'
-	//  * @param {String} options.elemntName name of an html element where editor is initialized: 'textarea' or 'div'
-	//  * @returns {Funciton}
+	// Function provides a single test case function, which creates an editor according to provided options.
+	// Editor is destroyed before `loaded` event.
+	//
+	// @param {Object} options See `options` for `initializeEditor()` function below.
+	// @returns {Function}
 	function getBeforeLoadedTestCase( options ) {
 		return function() {
-			var editorType = options.editorType,
-				editorContainer = CKEDITOR.dom.element.createFromHtml( options.elementName === 'textarea' ? '<textarea></textarea>' : '<div contenteditable="true"></div>' ),
-				createMethod = editorType === 'inline' ? 'inline' : 'replace',
-				config = {},
-				editor;
+			options.wrapper = this.wrapper;
 
-			if ( editorType === 'divarea' ) {
-				config.extraPlugins = 'divarea';
-			} else if ( editorType === 'inline' ) {
-				config.extraPlugins = 'floatingspace';
-			}
+			var data = initializeEditor( options );
 
-			this.wrapper.append( editorContainer );
-
-			registerAsserts();
-
-			editor = CKEDITOR[ createMethod ]( editorContainer.$, config );
-
-			editor.on( 'loaded', function() {
-				editorContainer.remove();
-				editor.destroy();
+			data.editor.on( 'loaded', function() {
+				data.editorContainer.remove();
+				data.editor.destroy();
 			}, this, null, -1000000 );
 
 			wait();
 		};
 	}
 
-	//  * Function provides single test case function, which creates an editor according to provided options.
-	//  * Editor is destroyed before scriptLoad.load is fired during plugins load.
-	//  *
-	//  * @param {Object} options
-	//  * @param {String} options.editorType one of the editor types: 'classic', 'divarea', 'inline'
-	//  * @param {String} options.elemntName name of an html element where editor is initialized: 'textarea' or 'div'
-	//  * @returns {Funciton}
+	// Function provides a single test case function, which creates an editor according to provided options.
+	// Editor is destroyed before `scriptLoader.load` is fired during plugins load.
+	//
+	// @param {Object} options See `options` for `initializeEditor()` function below.
+	// @returns {Function}
 	function getBeforeScriptLoadTestCase( options ) {
 		return function() {
-			var editorType = options.editorType,
-				editorContainer = CKEDITOR.dom.element.createFromHtml( options.elementName === 'textarea' ? '<textarea></textarea>' : '<div contenteditable="true"></div>' ),
-				createMethod = editorType === 'inline' ? 'inline' : 'replace',
-				config = {},
-				editor;
+			options.wrapper = this.wrapper;
 
-			if ( editorType === 'divarea' ) {
-				config.extraPlugins = 'divarea';
-			} else if ( editorType === 'inline' ) {
-				config.extraPlugins = 'floatingspace';
-			}
-
-			this.wrapper.append( editorContainer );
-
-			registerAsserts();
+			var data = initializeEditor( options, true );
 
 			runBeforeScriptLoaded( function() {
-				editorContainer.remove();
-				editor.destroy();
+				data.editorContainer.remove();
+				data.editor.destroy();
 			} );
 
-			editor = CKEDITOR[ createMethod ]( editorContainer.$, config );
+			data.editor = CKEDITOR[ data.createMethod ]( data.editorContainer.$, data.config );
 
 			wait();
 		};
 	}
 
-	//  * Function provides single test case function, which creates an editor according to provided options.
-	//  * Editor is destroyed just after iframe is load.
-	//  * Please notice this test case has to be run exclusively with iframe-type editors.
-	//  *
-	//  * @param {Object} options
-	//  * @param {String} options.editorType one of the editor types: 'classic', 'divarea', 'inline'
-	//  * @param {String} options.elemntName name of an html element where editor is initialized: 'textarea' or 'div'
-	//  * @returns {Funciton}
+	// Function provides a single test case function, which creates an editor according to provided options.
+	// Editor is destroyed just after iframe is load.
+	//
+	// Note: This test case has to be run exclusively with iframe-type editors.
+	//
+	// @param {Object} options See `options` for `initializeEditor()` function below.
+	// @returns {Function}
 	function getAfterIframeLoadTestCase( options ) {
 		return function() {
-			var editorType = options.editorType,
-				editorContainer = CKEDITOR.dom.element.createFromHtml( options.elementName === 'textarea' ? '<textarea></textarea>' : '<div contenteditable="true"></div>' ),
-				createMethod = editorType === 'inline' ? 'inline' : 'replace',
-				config = {},
-				editor;
+			options.wrapper = this.wrapper;
 
-			if ( editorType === 'divarea' ) {
-				config.extraPlugins = 'divarea';
-			} else if ( editorType === 'inline' ) {
-				config.extraPlugins = 'floatingspace';
-			}
+			var data = initializeEditor( options );
 
-			this.wrapper.append( editorContainer );
-
-			registerAsserts();
-
-			editor = CKEDITOR[ createMethod ]( editorContainer.$, config );
-
-			runAfterEditableIframeLoad( editor, function() {
-				editorContainer.remove();
-				editor.destroy();
+			runAfterEditableIframeLoad( data.editor, function() {
+				data.editorContainer.remove();
+				data.editor.destroy();
 			} );
 
 			wait();
 		};
 	}
 
-	function registerAsserts() {
+	// Creates editor instance according to provided options.
+	//
+	// @param {Object} options
+	// @param {String} options.editorType One of the editor types: 'classic', 'divarea', 'inline'.
+	// @param {String} options.elementName Name of html element where editor is initialized: 'textarea' or 'div'.
+	// @param {Boolean} skipEditorCreate Whether to skip editor creation (`CKEDITOR.*`) call.
+	// @returns {Function}
+	function initializeEditor( options, skipEditorCreate ) {
+		var editorType = options.editorType,
+			editorContainer = CKEDITOR.dom.element.createFromHtml( options.elementName === 'textarea' ? '<textarea></textarea>' : '<div contenteditable="true"></div>' ),
+			createMethod = editorType === 'inline' ? 'inline' : 'replace',
+			config = {},
+			editor;
+
+		if ( editorType === 'divarea' ) {
+			config.extraPlugins = 'divarea';
+		} else if ( editorType === 'inline' ) {
+			config.extraPlugins = 'floatingspace';
+		}
+
+		options.wrapper.append( editorContainer );
+
 		CKEDITOR.on( 'instanceDestroyed', function() {
 			resume( assertErrors );
 		} );
+
+		if ( skipEditorCreate !== true ) {
+			editor = CKEDITOR[ createMethod ]( editorContainer.$, config );
+		}
+
+		return {
+			editor: editor,
+			editorContainer: editorContainer,
+			createMethod: createMethod,
+			config: config
+		};
 	}
 
 	function assertErrors() {
