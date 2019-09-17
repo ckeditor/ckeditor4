@@ -3446,17 +3446,7 @@
 				blurListener,
 				timeout;
 
-			// FF renders image-like widget very late, so mask has to be create asynchronously after
-			// image is loaded.
-			if ( CKEDITOR.env.gecko ) {
-				var imgs = widget.element.find( 'img' );
-				CKEDITOR.tools.array.forEach( imgs.toArray(), function( img ) {
-					img.on( 'load', function() {
-						maskBuffer.input();
-					} );
-				} );
-			}
-
+			// First listener is the most obvious, refresh mask after every change that could affect widget.
 			widget.on( 'focus', function() {
 				changeListener = widget.editor.on( 'change', maskBuffer.input );
 				blurListener = widget.on( 'blur', function() {
@@ -3465,19 +3455,14 @@
 				} );
 			} );
 
-			// Focusing editable doesn't trigger focus on widget, so listen to those events separately.
-			for ( var editable in widget.editables ) {
-				widget.editables[ editable ].on( 'focus', function() {
-					widget.editor.on( 'change', maskBuffer.input );
-					// If widget was focused before focusing editable, the 'blur' event has to be removed.
-					// Otherwise on Chrome it will trigger after the focus event and cancel listening to
-					// changes (on FF it works inversely).
-					if ( blurListener ) {
-						blurListener.removeListener();
-					}
-				} );
-				widget.editables[ editable ].on( 'blur', function() {
-					widget.editor.removeListener( 'change', maskBuffer.input );
+			// FF renders image-like widget very late, so mask has to be create asynchronously after
+			// image is loaded.
+			if ( CKEDITOR.env.gecko ) {
+				var imgs = widget.element.find( 'img' );
+				CKEDITOR.tools.array.forEach( imgs.toArray(), function( img ) {
+					img.on( 'load', function() {
+						maskBuffer.input();
+					} );
 				} );
 			}
 
@@ -3497,6 +3482,23 @@
 				}, timeout );
 			} );
 
+			// Focusing editable doesn't trigger focus on widget, so listen to those events separately.
+			for ( var editable in widget.editables ) {
+				widget.editables[ editable ].on( 'focus', function() {
+					widget.editor.on( 'change', maskBuffer.input );
+					// If widget was focused before focusing editable, the 'blur' event has to be removed.
+					// Otherwise on Chrome it will trigger after the focus event and cancel listening to
+					// changes (on FF it works inversely).
+					if ( blurListener ) {
+						blurListener.removeListener();
+					}
+				} );
+				widget.editables[ editable ].on( 'blur', function() {
+					widget.editor.removeListener( 'change', maskBuffer.input );
+				} );
+			}
+
+			// Trigger initial setup.
 			maskBuffer.input();
 		}
 	}
