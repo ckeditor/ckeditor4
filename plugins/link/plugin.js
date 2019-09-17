@@ -900,11 +900,23 @@
 		/**
 		 * Default URL protocol used for link dialog.
 		 *
+		 * Available values are:
+		 *
+		 * * `'http://'`
+		 * * `'https://'`
+		 * * `'ftp://'`
+		 * * `'news://'`
+		 * * `''` - empty string for `<other>` option
+		 *
+		 * ```javascript
+		 * config.linkDefaultProtocol = 'https://';
+		 * ```
+		 *
 		 * @cfg {String}
 		 * @member CKEDITOR.config
 		 * @since 4.13.0
 		 */
-		linkDefaultProtocol: 'http://',
+		linkDefaultProtocol: 'http://'
 
 		/**
 		 * Whether JavaScript code is allowed as a `href` attribute in an anchor tag.
