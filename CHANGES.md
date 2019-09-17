@@ -12,6 +12,7 @@ New Features:
     * [#3118](https://github.com/ckeditor/ckeditor-dev/issues/3118): Selecting a paragraph with triple-click and applying heading applies heading only to selected paragraph.
     * [#3161](https://github.com/ckeditor/ckeditor-dev/issues/3161): Double click on a `span` element containing one word only creates correct selection including clicked `span` only.
 * [#3359](https://github.com/ckeditor/ckeditor-dev/issues/3359): Improved [dialog](https://ckeditor.com/cke4/addon/dialog) positioning and behaviour when browser window is resized, dialog resized or moved.
+* [#2227](https://github.com/ckeditor/ckeditor-dev/issues/2227): Added [`config.linkDefaultProtocol`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-linkDefaultProtocol) configuration option that allows setting default URL protocol for [Link](https://ckeditor.com/cke4/addon/link) plugin dialog.
 
 Fixed Issues:
 
