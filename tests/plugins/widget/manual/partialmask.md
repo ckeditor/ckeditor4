@@ -2,17 +2,17 @@
 @bender-tags: 4.13.0, feature, 3240
 @bender-ckeditor-plugins: wysiwygarea,toolbar,clipboard,image2,sourcearea,list,undo,stylescombo
 
-**Note:**
+**Note: Test with dev tools open checking mask size and position after each step. Additionally, each mask has a red border so it's positioning is visible without inspecting mask element.**
 
-**Please test with dev tools open and after each step check mask size and position. Each time it should adjust to the changes made.**
-
-Expected and unexpected results are always the same:
+Expected and unexpected results are the same for each step:
 
 ### Expected result:
 Mask adjusted to the new size of caption element. There is only one mask element for widget.
+
 ### Unexpected result:
 Mask stayed the same size, didn't move properly or there are more than one mask elements.
 
+### Steps:
 1. Check if mask covers `caption` element of image widget.
 1. Check text widget - the first `editable` should be editable and the second one should be masked.
 1. Resize image using resize handler.
