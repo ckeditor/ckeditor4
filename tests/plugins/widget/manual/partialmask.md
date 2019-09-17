@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 4.13.0, feature, 3240
-@bender-ckeditor-plugins: wysiwygarea,toolbar,clipboard,image2,sourcearea,list,undo
+@bender-ckeditor-plugins: wysiwygarea,toolbar,clipboard,image2,sourcearea,list,undo,stylescombo
 
 **Note:**
 

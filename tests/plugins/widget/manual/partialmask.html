@@ -12,17 +12,14 @@
 	if ( bender.tools.env.mobile ) {
 		bender.ignore();
 	}
-	var editor = CKEDITOR.replace( 'editor', {
-			extraPlugins: 'partialMasked',
-			height: 500
-		} );
 
-	// 'image2' plugin gets a partial mask on 'caption'.
-	editor.on( 'widgetDefinition', function( evt ) {
-		if ( evt.data.name == 'image' ) {
-			evt.data.__proto__.mask = 'caption';
-		}
-	} );
+	CKEDITOR.addCss( '.left { float: left; width: 200px; } .right { float: right; width: 200px; }' );
+
+	CKEDITOR.stylesSet.add( 'default', [
+		{ name: 'None', type: 'widget', widget: 'partialMasked', attributes: { 'class': '' }, group: 'alignment' },
+		{ name: 'Left', type: 'widget', widget: 'partialMasked', attributes: { 'class': 'left' }, group: 'alignment' },
+		{ name: 'Right', type: 'widget', widget: 'partialMasked', attributes: { 'class': 'right' }, group: 'alignment' }
+	] );
 
 	CKEDITOR.plugins.add( 'partialMasked', {
 		requires: 'widget',
@@ -53,7 +50,7 @@
 					content: '.content'
 				},
 
-				allowedContent: 'div(partialMasked,content,notmasked)',
+				allowedContent: 'div(partialMasked,content,notmasked,left,right)',
 				requiredContent: 'div(partialMasked)',
 
 				mask: 'content',
@@ -62,6 +59,18 @@
 					return element.name == 'div' && element.hasClass( 'partialMasked' );
 				}
 			} );
+		}
+	} );
+
+	var editor = CKEDITOR.replace( 'editor', {
+		extraPlugins: 'partialMasked',
+		height: 500
+	} );
+
+	// 'image2' plugin gets a partial mask on 'caption'.
+	editor.on( 'widgetDefinition', function( evt ) {
+		if ( evt.data.name == 'image' ) {
+			evt.data.__proto__.mask = 'caption';
 		}
 	} );
 </script>
