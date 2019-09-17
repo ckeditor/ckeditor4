@@ -272,7 +272,6 @@
 							id: 'protocol',
 							type: 'select',
 							label: commonLang.protocol,
-							'default': 'http://',
 							items: [
 								// Force 'ltr' for protocol names in BIDI. (https://dev.ckeditor.com/ticket/5433)
 								[ 'http://\u200E', 'http://' ],
@@ -281,9 +280,11 @@
 								[ 'news://\u200E', 'news://' ],
 								[ linkLang.other, '' ]
 							],
+							'default': editor.config.linkDefaultProtocol,
 							setup: function( data ) {
-								if ( data.url )
+								if ( data.url ) {
 									this.setValue( data.url.protocol || '' );
+								}
 							},
 							commit: function( data ) {
 								if ( !data.url )

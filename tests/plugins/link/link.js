@@ -17,6 +17,17 @@
 				linkPhoneRegExp: /^[0-9]{9}$/,
 				linkPhoneMsg: 'Invalid number'
 			}
+		},
+		customProtocol: {
+			config: {
+				linkDefaultProtocol: 'https://'
+			}
+		},
+
+		otherProtocol: {
+			config: {
+				linkDefaultProtocol: ''
+			}
 		}
 	};
 
@@ -627,7 +638,27 @@
 
 		'test email address with "?" in domain': assertEmail( 'mailto:?ck?editor@cksou?rce.com' ),
 
-		'test email address with "?" and arguments': assertEmail( 'mailto:ck?editor@cksource.com?subject=cke4&amp;body=hello' )
+		'test email address with "?" and arguments': assertEmail( 'mailto:ck?editor@cksource.com?subject=cke4&amp;body=hello' ),
+
+		// (#2227)
+		'test custom URL protocol': function() {
+			var bot = this.editorBots.customProtocol;
+
+			bot.dialog( 'link', function( dialog ) {
+				assert.areEqual( 'https://', dialog.getContentElement( 'info', 'protocol' ).getValue() );
+				dialog.hide();
+			} );
+		},
+
+		// (#2227)
+		'test other URL protocol': function() {
+			var bot = this.editorBots.otherProtocol;
+
+			bot.dialog( 'link', function( dialog ) {
+				assert.areEqual( '', dialog.getContentElement( 'info', 'protocol' ).getValue() );
+				dialog.hide();
+			} );
+		}
 	} );
 
 	function assertEmail( link ) {
