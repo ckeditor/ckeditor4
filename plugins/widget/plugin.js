@@ -3440,11 +3440,11 @@
 		if ( widget.mask === true ) {
 			setupFullMask( widget );
 		} else if ( widget.mask ) {
-			// Buffer to limit number of separate calls to 'setupPartialMask', e.g. during writing.
+			// Buffer to limit number of separate calls to 'refreshPartialMask()', e.g. during writing.
 			var maskBuffer = new CKEDITOR.tools.buffers.throttle( 250, refreshPartialMask, widget ),
+				timeout = ( CKEDITOR.env.gecko ? 300 : 0 ),
 				changeListener,
-				blurListener,
-				timeout;
+				blurListener;
 
 			// First listener is the most obvious, refresh mask after every change that could affect widget.
 			widget.on( 'focus', function() {
@@ -3453,6 +3453,21 @@
 					changeListener.removeListener();
 					blurListener.removeListener();
 				} );
+			} );
+
+			// Another insurance policy vs FF but this time also Chrome (the latter is just a bit better here).
+			// This time setup mask after editor is ready (in FF it doesn't mean that widgets are fully loaded
+			// so timeout is needed) and after switching from source mode (same story).
+			widget.editor.on( 'instanceReady', function() {
+				setTimeout( function() {
+					maskBuffer.input();
+				}, timeout );
+			} );
+
+			widget.editor.on( 'mode', function() {
+				setTimeout( function() {
+					maskBuffer.input();
+				}, timeout );
 			} );
 
 			// FF renders image-like widget very late, so mask has to be create asynchronously after
@@ -3465,22 +3480,6 @@
 					} );
 				} );
 			}
-
-			// Another insurance policy vs FF but this time also Chrome (the latter is just a bit better here).
-			// This time setup mask after editor is ready (in FF it doesn't mean that widgets are fully loaded
-			// so timeout is needed) and after switching from source mode (same story).
-			timeout = ( CKEDITOR.env.gecko ? 300 : 0 );
-
-			widget.editor.on( 'instanceReady', function() {
-				setTimeout( function() {
-					maskBuffer.input();
-				}, timeout );
-			} );
-			widget.editor.on( 'mode', function() {
-				setTimeout( function() {
-					maskBuffer.input();
-				}, timeout );
-			} );
 
 			// Focusing editable doesn't trigger focus on widget, so listen to those events separately.
 			for ( var editable in widget.editables ) {
