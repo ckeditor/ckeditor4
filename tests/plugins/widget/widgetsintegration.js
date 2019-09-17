@@ -1076,6 +1076,42 @@
 		} ),
 
 		// (#3138)
+		'test selection is restored after copying (multiple widgets at boundaries)': createCopyCutTest( {
+			ignore: !CKEDITOR.env.webkit,
+			event: 'copy',
+			html: '<div id="w1" data-widget="test3">test3</div>' +
+			'<p>Lorem</p>' +
+			'<p>Ipsum</p>' +
+			'<div id="w2" data-widget="test3">test3</div>',
+
+			init: function( editor ) {
+				var range = editor.createRange(),
+					startNode = getWidgetById( editor, 'w1' ).wrapper,
+					endNode = getWidgetById( editor, 'w2' ).wrapper;
+
+				range.setStartBefore( startNode );
+				range.setEndAfter( endNode );
+				range.select();
+
+				// We must simulate widgetselection behaviour.
+				CKEDITOR.plugins.widgetselection.addFillers( editor.editable() );
+			},
+
+			assert: function( editor ) {
+				var nativeSel = editor.getSelection().getNative(),
+					startNode = getWidgetById( editor, 'w1' ).wrapper.$,
+					endNode = getWidgetById( editor, 'w2' ).wrapper.$;
+
+				// What's interesting, Chrome claims that even if selection is visibly collapsed,
+				// the whole content is selected. That's why two additional assertions are needed.
+				assert.isTrue( CKEDITOR.plugins.widgetselection.isWholeContentSelected( editor.editable() ),
+					'whole content is selected' );
+				assert.isTrue( nativeSel.containsNode( startNode ), 'start node is inside selection' );
+				assert.isTrue( nativeSel.containsNode( endNode ), 'end node is inside selection' );
+			}
+		} ),
+
+		// (#3138)
 		'test content is removed after cutting (single widget)': createCopyCutTest( {
 			event: 'cut',
 			html: '<div id="w1" data-widget="test3">test3</div>',
@@ -1446,6 +1482,10 @@
 		return function() {
 			var evtName = options.event || 'copy',
 				editor = this.editor;
+
+			if ( options.ignore ) {
+				return assert.ignore();
+			}
 
 			this.editorBot.setData( options.html, function() {
 				var clipboardHtml;
