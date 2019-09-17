@@ -3443,7 +3443,8 @@
 			// Buffer to limit number of separate calls to 'setupPartialMask', e.g. during writing.
 			var maskBuffer = new CKEDITOR.tools.buffers.throttle( 250, refreshPartialMask, widget ),
 				changeListener,
-				blurListener;
+				blurListener,
+				timeout;
 
 			// FF renders image-like widget very late, so mask has to be create asynchronously after
 			// image is loaded.
@@ -3479,6 +3480,23 @@
 					widget.editor.removeListener( 'change', maskBuffer.input );
 				} );
 			}
+
+			// Another insurance policy vs FF but this time also Chrome (the latter is just a bit better here).
+			// This time setup mask after editor is ready (in FF it doesn't mean that widgets are fully loaded
+			// so timeout is needed) and after switching from source mode (same story).
+			timeout = ( CKEDITOR.env.gecko ? 300 : 0 );
+
+			widget.editor.on( 'instanceReady', function() {
+				setTimeout( function() {
+					maskBuffer.input();
+				}, timeout );
+			} );
+			widget.editor.on( 'mode', function() {
+				setTimeout( function() {
+					maskBuffer.input();
+				}, timeout );
+			} );
+
 			maskBuffer.input();
 		}
 	}
