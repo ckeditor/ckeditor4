@@ -1235,7 +1235,7 @@
 			},
 
 			/**
-			 * @inheritdoc CKEDITOR.dom.domObject.getUniqueId
+			 * @inheritdoc CKEDITOR.dom.domObject#getUniqueId
 			 */
 			getUniqueId: function() {
 				var expandoNumber;
