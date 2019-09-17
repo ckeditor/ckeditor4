@@ -4,7 +4,7 @@
 
 **Note:**
 
-**Please test with dev tools open and after each step check mask size and alignment. Each time it should adjust to the changes made.**
+**Please test with dev tools open and after each step check mask size and position. Each time it should adjust to the changes made.**
 
 Expected and unexpected results are always the same:
 
