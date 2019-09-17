@@ -280,12 +280,11 @@
 								[ 'news://\u200E', 'news://' ],
 								[ linkLang.other, '' ]
 							],
+							'default': editor.config.link_defaultProtocol,
 							setup: function( data ) {
-								var protocol = data.url && data.url.protocol;
-
-								protocol = protocol !== undefined ? protocol : editor.config.link_defaultProtocol;
-
-								this.setValue( protocol );
+								if ( data.url ) {
+									this.setValue( data.url.protocol || '' );
+								}
 							},
 							commit: function( data ) {
 								if ( !data.url )

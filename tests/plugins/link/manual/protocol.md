@@ -2,7 +2,7 @@
 @bender-ckeditor-plugins: link, toolbar, wysiwygarea
 @bender-ui: collapsed
 
-1. Click link button.
+1. Click link button in the first editor.
 
 **Expected:** Protocol set to `https://`.
 
@@ -12,3 +12,5 @@
 5. Double click inserted link to open dialog.
 
 **Expected**: Link protocol remains `http://`.
+
+6. Repeat 1-5 test steps with the second editor using `<other>` protocol instead of `http://`.
