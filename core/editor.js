@@ -192,10 +192,8 @@
 
 		// Return the editor instance immediately to enable early stage event registrations.
 		CKEDITOR.tools.setTimeout( function() {
-			if ( this.status !== 'destroyed' ) {
+			if ( !this.isDestroyed() && !this.isDetached() ) {
 				initConfig( this, instanceConfig );
-			} else {
-				CKEDITOR.warn( 'editor-incorrect-destroy' );
 			}
 		}, 0, this );
 	}
@@ -593,6 +591,10 @@
 
 			// Load all plugin specific language files in a row.
 			CKEDITOR.scriptLoader.load( languageFiles, function() {
+				if ( editor.isDestroyed() || editor.isDetached() ) {
+					return;
+				}
+
 				// Initialize all plugins that have the "beforeInit" and "init" methods defined.
 				var methods = [ 'beforeInit', 'init', 'afterInit' ];
 				for ( var m = 0; m < methods.length; m++ ) {
@@ -604,8 +606,9 @@
 							editor.lang[ plugin.name ] = plugin.langEntries[ languageCodes[ i ] ];
 
 						// Call the plugin method (beforeInit and init).
-						if ( plugin[ methods[ m ] ] )
+						if ( plugin[ methods[ m ] ] ) {
 							plugin[ methods[ m ] ]( editor );
+						}
 					}
 				}
 
@@ -1579,6 +1582,27 @@
 		 */
 		showNotification: function( message ) {
 			alert( message ); // jshint ignore:line
+		},
+
+		/**
+		 * Provides information if editor's {@link CKEDITOR.editor#container container}
+		 * {@link CKEDITOR.dom.element#isDetached is detached}.
+		 *
+		 * @since 4.13.0
+		 * @returns {Boolean} true if editor's container is detached
+		 */
+		isDetached: function() {
+			return !!this.container && this.container.isDetached();
+		},
+
+		/**
+		 * Determins if current editor instance is destroyed.
+		 *
+		 * @since 4.13.0
+		 * @returns {Boolean} true if editor is destroyed
+		 */
+		isDestroyed: function() {
+			return this.status === 'destroyed';
 		}
 	} );
 

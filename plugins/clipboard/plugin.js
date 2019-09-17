@@ -1203,8 +1203,9 @@
 		}
 
 		function setToolbarStates() {
-			if ( editor.mode != 'wysiwyg' )
+			if ( editor.mode != 'wysiwyg' ) {
 				return;
+			}
 
 			var pasteState = stateFromNamedCommand( 'paste' );
 

@@ -534,19 +534,29 @@
 			 * Detaches this editable object from the DOM (removes classes, listeners, etc.)
 			 */
 			detach: function() {
-				// Cleanup the element.
-				this.removeClass( 'cke_editable' );
-
 				this.status = 'detached';
 
-				// Save the editor reference which will be lost after
-				// calling detach from super class.
-				var editor = this.editor;
+				// Update the editor cached data with current data.
+				this.editor.setData( this.editor.getData(), {
+					internal: true
+				} );
 
-				this._.detach();
+				this.clearListeners();
 
-				delete editor.document;
-				delete editor.window;
+				// Edge randomly throws permission denied when trying to access native elements of detached editor (#3115, #3419).
+				try {
+					this._.cleanCustomData();
+				} catch ( error ) {
+					if ( !CKEDITOR.env.ie || error.number !== -2146828218 ) {
+						throw( error );
+					}
+				}
+
+				this.editor.fire( 'contentDomUnload' );
+
+				delete this.editor.document;
+				delete this.editor.window;
+				delete this.editor;
 			},
 
 			/**
@@ -1222,44 +1232,59 @@
 						return false;
 					}, this, null, 100 ); // Later is better – do not override existing listeners.
 				}
+			},
+
+			/**
+			 * @inheritdoc CKEDITOR.dom.domObject#getUniqueId
+			 */
+			getUniqueId: function() {
+				var expandoNumber;
+				// Editable is cached unlike other elements, so we can use it to store expando number.
+				// We need it to properly cleanup custom data in case of permission denied
+				// thrown by Edge when accessing native element of detached editable (#3115).
+				try {
+					this._.expandoNumber = expandoNumber = CKEDITOR.dom.domObject.prototype.getUniqueId.call( this );
+				} catch ( e ) {
+					expandoNumber = this._ && this._.expandoNumber;
+				}
+
+				return expandoNumber;
 			}
 		},
 
 		_: {
-			detach: function() {
+			cleanCustomData: function() {
 				// Update the editor cached data with current data.
-				this.editor.setData( this.editor.getData(), 0, 1 );
-
-				this.clearListeners();
+				this.removeClass( 'cke_editable' );
 				this.restoreAttrs();
 
 				// Cleanup our custom classes.
-				var classes;
-				if ( ( classes = this.removeCustomData( 'classes' ) ) ) {
-					while ( classes.length )
-						this.removeClass( classes.pop() );
+				var classes = this.removeCustomData( 'classes' );
+
+				while ( classes && classes.length ) {
+					this.removeClass( classes.pop() );
 				}
+
+				if ( this.is( 'textarea' ) ) {
+					return;
+				}
+
+				var doc = this.getDocument(),
+					head = doc.getHead();
+
+				if ( !head.getCustomData( 'stylesheet' ) ) {
+					return;
+				}
+
+				var refs = doc.getCustomData( 'stylesheet_ref' );
 
 				// Remove contents stylesheet from document if it's the last usage.
-				if ( !this.is( 'textarea' ) ) {
-					var doc = this.getDocument(),
-						head = doc.getHead();
-					if ( head.getCustomData( 'stylesheet' ) ) {
-						var refs = doc.getCustomData( 'stylesheet_ref' );
-						if ( !( --refs ) ) {
-							doc.removeCustomData( 'stylesheet_ref' );
-							var sheet = head.removeCustomData( 'stylesheet' );
-							sheet.remove();
-						} else {
-							doc.setCustomData( 'stylesheet_ref', refs );
-						}
-					}
+				if ( !--refs ) {
+					doc.removeCustomData( 'stylesheet_ref' );
+					head.removeCustomData( 'stylesheet' ).remove();
+				} else {
+					doc.setCustomData( 'stylesheet_ref', refs );
 				}
-
-				this.editor.fire( 'contentDomUnload' );
-
-				// Free up the editor reference.
-				delete this.editor;
 			}
 		}
 	} );
@@ -1282,14 +1307,18 @@
 		if ( editable && element )
 			return 0;
 
-		if ( arguments.length ) {
-			editable = this._.editable = element ? ( element instanceof CKEDITOR.editable ? element : new CKEDITOR.editable( this, element ) ) :
-			// Detach the editable from editor.
-			( editable && editable.detach(), null );
+		if ( !arguments.length ) {
+			return editable;
 		}
 
-		// Just retrieve the editable.
-		return editable;
+		if ( element ) {
+			editable = element instanceof CKEDITOR.editable ? element : new CKEDITOR.editable( this, element );
+		} else {
+			editable && editable.detach();
+			editable = null;
+		}
+
+		return this._.editable = editable;
 	};
 
 	CKEDITOR.on( 'instanceLoaded', function( evt ) {

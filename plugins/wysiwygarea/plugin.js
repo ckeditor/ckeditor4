@@ -45,7 +45,6 @@
 				var contentSpace = editor.ui.space( 'contents' );
 				contentSpace.append( iframe );
 
-
 				// Asynchronous iframe loading is only required in IE>8 and Gecko (other reasons probably).
 				// Do not use it on WebKit as it'll break the browser-back navigation.
 				var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
@@ -89,6 +88,11 @@
 
 				function onLoad( evt ) {
 					evt && evt.removeListener();
+
+					if ( editor.isDestroyed() || editor.isDetached() ) {
+						return;
+					}
+
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
 					editor.setData( editor.getData( 1 ), callback );
 				}
@@ -120,8 +124,13 @@
 	};
 
 	function onDomReady( win ) {
-		var editor = this.editor,
-			doc = win.document,
+		var editor = this.editor;
+
+		if ( !editor || editor.isDetached() ) {
+			return;
+		}
+
+		var doc = win.document,
 			body = doc.body;
 
 		// Remove helper scripts from the DOM.
@@ -515,25 +524,19 @@
 			detach: function() {
 				var editor = this.editor,
 					doc = editor.document,
-					iframe,
+					iframe = editor.container.findOne( 'iframe.cke_wysiwyg_frame' ),
 					onResize;
-
-				// Trying to access window's frameElement property on Edge throws an exception
-				// when frame was already removed from DOM. (https://dev.ckeditor.com/ticket/13850, https://dev.ckeditor.com/ticket/13790)
-				try {
-					iframe =  editor.window.getFrame();
-				} catch ( e ) {}
 
 				framedWysiwyg.baseProto.detach.call( this );
 
 				// Memory leak proof.
-				this.clearCustomData();
+				this.clearCustomData( this._.expandoNumber );
 				doc.getDocumentElement().clearCustomData();
 				CKEDITOR.tools.removeFunction( this._.frameLoadedHandler );
 
 				// On IE, iframe is returned even after remove() method is called on it.
 				// Checking if parent is present fixes this issue. (https://dev.ckeditor.com/ticket/13850)
-				if ( iframe && iframe.getParent() ) {
+				if ( iframe ) {
 					iframe.clearCustomData();
 					onResize = iframe.removeCustomData( 'onResize' );
 					onResize && onResize.removeListener();
@@ -541,9 +544,9 @@
 					// IE BUG: When destroying editor DOM with the selection remains inside
 					// editing area would break IE7/8's selection system, we have to put the editing
 					// iframe offline first. (https://dev.ckeditor.com/ticket/3812 and https://dev.ckeditor.com/ticket/5441)
-					iframe.remove();
-				} else {
-					CKEDITOR.warn( 'editor-destroy-iframe' );
+					if ( !iframe.isDetached() ) {
+						iframe.remove();
+					}
 				}
 			}
 		}

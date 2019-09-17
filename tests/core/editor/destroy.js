@@ -58,11 +58,8 @@
 			// initConfig is called asynchronously.
 			wait( function() {
 				warnStub.restore();
-				assert.isTrue( warnStub.calledOnce, 'CKEDITOR.warn should be called once.' );
-				assert.areEqual( 'editor-incorrect-destroy', warnStub.firstCall.args[ 0 ],
-					'CKEDITOR.warn error code should be "editor-incorrect-destroy".' );
+				assert.isFalse( warnStub.called, 'CKEDITOR.warn shouldn\'t be called.' );
 			}, 0 );
-
 		},
 
 		'test check editable existence on blur': function() {

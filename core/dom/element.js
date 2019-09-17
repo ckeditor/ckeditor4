@@ -2161,6 +2161,29 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			} else {
 				nativeElement[ nativeElement[ eventName ] ? eventName : handlerName ]( evt );
 			}
+		},
+
+		/**
+		 * Checks if element is detached from DOM.
+		 *
+		 * @since 4.13.0
+		 * @returns {Boolean} Whether element is detached from DOM.
+		 */
+		isDetached: function() {
+			var doc = this.getDocument(),
+				docEl = doc.getDocumentElement();
+
+			// It is not in the document.
+			if ( !docEl.equals( this ) && !docEl.contains( this ) ) {
+				return true;
+			}
+
+			// Check if the `window` exists in this document. The `window` is null for detached documents.
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 ) {
+				return !doc.$.defaultView;
+			}
+
+			return false;
 		}
 	} );
 
