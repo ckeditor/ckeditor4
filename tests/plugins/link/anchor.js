@@ -7,6 +7,14 @@
 	bender.editor = {};
 
 	bender.test( {
+		tearDown: function() {
+			var dialog = CKEDITOR.dialog.getCurrent();
+
+			if ( dialog ) {
+				dialog.hide();
+			}
+		},
+
 		// #476
 		'test editing anchor': function() {
 			var editor = this.editor,
@@ -39,7 +47,7 @@
 				range.selectNodeContents( editor.editable().findOne( '[data-cke-real-element-type=anchor]' ) );
 				range.select();
 
-				editor.on( 'dialogShow', function( evt ) {
+				editor.once( 'dialogShow', function( evt ) {
 					resume( function() {
 						assert.areSame( evt.data._.name, 'anchor', 'Anchor dialog has been opened.' );
 					} );
