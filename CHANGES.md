@@ -16,6 +16,7 @@ New Features:
 * [#3359](https://github.com/ckeditor/ckeditor-dev/issues/3359): Improved [dialog](https://ckeditor.com/cke4/addon/dialog) positioning and behavior when the browser window is resized, the dialog is resized or moved.
 * [#2227](https://github.com/ckeditor/ckeditor-dev/issues/2227): Added the [`config.linkDefaultProtocol`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-linkDefaultProtocol) configuration option that allows setting the default URL protocol for the [Link](https://ckeditor.com/cke4/addon/link) plugin dialog.
 * [#3240](https://github.com/ckeditor/ckeditor-dev/issues/3240): Extended the [`CKEDITOR.plugins.widget#mask`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#property-mask) property to allow masking only the specified part of a [widget](https://ckeditor.com/cke4/addon/widget).
+* [#3138](https://github.com/ckeditor/ckeditor-dev/issues/3138): Added possibility to use [`widgetDefinition.getClipboardHtml()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#method-getClipboardHtml) method to customize [Widget](https://ckeditor.com/cke4/addon/widget) HTML during copy, cut and drag operations.
 
 Fixed Issues:
 
