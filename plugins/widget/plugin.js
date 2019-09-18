@@ -3282,7 +3282,10 @@
 					docElement = editor.document.getDocumentElement().$,
 					range = editor.createRange(),
 					that = this,
-					waitForContent = window.requestAnimationFrame ? requestAnimationFrame : setTimeout,
+					// We need 100ms timeout for Chrome on macOS so it will be able to grab the content on cut.
+					isMacWebkit = CKEDITOR.env.mac && CKEDITOR.env.webkit,
+					copyTimeout = isMacWebkit ? 100 : 0,
+					waitForContent = window.requestAnimationFrame && !isMacWebkit ? requestAnimationFrame : setTimeout,
 					listener1,
 					listener2,
 					scrollTop;
@@ -3294,6 +3297,7 @@
 
 				// Ignore copybin.
 				editor.fire( 'lockSnapshot' );
+
 
 				container.append( copyBin );
 				editor.editable().append( container );
@@ -3333,7 +3337,7 @@
 						}
 
 						resolve();
-					} );
+					}, copyTimeout );
 				} );
 			}
 		},
