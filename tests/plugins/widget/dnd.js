@@ -12,11 +12,13 @@
 			allowedContent: true,
 			on: {
 				instanceReady: function( evt ) {
-					evt.editor.dataProcessor.writer.sortAttributes = 1;
+					var editor = evt.editor;
 
-					evt.editor.widgets.add( 'testwidget', {} );
+					editor.dataProcessor.writer.sortAttributes = 1;
 
-					evt.editor.widgets.add( 'testwidget2', {
+					editor.widgets.add( 'testwidget', {} );
+
+					editor.widgets.add( 'testwidget2', {
 						editables: {
 							n1: {
 								selector: '.n1',
@@ -29,13 +31,19 @@
 						}
 					} );
 
-					evt.editor.widgets.add( 'testwidget3', {
+					editor.widgets.add( 'testwidget3', {
 						requiredContent: 'blockquote(testwidget3)'
 					} );
 
-					evt.editor.widgets.add( 'testwidget4', {
+					editor.widgets.add( 'testwidget4', {
 						editables: {
 							n1: '.n1'
+						}
+					} );
+
+					editor.widgets.add( 'testwidget5', {
+						getClipboardHtml: function() {
+							return '<p>foobar</p>';
 						}
 					} );
 				}
@@ -279,6 +287,39 @@
 
 				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
 				assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
+			} );
+		},
+
+		// (#3138)
+		'test drag and drop with shadowed clipboard html': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p><span data-widget="testwidget5" id="w1">foo</span></p>', function() {
+				var evt = { data: bender.tools.mockDropEvent() },
+					range = editor.createRange();
+
+				editor.focus();
+
+				bender.tools.resumeAfter( editor, 'afterPaste', function() {
+					assert.areEqual( '<p>foobar</p>', editor.getData() );
+				} );
+
+				// Ensure async.
+				wait( function() {
+					var widget = getWidgetById( editor, 'w1' );
+
+					dragstart( editor, evt.data, widget );
+
+					CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+					evt.data.dataTransfer.setData( 'cke/widget-id', widget.id );
+
+					range.setStartBefore( widget.wrapper );
+					evt.data.testRange = range;
+
+					drop( editor, evt.data, range );
+
+					dragend( editor, evt.data, widget );
+				} );
 			} );
 		},
 

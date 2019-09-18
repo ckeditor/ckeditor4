@@ -1266,6 +1266,23 @@
 		},
 
 		/**
+		 * Returns HTML of the widget. Can be overridden by
+		 * {@link CKEDITOR.plugins.widget.definition#getClipboardHtml widgetDefinition.getClipboardHtml}
+		 * to customize HTML copied to the clipboard during copy, cut and drop events.
+		 *
+		 * @since 4.13.0
+		 * @returns {String} Widget HTML.
+		 */
+		getClipboardHtml: function() {
+			var range = this.editor.createRange();
+
+			range.setStartBefore( this.wrapper );
+			range.setEndAfter( this.wrapper );
+
+			return this.editor.editable().getHtmlFromRange( range ).getHtml();
+		},
+
+		/**
 		 * Checks if the widget element has specified class. This method is used by
 		 * the {@link #checkStyleActive} method and should be overriden by widgets
 		 * which should handle classes differently (e.g. on other elements).
@@ -2592,7 +2609,7 @@
 			delete CKEDITOR.plugins.clipboard.dragStartContainerChildCount;
 			delete CKEDITOR.plugins.clipboard.dragEndContainerChildCount;
 
-			evt.data.dataTransfer.setData( 'text/html', editor.editable().getHtmlFromRange( dragRange ).getHtml() );
+			evt.data.dataTransfer.setData( 'text/html', sourceWidget.getClipboardHtml() );
 			editor.widgets.destroy( sourceWidget, true );
 		} );
 
@@ -2769,7 +2786,7 @@
 
 	// Setup copybin on native copy and cut events in order to handle copy and cut commands
 	// if user accepted security alert on IEs.
-	// Note: when copying or cutting using keystroke, copySingleWidget will be first executed
+	// Note: when copying or cutting using keystroke, copyWidgets will be first executed
 	// by the keydown listener. Conflict between two calls will be resolved by copy_bin existence check.
 	function setupNativeCutAndCopy( widgetsRepo ) {
 		var editor = widgetsRepo.editor;
@@ -2782,8 +2799,11 @@
 		} );
 
 		function eventListener( evt ) {
-			if ( widgetsRepo.focused )
-				copySingleWidget( widgetsRepo.focused, evt.name == 'cut' );
+			if ( widgetsRepo.selected.length < 1 ) {
+				return;
+			}
+
+			copyWidgets( editor, evt.name === 'cut' );
 		}
 	}
 
@@ -2934,12 +2954,19 @@
 				return;
 
 			var toBeDowncasted = downcastingSessions[ evt.data.downcastingSessionId ],
-				toBe, widget, widgetElement, retElement, editableElement, e;
+				toBe, widget, widgetElement, retElement, editableElement, e, parserFragment;
 
 			while ( ( toBe = toBeDowncasted.shift() ) ) {
 				widget = toBe.widget;
 				widgetElement = toBe.element;
 				retElement = widget._.downcastFn && widget._.downcastFn.call( widget, widgetElement );
+
+				// In case of copying widgets, we replace the widget with clipboard data (#3138).
+				if ( evt.data.widgetsCopy && widget.getClipboardHtml ) {
+					parserFragment = CKEDITOR.htmlParser.fragment.fromHtml( widget.getClipboardHtml() );
+
+					retElement = parserFragment.children[ 0 ];
+				}
 
 				// Replace nested editables' content with their output data.
 				for ( e in toBe.editables ) {
@@ -3190,100 +3217,210 @@
 		evt.cancel();
 	}
 
-	function copySingleWidget( widget, isCut ) {
-		var editor = widget.editor,
-			doc = editor.document,
-			isEdge16 = CKEDITOR.env.edge && CKEDITOR.env.version >= 16;
+	var CopyBin = CKEDITOR.tools.createClass( {
+		$: function( editor, options ) {
+			this._.createCopyBin( editor, options );
+			this._.createListeners( options );
+		},
+
+		_: {
+			createCopyBin: function( editor ) {
+				// [IE] Use span for copybin and its container to avoid bug with expanding
+				// editable height by absolutely positioned element.
+				// For Edge 16+ always use div, as span causes scrolling to the end of the document
+				// on widget cut (also for blockless editor) (#1160).
+				// Edge 16+ workaround could be safetly removed after #1169 is fixed.
+				var doc = editor.document,
+					isEdge16 = CKEDITOR.env.edge && CKEDITOR.env.version >= 16,
+					copyBinName = ( ( editor.blockless || CKEDITOR.env.ie ) && !isEdge16 ) ? 'span' : 'div',
+					copyBin = doc.createElement( copyBinName ),
+					container = doc.createElement( copyBinName );
+
+				container.setAttributes( {
+					id: 'cke_copybin',
+					'data-cke-temp': '1'
+				} );
+
+				// Position copybin element outside current viewport.
+				copyBin.setStyles( {
+					position: 'absolute',
+					width: '1px',
+					height: '1px',
+					overflow: 'hidden'
+				} );
+
+				copyBin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-5000px' );
+
+				this.editor = editor;
+				this.copyBin = copyBin;
+				this.container = container;
+			},
+
+			createListeners: function( options ) {
+				if ( !options ) {
+					return;
+				}
+
+				if ( options.beforeDestroy ) {
+					this.beforeDestroy = options.beforeDestroy;
+				}
+
+				if ( options.afterDestroy ) {
+					this.afterDestroy = options.afterDestroy;
+				}
+			}
+		},
+
+		proto: {
+			handle: function( html ) {
+				var copyBin = this.copyBin,
+					editor = this.editor,
+					container = this.container,
+					// IE8 always jumps to the end of document.
+					needsScrollHack = CKEDITOR.env.ie && CKEDITOR.env.version < 9,
+					docElement = editor.document.getDocumentElement().$,
+					range = editor.createRange(),
+					that = this,
+					// We need 100ms timeout for Chrome on macOS so it will be able to grab the content on cut.
+					isMacWebkit = CKEDITOR.env.mac && CKEDITOR.env.webkit,
+					copyTimeout = isMacWebkit ? 100 : 0,
+					waitForContent = window.requestAnimationFrame && !isMacWebkit ? requestAnimationFrame : setTimeout,
+					listener1,
+					listener2,
+					scrollTop;
+
+				copyBin.setHtml(
+					'<span data-cke-copybin-start="1">\u200b</span>' +
+					html +
+					'<span data-cke-copybin-end="1">\u200b</span>' );
+
+				// Ignore copybin.
+				editor.fire( 'lockSnapshot' );
+
+
+				container.append( copyBin );
+				editor.editable().append( container );
+
+				listener1 = editor.on( 'selectionChange', cancel, null, null, 0 );
+				listener2 = editor.widgets.on( 'checkSelection', cancel, null, null, 0 );
+
+				if ( needsScrollHack ) {
+					scrollTop = docElement.scrollTop;
+				}
+
+				// Once the clone of the widget is inside of copybin, select
+				// the entire contents. This selection will be copied by the
+				// native browser's clipboard system.
+				range.selectNodeContents( copyBin );
+				range.select();
+
+				if ( needsScrollHack ) {
+					docElement.scrollTop = scrollTop;
+				}
+
+				return new CKEDITOR.tools.promise( function( resolve ) {
+					waitForContent( function() {
+						if ( that.beforeDestroy ) {
+							that.beforeDestroy();
+						}
+
+						container.remove();
+
+						listener1.removeListener();
+						listener2.removeListener();
+
+						editor.fire( 'unlockSnapshot' );
+
+						if ( that.afterDestroy ) {
+							that.afterDestroy();
+						}
+
+						resolve();
+					}, copyTimeout );
+				} );
+			}
+		},
+
+		statics: {
+			hasCopyBin: function( editor ) {
+				return !!CopyBin.getCopyBin( editor );
+			},
+
+			getCopyBin: function( editor ) {
+				return editor.document.getById( 'cke_copybin' );
+			}
+		}
+	} );
+
+	function copyWidgets( editor, isCut ) {
+		var focused = editor.widgets.focused,
+			isWholeSelection,
+			copyBin,
+			bookmarks;
 
 		// We're still handling previous copy/cut.
 		// When keystroke is used to copy/cut this will also prevent
-		// conflict with copySingleWidget called again for native copy/cut event.
-		if ( doc.getById( 'cke_copybin' ) ) {
+		// conflict with copyWidgets called again for native copy/cut event.
+		if ( CopyBin.hasCopyBin( editor ) ) {
 			return;
 		}
 
-		// [IE] Use span for copybin and its container to avoid bug with expanding
-		// editable height by absolutely positioned element.
-		// For Edge 16+ always use div, as span causes scrolling to the end of the document
-		// on widget cut (also for blockless editor) (#1160).
-		// Edge 16+ workaround could be safetly removed after #1169 is fixed.
-		var copybinName = ( ( editor.blockless || CKEDITOR.env.ie ) && !isEdge16 ) ? 'span' : 'div',
-			copybin = doc.createElement( copybinName ),
-			copybinContainer = doc.createElement( copybinName ),
-			// IE8 always jumps to the end of document.
-			needsScrollHack = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
+		copyBin = new CopyBin( editor, {
+			beforeDestroy: function() {
+				if ( !isCut && focused ) {
+					focused.focus();
+				}
 
-		copybinContainer.setAttributes( {
-			id: 'cke_copybin',
-			'data-cke-temp': '1'
+				if ( bookmarks ) {
+					editor.getSelection().selectBookmarks( bookmarks );
+				}
+
+				if ( isWholeSelection ) {
+					CKEDITOR.plugins.widgetselection.addFillers( editor.editable() );
+				}
+			},
+
+			afterDestroy: function() {
+				// Prevent cutting in read-only editor (#1570).
+				if ( isCut && !editor.readOnly ) {
+					handleCut();
+				}
+			}
 		} );
 
-		// Position copybin element outside current viewport.
-		copybin.setStyles( {
-			position: 'absolute',
-			width: '1px',
-			height: '1px',
-			overflow: 'hidden'
-		} );
-
-		copybin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-5000px' );
-
-		var range = editor.createRange();
-		range.setStartBefore( widget.wrapper );
-		range.setEndAfter( widget.wrapper );
-
-		copybin.setHtml(
-			'<span data-cke-copybin-start="1">\u200b</span>' +
-			editor.editable().getHtmlFromRange( range ).getHtml() +
-			'<span data-cke-copybin-end="1">\u200b</span>' );
-
-		// Save snapshot with the current state.
-		editor.fire( 'saveSnapshot' );
-
-		// Ignore copybin.
-		editor.fire( 'lockSnapshot' );
-
-		copybinContainer.append( copybin );
-		editor.editable().append( copybinContainer );
-
-		var listener1 = editor.on( 'selectionChange', cancel, null, null, 0 ),
-			listener2 = widget.repository.on( 'checkSelection', cancel, null, null, 0 );
-
-		if ( needsScrollHack ) {
-			var docElement = doc.getDocumentElement().$,
-				scrollTop = docElement.scrollTop;
+		// When more than one widget is selected, we must save selection to restore it
+		// after destroying copybin. Additionally we have to work around issue with selecting all in
+		// Blink and WebKit, when widgets are at the beginning and at the end of the content (#3138).
+		if ( !focused ) {
+			isWholeSelection = CKEDITOR.env.webkit && CKEDITOR.plugins.widgetselection.isWholeContentSelected( editor.editable() );
+			bookmarks = !isWholeSelection && editor.getSelection().createBookmarks( true );
 		}
 
-		// Once the clone of the widget is inside of copybin, select
-		// the entire contents. This selection will be copied by the
-		// native browser's clipboard system.
-		range = editor.createRange();
-		range.selectNodeContents( copybin );
-		range.select();
+		copyBin.handle( getClipboardHtml() );
 
-		if ( needsScrollHack ) {
-			docElement.scrollTop = scrollTop;
+		function getClipboardHtml() {
+			var selectedHtml = editor.getSelectedHtml( true );
+
+			if ( editor.widgets.focused ) {
+				return editor.widgets.focused.getClipboardHtml();
+			}
+
+			editor.once( 'toDataFormat', function( evt ) {
+				evt.data.widgetsCopy = true;
+			}, null, null, -1 );
+
+			return editor.dataProcessor.toDataFormat( selectedHtml );
 		}
 
-		setTimeout( function() {
-			// [IE] Focus widget before removing copybin to avoid scroll jump.
-			if ( !isCut ) {
-				widget.focus();
+		function handleCut() {
+			if ( focused ) {
+				editor.widgets.del( focused );
+			} else {
+				editor.extractSelectedHtml();
 			}
 
-			copybinContainer.remove();
-
-			listener1.removeListener();
-			listener2.removeListener();
-
-			editor.fire( 'unlockSnapshot' );
-
-			// Prevent cutting in read-only editor (#1570).
-			if ( isCut && !editor.readOnly ) {
-				widget.repository.del( widget );
-				editor.fire( 'saveSnapshot' );
-			}
-		}, 100 ); // Use 100ms, so Chrome (@Mac) will be able to grab the content.
+			editor.fire( 'saveSnapshot' );
+		}
 	}
 
 	// Extracts classes array from style instance.
@@ -3359,15 +3496,13 @@
 			// ENTER.
 			if ( keyCode == 13 ) {
 				widget.edit();
-			}
-			// CTRL+C or CTRL+X.
-			else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
-				copySingleWidget( widget, keyCode == CKEDITOR.CTRL + 88 );
+				// CTRL+C or CTRL+X.
+			} else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
+				copyWidgets( widget.editor, keyCode == CKEDITOR.CTRL + 88 );
 				return; // Do not preventDefault.
-			}
-			// Pass chosen keystrokes to other plugins or default fake sel handlers.
-			// Pass all CTRL/ALT keystrokes.
-			else if ( keyCode in keystrokesNotBlockedByWidget ||
+				// Pass chosen keystrokes to other plugins or default fake sel handlers.
+				// Pass all CTRL/ALT keystrokes.
+			} else if ( keyCode in keystrokesNotBlockedByWidget ||
 				( CKEDITOR.CTRL & keyCode ) ||
 				( CKEDITOR.ALT & keyCode ) ) {
 				return;
@@ -4451,8 +4586,22 @@
  */
 
 /**
- * Whether the widget should be draggable. Defaults to `true`.
- * If set to `false`, the drag handler will not be displayed when hovering the widget.
+ * Customizes widget HTML copied to the clipboard
+ * during copy, cut and drop operations.
+ *
+ * If not set, current widget HTML will be used instead.
+ *
+ * Note: this method will overwrite HTML for the whole widget, **including**
+ * any nested widgets.
+ *
+ * @method getClipboardHtml
+ * @since 4.13.0
+ * @returns {String} Widget HTML.
+ */
+
+/**
+ * Whether widget should be draggable. Defaults to `true`.
+ * If set to `false` drag handler will not be displayed when hovering widget.
  *
  * @property {Boolean} draggable
  */
