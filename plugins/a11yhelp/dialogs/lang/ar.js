@@ -38,10 +38,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ar', {
 		]
 	},
 		{
-		name: 'Commands', // MISSING
+		name: 'الاوامر',
 		items: [
 			{
-			name: ' Undo command', // MISSING
+			name: 'تراجع',
 			legend: 'Press ${undo}' // MISSING
 		},
 			{
@@ -49,15 +49,15 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ar', {
 			legend: 'Press ${redo}' // MISSING
 		},
 			{
-			name: ' Bold command', // MISSING
+			name: 'نص غامق',
 			legend: 'Press ${bold}' // MISSING
 		},
 			{
-			name: ' Italic command', // MISSING
+			name: 'نص مائل',
 			legend: 'Press ${italic}' // MISSING
 		},
 			{
-			name: ' Underline command', // MISSING
+			name: 'نص تحته خط',
 			legend: 'Press ${underline}' // MISSING
 		},
 			{
@@ -91,13 +91,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ar', {
 	tab: 'Tab', // MISSING
 	pause: 'Pause', // MISSING
 	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
+	escape: 'هروب',
+	pageUp: 'اعلى الصفحة',
+	pageDown: 'اسفل الصفحة',
+	leftArrow: 'السهم الايسر',
+	upArrow: 'السهم العلوي',
+	rightArrow: 'السهم الأيمن',
+	downArrow: 'السهم السفلي',
 	insert: 'Insert', // MISSING
 	leftWindowKey: 'Left Windows key', // MISSING
 	rightWindowKey: 'Right Windows key', // MISSING
@@ -112,34 +112,34 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ar', {
 	numpad7: 'Numpad 7', // MISSING
 	numpad8: 'Numpad 8', // MISSING
 	numpad9: 'Numpad 9', // MISSING
-	multiply: 'Multiply', // MISSING
+	multiply: 'مضروب',
 	add: 'إضافة',
-	subtract: 'Subtract', // MISSING
+	subtract: 'طرح',
 	decimalPoint: 'Decimal Point', // MISSING
 	divide: 'تقسيم',
-	f1: 'F1', // MISSING
-	f2: 'F2', // MISSING
-	f3: 'F3', // MISSING
-	f4: 'F4', // MISSING
-	f5: 'F5', // MISSING
-	f6: 'F6', // MISSING
-	f7: 'F7', // MISSING
-	f8: 'F8', // MISSING
-	f9: 'F9', // MISSING
-	f10: 'F10', // MISSING
-	f11: 'F11', // MISSING
-	f12: 'F12', // MISSING
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
 	numLock: 'Num Lock', // MISSING
 	scrollLock: 'Scroll Lock', // MISSING
-	semiColon: 'Semicolon', // MISSING
-	equalSign: 'Equal Sign', // MISSING
+	semiColon: 'الفاصلة المنقوطة',
+	equalSign: 'علامة "يساوي"',
 	comma: 'فاصلة',
-	dash: 'Dash', // MISSING
+	dash: 'شرطة',
 	period: 'نقطة',
 	forwardSlash: 'Forward Slash', // MISSING
 	graveAccent: 'Grave Accent', // MISSING
-	openBracket: 'Open Bracket', // MISSING
+	openBracket: 'افتح القوس',
 	backSlash: 'Backslash', // MISSING
-	closeBracket: 'Close Bracket', // MISSING
+	closeBracket: 'اغلق القوس',
 	singleQuote: 'Single Quote' // MISSING
 } );
