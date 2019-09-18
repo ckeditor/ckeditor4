@@ -278,9 +278,12 @@
 				minWidth: ( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ? 500 : 420,
 				minHeight: 360,
 				getModel: function( editor ) {
-					var element = editor.getSelection().getSelectedElement();
+					var element = editor.getSelection().getSelectedElement(),
+						isImage = element && element.getName() === 'img',
+						isImageInput = element && element.getName() === 'input' &&
+							element.getAttribute( 'type' ) === 'image';
 
-					if ( element && element.getName() === 'img' ) {
+					if ( isImage ||isImageInput ) {
 						return element;
 					}
 
