@@ -42,6 +42,15 @@
 			title: iframeLang.title,
 			minWidth: 350,
 			minHeight: 260,
+			getModel: function( editor ) {
+				var element = editor.getSelection().getSelectedElement();
+
+				if ( element && element.data( 'cke-real-element-type' ) === 'iframe' ) {
+					return element;
+				}
+
+				return null;
+			},
 			onShow: function() {
 				// Clear previously saved elements.
 				this.fakeImage = this.iframeNode = null;
