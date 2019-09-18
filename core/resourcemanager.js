@@ -134,18 +134,18 @@ CKEDITOR.resourceManager.prototype = {
 	 *		// Loads a plugin from '/myplugins/sample/my_plugin.js'.
 	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js', '' );
 	 *
-	 * @param {String} names The resource names, separated by commas.
+	 * @param {String} names Comma-separated resource names.
 	 * @param {String} path The path of the folder containing the resource.
 	 * @param {String} [fileName] The resource file name. If not provided, the
-	 * default name is used. If provided with an empty string, will implicitly indicates that `path` argument
+	 * default name is used. If provided with an empty string, it implicitly indicates that the `path` argument
 	 * is already the full path.
 	 */
 	addExternal: function( names, path, fileName ) {
 		names = names.split( ',' );
 
-		// If there is no '/' at the end of path, but 'fileName' is anything different
+		// If there is no '/' at the end of the path, but 'fileName' is anything different
 		// than an empty string (so either is not set at all or is a valid name), assume
-		// that path is a directory and concatenate '/' to it (#917).
+		// that the path is a directory and concatenate '/' to it (#917).
 		if ( path[ path.length - 1 ] !== '/' && fileName !== '' ) {
 			path += '/';
 		}

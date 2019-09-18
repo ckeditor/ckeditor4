@@ -19,7 +19,7 @@
 	 */
 	CKEDITOR.plugins.pastetools.filters.gdocs = {
 		/**
-		 * Rules for Paste from GDocs filter.
+		 * Rules for the Paste from Google Docs filter.
 		 *
 		 * @since 4.13.0
 		 * @private

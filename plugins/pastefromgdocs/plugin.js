@@ -31,12 +31,12 @@
 					var data = evt.data,
 						gDocsHtml = CKEDITOR.plugins.pastetools.getClipboardData( data, 'text/html' );
 
-					// Do not apply paste filter to data filtered by the GDocs filter (https://dev.ckeditor.com/ticket/13093).
+					// Do not apply the paste filter to data filtered by the the Google Docs filter (https://dev.ckeditor.com/ticket/13093).
 					data.dontFilter = true;
 					data.dataValue = CKEDITOR.pasteFilters.gdocs( gDocsHtml, editor );
 
 					if ( editor.config.forcePasteAsPlainText === true ) {
-						// If `config.forcePasteAsPlainText` set to true, force plain text even on Word content (#1013).
+						// If `config.forcePasteAsPlainText` is set to `true`, force plain text even on Google Docs content (#1013).
 						data.type = 'text';
 					}
 

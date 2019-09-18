@@ -77,11 +77,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 	},
 
 	/**
-	 * Checks whether a node is empty or is
+	 * Checks whether a node is empty or is a
 	 * {@link CKEDITOR.dom.selection#FILLING_CHAR_SEQUENCE FILLING_CHAR_SEQUENCE} string.
 	 *
 	 * @since 4.13.0
-	 * @param {Boolean} [ignoreWhiteSpace] Specify whether content consists of only whitespace characters
+	 * @param {Boolean} [ignoreWhiteSpace] Specifies whether the content that consists of only whitespace characters
 	 * should be treated as an empty one.
 	 * @returns {Boolean}
 	 */

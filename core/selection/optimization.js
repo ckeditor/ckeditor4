@@ -3,9 +3,9 @@
 		preventOptimization = false;
 
 	/**
-	 * Setups editor listeners to optimize selection.
+	 * Sets editor listeners up to optimize the selection.
 	 *
-	 * **Note**: This method is called automatically during editor initialization and shouldn't be called manually.
+	 * **Note**: This method is called automatically during the editor initialization and should not be called manually.
 	 *
 	 * @since 4.13.0
 	 * @static
@@ -33,13 +33,13 @@
 	};
 
 	/**
-	 * Performs optimization on current selection if necessary.
+	 * Performs an optimization on the current selection if necessary.
 	 *
-	 * The general idea is to shrink range to text, when:
+	 * The general idea is to shrink the range to text when:
 	 *
-	 * - Range starts at the end of an element,
-	 * - Range ends at the start of an element,
-	 * - One of range ends is anchored in a text node and another in an element.
+	 * * The range starts at the end of an element.
+	 * * The range ends at the start of an element.
+	 * * One of the range ends is anchored in a text node and another in an element.
 	 *
 	 * For example:
 	 *
@@ -83,16 +83,16 @@
 		return node.type === CKEDITOR.NODE_TEXT;
 	}
 
-	// Returns true if any condition is met:
-	// - Range starts at the end of an element.
-	// - Range ends at the beginning of an element.
-	// - One end of range is in text, and another one is not.
+	// Returns `true` if any condition is met:
+	// * The range starts at the end of an element.
+	// * The range ends at the start of an element.
+	// * One end of the range is in text and another one is not.
 	//
-	// Always returns false when:
-	// - Shift key is pressed.
-	// - Selection is fake.
-	// - Range is collapsed.
-	// - Range start and end container is the same element.
+	// Always returns `false` when:
+	// * The Shift key is pressed.
+	// * The selection is fake.
+	// * The range is collapsed.
+	// * The range start and end container is the same element.
 	function shouldOptimize( range, selection ) {
 		if ( selection.root.editor._.shiftPressed ) {
 			return false;
@@ -113,12 +113,12 @@
 		return range.startOffset === limit || startsInText ^ endsInText;
 	}
 
-	// Prevent infinite recurrency when browser doesn't allow expected selection.
+	// Prevent infinite recurrency when the browser does not allow the expected selection.
 	// There are two cases to handle:
-	// - When browser modified the range in a way that it is the same as before optimization.
-	// 		Second event is cancelled, we don't need to fire listeners two times with exact same selection.
-	// - When browser doesn't modify the range.
-	// 		Event is not cancelled, as selection changed, however next optimization is prevented.
+	// - When the browser modified the range in a way that it is the same as before the optimization.
+	// 		The second event is canceled, we do not need to fire listeners two times with the exact same selection.
+	// - When the browser does not modify the range.
+	// 		The event is not canceled, as the selection changed, however, the next optimization is prevented.
 	function preventRecurrency( editor, targetRange, initialRange ) {
 		editor.once( 'selectionCheck', function( evt ) {
 			if ( preventListener ) {

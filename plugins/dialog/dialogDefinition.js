@@ -107,19 +107,19 @@
 /**
  * Returns the subject of the dialog.
  *
- * For the most plugins like `table` / `link` plugin it should return a
- * {@link CKEDITOR.dom.element DOM element instance} if there's a related element to it.
+ * For most plugins, like the `table` or `link` plugin, it should return a
+ * {@link CKEDITOR.dom.element DOM element instance} if there is an element related to the dialog.
  * For widget plugins (`image2`, `placeholder`) it should return a {@link CKEDITOR.plugins.widget} instance that
- * is a subject of this dialog.
+ * is the subject of this dialog.
  *
  * @since 4.13.0
  * @method getModel
  * @param {CKEDITOR.editor} editor
- * @returns {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} Returns `null` if dialog does not use model.
+ * @returns {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} Returns `null` if the dialog does not use the model.
  */
 
 /**
- * Returns current dialog mode based on the state of the feature used with this dialog.
+ * Returns the current dialog mode based on the state of the feature used with this dialog.
  *
  * See {@link CKEDITOR.dialog#EDITING_MODE} and {@link CKEDITOR.dialog#CREATION_MODE}.
  *
@@ -130,13 +130,13 @@
  */
 
 /**
- * The function to execute when OK is pressed.
+ * The function to execute when the "OK" button is pressed.
  *
  * @property {Function} onOk
  */
 
 /**
- * The function to execute when Cancel is pressed.
+ * The function to execute when the "Cancel" button is pressed.
  *
  * @property {Function} onCancel
  */
@@ -167,7 +167,7 @@
  */
 
 /**
- * The id of the content page.
+ * The ID of the content page.
  *
  * @property {String} id
  */
@@ -185,9 +185,9 @@
  */
 
 /**
- * The CTRL hotkey for switching to the tab.
+ * The <kbd>Ctrl</kbd> hotkey for switching to the tab.
  *
- *		contentDefinition.accessKey = 'Q'; // Switch to this page when CTRL-Q is pressed.
+ *		contentDefinition.accessKey = 'Q'; // Switch to this page when Ctrl+Q is pressed.
  *
  * @property {String} accessKey
  */
@@ -200,7 +200,7 @@
  */
 
 /**
- * The definition of user interface element (textarea, radio etc).
+ * The definition of a user interface element (textarea, radio etc).
  *
  * This class is not really part of the API. It just illustrates the properties
  * that developers can use to define and create dialog UI elements.
@@ -210,7 +210,7 @@
  */
 
 /**
- * The id of the UI element.
+ * The ID of the UI element.
  *
  * @property {String} id
  */
@@ -249,7 +249,7 @@
  */
 
 /**
- * Horizontal alignment (in container) of the UI element.
+ * Horizontal alignment (in the container) of the UI element.
  *
  * @property {String} align
  */

@@ -11,7 +11,7 @@
 		plug = {};
 
 	/**
-	 * Set of common paste filters helpers.
+	 * A set of common paste filter helpers.
 	 *
 	 * @since 4.13.0
 	 * @private
@@ -193,7 +193,7 @@
 		},
 
 		/**
-		 * Filters Word-specific styles for a given element. Also might filter additional styles
+		 * Filters Word-specific styles for a given element. It may also filter additional styles
 		 * based on the `editor` configuration.
 		 *
 		 * @private
@@ -298,7 +298,7 @@
 		},
 
 		/**
-		 * Surrounds the element's children with a stack of spans, each one having one style
+		 * Surrounds the element's children with a stack of `<span>` elements, each one having one style
 		 * originally belonging to the element.
 		 *
 		 * @private
@@ -306,7 +306,7 @@
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 * @param {CKEDITOR.editor} editor
-		 * @param {RegExp} [skipStyles] All matching style names will not be extracted to a style stack. Defaults
+		 * @param {RegExp} [skipStyles] All matching style names will not be extracted to the style stack. Defaults
 		 * to `/margin((?!-)|-left|-top|-bottom|-right)|text-indent|text-align|width|border|padding/i`.
 		 * @member CKEDITOR.plugins.pastetools.filters.common.styles
 		 */
@@ -404,16 +404,16 @@
 		},
 
 		/**
-		 * Moves the element's styles lower in the DOM hierarchy. If `wrapText==true` and the direct child of an element
-		 * is a text node it will be wrapped in a `span` element.
+		 * Moves the element styles lower in the DOM hierarchy. If `wrapText==true` and the direct child of an element
+		 * is a text node, it will be wrapped in a `<span>` element.
 		 *
 		 * @private
 		 * @since 4.13.0
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @param {Object} exceptions An object containing style names which should not be moved, e.g. `{ background: true }`.
-		 * @param {Boolean} [wrapText=false] Whether a direct text child of an element should be wrapped into a `span` tag
+		 * @param {Boolean} [wrapText=false] Whether a direct text child of an element should be wrapped into a `<span>` tag
 		 * so that the styles can be moved to it.
-		 * @returns {Boolean} Returns `true` if styles were successfully moved lower.
+		 * @returns {Boolean} Returns `true` if the styles were successfully moved lower.
 		 * @member CKEDITOR.plugins.pastetools.filters.common.styles
 		 */
 		pushStylesLower: function( element, exceptions, wrapText ) {
@@ -503,12 +503,12 @@
 			],
 
 			/**
-			 * Parses the content of the provided `style` element.
+			 * Parses the content of the provided `<style>` element.
 			 *
-			 * @param {CKEDITOR.dom.element/String} styles The `style` element or CSS text.
+			 * @param {CKEDITOR.dom.element/String} styles The `<style>` element or CSS text.
 			 * @returns {Array} An array containing parsed styles. Each item (style) is an object containing two properties:
-			 * 		selector &ndash; A string representing a CSS selector.
-			 * 		styles &ndash; An object containing a list of styles (e.g. `{ margin: 0, text-align: 'left' }`).
+			 * * selector &ndash; A string representing a CSS selector.
+			 * * styles &ndash; An object containing a list of styles (e.g. `{ margin: 0, text-align: 'left' }`).
 			 * @since 4.13.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastetools.filters.common.styles.inliner
@@ -589,7 +589,7 @@
 			 *
 			 * @param {Array} stylesArray An array of styles as returned from
 			 * {@link CKEDITOR.plugins.pastetools.filters.common.styles.inliner#parse}.
-			 * @returns {Array} Sorted stylesArray.
+			 * @returns {Array} Sorted `stylesArray`.
 			 * @since 4.13.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastetools.filters.common.styles.inliner
@@ -625,7 +625,7 @@
 			},
 
 			/**
-			 * Finds and inlines all the `style` elements in a given `html` string and returns a document where
+			 * Finds and inlines all the `<style>` elements in a given `html` string and returns a document where
 			 * all the styles are inlined into appropriate elements.
 			 *
 			 * This is needed because sometimes Microsoft Word does not put the style directly into the element, but
@@ -722,7 +722,7 @@
 	 */
 	plug.elements = {
 		/**
-		 * Replaces element with its children.
+		 * Replaces an element with its children.
 		 *
 		 * This function is customized to work inside filters.
 		 *
@@ -798,16 +798,16 @@
 	/**
 	 * Whether to ignore all font-related formatting styles, including:
 	 *
-	 * * font size;
-	 * * font family;
+	 * * font size,
+	 * * font family,
 	 * * font foreground and background color.
 	 *
-	 * ```javascript
+	 * ```js
 	 *	config.pasteTools_removeFontStyles = true;
 	 * ```
 	 *
-	 * **Important note:** This config option is deprecated.
-	 * Either configure proper {@glink guide/dev_advanced_content_filter Advanced Content Filter} for the editor
+	 * **Important note:** This configuration option is deprecated.
+	 * Either configure a proper {@glink guide/dev_advanced_content_filter Advanced Content Filter} for the editor
 	 * or use the {@link CKEDITOR.editor#afterPasteFromWord} event.
 	 *
 	 * @deprecated 4.13.0
@@ -817,9 +817,9 @@
 	 */
 
 	/**
-	 * Whether pasted element `margin` style that equals to 0 should be removed.
+	 * Whether the `margin` style of a pasted element that equals to 0 should be removed.
 	 *
-	 * ```javascript
+	 * ```js
 	 *	// Disable removing `margin:0`, `margin-left:0`, etc.
 	 *	config.pasteTools_keepZeroMargins = true;
 	 * ```

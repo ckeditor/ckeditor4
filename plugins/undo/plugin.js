@@ -245,7 +245,7 @@
 		this.strokesLimit = 25;
 
 		/**
-		 * Array of filter rules.
+		 * An array of filter rules.
 		 *
 		 * @since 4.13.0
 		 * @private
@@ -268,7 +268,7 @@
 
 	UndoManager.prototype = {
 		/**
-		 * Handles keystroke support for the undo manager. It is called on `keyup` event for
+		 * Handles keystroke support for the undo manager. It is called on the `keyup` event for
 		 * keystrokes that can change the editor content.
 		 *
 		 * @param {Number} keyCode The key code.
@@ -694,7 +694,7 @@
 		 *
 		 * @since 4.13.0
 		 * @param {Function} rule Callback function that returns filtered data.
-		 * @param {String} rule.data Data passed to callback.
+		 * @param {String} rule.data The data passed to the callback.
 		 */
 		addFilterRule: function( rule ) {
 			this._filterRules.push( rule );

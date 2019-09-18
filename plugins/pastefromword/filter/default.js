@@ -57,7 +57,7 @@
 	CKEDITOR.plugins.pastefromword = plug;
 
 	/**
-	 * Rules for Paste from Word filter.
+	 * Rules for the Paste from Word filter.
 	 *
 	 * @since 4.13.0
 	 * @private
@@ -458,7 +458,7 @@
 	};
 
 	/**
-	 * Namespace containing any list-oriented helper methods.
+	 * Namespace containing list-oriented helper methods.
 	 *
 	 * @private
 	 * @since 4.13.0
@@ -571,7 +571,7 @@
 		},
 
 		/**
-		 * Converts any fake list items contained within `root` into real `li` elements.
+		 * Converts any fake list items contained within `root` into real `<li>` elements.
 		 *
 		 * @private
 		 * @since 4.13.0
@@ -1069,8 +1069,8 @@
 		},
 
 		/**
-		 * Calculates the value for a given `<li>` element based on its precedent list items (e.g. the `value`
-		 * attribute). It could also look at the list parent (`<ol>`) at its start attribute.
+		 * Calculates the value for a given `<li>` element based on preceding list items (e.g. the `value`
+		 * attribute). It could also look at the start attribute of its parent list (`<ol>`).
 		 *
 		 * @private
 		 * @since 4.13.0
@@ -1353,8 +1353,8 @@
 		},
 
 		/**
-		 * Checks if this list is a direct continuation of a list interrupted by a list with a different ID,
-		 * with a different level. So if you look at a following list:
+		 * Checks if this list is a direct continuation of a list interrupted by a list with a different ID and
+		 * with a different level. So if you look at the following list:
 		 *
 		 * * list1 level1
 		 * * list1 level1
@@ -1362,8 +1362,8 @@
 		 *		* list2 level2
 		 * * list1 level1
 		 *
-		 * It would return `true` &mdash; meaning it is a continuation, and should not be chopped. However, if any paragraph or
-		 * anything else appears in between, it should be broken into different lists.
+		 * It would return `true`, which means it is a continuation, and should not be chopped. However, if any paragraph or
+		 * anything else appears in-between, it should be broken into different lists.
 		 *
 		 * You can see fixtures from issue https://dev.ckeditor.com/ticket/7918 as an example.
 		 *
@@ -1419,7 +1419,7 @@
 		 * @param {String} type
 		 * @returns {Object} ret
 		 * @returns {Number} ret.index Identified numbering value
-		 * @returns {String} ret.type One of `decimal`, `disc`, `circle`, `square`, `roman`, `alpha`.
+		 * @returns {String} ret.type One of: `decimal`, `disc`, `circle`, `square`, `roman`, `alpha`.
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
 		getSymbolInfo: function( symbol, type ) {
@@ -1478,7 +1478,7 @@
 		 * @param {CKEDITOR.htmlParser.element} list
 		 * @returns ret
 		 * @returns {String} ret.id List ID. Usually it is a decimal string.
-		 * @returns {String} ret.level List nesting level, `0` means it is the outermost list. Usually it is
+		 * @returns {String} ret.level List nesting level. `0` means it is the outermost list. Usually it is
 		 * a decimal string.
 		 * @member CKEDITOR.plugins.pastetools.filters.word.lists
 		 */
@@ -1523,14 +1523,14 @@
 	 */
 	plug.images = {
 		/**
-		 * Method parses RTF content to find embedded images. Please be aware that this method should only return `png` and `jpeg` images.
+		 * Parses RTF content to find embedded images. Please be aware that this method should only return `png` and `jpeg` images.
 		 *
 		 * @private
 		 * @since 4.13.0
 		 * @param {String} rtfContent RTF content to be checked for images.
 		 * @returns {Object[]} An array of images found in the `rtfContent`.
 		 * @returns {String} return.hex Hexadecimal string of an image embedded in `rtfContent`.
-		 * @returns {String} return.type String represent type of image, allowed values: 'image/png', 'image/jpeg'.
+		 * @returns {String} return.type A string representing the image type. Allowed values: 'image/png', 'image/jpeg'.
 		 * @member CKEDITOR.plugins.pastetools.filters.word.images
 		 */
 		extractFromRtf: function( rtfContent ) {
@@ -1566,15 +1566,15 @@
 		},
 
 		/**
-		 * Method extracts array of src attributes in img tags from given HTML. Img tags belonging to VML shapes are removed.
+		 * Extracts an array of `src`` attributes in `<img>` tags from the given HTML. `<img>` tags belonging to VML shapes are removed.
 		 *
 		 *		CKEDITOR.plugins.pastefromword.images.extractTagsFromHtml( html );
 		 *		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
 		 *
 		 * @private
 		 * @since 4.13.0
-		 * @param {String} html String represent HTML code.
-		 * @returns {String[]} Array of strings represent src attribute of img tags found in `html`.
+		 * @param {String} html A string representing HTML code.
+		 * @returns {String[]} An array of strings representing the `src` attribute of the `<img>` tags found in `html`.
 		 * @member CKEDITOR.plugins.pastetools.filters.word.images
 		 */
 		extractTagsFromHtml: function( html ) {

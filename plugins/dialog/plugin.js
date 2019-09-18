@@ -260,7 +260,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			contents: {},
 			buttons: {},
 			accessKeyMap: {},
-			// Default value is 0.5 which means centered dialog.
+			// Default value is 0.5 which means a centered dialog.
 			viewportRatio: {
 				width: 0.5,
 				height: 0.5
@@ -1538,31 +1538,31 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		/**
 		 * Sets the given model as the subject of the dialog.
 		 *
-		 * For the most plugins like `table` / `link` plugin the given model should be a
-		 * {@link CKEDITOR.dom.element DOM element instance} if there's a related element to it.
+		 * For most plugins, like the `table` or `link` plugin, the given model should be a
+		 * {@link CKEDITOR.dom.element DOM element instance} if there is an element related to the dialog.
 		 * For widget plugins (`image2`, `placeholder`) you should provide a {@link CKEDITOR.plugins.widget} instance that
-		 * is a subject of this dialog.
+		 * is the subject of this dialog.
 		 *
 		 * @since 4.13.0
 		 * @private
-		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} newModel Model to be set.
+		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object/null} newModel The model to be set.
 		 */
 		setModel: function( newModel ) {
 			this._.model = newModel;
 		},
 
 		/**
-		 * Returns current dialog mode based on the state of the feature used with this dialog.
+		 * Returns the current dialog mode based on the state of the feature used with this dialog.
 		 *
-		 * In case if dialog definition didn't define {@link CKEDITOR.dialog.definition#getMode}
-		 * function, it will use {@link #getModel} method to recognize editor mode:
+		 * In case if the dialog definition did not define the {@link CKEDITOR.dialog.definition#getMode}
+		 * function, it will use the {@link #getModel} method to recognize the editor mode:
 		 *
-		 * {@link CKEDITOR.dialog#EDITING_MODE Editing mode} used when:
+		 * The {@link CKEDITOR.dialog#EDITING_MODE editing mode} is used when the method returns:
 		 *
-		 * * {@link CKEDITOR.dom.element} attached to the DOM
-		 * * {@link CKEDITOR.plugins.widget} instance
+		 * * A {@link CKEDITOR.dom.element} attached to the DOM.
+		 * * A {@link CKEDITOR.plugins.widget} instance.
 		 *
-		 * otherwise {@link CKEDITOR.dialog#CREATION_MODE creation mode}.
+		 * Otherwise the {@link CKEDITOR.dialog#CREATION_MODE creation mode} is used.
 		 *
 		 * @since 4.13.0
 		 * @param {CKEDITOR.editor} editor
@@ -1586,8 +1586,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	CKEDITOR.tools.extend( CKEDITOR.dialog, {
 
 		/**
-		 * Indicates that the dialog is introducing new changes to the editor like inserting
-		 * newly created element as a part of a feature used with this dialog.
+		 * Indicates that the dialog is introducing new changes to the editor, for example inserting
+		 * a newly created element as a part of a feature used with this dialog.
 		 *
 		 * @static
 		 * @since 4.13.0
@@ -1595,8 +1595,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		CREATION_MODE: 0,
 
 		/**
-		 * Indicates that the dialog is modifying existing editor state like updating
-		 * existing element as a part of a feature used with this dialog.
+		 * Indicates that the dialog is modifying the existing editor state, for example updating
+		 * an existing element as a part of a feature used with this dialog.
 		 *
 		 * @static
 		 * @since 4.13.0
@@ -3418,11 +3418,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 *
 		 * @member CKEDITOR.editor
 		 * @param {String} dialogName The registered name of the dialog.
-		 * @param {Function} callback The function to be invoked after dialog instance created.
-		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object} [forceModel] Forces opening dialog
-		 * using the given model as a subject. Forced model will take precedence before
+		 * @param {Function} callback The function to be invoked after a dialog instance is created.
+		 * @param {CKEDITOR.dom.element/CKEDITOR.plugins.widget/Object} [forceModel] Forces opening the dialog
+		 * using the given model as a subject. The forced model will take precedence before the
 		 * {@link CKEDITOR.dialog.definition#getModel} method. Available since 4.13.0.
-		 * @returns {CKEDITOR.dialog} The dialog object corresponding to the dialog displayed.
+		 * @returns {CKEDITOR.dialog} The dialog object corresponding to the dialog displayed or
 		 * `null` if the dialog name is not registered.
 		 * @see CKEDITOR.dialog#add
 		 */
@@ -3576,7 +3576,7 @@ CKEDITOR.plugins.add( 'dialog', {
  */
 
 /**
- * Event fired when a dialog definition is about to be used to create a dialog into
+ * Event fired when a dialog definition is about to be used to create a dialog in
  * an editor instance. This event makes it possible to customize the definition
  * before creating it.
  *
@@ -3587,10 +3587,10 @@ CKEDITOR.plugins.add( 'dialog', {
  * @event dialogDefinition
  * @member CKEDITOR
  * @param {Object} data
- * @param {String} data.name Name of the dialog.
+ * @param {String} data.name The name of the dialog.
  * @param {CKEDITOR.dialog.definition} data.definition The dialog definition that
  * is being loaded.
- * @param {CKEDITOR.dialog} data.dialog Dialog instance that the definition is loaded
+ * @param {CKEDITOR.dialog} data.dialog A dialog instance that the definition is loaded
  * for. Introduced in **CKEditor 4.13.0**.
  * @param {CKEDITOR.editor} editor The editor instance that will use the dialog.
  */
@@ -3601,8 +3601,8 @@ CKEDITOR.plugins.add( 'dialog', {
  * @event selectPage
  * @member CKEDITOR.dialog
  * @param data
- * @param {String} data.page The id of the page that it's gonna be selected.
- * @param {String} data.currentPage The id of the current page.
+ * @param {String} data.page The ID of the page that is going to be selected.
+ * @param {String} data.currentPage The ID of the current page.
  */
 
 /**

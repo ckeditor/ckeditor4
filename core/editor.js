@@ -1585,21 +1585,21 @@
 		},
 
 		/**
-		 * Provides information if editor's {@link CKEDITOR.editor#container container}
+		 * Provides information whether the editor's {@link CKEDITOR.editor#container container}
 		 * {@link CKEDITOR.dom.element#isDetached is detached}.
 		 *
 		 * @since 4.13.0
-		 * @returns {Boolean} true if editor's container is detached
+		 * @returns {Boolean} true if the editor's container is detached.
 		 */
 		isDetached: function() {
 			return !!this.container && this.container.isDetached();
 		},
 
 		/**
-		 * Determins if current editor instance is destroyed.
+		 * Determines if the current editor instance is destroyed.
 		 *
 		 * @since 4.13.0
-		 * @returns {Boolean} true if editor is destroyed
+		 * @returns {Boolean} true if the editor is destroyed.
 		 */
 		isDestroyed: function() {
 			return this.status === 'destroyed';

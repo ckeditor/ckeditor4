@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview This plugin handles pasting content from Office applications.
+ * @fileOverview This plugin handles pasting content from Microsoft Office applications.
  */
 
 ( function() {

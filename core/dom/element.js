@@ -683,10 +683,10 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		},
 
 		/**
-		 * Gets the elements `clientWidth` and `clientHeight`.
+		 * Gets the element `clientWidth` and `clientHeight`.
 		 *
 		 * @since 4.13.0
-		 * @returns {Object} An object containing width and height values.
+		 * @returns {Object} An object containing the width and height values.
 		 */
 		getClientSize: function() {
 			return {
@@ -2129,7 +2129,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		},
 
 		/**
-		 * Fires element event handler attribute e.g.
+		 * Fires the element event handler attribute, for example:
 		 *
 		 * ```html
 		 * <button onkeydown="return customFn( event )">x</button>
@@ -2142,7 +2142,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * ```
 		 *
 		 * @since 4.13.0
-		 * @param {CKEDITOR.dom.element/HTMLElement} element Element with attached event handler attribute.
+		 * @param {CKEDITOR.dom.element/HTMLElement} element An element with an attached event handler attribute.
 		 * @param {String} eventName Event name.
 		 * @param {Object} evt Event payload.
 		 */
@@ -2164,10 +2164,10 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		},
 
 		/**
-		 * Checks if element is detached from DOM.
+		 * Checks if an element is detached from the DOM.
 		 *
 		 * @since 4.13.0
-		 * @returns {Boolean} Whether element is detached from DOM.
+		 * @returns {Boolean} Whether an element is detached from the DOM.
 		 */
 		isDetached: function() {
 			var doc = this.getDocument(),

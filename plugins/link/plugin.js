@@ -898,7 +898,7 @@
 		linkShowTargetTab: true,
 
 		/**
-		 * Default URL protocol used for link dialog.
+		 * Default URL protocol used for the Link dialog.
 		 *
 		 * Available values are:
 		 *
@@ -906,9 +906,9 @@
 		 * * `'https://'`
 		 * * `'ftp://'`
 		 * * `'news://'`
-		 * * `''` - empty string for `<other>` option
+		 * * `''` &mdash; An empty string for the `<other>` option.
 		 *
-		 * ```javascript
+		 * ```js
 		 * config.linkDefaultProtocol = 'https://';
 		 * ```
 		 *
@@ -922,7 +922,9 @@
 		 * Whether JavaScript code is allowed as a `href` attribute in an anchor tag.
 		 * With this option enabled it is possible to create links like:
 		 *
-		 *		<a href="javascript:alert('Hello world!')">hello world</a>
+		 * ```html
+		 * <a href="javascript:alert('Hello world!')">hello world</a>
+		 * ```
 		 *
 		 * By default JavaScript links are not allowed and will not pass
 		 * the Link dialog window validation.
@@ -935,7 +937,9 @@
 		/**
 		 * Optional JavaScript regular expression used whenever phone numbers in the Link dialog should be validated.
 		 *
-		 *		config.linkPhoneRegExp = /^[0-9]{9}$/;
+		 * ```js
+		 * config.linkPhoneRegExp = /^[0-9]{9}$/;
+		 * ```
 		 *
 		 * @since 4.11.0
 		 * @cfg {RegExp} [linkPhoneRegExp]
@@ -945,7 +949,9 @@
 		/**
 		 * Optional message for the alert popup used when the phone number in the Link dialog does not pass the validation.
 		 *
-		 *		config.linkPhoneMsg = "Invalid number";
+		 * ```js
+		 * config.linkPhoneMsg = "Invalid number";
+		 * ```
 		 *
 		 * @since 4.11.0
 		 * @cfg {String} [linkPhoneMsg]

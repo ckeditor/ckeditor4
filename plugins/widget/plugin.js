@@ -4418,19 +4418,19 @@
  * This will prevent its content from being clickable, which matters in case
  * of special elements like embedded Flash or iframes that generate a separate "context".
  *
- * If value is a `string` type, then the partial mask covering only the given widget part
- * is created instead. The `string` mask should point to one of widget {@link CKEDITOR.plugins.widget#parts parts} name.
+ * If the value is a `string` type, then the partial mask covering only the given widget part
+ * is created instead. The `string` mask should point to the name of one of the widget {@link CKEDITOR.plugins.widget#parts parts}.
  *
- * **Note**: Partial mask is available since `4.13.0` version.
+ * **Note**: Partial mask is available since the `4.13.0` version.
  *
  * @property {Boolean/String} mask
  */
 
 /**
- * If set to `true/false`, it will force the widget to be either an inline or a block widget.
+ * If set to `true`/`false`, it will force the widget to be either an inline or a block widget.
  * If not set, the widget type will be determined from the widget element.
  *
- * Widget type influences whether a block (`div`) or an inline (`span`) element is used
+ * Widget type influences whether a block (`<div>`) or an inline (`<span>`) element is used
  * for the wrapper.
  *
  * @property {Boolean} inline
@@ -4451,15 +4451,15 @@
  */
 
 /**
- * Whether widget should be draggable. Defaults to `true`.
- * If set to `false` drag handler will not be displayed when hovering widget.
+ * Whether the widget should be draggable. Defaults to `true`.
+ * If set to `false`, the drag handler will not be displayed when hovering the widget.
  *
  * @property {Boolean} draggable
  */
 
 /**
  * Names of element(s) (separated by spaces) for which the {@link CKEDITOR.filter} should allow classes
- * defined in the widget styles. For example if your widget is upcasted from a simple `<div>`
+ * defined in the widget styles. For example, if your widget is upcasted from a simple `<div>`
  * element, then in order to make it styleable you can set:
  *
  *		editor.widgets.add( 'customWidget', {

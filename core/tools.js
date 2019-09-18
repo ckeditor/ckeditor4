@@ -734,7 +734,7 @@
 		 * @param {Object} obj The object to which the execution context will be bound.
 		 * @param {*} [args] Arguments provided to the bound function when invoking the target function. Available since 4.13.0.
 		 * @returns {Function} The function that can be used to execute the
-		 * `func` function in the context of specified `obj` object.
+		 * `func` function in the context of the specified `obj` object.
 		 */
 		bind: function( func, obj ) {
 			var args = Array.prototype.slice.call( arguments, 2 );
@@ -744,7 +744,7 @@
 		},
 
 		/**
-		 * Class creation based on prototype inheritance which supports of the
+		 * Class creation based on prototype inheritance which supports the
 		 * following features:
 		 *
 		 * * Static fields
@@ -1491,8 +1491,8 @@
 		/**
 		 * Normalizes mouse buttons across browsers.
 		 *
-		 * Noticeably only Internet Explorer 8 and Internet Explorer 9 in Quirks Mode / Compatibility View
-		 * have different buttons mappings than other browsers:
+		 * Only Internet Explorer 8 and Internet Explorer 9 in Quirks Mode or Compatibility View
+		 * have different button mappings than other browsers:
 		 *
 		 * ```
 		 * +--------------+--------------------------+----------------+
@@ -1507,8 +1507,8 @@
 		 * ```
 		 *
 		 * The normalization is conducted only in browsers that use non-standard button mappings,
-		 * returning passed parameter in every other browser. Therefore values for IE < 9 are mapped
-		 * to values used in the rest of the browsers. For example the below code in IE8 will return results as follows:
+		 * returning the passed parameter in every other browser. Therefore values for IE < 9 are mapped
+		 * to values used in the rest of the browsers. For example, the code below will return the following results in IE8:
 		 *
 		 * ```js
 		 * console.log( CKEDITOR.tools.normalizeMouseButton( 1 ) ); // 0
@@ -1516,10 +1516,10 @@
 		 * console.log( CKEDITOR.tools.normalizeMouseButton( 2 ) ); // 2
 		 * ```
 		 *
-		 * While for the rest of the browsers it will simply return passed values.
+		 * In other browsers it will simply return the passed values.
 		 *
-		 * With the `reversed` parameter set to `true` values from the rest of the browsers
-		 * are mapped to IE < 9 values in IE < 9 browsers. This means IE8 will return results as follows:
+		 * With the `reversed` parameter set to `true`, values from the rest of the browsers
+		 * are mapped to IE < 9 values in IE < 9 browsers. This means that IE8 will return the following results:
 		 *
 		 * ```js
 		 * console.log( CKEDITOR.tools.normalizeMouseButton( 0, true ) ); // 1
@@ -1527,12 +1527,12 @@
 		 * console.log( CKEDITOR.tools.normalizeMouseButton( 2, true ) ); // 2
 		 * ```
 		 *
-		 * While for the rest of the browsers it will simply return passed values.
+		 * In other browsers it will simply return the passed values.
 		 *
 		 * @since 4.13.0
 		 * @param {Number} button Mouse button identifier.
-		 * @param {Boolean} [reverse=false] If set to true, the conversion is reversed: values
-		 * returned by other browsers are converted to IE 8 values.
+		 * @param {Boolean} [reverse=false] If set to `true`, the conversion is reversed: values
+		 * returned by other browsers are converted to IE8 values.
 		 * @returns {Number} Normalized mouse button identifier.
 		 */
 		normalizeMouseButton: function( button, reverse ) {
@@ -1560,10 +1560,10 @@
 		},
 
 		/**
-		 * Convert hex string to array containing 1 byte in each cell. Bytes are represented as Integer numbers.
+		 * Converts a hex string to an array containing 1 byte in each cell. Bytes are represented as Integer numbers.
 		 *
 		 * @since 4.8.0
-		 * @param {String} hexString Contains input string which represent bytes, e.g. `"08A11D8ADA2B"`.
+		 * @param {String} hexString Contains an input string which represents bytes, e.g. `"08A11D8ADA2B"`.
 		 * @returns {Number[]} Bytes stored in a form of Integer numbers, e.g. `[ 8, 161, 29, 138, 218, 43 ]`.
 		 */
 		convertHexStringToBytes: function( hexString ) {
@@ -1578,11 +1578,11 @@
 		},
 
 		/**
-		 * Convert bytes array into a base64 encoded string.
+		 * Converts a bytes array into a a Base64-encoded string.
 		 *
 		 * @since 4.8.0
-		 * @param {Number[]} bytesArray An array which stores 1 byte in each cell as an Integer number.
-		 * @returns {String} Base64 string which represents input bytes.
+		 * @param {Number[]} bytesArray An array that stores 1 byte in each cell as an Integer number.
+		 * @returns {String} Base64-encoded string that represents input bytes.
 		 */
 		convertBytesToBase64: function( bytesArray ) {
 			// Bytes are `8bit` numbers, where base64 use `6bit` to store data. That's why we process 3 Bytes into 4 characters representing base64.
@@ -2122,7 +2122,7 @@
 			 * Tests whether all elements in an array pass the test implemented by the provided function.
 			 * Returns `true` if the provided array is empty.
 			 *
-			 * ```javascript
+			 * ```js
 			 * var every = CKEDITOR.tools.array.every( [ 11, 22, 33, 44 ], function( value ) {
 			 * 	return value > 10;
 			 * } );
@@ -2155,7 +2155,7 @@
 			 * Tests whether any element in an array passes the test implemented by the provided function.
 			 * Returns `false` if the provided array is empty.
 			 *
-			 * ```javascript
+			 * ```js
 			 * var some = CKEDITOR.tools.array.some( [ 11, 2, 3, 4 ], function( value ) {
 			 * 	return value > 10;
 			 * } );

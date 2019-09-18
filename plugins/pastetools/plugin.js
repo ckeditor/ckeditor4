@@ -59,14 +59,14 @@
 	} );
 
 	/**
-	 * Set of pastetools helpers.
+	 * A set of paste tools helpers.
 	 *
 	 * @member CKEDITOR.plugins
 	 * @since 4.13.0
 	 */
 	CKEDITOR.plugins.pastetools = {
 		/**
-		 * Collection of available filters
+		 * A collection of available filters.
 		 *
 		 * @member CKEDITOR.plugins.pastetools
 		 * @property {Object.<String,Object>}
@@ -74,21 +74,21 @@
 		filters: {},
 
 		/**
-		 * Load external scripts, containing filters' definitions, in given order.
+		 * Loads external scripts containing filter definitions in given order.
 		 *
-		 * @param {String[]} filters Array of filters' URLs.
-		 * @param {Function} callback Callback that will be invoked after loading all scripts.
+		 * @param {String[]} filters An array of filter URLs.
+		 * @param {Function} callback A callback that will be invoked after loading all scripts.
 		 * @member CKEDITOR.plugins.pastetools
 		 */
 		loadFilters: loadFilters,
 
 		/**
-		 * Creates filter based on passed rules.
+		 * Creates a filter based on passed rules.
 		 *
 		 * @param {Object} options
-		 * @param {Function} options.rules Function returning filter's rules.
-		 * @param {Function}options.additionalTransforms Function transforming HTML before passing it to the filter.
-		 * @returns {Function} Function that wraps filter invocation.
+		 * @param {Function} options.rules A function returning the filter's rules.
+		 * @param {Function}options.additionalTransforms A function transforming HTML before passing it to the filter.
+		 * @returns {Function} A function that wraps filter invocation.
 		 * @member CKEDITOR.plugins.pastetools
 		 */
 		createFilter: function( options ) {
@@ -118,10 +118,10 @@
 		},
 
 		/**
-		 * Get clipboard data.
+		 * Gets clipboard data.
 		 *
 		 * @param {Object} data Paste event `data` property.
-		 * @param {String} type MIME type of requested data.
+		 * @param {String} type MIME type of the requested data.
 		 * @returns {String/Blob} Raw clipboard data.
 		 * @member CKEDITOR.plugins.pastetools
 		 */
@@ -144,14 +144,14 @@
 		},
 
 		/**
-		 * Get config value.
+		 * Gets the configuration value.
 		 *
-		 * This function allows to get config value for Paste Tools from
-		 * legacy Paste from Word configuration.
+		 * This function allows to get the configuration value for Paste Tools from
+		 * the legacy Paste from Word configuration.
 		 *
-		 * @param {CKEDITOR.editor} editor Editor's instance.
-		 * @param {String} configVariable Config variable name.
-		 * @returns {String/Boolean/Number/Object/Array} Config variable value;
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {String} configVariable The configuration variable name.
+		 * @returns {String/Boolean/Number/Object/Array} The configuration variable value.
 		 * @member CKEDITOR.plugins.pastetools
 		 */
 		getConfigValue: function( editor, configVariable ) {
