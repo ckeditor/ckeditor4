@@ -51,6 +51,26 @@
 
 				wait();
 			} );
+		},
+
+		// (#3437)
+		'test getModel when selection is inside anchor\'s text': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			bot.setData( '<p><a id="test" name="test">Foobar</a></p>', function() {
+				var range = editor.createRange(),
+					anchor = editor.editable().findOne( '#test' ),
+					textNode = anchor.getChild( 0 );
+
+				range.selectNodeContents( textNode );
+				range.select();
+
+				bot.dialog( 'anchor', function( dialog ) {
+					assert.areSame( 'test', dialog.getValueOf( 'info', 'txtName' ) );
+					assert.areSame( anchor, dialog.getModel( editor ) );
+				} );
+			} );
 		}
 	} );
 }() );
