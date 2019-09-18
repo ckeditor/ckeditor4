@@ -2535,7 +2535,6 @@
 	// * FF tends to copy all blocks up to the copybin container.
 	// * IE tends to copy only the copybin, without its container.
 	// * We use spans on IE and blockless editors, but divs in other cases.
-	// We are really sorry for summoning Zalgo…
 	var pasteReplaceRegex = new RegExp(
 		'^' +
 		'(?:<(?:div|span)(?: data-cke-temp="1")?(?: id="cke_copybin")?(?: data-cke-temp="1")?>)?' +
