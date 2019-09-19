@@ -1,7 +1,7 @@
 @bender-include: ../../dialog/manual/_helpers/tools.js
 @bender-tags: dialog, 4.13.0, 2423, feature
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, forms, toolbar
+@bender-ckeditor-plugins: wysiwygarea, forms, image, toolbar
 
 **NOTE:** For modern browsers you will see "real" HTML in **expected** results instead of `[element HTML]` string.
 
@@ -41,4 +41,5 @@ Currently editing: `[element HTML]`
 * `textarea`
 * `select`
 * `button`
+* `imagebutton`
 * `hiddenfield`
