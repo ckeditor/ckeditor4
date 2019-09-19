@@ -55,6 +55,14 @@
 				},
 
 				elements: {
+					'div': function( element ) {
+						if ( isTableWrapper( element ) ) {
+							// Align attribute does not seem to change anything
+							// and as we translate it to float, it safer to remove it (#3435).
+							delete element.attributes.align;
+						}
+					},
+
 					'span': function( element ) {
 						Style.createStyleStack( element, filter, editor, /vertical-align|white-space|font-variant/ );
 
@@ -144,6 +152,14 @@
 		}
 
 		element.attributes.style = style.replace( replaceRegex, '' );
+	}
+
+	function isTableWrapper( element ) {
+		var isDiv = element.name === 'div',
+			isOnlyOneChild = element.children.length === 1,
+			isTableInside = element.children[ 0 ].name === 'table';
+
+		return isDiv && isOnlyOneChild && isTableInside;
 	}
 
 	CKEDITOR.pasteFilters.gdocs = pastetools.createFilter( {
