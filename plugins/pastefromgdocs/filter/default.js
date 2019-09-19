@@ -55,6 +55,8 @@
 				elements: {
 					'span': function( element ) {
 						Style.createStyleStack( element, filter, editor, /vertical-align|white-space|font-variant/ );
+
+						handleSuperAndSubScripts( element );
 					},
 
 					'b': function( element ) {
@@ -125,6 +127,21 @@
 		commonFilter.elements.replaceWithChildren( element );
 
 		return false;
+	}
+
+	function handleSuperAndSubScripts( element ) {
+		var superScriptRegex = /vertical-align:\s*super/,
+			subScriptRegex = /vertical-align:\s*sub/,
+			replaceRegex = /vertical-align\s*.+?;?/,
+			style = element.attributes.style;
+
+		if ( superScriptRegex.test( style ) ) {
+			element.name = 'sup';
+		} else if ( subScriptRegex.test( style ) ) {
+			element.name = 'sub';
+		}
+
+		element.attributes.style = style.replace( replaceRegex, '' );
 	}
 
 	CKEDITOR.pasteFilters.gdocs = pastetools.createFilter( {
