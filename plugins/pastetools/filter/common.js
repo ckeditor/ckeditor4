@@ -6,6 +6,8 @@
 /* globals CKEDITOR */
 
 ( function() {
+	'use strict';
+
 	var Style,
 		tools = CKEDITOR.tools,
 		plug = {};
