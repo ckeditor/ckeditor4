@@ -63,6 +63,8 @@
 						}
 					},
 
+					colgroup: handleColGroup,
+
 					'span': function( element ) {
 						Style.createStyleStack( element, filter, editor, /vertical-align|white-space|font-variant/ );
 
@@ -160,6 +162,51 @@
 			isTableInside = element.children[ 0 ].name === 'table';
 
 		return isDiv && isOnlyOneChild && isTableInside;
+	}
+
+	function handleColGroup( colgroup ) {
+		var table = colgroup.parent,
+			cols = colgroup.children,
+			colsWidths = getWidths( cols ),
+			overallWidth = getOverallWidth( colsWidths );
+
+		table.attributes.width = overallWidth;
+
+		addWidthToCells( colgroup, colsWidths );
+
+		function getOverallWidth( widths ) {
+			return CKEDITOR.tools.array.reduce( widths, function( overallWidth, width ) {
+				return overallWidth + width;
+			}, 0 );
+		}
+
+		function getWidths( cols ) {
+			return CKEDITOR.tools.array.map( cols, function( col ) {
+				return Number( col.attributes.width );
+			} );
+		}
+
+		function addWidthToCells( start, widths ) {
+			var row = start.next,
+				cells,
+				i;
+
+			if ( !row || row.name !== 'tr' ) {
+				return;
+			}
+
+			cells = row.children;
+
+			for ( i = 0; i < widths.length; i++ ) {
+				if ( !cells[ i ] ) {
+					break;
+				}
+
+				cells[ i ].attributes.width = widths[ i ];
+			}
+
+			addWidthToCells( row.next, widths );
+		}
 	}
 
 	CKEDITOR.pasteFilters.gdocs = pastetools.createFilter( {
