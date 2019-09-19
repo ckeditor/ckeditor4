@@ -7,23 +7,22 @@ New Features:
 
 * [#835](https://github.com/ckeditor/ckeditor-dev/issues/835): Extended support for pasting from external applications:
    * Added support for pasting rich content from Google Docs with the [Paste from Google Docs](https://ckeditor.com/cke4/addon/pastefromgdocs) plugin.
-   * Added a new [PasteTools](https://ckeditor.com/cke4/addon/pastetools) plugin for unified paste handling.
+   * Added a new [Paste Tools](https://ckeditor.com/cke4/addon/pastetools) plugin for unified paste handling.
 * [#3315](https://github.com/ckeditor/ckeditor-dev/issues/3315): Added support for strikethrough in the [BBCode](https://ckeditor.com/cke4/addon/bbcode) plugin. Thanks to [Alexander Kahl](https://github.com/akahl-owl)!
-* [#3175](https://github.com/ckeditor/ckeditor-dev/issues/3175): Introduced selection optimization mechanism for handling various browsers selection buggy behaviours:
-    * [#3256](https://github.com/ckeditor/ckeditor-dev/issues/3256): Triple-clicking in last table cell and deleting content no longer pulls content below into table.
-    * [#3118](https://github.com/ckeditor/ckeditor-dev/issues/3118): Selecting a paragraph with triple-click and applying heading applies heading only to selected paragraph.
-    * [#3161](https://github.com/ckeditor/ckeditor-dev/issues/3161): Double click on a `span` element containing one word only creates correct selection including clicked `span` only.
-* [#3359](https://github.com/ckeditor/ckeditor-dev/issues/3359): Improved [dialog](https://ckeditor.com/cke4/addon/dialog) positioning and behavior when the browser window is resized, the dialog is resized or moved.
+* [#3175](https://github.com/ckeditor/ckeditor-dev/issues/3175): Introduced selection optimization mechanism for handling incorrect selection behaviors in various browsers:
+    * [#3256](https://github.com/ckeditor/ckeditor-dev/issues/3256): Triple-clicking in the last table cell and deleting content no longer pulls the content below into the table.
+    * [#3118](https://github.com/ckeditor/ckeditor-dev/issues/3118): Selecting a paragraph with a triple-click and applying a heading applies the heading only to the selected paragraph.
+    * [#3161](https://github.com/ckeditor/ckeditor-dev/issues/3161): Double-clicking a `<span>` element containing just one word creates a correct selection including the clicked `<span>` only.
+* [#3359](https://github.com/ckeditor/ckeditor-dev/issues/3359): Improved [dialog](https://ckeditor.com/cke4/addon/dialog) positioning and behavior when the dialog is resized or moved, or the browser window is resized.
 * [#2227](https://github.com/ckeditor/ckeditor-dev/issues/2227): Added the [`config.linkDefaultProtocol`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-linkDefaultProtocol) configuration option that allows setting the default URL protocol for the [Link](https://ckeditor.com/cke4/addon/link) plugin dialog.
 * [#3240](https://github.com/ckeditor/ckeditor-dev/issues/3240): Extended the [`CKEDITOR.plugins.widget#mask`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#property-mask) property to allow masking only the specified part of a [widget](https://ckeditor.com/cke4/addon/widget).
-* [#3138](https://github.com/ckeditor/ckeditor-dev/issues/3138): Added possibility to use [`widgetDefinition.getClipboardHtml()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#method-getClipboardHtml) method to customize [Widget](https://ckeditor.com/cke4/addon/widget) HTML during copy, cut and drag operations.
+* [#3138](https://github.com/ckeditor/ckeditor-dev/issues/3138): Added the possibility to use the [`widgetDefinition.getClipboardHtml()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget.html#method-getClipboardHtml) method to customize the [widget](https://ckeditor.com/cke4/addon/widget) HTML during copy, cut and drag operations.
 
 Fixed Issues:
 
 * [#808](https://github.com/ckeditor/ckeditor-dev/issues/808): Fixed: [Widgets](https://ckeditor.com/cke4/addon/widget) and other content disappear on drag and drop in [read-only mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_readonly.html).
 * [#3260](https://github.com/ckeditor/ckeditor-dev/issues/3260): Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) drag handler is visible in [read-only mode](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_readonly.html).
-* [#941](https://github.com/ckeditor/ckeditor-dev/issues/941): Fixed: An error is thrown after styling a table cell text selected using the native selection when the [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin is enabled.
-* [#3261](https://github.com/ckeditor/ckeditor-dev/issues/3261): Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) initialized using the dialog has an incorrect owner document.
+* [#3261](https://github.com/ckeditor/ckeditor-dev/issues/3261): Fixed: A [widget](https://ckeditor.com/cke4/addon/widget) initialized using the dialog has an incorrect owner document.
 * [#3198](https://github.com/ckeditor/ckeditor-dev/issues/3198): Fixed: Blurring and focusing the editor when a [widget](https://ckeditor.com/cke4/addon/widget) is focused creates an additional undo step.
 * [#2859](https://github.com/ckeditor/ckeditor-dev/pull/2859): [IE, Edge] Fixed: Various editor UI elements react to right mouse button click:
 	* [#2845](https://github.com/ckeditor/ckeditor-dev/issues/2845): [Rich Combo](https://ckeditor.com/cke4/addon/richcombo).
@@ -34,6 +33,7 @@ Fixed Issues:
 * [#3101](https://github.com/ckeditor/ckeditor-dev/issues/3101): Fixed: [`CKEDITOR.dom.range#_getTableElement()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_range.html#method-_getTableElement) returns `null` instead of a table element for edge cases.
 * [#3287](https://github.com/ckeditor/ckeditor-dev/issues/3287): Fixed: [`CKEDITOR.tools.promise`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_promise.html) initializes incorrectly if an AMD loader is present.
 * [#3379](https://github.com/ckeditor/ckeditor-dev/issues/3379): Fixed: Incorrect [`CKEDITOR.editor#getData()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-getData) call when inserting content into the editor.
+* [#941](https://github.com/ckeditor/ckeditor-dev/issues/941): Fixed: An error is thrown after styling a table cell text selected using the native selection when the [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin is enabled.
 * [#3136](https://github.com/ckeditor/ckeditor-dev/issues/3136): [Firefox] Fixed: Clicking [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) items removes the native table selection.
 * [#3381](https://github.com/ckeditor/ckeditor-dev/issues/3381): [IE8] Fixed: The [`CKEDITOR.tools.object.keys()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_object.html#method-keys) method does not accept non-objects.
 * [#2395](https://github.com/ckeditor/ckeditor-dev/issues/2395): [Android] Fixed: Focused input in a [dialog](https://ckeditor.com/cke4/addon/dialog) is scrolled out of the viewport when the soft keyboard appears.
@@ -41,8 +41,8 @@ Fixed Issues:
 * [#2138](https://github.com/ckeditor/ckeditor-dev/issues/2138): Fixed: An email address containing a question mark is mishandled by the [Link](https://ckeditor.com/cke4/addon/link) plugin.
 * [#917](https://github.com/ckeditor/ckeditor-dev/issues/917): Fixed: The [`CKEDITOR.plugins.addExternal()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins.html#method-addExternal) method does not load a plugin if the path does not contain a slash at the end.
 * [#14613](https://dev.ckeditor.com/ticket/14613): Fixed: Race condition when loading plugins for an already destroyed editor instance throws an error.
-* [#2257](https://github.com/ckeditor/ckeditor-dev/issues/2257): Fixed: Editor throws an exception when destroyed shortly after it was created.
-* [#3115](https://github.com/ckeditor/ckeditor-dev/issues/3115): Fixed: Destroying editor during initialization throws an error.
+* [#2257](https://github.com/ckeditor/ckeditor-dev/issues/2257): Fixed: The editor throws an exception when destroyed shortly after it was created.
+* [#3115](https://github.com/ckeditor/ckeditor-dev/issues/3115): Fixed: Destroying the editor during the initialization throws an error.
 
 API Changes:
 

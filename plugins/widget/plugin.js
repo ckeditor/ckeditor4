@@ -1266,9 +1266,9 @@
 		},
 
 		/**
-		 * Returns HTML of the widget. Can be overridden by
-		 * {@link CKEDITOR.plugins.widget.definition#getClipboardHtml widgetDefinition.getClipboardHtml}
-		 * to customize HTML copied to the clipboard during copy, cut and drop events.
+		 * Returns the HTML of the widget. Can be overridden by
+		 * {@link CKEDITOR.plugins.widget.definition#getClipboardHtml widgetDefinition.getClipboardHtml()}
+		 * to customize the HTML copied to the clipboard during copy, cut and drag events.
 		 *
 		 * @since 4.13.0
 		 * @returns {String} Widget HTML.
@@ -2785,9 +2785,9 @@
 	}
 
 	// Setup copybin on native copy and cut events in order to handle copy and cut commands
-	// if user accepted security alert on IEs.
-	// Note: when copying or cutting using keystroke, copyWidgets will be first executed
-	// by the keydown listener. Conflict between two calls will be resolved by copy_bin existence check.
+	// if the user accepted the security alert on IEs.
+	// Note: When copying or cutting using keystroke, copyWidgets will be executed first
+	// by the keydown listener. A conflict between two calls will be resolved by the copy_bin existence check.
 	function setupNativeCutAndCopy( widgetsRepo ) {
 		var editor = widgetsRepo.editor;
 
@@ -4589,9 +4589,9 @@
  * Customizes widget HTML copied to the clipboard
  * during copy, cut and drop operations.
  *
- * If not set, current widget HTML will be used instead.
+ * If not set, the current widget HTML will be used instead.
  *
- * Note: this method will overwrite HTML for the whole widget, **including**
+ * Note: This method will overwrite the HTML for the whole widget, **including**
  * any nested widgets.
  *
  * @method getClipboardHtml
@@ -4600,8 +4600,8 @@
  */
 
 /**
- * Whether widget should be draggable. Defaults to `true`.
- * If set to `false` drag handler will not be displayed when hovering widget.
+ * Whether the widget should be draggable. Defaults to `true`.
+ * If set to `false`, the drag handler will not be displayed when hovering the widget.
  *
  * @property {Boolean} draggable
  */
