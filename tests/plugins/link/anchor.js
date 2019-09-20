@@ -7,6 +7,14 @@
 	bender.editor = {};
 
 	bender.test( {
+		tearDown: function() {
+			var dialog = CKEDITOR.dialog.getCurrent();
+
+			if ( dialog ) {
+				dialog.hide();
+			}
+		},
+
 		// #476
 		'test editing anchor': function() {
 			var editor = this.editor,
@@ -39,7 +47,7 @@
 				range.selectNodeContents( editor.editable().findOne( '[data-cke-real-element-type=anchor]' ) );
 				range.select();
 
-				editor.on( 'dialogShow', function( evt ) {
+				editor.once( 'dialogShow', function( evt ) {
 					resume( function() {
 						assert.areSame( evt.data._.name, 'anchor', 'Anchor dialog has been opened.' );
 					} );
@@ -50,6 +58,26 @@
 				} );
 
 				wait();
+			} );
+		},
+
+		// (#3437)
+		'test getModel when selection is inside anchor\'s text': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			bot.setData( '<p><a id="test" name="test">Foobar</a></p>', function() {
+				var range = editor.createRange(),
+					anchor = editor.editable().findOne( '#test' ),
+					textNode = anchor.getChild( 0 );
+
+				range.selectNodeContents( textNode );
+				range.select();
+
+				bot.dialog( 'anchor', function( dialog ) {
+					assert.areSame( 'test', dialog.getValueOf( 'info', 'txtName' ) );
+					assert.areSame( anchor, dialog.getModel( editor ) );
+				} );
 			} );
 		}
 	} );

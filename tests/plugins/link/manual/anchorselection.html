@@ -1,0 +1,39 @@
+<style>
+#result {
+	font-size: 36px;
+}
+.found {
+	color: green;
+}
+.notfound {
+	color: red;
+}
+</style>
+<p id="result">Open dialog first</p>
+<div id="editor">
+	<p><a id="test" name="test">Foobar</a></p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		on: {
+			dialogShow: function( evt ) {
+				var editor = evt.editor,
+					expected = editor.editable().findOne( '#test' ),
+					actual = evt.data.getModel( editor ),
+					result = CKEDITOR.document.getById( 'result' );
+
+				result.setHtml( expected.equals( actual ) ? 'FOUND!' : 'NOT FOUND!' );
+				result.addClass( expected.equals( actual ) ? 'found' : 'notfound' );
+			},
+
+			dialogHide: function( evt ) {
+				var result = CKEDITOR.document.getById( 'result' );
+
+				result.setHtml( 'Open dialog first' );
+				result.removeClass( 'found' );
+				result.removeClass( 'notfound' );
+			}
+		}
+	} );
+</script>

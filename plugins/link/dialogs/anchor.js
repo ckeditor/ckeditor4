@@ -25,6 +25,11 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		range.shrink( CKEDITOR.SHRINK_ELEMENT );
 		element = range.getEnclosedNode();
 
+		// If selection is inside text, get its parent element (#3437).
+		if ( element && element.type === CKEDITOR.NODE_TEXT ) {
+			element = element.getParent();
+		}
+
 		if ( element && element.type === CKEDITOR.NODE_ELEMENT &&
 			( element.data( 'cke-real-element-type' ) === 'anchor' || element.is( 'a' ) ) ) {
 			return element;
