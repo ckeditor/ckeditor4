@@ -171,8 +171,7 @@
 			overallWidth = getOverallWidth( colsWidths );
 
 		table.attributes.width = overallWidth;
-
-		addWidthToCells( colgroup, colsWidths );
+		addWidthToCells( getFirstRow( table ), colsWidths );
 
 		function getOverallWidth( widths ) {
 			return CKEDITOR.tools.array.reduce( widths, function( overallWidth, width ) {
@@ -186,9 +185,20 @@
 			} );
 		}
 
-		function addWidthToCells( start, widths ) {
-			var row = start.next,
-				cells,
+		function getFirstRow( table ) {
+			var row = CKEDITOR.tools.array.find( table.children, function( child ) {
+				return child.name && ( child.name === 'tr' || child.name === 'tbody' );
+			} );
+
+			if ( row && row.name && row.name === 'tbody' ) {
+				return row.children[ 0 ];
+			}
+
+			return row;
+		}
+
+		function addWidthToCells( row, widths ) {
+			var cells,
 				i;
 
 			if ( !row || row.name !== 'tr' ) {
