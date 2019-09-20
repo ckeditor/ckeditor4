@@ -2179,7 +2179,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			}
 
 			// Check if the `window` exists in this document. The `window` is null for detached documents.
-			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 ) {
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 && !CKEDITOR.env.quirks ) {
 				return !doc.$.defaultView;
 			}
 
