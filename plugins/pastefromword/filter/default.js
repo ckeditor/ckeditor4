@@ -6,6 +6,8 @@
 /* globals CKEDITOR */
 
 ( function() {
+	'use strict';
+
 	var tools = CKEDITOR.tools,
 		pastetools = CKEDITOR.plugins.pastetools,
 		commonFilter = pastetools.filters.common,
