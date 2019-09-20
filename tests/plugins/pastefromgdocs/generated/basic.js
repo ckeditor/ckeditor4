@@ -50,6 +50,7 @@
 		],
 		tests: {
 			Basic: true,
+			BasicCKE5: true,
 			NestedOrderedLists: true,
 			NestedUnorderedLists: true
 		},
@@ -59,6 +60,10 @@
 				attributes: {
 					href: function( value ) {
 						return value.replace( /\/$/, '' );
+					},
+
+					style: function( value ) {
+						return value.replace( /['"]/gi, '&quot;' );
 					}
 				},
 				elements: {
@@ -94,7 +99,12 @@
 					'test Basic gdocs firefox': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
 					'test Basic gdocs safari': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
 					'test Basic gdocs edge': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
-					'test Basic gdocs ie11': !CKEDITOR.env.ie || CKEDITOR.env.version > 11
+					'test Basic gdocs ie11': !CKEDITOR.env.ie || CKEDITOR.env.version > 11,
+					'test BasicCKE5 gdocs chrome': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
+					'test BasicCKE5 gdocs firefox': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
+					'test BasicCKE5 gdocs safari': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
+					'test BasicCKE5 gdocs edge': CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
+					'test BasicCKE5 gdocs ie11': !CKEDITOR.env.ie || CKEDITOR.env.version > 11
 				}
 			}
 		}
