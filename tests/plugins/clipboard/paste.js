@@ -49,8 +49,7 @@
 		} );
 	}
 
-	var trustySafari = CKEDITOR.env.safari && CKEDITOR.env.version >= 603 && !CKEDITOR.env.iOS,
-		trustyEdge = CKEDITOR.env.edge && CKEDITOR.env.version >= 16;
+	var trustyEdge = CKEDITOR.env.edge && CKEDITOR.env.version >= 16;
 
 	bender.test( {
 		setUp: function() {
@@ -1376,7 +1375,7 @@
 		},
 
 		'test canClipboardApiBeTrusted in Safari': function() {
-			if ( !trustySafari ) {
+			if ( !CKEDITOR.env.safari ) {
 				assert.ignore();
 			}
 
@@ -1471,7 +1470,7 @@
 		},
 
 		'test canClipboardApiBeTrusted on other browser': function() {
-			if ( CKEDITOR.env.chrome || CKEDITOR.env.gecko || trustySafari || trustyEdge ) {
+			if ( CKEDITOR.env.chrome || CKEDITOR.env.gecko || CKEDITOR.env.safari || trustyEdge ) {
 				assert.ignore();
 			}
 
