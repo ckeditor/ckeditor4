@@ -70,9 +70,8 @@ CKEDITOR.resourceManager.prototype = {
 	 * @see CKEDITOR.pluginDefinition
 	 */
 	add: function( name, definition ) {
-		if ( this.registered[ name ] ) {
+		if ( this.registered[ name ] )
 			throw new Error( '[CKEDITOR.resourceManager.add] The resource name "' + name + '" is already registered.' );
-		}
 
 		var resource = this.registered[ name ] = definition || {};
 		resource.name = name;
@@ -125,31 +124,28 @@ CKEDITOR.resourceManager.prototype = {
 	 * Registers one or more resources to be loaded from an external path
 	 * instead of the core base path.
 	 *
-	 *		// Loads a plugin from '/myplugins/sample/plugin.js'.
-	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/' );
+	 * ```javascript
+	 * // Loads a plugin from '/myplugins/sample/plugin.js'.
+	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/' );
 	 *
-	 *		// Loads a plugin from '/myplugins/sample/my_plugin.js'.
-	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/', 'my_plugin.js' );
+	 * // Loads a plugin from '/myplugins/sample/my_plugin.js'.
+	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/', 'my_plugin.js' );
 	 *
-	 *		// Loads a plugin from '/myplugins/sample/my_plugin.js'.
-	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js', '' );
+	 * // Loads a plugin from '/myplugins/sample/my_plugin.js'.
+	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js', '' );
+	 *
+	 * // Loads a plugin from '/myplugins/sample/my_plugin.js'.
+	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js' );
+	 * ```
 	 *
 	 * @param {String} names Comma-separated resource names.
 	 * @param {String} path The path of the folder containing the resource.
-	 * @param {String} [fileName] The resource file name. If not provided, the
-	 * default name is used. If provided with an empty string, it implicitly indicates that the `path` argument
-	 * is already the full path.
+	 * @param {String} [fileName] The resource file name. If not provided and
+	 * the `path` argument ends with a slash (`/`), the default `plugin.js` filename is used.
+	 * Otherwise, if not provided and the `path` argument does not end with a slash (`/`)
+	 * or if an empty string provided the function assumes that the `path` argument contains a full path.
 	 */
 	addExternal: function( names, path, fileName ) {
-		names = names.split( ',' );
-
-		// If there is no '/' at the end of the path, but 'fileName' is anything different
-		// than an empty string (so either is not set at all or is a valid name), assume
-		// that the path is a directory and concatenate '/' to it (#917).
-		if ( path[ path.length - 1 ] !== '/' && fileName !== '' ) {
-			path += '/';
-		}
-
 		// If "fileName" is not provided, we assume that it may be available
 		// in "path". Try to extract it in this case.
 		if ( !fileName ) {
@@ -162,13 +158,16 @@ CKEDITOR.resourceManager.prototype = {
 		// Use the default file name if there is no "fileName" and it
 		// was not found in "path".
 		fileName = fileName || ( this.fileName + '.js' );
+		names = names.split( ',' );
 
-		CKEDITOR.tools.array.forEach( names, function( name ) {
+		for ( var i = 0; i < names.length; i++ ) {
+			var name = names[ i ];
+
 			this.externals[ name ] = {
 				dir: path,
 				file: fileName
 			};
-		}, this );
+		}
 	},
 
 	/**
@@ -186,9 +185,8 @@ CKEDITOR.resourceManager.prototype = {
 	 */
 	load: function( names, callback, scope ) {
 		// Ensure that we have an array of names.
-		if ( !CKEDITOR.tools.isArray( names ) ) {
+		if ( !CKEDITOR.tools.isArray( names ) )
 			names = names ? [ names ] : [];
-		}
 
 		var loaded = this.loaded,
 			registered = this.registered,
@@ -200,17 +198,15 @@ CKEDITOR.resourceManager.prototype = {
 		for ( var i = 0; i < names.length; i++ ) {
 			var name = names[ i ];
 
-			if ( !name ) {
+			if ( !name )
 				continue;
-			}
 
 			// If not available yet.
 			if ( !loaded[ name ] && !registered[ name ] ) {
 				var url = this.getFilePath( name );
 				urls.push( url );
-				if ( !( url in urlsNames ) ) {
+				if ( !( url in urlsNames ) )
 					urlsNames[ url ] = [];
-				}
 				urlsNames[ url ].push( name );
 			} else {
 				resources[ name ] = this.get( name );
@@ -227,8 +223,8 @@ CKEDITOR.resourceManager.prototype = {
 				var nameList = urlsNames[ completed[ i ] ];
 				for ( var j = 0; j < nameList.length; j++ ) {
 					var name = nameList[ j ];
-
 					resources[ name ] = this.get( name );
+
 					loaded[ name ] = 1;
 				}
 			}

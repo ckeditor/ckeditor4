@@ -39,7 +39,6 @@ Fixed Issues:
 * [#2395](https://github.com/ckeditor/ckeditor-dev/issues/2395): [Android] Fixed: Focused input in a [dialog](https://ckeditor.com/cke4/addon/dialog) is scrolled out of the viewport when the soft keyboard appears.
 * [#453](https://github.com/ckeditor/ckeditor-dev/issues/453): Fixed: [Link](https://ckeditor.com/cke4/addon/link) dialog has an invalid width when the editor is maximized and the browser window is resized.
 * [#2138](https://github.com/ckeditor/ckeditor-dev/issues/2138): Fixed: An email address containing a question mark is mishandled by the [Link](https://ckeditor.com/cke4/addon/link) plugin.
-* [#917](https://github.com/ckeditor/ckeditor-dev/issues/917): Fixed: The [`CKEDITOR.plugins.addExternal()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins.html#method-addExternal) method does not load a plugin if the path does not contain a slash at the end.
 * [#14613](https://dev.ckeditor.com/ticket/14613): Fixed: Race condition when loading plugins for an already destroyed editor instance throws an error.
 * [#2257](https://github.com/ckeditor/ckeditor-dev/issues/2257): Fixed: The editor throws an exception when destroyed shortly after it was created.
 * [#3115](https://github.com/ckeditor/ckeditor-dev/issues/3115): Fixed: Destroying the editor during the initialization throws an error.
