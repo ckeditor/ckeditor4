@@ -141,11 +141,9 @@ CKEDITOR.resourceManager.prototype = {
 	 * @param {String} names Comma-separated resource names.
 	 * @param {String} path The path of the folder containing the resource.
 	 * @param {String} [fileName] The resource file name. If not provided and
-	 * the `path` argument ends with a slash (`/`), the default name is used.
-	 * Otherwise, if not provided and the `path` argument does not end with a slash (`/`),
-	 * the function assumes that the `path` argument contains the full path.
-	 * If provided with a empty string, will implicitly indicates that the `path` argument
-	 * is already the full path.
+	 * the `path` argument ends with a slash (`/`), the default `plugin.js` filename is used.
+	 * Otherwise, if not provided and the `path` argument does not end with a slash (`/`)
+	 * or if an empty string provided the function assumes that the `path` argument contains a full path.
 	 */
 	addExternal: function( names, path, fileName ) {
 		// If "fileName" is not provided, we assume that it may be available
