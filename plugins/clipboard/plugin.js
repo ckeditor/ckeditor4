@@ -1634,7 +1634,7 @@
 	CKEDITOR.plugins.clipboard = {
 		/**
 		 * True if the environment allows to set data on copy or cut manually. This value is false in IE, because this browser
-		 * shows the security dialog window when the script tries to set clipboard data and on iOS, because custom data is
+		 * shows the security dialog window when the script tries to set clipboard data and on older iOS, because custom data is
 		 * not saved to clipboard there.
 		 *
 		 * @since 4.5.0
