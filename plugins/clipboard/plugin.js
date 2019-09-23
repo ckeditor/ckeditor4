@@ -1740,8 +1740,12 @@
 			}
 
 			// Safari fixed clipboard in 10.1 (https://bugs.webkit.org/show_bug.cgi?id=19893) (https://dev.ckeditor.com/ticket/16982).
-			// However iOS version still doesn't work well enough (https://bugs.webkit.org/show_bug.cgi?id=19893#c34).
 			if ( CKEDITOR.env.safari && CKEDITOR.env.version >= 603 && !CKEDITOR.env.iOS ) {
+				return true;
+			}
+
+			// Issue doesn't occur any longer in new iOS version (https://bugs.webkit.org/show_bug.cgi?id=19893#c34).
+			if ( CKEDITOR.env.iOS && CKEDITOR.env.version >= 605 ) {
 				return true;
 			}
 
