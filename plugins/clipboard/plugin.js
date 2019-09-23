@@ -1641,7 +1641,18 @@
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		isCustomCopyCutSupported: ( !CKEDITOR.env.ie || CKEDITOR.env.version >= 16 ) && !CKEDITOR.env.iOS,
+		isCustomCopyCutSupported: ( function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 16 ) {
+				return false;
+			}
+
+			// There might be lower version supported as well. However, we don't have possibility to test it. (#3354)
+			if ( CKEDITOR.env.iOS && CKEDITOR.env.version < 605 ) {
+				return false;
+			}
+
+			return true;
+		} )(),
 
 		/**
 		 * True if the environment supports MIME types and custom data types in dataTransfer/cliboardData getData/setData methods.
