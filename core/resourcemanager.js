@@ -124,19 +124,27 @@ CKEDITOR.resourceManager.prototype = {
 	 * Registers one or more resources to be loaded from an external path
 	 * instead of the core base path.
 	 *
-	 *		// Loads a plugin from '/myplugins/sample/plugin.js'.
-	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/' );
+	 * ```javascript
+	 * // Loads a plugin from '/myplugins/sample/plugin.js'.
+	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/' );
 	 *
-	 *		// Loads a plugin from '/myplugins/sample/my_plugin.js'.
-	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/', 'my_plugin.js' );
+	 * // Loads a plugin from '/myplugins/sample/my_plugin.js'.
+	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/', 'my_plugin.js' );
 	 *
-	 *		// Loads a plugin from '/myplugins/sample/my_plugin.js'.
-	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js', '' );
+	 * // Loads a plugin from '/myplugins/sample/my_plugin.js'.
+	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js', '' );
+	 *
+	 * // Loads a plugin from '/myplugins/sample/my_plugin.js'.
+	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js' );
+	 * ```
 	 *
 	 * @param {String} names Comma-separated resource names.
 	 * @param {String} path The path of the folder containing the resource.
-	 * @param {String} [fileName] The resource file name. If not provided, the
-	 * default name is used. If provided with a empty string, will implicitly indicates that `path` argument
+	 * @param {String} [fileName] The resource file name. If not provided and
+	 * the `path` argument ends with a slash (`/`), the default name is used.
+	 * Otherwise, if not provided and the `path` argument does not end with a slash (`/`),
+	 * the function assumes that the `path` argument contains the full path.
+	 * If provided with a empty string, will implicitly indicates that the `path` argument
 	 * is already the full path.
 	 */
 	addExternal: function( names, path, fileName ) {
