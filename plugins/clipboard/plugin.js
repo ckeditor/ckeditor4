@@ -1634,8 +1634,8 @@
 	CKEDITOR.plugins.clipboard = {
 		/**
 		 * True if the environment allows to set data on copy or cut manually. This value is false in IE, because this browser
-		 * shows the security dialog window when the script tries to set clipboard data and on older iOS, because custom data is
-		 * not saved to clipboard there.
+		 * shows the security dialog window when the script tries to set clipboard data and on older iOS (below version 13),
+		 * because custom data is not saved to clipboard there.
 		 *
 		 * @since 4.5.0
 		 * @readonly
@@ -1646,7 +1646,7 @@
 				return false;
 			}
 
-			// There might be lower version supported as well. However, we don't have possibility to test it. (#3354)
+			// There might be lower version supported as well. However, we don't have possibility to test it (#3354).
 			if ( CKEDITOR.env.iOS && CKEDITOR.env.version < 605 ) {
 				return false;
 			}
@@ -1744,7 +1744,7 @@
 				return true;
 			}
 
-			// Issue doesn't occur any longer in new iOS version (https://bugs.webkit.org/show_bug.cgi?id=19893#c34).
+			// Issue doesn't occur any longer in new iOS version (https://bugs.webkit.org/show_bug.cgi?id=19893#c34) (#3354).
 			if ( CKEDITOR.env.iOS && CKEDITOR.env.version >= 605 ) {
 				return true;
 			}
