@@ -726,10 +726,14 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean} return.collapsed
 		 */
 		createBookmark: function( serializable ) {
-			var startNode, endNode;
-			var baseId;
-			var clone;
-			var collapsed = this.collapsed;
+			var startContainer = this.startContainer,
+				endContainer = this.endContainer,
+				collapsed = this.collapsed,
+				startNode,
+				endNode,
+				baseId,
+				clone,
+				temporary;
 
 			startNode = this.document.createElement( 'span' );
 			startNode.data( 'cke-bookmark', 1 );
@@ -753,12 +757,27 @@ CKEDITOR.dom.range = function( root ) {
 					endNode.setAttribute( 'id', baseId + 'E' );
 
 				clone = this.clone();
+
+				if ( isTemporary( endContainer ) ) {
+					temporary = getTemporary( endContainer );
+
+					clone.moveToPosition( temporary, CKEDITOR.POSITION_AFTER_END );
+				}
+
 				clone.collapse();
 				clone.insertNode( endNode );
 			}
 
 			clone = this.clone();
+
+			if ( isTemporary( startContainer ) ) {
+				temporary = getTemporary( startContainer );
+
+				clone.moveToPosition( temporary, CKEDITOR.POSITION_BEFORE_START );
+			}
+
 			clone.collapse( true );
+
 			clone.insertNode( startNode );
 
 			// Update the range position.
@@ -775,6 +794,16 @@ CKEDITOR.dom.range = function( root ) {
 				serializable: serializable,
 				collapsed: collapsed
 			};
+
+			function isTemporary( node ) {
+				return !!getTemporary( node );
+			}
+
+			function getTemporary( node ) {
+				return node.getAscendant( function( node ) {
+					return node.data && node.data( 'cke-temp' );
+				}, true );
+			}
 		},
 
 		/**
