@@ -1,10 +1,13 @@
-@bender-tags: 4.13.0, feature, 3138
+@bender-tags: 4.13.0, feature, 3138, 3423
 @bender-ui: collapsed
 @bender-ckeditor-plugins: widget, undo, wysiwygarea, toolbar
 
+For both editors:
+
 1. Open console.
 2. Select all.
-3. Copy
+3. Release all keys.
+4. Copy.
 
 ## Expected
 
