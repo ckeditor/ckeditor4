@@ -1,4 +1,4 @@
-@bender-tags: 4.13.0, feature, 3138, 3423
+@bender-tags: 4.13.0, feature, 3138, 3423, 3482
 @bender-ui: collapsed
 @bender-ckeditor-plugins: widget, undo, wysiwygarea, toolbar
 
