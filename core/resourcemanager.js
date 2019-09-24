@@ -124,7 +124,7 @@ CKEDITOR.resourceManager.prototype = {
 	 * Registers one or more resources to be loaded from an external path
 	 * instead of the core base path.
 	 *
-	 * ```javascript
+	 * ```js
 	 * // Loads a plugin from '/myplugins/sample/plugin.js'.
 	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/' );
 	 *
@@ -143,7 +143,7 @@ CKEDITOR.resourceManager.prototype = {
 	 * @param {String} [fileName] The resource file name. If not provided and
 	 * the `path` argument ends with a slash (`/`), the default `plugin.js` filename is used.
 	 * Otherwise, if not provided and the `path` argument does not end with a slash (`/`)
-	 * or if an empty string provided the function assumes that the `path` argument contains a full path.
+	 * or if an empty string is provided, the function assumes that the `path` argument contains the full path.
 	 */
 	addExternal: function( names, path, fileName ) {
 		// If "fileName" is not provided, we assume that it may be available
