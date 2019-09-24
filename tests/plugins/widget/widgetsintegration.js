@@ -1111,6 +1111,27 @@
 			}
 		} ),
 
+		// (#3482)
+		'test selection is restored after copying (widget in the middle, select all)': createCopyCutTest( {
+			ignore: !CKEDITOR.env.webkit,
+			event: 'copy',
+			html: '<p>Lorem</p>' +
+			'<div id="w1" data-widget="test3">test3</div>' +
+			'<p>Ipsum</p>',
+
+			init: function( editor ) {
+				var range = editor.createRange();
+
+				range.selectNodeContents( editor.editable() );
+				range.select();
+			},
+
+			assert: function( editor ) {
+				assert.isTrue( CKEDITOR.plugins.widgetselection.isWholeContentSelected( editor.editable() ),
+					'whole content is selected' );
+			}
+		} ),
+
 		// (#3138)
 		'test content is removed after cutting (single widget)': createCopyCutTest( {
 			event: 'cut',
