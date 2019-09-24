@@ -3393,7 +3393,7 @@
 		// Blink and WebKit, when widgets are at the beginning and at the end of the content (#3138).
 		if ( !focused ) {
 			isWholeSelection = CKEDITOR.env.webkit && CKEDITOR.plugins.widgetselection.isWholeContentSelected( editor.editable() );
-			bookmarks = !isWholeSelection && editor.getSelection().createBookmarks( true );
+			bookmarks = editor.getSelection().createBookmarks( true );
 		}
 
 		copyBin.handle( getClipboardHtml() );
