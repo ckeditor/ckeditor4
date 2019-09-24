@@ -42,6 +42,7 @@ Fixed Issues:
 * [#14613](https://dev.ckeditor.com/ticket/14613): Fixed: Race condition when loading plugins for an already destroyed editor instance throws an error.
 * [#2257](https://github.com/ckeditor/ckeditor-dev/issues/2257): Fixed: The editor throws an exception when destroyed shortly after it was created.
 * [#3115](https://github.com/ckeditor/ckeditor-dev/issues/3115): Fixed: Destroying the editor during the initialization throws an error.
+* [#3354](https://github.com/ckeditor/ckeditor4/issues/3354): [iOS] Fixed: Pasting no longer works on iOS version 13.
 
 API Changes:
 
