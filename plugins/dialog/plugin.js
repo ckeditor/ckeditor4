@@ -62,7 +62,9 @@ CKEDITOR.DIALOG_STATE_IDLE = 1;
 CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 ( function() {
-	var cssLength = CKEDITOR.tools.cssLength;
+	var cssLength = CKEDITOR.tools.cssLength,
+		defaultDialogDefinition,
+		currentCover;
 
 	function focusActiveTab( dialog ) {
 		dialog._.tabBarMode = true;
@@ -1819,7 +1821,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	CKEDITOR.event.implementOn( CKEDITOR.dialog );
 	CKEDITOR.event.implementOn( CKEDITOR.dialog.prototype );
 
-	var defaultDialogDefinition = {
+	defaultDialogDefinition = {
 		resizable: CKEDITOR.DIALOG_RESIZE_BOTH,
 		minWidth: 600,
 		minHeight: 400,
@@ -1897,18 +1899,18 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	 * @extends CKEDITOR.dialog.definition
 	 * @constructor Creates a definitionObject class instance.
 	 */
-	var definitionObject = function( dialog, dialogDefinition ) {
-			// TODO : Check if needed.
-			this.dialog = dialog;
+	function definitionObject( dialog, dialogDefinition ) {
+		// TODO : Check if needed.
+		this.dialog = dialog;
 
-			// Transform the contents entries in contentObjects.
-			var contents = dialogDefinition.contents;
-			for ( var i = 0, content;
-			( content = contents[ i ] ); i++ )
-				contents[ i ] = content && new contentObject( dialog, content );
+		// Transform the contents entries in contentObjects.
+		var contents = dialogDefinition.contents;
+		for ( var i = 0, content;
+		( content = contents[ i ] ); i++ )
+			contents[ i ] = content && new contentObject( dialog, content );
 
-			CKEDITOR.tools.extend( this, dialogDefinition );
-		};
+		CKEDITOR.tools.extend( this, dialogDefinition );
+	}
 
 	definitionObject.prototype = {
 		/**
@@ -2208,7 +2210,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				internalWidth = width + dx * ( dialog._.moved ? 1 : 2 ),
 				internalHeight = height + dy * ( dialog._.moved ? 1 : 2 ),
 				element = dialog._.element.getFirst(),
-				right = rtl && parseInt( element.getComputedStyle( 'right' ) ),
+				right = rtl && parseInt( element.getComputedStyle( 'right' ), 10 ),
 				position = dialog.getPosition();
 
 			position.x = position.x || 0;
@@ -2282,8 +2284,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	}
 
 	// Caching reusable covers and allowing only one cover on screen.
-	var covers = {},
-		currentCover;
+	var covers = {};
 
 	function cancelEvent( ev ) {
 		ev.data.preventDefault( 1 );
@@ -2381,67 +2382,67 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 	var accessKeyProcessors = {};
 
-	var accessKeyDownHandler = function( evt ) {
-			var ctrl = evt.data.$.ctrlKey || evt.data.$.metaKey,
-				alt = evt.data.$.altKey,
-				shift = evt.data.$.shiftKey,
-				key = String.fromCharCode( evt.data.$.keyCode ),
-				keyProcessor = accessKeyProcessors[ ( ctrl ? 'CTRL+' : '' ) + ( alt ? 'ALT+' : '' ) + ( shift ? 'SHIFT+' : '' ) + key ];
+	function accessKeyDownHandler( evt ) {
+		var ctrl = evt.data.$.ctrlKey || evt.data.$.metaKey,
+			alt = evt.data.$.altKey,
+			shift = evt.data.$.shiftKey,
+			key = String.fromCharCode( evt.data.$.keyCode ),
+			keyProcessor = accessKeyProcessors[ ( ctrl ? 'CTRL+' : '' ) + ( alt ? 'ALT+' : '' ) + ( shift ? 'SHIFT+' : '' ) + key ];
 
-			if ( !keyProcessor || !keyProcessor.length )
-				return;
+		if ( !keyProcessor || !keyProcessor.length )
+			return;
 
-			keyProcessor = keyProcessor[ keyProcessor.length - 1 ];
-			keyProcessor.keydown && keyProcessor.keydown.call( keyProcessor.uiElement, keyProcessor.dialog, keyProcessor.key );
+		keyProcessor = keyProcessor[ keyProcessor.length - 1 ];
+		keyProcessor.keydown && keyProcessor.keydown.call( keyProcessor.uiElement, keyProcessor.dialog, keyProcessor.key );
+		evt.data.preventDefault();
+	}
+
+	function accessKeyUpHandler( evt ) {
+		var ctrl = evt.data.$.ctrlKey || evt.data.$.metaKey,
+			alt = evt.data.$.altKey,
+			shift = evt.data.$.shiftKey,
+			key = String.fromCharCode( evt.data.$.keyCode ),
+			keyProcessor = accessKeyProcessors[ ( ctrl ? 'CTRL+' : '' ) + ( alt ? 'ALT+' : '' ) + ( shift ? 'SHIFT+' : '' ) + key ];
+
+		if ( !keyProcessor || !keyProcessor.length )
+			return;
+
+		keyProcessor = keyProcessor[ keyProcessor.length - 1 ];
+		if ( keyProcessor.keyup ) {
+			keyProcessor.keyup.call( keyProcessor.uiElement, keyProcessor.dialog, keyProcessor.key );
 			evt.data.preventDefault();
-		};
+		}
+	}
 
-	var accessKeyUpHandler = function( evt ) {
-			var ctrl = evt.data.$.ctrlKey || evt.data.$.metaKey,
-				alt = evt.data.$.altKey,
-				shift = evt.data.$.shiftKey,
-				key = String.fromCharCode( evt.data.$.keyCode ),
-				keyProcessor = accessKeyProcessors[ ( ctrl ? 'CTRL+' : '' ) + ( alt ? 'ALT+' : '' ) + ( shift ? 'SHIFT+' : '' ) + key ];
+	function registerAccessKey( uiElement, dialog, key, downFunc, upFunc ) {
+		var procList = accessKeyProcessors[ key ] || ( accessKeyProcessors[ key ] = [] );
+		procList.push( {
+			uiElement: uiElement,
+			dialog: dialog,
+			key: key,
+			keyup: upFunc || uiElement.accessKeyUp,
+			keydown: downFunc || uiElement.accessKeyDown
+		} );
+	}
 
-			if ( !keyProcessor || !keyProcessor.length )
-				return;
-
-			keyProcessor = keyProcessor[ keyProcessor.length - 1 ];
-			if ( keyProcessor.keyup ) {
-				keyProcessor.keyup.call( keyProcessor.uiElement, keyProcessor.dialog, keyProcessor.key );
-				evt.data.preventDefault();
+	function unregisterAccessKey( obj ) {
+		for ( var i in accessKeyProcessors ) {
+			var list = accessKeyProcessors[ i ];
+			for ( var j = list.length - 1; j >= 0; j-- ) {
+				if ( list[ j ].dialog == obj || list[ j ].uiElement == obj )
+					list.splice( j, 1 );
 			}
-		};
+			if ( list.length === 0 )
+				delete accessKeyProcessors[ i ];
+		}
+	}
 
-	var registerAccessKey = function( uiElement, dialog, key, downFunc, upFunc ) {
-			var procList = accessKeyProcessors[ key ] || ( accessKeyProcessors[ key ] = [] );
-			procList.push( {
-				uiElement: uiElement,
-				dialog: dialog,
-				key: key,
-				keyup: upFunc || uiElement.accessKeyUp,
-				keydown: downFunc || uiElement.accessKeyDown
-			} );
-		};
+	function tabAccessKeyUp( dialog, key ) {
+		if ( dialog._.accessKeyMap[ key ] )
+			dialog.selectPage( dialog._.accessKeyMap[ key ] );
+	}
 
-	var unregisterAccessKey = function( obj ) {
-			for ( var i in accessKeyProcessors ) {
-				var list = accessKeyProcessors[ i ];
-				for ( var j = list.length - 1; j >= 0; j-- ) {
-					if ( list[ j ].dialog == obj || list[ j ].uiElement == obj )
-						list.splice( j, 1 );
-				}
-				if ( list.length === 0 )
-					delete accessKeyProcessors[ i ];
-			}
-		};
-
-	var tabAccessKeyUp = function( dialog, key ) {
-			if ( dialog._.accessKeyMap[ key ] )
-				dialog.selectPage( dialog._.accessKeyMap[ key ] );
-		};
-
-	var tabAccessKeyDown = function() {};
+	function tabAccessKeyDown() {}
 
 	( function() {
 		CKEDITOR.ui.dialog = {
