@@ -64,6 +64,12 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 ( function() {
 	var cssLength = CKEDITOR.tools.cssLength;
 
+	function focusActiveTab( dialog ) {
+		dialog._.tabBarMode = true;
+		dialog._.tabs[ dialog._.currentTabId ][ 0 ].focus();
+		dialog._.currentFocusIndex = -1;
+	}
+
 	function isTabVisible( tabId ) {
 		return !!this._.tabs[ tabId ][ 0 ].$.offsetHeight;
 	}
@@ -508,9 +514,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				processed = 1;
 			} else if ( keystroke == CKEDITOR.ALT + 121 && !me._.tabBarMode && me.getPageCount() > 1 ) {
 				// Alt-F10 puts focus into the current tab item in the tab bar.
-				me._.tabBarMode = true;
-				me._.tabs[ me._.currentTabId ][ 0 ].focus();
-				me._.currentFocusIndex = -1;
+				focusActiveTab( me );
 				processed = 1;
 			} else if ( CKEDITOR.tools.indexOf( arrowKeys, keystroke ) != -1 && me._.tabBarMode ) {
 				// Array with key codes that activate previous tab.
@@ -656,9 +660,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				var id = target.$.id;
 				this.selectPage( id.substring( 4, id.lastIndexOf( '_' ) ) );
 
-				this._.currentFocusIndex = -1;
-				changeFocus();
-				this._.tabBarMode = true;
+				focusActiveTab( this );
 
 				evt.data.preventDefault();
 			}
