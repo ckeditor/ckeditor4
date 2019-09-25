@@ -801,8 +801,17 @@ CKEDITOR.dom.range = function( root ) {
 
 			function getTemporary( node ) {
 				return node.getAscendant( function( node ) {
-					return node.data && node.data( 'cke-temp' );
+					return node.data && node.data( 'cke-temp' ) && !isClipboardBin( node );
 				}, true );
+			}
+
+			function isClipboardBin( node ) {
+				var ids = [
+					'cke_copybin',
+					'cke_pastebin'
+				];
+
+				return CKEDITOR.tools.array.indexOf( ids, node.getAttribute( 'id' ) ) !== -1;
 			}
 		},
 
