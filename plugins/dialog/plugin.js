@@ -656,11 +656,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				var id = target.$.id;
 				this.selectPage( id.substring( 4, id.lastIndexOf( '_' ) ) );
 
-				if ( this._.tabBarMode ) {
-					this._.tabBarMode = false;
-					this._.currentFocusIndex = -1;
-					changeFocus( 1 );
-				}
+				this._.currentFocusIndex = -1;
+				changeFocus();
+				this._.tabBarMode = true;
+
 				evt.data.preventDefault();
 			}
 		}, this );
