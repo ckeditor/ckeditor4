@@ -102,7 +102,27 @@
 				assertEditorHtml();
 				editor._.shiftPressed = false;
 			}
-		} )
+		} ),
+
+		'test selection optimization key listeners after setData() with keydown': function( editor, bot ) {
+			editor._.shiftPressed = null;
+
+			bot.setData( '<p>Foo</p><p><strong>bar</strong> baz</p>', function() {
+				bot.editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { shiftKey: true } ) );
+
+				assert.isTrue( editor._.shiftPressed );
+			} );
+		},
+
+		'test selection optimization key listeners after setData() with keyup': function( editor, bot ) {
+			editor._.shiftPressed = null;
+
+			bot.setData( '<p>Foo</p><p><strong>bar</strong> baz</p>', function() {
+				bot.editor.editable().fire( 'keyup', new CKEDITOR.dom.event( { shiftKey: false } ) );
+
+				assert.isFalse( editor._.shiftPressed );
+			} );
+		}
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );

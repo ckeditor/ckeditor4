@@ -21,12 +21,18 @@
 			preventOptimization = false;
 		} );
 
-		editor.on( 'instanceReady', function() {
-			this.editable().on( 'keydown', function( evt ) {
+		editor.on( 'contentDom', function() {
+			var editable = editor.editable();
+
+			if ( !editable ) {
+				return;
+			}
+
+			editable.attachListener( editable, 'keydown', function( evt ) {
 				this._.shiftPressed = evt.data.$.shiftKey;
 			}, this );
 
-			this.editable().on( 'keyup', function( evt ) {
+			editable.attachListener( editable, 'keyup', function( evt ) {
 				this._.shiftPressed = evt.data.$.shiftKey;
 			}, this );
 		} );
