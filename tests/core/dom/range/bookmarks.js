@@ -298,6 +298,18 @@ addBookmarkTCs( tcs, {
 			{ sc: '#b', so: 0, ec: '#d', eo: 0 },
 			{ sc: 'p', so: 2, ec: 'p', eo: 5 },
 			{ sc: 'p', so: 1, ec: 'p', eo: 4 }
+		],
+
+		'copybin': [ '<p>a<span id="cke_copybin" data-cke-temp="1"></span></p>',
+			{ sc: 'span', so: 0 },
+			{ sc: 'span', so: 1 },
+			{ sc: 'span', so: 0 }
+		],
+
+		'pastebin': [ '<p>a<span id="cke_pastebin" data-cke-temp="1"></span></p>',
+			{ sc: 'span', so: 0 },
+			{ sc: 'span', so: 1 },
+			{ sc: 'span', so: 0 }
 		]
 	}
 } );
