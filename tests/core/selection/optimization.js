@@ -104,6 +104,7 @@
 			}
 		} ),
 
+		// (#3493)
 		'test selection optimization key listeners after setData() with keydown': function( editor, bot ) {
 			editor._.shiftPressed = null;
 
@@ -114,6 +115,7 @@
 			} );
 		},
 
+		// (#3493)
 		'test selection optimization key listeners after setData() with keyup': function( editor, bot ) {
 			editor._.shiftPressed = null;
 
