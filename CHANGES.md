@@ -43,6 +43,7 @@ Fixed Issues:
 * [#2257](https://github.com/ckeditor/ckeditor-dev/issues/2257): Fixed: The editor throws an exception when destroyed shortly after it was created.
 * [#3115](https://github.com/ckeditor/ckeditor-dev/issues/3115): Fixed: Destroying the editor during the initialization throws an error.
 * [#3354](https://github.com/ckeditor/ckeditor4/issues/3354): [iOS] Fixed: Pasting no longer works on iOS version 13.
+* [#3423](https://github.com/ckeditor/ckeditor4/issues/3423) Fixed: [Bookmarks](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dom_range.html#method-createBookmark) can be created inside temporary elements.
 
 API Changes:
 
