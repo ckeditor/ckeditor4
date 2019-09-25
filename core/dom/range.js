@@ -791,7 +791,7 @@ CKEDITOR.dom.range = function( root ) {
 			}
 
 			function returnIdOrNode( node, serializable ) {
-				if ( serializable ) {
+				if ( node && serializable ) {
 					return node.getAttribute( 'id' );
 				}
 
