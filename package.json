@@ -1,5 +1,5 @@
 {
-	"name": "ckeditor-dev",
+	"name": "ckeditor4-dev",
 	"version": "4.13.0",
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
@@ -27,6 +27,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [
+		"ckeditor4",
 		"ckeditor",
 		"fckeditor",
 		"editor",
@@ -38,10 +39,10 @@
 	],
 	"author": "CKSource (https://cksource.com/)",
 	"license": "(GPL-2.0-or-later OR LGPL-2.1 OR MPL-1.1)",
-	"bugs": "https://github.com/ckeditor/ckeditor-dev/issues",
+	"bugs": "https://github.com/ckeditor/ckeditor4/issues",
 	"homepage": "https://ckeditor.com",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ckeditor/ckeditor-dev.git"
+		"url": "https://github.com/ckeditor/ckeditor4.git"
 	}
 }

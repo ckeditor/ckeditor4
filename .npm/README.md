@@ -1,8 +1,8 @@
-# CKEditor 4 (dev) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20CKEditor%204%20on%20npm&url=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fckeditor-dev)
+# CKEditor 4 (dev) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20CKEditor%204%20on%20npm&url=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fckeditor4-dev)
 
-[![GitHub tag](https://img.shields.io/github/tag/ckeditor/ckeditor-dev.svg)](https://github.com/ckeditor/ckeditor-dev)
-[![Dependencies](https://img.shields.io/david/ckeditor/ckeditor-dev.svg)](https://david-dm.org/ckeditor/ckeditor-dev)
-[![Dev dependencies](https://img.shields.io/david/dev/ckeditor/ckeditor-dev.svg)](https://david-dm.org/ckeditor/ckeditor-dev?type=dev)
+[![GitHub tag](https://img.shields.io/github/tag/ckeditor/ckeditor4.svg)](https://github.com/ckeditor/ckeditor4)
+[![Dependencies](https://img.shields.io/david/ckeditor/ckeditor4.svg)](https://david-dm.org/ckeditor/ckeditor4)
+[![Dev dependencies](https://img.shields.io/david/dev/ckeditor/ckeditor4.svg)](https://david-dm.org/ckeditor/ckeditor4?type=dev)
 
 [![Join newsletter](https://img.shields.io/badge/join-newsletter-00cc99.svg)](http://eepurl.com/c3zRPr)
 [![Follow twitter](https://img.shields.io/badge/follow-twitter-00cc99.svg)](https://twitter.com/ckeditor)
@@ -11,14 +11,14 @@ A highly configurable WYSIWYG HTML editor with hundreds of features, from creati
 
 Supports a broad range of browsers, including legacy ones.
 
-**Note: This is a developer version.** Use the  [CKEditor 4 optimized package](https://www.npmjs.com/package/ckeditor) for production environment.
+**Note: This is a developer version.** Use the  [CKEditor 4 optimized package](https://www.npmjs.com/package/ckeditor4) for production environment.
 
 ![CKEditor 4 screenshot](https://c.cksource.com/a/1/img/npm/ckeditor4.png)
 
 ## Getting Started
 
 ```
-npm install --save ckeditor-dev
+npm install --save ckeditor4-dev
 ```
 
 Use it on your website:
@@ -27,7 +27,7 @@ Use it on your website:
 <div id="editor">
     <p>This is the editor content.</p>
 </div>
-<script src="./node_modules/ckeditor-dev/ckeditor.js"></script>
+<script src="./node_modules/ckeditor4-dev/ckeditor.js"></script>
 <script>
     CKEDITOR.replace( 'editor' );
 </script>
@@ -72,7 +72,7 @@ Find out more in the [Browser Compatibility guide](https://ckeditor.com/docs/cke
 
 ## Contribute
 
-If you would like to help maintain the project, follow the [Contribution instructions](https://github.com/ckeditor/ckeditor-dev/blob/master/.github/CONTRIBUTING.md).
+If you would like to help maintain the project, follow the [Contribution instructions](https://github.com/ckeditor/ckeditor4/blob/master/.github/CONTRIBUTING.md).
 
 ## License
 
