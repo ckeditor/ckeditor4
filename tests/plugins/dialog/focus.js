@@ -4,12 +4,7 @@
 ( function() {
 	'use strict';
 
-	var currentFocusCallback;
-	var dialogItemFocusListener = function( evt ) {
-		if ( currentFocusCallback ) {
-			currentFocusCallback( evt.sender );
-		}
-	};
+	var hasRejects = false; // true;
 
 	var singlePageDialogDefinition = function() {
 		return {
@@ -42,7 +37,9 @@
 
 				// attach focus listener in dialog;
 				CKEDITOR.tools.array.forEach( dialog._.focusList, function( item ) {
-					item.on( 'focus', dialogItemFocusListener, null, null, 100000 );
+					item.on( 'focus', function() {
+						dialog.fire( 'focus:change' );
+					}, null, null, 100000 );
 				} );
 
 			}
@@ -53,16 +50,78 @@
 	function assertFocus( dialog, element ) {
 		var currentlyFocusedElement = dialog._.focusList[ dialog._.currentFocusIndex ];
 		assert.areEqual( element, currentlyFocusedElement,
-			'Element: "' + element.id + '" should be equal to currently focused element: "' + currentlyFocusedElement.id + '".'  );
+			'Element: "' + element.id + '" should be equal to currently focused element: "' + currentlyFocusedElement.id + '".' );
 	}
 
 	function focusNext( dialog ) {
-		dialog.changeFocus( 1 );
+		return new CKEDITOR.tools.promise( function( resolve, reject ) {
+			dialog.once( 'focus:change', function() {
+				// short moment for focus stabilization;
+				CKEDITOR.tools.setTimeout( function() {
+					resolve( dialog );
+				}, 50 );
+			} );
+
+			if ( hasRejects ) {
+				CKEDITOR.tools.setTimeout( reject, 5000 );
+			}
+
+			dialog.changeFocus( 1 );
+		} );
 	}
+
+	function focusPrevious( dialog ) {
+		return new CKEDITOR.tools.promise( function( resolve, reject ) {
+			dialog.once( 'focus:change', function() {
+				// short moment for focus stabilization;
+				CKEDITOR.tools.setTimeout( function() {
+					resolve( dialog );
+				}, 50 );
+
+			} );
+
+			if ( hasRejects ) {
+				CKEDITOR.tools.setTimeout( reject, 5000 );
+			}
+
+			dialog.changeFocus( -1 );
+		} );
+	}
+
 
 	bender.editor = true;
 
 	var tests = {
+		'test single page async': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'singlePageDialog' )
+				.then( function( dialog ) {
+					assertFocus( dialog, dialog.getContentElement( 'test1', 'sp-input1' ) );
+					return dialog;
+				} )
+				.then( focusNext )
+				.then( function( dialog ) {
+					assertFocus( dialog, dialog.getContentElement( 'test1', 'sp-input2' ) );
+					return dialog;
+				} )
+				.then( focusNext )
+				.then( focusNext )
+				.then( function( dialog ) {
+					assertFocus( dialog, dialog.getButton( 'cancel' ) );
+					return dialog;
+				} )
+				.then( focusPrevious )
+				.then( function( dialog ) {
+					assertFocus( dialog, dialog.getContentElement( 'test1', 'sp-input3' ) );
+					return dialog;
+				} );
+		}
+	};
+
+	tests = bender.tools.createAsyncTests( tests );
+
+	CKEDITOR.tools.extend( tests, {
 		init: function() {
 			CKEDITOR.dialog.add( 'singlePageDialogDefinition', singlePageDialogDefinition );
 
@@ -72,29 +131,11 @@
 		tearDown: function() {
 			var dialog;
 
-			currentFocusCallback = null;
 			while ( ( dialog = CKEDITOR.dialog.getCurrent() ) ) {
 				dialog.hide();
 			}
-		},
-
-		'test single page test': function() {
-			var bot = this.editorBot;
-
-			bot.dialog( 'singlePageDialog', function( dialog ) {
-				currentFocusCallback = function() {
-					resume( function() {
-						assertFocus( dialog, dialog.getContentElement( 'test1', 'sp-input2' ) );
-					} );
-				};
-
-				assertFocus( dialog, dialog.getContentElement( 'test1', 'sp-input1' ) );
-
-				focusNext( dialog );
-				wait();
-			} );
 		}
-	};
+	} );
 
 	bender.test( tests );
 } )();

@@ -189,6 +189,29 @@
 			tc.wait();
 		},
 
+		asyncDialog: function( dialogName ) {
+			var editor = this.editor;
+
+			return new CKEDITOR.tools.promise( function( resolve, reject ) {
+
+				editor.on( 'dialogShow', function( event ) {
+					var dialog = event.data;
+
+					event.removeListener();
+
+					CKEDITOR.tools.setTimeout( function() {
+						resolve( dialog );
+					}, 0 );
+				} );
+
+				CKEDITOR.tools.setTimeout( function() {
+					reject();
+				}, 5000 );
+
+				editor.execCommand( dialogName );
+			} );
+		},
+
 		getData: function( fixHtml, compatHtml ) {
 			var data = this.editor.getData();
 
