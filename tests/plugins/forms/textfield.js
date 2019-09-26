@@ -1,4 +1,4 @@
-/* bender-tags: editor */
+/* bender-tags: editor,dialog */
 /* bender-ckeditor-plugins: dialog,button,forms,toolbar */
 /* bender-include: _helpers/tools.js */
 /* global formsTools */
@@ -12,6 +12,45 @@ bender.editor = {
 };
 
 bender.test( {
+
+	tearDown: function() {
+		var dialog = CKEDITOR.dialog.getCurrent();
+
+		if ( dialog ) {
+			dialog.hide();
+		}
+	},
+
+	// (#2423)
+	'test dialog model during text field creation': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '', function() {
+			bot.dialog( 'textfield', function( dialog ) {
+				assert.isNull( dialog.getModel( editor ) );
+				assert.areEqual( CKEDITOR.dialog.CREATION_MODE, dialog.getMode( editor ) );
+			} );
+		} );
+	},
+
+	// (#2423)
+	'test dialog model with existing button': function() {
+		var bot = this.editorBot,
+			editor = this.editor;
+
+		bot.setData( '<input type="text" value="test" name="test"/ >', function() {
+			bot.dialog( 'textfield', function( dialog ) {
+				var txtField = editor.editable().findOne( 'input' );
+
+				editor.getSelection().selectElement( txtField );
+
+				assert.areEqual( txtField, dialog.getModel( editor ) );
+				assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ) );
+			} );
+		} );
+	},
+
 	'test fill fields (text) ': function() {
 		var bot = this.editorBot;
 

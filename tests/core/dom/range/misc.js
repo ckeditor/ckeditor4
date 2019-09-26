@@ -376,7 +376,7 @@
 			range.setStartBefore( doc.getById( '_td1' ) );
 			range.setEndAfter( doc.getById( '_td2' ) );
 
-			assert.isTrue( range._getTableElement().equals( doc.getById( '_tr2' ) ), 'selected 2 tds' );
+			assert.isTrue( range._getTableElement().equals( doc.getById( '_td1' ) ), 'selected 2 tds and returns first of it' );
 
 			// Selected two cells from different tables.
 			range = new CKEDITOR.dom.range( doc );

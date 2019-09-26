@@ -1,0 +1,93 @@
+<h2>Classic Editor</h2>
+<div id="classic">
+	Hello world
+	<table border=1>
+		<tr>
+			<td>foo</td>
+			<td>foo</td>
+			<td>foo</td>
+		</tr>
+		<tr>
+			<td>bar</td>
+			<td>bar</td>
+			<td>bar</td>
+		</tr>
+	</table>
+</div>
+
+<h2>Divarea Editor</h2>
+<div id="divarea">
+	Hello world
+	<table border=1>
+		<tr>
+			<td>foo</td>
+			<td>foo</td>
+			<td>foo</td>
+		</tr>
+		<tr>
+			<td>bar</td>
+			<td>bar</td>
+			<td>bar</td>
+		</tr>
+	</table>
+</div>
+
+<script>
+	( function() {
+		if ( !CKEDITOR.env.gecko ) {
+			bender.ignore();
+		}
+
+		var editorConfig =  {
+			extraPlugins: 'testplugin',
+			removePlugins: 'tableselection',
+			on: {
+				selectionCheck: function( evt ) {
+					var editor = evt.editor,
+						editable = editor.editable(),
+						selectedCells = CKEDITOR.plugins.tabletools.getSelectedCells( editor.getSelection() );
+
+					CKEDITOR.tools.array.forEach( editable.find( 'td' ).toArray(), function( cell ) {
+						cell.removeClass( 'selected' );
+					} );
+
+					CKEDITOR.tools.array.forEach( selectedCells, function( cell ) {
+						cell.addClass( 'selected' );
+					} );
+				}
+			}
+		};
+
+		CKEDITOR.addCss( '.selected { background-color: cyan; }' );
+
+		CKEDITOR.plugins.add( 'testplugin', {
+			requires: 'balloontoolbar',
+			icons: 'foo',
+			init: function( editor ) {
+				editor.addCommand( 'foo', {
+					exec: function() {}
+				} );
+
+				editor.ui.addButton( 'foo', {
+					label: 'foo',
+					command: 'foo',
+					toolbar: 'none,99'
+				} );
+
+			},
+
+			afterInit: function( editor ) {
+				editor.balloonToolbars.create( {
+					buttons: 'foo',
+					cssSelector: 'table'
+				} );
+			}
+		} );
+
+		CKEDITOR.replace( 'classic', editorConfig );
+
+		CKEDITOR.replace( 'divarea', CKEDITOR.tools.object.merge( editorConfig, {
+			extraPlugins: 'testplugin,divarea'
+		} ) );
+	}() );
+</script>

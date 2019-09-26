@@ -21,6 +21,70 @@
 		getWidgetById = widgetTestsTools.getWidgetById;
 
 	bender.test( {
+		// (#3240)
+		// This test needs to be the first because it uses 'elementFromPoint()' method
+		// which on IE breaks if there is any message about earlier tests displayed.
+		'test partial mask': function() {
+			var editor = this.editor;
+
+			var widgetDef = {
+				mask: 'bar',
+
+				parts: {
+					foo: '#foo',
+					bar: '#bar',
+					cksource: '#cksource'
+				},
+
+				editables: {
+					editable1: '#foo',
+					editable2: '#bar',
+					editable3: '#cksource'
+				}
+			};
+
+			editor.widgets.add( 'testPartialMask', widgetDef );
+
+			this.editorBot.setData( '<div data-widget="testPartialMask" id="widget">' +
+				'<p id="foo">foo</p><p id="bar">bar</p><p id="cksource">cksource</p></div>',
+				function() {
+					var element = editor.document.getById( 'widget' ),
+						widget = editor.widgets.getByElement( element ),
+						firstEditable = editor.document.$.elementFromPoint( 40, 45 ),
+						secondEditable = editor.document.$.elementFromPoint( 40, 60 ),
+						thirdEditable = editor.document.$.elementFromPoint( 40, 80 );
+
+					assert.isNull( widget.wrapper.findOne( '.cke_widget_mask' ), 'Complete mask was created instead of partial.' );
+					assert.isInstanceOf( CKEDITOR.dom.element, widget.wrapper.findOne( '.cke_widget_partial_mask' ), 'Mask element was not found.' );
+
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 8 ) {
+						assert.areSame( 'foobarcksource', firstEditable.innerText, 'Mask covers the first editable instead of the second.' );
+						assert.areSame( '', secondEditable.innerText, 'Mask doesn\'t cover the second editable.' );
+						assert.areSame( 'foobarcksource', thirdEditable.innerText, 'Mask covers the third editable instead of the second.' );
+					} else {
+						assert.areSame( 'div', firstEditable.localName, 'Mask covers the first editable instead of the second.' );
+						assert.areSame( 'img', secondEditable.localName, 'Mask doesn\'t cover the second editable.' );
+						assert.areSame( 'div', thirdEditable.localName, 'Mask covers the third editable instead of the second.' );
+					}
+				}
+			);
+		},
+
+		'test mask': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testmask1', {
+				mask: true
+			} );
+
+			this.editorBot.setData( '<p>foo</p><p data-widget="testmask1" id="w1">bar</p>', function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				assert.isTrue( !!widget.mask, 'mask is set' );
+				assert.areSame( widget.wrapper, widget.mask.getParent(), 'mask is a wrapper\'s child' );
+			} );
+		},
+
 		'test basics': function() {
 			var editor = this.editor;
 
@@ -624,23 +688,6 @@
 					} );
 				}
 			);
-		},
-
-		'test mask': function() {
-			var editor = this.editor;
-
-			editor.widgets.add( 'testmask1', {
-				mask: true
-			} );
-
-			this.editorBot.setData( '<p>foo</p><p data-widget="testmask1" id="w1">bar</p>', function() {
-				var widget = getWidgetById( editor, 'w1' );
-
-				assert.isTrue( !!widget.mask, 'mask is set' );
-				assert.areSame( widget.wrapper, widget.mask.getParent(), 'mask is a wrapper\'s child' );
-				assert.isTrue( widget.dragHandlerContainer.getIndex() > widget.mask.getIndex(), 'drag handler is placed over mask' );
-				// ... at least if styles do not change this.
-			} );
 		},
 
 		'test inline property - block case': function() {

@@ -244,15 +244,31 @@
 		 */
 		this.strokesLimit = 25;
 
+		/**
+		 * An array of filter rules.
+		 *
+		 * @since 4.13.0
+		 * @private
+		 * @property {Function[]}
+		 */
+		this._filterRules = [];
+
 		this.editor = editor;
 
 		// Reset the undo stack.
 		this.reset();
+
+		// In IE, we need to remove the expando attributes.
+		if ( CKEDITOR.env.ie ) {
+			this.addFilterRule( function( data ) {
+				return data.replace( /\s+data-cke-expando=".*?"/g, '' );
+			} );
+		}
 	};
 
 	UndoManager.prototype = {
 		/**
-		 * Handles keystroke support for the undo manager. It is called on `keyup` event for
+		 * Handles keystroke support for the undo manager. It is called on the `keyup` event for
 		 * keystrokes that can change the editor content.
 		 *
 		 * @param {Number} keyCode The key code.
@@ -671,6 +687,17 @@
 					}
 				}
 			}
+		},
+
+		/**
+		 * Registers a filtering rule.
+		 *
+		 * @since 4.13.0
+		 * @param {Function} rule Callback function that returns filtered data.
+		 * @param {String} rule.data The data passed to the callback.
+		 */
+		addFilterRule: function( rule ) {
+			this._filterRules.push( rule );
 		}
 	};
 
@@ -787,11 +814,9 @@
 
 			var contents = editor.getSnapshot();
 
-			// In IE, we need to remove the expando attributes.
-			if ( CKEDITOR.env.ie && contents )
-				contents = contents.replace( /\s+data-cke-expando=".*?"/g, '' );
-
-			this.contents = contents;
+			if ( contents ) {
+				this.contents = applyRules( contents, editor.undoManager._filterRules );
+			}
 
 			if ( !contentsOnly ) {
 				var selection = contents && editor.getSelection();
@@ -803,6 +828,12 @@
 
 	// Attributes that browser may changing them when setting via innerHTML.
 	var protectedAttrs = /\b(?:href|src|name)="[^"]*?"/gi;
+
+	function applyRules( data, rules ) {
+		return CKEDITOR.tools.array.reduce( rules, function( currentData, rule ) {
+			return rule( currentData );
+		}, data );
+	}
 
 	Image.prototype = {
 		/**

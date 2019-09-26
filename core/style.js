@@ -1830,25 +1830,13 @@ CKEDITOR.STYLE_OBJECT = 3;
 	function applyStyleOnSelection( selection, remove, editor ) {
 		var ranges = selection.getRanges(),
 			func = remove ? this.removeFromRange : this.applyToRange,
-			originalRanges,
-			range,
-			i;
-
-		// In case of fake table selection, we would like to apply all styles and then select
-		// the original ranges. Otherwise browsers would complain about discontiguous selection.
-		if ( selection.isFake && selection.isInTable() ) {
-			originalRanges = [];
-
-			for ( i = 0; i < ranges.length; i++ ) {
-				originalRanges.push( ranges[ i ].clone() );
-			}
-		}
+			range;
 
 		var iterator = ranges.createIterator();
 		while ( ( range = iterator.getNextRange() ) )
 			func.call( this, range, editor );
 
-		selection.selectRanges( originalRanges || ranges );
+		selection.selectRanges( ranges );
 	}
 } )();
 

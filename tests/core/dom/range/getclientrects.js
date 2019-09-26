@@ -206,7 +206,9 @@
 
 			if ( typeof document.getSelection !== 'function' ) {
 				expectedKey = 'polyfill';
-			} else if ( CKEDITOR.env.ie ) {
+			} else
+			// Edge 18+ has updated `getClientRects` so it matches Chrome and other modern browsers (#3183).
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 18 ) {
 				expectedKey = 'ie';
 			}
 

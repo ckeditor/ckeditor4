@@ -34,10 +34,6 @@ if ( !window.CKEDITOR ) {
 			 * by the editor code, guaranteeing clean cache results when
 			 * upgrading.
 			 *
-			 * **Note:** There is [a known issue where "icons.png" does not include
-			 * timestamp](https://dev.ckeditor.com/ticket/10685) and might get cached.
-			 * We are working on having it fixed.
-			 *
 			 *		alert( CKEDITOR.timestamp ); // e.g. '87dm'
 			 */
 			timestamp: '',				// %REMOVE_LINE%

@@ -1203,8 +1203,9 @@
 		}
 
 		function setToolbarStates() {
-			if ( editor.mode != 'wysiwyg' )
+			if ( editor.mode != 'wysiwyg' ) {
 				return;
+			}
 
 			var pasteState = stateFromNamedCommand( 'paste' );
 
@@ -1508,6 +1509,11 @@
 				// Cancel native drop.
 				evt.data.preventDefault();
 
+				// We shouldn't start drop action when editor is in read only mode (#808).
+				if ( editor.readOnly ) {
+					return;
+				}
+
 				var target = evt.data.getTarget(),
 					readOnly = target.isReadOnly();
 
@@ -1627,15 +1633,26 @@
 	 */
 	CKEDITOR.plugins.clipboard = {
 		/**
-		 * True if the environment allows to set data on copy or cut manually. This value is false in IE, because this browser
-		 * shows the security dialog window when the script tries to set clipboard data and on iOS, because custom data is
-		 * not saved to clipboard there.
+		 * It returns `true` if the environment allows to set the data on copy or cut manually. This value is `false` in:
+		 * * Internet Explorer &mdash; because this browser shows the security dialog window when the script tries to set clipboard data.
+		 * * Older iOS (below version 13) &mdash; because custom data is not saved to clipboard there.
 		 *
 		 * @since 4.5.0
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		isCustomCopyCutSupported: ( !CKEDITOR.env.ie || CKEDITOR.env.version >= 16 ) && !CKEDITOR.env.iOS,
+		isCustomCopyCutSupported: ( function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 16 ) {
+				return false;
+			}
+
+			// There might be lower version supported as well. However, we don't have possibility to test it (#3354).
+			if ( CKEDITOR.env.iOS && CKEDITOR.env.version < 605 ) {
+				return false;
+			}
+
+			return true;
+		} )(),
 
 		/**
 		 * True if the environment supports MIME types and custom data types in dataTransfer/cliboardData getData/setData methods.
@@ -1723,8 +1740,12 @@
 			}
 
 			// Safari fixed clipboard in 10.1 (https://bugs.webkit.org/show_bug.cgi?id=19893) (https://dev.ckeditor.com/ticket/16982).
-			// However iOS version still doesn't work well enough (https://bugs.webkit.org/show_bug.cgi?id=19893#c34).
 			if ( CKEDITOR.env.safari && CKEDITOR.env.version >= 603 && !CKEDITOR.env.iOS ) {
+				return true;
+			}
+
+			// Issue doesn't occur any longer in new iOS version (https://bugs.webkit.org/show_bug.cgi?id=19893#c34) (#3354).
+			if ( CKEDITOR.env.iOS && CKEDITOR.env.version >= 605 ) {
 				return true;
 			}
 

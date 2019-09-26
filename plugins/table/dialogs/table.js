@@ -59,6 +59,17 @@
 			minWidth: 310,
 			minHeight: CKEDITOR.env.ie ? 310 : 280,
 
+			getModel: function( editor ) {
+				if ( this.dialog.getName() !== 'tableProperties' ) {
+					return null;
+				}
+
+				var selection = editor.getSelection(),
+					range = selection && selection.getRanges()[ 0 ];
+
+				return range ? range._getTableElement( { table: 1 } ) : null;
+			},
+
 			onLoad: function() {
 				var dialog = this;
 

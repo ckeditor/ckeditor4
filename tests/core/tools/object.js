@@ -22,6 +22,36 @@
 				CKEDITOR.tools.object.keys( target ) );
 		},
 
+		// (#3381)
+		'test object.keys on non-objects': function() {
+			var keys = CKEDITOR.tools.object.keys,
+				fixtures = [
+					undefined,
+					null,
+					function() {},
+					1,
+					true
+				];
+
+			CKEDITOR.tools.array.forEach( fixtures, function( fixture ) {
+				arrayAssert.itemsAreEqual( [], keys( fixture ), showFixtureType( fixture ) );
+			} );
+
+			function showFixtureType( fixture ) {
+				if ( fixture === null ) {
+					return 'null';
+				}
+
+				return typeof fixture;
+			}
+		},
+
+		// (#3381)
+		'test object.keys for strings': function() {
+			arrayAssert.itemsAreEqual( [ '0', '1', '2', '3', '4', '5', '6', '7' ],
+				CKEDITOR.tools.object.keys( 'whatever' ) );
+		},
+
 		// (#3123)
 		'test object.entries': function() {
 			var obj = {

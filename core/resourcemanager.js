@@ -124,41 +124,48 @@ CKEDITOR.resourceManager.prototype = {
 	 * Registers one or more resources to be loaded from an external path
 	 * instead of the core base path.
 	 *
-	 *		// Loads a plugin from '/myplugins/sample/plugin.js'.
-	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/' );
+	 * ```js
+	 * // Loads a plugin from '/myplugins/sample/plugin.js'.
+	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/' );
 	 *
-	 *		// Loads a plugin from '/myplugins/sample/my_plugin.js'.
-	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/', 'my_plugin.js' );
+	 * // Loads a plugin from '/myplugins/sample/my_plugin.js'.
+	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/', 'my_plugin.js' );
 	 *
-	 *		// Loads a plugin from '/myplugins/sample/my_plugin.js'.
-	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js', '' );
+	 * // Loads a plugin from '/myplugins/sample/my_plugin.js'.
+	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js', '' );
 	 *
-	 * @param {String} names The resource names, separated by commas.
+	 * // Loads a plugin from '/myplugins/sample/my_plugin.js'.
+	 * CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js' );
+	 * ```
+	 *
+	 * @param {String} names Comma-separated resource names.
 	 * @param {String} path The path of the folder containing the resource.
-	 * @param {String} [fileName] The resource file name. If not provided, the
-	 * default name is used. If provided with a empty string, will implicitly indicates that `path` argument
-	 * is already the full path.
+	 * @param {String} [fileName] The resource file name. If not provided and
+	 * the `path` argument ends with a slash (`/`), the default `plugin.js` filename is used.
+	 * Otherwise, if not provided and the `path` argument does not end with a slash (`/`)
+	 * or if an empty string is provided, the function assumes that the `path` argument contains the full path.
 	 */
 	addExternal: function( names, path, fileName ) {
+		// If "fileName" is not provided, we assume that it may be available
+		// in "path". Try to extract it in this case.
+		if ( !fileName ) {
+			path = path.replace( /[^\/]+$/, function( match ) {
+				fileName = match;
+				return '';
+			} );
+		}
+
+		// Use the default file name if there is no "fileName" and it
+		// was not found in "path".
+		fileName = fileName || ( this.fileName + '.js' );
 		names = names.split( ',' );
+
 		for ( var i = 0; i < names.length; i++ ) {
 			var name = names[ i ];
 
-			// If "fileName" is not provided, we assume that it may be available
-			// in "path". Try to extract it in this case.
-			if ( !fileName ) {
-				path = path.replace( /[^\/]+$/, function( match ) {
-					fileName = match;
-					return '';
-				} );
-			}
-
 			this.externals[ name ] = {
 				dir: path,
-
-				// Use the default file name if there is no "fileName" and it
-				// was not found in "path".
-				file: fileName || ( this.fileName + '.js' )
+				file: fileName
 			};
 		}
 	},

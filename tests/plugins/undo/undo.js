@@ -853,7 +853,7 @@ bender.test( {
 		bot.execCommand( 'undo' );
 
 		var output = bender.tools.getHtmlWithSelection( bot.editor );
-		var result = '<div>[<p dir="rtl">foo]</p><p dir="rtl" id="target">bar</p></div>';
+		var result = '<div><p dir="rtl">[foo]</p><p dir="rtl" id="target">bar</p></div>';
 
 		assert.areSame( result, bender.tools.fixHtml( output ) );
 	},

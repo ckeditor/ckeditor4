@@ -21,21 +21,29 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 		title: editor.lang.forms.button.title,
 		minWidth: 350,
 		minHeight: 150,
-		onShow: function() {
-			delete this.button;
-			var element = this.getParentEditor().getSelection().getSelectedElement();
+		getModel: function( editor ) {
+			var element = editor.getSelection().getSelectedElement();
+
 			if ( element && element.is( 'input' ) ) {
 				var type = element.getAttribute( 'type' );
 				if ( type in { button: 1, reset: 1, submit: 1 } ) {
-					this.button = element;
-					this.setupContent( element );
+					return element;
 				}
+			}
+
+			return null;
+		},
+		onShow: function() {
+			var element = this.getModel( this.getParentEditor() );
+
+			if ( element ) {
+				this.setupContent( element );
 			}
 		},
 		onOk: function() {
 			var editor = this.getParentEditor(),
-				element = this.button,
-				isInsertMode = !element;
+				element = this.getModel( editor ),
+				isInsertMode = this.getMode( editor ) == CKEDITOR.dialog.CREATION_MODE;
 
 			var fake = element ? CKEDITOR.htmlParser.fragment.fromHtml( element.getOuterHtml() ).children[ 0 ] : new CKEDITOR.htmlParser.element( 'input' );
 			this.commitContent( fake );

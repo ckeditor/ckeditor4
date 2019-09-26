@@ -112,10 +112,16 @@
 
 			File = window.File;
 
+			var isEdge18 = CKEDITOR.env.edge && CKEDITOR.env.version >= 18;
+
 			// FormData in IE & Chrome 47- supports only adding data, not getting it, so mocking (polyfilling?) is required.
-			// Note that mocking is needed only for tests, as CKEditor.fileTools uses only append method
-			if ( !FormData.prototype.get || !FormData.prototype.has )
+			// Note that mocking is needed only for tests, as CKEditor.fileTools uses only append method.
+			// Edge 18+ upstream issue breaks tests, workaround by forcing polyfill (#3184).
+			// developer.microsoft.com/en-us/microsoft-edge/platform/issues/22326784
+
+			if ( !FormData.prototype.get || !FormData.prototype.has || isEdge18 ) {
 				createFormDataMock();
+			}
 
 			createXMLHttpRequestMock();
 

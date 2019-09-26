@@ -239,6 +239,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 			// Delay to avoid race conditions (setMode inside setMode).
 			setTimeout( function() {
+				if ( editor.isDestroyed() || editor.isDetached() ) {
+					return;
+				}
 				editor.fire( 'mode' );
 				callback && callback.call( editor );
 			}, 0 );
@@ -343,6 +346,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		// Once the editor is loaded, start the UI.
 		editor.on( 'loaded', function() {
+			if ( editor.isDestroyed() || editor.isDetached() ) {
+				return;
+			}
+
 			loadTheme( editor );
 
 			if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE && editor.config.autoUpdateElement && element.$.form )

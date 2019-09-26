@@ -77,6 +77,25 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 	},
 
 	/**
+	 * Checks whether a node is empty or is a
+	 * {@link CKEDITOR.dom.selection#FILLING_CHAR_SEQUENCE FILLING_CHAR_SEQUENCE} string.
+	 *
+	 * @since 4.13.0
+	 * @param {Boolean} [ignoreWhiteSpace] Specifies whether the content that consists of only whitespace characters
+	 * should be treated as an empty one.
+	 * @returns {Boolean}
+	 */
+	isEmpty: function( ignoreWhiteSpace ) {
+		var text = this.getText();
+
+		if ( ignoreWhiteSpace ) {
+			text = CKEDITOR.tools.trim( text );
+		}
+
+		return !text || text === CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE;
+	},
+
+	/**
 	 * Breaks this text node into two nodes at the specified offset,
 	 * keeping both in the tree as siblings. This node then only contains
 	 * all the content up to the offset point. A new text node, which is

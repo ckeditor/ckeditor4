@@ -924,6 +924,42 @@
 			}
 		},
 
+		// (#2845)
+		'test normalizeMouseButton': function() {
+			var isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
+
+			generateMouseButtonAsserts( [
+				[ CKEDITOR.MOUSE_BUTTON_LEFT, 1 ],
+				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, 4 ],
+				[ CKEDITOR.MOUSE_BUTTON_RIGHT, 2 ]
+			] );
+
+			function generateMouseButtonAsserts( inputs ) {
+				CKEDITOR.tools.array.forEach( inputs, function( input ) {
+					assert.areSame( input[ 0 ],
+						CKEDITOR.tools.normalizeMouseButton( input[ isIe8 ? 1 : 0 ] ) );
+				} );
+			}
+		},
+
+		// (#2845)
+		'test reversed normalizeMouseButton': function() {
+			var isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
+
+			generateMouseButtonAsserts( [
+				[ CKEDITOR.MOUSE_BUTTON_LEFT, 1 ],
+				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, 4 ],
+				[ CKEDITOR.MOUSE_BUTTON_RIGHT, 2 ]
+			] );
+
+			function generateMouseButtonAsserts( inputs ) {
+				CKEDITOR.tools.array.forEach( inputs, function( input ) {
+					assert.areSame( input[ isIe8 ? 1 : 0 ],
+						CKEDITOR.tools.normalizeMouseButton( input[ 0 ], true ) );
+				} );
+			}
+		},
+
 		// #662
 		'test hexstring to bytes converter': function() {
 			var testCases = [
@@ -1033,6 +1069,66 @@
 			CKEDITOR.tools.array.forEach( conversionArray, function( item ) {
 				assert.areSame( item.output, CKEDITOR.tools.convertToPx( item.input ), 'Value ' + item.input + ' should be converted to ' + item.output );
 			} );
+		},
+
+		'test bind without context and without arguments': function() {
+			var testSpy = sinon.spy(),
+				bindedFn = CKEDITOR.tools.bind( testSpy );
+
+			bindedFn( 'foo' );
+			assert.areSame( 1, testSpy.callCount );
+			assert.isTrue( testSpy.calledWithExactly( 'foo' ) );
+
+			bindedFn( 'bar' );
+			assert.areSame( 2, testSpy.callCount );
+			assert.isTrue( testSpy.calledWithExactly( 'bar' ) );
+		},
+
+		'text bind with context and without arguments': function() {
+			var testSpy = sinon.spy(),
+				testObj = {},
+				bindedFn = CKEDITOR.tools.bind( testSpy, testObj );
+
+			bindedFn( 'foo' );
+			assert.areSame( 1, testSpy.callCount );
+			assert.areSame( testObj, testSpy.getCall( 0 ).thisValue );
+			assert.isTrue( testSpy.calledWithExactly( 'foo' ) );
+
+			bindedFn( 'bar' );
+			assert.areSame( 2, testSpy.callCount );
+			assert.areSame( testObj, testSpy.getCall( 1 ).thisValue );
+			assert.isTrue( testSpy.calledWithExactly( 'bar' ) );
+		},
+
+		// (#3247)
+		'test bind without context and with arguments': function() {
+			var testSpy = sinon.spy(),
+				bindedFn = CKEDITOR.tools.bind( testSpy, null, 'baz', 100 );
+
+			bindedFn( 'foo' );
+			assert.areSame( 1, testSpy.callCount );
+			assert.isTrue( testSpy.calledWithExactly( 'baz', 100, 'foo' ) );
+
+			bindedFn( 'bar' );
+			assert.areSame( 2, testSpy.callCount );
+			assert.isTrue( testSpy.calledWithExactly( 'baz', 100, 'bar' ) );
+		},
+
+		// (#3247)
+		'text bind with context and with arguments': function() {
+			var testSpy = sinon.spy(),
+				testObj = {},
+				bindedFn = CKEDITOR.tools.bind( testSpy, testObj, 'baz', 100 );
+
+			bindedFn( 'foo' );
+			assert.areSame( 1, testSpy.callCount );
+			assert.areSame( testObj, testSpy.getCall( 0 ).thisValue );
+			assert.isTrue( testSpy.calledWithExactly( 'baz', 100, 'foo' ) );
+
+			bindedFn( 'bar' );
+			assert.areSame( 2, testSpy.callCount );
+			assert.areSame( testObj, testSpy.getCall( 0 ).thisValue );
+			assert.isTrue( testSpy.calledWithExactly( 'baz', 100, 'bar' ) );
 		}
 	} );
 } )();

@@ -219,14 +219,23 @@
 			title: editor.lang.flash.title,
 			minWidth: 420,
 			minHeight: 310,
+			getModel: function( editor ) {
+				var element = editor.getSelection().getSelectedElement();
+
+				if ( element && element.data( 'cke-real-element-type' ) === 'flash' ) {
+					return element;
+				}
+
+				return null;
+			},
 			onShow: function() {
 				// Clear previously saved elements.
 				this.fakeImage = this.objectNode = this.embedNode = null;
 				previewPreloader = new CKEDITOR.dom.element( 'embed', editor.document );
 
 				// Try to detect any embed or object tag that has Flash parameters.
-				var fakeImage = this.getSelectedElement();
-				if ( fakeImage && fakeImage.data( 'cke-real-element-type' ) && fakeImage.data( 'cke-real-element-type' ) == 'flash' ) {
+				var fakeImage = this.getModel( editor );
+				if ( fakeImage ) {
 					this.fakeImage = fakeImage;
 
 					var realElement = editor.restoreRealElement( fakeImage ),

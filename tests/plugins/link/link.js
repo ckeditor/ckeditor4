@@ -17,6 +17,17 @@
 				linkPhoneRegExp: /^[0-9]{9}$/,
 				linkPhoneMsg: 'Invalid number'
 			}
+		},
+		customProtocol: {
+			config: {
+				linkDefaultProtocol: 'https://'
+			}
+		},
+
+		otherProtocol: {
+			config: {
+				linkDefaultProtocol: ''
+			}
 		}
 	};
 
@@ -230,8 +241,8 @@
 			var bot = this.editorBots.noValidation,
 				expected = '<a href="http://ckeditor.com">&lt;img src="" onerror="alert( 1 );"&gt;</a>';
 
+			// If entities plugin is present (e.g. built version) also quotes will be encoded.
 			if ( bot.editor.plugins.entities ) {
-				// If entities plugin is present (e.g. built version) also quotes will be encoded.
 				expected = '<a href="http://ckeditor.com">&lt;img src=&quot;&quot; onerror=&quot;alert( 1 );&quot;&gt;</a>';
 			}
 
@@ -287,9 +298,8 @@
 		},
 
 		'test link with a nested anchors without text change': function() {
-
+			// https://dev.ckeditor.com/ticket/14848
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
-				// https://dev.ckeditor.com/ticket/14848
 				assert.ignore();
 			}
 
@@ -337,7 +347,6 @@
 
 			// When using getSelectedText() on multiline selection, it will contain new line chars. Text inputs used in dialog, can't contain
 			// new lines, so if our initial pattern would use text with new lines, those would always differ.
-
 			bot.setHtmlWithSelection( '<p>fo[o</p><h2>b]ar</h2>' );
 			bot.dialog( 'link', function( dialog ) {
 				dialog.setValueOf( 'info', 'url', 'aaa' );
@@ -559,7 +568,7 @@
 			assert.areSame( '<p>I am<a href="http://foo"> an </a>in<a href="http://bar">sta</a>nce of ^<s>CKEditor</s>.</p>', bot.htmlWithSelection() );
 		},
 
-		// 859
+		// (#859)
 		'test edit link with selection': function() {
 			var bot = this.editorBots.noValidation;
 
@@ -584,7 +593,6 @@
 			correctLinkAssertionCallback: assertCorrectLinks
 		} ),
 
-		// (#2154)
 		'test phone number link with validation': assertPhoneLinks( {
 			editorName: 'validation',
 			validate: true,
@@ -597,8 +605,75 @@
 		// (#2478)
 		'test Ctrl+K keystroke': assertKeystroke( 75 ),
 
-		'test Ctrl+L keystroke': assertKeystroke( 76 )
+		'test Ctrl+L keystroke': assertKeystroke( 76 ),
+
+		// https://dev.ckeditor.com/ticket/12189
+		'test read from mail link with Subject and Body parameters provided': function() {
+			var bot = this.editorBots.noValidation;
+
+			bot.setHtmlWithSelection( '[<a href="mailto:job@cksource.com?Subject=Test%20subject&amp;Body=Test%20body">AJD</a>]' );
+
+			bot.dialog( 'link', function( dialog ) {
+				var linkTypeField = dialog.getContentElement( 'info', 'linkType' ),
+					addressField = dialog.getContentElement( 'info', 'emailAddress' ),
+					subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
+					bodyField = dialog.getContentElement( 'info', 'emailBody' );
+
+				assert.areEqual( 'email', linkTypeField.getValue() );
+				assert.areEqual( 'job@cksource.com', addressField.getValue() );
+				assert.areEqual( 'Test subject', subjectField.getValue() );
+				assert.areEqual( 'Test body', bodyField.getValue() );
+
+				dialog.fire( 'ok' );
+				dialog.hide();
+			} );
+		},
+
+		// (#2138)
+		'test email address with "?"': assertEmail( 'mailto:ck?editor@cksource.com' ),
+
+		'test email address with two "?"': assertEmail( 'mailto:ck?edi?tor@cksource.com' ),
+
+		'test email address with "?" at the beginning': assertEmail( 'mailto:?ck?editor@cksource.com' ),
+
+		'test email address with "?" in domain': assertEmail( 'mailto:?ck?editor@cksou?rce.com' ),
+
+		'test email address with "?" and arguments': assertEmail( 'mailto:ck?editor@cksource.com?subject=cke4&amp;body=hello' ),
+
+		// (#2227)
+		'test custom URL protocol': function() {
+			var bot = this.editorBots.customProtocol;
+
+			bot.dialog( 'link', function( dialog ) {
+				assert.areEqual( 'https://', dialog.getContentElement( 'info', 'protocol' ).getValue() );
+				dialog.hide();
+			} );
+		},
+
+		// (#2227)
+		'test other URL protocol': function() {
+			var bot = this.editorBots.otherProtocol;
+
+			bot.dialog( 'link', function( dialog ) {
+				assert.areEqual( '', dialog.getContentElement( 'info', 'protocol' ).getValue() );
+				dialog.hide();
+			} );
+		}
 	} );
+
+	function assertEmail( link ) {
+		return function() {
+			var bot = this.editorBots.noValidation;
+
+			bot.setHtmlWithSelection( '<h1>Mail to <a href="' + link + '">[CKSource]</a>!</h1>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				dialog.getButton( 'ok' ).click();
+
+				assert.areSame( '<h1>Mail to <a href="' + link + '">CKSource</a>!</h1>', bot.getData() );
+			} );
+		};
+	}
 
 	function assertKeystroke( key ) {
 		return function() {

@@ -18,6 +18,7 @@ var widgetTestsTools = ( function() {
 	//
 	// @param config.newData
 	// @param config.newWidgetPattern
+	// @param {Boolean/Function} [config.ignoreStyle=false]
 	function addTests( tcs, config ) {
 		var editor,
 			editorBot,
@@ -32,7 +33,7 @@ var widgetTestsTools = ( function() {
 					loaded: function( evt ) {
 						editor = evt.editor;
 
-						initialData = fixHtml( editor.getData(), config.ignoreStyle );
+						initialData = fixHtml( editor.getData(), config.ignoreStyle, editor );
 
 						editor.dataProcessor.writer.sortAttributes = true;
 					},
@@ -69,7 +70,7 @@ var widgetTestsTools = ( function() {
 				// Wait & ensure async.
 				wait( function() {
 					editor.setMode( 'source', function() {
-						sourceModeData = fixHtml( editor.getData(), config.ignoreStyle );
+						sourceModeData = fixHtml( editor.getData(), config.ignoreStyle, editor );
 
 						editor.setMode( 'wysiwyg', function() {
 							resume( function() {
@@ -133,7 +134,7 @@ var widgetTestsTools = ( function() {
 			var instances = bender.tools.objToArray( editor.widgets.instances );
 			assert.areSame( config.initialInstancesNumber, instances.length, 'instances number ' + msg );
 
-			checkData && assert.areSame( initialData, fixHtml( editor.getData(), config.ignoreStyle ), 'data ' + msg );
+			checkData && assert.areSame( initialData, fixHtml( editor.getData(), config.ignoreStyle, editor ), 'data ' + msg );
 
 			var editable = editor.editable();
 			for ( var i = 0; i < instances.length; ++i )
@@ -147,12 +148,15 @@ var widgetTestsTools = ( function() {
 		return CKEDITOR.tools.object.keys( classesObj ).sort();
 	}
 
-	function fixHtml( html, ignoreStyle ) {
+	function fixHtml( html, ignoreStyle, editor ) {
 		// Because IE modify style attribute we should fix it or totally ignore style attribute.
 		html = html.replace( /style="([^"]*)"/g, function( styleStr ) {
+			ignoreStyle = typeof ignoreStyle === 'function' ? ignoreStyle( editor ) : ignoreStyle;
+
 			// If there are too many problems with styles just ignore them.
-			if ( ignoreStyle )
+			if ( ignoreStyle ) {
 				return '';
+			}
 
 			// If it is only the matter of spacers and semicolons fix attributes.
 			var style = styleStr.substr( 7, styleStr.length - 8 );

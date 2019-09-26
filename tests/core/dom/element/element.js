@@ -1171,6 +1171,79 @@ bender.test( appendDomObjectTests(
 			elem.setSize( 'width', 200, true );
 
 			assert.areSame( expectedWidth, round( parseFloat( elem.$.style.width ) ), 'Computed width' );
+		},
+
+		// (#2975)
+		'test fireEventHandler with mouseup': function() {
+			var link = CKEDITOR.dom.element.createFromHtml(
+				'<a href="#" onmouseup="this.setAttribute(\'data-button\',event.button);return false;">Link</a>' ),
+				rightMouseButton = CKEDITOR.tools.normalizeMouseButton( CKEDITOR.MOUSE_BUTTON_RIGHT );
+
+			link.fireEventHandler( 'mouseup', {
+				button: rightMouseButton
+			} );
+
+			assert.areSame( String( rightMouseButton ), link.getAttribute( 'data-button' ),
+				'Proper event data was passed' );
+		},
+
+		// (#2975)
+		'test fireEventHandler with mouseup in iframe': function() {
+			var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="about:blank"></iframe>' );
+
+			iframe.once( 'load', function() {
+				resume( function() {
+					var document = new CKEDITOR.dom.document( iframe.$.contentWindow.document ),
+						link = new CKEDITOR.dom.element( 'a', document ),
+						rightMouseButton = CKEDITOR.tools.normalizeMouseButton( CKEDITOR.MOUSE_BUTTON_RIGHT );
+
+					link.setAttribute( 'onmouseup',
+						'this.setAttribute(\'data-button\',event.button);return false;' );
+					document.getBody().append( link );
+
+					link.fireEventHandler( 'mouseup', {
+						button: rightMouseButton
+					} );
+
+					assert.areSame( String( rightMouseButton ), link.getAttribute( 'data-button' ),
+						'Proper event data was passed' );
+				} );
+			} );
+
+			CKEDITOR.document.getBody().append( iframe );
+			wait();
+		},
+
+		// (#2975)
+		'test fireEventHandler with click on element without onclick': function() {
+			var link = CKEDITOR.dom.element.createFromHtml(
+				'<a href="#">Link</a>' ),
+				leftMouseButton = CKEDITOR.tools.normalizeMouseButton( CKEDITOR.MOUSE_BUTTON_LEFT, true );
+
+			link.once( 'click', function( evt ) {
+				this.setAttribute( 'data-button', evt.data.$.button );
+				evt.data.preventDefault();
+			} );
+			link.fireEventHandler( 'click', {
+				button: leftMouseButton
+			} );
+
+			assert.areSame( String( leftMouseButton ), link.getAttribute( 'data-button' ),
+				'Proper event data was passed' );
+		},
+
+		'test getClientSize': function() {
+			var element = new CKEDITOR.dom.element( 'div' );
+
+			element.$ = {
+				clientWidth: 100,
+				clientHeight: 100
+			};
+
+			var size = element.getClientSize();
+
+			assert.areSame( 100, size.width );
+			assert.areSame( 100, size.height );
 		}
 	}
 ) );

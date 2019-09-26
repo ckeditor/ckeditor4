@@ -26,9 +26,9 @@
 		}
 	} );
 
-	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div', justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
-		convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', code: 'code', li: '*' },
-		tagnameMap = { strong: 'b', em: 'i', u: 'u', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link', img: 'img', blockquote: 'quote' },
+	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', s: 's', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div', justify: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
+		convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', s: 's', code: 'code', li: '*' },
+		tagnameMap = { strong: 'b', em: 'i', u: 'u', s: 's', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link', img: 'img', blockquote: 'quote' },
 		stylesMap = { color: 'color', size: 'font-size', left: 'text-align', center: 'text-align', right: 'text-align', justify: 'text-align' },
 		attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType' };
 

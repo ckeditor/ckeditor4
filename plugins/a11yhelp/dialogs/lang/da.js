@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 			{
 			name: 'Editor dialogboks',
 			legend:
-				'Inde i en dialogboks kan du, trykke på TAB for at navigere til næste element, trykke på SHIFT+TAB for at navigere til forrige element, trykke på ENTER for at afsende eller trykke på ESC for at lukke dialogboksen.\r\nNår en dialogboks har flere faner, fanelisten kan tilgås med ALT+F10 eller med TAB. Hvis fanelisten er i fokus kan du skifte til næste eller forrige tab, med højre- og venstre piltast.' 
+				'Inde i en dialogboks kan du, trykke på TAB for at navigere til næste element, trykke på SHIFT+TAB for at navigere til forrige element, trykke på ENTER for at afsende eller trykke på ESC for at lukke dialogboksen. Når en dialogboks har flere faner, fanelisten kan tilgås med ALT+F10 eller med TAB. Hvis fanelisten er i fokus kan du skifte til næste eller forrige tab, med højre- og venstre piltast.' 
 		},
 
 			{
@@ -70,11 +70,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 		},
 			{
 			name: 'Adgang til forrige fokusområde kommando',
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			legend: 'Klik på ${accessPreviousSpace} for at få adgang til det nærmeste utilgængelige fokusmellemrum før indskudstegnet, for eksempel: To nærliggende HR-elementer. Gentag nøglekombinationen for at nå fjentliggende fokusmellemrum.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Gå til næste fokusmellemrum kommando',
+			legend: 'Klik på ${accessNextSpace} for at få adgang til det nærmeste utilgængelige fokusmellemrum efter indskudstegnet, for eksempel: To nærliggende HR-elementer. Gentag nøglekombinationen for at nå fjentliggende fokusmellemrum.'
 		},
 			{
 			name: 'Tilgængelighedshjælp',

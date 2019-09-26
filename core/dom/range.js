@@ -691,6 +691,20 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
+		 * Whether this range is the same as another passed range.
+		 *
+		 * @since 4.13.0
+		 * @param {CKEDITOR.dom.range} range A range to be compared with this range.
+		 * @returns {Boolean} Whether ranges are identical.
+		 */
+		equals: function( range ) {
+			return this.startOffset === range.startOffset &&
+				this.endOffset === range.endOffset &&
+				this.startContainer.equals( range.startContainer ) &&
+				this.endContainer.equals( range.endContainer );
+		},
+
+		/**
 		 * Creates a bookmark object, which can be later used to restore the
 		 * range by using the {@link #moveToBookmark} function.
 		 *
@@ -712,10 +726,14 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean} return.collapsed
 		 */
 		createBookmark: function( serializable ) {
-			var startNode, endNode;
-			var baseId;
-			var clone;
-			var collapsed = this.collapsed;
+			var startContainer = this.startContainer,
+				endContainer = this.endContainer,
+				collapsed = this.collapsed,
+				startNode,
+				endNode,
+				baseId,
+				clone,
+				temporary;
 
 			startNode = this.document.createElement( 'span' );
 			startNode.data( 'cke-bookmark', 1 );
@@ -739,12 +757,27 @@ CKEDITOR.dom.range = function( root ) {
 					endNode.setAttribute( 'id', baseId + 'E' );
 
 				clone = this.clone();
+
+				if ( isTemporary( endContainer ) ) {
+					temporary = getTemporary( endContainer );
+
+					clone.moveToPosition( temporary, CKEDITOR.POSITION_AFTER_END );
+				}
+
 				clone.collapse();
 				clone.insertNode( endNode );
 			}
 
 			clone = this.clone();
+
+			if ( isTemporary( startContainer ) ) {
+				temporary = getTemporary( startContainer );
+
+				clone.moveToPosition( temporary, CKEDITOR.POSITION_BEFORE_START );
+			}
+
 			clone.collapse( true );
+
 			clone.insertNode( startNode );
 
 			// Update the range position.
@@ -761,6 +794,25 @@ CKEDITOR.dom.range = function( root ) {
 				serializable: serializable,
 				collapsed: collapsed
 			};
+
+			function isTemporary( node ) {
+				return !!getTemporary( node );
+			}
+
+			function getTemporary( node ) {
+				return node.getAscendant( function( node ) {
+					return node.data && node.data( 'cke-temp' ) && !isClipboardBin( node );
+				}, true );
+			}
+
+			function isClipboardBin( node ) {
+				var ids = [
+					'cke_copybin',
+					'cke_pastebin'
+				];
+
+				return CKEDITOR.tools.array.indexOf( ids, node.getAttribute( 'id' ) ) !== -1;
+			}
 		},
 
 		/**
@@ -839,7 +891,7 @@ CKEDITOR.dom.range = function( root ) {
 					var precedingLength = getLengthOfPrecedingTextNodes( container );
 
 					// Normal case - text node is not empty.
-					if ( container.getText() ) {
+					if ( !container.isEmpty() ) {
 						offset += precedingLength;
 
 					// Awful case - the text node is empty and thus will be totally lost.
@@ -2744,21 +2796,14 @@ CKEDITOR.dom.range = function( root ) {
 				table: 1
 			};
 
-			var start = this.startContainer,
-				end = this.endContainer,
+			var start = this.getTouchedStartNode(),
+				end = this.getTouchedEndNode(),
 				startTable = start.getAscendant( 'table', true ),
 				endTable = end.getAscendant( 'table', true );
 
 			// Inline editor may be initialized inside a table (#2403).
 			if ( startTable && !this.root.contains( startTable ) ) {
 				return null;
-			}
-
-			// Super weird edge case in Safari: if there is a table with only one cell inside and that cell
-			// is selected, then the end boundary of the table is moved into editor's editable.
-			// That case is also present when selecting the last cell inside nested table.
-			if ( CKEDITOR.env.safari && startTable && end.equals( this.root ) ) {
-				return start.getAscendant( tableElements, true );
 			}
 
 			if ( this.getEnclosedNode() ) {

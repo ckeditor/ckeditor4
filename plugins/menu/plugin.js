@@ -93,7 +93,8 @@ CKEDITOR.plugins.add( 'menu', {
 		' aria-haspopup="{hasPopup}"' +
 		' aria-disabled="{disabled}"' +
 		' {ariaChecked}' +
-		' draggable="false"';
+		' draggable="false"',
+		specialClickHandler = '';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -108,11 +109,15 @@ CKEDITOR.plugins.add( 'menu', {
 			' ondragstart="return false;"' );
 	}
 
+	// We must block clicking with right mouse button (#2858).
+	if ( CKEDITOR.env.ie ) {
+		specialClickHandler = 'return false;" onmouseup="CKEDITOR.tools.getMouseButton(event)===CKEDITOR.MOUSE_BUTTON_LEFT&&';
+	}
+
 	// https://dev.ckeditor.com/ticket/188
 	menuItemSource += ' onmouseover="CKEDITOR.tools.callFunction({hoverFn},{index});"' +
-			' onmouseout="CKEDITOR.tools.callFunction({moveOutFn},{index});" ' +
-			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) +
-				'="CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
+			' onmouseout="CKEDITOR.tools.callFunction({moveOutFn},{index});"' +
+			' onclick="' + specialClickHandler + 'CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
 			'>';
 
 	menuItemSource +=

@@ -126,15 +126,24 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 		 * references left after the object is no longer needed.
 		 */
 		removeAllListeners: function() {
-			var nativeListeners = this.getCustomData( '_cke_nativeListeners' );
-			for ( var eventName in nativeListeners ) {
-				var listener = nativeListeners[ eventName ];
-				if ( this.$.detachEvent )
-					this.$.detachEvent( 'on' + eventName, listener );
-				else if ( this.$.removeEventListener )
-					this.$.removeEventListener( eventName, listener, false );
+			try {
+				var nativeListeners = this.getCustomData( '_cke_nativeListeners' );
+				for ( var eventName in nativeListeners ) {
+					var listener = nativeListeners[ eventName ];
+					if ( this.$.detachEvent ) {
+						this.$.detachEvent( 'on' + eventName, listener );
+					} else if ( this.$.removeEventListener ) {
+						this.$.removeEventListener( eventName, listener, false );
+					}
 
-				delete nativeListeners[ eventName ];
+					delete nativeListeners[ eventName ];
+				}
+			// Catch Edge `Permission denied` error which occurs randomly. Since the error is quite
+			// random, catching allows to continue the code execution and cleanup (#3419).
+			} catch ( error ) {
+				if ( !CKEDITOR.env.edge || error.number !== -2146828218 ) {
+					throw( error );
+				}
 			}
 
 			// Remove events from events object so fire() method will not call
@@ -244,7 +253,7 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 		// Clear all event listeners
 		this.removeAllListeners();
 
-		var expandoNumber = this.$[ 'data-cke-expando' ];
+		var expandoNumber = this.getUniqueId();
 		expandoNumber && delete customData[ expandoNumber ];
 	};
 

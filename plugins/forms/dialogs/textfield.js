@@ -22,19 +22,26 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 		title: editor.lang.forms.textfield.title,
 		minWidth: 350,
 		minHeight: 150,
-		onShow: function() {
-			delete this.textField;
+		getModel: function( editor ) {
+			var element = editor.getSelection().getSelectedElement();
 
-			var element = this.getParentEditor().getSelection().getSelectedElement();
-			if ( element && element.getName() == 'input' && ( acceptedTypes[ element.getAttribute( 'type' ) ] || !element.getAttribute( 'type' ) ) ) {
-				this.textField = element;
+			if ( element && element.getName() == 'input' &&
+				( acceptedTypes[ element.getAttribute( 'type' ) ] || !element.getAttribute( 'type' ) ) ) {
+				return element;
+			}
+
+			return null;
+		},
+		onShow: function() {
+			var element = this.getModel( this.getParentEditor() );
+			if ( element ) {
 				this.setupContent( element );
 			}
 		},
 		onOk: function() {
 			var editor = this.getParentEditor(),
-				element = this.textField,
-				isInsertMode = !element;
+				element = this.getModel( editor ),
+				isInsertMode = this.getMode( editor ) == CKEDITOR.dialog.CREATION_MODE;
 
 			if ( isInsertMode ) {
 				element = editor.document.createElement( 'input' );
@@ -43,8 +50,9 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 
 			var data = { element: element };
 
-			if ( isInsertMode )
+			if ( isInsertMode ) {
 				editor.insertElement( data.element );
+			}
 
 			this.commitContent( data );
 

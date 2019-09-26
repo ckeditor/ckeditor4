@@ -28,7 +28,7 @@ CKEDITOR.dom.event.prototype = {
 	/**
 	 * Gets the key code associated to the event.
 	 *
-	 *		alert( event.getKey() ); // '65' is 'a' has been pressed
+	 *		alert( event.getKey() ); // '65' if 'a' has been pressed
 	 *
 	 * @returns {Number} The key code.
 	 */

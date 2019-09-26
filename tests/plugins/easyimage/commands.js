@@ -1,4 +1,4 @@
-/* bender-tags: editor,widget */
+/* bender-tags: editor,widget,dialog */
 /* bender-ckeditor-plugins: easyimage,toolbar,contextmenu,undo */
 /* bender-include: _helpers/tools.js */
 /* global easyImageTools */
@@ -86,6 +86,10 @@
 
 							assert.areSame( 'bar', editor.editable().findOne( 'img' ).getAttribute( 'alt' ),
 								'Alt text of image is changed' );
+
+							// (#2423)
+							assert.areSame( widget, dialog.getModel( editor ), 'Dialog model should point at widget' );
+							assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ), 'Dialog should be in editing mode' );
 						} );
 					} );
 

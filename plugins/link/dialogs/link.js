@@ -216,6 +216,12 @@
 			title: linkLang.title,
 			minWidth: ( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ? 450 : 350,
 			minHeight: 240,
+			getModel: function( editor ) {
+				var elements = plugin.getSelectedLink( editor, true ),
+					firstLink = elements[ 0 ] || null;
+
+				return firstLink;
+			},
 			contents: [ {
 				id: 'info',
 				label: linkLang.info,
@@ -266,7 +272,6 @@
 							id: 'protocol',
 							type: 'select',
 							label: commonLang.protocol,
-							'default': 'http://',
 							items: [
 								// Force 'ltr' for protocol names in BIDI. (https://dev.ckeditor.com/ticket/5433)
 								[ 'http://\u200E', 'http://' ],
@@ -275,9 +280,11 @@
 								[ 'news://\u200E', 'news://' ],
 								[ linkLang.other, '' ]
 							],
+							'default': editor.config.linkDefaultProtocol,
 							setup: function( data ) {
-								if ( data.url )
+								if ( data.url ) {
 									this.setValue( data.url.protocol || '' );
+								}
 							},
 							commit: function( data ) {
 								if ( !data.url )

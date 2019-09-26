@@ -55,19 +55,19 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ar', {
 		'16A085': 'Dark Cyan', // MISSING
 		'27AE60': 'Dark Emerald', // MISSING
 		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
+		'8E44AD': 'بنفسجي غامق',
 		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
+		'F39C12': 'برتقالي',
 		'E67E22': 'Carrot', // MISSING
 		'E74C3C': 'Pale Red', // MISSING
 		'ECF0F1': 'Bright Silver', // MISSING
 		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
+		'DDD': 'رمادي فاتح',
 		'D35400': 'Pumpkin', // MISSING
 		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
+		'BDC3C7': 'فضي',
 		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'999': 'رمادي غامق'
 	},
 	more: 'ألوان إضافية...',
 	panelTitle: 'Colors',

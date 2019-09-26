@@ -66,31 +66,8 @@ bender.test( {
 			buttonCmd = editor.getCommand( 'buttonCmd' ),
 			spy = sinon.spy( buttonCmd, 'exec' );
 
-		dispatchMouseEvent( btnEl, 'mouseup', CKEDITOR.MOUSE_BUTTON_RIGHT );
+		bender.tools.dispatchMouseEvent( btnEl, 'mouseup', CKEDITOR.MOUSE_BUTTON_RIGHT );
 
 		assert.areSame( 0, spy.callCount );
 	}
 } );
-
-function dispatchMouseEvent( element, type, button ) {
-	var ie8ButtonMap = {
-			0: 1, // CKEDITOR.MOUSE_BUTTON_LEFT
-			1: 4, // CKEDITOR.MOUSE_BUTTON_MIDDLE
-			2: 2 // CKEDITOR.MOUSE_BUTTON_RIGHT
-		},
-		mouseEvent;
-	element = element.$;
-
-	// Thanks to http://help.dottoro.com/ljhlvomw.php
-	if ( document.createEventObject ) {
-		mouseEvent = document.createEventObject();
-
-		mouseEvent.button = ie8ButtonMap[ button ];
-		element.fireEvent( 'on' + type, mouseEvent );
-	} else {
-		mouseEvent = document.createEvent( 'MouseEvent' );
-
-		mouseEvent.initMouseEvent( type, true, true, window, 0, 0, 0, 80, 20, false, false, false, false, button, null );
-		element.dispatchEvent( mouseEvent );
-	}
-}

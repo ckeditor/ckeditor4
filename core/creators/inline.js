@@ -93,11 +93,16 @@
 
 		// Handle editor destroying.
 		editor.on( 'destroy', function() {
+			var container = editor.container;
 			// Remove container from DOM if inline-textarea editor.
 			// Show <textarea> back again.
+			// Editor can be destroyed before container is created (#3115).
+			if ( textarea && container ) {
+				container.clearCustomData();
+				container.remove();
+			}
+
 			if ( textarea ) {
-				editor.container.clearCustomData();
-				editor.container.remove();
 				textarea.show();
 			}
 

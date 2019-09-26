@@ -1,7 +1,7 @@
 /* bender-tags: clipboard,pastefromword */
-/* bender-ckeditor-plugins: pastefromword,ajax */
-/* bender-include: ../../../plugins/clipboard/_helpers/pasting.js,  ../../../../plugins/pastefromword/filter/default.js, _helpers/pfwTools.js */
-/* global pfwTools */
+/* bender-ckeditor-plugins: pastetools, pastefromword,ajax */
+/* bender-include: ../../../plugins/clipboard/_helpers/pasting.js, ../../pastetools/_helpers/ptTools.js, _helpers/pfwTools.js */
+/* global pfwTools, ptTools */
 
 ( function() {
 	'use strict';
@@ -94,7 +94,12 @@
 		}
 	};
 
-	pfwTools.ignoreTestsOnMobiles( tests );
+	ptTools.ignoreTestsOnMobiles( tests );
 
-	bender.test( tests );
+	ptTools.loadFilters( [
+		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js' ),
+		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastefromword' ) + 'filter/default.js' )
+	], function() {
+		bender.test( tests );
+	} );
 } )();

@@ -706,28 +706,45 @@
 		 * Creates a function that will always execute in the context of a
 		 * specified object.
 		 *
-		 *		var obj = { text: 'My Object' };
+		 * ```js
+		 * var obj = { text: 'My Object' };
 		 *
-		 *		function alertText() {
-		 *			alert( this.text );
-		 *		}
+		 * function alertText() {
+		 * 	alert( this.text );
+		 * }
 		 *
-		 *		var newFunc = CKEDITOR.tools.bind( alertText, obj );
-		 *		newFunc(); // Alerts 'My Object'.
+		 * var newFunc = CKEDITOR.tools.bind( alertText, obj );
+		 * newFunc(); // Alerts 'My Object'.
+		 * ```
+		 *
+		 * Since 4.13.0 additional arguments can be bound to a function.
+		 *
+		 * ```js
+		 * function logData( text, number1, number2 ) {
+		 * 	console.log( text, number1, number2 );
+		 * }
+		 *
+		 * var newFunc = CKEDITOR.tools.bind( logData, null, 'Foo', 1 );
+		 * newFunc(); // Logs: 'Foo', 1, undefined.
+		 * newFunc( 2 ); // Logs: 'Foo', 1, 2.
+		 *
+		 * ```
 		 *
 		 * @param {Function} func The function to be executed.
 		 * @param {Object} obj The object to which the execution context will be bound.
+		 * @param {*} [args] Arguments provided to the bound function when invoking the target function. Available since 4.13.0.
 		 * @returns {Function} The function that can be used to execute the
-		 * `func` function in the context of `obj`.
+		 * `func` function in the context of the specified `obj` object.
 		 */
 		bind: function( func, obj ) {
+			var args = Array.prototype.slice.call( arguments, 2 );
 			return function() {
-				return func.apply( obj, arguments );
+				return func.apply( obj, args.concat( Array.prototype.slice.call( arguments ) ) );
 			};
 		},
 
 		/**
-		 * Class creation based on prototype inheritance which supports of the
+		 * Class creation based on prototype inheritance which supports the
 		 * following features:
 		 *
 		 * * Static fields
@@ -1462,30 +1479,91 @@
 		 * if the mouse button cannot be determined.
 		 */
 		getMouseButton: function( evt ) {
-			var domEvent = evt.data ? evt.data.$ : evt;
+			var domEvent = evt && evt.data ? evt.data.$ : evt;
 
 			if ( !domEvent ) {
 				return false;
 			}
 
-			if ( CKEDITOR.env.ie && ( CKEDITOR.env.version < 9 || CKEDITOR.env.ie6Compat ) ) {
-				if ( domEvent.button === 4 ) {
-					return CKEDITOR.MOUSE_BUTTON_MIDDLE;
-				} else if ( domEvent.button === 1 ) {
-					return CKEDITOR.MOUSE_BUTTON_LEFT;
-				} else {
-					return CKEDITOR.MOUSE_BUTTON_RIGHT;
-				}
-			}
-
-			return domEvent.button;
+			return CKEDITOR.tools.normalizeMouseButton( domEvent.button );
 		},
 
 		/**
-		 * Convert hex string to array containing 1 byte in each cell. Bytes are represented as Integer numbers.
+		 * Normalizes mouse buttons across browsers.
+		 *
+		 * Only Internet Explorer 8 and Internet Explorer 9 in Quirks Mode or Compatibility View
+		 * have different button mappings than other browsers:
+		 *
+		 * ```
+		 * +--------------+--------------------------+----------------+
+		 * | Mouse button | IE 8 / IE 9 CM / IE 9 QM | Other browsers |
+		 * +--------------+--------------------------+----------------+
+		 * | Left         |             1            |        0       |
+		 * +--------------+--------------------------+----------------+
+		 * | Middle       |             4            |        1       |
+		 * +--------------+--------------------------+----------------+
+		 * | Right        |             2            |        2       |
+		 * +--------------+--------------------------+----------------+
+		 * ```
+		 *
+		 * The normalization is conducted only in browsers that use non-standard button mappings,
+		 * returning the passed parameter in every other browser. Therefore values for IE < 9 are mapped
+		 * to values used in the rest of the browsers. For example, the code below will return the following results in IE8:
+		 *
+		 * ```js
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 1 ) ); // 0
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 4 ) ); // 1
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 2 ) ); // 2
+		 * ```
+		 *
+		 * In other browsers it will simply return the passed values.
+		 *
+		 * With the `reversed` parameter set to `true`, values from the rest of the browsers
+		 * are mapped to IE < 9 values in IE < 9 browsers. This means that IE8 will return the following results:
+		 *
+		 * ```js
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 0, true ) ); // 1
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 1, true ) ); // 4
+		 * console.log( CKEDITOR.tools.normalizeMouseButton( 2, true ) ); // 2
+		 * ```
+		 *
+		 * In other browsers it will simply return the passed values.
+		 *
+		 * @since 4.13.0
+		 * @param {Number} button Mouse button identifier.
+		 * @param {Boolean} [reverse=false] If set to `true`, the conversion is reversed: values
+		 * returned by other browsers are converted to IE8 values.
+		 * @returns {Number} Normalized mouse button identifier.
+		 */
+		normalizeMouseButton: function( button, reverse ) {
+			if ( !CKEDITOR.env.ie || ( CKEDITOR.env.version >= 9 && !CKEDITOR.env.ie6Compat ) ) {
+				return button;
+			}
+
+			var mappings = [
+				[ CKEDITOR.MOUSE_BUTTON_LEFT, 1 ],
+				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, 4 ],
+				[ CKEDITOR.MOUSE_BUTTON_RIGHT, 2 ]
+			];
+
+			for ( var i = 0; i < mappings.length; i++ ) {
+				var mapping = mappings[ i ];
+
+				if ( mapping[ 0 ] === button && reverse ) {
+					return mapping[ 1 ];
+				}
+
+				if ( !reverse && mapping[ 1 ] === button ) {
+					return mapping[ 0 ];
+				}
+			}
+		},
+
+		/**
+		 * Converts a hex string to an array containing 1 byte in each cell. Bytes are represented as Integer numbers.
 		 *
 		 * @since 4.8.0
-		 * @param {String} hexString Contains input string which represent bytes, e.g. `"08A11D8ADA2B"`.
+		 * @param {String} hexString Contains an input string which represents bytes, e.g. `"08A11D8ADA2B"`.
 		 * @returns {Number[]} Bytes stored in a form of Integer numbers, e.g. `[ 8, 161, 29, 138, 218, 43 ]`.
 		 */
 		convertHexStringToBytes: function( hexString ) {
@@ -1500,11 +1578,11 @@
 		},
 
 		/**
-		 * Convert bytes array into a base64 encoded string.
+		 * Converts a bytes array into a a Base64-encoded string.
 		 *
 		 * @since 4.8.0
-		 * @param {Number[]} bytesArray An array which stores 1 byte in each cell as an Integer number.
-		 * @returns {String} Base64 string which represents input bytes.
+		 * @param {Number[]} bytesArray An array that stores 1 byte in each cell as an Integer number.
+		 * @returns {String} Base64-encoded string that represents input bytes.
 		 */
 		convertBytesToBase64: function( bytesArray ) {
 			// Bytes are `8bit` numbers, where base64 use `6bit` to store data. That's why we process 3 Bytes into 4 characters representing base64.
@@ -2044,16 +2122,18 @@
 			 * Tests whether all elements in an array pass the test implemented by the provided function.
 			 * Returns `true` if the provided array is empty.
 			 *
-			 *		var every = this.array.every( [ 11, 22, 33, 44 ], function( value ) {
-			 *			return value > 10;
-			 *		} );
-			 *		console.log( every );
-			 *		// Logs: true
+			 * ```js
+			 * var every = CKEDITOR.tools.array.every( [ 11, 22, 33, 44 ], function( value ) {
+			 * 	return value > 10;
+			 * } );
+			 * console.log( every );
+			 * // Logs: true
+			 *```
 			 *
 			 * @param {Array} array
 			 * @param {Function} fn A function that gets called with each `array` item.
 			 * @param {Mixed} fn.value The currently iterated array value.
-			 * @param {Number} fn.index The index of the currently iterated value in an array.
+			 * @param {Number} fn.index The index of the currently iterated array value.
 			 * @param {Array} fn.array The original array passed as the `array` variable.
 			 * @param {Mixed} [thisArg=undefined] A context object for `fn`.
 			 * @returns {Boolean} Information whether all elements pass the test.
@@ -2069,6 +2149,38 @@
 				var ret = this.filter( array, fn, thisArg );
 
 				return array.length === ret.length;
+			},
+
+			/**
+			 * Tests whether any element in an array passes the test implemented by the provided function.
+			 * Returns `false` if the provided array is empty.
+			 *
+			 * ```js
+			 * var some = CKEDITOR.tools.array.some( [ 11, 2, 3, 4 ], function( value ) {
+			 * 	return value > 10;
+			 * } );
+			 * console.log( some );
+			 * // Logs: true
+			 * ```
+			 *
+			 * @param {Array} array
+			 * @param {Function} fn A function that gets called with each `array` item.
+			 * @param {Mixed} fn.value The currently iterated array value.
+			 * @param {Number} fn.index The index of the currently iterated array value.
+			 * @param {Array} fn.array The original array passed as the `array` variable.
+			 * @param {Mixed} [thisArg=undefined] A context object for `fn`.
+			 * @returns {Boolean} Information whether any element passes the test.
+			 * @member CKEDITOR.tools.array
+			 * @since 4.13.0
+			 */
+			some: function( array, fn, thisArg ) {
+				for ( var i = 0; i < array.length; i++ ) {
+					if ( fn.call( thisArg, array[ i ], i, array ) ) {
+						return true;
+					}
+				}
+
+				return false;
 			}
 		},
 
@@ -2154,7 +2266,14 @@
 			keys: function( obj ) {
 				var hasOwnProperty = Object.prototype.hasOwnProperty,
 					keys = [],
-					dontEnums = CKEDITOR.tools.object.DONT_ENUMS;
+					dontEnums = CKEDITOR.tools.object.DONT_ENUMS,
+					isNotObject = !obj || typeof obj !== 'object';
+
+				// We must handle non-object types differently in IE 8,
+				// due to the fact that it uses ES5 behaviour, not ES2015+ as other browsers (#3381).
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && isNotObject ) {
+					return createNonObjectKeys( obj );
+				}
 
 				for ( var prop in obj ) {
 					keys.push( prop );
@@ -2170,6 +2289,21 @@
 				}
 
 				return keys;
+
+				function createNonObjectKeys( value ) {
+					var keys = [],
+						i;
+
+					if ( typeof value !== 'string' ) {
+						return keys;
+					}
+
+					for ( i = 0; i < value.length; i++ ) {
+						keys.push( String( i ) );
+					}
+
+					return keys;
+				}
 			},
 
 			/**
