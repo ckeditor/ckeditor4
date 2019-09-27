@@ -53,39 +53,32 @@
 			'Element: "' + element.id + '" should be equal to currently focused element: "' + currentlyFocusedElement.id + '".' );
 	}
 
-	function focusNext( dialog ) {
+	function _focus( dialog, direction ) {
 		return new CKEDITOR.tools.promise( function( resolve, reject ) {
 			dialog.once( 'focus:change', function() {
-				// short moment for focus stabilization;
 				CKEDITOR.tools.setTimeout( function() {
 					resolve( dialog );
-				}, 50 );
+				} );
 			} );
 
 			if ( hasRejects ) {
 				CKEDITOR.tools.setTimeout( reject, 5000 );
 			}
 
-			dialog.changeFocus( 1 );
+			if ( direction === 'next' ) {
+				dialog.changeFocus( 1 );
+			} else {
+				dialog.changeFocus( -1 );
+			}
 		} );
 	}
 
+	function focusNext( dialog ) {
+		return _focus( dialog, 'next' );
+	}
+
 	function focusPrevious( dialog ) {
-		return new CKEDITOR.tools.promise( function( resolve, reject ) {
-			dialog.once( 'focus:change', function() {
-				// short moment for focus stabilization;
-				CKEDITOR.tools.setTimeout( function() {
-					resolve( dialog );
-				}, 50 );
-
-			} );
-
-			if ( hasRejects ) {
-				CKEDITOR.tools.setTimeout( reject, 5000 );
-			}
-
-			dialog.changeFocus( -1 );
-		} );
+		return _focus( dialog, 'previous' );
 	}
 
 
