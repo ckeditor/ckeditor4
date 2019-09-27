@@ -5,7 +5,17 @@
 	'use strict';
 	// Test suite indicates if tests should have 5 second safety switch timeout for rejecting promises.
 	// var hasRejects = false;
-	var hasRejects = true;
+	var hasRejects = true,
+		KEYS = {
+			TAB: 9,
+			ENTER: 13,
+			SPACE: 32,
+			F10: 121,
+			RIGHT: 39,
+			LEFT: 37,
+			UP: 38,
+			DOWN: 40
+		};
 
 	var singlePageDialogDefinition = function() {
 		return {
@@ -60,6 +70,7 @@
 
 		assert.areEqual( expectedFocusedElement, actualFocusedElement,
 			'Element: "' + expectedFocusedElement.id + '" should be equal to currently focused element: "' + actualFocusedElement.id + '".' );
+		return dialog;
 	}
 
 	function _focus( dialog, direction ) {
@@ -121,6 +132,33 @@
 		} );
 	}
 
+	function pressKey( dialog, config ) {
+		var key = config.key,
+			shiftKey = config.shiftKey || false,
+			altKey = config.altKey || false;
+
+		return new CKEDITOR.tools.promise( function( resolve, reject ) {
+			dialog.once( 'focus:change', function() {
+				CKEDITOR.tools.setTimeout( function() {
+					resolve( dialog );
+				} );
+			} );
+
+			if ( hasRejects ) {
+				CKEDITOR.tools.setTimeout( function() {
+					reject( new Error( 'Focus hasn\'t change for last 5 seconds' ) );
+				}, 5000 );
+			}
+
+			dialog._.element.fire( 'keydown', new CKEDITOR.dom.event( {
+				keyCode: key,
+				shiftKey: shiftKey,
+				altKey: altKey
+			} ) );
+		} );
+
+	}
+
 	bender.editor = true;
 
 	var tests = {
@@ -137,27 +175,24 @@
 				} )
 				.then( focusNext )
 				.then( function( dialog ) {
-					assertFocus( dialog, {
+					return assertFocus( dialog, {
 						tab: 'test1',
 						elementId: 'sp-input2'
 					} );
-					return dialog;
 				} )
 				.then( focusNext )
 				.then( focusNext )
 				.then( function( dialog ) {
-					assertFocus( dialog, {
-						buttonName: 'cancel'
-					} );
-					return dialog;
+					return assertFocus( dialog, {
+							buttonName: 'cancel'
+						} );
 				} )
 				.then( focusPrevious )
 				.then( function( dialog ) {
-					assertFocus( dialog, {
-						tab: 'test1',
-						elementId: 'sp-input3'
-					} );
-					return dialog;
+					return assertFocus( dialog, {
+							tab: 'test1',
+							elementId: 'sp-input3'
+						} );
 				} );
 		},
 
@@ -167,11 +202,10 @@
 
 			return bot.asyncDialog( 'singlePageDialog' )
 				.then( function( dialog ) {
-					assertFocus( dialog, {
-						tab: 'test1',
-						elementId: 'sp-input1'
-					} );
-					return dialog;
+					return assertFocus( dialog, {
+							tab: 'test1',
+							elementId: 'sp-input1'
+						} );
 				} )
 				.then( function( dialog ) {
 					return focusElement( dialog, {
@@ -180,11 +214,10 @@
 						} );
 				} )
 				.then( function( dialog ) {
-					assertFocus( dialog, {
-						tab: 'test1',
-						elementId: 'sp-input2'
-					} );
-					return dialog;
+					return assertFocus( dialog, {
+							tab: 'test1',
+							elementId: 'sp-input2'
+						} );
 				} )
 				.then( function( dialog ) {
 					return focusElement( dialog, {
@@ -192,10 +225,49 @@
 					} );
 				} )
 				.then( function( dialog ) {
-					assertFocus( dialog, {
-						buttonName: 'ok'
+					return assertFocus( dialog, {
+							buttonName: 'ok'
+						} );
+				} );
+		},
+
+		'test simple page dialog should set focus after keyboard operations': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'singlePageDialog' )
+				.then( function( dialog ) {
+					return assertFocus( dialog, {
+							tab: 'test1',
+							elementId: 'sp-input1'
+						} );
+				} )
+				.then( function( dialog ) {
+					return pressKey( dialog, {
+						key: KEYS.TAB
 					} );
-					return dialog;
+				} )
+				.then( function( dialog ) {
+					return assertFocus( dialog, {
+							tab: 'test1',
+							elementId: 'sp-input2'
+						} );
+				} )
+				.then( function( dialog ) {
+					return pressKey( dialog, {
+						key: KEYS.TAB,
+						shiftKey: true
+					} );
+				} )
+				.then( function( dialog ) {
+					return pressKey( dialog, {
+						key: KEYS.TAB,
+						shiftKey: true
+					} );
+				} )
+				.then( function( dialog ) {
+					return assertFocus( dialog, {
+							buttonName: 'ok'
+						} );
 				} );
 		}
 	};
