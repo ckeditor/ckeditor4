@@ -205,7 +205,7 @@
 				} );
 
 				CKEDITOR.tools.setTimeout( function() {
-					reject();
+					reject( new Error( 'There was no "dialogShow" event for last 5 seconds.' ) );
 				}, 5000 );
 
 				editor.execCommand( dialogName );
