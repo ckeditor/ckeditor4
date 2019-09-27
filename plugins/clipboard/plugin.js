@@ -2366,16 +2366,17 @@
 		if ( editor ) {
 			this.sourceEditor = editor;
 
-			var selection = editor.getSelection(),
-				ranges = selection.getRanges(),
-				table = ranges.length && ranges[ 0 ]._getTableElement( { table: 1 } ),
-				element = editor.getSelection().getSelectedElement();
+			var selectedCells = editor.getSelectedHtml().find( 'td' ).$,
+				isExactlyOneCellSelected = selectedCells.length == 1;
 
-			// When element inside cell is copied or dragged with tableselection plugin turned on, it is sometimes
-			// nested in additional table. We want to filter only the content of a cell.
-			if ( editor.plugins.tableselection && table && element && element.$.draggable ) {
-				this.setData( 'text/html', element.$.outerHTML );
-			} else {
+			// When copying the cell content using tableselection plugin, editor wants to nest it
+			// in the new table, so actual content must be stripped off.
+			if ( isExactlyOneCellSelected ) {
+				this.setData( 'text/html', selectedCells[ 0 ].innerHTML );
+			}
+			// Get the content in the old way otherwise (including partial selection in table,
+			// selecting more than one cell, and all the normal selections).
+			else {
 				this.setData( 'text/html', editor.getSelectedHtml( 1 ) );
 			}
 
