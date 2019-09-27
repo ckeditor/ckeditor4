@@ -18,145 +18,190 @@
 		};
 
 	var singlePageDialogDefinition = function() {
-		return {
-			title: 'Single page dialog',
-			contents: [
-				{
-					id: 'test1',
-					elements: [
-						{
-							type: 'text',
-							id: 'sp-input1',
-							label: 'input 1'
-						},
-						{
-							type: 'text',
-							id: 'sp-input2',
-							label: 'input 2'
-						},
-						{
-							type: 'text',
-							id: 'sp-input3',
-							label: 'input 3'
-						}
-					]
-				}
-			],
-			onLoad: function( evt ) {
-				// This funciton should be called once per dialog, regardless of number of tests.
-				var dialog = evt.sender;
-
-				// attach focus listener in dialog;
-				CKEDITOR.tools.array.forEach( dialog._.focusList, function( item ) {
-					item.on( 'focus', function() {
-						dialog.fire( 'focus:change' );
-					}, null, null, 100000 );
-				} );
-
-			}
+			return {
+				title: 'Single page dialog',
+				contents: [
+					{
+						id: 'sp-test1',
+						elements: [
+							{
+								type: 'text',
+								id: 'sp-input1',
+								label: 'input 1'
+							},
+							{
+								type: 'text',
+								id: 'sp-input2',
+								label: 'input 2'
+							},
+							{
+								type: 'text',
+								id: 'sp-input3',
+								label: 'input 3'
+							}
+						]
+					}
+				],
+				onLoad: onLoadHandler
+			};
+		},
+		multiPageDialogDefinition = function() {
+			return {
+				title: 'Mult page dialog',
+				contents: [
+					{
+						id: 'mp-test1',
+						label: 'MP 1',
+						elements: [
+							{
+								type: 'text',
+								id: 'mp-input11',
+								label: 'input 11'
+							},
+							{
+								type: 'text',
+								id: 'mp-input12',
+								label: 'input 12'
+							},
+							{
+								type: 'text',
+								id: 'mp-input13',
+								label: 'input 13'
+							}
+						]
+					},
+					{
+						id: 'mp-test2',
+						label: 'MP 2',
+						elements: [
+							{
+								type: 'text',
+								id: 'mp-input21',
+								label: 'input 21'
+							}
+						]
+					},
+					{
+						id: 'mp-test3',
+						label: 'MP 3',
+						elements: [
+							{
+								type: 'text',
+								id: 'mp-input31',
+								label: 'input 31'
+							},
+							{
+								type: 'text',
+								id: 'mp-input32',
+								label: 'input 32'
+							},
+							{
+								type: 'text',
+								id: 'mp-input33',
+								label: 'input 33'
+							},
+							{
+								type: 'text',
+								id: 'mp-input34',
+								label: 'input 34'
+							},
+							{
+								type: 'text',
+								id: 'mp-input35',
+								label: 'input 35'
+							}
+						]
+					}
+				],
+				onLoad: onLoadHandler
+			};
 		};
-	};
 
+	function onLoadHandler( evt ) {
+		// This funciton should be called once per dialog, regardless of number of tests.
+		var dialog = evt.sender;
 
-	function assertFocus( dialog, config ) {
-		var actualFocusedElement = dialog._.focusList[ dialog._.currentFocusIndex ];
-		var expectedFocusedElement;
+		// attach focus listener in dialog;
+		CKEDITOR.tools.array.forEach( dialog._.focusList, function( item ) {
+			item.on( 'focus', function() {
+				dialog.fire( 'focus:change' );
+			}, null, null, 100000 );
+		} );
+
+	}
+
+	function assertFocus( config ) {
+		return function( dialog ) {
+			var actualFocusedElement = dialog._.focusList[ dialog._.currentFocusIndex ];
+			var expectedFocusedElement;
+
+			if ( config.buttonName ) {
+				expectedFocusedElement = dialog.getButton( config.buttonName );
+			} else {
+				expectedFocusedElement = dialog.getContentElement( config.tab, config.elementId );
+			}
+
+			assert.areEqual( expectedFocusedElement, actualFocusedElement,
+				'Element: "' + expectedFocusedElement.id + '" should be equal to currently focused element: "' + actualFocusedElement.id + '".' );
+			return dialog;
+		};
+	}
+
+	function focusChanger( dialog, config ) {
+		var element;
+
+		if ( config.direction === 'next' ) {
+			dialog.changeFocus( 1 );
+			return;
+		}
+
+		if ( config.direction === 'previous' ) {
+			dialog.changeFocus( -1 );
+			return;
+		}
+
+		if ( config.elementId && config.tab ) {
+			element = dialog.getContentElement( config.tab, config.elementId ).getInputElement();
+			element.focus();
+			return;
+		}
 
 		if ( config.buttonName ) {
-			expectedFocusedElement = dialog.getButton( config.buttonName );
-		} else {
-			expectedFocusedElement = dialog.getContentElement( config.tab, config.elementId );
-		}
-
-		assert.areEqual( expectedFocusedElement, actualFocusedElement,
-			'Element: "' + expectedFocusedElement.id + '" should be equal to currently focused element: "' + actualFocusedElement.id + '".' );
-		return dialog;
-	}
-
-	function _focus( dialog, direction ) {
-		return new CKEDITOR.tools.promise( function( resolve, reject ) {
-			dialog.once( 'focus:change', function() {
-				CKEDITOR.tools.setTimeout( function() {
-					resolve( dialog );
-				} );
-			} );
-
-			if ( hasRejects ) {
-				CKEDITOR.tools.setTimeout( function() {
-					reject( new Error( 'Focus hasn\'t change for last 5 seconds' ) );
-				}, 5000 );
-			}
-
-			if ( direction === 'next' ) {
-				dialog.changeFocus( 1 );
-			} else {
-				dialog.changeFocus( -1 );
-			}
-		} );
-	}
-
-	function focusNext( dialog ) {
-		return _focus( dialog, 'next' );
-	}
-
-	function focusPrevious( dialog ) {
-		return _focus( dialog, 'previous' );
-	}
-
-	function focusElement( dialog, config ) {
-		var tab = config.tab,
-			elementId = config.elementId,
-			buttonName = config.buttonName,
-			element;
-
-		if ( buttonName )
-			element = dialog.getButton( buttonName ).getInputElement();
-		else {
-			element = dialog.getContentElement( tab, elementId ).getInputElement();
-		}
-
-		return new CKEDITOR.tools.promise( function( resolve, reject ) {
-			dialog.once( 'focus:change', function() {
-				CKEDITOR.tools.setTimeout( function() {
-					resolve( dialog );
-				} );
-			} );
-
-			if ( hasRejects ) {
-				CKEDITOR.tools.setTimeout( function() {
-					reject( new Error( 'Focus hasn\'t change for last 5 seconds' ) );
-				}, 5000 );
-			}
-
+			element = dialog.getButton( config.buttonName ).getInputElement();
 			element.focus();
-		} );
+			return;
+		}
+
+		if ( config.key ) {
+			dialog._.element.fire( 'keydown', new CKEDITOR.dom.event( {
+				keyCode: config.key,
+				shiftKey: config.shiftKey ? true : false,
+				altKey: config.altKey ? true : false
+			} ) );
+			return;
+		}
+
+		throw new Error( 'Invalid focus config' );
 	}
 
-	function pressKey( dialog, config ) {
-		var key = config.key,
-			shiftKey = config.shiftKey || false,
-			altKey = config.altKey || false;
-
-		return new CKEDITOR.tools.promise( function( resolve, reject ) {
-			dialog.once( 'focus:change', function() {
-				CKEDITOR.tools.setTimeout( function() {
-					resolve( dialog );
+	function focus( config ) {
+		return function( dialog ) {
+			return new CKEDITOR.tools.promise( function( resolve, reject ) {
+				dialog.once( 'focus:change', function() {
+					CKEDITOR.tools.setTimeout( function() {
+						resolve( dialog );
+					} );
 				} );
+
+				if ( hasRejects ) {
+					CKEDITOR.tools.setTimeout( function() {
+						reject( new Error( 'Focus hasn\'t change for last 5 seconds' ) );
+					}, 5000 );
+				}
+
+				focusChanger( dialog, config );
 			} );
-
-			if ( hasRejects ) {
-				CKEDITOR.tools.setTimeout( function() {
-					reject( new Error( 'Focus hasn\'t change for last 5 seconds' ) );
-				}, 5000 );
-			}
-
-			dialog._.element.fire( 'keydown', new CKEDITOR.dom.event( {
-				keyCode: key,
-				shiftKey: shiftKey,
-				altKey: altKey
-			} ) );
-		} );
-
+		};
 	}
 
 	bender.editor = true;
@@ -166,34 +211,33 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singlePageDialog' )
-				.then( function( dialog ) {
-					assertFocus( dialog, {
-						tab: 'test1',
-						elementId: 'sp-input1'
-					} );
-					return dialog;
-				} )
-				.then( focusNext )
-				.then( function( dialog ) {
-					return assertFocus( dialog, {
-						tab: 'test1',
-						elementId: 'sp-input2'
-					} );
-				} )
-				.then( focusNext )
-				.then( focusNext )
-				.then( function( dialog ) {
-					return assertFocus( dialog, {
-							buttonName: 'cancel'
-						} );
-				} )
-				.then( focusPrevious )
-				.then( function( dialog ) {
-					return assertFocus( dialog, {
-							tab: 'test1',
-							elementId: 'sp-input3'
-						} );
-				} );
+				.then( assertFocus( {
+					tab: 'sp-test1',
+					elementId: 'sp-input1'
+				} ) )
+				.then( focus( {
+					direction: 'next'
+				} ) )
+				.then( assertFocus( {
+					tab: 'sp-test1',
+					elementId: 'sp-input2'
+				} ) )
+				.then( focus( {
+					direction: 'next'
+				} ) )
+				.then( focus( {
+					direction: 'next'
+				} ) )
+				.then( assertFocus( {
+					buttonName: 'cancel'
+				} ) )
+				.then( focus( {
+					direction: 'previous'
+				} ) )
+				.then( assertFocus( {
+					tab: 'sp-test1',
+					elementId: 'sp-input3'
+				} ) );
 		},
 
 		// Test simulate focusing with "click" / "touch", as direct calling `click()` method on html element doesn't trigger focus change.
@@ -201,75 +245,76 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singlePageDialog' )
-				.then( function( dialog ) {
-					return assertFocus( dialog, {
-							tab: 'test1',
-							elementId: 'sp-input1'
-						} );
-				} )
-				.then( function( dialog ) {
-					return focusElement( dialog, {
-							tab: 'test1',
-							elementId: 'sp-input2'
-						} );
-				} )
-				.then( function( dialog ) {
-					return assertFocus( dialog, {
-							tab: 'test1',
-							elementId: 'sp-input2'
-						} );
-				} )
-				.then( function( dialog ) {
-					return focusElement( dialog, {
-						buttonName: 'ok'
-					} );
-				} )
-				.then( function( dialog ) {
-					return assertFocus( dialog, {
-							buttonName: 'ok'
-						} );
-				} );
+				.then( assertFocus( {
+					tab: 'sp-test1',
+					elementId: 'sp-input1'
+				} ) )
+				.then( focus( {
+					tab: 'sp-test1',
+					elementId: 'sp-input2'
+				} ) )
+				.then( assertFocus( {
+					tab: 'sp-test1',
+					elementId: 'sp-input2'
+				} ) )
+				.then( focus( {
+					buttonName: 'ok'
+				} ) )
+				.then( assertFocus( {
+					buttonName: 'ok'
+				} ) )
+				.then( focus( {
+					tab: 'sp-test1',
+					elementId: 'sp-input1'
+				} ) )
+				.then( assertFocus( {
+					tab: 'sp-test1',
+					elementId: 'sp-input1'
+				} ) );
 		},
 
 		'test simple page dialog should set focus after keyboard operations': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singlePageDialog' )
+				.then( assertFocus( {
+					tab: 'sp-test1',
+					elementId: 'sp-input1'
+				} ) )
+				.then( focus( {
+					key: KEYS.TAB
+				} ) )
+				.then( assertFocus( {
+					tab: 'sp-test1',
+					elementId: 'sp-input2'
+				} ) )
+				.then( focus( {
+					key: KEYS.TAB,
+					shiftKey: true
+				} ) )
+				.then( focus( {
+					key: KEYS.TAB,
+					shiftKey: true
+				} ) )
+				.then( assertFocus( {
+					buttonName: 'ok'
+				} ) );
+		},
+
+		'test multi page dialog should focus elements in correct order': function() {
+			var bot = this.editorBot;
+			return bot.asyncDialog( 'multiPageDialog' )
+				.then( assertFocus( {
+					tab: 'mp-test1',
+					elementId: 'mp-input11'
+				} ) )
+				.then( focus( { direction: 'previous' } ) )
 				.then( function( dialog ) {
-					return assertFocus( dialog, {
-							tab: 'test1',
-							elementId: 'sp-input1'
-						} );
+					debugger;
+					return dialog;
 				} )
-				.then( function( dialog ) {
-					return pressKey( dialog, {
-						key: KEYS.TAB
-					} );
-				} )
-				.then( function( dialog ) {
-					return assertFocus( dialog, {
-							tab: 'test1',
-							elementId: 'sp-input2'
-						} );
-				} )
-				.then( function( dialog ) {
-					return pressKey( dialog, {
-						key: KEYS.TAB,
-						shiftKey: true
-					} );
-				} )
-				.then( function( dialog ) {
-					return pressKey( dialog, {
-						key: KEYS.TAB,
-						shiftKey: true
-					} );
-				} )
-				.then( function( dialog ) {
-					return assertFocus( dialog, {
-							buttonName: 'ok'
-						} );
-				} );
 		}
+
 	};
 
 	tests = bender.tools.createAsyncTests( tests );
@@ -277,8 +322,10 @@
 	CKEDITOR.tools.extend( tests, {
 		init: function() {
 			CKEDITOR.dialog.add( 'singlePageDialogDefinition', singlePageDialogDefinition );
+			CKEDITOR.dialog.add( 'multiPageDialogDefinition', multiPageDialogDefinition );
 
 			this.editor.addCommand( 'singlePageDialog', new CKEDITOR.dialogCommand( 'singlePageDialogDefinition' ) );
+			this.editor.addCommand( 'multiPageDialog', new CKEDITOR.dialogCommand( 'multiPageDialogDefinition' ) );
 		},
 
 		tearDown: function() {
