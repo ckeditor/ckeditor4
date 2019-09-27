@@ -3,8 +3,9 @@
 
 ( function() {
 	'use strict';
-
-	var hasRejects = false; // true;
+	// Test suite indicates if tests should have 5 second safety switch timeout for rejecting promises.
+	// var hasRejects = false;
+	var hasRejects = true;
 
 	var singlePageDialogDefinition = function() {
 		return {
@@ -47,10 +48,18 @@
 	};
 
 
-	function assertFocus( dialog, element ) {
-		var currentlyFocusedElement = dialog._.focusList[ dialog._.currentFocusIndex ];
-		assert.areEqual( element, currentlyFocusedElement,
-			'Element: "' + element.id + '" should be equal to currently focused element: "' + currentlyFocusedElement.id + '".' );
+	function assertFocus( dialog, config ) {
+		var actualFocusedElement = dialog._.focusList[ dialog._.currentFocusIndex ];
+		var expectedFocusedElement;
+
+		if ( config.buttonName ) {
+			expectedFocusedElement = dialog.getButton( config.buttonName );
+		} else {
+			expectedFocusedElement = dialog.getContentElement( config.tab, config.elementId );
+		}
+
+		assert.areEqual( expectedFocusedElement, actualFocusedElement,
+			'Element: "' + expectedFocusedElement.id + '" should be equal to currently focused element: "' + actualFocusedElement.id + '".' );
 	}
 
 	function _focus( dialog, direction ) {
@@ -62,7 +71,9 @@
 			} );
 
 			if ( hasRejects ) {
-				CKEDITOR.tools.setTimeout( reject, 5000 );
+				CKEDITOR.tools.setTimeout( function() {
+					reject( new Error( 'Focus hasn\'t change for last 5 seconds' ) );
+				}, 5000 );
 			}
 
 			if ( direction === 'next' ) {
@@ -81,32 +92,109 @@
 		return _focus( dialog, 'previous' );
 	}
 
+	function focusElement( dialog, config ) {
+		var tab = config.tab,
+			elementId = config.elementId,
+			buttonName = config.buttonName,
+			element;
+
+		if ( buttonName )
+			element = dialog.getButton( buttonName ).getInputElement();
+		else {
+			element = dialog.getContentElement( tab, elementId ).getInputElement();
+		}
+
+		return new CKEDITOR.tools.promise( function( resolve, reject ) {
+			dialog.once( 'focus:change', function() {
+				CKEDITOR.tools.setTimeout( function() {
+					resolve( dialog );
+				} );
+			} );
+
+			if ( hasRejects ) {
+				CKEDITOR.tools.setTimeout( function() {
+					reject( new Error( 'Focus hasn\'t change for last 5 seconds' ) );
+				}, 5000 );
+			}
+
+			element.focus();
+		} );
+	}
 
 	bender.editor = true;
 
 	var tests = {
-		'test single page async': function() {
+		'test single page dialog should focus elements in correct order': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singlePageDialog' )
 				.then( function( dialog ) {
-					assertFocus( dialog, dialog.getContentElement( 'test1', 'sp-input1' ) );
+					assertFocus( dialog, {
+						tab: 'test1',
+						elementId: 'sp-input1'
+					} );
 					return dialog;
 				} )
 				.then( focusNext )
 				.then( function( dialog ) {
-					assertFocus( dialog, dialog.getContentElement( 'test1', 'sp-input2' ) );
+					assertFocus( dialog, {
+						tab: 'test1',
+						elementId: 'sp-input2'
+					} );
 					return dialog;
 				} )
 				.then( focusNext )
 				.then( focusNext )
 				.then( function( dialog ) {
-					assertFocus( dialog, dialog.getButton( 'cancel' ) );
+					assertFocus( dialog, {
+						buttonName: 'cancel'
+					} );
 					return dialog;
 				} )
 				.then( focusPrevious )
 				.then( function( dialog ) {
-					assertFocus( dialog, dialog.getContentElement( 'test1', 'sp-input3' ) );
+					assertFocus( dialog, {
+						tab: 'test1',
+						elementId: 'sp-input3'
+					} );
+					return dialog;
+				} );
+		},
+
+		// Test simulate focusing with "click" / "touch", as direct calling `click()` method on html element doesn't trigger focus change.
+		'test single page dialog should set focused element after calling focus function': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'singlePageDialog' )
+				.then( function( dialog ) {
+					assertFocus( dialog, {
+						tab: 'test1',
+						elementId: 'sp-input1'
+					} );
+					return dialog;
+				} )
+				.then( function( dialog ) {
+					return focusElement( dialog, {
+							tab: 'test1',
+							elementId: 'sp-input2'
+						} );
+				} )
+				.then( function( dialog ) {
+					assertFocus( dialog, {
+						tab: 'test1',
+						elementId: 'sp-input2'
+					} );
+					return dialog;
+				} )
+				.then( function( dialog ) {
+					return focusElement( dialog, {
+						buttonName: 'ok'
+					} );
+				} )
+				.then( function( dialog ) {
+					assertFocus( dialog, {
+						buttonName: 'ok'
+					} );
 					return dialog;
 				} );
 		}
