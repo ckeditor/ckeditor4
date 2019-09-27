@@ -1,10 +1,161 @@
-<textarea id="before">
+<textarea id="image">
 	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
 		<tbody>
 			<tr>
 				<td>[<img alt="" src="http://cdn.ckeditor.com/4.12.1/full-all/samples/img/logo.svg" style="height:50px; width:172px" />]</td>
 			</tr>
 			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="image-partial">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>hello![<img alt="" src="http://cdn.ckeditor.com/4.12.1/full-all/samples/img/logo.svg" style="height:50px; width:172px" />]&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="text">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>[1.1]</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="text-partial">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>[1.1]&nbsp;2.2</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="formatted-text">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>[<em>1.1</em>]</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="formatted-text-partial">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>Hello!&nbsp;[<em>1.1</em>]&nbsp;</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="text-with-image">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>[Hello!<img alt="" src="http://cdn.ckeditor.com/4.12.1/full-all/samples/img/logo.svg" style="height:50px; width:172px" />]</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="link">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>[<a href="https://cksource.com/">https://cksource.com/</a>]</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="list">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>
+					[<ol>
+						<li>dar</li>
+						<li>jar</li>
+						<li>mar</li>
+					</ol>]
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="text-nested-table">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>
+				<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+					<tbody>
+						<tr>
+							<td>[Help me, I am nested!]</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>&nbsp;</p>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="two-cells">
+	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+		<tbody>
+			<tr>
+				<td>
+					[start
+				</td>
+				<td>
+					end]
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
 		</tbody>
