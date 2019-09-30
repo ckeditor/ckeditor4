@@ -114,6 +114,101 @@
 				],
 				onLoad: onLoadHandler
 			};
+		},
+		hiddenPageDialogDefinition = function() {
+			return {
+				title: 'Hidden page dialog',
+				contents: [
+					{
+						id: 'hp-test1',
+						label: 'HP 1',
+						elements: [
+							{
+								type: 'text',
+								id: 'hp-input11',
+								label: 'input 11'
+							},
+							{
+								type: 'text',
+								id: 'hp-input12',
+								label: 'input 12'
+							},
+							{
+								type: 'text',
+								id: 'hp-input13',
+								label: 'input 13'
+							}
+						]
+					},
+					{
+						id: 'hp-test2',
+						label: 'HP 2',
+						elements: [
+							{
+								type: 'text',
+								id: 'hp-input21',
+								label: 'input 21',
+								requiredContent: 'fakeElement'
+							},
+							{
+								type: 'text',
+								id: 'hp-input22',
+								label: 'input 22'
+							},
+							{
+								type: 'text',
+								id: 'hp-input23',
+								label: 'input 23',
+								requiredContent: 'fakeElement'
+							}
+						]
+					},
+					{
+						id: 'hp-test3',
+						label: 'HP 3',
+						requiredContent: 'fakeElement',
+						elements: [
+							{
+								type: 'text',
+								id: 'hp-input31',
+								label: 'input 31'
+							},
+							{
+								type: 'text',
+								id: 'hp-input32',
+								label: 'input 32'
+							},
+							{
+								type: 'text',
+								id: 'hp-input33',
+								label: 'input 33'
+							},
+							{
+								type: 'text',
+								id: 'hp-input34',
+								label: 'input 34'
+							},
+							{
+								type: 'text',
+								id: 'hp-input35',
+								label: 'input 35'
+							}
+						]
+					},
+					{
+						id: 'hp-test4',
+						label: 'HP 4',
+						elements: [
+							{
+								type: 'text',
+								id: 'hp-input41',
+								label: 'input 41'
+							}
+						]
+					}
+				],
+				onLoad: onLoadHandler
+			};
 		};
 
 	function onLoadHandler( evt ) {
@@ -419,8 +514,44 @@
 				} ) )
 				.then( focus( { key: KEYS.F10, altKey: true } ) )
 				.then( assertFocusedTab( 'mp-test1' ) );
-		}
+		},
 
+		'test hidden page dialog should skip focus from hidden element on page': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'hiddenPageDialog' )
+				.then( assertFocusedElement( {
+					tab: 'hp-test1',
+					elementId: 'hp-input11'
+				} ) )
+				.then( focus( { direction: 'previous' } ) )
+				.then( focus( { key: KEYS.ARROW_RIGHT } ) )
+				.then( assertFocusedTab( 'hp-test2' ) )
+				.then( focus( { direction: 'next' } ) )
+				.then( assertFocusedElement( {
+					tab: 'hp-test2',
+					elementId: 'hp-input22'
+				} ) )
+				.then( focus( { direction: 'next' } ) )
+				.then( assertFocusedElement( {
+					buttonName: 'cancel'
+				} ) );
+		},
+
+		'test hidden page dialog should skip focus from hidden tab on page': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'hiddenPageDialog' )
+				.then( assertFocusedElement( {
+					tab: 'hp-test1',
+					elementId: 'hp-input11'
+				} ) )
+				.then( focus( { direction: 'previous' } ) )
+				.then( focus( { key: KEYS.ARROW_RIGHT } ) )
+				.then( assertFocusedTab( 'hp-test2' ) )
+				.then( focus( { key: KEYS.ARROW_RIGHT } ) )
+				.then( assertFocusedTab( 'hp-test4' ) );
+		}
 	};
 
 	tests = bender.tools.createAsyncTests( tests );
@@ -429,9 +560,11 @@
 		init: function() {
 			CKEDITOR.dialog.add( 'singlePageDialogDefinition', singlePageDialogDefinition );
 			CKEDITOR.dialog.add( 'multiPageDialogDefinition', multiPageDialogDefinition );
+			CKEDITOR.dialog.add( 'hiddenPageDialogDefinition', hiddenPageDialogDefinition );
 
 			this.editor.addCommand( 'singlePageDialog', new CKEDITOR.dialogCommand( 'singlePageDialogDefinition' ) );
 			this.editor.addCommand( 'multiPageDialog', new CKEDITOR.dialogCommand( 'multiPageDialogDefinition' ) );
+			this.editor.addCommand( 'hiddenPageDialog', new CKEDITOR.dialogCommand( 'hiddenPageDialogDefinition' ) );
 		},
 
 		tearDown: function() {
