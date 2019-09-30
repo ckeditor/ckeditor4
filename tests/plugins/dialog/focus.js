@@ -22,8 +22,11 @@
 
 	bender.editor = true;
 
+	// Tests doesn't contain cases where focus is preserved on an element, as such cases doesn't trigger a focus event.
+	// Detection of such cases would be really time consuming and might result with a falsa positive when some other element accidently
+	// obtain focus.
 	var tests = {
-		'test single page dialog should focus elements in correct order': function() {
+		'test single page dialog should focus elements in a correct order': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singlePageDialog' )
@@ -57,7 +60,7 @@
 		},
 
 		// Test simulate focusing with "click" / "touch", as direct calling `click()` method on html element doesn't trigger focus change.
-		'test single page dialog should set focused element after calling focus function': function() {
+		'test single page dialog should change the focused element after executing the focus function': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singlePageDialog' )
@@ -89,7 +92,7 @@
 				} ) );
 		},
 
-		'test simple page dialog should set focus after keyboard operations': function() {
+		'test simple page dialog should change focus after pressing the TAB key': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singlePageDialog' )
@@ -117,7 +120,7 @@
 				} ) );
 		},
 
-		'test multi page dialog should focus elements in tab list': function() {
+		'test multi page dialog should focus elements in a tab list': function() {
 			var bot = this.editorBot;
 			return bot.asyncDialog( 'multiPageDialog' )
 				.then( assertFocusedElement( {
@@ -128,7 +131,7 @@
 				.then( assertFocusedTab( 'mp-test1' ) );
 		},
 
-		'test multi page dialog should move focus to panel with TAB key': function() {
+		'test multi page dialog should move the focus to the panel with the TAB key': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'multiPageDialog' )
@@ -145,7 +148,7 @@
 				} ) );
 		},
 
-		'test multi page dialog should move focus to panel with SPACE key': function() {
+		'test multi page dialog should move the focus to the panel with the SPACE key': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'multiPageDialog' )
@@ -162,7 +165,7 @@
 				} ) );
 		},
 
-		'test multi page dialog should move focus to panel with ENTER key': function() {
+		'test multi page dialog should move the focus to the panel with the ENTER key': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'multiPageDialog' )
@@ -179,7 +182,7 @@
 				} ) );
 		},
 
-		'test multi page dialog should move focus to between tabs with ARROW keys': function() {
+		'test multi page dialog should move the focus inside the tab navigation of a dialog with ARROW keys': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'multiPageDialog' )
@@ -200,7 +203,7 @@
 				.then( assertFocusedTab( 'mp-test2' ) );
 		},
 
-		'test multi page dialog should bring focus to tab with ALT+F10 keys': function() {
+		'test multi page dialog should bring the focus to the tab with the ALT+F10 keys': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'multiPageDialog' )
@@ -225,7 +228,7 @@
 				.then( assertFocusedTab( 'mp-test1' ) );
 		},
 
-		'test hidden page dialog should skip focus from hidden element on page': function() {
+		'test hidden page dialog should skip the focus of the hidden element on the page': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'hiddenPageDialog' )
@@ -247,7 +250,7 @@
 				} ) );
 		},
 
-		'test hidden page dialog should skip focus from hidden tab on page': function() {
+		'test hidden page dialog should skip the focus from the hidden tab on the page': function() {
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'hiddenPageDialog' )
