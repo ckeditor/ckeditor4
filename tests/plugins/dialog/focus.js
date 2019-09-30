@@ -4,17 +4,16 @@
 ( function() {
 	'use strict';
 	// Test suite indicates if tests should have 5 second safety switch timeout for rejecting promises.
-	// var hasRejects = false;
 	var hasRejects = true,
 		KEYS = {
 			TAB: 9,
 			ENTER: 13,
 			SPACE: 32,
 			F10: 121,
-			RIGHT: 39,
-			LEFT: 37,
-			UP: 38,
-			DOWN: 40
+			ARROW_RIGHT: 39,
+			ARROW_LEFT: 37,
+			ARROW_UP: 38,
+			ARROW_DOWN: 40
 		};
 
 	var singlePageDialogDefinition = function() {
@@ -121,16 +120,20 @@
 		// This funciton should be called once per dialog, regardless of number of tests.
 		var dialog = evt.sender;
 
-		// attach focus listener in dialog;
+		CKEDITOR.tools.array.forEach( CKEDITOR.tools.object.values( dialog._.tabs ), function( item ) {
+			item[ 0 ].on( 'focus', function() {
+				dialog.fire( 'focus:change' );
+			}, null, null, 100000 );
+		} );
+
 		CKEDITOR.tools.array.forEach( dialog._.focusList, function( item ) {
 			item.on( 'focus', function() {
 				dialog.fire( 'focus:change' );
 			}, null, null, 100000 );
 		} );
-
 	}
 
-	function assertFocus( config ) {
+	function assertFocusedElement( config ) {
 		return function( dialog ) {
 			var actualFocusedElement = dialog._.focusList[ dialog._.currentFocusIndex ];
 			var expectedFocusedElement;
@@ -143,6 +146,15 @@
 
 			assert.areEqual( expectedFocusedElement, actualFocusedElement,
 				'Element: "' + expectedFocusedElement.id + '" should be equal to currently focused element: "' + actualFocusedElement.id + '".' );
+			return dialog;
+		};
+	}
+
+	function assertFocusedTab( tabName ) {
+		return function( dialog ) {
+			assert.areEqual( -1, dialog._.currentFocusIndex );
+			assert.areEqual( tabName, dialog._.currentTabId );
+
 			return dialog;
 		};
 	}
@@ -181,7 +193,7 @@
 			return;
 		}
 
-		throw new Error( 'Invalid focus config' );
+		throw new Error( 'Invalid focus config: ' + JSON.stringify( config ) );
 	}
 
 	function focus( config ) {
@@ -211,14 +223,14 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singlePageDialog' )
-				.then( assertFocus( {
+				.then( assertFocusedElement( {
 					tab: 'sp-test1',
 					elementId: 'sp-input1'
 				} ) )
 				.then( focus( {
 					direction: 'next'
 				} ) )
-				.then( assertFocus( {
+				.then( assertFocusedElement( {
 					tab: 'sp-test1',
 					elementId: 'sp-input2'
 				} ) )
@@ -228,13 +240,13 @@
 				.then( focus( {
 					direction: 'next'
 				} ) )
-				.then( assertFocus( {
+				.then( assertFocusedElement( {
 					buttonName: 'cancel'
 				} ) )
 				.then( focus( {
 					direction: 'previous'
 				} ) )
-				.then( assertFocus( {
+				.then( assertFocusedElement( {
 					tab: 'sp-test1',
 					elementId: 'sp-input3'
 				} ) );
@@ -245,7 +257,7 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singlePageDialog' )
-				.then( assertFocus( {
+				.then( assertFocusedElement( {
 					tab: 'sp-test1',
 					elementId: 'sp-input1'
 				} ) )
@@ -253,21 +265,21 @@
 					tab: 'sp-test1',
 					elementId: 'sp-input2'
 				} ) )
-				.then( assertFocus( {
+				.then( assertFocusedElement( {
 					tab: 'sp-test1',
 					elementId: 'sp-input2'
 				} ) )
 				.then( focus( {
 					buttonName: 'ok'
 				} ) )
-				.then( assertFocus( {
+				.then( assertFocusedElement( {
 					buttonName: 'ok'
 				} ) )
 				.then( focus( {
 					tab: 'sp-test1',
 					elementId: 'sp-input1'
 				} ) )
-				.then( assertFocus( {
+				.then( assertFocusedElement( {
 					tab: 'sp-test1',
 					elementId: 'sp-input1'
 				} ) );
@@ -277,14 +289,14 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singlePageDialog' )
-				.then( assertFocus( {
+				.then( assertFocusedElement( {
 					tab: 'sp-test1',
 					elementId: 'sp-input1'
 				} ) )
 				.then( focus( {
 					key: KEYS.TAB
 				} ) )
-				.then( assertFocus( {
+				.then( assertFocusedElement( {
 					tab: 'sp-test1',
 					elementId: 'sp-input2'
 				} ) )
@@ -296,23 +308,117 @@
 					key: KEYS.TAB,
 					shiftKey: true
 				} ) )
-				.then( assertFocus( {
+				.then( assertFocusedElement( {
 					buttonName: 'ok'
 				} ) );
 		},
 
-		'test multi page dialog should focus elements in correct order': function() {
+		'test multi page dialog should focus elements in tab list': function() {
 			var bot = this.editorBot;
 			return bot.asyncDialog( 'multiPageDialog' )
-				.then( assertFocus( {
+				.then( assertFocusedElement( {
 					tab: 'mp-test1',
 					elementId: 'mp-input11'
 				} ) )
 				.then( focus( { direction: 'previous' } ) )
-				.then( function( dialog ) {
-					debugger;
-					return dialog;
-				} )
+				.then( assertFocusedTab( 'mp-test1' ) );
+		},
+
+		'test multi page dialog should move focus to panel with TAB key': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'multiPageDialog' )
+				.then( assertFocusedElement( {
+					tab: 'mp-test1',
+					elementId: 'mp-input11'
+				} ) )
+				.then( focus( { key: KEYS.TAB, shiftKey: true } ) )
+				.then( assertFocusedTab( 'mp-test1' ) )
+				.then( focus( { key: KEYS.TAB } ) )
+				.then( assertFocusedElement( {
+					tab: 'mp-test1',
+					elementId: 'mp-input11'
+				} ) );
+		},
+
+		'test multi page dialog should move focus to panel with SPACE key': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'multiPageDialog' )
+				.then( assertFocusedElement( {
+					tab: 'mp-test1',
+					elementId: 'mp-input11'
+				} ) )
+				.then( focus( { direction: 'previous' } ) )
+				.then( assertFocusedTab( 'mp-test1' ) )
+				.then( focus( { key: KEYS.SPACE } ) )
+				.then( assertFocusedElement( {
+					tab: 'mp-test1',
+					elementId: 'mp-input11'
+				} ) );
+		},
+
+		'test multi page dialog should move focus to panel with ENTER key': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'multiPageDialog' )
+				.then( assertFocusedElement( {
+					tab: 'mp-test1',
+					elementId: 'mp-input11'
+				} ) )
+				.then( focus( { direction: 'previous' } ) )
+				.then( assertFocusedTab( 'mp-test1' ) )
+				.then( focus( { key: KEYS.ENTER } ) )
+				.then( assertFocusedElement( {
+					tab: 'mp-test1',
+					elementId: 'mp-input11'
+				} ) );
+		},
+
+		'test multi page dialog should move focus to between tabs with ARROW keys': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'multiPageDialog' )
+				.then( assertFocusedElement( {
+					tab: 'mp-test1',
+					elementId: 'mp-input11'
+				} ) )
+				.then( focus( { direction: 'previous' } ) )
+				.then( assertFocusedTab( 'mp-test1' ) )
+				.then( focus( { key: KEYS.ARROW_RIGHT } ) )
+				.then( assertFocusedTab( 'mp-test2' ) )
+				.then( focus( { key: KEYS.ARROW_UP } ) )
+				.then( assertFocusedTab( 'mp-test1' ) )
+				.then( focus( { key: KEYS.ARROW_DOWN } ) )
+				.then( focus( { key: KEYS.ARROW_DOWN } ) )
+				.then( assertFocusedTab( 'mp-test3' ) )
+				.then( focus( { key: KEYS.ARROW_LEFT } ) )
+				.then( assertFocusedTab( 'mp-test2' ) );
+		},
+
+		'test multi page dialog should bring focus to tab with ALT+F10 keys': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'multiPageDialog' )
+				.then( assertFocusedElement( {
+					tab: 'mp-test1',
+					elementId: 'mp-input11'
+				} ) )
+				.then( focus( { direction: 'next' } ) )
+				.then( focus( { direction: 'next' } ) )
+				.then( assertFocusedElement( {
+					tab: 'mp-test1',
+					elementId: 'mp-input13'
+				} ) )
+				.then( focus( { key: KEYS.F10, altKey: true } ) )
+				.then( assertFocusedTab( 'mp-test1' ) )
+				.then( focus( { direction: 'previous' } ) )
+				.then( focus( { direction: 'previous' } ) )
+				.then( assertFocusedElement( {
+					buttonName: 'cancel'
+				} ) )
+				.then( focus( { key: KEYS.F10, altKey: true } ) )
+				.then( assertFocusedTab( 'mp-test1' ) );
 		}
 
 	};
