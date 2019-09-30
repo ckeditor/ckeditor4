@@ -62,6 +62,8 @@ CKEDITOR.DIALOG_STATE_IDLE = 1;
 CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 ( function() {
+	'use strict';
+
 	var cssLength = CKEDITOR.tools.cssLength,
 		defaultDialogDefinition,
 		currentCover;
