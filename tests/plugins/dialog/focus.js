@@ -20,7 +20,11 @@
 		assertFocusedTab = window.dialogTools.assertFocusedTab,
 		focusElement = window.dialogTools.focusElement;
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			dialog_buttonsOrder: 'rtl'
+		}
+	};
 
 	// Tests doesn't contain cases where focus is preserved on an element, as such cases doesn't trigger a focus event.
 	// Detection of such cases would be really time consuming and might result with a falsa positive.
@@ -29,6 +33,7 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singlePageDialog' )
+				.then( ie11fix )
 				.then( assertFocusedElement( {
 					tab: 'sp-test1',
 					elementId: 'sp-input1'
@@ -63,6 +68,7 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singlePageDialog' )
+				.then( ie11fix )
 				.then( assertFocusedElement( {
 					tab: 'sp-test1',
 					elementId: 'sp-input1'
@@ -95,6 +101,7 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'singlePageDialog' )
+				.then( ie11fix )
 				.then( assertFocusedElement( {
 					tab: 'sp-test1',
 					elementId: 'sp-input1'
@@ -122,6 +129,7 @@
 		'test multi page dialog should focus elements in a tab list': function() {
 			var bot = this.editorBot;
 			return bot.asyncDialog( 'multiPageDialog' )
+				.then( ie11fix )
 				.then( assertFocusedElement( {
 					tab: 'mp-test1',
 					elementId: 'mp-input11'
@@ -134,6 +142,7 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'multiPageDialog' )
+				.then( ie11fix )
 				.then( assertFocusedElement( {
 					tab: 'mp-test1',
 					elementId: 'mp-input11'
@@ -151,6 +160,7 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'multiPageDialog' )
+				.then( ie11fix )
 				.then( assertFocusedElement( {
 					tab: 'mp-test1',
 					elementId: 'mp-input11'
@@ -168,6 +178,7 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'multiPageDialog' )
+				.then( ie11fix )
 				.then( assertFocusedElement( {
 					tab: 'mp-test1',
 					elementId: 'mp-input11'
@@ -185,6 +196,7 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'multiPageDialog' )
+				.then( ie11fix )
 				.then( assertFocusedElement( {
 					tab: 'mp-test1',
 					elementId: 'mp-input11'
@@ -206,6 +218,7 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'multiPageDialog' )
+				.then( ie11fix )
 				.then( assertFocusedElement( {
 					tab: 'mp-test1',
 					elementId: 'mp-input11'
@@ -231,6 +244,7 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'hiddenPageDialog' )
+				.then( ie11fix )
 				.then( assertFocusedElement( {
 					tab: 'hp-test1',
 					elementId: 'hp-input11'
@@ -253,6 +267,7 @@
 			var bot = this.editorBot;
 
 			return bot.asyncDialog( 'hiddenPageDialog' )
+				.then( ie11fix )
 				.then( assertFocusedElement( {
 					tab: 'hp-test1',
 					elementId: 'hp-input11'
@@ -286,6 +301,19 @@
 			}
 		}
 	} );
+
+	// From some unknow reason we need to wait until dialog fully setup, to have proper focus in it.
+	function ie11fix( dialog ) {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version === 11 ) {
+			return new CKEDITOR.tools.promise( function( resolve ) {
+				CKEDITOR.tools.setTimeout( function() {
+					resolve( dialog );
+				}, 0 );
+			} );
+		} else {
+			return dialog;
+		}
+	}
 
 	bender.test( tests );
 } )();
