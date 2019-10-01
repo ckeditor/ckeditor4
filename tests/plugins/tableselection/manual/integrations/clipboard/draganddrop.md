@@ -1,6 +1,6 @@
 @bender-ui: collapsed
-@bender-tags: bug, 547, 4.13.0
-@bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, clipboard, sourcearea, undo, elementspath, image
+@bender-tags: bug, 547, 4.14.0
+@bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, clipboard, sourcearea, undo, elementspath, image, link
 
 ## Important:
 **After each scenario use `undo` button to revert editor to the basic state.** Observe if undoing works correctly.
