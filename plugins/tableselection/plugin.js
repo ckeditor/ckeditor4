@@ -10,6 +10,7 @@
 		fakeSelectedEditorClass = fakeSelectedClass + '-editor',
 		fakeSelectedTableDataAttribute = 'cke-table-faked-selection-table',
 		ignoredTableAttribute = 'data-cke-tableselection-ignored',
+		draggingActiveAttribute = 'cke-table-dragging-active',
 		fakeSelection = { active: false },
 		tabletools,
 		getSelectedCells,
@@ -231,10 +232,10 @@
 		var editor = evt.editor || evt.sender.editor,
 			selection = editor && editor.getSelection(),
 			ranges = selection && selection.getRanges() || [],
+			table = ranges[ 0 ]._getTableElement( { table: 1 } ),
 			enclosedNode = ranges && ranges[ 0 ].getEnclosedNode(),
 			isEnclosedNodeAnImage = enclosedNode && ( enclosedNode.type == CKEDITOR.NODE_ELEMENT ) && enclosedNode.is( 'img' ),
 			cells,
-			table,
 			iterator;
 
 		if ( !selection ) {
@@ -253,8 +254,8 @@
 			return;
 		}
 
-		// (#2945)
-		if ( ranges[ 0 ]._getTableElement( { table: 1 } ).hasAttribute( ignoredTableAttribute ) ) {
+		// (#2945 and #547)
+		if ( table.hasAttribute( ignoredTableAttribute ) || table.hasAttribute( draggingActiveAttribute ) ) {
 			return;
 		}
 
@@ -304,8 +305,8 @@
 			table = target && target.getAscendant( 'table', true ),
 			tableElements = { table: 1, thead: 1, tbody: 1, tfoot: 1, tr: 1, td: 1, th: 1 };
 
-		// (#2945)
-		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
+		// (#2945 and #547)
+		if ( table && ( table.hasAttribute( ignoredTableAttribute ) || table.hasAttribute( draggingActiveAttribute ) ) ) {
 			return;
 		}
 
@@ -382,13 +383,29 @@
 		var table = evt.data.getTarget().getAscendant( 'table', true ),
 			editor = evt.editor || evt.sender.editor;
 
-		// (#547)
-		if ( table && evt.name == 'dragstart' ) {
-			table.data( ignoredTableAttribute, '' );
+		// (#2945)
+		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
 			return;
-		} else if ( table && evt.name == 'drop' ) {
-			table.data( ignoredTableAttribute, false );
 		}
+
+		var cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true );
+
+		if ( !cell || cell.hasClass( fakeSelectedClass ) ) {
+			return;
+		}
+
+		// On 'dragstart' add a temporal attribute cancelling tableselection features, just like
+		// for #2945. The reason why ignoredTableAttribute can't be reused is that after drag we
+		// don't know if the attribute was added temporary or by design. (#547)
+		if ( evt.name == 'dragstart' ) {
+			editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
+			table.setAttribute( draggingActiveAttribute, '' );
+			return;
+		}
+
+		// If it's 'drop' event, reset fake selection which appears otherwise (no conditional needed though
+		// as 'dragstart' is covered before and the fakeSelectionDragHandler() function only runs for 'dragstart'
+		// and 'drop' events).
 		editor.getSelection().reset();
 		clearFakeCellSelection( editor, true );
 	}
@@ -479,17 +496,17 @@
 
 	function fakeSelectionCopyCutHandler( evt ) {
 		var editor = evt.editor || evt.sender.editor,
-			selection = editor.getSelection();
+			selection = editor.getSelection(),
+			table = selection.getRanges()[ 0 ]._getTableElement( { table: 1 } );
 
 		if ( !selection.isInTable() ) {
 			return;
 		}
 
-		// (#2945)
-		if ( selection.getRanges()[ 0 ]._getTableElement( { table: 1 } ).hasAttribute( ignoredTableAttribute ) ) {
+		// (#2945 and #547)
+		if ( table.hasAttribute( ignoredTableAttribute ) || table.hasAttribute( draggingActiveAttribute ) ) {
 			return;
 		}
-
 
 		copyTable( editor, evt.name === 'cut' );
 	}
@@ -778,6 +795,13 @@
 
 		// (#2945)
 		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
+			return;
+		}
+
+		// (#547)
+		if ( table && table.hasAttribute( draggingActiveAttribute ) ) {
+			editor.fire( 'unlockSnapshot' );
+			table.removeAttribute( draggingActiveAttribute );
 			return;
 		}
 
