@@ -1193,5 +1193,24 @@ bender.test( {
 		assert.areSame( '', dt1._stripHtml( '' ), 'Empty html' );
 		assert.isUndefined( dt1._stripHtml( undefined ), 'Undefined' );
 		assert.isNull( dt1._stripHtml( null ), 'Null' );
+	},
+
+	// (#3415)
+	'test getData body filter whitespace': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer();
+		nativeData.setData( 'text/html',
+			'<html>' +
+			'<body>\n' +
+			'<!--StartFragment--><li>foo</li><!--EndFragment-->\n' +
+			'</body>' +
+			'</html>' );
+
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		assert.areSame( '<li>foo</li>', dataTransfer.getData( 'text/html' ) );
 	}
 } );

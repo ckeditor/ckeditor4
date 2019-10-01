@@ -3,6 +3,10 @@
 
 ## CKEditor 4.13.1
 
+Fixed Issues:
+
+* [#3415](https://github.com/ckeditor/ckeditor4/issues/3415): [Firefox] Fixed: Pasting individual list elements fails. Thanks to [Jack Wickham](https://github.com/jackwickham)!
+
 ## CKEditor 4.13
 
 New Features:

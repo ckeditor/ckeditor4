@@ -2325,7 +2325,7 @@
 		this._ = {
 			metaRegExp: /^<meta.*?>/i,
 			bodyRegExp: /<body(?:[\s\S]*?)>([\s\S]*)<\/body>/i,
-			fragmentRegExp: /<!--(?:Start|End)Fragment-->/g,
+			fragmentRegExp: /\s*<!--StartFragment-->|<!--EndFragment-->\s*/g,
 
 			data: {},
 			files: [],
