@@ -1,11 +1,8 @@
 ( function() {
 	'use strict';
 
-	// Flag indicates if safety timout for promise should be enabled.
-	var hasRejects = true;
-
-	// Function extends dialog with a new event which executes a `focus:change` event, when tab or element on focusList gain a focus
-	// This general approach helps to finish promises when focus is changed inside dialog.
+	// Function extends dialog with a new event (`focus:change`) which is executed, when tab or element on focusList gain a focus
+	// This general approach helps to finish promises, when focus was changed inside the dialog.
 	function onLoadHandler( evt ) {
 		var dialog = evt.sender;
 
@@ -24,7 +21,8 @@
 		} );
 	}
 
-	// Function generates specific event ( based on config ), which have to result with focus change in dialog.
+	// Function generates specific event ( based on config ), which have to change focus in dialog.
+	// For example pressing a `TAB` key should move focus to the next ocusable element.
 	function focusChanger( dialog, config ) {
 		var element;
 
@@ -198,7 +196,7 @@
 									type: 'text',
 									id: 'hp-input21',
 									label: 'input 21',
-									requiredContent: 'fakeElement'
+									requiredContent: 'fakeElement' // This input element should be hidden.
 								},
 								{
 									type: 'text',
@@ -209,14 +207,14 @@
 									type: 'text',
 									id: 'hp-input23',
 									label: 'input 23',
-									requiredContent: 'fakeElement'
+									requiredContent: 'fakeElement' // This input element should be hidden.
 								}
 							]
 						},
 						{
 							id: 'hp-test3',
 							label: 'HP 3',
-							requiredContent: 'fakeElement',
+							requiredContent: 'fakeElement', // Entire tab should be hidden.
 							elements: [
 								{
 									type: 'text',
@@ -264,8 +262,8 @@
 
 		// Assert for checking dialog elements and buttons.
 		// config.buttonName {String} 'ok' or 'cancel'
-		// config.tab {String} ID of a tabe in dialog
-		// config.elementId {String} ID of an element on a given tab page
+		// config.tab {String} the ID of a tab in the dialog
+		// config.elementId {String} the ID of an element on a given tab page
 		assertFocusedElement: function( config ) {
 			return function( dialog ) {
 				var actualFocusedElement = dialog._.focusList[ dialog._.currentFocusIndex ];
@@ -296,23 +294,23 @@
 
 		// Provides a thenable function which preserved proper config in a closure.
 		// The idea is to wrap function which change focus (focusChanger) with a promise. Then wait until dialog generate
-		// a `focus:change` event which should exist because of execution of onLoadHandler.
-		// There is additional safety mechanism which rejects promise after 5 seconds without focus change. It might be disabled with
-		// `hasRejects` flag.
+		// a `focus:change` event which should be fired because of execution of onLoadHandler.
+		// There is additional safety switch which rejects promise after 5 seconds without focus change.
 		focusElement: function( config ) {
 			return function( dialog ) {
 				return new CKEDITOR.tools.promise( function( resolve, reject ) {
 					dialog.once( 'focus:change', function() {
+						// Keep the event asynchronous to have sure that all changes related to focus change on a given element or tab
+						// was already prcoessed.
 						CKEDITOR.tools.setTimeout( function() {
 							resolve( dialog );
 						} );
 					} );
 
-					if ( hasRejects ) {
-						CKEDITOR.tools.setTimeout( function() {
-							reject( new Error( 'Focus hasn\'t change for last 5 seconds' ) );
-						}, 5000 );
-					}
+					// Safety switch to finish promise in case of focusing not tracked element, or not changing a focus in a dialog.
+					CKEDITOR.tools.setTimeout( function() {
+						reject( new Error( 'Focus hasn\'t change for last 5 seconds' ) );
+					}, 5000 );
 
 					focusChanger( dialog, config );
 				} );

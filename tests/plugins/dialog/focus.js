@@ -23,8 +23,7 @@
 	bender.editor = true;
 
 	// Tests doesn't contain cases where focus is preserved on an element, as such cases doesn't trigger a focus event.
-	// Detection of such cases would be really time consuming and might result with a falsa positive when some other element accidently
-	// obtain focus.
+	// Detection of such cases would be really time consuming and might result with a falsa positive.
 	var tests = {
 		'test single page dialog should focus elements in a correct order': function() {
 			var bot = this.editorBot;
