@@ -12,11 +12,12 @@ Please refer to the [CONTRIBUTING](https://github.com/ckeditor/ckeditor4/blob/ma
 
 [Professional Support Channel](https://ckeditor.com/contact) – a dedicated channel for users with commercial license.
 
-For more advanced needs (e.g. CKEditor integration in your products, or development of customized plugins and features), you can get access to CKEditor core developers through [Assistance Package](https://cksource.com/ckeditor/services#assistance) or [Custom Development](https://cksource.com/ckeditor/services#custom-development) services.
+For more advanced needs (e.g. CKEditor integration in your products, or development of customized plugins and features), you can get access to CKEditor core developers through [Assistance Package](https://ckeditor.com/pricing/#assistance) or [Custom Development](https://ckeditor.com/pricing/#custom-development) services.
+
 ## Documentation & Examples
 
 For more reading visit our supporting resources:
 
-* An extensive [CKEditor 4 documentation](https://ckeditor.com/docs/ckeditor4) with information about CKEditor features and configuration settings.
+* An extensive [CKEditor 4 documentation](https://ckeditor.com/docs/ckeditor4/latest/index.html) with information about CKEditor features and configuration settings.
 * [CKEditor 4 examples](https://ckeditor.com/docs/ckeditor4/latest/examples/index.html) that you can try out and even download to copy and implement in your own environment.
 * A knowledge base with [Frequently Asked Questions](https://support.ckeditor.com/hc/en-us/sections/115000842245-CKEditor-4-FAQ).
