@@ -14,4 +14,4 @@ An error regarding `plugins/balloontoolbar/skins/kama,/apps/ckeditor/skins/kama/
 
 ## Note
 
-There might be one error logged regarding balloon panel, which should be fixed by [#1221](https://github.com/ckeditor/ckeditor-dev/issues/1221). It's the same issue but it's originating from **balloonpanel** plugin, not balloontoolbar.
+There might be one error logged regarding balloon panel, which should be fixed by [#1221](https://github.com/ckeditor/ckeditor4/issues/1221). It's the same issue but it's originating from **balloonpanel** plugin, not balloontoolbar.

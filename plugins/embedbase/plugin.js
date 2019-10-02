@@ -104,10 +104,10 @@
 	 *
 	 * See example usage of this method in:
 	 *
-	 * * [/plugins/embed/plugin.js](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/embed/plugin.js)
-	 * * [/plugins/embedsemantic/plugin.js](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/embedsemantic/plugin.js)
+	 * * [/plugins/embed/plugin.js](https://github.com/ckeditor/ckeditor4/blob/master/plugins/embed/plugin.js)
+	 * * [/plugins/embedsemantic/plugin.js](https://github.com/ckeditor/ckeditor4/blob/master/plugins/embedsemantic/plugin.js)
 	 *
-	 * Note that both these plugins reuse the [dialog](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/embedbase/dialogs/embedbase.js)
+	 * Note that both these plugins reuse the [dialog](https://github.com/ckeditor/ckeditor4/blob/master/plugins/embedbase/dialogs/embedbase.js)
 	 * defined by the `embedbase` plugin. Integration of the asynchronous way of loading content with a dialog requires additional
 	 * effort. Check the dialog's code for more details.
 	 *

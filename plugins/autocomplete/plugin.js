@@ -770,7 +770,7 @@
 			}
 
 			// Consider that offset host might be repositioned on its own.
-			// Similar to #1048. See https://github.com/ckeditor/ckeditor-dev/pull/1732#discussion_r182790235.
+			// Similar to #1048. See https://github.com/ckeditor/ckeditor4/pull/1732#discussion_r182790235.
 			var hostElement = CKEDITOR.document.getBody();
 			if ( hostElement.getComputedStyle( 'position' ) === 'static' ) {
 				hostElement = hostElement.getParent();

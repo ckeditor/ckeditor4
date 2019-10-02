@@ -75,7 +75,7 @@
  *		];
  *
  * For a sample template file
- * [see `templates/default.js`](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/templates/templates/default.js).
+ * [see `templates/default.js`](https://github.com/ckeditor/ckeditor4/blob/master/plugins/templates/templates/default.js).
  *
  * @cfg {String[]}
  * @member CKEDITOR.config

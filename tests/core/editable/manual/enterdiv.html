@@ -22,7 +22,7 @@
 <script>
 	for ( var i = 1; i < 5; i++ ) {
 		// Hide editors for which test would fail on Chrome, Safari or IE<9 because of a browser upstream issue
-		// https://github.com/ckeditor/ckeditor-dev/pull/2776#issuecomment-463144905
+		// https://github.com/ckeditor/ckeditor4/pull/2776#issuecomment-463144905
 		var isIgnoredBrowser = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.webkit;
 
 		if ( isIgnoredBrowser && !(i%2) ) {

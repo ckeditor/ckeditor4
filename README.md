@@ -33,7 +33,7 @@ Use it on your website:
 <script src="./node_modules/ckeditor/ckeditor.js"></script>
 <script>
     CKEDITOR.replace( 'editor' );
-</script> 
+</script>
 ```
 
 ### Using [CDN](https://cdn.ckeditor.com/#ckeditor4)

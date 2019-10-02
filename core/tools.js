@@ -2611,7 +2611,7 @@
 	 *
 	 * Unlike {@link CKEDITOR.tools.buffers.event} this class allows passing custom parameters into the {@link #input}
 	 * function. For more information see the
-	 * [Throttling function issue](https://github.com/ckeditor/ckeditor-dev/issues/1993).
+	 * [Throttling function issue](https://github.com/ckeditor/ckeditor4/issues/1993).
 	 *
 	 * @since 4.11.0
 	 * @class CKEDITOR.tools.buffers.throttle
