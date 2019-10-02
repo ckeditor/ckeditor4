@@ -8,6 +8,7 @@ Fixed Issues:
 * [#3415](https://github.com/ckeditor/ckeditor4/issues/3415): [Firefox] Fixed: Pasting individual list elements fails. Thanks to [Jack Wickham](https://github.com/jackwickham)!
 * [#3413](https://github.com/ckeditor/ckeditor4/issues/3413): Fixed: Menu items with labels containing double quotes are rendered incorrectly.
 * [#3475](https://github.com/ckeditor/ckeditor4/issues/3475): [Firefox] Fixed: Pasting plain text over existing content fails and throws an error.
+* [#2027](https://github.com/ckeditor/ckeditor4/issues/2027): Fixed: Incorrect email display text after reopening [Link](https://ckeditor.com/cke4/addon/link) dialog for display names starting with `@`.
 
 ## CKEditor 4.13
 

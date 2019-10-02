@@ -65,7 +65,6 @@
 					nestedLinks[ j ].remove( true );
 				}
 
-
 				// Apply style.
 				style.applyToRange( range, editor );
 
@@ -78,9 +77,11 @@
 		function editLinksInSelection( editor, selectedElements, data ) {
 			var attributes = plugin.getLinkAttributes( editor, data ),
 				ranges = [],
+				isDisplayChanged,
+				isEmailEqualDisplay,
+				isURLEqualDisplay,
 				element,
 				href,
-				textView,
 				newText,
 				i;
 
@@ -88,16 +89,17 @@
 				// We're only editing an existing link, so just overwrite the attributes.
 				element = selectedElements[ i ];
 				href = element.data( 'cke-saved-href' );
-				textView = element.getHtml();
+				isDisplayChanged = data.linkText && initialLinkText != data.linkText;
+				isURLEqualDisplay = href == initialLinkText;
+				isEmailEqualDisplay = data.type == 'email' && href == 'mailto:' + initialLinkText;
 
 				element.setAttributes( attributes.set );
 				element.removeAttributes( attributes.removed );
 
-
-				if ( data.linkText && initialLinkText != data.linkText ) {
+				if ( isDisplayChanged ) {
 					// Display text has been changed.
 					newText = data.linkText;
-				} else if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
+				} else if ( isURLEqualDisplay || isEmailEqualDisplay ) {
 					// Update text view when user changes protocol (https://dev.ckeditor.com/ticket/4612).
 					// Short mailto link text view (https://dev.ckeditor.com/ticket/5736).
 					newText = data.type == 'email' ? data.email.address : attributes.set[ 'data-cke-saved-href' ];
@@ -116,97 +118,105 @@
 
 		// Handles the event when the "Target" selection box is changed.
 		var targetChanged = function() {
-				var dialog = this.getDialog(),
-					popupFeatures = dialog.getContentElement( 'target', 'popupFeatures' ),
-					targetName = dialog.getContentElement( 'target', 'linkTargetName' ),
-					value = this.getValue();
+			var dialog = this.getDialog(),
+				popupFeatures = dialog.getContentElement( 'target', 'popupFeatures' ),
+				targetName = dialog.getContentElement( 'target', 'linkTargetName' ),
+				value = this.getValue();
 
-				if ( !popupFeatures || !targetName )
-					return;
+			if ( !popupFeatures || !targetName ) {
+				return;
+			}
 
-				popupFeatures = popupFeatures.getElement();
-				popupFeatures.hide();
-				targetName.setValue( '' );
+			popupFeatures = popupFeatures.getElement();
+			popupFeatures.hide();
+			targetName.setValue( '' );
 
-				switch ( value ) {
-					case 'frame':
-						targetName.setLabel( editor.lang.link.targetFrameName );
-						targetName.getElement().show();
-						break;
-					case 'popup':
-						popupFeatures.show();
-						targetName.setLabel( editor.lang.link.targetPopupName );
-						targetName.getElement().show();
-						break;
-					default:
-						targetName.setValue( value );
-						targetName.getElement().hide();
-						break;
-				}
+			switch ( value ) {
+				case 'frame':
+					targetName.setLabel( editor.lang.link.targetFrameName );
+					targetName.getElement().show();
+					break;
+				case 'popup':
+					popupFeatures.show();
+					targetName.setLabel( editor.lang.link.targetPopupName );
+					targetName.getElement().show();
+					break;
+				default:
+					targetName.setValue( value );
+					targetName.getElement().hide();
+					break;
+			}
 
-			};
+		};
 
 		// Handles the event when the "Type" selection box is changed.
 		var linkTypeChanged = function() {
-				var dialog = this.getDialog(),
-					partIds = [ 'urlOptions', 'anchorOptions', 'emailOptions', 'telOptions' ],
-					typeValue = this.getValue(),
-					uploadTab = dialog.definition.getContents( 'upload' ),
-					uploadInitiallyHidden = uploadTab && uploadTab.hidden;
+			var dialog = this.getDialog(),
+				partIds = [ 'urlOptions', 'anchorOptions', 'emailOptions', 'telOptions' ],
+				typeValue = this.getValue(),
+				uploadTab = dialog.definition.getContents( 'upload' ),
+				uploadInitiallyHidden = uploadTab && uploadTab.hidden;
 
-				if ( typeValue == 'url' ) {
-					if ( editor.config.linkShowTargetTab )
-						dialog.showPage( 'target' );
-					if ( !uploadInitiallyHidden )
-						dialog.showPage( 'upload' );
+			if ( typeValue == 'url' ) {
+				if ( editor.config.linkShowTargetTab ) {
+					dialog.showPage( 'target' );
+				}
+				if ( !uploadInitiallyHidden ) {
+					dialog.showPage( 'upload' );
+				}
+			} else {
+				dialog.hidePage( 'target' );
+				if ( !uploadInitiallyHidden ) {
+					dialog.hidePage( 'upload' );
+				}
+			}
+
+			for ( var i = 0; i < partIds.length; i++ ) {
+				var element = dialog.getContentElement( 'info', partIds[ i ] );
+				if ( !element ) {
+					continue;
+				}
+
+				element = element.getElement().getParent().getParent();
+				if ( partIds[ i ] == typeValue + 'Options' ) {
+					element.show();
 				} else {
-					dialog.hidePage( 'target' );
-					if ( !uploadInitiallyHidden )
-						dialog.hidePage( 'upload' );
+					element.hide();
 				}
+			}
 
-				for ( var i = 0; i < partIds.length; i++ ) {
-					var element = dialog.getContentElement( 'info', partIds[ i ] );
-					if ( !element )
-						continue;
-
-					element = element.getElement().getParent().getParent();
-					if ( partIds[ i ] == typeValue + 'Options' )
-						element.show();
-					else
-						element.hide();
-				}
-
-				dialog.layout();
-			};
+			dialog.layout();
+		};
 
 		var setupParams = function( page, data ) {
-				if ( data[ page ] )
-					this.setValue( data[ page ][ this.id ] || '' );
-			};
+			if ( data[ page ] ) {
+				this.setValue( data[ page ][ this.id ] || '' );
+			}
+		};
 
 		var setupPopupParams = function( data ) {
-				return setupParams.call( this, 'target', data );
-			};
+			return setupParams.call( this, 'target', data );
+		};
 
 		var setupAdvParams = function( data ) {
-				return setupParams.call( this, 'advanced', data );
-			};
+			return setupParams.call( this, 'advanced', data );
+		};
 
 		var commitParams = function( page, data ) {
-				if ( !data[ page ] )
-					data[ page ] = {};
+			if ( !data[ page ] ) {
+				data[ page ] = {};
+			}
 
-				data[ page ][ this.id ] = this.getValue() || '';
-			};
+			data[ page ][ this.id ] = this.getValue() || '';
+		};
 
 		var commitPopupParams = function( data ) {
-				return commitParams.call( this, 'target', data );
-			};
+			return commitParams.call( this, 'target', data );
+		};
 
 		var commitAdvParams = function( data ) {
-				return commitParams.call( this, 'advanced', data );
-			};
+			return commitParams.call( this, 'advanced', data );
+		};
 
 		var commonLang = editor.lang.common,
 			linkLang = editor.lang.link,
@@ -287,8 +297,9 @@
 								}
 							},
 							commit: function( data ) {
-								if ( !data.url )
+								if ( !data.url ) {
 									data.url = {};
+								}
 
 								data.url.protocol = this.getValue();
 							}
@@ -306,9 +317,9 @@
 								var protocolCmb = this.getDialog().getContentElement( 'info', 'protocol' ),
 									url = this.getValue(),
 									urlOnChangeProtocol = /^(http|https|ftp|news):\/\/(?=.)/i,
-									urlOnChangeTestOther = /^((javascript:)|[#\/\.\?])/i;
+									urlOnChangeTestOther = /^((javascript:)|[#\/\.\?])/i,
+									protocol = urlOnChangeProtocol.exec( url );
 
-								var protocol = urlOnChangeProtocol.exec( url );
 								if ( protocol ) {
 									this.setValue( url.substr( protocol[ 0 ].length ) );
 									protocolCmb.setValue( protocol[ 0 ].toLowerCase() );
@@ -319,30 +330,36 @@
 								this.allowOnChange = true;
 							},
 							onChange: function() {
-								if ( this.allowOnChange ) // Dont't call on dialog load.
-								this.onKeyUp();
+								// Dont't call on dialog load.
+								if ( this.allowOnChange ) {
+									this.onKeyUp();
+								}
 							},
 							validate: function() {
 								var dialog = this.getDialog();
 
-								if ( dialog.getContentElement( 'info', 'linkType' ) && dialog.getValueOf( 'info', 'linkType' ) != 'url' )
+								if ( dialog.getContentElement( 'info', 'linkType' ) && dialog.getValueOf( 'info', 'linkType' ) != 'url' ) {
 									return true;
+								}
 
 								if ( !editor.config.linkJavaScriptLinksAllowed && ( /javascript\:/ ).test( this.getValue() ) ) {
 									alert( commonLang.invalidValue ); // jshint ignore:line
 									return false;
 								}
 
-								if ( this.getDialog().fakeObj ) // Edit Anchor.
-								return true;
+								// Edit Anchor.
+								if ( this.getDialog().fakeObj ) {
+									return true;
+								}
 
 								var func = CKEDITOR.dialog.validate.notEmpty( linkLang.noUrl );
 								return func.apply( this );
 							},
 							setup: function( data ) {
 								this.allowOnChange = false;
-								if ( data.url )
+								if ( data.url ) {
 									this.setValue( data.url.url );
+								}
 								this.allowOnChange = true;
 
 							},
@@ -351,16 +368,18 @@
 								// to carry all the operations https://dev.ckeditor.com/ticket/4724
 								this.onChange();
 
-								if ( !data.url )
+								if ( !data.url ) {
 									data.url = {};
+								}
 
 								data.url.url = this.getValue();
 								this.allowOnChange = false;
 							}
 						} ],
 						setup: function() {
-							if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
+							if ( !this.getDialog().getContentElement( 'info', 'linkType' ) ) {
 								this.getElement().show();
+							}
 						}
 					},
 					{
@@ -404,21 +423,25 @@
 
 									if ( anchors ) {
 										for ( var i = 0; i < anchors.length; i++ ) {
-											if ( anchors[ i ].name )
+											if ( anchors[ i ].name ) {
 												this.add( anchors[ i ].name );
+											}
 										}
 									}
 
-									if ( data.anchor )
+									if ( data.anchor ) {
 										this.setValue( data.anchor.name );
+									}
 
 									var linkType = this.getDialog().getContentElement( 'info', 'linkType' );
-									if ( linkType && linkType.getValue() == 'email' )
+									if ( linkType && linkType.getValue() == 'email' ) {
 										this.focus();
+									}
 								},
 								commit: function( data ) {
-									if ( !data.anchor )
+									if ( !data.anchor ) {
 										data.anchor = {};
+									}
 
 									data.anchor.name = this.getValue();
 								}
@@ -438,17 +461,20 @@
 
 									if ( anchors ) {
 										for ( var i = 0; i < anchors.length; i++ ) {
-											if ( anchors[ i ].id )
+											if ( anchors[ i ].id ) {
 												this.add( anchors[ i ].id );
+											}
 										}
 									}
 
-									if ( data.anchor )
+									if ( data.anchor ) {
 										this.setValue( data.anchor.id );
+									}
 								},
 								commit: function( data ) {
-									if ( !data.anchor )
+									if ( !data.anchor ) {
 										data.anchor = {};
+									}
 
 									data.anchor.id = this.getValue();
 								}
@@ -470,8 +496,9 @@
 						}
 					} ],
 					setup: function() {
-						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
+						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) ) {
 							this.getElement().hide();
+						}
 					}
 				},
 				{
@@ -486,23 +513,27 @@
 						validate: function() {
 							var dialog = this.getDialog();
 
-							if ( !dialog.getContentElement( 'info', 'linkType' ) || dialog.getValueOf( 'info', 'linkType' ) != 'email' )
+							if ( !dialog.getContentElement( 'info', 'linkType' ) || dialog.getValueOf( 'info', 'linkType' ) != 'email' ) {
 								return true;
+							}
 
 							var func = CKEDITOR.dialog.validate.notEmpty( linkLang.noEmail );
 							return func.apply( this );
 						},
 						setup: function( data ) {
-							if ( data.email )
+							if ( data.email ) {
 								this.setValue( data.email.address );
+							}
 
 							var linkType = this.getDialog().getContentElement( 'info', 'linkType' );
-							if ( linkType && linkType.getValue() == 'email' )
+							if ( linkType && linkType.getValue() == 'email' ) {
 								this.select();
+							}
 						},
 						commit: function( data ) {
-							if ( !data.email )
+							if ( !data.email ) {
 								data.email = {};
+							}
 
 							data.email.address = this.getValue();
 						}
@@ -512,12 +543,14 @@
 						id: 'emailSubject',
 						label: linkLang.emailSubject,
 						setup: function( data ) {
-							if ( data.email )
+							if ( data.email ) {
 								this.setValue( data.email.subject );
+							}
 						},
 						commit: function( data ) {
-							if ( !data.email )
+							if ( !data.email ) {
 								data.email = {};
+							}
 
 							data.email.subject = this.getValue();
 						}
@@ -529,19 +562,22 @@
 						rows: 3,
 						'default': '',
 						setup: function( data ) {
-							if ( data.email )
+							if ( data.email ) {
 								this.setValue( data.email.body );
+							}
 						},
 						commit: function( data ) {
-							if ( !data.email )
+							if ( !data.email ) {
 								data.email = {};
+							}
 
 							data.email.body = this.getValue();
 						}
 					} ],
 					setup: function() {
-						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
+						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) ) {
 							this.getElement().hide();
+						}
 					}
 				},
 				{
@@ -600,13 +636,15 @@
 						],
 						onChange: targetChanged,
 						setup: function( data ) {
-							if ( data.target )
+							if ( data.target ) {
 								this.setValue( data.target.type || 'notSet' );
+							}
 							targetChanged.call( this );
 						},
 						commit: function( data ) {
-							if ( !data.target )
+							if ( !data.target ) {
 								data.target = {};
+							}
 
 							data.target.type = this.getValue();
 						}
@@ -617,12 +655,14 @@
 						label: linkLang.targetFrameName,
 						'default': '',
 						setup: function( data ) {
-							if ( data.target )
+							if ( data.target ) {
 								this.setValue( data.target.name );
+							}
 						},
 						commit: function( data ) {
-							if ( !data.target )
+							if ( !data.target ) {
 								data.target = {};
+							}
 
 							data.target.name = this.getValue().replace( /([^\x00-\x7F]|\s)/gi, '' );
 						}
@@ -652,7 +692,6 @@
 								label: linkLang.popupStatusBar,
 								setup: setupPopupParams,
 								commit: commitPopupParams
-
 							} ]
 						},
 						{
@@ -663,7 +702,6 @@
 								label: linkLang.popupLocationBar,
 								setup: setupPopupParams,
 								commit: commitPopupParams
-
 							},
 							{
 								type: 'checkbox',
@@ -671,7 +709,6 @@
 								label: linkLang.popupToolbar,
 								setup: setupPopupParams,
 								commit: commitPopupParams
-
 							} ]
 						},
 						{
@@ -682,7 +719,6 @@
 								label: linkLang.popupMenuBar,
 								setup: setupPopupParams,
 								commit: commitPopupParams
-
 							},
 							{
 								type: 'checkbox',
@@ -690,7 +726,6 @@
 								label: linkLang.popupFullScreen,
 								setup: setupPopupParams,
 								commit: commitPopupParams
-
 							} ]
 						},
 						{
@@ -701,7 +736,6 @@
 								label: linkLang.popupScrollBars,
 								setup: setupPopupParams,
 								commit: commitPopupParams
-
 							},
 							{
 								type: 'checkbox',
@@ -709,7 +743,6 @@
 								label: linkLang.popupDependent,
 								setup: setupPopupParams,
 								commit: commitPopupParams
-
 							} ]
 						},
 						{
@@ -722,7 +755,6 @@
 								id: 'width',
 								setup: setupPopupParams,
 								commit: commitPopupParams
-
 							},
 							{
 								type: 'text',
@@ -732,7 +764,6 @@
 								id: 'left',
 								setup: setupPopupParams,
 								commit: commitPopupParams
-
 							} ]
 						},
 						{
@@ -745,7 +776,6 @@
 								id: 'height',
 								setup: setupPopupParams,
 								commit: commitPopupParams
-
 							},
 							{
 								type: 'text',
@@ -755,7 +785,6 @@
 								id: 'top',
 								setup: setupPopupParams,
 								commit: commitPopupParams
-
 							} ]
 						} ]
 					} ]
@@ -824,7 +853,6 @@
 							maxLength: 1,
 							setup: setupAdvParams,
 							commit: commitAdvParams
-
 						} ]
 					},
 					{
@@ -837,7 +865,6 @@
 							requiredContent: 'a[name]',
 							setup: setupAdvParams,
 							commit: commitAdvParams
-
 						},
 						{
 							type: 'text',
@@ -848,7 +875,6 @@
 							'default': '',
 							setup: setupAdvParams,
 							commit: commitAdvParams
-
 						},
 						{
 							type: 'text',
@@ -859,7 +885,6 @@
 							maxLength: 5,
 							setup: setupAdvParams,
 							commit: commitAdvParams
-
 						} ]
 					} ]
 				},
@@ -877,7 +902,6 @@
 							id: 'advTitle',
 							setup: setupAdvParams,
 							commit: commitAdvParams
-
 						},
 						{
 							type: 'text',
@@ -887,7 +911,6 @@
 							id: 'advContentType',
 							setup: setupAdvParams,
 							commit: commitAdvParams
-
 						} ]
 					},
 					{
@@ -901,7 +924,6 @@
 							id: 'advCSSClasses',
 							setup: setupAdvParams,
 							commit: commitAdvParams
-
 						},
 						{
 							type: 'text',
@@ -911,7 +933,6 @@
 							id: 'advCharset',
 							setup: setupAdvParams,
 							commit: commitAdvParams
-
 						} ]
 					},
 					{
@@ -946,8 +967,9 @@
 							requiredContent: 'a[download]',
 							label: linkLang.download,
 							setup: function( data ) {
-								if ( data.download !== undefined )
+								if ( data.download !== undefined ) {
 									this.setValue( 'checked', 'checked' );
+								}
 							},
 							commit: function( data ) {
 								if ( this.getValue() ) {
@@ -1003,11 +1025,13 @@
 				}
 			},
 			onLoad: function() {
-				if ( !editor.config.linkShowAdvancedTab )
+				if ( !editor.config.linkShowAdvancedTab ) {
 					this.hidePage( 'advanced' ); //Hide Advanded tab.
+				}
 
-				if ( !editor.config.linkShowTargetTab )
+				if ( !editor.config.linkShowTargetTab ) {
 					this.hidePage( 'target' ); //Hide Target tab.
+				}
 			},
 			// Inital focus on 'url' field if link is of type URL.
 			onFocus: function() {
