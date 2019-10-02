@@ -62,6 +62,92 @@
 				menu.hide();
 				assert.areSame( 0, spy.callCount, 'item command was not fired' );
 			} );
+		},
+
+		// (#3413)
+		'test context menu with item containing double quotes': function() {
+			var label = 'Custom "Item" Foo<suggestion>Bar<suggestion>';
+
+			bender.editorBot.create( {
+				name: 'editor_quotes-contextmenu',
+				config: {
+					plugins: 'wysiwygarea,contextmenu',
+					on: {
+						pluginsLoaded: function( evt ) {
+							var editor = evt.editor;
+
+							editor.addMenuGroup( 'testGroup' );
+							editor.addMenuItem( 'test', {
+								label: label,
+								group: 'testGroup',
+								order: 0
+							} );
+
+							editor.contextMenu.addListener( function() {
+								return {
+									test: CKEDITOR.TRISTATE_OFF
+								};
+							} );
+						}
+					}
+				}
+			}, function( bot ) {
+				bot.contextmenu( function( menu ) {
+					assertMenuItemAttrs( menu, label );
+				} );
+			} );
+		},
+
+		// (#3413)
+		'test menubutton with item containing double quotes': function() {
+			var label = 'Custom "Item" Foo<suggestion>Bar<suggestion>';
+
+			bender.editorBot.create( {
+				name: 'editor_quotes-menubutton',
+				config: {
+					plugins: 'wysiwygarea,toolbar,menubutton',
+					toolbar: [ [ 'Menubutton' ] ],
+					on: {
+						pluginsLoaded: function( evt ) {
+							var editor = evt.editor;
+
+							editor.addMenuGroup( 'testGroup' );
+							editor.addMenuItem( 'test', {
+								label: label,
+								group: 'testGroup',
+								order: 0
+							} );
+
+							editor.ui.add( 'Menubutton', CKEDITOR.UI_MENUBUTTON, {
+								label: 'Menu button',
+								onMenu: function() {
+									return {
+										test: CKEDITOR.TRISTATE_OFF
+									};
+								}
+							} );
+						}
+					}
+				}
+			}, function( bot ) {
+				bot.menu( 'Menubutton', function( menu ) {
+					assertMenuItemAttrs( menu, label );
+				} );
+			} );
 		}
 	} );
 } )();
+
+function assertMenuItemAttrs( menu, label ) {
+	var html = [],
+		encoded = CKEDITOR.tools.htmlEncodeAttr( label ),
+		ariaLabelRegex = new RegExp( 'aria-label="' + encoded + '"' ),
+		titleRegex = new RegExp( 'title="' + encoded + '"' ),
+		hrefRegex = new RegExp( 'href="javascript:void\\(\'' + encoded + '\'\\)"' );
+
+	menu.items[ 0 ].render( menu, 0, html );
+
+	assert.isMatching( ariaLabelRegex, html[ 0 ] );
+	assert.isMatching( titleRegex, html[ 0 ] );
+	assert.isMatching( hrefRegex, html[ 0 ] );
+}

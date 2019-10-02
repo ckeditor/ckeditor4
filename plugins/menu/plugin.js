@@ -88,7 +88,7 @@ CKEDITOR.plugins.add( 'menu', {
 		' _cke_focus=1' +
 		' hidefocus="true"' +
 		' role="{role}"' +
-		' aria-label="{label}"' +
+		' aria-label="{attrLabel}"' +
 		' aria-describedby="{id}_description"' +
 		' aria-haspopup="{hasPopup}"' +
 		' aria-disabled="{disabled}"' +
@@ -540,28 +540,32 @@ CKEDITOR.plugins.add( 'menu', {
 					}
 				}
 
-				var params = {
-					id: id,
-					name: this.name,
-					iconName: iconName,
-					label: this.label,
-					cls: this.className || '',
-					state: stateName,
-					hasPopup: hasSubMenu ? 'true' : 'false',
-					disabled: state == CKEDITOR.TRISTATE_DISABLED,
-					title: this.label + ( shortcut ? ' (' + shortcut.display + ')' : '' ),
-					ariaShortcut: shortcut ? editor.lang.common.keyboardShortcut + ' ' + shortcut.aria : '',
-					href: 'javascript:void(\'' + ( this.label || '' ).replace( "'" + '' ) + '\')', // jshint ignore:line
-					hoverFn: menu._.itemOverFn,
-					moveOutFn: menu._.itemOutFn,
-					clickFn: menu._.itemClickFn,
-					index: index,
-					iconStyle: CKEDITOR.skin.getIconStyle( iconName, ( this.editor.lang.dir == 'rtl' ), iconName == this.icon ? null : this.icon, this.iconOffset ),
-					shortcutHtml: shortcut ? menuShortcutTpl.output( { shortcut: shortcut.display } ) : '',
-					arrowHtml: hasSubMenu ? menuArrowTpl.output( { label: arrowLabel } ) : '',
-					role: this.role ? this.role : 'menuitem',
-					ariaChecked: ariaChecked
-				};
+				// We must escape label for use inside attributes to not close them
+				// too early by using double quotes inside label (#3413).
+				var attrLabel = CKEDITOR.tools.htmlEncodeAttr( this.label ),
+					params = {
+						id: id,
+						name: this.name,
+						iconName: iconName,
+						label: this.label,
+						attrLabel: attrLabel,
+						cls: this.className || '',
+						state: stateName,
+						hasPopup: hasSubMenu ? 'true' : 'false',
+						disabled: state == CKEDITOR.TRISTATE_DISABLED,
+						title: attrLabel + ( shortcut ? ' (' + shortcut.display + ')' : '' ),
+						ariaShortcut: shortcut ? editor.lang.common.keyboardShortcut + ' ' + shortcut.aria : '',
+						href: 'javascript:void(\'' + ( attrLabel || '' ).replace( "'" + '' ) + '\')', // jshint ignore:line
+						hoverFn: menu._.itemOverFn,
+						moveOutFn: menu._.itemOutFn,
+						clickFn: menu._.itemClickFn,
+						index: index,
+						iconStyle: CKEDITOR.skin.getIconStyle( iconName, ( this.editor.lang.dir == 'rtl' ), iconName == this.icon ? null : this.icon, this.iconOffset ),
+						shortcutHtml: shortcut ? menuShortcutTpl.output( { shortcut: shortcut.display } ) : '',
+						arrowHtml: hasSubMenu ? menuArrowTpl.output( { label: arrowLabel } ) : '',
+						role: this.role ? this.role : 'menuitem',
+						ariaChecked: ariaChecked
+					};
 
 				menuItemTpl.output( params, output );
 			}
