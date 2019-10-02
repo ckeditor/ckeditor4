@@ -4,26 +4,22 @@
 
 ## Scenario 1:
 
-1. Open link dialog for first link (@CKSource).
+1. Open link dialog for the first link (`@CKSource`).
 1. Click OK.
 
-### Expected:
+  ### Expected:
+  Display text for link didn't change.
 
-Display text for link didn't change.
-
-### Unexpected:
-
-Display text change to link's href.
+  ### Unexpected:
+  Display text changed to link's href.
 
 ## Scenario 2:
 
-1. Open link dialog for second link (Victoria@ckeditor.com).
-2. Change E-mail Address to whatever.
+1. Open link dialog for the second link (`Victoria@ckeditor.com`).
+2. Change `E-mail Address` to something else.
 
-### Expected:
+  ### Expected:
+  Display name changed alongside address.
 
-Display name changed alongside address.
-
-### Unexpected:
-
-Display name changed to something else or didn't change at all.
+  ### Unexpected:
+  Display name changed to something else or didn't change at all.
