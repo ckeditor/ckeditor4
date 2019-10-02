@@ -386,7 +386,7 @@
 			}
 
 			// For performance reason do not parse data if it does not contain img tag and data attribute.
-			if ( !evt.data.dataValue.match( /<img[\s\S]+data:/i ) ) {
+			if ( !/<img[^>]+data:image\/(jpeg|png|gif|bmp);base64,/i.test( evt.data.dataValue ) ) {
 				return;
 			}
 
