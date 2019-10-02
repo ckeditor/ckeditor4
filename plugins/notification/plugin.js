@@ -638,7 +638,7 @@
 
 			// Check if toolbar exist and if so, then assign values to it (#491).
 			if ( editor.toolbar ) {
-				top = editor.ui.space( 'top' );
+				top = editor.ui.space( 'top' ) || editor.ui.space( 'bottom' );
 				topRect = top.getClientRect();
 			}
 
