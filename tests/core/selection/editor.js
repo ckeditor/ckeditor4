@@ -767,6 +767,29 @@ bender.test( {
 		editor.editable().findOne( '#nested' ).focus();
 
 		assert.areEqual( 'em', editor.elementPath().blockLimit.getName() );
+	},
+
+	// (#3475)
+	'test selection with one range should not be locked': function() {
+		if ( !CKEDITOR.env.gecko ) {
+			assert.ignore();
+		}
+
+		bender.editorBot.create( {
+			name: 'plain-text',
+			config: {
+				plugins: 'wysiwygarea,clipboard,toolbar'
+			}
+		}, function( bot ) {
+			var editor = bot.editor,
+				editable = editor.editable();
+
+			bot.setHtmlWithSelection( '<p>foo [bar] baz</p>' );
+
+			editable.fire( 'focusout' );
+
+			assert.areEqual( 0, editor.getSelection().isLocked, 'Simple selection should not be locked' );
+		} );
 	}
 } );
 

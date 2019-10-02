@@ -1,0 +1,12 @@
+<input type="text" value="test" readonly>
+<div id="editor1">
+	<p>Foo Bar Baz</p>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.gecko ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1' );
+</script>
