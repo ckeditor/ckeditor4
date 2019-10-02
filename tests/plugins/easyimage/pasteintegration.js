@@ -15,114 +15,80 @@
 
 	bender.editor = true;
 
+	function assertEasyImageUpcast( config ) {
+		var editor = config.editor,
+			pastedData = config.pastedData,
+			shouldUpcast = config.shouldUpcast,
+			// spy checks if paste listener in easyimage plugin activated an early return,
+			// by attaching to method available after the early return statement.
+			spy = sinon.spy( editor.widgets.registered.easyimage, '_spawnLoader' );
+
+		bender.tools.range.setWithHtml( editor.editable(), '<p>[]</p>' );
+
+		bender.tools.emulatePaste( editor, pastedData );
+
+		editor.once( 'afterPaste', function() {
+			resume( function() {
+				spy.restore();
+
+				if ( shouldUpcast ) {
+					sinon.assert.calledOnce( spy );
+
+					assert.areNotSame( -1, editor.getData().indexOf( 'easyimage' ), 'there should be the image upcasted to the easyimage widget' );
+				} else {
+					sinon.assert.notCalled( spy );
+
+					assert.areSame( -1, editor.getData().indexOf( 'easyimage' ), 'there should not be an image upcasted to the easyimage widget' );
+				}
+			} );
+		} );
+
+		wait();
+	}
+
 	bender.test( {
 		setUp: function() {
 			bender.tools.ignoreUnsupportedEnvironment( 'easyimage' );
 		},
 
 		'test easyimage upcasts image/jpeg': function() {
-			var editor = this.editor,
-				spy = sinon.spy( editor.widgets.registered.easyimage, '_spawnLoader' );
-
-			bender.tools.range.setWithHtml( editor.editable(), '<p>[]</p>' );
-
-			bender.tools.emulatePaste( editor, IMG.JPEG );
-
-			editor.once( 'afterPaste', function() {
-				resume( function() {
-					spy.restore();
-
-					sinon.assert.calledOnce( spy );
-
-					assert.areNotSame( -1, editor.getData().indexOf( 'easyimage' ), 'there should be the image upcasted to the easyimage widget' );
-				} );
+			assertEasyImageUpcast( {
+				editor: this.editor,
+				pastedData: IMG.JPEG,
+				shouldUpcast: true
 			} );
-
-			wait();
 		},
 
 		'test easyimage upcasts image/gif': function() {
-			var editor = this.editor,
-				spy = sinon.spy( editor.widgets.registered.easyimage, '_spawnLoader' );
-
-			bender.tools.range.setWithHtml( editor.editable(), '<p>[]</p>' );
-
-			bender.tools.emulatePaste( editor, IMG.GIF );
-
-			editor.once( 'afterPaste', function() {
-				resume( function() {
-					spy.restore();
-
-					sinon.assert.calledOnce( spy );
-
-					assert.areNotSame( -1, editor.getData().indexOf( 'easyimage' ), 'there should be the image upcasted to the easyimage widget' );
-				} );
+			assertEasyImageUpcast( {
+				editor: this.editor,
+				pastedData: IMG.GIF,
+				shouldUpcast: true
 			} );
-
-			wait();
 		},
 
 		'test easyimage upcasts image/png': function() {
-			var editor = this.editor,
-				spy = sinon.spy( editor.widgets.registered.easyimage, '_spawnLoader' );
-
-			bender.tools.range.setWithHtml( editor.editable(), '<p>[]</p>' );
-
-			bender.tools.emulatePaste( editor, IMG.PNG );
-
-			editor.once( 'afterPaste', function() {
-				resume( function() {
-					spy.restore();
-
-					sinon.assert.calledOnce( spy );
-
-					assert.areNotSame( -1, editor.getData().indexOf( 'easyimage' ), 'there should be the image upcasted to the easyimage widget' );
-				} );
+			assertEasyImageUpcast( {
+				editor: this.editor,
+				pastedData: IMG.PNG,
+				shouldUpcast: true
 			} );
-
-			wait();
 		},
 
 		'test easyimage upcasts image/bmp': function() {
-			var editor = this.editor,
-				spy = sinon.spy( editor.widgets.registered.easyimage, '_spawnLoader' );
-
-			bender.tools.range.setWithHtml( editor.editable(), '<p>[]</p>' );
-
-			bender.tools.emulatePaste( editor, IMG.BMP );
-
-			editor.once( 'afterPaste', function() {
-				resume( function() {
-					spy.restore();
-
-					sinon.assert.calledOnce( spy );
-
-					assert.areNotSame( -1, editor.getData().indexOf( 'easyimage' ), 'there should be the image upcasted to the easyimage widget' );
-				} );
+			assertEasyImageUpcast( {
+				editor: this.editor,
+				pastedData: IMG.BMP,
+				shouldUpcast: true
 			} );
-
-			wait();
 		},
 
 		'test easyimage not upcasts image/svg': function() {
-			var editor = this.editor,
-				spy = sinon.spy( editor.widgets.registered.easyimage, '_spawnLoader' );
-
-			bender.tools.range.setWithHtml( editor.editable(), '<p>[]</p>' );
-
-			bender.tools.emulatePaste( editor, IMG.SVG );
-
-			editor.once( 'afterPaste', function() {
-				resume( function() {
-					spy.restore();
-
-					sinon.assert.notCalled( spy );
-
-					assert.areSame( -1, editor.getData().indexOf( 'easyimage' ), 'there should not be an image upcasted to the easyimage widget' );
-				} );
+			assertEasyImageUpcast( {
+				editor: this.editor,
+				pastedData: IMG.SVG,
+				shouldUpcast: false
 			} );
-
-			wait();
 		}
 	} );
 } )();
