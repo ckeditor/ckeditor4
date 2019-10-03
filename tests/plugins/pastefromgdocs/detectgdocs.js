@@ -4,6 +4,11 @@
 ( function() {
 	'use strict';
 
+	// Ignored due to #3451 (https://github.com/ckeditor/ckeditor4/issues/3451).
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	bender.editor = {
 		config: {
 			removePlugins: 'pastefromword'
