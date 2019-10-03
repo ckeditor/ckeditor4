@@ -19,8 +19,8 @@
 		var editor = config.editor,
 			pastedData = config.pastedData,
 			shouldUpcast = config.shouldUpcast,
-			// spy checks if paste listener in easyimage plugin activated an early return,
-			// by attaching to method available after the early return statement.
+			// spy checks if paste listener in easyimage plugin activates an early return,
+			// by spying the method available after the early return statement.
 			spy = sinon.spy( editor.widgets.registered.easyimage, '_spawnLoader' );
 
 		bender.tools.range.setWithHtml( editor.editable(), '<p>[]</p>' );
