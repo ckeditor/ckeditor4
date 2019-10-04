@@ -3,6 +3,15 @@ dist: xenial
 services:
   - xvfb
 
+branches:
+  only:
+  - master
+  - major
+  - stable
+  - latest
+  - /^\d+\.\d+(\.\d+)?(-\S*)?$/
+  - /^release\/\d+\.\d+\.x$/
+
 language: node_js
 
 node_js:
