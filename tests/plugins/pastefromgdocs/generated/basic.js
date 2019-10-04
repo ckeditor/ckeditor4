@@ -91,7 +91,8 @@
 			} )
 		],
 
-		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version < 11,
+		// Ignored due to lack of support for older IE browsers and mobiles (#3451).
+		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version < 11 || bender.tools.env.mobile,
 		testData: {
 			_should: {
 				ignore: {
