@@ -1,0 +1,33 @@
+<div id="editor1">
+	<p>Adipisicing corporis rem repellendus vel mollitia vero? Consectetur dolores voluptatibus illo ipsam eveniet? Lorem ipsum dolor sit amet.</p>
+	<div data-widget="customwidget">Widget</div>
+</div>
+
+<script>
+( function() {
+		var editorConfig = {
+			extraAllowedContent: 'span',
+			extraPlugins: 'customwidget',
+			allowedContent: true
+		};
+
+		if ( bender.env.mobile ) {
+			bender.ignore();
+		}
+
+
+		CKEDITOR.plugins.add( 'customwidget', {
+			requires: 'widget',
+			allowedContent: 'div',
+
+			init: function ( editor ) {
+				editor.widgets.add( 'customwidget', {
+					button: 'Add widget',
+					template: '<div>Widget</div>'
+				} );
+			}
+		} );
+
+		CKEDITOR.replace( 'editor1', editorConfig );
+	}() );
+</script>
