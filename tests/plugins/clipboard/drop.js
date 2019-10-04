@@ -661,7 +661,10 @@ var testsForMultipleEditor = {
 
 		// #(2292)
 		'test internal drag and drop on editors margin': function( editor ) {
-			var evt = bender.tools.mockDropEvent();
+			var evt = bender.tools.mockDropEvent(),
+				isWindows = navigator.userAgent.toLowerCase().indexOf( 'windows' ) !== -1,
+				newLine = CKEDITOR.env.gecko && CKEDITOR.env.version >= 69 && isWindows ?
+					String.fromCodePoint( 13, 10 ) : '\n';
 
 			bender.tools.selection.setWithHtml( editor,
 				'<ol>' +
@@ -679,7 +682,7 @@ var testsForMultipleEditor = {
 				expectedPasteEventCount: 1,
 				expectedDropPrevented: false,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
-				expectedText: CKEDITOR.env.edge ? 'onetwothreefour' : 'one\ntwo\nthree\nfour',
+				expectedText: CKEDITOR.env.edge ? 'onetwothreefour' : 'one' + newLine + 'two' + newLine + 'three' + newLine + 'four',
 				expectedHtml: '<ol><li><a href="http://test.com">one</a>@</li><li>two</li><li>three</li><li>four</li></ol>',
 				expectedDataType: 'html',
 				expectedDataValue: '<ol><li><a href="http://test.com">one</a>@</li><li>two</li><li>three</li><li>four</li></ol>'
