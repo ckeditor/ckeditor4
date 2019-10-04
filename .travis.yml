@@ -8,6 +8,7 @@ branches:
   - master
   - major
   - stable
+  - latest
   - /^\d+\.\d+(\.\d+)?(-\S*)?$/
   - /^release\/\d+\.\d+\.x$/
 
