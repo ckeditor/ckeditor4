@@ -3,6 +3,11 @@
 </div>
 
 <script>
+	// Keyboard is hidden when context menu opens on touch devices.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor', {
 		on: {
 			instanceReady: function( evt ) {

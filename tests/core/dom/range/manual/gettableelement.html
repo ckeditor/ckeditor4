@@ -5,6 +5,11 @@
 <p style="border:1px solid red;height:20px;padding:2px;" id="rangeResult"></p>
 <div style='background-color:#EEE' id="rawData"></div>
 <script>
+	// Unable to create required selection on touch devices.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	// Firefox doesn't allow on such selection.
 	if ( CKEDITOR.env.gecko ) {
 		bender.ignore();

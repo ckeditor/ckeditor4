@@ -4,6 +4,11 @@
 ( function() {
 	'use strict';
 
+	// Ignored due to lack of support for mobiles (#3451).
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	bender.editor = {
 		config: {
 			on: {

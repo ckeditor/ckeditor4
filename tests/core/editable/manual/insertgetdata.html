@@ -15,6 +15,11 @@
 </div>
 
 <script>
+	// Drag & drop isn't supported on mobiles.
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	( function() {
 		var config = {
 			on: {
