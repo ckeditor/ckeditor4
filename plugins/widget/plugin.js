@@ -3413,17 +3413,76 @@
 			bookmarks = editor.getSelection().createBookmarks( true );
 		}
 
-		copyBin.handle( getClipboardHtml( editor ) );
+		copyBin.handle( getClipboardHtml() );
+
+		function getClipboardHtml() {
+			var selectedHtml = getSelectedHtmlWithFullWidgets( editor );
+
+			if ( editor.widgets.focused ) {
+				return editor.widgets.focused.getClipboardHtml();
+			}
+
+			editor.once( 'toDataFormat', function( evt ) {
+				evt.data.widgetsCopy = true;
+			}, null, null, -1 );
+
+			return editor.dataProcessor.toDataFormat( selectedHtml );
+		}
 
 		function handleCut() {
 			if ( focused ) {
 				editor.widgets.del( focused );
 			} else {
-				editor.extractSelectedHtml();
+				extractSelectedHtmlWithFullWidgets( editor );
 			}
 
 			editor.fire( 'saveSnapshot' );
 		}
+	}
+
+	function getSelectedHtmlWithFullWidgets( editor ) {
+		return processSelectionWithWidgets( editor );
+	}
+
+	function extractSelectedHtmlWithFullWidgets( editor ) {
+		return processSelectionWithWidgets( editor, true );
+	}
+
+	// Detect situation when selection partially starts or ends in widget and remove such widget from further processing.
+	function processSelectionWithWidgets( editor, isRemove ) {
+		var ranges = editor.getSelection().getRanges(),
+			editable = editor.editable(),
+			range,
+			wrapper,
+			outputHtml = '';
+
+		for ( var i = 0; i < ranges.length; i++ ) {
+			range = ranges[ i ].clone();
+
+			wrapper = range.startContainer.getAscendant( function( element ) {
+				return Widget.isDomWidgetWrapper( element );
+			}, true );
+
+			if ( wrapper ) {
+				range.setStartAt( wrapper, CKEDITOR.POSITION_AFTER_END );
+			}
+
+			wrapper = range.endContainer.getAscendant( function( element ) {
+				return Widget.isDomWidgetWrapper( element );
+			}, true );
+
+			if ( wrapper ) {
+				range.setEndAt( wrapper, CKEDITOR.POSITION_BEFORE_START );
+			}
+
+			if ( isRemove ) {
+				outputHtml += editable.extractHtmlFromRange( range ).getHtml();
+			} else {
+				outputHtml += editable.getHtmlFromRange( range ).getHtml();
+			}
+		}
+
+		return outputHtml;
 	}
 
 	// Extracts classes array from style instance.
