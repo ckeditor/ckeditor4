@@ -2815,8 +2815,12 @@
 	function setupSelectionObserver( widgetsRepo ) {
 		var editor = widgetsRepo.editor;
 
-		editor.on( 'selectionCheck', function() {
-			widgetsRepo.fire( 'checkSelection' );
+		editor.on( 'selectionCheck', fireCheckSelection );
+
+		// selectionCheck is fired on keyup, so we must force refreshing
+		// widgets selection on key event (#3352).
+		editor.on( 'key', function() {
+			setTimeout( fireCheckSelection, 10 );
 		} );
 
 		widgetsRepo.on( 'checkSelection', widgetsRepo.checkSelection, widgetsRepo );
@@ -2856,6 +2860,10 @@
 			if ( ( widget = widgetsRepo.widgetHoldingFocusedEditable ) )
 				setFocusedEditable( widgetsRepo, widget, null );
 		} );
+
+		function fireCheckSelection() {
+			widgetsRepo.fire( 'checkSelection' );
+		}
 	}
 
 	// Set up actions like:
