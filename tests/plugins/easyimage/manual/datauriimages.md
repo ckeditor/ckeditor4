@@ -1,6 +1,6 @@
 @bender-tags: 4.13.1, bug, 3524
 @bender-ui: collapsed
-@bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, easyimage, undo
+@bender-ckeditor-plugins: sourcearea, htmlwriter, wysiwygarea, floatingspace, toolbar, easyimage, undo
 @bender-include: ../_helpers/tools.js
 
 1. Open editor's console if possible
