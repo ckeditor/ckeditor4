@@ -22,7 +22,7 @@
 			shouldUpcast = config.shouldUpcast,
 			// spy checks if paste listener in easyimage plugin activates an early return,
 			// by spying the method available after the early return statement.
-			spy = sinon.spy( editor.widgets.registered.easyimage, '_spawnLoader' );
+			upcastSpy = sinon.spy( editor.widgets.registered.easyimage, '_spawnLoader' );
 
 		bender.tools.range.setWithHtml( editor.editable(), '<p>[]</p>' );
 
@@ -30,14 +30,14 @@
 
 		editor.once( 'afterPaste', function() {
 			resume( function() {
-				spy.restore();
+				upcastSpy.restore();
 
 				if ( shouldUpcast ) {
-					sinon.assert.calledOnce( spy );
+					sinon.assert.calledOnce( upcastSpy );
 
 					assert.areNotSame( -1, editor.getData().indexOf( 'easyimage' ), 'there should be the image upcasted to the easyimage widget' );
 				} else {
-					sinon.assert.notCalled( spy );
+					sinon.assert.notCalled( upcastSpy );
 
 					assert.areSame( -1, editor.getData().indexOf( 'easyimage' ), 'there should not be an image upcasted to the easyimage widget' );
 				}
