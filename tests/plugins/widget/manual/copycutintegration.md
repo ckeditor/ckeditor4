@@ -11,6 +11,7 @@
 ### Expected:
 * When widget is partially selected, then is not copied/cut.
 * When widget is fully selected, then is properly copied/cut.
+* After cut there remain collapsed selection in the editor.
 
 ### Unexpected:
 * There is an error in a console.
