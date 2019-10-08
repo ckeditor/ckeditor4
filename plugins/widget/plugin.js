@@ -3440,7 +3440,8 @@
 		}
 	}
 
-	// Detect situation when selection partially starts or ends in widget and remove such widget from further processing.
+	// Detect situation when selection partially starts or ends in widget and remove such widget from further processing (#3498).
+	// Fix might be obsolete after (#3551).
 	function getSelectedHtmlWithFullWidgets( editor ) {
 		var selection = editor.getSelection( true ),
 			ranges = selection.getRanges(),
