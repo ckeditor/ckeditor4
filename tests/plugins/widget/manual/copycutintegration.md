@@ -1,4 +1,4 @@
-@bender-tags: 4.13.1, feature, 3138, 3423, 3482
+@bender-tags: 4.13.1, bug, 3498
 @bender-ui: collapsed
 @bender-ckeditor-plugins: widget, undo, wysiwygarea, toolbar, magicline
 
@@ -16,3 +16,6 @@
 ### Unexpected:
 * There is an error in a console.
 * Selected content is not copied/cut.
+
+### Note:
+There is a bug in Firefox related to undo steps which might appear when widget is partially cut. [#3552](https://github.com/ckeditor/ckeditor4/issues/3552)
