@@ -3433,24 +3433,17 @@
 			if ( focused ) {
 				editor.widgets.del( focused );
 			} else {
-				extractSelectedHtmlWithFullWidgets( editor );
+				editor.extractSelectedHtml();
 			}
 
 			editor.fire( 'saveSnapshot' );
 		}
 	}
 
-	function getSelectedHtmlWithFullWidgets( editor ) {
-		return processSelectionWithWidgets( editor );
-	}
-
-	function extractSelectedHtmlWithFullWidgets( editor ) {
-		return processSelectionWithWidgets( editor, true );
-	}
-
 	// Detect situation when selection partially starts or ends in widget and remove such widget from further processing.
-	function processSelectionWithWidgets( editor, isRemove ) {
-		var ranges = editor.getSelection().getRanges(),
+	function getSelectedHtmlWithFullWidgets( editor ) {
+		var selection = editor.getSelection( true ),
+			ranges = selection.getRanges(),
 			editable = editor.editable(),
 			range,
 			wrapper,
@@ -3475,11 +3468,7 @@
 				range.setEndAt( wrapper, CKEDITOR.POSITION_BEFORE_START );
 			}
 
-			if ( isRemove ) {
-				outputHtml += editable.extractHtmlFromRange( range ).getHtml();
-			} else {
-				outputHtml += editable.getHtmlFromRange( range ).getHtml();
-			}
+			outputHtml += editable.getHtmlFromRange( range ).getHtml();
 		}
 
 		return outputHtml;
