@@ -19,6 +19,11 @@ in the official CKEditor documentation.
 
 *Describe the purpose of the pull request in a few simple sentences.*
 
+```
+* [#XXXX](https://github.com/ckeditor/ckeditor4/issues/XXXX): …
+```
 ## What changes did you make?
 
 *Give an overview…*
+
+Closes: #XXXX
