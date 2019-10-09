@@ -1,0 +1,142 @@
+<style>
+	body {
+		height: 5000px;
+	}
+	.top-margin {
+		margin-top: 500px;
+	}
+</style>
+<h2 class="top-margin">Divarea:</h2>
+<div contenteditable="true" id="editor1" class="editor">
+	<p>Some start content <a href="https://ckeditor.com">link</a>.</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>Some middle content <a href="https://ckeditor.com">link</a>.</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>Some end content <a href="https://ckeditor.com">link</a>.</p>
+</div>
+<h2>Classic:</h2>
+<div contenteditable="true" id="editor2" class="editor">
+	<p>Some start content <a href="https://ckeditor.com">link</a>.</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>Some middle content <a href="https://ckeditor.com">link</a>.</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>scroll</p>
+	<p>Some end content <a href="https://ckeditor.com">link</a>.</p>
+</div>
+<script>
+	// Currently balloon toolbar is not integrated with old IE browsers.
+	bender.tools.ignoreUnsupportedEnvironment( 'balloontoolbar' );
+
+	function instanceReadyListener( evt ) {
+		var editor = evt.editor;
+
+		editor.balloonToolbars.create( {
+			buttons: 'Link,Unlink',
+			cssSelector: 'a[href], img'
+		} );
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'divarea',
+		height: 200,
+		width: 400,
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		height: 200,
+		width: 400,
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+</script>
