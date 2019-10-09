@@ -675,19 +675,32 @@
 				if ( this.rect.visible ) {
 					return;
 				}
-				var editable = this.editor.editable();
+				var editor = this.editor,
+					editable = editor.editable(),
+					editorScrollableElement = editable.isInline() ? editable : editable.getDocument(),
+					win = CKEDITOR.document.getWindow();
+
+				// iOS classic editor listens on frame parent element for editor `scroll` event (#1910).
+				// Since iOS 13, this `if` won't be necesary any longer https://bugs.webkit.org/show_bug.cgi?id=149264.
+				if ( CKEDITOR.env.iOS && !editable.isInline() ) {
+					editorScrollableElement = editor.window.getFrame().getParent();
+				}
+
 				this._detachListeners();
+
+				this._listeners.push( editor.on( 'change', attachListener, this ) );
+				this._listeners.push( editor.on( 'resize', attachListener, this ) );
+
+				this._listeners.push( win.on( 'resize', attachListener, this ) );
+				this._listeners.push( win.on( 'scroll', attachListener, this ) );
+
+				this._listeners.push( editorScrollableElement.on( 'scroll', attachListener, this ) );
+
+				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
 
 				function attachListener() {
 					this.reposition();
 				}
-
-				this._listeners.push( this.editor.on( 'change', attachListener, this ) );
-				this._listeners.push( this.editor.on( 'resize', attachListener, this ) );
-				this._listeners.push( CKEDITOR.document.getWindow().on( 'resize', attachListener, this ) );
-				this._listeners.push( editable.attachListener( editable.getDocument(), 'scroll', attachListener, this ) );
-
-				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
 			};
 
 			/**
