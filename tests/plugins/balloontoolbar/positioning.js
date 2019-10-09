@@ -229,6 +229,181 @@
 
 				assert.isTrue( markerElement.equals( spy.args[ 0 ][ 0 ] ) );
 			} );
+		},
+
+		// #1653
+		'test Balloon Toolbar should be respositioned after "window scroll" event': function( editor, bot ) {
+			bot.setData( '<p>foo <span id="bar">bar</span> baz</p>', function() {
+				var markerElement = editor.editable().findOne( '#bar' ),
+					spy,
+					win = CKEDITOR.document.getWindow();
+
+				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+					width: 100,
+					height: 200
+				} );
+
+				balloonToolbar.attach( markerElement );
+
+				spy = sinon.spy( balloonToolbar, 'reposition' );
+
+				win.once( 'scroll', function() {
+					// Make it async to have sure that anything related to `scroll` event will finish processing.
+					CKEDITOR.tools.setTimeout( function() {
+						resume( function() {
+							spy.restore();
+
+							sinon.assert.calledOnce( spy );
+							assert.pass();
+						} );
+					} );
+				}, null, null, 100000 );
+
+				win.fire( 'scroll' );
+
+				wait();
+			} );
+		},
+
+		// #1653
+		'test Balloon Toolbar should be respositioned after "window resize" event': function( editor, bot ) {
+			bot.setData( '<p>foo <span id="bar">bar</span> baz</p>', function() {
+				var markerElement = editor.editable().findOne( '#bar' ),
+					spy,
+					win = CKEDITOR.document.getWindow();
+
+				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+					width: 100,
+					height: 200
+				} );
+
+				balloonToolbar.attach( markerElement );
+
+				spy = sinon.spy( balloonToolbar, 'reposition' );
+
+				win.once( 'resize', function() {
+					// Make it async to have sure that anything related to `scroll` event will finish processing.
+					CKEDITOR.tools.setTimeout( function() {
+						resume( function() {
+							spy.restore();
+
+							sinon.assert.calledOnce( spy );
+							assert.pass();
+						} );
+					} );
+				}, null, null, 100000 );
+
+				win.fire( 'resize' );
+
+				wait();
+			} );
+		},
+
+		// #1653
+		'test Balloon Toolbar should be respositioned after "editor change" event': function( editor, bot ) {
+			bot.setData( '<p>foo <span id="bar">bar</span> baz</p>', function() {
+				var markerElement = editor.editable().findOne( '#bar' ),
+					spy;
+
+				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+					width: 100,
+					height: 200
+				} );
+
+				balloonToolbar.attach( markerElement );
+
+				spy = sinon.spy( balloonToolbar, 'reposition' );
+
+				editor.once( 'change', function() {
+					// Make it async to have sure that anything related to `scroll` event will finish processing.
+					CKEDITOR.tools.setTimeout( function() {
+						resume( function() {
+							spy.restore();
+
+							sinon.assert.calledOnce( spy );
+							assert.pass();
+						} );
+					} );
+				}, null, null, 100000 );
+
+				editor.fire( 'change' );
+
+				wait();
+			} );
+		},
+
+		// #1653
+		'test Balloon Toolbar should be respositioned after "editor resize" event': function( editor, bot ) {
+			bot.setData( '<p>foo <span id="bar">bar</span> baz</p>', function() {
+				var markerElement = editor.editable().findOne( '#bar' ),
+					spy;
+
+				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+					width: 100,
+					height: 200
+				} );
+
+				balloonToolbar.attach( markerElement );
+
+				spy = sinon.spy( balloonToolbar, 'reposition' );
+
+				editor.once( 'resize', function() {
+					// Make it async to have sure that anything related to `scroll` event will finish processing.
+					CKEDITOR.tools.setTimeout( function() {
+						resume( function() {
+							spy.restore();
+
+							sinon.assert.calledOnce( spy );
+							assert.pass();
+						} );
+					} );
+				}, null, null, 100000 );
+
+				editor.fire( 'resize' );
+
+				wait();
+			} );
+		},
+
+		// #1653
+		'test Balloon Toolbar should be respositioned after "editable scroll" event': function( editor, bot ) {
+			bot.setData( '<p>foo <span id="bar">bar</span> baz</p>', function() {
+				var editable = editor.editable(),
+					markerElement = editable.findOne( '#bar' ),
+					spy,
+					editableScrollElement = editable.isInline() ? editable : editable.getDocument();
+
+				// iOS classic editor listens on frame parent element for editor `scroll` event (#1910).
+				// Since iOS 13, this `if` won't be necesary any longer https://bugs.webkit.org/show_bug.cgi?id=149264.
+				if ( !editable.isInline() && CKEDITOR.env.iOS ) {
+					editableScrollElement = editor.window.getFrame().getParent();
+				}
+
+				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+					width: 100,
+					height: 200
+				} );
+
+				balloonToolbar.attach( markerElement );
+
+				spy = sinon.spy( balloonToolbar, 'reposition' );
+
+				editableScrollElement.once( 'scroll', function() {
+					// Make it async to have sure that anything related to `scroll` event will finish processing.
+					CKEDITOR.tools.setTimeout( function() {
+						resume( function() {
+							spy.restore();
+
+							sinon.assert.calledOnce( spy );
+							assert.pass();
+						} );
+					} );
+				}, null, null, 100000 );
+
+				editableScrollElement.fire( 'scroll' );
+
+				wait();
+			} );
 		}
 	};
 
