@@ -812,7 +812,7 @@
 		if ( !selectedCells.length ||
 			// It's single range that does not fully contain table element and is not boundary, e.g. collapsed selection within
 			// cell, part of cell etc.
-			( selectedCells.length === 1 && !rangeContainsTableElement( selection.getRanges()[ 0 ] )  && !boundarySelection ) ||
+			( selectedCells.length === 1 && !rangeContainsTableElement( selection.getRanges()[ 0 ] ) && !boundarySelection ) ||
 			// It's a boundary position but with no table pasted.
 			( boundarySelection && !pastedTable ) ||
 			// There is some selected content before table (#875).
