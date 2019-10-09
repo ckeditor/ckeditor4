@@ -1,0 +1,105 @@
+<textarea id="table-cell">
+	<p>[Start</p>
+	<table>
+		<tbody>
+			<tr>
+				<td>cell1</td>
+				<td>cell2</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>End]</p>
+
+=>
+	<table>
+		<tbody>
+			<tr>
+				<td>foo^</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<span id="table-cell-paste">
+	<table>
+		<tr>
+			<td>foo</td>
+		</tr>
+	</table>
+</span>
+
+<textarea id="text">
+	<p>[Start</p>
+	<table>
+		<tbody>
+			<tr>
+				<td>cell1</td>
+				<td>cell2</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>End]</p>
+
+=>
+	<table>
+		<tbody>
+			<tr>
+				<td>foo^</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<span id="text-paste">
+	<table>
+		<tr>
+			<td>foo</td>
+		</tr>
+	</table>
+</span>
+
+<textarea id="mixed-content">
+	<p>[Start</p>
+	<table>
+		<tbody>
+			<tr>
+				<td>cell1</td>
+				<td>cell2</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>End]</p>
+
+=>
+	<ul>
+		<li>
+			foo
+		</li>
+		<li>
+			bar
+		</li>
+	</ul>
+	<table>
+		<tbody>
+			<tr>
+				<td>foo^</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<span id="mixed-content-paste">
+	<ul>
+		<li>
+			foo
+		</li>
+		<li>
+			bar
+		</li>
+	</ul>
+	<table>
+		<tr>
+			<td>foo</td>
+		</tr>
+	</table>
+</span>
