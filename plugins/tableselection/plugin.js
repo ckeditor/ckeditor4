@@ -788,6 +788,7 @@
 		var selectedCells = getSelectedCells( selection ),
 			pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue ),
 			boundarySelection = selection.isInTable( true ) && this.isBoundarySelection( selection ),
+			selectionAncestor = selection.getCommonAncestor(),
 			tableSel,
 			selectedTable,
 			selectedTableMap,
@@ -813,7 +814,10 @@
 			// cell, part of cell etc.
 			( selectedCells.length === 1 && !rangeContainsTableElement( selection.getRanges()[ 0 ] )  && !boundarySelection ) ||
 			// It's a boundary position but with no table pasted.
-			( boundarySelection && !pastedTable ) ) {
+			( boundarySelection && !pastedTable ) ||
+			// There is some selected content before table (#875).
+			( selectionAncestor && selectionAncestor.$.nodeType == 1 && selectionAncestor.hasClass( 'cke_editable' ) )
+			) {
 			return;
 		}
 
