@@ -15,7 +15,7 @@
 			}
 		},
 
-		'test specialchardialog should have table cells with role="presentation"': function() {
+		'test specialchar dialog should have table cells with role="presentation" and don\'t have empty table cells': function() {
 			var bot = this.editorBot;
 
 			bot.dialog( 'specialchar', function( dialog ) {
