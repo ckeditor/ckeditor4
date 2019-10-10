@@ -261,9 +261,7 @@
 					} );
 				}, null, null, 100000 );
 
-				CKEDITOR.tools.setTimeout( function() {
-					win.fire( 'scroll' );
-				} );
+				win.fire( 'scroll' );
 
 				wait();
 			} );
@@ -299,9 +297,7 @@
 					} );
 				}, null, null, 100000 );
 
-				CKEDITOR.tools.setTimeout( function() {
-					win.fire( 'resize' );
-				} );
+				win.fire( 'resize' );
 
 				wait();
 			} );
@@ -336,9 +332,7 @@
 					} );
 				}, null, null, 100000 );
 
-				CKEDITOR.tools.setTimeout( function() {
-					editor.fire( 'change' );
-				} );
+				editor.fire( 'change' );
 
 				wait();
 			} );
@@ -373,9 +367,8 @@
 					} );
 				}, null, null, 100000 );
 
-				CKEDITOR.tools.setTimeout( function() {
-					editor.fire( 'resize' );
-				} );
+				editor.fire( 'resize' );
+
 				wait();
 			} );
 		},
@@ -417,9 +410,7 @@
 					} );
 				}, null, null, 100000 );
 
-				CKEDITOR.tools.setTimeout( function() {
-					editableScrollElement.fire( 'scroll' );
-				} );
+				editableScrollElement.fire( 'scroll' );
 
 				wait();
 			} );
