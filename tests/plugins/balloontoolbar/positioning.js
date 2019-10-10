@@ -253,7 +253,7 @@
 						resume( function() {
 							spy.restore();
 
-							sinon.assert.calledOnce( spy );
+							sinon.assert.called( spy );
 							assert.pass();
 						} );
 					} );
@@ -287,7 +287,7 @@
 						resume( function() {
 							spy.restore();
 
-							sinon.assert.calledOnce( spy );
+							sinon.assert.called( spy );
 							assert.pass();
 						} );
 					} );
@@ -320,7 +320,7 @@
 						resume( function() {
 							spy.restore();
 
-							sinon.assert.calledOnce( spy );
+							sinon.assert.called( spy );
 							assert.pass();
 						} );
 					} );
@@ -353,7 +353,7 @@
 						resume( function() {
 							spy.restore();
 
-							sinon.assert.calledOnce( spy );
+							sinon.assert.called( spy );
 							assert.pass();
 						} );
 					} );
@@ -394,7 +394,7 @@
 						resume( function() {
 							spy.restore();
 
-							sinon.assert.calledOnce( spy );
+							sinon.assert.called( spy );
 							assert.pass();
 						} );
 					} );
