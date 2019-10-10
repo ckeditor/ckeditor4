@@ -26,6 +26,7 @@
 				for ( i = 0; i < tableCells.length; i++ ) {
 					assert.areSame( 'presentation', tableCells[ i ].getAttribute( 'role' ),
 						'Table cell with index: ' + i + ' should have role="presentation". Instead it has following html: ' + tableCells[ i ].getOuterHtml() );
+					assert.areNotSame( '&nbsp;', tableCells[ i ].getHtml(), 'Table cell with index: ' + i + ' should not be empty.' );
 				}
 			} );
 		}
