@@ -219,10 +219,10 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 							'</span>' +
 							'<span class="cke_voice_label" id="' + charLabelId + '">' +
 							charDesc +
-							'</span></a>' );
+							'</span></a></td>'
+						);
 					}
 
-					html.push( '</td>' );
 				}
 				html.push( '</tr>' );
 			}
