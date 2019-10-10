@@ -115,7 +115,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					element.removeAttribute( 'vAlign' );
 				}
 			},
-				createSpacer( [ 'td{text-align}', 'td{vertical-align}' ] ),
+			createSpacer( [ 'td{text-align}', 'td{vertical-align}' ] ),
 			{
 				type: 'select',
 				id: 'cellType',
@@ -219,11 +219,17 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
 							},
 							onClick: function() {
+								// If colordialog was opened earlier, it will now appear behind this dialog.
+								// For that reason we must change z-index to move cell dialog behind both
+								// colordialog and dialog cover (#3559).
+								this.getDialog().getElement().setStyle( 'z-index', '1' );
 								editor.getColorFromDialog( function( color ) {
 									if ( color ) {
 										this.getDialog().getContentElement( 'info', 'bgColor' ).setValue( color );
 									}
 									this.focus();
+									// And after color is picked, restore previous styling (#3559).
+									this.getDialog().getElement().removeStyle( 'z-index' );
 								}, this );
 							}
 						} );
@@ -272,11 +278,17 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
 							},
 							onClick: function() {
+								// If colordialog was opened earlier, it will now appear behind this dialog.
+								// For that reason we must change z-index to move cell dialog behind both
+								// colordialog and dialog cover (#3559).
+								this.getDialog().getElement().setStyle( 'z-index', '1' );
 								editor.getColorFromDialog( function( color ) {
 									if ( color ) {
 										this.getDialog().getContentElement( 'info', 'borderColor' ).setValue( color );
 									}
 									this.focus();
+									// And after color is picked, restore previous styling (#3559).
+									this.getDialog().getElement().removeStyle( 'z-index' );
 								}, this );
 							}
 						} );
