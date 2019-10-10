@@ -215,8 +215,6 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 							'<span class="cke_voice_label" id="' + charLabelId + '">' +
 							charDesc +
 							'</span></a>' );
-					} else {
-						html.push( '<td class="cke_dark_background" role="presentation">&nbsp;' );
 					}
 
 					html.push( '</td>' );
