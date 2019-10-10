@@ -1175,6 +1175,31 @@
 			}
 		} ),
 
+		// (#3537)
+		'test content is removed after cutting (widget at the beginning)': createCopyCutTest( {
+			event: 'cut',
+			html: '<div id="w1" data-widget="test3">test3</div>' +
+			'<p>Ipsum</p>',
+
+			init: function( editor ) {
+				var range = editor.createRange(),
+					editable = editor.editable();
+
+				range.selectNodeContents( editable );
+				range.select();
+
+				// We must simulate widgetselection behaviour.
+				CKEDITOR.plugins.widgetselection.addFillers( editable );
+			},
+
+			assert: function( editor ) {
+				var data = editor.getData();
+
+				assert.isNotMatching( /<div.+?>/, data, 'widgets are removed' );
+				assert.isTrue( editor.getSelection().isCollapsed(), 'selection is collapsed' );
+			}
+		} ),
+
 		// (#3138)
 		'test undo stack after copying (multiple widgets)': createCopyCutTest( {
 			event: 'copy',
