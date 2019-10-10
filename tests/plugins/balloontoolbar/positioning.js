@@ -245,9 +245,7 @@
 
 				balloonToolbar.attach( markerElement );
 
-				win.once( 'scroll', function() {
-					spy = sinon.spy( balloonToolbar, 'reposition' );
-				}, null, null, -100000 );
+				spy = sinon.spy( balloonToolbar, 'reposition' );
 
 				win.once( 'scroll', function() {
 					// Make it async to have sure that anything related to `scroll` event will finish processing.
@@ -281,9 +279,7 @@
 
 				balloonToolbar.attach( markerElement );
 
-				win.once( 'resize', function() {
-					spy = sinon.spy( balloonToolbar, 'reposition' );
-				}, null, null, -100000 );
+				spy = sinon.spy( balloonToolbar, 'reposition' );
 
 				win.once( 'resize', function() {
 					// Make it async to have sure that anything related to `scroll` event will finish processing.
@@ -316,9 +312,7 @@
 
 				balloonToolbar.attach( markerElement );
 
-				editor.once( 'change', function() {
-					spy = sinon.spy( balloonToolbar, 'reposition' );
-				}, null, null, -100000 );
+				spy = sinon.spy( balloonToolbar, 'reposition' );
 
 				editor.once( 'change', function() {
 					// Make it async to have sure that anything related to `scroll` event will finish processing.
@@ -351,9 +345,7 @@
 
 				balloonToolbar.attach( markerElement );
 
-				editor.once( 'resize', function() {
-					spy = sinon.spy( balloonToolbar, 'reposition' );
-				}, null, null, -100000 );
+				spy = sinon.spy( balloonToolbar, 'reposition' );
 
 				editor.once( 'resize', function() {
 					// Make it async to have sure that anything related to `scroll` event will finish processing.
@@ -394,9 +386,7 @@
 
 				balloonToolbar.attach( markerElement );
 
-				editableScrollElement.once( 'scroll', function() {
-					spy = sinon.spy( balloonToolbar, 'reposition' );
-				}, null, null, -100000 );
+				spy = sinon.spy( balloonToolbar, 'reposition' );
 
 				editableScrollElement.once( 'scroll', function() {
 					// Make it async to have sure that anything related to `scroll` event will finish processing.
