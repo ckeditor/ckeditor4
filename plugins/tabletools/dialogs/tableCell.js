@@ -196,15 +196,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							return bgColorStyle || bgColorAttr;
 						} ),
 						commit: function( selectedCell ) {
-							var value = this.getValue();
-
-							if ( value ) {
-								selectedCell.setStyle( 'background-color', this.getValue() );
-							} else {
-								selectedCell.removeStyle( 'background-color' );
-							}
-
-							selectedCell.removeAttribute( 'bgColor' );
+							applyColorToCell( this, selectedCell, 'background-color' );
 						}
 					} ];
 
@@ -244,14 +236,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							return borderColorStyle || borderColorAttr;
 						} ),
 						commit: function( selectedCell ) {
-							var value = this.getValue();
-							if ( value ) {
-								selectedCell.setStyle( 'border-color', this.getValue() );
-							} else {
-								selectedCell.removeStyle( 'border-color' );
-							}
-
-							selectedCell.removeAttribute( 'borderColor' );
+							applyColorToCell( this, selectedCell, 'border-color' );
 						}
 					} ];
 
@@ -542,5 +527,23 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 			// And after color is picked, restore previous styling (#3559).
 			button.getDialog().getElement().removeStyle( 'z-index' );
 		}, button );
+	}
+
+	function applyColorToCell( element, selectedCell, property ) {
+		var value = element.getValue();
+
+		if ( value ) {
+			selectedCell.setStyle( property, value );
+		} else {
+			selectedCell.removeStyle( property );
+		}
+
+		// As this is used only in these two cases now, we can name them explicitly for clarity.
+		// If we ever need to generalise it, CKEDITOR.tools.cssStyleToDomStyle() may come in handy.
+		if ( property == 'background-color' ) {
+			selectedCell.removeAttribute( 'bgColor' );
+		} else if ( property == 'border-color' ) {
+			selectedCell.removeAttribute( 'borderColor' );
+		}
 	}
 } );
