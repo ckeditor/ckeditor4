@@ -9,8 +9,7 @@
 	'use strict';
 
 	var pastetools = CKEDITOR.plugins.pastetools,
-		commonFilter = pastetools.filters.common,
-		Style = commonFilter.styles;
+		commonFilter = pastetools.filters.common;
 
 	/**
 	 * Set of Paste from Libre Office plugin helpers.
@@ -29,6 +28,18 @@
 		 */
 		rules: function( html, editor, filter ) {
 			return {
+				root: function( element ) {
+					element.filterChildren( filter );
+				},
+				elementNames: [
+					[ /^head$/i, '' ],
+					[ /^meta$/i, '' ]
+				],
+				elements: {
+					'!doctype': function( el ) {
+						el.name = '';
+					}
+				}
 			};
 		}
 	};
