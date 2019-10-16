@@ -25,7 +25,7 @@
 				configInlineImages = editor.config.pasteFromWord_inlineImages === undefined ? true : editor.config.pasteFromWord_inlineImages,
 				defaultFilters = [
 					CKEDITOR.getUrl( pastetoolsPath + 'filter/common.js' ),
-					CKEDITOR.getUrl(  path + 'filter/default.js' )
+					CKEDITOR.getUrl( path + 'filter/default.js' )
 				];
 
 			editor.addCommand( 'pastefromword', {
@@ -100,7 +100,7 @@
 					// Do not apply paste filter to data filtered by the Word filter (https://dev.ckeditor.com/ticket/13093).
 					data.dontFilter = true;
 
-					if (  forceFromWord || confirmCleanUp() ) {
+					if ( forceFromWord || confirmCleanUp() ) {
 						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor );
 
 						editor.fire( 'afterPasteFromWord', pfwEvtData );
