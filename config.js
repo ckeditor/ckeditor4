@@ -69,6 +69,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'toolbar,' +
 		'undo,' +
 		'uploadimage,' +
+		'pastefromlibreoffice,' +
 		'wysiwygarea';
 	// %REMOVE_END%
 };
