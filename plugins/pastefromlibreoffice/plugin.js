@@ -26,9 +26,11 @@
 				canHandle: function( evt ) {
 					var data = evt.data,
 						textHtml = data.dataTransfer.getData( 'text/html', true ) || data.dataValue,
-						isLibreOffice = /<meta\s+name=["']?generator["']?\s+content=["']?LibreOffice/gi
+						hasMetaGeneratorTag = /<meta\s+name=["']?generator["']?\s+content=["']?/gi,
+						isLibreOffice = /<meta\s+name=["']?generator["']?\s+content=["']?LibreOffice/gi;
 
-					return isLibreOffice.test( textHtml );
+					// TO DO instead of true, here might be browser sniffing. However, it should be stubbed somehow in generated tests.
+					return hasMetaGeneratorTag.test( textHtml ) ? isLibreOffice.test( textHtml ) : true;
 				},
 
 				handle: function( evt, next ) {
@@ -38,6 +40,7 @@
 					// Do not apply the paste filter to data filtered by the the Google Docs filter (https://dev.ckeditor.com/ticket/13093).
 					// TO DO it might be unnecessary!!!
 					data.dontFilter = true;
+
 					data.dataValue = CKEDITOR.pasteFilters.pflibreoffice( clipboardHtml, editor );
 
 					if ( editor.config.forcePasteAsPlainText === true ) {
