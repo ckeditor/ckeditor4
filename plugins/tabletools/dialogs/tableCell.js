@@ -515,17 +515,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 	}
 
 	function getColorForCell( button, element ) {
-		// If colordialog was opened earlier, it will now appear behind this dialog.
-		// For that reason we must change z-index to move cell dialog behind both
-		// colordialog and dialog cover (#3559).
-		button.getDialog().getElement().setStyle( 'z-index', '1' );
 		editor.getColorFromDialog( function( color ) {
 			if ( color ) {
 				button.getDialog().getContentElement( 'info', element ).setValue( color );
 			}
 			button.focus();
-			// And after color is picked, restore previous styling (#3559).
-			button.getDialog().getElement().removeStyle( 'z-index' );
 		}, button );
 	}
 

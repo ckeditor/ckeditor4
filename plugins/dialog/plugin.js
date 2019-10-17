@@ -889,17 +889,18 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			if ( CKEDITOR.dialog._.currentZIndex === null )
 				CKEDITOR.dialog._.currentZIndex = this._.editor.config.baseFloatZIndex;
 			this._.element.getFirst().setStyle( 'z-index', CKEDITOR.dialog._.currentZIndex += 10 );
+			this.getElement().setStyle( 'z-index', CKEDITOR.dialog._.currentZIndex += 10 );
 
 			// Maintain the dialog ordering and dialog cover.
 			if ( CKEDITOR.dialog._.currentTop === null ) {
 				CKEDITOR.dialog._.currentTop = this;
 				this._.parentDialog = null;
 				showCover( this._.editor );
-
 			} else {
 				this._.parentDialog = CKEDITOR.dialog._.currentTop;
 				var parentElement = this._.parentDialog.getElement().getFirst();
 				parentElement.$.style.zIndex -= Math.floor( this._.editor.config.baseFloatZIndex / 2 );
+				this._.parentDialog.getElement().$.style.zIndex = parentElement.$.style.zIndex;
 				CKEDITOR.dialog._.currentTop = this;
 			}
 
@@ -1083,6 +1084,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 *		dialogObj.hide();
 		 */
 		hide: function() {
+			console.log( 'hide' );
 			if ( !this.parts.dialog.isVisible() )
 				return;
 
@@ -1105,6 +1107,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				hideCover( this._.editor );
 			else {
 				var parentElement = this._.parentDialog.getElement().getFirst();
+				this._.parentDialog.getElement().removeStyle( 'z-index' );
 				parentElement.setStyle( 'z-index', parseInt( parentElement.$.style.zIndex, 10 ) + Math.floor( this._.editor.config.baseFloatZIndex / 2 ) );
 			}
 			CKEDITOR.dialog._.currentTop = this._.parentDialog;
