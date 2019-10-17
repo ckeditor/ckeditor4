@@ -862,11 +862,13 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 */
 		show: function() {
 			// Insert the dialog's element to the root document.
-			var element = this._.element;
-			var definition = this.definition;
+			var element = this._.element,
+				definition = this.definition,
+				editorBody = CKEDITOR.document.getBody(),
+				baseFloatZIndex = this._.editor.config.baseFloatZIndex;
 
-			if ( !( element.getParent() && element.getParent().equals( CKEDITOR.document.getBody() ) ) ) {
-				element.appendTo( CKEDITOR.document.getBody() );
+			if ( !( element.getParent() && element.getParent().equals( editorBody ) ) ) {
+				element.appendTo( editorBody );
 			} else {
 				element.setStyle( 'display', useFlex ? 'flex' : 'block' );
 			}
@@ -885,11 +887,12 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				this.selectPage( this.definition.contents[ 0 ].id );
 			}
 
-			// Set z-index.
-			if ( CKEDITOR.dialog._.currentZIndex === null )
-				CKEDITOR.dialog._.currentZIndex = this._.editor.config.baseFloatZIndex;
+			// Set z-index to dialog and container (#3559).
+			if ( CKEDITOR.dialog._.currentZIndex === null ) {
+				CKEDITOR.dialog._.currentZIndex = baseFloatZIndex;
+			}
 			this._.element.getFirst().setStyle( 'z-index', CKEDITOR.dialog._.currentZIndex += 10 );
-			this.getElement().setStyle( 'z-index', CKEDITOR.dialog._.currentZIndex += 10 );
+			this.getElement().setStyle( 'z-index', CKEDITOR.dialog._.currentZIndex );
 
 			// Maintain the dialog ordering and dialog cover.
 			if ( CKEDITOR.dialog._.currentTop === null ) {
@@ -898,9 +901,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				showCover( this._.editor );
 			} else {
 				this._.parentDialog = CKEDITOR.dialog._.currentTop;
+
 				var parentElement = this._.parentDialog.getElement().getFirst();
-				parentElement.$.style.zIndex -= Math.floor( this._.editor.config.baseFloatZIndex / 2 );
-				this._.parentDialog.getElement().$.style.zIndex = parentElement.$.style.zIndex;
+
+				parentElement.$.style.zIndex -= Math.floor( baseFloatZIndex / 2 );
+				this._.parentDialog.getElement().setStyle( 'z-index', parentElement.$.style.zIndex );
 				CKEDITOR.dialog._.currentTop = this;
 			}
 
@@ -911,35 +916,39 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			this._.hasFocus = false;
 
 			for ( var i in definition.contents ) {
-				if ( !definition.contents[ i ] )
+				if ( !definition.contents[ i ] ) {
 					continue;
+				}
 
 				var content = definition.contents[ i ],
 					tab = this._.tabs[ content.id ],
 					requiredContent = content.requiredContent,
 					enableElements = 0;
 
-				if ( !tab )
+				if ( !tab ) {
 					continue;
+				}
 
 				for ( var j in this._.contents[ content.id ] ) {
 					var elem = this._.contents[ content.id ][ j ];
 
-					if ( elem.type == 'hbox' || elem.type == 'vbox' || !elem.getInputElement() )
+					if ( elem.type == 'hbox' || elem.type == 'vbox' || !elem.getInputElement() ) {
 						continue;
+					}
 
-					if ( elem.requiredContent && !this._.editor.activeFilter.check( elem.requiredContent ) )
+					if ( elem.requiredContent && !this._.editor.activeFilter.check( elem.requiredContent ) ) {
 						elem.disable();
-					else {
+					} else {
 						elem.enable();
 						enableElements++;
 					}
 				}
 
-				if ( !enableElements || ( requiredContent && !this._.editor.activeFilter.check( requiredContent ) ) )
+				if ( !enableElements || ( requiredContent && !this._.editor.activeFilter.check( requiredContent ) ) ) {
 					tab[ 0 ].addClass( 'cke_dialog_tab_disabled' );
-				else
+				} else {
 					tab[ 0 ].removeClass( 'cke_dialog_tab_disabled' );
+				}
 			}
 
 			CKEDITOR.tools.setTimeout( function() {
@@ -955,8 +964,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				this.fire( 'show', {} );
 				this._.editor.fire( 'dialogShow', this );
 
-				if ( !this._.parentDialog )
+				if ( !this._.parentDialog ) {
 					this._.editor.focusManager.lock();
+				}
 
 				// Save the initial values of the dialog.
 				this.foreach( function( contentObj ) {
@@ -981,7 +991,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			var dialogSize = this.getSize(),
 				win = CKEDITOR.document.getWindow(),
 				viewSize = win.getViewPaneSize(),
-				posX, posY;
+				posX,
+				posY;
 
 			if ( this._.moved && this._.position ) {
 				posX = this._.position.x;
@@ -1084,9 +1095,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 *		dialogObj.hide();
 		 */
 		hide: function() {
-			console.log( 'hide' );
-			if ( !this.parts.dialog.isVisible() )
+			if ( !this.parts.dialog.isVisible() ) {
 				return;
+			}
 
 			this.fire( 'hide', {} );
 			this._.editor.fire( 'dialogHide', this );
@@ -1099,13 +1110,14 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			unregisterAccessKey( this );
 
 			// Close any child(top) dialogs first.
-			while ( CKEDITOR.dialog._.currentTop != this )
+			while ( CKEDITOR.dialog._.currentTop != this ) {
 				CKEDITOR.dialog._.currentTop.hide();
+			}
 
 			// Maintain dialog ordering and remove cover if needed.
-			if ( !this._.parentDialog )
+			if ( !this._.parentDialog ) {
 				hideCover( this._.editor );
-			else {
+			} else {
 				var parentElement = this._.parentDialog.getElement().getFirst();
 				this._.parentDialog.getElement().removeStyle( 'z-index' );
 				parentElement.setStyle( 'z-index', parseInt( parentElement.$.style.zIndex, 10 ) + Math.floor( this._.editor.config.baseFloatZIndex / 2 ) );
@@ -1154,8 +1166,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @param {Object} contents Content definition.
 		 */
 		addPage: function( contents ) {
-			if ( contents.requiredContent && !this._.editor.filter.check( contents.requiredContent ) )
+			if ( contents.requiredContent && !this._.editor.filter.check( contents.requiredContent ) ) {
 				return;
+			}
 
 			var pageHtml = [],
 				titleHtml = contents.label ? ' title="' + CKEDITOR.tools.htmlEncode( contents.label ) + '"' : '',
@@ -1166,34 +1179,36 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 					expand: !!contents.expand,
 					padding: contents.padding,
 					style: contents.style || 'width: 100%;'
-				}, pageHtml );
-
-			var contentMap = this._.contents[ contents.id ] = {},
+				}, pageHtml ),
+				contentMap = this._.contents[ contents.id ] = {},
 				cursor,
 				children = vbox.getChild(),
 				enabledFields = 0;
 
 			while ( ( cursor = children.shift() ) ) {
 				// Count all allowed fields.
-				if ( !cursor.notAllowed && cursor.type != 'hbox' && cursor.type != 'vbox' )
+				if ( !cursor.notAllowed && cursor.type != 'hbox' && cursor.type != 'vbox' ) {
 					enabledFields++;
+				}
 
 				contentMap[ cursor.id ] = cursor;
-				if ( typeof cursor.getChild == 'function' )
+				if ( typeof cursor.getChild == 'function' ) {
 					children.push.apply( children, cursor.getChild() );
+				}
 			}
 
 			// If all fields are disabled (because they are not allowed) hide this tab.
-			if ( !enabledFields )
+			if ( !enabledFields ) {
 				contents.hidden = true;
+			}
 
 			// Create the HTML for the tab and the content block.
 			var page = CKEDITOR.dom.element.createFromHtml( pageHtml.join( '' ) );
 			page.setAttribute( 'role', 'tabpanel' );
 			page.setStyle( 'min-height', '100%' );
 
-			var env = CKEDITOR.env;
-			var tabId = 'cke_' + contents.id + '_' + CKEDITOR.tools.getNextNumber(),
+			var env = CKEDITOR.env,
+				tabId = 'cke_' + contents.id + '_' + CKEDITOR.tools.getNextNumber(),
 				tab = CKEDITOR.dom.element.createFromHtml( [
 					'<a class="cke_dialog_tab"',
 					( this._.pageCount > 0 ? ' cke_last' : 'cke_first' ),
