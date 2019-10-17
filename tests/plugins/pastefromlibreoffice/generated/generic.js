@@ -19,6 +19,7 @@
 		browsers: [
 			'chrome',
 			'firefox',
+			'edge', // v18
 			'ie11',
 			'safari'
 		],
@@ -28,7 +29,8 @@
 		tests: {
 			Simple_text: true,
 			Link: true,
-			Basic_styles: true
+			Basic_styles: true,
+			Font_color: true
 		},
 		ignoreAll: ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) || bender.tools.env.mobile
 	} ) );
