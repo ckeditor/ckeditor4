@@ -38,8 +38,22 @@
 
 				elementNames: [
 					[ /^head$/i, '' ],
-					[ /^meta$/i, '' ]
+					[ /^meta$/i, '' ],
+					[ /^strike$/i, 's' ]
 				],
+
+				attributes: {
+					'style': function( styles ) {
+						var tmpStyles = CKEDITOR.tools.parseCssText( styles );
+
+						if ( tmpStyles.background ) {
+							tmpStyles[ 'background-color' ] = tmpStyles.background;
+							delete tmpStyles.background;
+						}
+
+						return CKEDITOR.tools.writeCssText( tmpStyles );
+					}
+				},
 
 				elements: {
 					'!doctype': function( el ) {
@@ -66,17 +80,19 @@
 					},
 
 					'a': function( el ) {
-						var styles = CKEDITOR.tools.parseCssText( el.attributes.style );
+						if ( el.attributes.style ) {
+							var styles = CKEDITOR.tools.parseCssText( el.attributes.style );
 
-						if ( styles.color === '#000080' ) {
-							delete styles.color;
+							if ( styles.color === '#000080' ) {
+								delete styles.color;
+							}
+
+							if ( styles[ 'text-decoration' ] === 'underline' ) {
+								delete styles[ 'text-decoration' ];
+							}
+
+							el.attributes.style = CKEDITOR.tools.writeCssText( styles );
 						}
-
-						if ( styles[ 'text-decoration' ] === 'underline' ) {
-							delete styles[ 'text-decoration' ];
-						}
-
-						el.attributes.style = CKEDITOR.tools.writeCssText( styles );
 					}
 				}
 			};
