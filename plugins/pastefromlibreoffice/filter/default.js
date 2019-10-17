@@ -93,6 +93,12 @@
 
 							el.attributes.style = CKEDITOR.tools.writeCssText( styles );
 						}
+					},
+
+					'font': function( el ) {
+						if ( el.parent.name === 'a' && el.attributes.color === '#000080' ) {
+							el.replaceWithChildren();
+						}
 					}
 				}
 			};
