@@ -52,6 +52,12 @@
 						}
 
 						return CKEDITOR.tools.writeCssText( tmpStyles );
+					},
+
+					'size': function( styles, element ) {
+						if ( element.name === 'font' ) {
+							return false;
+						}
 					}
 				},
 
