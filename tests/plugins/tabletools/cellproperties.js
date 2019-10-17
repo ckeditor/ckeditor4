@@ -1,7 +1,7 @@
 /* bender-tags: editor,dialog */
-/* bender-ckeditor-plugins: entities,dialog,tabletools,toolbar,colorbutton,colordialog */
+/* bender-ckeditor-plugins: entities,dialog,tabletools,toolbar */
 /* bender-include: ./_helpers/cellproperties.js */
-/* global doTest, assertChildren, testColorChooser */
+/* global doTest, assertChildren */
 
 ( function() {
 	'use strict';
@@ -150,12 +150,6 @@
 
 			assert.areEqual( CKEDITOR.dialog.EDITING_MODE, dialog.getMode( editor ), 'Dialog is in editing mode.' );
 		} ),
-
-		// (#3559)
-		'test colordialog appears correctly for background color': testColorChooser( 'bgColorChoose' ),
-
-		// (#3359)
-		'test colordialog appears correctly for border color': testColorChooser( 'borderColorChoose' ),
 
 		// https://dev.ckeditor.com/ticket/16893
 		'test allowedContent rule': function() {

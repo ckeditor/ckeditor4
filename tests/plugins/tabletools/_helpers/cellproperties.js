@@ -1,4 +1,4 @@
-/* exported doTest, assertChildren, testColorChooser */
+/* exported doTest, assertChildren */
 
 function doTest( name, dialogCallback ) {
 	return function() {
@@ -34,32 +34,4 @@ function assertChildren( children ) {
 			assert.isObject( item );
 		}
 	} );
-}
-
-function testColorChooser( buttonName ) {
-	return function() {
-		bender.editorBot.create( {
-			name: buttonName
-		}, function( bot ) {
-			var editor = bot.editor;
-
-			editor.on( 'dialogShow', function( evt ) {
-				var dialog = evt.data;
-
-				dialog.getButton( 'ok' ).click();
-			} );
-
-			bot.setHtmlWithSelection( '<table><tr><td>[Test]</td></tr></table>' );
-
-			editor.getColorFromDialog( function() {
-				resume( function() {
-					bot.dialog( 'cellProperties', function( dialog ) {
-						dialog.getContentElement( 'info', buttonName ).click();
-						assert.areEqual( 1, dialog.getElement().$.style.zIndex );
-					} );
-				} );
-			} );
-			wait();
-		} );
-	};
 }
