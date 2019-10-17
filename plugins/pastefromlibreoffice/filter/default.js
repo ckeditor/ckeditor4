@@ -43,17 +43,6 @@
 				],
 
 				attributes: {
-					'style': function( styles ) {
-						var tmpStyles = CKEDITOR.tools.parseCssText( styles );
-
-						if ( tmpStyles.background ) {
-							tmpStyles[ 'background-color' ] = tmpStyles.background;
-							delete tmpStyles.background;
-						}
-
-						return CKEDITOR.tools.writeCssText( tmpStyles );
-					},
-
 					'size': function( styles, element ) {
 						if ( element.name === 'font' ) {
 							return false;
@@ -73,6 +62,43 @@
 							el.name = '';
 							textNode.value = textNode.value.replace( /\u00A0/g, ' ' );
 						}
+
+						if ( el.attributes.style ) {
+							var style = CKEDITOR.tools.parseCssText( el.attributes.style );
+
+							if ( style.background ) {
+								if ( style.background !== 'transparent' ) {
+									style[ 'background-color' ] = style.background;
+								}
+								delete style.background;
+							}
+
+							if ( style[ 'background-color' ] === 'none' || style[ 'background-color' ] === 'transparent' ) {
+								delete style[ 'background-color' ];
+							}
+
+							// Style added by
+							if ( style[ 'background-position' ] === 'initial initial' ) {
+								delete style[ 'background-position' ];
+							}
+
+							if ( style[ 'background-repeat' ] === 'initial initial' ) {
+								delete style[ 'background-repeat' ];
+							}
+
+							style = CKEDITOR.tools.writeCssText( style );
+
+							if ( style === '' ) {
+								el.replaceWithChildren();
+							} else {
+								el.attributes.style = style;
+							}
+						}
+
+						if ( !CKEDITOR.tools.object.entries( el.attributes ).length ) {
+							el.replaceWithChildren();
+						}
+
 					},
 
 					'p': function( el ) {
