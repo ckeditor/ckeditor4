@@ -30,7 +30,8 @@
 			Simple_text: true,
 			Link: true,
 			Basic_styles: true,
-			Font_color: true
+			Font_color: true,
+			Font: true
 		},
 		ignoreAll: ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) || bender.tools.env.mobile
 	} ) );

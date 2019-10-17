@@ -42,14 +42,6 @@
 					[ /^strike$/i, 's' ]
 				],
 
-				attributes: {
-					'size': function( styles, element ) {
-						if ( element.name === 'font' ) {
-							return false;
-						}
-					}
-				},
-
 				elements: {
 					'!doctype': function( el ) {
 						el.replaceWithChildren();
@@ -95,10 +87,7 @@
 							}
 						}
 
-						if ( !CKEDITOR.tools.object.entries( el.attributes ).length ) {
-							el.replaceWithChildren();
-						}
-
+						replaceEmptyElementWithChildren( el );
 					},
 
 					'p': function( el ) {
@@ -131,11 +120,31 @@
 						if ( el.parent.name === 'a' && el.attributes.color === '#000080' ) {
 							el.replaceWithChildren();
 						}
+
+						if ( el.attributes.size ) {
+							delete el.attributes.size;
+						}
+
+						var styles = CKEDITOR.tools.parseCssText( el.attributes.style );
+
+						if ( styles[ 'font-size' ] ) {
+							el.name = 'span';
+							el.attributes.style = CKEDITOR.tools.writeCssText( styles );
+							return el;
+						}
+
+						replaceEmptyElementWithChildren( el );
 					}
 				}
 			};
 		}
 	};
+
+	function replaceEmptyElementWithChildren( element ) {
+		if ( !CKEDITOR.tools.object.entries( element.attributes ).length ) {
+			element.replaceWithChildren();
+		}
+	}
 
 	CKEDITOR.pasteFilters.pflibreoffice = pastetools.createFilter( {
 		rules: [
