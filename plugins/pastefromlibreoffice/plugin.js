@@ -35,7 +35,7 @@
 
 				handle: function( evt, next ) {
 					var data = evt.data,
-						clipboardHtml = CKEDITOR.plugins.pastetools.getClipboardData( data, 'text/html' );
+						clipboardHtml = data.dataValue || CKEDITOR.plugins.pastetools.getClipboardData( data, 'text/html' );
 
 					// Do not apply the paste filter to data filtered by the the Google Docs filter (https://dev.ckeditor.com/ticket/13093).
 					// TO DO it might be unnecessary!!!
@@ -49,7 +49,8 @@
 					}
 
 					next();
-				}
+				},
+				priority: 100
 			} );
 		}
 	} );

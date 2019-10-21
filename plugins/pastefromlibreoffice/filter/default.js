@@ -170,10 +170,8 @@
 				'-webkit-text-stroke-width:0px',
 				'text-decoration:none',
 				'text-indent:0px',
-				'margin-bottom:0in'
-			],
-			resetStylesWithElementsName = [
-				'p:color:#000000'
+				'margin-bottom:0in',
+				'color:#000000'
 			];
 
 		var styles = CKEDITOR.tools.parseCssText( element.attributes.style ),
@@ -187,12 +185,6 @@
 
 			if ( CKEDITOR.tools.array.some( resetStyles, function( val ) {
 				return styleString.substring( 0, val.length ) === val;
-			} ) ) {
-				delete styles[ styleName ];
-			}
-
-			if ( CKEDITOR.tools.array.some( resetStylesWithElementsName, function( val ) {
-				return styleStringWithElementName.substring( 0, val.length ) === val;
 			} ) ) {
 				delete styles[ styleName ];
 			}
