@@ -9,7 +9,8 @@
 	'use strict';
 
 	var pastetools = CKEDITOR.plugins.pastetools,
-		commonFilter = pastetools.filters.common;
+		commonFilter = pastetools.filters.common,
+		Style = commonFilter.styles;
 
 	/**
 	 * Set of Paste from Libre Office plugin helpers.
@@ -47,57 +48,48 @@
 						el.replaceWithChildren();
 					},
 
-					'span': function( el ) {
-						if ( el.hasClass( 'Apple-converted-space' ) ) {
-							var textNode = el.getFirst();
+					'span': function( element ) {
+						removeLibreOfficeStyles( element );
 
-							el.name = '';
+						Style.normalizedStyles( element, editor );
+
+						if ( element.hasClass( 'Apple-converted-space' ) ) {
+							var textNode = element.getFirst();
+
+							element.name = '';
 							textNode.value = textNode.value.replace( /\u00A0/g, ' ' );
 						}
 
-						if ( el.attributes.style ) {
-							var style = CKEDITOR.tools.parseCssText( el.attributes.style );
+						if ( element.attributes.style ) {
+							var style = CKEDITOR.tools.parseCssText( element.attributes.style );
 
 							if ( style.background ) {
-								if ( style.background !== 'transparent' ) {
-									style[ 'background-color' ] = style.background;
-								}
+								style[ 'background-color' ] = style.background;
 								delete style.background;
-							}
-
-							if ( style[ 'background-color' ] === 'none' || style[ 'background-color' ] === 'transparent' ) {
-								delete style[ 'background-color' ];
-							}
-
-							// Style added by
-							if ( style[ 'background-position' ] === 'initial initial' ) {
-								delete style[ 'background-position' ];
-							}
-
-							if ( style[ 'background-repeat' ] === 'initial initial' ) {
-								delete style[ 'background-repeat' ];
 							}
 
 							style = CKEDITOR.tools.writeCssText( style );
 
 							if ( style === '' ) {
-								el.replaceWithChildren();
+								element.replaceWithChildren();
 							} else {
-								el.attributes.style = style;
+								element.attributes.style = style;
 							}
 						}
 
-						replaceEmptyElementWithChildren( el );
+						Style.createStyleStack( element, filter, editor );
+
+						replaceEmptyElementWithChildren( element );
 					},
 
-					'p': function( el ) {
-						var styles = CKEDITOR.tools.parseCssText( el.attributes.style );
+					'p': function( element ) {
+						removeLibreOfficeStyles( element );
+						Style.createStyleStack( element, filter, editor );
+						element.filterChildren( filter );
+					},
 
-						if ( styles[ 'text-align' ] === 'start' ) {
-							delete styles[ 'text-align' ];
-						}
-
-						el.attributes.style = CKEDITOR.tools.writeCssText( styles );
+					'div': function( element ) {
+						Style.createStyleStack( element, filter, editor );
 					},
 
 					'a': function( el ) {
@@ -135,6 +127,13 @@
 
 						replaceEmptyElementWithChildren( el );
 					}
+				},
+
+				attributes: {
+					'style': function( styles, element ) {
+						// Returning false deletes the attribute.
+						return Style.normalizedStyles( element, editor ) || false;
+					}
 				}
 			};
 		}
@@ -143,6 +142,68 @@
 	function replaceEmptyElementWithChildren( element ) {
 		if ( !CKEDITOR.tools.object.entries( element.attributes ).length ) {
 			element.replaceWithChildren();
+		}
+	}
+
+
+	function removeLibreOfficeStyles( element ) {
+		var resetStyles = [
+				'background-color:transparent',
+				'background:transparent',
+				'background-color:none',
+				'background:none',
+				'text-align:start',
+				'background-position:initial initial',
+				'background-repeat:initial initial',
+				'caret-color',
+				'font-family:-webkit-standard',
+				'font-style:normal',
+				'font-variant-caps',
+				'font-weight:normal',
+				'letter-spacing:normal',
+				'orphans',
+				'widows',
+				'text-transform:none',
+				'white-space:normal',
+				'word-spacing:0px',
+				'-webkit-text-size-adjust:auto',
+				'-webkit-text-stroke-width:0px',
+				'text-decoration:none',
+				'text-indent:0px',
+				'margin-bottom:0in'
+			],
+			resetStylesWithElementsName = [
+				'p:color:#000000'
+			];
+
+		var styles = CKEDITOR.tools.parseCssText( element.attributes.style ),
+			styleName,
+			styleString,
+			styleStringWithElementName;
+
+		for ( styleName in styles ) {
+			styleString = styleName + ':' + styles[ styleName ];
+			styleStringWithElementName = element.name + ':' + styleString;
+
+			if ( CKEDITOR.tools.array.some( resetStyles, function( val ) {
+				return styleString.substring( 0, val.length ) === val;
+			} ) ) {
+				delete styles[ styleName ];
+			}
+
+			if ( CKEDITOR.tools.array.some( resetStylesWithElementsName, function( val ) {
+				return styleStringWithElementName.substring( 0, val.length ) === val;
+			} ) ) {
+				delete styles[ styleName ];
+			}
+		}
+
+		styles = CKEDITOR.tools.writeCssText( styles );
+
+		if ( styles !== '' ) {
+			element.attributes.style = styles;
+		} else {
+			delete element.attributes.style;
 		}
 	}
 
