@@ -78,7 +78,7 @@
 					},
 
 					'p': function( element ) {
-						Style.createStyleStack( element, filter, editor );
+						Style.createStyleStack( element, filter, editor, /white-space/gi );
 						element.filterChildren( filter );
 					},
 
