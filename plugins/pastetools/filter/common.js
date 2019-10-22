@@ -31,6 +31,10 @@
 	plug.rules = function( html, editor, filter ) {
 		return {
 			elements: {
+				'^': function( element ) {
+					removeSuperflousStyles( element );
+				},
+
 				'table': function( element ) {
 					element.filterChildren( filter );
 
@@ -794,6 +798,53 @@
 				style[ 'margin-' + key ] = margin[ key ];
 			}
 			delete style[ marginCase ];
+		}
+	}
+
+	function removeSuperflousStyles( element ) {
+		var resetStyles = [
+				'background-color:transparent',
+				'background:transparent',
+				'background-color:none',
+				'background:none',
+				'text-align:start',
+				'background-position:initial initial',
+				'background-repeat:initial initial',
+				'caret-color',
+				'font-family:-webkit-standard',
+				'font-variant-caps',
+				'letter-spacing:normal',
+				'orphans',
+				'widows',
+				'text-transform:none',
+				'word-spacing:0px',
+				'-webkit-text-size-adjust:auto',
+				'-webkit-text-stroke-width:0px',
+				'text-indent:0px',
+				'margin-bottom:0in'
+			];
+
+		var styles = CKEDITOR.tools.parseCssText( element.attributes.style ),
+			styleName,
+			styleString;
+
+		for ( styleName in styles ) {
+			styleString = styleName + ':' + styles[ styleName ];
+
+			if ( CKEDITOR.tools.array.some( resetStyles, function( val ) {
+				return styleString.substring( 0, val.length ) === val;
+			} ) ) {
+				delete styles[ styleName ];
+				continue;
+			}
+		}
+
+		styles = CKEDITOR.tools.writeCssText( styles );
+
+		if ( styles !== '' ) {
+			element.attributes.style = styles;
+		} else {
+			delete element.attributes.style;
 		}
 	}
 
