@@ -27,7 +27,7 @@
 					var data = evt.data,
 						textHtml = data.dataTransfer.getData( 'text/html', true ) || data.dataValue,
 						hasMetaGeneratorTag = /<meta\s+name=["']?generator["']?\s+content=["']?/gi,
-						isLibreOffice = /<meta\s+name=["']?generator["']?\s+content=["']?LibreOffice/gi,
+						isLibreOffice = /<meta\s+name=["']?generator["']?\s+content=["']?LibreOffice/gi;
 
 					// TO DO instead of true, here might be browser sniffing. However, it should be stubbed somehow in generated tests.
 					return hasMetaGeneratorTag.test( textHtml ) ? isLibreOffice.test( textHtml ) : true;
