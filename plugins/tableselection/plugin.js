@@ -777,34 +777,15 @@
 	function pasteListener( evt ) {
 		var editor = evt.editor,
 			selection = editor.getSelection(),
-			ranges = selection.getRanges(),
-			table = ranges.length && ranges[ 0 ]._getTableElement( { table: 1 } );
-
-		// (#2945)
-		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
-			return;
-		}
-
-		var selectedCells = getSelectedCells( selection ),
+			selectedCells = getSelectedCells( selection ),
 			pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue ),
 			boundarySelection = selection.isInTable( true ) && this.isBoundarySelection( selection ),
-			selectionAncestor = selection.getCommonAncestor(),
 			tableSel,
 			selectedTable,
 			selectedTableMap,
 			pastedTableMap;
 
-		// Do not customize paste process in following cases:
-		// No cells are selected.
-		if ( !selectedCells.length ||
-			// It's single range that does not fully contain table element and is not boundary, e.g. collapsed selection within
-			// cell, part of cell etc.
-			( selectedCells.length === 1 && !rangeContainsTableElement( selection.getRanges()[ 0 ] ) && !boundarySelection ) ||
-			// It's a boundary position but with no table pasted.
-			( boundarySelection && !pastedTable ) ||
-			// Content exceedes table (#875).
-			( selectionAncestor && !selectionAncestor.is( 'table', 'tbody', 'tr' ) )
-			) {
+		if ( !shouldUseCustomPaste( selection, selectedCells ) ) {
 			return;
 		}
 
@@ -876,6 +857,38 @@
 		setTimeout( function() {
 			editor.fire( 'afterPaste' );
 		}, 0 );
+
+		function shouldUseCustomPaste( selection, selectedCells ) {
+			var ranges = selection.getRanges(),
+				table = ranges.length && ranges[ 0 ]._getTableElement( { table: 1 } ),
+				isIgnoredTable = table && table.hasAttribute( ignoredTableAttribute ),
+				collapsedPartial = selectedCells.length === 1 && !rangeContainsTableElement( selection.getRanges()[ 0 ] ) && !boundarySelection,
+				boundaryWithoutTable = boundarySelection && !pastedTable;
+
+			// (#2945)
+			if ( isIgnoredTable ) {
+				return false;
+			}
+
+			var selectionAncestor = selection.getCommonAncestor(),
+				selectionExceedesTable = selectionAncestor && !selectionAncestor.is( 'table', 'tbody', 'tr' );
+
+			// Do not customize paste process in following cases:
+			// No cells are selected.
+			if ( !selectedCells.length ||
+				// It's single range that does not fully contain table element and is not boundary, e.g. collapsed selection within
+				// cell, part of cell etc.
+				( collapsedPartial ) ||
+				// It's a boundary position but with no table pasted.
+				( boundaryWithoutTable ) ||
+				// Content exceedes table (#875).
+				( selectionExceedesTable )
+				) {
+				return false;
+			}
+
+			return true;
+		}
 
 		function getLastArrayItem( arr ) {
 			return arr[ arr.length - 1 ];
