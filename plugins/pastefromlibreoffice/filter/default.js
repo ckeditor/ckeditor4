@@ -49,11 +49,6 @@
 					},
 
 					'span': function( element ) {
-						if ( element.hasClass( 'Apple-converted-space' ) ) {
-							var textNodeWithSpace = new CKEDITOR.htmlParser.text( ' ' );
-							element.replaceWith( textNodeWithSpace );
-						}
-
 						if ( element.attributes.style ) {
 							element.attributes.style = Style.normalizedStyles( element, editor );
 

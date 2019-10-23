@@ -35,6 +35,12 @@
 					removeSuperflousStyles( element );
 				},
 
+				'span': function( element ) {
+					if ( element.hasClass( 'Apple-converted-space' ) ) {
+						return new CKEDITOR.htmlParser.text( ' ' );
+					}
+				},
+
 				'table': function( element ) {
 					element.filterChildren( filter );
 
