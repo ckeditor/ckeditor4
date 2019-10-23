@@ -49,13 +49,14 @@
 					},
 
 					'span': function( element ) {
-						Style.normalizedStyles( element, editor );
-
 						if ( element.hasClass( 'Apple-converted-space' ) ) {
-							element.replaceWithChildren();
+							var textNodeWithSpace = new CKEDITOR.htmlParser.text( ' ' );
+							element.replaceWith( textNodeWithSpace );
 						}
 
 						if ( element.attributes.style ) {
+							element.attributes.style = Style.normalizedStyles( element, editor );
+
 							var style = CKEDITOR.tools.parseCssText( element.attributes.style );
 
 							if ( style.background ) {
@@ -70,16 +71,16 @@
 							} else {
 								element.attributes.style = style;
 							}
-						}
 
-						Style.createStyleStack( element, filter, editor );
+							Style.createStyleStack( element, filter, editor );
+						}
 
 						replaceEmptyElementWithChildren( element );
 					},
 
 					'p': function( element ) {
-						Style.createStyleStack( element, filter, editor, /white-space/gi );
 						element.filterChildren( filter );
+						Style.createStyleStack( element, filter, editor, /white-space/gi );
 					},
 
 					'div': function( element ) {
