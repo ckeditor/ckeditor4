@@ -52,21 +52,6 @@
 						if ( element.attributes.style ) {
 							element.attributes.style = Style.normalizedStyles( element, editor );
 
-							var style = CKEDITOR.tools.parseCssText( element.attributes.style );
-
-							if ( style.background ) {
-								style[ 'background-color' ] = style.background;
-								delete style.background;
-							}
-
-							style = CKEDITOR.tools.writeCssText( style );
-
-							if ( style === '' ) {
-								element.replaceWithChildren();
-							} else {
-								element.attributes.style = style;
-							}
-
 							Style.createStyleStack( element, filter, editor );
 						}
 
@@ -103,19 +88,19 @@
 							el.replaceWithChildren();
 						}
 
-						if ( el.attributes.size ) {
-							delete el.attributes.size;
-						}
+						// if ( el.attributes.size ) {
+						// 	delete el.attributes.size;
+						// }
 
-						var styles = CKEDITOR.tools.parseCssText( el.attributes.style );
+						// var styles = CKEDITOR.tools.parseCssText( el.attributes.style );
 
-						if ( styles[ 'font-size' ] ) {
-							el.name = 'span';
-							el.attributes.style = CKEDITOR.tools.writeCssText( styles );
-							return el;
-						}
+						// if ( styles[ 'font-size' ] ) {
+						// 	el.name = 'span';
+						// 	el.attributes.style = CKEDITOR.tools.writeCssText( styles );
+						// 	return el;
+						// }
 
-						replaceEmptyElementWithChildren( el );
+						// replaceEmptyElementWithChildren( el );
 					}
 				},
 

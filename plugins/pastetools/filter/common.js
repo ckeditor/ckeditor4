@@ -838,7 +838,7 @@
 			styleString = styleName + ':' + styles[ styleName ];
 
 			if ( CKEDITOR.tools.array.some( resetStyles, function( val ) {
-				return styleString.substring( 0, val.length ) === val;
+				return styleString.substring( 0, val.length ).toLowerCase() === val;
 			} ) ) {
 				delete styles[ styleName ];
 				continue;
