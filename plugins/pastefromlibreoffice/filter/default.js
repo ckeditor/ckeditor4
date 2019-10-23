@@ -80,7 +80,7 @@
 
 					'p': function( element ) {
 						element.filterChildren( filter );
-						Style.createStyleStack( element, filter, editor, /white-space/gi );
+						Style.createStyleStack( element, filter, editor );
 					},
 
 					'div': function( element ) {

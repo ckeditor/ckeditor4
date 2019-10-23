@@ -5,14 +5,14 @@
 /* jshint ignore:end */
 /* bender-include: ../../pastefromword/generated/_helpers/promisePasteEvent.js,../../pastefromword/generated/_helpers/assertWordFilter.js */
 /* bender-include: ../../pastefromword/generated/_helpers/createTestCase.js,../../pastefromword/generated/_helpers/createTestSuite.js */
-/* bender-include: ../../pastefromword/generated/_helpers/pfwTools.js */
-/* global pfwTools,createTestSuite */
+/* bender-include: ./_helpers/config.js */
+/* global pfloConfig,createTestSuite */
 
 ( function() {
 	'use strict';
 
 	bender.editor = {
-		config: pfwTools.defaultConfig
+		config: pfloConfig
 	};
 
 	bender.test( createTestSuite( {
