@@ -84,8 +84,28 @@
 					},
 
 					'font': function( el ) {
-						if ( el.parent.name === 'a' && el.attributes.color === '#000080' ) {
+						if ( shouldReplaceFontWithChildren( el ) ) {
 							el.replaceWithChildren();
+						}
+
+						if ( el.attributes.size ) {
+							fontSizeFixer( el );
+							if ( el.children.length === 1 && el.children[ 0 ].name === 'font' ) {
+								// Probably element was split by PFW and there was created a style stack for font.
+								var childStyles = CKEDITOR.tools.parseCssText( el.children[ 0 ].attributes.style );
+
+								if ( childStyles[ 'font-size' ] ) {
+									el.replaceWithChildren();
+								}
+							} else {
+								var styles = CKEDITOR.tools.parseCssText( el.attributes.style );
+
+								if ( styles[ 'font-size' ] ) {
+									// We need to remove 'size' and transform font to span with 'font-size'.
+									delete el.attributes.size;
+									el.name = 'span';
+								}
+							}
 						}
 
 						// if ( el.attributes.size ) {
@@ -117,6 +137,39 @@
 	function replaceEmptyElementWithChildren( element ) {
 		if ( !CKEDITOR.tools.object.entries( element.attributes ).length ) {
 			element.replaceWithChildren();
+		}
+	}
+
+	function shouldReplaceFontWithChildren( element ) {
+		// Anchor is additionaly styled with font
+		if ( element.parent.name === 'a' && element.attributes.color === '#000080' ) {
+			return true;
+		}
+
+		// Sub or sup is additionaly styled with font
+		if ( element.parent.children.length === 1 && ( element.parent.name === 'sup' || element.parent.name === 'sub' ) && element.attributes.size === '2' ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	function fontSizeFixer( element ) {
+		// There are 2 sitaution:
+		// 1. font tag has 2 attributes 'size' and 'style' with 'font-size' - situation when content was not transformed with PFW
+		// 2. font tag has 'size' attribute and has child which is a font with 'style' containing 'font-size' - situation when PFW made a style stack
+		if ( element.attributes.style ) {
+			var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
+			if ( styles[ 'font-size' ] ) {
+				delete element.attributes.size;
+				element.name = 'span';
+			}
+		} else if ( element.children.length === 1 && element.children[ 0 ].name === 'font' ) {
+			var childStyles = CKEDITOR.tools.parseCssText( element.children[ 0 ].attributes.style );
+			if ( childStyles[ 'font-size' ] ) {
+				element.children[ 0 ].name = 'span';
+				element.replaceWithChildren();
+			}
 		}
 	}
 
