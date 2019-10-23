@@ -802,8 +802,8 @@
 			( selectedCells.length === 1 && !rangeContainsTableElement( selection.getRanges()[ 0 ] ) && !boundarySelection ) ||
 			// It's a boundary position but with no table pasted.
 			( boundarySelection && !pastedTable ) ||
-			// There is some selected content before table (#875).
-			( selectionAncestor && selectionAncestor.$.nodeType == 1 && selectionAncestor.hasClass( 'cke_editable' ) )
+			// Content exceedes table (#875).
+			( selectionAncestor && !selectionAncestor.is( 'table', 'tbody', 'tr' ) )
 			) {
 			return;
 		}
