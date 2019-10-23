@@ -88,3 +88,17 @@ after conducting test steps have some fun pasting in other ways than described a
 	### Unexpected:
 
 	There is only one cell in the row or whole table content was replaced.
+
+1. Undo changes.
+
+1. Copy word `Start`.
+
+1. Select content from the word `Start` to word `table` and paste.
+
+	### Expected:
+
+	Only selected content was replaced by the word `Start`.
+
+	### Unexpected:
+
+	Whole cell content was replaced.
