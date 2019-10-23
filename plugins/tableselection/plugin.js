@@ -794,19 +794,6 @@
 			selectedTableMap,
 			pastedTableMap;
 
-		function getLongestRowLength( map ) {
-			return Math.max.apply( null, CKEDITOR.tools.array.map( map, function( rowMap ) {
-				return rowMap.length;
-			}, 0 ) );
-		}
-
-		function selectCellContents( cell ) {
-			var range = editor.createRange();
-
-			range.selectNodeContents( cell );
-			range.select();
-		}
-
 		// Do not customize paste process in following cases:
 		// No cells are selected.
 		if ( !selectedCells.length ||
@@ -823,10 +810,6 @@
 
 		selectedTable = selectedCells[ 0 ].getAscendant( 'table' );
 		tableSel = new TableSelection( getSelectedCells( selection, selectedTable ) );
-
-		function getLastArrayItem( arr ) {
-			return arr[ arr.length - 1 ];
-		}
 
 		// Schedule selecting appropriate table cells after pasting. It covers both table and not-table
 		// content (#520).
@@ -893,6 +876,23 @@
 		setTimeout( function() {
 			editor.fire( 'afterPaste' );
 		}, 0 );
+
+		function getLastArrayItem( arr ) {
+			return arr[ arr.length - 1 ];
+		}
+
+		function selectCellContents( cell ) {
+			var range = editor.createRange();
+
+			range.selectNodeContents( cell );
+			range.select();
+		}
+
+		function getLongestRowLength( map ) {
+			return Math.max.apply( null, CKEDITOR.tools.array.map( map, function( rowMap ) {
+				return rowMap.length;
+			}, 0 ) );
+		}
 	}
 
 	function customizeTableCommand( editor, cmds, callback ) {
