@@ -196,6 +196,12 @@
 		if ( !element.previous || !isList( element.previous ) ) {
 			return false;
 		}
+
+		// There might be cases in PFW where li element has no children (test Tickets/7131 word2013 chrome)
+		if ( !element.getFirst().children.length ) {
+			return false;
+		}
+
 		// Curretn list need to be nested list, what points that is sublist.
 		if ( element.children.length !== 1 || !isList( element.getFirst().getFirst() ) ) {
 			return false;
