@@ -32,7 +32,8 @@
 			Basic_styles: true,
 			Font_color: true,
 			Font: true,
-			Lists: true
+			Lists: true,
+			Mixed_list: true
 		},
 		ignoreAll: ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) || bender.tools.env.mobile
 	} ) );
