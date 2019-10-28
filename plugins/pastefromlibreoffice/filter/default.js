@@ -107,20 +107,18 @@
 								}
 							}
 						}
+					},
 
-						// if ( el.attributes.size ) {
-						// 	delete el.attributes.size;
-						// }
+					'ul': function( el ) {
+						if ( listMerger( el, filter ) ) {
+							return false;
+						}
+					},
 
-						// var styles = CKEDITOR.tools.parseCssText( el.attributes.style );
-
-						// if ( styles[ 'font-size' ] ) {
-						// 	el.name = 'span';
-						// 	el.attributes.style = CKEDITOR.tools.writeCssText( styles );
-						// 	return el;
-						// }
-
-						// replaceEmptyElementWithChildren( el );
+					'ol': function( el ) {
+						if ( listMerger( el, filter ) ) {
+							return false;
+						}
 					}
 				},
 
@@ -172,6 +170,95 @@
 			}
 		}
 	}
+
+	// Return true if sucesfuly merge list to previous item.
+	function listMerger( el, filter ) {
+		if ( !shouldMergeToPreviousList( el ) ) {
+			return false;
+		}
+
+		var previous = el.previous,
+			lastLi = getLastListItem( previous ),
+			liDepthValue = depthChecker( lastLi ),
+			innerList = unwrapList( el, liDepthValue );
+
+		if ( innerList ) {
+			lastLi.add( innerList );
+			innerList.filterChildren( filter );
+			return true;
+		}
+
+		return false;
+	}
+
+	function shouldMergeToPreviousList( element ) {
+		// There need to be previous list where element should be merged.
+		if ( !element.previous || !isList( element.previous ) ) {
+			return false;
+		}
+		// Curretn list need to be nested list, what points that is sublist.
+		if ( element.children.length !== 1 || !isList( element.getFirst().getFirst() ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	// Checks level of nested list for given element.
+	// It's exepected that argument is the `li` element.
+	function depthChecker( element ) {
+		var level = 0,
+			currentElement = element;
+
+		while ( ( currentElement = currentElement.getAscendant( getListEvaluator() ) ) ) {
+			level++;
+		}
+
+		return level;
+	}
+
+	function getLastListItem( el ) {
+		var lastChild = el.children[ el.children.length - 1 ];
+
+		if ( !isList( lastChild ) && lastChild.name !== 'li' ) {
+			return el;
+		} else {
+			return getLastListItem( lastChild );
+		}
+	}
+
+	function getListEvaluator() {
+		var guard = false;
+
+		return function( element ) {
+			// There might be situation that list is somehow nested in other type of element, quotes, div, table, etc.
+			// When such situation happen we should not search for any above list.
+			if ( guard ) {
+				return false;
+			}
+
+			if ( !isList( element ) && element.name !== 'li' ) {
+				guard = true;
+				return false;
+			}
+
+			return isList( element );
+		};
+	}
+
+	// Get nested list by first items
+	function unwrapList( list, count ) {
+		if ( count ) {
+			return unwrapList( list.getFirst().getFirst(), --count );
+		} else {
+			return list;
+		}
+	}
+
+	function isList( element ) {
+		return element.name === 'ol' || element.name === 'ul';
+	}
+
 
 	CKEDITOR.pasteFilters.pflibreoffice = pastetools.createFilter( {
 		rules: [
