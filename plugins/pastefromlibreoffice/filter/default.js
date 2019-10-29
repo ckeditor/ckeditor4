@@ -128,6 +128,14 @@
 						if ( listMerger( el, filter ) ) {
 							return false;
 						}
+					},
+
+					'img': function( el ) {
+						var src = el.attributes.src;
+
+						if ( !src ) {
+							return false;
+						}
 					}
 				},
 
@@ -273,7 +281,6 @@
 	function isList( element ) {
 		return element.name === 'ol' || element.name === 'ul';
 	}
-
 
 	CKEDITOR.pasteFilters.pflibreoffice = pastetools.createFilter( {
 		rules: [
