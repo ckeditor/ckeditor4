@@ -29,6 +29,7 @@
 	 * @member CKEDITOR.plugins.pastetools.filters.common
 	 */
 	plug.rules = function( html, editor, filter ) {
+		var availableFonts = getMatchingFonts( editor );
 		return {
 			elements: {
 				'^': function( element ) {
@@ -134,6 +135,12 @@
 
 					Style.createStyleStack( element, filter, editor,
 						/margin|text\-align|padding|list\-style\-type|width|height|border|white\-space|vertical\-align|background/i );
+				},
+
+				'font': function( element ) {
+					if ( element.attributes.face && availableFonts ) {
+						element.attributes.face = replaceWithMatchingFont( element.attributes.face, availableFonts );
+					}
 				}
 			}
 		};
@@ -852,6 +859,41 @@
 		} else {
 			delete element.attributes.style;
 		}
+	}
+
+	function getMatchingFonts( editor ) {
+		var fontNames = editor.config.font_names,
+			validNames = [];
+
+		if ( !fontNames || !fontNames.length ) {
+			return false;
+		}
+
+		validNames = CKEDITOR.tools.array.map( fontNames.split( ';' ), function( value ) {
+			// Font can have a short name at the begining. It's necessary to remove it, to apply correct style.
+			if ( value.indexOf( '/' ) === -1 ) {
+				return value;
+			}
+
+			return value.split( '/' )[ 1 ];
+		} );
+
+		return validNames.length ? validNames : false;
+	}
+
+	function replaceWithMatchingFont( fontValue, availableFonts ) {
+		var fontParts = fontValue.split( ',' ),
+			matchingFont = CKEDITOR.tools.array.find( availableFonts, function( font ) {
+				for ( var i = 0; i < fontParts.length; i++ ) {
+					if ( font.indexOf( fontParts[ i ].trim() ) === -1 ) {
+						return false;
+					}
+				}
+
+				return true;
+			} );
+
+		return matchingFont || fontValue;
 	}
 
 	/**
