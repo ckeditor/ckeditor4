@@ -59,6 +59,15 @@
 					},
 
 					'p': function( element ) {
+						if ( element.attributes.align ) {
+							var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
+
+							styles[ 'text-align' ] = element.attributes.align;
+							delete element.attributes.align;
+
+							element.attributes.style = CKEDITOR.tools.writeCssText( styles );
+						}
+
 						element.filterChildren( filter );
 						Style.createStyleStack( element, filter, editor );
 					},
