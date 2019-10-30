@@ -15,7 +15,7 @@ on:
       - major
 
 jobs:
-  test-linux:
+  test:
     name: CKEditor 4 ${{ matrix.type }}
     strategy:
       matrix:
@@ -33,5 +33,5 @@ jobs:
       - run: sh -e ./dev/travis/build.sh ${GITHUB_REF#refs/heads/} && BUILD_PATH="$(sh -e ./dev/travis/buildpath.sh) && cd $BUILD_PATH"
         if: matrix.type == 'built'
       - run: bender run -c bender.ci.js
-          env:
-            BROWSER: ${{ matrix.browser }}
+        env:
+          BROWSER: ${{ matrix.browser }}
