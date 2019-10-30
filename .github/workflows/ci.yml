@@ -22,6 +22,7 @@ jobs:
         type: [ 'dev', 'built' ]
         browser: [ 'Chrome' ]
     runs-on: windows-latest
+	shell: bash
     steps:
       - uses: actions/checkout@v1
       - name: Setup node
@@ -30,7 +31,7 @@ jobs:
           node-version: 10
       - run: npm install
       - run: npm install benderjs-cli -g
-      - run: sh -e ./dev/travis/build.sh ${GITHUB_REF#refs/heads/}; BUILD_PATH="$(sh -e ./dev/travis/buildpath.sh); cd $BUILD_PATH"
+      - run: sh -e ./dev/travis/build.sh ${GITHUB_REF#refs/heads/} && BUILD_PATH="$(sh -e ./dev/travis/buildpath.sh) && cd $BUILD_PATH"
         if: matrix.type == 'built'
       - run: bender run -c bender.ci.js
         env:
