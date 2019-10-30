@@ -34,6 +34,9 @@
 			elements: {
 				'^': function( element ) {
 					removeSuperflousStyles( element );
+					// Don't use "attributeNames", because those rules are applied after elements.
+					// Normalization is required at the very begininng.
+					normalizeAttributesName( element );
 				},
 
 				'span': function( element ) {
@@ -894,6 +897,18 @@
 			} );
 
 		return matchingFont || fontValue;
+	}
+
+	function normalizeAttributesName( element ) {
+		if ( element.attributes.bgcolor ) {
+			var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
+
+			if ( !styles[ 'background-color' ] ) {
+				styles[ 'background-color' ] = element.attributes.bgcolor;
+
+				element.attributes.style = CKEDITOR.tools.writeCssText( styles );
+			}
+		}
 	}
 
 	/**
