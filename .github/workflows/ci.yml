@@ -22,7 +22,7 @@ jobs:
         type: [ 'dev', 'built' ]
         browser: [ 'Chrome' ]
     runs-on: windows-latest
-	shell: bash
+    shell: bash
     steps:
       - uses: actions/checkout@v1
       - name: Setup node
