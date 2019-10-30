@@ -3426,6 +3426,11 @@
 			if ( focused ) {
 				editor.widgets.del( focused );
 			} else {
+				// We have to add fillers manually for Safari (#3537).
+				if ( CKEDITOR.env.webkit && !CKEDITOR.env.chrome ) {
+					CKEDITOR.plugins.widgetselection.addFillers( editor.editable() );
+				}
+
 				editor.extractSelectedHtml();
 			}
 
