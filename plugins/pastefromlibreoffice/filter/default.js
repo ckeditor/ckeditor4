@@ -143,7 +143,13 @@
 					'style': function( styles, element ) {
 						// Returning false deletes the attribute.
 						return Style.normalizedStyles( element, editor ) || false;
-					}
+					},
+
+					'cellspacing': remove,
+
+					'cellpadding': remove,
+
+					'border': remove
 				}
 			};
 		}
@@ -280,6 +286,10 @@
 
 	function isList( element ) {
 		return element.name === 'ol' || element.name === 'ul';
+	}
+
+	function remove() {
+		return false;
 	}
 
 	CKEDITOR.pasteFilters.pflibreoffice = pastetools.createFilter( {
