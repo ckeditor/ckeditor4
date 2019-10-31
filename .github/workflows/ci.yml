@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         type: [ 'dev', 'built' ]
-        browser: [ 'Chrome', 'Firefox', 'IE' ]
+        browser: [ 'Chrome', 'IE' ]
     runs-on: windows-latest
     steps:
       # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
