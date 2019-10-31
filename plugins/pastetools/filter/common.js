@@ -72,10 +72,12 @@
 					Style.convertStyleToPx( element );
 
 				},
+
 				'tr': function( element ) {
 					// Attribues are moved to 'td' elements.
 					element.attributes = {};
 				},
+
 				'td': function( element ) {
 					var ascendant = element.getAscendant( 'table' ),
 						ascendantStyle = tools.parseCssText( ascendant.attributes.style, true );
@@ -129,7 +131,6 @@
 						} else {
 							Style.setStyle( element, border, borderStyle.toString() );
 						}
-
 					}
 
 					Style.mapCommonStyles( element );
@@ -206,10 +207,18 @@
 					Style.setStyle( element, 'vertical-align', value );
 				},
 				width: function( value ) {
-					Style.setStyle( element, 'width', value + 'px' );
+					if ( /%$/.test( value ) ) {
+						Style.setStyle( element, 'width', value );
+					} else {
+						Style.setStyle( element, 'width', value + 'px' );
+					}
 				},
 				height: function( value ) {
-					Style.setStyle( element, 'height', value + 'px' );
+					if ( /%$/.test( value ) ) {
+						Style.setStyle( element, 'height', value );
+					} else {
+						Style.setStyle( element, 'height', value + 'px' );
+					}
 				}
 			} );
 		},
