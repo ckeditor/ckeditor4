@@ -26,7 +26,7 @@ jobs:
       # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
       - name: Extract branch name
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        run: if [ "$GITHUB_BASE_REF"]; then REF="$GITHUB_BASE_REF"; else REF="$GITHUB_REF"; fi; echo "##[set-output name=branch;]$(echo ${REF#refs/heads/})"
         id: extract_branch
       - name: Checkout branch
         uses: actions/checkout@v1

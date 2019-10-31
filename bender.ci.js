@@ -9,5 +9,6 @@ config.startBrowserOptions = {
 	Chrome: '--headless --disable-gpu',
 	Firefox: '-headless'
 };
+config.captureTimeout = 60000;
 
 module.exports = config;
