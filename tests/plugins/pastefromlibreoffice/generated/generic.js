@@ -35,7 +35,8 @@
 			Lists: true,
 			Mixed_list: true,
 			Text_align: true,
-			Table_background: true
+			Table_background: true,
+			Paragraph_format: true
 		},
 		ignoreAll: ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) || bender.tools.env.mobile
 	} ) );
