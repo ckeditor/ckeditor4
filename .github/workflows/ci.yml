@@ -34,12 +34,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 10
-      - name: List available browsers
-        run: node node_modules/browser-launcher2/example/detect
       - name: Install dependencies
         run: npm install
       - name: Install Bender.js CLI
         run: npm install benderjs-cli -g
+      - name: List available browsers
+        run: node node_modules/browser-launcher2/example/detect
       - name: Build CKEditor 4
         run: sh -e ./dev/travis/build.sh $BRANCH && BUILD_PATH="$(sh -e ./dev/travis/buildpath.sh) && cd $BUILD_PATH"
         shell: bash
