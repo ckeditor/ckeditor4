@@ -16,13 +16,18 @@ on:
 
 jobs:
   test:
-    name: CKEditor 4 ${{ matrix.type }}
+    name: CKEditor 4 ${{ matrix.type }} on ${{ matrix.browser }}
     strategy:
       matrix:
         type: [ 'dev', 'built' ]
         browser: [ 'Chrome' ]
     runs-on: windows-latest
     steps:
+      # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
       - uses: actions/checkout@v1
       - name: Setup node
         uses: actions/setup-node@v1
@@ -30,9 +35,11 @@ jobs:
           node-version: 10
       - run: npm install
       - run: npm install benderjs-cli -g
-      - run: sh -e ./dev/travis/build.sh master && BUILD_PATH="$(sh -e ./dev/travis/buildpath.sh) && cd $BUILD_PATH"
+      - run: sh -e ./dev/travis/build.sh $BRANCH && BUILD_PATH="$(sh -e ./dev/travis/buildpath.sh) && cd $BUILD_PATH"
         shell: bash
-        if: matrix.type == 'built'
+        env:
+          BRANCH: ${{ steps.extract_branch.outputs.branch }}
+        if: matrix.type == 'built' && (steps.extract_branch.outputs.branch == 'master' || steps.extract_branch.outputs.branch == 'major')
       - run: bender run -c bender.ci.js
         env:
           BROWSER: ${{ matrix.browser }}
