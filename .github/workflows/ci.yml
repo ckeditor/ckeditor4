@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         type: [ 'dev', 'built' ]
-        browser: [ 'Chrome', 'IE' ]
+        browser: [ 'Chrome', 'Firefox', 'IE' ]
     runs-on: windows-latest
     steps:
       # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
@@ -34,6 +34,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 10
+      - name: Install Firefox
+        run: choco install firefox
+        if: matrix.browser == 'Firefox'
       - name: Install dependencies
         run: npm install
       - name: Install Bender.js CLI
