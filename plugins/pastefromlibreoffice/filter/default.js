@@ -92,6 +92,34 @@
 						}
 					},
 
+					'h1': function( el ) {
+						Style.createStyleStack( el, filter, editor );
+					},
+
+					'h2': function( el ) {
+						Style.createStyleStack( el, filter, editor );
+					},
+
+					'h3': function( el ) {
+						Style.createStyleStack( el, filter, editor );
+					},
+
+					'h4': function( el ) {
+						Style.createStyleStack( el, filter, editor );
+					},
+
+					'h5': function( el ) {
+						Style.createStyleStack( el, filter, editor );
+					},
+
+					'h6': function( el ) {
+						Style.createStyleStack( el, filter, editor );
+					},
+
+					'pre': function( el ) {
+						Style.createStyleStack( el, filter, editor );
+					},
+
 					'font': function( el ) {
 						if ( shouldReplaceFontWithChildren( el ) ) {
 							el.replaceWithChildren();
