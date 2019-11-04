@@ -49,7 +49,11 @@
 
 	function extractFromRtf( rtfContent ) {
 		var ret = [],
-			rePictureHeader = /\{\\pict[^{}]+?\\(?:jpeg|png)blip/,
+			// Regexp for picture header. Please note that instead \pngblip there might be also \jpegblip
+			// for different image compression type.
+			// 1. {\pict … \pngblip                  <- here inside "…" curly brakcets never appear
+			// 2. {\*\shppict{\pict{\* … \pngblip    <- here inside "…" curly brackets might be present
+			rePictureHeader = /(\{\\pict[^{}]+?|\{\\\*\\shppict\{\\pict\{\\\*[^*]+?)\\(?:jpeg|png)blip/,
 			rePicture = new RegExp( '(?:(' + rePictureHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
 			wholeImages,
 			imageType;
