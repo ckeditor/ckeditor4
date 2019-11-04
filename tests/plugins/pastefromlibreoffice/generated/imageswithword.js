@@ -25,7 +25,8 @@
 			'libreoffice6'
 		],
 		tests: {
-			'Images/Simple_image': true
+			'Images/Simple_image': true,
+			'Images/Multi_feature_document': true
 		},
 		ignoreAll: ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) || bender.tools.env.mobile,
 		includeRTF: true
