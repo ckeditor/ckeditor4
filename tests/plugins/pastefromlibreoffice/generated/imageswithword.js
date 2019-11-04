@@ -26,7 +26,9 @@
 		],
 		tests: {
 			'Images/Simple_image': true,
-			'Images/Multi_feature_document': true
+			'Images/Multi_feature_document': true,
+			'Images/Linked_image': true,
+			'Images/Transformed': true
 		},
 		ignoreAll: ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) || bender.tools.env.mobile,
 		includeRTF: true
