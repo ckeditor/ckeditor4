@@ -20,6 +20,7 @@
 			editor.pasteTools.register( {
 				filters: [
 					CKEDITOR.getUrl( pasteToolsPath + 'filter/common.js' ),
+					CKEDITOR.getUrl( pasteToolsPath + 'filter/image.js' ),
 					CKEDITOR.getUrl( path + 'filter/default.js' )
 				],
 
@@ -40,6 +41,8 @@
 					// Do not apply the paste filter to data filtered by the the Google Docs filter (https://dev.ckeditor.com/ticket/13093).
 					// TO DO it might be unnecessary!!!
 					data.dontFilter = true;
+
+					clipboardHtml = CKEDITOR.pasteFilters.image( clipboardHtml, editor, CKEDITOR.plugins.pastetools.getClipboardData( data, 'text/rtf' ) );
 
 					data.dataValue = CKEDITOR.pasteFilters.pflibreoffice( clipboardHtml, editor );
 
