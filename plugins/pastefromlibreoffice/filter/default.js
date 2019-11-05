@@ -125,23 +125,27 @@
 							el.replaceWithChildren();
 						}
 
-						if ( el.attributes.size ) {
-							fontSizeFixer( el );
-							if ( el.children.length === 1 && el.children[ 0 ].name === 'font' ) {
-								// Probably element was split by PFW and there was created a style stack for font.
-								var childStyles = CKEDITOR.tools.parseCssText( el.children[ 0 ].attributes.style );
+						// 1. Case there is no style stack
+						// 2. font-size is child of this node
+						// 3. font-size is parent of this node
+						var styles = CKEDITOR.tools.parseCssText( el.attributes.style );
+						var firstChild = el.getFirst();
 
-								if ( childStyles[ 'font-size' ] ) {
-									el.replaceWithChildren();
-								}
-							} else {
-								var styles = CKEDITOR.tools.parseCssText( el.attributes.style );
+						if ( el.attributes.size &&
+							firstChild &&
+							firstChild.type === CKEDITOR.NODE_ELEMENT &&
+							/font-size/.test( firstChild.attributes.style )
+						) {
+							el.replaceWithChildren();
+						}
 
-								if ( styles[ 'font-size' ] ) {
-									// We need to remove 'size' and transform font to span with 'font-size'.
-									delete el.attributes.size;
-									el.name = 'span';
-								}
+						if ( styles[ 'font-size' ] ) {
+							// We need to remove 'size' and transform font to span with 'font-size'.
+							delete el.attributes.size;
+							el.name = 'span';
+
+							if ( firstChild && firstChild.type === CKEDITOR.NODE_ELEMENT && firstChild.attributes.size ) {
+								firstChild.replaceWithChildren();
 							}
 						}
 					},
@@ -201,25 +205,6 @@
 		}
 
 		return false;
-	}
-
-	function fontSizeFixer( element ) {
-		// There are 2 sitaution:
-		// 1. font tag has 2 attributes 'size' and 'style' with 'font-size' - situation when content was not transformed with PFW
-		// 2. font tag has 'size' attribute and has child which is a font with 'style' containing 'font-size' - situation when PFW made a style stack
-		if ( element.attributes.style ) {
-			var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
-			if ( styles[ 'font-size' ] ) {
-				delete element.attributes.size;
-				element.name = 'span';
-			}
-		} else if ( element.children.length === 1 && element.children[ 0 ].name === 'font' ) {
-			var childStyles = CKEDITOR.tools.parseCssText( element.children[ 0 ].attributes.style );
-			if ( childStyles[ 'font-size' ] ) {
-				element.children[ 0 ].name = 'span';
-				element.replaceWithChildren();
-			}
-		}
 	}
 
 	// Return true if sucesfuly merge list to previous item.
