@@ -27,6 +27,7 @@
 		}
 
 		hexImages = extractFromRtf( rtf );
+
 		if ( hexImages.length === 0 ) {
 			return html;
 		}
@@ -59,6 +60,7 @@
 			imageType;
 
 		wholeImages = rtfContent.match( rePicture );
+
 		if ( !wholeImages ) {
 			return ret;
 		}
