@@ -532,8 +532,6 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 			selectedCell.removeStyle( property );
 		}
 
-		// As this is used only in these two cases now, we can name them explicitly for clarity.
-		// If we ever need to generalise it, CKEDITOR.tools.cssStyleToDomStyle() may come in handy.
 		if ( property == 'background-color' ) {
 			selectedCell.removeAttribute( 'bgColor' );
 		} else if ( property == 'border-color' ) {
