@@ -32,15 +32,10 @@
   ### Unexpected:
   Any dialog doesn't disappear and makes editor unavailable.
 
-1. Using console check also independent dialogs ordering, e.g. type:
-```
-CKEDITOR.instances.editor.execCommand( 'link' );
-CKEDITOR.instances.editor.execCommand( 'colordialog' );
-CKEDITOR.instances.editor.execCommand( 'link' );
-```
+1. Click the button below editor to open multiple dialogs at once.
 
   ### Expected:
-  Link dialog is on top and interactive, color dialog is behind cover.
+  Color dialog is on top, image dialog is behind it, link dialog is last.
 
   ### Unexpected:
-  Link dialog didn't move ahead of color dialog.
+  Order is different or any dialog is inaccessible.

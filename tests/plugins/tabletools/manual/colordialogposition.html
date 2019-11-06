@@ -13,9 +13,14 @@
 	</table>
 </div>
 
+<button id="dialogs">Click me!</button>
+
 <script>
-	if ( bender.tools.env.mobile ) {
-		bender.ignore();
-	}
 	CKEDITOR.replace( 'editor' );
+
+	document.getElementById( 'dialogs' ).onclick = function() {
+		CKEDITOR.instances.editor.execCommand( 'link' );
+		CKEDITOR.instances.editor.execCommand( 'image' );
+		CKEDITOR.instances.editor.execCommand( 'colordialog' );
+	}
 </script>
