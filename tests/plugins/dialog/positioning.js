@@ -211,9 +211,9 @@
 
 						bot.dialog( 'colordialog', function() {
 							// The most recent dialog (colordialog) is ahead of cover (z-index = 10000):
-							assert.isTrue( colordialog.$.style.zIndex > 10000, 'Color dialog should be ahead of link dialog and cover.' );
+							assert.isTrue( colordialog.$.style.zIndex > 10000, 'Color dialog should be ahead of link dialog and cover' );
 							// Previous dialog (link) is behind colordialog and cover:
-							assert.isTrue( linkdialog.$.style.zIndex < 10000, 'Link dialog should be behind color dialog and cover.' );
+							assert.isTrue( linkdialog.$.style.zIndex < 10000, 'Link dialog should be behind color dialog and cover' );
 						} );
 					} );
 				} );

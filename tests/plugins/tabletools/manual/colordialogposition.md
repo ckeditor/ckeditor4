@@ -2,9 +2,13 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, undo, colorbutton, colordialog, link, image
 
-1. Open color dialog for text in cell 1.1.
+1. Select the first cell text.
 
-1. Change dialog position and text color.
+1. Open color dialog by clicking the color button and choosing more colors option.
+
+1. Choose a random color.
+
+1. Change dialog position and confirm changes.
 
 1. Open cell properties dialog for any cell.
 
