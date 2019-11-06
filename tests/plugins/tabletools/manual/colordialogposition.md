@@ -33,9 +33,14 @@
   Any dialog doesn't disappear and makes editor unavailable.
 
 1. Click the button below editor to open multiple dialogs at once.
+1. Start closing dialogs to verify their order.
 
   ### Expected:
-  Color dialog is on top, image dialog is behind it, link dialog is last.
+  Dialogs are displayed in the correct order, starting from top:
+
+  * color dialog
+  * image
+  * link
 
   ### Unexpected:
   Order is different or any dialog is inaccessible.
