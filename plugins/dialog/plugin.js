@@ -864,11 +864,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			// Insert the dialog's element to the root document.
 			var element = this._.element,
 				definition = this.definition,
-				editorBody = CKEDITOR.document.getBody(),
+				documentBody = CKEDITOR.document.getBody(),
 				baseFloatZIndex = this._.editor.config.baseFloatZIndex;
 
-			if ( !( element.getParent() && element.getParent().equals( editorBody ) ) ) {
-				element.appendTo( editorBody );
+			if ( !( element.getParent() && element.getParent().equals( documentBody ) ) ) {
+				element.appendTo( documentBody );
 			} else {
 				element.setStyle( 'display', useFlex ? 'flex' : 'block' );
 			}
