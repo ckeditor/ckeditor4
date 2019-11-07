@@ -163,7 +163,7 @@
 			arrayAssert.itemsAreEqual( [ 'bottom hcenter', 'top hcenter' ], CKEDITOR.tools.object.keys( res ) );
 		},
 
-		// #1342, #1496
+		// (#1342, #1496)
 		'test panel refresh position': function( editor, bot ) {
 			bot.setData( '<img src="' + bender.basePath + '/_assets/lena.jpg">', function() {
 				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
@@ -210,7 +210,7 @@
 			} );
 		},
 
-		// #1496
+		// (#1496)
 		'test panel reposition': function( editor, bot ) {
 			bot.setData( '<img src="' + bender.basePath + '/_assets/lena.jpg">', function() {
 				var markerElement = editor.editable().findOne( 'img' ),
@@ -231,7 +231,7 @@
 			} );
 		},
 
-		// #1653
+		// (#1653)
 		'test Balloon Toolbar should be respositioned after "window scroll" event': function( editor, bot ) {
 			bot.setData( '<p>foo <span id="bar">bar</span> baz</p>', function() {
 				var markerElement = editor.editable().findOne( '#bar' ),
@@ -265,7 +265,7 @@
 			} );
 		},
 
-		// #1653
+		// (#1653)
 		'test Balloon Toolbar should be respositioned after "window resize" event': function( editor, bot ) {
 			bot.setData( '<p>foo <span id="bar">bar</span> baz</p>', function() {
 				var markerElement = editor.editable().findOne( '#bar' ),
@@ -299,7 +299,7 @@
 			} );
 		},
 
-		// #1653
+		// (#1653)
 		'test Balloon Toolbar should be respositioned after "editor change" event': function( editor, bot ) {
 			bot.setData( '<p>foo <span id="bar">bar</span> baz</p>', function() {
 				var markerElement = editor.editable().findOne( '#bar' ),
@@ -332,7 +332,7 @@
 			} );
 		},
 
-		// #1653
+		// (#1653)
 		'test Balloon Toolbar should be respositioned after "editor resize" event': function( editor, bot ) {
 			bot.setData( '<p>foo <span id="bar">bar</span> baz</p>', function() {
 				var markerElement = editor.editable().findOne( '#bar' ),
@@ -365,7 +365,7 @@
 			} );
 		},
 
-		// #1653
+		// (#1653)
 		'test Balloon Toolbar should be respositioned after "editable scroll" event': function( editor, bot ) {
 			bot.setData( '<p>foo <span id="bar">bar</span> baz</p>', function() {
 				var editable = editor.editable(),
