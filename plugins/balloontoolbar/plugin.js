@@ -688,19 +688,13 @@
 
 				this._detachListeners();
 
-				this._listeners.push( editor.on( 'change', attachListener, this ) );
-				this._listeners.push( editor.on( 'resize', attachListener, this ) );
-
-				this._listeners.push( win.on( 'resize', attachListener, this ) );
-				this._listeners.push( win.on( 'scroll', attachListener, this ) );
-
-				this._listeners.push( editorScrollableElement.on( 'scroll', attachListener, this ) );
+				this._listeners.push( editor.on( 'change', this.reposition, this ) );
+				this._listeners.push( editor.on( 'resize', this.reposition, this ) );
+				this._listeners.push( win.on( 'resize', this.reposition, this ) );
+				this._listeners.push( win.on( 'scroll', this.reposition, this ) );
+				this._listeners.push( editorScrollableElement.on( 'scroll', this.reposition, this ) );
 
 				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
-
-				function attachListener() {
-					this.reposition();
-				}
 			};
 
 			/**
