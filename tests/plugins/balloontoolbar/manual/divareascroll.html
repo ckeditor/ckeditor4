@@ -9,105 +9,17 @@
 <h2 class="top-margin">Divarea:</h2>
 <div contenteditable="true" id="editor1" class="editor">
 	<p>Some start content <a href="https://ckeditor.com">link</a>.</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
+	<p class="filler">scroll</p>
 	<p>Some middle content <a href="https://ckeditor.com">link</a>.</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
+	<p class="filler">scroll</p>
 	<p>Some end content <a href="https://ckeditor.com">link</a>.</p>
 </div>
 <h2>Classic:</h2>
 <div contenteditable="true" id="editor2" class="editor">
 	<p>Some start content <a href="https://ckeditor.com">link</a>.</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
+	<p class="filler">scroll</p>
 	<p>Some middle content <a href="https://ckeditor.com">link</a>.</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
-	<p>scroll</p>
+	<p class="filler">scroll</p>
 	<p>Some end content <a href="https://ckeditor.com">link</a>.</p>
 </div>
 <script>
@@ -123,20 +35,17 @@
 		} );
 	}
 
-	CKEDITOR.replace( 'editor1', {
-		extraPlugins: 'divarea',
+	var config = {
+		extraAllowedContent: 'p(filler)',
 		height: 200,
 		width: 400,
 		on: {
 			instanceReady: instanceReadyListener
 		}
-	} );
+	}
 
-	CKEDITOR.replace( 'editor2', {
-		height: 200,
-		width: 400,
-		on: {
-			instanceReady: instanceReadyListener
-		}
-	} );
+	CKEDITOR.addCss( 'p.filler { height: 900px; border: 1px solid red; }' );
+
+	CKEDITOR.replace( 'editor1', CKEDITOR.tools.extend( { extraPlugins: 'divarea' }, config ) );
+	CKEDITOR.replace( 'editor2', CKEDITOR.tools.extend( {}, config ) );
 </script>
