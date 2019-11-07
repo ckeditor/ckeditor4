@@ -8,7 +8,7 @@ If editors are not visible in the test please scroll down the page.
 
 1. Put selection inside a link to show balloontolbar.
 2. Scroll editable.
-3. You can use other links and scroll document to test different variation.
+3. Use other links and scroll document to test different variations.
 
 ### Expected
 * During scroll operation balloontoolbar should remain attached to the link.
