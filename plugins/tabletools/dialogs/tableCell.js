@@ -514,10 +514,10 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		}
 	}
 
-	function getColorForCell( button, element ) {
+	function getColorForCell( button, elementId ) {
 		editor.getColorFromDialog( function( color ) {
 			if ( color ) {
-				button.getDialog().getContentElement( 'info', element ).setValue( color );
+				button.getDialog().getContentElement( 'info', elementId ).setValue( color );
 			}
 			button.focus();
 		}, button );
