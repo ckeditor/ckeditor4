@@ -238,14 +238,14 @@
 					spy,
 					win = CKEDITOR.document.getWindow();
 
+				spy = sinon.spy( CKEDITOR.ui.balloonToolbarView.prototype, 'reposition' );
+
 				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
 					width: 100,
 					height: 200
 				} );
 
 				balloonToolbar.attach( markerElement );
-
-				spy = sinon.spy( balloonToolbar, 'reposition' );
 
 				win.once( 'scroll', function() {
 					// Make it async to have sure that anything related to `scroll` event will finish processing.
@@ -272,14 +272,14 @@
 					spy,
 					win = CKEDITOR.document.getWindow();
 
+				spy = sinon.spy( CKEDITOR.ui.balloonToolbarView.prototype, 'reposition' );
+
 				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
 					width: 100,
 					height: 200
 				} );
 
 				balloonToolbar.attach( markerElement );
-
-				spy = sinon.spy( balloonToolbar, 'reposition' );
 
 				win.once( 'resize', function() {
 					// Make it async to have sure that anything related to `scroll` event will finish processing.
@@ -305,14 +305,14 @@
 				var markerElement = editor.editable().findOne( '#bar' ),
 					spy;
 
+				spy = sinon.spy( CKEDITOR.ui.balloonToolbarView.prototype, 'reposition' );
+
 				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
 					width: 100,
 					height: 200
 				} );
 
 				balloonToolbar.attach( markerElement );
-
-				spy = sinon.spy( balloonToolbar, 'reposition' );
 
 				editor.once( 'change', function() {
 					// Make it async to have sure that anything related to `scroll` event will finish processing.
@@ -338,14 +338,14 @@
 				var markerElement = editor.editable().findOne( '#bar' ),
 					spy;
 
+				spy = sinon.spy( CKEDITOR.ui.balloonToolbarView.prototype, 'reposition' );
+
 				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
 					width: 100,
 					height: 200
 				} );
 
 				balloonToolbar.attach( markerElement );
-
-				spy = sinon.spy( balloonToolbar, 'reposition' );
 
 				editor.once( 'resize', function() {
 					// Make it async to have sure that anything related to `scroll` event will finish processing.
@@ -379,14 +379,14 @@
 					editableScrollElement = editor.window.getFrame().getParent();
 				}
 
+				spy = sinon.spy( CKEDITOR.ui.balloonToolbarView.prototype, 'reposition' );
+
 				balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
 					width: 100,
 					height: 200
 				} );
 
 				balloonToolbar.attach( markerElement );
-
-				spy = sinon.spy( balloonToolbar, 'reposition' );
 
 				editableScrollElement.once( 'scroll', function() {
 					// Make it async to have sure that anything related to `scroll` event will finish processing.
