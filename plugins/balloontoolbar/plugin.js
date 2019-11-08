@@ -688,13 +688,21 @@
 
 				this._detachListeners();
 
-				this._listeners.push( editor.on( 'change', this.reposition, this ) );
-				this._listeners.push( editor.on( 'resize', this.reposition, this ) );
-				this._listeners.push( win.on( 'resize', this.reposition, this ) );
-				this._listeners.push( win.on( 'scroll', this.reposition, this ) );
-				this._listeners.push( editorScrollableElement.on( 'scroll', this.reposition, this ) );
+				this._listeners.push( editor.on( 'change', repositionClosure, this ) );
+				this._listeners.push( editor.on( 'resize', repositionClosure, this ) );
+				this._listeners.push( win.on( 'resize', repositionClosure, this ) );
+				this._listeners.push( win.on( 'scroll', repositionClosure, this ) );
+				this._listeners.push( editorScrollableElement.on( 'scroll', repositionClosure, this ) );
 
 				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
+
+				// It's necessary to execute code in a closure, as reposition is defined in a prototype.
+				// Direct assign `this.reposition` to an evenListener might result with an error when multiple editors are on a page.
+				// There might be case where `this._detachListeners`, will be executed from 2 editors. So listener will be detached by first one,
+				// but second editor will try to remove it once again what will throw an error, becasue it would have reference to the same reposition method.
+				function repositionClosure() {
+					this.reposition();
+				}
 			};
 
 			/**
