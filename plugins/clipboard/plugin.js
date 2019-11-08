@@ -158,7 +158,7 @@
 						dataTransfer = dataObj.dataTransfer;
 
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
-					if ( !data && dataObj.method == 'paste' && dataTransfer && dataTransfer.getFilesCount() == 1 && latestId != dataTransfer.id ) {
+					if ( !data && dataObj.method == 'paste' && isFileData( dataTransfer ) ) {
 						var file = dataTransfer.getFile( 0 );
 
 						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
@@ -188,6 +188,20 @@
 						}
 					}
 				}, null, null, 1 );
+			}
+
+			// Only dataTransfer objects containing only file should be considered
+			// to image pasting (#3585, #3625).
+			function isFileData( dataTransfer ) {
+				if ( !dataTransfer || latestId === dataTransfer.id ) {
+					return false;
+				}
+
+				var types = dataTransfer.getTypes(),
+					isFileOnly = types.length === 1 && types[ 0 ] === 'Files',
+					containsFile = dataTransfer.getFilesCount() === 1;
+
+				return isFileOnly && containsFile;
 			}
 
 			editor.on( 'paste', function( evt ) {
