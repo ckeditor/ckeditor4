@@ -47,7 +47,7 @@
 	} )();
 
 	// Mock paste file from clipboard.
-	function mockPasteFile( editor, type ) {
+	function mockPasteFile( editor, type, additionalData ) {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
@@ -55,6 +55,13 @@
 			name: 'mock.file',
 			type: type
 		} );
+		nativeData.types.push( 'Files' );
+
+		if ( additionalData ) {
+			CKEDITOR.tools.array.forEach( additionalData, function( data ) {
+				nativeData.setData( data.type, data.data );
+			} );
+		}
 
 		dataTransfer.cacheData();
 
@@ -137,7 +144,18 @@
 				'<p>Paste image here: ^@</p>' );
 		},
 
-		assertPaste: function( type, expected ) {
+		// (#3585, #3625)
+		'test pasting image alongside other content': function() {
+			FileReader.setFileMockType( 'image/png' );
+			FileReader.setReadResult( 'load' );
+
+			bender.tools.selection.setWithHtml( this.editor, '<p>{}</p>' );
+			this.assertPaste( 'image/png', '<p><strong>whateva^</strong>@</p><p></p>', [
+				{ type: 'text/html', data: '<strong>whateva</strong>' }
+			] );
+		},
+
+		assertPaste: function( type, expected, additionalData ) {
 			this.editor.once( 'paste', function() {
 				resume( function() {
 					assert.isInnerHtmlMatching( expected, bender.tools.selection.getWithHtml( this.editor ), {
@@ -149,7 +167,7 @@
 				} );
 			}, this, null, 9999 );
 
-			mockPasteFile( this.editor, type );
+			mockPasteFile( this.editor, type, additionalData );
 
 			wait();
 		}
