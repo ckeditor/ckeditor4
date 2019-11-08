@@ -2712,6 +2712,14 @@
 			return true;
 		},
 
+		getTypes: function() {
+			if ( !this.$.types ) {
+				return [];
+			}
+
+			return [].slice.call( this.$.types );
+		},
+
 		/**
 		 * When the content of the clipboard is pasted in Chrome, the clipboard data object has an empty `files` property,
 		 * but it is possible to get the file as `items[0].getAsFile();` (https://dev.ckeditor.com/ticket/12961).
