@@ -2712,6 +2712,12 @@
 			return true;
 		},
 
+		/**
+		 * Returns all MIME types inside the clipboard data.
+		 *
+		 * @since 4.13.1
+		 * @returns {String[]}
+		 */
 		getTypes: function() {
 			if ( !this.$.types ) {
 				return [];
