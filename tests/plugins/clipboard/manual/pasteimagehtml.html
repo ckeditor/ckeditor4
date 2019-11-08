@@ -1,0 +1,17 @@
+<div id="editor">
+	<p>Paste inside me</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		on: {
+			instanceReady( { editor } ) {
+				const editable = editor.editable().$;
+
+				editable.addEventListener( 'paste', ( { clipboardData } ) => {
+					console.log( clipboardData, [ ...clipboardData.files ], [ ...clipboardData.items ] );
+				} );
+			}
+		}
+	} );
+</script>
