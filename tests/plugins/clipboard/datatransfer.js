@@ -1212,5 +1212,38 @@ bender.test( {
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		assert.areSame( '<li>foo</li>', dataTransfer.getData( 'text/html' ) );
+	},
+
+	// (#3634)
+	'test getTypes (custom types)': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.env.edge ) {
+			assert.ignore();
+		}
+
+		var expectedTypes = [ 'whatever/cke', 'custom/type' ],
+			nativeData,
+			dataTransfer;
+
+		nativeData = bender.tools.mockNativeDataTransfer();
+		nativeData.setData( 'whatever/cke', 'Test' );
+		nativeData.setData( 'custom/type', 'lorem ipsum' );
+
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		arrayAssert.itemsAreSame( expectedTypes, dataTransfer.getTypes() );
+	},
+
+	// (#3634)
+	'test getTypes (non-custom types)': function() {
+		var expectedTypes = [ 'Text' ],
+			nativeData,
+			dataTransfer;
+
+		nativeData = bender.tools.mockNativeDataTransfer();
+		nativeData.setData( 'Text', 'Test' );
+
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		arrayAssert.itemsAreSame( expectedTypes, dataTransfer.getTypes() );
 	}
 } );
