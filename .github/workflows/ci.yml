@@ -21,11 +21,10 @@ jobs:
       matrix:
         type: [ 'dev', 'built' ]
         browser: [ 'Chrome', 'Firefox' ]
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
       - name: Extract branch name
-        shell: bash
         run: if [ -z "$GITHUB_BASE_REF" ]; then REF="$GITHUB_REF"; else REF="$GITHUB_BASE_REF"; fi; echo "##[set-output name=branch;]$(echo ${REF#refs/heads/})"
         id: extract_branch
       - name: Checkout branch
@@ -34,9 +33,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 10
-      - name: Install Firefox
-        run: choco install firefox
-        if: matrix.browser == 'Firefox'
       - name: Install dependencies
         run: npm install
       - name: Install Bender.js CLI
@@ -45,7 +41,6 @@ jobs:
         run: node node_modules/browser-launcher2/example/detect
       - name: Build CKEditor 4
         run: sh -e ./dev/travis/build.sh $BRANCH && BUILD_PATH="$(sh -e ./dev/travis/buildpath.sh) && cd $BUILD_PATH"
-        shell: bash
         env:
           BRANCH: ${{ steps.extract_branch.outputs.branch }}
         if: matrix.type == 'built' && (steps.extract_branch.outputs.branch == 'master' || steps.extract_branch.outputs.branch == 'major')
