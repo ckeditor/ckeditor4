@@ -3,15 +3,5 @@
 </div>
 
 <script>
-	CKEDITOR.replace( 'editor', {
-		on: {
-			instanceReady( { editor } ) {
-				const editable = editor.editable().$;
-
-				editable.addEventListener( 'paste', ( { clipboardData } ) => {
-					console.log( clipboardData, [ ...clipboardData.files ], [ ...clipboardData.items ] );
-				} );
-			}
-		}
-	} );
+	CKEDITOR.replace( 'editor' );
 </script>
