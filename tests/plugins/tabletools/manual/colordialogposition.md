@@ -32,15 +32,12 @@
   ### Unexpected:
   Any dialog doesn't disappear and makes editor unavailable.
 
-1. Click the button below editor to open multiple dialogs at once.
+1. Click the buttons above the editor (one time each).
+
 1. Start closing dialogs to verify their order.
 
   ### Expected:
-  Dialogs are displayed in the correct order, starting from top:
-
-  * color dialog
-  * image
-  * link
+  Dialogs are displayed in the right order and each one can be closed properly.
 
   ### Unexpected:
-  Order is different or any dialog is inaccessible.
+  After clicking any button or closing any dialog the rest is behind the dialog cover.

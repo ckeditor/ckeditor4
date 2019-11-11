@@ -1,26 +1,34 @@
-<div id="editor">
-	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
-		<tbody>
-			<tr>
-				<td>1.1</td>
-				<td>1.2</td>
-			</tr>
-			<tr>
-				<td>2.1</td>
-				<td>2.2</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+<button id="link" style="z-index:100000;position:fixed;margin-top:10px;">link dialog</button>
+<button id="image" style="z-index:100000;position:fixed;margin-top:30px;">image dialog</button>
+<button id="color" style="z-index:100000;position:fixed;margin-top:50px;">color dialog</button>
 
-<button id="dialogs">Click me!</button>
+<div id="editor-container" style="margin-top:70px;">
+	<div id="editor">
+		<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+			<tbody>
+				<tr>
+					<td>1.1</td>
+					<td>1.2</td>
+				</tr>
+				<tr>
+					<td>2.1</td>
+					<td>2.2</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
 
 <script>
 	CKEDITOR.replace( 'editor' );
 
-	document.getElementById( 'dialogs' ).onclick = function() {
+	document.getElementById( 'link' ).onclick = function() {
 		CKEDITOR.instances.editor.execCommand( 'link' );
+	}
+	document.getElementById( 'image' ).onclick = function() {
 		CKEDITOR.instances.editor.execCommand( 'image' );
+	}
+	document.getElementById( 'color' ).onclick = function() {
 		CKEDITOR.instances.editor.execCommand( 'colordialog' );
 	}
 </script>
