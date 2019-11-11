@@ -39,6 +39,13 @@
 
 		'test generator attribute inside content': function() {
 			testMetaDetection( this.editor, false, '', '<p name="generator" content="microsoft">Tets</p>' );
+		},
+
+		// (#3586)
+		'test detection with dataTransfer': function() {
+			testMetaDetection( this.editor, true, 'Microsoft Excel 16', '<p>Test</p>', {
+				dataTransfer: true
+			} );
 		}
 	};
 
@@ -46,7 +53,26 @@
 
 	bender.test( tests );
 
-	function testMetaDetection( editor, success, generatorValue, content ) {
+	function testMetaDetection( editor, success, generatorValue, content, options ) {
+		var evtData = {
+				type: 'auto',
+				dataValue: generateHtml( generatorValue, content ),
+				method: 'paste'
+			},
+			dataType = CKEDITOR.env.ie && CKEDITOR.env.version < 16 ? 'Text' : 'text/html',
+			isDataTransferTest = options && !!options.dataTransfer,
+			nativeDataTransfer,
+			dataTransfer;
+
+		if ( isDataTransferTest ) {
+			nativeDataTransfer = bender.tools.mockNativeDataTransfer();
+			nativeDataTransfer.setData( dataType, evtData.dataValue );
+
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeDataTransfer );
+			evtData.dataValue = dataTransfer.getData( dataType );
+			evtData.dataTransfer = dataTransfer;
+		}
+
 		editor.once( 'paste', function( evt ) {
 			resume( function() {
 				if ( success ) {
@@ -57,11 +83,7 @@
 			} );
 		}, null, null, 999 );
 
-		editor.fire( 'paste', {
-			type: 'auto',
-			dataValue: generateHtml( generatorValue, content ),
-			method: 'paste'
-		} );
+		editor.fire( 'paste', evtData );
 
 		wait();
 	}
@@ -70,5 +92,4 @@
 		var body = content || '<p>foo <strong>bar</strong></p>';
 		return '<html><head><meta name=Generator content="' + generatorValue + '"></head><body>' + body + '</body></html>';
 	}
-
 } )();
