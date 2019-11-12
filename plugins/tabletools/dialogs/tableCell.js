@@ -115,7 +115,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					element.removeAttribute( 'vAlign' );
 				}
 			},
-				createSpacer( [ 'td{text-align}', 'td{vertical-align}' ] ),
+			createSpacer( [ 'td{text-align}', 'td{vertical-align}' ] ),
 			{
 				type: 'select',
 				id: 'cellType',
@@ -196,15 +196,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							return bgColorStyle || bgColorAttr;
 						} ),
 						commit: function( selectedCell ) {
-							var value = this.getValue();
-
-							if ( value ) {
-								selectedCell.setStyle( 'background-color', this.getValue() );
-							} else {
-								selectedCell.removeStyle( 'background-color' );
-							}
-
-							selectedCell.removeAttribute( 'bgColor' );
+							applyColorToCell( this, selectedCell, 'background-color' );
 						}
 					} ];
 
@@ -219,12 +211,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
 							},
 							onClick: function() {
-								editor.getColorFromDialog( function( color ) {
-									if ( color ) {
-										this.getDialog().getContentElement( 'info', 'bgColor' ).setValue( color );
-									}
-									this.focus();
-								}, this );
+								getColorForCell( this, 'bgColor' );
 							}
 						} );
 					}
@@ -249,14 +236,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							return borderColorStyle || borderColorAttr;
 						} ),
 						commit: function( selectedCell ) {
-							var value = this.getValue();
-							if ( value ) {
-								selectedCell.setStyle( 'border-color', this.getValue() );
-							} else {
-								selectedCell.removeStyle( 'border-color' );
-							}
-
-							selectedCell.removeAttribute( 'borderColor' );
+							applyColorToCell( this, selectedCell, 'border-color' );
 						}
 					} ];
 
@@ -272,12 +252,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
 							},
 							onClick: function() {
-								editor.getColorFromDialog( function( color ) {
-									if ( color ) {
-										this.getDialog().getContentElement( 'info', 'borderColor' ).setValue( color );
-									}
-									this.focus();
-								}, this );
+								getColorForCell( this, 'borderColor' );
 							}
 						} );
 					}
@@ -536,6 +511,31 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 
 		if ( match ) {
 			return match[ 2 ];
+		}
+	}
+
+	function getColorForCell( button, elementId ) {
+		editor.getColorFromDialog( function( color ) {
+			if ( color ) {
+				button.getDialog().getContentElement( 'info', elementId ).setValue( color );
+			}
+			button.focus();
+		}, button );
+	}
+
+	function applyColorToCell( element, selectedCell, property ) {
+		var value = element.getValue();
+
+		if ( value ) {
+			selectedCell.setStyle( property, value );
+		} else {
+			selectedCell.removeStyle( property );
+		}
+
+		if ( property == 'background-color' ) {
+			selectedCell.removeAttribute( 'bgColor' );
+		} else if ( property == 'border-color' ) {
+			selectedCell.removeAttribute( 'borderColor' );
 		}
 	}
 } );

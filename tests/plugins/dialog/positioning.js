@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: dialog, link, toolbar */
+/* bender-ckeditor-plugins: dialog, link, toolbar, colorbutton, colordialog */
 
 ( function() {
 	'use strict';
@@ -193,7 +193,33 @@
 				assert.isNumberInRange( 10, sizeChange.width - 1, sizeChange.width );
 				assert.isNumberInRange( 10, sizeChange.height - 1, sizeChange.height );
 			} );
+		},
+
+		// (#3559)
+		'test dialog ordering': function() {
+			bender.editorBot.create( {
+				name: 'dialogOrder'
+			}, function( bot ) {
+				// To test we need to call 'colordialog' first so that it appears in DOM, then
+				// call another dialog and again colordialog, which should appear on top of it.
+				bot.dialog( 'colordialog', function( dialog ) {
+					var colordialog = dialog.getElement();
+
+					dialog.getButton( 'ok' ).click();
+					bot.dialog( 'link', function( dialog ) {
+						var linkdialog = dialog.getElement();
+
+						bot.dialog( 'colordialog', function() {
+							// The most recent dialog (colordialog) is ahead of cover (z-index = 10000):
+							assert.isTrue( colordialog.$.style.zIndex > 10000, 'Color dialog should be ahead of link dialog and cover' );
+							// Previous dialog (link) is behind colordialog and cover:
+							assert.isTrue( linkdialog.$.style.zIndex < 10000, 'Link dialog should be behind color dialog and cover' );
+						} );
+					} );
+				} );
+			} );
 		}
+
 	} );
 
 	function mockWindowGetViewPaneSize( viewPaneSize ) {

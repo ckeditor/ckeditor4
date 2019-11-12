@@ -1,0 +1,53 @@
+<style>
+#button-container {
+	position: fixed;
+	z-index: 100000;
+}
+#button-container button {
+	display: inline;
+	padding: 3px 4px;
+	margin: 0 5px;
+}
+#editor-container {
+	margin-top: 30px;
+}
+</style>
+
+<div id="button-container">
+	<button id="link">Link</button>
+	<button id="image">Image</button>
+	<button id="color">Color</button>
+</div>
+
+<div id="editor-container">
+	<div id="editor">
+		<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+			<tbody>
+				<tr>
+					<td>1.1</td>
+					<td>1.2</td>
+				</tr>
+				<tr>
+					<td>2.1</td>
+					<td>2.2</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor' );
+
+	CKEDITOR.document.getById( 'link' ).on( 'click', function() {
+		editor.execCommand( 'link' );
+	} );
+
+	CKEDITOR.document.getById( 'image' ).on( 'click', function() {
+		editor.execCommand( 'image' );
+	} );
+
+	CKEDITOR.document.getById( 'color' ).on( 'click', function() {
+		editor.execCommand( 'colordialog' );
+	} );
+</script>
