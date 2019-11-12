@@ -269,10 +269,10 @@
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
 	bender.test( tests );
 
-	// @param {CKEDITOR.dom.domObject} element - element which listens to some event which triggers a reposition of balloontoolbar
-	// @param {String} eventName - name of event which will be fired on element
-	// @param {bender.editorBot} bot - bot instance
-	function assertRepositionCall( element, eventName, bot ) {
+	// @param {CKEDITOR.dom.domObject/CKEDITOR.editor} eventTarget - target listening on a repositioning event of balloontoolbar
+	// @param {String} eventName - name of the event which will be fired on the given target
+	// @param {bender.editorBot} bot
+	function assertRepositionCall( eventTarget, eventName, bot ) {
 		bot.setData( '<p>foo <span id="bar">bar</span> baz</p>', function() {
 			var editor = bot.editor,
 				markerElement = editor.editable().findOne( '#bar' ),
@@ -285,7 +285,7 @@
 
 			balloonToolbar.attach( markerElement );
 
-			element.once( eventName, function() {
+			eventTarget.once( eventName, function() {
 				// Make it async to have sure that anything related to event will finish processing.
 				CKEDITOR.tools.setTimeout( function() {
 					resume( function() {
@@ -297,7 +297,7 @@
 				} );
 			}, null, null, 100000 );
 
-			element.fire( eventName );
+			eventTarget.fire( eventName );
 
 			wait();
 		} );
