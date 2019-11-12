@@ -219,8 +219,8 @@
 				var type = node.type;
 
 				return type == CKEDITOR.NODE_ELEMENT ? this.onElement( context, node ) :
-					type == CKEDITOR.NODE_TEXT ? new CKEDITOR.htmlParser.text( this.onText( context, node.value ) ) :
-					type == CKEDITOR.NODE_COMMENT ? new CKEDITOR.htmlParser.comment( this.onComment( context, node.value ) ) : null;
+					type == CKEDITOR.NODE_TEXT ? new CKEDITOR.htmlParser.text( this.onText( context, node.value, node ) ) :
+					type == CKEDITOR.NODE_COMMENT ? new CKEDITOR.htmlParser.comment( this.onComment( context, node.value, node ) ) : null;
 			},
 
 			onAttribute: function( context, element, name, value ) {
