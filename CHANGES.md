@@ -10,6 +10,7 @@ Fixed Issues:
 * [#3475](https://github.com/ckeditor/ckeditor4/issues/3475): [Firefox] Fixed: Pasting plain text over existing content fails and throws an error.
 * [#2027](https://github.com/ckeditor/ckeditor4/issues/2027): Fixed: Incorrect email display text after reopening [Link](https://ckeditor.com/cke4/addon/link) dialog for display names starting with `@`.
 * [#3544](https://github.com/ckeditor/ckeditor4/issues/3544): Fixed: [Special Characters](https://ckeditor.com/cke4/addon/specialchar) dialog read incorrectly by screen readers due to empty table cells at the end.
+* [#1653](https://github.com/ckeditor/ckeditor4/issues/1653): Fixed: Missing reposition of [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) when editor is scrolled with enabled [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) feature.
 
 ## CKEditor 4.13
 
