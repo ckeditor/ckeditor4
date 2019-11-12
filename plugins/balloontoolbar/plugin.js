@@ -697,9 +697,8 @@
 				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
 
 				// It's necessary to execute code in a closure, as reposition is defined in a prototype.
-				// Direct assign `this.reposition` to an evenListener might result with an error when multiple editors are on a page.
-				// There might be case where `this._detachListeners`, will be executed from 2 editors. So listener will be detached by first one,
-				// but second editor will try to remove it once again what will throw an error, becasue it would have reference to the same reposition method.
+				// Otherwise hiding balloon toolbar may remove event listeners from different editors,
+				// as removing listeners are done by function delegate.
 				function repositionClosure() {
 					this.reposition();
 				}
