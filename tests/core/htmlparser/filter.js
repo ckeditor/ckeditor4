@@ -861,7 +861,7 @@ bender.test( {
 		assert.areSame( options3, group.rules[ 2 ].options );
 	},
 
-	// #3593
+	// (#3593)
 	'test should be possible to replace element node with text': function() {
 		var filter = new CKEDITOR.htmlParser.filter();
 
@@ -885,7 +885,7 @@ bender.test( {
 		assertFilter( '<p>foo test baz</p>', '<p>foo <span>bar</span> baz</p>', filter );
 	},
 
-	// #3593
+	// (#3593)
 	'test should be possible to replace element node with comment': function() {
 		var filter = new CKEDITOR.htmlParser.filter();
 
