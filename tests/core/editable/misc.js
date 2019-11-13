@@ -112,11 +112,7 @@ bender.test( {
 			} ) );
 
 			// From Firefox 70 it returns trailing '\n' (#3633).
-			if ( CKEDITOR.env.gecko && CKEDITOR.env.version >= 700000 ) {
-				assert.areSame( 'foo', editor.getSelection().getSelectedText().trim(), 'Selection has not been changed' );
-			} else {
-				assert.areSame( 'foo', editor.getSelection().getSelectedText(), 'Selection has not been changed' );
-			}
+			assert.areSame( 'foo', editor.getSelection().getSelectedText(), 'Selection has not been changed' );
 		} );
 	},
 
