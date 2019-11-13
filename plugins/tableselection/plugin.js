@@ -871,19 +871,20 @@
 			}
 
 			var selectionAncestor = selection.getCommonAncestor(),
-				selectionExceedesTable = selectionAncestor && !selectionAncestor.is( 'table', 'tbody', 'tr' );
+				selectionExceedesTable = selectionAncestor &&
+					selectionAncestor.is &&
+					!selectionAncestor.is( 'table', 'tbody', 'tr' );
 
 			// Do not customize paste process in following cases:
 			// No cells are selected.
 			if ( !selectedCells.length ||
 				// It's single range that does not fully contain table element and is not boundary, e.g. collapsed selection within
 				// cell, part of cell etc.
-				( collapsedPartial ) ||
+				collapsedPartial ||
 				// It's a boundary position but with no table pasted.
-				( boundaryWithoutTable ) ||
+				boundaryWithoutTable ||
 				// Content exceedes table (#875).
-				( selectionExceedesTable )
-				) {
+				selectionExceedesTable ) {
 				return false;
 			}
 
