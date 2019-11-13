@@ -943,10 +943,24 @@
 				// https://dev.ckeditor.com/ticket/14407 - Don't even let anything happen if the selection is in a non-editable element.
 				editable.attachListener( editable, 'keydown', function( evt ) {
 					var sel = this.getSelection( 1 ),
-						ascendant = getNonEditableAscendant( sel );
+						ascendant = getNonEditableAscendant( sel ),
+						activeElement,
+						isValidActiveElement;
+
+					if ( !ascendant ) {
+						return;
+					}
+
+					activeElement = this.document.getActive(),
+					isValidActiveElement = activeElement && ( activeElement.getName() === 'input' || activeElement.getName() === 'textarea' );
+
+					// Allow on typing inside editable elements of widgets if those are currently focused (#3587)
+					if ( isValidActiveElement && ascendant.contains( activeElement ) ) {
+						return;
+					}
 
 					// Prevent changing selection when an ascendant is an entire editable (#1632).
-					if ( ascendant && !ascendant.equals( editable ) ) {
+					if ( !ascendant.equals( editable ) ) {
 						sel.selectElement( ascendant );
 						evt.data.preventDefault();
 					}
