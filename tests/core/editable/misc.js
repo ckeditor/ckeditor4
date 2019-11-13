@@ -93,7 +93,7 @@ bender.test( {
 			} ) );
 
 			// From Firefox 70 it returns trailing '\n' (#3633).
-			assert.areSame( 'foo', editor.getSelection().getSelectedText().trim(), 'Selection has not been changed' );
+			assert.areSame( 'foo', CKEDITOR.tools.trim( editor.getSelection().getSelectedText() ), 'Selection has not been changed' );
 		} );
 	},
 
@@ -112,7 +112,7 @@ bender.test( {
 			} ) );
 
 			// From Firefox 70 it returns trailing '\n' (#3633).
-			assert.areSame( 'foo', editor.getSelection().getSelectedText().trim(), 'Selection has not been changed' );
+			assert.areSame( 'foo', CKEDITOR.tools.trim( editor.getSelection().getSelectedText() ), 'Selection has not been changed' );
 		} );
 	},
 
