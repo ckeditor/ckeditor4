@@ -1,10 +1,10 @@
-@bender-tags: 4.12.0, feature, emoji, 2583
+@bender-tags: 4.14.0, feature, emoji, 2583
 @bender-ckeditor-plugins: wysiwygarea, toolbar, emoji
 @bender-ui: collapsed
 @bender-include: ../_helpers/tools.js
 
 1. Focus editor.
-1. Type `:smilling_face:`
+1. Type `:smiling_face:`
 
 ## Expected:
 

@@ -3,9 +3,8 @@
 </textarea>
 
 <script>
-	if ( emojiTools.notSupportedEnvironment ) {
-		bender.ignore();
-	}
+	bender.tools.ignoreUnsupportedEnvironment( 'emoji' );
+
 	CKEDITOR.replace( 'editor', {
 		removeButtons: 'EmojiPanel'
 	} );
