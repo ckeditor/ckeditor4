@@ -225,7 +225,7 @@
 				} );
 
 				arrayAssert.itemsAreSame( expected, actual );
-				assert.areSame( '😻 :smiling_cat_face_with_heart-eyes:', autocomplete.view.element.getChild( 0 ).getText(), 'First element in view should start from "smiling".' );
+				assert.areSame( '😻 smiling cat face with heart-eyes', autocomplete.view.element.getChild( 0 ).getText(), 'First element in view should start from "smiling".' );
 			} );
 		},
 
