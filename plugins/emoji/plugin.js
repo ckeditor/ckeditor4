@@ -642,10 +642,7 @@
 								return a.id > b.id ? 1 : -1;
 							}
 						} );
-					data = arrTools.map( data, function( item ) {
-						addEncodedName( item );
-						return item;
-					} );
+					data = arrTools.map( data, addEncodedName );
 					callback( data );
 				}
 			} );
@@ -667,6 +664,7 @@
 		if ( !item._name ) {
 			item._name = htmlEncode( item.id.replace( /::.*$/, ':' ).replace( /^:|:$/g, '' ).replace( /_/g, ' ' ) );
 		}
+		return item;
 	}
 } )();
 
