@@ -26,7 +26,7 @@
 				modes: { wysiwyg: 1 },
 				toolbar: 'insert,10',
 				onBlock: function( panel, block ) {
-					registerGridFeature( editor, block.element );
+					initializeGridFeature( editor, block.element );
 
 					block.autoSize = true;
 
@@ -46,7 +46,7 @@
 		}
 	} );
 
-	function registerGridFeature( editor, element ) {
+	function initializeGridFeature( editor, element ) {
 		var grid = createGridElement( 10, 10 ),
 			status = createStatusElement();
 
