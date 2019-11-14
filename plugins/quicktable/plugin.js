@@ -26,22 +26,9 @@
 				modes: { wysiwyg: 1 },
 				toolbar: 'insert,10',
 				onBlock: function( panel, block ) {
-					var grid = createGridElement( 10, 10 ),
-						status = new CKEDITOR.dom.element( 'div' );
-
-					status.addClass( 'cke_quicktable_status' );
-					status.setText( '0 x 0' );
-
-					grid.on( 'mouseover', selectGrid, this );
-					grid.on( 'click', commitTable, this );
+					registerGridFeature( editor, block.element );
 
 					block.autoSize = true;
-
-					block.element.append( grid );
-					block.element.append( status );
-
-					block.element.addClass( 'cke_quicktable' );
-					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 
 					CKEDITOR.ui.fire( 'ready', this );
 				},
@@ -59,65 +46,18 @@
 		}
 	} );
 
-	function resetGridSelection( container ) {
-		var cells = container.find( '.cke_quicktable_selected' ).toArray();
+	function registerGridFeature( editor, element ) {
+		var grid = createGridElement( 10, 10 ),
+			status = createStatusElement();
 
-		for ( var i = 0; i < cells.length; i++ ) {
-			cells[ i ].removeClass( 'cke_quicktable_selected' );
-		}
-	}
+		element.append( grid );
+		element.append( status );
 
-	function selectGrid( evt ) {
-		var target = evt.data.getTarget();
+		grid.on( 'mouseover', selectGrid );
+		grid.on( 'click', commitTable, editor );
 
-		if ( !target.hasClass( 'cke_quicktable_cell' ) ) {
-			return;
-		}
-
-		var grid = evt.sender,
-			status = evt.sender.getParent().findOne( '.cke_quicktable_status' ),
-			rows = grid.find( '.cke_quicktable_row' ),
-			rowsLength = rows.count(),
-			y = target.getIndex(),
-			x = target.getParent().getIndex(),
-			colsCount = y + 1,
-			rowsCount = x + 1;
-
-		grid.data( 'cols', colsCount );
-		grid.data( 'rows', rowsCount );
-
-		status.setText( rowsCount + ' x ' + colsCount );
-
-		for ( var i = 0; i < rowsLength; i++ ) {
-			var row = rows.getItem( i ),
-				colsLength = row.getChildCount();
-
-			for ( var j = 0; j < colsLength; j++ ) {
-				var cell = row.getChild( j );
-
-				if ( i <= x && j <= y ) {
-					cell.addClass( 'cke_quicktable_selected' );
-				} else {
-					cell.removeClass( 'cke_quicktable_selected' );
-				}
-			}
-		}
-	}
-
-	function commitTable( evt ) {
-		var grid = evt.sender,
-			cols = grid.data( 'cols' ),
-			rows = grid.data( 'rows' ),
-			editor = this._.editor;
-
-		if ( rows && cols ) {
-			var table = createTableElement( rows, cols ),
-				insertEvent = { returnValue: table };
-
-			if ( editor.fire( 'insertTable', insertEvent ) !== false ) {
-				editor.insertElement( insertEvent.returnValue );
-			}
-		}
+		element.addClass( 'cke_quicktable' );
+		element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 	}
 
 	function createGridElement( x, y ) {
@@ -139,6 +79,80 @@
 		return grid;
 	}
 
+
+	function createStatusElement() {
+		var element = new CKEDITOR.dom.element( 'div' );
+
+		element.addClass( 'cke_quicktable_status' );
+		element.setText( '0 x 0' );
+
+		return element;
+	}
+
+	function selectGrid( evt ) {
+		var targetCellElement = evt.data.getTarget();
+
+		if ( !targetCellElement.hasClass( 'cke_quicktable_cell' ) ) {
+			return;
+		}
+
+		var grid = evt.sender,
+			rows = grid.find( '.cke_quicktable_row' ),
+			y = targetCellElement.getIndex(),
+			x = targetCellElement.getParent().getIndex();
+
+		grid.data( 'cols', y + 1 );
+		grid.data( 'rows', x + 1 );
+
+		updateGridStatus( grid );
+
+		for ( var i = 0; i < rows.count(); i++ ) {
+			var row = rows.getItem( i );
+
+			for ( var j = 0; j < row.getChildCount(); j++ ) {
+				var cell = row.getChild( j );
+
+				if ( i <= x && j <= y ) {
+					selectGridCell( cell );
+				} else {
+					unselectGridCell( cell );
+				}
+			}
+		}
+	}
+
+	function updateGridStatus( grid ) {
+		var status = grid.getParent().findOne( '.cke_quicktable_status' ),
+			cols = grid.data( 'cols' ),
+			rows = grid.data( 'rows' );
+
+		status.setText( cols + ' x ' + rows );
+	}
+
+	function commitTable( evt ) {
+		var grid = evt.sender,
+			cols = grid.data( 'cols' ),
+			rows = grid.data( 'rows' );
+
+		this.insertElement( createTableElement( rows, cols ) );
+	}
+
+	function resetGridSelection( container ) {
+		var cells = container.find( 'div' ).toArray();
+
+		for ( var i = 0; i < cells.length; i++ ) {
+			unselectGridCell( cells[ i ] );
+		}
+	}
+
+	function selectGridCell( element ) {
+		element.addClass( 'cke_quicktable_selected' );
+	}
+
+	function unselectGridCell( element ) {
+		element.removeClass( 'cke_quicktable_selected' );
+	}
+
 	function createTableElement( x, y ) {
 		var table = new CKEDITOR.dom.element( 'table' );
 
@@ -153,6 +167,10 @@
 
 			table.append( row );
 		}
+
+		table.setAttribute( 'cellspacing', 1 );
+		table.setAttribute( 'border', 1 );
+		table.setStyle( 'width', '500px' );
 
 		return table;
 	}
