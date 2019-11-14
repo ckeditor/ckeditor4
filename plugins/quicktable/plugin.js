@@ -48,10 +48,24 @@
 				panel: {
 					css: this.path + 'skins/default.css',
 					attributes: { role: 'listbox', 'aria-label': lang.insert }
+				},
+
+				onOpen: function() {
+					var block = this._.panel.getBlock( this._.id );
+
+					resetGridSelection( block.element );
 				}
 			} );
 		}
 	} );
+
+	function resetGridSelection( container ) {
+		var cells = container.find( '.cke_quicktable_selected' ).toArray();
+
+		for ( var i = 0; i < cells.length; i++ ) {
+			cells[ i ].removeClass( 'cke_quicktable_selected' );
+		}
+	}
 
 	function selectGrid( evt ) {
 		var target = evt.data.getTarget();
