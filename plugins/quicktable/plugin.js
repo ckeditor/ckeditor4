@@ -27,6 +27,7 @@
 				toolbar: 'insert,10',
 				onBlock: function( panel, block ) {
 					initializeGridFeature( editor, block.element );
+					handleKeyoardNavigation( block.keys, editor.lang.dir == 'rtl' );
 
 					block.autoSize = true;
 
@@ -60,25 +61,70 @@
 		element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 	}
 
-	function createGridElement( x, y ) {
-		var grid = new CKEDITOR.dom.element( 'div' );
+	function handleKeyoardNavigation( keys, rtl ) {
+		keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
+		keys[ 40 ] = 'next'; // ARROW-DOWN
+		keys[ 9 ] = 'next'; // TAB
+		keys[ rtl ? 39 : 37 ] = 'prev'; // ARROW-LEFT
+		keys[ 38 ] = 'prev'; // ARROW-UP
+		keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
+		keys[ 32 ] = 'click'; // SPACE
+	}
 
-		for ( var i = 0; i < x; i++ ) {
-			var row = new CKEDITOR.dom.element( 'div' );
-			row.addClass( 'cke_quicktable_row' );
+	var gridTemplate = new CKEDITOR.template( '<div' +
+			' class="cke_quicktable_grid"' +
+			' role="grid"' +
+			' aria-rowcount="{rowCount}"' +
+			' aria-colcount="{colCount}"' +
+			'></div>'
+		),
+		rowTemplate = new CKEDITOR.template( '<div' +
+			' class="cke_quicktable_row"' +
+			' role="row"' +
+			'></div>'
+		),
+		cellTemplate = new CKEDITOR.template( '<a' +
+			' class="cke_quicktable_cell"' +
+			' _cke_focus=1' +
+			' hidefocus=true' +
+			' title="{title}"' +
+			' role="gridcell"' +
+			' aria-rowindex="{rowIndex}"' +
+			' aria-colIndex="{colIndex}"' +
+			' draggable="false"' +
+			' ondragstart="return false;"' +
+			' href="javascript:void(0);"' +
+			'>&nbsp;</span>' +
+			'</a>'
+		);
 
-			for ( var j = 0; j < y; j++ ) {
-				var cell = new CKEDITOR.dom.element( 'div' );
-				cell.addClass( 'cke_quicktable_cell' );
+	function createGridElement( rows, cols ) {
+		var grid = createElementFromTemplate( gridTemplate, {
+			rowCount: rows,
+			colCount: cols
+		} );
+
+		for ( var i = 0; i < rows; i++ ) {
+			var row = createElementFromTemplate( rowTemplate );
+
+			for ( var j = 0; j < cols; j++ ) {
+				var cell = createElementFromTemplate( cellTemplate, {
+					title: 'title',
+					rowIndex: i,
+					colIndex: j
+				} );
+
 				row.append( cell );
 			}
 
 			grid.append( row );
 		}
 
-		grid.addClass( 'cke_quicktable_grid' );
-
 		return grid;
+	}
+
+	function createElementFromTemplate( template, options ) {
+		return CKEDITOR.dom.element.createFromHtml( template.output( options ) );
 	}
 
 

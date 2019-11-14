@@ -6,19 +6,20 @@
 }
 
 .cke_quicktable_row {
-	width: 140px;
+	width: 200px;
 	display: block;
 	padding: 0;
 	margin: 0;
 }
 
-.cke_quicktable_row > div {
+.cke_quicktable_cell {
 	display: inline-block;
 	border: 1px solid #ccc;
 	border-radius: 1px;
-	height: 10px;
-	width: 10px;
-	margin: 0 1px;
+	height: 13px;
+	width: 13px;
+	margin: 1px 2px;
+	text-decoration: none;
 }
 
 .cke_quicktable_selected {
