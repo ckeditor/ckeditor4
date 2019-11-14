@@ -76,6 +76,8 @@
 			grid.append( row );
 		}
 
+		grid.addClass( 'cke_quicktable_grid' );
+
 		return grid;
 	}
 
@@ -138,11 +140,13 @@
 	}
 
 	function resetGridSelection( container ) {
-		var cells = container.find( 'div' ).toArray();
+		var cells = container.find( '.cke_quicktable_grid .cke_quicktable_cell' ).toArray();
 
 		for ( var i = 0; i < cells.length; i++ ) {
 			unselectGridCell( cells[ i ] );
 		}
+
+		selectGridCell( cells[ 0 ] );
 	}
 
 	function selectGridCell( element ) {
