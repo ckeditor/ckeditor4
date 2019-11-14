@@ -9,7 +9,6 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.uiColor = '#AADC6E';
 	// %REMOVE_START%
 	config.plugins =
-		'quicktable,' +
 		'about,' +
 		'a11yhelp,' +
 		'basicstyles,' +
