@@ -2,6 +2,7 @@
 	padding: 10px;
 	font-size: 11px;
 	text-align: center;
+	outline: none;
 }
 
 .cke_quicktable_row {
@@ -20,7 +21,7 @@
 	margin: 0 1px;
 }
 
-div.cke_quicktable_selected {
+.cke_quicktable_selected {
 	border-color: #53a0e4;
 	background-color: #c7e5ff;
 }
