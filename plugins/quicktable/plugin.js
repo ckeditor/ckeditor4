@@ -100,13 +100,12 @@
 
 		var grid = evt.sender,
 			rows = grid.find( '.cke_quicktable_row' ),
-			y = targetCellElement.getIndex(),
-			x = targetCellElement.getParent().getIndex();
+			gridData = setGridData( grid, {
+				cols: targetCellElement.getIndex() + 1,
+				rows: targetCellElement.getParent().getIndex() + 1
+			} );
 
-		grid.data( 'cols', y + 1 );
-		grid.data( 'rows', x + 1 );
-
-		updateGridStatus( grid );
+		updateGridStatus( grid, gridData );
 
 		for ( var i = 0; i < rows.count(); i++ ) {
 			var row = rows.getItem( i );
@@ -114,7 +113,7 @@
 			for ( var j = 0; j < row.getChildCount(); j++ ) {
 				var cell = row.getChild( j );
 
-				if ( i <= x && j <= y ) {
+				if ( i < gridData.rows && j < gridData.cols ) {
 					selectGridCell( cell );
 				} else {
 					unselectGridCell( cell );
@@ -123,30 +122,49 @@
 		}
 	}
 
-	function updateGridStatus( grid ) {
-		var status = grid.getParent().findOne( '.cke_quicktable_status' ),
-			cols = grid.data( 'cols' ),
-			rows = grid.data( 'rows' );
+	function updateGridStatus( grid, gridData ) {
+		var status = grid.getParent().findOne( '.cke_quicktable_status' );
 
-		status.setText( cols + ' x ' + rows );
+		status.setText( gridData.rows + ' x ' + gridData.cols );
 	}
 
 	function commitTable( evt ) {
 		var grid = evt.sender,
-			cols = grid.data( 'cols' ),
-			rows = grid.data( 'rows' );
+			gridData = getGridData( grid );
 
-		this.insertElement( createTableElement( rows, cols ) );
+		this.insertElement( createTableElement( gridData ) );
 	}
 
 	function resetGridSelection( container ) {
-		var cells = container.find( '.cke_quicktable_grid .cke_quicktable_cell' ).toArray();
+		var grid = container.findOne( '.cke_quicktable_grid' ),
+			cells = grid.find( '.cke_quicktable_cell' ).toArray();
 
 		for ( var i = 0; i < cells.length; i++ ) {
 			unselectGridCell( cells[ i ] );
 		}
 
 		selectGridCell( cells[ 0 ] );
+
+		var gridData = setGridData( grid, {
+			cols: 1,
+			rows: 1
+		} );
+
+		updateGridStatus( grid, gridData );
+	}
+
+	function setGridData( grid, gridData ) {
+		grid.data( 'cols', gridData.cols );
+		grid.data( 'rows', gridData.rows );
+
+		return gridData;
+	}
+
+	function getGridData( grid ) {
+		return {
+			cols: Number( grid.data( 'cols' ) ),
+			rows: Number( grid.data( 'rows' ) )
+		};
 	}
 
 	function selectGridCell( element ) {
@@ -157,13 +175,13 @@
 		element.removeClass( 'cke_quicktable_selected' );
 	}
 
-	function createTableElement( x, y ) {
+	function createTableElement( gridData ) {
 		var table = new CKEDITOR.dom.element( 'table' );
 
-		for ( var i = 0; i < x; i++ ) {
+		for ( var i = 0; i < gridData.rows; i++ ) {
 			var row = new CKEDITOR.dom.element( 'tr' );
 
-			for ( var j = 0; j < y; j++ ) {
+			for ( var j = 0; j < gridData.cols; j++ ) {
 				var cell = new CKEDITOR.dom.element( 'td' );
 				cell.setHtml( '&nbsp;' );
 				row.append( cell );
