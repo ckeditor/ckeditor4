@@ -36,12 +36,6 @@
 				panel: {
 					css: this.path + 'skins/default.css',
 					attributes: { role: 'listbox', 'aria-label': lang.insert }
-				},
-
-				onOpen: function() {
-					var block = this._.panel.getBlock( this._.id );
-
-					resetGridSelection( block.element );
 				}
 			} );
 		}
@@ -54,7 +48,7 @@
 		element.append( grid );
 		element.append( status );
 
-		grid.on( 'mouseover', selectGrid );
+		grid.on( 'mouseover', handleGridSelection );
 		grid.on( 'click', commitTable, editor );
 
 		element.addClass( 'cke_quicktable' );
@@ -63,10 +57,10 @@
 
 	function handleKeyoardNavigation( keys, rtl ) {
 		keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
-		keys[ 40 ] = 'next'; // ARROW-DOWN
+		keys[ 40 ] = 'down'; // ARROW-DOWN
 		keys[ 9 ] = 'next'; // TAB
 		keys[ rtl ? 39 : 37 ] = 'prev'; // ARROW-LEFT
-		keys[ 38 ] = 'prev'; // ARROW-UP
+		keys[ 38 ] = 'top'; // ARROW-UP
 		keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 		keys[ 32 ] = 'click'; // SPACE
 	}
@@ -90,7 +84,7 @@
 			' title="{title}"' +
 			' role="gridcell"' +
 			' aria-rowindex="{rowIndex}"' +
-			' aria-colIndex="{colIndex}"' +
+			' aria-colindex="{colIndex}"' +
 			' draggable="false"' +
 			' ondragstart="return false;"' +
 			' href="javascript:void(0);"' +
@@ -114,6 +108,7 @@
 					colIndex: j
 				} );
 
+				cell.on( 'focus', handleGridSelection );
 				row.append( cell );
 			}
 
@@ -127,7 +122,6 @@
 		return CKEDITOR.dom.element.createFromHtml( template.output( options ) );
 	}
 
-
 	function createStatusElement() {
 		var element = new CKEDITOR.dom.element( 'div' );
 
@@ -137,14 +131,16 @@
 		return element;
 	}
 
-	function selectGrid( evt ) {
+	function handleGridSelection( evt ) {
 		var targetCellElement = evt.data.getTarget();
 
 		if ( !targetCellElement.hasClass( 'cke_quicktable_cell' ) ) {
 			return;
 		}
 
-		var grid = evt.sender,
+		var grid = targetCellElement.getAscendant( function( node ) {
+				return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_quicktable_grid' );
+			} ),
 			rows = grid.find( '.cke_quicktable_row' ),
 			gridData = setGridData( grid, {
 				cols: targetCellElement.getIndex() + 1,
@@ -179,24 +175,6 @@
 			gridData = getGridData( grid );
 
 		this.insertElement( createTableElement( gridData ) );
-	}
-
-	function resetGridSelection( container ) {
-		var grid = container.findOne( '.cke_quicktable_grid' ),
-			cells = grid.find( '.cke_quicktable_cell' ).toArray();
-
-		for ( var i = 0; i < cells.length; i++ ) {
-			unselectGridCell( cells[ i ] );
-		}
-
-		selectGridCell( cells[ 0 ] );
-
-		var gridData = setGridData( grid, {
-			cols: 1,
-			rows: 1
-		} );
-
-		updateGridStatus( grid, gridData );
 	}
 
 	function setGridData( grid, gridData ) {
