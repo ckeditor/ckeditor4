@@ -25,4 +25,7 @@ in the official CKEditor documentation.
 
 *Give an overview…*
 
+## Which issues your PR resolves?
+
 Closes #<ISSUE_NUMBER>.
+<!-- Closes #<ANOTHER_ISSUE_NUMBER>. -->
