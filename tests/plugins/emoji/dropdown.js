@@ -40,7 +40,7 @@
 
 			bot.panel( 'EmojiPanel', function( panel ) {
 				panel.hide();
-				assert.areEqual( 'collision', collision._name, 'Emoji name should be cached.' );
+				assert.areEqual( 'collision', collision.name, 'Emoji name should be cached.' );
 			} );
 		},
 

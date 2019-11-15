@@ -383,7 +383,7 @@
 							return acc + emojiTpl.output( {
 									symbol: htmlEncode( item.symbol ),
 									id: htmlEncode( item.id ),
-									name: item._name,
+									name: item.name,
 									group: htmlEncode( item.group ),
 									keywords: htmlEncode( ( item.keywords || [] ).join( ',' ) )
 								} );
@@ -600,7 +600,7 @@
 					editor._.emoji.autocomplete = new CKEDITOR.plugins.autocomplete( editor, {
 						textTestCallback: getTextTestCallback(),
 						dataCallback: dataCallback,
-						itemTemplate: '<li data-id="{id}" class="cke_emoji-suggestion_item"><span>{symbol}</span> {_name}</li>',
+						itemTemplate: '<li data-id="{id}" class="cke_emoji-suggestion_item"><span>{symbol}</span> {name}</li>',
 						outputTemplate: '{symbol}'
 					} );
 				}
@@ -661,8 +661,8 @@
 	} );
 
 	function addEncodedName( item ) {
-		if ( !item._name ) {
-			item._name = htmlEncode( item.id.replace( /::.*$/, ':' ).replace( /^:|:$/g, '' ).replace( /_/g, ' ' ) );
+		if ( !item.name ) {
+			item.name = htmlEncode( item.id.replace( /::.*$/, ':' ).replace( /^:|:$/g, '' ) );
 		}
 		return item;
 	}
