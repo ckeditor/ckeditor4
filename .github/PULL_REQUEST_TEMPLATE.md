@@ -24,3 +24,5 @@ in the official CKEditor documentation.
 ## What changes did you make?
 
 *Give an overview…*
+
+Closes #<ISSUE_NUMBER>.
