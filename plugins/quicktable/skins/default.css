@@ -20,6 +20,7 @@
 	width: 13px;
 	margin: 1px 2px;
 	text-decoration: none;
+	cursor: default;
 }
 
 .cke_quicktable_selected {
