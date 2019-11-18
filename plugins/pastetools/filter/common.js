@@ -826,7 +826,7 @@
 		}
 	}
 
-	function removeSuperflousStyles( element ) {
+	function removeSuperfluousStyles( element ) {
 		var resetStyles = [
 				'background-color:transparent',
 				'background:transparent',

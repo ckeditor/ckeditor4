@@ -38,7 +38,7 @@
 					var data = evt.data,
 						clipboardHtml = data.dataValue || CKEDITOR.plugins.pastetools.getClipboardData( data, 'text/html' );
 
-					// Do not apply the paste filter to data filtered by the the Google Docs filter (https://dev.ckeditor.com/ticket/13093).
+					// Do not apply the paste filter to data filtered by the LibreOffice filter (https://dev.ckeditor.com/ticket/13093).
 					// TO DO it might be unnecessary!!!
 					data.dontFilter = true;
 

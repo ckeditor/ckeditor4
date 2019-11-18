@@ -19,7 +19,7 @@
 	 * @private
 	 * @member CKEDITOR.plugins.pastetools.filters
 	 */
-	CKEDITOR.plugins.pastetools.filters.pflibreoffice = {
+	CKEDITOR.plugins.pastetools.filters.libreoffice = {
 		/**
 		 * Rules for the Paste from Libre Office filter.
 		 *
@@ -194,7 +194,7 @@
 	}
 
 	function shouldReplaceFontWithChildren( element ) {
-		// Anchor is additionaly styled with font
+		// Anchor is additionaly styled with font.
 		if ( element.parent.name === 'a' && element.attributes.color === '#000080' ) {
 			return true;
 		}
@@ -238,7 +238,7 @@
 			return false;
 		}
 
-		// Curretn list need to be nested list, what points that is sublist.
+		// Current list need to be nested list, what points that is sublist.
 		if ( element.children.length !== 1 || !isList( element.getFirst().getFirst() ) ) {
 			return false;
 		}

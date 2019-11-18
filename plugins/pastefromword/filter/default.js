@@ -237,7 +237,7 @@
 					'font': function( element ) {
 						if ( element.getHtml().match( /^\s*$/ ) ) {
 							// There might be font tag directly in document fragment, we cannot replace it with a textnode as this generates
-							// superflouse spaces in output. What later might be trnasform into empty paragraphs, so just remove such element.
+							// superfluous spaces in output. What later might be transformed into empty paragraphs, so just remove such element.
 							if ( element.parent.type === CKEDITOR.NODE_ELEMENT ) {
 								new CKEDITOR.htmlParser.text( ' ' ).insertAfter( element );
 							}
