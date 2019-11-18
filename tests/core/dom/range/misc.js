@@ -453,6 +453,27 @@
 			nativeRange = range.getNative();
 
 			assert.areSame( null, nativeRange, 'Null is returned' );
+		},
+
+		// There was a bug in Firefox that restricted creating of ranges where end offset
+		// was before start offset. However this seems to be no longer the case.
+		// I added this test just to be sure (#1960).
+		'test creating native range with endOffset smaller than startOffset (Firefox bug)': function() {
+			if ( !CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
+			var range = new CKEDITOR.dom.range( doc ),
+				container = CKEDITOR.dom.element.createFromHtml( '<span>Test</span>' ),
+				textNode = container.getChild( 0 );
+
+			doc.getBody().append( container );
+			range.setStart( textNode, 3 );
+			range.setEnd( textNode, 1 );
+
+			range.getNative();
+
+			assert.pass( 'Nothing exploded' );
 		}
 	};
 
