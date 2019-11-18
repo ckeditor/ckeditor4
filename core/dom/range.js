@@ -2870,12 +2870,19 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Returns [native range](https://developer.mozilla.org/en-US/docs/Web/API/Range) represented by this object.
-		 *
+		 * If the browser does not support W3C Selection API, `null` is returned.
 		 * @since 4.14.0
-		 * @returns {Object}
+		 * @returns {Range/null}
 		 */
 		getNative: function() {
-			var range = this.root.getDocument().$.createRange();
+			var nativeDocument = this.root.getDocument().$,
+				range;
+
+			if ( !( 'createRange' in nativeDocument ) ) {
+				return null;
+			}
+
+			range = nativeDocument.createRange();
 
 			range.setStart( this.startContainer.$, this.startOffset );
 			range.setEnd( this.endContainer.$, this.endOffset );
