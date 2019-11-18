@@ -6,13 +6,12 @@
 after conducting test steps have some fun pasting in other ways than described and look for bugs
 (e.g. using `div` plugin).
 
+However there is a known bug with <a href="https://github.com/ckeditor/ckeditor4/issues/541">disappearing table cells when mixed content is selected</a> 
+which is not a subject of this fix.
+
 ## For each editor:
 
-1. Select word `Start` and copy it.
-
-1. Press <kbd>Ctrl+A</kbd>.
-
-1. Paste copied content.
+1. Copy word `Start`, press <kbd>Ctrl+A</kbd> and paste.
 
 	### Expected:
 
@@ -24,26 +23,13 @@ after conducting test steps have some fun pasting in other ways than described a
 
 1. Undo changes.
 
-1. Select words `Before` and `First`, copy them.
-
-1. Click `Select All` button on toolbar.
+1. Select content from word `Before` to `After`.
 
 1. Paste copied content.
 
 	### Expected:
 
-	Editor source code is like below or similar (depending on exact selection you made):
-	```
-	<p><strong>Before</strong></p>
-
-	<table border="1">
-		<tbody>
-			<tr>
-				<td><strong>First</strong></td>
-			</tr>
-		</tbody>
-	</table>
-	```
+	Selected content was replaced by pasted content.
 
 	### Unexpected:
 
@@ -51,54 +37,13 @@ after conducting test steps have some fun pasting in other ways than described a
 
 1. Undo changes.
 
-1. Create selection starting at word `nesting` and ending in the cell with the word `Middle` and copy it.
-
-1. Select all content in any way, paste content.
+1. Create selection with content between brackets in table cell, paste.
 
 	### Expected:
 
-	Editor source code is like below or similar (depending on exact selection you made):
-	```
-	<p>nesting</p>
-
-	<table border="1" cellpadding="1" cellspacing="1" style="width:100%">
-		<tbody>
-			<tr>
-				<td><strong>Left</strong></td>
-				<td><strong>Middle</strong></td>
-			</tr>
-		</tbody>
-	</table>
-	```
+	Selected content was replaced by pasted content, nested table was deleted.
 
 	### Unexpected:
 
-	Pasted data appeared in table, the rest of content is untouched.
+	Pasted data appeared in nested table instead.
 
-1. Undo changes.
-
-1. Select word `Before` and copy it.
-
-1. Select table cells with words `First` and `Second` and paste.
-
-	### Expected:
-
-	The first cell contains word `Before`, the second one is empty.
-
-	### Unexpected:
-
-	There is only one cell in the row or whole table content was replaced.
-
-1. Undo changes.
-
-1. Copy word `Start`.
-
-1. Select content from the word `Start` to word `table` and paste.
-
-	### Expected:
-
-	Only selected content was replaced by the word `Start`.
-
-	### Unexpected:
-
-	Whole cell content was replaced.
