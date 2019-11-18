@@ -415,7 +415,11 @@
 		},
 
 		// (#1960)
-		'test getNative': function() {
+		'test getNative (non-IE 8 browsers)': function() {
+			if ( !( 'createRange' in document ) ) {
+				assert.ignore();
+			}
+
 			var range = new CKEDITOR.dom.range( doc ),
 				container = CKEDITOR.dom.element.createFromHtml( '<span>Test</span>' ),
 				nativeRange;
@@ -425,12 +429,30 @@
 
 			nativeRange = range.getNative();
 
-			assert.areSame( nativeRange.startContainer.ownerDocument, range.document.$, 'document is the same' );
-			assert.areSame( nativeRange.startContainer, range.startContainer.$, 'startContainer is the same' );
-			assert.areSame( nativeRange.endContainer, range.endContainer.$, 'endContainer is the same' );
-			assert.areSame( nativeRange.startOffset, range.startOffset, 'startOffset is the same' );
-			assert.areSame( nativeRange.endOffset, range.endOffset, 'endOffset is the same' );
-			assert.areSame( nativeRange.collapsed, range.collapsed, 'collapsed is the same' );
+			assert.areSame( range.document.$, nativeRange.startContainer.ownerDocument, 'document is the same' );
+			assert.areSame( range.startContainer.$, nativeRange.startContainer, 'startContainer is the same' );
+			assert.areSame( range.endContainer.$, nativeRange.endContainer, 'endContainer is the same' );
+			assert.areSame( range.startOffset, nativeRange.startOffset, 'startOffset is the same' );
+			assert.areSame( range.endOffset, nativeRange.endOffset, 'endOffset is the same' );
+			assert.areSame( range.collapsed, nativeRange.collapsed, 'collapsed is the same' );
+		},
+
+		// (#1960)
+		'test getNative (IE 8 browser)': function() {
+			if ( 'createRange' in document ) {
+				assert.ignore();
+			}
+
+			var range = new CKEDITOR.dom.range( doc ),
+				container = CKEDITOR.dom.element.createFromHtml( '<span>Test</span>' ),
+				nativeRange;
+
+			doc.getBody().append( container );
+			range.selectNodeContents( container );
+
+			nativeRange = range.getNative();
+
+			assert.areSame( null, nativeRange, 'Null is returned' );
 		}
 	};
 
