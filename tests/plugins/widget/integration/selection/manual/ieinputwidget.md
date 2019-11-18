@@ -5,11 +5,11 @@
 1. Add widget (empty button in the toolbar).
 2. Try to type inside the widget in the **input** field.
 3. Deselect widget and select again.
-4. Try to type in the textarea field inside widget.
+4. Try to type in the input field inside the widget.
 
 ## Expected:
 * It's possible to type inside the widget
 * _Note: selection inside widget might behave wrongly it's caused by naive widget implementation and it's not a bug._
 
 ## Unexpected:
-* The entire widget's wrapper preserves focus so typing inside the textarea is not possible.
+* The entire widget's wrapper preserves focus so typing inside the input is not possible.

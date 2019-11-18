@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, sourcearea, elementspath, undo
 
 1. Add widget (empty button in the toolbar).
-2. Try to type inside the widget in the textarea field.
+2. Try to type inside the widget in the **textarea** field.
 3. Deselect widget and select again.
 4. Try to type in the textarea field inside widget.
 
