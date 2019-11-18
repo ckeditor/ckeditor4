@@ -22,10 +22,6 @@
 		filterMock = new CKEDITOR.htmlParser.filter(),
 
 		tests = {
-			setUp: function(  ) {
-				this.commonFilter = CKEDITOR.plugins.pastetools.filters.common;
-			},
-
 			'test create style stack': function() {
 				var element = new CKEDITOR.htmlParser.element( 'p' );
 
@@ -97,10 +93,10 @@
 
 	ptTools.ignoreTestsOnMobiles( tests );
 
-	ptTools.loadFilters( [
+	ptTools.testWithFilters( tests, [
 		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js' ),
 		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastefromword' ) + 'filter/default.js' )
-	], function() {
-		bender.test( tests );
+	], function( testCase ) {
+		testCase.commonFilter = CKEDITOR.plugins.pastetools.filters.common;
 	} );
 } )();
