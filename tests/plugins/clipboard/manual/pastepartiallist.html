@@ -1,0 +1,15 @@
+<ul>
+	<li style="color: grey">Don't copy this one</li>
+	<li>Do copy this</li>
+	<li>Copy this too</li>
+	<li style="color: grey">But don't copy this</li>
+</ul>
+<div id="editor"></div>
+
+<script>
+	if ( bender.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor' );
+</script>

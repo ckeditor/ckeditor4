@@ -859,5 +859,53 @@ bender.test( {
 		assert.areSame( 5, group.rules[ 2 ].priority );
 		assert.areSame( options3, group.rules[ 1 ].options );
 		assert.areSame( options3, group.rules[ 2 ].options );
+	},
+
+	// (#3593)
+	'test should be possible to replace element node with text': function() {
+		var filter = new CKEDITOR.htmlParser.filter();
+
+		filter.addRules( {
+			elements: {
+				'span': function() {
+					return new CKEDITOR.htmlParser.text( 'test' );
+				},
+
+				'$': function( el ) {
+					el.filterChildren( filter );
+				}
+			},
+
+			text: function( value, element ) {
+				// It's necessary to access to element, to generate error. Before fix it was undefiend.
+				assert.areEqual( CKEDITOR.NODE_TEXT, element.type );
+			}
+		} );
+
+		assertFilter( '<p>foo test baz</p>', '<p>foo <span>bar</span> baz</p>', filter );
+	},
+
+	// (#3593)
+	'test should be possible to replace element node with comment': function() {
+		var filter = new CKEDITOR.htmlParser.filter();
+
+		filter.addRules( {
+			elements: {
+				'span': function() {
+					return new CKEDITOR.htmlParser.comment( 'test' );
+				},
+
+				'$': function( el ) {
+					el.filterChildren( filter );
+				}
+			},
+
+			comment: function( value, element ) {
+				// It's necessary to access to element, to generate error. Before fix it was undefiend.
+				assert.areEqual( CKEDITOR.NODE_COMMENT, element.type );
+			}
+		} );
+
+		assertFilter( '<p>foo <!--test--> baz</p>', '<p>foo <span>bar</span> baz</p>', filter );
 	}
 } );

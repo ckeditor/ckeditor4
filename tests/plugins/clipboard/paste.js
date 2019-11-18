@@ -1346,6 +1346,30 @@
 			}, 0 );
 		},
 
+		// (#3415)
+		'test paste list with whitespace on boundaries': function() {
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+				assert.ignore();
+			}
+
+			var editor = this.editor;
+
+			this.on( 'afterPaste', function() {
+				resume( function() {
+					// If we got here, it means that the list was pasted successfully.
+					assert.pass();
+				} );
+			} );
+
+			bender.tools.emulatePaste( editor, '<html>' +
+				'<body>\n' +
+				'<!--StartFragment--><li>foo</li><!--EndFragment-->\n' +
+				'</body>' +
+				'</html>' );
+
+			this.wait();
+		},
+
 		'test canClipboardApiBeTrusted internal': function() {
 			var canClipboardApiBeTrusted = CKEDITOR.plugins.clipboard.canClipboardApiBeTrusted;
 

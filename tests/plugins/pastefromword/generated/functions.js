@@ -269,10 +269,8 @@
 
 	ptTools.ignoreTestsOnMobiles( tests );
 
-	ptTools.loadFilters( [
+	ptTools.testWithFilters( tests, [
 		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js' ),
 		CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastefromword' ) + 'filter/default.js' )
-	], function() {
-		bender.test( tests );
-	} );
+	] );
 } )();

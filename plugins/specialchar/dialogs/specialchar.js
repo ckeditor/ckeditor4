@@ -7,69 +7,74 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 	// Simulate "this" of a dialog for non-dialog events.
 	// @type {CKEDITOR.dialog}
 	var dialog,
-		lang = editor.lang.specialchar;
+		lang = editor.lang.specialchar,
+		focusedNode,
+		onChoice,
+		onClick,
+		onBlur,
+		onFocus,
+		onKeydown;
 
-	var onChoice = function( evt ) {
-			var target, value;
-			if ( evt.data )
-				target = evt.data.getTarget();
-			else
-				target = new CKEDITOR.dom.element( evt );
 
-			if ( target.getName() == 'a' && ( value = target.getChild( 0 ).getHtml() ) ) {
-				target.removeClass( 'cke_light_background' );
-				dialog.hide();
+	onChoice = function( evt ) {
+		var target, value;
+		if ( evt.data )
+			target = evt.data.getTarget();
+		else
+			target = new CKEDITOR.dom.element( evt );
 
-				// We must use "insertText" here to keep text styled.
-				var span = editor.document.createElement( 'span' );
-				span.setHtml( value );
-				editor.insertText( span.getText() );
-			}
-		};
+		if ( target.getName() == 'a' && ( value = target.getChild( 0 ).getHtml() ) ) {
+			target.removeClass( 'cke_light_background' );
+			dialog.hide();
 
-	var onClick = CKEDITOR.tools.addFunction( onChoice );
+			// We must use "insertText" here to keep text styled.
+			var span = editor.document.createElement( 'span' );
+			span.setHtml( value );
+			editor.insertText( span.getText() );
+		}
+	};
 
-	var focusedNode;
+	onClick = CKEDITOR.tools.addFunction( onChoice );
 
-	var onFocus = function( evt, target ) {
-			var value;
-			target = target || evt.data.getTarget();
+	onFocus = function( evt, target ) {
+		var value;
+		target = target || evt.data.getTarget();
 
-			if ( target.getName() == 'span' )
-				target = target.getParent();
+		if ( target.getName() == 'span' )
+			target = target.getParent();
 
-			if ( target.getName() == 'a' && ( value = target.getChild( 0 ).getHtml() ) ) {
-				// Trigger blur manually if there is focused node.
-				if ( focusedNode )
-					onBlur( null, focusedNode );
+		if ( target.getName() == 'a' && ( value = target.getChild( 0 ).getHtml() ) ) {
+			// Trigger blur manually if there is focused node.
+			if ( focusedNode )
+				onBlur( null, focusedNode );
 
-				var htmlPreview = dialog.getContentElement( 'info', 'htmlPreview' ).getElement();
+			var htmlPreview = dialog.getContentElement( 'info', 'htmlPreview' ).getElement();
 
-				dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( value );
-				htmlPreview.setHtml( CKEDITOR.tools.htmlEncode( value ) );
-				target.getParent().addClass( 'cke_light_background' );
+			dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( value );
+			htmlPreview.setHtml( CKEDITOR.tools.htmlEncode( value ) );
+			target.getParent().addClass( 'cke_light_background' );
 
-				// Memorize focused node.
-				focusedNode = target;
-			}
-		};
+			// Memorize focused node.
+			focusedNode = target;
+		}
+	};
 
-	var onBlur = function( evt, target ) {
-			target = target || evt.data.getTarget();
+	onBlur = function( evt, target ) {
+		target = target || evt.data.getTarget();
 
-			if ( target.getName() == 'span' )
-				target = target.getParent();
+		if ( target.getName() == 'span' )
+			target = target.getParent();
 
-			if ( target.getName() == 'a' ) {
-				dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( '&nbsp;' );
-				dialog.getContentElement( 'info', 'htmlPreview' ).getElement().setHtml( '&nbsp;' );
-				target.getParent().removeClass( 'cke_light_background' );
+		if ( target.getName() == 'a' ) {
+			dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( '&nbsp;' );
+			dialog.getContentElement( 'info', 'htmlPreview' ).getElement().setHtml( '&nbsp;' );
+			target.getParent().removeClass( 'cke_light_background' );
 
-				focusedNode = undefined;
-			}
-		};
+			focusedNode = undefined;
+		}
+	};
 
-	var onKeydown = CKEDITOR.tools.addFunction( function( ev ) {
+	onKeydown = CKEDITOR.tools.addFunction( function( ev ) {
 		ev = new CKEDITOR.dom.event( ev );
 
 		// Get an Anchor element.
@@ -214,12 +219,10 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 							'</span>' +
 							'<span class="cke_voice_label" id="' + charLabelId + '">' +
 							charDesc +
-							'</span></a>' );
-					} else {
-						html.push( '<td class="cke_dark_background">&nbsp;' );
+							'</span></a></td>'
+						);
 					}
 
-					html.push( '</td>' );
 				}
 				html.push( '</tr>' );
 			}

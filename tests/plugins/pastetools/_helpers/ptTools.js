@@ -29,6 +29,20 @@
 					} );
 				}( filters[ i ] ) );
 			}
+		},
+
+		testWithFilters: function( tests, filters, callback ) {
+			this.loadFilters( filters, function() {
+				tests[ 'async:init' ] = function() {
+					if ( callback ) {
+						callback( this );
+					}
+
+					this.callback();
+				};
+
+				bender.test( tests );
+			} );
 		}
 	};
 } )();

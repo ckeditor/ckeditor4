@@ -6,7 +6,8 @@
 <label><input id="readonly" type="checkbox">Editor readonly</label>
 
 <script>
-	if ( bender.env.mobile ) {
+	// Drag & drop of widgets isn't supported on mobiles.
+	if ( bender.tools.env.mobile ) {
 		bender.ignore();
 	}
 

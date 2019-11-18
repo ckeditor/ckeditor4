@@ -27,7 +27,8 @@
 
 <script>
 	// Ignore on mobiles due to hovering.
-	if ( bender.tools.env.mobile ) {
+	// Inline editor with widget crashes on IE8 (#1821).
+	if ( bender.tools.env.mobile || CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 		bender.ignore();
 	}
 
