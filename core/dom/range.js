@@ -2927,9 +2927,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {CKEDITOR.dom.rect[]}
 		 */
 		getClientRects: ( function() {
-			var range = this.getNative();
-
-			if ( !range ) {
+			if ( !( 'createRange' in document ) ) {
 				return function( isAbsolute ) {
 					return [ convertRect( getRect( this.createBookmark() ), isAbsolute, this ) ];
 				};
@@ -2937,7 +2935,8 @@ CKEDITOR.dom.range = function( root ) {
 
 			return function( isAbsolute ) {
 				// We need to create native range so we can call native getClientRects.
-				var rectList = range.getClientRects();
+				var range = this.getNative(),
+					rectList = range.getClientRects();
 
 				rectList = fixWidgetsRects( rectList, this );
 
