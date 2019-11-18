@@ -2927,32 +2927,28 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {CKEDITOR.dom.rect[]}
 		 */
 		getClientRects: ( function() {
-			if ( this.document.getSelection !== undefined ) {
-				return function( isAbsolute ) {
-					// We need to create native range so we can call native getClientRects.
-					var range = this.root.getDocument().$.createRange(),
-						rectList;
+			var range = this.getNative();
 
-					range.setStart( this.startContainer.$, this.startOffset );
-					range.setEnd( this.endContainer.$, this.endOffset );
-
-					rectList = range.getClientRects();
-
-					rectList = fixWidgetsRects( rectList, this );
-
-					if ( !rectList.length ) {
-						rectList = fixEmptyRectList( rectList, range, this );
-					}
-
-					return CKEDITOR.tools.array.map( rectList, function( item ) {
-						return convertRect( item, isAbsolute, this );
-					}, this );
-				};
-			} else {
+			if ( !range ) {
 				return function( isAbsolute ) {
 					return [ convertRect( getRect( this.createBookmark() ), isAbsolute, this ) ];
 				};
 			}
+
+			return function( isAbsolute ) {
+				// We need to create native range so we can call native getClientRects.
+				var rectList = range.getClientRects();
+
+				rectList = fixWidgetsRects( rectList, this );
+
+				if ( !rectList.length ) {
+					rectList = fixEmptyRectList( rectList, range, this );
+				}
+
+				return CKEDITOR.tools.array.map( rectList, function( item ) {
+					return convertRect( item, isAbsolute, this );
+				}, this );
+			};
 
 			// Remove all widget rects except for outermost one.
 			function fixWidgetsRects( rectList, context ) {
