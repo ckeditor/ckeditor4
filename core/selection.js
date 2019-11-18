@@ -2208,8 +2208,6 @@
 
 					range = ranges[ i ];
 
-					var nativeRange = this.document.$.createRange();
-
 					if ( range.collapsed && CKEDITOR.env.webkit && rangeRequiresFix( range ) ) {
 						// Append a zero-width space so WebKit will not try to
 						// move the selection by itself (https://dev.ckeditor.com/ticket/1272).
@@ -2229,21 +2227,7 @@
 						}
 					}
 
-					nativeRange.setStart( range.startContainer.$, range.startOffset );
-
-					try {
-						nativeRange.setEnd( range.endContainer.$, range.endOffset );
-					} catch ( e ) {
-						// There is a bug in Firefox implementation (it would be too easy
-						// otherwise). The new start can't be after the end (W3C says it can).
-						// So, let's create a new range and collapse it to the desired point.
-						if ( e.toString().indexOf( 'NS_ERROR_ILLEGAL_VALUE' ) >= 0 ) {
-							range.collapse( 1 );
-							nativeRange.setEnd( range.endContainer.$, range.endOffset );
-						} else {
-							throw e;
-						}
-					}
+					var nativeRange = range.getNative();
 
 					// Select the range.
 					sel.addRange( nativeRange );
