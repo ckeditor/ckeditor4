@@ -873,7 +873,7 @@
 			var selectionAncestor = selection.getCommonAncestor(),
 				selectionExceedesTable = selectionAncestor &&
 					selectionAncestor.is &&
-					!selectionAncestor.is( 'table', 'tbody', 'tr' );
+					!selectionAncestor.is( 'table', 'tbody', 'tr', 'td' );
 
 			// Do not customize paste process in following cases:
 			// No cells are selected.
