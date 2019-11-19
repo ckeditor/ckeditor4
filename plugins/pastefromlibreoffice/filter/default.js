@@ -44,6 +44,7 @@
 				],
 
 				elements: {
+					// Required due to bug (#3664).
 					'!doctype': function( el ) {
 						el.replaceWithChildren();
 					},
