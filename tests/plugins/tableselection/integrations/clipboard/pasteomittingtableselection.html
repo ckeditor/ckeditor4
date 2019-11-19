@@ -1,125 +1,5 @@
-<textarea id="table-cell">
-	<p>[Start</p>
-	<table>
-		<tbody>
-			<tr>
-				<td>cell1</td>
-				<td>cell2</td>
-			</tr>
-		</tbody>
-	</table>
-	<p>End]</p>
-
-=>
-	<table>
-		<tbody>
-			<tr>
-				<td>foo^</td>
-			</tr>
-		</tbody>
-	</table>
-</textarea>
-
-<span id="table-cell-paste">
-	<table>
-		<tr>
-			<td>foo</td>
-		</tr>
-	</table>
-</span>
-
 <textarea id="text">
 	<p>[Start</p>
-	<table>
-		<tbody>
-			<tr>
-				<td>cell1</td>
-				<td>cell2</td>
-			</tr>
-		</tbody>
-	</table>
-	<p>End]</p>
-
-=>
-
-	<p>foo^</p>
-</textarea>
-
-<span id="text-paste">
-	<p>foo</p>
-</span>
-
-<textarea id="mixed-content">
-	<p>[Start</p>
-	<table>
-		<tbody>
-			<tr>
-				<td>cell1</td>
-				<td>cell2</td>
-			</tr>
-		</tbody>
-	</table>
-	<p>End]</p>
-
-=>
-	<ul>
-		<li>
-			foo
-		</li>
-		<li>
-			bar
-		</li>
-	</ul>
-	<table>
-		<tbody>
-			<tr>
-				<td>foo^</td>
-			</tr>
-		</tbody>
-	</table>
-</textarea>
-
-<span id="mixed-content-paste">
-	<ul>
-		<li>
-			foo
-		</li>
-		<li>
-			bar
-		</li>
-	</ul>
-	<table>
-		<tr>
-			<td>foo</td>
-		</tr>
-	</table>
-</span>
-
-<tbody id="blockquote">
-	<p>[Start</p>
-
-	<blockquote>
-	<p><strong>Before</strong></p>
-
-	<table border="1">
-		<tbody>
-			<tr>
-				<td>co</td>
-				<td>&nbsp;</td>
-			</tr>
-		</tbody>
-	</table>
-
-	<p>After]</p>
-	</blockquote>
-
-=>
-
-	<p>foo^</p>
-</tbody>
-
-<textarea id="nested-table">
-	<p>Start</p>
 
 	<blockquote>
 	<p><strong>Before</strong></p>
@@ -132,7 +12,7 @@
 			</tr>
 			<tr>
 				<td> </td>
-				<td><p>Start [nesting</p>
+				<td>Start nesting
 				<table border="1" cellpadding="1" cellspacing="1" style="width:100%">
 					<tbody>
 						<tr>
@@ -148,36 +28,71 @@
 					</tbody>
 				</table>
 
-				<p>End] nesting</p>
+				<p>End nesting</p>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 
-	<p>After</p>
+	<p>After]</p>
 	</blockquote>
 
 =>
 
-	<p>Start</p>
+	<p>foo^</p>
+</textarea>
 
+<textarea id="inside-blockquote">
 	<blockquote>
-	<p><strong>Before</strong></p>
+		<p><strong>from [here</strong></p>
 
-	<table border="1">
-		<tbody>
-			<tr>
-				<td><strong>First</strong></td>
-				<td>Second</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td><p>Start foo^ nesting</p></td>
-			</tr>
-		</tbody>
-	</table>
+		<table border="1">
+			<tbody>
+				<tr>
+					<td>co</td>
+					<td>&nbsp;</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>up to here]. And more text</p>
 
-	<p>After</p>
+	</blockquote>
+
+=>
+	<blockquote>
+		<p>
+			<strong>from </strong>foo^. and more text
+		</p>
 	</blockquote>
 
 </textarea>
+
+<textarea id="all-blockquote">
+	<blockquote>
+		<p><strong>[from here</strong></p>
+
+		<table border="1">
+			<tbody>
+				<tr>
+					<td>co</td>
+					<td>&nbsp;</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>up to here]</p>
+
+	</blockquote>
+
+=>
+	<blockquote>
+		<p>
+			foo^
+		</p>
+	</blockquote>
+
+</textarea>
+
+
+<span id="text-paste">
+	<p>foo</p>
+</span>
