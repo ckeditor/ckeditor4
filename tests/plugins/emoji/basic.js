@@ -225,19 +225,19 @@
 				} );
 
 				arrayAssert.itemsAreSame( expected, actual );
-				assert.areSame( '😻 smiling_cat_face_with_heart-eyes' , autocomplete.view.element.getChild( 0 ).getText(), 'First element in view should start from "smiling".' );
+				assert.areSame( '<span>😻</span> smiling_cat_face_with_heart-eyes' , autocomplete.view.element.getChild( 0 ).getHtml(), 'First element in view should start from "smiling".' );
 			} );
 		},
 
 		// (#2583)
 		'test emoji autocomplete panel displays name': function( editor, bot ) {
 			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
-				bot.setHtmlWithSelection( '<p>foo 😻 :smiling_cat_face_with_heart-eyes:^</p>' );
+				bot.setHtmlWithSelection( '<p>:smiling_cat_face_with_heart-eyes:^</p>' );
 				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 				var element = CKEDITOR.document.findOne( '.cke_emoji-suggestion_item' );
 
-				assert.areEqual( element.getText(), '😻 smiling_cat_face_with_heart-eyes' );
+				assert.areEqual( element.getHtml(), '<span>😻</span> smiling_cat_face_with_heart-eyes' );
 			} );
 		}
 	};
