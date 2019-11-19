@@ -3,13 +3,13 @@
 @bender-ui: collapsed
 @bender-include: ../_helpers/tools.js
 
-1. Focus editor.
+1. Focus the editor.
 1. Type `:smiling_face:`
 
 ## Expected:
 
-Emoji suggestion box appears with match: `☺️ smiling_face`
+The emoji suggestion box appears with the match: `☺️ smiling_face`.
 
 ## Unexpected:
 
-Emoji suggestion box appears with match: `☺️ :smiling_face:`
+The emoji suggestion box appears with the match: `☺️ :smiling_face:`.

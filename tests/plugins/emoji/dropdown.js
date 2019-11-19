@@ -36,7 +36,7 @@
 				return item.id === ':collision:';
 			} )[ 0 ];
 
-			assert.isUndefined( collision._name, 'Emoji name should be undefined.' );
+			assert.isUndefined( collision.name, 'Emoji name should be undefined.' );
 
 			bot.panel( 'EmojiPanel', function( panel ) {
 				panel.hide();
