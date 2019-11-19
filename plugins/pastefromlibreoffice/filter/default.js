@@ -206,7 +206,7 @@
 
 		var previous = el.previous,
 			lastLi = getLastListItem( previous ),
-			liDepthValue = depthChecker( lastLi ),
+			liDepthValue = checkDepth( lastLi ),
 			innerList = unwrapList( el, liDepthValue );
 
 		if ( innerList ) {
@@ -239,7 +239,7 @@
 
 	// Checks level of nested list for given element.
 	// It's exepected that argument is the `li` element.
-	function depthChecker( element ) {
+	function checkDepth( element ) {
 		var level = 0,
 			currentElement = element;
 
