@@ -241,9 +241,10 @@
 	// It's exepected that argument is the `li` element.
 	function checkDepth( element ) {
 		var level = 0,
-			currentElement = element;
+			currentElement = element,
+			listEvaluator = getListEvaluator();
 
-		while ( ( currentElement = currentElement.getAscendant( getListEvaluator() ) ) ) {
+		while ( ( currentElement = currentElement.getAscendant( listEvaluator ) ) ) {
 			level++;
 		}
 
@@ -255,9 +256,9 @@
 
 		if ( !isList( lastChild ) && lastChild.name !== 'li' ) {
 			return el;
-		} else {
-			return getLastListItem( lastChild );
 		}
+
+		return getLastListItem( lastChild );
 	}
 
 	function getListEvaluator() {
@@ -283,9 +284,9 @@
 	function unwrapList( list, count ) {
 		if ( count ) {
 			return unwrapList( list.getFirst().getFirst(), --count );
-		} else {
-			return list;
 		}
+
+		return list;
 	}
 
 	function isList( element ) {
