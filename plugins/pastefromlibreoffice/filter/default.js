@@ -79,17 +79,7 @@
 
 					'a': function( el ) {
 						if ( el.attributes.style ) {
-							var styles = CKEDITOR.tools.parseCssText( el.attributes.style );
-
-							if ( styles.color === '#000080' ) {
-								delete styles.color;
-							}
-
-							if ( styles[ 'text-decoration' ] === 'underline' ) {
-								delete styles[ 'text-decoration' ];
-							}
-
-							el.attributes.style = CKEDITOR.tools.writeCssText( styles );
+							el.attributes.style = removeDefaultLinkStyles( el.attributes.style );
 						}
 					},
 
@@ -304,6 +294,20 @@
 
 	function remove() {
 		return false;
+	}
+
+	function removeDefaultLinkStyles( styles ) {
+		var parsedStyles = CKEDITOR.tools.parseCssText( styles );
+
+		if ( parsedStyles.color === '#000080' ) {
+			delete parsedStyles.color;
+		}
+
+		if ( parsedStyles[ 'text-decoration' ] === 'underline' ) {
+			delete parsedStyles[ 'text-decoration' ];
+		}
+
+		return CKEDITOR.tools.writeCssText( parsedStyles );
 	}
 
 	CKEDITOR.pasteFilters.libreoffice = pastetools.createFilter( {
