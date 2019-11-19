@@ -207,18 +207,10 @@
 					Style.setStyle( element, 'vertical-align', value );
 				},
 				width: function( value ) {
-					if ( /%$/.test( value ) ) {
-						Style.setStyle( element, 'width', value );
-					} else {
-						Style.setStyle( element, 'width', value + 'px' );
-					}
+					Style.setStyle( element, 'width', fixValue( value ) );
 				},
 				height: function( value ) {
-					if ( /%$/.test( value ) ) {
-						Style.setStyle( element, 'height', value );
-					} else {
-						Style.setStyle( element, 'height', value + 'px' );
-					}
+					Style.setStyle( element, 'height', fixValue( value ) );
 				}
 			} );
 		},
@@ -772,6 +764,13 @@
 	plug.createAttributeStack = createAttributeStack;
 
 	plug.parseShorthandMargins = parseShorthandMargins;
+
+	function fixValue( value ) {
+		// Add 'px' only for values which are not ended with %
+		var endsWithPercent = /%$/;
+
+		return endsWithPercent.test( value ) ? value : value + 'px';
+	}
 
 	// Same as createStyleStack, but instead of styles - stack attributes.
 	function createAttributeStack( element, filter ) {
