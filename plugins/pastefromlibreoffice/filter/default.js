@@ -25,7 +25,7 @@
 		 *
 		 * @since 4.14.0
 		 * @private
-		 * @member CKEDITOR.plugins.pastetools.filters.pflibreoffice
+		 * @member CKEDITOR.plugins.pastetools.filters.libreoffice
 		 */
 		rules: function( html, editor, filter ) {
 			return {
@@ -305,10 +305,10 @@
 		return false;
 	}
 
-	CKEDITOR.pasteFilters.pflibreoffice = pastetools.createFilter( {
+	CKEDITOR.pasteFilters.libreoffice = pastetools.createFilter( {
 		rules: [
 			commonFilter.rules,
-			CKEDITOR.plugins.pastetools.filters.pflibreoffice.rules
+			CKEDITOR.plugins.pastetools.filters.libreoffice.rules
 		]
 	} );
 } )();

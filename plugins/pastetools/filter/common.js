@@ -33,7 +33,7 @@
 		return {
 			elements: {
 				'^': function( element ) {
-					removeSuperflousStyles( element );
+					removeSuperfluousStyles( element );
 					// Don't use "attributeNames", because those rules are applied after elements.
 					// Normalization is required at the very begininng.
 					normalizeAttributesName( element );

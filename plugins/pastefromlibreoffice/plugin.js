@@ -44,7 +44,7 @@
 
 					clipboardHtml = CKEDITOR.pasteFilters.image( clipboardHtml, editor, CKEDITOR.plugins.pastetools.getClipboardData( data, 'text/rtf' ) );
 
-					data.dataValue = CKEDITOR.pasteFilters.pflibreoffice( clipboardHtml, editor );
+					data.dataValue = CKEDITOR.pasteFilters.libreoffice( clipboardHtml, editor );
 
 					if ( editor.config.forcePasteAsPlainText === true ) {
 						// If `config.forcePasteAsPlainText` is set to `true`, force plain text even on Libre Office content (#1013).
