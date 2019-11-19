@@ -23,6 +23,10 @@
 	cursor: default;
 }
 
+.cke_quicktable_cell:focus {
+	outline: none;
+}
+
 .cke_quicktable_selected {
 	border-color: #53a0e4;
 	background-color: #c7e5ff;
