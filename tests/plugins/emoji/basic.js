@@ -96,6 +96,21 @@
 			}
 		},
 
+		// This test should be on top of test suite, cause other tests will cache emojis (#2583).
+		'test emoji names cache': function( editor, bot ) {
+			bot.setHtmlWithSelection( '<p>foo :collision:^</p>' );
+
+			var collision = CKEDITOR.tools.array.filter( editor._.emoji.list, function( item ) {
+				return item.id === ':collision:';
+			} )[ 0 ];
+
+			assert.isUndefined( collision.name, 'Emoji name should be undefined.' );
+
+			editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+			assert.areEqual( 'collision', collision.name, 'Emoji name should be cached.' );
+		},
+
 		'test emoji objects are added to editor': function( editor ) {
 			emojiTools.runAfterInstanceReady( editor, null, function( editor ) {
 				assert.isObject( editor._.emoji, 'Emoji variable doesn\' exists' );
@@ -210,7 +225,19 @@
 				} );
 
 				arrayAssert.itemsAreSame( expected, actual );
-				assert.areSame( '😻 :smiling_cat_face_with_heart-eyes:', autocomplete.view.element.getChild( 0 ).getText(), 'First element in view should start from "smiling".' );
+				assert.areSame( '<span>😻</span> smiling_cat_face_with_heart-eyes' , autocomplete.view.element.getChild( 0 ).getHtml(), 'First element in view should start from "smiling".' );
+			} );
+		},
+
+		// (#2583)
+		'test emoji autocomplete panel displays name': function( editor, bot ) {
+			emojiTools.runAfterInstanceReady( editor, bot, function( editor, bot ) {
+				bot.setHtmlWithSelection( '<p>:smiling_cat_face_with_heart-eyes:^</p>' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+				var element = CKEDITOR.document.findOne( '.cke_emoji-suggestion_item' );
+
+				assert.areEqual( element.getHtml(), '<span>😻</span> smiling_cat_face_with_heart-eyes' );
 			} );
 		}
 	};

@@ -10,6 +10,10 @@
 	font-family: sans-serif, Arial, Verdana, "Trebuchet MS", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+.cke_emoji-suggestion_item span {
+	font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
 .cke_emoji-panel {
 	width: 310px;
 	height: 300px;
