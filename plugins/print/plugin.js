@@ -15,10 +15,6 @@ CKEDITOR.plugins.add( 'print', {
 	icons: 'print,', // %REMOVE_LINE_CORE%
 	hidpi: true, // %REMOVE_LINE_CORE%
 	init: function( editor ) {
-		// Print plugin isn't available in inline mode yet.
-		if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
-			return;
-
 		var pluginName = 'print';
 
 		// Register the command.

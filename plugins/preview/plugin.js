@@ -22,11 +22,6 @@
 		icons: 'preview,preview-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-
-			// Preview is not used for the inline creator.
-			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
-				return;
-
 			pluginPath = this.path;
 
 			editor.addCommand( pluginName, previewCmd );
