@@ -32,6 +32,10 @@
 		exec: function( editor ) {
 			var previewWindow = CKEDITOR.plugins.preview.createPreview( editor ).$;
 
+			if ( !previewWindow ) {
+				return;
+			}
+
 			if ( CKEDITOR.env.gecko ) {
 				previewWindow.print();
 			} else {
