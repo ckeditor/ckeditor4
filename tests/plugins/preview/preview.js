@@ -29,7 +29,22 @@ bender.test( {
 
 	// (#3661)
 	'test createPreview returns new window': function() {
-		var returnValue = CKEDITOR.plugins.preview.createPreview( this.editor );
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			assert.ignore();
+		}
+
+		var openStub = sinon.stub( window, 'open', function() {
+				return {
+					document: {
+						open: function() {},
+						write: function() {},
+						close: function() {}
+					}
+				};
+			} ),
+			returnValue = CKEDITOR.plugins.preview.createPreview( this.editor );
+
+		openStub.restore();
 
 		assert.isInstanceOf( CKEDITOR.dom.window, returnValue );
 	}
