@@ -831,7 +831,6 @@
 				'background:transparent',
 				'background-color:none',
 				'background:none',
-				'text-align:start',
 				'background-position:initial initial',
 				'background-repeat:initial initial',
 				'caret-color',
