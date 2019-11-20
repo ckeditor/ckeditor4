@@ -38,6 +38,7 @@
 			var sHTML,
 				config = editor.config,
 				baseTag = config.baseHref ? '<base href="' + config.baseHref + '"/>' : '',
+				pluginPath = CKEDITOR.plugins.getPath( 'preview' ),
 				eventData;
 
 			if ( config.fullPage )
@@ -60,6 +61,7 @@
 						baseTag +
 						'<title>' + editor.lang.preview.preview + '</title>' +
 						CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss ) +
+						'<link rel="stylesheet" media="screen" href="' + pluginPath + '/styles/screen.css">' +
 					'</head>' + bodyHtml +
 						editor.getData() +
 					'</body></html>';
