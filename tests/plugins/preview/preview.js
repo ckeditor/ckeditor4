@@ -47,5 +47,19 @@ bender.test( {
 		openStub.restore();
 
 		assert.isInstanceOf( CKEDITOR.dom.window, returnValue );
+	},
+
+	// (#3661)
+	'test preview command is available in inline editor': function() {
+		bender.editorBot.create( {
+			name: 'inline',
+			creator: 'inline',
+			startupData: '<p>Foo</p>',
+			config: {
+				plugins: 'preview'
+			}
+		}, function( bot ) {
+			assert.isNotUndefined( bot.editor.getCommand( 'preview' ), 'Command is registered' );
+		} );
 	}
 } );

@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 3661, 4.14.0, feature
-@bender-ckeditor-plugins: wysiwygarea, print, font, colorbutton, format, clipboard, pagebreak, toolbar
+@bender-ckeditor-plugins: wysiwygarea, print, font, colorbutton, format, clipboard, pagebreak, toolbar, floatingspace
 
 Things to check:
 
