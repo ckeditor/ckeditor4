@@ -31,13 +31,15 @@ CKEDITOR.plugins.add( 'print', {
 
 CKEDITOR.plugins.print = {
 	exec: function( editor ) {
-		var previewWindow = CKEDITOR.plugins.preview.createPreview( editor );
+		var previewWindow = CKEDITOR.plugins.preview.createPreview( editor ).$;
 
 		if ( CKEDITOR.env.gecko ) {
-			previewWindow.$.print();
+			previewWindow.print();
 		} else {
-			previewWindow.$.document.execCommand( 'Print' );
+			previewWindow.document.execCommand( 'Print' );
 		}
+
+		previewWindow.close();
 	},
 	canUndo: false,
 	readOnly: 1,
