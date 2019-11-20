@@ -99,7 +99,7 @@
 		var pluginPath = CKEDITOR.plugins.getPath( 'preview' ),
 			config = editor.config,
 			title = editor.lang.preview.preview,
-			baseTag = config.baseHref ? '<base href="' + config.baseHref + '"/>' : '';
+			baseTag = generateBaseTag();
 
 		if ( config.fullPage ) {
 			return editor.getData().replace( /<head>/, '$&' + baseTag )
@@ -115,6 +115,28 @@
 			'</head>' + createBodyHtml() +
 				editor.getData() +
 			'</body></html>';
+
+		function generateBaseTag() {
+			var template = '<base href="{HREF}">',
+				origin = location.origin,
+				pathname = location.pathname;
+
+			if ( !config.baseHref && !CKEDITOR.env.gecko ) {
+				return '';
+			}
+
+			if ( config.baseHref ) {
+				return template.replace( '{HREF}', config.baseHref );
+			}
+
+			// As we use HTML file in Gecko, we must fix the incorrect base for
+			// relative paths.
+			pathname = pathname.split( '/' );
+			pathname.pop();
+			pathname = pathname.join( '/' );
+
+			return template.replace( '{HREF}', origin + pathname + '/' );
+		}
 
 		function createBodyHtml() {
 			var html = '<body>',
