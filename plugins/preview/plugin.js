@@ -8,11 +8,10 @@
  */
 
 ( function() {
-	var pluginPath;
+	'use strict';
 
-	var previewCmd;
-
-	var pluginName = 'preview';
+	var pluginName = 'preview',
+		previewCmd;
 
 	// Register a plugin named "preview".
 	CKEDITOR.plugins.add( pluginName, {
@@ -22,8 +21,6 @@
 		icons: 'preview,preview-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			pluginPath = this.path;
-
 			editor.addCommand( pluginName, previewCmd );
 			editor.ui.addButton && editor.ui.addButton( 'Preview', {
 				label: editor.lang.preview.preview,
@@ -35,96 +32,45 @@
 
 	CKEDITOR.plugins.preview = {
 		createPreview: function( editor ) {
-			var sHTML,
-				config = editor.config,
-				baseTag = config.baseHref ? '<base href="' + config.baseHref + '"/>' : '',
-				pluginPath = CKEDITOR.plugins.getPath( 'preview' ),
-				eventData;
-
-			if ( config.fullPage )
-				sHTML = editor.getData().replace( /<head>/, '$&' + baseTag ).replace( /[^>]*(?=<\/title>)/, '$& &mdash; ' + editor.lang.preview.preview );
-			else {
-				var bodyHtml = '<body ',
-					body = editor.document && editor.document.getBody();
-
-				if ( body ) {
-					if ( body.getAttribute( 'id' ) )
-						bodyHtml += 'id="' + body.getAttribute( 'id' ) + '" ';
-					if ( body.getAttribute( 'class' ) )
-						bodyHtml += 'class="' + body.getAttribute( 'class' ) + '" ';
-				}
-
-				bodyHtml += '>';
-
-				sHTML = editor.config.docType + '<html dir="' + editor.config.contentsLangDirection + '">' +
-					'<head>' +
-						baseTag +
-						'<title>' + editor.lang.preview.preview + '</title>' +
-						CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss ) +
-						'<link rel="stylesheet" media="screen" href="' + pluginPath + '/styles/screen.css">' +
-					'</head>' + bodyHtml +
-						editor.getData() +
-					'</body></html>';
-			}
-
-			var iWidth = 640,
-				// 800 * 0.8,
-				iHeight = 420,
-				// 600 * 0.7,
-				iLeft = 80; // (800 - 0.8 * 800) /2 = 800 * 0.1.
-			try {
-				var screen = window.screen;
-				iWidth = Math.round( screen.width * 0.8 );
-				iHeight = Math.round( screen.height * 0.7 );
-				iLeft = Math.round( screen.width * 0.1 );
-			} catch ( e ) {}
+			var previewHtml = createPreviewHtml( editor ),
+				eventData = { dataValue: previewHtml },
+				windowDimensions = getWindowDimensions(),
+				// For IE we should use window.location rather than setting url in window.open (https://dev.ckeditor.com/ticket/11146).
+				previewLocation = getPreviewLocation(),
+				previewUrl = getPreviewUrl(),
+				previewWindow,
+				doc;
 
 			// (https://dev.ckeditor.com/ticket/9907) Allow data manipulation before preview is displayed.
 			// Also don't open the preview window when event cancelled.
-			if ( editor.fire( 'contentPreview', eventData = { dataValue: sHTML } ) === false )
+			if ( editor.fire( 'contentPreview', eventData ) === false ) {
 				return false;
-
-			var sOpenUrl = '',
-				ieLocation;
-
-			if ( CKEDITOR.env.ie ) {
-				window._cke_htmlToLoad = eventData.dataValue;
-				ieLocation = 'javascript:void( (function(){' + // jshint ignore:line
-					'document.open();' +
-					// Support for custom document.domain.
-					// Strip comments and replace parent with window.opener in the function body.
-					( '(' + CKEDITOR.tools.fixDomain + ')();' ).replace( /\/\/.*?\n/g, '' ).replace( /parent\./g, 'window.opener.' ) +
-					'document.write( window.opener._cke_htmlToLoad );' +
-					'document.close();' +
-					'window.opener._cke_htmlToLoad = null;' +
-				'})() )';
-				// For IE we should use window.location rather than setting url in window.open. (https://dev.ckeditor.com/ticket/11146)
-				sOpenUrl = '';
 			}
 
-			// With Firefox only, we need to open a special preview page, so
-			// anchors will work properly on it. (https://dev.ckeditor.com/ticket/9047)
-			if ( CKEDITOR.env.gecko ) {
+			// In cases where we force reloading the location or setting concrete URL to open,
+			// we need a way to pass content to the opened window. We do it by hack with
+			// passing it through window's parent property.
+			if ( previewLocation || previewUrl ) {
 				window._cke_htmlToLoad = eventData.dataValue;
-				sOpenUrl = CKEDITOR.getUrl( pluginPath + 'preview.html' );
 			}
 
-			var oWindow = window.open( sOpenUrl, null, 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=' +
-				iWidth + ',height=' + iHeight + ',left=' + iLeft );
+			previewWindow = window.open( previewUrl, null, generateWindowOptions( windowDimensions ) );
 
-			// For IE we want to assign whole js stored in ieLocation, but in case of
-			// popup blocker activation oWindow variable will be null. (https://dev.ckeditor.com/ticket/11597)
-			if ( CKEDITOR.env.ie && oWindow )
-				oWindow.location = ieLocation;
+			// For IE we want to assign whole js stored in previewLocation, but in case of
+			// popup blocker activation oWindow variable will be null (https://dev.ckeditor.com/ticket/11597).
+			if ( previewLocation && previewWindow ) {
+				previewWindow.location = previewLocation;
+			}
 
-			if ( !CKEDITOR.env.ie && !CKEDITOR.env.gecko ) {
-				var doc = oWindow.document;
+			if ( !window._cke_htmlToLoad ) {
+				doc = previewWindow.document;
+
 				doc.open();
 				doc.write( eventData.dataValue );
 				doc.close();
 			}
 
-			return new CKEDITOR.dom.window( oWindow );
+			return new CKEDITOR.dom.window( previewWindow );
 		}
 	};
 
@@ -137,6 +83,109 @@
 		readOnly: 1,
 		exec: CKEDITOR.plugins.preview.createPreview
 	};
+
+	function createPreviewHtml( editor ) {
+		var pluginPath = CKEDITOR.plugins.getPath( 'preview' ),
+			config = editor.config,
+			title = editor.lang.preview.preview,
+			baseTag = config.baseHref ? '<base href="' + config.baseHref + '"/>' : '';
+
+		if ( config.fullPage ) {
+			return editor.getData().replace( /<head>/, '$&' + baseTag )
+				.replace( /[^>]*(?=<\/title>)/, '$& &mdash; ' + title );
+		}
+
+		return config.docType + '<html dir="' + config.contentsLangDirection + '">' +
+			'<head>' +
+				baseTag +
+				'<title>' + title + '</title>' +
+				CKEDITOR.tools.buildStyleHtml( config.contentsCss ) +
+				'<link rel="stylesheet" media="screen" href="' + pluginPath + '/styles/screen.css">' +
+			'</head>' + createBodyHtml() +
+				editor.getData() +
+			'</body></html>';
+
+		function createBodyHtml() {
+			var html = '<body>',
+				body = editor.document && editor.document.getBody();
+
+			if ( !body ) {
+				return html;
+			}
+
+			if ( body.getAttribute( 'id' ) ) {
+				html = html.replace( '>', ' id="' + body.getAttribute( 'id' ) + '">' );
+			}
+
+			if ( body.getAttribute( 'class' ) ) {
+				html = html.replace( '>', ' class="' + body.getAttribute( 'class' ) + '">' );
+			}
+
+			return html;
+		}
+	}
+
+	function getWindowDimensions() {
+		try {
+			var screen = window.screen;
+
+			return {
+				width: Math.round( screen.width * 0.8 ),
+				height: Math.round( screen.height * 0.7 ),
+				left: Math.round( screen.width * 0.1 )
+			};
+		} catch ( e ) {
+			return {
+				width: 640,
+				// 800 * 0.8,
+				height: 420,
+				// 600 * 0.7,
+				left: 80 // (800 - 0.8 * 800) /2 = 800 * 0.1
+			};
+		}
+	}
+
+	function generateWindowOptions( dimensions ) {
+		return [
+			'toolbar=yes',
+			'location=no',
+			'status=yes',
+			'menubar=yes',
+			'scrollbars=yes',
+			'resizable=yes',
+			'width=' + dimensions.width,
+			'height=' + dimensions.height,
+			'left=' + dimensions.left
+		].join( ',' );
+	}
+
+	function getPreviewLocation() {
+		if ( !CKEDITOR.env.ie ) {
+			return;
+		}
+
+		return 'javascript:void( (function(){' + // jshint ignore:line
+			'document.open();' +
+			// Support for custom document.domain.
+			// Strip comments and replace parent with window.opener in the function body.
+			( '(' + CKEDITOR.tools.fixDomain + ')();' ).replace( /\/\/.*?\n/g, '' ).replace( /parent\./g, 'window.opener.' ) +
+			'document.write( window.opener._cke_htmlToLoad );' +
+			'document.close();' +
+			'window.opener._cke_htmlToLoad = null;' +
+		'})() )';
+	}
+
+	function getPreviewUrl() {
+		var pluginPath = CKEDITOR.plugins.getPath( 'preview' );
+
+		if ( !CKEDITOR.env.gecko ) {
+			return '';
+		}
+
+		// With Firefox only, we need to open a special preview page, so
+		// anchors will work properly on it (https://dev.ckeditor.com/ticket/9047).
+		return CKEDITOR.getUrl( pluginPath + 'preview.html' );
+	}
 } )();
 
 /**
