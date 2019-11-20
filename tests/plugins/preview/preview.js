@@ -25,5 +25,12 @@ bender.test( {
 		editor.execCommand( 'preview' );
 
 		tc.wait();
+	},
+
+	// (#3661)
+	'test createPreview returns new window': function() {
+		var returnValue = CKEDITOR.plugins.preview.createPreview( this.editor );
+
+		assert.isInstanceOf( CKEDITOR.dom.window, returnValue );
 	}
 } );
