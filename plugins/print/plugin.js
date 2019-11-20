@@ -28,6 +28,14 @@
 		}
 	} );
 
+	/**
+	 * Allows to customise implementation of printing the editor's content,
+	 * provided by [Print](https://ckeditor.com/cke4/addon/print) plugin.
+	 * The provided value should be of {@link CKEDITOR.commandDefinition} type.
+	 *
+	 * @singleton
+	 * @class CKEDITOR.plugins.print
+	 */
 	CKEDITOR.plugins.print = {
 		exec: function( editor ) {
 			var previewWindow = CKEDITOR.plugins.preview.createPreview( editor ).$;
