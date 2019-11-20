@@ -50,7 +50,7 @@
 			);
 		},
 
-		'test common filter should remove superflous styles': function() {
+		'test common filter should remove superfluous styles': function() {
 			var input = '<p style="' +
 				'background-color: transparent;' +
 				'background: transparent;' +
