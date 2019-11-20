@@ -35,10 +35,12 @@ CKEDITOR.plugins.add( 'print', {
 
 CKEDITOR.plugins.print = {
 	exec: function( editor ) {
+		var previewWindow = CKEDITOR.plugins.preview.createPreview( editor );
+
 		if ( CKEDITOR.env.gecko ) {
-			editor.window.$.print();
+			previewWindow.$.print();
 		} else {
-			editor.document.$.execCommand( 'Print' );
+			previewWindow.$.document.execCommand( 'Print' );
 		}
 	},
 	canUndo: false,
