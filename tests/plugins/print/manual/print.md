@@ -5,4 +5,5 @@
 Things to check:
 
 * There are both "Preview" and "Print" buttons in the toolbar.
-* "Print" button prints the same document as in preview. **Note**: preview shows pagebreak element as it is not possible to render new page in HTML. However this element should not be visible on printed document.
+* "Print" button prints the same document as in preview. **Note**: preview shows pagebreak element, in all browsers except IE8, as it is not possible to render new page in HTML. However this element should not be visible on printed document.
+* Preview is closed after confirming/dismissing native print dialog.
