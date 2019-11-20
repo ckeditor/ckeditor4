@@ -13,6 +13,7 @@ bender.test( {
 				return {
 					$: {
 						print: function() {},
+						close: function() {},
 						document: {
 							execCommand: function() {}
 						}
@@ -25,6 +26,25 @@ bender.test( {
 				createPreviewStub.restore();
 
 				assert.areSame( 1, createPreviewStub.callCount );
+			} );
+		} );
+
+		editor.execCommand( 'print' );
+		wait();
+	},
+
+	// (#3661)
+	'test returning false from CKEDITOR.plugins.preview#createPreview cancels printing': function() {
+		var editor = this.editor,
+			createPreviewStub = sinon.stub( CKEDITOR.plugins.preview, 'createPreview', function() {
+				return false;
+			} );
+
+		editor.once( 'afterCommandExec', function() {
+			resume( function() {
+				createPreviewStub.restore();
+
+				assert.pass();
 			} );
 		} );
 
