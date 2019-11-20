@@ -6,7 +6,7 @@
 /* globals CKEDITOR */
 
 // This filter could be one day merged to common filter. However currently pasteTools.createFilter doesn't pass additional arguments,
-// so it's not possible to pass rtf clipboard to it.
+// so it's not possible to pass rtf clipboard to it (#3670).
 ( function() {
 	'use strict';
 
