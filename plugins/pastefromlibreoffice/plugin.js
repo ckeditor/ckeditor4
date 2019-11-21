@@ -27,11 +27,17 @@
 				canHandle: function( evt ) {
 					var data = evt.data,
 						textHtml = data.dataTransfer.getData( 'text/html', true ) || data.dataValue,
-						hasMetaGeneratorTag = /<meta\s+name=["']?generator["']?\s+content=["']?/gi,
-						isLibreOffice = /<meta\s+name=["']?generator["']?\s+content=["']?LibreOffice/gi;
+						generatorName;
 
-					// TO DO instead of true, here might be browser sniffing. However, it should be stubbed somehow in generated tests.
-					return hasMetaGeneratorTag.test( textHtml ) ? isLibreOffice.test( textHtml ) : true;
+					// Do not run filter if there is no input data.
+					if ( !textHtml ) {
+						return false;
+					}
+
+					generatorName = CKEDITOR.plugins.pastetools.getContentGeneratorName( textHtml );
+
+					// The filter will be run also for a regular content, as there is no way to detect apropriate source under IE11 and Safari.
+					return generatorName ? generatorName === 'libreoffice' : true;
 				},
 
 				handle: function( evt, next ) {

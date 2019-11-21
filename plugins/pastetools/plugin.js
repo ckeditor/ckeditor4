@@ -61,6 +61,8 @@
 	/**
 	 * A set of paste tools helpers.
 	 *
+	 * @class
+	 * @singleton
 	 * @member CKEDITOR.plugins
 	 * @since 4.13.0
 	 */
@@ -172,6 +174,38 @@
 				} );
 
 			return config[ found ];
+		},
+
+		/**
+		 * Gets name of generator used to create given content.
+		 *
+		 * It returns `undefined` if `<meta>` tag with generator name was not present.
+		 * It returns `'unknown'` if `<meta>` tag has generator other than `'microsoft'` or `'libreoffice'`.
+		 *
+		 * @member CKEDITOR.plugins.pastetools
+		 * @param {String} content clipboard data
+		 * @returns {String/undefined} name of a recognized content generator. Possible values: `'microsoft'`, `'libreoffice'`, `'unknown'`, `undefiend`.
+		 */
+		getContentGeneratorName: function( content ) {
+			var metaGeneratorTag = /<meta\s+name=["']?generator["']?\s+content=["']?(\w+)/gi,
+				result = metaGeneratorTag.exec( content ),
+				generatorName;
+
+			if ( !result || !result.length ) {
+				return;
+			}
+
+			generatorName = result[ 1 ].toLowerCase();
+
+			if ( generatorName.indexOf( 'microsoft' ) === 0 ) {
+				return 'microsoft';
+			}
+
+			if ( generatorName.indexOf( 'libreoffice' ) === 0 ) {
+				return 'libreoffice';
+			}
+
+			return 'unknown';
 		}
 	};
 

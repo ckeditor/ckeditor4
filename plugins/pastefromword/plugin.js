@@ -76,11 +76,10 @@
 					var data = evt.data,
 						// Always get raw clipboard data (#3586).
 						mswordHtml = CKEDITOR.plugins.pastetools.getClipboardData( data, 'text/html' ),
-						hasMetaGeneratorTag = /<meta\s+name=["']?generator["']?\s+content=["']?/gi,
-						officeMetaRegexp = /<meta\s+name=["']?generator["']?\s+content=["']?microsoft/gi,
+						generatorName = CKEDITOR.plugins.pastetools.getContentGeneratorName( mswordHtml ),
 						wordRegexp = /(class="?Mso|style=["'][^"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
 						// Use wordRegexp only when there is no meta generator tag in the content
-						isOfficeContent = hasMetaGeneratorTag.test( mswordHtml ) ? officeMetaRegexp.test( mswordHtml ) : wordRegexp.test( mswordHtml );
+						isOfficeContent = generatorName ? generatorName === 'microsoft' : wordRegexp.test( mswordHtml );
 
 					return mswordHtml && ( forceFromWord || isOfficeContent );
 				},
