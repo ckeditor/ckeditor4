@@ -892,7 +892,8 @@
 			// 4. Content exceedes table (#875).
 			selectionAncestor = selection.getCommonAncestor();
 			isSelectionExceedingTable = selectionAncestor &&
-				selectionAncestor.is &&
+				// `type == 1` means it's an element and has 'is()' method.
+				selectionAncestor.type == 1 &&
 				!selectionAncestor.is( 'table', 'tbody', 'tr', 'td' );
 
 			if ( isSelectionExceedingTable ) {
