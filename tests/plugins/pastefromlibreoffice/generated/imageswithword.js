@@ -30,7 +30,7 @@
 			'Images/Linked_image': true,
 			'Images/Transformed': true
 		},
-		ignoreAll: ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) || bender.tools.env.mobile,
+		ignoreAll: CKEDITOR.env.ie || bender.tools.env.mobile,
 		includeRTF: true
 	} ) );
 } )();
