@@ -866,8 +866,7 @@
 				isIgnoredTable,
 				isBoundaryWithoutTable,
 				isCollapsedPartial,
-				selectionAncestor,
-				isSelectionExceedingTable;
+				isTableElement;
 
 			// Do not customize paste process in following cases:
 			// 1. No cells are selected.
@@ -890,20 +889,16 @@
 			}
 
 			// 4. Content exceedes table (#875).
-			selectionAncestor = selection.getCommonAncestor();
-			isSelectionExceedingTable = selectionAncestor &&
-				// `type == 1` means it's an element and has 'is()' method.
-				selectionAncestor.type == 1 &&
-				!selectionAncestor.is( 'table', 'tbody', 'tr', 'td' );
+			isTableElement = rangeContainsTableElement( ranges[ 0 ] );
 
-			if ( isSelectionExceedingTable ) {
+			if ( !isTableElement ) {
 				return false;
 			}
 
 			// 5. It's single range that does not fully contain table element and is not boundary, e.g. collapsed selection within
 			// cell, part of cell etc.
 			isCollapsedPartial = selectedCells.length === 1 &&
-				!rangeContainsTableElement( selection.getRanges()[ 0 ] ) &&
+				!isTableElement &&
 				!boundarySelection;
 
 			if ( isCollapsedPartial ) {
