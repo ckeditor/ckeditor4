@@ -778,8 +778,8 @@
 		var editor = evt.editor,
 			selection = editor.getSelection(),
 			selectedCells = getSelectedCells( selection ),
-			pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue ),
 			boundarySelection = selection.isInTable( true ) && this.isBoundarySelection( selection ),
+			pastedTable,
 			tableSel,
 			selectedTable,
 			selectedTableMap,
@@ -802,6 +802,8 @@
 
 			fakeSelectCells( editor, toSelect );
 		} );
+
+		pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue );
 
 		// In case of mixed content or non table content just select first cell, and erase content of other selected cells.
 		// Selection is left in first cell, so that default CKEditor logic puts pasted content in the selection (#520).
