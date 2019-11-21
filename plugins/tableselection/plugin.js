@@ -874,24 +874,24 @@
 				return false;
 			}
 
-			// 2. Table is ignoring tableselection (#2945).
-			isIgnoredTable = table && table.hasAttribute( ignoredTableAttribute );
-
-			if ( isIgnoredTable ) {
-				return false;
-			}
-
-			// 3. It's a boundary position but with no table pasted.
+			// 2. It's a boundary position but with no table pasted.
 			isBoundaryWithoutTable = boundarySelection && !pastedTable;
 
 			if ( isBoundaryWithoutTable ) {
 				return false;
 			}
 
-			// 4. Content exceedes table (#875).
+			// 3. Content exceedes table (#875).
 			isTableElement = rangeContainsTableElement( ranges[ 0 ] );
 
 			if ( !isTableElement ) {
+				return false;
+			}
+
+			// 4. Table is ignoring tableselection (#2945).
+			isIgnoredTable = table && table.hasAttribute( ignoredTableAttribute );
+
+			if ( isIgnoredTable ) {
 				return false;
 			}
 
