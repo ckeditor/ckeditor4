@@ -785,7 +785,7 @@
 			selectedTableMap,
 			pastedTableMap;
 
-		if ( !shouldUseCustomPaste( selection, selectedCells ) ) {
+		if ( !isCustomPaste( selection, selectedCells ) ) {
 			return;
 		}
 
@@ -860,7 +860,7 @@
 			editor.fire( 'afterPaste' );
 		}, 0 );
 
-		function shouldUseCustomPaste( selection, selectedCells ) {
+		function isCustomPaste( selection, selectedCells ) {
 			var ranges = selection.getRanges(),
 				table = ranges.length && ranges[ 0 ]._getTableElement( { table: 1 } ),
 				isIgnoredTable = table && table.hasAttribute( ignoredTableAttribute ),
