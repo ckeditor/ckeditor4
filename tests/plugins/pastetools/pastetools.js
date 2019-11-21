@@ -298,8 +298,72 @@
 
 				assert.areSame( testCase.expected, value, testCase.name );
 			} );
-		}
+		},
 
+		'test getContentGeneratorName detects \'microsoft\' generators': function() {
+			var testCases = [
+					'<meta name=Generator content="Microsoft Word 15">',
+					'<meta name=Generator content="Microsoft Word 11">',
+					'<meta name=Generator content="Microsoft Excel 15">',
+					'<meta name=Generator content="Microsoft OneNote 15">',
+					'<html><meta name=Generator content="Microsoft Word 14"></html>',
+					'<meta name="Generator" content="Microsoft Word 14">',
+					'<meta name=\'Generator\' content=\'Microsoft Word 14\'>',
+					'<META NAME=GENERATOR content="Microsoft Word 15">'
+				],
+				getContentGeneratorName = CKEDITOR.plugins.pastetools.getContentGeneratorName;
+
+			CKEDITOR.tools.array.forEach( testCases, function( content, index ) {
+				assert.areSame( 'microsoft', getContentGeneratorName( content ),
+					'The content number: ' + index + ', should return "microsoft" string.' );
+			} );
+		},
+
+		'test getContentGeneratorName detects \'libreoffice\' generators': function() {
+			var testCases = [
+					'<meta name="generator" content="LibreOffice 6.3.2.2 (MacOSX)"/>',
+					'<meta name="generator" content="LibreOffice 6.3.2.2 (Windows)"/>',
+					'<html><meta name="generator" content="LibreOffice 6.3.2.2 (Windows)"/></html>',
+					'<meta name=generator content=LibreOffice 6.3.2.2 (MacOSX) />',
+					'<meta name=\'generator\' content=\'LibreOffice 6.3.2.2 (MacOSX)\'/>',
+					'<META NAME=GENERATOR content="LibreOffice 6.3.2.2 (MacOSX)"/>'
+				],
+				getContentGeneratorName = CKEDITOR.plugins.pastetools.getContentGeneratorName;
+
+			CKEDITOR.tools.array.forEach( testCases, function( content, index ) {
+				assert.areSame( 'libreoffice', getContentGeneratorName( content ),
+					'The content number: ' + index + ', should return "libreoffice" string.' );
+			} );
+		},
+
+		'test getContentGeneratorName detects \'unknown\' generators': function() {
+			var testCases = [
+					'<meta name=Generator content="Foo">',
+					'<meta name=Generator content=Foo>',
+					'<meta name=Generator content="Fake Microsoft">',
+					'<meta name=\'Generator\' content=\'Foo\'>'
+				],
+				getContentGeneratorName = CKEDITOR.plugins.pastetools.getContentGeneratorName;
+
+			CKEDITOR.tools.array.forEach( testCases, function( content, index ) {
+				assert.areSame( 'unknown', getContentGeneratorName( content ),
+					'The content number: ' + index + ', should return "unknown" string.' );
+			} );
+		},
+
+		'test getContentGeneratorName detects undefined generators': function() {
+			var testCases = [
+					'',
+					'foo bar',
+					'<html><meta name=sth content="not generator" /></html'
+				],
+				getContentGeneratorName = CKEDITOR.plugins.pastetools.getContentGeneratorName;
+
+			CKEDITOR.tools.array.forEach( testCases, function( content, index ) {
+				assert.isUndefined( getContentGeneratorName( content ),
+					'The content number: ' + index + ', should return undefiend' );
+			} );
+		}
 	} );
 
 	bender.test( tests );
