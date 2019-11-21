@@ -863,30 +863,49 @@
 		function isCustomPaste( selection, selectedCells ) {
 			var ranges = selection.getRanges(),
 				table = ranges.length && ranges[ 0 ]._getTableElement( { table: 1 } ),
-				isIgnoredTable = table && table.hasAttribute( ignoredTableAttribute ),
-				collapsedPartial = selectedCells.length === 1 && !rangeContainsTableElement( selection.getRanges()[ 0 ] ) && !boundarySelection,
-				boundaryWithoutTable = boundarySelection && !pastedTable;
+				isIgnoredTable,
+				isBoundaryWithoutTable,
+				isCollapsedPartial,
+				selectionAncestor,
+				isSelectionExceedingTable;
 
-			// (#2945)
+			// Do not customize paste process in following cases:
+			// 1. No cells are selected.
+			if ( !selectedCells.length ) {
+				return false;
+			}
+
+			// 2. Table is ignoring tableselection (#2945).
+			isIgnoredTable = table && table.hasAttribute( ignoredTableAttribute );
+
 			if ( isIgnoredTable ) {
 				return false;
 			}
 
-			var selectionAncestor = selection.getCommonAncestor(),
-				selectionExceedesTable = selectionAncestor &&
-					selectionAncestor.is &&
-					!selectionAncestor.is( 'table', 'tbody', 'tr', 'td' );
+			// 3. It's a boundary position but with no table pasted.
+			isBoundaryWithoutTable = boundarySelection && !pastedTable;
 
-			// Do not customize paste process in following cases:
-			// No cells are selected.
-			if ( !selectedCells.length ||
-				// It's single range that does not fully contain table element and is not boundary, e.g. collapsed selection within
-				// cell, part of cell etc.
-				collapsedPartial ||
-				// It's a boundary position but with no table pasted.
-				boundaryWithoutTable ||
-				// Content exceedes table (#875).
-				selectionExceedesTable ) {
+			if ( isBoundaryWithoutTable ) {
+				return false;
+			}
+
+			// 4. Content exceedes table (#875).
+			selectionAncestor = selection.getCommonAncestor();
+			isSelectionExceedingTable = selectionAncestor &&
+				selectionAncestor.is &&
+				!selectionAncestor.is( 'table', 'tbody', 'tr', 'td' );
+
+			if ( isSelectionExceedingTable ) {
+				return false;
+			}
+
+			// 5. It's single range that does not fully contain table element and is not boundary, e.g. collapsed selection within
+			// cell, part of cell etc.
+			isCollapsedPartial = selectedCells.length === 1 &&
+				!rangeContainsTableElement( selection.getRanges()[ 0 ] ) &&
+				!boundarySelection;
+
+			if ( isCollapsedPartial ) {
 				return false;
 			}
 
