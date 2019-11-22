@@ -779,7 +779,7 @@
 			selection = editor.getSelection(),
 			selectedCells = getSelectedCells( selection ),
 			boundarySelection = selection.isInTable( true ) && this.isBoundarySelection( selection ),
-			pastedTable,
+			pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue ),
 			tableSel,
 			selectedTable,
 			selectedTableMap,
@@ -803,7 +803,6 @@
 			fakeSelectCells( editor, toSelect );
 		} );
 
-		pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue );
 
 		// In case of mixed content or non table content just select first cell, and erase content of other selected cells.
 		// Selection is left in first cell, so that default CKEditor logic puts pasted content in the selection (#520).
@@ -875,10 +874,15 @@
 			}
 
 			// 2. It's a boundary position but with no table pasted.
-			isBoundaryWithoutTable = boundarySelection && !pastedTable;
+			isBoundaryWithoutTable = ( boundarySelection && !pastedTable );
 
 			if ( isBoundaryWithoutTable ) {
 				return false;
+			}
+
+			// 2.1 If it's boundary position and table is pasted, proceed with custom paste.
+			if ( boundarySelection ) {
+				return true;
 			}
 
 			// 3. Content exceedes table (#875).
