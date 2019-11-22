@@ -276,7 +276,7 @@
  * article to learn more.
  *
  * @event contentPreview
- * @member CKEDITOR
+ * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
  * @param {String} data.dataValue The data that will go to the preview.
