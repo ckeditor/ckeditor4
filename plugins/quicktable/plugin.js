@@ -44,8 +44,8 @@
 	} );
 
 	function initializeGridFeature( editor, element ) {
-		var grid = createGridElement( GRID_SIZE ),
-			status = createStatusElement();
+		var status = createStatusElement(),
+			grid = createGridElement( GRID_SIZE, status.getId() );
 
 		element.append( grid );
 		element.append( status );
@@ -71,24 +71,19 @@
 
 	var gridTemplate = new CKEDITOR.template( '<div' +
 			' class="cke_quicktable_grid"' +
-			' role="grid"' +
-			' aria-rowcount="{rowCount}"' +
-			' aria-colcount="{colCount}"' +
+			' role="menu"' +
 			'></div>'
 		),
 		rowTemplate = new CKEDITOR.template( '<div' +
 			' class="cke_quicktable_row"' +
-			' role="row"' +
 			'></div>'
 		),
 		cellTemplate = new CKEDITOR.template( '<a' +
 			' class="cke_quicktable_cell"' +
 			' _cke_focus=1' +
 			' hidefocus=true' +
-			' title="{title}"' +
-			' role="gridcell"' +
-			' aria-rowindex="{rowIndex}"' +
-			' aria-colindex="{colIndex}"' +
+			' role="menuitem"' +
+			' aria-labelledby="{statusId}"' +
 			' draggable="false"' +
 			' ondragstart="return false;"' +
 			' href="javascript:void(0);"' +
@@ -96,20 +91,15 @@
 			'</a>'
 		);
 
-	function createGridElement( size ) {
-		var grid = createElementFromTemplate( gridTemplate, {
-			rowCount: size,
-			colCount: size
-		} );
+	function createGridElement( size, statusId ) {
+		var grid = createElementFromTemplate( gridTemplate );
 
 		for ( var i = 0; i < size; i++ ) {
 			var row = createElementFromTemplate( rowTemplate );
 
 			for ( var j = 0; j < size; j++ ) {
 				var cell = createElementFromTemplate( cellTemplate, {
-					title: 'title',
-					rowIndex: i,
-					colIndex: j
+					statusId: statusId
 				} );
 
 				cell.on( 'focus', handleGridSelection );
@@ -131,6 +121,7 @@
 
 		element.addClass( 'cke_quicktable_status' );
 		element.setText( '0 x 0' );
+		element.setAttribute( 'id', CKEDITOR.tools.getNextId() + '_quicktable_status' );
 
 		return element;
 	}
