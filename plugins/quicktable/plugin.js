@@ -8,6 +8,7 @@
  */
 
 ( function() {
+	var GRID_SIZE = 10;
 
 	CKEDITOR.plugins.add( 'quicktable', {
 		requires: 'panelbutton,floatpanel',
@@ -27,9 +28,10 @@
 				toolbar: 'insert,10',
 				onBlock: function( panel, block ) {
 					initializeGridFeature( editor, block.element );
-					handleKeyoardNavigation( block.keys, editor.lang.dir == 'rtl' );
+					handleKeyoardNavigation( block, editor.lang.dir == 'rtl' );
 
 					block.autoSize = true;
+					block.vNavOffset = GRID_SIZE;
 
 					CKEDITOR.ui.fire( 'ready', this );
 				},
@@ -42,7 +44,7 @@
 	} );
 
 	function initializeGridFeature( editor, element ) {
-		var grid = createGridElement( 10, 10 ),
+		var grid = createGridElement( GRID_SIZE ),
 			status = createStatusElement();
 
 		element.append( grid );
@@ -55,12 +57,14 @@
 		element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 	}
 
-	function handleKeyoardNavigation( keys, rtl ) {
+	function handleKeyoardNavigation( block, rtl ) {
+		var keys = block.keys;
+
 		keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
 		keys[ 40 ] = 'down'; // ARROW-DOWN
 		keys[ 9 ] = 'next'; // TAB
 		keys[ rtl ? 39 : 37 ] = 'prev'; // ARROW-LEFT
-		keys[ 38 ] = 'top'; // ARROW-UP
+		keys[ 38 ] = 'up'; // ARROW-UP
 		keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 		keys[ 32 ] = 'click'; // SPACE
 	}
@@ -92,16 +96,16 @@
 			'</a>'
 		);
 
-	function createGridElement( rows, cols ) {
+	function createGridElement( size ) {
 		var grid = createElementFromTemplate( gridTemplate, {
-			rowCount: rows,
-			colCount: cols
+			rowCount: size,
+			colCount: size
 		} );
 
-		for ( var i = 0; i < rows; i++ ) {
+		for ( var i = 0; i < size; i++ ) {
 			var row = createElementFromTemplate( rowTemplate );
 
-			for ( var j = 0; j < cols; j++ ) {
+			for ( var j = 0; j < size; j++ ) {
 				var cell = createElementFromTemplate( cellTemplate, {
 					title: 'title',
 					rowIndex: i,

@@ -289,6 +289,7 @@
 			} );
 
 			this.keys = {};
+			this.vNavOffset = 0;
 
 			this._.focusIndex = -1;
 
@@ -382,61 +383,86 @@
 					this.element.setStyle( 'display', 'none' );
 			},
 
-			onKeyDown: function( keystroke, noCycle ) {
-				var keyAction = this.keys[ keystroke ];
+			focusPrev: function( index ) {
+				var focusables = this._.getItems(),
+					focusable;
+
+				while ( index >= 0 && ( focusable = focusables.getItem( index ) ) ) {
+					if ( this.focusItem( focusable ) ) {
+						this._.focusIndex = index;
+						return true;
+					}
+
+					index--;
+				}
+
+				return false;
+			},
+
+			focusNext: function( index ) {
+				var focusables = this._.getItems(),
+					focusable;
+
+				while ( ( focusable = focusables.getItem( index ) ) ) {
+					if ( this.focusItem( focusable ) ) {
+						this._.focusIndex = index;
+						return true;
+					}
+
+					index++;
+				}
+
+				return false;
+			},
+
+			focusItem: function( element ) {
+				// Checking offset width verifies if element is visible.
+				if ( element.getAttribute( '_cke_focus' ) && element.$.offsetWidth ) {
+					element.focus( true );
+					return true;
+				}
+
+				return false;
+			},
+
+			handleKeyboardFocus: function( keyAction ) {
+				var focusable, index;
+
 				switch ( keyAction ) {
-					// Move forward.
 					case 'next':
-						var index = this._.focusIndex,
-							focusables = this._.getItems(),
-							focusable;
-
-						while ( ( focusable = focusables.getItem( ++index ) ) ) {
-							// Move the focus only if the element is marked with
-							// the _cke_focus and it it's visible (check if it has
-							// width).
-							if ( focusable.getAttribute( '_cke_focus' ) && focusable.$.offsetWidth ) {
-								this._.focusIndex = index;
-								focusable.focus( true );
-								break;
-							}
-						}
-
 						// If no focusable was found, cycle and restart from the top. (https://dev.ckeditor.com/ticket/11125)
-						if ( !focusable && !noCycle ) {
-							this._.focusIndex = -1;
-							return this.onKeyDown( keystroke, 1 );
+						if ( !this.focusNext( this._.focusIndex + 1 ) ) {
+							this.focusNext( 0 );
 						}
 
-						return false;
-
-						// Move backward.
+						return true;
 					case 'prev':
-						index = this._.focusIndex;
-						focusables = this._.getItems();
-
-						while ( index > 0 && ( focusable = focusables.getItem( --index ) ) ) {
-							// Move the focus only if the element is marked with
-							// the _cke_focus and it it's visible (check if it has
-							// width).
-							if ( focusable.getAttribute( '_cke_focus' ) && focusable.$.offsetWidth ) {
-								this._.focusIndex = index;
-								focusable.focus( true );
-								break;
-							}
-
-							// Make sure focusable is null when the loop ends and nothing was
-							// found (https://dev.ckeditor.com/ticket/11125).
-							focusable = null;
-						}
-
 						// If no focusable was found, cycle and restart from the bottom. (https://dev.ckeditor.com/ticket/11125)
-						if ( !focusable && !noCycle ) {
-							this._.focusIndex = focusables.count();
-							return this.onKeyDown( keystroke, 1 );
+						if ( !this.focusPrev( this._.focusIndex - 1 ) ) {
+							this._.focusIndex = -1;
+							this.focusPrev( this._.getItems().count() - 1 );
 						}
 
-						return false;
+						return true;
+					case 'up':
+						index = this._.focusIndex;
+						// If no focusable was found, cycle and restart from the bottom. (https://dev.ckeditor.com/ticket/11125)
+						if ( !this.focusPrev( index - this.vNavOffset ) ) {
+							var indexOffset = this.vNavOffset - index;
+							this.focusPrev( this._.getItems().count() - indexOffset );
+						}
+
+						return true;
+
+					case 'down':
+						index = this._.focusIndex;
+						// If no focusable was found, cycle and restart from the top. (https://dev.ckeditor.com/ticket/11125)
+						if ( !this.focusNext( index + this.vNavOffset ) ) {
+							this._.focusIndex = -1;
+							this.focusNext( index % this.vNavOffset );
+						}
+
+						return true;
 
 					case 'click':
 					case 'mouseup':
@@ -450,10 +476,14 @@
 							} );
 						}
 
-						return false;
+						return true;
 				}
 
-				return true;
+				return false;
+			},
+
+			onKeyDown: function( keystroke ) {
+				return !this.handleKeyboardFocus( this.keys[ keystroke ] );
 			}
 		}
 	} );
