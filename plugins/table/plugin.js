@@ -59,6 +59,15 @@ CKEDITOR.plugins.add( 'table', {
 			]
 		} ) );
 
+		// (#3654)
+		if ( editor.plugins.quicktable ) {
+			CKEDITOR.plugins.quicktable.init( editor, {
+				name: 'table',
+				label: lang.insert,
+				title: lang.insert
+			} );
+		}
+
 		function createDef( def ) {
 			return CKEDITOR.tools.extend( def || {}, {
 				contextSensitive: 1,

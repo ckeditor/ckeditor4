@@ -1,15 +1,20 @@
 .cke_quicktable {
 	padding: 10px;
-	font-size: 11px;
 	text-align: center;
 	outline: none;
+	font-size: 11px;
+	font-family: 'Microsoft Sans Serif', Tahoma, Arial, Verdana, Sans-Serif;
+}
+
+.cke_quicktable_status {
+	margin-top: 6px;
 }
 
 .cke_quicktable_row {
-	width: 200px;
 	display: block;
 	padding: 0;
 	margin: 0;
+	width: 200px
 }
 
 .cke_quicktable_cell {
@@ -30,4 +35,29 @@
 .cke_quicktable_selected {
 	border-color: #53a0e4;
 	background-color: #c7e5ff;
+}
+
+.cke_quicktable_button {
+	color: #000;
+	border: #fff 1px solid;
+	line-height: 20px;
+	margin: 0 6px 10px 6px;
+	height: 20px;
+	padding: 3px 3px 3px 25px;
+	display: block;
+	cursor: pointer;
+	outline: none;
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: 5px center;
+}
+
+.cke_quicktable_button:hover {
+	border-color: #bcbcbc;
+	background-color: #f8f8f8;
+}
+
+.cke_quicktable_button:focus {
+	border-color: #139FF7;
+	background-color: #f8f8f8;
 }

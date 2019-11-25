@@ -11,22 +11,22 @@
 	var GRID_SIZE = 10;
 
 	CKEDITOR.plugins.add( 'quicktable', {
-		requires: 'panelbutton,floatpanel',
-		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
-		// jscs:enable maximumLineLength
-		icons: 'quicktable', // %REMOVE_LINE_CORE%
-		hidpi: true, // %REMOVE_LINE_CORE%
+		requires: 'panelbutton,floatpanel'
+	} );
 
-		init: function( editor ) {
-			var lang = editor.lang.quicktable;
+	CKEDITOR.plugins.quicktable = {
+		init: function( editor, definition ) {
+			var lang = editor.lang,
+				path = editor.plugins.quicktable.path;
 
 			editor.ui.add( 'quicktable', CKEDITOR.UI_PANELBUTTON, {
-				label: lang.title,
-				title: lang.title,
+				icon: definition.icon || definition.name,
+				label: definition.label,
+				title: definition.title,
 				modes: { wysiwyg: 1 },
 				toolbar: 'insert,10',
 				onBlock: function( panel, block ) {
+					addAdvancedButton( editor, block.element, definition );
 					initializeGridFeature( editor, block.element );
 					handleKeyoardNavigation( block, editor.lang.dir == 'rtl' );
 
@@ -36,12 +36,12 @@
 					CKEDITOR.ui.fire( 'ready', this );
 				},
 				panel: {
-					css: this.path + 'skins/default.css',
+					css: path + 'skins/default.css',
 					attributes: { role: 'listbox', 'aria-label': lang.insert }
 				}
 			} );
 		}
-	} );
+	};
 
 	function initializeGridFeature( editor, element ) {
 		var status = createStatusElement(),
@@ -79,16 +79,27 @@
 			'></div>'
 		),
 		cellTemplate = new CKEDITOR.template( '<a' +
-			' class="cke_quicktable_cell"' +
 			' _cke_focus=1' +
+			' class="cke_quicktable_cell"' +
 			' hidefocus=true' +
 			' role="menuitem"' +
 			' aria-labelledby="{statusId}"' +
 			' draggable="false"' +
 			' ondragstart="return false;"' +
 			' href="javascript:void(0);"' +
-			'>&nbsp;</span>' +
-			'</a>'
+			'>&nbsp;</a>'
+		),
+		advButtonTemplate = new CKEDITOR.template( '<a' +
+			' class="cke_quicktable_button"' +
+			' style="background-image:url(\'{iconPath}\')"' +
+			' _cke_focus=1' +
+			' title="{title}"' +
+			' hidefocus=true' +
+			' role="button"' +
+			' draggable="false"' +
+			' ondragstart="return false;"' +
+			' href="javascript:void(0);"' +
+			'>{title}</a>'
 		);
 
 	function createGridElement( size, statusId ) {
@@ -110,6 +121,22 @@
 		}
 
 		return grid;
+	}
+
+	function addAdvancedButton( editor, element, definition ) {
+		var button = createElementFromTemplate( advButtonTemplate, {
+				title: definition.title,
+				iconPath: CKEDITOR.skin.icons[ definition.name ].path
+			} ),
+			row = createElementFromTemplate( rowTemplate );
+
+		button.on( 'click', function() {
+			editor.execCommand( definition.name );
+		} );
+
+		row.append( button );
+
+		element.append( row );
 	}
 
 	function createElementFromTemplate( template, options ) {
