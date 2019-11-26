@@ -90,16 +90,16 @@
 			'>&nbsp;</a>'
 		),
 		advButtonTemplate = new CKEDITOR.template( '<a' +
-			' class="cke_quicktable_button"' +
-			' style="background-image:url(\'{iconPath}\')"' +
-			' _cke_focus=1' +
-			' title="{title}"' +
-			' hidefocus=true' +
-			' role="button"' +
-			' draggable="false"' +
-			' ondragstart="return false;"' +
-			' href="javascript:void(0);"' +
-			'>{title}</a>'
+				' class="cke_quicktable_button"' +
+				' style="background-image:url(\'{iconPath}\')"' +
+				' _cke_focus=1' +
+				' title="{title}"' +
+				' hidefocus=true' +
+				' role="button"' +
+				' draggable="false"' +
+				' ondragstart="return false;"' +
+				' href="javascript:void(0);"' +
+				'>{title}</a>'
 		);
 
 	function createGridElement( size, statusId ) {
@@ -116,7 +116,6 @@
 				cell.on( 'focus', handleGridSelection );
 				row.append( cell );
 			}
-
 			grid.append( row );
 		}
 
@@ -130,13 +129,42 @@
 			} ),
 			row = createElementFromTemplate( rowTemplate );
 
+		row.append( button );
+
+		// These elements won't be focused by panel plugin due to missing correct attribute and visibility,
+		// however, they will fix the issue where panel rows are not equal size for vertical navigation.
+		for ( var i = 0; i < GRID_SIZE - 1; i++ ) {
+			row.append( createFillingFocusable() );
+		}
+
+		element.append( row );
+
 		button.on( 'click', function() {
 			editor.execCommand( definition.name );
 		} );
 
-		row.append( button );
+		button.on( 'focus', function() {
+			clearSelectedCells( element );
+		} );
+	}
 
-		element.append( row );
+	function clearSelectedCells( container ) {
+		var cells = container.find( '.cke_quicktable_selected' ).toArray();
+
+		for ( var i = 0; i < cells.length; i++ ) {
+			cells[ i ].removeClass( 'cke_quicktable_selected' );
+		}
+	}
+
+	function createFillingFocusable() {
+		return CKEDITOR.dom.element.createFromHtml( '<a' +
+			' href="javascript:void(0);"' +
+			' style="display: none;"' +
+			' role="presentation" />' );
+	}
+
+	function findGridElement( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_quicktable_grid' );
 	}
 
 	function createElementFromTemplate( template, options ) {
@@ -160,9 +188,7 @@
 			return;
 		}
 
-		var grid = targetCellElement.getAscendant( function( node ) {
-				return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_quicktable_grid' );
-			} ),
+		var grid = targetCellElement.getAscendant( findGridElement ),
 			rows = grid.find( '.cke_quicktable_row' ),
 			gridData = setGridData( grid, {
 				cols: targetCellElement.getIndex() + 1,
