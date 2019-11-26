@@ -162,6 +162,31 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 		}
 	},
 
+	statics: {
+		getDefaults: function( editor ) {
+			var editable = editor.editable();
+
+			return {
+				attributes: {
+					border: editor.filter.check( 'table[border]' ) ? 1 : 0,
+					align: '',
+					width: editor.filter.check( 'table{width}' ) ? ( editable.getSize( 'width' ) < 500 ? '100%' : 500 ) : 0,
+					cellSpacing: editor.filter.check( 'table[cellspacing]' ) ? 1 : 0,
+					cellPadding: editor.filter.check( 'table[cellpadding]' ) ? 1 : 0
+				}
+			};
+		},
+
+		insert: function( editor, rows, cols ) {
+			var table = new CKEDITOR.plugins.table();
+
+			table.appendEmpty( rows, cols );
+			table.setAttributes( CKEDITOR.plugins.table.getDefaults( editor ).attributes );
+
+			table.insertToEditor( editor );
+		}
+	},
+
 	proto: {
 		rowsCount: function() {
 			return this.$.rows.length;

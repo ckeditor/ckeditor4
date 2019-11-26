@@ -29,9 +29,8 @@
 	}
 
 	function tableDialog( editor, command ) {
-		var editable = editor.editable();
-
-		var dialogadvtab = editor.plugins.dialogadvtab;
+		var dialogadvtab = editor.plugins.dialogadvtab,
+			attributes = CKEDITOR.plugins.table.getDefaults( editor ).attributes;
 
 		return {
 			title: editor.lang.table.title,
@@ -253,7 +252,7 @@
 							id: 'txtBorder',
 							requiredContent: 'table[border]',
 							// Avoid setting border which will then disappear.
-							'default': editor.filter.check( 'table[border]' ) ? 1 : 0,
+							'default': attributes.border,
 							label: editor.lang.table.border,
 							controlStyle: 'width:3em',
 							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidBorder ),
@@ -271,7 +270,7 @@
 							id: 'cmbAlign',
 							type: 'select',
 							requiredContent: 'table[align]',
-							'default': '',
+							'default': attributes.align,
 							label: editor.lang.common.align,
 							items: [
 								[ editor.lang.common.notSet, '' ],
@@ -304,7 +303,7 @@
 								label: editor.lang.common.width,
 								title: editor.lang.common.cssLengthTooltip,
 								// Smarter default table width. (https://dev.ckeditor.com/ticket/9600)
-								'default': editor.filter.check( 'table{width}' ) ? ( editable.getSize( 'width' ) < 500 ? '100%' : 500 ) : 0,
+								'default': attributes.width,
 								getValue: defaultToPixel,
 								validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength.replace( '%1', editor.lang.common.width ) ),
 								onChange: function() {
@@ -353,7 +352,7 @@
 							requiredContent: 'table[cellspacing]',
 							controlStyle: 'width:3em',
 							label: editor.lang.table.cellSpace,
-							'default': editor.filter.check( 'table[cellspacing]' ) ? 1 : 0,
+							'default': attributes.cellSpacing,
 							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidCellSpacing ),
 							setup: function( selectedTable ) {
 								this.setValue( selectedTable.getAttribute( 'cellSpacing' ) || '' );
@@ -371,7 +370,7 @@
 							requiredContent: 'table[cellpadding]',
 							controlStyle: 'width:3em',
 							label: editor.lang.table.cellPad,
-							'default': editor.filter.check( 'table[cellpadding]' ) ? 1 : 0,
+							'default': attributes.cellPadding,
 							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidCellPadding ),
 							setup: function( selectedTable ) {
 								this.setValue( selectedTable.getAttribute( 'cellPadding' ) || '' );
