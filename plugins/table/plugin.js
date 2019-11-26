@@ -64,7 +64,16 @@ CKEDITOR.plugins.add( 'table', {
 			CKEDITOR.plugins.quicktable.init( editor, {
 				name: 'table',
 				label: lang.insert,
-				title: lang.insert
+				title: lang.insert,
+				insert: function( data ) {
+					editor.openDialog( 'table', function( dialog ) {
+						dialog.once( 'show', function() {
+							dialog.getContentElement( 'info', 'txtRows' ).setValue( data.rows );
+							dialog.getContentElement( 'info', 'txtCols' ).setValue( data.cols );
+							dialog.click( 'ok' );
+						} );
+					} );
+				}
 			} );
 		}
 

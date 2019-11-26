@@ -27,7 +27,7 @@
 				toolbar: 'insert,10',
 				onBlock: function( panel, block ) {
 					addAdvancedButton( editor, block.element, definition );
-					initializeGridFeature( editor, block.element );
+					initializeGridFeature( editor, block.element, definition.insert );
 					handleKeyoardNavigation( block, editor.lang.dir == 'rtl' );
 
 					block.autoSize = true;
@@ -43,7 +43,7 @@
 		}
 	};
 
-	function initializeGridFeature( editor, element ) {
+	function initializeGridFeature( editor, element, insert ) {
 		var status = createStatusElement(),
 			grid = createGridElement( GRID_SIZE, status.getId() );
 
@@ -51,7 +51,9 @@
 		element.append( status );
 
 		grid.on( 'mouseover', handleGridSelection );
-		grid.on( 'click', commitTable, editor );
+		grid.on( 'click', function() {
+			insert( getGridData( grid ) );
+		} );
 
 		element.addClass( 'cke_quicktable' );
 		element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
@@ -218,13 +220,6 @@
 		status.setText( gridData.rows + ' x ' + gridData.cols );
 	}
 
-	function commitTable( evt ) {
-		var grid = evt.sender,
-			gridData = getGridData( grid );
-
-		this.insertElement( createTableElement( gridData ) );
-	}
-
 	function setGridData( grid, gridData ) {
 		grid.data( 'cols', gridData.cols );
 		grid.data( 'rows', gridData.rows );
@@ -245,27 +240,5 @@
 
 	function unselectGridCell( element ) {
 		element.removeClass( 'cke_quicktable_selected' );
-	}
-
-	function createTableElement( gridData ) {
-		var table = new CKEDITOR.dom.element( 'table' );
-
-		for ( var i = 0; i < gridData.rows; i++ ) {
-			var row = new CKEDITOR.dom.element( 'tr' );
-
-			for ( var j = 0; j < gridData.cols; j++ ) {
-				var cell = new CKEDITOR.dom.element( 'td' );
-				cell.setHtml( '&nbsp;' );
-				row.append( cell );
-			}
-
-			table.append( row );
-		}
-
-		table.setAttribute( 'cellspacing', 1 );
-		table.setAttribute( 'border', 1 );
-		table.setStyle( 'width', '500px' );
-
-		return table;
 	}
 } )();
