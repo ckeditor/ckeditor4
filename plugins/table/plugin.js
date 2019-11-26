@@ -59,24 +59,6 @@ CKEDITOR.plugins.add( 'table', {
 			]
 		} ) );
 
-		// (#3654)
-		if ( editor.plugins.quicktable ) {
-			CKEDITOR.plugins.quicktable.init( editor, {
-				name: 'table',
-				label: lang.insert,
-				title: lang.insert,
-				insert: function( data ) {
-					editor.openDialog( 'table', function( dialog ) {
-						dialog.once( 'show', function() {
-							dialog.getContentElement( 'info', 'txtRows' ).setValue( data.rows );
-							dialog.getContentElement( 'info', 'txtCols' ).setValue( data.cols );
-							dialog.click( 'ok' );
-						} );
-					} );
-				}
-			} );
-		}
-
 		function createDef( def ) {
 			return CKEDITOR.tools.extend( def || {}, {
 				contextSensitive: 1,
@@ -154,6 +136,192 @@ CKEDITOR.plugins.add( 'table', {
 					table: CKEDITOR.TRISTATE_OFF
 				};
 			} );
+		}
+	}
+} );
+
+CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
+
+	base: CKEDITOR.dom.element,
+
+	$: function( element, ownerDocument ) {
+		if ( element && element.getName() !== 'table' ) {
+			throw new Error( 'Expected table element.' );
+		}
+
+		element = element && element.$ || element;
+
+		this.base( element || this._.createTableElement( ownerDocument ).$, ownerDocument );
+	},
+
+	_: {
+		createTableElement: function( ownerDocument ) {
+			var table = new CKEDITOR.dom.element( 'table', ownerDocument );
+			table.append( new CKEDITOR.dom.element( 'tbody', ownerDocument ) );
+			return table;
+		}
+	},
+
+	proto: {
+		rowsCount: function() {
+			return this.$.rows.length;
+		},
+
+		columnsCount: function() {
+			var cols = 0,
+				maxCols = 0,
+				rows = this.rowsCount(),
+				cells,
+				row,
+				cell;
+
+			for ( var i = 0; i < rows; i++ ) {
+				row = this.$.rows[ i ];
+				cells = row.cells.length;
+				cols = 0;
+
+				for ( var j = 0; j < cells; j++ ) {
+					cell = row.cells[ j ];
+					cols += cell.colSpan;
+				}
+
+				if ( cols > maxCols ) {
+					maxCols = cols;
+				}
+
+			}
+			return maxCols;
+		},
+
+		hasColumnHeaders: function() {
+			if ( !this.rowsCount() ) {
+				return false;
+			}
+
+			// Check if all the first cells in every row are TH.
+			for ( var row = 0; row < this.rowsCount(); row++ ) {
+				// If just one cell isn't a TH then it isn't a header column.
+				var headCell = this.$.rows[ row ].cells[ 0 ];
+				if ( headCell && headCell.nodeName.toLowerCase() != 'th' ) {
+					return false;
+				}
+			}
+
+			return true;
+		},
+
+
+		hasRowHeaders: function() {
+			return this.getHeader() !== null;
+		},
+
+		appendEmpty: function( rows, cols ) {
+			var tbody = this.getBody();
+
+			for ( var i = 0; i < rows; i++ ) {
+				var row = tbody.append( new CKEDITOR.dom.element( 'tr' ) );
+				for ( var j = 0; j < cols; j++ ) {
+					var cell = row.append( new CKEDITOR.dom.element( 'td' ) );
+					cell.appendBogus();
+				}
+			}
+		},
+
+		moveFirstRowToHeader: function() {
+			var thead = this.getHeader(),
+				tbody = this.getBody(),
+				theRow = this.getRows().getItem( 0 );
+
+			if ( !thead ) {
+				thead = new CKEDITOR.dom.element( 'thead' );
+				thead.insertBefore( tbody );
+			}
+
+			// Change TD to TH:
+			for ( var i = 0; i < theRow.getChildCount(); i++ ) {
+				var th = theRow.getChild( i );
+				// Skip bookmark nodes. (https://dev.ckeditor.com/ticket/6155)
+				if ( th.type == CKEDITOR.NODE_ELEMENT && !th.data( 'cke-bookmark' ) ) {
+					th.renameNode( 'th' );
+					th.setAttribute( 'scope', 'col' );
+				}
+			}
+
+			thead.append( theRow.remove() );
+		},
+
+		moveHeaderRowsToBody: function() {
+			if ( !this.hasRowHeaders() ) {
+				return;
+			}
+
+			var thead = this.getHeader(),
+				tbody = this.getBody();
+
+			while ( thead.getChildCount() > 0 ) {
+				var theRow = thead.getFirst();
+				for ( var i = 0; i < theRow.getChildCount(); i++ ) {
+					var newCell = theRow.getChild( i );
+					if ( newCell.type == CKEDITOR.NODE_ELEMENT ) {
+						newCell.renameNode( 'td' );
+						newCell.removeAttribute( 'scope' );
+					}
+				}
+
+				// Append the row to the start (#1397).
+				tbody.append( theRow, true );
+			}
+			thead.remove();
+		},
+
+		convertColumnToHeader: function( index ) {
+			for ( var i = 0; i < this.rowsCount(); i++ ) {
+				var newCell = new CKEDITOR.dom.element( this.$.rows[ i ].cells[ index ] );
+				newCell.renameNode( 'th' );
+				newCell.setAttribute( 'scope', 'row' );
+			}
+		},
+
+		convertColumnHeaderToCells: function( index ) {
+			for ( var i = 0; i < this.rowsCount(); i++ ) {
+				var row = new CKEDITOR.dom.element( this.$.rows[ i ] );
+				if ( row.getParent().getName() == 'tbody' ) {
+					var newCell = new CKEDITOR.dom.element( row.$.cells[ index ] );
+					newCell.renameNode( 'td' );
+					newCell.removeAttribute( 'scope' );
+				}
+			}
+
+		},
+
+		getHeader: function() {
+			return this.findOne( 'thead' );
+		},
+
+		getBody: function() {
+			return this.findOne( 'tbody' );
+		},
+
+		getRows: function() {
+			return this.getBody().find( 'tr' );
+		},
+
+		insertToEditor: function( editor ) {
+			editor.insertElement( this );
+			var firstRow = this.$.rows[ 0 ],
+				firstCell = firstRow && firstRow.cells[ 0 ];
+
+			firstCell = new CKEDITOR.dom.element( firstCell );
+
+			if ( firstCell ) {
+				// Override the default cursor position after insertElement to place
+				// cursor inside the first cell (https://dev.ckeditor.com/ticket/7959), IE needs a while.
+				setTimeout( function() {
+					var range = editor.createRange();
+					range.moveToPosition( firstCell, CKEDITOR.POSITION_AFTER_START );
+					range.select();
+				}, 0 );
+			}
 		}
 	}
 } );

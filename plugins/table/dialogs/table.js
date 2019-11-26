@@ -13,23 +13,6 @@
 			data.info[ id ] = this.getValue();
 		};
 
-	function tableColumns( table ) {
-		var cols = 0,
-			maxCols = 0;
-		for ( var i = 0, row, rows = table.$.rows.length; i < rows; i++ ) {
-			row = table.$.rows[ i ], cols = 0;
-			for ( var j = 0, cell, cells = row.cells.length; j < cells; j++ ) {
-				cell = row.cells[ j ];
-				cols += cell.colSpan;
-			}
-
-			cols > maxCols && ( maxCols = cols );
-		}
-
-		return maxCols;
-	}
-
-
 	// Whole-positive-integer validator.
 	function validatorNum( msg ) {
 		return function() {
@@ -46,10 +29,6 @@
 	}
 
 	function tableDialog( editor, command ) {
-		var makeElement = function( name ) {
-				return new CKEDITOR.dom.element( name, editor.document );
-			};
-
 		var editable = editor.editable();
 
 		var dialogadvtab = editor.plugins.dialogadvtab;
@@ -116,6 +95,10 @@
 						table = editor.elementPath( ranges[ 0 ].getCommonAncestor( true ) ).contains( 'table', 1 );
 					}
 
+					if ( table ) {
+						table = new CKEDITOR.plugins.table( table );
+					}
+
 					// Save a reference to the selected table, and push a new set of default values.
 					this._.selectedElement = table;
 				}
@@ -139,7 +122,7 @@
 				var selection = editor.getSelection(),
 					bms = this._.selectedElement && selection.createBookmarks();
 
-				var table = this._.selectedElement || makeElement( 'table' ),
+				var table = this._.selectedElement || new CKEDITOR.plugins.table( null, editor.document ),
 					data = {};
 
 				this.commitContent( data, table );
@@ -149,17 +132,10 @@
 
 					// Generate the rows and cols.
 					if ( !this._.selectedElement ) {
-						var tbody = table.append( makeElement( 'tbody' ) ),
-							rows = parseInt( info.txtRows, 10 ) || 0,
+						var rows = parseInt( info.txtRows, 10 ) || 0,
 							cols = parseInt( info.txtCols, 10 ) || 0;
 
-						for ( var i = 0; i < rows; i++ ) {
-							var row = tbody.append( makeElement( 'tr' ) );
-							for ( var j = 0; j < cols; j++ ) {
-								var cell = row.append( makeElement( 'td' ) );
-								cell.appendBogus();
-							}
-						}
+						table.appendEmpty( rows, cols );
 					}
 
 					// Modify the table headers. Depends on having rows and cols generated
@@ -167,68 +143,22 @@
 
 					// Should we make a <thead>?
 					var headers = info.selHeaders;
-					if ( !table.$.tHead && ( headers == 'row' || headers == 'both' ) ) {
-						var thead = table.getElementsByTag( 'thead' ).getItem( 0 );
-						tbody = table.getElementsByTag( 'tbody' ).getItem( 0 );
-						var theRow = tbody.getElementsByTag( 'tr' ).getItem( 0 );
-
-						if ( !thead ) {
-							thead = new CKEDITOR.dom.element( 'thead' );
-							thead.insertBefore( tbody );
-						}
-
-						// Change TD to TH:
-						for ( i = 0; i < theRow.getChildCount(); i++ ) {
-							var th = theRow.getChild( i );
-							// Skip bookmark nodes. (https://dev.ckeditor.com/ticket/6155)
-							if ( th.type == CKEDITOR.NODE_ELEMENT && !th.data( 'cke-bookmark' ) ) {
-								th.renameNode( 'th' );
-								th.setAttribute( 'scope', 'col' );
-							}
-						}
-						thead.append( theRow.remove() );
+					if ( !table.hasRowHeaders() && ( headers == 'row' || headers == 'both' ) ) {
+						table.moveFirstRowToHeader();
 					}
 
-					if ( table.$.tHead !== null && !( headers == 'row' || headers == 'both' ) ) {
-						// Move the row out of the THead and put it in the TBody:
-						thead = new CKEDITOR.dom.element( table.$.tHead );
-						tbody = table.getElementsByTag( 'tbody' ).getItem( 0 );
-
-						while ( thead.getChildCount() > 0 ) {
-							theRow = thead.getFirst();
-							for ( i = 0; i < theRow.getChildCount(); i++ ) {
-								var newCell = theRow.getChild( i );
-								if ( newCell.type == CKEDITOR.NODE_ELEMENT ) {
-									newCell.renameNode( 'td' );
-									newCell.removeAttribute( 'scope' );
-								}
-							}
-
-							// Append the row to the start (#1397).
-							tbody.append( theRow, true );
-						}
-						thead.remove();
+					if ( !( headers == 'row' || headers == 'both' ) ) {
+						table.moveHeaderRowsToBody();
 					}
 
 					// Should we make all first cells in a row TH?
 					if ( !this.hasColumnHeaders && ( headers == 'col' || headers == 'both' ) ) {
-						for ( row = 0; row < table.$.rows.length; row++ ) {
-							newCell = new CKEDITOR.dom.element( table.$.rows[ row ].cells[ 0 ] );
-							newCell.renameNode( 'th' );
-							newCell.setAttribute( 'scope', 'row' );
-						}
+						table.convertColumnToHeader( 0 );
 					}
 
 					// Should we make all first TH-cells in a row make TD? If 'yes' we do it the other way round :-)
 					if ( ( this.hasColumnHeaders ) && !( headers == 'col' || headers == 'both' ) ) {
-						for ( i = 0; i < table.$.rows.length; i++ ) {
-							row = new CKEDITOR.dom.element( table.$.rows[ i ] );
-							if ( row.getParent().getName() == 'tbody' ) {
-								newCell = new CKEDITOR.dom.element( row.$.cells[ 0 ] );
-								newCell.renameNode( 'td' );
-								newCell.removeAttribute( 'scope' );
-							}
-						}
+						table.convertColumnHeaderToCells( 0 );
 					}
 
 					// Set the width and height.
@@ -241,15 +171,7 @@
 
 				// Insert the table element if we're creating one.
 				if ( !this._.selectedElement ) {
-					editor.insertElement( table );
-					// Override the default cursor position after insertElement to place
-					// cursor inside the first cell (https://dev.ckeditor.com/ticket/7959), IE needs a while.
-					setTimeout( function() {
-						var firstCell = new CKEDITOR.dom.element( table.$.rows[ 0 ].cells[ 0 ] );
-						var range = editor.createRange();
-						range.moveToPosition( firstCell, CKEDITOR.POSITION_AFTER_START );
-						range.select();
-					}, 0 );
+					table.insertToEditor( editor );
 				}
 				// Properly restore the selection, (https://dev.ckeditor.com/ticket/4822) but don't break
 				// because of this, e.g. updated table caption.
@@ -279,7 +201,7 @@
 							controlStyle: 'width:5em',
 							validate: validatorNum( editor.lang.table.invalidRows ),
 							setup: function( selectedElement ) {
-								this.setValue( selectedElement.$.rows.length );
+								this.setValue( selectedElement.rowsCount() );
 							},
 							commit: commitValue
 						},
@@ -292,7 +214,7 @@
 							controlStyle: 'width:5em',
 							validate: validatorNum( editor.lang.table.invalidCols ),
 							setup: function( selectedTable ) {
-								this.setValue( tableColumns( selectedTable ) );
+								this.setValue( selectedTable.columnsCount() );
 							},
 							commit: commitValue
 						},
@@ -315,23 +237,14 @@
 							setup: function( selectedTable ) {
 								// Fill in the headers field.
 								var dialog = this.getDialog();
-								dialog.hasColumnHeaders = true;
-
-								// Check if all the first cells in every row are TH
-								for ( var row = 0; row < selectedTable.$.rows.length; row++ ) {
-									// If just one cell isn't a TH then it isn't a header column
-									var headCell = selectedTable.$.rows[ row ].cells[ 0 ];
-									if ( headCell && headCell.nodeName.toLowerCase() != 'th' ) {
-										dialog.hasColumnHeaders = false;
-										break;
-									}
-								}
+								dialog.hasColumnHeaders = selectedTable.hasColumnHeaders();
 
 								// Check if the table contains <thead>.
-								if ( ( selectedTable.$.tHead !== null ) )
+								if ( selectedTable.hasRowHeaders() ) {
 									this.setValue( dialog.hasColumnHeaders ? 'both' : 'row' );
-								else
+								} else {
 									this.setValue( dialog.hasColumnHeaders ? 'col' : '' );
+								}
 							},
 							commit: commitValue
 						},
