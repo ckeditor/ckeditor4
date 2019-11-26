@@ -190,14 +190,26 @@
 			return;
 		}
 
+		targetCellElement.focus();
+
 		var grid = targetCellElement.getAscendant( findGridElement ),
-			rows = grid.find( '.cke_quicktable_row' ),
 			gridData = setGridData( grid, {
 				cols: targetCellElement.getIndex() + 1,
 				rows: targetCellElement.getParent().getIndex() + 1
 			} );
 
 		updateGridStatus( grid, gridData );
+		updateGridSelection( grid, gridData );
+	}
+
+	function updateGridStatus( grid, data ) {
+		var status = grid.getParent().findOne( '.cke_quicktable_status' );
+
+		status.setText( data.rows + ' x ' + data.cols );
+	}
+
+	function updateGridSelection( grid, data ) {
+		var rows = grid.find( '.cke_quicktable_row' );
 
 		for ( var i = 0; i < rows.count(); i++ ) {
 			var row = rows.getItem( i );
@@ -205,19 +217,13 @@
 			for ( var j = 0; j < row.getChildCount(); j++ ) {
 				var cell = row.getChild( j );
 
-				if ( i < gridData.rows && j < gridData.cols ) {
+				if ( i < data.rows && j < data.cols ) {
 					selectGridCell( cell );
 				} else {
 					unselectGridCell( cell );
 				}
 			}
 		}
-	}
-
-	function updateGridStatus( grid, gridData ) {
-		var status = grid.getParent().findOne( '.cke_quicktable_status' );
-
-		status.setText( gridData.rows + ' x ' + gridData.cols );
 	}
 
 	function setGridData( grid, gridData ) {
