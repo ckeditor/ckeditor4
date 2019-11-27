@@ -227,7 +227,7 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 		 *
 		 * @returns {Number}
 		 */
-		rowsCount: function() {
+		countRows: function() {
 			return this.$.rows.length;
 		},
 
@@ -236,10 +236,10 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 		 *
 		 * @returns {Number}
 		 */
-		columnsCount: function() {
+		countColumns: function() {
 			var cols = 0,
 				maxCols = 0,
-				rows = this.rowsCount(),
+				rows = this.countRows(),
 				cells,
 				row,
 				cell;
@@ -268,12 +268,12 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 		 * @returns {Boolean}
 		 */
 		hasColumnHeaders: function() {
-			if ( !this.rowsCount() ) {
+			if ( !this.countRows() ) {
 				return false;
 			}
 
 			// Check if all the first cells in every row are TH.
-			for ( var row = 0; row < this.rowsCount(); row++ ) {
+			for ( var row = 0; row < this.countRows(); row++ ) {
 				// If just one cell isn't a TH then it isn't a header column.
 				var headCell = this.$.rows[ row ].cells[ 0 ];
 				if ( headCell && headCell.nodeName.toLowerCase() != 'th' ) {
@@ -375,7 +375,7 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 		 * Converts the first column cells to column header (`td` -> `th`).
 		 */
 		convertColumnToHeader: function() {
-			for ( var i = 0; i < this.rowsCount(); i++ ) {
+			for ( var i = 0; i < this.countRows(); i++ ) {
 				var newCell = new CKEDITOR.dom.element( this.$.rows[ i ].cells[ 0 ] );
 				newCell.renameNode( 'th' );
 				newCell.setAttribute( 'scope', 'row' );
@@ -386,7 +386,7 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 		 * Converts the first column header to normal cells (`th` -> `td`).
 		 */
 		convertColumnHeaderToCells: function() {
-			for ( var i = 0; i < this.rowsCount(); i++ ) {
+			for ( var i = 0; i < this.countRows(); i++ ) {
 				var row = new CKEDITOR.dom.element( this.$.rows[ i ] );
 				if ( row.getParent().getName() == 'tbody' ) {
 					var newCell = new CKEDITOR.dom.element( row.$.cells[ 0 ] );

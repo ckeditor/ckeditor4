@@ -33,17 +33,17 @@
 
 		'test rows count': function() {
 			var element = getExpectedElement( 'header-row' );
-			assert.areEqual( 3, new CKEDITOR.plugins.table( element ).rowsCount() );
+			assert.areEqual( 3, new CKEDITOR.plugins.table( element ).countRows() );
 		},
 
 		'test columns count': function() {
 			var element = getExpectedElement( 'header-row' );
-			assert.areEqual( 3, new CKEDITOR.plugins.table( element ).columnsCount() );
+			assert.areEqual( 3, new CKEDITOR.plugins.table( element ).countColumns() );
 		},
 
 		'test columns count with colspan': function() {
 			var element = getExpectedElement( 'colspan' );
-			assert.areEqual( 3, new CKEDITOR.plugins.table( element ).columnsCount() );
+			assert.areEqual( 3, new CKEDITOR.plugins.table( element ).countColumns() );
 		},
 
 		'test table has column headers': function() {

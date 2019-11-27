@@ -201,7 +201,7 @@
 							controlStyle: 'width:5em',
 							validate: validatorNum( editor.lang.table.invalidRows ),
 							setup: function( selectedElement ) {
-								this.setValue( selectedElement.rowsCount() );
+								this.setValue( selectedElement.countRows() );
 							},
 							commit: commitValue
 						},
@@ -214,7 +214,7 @@
 							controlStyle: 'width:5em',
 							validate: validatorNum( editor.lang.table.invalidCols ),
 							setup: function( selectedTable ) {
-								this.setValue( selectedTable.columnsCount() );
+								this.setValue( selectedTable.countColumns() );
 							},
 							commit: commitValue
 						},
