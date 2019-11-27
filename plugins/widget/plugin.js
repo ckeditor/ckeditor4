@@ -2817,7 +2817,7 @@
 
 		editor.on( 'selectionCheck', fireCheckSelection );
 
-		// selectionCheck is fired on keyup, so we must force refreshing
+		// The selectionCheck event is fired on keyup, so we must force refreshing
 		// widgets selection on key event (#3352).
 		editor.on( 'key', function() {
 			setTimeout( fireCheckSelection, 10 );
