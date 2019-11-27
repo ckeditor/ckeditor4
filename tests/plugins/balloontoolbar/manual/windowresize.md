@@ -15,7 +15,7 @@ _Perform for each editor instance._
 
 If element moves on the window resize, balloon toolbar should move with the element so it is always properly attached to it.
 
-Note: Edge the toolbar will be hidden during the resize as editor fires `blur` events ([#1265](https://github.com/ckeditor/ckeditor-dev/issues/1265)).
+Note: Edge the toolbar will be hidden during the resize as editor fires `blur` events ([#1265](https://github.com/ckeditor/ckeditor4/issues/1265)).
 
 ### Scenario 2
 

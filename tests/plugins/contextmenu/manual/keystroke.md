@@ -23,4 +23,4 @@
 
 ### Note:
 
-IE8: There is known bug [#549](https://github.com/ckeditor/ckeditor-dev/issues/549) with wrong context menu position in inline editors.
+IE8: There is known bug [#549](https://github.com/ckeditor/ckeditor4/issues/549) with wrong context menu position in inline editors.

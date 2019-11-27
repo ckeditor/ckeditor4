@@ -20,4 +20,4 @@
 
 Clicked button causes the creation of an additional rectangle.
 
-**NOTE:** Because of [#3042](https://github.com/ckeditor/ckeditor-dev/issues/3042) two nested divs are used for insertion.
+**NOTE:** Because of [#3042](https://github.com/ckeditor/ckeditor4/issues/3042) two nested divs are used for insertion.

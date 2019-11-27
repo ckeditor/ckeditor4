@@ -1,6 +1,6 @@
 # CKEditor 4 - Smart WYSIWYG HTML editor [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20CKEditor%204%20on%20GitHub&url=https%3A%2F%2Fgithub.com%2Fckeditor%2Fckeditor4)
 
-[![npm version](https://badge.fury.io/js/ckeditor.svg)](https://www.npmjs.com/package/ckeditor)
+[![npm version](https://badge.fury.io/js/ckeditor4.svg)](https://www.npmjs.com/package/ckeditor4)
 [![GitHub tag](https://img.shields.io/github/tag/ckeditor/ckeditor4.svg)](https://github.com/ckeditor/ckeditor4)
 
 [![Build Status](https://travis-ci.org/ckeditor/ckeditor4.svg?branch=major)](https://travis-ci.org/ckeditor/ckeditor4)
@@ -33,7 +33,7 @@ Use it on your website:
 <script src="./node_modules/ckeditor/ckeditor.js"></script>
 <script>
     CKEDITOR.replace( 'editor' );
-</script> 
+</script>
 ```
 
 ### Using [CDN](https://cdn.ckeditor.com/#ckeditor4)
@@ -44,7 +44,7 @@ Load the CKEditor 4 script from CDN:
 <div id="editor">
     <p>This is the editor content.</p>
 </div>
-<script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
 <script>
     CKEDITOR.replace( 'editor' );
 </script>

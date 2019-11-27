@@ -1691,7 +1691,7 @@
 		 * Adds a new paste button to the editor.
 		 *
 		 * This method should be called for buttons that should display the Paste Dialog fallback in mobile environments.
-		 * See [the rationale](https://github.com/ckeditor/ckeditor-dev/issues/595#issuecomment-345971174) for more
+		 * See [the rationale](https://github.com/ckeditor/ckeditor4/issues/595#issuecomment-345971174) for more
 		 * details.
 		 *
 		 * @since 4.9.0
@@ -2774,7 +2774,7 @@
 	/**
 	 * Fallback dataTransfer object which is used together with {@link CKEDITOR.plugins.clipboard.dataTransfer}
 	 * for browsers supporting Clipboard API, but not supporting custom
-	 * MIME types (Edge 16+, see [ckeditor-dev/issues/#962](https://github.com/ckeditor/ckeditor-dev/issues/962)).
+	 * MIME types (Edge 16+, see [ckeditor4/issues/#962](https://github.com/ckeditor/ckeditor4/issues/962)).
 	 *
 	 * @since 4.8.0
 	 * @class CKEDITOR.plugins.clipboard.fallbackDataTransfer

@@ -13,7 +13,7 @@
 ## Expected
 
 There is no error in console.
-_However content might look strange.This is related to separate issue [#2441](https://github.com/ckeditor/ckeditor-dev/issues/2441)_
+_However content might look strange.This is related to separate issue [#2441](https://github.com/ckeditor/ckeditor4/issues/2441)_
 
 ## Unexpected
 
