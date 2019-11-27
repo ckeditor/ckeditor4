@@ -237,8 +237,10 @@
 		remove: function( element ) {
 			element.removeCustomData( SLOT_NAME );
 			var listeners = element.removeCustomData( SLOT_NAME_LISTENERS );
-			element.removeListener( 'blur', listeners.blur );
-			element.removeListener( 'focus', listeners.focus );
+			if ( listeners ) {
+				element.removeListener( 'blur', listeners.blur );
+				element.removeListener( 'focus', listeners.focus );
+			}
 		}
 
 	};
