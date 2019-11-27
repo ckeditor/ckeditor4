@@ -299,6 +299,48 @@
 
 		_: {
 
+			focusPrev: function( index ) {
+				var focusables = this._.getItems(),
+					focusable;
+
+				while ( index >= 0 && ( focusable = focusables.getItem( index ) ) ) {
+					if ( this._.focusItem( focusable ) ) {
+						this._.focusIndex = index;
+						return true;
+					}
+
+					index--;
+				}
+
+				return false;
+			},
+
+			focusNext: function( index ) {
+				var focusables = this._.getItems(),
+					focusable;
+
+				while ( ( focusable = focusables.getItem( index ) ) ) {
+					if ( this._.focusItem( focusable ) ) {
+						this._.focusIndex = index;
+						return true;
+					}
+
+					index++;
+				}
+
+				return false;
+			},
+
+			focusItem: function( element ) {
+				// Checking offset width verifies if element is visible.
+				if ( element.getAttribute( '_cke_focus' ) && element.$.offsetWidth ) {
+					element.focus( true );
+					return true;
+				}
+
+				return false;
+			},
+
 			/**
 			 * Mark the item specified by the index as current activated.
 			 */
@@ -383,73 +425,31 @@
 					this.element.setStyle( 'display', 'none' );
 			},
 
-			focusPrev: function( index ) {
-				var focusables = this._.getItems(),
-					focusable;
-
-				while ( index >= 0 && ( focusable = focusables.getItem( index ) ) ) {
-					if ( this.focusItem( focusable ) ) {
-						this._.focusIndex = index;
-						return true;
-					}
-
-					index--;
-				}
-
-				return false;
-			},
-
-			focusNext: function( index ) {
-				var focusables = this._.getItems(),
-					focusable;
-
-				while ( ( focusable = focusables.getItem( index ) ) ) {
-					if ( this.focusItem( focusable ) ) {
-						this._.focusIndex = index;
-						return true;
-					}
-
-					index++;
-				}
-
-				return false;
-			},
-
-			focusItem: function( element ) {
-				// Checking offset width verifies if element is visible.
-				if ( element.getAttribute( '_cke_focus' ) && element.$.offsetWidth ) {
-					element.focus( true );
-					return true;
-				}
-
-				return false;
-			},
-
 			handleKeyboardFocus: function( keyAction ) {
 				var focusable, index;
 
 				switch ( keyAction ) {
 					case 'next':
 						// If no focusable was found, cycle and restart from the top. (https://dev.ckeditor.com/ticket/11125)
-						if ( !this.focusNext( this._.focusIndex + 1 ) ) {
-							this.focusNext( 0 );
+						if ( !this._.focusNext( this._.focusIndex + 1 ) ) {
+							this._.focusNext( 0 );
 						}
 
 						return true;
 					case 'prev':
 						// If no focusable was found, cycle and restart from the bottom. (https://dev.ckeditor.com/ticket/11125)
-						if ( !this.focusPrev( this._.focusIndex - 1 ) ) {
+						if ( !this._.focusPrev( this._.focusIndex - 1 ) ) {
 							this._.focusIndex = -1;
-							this.focusPrev( this._.getItems().count() - 1 );
+							this._.focusPrev( this._.getItems().count() - 1 );
 						}
 
 						return true;
 					case 'up':
 						index = this._.focusIndex;
 						// If no focusable was found, cycle and restart from the bottom. (https://dev.ckeditor.com/ticket/11125)
-						if ( !this.focusPrev( index - this.vNavOffset ) ) {
+						if ( !this._.focusPrev( index - this.vNavOffset ) ) {
 							var indexOffset = this.vNavOffset - index;
-							this.focusPrev( this._.getItems().count() - indexOffset );
+							this._.focusPrev( this._.getItems().count() - indexOffset );
 						}
 
 						return true;
@@ -457,9 +457,9 @@
 					case 'down':
 						index = this._.focusIndex;
 						// If no focusable was found, cycle and restart from the top. (https://dev.ckeditor.com/ticket/11125)
-						if ( !this.focusNext( index + this.vNavOffset ) ) {
+						if ( !this._.focusNext( index + this.vNavOffset ) ) {
 							this._.focusIndex = -1;
-							this.focusNext( index % this.vNavOffset );
+							this._.focusNext( index % this.vNavOffset );
 						}
 
 						return true;
