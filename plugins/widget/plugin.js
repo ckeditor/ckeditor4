@@ -2809,7 +2809,7 @@
 
 	// Setup selection observer which will trigger:
 	// * widget select & focus on selection change,
-	// * nested editable focus (related properites and classes) on selection change,
+	// * nested editable focus (related properties and classes) on selection change,
 	// * deselecting and blurring all widgets on data,
 	// * blurring widget on editor blur.
 	function setupSelectionObserver( widgetsRepo ) {
