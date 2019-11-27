@@ -345,7 +345,7 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 		/**
 		 * Moves header rows to the table body.
 		 *
-		 * **Note** `thead` will be removed from DOM after this operation.
+		 * **Note** `thead` will be removed from the DOM after this operation.
 		 */
 		moveHeaderToBody: function() {
 			if ( !this.hasRowHeaders() ) {
