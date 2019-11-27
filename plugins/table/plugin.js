@@ -140,10 +140,27 @@ CKEDITOR.plugins.add( 'table', {
 	}
 } );
 
+	/**
+	 * Table class which extends {@link CKEDITOR.dom.element} API by features
+	 * related to DOM table element structure.
+	 *
+	 * @since 4.14.0
+	 * @class CKEDITOR.plugins.table
+	 * @extends CKEDITOR.dom.element
+	 */
 CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
-
 	base: CKEDITOR.dom.element,
 
+	/**
+	 * Represents a table DOM element.
+	 *
+	 * @constructor Creates an table element class instance.
+	 * @param {CKEDITOR.dom.element/Object} [element] A native DOM table element or the {@link CKEDITOR.dom.element}
+	 * object. Note that {@link CKEDITOR.dom.element} still should represent native DOM table element. You can check
+	 * element type using {@link CKEDITOR.dom.element#getName} method.
+	 * @param {CKEDITOR.dom.document} [ownerDocument] The document that will contain
+	 * the element in case of element creation.
+	 */
 	$: function( element, ownerDocument ) {
 		if ( element && element.getName() !== 'table' ) {
 			throw new Error( 'Expected table element.' );
@@ -163,35 +180,62 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 	},
 
 	statics: {
-		getDefaults: function( editor ) {
+		/**
+		 * Returns default table attributes.
+		 *
+		 * @static
+		 * @param {CKEDITOR.editor} editor
+		 * @returns {Object}
+		 */
+		getDefaultAttributes: function( editor ) {
 			var editable = editor.editable();
 
 			return {
-				attributes: {
-					border: editor.filter.check( 'table[border]' ) ? 1 : 0,
-					align: '',
-					width: editor.filter.check( 'table{width}' ) ? ( editable.getSize( 'width' ) < 500 ? '100%' : 500 ) : 0,
-					cellSpacing: editor.filter.check( 'table[cellspacing]' ) ? 1 : 0,
-					cellPadding: editor.filter.check( 'table[cellpadding]' ) ? 1 : 0
-				}
+				border: editor.filter.check( 'table[border]' ) ? 1 : 0,
+				align: '',
+				width: editor.filter.check( 'table{width}' ) ? ( editable.getSize( 'width' ) < 500 ? '100%' : 500 ) : 0,
+				cellSpacing: editor.filter.check( 'table[cellspacing]' ) ? 1 : 0,
+				cellPadding: editor.filter.check( 'table[cellpadding]' ) ? 1 : 0
 			};
 		},
 
+		/**
+		 * Creates and inserts a table at the current editor selection
+		 * with the given count of rows and columns.
+		 *
+		 * @static
+		 * @param {CKEDITOR.editor} editor
+		 * @param {Number} rows
+		 * @param {Number} cols
+		 */
 		insert: function( editor, rows, cols ) {
 			var table = new CKEDITOR.plugins.table();
 
 			table.appendEmpty( rows, cols );
-			table.setAttributes( CKEDITOR.plugins.table.getDefaults( editor ).attributes );
+			table.setAttributes( CKEDITOR.plugins.table.getDefaultAttributes( editor ) );
 
 			table.insertToEditor( editor );
 		}
 	},
 
 	proto: {
+		/**
+		 * Returns rows count of the table.
+		 *
+		 * **Note** that this function will return rows count for both
+		 * `tbody` and `thead` DOM elements rows.
+		 *
+		 * @returns {Number}
+		 */
 		rowsCount: function() {
 			return this.$.rows.length;
 		},
 
+		/**
+		 * Returns columns count of the table.
+		 *
+		 * @returns {Number}
+		 */
 		columnsCount: function() {
 			var cols = 0,
 				maxCols = 0,
@@ -218,6 +262,11 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 			return maxCols;
 		},
 
+		/**
+		 * Checks if a table has column headers.
+		 *
+		 * @returns {Boolean}
+		 */
 		hasColumnHeaders: function() {
 			if ( !this.rowsCount() ) {
 				return false;
@@ -236,10 +285,21 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 		},
 
 
+		/**
+		 * Check if a table has row headers.
+		 *
+		 * @returns {Boolean}
+		 */
 		hasRowHeaders: function() {
 			return this.getHeader() !== null;
 		},
 
+		/**
+		 * Appends empty cells to the table according to the given rows and columns.
+		 *
+		 * @param {Number} rows
+		 * @param {Number} cols
+		 */
 		appendEmpty: function( rows, cols ) {
 			var tbody = this.getBody();
 
@@ -252,10 +312,17 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 			}
 		},
 
-		moveFirstRowToHeader: function() {
+		/**
+		 * Moves row located at the given index inside table body to the table header.
+		 *
+		 * Creates table header if doesn't exist.
+		 *
+		 * @param {Number} [index=0]
+		 */
+		moveRowToHeader: function( index ) {
 			var thead = this.getHeader(),
 				tbody = this.getBody(),
-				theRow = this.getRows().getItem( 0 );
+				theRow = this.getRows().getItem( index || 0 );
 
 			if ( !thead ) {
 				thead = new CKEDITOR.dom.element( 'thead' );
@@ -275,7 +342,12 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 			thead.append( theRow.remove() );
 		},
 
-		moveHeaderRowsToBody: function() {
+		/**
+		 * Moves header rows to the table body.
+		 *
+		 * **Note** `thead` will be removed from DOM after this operation.
+		 */
+		moveHeaderToBody: function() {
 			if ( !this.hasRowHeaders() ) {
 				return;
 			}
@@ -299,19 +371,25 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 			thead.remove();
 		},
 
-		convertColumnToHeader: function( index ) {
+		/**
+		 * Converts the first column cells to column header (`td` -> `th`).
+		 */
+		convertColumnToHeader: function() {
 			for ( var i = 0; i < this.rowsCount(); i++ ) {
-				var newCell = new CKEDITOR.dom.element( this.$.rows[ i ].cells[ index ] );
+				var newCell = new CKEDITOR.dom.element( this.$.rows[ i ].cells[ 0 ] );
 				newCell.renameNode( 'th' );
 				newCell.setAttribute( 'scope', 'row' );
 			}
 		},
 
-		convertColumnHeaderToCells: function( index ) {
+		/**
+		 * Converts the first column header to normal cells (`th` -> `td`).
+		 */
+		convertColumnHeaderToCells: function() {
 			for ( var i = 0; i < this.rowsCount(); i++ ) {
 				var row = new CKEDITOR.dom.element( this.$.rows[ i ] );
 				if ( row.getParent().getName() == 'tbody' ) {
-					var newCell = new CKEDITOR.dom.element( row.$.cells[ index ] );
+					var newCell = new CKEDITOR.dom.element( row.$.cells[ 0 ] );
 					newCell.renameNode( 'td' );
 					newCell.removeAttribute( 'scope' );
 				}
@@ -319,18 +397,40 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 
 		},
 
+		/**
+		 * Returns the table header.
+		 *
+		 * @returns {CKEDITOR.dom.element}
+		 */
 		getHeader: function() {
 			return this.findOne( 'thead' );
 		},
 
+		/**
+		 * Returns the table body.
+		 *
+		 * @returns {CKEDITOR.dom.element}
+		 */
 		getBody: function() {
 			return this.findOne( 'tbody' );
 		},
 
+		/**
+		 * Returns table body rows.
+		 *
+		 * @returns {CKEDITOR.dom.nodeList}
+		 */
 		getRows: function() {
 			return this.getBody().find( 'tr' );
 		},
 
+		/**
+		 * Inserts table to the editor at the current editor selection.
+		 *
+		 * **Note** that the cursor will be moved to the first table cell after insertion.
+		 *
+		 * @param {CKEDITOR.editor} editor
+		 */
 		insertToEditor: function( editor ) {
 			editor.insertElement( this );
 			var firstRow = this.$.rows[ 0 ],

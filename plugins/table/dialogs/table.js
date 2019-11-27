@@ -30,7 +30,7 @@
 
 	function tableDialog( editor, command ) {
 		var dialogadvtab = editor.plugins.dialogadvtab,
-			attributes = CKEDITOR.plugins.table.getDefaults( editor ).attributes;
+			attributes = CKEDITOR.plugins.table.getDefaultAttributes( editor );
 
 		return {
 			title: editor.lang.table.title,
@@ -143,29 +143,30 @@
 					// Should we make a <thead>?
 					var headers = info.selHeaders;
 					if ( !table.hasRowHeaders() && ( headers == 'row' || headers == 'both' ) ) {
-						table.moveFirstRowToHeader();
+						table.moveRowToHeader();
 					}
 
-					if ( !( headers == 'row' || headers == 'both' ) ) {
-						table.moveHeaderRowsToBody();
+					if ( headers !== 'row' && headers !== 'both' ) {
+						table.moveHeaderToBody();
 					}
 
 					// Should we make all first cells in a row TH?
 					if ( !this.hasColumnHeaders && ( headers == 'col' || headers == 'both' ) ) {
-						table.convertColumnToHeader( 0 );
+						table.convertColumnToHeader();
 					}
 
 					// Should we make all first TH-cells in a row make TD? If 'yes' we do it the other way round :-)
-					if ( ( this.hasColumnHeaders ) && !( headers == 'col' || headers == 'both' ) ) {
-						table.convertColumnHeaderToCells( 0 );
+					if ( this.hasColumnHeaders && !( headers == 'col' || headers == 'both' ) ) {
+						table.convertColumnHeaderToCells();
 					}
 
 					// Set the width and height.
 					info.txtHeight ? table.setStyle( 'height', info.txtHeight ) : table.removeStyle( 'height' );
 					info.txtWidth ? table.setStyle( 'width', info.txtWidth ) : table.removeStyle( 'width' );
 
-					if ( !table.getAttribute( 'style' ) )
+					if ( !table.getAttribute( 'style' ) ) {
 						table.removeAttribute( 'style' );
+					}
 				}
 
 				// Insert the table element if we're creating one.
@@ -260,10 +261,11 @@
 								this.setValue( selectedTable.getAttribute( 'border' ) || '' );
 							},
 							commit: function( data, selectedTable ) {
-								if ( this.getValue() )
+								if ( this.getValue() ) {
 									selectedTable.setAttribute( 'border', this.getValue() );
-								else
+								} else {
 									selectedTable.removeAttribute( 'border' );
+								}
 							}
 						},
 						{
@@ -282,10 +284,11 @@
 								this.setValue( selectedTable.getAttribute( 'align' ) || '' );
 							},
 							commit: function( data, selectedTable ) {
-								if ( this.getValue() )
+								if ( this.getValue() ) {
 									selectedTable.setAttribute( 'align', this.getValue() );
-								else
+								} else {
 									selectedTable.removeAttribute( 'align' );
+								}
 							}
 						} ]
 					},
@@ -358,10 +361,11 @@
 								this.setValue( selectedTable.getAttribute( 'cellSpacing' ) || '' );
 							},
 							commit: function( data, selectedTable ) {
-								if ( this.getValue() )
+								if ( this.getValue() ) {
 									selectedTable.setAttribute( 'cellSpacing', this.getValue() );
-								else
+								} else {
 									selectedTable.removeAttribute( 'cellSpacing' );
+								}
 							}
 						},
 						{
@@ -376,10 +380,11 @@
 								this.setValue( selectedTable.getAttribute( 'cellPadding' ) || '' );
 							},
 							commit: function( data, selectedTable ) {
-								if ( this.getValue() )
+								if ( this.getValue() ) {
 									selectedTable.setAttribute( 'cellPadding', this.getValue() );
-								else
+								} else {
 									selectedTable.removeAttribute( 'cellPadding' );
+								}
 							}
 						} ]
 					} ]
