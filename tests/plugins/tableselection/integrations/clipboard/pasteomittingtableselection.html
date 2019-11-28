@@ -92,6 +92,61 @@
 
 </textarea>
 
+<textarea id="boundary-without-table">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>2</td>
+			</tr>
+			<tr>
+				<td>^3</td>
+				<td>4</td>
+			</tr>
+		</tbody>
+	</table>
+=>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>2</td>
+			</tr>
+			<tr>
+				<td><p>foo^</p>3</td>
+				<td>4</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="collapsed-partial">
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>2</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>[1234]</td>
+			</tr>
+		</tbody>
+	</table>
+=>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>2</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td><p>foo^</p></td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
 
 <span id="text-paste">
 	<p>foo</p>
