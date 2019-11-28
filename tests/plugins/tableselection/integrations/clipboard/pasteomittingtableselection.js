@@ -23,7 +23,7 @@
 			bender.tools.ignoreUnsupportedEnvironment( 'tableselection' );
 		},
 
-		// // (#875)
+		// (#875)
 		'test pasting after selecting all': createPasteTestCase( 'text', 'text-paste' ),
 
 		'test pasting with part of blockquote selected': createPasteTestCase( 'inside-blockquote', 'text-paste' ),
