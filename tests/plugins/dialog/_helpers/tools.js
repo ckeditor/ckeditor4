@@ -21,53 +21,53 @@
 		} );
 	}
 
-	// Function generates event, based on passed config, which changes focus in the dialog.
+	// Function generates event, based on passed options, which changes focus in the dialog.
 	// It supports few possibilities, which interact with dialog in a different way.
-	// 1. passing `config.direction` moves focus with dialog method `changeFocus`
-	// 2. passing `config.elementId` and `config.tab` moves focus with `CKEDITOR.dom.element.focus()` on element found with config values
-	// 3. passing `config.buttonName` moves focus to "OK" or "Cancel" buttons by execution of `CKEDITOR.dom.element.focus()` on this element
-	// 4. passing `config.key` fires "keydown" event on dialog._.element with a specified keyCode. It simulates moving focus with a keyboard.
+	// 1. passing `options.direction` moves focus with dialog method `changeFocus`
+	// 2. passing `options.elementId` and `options.tab` moves focus with `CKEDITOR.dom.element.focus()` on element found with options values
+	// 3. passing `options.buttonName` moves focus to "OK" or "Cancel" buttons by execution of `CKEDITOR.dom.element.focus()` on this element
+	// 4. passing `options.key` fires "keydown" event on dialog._.element with a specified keyCode. It simulates moving focus with a keyboard.
 	//   There might be also added key modifiers "shift" or "alt"
 	//
-	// In case of passing invalid config option, function throws a descriptive error.
-	function changeFocus( dialog, config ) {
+	// In case of passing invalid options option, function throws a descriptive error.
+	function changeFocus( dialog, options ) {
 		var element;
 
 		if ( !( dialog instanceof CKEDITOR.dialog ) ) {
 			throw new Error( 'Passed "dialog" argument is not an instance of the CKEDITOR.dialog.' );
 		}
 
-		if ( config.direction === 'next' ) {
+		if ( options.direction === 'next' ) {
 			// 1.
 			dialog.changeFocus( 1 );
-		} else if ( config.direction === 'previous' ) {
+		} else if ( options.direction === 'previous' ) {
 			// 1.
 			dialog.changeFocus( -1 );
-		} else if ( config.key ) {
-			if ( typeof config.key !== 'number' ) {
-				throw new Error( 'Invalid focus config. "config.key" should be a number: ' + JSON.stringify( config ) );
+		} else if ( options.key ) {
+			if ( typeof options.key !== 'number' ) {
+				throw new Error( 'Invalid focus options. "options.key" should be a number: ' + JSON.stringify( options ) );
 			}
 			// 4.
 			dialog._.element.fire( 'keydown', new CKEDITOR.dom.event( {
-				keyCode: config.key,
-				shiftKey: config.shiftKey ? true : false,
-				altKey: config.altKey ? true : false
+				keyCode: options.key,
+				shiftKey: options.shiftKey ? true : false,
+				altKey: options.altKey ? true : false
 			} ) );
 		} else {
-			if ( config.elementId && config.tab ) {
+			if ( options.elementId && options.tab ) {
 				// 2.
-				element = dialog.getContentElement( config.tab, config.elementId ).getInputElement();
-			} else if ( config.buttonName ) {
+				element = dialog.getContentElement( options.tab, options.elementId ).getInputElement();
+			} else if ( options.buttonName ) {
 				// 3.
-				element = dialog.getButton( config.buttonName ).getInputElement();
+				element = dialog.getButton( options.buttonName ).getInputElement();
 			} else {
-				throw new Error( 'Invalid focus config. There is no valid "Object.key": ' + JSON.stringify( config ) );
+				throw new Error( 'Invalid focus options. There is no valid "Object.key": ' + JSON.stringify( options ) );
 			}
 
 			if ( element ) {
 				element.focus();
 			} else {
-				throw new Error( 'Invalid focus config. DOM element cannot be found based on the config: ' + JSON.stringify( config ) );
+				throw new Error( 'Invalid focus options. DOM element cannot be found based on the options: ' + JSON.stringify( options ) );
 			}
 		}
 	}
@@ -327,11 +327,11 @@
 			};
 		},
 
-		// Provides a thenable function which preserved proper config in a closure.
+		// Provides a thenable function which preserved proper options in a closure.
 		// The idea is to wrap function which change focus with a promise. Then wait until dialog generate
 		// a `focusChange` event which should be fired because of execution of onLoadHandler.
 		// There is additional safety switch which rejects promise after 5 seconds without focus change.
-		focusElement: function( config ) {
+		focusElement: function( options ) {
 			return function( dialog ) {
 				return new CKEDITOR.tools.promise( function( resolve, reject ) {
 					var resolveTimeout,
@@ -356,7 +356,7 @@
 						reject( new Error( 'Focus hasn\'t change for last 5 seconds' ) );
 					}, 5000 );
 
-					changeFocus( dialog, config );
+					changeFocus( dialog, options );
 				} );
 			};
 		}
