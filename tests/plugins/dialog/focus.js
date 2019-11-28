@@ -27,7 +27,7 @@
 	};
 
 	// Tests doesn't contain cases where focus is preserved on an element, as such cases doesn't trigger a focus event.
-	// Detection of such cases would be really time consuming and might result with a falsa positive.
+	// Detection of such situation would be really time consuming and might give a false positive results.
 	var tests = {
 		'test single page dialog should focus elements in a correct order': function() {
 			var bot = this.editorBot;
@@ -62,7 +62,8 @@
 				} ) );
 		},
 
-		// Test simulate focusing with "click" / "touch", as direct calling `click()` method on html element doesn't trigger focus change.
+		// Test simulate focusing with "click" / "touch" by focusing specific element.
+		// Direct call of `click()` method on the html element doesn't trigger focus change.
 		'test single page dialog should change the focused element after executing the focus function': function() {
 			var bot = this.editorBot;
 

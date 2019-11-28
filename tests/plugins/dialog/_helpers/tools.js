@@ -27,7 +27,7 @@
 	// 2. passing `options.elementId` and `options.tab` moves focus with `CKEDITOR.dom.element.focus()` on element found with options values
 	// 3. passing `options.buttonName` moves focus to "OK" or "Cancel" buttons by execution of `CKEDITOR.dom.element.focus()` on this element
 	// 4. passing `options.key` fires "keydown" event on dialog._.element with a specified keyCode. It simulates moving focus with a keyboard.
-	//   There might be also added key modifiers "shift" or "alt"
+	//    There might be also added key modifiers "shift" or "alt"
 	//
 	// In case of passing invalid options option, function throws a descriptive error.
 	function changeFocus( dialog, options ) {
