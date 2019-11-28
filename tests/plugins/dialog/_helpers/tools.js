@@ -287,28 +287,37 @@
 		},
 
 		// Assert for checking dialog elements and buttons.
-		// config.buttonName {String} 'ok' or 'cancel'
-		// config.tab {String} the ID of a tab in the dialog
-		// config.elementId {String} the ID of an element on a given tab page
-		assertFocusedElement: function( config ) {
+		// Requires either `buttonName` or combintation of `tab` and `elementId` input options.
+		//
+		// @param options
+		// @param {String} [options.buttonName] represent name of the button from dialog footer, usually 'ok' or 'cancel'
+		// @param {String} [options.tab] the ID of a tab in the dialog
+		// @param {String} [options.elementId] the ID of an element on a given tab page
+		assertFocusedElement: function( options ) {
 			return function( dialog ) {
 				var actualFocusedElement = dialog._.focusList[ dialog._.currentFocusIndex ];
 				var expectedFocusedElement;
 
-				if ( config.buttonName ) {
-					expectedFocusedElement = dialog.getButton( config.buttonName );
+				if ( options.buttonName ) {
+					expectedFocusedElement = dialog.getButton( options.buttonName );
 				} else {
-					expectedFocusedElement = dialog.getContentElement( config.tab, config.elementId );
+					expectedFocusedElement = dialog.getContentElement( options.tab, options.elementId );
+				}
+
+				if ( !expectedFocusedElement ) {
+					assert.fail( 'Expected focused element cannot be found in the dialog.' );
 				}
 
 				assert.areEqual( expectedFocusedElement, actualFocusedElement,
 					'Element: "' + expectedFocusedElement.id + '" should be equal to currently focused element: "' + actualFocusedElement.id + '".' );
+
 				return dialog;
 			};
 		},
 
-		// Assert to check focus on tab elements in dialog
-		// tabName {String} ID of a tab
+		// Assert checkign focus on tab elements in dialog
+		//
+		// @param {String} tabName ID of a tab
 		assertFocusedTab: function( tabName ) {
 			return function( dialog ) {
 				assert.areEqual( -1, dialog._.currentFocusIndex );
