@@ -194,7 +194,10 @@
 
 			return new CKEDITOR.tools.promise( function( resolve, reject ) {
 				var resolveTimeout,
-					rejectTimeout;
+					rejectTimeout,
+					// IE 11 requires some delay to fully show up and initialize dialog. From testing it looks like 10ms is enough,
+					// however, the value is increased 5 times to have safe overhead.
+					resolveDelay = CKEDITOR.env.ie && CKEDITOR.env.version === 11 ? 50 : 0;
 
 				editor.on( 'dialogShow', function( event ) {
 					var dialog = event.data;
@@ -206,7 +209,7 @@
 							window.clearTimeout( rejectTimeout );
 						}
 						resolve( dialog );
-					}, 0 );
+					}, resolveDelay );
 				} );
 
 				rejectTimeout = CKEDITOR.tools.setTimeout( function() {
