@@ -20,7 +20,7 @@
     ### Expected:
     * Image with equation should have src attribute starting with: `data:image/svg+xml;`.
 
-**Important**: Don't use native context menu as it triggers bug described in [`#3568`](https://github.com/ckeditor/ckeditor4/issues/3568).
+**Important**: Using native context menu for copying triggers [`#3568`](https://github.com/ckeditor/ckeditor4/issues/3568) bug.
 
 **Important**: On IE 11 and Edge browser use copy-paste only due to [`#3546`](https://github.com/ckeditor/ckeditor4/issues/3546) and [`#3568`](https://github.com/ckeditor/ckeditor4/issues/3568) bugs.
 
