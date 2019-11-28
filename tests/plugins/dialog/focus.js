@@ -15,7 +15,7 @@
 			ARROW_UP: 38,
 			ARROW_DOWN: 40
 		},
-		definitions = window.dialogTools.definitions,
+
 		assertFocusedElement = window.dialogTools.assertFocusedElement,
 		assertFocusedTab = window.dialogTools.assertFocusedTab,
 		focusElement = window.dialogTools.focusElement;
@@ -273,13 +273,7 @@
 
 	CKEDITOR.tools.extend( tests, {
 		init: function() {
-			CKEDITOR.dialog.add( 'singlePageDialog', definitions.singlePage );
-			CKEDITOR.dialog.add( 'multiPageDialog', definitions.multiPage );
-			CKEDITOR.dialog.add( 'hiddenPageDialog', definitions.hiddenPage );
-
-			this.editor.addCommand( 'singlePageDialog', new CKEDITOR.dialogCommand( 'singlePageDialog' ) );
-			this.editor.addCommand( 'multiPageDialog', new CKEDITOR.dialogCommand( 'multiPageDialog' ) );
-			this.editor.addCommand( 'hiddenPageDialog', new CKEDITOR.dialogCommand( 'hiddenPageDialog' ) );
+			window.dialogTools.addPredefinedDialogsToEditor( this.editor );
 		},
 
 		tearDown: function() {

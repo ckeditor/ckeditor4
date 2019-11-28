@@ -359,7 +359,18 @@
 					changeFocus( dialog, options );
 				} );
 			};
+		},
+
+		addPredefinedDialogsToEditor: function( editor ) {
+			CKEDITOR.dialog.add( 'singlePageDialog', this.definitions.singlePage );
+			CKEDITOR.dialog.add( 'multiPageDialog', this.definitions.multiPage );
+			CKEDITOR.dialog.add( 'hiddenPageDialog', this.definitions.hiddenPage );
+
+			editor.addCommand( 'singlePageDialog', new CKEDITOR.dialogCommand( 'singlePageDialog' ) );
+			editor.addCommand( 'multiPageDialog', new CKEDITOR.dialogCommand( 'multiPageDialog' ) );
+			editor.addCommand( 'hiddenPageDialog', new CKEDITOR.dialogCommand( 'hiddenPageDialog' ) );
 		}
+
 	};
 
 	window.dialogTools = dialogTools;
