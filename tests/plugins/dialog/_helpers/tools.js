@@ -23,48 +23,53 @@
 
 	// Function generates event, based on passed config, which changes focus in the dialog.
 	// It supports few possibilities, which interact with dialog in a different way.
-	// * passing `config.direction` moves focus with dialog method `changeFocus`
-	// * passing `config.elementId` and `config.tab` moves focus with `CKEDITOR.dom.element.focus()` on element found with config values
-	// * passing `config.buttonName` moves focus to "OK" or "Cancel" buttons by execution of `CKEDITOR.dom.element.focus()` on this element
-	// * passing `config.key` fires "keydown" event on dialog._.element with a specified keyCode. It simulates moving focus with a keyboard.
-	//   There might be also added key modifiers such as "shift", "ctrl", "alt"
+	// 1. passing `config.direction` moves focus with dialog method `changeFocus`
+	// 2. passing `config.elementId` and `config.tab` moves focus with `CKEDITOR.dom.element.focus()` on element found with config values
+	// 3. passing `config.buttonName` moves focus to "OK" or "Cancel" buttons by execution of `CKEDITOR.dom.element.focus()` on this element
+	// 4. passing `config.key` fires "keydown" event on dialog._.element with a specified keyCode. It simulates moving focus with a keyboard.
+	//   There might be also added key modifiers "shift" or "alt"
 	//
 	// In case of passing invalid config option, function throws a descriptive error.
 	function changeFocus( dialog, config ) {
 		var element;
 
+		if ( !( dialog instanceof CKEDITOR.dialog ) ) {
+			throw new Error( 'Passed "dialog" argument is not an instance of the CKEDITOR.dialog.' );
+		}
+
 		if ( config.direction === 'next' ) {
+			// 1.
 			dialog.changeFocus( 1 );
-			return;
-		}
-
-		if ( config.direction === 'previous' ) {
+		} else if ( config.direction === 'previous' ) {
+			// 1.
 			dialog.changeFocus( -1 );
-			return;
-		}
-
-		if ( config.elementId && config.tab ) {
-			element = dialog.getContentElement( config.tab, config.elementId ).getInputElement();
-			element.focus();
-			return;
-		}
-
-		if ( config.buttonName ) {
-			element = dialog.getButton( config.buttonName ).getInputElement();
-			element.focus();
-			return;
-		}
-
-		if ( config.key ) {
+		} else if ( config.key ) {
+			if ( typeof config.key !== 'number' ) {
+				throw new Error( 'Invalid focus config. "config.key" should be a number: ' + JSON.stringify( config ) );
+			}
+			// 4.
 			dialog._.element.fire( 'keydown', new CKEDITOR.dom.event( {
 				keyCode: config.key,
 				shiftKey: config.shiftKey ? true : false,
 				altKey: config.altKey ? true : false
 			} ) );
-			return;
-		}
+		} else {
+			if ( config.elementId && config.tab ) {
+				// 2.
+				element = dialog.getContentElement( config.tab, config.elementId ).getInputElement();
+			} else if ( config.buttonName ) {
+				// 3.
+				element = dialog.getButton( config.buttonName ).getInputElement();
+			} else {
+				throw new Error( 'Invalid focus config. There is no valid "Object.key": ' + JSON.stringify( config ) );
+			}
 
-		throw new Error( 'Invalid focus config: ' + JSON.stringify( config ) );
+			if ( element ) {
+				element.focus();
+			} else {
+				throw new Error( 'Invalid focus config. DOM element cannot be found based on the config: ' + JSON.stringify( config ) );
+			}
+		}
 	}
 
 
@@ -84,12 +89,14 @@
 									label: 'input 1'
 								},
 								{
-									type: 'text',
+									type: 'select',
 									id: 'sp-input2',
-									label: 'input 2'
+									label: 'input 2',
+									items: [ [ 'A' ], [ 'B' ], [ 'C' ], [ 'D' ] ],
+									'default': 'C'
 								},
 								{
-									type: 'text',
+									type: 'checkbox',
 									id: 'sp-input3',
 									label: 'input 3'
 								}
@@ -108,12 +115,14 @@
 							label: 'MP 1',
 							elements: [
 								{
-									type: 'text',
+									type: 'select',
 									id: 'mp-input11',
-									label: 'input 11'
+									label: 'input 11',
+									items: [ [ 'A' ], [ 'B' ], [ 'C' ], [ 'D' ] ],
+									'default': 'C'
 								},
 								{
-									type: 'text',
+									type: 'button',
 									id: 'mp-input12',
 									label: 'input 12'
 								},
@@ -129,9 +138,11 @@
 							label: 'MP 2',
 							elements: [
 								{
-									type: 'text',
+									type: 'select',
 									id: 'mp-input21',
-									label: 'input 21'
+									label: 'input 21',
+									items: [ [ 'X' ], [ 'Y' ], [ 'Z' ] ],
+									'default': 'Y'
 								}
 							]
 						},
@@ -140,12 +151,12 @@
 							label: 'MP 3',
 							elements: [
 								{
-									type: 'text',
+									type: 'checkbox',
 									id: 'mp-input31',
 									label: 'input 31'
 								},
 								{
-									type: 'text',
+									type: 'button',
 									id: 'mp-input32',
 									label: 'input 32'
 								},
@@ -155,14 +166,16 @@
 									label: 'input 33'
 								},
 								{
-									type: 'text',
+									type: 'textarea',
 									id: 'mp-input34',
 									label: 'input 34'
 								},
 								{
-									type: 'text',
+									type: 'select',
 									id: 'mp-input35',
-									label: 'input 35'
+									label: 'input 35',
+									items: [ [ '111' ], [ '222' ], [ '333' ] ],
+									'default': '111'
 								}
 							]
 						}
@@ -184,14 +197,16 @@
 									label: 'input 11'
 								},
 								{
-									type: 'text',
+									type: 'textarea',
 									id: 'hp-input12',
 									label: 'input 12'
 								},
 								{
-									type: 'text',
+									type: 'select',
 									id: 'hp-input13',
-									label: 'input 13'
+									label: 'input 13',
+									items: [ [ 'A' ], [ 'B' ], [ 'C' ] ],
+									'default': 'C'
 								}
 							]
 						},
@@ -200,18 +215,20 @@
 							label: 'HP 2',
 							elements: [
 								{
-									type: 'text',
+									type: 'button',
 									id: 'hp-input21',
 									label: 'input 21',
 									requiredContent: 'fakeElement' // This input element should be hidden.
 								},
 								{
-									type: 'text',
+									type: 'select',
 									id: 'hp-input22',
-									label: 'input 22'
+									label: 'input 22',
+									items: [ [ 'A' ], [ 'B' ], [ 'C' ] ],
+									'default': 'C'
 								},
 								{
-									type: 'text',
+									type: 'textarea',
 									id: 'hp-input23',
 									label: 'input 23',
 									requiredContent: 'fakeElement' // This input element should be hidden.
@@ -224,22 +241,24 @@
 							requiredContent: 'fakeElement', // Entire tab should be hidden.
 							elements: [
 								{
-									type: 'text',
+									type: 'button',
 									id: 'hp-input31',
 									label: 'input 31'
 								},
 								{
-									type: 'text',
+									type: 'checkbox',
 									id: 'hp-input32',
 									label: 'input 32'
 								},
 								{
-									type: 'text',
+									type: 'select',
 									id: 'hp-input33',
-									label: 'input 33'
+									label: 'input 33',
+									items: [ [ '111' ], [ '222' ], [ '333' ] ],
+									'default': '111'
 								},
 								{
-									type: 'text',
+									type: 'textarea',
 									id: 'hp-input34',
 									label: 'input 34'
 								},
@@ -255,7 +274,7 @@
 							label: 'HP 4',
 							elements: [
 								{
-									type: 'text',
+									type: 'button',
 									id: 'hp-input41',
 									label: 'input 41'
 								}
