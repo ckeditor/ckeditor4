@@ -859,13 +859,9 @@
 			editor.fire( 'afterPaste' );
 		}, 0 );
 
-		function isCustomPaste( selection, selectedCells ) {
+		function isCustomPaste( selection, selectedCells, pastedTable, boundarySelection ) {
 			var ranges = selection.getRanges(),
-				table = ranges.length && ranges[ 0 ]._getTableElement( { table: 1 } ),
-				isIgnoredTable,
-				isBoundaryWithoutTable,
-				isCollapsedPartial,
-				isTableElement;
+				table = ranges.length && ranges[ 0 ]._getTableElement( { table: 1 } );
 
 			// Do not customize paste process in following cases:
 			// 1. No cells are selected.
@@ -873,39 +869,29 @@
 				return false;
 			}
 
-			// 2. It's a boundary position but with no table pasted.
-			isBoundaryWithoutTable = ( boundarySelection && !pastedTable );
-
-			if ( isBoundaryWithoutTable ) {
+			// 2. Table is ignoring tableselection (#2945).
+			if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
 				return false;
 			}
 
-			// 2.1 If it's boundary position and table is pasted, proceed with custom paste.
+			// 3. It's a boundary position but with no table pasted.
+			if ( boundarySelection && !pastedTable ) {
+				return false;
+			}
+
+			// 3.1 If it's boundary position and table is pasted, proceed with custom paste.
 			if ( boundarySelection ) {
 				return true;
 			}
 
-			// 3. Content exceedes table (#875).
-			isTableElement = rangeContainsTableElement( ranges[ 0 ] );
-
-			if ( !isTableElement ) {
-				return false;
-			}
-
-			// 4. Table is ignoring tableselection (#2945).
-			isIgnoredTable = table && table.hasAttribute( ignoredTableAttribute );
-
-			if ( isIgnoredTable ) {
+			// 4. Content exceedes table (#875).
+			if ( !rangeContainsTableElement( ranges[ 0 ] ) ) {
 				return false;
 			}
 
 			// 5. It's single range that does not fully contain table element and is not boundary, e.g. collapsed selection within
 			// cell, part of cell etc.
-			isCollapsedPartial = selectedCells.length === 1 &&
-				!isTableElement &&
-				!boundarySelection;
-
-			if ( isCollapsedPartial ) {
+			if ( selectedCells.length === 1 && !rangeContainsTableElement( ranges[ 0 ] ) && !boundarySelection ) {
 				return false;
 			}
 
