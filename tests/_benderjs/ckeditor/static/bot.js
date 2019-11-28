@@ -193,18 +193,28 @@
 			var editor = this.editor;
 
 			return new CKEDITOR.tools.promise( function( resolve, reject ) {
+				var resolveTimeout,
+					rejectTimeout;
 
 				editor.on( 'dialogShow', function( event ) {
 					var dialog = event.data;
 
 					event.removeListener();
 
-					CKEDITOR.tools.setTimeout( function() {
+					resolveTimeout = CKEDITOR.tools.setTimeout( function() {
+						if ( rejectTimeout !== undefined ) {
+							window.clearTimeout( rejectTimeout );
+						}
 						resolve( dialog );
 					}, 0 );
 				} );
 
-				CKEDITOR.tools.setTimeout( function() {
+				rejectTimeout = CKEDITOR.tools.setTimeout( function() {
+					// Technically resolveTimeout should always be undefined. However there is slight chance, that showing dialog will be executed,
+					// and resolveTimeout will be created, but already pass 5 seconds and rejectTimeout will be already waiting in event loop.
+					if ( resolveTimeout !== undefined ) {
+						window.clearTimeout( resolveTimeout );
+					}
 					reject( new Error( 'There was no "dialogShow" event for last 5 seconds.' ) );
 				}, 5000 );
 
