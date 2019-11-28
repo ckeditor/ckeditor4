@@ -375,7 +375,7 @@
 			 * Regular expression to check if the file type is supported by this widget.
 			 * If not defined, all files will be handled.
 			 *
-			 * @property {String} [supportedTypes]
+			 * @property {RegExp} [supportedTypes]
 			 */
 
 			/**
