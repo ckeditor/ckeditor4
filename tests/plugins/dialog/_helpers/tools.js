@@ -21,9 +21,16 @@
 		} );
 	}
 
-	// Function generates specific event ( based on config ), which have to change focus in dialog.
-	// For example pressing a `TAB` key should move focus to the next ocusable element.
-	function focusChanger( dialog, config ) {
+	// Function generates event, based on passed config, which changes focus in the dialog.
+	// It supports few possibilities, which interact with dialog in a different way.
+	// * passing `config.direction` moves focus with dialog method `changeFocus`
+	// * passing `config.elementId` and `config.tab` moves focus with `CKEDITOR.dom.element.focus()` on element found with config values
+	// * passing `config.buttonName` moves focus to "OK" or "Cancel" buttons by execution of `CKEDITOR.dom.element.focus()` on this element
+	// * passing `config.key` fires "keydown" event on dialog._.element with a specified keyCode. It simulates moving focus with a keyboard.
+	//   There might be also added key modifiers such as "shift", "ctrl", "alt"
+	//
+	// In case of passing invalid config option, function throws a descriptive error.
+	function changeFocus( dialog, config ) {
 		var element;
 
 		if ( config.direction === 'next' ) {
@@ -293,7 +300,7 @@
 		},
 
 		// Provides a thenable function which preserved proper config in a closure.
-		// The idea is to wrap function which change focus (focusChanger) with a promise. Then wait until dialog generate
+		// The idea is to wrap function which change focus with a promise. Then wait until dialog generate
 		// a `focusChange` event which should be fired because of execution of onLoadHandler.
 		// There is additional safety switch which rejects promise after 5 seconds without focus change.
 		focusElement: function( config ) {
@@ -312,7 +319,7 @@
 						reject( new Error( 'Focus hasn\'t change for last 5 seconds' ) );
 					}, 5000 );
 
-					focusChanger( dialog, config );
+					changeFocus( dialog, config );
 				} );
 			};
 		}
