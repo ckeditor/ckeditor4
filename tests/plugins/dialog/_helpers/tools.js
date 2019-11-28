@@ -13,7 +13,7 @@
 			}, null, null, 100000 );
 		} );
 
-		// Applug listening tofocus change on elements in dialog
+		// Apply listening to focus change on elements in dialog.
 		CKEDITOR.tools.array.forEach( dialog._.focusList, function( item ) {
 			item.on( 'focus', function() {
 				dialog.fire( 'focus:change' );
