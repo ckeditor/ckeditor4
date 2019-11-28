@@ -1,7 +1,7 @@
 ( function() {
 	'use strict';
 
-	// Function extends dialog with a new event (`focus:change`) which is executed, when tab or element on focusList gain a focus
+	// Function extends dialog with a new event (`focusChange`) which is executed, when tab or element on focusList gain a focus
 	// This general approach helps to finish promises, when focus was changed inside the dialog.
 	function onLoadHandler( evt ) {
 		var dialog = evt.sender;
@@ -9,14 +9,14 @@
 		// Apply listening to focus change on tabs in dialog
 		CKEDITOR.tools.array.forEach( CKEDITOR.tools.object.values( dialog._.tabs ), function( item ) {
 			item[ 0 ].on( 'focus', function() {
-				dialog.fire( 'focus:change' );
+				dialog.fire( 'focusChange' );
 			}, null, null, 100000 );
 		} );
 
 		// Apply listening to focus change on elements in dialog.
 		CKEDITOR.tools.array.forEach( dialog._.focusList, function( item ) {
 			item.on( 'focus', function() {
-				dialog.fire( 'focus:change' );
+				dialog.fire( 'focusChange' );
 			}, null, null, 100000 );
 		} );
 	}
@@ -294,12 +294,12 @@
 
 		// Provides a thenable function which preserved proper config in a closure.
 		// The idea is to wrap function which change focus (focusChanger) with a promise. Then wait until dialog generate
-		// a `focus:change` event which should be fired because of execution of onLoadHandler.
+		// a `focusChange` event which should be fired because of execution of onLoadHandler.
 		// There is additional safety switch which rejects promise after 5 seconds without focus change.
 		focusElement: function( config ) {
 			return function( dialog ) {
 				return new CKEDITOR.tools.promise( function( resolve, reject ) {
-					dialog.once( 'focus:change', function() {
+					dialog.once( 'focusChange', function() {
 						// Keep the event asynchronous to have sure that all changes related to focus change on a given element or tab
 						// was already prcoessed.
 						CKEDITOR.tools.setTimeout( function() {
