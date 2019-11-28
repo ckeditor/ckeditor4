@@ -5,11 +5,12 @@ Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 ?>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>Sample &mdash; CKEditor</title>
 	<link rel="stylesheet" href="sample.css">
+	<meta name="description" content="Try the latest sample of CKEditor 4 and learn more about customizing your WYSIWYG editor with endless possibilities.">
 </head>
 <body>
 	<h1 class="samples">
