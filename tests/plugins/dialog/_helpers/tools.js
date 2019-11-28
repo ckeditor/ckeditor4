@@ -334,16 +334,25 @@
 		focusElement: function( config ) {
 			return function( dialog ) {
 				return new CKEDITOR.tools.promise( function( resolve, reject ) {
+					var resolveTimeout,
+						rejectTimeout;
+
 					dialog.once( 'focusChange', function() {
 						// Keep the event asynchronous to have sure that all changes related to focus change on a given element or tab
 						// was already prcoessed.
-						CKEDITOR.tools.setTimeout( function() {
+						resolveTimeout = CKEDITOR.tools.setTimeout( function() {
+							if ( rejectTimeout !== undefined ) {
+								window.clearTimeout( rejectTimeout );
+							}
 							resolve( dialog );
 						} );
 					} );
 
 					// Safety switch to finish promise in case of focusing not tracked element, or not changing a focus in a dialog.
-					CKEDITOR.tools.setTimeout( function() {
+					rejectTimeout = CKEDITOR.tools.setTimeout( function() {
+						if ( resolveTimeout !== undefined ) {
+							window.clearTimeout( resolveTimeout );
+						}
 						reject( new Error( 'Focus hasn\'t change for last 5 seconds' ) );
 					}, 5000 );
 
