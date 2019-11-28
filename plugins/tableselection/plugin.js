@@ -785,7 +785,7 @@
 			selectedTableMap,
 			pastedTableMap;
 
-		if ( !isCustomPaste( selection, selectedCells ) ) {
+		if ( !isCustomPaste( selection, selectedCells, pastedTable, boundarySelection ) ) {
 			return;
 		}
 
