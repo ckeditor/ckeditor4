@@ -525,6 +525,10 @@
 				range.selectNodeContents( editor.editable() );
 				range.select();
 
+				// This line ensures that without update on key event,
+				// collection of selected widgets will be empty.
+				editor.widgets.selected = [];
+
 				setTimeout( function() {
 					resume( function() {
 						arrayAssert.itemsAreSame( [ widget ], editor.widgets.selected );
