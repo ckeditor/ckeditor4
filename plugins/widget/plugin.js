@@ -3416,7 +3416,7 @@
 		copyBin.handle( getClipboardHtml() );
 
 		function getClipboardHtml() {
-			var selectedHtml = getSelectedHtmlWithFullWidgets( editor );
+			var selectedHtml = getHtmlWithFullySelectedWidgets( editor );
 
 			if ( editor.widgets.focused ) {
 				return editor.widgets.focused.getClipboardHtml();
@@ -3442,29 +3442,29 @@
 
 	// Detect situation when selection partially starts or ends in widget and remove such widget from further processing (#3498).
 	// Fix might be obsolete after (#3551).
-	function getSelectedHtmlWithFullWidgets( editor ) {
+	function getHtmlWithFullySelectedWidgets( editor ) {
 		var selection = editor.getSelection( true ),
 			range = selection.getRanges()[ 0 ].clone(),
 			editable = editor.editable(),
 			wrapper;
 
-		wrapper = range.startContainer.getAscendant( function( element ) {
-			return Widget.isDomWidgetWrapper( element );
-		}, true );
-
+		wrapper = getAscendantWidgetWrapper( range.startContainer );
 		if ( wrapper ) {
 			range.setStartAt( wrapper, CKEDITOR.POSITION_AFTER_END );
 		}
 
-		wrapper = range.endContainer.getAscendant( function( element ) {
-			return Widget.isDomWidgetWrapper( element );
-		}, true );
-
+		wrapper = getAscendantWidgetWrapper( range.endContainer );
 		if ( wrapper ) {
 			range.setEndAt( wrapper, CKEDITOR.POSITION_BEFORE_START );
 		}
 
 		return editable.getHtmlFromRange( range ).getHtml();
+	}
+
+	function getAscendantWidgetWrapper( element ) {
+		return element.getAscendant( function( el ) {
+			return Widget.isDomWidgetWrapper( el );
+		}, true );
 	}
 
 	// Extracts classes array from style instance.
