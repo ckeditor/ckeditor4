@@ -5,22 +5,20 @@
 ( function() {
 	'use strict';
 
-	CKEDITOR.plugins.add( 'customwidget', {
-		requires: 'widget',
-		allowedContent: 'div',
+	CKEDITOR.plugins.addExternal( 'customwidget', '%BASE_PATH%plugins/widget/_helpers/customwidget.js' );
 
-		init: function( editor ) {
-			editor.widgets.add( 'customwidget', {
-				button: 'Add widget',
-				template: '<div>Widget</div>'
-			} );
-		}
-	} );
+	var startupData = '<p>foo bar</p>' +
+		'<div class="customwidget">' +
+			'<h2>Awesome widget!!!</h2>' +
+			'<h3 class="customwidget__title">Type here some title</h3>' +
+			'<p class="customwidget__instruction">Below is place to add some fancy text.</p>' +
+			'<p class="customwidget__content">Type here something</p>' +
+		'</div>';
 
 	bender.editors = {
 		classic: {
 			name: 'editor',
-			startupData: '<p>foo bar</p><div data-widget="customwidget">Widget</div>',
+			startupData: startupData,
 			config: {
 				extraAllowedContent: 'span',
 				extraPlugins: 'customwidget',
@@ -29,7 +27,7 @@
 		},
 		divarea: {
 			name: 'divarea',
-			startupData: '<p>foo bar</p><div data-widget="customwidget">Widget</div>',
+			startupData: startupData,
 			config: {
 				extraAllowedContent: 'span',
 				extraPlugins: 'divarea,customwidget',
@@ -38,7 +36,7 @@
 		},
 		inline: {
 			name: 'inline',
-			startupData: '<p>foo bar</p><div data-widget="customwidget">Widget</div>',
+			startupData: startupData,
 			creator: 'inline',
 			config: {
 				extraAllowedContent: 'span',
@@ -63,7 +61,14 @@
 
 		'test cutting partially selected widget remain collapsed selection in editor': function( editor ) {
 			var editable = editor.editable(),
-				range = editor.createRange();
+				range = editor.createRange(),
+				expected = '<p>foo@</p>' +
+					'<div class="customwidget">' +
+						'<h2>Awesome widget!!!</h2>' +
+						'<h3 class="customwidget__title">Type here some title</h3>' +
+						'<p class="customwidget__instruction">Below is place to add some fancy text.</p>' +
+						'<p class="customwidget__content">Type here something</p>' +
+					'</div>';
 
 			range.setStart( editable.findOne( 'p' ).getFirst(), 3 );
 			range.setEnd( editable.findOne( 'div' ), 0 );
@@ -72,11 +77,7 @@
 			editable.once( 'cut', function() {
 				CKEDITOR.tools.setTimeout( function() {
 					resume( function() {
-						assert.isInnerHtmlMatching(
-							'<p>foo@</p><div data-widget="customwidget">Widget</div>',
-							editor.getData()
-						);
-
+						assert.isInnerHtmlMatching( expected, editor.getData() );
 						assert.isTrue( editor.getSelection().isCollapsed() );
 					} );
 				} );
