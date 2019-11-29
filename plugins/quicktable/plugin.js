@@ -19,96 +19,112 @@
 			var lang = editor.lang.quicktable;
 
 			if ( editor.plugins.table ) {
-				CKEDITOR.plugins.quicktable.init( editor, {
+				new CKEDITOR.plugins.quicktable( editor, {
 					name: 'table',
 					label: lang.table,
 					title: lang.table,
-					insert: function( data ) {
-						CKEDITOR.plugins.table.insert( editor, data.rows, data.cols );
+					insert: function( rows, cols ) {
+						CKEDITOR.plugins.table.insert( editor, rows, cols );
 					}
-				} );
+				} ).attach();
 			}
 		}
 	} );
 
-	CKEDITOR.plugins.quicktable = {
-		init: function( editor, definition ) {
-			var lang = editor.lang,
-				path = editor.plugins.quicktable.path;
+	CKEDITOR.plugins.quicktable = CKEDITOR.tools.createClass( {
+		$: function( editor, definition ) {
+			this.editor = editor;
+			this.definition = definition;
 
-			editor.ui.add( 'quicktable', CKEDITOR.UI_PANELBUTTON, {
-				icon: definition.icon || definition.name,
-				label: definition.label,
-				title: definition.title,
-				modes: { wysiwyg: 1 },
-				toolbar: 'insert,10',
-				onBlock: function( panel, block ) {
-					addAdvancedButton( editor, block.element, definition );
-					initializeGridFeature( editor, block.element, definition.insert );
-					handleKeyoardNavigation( block, editor.lang.dir == 'rtl' );
+			this.gridSize = 10;
+		},
 
-					block.autoSize = true;
-					block.vNavOffset = GRID_SIZE;
+		proto: {
+			attach: function() {
+				var definition = this.definition,
+					path = this.editor.plugins.quicktable.path,
+					lang = this.editor.lang,
+					that = this;
 
-					CKEDITOR.ui.fire( 'ready', this );
-				},
-				panel: {
-					css: path + 'skins/default.css',
-					attributes: { role: 'listbox', 'aria-label': lang.insert }
-				}
-			} );
-		}
-	};
+				this.editor.ui.add( this.getPanelName(), CKEDITOR.UI_PANELBUTTON, {
+					icon: definition.icon || definition.name,
+					label: definition.label,
+					title: definition.title,
+					modes: { wysiwyg: 1 },
+					toolbar: 'insert,10',
+					onBlock: function( panel, block ) {
+						that._.initializeComponent( panel, block );
 
-	function initializeGridFeature( editor, element, insert ) {
-		var status = createStatusElement(),
-			grid = createGridElement( GRID_SIZE, status.getId() );
+						block.autoSize = true;
 
-		element.append( grid );
-		element.append( status );
+						CKEDITOR.ui.fire( 'ready', this );
+					},
+					panel: {
+						css: path + 'skins/default.css',
+						attributes: { role: 'listbox', 'aria-label': lang.insert }
+					}
+				} );
 
-		grid.on( 'mouseover', handleGridSelection );
-		grid.on( 'click', function() {
-			insert( getGridData( grid ) );
-		} );
+			},
 
-		element.addClass( 'cke_quicktable' );
-		element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
-	}
+			getPanelName: function() {
+				return 'quicktable' + this.definition.name;
+			}
+		},
 
-	function handleKeyoardNavigation( block, rtl ) {
-		var keys = block.keys;
+		_: {
+			initializeComponent: function( panel, block ) {
+				this.block = block;
+				this.element = block.element;
 
-		keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
-		keys[ 40 ] = 'down'; // ARROW-DOWN
-		keys[ 9 ] = 'next'; // TAB
-		keys[ rtl ? 39 : 37 ] = 'prev'; // ARROW-LEFT
-		keys[ 38 ] = 'up'; // ARROW-UP
-		keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
-		keys[ 32 ] = 'click'; // SPACE
-	}
+				this.element.addClass( 'cke_quicktable' );
+				this.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 
-	var gridTemplate = new CKEDITOR.template( '<div' +
-			' class="cke_quicktable_grid"' +
-			' role="menu"' +
-			'></div>'
-		),
-		rowTemplate = new CKEDITOR.template( '<div' +
-			' class="cke_quicktable_row"' +
-			'></div>'
-		),
-		cellTemplate = new CKEDITOR.template( '<a' +
-			' _cke_focus=1' +
-			' class="cke_quicktable_cell"' +
-			' hidefocus=true' +
-			' role="menuitem"' +
-			' aria-labelledby="{statusId}"' +
-			' draggable="false"' +
-			' ondragstart="return false;"' +
-			' href="javascript:void(0);"' +
-			'>&nbsp;</a>'
-		),
-		advButtonTemplate = new CKEDITOR.template( '<a' +
+				this._.addAdvancedButton();
+				this._.addStatus();
+				this._.addGrid();
+				this._.handleKeyoardNavigation();
+
+				this.block.vNavOffset = this.gridSize;
+			},
+
+			handleKeyoardNavigation: function() {
+				var keys = this.block.keys,
+					rtl = this.editor.lang.dir == 'rtl';
+
+				keys[ rtl ? 37 : 39 ] = 'next'; // ARROW-RIGHT
+				keys[ 40 ] = 'down'; // ARROW-DOWN
+				keys[ 9 ] = 'next'; // TAB
+				keys[ rtl ? 39 : 37 ] = 'prev'; // ARROW-LEFT
+				keys[ 38 ] = 'up'; // ARROW-UP
+				keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
+				keys[ 32 ] = 'click'; // SPACE
+			},
+
+			gridTemplate: new CKEDITOR.template( '<div' +
+				' class="cke_quicktable_grid"' +
+				' role="menu"' +
+				'></div>'
+			),
+
+			rowTemplate: new CKEDITOR.template( '<div' +
+				' class="cke_quicktable_row"' +
+				'></div>'
+			),
+
+			cellTemplate: new CKEDITOR.template( '<a' +
+				' _cke_focus=1' +
+				' class="cke_quicktable_cell"' +
+				' hidefocus=true' +
+				' role="menuitem"' +
+				' aria-labelledby="{statusId}"' +
+				' draggable="false"' +
+				' ondragstart="return false;"' +
+				' href="javascript:void(0);"' +
+				'>&nbsp;</a>'
+			),
+
+			advButtonTemplate: new CKEDITOR.template( '<a' +
 				' class="cke_quicktable_button"' +
 				' style="background-image:url(\'{iconPath}\')"' +
 				' _cke_focus=1' +
@@ -119,149 +135,130 @@
 				' ondragstart="return false;"' +
 				' href="javascript:void(0);"' +
 				'>{title}</a>'
-		);
+			),
 
-	function createGridElement( size, statusId ) {
-		var grid = createElementFromTemplate( gridTemplate );
+			addAdvancedButton: function() {
+				var button = this._.createElementFromTemplate( this._.advButtonTemplate, {
+						title: this.definition.title,
+						iconPath: CKEDITOR.skin.icons[ this.definition.name ].path
+					} ),
+					row = this._.createElementFromTemplate( this._.rowTemplate );
 
-		for ( var i = 0; i < size; i++ ) {
-			var row = createElementFromTemplate( rowTemplate );
+				row.append( button );
 
-			for ( var j = 0; j < size; j++ ) {
-				var cell = createElementFromTemplate( cellTemplate, {
-					statusId: statusId
-				} );
-
-				cell.on( 'focus', handleGridSelection );
-				row.append( cell );
-			}
-			grid.append( row );
-		}
-
-		return grid;
-	}
-
-	function addAdvancedButton( editor, element, definition ) {
-		var button = createElementFromTemplate( advButtonTemplate, {
-				title: definition.title,
-				iconPath: CKEDITOR.skin.icons[ definition.name ].path
-			} ),
-			row = createElementFromTemplate( rowTemplate );
-
-		row.append( button );
-
-		// These elements won't be focused by panel plugin due to missing correct attribute and visibility,
-		// however, they will fix the issue where panel rows are not equal size for vertical navigation.
-		for ( var i = 0; i < GRID_SIZE - 1; i++ ) {
-			row.append( createFillingFocusable() );
-		}
-
-		element.append( row );
-
-		button.on( 'click', function() {
-			editor.execCommand( definition.name );
-		} );
-
-		button.on( 'focus', function() {
-			clearSelectedCells( element );
-		} );
-	}
-
-	function clearSelectedCells( container ) {
-		var cells = container.find( '.cke_quicktable_selected' ).toArray();
-
-		for ( var i = 0; i < cells.length; i++ ) {
-			cells[ i ].removeClass( 'cke_quicktable_selected' );
-		}
-	}
-
-	function createFillingFocusable() {
-		return CKEDITOR.dom.element.createFromHtml( '<a' +
-			' href="javascript:void(0);"' +
-			' style="display: none;"' +
-			' role="presentation" />' );
-	}
-
-	function findGridElement( node ) {
-		return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_quicktable_grid' );
-	}
-
-	function createElementFromTemplate( template, options ) {
-		return CKEDITOR.dom.element.createFromHtml( template.output( options ) );
-	}
-
-	function createStatusElement() {
-		var element = new CKEDITOR.dom.element( 'div' );
-
-		element.addClass( 'cke_quicktable_status' );
-		element.setText( '0 x 0' );
-		element.setAttribute( 'id', CKEDITOR.tools.getNextId() + '_quicktable_status' );
-
-		return element;
-	}
-
-	function handleGridSelection( evt ) {
-		var targetCellElement = evt.data.getTarget();
-
-		if ( !targetCellElement.hasClass( 'cke_quicktable_cell' ) ) {
-			return;
-		}
-
-		targetCellElement.focus();
-
-		var grid = targetCellElement.getAscendant( findGridElement ),
-			gridData = setGridData( grid, {
-				cols: targetCellElement.getIndex() + 1,
-				rows: targetCellElement.getParent().getIndex() + 1
-			} );
-
-		updateGridStatus( grid, gridData );
-		updateGridSelection( grid, gridData );
-	}
-
-	function updateGridStatus( grid, data ) {
-		var status = grid.getParent().findOne( '.cke_quicktable_status' );
-
-		status.setText( data.rows + ' x ' + data.cols );
-	}
-
-	function updateGridSelection( grid, data ) {
-		var rows = grid.find( '.cke_quicktable_row' );
-
-		for ( var i = 0; i < rows.count(); i++ ) {
-			var row = rows.getItem( i );
-
-			for ( var j = 0; j < row.getChildCount(); j++ ) {
-				var cell = row.getChild( j );
-
-				if ( i < data.rows && j < data.cols ) {
-					selectGridCell( cell );
-				} else {
-					unselectGridCell( cell );
+				// These elements won't be focused by panel plugin due to missing correct attribute and visibility,
+				// however, they will fix the issue where panel rows are not equal size for vertical navigation.
+				for ( var i = 0; i < GRID_SIZE - 1; i++ ) {
+					row.append( this._.createFillingFocusable() );
 				}
+
+				this.element.append( row );
+
+				button.on( 'click', function() {
+					this.editor.execCommand( this.definition.name );
+				}, this );
+
+				button.on( 'focus', this._.clearSelectedCells, this );
+			},
+
+			createFillingFocusable: function() {
+				return CKEDITOR.dom.element.createFromHtml( '<a' +
+					' href="javascript:void(0);"' +
+					' style="display: none;"' +
+					' role="presentation" />' );
+			},
+
+			clearSelectedCells: function() {
+				var cells = this.grid.find( '.cke_quicktable_selected' ).toArray();
+
+				for ( var i = 0; i < cells.length; i++ ) {
+					cells[ i ].removeClass( 'cke_quicktable_selected' );
+				}
+			},
+
+			addStatus: function() {
+				this.status = new CKEDITOR.dom.element( 'div' );
+
+				this.status.addClass( 'cke_quicktable_status' );
+				this.status.setText( '0 x 0' );
+				this.status.setAttribute( 'id', CKEDITOR.tools.getNextId() + '_quicktable_status' );
+
+				this.element.append( this.status );
+			},
+
+			addGrid: function() {
+				this.grid = this._.createGridElement();
+
+				this.element.append( this.grid );
+
+				this.grid.on( 'mouseover', this._.handleGridSelection );
+				this.grid.on( 'click', function() {
+					this.definition.insert( this._.rows, this._.cols );
+				}, this );
+			},
+
+			createGridElement: function() {
+				var grid = this._.createElementFromTemplate( this._.gridTemplate );
+
+				for ( var i = 0; i < this.gridSize; i++ ) {
+					var row = this._.createElementFromTemplate( this._.rowTemplate );
+
+					for ( var j = 0; j < this.gridSize; j++ ) {
+						var cell = this._.createElementFromTemplate( this._.cellTemplate, {
+							statusId: this.status.getId()
+						} );
+
+						cell.on( 'focus', this._.handleGridSelection );
+						row.append( cell );
+					}
+
+					grid.append( row );
+				}
+
+				return grid;
+			},
+
+			handleGridSelection: function( evt ) {
+				var targetCellElement = evt.data.getTarget();
+
+				if ( !targetCellElement.hasClass( 'cke_quicktable_cell' ) ) {
+					return;
+				}
+
+				targetCellElement.focus();
+
+				this._.cols = targetCellElement.getIndex() + 1;
+				this._.rows = targetCellElement.getParent().getIndex() + 1;
+
+				this._.updateGridStatus();
+				this._.updateGridSelection();
+			},
+
+			updateGridStatus: function() {
+				this.status.setText( this._.rows + ' x ' + this._.cols );
+			},
+
+			updateGridSelection: function() {
+				var rows = this.grid.find( '.cke_quicktable_row' );
+
+				for ( var i = 0; i < rows.count(); i++ ) {
+					var row = rows.getItem( i );
+
+					for ( var j = 0; j < row.getChildCount(); j++ ) {
+						var cell = row.getChild( j );
+
+						if ( i < this._.rows && j < this._.cols ) {
+							cell.addClass( 'cke_quicktable_selected' );
+						} else {
+							cell.removeClass( 'cke_quicktable_selected' );
+						}
+					}
+				}
+			},
+
+			createElementFromTemplate: function( template, options ) {
+				return CKEDITOR.dom.element.createFromHtml( template.output( options ) );
 			}
 		}
-	}
-
-	function setGridData( grid, gridData ) {
-		grid.data( 'cols', gridData.cols );
-		grid.data( 'rows', gridData.rows );
-
-		return gridData;
-	}
-
-	function getGridData( grid ) {
-		return {
-			cols: Number( grid.data( 'cols' ) ),
-			rows: Number( grid.data( 'rows' ) )
-		};
-	}
-
-	function selectGridCell( element ) {
-		element.addClass( 'cke_quicktable_selected' );
-	}
-
-	function unselectGridCell( element ) {
-		element.removeClass( 'cke_quicktable_selected' );
-	}
+	} );
 } )();
