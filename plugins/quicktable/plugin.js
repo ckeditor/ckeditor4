@@ -173,7 +173,7 @@
 				' _cke_focus=1' +
 				' class="cke_quicktable_cell"' +
 				' hidefocus=true' +
-				' role="menuitem"' +
+				' role="button"' +
 				' aria-labelledby="{statusId}"' +
 				' draggable="false"' +
 				' ondragstart="return false;"' +
