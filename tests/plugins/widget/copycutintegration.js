@@ -17,20 +17,40 @@
 		}
 	} );
 
-	bender.editor = {
-		name: 'editor',
-		startupData: '<p>foo bar</p><div data-widget="customwidget">Widget</div>',
-		config: {
-			extraAllowedContent: 'span',
-			extraPlugins: 'customwidget',
-			allowedContent: true
+	bender.editors = {
+		classic: {
+			name: 'editor',
+			startupData: '<p>foo bar</p><div data-widget="customwidget">Widget</div>',
+			config: {
+				extraAllowedContent: 'span',
+				extraPlugins: 'customwidget',
+				allowedContent: true
+			}
+		},
+		divarea: {
+			name: 'divarea',
+			startupData: '<p>foo bar</p><div data-widget="customwidget">Widget</div>',
+			config: {
+				extraAllowedContent: 'span',
+				extraPlugins: 'divarea,customwidget',
+				allowedContent: true
+			}
+		},
+		inline: {
+			name: 'inline',
+			startupData: '<p>foo bar</p><div data-widget="customwidget">Widget</div>',
+			creator: 'inline',
+			config: {
+				extraAllowedContent: 'span',
+				extraPlugins: 'customwidget',
+				allowedContent: true
+			}
 		}
 	};
 
-	bender.test( {
-		'test widget not throw error during copy': function() {
-			var editor = this.editor,
-				editable = this.editor.editable(),
+	var tests = {
+		'test widget not throw error during copy': function( editor ) {
+			var editable = editor.editable(),
 				range = editor.createRange();
 
 			range.setStart( editable.findOne( 'p' ).getFirst(), 4 );
@@ -41,9 +61,8 @@
 			assert.pass();
 		},
 
-		'test cutting partially selected widget remain collapsed selection in editor': function() {
-			var editor = this.editor,
-				editable = this.editor.editable(),
+		'test cutting partially selected widget remain collapsed selection in editor': function( editor ) {
+			var editable = editor.editable(),
 				range = editor.createRange();
 
 			range.setStart( editable.findOne( 'p' ).getFirst(), 3 );
@@ -66,5 +85,9 @@
 			editable.fire( 'cut', new CKEDITOR.dom.event( {} ) );
 			wait();
 		}
-	} );
+	};
+
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
+
+	bender.test( tests );
 } )();
