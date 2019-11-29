@@ -14,6 +14,7 @@ Fixed Issues:
 * [#3559](https://github.com/ckeditor/ckeditor4/issues/3559): Fixed: [Color Dialog](https://ckeditor.com/cke4/addon/colordialog) is incorrectly positioned when used with another dialog.
 * [#3593](https://github.com/ckeditor/ckeditor4/issues/3593): Fixed: Can't access text or comment node while replacing element node with them via [`CKEDITOR.htmlParser.filter`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_htmlParser_filter.html).
 * [#3524](https://github.com/ckeditor/ckeditor4/issues/3524): Fixed: [Easy Image](https://ckeditor.com/cke4/addon/easyimage) plugin throws an error when any image with not supported data type is pasted into editor.
+* [#3552](https://github.com/ckeditor/ckeditor4/issues/3352): Fixed: Incorrect value of [`CKEDITOR.plugins.widget.repository#selected`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget_repository.html#property-selected) after selecting whole editor's content.
 
 ## CKEditor 4.13
 

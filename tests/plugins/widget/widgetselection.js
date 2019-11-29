@@ -508,6 +508,36 @@
 					assertWidgetsEvents( result, [], [], [], [] );
 				}, true );
 			} );
+		},
+
+		// (#3352)
+		'test refreshing selected widgets on key event': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testkeyrefresh', {} );
+			editor.focus();
+
+			this.editorBot.setData( '<p>foo</p><p><span data-widget="testkeyrefresh" id="x">bar</span></p><p>baz</p>', function() {
+				var widget = getWidgetById( editor, 'x' ),
+					range = editor.createRange(),
+					domEvent = new CKEDITOR.dom.event( { keyCode: 65 } );
+
+				range.selectNodeContents( editor.editable() );
+				range.select();
+
+				// This line ensures that without update on key event,
+				// collection of selected widgets will be empty.
+				editor.widgets.selected = [];
+
+				setTimeout( function() {
+					resume( function() {
+						arrayAssert.itemsAreSame( [ widget ], editor.widgets.selected );
+					} );
+				}, 11 );
+
+				editor.fire( 'key', { domEvent: domEvent } );
+				wait();
+			} );
 		}
 	} );
 } )();
