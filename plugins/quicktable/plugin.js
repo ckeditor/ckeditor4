@@ -8,7 +8,7 @@
  */
 
 ( function() {
-	var GRID_SIZE = 10;
+	'use strict';
 
 	CKEDITOR.plugins.add( 'quicktable', {
 		requires: 'panelbutton,floatpanel',
@@ -16,34 +16,83 @@
 		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		init: function( editor ) {
-			var lang = editor.lang.quicktable;
+			editor.once( 'pluginsLoaded', function() {
+				var lang = editor.lang;
 
-			if ( editor.plugins.table ) {
-				new CKEDITOR.plugins.quicktable( editor, {
-					name: 'table',
-					label: lang.table,
-					title: lang.table,
-					insert: function( rows, cols ) {
-						CKEDITOR.plugins.table.insert( editor, rows, cols );
-					}
-				} ).attach();
-			}
+				if ( editor.plugins.table ) {
+					new CKEDITOR.plugins.quicktable( editor, {
+						name: 'table',
+						title: lang.table.toolbar,
+						label: lang.table.toolbar,
+						insert: CKEDITOR.plugins.table.insert,
+						command: 'table',
+						advButtonTitle: lang.quicktable.insertTable
+					} ).attach();
+				}
+
+				if ( editor.plugins.spreadsheet ) {
+					new CKEDITOR.plugins.quicktable( editor, {
+						name: 'spreadsheet',
+						title: lang.spreadsheet.name,
+						label: lang.spreadsheet.name,
+						insert: CKEDITOR.plugins.spreadsheet.insert,
+						command: 'spreadsheet',
+						advButtonTitle: lang.quicktable.insertSpreadsheet
+					} ).attach();
+				}
+			} );
 		}
 	} );
 
+	/**
+	 * The main class implementing [Quick Table](https://ckeditor.com/cke4/addon/quicktable) feature.
+	 *
+	 * It acts as a simplified, selectable grid menu option, reducing steps required to insert custom grid
+	 * structure based on rows and columns size.
+	 *
+	 * @since 4.14.0
+	 * @class CKEDITOR.plugins.quicktable
+	 */
 	CKEDITOR.plugins.quicktable = CKEDITOR.tools.createClass( {
+		/**
+		 * Initializes Quick Table instance over existing plugin defined by passed
+		 * {@link CKEDITOR.plugins.quicktable.definition defintion configuration}.
+		 *
+		 * ```javascript
+		 * var quicktable = new CKEDITOR.plugins.quicktable( editor, {
+		 * 	name: 'table',
+		 * 	title: 'Insert a table',
+		 * 	label: 'Insert a table',
+		 * 	insert: CKEDITOR.plugins.table.insert
+		 * } );
+		 *
+		 * quicktable.attach();
+		 * ```
+		 *
+		 * @constructor
+		 * @param {CKEDITOR.editor} editor
+		 * @param {CKEDITOR.plugins.quicktable.definition} definition
+		 */
 		$: function( editor, definition ) {
 			this.editor = editor;
 			this.definition = definition;
 
+			/**
+			 * Indicates the number of rows and columns of the selectable grid.
+			 *
+			 * @property {Number} [=10]
+			 * @readonly
+			 */
 			this.gridSize = 10;
 		},
 
 		proto: {
+			/**
+			 * Attaches menu button to the [Toolbar](https://ckeditor.com/cke4/addon/toolbar).
+			 */
 			attach: function() {
 				var definition = this.definition,
 					path = this.editor.plugins.quicktable.path,
-					lang = this.editor.lang,
 					that = this;
 
 				this.editor.ui.add( this.getPanelName(), CKEDITOR.UI_PANELBUTTON, {
@@ -61,14 +110,19 @@
 					},
 					panel: {
 						css: path + 'skins/default.css',
-						attributes: { role: 'listbox', 'aria-label': lang.insert }
+						attributes: { role: 'listbox', 'aria-label': definition.label }
 					}
 				} );
 
 			},
 
+			/**
+			 * Returns panel name registered by the toolbar.
+			 *
+			 * @returns {String}
+			 */
 			getPanelName: function() {
-				return 'quicktable' + this.definition.name;
+				return 'quicktable_' + this.definition.name;
 			}
 		},
 
@@ -80,7 +134,10 @@
 				this.element.addClass( 'cke_quicktable' );
 				this.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 
-				this._.addAdvancedButton();
+				if ( this.definition.command ) {
+					this._.addAdvancedButton();
+				}
+
 				this._.addStatus();
 				this._.addGrid();
 				this._.handleKeyoardNavigation();
@@ -139,8 +196,8 @@
 
 			addAdvancedButton: function() {
 				var button = this._.createElementFromTemplate( this._.advButtonTemplate, {
-						title: this.definition.title,
-						iconPath: CKEDITOR.skin.icons[ this.definition.name ].path
+						title: this.definition.advButtonTitle || this.definition.title,
+						iconPath: CKEDITOR.skin.icons[ this.definition.icon || this.definition.name ].path
 					} ),
 					row = this._.createElementFromTemplate( this._.rowTemplate );
 
@@ -148,14 +205,14 @@
 
 				// These elements won't be focused by panel plugin due to missing correct attribute and visibility,
 				// however, they will fix the issue where panel rows are not equal size for vertical navigation.
-				for ( var i = 0; i < GRID_SIZE - 1; i++ ) {
+				for ( var i = 0; i < this.gridSize - 1; i++ ) {
 					row.append( this._.createFillingFocusable() );
 				}
 
 				this.element.append( row );
 
 				button.on( 'click', function() {
-					this.editor.execCommand( this.definition.name );
+					this.editor.execCommand( this.definition.command );
 				}, this );
 
 				button.on( 'focus', this._.clearSelectedCells, this );
@@ -189,11 +246,13 @@
 			addGrid: function() {
 				this.grid = this._.createGridElement();
 
-				this.element.append( this.grid );
+				this.grid.insertBefore( this.status );
 
 				this.grid.on( 'mouseover', this._.handleGridSelection );
 				this.grid.on( 'click', function() {
-					this.definition.insert( this._.rows, this._.cols );
+					if ( this.definition.insert ) {
+						this.definition.insert( this.editor, this._.rows, this._.cols );
+					}
 				}, this );
 			},
 
@@ -261,4 +320,75 @@
 			}
 		}
 	} );
+
+	/**
+	 *
+	 * Abstract class describing the definition of the [Quick Table](https://ckeditor.com/cke4/addon/quicktable) plugin configuration.
+	 *
+	 * Simple usage:
+	 *
+	 * ```javascript
+ 	 * var definition = {
+	 * 	name: 'table',
+	 * 	title: 'Insert a table',
+	 * 	label: 'Insert a table',
+	 * 	insert: CKEDITOR.plugins.table.insert
+	 * 	command: 'table'
+	 * };
+	 * ```
+	 *
+	 * @class CKEDITOR.plugins.quicktable.definition
+	 * @abstract
+	 * @since 4.14.0
+	 */
+
+	/**
+	 * Quick Table instance name.
+	 *
+	 * @property {String} name
+	 */
+
+	/**
+	 * The title of the menu button.
+	 *
+	 * @property {String} title
+	 */
+
+	/**
+	 * The label of the UI element.
+	 *
+	 * @property {String} label
+	 */
+
+	/**
+	 * The icon name of the menu button.
+	 *
+	 * Defaults to {@link CKEDITOR.plugins.quicktable.definition#name}.
+	 *
+	 * @property {String} [icon]
+	 */
+
+	/**
+	 * Callback executed once user clicked one of the grid cells.
+	 *
+	 * @method insert
+	 * @param {CKEDITOR.editor} editor
+	 * @param {Number} rows Number of rows selected by a user.
+	 * @param {Number} cols Number of columns selected by a user.
+	 */
+
+	/**
+	 * Provides additional advanced panel button executing the given
+	 * command when clicked.
+	 *
+	 * @property {String} [command]
+	 */
+
+	/**
+	 * The title of the advanced command button.
+	 *
+	 * Defaults to {@link CKEDITOR.plugins.quicktable.definition#title}.
+	 *
+	 * @property {String} [advButtonTitle]
+	 */
 } )();
