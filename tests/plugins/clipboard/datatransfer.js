@@ -1245,5 +1245,12 @@ bender.test( {
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		arrayAssert.itemsAreSame( expectedTypes, dataTransfer.getTypes() );
+	},
+
+	// (#3634)
+	'test getTypes when there is no native data transfer': function() {
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
+
+		arrayAssert.itemsAreSame( [], dataTransfer.getTypes() );
 	}
 } );

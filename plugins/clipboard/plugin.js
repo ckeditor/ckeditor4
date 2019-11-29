@@ -2733,7 +2733,7 @@
 		 * @returns {String[]}
 		 */
 		getTypes: function() {
-			if ( !this.$.types ) {
+			if ( !this.$ || !this.$.types ) {
 				return [];
 			}
 
