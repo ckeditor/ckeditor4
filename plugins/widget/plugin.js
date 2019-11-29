@@ -3444,35 +3444,27 @@
 	// Fix might be obsolete after (#3551).
 	function getSelectedHtmlWithFullWidgets( editor ) {
 		var selection = editor.getSelection( true ),
-			ranges = selection.getRanges(),
+			range = selection.getRanges()[ 0 ].clone(),
 			editable = editor.editable(),
-			range,
-			wrapper,
-			outputHtml = '';
+			wrapper;
 
-		for ( var i = 0; i < ranges.length; i++ ) {
-			range = ranges[ i ].clone();
+		wrapper = range.startContainer.getAscendant( function( element ) {
+			return Widget.isDomWidgetWrapper( element );
+		}, true );
 
-			wrapper = range.startContainer.getAscendant( function( element ) {
-				return Widget.isDomWidgetWrapper( element );
-			}, true );
-
-			if ( wrapper ) {
-				range.setStartAt( wrapper, CKEDITOR.POSITION_AFTER_END );
-			}
-
-			wrapper = range.endContainer.getAscendant( function( element ) {
-				return Widget.isDomWidgetWrapper( element );
-			}, true );
-
-			if ( wrapper ) {
-				range.setEndAt( wrapper, CKEDITOR.POSITION_BEFORE_START );
-			}
-
-			outputHtml += editable.getHtmlFromRange( range ).getHtml();
+		if ( wrapper ) {
+			range.setStartAt( wrapper, CKEDITOR.POSITION_AFTER_END );
 		}
 
-		return outputHtml;
+		wrapper = range.endContainer.getAscendant( function( element ) {
+			return Widget.isDomWidgetWrapper( element );
+		}, true );
+
+		if ( wrapper ) {
+			range.setEndAt( wrapper, CKEDITOR.POSITION_BEFORE_START );
+		}
+
+		return editable.getHtmlFromRange( range ).getHtml();
 	}
 
 	// Extracts classes array from style instance.
