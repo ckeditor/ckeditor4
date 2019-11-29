@@ -1,6 +1,6 @@
 @bender-tags: 4.13.1, bug, 3498
 @bender-ui: collapsed
-@bender-ckeditor-plugins: widget, undo, wysiwygarea, toolbar, magicline
+@bender-ckeditor-plugins: widget, undo, wysiwygarea, toolbar, magicline, resize, elementspath, sourcearea, htmlwriter
 
 1. Open browser's console.
 2. Create selection which starts in text and ends in widget.
