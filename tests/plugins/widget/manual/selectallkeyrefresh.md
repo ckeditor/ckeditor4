@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: image2, wysiwygarea, toolbar, sourcearea, undo, selectall
 
-1. Select all inside the editor. **DO NOT** release keys.
+1. Select all content inside the editor with <kbd>Ctrl/Cmd</kbd> + <kbd>A</kbd>. **DO NOT** release keys.
 2. Check counter of selected widgets.
 
 	## Expected
@@ -17,7 +17,7 @@
 
 	## Expected
 
-	The number equals the number of widgets inside the editor.
+	The number equals the number of widgets inside the editor upon copy/cut.
 
 	## Unexpected
 
