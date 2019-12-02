@@ -91,6 +91,48 @@
 
 			block.onKeyDown( 40 );
 			assert.areEqual( 0, block._.focusIndex );
+		},
+
+		// (#3654)
+		'test up with moved position': function() {
+			var block = createGridBlock( 4 );
+
+			block.keys[ 38 ] = 'up'; // ARROW-UP
+
+			block._.markItem( 2 );
+
+			block.onKeyDown( 38 );
+			assert.areEqual( 14, block._.focusIndex );
+
+			block.onKeyDown( 38 );
+			assert.areEqual( 10, block._.focusIndex );
+
+			block.onKeyDown( 38 );
+			assert.areEqual( 6, block._.focusIndex );
+
+			block.onKeyDown( 38 );
+			assert.areEqual( 2, block._.focusIndex );
+		},
+
+		// (#3654)
+		'test down with moved position': function() {
+			var block = createGridBlock( 4 );
+
+			block.keys[ 40 ] = 'down'; // ARROW-DOWN
+
+			block._.markItem( 2 );
+
+			block.onKeyDown( 40 );
+			assert.areEqual( 6, block._.focusIndex );
+
+			block.onKeyDown( 40 );
+			assert.areEqual( 10, block._.focusIndex );
+
+			block.onKeyDown( 40 );
+			assert.areEqual( 14, block._.focusIndex );
+
+			block.onKeyDown( 40 );
+			assert.areEqual( 2, block._.focusIndex );
 		}
 	} );
 
