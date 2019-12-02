@@ -1,12 +1,12 @@
 ( function() {
 	'use strict';
 
-	// Function extends dialog with a new event (`focusChange`) which is executed, when tab or element on focusList gain a focus
-	// This general approach helps to finish promises, when focus was changed inside the dialog.
+	// Function extends dialog with a new event (`focusChange`) which is executed, when tab or element on `focusList` gains focus.
+	// This generic approach helps to resolve promises, when focus was changed intenrally by the dialog itself.
 	function onLoadHandler( evt ) {
 		var dialog = evt.sender;
 
-		// Apply listening to focus change on tabs in dialog
+		// Apply listening to focus change on tabs in dialog.
 		CKEDITOR.tools.array.forEach( CKEDITOR.tools.object.values( dialog._.tabs ), function( item ) {
 			item[ 0 ].on( 'focus', function() {
 				dialog.fire( 'focusChange' );
@@ -21,55 +21,65 @@
 		} );
 	}
 
-	// Function generates event, based on passed options, which changes focus in the dialog.
-	// It supports few possibilities, which interact with dialog in a different way.
-	// 1. passing `options.direction` moves focus with dialog method `changeFocus`
-	// 2. passing `options.elementId` and `options.tab` moves focus with `CKEDITOR.dom.element.focus()` on element found with options values
-	// 3. passing `options.buttonName` moves focus to "OK" or "Cancel" buttons by execution of `CKEDITOR.dom.element.focus()` on this element
-	// 4. passing `options.key` fires "keydown" event on dialog._.element with a specified keyCode. It simulates moving focus with a keyboard.
-	//    There might be also added key modifiers "shift" or "alt"
+	// Function changes focused element or fires event, which tirggers focus change in the dialog, based on provided options.
 	//
-	// In case of passing invalid options option, function throws a descriptive error.
+	// It supports few possibilities, which interact with dialog in a different way:
+	// 1. Passing `options.direction` moves focus with dialog method `changeFocus`.
+	// 2. Passing `options.elementId` and `options.tab` moves focus with `CKEDITOR.dom.element.focus()` method to found element.
+	// 3. Passing `options.buttonName` moves focus to "OK" or "Cancel" buttons with `CKEDITOR.dom.element.focus()` method.
+	// 4. Passing `options.key` fires `keydown` event on dialog._.element with a specified `keyCode`. It simulates moving focus
+	// with a keyboard. It also supports key modifiers: `shift` or `alt`.
+	//
+	// Function returns true if it triggered focus change. In case of passing invalid options argument, function throws a descriptive error.
 	function changeFocus( dialog, options ) {
-		var element;
-
 		if ( !( dialog instanceof CKEDITOR.dialog ) ) {
-			throw new Error( 'Passed "dialog" argument is not an instance of the CKEDITOR.dialog.' );
+			throw new Error( 'Passed "dialog" argument is not an instance of `CKEDITOR.dialog`.' );
 		}
 
-		if ( options.direction === 'next' ) {
-			// 1.
-			dialog.changeFocus( 1 );
-		} else if ( options.direction === 'previous' ) {
-			// 1.
-			dialog.changeFocus( -1 );
-		} else if ( options.key ) {
-			if ( typeof options.key !== 'number' ) {
-				throw new Error( 'Invalid focus options. "options.key" should be a number: ' + JSON.stringify( options ) );
+		// Case 1 - Move focus forward/backward.
+		if ( options.direction ) {
+			if ( options.direction === 'next' ) {
+				dialog.changeFocus( 1 );
+			} else if ( options.direction === 'previous' ) {
+				dialog.changeFocus( -1 );
+			} else {
+				throw new Error( 'Invalid `options.direction`: ' + JSON.stringify( options ) );
 			}
-			// 4.
-			dialog._.element.fire( 'keydown', new CKEDITOR.dom.event( {
-				keyCode: options.key,
-				shiftKey: options.shiftKey ? true : false,
-				altKey: options.altKey ? true : false
-			} ) );
-		} else {
+
+			return true;
+		}
+
+		// Case 2 and 3 - Focus element.
+		if ( options.buttonName || options.elementId && options.tab ) {
+			var element;
+
 			if ( options.elementId && options.tab ) {
-				// 2.
 				element = dialog.getContentElement( options.tab, options.elementId ).getInputElement();
 			} else if ( options.buttonName ) {
-				// 3.
 				element = dialog.getButton( options.buttonName ).getInputElement();
-			} else {
-				throw new Error( 'Invalid focus options. There is no valid "Object.key": ' + JSON.stringify( options ) );
 			}
 
 			if ( element ) {
 				element.focus();
 			} else {
-				throw new Error( 'Invalid focus options. DOM element cannot be found based on the options: ' + JSON.stringify( options ) );
+				throw new Error( 'Invalid focus options. DOM element cannot be found based on the provided options: ' + JSON.stringify( options ) );
 			}
+
+			return true;
 		}
+
+		// Case 4 - Fire key event.
+		if ( options.key ) {
+			dialog._.element.fire( 'keydown', new CKEDITOR.dom.event( {
+				keyCode: parseInt( options.key, 10 ),
+				shiftKey: options.shiftKey ? true : false,
+				altKey: options.altKey ? true : false
+			} ) );
+
+			return true;
+		}
+
+		throw new Error( 'Invalid focus options: ' + JSON.stringify( options ) );
 	}
 
 
@@ -286,13 +296,13 @@
 			}
 		},
 
-		// Assert for checking dialog elements and buttons.
-		// Requires either `buttonName` or combintation of `tab` and `elementId` input options.
+		// Assert checking dialog focused element or button.
+		// It requires either `buttonName` or combintation of `tab` and `elementId` input options.
 		//
 		// @param options
-		// @param {String} [options.buttonName] represent name of the button from dialog footer, usually 'ok' or 'cancel'
-		// @param {String} [options.tab] the ID of a tab in the dialog
-		// @param {String} [options.elementId] the ID of an element on a given tab page
+		// @param {String} [options.buttonName] Button name from dialog footer, usually 'ok' or 'cancel'.
+		// @param {String} [options.tab] Dialog tab ID.
+		// @param {String} [options.elementId] Dialog element ID on any given tab page.
 		assertFocusedElement: function( options ) {
 			return function( dialog ) {
 				var actualFocusedElement = dialog._.focusList[ dialog._.currentFocusIndex ];
@@ -315,13 +325,13 @@
 			};
 		},
 
-		// Assert checkign focus on tab elements in dialog
+		// Assert checking dialog focused tab.
 		//
-		// @param {String} tabName ID of a tab
-		assertFocusedTab: function( tabName ) {
+		// @param {String} tab The tab ID.
+		assertFocusedTab: function( tab ) {
 			return function( dialog ) {
 				assert.areEqual( -1, dialog._.currentFocusIndex );
-				assert.areEqual( tabName, dialog._.currentTabId );
+				assert.areEqual( tab, dialog._.currentTabId );
 
 				return dialog;
 			};
@@ -338,8 +348,8 @@
 						rejectTimeout;
 
 					dialog.once( 'focusChange', function() {
-						// Keep the event asynchronous to have sure that all changes related to focus change on a given element or tab
-						// was already prcoessed.
+						// Keep the event asynchronous to make sure that all changes related to focus change
+						// on a given element or tab were  already prcoessed.
 						resolveTimeout = CKEDITOR.tools.setTimeout( function() {
 							if ( rejectTimeout !== undefined ) {
 								window.clearTimeout( rejectTimeout );
@@ -348,12 +358,12 @@
 						} );
 					} );
 
-					// Safety switch to finish promise in case of focusing not tracked element, or not changing a focus in a dialog.
+					// Safety switch to finish promise in case of lack of focus change in dialog.
 					rejectTimeout = CKEDITOR.tools.setTimeout( function() {
 						if ( resolveTimeout !== undefined ) {
 							window.clearTimeout( resolveTimeout );
 						}
-						reject( new Error( 'Focus hasn\'t change for last 5 seconds' ) );
+						reject( new Error( 'Focus hasn\'t change for at least 5 seconds' ) );
 					}, 5000 );
 
 					changeFocus( dialog, options );
@@ -361,6 +371,7 @@
 			};
 		},
 
+		// Setup test dialogs on given editor instance.
 		addPredefinedDialogsToEditor: function( editor ) {
 			CKEDITOR.dialog.add( 'singlePageDialog', this.definitions.singlePage );
 			CKEDITOR.dialog.add( 'multiPageDialog', this.definitions.multiPage );
