@@ -198,9 +198,10 @@
 			),
 
 			addAdvancedButton: function() {
-				var button = this._.createElementFromTemplate( this._.advButtonTemplate, {
+				var icon = CKEDITOR.skin.icons[ this.definition.icon || this.definition.name ],
+					button = this._.createElementFromTemplate( this._.advButtonTemplate, {
 						title: this.definition.advButtonTitle || this.definition.title,
-						iconPath: CKEDITOR.skin.icons[ this.definition.icon || this.definition.name ].path
+						iconPath: icon && icon.path
 					} ),
 					row = this._.createElementFromTemplate( this._.rowTemplate );
 
