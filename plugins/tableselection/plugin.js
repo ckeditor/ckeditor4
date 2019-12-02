@@ -889,12 +889,6 @@
 				return false;
 			}
 
-			// 5. It's single range that does not fully contain table element and is not boundary, e.g. collapsed selection within
-			// cell, part of cell etc.
-			if ( selectedCells.length === 1 && !rangeContainsTableElement( ranges[ 0 ] ) && !boundarySelection ) {
-				return false;
-			}
-
 			return true;
 		}
 

@@ -31,8 +31,6 @@
 		'test pasting with whole blockquote selected': createPasteTestCase( 'all-blockquote', 'text-paste' ),
 
 		'test isBoundaryWithoutTable case': createPasteTestCase( 'boundary-without-table', 'text-paste' ),
-
-		'test isCollapsedPartial case': createPasteTestCase( 'collapsed-partial', 'text-paste' )
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
