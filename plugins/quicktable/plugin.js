@@ -89,6 +89,8 @@
 		proto: {
 			/**
 			 * Attaches menu button to the [Toolbar](https://ckeditor.com/cke4/addon/toolbar).
+			 *
+			 * @returns {CKEDITOR.plugins.quicktable}
 			 */
 			attach: function() {
 				var definition = this.definition,
@@ -114,6 +116,7 @@
 					}
 				} );
 
+				return this;
 			},
 
 			/**
@@ -122,7 +125,7 @@
 			 * @returns {String}
 			 */
 			getPanelName: function() {
-				return 'quicktable_' + this.definition.name;
+				return 'Quick' + CKEDITOR.tools.capitalize( this.definition.name );
 			}
 		},
 
