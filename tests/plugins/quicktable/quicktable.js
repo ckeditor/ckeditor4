@@ -4,10 +4,31 @@
 ( function() {
 	'use strict';
 
-	var sandbox = sinon.sandbox.create();
+	var sandbox = sinon.sandbox.create(),
+		commandSpy = sandbox.spy(),
+		insertSpy = sandbox.spy();
 
-	bender.editors = {
-		simple: createEditorConfig( 'simple' )
+	bender.editor = {
+		name: name,
+		config: {
+			on: {
+				pluginsLoaded: function( evt ) {
+					var editor = evt.editor;
+
+					editor._.quicktable = new CKEDITOR.plugins.quicktable( editor, {
+						name: 'test_name',
+						title: 'test title',
+						label: 'test label',
+						insert: insertSpy,
+						command: 'testcommand'
+					} ).attach();
+
+					editor.addCommand( 'testcommand', {
+						exec: commandSpy
+					} );
+				}
+			}
+		}
 	};
 
 	bender.test( {
@@ -15,14 +36,14 @@
 			sandbox.reset();
 		},
 
-		'test mouseover selection (0 x 0)': testMouseoverSelection( 'simple', 0, 0 ),
-		'test mouseover selection (9 x 9)': testMouseoverSelection( 'simple', 9, 9 ),
-		'test mouseover selection (3 x 5)': testMouseoverSelection( 'simple', 3, 5 ),
-		'test mouseover selection (7 x 8)': testMouseoverSelection( 'simple', 7, 8 ),
-		'test mouseover selection (6 x 3)': testMouseoverSelection( 'simple', 6, 3 ),
+		'test mouseover selection (0 x 0)': testMouseoverSelection( 0, 0 ),
+		'test mouseover selection (9 x 9)': testMouseoverSelection( 9, 9 ),
+		'test mouseover selection (3 x 5)': testMouseoverSelection( 3, 5 ),
+		'test mouseover selection (7 x 8)': testMouseoverSelection( 7, 8 ),
+		'test mouseover selection (6 x 3)': testMouseoverSelection( 6, 3 ),
 
 		'test insertion': function() {
-			var editor = this.editors.simple,
+			var editor = this.editor,
 				quicktable = editor._.quicktable;
 
 			openPanel( editor, quicktable );
@@ -31,10 +52,8 @@
 
 			quicktable.grid.once( 'click', function() {
 				resume( function() {
-					var spy = quicktable.definition.insert;
-
 					// Note that the number of rows and cols should be +1 relative to coords.
-					assert.isTrue( spy.calledWith( editor, 4, 6 ),
+					assert.isTrue( insertSpy.calledWith( editor, 4, 6 ),
 						'Insertion function should be called with correct arguments' );
 				} );
 			} );
@@ -44,36 +63,23 @@
 			} ) );
 
 			wait();
+		},
+
+		'test advanced button': function() {
+			var editor = this.editor,
+				quicktable = editor._.quicktable;
+
+			openPanel( editor, quicktable );
+
+			quicktable.block.element.findOne( '.cke_quicktable_button' ).fire( 'click' );
+
+			assert.isTrue( commandSpy.calledOnce );
 		}
 	} );
 
-	function createEditorConfig( name ) {
-		return {
-			name: name,
-			config: {
-				on: {
-					pluginsLoaded: function( evt ) {
-						var editor = evt.editor;
-
-						editor._.quicktable = new CKEDITOR.plugins.quicktable( editor, {
-							name: 'test_' + name,
-							title: 'title ' + name,
-							label: 'label ' + name,
-							insert: sandbox.spy()
-						} ).attach();
-
-						editor.addCommand( 'testcommand_' + name, {
-							exec: sandbox.spy()
-						} );
-					}
-				}
-			}
-		};
-	}
-
-	function testMouseoverSelection( editorName, x, y ) {
+	function testMouseoverSelection( x, y ) {
 		return function() {
-			var editor = this.editors[ editorName ],
+			var editor = this.editor,
 				quicktable = editor._.quicktable;
 
 			openPanel( editor, quicktable );
