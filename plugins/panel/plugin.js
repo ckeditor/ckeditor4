@@ -425,8 +425,10 @@
 					this.element.setStyle( 'display', 'none' );
 			},
 
-			handleKeyboardFocus: function( keyAction ) {
-				var focusable, index;
+			onKeyDown: function( keystroke ) {
+				var keyAction = this.keys[ keystroke ],
+					index,
+					focusable;
 
 				switch ( keyAction ) {
 					case 'next':
@@ -435,7 +437,7 @@
 							this._.focusNext( 0 );
 						}
 
-						return true;
+						return false;
 					case 'prev':
 						// If no focusable was found, cycle and restart from the bottom. (https://dev.ckeditor.com/ticket/11125)
 						if ( !this._.focusPrev( this._.focusIndex - 1 ) ) {
@@ -443,7 +445,7 @@
 							this._.focusPrev( this._.getItems().count() - 1 );
 						}
 
-						return true;
+						return false;
 					case 'up':
 						index = this._.focusIndex;
 						// If no focusable was found, cycle and restart from the bottom. (https://dev.ckeditor.com/ticket/11125)
@@ -452,7 +454,7 @@
 							this._.focusPrev( this._.getItems().count() - indexOffset );
 						}
 
-						return true;
+						return false;
 
 					case 'down':
 						index = this._.focusIndex;
@@ -462,7 +464,7 @@
 							this._.focusNext( index % this.vNavOffset );
 						}
 
-						return true;
+						return false;
 
 					case 'click':
 					case 'mouseup':
@@ -476,14 +478,10 @@
 							} );
 						}
 
-						return true;
+						return false;
 				}
 
-				return false;
-			},
-
-			onKeyDown: function( keystroke ) {
-				return !this.handleKeyboardFocus( this.keys[ keystroke ] );
+				return true;
 			}
 		}
 	} );
