@@ -213,8 +213,6 @@
 				} );
 
 				rejectTimeout = CKEDITOR.tools.setTimeout( function() {
-					// Generally resolveTimeout should always be undefined. However, there is slight chance, that showing dialog will be executed slower.
-					// So the resolveTimeout will be created with much delay. If that delay will be almost exact 5 seconds, then rejectTimeout will be first in the event loop.
 					if ( resolveTimeout !== undefined ) {
 						window.clearTimeout( resolveTimeout );
 					}
