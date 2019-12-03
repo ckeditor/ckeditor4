@@ -15,13 +15,14 @@
 				pluginsLoaded: function( evt ) {
 					var editor = evt.editor;
 
-					editor._.quicktable = new CKEDITOR.plugins.quicktable( editor, {
-						name: 'test_name',
+					editor._.quicktable = new CKEDITOR.plugins.quicktable( editor );
+
+					editor._.quicktable.addButton( 'Test', {
 						title: 'test title',
 						label: 'test label',
 						insert: insertSpy,
 						command: 'testcommand'
-					} ).attach();
+					} );
 
 					editor.addCommand( 'testcommand', {
 						exec: commandSpy
@@ -46,7 +47,7 @@
 			var editor = this.editor,
 				quicktable = editor._.quicktable;
 
-			openPanel( editor, quicktable );
+			openPanel( editor );
 
 			var target = simulateMouseOver( quicktable, 3, 5 );
 
@@ -65,11 +66,11 @@
 			wait();
 		},
 
-		'test advanced button': function() {
+		'test command button': function() {
 			var editor = this.editor,
 				quicktable = editor._.quicktable;
 
-			openPanel( editor, quicktable );
+			openPanel( editor );
 
 			quicktable.block.element.findOne( '.cke_quicktable_button' ).fire( 'click' );
 
@@ -82,7 +83,7 @@
 			var editor = this.editor,
 				quicktable = editor._.quicktable;
 
-			openPanel( editor, quicktable );
+			openPanel( editor );
 
 			quicktable.grid.once( 'mouseover', function() {
 				resume( function() {
@@ -95,8 +96,8 @@
 		};
 	}
 
-	function openPanel( editor, quicktable ) {
-		editor.ui.get( quicktable.getPanelName() ).click( editor );
+	function openPanel( editor ) {
+		editor.ui.get( 'Test' ).click( editor );
 	}
 
 	function simulateMouseOver( quicktable, x, y ) {

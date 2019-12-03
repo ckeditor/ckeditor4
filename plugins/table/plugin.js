@@ -92,11 +92,26 @@ CKEDITOR.plugins.add( 'table', {
 			}
 		} ) );
 
-		editor.ui.addButton && editor.ui.addButton( 'Table', {
-			label: lang.toolbar,
-			command: 'table',
-			toolbar: 'insert,30'
-		} );
+		if ( editor.ui.addButton ) {
+			// (#3654)
+			if ( editor.plugins.quicktable ) {
+				var quicktable = new CKEDITOR.plugins.quicktable( editor );
+
+				quicktable.addButton( 'Table', {
+					title: lang.toolbar,
+					label: lang.insert,
+					toolbar: 'insert,30',
+					command: 'table',
+					insert: CKEDITOR.plugins.table.insert
+				} );
+			} else {
+				editor.ui.addButton && editor.ui.addButton( 'Table', {
+					label: lang.toolbar,
+					command: 'table',
+					toolbar: 'insert,30'
+				} );
+			}
+		}
 
 		CKEDITOR.dialog.add( 'table', this.path + 'dialogs/table.js' );
 		CKEDITOR.dialog.add( 'tableProperties', this.path + 'dialogs/table.js' );
@@ -283,7 +298,6 @@ CKEDITOR.plugins.table = CKEDITOR.tools.createClass( {
 
 			return true;
 		},
-
 
 		/**
 		 * Check if a table has row headers.

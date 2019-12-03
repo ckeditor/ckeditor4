@@ -11,37 +11,7 @@
 	'use strict';
 
 	CKEDITOR.plugins.add( 'quicktable', {
-		requires: 'panelbutton,floatpanel',
-		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
-		// jscs:enable maximumLineLength
-		init: function( editor ) {
-			editor.once( 'pluginsLoaded', function() {
-				var lang = editor.lang;
-
-				if ( editor.plugins.table ) {
-					new CKEDITOR.plugins.quicktable( editor, {
-						name: 'table',
-						title: lang.table.toolbar,
-						label: lang.table.toolbar,
-						insert: CKEDITOR.plugins.table.insert,
-						command: 'table',
-						advButtonTitle: lang.quicktable.insertTable
-					} ).attach();
-				}
-
-				if ( editor.plugins.spreadsheet ) {
-					new CKEDITOR.plugins.quicktable( editor, {
-						name: 'spreadsheet',
-						title: lang.spreadsheet.name,
-						label: lang.spreadsheet.name,
-						insert: CKEDITOR.plugins.spreadsheet.insert,
-						command: 'spreadsheet',
-						advButtonTitle: lang.quicktable.insertSpreadsheet
-					} ).attach();
-				}
-			} );
-		}
+		requires: 'panelbutton,floatpanel'
 	} );
 
 	/**
@@ -59,23 +29,21 @@
 		 * {@link CKEDITOR.plugins.quicktable.definition defintion configuration}.
 		 *
 		 * ```javascript
-		 * var quicktable = new CKEDITOR.plugins.quicktable( editor, {
-		 * 	name: 'table',
-		 * 	title: 'Insert a table',
-		 * 	label: 'Insert a table',
-		 * 	insert: CKEDITOR.plugins.table.insert
-		 * } );
+		 * var quicktable = new CKEDITOR.plugins.quicktable( editor );
 		 *
-		 * quicktable.attach();
+		 * quicktable.addButton( 'Table', {
+		 * 	title: 'Insert table',
+		 * 	label: 'Table',
+		 * 	insert: CKEDITOR.plugins.table.insert
+		 * 	command: 'table'
+		 * } );
 		 * ```
 		 *
 		 * @constructor
 		 * @param {CKEDITOR.editor} editor
-		 * @param {CKEDITOR.plugins.quicktable.definition} definition
 		 */
-		$: function( editor, definition ) {
+		$: function( editor ) {
 			this.editor = editor;
-			this.definition = definition;
 
 			/**
 			 * Indicates the number of rows and columns of the selectable grid.
@@ -88,21 +56,19 @@
 
 		proto: {
 			/**
-			 * Attaches menu button to the [Toolbar](https://ckeditor.com/cke4/addon/toolbar).
+			 * Adds menu button to the [Toolbar](https://ckeditor.com/cke4/addon/toolbar).
 			 *
-			 * @returns {CKEDITOR.plugins.quicktable}
+			 * @param {String} name UI element name.
+			 * @param {CKEDITOR.plugins.quicktable.definition} definition
 			 */
-			attach: function() {
-				var definition = this.definition,
-					path = this.editor.plugins.quicktable.path,
+			addButton: function( name, definition ) {
+				var path = this.editor.plugins.quicktable.path,
 					that = this;
 
-				this.editor.ui.add( this.getPanelName(), CKEDITOR.UI_PANELBUTTON, {
-					icon: definition.icon || definition.name,
-					label: definition.label,
-					title: definition.title,
+				this.definition = definition;
+
+				this.editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, CKEDITOR.tools.extend( definition, {
 					modes: { wysiwyg: 1 },
-					toolbar: 'insert,10',
 					onBlock: function( panel, block ) {
 						that._.initializeComponent( panel, block );
 
@@ -114,18 +80,7 @@
 						css: path + 'skins/default.css',
 						attributes: { role: 'listbox', 'aria-label': definition.label }
 					}
-				} );
-
-				return this;
-			},
-
-			/**
-			 * Returns panel name registered by the toolbar.
-			 *
-			 * @returns {String}
-			 */
-			getPanelName: function() {
-				return 'Quick' + CKEDITOR.tools.capitalize( this.definition.name );
+				}, true ) );
 			}
 		},
 
@@ -138,7 +93,7 @@
 				this.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 
 				if ( this.definition.command ) {
-					this._.addAdvancedButton();
+					this._.addCommandButton();
 				}
 
 				this._.addStatus();
@@ -184,7 +139,7 @@
 				'>&nbsp;</a>'
 			),
 
-			advButtonTemplate: new CKEDITOR.template( '<a' +
+			commandButtonTemplate: new CKEDITOR.template( '<a' +
 				' class="cke_quicktable_button"' +
 				' style="background-image:url(\'{iconPath}\')"' +
 				' _cke_focus=1' +
@@ -197,10 +152,10 @@
 				'>{title}</a>'
 			),
 
-			addAdvancedButton: function() {
-				var icon = CKEDITOR.skin.icons[ this.definition.icon || this.definition.name ],
-					button = this._.createElementFromTemplate( this._.advButtonTemplate, {
-						title: this.definition.advButtonTitle || this.definition.title,
+			addCommandButton: function() {
+				var icon = CKEDITOR.skin.icons[ this.definition.command ],
+					button = this._.createElementFromTemplate( this._.commandButtonTemplate, {
+						title: this.definition.label,
 						iconPath: icon && icon.path
 					} ),
 					row = this._.createElementFromTemplate( this._.rowTemplate );
@@ -333,9 +288,8 @@
 	 *
 	 * ```javascript
  	 * var definition = {
-	 * 	name: 'table',
-	 * 	title: 'Insert a table',
-	 * 	label: 'Insert a table',
+	 * 	title: 'Insert table',
+	 * 	label: 'Table',
 	 * 	insert: CKEDITOR.plugins.table.insert
 	 * 	command: 'table'
 	 * };
@@ -344,12 +298,6 @@
 	 * @class CKEDITOR.plugins.quicktable.definition
 	 * @abstract
 	 * @since 4.14.0
-	 */
-
-	/**
-	 * Quick Table instance name.
-	 *
-	 * @property {String} name
 	 */
 
 	/**
@@ -365,14 +313,6 @@
 	 */
 
 	/**
-	 * The icon name of the menu button.
-	 *
-	 * Defaults to {@link CKEDITOR.plugins.quicktable.definition#name}.
-	 *
-	 * @property {String} [icon]
-	 */
-
-	/**
 	 * Callback executed once user clicked one of the grid cells.
 	 *
 	 * @method insert
@@ -382,17 +322,8 @@
 	 */
 
 	/**
-	 * Provides additional advanced panel button executing the given
-	 * command when clicked.
+	 * Command associated with the panel.
 	 *
 	 * @property {String} [command]
-	 */
-
-	/**
-	 * The title of the advanced command button.
-	 *
-	 * Defaults to {@link CKEDITOR.plugins.quicktable.definition#title}.
-	 *
-	 * @property {String} [advButtonTitle]
 	 */
 } )();
