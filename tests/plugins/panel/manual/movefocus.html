@@ -1,0 +1,84 @@
+<style>
+#template {
+	display: none;
+}
+</style>
+
+<textarea id="editor"></textarea>
+
+<div id="template">
+	<style>
+	a {
+		width: 20px;
+		height: 20px;
+		display: block;
+		background: #fca503;
+		text-decoration: none;
+	}
+	a:focus {
+		background: #03fca5;
+	}
+	</style>
+	<table>
+		<tr>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+		</tr>
+		<tr>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+		</tr>
+		<tr>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+		</tr>
+		<tr>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+			<td><a href="javascript: void(0);" _cke_focus="1">&nbsp;</a></td>
+		</tr>
+	</table>
+</div>
+
+<script>
+	CKEDITOR.plugins.add( 'testplugin', {
+		requires: 'panelbutton,floatpanel',
+		init: function( editor ) {
+			editor.ui.add( 'testplugin', CKEDITOR.UI_PANELBUTTON, {
+				label: 'test',
+				title: 'Test Panel',
+				modes: {
+					wysiwyg: 1
+				},
+				editorFocus: 0,
+				panel: {
+					attributes: {}
+				},
+				onBlock: function( panel, block ) {
+					var keys = block.keys;
+
+					keys[ 39 ] = 'next'; // ARROW-RIGHT
+					keys[ 40 ] = 'down'; // ARROW-DOWN
+					keys[ 37 ] = 'prev'; // ARROW-LEFT
+					keys[ 38 ] = 'up'; // ARROW-UP
+
+					block.vNavOffset = 4;
+
+					var templateHtml = CKEDITOR.document.getById( 'template' ).clone( true ).getHtml();
+					block.element.setHtml( templateHtml );
+				}
+			} );
+		}
+	} )
+	var editor = CKEDITOR.replace( 'editor', {
+		extraPlugins: 'testplugin'
+	} );
+
+</script>
