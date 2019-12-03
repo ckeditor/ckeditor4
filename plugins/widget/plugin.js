@@ -3445,26 +3445,33 @@
 	function getHtmlWithFullySelectedWidgets( editor ) {
 		var selection = editor.getSelection( true ),
 			range = selection.getRanges()[ 0 ].clone(),
-			editable = editor.editable(),
-			wrapper;
+			editable = editor.editable();
 
-		wrapper = getAscendantWidgetWrapper( range.startContainer );
-		if ( wrapper ) {
-			range.setStartAt( wrapper, CKEDITOR.POSITION_AFTER_END );
-		}
-
-		wrapper = getAscendantWidgetWrapper( range.endContainer );
-		if ( wrapper ) {
-			range.setEndAt( wrapper, CKEDITOR.POSITION_BEFORE_START );
-		}
+		range = getRangeWithoutPartialWidgets( editor, range );
 
 		return editable.getHtmlFromRange( range ).getHtml();
 	}
 
-	function getAscendantWidgetWrapper( element ) {
-		return element.getAscendant( function( el ) {
-			return Widget.isDomWidgetWrapper( el );
-		}, true );
+	function getRangeWithoutPartialWidgets( editor, range ) {
+		var widget,
+			start = range.startContainer,
+			end = range.endContainer;
+
+		if ( start.type === CKEDITOR.NODE_ELEMENT ) {
+			widget = editor.widgets.getByElement( range.startContainer );
+			if ( widget ) {
+				range.setStartAt( widget.wrapper, CKEDITOR.POSITION_AFTER_END );
+			}
+		}
+
+		if ( end.type === CKEDITOR.NODE_ELEMENT ) {
+			widget = editor.widgets.getByElement( range.endContainer );
+			if ( widget ) {
+				range.setEndAt( widget.wrapper, CKEDITOR.POSITION_BEFORE_START );
+			}
+		}
+
+		return range;
 	}
 
 	// Extracts classes array from style instance.
