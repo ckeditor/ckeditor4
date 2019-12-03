@@ -2,7 +2,7 @@
 	'use strict';
 
 	// Function extends dialog with a new event (`focusChange`) which is executed, when tab or element on `focusList` gains focus.
-	// This generic approach helps to resolve promises, when focus was changed intenrally by the dialog itself.
+	// This generic approach helps to resolve promises, when focus was changed internally by the dialog.
 	function onLoadHandler( evt ) {
 		var dialog = evt.sender;
 
@@ -21,13 +21,13 @@
 		} );
 	}
 
-	// Function changes focused element or fires event, which tirggers focus change in the dialog, based on provided options.
+	// Function changes focused element or fires event which triggers focus change in the dialog, based on provided options.
 	//
-	// It supports few possibilities, which interact with dialog in a different way:
+	// It supports few possibilities to interact with a dialog in a different way:
 	// 1. Passing `options.direction` moves focus with dialog method `changeFocus`.
 	// 2. Passing `options.elementId` and `options.tab` moves focus with `CKEDITOR.dom.element.focus()` method to found element.
 	// 3. Passing `options.buttonName` moves focus to "OK" or "Cancel" buttons with `CKEDITOR.dom.element.focus()` method.
-	// 4. Passing `options.key` fires `keydown` event on dialog._.element with a specified `keyCode`. It simulates moving focus
+	// 4. Passing `options.key` fires `keydown` event on `dialog._.element` with a specified `keyCode`. It simulates moving focus
 	// with a keyboard. It also supports key modifiers: `shift` or `alt`.
 	//
 	// Function returns true if it triggered focus change. In case of passing invalid options argument, function throws a descriptive error.
@@ -296,8 +296,8 @@
 			}
 		},
 
-		// Assert checking dialog focused element or button.
-		// It requires either `buttonName` or combintation of `tab` and `elementId` input options.
+		// Asserts dialog focused element or button.
+		// It requires either `buttonName` or combination of `tab` and `elementId` input options.
 		//
 		// @param options
 		// @param {String} [options.buttonName] Button name from dialog footer, usually 'ok' or 'cancel'.
@@ -325,7 +325,7 @@
 			};
 		},
 
-		// Assert checking dialog focused tab.
+		// Asserts dialog focused tab.
 		//
 		// @param {String} tab The tab ID.
 		assertFocusedTab: function( tab ) {
@@ -337,10 +337,14 @@
 			};
 		},
 
-		// Provides a thenable function which preserved proper options in a closure.
-		// The idea is to wrap function which change focus with a promise. Then wait until dialog generate
-		// a `focusChange` event which should be fired because of execution of onLoadHandler.
-		// There is additional safety switch which rejects promise after 5 seconds without focus change.
+		// Provides a thenable/chainable function which returns "dialog changing focus" promise when called.
+		//
+		// The idea is to wrap a function which changes focus into a promise. The promise resolves when dialog generates
+		// a `focusChange` event. There is an additional safety switch which rejects promise after 5 seconds without focus change.
+		//
+		// @param {Object} options See private `changeFocus` function for available options.
+		// @returns {Function} Function which accepts dialog parameter and returns promise object. The returned promise
+		// changes dialog focused based on provided initial options. When focus change fails, the Promise is rejected after 5 seconds.
 		focusElement: function( options ) {
 			return function( dialog ) {
 				return new CKEDITOR.tools.promise( function( resolve, reject ) {
@@ -349,7 +353,7 @@
 
 					dialog.once( 'focusChange', function() {
 						// Keep the event asynchronous to make sure that all changes related to focus change
-						// on a given element or tab were  already prcoessed.
+						// on a given element or tab were already processed.
 						resolveTimeout = CKEDITOR.tools.setTimeout( function() {
 							if ( rejectTimeout !== undefined ) {
 								window.clearTimeout( rejectTimeout );
@@ -358,7 +362,7 @@
 						} );
 					} );
 
-					// Safety switch to finish promise in case of lack of focus change in dialog.
+					// Safety switch to reject a promise in case of lack of focus change in the dialog.
 					rejectTimeout = CKEDITOR.tools.setTimeout( function() {
 						if ( resolveTimeout !== undefined ) {
 							window.clearTimeout( resolveTimeout );
@@ -371,7 +375,9 @@
 			};
 		},
 
-		// Setup test dialogs on given editor instance.
+		// Setups test dialogs on a given editor instance.
+		//
+		// @param {CKEDITOR.editor} editor
 		addPredefinedDialogsToEditor: function( editor ) {
 			CKEDITOR.dialog.add( 'singlePageDialog', this.definitions.singlePage );
 			CKEDITOR.dialog.add( 'multiPageDialog', this.definitions.multiPage );
