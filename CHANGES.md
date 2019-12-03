@@ -16,6 +16,12 @@ Fixed Issues:
 * [#3524](https://github.com/ckeditor/ckeditor4/issues/3524): Fixed: [Easy Image](https://ckeditor.com/cke4/addon/easyimage) plugin throws an error when any image with not supported data type is pasted into editor.
 * [#3552](https://github.com/ckeditor/ckeditor4/issues/3352): Fixed: Incorrect value of [`CKEDITOR.plugins.widget.repository#selected`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget_repository.html#property-selected) after selecting whole editor's content.
 * [#3586](https://github.com/ckeditor/ckeditor4/issues/3586): Fixed: Content pasted from Excel is not correctly recognised by [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
+* [#3585](https://github.com/ckeditor/ckeditor4/issues/3585): [Firefox] Fixed: Excel content is pasted as an image.
+* [#3625](https://github.com/ckeditor/ckeditor4/issues/3625): [Firefox] Fixed: PowerPoint content is pasted as an image.
+
+API Changes:
+
+* [#3634](https://github.com/ckeditor/ckeditor4/issues/3634): Added the [`CKEDITOR.plugins.clipboard.dataTransfer#getTypes()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_clipboard_dataTransfer.html#method-getTypes) method.
 
 ## CKEditor 4.13
 
