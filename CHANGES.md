@@ -18,6 +18,8 @@ Fixed Issues:
 * [#3586](https://github.com/ckeditor/ckeditor4/issues/3586): Fixed: Content pasted from Excel is not correctly recognised by [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
 * [#3585](https://github.com/ckeditor/ckeditor4/issues/3585): [Firefox] Fixed: Excel content is pasted as an image.
 * [#3625](https://github.com/ckeditor/ckeditor4/issues/3625): [Firefox] Fixed: PowerPoint content is pasted as an image.
+* [#3474](https://github.com/ckeditor/ckeditor4/issues/3474): Fixed: Incorrect focus order after any tab in the [dialog](https://ckeditor.com/cke4/addon/dialog) was clicked.
+* [#3689](https://github.com/ckeditor/ckeditor4/issues/3689): Fixed: Cannot change [dialog](https://ckeditor.com/cke4/addon/dialog) tabs with keyboard arrows after focusing any tab with a mouse click.
 
 API Changes:
 
