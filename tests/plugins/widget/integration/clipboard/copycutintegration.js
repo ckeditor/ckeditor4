@@ -53,6 +53,13 @@
 			}
 		},
 
+		tearDown: function() {
+			var copyBin = CKEDITOR.document.getById( 'cke_copybin' );
+			if ( copyBin ) {
+				copyBin.remove();
+			}
+		},
+
 		'test widget not throw error during copy': function( editor, bot ) {
 			bot.setData( startupData, function() {
 				var editable = editor.editable(),
@@ -63,19 +70,18 @@
 				range.setStart( editable.findOne( 'p' ).getFirst(), 4 );
 				range.setEnd( editable.findOne( 'div.cke_widget_wrapper' ), 0 );
 				range.select();
-				editable.fire( 'copy', pasteEventMock );
 
-				editor.once( 'paste', function( evt ) {
-					resume( function() {
-						assert.isInnerHtmlMatching( '<p>bar</p>', evt.data.dataValue, {
-							customFilters: [ getFilterRemovingBookmarks() ]
-						}, 'Widget shouldn\'t be in the output data.' );
-
+				editable.once( 'copy', function() {
+					CKEDITOR.tools.setTimeout( function() {
+						resume( function() {
+							assert.isInnerHtmlMatching( '<p>bar</p>', CKEDITOR.plugins.clipboard.copyCutData.getData( 'text/html' ), {
+								customFilters: [ getFilterRemovingBookmarks() ]
+							} );
+						}, 110 );
 					} );
-				}, null, null, 1000000 );
+				}, null, null, 10000 );
 
-				// Event fires asynchronous 'paste' event on editor.
-				editable.fire( 'paste', pasteEventMock );
+				editable.fire( 'copy', pasteEventMock );
 				wait();
 			} );
 		},
@@ -94,7 +100,7 @@
 						'</div>';
 
 				// It's necessary to put selection somewhere in the widget wrapper. That's why selection is made in a such way.
-				range.setStart( editable.findOne( 'p' ).getFirst(), 3 );
+				range.setStart( editable.findOne( 'p' ).getFirst(), 4 );
 				range.setEnd( editable.findOne( 'div.cke_widget_wrapper' ), 0 );
 				range.select();
 
@@ -105,20 +111,8 @@
 								customFilters: [ getFilterRemovingBookmarks() ]
 							} );
 							assert.isTrue( editor.getSelection().isCollapsed() );
-
-							editable.fire( 'paste', pasteEventMock );
-							wait();
 						} );
 					}, 110 ); // timeout because of widget/plugin.js -> copyTimeout
-				}, null, null, 1000000 );
-
-				editor.once( 'paste', function( evt ) {
-					resume( function() {
-						assert.isInnerHtmlMatching( '<p> bar</p>', evt.data.dataValue, {
-							customFilters: [ getFilterRemovingBookmarks() ]
-						}, 'Widget shouldn\'t be in the output data.' );
-
-					} );
 				}, null, null, 1000000 );
 
 				editable.fire( 'cut', pasteEventMock );
@@ -127,7 +121,7 @@
 		}
 	};
 
-	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.object.keys( bender.editors ), tests, true );
 
 	bender.test( tests );
 
@@ -138,7 +132,12 @@
 						el.filterChildren( filter );
 					},
 					'span': function( el ) {
+						// There remains some leftovers which should be removed to easy content comparison.
 						if ( el.attributes.id && /^cke_bm_\d+S$/i.test( el.attributes.id ) ) {
+							return false;
+						}
+
+						if ( el.attributes[ 'data-cke-copybin-start' ] || el.attributes[ 'data-cke-copybin-end' ] ) {
 							return false;
 						}
 					}
