@@ -469,23 +469,23 @@
 				colorPanel = editor.ui.get( 'TextColor' ),
 				command = editor.getCommand( 'textColor' );
 
-			assert.areEqual( colorPanel.getState(), command.state, 'should have same initial state' );
+			assert.areEqual( colorPanel.getState(), command.state, 'Should have same initial state.' );
 
 			colorPanel.setState( CKEDITOR.TRISTATE_DISABLED );
-			assert.areEqual( colorPanel.getState(), command.state, 'should have same state after disabling color panel' );
-			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, command.state, 'command should have disbled state' );
+			assert.areEqual( colorPanel.getState(), command.state, 'Should have same state after disabling color panel.' );
+			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, command.state, 'Command should have disbled state.' );
 
 			colorPanel.setState( CKEDITOR.TRISTATE_OFF );
-			assert.areEqual( colorPanel.getState(), command.state, 'should have same state after off color panel' );
-			assert.areEqual( CKEDITOR.TRISTATE_OFF, command.state, 'command should have off state' );
+			assert.areEqual( colorPanel.getState(), command.state, 'Should have same state after off color panel.' );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, command.state, 'Command should have off state.' );
 
 			command.setState( CKEDITOR.TRISTATE_DISABLED );
-			assert.areEqual( command.state, colorPanel.getState(), 'should have same state after disabling command' );
-			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, colorPanel.getState(), 'color panel should have disable state' );
+			assert.areEqual( command.state, colorPanel.getState(), 'Should have same state after disabling command.' );
+			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, colorPanel.getState(), 'Color panel should have disable state.' );
 
 			command.setState( CKEDITOR.TRISTATE_OFF );
-			assert.areEqual( command.state, colorPanel.getState(), 'should have same state after off command' );
-			assert.areEqual( CKEDITOR.TRISTATE_OFF, colorPanel.getState(), 'color panel should have off state' );
+			assert.areEqual( command.state, colorPanel.getState(), 'Should have same state after off command.' );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, colorPanel.getState(), 'Color panel should have off state.' );
 		},
 
 		'test should synchronize state between background color command and background color panel': function() {
@@ -493,23 +493,23 @@
 				colorPanel = editor.ui.get( 'BGColor' ),
 				command = editor.getCommand( 'bgColor' );
 
-			assert.areEqual( colorPanel.getState(), command.state, 'should have same initial state' );
+			assert.areEqual( colorPanel.getState(), command.state, 'Should have same initial state.' );
 
 			colorPanel.setState( CKEDITOR.TRISTATE_DISABLED );
-			assert.areEqual( colorPanel.getState(), command.state, 'should have same state after disabling color panel' );
-			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, command.state, 'command should have disbled state' );
+			assert.areEqual( colorPanel.getState(), command.state, 'Should have same state after disabling color panel.' );
+			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, command.state, 'Command should have disbled state.' );
 
 			colorPanel.setState( CKEDITOR.TRISTATE_OFF );
-			assert.areEqual( colorPanel.getState(), command.state, 'should have same state after off color panel' );
-			assert.areEqual( CKEDITOR.TRISTATE_OFF, command.state, 'command should have off state' );
+			assert.areEqual( colorPanel.getState(), command.state, 'Should have same state after off color panel.' );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, command.state, 'Command should have off state.' );
 
 			command.setState( CKEDITOR.TRISTATE_DISABLED );
-			assert.areEqual( command.state, colorPanel.getState(), 'should have same state after disabling command' );
-			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, colorPanel.getState(), 'color panel should have disable state' );
+			assert.areEqual( command.state, colorPanel.getState(), 'Should have same state after disabling command.' );
+			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, colorPanel.getState(), 'Color panel should have disable state.' );
 
 			command.setState( CKEDITOR.TRISTATE_OFF );
-			assert.areEqual( command.state, colorPanel.getState(), 'should have same state after off command' );
-			assert.areEqual( CKEDITOR.TRISTATE_OFF, colorPanel.getState(), 'color panel should have off state' );
+			assert.areEqual( command.state, colorPanel.getState(), 'Should have same state after off command.' );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, colorPanel.getState(), 'Color panel should have off state.' );
 		}
 	} );
 } )();
