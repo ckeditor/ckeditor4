@@ -879,14 +879,10 @@
 				return false;
 			}
 
-			// 3.1 If it's boundary position and table is pasted, proceed with custom paste.
-			// This positive return is necessary to keep the custom cell pasting (e.g. inserting row in the middle of table) working.
-			if ( boundarySelection ) {
-				return true;
-			}
-
-			// 4. Content exceedes table (#875).
-			if ( !rangeContainsTableElement( ranges[ 0 ] ) ) {
+			// 4. It isn't boundary selection (if it is, at this point we know that table is pasted so it should be
+			// handled by custom paste to properly insert rows etc.) and it either exceedes table or doesn't contain
+			// whole table cell (#875).
+			if ( !boundarySelection && !rangeContainsTableElement( ranges[ 0 ] ) ) {
 				return false;
 			}
 
