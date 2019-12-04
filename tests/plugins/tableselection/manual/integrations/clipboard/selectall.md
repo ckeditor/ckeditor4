@@ -37,7 +37,7 @@ which is not a subject of this fix.
 
 1. Undo changes.
 
-1. Create selection with content between brackets in table cell, paste.
+1. Create selection with content between brackets in table cell (the one with nested table), paste.
 
 	### Expected:
 
