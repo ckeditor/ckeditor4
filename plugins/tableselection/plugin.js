@@ -880,6 +880,7 @@
 			}
 
 			// 3.1 If it's boundary position and table is pasted, proceed with custom paste.
+			// This positive return is necessary to keep the custom cell pasting (e.g. inserting row in the middle of table) working.
 			if ( boundarySelection ) {
 				return true;
 			}
