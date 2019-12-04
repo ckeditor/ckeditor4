@@ -20,7 +20,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			lang = editor.lang.colorbutton;
 
 		if ( !CKEDITOR.env.hc ) {
-			addButton( 'TextColor', 'fore', lang.textColorTitle, 10, {
+			addButton( {
+				name: 'TextColor',
+				type: 'fore',
+				commandName: 'textColor',
+				title: lang.textColorTitle,
+				order: 10,
 				contentTransformations: [
 					[
 						{
@@ -40,13 +45,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				]
 			} );
 
-			var bgOptions = {},
+			var contentTransformations,
 				normalizeBackground = editor.config.colorButton_normalizeBackground;
 
 			if ( normalizeBackground === undefined || normalizeBackground ) {
 				// If background contains only color, then we want to convert it into background-color so that it's
 				// correctly picked by colorbutton plugin.
-				bgOptions.contentTransformations = [
+				contentTransformations = [
 					[
 						{
 							// Transform span that specify background with color only to background-color.
@@ -80,17 +85,27 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				];
 			}
 
-			addButton( 'BGColor', 'back', lang.bgColorTitle, 20, bgOptions );
+			addButton( {
+				name: 'BGColor',
+				type: 'back',
+				commandName: 'bgColor',
+				title: lang.bgColorTitle,
+				order: 20,
+				contentTransformations: contentTransformations
+			} );
 		}
 
-		function addButton( name, type, title, order, options ) {
-			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
+		function addButton( options ) {
+			var name = options.name,
+				type = options.type,
+				title = options.title,
+				order = options.order,
+				commandName = options.commandName,
+				contentTransformations = options.contentTransformations || {},
+				style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
 				colorData = { type: type },
-				panelBlock,
-				commandName = type === 'back' ? 'bgColor' : 'textColor';
-
-			options = options || {};
+				panelBlock;
 
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: title,
@@ -100,7 +115,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				toolbar: 'colors,' + order,
 				allowedContent: style,
 				requiredContent: style,
-				contentTransformations: options.contentTransformations,
+				contentTransformations: contentTransformations,
 
 				panel: {
 					css: CKEDITOR.skin.getPath( 'editor' ),
