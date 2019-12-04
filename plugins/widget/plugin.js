@@ -2818,9 +2818,11 @@
 		editor.on( 'selectionCheck', fireCheckSelection );
 
 		// The selectionCheck event is fired on keyup, so we must force refreshing
-		// widgets selection on key event (#3352).
-		editor.on( 'key', function() {
-			setTimeout( fireCheckSelection, 10 );
+		// widgets selection on key event. Also fire it only in WYSIWYG mode (#3352, #3704).
+		editor.on( 'contentDom', function() {
+			editor.editable().attachListener( editor, 'key', function() {
+				setTimeout( fireCheckSelection, 10 );
+			} );
 		} );
 
 		widgetsRepo.on( 'checkSelection', widgetsRepo.checkSelection, widgetsRepo );

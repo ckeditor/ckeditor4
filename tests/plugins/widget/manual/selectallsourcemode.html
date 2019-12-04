@@ -1,0 +1,59 @@
+<p>Amount of copied/cut widgets: <span id="counter-clipboard">0</span></p>
+<p>Amount of selected widgets: <span id="counter-selection">0</span></p>
+<p><button id="reset">Reset counters</button></p>
+
+<div id="editor">
+	<p>Adipisicing corporis rem repellendus vel mollitia vero?</p>
+	<div data-widget="customwidget">Widget</div>
+	<p>Consectetur dolores voluptatibus illo ipsam eveniet?</p>
+	<div data-widget="customwidget">Widget</div>
+	<p>Lorem ipsum dolor sit amet.</p>
+</div>
+
+<script>
+if ( bender.tools.env.mobile ) {
+	bender.ignore();
+}
+
+CKEDITOR.replace( 'editor', {
+	extraPlugins: 'customwidget',
+	allowedContent: true,
+	on: {
+		pluginsLoaded: function( evt ) {
+			var editor = evt.editor;
+
+			editor.on( 'contentDom', function() {
+				var editable = editor.editable();
+
+				editable.attachListener( editable, 'cut', updateCounter( 'clipboard' ) );
+				editable.attachListener( editable, 'copy', updateCounter( 'clipboard' ) );
+			} );
+
+			editor.widgets.on( 'checkSelection', updateCounter( 'selection' ) );
+
+			CKEDITOR.document.getById( 'reset' ).on( 'click', function() {
+				CKEDITOR.document.getById( 'counter-selection' ).setText( 0 );
+				CKEDITOR.document.getById( 'counter-clipboard' ).setText( 0 );
+			} );
+
+			function updateCounter( id ) {
+				return function() {
+					CKEDITOR.document.getById( 'counter-' + id ).setText( editor.widgets.selected.length );
+				};
+			}
+		}
+	}
+} );
+
+CKEDITOR.plugins.add( 'customwidget', {
+	requires: 'widget',
+	allowedContent: 'div(copied)',
+
+	init: function ( editor )	{
+		editor.widgets.add( 'customwidget', {
+			button: 'Add widget',
+			template: '<div>Widget</div>'
+		} );
+	}
+} );
+</script>
