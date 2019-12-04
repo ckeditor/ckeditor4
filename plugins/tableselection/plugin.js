@@ -874,13 +874,13 @@
 				return false;
 			}
 
-			// 3. It's a boundary position but with no table pasted.
+			// 3. It's a boundary selection but with no table pasted.
 			if ( boundarySelection && !pastedTable ) {
 				return false;
 			}
 
-			// 4. It isn't boundary selection (if it is, at this point we know that table is pasted so it should be
-			// handled by custom paste to properly insert rows etc.) and it either exceedes table or doesn't contain
+			// 4. It isn't a boundary selection (if it is, at this point we know that table is pasted so it should be
+			// handled by custom paste to correctly insert rows etc.) and it either exceeds table or doesn't contain
 			// whole table cell (#875).
 			if ( !boundarySelection && !rangeContainsTableElement( ranges[ 0 ] ) ) {
 				return false;

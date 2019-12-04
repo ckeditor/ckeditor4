@@ -11,7 +11,11 @@ which is not a subject of this fix.
 
 ## For each editor:
 
-1. Copy word `Start`, press <kbd>Ctrl+A</kbd> and paste.
+1. Copy word `Start`.
+
+1. Press <kbd>Ctrl/Cmd+A</kbd> (or simply select all content).
+
+1. Paste copied content.
 
 	### Expected:
 
@@ -25,7 +29,7 @@ which is not a subject of this fix.
 
 1. Select content from word `Before` to `After`.
 
-1. Paste copied content.
+1. Paste earlier copied content.
 
 	### Expected:
 
@@ -37,7 +41,9 @@ which is not a subject of this fix.
 
 1. Undo changes.
 
-1. Create selection with content between brackets in table cell (the one with nested table), paste.
+1. Create selection with content between brackets in table cell (the one with nested table).
+
+1. Paste earlier copied content.
 
 	### Expected:
 
