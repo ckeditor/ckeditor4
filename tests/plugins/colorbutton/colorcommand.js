@@ -49,7 +49,6 @@
 			collapsed = options.collapsed || false,
 			commandName = options.commandName;
 
-
 		editor.execCommand( commandName, { newStyle: newStyle } );
 
 		if ( collapsed ) {
