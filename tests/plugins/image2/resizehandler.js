@@ -22,6 +22,22 @@
 					height: 'natural'
 				}
 			}
+		},
+		scaledHeight: {
+			config: {
+				image2_maxSize: {
+					width: 350,
+					height: 'scaled'
+				}
+			}
+		},
+		scaledWidth: {
+			config: {
+				image2_maxSize: {
+					width: 'scaled',
+					height: 150
+				}
+			}
 		}
 	};
 
@@ -62,6 +78,26 @@
 					height: 131
 				}
 			},
+			scaledHeight: {
+				data: {
+					screenX: 350,
+					screenY: 121
+				},
+				expected: {
+					width: 323,
+					height: 121
+				}
+			},
+			scaledWidth: {
+				data: {
+					screenX: 400,
+					screenY: 150
+				},
+				expected: {
+					width: 400,
+					height: 150
+				}
+			},
 			naturalSize: {
 				data: {
 					screenX: 163,
@@ -80,6 +116,26 @@
 				data: {
 					screenX: 351,
 					screenY: 132
+				},
+				expected: {
+					width: null,
+					height: null
+				}
+			},
+			scaledHeight: {
+				data: {
+					screenX: 352,
+					screenY: 133
+				},
+				expected: {
+					width: null,
+					height: null
+				}
+			},
+			scaledWidth: {
+				data: {
+					screenX: 403,
+					screenY: 153
 				},
 				expected: {
 					width: null,
@@ -130,7 +186,8 @@
 						height: image.getAttribute( 'height' )
 					};
 
-					assert.isTrue( CKEDITOR.tools.objectCompare( actual, expected ) );
+					assert.isTrue( actual.height == expected.height, '['+ editor.name +'] Height: '+ actual.height +' expected '+ expected.height );
+					assert.isTrue( actual.width == expected.width, '['+ editor.name +'] Width: '+ actual.width +' expected '+ expected.width );
 				} );
 			} );
 		};

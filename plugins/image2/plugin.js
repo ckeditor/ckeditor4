@@ -1362,8 +1362,13 @@
 				maxSize = CKEDITOR.tools.copy( maxSize );
 				natural = CKEDITOR.plugins.image2.getNatural( image );
 
+				if ( maxSize.width === 'scaled' ) {
+					maxSize.width = natural.width * (isNaN( maxSize.height ) ? 1.0 : maxSize.height / natural.height);
+				}
 				maxSize.width = Math.max( maxSize.width === 'natural' ? natural.width : maxSize.width, min.width );
-				maxSize.height = Math.max( maxSize.height === 'natural' ? natural.height : maxSize.height, min.width );
+
+				if ( maxSize.height === 'scaled' ) maxSize.height = natural.height * maxSize.width / natural.width;
+				maxSize.height = Math.max( maxSize.height === 'natural' ? natural.height : maxSize.height, min.height );
 
 				return maxSize;
 			}
@@ -1755,7 +1760,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
 /**
  * Determines the maximum size that an image can be resized to with the resize handle.
  *
- * It stores two properties: `width` and `height`. They can be set with one of the two types:
+ * It stores two properties: `width` and `height`. They can be set with one of three types:
  *
  * * A number representing a value that limits the maximum size in pixel units:
  *
@@ -1773,6 +1778,15 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *		height: 'natural',
  *		width: 'natural'
  *	}
+ * ```
+ *
+ * * Or a number representing a value and the string 'scaled' that limits the maximum size in pixel units:
+ *
+ * ```js
+ *	config.image2_maxSize = {
+ *		height: 'scaled',
+ *		width: 250
+ *	};
  * ```
  *
  * Note: An image can still be resized to bigger dimensions when using the image dialog.
