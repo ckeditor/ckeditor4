@@ -10,7 +10,7 @@
 
 	CKEDITOR.plugins.add( 'autoembed', {
 		requires: 'autolink,undo',
-		lang: 'ar,az,bg,ca,cs,da,de,de-ch,el,en,en-au,eo,es,es-mx,et,eu,fr,gl,hr,hu,it,ja,km,ko,ku,lt,lv,mk,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'ar,az,bg,ca,cs,da,de,de-ch,el,en,en-au,eo,es,es-mx,et,eu,fa,fr,gl,hr,hu,it,ja,km,ko,ku,lt,lv,mk,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sq,sr,sr-latn,sv,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var currentId = 1,
 				embedCandidatePasted;

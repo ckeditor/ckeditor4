@@ -46,28 +46,28 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'vi', {
 		F0F8FF: 'Alice Blue',
 		E6E6FA: 'Lavender',
 		FFF: 'Trắng',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'1ABC9C': 'Xanh lơ đậm',
+		'2ECC71': 'Xanh lục bảo',
+		'3498DB': 'Xanh dương sáng',
+		'9B59B6': 'Tím thạch anh',
+		'4E5F70': 'Xanh dương xám',
+		'F1C40F': 'Vàng rực',
+		'16A085': 'Xanh lơ đạm',
+		'27AE60': 'Xanh lục bảo đậm',
+		'2980B9': 'Xanh biển đậm',
+		'8E44AD': 'Tím đậm',
+		'2C3E50': 'Xanh dương nhạt',
+		'F39C12': 'Cam',
+		'E67E22': 'Cà rốt',
+		'E74C3C': 'Đỏ tái',
+		'ECF0F1': 'Bạc sáng',
+		'95A5A6': 'Xanh lơ xám nhạt',
+		'DDD': 'Xám nhạt',
+		'D35400': 'Bí ngô',
+		'C0392B': 'Đỏ rực',
+		'BDC3C7': 'Bạc',
+		'7F8C8D': 'Xanh lơ xám',
+		'999': 'Xám đen'
 	},
 	more: 'Màu khác...',
 	panelTitle: 'Màu sắc',
