@@ -124,6 +124,19 @@
 
 				assert.isFalse( editor._.shiftPressed );
 			} );
+		},
+
+		// (#3705)
+		'test deleting blocks': function( editor, bot ) {
+			bot.setData( '<p>&nbsp;</p><p>Whatever</p>', function() {
+				var range = editor.createRange();
+
+				range.selectNodeContents( editor.editable() );
+				range.select();
+				editor.extractSelectedHtml();
+
+				assert.areEqual( '<p><br></p>', editor.editable().getHtml() );
+			} );
 		}
 	};
 
