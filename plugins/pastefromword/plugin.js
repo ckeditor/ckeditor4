@@ -74,7 +74,8 @@
 
 				canHandle: function( evt ) {
 					var data = evt.data,
-						mswordHtml = data.dataValue,
+						// Always get raw clipboard data (#3586).
+						mswordHtml = CKEDITOR.plugins.pastetools.getClipboardData( data, 'text/html' ),
 						officeMetaRegexp = /<meta\s*name=(?:\"|\')?generator(?:\"|\')?\s*content=(?:\"|\')?microsoft/gi,
 						wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
 						isOfficeContent = officeMetaRegexp.test( mswordHtml ) || wordRegexp.test( mswordHtml );

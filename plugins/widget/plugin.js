@@ -2809,14 +2809,20 @@
 
 	// Setup selection observer which will trigger:
 	// * widget select & focus on selection change,
-	// * nested editable focus (related properites and classes) on selection change,
+	// * nested editable focus (related properties and classes) on selection change,
 	// * deselecting and blurring all widgets on data,
 	// * blurring widget on editor blur.
 	function setupSelectionObserver( widgetsRepo ) {
 		var editor = widgetsRepo.editor;
 
-		editor.on( 'selectionCheck', function() {
-			widgetsRepo.fire( 'checkSelection' );
+		editor.on( 'selectionCheck', fireCheckSelection );
+
+		// The selectionCheck event is fired on keyup, so we must force refreshing
+		// widgets selection on key event. Also fire it only in WYSIWYG mode (#3352, #3704).
+		editor.on( 'contentDom', function() {
+			editor.editable().attachListener( editor, 'key', function() {
+				setTimeout( fireCheckSelection, 10 );
+			} );
 		} );
 
 		widgetsRepo.on( 'checkSelection', widgetsRepo.checkSelection, widgetsRepo );
@@ -2856,6 +2862,10 @@
 			if ( ( widget = widgetsRepo.widgetHoldingFocusedEditable ) )
 				setFocusedEditable( widgetsRepo, widget, null );
 		} );
+
+		function fireCheckSelection() {
+			widgetsRepo.fire( 'checkSelection' );
+		}
 	}
 
 	// Set up actions like:

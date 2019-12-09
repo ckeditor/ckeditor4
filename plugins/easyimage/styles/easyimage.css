@@ -37,7 +37,7 @@ The outline is not a part of the element's dimensions. A border needs to be used
 .cke_widget_wrapper_easyimage-align-right, :not(.cke_widget_wrapper_easyimage):not(.cke_widget_wrapper_easyimage-align-right) > .easyimage-align-right {
 	/*
 	The :not() selector will be used for Easy Image content ouside of the editor, for example: when the editor was destroyed.
-	See https://github.com/ckeditor/ckeditor-dev/pull/1150#discussion_r150415261 for more details.
+	See https://github.com/ckeditor/ckeditor4/pull/1150#discussion_r150415261 for more details.
 	*/
 	float: right;
 	max-width: 50%;

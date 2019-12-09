@@ -18,4 +18,4 @@ There will be one rectangle representing each HTML elements inside the selection
 * When an image is selected alone the rectangle will match only text height, not the whole image.
 * IE8:
 	* This method is only partially supported. Only one rectangle is returned which begins at the top left corner for the first selected row, and ends at the bottom right corner of the last selected row.
-	* There is known bug when text is wrapping to next line returned rect doesn't match selection [#1895](https://github.com/ckeditor/ckeditor-dev/issues/1895).
+	* There is known bug when text is wrapping to next line returned rect doesn't match selection [#1895](https://github.com/ckeditor/ckeditor4/issues/1895).

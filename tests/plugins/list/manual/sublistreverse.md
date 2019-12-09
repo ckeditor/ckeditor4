@@ -29,4 +29,4 @@ Sublist order is reversed:
 
 ## Note
 
-There is known upstream issue on IE [#2774](https://github.com/ckeditor/ckeditor-dev/issues/2774) when after pressing <kbd>Backspace</kbd> only `li` element is removed and `ol` is preserved. This results in incorrect markup `ol > li > ol > ol > li`.
+There is known upstream issue on IE [#2774](https://github.com/ckeditor/ckeditor4/issues/2774) when after pressing <kbd>Backspace</kbd> only `li` element is removed and `ol` is preserved. This results in incorrect markup `ol > li > ol > ol > li`.

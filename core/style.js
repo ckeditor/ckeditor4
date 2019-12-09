@@ -680,7 +680,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * The only style handler which can be implemented from scratch without huge effort is a style
 	 * applicable to objects ({@glink features/styles#style-types read more about types}).
 	 * Such style can only be applied when a specific object is selected. An example implementation can
-	 * be found in the [widget plugin](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/widget/plugin.js).
+	 * be found in the [widget plugin](https://github.com/ckeditor/ckeditor4/blob/master/plugins/widget/plugin.js).
 	 *
 	 * When implementing a style handler from scratch at least the following methods must be defined:
 	 *

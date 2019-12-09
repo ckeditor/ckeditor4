@@ -46,28 +46,28 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'fa', {
 		F0F8FF: 'آبی براق',
 		E6E6FA: 'بنفش کمرنگ',
 		FFF: 'سفید',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'1ABC9C': 'فیروزه ای پررنگ',
+		'2ECC71': 'سبز زمردی',
+		'3498DB': 'آبی روشن',
+		'9B59B6': 'ارغوانی',
+		'4E5F70': 'آبی خاکستری',
+		'F1C40F': 'زرد تازه',
+		'16A085': 'فیروزه ای تیره',
+		'27AE60': 'سبز زمردی تیره',
+		'2980B9': 'آبی پر رنگ',
+		'8E44AD': 'بنفش تیره',
+		'2C3E50': 'آبی اشباع شده',
+		'F39C12': 'نارنجی',
+		'E67E22': 'هویجی',
+		'E74C3C': 'قرمز روشن',
+		'ECF0F1': 'نقره ای روشن',
+		'95A5A6': 'آبی خاکستری روشن',
+		'DDD': 'خاکستری روشن',
+		'D35400': 'کدو حلوایی',
+		'C0392B': 'قرمز پررنگ',
+		'BDC3C7': 'نقره ای',
+		'7F8C8D': 'فیروزه ای خاکستری',
+		'999': 'خاکستری تیره'
 	},
 	more: 'رنگ​های بیشتر...',
 	panelTitle: 'رنگها',

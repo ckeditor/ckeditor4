@@ -1,5 +1,5 @@
 /* bender-tags: widgetcore */
-/* bender-ckeditor-plugins: widget,undo */
+/* bender-ckeditor-plugins: widget,undo,sourcearea */
 /* bender-ckeditor-remove-plugins: tableselection */
 /* bender-include: _helpers/tools.js */
 /* global widgetTestsTools */
@@ -508,6 +508,102 @@
 					assertWidgetsEvents( result, [], [], [], [] );
 				}, true );
 			} );
+		},
+
+		// (#3352)
+		'test refreshing selected widgets on key event': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testkeyrefresh', {} );
+			editor.focus();
+
+			this.editorBot.setData( '<p>foo</p><p><span data-widget="testkeyrefresh" id="x">bar</span></p><p>baz</p>', function() {
+				var widget = getWidgetById( editor, 'x' ),
+					range = editor.createRange(),
+					domEvent = new CKEDITOR.dom.event( { keyCode: 65 } );
+
+				range.selectNodeContents( editor.editable() );
+				range.select();
+
+				// This line ensures that without update on key event,
+				// collection of selected widgets will be empty.
+				editor.widgets.selected = [];
+
+				setTimeout( function() {
+					resume( function() {
+						arrayAssert.itemsAreSame( [ widget ], editor.widgets.selected );
+					} );
+				}, 11 );
+
+				editor.fire( 'key', { domEvent: domEvent } );
+				wait();
+			} );
+		},
+
+		// (#3704)
+		'test integration of refreshing selected widgets on key event with source mode': function() {
+			var editor = this.editor;
+
+			editor.setMode( 'source', function() {
+				resume( sourceCallback );
+			} );
+			wait();
+
+			function sourceCallback() {
+				var domEvent = new CKEDITOR.dom.event( { keyCode: 65 } ),
+					stub = stubFire( editor );
+
+				setTimeout( function() {
+					resume( function() {
+						editor.widgets.fire = stub.originalFire;
+
+						assert.areSame( 0, stub.callCount(), 'Widget selection is not checked in source mode' );
+
+						editor.setMode( 'wysiwyg', function() {
+							resume( wysiwygCallback );
+						} );
+						wait();
+					} );
+				}, 50 );
+
+				editor.fire( 'key', { domEvent: domEvent } );
+				wait();
+			}
+
+			function wysiwygCallback() {
+				var domEvent = new CKEDITOR.dom.event( { keyCode: 65 } ),
+					stub = stubFire( editor );
+
+				setTimeout( function() {
+					resume( function() {
+						editor.widgets.fire = stub.originalFire;
+
+						assert.areSame( 1, stub.callCount(), 'Widget selection is checked on key in WYSIWYG mode' );
+					} );
+				}, 50 );
+
+				editor.fire( 'key', { domEvent: domEvent } );
+				wait();
+			}
+
+			function stubFire( editor ) {
+				var originalFire = editor.widgets.fire,
+					callCount = 0,
+					stub = function( event ) {
+						if ( event === 'checkSelection' ) {
+							++callCount;
+						}
+					};
+
+				editor.widgets.fire = stub;
+
+				return {
+					originalFire: originalFire,
+					callCount: function() {
+						return callCount;
+					}
+				};
+			}
 		}
 	} );
 } )();

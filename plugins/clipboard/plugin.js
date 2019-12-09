@@ -158,7 +158,7 @@
 						dataTransfer = dataObj.dataTransfer;
 
 					// If data empty check for image content inside data transfer. https://dev.ckeditor.com/ticket/16705
-					if ( !data && dataObj.method == 'paste' && dataTransfer && dataTransfer.getFilesCount() == 1 && latestId != dataTransfer.id ) {
+					if ( !data && dataObj.method == 'paste' && isFileData( dataTransfer ) ) {
 						var file = dataTransfer.getFile( 0 );
 
 						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
@@ -188,6 +188,20 @@
 						}
 					}
 				}, null, null, 1 );
+			}
+
+			// Only dataTransfer objects containing only file should be considered
+			// to image pasting (#3585, #3625).
+			function isFileData( dataTransfer ) {
+				if ( !dataTransfer || latestId === dataTransfer.id ) {
+					return false;
+				}
+
+				var types = dataTransfer.getTypes(),
+					isFileOnly = types.length === 1 && types[ 0 ] === 'Files',
+					containsFile = dataTransfer.getFilesCount() === 1;
+
+				return isFileOnly && containsFile;
 			}
 
 			editor.on( 'paste', function( evt ) {
@@ -1691,7 +1705,7 @@
 		 * Adds a new paste button to the editor.
 		 *
 		 * This method should be called for buttons that should display the Paste Dialog fallback in mobile environments.
-		 * See [the rationale](https://github.com/ckeditor/ckeditor-dev/issues/595#issuecomment-345971174) for more
+		 * See [the rationale](https://github.com/ckeditor/ckeditor4/issues/595#issuecomment-345971174) for more
 		 * details.
 		 *
 		 * @since 4.9.0
@@ -2713,6 +2727,20 @@
 		},
 
 		/**
+		 * Returns all MIME types inside the clipboard data.
+		 *
+		 * @since 4.13.1
+		 * @returns {String[]}
+		 */
+		getTypes: function() {
+			if ( !this.$ || !this.$.types ) {
+				return [];
+			}
+
+			return [].slice.call( this.$.types );
+		},
+
+		/**
 		 * When the content of the clipboard is pasted in Chrome, the clipboard data object has an empty `files` property,
 		 * but it is possible to get the file as `items[0].getAsFile();` (https://dev.ckeditor.com/ticket/12961).
 		 *
@@ -2774,7 +2802,7 @@
 	/**
 	 * Fallback dataTransfer object which is used together with {@link CKEDITOR.plugins.clipboard.dataTransfer}
 	 * for browsers supporting Clipboard API, but not supporting custom
-	 * MIME types (Edge 16+, see [ckeditor-dev/issues/#962](https://github.com/ckeditor/ckeditor-dev/issues/962)).
+	 * MIME types (Edge 16+, see [ckeditor4/issues/#962](https://github.com/ckeditor/ckeditor4/issues/962)).
 	 *
 	 * @since 4.8.0
 	 * @class CKEDITOR.plugins.clipboard.fallbackDataTransfer

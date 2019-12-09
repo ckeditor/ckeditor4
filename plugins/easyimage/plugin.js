@@ -8,7 +8,8 @@
 
 	var stylesLoaded = false,
 		WIDGET_NAME = 'easyimage',
-		BUTTON_PREFIX = 'EasyImage';
+		BUTTON_PREFIX = 'EasyImage',
+		SUPPORTED_IMAGE_TYPES = [ 'jpeg', 'png', 'gif', 'bmp' ];
 
 	function capitalize( str ) {
 		return CKEDITOR.tools.capitalize( str, true );
@@ -247,7 +248,7 @@
 
 				styleableElements: 'figure',
 
-				supportedTypes: /image\/(jpeg|png|gif|bmp)/,
+				supportedTypes: new RegExp( 'image/(' + SUPPORTED_IMAGE_TYPES.join( '|' ) + ')', 'i' ),
 
 				loaderType: CKEDITOR.plugins.cloudservices.cloudServicesLoader,
 
@@ -376,6 +377,7 @@
 	}
 
 	function addPasteListener( editor ) {
+		var imgWithDataUri = new RegExp( '<img[^>]*\\ssrc=[\\\'\\"]?data:image/(' + SUPPORTED_IMAGE_TYPES.join( '|' ) + ');base64,' , 'i' );
 		// Easy Image requires an img-specific paste listener for inlined images. This case happens in:
 		// * IE11 when pasting images from the clipboard.
 		// * FF when pasting a single image **file** from the clipboard.
@@ -386,7 +388,7 @@
 			}
 
 			// For performance reason do not parse data if it does not contain img tag and data attribute.
-			if ( !evt.data.dataValue.match( /<img[\s\S]+data:/i ) ) {
+			if ( !imgWithDataUri.test( evt.data.dataValue ) ) {
 				return;
 			}
 

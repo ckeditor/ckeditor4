@@ -95,8 +95,8 @@ CKEDITOR.lang[ 'ko' ] = {
 		invalidLength: '"%1" 값은 유효한 측정단위(%2)를 포함하거나 포함하지 않은 양수여야 합니다.',
 		invalidCssLength: '"%1" 값은 유효한 CSS 측정 단위(px, %, in, cm, mm, em, ex, pt, or pc)를 포함하거나 포함하지 않은 양수 여야 합니다.',
 		invalidHtmlLength: '"%1" 값은 유효한 HTML 측정 단위(px or %)를 포함하거나 포함하지 않은 양수여야 합니다.',
-		invalidInlineStyle: '인라인 스타일에 설정된 값은 "name : value" 형식을 가진 하나 이상의 투플(tuples)이 세미콜론(;)으로 구분되어 구성되어야 합니다.',
-		cssLengthTooltip: '픽셀 단위의 숫자만 입력하시거나 유효한 CSS 단위(px, %, in, cm, mm, em, ex, pt, or pc)와 함께 숫자를 입력해주세요.',
+		invalidInlineStyle: '인라인 스타일에 명시된 값은 세미콜론(;)으로 구분되는 한 쌍 이상의 "이름 : 값" 형식으로 구성되어야 합니다.',
+		cssLengthTooltip: '픽셀 단위의 숫자만 입력하시거나 숫자와 유효한 CSS 단위(px, %, in, cm, mm, em, ex, pt, or pc)를 함께 입력해주세요.',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, 사용불가</span>',

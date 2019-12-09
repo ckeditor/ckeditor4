@@ -58,7 +58,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'nl', {
 		'8E44AD': 'Dark Violet', // MISSING
 		'2C3E50': 'Desaturated Blue', // MISSING
 		'F39C12': 'Oranje',
-		'E67E22': 'Carrot', // MISSING
+		'E67E22': 'Wortel',
 		'E74C3C': 'Pale Red', // MISSING
 		'ECF0F1': 'Bright Silver', // MISSING
 		'95A5A6': 'Light Grayish Cyan', // MISSING

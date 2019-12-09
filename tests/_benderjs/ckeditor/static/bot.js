@@ -189,6 +189,40 @@
 			tc.wait();
 		},
 
+		asyncDialog: function( dialogName ) {
+			var editor = this.editor;
+
+			return new CKEDITOR.tools.promise( function( resolve, reject ) {
+				var resolveTimeout,
+					rejectTimeout,
+					// IE 11 requires some delay to fully show up and initialize dialog. From testing it looks like 10ms is enough,
+					// however, the value is increased 5 times to have safe margin.
+					resolveDelay = CKEDITOR.env.ie && CKEDITOR.env.version === 11 ? 50 : 0;
+
+				editor.on( 'dialogShow', function( event ) {
+					var dialog = event.data;
+
+					event.removeListener();
+
+					resolveTimeout = CKEDITOR.tools.setTimeout( function() {
+						if ( rejectTimeout !== undefined ) {
+							window.clearTimeout( rejectTimeout );
+						}
+						resolve( dialog );
+					}, resolveDelay );
+				} );
+
+				rejectTimeout = CKEDITOR.tools.setTimeout( function() {
+					if ( resolveTimeout !== undefined ) {
+						window.clearTimeout( resolveTimeout );
+					}
+					reject( new Error( 'There was no "dialogShow" event for at least 5 seconds.' ) );
+				}, 5000 );
+
+				editor.execCommand( dialogName );
+			} );
+		},
+
 		getData: function( fixHtml, compatHtml ) {
 			var data = this.editor.getData();
 

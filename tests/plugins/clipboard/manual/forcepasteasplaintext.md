@@ -16,7 +16,7 @@ Perform below scenario with both HTML and Word copied content.
 
 **Important:**
 After pressing _Paste as plain text_ and then pasting content from Word via `Ctrl + V` it is still pasted
-as rich content [#1328](https://github.com/ckeditor/ckeditor-dev/issues/1328).
+as rich content [#1328](https://github.com/ckeditor/ckeditor4/issues/1328).
 
 **HTML helper:**
 <div>

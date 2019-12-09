@@ -777,52 +777,20 @@
 	function pasteListener( evt ) {
 		var editor = evt.editor,
 			selection = editor.getSelection(),
-			ranges = selection.getRanges(),
-			table = ranges.length && ranges[ 0 ]._getTableElement( { table: 1 } );
-
-		// (#2945)
-		if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
-			return;
-		}
-
-		var selectedCells = getSelectedCells( selection ),
-			pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue ),
+			selectedCells = getSelectedCells( selection ),
 			boundarySelection = selection.isInTable( true ) && this.isBoundarySelection( selection ),
+			pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue ),
 			tableSel,
 			selectedTable,
 			selectedTableMap,
 			pastedTableMap;
 
-		function getLongestRowLength( map ) {
-			return Math.max.apply( null, CKEDITOR.tools.array.map( map, function( rowMap ) {
-				return rowMap.length;
-			}, 0 ) );
-		}
-
-		function selectCellContents( cell ) {
-			var range = editor.createRange();
-
-			range.selectNodeContents( cell );
-			range.select();
-		}
-
-		// Do not customize paste process in following cases:
-		// No cells are selected.
-		if ( !selectedCells.length ||
-			// It's single range that does not fully contain table element and is not boundary, e.g. collapsed selection within
-			// cell, part of cell etc.
-			( selectedCells.length === 1 && !rangeContainsTableElement( selection.getRanges()[ 0 ] )  && !boundarySelection ) ||
-			// It's a boundary position but with no table pasted.
-			( boundarySelection && !pastedTable ) ) {
+		if ( !isCustomPaste( selection, selectedCells, pastedTable, boundarySelection ) ) {
 			return;
 		}
 
 		selectedTable = selectedCells[ 0 ].getAscendant( 'table' );
 		tableSel = new TableSelection( getSelectedCells( selection, selectedTable ) );
-
-		function getLastArrayItem( arr ) {
-			return arr[ arr.length - 1 ];
-		}
 
 		// Schedule selecting appropriate table cells after pasting. It covers both table and not-table
 		// content (#520).
@@ -834,6 +802,7 @@
 
 			fakeSelectCells( editor, toSelect );
 		} );
+
 
 		// In case of mixed content or non table content just select first cell, and erase content of other selected cells.
 		// Selection is left in first cell, so that default CKEditor logic puts pasted content in the selection (#520).
@@ -889,6 +858,53 @@
 		setTimeout( function() {
 			editor.fire( 'afterPaste' );
 		}, 0 );
+
+		function isCustomPaste( selection, selectedCells, pastedTable, boundarySelection ) {
+			var ranges = selection.getRanges(),
+				table = ranges.length && ranges[ 0 ]._getTableElement( { table: 1 } );
+
+			// Do not customize paste process in following cases:
+			// 1. No cells are selected.
+			if ( !selectedCells.length ) {
+				return false;
+			}
+
+			// 2. Table is ignoring tableselection (#2945).
+			if ( table && table.hasAttribute( ignoredTableAttribute ) ) {
+				return false;
+			}
+
+			// 3. It's a boundary selection but with no table pasted.
+			if ( boundarySelection && !pastedTable ) {
+				return false;
+			}
+
+			// 4. It isn't a boundary selection (if it is, at this point we know that table is pasted so it should be
+			// handled by custom paste to correctly insert rows etc.) and it either exceeds table or doesn't contain
+			// whole table cell (#875).
+			if ( !boundarySelection && !rangeContainsTableElement( ranges[ 0 ] ) ) {
+				return false;
+			}
+
+			return true;
+		}
+
+		function getLastArrayItem( arr ) {
+			return arr[ arr.length - 1 ];
+		}
+
+		function selectCellContents( cell ) {
+			var range = editor.createRange();
+
+			range.selectNodeContents( cell );
+			range.select();
+		}
+
+		function getLongestRowLength( map ) {
+			return Math.max.apply( null, CKEDITOR.tools.array.map( map, function( rowMap ) {
+				return rowMap.length;
+			}, 0 ) );
+		}
 	}
 
 	function customizeTableCommand( editor, cmds, callback ) {

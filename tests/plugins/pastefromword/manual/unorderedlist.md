@@ -4,7 +4,7 @@
 
 ## Pasting list
 
-1. Open [`tests/plugins/pastefromword/generated/_fixtures/Unordered_list/Unordered_list.docx`](https://github.com/ckeditor/ckeditor-dev/blob/1fb8232af13c4d536277aaff2f9a9628c3a8bbf2/tests/plugins/pastefromword/generated/_fixtures/Unordered_list/Unordered_list.docx) file in Word.
+1. Open [`tests/plugins/pastefromword/generated/_fixtures/Unordered_list/Unordered_list.docx`](https://github.com/ckeditor/ckeditor4/blob/1fb8232af13c4d536277aaff2f9a9628c3a8bbf2/tests/plugins/pastefromword/generated/_fixtures/Unordered_list/Unordered_list.docx) file in Word.
 1. Select whole content.
 1. Copy to clipboard.
 1. Focus CKEditor.

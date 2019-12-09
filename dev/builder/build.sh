@@ -6,7 +6,7 @@
 
 set -e
 
-echo "CKBuilder - Builds a release version of ckeditor-dev."
+echo "CKBuilder - Builds a release version of ckeditor4."
 echo ""
 
 CKBUILDER_VERSION="2.3.2"
