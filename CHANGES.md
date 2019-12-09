@@ -5,22 +5,22 @@
 
 Fixed Issues:
 
-* [#875](https://github.com/ckeditor/ckeditor4/issues/875): Fixed: Pasting inside editor which contains a table with [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin after selecting all content replaces only table element instead of entire content.
+* [#875](https://github.com/ckeditor/ckeditor4/issues/875): Fixed: Pasting inside the editor that contains a table with the [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin after selecting all content replaces only the table element instead of the entire content.
 * [#3415](https://github.com/ckeditor/ckeditor4/issues/3415): [Firefox] Fixed: Pasting individual list elements fails. Thanks to [Jack Wickham](https://github.com/jackwickham)!
 * [#3413](https://github.com/ckeditor/ckeditor4/issues/3413): Fixed: Menu items with labels containing double quotes are rendered incorrectly.
 * [#3475](https://github.com/ckeditor/ckeditor4/issues/3475): [Firefox] Fixed: Pasting plain text over existing content fails and throws an error.
-* [#2027](https://github.com/ckeditor/ckeditor4/issues/2027): Fixed: Incorrect email display text after reopening [Link](https://ckeditor.com/cke4/addon/link) dialog for display names starting with `@`.
-* [#3544](https://github.com/ckeditor/ckeditor4/issues/3544): Fixed: [Special Characters](https://ckeditor.com/cke4/addon/specialchar) dialog read incorrectly by screen readers due to empty table cells at the end.
-* [#1653](https://github.com/ckeditor/ckeditor4/issues/1653): Fixed: Missing reposition of [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) when editor is scrolled with enabled [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) feature.
+* [#2027](https://github.com/ckeditor/ckeditor4/issues/2027): Fixed: Incorrect email display text after reopening the [Link](https://ckeditor.com/cke4/addon/link) dialog for display names starting with `@`.
+* [#3544](https://github.com/ckeditor/ckeditor4/issues/3544): Fixed: The [Special Characters](https://ckeditor.com/cke4/addon/specialchar) dialog read incorrectly by screen readers due to empty table cells at the end.
+* [#1653](https://github.com/ckeditor/ckeditor4/issues/1653): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) is not repositioned when the editor is scrolled with the [Div Editing Area](https://ckeditor.com/cke4/addon/divarea) feature enabled.
 * [#3559](https://github.com/ckeditor/ckeditor4/issues/3559): Fixed: [Color Dialog](https://ckeditor.com/cke4/addon/colordialog) is incorrectly positioned when used with another dialog.
-* [#3593](https://github.com/ckeditor/ckeditor4/issues/3593): Fixed: Can't access text or comment node while replacing element node with them via [`CKEDITOR.htmlParser.filter`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_htmlParser_filter.html).
-* [#3524](https://github.com/ckeditor/ckeditor4/issues/3524): Fixed: [Easy Image](https://ckeditor.com/cke4/addon/easyimage) plugin throws an error when any image with not supported data type is pasted into editor.
-* [#3552](https://github.com/ckeditor/ckeditor4/issues/3352): Fixed: Incorrect value of [`CKEDITOR.plugins.widget.repository#selected`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget_repository.html#property-selected) after selecting whole editor's content.
-* [#3586](https://github.com/ckeditor/ckeditor4/issues/3586): Fixed: Content pasted from Excel is not correctly recognised by [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
-* [#3585](https://github.com/ckeditor/ckeditor4/issues/3585): [Firefox] Fixed: Excel content is pasted as an image.
-* [#3625](https://github.com/ckeditor/ckeditor4/issues/3625): [Firefox] Fixed: PowerPoint content is pasted as an image.
-* [#3474](https://github.com/ckeditor/ckeditor4/issues/3474): Fixed: Incorrect focus order after any tab in the [dialog](https://ckeditor.com/cke4/addon/dialog) was clicked.
-* [#3689](https://github.com/ckeditor/ckeditor4/issues/3689): Fixed: Cannot change [dialog](https://ckeditor.com/cke4/addon/dialog) tabs with keyboard arrows after focusing any tab with a mouse click.
+* [#3593](https://github.com/ckeditor/ckeditor4/issues/3593): Fixed: Cannot access a text or comment node when replacing an element node with them via [`CKEDITOR.htmlParser.filter`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_htmlParser_filter.html).
+* [#3524](https://github.com/ckeditor/ckeditor4/issues/3524): Fixed: The [Easy Image](https://ckeditor.com/cke4/addon/easyimage) plugin throws an error when any image with an unsupported data type is pasted into the editor.
+* [#3552](https://github.com/ckeditor/ckeditor4/issues/3352): Fixed: Incorrect value of [`CKEDITOR.plugins.widget.repository#selected`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_widget_repository.html#property-selected) after selecting the whole editor content.
+* [#3586](https://github.com/ckeditor/ckeditor4/issues/3586): Fixed: Content pasted from Microsoft Excel is not correctly recognised by the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
+* [#3585](https://github.com/ckeditor/ckeditor4/issues/3585): [Firefox] Fixed: Microsoft Excel content is pasted as an image.
+* [#3625](https://github.com/ckeditor/ckeditor4/issues/3625): [Firefox] Fixed: Microsoft PowerPoint content is pasted as an image.
+* [#3474](https://github.com/ckeditor/ckeditor4/issues/3474): Fixed: Incorrect focus order after any tab in a [dialog](https://ckeditor.com/cke4/addon/dialog) was clicked.
+* [#3689](https://github.com/ckeditor/ckeditor4/issues/3689): Fixed: Cannot change [dialog](https://ckeditor.com/cke4/addon/dialog) tabs with keyboard arrow keys after focusing any tab with a mouse click.
 
 API Changes:
 
