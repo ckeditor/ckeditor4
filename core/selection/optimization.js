@@ -74,7 +74,7 @@
 
 		var oldRange = range.clone();
 
-		range.shrink( CKEDITOR.SHRINK_TEXT, false, { skipBogus: true } );
+		range.shrink( CKEDITOR.SHRINK_TEXT, false, { skipBogus: !CKEDITOR.env.webkit } );
 
 		preventListener = false;
 
