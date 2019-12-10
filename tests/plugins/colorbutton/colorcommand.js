@@ -463,32 +463,49 @@
 			} );
 		},
 
-		'test should synchronize state between text color command and text color panel': function() {
+		'test should update state of command and ui based on selection': function() {
 			var editor = this.editor,
-				colorPanel = editor.ui.get( 'TextColor' ),
-				command = editor.getCommand( 'textColor' );
+				bgCommand = editor.getCommand( 'bgColor' ),
+				textCommand = editor.getCommand( 'textColor' ),
+				bgUi = editor.ui.get( 'BGColor' ),
+				textUi = editor.ui.get( 'TextColor' );
 
-			command.setState( CKEDITOR.TRISTATE_DISABLED );
-			assert.areEqual( command.state, colorPanel.getState(), 'Should have same state after disabling command.' );
-			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, colorPanel.getState(), 'Color panel should have disable state.' );
+			bender.tools.selection.setWithHtml( editor, '<p><span style="color:#c0392b">[foo]</span></p>' );
 
-			command.setState( CKEDITOR.TRISTATE_OFF );
-			assert.areEqual( command.state, colorPanel.getState(), 'Should have same state after off command.' );
-			assert.areEqual( CKEDITOR.TRISTATE_OFF, colorPanel.getState(), 'Color panel should have off state.' );
-		},
+			assert.areEqual( CKEDITOR.TRISTATE_ON, textCommand.state );
+			assert.areEqual( CKEDITOR.TRISTATE_ON, textUi.getState() );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, bgCommand.state );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, bgUi.getState() );
 
-		'test should synchronize state between background color command and background color panel': function() {
-			var editor = this.editor,
-				colorPanel = editor.ui.get( 'BGColor' ),
-				command = editor.getCommand( 'bgColor' );
+			bender.tools.selection.setWithHtml( editor, '<p><span style="background-color:#c0392b">[foo]</span></p>' );
 
-			command.setState( CKEDITOR.TRISTATE_DISABLED );
-			assert.areEqual( command.state, colorPanel.getState(), 'Should have same state after disabling command.' );
-			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, colorPanel.getState(), 'Color panel should have disable state.' );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, textCommand.state );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, textUi.getState() );
+			assert.areEqual( CKEDITOR.TRISTATE_ON, bgCommand.state );
+			assert.areEqual( CKEDITOR.TRISTATE_ON, bgUi.getState() );
 
-			command.setState( CKEDITOR.TRISTATE_OFF );
-			assert.areEqual( command.state, colorPanel.getState(), 'Should have same state after off command.' );
-			assert.areEqual( CKEDITOR.TRISTATE_OFF, colorPanel.getState(), 'Color panel should have off state.' );
+			bender.tools.selection.setWithHtml( editor, '<p><span style="color:#ffffff"><span style="background-color:#c0392b">[foo]</span></span></p>' );
+
+			assert.areEqual( CKEDITOR.TRISTATE_ON, textCommand.state );
+			assert.areEqual( CKEDITOR.TRISTATE_ON, textUi.getState() );
+			assert.areEqual( CKEDITOR.TRISTATE_ON, bgCommand.state );
+			assert.areEqual( CKEDITOR.TRISTATE_ON, bgUi.getState() );
+
+			bender.tools.selection.setWithHtml( editor, '<p>[foo]</p>' );
+
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, textCommand.state );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, textUi.getState() );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, bgCommand.state );
+			assert.areEqual( CKEDITOR.TRISTATE_OFF, bgUi.getState() );
+
+			editor.setReadOnly();
+
+			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, textCommand.state );
+			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, textUi.getState() );
+			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, bgCommand.state );
+			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, bgUi.getState() );
+
+			editor.setReadOnly( false );
 		}
 	} );
 } )();

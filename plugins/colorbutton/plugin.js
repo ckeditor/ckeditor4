@@ -105,6 +105,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
 				colorData = { type: type },
+				defaultColorStyle = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ),
 				panelBlock;
 
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
@@ -231,11 +232,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						return;
 					}
 
-					var newStyle = data.newStyle,
-						config = editor.config,
-						colorStyleTemplate = config[ 'colorButton_' + type + 'Style' ];
+					var newStyle = data.newStyle;
 
-					editor.removeStyle( new CKEDITOR.style( colorStyleTemplate, { color: 'inherit' } ) );
+					editor.removeStyle( defaultColorStyle );
 
 					editor.focus();
 
@@ -247,19 +246,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				}
 			} );
 
-			editor.once( 'instanceReady', function() {
-				var uiElement = editor.ui.get( name ),
-					command = editor.getCommand( commandName );
-
-				if ( !command || !uiElement ) {
+			editor.attachStyleStateChange( defaultColorStyle, function( state ) {
+				if ( editor.readOnly ) {
 					return;
 				}
 
-				if ( uiElement.state !== command.state ) {
-					command.setState( uiElement.state );
-				}
-
-				_registerStateSynchronization( command, uiElement );
+				editor.getCommand( commandName ).setState( state );
+				editor.ui.get( name ).setState( state );
 			} );
 		}
 
@@ -419,15 +412,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function normalizeColor( color ) {
 			// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
 			return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
-		}
-
-		function _registerStateSynchronization( command, uiElement ) {
-			// The reverse order is not synchronized as we don't do it anywhere in the editor.
-			command.on( 'state', function() {
-				if ( this.state !== uiElement.getState() ) {
-					uiElement.setState( this.state );
-				}
-			} );
 		}
 	}
 } );
