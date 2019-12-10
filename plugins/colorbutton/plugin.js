@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -422,19 +422,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		}
 
 		function _registerStateSynchronization( command, uiElement ) {
+			// The reverse order is not synchronized as we don't do it anywhere in the editor.
 			command.on( 'state', function() {
 				if ( this.state !== uiElement.getState() ) {
 					uiElement.setState( this.state );
 				}
 			} );
-
-			uiElement.setState = function( state ) {
-				uiElement.constructor.prototype.setState.call( uiElement, state );
-
-				if ( command.state !== state ) {
-					command.setState( state );
-				}
-			};
 		}
 	}
 } );
