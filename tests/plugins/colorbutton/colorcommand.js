@@ -464,36 +464,63 @@
 		},
 
 		'test should update state of command and ui based on selection': function() {
-			var editor = this.editor;
+			var editor = this.editor,
+				bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( editor, '<p>[foo]</p>' );
-			assertColorbuttonStates( editor, CKEDITOR.TRISTATE_OFF, CKEDITOR.TRISTATE_OFF );
+			bot.fireSelectionChange();
+			assertColorbuttonStates( editor, {
+				textColorState: CKEDITOR.TRISTATE_OFF,
+				bgColorState: CKEDITOR.TRISTATE_OFF,
+				message: 'Text OFF, background OFF'
+			} );
 
 			bender.tools.selection.setWithHtml( editor, '<p><span style="color:#c0392b">[foo]</span></p>' );
-			assertColorbuttonStates( editor, CKEDITOR.TRISTATE_ON, CKEDITOR.TRISTATE_OFF );
+			bot.fireSelectionChange();
+			assertColorbuttonStates( editor, {
+				textColorState: CKEDITOR.TRISTATE_ON,
+				bgColorState: CKEDITOR.TRISTATE_OFF,
+				message: 'Text ON, background OFF'
+			} );
 
 			bender.tools.selection.setWithHtml( editor, '<p><span style="background-color:#c0392b">[foo]</span></p>' );
-			assertColorbuttonStates( editor, CKEDITOR.TRISTATE_OFF, CKEDITOR.TRISTATE_ON );
+			bot.fireSelectionChange();
+			assertColorbuttonStates( editor, {
+				textColorState: CKEDITOR.TRISTATE_OFF,
+				bgColorState: CKEDITOR.TRISTATE_ON,
+				message: 'Text OFF, background ON'
+			} );
 
 			bender.tools.selection.setWithHtml( editor, '<p><span style="color:#ffffff"><span style="background-color:#c0392b">[foo]</span></span></p>' );
-			assertColorbuttonStates( editor, CKEDITOR.TRISTATE_ON, CKEDITOR.TRISTATE_ON );
+			bot.fireSelectionChange();
+			assertColorbuttonStates( editor, {
+				textColorState: CKEDITOR.TRISTATE_ON,
+				bgColorState: CKEDITOR.TRISTATE_ON,
+				message: 'Text ON, background ON'
+			} );
 
 			editor.setReadOnly();
-			assertColorbuttonStates( editor, CKEDITOR.TRISTATE_DISABLED, CKEDITOR.TRISTATE_DISABLED );
+
+			assertColorbuttonStates( editor, {
+				textColorState: CKEDITOR.TRISTATE_DISABLED,
+				bgColorState: CKEDITOR.TRISTATE_DISABLED,
+				message: 'Text DISABLED, background DISABLED'
+			} );
 
 			editor.setReadOnly( false );
 		}
 	} );
 
-	function assertColorbuttonStates( editor, textColorState, bgColorState ) {
+	function assertColorbuttonStates( editor, options ) {
 		var bgCommand = editor.getCommand( 'bgColor' ),
 			textCommand = editor.getCommand( 'textColor' ),
 			bgUi = editor.ui.get( 'BGColor' ),
-			textUi = editor.ui.get( 'TextColor' );
+			textUi = editor.ui.get( 'TextColor' ),
+			message = options.message;
 
-		assert.areEqual( textColorState, textCommand.state );
-		assert.areEqual( textColorState, textUi.getState() );
-		assert.areEqual( bgColorState, bgCommand.state );
-		assert.areEqual( bgColorState, bgUi.getState() );
+		assert.areEqual( options.textColorState, textCommand.state, message + ' (textColor command)' );
+		assert.areEqual( options.textColorState, textUi.getState(), message + ' (textColor ui)' );
+		assert.areEqual( options.bgColorState, bgCommand.state, message + ' (bgColor command)' );
+		assert.areEqual( options.bgColorState, bgUi.getState(), message + ' (bgColor ui)' );
 	}
 } )();

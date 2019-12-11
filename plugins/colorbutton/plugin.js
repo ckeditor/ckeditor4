@@ -106,9 +106,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
 				colorData = { type: type },
 				defaultColorStyle = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ),
-				panelBlock,
-				uiElement,
-				command;
+				panelBlock;
 
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: title,
@@ -248,19 +246,23 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				}
 			} );
 
-			command = editor.getCommand( commandName );
-			uiElement = editor.ui.get( name );
+			editor.on( 'instanceReady', function() {
+				// Register state synchronization, when editor is fully initialized to have sure that UIElement exists.
+				var command = editor.getCommand( commandName ),
+					uiElement = editor.ui.get( name );
 
-			editor.attachStyleStateChange( defaultColorStyle, function( state ) {
-				if ( editor.readOnly ) {
-					return;
-				}
+				editor.attachStyleStateChange( defaultColorStyle, function( state ) {
+						if ( editor.readOnly ) {
+							return;
+						}
 
-				command.setState( state );
+						command.setState( state );
 
-				if ( uiElement ) {
-					uiElement.setState( state );
-				}
+						if ( uiElement ) {
+							uiElement.setState( state );
+						}
+					}
+				);
 			} );
 		}
 
