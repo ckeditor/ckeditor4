@@ -106,11 +106,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
 				colorData = { type: type },
 				defaultColorStyle = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ),
-				panelBlock;
+				panelBlock,
+				uiElement;
 
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: title,
 				title: title,
+				command: commandName,
 				modes: { wysiwyg: 1 },
 				editorFocus: 0,
 				toolbar: 'colors,' + order,
@@ -227,6 +229,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 
 			editor.addCommand( commandName, {
+				contextSensitive: true,
 				exec: function( editor, data ) {
 					if ( editor.readOnly ) {
 						return;
@@ -243,26 +246,29 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					}
 
 					editor.fire( 'saveSnapshot' );
+				},
+
+				refresh: function( editor, path ) {
+					var newState;
+
+					if ( !defaultColorStyle.checkApplicable( path, editor, editor.activeFilter ) ) {
+						newState = CKEDITOR.TRISTATE_DISABLED;
+					} else if ( defaultColorStyle.checkActive( path, editor ) ) {
+						newState = CKEDITOR.TRISTATE_ON;
+					} else {
+						newState = CKEDITOR.TRISTATE_OFF;
+					}
+
+					this.setState( newState );
+
+					if ( uiElement ) {
+						uiElement.setState( newState );
+					}
 				}
 			} );
 
 			editor.on( 'instanceReady', function() {
-				// Register state synchronization, when editor is fully initialized to have sure that UIElement exists.
-				var command = editor.getCommand( commandName ),
-					uiElement = editor.ui.get( name );
-
-				editor.attachStyleStateChange( defaultColorStyle, function( state ) {
-						if ( editor.readOnly ) {
-							return;
-						}
-
-						command.setState( state );
-
-						if ( uiElement ) {
-							uiElement.setState( state );
-						}
-					}
-				);
+				uiElement = editor.ui.get( name );
 			} );
 		}
 
