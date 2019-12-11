@@ -129,13 +129,15 @@
 		// (#3705)
 		'test deleting blocks': function( editor, bot ) {
 			bot.setData( '<p>&nbsp;</p><p>Whatever</p>', function() {
-				var range = editor.createRange();
+				var range = editor.createRange(),
+					extractedHtml;
 
 				range.selectNodeContents( editor.editable() );
 				range.select();
-				editor.extractSelectedHtml();
+				extractedHtml = editor.extractSelectedHtml( true );
 
-				assert.areEqual( '<p><br></p>', editor.editable().getHtml() );
+				assert.areEqual( '<p><br></p><p>Whatever</p>', extractedHtml, 'Extracted HTML is incorrect.' );
+				assert.areEqual( '<p><br></p>', editor.editable().getHtml(), 'Editor content after extraction is incorrect.' );
 			} );
 		}
 	};
