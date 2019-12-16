@@ -106,8 +106,42 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
 				colorData = { type: type },
 				defaultColorStyle = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ),
-				panelBlock,
-				uiElement;
+				panelBlock;
+
+			editor.addCommand( commandName, {
+				contextSensitive: true,
+				exec: function( editor, data ) {
+					if ( editor.readOnly ) {
+						return;
+					}
+
+					var newStyle = data.newStyle;
+
+					editor.removeStyle( defaultColorStyle );
+
+					editor.focus();
+
+					if ( newStyle ) {
+						editor.applyStyle( newStyle );
+					}
+
+					editor.fire( 'saveSnapshot' );
+				},
+
+				refresh: function( editor, path ) {
+					var newState;
+
+					if ( !defaultColorStyle.checkApplicable( path, editor, editor.activeFilter ) ) {
+						newState = CKEDITOR.TRISTATE_DISABLED;
+					} else if ( defaultColorStyle.checkActive( path, editor ) ) {
+						newState = CKEDITOR.TRISTATE_ON;
+					} else {
+						newState = CKEDITOR.TRISTATE_OFF;
+					}
+
+					this.setState( newState );
+				}
+			} );
 
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: title,
@@ -226,49 +260,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					return automaticColor;
 				}
-			} );
-
-			editor.addCommand( commandName, {
-				contextSensitive: true,
-				exec: function( editor, data ) {
-					if ( editor.readOnly ) {
-						return;
-					}
-
-					var newStyle = data.newStyle;
-
-					editor.removeStyle( defaultColorStyle );
-
-					editor.focus();
-
-					if ( newStyle ) {
-						editor.applyStyle( newStyle );
-					}
-
-					editor.fire( 'saveSnapshot' );
-				},
-
-				refresh: function( editor, path ) {
-					var newState;
-
-					if ( !defaultColorStyle.checkApplicable( path, editor, editor.activeFilter ) ) {
-						newState = CKEDITOR.TRISTATE_DISABLED;
-					} else if ( defaultColorStyle.checkActive( path, editor ) ) {
-						newState = CKEDITOR.TRISTATE_ON;
-					} else {
-						newState = CKEDITOR.TRISTATE_OFF;
-					}
-
-					this.setState( newState );
-
-					if ( uiElement ) {
-						uiElement.setState( newState );
-					}
-				}
-			} );
-
-			editor.on( 'instanceReady', function() {
-				uiElement = editor.ui.get( name );
 			} );
 		}
 
