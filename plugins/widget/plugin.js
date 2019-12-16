@@ -2254,7 +2254,7 @@
 			wrapper = wrappers.getItem( i );
 			element = wrapper.getFirst( Widget.isDomWidgetElement );
 			// If wrapper contains widget element - unwrap it and wrap again.
-			if ( element && element.type == CKEDITOR.NODE_ELEMENT && element.data( 'widget' ) ) {
+			if ( element.type == CKEDITOR.NODE_ELEMENT && element.data( 'widget' ) ) {
 				element.replace( wrapper );
 				widgetsRepo.wrapElement( element );
 			} else {
@@ -2932,13 +2932,6 @@
 					widget = widgetsRepo.instances[ attrs[ 'data-cke-widget-id' ] ];
 					if ( widget ) {
 						widgetElement = element.getFirst( Widget.isParserWidgetElement );
-
-						// If there is no widget elemnt, then widget is broken and should be removed from the content (#3498).
-						if ( !widgetElement ) {
-							element.remove();
-							return false;
-						}
-
 						toBeDowncasted.push( {
 							wrapper: element,
 							element: widgetElement,
@@ -2949,11 +2942,6 @@
 						// If widget did not have data-cke-widget attribute before upcasting remove it.
 						if ( widgetElement.attributes[ 'data-cke-widget-keep-attr' ] != '1' )
 							delete widgetElement.attributes[ 'data-widget' ];
-					}
-					// If element has `data-cke-widget-id` attribute, but widget cannot be found, then it's some leftover from copy/cut (#3498).
-					else {
-						element.remove();
-						return false;
 					}
 				}
 				// Nested editable.
