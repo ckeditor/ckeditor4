@@ -52,7 +52,7 @@
 
 	bender.test( {
 		'test textarea inside widget should allow on typing': function() {
-			if ( !CKEDITOR.env.ie || CKEDITOR.env.version < 11 ) {
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.version < 9 ) {
 				assert.ignore();
 			}
 
@@ -87,7 +87,7 @@
 		},
 
 		'test input inside widget should allow on typing': function() {
-			if ( !CKEDITOR.env.ie || CKEDITOR.env.version < 11 ) {
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.version < 9 ) {
 				assert.ignore();
 			}
 
