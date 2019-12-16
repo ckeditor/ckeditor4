@@ -136,8 +136,8 @@
 				range.select();
 				extractedHtml = editor.extractSelectedHtml( true );
 
-				assert.areEqual( '<p><br></p><p>Whatever</p>', extractedHtml, 'Extracted HTML is incorrect.' );
-				assert.areEqual( '<p><br></p>', editor.editable().getHtml(), 'Editor content after extraction is incorrect.' );
+				assert.isInnerHtmlMatching( '<p>@</p><p>Whatever</p>', extractedHtml, 'Extracted HTML is incorrect.' );
+				assert.isInnerHtmlMatching( '<p>@</p>', editor.editable().getHtml(), 'Editor content after extraction is incorrect.' );
 			} );
 		}
 	};
