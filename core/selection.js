@@ -941,30 +941,7 @@
 
 			if ( CKEDITOR.env.ie ) {
 				// https://dev.ckeditor.com/ticket/14407 - Don't even let anything happen if the selection is in a non-editable element.
-				editable.attachListener( editable, 'keydown', function( evt ) {
-					var sel = this.getSelection( 1 ),
-						ascendant = getNonEditableAscendant( sel ),
-						activeElement,
-						isValidActiveElement;
-
-					if ( !ascendant ) {
-						return;
-					}
-
-					activeElement = this.document.getActive(),
-					isValidActiveElement = activeElement && ( activeElement.getName() === 'input' || activeElement.getName() === 'textarea' );
-
-					// Allow on typing inside editable elements of widgets if those are currently focused (#3587)
-					if ( isValidActiveElement && ascendant.contains( activeElement ) ) {
-						return;
-					}
-
-					// Prevent changing selection when an ascendant is an entire editable (#1632).
-					if ( !ascendant.equals( editable ) ) {
-						sel.selectElement( ascendant );
-						evt.data.preventDefault();
-					}
-				}, editor );
+				editable.attachListener( editable, 'keydown', disableSelectionChangeForNonEditables, editor );
 			}
 
 			// Always fire the selection change on focus gain.
@@ -1051,6 +1028,35 @@
 				// The parentElement may be null for read only mode in IE10 and below (https://dev.ckeditor.com/ticket/9780).
 				if ( sel.type != 'None' && range.parentElement() && range.parentElement().ownerDocument == doc.$ )
 					range.select();
+			}
+
+			function disableSelectionChangeForNonEditables( evt ) {
+				var sel,
+					ascendant;
+
+				// Allow on typing inside editable elements of widgets if those are currently focused (#3587)
+				if ( isTypingElement( this.document.getActive() ) ) {
+					return;
+				}
+
+				sel = this.getSelection( 1 );
+				ascendant = getNonEditableAscendant( sel );
+
+				// Prevent changing selection when an ascendant is an entire editable (#1632).
+				if ( ascendant && !ascendant.equals( editable ) ) {
+					sel.selectElement( ascendant );
+					evt.data.preventDefault();
+				}
+			}
+
+			function isTypingElement( activeElement ) {
+				if ( !activeElement ) {
+					return false;
+				}
+
+				return activeElement.getName() === 'input' ||
+					activeElement.getName() === 'textarea' ||
+					activeElement.getAttribute( 'contenteditable' ) === 'true';
 			}
 
 			function getNonEditableAscendant( sel ) {
