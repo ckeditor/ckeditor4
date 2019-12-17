@@ -52,8 +52,7 @@
 	function updateOuterContainer( commandName, newStyle ) {
 		var styleName = commandName === 'textColor' ? 'color' : 'background-color',
 			styleValue,
-			message = index++ + '. "' + commandName + '" command is executed';
-
+			message = index + '. "' + commandName + '" command is executed';
 
 		if ( !newStyle ) {
 			colorIndicator.removeStyle( styleName );
@@ -69,5 +68,7 @@
 		}
 
 		messageElement.setText( message );
+
+		index++;
 	}
 </script>
