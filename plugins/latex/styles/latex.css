@@ -1,0 +1,10 @@
+.cke_button__latex .cke_button__latex_icon {
+    background-position: 0px 2px !important;
+    background-size: 38px !important;
+    width: 40px;
+    height: 20px;
+}
+.insertButton.cke_disabled {
+    color: #a0a0a0 !important;
+    cursor: progress !important;
+}
