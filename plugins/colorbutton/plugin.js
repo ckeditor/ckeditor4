@@ -182,12 +182,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					keys[ 32 ] = 'click'; // SPACE
 				},
 
-				refresh: function() {
-					if ( !editor.activeFilter.check( style ) ) {
-						this.setState( CKEDITOR.TRISTATE_DISABLED );
-					}
-				},
-
 				// The automatic colorbox should represent the real color (https://dev.ckeditor.com/ticket/6010)
 				onOpen: function() {
 
