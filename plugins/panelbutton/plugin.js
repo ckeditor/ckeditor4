@@ -71,8 +71,9 @@ CKEDITOR.plugins.add( 'panelbutton', {
 				createPanel: function( editor ) {
 					var _ = this._;
 
-					if ( _.panel )
+					if ( _.panel ) {
 						return;
+					}
 
 					var panelDefinition = this._.panelDefinition,
 						panelBlockDefinition = this._.panelDefinition.block,
@@ -83,8 +84,9 @@ CKEDITOR.plugins.add( 'panelbutton', {
 						command = editor.getCommand( this.command );
 
 					panel.onShow = function() {
-						if ( me.className )
+						if ( me.className ) {
 							this.element.addClass( me.className + '_panel' );
+						}
 
 						me.setState( CKEDITOR.TRISTATE_ON );
 
@@ -92,13 +94,15 @@ CKEDITOR.plugins.add( 'panelbutton', {
 
 						me.editorFocus && editor.focus();
 
-						if ( me.onOpen )
+						if ( me.onOpen ) {
 							me.onOpen();
+						}
 					};
 
 					panel.onHide = function( preventOnClose ) {
-						if ( me.className )
+						if ( me.className ) {
 							this.element.getFirst().removeClass( me.className + '_panel' );
+						}
 
 						if ( command ) {
 							me.setStateFromCommand( command );
@@ -108,8 +112,9 @@ CKEDITOR.plugins.add( 'panelbutton', {
 
 						_.on = 0;
 
-						if ( !preventOnClose && me.onClose )
+						if ( !preventOnClose && me.onClose ) {
 							me.onClose();
+						}
 					};
 
 					panel.onEscape = function() {
@@ -117,8 +122,9 @@ CKEDITOR.plugins.add( 'panelbutton', {
 						me.document.getById( _.id ).focus();
 					};
 
-					if ( this.onBlock )
+					if ( this.onBlock ) {
 						this.onBlock( panel, block );
+					}
 
 					block.onHide = function() {
 						_.on = 0;
