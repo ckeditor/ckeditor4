@@ -278,8 +278,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				editor.focus();
 				editor.fire( 'saveSnapshot' );
 
-				var colorStyle,
-					colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
+				var colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
 
 				colorStyleTemplate.childRule = type == 'back' ?
 					function( element ) {
@@ -294,17 +293,20 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				if ( color == '?' ) {
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
-							colorStyle = new CKEDITOR.style( colorStyleTemplate, { color: color } );
-
-							editor.execCommand( commandName, { newStyle: colorStyle } );
+							setColor( color );
 						}
 					}, null, colorData );
 				} else {
-					colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: '#' + color } );
-
-					editor.execCommand( commandName, { newStyle: colorStyle } );
+					setColor( color && '#' + color );
 				}
 			} );
+
+			function setColor( color ) {
+				var colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ],
+					colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
+
+				editor.execCommand( commandName, { newStyle: colorStyle } );
+			}
 
 			if ( config.colorButton_enableAutomatic !== false ) {
 				// Render the "Automatic" button.
