@@ -298,7 +298,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				if ( color == '?' ) {
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
-							colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
+							colorStyle = new CKEDITOR.style( colorStyleTemplate, { color: color } );
 
 							editor.execCommand( commandName, { newStyle: colorStyle } );
 						}
