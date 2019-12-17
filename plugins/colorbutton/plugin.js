@@ -265,24 +265,22 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
 				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
 				// screen readers doesn't play nice with table, based layouts (https://dev.ckeditor.com/ticket/12097).
-				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
+				total = colors.length + ( moreColorsEnabled ? 2 : 1 ),
+				colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
 
-			var clickFn = CKEDITOR.tools.addFunction( function applyColorStyle( color, type ) {
+			colorStyleTemplate.childRule = type == 'back' ?
+				function( element ) {
+					// It's better to apply background color as the innermost style. (https://dev.ckeditor.com/ticket/3599)
+					// Except for "unstylable elements". (https://dev.ckeditor.com/ticket/6103)
+					return isUnstylable( element );
+				} : function( element ) {
+					// Fore color style must be applied inside links instead of around it. (https://dev.ckeditor.com/ticket/4772,https://dev.ckeditor.com/ticket/6908)
+					return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
+				};
 
+			var clickFn = CKEDITOR.tools.addFunction( function applyColorStyle( color ) {
 				editor.focus();
 				editor.fire( 'saveSnapshot' );
-
-				var colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ];
-
-				colorStyleTemplate.childRule = type == 'back' ?
-					function( element ) {
-						// It's better to apply background color as the innermost style. (https://dev.ckeditor.com/ticket/3599)
-						// Except for "unstylable elements". (https://dev.ckeditor.com/ticket/6103)
-						return isUnstylable( element );
-					} : function( element ) {
-						// Fore color style must be applied inside links instead of around it. (https://dev.ckeditor.com/ticket/4772,https://dev.ckeditor.com/ticket/6908)
-						return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
-					};
 
 				if ( color == '?' ) {
 					editor.getColorFromDialog( function( color ) {
@@ -296,8 +294,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 
 			function setColor( color ) {
-				var colorStyleTemplate = editor.config[ 'colorButton_' + type + 'Style' ],
-					colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
+				var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
 
 				editor.execCommand( commandName, { newStyle: colorStyle } );
 			}
