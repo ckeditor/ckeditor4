@@ -136,8 +136,20 @@
 				range.select();
 				extractedHtml = editor.extractSelectedHtml( true );
 
-				assert.isInnerHtmlMatching( '<p>@</p><p>Whatever</p>', extractedHtml, 'Extracted HTML is incorrect.' );
-				assert.isInnerHtmlMatching( '<p>@</p>', editor.editable().getHtml(), 'Editor content after extraction is incorrect.' );
+				// In Safari the same selection has different range offsets and endContainer. Because of that it is automatically fixed
+				// and empty paragraph is converted to <br/> element.
+				if ( CKEDITOR.env.safari ) {
+					assert.isInnerHtmlMatching( '<br data-cke-eol="1" /><p>Whatever</p>', extractedHtml, 'Extracted HTML is incorrect.' );
+				} else {
+					assert.isInnerHtmlMatching( '<p>@</p><p>Whatever</p>', extractedHtml, 'Extracted HTML is incorrect.' );
+				}
+
+				// And in IE8 only node content is removed.
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+					assert.isInnerHtmlMatching( '<p>@@</p><p></p>', editor.editable().getHtml(), 'Editor content after extraction is incorrect.' );
+				} else {
+					assert.isInnerHtmlMatching( '<p>@</p>', editor.editable().getHtml(), 'Editor content after extraction is incorrect.' );
+				}
 			} );
 		}
 	};
