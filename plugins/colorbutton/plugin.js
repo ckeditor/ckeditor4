@@ -293,12 +293,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				}
 			} );
 
-			function setColor( color ) {
-				var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
-
-				editor.execCommand( commandName, { newStyle: colorStyle } );
-			}
-
 			if ( config.colorButton_enableAutomatic !== false ) {
 				// Render the "Automatic" button.
 				output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
@@ -369,6 +363,14 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			output.push( '</tr></table>' );
 
 			return output.join( '' );
+
+			// ---- HELPERS ----
+
+			function setColor( color ) {
+				var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
+
+				editor.execCommand( commandName, { newStyle: colorStyle } );
+			}
 		}
 
 		function isUnstylable( ele ) {
