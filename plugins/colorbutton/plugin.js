@@ -129,17 +129,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				refresh: function( editor, path ) {
-					var newState;
-
 					if ( !defaultColorStyle.checkApplicable( path, editor, editor.activeFilter ) ) {
-						newState = CKEDITOR.TRISTATE_DISABLED;
+						this.setState( CKEDITOR.TRISTATE_DISABLED );
 					} else if ( defaultColorStyle.checkActive( path, editor ) ) {
-						newState = CKEDITOR.TRISTATE_ON;
+						this.setState( CKEDITOR.TRISTATE_ON );
 					} else {
-						newState = CKEDITOR.TRISTATE_OFF;
+						this.setState( CKEDITOR.TRISTATE_OFF );
 					}
-
-					this.setState( newState );
 				}
 			} );
 
