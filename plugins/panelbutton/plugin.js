@@ -38,6 +38,7 @@ CKEDITOR.plugins.add( 'panelbutton', {
 			$: function( definition ) {
 				// We don't want the panel definition in this object.
 				var panelDefinition = definition.panel || {};
+
 				delete definition.panel;
 
 				this.base( definition );
@@ -78,7 +79,8 @@ CKEDITOR.plugins.add( 'panelbutton', {
 						panelParentElement = panelDefinition.parent || CKEDITOR.document.getBody(),
 						panel = this._.panel = new CKEDITOR.ui.floatPanel( editor, panelParentElement, panelDefinition ),
 						block = panel.addBlock( _.id, panelBlockDefinition ),
-						me = this;
+						me = this,
+						command = editor.getCommand( this.command );
 
 					panel.onShow = function() {
 						if ( me.className )
@@ -98,7 +100,11 @@ CKEDITOR.plugins.add( 'panelbutton', {
 						if ( me.className )
 							this.element.getFirst().removeClass( me.className + '_panel' );
 
-						me.setState( me.modes && me.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+						if ( command ) {
+							me.setStateFromCommand( command );
+						} else {
+							me.setState( me.modes && me.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+						}
 
 						_.on = 0;
 
@@ -116,8 +122,29 @@ CKEDITOR.plugins.add( 'panelbutton', {
 
 					block.onHide = function() {
 						_.on = 0;
-						me.setState( CKEDITOR.TRISTATE_OFF );
+
+						if ( me.command ) {
+							me.setStateFromCommand( command );
+						} else {
+							me.setState( CKEDITOR.TRISTATE_OFF );
+						}
 					};
+				},
+
+				render: function( editor, output ) {
+					if ( this.command ) {
+						var me = this;
+
+						editor.getCommand( this.command ).on( 'state', function() {
+							me.setStateFromCommand( this );
+						} );
+					}
+
+					return CKEDITOR.ui.button.prototype.render.call( this, editor, output );
+				},
+
+				setStateFromCommand: function( command ) {
+					this.setState( command.state );
 				}
 			}
 		} );
