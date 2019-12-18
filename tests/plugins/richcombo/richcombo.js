@@ -8,16 +8,10 @@ bender.editor = {
 		on: {
 			pluginsLoaded: function( evt ) {
 				var ed = evt.editor,
-					options = {
-						'one': {
-							style: 'one'
-						},
-						'two': {
-							style: 'two'
-						},
-						'three': {
-							style: 'three'
-						}
+					items = {
+						'one': 'ONE',
+						'two': 'TWO',
+						'three': 'THREE'
 					};
 
 				ed.ui.addRichCombo( 'custom_combo', {
@@ -26,11 +20,7 @@ bender.editor = {
 						css: [],
 						multiSelect: false
 					},
-					init: function() {
-						for ( var key in options ) {
-							this.add( key, options[ key ].style );
-						}
-					},
+					init: function() {},
 					onClick: function() {},
 					onRender: function() {}
 				} );
@@ -41,10 +31,9 @@ bender.editor = {
 						css: [],
 						multiSelect: false
 					},
-					options: options,
 					init: function() {
-						for ( var key in options ) {
-							this.add( key, options[ key ].style );
+						for ( var key in items ) {
+							this.add( key, '<span style="color:red">' + key + '</span>', items[ key ] );
 						}
 					},
 					onClick: function() {},
@@ -114,20 +103,18 @@ bender.test( {
 		var editor = this.editor,
 			combo = editor.ui.get( 'custom_combo_with_options' );
 
-		combo.createPanel( editor );
-
 		combo.setValue( 'one' );
 		assert.areEqual( 'one', combo.getValue() );
 
-		combo.select( function( option ) {
-			return option.style === 'three';
+		combo.select( function( item ) {
+			return item.value === 'three';
 		} );
 		assert.areEqual( 'three', combo.getValue() );
 
-		combo.select( function( option ) {
-			return option.style === 'three';
+		combo.select( function( item ) {
+			return item.text === 'TWO';
 		} );
-		assert.areEqual( 'three', combo.getValue() );
+		assert.areEqual( 'two', combo.getValue() );
 	},
 
 	// (#3387)
@@ -135,13 +122,11 @@ bender.test( {
 		var editor = this.editor,
 			combo = editor.ui.get( 'custom_combo' );
 
-		combo.createPanel( editor );
-
 		combo.setValue( 'one' );
 		assert.areEqual( 'one', combo.getValue() );
 
 		combo.select( function( option ) {
-			return option.style === 'three';
+			return option.value === 'three';
 		} );
 		assert.areEqual( 'one', combo.getValue() );
 	}

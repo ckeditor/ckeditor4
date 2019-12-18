@@ -240,8 +240,6 @@ CKEDITOR.plugins.add( 'richcombo', {
 				if ( this.onRender )
 					this.onRender();
 
-				this._.editor = editor;
-
 				return instance;
 			},
 
@@ -346,6 +344,13 @@ CKEDITOR.plugins.add( 'richcombo', {
 				this._.list.showAll();
 			},
 
+			/**
+			 * Adds entry displayed inside richcombo panel.
+			 *
+			 * @param {String} value
+			 * @param {String} html
+			 * @param {String} text
+			 */
 			add: function( value, html, text ) {
 				this._.items[ value ] = text || value;
 				this._.list.add( value, html, text );
@@ -409,32 +414,36 @@ CKEDITOR.plugins.add( 'richcombo', {
 			/**
 			 * Selects richcombo item based on the first matching result from the given filter function.
 			 * Filter function takes an object as an argumnet with `value` and `text` fields. Values of those
-			 * fields match to argument passed in `CKEDITOR.ui.richcombo.add` method.
+			 * fields match to argument passed in {@link #add} method.
+			 * In order to obtain correct result by this method, it's required to open or initialize the richcombo panel.
+			 *
+			 * 	var richCombo = editor.ui.get( 'Font' );
+			 *
+			 * 	// Required, when 'richcombo' was never open in given editor instance.
+			 * 	richCombo.createPanel( editor );
+			 *
+			 * 	richCombo.select( function( item ) {
+			 * 		return item.value === 'Tahoma' || item.text === 'Tahoma';
+			 * 	} );
 			 *
 			 * @since 4.14.0
 			 * @param {Function} callback function should return `true` if found matching element
-			 * @param {*} callback.item object containing value and text fields which are compared by this callback
+			 * @param {Object} callback.item object containing `value` and `text` fields which are compared by this callback
 			 */
 			select: function( callback ) {
 				if ( CKEDITOR.tools.isEmpty( this._.items ) ) {
-					this.createPanel( this._.editor );
+					return;
 				}
 
-				this.select = function( callback ) {
-					var value;
-
-					for ( value in this._.items ) {
-						if ( callback( {
-							value: value,
-							text: this._.items[ value ]
-						} ) ) {
-							this.setValue( value );
-							return;
-						}
+				for ( var value in this._.items ) {
+					if ( callback( {
+						value: value,
+						text: this._.items[ value ]
+					} ) ) {
+						this.setValue( value );
+						return;
 					}
-				};
-
-				this.select( callback );
+				}
 			}
 		},
 
