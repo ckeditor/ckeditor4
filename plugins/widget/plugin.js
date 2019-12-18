@@ -2834,6 +2834,36 @@
 
 		widgetsRepo.on( 'checkSelection', widgetsRepo.checkSelection, widgetsRepo );
 
+		editor.on( 'selectionCheck', function() {
+			var selection = editor.getSelection(),
+				ranges = selection && selection.getRanges(),
+				range = ranges[ 0 ];
+
+			if ( !range || range.collapsed ) {
+				return;
+			}
+
+			var startWidget = getWidgetByElement( range.startContainer ),
+				endWidget = getWidgetByElement( range.endContainer );
+
+			if ( !startWidget && endWidget ) {
+				range.setEndBefore( endWidget.wrapper );
+				range.select();
+			}
+		}, this );
+
+		function getWidgetByElement( node ) {
+			if ( !node ) {
+				return null;
+			}
+
+			if ( node.type == CKEDITOR.NODE_TEXT ) {
+				node = node.getParent();
+			}
+
+			return editor.widgets.getByElement( node );
+		}
+
 		editor.on( 'selectionChange', function( evt ) {
 			var nestedEditable = Widget.getNestedEditable( editor.editable(), evt.data.selection.getStartElement() ),
 				newWidget = nestedEditable && widgetsRepo.getByElement( nestedEditable ),
