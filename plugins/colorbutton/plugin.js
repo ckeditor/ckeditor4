@@ -143,7 +143,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				label: title,
 				title: title,
 				command: commandName,
-				modes: { wysiwyg: 1 },
 				editorFocus: 0,
 				toolbar: 'colors,' + order,
 				allowedContent: style,
