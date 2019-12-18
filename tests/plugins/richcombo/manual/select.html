@@ -42,8 +42,8 @@
 	} );
 
 	function setComboValue( value ) {
-		combo.select( function( option ) {
-			return option === value;
+		combo.select( function( item ) {
+			return item.value === value;
 		} );
 	}
 

@@ -407,30 +407,34 @@ CKEDITOR.plugins.add( 'richcombo', {
 			},
 
 			/**
-			 * This method expects that the options object is provided with the richcombo definition. Options should contain a key-value pairs
-			 * mapping, where key from mapping is a richcombo's value used to set its state and value from mapping is an entity related to it.
-			 * Most commonly as this entity is stored {@link CKEDITOR.styles} definitions.
+			 * Selects richcombo item based on the first matching result from the given filter function.
+			 * Filter function takes an object as an argumnet with `value` and `text` fields. Values of those
+			 * fields match to argument passed in `CKEDITOR.ui.richcombo.add` method.
 			 *
-			 * The callback function is used as a filter, which is run with each entity as an argument until it returns the `true`.
-			 * When a matching entity is found, then the related key is used to set up the richcombo's value.
-			 *
-			 * @since 4.13.0
+			 * @since 4.14.0
 			 * @param {Function} callback function should return `true` if found matching element
-			 * @param {*} callback.value single entity which is compared by this callback
+			 * @param {*} callback.item object containing value and text fields which are compared by this callback
 			 */
 			select: function( callback ) {
-				var value;
-
 				if ( CKEDITOR.tools.isEmpty( this._.items ) ) {
 					this.createPanel( this._.editor );
 				}
 
-				for ( value in this._.items ) {
-					if ( callback( this._.items[ value ] ) ) {
-						this.setValue( value );
-						return;
+				this.select = function( callback ) {
+					var value;
+
+					for ( value in this._.items ) {
+						if ( callback( {
+							value: value,
+							text: this._.items[ value ]
+						} ) ) {
+							this.setValue( value );
+							return;
+						}
 					}
-				}
+				};
+
+				this.select( callback );
 			}
 		},
 
