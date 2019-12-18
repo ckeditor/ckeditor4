@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 3387, 4.13.0, feature
+@bender-tags: 3387, 4.14.0, feature
 @bender-ckeditor-plugins: wysiwygarea, richcombo, toolbar
 
 ## Procedure
