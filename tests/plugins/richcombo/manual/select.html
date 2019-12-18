@@ -13,7 +13,7 @@
 		on: {
 			'pluginsLoaded': function( evt ) {
 				var editor = evt.editor,
-					options = {
+					items = {
 						'one': 'one',
 						'two': 'two',
 						'three': 'three'
@@ -24,10 +24,9 @@
 						css: [],
 						multiSelect: false
 					},
-					options: options,
 					init: function() {
-						for ( var key in options ) {
-							this.add( key, options[ key ] );
+						for ( var key in items ) {
+							this.add( key, items[ key ] );
 						}
 					},
 					onClick: function() {},
@@ -38,8 +37,6 @@
 				var editor = evt.editor;
 
 				combo = editor.ui.get( 'custom_richcombo' );
-
-				combo.createPanel( editor );
 			}
 		}
 	} );

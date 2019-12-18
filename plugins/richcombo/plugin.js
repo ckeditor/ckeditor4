@@ -240,6 +240,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 				if ( this.onRender )
 					this.onRender();
 
+				this._.editor = editor;
+
 				return instance;
 			},
 
@@ -417,15 +419,15 @@ CKEDITOR.plugins.add( 'richcombo', {
 			 * @param {*} callback.value single entity which is compared by this callback
 			 */
 			select: function( callback ) {
-				var property;
+				var value;
 
-				if ( typeof this.options !== 'object' ) {
-					return;
+				if ( CKEDITOR.tools.isEmpty( this._.items ) ) {
+					this.createPanel( this._.editor );
 				}
 
-				for ( property in this.options ) {
-					if ( callback( this.options[ property ] ) ) {
-						this.setValue( property );
+				for ( value in this._.items ) {
+					if ( callback( this._.items[ value ] ) ) {
+						this.setValue( value );
 						return;
 					}
 				}
