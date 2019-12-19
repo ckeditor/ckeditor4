@@ -1,8 +1,6 @@
 /* bender-tags: widgetcore */
 /* bender-ckeditor-plugins: widget,undo */
 /* bender-ckeditor-remove-plugins: tableselection */
-/* bender-include: ../../_helpers/tools.js */
-/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -14,13 +12,13 @@
 				instanceReady: function( evt ) {
 					var editor = evt.editor;
 
-					editor.widgets.add( 'testwidget', widgetTestsTools.buildWidgetDefinition( {
+					editor.widgets.add( 'testwidget', buildWidgetDefinition( {
 						name: 'testwidget',
 						elementName: 'textarea',
 						innerHtml: '<textarea></textarea>'
 					} ) );
 
-					editor.widgets.add( 'testwidget2', widgetTestsTools.buildWidgetDefinition( {
+					editor.widgets.add( 'testwidget2', buildWidgetDefinition( {
 						name: 'testwidget2',
 						elementName: 'input',
 						innerHtml: '<input type="text">'
@@ -107,4 +105,27 @@
 			} );
 		}
 	} );
+
+	function buildWidgetDefinition( config ) {
+		var name = config.name,
+			elementName = config.elementName,
+			innerHtml = config.innerHtml;
+
+		return {
+			requiredContent: 'div(' + name + ')',
+			allowedContent: 'div(' + name + ')',
+			template: '<div class="' + name + '">' +
+				innerHtml +
+				'</div>',
+			button: 'Add ' + name + ' widget (' + elementName + ')',
+			upcast: function( element ) {
+				return element.name === 'div' && element.hasClass( name );
+			},
+			init: function() {
+				this.on( 'focus', function() {
+					this.element.findOne( elementName ).focus();
+				} );
+			}
+		};
+	}
 } )();

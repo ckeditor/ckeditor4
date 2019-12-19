@@ -355,29 +355,6 @@ var widgetTestsTools = ( function() {
 		} );
 	}
 
-	function buildWidgetDefinition( config ) {
-		var name = config.name,
-			elementName = config.elementName,
-			innerHtml = config.innerHtml;
-
-		return {
-			requiredContent: 'div(' + name + ')',
-			allowedContent: 'div(' + name + ')',
-			template: '<div class="' + name + '">' +
-				innerHtml +
-				'</div>',
-			button: 'Add ' + name + ' widget (' + elementName + ')',
-			upcast: function( element ) {
-				return element.name === 'div' && element.hasClass( name );
-			},
-			init: function() {
-				this.on( 'focus', function() {
-					this.element.findOne( elementName ).focus();
-				} );
-			}
-		};
-	}
-
 	return {
 		addTests: addTests,
 		data2Attribute: data2Attr,
@@ -389,7 +366,6 @@ var widgetTestsTools = ( function() {
 		assertDowncast: assertDowncast,
 		assertWidgetDialog: assertWidgetDialog,
 		assertWidget: assertWidget,
-		buildWidgetDefinition: buildWidgetDefinition,
 
 		widgetInitedWrapperAttributes:
 			'aria-label="[a-z]+ widget" ' +
