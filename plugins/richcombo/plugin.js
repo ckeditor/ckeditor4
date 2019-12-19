@@ -413,10 +413,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 			/**
 			 * Selects richcombo item based on the first matching result from the given filter function.
-			 * Filter function takes an object as an argumnet with `value` and `text` fields. Values of those
-			 * fields match to argument passed in {@link #add} method.
+			 * Filter function takes an object as an argument with `value` and `text` fields. Values of those
+			 * fields match to arguments passed in {@link #add} method.
 			 * In order to obtain correct result by this method, it's required to open or initialize the richcombo panel.
 			 *
+			 * ```javascript
 			 * 	var richCombo = editor.ui.get( 'Font' );
 			 *
 			 * 	// Required, when 'richcombo' was never open in given editor instance.
@@ -425,10 +426,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 			 * 	richCombo.select( function( item ) {
 			 * 		return item.value === 'Tahoma' || item.text === 'Tahoma';
 			 * 	} );
+			 * ```
 			 *
 			 * @since 4.14.0
-			 * @param {Function} callback function should return `true` if found matching element
-			 * @param {Object} callback.item object containing `value` and `text` fields which are compared by this callback
+			 * @param {Function} callback Function should return `true` if found matching element.
+			 * @param {Object} callback.item Object containing `value` and `text` fields which are compared by this callback.
 			 */
 			select: function( callback ) {
 				if ( CKEDITOR.tools.isEmpty( this._.items ) ) {
