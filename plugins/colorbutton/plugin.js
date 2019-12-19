@@ -363,8 +363,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			return output.join( '' );
 
-			// ---- HELPERS ----
-
 			function setColor( color ) {
 				var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
 
