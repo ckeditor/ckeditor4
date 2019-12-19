@@ -28,37 +28,6 @@
 		}
 	};
 
-	// @param {bot} bot
-	// @param {String} elementName name of used html element. Value should be equal: 'input' or 'textarea'
-	// @param {Function} assertCallback funciton which returns a function to be executed on 'keydown' listener when assert for the tesr might be checked.
-	function assertSelection( config ) {
-		var bot = config.bot,
-			elementName = config.elementName,
-			assertCallback = config.assertCallback,
-			widgetName = config.widgetName,
-			editor = bot.editor,
-			htmlElement = elementName === 'textarea' ? '<textarea></textarea>' : '<input type="text">';
-
-		bot.setData( '<div class="' + widgetName + '">' + htmlElement + '</div>', function() {
-			var editable = editor.editable(),
-				widget = editor.widgets.getByElement( editable.findOne( 'div.' + widgetName ) ),
-				range = editor.createRange(),
-				el = widget.element.findOne( elementName );
-
-			el.focus();
-
-			range.selectNodeContents( el );
-			range.select();
-
-			editable.once( 'keydown', assertCallback( editor, el, widget ), null, null, 100000 );
-
-			editable.fire( 'keydown', new CKEDITOR.dom.event( {
-				keyCode: 66 // B
-			} ) );
-		} );
-
-	}
-
 	bender.test( {
 		setUp: function() {
 			if ( !CKEDITOR.env.ie || CKEDITOR.env.version < 9 ) {
@@ -105,6 +74,37 @@
 			} );
 		}
 	} );
+
+	// @param {bot} bot
+	// @param {String} elementName name of used html element. Value should be equal: 'input' or 'textarea'
+	// @param {Function} assertCallback funciton which returns a function to be executed on 'keydown' listener when assert for the tesr might be checked.
+	function assertSelection( config ) {
+		var bot = config.bot,
+			elementName = config.elementName,
+			assertCallback = config.assertCallback,
+			widgetName = config.widgetName,
+			editor = bot.editor,
+			htmlElement = elementName === 'textarea' ? '<textarea></textarea>' : '<input type="text">';
+
+		bot.setData( '<div class="' + widgetName + '">' + htmlElement + '</div>', function() {
+			var editable = editor.editable(),
+				widget = editor.widgets.getByElement( editable.findOne( 'div.' + widgetName ) ),
+				range = editor.createRange(),
+				el = widget.element.findOne( elementName );
+
+			el.focus();
+
+			range.selectNodeContents( el );
+			range.select();
+
+			editable.once( 'keydown', assertCallback( editor, el, widget ), null, null, 100000 );
+
+			editable.fire( 'keydown', new CKEDITOR.dom.event( {
+				keyCode: 66 // B
+			} ) );
+		} );
+
+	}
 
 	function buildWidgetDefinition( config ) {
 		var name = config.name,
