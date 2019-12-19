@@ -103,6 +103,8 @@ bender.test( {
 		var editor = this.editor,
 			combo = editor.ui.get( 'custom_combo_with_options' );
 
+		combo.createPanel( editor );
+
 		combo.setValue( 'one' );
 		assert.areEqual( 'one', combo.getValue() );
 
@@ -121,6 +123,8 @@ bender.test( {
 	'test richcombo.select() should do nothing for combo without options': function() {
 		var editor = this.editor,
 			combo = editor.ui.get( 'custom_combo' );
+
+		combo.createPanel( editor );
 
 		combo.setValue( 'one' );
 		assert.areEqual( 'one', combo.getValue() );

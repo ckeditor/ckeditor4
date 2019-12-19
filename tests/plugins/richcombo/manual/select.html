@@ -37,6 +37,11 @@
 
 	function setComboValue( value ) {
 		var combo = editor.ui.get( 'custom_richcombo' );
+
+		if ( CKEDITOR.tools.isEmpty( combo._.items ) ) {
+			combo.createPanel( editor );
+		}
+
 		combo.select( function( item ) {
 			return item.value === value;
 		} );
