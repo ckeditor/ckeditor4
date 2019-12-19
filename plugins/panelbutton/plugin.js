@@ -104,7 +104,8 @@ CKEDITOR.plugins.add( 'panelbutton', {
 							this.element.getFirst().removeClass( me.className + '_panel' );
 						}
 
-						if ( command ) {
+						// Defined `modes` has priority over the command for a backward compatibility (#3727).
+						if ( !me.modes && command ) {
 							me.setStateFromCommand( command );
 						} else {
 							me.setState( me.modes && me.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
@@ -129,7 +130,8 @@ CKEDITOR.plugins.add( 'panelbutton', {
 					block.onHide = function() {
 						_.on = 0;
 
-						if ( me.command ) {
+						// Defined `modes` has priority over the command for a backward compatibility (#3727).
+						if ( !me.modes && me.command ) {
 							me.setStateFromCommand( command );
 						} else {
 							me.setState( CKEDITOR.TRISTATE_OFF );
@@ -138,7 +140,8 @@ CKEDITOR.plugins.add( 'panelbutton', {
 				},
 
 				render: function( editor, output ) {
-					if ( this.command ) {
+					// Defined `modes` has priority over the command for a backward compatibility (#3727).
+					if ( !this.modes && this.command ) {
 						var me = this;
 
 						editor.getCommand( this.command ).on( 'state', function() {
