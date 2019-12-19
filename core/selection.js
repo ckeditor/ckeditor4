@@ -1055,8 +1055,7 @@
 				}
 
 				return activeElement.getName() === 'input' ||
-					activeElement.getName() === 'textarea' ||
-					activeElement.getAttribute( 'contenteditable' ) === 'true';
+					activeElement.getName() === 'textarea';
 			}
 
 			function getNonEditableAscendant( sel ) {
