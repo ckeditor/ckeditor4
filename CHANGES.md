@@ -7,6 +7,10 @@ New features:
 
 * [#2583](https://github.com/ckeditor/ckeditor-dev/issues/2583): Changed [Emoji](https://ckeditor.com/cke4/addon/emoji) suggestion box to show matched emoji name instead of an ID.
 
+Fixed Issues:
+
+* [#3587](https://github.com/ckeditor/ckeditor4/issues/3587): [Edge, IE] Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) with form input elements loses focus during typing.
+
 ## CKEditor 4.13.1
 
 Fixed Issues:
