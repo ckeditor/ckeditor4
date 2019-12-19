@@ -39,6 +39,7 @@
 			assertSelection( {
 				bot: this.editorBot,
 				elementName: 'textarea',
+				htmlElement: '<textarea></textarea>',
 				widgetName: 'testwidget',
 				assertCallback: function( editor, el, widget ) {
 					return function() {
@@ -59,6 +60,7 @@
 			assertSelection( {
 				bot: this.editorBot,
 				elementName: 'input',
+				htmlElement: '<input type="text">',
 				widgetName: 'testwidget2',
 				assertCallback: function( editor, el ) {
 					return function() {
@@ -81,10 +83,10 @@
 	function assertSelection( config ) {
 		var bot = config.bot,
 			elementName = config.elementName,
+			htmlElement = config.htmlElement,
 			assertCallback = config.assertCallback,
 			widgetName = config.widgetName,
-			editor = bot.editor,
-			htmlElement = elementName === 'textarea' ? '<textarea></textarea>' : '<input type="text">';
+			editor = bot.editor;
 
 		bot.setData( '<div class="' + widgetName + '">' + htmlElement + '</div>', function() {
 			var editable = editor.editable(),
