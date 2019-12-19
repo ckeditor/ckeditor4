@@ -139,19 +139,6 @@ CKEDITOR.plugins.add( 'panelbutton', {
 					};
 				},
 
-				render: function( editor, output ) {
-					// Defined `modes` has priority over the command for a backward compatibility (#3727).
-					if ( !this.modes && this.command ) {
-						var me = this;
-
-						editor.getCommand( this.command ).on( 'state', function() {
-							me.setStateFromCommand( this );
-						} );
-					}
-
-					return CKEDITOR.ui.button.prototype.render.call( this, editor, output );
-				},
-
 				setStateFromCommand: function( command ) {
 					this.setState( command.state );
 				}
