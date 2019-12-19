@@ -9,7 +9,7 @@ New features:
 
 Fixed Issues:
 
-* [#3587](https://github.com/ckeditor/ckeditor4/issues/3587): [Edge, IE] Fixed: Widget with form input elements loses focus during typing.
+* [#3587](https://github.com/ckeditor/ckeditor4/issues/3587): [Edge, IE] Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) with form input elements loses focus during typing.
 
 ## CKEditor 4.13.1
 
