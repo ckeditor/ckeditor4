@@ -4,10 +4,16 @@
 var customCls = 'my_combo';
 bender.editor = {
 	config: {
-		toolbar: [ [ 'custom_combo' ] ],
+		toolbar: [ [ 'custom_combo', 'custom_combo_with_options' ] ],
 		on: {
 			pluginsLoaded: function( evt ) {
-				var ed = evt.editor;
+				var ed = evt.editor,
+					items = {
+						'one': 'ONE',
+						'two': 'TWO',
+						'three': 'THREE'
+					};
+
 				ed.ui.addRichCombo( 'custom_combo', {
 					className: customCls,
 					panel: {
@@ -15,6 +21,21 @@ bender.editor = {
 						multiSelect: false
 					},
 					init: function() {},
+					onClick: function() {},
+					onRender: function() {}
+				} );
+
+				ed.ui.addRichCombo( 'custom_combo_with_options', {
+					className: customCls,
+					panel: {
+						css: [],
+						multiSelect: false
+					},
+					init: function() {
+						for ( var key in items ) {
+							this.add( key, '<span style="color:red">' + key + '</span>', items[ key ] );
+						}
+					},
 					onClick: function() {},
 					onRender: function() {}
 				} );
@@ -75,5 +96,42 @@ bender.test( {
 		spy.restore();
 
 		assert.areSame( 0, spy.callCount, 'rich combo was no opened' );
+	},
+
+	// (#3387)
+	'test richcombo.select() should select proper value in combo': function() {
+		var editor = this.editor,
+			combo = editor.ui.get( 'custom_combo_with_options' );
+
+		combo.createPanel( editor );
+
+		combo.setValue( 'one' );
+		assert.areEqual( 'one', combo.getValue() );
+
+		combo.select( function( item ) {
+			return item.value === 'three';
+		} );
+		assert.areEqual( 'three', combo.getValue() );
+
+		combo.select( function( item ) {
+			return item.text === 'TWO';
+		} );
+		assert.areEqual( 'two', combo.getValue() );
+	},
+
+	// (#3387)
+	'test richcombo.select() should do nothing for combo without options': function() {
+		var editor = this.editor,
+			combo = editor.ui.get( 'custom_combo' );
+
+		combo.createPanel( editor );
+
+		combo.setValue( 'one' );
+		assert.areEqual( 'one', combo.getValue() );
+
+		combo.select( function( option ) {
+			return option.value === 'three';
+		} );
+		assert.areEqual( 'one', combo.getValue() );
 	}
 } );

@@ -1,0 +1,50 @@
+<h2>Classic editor</h2>
+<div id="editor">
+	<p>I'm CKEditor 4 instance.</p>
+</div>
+<button onClick="setComboValue( 'one' )" >one</button>
+<button onClick="setComboValue( 'two' )" >two</button>
+<button onClick="setComboValue( 'three' )" >three</button>
+
+<script>
+	var editor = CKEDITOR.replace( 'editor', {
+			toolbar: [ [ 'custom_richcombo' ] ],
+			on: {
+				'pluginsLoaded': function( evt ) {
+					var editor = evt.editor,
+						items = {
+							'one': 'one',
+							'two': 'two',
+							'three': 'three'
+						}
+
+					editor.ui.addRichCombo( 'custom_richcombo', {
+						panel: {
+							css: [],
+							multiSelect: false
+						},
+						init: function() {
+							for ( var key in items ) {
+								this.add( key, items[ key ] );
+							}
+						},
+						onClick: function() {},
+						onRender: function() {}
+					} );
+				}
+			}
+		} );
+
+	function setComboValue( value ) {
+		var combo = editor.ui.get( 'custom_richcombo' );
+
+		if ( CKEDITOR.tools.isEmpty( combo._.items ) ) {
+			combo.createPanel( editor );
+		}
+
+		combo.select( function( item ) {
+			return item.value === value && item.text === value;
+		} );
+	}
+
+</script>
