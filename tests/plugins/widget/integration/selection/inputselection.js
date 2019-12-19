@@ -77,9 +77,10 @@
 		}
 	} );
 
-	// @param {bot} bot
-	// @param {String} elementName name of used html element. Value should be equal: 'input' or 'textarea'
-	// @param {Function} assertCallback funciton which returns a function to be executed on 'keydown' listener when assert for the tesr might be checked.
+	// @param {bot} config.bot
+	// @param {String} config.elementName name of used html element. Value should be equal: 'input' or 'textarea'
+	// @param {String} config.htmlElement string representation of an html element which is used to embed widget inside editor
+	// @param {Function} config.assertCallback funciton which returns a function to be executed on 'keydown' listener when assert for the tesr might be checked.
 	function assertSelection( config ) {
 		var bot = config.bot,
 			elementName = config.elementName,
@@ -108,6 +109,9 @@
 
 	}
 
+	// @param {String} cofig.name name of the widget. This name will be used also as a className for a widget
+	// @param {String} config.elementName name of html elements, which is editable and is located inside the widget. Expected valeus are 'input' or 'textarea'
+	// @param {String} config.innerHtml string representation of html element used to be emebedded inside widget
 	function buildWidgetDefinition( config ) {
 		var name = config.name,
 			elementName = config.elementName,
