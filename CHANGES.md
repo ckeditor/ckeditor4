@@ -11,6 +11,10 @@ Fixed Issues:
 
 * [#3587](https://github.com/ckeditor/ckeditor4/issues/3587): [Edge, IE] Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) with form input elements loses focus during typing.
 
+API Changes:
+
+* [#3387](https://github.com/ckeditor/ckeditor-dev/issues/3387): Added the [CKEDITOR.ui.richCombo#select](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_richCombo.html#method-select) method.
+
 ## CKEditor 4.13.1
 
 Fixed Issues:
