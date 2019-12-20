@@ -3,13 +3,17 @@
 	"version": "4.14.0",
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
+		"@babel/core": "^7.7.7",
+		"@babel/preset-env": "^7.7.7",
 		"benderjs": "0.4.3",
 		"benderjs-coverage": "^0.2.2",
 		"benderjs-jquery": "^0.3.0",
 		"benderjs-sinon": "^0.3.1",
 		"benderjs-yui": "^0.3.2",
 		"benderjs-yui-beautified": "0.1.2",
+		"chalk": "^3.0.0",
 		"cksource-samples-framework": "^1.0.1",
+		"core-js": "^3.6.0",
 		"grunt": "^1.0.1",
 		"grunt-contrib-concat": "^1.0.0",
 		"grunt-contrib-imagemin": "^2.0.1",
@@ -21,6 +25,8 @@
 		"grunt-jsduck": "^1.0.1",
 		"less": "^3.8.0",
 		"lesshat": "^4.1.0",
+		"rollup": "^1.27.13",
+		"rollup-plugin-babel": "^4.3.3",
 		"shelljs": "^0.8.2"
 	},
 	"scripts": {
