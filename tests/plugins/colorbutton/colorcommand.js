@@ -469,7 +469,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p>[foo]</p>' );
 			bot.fireSelectionChange();
-			assertColorbuttonStates( editor, {
+			assertColorButtonStates( editor, {
 				textColorState: CKEDITOR.TRISTATE_OFF,
 				bgColorState: CKEDITOR.TRISTATE_OFF,
 				message: 'Text OFF, background OFF'
@@ -477,7 +477,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p><span style="color:#c0392b">[foo]</span></p>' );
 			bot.fireSelectionChange();
-			assertColorbuttonStates( editor, {
+			assertColorButtonStates( editor, {
 				textColorState: CKEDITOR.TRISTATE_ON,
 				bgColorState: CKEDITOR.TRISTATE_OFF,
 				message: 'Text ON, background OFF'
@@ -485,7 +485,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p><span style="background-color:#c0392b">[foo]</span></p>' );
 			bot.fireSelectionChange();
-			assertColorbuttonStates( editor, {
+			assertColorButtonStates( editor, {
 				textColorState: CKEDITOR.TRISTATE_OFF,
 				bgColorState: CKEDITOR.TRISTATE_ON,
 				message: 'Text OFF, background ON'
@@ -493,7 +493,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p><span style="color:#ffffff"><span style="background-color:#c0392b">[foo]</span></span></p>' );
 			bot.fireSelectionChange();
-			assertColorbuttonStates( editor, {
+			assertColorButtonStates( editor, {
 				textColorState: CKEDITOR.TRISTATE_ON,
 				bgColorState: CKEDITOR.TRISTATE_ON,
 				message: 'Text ON, background ON'
@@ -501,7 +501,7 @@
 
 			editor.setReadOnly();
 
-			assertColorbuttonStates( editor, {
+			assertColorButtonStates( editor, {
 				textColorState: CKEDITOR.TRISTATE_DISABLED,
 				bgColorState: CKEDITOR.TRISTATE_DISABLED,
 				message: 'Text DISABLED, background DISABLED'
@@ -511,7 +511,7 @@
 		}
 	} );
 
-	function assertColorbuttonStates( editor, options ) {
+	function assertColorButtonStates( editor, options ) {
 		var bgCommand = editor.getCommand( 'bgColor' ),
 			textCommand = editor.getCommand( 'textColor' ),
 			bgUi = editor.ui.get( 'BGColor' ),
