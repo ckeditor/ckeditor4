@@ -38,32 +38,6 @@
 		'</ul>' +
 		'<p>^<u><em><strong>Formatted text.</strong></em></u>$</p>]';
 
-	function getStyleText( style ) {
-		return CKEDITOR.style.getStyleText( style.getDefinition() ).replace( ';', '' );
-	}
-
-	function assertColorCommand( options ) {
-		var expected = options.expected,
-			editor = options.editor,
-			newStyle = options.newStyle,
-			collapsed = options.collapsed || false,
-			commandName = options.commandName;
-
-		editor.execCommand( commandName, { newStyle: newStyle } );
-
-		if ( collapsed ) {
-			editor.insertText( 'ZWS' );
-		}
-
-		assert.isInnerHtmlMatching( expected, editor.editable().getHtml(), {
-			fixStyles: true
-		} );
-	}
-
-	function getFirstColorElement( panel ) {
-		return panel._.panel._.currentBlock.element.findOne( '.cke_colorbox' );
-	}
-
 	bender.test( {
 		tearDown: function() {
 			this.editor.setReadOnly( false );
@@ -510,6 +484,32 @@
 			editor.setReadOnly( false );
 		}
 	} );
+
+	function getStyleText( style ) {
+		return CKEDITOR.style.getStyleText( style.getDefinition() ).replace( ';', '' );
+	}
+
+	function assertColorCommand( options ) {
+		var expected = options.expected,
+			editor = options.editor,
+			newStyle = options.newStyle,
+			collapsed = options.collapsed || false,
+			commandName = options.commandName;
+
+		editor.execCommand( commandName, { newStyle: newStyle } );
+
+		if ( collapsed ) {
+			editor.insertText( 'ZWS' );
+		}
+
+		assert.isInnerHtmlMatching( expected, editor.editable().getHtml(), {
+			fixStyles: true
+		} );
+	}
+
+	function getFirstColorElement( panel ) {
+		return panel._.panel._.currentBlock.element.findOne( '.cke_colorbox' );
+	}
 
 	function assertColorButtonStates( editor, options ) {
 		var bgCommand = editor.getCommand( 'bgColor' ),
