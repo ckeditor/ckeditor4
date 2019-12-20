@@ -6,6 +6,7 @@
 New features:
 
 * [#2583](https://github.com/ckeditor/ckeditor-dev/issues/2583): Changed [Emoji](https://ckeditor.com/cke4/addon/emoji) suggestion box to show matched emoji name instead of an ID.
+* [#3748](https://github.com/ckeditor/ckeditor-dev/issues/3748): Improved [Color Button](https://ckeditor.com/cke4/addon/colorbutton) state to reflect selected editor content colors.
 
 Fixed Issues:
 
@@ -14,7 +15,8 @@ Fixed Issues:
 API Changes:
 
 * [#3387](https://github.com/ckeditor/ckeditor-dev/issues/3387): Added the [CKEDITOR.ui.richCombo#select](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_richCombo.html#method-select) method.
-
+* [#3306](https://github.com/ckeditor/ckeditor-dev/issues/3306): Added new commands `textColor` and `bgColor` which applies the selected color choosen by the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) plugin.
+ 
 ## CKEditor 4.13.1
 
 Fixed Issues:
