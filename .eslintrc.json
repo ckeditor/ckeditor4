@@ -1,0 +1,13 @@
+{
+	"extends": "ckeditor5",
+	"env": {
+		"browser": true,
+		"node": true
+	},
+	"globals": {
+		"CKEDITOR": "writable"
+	},
+	"rules": {
+		"new-cap": 0
+	}
+}

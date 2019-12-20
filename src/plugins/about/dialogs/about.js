@@ -1,6 +1,7 @@
 CKEDITOR.dialog.add( 'about', function( editor ) {
 	const lang = editor.lang.about;
-	const imagePath = CKEDITOR.getUrl( `${ CKEDITOR.plugins.get( 'about' ).path }dialogs/${ ( CKEDITOR.env.hidpi ? 'hidpi/' : '' ) }logo_ckeditor.png` );
+	const imagePath = CKEDITOR.getUrl(
+		`${ CKEDITOR.plugins.get( 'about' ).path }dialogs/${ ( CKEDITOR.env.hidpi ? 'hidpi/' : '' ) }logo_ckeditor.png` );
 
 	return {
 		title: lang.dlgTitle,
@@ -49,9 +50,12 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 		<a target="_blank" rel="noopener noreferrer" href="https://ckeditor.com/">https://ckeditor.com</a>
 	</p>
 	<p>${ lang.moreInfo }<br>
-		<a target="_blank" rel="noopener noreferrer" href="https://ckeditor.com/legal/ckeditor-oss-license/">https://ckeditor.com/legal/ckeditor-oss-license/</a>
+		<a target="_blank" rel="noopener noreferrer"
+		href="https://ckeditor.com/legal/ckeditor-oss-license/">https://ckeditor.com/legal/ckeditor-oss-license/</a>
 	</p>
-	<p>${ lang.copy.replace( '$1', '<a target="_blank" rel="noopener noreferrer" href="https://cksource.com/">CKSource</a> - Frederico Knabben' ) }</p>
+	<p>${ lang.copy.replace( '$1',
+		`<a target="_blank" rel="noopener noreferrer"
+	href="https://cksource.com/">CKSource</a> - Frederico Knabben` ) }</p>
 </div>`
 				}
 			]

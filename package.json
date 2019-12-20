@@ -14,6 +14,8 @@
 		"chalk": "^3.0.0",
 		"cksource-samples-framework": "^1.0.1",
 		"core-js": "^3.6.0",
+		"eslint": "^6.8.0",
+		"eslint-config-ckeditor5": "^2.0.0",
 		"grunt": "^1.0.1",
 		"grunt-contrib-concat": "^1.0.0",
 		"grunt-contrib-imagemin": "^2.0.1",
@@ -23,13 +25,16 @@
 		"grunt-githooks": "^0.6.0",
 		"grunt-jscs": "^3.0.1",
 		"grunt-jsduck": "^1.0.1",
+		"husky": "^3.1.0",
 		"less": "^3.8.0",
 		"lesshat": "^4.1.0",
+		"lint-staged": "^9.5.0",
 		"rollup": "^1.27.13",
 		"rollup-plugin-babel": "^4.3.3",
 		"shelljs": "^0.8.2"
 	},
 	"scripts": {
+		"lint": "eslint \"src/**/*.js\"",
 		"prebuild": "node dev/builder/transpile",
 		"build": "cd dev/builder && ./build.sh full all -t && cd ../..",
 		"test": "echo \"Error: no test specified\" && exit 1"
@@ -52,5 +57,15 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ckeditor/ckeditor4.git"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"src/**/*.js": [
+			"eslint --quiet"
+		]
 	}
 }
