@@ -17,6 +17,7 @@
 			names = preparedStylesAndNames.names;
 
 		editor.addCommand( commandName , {
+			contextSensitive: true,
 			exec: function( editor, data ) {
 				if ( editor.readOnly ) {
 					return;
@@ -50,6 +51,14 @@
 					}
 
 					editor.applyStyle( newStyle );
+				}
+			},
+
+			refresh: function( editor, path ) {
+				if ( !allowedAndRequiredContent.checkApplicable( path, editor, editor.activeFilter ) ) {
+					this.setState( CKEDITOR.TRISTATE_DISABLED );
+				} else {
+					this.setState( CKEDITOR.TRISTATE_OFF );
 				}
 			}
 		} );
