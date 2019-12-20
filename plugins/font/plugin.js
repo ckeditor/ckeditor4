@@ -203,13 +203,13 @@
 		}
 	}
 
-	//  * @param {Object} config
-	//  * @param {CKEDITOR.dom.range} config.range
-	//  * @param {Object} config.configStyleDefinition object representing config option:
+	//  * @param {Object} options
+	//  * @param {CKEDITOR.dom.range} options.range
+	//  * @param {Object} options.configStyleDefinition object representing config option:
 	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
-	function _hasStyleToRemove( config ) {
-		var range = config.range,
-			configStyleDefinition = config.configStyleDefinition,
+	function _hasStyleToRemove( options ) {
+		var range = options.range,
+			configStyleDefinition = options.configStyleDefinition,
 			walker,
 			textNode,
 			nodeWithStyle;
@@ -238,16 +238,16 @@
 	}
 
 
-	//  * @param {Object} config
-	//  * @param {CKEDITOR.dom.range} config.range,
-	//  * @param {CKEDITOR.style} config.style style which is going to be applied over given range
-	//  * @param {Object} config.configStyleDefinition object representing config option:
+	//  * @param {Object} options
+	//  * @param {CKEDITOR.dom.range} options.range,
+	//  * @param {CKEDITOR.style} options.style style which is going to be applied over given range
+	//  * @param {Object} options.configStyleDefinition object representing config option:
 	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
 	//  * @returns {Boolean}
-	function _hasAlreadyAppliedNewStyle( config ) {
-		var range = config.range,
-			style = config.style,
-			configStyleDefinition = config.configStyleDefinition,
+	function _hasAlreadyAppliedNewStyle( options ) {
+		var range = options.range,
+			style = options.style,
+			configStyleDefinition = options.configStyleDefinition,
 			walker,
 			textNode,
 			nodeWithStyle;
