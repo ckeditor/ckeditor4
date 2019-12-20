@@ -30,3 +30,6 @@ bender-*.log
 !.github/**
 !.npm/*
 .DS_Store
+
+/core/
+/plugins/
