@@ -1,5 +1,5 @@
 @bender-tags: feature, 4.14.0, 3306
-@bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, basicstyles, table, tableselection, list, sourcearea, elementspath, htmlwriter
+@bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, basicstyles, table, tableselection, list, sourcearea, elementspath, htmlwriter, undo, colordialog
 @bender-ui: collapsed
 
 ## Test case 1:
