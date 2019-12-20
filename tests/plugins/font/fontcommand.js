@@ -848,54 +848,6 @@
 				editor.editable().getHtml(),
 				{ fixStyles: true }
 			);
-		},
-
-		'test should synchronize state between font command and font richcombo': function() {
-			var editor = this.editor,
-				richcombo = editor.ui.get( 'Font' ),
-				command = editor.getCommand( 'font' );
-
-			assert.areEqual( richcombo.getState(), command.state, 'should have same initial state' );
-
-			richcombo.setState( CKEDITOR.TRISTATE_DISABLED );
-			assert.areEqual( richcombo.getState(), command.state, 'should have same state after disabling richcombo' );
-			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, command.state, 'command should have disbled state' );
-
-			richcombo.setState( CKEDITOR.TRISTATE_OFF );
-			assert.areEqual( richcombo.getState(), command.state, 'should have same state after off richcombo' );
-			assert.areEqual( CKEDITOR.TRISTATE_OFF, command.state, 'command should have off state' );
-
-			command.setState( CKEDITOR.TRISTATE_DISABLED );
-			assert.areEqual( command.state, richcombo.getState(), 'should have same state after disabling command' );
-			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, richcombo.getState(), 'richcombo should have disable state' );
-
-			command.setState( CKEDITOR.TRISTATE_OFF );
-			assert.areEqual( command.state, richcombo.getState(), 'should have same state after off command' );
-			assert.areEqual( CKEDITOR.TRISTATE_OFF, richcombo.getState(), 'richcombo should have off state' );
-		},
-
-		'test should synchronize state between font size command and font size richcombo': function() {
-			var editor = this.editor,
-				richcombo = editor.ui.get( 'FontSize' ),
-				command = editor.getCommand( 'fontSize' );
-
-			assert.areEqual( richcombo.getState(), command.state, 'should have same initial state' );
-
-			richcombo.setState( CKEDITOR.TRISTATE_DISABLED );
-			assert.areEqual( richcombo.getState(), command.state, 'should have same state after disabling richcombo' );
-			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, command.state, 'command should have disbled state' );
-
-			richcombo.setState( CKEDITOR.TRISTATE_OFF );
-			assert.areEqual( richcombo.getState(), command.state, 'should have same state after off richcombo' );
-			assert.areEqual( CKEDITOR.TRISTATE_OFF, command.state, 'command should have off state' );
-
-			command.setState( CKEDITOR.TRISTATE_DISABLED );
-			assert.areEqual( command.state, richcombo.getState(), 'should have same state after disabling command' );
-			assert.areEqual( CKEDITOR.TRISTATE_DISABLED, richcombo.getState(), 'richcombo should have disable state' );
-
-			command.setState( CKEDITOR.TRISTATE_OFF );
-			assert.areEqual( command.state, richcombo.getState(), 'should have same state after off command' );
-			assert.areEqual( CKEDITOR.TRISTATE_OFF, richcombo.getState(), 'richcombo should have off state' );
 		}
 	} );
 } )();

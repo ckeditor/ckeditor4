@@ -61,7 +61,6 @@
 			toolbar: 'styles,' + order,
 			allowedContent: allowedAndRequiredContent,
 			requiredContent: allowedAndRequiredContent,
-			options: _getOptions( styles ),
 			contentTransformations: configStyleDefinition.element === 'span' ? [
 				[
 					{
@@ -161,15 +160,6 @@
 			}
 		} );
 
-		editor.once( 'instanceReady', function() {
-			var richcombo = editor.ui.get( comboName ),
-				command = editor.getCommand( commandName );
-
-			if ( command && richcombo ) {
-				_registerStateSynchronization( command, richcombo );
-			}
-		} );
-
 		function onClickHandler( newValue ) {
 			editor.focus();
 
@@ -203,24 +193,6 @@
 				editor.fire( 'saveSnapshot' );
 			}
 		}
-	}
-
-	function _registerStateSynchronization( command, richcombo ) {
-		command.on( 'state', function() {
-			if ( this.state !== richcombo.getState() ) {
-				richcombo.setState( this.state );
-			}
-		} );
-
-		// This method is overwritten here, because init is run only after opening richcombo panel.
-		// That's stata would remain desynchronized after editor's initialization.
-		richcombo.setState = function( state ) {
-			richcombo.constructor.prototype.setState.call( richcombo, state );
-
-			if ( command.state !== state ) {
-				command.setState( state );
-			}
-		};
 	}
 
 	//  * @param {Object} config
@@ -500,19 +472,6 @@
 
 			editor.getSelection().selectRanges( [ range ] );
 		}
-	}
-
-
-	//  * @param {Object} styles object containing all styles used by this rich combo.
-	//  * @returns {Object} simplified object with key-value pairs used to set up value of richcombo.
-	function _getOptions( styles ) {
-		var ret = {};
-
-		for ( var styleName in styles ) {
-			ret[ styleName ] = styles[ styleName ].getDefinition();
-		}
-
-		return ret;
 	}
 
 	// Clones the subtree between subtreeStart (exclusive) and the
