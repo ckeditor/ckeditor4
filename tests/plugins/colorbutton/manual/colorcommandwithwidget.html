@@ -54,7 +54,7 @@
 		extraPlugins: 'testWidget'
 	} );
 
-	document.getElementById( 'read-only' ).addEventListener( 'click', function() {
+	CKEDITOR.document.getById( 'read-only' ).on( 'click', function() {
 		editor.setReadOnly( !editor.readOnly );
 	} );
 </script>
