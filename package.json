@@ -30,6 +30,8 @@
 		"shelljs": "^0.8.2"
 	},
 	"scripts": {
+		"prebuild": "node dev/builder/transpile",
+		"build": "cd dev/builder && ./build.sh full all -t && cd ../..",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [
