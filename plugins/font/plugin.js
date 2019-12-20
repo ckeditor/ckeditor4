@@ -44,12 +44,11 @@
 
 				if ( isRemove ) {
 					editor.removeStyle( oldStyle );
-				}
-
-				if ( !isRemove ) {
+				} else {
 					if ( oldStyle ) {
 						editor.removeStyle( oldStyle );
 					}
+
 					editor.applyStyle( newStyle );
 				}
 			}
