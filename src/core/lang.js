@@ -85,7 +85,7 @@ CKEDITOR.lang = {
 
 		CKEDITOR.lang.detect = lang ? () => {
 			return lang;
-		} : defaultLanguage => {
+		} : ( defaultLanguage ) => {
 			return defaultLanguage;
 		};
 

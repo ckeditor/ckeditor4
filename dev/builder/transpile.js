@@ -82,7 +82,7 @@ function transpilePlugins( cke4Path ) {
 function transpile( paths ) {
 	if ( !Array.isArray( paths ) ) {
 		paths = [ paths ];
-	};
+	}
 
 	const transpiles = paths.map( ( { input, output } ) => {
 		return rollup( {
