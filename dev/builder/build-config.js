@@ -16,6 +16,7 @@ var CKBUILDER_CONFIG = {
 		'.travis.yml',
 		'dev',
 		'docs',
+		'src',
 		'.DS_Store',
 		'.editorconfig',
 		'.gitignore',
