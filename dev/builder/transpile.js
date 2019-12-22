@@ -1,7 +1,9 @@
-const { readdirSync, statSync, existsSync } = require( 'fs' );
+const { readdirSync, readFileSync, statSync, existsSync } = require( 'fs' );
 const { resolve: resolvePath } = require( 'path' );
 const chalk = require( 'chalk' );
 const { rollup } = require( 'rollup' );
+const nodeResolve = require( '@rollup/plugin-node-resolve' );
+const commonJS = require( 'rollup-plugin-commonjs' );
 const babel = require( 'rollup-plugin-babel' );
 const CKE4_PATH = getCKE4Path( process.cwd() );
 
@@ -86,14 +88,34 @@ function transpile( paths ) {
 		return rollup( {
 			input,
 			plugins: [
+				{
+					load( path ) {
+						if ( path !== input ) {
+							return null;
+						}
+
+						const fileContent = readFileSync( path, 'utf8' );
+						const code = `import 'core-js/modules/es.array.is-array.js';\n${ fileContent }`;
+
+						return code;
+					}
+				},
+				nodeResolve(),
+				commonJS(),
 				babel( {
+					exclude: [
+						'node_modules/core-js/**'
+					],
+					externalHelpers: false,
 					presets: [
 						[
 							'@babel/preset-env',
 							{
 								targets: {
 									ie: 8
-								}
+								},
+								useBuiltIns: 'usage',
+								corejs: 3
 							}
 						]
 					]

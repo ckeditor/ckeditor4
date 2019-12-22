@@ -5,6 +5,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.7.7",
 		"@babel/preset-env": "^7.7.7",
+		"@rollup/plugin-node-resolve": "^6.0.0",
 		"benderjs": "0.4.3",
 		"benderjs-coverage": "^0.2.2",
 		"benderjs-jquery": "^0.3.0",
@@ -31,12 +32,12 @@
 		"lint-staged": "^9.5.0",
 		"rollup": "^1.27.13",
 		"rollup-plugin-babel": "^4.3.3",
+		"rollup-plugin-commonjs": "^10.1.0",
 		"shelljs": "^0.8.2"
 	},
 	"scripts": {
 		"lint": "eslint \"src/**/*.js\"",
-		"prebuild": "node dev/builder/transpile",
-		"build": "cd dev/builder && ./build.sh full all -t && cd ../..",
+		"transpile": "node dev/builder/transpile",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [
