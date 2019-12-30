@@ -2906,7 +2906,7 @@
 			}
 
 			if ( node.type == CKEDITOR.NODE_TEXT ) {
-				node = node.getParent();
+				return findWidget( node.getParent() );
 			}
 
 			return editor.widgets.getByElement( node );
