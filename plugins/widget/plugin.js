@@ -315,10 +315,6 @@
 			updater.commit();
 		},
 
-		commitSelection: function() {
-
-		},
-
 		/**
 		 * Checks if all widget instances are still present in the DOM.
 		 * Destroys those instances that are not present.
