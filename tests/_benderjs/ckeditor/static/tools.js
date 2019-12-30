@@ -1669,7 +1669,7 @@
 			}
 
 			innerHtml = bender.tools.compatHtml( innerHtml,
-				options.noInterWS, sortAttributes, fixZWS, options.fixStyles, fixNbsp, options.noTempElements, options.customFilters );
+				options.noInterWS, sortAttributes, fixZWS, options.fixStyles, fixNbsp, options.noTempElements );
 
 			if ( options.compareSelection ) {
 				innerHtml = innerHtml.replace( selectionMarkerComments, '$1' );
