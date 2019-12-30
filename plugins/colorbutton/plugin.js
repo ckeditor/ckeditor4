@@ -148,6 +148,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				allowedContent: style,
 				requiredContent: style,
 				contentTransformations: contentTransformations,
+				panelId: CKEDITOR.tools.getNextId() + '_' + commandName + '_panel',
 
 				panel: {
 					css: CKEDITOR.skin.getPath( 'editor' ),
@@ -180,11 +181,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
+					block.element.setAttribute( 'id', this.panelId );
 					block.element.setHtml( renderColors( {
 						type: type,
 						colorBoxId: colorBoxId,
 						colorData: colorData,
-						commandName: commandName
+						commandName: commandName,
+						panel: panelBlock
 					} ) );
 					// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
 					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
@@ -204,11 +207,23 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				// The automatic colorbox should represent the real color (https://dev.ckeditor.com/ticket/6010)
 				onOpen: function() {
-
-					var selection = editor.getSelection(),
+					var panel = this._.panel._.iframe.getFrameDocument().getById( this.panelId ),
+						contentColorsRow = panel.findOne( '.cke_colorcontent_row' ),
+						contentColorsLabel = panel.findOne( '.cke_colorcontent_label' ),
+						clickFn = panel.data( 'clickfn' ),
+						selection = editor.getSelection(),
 						block = selection && selection.getStartElement(),
 						path = editor.elementPath( block ),
+						cssAttribute = type == 'back' ? 'background-color' : 'color',
 						automaticColor;
+
+					renderContentColors( {
+						contentColorsRow: contentColorsRow,
+						contentColorsLabel: contentColorsLabel,
+						cssAttribute: cssAttribute,
+						clickFn: clickFn,
+						type: type
+					} );
 
 					if ( !path ) {
 						return null;
@@ -273,11 +288,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 		}
 
+
 		function renderColors( options ) {
 			var type = options.type,
 				colorBoxId = options.colorBoxId,
 				colorData = options.colorData,
 				commandName = options.commandName,
+				panel = options.panel,
 				output = [],
 				colors = config.colorButton_colors.split( ',' ),
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
@@ -306,12 +323,22 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
 							setColor( color );
+							addCustomColorToPanel( {
+								customColorsRow: panel.element.findOne( '.cke_colorcustom_row' ),
+								customColorsLabel: panel.element.findOne( '.cke_colorcustom_label' ),
+								colorHexCode: color.substr( 1 ).toUpperCase(),
+								clickFn: clickFn,
+								type: type,
+								colorsPerRow: colorsPerRow
+							} );
 						}
 					}, null, colorData );
 				} else {
 					setColor( color && '#' + color, colorName );
 				}
 			} );
+
+			panel.element.data( 'clickfn', clickFn );
 
 			if ( config.colorButton_enableAutomatic !== false ) {
 				// Render the "Automatic" button.
@@ -352,19 +379,33 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					colorLabel = colorName;
 				}
 
-				output.push( '<td>' +
-					'<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
-						' title="', colorLabel, '"' +
-						' draggable="false"' +
-						' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorCode, '\',\'', colorName, '\',\'', type, '\'); return false;"' +
-						' href="javascript:void(\'', colorCode, '\')"' +
-						' data-value="' + colorCode + '"' +
-						' role="option" aria-posinset="', ( i + 2 ), '" aria-setsize="', total, '">' +
-						'<span class="cke_colorbox" style="background-color:#', colorCode, '"></span>' +
-					'</a>' +
-					'</td>' );
+				output.push( '<td>' + generateTileHtml( {
+					colorLabel: colorLabel,
+					clickFn: clickFn,
+					colorCode: colorCode,
+					type: type,
+					position: i + 2,
+					setSize: total
+				} ) + '</td>' );
 			}
+
+			// Render the "Custom Colors" section.
+			output.push( '</tr>' +
+				'<tr>' +
+					'<td colspan=' + colorsPerRow + '" align="center">' +
+						'<span class="cke_colorcustom_label" style="display:none">Custom Colors</span>' +
+					'</td>' +
+				'</tr>' +
+				'<tr class="cke_colorcustom_row">' );
+
+			// Render the "Content Colors" section.
+			output.push( '</tr>' +
+				'<tr>' +
+					'<td colspan=' + colorsPerRow + '" align="center">' +
+						'<span class="cke_colorcontent_label" style="display:none">Content Colors</span>' +
+					'</td>' +
+				'</tr>' +
+				'<tr class="cke_colorcontent_row">' );
 
 			// Render the "More Colors" button.
 			if ( moreColorsEnabled ) {
@@ -398,6 +439,145 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				editor.execCommand( commandName, { newStyle: colorStyle } );
 			}
+		}
+
+		function renderContentColors( options ) {
+			// This function is called on each dialog opening.
+			var contentColorsRow = options.contentColorsRow,
+				contentColorsLabel = options.contentColorsLabel,
+				cssAttribute = options.cssAttribute,
+				clickFn = options.clickFn,
+				type = options.type,
+				colorSpans = editor.editable().find( 'span[style*=' + cssAttribute + ']' ).toArray(),
+				colors = [],
+				colorOccurrences = {},
+				sortedColors = [],
+				colorsPerRow = config.colorButton_colorsPerRow || 6,
+				tilePosition = 1;
+
+			// It's more reliable and easier to delete exisiting color tiles and recreate them than to manipulate the old ones.
+			CKEDITOR.tools.array.forEach( contentColorsRow.find( 'td' ).toArray(), function( node ) {
+				node.remove();
+			}, 0, 1 );
+
+			if ( !colorSpans.length ) {
+				contentColorsLabel.hide();
+				return;
+			}
+
+			CKEDITOR.tools.array.forEach( colorSpans, function( span ) {
+				var spanColor = span.getStyle( cssAttribute );
+
+				if ( spanColor ) {
+					colors.push( normalizeColor( spanColor ).toUpperCase() );
+				}
+			} );
+
+			if ( !colors.length ) {
+				contentColorsLabel.hide();
+				return;
+			}
+
+			CKEDITOR.tools.array.forEach( colors, function( color ) {
+				if ( color in colorOccurrences ) {
+					colorOccurrences[ color ]++;
+				} else {
+					colorOccurrences[ color ] = 1;
+				}
+			} );
+
+			for ( var color in colorOccurrences ) {
+				sortedColors.push( [ color, colorOccurrences[ color ] ] );
+			}
+			sortedColors.sort( function( a, b ) {
+				return b[ 1 ] - a[ 1 ];
+			} );
+
+			// Trim the color array to the row size.
+			if ( sortedColors.length > colorsPerRow ) {
+				sortedColors.splice( colorsPerRow - 1, sortedColors.length - colorsPerRow );
+			}
+
+			CKEDITOR.tools.array.forEach( sortedColors, function( color ) {
+				// Unfortunately CKEDITOR.dom.element.createFromHtml() doesn't work for table elements,
+				// so table cell has to be created separately.
+				var colorTile = new CKEDITOR.dom.element( 'td' );
+
+				colorTile.setHtml( generateTileHtml( {
+					colorLabel: color[ 0 ],
+					clickFn: clickFn,
+					colorCode: color[ 0 ],
+					type: type,
+					position: tilePosition++,
+					setSize: sortedColors.length
+				} ) );
+
+				contentColorsRow.append( colorTile );
+			} );
+
+			contentColorsLabel.show();
+		}
+
+		function addCustomColorToPanel( options ) {
+			// This function is called when a color from colordialog is chosen.
+			var colorHexCode = options.colorHexCode,
+				clickFn = options.clickFn,
+				type = options.type,
+				colorsPerRow = options.colorsPerRow,
+				customColorsRow = options.customColorsRow,
+				customColorsLabel = options.customColorsLabel,
+				chosenColorTile = customColorsRow.findOne( '[data-value="' + colorHexCode + '"]' ),
+				tilesNumber = customColorsRow.getChildCount(),
+				tilePosition = 1,
+				existingTiles;
+
+			if ( chosenColorTile ) {
+				// If the same color is chosen again, find the old tile and move it to the beginning
+				// instead of creating a new one.
+				customColorsRow.append( chosenColorTile.getParent(), true );
+			} else {
+				var colorTile = new CKEDITOR.dom.element( 'td' );
+
+				colorTile.setHtml( generateTileHtml( {
+					colorLabel: colorHexCode,
+					clickFn: clickFn,
+					colorCode: colorHexCode,
+					type: type,
+					position: 1,
+					setSize: tilesNumber < colorsPerRow ? tilesNumber++ : tilesNumber
+				} ) );
+
+				customColorsRow.append( colorTile, true );
+			}
+
+			existingTiles = customColorsRow.getChildren().toArray();
+
+			CKEDITOR.tools.array.forEach( existingTiles, function( tile ) {
+				tile.getChild( 0 ).setAttributes( {
+					'aria-setsize': tilesNumber,
+					'aria-posinset': tilePosition++
+				} );
+			} );
+
+			for ( var i = colorsPerRow; i < customColorsRow.getChildCount(); i++ ) {
+				existingTiles[ i ].remove();
+			}
+
+			customColorsLabel.show();
+		}
+
+		function generateTileHtml( options ) {
+			return '<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
+				' title="' + options.colorLabel + '"' +
+				' draggable="false"' +
+				' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
+				' onclick="CKEDITOR.tools.callFunction(' + options.clickFn + ',\'' + options.colorCode +
+				'\',\'' + options.type + '\'); return false;"' +
+				' href="javascript:void(\'' + options.colorCode + '\')"' +
+				' data-value="' + options.colorCode + '"' +
+				' role="option" aria-posinset="' + options.position + '" aria-setsize="' + options.setSize + '">' +
+				'<span class="cke_colorbox" style="background-color:#' + options.colorCode + '"></span>' +
+				'</a>';
 		}
 
 		function isUnstylable( ele ) {
