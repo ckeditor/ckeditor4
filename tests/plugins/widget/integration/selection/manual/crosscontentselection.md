@@ -8,14 +8,13 @@
 4. Paste it in editor.
 5. Repeat the same procedure for the `cut` operation.
 
-### Expected:
+**Expected**
+
 * When widget is partially selected, then is not copied/cut.
 * When widget is fully selected, then is properly copied/cut.
 * After cut there remain collapsed selection in the editor.
 
-### Unexpected:
+**Unexpected**
+
 * There is an error in a console.
 * Selected content is not copied/cut.
-
-### Note:
-There is a bug in Firefox related to undo steps which might appear when widget is partially cut. [#3552](https://github.com/ckeditor/ckeditor4/issues/3552)
