@@ -332,15 +332,10 @@
 		for ( var i = 0; i < availableStyleDefinitions.length; i++ ) {
 			var currentStyleDefinition = availableStyleDefinitions[ i ];
 
-			if ( !_hasValidName( el, currentStyleDefinition ) ) {
-				continue;
-			}
-
-			if ( !_hasValidAttributes( el, currentStyleDefinition ) ) {
-				continue;
-			}
-
-			if ( !_hasValidStyles( el, currentStyleDefinition ) ) {
+			if ( !_hasValidName( el, currentStyleDefinition ) ||
+				!_hasValidAttributes( el, currentStyleDefinition ) ||
+				!_hasValidStyles( el, currentStyleDefinition )
+			) {
 				continue;
 			}
 
