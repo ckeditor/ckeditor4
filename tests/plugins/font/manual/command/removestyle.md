@@ -1,6 +1,6 @@
 @bender-tags: 4.14.0, feature, 3728
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, font, enterkey, elementspath, notification
+@bender-ckeditor-plugins: wysiwygarea, toolbar, font, enterkey, elementspath, notification, sourcearea
 
 General Note:
 * Font and font size now use commands instead of direct operation on editor's content.
