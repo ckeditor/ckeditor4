@@ -4,19 +4,29 @@
  */
 
 ( function() {
-	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, configStyleDefinition, order ) {
+	// @param {CKEDITOR.editor} editor
+	// @param {Object} definition
+	// @param {String} definition.comboName
+	// @oaram {String} definition.commandName name used to register command in editor
+	// @param {String} definition.styleType it has value 'size' or 'family'
+	// @param {Object} definition.lang reference to lang object used for given combo
+	// @param {String} definition.entries values used for given combo options
+	// @param {String} definition.defaultLabel label used to describe default value
+	// @param {Object} definition.configStyleDefinition object representing defintion for given font combo
+	// @param {Number} defnition.order value used to position icon in toolbar
+	function addCombo( editor, definition ) {
 		var config = editor.config,
-			allowedAndRequiredContent = new CKEDITOR.style( configStyleDefinition ),
-			commandName = comboName.slice( 0, 1 ).toLowerCase() + comboName.slice( 1 ),
+			lang = definition.lang,
+			allowedAndRequiredContent = new CKEDITOR.style( definition.configStyleDefinition ),
 			preparedStylesAndNames = prepareStylesAndNames( {
-				entries: entries,
-				styleType: styleType,
-				configStyleDefinition: configStyleDefinition
+				entries: definition.entries,
+				styleType: definition.styleType,
+				configStyleDefinition: definition.configStyleDefinition
 			} ),
 			styles = preparedStylesAndNames.styles,
 			names = preparedStylesAndNames.names;
 
-		editor.addCommand( commandName , {
+		editor.addCommand( definition.commandName , {
 			contextSensitive: true,
 			exec: function( editor, data ) {
 				if ( editor.readOnly ) {
@@ -63,13 +73,13 @@
 			}
 		} );
 
-		editor.ui.addRichCombo( comboName, {
+		editor.ui.addRichCombo( definition.comboName, {
 			label: lang.label,
 			title: lang.panelTitle,
-			toolbar: 'styles,' + order,
+			toolbar: 'styles,' + definition.order,
 			allowedContent: allowedAndRequiredContent,
 			requiredContent: allowedAndRequiredContent,
-			contentTransformations: configStyleDefinition.element === 'span' ? [
+			contentTransformations: definition.configStyleDefinition.element === 'span' ? [
 				[
 					{
 						element: 'font',
@@ -158,7 +168,7 @@
 					}
 
 					// If no styles match, just empty it.
-					this.setValue( '', defaultLabel );
+					this.setValue( '', definition.defaultLabel );
 				}, this );
 			},
 
@@ -181,19 +191,19 @@
 
 			styleToRemove = isRemoveOperation && hasStyleToRemove( {
 				range: range,
-				configStyleDefinition: configStyleDefinition
+				configStyleDefinition: definition.configStyleDefinition
 			} );
 
 			hasFragmentsWithoutNewStyle = !isRemoveOperation && !hasAlreadyAppliedNewStyle( {
 				range: range,
 				style: newStyle,
-				configStyleDefinition: configStyleDefinition
+				configStyleDefinition: definition.configStyleDefinition
 			} );
 
 			if ( styleToRemove || hasFragmentsWithoutNewStyle ) {
 				editor.fire( 'saveSnapshot' );
 
-				editor.execCommand( commandName, {
+				editor.execCommand( definition.commandName, {
 					newStyle: newStyle,
 					oldStyle: oldStyle
 				} );
@@ -509,8 +519,26 @@
 		init: function( editor ) {
 			var config = editor.config;
 
-			addCombo( editor, 'Font', 'family', editor.lang.font, config.font_names, config.font_defaultLabel, config.font_style, 30 );
-			addCombo( editor, 'FontSize', 'size', editor.lang.font.fontSize, config.fontSize_sizes, config.fontSize_defaultLabel, config.fontSize_style, 40 );
+			addCombo( editor, {
+				comboName: 'Font',
+				commandName: 'font',
+				styleType: 'family',
+				lang: editor.lang.font,
+				entries: config.font_names,
+				defaultLabel: config.font_defaultLabel,
+				configStyleDefinition: config.font_style,
+				order: 30
+			} );
+			addCombo( editor, {
+				comboName: 'FontSize',
+				commandName: 'fontSize',
+				styleType: 'size',
+				lang: editor.lang.font.fontSize,
+				entries: config.fontSize_sizes,
+				defaultLabel: config.fontSize_defaultLabel,
+				configStyleDefinition: config.fontSize_style,
+				order: 40
+			} );
 		}
 	} );
 } )();
