@@ -17,7 +17,7 @@
 	function addCombo( editor, definition ) {
 		var config = editor.config,
 			lang = definition.lang,
-			allowedAndRequiredContent = new CKEDITOR.style( definition.configStyleDefinition ),
+			defaultContentStyle = new CKEDITOR.style( definition.configStyleDefinition ),
 			preparedStylesAndNames = prepareStylesAndNames( {
 				entries: definition.entries,
 				styleType: definition.styleType,
@@ -65,7 +65,7 @@
 			},
 
 			refresh: function( editor, path ) {
-				if ( !allowedAndRequiredContent.checkApplicable( path, editor, editor.activeFilter ) ) {
+				if ( !defaultContentStyle.checkApplicable( path, editor, editor.activeFilter ) ) {
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				} else {
 					this.setState( CKEDITOR.TRISTATE_OFF );
@@ -77,8 +77,8 @@
 			label: lang.label,
 			title: lang.panelTitle,
 			toolbar: 'styles,' + definition.order,
-			allowedContent: allowedAndRequiredContent,
-			requiredContent: allowedAndRequiredContent,
+			allowedContent: defaultContentStyle,
+			requiredContent: defaultContentStyle,
 			contentTransformations: definition.configStyleDefinition.element === 'span' ? [
 				[
 					{
@@ -173,7 +173,7 @@
 			},
 
 			refresh: function() {
-				if ( !editor.activeFilter.check( allowedAndRequiredContent ) )
+				if ( !editor.activeFilter.check( defaultContentStyle ) )
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
 		} );
