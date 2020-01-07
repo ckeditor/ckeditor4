@@ -8,7 +8,7 @@
 		var config = editor.config,
 			allowedAndRequiredContent = new CKEDITOR.style( configStyleDefinition ),
 			commandName = comboName.slice( 0, 1 ).toLowerCase() + comboName.slice( 1 ),
-			preparedStylesAndNames = _prepareStylesAndNames( {
+			preparedStylesAndNames = prepareStylesAndNames( {
 				entries: entries,
 				styleType: styleType,
 				configStyleDefinition: configStyleDefinition
@@ -36,7 +36,7 @@
 				// If the range is collapsed we can't simply use the editor.removeStyle method
 				// because it will remove the entire element and we want to split it instead.
 				if ( oldStyle && range.collapsed ) {
-					_splitElementOnCollapsedRange( {
+					splitElementOnCollapsedRange( {
 						editor: editor,
 						range: range,
 						style: oldStyle
@@ -176,21 +176,21 @@
 				oldStyle = styles[ oldValue ],
 				range = editor.getSelection().getRanges()[ 0 ],
 				isRemoveOperation = !newValue,
-				hasStyleToRemove,
+				styleToRemove,
 				hasFragmentsWithoutNewStyle;
 
-			hasStyleToRemove = isRemoveOperation && _hasStyleToRemove( {
+			styleToRemove = isRemoveOperation && hasStyleToRemove( {
 				range: range,
 				configStyleDefinition: configStyleDefinition
 			} );
 
-			hasFragmentsWithoutNewStyle = !isRemoveOperation && !_hasAlreadyAppliedNewStyle( {
+			hasFragmentsWithoutNewStyle = !isRemoveOperation && !hasAlreadyAppliedNewStyle( {
 				range: range,
 				style: newStyle,
 				configStyleDefinition: configStyleDefinition
 			} );
 
-			if ( hasStyleToRemove || hasFragmentsWithoutNewStyle ) {
+			if ( styleToRemove || hasFragmentsWithoutNewStyle ) {
 				editor.fire( 'saveSnapshot' );
 
 				editor.execCommand( commandName, {
@@ -207,7 +207,7 @@
 	//  * @param {CKEDITOR.dom.range} options.range
 	//  * @param {Object} options.configStyleDefinition object representing config option:
 	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
-	function _hasStyleToRemove( options ) {
+	function hasStyleToRemove( options ) {
 		var range = options.range,
 			configStyleDefinition = options.configStyleDefinition,
 			walker,
@@ -215,7 +215,7 @@
 			nodeWithStyle;
 
 		if ( range.collapsed ) {
-			nodeWithStyle = range.startContainer.getAscendant( _hasStyle( configStyleDefinition ), true );
+			nodeWithStyle = range.startContainer.getAscendant( hasStyle( configStyleDefinition ), true );
 			return !!nodeWithStyle;
 		}
 
@@ -225,7 +225,7 @@
 		textNode = walker.next();
 
 		while ( textNode ) {
-			nodeWithStyle = textNode.getAscendant( _hasStyle( configStyleDefinition ) );
+			nodeWithStyle = textNode.getAscendant( hasStyle( configStyleDefinition ) );
 
 			if ( nodeWithStyle ) {
 				return true;
@@ -244,7 +244,7 @@
 	//  * @param {Object} options.configStyleDefinition object representing config option:
 	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
 	//  * @returns {Boolean}
-	function _hasAlreadyAppliedNewStyle( options ) {
+	function hasAlreadyAppliedNewStyle( options ) {
 		var range = options.range,
 			style = options.style,
 			configStyleDefinition = options.configStyleDefinition,
@@ -253,7 +253,7 @@
 			nodeWithStyle;
 
 		if ( range.collapsed ) {
-			nodeWithStyle = range.startContainer.getAscendant( _hasStyle( configStyleDefinition ), true );
+			nodeWithStyle = range.startContainer.getAscendant( hasStyle( configStyleDefinition ), true );
 			return !!( nodeWithStyle && style.checkElementRemovable( nodeWithStyle ) );
 		}
 
@@ -263,7 +263,7 @@
 		textNode = walker.next();
 
 		while ( textNode ) {
-			nodeWithStyle = textNode.getAscendant( _hasStyle( configStyleDefinition ) );
+			nodeWithStyle = textNode.getAscendant( hasStyle( configStyleDefinition ) );
 
 			if ( !nodeWithStyle || !style.checkElementMatch( nodeWithStyle ) ) {
 				return false;
@@ -278,11 +278,11 @@
 	//  * @param {Object} configStyleDefinition object representing config option:
 	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
 	//  * @returns {Boolean}
-	function _hasStyle( configStyleDefinition ) {
-		var styleDefinitions = _getAvailableStyleDefinitions( configStyleDefinition );
+	function hasStyle( configStyleDefinition ) {
+		var styleDefinitions = getAvailableStyleDefinitions( configStyleDefinition );
 
 		return function( el ) {
-			return el.type === CKEDITOR.NODE_ELEMENT && _matchElementToStyleDefinition( el, styleDefinitions );
+			return el.type === CKEDITOR.NODE_ELEMENT && matchElementToStyleDefinition( el, styleDefinitions );
 		};
 	}
 
@@ -301,7 +301,7 @@
 	//  * 			styles: []
 	//  * 		}
 	//  * 	]
-	function _getAvailableStyleDefinitions( configStyleDefinition ) {
+	function getAvailableStyleDefinitions( configStyleDefinition ) {
 		var styleDefinitions = [],
 			objKeys = CKEDITOR.tools.object.keys;
 
@@ -327,14 +327,14 @@
 	}
 
 	//  * @param {CKEDITOR.dom.element} el
-	//  * @param {Object[]} availableStyleDefinitions - result from `_getAvailableStyleDefinitions()` function
-	function _matchElementToStyleDefinition( el, availableStyleDefinitions ) {
+	//  * @param {Object[]} availableStyleDefinitions - result from `getAvailableStyleDefinitions()` function
+	function matchElementToStyleDefinition( el, availableStyleDefinitions ) {
 		for ( var i = 0; i < availableStyleDefinitions.length; i++ ) {
 			var currentStyleDefinition = availableStyleDefinitions[ i ];
 
-			if ( !_hasValidName( el, currentStyleDefinition ) ||
-				!_hasValidAttributes( el, currentStyleDefinition ) ||
-				!_hasValidStyles( el, currentStyleDefinition )
+			if ( !hasValidName( el, currentStyleDefinition ) ||
+				!hasValidAttributes( el, currentStyleDefinition ) ||
+				!hasValidStyles( el, currentStyleDefinition )
 			) {
 				continue;
 			}
@@ -346,14 +346,14 @@
 	}
 
 	//  * @param {CKEDITOR.dom.element} el
-	//  * @param {Object} styleDefinition Single element from array obtained from `_getAvailableStyleDefinitions()`
-	function _hasValidName( el, styleDefinition ) {
+	//  * @param {Object} styleDefinition Single element from array obtained from `getAvailableStyleDefinitions()`
+	function hasValidName( el, styleDefinition ) {
 		return el.getName() === styleDefinition.element;
 	}
 
 	//  * @param {CKEDITOR.dom.element} el
-	//  * @param {Object} styleDefinition Single element from array obtained from `_getAvailableStyleDefinitions()`
-	function _hasValidAttributes( el, styleDefinition ) {
+	//  * @param {Object} styleDefinition Single element from array obtained from `getAvailableStyleDefinitions()`
+	function hasValidAttributes( el, styleDefinition ) {
 		var hasMatchingAttributes,
 			attributes = styleDefinition.attributes;
 
@@ -370,8 +370,8 @@
 
 
 	//  * @param {CKEDITOR.dom.element} el
-	//  * @param {Object} styleDefinition Single element from array obtained from `_getAvailableStyleDefinitions()`
-	function _hasValidStyles( el, styleDefinition ) {
+	//  * @param {Object} styleDefinition Single element from array obtained from `getAvailableStyleDefinitions()`
+	function hasValidStyles( el, styleDefinition ) {
 		var hasMatchingStyles,
 			styles = styleDefinition.styles;
 
@@ -393,7 +393,7 @@
 	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
 	//  * @returns {Object} return.styles - object containing list of defined styles
 	//  * @returns {Array} return.names array with style names
-	function _prepareStylesAndNames( config ) {
+	function prepareStylesAndNames( config ) {
 		// Gets the list of fonts from the settings.
 		var names = config.entries.split( ';' ),
 			values = [];
@@ -426,7 +426,7 @@
 	//  * @param {CKEDITOR.editor} config.editor instance of the editor
 	//  * @param {CKEDITOR.dom.range} config.range analyzed range
 	//  * @param {CKEDITOR.style} config.style old style which might already exist on this range
-	function _splitElementOnCollapsedRange( config ) {
+	function splitElementOnCollapsedRange( config ) {
 		var editor = config.editor,
 			range = config.range,
 			style = config.style,
