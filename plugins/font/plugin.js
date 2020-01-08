@@ -82,7 +82,8 @@
 				styleVariable: definition.styleType,
 				styleDefinition: definition.configStyleDefinition
 			} ),
-			removeStyleValue = 'cke-remove-style';
+			removeStyleValue = 'cke-remove-style',
+			command;
 
 		editor.addCommand( definition.commandName , {
 			contextSensitive: true,
@@ -124,11 +125,20 @@
 			refresh: function( editor, path ) {
 				if ( !defaultContentStyle.checkApplicable( path, editor, editor.activeFilter ) ) {
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
-				} else {
+					return;
+				}
+
+				var value = getMatchingValue( editor, path, stylesData );
+
+				if ( value === undefined ) {
 					this.setState( CKEDITOR.TRISTATE_OFF );
+				} else {
+					this.setState( CKEDITOR.TRISTATE_ON );
 				}
 			}
 		} );
+
+		command = editor.getCommand( definition.commandName );
 
 		editor.ui.addRichCombo( definition.comboName, {
 			label: lang.label,
@@ -203,25 +213,14 @@
 				editor.on( 'selectionChange', function( ev ) {
 					var currentValue = this.getValue(),
 						elementPath = ev.data.path,
-						elements = elementPath.elements,
-						value;
+						value = getMatchingValue( editor, elementPath, stylesData );
 
-					// For each element into the elements path.
-					for ( var i = 0, element; i < elements.length; i++ ) {
-						element = elements[ i ];
-
-						// Check if the element is removable by any of
-						// the styles.
-						value = stylesData.findMatchingStyleName( function( style ) {
-							return style.checkElementMatch( element, true, editor );
-						}, this );
-
-						if ( value ) {
-							if ( value != currentValue ) {
-								this.setValue( value );
-							}
-							return;
+					if ( value ) {
+						if ( value != currentValue ) {
+							this.setValue( value );
 						}
+
+						return;
 					}
 
 					// If no styles match, just empty it.
@@ -230,10 +229,31 @@
 			},
 
 			refresh: function() {
-				if ( !editor.activeFilter.check( defaultContentStyle ) )
+				if ( command.state === CKEDITOR.TRISTATE_DISABLED ) {
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
+				}
 			}
 		} );
+
+		function getMatchingValue( editor, path, stylesData ) {
+			var elements = path.elements;
+
+			for ( var i = 0, element, value; i < elements.length; i++ ) {
+				element = elements[ i ];
+
+				// Check if the element is removable by any of
+				// the styles.
+				value = stylesData.findMatchingStyleName( function( style ) {
+					return style.checkElementMatch( element, true, editor );
+				}, this );
+
+				if ( value ) {
+					return value;
+				}
+			}
+
+			return;
+		}
 
 		function onClickHandler( newValue ) {
 			editor.focus();
