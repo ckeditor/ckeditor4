@@ -81,7 +81,8 @@
 				entries: definition.entries,
 				styleVariable: definition.styleType,
 				styleDefinition: definition.configStyleDefinition
-			} );
+			} ),
+			removeStyleValue = 'cke-remove-style';
 
 		editor.addCommand( definition.commandName , {
 			contextSensitive: true,
@@ -190,7 +191,7 @@
 				this.startGroup( lang.panelTitle );
 
 				// Add `(Default)` item as a first element on the drop-down list.
-				this.add( '', defaultText, defaultText );
+				this.add( removeStyleValue, defaultText, defaultText );
 
 				stylesData.executeForEach( function( name, styleValue ) {
 					this.add( name, styleValue.buildPreview(), name );
@@ -242,7 +243,7 @@
 				newStyle = stylesData.getStyle( newValue ),
 				oldStyle = stylesData.getStyle( oldValue ),
 				range = editor.getSelection().getRanges()[ 0 ],
-				isRemoveOperation = !newValue,
+				isRemoveOperation = newValue === removeStyleValue || newValue === undefined,
 				styleToRemove,
 				hasFragmentsWithoutNewStyle;
 
