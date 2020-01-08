@@ -4,6 +4,65 @@
  */
 
 ( function() {
+	var StyleData = CKEDITOR.tools.createClass( {
+		// @param {Object} options
+		// @param {String} options.entries Values from the configuration used to build richcombo.
+		// Values should be obtained from ( CKEDITOR.config#fontSize_sizes | CKEDITOR.config#font_names )
+		// @param {String} options.styleVariable variable name used in style definition to build proper CKEDITOR.style.
+		// By default it should be: ( 'size' | 'family' )
+		// @param {Object} options.styleDefinition template used to build each individual style definition based on entries.
+		// Values should be obtained from ( CKEDITOR.config#fontSize_style | CKEDITOR.config#font_style )
+		$: function( options ) {
+			var entries = options.entries.split( ';' );
+
+			this._.data = {};
+			this._.names = [];
+
+			for ( var i = 0; i < entries.length; i++ ) {
+				var parts = entries[ i ],
+					name,
+					value,
+					vars;
+
+				if ( parts ) {
+					parts = parts.split( '/' );
+					name = parts[ 0 ];
+					value = parts[ 1 ];
+					vars = {};
+
+					vars[ options.styleVariable ] = value || name;
+
+					this._.data[ name ] = new CKEDITOR.style( options.styleDefinition, vars );
+					this._.data[ name ]._.definition.name = name;
+
+					this._.names.push( name );
+				} else {
+					entries.splice( i--, 1 );
+				}
+			}
+		},
+
+		proto: {
+			getStyle: function( value ) {
+				return this._.data[ value ];
+			},
+
+			executeForEach: function( callback, context ) {
+				CKEDITOR.tools.array.forEach( this._.names, function( name ) {
+					callback.call( context, name, this.getStyle( name ) );
+				}, this );
+			},
+
+			findMatchingStyleName: function( callback, context ) {
+				return CKEDITOR.tools.array.find( this._.names, function( name ) {
+					return callback.call( context, this.getStyle( name ) );
+				}, this );
+			}
+		},
+
+		_: {}
+	} );
+
 	// @param {CKEDITOR.editor} editor
 	// @param {Object} definition
 	// @param {String} definition.comboName
@@ -18,13 +77,11 @@
 		var config = editor.config,
 			lang = definition.lang,
 			defaultContentStyle = new CKEDITOR.style( definition.configStyleDefinition ),
-			preparedStylesAndNames = prepareStylesAndNames( {
+			stylesData = new StyleData( {
 				entries: definition.entries,
-				styleType: definition.styleType,
-				configStyleDefinition: definition.configStyleDefinition
-			} ),
-			styles = preparedStylesAndNames.styles,
-			names = preparedStylesAndNames.names;
+				styleVariable: definition.styleType,
+				styleDefinition: definition.configStyleDefinition
+			} );
 
 		editor.addCommand( definition.commandName , {
 			contextSensitive: true,
@@ -128,29 +185,26 @@
 			},
 
 			init: function() {
-				var name,
-					defaultText = '(' + editor.lang.common.optionDefault + ')';
+				var defaultText = '(' + editor.lang.common.optionDefault + ')';
 
 				this.startGroup( lang.panelTitle );
 
 				// Add `(Default)` item as a first element on the drop-down list.
 				this.add( '', defaultText, defaultText );
 
-				for ( var i = 0; i < names.length; i++ ) {
-					name = names[ i ];
-					// Add the tag entry to the panel list.
-					this.add( name, styles[ name ].buildPreview(), name );
-				}
+				stylesData.executeForEach( function( name, styleValue ) {
+					this.add( name, styleValue.buildPreview(), name );
+				}, this );
 			},
 
 			onClick: onClickHandler,
 
 			onRender: function() {
 				editor.on( 'selectionChange', function( ev ) {
-					var currentValue = this.getValue();
-
-					var elementPath = ev.data.path,
-						elements = elementPath.elements;
+					var currentValue = this.getValue(),
+						elementPath = ev.data.path,
+						elements = elementPath.elements,
+						value;
 
 					// For each element into the elements path.
 					for ( var i = 0, element; i < elements.length; i++ ) {
@@ -158,12 +212,15 @@
 
 						// Check if the element is removable by any of
 						// the styles.
-						for ( var value in styles ) {
-							if ( styles[ value ].checkElementMatch( element, true, editor ) ) {
-								if ( value != currentValue )
-									this.setValue( value );
-								return;
+						value = stylesData.findMatchingStyleName( function( style ) {
+							return style.checkElementMatch( element, true, editor );
+						}, this );
+
+						if ( value ) {
+							if ( value != currentValue ) {
+								this.setValue( value );
 							}
+							return;
 						}
 					}
 
@@ -182,8 +239,8 @@
 			editor.focus();
 
 			var oldValue = this.getValue(),
-				newStyle = styles[ newValue ],
-				oldStyle = styles[ oldValue ],
+				newStyle = stylesData.getStyle( newValue ),
+				oldStyle = stylesData.getStyle( oldValue ),
 				range = editor.getSelection().getRanges()[ 0 ],
 				isRemoveOperation = !newValue,
 				styleToRemove,
@@ -395,42 +452,6 @@
 
 		return hasMatchingStyles;
 	}
-
-	//  * @param {Object} config
-	//  * @param {String} config.entries Entries from richcombo, came from {@link CKEDITOR.config#font_names} or {@link CKEDITOR.config#fontSize_sizes}
-	//  * @param {'family'|'size'} config.styleType string defined by `addCombo()` in this case its `family` or `size` string,
-	//  * @param {Object} config.configStyleDefinition object representing config option:
-	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
-	//  * @returns {Object} return.styles - object containing list of defined styles
-	//  * @returns {Array} return.names array with style names
-	function prepareStylesAndNames( config ) {
-		// Gets the list of fonts from the settings.
-		var names = config.entries.split( ';' ),
-			values = [];
-
-		// Create style objects for all fonts.
-		var styles = {};
-		for ( var i = 0; i < names.length; i++ ) {
-			var parts = names[ i ];
-
-			if ( parts ) {
-				parts = parts.split( '/' );
-
-				var vars = {},
-					name = names[ i ] = parts[ 0 ];
-
-				vars[ config.styleType ] = values[ i ] = parts[ 1 ] || name;
-
-				styles[ name ] = new CKEDITOR.style( config.configStyleDefinition, vars );
-				styles[ name ]._.definition.name = name;
-			} else {
-				names.splice( i--, 1 );
-			}
-		}
-
-		return { styles: styles, names: names };
-	}
-
 
 	//  * @param {Object} config
 	//  * @param {CKEDITOR.editor} config.editor instance of the editor
