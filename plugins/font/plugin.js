@@ -143,6 +143,7 @@
 		editor.ui.addRichCombo( definition.comboName, {
 			label: lang.label,
 			title: lang.panelTitle,
+			command: definition.commandName,
 			toolbar: 'styles,' + definition.order,
 			allowedContent: defaultContentStyle,
 			requiredContent: defaultContentStyle,
