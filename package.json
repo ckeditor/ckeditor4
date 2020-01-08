@@ -10,20 +10,21 @@
 		"benderjs-yui": "^0.3.2",
 		"benderjs-yui-beautified": "0.1.2",
 		"cksource-samples-framework": "^1.0.1",
+		"eslint": "^6.8.0",
 		"grunt": "^1.0.1",
 		"grunt-contrib-concat": "^1.0.0",
 		"grunt-contrib-imagemin": "^2.0.1",
-		"grunt-contrib-jshint": "^1.0.0",
 		"grunt-contrib-less": "^2.0.0",
 		"grunt-contrib-watch": "^1.0.0",
-		"grunt-githooks": "^0.6.0",
-		"grunt-jscs": "^3.0.1",
 		"grunt-jsduck": "^1.0.1",
+		"husky": "^4.0.1",
 		"less": "^3.8.0",
 		"lesshat": "^4.1.0",
+		"lint-staged": "^9.5.0",
 		"shelljs": "^0.8.2"
 	},
 	"scripts": {
+		"lint": "eslint \"*.js\" \"{,!(dev|lang)/**}/*.js\"",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [
