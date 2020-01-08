@@ -1,4 +1,6 @@
 /* bender-ckeditor-plugins: font,toolbar,basicstyles,table,list */
+/* bender-include: ./_helpers/tools.js */
+/* global fontTools */
 
 ( function() {
 	'use strict';
@@ -574,7 +576,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p>[Hello] world!</p>' );
 
-			editor.ui.get( 'Font' ).onClick( '' );
+			editor.ui.get( 'Font' ).onClick( fontTools.removeStyleValue );
 
 			spy.restore();
 
@@ -588,7 +590,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p>Hel[]lo world!</p>' );
 
-			editor.ui.get( 'Font' ).onClick( '' );
+			editor.ui.get( 'Font' ).onClick( fontTools.removeStyleValue );
 
 			spy.restore();
 
@@ -602,7 +604,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( COURIER_NEW ) + '">[Hello]</span> world!</p>' );
 
-			editor.ui.get( 'Font' ).onClick( '' );
+			editor.ui.get( 'Font' ).onClick( fontTools.removeStyleValue );
 
 			spy.restore();
 
@@ -670,8 +672,8 @@
 				'<span style="' + getStyleText( COURIER_NEW ) + '">lo wor</span>' +
 				'ld!]</p>' );
 
-			editor.ui.get( 'Font' ).onClick( '' );
-			editor.ui.get( 'Font' ).onClick( '' );
+			editor.ui.get( 'Font' ).onClick( fontTools.removeStyleValue );
+			editor.ui.get( 'Font' ).onClick( fontTools.removeStyleValue );
 
 			spy.restore();
 
@@ -740,7 +742,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p>[Hello] world!</p>' );
 
-			editor.ui.get( 'FontSize' ).onClick( '' );
+			editor.ui.get( 'FontSize' ).onClick( fontTools.removeStyleValue );
 
 			spy.restore();
 
@@ -754,7 +756,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p>Hel[]lo world!</p>' );
 
-			editor.ui.get( 'FontSize' ).onClick( '' );
+			editor.ui.get( 'FontSize' ).onClick( fontTools.removeStyleValue );
 
 			spy.restore();
 
@@ -768,7 +770,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( SIZE_24PX ) + '">[Hello]</span> world!</p>' );
 
-			editor.ui.get( 'FontSize' ).onClick( '' );
+			editor.ui.get( 'FontSize' ).onClick( fontTools.removeStyleValue );
 
 			spy.restore();
 
@@ -836,8 +838,8 @@
 				'<span style="' + getStyleText( SIZE_24PX ) + '">lo wor</span>' +
 				'ld!]</p>' );
 
-			editor.ui.get( 'FontSize' ).onClick( '' );
-			editor.ui.get( 'FontSize' ).onClick( '' );
+			editor.ui.get( 'FontSize' ).onClick( fontTools.removeStyleValue );
+			editor.ui.get( 'FontSize' ).onClick( fontTools.removeStyleValue );
 
 			spy.restore();
 

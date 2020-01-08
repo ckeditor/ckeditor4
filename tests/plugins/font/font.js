@@ -1,4 +1,6 @@
 /* bender-ckeditor-plugins: font,toolbar */
+/* bender-include: ./_helpers/tools.js */
+/* global fontTools */
 
 ( function() {
 	'use strict';
@@ -52,7 +54,7 @@
 					// Since 4.8.0, 2nd click on the same menu item does not unselect it.
 					// It is required to click on the '(Default)' option to reset style (#584).
 					bot.combo( 'FontSize', function( combo ) {
-						combo.onClick( '' );
+						combo.onClick( fontTools.removeStyleValue );
 						this.wait( function() {
 							editor.insertText( 'bar' );
 							assert.isInnerHtmlMatching( '<p><span style="font-size:48px">foo</span>bar@</p>',
@@ -190,37 +192,37 @@
 		'test remove font size from text': function() {
 			var bot = this.editorBot;
 			bender.tools.selection.setWithHtml( bot.editor, '<p><span style="font-size:12px">[foo]</span></p>' );
-			this.assertCombo( 'FontSize', '', false, bot, '<p>foo@</p>' );
+			this.assertCombo( 'FontSize', fontTools.removeStyleValue, false, bot, '<p>foo@</p>' );
 		},
 
 		'test remove font family from text': function() {
 			var bot = this.editorBot;
 			bender.tools.selection.setWithHtml( bot.editor, '<p><span style="' + ffArial + '">[foo]</span></p>' );
-			this.assertCombo( 'Font', '', false, bot, '<p>foo@</p>' );
+			this.assertCombo( 'Font', fontTools.removeStyleValue, false, bot, '<p>foo@</p>' );
 		},
 
 		'test remove font size partialy from text': function() {
 			var bot = this.editorBot;
 			bender.tools.selection.setWithHtml( bot.editor, '<p><span style="font-size:24px">[foo ]bar</span></p>' );
-			this.assertCombo( 'FontSize', '', false, bot, '<p>foo <span style="font-size:24px">bar</span>@</p>' );
+			this.assertCombo( 'FontSize', fontTools.removeStyleValue, false, bot, '<p>foo <span style="font-size:24px">bar</span>@</p>' );
 		},
 
 		'test remove font family partially from text': function() {
 			var bot = this.editorBot;
 			bender.tools.selection.setWithHtml( bot.editor, '<p><span style="' + ffArial + '">[foo ]bar</span></p>' );
-			this.assertCombo( 'Font', '', false, bot, '<p>foo <span style="' + ffArial + '">bar</span>@</p>' );
+			this.assertCombo( 'Font', fontTools.removeStyleValue, false, bot, '<p>foo <span style="' + ffArial + '">bar</span>@</p>' );
 		},
 
 		'test remove font size from unstyled text': function() {
 			var bot = this.editorBot;
 			bender.tools.selection.setWithHtml( bot.editor, '<p>[foo]</p>' );
-			this.assertCombo( 'FontSize', '', false, bot, '<p>foo@</p>' );
+			this.assertCombo( 'FontSize', fontTools.removeStyleValue, false, bot, '<p>foo@</p>' );
 		},
 
 		'test remove font family from unstyled text': function() {
 			var bot = this.editorBot;
 			bender.tools.selection.setWithHtml( bot.editor, '<p>[foo]</p>' );
-			this.assertCombo( 'Font', '', false, bot, '<p>foo@</p>' );
+			this.assertCombo( 'Font', fontTools.removeStyleValue, false, bot, '<p>foo@</p>' );
 		},
 
 		'test reapply this same font size twice': function() {
