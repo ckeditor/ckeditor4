@@ -96,7 +96,6 @@
 					range = editor.getSelection().getRanges()[ 0 ],
 					isRemove = newStyle === undefined;
 
-				// Prevent of throw error when situation from this bug appear (#1116).
 				if ( !oldStyle && !newStyle ) {
 					return;
 				}
