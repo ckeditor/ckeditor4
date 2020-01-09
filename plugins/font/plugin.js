@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
@@ -89,10 +89,6 @@
 		editor.addCommand( definition.commandName , {
 			contextSensitive: true,
 			exec: function( editor, data ) {
-				if ( editor.readOnly ) {
-					return;
-				}
-
 				var newStyle = data.newStyle,
 					oldStyle = data.oldStyle,
 					range = editor.getSelection().getRanges()[ 0 ],
