@@ -4,7 +4,15 @@ module.exports = {
 		node: true
 	},
 	globals: {
-		CKEDITOR: true
+		CKEDITOR: true,
+		assert: true,
+		arrayAssert: true,
+		bender: true,
+		objectAssert: true,
+		resume: true,
+		sinon: true,
+		wait: true,
+		YUITest: true
 	},
 	rules: {
 		// Possible candidates:
