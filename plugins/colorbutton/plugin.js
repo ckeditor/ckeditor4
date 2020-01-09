@@ -551,16 +551,16 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			existingTiles = customColorsRow.getChildren().toArray();
 
+			for ( var i = colorsPerRow; i < existingTiles.length; i++ ) {
+				existingTiles[ i ].remove();
+			}
+
 			CKEDITOR.tools.array.forEach( existingTiles, function( tile ) {
 				tile.getChild( 0 ).setAttributes( {
 					'aria-setsize': tilesNumber,
 					'aria-posinset': tilePosition++
 				} );
 			} );
-
-			for ( var i = colorsPerRow; i < customColorsRow.getChildCount(); i++ ) {
-				existingTiles[ i ].remove();
-			}
 
 			customColorsLabel.show();
 		}
