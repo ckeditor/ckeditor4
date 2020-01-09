@@ -267,7 +267,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 		}
 
-
 		function renderColors( options ) {
 			var type = options.type,
 				colorBoxId = options.colorBoxId,
@@ -368,15 +367,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} ) + '</td>' );
 			}
 
-			// Render the "Custom Colors" section.
-			output.push( '</tr>' +
-				'<tr>' +
-					'<td colspan=' + colorsPerRow + '" align="center">' +
-						'<span class="cke_colorcustom_label" style="display:none">Custom Colors</span>' +
-					'</td>' +
-				'</tr>' +
-				'<tr class="cke_colorcustom_row">' );
-
 			// Render the "Content Colors" section.
 			output.push( '</tr>' +
 				'<tr>' +
@@ -386,8 +376,17 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				'</tr>' +
 				'<tr class="cke_colorcontent_row">' );
 
-			// Render the "More Colors" button.
 			if ( moreColorsEnabled ) {
+				// Render the "Custom Colors" section.
+				output.push( '</tr>' +
+					'<tr>' +
+						'<td colspan=' + colorsPerRow + '" align="center">' +
+							'<span class="cke_colorcustom_label" style="display:none">Custom Colors</span>' +
+						'</td>' +
+					'</tr>' +
+					'<tr class="cke_colorcustom_row">' );
+
+				// Render the "More Colors" button.
 				output.push( '</tr>' +
 					'<tr>' +
 						'<td colspan="' + colorsPerRow + '" align="center">' +

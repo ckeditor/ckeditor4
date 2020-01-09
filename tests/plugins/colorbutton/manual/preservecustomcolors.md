@@ -10,9 +10,9 @@
 
   **Expected:**
 
-  * `Custom Colors` section (label and row) is not visible.
-
   * `Content Colors` section is visible.
+
+  * `Custom Colors` section (label and row) is not visible.
 
   * `More Colors` button is below `Content Colors` section.
 
@@ -21,6 +21,8 @@
 1. Click `Text Color` button.
 
   **Expected:**
+
+  * `Custom Colors` section appeared between `Content Colors` section and `More Colors` button.
 
   * Chosen color appears in both `Custom Colors` and `Content Colors` sections.
 
@@ -74,15 +76,15 @@
 
   **Expected:**
 
-  * `Custom Colors` section still contains two colors.
-
   * `Content Colors` section disappeared.
+
+  * `Custom Colors` section still contains two colors.
 
   **Unexpected:**
 
-  * `Custom Colors` section disappeared.
-
   * `Content Colors` label or whole section is still visible.
+
+  * `Custom Colors` section disappeared.
 
 1. Choose a new color from color dialog 5 more times (different color each time).
 
