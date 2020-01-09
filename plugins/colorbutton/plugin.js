@@ -527,7 +527,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				customColorsLabel = options.customColorsLabel,
 				chosenColorTile = customColorsRow.findOne( '[data-value="' + colorHexCode + '"]' ),
 				tilesNumber = customColorsRow.getChildCount(),
-				tilePosition = 1,
 				existingTiles;
 
 			if ( chosenColorTile ) {
@@ -537,30 +536,32 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} else {
 				var colorTile = new CKEDITOR.dom.element( 'td' );
 
+				tilesNumber++;
 				colorTile.setHtml( generateTileHtml( {
 					colorLabel: colorHexCode,
 					clickFn: clickFn,
 					colorCode: colorHexCode,
 					type: type,
 					position: 1,
-					setSize: tilesNumber < colorsPerRow ? tilesNumber++ : tilesNumber
+					setSize: tilesNumber <= colorsPerRow ? tilesNumber : tilesNumber - 1
 				} ) );
 
 				customColorsRow.append( colorTile, true );
+
+				// If tile limit was exceeded, remove the oldest tile.
+				if ( tilesNumber > colorsPerRow ) {
+					customColorsRow.getChild( colorsPerRow ).remove();
+				}
 			}
 
 			existingTiles = customColorsRow.getChildren().toArray();
 
-			for ( var i = colorsPerRow; i < existingTiles.length; i++ ) {
-				existingTiles[ i ].remove();
-			}
-
-			CKEDITOR.tools.array.forEach( existingTiles, function( tile ) {
-				tile.getChild( 0 ).setAttributes( {
-					'aria-setsize': tilesNumber,
-					'aria-posinset': tilePosition++
+			for ( var i = 0; i < existingTiles.length; i++ ) {
+				existingTiles[ i ].getChild( 0 ).setAttributes( {
+					'aria-setsize': existingTiles.length,
+					'aria-posinset': i + 1
 				} );
-			} );
+			}
 
 			customColorsLabel.show();
 		}
