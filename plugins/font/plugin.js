@@ -37,7 +37,8 @@
 
 					this._.names.push( name );
 				} else {
-					entries.splice( i--, 1 );
+					entries.splice( i, 1 );
+					i--;
 				}
 			}
 		},
