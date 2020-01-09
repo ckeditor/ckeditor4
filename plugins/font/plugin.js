@@ -228,6 +228,14 @@
 					// If no styles match, just empty it.
 					this.setValue( '', definition.defaultLabel );
 				}, this );
+
+				command.on( 'state', function() {
+					if ( command.state === CKEDITOR.TRISTATE_DISABLED ) {
+						this.setState( CKEDITOR.TRISTATE_DISABLED );
+					} else {
+						this.setState( CKEDITOR.TRISTATE_OFF );
+					}
+				}, this );
 			},
 
 			refresh: function() {
