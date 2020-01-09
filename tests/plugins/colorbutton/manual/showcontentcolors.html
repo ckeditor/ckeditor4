@@ -1,0 +1,96 @@
+<h2>Classic editor:</h2>
+<textarea id="editor-classic">
+	<p><span style="color:#c0392b">
+		<span style="background-color:#27ae60">He^llo</span></span></span>
+		<span style="background-color:#27ae60"> </span>
+		<span style="color:#c0392b">
+		<span style="background-color:#27ae60">world</span></span>
+		<span style="background-color:#27ae60">!</span>
+	</p>
+	<p><span style="color:#f1c40f">
+		<span style="background-color:#e74c3c">I'm</span></span>
+		<span style="background-color:#e74c3c"> an </span>
+		<span style="color:#008800">
+		<span style="background-color:#e74c3c">in</span>st</span>
+		<span style="color:#2980b9">
+		<span style="background-color:#e74c3c">an</span></span>
+		<span style="color:#008800">
+		<span style="background-color:#e74c3c">ce</span></span>
+		<span style="background-color:#e74c3c"> of </span>
+		<span style="color:#2980b9">CK</span>
+		<span style="color:#9b59b6">Editor</span>.
+	</p>
+</textarea>
+<button id="classic" class="set-content">Set content</button>
+
+<h2>Divarea editor:</h2>
+<div id="editor-divarea" contenteditable="true">
+	<p><span style="color:#c0392b">
+		<span style="background-color:#27ae60">Hello</span></span></span>
+		<span style="background-color:#27ae60"> </span>
+		<span style="color:#c0392b">
+		<span style="background-color:#27ae60">world</span></span>
+		<span style="background-color:#27ae60">!</span>
+	</p>
+	<p><span style="color:#f1c40f">
+		<span style="background-color:#e74c3c">I'm</span></span>
+		<span style="background-color:#e74c3c"> an </span>
+		<span style="color:#008800">
+		<span style="background-color:#e74c3c">in</span>st</span>
+		<span style="color:#2980b9">
+		<span style="background-color:#e74c3c">an</span></span>
+		<span style="color:#008800">
+		<span style="background-color:#e74c3c">ce</span></span>
+		<span style="background-color:#e74c3c"> of </span>
+		<span style="color:#2980b9">CK</span>
+		<span style="color:#9b59b6">Editor</span>.
+	</p>
+</div>
+<button id="divarea" class="set-content">Set content</button>
+
+<h2>Inline editor:</h2>
+<div id="editor-inline" contenteditable="true">
+	<p><span style="color:#c0392b">
+		<span style="background-color:#27ae60">Hello</span></span></span>
+		<span style="background-color:#27ae60"> </span>
+		<span style="color:#c0392b">
+		<span style="background-color:#27ae60">world</span></span>
+		<span style="background-color:#27ae60">!</span>
+	</p>
+	<p><span style="color:#f1c40f">
+		<span style="background-color:#e74c3c">I'm</span></span>
+		<span style="background-color:#e74c3c"> an </span>
+		<span style="color:#008800">
+		<span style="background-color:#e74c3c">in</span>st</span>
+		<span style="color:#2980b9">
+		<span style="background-color:#e74c3c">an</span></span>
+		<span style="color:#008800">
+		<span style="background-color:#e74c3c">ce</span></span>
+		<span style="background-color:#e74c3c"> of </span>
+		<span style="color:#2980b9">CK</span>
+		<span style="color:#9b59b6">Editor</span>.
+	</p>
+</div>
+<button id="inline" class="set-content">Set content</button>
+
+<script>
+	CKEDITOR.replace( 'editor-classic' );
+	CKEDITOR.replace( 'editor-divarea', {
+		extraPlugins: 'divarea'
+	} );
+	CKEDITOR.inline( 'editor-inline', {
+		extraPlugins: 'floatingspace'
+	} );
+
+	var buttons = CKEDITOR.document.find( '.set-content' ).toArray();
+
+	CKEDITOR.tools.array.forEach( buttons, function( button ) {
+		button.on( 'click', function() {
+			CKEDITOR.instances[ 'editor-' + button.getId() ].setData( '<p><span style="color:#1abc9c">H</span>' +
+				'<span style="color:#2ecc71">e</span><span style="color:#3498db">l</span><span style="color:#9b59b6">l</span>' +
+				'<span style="color:#4e5f70">o</span> <span style="color:#f1c40f">w</span><span style="color:#16a085">o</span>' +
+				'<span style="color:#2980b9">r</span><span style="color:#8e44ad">l</span><span style="color:#2c3e50">d</span>' +
+				'<span style="color:#f39c12">!</span></p>' );
+		} )
+	} );
+</script>

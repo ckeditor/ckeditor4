@@ -1,0 +1,88 @@
+@bender-tags: feature, 1795, 4.14.0
+@bender-ui: collapsed
+@bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, sourcearea, removeformat, undo
+
+**Note:** For mobiles **ignore** step #3 (the one with hovering).
+
+1. Select `^`.
+
+1. Click `Text Color` button.
+
+  **Expected:**
+
+  * `Content Colors` section (label and color tiles) is displayed below default pallette.
+
+  * Default text color (most probably something blackish like `#333333`) is not displayed in `Content Colors` section.
+
+  * Colors are displayed in the correct order:
+    1. Red
+	1. Green
+	1. Blue
+	1. Yellow
+	1. Violet // **Correct order and names may change**.
+
+  * Selected color is red from the `Content Colors` section.
+
+1. Hover over yellow color tile from `Content Colors` section.
+
+  **Expected:**
+
+  * Tooltip contains uppercase hex color code without `#` hash (`F1C40F`). // **This will change if we use labels from lang file**.
+
+  **Unexpected:**
+
+  * Tooltip is empty or contains lowercase content.
+
+1. Click `Background Color` button.
+
+  **Expected:**
+
+  * `Content Colors` section (label and color tiles) is displayed below default pallette.
+
+  * Colors are displayed in the correct order:
+    1. Red
+	1. Green // **Correct order and names may change**.
+
+  * Selected color is green from the `Content Colors` section.
+
+1. Focus editor.
+
+1. Select the entire editor contents.
+
+1. Change text and background color.
+
+1. Click `Text Color` button.
+
+  **Expected:**
+
+  * Only selected color appears in `Content Colors` section.
+
+1. Check that the same is true for `Background Color` button.
+
+1. Delete the entire editor contents.
+
+1. Click `Text Color` button.
+
+  **Expected:**
+
+  * `Content Colors` section is not visible anymore.
+
+  **Unexpected:**
+
+  * `Content Colors` section or label is still visible.
+
+1. Check that the same is true for `Background Color` button.
+
+1. Click the `Set content` button below editor.
+
+1. Click `Text Color` button.
+
+  **Expected:**
+
+  * Only 6 colors are displayed in `Content Colors` section.
+
+  **Unexpected:**
+
+  * Excessive color tiles were not removed.
+
+1. Repeat all previous steps for `Divarea` and `Inline` editors.
