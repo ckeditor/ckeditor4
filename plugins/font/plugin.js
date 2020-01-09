@@ -73,7 +73,7 @@
 	// @param {String} definition.entries values used for given combo options
 	// @param {String} definition.defaultLabel label used to describe default value
 	// @param {Object} definition.configStyleDefinition object representing defintion for given font combo
-	// @param {Number} defnition.order value used to position icon in toolbar
+	// @param {Number} definition.order value used to position icon in toolbar
 	function addCombo( editor, definition ) {
 		var config = editor.config,
 			lang = definition.lang,
