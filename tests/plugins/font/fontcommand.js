@@ -142,6 +142,20 @@
 			} );
 		},
 
+		'test should do nothing when the same font style is applied': function() {
+			var editor = this.editor;
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( COMIC_SANS ) + '">{foo}</span></p>' );
+
+			assertFontCommand( {
+				editor: editor,
+				commandName: 'font',
+				expected: '<p><span style="' + getStyleText( COMIC_SANS ) + '">foo</span>@</p>',
+				newStyle: COMIC_SANS,
+				oldStyle: COMIC_SANS
+			} );
+		},
+
 		'test should add empty font span for collapsed selection': function() {
 			var editor = this.editor;
 
@@ -363,6 +377,20 @@
 				commandName: 'fontSize',
 				expected: '<p><span style="font-size:24px">fo</span>o@</p>',
 				newStyle: undefined,
+				oldStyle: SIZE_24PX
+			} );
+		},
+
+		'test should do nothing when the same fontSize style is applied': function() {
+			var editor = this.editor;
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="font-size:24px">{foo}</span></p>' );
+
+			assertFontCommand( {
+				editor: editor,
+				commandName: 'font',
+				expected: '<p><span style="font-size:24px">foo</span>@</p>',
+				newStyle: SIZE_24PX,
 				oldStyle: SIZE_24PX
 			} );
 		},
