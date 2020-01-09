@@ -2,7 +2,10 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, list, format, sourcearea, undo
 
+1. Open console.
+
 1. Select list item by triple clicking on it.
+
 1. Pick `Heading 1` from format combo.
 
 	### Expected:
@@ -13,9 +16,7 @@
 
 	Paragraph after the list is turned into `h1`.
 
-1. Open console.
-
-1. Start selection at the end of document and end it in the first line without selecting list item (<a href="https://user-images.githubusercontent.com/1061942/63528470-4b468f80-c503-11e9-9e95-af86e7622ad8.gif" target="_blank">gif</a>).
+1. Start selection at the end of document and end it in the first line without selecting list item (<a href="https://user-images.githubusercontent.com/1061942/63528470-4b468f80-c503-11e9-9e95-af86e7622ad8.gif" target="_blank">see gif</a>).
 
 1. Change format to `Heading 3`.
 

@@ -130,26 +130,19 @@
 		'test deleting blocks': function( editor, bot ) {
 			bot.setData( '<p>&nbsp;</p><p>Whatever</p>', function() {
 				var range = editor.createRange(),
+					// In Safari the same selection has different range offsets and endContainer. Because of that it is automatically fixed
+					// and empty paragraph is converted to <br/> element.
+					expectedExtraction = CKEDITOR.env.safari ? '<br data-cke-eol="1" /><p>Whatever</p>' : '<p>@</p><p>Whatever</p>',
+					// And in IE8 only node content is removed.
+					expectedContent = CKEDITOR.env.ie && CKEDITOR.env.version == 8 ? '<p>@@</p><p></p>' : '<p>@</p>',
 					extractedHtml;
 
 				range.selectNodeContents( editor.editable() );
 				range.select();
 				extractedHtml = editor.extractSelectedHtml( true );
 
-				// In Safari the same selection has different range offsets and endContainer. Because of that it is automatically fixed
-				// and empty paragraph is converted to <br/> element.
-				if ( CKEDITOR.env.safari ) {
-					assert.isInnerHtmlMatching( '<br data-cke-eol="1" /><p>Whatever</p>', extractedHtml, 'Extracted HTML is incorrect.' );
-				} else {
-					assert.isInnerHtmlMatching( '<p>@</p><p>Whatever</p>', extractedHtml, 'Extracted HTML is incorrect.' );
-				}
-
-				// And in IE8 only node content is removed.
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
-					assert.isInnerHtmlMatching( '<p>@@</p><p></p>', editor.editable().getHtml(), 'Editor content after extraction is incorrect.' );
-				} else {
-					assert.isInnerHtmlMatching( '<p>@</p>', editor.editable().getHtml(), 'Editor content after extraction is incorrect.' );
-				}
+				assert.isInnerHtmlMatching( expectedExtraction, extractedHtml, 'Extracted HTML is incorrect.' );
+				assert.isInnerHtmlMatching( expectedContent, editor.editable().getHtml(), 'Editor content after extraction is incorrect.' );
 			} );
 		}
 	};
