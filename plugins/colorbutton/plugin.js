@@ -342,15 +342,17 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			if ( config.colorButton_enableAutomatic !== false ) {
 				// Render the "Automatic" button.
 				output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
-					' title="', lang.auto, '"' +
+					' title="' + lang.auto + '"' +
 					' draggable="false"' +
 					' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-					' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null, null,\'', type, '\');return false;"' +
-					' href="javascript:void(\'', lang.auto, '\')"' +
-					' role="option" aria-posinset="1" aria-setsize="', total, '">' +
+					' onclick="CKEDITOR.tools.callFunction(' + clickFn + ',null,\'' + type + '\');return false;"' +
+					' href="javascript:void(\'' + lang.auto + '\')"' +
+					' role="option" aria-posinset="1" aria-setsize="' + total + '">' +
 						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
 							'<tr>' +
-								'<td colspan="' + colorsPerRow + '" align="center"><span class="cke_colorbox" id="', colorBoxId, '"></span>', lang.auto, '</td>' +
+								'<td colspan="' + colorsPerRow + '" align="center">' +
+									'<span class="cke_colorbox" id="' + colorBoxId + '"></span>' + lang.auto +
+								'</td>' +
 							'</tr>' +
 						'</table>' +
 					'</a>' );
@@ -415,8 +417,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								' title="', lang.more, '"' +
 								' draggable="false"' +
 								' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-								' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'?\', \'?\',\'', type, '\');return false;"' +
-								' href="javascript:void(\'', lang.more, '\')"', ' role="option" aria-posinset="', total, '" aria-setsize="', total, '">', lang.more, '</a>' +
+								' onclick="CKEDITOR.tools.callFunction(' + clickFn, ',\'?\',\'' + type, '\');return false;"' +
+								' href="javascript:void(\'' + lang.more + '\')"' + ' role="option" aria-posinset="' + total +
+								'" aria-setsize="' + total + '">' + lang.more +
+							'</a>' +
 						'</td>' ); // tr is later in the code.
 			}
 
