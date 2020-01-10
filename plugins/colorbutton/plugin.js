@@ -502,12 +502,16 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 
 			CKEDITOR.tools.array.forEach( sortedColors, function( color ) {
+				color[ 2 ] = editor.lang.colorbutton.colors[ color[ 0 ] ] || color[ 0 ];
+			} );
+
+			CKEDITOR.tools.array.forEach( sortedColors, function( color ) {
 				// Unfortunately CKEDITOR.dom.element.createFromHtml() doesn't work for table elements,
 				// so table cell has to be created separately.
 				var colorTile = new CKEDITOR.dom.element( 'td' );
 
 				colorTile.setHtml( generateTileHtml( {
-					colorLabel: color[ 0 ],
+					colorLabel: color[ 2 ],
 					clickFn: clickFn,
 					colorCode: color[ 0 ],
 					type: type,
@@ -524,6 +528,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function addCustomColorToPanel( options ) {
 			// This function is called when a color from colordialog is chosen.
 			var colorHexCode = options.colorHexCode,
+				colorLabel = editor.lang.colorbutton.colors[ colorHexCode ] || colorHexCode,
 				clickFn = options.clickFn,
 				type = options.type,
 				colorsPerRow = options.colorsPerRow,
@@ -542,7 +547,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				tilesNumber++;
 				colorTile.setHtml( generateTileHtml( {
-					colorLabel: colorHexCode,
+					colorLabel: colorLabel,
 					clickFn: clickFn,
 					colorCode: colorHexCode,
 					type: type,
