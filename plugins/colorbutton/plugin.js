@@ -234,7 +234,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					// The background color might be transparent. In that case, look up the color in the DOM tree.
 					do {
-						automaticColor = block && block.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) || 'transparent';
+						automaticColor = block && block.getComputedStyle( cssAttribute ) || 'transparent';
 					}
 					while ( type == 'back' && automaticColor == 'transparent' && block && ( block = block.getParent() ) );
 
@@ -244,7 +244,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					}
 
 					if ( config.colorButton_enableAutomatic !== false ) {
-						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', automaticColor );
+						panel.findOne( '#' + colorBoxId ).setStyle( 'background-color', automaticColor );
 					}
 
 					var range = selection && selection.getRanges()[ 0 ];
@@ -261,7 +261,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								element = element.getParent();
 							}
 
-							currentColor = normalizeColor( element.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) );
+							currentColor = normalizeColor( element.getComputedStyle( cssAttribute ) );
 							finalColor = finalColor || currentColor;
 
 							if ( finalColor !== currentColor ) {
