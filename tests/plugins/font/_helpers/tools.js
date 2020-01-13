@@ -4,7 +4,7 @@
 	'use strict';
 
 	var fontTools = {
-		removeStyleValue: 'cke-remove-style'
+		removeStyleValue: 'cke-default'
 	};
 
 	window.fontTools = fontTools;

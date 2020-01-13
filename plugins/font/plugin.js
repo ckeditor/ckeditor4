@@ -83,7 +83,7 @@
 				styleVariable: definition.styleType,
 				styleDefinition: definition.configStyleDefinition
 			} ),
-			removeStyleValue = 'cke-remove-style',
+			defaultValue = 'cke-default',
 			command;
 
 		editor.addCommand( definition.commandName , {
@@ -142,6 +142,7 @@
 			title: lang.panelTitle,
 			command: definition.commandName,
 			toolbar: 'styles,' + definition.order,
+			defaultValue: defaultValue,
 			allowedContent: defaultContentStyle,
 			requiredContent: defaultContentStyle,
 			contentTransformations: definition.configStyleDefinition.element === 'span' ? [
@@ -198,7 +199,7 @@
 				this.startGroup( lang.panelTitle );
 
 				// Add `(Default)` item as a first element on the drop-down list.
-				this.add( removeStyleValue, defaultText, defaultText );
+				this.add( this.defaultValue, defaultText, defaultText );
 
 				stylesData.executeForEach( function( name, styleValue ) {
 					this.add( name, styleValue.buildPreview(), name );
@@ -268,7 +269,7 @@
 				newStyle = stylesData.getStyle( newValue ),
 				oldStyle = stylesData.getStyle( oldValue ),
 				range = editor.getSelection().getRanges()[ 0 ],
-				isRemoveOperation = newValue === removeStyleValue || newValue === undefined,
+				isRemoveOperation = newValue === defaultValue || newValue === undefined,
 				styleToRemove,
 				hasFragmentsWithoutNewStyle;
 
