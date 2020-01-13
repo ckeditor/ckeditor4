@@ -1,29 +1,17 @@
 <div id="editor">
-	<p>Adipisicing corporis rem repellendus vel mollitia vero?</p>
+	<p>Drop zone</p>
+	<p>[Start here</p>
 	<div data-widget="customwidget">Widget</div>
 	<p>Consectetur dolores voluptatibus illo ipsam eveniet?</p>
-	<div data-widget="customwidget">Widget</div>
-	<p>Lorem ipsum dolor sit amet.</p>
 	<div data-widget="customnestedwidget">
 		<p>Widget</p>
 		<div class="ned">
 			<div data-widget="customwidget">Nested widget</div>
 		</div>
 	</div>
-	<p>Many,</p>
-	<p>many,</p>
-	<p>many,</p>
-	<p>many,</p>
-	<p>many,</p>
-	<p>many,</p>
-	<p>many,</p>
-	<p>many,</p>
-	<p>many,</p>
-	<p>many,</p>
-	<p>many,</p>
-	<p>many,</p>
-	<p>many</p>
-	<p>lines to test scrollhack for IE.</p>
+	<p>end here].</p>
+	<p>Some [[inline widget]], too!</p>
+	<p>Drop zone</p>
 </div>
 
 <script>
@@ -34,7 +22,8 @@
 	CKEDITOR.replace( 'editor', {
 		extraAllowedContent: 'span',
 		extraPlugins: 'customwidget',
-		allowedContent: true
+		allowedContent: true,
+		height: 500
 	} );
 
 	CKEDITOR.plugins.add( 'customwidget', {
