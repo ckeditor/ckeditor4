@@ -107,8 +107,7 @@
 
 			waitForEmoji( bot.editor, function() {
 				// Overlay is required to not trigger mouse event what happens on CI (#3744).
-				var overlay = createOverlayElement();
-				CKEDITOR.document.getBody().append( overlay );
+				var overlay = addOverlayCover();
 
 				bot.panel( 'EmojiPanel', function( panel ) {
 					try {
@@ -378,8 +377,9 @@
 		}
 	}
 
-	function createOverlayElement() {
-		return CKEDITOR.dom.element.createFromHtml( '<div style="width:1000px;height:1000px;z-index:20000;position:fixed;top:0;left:0;"></div>' );
+	function addOverlayCover() {
+		var overlay = CKEDITOR.dom.element.createFromHtml( '<div style="width:1000px;height:1000px;z-index:20000;position:fixed;top:0;left:0;"></div>' );
+		CKEDITOR.document.getBody().append( overlay );
+		return overlay;
 	}
-
 } )();
