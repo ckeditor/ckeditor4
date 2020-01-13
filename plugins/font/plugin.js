@@ -44,8 +44,8 @@
 		},
 
 		proto: {
-			getStyle: function( value ) {
-				return this._.data[ value ];
+			getStyle: function( name ) {
+				return this._.data[ name ];
 			},
 
 			addToCombo: function( combo ) {
