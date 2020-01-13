@@ -48,10 +48,11 @@
 				return this._.data[ value ];
 			},
 
-			executeForEach: function( callback, context ) {
-				CKEDITOR.tools.array.forEach( this._.names, function( name ) {
-					callback.call( context, name, this.getStyle( name ) );
-				}, this );
+			addToCombo: function( combo ) {
+				for ( var i = 0; i < this._.names.length; i++ ) {
+					var name = this._.names[ i ];
+					combo.add( name, this.getStyle( name ).buildPreview(), name );
+				}
 			},
 
 			findMatchingStyleName: function( callback, context ) {
@@ -201,9 +202,7 @@
 				// Add `(Default)` item as a first element on the drop-down list.
 				this.add( this.defaultValue, defaultText, defaultText );
 
-				stylesData.executeForEach( function( name, styleValue ) {
-					this.add( name, styleValue.buildPreview(), name );
-				}, this );
+				stylesData.addToCombo( this );
 			},
 
 			onClick: onClickHandler,
