@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog, sourcearea, removeformat, undo
 
-**Note:** For mobiles **ignore** step #5 (the one with hovering).
+**Note:** For mobiles **ignore** steps #5 and #8 (the ones with hovering).
 
 1. Select `^`.
 
@@ -36,7 +36,7 @@
 
   * Tooltip is empty or contains lowercase content.
 
-1. Open `More Colors` dialog and choose color `#ffff00`.
+1. Open `More Colors` dialog and choose color `#f1c40f`.
 
 1. Click `Text Color` button.
 
@@ -52,6 +52,16 @@
 
   * Old color disappeared.
 
+1. Hover over the new color.
+
+  **Expected:**
+
+  * Displayed tooltip says **Vivid Yellow**.
+
+  **Unexpected:**
+
+  * Color code is displayed instead.
+
 1. Open `More Colors` dialog and choose `#aa22ff` again.
 
 1. Click `Text Color` button.
@@ -60,7 +70,7 @@
 
   * There are still two colors in the `Custom Colors` section.
 
-  * Color `#AA22FF` is the first one, `#FFFF00` is the second one.
+  * Color `#AA22FF` is the first one, `#F1C40F` is the second one.
 
   **Unexpected:**
 
@@ -94,7 +104,7 @@
 
   * Only 6 color tiles are displayed.
 
-  * `#FFFF00` is not visible.
+  * `#F1C40F` is not visible.
 
   **Unexpected:**
 
@@ -102,7 +112,7 @@
 
   * Colors didn't keep order from the newest to the oldest.
 
-  * Different color than `#FFFF00` disappeared from the pallette.
+  * Different color than `#F1C40F` disappeared from the pallette.
 
 1. Repeat all previous steps using `Background Color` button instead.
 

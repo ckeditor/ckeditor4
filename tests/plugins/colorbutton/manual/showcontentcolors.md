@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, sourcearea, removeformat, undo
 
-**Note:** For mobiles **ignore** step #3 (the one with hovering).
+**Note:** For mobiles **ignore** steps #3 and #4 (the ones with hovering).
 
 1. Select `^`.
 
@@ -15,23 +15,33 @@
   * Default text color (most probably something blackish like `#333333`) is not displayed in `Content Colors` section.
 
   * Colors are displayed in the correct order:
-    1. Red
-	1. Green
-	1. Blue
-	1. Yellow
-	1. Violet // **Correct order and names may change**.
+    1. Strong Red
+	1. 008800 (Green)
+	1. Strong Blue
+	1. Vivid Yellow
+	1. Amethyst (Violet)
 
   * Selected color is red from the `Content Colors` section.
+
+1. Hover over green color tile from `Content Colors` section.
+
+  **Expected:**
+
+  * Tooltip contains uppercase hex color code without `#` hash (`008800`).
+
+  **Unexpected:**
+
+  * Tooltip is empty or contains lowercase content.
 
 1. Hover over yellow color tile from `Content Colors` section.
 
   **Expected:**
 
-  * Tooltip contains uppercase hex color code without `#` hash (`F1C40F`). // **This will change if we use labels from lang file**.
+  * Displayed tooltip says **Vivid Yellow**.
 
   **Unexpected:**
 
-  * Tooltip is empty or contains lowercase content.
+  * Color code is displayed instead.
 
 1. Click `Background Color` button.
 
@@ -40,8 +50,8 @@
   * `Content Colors` section (label and color tiles) is displayed below default pallette.
 
   * Colors are displayed in the correct order:
-    1. Red
-	1. Green // **Correct order and names may change**.
+    1. Strong Red
+	1. 008800 (Green) // **Correct order and names may change**.
 
   * Selected color is green from the `Content Colors` section.
 
