@@ -68,20 +68,20 @@
 	// @param {Object} definition
 	// @param {String} definition.comboName
 	// @oaram {String} definition.commandName name used to register command in editor
-	// @param {String} definition.styleType it has value 'size' or 'family'
+	// @param {String} definition.styleVariable it has value 'size' or 'family'
 	// @param {Object} definition.lang reference to lang object used for given combo
 	// @param {String} definition.entries values used for given combo options
 	// @param {String} definition.defaultLabel label used to describe default value
-	// @param {Object} definition.configStyleDefinition object representing defintion for given font combo
+	// @param {Object} definition.styleDefinition object representing defintion for given font combo obtained from the configuration
 	// @param {Number} definition.order value used to position icon in toolbar
 	function addCombo( editor, definition ) {
 		var config = editor.config,
 			lang = definition.lang,
-			defaultContentStyle = new CKEDITOR.style( definition.configStyleDefinition ),
+			defaultContentStyle = new CKEDITOR.style( definition.styleDefinition ),
 			stylesData = new StyleData( {
 				entries: definition.entries,
-				styleVariable: definition.styleType,
-				styleDefinition: definition.configStyleDefinition
+				styleVariable: definition.styleVariable,
+				styleDefinition: definition.styleDefinition
 			} ),
 			defaultValue = 'cke-default',
 			command;
@@ -145,7 +145,7 @@
 			defaultValue: defaultValue,
 			allowedContent: defaultContentStyle,
 			requiredContent: defaultContentStyle,
-			contentTransformations: definition.configStyleDefinition.element === 'span' ? [
+			contentTransformations: definition.styleDefinition.element === 'span' ? [
 				[
 					{
 						element: 'font',
@@ -275,13 +275,13 @@
 
 			styleToRemove = isRemoveOperation && hasStyleToRemove( {
 				range: range,
-				configStyleDefinition: definition.configStyleDefinition
+				styleDefinition: definition.styleDefinition
 			} );
 
 			hasFragmentsWithoutNewStyle = !isRemoveOperation && !hasAlreadyAppliedNewStyle( {
 				range: range,
 				style: newStyle,
-				configStyleDefinition: definition.configStyleDefinition
+				styleDefinition: definition.styleDefinition
 			} );
 
 			if ( styleToRemove || hasFragmentsWithoutNewStyle ) {
@@ -299,17 +299,17 @@
 
 	//  * @param {Object} options
 	//  * @param {CKEDITOR.dom.range} options.range
-	//  * @param {Object} options.configStyleDefinition object representing config option:
+	//  * @param {Object} options.styleDefinition object representing config option:
 	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
 	function hasStyleToRemove( options ) {
 		var range = options.range,
-			configStyleDefinition = options.configStyleDefinition,
+			styleDefinition = options.styleDefinition,
 			walker,
 			textNode,
 			nodeWithStyle;
 
 		if ( range.collapsed ) {
-			nodeWithStyle = range.startContainer.getAscendant( hasStyle( configStyleDefinition ), true );
+			nodeWithStyle = range.startContainer.getAscendant( hasStyle( styleDefinition ), true );
 			return !!nodeWithStyle;
 		}
 
@@ -319,7 +319,7 @@
 		textNode = walker.next();
 
 		while ( textNode ) {
-			nodeWithStyle = textNode.getAscendant( hasStyle( configStyleDefinition ) );
+			nodeWithStyle = textNode.getAscendant( hasStyle( styleDefinition ) );
 
 			if ( nodeWithStyle ) {
 				return true;
@@ -335,19 +335,19 @@
 	//  * @param {Object} options
 	//  * @param {CKEDITOR.dom.range} options.range,
 	//  * @param {CKEDITOR.style} options.style style which is going to be applied over given range
-	//  * @param {Object} options.configStyleDefinition object representing config option:
+	//  * @param {Object} options.styleDefinition object representing config option:
 	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
 	//  * @returns {Boolean}
 	function hasAlreadyAppliedNewStyle( options ) {
 		var range = options.range,
 			style = options.style,
-			configStyleDefinition = options.configStyleDefinition,
+			styleDefinition = options.styleDefinition,
 			walker,
 			textNode,
 			nodeWithStyle;
 
 		if ( range.collapsed ) {
-			nodeWithStyle = range.startContainer.getAscendant( hasStyle( configStyleDefinition ), true );
+			nodeWithStyle = range.startContainer.getAscendant( hasStyle( styleDefinition ), true );
 			return !!( nodeWithStyle && style.checkElementRemovable( nodeWithStyle ) );
 		}
 
@@ -357,7 +357,7 @@
 		textNode = walker.next();
 
 		while ( textNode ) {
-			nodeWithStyle = textNode.getAscendant( hasStyle( configStyleDefinition ) );
+			nodeWithStyle = textNode.getAscendant( hasStyle( styleDefinition ) );
 
 			if ( !nodeWithStyle || !style.checkElementMatch( nodeWithStyle ) ) {
 				return false;
@@ -369,18 +369,18 @@
 		return true;
 	}
 
-	//  * @param {Object} configStyleDefinition object representing config option:
+	//  * @param {Object} styleDefinition object representing config option:
 	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
 	//  * @returns {Boolean}
-	function hasStyle( configStyleDefinition ) {
-		var styleDefinitions = getAvailableStyleDefinitions( configStyleDefinition );
+	function hasStyle( styleDefinition ) {
+		var availableStyles = getAvailableStyleDefinitions( styleDefinition );
 
 		return function( el ) {
-			return el.type === CKEDITOR.NODE_ELEMENT && matchElementToStyleDefinition( el, styleDefinitions );
+			return el.type === CKEDITOR.NODE_ELEMENT && matchElementToStyleDefinition( el, availableStyles );
 		};
 	}
 
-	//  * @param {Object} configStyleDefinition object representing config option:
+	//  * @param {Object} styleDefinition object representing config option:
 	//  * {@link CKEDITOR.config#fontSize_style } or {@link CKEDITOR.config#font_style}
 	//  * @returns {Object[]} Array with objects defining what attributes describe given style e.g.:
 	//  * 	[
@@ -395,21 +395,21 @@
 	//  * 			styles: []
 	//  * 		}
 	//  * 	]
-	function getAvailableStyleDefinitions( configStyleDefinition ) {
-		var styleDefinitions = [],
+	function getAvailableStyleDefinitions( styleDefinition ) {
+		var availableStyles = [],
 			objKeys = CKEDITOR.tools.object.keys;
 
 		// Default style types.
-		styleDefinitions.push( {
-			element: configStyleDefinition.element,
-			attributes: objKeys( configStyleDefinition.attributes || {} ),
-			styles: objKeys( configStyleDefinition.styles || {} )
+		availableStyles.push( {
+			element: styleDefinition.element,
+			attributes: objKeys( styleDefinition.attributes || {} ),
+			styles: objKeys( styleDefinition.styles || {} )
 		} );
 
 		// Style types from override.
-		if ( configStyleDefinition.overrides ) {
-			CKEDITOR.tools.array.forEach( configStyleDefinition.overrides, function( value ) {
-				styleDefinitions.push( {
+		if ( styleDefinition.overrides ) {
+			CKEDITOR.tools.array.forEach( styleDefinition.overrides, function( value ) {
+				availableStyles.push( {
 					element: value.element,
 					attributes: objKeys( value.attributes || {} ),
 					styles: objKeys( value.styles || {} )
@@ -417,7 +417,7 @@
 			} );
 		}
 
-		return styleDefinitions;
+		return availableStyles;
 	}
 
 	//  * @param {CKEDITOR.dom.element} el
@@ -570,21 +570,21 @@
 			addCombo( editor, {
 				comboName: 'Font',
 				commandName: 'font',
-				styleType: 'family',
+				styleVariable: 'family',
 				lang: editor.lang.font,
 				entries: config.font_names,
 				defaultLabel: config.font_defaultLabel,
-				configStyleDefinition: config.font_style,
+				styleDefinition: config.font_style,
 				order: 30
 			} );
 			addCombo( editor, {
 				comboName: 'FontSize',
 				commandName: 'fontSize',
-				styleType: 'size',
+				styleVariable: 'size',
 				lang: editor.lang.font.fontSize,
 				entries: config.fontSize_sizes,
 				defaultLabel: config.fontSize_defaultLabel,
-				configStyleDefinition: config.fontSize_style,
+				styleDefinition: config.fontSize_style,
 				order: 40
 			} );
 		}
