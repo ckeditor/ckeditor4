@@ -336,9 +336,7 @@
 				initialHtml = dragHtml + '<p>Drop zone</p>';
 
 			this.editorBot.setData( initialHtml, function() {
-				var evt = { data: bender.tools.mockDropEvent() },
-					dragRange = editor.createRange(),
-					dropRange = editor.createRange();
+				var evt = { data: bender.tools.mockDropEvent() };
 
 				editor.resetUndo();
 				editor.focus();
@@ -361,7 +359,9 @@
 					var editable = editor.editable(),
 						paragraphs = editable.find( 'p' ).toArray(),
 						dragTarget = paragraphs[ 0 ].getChild( 1 ),
-						dropTarget = paragraphs[ 1 ].getChild( 0 );
+						dropTarget = paragraphs[ 1 ].getChild( 0 ),
+						dragRange = editor.createRange(),
+						dropRange = editor.createRange();
 
 					dragRange.selectNodeContents( paragraphs[ 0 ] );
 					dragRange.select();
