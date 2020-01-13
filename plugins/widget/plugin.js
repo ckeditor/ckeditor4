@@ -2590,7 +2590,14 @@
 				return;
 			}
 
-			if ( id === '' || transferType != CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+			if ( transferType != CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+				return;
+			}
+
+			// Add support for dropping selection containing more than widget itself
+			// or more than one widget (#3441).
+			if ( !id && editor.widgets.selected.length > 0 ) {
+				evt.data.dataTransfer.setData( 'text/html', getClipboardHtml( editor ) );
 				return;
 			}
 
@@ -2611,21 +2618,6 @@
 
 			evt.data.dataTransfer.setData( 'text/html', sourceWidget.getClipboardHtml() );
 			editor.widgets.destroy( sourceWidget, true );
-		} );
-
-		// Add support for dropping selection containing more than widget itself
-		// or more than one widget (#3441).
-		editor.on( 'drop', function( evt ) {
-			var dataTransfer = evt.data.dataTransfer,
-				id = dataTransfer.getData( 'cke/widget-id' ),
-				transferType = dataTransfer.getTransferType( editor );
-
-			if ( id !== '' || ( editor.widgets.selected.length > 0 &&
-				transferType != CKEDITOR.DATA_TRANSFER_INTERNAL ) ) {
-				return;
-			}
-
-			evt.data.dataTransfer.setData( 'text/html', getClipboardHtml( editor ) );
 		} );
 
 		editor.on( 'contentDom', function() {
