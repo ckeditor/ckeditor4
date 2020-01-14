@@ -55,14 +55,34 @@
 				}
 			},
 
+			getMatchingValue: function( editor, path ) {
+				var elements = path.elements;
+
+				for ( var i = 0, element, value; i < elements.length; i++ ) {
+					element = elements[ i ];
+
+					// Check if the element is removable by any of
+					// the styles.
+					value = this._.findMatchingStyleName( function( style ) {
+						return style.checkElementMatch( element, true, editor );
+					}, this );
+
+					if ( value ) {
+						return value;
+					}
+				}
+
+				return null;
+			}
+		},
+
+		_: {
 			findMatchingStyleName: function( callback, context ) {
 				return CKEDITOR.tools.array.find( this._.names, function( name ) {
 					return callback.call( context, this.getStyle( name ) );
 				}, this );
 			}
-		},
-
-		_: {}
+		}
 	} );
 
 	// @param {CKEDITOR.editor} editor
@@ -126,7 +146,7 @@
 					return;
 				}
 
-				var value = getMatchingValue( editor, path, stylesData );
+				var value = stylesData.getMatchingValue( editor, path );
 
 				if ( value === null ) {
 					this.setState( CKEDITOR.TRISTATE_OFF );
@@ -211,7 +231,7 @@
 				editor.on( 'selectionChange', function( ev ) {
 					var currentValue = this.getValue(),
 						elementPath = ev.data.path,
-						value = getMatchingValue( editor, elementPath, stylesData );
+						value = stylesData.getMatchingValue( editor, elementPath );
 
 					if ( value ) {
 						if ( value != currentValue ) {
@@ -240,26 +260,6 @@
 				}
 			}
 		} );
-
-		function getMatchingValue( editor, path, stylesData ) {
-			var elements = path.elements;
-
-			for ( var i = 0, element, value; i < elements.length; i++ ) {
-				element = elements[ i ];
-
-				// Check if the element is removable by any of
-				// the styles.
-				value = stylesData.findMatchingStyleName( function( style ) {
-					return style.checkElementMatch( element, true, editor );
-				}, this );
-
-				if ( value ) {
-					return value;
-				}
-			}
-
-			return null;
-		}
 
 		function onClickHandler( newValue ) {
 			editor.focus();
