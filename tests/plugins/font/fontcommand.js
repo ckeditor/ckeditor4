@@ -17,9 +17,8 @@
 		COMIC_SANS = new CKEDITOR.style( font_style, { family: 'Comic Sans MS,cursive' } ),
 		COURIER_NEW = new CKEDITOR.style( font_style, { family: 'Courier New,Courier,monospace' } ),
 		SIZE_24PX = new CKEDITOR.style( fontSize_style, { size: '24px' } ),
-		SIZE_48PX = new CKEDITOR.style( fontSize_style, { size: '48px' } );
-
-	var CONTENT_TEMPLATE = '[<p>^test$@</p>' +
+		SIZE_48PX = new CKEDITOR.style( fontSize_style, { size: '48px' } ),
+		CONTENT_TEMPLATE = '[<p>^test$@</p>' +
 		'<table border="1" cellpadding="1" cellspacing="1" style="width:500px">' +
 			'<tbody>' +
 				'<tr>' +
