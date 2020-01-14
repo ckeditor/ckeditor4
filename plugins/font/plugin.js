@@ -128,7 +128,7 @@
 
 				var value = getMatchingValue( editor, path, stylesData );
 
-				if ( value === undefined ) {
+				if ( value === null ) {
 					this.setState( CKEDITOR.TRISTATE_OFF );
 				} else {
 					this.setState( CKEDITOR.TRISTATE_ON );
@@ -258,7 +258,7 @@
 				}
 			}
 
-			return;
+			return null;
 		}
 
 		function onClickHandler( newValue ) {
