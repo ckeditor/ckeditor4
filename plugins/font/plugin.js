@@ -479,14 +479,14 @@
 		return hasMatchingStyles;
 	}
 
-	//  * @param {Object} config
-	//  * @param {CKEDITOR.editor} config.editor instance of the editor
-	//  * @param {CKEDITOR.dom.range} config.range analyzed range
-	//  * @param {CKEDITOR.style} config.style old style which might already exist on this range
-	function splitElementOnCollapsedRange( config ) {
-		var editor = config.editor,
-			range = config.range,
-			style = config.style,
+	//  * @param {Object} options
+	//  * @param {CKEDITOR.editor} options.editor instance of the editor
+	//  * @param {CKEDITOR.dom.range} options.range analyzed range
+	//  * @param {CKEDITOR.style} options.style old style which might already exist on this range
+	function splitElementOnCollapsedRange( options ) {
+		var editor = options.editor,
+			range = options.range,
+			style = options.style,
 			path,
 			matching,
 			startBoundary,
