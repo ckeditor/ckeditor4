@@ -18,6 +18,7 @@
 				path = this.path;
 
 			editor.pasteTools.register( {
+				priority: 100, // after PFW
 				filters: [
 					CKEDITOR.getUrl( pasteToolsPath + 'filter/common.js' ),
 					CKEDITOR.getUrl( pasteToolsPath + 'filter/image.js' ),
@@ -58,8 +59,7 @@
 					}
 
 					next();
-				},
-				priority: 100
+				}
 			} );
 		}
 	} );
