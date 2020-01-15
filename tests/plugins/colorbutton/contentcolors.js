@@ -1,14 +1,12 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: colorbutton,undo,toolbar,wysiwygarea */
+/* bender-include: _helpers/tools.js */
+/* global findInPanel */
 
 ( function() {
 	'use strict';
 
 	bender.editor = true;
-
-	function findInPanel( selector, button ) {
-		return button._.panel.getBlock( button._.id ).element.findOne( selector );
-	}
 
 	bender.test( {
 		'test content colors row exists and custom colors row doesn\'t': function() {
@@ -162,6 +160,5 @@
 				assert.areEqual( 4, findInPanel( '.cke_colorcontent_row', txtColorBtn ).getChildCount(), 'Tiles number is incorrect.' );
 			} );
 		}
-
 	} );
 } )();
