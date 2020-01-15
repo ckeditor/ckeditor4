@@ -1,29 +1,12 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: colorbutton,colordialog,undo,toolbar,wysiwygarea */
+/* bender-include: _helpers/tools.js */
+/* global findInPanel, chooseColorFromDialog */
 
 ( function() {
 	'use strict';
 
 	bender.editor = true;
-
-	function openColorDialog( button ) {
-		button._.panel.getBlock( button._.id ).element.findOne( '.cke_colormore' ).$.click();
-		wait();
-	}
-
-	function chooseColorFromDialog( editor, button, color ) {
-		button.click( editor );
-
-		editor.once( 'dialogShow', function( evt ) {
-			var dialog = evt.data;
-			dialog.setValueOf( 'picker', 'selectedColor', color );
-			dialog.getButton( 'ok' ).click();
-
-			resume();
-		} );
-
-		openColorDialog( button );
-	}
 
 	bender.test( {
 		'test custom colors row exists': function() {
@@ -34,10 +17,10 @@
 			this.editorBot.setHtmlWithSelection( '[<p>Moo</p>]' );
 
 			txtColorBtn.click( editor );
-			assert.isNotNull( txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.findOne( '.cke_colorcustom_row' ), 'Custom colors row should exist.' );
+			assert.isNotNull( findInPanel( '.cke_colorcustom_row', txtColorBtn ), 'Custom colors row should exist.' );
 
 			bgColorBtn.click( editor );
-			assert.isNotNull( bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.findOne( '.cke_colorcustom_row' ), 'Custom colors row should exist.' );
+			assert.isNotNull( findInPanel( '.cke_colorcustom_row', bgColorBtn ), 'Custom colors row should exist.' );
 		},
 
 		'test label is hidden and row is empty before any color was chosen': function() {
@@ -48,12 +31,12 @@
 			this.editorBot.setHtmlWithSelection( '[<p>Moo</p>]' );
 
 			txtColorBtn.click( editor );
-			assert.isFalse( txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.findOne( '.cke_colorcustom_label' ).isVisible(), 'Label shouldn\'t be visible.' );
-			assert.areEqual( 0, txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.findOne( '.cke_colorcustom_row' ).getChildCount(), 'Row should be empty.' );
+			assert.isFalse( findInPanel( '.cke_colorcustom_label', txtColorBtn ).isVisible(), 'Label shouldn\'t be visible.' );
+			assert.areEqual( 0, findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row should be empty.' );
 
 			bgColorBtn.click( editor );
-			assert.isFalse( bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.findOne( '.cke_colorcustom_label' ).isVisible(), 'Label shouldn\'t be visible.' );
-			assert.areEqual( 0, bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.findOne( '.cke_colorcustom_row' ).getChildCount(), 'Row should be empty.' );
+			assert.isFalse( findInPanel( '.cke_colorcustom_label', bgColorBtn ).isVisible(), 'Label shouldn\'t be visible.' );
+			assert.areEqual( 0, findInPanel( '.cke_colorcustom_row', bgColorBtn ).getChildCount(), 'Row should be empty.' );
 		},
 
 		'test label is visible and row is not empty after choosing custom text color': function() {
@@ -65,8 +48,8 @@
 			editor.once( 'dialogHide', function() {
 				txtColorBtn.click( editor );
 
-				assert.isTrue( txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.findOne( '.cke_colorcustom_label' ).isVisible(), 'Label should be visible.' );
-				assert.areNotEqual( 0, txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.findOne( '.cke_colorcustom_row' ).getChildCount(), 'Row shouldn\'t be empty.' );
+				assert.isTrue( findInPanel( '.cke_colorcustom_label', txtColorBtn ).isVisible(), 'Label should be visible.' );
+				assert.areNotEqual( 0, findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row shouldn\'t be empty.' );
 			} );
 
 			chooseColorFromDialog( editor, txtColorBtn, '#33ff33' );
@@ -81,8 +64,8 @@
 			editor.once( 'dialogHide', function() {
 				bgColorBtn.click( editor );
 
-				assert.isTrue( bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.findOne( '.cke_colorcustom_label' ).isVisible(), 'Label should be visible.' );
-				assert.areNotEqual( 0, bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.findOne( '.cke_colorcustom_row' ).getChildCount(), 'Row shouldn\'t be empty.' );
+				assert.isTrue( findInPanel( '.cke_colorcustom_row', bgColorBtn ).isVisible(), 'Label should be visible.' );
+				assert.areNotEqual( 0, findInPanel( '.cke_colorcustom_row', bgColorBtn ).getChildCount(), 'Row shouldn\'t be empty.' );
 			} );
 
 			chooseColorFromDialog( editor, bgColorBtn, '#33ff33' );
@@ -97,8 +80,8 @@
 				bender.tools.setHtmlWithSelection( editor, '<p>[Moo]</p>' );
 				txtColorBtn.click();
 
-				assert.isTrue( txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.findOne( '.cke_colorcustom_label' ).isVisible(), 'Label should be visible.' );
-				assert.areNotEqual( 0, txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.findOne( '.cke_colorcustom_row' ).getChildCount(), 'Row shouldn\'t be empty.' );
+				assert.isTrue( findInPanel( '.cke_colorcustom_label', txtColorBtn ).isVisible(), 'Label should be visible.' );
+				assert.areNotEqual( 0, findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row shouldn\'t be empty.' );
 			} );
 
 			chooseColorFromDialog( editor, txtColorBtn, '#33ff33' );
@@ -106,7 +89,8 @@
 
 		'test custom color tiles work': function() {
 			var editor = this.editor,
-				txtColorBtn = editor.ui.get( 'TextColor' );
+				txtColorBtn = editor.ui.get( 'TextColor' ),
+				yellowTile;
 
 			this.editorBot.setHtmlWithSelection( '<p>[Moo]</p>' );
 
@@ -114,13 +98,16 @@
 				bender.tools.setHtmlWithSelection( editor, '<p>[Moo]</p>' );
 
 				txtColorBtn.click( editor );
-				txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.findOne( '.cke_colorcustom_row .cke_colorbox' ).$.click();
+				findInPanel( '.cke_colorcustom_row .cke_colorbox', txtColorBtn ).$.click();
 
-				assert.areEqual( '<p><span style="color:#33ff33">Moo</span></p>', editor.getData() );
+				assert.areEqual( '<p><span style="color:#f1c40f">Moo</span></p>', editor.getData() );
+
+				yellowTile = findInPanel( ' .cke_colorcustom_row [data-value="F1C40F"]', txtColorBtn );
+
+				assert.areEqual( 'Vivid Yellow', yellowTile.getAttribute( 'title' ), 'Color label is incorrect.' );
 			} );
 
-			chooseColorFromDialog( editor, txtColorBtn, '#33ff33' );
+			chooseColorFromDialog( editor, txtColorBtn, '#F1C40F' );
 		}
-
 	} );
 } )();
