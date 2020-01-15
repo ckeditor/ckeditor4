@@ -1,4 +1,4 @@
-@bender-tags: feature, 1795, 4.14.0
+@bender-tags: 4.14.0, feature, 1795
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, sourcearea, removeformat, undo
 
@@ -51,9 +51,9 @@
 
   * Colors are displayed in the correct order:
     1. Strong Red
-	1. 008800 (Green) // **Correct order and names may change**.
+	1. DDDDDD (Light Grey)
 
-  * Selected color is green from the `Content Colors` section.
+  * Selected color is `DDDDDD` from the `Content Colors` section.
 
 1. Focus editor.
 
