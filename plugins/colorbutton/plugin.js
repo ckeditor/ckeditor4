@@ -469,6 +469,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 
 			CKEDITOR.tools.array.forEach( colorSpans, function( span ) {
+				// colorSpans may contain spans with background color when they are not necessary, so here they are being filtered out.
 				var spanColor = span.getStyle( cssAttribute );
 
 				if ( spanColor ) {
