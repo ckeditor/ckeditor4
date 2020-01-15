@@ -1,6 +1,6 @@
 /* bender-tags: clipboard,pastefromlibreoffice */
 /* jshint ignore:start */
-/* bender-ckeditor-plugins: pastefromlibreoffice,ajax,basicstyles,bidi,font,link,toolbar,colorbutton,image */
+/* bender-ckeditor-plugins: pastefromlibreoffice,ajax,basicstyles,bidi,font,link,toolbar,colorbutton,image,pagebreak */
 /* bender-ckeditor-plugins: list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,indent,indentblock,div,dialog */
 /* jshint ignore:end */
 /* bender-include: ../../pastefromword/generated/_helpers/promisePasteEvent.js,../../pastefromword/generated/_helpers/assertWordFilter.js */
@@ -36,7 +36,8 @@
 			Mixed_list: true,
 			Text_align: true,
 			Table_background: true,
-			Paragraph_format: true
+			Paragraph_format: true,
+			Page_break: true
 		},
 		ignoreAll: ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) || bender.tools.env.mobile
 	} ) );
