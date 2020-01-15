@@ -1,4 +1,4 @@
-/* bender-tags: editor */
+/* bender-tags: editor,colorbutton */
 /* bender-ckeditor-plugins: colorbutton,undo,toolbar,wysiwygarea */
 /* bender-include: _helpers/tools.js */
 /* global findInPanel */
