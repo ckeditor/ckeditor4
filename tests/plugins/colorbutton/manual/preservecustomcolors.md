@@ -112,7 +112,7 @@
 
   * Colors didn't keep order from the newest to the oldest.
 
-  * Different color than `#F1C40F` disappeared from the pallette.
+  * Different color than `#F1C40F` disappeared from the palette.
 
 1. Repeat all previous steps using `Background Color` button instead.
 

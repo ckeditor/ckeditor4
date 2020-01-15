@@ -10,7 +10,7 @@
 
   **Expected:**
 
-  * `Content Colors` section (label and color tiles) is displayed below default pallette.
+  * `Content Colors` section (label and color tiles) is displayed below default palette.
 
   * Default text color (most probably something blackish like `#333333`) is not displayed in `Content Colors` section.
 
@@ -47,7 +47,7 @@
 
   **Expected:**
 
-  * `Content Colors` section (label and color tiles) is displayed below default pallette.
+  * `Content Colors` section (label and color tiles) is displayed below default palette.
 
   * Colors are displayed in the correct order:
     1. Strong Red
