@@ -1,4 +1,4 @@
-@bender-tags: feature, 1795, 4.14.0
+@bender-tags: 4.14.0, feature, 1795
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog, sourcearea, removeformat, undo
 
@@ -16,7 +16,7 @@
 
   * `More Colors` button is below `Content Colors` section.
 
-1. Click `More Colors` and choose color `#aa22ff`.
+1. Click `More Colors` and choose color `#66ff00` (should be in the upper right corner).
 
 1. Click `Text Color` button.
 
@@ -30,7 +30,7 @@
 
   **Expected:**
 
-  * Tooltip contains uppercase hex color code without `#` hash (`AA22FF`).
+  * Tooltip contains uppercase hex color code without `#` hash (`66FF00`).
 
   **Unexpected:**
 
@@ -62,7 +62,7 @@
 
   * Color code is displayed instead.
 
-1. Open `More Colors` dialog and choose `#aa22ff` again.
+1. Open `More Colors` dialog and choose `#66ff00` again.
 
 1. Click `Text Color` button.
 
@@ -70,7 +70,7 @@
 
   * There are still two colors in the `Custom Colors` section.
 
-  * Color `#AA22FF` is the first one, `#F1C40F` is the second one.
+  * Color `#66FF00` is the first one, `#F1C40F` is the second one.
 
   **Unexpected:**
 
