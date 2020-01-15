@@ -60,14 +60,20 @@
 					},
 
 					'p': function( element ) {
-						if ( element.attributes.align ) {
-							var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
+						var styles = CKEDITOR.tools.parseCssText( element.attributes.style );
 
+						if ( editor.plugins.pagebreak &&
+							( styles[ 'page-break-before' ] === 'always' || styles[ 'break-before' ] === 'page' )
+						) {
+							insertPageBreakBefore( editor, element );
+						}
+
+						if ( element.attributes.align ) {
 							styles[ 'text-align' ] = element.attributes.align;
 							delete element.attributes.align;
-
-							element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 						}
+
+						element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 
 						element.filterChildren( filter );
 						Style.createStyleStack( element, filter, editor );
@@ -309,6 +315,14 @@
 		}
 
 		return CKEDITOR.tools.writeCssText( parsedStyles );
+	}
+
+	function insertPageBreakBefore( editor, element ) {
+		var pagebreakEl = CKEDITOR.plugins.pagebreak.createElement( editor );
+
+		pagebreakEl = CKEDITOR.htmlParser.fragment.fromHtml( pagebreakEl.getOuterHtml() ).children[ 0 ];
+
+		pagebreakEl.insertBefore( element );
 	}
 
 	CKEDITOR.pasteFilters.libreoffice = pastetools.createFilter( {
