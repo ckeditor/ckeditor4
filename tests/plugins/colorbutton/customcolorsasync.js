@@ -1,4 +1,4 @@
-/* bender-tags: editor */
+/* bender-tags: editor,colorbutton,colordialog,1795 */
 /* bender-ckeditor-plugins: colorbutton,colordialog,toolbar */
 /* bender-include: _helpers/tools.js */
 /* global findInPanel, asyncChooseColorFromDialog */
