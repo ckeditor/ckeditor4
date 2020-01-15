@@ -268,17 +268,17 @@
 	}
 
 	function getListEvaluator() {
-		var guard = false;
+		var isInBlock = false;
 
 		return function( element ) {
 			// There might be situation that list is somehow nested in other type of element, quotes, div, table, etc.
 			// When such situation happen we should not search for any above list.
-			if ( guard ) {
+			if ( isInBlock ) {
 				return false;
 			}
 
 			if ( !isList( element ) && element.name !== 'li' ) {
-				guard = true;
+				isInBlock = true;
 				return false;
 			}
 
