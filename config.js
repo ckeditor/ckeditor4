@@ -47,6 +47,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'newpage,' +
 		'pagebreak,' +
 		'pastefromgdocs,' +
+		'pastefromlibreoffice,' +
 		'pastefromword,' +
 		'pastetext,' +
 		'preview,' +
@@ -69,7 +70,6 @@ CKEDITOR.editorConfig = function( config ) {
 		'toolbar,' +
 		'undo,' +
 		'uploadimage,' +
-		'pastefromlibreoffice,' +
 		'wysiwygarea';
 	// %REMOVE_END%
 };
