@@ -603,7 +603,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p>[Hello] world!</p>' );
 
-			editor.ui.get( 'Font' ).onClick( fontTools.removeStyleValue );
+			editor.ui.get( 'Font' ).onClick( fontTools.defaultValue );
 
 			spy.restore();
 
@@ -617,7 +617,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p>Hel[]lo world!</p>' );
 
-			editor.ui.get( 'Font' ).onClick( fontTools.removeStyleValue );
+			editor.ui.get( 'Font' ).onClick( fontTools.defaultValue );
 
 			spy.restore();
 
@@ -631,7 +631,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( COURIER_NEW ) + '">[Hello]</span> world!</p>' );
 
-			editor.ui.get( 'Font' ).onClick( fontTools.removeStyleValue );
+			editor.ui.get( 'Font' ).onClick( fontTools.defaultValue );
 
 			spy.restore();
 
@@ -715,7 +715,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p>[Hello] world!</p>' );
 
-			editor.ui.get( 'FontSize' ).onClick( fontTools.removeStyleValue );
+			editor.ui.get( 'FontSize' ).onClick( fontTools.defaultValue );
 
 			spy.restore();
 
@@ -729,7 +729,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p>Hel[]lo world!</p>' );
 
-			editor.ui.get( 'FontSize' ).onClick( fontTools.removeStyleValue );
+			editor.ui.get( 'FontSize' ).onClick( fontTools.defaultValue );
 
 			spy.restore();
 
@@ -743,7 +743,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( SIZE_24PX ) + '">[Hello]</span> world!</p>' );
 
-			editor.ui.get( 'FontSize' ).onClick( fontTools.removeStyleValue );
+			editor.ui.get( 'FontSize' ).onClick( fontTools.defaultValue );
 
 			spy.restore();
 
