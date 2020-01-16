@@ -13,6 +13,10 @@
 	CKEDITOR.plugins.add( 'pastefromlibreoffice', {
 		requires: 'pastetools',
 
+		isSupportedEnvironment: function() {
+			return !CKEDITOR.env.ie || CKEDITOR.env.version >= 11;
+		},
+
 		init: function( editor ) {
 			var pasteToolsPath = CKEDITOR.plugins.getPath( 'pastetools' ),
 				path = this.path;
