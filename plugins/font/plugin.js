@@ -61,11 +61,8 @@
 				for ( var i = 0, element, value; i < elements.length; i++ ) {
 					element = elements[ i ];
 
-					// Check if the element is removable by any of
-					// the styles.
-					value = this._.findMatchingStyleName( function( style ) {
-						return style.checkElementMatch( element, true, editor );
-					}, this );
+					// Check if the element is removable by any of the styles.
+					value = this._.findMatchingStyleName( editor, element );
 
 					if ( value ) {
 						return value;
@@ -77,9 +74,9 @@
 		},
 
 		_: {
-			findMatchingStyleName: function( callback, context ) {
+			findMatchingStyleName: function( editor, element ) {
 				return CKEDITOR.tools.array.find( this._.names, function( name ) {
-					return callback.call( context, this.getStyle( name ) );
+					return this.getStyle( name ).checkElementMatch( element, true, editor );
 				}, this );
 			}
 		}
