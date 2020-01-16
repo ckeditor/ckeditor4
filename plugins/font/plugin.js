@@ -104,7 +104,6 @@
 				styleVariable: definition.styleVariable,
 				styleDefinition: definition.styleDefinition
 			} ),
-			defaultValue = 'cke-default',
 			command;
 
 		editor.addCommand( definition.commandName , {
@@ -153,7 +152,7 @@
 			title: lang.panelTitle,
 			command: definition.commandName,
 			toolbar: 'styles,' + definition.order,
-			defaultValue: defaultValue,
+			defaultValue: 'cke-default',
 			allowedContent: defaultContentStyle,
 			requiredContent: defaultContentStyle,
 			contentTransformations: definition.styleDefinition.element === 'span' ? [
