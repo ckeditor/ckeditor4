@@ -71,6 +71,7 @@ var CKBUILDER_CONFIG = {
 		maximize: 1,
 		newpage: 1,
 		pagebreak: 1,
+		pastefromlibreoffice: 1,
 		pastefromword: 1,
 		pastetext: 1,
 		preview: 1,
