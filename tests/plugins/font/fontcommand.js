@@ -547,7 +547,7 @@
 			} );
 		},
 
-		'test should prevent to run font command when style match to selected one': function() {
+		'test should apply font command when style match to selected one': function() {
 			var editor = this.editor,
 				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
 
@@ -557,11 +557,11 @@
 
 			spy.restore();
 
-			sinon.assert.notCalled( spy );
+			sinon.assert.calledOnce( spy );
 			assert.pass();
 		},
 
-		'test should prevent to run font command when style match to selected one with collapsed selection': function() {
+		'test should apply font command when style match to selected one with collapsed selection': function() {
 			var editor = this.editor,
 				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
 
@@ -571,11 +571,11 @@
 
 			spy.restore();
 
-			sinon.assert.notCalled( spy );
+			sinon.assert.calledOnce( spy );
 			assert.pass();
 		},
 
-		'test should apply font command only once over the same selection': function() {
+		'test should apply font command over the same selection': function() {
 			var editor = this.editor,
 				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
 
@@ -588,7 +588,7 @@
 
 			spy.restore();
 
-			sinon.assert.calledOnce( spy );
+			sinon.assert.called( spy );
 
 			assert.isInnerHtmlMatching(
 				'<p><span style="' + getStyleText( COURIER_NEW ) + '">Hello</span> world!@</p>',
@@ -597,9 +597,9 @@
 			);
 		},
 
-		'test should not run remove font command for not styled content': function() {
+		'test should run remove font command for not styled content': function() {
 			var editor = this.editor,
-			spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
+				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
 
 			bender.tools.selection.setWithHtml( editor, '<p>[Hello] world!</p>' );
 
@@ -607,13 +607,13 @@
 
 			spy.restore();
 
-			sinon.assert.notCalled( spy );
+			sinon.assert.calledOnce( spy );
 			assert.pass();
 		},
 
-		'test should not run remove font command for not styled content collapsed seklection': function() {
+		'test should apply font command for not styled content with collapsed selection': function() {
 			var editor = this.editor,
-			spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
+				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
 
 			bender.tools.selection.setWithHtml( editor, '<p>Hel[]lo world!</p>' );
 
@@ -621,7 +621,7 @@
 
 			spy.restore();
 
-			sinon.assert.notCalled( spy );
+			sinon.assert.calledOnce( spy );
 			assert.pass();
 		},
 
@@ -655,7 +655,7 @@
 
 			spy.restore();
 
-			sinon.assert.calledOnce( spy );
+			sinon.assert.called( spy );
 
 			assert.isInnerHtmlMatching(
 				'<p><span style="' + getStyleText( ARIAL ) + '">Hello</span> world!@</p>',
@@ -678,7 +678,7 @@
 
 			spy.restore();
 
-			sinon.assert.calledOnce( spy );
+			sinon.assert.called( spy );
 
 			assert.isInnerHtmlMatching(
 				'<p><span style="' + getStyleText( COURIER_NEW ) + '">Hello world!</span>@</p>',
@@ -687,61 +687,7 @@
 			);
 		},
 
-		'test should apply remove font command when inner content has styled fragment': function() {
-			// Test ignored due to (#1116).
-			assert.ignore();
-
-			var editor = this.editor,
-				spy = sinon.spy( editor.getCommand( 'font' ), 'exec' );
-
-			bender.tools.selection.setWithHtml( editor, '<p>' +
-				'[Hel' +
-				'<span style="' + getStyleText( COURIER_NEW ) + '">lo wor</span>' +
-				'ld!]</p>' );
-
-			editor.ui.get( 'Font' ).onClick( fontTools.removeStyleValue );
-			editor.ui.get( 'Font' ).onClick( fontTools.removeStyleValue );
-
-			spy.restore();
-
-			sinon.assert.calledOnce( spy );
-
-			assert.isInnerHtmlMatching(
-				'<p>Hello world!@</p>',
-				editor.editable().getHtml(),
-				{ fixStyles: true }
-			);
-		},
-
-		'test should prevent to run font size command when style match to selected one': function() {
-			var editor = this.editor,
-				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
-
-			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( SIZE_24PX ) + '">[Hello]</span> world!</p>' );
-
-			editor.ui.get( 'FontSize' ).onClick( '24' );
-
-			spy.restore();
-
-			sinon.assert.notCalled( spy );
-			assert.pass();
-		},
-
-		'test should prevent to run font size command when style match to selected one with collapsed selection': function() {
-			var editor = this.editor,
-				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
-
-			bender.tools.selection.setWithHtml( editor, '<p><span style="' + getStyleText( SIZE_24PX ) + '">He[]llo</span> world!</p>' );
-
-			editor.ui.get( 'FontSize' ).onClick( '24' );
-
-			spy.restore();
-
-			sinon.assert.notCalled( spy );
-			assert.pass();
-		},
-
-		'test should apply font size command only once over the same selection': function() {
+		'test should apply font size command multiple times over the same selection': function() {
 			var editor = this.editor,
 				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
 
@@ -754,7 +700,7 @@
 
 			spy.restore();
 
-			sinon.assert.calledOnce( spy );
+			sinon.assert.called( spy );
 
 			assert.isInnerHtmlMatching(
 				'<p><span style="' + getStyleText( SIZE_24PX ) + '">Hello</span> world!@</p>',
@@ -763,9 +709,9 @@
 			);
 		},
 
-		'test should not run remove font size command for not styled content': function() {
+		'test should run remove font size command for not styled content': function() {
 			var editor = this.editor,
-			spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
+				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
 
 			bender.tools.selection.setWithHtml( editor, '<p>[Hello] world!</p>' );
 
@@ -773,13 +719,13 @@
 
 			spy.restore();
 
-			sinon.assert.notCalled( spy );
+			sinon.assert.calledOnce( spy );
 			assert.pass();
 		},
 
-		'test should not run remove font size command for not styled content collapsed seklection': function() {
+		'test should run remove font size command for not styled content collapsed selection': function() {
 			var editor = this.editor,
-			spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
+				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
 
 			bender.tools.selection.setWithHtml( editor, '<p>Hel[]lo world!</p>' );
 
@@ -787,11 +733,11 @@
 
 			spy.restore();
 
-			sinon.assert.notCalled( spy );
+			sinon.assert.calledOnce( spy );
 			assert.pass();
 		},
 
-		'test should run remove font size command only once over the same content': function() {
+		'test should run remove font size command over the same content': function() {
 			var editor = this.editor,
 				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
 
@@ -821,7 +767,7 @@
 
 			spy.restore();
 
-			sinon.assert.calledOnce( spy );
+			sinon.assert.called( spy );
 
 			assert.isInnerHtmlMatching(
 				'<p><span style="' + getStyleText( SIZE_48PX ) + '">Hello</span> world!@</p>',
@@ -844,36 +790,10 @@
 
 			spy.restore();
 
-			sinon.assert.calledOnce( spy );
+			sinon.assert.called( spy );
 
 			assert.isInnerHtmlMatching(
 				'<p><span style="' + getStyleText( SIZE_24PX ) + '">Hello world!</span>@</p>',
-				editor.editable().getHtml(),
-				{ fixStyles: true }
-			);
-		},
-
-		'test should apply remove size font command when inner content has styled fragment': function() {
-			// Test ignored due to (#1116).
-			assert.ignore();
-
-			var editor = this.editor,
-				spy = sinon.spy( editor.getCommand( 'fontSize' ), 'exec' );
-
-			bender.tools.selection.setWithHtml( editor, '<p>' +
-				'[Hel' +
-				'<span style="' + getStyleText( SIZE_24PX ) + '">lo wor</span>' +
-				'ld!]</p>' );
-
-			editor.ui.get( 'FontSize' ).onClick( fontTools.removeStyleValue );
-			editor.ui.get( 'FontSize' ).onClick( fontTools.removeStyleValue );
-
-			spy.restore();
-
-			sinon.assert.calledOnce( spy );
-
-			assert.isInnerHtmlMatching(
-				'<p>Hello world!@</p>',
 				editor.editable().getHtml(),
 				{ fixStyles: true }
 			);
