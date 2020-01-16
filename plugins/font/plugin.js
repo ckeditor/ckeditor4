@@ -108,7 +108,6 @@
 			command;
 
 		editor.addCommand( definition.commandName , {
-			contextSensitive: true,
 			exec: function( editor, data ) {
 				var newStyle = data.newStyle,
 					oldStyle = data.oldStyle,
@@ -143,15 +142,6 @@
 			refresh: function( editor, path ) {
 				if ( !defaultContentStyle.checkApplicable( path, editor, editor.activeFilter ) ) {
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
-					return;
-				}
-
-				var value = stylesData.getMatchingValue( editor, path );
-
-				if ( value === null ) {
-					this.setState( CKEDITOR.TRISTATE_OFF );
-				} else {
-					this.setState( CKEDITOR.TRISTATE_ON );
 				}
 			}
 		} );
@@ -246,18 +236,12 @@
 				}, this );
 
 				command.on( 'state', function() {
-					if ( command.state === CKEDITOR.TRISTATE_DISABLED ) {
-						this.setState( CKEDITOR.TRISTATE_DISABLED );
-					} else {
-						this.setState( CKEDITOR.TRISTATE_OFF );
-					}
+					this.setState( command.state );
 				}, this );
 			},
 
 			refresh: function() {
-				if ( command.state === CKEDITOR.TRISTATE_DISABLED ) {
-					this.setState( CKEDITOR.TRISTATE_DISABLED );
-				}
+				this.setState( command.state );
 			}
 		} );
 

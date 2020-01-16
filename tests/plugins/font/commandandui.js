@@ -22,8 +22,7 @@
 			command.setState( CKEDITOR.TRISTATE_ON );
 
 			assert.areSame( CKEDITOR.TRISTATE_ON, command.state, 'Turned on command state' );
-			// Richcombo should not be highlighted in this case
-			assert.areSame( CKEDITOR.TRISTATE_OFF, combo.getState(), 'Combo state for turned on command' );
+			assert.areSame( CKEDITOR.TRISTATE_ON, combo.getState(), 'Combo state for turned on command' );
 
 			command.setState( CKEDITOR.TRISTATE_OFF );
 		},
@@ -44,8 +43,7 @@
 			command.setState( CKEDITOR.TRISTATE_ON );
 
 			assert.areSame( CKEDITOR.TRISTATE_ON, command.state, 'Turned on command state' );
-			// Richcombo should not be highlighted in this case
-			assert.areSame( CKEDITOR.TRISTATE_OFF, combo.getState(), 'Combo state for turned on command' );
+			assert.areSame( CKEDITOR.TRISTATE_ON, combo.getState(), 'Combo state for turned on command' );
 
 			command.setState( CKEDITOR.TRISTATE_OFF );
 		},
