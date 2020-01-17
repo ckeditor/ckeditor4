@@ -127,7 +127,7 @@
 				if ( isRemove ) {
 					editor.removeStyle( oldStyle );
 				} else {
-					if ( oldStyle ) {
+					if ( oldStyle && !isEqualStyle( oldStyle, newStyle ) ) {
 						editor.removeStyle( oldStyle );
 					}
 
@@ -255,6 +255,14 @@
 
 			editor.fire( 'saveSnapshot' );
 		}
+	}
+
+	function isEqualStyle( styleA, styleB ) {
+		if ( !( styleA instanceof CKEDITOR.style ) || !( styleB instanceof CKEDITOR.style ) ) {
+			return false;
+		}
+
+		return CKEDITOR.style.getStyleText( styleA.getDefinition() ) === CKEDITOR.style.getStyleText( styleB.getDefinition() );
 	}
 
 	//  * @param {Object} options
