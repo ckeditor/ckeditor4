@@ -38,19 +38,33 @@
 	 */
 	CKEDITOR.plugins.print = {
 		exec: function( editor ) {
-			var previewWindow = CKEDITOR.plugins.preview.createPreview( editor ).$;
+			var previewWindow = CKEDITOR.plugins.preview.createPreview( editor ),
+				nativePreviewWindow;
 
 			if ( !previewWindow ) {
 				return;
 			}
 
-			if ( CKEDITOR.env.gecko ) {
-				previewWindow.print();
-			} else {
-				previewWindow.document.execCommand( 'Print' );
+			nativePreviewWindow = previewWindow.$;
+
+			// In several browsers (e.g. Safari or Chrome on Linux) print command
+			// seems to be blocking loading of the preview page. Because of that
+			// print must be performed after the document is complete.
+			if ( nativePreviewWindow.document.readyState === 'complete' ) {
+				return print();
 			}
 
-			previewWindow.close();
+			previewWindow.once( 'load', print );
+
+			function print() {
+				if ( CKEDITOR.env.gecko ) {
+					nativePreviewWindow.print();
+				} else {
+					nativePreviewWindow.document.execCommand( 'Print' );
+				}
+
+				nativePreviewWindow.close();
+			}
 		},
 		canUndo: false,
 		readOnly: 1,

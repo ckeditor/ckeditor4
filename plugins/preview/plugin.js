@@ -21,23 +21,12 @@
 		icons: 'preview,preview-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var pluginPath = CKEDITOR.plugins.getPath( 'preview' );
-
 			editor.addCommand( pluginName, previewCmd );
 			editor.ui.addButton && editor.ui.addButton( 'Preview', {
 				label: editor.lang.preview.preview,
 				command: pluginName,
 				toolbar: 'document,40'
 			} );
-
-			if ( !CKEDITOR.env.webkit || CKEDITOR.env.chrome ) {
-				return;
-			}
-
-			// If Safari does not have print styles in cache, it won't
-			// render the printed content. Therefore we need to preload the styles.
-			preloadStyles( editor.config.contentsCss );
-			preloadStyles( pluginPath + 'styles/screen.css' );
 		}
 	} );
 
@@ -232,37 +221,6 @@
 		// With Firefox only, we need to open a special preview page, so
 		// anchors will work properly on it (https://dev.ckeditor.com/ticket/9047).
 		return CKEDITOR.getUrl( pluginPath + 'preview.html' );
-	}
-
-	function preloadStyles( hrefs ) {
-		var headElement = CKEDITOR.document.getHead(),
-			tools = CKEDITOR.tools.array;
-
-		if ( !tools.isArray( hrefs ) ) {
-			hrefs = [ hrefs ];
-		}
-
-		if ( !preloadStyles.preloaded ) {
-			preloadStyles.preloaded = [];
-		}
-
-		tools.forEach( hrefs, function( href ) {
-			var linkElement = new CKEDITOR.dom.element( 'link' );
-
-			if ( tools.indexOf( preloadStyles.preloaded, href ) !== -1 ) {
-				return;
-			}
-
-			linkElement.setAttributes( {
-				rel: 'preload',
-				as: 'style',
-				href: href
-			} );
-
-			linkElement.appendTo( headElement );
-
-			preloadStyles.preloaded.push( href );
-		} );
 	}
 } )();
 
