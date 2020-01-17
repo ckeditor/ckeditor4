@@ -64,3 +64,21 @@ bender.test( {
 		} );
 	}
 } );
+
+bender.test({
+  'test dataIndentationChars': function() {
+	var data = '<ol><li>One</li><li>Two</li><li>Three</li></ol>';
+
+	bender.editorBot.create( {
+	  name: 'dataIndentationChars',
+	  formattedOutput: true,
+	  config: {
+		dataIndentationChars: ''
+	  }
+	}, function( bot ) {
+	  bot.setData( data, function() {
+		assert.areSame( data, bot.getData( false, false ) );
+	  } );
+	} );
+  }
+})
