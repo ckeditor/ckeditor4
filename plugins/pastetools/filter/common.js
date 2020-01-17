@@ -895,7 +895,7 @@
 		var fontParts = fontValue.split( ',' ),
 			matchingFont = CKEDITOR.tools.array.find( availableFonts, function( font ) {
 				for ( var i = 0; i < fontParts.length; i++ ) {
-					if ( font.indexOf( fontParts[ i ].trim() ) === -1 ) {
+					if ( font.indexOf( CKEDITOR.tools.trim( fontParts[ i ] ) ) === -1 ) {
 						return false;
 					}
 				}
