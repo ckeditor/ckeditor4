@@ -64,7 +64,9 @@
 		}
 
 		messages.push( message );
-		console.log( message );
+		if ( window.console ) {
+			console.log( message );
+		}
 
 		if ( messages.length > 5 ) {
 			messages = messages.slice( messages.length - 5, messages.length );

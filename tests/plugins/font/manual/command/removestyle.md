@@ -8,13 +8,16 @@
 * Please repeat steps for both font and font size features
 
 ## Test scenario:
-1. Select styled text and remove font/fontSize from it.
-2. Try to remove style from not styled text.
+1. Select styled text and **remove** font/fontSize from it.
+2. Try to **remove** style from not styled text.
 
 ### Expected:
-Command should be executed once. Removing style only when needed.
+Each click into richcombo option, should generate related command execution.
 
 ### Unexpected:
-Command is not executed or is executed more than once.
+* Command is not executed
+* Command is executed multiple times for one richcombo click
+* Command is executed with wrong style
+
 <br>_Please notice there is a bug [#1116](https://github.com/ckeditor/ckeditor-dev/issues/1116),
 which doesn't remove font style if selection starts outside of styled element._

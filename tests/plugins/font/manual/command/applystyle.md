@@ -8,12 +8,14 @@
 * Please repeat steps for both font and font size features
 
 ## Test scenario:
-1. Select unstyled text and apply new font/fontSize.
-2. Try to apply this same font/fontSize again.
-3. Try to apply different font for already styled text.
+1. Select unstyled text and **apply** new font/fontSize.
+2. Try to **apply** this same font/fontSize again.
+3. Try to **apply** different font for already styled text.
 
 ### Expected:
-Command should be executed only once. Styling the same content with the same style should not trigger command.
+Each click into richcombo option, should generate related command execution.
 
 ### Unexpected:
-Command is not executed or is executed more than once.
+* Command is not executed
+* Command is executed multiple times for one richcombo click
+* Command is executed with wrong style

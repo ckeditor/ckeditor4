@@ -1,4 +1,5 @@
 /* bender-ckeditor-plugins: font,toolbar,basicstyles,table,list */
+/* bender-tags: font, command, 3728 */
 /* bender-include: ./_helpers/tools.js */
 /* global fontTools */
 
