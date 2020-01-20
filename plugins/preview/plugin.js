@@ -89,10 +89,7 @@
 	};
 
 	previewCmd = {
-		modes: {
-			wysiwyg: 1,
-			source: 1
-		},
+		modes: { wysiwyg: 1 },
 		canUndo: false,
 		readOnly: 1,
 		exec: CKEDITOR.plugins.preview.createPreview
