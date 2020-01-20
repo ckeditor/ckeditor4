@@ -29,6 +29,7 @@ bender.test( {
 
 	// (#3661)
 	'test createPreview returns new window': function() {
+		// It's not possible to overwrite window.open in IE8.
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 			assert.ignore();
 		}
