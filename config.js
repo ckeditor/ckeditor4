@@ -47,6 +47,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'newpage,' +
 		'pagebreak,' +
 		'pastefromgdocs,' +
+		'pastefromlibreoffice,' +
 		'pastefromword,' +
 		'pastetext,' +
 		'preview,' +
