@@ -33,6 +33,17 @@
 	 * provided by [Print](https://ckeditor.com/cke4/addon/print) plugin.
 	 * The provided value should be of {@link CKEDITOR.commandDefinition} type.
 	 *
+	 * ```javascript
+	 * // Using external API to generate PDF.
+	 * CKEDITOR.plugins.print = {
+	 * 	exec: function( editor ) {
+	 * 		var data = editor.getData();
+	 *
+	 * 		pdfAPI.generateFromHTML( data );
+	 * 	}
+	 * };
+	 * ```
+	 *
 	 * @singleton
 	 * @class CKEDITOR.plugins.print
 	 */
