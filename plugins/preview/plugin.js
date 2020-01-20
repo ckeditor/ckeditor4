@@ -10,8 +10,7 @@
 ( function() {
 	'use strict';
 
-	var pluginName = 'preview',
-		previewCmd;
+	var pluginName = 'preview';
 
 	// Register a plugin named "preview".
 	CKEDITOR.plugins.add( pluginName, {
@@ -21,7 +20,12 @@
 		icons: 'preview,preview-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			editor.addCommand( pluginName, previewCmd );
+			editor.addCommand( pluginName, {
+				modes: { wysiwyg: 1 },
+				canUndo: false,
+				readOnly: 1,
+				exec: CKEDITOR.plugins.preview.createPreview
+			} );
 			editor.ui.addButton && editor.ui.addButton( 'Preview', {
 				label: editor.lang.preview.preview,
 				command: pluginName,
@@ -88,13 +92,6 @@
 		}
 	};
 
-	previewCmd = {
-		modes: { wysiwyg: 1 },
-		canUndo: false,
-		readOnly: 1,
-		exec: CKEDITOR.plugins.preview.createPreview
-	};
-
 	function createPreviewHtml( editor ) {
 		var pluginPath = CKEDITOR.plugins.getPath( 'preview' ),
 			config = editor.config,
@@ -159,23 +156,13 @@
 	}
 
 	function getWindowDimensions() {
-		try {
-			var screen = window.screen;
+		var screen = window.screen;
 
-			return {
-				width: Math.round( screen.width * 0.8 ),
-				height: Math.round( screen.height * 0.7 ),
-				left: Math.round( screen.width * 0.1 )
-			};
-		} catch ( e ) {
-			return {
-				width: 640,
-				// 800 * 0.8,
-				height: 420,
-				// 600 * 0.7,
-				left: 80 // (800 - 0.8 * 800) /2 = 800 * 0.1
-			};
-		}
+		return {
+			width: Math.round( screen.width * 0.8 ),
+			height: Math.round( screen.height * 0.7 ),
+			left: Math.round( screen.width * 0.1 )
+		};
 	}
 
 	function generateWindowOptions( dimensions ) {
@@ -194,7 +181,7 @@
 
 	function getPreviewLocation() {
 		if ( !CKEDITOR.env.ie ) {
-			return;
+			return null;
 		}
 
 		return 'javascript:void( (function(){' + // jshint ignore:line
