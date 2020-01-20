@@ -61,5 +61,23 @@ bender.test( {
 		}, function( bot ) {
 			assert.isNotUndefined( bot.editor.getCommand( 'preview' ), 'Command is registered' );
 		} );
+	},
+
+	// (#3661)
+	'test preview command is not available in source mode': function() {
+		bender.editorBot.create( {
+			name: 'source-test',
+			startupData: '<p>Foo</p>',
+			config: {
+				startupMode: 'source',
+				plugins: 'preview,sourcearea'
+			}
+		}, function( bot ) {
+			var editor = bot.editor,
+				previewCommand = editor.getCommand( 'preview' );
+
+			assert.isNotUndefined( previewCommand, 'Command is registered' );
+			assert.areSame( previewCommand.state, CKEDITOR.TRISTATE_DISABLED, 'Command is disabled' );
+		} );
 	}
 } );

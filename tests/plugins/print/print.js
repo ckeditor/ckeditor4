@@ -182,5 +182,23 @@ bender.test( {
 			bot.editor.execCommand( 'print' );
 			wait();
 		} );
+	},
+
+	// (#3661)
+	'test print command is not available in source mode': function() {
+		bender.editorBot.create( {
+			name: 'source-test',
+			startupData: '<p>Foo</p>',
+			config: {
+				startupMode: 'source',
+				plugins: 'preview,sourcearea'
+			}
+		}, function( bot ) {
+			var editor = bot.editor,
+				printCommand = editor.getCommand( 'print' );
+
+			assert.isNotUndefined( printCommand, 'Command is registered' );
+			assert.areSame( printCommand.state, CKEDITOR.TRISTATE_DISABLED, 'Command is disabled' );
+		} );
 	}
 } );
