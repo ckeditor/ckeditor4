@@ -66,19 +66,27 @@ bender.test( {
 } );
 
 bender.test({
-  'test dataIndentationChars': function() {
-	var data = '<ol><li>One</li><li>Two</li><li>Three</li></ol>';
+	'test dataIndentationChars': function() {
+	  var data = '<ol><li>One</li><li>Two</li><li>Three</li></ol>';
 
-	bender.editorBot.create( {
-	  name: 'dataIndentationChars',
-	  formattedOutput: true,
-	  config: {
-		dataIndentationChars: ''
-	  }
-	}, function( bot ) {
-	  bot.setData( data, function() {
-		assert.areSame( data, bot.getData( false, false ) );
+	  bender.editorBot.create( {
+		  name: 'dataIndentationChars',
+		  formattedOutput: true,
+		  config: {
+			dataIndentationChars: ''
+		  }
+	  }, function( bot ) {
+		bot.editor.dataProcessor.writer.setRules( 'ol', {
+			indent: true
+		} );
+
+		bot.editor.dataProcessor.writer.setRules( 'li', {
+			indent: true
+		} );
+
+		bot.setData( data, function() {
+			  assert.areSame( data, bot.getData( false, false ) );
+		} );
 	  } );
-	} );
-  }
+	}
 })
