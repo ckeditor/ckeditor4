@@ -10,36 +10,62 @@
 			allowedContent: true
 		}
 	};
-
 	var RTF = [
-		'{\\pict\\picscalex100\\picscaley100\\piccropl0\\piccropr0\\piccropt0\\piccropb0\\picw300\\pich300\\picwgoal3823\\pichgoal3823\\pngblip d76df8e7aefc}',
-		'{\\*\\shppict{\\pict{\\*\\picprop{\\sp{\\sn wzDescription}{\\sv }}{\\sp{\\sn wzName}{\\sv }}}\\picscalex19\\picscaley19\\piccropl0\\piccropr0\\piccropt0' +
-		'\\piccropb0\\picw300\\pich300\\picwgoal3823\\pichgoal3823\\pngblip d76df8e7aefc }}{\\nonshppict{\\pict{\\*\\picprop{'
-	];
+			'{\\pict\\picscalex100\\picscaley100\\piccropl0\\piccropr0\\piccropt0\\piccropb0\\picw300\\pich300\\picwgoal3823\\pichgoal3823\\pngblip d76df8e7aefc}',
+			'{\\*\\shppict{\\pict{\\*\\picprop{\\sp{\\sn wzDescription}{\\sv }}{\\sp{\\sn wzName}{\\sv }}}\\picscalex19\\picscaley19\\piccropl0\\piccropr0\\piccropt0' +
+			'\\piccropb0\\picw300\\pich300\\picwgoal3823\\pichgoal3823\\pngblip d76df8e7aefc }}{\\nonshppict{\\pict{\\*\\picprop{'
+		];
 
-	CKEDITOR.scriptLoader.load( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js', function() {
-		bender.test( {
-			'test image filter should transform 1st type of rtf data': function() {
-				var inputHtml = '<img src="file://foo" />',
-					actual = CKEDITOR.pasteFilters.image( inputHtml, this.editor, RTF[ 0 ] );
+	var tests = {
+		'test image filter should transform 1st type of rtf data': function() {
+			var editor = this.editor;
 
-				assert.areSame( '<img src="data:image/png;base64,12345678" />', actual );
-			},
+			return loadImageFilter()
+				.then( function( imageFilter ) {
+					var inputHtml = '<img src="file://foo" />',
+						actual = imageFilter( inputHtml, editor, RTF[ 0 ] );
 
-			'test image filer should transform 2nd type of rtf data': function() {
-				var inputHtml = '<img src="file://foo" />',
-					actual = CKEDITOR.pasteFilters.image( inputHtml, this.editor, RTF[ 1 ] );
+					assert.areSame( '<img src="data:image/png;base64,12345678" />', actual );
+				} );
+		},
 
-				assert.areSame( '<img src="data:image/png;base64,12345678" />', actual );
-			},
+		'test image filer should transform 2nd type of rtf data': function() {
+			var editor = this.editor;
 
-			'test image filter should not transform non-file images': function() {
-				var inputHtml = '<img src="http://example.com/img.png" />',
-					actual = CKEDITOR.pasteFilters.image( inputHtml, this.editor, RTF[ 0 ] );
+			return loadImageFilter()
+				.then( function( imageFilter ) {
+					var inputHtml = '<img src="file://foo" />',
+						actual = imageFilter( inputHtml, editor, RTF[ 1 ] );
 
-				assert.areSame( '<img src="http://example.com/img.png" />', actual );
-			}
+					assert.areSame( '<img src="data:image/png;base64,12345678" />', actual );
+				} );
+		},
+
+		'test image filter should not transform non-file images': function() {
+			var editor = this.editor;
+
+			return loadImageFilter()
+				.then( function( imageFilter ) {
+					var inputHtml = '<img src="http://example.com/img.png" />',
+						actual = imageFilter( inputHtml, editor, RTF[ 0 ] );
+
+					assert.areSame( '<img src="http://example.com/img.png" />', actual );
+				} );
+		}
+	};
+
+	tests = bender.tools.createAsyncTests( tests );
+	bender.test( tests );
+
+	function loadImageFilter() {
+		return new CKEDITOR.tools.promise( function( resolve, reject ) {
+			CKEDITOR.scriptLoader.load( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js', function( success ) {
+				if ( success ) {
+					resolve( CKEDITOR.pasteFilters.image );
+				} else {
+					reject( 'Couldn\'t load the fitler script' );
+				}
+			} );
 		} );
-	} );
-
+	}
 } )();
