@@ -1,0 +1,28 @@
+<div>
+	<textarea cols="80" id="editor" rows="10">
+		<p>Hello world!</p>
+	</textarea>
+
+	<button id="find-aria-selected">Find aria-selected tab</button>
+
+	<div>Aria value: <span id="aria-value"></span></div>
+
+	<script>
+		CKEDITOR.replace( 'editor' );
+
+		var button = CKEDITOR.document.findOne( '#find-aria-selected' ),
+			result = CKEDITOR.document.findOne( '#aria-value' ),
+			selectedTab;
+
+		button.on( 'click', function() {
+			selectedTab = CKEDITOR.document.findOne( '.cke_dialog_tab_selected' );
+			if ( !selectedTab ) {
+				result.setText( 'Open the dialog first!' );
+			} else {
+				result.setText( String( selectedTab.getAttribute( 'aria-selected' ) ) );
+			}
+
+			result.setStyle( 'color', result.getText() == 'true' ? 'green' : 'red' );
+		} );
+	</script>
+</div>
