@@ -47,17 +47,26 @@
 
 		asyncFilterLoad: function( filters, refference ) {
 			return new CKEDITOR.tools.promise( function( resolve, reject ) {
+				var loaded = 0,
+					i;
+
 				if ( typeof filters == 'string' ) {
 					filters = [ filters ];
 				}
 
-				CKEDITOR.scriptLoader.load( filters, function( completed, failed ) {
-					if ( failed.length > 0 ) {
-						reject( 'Couldn\'t load scripts: "' + failed.join( '", "' ) + '"' );
-					}
+				for ( i = 0; i < filters.length; i++ ) {
+					( function( current ) {
+						CKEDITOR.scriptLoader.queue( current, function( status ) {
+							if ( !status ) {
+								reject( 'Couldn\'t load scripts: "' + current + '".' );
+							}
 
-					resolve( getByString( refference ) );
-				} );
+							if ( ++loaded === filters.length ) {
+								resolve( getByString( refference ) );
+							}
+						} );
+					}( filters[ i ] ) );
+				}
 			} );
 		}
 	};
