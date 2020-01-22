@@ -208,8 +208,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				// The automatic colorbox should represent the real color (https://dev.ckeditor.com/ticket/6010)
 				onOpen: function() {
 					var panel = this._.panel._.iframe.getFrameDocument().getById( this.panelId ),
-						contentColorsRow = panel.findOne( '.cke_colorcontent_row' ),
-						contentColorsLabel = panel.findOne( '.cke_colorcontent_label' ),
+						contentColorsRow = panel.findOne( '.cke_colorcustom_row' ),
+						contentColorsLabel = panel.findOne( '.cke_colorcustom_label' ),
 						clickFn = panel.data( 'clickfn' ),
 						selection = editor.getSelection(),
 						block = selection && selection.getStartElement(),
@@ -399,25 +399,16 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} ) + '</td>' );
 			}
 
-			// Render the "Content Colors" section.
+			// Render the "Custom Colors" section.
 			output.push( '</tr>' +
 				'<tr>' +
 					'<td colspan=' + colorsPerRow + '" align="center">' +
-						'<span class="cke_colorcontent_label" style="display:none">Content Colors</span>' +
+						'<span class="cke_colorcustom_label" style="display:none">Custom Colors</span>' +
 					'</td>' +
 				'</tr>' +
-				'<tr class="cke_colorcontent_row">' );
+				'<tr class="cke_colorcustom_row">' );
 
 			if ( moreColorsEnabled ) {
-				// Render the "Custom Colors" section.
-				output.push( '</tr>' +
-					'<tr>' +
-						'<td colspan=' + colorsPerRow + '" align="center">' +
-							'<span class="cke_colorcustom_label" style="display:none">Custom Colors</span>' +
-						'</td>' +
-					'</tr>' +
-					'<tr class="cke_colorcustom_row">' );
-
 				// Render the "More Colors" button.
 				output.push( '</tr>' +
 					'<tr>' +
