@@ -472,8 +472,15 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				// colorSpans may contain spans with background color when they are not necessary, so here they are being filtered out.
 				var spanColor = span.getStyle( cssProperty );
 
-				if ( spanColor ) {
-					colors.push( normalizeColor( spanColor ).toUpperCase() );
+				if ( !spanColor ) {
+					return;
+				}
+
+				// Color names and RGB are converted here to hex code.
+				if ( spanColor in CKEDITOR.tools.style.parse._colors ) {
+					colors.push( CKEDITOR.tools.style.parse._colors[ spanColor ].substr( 1 ) );
+				} else {
+					colors.push( normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase() );
 				}
 			} );
 
