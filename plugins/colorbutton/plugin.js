@@ -148,7 +148,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				allowedContent: style,
 				requiredContent: style,
 				contentTransformations: contentTransformations,
-				panelId: CKEDITOR.tools.getNextId() + '_' + commandName + '_panel',
 
 				panel: {
 					css: CKEDITOR.skin.getPath( 'editor' ),
@@ -185,7 +184,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
-					block.element.setAttribute( 'id', this.panelId );
 					block.element.setHtml( renderColors( {
 						type: type,
 						colorBoxId: colorBoxId,
@@ -224,7 +222,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				// The automatic colorbox should represent the real color (https://dev.ckeditor.com/ticket/6010)
 				onOpen: function() {
-					var panel = this._.panel._.iframe.getFrameDocument().getById( this.panelId ),
+					var panel = this._.panel.getBlock( this._.id ).element,
 						selection = editor.getSelection(),
 						block = selection && selection.getStartElement(),
 						path = editor.elementPath( block ),
