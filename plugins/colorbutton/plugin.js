@@ -451,7 +451,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		}
 
 		function renderContentColors( options ) {
-			// This function is called on each dialog opening.
+			// This function is called on the first dialog opening.
 			var colorHistoryRow = options.colorHistoryRow,
 				colorHistorySeparator = options.colorHistorySeparator,
 				cssProperty = options.cssProperty,
@@ -470,7 +470,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}, 0, 1 );
 
 			if ( !colorSpans.length ) {
-				colorHistorySeparator.hide();
 				return;
 			}
 
@@ -484,7 +483,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 
 			if ( !colors.length ) {
-				colorHistorySeparator.hide();
 				return;
 			}
 
