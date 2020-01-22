@@ -156,6 +156,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				onBlock: function( panel, block ) {
+					var contentColorsRow,
+						contentColorsLabel,
+						clickFn;
+
 					panelBlock = block;
 
 					block.autoSize = true;
@@ -168,6 +172,19 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						commandName: commandName,
 						panel: panelBlock
 					} ) );
+
+					contentColorsRow = block.element.findOne( '.cke_colorcustom_row' );
+					contentColorsLabel = block.element.findOne( '.cke_colorcustom_label' );
+					clickFn = block.element.data( 'clickfn' );
+
+					renderContentColors( {
+						contentColorsRow: contentColorsRow,
+						contentColorsLabel: contentColorsLabel,
+						cssAttribute: 'color',
+						clickFn: clickFn,
+						type: type
+					} );
+
 					// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
 					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 
@@ -187,22 +204,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				// The automatic colorbox should represent the real color (https://dev.ckeditor.com/ticket/6010)
 				onOpen: function() {
 					var panel = this._.panel._.iframe.getFrameDocument().getById( this.panelId ),
-						contentColorsRow = panel.findOne( '.cke_colorcustom_row' ),
-						contentColorsLabel = panel.findOne( '.cke_colorcustom_label' ),
-						clickFn = panel.data( 'clickfn' ),
 						selection = editor.getSelection(),
 						block = selection && selection.getStartElement(),
 						path = editor.elementPath( block ),
 						cssAttribute = type == 'back' ? 'background-color' : 'color',
 						automaticColor;
-
-					renderContentColors( {
-						contentColorsRow: contentColorsRow,
-						contentColorsLabel: contentColorsLabel,
-						cssAttribute: cssAttribute,
-						clickFn: clickFn,
-						type: type
-					} );
 
 					if ( !path ) {
 						return;
