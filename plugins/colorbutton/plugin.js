@@ -156,8 +156,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				onBlock: function( panel, block ) {
-					var contentColorsRow,
-						contentColorsLabel,
+					var colorHistoryRow,
+						colorHistoryLabel,
 						clickFn;
 
 					panelBlock = block;
@@ -173,13 +173,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						panel: panelBlock
 					} ) );
 
-					contentColorsRow = block.element.findOne( '.cke_colorcustom_row' );
-					contentColorsLabel = block.element.findOne( '.cke_colorcustom_label' );
+					colorHistoryRow = block.element.findOne( '.cke_colorhistory_row' );
+					colorHistoryLabel = block.element.findOne( '.cke_colorhistory_label' );
 					clickFn = block.element.data( 'clickfn' );
 
 					renderContentColors( {
-						contentColorsRow: contentColorsRow,
-						contentColorsLabel: contentColorsLabel,
+						colorHistoryRow: colorHistoryRow,
+						colorHistoryLabel: colorHistoryLabel,
 						cssAttribute: 'color',
 						clickFn: clickFn,
 						type: type
@@ -308,8 +308,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						if ( color ) {
 							setColor( color );
 							addCustomColorToPanel( {
-								customColorsRow: panel.element.findOne( '.cke_colorcustom_row' ),
-								customColorsLabel: panel.element.findOne( '.cke_colorcustom_label' ),
+								colorHistoryRow: panel.element.findOne( '.cke_colorhistory_row' ),
+								colorHistoryLabel: panel.element.findOne( '.cke_colorhistory_label' ),
 								colorHexCode: color.substr( 1 ).toUpperCase(),
 								clickFn: clickFn,
 								type: type,
@@ -320,8 +320,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} else {
 					setColor( color && '#' + color );
 					addCustomColorToPanel( {
-						customColorsRow: panel.element.findOne( '.cke_colorcustom_row' ),
-						customColorsLabel: panel.element.findOne( '.cke_colorcustom_label' ),
+						colorHistoryRow: panel.element.findOne( '.cke_colorhistory_row' ),
+						colorHistoryLabel: panel.element.findOne( '.cke_colorhistory_label' ),
 						colorHexCode: color.toUpperCase(),
 						clickFn: clickFn,
 						type: type,
@@ -388,10 +388,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			output.push( '</tr>' +
 				'<tr>' +
 					'<td colspan=' + colorsPerRow + '" align="center">' +
-						'<span class="cke_colorcustom_label" style="display:none">Custom Colors</span>' +
+						'<span class="cke_colorhistory_label" style="display:none">Custom Colors</span>' +
 					'</td>' +
 				'</tr>' +
-				'<tr class="cke_colorcustom_row">' );
+				'<tr class="cke_colorhistory_row">' );
 
 			if ( moreColorsEnabled ) {
 				// Render the "More Colors" button.
@@ -422,8 +422,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		function renderContentColors( options ) {
 			// This function is called on each dialog opening.
-			var contentColorsRow = options.contentColorsRow,
-				contentColorsLabel = options.contentColorsLabel,
+			var colorHistoryRow = options.colorHistoryRow,
+				colorHistoryLabel = options.colorHistoryLabel,
 				cssAttribute = options.cssAttribute,
 				clickFn = options.clickFn,
 				type = options.type,
@@ -435,12 +435,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				tilePosition = 1;
 
 			// It's more reliable and easier to delete exisiting color tiles and recreate them than to manipulate the old ones.
-			CKEDITOR.tools.array.forEach( contentColorsRow.find( 'td' ).toArray(), function( node ) {
+			CKEDITOR.tools.array.forEach( colorHistoryRow.find( 'td' ).toArray(), function( node ) {
 				node.remove();
 			}, 0, 1 );
 
 			if ( !colorSpans.length ) {
-				contentColorsLabel.hide();
+				colorHistoryLabel.hide();
 				return;
 			}
 
@@ -454,7 +454,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 
 			if ( !colors.length ) {
-				contentColorsLabel.hide();
+				colorHistoryLabel.hide();
 				return;
 			}
 
@@ -496,10 +496,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					setSize: sortedColors.length
 				} ) );
 
-				contentColorsRow.append( colorTile );
+				colorHistoryRow.append( colorTile );
 			} );
 
-			contentColorsLabel.show();
+			colorHistoryLabel.show();
 		}
 
 		function addCustomColorToPanel( options ) {
@@ -509,16 +509,16 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				clickFn = options.clickFn,
 				type = options.type,
 				colorsPerRow = options.colorsPerRow,
-				customColorsRow = options.customColorsRow,
-				customColorsLabel = options.customColorsLabel,
-				chosenColorTile = customColorsRow.findOne( '[data-value="' + colorHexCode + '"]' ),
-				tilesNumber = customColorsRow.getChildCount(),
+				colorHistoryRow = options.colorHistoryRow,
+				colorHistoryLabel = options.colorHistoryLabel,
+				chosenColorTile = colorHistoryRow.findOne( '[data-value="' + colorHexCode + '"]' ),
+				tilesNumber = colorHistoryRow.getChildCount(),
 				existingTiles;
 
 			if ( chosenColorTile ) {
 				// If the same color is chosen again, find the old tile and move it to the beginning
 				// instead of creating a new one.
-				customColorsRow.append( chosenColorTile.getParent(), true );
+				colorHistoryRow.append( chosenColorTile.getParent(), true );
 			} else {
 				var colorTile = new CKEDITOR.dom.element( 'td' );
 
@@ -532,15 +532,15 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					setSize: tilesNumber <= colorsPerRow ? tilesNumber : tilesNumber - 1
 				} ) );
 
-				customColorsRow.append( colorTile, true );
+				colorHistoryRow.append( colorTile, true );
 
 				// If tile limit was exceeded, remove the oldest tile.
 				if ( tilesNumber > colorsPerRow ) {
-					customColorsRow.getChild( colorsPerRow ).remove();
+					colorHistoryRow.getChild( colorsPerRow ).remove();
 				}
 			}
 
-			existingTiles = customColorsRow.getChildren().toArray();
+			existingTiles = colorHistoryRow.getChildren().toArray();
 
 			for ( var i = 0; i < existingTiles.length; i++ ) {
 				existingTiles[ i ].getChild( 0 ).setAttributes( {
@@ -549,7 +549,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} );
 			}
 
-			customColorsLabel.show();
+			colorHistoryLabel.show();
 		}
 
 		function generateTileHtml( options ) {
