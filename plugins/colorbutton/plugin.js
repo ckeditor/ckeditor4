@@ -201,7 +201,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					renderContentColors( {
 						colorHistoryRow: colorHistoryRow,
 						colorHistoryLabel: colorHistoryLabel,
-						cssAttribute: type == 'back' ? 'background-color' : 'color',
+						cssProperty: type == 'back' ? 'background-color' : 'color',
 						clickFn: clickFn,
 						type: type
 					} );
@@ -228,7 +228,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						selection = editor.getSelection(),
 						block = selection && selection.getStartElement(),
 						path = editor.elementPath( block ),
-						cssAttribute = type == 'back' ? 'background-color' : 'color',
+						cssProperty = type == 'back' ? 'background-color' : 'color',
 						automaticColor;
 
 					if ( !path ) {
@@ -240,7 +240,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					// The background color might be transparent. In that case, look up the color in the DOM tree.
 					do {
-						automaticColor = block && block.getComputedStyle( cssAttribute ) || 'transparent';
+						automaticColor = block && block.getComputedStyle( cssProperty ) || 'transparent';
 					}
 					while ( type == 'back' && automaticColor == 'transparent' && block && ( block = block.getParent() ) );
 
@@ -267,7 +267,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								element = element.getParent();
 							}
 
-							currentColor = normalizeColor( element.getComputedStyle( cssAttribute ) );
+							currentColor = normalizeColor( element.getComputedStyle( cssProperty ) );
 							finalColor = finalColor || currentColor;
 
 							if ( finalColor !== currentColor ) {
@@ -454,10 +454,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			// This function is called on each dialog opening.
 			var colorHistoryRow = options.colorHistoryRow,
 				colorHistoryLabel = options.colorHistoryLabel,
-				cssAttribute = options.cssAttribute,
+				cssProperty = options.cssProperty,
 				clickFn = options.clickFn,
 				type = options.type,
-				colorSpans = editor.editable().find( 'span[style*=' + cssAttribute + ']' ).toArray(),
+				colorSpans = editor.editable().find( 'span[style*=' + cssProperty + ']' ).toArray(),
 				colors = [],
 				colorOccurrences = {},
 				sortedColors = [],
@@ -476,7 +476,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			CKEDITOR.tools.array.forEach( colorSpans, function( span ) {
 				// colorSpans may contain spans with background color when they are not necessary, so here they are being filtered out.
-				var spanColor = span.getStyle( cssAttribute );
+				var spanColor = span.getStyle( cssProperty );
 
 				if ( spanColor ) {
 					colors.push( normalizeColor( spanColor ).toUpperCase() );
