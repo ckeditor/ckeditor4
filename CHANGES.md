@@ -13,11 +13,13 @@ Fixed Issues:
 
 * [#3587](https://github.com/ckeditor/ckeditor4/issues/3587): [Edge, IE] Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) with form input elements loses focus during typing.
 * [#3705](https://github.com/ckeditor/ckeditor4/issues/3705): [Safari] Fixed: Safari incorrectly removes blocks with [`editor.extractSelectedHtml()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-extractSelectedHtml) method after selecting all content.
+* [#1306](https://github.com/ckeditor/ckeditor-dev/issues/1306): Fixed: [Font](https://ckeditor.com/cke4/addon/colorbutton) plugin creates nested HTML `span` tags when reapplying the same font multiple times.
 
 API Changes:
 
 * [#3387](https://github.com/ckeditor/ckeditor-dev/issues/3387): Added the [CKEDITOR.ui.richCombo#select](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_richCombo.html#method-select) method.
 * [#3306](https://github.com/ckeditor/ckeditor-dev/issues/3306): Added new commands `textColor` and `bgColor` which applies the selected color choosen by the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) plugin.
+* [#3728](https://github.com/ckeditor/ckeditor-dev/issues/3306): Added new commands `font` and `fontSize` which applies the selected font style choosen by the [Font](https://ckeditor.com/cke4/addon/colorbutton) plugin.
 
 ## CKEditor 4.13.1
 
