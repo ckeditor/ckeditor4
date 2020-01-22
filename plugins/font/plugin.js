@@ -4,42 +4,155 @@
  */
 
 ( function() {
-	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order ) {
-		var config = editor.config,
-			style = new CKEDITOR.style( styleDefinition );
+	var StyleData = CKEDITOR.tools.createClass( {
+		// @param {Object} options
+		// @param {String} options.entries Values from the configuration used to build richcombo.
+		// Values should be obtained from ( CKEDITOR.config#fontSize_sizes | CKEDITOR.config#font_names )
+		// @param {String} options.styleVariable variable name used in style definition to build proper CKEDITOR.style.
+		// By default it should be: ( 'size' | 'family' )
+		// @param {Object} options.styleDefinition template used to build each individual style definition based on entries.
+		// Values should be obtained from ( CKEDITOR.config#fontSize_style | CKEDITOR.config#font_style )
+		$: function( options ) {
+			var entries = options.entries.split( ';' );
 
-		// Gets the list of fonts from the settings.
-		var names = entries.split( ';' ),
-			values = [];
+			this._.data = {};
+			this._.names = [];
 
-		// Create style objects for all fonts.
-		var styles = {};
-		for ( var i = 0; i < names.length; i++ ) {
-			var parts = names[ i ];
+			for ( var i = 0; i < entries.length; i++ ) {
+				var parts = entries[ i ],
+					name,
+					value,
+					vars;
 
-			if ( parts ) {
-				parts = parts.split( '/' );
+				if ( parts ) {
+					parts = parts.split( '/' );
+					name = parts[ 0 ];
+					value = parts[ 1 ];
+					vars = {};
 
-				var vars = {},
-					name = names[ i ] = parts[ 0 ];
+					vars[ options.styleVariable ] = value || name;
 
-				vars[ styleType ] = values[ i ] = parts[ 1 ] || name;
+					this._.data[ name ] = new CKEDITOR.style( options.styleDefinition, vars );
+					this._.data[ name ]._.definition.name = name;
 
-				styles[ name ] = new CKEDITOR.style( styleDefinition, vars );
-				styles[ name ]._.definition.name = name;
-			} else {
-				names.splice( i--, 1 );
+					this._.names.push( name );
+				} else {
+					entries.splice( i, 1 );
+					i--;
+				}
+			}
+		},
+
+		proto: {
+			getStyle: function( name ) {
+				return this._.data[ name ];
+			},
+
+			addToCombo: function( combo ) {
+				for ( var i = 0; i < this._.names.length; i++ ) {
+					var name = this._.names[ i ];
+					combo.add( name, this.getStyle( name ).buildPreview(), name );
+				}
+			},
+
+			getMatchingValue: function( editor, path ) {
+				var elements = path.elements;
+
+				for ( var i = 0, element, value; i < elements.length; i++ ) {
+					element = elements[ i ];
+
+					// Check if the element is removable by any of the styles.
+					value = this._.findMatchingStyleName( editor, element );
+
+					if ( value ) {
+						return value;
+					}
+				}
+
+				return null;
+			}
+		},
+
+		_: {
+			findMatchingStyleName: function( editor, element ) {
+				return CKEDITOR.tools.array.find( this._.names, function( name ) {
+					return this.getStyle( name ).checkElementMatch( element, true, editor );
+				}, this );
 			}
 		}
+	} );
 
-		editor.ui.addRichCombo( comboName, {
+	// @param {CKEDITOR.editor} editor
+	// @param {Object} definition
+	// @param {String} definition.comboName
+	// @oaram {String} definition.commandName name used to register command in editor
+	// @param {String} definition.styleVariable it has value 'size' or 'family'
+	// @param {Object} definition.lang reference to lang object used for given combo
+	// @param {String} definition.entries values used for given combo options
+	// @param {String} definition.defaultLabel label used to describe default value
+	// @param {Object} definition.styleDefinition object representing defintion for given font combo obtained from the configuration
+	// @param {Number} definition.order value used to position icon in toolbar
+	function addCombo( editor, definition ) {
+		var config = editor.config,
+			lang = definition.lang,
+			defaultContentStyle = new CKEDITOR.style( definition.styleDefinition ),
+			stylesData = new StyleData( {
+				entries: definition.entries,
+				styleVariable: definition.styleVariable,
+				styleDefinition: definition.styleDefinition
+			} ),
+			command;
+
+		editor.addCommand( definition.commandName , {
+			exec: function( editor, data ) {
+				var newStyle = data.newStyle,
+					oldStyle = data.oldStyle,
+					range = editor.getSelection().getRanges()[ 0 ],
+					isRemove = newStyle === undefined;
+
+				if ( !oldStyle && !newStyle ) {
+					return;
+				}
+
+				// If the range is collapsed we can't simply use the editor.removeStyle method
+				// because it will remove the entire element and we want to split it instead.
+				if ( oldStyle && range.collapsed ) {
+					splitElementOnCollapsedRange( {
+						editor: editor,
+						range: range,
+						style: oldStyle
+					} );
+				}
+
+				if ( isRemove ) {
+					editor.removeStyle( oldStyle );
+				} else {
+					if ( oldStyle && !isEqualStyle( oldStyle, newStyle ) ) {
+						editor.removeStyle( oldStyle );
+					}
+
+					editor.applyStyle( newStyle );
+				}
+			},
+
+			refresh: function( editor, path ) {
+				if ( !defaultContentStyle.checkApplicable( path, editor, editor.activeFilter ) ) {
+					this.setState( CKEDITOR.TRISTATE_DISABLED );
+				}
+			}
+		} );
+
+		command = editor.getCommand( definition.commandName );
+
+		editor.ui.addRichCombo( definition.comboName, {
 			label: lang.label,
 			title: lang.panelTitle,
-			toolbar: 'styles,' + order,
+			command: definition.commandName,
+			toolbar: 'styles,' + definition.order,
 			defaultValue: 'cke-default',
-			allowedContent: style,
-			requiredContent: style,
-			contentTransformations: styleDefinition.element === 'span' ? [
+			allowedContent: defaultContentStyle,
+			requiredContent: defaultContentStyle,
+			contentTransformations: definition.styleDefinition.element === 'span' ? [
 				[
 					{
 						element: 'font',
@@ -88,131 +201,125 @@
 			},
 
 			init: function() {
-				var name,
-					defaultText = '(' + editor.lang.common.optionDefault + ')';
+				var defaultText = '(' + editor.lang.common.optionDefault + ')';
 
 				this.startGroup( lang.panelTitle );
 
 				// Add `(Default)` item as a first element on the drop-down list.
 				this.add( this.defaultValue, defaultText, defaultText );
 
-				for ( var i = 0; i < names.length; i++ ) {
-					name = names[ i ];
-					// Add the tag entry to the panel list.
-					this.add( name, styles[ name ].buildPreview(), name );
-				}
+				stylesData.addToCombo( this );
 			},
 
-			onClick: function( value ) {
-				editor.focus();
-				editor.fire( 'saveSnapshot' );
-
-				var previousValue = this.getValue(),
-					style = styles[ value ],
-					previousStyle,
-					range,
-					path,
-					matching,
-					startBoundary,
-					endBoundary,
-					node,
-					bm;
-
-				// When applying one style over another, first remove the previous one (https://dev.ckeditor.com/ticket/12403).
-				// NOTE: This is only a temporary fix. It will be moved to the styles system (https://dev.ckeditor.com/ticket/12687).
-				if ( previousValue && value != previousValue ) {
-					previousStyle = styles[ previousValue ];
-					range = editor.getSelection().getRanges()[ 0 ];
-
-					// If the range is collapsed we can't simply use the editor.removeStyle method
-					// because it will remove the entire element and we want to split it instead.
-					if ( range.collapsed ) {
-						path = editor.elementPath();
-						// Find the style element.
-						matching = path.contains( function( el ) {
-							return previousStyle.checkElementRemovable( el );
-						} );
-
-						if ( matching ) {
-							startBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.START );
-							endBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.END );
-
-							// If we are at both boundaries it means that the element is empty.
-							// Remove it but in a way that we won't lose other empty inline elements inside it.
-							// Example: <p>x<span style="font-size:48px"><em>[]</em></span>x</p>
-							// Result: <p>x<em>[]</em>x</p>
-							if ( startBoundary && endBoundary ) {
-								bm = range.createBookmark();
-								// Replace the element with its children (TODO element.replaceWithChildren).
-								while ( ( node = matching.getFirst() ) ) {
-									node.insertBefore( matching );
-								}
-								matching.remove();
-								range.moveToBookmark( bm );
-
-							// If we are at the boundary of the style element, move out and copy nested styles/elements.
-							} else if ( startBoundary || endBoundary ) {
-								range.moveToPosition( matching, startBoundary ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_END );
-								cloneSubtreeIntoRange( range, path.elements.slice(), matching );
-							} else {
-								// Split the element and clone the elements that were in the path
-								// (between the startContainer and the matching element)
-								// into the new place.
-								range.splitElement( matching );
-								range.moveToPosition( matching, CKEDITOR.POSITION_AFTER_END );
-								cloneSubtreeIntoRange( range, path.elements.slice(), matching );
-							}
-
-							editor.getSelection().selectRanges( [ range ] );
-						}
-					} else {
-						editor.removeStyle( previousStyle );
-					}
-				}
-
-				if ( value === this.defaultValue ) {
-					if ( previousStyle ) {
-						editor.removeStyle( previousStyle );
-					}
-				} else {
-					editor.applyStyle( style );
-				}
-
-				editor.fire( 'saveSnapshot' );
-			},
+			onClick: onClickHandler,
 
 			onRender: function() {
 				editor.on( 'selectionChange', function( ev ) {
-					var currentValue = this.getValue();
+					var currentValue = this.getValue(),
+						elementPath = ev.data.path,
+						value = stylesData.getMatchingValue( editor, elementPath );
 
-					var elementPath = ev.data.path,
-						elements = elementPath.elements;
-
-					// For each element into the elements path.
-					for ( var i = 0, element; i < elements.length; i++ ) {
-						element = elements[ i ];
-
-						// Check if the element is removable by any of
-						// the styles.
-						for ( var value in styles ) {
-							if ( styles[ value ].checkElementMatch( element, true, editor ) ) {
-								if ( value != currentValue )
-									this.setValue( value );
-								return;
-							}
+					if ( value ) {
+						if ( value != currentValue ) {
+							this.setValue( value );
 						}
+
+						return;
 					}
 
 					// If no styles match, just empty it.
-					this.setValue( '', defaultLabel );
+					this.setValue( '', definition.defaultLabel );
+				}, this );
+
+				command.on( 'state', function() {
+					this.setState( command.state );
 				}, this );
 			},
 
 			refresh: function() {
-				if ( !editor.activeFilter.check( style ) )
-					this.setState( CKEDITOR.TRISTATE_DISABLED );
+				this.setState( command.state );
 			}
 		} );
+
+		function onClickHandler( newValue ) {
+			var oldValue = this.getValue();
+
+			editor.focus();
+
+			editor.fire( 'saveSnapshot' );
+
+			editor.execCommand( definition.commandName, {
+				newStyle: stylesData.getStyle( newValue ),
+				oldStyle: stylesData.getStyle( oldValue )
+			} );
+
+			editor.fire( 'saveSnapshot' );
+		}
+	}
+
+	function isEqualStyle( styleA, styleB ) {
+		if ( !( styleA instanceof CKEDITOR.style ) || !( styleB instanceof CKEDITOR.style ) ) {
+			return false;
+		}
+
+		return CKEDITOR.style.getStyleText( styleA.getDefinition() ) === CKEDITOR.style.getStyleText( styleB.getDefinition() );
+	}
+
+	//  * @param {Object} options
+	//  * @param {CKEDITOR.editor} options.editor instance of the editor
+	//  * @param {CKEDITOR.dom.range} options.range analyzed range
+	//  * @param {CKEDITOR.style} options.style old style which might already exist on this range
+	function splitElementOnCollapsedRange( options ) {
+		var editor = options.editor,
+			range = options.range,
+			style = options.style,
+			path,
+			matching,
+			startBoundary,
+			endBoundary,
+			node,
+			bm;
+
+		path = editor.elementPath();
+		// Find the style element.
+		matching = path.contains( function( el ) {
+			return style.checkElementRemovable( el );
+		} );
+
+		if ( !matching ) {
+			return;
+		}
+
+		startBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.START );
+		endBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.END );
+
+		// If we are at both boundaries it means that the element is empty.
+		// Remove it but in a way that we won't lose other empty inline elements inside it.
+		// Example: <p>x<span style="font-size:48px"><em>[]</em></span>x</p>
+		// Result: <p>x<em>[]</em>x</p>
+		if ( startBoundary && endBoundary ) {
+			bm = range.createBookmark();
+			// Replace the element with its children (TODO element.replaceWithChildren).
+			while ( ( node = matching.getFirst() ) ) {
+				node.insertBefore( matching );
+			}
+			matching.remove();
+			range.moveToBookmark( bm );
+
+		// If we are at the boundary of the style element, move out and copy nested styles/elements.
+		} else if ( startBoundary || endBoundary ) {
+			range.moveToPosition( matching, startBoundary ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_END );
+			cloneSubtreeIntoRange( range, path.elements.slice(), matching );
+		} else {
+			// Split the element and clone the elements that were in the path
+			// (between the startContainer and the matching element)
+			// into the new place.
+			range.splitElement( matching );
+			range.moveToPosition( matching, CKEDITOR.POSITION_AFTER_END );
+			cloneSubtreeIntoRange( range, path.elements.slice(), matching );
+		}
+
+		editor.getSelection().selectRanges( [ range ] );
 	}
 
 	// Clones the subtree between subtreeStart (exclusive) and the
@@ -247,8 +354,26 @@
 		init: function( editor ) {
 			var config = editor.config;
 
-			addCombo( editor, 'Font', 'family', editor.lang.font, config.font_names, config.font_defaultLabel, config.font_style, 30 );
-			addCombo( editor, 'FontSize', 'size', editor.lang.font.fontSize, config.fontSize_sizes, config.fontSize_defaultLabel, config.fontSize_style, 40 );
+			addCombo( editor, {
+				comboName: 'Font',
+				commandName: 'font',
+				styleVariable: 'family',
+				lang: editor.lang.font,
+				entries: config.font_names,
+				defaultLabel: config.font_defaultLabel,
+				styleDefinition: config.font_style,
+				order: 30
+			} );
+			addCombo( editor, {
+				comboName: 'FontSize',
+				commandName: 'fontSize',
+				styleVariable: 'size',
+				lang: editor.lang.font.fontSize,
+				entries: config.fontSize_sizes,
+				defaultLabel: config.fontSize_defaultLabel,
+				styleDefinition: config.fontSize_style,
+				order: 40
+			} );
 		}
 	} );
 } )();

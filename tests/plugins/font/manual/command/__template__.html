@@ -1,0 +1,81 @@
+<style>
+	#message {
+		list-style: none;
+		padding: 5px;
+		border: 1px solid red;
+	}
+
+	#message li {
+		margin-bottom: 15px;
+	}
+
+	#message code {
+		background-color: #dddddd
+	}
+</style>
+
+<div id="editor">
+	<p>This is unstyled text.</p>
+
+	<p><span style="font-family:Courier New,Courier,monospace">This text has Courier New font family.</span></p>
+
+	<p><span style="font-size:20px">This text has font size set to 20.</span></p>
+</div>
+
+<div>
+	<p>This is style indicator showing applied/removed styles related to manual test. Only last 5 commands are presented.</p>
+	<ul id="message">
+		<li>Here will be present information about executed command (font and fontSize).</li>
+	</ul>
+</div>
+
+<script>
+	var index = 1,
+		messageElement = new CKEDITOR.dom.element( document.getElementById( 'message' ) );
+		messages = [];
+
+	var editor = CKEDITOR.replace( 'editor', {
+		height: 400,
+		on: {
+			'beforeCommandExec': function( evt ) {
+				if ( evt.data.name === 'font' || evt.data.name === 'fontSize' ) {
+					updateStatus( evt.data.name, evt.data.commandData )
+				}
+			}
+		}
+	} );
+
+	function updateStatus( commandName, commandData ) {
+		var styleName = commandName === 'font' ? 'font-family' : 'font-size',
+			message = index + '. <code>' + commandName + '</code> command is executed ',
+			type = '';
+
+		if ( !commandData.newStyle && !commandData.oldStyle ) {
+			return;
+		}
+
+		if ( !commandData.newStyle ) {
+			message += 'which removes style: <code>' + styleName + '</code> with value: <code>' + commandData.oldStyle.getDefinition().styles[ styleName ] + '</code>.'
+		} else if ( !commandData.oldStyle ){
+			message += 'which applies style: <code>' + styleName + '</code> with value: <code>' + commandData.newStyle.getDefinition().styles[ styleName ] + '</code>.';
+		} else {
+			message += 'which applies style: <code>' + styleName + '</code> with value: <code>' + commandData.newStyle.getDefinition().styles[ styleName ] +
+				'</code> and removes style: <code>' + styleName + '</code> with value: <code>' + commandData.oldStyle.getDefinition().styles[ styleName ] + '</code>.';
+		}
+
+		messages.push( message );
+		if ( window.console ) {
+			console.log( message );
+		}
+
+		if ( messages.length > 5 ) {
+			messages = messages.slice( messages.length - 5, messages.length );
+		}
+
+		messageElement.setHtml( CKEDITOR.tools.array.reduce( messages, function( acc, msg ) {
+			return acc + '<li>' + msg + '</li>'
+		}, '' ) );
+
+		index++;
+	}
+</script>
