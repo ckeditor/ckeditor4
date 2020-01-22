@@ -201,8 +201,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				// The automatic colorbox should represent the real color (https://dev.ckeditor.com/ticket/6010)
 				onOpen: function() {
-					var panel = this._.panel.getBlock( this._.id ).element,
-						selection = editor.getSelection(),
+					var selection = editor.getSelection(),
 						block = selection && selection.getStartElement(),
 						path = editor.elementPath( block ),
 						cssProperty = type == 'back' ? 'background-color' : 'color',
@@ -227,7 +226,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					}
 
 					if ( config.colorButton_enableAutomatic !== false ) {
-						panel.findOne( '#' + colorBoxId ).setStyle( 'background-color', automaticColor );
+						panelBlock.element.findOne( '#' + colorBoxId ).setStyle( 'background-color', automaticColor );
 					}
 
 					var range = selection && selection.getRanges()[ 0 ];
