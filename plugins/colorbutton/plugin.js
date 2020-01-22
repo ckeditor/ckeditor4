@@ -156,7 +156,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				onBlock: function( panel, block ) {
 					var colorHistoryRow,
-						colorHistoryLabel,
+						colorHistorySeparator,
 						clickFn;
 
 					panelBlock = block;
@@ -172,12 +172,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					} ) );
 
 					colorHistoryRow = block.element.findOne( '.cke_colorhistory_row' );
-					colorHistoryLabel = block.element.findOne( '.cke_colorhistory_label' );
+					colorHistorySeparator = block.element.findOne( '.cke_colorhistory_separator' );
 					clickFn = block.element.data( 'clickfn' );
 
 					renderContentColors( {
 						colorHistoryRow: colorHistoryRow,
-						colorHistoryLabel: colorHistoryLabel,
+						colorHistorySeparator: colorHistorySeparator,
 						cssProperty: type == 'back' ? 'background-color' : 'color',
 						clickFn: clickFn,
 						type: type
@@ -307,7 +307,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 							setColor( color );
 							addCustomColorToPanel( {
 								colorHistoryRow: panel.element.findOne( '.cke_colorhistory_row' ),
-								colorHistoryLabel: panel.element.findOne( '.cke_colorhistory_label' ),
+								colorHistorySeparator: panel.element.findOne( '.cke_colorhistory_separator' ),
 								colorHexCode: color.substr( 1 ).toUpperCase(),
 								clickFn: clickFn,
 								type: type,
@@ -319,7 +319,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					setColor( color && '#' + color );
 					addCustomColorToPanel( {
 						colorHistoryRow: panel.element.findOne( '.cke_colorhistory_row' ),
-						colorHistoryLabel: panel.element.findOne( '.cke_colorhistory_label' ),
+						colorHistorySeparator: panel.element.findOne( '.cke_colorhistory_separator' ),
 						colorHexCode: color.toUpperCase(),
 						clickFn: clickFn,
 						type: type,
@@ -332,23 +332,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			panel.element.data( 'clickfn', clickFn );
 
 			if ( config.colorButton_enableAutomatic !== false ) {
-				// Render the "Automatic" button.
-				output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
-					' title="' + lang.auto + '"' +
-					' draggable="false"' +
-					' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-					' onclick="CKEDITOR.tools.callFunction(' + clickFn + ',null,\'' + type + '\');return false;"' +
-					' href="javascript:void(\'' + lang.auto + '\')"' +
-					' role="option" aria-posinset="1" aria-setsize="' + total + '">' +
-						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
-							'<tr>' +
-								'<td colspan="' + colorsPerRow + '" align="center">' +
-									'<span class="cke_colorbox" id="' + colorBoxId + '"></span>' + lang.auto +
-								'</td>' +
-							'</tr>' +
-						'</table>' +
-					'</a>' );
+				output.push( generateAutomaticButtonHtml() );
 			}
+
 			output.push( '<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' );
 
 			// Render the color boxes.
@@ -382,34 +368,60 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} ) + '</td>' );
 			}
 
-			// Render the "Custom Colors" section.
-			output.push( '</tr>' +
-				'<tr>' +
-					'<td colspan=' + colorsPerRow + '" align="center">' +
-						'<span class="cke_colorhistory_label" style="display:none">Custom Colors</span>' +
-					'</td>' +
-				'</tr>' +
-				'<tr class="cke_colorhistory_row">' );
+			output.push( generateColorHistoryRowHtml() );
 
 			if ( moreColorsEnabled ) {
-				// Render the "More Colors" button.
-				output.push( '</tr>' +
-					'<tr>' +
-						'<td colspan="' + colorsPerRow + '" align="center">' +
-							'<a class="cke_colormore" _cke_focus=1 hidefocus=true' +
-								' title="', lang.more, '"' +
-								' draggable="false"' +
-								' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-								' onclick="CKEDITOR.tools.callFunction(' + clickFn, ',\'?\',\'' + type, '\');return false;"' +
-								' href="javascript:void(\'' + lang.more + '\')"' + ' role="option" aria-posinset="' + total +
-								'" aria-setsize="' + total + '">' + lang.more +
-							'</a>' +
-						'</td>' ); // tr is later in the code.
+				output.push( generateMoreColorsButtonHtml() );
 			}
 
 			output.push( '</tr></table>' );
 
 			return output.join( '' );
+
+			// Helper functions.
+
+			function generateAutomaticButtonHtml() {
+				return '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
+					' title="' + lang.auto + '"' +
+					' draggable="false"' +
+					' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
+					' onclick="CKEDITOR.tools.callFunction(' + clickFn + ',null,\'' + type + '\');return false;"' +
+					' href="javascript:void(\'' + lang.auto + '\')"' +
+					' role="option" aria-posinset="1" aria-setsize="' + total + '">' +
+						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
+							'<tr>' +
+								'<td colspan="' + colorsPerRow + '" align="center">' +
+									'<span class="cke_colorbox" id="' + colorBoxId + '"></span>' + lang.auto +
+								'</td>' +
+							'</tr>' +
+						'</table>' +
+					'</a>';
+			}
+
+			function generateColorHistoryRowHtml() {
+				return '</tr>' +
+					'<tr>' +
+						'<td colspan="' + colorsPerRow + '" align="center">' +
+							'<span class="cke_colorhistory_separator" style="display:none"><hr></span>' +
+						'</td>' +
+					'</tr>' +
+					'<tr class="cke_colorhistory_row">'; // </tr> is later in the code.
+			}
+
+			function generateMoreColorsButtonHtml() {
+				return '</tr>' +
+					'<tr>' +
+						'<td colspan="' + colorsPerRow + '" align="center">' +
+							'<a class="cke_colormore" _cke_focus=1 hidefocus=true' +
+								' title="' + lang.more + '"' +
+								' draggable="false"' +
+								' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
+								' onclick="CKEDITOR.tools.callFunction(' + clickFn + ',\'?\',\'' + type + '\');return false;"' +
+								' href="javascript:void(\'' + lang.more + '\')"' + ' role="option" aria-posinset="' + total +
+								'" aria-setsize="' + total + '">' + lang.more +
+							'</a>' +
+						'</td>'; // </tr> is later in the code.
+			}
 
 			function setColor( color ) {
 				var colorStyle = color && new CKEDITOR.style( colorStyleTemplate, { color: color } );
@@ -421,7 +433,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function renderContentColors( options ) {
 			// This function is called on each dialog opening.
 			var colorHistoryRow = options.colorHistoryRow,
-				colorHistoryLabel = options.colorHistoryLabel,
+				colorHistorySeparator = options.colorHistorySeparator,
 				cssProperty = options.cssProperty,
 				clickFn = options.clickFn,
 				type = options.type,
@@ -438,7 +450,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}, 0, 1 );
 
 			if ( !colorSpans.length ) {
-				colorHistoryLabel.hide();
+				colorHistorySeparator.hide();
 				return;
 			}
 
@@ -452,7 +464,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 
 			if ( !colors.length ) {
-				colorHistoryLabel.hide();
+				colorHistorySeparator.hide();
 				return;
 			}
 
@@ -497,7 +509,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorHistoryRow.append( colorTile );
 			} );
 
-			colorHistoryLabel.show();
+			colorHistorySeparator.show();
 		}
 
 		function addCustomColorToPanel( options ) {
@@ -508,7 +520,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				type = options.type,
 				colorsPerRow = options.colorsPerRow,
 				colorHistoryRow = options.colorHistoryRow,
-				colorHistoryLabel = options.colorHistoryLabel,
+				colorHistorySeparator = options.colorHistorySeparator,
 				chosenColorTile = colorHistoryRow.findOne( '[data-value="' + colorHexCode + '"]' ),
 				tilesNumber = colorHistoryRow.getChildCount(),
 				existingTiles;
@@ -547,7 +559,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} );
 			}
 
-			colorHistoryLabel.show();
+			colorHistorySeparator.show();
 		}
 
 		function generateTileHtml( options ) {
