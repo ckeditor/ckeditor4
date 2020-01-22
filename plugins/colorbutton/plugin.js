@@ -201,7 +201,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					renderContentColors( {
 						colorHistoryRow: colorHistoryRow,
 						colorHistoryLabel: colorHistoryLabel,
-						cssAttribute: 'color',
+						cssAttribute: type == 'back' ? 'background-color' : 'color',
 						clickFn: clickFn,
 						type: type
 					} );
