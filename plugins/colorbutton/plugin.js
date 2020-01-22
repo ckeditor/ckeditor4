@@ -313,7 +313,16 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					}, null, colorData );
 				} else {
 					setColor( color && '#' + color );
+					addCustomColorToPanel( {
+						customColorsRow: panel.element.findOne( '.cke_colorcustom_row' ),
+						customColorsLabel: panel.element.findOne( '.cke_colorcustom_label' ),
+						colorHexCode: color.toUpperCase(),
+						clickFn: clickFn,
+						type: type,
+						colorsPerRow: colorsPerRow
+					} );
 				}
+
 			} );
 
 			panel.element.data( 'clickfn', clickFn );
