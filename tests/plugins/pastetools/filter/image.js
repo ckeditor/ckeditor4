@@ -1,5 +1,7 @@
 /* bender-tags: editor,pastetools,imagefilter */
 /* bender-ckeditor-plugins: wysiwygarea,pastetools,font,toolbar */
+/* bender-include: ../_helpers/ptTools.js */
+/* global ptTools */
 
 ( function() {
 	'use strict';
@@ -18,9 +20,10 @@
 
 	var tests = {
 		'test image filter should transform 1st type of rtf data': function() {
-			var editor = this.editor;
+			var editor = this.editor,
+				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js';
 
-			return loadImageFilter()
+			return ptTools.asyncFilterLoad( filterPath, 'CKEDITOR.pasteFilters.image' )
 				.then( function( imageFilter ) {
 					var inputHtml = '<img src="file://foo" />',
 						actual = imageFilter( inputHtml, editor, RTF[ 0 ] );
@@ -30,9 +33,10 @@
 		},
 
 		'test image filer should transform 2nd type of rtf data': function() {
-			var editor = this.editor;
+			var editor = this.editor,
+				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js';
 
-			return loadImageFilter()
+			return ptTools.asyncFilterLoad( filterPath, 'CKEDITOR.pasteFilters.image' )
 				.then( function( imageFilter ) {
 					var inputHtml = '<img src="file://foo" />',
 						actual = imageFilter( inputHtml, editor, RTF[ 1 ] );
@@ -42,9 +46,10 @@
 		},
 
 		'test image filter should not transform non-file images': function() {
-			var editor = this.editor;
+			var editor = this.editor,
+				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js';
 
-			return loadImageFilter()
+			return ptTools.asyncFilterLoad( filterPath, 'CKEDITOR.pasteFilters.image' )
 				.then( function( imageFilter ) {
 					var inputHtml = '<img src="http://example.com/img.png" />',
 						actual = imageFilter( inputHtml, editor, RTF[ 0 ] );
@@ -56,16 +61,4 @@
 
 	tests = bender.tools.createAsyncTests( tests );
 	bender.test( tests );
-
-	function loadImageFilter() {
-		return new CKEDITOR.tools.promise( function( resolve, reject ) {
-			CKEDITOR.scriptLoader.load( CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js', function( success ) {
-				if ( success ) {
-					resolve( CKEDITOR.pasteFilters.image );
-				} else {
-					reject( 'Couldn\'t load the fitler script' );
-				}
-			} );
-		} );
-	}
 } )();

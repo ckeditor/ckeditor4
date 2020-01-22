@@ -43,7 +43,39 @@
 
 				bender.test( tests );
 			} );
+		},
+
+		asyncFilterLoad: function( filters, refference ) {
+			return new CKEDITOR.tools.promise( function( resolve, reject ) {
+				if ( typeof filters == 'string' ) {
+					filters = [ filters ];
+				}
+
+				CKEDITOR.scriptLoader.load( filters, function( completed, failed ) {
+					if ( failed.length > 0 ) {
+						reject( 'Couldn\'t load scripts: "' + failed.join( '", "' ) + '"' );
+					}
+
+					resolve( getByString( refference ) );
+				} );
+			} );
 		}
 	};
+
+	function getByString( refference ) {
+		var keyNames = refference.split( '.' ),
+			i,
+			currentObject = window;
+
+		for ( i = 0; i < keyNames.length; i++ ) {
+			if ( keyNames[ i ] in currentObject ) {
+				currentObject = currentObject[ keyNames[ i ] ];
+			} else {
+				throw new Error( 'Cannot find property: ' + keyNames[ i ] );
+			}
+		}
+
+		return currentObject;
+	}
 } )();
 
