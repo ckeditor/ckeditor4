@@ -464,11 +464,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
 				tilePosition = 1;
 
-			// It's more reliable and easier to delete exisiting color tiles and recreate them than to manipulate the old ones.
-			CKEDITOR.tools.array.forEach( colorHistoryRow.find( 'td' ).toArray(), function( node ) {
-				node.remove();
-			}, 0, 1 );
-
 			if ( !colorSpans.length ) {
 				return;
 			}
