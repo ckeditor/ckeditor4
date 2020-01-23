@@ -542,8 +542,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorHistoryRow = options.colorHistoryRow,
 				colorHistorySeparator = options.colorHistorySeparator,
 				chosenColorTile = colorHistoryRow.findOne( '[data-value="' + colorHexCode + '"]' ),
-				tilesNumber = colorHistoryRow.getChildCount(),
-				existingTiles;
+				tilesNumber = colorHistoryRow.getChildCount();
 
 			if ( chosenColorTile ) {
 				// If the same color is chosen again, find the old tile and move it to the beginning
@@ -570,16 +569,18 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				}
 			}
 
-			existingTiles = colorHistoryRow.getChildren().toArray();
-
-			for ( var i = 0; i < existingTiles.length; i++ ) {
-				existingTiles[ i ].getChild( 0 ).setAttributes( {
-					'aria-setsize': existingTiles.length,
-					'aria-posinset': i + 1
-				} );
-			}
+			updateAriaAttributes( colorHistoryRow.getChildren().toArray() );
 
 			colorHistorySeparator.show();
+
+			function updateAriaAttributes( tiles ) {
+				CKEDITOR.tools.array.forEach( tiles, function( tile ) {
+					tile.getChild( 0 ).setAttributes( {
+						'aria-setsize': tiles.length,
+						'aria-posinset': tile.getIndex() + 1
+					} );
+				} );
+			}
 		}
 
 		function generateTileHtml( options ) {
