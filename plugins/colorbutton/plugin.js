@@ -493,12 +493,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				return;
 			}
 
-			for ( var color in colorOccurrences ) {
-				sortedColors.push( [ color, colorOccurrences[ color ] ] );
-			}
-			sortedColors.sort( function( a, b ) {
-				return b[ 1 ] - a[ 1 ];
-			} );
+			sortedColors = sortByOccurrences( colorOccurrences );
 
 			// Trim the color array to the row size.
 			if ( sortedColors.length > colorsPerRow ) {
@@ -527,6 +522,19 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 
 			colorHistorySeparator.show();
+
+			function sortByOccurrences( keysWithFrequencies ) {
+				var result = [];
+
+				for ( var keyName in keysWithFrequencies ) {
+					result.push( [ keyName, keysWithFrequencies[ keyName ] ] );
+				}
+				result.sort( function( a, b ) {
+					return b[ 1 ] - a[ 1 ];
+				} );
+
+				return result;
+			}
 		}
 
 		function addCustomColorToPanel( options ) {
