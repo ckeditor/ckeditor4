@@ -458,36 +458,17 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				clickFn = options.clickFn,
 				type = options.type,
 				colorSpans = editor.editable().find( 'span[style*=' + cssProperty + ']' ).toArray(),
-				colorOccurrences = {},
-				sortedColors = [],
+				htmlColorsList = CKEDITOR.tools.style.parse._colors,
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
-				tilePosition = 1;
+				tilePosition = 1,
+				colorOccurrences,
+				sortedColors;
 
 			if ( !colorSpans.length ) {
 				return;
 			}
 
-			CKEDITOR.tools.array.forEach( colorSpans, function( span ) {
-				// colorSpans may contain spans with background color when they are not necessary, so here they are being filtered out.
-				var spanColor = span.getStyle( cssProperty );
-
-				if ( !spanColor ) {
-					return;
-				}
-
-				// Color names and RGB are converted here to hex code.
-				if ( spanColor in CKEDITOR.tools.style.parse._colors ) {
-					spanColor = CKEDITOR.tools.style.parse._colors[ spanColor ].substr( 1 );
-				} else {
-					spanColor = normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase();
-				}
-
-				if ( spanColor in colorOccurrences ) {
-					colorOccurrences[ spanColor ]++;
-				} else {
-					colorOccurrences[ spanColor ] = 1;
-				}
-			} );
+			colorOccurrences = extractColorInfo( colorSpans, cssProperty, htmlColorsList );
 
 			if ( CKEDITOR.tools.isEmpty( colorOccurrences ) ) {
 				return;
@@ -502,24 +483,38 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			addLabels( sortedColors, editor.lang.colorbutton.colors );
 
-			CKEDITOR.tools.array.forEach( sortedColors, function( color ) {
-				// Unfortunately CKEDITOR.dom.element.createFromHtml() doesn't work for table elements,
-				// so table cell has to be created separately.
-				var colorTile = new CKEDITOR.dom.element( 'td' );
-
-				colorTile.setHtml( generateTileHtml( {
-					colorLabel: color.label,
-					clickFn: clickFn,
-					colorCode: color.colorCode,
-					type: type,
-					position: tilePosition++,
-					setSize: sortedColors.length
-				} ) );
-
-				colorHistoryRow.append( colorTile );
-			} );
+			createColorTiles( sortedColors );
 
 			colorHistorySeparator.show();
+
+			function extractColorInfo( spans, cssProperty, colorlist ) {
+				var counterObject = {};
+
+				CKEDITOR.tools.array.forEach( spans, function( span ) {
+					// Array with spans may contain spans with background color when they are not necessary,
+					// so here they are being filtered out.
+					var spanColor = span.getStyle( cssProperty );
+
+					if ( !spanColor ) {
+						return;
+					}
+
+					// Color names and RGB are converted here to hex code.
+					if ( spanColor in colorlist ) {
+						spanColor = colorlist[ spanColor ].substr( 1 );
+					} else {
+						spanColor = normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase();
+					}
+
+					if ( spanColor in counterObject ) {
+						counterObject[ spanColor ]++;
+					} else {
+						counterObject[ spanColor ] = 1;
+					}
+				} );
+
+				return counterObject;
+			}
 
 			function sortByOccurrences( objectToParse, targetKeyName ) {
 				var result = [];
@@ -543,6 +538,25 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			function addLabels( colors, reference ) {
 				CKEDITOR.tools.array.forEach( colors, function( color ) {
 					color.label = reference[ color.colorCode ] || color.colorCode;
+				} );
+			}
+
+			function createColorTiles( colors ) {
+				CKEDITOR.tools.array.forEach( colors, function( color ) {
+					// Unfortunately CKEDITOR.dom.element.createFromHtml() doesn't work for table elements,
+					// so table cell has to be created separately.
+					var colorTile = new CKEDITOR.dom.element( 'td' );
+
+					colorTile.setHtml( generateTileHtml( {
+						colorLabel: color.label,
+						clickFn: clickFn,
+						colorCode: color.colorCode,
+						type: type,
+						position: tilePosition++,
+						setSize: sortedColors.length
+					} ) );
+
+					colorHistoryRow.append( colorTile );
 				} );
 			}
 		}
