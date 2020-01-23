@@ -493,7 +493,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				return;
 			}
 
-			sortedColors = sortByOccurrences( colorOccurrences );
+			sortedColors = sortByOccurrences( colorOccurrences, 'colorCode' );
 
 			// Trim the color array to the row size.
 			if ( sortedColors.length > colorsPerRow ) {
@@ -508,9 +508,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				var colorTile = new CKEDITOR.dom.element( 'td' );
 
 				colorTile.setHtml( generateTileHtml( {
-					colorLabel: color[ 2 ],
+					colorLabel: color.label,
 					clickFn: clickFn,
-					colorCode: color[ 0 ],
+					colorCode: color.colorCode,
 					type: type,
 					position: tilePosition++,
 					setSize: sortedColors.length
@@ -521,14 +521,20 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			colorHistorySeparator.show();
 
-			function sortByOccurrences( keysWithFrequencies ) {
+			function sortByOccurrences( objectToParse, targetKeyName ) {
 				var result = [];
 
-				for ( var keyName in keysWithFrequencies ) {
-					result.push( [ keyName, keysWithFrequencies[ keyName ] ] );
+				for ( var key in objectToParse ) {
+					var color = {};
+
+					color[ targetKeyName ] = key;
+					color.frequency = objectToParse[ key ];
+
+					result.push( color );
 				}
+
 				result.sort( function( a, b ) {
-					return b[ 1 ] - a[ 1 ];
+					return b.frequency - a.frequency;
 				} );
 
 				return result;
@@ -536,7 +542,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			function addLabels( colors, reference ) {
 				CKEDITOR.tools.array.forEach( colors, function( color ) {
-					color[ 2 ] = reference[ color[ 0 ] ] || color[ 0 ];
+					color.label = reference[ color.colorCode ] || color.colorCode;
 				} );
 			}
 		}
