@@ -500,9 +500,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				sortedColors.splice( colorsPerRow - 1, sortedColors.length - colorsPerRow );
 			}
 
-			CKEDITOR.tools.array.forEach( sortedColors, function( color ) {
-				color[ 2 ] = editor.lang.colorbutton.colors[ color[ 0 ] ] || color[ 0 ];
-			} );
+			addLabels( sortedColors, editor.lang.colorbutton.colors );
 
 			CKEDITOR.tools.array.forEach( sortedColors, function( color ) {
 				// Unfortunately CKEDITOR.dom.element.createFromHtml() doesn't work for table elements,
@@ -534,6 +532,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} );
 
 				return result;
+			}
+
+			function addLabels( colors, reference ) {
+				CKEDITOR.tools.array.forEach( colors, function( color ) {
+					color[ 2 ] = reference[ color[ 0 ] ] || color[ 0 ];
+				} );
 			}
 		}
 
