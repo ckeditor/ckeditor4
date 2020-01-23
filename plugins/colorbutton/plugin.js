@@ -458,7 +458,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				clickFn = options.clickFn,
 				type = options.type,
 				colorSpans = editor.editable().find( 'span[style*=' + cssProperty + ']' ).toArray(),
-				colors = [],
 				colorOccurrences = {},
 				sortedColors = [],
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
@@ -478,23 +477,21 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				// Color names and RGB are converted here to hex code.
 				if ( spanColor in CKEDITOR.tools.style.parse._colors ) {
-					colors.push( CKEDITOR.tools.style.parse._colors[ spanColor ].substr( 1 ) );
+					spanColor = CKEDITOR.tools.style.parse._colors[ spanColor ].substr( 1 );
 				} else {
-					colors.push( normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase() );
+					spanColor = normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase();
+				}
+
+				if ( spanColor in colorOccurrences ) {
+					colorOccurrences[ spanColor ]++;
+				} else {
+					colorOccurrences[ spanColor ] = 1;
 				}
 			} );
 
-			if ( !colors.length ) {
+			if ( CKEDITOR.tools.isEmpty( colorOccurrences ) ) {
 				return;
 			}
-
-			CKEDITOR.tools.array.forEach( colors, function( color ) {
-				if ( color in colorOccurrences ) {
-					colorOccurrences[ color ]++;
-				} else {
-					colorOccurrences[ color ] = 1;
-				}
-			} );
 
 			for ( var color in colorOccurrences ) {
 				sortedColors.push( [ color, colorOccurrences[ color ] ] );
