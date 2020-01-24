@@ -476,10 +476,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			sortedColors = sortByOccurrences( colorOccurrences, 'colorCode' );
 
-			// Trim the color array to the row size.
-			if ( sortedColors.length > colorsPerRow ) {
-				sortedColors.splice( colorsPerRow - 1, sortedColors.length - colorsPerRow );
-			}
+			trimArray( sortedColors, colorsPerRow );
 
 			addLabels( sortedColors, editor.lang.colorbutton.colors );
 
@@ -533,6 +530,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} );
 
 				return result;
+			}
+
+			function trimArray( array, allowedSize ) {
+				if ( array.length > allowedSize ) {
+					array.splice( allowedSize - 1, array.length - allowedSize );
+				}
 			}
 
 			function addLabels( colors, reference ) {
