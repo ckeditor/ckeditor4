@@ -13,6 +13,15 @@ Bug
 
 ## Provide detailed reproduction steps (if any)
 
+<!--
+Including simple reproduction is also a good idea. It can drastically decrease the time
+needed to reproduce the issue by our team, which means it can speed helping you!
+
+You can use our samples to create reproductions:
+
+* CodePen: https://codepen.io/Comandeer/pen/ExaMgpz
+-->
+
 1. …
 2. …
 3. …
