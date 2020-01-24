@@ -452,15 +452,15 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		function renderContentColors( options ) {
 			// This function is called on the first dialog opening.
-			var colorHistoryRow = options.colorHistoryRow,
-				colorHistorySeparator = options.colorHistorySeparator,
-				cssProperty = options.cssProperty,
-				clickFn = options.clickFn,
-				type = options.type,
+			var cssProperty = options.cssProperty,
 				colorSpans = editor.editable().find( 'span[style*=' + cssProperty + ']' ).toArray(),
 				htmlColorsList = CKEDITOR.tools.style.parse._colors,
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
-				tilePosition = 1,
+				colorNames = editor.lang.colorbutton.colors,
+				clickFn = options.clickFn,
+				type = options.type,
+				colorHistoryRow = options.colorHistoryRow,
+				colorHistorySeparator = options.colorHistorySeparator,
 				colorOccurrences,
 				sortedColors;
 
@@ -478,90 +478,111 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			trimArray( sortedColors, colorsPerRow );
 
-			addLabels( sortedColors, editor.lang.colorbutton.colors );
+			addLabels( sortedColors, colorNames );
 
-			createColorTiles( sortedColors );
+			createColorTiles( {
+				colorArray: sortedColors,
+				clickFn: clickFn,
+				type: type,
+				setSize: sortedColors.length,
+				row: colorHistoryRow
+			} );
 
 			colorHistorySeparator.show();
+		}
 
-			function extractColorInfo( spans, cssProperty, colorlist ) {
-				var counterObject = {};
+		function extractColorInfo( spans, cssProperty, colorlist ) {
+			var counterObject = {};
 
-				CKEDITOR.tools.array.forEach( spans, function( span ) {
-					// Array with spans may contain spans with background color when they are not necessary,
-					// so here they are being filtered out.
-					var spanColor = span.getStyle( cssProperty );
+			CKEDITOR.tools.array.forEach( spans, function( span ) {
+				// Array with spans may contain spans with background color when they are not necessary,
+				// so here they are being filtered out.
+				var spanColor = span.getStyle( cssProperty );
 
-					if ( !spanColor ) {
-						return;
-					}
-
-					// Color names and RGB are converted here to hex code.
-					if ( spanColor in colorlist ) {
-						spanColor = colorlist[ spanColor ].substr( 1 );
-					} else {
-						spanColor = normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase();
-					}
-
-					if ( spanColor in counterObject ) {
-						counterObject[ spanColor ]++;
-					} else {
-						counterObject[ spanColor ] = 1;
-					}
-				} );
-
-				return counterObject;
-			}
-
-			function sortByOccurrences( objectToParse, targetKeyName ) {
-				var result = [];
-
-				for ( var key in objectToParse ) {
-					var color = {};
-
-					color[ targetKeyName ] = key;
-					color.frequency = objectToParse[ key ];
-
-					result.push( color );
+				if ( !spanColor ) {
+					return;
 				}
 
-				result.sort( function( a, b ) {
-					return b.frequency - a.frequency;
-				} );
-
-				return result;
-			}
-
-			function trimArray( array, allowedSize ) {
-				if ( array.length > allowedSize ) {
-					array.splice( allowedSize - 1, array.length - allowedSize );
+				// Color names and RGB are converted here to hex code.
+				if ( spanColor in colorlist ) {
+					spanColor = colorlist[ spanColor ].substr( 1 );
+				} else {
+					spanColor = normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase();
 				}
+
+				if ( spanColor in counterObject ) {
+					counterObject[ spanColor ]++;
+				} else {
+					counterObject[ spanColor ] = 1;
+				}
+			} );
+
+			return counterObject;
+		}
+
+		function sortByOccurrences( objectToParse, targetKeyName ) {
+			var result = [];
+
+			for ( var key in objectToParse ) {
+				var color = {};
+
+				color[ targetKeyName ] = key;
+				color.frequency = objectToParse[ key ];
+
+				result.push( color );
 			}
 
-			function addLabels( colors, reference ) {
-				CKEDITOR.tools.array.forEach( colors, function( color ) {
-					color.label = reference[ color.colorCode ] || color.colorCode;
-				} );
+			result.sort( function( a, b ) {
+				return b.frequency - a.frequency;
+			} );
+
+			return result;
+		}
+
+		function trimArray( array, allowedSize ) {
+			if ( array.length > allowedSize ) {
+				array.splice( allowedSize - 1, array.length - allowedSize );
 			}
+		}
 
-			function createColorTiles( colors ) {
-				CKEDITOR.tools.array.forEach( colors, function( color ) {
-					// Unfortunately CKEDITOR.dom.element.createFromHtml() doesn't work for table elements,
-					// so table cell has to be created separately.
-					var colorTile = new CKEDITOR.dom.element( 'td' );
+		function addLabels( colors, reference ) {
+			CKEDITOR.tools.array.forEach( colors, function( color ) {
+				color.label = reference[ color.colorCode ] || color.colorCode;
+			} );
+		}
 
-					colorTile.setHtml( generateTileHtml( {
-						colorLabel: color.label,
-						clickFn: clickFn,
-						colorCode: color.colorCode,
-						type: type,
-						position: tilePosition++,
-						setSize: sortedColors.length
-					} ) );
+		function createColorTiles( options ) {
+			for ( var position = 1; position <= options.setSize; position++ ) {
+				// Unfortunately CKEDITOR.dom.element.createFromHtml() doesn't work for table elements,
+				// so table cell has to be created separately.
+				var colorTile = new CKEDITOR.dom.element( 'td' ),
+					color = options.colorArray[ position - 1 ];
 
-					colorHistoryRow.append( colorTile );
-				} );
+				colorTile.setHtml( generateTileHtml( {
+					colorLabel: color.label,
+					clickFn: options.clickFn,
+					colorCode: color.colorCode,
+					type: options.type,
+					position: position,
+					setSize: options.setSize
+				} ) );
+
+				options.row.append( colorTile );
 			}
+		}
+
+		function generateTileHtml( options ) {
+			return '<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
+				' title="' + options.colorLabel + '"' +
+				' draggable="false"' +
+				' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
+				' onclick="CKEDITOR.tools.callFunction(' + options.clickFn + ',\'' + options.colorCode +
+				'\',\'' + options.type + '\'); return false;"' +
+				' href="javascript:void(\'' + options.colorCode + '\')"' +
+				' data-value="' + options.colorCode + '"' +
+				' role="option" aria-posinset="' + options.position + '" aria-setsize="' + options.setSize + '">' +
+				'<span class="cke_colorbox" style="background-color:#' + options.colorCode + '"></span>' +
+				'</a>';
 		}
 
 		function addCustomColorToPanel( options ) {
@@ -613,20 +634,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					} );
 				} );
 			}
-		}
-
-		function generateTileHtml( options ) {
-			return '<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
-				' title="' + options.colorLabel + '"' +
-				' draggable="false"' +
-				' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-				' onclick="CKEDITOR.tools.callFunction(' + options.clickFn + ',\'' + options.colorCode +
-				'\',\'' + options.type + '\'); return false;"' +
-				' href="javascript:void(\'' + options.colorCode + '\')"' +
-				' data-value="' + options.colorCode + '"' +
-				' role="option" aria-posinset="' + options.position + '" aria-setsize="' + options.setSize + '">' +
-				'<span class="cke_colorbox" style="background-color:#' + options.colorCode + '"></span>' +
-				'</a>';
 		}
 
 		function isUnstylable( ele ) {
