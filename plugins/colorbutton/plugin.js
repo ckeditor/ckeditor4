@@ -456,6 +456,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorSpans = editor.editable().find( 'span[style*=' + cssProperty + ']' ).toArray(),
 				htmlColorsList = CKEDITOR.tools.style.parse._colors,
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
+				rowsNumber = config.colorButton_historyRowsNumber || 1,
 				colorNames = editor.lang.colorbutton.colors,
 				clickFn = options.clickFn,
 				type = options.type,
@@ -476,7 +477,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			sortedColors = sortByOccurrences( colorOccurrences, 'colorCode' );
 
-			trimArray( sortedColors, colorsPerRow );
+			trimArray( sortedColors, colorsPerRow, rowsNumber );
 
 			addLabels( sortedColors, colorNames );
 
@@ -485,6 +486,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				clickFn: clickFn,
 				type: type,
 				setSize: sortedColors.length,
+				rowSize: colorsPerRow,
 				row: colorHistoryRow
 			} );
 
@@ -539,7 +541,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			return result;
 		}
 
-		function trimArray( array, allowedSize ) {
+		function trimArray( array, rowSize, rowsNumber ) {
+			var allowedSize = rowSize * rowsNumber;
+
 			if ( array.length > allowedSize ) {
 				array.splice( allowedSize - 1, array.length - allowedSize );
 			}
@@ -552,23 +556,38 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		}
 
 		function createColorTiles( options ) {
-			for ( var position = 1; position <= options.setSize; position++ ) {
+			var currentRow = options.row;
+
+			for ( var index = 0; index < options.setSize; index++ ) {
+				if ( index && index % options.rowSize === 0 ) {
+					currentRow = createColorHistoryRow( currentRow );
+				}
+
 				// Unfortunately CKEDITOR.dom.element.createFromHtml() doesn't work for table elements,
 				// so table cell has to be created separately.
 				var colorTile = new CKEDITOR.dom.element( 'td' ),
-					color = options.colorArray[ position - 1 ];
+					color = options.colorArray[ index ];
 
 				colorTile.setHtml( generateTileHtml( {
 					colorLabel: color.label,
 					clickFn: options.clickFn,
 					colorCode: color.colorCode,
 					type: options.type,
-					position: position,
+					position: index + 1,
 					setSize: options.setSize
 				} ) );
 
-				options.row.append( colorTile );
+				currentRow.append( colorTile );
 			}
+		}
+
+		function createColorHistoryRow( currentRow ) {
+			var newRow = editor.document.createElement( 'tr' );
+
+			newRow.addClass( 'cke_colorhistory_row' );
+			newRow.insertAfter( currentRow );
+
+			return newRow;
 		}
 
 		function generateTileHtml( options ) {
