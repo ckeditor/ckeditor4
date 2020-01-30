@@ -799,7 +799,19 @@ bender.test( {
 		bender.tools.setHtmlWithSelection( editor, '<p>Hello, ^World!</p>' );
 
 		assert.isTrue( editor.getSelection().getRanges()[ 0 ].equals( editor.getSelectedRanges()[ 0 ] ) );
-	}
+	},
+
+	// (#3498)
+	'test getSelectedRanges with null selection': function() {
+		var editor = this.editors.editor,
+			selectionStub = sinon.stub( editor, 'getSelection' ).returns( null ),
+			result = editor.getSelectedRanges();
+
+		selectionStub.restore();
+
+		arrayAssert.doesNotContainItems( result );
+	},
+
 } );
 
 function testSelectionCheck( editor, event ) {
