@@ -326,7 +326,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						if ( color ) {
 							setColor( color );
 							addCustomColorToPanel( {
-								colorHistoryRow: panel.element.findOne( '.cke_colorhistory_row' ),
+								colorHistoryRows: panel.element.find( '.cke_colorhistory_row' ).toArray(),
 								colorHistorySeparator: panel.element.findOne( '.cke_colorhistory_separator' ),
 								colorHexCode: color.substr( 1 ).toUpperCase(),
 								clickFn: clickFn,
@@ -338,7 +338,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} else {
 					setColor( color && '#' + color );
 					addCustomColorToPanel( {
-						colorHistoryRow: panel.element.findOne( '.cke_colorhistory_row' ),
+						colorHistoryRows: panel.element.find( '.cke_colorhistory_row' ).toArray(),
 						colorHistorySeparator: panel.element.findOne( '.cke_colorhistory_separator' ),
 						colorHexCode: color.toUpperCase(),
 						clickFn: clickFn,
@@ -605,21 +605,22 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		}
 
 		function addCustomColorToPanel( options ) {
-			// This function is called when a color from colordialog is chosen.
+			// This function is called whenever a color from panel or colordialog is chosen.
 			var colorHexCode = options.colorHexCode,
+				colorHistoryRows = options.colorHistoryRows,
+				chosenColorTile = findColorInHistory( colorHistoryRows, colorHexCode ),
 				colorLabel = editor.lang.colorbutton.colors[ colorHexCode ] || colorHexCode,
 				clickFn = options.clickFn,
 				type = options.type,
 				colorsPerRow = options.colorsPerRow,
-				colorHistoryRow = options.colorHistoryRow,
+				rowsNumber = config.colorButton_historyRowsNumber || 1,
 				colorHistorySeparator = options.colorHistorySeparator,
-				chosenColorTile = colorHistoryRow.findOne( '[data-value="' + colorHexCode + '"]' ),
-				tilesNumber = colorHistoryRow.getChildCount();
+				tilesNumber = countTiles( colorHistoryRows );
 
 			if ( chosenColorTile ) {
 				// If the same color is chosen again, find the old tile and move it to the beginning
 				// instead of creating a new one.
-				colorHistoryRow.append( chosenColorTile.getParent(), true );
+				colorHistoryRows[ 0 ].append( chosenColorTile.getParent(), true );
 			} else {
 				var colorTile = new CKEDITOR.dom.element( 'td' );
 
@@ -633,26 +634,66 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					setSize: tilesNumber <= colorsPerRow ? tilesNumber : tilesNumber - 1
 				} ) );
 
-				colorHistoryRow.append( colorTile, true );
-
-				// If tile limit was exceeded, remove the oldest tile.
-				if ( tilesNumber > colorsPerRow ) {
-					colorHistoryRow.getChild( colorsPerRow ).remove();
-				}
+				colorHistoryRows[ 0 ].append( colorTile, true );
 			}
 
-			updateAriaAttributes( colorHistoryRow.getChildren().toArray() );
+			rearrangeRows( colorHistoryRows, rowsNumber, colorsPerRow );
+
+			updateAriaAttributes( colorHistoryRows, tilesNumber );
 
 			colorHistorySeparator.show();
+		}
 
-			function updateAriaAttributes( tiles ) {
-				CKEDITOR.tools.array.forEach( tiles, function( tile ) {
-					tile.getChild( 0 ).setAttributes( {
-						'aria-setsize': tiles.length,
-						'aria-posinset': tile.getIndex() + 1
-					} );
-				} );
+		function findColorInHistory( colorHistoryRows, colorHexCode ) {
+			var colorTile;
+
+			CKEDITOR.tools.array.forEach( colorHistoryRows, function( row ) {
+				if ( row.findOne( '[data-value="' + colorHexCode + '"]' ) ) {
+					colorTile = row.findOne( '[data-value="' + colorHexCode + '"]' );
+				}
+			} );
+
+			return colorTile;
+		}
+
+		function countTiles( colorHistoryRows ) {
+			return CKEDITOR.tools.array.reduce( colorHistoryRows, function( totalLength, row ) {
+					totalLength += row.getChildCount();
+					return totalLength;
+				}, 0 );
+		}
+
+		function rearrangeRows( rows, rowsLimit, colorsPerRow ) {
+			for ( var rowIndex = 0; rowIndex < rowsLimit; rowIndex++ ) {
+				if ( rows[ rowIndex ].getChildCount() <= colorsPerRow ) {
+					return;
+				} else if ( rows[ rowIndex + 1 ] ) {
+					moveToNextRow( rows, rowIndex );
+				} else if ( rowIndex < rowsLimit - 1 ) {
+					rows[ rowIndex + 1 ] = createColorHistoryRow( rows[ rowIndex ] );
+					moveToNextRow( rows, rowIndex );
+				} else {
+					rows[ rowIndex ].getLast().remove();
+				}
 			}
+		}
+
+		function moveToNextRow( rows, startRow ) {
+			rows[ startRow ].getLast().move( rows[ startRow + 1 ], true );
+		}
+
+		function updateAriaAttributes( rows, tilesNumber ) {
+			var position = 1;
+
+			CKEDITOR.tools.array.forEach( rows, function( row ) {
+				CKEDITOR.tools.array.forEach( row.getChildren().toArray(), function( tile ) {
+					tile.getChild( 0 ).setAttributes( {
+						'aria-setsize': tilesNumber,
+						'aria-posinset': position
+					} );
+					position += 1;
+				} );
+			} );
 		}
 
 		function isUnstylable( ele ) {
