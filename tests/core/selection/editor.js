@@ -790,6 +790,15 @@ bender.test( {
 
 			assert.areEqual( 0, editor.getSelection().isLocked, 'Simple selection should not be locked' );
 		} );
+	},
+
+	// (#3498)
+	'test getSelectedRanges': function() {
+		var editor = this.editors.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>Hello, ^World!</p>' );
+
+		assert.isTrue( editor.getSelection().getRanges()[ 0 ].equals( editor.getSelectedRanges()[ 0 ] ) );
 	}
 } );
 
