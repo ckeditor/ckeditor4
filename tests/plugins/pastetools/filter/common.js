@@ -18,7 +18,7 @@
 			var editor = this.editor,
 				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js';
 
-			return ptTools.asyncFilterLoad( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rules' )
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rules' )
 				.then( extendFilterRules )
 				.then( assertFilter( {
 					editor: editor,
@@ -51,7 +51,7 @@
 					'margin-bottom: 0in' +
 				'" >foo bar</p>';
 
-			return ptTools.asyncFilterLoad( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rules' )
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rules' )
 				.then( extendFilterRules )
 				.then( assertFilter( {
 					editor: editor,
@@ -64,7 +64,7 @@
 			var editor = this.editor,
 				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js';
 
-			return ptTools.asyncFilterLoad( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rules' )
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rules' )
 				.then( extendFilterRules )
 				.then( assertFilter( {
 					editor: editor,
@@ -122,7 +122,7 @@
 			var editor = this.editor,
 				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/common.js';
 
-			return ptTools.asyncFilterLoad( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rules' )
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.plugins.pastetools.filters.common.rules' )
 				.then( extendFilterRules )
 				.then( assertFilter( {
 					editor: editor,
@@ -169,8 +169,8 @@
 	function assertFilter( options ) {
 		return function( filter ) {
 			var editor = options.editor,
-			input = options.input,
-			expected = options.expected;
+				input = options.input,
+				expected = options.expected;
 
 			// Can't use bender.tools.testInputOut as it normalizes an input html
 			var actualOutput = filter( input, editor );

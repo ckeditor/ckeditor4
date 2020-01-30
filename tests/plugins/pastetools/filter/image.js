@@ -23,7 +23,7 @@
 			var editor = this.editor,
 				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js';
 
-			return ptTools.asyncFilterLoad( filterPath, 'CKEDITOR.pasteFilters.image' )
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.pasteFilters.image' )
 				.then( function( imageFilter ) {
 					var inputHtml = '<img src="file://foo" />',
 						actual = imageFilter( inputHtml, editor, RTF[ 0 ] );
@@ -36,7 +36,7 @@
 			var editor = this.editor,
 				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js';
 
-			return ptTools.asyncFilterLoad( filterPath, 'CKEDITOR.pasteFilters.image' )
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.pasteFilters.image' )
 				.then( function( imageFilter ) {
 					var inputHtml = '<img src="file://foo" />',
 						actual = imageFilter( inputHtml, editor, RTF[ 1 ] );
@@ -49,7 +49,7 @@
 			var editor = this.editor,
 				filterPath = CKEDITOR.plugins.getPath( 'pastetools' ) + 'filter/image.js';
 
-			return ptTools.asyncFilterLoad( filterPath, 'CKEDITOR.pasteFilters.image' )
+			return ptTools.asyncLoadFilters( filterPath, 'CKEDITOR.pasteFilters.image' )
 				.then( function( imageFilter ) {
 					var inputHtml = '<img src="http://example.com/img.png" />',
 						actual = imageFilter( inputHtml, editor, RTF[ 0 ] );

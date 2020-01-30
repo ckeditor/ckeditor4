@@ -18,7 +18,7 @@
 					CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastefromword' ) + 'filter/default.js' )
 				];
 
-			return ptTools.asyncFilterLoad( filterPaths, 'CKEDITOR.cleanWord' )
+			return ptTools.asyncLoadFilters( filterPaths, 'CKEDITOR.cleanWord' )
 				.then( testOutput( sampleName, editor ) );
 		},
 
@@ -30,7 +30,7 @@
 					CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'pastefromword' ) + 'filter/default.js' )
 				];
 
-			return ptTools.asyncFilterLoad( filterPaths, 'CKEDITOR.cleanWord' )
+			return ptTools.asyncLoadFilters( filterPaths, 'CKEDITOR.cleanWord' )
 				.then( testOutput( sampleName, editor ) );
 		}
 	};
