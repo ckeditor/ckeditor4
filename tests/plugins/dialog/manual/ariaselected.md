@@ -21,3 +21,5 @@
   **Expected:** Both values in red boxes are the same and equal to `Image Info`.
 
   **Unexpected:** Values didn't change after new dialog was opened.
+
+**Important**: Keep in mind that values are refreshed on interval so you may see slight delay when changing tabs very fast.
