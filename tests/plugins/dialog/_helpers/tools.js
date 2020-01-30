@@ -340,7 +340,7 @@
 		// Asserts there is just one aria-selected tab and that it's the one with 'cke_dialog_tab_selected' class.
 		//
 		// @param {String} tab The tab ID.
-		assertAriaAttribute: function() {
+		assertTabsAriaAttribute: function() {
 			return function( dialog ) {
 				var selectedTab = dialog.getElement().findOne( '.cke_dialog_tab_selected' ),
 					ariaSelectedTabsCount = dialog.getElement().find( '[aria-selected]' ).count();
