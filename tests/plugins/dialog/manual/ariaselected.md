@@ -4,10 +4,20 @@
 
 1. Open `link` dialog.
 
-1. Close dialog.
+  **Expected:** Both values in red boxes are the same and equal to `Link Info`.
 
-1. Press the button below editor.
+  **Unexpected:** Values are different or one of them is not present.
 
-**Expected** Aria value is `true`.
+1. Change tab to `Advanced`.
 
-**Unexpected** Aria value is `null`.
+  **Expected:** Both values in red boxes are the same and equal to `Advanced`.
+
+  **Unexpected:** Second value didn't change.
+
+1. Close `link` dialog.
+
+1. Open `image` dialog.
+
+  **Expected:** Both values in red boxes are the same and equal to `Image Info`.
+
+  **Unexpected:** Values didn't change after new dialog was opened.
