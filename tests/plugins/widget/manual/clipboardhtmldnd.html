@@ -1,3 +1,4 @@
+<button type="button" id="reset">Reset</button>
 <div id="editor">
 	<p>Drop zone</p>
 	<p>[Start here</p>
@@ -10,11 +11,12 @@
 		</div>
 	</div>
 	<p>end here].</p>
-	<p>Some [[inline widget]], too!</p>
 	<p>Drop zone</p>
 </div>
 
 <script>
+	// IEs does not have proper support for setting clipboard data.
+	// Additionally support for d&d in Edge is too buggy to be able to handle this test.
 	if ( CKEDITOR.env.ie ) {
 		bender.ignore();
 	}
@@ -23,7 +25,16 @@
 		extraAllowedContent: 'span',
 		extraPlugins: 'customwidget',
 		allowedContent: true,
-		height: 500
+		height: 500,
+		on: {
+			pluginsLoaded: function( evt ) {
+				var editor = evt.editor;
+
+				CKEDITOR.document.getById( 'reset' ).on( 'click', function() {
+					editor.undoManager.reset();
+				} );
+			}
+		}
 	} );
 
 	CKEDITOR.plugins.add( 'customwidget', {
@@ -31,8 +42,6 @@
 		allowedContent: 'div(copied)',
 
 		init: function ( editor )	{
-			var counter = 0;
-
 			editor.widgets.add( 'customwidget', {
 				button: 'Add widget',
 				template: '<div>Widget</div>',
@@ -51,9 +60,11 @@
 			} );
 
 			function getClipboardHtml() {
-				counter++;
+				var counter = Number( this.data.counter ) || 0,
+					serializedData = encodeURIComponent( JSON.stringify( { counter: ++counter } ) );
 
-				return '<div data-widget="' + this.name + '">Widget copied ' + counter + ' times!</div>';
+				return '<div data-widget="' + this.name + '" data-cke-widget-data="' + serializedData + '">' +
+					'Widget dragged and dropped ' + counter + ' times!</div>';
 			}
 		}
 	} );

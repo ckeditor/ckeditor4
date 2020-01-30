@@ -6,7 +6,7 @@
 
 	## Expected
 
-	After dropping widgets' content changes into `Widget copied X times!` where `X` changes after every drop. Note: the same counter is used for all widgets!
+	After dropping widgets' content changes into `Widget dragged and dropped X times!` where `X` changes after every drop.
 
 	## Unexpected
 
