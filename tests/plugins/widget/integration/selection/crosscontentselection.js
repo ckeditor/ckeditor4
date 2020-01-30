@@ -30,15 +30,22 @@
 
 			bender.tools.setHtmlWithSelection( editor, '<p id="test">Hello, World!</p>^' );
 
+			var contentNode = editor.editable().findOne( '#test' );
+
 			editor.execCommand( 'customwidget' );
 
 			widget = CKEDITOR.tools.object.values( editor.widgets.instances )[ 0 ];
 
-			range.setStartAt( editor.editable().findOne( '#test' ), CKEDITOR.POSITION_AFTER_START );
+			range.setStartAt( contentNode, CKEDITOR.POSITION_AFTER_START );
 			range.setEndAt( widget.wrapper, CKEDITOR.POSITION_AFTER_START );
 			range.select();
 
-			assert.isNull( editor.getSelectedHtml().findOne( '[data-cke-widget-wrapper]' ), 'Selected HTML should not contain widget' );
+			var expectedRange = editor.createRange();
+
+			expectedRange.setStartAt( contentNode, CKEDITOR.POSITION_AFTER_START );
+			expectedRange.setEndAt( widget.wrapper, CKEDITOR.POSITION_BEFORE_START );
+
+			assert.isTrue( expectedRange.equals( editor.getSelectedRanges()[ 0 ] ) );
 		},
 
 		// (#3498)
@@ -49,16 +56,22 @@
 
 			bender.tools.setHtmlWithSelection( editor, '^<p id="test">Hello, World!</p>' );
 
+			var contentNode = editor.editable().findOne( '#test' );
+
 			editor.execCommand( 'customwidget' );
 
 			widget = CKEDITOR.tools.object.values( editor.widgets.instances )[ 0 ];
 
-			// Place selection at the first editable from the buttom because Safari is unable to select between two editables inclusive.
-			range.setStartAt( widget.wrapper.findOne( '.customwidget__content' ), CKEDITOR.POSITION_AFTER_START );
-			range.setEndAt( editor.editable().findOne( '#test' ), CKEDITOR.POSITION_BEFORE_END );
+			range.setStartAt( widget.wrapper, CKEDITOR.POSITION_AFTER_START );
+			range.setEndAt( contentNode, CKEDITOR.POSITION_BEFORE_END );
 			range.select();
 
-			assert.isNull( editor.getSelectedHtml().findOne( '[data-cke-widget-wrapper]' ), 'Selected HTML should not contain widget' );
+			var expectedRange = editor.createRange();
+
+			expectedRange.setStartAt( widget.wrapper, CKEDITOR.POSITION_AFTER_END );
+			expectedRange.setEndAt( contentNode, CKEDITOR.POSITION_BEFORE_END );
+
+			assert.isTrue( expectedRange.equals( editor.getSelectedRanges()[ 0 ] ) );
 		},
 
 		// (#3498)
@@ -69,35 +82,35 @@
 
 			bender.tools.setHtmlWithSelection( editor, '<p id="test1">Hello, World!</p><p>^</p><p id="test2">Hello, World!</p>' );
 
+			var startContentNode = editable.findOne( '#test1' ),
+				endContentNode = editable.findOne( '#test2' );
+
 			editor.execCommand( 'customwidget' );
 
-			range.setStartAt( editable.findOne( '#test1' ), CKEDITOR.POSITION_AFTER_START );
-			range.setEndAt( editable.findOne( '#test2' ), CKEDITOR.POSITION_BEFORE_END );
+			range.setStartAt( startContentNode, CKEDITOR.POSITION_AFTER_START );
+			range.setEndAt( endContentNode, CKEDITOR.POSITION_BEFORE_END );
 			range.select();
 
-			assert.isNotNull( editor.getSelectedHtml().findOne( '[data-cke-widget-wrapper]' ), 'Selected HTML should contain widget' );
+			assert.isTrue( range.equals( editor.getSelectedRanges()[ 0 ] ) );
 		},
 
 		// (#3498)
 		'test selection inside widget': function() {
 			var editor = this.editor,
-				range = editor.createRange(),
-				widget;
+				range = editor.createRange();
 
 			editor.execCommand( 'customwidget' );
 
-			widget = CKEDITOR.tools.object.values( editor.widgets.instances )[ 0 ];
+			var widget = CKEDITOR.tools.object.values( editor.widgets.instances )[ 0 ],
+				widgetTitle = widget.wrapper.findOne( '.customwidget__title' ),
+				widgetContent = widget.wrapper.findOne( '.customwidget__content' );
 
-			range.setStartAt( widget.wrapper.findOne( '.customwidget__title' ), CKEDITOR.POSITION_AFTER_START );
-			range.setEndAt( widget.wrapper.findOne( '.customwidget__content' ), CKEDITOR.POSITION_BEFORE_END );
+			range.setStartAt( widgetTitle, CKEDITOR.POSITION_AFTER_START );
+			range.setEndAt( widgetContent, CKEDITOR.POSITION_BEFORE_END );
 			range.select();
 
-			var frag = editor.getSelectedHtml();
-
-			assert.isNotNull( frag.findOne( '.customwidget__title' ), 'Selected title widget part should be within selection' );
-			assert.isNotNull( frag.findOne( '.customwidget__content' ), 'Selected content widget part should be within selection' );
-		},
-
+			assert.isTrue( range.equals( editor.getSelectedRanges()[ 0 ] ) );
+		}
 	} );
 
 } )();
