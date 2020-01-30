@@ -35,7 +35,7 @@
 	} );
 
 	/**
-	 * Namespace providing a set of helper functions for working with editor content preview, exposed by the
+	 * Namespace providing a set of helper functions for working with editor's content preview, exposed by the
 	 * [Preview](https://ckeditor.com/cke4/addon/preview) plugin.
 	 *
 	 * @since 4.14.0
@@ -46,7 +46,7 @@
 		/**
 		 * Generates print preview for the given editor.
 		 *
-		 * **Note** that this function will open a new browser window with editor content HTML.
+		 * **Note** that this function will open a new browser window with editor's content HTML.
 		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @returns {CKEDITOR.dom.window} Newly created window, which contains the preview HTML.

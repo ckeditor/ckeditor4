@@ -29,7 +29,7 @@
 	} );
 
 	/**
-	 * Allows to customise implementation of printing the editor's content,
+	 * Allows to customise editor's content printing implementation
 	 * provided by the [Print](https://ckeditor.com/cke4/addon/print) plugin.
 	 *
 	 * **Note** that this class represents {@link CKEDITOR.commandDefinition}
