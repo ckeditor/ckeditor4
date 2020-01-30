@@ -176,10 +176,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				onBlock: function( panel, block ) {
-					var colorHistoryRow,
-						colorHistorySeparator,
-						clickFn;
-
 					panelBlock = block;
 
 					block.autoSize = true;
@@ -192,15 +188,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						panel: panelBlock
 					} ) );
 
-					colorHistoryRow = block.element.findOne( '.cke_colorhistory_row' );
-					colorHistorySeparator = block.element.findOne( '.cke_colorhistory_separator' );
-					clickFn = block.element.data( 'clickfn' );
-
 					renderContentColors( {
-						colorHistoryRow: colorHistoryRow,
-						colorHistorySeparator: colorHistorySeparator,
+						colorHistoryRow: block.element.findOne( '.cke_colorhistory_row' ),
+						colorHistorySeparator: block.element.findOne( '.cke_colorhistory_separator' ),
 						cssProperty: type == 'back' ? 'background-color' : 'color',
-						clickFn: clickFn,
+						clickFn: block.element.data( 'clickfn' ),
 						type: type
 					} );
 
@@ -398,8 +390,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			return output.join( '' );
 
-			// Helper functions.
-
 			function generateAutomaticButtonHtml() {
 				return '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
 					' title="' + lang.auto + '"' +
@@ -508,7 +498,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				}
 
 				if ( spanColor in counterObject ) {
-					counterObject[ spanColor ]++;
+					counterObject[ spanColor ] += 1;
 				} else {
 					counterObject[ spanColor ] = 1;
 				}
