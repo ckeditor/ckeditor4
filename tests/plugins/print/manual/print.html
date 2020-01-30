@@ -1,0 +1,37 @@
+<h2>Classic editor</h2>
+<div id="classic">
+	<h1>Sample <span style="color: red;">document</span></h1>
+	<p>Lorem ipsum</p>
+	<div style="page-break-after:always"><span style="display:none">&nbsp;</span></div>
+	<p>dolor sit amet.</p>
+	<img alt="Lena" src="../../../_assets/lena.jpg">
+	<p><a name="anchor">Some anchor</a></p>
+</div>
+
+<h2>Divarea editor</h2>
+<div id="divarea">
+	<h1>Sample <span style="color: red;">document</span></h1>
+	<p>Lorem ipsum</p>
+	<div style="page-break-after:always"><span style="display:none">&nbsp;</span></div>
+	<p>dolor sit amet.</p>
+	<img alt="Lena" src="../../../_assets/lena.jpg">
+	<p><a name="anchor">Some anchor</a></p>
+</div>
+
+<h2>Inline editor</h2>
+<div id="inline" contenteditable="true">
+	<h1>Sample <span style="color: red;">document</span></h1>
+	<p>Lorem ipsum</p>
+	<div style="page-break-after:always"><span style="display:none">&nbsp;</span></div>
+	<p>dolor sit amet.</p>
+	<img alt="Lena" src="../../../_assets/lena.jpg">
+	<p><a name="anchor">Some anchor</a></p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'classic' );
+	CKEDITOR.replace( 'divarea', {
+		extraPlugins: 'divarea'
+	} );
+	CKEDITOR.inline( 'inline' );
+</script>
