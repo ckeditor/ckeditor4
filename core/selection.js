@@ -1238,6 +1238,7 @@
 	 * **Note:** This function is an alias for {@link CKEDITOR.dom.selection#getRanges} method.
 	 *
 	 * @method
+	 * @since 4.14.0
 	 * @param {Boolean} [onlyEditables] If set to `true`, this function retrieves editable ranges only.
 	 * @returns {Array} Range instances that represent the current selection.
 	 */
