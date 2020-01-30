@@ -19,7 +19,7 @@
 		assertFocusedElement = window.dialogTools.assertFocusedElement,
 		assertFocusedTab = window.dialogTools.assertFocusedTab,
 		focusElement = window.dialogTools.focusElement,
-		assertAriaAttribute = window.dialogTools.assertAriaAttribute;
+		assertTabsAriaAttribute = window.dialogTools.assertTabsAriaAttribute;
 
 	bender.editor = {
 		config: {
@@ -218,16 +218,16 @@
 					elementId: 'mp-input11'
 				} ) )
 				.then( focusElement( { direction: 'previous' } ) )
-				.then( assertAriaAttribute() )
+				.then( assertTabsAriaAttribute() )
 				.then( focusElement( { key: KEYS.ARROW_RIGHT } ) )
-				.then( assertAriaAttribute() )
+				.then( assertTabsAriaAttribute() )
 				.then( focusElement( { key: KEYS.ARROW_UP } ) )
-				.then( assertAriaAttribute() )
+				.then( assertTabsAriaAttribute() )
 				.then( focusElement( { key: KEYS.ARROW_DOWN } ) )
 				.then( focusElement( { key: KEYS.ARROW_DOWN } ) )
-				.then( assertAriaAttribute() )
+				.then( assertTabsAriaAttribute() )
 				.then( focusElement( { key: KEYS.ARROW_LEFT } ) )
-				.then( assertAriaAttribute() );
+				.then( assertTabsAriaAttribute() );
 		},
 
 		'test multi page dialog should bring the focus to the tab with the ALT+F10 keys': function() {
