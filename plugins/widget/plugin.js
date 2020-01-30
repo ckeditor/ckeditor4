@@ -2875,6 +2875,9 @@
 				setFocusedEditable( widgetsRepo, widget, null );
 		} );
 
+		// Selection is fixed only when it starts in content and ends in a widget (and vice versa).
+		// It's not possible to manually create selection which starts inside one widget and ends in another,
+		// so we are skipping this case to simplify implementation (#3498).
 		function fixCrossContentSelection() {
 			var selection = editor.getSelection(),
 				ranges = selection && selection.getRanges(),
