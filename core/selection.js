@@ -1231,6 +1231,23 @@
 		return editable && this.mode == 'wysiwyg' ? new CKEDITOR.dom.selection( editable ) : null;
 	};
 
+
+	/**
+	 * Retrieves the {@link CKEDITOR.dom.range} instances that represent the current selection.
+	 *
+	 * **Note:** This function is an alias for {@link CKEDITOR.dom.selection#getRanges} method.
+	 *
+	 * @method
+	 * @param {Boolean} [onlyEditables] If set to `true`, this function retrieves editable ranges only.
+	 * @returns {Array} Range instances that represent the current selection.
+	 */
+	CKEDITOR.editor.prototype.getSelectedRanges = function( onlyEditables ) {
+		var selection = this.getSelection(),
+			ranges = selection && selection.getRanges( onlyEditables );
+
+		return ranges || [];
+	};
+
 	/**
 	 * Locks the selection made in the editor in order to make it possible to
 	 * manipulate it without browser interference. A locked selection is
