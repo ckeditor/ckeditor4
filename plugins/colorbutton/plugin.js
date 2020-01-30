@@ -370,12 +370,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					colorLabel = colorName;
 				}
 
-				output.push( '<td>' + generateTileHtml( {
+				output.push( '<td>' + generateColorBoxHtml( {
 					colorLabel: colorLabel,
 					clickFn: clickFn,
 					colorCode: colorCode,
 					type: type,
-					position: i + 2,
+					position: i + 2, // First color box should have position 2 as position 1 is for Automatic Button.
 					setSize: total
 				} ) + '</td>' );
 			}
@@ -466,7 +466,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			addLabels( sortedColors, colorNames );
 
-			createColorTiles( {
+			createColorBoxes( {
 				colorArray: sortedColors,
 				clickFn: options.clickFn,
 				type: options.type,
@@ -540,7 +540,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 		}
 
-		function createColorTiles( options ) {
+		function createColorBoxes( options ) {
 			var currentRow = options.row;
 
 			for ( var index = 0; index < options.setSize; index++ ) {
@@ -550,10 +550,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				// Unfortunately CKEDITOR.dom.element.createFromHtml() doesn't work for table elements,
 				// so table cell has to be created separately.
-				var colorTile = new CKEDITOR.dom.element( 'td' ),
+				var colorBox = new CKEDITOR.dom.element( 'td' ),
 					color = options.colorArray[ index ];
 
-				colorTile.setHtml( generateTileHtml( {
+				colorBox.setHtml( generateColorBoxHtml( {
 					colorLabel: color.label,
 					clickFn: options.clickFn,
 					colorCode: color.colorCode,
@@ -562,7 +562,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					setSize: options.setSize
 				} ) );
 
-				currentRow.append( colorTile );
+				currentRow.append( colorBox );
 			}
 		}
 
@@ -575,7 +575,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			return newRow;
 		}
 
-		function generateTileHtml( options ) {
+		function generateColorBoxHtml( options ) {
 			return '<a class="cke_colorbox" _cke_focus=1 hidefocus=true' +
 				' title="' + options.colorLabel + '"' +
 				' draggable="false"' +
@@ -591,51 +591,51 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		function addCustomColorToPanel( options ) {
 			// This function is called whenever a color from panel or colordialog is chosen.
-			var chosenColorTile = findColorInHistory( options.colorHistoryRows, options.colorHexCode ),
+			var chosenColorBox = findColorInHistory( options.colorHistoryRows, options.colorHexCode ),
 				colorLabel = editor.lang.colorbutton.colors[ options.colorHexCode ] || options.colorHexCode,
 				rowLimit = config.colorButton_historyRowLimit || 1,
-				tilesNumber = countTiles(  options.colorHistoryRows );
+				colorBoxesNumber = countColorBoxes( options.colorHistoryRows );
 
-			if ( chosenColorTile ) {
-				// If the same color is chosen again, find the old tile and move it to the beginning
+			if ( chosenColorBox ) {
+				// If the same color is chosen again, find the old colorBox and move it to the beginning
 				// instead of creating a new one.
-				options.colorHistoryRows[ 0 ].append( chosenColorTile.getParent(), true );
+				options.colorHistoryRows[ 0 ].append( chosenColorBox.getParent(), true );
 			} else {
-				var colorTile = new CKEDITOR.dom.element( 'td' );
+				var colorBox = new CKEDITOR.dom.element( 'td' );
 
-				tilesNumber++;
-				colorTile.setHtml( generateTileHtml( {
+				colorBoxesNumber += 1;
+				colorBox.setHtml( generateColorBoxHtml( {
 					colorLabel: colorLabel,
 					clickFn: options.clickFn,
 					colorCode: options.colorHexCode,
 					type: options.type,
 					position: 1,
-					setSize: tilesNumber <= options.colorsPerRow ? tilesNumber : tilesNumber - 1
+					setSize: colorBoxesNumber <= options.colorsPerRow ? colorBoxesNumber : colorBoxesNumber - 1
 				} ) );
 
-				options.colorHistoryRows[ 0 ].append( colorTile, true );
+				options.colorHistoryRows[ 0 ].append( colorBox, true );
 			}
 
-			rearrangeRows(  options.colorHistoryRows, rowLimit, options.colorsPerRow );
+			rearrangeRows( options.colorHistoryRows, rowLimit, options.colorsPerRow );
 
-			updateAriaAttributes(  options.colorHistoryRows, tilesNumber );
+			updateAriaAttributes( options.colorHistoryRows, colorBoxesNumber );
 
 			options.colorHistorySeparator.show();
 		}
 
 		function findColorInHistory( colorHistoryRows, colorHexCode ) {
-			var colorTile;
+			var colorBox;
 
 			CKEDITOR.tools.array.forEach( colorHistoryRows, function( row ) {
 				if ( row.findOne( '[data-value="' + colorHexCode + '"]' ) ) {
-					colorTile = row.findOne( '[data-value="' + colorHexCode + '"]' );
+					colorBox = row.findOne( '[data-value="' + colorHexCode + '"]' );
 				}
 			} );
 
-			return colorTile;
+			return colorBox;
 		}
 
-		function countTiles( colorHistoryRows ) {
+		function countColorBoxes( colorHistoryRows ) {
 			return CKEDITOR.tools.array.reduce( colorHistoryRows, function( totalLength, row ) {
 					totalLength += row.getChildCount();
 					return totalLength;
@@ -661,13 +661,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			rows[ startRow ].getLast().move( rows[ startRow + 1 ], true );
 		}
 
-		function updateAriaAttributes( rows, tilesNumber ) {
+		function updateAriaAttributes( rows, colorBoxesNumber ) {
 			var position = 1;
 
 			CKEDITOR.tools.array.forEach( rows, function( row ) {
-				CKEDITOR.tools.array.forEach( row.getChildren().toArray(), function( tile ) {
-					tile.getChild( 0 ).setAttributes( {
-						'aria-setsize': tilesNumber,
+				CKEDITOR.tools.array.forEach( row.getChildren().toArray(), function( colorBox ) {
+					colorBox.getChild( 0 ).setAttributes( {
+						'aria-setsize': colorBoxesNumber,
 						'aria-posinset': position
 					} );
 					position += 1;
