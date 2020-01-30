@@ -451,17 +451,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		}
 
 		function renderContentColors( options ) {
-			// This function is called on the first dialog opening.
-			var cssProperty = options.cssProperty,
-				colorSpans = editor.editable().find( 'span[style*=' + cssProperty + ']' ).toArray(),
+			// This function is called on the first panel opening.
+			var colorSpans = editor.editable().find( 'span[style*=' + options.cssProperty + ']' ).toArray(),
 				htmlColorsList = CKEDITOR.tools.style.parse._colors,
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
 				rowLimit = config.colorButton_historyRowLimit || 1,
 				colorNames = editor.lang.colorbutton.colors,
-				clickFn = options.clickFn,
-				type = options.type,
-				colorHistoryRow = options.colorHistoryRow,
-				colorHistorySeparator = options.colorHistorySeparator,
 				colorOccurrences,
 				sortedColors;
 
@@ -469,7 +464,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				return;
 			}
 
-			colorOccurrences = extractColorInfo( colorSpans, cssProperty, htmlColorsList );
+			colorOccurrences = extractColorInfo( colorSpans, options.cssProperty, htmlColorsList );
 
 			if ( CKEDITOR.tools.isEmpty( colorOccurrences ) ) {
 				return;
@@ -483,14 +478,14 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			createColorTiles( {
 				colorArray: sortedColors,
-				clickFn: clickFn,
-				type: type,
+				clickFn: options.clickFn,
+				type: options.type,
 				setSize: sortedColors.length,
 				rowSize: colorsPerRow,
-				row: colorHistoryRow
+				row: options.colorHistoryRow
 			} );
 
-			colorHistorySeparator.show();
+			options.colorHistorySeparator.show();
 		}
 
 		function extractColorInfo( spans, cssProperty, colorlist ) {
@@ -606,42 +601,36 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		function addCustomColorToPanel( options ) {
 			// This function is called whenever a color from panel or colordialog is chosen.
-			var colorHexCode = options.colorHexCode,
-				colorHistoryRows = options.colorHistoryRows,
-				chosenColorTile = findColorInHistory( colorHistoryRows, colorHexCode ),
-				colorLabel = editor.lang.colorbutton.colors[ colorHexCode ] || colorHexCode,
-				clickFn = options.clickFn,
-				type = options.type,
-				colorsPerRow = options.colorsPerRow,
+			var chosenColorTile = findColorInHistory( options.colorHistoryRows, options.colorHexCode ),
+				colorLabel = editor.lang.colorbutton.colors[ options.colorHexCode ] || options.colorHexCode,
 				rowLimit = config.colorButton_historyRowLimit || 1,
-				colorHistorySeparator = options.colorHistorySeparator,
-				tilesNumber = countTiles( colorHistoryRows );
+				tilesNumber = countTiles(  options.colorHistoryRows );
 
 			if ( chosenColorTile ) {
 				// If the same color is chosen again, find the old tile and move it to the beginning
 				// instead of creating a new one.
-				colorHistoryRows[ 0 ].append( chosenColorTile.getParent(), true );
+				options.colorHistoryRows[ 0 ].append( chosenColorTile.getParent(), true );
 			} else {
 				var colorTile = new CKEDITOR.dom.element( 'td' );
 
 				tilesNumber++;
 				colorTile.setHtml( generateTileHtml( {
 					colorLabel: colorLabel,
-					clickFn: clickFn,
-					colorCode: colorHexCode,
-					type: type,
+					clickFn: options.clickFn,
+					colorCode: options.colorHexCode,
+					type: options.type,
 					position: 1,
-					setSize: tilesNumber <= colorsPerRow ? tilesNumber : tilesNumber - 1
+					setSize: tilesNumber <= options.colorsPerRow ? tilesNumber : tilesNumber - 1
 				} ) );
 
-				colorHistoryRows[ 0 ].append( colorTile, true );
+				options.colorHistoryRows[ 0 ].append( colorTile, true );
 			}
 
-			rearrangeRows( colorHistoryRows, rowLimit, colorsPerRow );
+			rearrangeRows(  options.colorHistoryRows, rowLimit, options.colorsPerRow );
 
-			updateAriaAttributes( colorHistoryRows, tilesNumber );
+			updateAriaAttributes(  options.colorHistoryRows, tilesNumber );
 
-			colorHistorySeparator.show();
+			options.colorHistorySeparator.show();
 		}
 
 		function findColorInHistory( colorHistoryRows, colorHexCode ) {
