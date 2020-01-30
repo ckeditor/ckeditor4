@@ -5,22 +5,23 @@
 
 New features:
 
-* [#2374](https://github.com/ckeditor/ckeditor-dev/issues/2374): Added support for pasting rich content from LibreOffice with the [Paste from LibreOffice](https://ckeditor.com/cke4/addon/pastefromlibreoffice) plugin.
-* [#2583](https://github.com/ckeditor/ckeditor-dev/issues/2583): Changed [Emoji](https://ckeditor.com/cke4/addon/emoji) suggestion box to show matched emoji name instead of an ID.
-* [#3748](https://github.com/ckeditor/ckeditor-dev/issues/3748): Improved [Color Button](https://ckeditor.com/cke4/addon/colorbutton) state to reflect selected editor content colors.
+* [#2374](https://github.com/ckeditor/ckeditor4/issues/2374): Added support for pasting rich content from LibreOffice with the [Paste from LibreOffice](https://ckeditor.com/cke4/addon/pastefromlibreoffice) plugin.
+* [#2583](https://github.com/ckeditor/ckeditor4/issues/2583): Changed [Emoji](https://ckeditor.com/cke4/addon/emoji) suggestion box to show matched emoji name instead of an ID.
+* [#3748](https://github.com/ckeditor/ckeditor4/issues/3748): Improved [Color Button](https://ckeditor.com/cke4/addon/colorbutton) state to reflect selected editor content colors.
 * [#3661](https://github.com/ckeditor/ckeditor4/issues/3661): Improved [Print](https://ckeditor.com/cke4/addon/print) plugin to respect styling rendered by the [Preview](https://ckeditor.com/cke4/addon/preview) plugin.
+* [#3547](https://github.com/ckeditor/ckeditor4/issues/3547): Active [dialog](https://ckeditor.com/cke4/addon/dialog) tab has now `aria-selected="true"` attribute.
 
 Fixed Issues:
 
 * [#3587](https://github.com/ckeditor/ckeditor4/issues/3587): [Edge, IE] Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) with form input elements loses focus during typing.
 * [#3705](https://github.com/ckeditor/ckeditor4/issues/3705): [Safari] Fixed: Safari incorrectly removes blocks with [`editor.extractSelectedHtml()`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-extractSelectedHtml) method after selecting all content.
-* [#1306](https://github.com/ckeditor/ckeditor-dev/issues/1306): Fixed: [Font](https://ckeditor.com/cke4/addon/colorbutton) plugin creates nested HTML `span` tags when reapplying the same font multiple times.
+* [#1306](https://github.com/ckeditor/ckeditor4/issues/1306): Fixed: [Font](https://ckeditor.com/cke4/addon/colorbutton) plugin creates nested HTML `span` tags when reapplying the same font multiple times.
 
 API Changes:
 
-* [#3387](https://github.com/ckeditor/ckeditor-dev/issues/3387): Added the [CKEDITOR.ui.richCombo#select](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_richCombo.html#method-select) method.
-* [#3727](https://github.com/ckeditor/ckeditor-dev/issues/3727): Added new commands `textColor` and `bgColor` which applies the selected color choosen by the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) plugin.
-* [#3728](https://github.com/ckeditor/ckeditor-dev/issues/3728): Added new commands `font` and `fontSize` which applies the selected font style choosen by the [Font](https://ckeditor.com/cke4/addon/colorbutton) plugin.
+* [#3387](https://github.com/ckeditor/ckeditor4/issues/3387): Added the [CKEDITOR.ui.richCombo#select](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_ui_richCombo.html#method-select) method.
+* [#3727](https://github.com/ckeditor/ckeditor4/issues/3727): Added new commands `textColor` and `bgColor` which applies the selected color choosen by the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) plugin.
+* [#3728](https://github.com/ckeditor/ckeditor4/issues/3728): Added new commands `font` and `fontSize` which applies the selected font style choosen by the [Font](https://ckeditor.com/cke4/addon/colorbutton) plugin.
 
 ## CKEditor 4.13.1
 

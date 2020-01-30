@@ -18,7 +18,8 @@
 
 		assertFocusedElement = window.dialogTools.assertFocusedElement,
 		assertFocusedTab = window.dialogTools.assertFocusedTab,
-		focusElement = window.dialogTools.focusElement;
+		focusElement = window.dialogTools.focusElement,
+		assertTabsAriaAttribute = window.dialogTools.assertTabsAriaAttribute;
 
 	bender.editor = {
 		config: {
@@ -205,6 +206,28 @@
 				.then( assertFocusedTab( 'mp-test3' ) )
 				.then( focusElement( { key: KEYS.ARROW_LEFT } ) )
 				.then( assertFocusedTab( 'mp-test2' ) );
+		},
+
+		// (#3547)
+		'test multi page dialog should move the aria-selected attribute when navigating with ARROW keys': function() {
+			var bot = this.editorBot;
+
+			return bot.asyncDialog( 'multiPageDialog' )
+				.then( assertFocusedElement( {
+					tab: 'mp-test1',
+					elementId: 'mp-input11'
+				} ) )
+				.then( focusElement( { direction: 'previous' } ) )
+				.then( assertTabsAriaAttribute() )
+				.then( focusElement( { key: KEYS.ARROW_RIGHT } ) )
+				.then( assertTabsAriaAttribute() )
+				.then( focusElement( { key: KEYS.ARROW_UP } ) )
+				.then( assertTabsAriaAttribute() )
+				.then( focusElement( { key: KEYS.ARROW_DOWN } ) )
+				.then( focusElement( { key: KEYS.ARROW_DOWN } ) )
+				.then( assertTabsAriaAttribute() )
+				.then( focusElement( { key: KEYS.ARROW_LEFT } ) )
+				.then( assertTabsAriaAttribute() );
 		},
 
 		'test multi page dialog should bring the focus to the tab with the ALT+F10 keys': function() {

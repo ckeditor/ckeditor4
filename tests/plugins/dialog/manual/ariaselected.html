@@ -1,0 +1,35 @@
+<div>
+	<div>Selected tab by class: <span id="selected-by-class" style="border: 1px solid red"></span></div>
+	<div>Selected tab by aria-selected: <span id="selected-by-aria" style="border: 1px solid red"></span></div>
+
+	<textarea cols="80" id="editor" rows="10">
+		<p>Hello world!</p>
+	</textarea>
+
+	<script>
+		CKEDITOR.replace( 'editor' );
+
+		var resultClass = CKEDITOR.document.findOne( '#selected-by-class' ),
+			resultAria = CKEDITOR.document.findOne( '#selected-by-aria' ),
+			selectedByClass,
+			selectedByAria;
+
+		CKEDITOR.instances.editor.on( 'dialogShow', function( evt ) {
+			var interval = setInterval( function() {
+				selectedByClass = evt.data.getElement().findOne( '.cke_dialog_tab_selected' );
+				selectedByAria = evt.data.getElement().findOne( '[aria-selected=true]' );
+					if ( selectedByClass ) {
+						resultClass.setText( selectedByClass.getText() );
+					}
+					if ( selectedByAria ) {
+						resultAria.setText( selectedByAria.getText() );
+					}
+				}, 100 );
+
+			CKEDITOR.instances.editor.once( 'dialogHide', function( evt ) {
+				clearInterval( interval );
+			} );
+		} );
+
+	</script>
+</div>
