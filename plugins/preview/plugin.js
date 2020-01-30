@@ -35,7 +35,7 @@
 	} );
 
 	/**
-	 * Namespace providing a set of helper functions for working with editor HTML preview, exposed by the
+	 * Namespace providing a set of helper functions for working with editor content preview, exposed by the
 	 * [Preview](https://ckeditor.com/cke4/addon/preview) plugin.
 	 *
 	 * @since 4.14.0
