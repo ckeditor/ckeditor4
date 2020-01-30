@@ -56,7 +56,7 @@
 
 	function dragstart( editor, evt, widgetOrNode ) {
 		var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
-			dragTarget = widgetOrNode.dragHandlerContainer ? widgetOrNode.dragHandlerContainer.findOne( 'img' ) : widgetOrNode;
+			dragTarget = getDragEventTarget( widgetOrNode );
 
 		// Use realistic target which is the drag handler or the element.
 		evt.setTarget( dragTarget );
@@ -79,12 +79,20 @@
 
 	function dragend( editor, evt, widgetOrNode ) {
 		var dropTarget = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document,
-			dragTarget = widgetOrNode.dragHandlerContainer ? widgetOrNode.dragHandlerContainer.findOne( 'img' ) : widgetOrNode;
+			dragTarget = getDragEventTarget( widgetOrNode );
 
 		// Use realistic target which is the drag handler or the element.
 		evt.setTarget( dragTarget );
 
 		dropTarget.fire( 'dragend', evt );
+	}
+
+	function getDragEventTarget( widgetOrNode ) {
+		if ( !widgetOrNode.dragHandlerContainer ) {
+			return widgetOrNode;
+		}
+
+		return widgetOrNode.dragHandlerContainer.findOne( 'img' );
 	}
 
 	bender.test( {
