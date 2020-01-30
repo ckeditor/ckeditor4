@@ -35,8 +35,8 @@
 	} );
 
 	/**
-	 * Namespace providing a set of helper functions for working with print preview, exposed by the
-	 * [Preview](https://ckeditor.com/cke4/addon/tableselection) plugin.
+	 * Namespace providing a set of helper functions for working with editor HTML preview, exposed by the
+	 * [Preview](https://ckeditor.com/cke4/addon/preview) plugin.
 	 *
 	 * @since 4.14.0
 	 * @singleton
@@ -46,8 +46,10 @@
 		/**
 		 * Generates print preview for the given editor.
 		 *
+		 * **Note** that this function will open a new browser window with editor content HTML.
+		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
-		 * @returns {CKEDITOR.dom.window} Newly created window, which contains the preview.
+		 * @returns {CKEDITOR.dom.window} Newly created window, which contains the preview HTML.
 		 */
 		createPreview: function( editor ) {
 			var previewHtml = createPreviewHtml( editor ),
