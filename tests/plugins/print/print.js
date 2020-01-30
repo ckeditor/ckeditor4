@@ -191,7 +191,7 @@ bender.test( {
 			startupData: '<p>Foo</p>',
 			config: {
 				startupMode: 'source',
-				plugins: 'preview,sourcearea'
+				plugins: 'preview,print,sourcearea'
 			}
 		}, function( bot ) {
 			var editor = bot.editor,
