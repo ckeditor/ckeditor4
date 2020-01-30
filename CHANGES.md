@@ -9,6 +9,7 @@ New features:
 * [#2583](https://github.com/ckeditor/ckeditor-dev/issues/2583): Changed [Emoji](https://ckeditor.com/cke4/addon/emoji) suggestion box to show matched emoji name instead of an ID.
 * [#3748](https://github.com/ckeditor/ckeditor-dev/issues/3748): Improved [Color Button](https://ckeditor.com/cke4/addon/colorbutton) state to reflect selected editor content colors.
 * [#3661](https://github.com/ckeditor/ckeditor4/issues/3661): Improved [Print](https://ckeditor.com/cke4/addon/print) plugin to respect styling rendered by the [Preview](https://ckeditor.com/cke4/addon/preview) plugin.
+* [#3547](https://github.com/ckeditor/ckeditor4/issues/3547): Active [dialog](https://ckeditor.com/cke4/addon/dialog) tab has now `aria-selected="true"` attribute.
 
 Fixed Issues:
 
