@@ -456,7 +456,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorSpans = editor.editable().find( 'span[style*=' + cssProperty + ']' ).toArray(),
 				htmlColorsList = CKEDITOR.tools.style.parse._colors,
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
-				rowsNumber = config.colorButton_historyRowsNumber || 1,
+				rowLimit = config.colorButton_historyRowLimit || 1,
 				colorNames = editor.lang.colorbutton.colors,
 				clickFn = options.clickFn,
 				type = options.type,
@@ -477,7 +477,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			sortedColors = sortByOccurrences( colorOccurrences, 'colorCode' );
 
-			trimArray( sortedColors, colorsPerRow, rowsNumber );
+			trimArray( sortedColors, colorsPerRow, rowLimit );
 
 			addLabels( sortedColors, colorNames );
 
@@ -541,8 +541,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			return result;
 		}
 
-		function trimArray( array, rowSize, rowsNumber ) {
-			var allowedSize = rowSize * rowsNumber;
+		function trimArray( array, rowSize, rowLimit ) {
+			var allowedSize = rowSize * rowLimit;
 
 			if ( array.length > allowedSize ) {
 				array.splice( allowedSize - 1, array.length - allowedSize );
@@ -613,7 +613,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				clickFn = options.clickFn,
 				type = options.type,
 				colorsPerRow = options.colorsPerRow,
-				rowsNumber = config.colorButton_historyRowsNumber || 1,
+				rowLimit = config.colorButton_historyRowLimit || 1,
 				colorHistorySeparator = options.colorHistorySeparator,
 				tilesNumber = countTiles( colorHistoryRows );
 
@@ -637,7 +637,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorHistoryRows[ 0 ].append( colorTile, true );
 			}
 
-			rearrangeRows( colorHistoryRows, rowsNumber, colorsPerRow );
+			rearrangeRows( colorHistoryRows, rowLimit, colorsPerRow );
 
 			updateAriaAttributes( colorHistoryRows, tilesNumber );
 
