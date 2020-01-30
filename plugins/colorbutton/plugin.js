@@ -555,7 +555,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			for ( var index = 0; index < options.setSize; index++ ) {
 				if ( index && index % options.rowSize === 0 ) {
-					currentRow = createColorHistoryRow( currentRow );
+					currentRow = appendNewColorHistoryRow( currentRow );
 				}
 
 				// Unfortunately CKEDITOR.dom.element.createFromHtml() doesn't work for table elements,
@@ -576,7 +576,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 		}
 
-		function createColorHistoryRow( currentRow ) {
+		function appendNewColorHistoryRow( currentRow ) {
 			var newRow = editor.document.createElement( 'tr' );
 
 			newRow.addClass( 'cke_colorhistory_row' );
@@ -659,7 +659,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} else if ( rows[ rowIndex + 1 ] ) {
 					moveToNextRow( rows, rowIndex );
 				} else if ( rowIndex < rowsLimit - 1 ) {
-					rows[ rowIndex + 1 ] = createColorHistoryRow( rows[ rowIndex ] );
+					rows[ rowIndex + 1 ] = appendNewColorHistoryRow( rows[ rowIndex ] );
 					moveToNextRow( rows, rowIndex );
 				} else {
 					rows[ rowIndex ].getLast().remove();
