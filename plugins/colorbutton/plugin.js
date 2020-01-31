@@ -296,7 +296,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
 							setColor( color );
-							addCustomColorToPanel( {
+							addColorToHistory( {
 								colorHistoryRows: panel.element.find( '.cke_colorhistory_row' ).toArray(),
 								colorHistorySeparator: panel.element.findOne( '.cke_colorhistory_separator' ),
 								colorHexCode: color.substr( 1 ).toUpperCase(),
@@ -308,7 +308,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					}, null, colorData );
 				} else {
 					setColor( color && '#' + color );
-					addCustomColorToPanel( {
+					addColorToHistory( {
 						colorHistoryRows: panel.element.find( '.cke_colorhistory_row' ).toArray(),
 						colorHistorySeparator: panel.element.findOne( '.cke_colorhistory_separator' ),
 						colorHexCode: color.toUpperCase(),
@@ -567,7 +567,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				'</a>';
 		}
 
-		function addCustomColorToPanel( options ) {
+		function addColorToHistory( options ) {
 			// This function is called whenever a color from panel or colordialog is chosen.
 			var chosenColorBox = findColorInHistory( options.colorHistoryRows, options.colorHexCode ),
 				colorLabel = editor.lang.colorbutton.colors[ options.colorHexCode ] || options.colorHexCode,
