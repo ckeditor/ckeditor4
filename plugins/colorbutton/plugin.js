@@ -868,3 +868,13 @@ CKEDITOR.config.colorButton_backStyle = {
  * @cfg {Boolean} [colorButton_normalizeBackground=true]
  * @member CKEDITOR.config
  */
+
+/**
+ * Defines how many color history rows can be created.
+ *
+ *		config.colorButton_historyRowLimit = 2;
+ *
+ * @since 4.14.0
+ * @cfg {Number} [colorButton_historyRowLimit=1]
+ * @member CKEDITOR.config
+ */
