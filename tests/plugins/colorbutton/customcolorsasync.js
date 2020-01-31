@@ -1,7 +1,7 @@
 /* bender-tags: editor,colorbutton,colordialog,1795 */
 /* bender-ckeditor-plugins: colorbutton,colordialog,toolbar */
 /* bender-include: _helpers/tools.js */
-/* global findInPanel, asyncChooseColorFromDialog */
+/* global colorHistoryTools */
 
 ( function() {
 	'use strict';
@@ -14,15 +14,15 @@
 				.then( function( bot ) {
 					bot.setHtmlWithSelection( '<p>[Foo bar baz]</p>' );
 
-					return asyncChooseColorFromDialog( bot, '#00ff00' );
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#00ff00' );
 				} )
 				.then( function( bot ) {
-					return asyncChooseColorFromDialog( bot, '#00ff00' );
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#00ff00' );
 				} )
 				.then( function( bot ) {
 					var txtColorBtn = bot.editor.ui.get( 'TextColor' );
 
-					assert.areEqual( 1, findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row should contain one tile.' );
+					assert.areEqual( 1, colorHistoryTools.findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row should contain one tile.' );
 				} );
 		},
 
@@ -32,16 +32,16 @@
 				} )
 				.then( function( bot ) {
 					bot.setHtmlWithSelection( '<p>[Foo bar baz]</p>' );
-					return asyncChooseColorFromDialog( bot, '#00ff00' );
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#00ff00' );
 				} )
 				.then( function( bot ) {
-					return asyncChooseColorFromDialog( bot, '#ff00ff' );
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#ff00ff' );
 				} )
 				.then( function( bot ) {
 					var txtColorBtn = bot.editor.ui.get( 'TextColor' );
 
-					assert.areEqual( 2, findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row should contain two tiles.' );
-					assert.areEqual( 'FF00FF', findInPanel( '.cke_colorcustom_row .cke_colorbox', txtColorBtn ).getAttribute( 'data-value' ), 'New color should be displayed first.' );
+					assert.areEqual( 2, colorHistoryTools.findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row should contain two tiles.' );
+					assert.areEqual( 'FF00FF', colorHistoryTools.findInPanel( '.cke_colorcustom_row .cke_colorbox', txtColorBtn ).getAttribute( 'data-value' ), 'New color should be displayed first.' );
 				} );
 		},
 
@@ -51,19 +51,19 @@
 				} )
 				.then( function( bot ) {
 					bot.setHtmlWithSelection( '<p>[Foo bar baz]</p>' );
-					return asyncChooseColorFromDialog( bot, '#00ff00' );
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#00ff00' );
 				} )
 				.then( function( bot ) {
-					return asyncChooseColorFromDialog( bot, '#ff00ff' );
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#ff00ff' );
 				} )
 				.then( function( bot ) {
-					return asyncChooseColorFromDialog( bot, '#00ff00' );
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#00ff00' );
 				} )
 				.then( function( bot ) {
 					var txtColorBtn = bot.editor.ui.get( 'TextColor' );
 
 					assert.areEqual( '00FF00',
-						findInPanel( '.cke_colorcustom_row .cke_colorbox', txtColorBtn ).getAttribute( 'data-value' ),
+						colorHistoryTools.findInPanel( '.cke_colorcustom_row .cke_colorbox', txtColorBtn ).getAttribute( 'data-value' ),
 						'Last chosen color should be displayed first.' );
 				} );
 		},
@@ -77,23 +77,23 @@
 				} )
 				.then( function( bot ) {
 					bot.setHtmlWithSelection( '<p>[Foo bar baz]</p>' );
-					return asyncChooseColorFromDialog( bot, '#00ff00' );
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#00ff00' );
 				} )
 				.then( function( bot ) {
-					return asyncChooseColorFromDialog( bot, '#ff00ff' );
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#ff00ff' );
 				} )
 				.then( function( bot ) {
-					return asyncChooseColorFromDialog( bot, '#22aaff' );
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#22aaff' );
 				} )
 				.then( function( bot ) {
-					return asyncChooseColorFromDialog( bot, '#ffaa22' );
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#ffaa22' );
 				} )
 				.then( function( bot ) {
-					return asyncChooseColorFromDialog( bot, '#888888' );
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#888888' );
 				} )
 				.then( function( bot ) {
 					var txtColorBtn = bot.editor.ui.get( 'TextColor' ),
-						customColorRow = findInPanel( '.cke_colorcustom_row', txtColorBtn ),
+						customColorRow = colorHistoryTools.findInPanel( '.cke_colorcustom_row', txtColorBtn ),
 						firstTile,
 						thirdTile;
 

@@ -1,7 +1,7 @@
 /* bender-tags: editor,colorbutton */
 /* bender-ckeditor-plugins: colorbutton,undo,toolbar,wysiwygarea */
 /* bender-include: _helpers/tools.js */
-/* global findInPanel */
+/* global colorHistoryTools */
 
 ( function() {
 	'use strict';
@@ -17,12 +17,12 @@
 			this.editorBot.setHtmlWithSelection( '[<p>Moo</p>]' );
 
 			txtColorBtn.click( editor );
-			assert.isNotNull( findInPanel( '.cke_colorcontent_row', txtColorBtn ), 'Content colors row should exist.' );
-			assert.isNull( findInPanel( '.cke_colorcustom_row', txtColorBtn ), 'Custom colors row shouldn\'t exist.' );
+			assert.isNotNull( colorHistoryTools.findInPanel( '.cke_colorcontent_row', txtColorBtn ), 'Content colors row should exist.' );
+			assert.isNull( colorHistoryTools.findInPanel( '.cke_colorcustom_row', txtColorBtn ), 'Custom colors row shouldn\'t exist.' );
 
 			bgColorBtn.click( editor );
-			assert.isNotNull( findInPanel( '.cke_colorcontent_row', bgColorBtn ), 'Content colors row should exist.' );
-			assert.isNull( findInPanel( '.cke_colorcustom_row', bgColorBtn ), 'Custom colors row shouldn\'t exist.' );
+			assert.isNotNull( colorHistoryTools.findInPanel( '.cke_colorcontent_row', bgColorBtn ), 'Content colors row should exist.' );
+			assert.isNull( colorHistoryTools.findInPanel( '.cke_colorcustom_row', bgColorBtn ), 'Custom colors row shouldn\'t exist.' );
 		},
 
 		'test label is hidden and row is empty when there are no colors in content': function() {
@@ -33,12 +33,12 @@
 			this.editorBot.setHtmlWithSelection( '[<p>Moo</p>]' );
 
 			txtColorBtn.click( editor );
-			assert.isFalse( findInPanel( '.cke_colorcontent_label', txtColorBtn ).isVisible(), 'Label shouldn\'t be visible.' );
-			assert.areEqual( 0, findInPanel( '.cke_colorcontent_row', txtColorBtn ).getChildCount(), 'Row should be empty.' );
+			assert.isFalse( colorHistoryTools.findInPanel( '.cke_colorcontent_label', txtColorBtn ).isVisible(), 'Label shouldn\'t be visible.' );
+			assert.areEqual( 0, colorHistoryTools.findInPanel( '.cke_colorcontent_row', txtColorBtn ).getChildCount(), 'Row should be empty.' );
 
 			bgColorBtn.click( editor );
-			assert.isFalse( findInPanel( '.cke_colorcontent_label', bgColorBtn ).isVisible(), 'Label shouldn\'t be visible.' );
-			assert.areEqual( 0, findInPanel( '.cke_colorcontent_row', bgColorBtn ).getChildCount(), 'Row should be empty.' );
+			assert.isFalse( colorHistoryTools.findInPanel( '.cke_colorcontent_label', bgColorBtn ).isVisible(), 'Label shouldn\'t be visible.' );
+			assert.areEqual( 0, colorHistoryTools.findInPanel( '.cke_colorcontent_row', bgColorBtn ).getChildCount(), 'Row should be empty.' );
 		},
 
 		'test label is visible and row is not empty when there is a color in content': function() {
@@ -49,12 +49,12 @@
 			this.editorBot.setHtmlWithSelection( '<p>[<span style="color:#ff3333; background-color:#3333ff">Moo</span>]</p>' );
 
 			txtColorBtn.click( editor );
-			assert.isTrue( findInPanel( '.cke_colorcontent_label', txtColorBtn ).isVisible(), 'Label should be visible.' );
-			assert.areNotEqual( 0, findInPanel( '.cke_colorcontent_row', txtColorBtn ).getChildCount(), 'Row shouldn\'t be empty.' );
+			assert.isTrue( colorHistoryTools.findInPanel( '.cke_colorcontent_label', txtColorBtn ).isVisible(), 'Label should be visible.' );
+			assert.areNotEqual( 0, colorHistoryTools.findInPanel( '.cke_colorcontent_row', txtColorBtn ).getChildCount(), 'Row shouldn\'t be empty.' );
 
 			bgColorBtn.click( editor );
-			assert.isTrue( findInPanel( '.cke_colorcontent_label', bgColorBtn ).isVisible(), 'Label should be visible.' );
-			assert.areNotEqual( 0, findInPanel( '.cke_colorcontent_row', bgColorBtn ).getChildCount(), 'Row shouldn\'t be empty.' );
+			assert.isTrue( colorHistoryTools.findInPanel( '.cke_colorcontent_label', bgColorBtn ).isVisible(), 'Label should be visible.' );
+			assert.areNotEqual( 0, colorHistoryTools.findInPanel( '.cke_colorcontent_row', bgColorBtn ).getChildCount(), 'Row shouldn\'t be empty.' );
 		},
 
 		'test content color tiles work': function() {
@@ -65,13 +65,13 @@
 			this.editorBot.setHtmlWithSelection( '<p>[<span style="color:#ff3333; background-color:#3333ff">Moo</span> and not moo]</p>' );
 
 			txtColorBtn.click( editor );
-			findInPanel( '.cke_colorcontent_row .cke_colorbox', txtColorBtn ).$.click();
+			colorHistoryTools.findInPanel( '.cke_colorcontent_row .cke_colorbox', txtColorBtn ).$.click();
 
 			assert.areEqual( '<p><span style="color:#ff3333"><span style="background-color:#3333ff">Moo</span> and not moo</span></p>',
 				editor.getData(), 'Text color should change.' );
 
 			bgColorBtn.click( editor );
-			findInPanel( '.cke_colorcontent_row .cke_colorbox', bgColorBtn ).$.click();
+			colorHistoryTools.findInPanel( '.cke_colorcontent_row .cke_colorbox', bgColorBtn ).$.click();
 
 			assert.areEqual( '<p><span style="color:#ff3333"><span style="background-color:#3333ff">Moo and not moo</span></span></p>',
 				editor.getData(), 'Background color should change.' );
@@ -85,17 +85,17 @@
 			this.editorBot.setHtmlWithSelection( '<p><span style="color:#ff3333; background-color:#3333ff">Moo</span>[ and not moo]</p>' );
 
 			txtColorBtn.click( editor );
-			findInPanel( '[data-value="1ABC9C"]', txtColorBtn ).$.click();
+			colorHistoryTools.findInPanel( '[data-value="1ABC9C"]', txtColorBtn ).$.click();
 
 			bgColorBtn.click( editor );
-			findInPanel( '[data-value="D35400"]', bgColorBtn ).$.click();
+			colorHistoryTools.findInPanel( '[data-value="D35400"]', bgColorBtn ).$.click();
 
 			// Colors are added on panel open, so refresh them.
 			txtColorBtn.click( editor );
 			bgColorBtn.click( editor );
 
-			assert.areEqual( 2, findInPanel( '.cke_colorcontent_row', txtColorBtn ).getChildCount(), 'New text color tile should appear.' );
-			assert.areEqual( 2, findInPanel( '.cke_colorcontent_row', bgColorBtn ).getChildCount(), 'New background color tile should appear.' );
+			assert.areEqual( 2, colorHistoryTools.findInPanel( '.cke_colorcontent_row', txtColorBtn ).getChildCount(), 'New text color tile should appear.' );
+			assert.areEqual( 2, colorHistoryTools.findInPanel( '.cke_colorcontent_row', bgColorBtn ).getChildCount(), 'New background color tile should appear.' );
 		},
 
 		'test colors are displayed in the correct order': function() {
@@ -109,9 +109,9 @@
 
 			// 1. Test appearence order (equal number of occurrences).
 			txtColorBtn.click( editor );
-			assert.areEqual( 3, findInPanel( '.cke_colorcontent_row', txtColorBtn ).getChildCount(), 'Number of color tiles is incorrect.' );
+			assert.areEqual( 3, colorHistoryTools.findInPanel( '.cke_colorcontent_row', txtColorBtn ).getChildCount(), 'Number of color tiles is incorrect.' );
 
-			firstTile = findInPanel( '.cke_colorcontent_row .cke_colorbox', txtColorBtn );
+			firstTile = colorHistoryTools.findInPanel( '.cke_colorcontent_row .cke_colorbox', txtColorBtn );
 
 			assert.areEqual( 'E74C3C', firstTile.getAttribute( 'data-value' ), 'Order is incorrect.' );
 			assert.areEqual( '1', firstTile.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
@@ -126,13 +126,13 @@
 
 			txtColorBtn.click( editor );
 
-			firstTile = findInPanel( '.cke_colorcontent_row .cke_colorbox', txtColorBtn );
+			firstTile = colorHistoryTools.findInPanel( '.cke_colorcontent_row .cke_colorbox', txtColorBtn );
 
 			assert.areEqual( '2ECC71', firstTile.getAttribute( 'data-value' ), 'Order is incorrect.' );
 			assert.areEqual( '1', firstTile.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
 			assert.areEqual( '4', firstTile.getAttribute( 'aria-setsize' ), 'Aria-setsize is incorrect.' );
 
-			yellowTile = findInPanel( '.cke_colorcontent_row [data-value="F1C40F"]', txtColorBtn );
+			yellowTile = colorHistoryTools.findInPanel( '.cke_colorcontent_row [data-value="F1C40F"]', txtColorBtn );
 
 			assert.areEqual( 'Vivid Yellow', yellowTile.getAttribute( 'title' ), 'Color label is incorrect.' );
 			assert.areEqual( '3', yellowTile.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
@@ -157,7 +157,7 @@
 
 				txtColorBtn.click( editor );
 
-				assert.areEqual( 4, findInPanel( '.cke_colorcontent_row', txtColorBtn ).getChildCount(), 'Tiles number is incorrect.' );
+				assert.areEqual( 4, colorHistoryTools.findInPanel( '.cke_colorcontent_row', txtColorBtn ).getChildCount(), 'Tiles number is incorrect.' );
 			} );
 		}
 	} );
