@@ -1,7 +1,7 @@
 /* bender-tags: editor,colorbutton,colordialog,1795 */
 /* bender-ckeditor-plugins: colorbutton,colordialog,undo,toolbar,wysiwygarea */
 /* bender-include: _helpers/tools.js */
-/* global findInPanel, chooseColorFromDialog */
+/* global colorHistoryTools */
 
 ( function() {
 	'use strict';
@@ -17,10 +17,10 @@
 			this.editorBot.setHtmlWithSelection( '[<p>Moo</p>]' );
 
 			txtColorBtn.click( editor );
-			assert.isNotNull( findInPanel( '.cke_colorcustom_row', txtColorBtn ), 'Custom colors row should exist.' );
+			assert.isNotNull( colorHistoryTools.findInPanel( '.cke_colorcustom_row', txtColorBtn ), 'Custom colors row should exist.' );
 
 			bgColorBtn.click( editor );
-			assert.isNotNull( findInPanel( '.cke_colorcustom_row', bgColorBtn ), 'Custom colors row should exist.' );
+			assert.isNotNull( colorHistoryTools.findInPanel( '.cke_colorcustom_row', bgColorBtn ), 'Custom colors row should exist.' );
 		},
 
 		'test label is hidden and row is empty before any color was chosen': function() {
@@ -31,12 +31,12 @@
 			this.editorBot.setHtmlWithSelection( '[<p>Moo</p>]' );
 
 			txtColorBtn.click( editor );
-			assert.isFalse( findInPanel( '.cke_colorcustom_label', txtColorBtn ).isVisible(), 'Label shouldn\'t be visible.' );
-			assert.areEqual( 0, findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row should be empty.' );
+			assert.isFalse( colorHistoryTools.findInPanel( '.cke_colorcustom_label', txtColorBtn ).isVisible(), 'Label shouldn\'t be visible.' );
+			assert.areEqual( 0, colorHistoryTools.findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row should be empty.' );
 
 			bgColorBtn.click( editor );
-			assert.isFalse( findInPanel( '.cke_colorcustom_label', bgColorBtn ).isVisible(), 'Label shouldn\'t be visible.' );
-			assert.areEqual( 0, findInPanel( '.cke_colorcustom_row', bgColorBtn ).getChildCount(), 'Row should be empty.' );
+			assert.isFalse( colorHistoryTools.findInPanel( '.cke_colorcustom_label', bgColorBtn ).isVisible(), 'Label shouldn\'t be visible.' );
+			assert.areEqual( 0, colorHistoryTools.findInPanel( '.cke_colorcustom_row', bgColorBtn ).getChildCount(), 'Row should be empty.' );
 		},
 
 		'test label is visible and row is not empty after choosing custom text color': function() {
@@ -48,11 +48,11 @@
 			editor.once( 'dialogHide', function() {
 				txtColorBtn.click( editor );
 
-				assert.isTrue( findInPanel( '.cke_colorcustom_label', txtColorBtn ).isVisible(), 'Label should be visible.' );
-				assert.areNotEqual( 0, findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row shouldn\'t be empty.' );
+				assert.isTrue( colorHistoryTools.findInPanel( '.cke_colorcustom_label', txtColorBtn ).isVisible(), 'Label should be visible.' );
+				assert.areNotEqual( 0, colorHistoryTools.findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row shouldn\'t be empty.' );
 			} );
 
-			chooseColorFromDialog( editor, txtColorBtn, '#33ff33' );
+			colorHistoryTools.chooseColorFromDialog( editor, txtColorBtn, '#33ff33' );
 		},
 
 		'test label is visible and row is not empty after choosing custom background color': function() {
@@ -64,11 +64,11 @@
 			editor.once( 'dialogHide', function() {
 				bgColorBtn.click( editor );
 
-				assert.isTrue( findInPanel( '.cke_colorcustom_row', bgColorBtn ).isVisible(), 'Label should be visible.' );
-				assert.areNotEqual( 0, findInPanel( '.cke_colorcustom_row', bgColorBtn ).getChildCount(), 'Row shouldn\'t be empty.' );
+				assert.isTrue( colorHistoryTools.findInPanel( '.cke_colorcustom_row', bgColorBtn ).isVisible(), 'Label should be visible.' );
+				assert.areNotEqual( 0, colorHistoryTools.findInPanel( '.cke_colorcustom_row', bgColorBtn ).getChildCount(), 'Row shouldn\'t be empty.' );
 			} );
 
-			chooseColorFromDialog( editor, bgColorBtn, '#33ff33' );
+			colorHistoryTools.chooseColorFromDialog( editor, bgColorBtn, '#33ff33' );
 		},
 
 		'test custom color tiles don\'t disappear when they are no longer present in the document': function() {
@@ -80,11 +80,11 @@
 				bender.tools.setHtmlWithSelection( editor, '<p>[Moo]</p>' );
 				txtColorBtn.click();
 
-				assert.isTrue( findInPanel( '.cke_colorcustom_label', txtColorBtn ).isVisible(), 'Label should be visible.' );
-				assert.areNotEqual( 0, findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row shouldn\'t be empty.' );
+				assert.isTrue( colorHistoryTools.findInPanel( '.cke_colorcustom_label', txtColorBtn ).isVisible(), 'Label should be visible.' );
+				assert.areNotEqual( 0, colorHistoryTools.findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row shouldn\'t be empty.' );
 			} );
 
-			chooseColorFromDialog( editor, txtColorBtn, '#33ff33' );
+			colorHistoryTools.chooseColorFromDialog( editor, txtColorBtn, '#33ff33' );
 		},
 
 		'test custom color tiles work': function() {
@@ -98,16 +98,16 @@
 				bender.tools.setHtmlWithSelection( editor, '<p>[Moo]</p>' );
 
 				txtColorBtn.click( editor );
-				findInPanel( '.cke_colorcustom_row .cke_colorbox', txtColorBtn ).$.click();
+				colorHistoryTools.findInPanel( '.cke_colorcustom_row .cke_colorbox', txtColorBtn ).$.click();
 
 				assert.areEqual( '<p><span style="color:#f1c40f">Moo</span></p>', editor.getData() );
 
-				yellowTile = findInPanel( ' .cke_colorcustom_row [data-value="F1C40F"]', txtColorBtn );
+				yellowTile = colorHistoryTools.findInPanel( ' .cke_colorcustom_row [data-value="F1C40F"]', txtColorBtn );
 
 				assert.areEqual( 'Vivid Yellow', yellowTile.getAttribute( 'title' ), 'Color label is incorrect.' );
 			} );
 
-			chooseColorFromDialog( editor, txtColorBtn, '#F1C40F' );
+			colorHistoryTools.chooseColorFromDialog( editor, txtColorBtn, '#F1C40F' );
 		}
 	} );
 } )();
