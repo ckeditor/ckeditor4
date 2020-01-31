@@ -1,6 +1,6 @@
 /* bender-tags: widgetcore */
 /* bender-ckeditor-plugins: widget,undo,clipboard */
-/* bender-ckeditor-remove-plugins: tableselection */
+/* bender-ckeditor-remove-plugins: tableselection,pastefromlibreoffice */
 /* bender-include: _helpers/tools.js */
 /* global widgetTestsTools, lineutilsTestsTools */
 
@@ -350,7 +350,7 @@
 				editor.focus();
 
 				bender.tools.resumeAfter( editor, 'afterPaste', function() {
-					var expectedRegex = /<p>Dr<\/p><p>Lorem<\/p><p>foobar<\/p><p>ipsum<\/p><p>foobar<\/p><p>dolor<\/p>(<p>\s*?<\/p>)<p>op zone<\/p>/,
+					var expectedRegex = /<p>Dr<\/p><p>Lorem<\/p><p>foobar<\/p><p>ipsum<\/p><p>foobar<\/p><p>dolor<\/p>(<p>(\s|&nbsp;)*?<\/p>)<p>op zone<\/p>/,
 						undoManager = editor.undoManager;
 
 					assert.isTrue( undoManager.undoable(), 'dnd is undoable' );
