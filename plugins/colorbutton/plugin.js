@@ -188,7 +188,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						panel: panelBlock
 					} ) );
 
-					renderContentColors( {
+					fillColorHistory( {
 						colorHistoryRow: block.element.findOne( '.cke_colorhistory_row' ),
 						colorHistorySeparator: block.element.findOne( '.cke_colorhistory_separator' ),
 						cssProperty: type == 'back' ? 'background-color' : 'color',
@@ -440,7 +440,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 		}
 
-		function renderContentColors( options ) {
+		function fillColorHistory( options ) {
 			// This function is called on the first panel opening.
 			var colorSpans = editor.editable().find( 'span[style*=' + options.cssProperty + ']' ).toArray(),
 				htmlColorsList = CKEDITOR.tools.style.parse._colors,
@@ -478,7 +478,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			options.colorHistorySeparator.show();
 		}
 
-		function extractColorInfo( spans, cssProperty, colorlist ) {
+		function extractColorInfo( spans, cssProperty, colorList ) {
 			var counterObject = {};
 
 			CKEDITOR.tools.array.forEach( spans, function( span ) {
@@ -490,12 +490,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					return;
 				}
 
-				// Color names and RGB are converted here to hex code.
-				if ( spanColor in colorlist ) {
-					spanColor = colorlist[ spanColor ].substr( 1 );
-				} else {
-					spanColor = normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase();
-				}
+				spanColor = convertToHexCode( span, spanColor, colorList, cssProperty );
 
 				if ( spanColor in counterObject ) {
 					counterObject[ spanColor ] += 1;
@@ -505,6 +500,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 
 			return counterObject;
+		}
+
+		function convertToHexCode( span, color, list, cssProperty ) {
+			return color in list ? list[ color ].substr( 1 ) : normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase();
 		}
 
 		function sortByOccurrences( objectToParse, targetKeyName ) {
@@ -624,15 +623,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		}
 
 		function findColorInHistory( colorHistoryRows, colorHexCode ) {
-			var colorBox;
-
-			CKEDITOR.tools.array.forEach( colorHistoryRows, function( row ) {
-				if ( row.findOne( '[data-value="' + colorHexCode + '"]' ) ) {
-					colorBox = row.findOne( '[data-value="' + colorHexCode + '"]' );
+			for ( var i = 0; i < colorHistoryRows.length; i++ ) {
+				if ( colorHistoryRows[ i ].findOne( '[data-value="' + colorHexCode + '"]' ) ) {
+					return colorHistoryRows[ i ].findOne( '[data-value="' + colorHexCode + '"]' );
 				}
-			} );
-
-			return colorBox;
+			}
 		}
 
 		function countColorBoxes( colorHistoryRows ) {
