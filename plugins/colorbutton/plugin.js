@@ -445,7 +445,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				return;
 			}
 
-			var colorSpans = editor.editable().find( 'span[style*=' + options.cssProperty + ']' ).toArray(),
+			var colorSpans = editor.getStyledSpans( options.cssProperty ),
 				htmlColorsList = CKEDITOR.tools.style.parse._colors,
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
 				rowLimit = config.colorButton_historyRowLimit || 1,
@@ -483,8 +483,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function extractColorInfo( spans, cssProperty, colorList ) {
 			var counterObject = {};
 
-			spans = filterWrongSpans( spans, cssProperty );
-
 			CKEDITOR.tools.array.forEach( spans, function( span ) {
 				var spanColor = getHexCode( span, colorList, cssProperty );
 
@@ -492,13 +490,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 
 			return counterObject;
-		}
-
-		function filterWrongSpans( spans, cssProperty ) {
-			// This is to filter out spans with background color when we want text color.
-			return CKEDITOR.tools.array.filter( spans, function( span ) {
-				return span.getStyle( cssProperty );
-			} );
 		}
 
 		function getHexCode( span, list, cssProperty ) {
@@ -719,6 +710,27 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function normalizeColor( color ) {
 			// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
 			return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
+		}
+
+		/**
+		 * Finds all spans styled with the given property in the editor contents.
+		 *
+		 * @since 4.14.0
+		 * @param {String} property CSS property which will be used in query.
+		 * @returns {Array} Returns an array of {@link CKEDITOR.dom.element}s.
+		 * @member CKEDITOR.editor
+		 */
+		editor.getStyledSpans = function( property ) {
+			var spans = editor.editable().find( 'span[style*=' + property + ']' ).toArray();
+
+			return filterExcessiveSpans( spans, property );
+		};
+
+		function filterExcessiveSpans( spans, cssProperty ) {
+			// This is to filter out spans e.g. with background color when we want text color.
+			return CKEDITOR.tools.array.filter( spans, function( span ) {
+				return span.getStyle( cssProperty );
+			} );
 		}
 	}
 } );
