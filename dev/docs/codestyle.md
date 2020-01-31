@@ -25,13 +25,12 @@
 ### 1.1. Mottos
 
 > #### All code in any code-base should look like a single person typed it, no matter how many people contributed.
+> _Unknown author_
 
-> #### "Arguments over style are pointless. There should be a style guide, and you should follow it"
+> #### Arguments over style are pointless. There should be a style guide, and you should follow it.
 >_Rebecca_ _Murphey_
 
-&nbsp;
-
-> #### "Part of being a good steward to a successful project is realizing that writing code for yourself is a Bad Idea™. If thousands of people are using your code, then write your code for maximum clarity, not your personal preference of how to get clever within the spec."
+> #### Part of being a good steward to a successful project is realizing that writing code for yourself is a Bad Idea™. If thousands of people are using your code, then write your code for maximum clarity, not your personal preference of how to get clever within the spec.
 >_Idan_ _Gazit_
 
 ## 2. Code style guide
@@ -42,10 +41,10 @@
 - Always use LF line endings. Never use CRLF.
 - Each file end up with an empty line character EOL.
 - If your editor supports it, always work with the "show invisibles" setting turned on. The benefits of this practice are:
-  - Enforced consistency
-  - Eliminating end of line whitespace
-  - Eliminating blank line whitespace
-  - Commits and diffs that are easier to read
+  - Enforced consistency.
+  - Eliminating end of line whitespace.
+  - Eliminating blank line whitespace.
+  - Commits and diffs that are easier to read.
 
 Related settings for [Editor Config](https://editorconfig.org/):
 
@@ -248,7 +247,7 @@ square( 10, function( square ) {
 
 ##### 2.2.2.5. Promises
 
-Preferably, asynchronous code is written using Promises. It's not always possible when maintaining code, however, prefer Promise based code for new features and everythere where you have control over API structure consumer. Always use `CKEDITOR.tools.promise` instead of native `Promise` object for wider browser support.
+Preferably, asynchronous code is written using Promises. It's not always possible when maintaining code, however, prefer Promise based code for new features and everythere where you have control over API structure consumer. Always use [`CKEDITOR.tools.promise`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools_promise.html) instead of native `Promise` object for wider browser support.
 
 ```javascript
 var promise = new CKEDITOR.tools.promise( function( resolve, reject ) {
@@ -264,7 +263,7 @@ var promise = new CKEDITOR.tools.promise( function( resolve, reject ) {
 
 ##### 2.2.2.6 Constructor declaration
 
-Prefer using [CKEDITOR.tools.createClass](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-createClass) API instead of native constructor declaration.
+Prefer using [`CKEDITOR.tools.createClass`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-createClass) API instead of native constructor declaration.
 
 ```javascript
 // Good
@@ -272,7 +271,7 @@ var FooBar = CKEDITOR.tools.createClass( {
 	$: function( message ) {
 		this.message = message;
 	},
-	
+
 	proto: {
 		greeting: function() {
 			console.log( this.message );
@@ -379,7 +378,7 @@ function foo() {
 }
 
 function baz() {
-	// ...	
+	// ...
 }
 
 function quix() {
@@ -407,7 +406,7 @@ CKEDITOR.module1 = {
 
 ##### 2.2.3.3. Configuration members
 
-Configuration members exposed by `CKEDITOR.config` object should be moved at the end of the code file. It's adapted practice in CKEditor code base which improves configuration options discoverability.
+Configuration members exposed by [`CKEDITOR.config`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html) object should be moved at the end of the code file. It's adapted practice in CKEditor code base which improves configuration options discoverability.
 
 ```javascript
 CKEDITOR.plugins.add( 'myplugin', definition );
@@ -599,7 +598,7 @@ var boolean = true;
 Number( boolean );
 ```
 
-##### 2.3.3.5. Null or undefined coercion 
+##### 2.3.3.5. Null or undefined coercion
 
 Do not use double `==` to match both `undefined` and `null` values. Prefer explicit comparison instead.
 
@@ -690,7 +689,7 @@ if ( foo === null || foo === undefined ) ...
 if ( foo == null ) ...
 ```
 
-#### 2.4.5. Loose equality coercion 
+#### 2.4.5. Loose equality coercion
 Use loose equality operator to simplify your code when you want to leverage type coercion. Remember that strict equality comparator `===` is checking if both the type and the value you are comparing are the same. In a constract, loose equality operator `==` will try to do type coercion which may be useful in some cases when comparing values where types are less revelant than values.
 
 ```javascript
@@ -765,7 +764,7 @@ true, false
 		$: function( foo ) {
 			this.foo = foo;
 		},
-		
+
 		proto: {
 			getFoo: function() {
 				return this.foo;
@@ -956,14 +955,14 @@ CKEDITOR.config.myPlugin_myProperty = true;
 
 #### 2.6.6. Types
 
-Constructors created with [CKEDITOR.tools.createClass](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-createClass) API are **always** nouns in `PascalCase` notation:
+Constructors created with [`CKEDITOR.tools.createClass`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-createClass) API are **always** nouns in `PascalCase` notation:
 
 ```javascript
 var FooBar = CKEDITOR.tools.createClass( {
 	$: function( message ) {
 		this.message = message;
 	},
-	
+
 	proto: {
 		greeting: function() {
 			console.log( this.message );
@@ -1053,7 +1052,7 @@ Object.keys( obj ).forEach( function( key ) {
 
 #### 2.7.3. Binding `this` to the function scope
 
-Beyond the generally well known use cases of `call` and `apply`, always prefer `.bind( this ) / CKEDITOR.tools.bind( fn, this )` for creating `BoundFunction` definitions for later invocation.
+Beyond the generally well known use cases of `call` and `apply`, always prefer [`CKEDITOR.tools.bind( fn, this )`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_tools.html#method-bind) for creating `BoundFunction` definitions for later invocation.
 
 ```javascript
 function Device( opts ) {
