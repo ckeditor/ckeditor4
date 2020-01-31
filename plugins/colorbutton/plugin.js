@@ -481,29 +481,36 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function extractColorInfo( spans, cssProperty, colorList ) {
 			var counterObject = {};
 
+			spans = filterWrongSpans( spans, cssProperty );
+
 			CKEDITOR.tools.array.forEach( spans, function( span ) {
-				// Array with spans may contain spans with background color when they are not necessary,
-				// so here they are being filtered out.
-				var spanColor = span.getStyle( cssProperty );
+				var spanColor = getHexCode( span, colorList, cssProperty );
 
-				if ( !spanColor ) {
-					return;
-				}
-
-				spanColor = convertToHexCode( span, spanColor, colorList, cssProperty );
-
-				if ( spanColor in counterObject ) {
-					counterObject[ spanColor ] += 1;
-				} else {
-					counterObject[ spanColor ] = 1;
-				}
+				countOccurrences( spanColor, counterObject );
 			} );
 
 			return counterObject;
 		}
 
-		function convertToHexCode( span, color, list, cssProperty ) {
+		function filterWrongSpans( spans, cssProperty ) {
+			// This is to filter out spans with background color when we want text color.
+			return CKEDITOR.tools.array.filter( spans, function( span ) {
+				return span.getStyle( cssProperty );
+			} );
+		}
+
+		function getHexCode( span, list, cssProperty ) {
+			var color = span.getStyle( cssProperty );
+
 			return color in list ? list[ color ].substr( 1 ) : normalizeColor( span.getComputedStyle( cssProperty ) ).toUpperCase();
+		}
+
+		function countOccurrences( property, object ) {
+			if ( property in object ) {
+				object[ property ] += 1;
+			} else {
+				object[ property ] = 1;
+			}
 		}
 
 		function sortByOccurrences( objectToParse, targetKeyName ) {
