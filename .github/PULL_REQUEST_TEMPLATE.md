@@ -19,7 +19,7 @@ in the official CKEditor documentation.
 
 Your code should follow guidelines from [CKEditor 4 code style guide](https://github.com/ckeditor/ckeditor4/blob/major/dev/docs/codestyle.md) which helps keep the entire codebase consistent.
 
-- [] PR is consistent with code style guide
+- [ ] PR is consistent with code style guide
 
 ## What is the proposed changelog entry for this pull request?
 
