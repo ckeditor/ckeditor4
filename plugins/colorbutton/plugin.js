@@ -377,7 +377,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} ) + '</td>' );
 			}
 
-			output.push( generateColorHistoryRowHtml() );
+			if ( config.colorButton_historyRowLimit !== 0 ) {
+				output.push( generateColorHistoryRowHtml() );
+			}
 
 			if ( moreColorsEnabled ) {
 				output.push( generateMoreColorsButtonHtml() );
@@ -437,8 +439,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 		}
 
+		// This function is called on the first panel opening.
 		function fillColorHistory( options ) {
-			// This function is called on the first panel opening.
+			if ( config.colorButton_historyRowLimit === 0 ) {
+				return;
+			}
+
 			var colorSpans = editor.editable().find( 'span[style*=' + options.cssProperty + ']' ).toArray(),
 				htmlColorsList = CKEDITOR.tools.style.parse._colors,
 				colorsPerRow = config.colorButton_colorsPerRow || 6,
@@ -590,8 +596,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				'</a>';
 		}
 
+		// This function is called whenever a color from panel or colordialog is chosen.
 		function addColorToHistory( options ) {
-			// This function is called whenever a color from panel or colordialog is chosen.
+			if ( config.colorButton_historyRowLimit === 0 ) {
+				return;
+			}
+
 			var chosenColorBox = findColorInHistory( options.colorHistoryRows, options.colorHexCode ),
 				colorLabel = editor.lang.colorbutton.colors[ options.colorHexCode ] || options.colorHexCode,
 				rowLimit = config.colorButton_historyRowLimit || 1,
