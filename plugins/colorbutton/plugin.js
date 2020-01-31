@@ -192,8 +192,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						colorHistoryRow: block.element.findOne( '.cke_colorhistory_row' ),
 						colorHistorySeparator: block.element.findOne( '.cke_colorhistory_separator' ),
 						cssProperty: type == 'back' ? 'background-color' : 'color',
-						clickFn: block.element.data( 'clickfn' ),
-						type: type
+						clickFn: block.element.data( 'clickfn' )
 					} );
 
 					// The block should not have scrollbars (https://dev.ckeditor.com/ticket/5933, https://dev.ckeditor.com/ticket/6056)
@@ -322,7 +321,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								colorHistorySeparator: panel.element.findOne( '.cke_colorhistory_separator' ),
 								colorHexCode: color.substr( 1 ).toUpperCase(),
 								clickFn: clickFn,
-								type: type,
 								colorsPerRow: colorsPerRow
 							} );
 						}
@@ -334,7 +332,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						colorHistorySeparator: panel.element.findOne( '.cke_colorhistory_separator' ),
 						colorHexCode: color.toUpperCase(),
 						clickFn: clickFn,
-						type: type,
 						colorsPerRow: colorsPerRow
 					} );
 				}
@@ -469,7 +466,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			createColorBoxes( {
 				colorArray: sortedColors,
 				clickFn: options.clickFn,
-				type: options.type,
 				setSize: sortedColors.length,
 				rowSize: colorsPerRow,
 				row: options.colorHistoryRow
@@ -563,7 +559,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					colorLabel: color.label,
 					clickFn: options.clickFn,
 					colorCode: color.colorCode,
-					type: options.type,
 					position: index + 1,
 					setSize: options.setSize
 				} ) );
@@ -586,8 +581,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				' title="' + options.colorLabel + '"' +
 				' draggable="false"' +
 				' ondragstart="return false;"' + // Draggable attribute is buggy on Firefox.
-				' onclick="CKEDITOR.tools.callFunction(' + options.clickFn + ',\'' + options.colorCode +
-				'\',\'' + options.type + '\'); return false;"' +
+				' onclick="CKEDITOR.tools.callFunction(' + options.clickFn + ',\'' + options.colorCode + '\');' +
+				' return false;"' +
 				' href="javascript:void(\'' + options.colorCode + '\')"' +
 				' data-value="' + options.colorCode + '"' +
 				' role="option" aria-posinset="' + options.position + '" aria-setsize="' + options.setSize + '">' +
@@ -603,7 +598,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorBoxesNumber = countColorBoxes( options.colorHistoryRows );
 
 			if ( chosenColorBox ) {
-				// If the same color is chosen again, find the old colorBox and move it to the beginning
+				// If the same color is chosen again, find the old color box and move it to the beginning
 				// instead of creating a new one.
 				options.colorHistoryRows[ 0 ].append( chosenColorBox.getParent(), true );
 			} else {
