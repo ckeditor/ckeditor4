@@ -14,13 +14,14 @@
 		requires: 'pastetools',
 
 		isSupportedEnvironment: function() {
-			var isOldIE = CKEDITOR.env.ie || CKEDITOR.env.version < 11;
+			var isSafari = CKEDITOR.env.webkit && !CKEDITOR.env.chrome,
+				isOldIE = CKEDITOR.env.ie || CKEDITOR.env.version < 11;
 
-			return !isSafari() && !isOldIE;
+			return !isSafari && !isOldIE;
 		},
 
 		init: function( editor ) {
-			if ( isSafari() ) {
+			if ( !this.isSupportedEnvironment() ) {
 				return;
 			}
 
@@ -73,8 +74,4 @@
 			} );
 		}
 	} );
-
-	function isSafari() {
-		return CKEDITOR.env.webkit && !CKEDITOR.env.chrome;
-	}
 } )();
