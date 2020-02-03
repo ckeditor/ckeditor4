@@ -1,6 +1,6 @@
 @bender-tags: 4.14.0, feature, 3441
 @bender-ui: collapsed
-@bender-ckeditor-plugins: widget, undo, wysiwygarea, toolbar, placeholder
+@bender-ckeditor-plugins: widget, undo, wysiwygarea, toolbar
 
 1. Select content inside the editor according to the instructions inside it. Drop the selected content into one of drop zones.
 
