@@ -31,7 +31,7 @@
 				var editor = evt.editor;
 
 				CKEDITOR.document.getById( 'reset' ).on( 'click', function() {
-					editor.undoManager.reset();
+					editor.resetUndo();
 				} );
 			}
 		}
