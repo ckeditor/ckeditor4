@@ -605,14 +605,17 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} else {
 				var colorBox = new CKEDITOR.dom.element( 'td' );
 
-				colorBoxesNumber += 1;
+				if ( colorBoxesNumber < options.colorsPerRow ) {
+					colorBoxesNumber += 1;
+				}
+
 				colorBox.setHtml( generateColorBoxHtml( {
 					colorLabel: colorLabel,
 					clickFn: options.clickFn,
 					colorCode: options.colorHexCode,
 					type: options.type,
 					position: 1,
-					setSize: colorBoxesNumber <= options.colorsPerRow ? colorBoxesNumber : colorBoxesNumber - 1
+					setSize: colorBoxesNumber
 				} ) );
 
 				options.colorHistoryRows[ 0 ].append( colorBox, true );
