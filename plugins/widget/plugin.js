@@ -2590,7 +2590,14 @@
 				return;
 			}
 
-			if ( id === '' || transferType != CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+			if ( transferType != CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+				return;
+			}
+
+			// Add support for dropping selection containing more than widget itself
+			// or more than one widget (#3441).
+			if ( !id && editor.widgets.selected.length > 0 ) {
+				evt.data.dataTransfer.setData( 'text/html', getClipboardHtml( editor ) );
 				return;
 			}
 
@@ -3406,21 +3413,7 @@
 			bookmarks = editor.getSelection().createBookmarks( true );
 		}
 
-		copyBin.handle( getClipboardHtml() );
-
-		function getClipboardHtml() {
-			var selectedHtml = editor.getSelectedHtml( true );
-
-			if ( editor.widgets.focused ) {
-				return editor.widgets.focused.getClipboardHtml();
-			}
-
-			editor.once( 'toDataFormat', function( evt ) {
-				evt.data.widgetsCopy = true;
-			}, null, null, -1 );
-
-			return editor.dataProcessor.toDataFormat( selectedHtml );
-		}
+		copyBin.handle( getClipboardHtml( editor ) );
 
 		function handleCut() {
 			if ( focused ) {
@@ -3472,6 +3465,20 @@
 			this.editor.forceNextSelectionCheck();
 			this.editor.selectionChange( 1 );
 		}
+	}
+
+	function getClipboardHtml( editor ) {
+		var selectedHtml = editor.getSelectedHtml( true );
+
+		if ( editor.widgets.focused ) {
+			return editor.widgets.focused.getClipboardHtml();
+		}
+
+		editor.once( 'toDataFormat', function( evt ) {
+			evt.data.widgetsCopy = true;
+		}, null, null, -1 );
+
+		return editor.dataProcessor.toDataFormat( selectedHtml );
 	}
 
 	function setupWidget( widget, widgetDef ) {

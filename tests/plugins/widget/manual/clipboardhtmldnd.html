@@ -1,0 +1,71 @@
+<button type="button" id="reset">Reset</button>
+<div id="editor">
+	<p>Drop zone</p>
+	<p>[Start here</p>
+	<div data-widget="customwidget">Widget</div>
+	<p>Consectetur dolores voluptatibus illo ipsam eveniet?</p>
+	<div data-widget="customnestedwidget">
+		<p>Widget</p>
+		<div class="ned">
+			<div data-widget="customwidget">Nested widget</div>
+		</div>
+	</div>
+	<p>end here].</p>
+	<p>Drop zone</p>
+</div>
+
+<script>
+	// IEs does not have proper support for setting clipboard data.
+	// Additionally support for d&d in Edge is too buggy to be able to handle this test.
+	if ( CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'span',
+		extraPlugins: 'customwidget',
+		allowedContent: true,
+		height: 500,
+		on: {
+			pluginsLoaded: function( evt ) {
+				var editor = evt.editor;
+
+				CKEDITOR.document.getById( 'reset' ).on( 'click', function() {
+					editor.resetUndo();
+				} );
+			}
+		}
+	} );
+
+	CKEDITOR.plugins.add( 'customwidget', {
+		requires: 'widget',
+		allowedContent: 'div(copied)',
+
+		init: function ( editor )	{
+			editor.widgets.add( 'customwidget', {
+				button: 'Add widget',
+				template: '<div>Widget</div>',
+
+				getClipboardHtml: getClipboardHtml
+			} );
+
+			editor.widgets.add( 'customnestedwidget', {
+				button: 'Add nested widget',
+				template: '<div><p>Widget</p><div class="ned"><div data-widget="customwidget">Nested widget</div></div></div>',
+				getClipboardHtml: getClipboardHtml,
+
+				editables: {
+					ned: '.ned'
+				}
+			} );
+
+			function getClipboardHtml() {
+				var counter = Number( this.data.counter ) || 0,
+					serializedData = encodeURIComponent( JSON.stringify( { counter: ++counter } ) );
+
+				return '<div data-widget="' + this.name + '" data-cke-widget-data="' + serializedData + '">' +
+					'Widget dragged and dropped ' + counter + ' times!</div>';
+			}
+		}
+	} );
+</script>
