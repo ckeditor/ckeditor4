@@ -508,7 +508,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			var allowedSize = rowSize * rowLimit;
 
 			if ( array.length > allowedSize ) {
-				array.splice( allowedSize - 1, array.length - allowedSize );
+				array.splice( allowedSize );
 			}
 		}
 
