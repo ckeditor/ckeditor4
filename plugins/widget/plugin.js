@@ -3454,21 +3454,7 @@
 			bookmarks = editor.getSelection().createBookmarks( true );
 		}
 
-		copyBin.handle( getClipboardHtml() );
-
-		function getClipboardHtml() {
-			var selectedHtml = editor.getSelectedHtml( true );
-
-			if ( editor.widgets.focused ) {
-				return editor.widgets.focused.getClipboardHtml();
-			}
-
-			editor.once( 'toDataFormat', function( evt ) {
-				evt.data.widgetsCopy = true;
-			}, null, null, -1 );
-
-			return editor.dataProcessor.toDataFormat( selectedHtml );
-		}
+		copyBin.handle( getClipboardHtml( editor ) );
 
 		function handleCut() {
 			if ( focused ) {
