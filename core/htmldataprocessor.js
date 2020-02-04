@@ -53,7 +53,7 @@
 				fixBodyTag;
 
 			// Before we start protecting markup, make sure there's no externally injected <cke:encoded> elements. Only
-			// HTML processor can use this tag, any external injections should discarded.
+			// HTML processor can use this tag, any external injections should be discarded.
 			data = data.replace( reservedElementsRegex, '' );
 
 			// The source data is already HTML, but we need to clean
