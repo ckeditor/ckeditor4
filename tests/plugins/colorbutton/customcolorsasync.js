@@ -7,9 +7,9 @@
 	'use strict';
 
 	var tests = {
-		'test color tile is not duplicated': function() {
+		'test color box is not duplicated': function() {
 			return bender.editorBot.createAsync( {
-					name: 'editor_tileduplication'
+					name: 'editor_colorboxduplication'
 				} )
 				.then( function( bot ) {
 					bot.setHtmlWithSelection( '<p>[Foo bar baz]</p>' );
@@ -22,7 +22,8 @@
 				.then( function( bot ) {
 					var txtColorBtn = bot.editor.ui.get( 'TextColor' );
 
-					assert.areEqual( 1, colorHistoryTools.findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row should contain one tile.' );
+					assert.areEqual( 1, colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ).getChildCount(),
+						'Row should contain one tile.' );
 				} );
 		},
 
@@ -40,14 +41,16 @@
 				.then( function( bot ) {
 					var txtColorBtn = bot.editor.ui.get( 'TextColor' );
 
-					assert.areEqual( 2, colorHistoryTools.findInPanel( '.cke_colorcustom_row', txtColorBtn ).getChildCount(), 'Row should contain two tiles.' );
-					assert.areEqual( 'FF00FF', colorHistoryTools.findInPanel( '.cke_colorcustom_row .cke_colorbox', txtColorBtn ).getAttribute( 'data-value' ), 'New color should be displayed first.' );
+					assert.areEqual( 2, colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ).getChildCount(),
+						'Row should contain two tiles.' );
+					assert.areEqual( 'FF00FF', colorHistoryTools.findInPanel( '.cke_colorhistory_row .cke_colorbox', txtColorBtn )
+						.getAttribute( 'data-value' ), 'New color should be displayed first.' );
 				} );
 		},
 
 		'test color tiles move correctly': function() {
 			return bender.editorBot.createAsync( {
-					name: 'editor_movingtiles'
+					name: 'editor_movingcolorBoxes'
 				} )
 				.then( function( bot ) {
 					bot.setHtmlWithSelection( '<p>[Foo bar baz]</p>' );
@@ -63,7 +66,7 @@
 					var txtColorBtn = bot.editor.ui.get( 'TextColor' );
 
 					assert.areEqual( '00FF00',
-						colorHistoryTools.findInPanel( '.cke_colorcustom_row .cke_colorbox', txtColorBtn ).getAttribute( 'data-value' ),
+						colorHistoryTools.findInPanel( '.cke_colorhistory_row .cke_colorbox', txtColorBtn ).getAttribute( 'data-value' ),
 						'Last chosen color should be displayed first.' );
 				} );
 		},
@@ -93,21 +96,65 @@
 				} )
 				.then( function( bot ) {
 					var txtColorBtn = bot.editor.ui.get( 'TextColor' ),
-						customColorRow = colorHistoryTools.findInPanel( '.cke_colorcustom_row', txtColorBtn ),
+						colorHistoryRow = colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ),
 						firstTile,
 						thirdTile;
 
-					assert.areEqual( 4, customColorRow.getChildCount(), 'There shouldn\'t be more custom colors than allowed row size.' );
+					assert.areEqual( 4, colorHistoryRow.getChildCount(), 'There shouldn\'t be more colors in history than allowed limit.' );
 
-					firstTile = customColorRow.findOne( '[data-value="888888"]' );
+					firstTile = colorHistoryRow.findOne( '[data-value="888888"]' );
 
 					assert.areEqual( '1', firstTile.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
 					assert.areEqual( '4', firstTile.getAttribute( 'aria-setsize' ), 'Aria-setsize is incorrect.' );
 
-					thirdTile = customColorRow.findOne( '[data-value="22AAFF"]' );
+					thirdTile = colorHistoryRow.findOne( '[data-value="22AAFF"]' );
 
 					assert.areEqual( '3', thirdTile.getAttribute( 'aria-posinset' ), 'Aria-posinset is incorrect.' );
 					assert.areEqual( '4', thirdTile.getAttribute( 'aria-setsize' ), 'Aria-setsize is incorrect.' );
+				} );
+		},
+
+		'test colorButton_historyRowLimit allows to create second row': function() {
+			return bender.editorBot.createAsync( {
+					name: 'editor_rowcreation',
+					config: {
+						colorButton_colorsPerRow: 4,
+						colorButton_historyRowLimit: 2
+					}
+				} )
+				.then( function( bot ) {
+					bot.setHtmlWithSelection( '<p>[Foo bar baz]</p>' );
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#00ff00' );
+				} )
+				.then( function( bot ) {
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#ff00ff' );
+				} )
+				.then( function( bot ) {
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#22aaff' );
+				} )
+				.then( function( bot ) {
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#ffaa22' );
+				} )
+				.then( function( bot ) {
+					return colorHistoryTools.asyncChooseColorFromDialog( bot, '#888888' );
+				} )
+				.then( function( bot ) {
+					var txtColorBtn = bot.editor.ui.get( 'TextColor' ),
+						firstHistoryRow = colorHistoryTools.findInPanel( '.cke_colorhistory_row', txtColorBtn ),
+						firstTile,
+						fifthTile;
+
+					assert.areEqual( 4, firstHistoryRow.getChildCount(), 'There shouldn\'t be more colors in row than allowed limit.' );
+
+					firstTile = firstHistoryRow.findOne( '[data-value="888888"]' );
+
+					assert.areEqual( '1', firstTile.getAttribute( 'aria-posinset' ), 'Aria-posinset of 1st box is incorrect.' );
+					assert.areEqual( '5', firstTile.getAttribute( 'aria-setsize' ), 'Aria-setsize of 1st box is incorrect.' );
+
+					fifthTile = colorHistoryTools.findInPanel( '[data-value="00FF00"]', txtColorBtn );
+
+					assert.areEqual( '5', fifthTile.getAttribute( 'aria-posinset' ), 'Aria-posinset of 5th box is incorrect.' );
+					assert.areEqual( '5', fifthTile.getAttribute( 'aria-setsize' ), 'Aria-setsize of 5th is incorrect.' );
 				} );
 		}
 	};
