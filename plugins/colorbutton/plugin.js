@@ -596,7 +596,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			var chosenColorBox = findColorInHistory( options.colorHistoryRows, options.colorHexCode ),
 				colorLabel = editor.lang.colorbutton.colors[ options.colorHexCode ] || options.colorHexCode,
 				rowLimit = config.colorButton_historyRowLimit || 1,
-				colorBoxesNumber = countColorBoxes( options.colorHistoryRows );
+				colorBoxesNumber = countColorBoxes( options.colorHistoryRows ),
+				colorBoxesLimit = options.colorsPerRow * rowLimit;
 
 			if ( chosenColorBox ) {
 				// If the same color is chosen again, find the old color box and move it to the beginning
@@ -605,7 +606,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} else {
 				var colorBox = new CKEDITOR.dom.element( 'td' );
 
-				if ( colorBoxesNumber < options.colorsPerRow ) {
+				if ( colorBoxesNumber < colorBoxesLimit ) {
 					colorBoxesNumber += 1;
 				}
 
