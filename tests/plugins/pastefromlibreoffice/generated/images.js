@@ -15,6 +15,8 @@
 		config: pfloConfig
 	};
 
+	var isSafari = CKEDITOR.env.webkit && !CKEDITOR.env.chrome;
+
 	bender.test( createTestSuite( {
 		browsers: [
 			'chrome',
@@ -30,7 +32,7 @@
 			'Images/Linked_image': true,
 			'Images/Transformed': true
 		},
-		ignoreAll: CKEDITOR.env.ie || bender.tools.env.mobile,
+		ignoreAll: isSafari || CKEDITOR.env.ie || bender.tools.env.mobile,
 		includeRTF: true
 	} ) );
 } )();

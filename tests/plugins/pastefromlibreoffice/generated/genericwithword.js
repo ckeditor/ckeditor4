@@ -15,6 +15,9 @@
 		config: pfloConfig
 	};
 
+	var isSafari = CKEDITOR.env.webkit && !CKEDITOR.env.chrome,
+		isIE = CKEDITOR.env.ie && CKEDITOR.env.version <= 11;
+
 	bender.test( createTestSuite( {
 		browsers: [
 			'chrome',
@@ -39,6 +42,6 @@
 			Paragraph_format: true,
 			Page_break: true
 		},
-		ignoreAll: ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) || bender.tools.env.mobile
+		ignoreAll: isSafari || isIE || bender.tools.env.mobile
 	} ) );
 } )();

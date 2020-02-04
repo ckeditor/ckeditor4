@@ -14,10 +14,17 @@
 		requires: 'pastetools',
 
 		isSupportedEnvironment: function() {
-			return !CKEDITOR.env.ie || CKEDITOR.env.version >= 11;
+			var isSafari = CKEDITOR.env.webkit && !CKEDITOR.env.chrome,
+				isOldIE = CKEDITOR.env.ie && CKEDITOR.env.version < 11;
+
+			return !isSafari && !isOldIE;
 		},
 
 		init: function( editor ) {
+			if ( !this.isSupportedEnvironment() ) {
+				return;
+			}
+
 			var pasteToolsPath = CKEDITOR.plugins.getPath( 'pastetools' ),
 				path = this.path;
 
