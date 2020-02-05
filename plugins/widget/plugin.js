@@ -1420,6 +1420,10 @@
 			this.editor.focus();
 		},
 
+		refreshMask: function() {
+			setupMask( this );
+		},
+
 		/**
 		 * Removes a class from the widget element. This method is used by
 		 * the {@link #removeStyle} method and should be overriden by widgets
