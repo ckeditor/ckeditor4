@@ -18,6 +18,7 @@
 	// So, instead of verifying if selection is placed in expected position, we are checking if it gives expected results
 	// when doing cross selection between content and widget. Note that this test file should only contain MACOSX
 	// unit tests. See crosscontentselection.js file for Chrome and Firefox unit tests.
+
 	bender.test( {
 		setUp: function() {
 			if ( CKEDITOR.env.mac ) {
@@ -101,8 +102,7 @@
 
 			assert.isNotNull( frag.findOne( '.customwidget__title' ), 'Selected title widget part should be within selection' );
 			assert.isNotNull( frag.findOne( '.customwidget__content' ), 'Selected content widget part should be within selection' );
-		},
-
+		}
 	} );
 
 } )();
