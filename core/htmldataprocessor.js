@@ -54,9 +54,9 @@
 				data = evtData.dataValue,
 				fixBodyTag;
 
-			// Before we start protecting markup, make sure there's no externally injected <cke:encoded> elements. Only
-			// HTML processor can use this tag, any external injections should be discarded;
-			data = removeReservedKeywords( data )
+			// Before we start protecting markup, make sure there's no externally injected reserved keywords
+			// protection keywords.
+			data = removeReservedKeywords( data );
 
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
@@ -963,17 +963,19 @@
 		}
 	}
 
+	// Removers reserved htmldataprocessor keywords ensuring that they are only used internally.
 	// This function produces very complicated regex code.
 	// Using iffy ensures that the regex is build only once for this module.
 	removeReservedKeywords = ( function() {
-		var encodedKeywordRegex = createEncodedKeywordRegex();
+		var encodedKeywordRegex = createEncodedKeywordRegex(),
+			sourceKeywordRegex = createSourceKeywordRegex();
 
 		return function( data ) {
-			return data.replace( encodedKeywordRegex, '' );
-		}
+			return data.replace( encodedKeywordRegex, '' )
+				.replace( sourceKeywordRegex, '' );
+		};
 
-		// Produces regex matching reserved `cke:encoded` element for valid HTML symbol codes.
-		// Matches `cke:encoded` element in hexadecimal, HTML-code, or HTML-entity.
+		// Produces regex matching `cke:encoded` element.
 		function createEncodedKeywordRegex() {
 			return new RegExp( '(' +
 				// Create closed element regex i.e `<cke:encoded>xxx</cke:encoded>`.
@@ -987,6 +989,15 @@
 				createEncodedRegex( '/' ) + '?' +
 				createEncodedRegex( 'cke:encoded>' ) +
 				')', 'gi' );
+		}
+
+		// Produces regex matching `{cke_protected}` and `{cke_protected_id}` keywords.
+		function createSourceKeywordRegex() {
+			return new RegExp( '((' +
+				createEncodedRegex( '{cke_protected' ) +
+				')(_[0-9]*)?' +
+				createEncodedRegex( '}' ) +
+				')' , 'gi' );
 		}
 
 		function createEncodedRegex( str ) {
