@@ -54,7 +54,7 @@
 				data = evtData.dataValue,
 				fixBodyTag;
 
-			// Before we start protecting markup, make sure there's no externally injected reserved keywords
+			// Before we start protecting markup, make sure there are no externally injected
 			// protection keywords.
 			data = removeReservedKeywords( data );
 
@@ -963,9 +963,9 @@
 		}
 	}
 
-	// Removers reserved htmldataprocessor keywords ensuring that they are only used internally.
-	// This function produces very complicated regex code.
-	// Using IIFE ensures that the regex is build only once for this module.
+	// Removes reserved htmldataprocessor keywords ensuring that they are only used internally.
+	// This function produces very complicated regex code. Using IIFE ensures that the regex
+	// is build only once for this module.
 	removeReservedKeywords = ( function() {
 		var encodedKeywordRegex = createEncodedKeywordRegex(),
 			sourceKeywordRegex = createSourceKeywordRegex();
