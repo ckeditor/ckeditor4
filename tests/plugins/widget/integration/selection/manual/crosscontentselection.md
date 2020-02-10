@@ -4,6 +4,6 @@
 
 1. Start selection at the first paragraph and release mouse above the widget.
 
-**Expected:** It's not possible to create partially selected widget. Releasing mouse button keeps selection only on previously selected text.
+	**Expected:** It's not possible to create partially selected widget. Releasing mouse button keeps selection only on previously selected text.
 
-2. Repeat 1 but start selection from the bottom instead.
+2. Repeat 1 step but start selection from the bottom instead.
