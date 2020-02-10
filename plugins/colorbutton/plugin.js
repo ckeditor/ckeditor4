@@ -282,6 +282,45 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 		}
 
+		var colorHistoryRow = {
+			colorsPerRow: config.colorButton_colorsPerRow || 6,
+
+			rowLimit: config.colorButton_historyRowLimit == undefined ? 1 : config.colorButton_historyRowLimit,
+
+			addColor: function( options ) {
+				// Unfortunately CKEDITOR.dom.element.createFromHtml() doesn't work for table elements,
+				// so table cell has to be created separately.
+				var colorBox = new CKEDITOR.dom.element( 'td' );
+
+				colorBox.setHtml( generateColorBoxHtml( options ) );
+
+				options.colorHistoryRow.append( colorBox, true );
+			},
+
+			appendNewAfter: function( currentRow ) {
+				var newRow = editor.document.createElement( 'tr' );
+
+				newRow.addClass( 'cke_colorhistory_row' );
+				newRow.insertAfter( currentRow );
+
+				return newRow;
+			},
+
+			capacity: function() {
+				return this.colorsPerRow * this.rowLimit;
+			},
+
+			getHtml: function() {
+				return '</tr>' +
+					'<tr>' +
+						'<td colspan="' + this.colorsPerRow + '" align="center">' +
+							'<span class="cke_colorhistory_separator" style="display:none"><hr></span>' +
+						'</td>' +
+					'</tr>' +
+					'<tr class="cke_colorhistory_row">'; // </tr> is later in the code.
+			}
+		};
+
 		function renderColors( options ) {
 			var type = options.type,
 				colorBoxId = options.colorBoxId,
@@ -290,7 +329,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				panel = options.panel,
 				output = [],
 				colors = config.colorButton_colors.split( ',' ),
-				colorsPerRow = config.colorButton_colorsPerRow || 6,
 				// Tells if we should include "More Colors..." button.
 				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
 				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
@@ -320,8 +358,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								colorHistoryRows: panel.element.find( '.cke_colorhistory_row' ).toArray(),
 								colorHistorySeparator: panel.element.findOne( '.cke_colorhistory_separator' ),
 								colorHexCode: color.substr( 1 ).toUpperCase(),
-								clickFn: clickFn,
-								colorsPerRow: colorsPerRow
+								clickFn: clickFn
 							} );
 						}
 					}, null, colorData );
@@ -331,8 +368,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						colorHistoryRows: panel.element.find( '.cke_colorhistory_row' ).toArray(),
 						colorHistorySeparator: panel.element.findOne( '.cke_colorhistory_separator' ),
 						colorHexCode: color.toUpperCase(),
-						clickFn: clickFn,
-						colorsPerRow: colorsPerRow
+						clickFn: clickFn
 					} );
 				}
 
@@ -348,7 +384,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			// Render the color boxes.
 			for ( var i = 0; i < colors.length; i++ ) {
-				if ( ( i % colorsPerRow ) === 0 )
+				if ( ( i % colorHistoryRow.colorsPerRow ) === 0 )
 					output.push( '</tr><tr>' );
 
 				var parts = colors[ i ].split( '/' ),
@@ -377,8 +413,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} ) + '</td>' );
 			}
 
-			if ( config.colorButton_historyRowLimit !== 0 ) {
-				output.push( generateColorHistoryRowHtml() );
+			if ( colorHistoryRow.rowLimit ) {
+				output.push( colorHistoryRow.getHtml() );
 			}
 
 			if ( moreColorsEnabled ) {
@@ -399,7 +435,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					' role="option" aria-posinset="1" aria-setsize="' + total + '">' +
 						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
 							'<tr>' +
-								'<td colspan="' + colorsPerRow + '" align="center">' +
+								'<td colspan="' + colorHistoryRow.colorsPerRow + '" align="center">' +
 									'<span class="cke_colorbox" id="' + colorBoxId + '"></span>' + lang.auto +
 								'</td>' +
 							'</tr>' +
@@ -407,20 +443,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					'</a>';
 			}
 
-			function generateColorHistoryRowHtml() {
-				return '</tr>' +
-					'<tr>' +
-						'<td colspan="' + colorsPerRow + '" align="center">' +
-							'<span class="cke_colorhistory_separator" style="display:none"><hr></span>' +
-						'</td>' +
-					'</tr>' +
-					'<tr class="cke_colorhistory_row">'; // </tr> is later in the code.
-			}
-
 			function generateMoreColorsButtonHtml() {
 				return '</tr>' +
 					'<tr>' +
-						'<td colspan="' + colorsPerRow + '" align="center">' +
+						'<td colspan="' + colorHistoryRow.colorsPerRow + '" align="center">' +
 							'<a class="cke_colormore" _cke_focus=1 hidefocus=true' +
 								' title="' + lang.more + '"' +
 								' draggable="false"' +
@@ -441,14 +467,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		// This function is called on the first panel opening.
 		function fillColorHistory( options ) {
-			if ( config.colorButton_historyRowLimit === 0 ) {
+			if ( !colorHistoryRow.rowLimit ) {
 				return;
 			}
 
 			var colorSpans = editor.getStyledSpans( options.cssProperty ),
 				htmlColorsList = CKEDITOR.tools.style.parse._colors,
-				colorsPerRow = config.colorButton_colorsPerRow || 6,
-				rowLimit = config.colorButton_historyRowLimit || 1,
 				colorNames = editor.lang.colorbutton.colors,
 				colorOccurrences,
 				sortedColors;
@@ -465,7 +489,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			sortedColors = sortByOccurrencesAscending( colorOccurrences, 'colorCode' );
 
-			trimArray( sortedColors, colorsPerRow, rowLimit );
+			sortedColors.splice( colorHistoryRow.capacity() );
 
 			addLabels( sortedColors, colorNames );
 
@@ -473,7 +497,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				colorArray: sortedColors,
 				clickFn: options.clickFn,
 				setSize: sortedColors.length,
-				rowSize: colorsPerRow,
+				rowSize: colorHistoryRow.colorsPerRow,
 				row: options.colorHistoryRow
 			} );
 
@@ -525,14 +549,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			return result.reverse();
 		}
 
-		function trimArray( array, rowSize, rowLimit ) {
-			var allowedSize = rowSize * rowLimit;
-
-			if ( array.length > allowedSize ) {
-				array.splice( allowedSize );
-			}
-		}
-
 		function addLabels( colors, reference ) {
 			CKEDITOR.tools.array.forEach( colors, function( color ) {
 				color.label = reference[ color.colorCode ] || color.colorCode;
@@ -544,12 +560,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			for ( var index = 0; index < options.setSize; index++ ) {
 				if ( index && index % options.rowSize === 0 ) {
-					currentRow = appendNewColorHistoryRow( currentRow );
+					currentRow = colorHistoryRow.appendNewAfter( currentRow );
 				}
 
 				var color = options.colorArray[ index ];
 
-				addColorToHistory( {
+				colorHistoryRow.addColor( {
 					colorLabel: color.label,
 					clickFn: options.clickFn,
 					colorCode: color.colorCode,
@@ -558,31 +574,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					colorHistoryRow: currentRow
 				} );
 			}
-		}
-
-		function appendNewColorHistoryRow( currentRow ) {
-			var newRow = editor.document.createElement( 'tr' );
-
-			newRow.addClass( 'cke_colorhistory_row' );
-			newRow.insertAfter( currentRow );
-
-			return newRow;
-		}
-
-		function addColorToHistory( options ) {
-			// Unfortunately CKEDITOR.dom.element.createFromHtml() doesn't work for table elements,
-			// so table cell has to be created separately.
-			var colorBox = new CKEDITOR.dom.element( 'td' );
-
-			colorBox.setHtml( generateColorBoxHtml( {
-				colorLabel: options.colorLabel,
-				clickFn: options.clickFn,
-				colorCode: options.colorCode,
-				position: options.position,
-				setSize: options.setSize
-			} ) );
-
-			options.colorHistoryRow.append( colorBox, true );
 		}
 
 		function generateColorBoxHtml( options ) {
@@ -601,26 +592,24 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		// This function is called whenever a color from panel or colordialog is chosen.
 		function saveColor( options ) {
-			if ( config.colorButton_historyRowLimit === 0 ) {
+			if ( !colorHistoryRow.rowLimit ) {
 				return;
 			}
 
 			var chosenColorBox = findColorInHistory( options.colorHistoryRows, options.colorHexCode ),
 				colorLabel = editor.lang.colorbutton.colors[ options.colorHexCode ] || options.colorHexCode,
-				rowLimit = config.colorButton_historyRowLimit || 1,
-				colorBoxesNumber = countColorBoxes( options.colorHistoryRows ),
-				colorBoxesLimit = options.colorsPerRow * rowLimit;
+				colorBoxesNumber = countColorBoxes( options.colorHistoryRows );
 
 			if ( chosenColorBox ) {
 				// If the same color is chosen again, find the old color box and move it to the beginning
 				// instead of creating a new one.
 				options.colorHistoryRows[ 0 ].append( chosenColorBox.getParent(), true );
 			} else {
-				if ( colorBoxesNumber < colorBoxesLimit ) {
+				if ( colorBoxesNumber < colorHistoryRow.capacity ) {
 					colorBoxesNumber += 1;
 				}
 
-				addColorToHistory( {
+				colorHistoryRow.addColor( {
 					colorLabel: colorLabel,
 					clickFn: options.clickFn,
 					colorCode: options.colorHexCode,
@@ -630,7 +619,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} );
 			}
 
-			rearrangeRows( options.colorHistoryRows, rowLimit, options.colorsPerRow );
+			rearrangeRows( options.colorHistoryRows, colorHistoryRow.rowLimit, colorHistoryRow.colorsPerRow );
 
 			updateAriaAttributes( options.colorHistoryRows, colorBoxesNumber );
 
@@ -659,7 +648,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} else if ( rows[ rowIndex + 1 ] ) {
 					moveToNextRow( rows, rowIndex );
 				} else if ( rowIndex < rowsLimit - 1 ) {
-					rows[ rowIndex + 1 ] = appendNewColorHistoryRow( rows[ rowIndex ] );
+					rows[ rowIndex + 1 ] = colorHistoryRow.appendNewAfter( rows[ rowIndex ] );
 					moveToNextRow( rows, rowIndex );
 				} else {
 					rows[ rowIndex ].getLast().remove();
