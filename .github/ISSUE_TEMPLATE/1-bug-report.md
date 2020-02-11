@@ -20,6 +20,9 @@ needed to reproduce the issue by our team, which means it can speed helping you!
 You can use our samples to create reproductions:
 
 * CodePen: https://codepen.io/Comandeer/pen/ExaMgpz
+* JSFiddle: https://jsfiddle.net/Comandeer/d6ey8a2w/
+* JSBin: https://jsbin.com/keqekef/1/edit?html,js,output
+* StackBlitz: https://stackblitz.com/edit/js-vcqfw3
 -->
 
 1. …
