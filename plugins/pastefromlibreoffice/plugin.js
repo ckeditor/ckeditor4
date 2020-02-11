@@ -15,9 +15,9 @@
 
 		isSupportedEnvironment: function() {
 			var isSafari = CKEDITOR.env.webkit && !CKEDITOR.env.chrome,
-				isOldIE = CKEDITOR.env.ie && CKEDITOR.env.version < 11;
+				isIE = CKEDITOR.env.ie && CKEDITOR.env.version <= 11;
 
-			return !isSafari && !isOldIE;
+			return !isSafari && !isIE;
 		},
 
 		init: function( editor ) {
