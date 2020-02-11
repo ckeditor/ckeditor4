@@ -7,7 +7,10 @@
 </div>
 
 <script>
-	if ( CKEDITOR.env.ie || bender.env.mobile ) {
+	// Safari ignored due to (#3850).
+	if ( CKEDITOR.env.safari ||
+		CKEDITOR.env.ie ||
+		bender.env.mobile ) {
 		bender.ignore();
 	}
 

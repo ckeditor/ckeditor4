@@ -6,4 +6,4 @@
 
 	**Expected:** It's not possible to create partially selected widget. Releasing mouse button keeps selection only on previously selected text.
 
-2. Repeat 1 step but start selection from the bottom instead.
+2. Repeat 1 step but start selection from the bottom instead. **Note:** this test will fail on Safari due to [#3850](https://github.com/ckeditor/ckeditor4/issues/3850)
