@@ -17,7 +17,7 @@
 		"grunt-contrib-less": "^2.0.0",
 		"grunt-contrib-watch": "^1.0.0",
 		"grunt-jsduck": "^1.0.1",
-		"husky": "^4.0.1",
+		"husky": "^4.2.1",
 		"less": "^3.8.0",
 		"lesshat": "^4.1.0",
 		"lint-staged": "^9.5.0",
