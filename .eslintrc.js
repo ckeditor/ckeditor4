@@ -18,6 +18,7 @@ module.exports = {
 		// Possible candidates:
 		// 'camelcase': [ 'error' ],
 		// Things that should be introduced step-by-step:
+		// 'block-scoped-var': 'error',
 		// 'no-else-return': 'warn',
 		// 'no-empty': 'warn',
 		// 'no-implicit-coercion': [ 'warn', { 'boolean': false } ],
@@ -26,7 +27,6 @@ module.exports = {
 			'error',
 			'always'
 		],
-		'block-scoped-var': 'error',
 		'brace-style': [
 			'error',
 			'1tbs'
@@ -72,7 +72,7 @@ module.exports = {
 			'unix'
 		],
 		'max-len': [
-			'error',
+			'warn',
 			200
 		],
 		'new-cap': 0,
@@ -101,7 +101,7 @@ module.exports = {
 		'no-spaced-func': 'error',
 		'no-trailing-spaces': 'error',
 		'no-undef': 'error',
-		'no-unused-expressions': 'error',
+		'no-unused-expressions': 'warn',
 		'no-unused-vars': 'error',
 		'no-use-before-define': [
 			'error',
