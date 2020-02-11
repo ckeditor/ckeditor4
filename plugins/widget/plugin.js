@@ -1424,6 +1424,10 @@
 			setupMask( this );
 		},
 
+		refreshParts: function() {
+			setupParts( this );
+		},
+
 		/**
 		 * Removes a class from the widget element. This method is used by
 		 * the {@link #removeStyle} method and should be overriden by widgets
@@ -3609,8 +3613,13 @@
 				partName;
 
 			for ( partName in widget.parts ) {
+				if ( typeof widget.parts[ partName ] !== "string" ) {
+					parts[ partName ] = widget.parts[ partName ];
+					continue;
+				}
+
 				el = widget.wrapper.findOne( widget.parts[ partName ] );
-				parts[ partName ] = el;
+				parts[ partName ] = el ? el : widget.parts[ partName ];
 			}
 			widget.parts = parts;
 		}
@@ -3731,8 +3740,8 @@
 		var part = this.parts[ this.maskPart ],
 			mask;
 
-		// If requested part is invalid, don't create mask.
-		if ( !part ) {
+		// If requested part is invalid or wasn't fetched yet (#3775), don't create mask.
+		if ( !part || typeof part == 'string' ) {
 			return;
 		}
 
